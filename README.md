@@ -13,5 +13,3 @@ Any violators shall be pursuit with demands of law.
 2.) Always put to the thread or the website of the MHFC Modding Team
 
 3.) Feel free to take a peak
-
-Another test change
