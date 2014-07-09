@@ -1,0 +1,48 @@
+{
+
+  "rathalos.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "rathalos/hurt1"
+    ]
+  },  
+    
+  "rathalos.roar": {
+    "category": "hostile",
+    "sounds": [
+      "rathalos/roar1"
+    ]
+  },  
+
+  "rathalos.say": {
+    "category": "hostile",
+    "sounds": [
+      "rathalos/say1",
+      "rathalos/say2"
+    ]
+  },  
+
+  "tigrex.say": {
+    "category": "hostile",
+    "sounds": [
+      "tigrex/say1"
+    ]
+  },
+  
+ "tigrex.roar": {
+    "category": "hostile",
+    "sounds": [
+      "tigrex/roar1"
+    ]
+  },
+  
+  "kirin.say": {
+    "category": "hostile",
+    "sounds": [
+      "kirin/say1",
+      "kirin/say2"
+    ]
+  }
+
+
+}

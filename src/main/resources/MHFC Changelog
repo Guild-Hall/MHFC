@@ -1,0 +1,337 @@
+MHFC Changelog:
+// Usually all our team developers open this Changelog to view the version statistics , progress and stuff.
+ Your a modder if you got it open.
+
+
+
+StrackTracing State:
+---------- -------------------- ------------- ------------------------ ----------- ---------------- ----------------------
+------- ---------- 
+--- -
+- 
+--------------------
+- -----------------
+ ----------------
+ -------------------------------------------------------------------------
+ -----------------------------
+ -
+
+
+
+
+
+
+Planned Release on 1.0
+
+
+Planned Potions
+-Pitfalled.
+-SlimeBlight = Next factored
+-Paralyze = Done
+-Deep Poison
+
+
+- Tigrex = Fine. <-- Will improve more soon <-- Improving
+- Kirin  = Fine. <-- Stillonconstruct
+- Rathalos = In Development..
+- Deviljho = On Modelling <-- state file
+- Cephadrome = TBA. <-- still in disucssion
+- Velocidrome = TBA.
+- Bracydios = TBA. <-  recaptured for future purposes
+- Basarios = TBA.
+- Akura = TBA.
+- Bulldrome = TBA.
+
+
+------
+
+- Gagua - IN PROGRESS
+- Aptonoth = TBA.
+- Kelbi = TBA.
+- Popo = TBA.
+- Preys = TBA.
+- Vespoid = TBA
+- Bullfango = TBA.
+
+-----
+- Biomes
+- Desert
+- Rocky Fields
+- Volcano
+
+6/16/2014
+
+Balanced Damages and bugfixes
+
+6/14/2014 <-- 6:24Pm
+
+many many bug fixes
+Heltrato: Several bugs where fixes in this update but still there are many more to go since more stuff was added.
+
+*Rebalance many stuffs. 
+
+
+6/13/2014 <-- 7:10Pm
+"BYEE MESSY HANDLERS :D."
+
+-EVENT AND HANDLERS ARE NOW MERGED AS ONE BRANCH.
+-Registry package was now removed and replaced with Core.
+-Added a new 3D Bow <-- succeeding bugs.
+
+6/12/2014 <-- 10:51Pm
+
+* Game
+" We want to improve the mob Ai
+6/11/2014 <--- 4:22 pm
+
+" We want the beginning of the mod to be a little nature sossy so we have returned Gagua back in game to make him in such have nice
+stuff to be use and to have a cool exploration with a life in a new world. Gagua will be a solid peaceful creature that will be a nice
+helper once it is tamed."
+
+*Gagua - In progress.
+
+" Akura is a nice massive hero to be returned ingame.
+*Monsters no longer living sound instead they use the sound for what AI's they use.
+*Item Materials now classifies per Item MetaData to to avoid use of ID's
+Fixed - *mhfcbug07: Tigrex living sound error.
+Fixed - *mhfcbug08: Item dispatcher error. nailstab#3oebw0f2i7ke6r0.
+Fixed - *mhfcbug09: Item Meta int errors causing null point crash.
+6/9/2014 <--- 7:09 pm
+Fixed - *mhfcbug06: Bone GreatSword bug cause not render right on 3d person
+Tweak - SiegeClass Damage - Closes #mhfcbug10:damage nullpoint.
+
+
+
+6/7/2014 9:41 <-- Dev
+*mhfcbug05: Cause some minor issues about textures in Tigrex Armor so wee retweak some stuffs on his model to 
+ retain the good owe awesome model.
+*Retweaked Tigrex Armor Model
+*Added Armor Stand Base Block
+*Added Stuffs
+
+*mhfcbug01:Fixed render issues of Tile Blocks.
+*mhfcbug02: <--- Issue Remain.
+" We Found out that Tigrex has a very odd glitch that makes him unattackable ."
+>--- StrackTrace_01:
+"We rework some stuff on livingEntity for Tigrex and we reduce some attack pace for him . So he can be stable for
+ tracing tracks in server and client stuff. But soon we will find a better way to fix this.
+ 
+*mhfcbug03: Custom Tile Lighting Issues.
+"We notice that our blocks have some issues with lighting we will gonna find a possible way to fix this soon via methods
+ or params." 
+ 
+
+
+
+6/6/2014  9:22PM <-- PH Time Dev 
+
+* Rebalance on AI Damages thou Units and Entites
+
+" We believe that the power cannot be just prove through how the mob shows their abilities, but how they can defeat
+ their opponents. So we analyze a new different damage sets that well shatter the game more well. 
+ 
+ More infos on Release:..
+
+
+
+
+6/2/2014 10:36PM <-- PH Time Dev
+
+*Added sounds.json 
+
+" After a pile of studies about the new implemenation of sounds we manage to import the sounds we created from 1.6.4.
+ This will be a big step for us to complete more for the 1.0 of the Mod.
+
+NEW*
+
+Kirin AIBolt was updated but has some minor tweaks.
+
+" Kirin base on the statistics during his test have some feedback that he is to much overpowering if he still consist of that slow 
+ effect aura. So during the discussion we decided to remove it first so that we can still have some time for the people to play fairly
+  and defeat this monster without having some issues.
+  
+  -Kirin removed Aura debuff slow 3 .
+  -Kirin reduced ai bolt damage by 30%.
+  -Kirin reworked movementspeed.
+0.9.172c
+"Planning on adding more effects and renders on the next mob so that we can make more value and uniqueness true the well created
+Minecraft."
+
+*Added Kirin.
+"Kirin has a lot of retweaks and reworks due to some unable to fix defects during his beta states."
+
+
+"Pre Test Killing Tigrex test A"
+0.9.172b
+
+[Bugfixes]
+
+
+
+[Tigrex]
+
+" Since Tigrex is one of the hard hitting mob in the mod. We found out that his both strength and endurance become one
+ of the reasons why he is called to be the hardest. We dont want to make Tigrex to be the most shining mob here in the
+  mod. So we have just done a little balance to him so to make him not just overpowered but a WORTH-IT boss fight."
+  
+ - Tigrex Bite damage was reduce from 20 < 18.
+ - Tigrex Armor was reduce from 15 < 9.
+ - Tigrex Health Regen was increased from 1.1/s < 1.3/s . 
+ - Tigrex Spin air toss was increased by 2 pixels / 20 units up.
+ - Tigrex Leap chances was reduced from 35% to 15%.
+ - Fixed Crash Error to his AI Spin and AI Leap causing to make minecraft post issues.
+
+0.9.172a
+
+Renew Packets
+Update to 1.7.2
+
+*Major Changes
+
+[Lagiacrus]
+" Lagiacrus was a tough monster to fight however since he lacks of being the fast pace in the land and able to be free hit as 
+  always. We manage to make him more strong on pound to pound combat making him a little bit balanced boss fight."
+  
+ - Lagia Charge damage was increased by 12%.
+ - Lagia Armor was increased by 2.
+ - Lagia movespeed was reduce by 1.4%.
+
+
+[Tigrex]
+
+"We found out that Tigrex become one of the hard punching mob, thought Tigrex was one of the 
+ unstoppable mob and the untouchable since the update. So we put a little slight balance to Tigrex so that
+ he may be not just the one who owns the shine for being the hardest mob in the mob. In exchange
+ we also rebalance his price for being balanced to this update."
+ 
+ - Tigrex Bite was lowered from 24 < 18.
+ - Tigrex Spin was highly lowered from 35 < 14.
+ - Drop probability was lowered by 7%.
+ - Maximum Hp was increased from 4300 < 4500.
+ - Fixed Bug about the Leap Projectile.
+ 
+
+-----------------------
+0.9.164m:
+
+Lagiacrus progress 35%;
+
+0.9.164l:
+
+Refixing Lagiacrus AI Charge:
+
+Minor bug fixes < BLock Id'S
+0.9.164k:
+
+Null exception 
+
+
+0.9.164j:
+"The Revamp and Balance Changes"
+
+
+
+Game:
+Mobs doesnt removed on Peaceful mode anymore. This 
+is to avoid 
+
+[Akura Vashimu]:
+
+[Tigrex]:
+
+[Velociprey]
+
+(Added Lagiacrus)
+[Lagiacrus]:
+
+Added First Gen Village:
+Windmill // WIP
+
+System:
+*Implementation for Villages Class started.
+* Fixed Error Chunk for Akura.
+* Fixed Collide Bug on Entity Wyvern.
+
+
+
+0.9.164i:
+
+Sorted all stuff :D
+
+0.9.164e:
+
+Added Delex
+* Imported AI's
+* Done Adding Child and such
+
+Added Gagua
+"The first mountable mob to be in MHFC
+
+*WIP Mount Entity
+*Adding Child Done
+
+System:
+*Repackage Packet Imports
+
+
+0.9.164h:
+
+Game
+Stun Trap
+* Increase Duration to 25 seconds 
+* Added A Craft Recipies(IRON Ingot will be replaced soon)
+
+Akura Vashimu
+*Completed AddingChild
+*Front Leg & Right Are Animated
+
+
+System:
+Added MCmod.info !!
+Fixed ItemStack for Trap and
+
+0.9.164g:
+*Akura removed due to animation progress :) YAYY !!
+
+- Capes implement stuff.
+- Stun Trap enchances enjoy now :d
+
+0.9.164f:
+Merge request dev package into one pull:
+
+Added Stun Trap *
+Stuns enemy for 15 secs:
+
+Added Velociprey *
+
+WIP Akura Vashimu
+
+
+System 
+- fix main class debug string
+- fix null error point on client proxy
+- fix bug server stability
+- fix suffix en on Mob List
+- added username on launch config setups
+
+
+0.9.164e:
+*Setup Stun Trap for test:
+
+0.9.164d:
+*Stun Development Unto Hammers
+
+Added Tigrex Hammer:
+ /* Massive Damage Siege Type :
+    Deals Up to 51 Damage & has chance of stunning entites:
+
+
+0.9.164c:
+Tigrex
+* Enchance his attack gameplay *
+- Fixed Bug on Block.Cactus
+- Added Demo Sound AI
+- Added Drops
+
+System
+- Recompiled packets into shorter package to sort for future version.
