@@ -34,10 +34,23 @@ public abstract class EntityMHFCBase extends EntityCreature implements
 	 */
 	@Override
 	public void setPosition(double newPosX, double newPosY, double newPosZ) {
+		// If there are bugs with messy bounding boxes, look here
 		double diffX = newPosX - this.posX;
 		double diffY = newPosY - this.posY;
 		double diffZ = newPosZ - this.posZ;
 		this.offsetEntity(diffX, diffY, diffZ);
+	}
+	
+	@Override
+	protected void setRotation(float newYaw, float newPitch) {
+		float diffYawDeg = newYaw - this.rotationYaw;
+		double diffYawRad = diffYawDeg / 180D;
+		for(EntityMHFCPart part : this.getParts()) {
+			double offXPart = part.posX - this.posX;
+			double offZPart = part.posZ - this.posZ;
+			part.posX = this.posX + (Math.cos(diffYawRad) * offXPart - Math.sin(diffYawRad) * offZPart);
+			part.posY = this.posY + (Math.sin(diffYawRad) * offXPart + Math.cos(diffYawRad) * offZPart);
+		}
 	}
 
 	/**
@@ -198,8 +211,6 @@ public abstract class EntityMHFCBase extends EntityCreature implements
 
 	/**
 	 * Convenience function, no checks, just offset
-	 *
-	 * @return
 	 */
 	private final void offsetEntity(double offX, double offY, double offZ) {
 		this.boundingBox.offset(offX, offY, offZ);
@@ -223,7 +234,7 @@ public abstract class EntityMHFCBase extends EntityCreature implements
 	@Override
 	public boolean attackEntityFromPart(EntityDragonPart part,
 			DamageSource damageSource, float damageValue) {
-		// TODO Auto-generated method stub
+		// TODO handle attacked from
 		return false;
 	}
 }

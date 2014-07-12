@@ -61,7 +61,6 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
 			// You should log here!!
 			return false;
 		}
-		networkPipe.registerMessage(null, null, 0, null);
 		this.packets.add(clazz);
 		return true;
 	}
