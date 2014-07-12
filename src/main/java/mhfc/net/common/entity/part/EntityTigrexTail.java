@@ -9,8 +9,8 @@ import net.minecraft.world.World;
 
 
 public class EntityTigrexTail extends Entity {
-	
-	
+
+
 	public float taiLHealth;
 	private EntityTigrex tigrex;
 	int tail;
@@ -21,9 +21,9 @@ public class EntityTigrexTail extends Entity {
 		height = 1.5f;
 		taiLHealth = tigrex.getHealth();
 	}
-	
-	
-	
+
+
+
 	public void onUpdate() {
 		super.onUpdate();
 		if(tigrex == null && tigrex.isDead){
@@ -32,11 +32,11 @@ public class EntityTigrexTail extends Entity {
 		if(taiLHealth <= 1500){
 			this.setDead();
 		}
-		
+
 		 setDead();
 		 this.worldObj.removeEntity(this);
 	}
-	
+
 	public boolean attackEntityFrom(DamageSource source, float damage){
 		if(tigrex != null){
 			return this.tigrex.attackEntityFrom(source, Math.round(damage * 2.0F / 3.0F));
@@ -45,22 +45,22 @@ public class EntityTigrexTail extends Entity {
 	}
 
 	protected void entityInit() {
-		
+
 	}
 
 	protected void readEntityFromNBT(NBTTagCompound var1) {
-		
+
 	}
 
 	protected void writeEntityToNBT(NBTTagCompound var1) {
-		
+
 	}
-	
+
 	public boolean canBeCollidedWith()
 	{
 	return true;
 	}
-	
+
 	public boolean canBePushed()
 	{
 	return false;

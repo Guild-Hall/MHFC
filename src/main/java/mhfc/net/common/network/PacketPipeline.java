@@ -22,6 +22,7 @@ import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.FMLOutboundHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -33,6 +34,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @ChannelHandler.Sharable
 public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, AbstractPacket> {
 
+	private SimpleNetworkWrapper networkPipe = new SimpleNetworkWrapper("MHFC");
 	private EnumMap<Side, FMLEmbeddedChannel>           channels;
 	private LinkedList<Class<? extends AbstractPacket>> packets           = new LinkedList<Class<? extends AbstractPacket>>();
 	private boolean                                     isPostInitialized = false;
@@ -59,7 +61,7 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
 			// You should log here!!
 			return false;
 		}
-
+		networkPipe.registerMessage(null, null, 0, null);
 		this.packets.add(clazz);
 		return true;
 	}

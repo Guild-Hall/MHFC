@@ -7,19 +7,19 @@ import mhfc.net.common.network.AbstractPacket;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class PacketAITigrex extends AbstractPacket{
-	
+
 	private byte animID;
 	private int entityID;
-	
+
 	public PacketAITigrex() {
-		
+
 	}
-	
+
 	public PacketAITigrex(byte anim, EntityTigrex entity) {
 		animID = anim;
 		entityID = entity.getEntityId();
 	}
-	
+
 	public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer) {
 		buffer.writeByte(animID);
 		buffer.writeInt(entityID);
@@ -28,7 +28,7 @@ public class PacketAITigrex extends AbstractPacket{
 	public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer) {
 		animID = buffer.readByte();
 		entityID = buffer.readInt();
-		
+
 	}
 
 	public void handleClientSide(EntityPlayer player) {
@@ -40,7 +40,7 @@ public class PacketAITigrex extends AbstractPacket{
 	}
 
 	public void handleServerSide(EntityPlayer player) {
-		
+
 	}
 
 }

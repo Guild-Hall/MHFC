@@ -30,12 +30,12 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class EntityTigrex extends EntityWyvernHostile implements iMHFC{
-	
+
 	public int currentAttackID;
 	public int animTick;
 	public int deathTick;
 	public int rageLevel;
-			
+
 	public EntityTigrex(World par1World) {
 		super(par1World);
 		animTick = 0;
@@ -53,7 +53,7 @@ public class EntityTigrex extends EntityWyvernHostile implements iMHFC{
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityAnimal.class, 0, true));
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityMob.class, 0, true));
 	}
-	
+
 	public void applyEntityAttributes(){
 		super.applyEntityAttributes();
 		applyMonsterAttributes(1.3D, 6000D, 7800D, 8600D,  35D, 0.3D);
@@ -64,15 +64,15 @@ public class EntityTigrex extends EntityWyvernHostile implements iMHFC{
 		dataWatcher.addObject(16, Byte.valueOf((byte)0));
 		dataWatcher.addObject(17, Byte.valueOf((byte)0));
 	}
-			
+
 	public void setThrownBlock(){
 		dataWatcher.updateObject(16, Byte.valueOf((byte)1));
 	}
-	
+
 	public boolean getThrownBlock(){
 		return dataWatcher.getWatchableObjectByte(16) == 1;
 	}
-			
+
 	protected void dropFewItems(boolean par1, int par2)
 	{
 		int var4, i;
@@ -87,42 +87,41 @@ public class EntityTigrex extends EntityWyvernHostile implements iMHFC{
 		}
 		for (var4 = 0; var4 < 1; ++var4){
 			dropItemRand(MHFCRegItem.mhfcitemtigrextail, 2);
-		}dropItemRand(MHFCRegItem.mhfcitemtigrexskullshell, 1);
-		    
+		} dropItemRand(MHFCRegItem.mhfcitemtigrexskullshell, 1);
 	}
-	
+
 	public void onUpdate(){
 		super.onUpdate();
 		if(currentAttackID != 0){
 			animTick++;
-		}	
+		}
 	}
-			 
+
 	protected String getLivingSound(){
 		return	null;
 	}
-			
+
 	protected String getHurtSound(){
 		return null;
 	}
-	
+
 	protected String getDeathSound(){
 		return null;
 	}
-			
+
 	public void attackEntityAtDistSq(EntityLivingBase living, float f){
 		if(!worldObj.isRemote)
 		{
 			if(currentAttackID == 0 && onGround && rand.nextInt(20) == 0){
 				sendAttackPacket(1);
 			}
-		       
+
 			if(currentAttackID == 0 && f < 1.0F && rand.nextInt(100) == 0){
 				sendAttackPacket(3);
 			}
 		}
 	}
-			
+
 	public boolean attackEntityAsMob(Entity entity){
 		if(!worldObj.isRemote)
 		{
@@ -145,11 +144,11 @@ public class EntityTigrex extends EntityWyvernHostile implements iMHFC{
 	public void setAnimID(int id){
 		currentAttackID = id;
 	}
-			
+
 	public void setAnimTick(int tick){
 		animTick = tick;
 	}
-	
+
 	public int getAnimID(){
 		return currentAttackID;
 	}
@@ -157,6 +156,6 @@ public class EntityTigrex extends EntityWyvernHostile implements iMHFC{
 	public int getAnimTick(){
 		return animTick;
 	}
-			
+
 }
 
