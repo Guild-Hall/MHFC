@@ -1,10 +1,9 @@
 package mhfc.net.client.model.mob.boss;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.client.model.MHFCAnimator;
+import mhfc.net.client.model.PartTickModelBase;
 import mhfc.net.common.entity.mob.EntityRathalos;
 import mhfc.net.common.implement.iMHFC;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
@@ -12,8 +11,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelRathalos extends ModelBase {
-	protected float animTick;
+public class ModelRathalos extends PartTickModelBase {
 	public static final float PI = 3.141593F;
 	private MHFCAnimator animator;
 	ModelRenderer rightrightfinger;
@@ -127,7 +125,6 @@ public class ModelRathalos extends ModelBase {
 		animator = new MHFCAnimator(this);
 		textureWidth = 256;
 		textureHeight = 128;
-		animTick = 0.0F;
 		rightrightfinger = new ModelRenderer(this, 20, 100);
 		rightrightfinger.addBox(-5.8F, 20.1F, -2F, 2, 3, 4);
 		rightrightfinger.setRotationPoint(0F, 0F, 0F);
@@ -879,7 +876,6 @@ public class ModelRathalos extends ModelBase {
 		animator.update((iMHFC) entity);
 		setAngles();
 		// EntityRathalos rathalos = ((EntityRathalos)entity);
-		animTick = MHFCMain.proxy.getPartialTick();
 		animate((EntityRathalos) entity, f, f1, f2, f3, f4, f5);
 		center.render(f5);
 	}

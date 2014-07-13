@@ -41,7 +41,6 @@ public class MHFCMain {
 	public static MHFCMain instance;
 
 	public static final PacketPipeline packetPipeline = new PacketPipeline();
-	public static final String[] fTimer;
 	public static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID(),
 			"MHFC Tab");
 
@@ -82,9 +81,7 @@ public class MHFCMain {
 	public static boolean isEffectiveClient() {
 		return FMLCommonHandler.instance().getEffectiveSide().isClient();
 	}
-	static {
-		fTimer = new String[]{"field_71428_T", "S", "timer"};
-	}
+
 	public static void onRenderTick() {}
 	public static void onClientTick() {}
 	public static void onServerTick() {}

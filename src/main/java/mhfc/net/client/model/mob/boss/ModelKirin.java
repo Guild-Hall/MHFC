@@ -1,10 +1,9 @@
 package mhfc.net.client.model.mob.boss;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.client.model.MHFCAnimator;
+import mhfc.net.client.model.PartTickModelBase;
 import mhfc.net.common.entity.mob.EntityKirin;
 import mhfc.net.common.implement.iMHFC;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
@@ -12,8 +11,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelKirin extends ModelBase {
-	protected float animTick;
+public class ModelKirin extends PartTickModelBase {
 	public static final float PI = 3.141593F;
 	private MHFCAnimator animator;
 	ModelRenderer Body;
@@ -48,7 +46,6 @@ public class ModelKirin extends ModelBase {
 		animator = new MHFCAnimator(this);
 		textureWidth = 128;
 		textureHeight = 128;
-		animTick = 0.0F;
 		Body = new ModelRenderer(this, 0, 98);
 		Body.addBox(-5F, -5F, -10F, 10, 10, 20);
 		Body.setRotationPoint(0F, 8F, 0F);
@@ -252,7 +249,6 @@ public class ModelKirin extends ModelBase {
 		animator.update((iMHFC) entity);
 		setAngles();
 		// EntityKirin mob = (EntityKirin)entity;
-		animTick = MHFCMain.proxy.getPartialTick();
 		animate((EntityKirin) entity, f, f1, f2, f3, f4, f5);
 		Body.render(f5);
 	}
