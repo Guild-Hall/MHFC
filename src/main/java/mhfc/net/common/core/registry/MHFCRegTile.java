@@ -8,17 +8,17 @@ import mhfc.net.common.tile.TileStunTrap;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class MHFCRegTile {
-	
-	private static GameRegistry tile;
-	
-	public static void init(){
-		
-		tile.registerTileEntity(TileHunterBench.class, "Hunter's Bench");
-		tile.registerTileEntity(TileStunTrap.class, "Stun Trap");
-		tile.registerTileEntity(TileArmorStandBase.class, "Armor Stand Base");
-		tile.registerTileEntity(TileArmorStand.class, "Armor Stand");
-		tile.registerTileEntity(TileBBQSpit.class, "BBQ Spit");
-		
+
+	public static void init() {
+
+		GameRegistry
+				.registerTileEntity(TileHunterBench.class, "Hunter's Bench");
+		GameRegistry.registerTileEntity(TileStunTrap.class, "Stun Trap");
+		GameRegistry.registerTileEntity(TileArmorStandBase.class,
+				"Armor Stand Base");
+		GameRegistry.registerTileEntity(TileArmorStand.class, "Armor Stand");
+		GameRegistry.registerTileEntity(TileBBQSpit.class, "BBQ Spit");
+
 	}
 
 }

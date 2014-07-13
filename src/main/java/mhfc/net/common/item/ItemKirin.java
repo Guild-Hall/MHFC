@@ -9,9 +9,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ItemKirin extends Item {
-	
+
 	public int meta;
-	
+
 	public ItemKirin(int metaData) {
 		super();
 		setHasSubtypes(true);
@@ -19,18 +19,23 @@ public class ItemKirin extends Item {
 		setUnlocalizedName("kirin" + meta);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
-	
-	public void registerIcons(IIconRegister par1IconRegister){
-        this.itemIcon = par1IconRegister.registerIcon("mhfc:kirin" + meta);
-}
-	
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4){
-		if(meta > 3){
+
+	@Override
+	public void registerIcons(IIconRegister par1IconRegister) {
+		this.itemIcon = par1IconRegister.registerIcon("mhfc:kirin" + meta);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public void addInformation(ItemStack par1ItemStack,
+			EntityPlayer par2EntityPlayer,
+			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
+		if (meta > 3) {
 			par3List.add("Rare Drop by Kirin");
-		}else{
+		} else {
 			par3List.add("Drop by Kirin");
 		}
-		
+
 	}
 
 }

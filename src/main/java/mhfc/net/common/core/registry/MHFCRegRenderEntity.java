@@ -18,28 +18,30 @@ import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityTigrexBlock;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
+public class MHFCRegRenderEntity {
 
-public class MHFCRegRenderEntity 
-{
-	private static RenderingRegistry render;
-	
 	public static void render() {
 		renderMonster();
 		renderBlockEntities();
-		
-	}
-	
-	public static void renderMonster() {
-		render.registerEntityRenderingHandler(EntityTigrex.class, new RenderTigrex(new ModelTigrex(), 1.0F , 1.7F));
-		render.registerEntityRenderingHandler(EntityKirin.class, new RenderKirin(new ModelKirin(), 1.0F, 1.8F));
-		render.registerEntityRenderingHandler(EntityRathalos.class, new RenderRathalos(new ModelRathalos(), 1.0F, 2.1F));
-		render.registerEntityRenderingHandler(EntityPopo.class, new RenderPopo(new ModelPopo(), 1f, 1.4f));
-	}
-	
-	public static void renderBlockEntities() {
-		render.registerEntityRenderingHandler(EntityTigrexBlock.class, new RenderTigrexBlock());
-		render.registerEntityRenderingHandler(EntityRathalosFireball.class, new RenderRathalosFireball());
+
 	}
 
-	
+	public static void renderMonster() {
+		RenderingRegistry.registerEntityRenderingHandler(EntityTigrex.class,
+				new RenderTigrex(new ModelTigrex(), 1.0F, 1.7F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityKirin.class,
+				new RenderKirin(new ModelKirin(), 1.0F, 1.8F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityRathalos.class,
+				new RenderRathalos(new ModelRathalos(), 1.0F, 2.1F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityPopo.class,
+				new RenderPopo(new ModelPopo(), 1f, 1.4f));
+	}
+
+	public static void renderBlockEntities() {
+		RenderingRegistry.registerEntityRenderingHandler(
+				EntityTigrexBlock.class, new RenderTigrexBlock());
+		RenderingRegistry.registerEntityRenderingHandler(
+				EntityRathalosFireball.class, new RenderRathalosFireball());
+	}
+
 }

@@ -14,29 +14,34 @@ import mhfc.net.client.render.weapon.RenderLSIronKatana;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 public class MHFCRegRenderWeapon {
-	
-	
+	public static void render() {
 
-	private static MinecraftForgeClient reg;
-	
-	public static void render(){
-		
-		reg.registerItemRenderer(MHFCRegItem.mhfcitemgsbone, new RenderGSBone());
-		reg.registerItemRenderer(MHFCRegItem.MHFCItemHTigrex, new RenderHTigrex());
-		reg.registerItemRenderer(MHFCRegItem.MHFCItemGSTigrex, new RenderGSTigrex());
-		reg.registerItemRenderer(MHFCRegItem.mhfcitemlsironkatana, new RenderLSIronKatana());
-		reg.registerItemRenderer(MHFCRegItem.mhfcitemgskirinthundersword, new RenderGSKirinThunderSword());
-		reg.registerItemRenderer(MHFCRegItem.mhfcitemhkirinspark, new RenderHKirinSpark());
-		reg.registerItemRenderer(MHFCRegItem.mhfcitemhwarhammer, new RenderHWar());
-		reg.registerItemRenderer(MHFCRegItem.mhfcitemhwarhammerplus, new RenderHWar());
-		reg.registerItemRenderer(MHFCRegItem.mhfcitemhwarslammer, new RenderHWarSlammer());
-		reg.registerItemRenderer(MHFCRegItem.mhfcitembhunter, new RenderBHunter());
-		reg.registerItemRenderer(MHFCRegItem.mhfcitemhhmetalbagpipe, new RenderHHMetalBagpipe());
-		reg.registerItemRenderer(MHFCRegItem.mhfcitemlsdarkvipern, new RenderLSDarkVipern());
-		
-		
-		
-		
+		MinecraftForgeClient.registerItemRenderer(MHFCRegItem.mhfcitemgsbone,
+				new RenderGSBone());
+		MinecraftForgeClient.registerItemRenderer(MHFCRegItem.MHFCItemHTigrex,
+				new RenderHTigrex());
+		MinecraftForgeClient.registerItemRenderer(MHFCRegItem.MHFCItemGSTigrex,
+				new RenderGSTigrex());
+		MinecraftForgeClient.registerItemRenderer(
+				MHFCRegItem.mhfcitemlsironkatana, new RenderLSIronKatana());
+		MinecraftForgeClient.registerItemRenderer(
+				MHFCRegItem.mhfcitemgskirinthundersword,
+				new RenderGSKirinThunderSword());
+		MinecraftForgeClient.registerItemRenderer(
+				MHFCRegItem.mhfcitemhkirinspark, new RenderHKirinSpark());
+		MinecraftForgeClient.registerItemRenderer(
+				MHFCRegItem.mhfcitemhwarhammer, new RenderHWar());
+		MinecraftForgeClient.registerItemRenderer(
+				MHFCRegItem.mhfcitemhwarhammerplus, new RenderHWar());
+		MinecraftForgeClient.registerItemRenderer(
+				MHFCRegItem.mhfcitemhwarslammer, new RenderHWarSlammer());
+		MinecraftForgeClient.registerItemRenderer(MHFCRegItem.mhfcitembhunter,
+				new RenderBHunter());
+		MinecraftForgeClient.registerItemRenderer(
+				MHFCRegItem.mhfcitemhhmetalbagpipe, new RenderHHMetalBagpipe());
+		MinecraftForgeClient.registerItemRenderer(
+				MHFCRegItem.mhfcitemlsdarkvipern, new RenderLSDarkVipern());
+
 	}
-	
+
 }

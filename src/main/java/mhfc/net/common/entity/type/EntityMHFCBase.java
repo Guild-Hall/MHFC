@@ -40,17 +40,23 @@ public abstract class EntityMHFCBase extends EntityCreature implements
 		double diffZ = newPosZ - this.posZ;
 		this.offsetEntity(diffX, diffY, diffZ);
 	}
-	
+
 	@Override
 	protected void setRotation(float newYaw, float newPitch) {
 		float diffYawDeg = newYaw - this.rotationYaw;
 		double diffYawRad = diffYawDeg / 180D;
-		for(EntityMHFCPart part : this.getParts()) {
+		for (EntityMHFCPart part : this.getParts()) {
 			double offXPart = part.posX - this.posX;
 			double offZPart = part.posZ - this.posZ;
-			part.posX = this.posX + (Math.cos(diffYawRad) * offXPart - Math.sin(diffYawRad) * offZPart);
-			part.posY = this.posY + (Math.sin(diffYawRad) * offXPart + Math.cos(diffYawRad) * offZPart);
+			part.posX = this.posX
+					+ (Math.cos(diffYawRad) * offXPart - Math.sin(diffYawRad)
+							* offZPart);
+			part.posY = this.posY
+					+ (Math.sin(diffYawRad) * offXPart + Math.cos(diffYawRad)
+							* offZPart);
 		}
+		this.rotationYaw = newYaw % 360.0F;
+		this.rotationPitch = newPitch % 360.0F;
 	}
 
 	/**

@@ -1,6 +1,5 @@
 package mhfc.net.common.core.registry;
 
-import mhfc.net.common.configuration.MHFCConfig;
 import mhfc.net.common.helper.MHFCArmorMaterialHelper;
 import mhfc.net.common.helper.MHFCWeaponMaterialHelper;
 import mhfc.net.common.item.ItemArmorSphere;
@@ -44,12 +43,7 @@ import net.minecraft.item.Item;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class MHFCRegItem {
-	
-	private static MHFCConfig id;
-	private static GameRegistry itemreg;
-	private static MHFCWeaponMaterialHelper mat;
-	
-	//Weapons
+	// Weapons
 	public static Item mhfcitemgsbone;
 	public static Item MHFCItemGSTigrex;
 	public static Item mhfcitemgskirinthundersword;
@@ -62,8 +56,8 @@ public class MHFCRegItem {
 	public static Item mhfcitembhunter;
 	public static Item mhfcitemhhmetalbagpipe;
 	public static Item mhfcitemlsdarkvipern;
-	
-	//Armors
+
+	// Armors
 	public static Item mhfcitemtigrexhelm;
 	public static Item mhfcitemkirinhelm;
 	public static Item mhfcitemtigrexchest;
@@ -84,10 +78,8 @@ public class MHFCRegItem {
 	public static Item mhfcitemrathaloschest;
 	public static Item mhfcitemrathaloslegs;
 	public static Item mhfcitemrathalosboots;
-	
-	
-	
-	//Stuffs
+
+	// Stuffs
 	public static Item MHFCItemFrontierSpawner;
 	public static Item MHFCItemTigrexScale;
 	public static Item MHFCItemTigrexShell;
@@ -126,17 +118,16 @@ public class MHFCRegItem {
 	public static Item mhfcitemarmorsphere;
 	public static Item mhfcitemarmorsphereplus;
 	public static Item mhfcitemwyverniaclay;
-	
-	
-	//Foods
+
+	// Foods
 	public static Item mhfcitemkirinbuff;
-	
-	public static void init(){
+
+	public static void init() {
 		registerArmor();
 		registerMeleeWeapon();
 		registerItem();
 		registerRangeWeapon();
-		
+
 		getItemID(mhfcitemlsironkatana);
 		getItemID(mhfcitemlsdarkvipern);
 		getItemID(mhfcitemgsbone);
@@ -149,7 +140,7 @@ public class MHFCRegItem {
 		getItemID(mhfcitemhkirinspark);
 		getItemID(mhfcitemhhmetalbagpipe);
 		getItemID(mhfcitembhunter);
-		
+
 		getItemID(mhfcitemyukumohelm);
 		getItemID(mhfcitemrathaloshelm);
 		getItemID(mhfcitemtigrexhelm);
@@ -170,7 +161,7 @@ public class MHFCRegItem {
 		getItemID(mhfcitemtigrexboots);
 		getItemID(mhfcitemkirinboots);
 		getItemID(mhfcitemkirinSboots);
-		
+
 		getItemID(MHFCItemFrontierSpawner);
 		getItemID(mhfcitemrathalosshell);
 		getItemID(mhfcitemrathaloswebbing);
@@ -210,57 +201,94 @@ public class MHFCRegItem {
 		getItemID(MHFCItemGaguaEgg);
 		getItemID(MHFCItemWyvernCoin);
 		getItemID(mhfcitemkirinbuff);
-		
-		
+
 	}
-	
-	private static void registerArmor()
-	{
-		mhfcitemtigrexhelm = new TigrexArmor(MHFCArmorMaterialHelper.ArmorTigrex, 4, 0).setUnlocalizedName("a.mhf_helm");
-		mhfcitemkirinhelm = new KirinArmor(MHFCArmorMaterialHelper.ArmorKirin, 4, 0).setUnlocalizedName("b.mhf_helm");
-		mhfcitemtigrexchest = new TigrexArmor(MHFCArmorMaterialHelper.ArmorTigrex, 4, 1).setUnlocalizedName("a.mhf_chest");
-		mhfcitemkirinchest = new KirinArmor(MHFCArmorMaterialHelper.ArmorKirin, 4, 1).setUnlocalizedName("b.mhf_chest");
-		mhfcitemtigrexlegs = new TigrexArmor(MHFCArmorMaterialHelper.ArmorTigrex, 4, 2).setUnlocalizedName("a.mhf_leg");
-		mhfcitemkirinlegs = new KirinArmor(MHFCArmorMaterialHelper.ArmorKirin, 4, 2).setUnlocalizedName("b.mhf_legs");
-		mhfcitemtigrexboots = new TigrexArmor(MHFCArmorMaterialHelper.ArmorTigrex, 4, 3).setUnlocalizedName("a.mhf_boots");
-		mhfcitemkirinboots = new KirinArmor(MHFCArmorMaterialHelper.ArmorKirin, 4, 3).setUnlocalizedName("b.mhf_boots");
-		mhfcitemkirinShelm = new KirinSArmor(MHFCArmorMaterialHelper.ArmorKirinS, 4, 0).setUnlocalizedName("c.mhf_helm");
-		mhfcitemkirinSchest = new KirinSArmor(MHFCArmorMaterialHelper.ArmorKirinS, 4, 1).setUnlocalizedName("c.mhf_chest");
-		mhfcitemkirinSlegs = new KirinSArmor(MHFCArmorMaterialHelper.ArmorKirinS, 4, 2).setUnlocalizedName("c.mhf_leg");
-		mhfcitemkirinSboots = new KirinSArmor(MHFCArmorMaterialHelper.ArmorKirinS, 4, 3).setUnlocalizedName("c.mhf_boots");
-		mhfcitemyukumohelm = new YukumoArmor(MHFCArmorMaterialHelper.ArmorYukumo, 4, 0).setUnlocalizedName("d.mhf_helm");
-		mhfcitemyukumochest = new YukumoArmor(MHFCArmorMaterialHelper.ArmorYukumo, 4, 1).setUnlocalizedName("d.mhf_chest");
-		mhfcitemyukumolegs = new YukumoArmor(MHFCArmorMaterialHelper.ArmorYukumo, 4, 2).setUnlocalizedName("d.mhf_leg");
-		mhfcitemyukumoboots = new YukumoArmor(MHFCArmorMaterialHelper.ArmorYukumo, 4, 3).setUnlocalizedName("d.mhf_boots");
-		mhfcitemrathaloshelm = new RathalosArmor(MHFCArmorMaterialHelper.ArmorRathalos, 4, 0).setUnlocalizedName("e.mhf_helm");
-		mhfcitemrathaloschest = new RathalosArmor(MHFCArmorMaterialHelper.ArmorRathalos, 4, 1).setUnlocalizedName("e.mhf_chest");
-		mhfcitemrathaloslegs = new RathalosArmor(MHFCArmorMaterialHelper.ArmorRathalos, 4, 2).setUnlocalizedName("e.mhf_leg");
-		mhfcitemrathalosboots = new RathalosArmor(MHFCArmorMaterialHelper.ArmorRathalos, 4, 3).setUnlocalizedName("e.mhf_boots");
-	
-	
+
+	private static void registerArmor() {
+		mhfcitemtigrexhelm = new TigrexArmor(
+				MHFCArmorMaterialHelper.ArmorTigrex, 4, 0)
+				.setUnlocalizedName("a.mhf_helm");
+		mhfcitemkirinhelm = new KirinArmor(MHFCArmorMaterialHelper.ArmorKirin,
+				4, 0).setUnlocalizedName("b.mhf_helm");
+		mhfcitemtigrexchest = new TigrexArmor(
+				MHFCArmorMaterialHelper.ArmorTigrex, 4, 1)
+				.setUnlocalizedName("a.mhf_chest");
+		mhfcitemkirinchest = new KirinArmor(MHFCArmorMaterialHelper.ArmorKirin,
+				4, 1).setUnlocalizedName("b.mhf_chest");
+		mhfcitemtigrexlegs = new TigrexArmor(
+				MHFCArmorMaterialHelper.ArmorTigrex, 4, 2)
+				.setUnlocalizedName("a.mhf_leg");
+		mhfcitemkirinlegs = new KirinArmor(MHFCArmorMaterialHelper.ArmorKirin,
+				4, 2).setUnlocalizedName("b.mhf_legs");
+		mhfcitemtigrexboots = new TigrexArmor(
+				MHFCArmorMaterialHelper.ArmorTigrex, 4, 3)
+				.setUnlocalizedName("a.mhf_boots");
+		mhfcitemkirinboots = new KirinArmor(MHFCArmorMaterialHelper.ArmorKirin,
+				4, 3).setUnlocalizedName("b.mhf_boots");
+		mhfcitemkirinShelm = new KirinSArmor(
+				MHFCArmorMaterialHelper.ArmorKirinS, 4, 0)
+				.setUnlocalizedName("c.mhf_helm");
+		mhfcitemkirinSchest = new KirinSArmor(
+				MHFCArmorMaterialHelper.ArmorKirinS, 4, 1)
+				.setUnlocalizedName("c.mhf_chest");
+		mhfcitemkirinSlegs = new KirinSArmor(
+				MHFCArmorMaterialHelper.ArmorKirinS, 4, 2)
+				.setUnlocalizedName("c.mhf_leg");
+		mhfcitemkirinSboots = new KirinSArmor(
+				MHFCArmorMaterialHelper.ArmorKirinS, 4, 3)
+				.setUnlocalizedName("c.mhf_boots");
+		mhfcitemyukumohelm = new YukumoArmor(
+				MHFCArmorMaterialHelper.ArmorYukumo, 4, 0)
+				.setUnlocalizedName("d.mhf_helm");
+		mhfcitemyukumochest = new YukumoArmor(
+				MHFCArmorMaterialHelper.ArmorYukumo, 4, 1)
+				.setUnlocalizedName("d.mhf_chest");
+		mhfcitemyukumolegs = new YukumoArmor(
+				MHFCArmorMaterialHelper.ArmorYukumo, 4, 2)
+				.setUnlocalizedName("d.mhf_leg");
+		mhfcitemyukumoboots = new YukumoArmor(
+				MHFCArmorMaterialHelper.ArmorYukumo, 4, 3)
+				.setUnlocalizedName("d.mhf_boots");
+		mhfcitemrathaloshelm = new RathalosArmor(
+				MHFCArmorMaterialHelper.ArmorRathalos, 4, 0)
+				.setUnlocalizedName("e.mhf_helm");
+		mhfcitemrathaloschest = new RathalosArmor(
+				MHFCArmorMaterialHelper.ArmorRathalos, 4, 1)
+				.setUnlocalizedName("e.mhf_chest");
+		mhfcitemrathaloslegs = new RathalosArmor(
+				MHFCArmorMaterialHelper.ArmorRathalos, 4, 2)
+				.setUnlocalizedName("e.mhf_leg");
+		mhfcitemrathalosboots = new RathalosArmor(
+				MHFCArmorMaterialHelper.ArmorRathalos, 4, 3)
+				.setUnlocalizedName("e.mhf_boots");
+
 	}
-	
-	private static void registerMeleeWeapon()
-	{
-		MHFCItemGSTigrex = new WeaponGSTigrex(mat.GSTigrex);
-		mhfcitemgsbone = new WeaponGSBone(mat.GSBoneBlade);
-		mhfcitemgskirinthundersword = new WeaponGSKirinThunderSword(mat.GSKirin);
-		MHFCItemHTigrex = new WeaponHTigrex(mat.HTigrex);
-		mhfcitemlsironkatana = new WeaponLSIronKatana(mat.LSIronKatana);
-		mhfcitemlsdarkvipern = new WeaponLSDarkVipern(mat.LSDarkVipern);
-		mhfcitemhkirinspark = new WeaponHKirinSpark(mat.HKirinSpark);
-		mhfcitemhwarhammer = new WeaponHWar(mat.HWarHammer);
-		mhfcitemhwarhammerplus = new WeaponHWarPlus(mat.HWarHammerplus);
-		mhfcitemhwarslammer = new WeaponHWarSlammer(mat.HWarSlammer);
-		mhfcitemhhmetalbagpipe = new WeaponHHMetalBagpipe(mat.HHMetalBagpipe);			
+
+	private static void registerMeleeWeapon() {
+		MHFCItemGSTigrex = new WeaponGSTigrex(MHFCWeaponMaterialHelper.GSTigrex);
+		mhfcitemgsbone = new WeaponGSBone(MHFCWeaponMaterialHelper.GSBoneBlade);
+		mhfcitemgskirinthundersword = new WeaponGSKirinThunderSword(
+				MHFCWeaponMaterialHelper.GSKirin);
+		MHFCItemHTigrex = new WeaponHTigrex(MHFCWeaponMaterialHelper.HTigrex);
+		mhfcitemlsironkatana = new WeaponLSIronKatana(
+				MHFCWeaponMaterialHelper.LSIronKatana);
+		mhfcitemlsdarkvipern = new WeaponLSDarkVipern(
+				MHFCWeaponMaterialHelper.LSDarkVipern);
+		mhfcitemhkirinspark = new WeaponHKirinSpark(
+				MHFCWeaponMaterialHelper.HKirinSpark);
+		mhfcitemhwarhammer = new WeaponHWar(MHFCWeaponMaterialHelper.HWarHammer);
+		mhfcitemhwarhammerplus = new WeaponHWarPlus(
+				MHFCWeaponMaterialHelper.HWarHammerplus);
+		mhfcitemhwarslammer = new WeaponHWarSlammer(
+				MHFCWeaponMaterialHelper.HWarSlammer);
+		mhfcitemhhmetalbagpipe = new WeaponHHMetalBagpipe(
+				MHFCWeaponMaterialHelper.HHMetalBagpipe);
 	}
-	
-	private static void registerRangeWeapon()
-	{
+
+	private static void registerRangeWeapon() {
 		mhfcitembhunter = new WeaponBHunter();
 	}
-	private static void registerItem()
-	{
+	private static void registerItem() {
 		MHFCItemWyverniaDust = new ItemWyverniaDust();
 		MHFCItemFrontierSpawner = new ItemFrontierSpawner();
 		mhfcitemmoldediron = new ItemMoldedIron();
@@ -299,14 +327,14 @@ public class MHFCRegItem {
 		mhfcitemarmorsphere = new ItemArmorSphere(0);
 		mhfcitemarmorsphereplus = new ItemArmorSphere(1);
 		mhfcitemwyverniaclay = new ItemWyverniaClay();
-		
-		//Foods
-				mhfcitemkirinbuff = new ItemKirinBuff(6, 100, false);
+
+		// Foods
+		mhfcitemkirinbuff = new ItemKirinBuff(6, 100, false);
 	}
-	
-	private static void getItemID(Item item){
-		itemreg.registerItem(item, item.getUnlocalizedName());
-		
+
+	private static void getItemID(Item item) {
+		GameRegistry.registerItem(item, item.getUnlocalizedName());
+
 	}
 
 }

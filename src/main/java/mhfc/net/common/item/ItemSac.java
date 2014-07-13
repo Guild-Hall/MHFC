@@ -9,9 +9,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ItemSac extends Item {
-	
+
 	public int meta;
-	
+
 	public ItemSac(int metaData) {
 		super();
 		setHasSubtypes(true);
@@ -19,13 +19,17 @@ public class ItemSac extends Item {
 		setUnlocalizedName("sac" + meta);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
-	
-	public void registerIcons(IIconRegister par1IconRegister){
-        this.itemIcon = par1IconRegister.registerIcon("mhfc:sac" + meta);
-}
-	
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4){
-		
+
+	@Override
+	public void registerIcons(IIconRegister par1IconRegister) {
+		this.itemIcon = par1IconRegister.registerIcon("mhfc:sac" + meta);
+	}
+
+	@Override
+	public void addInformation(ItemStack par1ItemStack,
+			EntityPlayer par2EntityPlayer,
+			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
+
 	}
 
 }

@@ -1,10 +1,5 @@
 package mhfc.net.client.render.projectile;
 
-import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import mhfc.net.common.entity.projectile.EntityTigrexBlock;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
@@ -12,18 +7,25 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
+import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 @SideOnly(Side.CLIENT)
 public class RenderTigrexBlock extends Render {
-	
+
 	public RenderTigrexBlock() {
 		shadowSize = 0.5f; // <-- set the size of its shadow.
 	}
 
-	public void doRender(Entity entity, double d, double d1, double d2, float f, float f1) {
-		
-		EntityTigrexBlock block = (EntityTigrexBlock)entity;
+	@Override
+	public void doRender(Entity entity, double d, double d1, double d2,
+			float f, float f1) {
+
+		// EntityTigrexBlock block = (EntityTigrexBlock)entity;
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float)d, (float)d1, (float)d2);
+		GL11.glTranslatef((float) d, (float) d1, (float) d2);
 		GL11.glRotatef(entity.rotationYaw, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef((entity.ticksExisted + f1) * 20.0F, 1.0F, 0.0F, 0.0F);
@@ -34,12 +36,14 @@ public class RenderTigrexBlock extends Render {
 		int x = MathHelper.floor_double(entity.posX);
 		int y = MathHelper.floor_double(entity.posY);
 		int z = MathHelper.floor_double(entity.posZ);
-		field_147909_c.renderBlockSandFalling(Blocks.dirt, entity.worldObj, x, y, z, 0);
+		field_147909_c.renderBlockSandFalling(Blocks.dirt, entity.worldObj, x,
+				y, z, 0);
 		GL11.glEnable(2896);
 		GL11.glPopMatrix();
-		
+
 	}
 
+	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
 		return TextureMap.locationBlocksTexture;
 	}

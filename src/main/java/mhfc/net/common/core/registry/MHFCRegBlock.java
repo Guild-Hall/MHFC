@@ -23,28 +23,24 @@ import mhfc.net.common.block.container.BlockArmorStandBase;
 import mhfc.net.common.block.container.BlockBBQSpit;
 import mhfc.net.common.block.container.BlockHunterBench;
 import mhfc.net.common.block.container.BlockStunTrap;
-import mhfc.net.common.configuration.MHFCConfig;
 import mhfc.net.common.item.block.ItemBlockBBQSpit;
 import mhfc.net.common.item.block.ItemBlockBenchHunter;
-import mhfc.net.common.item.block.ItemBlockIngot;
 import mhfc.net.common.item.block.ItemBlockStunTrap;
 import mhfc.net.common.item.block.ItemBlockWyverniaDefault;
 import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class MHFCRegBlock {
-	
-	private static GameRegistry blockreg;
-	private static MHFCConfig id;
-	private static Item item;
-	private static ItemBlockIngot ingot;
+
+	// private static MHFCConfig id;
+	// private static Item item;
+	// private static ItemBlockIngot ingot;
 	public static Block mhfcblockcarbalite;
 	public static Block mhfcblockdragonite;
 	public static Block mhfcblockeltalite;
 	public static Block mhfcblockmachalite;
-	
+
 	public static Block mhfcblocklosgable;
 	public static Block mhfcblockarmorstandbase;
 	public static Block mhfcblockarmorstand;
@@ -64,9 +60,8 @@ public class MHFCRegBlock {
 	public static Block mhfcblockoreeltalite;
 	public static Block mhfcblockoremachalite;
 	public static Block mhfcblockbbqspit;
-	
-	public static void init()
-	{
+
+	public static void init() {
 		// Initiation Blocks
 		mhfcblockcarbalite = new BlockCarbalite();
 		mhfcblockdragonite = new BlockDragonite();
@@ -91,13 +86,13 @@ public class MHFCRegBlock {
 		mhfcblockoreeltalite = new BlockOreEltalite();
 		mhfcblockoremachalite = new BlockOreMachalite();
 		mhfcblockbbqspit = new BlockBBQSpit();
-	//------------------------Game Registry ------------------------------//
+		// ------------------------Game Registry
+		// ------------------------------//
 		regBlocks();
 		regItemBlocks();
 	}
-	
-	private static void regBlocks()
-	{
+
+	private static void regBlocks() {
 		getBlockID(mhfcblockgrass);
 		getBlockID(mhfcblockdirt);
 		getBlockID(mhfcblockstone);
@@ -118,27 +113,25 @@ public class MHFCRegBlock {
 		getBlockID(mhfcblocklosgable);
 		getBlockID(mhfcblockarmorstandbase);
 	}
-	
-	private static void regItemBlocks()
-	{
-		
+
+	private static void regItemBlocks() {
+
 		getItemBlockID(mhfcblockarmorstand, ItemBlockWyverniaDefault.class);
 		getItemBlockID(mhfcblockstuntrap, ItemBlockStunTrap.class);
 		getItemBlockID(mhfcblockhunterbench, ItemBlockBenchHunter.class);
 		getItemBlockID(mhfcblockbbqspit, ItemBlockBBQSpit.class);
 	}
-	
-	private static void getBlockID(Block block)
-	{
-		blockreg.registerBlock(block, block.getUnlocalizedName());
-	    
+
+	private static void getBlockID(Block block) {
+		GameRegistry.registerBlock(block, block.getUnlocalizedName());
+
 	}
-	
-	private static void getItemBlockID(Block block, Class<? extends ItemBlock> itemBlockClass)
-    {
-		blockreg.registerBlock(block, itemBlockClass, block.getUnlocalizedName());
-        
-    }
-	
-	
+
+	private static void getItemBlockID(Block block,
+			Class<? extends ItemBlock> itemBlockClass) {
+		GameRegistry.registerBlock(block, itemBlockClass,
+				block.getUnlocalizedName());
+
+	}
+
 }

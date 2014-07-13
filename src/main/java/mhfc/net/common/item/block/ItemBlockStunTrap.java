@@ -13,10 +13,13 @@ public class ItemBlockStunTrap extends ItemBlock {
 		super(getBlock);
 		maxStackSize = 1;
 	}
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4){
-		par3List.add("A tool that temporarily renders a" );
+	@Override
+	@SuppressWarnings("unchecked")
+	public void addInformation(ItemStack par1ItemStack,
+			EntityPlayer par2EntityPlayer,
+			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
+		par3List.add("A tool that temporarily renders a");
 		par3List.add("monster immobile and unable to attack.");
 	}
-	
 
 }

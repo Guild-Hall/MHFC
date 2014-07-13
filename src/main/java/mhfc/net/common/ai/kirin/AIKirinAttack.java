@@ -1,44 +1,44 @@
 package mhfc.net.common.ai.kirin;
 
 import mhfc.net.common.entity.mob.EntityKirin;
-import mhfc.net.common.entity.mob.EntityTigrex;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 
-public class AIKirinAttack extends EntityAIBase{
-	
-	private float dist;
-    private float actualDistSq;
-    private EntityKirin entity;
-    private EntityLivingBase attackTarget;
-    
-    public AIKirinAttack(EntityKirin par1, float f) {
-    	dist = f;
-    	actualDistSq = 0.0f;
-    	entity = par1;
-    	attackTarget = null;
-    }
+public class AIKirinAttack extends EntityAIBase {
 
-    public boolean isContinuous() {
-	    return false;
+	private float dist;
+	private float actualDistSq;
+	private EntityKirin entity;
+	private EntityLivingBase attackTarget;
+
+	public AIKirinAttack(EntityKirin par1, float f) {
+		dist = f;
+		actualDistSq = 0.0f;
+		entity = par1;
+		attackTarget = null;
 	}
-    
-    public void resetTask(){
+
+	public boolean isContinuous() {
+		return false;
+	}
+
+	@Override
+	public void resetTask() {
 		super.resetTask();
 	}
 
+	@Override
 	public boolean shouldExecute() {
-	    attackTarget = entity.getAttackTarget();
-	    if(attackTarget == null)
-     {
-	    return false;
-     }
-        return actualDistSq <= dist * dist;
-	 }
+		attackTarget = entity.getAttackTarget();
+		if (attackTarget == null) {
+			return false;
+		}
+		return actualDistSq <= dist * dist;
+	}
 
-	public void startExecuting()
-	{
-	    entity.attackEntityAtDistSq(attackTarget, actualDistSq);
-     }
+	@Override
+	public void startExecuting() {
+		entity.attackEntityAtDistSq(attackTarget, actualDistSq);
+	}
 
 }

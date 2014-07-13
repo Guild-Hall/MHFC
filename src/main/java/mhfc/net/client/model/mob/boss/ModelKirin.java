@@ -12,8 +12,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelKirin extends ModelBase
-{
+public class ModelKirin extends ModelBase {
 	protected float animTick;
 	public static final float PI = 3.141593F;
 	private MHFCAnimator animator;
@@ -45,8 +44,7 @@ public class ModelKirin extends ModelBase
 	ModelRenderer HeadManeHairB;
 	ModelRenderer Horn_tip;
 
-	public ModelKirin()
-	{
+	public ModelKirin() {
 		animator = new MHFCAnimator(this);
 		textureWidth = 128;
 		textureHeight = 128;
@@ -248,26 +246,25 @@ public class ModelKirin extends ModelBase
 
 	}
 
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
-		animator.update((iMHFC)entity);
+	@Override
+	public void render(Entity entity, float f, float f1, float f2, float f3,
+			float f4, float f5) {
+		animator.update((iMHFC) entity);
 		setAngles();
-		EntityKirin mob = (EntityKirin)entity;
+		// EntityKirin mob = (EntityKirin)entity;
 		animTick = MHFCMain.proxy.getPartialTick();
-		animate((EntityKirin)entity,f,f1,f2,f3,f4,f5);
+		animate((EntityKirin) entity, f, f1, f2, f3, f4, f5);
 		Body.render(f5);
 	}
 
-
-
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private static void setRotation(ModelRenderer model, float x, float y,
+			float z) {
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
 	}
 
-	public void setAngles(){
+	public void setAngles() {
 		setRotation(Body, 0F, 0F, 0F);
 		setRotation(Neck, 0.5205006F, 0F, 0F);
 		setRotation(NeckCore, 0F, 0F, 0F);
@@ -297,32 +294,35 @@ public class ModelKirin extends ModelBase
 		setRotation(Horn_tip, 0.5204921F, 0F, 0F);
 	}
 
-	private void animate(EntityKirin entity, float f, float f1, float f2, float f3, float f4, float f5) {
+	private void animate(EntityKirin entity, float f, float f1, float f2,
+			float f3, float f4, float f5) {
 		float walkAnim1 = (MathHelper.sin((f - 0.7F) * 0.4F) + 0.7F) * f1;
 		float walkAnim2 = -(MathHelper.sin((f + 0.7F) * 0.4F) - 0.7F) * f1;
-		float walkAnim = MathHelper.sin(f * 0.4F) * f1;
+		// float walkAnim = MathHelper.sin(f * 0.4F) * f1;
 		float breatheAnim = MathHelper.cos(f2 * 0.11F);
 		float tailBreathe = MathHelper.sin(f2 * 0.14F);
-		float faceYaw = (f3 * 3.141593F) / 180F;
-		float facePitch = (f4 * 3.141593F) / 180F;
-		float neckAnimY = f3 / (540F / (float)PI);
-		float neckAnimX = f4 / (540F / (float)PI);
-		float footAnimX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-		float footAnimY = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+		// float faceYaw = (f3 * 3.141593F) / 180F;
+		// float facePitch = (f4 * 3.141593F) / 180F;
+		float neckAnimY = f3 / (540F / PI);
+		// float neckAnimX = f4 / (540F / PI);
+		// float footAnimX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+		// float footAnimY = MathHelper.cos(f * 0.6662F + (float) Math.PI) *
+		// 1.4F
+		// * f1;
 
 		NeckCore.rotateAngleX -= breatheAnim * 0.01F;
 		NeckCore.rotateAngleY = neckAnimY;
 		LFHint.rotateAngleX = walkAnim2 * 0.6f;
 		LFFoot.rotateAngleX = walkAnim2 * 0.1f;
-		RFFoot.rotateAngleX = walkAnim1 *0.1f;
+		RFFoot.rotateAngleX = walkAnim1 * 0.1f;
 		RFHint.rotateAngleX = walkAnim1 * 0.6f;
-		LBHint.rotateAngleX = walkAnim1 *0.6f;
+		LBHint.rotateAngleX = walkAnim1 * 0.6f;
 		RBHint.rotateAngleX = walkAnim2 * 0.6f;
 		Tail.rotateAngleY -= tailBreathe * 0.06F;
 
-		if(entity.currentAttackID == 1){
+		if (entity.currentAttackID == 1) {
 			animateBolt();
-		}else if(animator.setAnim(2)){
+		} else if (animator.setAnim(2)) {
 			animateJump();
 		}
 
@@ -330,28 +330,26 @@ public class ModelKirin extends ModelBase
 
 	private void animateBolt() {
 
-		animator.setAnim( 1 );
-		animator.startPhase( 10 );
-		animator.rotate(Body, -PI/ 3F, 0F, 0F);
-		animator.rotate(LBHint, PI/ 3F, 0F, 0F);
-		animator.rotate(RBHint, PI/ 3F, 0F, 0F);
-		animator.rotate(LFFoot, PI/25F, 0F, 0F);
-		animator.rotate(RFFoot, PI/25F, 0F, 0F);
+		animator.setAnim(1);
+		animator.startPhase(10);
+		animator.rotate(Body, -PI / 3F, 0F, 0F);
+		animator.rotate(LBHint, PI / 3F, 0F, 0F);
+		animator.rotate(RBHint, PI / 3F, 0F, 0F);
+		animator.rotate(LFFoot, PI / 25F, 0F, 0F);
+		animator.rotate(RFFoot, PI / 25F, 0F, 0F);
 		animator.endPhase();
-		animator.resetPhase( 10 );
+		animator.resetPhase(10);
 
 	}
 
 	private void animateJump() {
-		animator.startPhase( 20 );
-		animator.rotate(Body, -PI/ 2F, -PI/2F, 0F);
-		animator.rotate(LBHint, PI/ 3F, 0F, 0F);
-		animator.rotate(RBHint, PI/ 3F, 0F, 0F);
+		animator.startPhase(20);
+		animator.rotate(Body, -PI / 2F, -PI / 2F, 0F);
+		animator.rotate(LBHint, PI / 3F, 0F, 0F);
+		animator.rotate(RBHint, PI / 3F, 0F, 0F);
 		animator.endPhase();
-		animator.resetPhase( 20 );
-
+		animator.resetPhase(20);
 
 	}
-
 
 }
