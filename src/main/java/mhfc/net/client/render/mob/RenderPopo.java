@@ -42,8 +42,7 @@ public class RenderPopo extends RenderLiving {
 	@Override
 	protected void preRenderCallback(EntityLivingBase par1EntityLivingBase,
 			float par2) {
-		this.preRenderScale((EntityPopo) par1EntityLivingBase, par2);
-		super.preRenderCallback(par1EntityLivingBase, par2);
+		// this.preRenderScale((EntityPopo) par1EntityLivingBase, par2);
 	}
 
 	@Override

@@ -1,10 +1,9 @@
 package mhfc.net.client.model.mob.boss;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.client.model.MHFCAnimator;
+import mhfc.net.client.model.PartTickModelBase;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.implement.iMHFC;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
@@ -12,8 +11,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelTigrex extends ModelBase {
-	protected float animTick;
+public class ModelTigrex extends PartTickModelBase {
 	public static final float PI = 3.141593F;
 	private MHFCAnimator animator;
 	ModelRenderer LFrontMiddleFinger;
@@ -96,7 +94,6 @@ public class ModelTigrex extends ModelBase {
 		animator = new MHFCAnimator(this);
 		textureWidth = 256;
 		textureHeight = 256;
-		animTick = 0.0F;
 		LFrontMiddleFinger = new ModelRenderer(this, 102, 105);
 		LFrontMiddleFinger.addBox(-1F, -1F, -4F, 2, 3, 4);
 		LFrontMiddleFinger.setRotationPoint(0F, 2F, -5F);
@@ -646,7 +643,6 @@ public class ModelTigrex extends ModelBase {
 		animator.update((iMHFC) entity);
 		setAngles();
 		// EntityTigrex tigrex = (EntityTigrex) entity;
-		animTick = MHFCMain.proxy.getPartialTick();
 		animate((EntityTigrex) entity, f, f1, f2, f3, f4, f5);
 		Body.render(f5);
 		// Tail.showModel = tigrex.getHealth() > 600;
