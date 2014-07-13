@@ -1,25 +1,28 @@
 package mhfc.net.common.eventhandler;
 
-import mhfc.net.MHFCMain;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 
 public class MHFCTickHandler {
+	public static final MHFCTickHandler instance = new MHFCTickHandler();
+
 	@SubscribeEvent
 	public void onRenderTick(TickEvent.RenderTickEvent event) {
-		if (event.phase == TickEvent.Phase.END) MHFCMain.onRenderTick();
+		if (event.phase == TickEvent.Phase.END) {
+		}
 	}
 
 	@SubscribeEvent
 	public void onClientTick(TickEvent.ClientTickEvent event) {
-		if (event.phase == TickEvent.Phase.END) MHFCMain.onClientTick();
+		if (event.phase == TickEvent.Phase.END) {
+		}
 
 	}
 
 	@SubscribeEvent
 	public void onServerTick(TickEvent.ServerTickEvent event) {
 		if (event.phase == TickEvent.Phase.END) try {
-			MHFCMain.onServerTick();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
