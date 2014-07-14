@@ -1,5 +1,9 @@
 package mhfc.net.common.quests;
 
+import java.util.EnumSet;
+
+import mhfc.net.common.quests.goals.QuestGoal;
+
 /**
  * An interface for classes that do have a quest goal. This is necessary as they
  * should be notified whenever the QuestGoal status changes.
@@ -21,7 +25,7 @@ public interface QuestGoalSocket {
 	 *            The new failed status
 	 */
 	public void questGoalStatusNotification(QuestGoal caller,
-			boolean newFinished, boolean newFailed);
+			EnumSet<QuestStatus> newStatus);
 	/**
 	 * Resets a socket and all {@link QuestGoal} instances in it to its original
 	 * status. For a quest this can mean rebuilding the quest line, for a single

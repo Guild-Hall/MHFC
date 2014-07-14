@@ -1,7 +1,11 @@
-package mhfc.net.common.quests;
+package mhfc.net.common.quests.goals;
 
+import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
+
+import mhfc.net.common.quests.QuestGoalSocket;
+import mhfc.net.common.quests.QuestStatus;
 
 /**
  * This is the super type for quest goals that do depend on multiple others but
@@ -59,7 +63,7 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 	}
 	@Override
 	public void questGoalStatusNotification(QuestGoal goal,
-			boolean newFinished, boolean newFailed) {
+			EnumSet<QuestStatus> newStatus) {
 		// TODO Auto-generated method stub
 
 	}
@@ -72,5 +76,14 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 			g.reset();
 		}
 		notifyOfStatus(isFulfilled(), isFailed());
+	}
+	@Override
+	public void setActive(boolean newActive) {
+		for (QuestGoal g : requisites) {
+			g.setActive(newActive);
+		}
+		for (QuestGoal g : optional) {
+			g.setActive(newActive);
+		}
 	}
 }
