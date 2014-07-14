@@ -2,6 +2,7 @@ package mhfc.net.common.entity.type;
 
 import java.util.List;
 
+import mhfc.net.client.model.mhfcmodel.AnimationInformation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityMultiPart;
@@ -21,7 +22,7 @@ import net.minecraft.world.World;
  *
  */
 public abstract class EntityMHFCBase extends EntityCreature implements
-		IEntityMultiPart {
+		IEntityMultiPart, IMHFCAnimatedEntity, AnimationInformation {
 
 	public EntityMHFCBase(World world) {
 		super(world);
@@ -95,6 +96,7 @@ public abstract class EntityMHFCBase extends EntityCreature implements
 			double correctedOffY = currOffY;
 			double correctedOffZ = currOffZ;
 			EntityMHFCPart[] parts = this.getParts();
+			if (parts == null) parts = new EntityMHFCPart[0];
 
 			@SuppressWarnings("unchecked")
 			List<AxisAlignedBB> bbsInWay = this.worldObj
@@ -202,7 +204,6 @@ public abstract class EntityMHFCBase extends EntityCreature implements
 			double originalY = this.posY;
 			double originalZ = this.posZ;
 			AxisAlignedBB originalBB = this.boundingBox.copy();
-			// TODO take subentities into account
 			// Handle things like fire, movesounds, etc
 			super.moveEntity(originalOffX, originalOffY, originalOffZ);
 			// Pop the state
@@ -242,5 +243,29 @@ public abstract class EntityMHFCBase extends EntityCreature implements
 			DamageSource damageSource, float damageValue) {
 		// TODO handle attacked from
 		return false;
+	}
+
+	@Override
+	public AnimationInformation getAnimInformation() {
+		// TODO: return the AI here
+		return this;
+	}
+
+	@Override
+	public int getAnimationFrame() {
+		// TODO: get this from the AI
+		return 0;
+	}
+
+	@Override
+	public String getCurrentAttack() {
+		// TODO: get this from the AI
+		return "";
+	}
+
+	@Override
+	public List<String> getPartsToRender() {
+		// TODO: get this from the AI
+		return null;
 	}
 }

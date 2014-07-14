@@ -1,5 +1,6 @@
 package mhfc.net.common.core.registry;
 
+import mhfc.net.client.model.mhfcmodel.MHFCModelLoader;
 import mhfc.net.client.model.mob.ModelPopo;
 import mhfc.net.client.model.mob.boss.ModelKirin;
 import mhfc.net.client.model.mob.boss.ModelRathalos;
@@ -16,6 +17,7 @@ import mhfc.net.common.entity.mob.EntityRathalos;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityTigrexBlock;
+import net.minecraftforge.client.model.AdvancedModelLoader;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class MHFCRegRenderEntity {
@@ -23,7 +25,7 @@ public class MHFCRegRenderEntity {
 	public static void render() {
 		renderMonster();
 		renderBlockEntities();
-
+		AdvancedModelLoader.registerModelHandler(MHFCModelLoader.instance);
 	}
 
 	public static void renderMonster() {

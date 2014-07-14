@@ -12,6 +12,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.Packet;
+
+import org.apache.logging.log4j.Logger;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -40,6 +43,7 @@ public class MHFCMain {
 	@Mod.Instance("mhfc")
 	public static MHFCMain instance;
 
+	public static Logger logger;
 	public static final PacketPipeline packetPipeline = new PacketPipeline();
 	public static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID(),
 			"MHFC Tab");
@@ -47,6 +51,8 @@ public class MHFCMain {
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent pre) {
 		// MHFCConfig.init(pre);
+		logger = pre.getModLog();
+
 		pre.getModMetadata().logoFile = "MHFCLogo.png";
 	}
 

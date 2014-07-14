@@ -2,7 +2,6 @@ package mhfc.net.client.render.mob;
 
 import mhfc.net.client.model.mob.boss.ModelTigrex;
 import mhfc.net.common.entity.mob.EntityTigrex;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,7 +19,7 @@ public class RenderTigrex extends RenderLiving {
 			"mhfc:textures/mobs/tigrex.png");
 	protected ModelTigrex mainModel;
 
-	public RenderTigrex(ModelBase par1ModelBase, float par2, float par3) {
+	public RenderTigrex(ModelTigrex par1ModelBase, float par2, float par3) {
 		super(par1ModelBase, par2 * par3);
 		this.scale = par3;
 	}

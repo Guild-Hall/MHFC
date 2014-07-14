@@ -4,7 +4,6 @@ import java.util.Random;
 
 import mhfc.net.client.model.mob.boss.ModelKirin;
 import mhfc.net.common.entity.mob.EntityKirin;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
@@ -24,7 +23,7 @@ public class RenderKirin extends RenderLiving {
 			"mhfc:textures/mobs/kirin.png");
 	protected ModelKirin mainModel;
 
-	public RenderKirin(ModelBase par1ModelBase, float par2, float par3) {
+	public RenderKirin(ModelKirin par1ModelBase, float par2, float par3) {
 		super(par1ModelBase, par2 * par3);
 		this.scale = par3;
 	}

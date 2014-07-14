@@ -1,7 +1,7 @@
 package mhfc.net.client.render.mob;
 
+import mhfc.net.client.model.mob.ModelPopo;
 import mhfc.net.common.entity.mob.EntityPopo;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,7 +18,7 @@ public class RenderPopo extends RenderLiving {
 	private static final ResourceLocation texture = new ResourceLocation(
 			"mhfc:textures/mobs/popo.png");
 
-	public RenderPopo(ModelBase par1ModelBase, float par2, float par3) {
+	public RenderPopo(ModelPopo par1ModelBase, float par2, float par3) {
 		super(par1ModelBase, par2 * par3);
 		this.scale = par3;
 	}
