@@ -34,7 +34,8 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 @Mod(modid = MHFCReference.main_modid, name = MHFCReference.main_name, version = MHFCReference.main_version)
 public class MHFCMain {
 
-	@SidedProxy(clientSide = "mhfc.net.client.MHFCClient", serverSide = "mhfc.net.common.MHFCCommon")
+	@SidedProxy(clientSide = "mhfc.net.client.MHFCClient",
+			serverSide = "mhfc.net.common.MHFCCommon")
 	public static MHFCCommon proxy;
 
 	@Mod.Instance("mhfc")
@@ -43,14 +44,13 @@ public class MHFCMain {
 	public static Logger logger;
 	public static final PacketPipeline packetPipeline = new PacketPipeline();
 	public static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID(),
-			"MHFC Tab");
+			MHFCReference.gui_tab_name);
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent pre) {
 		// MHFCConfig.init(pre);
 		logger = pre.getModLog();
-
-		pre.getModMetadata().logoFile = "MHFCLogo.png";
+		pre.getModMetadata().logoFile = MHFCReference.main_logo;
 	}
 
 	@Mod.EventHandler
