@@ -26,10 +26,13 @@ public interface QuestGoalSocket {
 	 */
 	public void questGoalStatusNotification(QuestGoal caller,
 			EnumSet<QuestStatus> newStatus);
+
 	/**
 	 * Resets a socket and all {@link QuestGoal} instances in it to its original
 	 * status. For a quest this can mean rebuilding the quest line, for a single
 	 * quest goal it can be a simple reset.
 	 */
 	public void reset();
+
+	public GeneralQuest getQuest();
 }

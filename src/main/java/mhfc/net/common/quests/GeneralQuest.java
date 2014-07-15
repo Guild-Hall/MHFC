@@ -2,82 +2,38 @@ package mhfc.net.common.quests;
 
 import java.util.EnumSet;
 
-import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.quests.goals.QuestGoal;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class GeneralQuest implements QuestGoalSocket {
-	enum QuestType {
-		Hunting("quests.type.hunting"), EpicHunting("quest.type.epichunting"), Killing(
-				"quests.type.killing"), Gathering("quests.type.gathering");
-		QuestType(String s) {
-			this.s = s;
-		}
-		public String getAsString() {
-			return s;
-		}
-		String s;
-	}
+
 	enum QuestState {
 		pending, running, finished, resigned;
 	}
-	public static final QuestType HUNTING = QuestType.Hunting;
-	public static final QuestType EPIC_HUNTING = QuestType.EpicHunting;
-	public static final QuestType KILLING = QuestType.Killing;
-	public static final QuestType GATHERING = QuestType.Gathering;
 
-	protected QuestType type;
+	private EntityPlayer[] players;
+	private int playerCount;
+
 	protected QuestState state;
-	protected EntityMHFCBase entities[];
-	protected WorldGenerator worldGen;
 	protected QuestGoal questGoal;
+	// TODO replace with real area
+	protected String areaId;
 
 	protected int reward;
 	protected int fee;
-	protected int timeLimitInS;
 
-	protected String name;
-	protected String area;
-	protected String description;
-	protected String client;
-	protected String aims;
-	protected String fails;
-
-	public GeneralQuest(QuestType type, QuestGoal goal,
-			EntityMHFCBase entities[], int reward, int fee, int timeLimit,
-			String name, String area, String description, String client,
-			String aims, String fails) {
-		this.type = type;
+	public GeneralQuest(QuestGoal goal, int maxPartySize, int reward, int fee,
+			String areaId) {
 		this.questGoal = goal;
-		this.entities = entities;
+		this.players = new EntityPlayer[maxPartySize];
 		this.reward = reward;
 		this.fee = fee;
-		this.timeLimitInS = timeLimit;
-		this.name = name;
-		this.area = area;
-		this.description = description;
-		this.client = client;
-		this.aims = aims;
-		this.fails = fails;
-
+		this.areaId = areaId;
 		this.state = QuestState.pending;
-	}
-
-	public QuestType getType() {
-		return type;
 	}
 
 	public QuestState getState() {
 		return state;
-	}
-
-	public EntityMHFCBase[] getEntities() {
-		return entities;
-	}
-
-	public WorldGenerator getWorldGen() {
-		return worldGen;
 	}
 
 	public QuestGoal getQuestGoal() {
@@ -92,34 +48,6 @@ public class GeneralQuest implements QuestGoalSocket {
 		return fee;
 	}
 
-	public int getTimeLimitInS() {
-		return timeLimitInS;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getArea() {
-		return area;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public String getClient() {
-		return client;
-	}
-
-	public String getAims() {
-		return aims;
-	}
-
-	public String getFails() {
-		return fails;
-	}
-
 	@Override
 	public void questGoalStatusNotification(QuestGoal goal,
 			EnumSet<QuestStatus> newStatus) {
@@ -129,14 +57,26 @@ public class GeneralQuest implements QuestGoalSocket {
 
 	public boolean canJoin(EntityPlayer player) {
 		// TODO add more evaluation
-		if (state == QuestState.pending) {
+		if (state == QuestState.pending && playerCount < players.length) {
 			return true;
 		}
 		return false;
 	}
+
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
+		questGoal.reset();
+	}
 
+	@Override
+	public GeneralQuest getQuest() {
+		return this;
+	}
+
+	public void addPlayer(EntityPlayer player) {
+		if (canJoin(player)) {
+			players[playerCount] = player;
+			++playerCount;
+		}
 	}
 }

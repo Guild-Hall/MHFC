@@ -1,7 +1,9 @@
 package mhfc.net.common.quests.goals;
 
+import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
 import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
 import mhfc.net.common.quests.QuestGoalSocket;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 public class HuntingQuestGoal extends QuestGoal
@@ -15,6 +17,7 @@ public class HuntingQuestGoal extends QuestGoal
 		this.goalNumber = goalNumber;
 		this.currentNumber = 0;
 		goalHandler = new QuestGoalEventHandler<LivingDeathEvent>(this);
+		MinecraftForge.EVENT_BUS.register(goalHandler);
 	}
 
 	private int goalNumber;
@@ -35,6 +38,11 @@ public class HuntingQuestGoal extends QuestGoal
 	@Override
 	public void reset() {
 		currentNumber = 0;
+	}
+
+	@Override
+	public void questGoalFinalize() {
+		MinecraftForge.EVENT_BUS.unregister(goalHandler);
 	}
 
 	@Override

@@ -61,6 +61,7 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 			return finalFailed;
 		return thisGoal.isFailed();
 	}
+
 	@Override
 	public void questGoalStatusNotification(QuestGoal caller,
 			EnumSet<QuestStatus> newStatus) {
@@ -76,6 +77,14 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 		} else {
 			onUnknownStatusNotification(caller, newStatus);
 		}
+	}
+
+	@Override
+	public void questGoalFinalize() {
+		if (thisGoal != null)
+			thisGoal.questGoalFinalize();
+		if (next != null)
+			next.questGoalFinalize();
 	}
 
 	/**
@@ -104,6 +113,7 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 		}
 
 	}
+
 	/**
 	 * This gets called whenever this QuestGoal has notified us that it is
 	 * failed.

@@ -24,6 +24,7 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 		requisites = new LinkedList<QuestGoal>();
 		optional = new LinkedList<QuestGoal>();
 	}
+
 	/**
 	 * Adds a {@link QuestGoal} as the requisite for this QuestGoal
 	 */
@@ -34,6 +35,7 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 		requisites.add(goal);
 		notifyOfStatus(isFulfilled(), isFailed());
 	}
+
 	/**
 	 * Adds a {@link QuestGoal} as an optional one for this QuestGoal
 	 */
@@ -61,12 +63,24 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 		}
 		return failed;
 	}
+
 	@Override
 	public void questGoalStatusNotification(QuestGoal goal,
 			EnumSet<QuestStatus> newStatus) {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void questGoalFinalize() {
+		for (QuestGoal g : requisites) {
+			g.questGoalFinalize();
+		}
+		for (QuestGoal g : optional) {
+			g.questGoalFinalize();
+		}
+	}
+
 	@Override
 	public void reset() {
 		for (QuestGoal g : requisites) {
@@ -77,6 +91,7 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 		}
 		notifyOfStatus(isFulfilled(), isFailed());
 	}
+
 	@Override
 	public void setActive(boolean newActive) {
 		for (QuestGoal g : requisites) {
