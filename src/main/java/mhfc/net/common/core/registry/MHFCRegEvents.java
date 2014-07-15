@@ -25,14 +25,15 @@ public class MHFCRegEvents {
 	}
 
 	private static void registerNetworkGuiHandler() {
-		getNetworkGuiHandler(new MHFCGuiHandler());
+		getNetworkGuiHandler(MHFCGuiHandler.instance);
 	}
 
 	private static void registerNetworkEventHandlers() {
 
 	}
 
-	private static void registerWorldEventHandlers() {}
+	private static void registerWorldEventHandlers() {
+	}
 
 	private static void registerEntityEventHandlers() {
 

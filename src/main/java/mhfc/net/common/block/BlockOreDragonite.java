@@ -3,28 +3,22 @@ package mhfc.net.common.block;
 import java.util.Random;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 
-public class BlockOreDragonite extends Block{
+public class BlockOreDragonite extends Block {
 
 	public BlockOreDragonite() {
 		super(Material.rock);
-		setBlockName("oredragonite");
-		setBlockTextureName("mhfc:oredragonite");
+		setBlockName(MHFCReference.block_oredragonite_name);
+		setBlockTextureName(MHFCReference.tex_block_oredragonite);
 		setHardness(1.5F);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
-	
-	
-	
-	public int quantityDropped(Random random){
+
+	@Override
+	public int quantityDropped(Random random) {
 		return 1;
 	}
-	
-	public void registerIcons(IIconRegister par1IconRegister){
-		blockIcon = par1IconRegister.registerIcon("mhfc:oredragonite");
-	}
-	
 }

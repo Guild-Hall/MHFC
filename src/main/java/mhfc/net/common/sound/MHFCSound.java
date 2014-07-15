@@ -14,7 +14,7 @@ package mhfc.net.common.sound;
  *
  * DN: public<>? - easy access
  * DN: ArrayList < music = variable for imports;
- * DN: Resource Located <monsterhunter:(name.ogg)
+ * DN: Resource Located <monsterhunter:(main_name.ogg)
  *
  */
 

@@ -39,6 +39,7 @@ import mhfc.net.common.item.weapon.WeaponHWarPlus;
 import mhfc.net.common.item.weapon.WeaponHWarSlammer;
 import mhfc.net.common.item.weapon.WeaponLSDarkVipern;
 import mhfc.net.common.item.weapon.WeaponLSIronKatana;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.item.Item;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -207,60 +208,60 @@ public class MHFCRegItem {
 	private static void registerArmor() {
 		mhfcitemtigrexhelm = new TigrexArmor(
 				MHFCArmorMaterialHelper.ArmorTigrex, 4, 0)
-				.setUnlocalizedName("a.mhf_helm");
+				.setUnlocalizedName(MHFCReference.item_tigrexhelm_name);
 		mhfcitemkirinhelm = new KirinArmor(MHFCArmorMaterialHelper.ArmorKirin,
-				4, 0).setUnlocalizedName("b.mhf_helm");
+				4, 0).setUnlocalizedName(MHFCReference.item_kirinhelm_name);
 		mhfcitemtigrexchest = new TigrexArmor(
 				MHFCArmorMaterialHelper.ArmorTigrex, 4, 1)
-				.setUnlocalizedName("a.mhf_chest");
+				.setUnlocalizedName(MHFCReference.item_tigrexchest_name);
 		mhfcitemkirinchest = new KirinArmor(MHFCArmorMaterialHelper.ArmorKirin,
-				4, 1).setUnlocalizedName("b.mhf_chest");
+				4, 1).setUnlocalizedName(MHFCReference.item_kirinchest_name);
 		mhfcitemtigrexlegs = new TigrexArmor(
 				MHFCArmorMaterialHelper.ArmorTigrex, 4, 2)
-				.setUnlocalizedName("a.mhf_leg");
+				.setUnlocalizedName(MHFCReference.item_tigrexlegs_name);
 		mhfcitemkirinlegs = new KirinArmor(MHFCArmorMaterialHelper.ArmorKirin,
-				4, 2).setUnlocalizedName("b.mhf_legs");
+				4, 2).setUnlocalizedName(MHFCReference.item_kirinlegs_name);
 		mhfcitemtigrexboots = new TigrexArmor(
 				MHFCArmorMaterialHelper.ArmorTigrex, 4, 3)
-				.setUnlocalizedName("a.mhf_boots");
+				.setUnlocalizedName(MHFCReference.item_tigrexboots_name);
 		mhfcitemkirinboots = new KirinArmor(MHFCArmorMaterialHelper.ArmorKirin,
-				4, 3).setUnlocalizedName("b.mhf_boots");
+				4, 3).setUnlocalizedName(MHFCReference.item_kirinboots_name);
 		mhfcitemkirinShelm = new KirinSArmor(
 				MHFCArmorMaterialHelper.ArmorKirinS, 4, 0)
-				.setUnlocalizedName("c.mhf_helm");
+				.setUnlocalizedName(MHFCReference.item_kirinshelm_name);
 		mhfcitemkirinSchest = new KirinSArmor(
 				MHFCArmorMaterialHelper.ArmorKirinS, 4, 1)
-				.setUnlocalizedName("c.mhf_chest");
+				.setUnlocalizedName(MHFCReference.item_kirinschest_name);
 		mhfcitemkirinSlegs = new KirinSArmor(
 				MHFCArmorMaterialHelper.ArmorKirinS, 4, 2)
-				.setUnlocalizedName("c.mhf_leg");
+				.setUnlocalizedName(MHFCReference.item_kirinslegs_name);
 		mhfcitemkirinSboots = new KirinSArmor(
 				MHFCArmorMaterialHelper.ArmorKirinS, 4, 3)
-				.setUnlocalizedName("c.mhf_boots");
+				.setUnlocalizedName(MHFCReference.item_kirinsboots_name);
 		mhfcitemyukumohelm = new YukumoArmor(
 				MHFCArmorMaterialHelper.ArmorYukumo, 4, 0)
-				.setUnlocalizedName("d.mhf_helm");
+				.setUnlocalizedName(MHFCReference.item_yukumohelm_name);
 		mhfcitemyukumochest = new YukumoArmor(
 				MHFCArmorMaterialHelper.ArmorYukumo, 4, 1)
-				.setUnlocalizedName("d.mhf_chest");
+				.setUnlocalizedName(MHFCReference.item_yukumochest_name);
 		mhfcitemyukumolegs = new YukumoArmor(
 				MHFCArmorMaterialHelper.ArmorYukumo, 4, 2)
-				.setUnlocalizedName("d.mhf_leg");
+				.setUnlocalizedName(MHFCReference.item_yukumolegs_name);
 		mhfcitemyukumoboots = new YukumoArmor(
 				MHFCArmorMaterialHelper.ArmorYukumo, 4, 3)
-				.setUnlocalizedName("d.mhf_boots");
+				.setUnlocalizedName(MHFCReference.item_yukumoboots_name);
 		mhfcitemrathaloshelm = new RathalosArmor(
 				MHFCArmorMaterialHelper.ArmorRathalos, 4, 0)
-				.setUnlocalizedName("e.mhf_helm");
+				.setUnlocalizedName(MHFCReference.item_rathaloshelm_name);
 		mhfcitemrathaloschest = new RathalosArmor(
 				MHFCArmorMaterialHelper.ArmorRathalos, 4, 1)
-				.setUnlocalizedName("e.mhf_chest");
+				.setUnlocalizedName(MHFCReference.item_rathaloschest_name);
 		mhfcitemrathaloslegs = new RathalosArmor(
 				MHFCArmorMaterialHelper.ArmorRathalos, 4, 2)
-				.setUnlocalizedName("e.mhf_leg");
+				.setUnlocalizedName(MHFCReference.item_rahaloslegs_name);
 		mhfcitemrathalosboots = new RathalosArmor(
 				MHFCArmorMaterialHelper.ArmorRathalos, 4, 3)
-				.setUnlocalizedName("e.mhf_boots");
+				.setUnlocalizedName(MHFCReference.item_rathalosboots_name);
 
 	}
 

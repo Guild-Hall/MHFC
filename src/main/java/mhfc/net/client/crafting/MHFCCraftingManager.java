@@ -179,7 +179,8 @@ public class MHFCCraftingManager {
 				var3.add(new ItemStack((Item) var7));
 			} else {
 				if (!(var7 instanceof Block)) {
-					throw new RuntimeException("Invalid shapeless recipe!");
+					throw new RuntimeException(
+							"Invalid shapeless recipe!");
 				}
 
 				var3.add(new ItemStack((Block) var7));

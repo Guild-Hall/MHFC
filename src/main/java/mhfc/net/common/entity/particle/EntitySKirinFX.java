@@ -1,5 +1,6 @@
 package mhfc.net.common.entity.particle;
 
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
@@ -12,7 +13,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class EntitySKirinFX extends EntityFX {
 	private static final ResourceLocation texture = new ResourceLocation(
-			"mhfc:textures/particle/kirinSFX.png");
+			MHFCReference.tex_particle_kirinsfx);
 	float field_70569_a;
 
 	public EntitySKirinFX(World par1World, double par2, double par4,

@@ -5,6 +5,7 @@ import java.util.Random;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCRegPotion;
 import mhfc.net.common.tile.TileStunTrap;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.material.Material;
@@ -28,7 +29,7 @@ public class BlockStunTrap extends BlockContainer {
 		super(Material.rock);
 		setBlockBounds(1F / 16F * 5F, 0, 1F / 16F * 5F, 1F - 1F / 16F * 5F,
 				1F - 1F / 16F * 12F, 1F - 1F / 16F * 5F);
-		setBlockName("trapstun");
+		setBlockName(MHFCReference.block_stuntrap_name);
 		setHardness(0.8F);
 		disableStats();
 		setCreativeTab(MHFCMain.mhfctabs);
@@ -100,7 +101,8 @@ public class BlockStunTrap extends BlockContainer {
 
 	@Override
 	public void registerBlockIcons(IIconRegister par1IconRegister) {
-		blockIcon = par1IconRegister.registerIcon("mhfc:trapstun");
+		blockIcon = par1IconRegister
+				.registerIcon(MHFCReference.icon_block_stuntrap);
 	}
 
 	@Override

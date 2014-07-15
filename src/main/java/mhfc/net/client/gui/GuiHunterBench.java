@@ -1,6 +1,7 @@
 package mhfc.net.client.gui;
 
 import mhfc.net.client.container.ContainerHunterBench;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -15,13 +16,11 @@ public class GuiHunterBench extends GuiContainer {
 				par4, par5));
 	}
 
-	public static ResourceLocation BigCrafting = new ResourceLocation(
-			"mhfc:textures/gui/bench.png");
-
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-		this.fontRendererObj.drawString("Hunter's Bench", 40 + 5, -10 - 10,
-				4210752);
+		this.fontRendererObj.drawString(StatCollector
+				.translateToLocal(MHFCReference.gui_huntingbench_name), 40 + 5,
+				-10 - 10, 4210752);
 		this.fontRendererObj.drawString(
 				StatCollector.translateToLocal("container.inventory"), 50 + 14,
 				this.ySize - 96 - 10 - 19, 4210752);
@@ -31,7 +30,8 @@ public class GuiHunterBench extends GuiContainer {
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2,
 			int par3) {
 
-		this.mc.getTextureManager().bindTexture(BigCrafting);
+		this.mc.getTextureManager().bindTexture(
+				new ResourceLocation(MHFCReference.tex_gui_benchback));
 
 		this.ySize = 231;
 		this.xSize = 176;
