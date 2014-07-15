@@ -4,6 +4,8 @@ import java.util.Random;
 
 import mhfc.net.client.model.mob.boss.ModelKirin;
 import mhfc.net.common.entity.mob.EntityKirin;
+import mhfc.net.common.util.lib.MHFCReference;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
@@ -35,7 +37,7 @@ public class RenderKirin extends RenderLiving {
 	}
 
 	protected ResourceLocation func_110870_a(EntityKirin par1) {
-		return texture;
+		return new ResourceLocation(MHFCReference.tex_mob_kirin);
 	}
 
 	/**

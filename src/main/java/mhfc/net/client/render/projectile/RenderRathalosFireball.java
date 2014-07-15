@@ -1,6 +1,7 @@
 package mhfc.net.client.render.projectile;
 
 import mhfc.net.client.model.projectile.ModelRathalosFireball;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
@@ -14,9 +15,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderRathalosFireball extends Render {
 	private ModelRathalosFireball model;
-	private static final ResourceLocation texture = new ResourceLocation(
-			"mhfc:textures/projectile/rathalosfireball.png");
-
 	public RenderRathalosFireball() {
 		model = new ModelRathalosFireball();
 	}
@@ -44,7 +42,7 @@ public class RenderRathalosFireball extends Render {
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return texture;
+		return new ResourceLocation(MHFCReference.tex_entity_rathalosfireball);
 	}
 
 }

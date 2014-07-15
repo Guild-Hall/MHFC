@@ -9,7 +9,6 @@ import java.util.Set;
 import mhfc.net.common.entity.mob.EntityKirin;
 import mhfc.net.common.entity.mob.EntityPopo;
 import mhfc.net.common.entity.mob.EntityRathalos;
-import mhfc.net.common.entity.mob.EntityTest;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -169,8 +168,7 @@ public class MHFCMobList {
 				: null;
 	}
 
-	public static void func_151514_a() {
-	}
+	public static void func_151514_a() {}
 
 	public static Set<String> getRegisteredNames() {
 		return Collections.unmodifiableSet(stringToIDMapping.keySet());
@@ -184,7 +182,6 @@ public class MHFCMobList {
 		addMapping(EntityKirin.class, "mhfc.kirin", 303, 0xfff85814, 0xff851f15);
 		addMapping(EntityRathalos.class, "mhfc.rathalos", 304, 0xff749819,
 				0xf838818);
-		addMapping(EntityTest.class, "mhfc.test", 305, 0xff749819, 0xf838818);
 	}
 
 	public static class MHFCEggInfo {

@@ -20,7 +20,7 @@ public class MHFCTab extends CreativeTabs{
 	
 	public String getTranslatedTabLabel()
 	{
-	return "MHFC Tab"; //The name of the tab ingame
+	return "MHFC Tab"; //The main_name of the tab ingame
 	}
 
 

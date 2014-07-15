@@ -3,8 +3,6 @@ package mhfc.net.client.model.mhfcmodel.animation.stored;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import mhfc.net.MHFCMain;
-
 import org.lwjgl.util.vector.Vector2f;
 
 public class BSplineInterpolation extends Spline {
@@ -26,8 +24,6 @@ public class BSplineInterpolation extends Spline {
 
 	public BSplineInterpolation(Vector2f left, Vector2f leftHandle,
 			Vector2f rightHandle, Vector2f right) {
-		MHFCMain.logger
-				.debug("Not supporting bspline interpolation yet, using linear");
 		this.left = left;
 		this.leftHandle = leftHandle;
 		this.rightHandle = rightHandle;

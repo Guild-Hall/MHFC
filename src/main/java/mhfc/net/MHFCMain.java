@@ -27,17 +27,14 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
  * @license MHFModding Team Copyright
  *          (http://www.minecraftforum.net/topic/1977334
  *          -164spmp-monster-hunter-frontier
- *          -craft-extreme-mob-hunting-adventure-15000-downloads/)
- *          Visit www.mhfrontiercraft.blogspot.com for more info.
+ *          -craft-extreme-mob-hunting-adventure-15000-downloads/) Visit
+ *          www.mhfrontiercraft.blogspot.com for more info.
  */
 
-@Mod(modid = MHFCReference.modid,
-		name = MHFCReference.name,
-		version = MHFCReference.version)
+@Mod(modid = MHFCReference.main_modid, name = MHFCReference.main_name, version = MHFCReference.main_version)
 public class MHFCMain {
 
-	@SidedProxy(clientSide = "mhfc.net.client.MHFCClient",
-			serverSide = "mhfc.net.common.MHFCCommon")
+	@SidedProxy(clientSide = "mhfc.net.client.MHFCClient", serverSide = "mhfc.net.common.MHFCCommon")
 	public static MHFCCommon proxy;
 
 	@Mod.Instance("mhfc")
@@ -76,7 +73,8 @@ public class MHFCMain {
 	}
 
 	public static void sendPacketToAll(EntityPlayer player, Packet packet) {
-		if (isEffectiveClient()) return;
+		if (isEffectiveClient())
+			return;
 		((EntityPlayerMP) player).mcServer.getConfigurationManager()
 				.sendPacketToAllPlayers(packet);
 	}

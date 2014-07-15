@@ -1,6 +1,7 @@
 package mhfc.net.client.render.item;
 
 import mhfc.net.client.model.block.ModelStunTrap;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -53,8 +54,8 @@ public class RenderItemStunTrap implements IItemRenderer {
 		float scale = 0.1225F;
 		// Tessellator tess = Tessellator.instance;
 		GL11.glPushMatrix();
-		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(
-				"mhfc:textures/tile/stuntrap.png"));
+		Minecraft.getMinecraft().renderEngine
+				.bindTexture(new ResourceLocation(MHFCReference.tex_tile_stuntrap));
 		GL11.glTranslatef(x, y, z);
 		GL11.glRotatef(rotateX, rotateY, rotateZ, angle);
 		model.renderModel(scale);

@@ -3,28 +3,23 @@ package mhfc.net.common.block;
 import java.util.Random;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 
-public class BlockMachalite extends Block{
+public class BlockMachalite extends Block {
 
 	public BlockMachalite() {
 		super(Material.rock);
-		setBlockName("machalite");
-		setBlockTextureName("mhfc:machalite");
+		setBlockName(MHFCReference.block_machalite_name);
+		setBlockTextureName(MHFCReference.tex_block_machalite);
 		setHardness(1.1F);
 		setResistance(1.0F);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
-	
-	
-	
-	public int quantityDropped(Random random){
+
+	@Override
+	public int quantityDropped(Random random) {
 		return 1;
-	}
-	
-	public void registerIcons(IIconRegister par1IconRegister){
-		blockIcon = par1IconRegister.registerIcon("mhfc:machalite");
 	}
 }

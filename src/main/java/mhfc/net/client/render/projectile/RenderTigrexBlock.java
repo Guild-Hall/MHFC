@@ -1,5 +1,6 @@
 package mhfc.net.client.render.projectile;
 
+import static org.lwjgl.opengl.GL11.GL_LIGHTING;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
@@ -31,14 +32,14 @@ public class RenderTigrexBlock extends Render {
 		GL11.glRotatef((entity.ticksExisted + f1) * 20.0F, 1.0F, 0.0F, 0.0F);
 		GL11.glRotatef((entity.ticksExisted + f1) * 12.0F, 0.0F, 0.0F, -1.0F);
 		bindEntityTexture(entity);
-		GL11.glDisable(2896);
+		GL11.glDisable(GL_LIGHTING);
 		field_147909_c.setRenderBoundsFromBlock(Blocks.dirt);
 		int x = MathHelper.floor_double(entity.posX);
 		int y = MathHelper.floor_double(entity.posY);
 		int z = MathHelper.floor_double(entity.posZ);
 		field_147909_c.renderBlockSandFalling(Blocks.dirt, entity.worldObj, x,
 				y, z, 0);
-		GL11.glEnable(2896);
+		GL11.glEnable(GL_LIGHTING);
 		GL11.glPopMatrix();
 
 	}

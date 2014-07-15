@@ -2,6 +2,7 @@ package mhfc.net.client.render.mob;
 
 import mhfc.net.client.model.mob.boss.ModelRathalos;
 import mhfc.net.common.entity.mob.EntityRathalos;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,7 +18,7 @@ public class RenderRathalos extends RenderLiving {
 	private float scale;
 	private static final ResourceLocation texture = new ResourceLocation(
 			"mhfc:textures/mobs/rathalos.png");
-
+	
 	public RenderRathalos(ModelRathalos par1ModelBase, float par2, float par3) {
 		super(par1ModelBase, par2 * par3);
 		this.scale = par3;
@@ -31,7 +32,7 @@ public class RenderRathalos extends RenderLiving {
 	}
 
 	protected ResourceLocation func_110870_a(EntityRathalos par1) {
-		return texture;
+		return new ResourceLocation(MHFCReference.tex_mob_rathalos);
 	}
 
 	/**

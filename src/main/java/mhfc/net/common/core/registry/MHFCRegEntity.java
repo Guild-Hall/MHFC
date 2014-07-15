@@ -4,10 +4,10 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.entity.mob.EntityKirin;
 import mhfc.net.common.entity.mob.EntityPopo;
 import mhfc.net.common.entity.mob.EntityRathalos;
-import mhfc.net.common.entity.mob.EntityTest;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityTigrexBlock;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.Entity;
 import cpw.mods.fml.common.registry.EntityRegistry;
 
@@ -26,17 +26,18 @@ public class MHFCRegEntity {
 
 	public static void registerMonster() {
 
-		getMobID(EntityPopo.class, "popo");
-		getMobID(EntityTigrex.class, "tigrex");
-		getMobID(EntityKirin.class, "kirin");
-		getMobID(EntityRathalos.class, "rathalos");
-		getMobID(EntityTest.class, "test");
+		getMobID(EntityPopo.class, MHFCReference.mob_popo_name);
+		getMobID(EntityTigrex.class, MHFCReference.mob_tigrex_name);
+		getMobID(EntityKirin.class, MHFCReference.mob_kirin_name);
+		getMobID(EntityRathalos.class, MHFCReference.mob_rathalos_name);
 	}
 
 	public static void registerOthers() {
 
-		getEntityID(EntityTigrexBlock.class, "TigrexBlock");
-		getEntityID(EntityRathalosFireball.class, "Fireball");
+		getEntityID(EntityTigrexBlock.class,
+				MHFCReference.entity_tigrexBlock_name);
+		getEntityID(EntityRathalosFireball.class,
+				MHFCReference.entity_rathalosFireball_name);
 	}
 
 	private static void getMobID(Class<? extends Entity> entityClass,

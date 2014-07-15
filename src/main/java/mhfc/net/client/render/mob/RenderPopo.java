@@ -2,6 +2,8 @@ package mhfc.net.client.render.mob;
 
 import mhfc.net.client.model.mob.ModelPopo;
 import mhfc.net.common.entity.mob.EntityPopo;
+import mhfc.net.common.util.lib.MHFCReference;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -31,7 +33,7 @@ public class RenderPopo extends RenderLiving {
 	}
 
 	protected ResourceLocation func_110870_a(EntityPopo par1) {
-		return texture;
+		return new ResourceLocation(MHFCReference.tex_mob_popo);
 	}
 
 	/**
