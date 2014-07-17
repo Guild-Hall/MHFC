@@ -64,11 +64,11 @@ public class EntityRathalos extends EntityWyvernHostile implements iMHFC {
 	}
 	@Override
 	protected String getLivingSound() {
-		return MHFCReference.sound_mob_rathalos_say;
+		return MHFCReference.mob_rathalos_sound_say;
 	}
 	@Override
 	protected String getHurtSound() {
-		return MHFCReference.sound_mob_rathalos_hurt;
+		return MHFCReference.mob_rathalos_sound_hurt;
 	}
 
 	@Override

@@ -23,7 +23,7 @@ public class BlockWyverniaGrass extends Block {
 	public BlockWyverniaGrass() {
 		super(Material.grass);
 		setBlockName(MHFCReference.block_wyveriangrass_name);
-		setBlockTextureName(MHFCReference.tex_block_wyveriangrass);
+		setBlockTextureName(MHFCReference.block_wyveriangrass_tex);
 		setHardness(0.8F);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}

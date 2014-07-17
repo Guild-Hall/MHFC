@@ -6,6 +6,7 @@ import java.util.Random;
 import mhfc.net.common.entity.mob.EntityKirin;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.item.weapon.type.SiegeClass;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -22,7 +23,7 @@ public class WeaponHKirinSpark extends SiegeClass {
 
 	public WeaponHKirinSpark(ToolMaterial getType) {
 		super(getType);
-		setUnlocalizedName("hammer_2");
+		setUnlocalizedName(MHFCReference.weapon_hm_kirin_name);
 		setFull3D();
 		rand = new Random();
 		weaponDamage = getType.getDamageVsEntity() - 4;
@@ -45,7 +46,8 @@ public class WeaponHKirinSpark extends SiegeClass {
 
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
-		itemIcon = par1IconRegister.registerIcon("mhfc:hammer");
+		itemIcon = par1IconRegister
+				.registerIcon(MHFCReference.weapon_hm_kirin_icon);
 	}
 
 	public float getDamageVsEntity(Entity entity) {

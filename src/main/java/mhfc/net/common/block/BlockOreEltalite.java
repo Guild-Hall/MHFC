@@ -12,7 +12,7 @@ public class BlockOreEltalite extends Block {
 	public BlockOreEltalite() {
 		super(Material.rock);
 		setBlockName(MHFCReference.block_oreeltalite_name);
-		setBlockTextureName(MHFCReference.tex_block_oreeltalite);
+		setBlockTextureName(MHFCReference.block_oreeltalite_tex);
 		setHardness(1.7F);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}

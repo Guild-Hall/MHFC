@@ -14,7 +14,7 @@ public class BlockWyverniaClay extends Block {
 	public BlockWyverniaClay() {
 		super(Material.clay);
 		setBlockName(MHFCReference.block_wyverianclay_name);
-		setBlockTextureName(MHFCReference.tex_block_wyverianclay);
+		setBlockTextureName(MHFCReference.block_wyverianclay_tex);
 		setHardness(0.9f);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}

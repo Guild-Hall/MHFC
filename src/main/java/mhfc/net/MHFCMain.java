@@ -38,8 +38,7 @@ public class MHFCMain {
 	public static MHFCMain instance;
 
 	public static final PacketPipeline packetPipeline = new PacketPipeline();
-	public static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID(),
-			MHFCReference.gui_tab_name);
+	public static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID());
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent pre) {

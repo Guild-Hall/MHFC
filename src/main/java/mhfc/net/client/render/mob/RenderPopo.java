@@ -29,7 +29,7 @@ public class RenderPopo extends RenderLiving {
 	}
 
 	protected ResourceLocation func_110870_a(EntityPopo par1) {
-		return new ResourceLocation(MHFCReference.tex_mob_popo);
+		return new ResourceLocation(MHFCReference.mob_popo_tex);
 	}
 
 	/**

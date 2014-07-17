@@ -57,7 +57,7 @@ public class AITigrexThrow extends AIAnimation<EntityTigrex> {
 		if (entity.animTick == 12) {
 			float f = 0.7F + this.rand.nextFloat() * 0.2F;
 			entity.worldObj.playSoundAtEntity(entity,
-					MHFCReference.sound_mob_tigrex_say, 0.8f, f);
+					MHFCReference.mob_tigrex_sound_say, 0.8f, f);
 			EntityTigrexBlock block = new EntityTigrexBlock(entity.worldObj,
 					entity);
 			block.posY += 0.00000976158142D;

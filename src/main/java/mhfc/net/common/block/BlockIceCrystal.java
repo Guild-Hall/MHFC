@@ -12,7 +12,7 @@ public class BlockIceCrystal extends Block {
 	public BlockIceCrystal() {
 		super(Material.rock);
 		setBlockName(MHFCReference.block_icecrystal_name);
-		setBlockTextureName(MHFCReference.tex_block_icecrystal);
+		setBlockTextureName(MHFCReference.block_icecrystal_tex);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

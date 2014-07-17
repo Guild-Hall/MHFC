@@ -12,7 +12,7 @@ public class BlockWyverniaDirt extends Block {
 	public BlockWyverniaDirt() {
 		super(Material.ground);
 		setBlockName(MHFCReference.block_wyveriandirt_name);
-		setBlockTextureName(MHFCReference.tex_block_wyveriandirt);
+		setBlockTextureName(MHFCReference.block_wyveriandirt_tex);
 		setHardness(0.8F);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}

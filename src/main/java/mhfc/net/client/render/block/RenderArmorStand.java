@@ -24,7 +24,7 @@ public class RenderArmorStand extends TileEntitySpecialRenderer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glTranslatef((float) x + 0.5F, (float) y - -1.5F, (float) z + 0.5F);
 		GL11.glRotatef(180F, 0F, 0F, 1F);
-		bindTexture(new ResourceLocation(MHFCReference.tex_tile_armorstand));
+		bindTexture(new ResourceLocation(MHFCReference.tile_armorstand_tex));
 		GL11.glPushMatrix();
 		model.renderModel(0.0625F);
 		GL11.glPopMatrix();

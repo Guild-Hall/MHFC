@@ -12,7 +12,7 @@ public class BlockWyverniaStone extends Block {
 	public BlockWyverniaStone() {
 		super(Material.rock);
 		setBlockName(MHFCReference.block_wyverianstone_name);
-		setBlockTextureName(MHFCReference.tex_block_wyverianstone);
+		setBlockTextureName(MHFCReference.block_wyverianstone_tex);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

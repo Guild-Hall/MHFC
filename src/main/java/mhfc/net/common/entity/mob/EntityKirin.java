@@ -50,7 +50,7 @@ public class EntityKirin extends EntityWyvernHostile implements iMHFC {
 
 	@Override
 	protected String getLivingSound() {
-		return MHFCReference.sound_mob_kirin_say;
+		return MHFCReference.mob_kirin_sound_say;
 	}
 
 	@Override

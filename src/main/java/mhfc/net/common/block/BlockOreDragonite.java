@@ -12,7 +12,7 @@ public class BlockOreDragonite extends Block {
 	public BlockOreDragonite() {
 		super(Material.rock);
 		setBlockName(MHFCReference.block_oredragonite_name);
-		setBlockTextureName(MHFCReference.tex_block_oredragonite);
+		setBlockTextureName(MHFCReference.block_oredragonite_tex);
 		setHardness(1.5F);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}

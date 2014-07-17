@@ -5,6 +5,7 @@ import java.util.List;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCRegItem;
 import mhfc.net.common.helper.MHFCArmorModelHelper;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -17,6 +18,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class KirinArmor extends ItemArmor {
+	private static final String[] icons_array = {
+			MHFCReference.armor_kirin_helm_icon,
+			MHFCReference.armor_kirin_chest_icon,
+			MHFCReference.armor_kirin_legs_icon,
+			MHFCReference.armor_kirin_boots_icon};
 
 	// private Random rand;
 	// private int param;
@@ -32,7 +38,7 @@ public class KirinArmor extends ItemArmor {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister) {
-		this.itemIcon = iconRegister.registerIcon("mhfc:mhf_" + this.armorType);
+		this.itemIcon = iconRegister.registerIcon(icons_array[this.armorType]);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -50,10 +56,10 @@ public class KirinArmor extends ItemArmor {
 		if (stack.getItem() == MHFCRegItem.mhfcitemkirinhelm
 				|| stack.getItem() == MHFCRegItem.mhfcitemkirinchest
 				|| stack.getItem() == MHFCRegItem.mhfcitemkirinboots) {
-			return "mhfc:textures/armor/kirin_layer_1.png";
+			return MHFCReference.armor_kirin_tex1;
 		}
 		if (stack.getItem() == MHFCRegItem.mhfcitemkirinlegs) {
-			return "mhfc:textures/armor/kirin_layer_2.png";
+			return MHFCReference.armor_kirin_tex2;
 		}
 		return null;
 	}

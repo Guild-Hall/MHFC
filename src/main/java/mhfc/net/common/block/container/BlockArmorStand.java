@@ -44,7 +44,7 @@ public class BlockArmorStand extends BlockContainer {
 	@Override
 	public void registerBlockIcons(IIconRegister par1IconRegister) {
 		blockIcon = par1IconRegister
-				.registerIcon(MHFCReference.icon_block_armorstand);
+				.registerIcon(MHFCReference.block_armorstand_icon);
 	}
 
 }

@@ -83,7 +83,7 @@ public class AITigrexRoar extends AIAnimation<EntityTigrex> {
 
 			float f = 0.7F + this.rand.nextFloat() * 0.2F;
 			entity.worldObj.playSoundAtEntity(entity,
-					MHFCReference.sound_mob_tigrex_roar, 0.8f, f);
+					MHFCReference.mob_tigrex_sound_roar, 0.8f, f);
 
 		}
 	}

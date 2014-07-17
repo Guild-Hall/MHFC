@@ -12,7 +12,7 @@ public class BlockDiscstone extends Block {
 	public BlockDiscstone() {
 		super(Material.rock);
 		setBlockName(MHFCReference.block_discstone_name);
-		setBlockTextureName(MHFCReference.tex_block_discstone);
+		setBlockTextureName(MHFCReference.block_discstone_tex);
 		setHardness(1.3F);
 		setResistance(2.0F);
 		setCreativeTab(MHFCMain.mhfctabs);

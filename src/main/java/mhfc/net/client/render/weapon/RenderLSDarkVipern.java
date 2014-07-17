@@ -27,7 +27,7 @@ public class RenderLSDarkVipern implements IItemRenderer {
 				GL11.glScalef(scale, scale, scale);
 				GL11.glPushMatrix(); // start gl rendering for this section
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.tex_weapons_ls_darkviper));
+						.bindTexture(new ResourceLocation(MHFCReference.weapon_ls_darkviper_tex));
 				GL11.glRotatef(0F, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(-5F, 0.0f, 1.0f, 0.0f);
 				GL11.glRotatef(-120F, 0.0f, 0.0f, 1.0f);
@@ -48,7 +48,7 @@ public class RenderLSDarkVipern implements IItemRenderer {
 				scale = 1.4F;
 				GL11.glScalef(scale, scale, scale);
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.tex_weapons_ls_darkviper));
+						.bindTexture(new ResourceLocation(MHFCReference.weapon_ls_darkviper_tex));
 				GL11.glRotatef(0F, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(-5F, 0.0f, 1.0f, 0.0f);
 				GL11.glRotatef(-150F, 0.0f, 0.0f, 1.0f);
@@ -63,7 +63,7 @@ public class RenderLSDarkVipern implements IItemRenderer {
 				scale = 2F;
 				GL11.glScalef(scale, scale, scale);
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.tex_weapons_ls_darkviper));
+						.bindTexture(new ResourceLocation(MHFCReference.weapon_ls_darkviper_tex));
 				GL11.glRotatef(90F, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(0F, 0.0f, 1.0f, 0.0f);
 				GL11.glRotatef(45F, 0.0f, 0.0f, 1.0f);
@@ -78,7 +78,7 @@ public class RenderLSDarkVipern implements IItemRenderer {
 				scale = 1F;
 				GL11.glScalef(scale, scale, scale);
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.tex_weapons_ls_darkviper));
+						.bindTexture(new ResourceLocation(MHFCReference.weapon_ls_darkviper_tex));
 
 				GL11.glRotatef(200F, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(-80F, 0.0f, 1.0f, 0.0f);
