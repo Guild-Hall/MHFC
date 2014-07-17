@@ -12,7 +12,7 @@ public class BlockEltalite extends Block {
 	public BlockEltalite() {
 		super(Material.rock);
 		setBlockName(MHFCReference.block_eltalite_name);
-		setBlockTextureName(MHFCReference.tex_block_eltalite);
+		setBlockTextureName(MHFCReference.block_eltalite_tex);
 		setHardness(1.5F);
 		setResistance(1.0F);
 		setCreativeTab(MHFCMain.mhfctabs);

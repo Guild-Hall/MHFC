@@ -102,7 +102,7 @@ public class BlockStunTrap extends BlockContainer {
 	@Override
 	public void registerBlockIcons(IIconRegister par1IconRegister) {
 		blockIcon = par1IconRegister
-				.registerIcon(MHFCReference.icon_block_stuntrap);
+				.registerIcon(MHFCReference.block_stuntrap_icon);
 	}
 
 	@Override

@@ -3,12 +3,21 @@ package mhfc.net.common.item;
 import java.util.List;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ItemKirin extends Item {
+	private static final String[] itemNames = {MHFCReference.item_kirin0_name,
+			MHFCReference.item_kirin1_name, MHFCReference.item_kirin2_name,
+			MHFCReference.item_kirin3_name, MHFCReference.item_kirin4_name,
+			MHFCReference.item_kirin5_name};
+	private static final String[] itemIcons = {MHFCReference.item_kirin_icon0,
+			MHFCReference.item_kirin_icon1, MHFCReference.item_kirin_icon2,
+			MHFCReference.item_kirin_icon3, MHFCReference.item_kirin_icon4,
+			MHFCReference.item_kirin_icon5};
 
 	public int meta;
 
@@ -16,13 +25,13 @@ public class ItemKirin extends Item {
 		super();
 		setHasSubtypes(true);
 		meta = metaData;
-		setUnlocalizedName("kirin" + meta);
+		setUnlocalizedName(itemNames[meta]);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
-		this.itemIcon = par1IconRegister.registerIcon("mhfc:kirin" + meta);
+		this.itemIcon = par1IconRegister.registerIcon(itemIcons[meta]);
 	}
 
 	@Override

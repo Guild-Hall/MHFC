@@ -15,9 +15,9 @@ import net.minecraft.util.IIcon;
 // TODO
 public class BlockIngots extends Block {
 	private static final String[] ingotIconNames = new String[]{
-			MHFCReference.tex_block_blockingot_0,
-			MHFCReference.tex_block_blockingot_1,
-			MHFCReference.tex_block_blockingot_2};
+			MHFCReference.block_blockingot0_tex,
+			MHFCReference.block_blockingot1_tex,
+			MHFCReference.block_blockingot2_tex};
 	private IIcon[] textures;
 
 	public BlockIngots() {

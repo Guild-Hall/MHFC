@@ -19,7 +19,7 @@ public class GuiHunterBench extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 		this.fontRendererObj.drawString(StatCollector
-				.translateToLocal(MHFCReference.gui_huntingbench_name), 40 + 5,
+				.translateToLocal(MHFCReference.gui_hunterbench_name), 40 + 5,
 				-10 - 10, 4210752);
 		this.fontRendererObj.drawString(
 				StatCollector.translateToLocal("container.inventory"), 50 + 14,
@@ -31,7 +31,7 @@ public class GuiHunterBench extends GuiContainer {
 			int par3) {
 
 		this.mc.getTextureManager().bindTexture(
-				new ResourceLocation(MHFCReference.tex_gui_benchback));
+				new ResourceLocation(MHFCReference.gui_hunterbench_back_tex));
 
 		this.ySize = 231;
 		this.xSize = 176;

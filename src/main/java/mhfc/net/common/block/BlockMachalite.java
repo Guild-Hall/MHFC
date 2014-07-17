@@ -12,7 +12,7 @@ public class BlockMachalite extends Block {
 	public BlockMachalite() {
 		super(Material.rock);
 		setBlockName(MHFCReference.block_machalite_name);
-		setBlockTextureName(MHFCReference.tex_block_machalite);
+		setBlockTextureName(MHFCReference.block_machalite_tex);
 		setHardness(1.1F);
 		setResistance(1.0F);
 		setCreativeTab(MHFCMain.mhfctabs);

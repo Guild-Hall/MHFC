@@ -25,7 +25,7 @@ public class RenderGSTigrex implements IItemRenderer {
 			case EQUIPPED : // render in third person
 				GL11.glPushMatrix(); // start gl rendering for this section
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.tex_weapons_gs_tigrexagito));
+						.bindTexture(new ResourceLocation(MHFCReference.weapon_gs_tigrexagito_tex));
 				GL11.glRotatef(0F, 1.0f, 0.0f, 0.0f); // rotate 0 ° on X axis
 				GL11.glRotatef(-5F, 0.0f, 1.0f, 0.0f); // rotate -5 ° on Y axis
 				GL11.glRotatef(-120F, 0.0f, 0.0f, 1.0f); // rotate -150 ° on Z
@@ -44,7 +44,7 @@ public class RenderGSTigrex implements IItemRenderer {
 				// as needed
 				GL11.glPushMatrix();
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.tex_weapons_gs_tigrexagito));
+						.bindTexture(new ResourceLocation(MHFCReference.weapon_gs_tigrexagito_tex));
 				GL11.glRotatef(0F, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(-5F, 0.0f, 1.0f, 0.0f);
 				GL11.glRotatef(-150F, 0.0f, 0.0f, 1.0f);
@@ -59,7 +59,7 @@ public class RenderGSTigrex implements IItemRenderer {
 				float scale = 1.5F;
 				GL11.glScalef(scale, scale, scale);
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.tex_weapons_gs_tigrexagito));
+						.bindTexture(new ResourceLocation(MHFCReference.weapon_gs_tigrexagito_tex));
 				GL11.glRotatef(90F, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(0F, 0.0f, 1.0f, 0.0f);
 				GL11.glRotatef(45F, 0.0f, 0.0f, 1.0f);
@@ -74,7 +74,7 @@ public class RenderGSTigrex implements IItemRenderer {
 				scale = 0.7F;
 				GL11.glScalef(scale, scale, scale);
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.tex_weapons_gs_tigrexagito));
+						.bindTexture(new ResourceLocation(MHFCReference.weapon_gs_tigrexagito_tex));
 
 				GL11.glRotatef(200F, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(-80F, 0.0f, 1.0f, 0.0f);

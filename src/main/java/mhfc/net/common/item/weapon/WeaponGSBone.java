@@ -4,6 +4,7 @@ import java.util.List;
 
 import mhfc.net.common.entity.mob.EntityKirin;
 import mhfc.net.common.item.weapon.type.SemiLethalClass;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,9 +18,8 @@ public class WeaponGSBone extends SemiLethalClass {
 
 	public WeaponGSBone(ToolMaterial getType) {
 		super(getType);
-		setUnlocalizedName("greatsword_1");
+		setUnlocalizedName(MHFCReference.weapon_gs_bone_name);
 		weaponDamage = getType.getDamageVsEntity() - 4;
-		setFull3D();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -38,7 +38,8 @@ public class WeaponGSBone extends SemiLethalClass {
 
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
-		itemIcon = par1IconRegister.registerIcon("mhfc:greatsword");
+		itemIcon = par1IconRegister
+				.registerIcon(MHFCReference.weapon_gs_bone_icon);
 	}
 
 	public float getDamageVsEntity(Entity entity) {

@@ -42,7 +42,7 @@ public class RenderRathalosFireball extends Render {
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return new ResourceLocation(MHFCReference.tex_entity_rathalosfireball);
+		return new ResourceLocation(MHFCReference.entity_rathalosfireball_tex);
 	}
 
 }

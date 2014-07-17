@@ -15,7 +15,7 @@ public class BlockDragonite extends Block {
 	public BlockDragonite() {
 		super(Material.rock);
 		setBlockName(MHFCReference.block_dragonite_name);
-		setBlockTextureName(MHFCReference.tex_block_dragonite);
+		setBlockTextureName(MHFCReference.block_dragonite_tex);
 		setHardness(1.4F);
 		setResistance(1.0F);
 		setCreativeTab(MHFCMain.mhfctabs);

@@ -12,7 +12,7 @@ public class BlockCarbalite extends Block {
 	public BlockCarbalite() {
 		super(Material.rock);
 		setBlockName(MHFCReference.block_carbalite_name);
-		setBlockTextureName(MHFCReference.tex_block_carbalite);
+		setBlockTextureName(MHFCReference.block_carbalite_tex);
 		setHardness(1.3F);
 		setResistance(2.0F);
 		setCreativeTab(MHFCMain.mhfctabs);

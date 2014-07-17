@@ -55,7 +55,7 @@ public class RenderItemStunTrap implements IItemRenderer {
 		// Tessellator tess = Tessellator.instance;
 		GL11.glPushMatrix();
 		Minecraft.getMinecraft().renderEngine
-				.bindTexture(new ResourceLocation(MHFCReference.tex_tile_stuntrap));
+				.bindTexture(new ResourceLocation(MHFCReference.tile_stuntrap_tex));
 		GL11.glTranslatef(x, y, z);
 		GL11.glRotatef(rotateX, rotateY, rotateZ, angle);
 		model.renderModel(scale);

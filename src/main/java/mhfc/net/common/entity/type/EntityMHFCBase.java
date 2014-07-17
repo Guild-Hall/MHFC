@@ -239,7 +239,7 @@ public abstract class EntityMHFCBase extends EntityLiving
 	/**
 	 * Convenience function, no checks, just offset
 	 */
-	private final void offsetEntity(double offX, double offY, double offZ) {
+	private void offsetEntity(double offX, double offY, double offZ) {
 		this.boundingBox.offset(offX, offY, offZ);
 
 		this.posX += offX;

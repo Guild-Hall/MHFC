@@ -37,7 +37,7 @@ public class RenderKirin extends RenderLiving {
 	}
 
 	protected ResourceLocation func_110870_a(EntityKirin par1) {
-		return new ResourceLocation(MHFCReference.tex_mob_kirin);
+		return new ResourceLocation(MHFCReference.mob_kirin_tex);
 	}
 
 	/**

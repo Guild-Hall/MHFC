@@ -32,7 +32,7 @@ public class RenderRathalos extends RenderLiving {
 	}
 
 	protected ResourceLocation func_110870_a(EntityRathalos par1) {
-		return new ResourceLocation(MHFCReference.tex_mob_rathalos);
+		return new ResourceLocation(MHFCReference.mob_rathalos_tex);
 	}
 
 	/**

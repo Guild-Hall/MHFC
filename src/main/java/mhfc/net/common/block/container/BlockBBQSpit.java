@@ -40,7 +40,7 @@ public class BlockBBQSpit extends BlockContainer {
 	@Override
 	public void registerBlockIcons(IIconRegister par1IconRegister) {
 		blockIcon = par1IconRegister
-				.registerIcon(MHFCReference.icon_block_bbqspit);
+				.registerIcon(MHFCReference.block_bbqspit_icon);
 	}
 
 }

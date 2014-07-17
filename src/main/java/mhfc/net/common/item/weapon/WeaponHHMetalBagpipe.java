@@ -6,6 +6,7 @@ import mhfc.net.common.entity.mob.EntityKirin;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.item.weapon.type.SiegeClass;
 import mhfc.net.common.util.Cooldown;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -25,7 +26,7 @@ public class WeaponHHMetalBagpipe extends SiegeClass {
 												// 20 ticks.
 	public WeaponHHMetalBagpipe(ToolMaterial getType) {
 		super(getType);
-		setUnlocalizedName("huntinghorn_1");
+		setUnlocalizedName(MHFCReference.weapon_hh_metalbagpipe_name);
 
 		weaponDamage = getType.getDamageVsEntity() - 4;
 
@@ -46,7 +47,8 @@ public class WeaponHHMetalBagpipe extends SiegeClass {
 
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
-		itemIcon = par1IconRegister.registerIcon("mhfc:huntinghorn");
+		itemIcon = par1IconRegister
+				.registerIcon(MHFCReference.weapon_hh_metalbagpipe_icon);
 	}
 
 	@Override

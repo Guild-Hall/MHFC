@@ -12,7 +12,7 @@ public class BlockOreArmorSphere extends Block {
 	public BlockOreArmorSphere() {
 		super(Material.rock);
 		setBlockName(MHFCReference.block_orearmorshpere_name);
-		setBlockTextureName(MHFCReference.tex_block_orearmorsphere);
+		setBlockTextureName(MHFCReference.block_orearmorsphere_tex);
 		setHardness(1.3F);
 		setResistance(2.0F);
 		setCreativeTab(MHFCMain.mhfctabs);

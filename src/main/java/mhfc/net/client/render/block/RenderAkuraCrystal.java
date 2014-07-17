@@ -20,7 +20,7 @@ public class RenderAkuraCrystal extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x + 0.5F, (float) y - -4.5F, (float) z + 0.5F);
 		GL11.glRotatef(180F, 0F, 0F, 1F);
-		bindTexture(new ResourceLocation(MHFCReference.tex_tile_akuracrystal));
+		bindTexture(new ResourceLocation(MHFCReference.tile_akuracrystal_tex));
 		GL11.glPushMatrix();
 		model.renderModel(0.1825F);
 		GL11.glPopMatrix();

@@ -21,7 +21,7 @@ public class RenderHunterBench extends TileEntitySpecialRenderer {
 		// Tessellator tessellator = Tessellator.instance;
 		GL11.glTranslatef((float) x + 0.5F, (float) y - -0.7F, (float) z + 0.5F);
 		GL11.glRotatef(180F, 0F, 0F, 1F);
-		bindTexture(new ResourceLocation(MHFCReference.tex_tile_huntertable));
+		bindTexture(new ResourceLocation(MHFCReference.tile_huntertable_tex));
 		GL11.glPushMatrix();
 		model.renderModel(0.0325F);
 		GL11.glPopMatrix();

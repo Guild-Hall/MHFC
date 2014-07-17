@@ -1,5 +1,6 @@
 package mhfc.net.common.potion;
 
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -10,21 +11,20 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class PotionParalyze extends Potion {
-
 	public PotionParalyze(int par1, boolean isBad, int color) {
 		super(par1, isBad, color);
-		setPotionName("potion.paralyze");
+		setPotionName(MHFCReference.potion_paralyze_name);
 		setIconIndex(1, 0);
 		func_111184_a(SharedMonsterAttributes.movementSpeed,
-				"6a80c830-745d-4edd-8a17-e580f813bf20", -1D, 1);
+				MHFCReference.potion_paralyze_uuid, -1D, 1);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getStatusIconIndex() {
 		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(
-				"mhfc:textures/potion/mhfcpotion.png"));
-		return 1;
+				MHFCReference.potion_paralyze_tex));
+		return MHFCReference.potion_paralyze_iconindex;
 	}
 
 	@Override

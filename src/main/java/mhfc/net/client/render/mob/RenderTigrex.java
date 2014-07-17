@@ -33,7 +33,7 @@ public class RenderTigrex extends RenderLiving {
 	}
 
 	protected ResourceLocation func_110870_a(EntityTigrex par1) {
-		return new ResourceLocation(MHFCReference.tex_mob_entity);
+		return new ResourceLocation(MHFCReference.mob_tigrex_tex);
 	}
 
 	/**

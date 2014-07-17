@@ -21,7 +21,7 @@ public class RenderBBQSpit extends TileEntitySpecialRenderer {
 		// Tessellator tessellator = Tessellator.instance;
 		GL11.glTranslatef((float) x + 0.5F, (float) y - -1.5F, (float) z + 0.5F);
 		GL11.glRotatef(180F, 0F, 0F, 1F);
-		bindTexture(new ResourceLocation(MHFCReference.tex_tile_bbqspit));
+		bindTexture(new ResourceLocation(MHFCReference.tile_bbqspit_tex));
 		GL11.glPushMatrix();
 		model.renderModel(0.0625F);
 		GL11.glPopMatrix();

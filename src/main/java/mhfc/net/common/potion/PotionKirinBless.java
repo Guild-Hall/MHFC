@@ -1,5 +1,6 @@
 package mhfc.net.common.potion;
 
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -11,18 +12,18 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class PotionKirinBless extends Potion {
 	public PotionKirinBless(int par1, boolean par2, int par3) {
 		super(par1, par2, par3);
-		setPotionName("potion.kirinbless");
+		setPotionName(MHFCReference.potion_kirinbless_name);
 		setIconIndex(1, 0);
 		func_111184_a(SharedMonsterAttributes.attackDamage,
-				"6a80c830-745d-4edd-8a17-e580f813bf20", 1.6D, 1);
+				MHFCReference.potion_kirinbless_uuid, 1.6D, 1);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getStatusIconIndex() {
 		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(
-				"mhfc:textures/potion/mhfcpotion.png"));
-		return 2;
+				MHFCReference.potion_kirinbless_tex));
+		return MHFCReference.potion_kirinbless_iconindex;
 	}
 
 	@Override

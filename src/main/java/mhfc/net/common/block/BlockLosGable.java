@@ -12,7 +12,7 @@ public class BlockLosGable extends Block {
 	public BlockLosGable() {
 		super(Material.rock);
 		setBlockName(MHFCReference.block_losgable_name);
-		setBlockTextureName(MHFCReference.tex_block_losgable);
+		setBlockTextureName(MHFCReference.block_losgable_tex);
 		setHardness(1.5F);
 		setResistance(1.0F);
 		setCreativeTab(MHFCMain.mhfctabs);

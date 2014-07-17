@@ -27,7 +27,7 @@ public class RenderHKirinSpark implements IItemRenderer {
 				GL11.glScalef(scale, scale, scale);
 				GL11.glPushMatrix(); // start gl rendering for this section
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.tex_weapons_hm_kirin));
+						.bindTexture(new ResourceLocation(MHFCReference.weapon_hm_kirin_tex));
 				GL11.glRotatef(0F, 1.0f, 0.0f, 0.0f); // rotate 0 ° on X axis
 				GL11.glRotatef(-5F, 0.0f, 1.0f, 0.0f); // rotate -5 ° on Y axis
 				GL11.glRotatef(-120F, 0.0f, 0.0f, 1.0f); // rotate -150 ° on Z
@@ -49,7 +49,7 @@ public class RenderHKirinSpark implements IItemRenderer {
 				scale = 1.4f;
 				GL11.glScalef(scale, scale, scale);
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.tex_weapons_hm_kirin));
+						.bindTexture(new ResourceLocation(MHFCReference.weapon_hm_kirin_tex));
 				GL11.glRotatef(0F, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(-5F, 0.0f, 1.0f, 0.0f);
 				GL11.glRotatef(-150F, 0.0f, 0.0f, 1.0f);
@@ -64,7 +64,7 @@ public class RenderHKirinSpark implements IItemRenderer {
 				scale = 3F;
 				GL11.glScalef(scale, scale, scale);
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.tex_weapons_hm_kirin));
+						.bindTexture(new ResourceLocation(MHFCReference.weapon_hm_kirin_tex));
 				GL11.glRotatef(90F, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(0F, 0.0f, 1.0f, 0.0f);
 				GL11.glRotatef(45F, 0.0f, 0.0f, 1.0f);
@@ -79,7 +79,7 @@ public class RenderHKirinSpark implements IItemRenderer {
 				scale = 1.2F;
 				GL11.glScalef(scale, scale, scale);
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.tex_weapons_hm_kirin));
+						.bindTexture(new ResourceLocation(MHFCReference.weapon_hm_kirin_tex));
 
 				GL11.glRotatef(200F, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(-80F, 0.0f, 1.0f, 0.0f);

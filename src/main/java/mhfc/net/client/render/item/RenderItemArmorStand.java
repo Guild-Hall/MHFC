@@ -55,7 +55,7 @@ public class RenderItemArmorStand implements IItemRenderer {
 		// Tessellator tess = Tessellator.instance;
 		GL11.glPushMatrix();
 		Minecraft.getMinecraft().renderEngine
-				.bindTexture(new ResourceLocation(MHFCReference.tex_tile_armorstand));
+				.bindTexture(new ResourceLocation(MHFCReference.tile_armorstand_tex));
 		GL11.glTranslatef(x, y, z);
 		GL11.glRotatef(rotateX, rotateY, rotateZ, angle);
 		model.renderModel(scale);
