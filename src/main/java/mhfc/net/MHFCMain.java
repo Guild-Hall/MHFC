@@ -9,9 +9,6 @@ import mhfc.net.common.network.packet.PacketAITigrex;
 import mhfc.net.common.tab.MHFCTab;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.Packet;
 
 import org.apache.logging.log4j.Logger;
 
@@ -71,21 +68,10 @@ public class MHFCMain {
 		packetPipeline.postInitialize();
 	}
 
-	public static void sendPacketToAll(EntityPlayer player, Packet packet) {
-		if (isEffectiveClient())
-			return;
-		((EntityPlayerMP) player).mcServer.getConfigurationManager()
-				.sendPacketToAllPlayers(packet);
-	}
-
 	public static boolean isClient() {
 		return FMLCommonHandler.instance().getSide().isClient();
 	}
 	public static boolean isEffectiveClient() {
 		return FMLCommonHandler.instance().getEffectiveSide().isClient();
 	}
-
-	public static void onRenderTick() {}
-	public static void onClientTick() {}
-	public static void onServerTick() {}
 }
