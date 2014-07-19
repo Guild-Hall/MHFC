@@ -3,29 +3,23 @@ package mhfc.net.common.block;
 import java.util.Random;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 
-public class BlockOreArmorSpherePlus extends Block{
+public class BlockOreArmorSpherePlus extends Block {
 
 	public BlockOreArmorSpherePlus() {
 		super(Material.rock);
-		setBlockName("orearmorsphereplus");
-		setBlockTextureName("mhfc:orearmorsphereplus");
+		setBlockName(MHFCReference.block_orearmorsphereplus_name);
+		setBlockTextureName(MHFCReference.block_orearmorsphereplus_tex);
 		setHardness(1.3F);
 		setResistance(2.0F);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
-	
-	
-	
-	public int quantityDropped(Random random){
+
+	@Override
+	public int quantityDropped(Random random) {
 		return 1;
 	}
-	
-	public void registerIcons(IIconRegister par1IconRegister){
-		blockIcon = par1IconRegister.registerIcon("mhfc:orearmorsphereplus");
-	}
-	
 }

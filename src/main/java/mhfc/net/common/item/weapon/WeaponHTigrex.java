@@ -6,6 +6,7 @@ import java.util.Random;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.entity.mob.EntityKirin;
 import mhfc.net.common.item.weapon.type.SiegeClass;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -22,7 +23,7 @@ public class WeaponHTigrex extends SiegeClass {
 
 	public WeaponHTigrex(ToolMaterial getType) {
 		super(getType);
-		setUnlocalizedName("hammer_1");
+		setUnlocalizedName(MHFCReference.weapon_hm_tigrex_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setFull3D();
 		rand = new Random();
@@ -46,7 +47,8 @@ public class WeaponHTigrex extends SiegeClass {
 
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
-		itemIcon = par1IconRegister.registerIcon("mhfc:hammer");
+		itemIcon = par1IconRegister
+				.registerIcon(MHFCReference.weapon_hm_tigrex_icon);
 	}
 
 	public float getDamageVsEntity(Entity entity) {

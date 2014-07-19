@@ -4,6 +4,7 @@ import java.util.List;
 
 import mhfc.net.common.entity.mob.EntityKirin;
 import mhfc.net.common.item.weapon.type.LethalClass;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,7 +20,7 @@ public class WeaponLSDarkVipern extends LethalClass {
 
 	public WeaponLSDarkVipern(ToolMaterial getType) {
 		super(getType);
-		setUnlocalizedName("longsword_2");
+		setUnlocalizedName(MHFCReference.weapon_ls_darkvipern_name);
 		setFull3D();
 		weaponDamage = getType.getDamageVsEntity() - 4;
 	}
@@ -36,7 +37,8 @@ public class WeaponLSDarkVipern extends LethalClass {
 
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
-		itemIcon = par1IconRegister.registerIcon("mhfc:longsword");
+		itemIcon = par1IconRegister
+				.registerIcon(MHFCReference.weapon_ls_darkvipern_icon);
 	}
 
 	public float getDamageVsEntity(Entity entity) {

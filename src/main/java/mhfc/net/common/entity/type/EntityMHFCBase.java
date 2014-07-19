@@ -11,17 +11,17 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 /**
- * This class should provide a good base to code off.
- * As almost every entity in Monster Hunter is a multi-
- * box Entity extending this class will have you covered.
- * Instead of setting {@link Entity#width} and {@link Entity#height} you should
- * set your bounding box correctly in the constructor.
+ * This class should provide a good base to code off. As almost every entity in
+ * Monster Hunter is a multi- box Entity extending this class will have you
+ * covered. Instead of setting {@link Entity#width} and {@link Entity#height}
+ * you should set your bounding box correctly in the constructor.
  *
  * @author WorldSEnder
  *
  */
-public abstract class EntityMHFCBase extends EntityCreature implements
-		IEntityMultiPart {
+public abstract class EntityMHFCBase extends EntityCreature
+		implements
+			IEntityMultiPart {
 
 	public EntityMHFCBase(World world) {
 		super(world);
@@ -69,8 +69,7 @@ public abstract class EntityMHFCBase extends EntityCreature implements
 	 * Tries to moves the entity by the passed in displacement. Args: x, y, z
 	 *
 	 * Have to reimplement this function because it fiddles with the bounding
-	 * box
-	 * in an unwanted way (also doesn't respect entityParts)
+	 * box in an unwanted way (also doesn't respect entityParts)
 	 */
 	@Override
 	public void moveEntity(double currOffX, double currOffY, double currOffZ) {
@@ -218,7 +217,7 @@ public abstract class EntityMHFCBase extends EntityCreature implements
 	/**
 	 * Convenience function, no checks, just offset
 	 */
-	private final void offsetEntity(double offX, double offY, double offZ) {
+	private void offsetEntity(double offX, double offY, double offZ) {
 		this.boundingBox.offset(offX, offY, offZ);
 
 		this.posX += offX;

@@ -1,18 +1,21 @@
 package mhfc.net.common.item;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 
-public class ItemWyverniaClay extends Item{
+public class ItemWyverniaClay extends Item {
 
-	public ItemWyverniaClay(){
+	public ItemWyverniaClay() {
 		super();
-		setUnlocalizedName("wyverniaclay");
+		setUnlocalizedName(MHFCReference.item_wyverniaclay_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
-	
-	public void registerIcons(IIconRegister par1IconRegister){
-	        this.itemIcon = par1IconRegister.registerIcon("mhfc:wyverniaclay");
+
+	@Override
+	public void registerIcons(IIconRegister par1IconRegister) {
+		this.itemIcon = par1IconRegister
+				.registerIcon(MHFCReference.item_wyverniaclay_icon);
 	}
 }

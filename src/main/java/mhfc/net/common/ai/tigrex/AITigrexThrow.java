@@ -5,6 +5,7 @@ import java.util.Random;
 import mhfc.net.common.ai.AIAnimation;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityTigrexBlock;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.EntityLivingBase;
 
 public class AITigrexThrow extends AIAnimation<EntityTigrex> {
@@ -25,7 +26,8 @@ public class AITigrexThrow extends AIAnimation<EntityTigrex> {
 			return false;
 		// if (entity.canEntityBeSeen(target)) return false;
 		if (entity.getDistanceSqToEntity(target) < 2D
-				&& entity.getDistanceSqToEntity(target) > 3.5D) return false;
+				&& entity.getDistanceSqToEntity(target) > 3.5D)
+			return false;
 		return entity.getAnimID() == 0 && rand.nextInt(12) == 0;
 	}
 
@@ -54,8 +56,8 @@ public class AITigrexThrow extends AIAnimation<EntityTigrex> {
 		entity.renderYawOffset = entity.rotationYaw;
 		if (entity.animTick == 12) {
 			float f = 0.7F + this.rand.nextFloat() * 0.2F;
-			entity.worldObj.playSoundAtEntity(entity, "mhfc:tigrex.say", 0.8f,
-					f);
+			entity.worldObj.playSoundAtEntity(entity,
+					MHFCReference.mob_tigrex_sound_say, 0.8f, f);
 			EntityTigrexBlock block = new EntityTigrexBlock(entity.worldObj,
 					entity);
 			block.posY += 0.00000976158142D;

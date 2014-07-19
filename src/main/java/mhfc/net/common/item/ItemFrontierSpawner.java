@@ -6,6 +6,7 @@ import java.util.List;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.list.MHFCMobList;
 import mhfc.net.common.list.MHFCMobList.MHFCEggInfo;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -33,8 +34,8 @@ public class ItemFrontierSpawner extends Item {
 
 	public ItemFrontierSpawner() {
 		super();
-		setTextureName("mhfc:mhfegg");
-		setUnlocalizedName("mhfcegg");
+		setTextureName(MHFCReference.item_mhfcspawnegg_icon);
+		setUnlocalizedName(MHFCReference.item_mhfcspawnegg_name);
 		setHasSubtypes(true);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
@@ -56,8 +57,8 @@ public class ItemFrontierSpawner extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack par1ItemStack, int par2) {
-		MHFCEggInfo entityegginfo = (MHFCEggInfo) MHFCMobList.entityEggs
-				.get(Integer.valueOf(par1ItemStack.getItemDamage()));
+		MHFCEggInfo entityegginfo = MHFCMobList.entityEggs.get(Integer
+				.valueOf(par1ItemStack.getItemDamage()));
 		return entityegginfo != null ? (par2 == 0
 				? entityegginfo.primaryColor
 				: entityegginfo.secondaryColor) : 16777215;
@@ -65,9 +66,8 @@ public class ItemFrontierSpawner extends Item {
 
 	/**
 	 * Callback for item usage. If the item does something special on right
-	 * clicking, he will have one of those. Return
-	 * True if something happen and false if it don't. This is for ITEMS, not
-	 * BLOCKS
+	 * clicking, he will have one of those. Return True if something happen and
+	 * false if it don't. This is for ITEMS, not BLOCKS
 	 */
 	@Override
 	public boolean onItemUse(ItemStack par1ItemStack,
@@ -158,8 +158,7 @@ public class ItemFrontierSpawner extends Item {
 
 	/**
 	 * Spawns the creature specified by the egg's type in the location specified
-	 * by the last three parameters.
-	 * Parameters: world, entityID, x, y, z.
+	 * by the last three parameters. Parameters: world, entityID, x, y, z.
 	 */
 	public static Entity spawnCreature(World par0World, int par1, double par2,
 			double par4, double par6) {
@@ -224,7 +223,7 @@ public class ItemFrontierSpawner extends Item {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister par1IconRegister) {
 		super.registerIcons(par1IconRegister);
-		this.theIcon = par1IconRegister.registerIcon(this.getIconString()
-				+ "_overlay");
+		this.theIcon = par1IconRegister
+				.registerIcon(MHFCReference.item_mhfcspawnegg_overlay_icon);
 	}
 }

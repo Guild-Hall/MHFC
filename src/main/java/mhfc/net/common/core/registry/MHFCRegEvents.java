@@ -5,7 +5,6 @@ import mhfc.net.common.eventhandler.MHFCGuiHandler;
 import mhfc.net.common.eventhandler.MHFCTickHandler;
 import mhfc.net.common.eventhandler.potion.PotionPitfallEventHandler;
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
@@ -26,21 +25,22 @@ public class MHFCRegEvents {
 	}
 
 	private static void registerNetworkGuiHandler() {
-		getNetworkGuiHandler(new MHFCGuiHandler());
+		getNetworkGuiHandler(MHFCGuiHandler.instance);
 	}
 
 	private static void registerNetworkEventHandlers() {
 
 	}
 
-	private static void registerWorldEventHandlers() {}
+	private static void registerWorldEventHandlers() {
+	}
 
 	private static void registerEntityEventHandlers() {
 
 	}
 
 	private static void registerPotionEventHandlers() {
-		MinecraftForge.EVENT_BUS.register(PotionPitfallEventHandler.class);
+		MinecraftForge.EVENT_BUS.register(PotionPitfallEventHandler.instance);
 	}
 
 	private static void registerGUIEventHandlers() {
@@ -52,12 +52,7 @@ public class MHFCRegEvents {
 	}
 
 	private static void registerTickHandler() {
-		getTickHandler(MHFCTickHandler.class);
-	}
-
-	private static void getTickHandler(Class<?> handler) {
-		MinecraftForge.EVENT_BUS.register(handler);
-		FMLCommonHandler.instance().bus().register(handler);
+		MinecraftForge.EVENT_BUS.register(MHFCTickHandler.instance);
 	}
 
 	private static void getNetworkGuiHandler(IGuiHandler param) {

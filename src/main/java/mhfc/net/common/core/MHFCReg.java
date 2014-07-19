@@ -18,17 +18,11 @@ import mhfc.net.common.core.registry.MHFCRegTile;
 
 public class MHFCReg {
 	public static void init() {
-		addBlocks();
-		addItems();
-		addRender();
-		addRecipes();
-		addDimension();
-		addSmelting();
-		addTile();
-		addMonsters();
-		addPotion();
-		addEvent();
-		addPacket();
+		/*
+		 * addBlocks(); addItems(); addRender(); addRecipes(); addDimension();
+		 * addSmelting(); addTile(); addMonsters(); addPotion(); addEvent();
+		 * addPacket();
+		 */
 		addQuests();
 	}
 

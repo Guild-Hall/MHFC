@@ -1,6 +1,7 @@
 package mhfc.net.client.render.mob;
 
 import mhfc.net.common.entity.mob.EntityPopo;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
@@ -15,9 +16,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderPopo extends RenderLiving {
 	private float scale;
-	private static final ResourceLocation texture = new ResourceLocation(
-			"mhfc:textures/mobs/popo.png");
-
 	public RenderPopo(ModelBase par1ModelBase, float par2, float par3) {
 		super(par1ModelBase, par2 * par3);
 		this.scale = par3;
@@ -31,7 +29,7 @@ public class RenderPopo extends RenderLiving {
 	}
 
 	protected ResourceLocation func_110870_a(EntityPopo par1) {
-		return texture;
+		return new ResourceLocation(MHFCReference.mob_popo_tex);
 	}
 
 	/**
@@ -42,8 +40,7 @@ public class RenderPopo extends RenderLiving {
 	@Override
 	protected void preRenderCallback(EntityLivingBase par1EntityLivingBase,
 			float par2) {
-		this.preRenderScale((EntityPopo) par1EntityLivingBase, par2);
-		super.preRenderCallback(par1EntityLivingBase, par2);
+		// this.preRenderScale((EntityPopo) par1EntityLivingBase, par2);
 	}
 
 	@Override

@@ -2,7 +2,9 @@ package mhfc.net.client.render.mob;
 
 import java.util.Random;
 
+import mhfc.net.client.model.mob.boss.ModelKirin;
 import mhfc.net.common.entity.mob.EntityKirin;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -19,8 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderKirin extends RenderLiving {
 	private float scale;
-	private static final ResourceLocation texture = new ResourceLocation(
-			"mhfc:textures/mobs/kirin.png");
+	protected ModelKirin mainModel;
 
 	public RenderKirin(ModelBase par1ModelBase, float par2, float par3) {
 		super(par1ModelBase, par2 * par3);
@@ -35,7 +36,7 @@ public class RenderKirin extends RenderLiving {
 	}
 
 	protected ResourceLocation func_110870_a(EntityKirin par1) {
-		return texture;
+		return new ResourceLocation(MHFCReference.mob_kirin_tex);
 	}
 
 	/**
@@ -45,9 +46,8 @@ public class RenderKirin extends RenderLiving {
 	 */
 	@Override
 	protected void preRenderCallback(EntityLivingBase par1EntityLivingBase,
-			float par2) {
-		this.preRenderScale((EntityKirin) par1EntityLivingBase, par2);
-		super.preRenderCallback(par1EntityLivingBase, par2);
+			float partialTickTime) {
+		this.mainModel.setPartialTick(partialTickTime);
 	}
 
 	@Override

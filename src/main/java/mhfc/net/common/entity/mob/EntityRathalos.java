@@ -8,6 +8,7 @@ import mhfc.net.common.core.registry.MHFCRegItem;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import mhfc.net.common.implement.iMHFC;
 import mhfc.net.common.network.packet.PacketAIRathalos;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.monster.EntityMob;
@@ -42,7 +43,8 @@ public class EntityRathalos extends EntityWyvernHostile implements iMHFC {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		if (currentAttackID != 0) animTick++;
+		if (currentAttackID != 0)
+			animTick++;
 	}
 	@Override
 	public void setAnimID(int id) {
@@ -62,11 +64,11 @@ public class EntityRathalos extends EntityWyvernHostile implements iMHFC {
 	}
 	@Override
 	protected String getLivingSound() {
-		return "mhfc:rathalos.say";
+		return MHFCReference.mob_rathalos_sound_say;
 	}
 	@Override
 	protected String getHurtSound() {
-		return "mhfc:rathalos.hurt";
+		return MHFCReference.mob_rathalos_sound_hurt;
 	}
 
 	@Override
@@ -76,7 +78,8 @@ public class EntityRathalos extends EntityWyvernHostile implements iMHFC {
 	}
 
 	public void sendAttackPacket(int id) {
-		if (MHFCMain.isEffectiveClient()) return;
+		if (MHFCMain.isEffectiveClient())
+			return;
 		currentAttackID = id;
 		MHFCMain.packetPipeline
 				.sendToAll(new PacketAIRathalos((byte) id, this));

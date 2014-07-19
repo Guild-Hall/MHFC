@@ -1,6 +1,7 @@
 package mhfc.net.client.render.item;
 
 import mhfc.net.client.model.block.ModelArmorStand;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -53,8 +54,8 @@ public class RenderItemArmorStand implements IItemRenderer {
 		float scale = 0.04125F;
 		// Tessellator tess = Tessellator.instance;
 		GL11.glPushMatrix();
-		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(
-				"mhfc:textures/tile/armorstand.png"));
+		Minecraft.getMinecraft().renderEngine
+				.bindTexture(new ResourceLocation(MHFCReference.tile_armorstand_tex));
 		GL11.glTranslatef(x, y, z);
 		GL11.glRotatef(rotateX, rotateY, rotateZ, angle);
 		model.renderModel(scale);

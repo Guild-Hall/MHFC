@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -13,8 +14,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 // TODO
 public class BlockIngots extends Block {
-	private static final String[] blockofTypes = new String[]{"blockof0",
-			"blockof1", "blockof2"};
+	private static final String[] ingotIconNames = new String[]{
+			MHFCReference.block_blockingot0_tex,
+			MHFCReference.block_blockingot1_tex,
+			MHFCReference.block_blockingot2_tex};
 	private IIcon[] textures;
 
 	public BlockIngots() {
@@ -32,10 +35,9 @@ public class BlockIngots extends Block {
 
 	@Override
 	public void registerBlockIcons(IIconRegister par1IconRegister) {
-		textures = new IIcon[blockofTypes.length];
-		for (int i = 0; i < blockofTypes.length; i++) {
-			textures[i] = par1IconRegister.registerIcon("mhfc:"
-					+ blockofTypes[i]);
+		textures = new IIcon[ingotIconNames.length];
+		for (int i = 0; i < ingotIconNames.length; i++) {
+			textures[i] = par1IconRegister.registerIcon(ingotIconNames[i]);
 		}
 	}
 
@@ -52,7 +54,7 @@ public class BlockIngots extends Block {
 	@SuppressWarnings("unchecked")
 	public void getSubBlocks(Item block, CreativeTabs creativeTabs,
 			@SuppressWarnings("rawtypes") List list) {
-		for (int i = 0; i < blockofTypes.length; ++i) {
+		for (int i = 0; i < ingotIconNames.length; ++i) {
 			list.add(new ItemStack(block, 1, i));
 		}
 	}
@@ -63,7 +65,7 @@ public class BlockIngots extends Block {
 	}
 	// TODO
 	public float getHardness() {
-		int meta = blockofTypes.length;
+		int meta = ingotIconNames.length;
 		if (meta == 0) {
 			return 1.1f;
 		}

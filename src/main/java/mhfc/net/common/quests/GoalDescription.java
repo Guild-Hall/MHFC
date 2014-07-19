@@ -5,16 +5,21 @@ public class GoalDescription {
 	protected String[] dependencyIds;
 	protected Object[] arguments;
 
-	public GoalDescription(String type, Object[] arguments,
-			String[] dependencyIds) {
+	/**
+	 * Construct a goal with the given parameters. These parameters are then
+	 * used in the factory to generate quest goals. The parameter type and the
+	 * parameter should match the implementations in the factory class.
+	 * {@link QuestFactory} for more details on the format.
+	 * 
+	 * @param type
+	 * @param dependencyIds
+	 * @param arguments
+	 */
+	public GoalDescription(String type, String[] dependencyIds,
+			Object[] arguments) {
 		this.goalType = type;
 		this.dependencyIds = dependencyIds;
 		this.arguments = arguments;
-	}
-
-	public GoalDescription(String type, String[] dependencyIds,
-			Object... arguments) {
-		this(type, arguments, dependencyIds);
 	}
 
 	public String getGoalType() {

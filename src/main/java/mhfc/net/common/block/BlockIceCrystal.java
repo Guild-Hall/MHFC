@@ -3,27 +3,21 @@ package mhfc.net.common.block;
 import java.util.Random;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 
-public class BlockIceCrystal extends Block{
+public class BlockIceCrystal extends Block {
 
 	public BlockIceCrystal() {
 		super(Material.rock);
-		setBlockName("icecrystal");
-		setBlockTextureName("mhfc:icecrystal");
+		setBlockName(MHFCReference.block_icecrystal_name);
+		setBlockTextureName(MHFCReference.block_icecrystal_tex);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
-	
-	
-	
-	public int quantityDropped(Random random){
+
+	@Override
+	public int quantityDropped(Random random) {
 		return 1;
 	}
-	
-	public void registerIcons(IIconRegister par1IconRegister){
-		blockIcon = par1IconRegister.registerIcon("mhfc:icecrystal");
-	}
-	
 }

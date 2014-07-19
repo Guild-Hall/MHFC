@@ -10,6 +10,7 @@ import mhfc.net.common.core.registry.MHFCRegItem;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import mhfc.net.common.implement.iMHFC;
 import mhfc.net.common.network.packet.PacketAIKirin;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -49,7 +50,7 @@ public class EntityKirin extends EntityWyvernHostile implements iMHFC {
 
 	@Override
 	protected String getLivingSound() {
-		return "mhfc:kirin.say";
+		return MHFCReference.mob_kirin_sound_say;
 	}
 
 	@Override
@@ -109,7 +110,8 @@ public class EntityKirin extends EntityWyvernHostile implements iMHFC {
 	}
 
 	public void sendAttackPacket(int id) {
-		if (MHFCMain.isEffectiveClient()) return;
+		if (MHFCMain.isEffectiveClient())
+			return;
 		this.currentAttackID = id;
 		MHFCMain.packetPipeline.sendToAll(new PacketAIKirin((byte) id, this));
 	}

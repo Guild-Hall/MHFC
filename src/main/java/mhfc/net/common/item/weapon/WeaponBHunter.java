@@ -4,6 +4,7 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCRegItem;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -23,17 +24,21 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class WeaponBHunter extends Item {
 
-	public static final String[] ItemNameArray = {"bow", "bow1", "bow2", "bow2"};
+	public static final String[] itemNameArray = {
+			MHFCReference.weapon_bow_hunter_icon0,
+			MHFCReference.weapon_bow_hunter_icon1,
+			MHFCReference.weapon_bow_hunter_icon2,
+			MHFCReference.weapon_bow_hunter_icon3};
 
 	public int usingItem = 0;
 
 	@SideOnly(Side.CLIENT)
-	private IIcon[] IconArray;
+	private IIcon[] iconArray;
 	public WeaponBHunter() {
 		maxStackSize = 1;
 		setMaxDamage(384);
 		setCreativeTab(MHFCMain.mhfctabs);
-		setUnlocalizedName("a.bow");
+		setUnlocalizedName(MHFCReference.weapon_bow_hunter_name);
 
 	}
 
@@ -58,15 +63,13 @@ public class WeaponBHunter extends Item {
 
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
-		this.IconArray = new IIcon[ItemNameArray.length];
+		this.iconArray = new IIcon[itemNameArray.length];
 
-		for (int i = 0; i < this.IconArray.length; i++) {
-			String prefix = "mhfc:";
-			this.IconArray[i] = par1IconRegister.registerIcon(prefix
-					+ ItemNameArray[i]);
+		for (int i = 0; i < this.iconArray.length; i++) {
+			this.iconArray[i] = par1IconRegister.registerIcon(itemNameArray[i]);
 		}
 
-		this.itemIcon = this.IconArray[0];
+		this.itemIcon = this.iconArray[0];
 	}
 
 	@Override
@@ -74,21 +77,24 @@ public class WeaponBHunter extends Item {
 			ItemStack usingItem, int useRemaining) {
 		if ((stack == usingItem) && (usingItem != null)
 				&& (usingItem.getItem() == MHFCRegItem.mhfcitembhunter)) {
-			if (useRemaining > 21) return this.IconArray[3];
-			if (useRemaining > 14) return this.IconArray[2];
-			if (useRemaining > 7) return this.IconArray[1];
+			if (useRemaining > 21)
+				return this.iconArray[3];
+			if (useRemaining > 14)
+				return this.iconArray[2];
+			if (useRemaining > 7)
+				return this.iconArray[1];
 		}
-		return this.IconArray[0];
+		return this.iconArray[0];
 	}
 
 	@Override
 	public IIcon getIconFromDamage(int par1) {
-		return this.IconArray[0];
+		return this.iconArray[0];
 	}
 
 	@SideOnly(Side.CLIENT)
 	public IIcon getItemIconForUseDuration(int par1) {
-		return this.IconArray[par1];
+		return this.iconArray[par1];
 	}
 
 	@Override
@@ -202,8 +208,7 @@ public class WeaponBHunter extends Item {
 			EntityPlayer par3EntityPlayer) {
 		ArrowNockEvent event = new ArrowNockEvent(par3EntityPlayer,
 				par1ItemStack);
-		MinecraftForge.EVENT_BUS.post(event);
-		if (event.isCanceled()) {
+		if (MinecraftForge.EVENT_BUS.post(event)) {
 			return event.result;
 		}
 

@@ -9,9 +9,6 @@ import mhfc.net.common.network.packet.PacketAITigrex;
 import mhfc.net.common.tab.MHFCTab;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.Packet;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -24,31 +21,26 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
  * @license MHFModding Team Copyright
  *          (http://www.minecraftforum.net/topic/1977334
  *          -164spmp-monster-hunter-frontier
- *          -craft-extreme-mob-hunting-adventure-15000-downloads/)
- *          Visit www.mhfrontiercraft.blogspot.com for more info.
+ *          -craft-extreme-mob-hunting-adventure-15000-downloads/) Visit
+ *          www.mhfrontiercraft.blogspot.com for more info.
  */
 
-@Mod(modid = MHFCReference.modid,
-		name = MHFCReference.name,
-		version = MHFCReference.version)
+@Mod(modid = MHFCReference.main_modid, name = MHFCReference.main_name, version = MHFCReference.main_version)
 public class MHFCMain {
 
-	@SidedProxy(clientSide = "mhfc.net.client.MHFCClient",
-			serverSide = "mhfc.net.common.MHFCCommon")
+	@SidedProxy(clientSide = "mhfc.net.client.MHFCClient", serverSide = "mhfc.net.common.MHFCCommon")
 	public static MHFCCommon proxy;
 
 	@Mod.Instance("mhfc")
 	public static MHFCMain instance;
 
 	public static final PacketPipeline packetPipeline = new PacketPipeline();
-	public static final String[] fTimer;
-	public static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID(),
-			"MHFC Tab");
+	public static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID());
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent pre) {
 		// MHFCConfig.init(pre);
-		pre.getModMetadata().logoFile = "MHFCLogo.png";
+		pre.getModMetadata().logoFile = MHFCReference.main_logo;
 	}
 
 	@Mod.EventHandler
@@ -70,22 +62,10 @@ public class MHFCMain {
 		packetPipeline.postInitialize();
 	}
 
-	public static void sendPacketToAll(EntityPlayer player, Packet packet) {
-		if (isEffectiveClient()) return;
-		((EntityPlayerMP) player).mcServer.getConfigurationManager()
-				.sendPacketToAllPlayers(packet);
-	}
-
 	public static boolean isClient() {
 		return FMLCommonHandler.instance().getSide().isClient();
 	}
 	public static boolean isEffectiveClient() {
 		return FMLCommonHandler.instance().getEffectiveSide().isClient();
 	}
-	static {
-		fTimer = new String[]{"field_71428_T", "S", "timer"};
-	}
-	public static void onRenderTick() {}
-	public static void onClientTick() {}
-	public static void onServerTick() {}
 }

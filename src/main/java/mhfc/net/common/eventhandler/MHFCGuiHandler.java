@@ -2,16 +2,18 @@ package mhfc.net.common.eventhandler;
 
 import mhfc.net.client.container.ContainerHunterBench;
 import mhfc.net.client.gui.GuiHunterBench;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 
 public class MHFCGuiHandler implements IGuiHandler {
+	public static final MHFCGuiHandler instance = new MHFCGuiHandler();
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
-		if (ID == 1)
+		if (ID == MHFCReference.gui_hunterbench_id)
 			return new ContainerHunterBench(player.inventory, world, x, y, z);
 		return null;
 
@@ -20,10 +22,9 @@ public class MHFCGuiHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
-		if (ID == 1)
+		if (ID == MHFCReference.gui_hunterbench_id)
 			return new GuiHunterBench(player.inventory, world, z, z, z);
 		return null;
 
 	}
-
 }

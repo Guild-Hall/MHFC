@@ -1,9 +1,6 @@
 package mhfc.net.common.quests;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
+import mhfc.net.common.core.registry.MHFCRegQuests;
 import mhfc.net.common.quests.goals.ChainQuestGoal;
 import mhfc.net.common.quests.goals.ForkQuestGoal;
 import mhfc.net.common.quests.goals.HuntingQuestGoal;
@@ -13,35 +10,14 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class QuestFactory {
 
-	public static final HashMap<String, QuestDescription> questDescriptions = new HashMap<String, QuestDescription>();
-	public static final HashMap<String, GoalDescription> goalDescriptions = new HashMap<String, GoalDescription>();
-
-	protected static HashMap<EntityPlayer, GeneralQuest> playerQuest = new HashMap<EntityPlayer, GeneralQuest>();
-	protected static List<GeneralQuest> quests = new ArrayList<GeneralQuest>();
-
 	public static QuestDescription getQuestDescription(String id) {
-		QuestDescription qd = questDescriptions.get(id);
+		QuestDescription qd = MHFCRegQuests.getQuestDescription(id);
 		return qd;
 	}
 
 	public static GoalDescription getGoalDescription(String id) {
-		GoalDescription qd = goalDescriptions.get(id);
-		return qd;
-	}
-
-	/**
-	 * Get the quest on which a player is on. If the player is on no quest then
-	 * null is returned.
-	 */
-	public static GeneralQuest getQuestForPlayer(EntityPlayer player) {
-		return playerQuest.get(player);
-	}
-
-	/**
-	 * Returns all quests that are running at the moment.
-	 */
-	public static List<GeneralQuest> getRunningQuests() {
-		return quests;
+		GoalDescription gd = MHFCRegQuests.getGoalDescription(id);
+		return gd;
 	}
 
 	/**
@@ -64,10 +40,17 @@ public class QuestFactory {
 		return null;
 	}
 
+//@formatter:off
 	/**
 	 * Constructs a quest goal based on the description object. If it is somehow
-	 * invalid then null is returned.
+	 * invalid then null is returned. The following types are implemented in the
+	 * following way: 
+	 * hunting: Needs to have exactly two arguments in its
+	 * argument array, both of type string and the latter one representing an Integer.
 	 */
+//@formatter:on
+
+	// TODO throw some more exceptions for debugging
 	public static QuestGoal constructGoal(GoalDescription gd) {
 		QuestGoal goal = null;
 		switch (gd.getGoalType()) {
@@ -81,6 +64,8 @@ public class QuestFactory {
 
 				Class<?> goalClass = (Class<?>) EntityList.stringToClassMapping
 						.get(gd.arguments[0]);
+				if (goalClass == null)
+					return null;
 				int number = Integer.parseInt((String) gd.getArguments()[1]);
 				HuntingQuestGoal hGoal = new HuntingQuestGoal(null, goalClass,
 						number);

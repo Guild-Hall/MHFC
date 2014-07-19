@@ -8,8 +8,6 @@ public class SemiLethalClass extends ItemSword {
 	public SemiLethalClass(ToolMaterial getType) {
 		super(getType);
 		setCreativeTab(MHFCMain.mhfctabs);
-		setFull3D();
-
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.Random;
 
 import mhfc.net.common.ai.AIAnimation;
 import mhfc.net.common.entity.mob.EntityTigrex;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
@@ -26,7 +27,8 @@ public class AITigrexRoar extends AIAnimation<EntityTigrex> {
 	@Override
 	public boolean shouldAnimate() {
 		target = entity.getAttackTarget();
-		if ((target == null) && (!entity.onGround)) return false;
+		if ((target == null) && (!entity.onGround))
+			return false;
 		return rand.nextFloat() * 100.0F < 1D;
 
 	}
@@ -80,8 +82,8 @@ public class AITigrexRoar extends AIAnimation<EntityTigrex> {
 		if (entity.getAnimTick() == 10) {
 
 			float f = 0.7F + this.rand.nextFloat() * 0.2F;
-			entity.worldObj.playSoundAtEntity(entity, "mhfc:tigrex.roar", 0.8f,
-					f);
+			entity.worldObj.playSoundAtEntity(entity,
+					MHFCReference.mob_tigrex_sound_roar, 0.8f, f);
 
 		}
 	}

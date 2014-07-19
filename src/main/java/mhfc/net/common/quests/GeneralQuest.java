@@ -2,6 +2,7 @@ package mhfc.net.common.quests;
 
 import java.util.EnumSet;
 
+import mhfc.net.common.core.registry.MHFCRegQuests;
 import mhfc.net.common.quests.goals.QuestGoal;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -30,6 +31,8 @@ public class GeneralQuest implements QuestGoalSocket {
 		this.fee = fee;
 		this.areaId = areaId;
 		this.state = QuestState.pending;
+
+		MHFCRegQuests.registerQuest(this);
 	}
 
 	public QuestState getState() {
@@ -77,6 +80,7 @@ public class GeneralQuest implements QuestGoalSocket {
 		if (canJoin(player)) {
 			players[playerCount] = player;
 			++playerCount;
+			MHFCRegQuests.setQuestForPlayer(player, this);
 		}
 	}
 }

@@ -2,6 +2,7 @@ package mhfc.net.common.block.container;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.tile.TileArmorStandBase;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -16,7 +17,7 @@ public class BlockArmorStandBase extends BlockContainer {
 		setBlockBounds(1F / 16F * -0.05f, 0, 1F / 16F * -0.05f,
 				1F - 1F / 16F * -0.05f, 1F - 1F / 16F * 14F,
 				1F - 1F / 16F * -0.05f);
-		setBlockName("armorstandbase");
+		setBlockName(MHFCReference.block_armorstandbase_name);
 		setHardness(1.3F);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
@@ -43,7 +44,7 @@ public class BlockArmorStandBase extends BlockContainer {
 
 	@Override
 	public void registerBlockIcons(IIconRegister par1IconRegister) {
-		blockIcon = par1IconRegister.registerIcon("mhfc:armorstandblock");
+		blockIcon = par1IconRegister.registerIcon(MHFCReference.block_armorstandbase_icon);
 	}
 
 }

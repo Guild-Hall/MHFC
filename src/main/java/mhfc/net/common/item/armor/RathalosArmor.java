@@ -5,6 +5,7 @@ import java.util.List;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCRegItem;
 import mhfc.net.common.helper.MHFCArmorModelHelper;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -16,6 +17,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class RathalosArmor extends ItemArmor {
+	private static final String[] icons_array = {
+			MHFCReference.armor_rathalos_helm_icon,
+			MHFCReference.armor_rathalos_chest_icon,
+			MHFCReference.armor_rathalos_legs_icon,
+			MHFCReference.armor_rathalos_boots_icon};
 
 	// private Item item;
 
@@ -28,19 +34,18 @@ public class RathalosArmor extends ItemArmor {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister) {
-		this.itemIcon = iconRegister.registerIcon("mhfc:mhf_" + this.armorType);
+		this.itemIcon = iconRegister.registerIcon(icons_array[this.armorType]);
 	}
-
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
 			String type) {
 		if (stack.getItem() == MHFCRegItem.mhfcitemrathaloshelm
 				|| stack.getItem() == MHFCRegItem.mhfcitemrathaloschest
 				|| stack.getItem() == MHFCRegItem.mhfcitemrathalosboots) {
-			return "mhfc:textures/armor/rathalos_layer_1.png";
+			return MHFCReference.armor_rathalos_tex1;
 		}
 		if (stack.getItem() == MHFCRegItem.mhfcitemrathaloslegs) {
-			return "mhfc:textures/armor/rathalos_layer_2.png";
+			return MHFCReference.armor_rathalos_tex2;
 		}
 		return null;
 

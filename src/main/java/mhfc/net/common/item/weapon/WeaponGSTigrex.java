@@ -5,6 +5,7 @@ import java.util.Random;
 
 import mhfc.net.common.entity.mob.EntityKirin;
 import mhfc.net.common.item.weapon.type.SemiLethalClass;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,7 +19,7 @@ public class WeaponGSTigrex extends SemiLethalClass {
 
 	public WeaponGSTigrex(ToolMaterial getType) {
 		super(getType);
-		setUnlocalizedName("greatsword_2");
+		setUnlocalizedName(MHFCReference.weapon_gs_tigrex_name);
 		setFull3D();
 		weaponDamage = getType.getDamageVsEntity() - 4;
 	}
@@ -40,7 +41,8 @@ public class WeaponGSTigrex extends SemiLethalClass {
 
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
-		itemIcon = par1IconRegister.registerIcon("mhfc:greatsword");
+		itemIcon = par1IconRegister
+				.registerIcon(MHFCReference.weapon_gs_tigrex_icon);
 	}
 
 	public float getDamageVsEntity(Entity entity) {

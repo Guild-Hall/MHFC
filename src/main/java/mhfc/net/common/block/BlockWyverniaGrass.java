@@ -4,11 +4,11 @@ import java.util.Random;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCRegBlock;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,15 +22,15 @@ public class BlockWyverniaGrass extends Block {
 
 	public BlockWyverniaGrass() {
 		super(Material.grass);
-		setBlockName("wyverniagrass");
-		setBlockTextureName("mhfc:wyverniadirt");
+		setBlockName(MHFCReference.block_wyveriangrass_name);
+		setBlockTextureName(MHFCReference.block_wyveriangrass_tex);
 		setHardness(0.8F);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 
 	@Override
-	public IIcon getIcon(int par1, int par2) {
-		return par1 == 1 ? iconGrassTop : (par2 == 0
+	public IIcon getIcon(int side, int meta) {
+		return side == 1 ? iconGrassTop : (meta == 0
 				? iconGrassSide
 				: blockIcon);
 	}
@@ -38,18 +38,6 @@ public class BlockWyverniaGrass extends Block {
 	@Override
 	public int quantityDropped(Random random) {
 		return 1;
-	}
-
-	public IIcon getBlockTexture(IBlockAccess par1, int par2, int par3,
-			int par4, int par5) {
-		if (par5 == 1) {
-			return iconGrassTop;
-		} else if (par5 == 0) {
-			return iconGrassSide;
-		} else {
-			return blockIcon;
-		}
-
 	}
 
 	@Override
@@ -64,7 +52,8 @@ public class BlockWyverniaGrass extends Block {
 	public void updateTick(World par1, int par2, int par3, int par4, Random rand) {
 		if (!par1.isRemote) {
 			if (par1.getBlockLightValue(par2, par3 + 1, par4) < 4
-					&& par1.getBlockLightOpacity(par2, par3 + 1, par4) > 2) ;
+					&& par1.getBlockLightOpacity(par2, par3 + 1, par4) > 2)
+				;
 			{
 				par1.setBlock(par2, par3, par4, MHFCRegBlock.mhfcblockdirt);
 
