@@ -3,6 +3,7 @@ package mhfc.net.common.entity.type;
 import java.util.List;
 
 import mhfc.net.client.model.mhfcmodel.AnimationInformation;
+import mhfc.net.client.model.mhfcmodel.MHFCAttack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityMultiPart;
@@ -12,17 +13,19 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 /**
- * This class should provide a good base to code off.
- * As almost every entity in Monster Hunter is a multi-
- * box Entity extending this class will have you covered.
- * Instead of setting {@link Entity#width} and {@link Entity#height} you should
- * set your bounding box correctly in the constructor.
+ * This class should provide a good base to code off. As almost every entity in
+ * Monster Hunter is a multi- box Entity extending this class will have you
+ * covered. Instead of setting {@link Entity#width} and {@link Entity#height}
+ * you should set your bounding box correctly in the constructor.
  *
  * @author WorldSEnder
  *
  */
-public abstract class EntityMHFCBase extends EntityCreature implements
-		IEntityMultiPart, IMHFCAnimatedEntity, AnimationInformation {
+public abstract class EntityMHFCBase extends EntityCreature
+		implements
+			IEntityMultiPart,
+			IMHFCAnimatedEntity,
+			AnimationInformation {
 
 	public EntityMHFCBase(World world) {
 		super(world);
@@ -70,8 +73,7 @@ public abstract class EntityMHFCBase extends EntityCreature implements
 	 * Tries to moves the entity by the passed in displacement. Args: x, y, z
 	 *
 	 * Have to reimplement this function because it fiddles with the bounding
-	 * box
-	 * in an unwanted way (also doesn't respect entityParts)
+	 * box in an unwanted way (also doesn't respect entityParts)
 	 */
 	@Override
 	public void moveEntity(double currOffX, double currOffY, double currOffZ) {
@@ -96,7 +98,8 @@ public abstract class EntityMHFCBase extends EntityCreature implements
 			double correctedOffY = currOffY;
 			double correctedOffZ = currOffZ;
 			EntityMHFCPart[] parts = this.getParts();
-			if (parts == null) parts = new EntityMHFCPart[0];
+			if (parts == null)
+				parts = new EntityMHFCPart[0];
 
 			@SuppressWarnings("unchecked")
 			List<AxisAlignedBB> bbsInWay = this.worldObj
@@ -258,13 +261,13 @@ public abstract class EntityMHFCBase extends EntityCreature implements
 	}
 
 	@Override
-	public String getCurrentAttack() {
+	public MHFCAttack getCurrentAttack() {
 		// TODO: get this from the AI
-		return "";
+		return null;
 	}
 
 	@Override
-	public List<String> getPartsToRender() {
+	public String[] getPartsToRender() {
 		// TODO: get this from the AI
 		return null;
 	}

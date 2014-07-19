@@ -1,13 +1,16 @@
 package mhfc.net.client.model.mhfcmodel;
 
 import static org.lwjgl.opengl.GL11.glGetInteger;
+import static org.lwjgl.opengl.GL20.GL_ATTACHED_SHADERS;
 import static org.lwjgl.opengl.GL20.GL_COMPILE_STATUS;
 import static org.lwjgl.opengl.GL20.GL_CURRENT_PROGRAM;
 import static org.lwjgl.opengl.GL20.GL_LINK_STATUS;
+import static org.lwjgl.opengl.GL20.GL_SHADER_TYPE;
 import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
 import static org.lwjgl.opengl.GL20.glAttachShader;
 import static org.lwjgl.opengl.GL20.glCreateProgram;
 import static org.lwjgl.opengl.GL20.glCreateShader;
+import static org.lwjgl.opengl.GL20.glDetachShader;
 import static org.lwjgl.opengl.GL20.glGetAttachedShaders;
 import static org.lwjgl.opengl.GL20.glGetProgramInfoLog;
 import static org.lwjgl.opengl.GL20.glGetProgrami;
@@ -28,6 +31,7 @@ import static org.lwjgl.opengl.GL41.glUseProgramStages;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.util.Random;
 
 import mhfc.net.client.model.PartTickModelBase;
@@ -111,7 +115,19 @@ public class ModelMHFC extends PartTickModelBase implements IModelCustom {
 		return ByteBuffer.allocateDirect(size);
 	}
 
-	private static int getCurrVertexShader() {
+	private static int getShader(int program, int searchedType) {
+		int shaderCount = glGetProgrami(programName, GL_ATTACHED_SHADERS);
+		IntBuffer attachedShaders = createDirectBuffer(shaderCount * 4)
+				.asIntBuffer();
+		IntBuffer count = createDirectBuffer(4).asIntBuffer();
+		glGetAttachedShaders(programName, count, attachedShaders);
+		assert count.get() == shaderCount;
+		for (int i = 0; i < shaderCount; ++i) {
+			int shaderCandidate = attachedShaders.get();
+			if (searchedType == glGetShaderi(shaderCandidate, GL_SHADER_TYPE)) {
+				return shaderCandidate;
+			}
+		}
 		return 0;
 	}
 
@@ -120,11 +136,13 @@ public class ModelMHFC extends PartTickModelBase implements IModelCustom {
 	/**
 	 * Creates a new ModelMHFC.
 	 *
-	 * @param resource - The resource to load from. Refer to the wiki on
+	 * @param resource
+	 *            - The resource to load from. Refer to the wiki on
 	 *            https://github.com/Heltrato/MHFC/wiki/API-overview to get
 	 *            detail about the modelformat
-	 * @throws ModelFormatException - if the resource given cannot be read from
-	 *             or the file is malformed
+	 * @throws ModelFormatException
+	 *             - if the resource given cannot be read from or the file is
+	 *             malformed
 	 */
 	public ModelMHFC(ResourceLocation resource) throws ModelFormatException {
 		try (InputStream is = Minecraft.getMinecraft().getResourceManager()
@@ -163,39 +181,48 @@ public class ModelMHFC extends PartTickModelBase implements IModelCustom {
 		int currVertexShader = 0;
 		int currPipeline = 0;
 		if (supportsPipelines) {
-			glUseProgramStages(pipelineName, EXTERNAL_SHADER_BITS, currProgram);
-			glUseProgram(0);
 			currPipeline = glGetInteger(GL_PROGRAM_PIPELINE_BINDING);
+			glUseProgramStages(pipelineName, EXTERNAL_SHADER_BITS, currProgram);
 			glBindProgramPipeline(pipelineName);
+			glUseProgram(0);
+		} else if (currProgram == 0) {
+			glUseProgram(programName);
 		} else {
-			if (currProgram == 0) {
-				glUseProgram(programName);
-			} else {
-				int vertexShader;
-				glGetAttachedShaders(currProgram, null, null);
+			currVertexShader = getShader(currProgram, GL_VERTEX_SHADER);
+			// if (currVertexShader != shaderName) { // Will not occur as
+			// owned by us
+			if (currVertexShader != 0) {
+				glDetachShader(currProgram, currVertexShader);
 			}
+			glAttachShader(currProgram, shaderName);
+			glLinkProgram(currProgram);
+			// }
 		}
 		AnimationInformation info = animatedEntity.getAnimInformation();
+		String[] renderedParts = null;
 		if (info != null) {
 			int currFrame = info.getAnimationFrame();
 			MHFCAttack currAttk = info.getCurrentAttack();
 			if (currAttk != null) {
 				currAttk.glBindBoneMatrices(this.boneMatricesLocation,
 						currFrame, currFrame);
+				renderedParts = info.getPartsToRender();
 			}
 		}
-		// TODO render the model
-		if (supportsPipelines) {
-			glBindProgramPipeline(currPipeline);
+		if (renderedParts == null) {
+			renderAll();
 		} else {
-			if (currProgram == 0) {
-				glUseProgram(programName);
-			} else {
-				int vertexShader;
-				glGetAttachedShaders(currProgram, null, null);
+			renderOnly(renderedParts);
+		}
+		if (!supportsPipelines && currProgram != 0) {
+			glDetachShader(currProgram, shaderName);
+			if (currVertexShader != 0) {
+				glAttachShader(currProgram, currVertexShader);
 			}
+			glLinkProgram(currProgram);
 		}
 		glUseProgram(currProgram);
+		glBindProgramPipeline(currPipeline);
 	}
 
 	@Override
@@ -227,11 +254,11 @@ public class ModelMHFC extends PartTickModelBase implements IModelCustom {
 
 	@Override
 	public void renderPart(String partName) {
-
+		// Will we need this one?
 	}
 
 	@Override
 	public void renderAllExcept(String... excludedGroupNames) {
-
+		// Don't think this will be used
 	}
 }
