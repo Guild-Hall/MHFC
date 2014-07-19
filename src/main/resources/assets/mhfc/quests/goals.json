@@ -1,0 +1,4 @@
+Test : {
+	type : "hunting" ,
+	arguments: ["Kirin", "3"]
+}
