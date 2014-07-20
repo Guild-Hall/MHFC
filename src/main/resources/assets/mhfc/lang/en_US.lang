@@ -1,3 +1,6 @@
+death.attack.mhfc.thunderelement=%1$s was thundered by %2$s
+
+
 tile.losgable.name=Los Gable
 tile.armorstandbase.name=Pike Base
 tile.armorstand.name=Pike
@@ -22,6 +25,14 @@ tile.oreeltalite.name=Eltalite Ore
 tile.oremachalite.name=Machalite Ore
 tile.bbqspit.name=BBQ Spit
 
+item.meat0.name=Raw Meat
+item.meat1.name=Cooked Meat
+item.meat2.name=Boost Meat
+item.meat3.name=Protection Meat
+item.meat4.name=Poison Meat
+item.meat5.name=Slow Meat
+item.meat6.name=Hunger Meat
+item.meat7.name=Fire Meat
 item.huntinghorn_1.name=Metal Bagpipe
 item.wyverniadust.name=Wyvernia Dust
 item.wyverniaclay.name=Wyvernia Clay
@@ -100,6 +111,7 @@ entity.mhfc.tigrex.name=Tigrex
 entity.mhfc.kirin.name=Kirin
 entity.mhfc.rathalos.name=Rathalos
 entity.mhfc.popo.name=Popo
+entity.mhfc.aptonoth.name=Aptonoth
 
 potion.kirinbless=Spark of Kirin
 potion.paralyze=Paralyze
