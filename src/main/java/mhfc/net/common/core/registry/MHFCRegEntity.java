@@ -4,6 +4,7 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.entity.mob.EntityKirin;
 import mhfc.net.common.entity.mob.EntityPopo;
 import mhfc.net.common.entity.mob.EntityRathalos;
+import mhfc.net.common.entity.mob.EntityTest;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityTigrexBlock;
@@ -29,6 +30,7 @@ public class MHFCRegEntity {
 		getMobID(EntityTigrex.class, "tigrex");
 		getMobID(EntityKirin.class, "kirin");
 		getMobID(EntityRathalos.class, "rathalos");
+		getMobID(EntityTest.class, "test");
 	}
 
 	public static void registerOthers() {

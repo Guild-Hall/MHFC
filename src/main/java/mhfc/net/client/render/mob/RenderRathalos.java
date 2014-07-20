@@ -17,7 +17,6 @@ public class RenderRathalos extends RenderLiving {
 	private float scale;
 	private static final ResourceLocation texture = new ResourceLocation(
 			"mhfc:textures/mobs/rathalos.png");
-	protected ModelRathalos mainModel;
 
 	public RenderRathalos(ModelRathalos par1ModelBase, float par2, float par3) {
 		super(par1ModelBase, par2 * par3);
@@ -37,13 +36,12 @@ public class RenderRathalos extends RenderLiving {
 
 	/**
 	 * Allows the render to do any OpenGL state modifications necessary before
-	 * the model is rendered. Args:
-	 * entityLiving, partialTickTime
+	 * the model is rendered. Args: entityLiving, partialTickTime
 	 */
 	@Override
 	protected void preRenderCallback(EntityLivingBase par1EntityLivingBase,
 			float partialTick) {
-		this.mainModel.setPartialTick(partialTick);
+		((ModelRathalos) this.mainModel).setPartialTick(partialTick);
 	}
 
 	@Override

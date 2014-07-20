@@ -29,6 +29,14 @@ public abstract class EntityMHFCBase extends EntityCreature
 
 	public EntityMHFCBase(World world) {
 		super(world);
+		this.boundingBox.setBounds(-0.5f, 0, -0.5f, 0.5f, 1f, 0.5f);
+	}
+
+	@Override
+	public void setLocationAndAngles(double posX, double posY, double posZ,
+			float yaw, float pitch) {
+		this.setPosition(posX, posY, posZ);
+		this.setRotation(yaw, pitch);
 	}
 
 	/**
@@ -49,7 +57,12 @@ public abstract class EntityMHFCBase extends EntityCreature
 	protected void setRotation(float newYaw, float newPitch) {
 		float diffYawDeg = newYaw - this.rotationYaw;
 		double diffYawRad = diffYawDeg / 180D;
-		for (EntityMHFCPart part : this.getParts()) {
+		this.rotationYaw = newYaw % 360.0F;
+		this.rotationPitch = newPitch % 360.0F;
+		EntityMHFCPart[] parts = this.getParts();
+		if (parts == null)
+			return;
+		for (EntityMHFCPart part : parts) {
 			double offXPart = part.posX - this.posX;
 			double offZPart = part.posZ - this.posZ;
 			part.posX = this.posX
@@ -59,8 +72,6 @@ public abstract class EntityMHFCBase extends EntityCreature
 					+ (Math.sin(diffYawRad) * offXPart + Math.cos(diffYawRad)
 							* offZPart);
 		}
-		this.rotationYaw = newYaw % 360.0F;
-		this.rotationPitch = newPitch % 360.0F;
 	}
 
 	/**
@@ -228,7 +239,10 @@ public abstract class EntityMHFCBase extends EntityCreature
 		this.posX += offX;
 		this.posY += offY;
 		this.posZ += offZ;
-		for (EntityMHFCPart part : this.getParts()) {
+		EntityMHFCPart[] parts = this.getParts();
+		if (parts == null)
+			return;
+		for (EntityMHFCPart part : parts) {
 			part.offsetEntity(offX, offY, offZ);
 		}
 	}
