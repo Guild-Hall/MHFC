@@ -2,31 +2,223 @@ package mhfc.net.common.core.registry;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.ParseException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.GoalDescription;
 import mhfc.net.common.quests.QuestDescription;
+import mhfc.net.common.quests.QuestDescription.QuestType;
 import mhfc.net.common.quests.QuestFactory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * The registry for quests and quest goals. It will read some source files on
  * init, the specifications of these will come very soon, just use json and you
- * should be fine. The names for the variables of quest goals are "type",
- * "dependencyIDs" and "arguments". Only type is necessary, all others are
- * optional as much as the type allows it, see {@link QuestFactory} for further
- * information. For quests the names are as following "goalID", "name", "type",
- * "reward", "fee", "maxPartySize", "timeLimit", "areaID", "description",
- * "client", "aims", "fails", only the first ones until areaID are mandatory.
+ * should be fine. The names for the variables of {@link GoalDescription} are
+ * "type", "dependencies" and "arguments" . Only type is necessary, all others
+ * are optional as much as the type allows it, see {@link QuestFactory} for
+ * further information. For {@link QuestDescription} the names are as following
+ * "goal", "name", "reward", "fee", "areaID", "description", "maxPartySize",
+ * "timeLimit", "type", "client", "aims", "fails", only the first ones until
+ * areaID are mandatory.
  */
 public class MHFCRegQuests {
+
+	private static final ParameterizedType typeOfMapGoal = new ParameterizedType() {
+		@Override
+		public Type[] getActualTypeArguments() {
+			return new Type[]{String.class, GoalDescription.class};
+		}
+
+		@Override
+		public Type getRawType() {
+			return Map.class;
+		}
+
+		@Override
+		public Type getOwnerType() {
+			return null;
+		}
+	};
+	private static final ParameterizedType typeOfMapQuest = new ParameterizedType() {
+		@Override
+		public Type[] getActualTypeArguments() {
+			return new Type[]{String.class, QuestDescription.class};
+		}
+
+		@Override
+		public Type getRawType() {
+			return Map.class;
+		}
+
+		@Override
+		public Type getOwnerType() {
+			return null;
+		}
+	};
+
+	@SideOnly(Side.CLIENT)
+	private static class QuestSerializer implements JsonDeserializer {
+
+		@Override
+		public QuestDescription deserialize(JsonElement json, Type typeOfT,
+				JsonDeserializationContext context) throws JsonParseException {
+			JsonObject jsonAsObject = JsonUtils.getJsonElementAsJsonObject(
+					json, "quest");
+			if (!jsonAsObject.has("name")) {
+				throw new JsonParseException("Every Quest needs a name");
+			} else if (!jsonAsObject.has("goal")) {
+				throw new JsonParseException("Every Quest needs a goal");
+			} else if (!jsonAsObject.has("reward")) {
+				throw new JsonParseException("Every Quest needs a reward");
+			} else if (!jsonAsObject.has("fee")) {
+				throw new JsonParseException("Every Quest needs a fee");
+			} else if (!jsonAsObject.has("areaID")) {
+				throw new JsonParseException("Every Quest needs an area");
+			} else {
+				String goal = null;
+				GoalDescription goalDesc = null;
+				if (jsonAsObject.get("goal").isJsonPrimitive()) {
+					goal = JsonUtils.getJsonElementStringValue(jsonAsObject,
+							"goal");
+				} else {
+					goalDesc = context.deserialize(jsonAsObject.get("goal"),
+							GoalDescription.class);
+				}
+				String name = JsonUtils.getJsonObjectStringFieldValue(
+						jsonAsObject, "name");
+				int timeLimitInS = JsonUtils
+						.getJsonObjectIntegerFieldValueOrDefault(jsonAsObject,
+								"timeLimit", 50 * 60);
+				String description = JsonUtils
+						.getJsonObjectStringFieldValueOrDefault(jsonAsObject,
+								"description",
+								"A new monster threatens the town so go out and kill it soon.");
+				String client = JsonUtils
+						.getJsonObjectStringFieldValueOrDefault(jsonAsObject,
+								"client", "Hunter Guild");;
+				String aims = JsonUtils.getJsonObjectStringFieldValueOrDefault(
+						jsonAsObject, "fails", "Kill all big monsters!");
+				String fails = JsonUtils
+						.getJsonObjectStringFieldValueOrDefault(jsonAsObject,
+								"fails",
+								"Died three times or time has run out!");
+				String areaId = JsonUtils.getJsonObjectStringFieldValue(
+						jsonAsObject, "areaID");
+
+				String typeString = JsonUtils
+						.getJsonObjectStringFieldValueOrDefault(jsonAsObject,
+								"type", "hunting");
+				QuestType type = QuestType.Hunting;
+				switch (typeString) {
+					default :
+						System.out
+								.println("[MHFC] Type string was not recognized, allowed are hunting, epichunting, gathering and killing\n Falling back to hunting.");
+					case "hunting" :
+						type = QuestType.Hunting;
+						break;
+					case "epichunting" :
+						type = QuestType.EpicHunting;
+						break;
+					case "gathering" :
+						type = QuestType.Gathering;
+						break;
+					case "killing" :
+						type = QuestType.Killing;
+						break;
+				}
+				int reward = JsonUtils.getJsonObjectIntegerFieldValue(
+						jsonAsObject, "reward");
+				int fee = JsonUtils.getJsonObjectIntegerFieldValue(
+						jsonAsObject, "fee");
+				int maxPartySize = JsonUtils
+						.getJsonObjectIntegerFieldValueOrDefault(jsonAsObject,
+								"maxPartySize", 4);
+				if (goal != null)
+					return new QuestDescription(goal, name, type, reward, fee,
+							maxPartySize, timeLimitInS, areaId, description,
+							client, aims, fails);
+				return new QuestDescription(goalDesc, name, type, reward, fee,
+						maxPartySize, timeLimitInS, areaId, description,
+						client, aims, fails);
+			}
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	private static class GoalSerializer implements JsonDeserializer {
+
+		@Override
+		public GoalDescription deserialize(JsonElement json, Type typeOfT,
+				JsonDeserializationContext context) throws JsonParseException {
+			JsonObject jsonAsObject = JsonUtils.getJsonElementAsJsonObject(
+					json, "goal");
+			if (!jsonAsObject.has("type")) {
+				throw new JsonParseException("Goal has no type");
+			} else {
+				String type = JsonUtils.getJsonObjectStringFieldValue(
+						jsonAsObject, "type");
+				String[] dependencies = new String[0];
+				if (jsonAsObject.has("dependencies")) {
+					List<String> list = new ArrayList<String>();
+					Iterator<JsonElement> iter = JsonUtils
+							.getJsonObjectJsonArrayField(jsonAsObject,
+									"dependencies").getAsJsonArray().iterator();
+					JsonElement element;
+					while (iter.hasNext()) {
+						element = iter.next();
+						if (JsonUtils.jsonElementTypeIsString(element)) {
+							list.add(element.getAsString());
+						} else {
+							throw new JsonParseException(
+									"[MHFC] The array dependencies should be a String array.");
+						}
+					}
+					dependencies = list.toArray(new String[0]);
+				}
+				Object[] arguments = new String[0];
+				if (jsonAsObject.has("arguments")) {
+					List<Object> list = new ArrayList<Object>();
+					Iterator<JsonElement> iter = JsonUtils
+							.getJsonObjectJsonArrayField(jsonAsObject,
+									"arguments").getAsJsonArray().iterator();
+					JsonElement element;
+					while (iter.hasNext()) {
+						element = iter.next();
+						if (element.isJsonPrimitive()) {
+							list.add(element.getAsString());
+						} else {
+							context.deserialize(element, typeOfMapGoal);
+						}
+					}
+					arguments = list.toArray(new Object[0]);
+				}
+				return new GoalDescription(type, dependencies, arguments);
+			}
+		}
+	}
 
 	public static final String questLocation = "mhfc:quests/quests.json";
 	public static final String goalLocation = "mhfc:quests/goals.json";
@@ -36,264 +228,42 @@ public class MHFCRegQuests {
 
 	protected static HashMap<EntityPlayer, GeneralQuest> playerQuest = new HashMap<EntityPlayer, GeneralQuest>();
 	protected static List<GeneralQuest> quests = new ArrayList<GeneralQuest>();
-	private static int currentLine;
+	private final static Gson gsonInstance = (new GsonBuilder())
+			.registerTypeAdapter(GoalDescription.class, new GoalSerializer())
+			.registerTypeAdapter(QuestDescription.class, new QuestSerializer())
+			.create();
 
 	public static void init() {
+
 		generateQuests(new ResourceLocation(questLocation));
-		try {
-			generateGoals(new ResourceLocation(goalLocation));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch blocks
-			e.printStackTrace();
-		}
-		System.out.println("Goals: " + goalDescriptions.size());
-		GoalDescription d = goalDescriptions.get("Test");
-		System.out.println(String.format("%s %s %s", d.getGoalType(),
-				d.getArguments()[0], d.getArguments()[1]));
+		generateGoals(new ResourceLocation(goalLocation));
+		System.out.println("Number of Goals: " + goalDescriptions.size());
+		System.out.println("Number of Quests: " + questDescriptions.size());
+		QuestFactory.constructQuest(questDescriptions.get("TestQuest"), null);
 	}
 
-	private enum GoalReadState {
-		ReadName, ReadBodyBeginning, ReadBody, Finished, Invalid;
-	}
-
-	private static void generateGoals(ResourceLocation location)
-			throws ParseException {
+	private static void generateGoals(ResourceLocation location) {
 		if (location == null) {
 		} else {
-			try (BufferedReader reader = new BufferedReader(
-					new InputStreamReader(Minecraft.getMinecraft()
-							.getResourceManager().getResource(location)
-							.getInputStream()))) {
-				GoalReadState state = GoalReadState.ReadName;
-				String word = null;
-				currentLine = 1;
-				String name = null;
-				String goalType = null;
-				List<String> dependencies = null;
-				List<String> arguments = null;
-				boolean firstElementOfBody = true;
-				while (state != GoalReadState.Finished) {
-					switch (state) {
-						case ReadName :
-							System.out.println("Reading name");
-							if (name != null) {
-								throw new ParseException(
-										String.format(
-												"[MHFS] Exception while reading name, found a second name line before object body, in line %i",
-												currentLine), currentLine);
-							}
-							word = getNextWord(reader);
-							if (isBracketOrComma(word))
-								throw new ParseException(
-										String.format(
-												"[MHFS] Goal needs a name, can not start with this character, in line %i",
-												currentLine), currentLine);
-							else {
-								if (word == null)
-									state = GoalReadState.Finished;
-								else {
-									name = word;
-									state = GoalReadState.ReadBodyBeginning;
-								}
-							}
-							break;
-						case ReadBodyBeginning :
-							System.out.println("Reading body beginning");
-							word = getNextWord(reader);
-							if (!word.equals(":")) {
-								throw new ParseException(
-										String.format(
-												"[MHFS] Body must be preceeded with :, in line %s",
-												currentLine + ""), currentLine);
-							}
-							word = getNextWord(reader);
-							if (!word.equals("{"))
-								throw new ParseException(
-										String.format(
-												"[MHFS] Body must start with {, in line %s",
-												currentLine + ""), currentLine);
-							state = GoalReadState.ReadBody;
-							break;
-						case ReadBody :
-							System.out.println("Reading body");
-							word = getNextWord(reader);
-							if (word.equals("}")) {
-								if (goalType == null)
-									throw new ParseException(
-											String.format(
-													"[MHFS] Goal needs at least a type, in line %s",
-													currentLine + ""),
-											currentLine);
-								else {
-									if (arguments == null)
-										arguments = new ArrayList<String>();
-									if (dependencies == null)
-										dependencies = new ArrayList<String>();
-									goalDescriptions
-											.put(name,
-													new GoalDescription(
-															goalType,
-															dependencies
-																	.toArray(new String[0]),
-															arguments.toArray()));
-									state = GoalReadState.ReadName;
-									name = null;
-									goalType = null;
-									arguments = null;
-									dependencies = null;
-									firstElementOfBody = true;
-								}
-							} else {
-								if (!word.equals(",") && !word.equals(";")
-										&& !firstElementOfBody)
-									throw new ParseException(
-											String.format(
-													"[MHFS] Use comma or semicolon in between key-value pairs, in line %s",
-													currentLine + ""),
-											currentLine);
-								if (!firstElementOfBody)
-									word = getNextWord(reader);
-								firstElementOfBody = false;
-								switch (word) {
-									case "type" :
-										if (!getNextWord(reader).equals(":"))
-											throw new ParseException(
-													String.format(
-															"[MHFS] keyword not followed by :, in line %s",
-															currentLine + ""),
-													currentLine);
-										word = getNextWord(reader);
-										if (isBracketOrComma(word))
-											throw new ParseException(
-													String.format(
-															"[MHFS] Type may only be a string, in line %s",
-															currentLine + ""),
-													currentLine);
-										goalType = word;
-										break;
-									case "dependencyIDs" :
-										String next1,
-										next2;
-										next1 = getNextWord(reader);
-										next2 = getNextWord(reader);
-										if ((!next1.equals(":"))
-												|| (!next2.equals("[")))
-											throw new ParseException(
-													String.format(
-															"[MHFS] dependencyIDs is an array, use :[], in line %s",
-															currentLine + ""),
-													currentLine);
-										else {
-											dependencies = new ArrayList<String>();
-											word = getNextWord(reader);
-											if (!word.equals("]")) {
-												if (isBracketOrComma(word))
-													throw new ParseException(
-															String.format(
-																	"[MHFS] List has to begin with an element, in line %s",
-																	currentLine
-																			+ ""),
-															currentLine);
-												dependencies.add(word);
-											}
-											while (!word.equals("]")) {
-												if (!word.equals(",")
-														&& !word.equals(";"))
-													throw new ParseException(
-															String.format(
-																	"[MHFS] Use comma or semicolon in between values, in line %s",
-																	currentLine
-																			+ ""),
-															currentLine);
-												word = getNextWord(reader);
-												if (isBracketOrComma(word))
-													throw new ParseException(
-															String.format(
-																	"[MHFS] Brackets, commas and semicolons may not be used as values, in line %s",
-																	currentLine
-																			+ ""),
-															currentLine);
-												dependencies.add(word);
-												word = getNextWord(reader);
-											}
-										}
-										break;
-									case "arguments" :
-										next1 = getNextWord(reader);
-										next2 = getNextWord(reader);
-										if (!next1.equals(":")
-												|| !next2.equals("["))
-											throw new ParseException(
-													String.format(
-															"[MHFS] arguments is an array, use :[] instead of %s %s, in line %s",
-															next1, next2,
-															currentLine + ""),
-													currentLine);
-										else {
-											arguments = new ArrayList<String>();
-											word = getNextWord(reader);
-											if (!word.equals("]")) {
-												if (isBracketOrComma(word))
-													throw new ParseException(
-															String.format(
-																	"[MHFS] List has to begin with an element, in line %s",
-																	currentLine
-																			+ ""),
-															currentLine);
-												arguments.add(word);
-											}
-											word = getNextWord(reader);
-											while (!word.equals("]")) {
-												if (!word.equals(",")
-														&& !word.equals(";"))
-													throw new ParseException(
-															String.format(
-																	"[MHFS] Use comma or semicolon in between values instead of %s, in line %s",
-																	word,
-																	currentLine
-																			+ ""),
-															currentLine);
-												word = getNextWord(reader);
-												if (isBracketOrComma(word))
-													throw new ParseException(
-															String.format(
-																	"[MHFS] Brackets, commas and semicolons may not be used as values, in line %s",
-																	currentLine
-																			+ ""),
-															currentLine);
-												arguments.add(word);
-												word = getNextWord(reader);
-											}
-										}
-										break;
-									default :
-										throw new ParseException(
-												String.format(
-														"[MHFS] %s is not a keyword, in line %s",
-														word, currentLine + ""),
-												currentLine);
-								}
-							}
-							break;
-						case Finished :
-							System.out.println("Finished reading file");
-							break;
-						case Invalid :
-						default :
-							throw new ParseException(
-									String.format(
-											"[MHFS] File %s is not anywhere near being a goal file",
-											location.getResourcePath()),
-									currentLine);
-					}
+			try (InputStream input = Minecraft.getMinecraft()
+					.getResourceManager().getResource(location)
+					.getInputStream();
+					BufferedReader reader = new BufferedReader(
+							new InputStreamReader(input))) {
+				Map<String, GoalDescription> map = (Map<String, GoalDescription>) gsonInstance
+						.fromJson(reader, typeOfMapGoal);
+				for (String qualifier : map.keySet()) {
+					goalDescriptions.put(qualifier, map.get(qualifier));
 				}
-
-			} catch (IOException ex) {
-
+				System.out.println("[MHFC] Loaded " + goalDescriptions.size()
+						+ " goals");
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
 
+	//@formatter:off
 	/**
 	 * Get the next string of characters that is considered a word. Words are
 	 * divided by whitespace character chars, commas and semicolons, or all
@@ -306,7 +276,7 @@ public class MHFCRegQuests {
 	 * @return Returns the next word or null if the end of file was reached.
 	 * @throws IOException
 	 *             Passed on from reader.read()
-	 */
+	 *
 	private static String getNextWord(BufferedReader reader) throws IOException {
 		char a = getChar(reader);
 		while (a != ((char) -1) && Character.isWhitespace(a)) {
@@ -354,7 +324,7 @@ public class MHFCRegQuests {
 	/**
 	 * Determines if a character is a bracket, a comma or a semicolon.
 	 * 
-	 */
+	 *
 	private static boolean isBracketOrComma(char a) {
 		return a == '{' || a == '}' || a == '(' || a == ')' || a == '['
 				|| a == ']' || a == ',' || a == ';';
@@ -372,11 +342,28 @@ public class MHFCRegQuests {
 		} while (retString != null
 				&& (retString.startsWith("//") || retString.startsWith("#")));
 		return retString;
-	}
+	}*/
+	//@formatter:on
 
 	private static void generateQuests(ResourceLocation location) {
-		// TODO Auto-generated method stub
-
+		if (location == null) {
+		} else {
+			try (InputStream input = Minecraft.getMinecraft()
+					.getResourceManager().getResource(location)
+					.getInputStream();
+					BufferedReader reader = new BufferedReader(
+							new InputStreamReader(input))) {
+				Map<String, QuestDescription> map = (Map) gsonInstance
+						.fromJson(reader, typeOfMapQuest);
+				for (String qualifier : map.keySet()) {
+					questDescriptions.put(qualifier, map.get(qualifier));
+				}
+				System.out.println("[MHFC] Loaded " + questDescriptions.size()
+						+ " quests");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static QuestDescription getQuestDescription(String id) {

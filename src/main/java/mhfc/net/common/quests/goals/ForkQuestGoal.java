@@ -67,8 +67,7 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 	@Override
 	public void questGoalStatusNotification(QuestGoal goal,
 			EnumSet<QuestStatus> newStatus) {
-		// TODO Auto-generated method stub
-
+		notifyOfStatus(isFulfilled(), isFailed());
 	}
 
 	@Override

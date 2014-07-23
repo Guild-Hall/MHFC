@@ -1,5 +1,7 @@
 package mhfc.net.common.quests;
 
+import mhfc.net.common.core.registry.MHFCRegQuests;
+
 /**
  * Used by the QuestFactory as well as to display quests.
  */
@@ -24,6 +26,7 @@ public class QuestDescription {
 	public static final QuestType QT_GATHERING = QuestType.Gathering;
 
 	protected String goalDescID;
+	protected GoalDescription goalDesc;
 	protected String name;
 	protected QuestType type;
 	protected int timeLimitInS;
@@ -56,8 +59,19 @@ public class QuestDescription {
 		this.maxPartySize = maxPartySize;
 	}
 
-	public String getGoalDescriptionID() {
-		return goalDescID;
+	public QuestDescription(GoalDescription goalDesc, String name,
+			QuestType type, int reward, int fee, int maxPartySize,
+			int timeLimit, String areaId, String description, String client,
+			String aims, String fails) {
+		this((String) null, name, type, reward, fee, maxPartySize, timeLimit,
+				areaId, description, client, aims, fails);
+		this.goalDesc = goalDesc;
+	}
+
+	public GoalDescription getGoalDescription() {
+		if (goalDescID == null)
+			return goalDesc;
+		return MHFCRegQuests.getGoalDescription(goalDescID);
 	}
 
 	public String getName() {

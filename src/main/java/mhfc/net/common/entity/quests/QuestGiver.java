@@ -1,7 +1,7 @@
 package mhfc.net.common.entity.quests;
 
-import mhfc.net.client.gui.quests.QuestGiverScreen;
-import net.minecraft.client.Minecraft;
+import mhfc.net.MHFCMain;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +28,9 @@ public class QuestGiver extends EntityLiving {
 
 	@Override
 	protected boolean interact(EntityPlayer player) {
-		Minecraft.getMinecraft().displayGuiScreen(new QuestGiverScreen());
+		player.openGui(MHFCMain.instance, MHFCReference.gui_questgiver_id,
+				this.worldObj, (int) this.posX, (int) this.posY,
+				(int) this.posZ);
 		return true;
 	}
 

@@ -271,8 +271,10 @@ public class MHFCReference {
 	public static final String weapon_ls_ironkatana_icon = "mhfc:longsword";
 	public static final String weapon_ls_ironkatana_name = "longsword_1";
 	public static final String weapon_ls_ironkatana_tex = "mhfc:textures/weapons/(LS)ironkatana.png";
+	public static final String gui_questgiver_back_tex = "mhfc:texture/gui/questgiver.png";
 
 	public static final int gui_hunterbench_id = 1;
+	public static final int gui_questgiver_id = 2;
 	public static final int potion_paralyze_iconindex = 1;
 	public static final int potion_kirinbless_iconindex = 2;
 

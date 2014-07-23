@@ -1,4 +1,10 @@
-Test : {
-	type : "hunting" ,
-	arguments: ["Kirin", "3"]
+{
+	Test : {
+		type : "hunting" ,
+		arguments : ["Kirin", "3"]
+	},
+	StandardTimer : {
+		type : "time",
+		arguments : [90000]
+	}
 }

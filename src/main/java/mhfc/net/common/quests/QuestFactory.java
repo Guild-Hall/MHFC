@@ -5,6 +5,7 @@ import mhfc.net.common.quests.goals.ChainQuestGoal;
 import mhfc.net.common.quests.goals.ForkQuestGoal;
 import mhfc.net.common.quests.goals.HuntingQuestGoal;
 import mhfc.net.common.quests.goals.QuestGoal;
+import mhfc.net.common.quests.goals.TimeQuestGoal;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -26,8 +27,7 @@ public class QuestFactory {
 	 */
 	public static GeneralQuest constructQuest(QuestDescription qd,
 			EntityPlayer initiator) {
-		QuestGoal goal = constructGoal(getGoalDescription(qd
-				.getGoalDescriptionID()));
+		QuestGoal goal = constructGoal(qd.getGoalDescription());
 		if (goal == null)
 			return null;
 		GeneralQuest quest = new GeneralQuest(goal, qd.getMaxPartySize(),
@@ -60,34 +60,33 @@ public class QuestFactory {
 								.getClass())
 						|| !String.class.isAssignableFrom(gd.getArguments()[1]
 								.getClass()))
-					return null;
+					throw new IllegalArgumentException(
+							"[MHFC] A hunter goal needs a String and a string representing an integer argument");
 
 				Class<?> goalClass = (Class<?>) EntityList.stringToClassMapping
 						.get(gd.arguments[0]);
 				if (goalClass == null)
-					return null;
+					throw new IllegalArgumentException(
+							"[MHFC] The mob identifier could not be resolved");
 				int number = Integer.parseInt((String) gd.getArguments()[1]);
 				HuntingQuestGoal hGoal = new HuntingQuestGoal(null, goalClass,
 						number);
 				goal = hGoal;
 				break;
 			case "chain" :
-				if (gd.getDependencyIds().length == 0)
+				if (gd.getDependencies().length == 0)
 					goal = new ChainQuestGoal(null);
-				else if (gd.getDependencyIds().length == 1) {
-					QuestGoal dep1 = constructGoal(getGoalDescription(gd
-							.getDependencyIds()[0]));
+				else if (gd.getDependencies().length == 1) {
+					QuestGoal dep1 = constructGoal(gd.getDependencies()[0]);
 					if (dep1 == null) {
 						// TODO What should be done here?
 					} else {
 						goal = new ChainQuestGoal(dep1);
 						dep1.setSocket((ChainQuestGoal) goal);
 					}
-				} else if (gd.getDependencyIds().length == 2) {
-					QuestGoal dep1 = constructGoal(getGoalDescription(gd
-							.getDependencyIds()[0]));
-					QuestGoal dep2 = constructGoal(getGoalDescription(gd
-							.getDependencyIds()[1]));
+				} else if (gd.getDependencies().length == 2) {
+					QuestGoal dep1 = constructGoal(gd.getDependencies()[0]);
+					QuestGoal dep2 = constructGoal(gd.getDependencies()[1]);
 					if (dep1 == null || dep2 == null) {
 						// TODO What should be done here?
 					} else {
@@ -96,24 +95,37 @@ public class QuestFactory {
 						dep2.setSocket((ChainQuestGoal) goal);
 					}
 				} else {
-					// TODO Too many dependencies for ChainQuestGoal, do sth
+					throw new IllegalArgumentException(
+							"[MHFC] Too many dependencies for a chain goal");
 				}
 				break;
 			case "fork" :
 				ForkQuestGoal fGoal = new ForkQuestGoal(null);
-				for (String str : gd.getDependencyIds()) {
-					QuestGoal dep = constructGoal(getGoalDescription(str));
+				for (GoalDescription desc : gd.getDependencies()) {
+					QuestGoal dep = constructGoal(desc);
 					if (dep == null) {
-						// TODO Wrong dependency, do sth
+						throw new IllegalArgumentException(
+								"[MHFC] A dependency of the description was wrong");
 					} else {
 						fGoal.addRequisite(dep);
 					}
 				}
 				// TODO what with optional?
+				goal = fGoal;
+				break;
+			case "time" :
+				if (gd.getArguments().length != 1
+						|| !String.class.isAssignableFrom(gd.getArguments()[0]
+								.getClass())) {
+					throw new IllegalArgumentException(
+							"A time goal expect exactly one argument in string format that represents an integer");
+				}
+				Integer i = Integer.parseInt((String) gd.getArguments()[0]);
+				goal = new TimeQuestGoal(i.intValue());
 				break;
 			default :
 				break;
 		}
-		return null;
+		return goal;
 	}
 }
