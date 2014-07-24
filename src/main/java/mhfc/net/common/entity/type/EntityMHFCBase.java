@@ -263,25 +263,20 @@ public abstract class EntityMHFCBase extends EntityCreature
 	}
 
 	@Override
+	public boolean shouldDisplayPart(String part, float subFrame) {
+		// AnimationInformation & IAnimatedEntity
+		return true;
+	}
+
+	@Override
 	public AnimationInformation getAnimInformation() {
 		// TODO: return the AI here
 		return this;
 	}
 
 	@Override
-	public int getAnimationFrame() {
-		// TODO: get this from the AI
-		return 0;
-	}
-
-	@Override
 	public MHFCAttack getCurrentAttack() {
-		// TODO: get this from the AI
-		return null;
-	}
-
-	@Override
-	public String[] getPartsToRender() {
+		// AnimationInformation
 		// TODO: get this from the AI
 		return null;
 	}

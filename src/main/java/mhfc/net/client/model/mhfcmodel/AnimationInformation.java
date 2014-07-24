@@ -16,20 +16,14 @@ public interface AnimationInformation {
 	 */
 	public MHFCAttack getCurrentAttack();
 	/**
-	 * Gets the frame the animation is currently in. If the frame is not in
-	 * range of the animation and the animation is not cyclic it will be shown
-	 * as clamped to (0, lastFrame).
+	 * Gets if a certain part should be shown This allows the the animation to
+	 * define parts that are only visible during a part of the animation like
+	 * the spikes on Nargacuga's tail. This can be overridden by the entity.
 	 *
-	 * @return the current frame/tick of the animation to play
+	 * @param part
+	 *            the part in question
+	 * @param subFrame
+	 *            the current subframe to render
 	 */
-	public int getAnimationFrame();
-	/**
-	 * Gets a list of parts that will be rendered. Like this one can switch very
-	 * easily between multiple looks. The Strings must be the same as the
-	 * specific part is named in the model itself. Returning {@code null} here
-	 * will render all available parts (for debug purposes).
-	 *
-	 * @return a list of parts to render
-	 */
-	public String[] getPartsToRender();
+	public boolean shouldDisplayPart(String part, float subFrame);
 }

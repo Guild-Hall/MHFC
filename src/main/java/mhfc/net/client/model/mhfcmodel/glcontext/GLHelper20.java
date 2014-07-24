@@ -1,23 +1,11 @@
 package mhfc.net.client.model.mhfcmodel.glcontext;
 
-import static org.lwjgl.opengl.GL11.GL_FALSE;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
-import static org.lwjgl.opengl.GL11.glBegin;
-import static org.lwjgl.opengl.GL11.glColor3f;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glGetInteger;
-import static org.lwjgl.opengl.GL11.glVertex3f;
 import static org.lwjgl.opengl.GL20.GL_CURRENT_PROGRAM;
-import static org.lwjgl.opengl.GL20.GL_LINK_STATUS;
 import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
 import static org.lwjgl.opengl.GL20.glAttachShader;
+import static org.lwjgl.opengl.GL20.glDeleteShader;
 import static org.lwjgl.opengl.GL20.glDetachShader;
-import static org.lwjgl.opengl.GL20.glGetProgramInfoLog;
-import static org.lwjgl.opengl.GL20.glGetProgrami;
-import static org.lwjgl.opengl.GL20.glLinkProgram;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import mhfc.net.client.model.mhfcmodel.AnimationInformation;
 import mhfc.net.client.model.mhfcmodel.MHFCAttack;
@@ -29,6 +17,7 @@ public class GLHelper20 implements IGLHelper<ModelData20> {
 	private static boolean initiated = false;
 	private static int shaderName;
 	private static int programName;
+	private static int proxyProgram;
 
 	private static void init() {
 		try {
@@ -37,12 +26,12 @@ public class GLHelper20 implements IGLHelper<ModelData20> {
 						GLHelper20.class.getResourceAsStream("default20.vsh"));
 			if (programName == 0)
 				programName = GLStatics.createProgramSafe();
+			if (proxyProgram == 0)
+				proxyProgram = GLStatics.createProgramSafe();
 			glAttachShader(programName, shaderName);
-			glLinkProgram(programName);
-			if (glGetProgrami(programName, GL_LINK_STATUS) == GL_FALSE) {
-				String error = glGetProgramInfoLog(programName, 1024);
-				throw new IllegalStateException(error);
-			}
+			GLStatics.linkProgramSafe(programName);
+			glDeleteShader(shaderName); // Can now do this, shader always linked
+										// to programName
 		} catch (Exception e) {
 			throw new IllegalStateException(
 					"Error setting up OpenGL enviroment.", e);
@@ -62,7 +51,8 @@ public class GLHelper20 implements IGLHelper<ModelData20> {
 	}
 
 	@Override
-	public void render(ModelData20 data, IMHFCAnimatedEntity animatedEntity) {
+	public void render(ModelData20 data, IMHFCAnimatedEntity animatedEntity,
+			float subFrame) {
 		ensureInit();
 		int currProgram = glGetInteger(GL_CURRENT_PROGRAM);
 		int currVertexShader = 0;
@@ -72,50 +62,38 @@ public class GLHelper20 implements IGLHelper<ModelData20> {
 			currVertexShader = GLStatics.getShader(currProgram,
 					GL_VERTEX_SHADER);
 			if (currVertexShader != 0) {
+				glAttachShader(proxyProgram, currVertexShader);
 				glDetachShader(currProgram, currVertexShader);
 			}
 			glAttachShader(currProgram, shaderName);
-			glLinkProgram(currProgram);
+			GLStatics.linkProgramSafe(currProgram);
 		}
-
+		// TODO: enable streaming approach once finished with the modelformat
+		// Stream<String> partsStream = data.getParts().stream();
 		AnimationInformation info = animatedEntity.getAnimInformation();
-		String[] renderedParts = null;
 		if (info != null) {
-			int currFrame = info.getAnimationFrame();
 			MHFCAttack currAttk = info.getCurrentAttack();
 			if (currAttk != null) {
 				// TODO: bind in another way
-				currAttk.glBindBoneMatrices(0, currFrame, currFrame);
+				currAttk.glBindBoneMatrices(0, subFrame);
 			}
-			renderedParts = info.getPartsToRender();
+			// partsStream
+			// .filter((part) -> info.shouldDisplayPart(part, subFrame));
 		}
-		if (renderedParts == null) {
-			renderAll();
-		} else {
-			renderOnly(renderedParts);
-		}
+		// partsStream.forEach(this::renderPart);
 
 		if (currProgram != 0) {
-			glDetachShader(currProgram, shaderName);
+			glDetachShader(currProgram, shaderName); // Can safely detach
 			if (currVertexShader != 0) {
 				glAttachShader(currProgram, currVertexShader);
+				glDetachShader(proxyProgram, currVertexShader);
 			}
-			glLinkProgram(currProgram);
+			GLStatics.linkProgramSafe(currProgram);
 		}
 		glUseProgram(currProgram);
 	}
-	protected void renderAll() {
-		// TODO: Render the actual model
-		glDisable(GL_TEXTURE_2D);
-		glBegin(GL_TRIANGLES);
-		glColor3f(1.0f, 1.0f, 1.0f);
-		glVertex3f(0, 0, 0);
-		glVertex3f(1, 0, 0);
-		glVertex3f(0, 1, 0);
-		glEnd();
-		glEnable(GL_TEXTURE_2D);
-	}
 
-	protected void renderOnly(String... groupNames) {
+	protected void renderPart(String string) {
+		// TODO: make this renderPart(Part part);
 	}
 }

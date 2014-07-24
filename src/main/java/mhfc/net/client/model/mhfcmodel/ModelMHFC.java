@@ -62,7 +62,7 @@ public class ModelMHFC extends PartTickModelBase implements IModelCustom {
 							"Entity rendered must be an IMHFCAnimatedEntity. EntityId %d",
 							entity.getEntityId()));
 		IMHFCAnimatedEntity animatedEntity = (IMHFCAnimatedEntity) entity;
-		glHelper.render(modelData, animatedEntity);
+		glHelper.render(modelData, animatedEntity, this.getPartialTick());
 	}
 	@Override
 	public ModelRenderer getRandomModelBox(Random r) {

@@ -32,6 +32,8 @@ public interface IGLHelper<T extends IModelData> {
 	 *            the data to render
 	 * @param entity
 	 *            the entity to render
+	 * @param subFrame
+	 *            the current subFrame, always 0.0 <= subFrame <= 1.0
 	 **/
-	public void render(T data, IMHFCAnimatedEntity entity);
+	public void render(T data, IMHFCAnimatedEntity entity, float subFrame);
 }

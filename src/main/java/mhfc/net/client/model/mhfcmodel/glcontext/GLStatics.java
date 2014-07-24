@@ -3,14 +3,19 @@ package mhfc.net.client.model.mhfcmodel.glcontext;
 import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL20.GL_ATTACHED_SHADERS;
 import static org.lwjgl.opengl.GL20.GL_COMPILE_STATUS;
+import static org.lwjgl.opengl.GL20.GL_INFO_LOG_LENGTH;
+import static org.lwjgl.opengl.GL20.GL_LINK_STATUS;
 import static org.lwjgl.opengl.GL20.GL_SHADER_TYPE;
 import static org.lwjgl.opengl.GL20.glCompileShader;
 import static org.lwjgl.opengl.GL20.glCreateProgram;
 import static org.lwjgl.opengl.GL20.glCreateShader;
+import static org.lwjgl.opengl.GL20.glDeleteShader;
 import static org.lwjgl.opengl.GL20.glGetAttachedShaders;
+import static org.lwjgl.opengl.GL20.glGetProgramInfoLog;
 import static org.lwjgl.opengl.GL20.glGetProgrami;
 import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
 import static org.lwjgl.opengl.GL20.glGetShaderi;
+import static org.lwjgl.opengl.GL20.glLinkProgram;
 import static org.lwjgl.opengl.GL20.glShaderSource;
 
 import java.io.IOException;
@@ -56,6 +61,8 @@ public class GLStatics {
 		glCompileShader(shaderName);
 		if (glGetShaderi(shaderName, GL_COMPILE_STATUS) == GL_FALSE) {
 			String error = glGetShaderInfoLog(shaderName, 1024);
+			glDeleteShader(shaderName); // Delete first as it will be out of
+										// scope
 			throw new IllegalStateException(error);
 		}
 		return shaderName;
@@ -86,4 +93,12 @@ public class GLStatics {
 		return 0;
 	}
 
+	public static void linkProgramSafe(int program) {
+		glLinkProgram(program);
+		if (glGetProgrami(program, GL_LINK_STATUS) == GL_FALSE) {
+			int errorLength = glGetProgrami(program, GL_INFO_LOG_LENGTH);
+			String error = glGetProgramInfoLog(program, errorLength);
+			throw new IllegalStateException(error);
+		}
+	}
 }
