@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 
 public class MHFCJobHandler {
 	private static MHFCJobHandler instance;
+	static {
+		instance = new MHFCJobHandler();
+		FMLCommonHandler.instance().bus().register(instance);
+	}
 
 	private abstract class JobListElement {
 		public abstract JobListElement insert(MHFCDelayedJob job, int delay);
@@ -127,7 +133,12 @@ public class MHFCJobHandler {
 	}
 
 	@SubscribeEvent
-	public void receiveTick(TickEvent tick) {
+	public void receiveTick(ClientTickEvent tick) {
+		startOfList = startOfList.tick();
+	}
+
+	@SubscribeEvent
+	public void receiveTick(ServerTickEvent tick) {
 		startOfList = startOfList.tick();
 	}
 
