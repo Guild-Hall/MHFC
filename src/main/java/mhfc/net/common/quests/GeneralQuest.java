@@ -54,13 +54,24 @@ public class GeneralQuest implements QuestGoalSocket {
 	@Override
 	public void questGoalStatusNotification(QuestGoal goal,
 			EnumSet<QuestStatus> newStatus) {
-		// TODO Auto-generated method stub
+		if (newStatus.contains(QuestStatus.Fulfilled))
+			onSuccess();
+		if (newStatus.contains(QuestStatus.Failed))
+			onFail();
+	}
 
+	protected void onFail() {
+		// TODO Teleport back when we have not finished yet, don't reward
+	}
+
+	protected void onSuccess() {
+		// TODO tp back and reward the players for finishing the quest
 	}
 
 	public boolean canJoin(EntityPlayer player) {
 		// TODO add more evaluation
-		if (state == QuestState.pending && playerCount < players.length) {
+		if (state == QuestState.pending && playerCount < players.length
+				&& MHFCRegQuests.getQuestForPlayer(player) == null) {
 			return true;
 		}
 		return false;
@@ -82,5 +93,29 @@ public class GeneralQuest implements QuestGoalSocket {
 			++playerCount;
 			MHFCRegQuests.setQuestForPlayer(player, this);
 		}
+	}
+
+	public boolean leavePlayer(EntityPlayer player) {
+		int i;
+		boolean found = false;
+		for (i = 0; i < players.length; i++) {
+			if (players[i] == player) {
+				found = true;
+				break;
+			}
+		}
+		if (found) {
+			// TODO teleport the player back to the overworld if this happened
+			// during the quest (cautious of him being online) else do nothing
+			MHFCRegQuests.setQuestForPlayer(players[i], null);
+		}
+		for (; i < players.length; i++) {
+			players[i] = (i == players.length - 1 ? null : players[i + 1]);
+		}
+		return found;
+	}
+
+	public EntityPlayer[] getPlayers() {
+		return players;
 	}
 }

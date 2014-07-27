@@ -6,5 +6,13 @@
 	StandardTimer : {
 		type : "time",
 		arguments : [90000]
+	},
+	StandardDeath : {
+		type : "death",
+		arguments : [2]
+	},
+	StandardFail : {
+		type : "fork",
+		dependencies : ["StandardDeath", "StandardTimer"]
 	}
 }

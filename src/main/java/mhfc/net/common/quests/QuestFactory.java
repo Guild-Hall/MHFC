@@ -2,6 +2,7 @@ package mhfc.net.common.quests;
 
 import mhfc.net.common.core.registry.MHFCRegQuests;
 import mhfc.net.common.quests.goals.ChainQuestGoal;
+import mhfc.net.common.quests.goals.DeathRestrictionQuestGoal;
 import mhfc.net.common.quests.goals.ForkQuestGoal;
 import mhfc.net.common.quests.goals.HuntingQuestGoal;
 import mhfc.net.common.quests.goals.QuestGoal;
@@ -50,7 +51,6 @@ public class QuestFactory {
 	 */
 //@formatter:on
 
-	// TODO throw some more exceptions for debugging
 	public static QuestGoal constructGoal(GoalDescription gd) {
 		QuestGoal goal = null;
 		switch (gd.getGoalType()) {
@@ -113,15 +113,27 @@ public class QuestFactory {
 				// TODO what with optional?
 				goal = fGoal;
 				break;
+			case "timer" :
 			case "time" :
 				if (gd.getArguments().length != 1
 						|| !String.class.isAssignableFrom(gd.getArguments()[0]
 								.getClass())) {
 					throw new IllegalArgumentException(
-							"A time goal expect exactly one argument in string format that represents an integer");
+							"A time goal expects exactly one argument in string format that represents an integer");
 				}
 				Integer i = Integer.parseInt((String) gd.getArguments()[0]);
 				goal = new TimeQuestGoal(i.intValue());
+				break;
+			case "death restriction" :
+			case "death" :
+				if (gd.getArguments().length != 1
+						|| !String.class.isAssignableFrom(gd.getArguments()[0]
+								.getClass())) {
+					throw new IllegalArgumentException(
+							"A death restriction goal expects exactly one argument in string format that represents an integer");
+				}
+				i = Integer.parseInt((String) gd.getArguments()[0]);
+				goal = new DeathRestrictionQuestGoal(i.intValue());
 				break;
 			default :
 				break;

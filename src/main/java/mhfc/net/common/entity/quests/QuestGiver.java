@@ -5,6 +5,7 @@ import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
@@ -12,6 +13,7 @@ public class QuestGiver extends EntityLiving {
 
 	public QuestGiver(World world) {
 		super(world);
+		this.boundingBox.setBounds(0, 0, 0, 0, 0, 0);
 	}
 
 	@Override
@@ -47,6 +49,12 @@ public class QuestGiver extends EntityLiving {
 	@Override
 	public boolean canBeCollidedWith() {
 		return false;
+	}
+
+	@Override
+	public AxisAlignedBB getBoundingBox() {
+		// TODO Auto-generated method stub
+		return super.getBoundingBox();
 	}
 
 }

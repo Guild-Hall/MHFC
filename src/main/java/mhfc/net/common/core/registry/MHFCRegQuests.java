@@ -237,8 +237,10 @@ public class MHFCRegQuests {
 
 		generateQuests(new ResourceLocation(questLocation));
 		generateGoals(new ResourceLocation(goalLocation));
-		System.out.println("Number of Goals: " + goalDescriptions.size());
-		System.out.println("Number of Quests: " + questDescriptions.size());
+		System.out.println("[MHFC] Number of goals loaded: "
+				+ goalDescriptions.size());
+		System.out.println("[MHFC] Number of quests loaded: "
+				+ questDescriptions.size());
 		QuestFactory.constructQuest(questDescriptions.get("TestQuest"), null);
 	}
 
@@ -255,8 +257,6 @@ public class MHFCRegQuests {
 				for (String qualifier : map.keySet()) {
 					goalDescriptions.put(qualifier, map.get(qualifier));
 				}
-				System.out.println("[MHFC] Loaded " + goalDescriptions.size()
-						+ " goals");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -358,8 +358,6 @@ public class MHFCRegQuests {
 				for (String qualifier : map.keySet()) {
 					questDescriptions.put(qualifier, map.get(qualifier));
 				}
-				System.out.println("[MHFC] Loaded " + questDescriptions.size()
-						+ " quests");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -391,9 +389,16 @@ public class MHFCRegQuests {
 		return quests;
 	}
 
+	/**
+	 * Sets the quest for a player, use null to remove the entry
+	 * 
+	 */
 	public static void setQuestForPlayer(EntityPlayer player,
 			GeneralQuest generalQuest) {
-		playerQuest.put(player, generalQuest);
+		if (generalQuest == null)
+			playerQuest.remove(player);
+		else
+			playerQuest.put(player, generalQuest);
 	}
 
 	public static void registerQuest(GeneralQuest generalQuest) {
