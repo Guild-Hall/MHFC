@@ -24,7 +24,7 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 /**
- * Static Helper for common methods that {@link IGLHelper}s might use.
+ * Static Helper for common methods that {@link GLHelper}s might use.
  *
  * @author WorldSEnder
  *

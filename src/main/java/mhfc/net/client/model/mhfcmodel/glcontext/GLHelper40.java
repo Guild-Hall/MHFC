@@ -17,10 +17,10 @@ import static org.lwjgl.opengl.GL41.glUseProgramStages;
 import mhfc.net.client.model.mhfcmodel.AnimationInformation;
 import mhfc.net.client.model.mhfcmodel.MHFCAttack;
 import mhfc.net.client.model.mhfcmodel.data.ModelData40;
-import mhfc.net.client.model.mhfcmodel.data.RawModelData;
+import mhfc.net.client.model.mhfcmodel.data.RawDataV1;
 import mhfc.net.common.entity.type.IMHFCAnimatedEntity;
 
-public class GLHelper40 implements IGLHelper<ModelData40> {
+public class GLHelper40 extends GLHelper {
 	protected static final int EXTERNAL_SHADER_BITS = GL_FRAGMENT_SHADER_BIT
 			| GL_TESS_CONTROL_SHADER_BIT | GL_TESS_EVALUATION_SHADER_BIT;
 
@@ -53,15 +53,16 @@ public class GLHelper40 implements IGLHelper<ModelData40> {
 			init();
 	}
 
+	private ModelData40 modelData;
+
 	@Override
-	public ModelData40 translate(RawModelData amd) {
-		// TODO Auto-generated method stub
-		return null;
+	public void loadInto(RawDataV1 datav1) {
+		// TODO: datav1 -> modelData
+
 	}
 
 	@Override
-	public void render(ModelData40 data, IMHFCAnimatedEntity animatedEntity,
-			float subFrame) {
+	public void render(IMHFCAnimatedEntity animatedEntity, float subFrame) {
 		ensureInit();
 		int currProgram = glGetInteger(GL_CURRENT_PROGRAM);
 		int currPipeline = glGetInteger(GL_PROGRAM_PIPELINE_BINDING);
@@ -90,5 +91,4 @@ public class GLHelper40 implements IGLHelper<ModelData40> {
 	protected void renderPart(String string) {
 		// TODO: make this renderPart(Part part);
 	}
-
 }

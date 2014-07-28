@@ -10,10 +10,10 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
 import mhfc.net.client.model.mhfcmodel.AnimationInformation;
 import mhfc.net.client.model.mhfcmodel.MHFCAttack;
 import mhfc.net.client.model.mhfcmodel.data.ModelData20;
-import mhfc.net.client.model.mhfcmodel.data.RawModelData;
+import mhfc.net.client.model.mhfcmodel.data.RawDataV1;
 import mhfc.net.common.entity.type.IMHFCAnimatedEntity;
 
-public class GLHelper20 implements IGLHelper<ModelData20> {
+public class GLHelper20 extends GLHelper {
 	private static boolean initiated = false;
 	private static int shaderName;
 	private static int programName;
@@ -44,15 +44,16 @@ public class GLHelper20 implements IGLHelper<ModelData20> {
 			init();
 	}
 
+	private ModelData20 modelData;
+
 	@Override
-	public ModelData20 translate(RawModelData amd) {
+	public void loadInto(RawDataV1 datav1) {
 		// TODO Auto-generated method stub
-		return null;
+
 	}
 
 	@Override
-	public void render(ModelData20 data, IMHFCAnimatedEntity animatedEntity,
-			float subFrame) {
+	public void render(IMHFCAnimatedEntity animatedEntity, float subFrame) {
 		ensureInit();
 		int currProgram = glGetInteger(GL_CURRENT_PROGRAM);
 		int currVertexShader = 0;

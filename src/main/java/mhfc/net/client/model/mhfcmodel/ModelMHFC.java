@@ -3,11 +3,10 @@ package mhfc.net.client.model.mhfcmodel;
 import java.util.Random;
 
 import mhfc.net.client.model.PartTickModelBase;
-import mhfc.net.client.model.mhfcmodel.data.IModelData;
-import mhfc.net.client.model.mhfcmodel.data.RawModelData;
+import mhfc.net.client.model.mhfcmodel.data.IRawData;
+import mhfc.net.client.model.mhfcmodel.glcontext.GLHelper;
 import mhfc.net.client.model.mhfcmodel.glcontext.GLHelper20;
 import mhfc.net.client.model.mhfcmodel.glcontext.GLHelper40;
-import mhfc.net.client.model.mhfcmodel.glcontext.IGLHelper;
 import mhfc.net.client.model.mhfcmodel.loader.VersionizedModelLoader;
 import mhfc.net.common.entity.type.IMHFCAnimatedEntity;
 import net.minecraft.client.model.ModelRenderer;
@@ -24,17 +23,16 @@ import org.lwjgl.opengl.GLContext;
  *
  */
 public class ModelMHFC extends PartTickModelBase implements IModelCustom {
-	@SuppressWarnings("unchecked")
-	protected static final IGLHelper<IModelData> glHelper = (IGLHelper<IModelData>) getCorrectGLHelper();
+	protected static final boolean supportsPipelines = GLContext
+			.getCapabilities().GL_ARB_separate_shader_objects;
 
-	private static IGLHelper<? extends IModelData> getCorrectGLHelper() {
-		final boolean supportsPipelines = GLContext.getCapabilities().GL_ARB_separate_shader_objects;
+	private static GLHelper getCorrectGLHelper() {
 		if (supportsPipelines)
 			return new GLHelper40();
 		return new GLHelper20();
 	}
 
-	private IModelData modelData;
+	private GLHelper renderHelper;
 
 	/**
 	 * Creates a new ModelMHFC.
@@ -48,8 +46,9 @@ public class ModelMHFC extends PartTickModelBase implements IModelCustom {
 	 *             malformed
 	 */
 	public ModelMHFC(ResourceLocation resource) throws ModelFormatException {
-		RawModelData amd = VersionizedModelLoader.loadVersionized(resource);
-		this.modelData = glHelper.translate(amd);
+		IRawData amd = VersionizedModelLoader.loadVersionized(resource);
+		this.renderHelper = getCorrectGLHelper();
+		renderHelper.loadInto(amd);
 	}
 
 	@Override
@@ -62,8 +61,9 @@ public class ModelMHFC extends PartTickModelBase implements IModelCustom {
 							"Entity rendered must be an IMHFCAnimatedEntity. EntityId %d",
 							entity.getEntityId()));
 		IMHFCAnimatedEntity animatedEntity = (IMHFCAnimatedEntity) entity;
-		glHelper.render(modelData, animatedEntity, this.getPartialTick());
+		renderHelper.render(animatedEntity, this.getPartialTick());
 	}
+
 	@Override
 	public ModelRenderer getRandomModelBox(Random r) {
 		// FIXME For some reason we cannot return null here
