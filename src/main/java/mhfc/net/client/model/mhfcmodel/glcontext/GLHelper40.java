@@ -15,7 +15,6 @@ import static org.lwjgl.opengl.GL41.glBindProgramPipeline;
 import static org.lwjgl.opengl.GL41.glGenProgramPipelines;
 import static org.lwjgl.opengl.GL41.glUseProgramStages;
 import mhfc.net.client.model.mhfcmodel.AnimationInformation;
-import mhfc.net.client.model.mhfcmodel.MHFCAttack;
 import mhfc.net.client.model.mhfcmodel.data.ModelData40;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1;
 import mhfc.net.common.entity.type.IMHFCAnimatedEntity;
@@ -57,8 +56,7 @@ public class GLHelper40 extends GLHelper {
 
 	@Override
 	public void loadInto(RawDataV1 datav1) {
-		// TODO: datav1 -> modelData
-
+		this.modelData = new ModelData40(datav1);
 	}
 
 	@Override
@@ -71,24 +69,9 @@ public class GLHelper40 extends GLHelper {
 		glUseProgram(0);
 
 		AnimationInformation info = animatedEntity.getAnimInformation();
-		// TODO: enable streaming approach once finished with the modelformat
-		// Stream<String> partsStream = data.getParts().stream();
-		if (info != null) {
-			MHFCAttack currAttk = info.getCurrentAttack();
-			if (currAttk != null) {
-				// TODO: bind in another way
-				currAttk.glBindBoneMatrices(0, subFrame);
-			}
-			// partsStream
-			// .filter((part) -> info.shouldDisplayPart(part, subFrame));
-		}
-		// partsStream.forEach(this::renderPart);
+		this.modelData.renderFiltered(info, subFrame);
 
 		glUseProgram(currProgram);
 		glBindProgramPipeline(currPipeline);
-	}
-
-	protected void renderPart(String string) {
-		// TODO: make this renderPart(Part part);
 	}
 }

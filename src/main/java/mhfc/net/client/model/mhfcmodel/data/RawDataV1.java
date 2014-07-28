@@ -38,7 +38,7 @@ public class RawDataV1 implements IRawData {
 	public static class Bone {
 		public String name;
 		public Quat4f rotationQuat;
-		public Vector3f translation;
+		public Vector3f offset;
 		public Bone parent;
 	}
 

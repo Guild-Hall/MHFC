@@ -1,7 +1,6 @@
 package mhfc.net.client.model.mhfcmodel.loader;
 
 import java.io.BufferedInputStream;
-import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
@@ -13,6 +12,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CoderResult;
 import java.nio.charset.CodingErrorAction;
+import java.nio.charset.MalformedInputException;
+import java.nio.charset.UnmappableCharacterException;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -52,7 +53,14 @@ public abstract class VersionizedModelLoader {
 	public static boolean registerLoader(int version, VersionizedModelLoader vml) {
 		return registeredLoaders.put(version, vml) != null;
 	}
-
+	/**
+	 * Interprets the resource location as a file with a version. The correct
+	 * loader is selected and the data is loaded. After this operation the data
+	 * will follow the specified format.
+	 *
+	 * @param resLocation
+	 * @return
+	 */
 	public static IRawData loadVersionized(ResourceLocation resLocation) {
 		try (DataInputStream dis = new DataInputStream(new BufferedInputStream(
 				Minecraft.getMinecraft().getResourceManager()
@@ -94,18 +102,36 @@ public abstract class VersionizedModelLoader {
 		}
 	}
 
-	private static String readStringStatic(DataInput dis) throws IOException {
+	/**
+	 * Encodes the next bytes to a {@link String}. The bytes are interpreted as
+	 * valid UTF-8 data. Bytes are read until a (null)-byte occurs (read
+	 * inclusively) or the EOF is found.
+	 *
+	 * @param dis
+	 *            the {@link DataInputStream} to read bytes from
+	 * @return the decoded string
+	 * @throws MalformedInputException
+	 *             when a byte sequence can't be decoded
+	 * @throws UnmappableCharacterException
+	 *             when a byte sequence can't be mapped to a character
+	 * @throws IOException
+	 *             if an IOError occurs that is not an {@link EOFException}
+	 */
+	private static String readStringStatic(DataInputStream dis)
+			throws MalformedInputException, UnmappableCharacterException,
+			IOException {
 		// Read bytes
 		byte[] buffer = new byte[64];
 		int currLength = 64;
 		int offset = 0;
-		for (byte currByte; (currByte = dis.readByte()) != 0;) {
+		for (int currByte; (currByte = dis.read()) > 0;) {
 			if (offset == currLength) {
 				currLength += 64;
 				buffer = Arrays.copyOf(buffer, currLength);
 			}
-			buffer[offset++] = currByte;
+			buffer[offset++] = (byte) currByte; // Fill and increase
 		}
+		// filledBuffer.length == offset
 		// Return empty string
 		if (offset == 0)
 			return "";
@@ -136,10 +162,12 @@ public abstract class VersionizedModelLoader {
 			} catch (CharacterCodingException x) {} // Shouldn't happen
 			strLen = targetBuff.position();
 		}
-		return new String(Arrays.copyOf(target, strLen));
+		return new String(target, 0, strLen);
 	}
 	/**
-	 * Actually loads the inputstream into the {@link RawDataV1} format.
+	 * Actually loads the inputstream into the {@link RawDataV1} format. This
+	 * method should deal with all restrictions (names, etc.) and throw a
+	 * ModelFormatException if the input violates any rules.
 	 *
 	 * @param version
 	 *            the version of the file if one handler is registered for
@@ -150,9 +178,11 @@ public abstract class VersionizedModelLoader {
 	 * @throws IOException
 	 *             when either the file is too short or another IOExceptio
 	 *             occurs
+	 * @throws ModelFormatException
+	 *             when the input stream is not conform to the specified format
 	 */
-	public abstract IRawData loadFromInputStream(int version, DataInput is)
-			throws IOException;
+	public abstract IRawData loadFromInputStream(int version, DataInputStream is)
+			throws IOException, ModelFormatException;
 
 	/**
 	 * Helper method for extending classes to read a null-terminated String in
@@ -161,19 +191,23 @@ public abstract class VersionizedModelLoader {
 	 * All characters from U+10000 must be present as surrogate characters
 	 * ranging from U+D800 - U+DFFF.<br>
 	 * Refer to the Charset.forName("UTF-8")<br>
-	 * The String will be terminated by the first 0x00 that is encountered.
+	 * The String will be terminated by the first 0x00 that is encountered or by
+	 * the EOF-mark.
 	 *
 	 * @see
 	 * @param dis
-	 *            the {@link DataInput} to read from
+	 *            the {@link DataInputStream} to read from
 	 * @return the read {@link String}
-	 * @throws EOFException
-	 *             when the datainput ends before a '\x00\x00' is read
+	 * @throws MalformedInputException
+	 *             when a byte sequence can't be decoded
+	 * @throws UnmappableCharacterException
+	 *             when a byte sequence can't be mapped to a character
 	 * @throws IOException
-	 *             when some IOException occurs in the given {@link DataInput}
+	 *             if an IOError occurs that is not an {@link EOFException}
 	 */
 	@SuppressWarnings("static-method")
-	protected final String readString(DataInput dis) throws EOFException,
+	protected final String readString(DataInputStream dis)
+			throws MalformedInputException, UnmappableCharacterException,
 			IOException {
 		return VersionizedModelLoader.readStringStatic(dis);
 	}
@@ -182,16 +216,17 @@ public abstract class VersionizedModelLoader {
 	 * Reads a {@link Vector2f} from the datainput
 	 *
 	 * @param dis
-	 *            the {@link DataInput} to read from
+	 *            the {@link DataInputStream} to read from
 	 * @return the constructed {@link Vector3f}
 	 * @throws EOFException
 	 *             when the data ends before 3 floats are read
 	 * @throws IOException
-	 *             when some IOException occurs in the given {@link DataInput}
+	 *             when some IOException occurs in the given
+	 *             {@link DataInputStream}
 	 */
 	@SuppressWarnings("static-method")
-	protected final Vector2f readVector2f(DataInput dis) throws EOFException,
-			IOException {
+	protected final Vector2f readVector2f(DataInputStream dis)
+			throws EOFException, IOException {
 		float x = dis.readFloat();
 		float y = dis.readFloat();
 		return new Vector2f(x, y);
@@ -201,16 +236,17 @@ public abstract class VersionizedModelLoader {
 	 * Reads a {@link Vector3f} from the datainput
 	 *
 	 * @param dis
-	 *            the {@link DataInput} to read from
+	 *            the {@link DataInputStream} to read from
 	 * @return the constructed {@link Vector3f}
 	 * @throws EOFException
 	 *             when the data ends before 3 floats are read
 	 * @throws IOException
-	 *             when some IOException occurs in the given {@link DataInput}
+	 *             when some IOException occurs in the given
+	 *             {@link DataInputStream}
 	 */
 	@SuppressWarnings("static-method")
-	protected final Vector3f readVector3f(DataInput dis) throws EOFException,
-			IOException {
+	protected final Vector3f readVector3f(DataInputStream dis)
+			throws EOFException, IOException {
 		float x = dis.readFloat();
 		float y = dis.readFloat();
 		float z = dis.readFloat();
@@ -218,15 +254,15 @@ public abstract class VersionizedModelLoader {
 	}
 
 	/**
-	 * Reads a {@link Matrix4f} from the given {@link DataInput}. A matrix4 is
-	 * basically 4 {@link Vector4f} so 16 floats will be read.<br>
+	 * Reads a {@link Matrix4f} from the given {@link DataInputStream}. A
+	 * matrix4 is basically 4 {@link Vector4f} so 16 floats will be read.<br>
 	 * When isAffine is specified the matrix's last <b>row</b> will be assumed
 	 * to be (0, 0, 0, 1). In this case only 12 floats will be read.<br>
 	 * When rowsFirst is set the read Vectors will be taken as the rows of the
 	 * matrix else as the matrix's columns.
 	 *
 	 * @param dis
-	 *            the {@link DataInput} to read from
+	 *            the {@link DataInputStream} to read from
 	 * @param isAffine
 	 *            whether the Matrix to be read is affine
 	 * @param rowsFirst
@@ -236,10 +272,11 @@ public abstract class VersionizedModelLoader {
 	 * @throws EOFException
 	 *             when the data ends before 12/16 floats are read
 	 * @throws IOException
-	 *             when some IOException occurs in the given {@link DataInput}
+	 *             when some IOException occurs in the given
+	 *             {@link DataInputStream}
 	 */
 	@SuppressWarnings("static-method")
-	protected final Matrix4f readMatrix(DataInput dis, boolean isAffine,
+	protected final Matrix4f readMatrix(DataInputStream dis, boolean isAffine,
 			boolean rowsFirst) throws EOFException, IOException {
 		float v0 = dis.readFloat();
 		float v1 = dis.readFloat();
@@ -279,14 +316,15 @@ public abstract class VersionizedModelLoader {
 	 * Reads a {@link Quat4f} from the given {@link InputStream}.
 	 *
 	 * @param dis
-	 *            the {@link DataInput} to read from
+	 *            the {@link DataInputStream} to read from
 	 * @throws EOFException
 	 *             when the data ends before 4 floats are read
 	 * @throws IOException
-	 *             when some IOException occurs in the given {@link DataInput}
+	 *             when some IOException occurs in the given
+	 *             {@link DataInputStream}
 	 */
 	@SuppressWarnings("static-method")
-	protected final Quat4f readQuat(DataInput dis) throws EOFException,
+	protected final Quat4f readQuat(DataInputStream dis) throws EOFException,
 			IOException {
 		float x = dis.readFloat();
 		float y = dis.readFloat();
