@@ -15,6 +15,7 @@ import static org.lwjgl.opengl.GL41.glBindProgramPipeline;
 import static org.lwjgl.opengl.GL41.glGenProgramPipelines;
 import static org.lwjgl.opengl.GL41.glUseProgramStages;
 import mhfc.net.client.model.mhfcmodel.AnimationInformation;
+import mhfc.net.client.model.mhfcmodel.Utils;
 import mhfc.net.client.model.mhfcmodel.data.ModelData40;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1;
 import mhfc.net.common.entity.type.IMHFCAnimatedEntity;
@@ -31,12 +32,12 @@ public class GLHelper40 extends GLHelper {
 	private static void init() {
 		try {
 			if (shaderName == 0) // Not already done on previous tries
-				shaderName = GLStatics.compileShaderSafe(GL_VERTEX_SHADER,
+				shaderName = Utils.compileShaderSafe(GL_VERTEX_SHADER,
 						GLHelper40.class.getResourceAsStream("default40.vsh"));
 			if (programName == 0)
-				programName = GLStatics.createProgramSafe();
+				programName = Utils.createProgramSafe();
 			glAttachShader(programName, shaderName);
-			GLStatics.linkProgramSafe(programName);
+			Utils.linkProgramSafe(programName);
 			glDeleteShader(shaderName);
 			pipelineName = glGenProgramPipelines();
 			glUseProgramStages(pipelineName, GL_VERTEX_SHADER_BIT, programName);

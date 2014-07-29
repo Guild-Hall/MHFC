@@ -9,6 +9,7 @@ import static org.lwjgl.opengl.GL20.glDetachShader;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import mhfc.net.client.model.mhfcmodel.AnimationInformation;
 import mhfc.net.client.model.mhfcmodel.MHFCAttack;
+import mhfc.net.client.model.mhfcmodel.Utils;
 import mhfc.net.client.model.mhfcmodel.data.ModelData20;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1;
 import mhfc.net.common.entity.type.IMHFCAnimatedEntity;
@@ -22,14 +23,14 @@ public class GLHelper20 extends GLHelper {
 	private static void init() {
 		try {
 			if (shaderName == 0)
-				shaderName = GLStatics.compileShaderSafe(GL_VERTEX_SHADER,
+				shaderName = Utils.compileShaderSafe(GL_VERTEX_SHADER,
 						GLHelper20.class.getResourceAsStream("default20.vsh"));
 			if (programName == 0)
-				programName = GLStatics.createProgramSafe();
+				programName = Utils.createProgramSafe();
 			if (proxyProgram == 0)
-				proxyProgram = GLStatics.createProgramSafe();
+				proxyProgram = Utils.createProgramSafe();
 			glAttachShader(programName, shaderName);
-			GLStatics.linkProgramSafe(programName);
+			Utils.linkProgramSafe(programName);
 			glDeleteShader(shaderName); // Can now do this, shader always linked
 										// to programName
 		} catch (Exception e) {
@@ -60,14 +61,13 @@ public class GLHelper20 extends GLHelper {
 		if (currProgram == 0) {
 			glUseProgram(programName);
 		} else {
-			currVertexShader = GLStatics.getShader(currProgram,
-					GL_VERTEX_SHADER);
+			currVertexShader = Utils.getShader(currProgram, GL_VERTEX_SHADER);
 			if (currVertexShader != 0) {
 				glAttachShader(proxyProgram, currVertexShader);
 				glDetachShader(currProgram, currVertexShader);
 			}
 			glAttachShader(currProgram, shaderName);
-			GLStatics.linkProgramSafe(currProgram);
+			Utils.linkProgramSafe(currProgram);
 		}
 		// TODO: enable streaming approach once finished with the modelformat
 		// Stream<String> partsStream = data.getParts().stream();
@@ -89,7 +89,7 @@ public class GLHelper20 extends GLHelper {
 				glAttachShader(currProgram, currVertexShader);
 				glDetachShader(proxyProgram, currVertexShader);
 			}
-			GLStatics.linkProgramSafe(currProgram);
+			Utils.linkProgramSafe(currProgram);
 		}
 		glUseProgram(currProgram);
 	}

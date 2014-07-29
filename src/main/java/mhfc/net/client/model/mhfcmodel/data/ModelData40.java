@@ -7,9 +7,11 @@ import static org.lwjgl.opengl.GL11.glDrawElements;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL15.glGenBuffers;
 import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
+import static org.lwjgl.opengl.GL31.GL_UNIFORM_BUFFER;
 
 import java.util.List;
 import java.util.Map;
@@ -57,7 +59,9 @@ public class ModelData40 implements IModelData {
 		Map<String, Part> buildingPartMap = null;
 		List<Long> boneHashes = null;
 		// TODO: actually read from data given
-		boneStaticMatrixBufferName = 0;
+		boneStaticMatrixBufferName = glGenBuffers();
+		glBindBuffer(GL_UNIFORM_BUFFER, boneStaticMatrixBufferName);
+		// glBufferData(GL_UNIFORM_BUFFER, boneData, GL_STATIC_DRAW);
 		boneTransformBufferName = 0;
 
 		this.partMap = ImmutableMap.copyOf(buildingPartMap);
@@ -85,6 +89,7 @@ public class ModelData40 implements IModelData {
 				GL_UNSIGNED_INT, false, VS_ATTR_SIZE, 8 * 4);
 		glVertexAttribPointer(VS_TRANSFORM_VALUES_LOCATION, 4, GL_UNSIGNED_INT,
 				false, VS_ATTR_SIZE, 12 * 4);
+		// glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, buffer);
 	}
 	/**
 	 * Binds the transform from the currently present attackinformation

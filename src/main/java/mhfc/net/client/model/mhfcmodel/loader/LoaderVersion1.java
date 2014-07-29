@@ -10,6 +10,7 @@ import javax.vecmath.Quat4f;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
+import mhfc.net.client.model.mhfcmodel.Utils;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1.Bone;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1.BoneBinding;
@@ -104,11 +105,11 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 			throws EOFException, IOException {
 		Bone bone = new Bone();
 		// Read name
-		String name = this.readString(di);
+		String name = Utils.readString(di);
 		// Read quaternion
-		Quat4f quat = this.readQuat(di);
+		Quat4f quat = Utils.readQuat(di);
 		// Read offset
-		Vector3f offset = this.readVector3f(di);
+		Vector3f offset = Utils.readVector3f(di);
 		// Apply attributes
 		bone.name = name;
 		bone.rotationQuat = quat;
@@ -123,7 +124,7 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 		int nbrPoints = di.readUnsignedShort();
 		int nbrIndices = di.readUnsignedShort() * 3;
 		// Read name
-		String name = this.readString(di);
+		String name = Utils.readString(di);
 		// Read Texture
 		Texture texture = this.readTextureFrom(di, header);
 		// Read points
@@ -152,7 +153,7 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 	protected Texture readTextureFrom(DataInputStream di, Header header)
 			throws EOFException, IOException {
 		Texture tex = new Texture();
-		tex.resLocation = new ResourceLocation(this.readString(di));
+		tex.resLocation = new ResourceLocation(Utils.readString(di));
 		return tex;
 	}
 
@@ -160,14 +161,14 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 			throws EOFException, IOException {
 		TesselationPoint tessP = new TesselationPoint();
 		// Read coords
-		Vector3f coords = this.readVector3f(di);
+		Vector3f coords = Utils.readVector3f(di);
 		// Read normal
-		Vector3f normal = this.readVector3f(di);
+		Vector3f normal = Utils.readVector3f(di);
 		if (normal.length() == 0)
 			throw new ModelFormatException(
 					"Normal vector can't have zerolength.");
 		// Read texture coordinates
-		Vector2f texCoords = this.readVector2f(di);
+		Vector2f texCoords = Utils.readVector2f(di);
 		// Read bindings
 		BoneBinding[] bindings = new BoneBinding[NBR_BONEBINDINGS];
 		for (int i = 0; i < NBR_BONEBINDINGS; bindings[i++] = readBoneBindingFrom(

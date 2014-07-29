@@ -5,7 +5,7 @@ import net.minecraftforge.client.model.IModelCustomLoader;
 import net.minecraftforge.client.model.ModelFormatException;
 
 public class MHFCModelLoader implements IModelCustomLoader {
-	private static String[] suffixList = {".mhfcmd"};
+	private static String[] suffixList = {".mhmd"};
 
 	public static final MHFCModelLoader instance = new MHFCModelLoader();
 
