@@ -25,7 +25,9 @@ public abstract class GLHelper {
 	 */
 	public final void loadInto(IRawData amd) {
 		if (amd instanceof RawDataV1)
-			this.loadInto((RawDataV1) amd);
+			this.loadFrom((RawDataV1) amd);
+		else
+			throw new IllegalArgumentException("Unrecognized data format");
 	}
 	/**
 	 * Loads data of version 1.
@@ -33,7 +35,7 @@ public abstract class GLHelper {
 	 * @param datav1
 	 *            the data to be loaded into this handler
 	 */
-	public abstract void loadInto(RawDataV1 datav1);
+	public abstract void loadFrom(RawDataV1 datav1);
 	/**
 	 * Actually renders the model given by data. This is normally the same this
 	 * handler previously returned by {@link #translate(RawDataV1)}.

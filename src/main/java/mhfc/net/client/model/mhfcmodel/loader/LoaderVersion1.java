@@ -15,17 +15,15 @@ import mhfc.net.client.model.mhfcmodel.data.RawDataV1;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1.Bone;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1.BoneBinding;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1.Header;
+import mhfc.net.client.model.mhfcmodel.data.RawDataV1.Material;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1.ModelPart;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1.TesselationPoint;
-import mhfc.net.client.model.mhfcmodel.data.RawDataV1.Texture;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelFormatException;
 
 /**
  * Loads a file with version signature 1. This implementation follows the all or
  * nothing principle, so no corrupt data will ever be accessible.<br>
  * To find a full specification of the file format please visit<br>
- * // TODO: file specs
  *
  * @author WorldSEnder
  *
@@ -67,7 +65,7 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 		// Read parents
 		readBoneParents(di, bones); // Structure has to be tree-like
 		// Apply data
-		data.header = header;
+		// data.header = header;
 		data.bones = bones;
 		data.parts = parts;
 		return data;
@@ -87,17 +85,17 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 	 */
 	protected void readBoneParents(DataInputStream di, Bone[] bones)
 			throws EOFException, IOException {
+		// TODO: check for treeish structure
 		int nbrBones = bones.length;
 		for (int i = 0; i < nbrBones; ++i) {
-			int parentIndex = di.readUnsignedShort();
-			if (parentIndex < 256) {
-				if (parentIndex >= nbrBones)
-					throw new ModelFormatException(
-							String.format(
-									"ParentIndex (%d) has to be smaller than nbrBones (%d).",
-									parentIndex, nbrBones));
-				bones[i].parent = bones[parentIndex];
+			int parentIndex = di.readUnsignedByte();
+			if (parentIndex != 255 && parentIndex >= nbrBones) {
+				throw new ModelFormatException(
+						String.format(
+								"ParentIndex (%d) has to be smaller than nbrBones (%d).",
+								parentIndex, nbrBones));
 			}
+			bones[i].parent = (byte) parentIndex;
 		}
 	}
 
@@ -112,7 +110,7 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 		Vector3f offset = Utils.readVector3f(di);
 		// Apply attributes
 		bone.name = name;
-		bone.rotationQuat = quat;
+		bone.rotation = quat;
 		bone.offset = offset;
 		return bone;
 	}
@@ -125,14 +123,14 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 		int nbrIndices = di.readUnsignedShort() * 3;
 		// Read name
 		String name = Utils.readString(di);
-		// Read Texture
-		Texture texture = this.readTextureFrom(di, header);
+		// Read Material
+		Material material = this.readMaterialFrom(di, header);
 		// Read points
 		TesselationPoint[] vertexArray = new TesselationPoint[nbrPoints];
 		for (int i = 0; i < nbrPoints; vertexArray[i++] = readPointFrom(di,
 				header));
 		// Read indices
-		int[] indexArray = new int[nbrIndices];
+		short[] indexArray = new short[nbrIndices];
 		for (int i = 0; i < nbrIndices; ++i) {
 			int candidate = di.readUnsignedShort();
 			if (candidate >= nbrPoints)
@@ -140,20 +138,20 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 						String.format(
 								"Vertexindex (%d) has to be smaller than nbrPoints (%d).",
 								candidate, nbrPoints));
-			indexArray[i] = candidate;
+			indexArray[i] = (short) candidate;
 		}
 		// Apply attributes
 		mp.name = name;
-		mp.texture = texture;
-		mp.vertexArray = vertexArray;
-		mp.indexArray = indexArray;
+		mp.material = material;
+		mp.points = vertexArray;
+		mp.indices = indexArray;
 		return mp;
 	}
 
-	protected Texture readTextureFrom(DataInputStream di, Header header)
+	protected Material readMaterialFrom(DataInputStream di, Header header)
 			throws EOFException, IOException {
-		Texture tex = new Texture();
-		tex.resLocation = new ResourceLocation(Utils.readString(di));
+		Material tex = new Material();
+		tex.resLocationRaw = Utils.readString(di);
 		return tex;
 	}
 
@@ -167,7 +165,7 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 		if (normal.length() == 0)
 			throw new ModelFormatException(
 					"Normal vector can't have zerolength.");
-		// Read texture coordinates
+		// Read material coordinates
 		Vector2f texCoords = Utils.readVector2f(di);
 		// Read bindings
 		BoneBinding[] bindings = new BoneBinding[NBR_BONEBINDINGS];
@@ -186,7 +184,7 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 		BoneBinding binding = new BoneBinding();
 		// Read index of bone this is bound to
 		int bindIndex = di.readUnsignedByte();
-		if (bindIndex >= header.nbrBones)
+		if (bindIndex >= header.nbrBones && bindIndex != 0xFF)
 			throw new ModelFormatException("Can't bind to non-existant bone.");
 		// Read strength of binding
 		float bindingValue = di.readFloat();
@@ -194,7 +192,7 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 			throw new ModelFormatException(String.format(
 					"Value for binding seems out of range: %f", bindingValue));
 		// Apply attributes
-		binding.boneIndex = bindIndex;
+		binding.boneIndex = (byte) bindIndex;
 		binding.bindingValue = bindingValue;
 		return binding;
 	}

@@ -5,8 +5,7 @@ import java.util.Random;
 import mhfc.net.client.model.PartTickModelBase;
 import mhfc.net.client.model.mhfcmodel.data.IRawData;
 import mhfc.net.client.model.mhfcmodel.glcontext.GLHelper;
-import mhfc.net.client.model.mhfcmodel.glcontext.GLHelper20;
-import mhfc.net.client.model.mhfcmodel.glcontext.GLHelper40;
+import mhfc.net.client.model.mhfcmodel.glcontext.GLHelperBasic;
 import mhfc.net.client.model.mhfcmodel.loader.VersionizedModelLoader;
 import mhfc.net.common.entity.type.IMHFCAnimatedEntity;
 import net.minecraft.client.model.ModelRenderer;
@@ -27,9 +26,9 @@ public class ModelMHFC extends PartTickModelBase implements IModelCustom {
 			.getCapabilities().GL_ARB_separate_shader_objects;
 
 	private static GLHelper getCorrectGLHelper() {
-		if (supportsPipelines)
-			return new GLHelper40();
-		return new GLHelper20();
+		// if (supportsPipelines)
+		// return new GLHelper40();
+		return new GLHelperBasic();
 	}
 
 	private GLHelper renderHelper;
@@ -83,15 +82,11 @@ public class ModelMHFC extends PartTickModelBase implements IModelCustom {
 
 	// ---------------------- Never used ---------------------------
 	@Override
-	public void renderAll() {
-	}
+	public void renderAll() {}
 	@Override
-	public void renderOnly(String... groupNames) {
-	}
+	public void renderOnly(String... groupNames) {}
 	@Override
-	public void renderPart(String partName) {
-	}
+	public void renderPart(String partName) {}
 	@Override
-	public void renderAllExcept(String... excludedGroupNames) {
-	}
+	public void renderAllExcept(String... excludedGroupNames) {}
 }

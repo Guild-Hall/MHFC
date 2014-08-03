@@ -27,6 +27,9 @@ import java.nio.CharBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.nio.ShortBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
@@ -280,7 +283,7 @@ public class Utils {
 	 * Asks for a new directly backed DoubleBuffer
 	 *
 	 * @param size
-	 *            the number of buffer elements (floats)
+	 *            the number of buffer elements (doubles)
 	 * @return a new direct float buffer
 	 */
 	public static DoubleBuffer directDoubleBuffer(int size) {
@@ -289,9 +292,33 @@ public class Utils {
 		return ByteBuffer.allocateDirect(size * 4).asDoubleBuffer();
 	}
 	/**
+	 * Asks for a new directly backed ShortBuffer
+	 *
+	 * @param size
+	 *            the number of buffer elements (shorts)
+	 * @return a new direct float buffer
+	 */
+	public static ShortBuffer directShortBuffer(int size) {
+		if (size > Integer.MAX_VALUE / 2)
+			throw new IllegalStateException("Asked for a too big ByteBuffer");
+		return ByteBuffer.allocateDirect(size * 2).asShortBuffer();
+	}
+	/**
+	 * Hashes the given name to a long.
+	 *
+	 * @param name
+	 *            of the bone
+	 * @return the calculated hash
+	 */
+	protected static long hashBoneName(String name) {
+		// TODO: hashing algorithm
+		return 0;
+	}
+	/**
 	 * Gets the source in the {@link InputStream} as a direct byte buffer which
 	 * can be supplied to OpenGL in {@link GL20#glShaderSource(int, ByteBuffer)}
-	 * to compile a shader
+	 * to compile a shader. The inputStream will be read as long as it has at
+	 * least one byte. The read will behave as a blocking-read.
 	 *
 	 * @param is
 	 *            the {@link InputStream} to read the shader source from
@@ -299,17 +326,19 @@ public class Utils {
 	 * @throws IOException
 	 */
 	public static ByteBuffer getShaderSource(InputStream is) throws IOException {
-		byte[] buffer = new byte[4096];
-		int bytesRead, bufferSize = 0;
-		ByteBuffer target = directByteBuffer(0);
-		while ((bytesRead = is.read(buffer)) > 0) {
-			bufferSize += bytesRead;
-			ByteBuffer newTarget = directByteBuffer(bufferSize);
-			newTarget.put(target);
-			newTarget.put(buffer, 0, bytesRead);
-			newTarget.rewind();
-			target = newTarget;
+		ReadableByteChannel readChannel = Channels.newChannel(is);
+		int bufferSize = 4096;
+		ByteBuffer target = directByteBuffer(bufferSize);
+		while (readChannel.read(target) > 0) {
+			// If target is not full we reached an EOF
+			if (target.hasRemaining())
+				break;
+			// Else increase the buffer size
+			bufferSize += 4096;
+			target.flip();
+			target = directByteBuffer(bufferSize).put(target);
 		}
+		target.flip();
 		return target;
 	}
 	/**
@@ -337,7 +366,8 @@ public class Utils {
 		glShaderSource(shaderName, shaderSource);
 		glCompileShader(shaderName);
 		if (glGetShaderi(shaderName, GL_COMPILE_STATUS) == GL_FALSE) {
-			String error = glGetShaderInfoLog(shaderName, 1024);
+			int errorLength = glGetShaderi(shaderName, GL_INFO_LOG_LENGTH);
+			String error = glGetShaderInfoLog(shaderName, errorLength);
 			glDeleteShader(shaderName); // Delete first as it will be out of
 										// scope
 			throw new IllegalStateException(error);

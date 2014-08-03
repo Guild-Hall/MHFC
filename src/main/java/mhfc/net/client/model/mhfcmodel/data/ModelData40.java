@@ -2,45 +2,111 @@ package mhfc.net.client.model.mhfcmodel.data;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
-import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
-import static org.lwjgl.opengl.GL11.glDrawElements;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_SHORT;
+import static org.lwjgl.opengl.GL11.glNormal3f;
+import static org.lwjgl.opengl.GL11.glTexCoord2f;
+import static org.lwjgl.opengl.GL11.glVertex3f;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL15.glBufferData;
 import static org.lwjgl.opengl.GL15.glGenBuffers;
-import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
+import static org.lwjgl.opengl.GL30.glBindBufferBase;
+import static org.lwjgl.opengl.GL30.glBindVertexArray;
+import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 import static org.lwjgl.opengl.GL31.GL_UNIFORM_BUFFER;
+import static org.lwjgl.opengl.GL32.glDrawElementsBaseVertex;
 
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+import java.nio.ShortBuffer;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.vecmath.Matrix4f;
+import javax.vecmath.Vector2f;
+import javax.vecmath.Vector3f;
+
 import mhfc.net.client.model.mhfcmodel.AnimationInformation;
+import mhfc.net.client.model.mhfcmodel.Utils;
+import mhfc.net.client.model.mhfcmodel.data.RawDataV1.Bone;
+import mhfc.net.client.model.mhfcmodel.data.RawDataV1.ModelPart;
+import mhfc.net.client.model.mhfcmodel.data.RawDataV1.TesselationPoint;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedSet;
 
 public class ModelData40 implements IModelData {
+	protected static Minecraft mc = Minecraft.getMinecraft();
 	public static final int VS_POSITION_LOCATION = 0;
 	public static final int VS_NORMAL_LOCATION = 1;
 	public static final int VS_TEXCOORDS_LOCATION = 2;
 	public static final int VS_TRANSFORM_INDICES_LOCATION = 3;
 	public static final int VS_TRANSFORM_VALUES_LOCATION = 4;
-	public static final int VS_ATTR_SIZE = 64;
+	public static final int VS_ATTR_SIZE = 52;
 
-	public static final int UNIFORM_BONES_STATIC_BLOCK_BINDING = 0;
-	public static final int UNIFORM_BONES_DYNAMIC_BLOCK_BINDING = 1;
+	public static final int U_BONE_MATRIX_BIND = 0;
+	public static final int U_BONE_MATRIX_SIZE = 32;
+	public static final int U_BONE_TRANSFORM_BINDING = 1;
+	public static final int U_BONE_TRANSFORM_SIZE = 16;
 
+	public static class Point {
+		public Vector3f coords;
+		public Vector3f normal;
+		public Vector2f uv;
+		public void render() {
+			glVertex3f(coords.x, coords.y, coords.z);
+			glNormal3f(normal.x, normal.y, normal.z);
+			glTexCoord2f(uv.x, uv.y);
+		}
+	}
 	public static class Part {
-		public int pointsBufferName;
-		public int indexBufferName;
-		public int indexCount;
+		/**
+		 * The offset of this part's indices in the ELEMENT_BUFFER
+		 */
+		public final int startIndex;
+		/**
+		 * How many primitives should be drawn
+		 */
+		public final int indexCount;
+		/**
+		 * We use an offset. This means that the vertex data is offset in the
+		 * attribute-buffer(s) but we don't have to care about calculating it
+		 * for every index.
+		 */
+		public final int vertexOffset;
+
+		public final ResourceLocation texLocation;
+
+		public Point[] points;
+		public int[] indices;
+
+		public Part(int startIndex, int indexCount, int vertexOffset,
+				ResourceLocation texLocation) {
+			this.startIndex = startIndex;
+			this.indexCount = indexCount;
+			this.vertexOffset = vertexOffset;
+			this.texLocation = texLocation;
+		}
 
 		public void render() {
-			glBindBuffer(GL_ARRAY_BUFFER, pointsBufferName);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferName);
-			glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
+			mc.renderEngine.bindTexture(texLocation);
+			glDrawElementsBaseVertex(GL_TRIANGLES, indexCount,
+					GL_UNSIGNED_SHORT, startIndex, vertexOffset);
+			// glBegin(GL_TRIANGLES);
+			// for (int idx : this.indices) {
+			// this.points[idx].render();
+			// }
+			// glEnd();
 		}
 	}
 	/**
@@ -48,68 +114,139 @@ public class ModelData40 implements IModelData {
 	 */
 	public final ImmutableMap<String, Part> partMap;
 	/**
-	 * Immutable and ordered
+	 * Immutable and ordered. This has to be ordered because the buffer has to
+	 * be ordered.
 	 */
 	public final ImmutableSortedSet<Long> boneHashes;
-	public final int boneStaticMatrixBufferName;
-
-	public final int boneTransformBufferName;
-
-	public ModelData40(RawDataV1 dataFrom) {
-		Map<String, Part> buildingPartMap = null;
-		List<Long> boneHashes = null;
-		// TODO: actually read from data given
-		boneStaticMatrixBufferName = glGenBuffers();
-		glBindBuffer(GL_UNIFORM_BUFFER, boneStaticMatrixBufferName);
-		// glBufferData(GL_UNIFORM_BUFFER, boneData, GL_STATIC_DRAW);
-		boneTransformBufferName = 0;
-
-		this.partMap = ImmutableMap.copyOf(buildingPartMap);
-		this.boneHashes = ImmutableSortedSet.copyOf(boneHashes);
-	}
+	/**
+	 * The model's Vertex Array Object. Stores vertex attribute buffers and
+	 * client state.
+	 */
+	public final int vao;
+	/**
+	 * Uniform buffer for the bone matrices. Only gets set once as this
+	 * describes the bones in binding pose.
+	 */
+	public final int boneMatricesBuff;
+	/**
+	 * Uniform buffer for the bone transforms. Gets set every frame to set
+	 * current transformation and deformation.
+	 */
+	public final int boneTransformsBuff;
 
 	/**
-	 * Sets vertex attributes and static buffers
+	 * Constucts the data to render from the read raw data. The raw data is
+	 * final and can be tweaked as wanted.
+	 *
+	 * @param dataFrom
 	 */
-	protected void prepareRender() {
-		// Enable attributes
+	public ModelData40(RawDataV1 dataFrom) {
+		// Setup local values
+		Map<String, Part> buildingPartMap = new HashMap<>();
+		List<Long> boneHashes = new ArrayList<>();
+		// We need 3 new buffers: attribute buffer (interleaved), bonematrices,
+		// bonetransform
+		IntBuffer bufferBuffer = Utils.directIntBuffer(4);
+		glGenBuffers(bufferBuffer);
+		int attrBuff = glGenBuffers();
+		int indicesBuff = glGenBuffers();
+		int boneMatricesBuff = glGenBuffers();
+		int boneTransformBuff = glGenBuffers();
+		int vao = glGenVertexArrays();
+		// -- read data from passed data
+		int totalPoints = 0;
+		int totalIndices = 0;
+		for (ModelPart p : dataFrom.parts) {
+			Part part = new Part(totalIndices, p.indices.length, totalPoints,
+					new ResourceLocation(p.material.resLocationRaw));
+			part.indices = new int[p.indices.length];
+			for (int i = 0; i < p.indices.length; ++i) {
+				part.indices[i] = 0xFFFF & p.indices[i];
+			}
+			part.points = new Point[p.points.length];
+			for (int i = 0; i < p.points.length; ++i) {
+				Point point = new Point();
+				point.coords = p.points[i].coords;
+				point.normal = p.points[i].normal;
+				point.uv = p.points[i].texCoords;
+				part.points[i] = point;
+			}
+			buildingPartMap.put(p.name, part);
+			totalIndices += p.indices.length;
+			totalPoints += p.points.length;
+		}
+		// Read points
+		ByteBuffer attrBuffer = Utils.directByteBuffer(totalPoints
+				* VS_ATTR_SIZE);
+		ShortBuffer indicesBuffer = Utils.directShortBuffer(totalIndices);
+		FloatBuffer boneMatricesBuffer = Utils
+				.directFloatBuffer(dataFrom.bones.length * U_BONE_MATRIX_SIZE);
+		for (ModelPart part : dataFrom.parts) {
+			putPartInto(part, attrBuffer, indicesBuffer);
+		}
+		for (Bone bone : dataFrom.bones) {
+			putBoneInto(bone, boneMatricesBuffer);
+		}
+		// Prepare buffers
+		attrBuffer.flip();
+		indicesBuffer.flip();
+		boneMatricesBuffer.flip();
+		// matrices!!!
+		glBindBuffer(GL_UNIFORM_BUFFER, boneMatricesBuff);
+		glBufferData(GL_UNIFORM_BUFFER, boneMatricesBuffer, GL_STATIC_DRAW);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesBuff);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW);
+		// Bind boneTransformsBuff every draw
+		glBindBuffer(GL_ARRAY_BUFFER, attrBuff);
+		glBufferData(GL_ARRAY_BUFFER, attrBuffer, GL_STATIC_DRAW);
+		// setup vao
+		glBindVertexArray(vao);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesBuff);
 		glEnableVertexAttribArray(VS_POSITION_LOCATION);
 		glEnableVertexAttribArray(VS_NORMAL_LOCATION);
 		glEnableVertexAttribArray(VS_TEXCOORDS_LOCATION);
 		glEnableVertexAttribArray(VS_TRANSFORM_INDICES_LOCATION);
 		glEnableVertexAttribArray(VS_TRANSFORM_VALUES_LOCATION);
 		// Set position
-		glVertexAttribPointer(VS_POSITION_LOCATION, 3, GL_FLOAT, false,
-				VS_ATTR_SIZE, 0);
-		glVertexAttribPointer(VS_NORMAL_LOCATION, 3, GL_FLOAT, false,
-				VS_ATTR_SIZE, 3 * 4);
-		glVertexAttribPointer(VS_TEXCOORDS_LOCATION, 2, GL_FLOAT, false,
-				VS_ATTR_SIZE, 6 * 4);
+		glVertexAttribPointer(VS_POSITION_LOCATION, 3, GL_FLOAT, false, 52, 0);
+		glVertexAttribPointer(VS_NORMAL_LOCATION, 3, GL_FLOAT, false, 52, 12);
+		glVertexAttribPointer(VS_TEXCOORDS_LOCATION, 2, GL_FLOAT, false, 52, 24);
 		glVertexAttribPointer(VS_TRANSFORM_INDICES_LOCATION, 4,
-				GL_UNSIGNED_INT, false, VS_ATTR_SIZE, 8 * 4);
-		glVertexAttribPointer(VS_TRANSFORM_VALUES_LOCATION, 4, GL_UNSIGNED_INT,
-				false, VS_ATTR_SIZE, 12 * 4);
-		// glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, buffer);
+				GL_UNSIGNED_BYTE, false, 52, 32);
+		glVertexAttribPointer(VS_TRANSFORM_VALUES_LOCATION, 4, GL_FLOAT, false,
+				52, 36);
+		// Unbind
+		glBindVertexArray(0);
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		// Actually initialize the class fields
+		this.vao = vao;
+		this.boneMatricesBuff = boneMatricesBuff;
+		this.boneTransformsBuff = boneTransformBuff;
+		this.partMap = ImmutableMap.copyOf(buildingPartMap);
+		this.boneHashes = ImmutableSortedSet.copyOf(boneHashes);
 	}
 	/**
-	 * Binds the transform from the currently present attackinformation
+	 * Binds the transform from the currently present attackinformation and
+	 * uniform buffers
 	 *
 	 * @param info
 	 *            the information to read from
 	 */
-	protected void bindBoneTransforms(AnimationInformation info) {
-		// TODO: bind bone transform
+	protected void bindUniforms(AnimationInformation info) {
+		glBindBufferBase(GL_UNIFORM_BUFFER, U_BONE_MATRIX_BIND,
+				boneMatricesBuff);
+		// TODO: buffer bone transform data
+		glBindBufferBase(GL_UNIFORM_BUFFER, U_BONE_TRANSFORM_BINDING,
+				boneTransformsBuff);
 	}
 	/**
 	 * Reverts actions of {@link #prepareRender()}
 	 */
-	protected void finishRender() {
-		// Disable attributes
-		glDisableVertexAttribArray(VS_POSITION_LOCATION);
-		glDisableVertexAttribArray(VS_NORMAL_LOCATION);
-		glDisableVertexAttribArray(VS_TEXCOORDS_LOCATION);
-		glDisableVertexAttribArray(VS_TRANSFORM_INDICES_LOCATION);
-		glDisableVertexAttribArray(VS_TRANSFORM_VALUES_LOCATION);
+	protected void unbindUniforms() {
+		glBindBufferBase(GL_UNIFORM_BUFFER, U_BONE_MATRIX_BIND, 0);
+		glBindBufferBase(GL_UNIFORM_BUFFER, U_BONE_TRANSFORM_BINDING, 0);
 	}
 	/**
 	 * Renders all parts that don't get filtered out by the
@@ -118,15 +255,10 @@ public class ModelData40 implements IModelData {
 	 * @param info
 	 */
 	public void renderFiltered(AnimationInformation info, float subFrame) {
-		this.prepareRender();
-		this.bindBoneTransforms(info);
-
+		this.bindUniforms(info);
+		glBindVertexArray(this.vao);
 		// Filter parts to render
 		// TODO: enable streaming approach once java 8 is enabled
-		// Stream<String> partsStream =
-		// this.modelData.partMap.keySet().stream();
-		// partsStream
-		// .filter((part) -> info.shouldDisplayPart(part, subFrame));
 		for (String part : this.partMap.keySet()) {
 			Part p = this.partMap.get(part);
 			if (p == null)
@@ -134,8 +266,65 @@ public class ModelData40 implements IModelData {
 			if (info == null || info.shouldDisplayPart(part, subFrame))
 				p.render();
 		}
-		// partsStream.forEach(this::renderPart);
-
-		this.finishRender();
+		glBindVertexArray(0);
+		this.unbindUniforms();
+	}
+	/**
+	 * Fills the AttributeBuffer and the IndexBuffer with the content of the
+	 * {@link ModelPart}.
+	 *
+	 * The AttributeBuffer will be advanced exactly {@value #VS_ATTR_SIZE} *
+	 * pointCount and the IndexBuffer will be advanced exactly 2 * indexCount
+	 * bytes aka. indexCount shorts
+	 *
+	 * @param part
+	 *            the part to write into the buffers
+	 * @param attrBuff
+	 *            the AttributeBuffer
+	 * @param indicesBuffer
+	 *            the IndexBuffer
+	 */
+	protected static void putPartInto(ModelPart part, ByteBuffer attrBuff,
+			ShortBuffer indicesBuffer) {
+		for (TesselationPoint tp : part.points) {
+			attrBuff.putFloat(tp.coords.x); // 4
+			attrBuff.putFloat(tp.coords.y); // 8
+			attrBuff.putFloat(tp.coords.z); // 12
+			attrBuff.putFloat(tp.normal.x); // 16
+			attrBuff.putFloat(tp.normal.y); // 20
+			attrBuff.putFloat(tp.normal.z); // 24
+			attrBuff.putFloat(tp.texCoords.x); // 28
+			attrBuff.putFloat(tp.texCoords.y); // 32
+			final int bindsPerPoint = 4;
+			for (int i = 0; i < bindsPerPoint; attrBuff
+					.put(tp.boneBindings[i++].boneIndex)); // 36
+			for (int i = 0; i < bindsPerPoint; attrBuff
+					.putFloat(tp.boneBindings[i++].bindingValue)); // 52
+		}
+		indicesBuffer.put(part.indices);
+	}
+	/**
+	 * Places the bone's data at the current position in the buffer and advances
+	 * the buffer
+	 *
+	 * @param bone
+	 *            the bone which matrix should be placed in the matrix
+	 * @param matrixBuffer
+	 *            the buffer to write data to
+	 */
+	protected static void putBoneInto(Bone bone, FloatBuffer matrixBuffer) {
+		Matrix4f localToWorld = new Matrix4f(bone.rotation, bone.offset, 1.0F);
+		bone.rotation.inverse();
+		bone.offset.negate();
+		Matrix4f worldToLocal = new Matrix4f(bone.rotation, bone.offset, 1.0F);
+		float[] col = new float[4];
+		for (int i = 0; i < 4; ++i) {
+			worldToLocal.getColumn(i, col);
+			matrixBuffer.put(col);
+		}
+		for (int i = 0; i < 4; ++i) {
+			localToWorld.getColumn(i, col);
+			matrixBuffer.put(col);
+		}
 	}
 }

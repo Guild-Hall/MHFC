@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import mhfc.net.MHFCMain;
@@ -16,7 +17,7 @@ import net.minecraftforge.client.model.ModelFormatException;
 
 public abstract class VersionizedModelLoader {
 	public static final long magic = 0x4d484643204d444cL; // = MHMD
-	private static Map<Integer, VersionizedModelLoader> registeredLoaders;
+	private static Map<Integer, VersionizedModelLoader> registeredLoaders = new HashMap<>();
 
 	static {
 		registerLoader(1, LoaderVersion1.instance);
@@ -52,7 +53,8 @@ public abstract class VersionizedModelLoader {
 						foundMagic, magic));
 			}
 
-			long modelHash = dis.readLong();
+			long modelUUIDmost = dis.readLong();
+			long modelUUIDleast = dis.readLong();
 			String artist = Utils.readString(dis);
 
 			int version = dis.readInt();
@@ -62,8 +64,9 @@ public abstract class VersionizedModelLoader {
 
 			IRawData data = loader.loadFromInputStream(version, dis);
 			MHFCMain.logger
-					.debug("Successfully loaded model %s, version %d from artist %s. (Modelhash: %x)",
-							resLocation, version, artist, modelHash);
+					.debug("Successfully loaded model %s, version %d from artist %s. (Modelhash: %x-%x)",
+							resLocation, version, artist, modelUUIDmost,
+							modelUUIDleast);
 			return data;
 
 		} catch (NullPointerException npe) {

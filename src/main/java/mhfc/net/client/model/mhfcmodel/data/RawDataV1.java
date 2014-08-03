@@ -4,18 +4,16 @@ import javax.vecmath.Quat4f;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
-import net.minecraft.util.ResourceLocation;
-
 public class RawDataV1 implements IRawData {
 
 	public static class BoneBinding {
 		/** To be interpreted as unsigned */
-		public int boneIndex;
+		public byte boneIndex;
 		public float bindingValue;
 	}
 
-	public static class Texture {
-		public ResourceLocation resLocation;
+	public static class Material {
+		public String resLocationRaw;
 	}
 
 	public static class TesselationPoint {
@@ -28,18 +26,22 @@ public class RawDataV1 implements IRawData {
 	public static class ModelPart {
 		public String name;
 		/** All available {@link TesselationPoint}s in this part of the model */
-		public TesselationPoint[] vertexArray;
-		/** The array to store the order of the {@link TesselationPoint}s */
-		public int[] indexArray;
-		/** The texture this part of the model uses */
-		public Texture texture;
+		public TesselationPoint[] points;
+		/**
+		 * The array to store the order of the {@link TesselationPoint}s. To be
+		 * interpreted as unsigned.
+		 */
+		public short[] indices;
+		/** The material this part of the model uses */
+		public Material material;
 	}
 
 	public static class Bone {
 		public String name;
-		public Quat4f rotationQuat;
+		public Quat4f rotation;
 		public Vector3f offset;
-		public Bone parent;
+		/** Parent of this bone as array index. A value of 0xFF means no parent */
+		public byte parent;
 	}
 
 	public static class Header {
@@ -52,7 +54,8 @@ public class RawDataV1 implements IRawData {
 		 */
 		public int nbrBones;
 	}
-	public Header header;
+	// Header as is is automatically part of the model
+	// public Header header;
 	/**
 	 * A list of all parts
 	 */
