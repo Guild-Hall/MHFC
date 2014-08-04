@@ -13,11 +13,12 @@ public class GeneralQuest implements QuestGoalSocket {
 	}
 
 	private EntityPlayer[] players;
+	private QuestSpawnController spawnController;
 	private int playerCount;
 
 	protected QuestState state;
 	protected QuestGoal questGoal;
-	// TODO replace with real area
+	// FIXME replace with real area
 	protected String areaId;
 
 	protected int reward;
@@ -61,11 +62,11 @@ public class GeneralQuest implements QuestGoalSocket {
 	}
 
 	protected void onFail() {
-		// TODO Teleport back when we have not finished yet, don't reward
+		// FIXME Teleport back when we have not finished yet, don't reward
 	}
 
 	protected void onSuccess() {
-		// TODO tp back and reward the players for finishing the quest
+		// FIXME tp back and reward the players for finishing the quest
 	}
 
 	public boolean canJoin(EntityPlayer player) {
@@ -118,4 +119,9 @@ public class GeneralQuest implements QuestGoalSocket {
 	public EntityPlayer[] getPlayers() {
 		return players;
 	}
+
+	public QuestSpawnController getSpawnController() {
+		return spawnController;
+	}
+
 }

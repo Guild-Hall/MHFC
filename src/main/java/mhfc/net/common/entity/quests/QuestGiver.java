@@ -11,6 +11,8 @@ import net.minecraft.world.World;
 
 public class QuestGiver extends EntityLiving {
 
+	private int subID = 0;
+
 	public QuestGiver(World world) {
 		super(world);
 		this.boundingBox.setBounds(0, 0, 0, 0, 0, 0);
@@ -31,8 +33,7 @@ public class QuestGiver extends EntityLiving {
 	@Override
 	protected boolean interact(EntityPlayer player) {
 		player.openGui(MHFCMain.instance, MHFCReference.gui_questgiver_id,
-				this.worldObj, (int) this.posX, (int) this.posY,
-				(int) this.posZ);
+				this.worldObj, subID, 0, 0);
 		return true;
 	}
 
@@ -53,7 +54,6 @@ public class QuestGiver extends EntityLiving {
 
 	@Override
 	public AxisAlignedBB getBoundingBox() {
-		// TODO Auto-generated method stub
 		return super.getBoundingBox();
 	}
 

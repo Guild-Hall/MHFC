@@ -12,11 +12,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import mhfc.net.common.network.packet.MessageQuestVisual;
+import mhfc.net.common.network.packet.MessageRequestQuestVisual;
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.GoalDescription;
 import mhfc.net.common.quests.QuestDescription;
-import mhfc.net.common.quests.QuestDescription.QuestType;
 import mhfc.net.common.quests.QuestFactory;
+import mhfc.net.common.quests.QuestVisualInformation;
+import mhfc.net.common.quests.QuestVisualInformation.QuestType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.JsonUtils;
@@ -30,22 +33,24 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * The registry for quests and quest goals. It will read some source files on
- * init, the specifications of these will come very soon, just use json and you
- * should be fine. The names for the variables of {@link GoalDescription} are
- * "type", "dependencies" and "arguments" . Only type is necessary, all others
- * are optional as much as the type allows it, see {@link QuestFactory} for
- * further information. For {@link QuestDescription} the names are as following
- * "goal", "name", "reward", "fee", "areaID", "description", "maxPartySize",
- * "timeLimit", "type", "client", "aims", "fails", only the first ones until
- * areaID are mandatory.
+ * init, these war written in the json format. The names for the variables of
+ * {@link GoalDescription} are "type", "dependencies" and "arguments" . Only
+ * type is necessary, all others are optional as much as the type allows it, see
+ * {@link QuestFactory} for further information. For {@link QuestDescription}
+ * the names are as following "goal", "name", "reward", "fee", "areaID",
+ * "description", "maxPartySize", "timeLimit", "type", "client", "aims",
+ * "fails", only the first ones until areaID are mandatory.
  */
 public class MHFCRegQuests {
 
+	@SideOnly(Side.SERVER)
 	private static final ParameterizedType typeOfMapGoal = new ParameterizedType() {
 		@Override
 		public Type[] getActualTypeArguments() {
@@ -62,6 +67,8 @@ public class MHFCRegQuests {
 			return null;
 		}
 	};
+
+	@SideOnly(Side.SERVER)
 	private static final ParameterizedType typeOfMapQuest = new ParameterizedType() {
 		@Override
 		public Type[] getActualTypeArguments() {
@@ -79,7 +86,7 @@ public class MHFCRegQuests {
 		}
 	};
 
-	@SideOnly(Side.CLIENT)
+	@SideOnly(Side.SERVER)
 	private static class QuestSerializer implements JsonDeserializer {
 
 		@Override
@@ -131,7 +138,7 @@ public class MHFCRegQuests {
 				String typeString = JsonUtils
 						.getJsonObjectStringFieldValueOrDefault(jsonAsObject,
 								"type", "hunting");
-				QuestType type = QuestType.Hunting;
+				QuestType type = mhfc.net.common.quests.QuestVisualInformation.QuestType.Hunting;
 				switch (typeString) {
 					default :
 						System.out
@@ -156,18 +163,43 @@ public class MHFCRegQuests {
 				int maxPartySize = JsonUtils
 						.getJsonObjectIntegerFieldValueOrDefault(jsonAsObject,
 								"maxPartySize", 4);
+				String rewardAsString = JsonUtils
+						.getJsonObjectStringFieldValueOrDefault(jsonAsObject,
+								"rewardAsString", Integer.toString(reward)
+										+ "z");
+				String feeAsString = JsonUtils
+						.getJsonObjectStringFieldValueOrDefault(jsonAsObject,
+								"feeAsString", Integer.toString(fee) + "z");
+				String timeLimitAsString = JsonUtils
+						.getJsonObjectStringFieldValueOrDefault(
+								jsonAsObject,
+								"timeLimitAsString",
+								Integer.toString(timeLimitInS / 60)
+										+ " min"
+										+ ((timeLimitInS % 60 == 0)
+												? ""
+												: " "
+														+ Integer
+																.toString(timeLimitInS % 60)
+														+ " s"));
+				String maxPartySizeAsString = JsonUtils
+						.getJsonObjectStringFieldValueOrDefault(jsonAsObject,
+								"maxPartySizeAsString",
+								Integer.toString(maxPartySize) + " hunters");
 				if (goal != null)
 					return new QuestDescription(goal, name, type, reward, fee,
-							maxPartySize, timeLimitInS, areaId, description,
-							client, aims, fails);
+							maxPartySize, areaId, description, client, aims,
+							fails, rewardAsString, feeAsString,
+							timeLimitAsString, maxPartySizeAsString);
 				return new QuestDescription(goalDesc, name, type, reward, fee,
-						maxPartySize, timeLimitInS, areaId, description,
-						client, aims, fails);
+						maxPartySize, areaId, description, client, aims, fails,
+						rewardAsString, feeAsString, timeLimitAsString,
+						maxPartySizeAsString);
 			}
 		}
 	}
 
-	@SideOnly(Side.CLIENT)
+	@SideOnly(Side.SERVER)
 	private static class GoalSerializer implements JsonDeserializer {
 
 		@Override
@@ -220,6 +252,28 @@ public class MHFCRegQuests {
 		}
 	}
 
+	public static class RegistryRequestVisualHandler
+			implements
+				IMessageHandler<MessageRequestQuestVisual, MessageQuestVisual> {
+
+		@Override
+		public MessageQuestVisual onMessage(MessageRequestQuestVisual message,
+				MessageContext ctx) {
+			String identifier = message.getIdentifier();
+			QuestDescription description = getQuestDescription(identifier);
+			QuestVisualInformation info = description == null
+					? QuestVisualInformation.IDENTIFIER_ERROR
+					: description.getVisualInformation();
+			String[] stringArray = {identifier, info.getName(),
+					info.getDescription(), info.getClient(), info.getAims(),
+					info.getFails(), info.getAreaID(),
+					info.getTimeLimitAsString(), info.getType().getAsString(),
+					info.getRewardString(), info.getFeeString(),
+					info.getMaxPartySize()};
+			return new MessageQuestVisual(stringArray);
+		}
+	}
+
 	public static final String questLocation = "mhfc:quests/quests.json";
 	public static final String goalLocation = "mhfc:quests/goals.json";
 
@@ -227,14 +281,18 @@ public class MHFCRegQuests {
 	public static final HashMap<String, GoalDescription> goalDescriptions = new HashMap<String, GoalDescription>();
 
 	protected static HashMap<EntityPlayer, GeneralQuest> playerQuest = new HashMap<EntityPlayer, GeneralQuest>();
-	protected static List<GeneralQuest> quests = new ArrayList<GeneralQuest>();
+	protected static List<GeneralQuest> questsRunning = new ArrayList<GeneralQuest>();
 	private final static Gson gsonInstance = (new GsonBuilder())
 			.registerTypeAdapter(GoalDescription.class, new GoalSerializer())
 			.registerTypeAdapter(QuestDescription.class, new QuestSerializer())
 			.create();
 
-	public static void init() {
+	public static final String QUEST_TYPE_HUNTING = "quests.type.hunting";
+	public static final String QUEST_TYPE_GATHERING = "quests.type.gathering";
+	public static final String QUEST_TYPE_EPIC_HUNTING = "quest.type.epichunting";
+	public static final String QUEST_TYPE_KILLING = "quests.type.killing";
 
+	public static void init() {
 		generateQuests(new ResourceLocation(questLocation));
 		generateGoals(new ResourceLocation(goalLocation));
 		System.out.println("[MHFC] Number of goals loaded: "
@@ -242,6 +300,7 @@ public class MHFCRegQuests {
 		System.out.println("[MHFC] Number of quests loaded: "
 				+ questDescriptions.size());
 		QuestFactory.constructQuest(questDescriptions.get("TestQuest"), null);
+		// FIXME register the message handler
 	}
 
 	private static void generateGoals(ResourceLocation location) {
@@ -386,7 +445,7 @@ public class MHFCRegQuests {
 	 * Returns all quests that are running at the moment.
 	 */
 	public static List<GeneralQuest> getRunningQuests() {
-		return quests;
+		return questsRunning;
 	}
 
 	/**
@@ -402,14 +461,6 @@ public class MHFCRegQuests {
 	}
 
 	public static void registerQuest(GeneralQuest generalQuest) {
-		quests.add(generalQuest);
-	}
-
-	public String getQuestFileLocations() {
-		return questLocation;
-	}
-
-	public String getGoalFileLocations() {
-		return goalLocation;
+		questsRunning.add(generalQuest);
 	}
 }

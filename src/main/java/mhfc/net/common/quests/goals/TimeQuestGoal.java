@@ -19,6 +19,7 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 	public TimeQuestGoal(QuestGoalSocket socket, int initialTime) {
 		super(socket);
 		this.initialTicksToFail = initialTime;
+		ticksToFail = initialTime;
 	}
 
 	public TimeQuestGoal(int initialTime) {
@@ -64,7 +65,7 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 
 	@Override
 	public int getInitialDelay() {
-		return ticksToFail;
+		return initialTicksToFail;
 	}
 
 }

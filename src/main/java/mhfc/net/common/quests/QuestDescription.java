@@ -1,39 +1,16 @@
 package mhfc.net.common.quests;
 
 import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.quests.QuestVisualInformation.QuestType;
 
 /**
  * Used by the QuestFactory as well as to display quests.
  */
 public class QuestDescription {
-	public enum QuestType {
-		Hunting("quests.type.hunting"), EpicHunting("quest.type.epichunting"), Killing(
-				"quests.type.killing"), Gathering("quests.type.gathering");
-		QuestType(String s) {
-			this.s = s;
-		}
-
-		public String getAsString() {
-			return s;
-		}
-
-		String s;
-	}
-
-	public static final QuestType QT_HUNTING = QuestType.Hunting;
-	public static final QuestType QT_EPIC_HUNTING = QuestType.EpicHunting;
-	public static final QuestType QT_KILLING = QuestType.Killing;
-	public static final QuestType QT_GATHERING = QuestType.Gathering;
 
 	protected String goalDescID;
 	protected GoalDescription goalDesc;
-	protected String name;
-	protected QuestType type;
-	protected int timeLimitInS;
-	protected String description;
-	protected String client;
-	protected String aims;
-	protected String fails;
+	protected QuestVisualInformation visual;
 
 	protected String areaId;
 
@@ -42,29 +19,33 @@ public class QuestDescription {
 	protected int maxPartySize;
 
 	public QuestDescription(String goalDescID, String name, QuestType type,
-			int reward, int fee, int maxPartySize, int timeLimit,
-			String areaId, String description, String client, String aims,
-			String fails) {
+			int reward, int fee, int maxPartySize, String areaId,
+			String description, String client, String aims, String fails,
+			String rewardAsS, String feeAsS, String timeLimitAsS,
+			String maxPartySizeAsS) {
 		this.goalDescID = goalDescID;
-		this.name = name;
-		this.type = type;
-		this.timeLimitInS = timeLimit;
-		this.description = description;
-		this.client = client;
-		this.aims = aims;
-		this.fails = fails;
 		this.areaId = areaId;
 		this.reward = reward;
 		this.fee = fee;
 		this.maxPartySize = maxPartySize;
+		this.visual = new QuestVisualInformation(name, description, client,
+				aims, fails, resolveAreaIDToName(this.areaId), timeLimitAsS,
+				rewardAsS, feeAsS, maxPartySizeAsS, type);
+	}
+
+	private String resolveAreaIDToName(String areaId2) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public QuestDescription(GoalDescription goalDesc, String name,
 			QuestType type, int reward, int fee, int maxPartySize,
-			int timeLimit, String areaId, String description, String client,
-			String aims, String fails) {
-		this((String) null, name, type, reward, fee, maxPartySize, timeLimit,
-				areaId, description, client, aims, fails);
+			String areaId, String description, String client, String aims,
+			String fails, String rewardAsS, String feeAsS, String timeLimitAsS,
+			String maxPartySizeAsS) {
+		this((String) null, name, type, reward, fee, maxPartySize, areaId,
+				description, client, aims, fails, rewardAsS, feeAsS,
+				timeLimitAsS, maxPartySizeAsS);
 		this.goalDesc = goalDesc;
 	}
 
@@ -72,34 +53,6 @@ public class QuestDescription {
 		if (goalDescID == null)
 			return goalDesc;
 		return MHFCRegQuests.getGoalDescription(goalDescID);
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public QuestType getType() {
-		return type;
-	}
-
-	public int getTimeLimitInS() {
-		return timeLimitInS;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public String getClient() {
-		return client;
-	}
-
-	public String getAims() {
-		return aims;
-	}
-
-	public String getFails() {
-		return fails;
 	}
 
 	public int getReward() {
@@ -116,6 +69,10 @@ public class QuestDescription {
 
 	public int getMaxPartySize() {
 		return maxPartySize;
+	}
+
+	public QuestVisualInformation getVisualInformation() {
+		return visual;
 	}
 
 }
