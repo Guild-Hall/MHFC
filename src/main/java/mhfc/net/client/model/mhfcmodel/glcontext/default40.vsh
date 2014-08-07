@@ -1,6 +1,6 @@
 #version 410 compatibility
 
-layout (location = 0) in vec3 pPosition; // location 0, buffered as vec3
+layout (location = 0) in vec4 pPosition; // location 0, buffered as vec3
 layout (location = 1) in vec3 pNormal; // location 1, buffered as vec3
 layout (location = 2) in vec4 pTexcoords; // location 2, buffered as vec2
 layout (location = 3) in uvec4 pBindingIndices; // location 3, buffered as vec4
@@ -12,14 +12,9 @@ out gl_PerVertex {
 	vec4 gl_TexCoord[1];
 };
 
-struct Bone {
-	mat4 worldToLocal;
-	mat4 localToWorld;
-};
-
-// Layout std140 guarantees sizeof(Bone)==32
+// Layout std140 guarantees sizeof(mat4)==16
 layout (std140, binding = 0) uniform BonesStatic {
-	Bone bones[255];
+	mat4 localsMatrices[255];
 };
 
 // Layout std140 guarantees sizeof(mat4)==16
@@ -32,24 +27,31 @@ void PointLight(in int i, in vec3 eye, in vec3 ecPosition3, in vec3 normal, inou
 void SpotLight(in int i, in vec3 eye, in vec3 ecPosition3, in vec3 normal, inout vec4 ambient, inout vec4 diffuse, inout vec4 specular);
 
 void main(){
-	vec4 vertPos = vec4(pPosition, 1.0);
 	// Transform normal and vertPos with bones
 	vec4 transformedPos = vec4(0.0, 0.0, 0.0, 1.0);
 	vec3 transformedNormal = vec3(0.0);
-	for(int i = 0; i < 4; ++i) {
-		float value = pBindingValues[i];
-		uint binding = pBindingIndices[i];
-		if(value <= 0.0 || binding == 0xFF) {
-			// If either the binding is '-1' or the strength is zero
-			continue;
+	if( pBindingIndices.x == 0xFF &&
+		pBindingIndices.y == 0xFF &&
+		pBindingIndices.z == 0xFF &&
+		pBindingIndices.w == 0xFF) {
+		transformedPos = pPosition
+		transformedNormal = pNormal;
+	} else {
+		for(int i = 0; i < 4; ++i) {
+			float value = pBindingValues[i];
+			uint binding = pBindingIndices[i];
+			if(value <= 0.0 || binding == 0xFF) {
+				// If either the binding is '-1' or the strength is zero
+				continue;
+			}
+			mat4 localToWorld = localsMatrices[binding];
+			mat4 transformMat = transformMatrix[binding];
+			transformedPos +=  value * ((localToWorld * transformMat) * pPosition);
+			// The next line contains a right-hand matrix multiplication, we save one transpose (we normally need transposed inverse)
+			transformedNormal +=  value * vec3(vec4(pNormal, 0.0) * inverse(localToWorld * transformMat));
 		}
-		Bone bone = bones[binding];
-		mat4 transformMat = transformMatrix[binding];
-		transformedPos +=  value * (bone.localToWorld * (transformMat * (bone.worldToLocal * vertPos)));
-		// The next line contains a right-hand matrix multiplication, we save two transpose(vec3 normal)
-		transformedNormal +=  value * vec3(bone.localToWorld * ((bone.worldToLocal * vec4(pNormal, 0.0)) * inverse(transformMat)));
 	}
-	vertPos = transformedPos;
+	vec4 vertPos = transformedPos;
 	vec3 normal = transformedNormal;
 	// Apply lightning, no fragment shader.... MINECRAFT AHHHHH
 	vertPos = gl_ModelViewMatrix * vertPos;

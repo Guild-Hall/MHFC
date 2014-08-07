@@ -5,6 +5,7 @@ import java.util.Random;
 import mhfc.net.client.model.PartTickModelBase;
 import mhfc.net.client.model.mhfcmodel.data.IRawData;
 import mhfc.net.client.model.mhfcmodel.glcontext.GLHelper;
+import mhfc.net.client.model.mhfcmodel.glcontext.GLHelper40;
 import mhfc.net.client.model.mhfcmodel.glcontext.GLHelperBasic;
 import mhfc.net.client.model.mhfcmodel.loader.VersionizedModelLoader;
 import mhfc.net.common.entity.type.IMHFCAnimatedEntity;
@@ -26,8 +27,8 @@ public class ModelMHFC extends PartTickModelBase implements IModelCustom {
 			.getCapabilities().GL_ARB_separate_shader_objects;
 
 	private static GLHelper getCorrectGLHelper() {
-		// if (supportsPipelines)
-		// return new GLHelper40();
+		if (supportsPipelines)
+			return new GLHelper40();
 		return new GLHelperBasic();
 	}
 

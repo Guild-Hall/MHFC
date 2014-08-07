@@ -4,9 +4,6 @@ import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
 import static org.lwjgl.opengl.GL11.GL_UNSIGNED_SHORT;
-import static org.lwjgl.opengl.GL11.glNormal3f;
-import static org.lwjgl.opengl.GL11.glTexCoord2f;
-import static org.lwjgl.opengl.GL11.glVertex3f;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
@@ -18,6 +15,7 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.glBindBufferBase;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
+import static org.lwjgl.opengl.GL30.glVertexAttribIPointer;
 import static org.lwjgl.opengl.GL31.GL_UNIFORM_BUFFER;
 import static org.lwjgl.opengl.GL32.glDrawElementsBaseVertex;
 
@@ -31,8 +29,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.vecmath.Matrix4f;
-import javax.vecmath.Vector2f;
-import javax.vecmath.Vector3f;
 
 import mhfc.net.client.model.mhfcmodel.AnimationInformation;
 import mhfc.net.client.model.mhfcmodel.Utils;
@@ -55,20 +51,10 @@ public class ModelData40 implements IModelData {
 	public static final int VS_ATTR_SIZE = 52;
 
 	public static final int U_BONE_MATRIX_BIND = 0;
-	public static final int U_BONE_MATRIX_SIZE = 32;
+	public static final int U_BONE_MATRIX_SIZE = 16;
 	public static final int U_BONE_TRANSFORM_BINDING = 1;
 	public static final int U_BONE_TRANSFORM_SIZE = 16;
 
-	public static class Point {
-		public Vector3f coords;
-		public Vector3f normal;
-		public Vector2f uv;
-		public void render() {
-			glVertex3f(coords.x, coords.y, coords.z);
-			glNormal3f(normal.x, normal.y, normal.z);
-			glTexCoord2f(uv.x, uv.y);
-		}
-	}
 	public static class Part {
 		/**
 		 * The offset of this part's indices in the ELEMENT_BUFFER
@@ -87,9 +73,6 @@ public class ModelData40 implements IModelData {
 
 		public final ResourceLocation texLocation;
 
-		public Point[] points;
-		public int[] indices;
-
 		public Part(int startIndex, int indexCount, int vertexOffset,
 				ResourceLocation texLocation) {
 			this.startIndex = startIndex;
@@ -102,11 +85,6 @@ public class ModelData40 implements IModelData {
 			mc.renderEngine.bindTexture(texLocation);
 			glDrawElementsBaseVertex(GL_TRIANGLES, indexCount,
 					GL_UNSIGNED_SHORT, startIndex, vertexOffset);
-			// glBegin(GL_TRIANGLES);
-			// for (int idx : this.indices) {
-			// this.points[idx].render();
-			// }
-			// glEnd();
 		}
 	}
 	/**
@@ -159,18 +137,6 @@ public class ModelData40 implements IModelData {
 		for (ModelPart p : dataFrom.parts) {
 			Part part = new Part(totalIndices, p.indices.length, totalPoints,
 					new ResourceLocation(p.material.resLocationRaw));
-			part.indices = new int[p.indices.length];
-			for (int i = 0; i < p.indices.length; ++i) {
-				part.indices[i] = 0xFFFF & p.indices[i];
-			}
-			part.points = new Point[p.points.length];
-			for (int i = 0; i < p.points.length; ++i) {
-				Point point = new Point();
-				point.coords = p.points[i].coords;
-				point.normal = p.points[i].normal;
-				point.uv = p.points[i].texCoords;
-				part.points[i] = point;
-			}
 			buildingPartMap.put(p.name, part);
 			totalIndices += p.indices.length;
 			totalPoints += p.points.length;
@@ -211,8 +177,8 @@ public class ModelData40 implements IModelData {
 		glVertexAttribPointer(VS_POSITION_LOCATION, 3, GL_FLOAT, false, 52, 0);
 		glVertexAttribPointer(VS_NORMAL_LOCATION, 3, GL_FLOAT, false, 52, 12);
 		glVertexAttribPointer(VS_TEXCOORDS_LOCATION, 2, GL_FLOAT, false, 52, 24);
-		glVertexAttribPointer(VS_TRANSFORM_INDICES_LOCATION, 4,
-				GL_UNSIGNED_BYTE, false, 52, 32);
+		glVertexAttribIPointer(VS_TRANSFORM_INDICES_LOCATION, 4,
+				GL_UNSIGNED_BYTE, 52, 32);
 		glVertexAttribPointer(VS_TRANSFORM_VALUES_LOCATION, 4, GL_FLOAT, false,
 				52, 36);
 		// Unbind
@@ -314,14 +280,7 @@ public class ModelData40 implements IModelData {
 	 */
 	protected static void putBoneInto(Bone bone, FloatBuffer matrixBuffer) {
 		Matrix4f localToWorld = new Matrix4f(bone.rotation, bone.offset, 1.0F);
-		bone.rotation.inverse();
-		bone.offset.negate();
-		Matrix4f worldToLocal = new Matrix4f(bone.rotation, bone.offset, 1.0F);
 		float[] col = new float[4];
-		for (int i = 0; i < 4; ++i) {
-			worldToLocal.getColumn(i, col);
-			matrixBuffer.put(col);
-		}
 		for (int i = 0; i < 4; ++i) {
 			localToWorld.getColumn(i, col);
 			matrixBuffer.put(col);

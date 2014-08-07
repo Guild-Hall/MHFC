@@ -43,7 +43,7 @@ public class MHFCRegRenderEntity {
 				new RenderPopo(new ModelPopo(), 1f, 1.4f));
 		RenderingRegistry.registerEntityRenderingHandler(EntityTest.class,
 				new RenderMHFCModel(new ModelMHFC(new ResourceLocation(
-						"mhfc:models/test/test.mhmd")), 1.0f));
+						"mhfc:models/testcube.mhmd")), 1.0f));
 	}
 
 	public static void renderBlockEntities() {
