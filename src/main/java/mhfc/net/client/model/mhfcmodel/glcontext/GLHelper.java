@@ -3,7 +3,9 @@ package mhfc.net.client.model.mhfcmodel.glcontext;
 import mhfc.net.client.model.mhfcmodel.data.IRawData;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1;
 import mhfc.net.client.model.mhfcmodel.loader.VersionizedModelLoader;
-import mhfc.net.common.entity.type.IMHFCAnimatedEntity;
+import mhfc.net.common.entity.type.IMHFCAnimatedObject;
+
+import org.lwjgl.opengl.GLContext;
 
 /**
  * Represents an GLHelper. That is a render-glHelper for the correct OpenGL-
@@ -15,6 +17,8 @@ import mhfc.net.common.entity.type.IMHFCAnimatedEntity;
  *            the ModelDataType this GLHelper can handle
  */
 public abstract class GLHelper {
+	protected static final boolean supportsPipelines = GLContext
+			.getCapabilities().GL_ARB_separate_shader_objects;
 	/**
 	 * This method is used to translate the {@link RawDataV1} that was
 	 * previously read by the appropriate {@link VersionizedModelLoader}.
@@ -37,13 +41,23 @@ public abstract class GLHelper {
 	 */
 	public abstract void loadFrom(RawDataV1 datav1);
 	/**
-	 * Actually renders the model given by data. This is normally the same this
-	 * handler previously returned by {@link #translate(RawDataV1)}.
+	 * Actually renders the model that MAY have been previously loaded. If no
+	 * data has been loaded yet, this method is expected to instantly return. It
+	 * may log but it is not required and/or expected to do so.
 	 *
 	 * @param entity
 	 *            the entity to render
 	 * @param subFrame
 	 *            the current subFrame, always 0.0 <= subFrame <= 1.0
 	 **/
-	public abstract void render(IMHFCAnimatedEntity entity, float subFrame);
+	public abstract void render(IMHFCAnimatedObject entity, float subFrame);
+	/**
+	 * Selects an appropriate {@link GLHelper} from the known types.
+	 */
+	public static GLHelper getAppropriateHelper() {
+		// TODO: enable advanced rendering
+		// if (supportsPipelines)
+		// return new GLHelper40();
+		return new GLHelperBasic();
+	}
 }

@@ -1,8 +1,8 @@
 package mhfc.net.client.model.mhfcmodel.data;
 
-import javax.vecmath.Quat4f;
-import javax.vecmath.Vector2f;
-import javax.vecmath.Vector3f;
+import org.lwjgl.util.vector.Quaternion;
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 
 public class RawDataV1 implements IRawData {
 
@@ -38,7 +38,7 @@ public class RawDataV1 implements IRawData {
 
 	public static class Bone {
 		public String name;
-		public Quat4f rotation;
+		public Quaternion rotation;
 		public Vector3f offset;
 		/** Parent of this bone as array index. A value of 0xFF means no parent */
 		public byte parent;

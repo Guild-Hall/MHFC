@@ -1,7 +1,6 @@
 package mhfc.net.common.core.registry;
 
-import mhfc.net.client.model.mhfcmodel.MHFCModelLoader;
-import mhfc.net.client.model.mhfcmodel.ModelMHFC;
+import mhfc.net.client.model.mhfcmodel.MHMDModelLoader;
 import mhfc.net.client.model.mob.ModelPopo;
 import mhfc.net.client.model.mob.boss.ModelKirin;
 import mhfc.net.client.model.mob.boss.ModelRathalos;
@@ -27,9 +26,9 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 public class MHFCRegRenderEntity {
 
 	public static void render() {
+		AdvancedModelLoader.registerModelHandler(MHMDModelLoader.instance);
 		renderMonster();
 		renderBlockEntities();
-		AdvancedModelLoader.registerModelHandler(MHFCModelLoader.instance);
 	}
 
 	public static void renderMonster() {
@@ -41,9 +40,11 @@ public class MHFCRegRenderEntity {
 				new RenderRathalos(new ModelRathalos(), 1.0F, 2.1F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityPopo.class,
 				new RenderPopo(new ModelPopo(), 1f, 1.4f));
-		RenderingRegistry.registerEntityRenderingHandler(EntityTest.class,
-				new RenderMHFCModel(new ModelMHFC(new ResourceLocation(
-						"mhfc:models/testcube.mhmd")), 1.0f));
+		RenderingRegistry.registerEntityRenderingHandler(
+				EntityTest.class,
+				new RenderMHFCModel(MHMDModelLoader
+						.loadModel(new ResourceLocation(
+								"mhfc:models/testcube.mhmd")), 1.0f));
 	}
 
 	public static void renderBlockEntities() {

@@ -6,10 +6,6 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.vecmath.Quat4f;
-import javax.vecmath.Vector2f;
-import javax.vecmath.Vector3f;
-
 import mhfc.net.client.model.mhfcmodel.Utils;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1.Bone;
@@ -19,6 +15,10 @@ import mhfc.net.client.model.mhfcmodel.data.RawDataV1.Material;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1.ModelPart;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1.TesselationPoint;
 import net.minecraftforge.client.model.ModelFormatException;
+
+import org.lwjgl.util.vector.Quaternion;
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Loads a file with version signature 1. This implementation follows the all or
@@ -105,7 +105,7 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 		// Read name
 		String name = Utils.readString(di);
 		// Read quaternion
-		Quat4f quat = Utils.readQuat(di);
+		Quaternion quat = Utils.readQuat(di);
 		// Read offset
 		Vector3f offset = Utils.readVector3f(di);
 		// Apply attributes

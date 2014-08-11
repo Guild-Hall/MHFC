@@ -2,8 +2,8 @@ package mhfc.net.common.entity.type;
 
 import java.util.List;
 
-import mhfc.net.client.model.mhfcmodel.AnimationInformation;
-import mhfc.net.client.model.mhfcmodel.MHFCAttack;
+import mhfc.net.client.model.mhfcmodel.IRenderInformation;
+import mhfc.net.client.model.mhfcmodel.Animation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityMultiPart;
@@ -11,6 +11,8 @@ import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+
+import com.google.common.base.Predicate;
 
 /**
  * This class should provide a good base to code off. As almost every entity in
@@ -24,8 +26,8 @@ import net.minecraft.world.World;
 public abstract class EntityMHFCBase extends EntityCreature
 		implements
 			IEntityMultiPart,
-			IMHFCAnimatedEntity,
-			AnimationInformation {
+			IMHFCAnimatedObject,
+			IRenderInformation {
 
 	public EntityMHFCBase(World world) {
 		super(world);
@@ -263,21 +265,36 @@ public abstract class EntityMHFCBase extends EntityCreature
 	}
 
 	@Override
-	public boolean shouldDisplayPart(String part, float subFrame) {
-		// AnimationInformation & IAnimatedEntity
-		return true;
-	}
-
-	@Override
-	public AnimationInformation getAnimInformation() {
+	public IRenderInformation getRenderInformation() {
 		// TODO: return the AI here
 		return this;
 	}
+	/**
+	 * This implementation just forwards the call to the predicate of the
+	 * currently executed animation.
+	 */
+	@Override
+	public Predicate<String> getPartPredicate(float subFrame) {
+		final Predicate<String> animationPredicate = EntityMHFCBase.this
+				.getRenderInformation().getPartFilter(subFrame);
+		return new Predicate<String>() {
+			@Override
+			public boolean apply(String input) {
+				return animationPredicate.apply(input);
+			}
+		};
+	}
 
 	@Override
-	public MHFCAttack getCurrentAttack() {
-		// AnimationInformation
+	public Animation getCurrentAnimation() {
+		// IRenderInformation
 		// TODO: get this from the AI
 		return null;
+	}
+
+	@Override
+	public Predicate<String> getPartFilter(float subFrame) {
+		// TODO: get this from the AI
+		return IMHFCAnimatedObject.RENDER_ALL;
 	}
 }

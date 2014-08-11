@@ -34,7 +34,7 @@ void main(){
 		pBindingIndices.y == 0xFF &&
 		pBindingIndices.z == 0xFF &&
 		pBindingIndices.w == 0xFF) {
-		transformedPos = pPosition
+		transformedPos = pPosition;
 		transformedNormal = pNormal;
 	} else {
 		for(int i = 0; i < 4; ++i) {

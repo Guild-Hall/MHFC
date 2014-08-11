@@ -42,7 +42,8 @@ public abstract class VersionizedModelLoader {
 	 * @param resLocation
 	 * @return
 	 */
-	public static IRawData loadVersionized(ResourceLocation resLocation) {
+	public static IRawData loadVersionized(ResourceLocation resLocation)
+			throws ModelFormatException {
 		try (DataInputStream dis = new DataInputStream(new BufferedInputStream(
 				Minecraft.getMinecraft().getResourceManager()
 						.getResource(resLocation).getInputStream()))) {

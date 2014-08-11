@@ -20,13 +20,16 @@ import static org.lwjgl.opengl.GL41.glBindProgramPipeline;
 import static org.lwjgl.opengl.GL41.glGenProgramPipelines;
 import static org.lwjgl.opengl.GL41.glProgramParameteri;
 import static org.lwjgl.opengl.GL41.glUseProgramStages;
-import mhfc.net.client.model.mhfcmodel.AnimationInformation;
+import mhfc.net.client.model.mhfcmodel.Animation;
+import mhfc.net.client.model.mhfcmodel.IRenderInformation;
 import mhfc.net.client.model.mhfcmodel.Utils;
 import mhfc.net.client.model.mhfcmodel.data.ModelData40;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1;
-import mhfc.net.common.entity.type.IMHFCAnimatedEntity;
+import mhfc.net.common.entity.type.IMHFCAnimatedObject;
 
 import org.lwjgl.opengl.GL11;
+
+import com.google.common.base.Predicate;
 
 public class GLHelper40 extends GLHelper {
 	protected static final int EXTERNAL_SHADER_BITS = GL_FRAGMENT_SHADER_BIT
@@ -66,13 +69,22 @@ public class GLHelper40 extends GLHelper {
 
 	@Override
 	public void loadFrom(RawDataV1 datav1) {
-		this.modelData = new ModelData40(datav1);
+		if (this.modelData != null) {
+			// Thread safe, you never know when you need it
+			ModelData40 oldData = this.modelData;
+			this.modelData = new ModelData40(datav1);
+			oldData.free();
+		} else {
+			this.modelData = new ModelData40(datav1);
+		}
 	}
 
 	@Override
-	public void render(IMHFCAnimatedEntity animatedEntity, float subFrame) {
+	public void render(IMHFCAnimatedObject animatedEntity, float subFrame) {
 		// FIXME: this doesn't render, maybe it's the shader?? Try with compute
 		// shader
+		if (this.modelData == null) // An invalid model, etc...
+			return;
 		GL11.glPushMatrix();
 		glEnableClientState(GL_VERTEX_ARRAY);
 		ensureInit();
@@ -83,8 +95,10 @@ public class GLHelper40 extends GLHelper {
 		glBindProgramPipeline(pipelineName);
 		glUseProgram(0);
 
-		AnimationInformation info = animatedEntity.getAnimInformation();
-		this.modelData.renderFiltered(info, subFrame);
+		IRenderInformation info = animatedEntity.getRenderInformation();
+		Animation currentAttack = info.getCurrentAnimation();
+		Predicate<String> filter = info.getPartFilter(subFrame);
+		this.modelData.renderFiltered(filter, currentAttack, subFrame);
 
 		glUseProgram(currProgram);
 		glBindProgramPipeline(currPipeline);

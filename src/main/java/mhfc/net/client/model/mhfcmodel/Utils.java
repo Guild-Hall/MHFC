@@ -39,13 +39,13 @@ import java.nio.charset.MalformedInputException;
 import java.nio.charset.UnmappableCharacterException;
 import java.util.Arrays;
 
-import javax.vecmath.Matrix4f;
 import javax.vecmath.Quat4f;
-import javax.vecmath.Vector2f;
-import javax.vecmath.Vector3f;
-import javax.vecmath.Vector4f;
 
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Quaternion;
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 
 import sun.nio.cs.ArrayDecoder;
 
@@ -169,64 +169,6 @@ public class Utils {
 	}
 
 	/**
-	 * Reads a {@link Matrix4f} from the given {@link DataInputStream}. A
-	 * matrix4 is basically 4 {@link Vector4f} so 16 floats will be read.<br>
-	 * When isAffine is specified the matrix's last <b>row</b> will be assumed
-	 * to be (0, 0, 0, 1). In this case only 12 floats will be read.<br>
-	 * When rowsFirst is set the read Vectors will be taken as the rows of the
-	 * matrix else as the matrix's columns.
-	 *
-	 * @param dis
-	 *            the {@link DataInputStream} to read from
-	 * @param isAffine
-	 *            whether the Matrix to be read is affine
-	 * @param rowsFirst
-	 *            whether to interpret the read {@link Vector4f} as the rows or
-	 *            columns of the matrix
-	 * @return the newly constructed matrix
-	 * @throws EOFException
-	 *             when the data ends before 12/16 floats are read
-	 * @throws IOException
-	 *             when some IOException occurs in the given
-	 *             {@link DataInputStream}
-	 */
-	public static Matrix4f readMatrix(DataInputStream dis, boolean isAffine,
-			boolean rowsFirst) throws EOFException, IOException {
-		float v0 = dis.readFloat();
-		float v1 = dis.readFloat();
-		float v2 = dis.readFloat();
-		float v3 = dis.readFloat();
-		float v4 = dis.readFloat();
-		float v5 = dis.readFloat();
-		float v6 = dis.readFloat();
-		float v7 = dis.readFloat();
-		float v8 = dis.readFloat();
-		float v9 = dis.readFloat();
-		float v10 = dis.readFloat();
-		float v11 = dis.readFloat();
-		if (isAffine) {
-			if (rowsFirst) {
-				// Matrix is rowsFirst
-				return new Matrix4f(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9,
-						v10, v11, 0.0f, 0.0f, 0.0f, 1.0f);
-			}
-			return new Matrix4f(v0, v3, v6, v9, v1, v4, v7, v10, v2, v5, v8,
-					v11, 0.0f, 0.0f, 0.0f, 1.0f);
-		}
-		float v12 = dis.readFloat();
-		float v13 = dis.readFloat();
-		float v14 = dis.readFloat();
-		float v15 = dis.readFloat();
-		if (rowsFirst) {
-			// Matrix is rowsFirst
-			return new Matrix4f(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10,
-					v11, v12, v13, v14, v15);
-		}
-		return new Matrix4f(v0, v4, v8, v12, v1, v5, v9, v13, v2, v6, v10, v14,
-				v3, v7, v11, v15);
-	}
-
-	/**
 	 * Reads a {@link Quat4f} from the given {@link InputStream}.
 	 *
 	 * @param dis
@@ -237,13 +179,13 @@ public class Utils {
 	 *             when some IOException occurs in the given
 	 *             {@link DataInputStream}
 	 */
-	public static Quat4f readQuat(DataInputStream dis) throws EOFException,
+	public static Quaternion readQuat(DataInputStream dis) throws EOFException,
 			IOException {
 		float x = dis.readFloat();
 		float y = dis.readFloat();
 		float z = dis.readFloat();
 		float w = dis.readFloat();
-		return new Quat4f(x, y, z, w);
+		return new Quaternion(x, y, z, w);
 	}
 	/**
 	 * Asks for a new directly backed ByteBuffer
@@ -302,17 +244,6 @@ public class Utils {
 		if (size > Integer.MAX_VALUE / 2)
 			throw new IllegalStateException("Asked for a too big ByteBuffer");
 		return ByteBuffer.allocateDirect(size * 2).asShortBuffer();
-	}
-	/**
-	 * Hashes the given name to a long.
-	 *
-	 * @param name
-	 *            of the bone
-	 * @return the calculated hash
-	 */
-	protected static long hashBoneName(String name) {
-		// TODO: hashing algorithm
-		return 0;
 	}
 	/**
 	 * Gets the source in the {@link InputStream} as a direct byte buffer which
@@ -428,5 +359,14 @@ public class Utils {
 			String error = glGetProgramInfoLog(program, errorLength);
 			throw new IllegalStateException(error);
 		}
+	}
+	/**
+	 * Takes a {@link Quaternion} and a {@link Vector3f} as input and returns a
+	 * {@link Matrix4f} that represents the rotation-translation of the passed
+	 * in arguments
+	 */
+	public static Matrix4f fromRotTrans(Quaternion rotation,
+			Vector3f translation) {
+		return null;
 	}
 }
