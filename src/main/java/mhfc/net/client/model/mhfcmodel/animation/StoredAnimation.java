@@ -1,7 +1,5 @@
 package mhfc.net.client.model.mhfcmodel.animation;
 
-import java.util.Map;
-
 import net.minecraft.util.ResourceLocation;
 
 public class StoredAnimation implements IAnimation {
@@ -16,7 +14,7 @@ public class StoredAnimation implements IAnimation {
 	}
 
 	@Override
-	public Map<String, BoneTransformation> getCurrentTransformation(int frame,
+	public BoneTransformation getCurrentTransformation(String bone, int frame,
 			float subFrame) {
 		// TODO return interpolated transformation
 		return null;

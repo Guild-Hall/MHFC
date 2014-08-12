@@ -10,7 +10,6 @@ import static org.lwjgl.opengl.GL11.glVertex4f;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import mhfc.net.client.model.mhfcmodel.Utils;
 import mhfc.net.client.model.mhfcmodel.animation.IAnimation;
@@ -314,16 +313,17 @@ public class ModelDataBasic implements IModelData {
 	private BoneTransformation[] getTransforms(IAnimation anim, int frame,
 			float subFrame) {
 		BoneTransformation[] transforms = new BoneTransformation[this.bones.length];
-		Map<String, BoneTransformation> animTransforms = anim == null
-				? null
-				: anim.getCurrentTransformation(frame, subFrame);
 		for (int i = 0; i < this.bones.length; ++i) {
-			Bone currBone = this.bones[i];
-			if (animTransforms != null
-					&& animTransforms.containsKey(currBone.getName()))
-				transforms[i] = animTransforms.get(currBone.getName());
-			else
+			if (anim == null) {
 				transforms[i] = BoneTransformation.identity;
+				continue;
+			}
+			Bone currBone = this.bones[i];
+			BoneTransformation transform = anim.getCurrentTransformation(
+					currBone.getName(), frame, subFrame);
+			transforms[i] = transform != null
+					? transform
+					: BoneTransformation.identity;
 		}
 		return transforms;
 	}

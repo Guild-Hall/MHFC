@@ -281,8 +281,13 @@ public abstract class EntityMHFCBase extends EntityCreature
 	 */
 	@Override
 	public Predicate<String> getPartPredicate(float subFrame) {
-		final Predicate<String> animationPredicate = EntityMHFCBase.this
-				.getRenderInformation().getPartFilter(subFrame);
+		IRenderInformation info = EntityMHFCBase.this.getRenderInformation();
+		if (info == null)
+			return IAnimatedObject.RENDER_ALL;
+		final Predicate<String> animationPredicate = info
+				.getPartFilter(subFrame);
+		if (animationPredicate == null)
+			return IAnimatedObject.RENDER_ALL;
 		return new Predicate<String>() {
 			@Override
 			public boolean apply(String input) {

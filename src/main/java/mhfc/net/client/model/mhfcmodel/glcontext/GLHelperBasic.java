@@ -19,13 +19,20 @@ public class GLHelperBasic extends GLHelper {
 	}
 
 	@Override
-	public void render(IAnimatedObject entity, float subFrame) {
+	public void render(IAnimatedObject object, float subFrame) {
 		if (this.modelData == null) // Not loaded correctly
 			return;
-		Predicate<String> filter = entity.getPartPredicate(subFrame);
-		IRenderInformation info = entity.getRenderInformation();
-		IAnimation currAnim = info.getCurrentAnimation();
-		int frame = info.getCurrentFrame();
-		this.modelData.renderFiltered(filter, currAnim, frame, subFrame);
+		Predicate<String> filter = object.getPartPredicate(subFrame);
+		IRenderInformation info = object.getRenderInformation();
+		IAnimation currAnim = null;
+		int frame = 0;
+		if (info != null) {
+			currAnim = info.getCurrentAnimation();
+			frame = info.getCurrentFrame();
+		}
+		if (filter != null)
+			this.modelData.renderFiltered(filter, currAnim, frame, subFrame);
+		else
+			this.modelData.renderAll(currAnim, frame, subFrame);
 	}
 }

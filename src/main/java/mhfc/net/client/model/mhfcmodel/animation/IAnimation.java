@@ -1,9 +1,6 @@
 package mhfc.net.client.model.mhfcmodel.animation;
 
 import static org.lwjgl.opengl.GL11.glTranslatef;
-
-import java.util.Map;
-
 import mhfc.net.client.model.mhfcmodel.Utils;
 
 import org.lwjgl.util.vector.Matrix4f;
@@ -93,16 +90,18 @@ public interface IAnimation {
 		}
 	}
 	/**
-	 * Returns a map that associates bone's names with their current
-	 * {@link BoneTransformation}. The returned Map may be frozen. If a name is
-	 * not found in the map it should be assumed that Bone is in his
-	 * bindingpose-state. If a name is been found in the map that is not the
-	 * name of a bone this is an error and may throw afterwards.<br>
+	 * Returns the bone's current {@link BoneTransformation} (identified by
+	 * name). If is returned by this method it is assumed that Bone is in his
+	 * binding-pose-state (identity transform).<br>
+	 * The returned matrix should already be interpolated correctly.
 	 *
-	 * A return value of <code>null</code> should be handled like an empty map.
-	 *
-	 * @param s
+	 * @param bone
+	 *            the name of the bone the matrix is requested
+	 * @param frame
+	 *            the current frame in the animation
+	 * @param subFrame
+	 *            the subFrame in the animation. Expect this to be in [0,1]
 	 */
-	public Map<String, BoneTransformation> getCurrentTransformation(int frame,
+	public BoneTransformation getCurrentTransformation(String bone, int frame,
 			float subFrame);
 }

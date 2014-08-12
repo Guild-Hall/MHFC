@@ -53,7 +53,8 @@ public class MHFCAnimator {
 	}
 
 	public void startPhase(int duration) {
-		if (!correctAnim) return;
+		if (!correctAnim)
+			return;
 		prevTempTick = tempTick;
 		tempTick += duration;
 	}
@@ -69,7 +70,8 @@ public class MHFCAnimator {
 	}
 
 	public void rotate(ModelRenderer box, float x, float y, float z) {
-		if (!correctAnim) return;
+		if (!correctAnim)
+			return;
 		if (!transformMap.containsKey(box))
 			transformMap.put(box, new MHFCTransform(x, y, z));
 		else
@@ -77,7 +79,8 @@ public class MHFCAnimator {
 	}
 
 	public void move(ModelRenderer box, float x, float y, float z) {
-		if (!correctAnim) return;
+		if (!correctAnim)
+			return;
 		if (!transformMap.containsKey(box))
 			transformMap.put(box, new MHFCTransform(x, y, z, 0F, 0F, 0F));
 		else
@@ -89,7 +92,8 @@ public class MHFCAnimator {
 	}
 
 	private void endPhase(boolean stationary) {
-		if (!correctAnim) return;
+		if (!correctAnim)
+			return;
 		int animTick = animEntity.getAnimTick();
 		if (animTick >= prevTempTick && animTick < tempTick) {
 			if (stationary) {
