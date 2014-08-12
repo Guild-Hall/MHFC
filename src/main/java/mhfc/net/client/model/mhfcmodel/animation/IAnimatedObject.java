@@ -1,17 +1,17 @@
-package mhfc.net.common.entity.type;
+package mhfc.net.client.model.mhfcmodel.animation;
 
 import mhfc.net.client.model.mhfcmodel.IRenderInformation;
-import mhfc.net.client.render.mhfcmodel.RenderMHFCModel;
+import mhfc.net.client.render.mob.RenderAnimatedModel;
 
 import com.google.common.base.Predicate;
 /**
- * An animatable type that can be rendered with a {@link RenderMHFCModel} or a
+ * An animatable type that can be rendered with a {@link RenderAnimatedModel} or a
  * //TODO: RenderMHFCModelTile
  *
  * @author WorldSEnder
  *
  */
-public interface IMHFCAnimatedObject {
+public interface IAnimatedObject {
 	/**
 	 * A suitable {@link Predicate} to return in
 	 * {@link #getPartPredicate(float)} to render all parts without exception.

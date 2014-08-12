@@ -3,7 +3,8 @@ package mhfc.net.common.entity.type;
 import java.util.List;
 
 import mhfc.net.client.model.mhfcmodel.IRenderInformation;
-import mhfc.net.client.model.mhfcmodel.Animation;
+import mhfc.net.client.model.mhfcmodel.animation.IAnimatedObject;
+import mhfc.net.client.model.mhfcmodel.animation.IAnimation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityMultiPart;
@@ -26,7 +27,7 @@ import com.google.common.base.Predicate;
 public abstract class EntityMHFCBase extends EntityCreature
 		implements
 			IEntityMultiPart,
-			IMHFCAnimatedObject,
+			IAnimatedObject,
 			IRenderInformation {
 
 	public EntityMHFCBase(World world) {
@@ -129,17 +130,18 @@ public abstract class EntityMHFCBase extends EntityCreature
 				currOffZ = bb.calculateZOffset(this.boundingBox, currOffZ);
 			}
 			for (EntityMHFCPart part : parts) {
-				bbsInWay = this.worldObj
+				@SuppressWarnings("unchecked")
+				List<AxisAlignedBB> bbsInWayPart = this.worldObj
 						.getCollidingBoundingBoxes(this, part.boundingBox
 								.addCoord(currOffX, currOffY, currOffZ));
 				// Calculates the smallest possible offset in Y direction
-				for (AxisAlignedBB bb : bbsInWay) {
+				for (AxisAlignedBB bb : bbsInWayPart) {
 					currOffY = bb.calculateYOffset(part.boundingBox, currOffY);
 				}
-				for (AxisAlignedBB bb : bbsInWay) {
+				for (AxisAlignedBB bb : bbsInWayPart) {
 					currOffX = bb.calculateXOffset(part.boundingBox, currOffX);
 				}
-				for (AxisAlignedBB bb : bbsInWay) {
+				for (AxisAlignedBB bb : bbsInWayPart) {
 					currOffZ = bb.calculateZOffset(part.boundingBox, currOffZ);
 				}
 			}
@@ -157,49 +159,53 @@ public abstract class EntityMHFCBase extends EntityCreature
 				currOffY = this.stepHeight;
 				currOffZ = correctedOffZ;
 
-				bbsInWay = this.worldObj.getCollidingBoundingBoxes(this,
-						this.boundingBox.addCoord(correctedOffX, currOffY,
-								correctedOffZ));
+				@SuppressWarnings("unchecked")
+				List<AxisAlignedBB> bbsInStepup = this.worldObj
+						.getCollidingBoundingBoxes(this, this.boundingBox
+								.addCoord(correctedOffX, currOffY,
+										correctedOffZ));
 
-				for (AxisAlignedBB bb : bbsInWay) {
+				for (AxisAlignedBB bb : bbsInStepup) {
 					currOffY = bb.calculateYOffset(this.boundingBox, currOffY);
 				}
-				for (AxisAlignedBB bb : bbsInWay) {
+				for (AxisAlignedBB bb : bbsInStepup) {
 					currOffX = bb.calculateXOffset(this.boundingBox, currOffX);
 				}
-				for (AxisAlignedBB bb : bbsInWay) {
+				for (AxisAlignedBB bb : bbsInStepup) {
 					currOffZ = bb.calculateZOffset(this.boundingBox, currOffZ);
 				}
 				for (EntityMHFCPart part : parts) {
-					bbsInWay = this.worldObj.getCollidingBoundingBoxes(this,
-							part.boundingBox.addCoord(currOffX, currOffY,
-									currOffZ));
-					for (AxisAlignedBB bb : bbsInWay) {
+					@SuppressWarnings("unchecked")
+					List<AxisAlignedBB> bbsInStepupPart = this.worldObj
+							.getCollidingBoundingBoxes(this, part.boundingBox
+									.addCoord(currOffX, currOffY, currOffZ));
+					for (AxisAlignedBB bb : bbsInStepupPart) {
 						currOffY = bb.calculateYOffset(part.boundingBox,
 								currOffY);
 					}
-					for (AxisAlignedBB bb : bbsInWay) {
+					for (AxisAlignedBB bb : bbsInStepupPart) {
 						currOffX = bb.calculateXOffset(part.boundingBox,
 								currOffX);
 					}
-					for (AxisAlignedBB bb : bbsInWay) {
+					for (AxisAlignedBB bb : bbsInStepupPart) {
 						currOffZ = bb.calculateZOffset(part.boundingBox,
 								currOffZ);
 					}
 				}
 
 				double groundOffY = (-this.stepHeight);
-				for (AxisAlignedBB bb : bbsInWay) {
+				for (AxisAlignedBB bb : bbsInStepup) {
 					groundOffY = bb.calculateYOffset(
 							this.boundingBox.getOffsetBoundingBox(currOffX,
 									currOffY, currOffZ), groundOffY);
 				}
 				for (EntityMHFCPart part : parts) {
-					bbsInWay = this.worldObj.getCollidingBoundingBoxes(this,
-							part.boundingBox.addCoord(currOffX, currOffY,
-									currOffZ));
+					@SuppressWarnings("unchecked")
+					List<AxisAlignedBB> bbsInStepDown = this.worldObj
+							.getCollidingBoundingBoxes(this, part.boundingBox
+									.addCoord(currOffX, currOffY, currOffZ));
 					// Calculates the smallest possible offset in Y direction
-					for (AxisAlignedBB bb : bbsInWay) {
+					for (AxisAlignedBB bb : bbsInStepDown) {
 						currOffY = bb.calculateYOffset(part.boundingBox,
 								currOffY);
 					}
@@ -286,7 +292,7 @@ public abstract class EntityMHFCBase extends EntityCreature
 	}
 
 	@Override
-	public Animation getCurrentAnimation() {
+	public IAnimation getCurrentAnimation() {
 		// IRenderInformation
 		// TODO: get this from the AI
 		return null;
@@ -295,6 +301,12 @@ public abstract class EntityMHFCBase extends EntityCreature
 	@Override
 	public Predicate<String> getPartFilter(float subFrame) {
 		// TODO: get this from the AI
-		return IMHFCAnimatedObject.RENDER_ALL;
+		return IAnimatedObject.RENDER_ALL;
+	}
+
+	@Override
+	public int getCurrentFrame() {
+		// TODO: get this from the AI
+		return 0;
 	}
 }

@@ -29,9 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import mhfc.net.client.model.mhfcmodel.Animation;
 import mhfc.net.client.model.mhfcmodel.IRenderInformation;
 import mhfc.net.client.model.mhfcmodel.Utils;
+import mhfc.net.client.model.mhfcmodel.animation.IAnimation;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1.Bone;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1.ModelPart;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1.TesselationPoint;
@@ -211,7 +211,7 @@ public class ModelData40 implements IModelData {
 	 * @param currAttack
 	 *            the currently executed attack
 	 */
-	protected void bindUniforms(Animation currAttack) {
+	protected void bindUniforms(IAnimation currAttack, int frame, float subFrame) {
 		glBindBufferBase(GL_UNIFORM_BUFFER, U_BONE_MATRIX_BIND,
 				boneMatricesBuff);
 		// TODO: buffer bone transform data, careful, boneMatricesBuff is
@@ -233,8 +233,8 @@ public class ModelData40 implements IModelData {
 	 *            the currently executed attack to retrieve transforms from
 	 */
 	@Override
-	public void renderAll(Animation attack, float subFrame) {
-		this.bindUniforms(attack);
+	public void renderAll(IAnimation animation, int frame, float subFrame) {
+		this.bindUniforms(animation, frame, subFrame);
 		glBindVertexArray(this.vao);
 		for (Part part : this.parts) {
 			part.render();
@@ -252,9 +252,9 @@ public class ModelData40 implements IModelData {
 	 *            the currently executed attack to retrieve transforms from
 	 */
 	@Override
-	public void renderFiltered(Predicate<String> filter, Animation attack,
-			float subFrame) {
-		this.bindUniforms(attack);
+	public void renderFiltered(Predicate<String> filter, IAnimation animation,
+			int frame, float subFrame) {
+		this.bindUniforms(animation, frame, subFrame);
 		glBindVertexArray(this.vao);
 		// Filter parts to render
 		// TODO: enable streaming approach once java 8 is enabled
@@ -310,8 +310,11 @@ public class ModelData40 implements IModelData {
 	 *            the buffer to write data to
 	 */
 	protected static void putBoneInto(Bone bone, FloatBuffer matrixBuffer) {
-		Matrix4f localToWorld = Utils.fromRotTrans(bone.rotation, bone.offset);
+		Matrix4f localToWorld = Utils.fromRotTrans(bone.rotation, bone.offset,
+				1.0F);
+		Matrix4f worldToLocal = Matrix4f.invert(localToWorld, null);
 		localToWorld.store(matrixBuffer);
+		worldToLocal.store(matrixBuffer);
 	}
 	/**
 	 * Releases currently held OpenGL-objects (that are not handled by the GC)

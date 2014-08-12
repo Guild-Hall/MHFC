@@ -1,6 +1,6 @@
 package mhfc.net.client.model.mhfcmodel.data;
 
-import mhfc.net.client.model.mhfcmodel.Animation;
+import mhfc.net.client.model.mhfcmodel.animation.IAnimation;
 import mhfc.net.client.model.mhfcmodel.glcontext.GLHelper;
 
 import com.google.common.base.Predicate;
@@ -12,8 +12,8 @@ import com.google.common.base.Predicate;
  *
  */
 public interface IModelData {
-	public void renderAll(Animation currAttack, float subFrame);
-	public void renderFiltered(Predicate<String> filter, Animation currAttack,
-			float subFrame);
+	public void renderAll(IAnimation currAttack, int frame, float subFrame);
+	public void renderFiltered(Predicate<String> filter, IAnimation currAttack,
+			int frame, float subFrame);
 	public void free();
 }

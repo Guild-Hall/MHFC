@@ -1,11 +1,12 @@
 package mhfc.net.common.core.registry;
 
 import mhfc.net.client.model.mhfcmodel.MHMDModelLoader;
+import mhfc.net.client.model.mob.ModelAnimated;
 import mhfc.net.client.model.mob.ModelPopo;
 import mhfc.net.client.model.mob.boss.ModelKirin;
 import mhfc.net.client.model.mob.boss.ModelRathalos;
 import mhfc.net.client.model.mob.boss.ModelTigrex;
-import mhfc.net.client.render.mhfcmodel.RenderMHFCModel;
+import mhfc.net.client.render.mob.RenderAnimatedModel;
 import mhfc.net.client.render.mob.RenderKirin;
 import mhfc.net.client.render.mob.RenderPopo;
 import mhfc.net.client.render.mob.RenderRathalos;
@@ -40,13 +41,10 @@ public class MHFCRegRenderEntity {
 				new RenderRathalos(new ModelRathalos(), 1.0F, 2.1F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityPopo.class,
 				new RenderPopo(new ModelPopo(), 1f, 1.4f));
-		RenderingRegistry.registerEntityRenderingHandler(
-				EntityTest.class,
-				new RenderMHFCModel(MHMDModelLoader
-						.loadModel(new ResourceLocation(
-								"mhfc:models/testcube.mhmd")), 1.0f));
+		RenderingRegistry.registerEntityRenderingHandler(EntityTest.class,
+				new RenderAnimatedModel(new ModelAnimated(new ResourceLocation(
+						"mhfc:models/testcube.mhmd")), 1.0F));
 	}
-
 	public static void renderBlockEntities() {
 		RenderingRegistry.registerEntityRenderingHandler(
 				EntityTigrexBlock.class, new RenderTigrexBlock());

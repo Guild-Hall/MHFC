@@ -363,10 +363,44 @@ public class Utils {
 	/**
 	 * Takes a {@link Quaternion} and a {@link Vector3f} as input and returns a
 	 * {@link Matrix4f} that represents the rotation-translation of the passed
-	 * in arguments
+	 * in arguments.<br>
+	 * This handles null values as follows:<br>
+	 * - if rotation is <code>null</code> the upper left 3x3 matrix will be the
+	 * identity matrix - if translation is <code>null</code> the third column
+	 * will be the identity vector
+	 *
+	 * @return
 	 */
-	public static Matrix4f fromRotTrans(Quaternion rotation,
-			Vector3f translation) {
-		return null;
+	public static Matrix4f fromRotTrans(Quaternion q, Vector3f off, float scale) {
+		Matrix4f mat = new Matrix4f();
+		if (q != null) {
+			float q2xs = 2 * q.x * scale;
+			float q2ys = 2 * q.y * scale;
+			float q2zs = 2 * q.z * scale;
+			float q2x2s = q2xs * q.x;
+			float q2y2s = q2ys * q.y;
+			float q2z2s = q2zs * q.z;
+			float q2xys = q2xs * q.y;
+			float q2xzs = q2xs * q.z;
+			float q2yzs = q2ys * q.z;
+			float q2xws = q2xs * q.w;
+			float q2yws = q2ys * q.w;
+			float q2zws = q2zs * q.w;
+			mat.m00 -= q2y2s + q2z2s;
+			mat.m11 -= q2x2s + q2z2s;
+			mat.m22 -= q2x2s + q2z2s;
+			mat.m01 = q2xys + q2zws;
+			mat.m02 = q2xzs - q2yws;
+			mat.m10 = q2xys - q2zws;
+			mat.m12 = q2yzs + q2xws;
+			mat.m20 = q2xzs + q2yws;
+			mat.m21 = q2yzs - q2xws;
+		}
+		if (off != null) {
+			mat.m30 = off.x * scale;
+			mat.m31 = off.y * scale;
+			mat.m32 = off.z * scale;
+		}
+		return mat;
 	}
 }

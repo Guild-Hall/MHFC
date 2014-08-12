@@ -1,9 +1,9 @@
 package mhfc.net.client.model.mhfcmodel.glcontext;
 
+import mhfc.net.client.model.mhfcmodel.animation.IAnimatedObject;
 import mhfc.net.client.model.mhfcmodel.data.IRawData;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1;
 import mhfc.net.client.model.mhfcmodel.loader.VersionizedModelLoader;
-import mhfc.net.common.entity.type.IMHFCAnimatedObject;
 
 import org.lwjgl.opengl.GLContext;
 
@@ -50,7 +50,7 @@ public abstract class GLHelper {
 	 * @param subFrame
 	 *            the current subFrame, always 0.0 <= subFrame <= 1.0
 	 **/
-	public abstract void render(IMHFCAnimatedObject entity, float subFrame);
+	public abstract void render(IAnimatedObject entity, float subFrame);
 	/**
 	 * Selects an appropriate {@link GLHelper} from the known types.
 	 */

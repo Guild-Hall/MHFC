@@ -1,14 +1,21 @@
-package mhfc.net.client.model.mhfcmodel;
+package mhfc.net.client.model.mhfcmodel.animation;
+
+import static org.lwjgl.opengl.GL11.glTranslatef;
 
 import java.util.Map;
 
-import net.minecraft.util.ResourceLocation;
+import mhfc.net.client.model.mhfcmodel.Utils;
 
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Quaternion;
 import org.lwjgl.util.vector.Vector3f;
-
-public class Animation {
+/**
+ * An animation to transform the model.
+ *
+ * @author WorldSEnder
+ *
+ */
+public interface IAnimation {
 	/**
 	 * Describes a BoneTransformation. This includes rotation, translation and
 	 * scaling.
@@ -51,14 +58,15 @@ public class Animation {
 
 		public BoneTransformation(Quaternion quat, Vector3f translation,
 				float scale) {
+			glTranslatef(scale, scale, scale);
 			this.rotationQuat = quat;
 			this.translation = translation;
 			this.scale = scale;
 		}
 
 		public Matrix4f asMatrix() {
-			return Utils.fromRotTrans(this.rotationQuat, this.translation)
-					.scale(new Vector3f(scale, scale, scale));
+			return Utils.fromRotTrans(this.rotationQuat, this.translation,
+					scale);
 		}
 		/**
 		 * Interpolates between two {@link BoneTransformation}s and returns
@@ -84,21 +92,6 @@ public class Animation {
 			return null;
 		}
 	}
-
-	/**
-	 * Reads a Animation from the given file. An attack contains all the
-	 * following information: - when to pick the attack - how long the attack is
-	 * (in frames) - what hitboxes to enable/disable - their damage - possibly
-	 * entities to spawn during the attack - the position of the bones at all
-	 * frames
-	 *
-	 * @param file
-	 *            the file to load from
-	 */
-	public Animation(ResourceLocation file) {
-		// TODO: load Animation
-	}
-
 	/**
 	 * Returns a map that associates bone's names with their current
 	 * {@link BoneTransformation}. The returned Map may be frozen. If a name is
@@ -110,8 +103,6 @@ public class Animation {
 	 *
 	 * @param s
 	 */
-	public Map<String, BoneTransformation> getCurrentTransformation(
-			float subFrame) {
-		return null;
-	}
+	public Map<String, BoneTransformation> getCurrentTransformation(int frame,
+			float subFrame);
 }

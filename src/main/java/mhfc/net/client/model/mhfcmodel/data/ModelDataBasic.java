@@ -12,9 +12,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import mhfc.net.client.model.mhfcmodel.Animation;
-import mhfc.net.client.model.mhfcmodel.Animation.BoneTransformation;
 import mhfc.net.client.model.mhfcmodel.Utils;
+import mhfc.net.client.model.mhfcmodel.animation.IAnimation;
+import mhfc.net.client.model.mhfcmodel.animation.IAnimation.BoneTransformation;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1.TesselationPoint;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
@@ -283,9 +283,8 @@ public class ModelDataBasic implements IModelData {
 
 		public static Bone fromData(RawDataV1.Bone data) {
 			Matrix4f localToParent = Utils.fromRotTrans(data.rotation,
-					data.offset);
-			Matrix4f parentToLocal = Utils.fromRotTrans(
-					data.rotation.negate(null), data.offset.negate(null));
+					data.offset, 1.0F);
+			Matrix4f parentToLocal = Matrix4f.invert(localToParent, null);
 			if (data.parent == 0xFF)
 				return new ParentedBone(localToParent, parentToLocal,
 						data.parent, data.name);
@@ -312,15 +311,16 @@ public class ModelDataBasic implements IModelData {
 		this.bones = bones;
 	}
 
-	private BoneTransformation[] getTransforms(Animation anim, float subFrame) {
+	private BoneTransformation[] getTransforms(IAnimation anim, int frame,
+			float subFrame) {
 		BoneTransformation[] transforms = new BoneTransformation[this.bones.length];
 		Map<String, BoneTransformation> animTransforms = anim == null
 				? null
-				: anim.getCurrentTransformation(subFrame);
+				: anim.getCurrentTransformation(frame, subFrame);
 		for (int i = 0; i < this.bones.length; ++i) {
 			Bone currBone = this.bones[i];
-			if (animTransforms == null
-					|| animTransforms.containsKey(currBone.getName()))
+			if (animTransforms != null
+					&& animTransforms.containsKey(currBone.getName()))
 				transforms[i] = animTransforms.get(currBone.getName());
 			else
 				transforms[i] = BoneTransformation.identity;
@@ -331,8 +331,9 @@ public class ModelDataBasic implements IModelData {
 	public void free() {} // Not required as don't fiddle wit openGL, really
 
 	@Override
-	public void renderAll(Animation currAnimation, float subFrame) {
-		BoneTransformation[] transforms = getTransforms(currAnimation, subFrame);
+	public void renderAll(IAnimation currAnimation, int frame, float subFrame) {
+		BoneTransformation[] transforms = getTransforms(currAnimation, frame,
+				subFrame);
 		for (Part part : this.parts) {
 			part.render(this.bones, transforms);
 		}
@@ -340,8 +341,9 @@ public class ModelDataBasic implements IModelData {
 
 	@Override
 	public void renderFiltered(Predicate<String> filter,
-			Animation currAnimation, float subFrame) {
-		BoneTransformation[] transforms = getTransforms(currAnimation, subFrame);
+			IAnimation currAnimation, int frame, float subFrame) {
+		BoneTransformation[] transforms = getTransforms(currAnimation, frame,
+				subFrame);
 		for (Part part : this.parts) {
 			if (filter.apply(part.getName()))
 				part.render(this.bones, transforms);

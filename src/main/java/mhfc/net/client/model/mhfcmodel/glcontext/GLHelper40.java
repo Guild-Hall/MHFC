@@ -20,12 +20,12 @@ import static org.lwjgl.opengl.GL41.glBindProgramPipeline;
 import static org.lwjgl.opengl.GL41.glGenProgramPipelines;
 import static org.lwjgl.opengl.GL41.glProgramParameteri;
 import static org.lwjgl.opengl.GL41.glUseProgramStages;
-import mhfc.net.client.model.mhfcmodel.Animation;
 import mhfc.net.client.model.mhfcmodel.IRenderInformation;
 import mhfc.net.client.model.mhfcmodel.Utils;
+import mhfc.net.client.model.mhfcmodel.animation.IAnimatedObject;
+import mhfc.net.client.model.mhfcmodel.animation.IAnimation;
 import mhfc.net.client.model.mhfcmodel.data.ModelData40;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1;
-import mhfc.net.common.entity.type.IMHFCAnimatedObject;
 
 import org.lwjgl.opengl.GL11;
 
@@ -80,7 +80,7 @@ public class GLHelper40 extends GLHelper {
 	}
 
 	@Override
-	public void render(IMHFCAnimatedObject animatedEntity, float subFrame) {
+	public void render(IAnimatedObject animatedObject, float subFrame) {
 		// FIXME: this doesn't render, maybe it's the shader?? Try with compute
 		// shader
 		if (this.modelData == null) // An invalid model, etc...
@@ -95,10 +95,11 @@ public class GLHelper40 extends GLHelper {
 		glBindProgramPipeline(pipelineName);
 		glUseProgram(0);
 
-		IRenderInformation info = animatedEntity.getRenderInformation();
-		Animation currentAttack = info.getCurrentAnimation();
+		IRenderInformation info = animatedObject.getRenderInformation();
+		IAnimation currentAttack = info.getCurrentAnimation();
+		int frame = info.getCurrentFrame();
 		Predicate<String> filter = info.getPartFilter(subFrame);
-		this.modelData.renderFiltered(filter, currentAttack, subFrame);
+		this.modelData.renderFiltered(filter, currentAttack, frame, subFrame);
 
 		glUseProgram(currProgram);
 		glBindProgramPipeline(currPipeline);

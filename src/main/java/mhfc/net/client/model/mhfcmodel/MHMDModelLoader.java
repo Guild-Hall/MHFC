@@ -2,6 +2,7 @@ package mhfc.net.client.model.mhfcmodel;
 
 import java.io.IOError;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.client.model.mhfcmodel.data.IRawData;
 import mhfc.net.client.model.mhfcmodel.loader.VersionizedModelLoader;
 import net.minecraft.util.ResourceLocation;
@@ -36,7 +37,7 @@ public class MHMDModelLoader implements IModelCustomLoader {
 	 * @return the loaded model, never null
 	 * @see #loadInstance(ResourceLocation)
 	 */
-	public static ModelMHFC loadModel(ResourceLocation resLoc) {
+	public static ModelMHMD loadModel(ResourceLocation resLoc) {
 		return instance.loadInstance(resLoc);
 	}
 	/**
@@ -44,18 +45,20 @@ public class MHMDModelLoader implements IModelCustomLoader {
 	 * throw. It catches {@link IOError}s as well as
 	 * {@link ModelFormatException}, etc.
 	 *
-	 * @return the newly loaded {@link ModelMHFC}, never <code>null</code>
+	 * @return the newly loaded {@link ModelMHMD}, never <code>null</code>
 	 */
 	@Override
-	public ModelMHFC loadInstance(ResourceLocation resource) {
+	public ModelMHMD loadInstance(ResourceLocation resource) {
 		IRawData loadedData = null;
 		try {
 			loadedData = VersionizedModelLoader.loadVersionized(resource);
 		} catch (ModelFormatException mfe) {
-			// TODO: log this as an error
+			MHFCMain.logger.error(
+					String.format("Error loading model from %s.", resource),
+					mfe);
 		}
 		// The following constructor will not throw but eat our loaded data even
 		// when that is null.
-		return new ModelMHFC(loadedData);
+		return new ModelMHMD(loadedData);
 	}
 }

@@ -1,9 +1,10 @@
 package mhfc.net.client.model.mhfcmodel.glcontext;
 
-import mhfc.net.client.model.mhfcmodel.Animation;
+import mhfc.net.client.model.mhfcmodel.IRenderInformation;
+import mhfc.net.client.model.mhfcmodel.animation.IAnimatedObject;
+import mhfc.net.client.model.mhfcmodel.animation.IAnimation;
 import mhfc.net.client.model.mhfcmodel.data.ModelDataBasic;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1;
-import mhfc.net.common.entity.type.IMHFCAnimatedObject;
 
 import com.google.common.base.Predicate;
 
@@ -18,12 +19,13 @@ public class GLHelperBasic extends GLHelper {
 	}
 
 	@Override
-	public void render(IMHFCAnimatedObject entity, float subFrame) {
+	public void render(IAnimatedObject entity, float subFrame) {
 		if (this.modelData == null) // Not loaded correctly
 			return;
 		Predicate<String> filter = entity.getPartPredicate(subFrame);
-		Animation currAnim = entity.getRenderInformation()
-				.getCurrentAnimation();
-		this.modelData.renderFiltered(filter, currAnim, subFrame);
+		IRenderInformation info = entity.getRenderInformation();
+		IAnimation currAnim = info.getCurrentAnimation();
+		int frame = info.getCurrentFrame();
+		this.modelData.renderFiltered(filter, currAnim, frame, subFrame);
 	}
 }
