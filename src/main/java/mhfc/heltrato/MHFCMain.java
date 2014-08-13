@@ -28,7 +28,7 @@ import cpw.mods.fml.relauncher.Side;
  * Visit www.mhfrontiercraft.blogspot.com for more info.
  */
 
-@Mod(modid = MHFCReference.modid, name = MHFCReference.name, version = MHFCReference.version)
+@Mod(modid = MHFCReference.main_modid, name = MHFCReference.main_name, version = MHFCReference.main_version)
 
 public class MHFCMain {
 	

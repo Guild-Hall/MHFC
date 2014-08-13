@@ -38,7 +38,7 @@ public class MHFCRegRenderEntity
 		render.registerEntityRenderingHandler(EntityKirin.class, new RenderKirin(new ModelKirin(), 1.0F, 1.8F));
 		render.registerEntityRenderingHandler(EntityRathalos.class, new RenderRathalos(new ModelRathalos(), 1.0F, 2.1F));
 		render.registerEntityRenderingHandler(EntityPopo.class, new RenderPopo(new ModelPopo(), 1f, 1.6f));
-		render.registerEntityRenderingHandler(EntityAptonoth.class, new RenderAptonoth(new ModelAptonoth(), 1, 1.4f));
+		render.registerEntityRenderingHandler(EntityAptonoth.class, new RenderAptonoth(new ModelAptonoth(), 1, 1.2f));
 		
 		
 		

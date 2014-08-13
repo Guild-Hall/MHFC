@@ -27,7 +27,7 @@ import net.minecraft.world.World;
 public class EntityWyvernHostile extends EntityCreature implements IMob
 {
 	
-	public int getArmor = 12;
+	public int getArmor = 17;
 	public double health;
 	public double speed;
 	public int getExpValue = 1000;

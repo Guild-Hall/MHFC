@@ -1,36 +1,32 @@
 package mhfc.heltrato.client.render.projectile;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import mhfc.heltrato.client.model.projectile.ModelRathalosFireball;
-import mhfc.heltrato.common.entity.projectile.EntityRathalosFireball;
-import mhfc.heltrato.common.entity.projectile.EntityTigrexBlock;
+import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderRathalosFireball extends Render
-{
+public class RenderRathalosFireball extends Render {
 	private ModelRathalosFireball model;
-	private static final ResourceLocation texture = new ResourceLocation("mhfc:textures/projectile/rathalosfireball.png");
-	
-
-    public RenderRathalosFireball()
-    {
-    	model = new ModelRathalosFireball();
-    }
-
+	public RenderRathalosFireball() {
+		model = new ModelRathalosFireball();
+	}
 
 	@Override
-	public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTick) {
+	public void doRender(Entity entity, double x, double y, double z,
+			float yaw, float partialTick) {
 		renderEntityModel(entity, x, y, z, yaw, partialTick);
 	}
 
-	public void renderEntityModel(Entity entity, double x, double y, double z, float yaw, float partialTick) {
+	public void renderEntityModel(Entity entity, double x, double y, double z,
+			float yaw, float partialTick) {
 		GL11.glPushMatrix();
 		float scale = entity.ticksExisted % 13 > 10 ? 1.65F : 1.25F;
 		bindTexture(getEntityTexture(entity));
@@ -44,10 +40,9 @@ public class RenderRathalosFireball extends Render
 		GL11.glPopMatrix();
 	}
 
-
+	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return texture;
+		return new ResourceLocation(MHFCReference.entity_rathalosfireball_tex);
 	}
 
-	
 }

@@ -27,6 +27,10 @@ public class BiomeWBase extends BiomeGenBase {
 		return (BiomeWBase)super.setColor(color);
 	}
 	
+	public void getBiomeName(String biomename){
+		name = biomename;
+	}
+	
 	
 
 }

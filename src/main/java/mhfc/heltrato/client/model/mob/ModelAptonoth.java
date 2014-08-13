@@ -2,6 +2,7 @@ package mhfc.heltrato.client.model.mob;
 
 import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.client.model.MHFCAnimator;
+import mhfc.heltrato.client.model.PartTickModelBase;
 import mhfc.heltrato.common.entity.mob.EntityAptonoth;
 import mhfc.heltrato.common.entity.mob.EntityTigrex;
 import mhfc.heltrato.common.interfaces.iMHFC;
@@ -10,7 +11,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class ModelAptonoth extends ModelBase
+public class ModelAptonoth extends PartTickModelBase
 {
 	protected float animTick;
 	public static final float PI = 3.141593F;

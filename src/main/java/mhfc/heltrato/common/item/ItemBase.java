@@ -1,23 +1,29 @@
 package mhfc.heltrato.common.item;
 
 import mhfc.heltrato.MHFCMain;
+import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 
-public class ItemBase extends Item{
-	
+public class ItemBase extends Item {
+	private static final String[] itemNames = {MHFCReference.item_base0_name,
+			MHFCReference.item_base1_name};
+	private static final String[] itemIcons = {MHFCReference.item_base0_icon,
+			MHFCReference.item_base1_icon};
+
 	public int meta;
-	
+
 	public ItemBase(int metaData) {
 		super();
 		meta = metaData;
-		setUnlocalizedName("base" + meta);
+		setUnlocalizedName(itemNames[meta]);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(5);
 	}
-	
-	public void registerIcons(IIconRegister par1IconRegister){
-        this.itemIcon = par1IconRegister.registerIcon("mhfc:base" + meta);
-}
+
+	@Override
+	public void registerIcons(IIconRegister par1IconRegister) {
+		this.itemIcon = par1IconRegister.registerIcon(itemIcons[meta]);
+	}
 
 }

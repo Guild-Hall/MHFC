@@ -3,28 +3,22 @@ package mhfc.heltrato.common.block;
 import java.util.Random;
 
 import mhfc.heltrato.MHFCMain;
+import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 
-public class BlockOreMachalite extends Block{
+public class BlockOreMachalite extends Block {
 
 	public BlockOreMachalite() {
 		super(Material.rock);
-		setBlockName("oremachalite");
-		setBlockTextureName("mhfc:oremachalite");
+		setBlockName(MHFCReference.block_oremachalite_name);
+		setBlockTextureName(MHFCReference.block_oremachalite_tex);
 		setHardness(1.2F);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
-	
-	
-	
-	public int quantityDropped(Random random){
+
+	@Override
+	public int quantityDropped(Random random) {
 		return 2;
 	}
-	
-	public void registerIcons(IIconRegister par1IconRegister){
-		blockIcon = par1IconRegister.registerIcon("mhfc:oremachalite");
-	}
-	
 }

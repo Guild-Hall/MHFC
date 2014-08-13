@@ -9,11 +9,11 @@ public class BiomeWDesert extends BiomeWBase {
 	public BiomeWDesert(int par1) {
 		super(par1);
 		depends = false;
-		name = "biome.mhfc.widedesert";
 		depends = true;
 		setHeight(height_Default);
 		topBlock = MHFCRegBlock.mhfcblocksand;
 		fillerBlock = MHFCRegBlock.mhfcblockstone;
+		getBiomeName("biome.mhfc.widedesert");
 	}
 
 }

@@ -9,79 +9,76 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 
-public class MHFCShapelessRecipes implements IRecipe
-{
-/** Is the ItemStack that you get when craft the recipe. */
-private final ItemStack recipeOutput;
+public class MHFCShapelessRecipes implements IRecipe {
+	/** Is the ItemStack that you get when craft the recipe. */
+	private final ItemStack recipeOutput;
 
-/** Is a List of ItemStack that composes the recipe. */
-public final List recipeItems;
+	/** Is a List of ItemStack that composes the recipe. */
+	public final List<ItemStack> recipeItems;
 
-public MHFCShapelessRecipes(ItemStack par1ItemStack, List par2List)
-{
-this.recipeOutput = par1ItemStack;
-this.recipeItems = par2List;
-}
+	public MHFCShapelessRecipes(ItemStack par1ItemStack,
+			List<ItemStack> par2List) {
+		this.recipeOutput = par1ItemStack;
+		this.recipeItems = par2List;
+	}
 
-public ItemStack getRecipeOutput()
-{
-return this.recipeOutput;
-}
+	@Override
+	public ItemStack getRecipeOutput() {
+		return this.recipeOutput;
+	}
 
-/**
-* Used to check if a recipe matches current crafting inventory
-*/
-public boolean matches(InventoryCrafting par1InventoryCrafting, World par2World)
-{
-ArrayList arraylist = new ArrayList(this.recipeItems);
+	/**
+	 * Used to check if a recipe matches current crafting inventory
+	 */
+	@Override
+	public boolean matches(InventoryCrafting par1InventoryCrafting,
+			World par2World) {
+		List<ItemStack> arraylist = new ArrayList<ItemStack>(this.recipeItems);
 
-for (int i = 0; i < 5; ++i)
-{
-for (int j = 0; j < 3; ++j)
-{
-ItemStack itemstack = par1InventoryCrafting.getStackInRowAndColumn(j, i);
+		for (int i = 0; i < 5; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				ItemStack itemstack = par1InventoryCrafting
+						.getStackInRowAndColumn(j, i);
 
-if (itemstack != null)
-{
-boolean flag = false;
-Iterator iterator = arraylist.iterator();
+				if (itemstack != null) {
+					boolean flag = false;
+					Iterator<ItemStack> iterator = arraylist.iterator();
 
-while (iterator.hasNext())
-{
-ItemStack itemstack1 = (ItemStack)iterator.next();
+					while (iterator.hasNext()) {
+						ItemStack itemstack1 = iterator.next();
 
-if (itemstack.getItemDamage() == itemstack1.getItemDamage() && (itemstack1.getItemDamage() == 32767 || itemstack.getItemDamage() == itemstack1.getItemDamage()))
-{
-flag = true;
-arraylist.remove(itemstack1);
-break;
-}
-}
+						if (itemstack1.getItemDamage() == 32767
+								|| itemstack.getItemDamage() == itemstack1
+										.getItemDamage()) {
+							flag = true;
+							arraylist.remove(itemstack1);
+							break;
+						}
+					}
 
-if (!flag)
-{
-return false;
-}
-}
-}
-}
+					if (!flag) {
+						return false;
+					}
+				}
+			}
+		}
 
-return arraylist.isEmpty();
-}
+		return arraylist.isEmpty();
+	}
 
-/**
-* Returns an Item that is the result of this recipe
-*/
-public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting)
-{
-return this.recipeOutput.copy();
-}
+	/**
+	 * Returns an Item that is the result of this recipe
+	 */
+	@Override
+	public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting) {
+		return this.recipeOutput.copy();
+	}
 
-/**
-* Returns the size of the recipe area
-*/
-public int getRecipeSize()
-{
-return this.recipeItems.size();
-}
+	/**
+	 * Returns the size of the recipe area
+	 */
+	@Override
+	public int getRecipeSize() {
+		return this.recipeItems.size();
+	}
 }

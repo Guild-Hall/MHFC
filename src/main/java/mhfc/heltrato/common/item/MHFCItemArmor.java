@@ -18,7 +18,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 
 public class MHFCItemArmor extends ItemArmor{
-	
+	/**TODO
+	 * 
+	 * Soon this will be the basing of all mhfc armor
+	 * 
+	*/
 	public Random rand;
 	public static int param;
 	public static int modelID;
@@ -70,6 +74,8 @@ public class MHFCItemArmor extends ItemArmor{
 		}
 		return null;
 	}
+	
+	
 
 	
 	

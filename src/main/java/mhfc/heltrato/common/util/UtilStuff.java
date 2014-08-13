@@ -7,12 +7,14 @@ import java.util.Random;
 import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.core.registry.MHFCRegItem;
 import mhfc.heltrato.common.core.registry.MHFCRegPotion;
+import mhfc.heltrato.common.entity.projectile.EntityLightning;
 import mhfc.heltrato.common.entity.type.EntityWyvernHostile;
 import mhfc.heltrato.common.entity.type.EntityWyvernPeaceful;
 import mhfc.heltrato.common.interfaces.iMHFC;
 import mhfc.heltrato.common.network.message.MessageAIAnim;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -32,6 +34,8 @@ public class UtilStuff {
 	public UtilStuff() {
 		rand = new Random();
 	}
+	
+	
 	
 	
 	public static void sendAnimPacket(iMHFC entity, int animID) {
@@ -137,6 +141,14 @@ public class UtilStuff {
 			return;
 		}
 		 	
+	 }
+	 
+	 public static void spawnlightnings(int init, double Lx, double Ly, double Lz, int many, EntityLivingBase e) {
+		 for(init = 0; init < many; init++) {
+			 EntityLightning l = new EntityLightning(e.worldObj);
+			 l.setPosition(Lx, Ly, Lz);
+			 e.worldObj.spawnEntityInWorld(l);
+		 }
 	 }
 	 
 		 

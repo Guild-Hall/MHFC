@@ -1,46 +1,46 @@
 package mhfc.heltrato.common.block.container;
 
-import java.util.List;
-
 import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.tile.TileBBQSpit;
+import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockBBQSpit extends BlockContainer{
+public class BlockBBQSpit extends BlockContainer {
 
 	public BlockBBQSpit() {
 		super(Material.iron);
-		setBlockName("bbqspit");
+		setBlockName(MHFCReference.block_bbqspit_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
-	
 
 	@Override
 	public TileEntity createNewTileEntity(World var1, int var2) {
 		return new TileBBQSpit();
 	}
-	
-	public int getRenderType(){
+
+	@Override
+	public int getRenderType() {
 		return -1;
 	}
-	
+
 	@Override
-	public boolean isOpaqueCube(){
+	public boolean isOpaqueCube() {
 		return false;
 	}
-	
+
+	@Override
 	public boolean renderAsNormalBlock() {
-        return false;
+		return false;
 	}
-	
-	public void registerBlockIcons(IIconRegister par1IconRegister){
-		blockIcon = par1IconRegister.registerIcon("mhfc:armorstandblock");
+
+	@Override
+	public void registerBlockIcons(IIconRegister par1IconRegister) {
+		blockIcon = par1IconRegister
+				.registerIcon(MHFCReference.block_bbqspit_icon);
 	}
 
 }

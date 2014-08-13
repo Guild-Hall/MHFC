@@ -1,19 +1,22 @@
 package mhfc.heltrato.common.item;
 
 import mhfc.heltrato.MHFCMain;
+import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 
-public class ItemTrapTool extends Item{
-	
+public class ItemTrapTool extends Item {
+
 	public ItemTrapTool() {
 		super();
-		setUnlocalizedName("traptool");
+		setUnlocalizedName(MHFCReference.item_traptool_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 
-	public void registerIcons(IIconRegister par1IconRegister){
-	        this.itemIcon = par1IconRegister.registerIcon("mhfc:traptool");
+	@Override
+	public void registerIcons(IIconRegister par1IconRegister) {
+		this.itemIcon = par1IconRegister
+				.registerIcon(MHFCReference.item_traptool_icon);
 	}
 
 }

@@ -1,18 +1,21 @@
 package mhfc.heltrato.common.item;
 
 import mhfc.heltrato.MHFCMain;
+import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 
-public class ItemWyverniaDust extends Item{
+public class ItemWyverniaDust extends Item {
 
-	public ItemWyverniaDust(){
+	public ItemWyverniaDust() {
 		super();
-		setUnlocalizedName("wyverniadust");
+		setUnlocalizedName(MHFCReference.item_wyverniadust_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
-	
-	public void registerIcons(IIconRegister par1IconRegister){
-	        this.itemIcon = par1IconRegister.registerIcon("mhfc:wyverniadust");
+
+	@Override
+	public void registerIcons(IIconRegister par1IconRegister) {
+		this.itemIcon = par1IconRegister
+				.registerIcon(MHFCReference.item_wyverniadust_icon);
 	}
 }
