@@ -15,5 +15,4 @@ public interface IModelData {
 	public void renderAll(IAnimation currAttack, int frame, float subFrame);
 	public void renderFiltered(Predicate<String> filter, IAnimation currAttack,
 			int frame, float subFrame);
-	public void free();
 }

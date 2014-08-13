@@ -295,13 +295,15 @@ public class ModelDataBasic implements IModelData {
 	private final Bone[] bones; // In correct order
 
 	public ModelDataBasic(RawDataV1 data) {
-		Part[] parts = new Part[data.parts.length];
-		Bone[] bones = new Bone[data.bones.length];
-		for (int i = 0; i < data.parts.length; ++i) {
-			parts[i] = new Part(data.parts[i]);
+		Part[] parts = new Part[data.parts.size()];
+		Bone[] bones = new Bone[data.bones.size()];
+		Iterator<RawDataV1.ModelPart> partIt = data.parts.iterator();
+		for (int i = 0; i < data.parts.size(); ++i) {
+			parts[i] = new Part(partIt.next());
 		}
-		for (int i = 0; i < data.bones.length; ++i) {
-			bones[i] = Bone.fromData(data.bones[i]);
+		Iterator<RawDataV1.Bone> boneIt = data.bones.iterator();
+		for (int i = 0; i < data.bones.size(); ++i) {
+			bones[i] = Bone.fromData(boneIt.next());
 		}
 		for (Bone bone : bones) {
 			bone.setParent(bones);
@@ -327,8 +329,6 @@ public class ModelDataBasic implements IModelData {
 		}
 		return transforms;
 	}
-	@Override
-	public void free() {} // Not required as don't fiddle wit openGL, really
 
 	@Override
 	public void renderAll(IAnimation currAnimation, int frame, float subFrame) {

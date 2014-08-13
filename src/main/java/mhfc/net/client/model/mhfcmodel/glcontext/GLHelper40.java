@@ -69,14 +69,7 @@ public class GLHelper40 extends GLHelper {
 
 	@Override
 	public void loadFrom(RawDataV1 datav1) {
-		if (this.modelData != null) {
-			// Thread safe, you never know when you need it
-			ModelData40 oldData = this.modelData;
-			this.modelData = new ModelData40(datav1);
-			oldData.free();
-		} else {
-			this.modelData = new ModelData40(datav1);
-		}
+		this.modelData = new ModelData40(datav1);
 	}
 
 	@Override

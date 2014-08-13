@@ -8,8 +8,8 @@ import static org.lwjgl.opengl.GL11.glTranslatef;
 import java.util.Random;
 
 import mhfc.net.client.model.PartTickModelBase;
-import mhfc.net.client.model.mhfcmodel.MHMDModelLoader;
 import mhfc.net.client.model.mhfcmodel.ModelMHMD;
+import mhfc.net.client.model.mhfcmodel.ModelRegistry;
 import mhfc.net.client.model.mhfcmodel.animation.IAnimatedObject;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.model.TextureOffset;
@@ -28,16 +28,17 @@ import net.minecraft.util.ResourceLocation;
 public class ModelAnimated extends PartTickModelBase {
 	protected ModelMHMD model;
 	/**
-	 * Loads the model from the given ResourceLocation by calling
-	 * {@link MHMDModelLoader#loadModel(ResourceLocation)} thus this constructor
-	 * is exception-free. You can give/load your own model with
-	 * {@link #ModelAnimated(ModelMHMD)} to receive exceptions.
+	 * Loads the model from the given ResourceLocation using the
+	 * {@link ModelRegistry} thus this constructor is exception-free and will
+	 * load the models from the Registry's chache if possible. You can give/load
+	 * your own model with {@link #ModelAnimated(ModelMHMD)} to receive
+	 * exceptions.
 	 *
 	 * @param resLoc
 	 *            the {@link ResourceLocation} to load the model from
 	 */
 	public ModelAnimated(ResourceLocation resLoc) {
-		this(MHMDModelLoader.loadModel(resLoc));
+		this(ModelRegistry.loadFrom(resLoc));
 	}
 	/**
 	 * This constructor just puts the model into itself. Nothing is checked

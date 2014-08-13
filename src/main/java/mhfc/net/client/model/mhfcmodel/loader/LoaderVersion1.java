@@ -3,10 +3,13 @@ package mhfc.net.client.model.mhfcmodel.loader;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import mhfc.net.client.model.mhfcmodel.Utils;
+import mhfc.net.client.model.mhfcmodel.data.RawData;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1.Bone;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1.BoneBinding;
@@ -33,9 +36,8 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 	public static final LoaderVersion1 instance = new LoaderVersion1();
 
 	@Override
-	public RawDataV1 loadFromInputStream(int version, DataInputStream di)
-			throws IOException {
-		RawDataV1 data = new RawDataV1();
+	public RawDataV1 loadFromInputStream(RawData meta, int version,
+			DataInputStream di) throws IOException {
 		// Read the header
 		Header header = new Header();
 		int nbrParts = di.readUnsignedByte();
@@ -43,32 +45,29 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 		header.nbrBones = nbrBones;
 		header.nbrParts = nbrParts;
 		// Read parts
-		ModelPart[] parts = new ModelPart[nbrParts];
+		List<ModelPart> parts = new ArrayList<>(nbrParts);
 		Set<String> partsNameSet = new TreeSet<>();
 		for (int i = 0; i < nbrParts; ++i) {
 			ModelPart newPart = readPartFrom(di, header);
 			if (!partsNameSet.add(newPart.name))
 				throw new ModelFormatException("Two parts with same name "
 						+ newPart.name);
-			parts[i] = newPart;
+			parts.add(newPart);
 		}
 		// Read bones
-		Bone[] bones = new Bone[nbrBones];
+		List<Bone> bones = new ArrayList<>(nbrBones);
 		Set<String> boneNameSet = new TreeSet<>();
 		for (int i = 0; i < nbrBones; ++i) {
 			Bone newBone = readBoneFrom(di, header);
 			if (!boneNameSet.add(newBone.name))
 				throw new ModelFormatException("Two bones with same name "
 						+ newBone.name);
-			bones[i] = newBone;
+			bones.add(newBone);
 		}
 		// Read parents
 		readBoneParents(di, bones); // Structure has to be tree-like
 		// Apply data
-		// data.header = header;
-		data.bones = bones;
-		data.parts = parts;
-		return data;
+		return new RawDataV1(meta, parts, bones);
 	}
 	/**
 	 * This method has to check for a tree-like structure of the bones. No bone
@@ -83,11 +82,11 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 	 * @throws IOException
 	 *             if an IOException occurs on the {@link DataInputStream}
 	 */
-	protected void readBoneParents(DataInputStream di, Bone[] bones)
+	protected void readBoneParents(DataInputStream di, List<Bone> bones)
 			throws EOFException, IOException {
 		// TODO: check for treeish structure
-		int nbrBones = bones.length;
-		for (int i = 0; i < nbrBones; ++i) {
+		int nbrBones = bones.size();
+		for (Bone bone : bones) {
 			int parentIndex = di.readUnsignedByte();
 			if (parentIndex != 255 && parentIndex >= nbrBones) {
 				throw new ModelFormatException(
@@ -95,7 +94,7 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 								"ParentIndex (%d) has to be smaller than nbrBones (%d).",
 								parentIndex, nbrBones));
 			}
-			bones[i].parent = (byte) parentIndex;
+			bone.parent = (byte) parentIndex;
 		}
 	}
 

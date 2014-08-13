@@ -13,8 +13,6 @@ public class GLHelperBasic extends GLHelper {
 
 	@Override
 	public void loadFrom(RawDataV1 datav1) {
-		if (modelData != null)
-			modelData.free();
 		modelData = new ModelDataBasic(datav1);
 	}
 

@@ -26,6 +26,7 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -130,7 +131,7 @@ public class ModelData40 implements IModelData {
 	 */
 	public ModelData40(RawDataV1 dataFrom) {
 		// Setup local values
-		Part[] parts = new Part[dataFrom.parts.length];
+		Part[] parts = new Part[dataFrom.parts.size()];
 		List<String> boneNames = new ArrayList<>();
 		// We need 3 new buffers: attribute buffer (interleaved), bonematrices,
 		// bonetransform
@@ -144,8 +145,9 @@ public class ModelData40 implements IModelData {
 		// -- read data from passed data
 		int totalPoints = 0;
 		int totalIndices = 0;
-		for (int i = 0; i < dataFrom.parts.length; ++i) {
-			ModelPart p = dataFrom.parts[i];
+		Iterator<RawDataV1.ModelPart> partIt = dataFrom.parts.iterator();
+		for (int i = 0; i < dataFrom.parts.size(); ++i) {
+			ModelPart p = partIt.next(); // Size checked
 			Part part = new Part(totalIndices, p.indices.length, totalPoints,
 					new ResourceLocation(p.material.resLocationRaw), p.name);
 			parts[i] = part;
@@ -156,8 +158,8 @@ public class ModelData40 implements IModelData {
 		ByteBuffer attrBuffer = Utils.directByteBuffer(totalPoints
 				* VS_ATTR_SIZE);
 		ShortBuffer indicesBuffer = Utils.directShortBuffer(totalIndices);
-		FloatBuffer boneMatricesBuffer = Utils
-				.directFloatBuffer(dataFrom.bones.length * U_BONE_MATRIX_SIZE);
+		FloatBuffer boneMatricesBuffer = Utils.directFloatBuffer(dataFrom.bones
+				.size() * U_BONE_MATRIX_SIZE);
 		for (ModelPart part : dataFrom.parts) {
 			putPartInto(part, attrBuffer, indicesBuffer);
 		}
@@ -320,7 +322,7 @@ public class ModelData40 implements IModelData {
 	 * Releases currently held OpenGL-objects (that are not handled by the GC)
 	 */
 	@Override
-	public void free() {
+	public void finalize() {
 		glDeleteVertexArrays(this.vao);
 		glDeleteBuffers(this.boneMatricesBuff);
 		glDeleteBuffers(this.boneTransformsBuff);

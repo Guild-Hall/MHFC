@@ -1,10 +1,12 @@
 package mhfc.net.client.model.mhfcmodel.data;
 
+import java.util.List;
+
 import org.lwjgl.util.vector.Quaternion;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-public class RawDataV1 implements IRawData {
+public class RawDataV1 extends RawData {
 
 	public static class BoneBinding {
 		/** To be interpreted as unsigned */
@@ -59,9 +61,15 @@ public class RawDataV1 implements IRawData {
 	/**
 	 * A list of all parts
 	 */
-	public ModelPart[] parts;
+	public final List<ModelPart> parts;
 	/**
 	 * A list of all bones
 	 */
-	public Bone[] bones;
+	public final List<Bone> bones;
+
+	public RawDataV1(RawData metaInfo, List<ModelPart> parts, List<Bone> bones) {
+		super(metaInfo);
+		this.parts = parts;
+		this.bones = bones;
+	}
 }

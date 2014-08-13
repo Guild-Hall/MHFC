@@ -1,7 +1,7 @@
 package mhfc.net.client.model.mhfcmodel.glcontext;
 
 import mhfc.net.client.model.mhfcmodel.animation.IAnimatedObject;
-import mhfc.net.client.model.mhfcmodel.data.IRawData;
+import mhfc.net.client.model.mhfcmodel.data.RawData;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1;
 import mhfc.net.client.model.mhfcmodel.loader.VersionizedModelLoader;
 
@@ -27,7 +27,7 @@ public abstract class GLHelper {
 	 *            the data loaded by the {@link VersionizedModelLoader}
 	 * @return data that can be understood by this {@link GLHelper}
 	 */
-	public final void loadInto(IRawData amd) {
+	public final void loadInto(RawData amd) {
 		if (amd instanceof RawDataV1)
 			this.loadFrom((RawDataV1) amd);
 		else
@@ -54,7 +54,7 @@ public abstract class GLHelper {
 	/**
 	 * Selects an appropriate {@link GLHelper} from the known types.
 	 */
-	public static GLHelper getAppropriateHelper() {
+	public static GLHelper getNewAppropriateHelper() {
 		// TODO: enable advanced rendering
 		// if (supportsPipelines)
 		// return new GLHelper40();
