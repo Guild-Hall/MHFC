@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -92,20 +93,25 @@ public class KirinArmor extends ItemArmor {
 				armorModel.isSneak = entityLiving.isSneaking();
 				armorModel.isRiding = entityLiving.isRiding();
 				armorModel.isChild = entityLiving.isChild();
-				armorModel.heldItemRight = entityLiving.getEquipmentInSlot(0) != null
-						? 1
-						: 0;
-				if (entityLiving instanceof EntityPlayer) {
-
-					armorModel.aimedBow = ((EntityPlayer) entityLiving)
-							.getItemInUseDuration() > 2;
+				armorModel.heldItemRight = 0;
+				armorModel.aimedBow = false;
+				EntityPlayer player = (EntityPlayer)entityLiving;
+				ItemStack held_item = player.getEquipmentInSlot(0);
+				if (held_item != null){
+				armorModel.heldItemRight = 1;
+				if (player.getItemInUseCount() > 0){
+				EnumAction enumaction = held_item.getItemUseAction();
+				if (enumaction == EnumAction.bow){
+				armorModel.aimedBow = true;
+				}else if (enumaction == EnumAction.block){
+				armorModel.heldItemRight = 3;
 				}
-				return armorModel;
+				}
+				}
 			}
 		}
-		return null;
+				return armorModel;
 	}
-
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack armor) {
 		ItemStack boots = player.getCurrentArmor(0);
