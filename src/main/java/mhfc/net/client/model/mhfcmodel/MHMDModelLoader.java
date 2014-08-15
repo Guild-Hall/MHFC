@@ -93,7 +93,6 @@ public class MHMDModelLoader implements IModelCustomLoader {
 		if (register) {
 			ModelRegistry.instance.registerModel(model);
 		}
-		// TODO: register model
 		return model;
 	}
 	/**

@@ -147,8 +147,7 @@ public class ModelMHMD implements IModelCustom {
 	}
 	@Override
 	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
+		return this.modelUUID.hashCode() ^ this.reloadLocation.hashCode();
 	}
 	/**
 	 * Renders the given object in place (current OpenGL-transformation)
