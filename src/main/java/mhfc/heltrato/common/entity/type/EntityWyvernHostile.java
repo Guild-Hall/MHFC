@@ -72,7 +72,11 @@ public class EntityWyvernHostile extends EntityCreature implements IMob
     {
     	float dmg = par2;
     	Entity entity = par1DamageSource.getEntity();
+    	if(entity instanceof EntityPlayer || entity instanceof EntityWyvernHostile)
     	return super.attackEntityFrom(par1DamageSource, dmg);
+    	else{
+    		return super.attackEntityFrom(par1DamageSource, dmg / 2);
+    	}
     }
     
     public boolean attackEntityAsMob(Entity par1Entity)
