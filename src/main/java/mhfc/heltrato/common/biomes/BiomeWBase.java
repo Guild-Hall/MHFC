@@ -3,13 +3,14 @@ package mhfc.heltrato.common.biomes;
 import mhfc.heltrato.common.core.registry.MHFCRegBlock;
 import mhfc.heltrato.common.entity.mob.EntityAptonoth;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.BiomeManager;
 
 public class BiomeWBase extends BiomeGenBase {
 	
 	public boolean depends;
 	public String name;
 	public float getTemp;
-	
+	public boolean questActive;// just sort of test for making sure if the biome will spawn in overworld
 
 	public BiomeWBase(int par1) {
 		super(par1);
@@ -31,6 +32,16 @@ public class BiomeWBase extends BiomeGenBase {
 	
 	public void getBiomeName(String biomename){
 		name = biomename;
+	}
+	
+	
+	//TODO this is just a test method for generating for quest.
+	public void generateforQuest(BiomeGenBase base){
+		if(questActive)
+		BiomeManager.addSpawnBiome(base);
+		else{
+			BiomeManager.removeSpawnBiome(base);
+		}
 	}
 	
 	

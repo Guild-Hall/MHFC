@@ -35,9 +35,6 @@ public class UtilStuff {
 		rand = new Random();
 	}
 	
-	
-	
-	
 	public static void sendAnimPacket(iMHFC entity, int animID) {
 		if(MHFCMain.isEffectiveClient()) return;
 		entity.setAnimID(animID);
@@ -150,6 +147,7 @@ public class UtilStuff {
 			 e.worldObj.spawnEntityInWorld(l);
 		 }
 	 }
+	 
 	 
 		 
 	 
