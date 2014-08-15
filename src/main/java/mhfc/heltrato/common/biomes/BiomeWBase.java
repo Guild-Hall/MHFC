@@ -8,6 +8,7 @@ public class BiomeWBase extends BiomeGenBase {
 	
 	public boolean depends;
 	public String name;
+	public float getTemp;
 	
 
 	public BiomeWBase(int par1) {
@@ -18,6 +19,7 @@ public class BiomeWBase extends BiomeGenBase {
 		worldGeneratorBigTree = null;
 		enableRain = depends;
 		setBiomeName(name);
+		temperature = getTemp;
 		topBlock = MHFCRegBlock.mhfcblockgrass;
 		fillerBlock = MHFCRegBlock.mhfcblockdirt;
 		spawnableCreatureList.add(new SpawnListEntry(EntityAptonoth.class, 10, 3,5));

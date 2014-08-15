@@ -75,7 +75,7 @@ public class EntityWyvernHostile extends EntityCreature implements IMob
     	if(entity instanceof EntityPlayer || entity instanceof EntityWyvernHostile)
     	return super.attackEntityFrom(par1DamageSource, dmg);
     	else{
-    		return super.attackEntityFrom(par1DamageSource, dmg / 2);
+    		return super.attackEntityFrom(par1DamageSource, (dmg / 2));
     	}
     }
     

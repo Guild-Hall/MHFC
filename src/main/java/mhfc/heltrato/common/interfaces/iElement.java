@@ -2,8 +2,8 @@ package mhfc.heltrato.common.interfaces;
 
 public interface iElement {
 	
-	boolean thunderElement();
-	boolean fireElement();
-	boolean waterElement();
+	float thunderElement(float damage);
+	float fireElement(float damage);
+	float waterElement(float damage);
 	boolean isStunVulnerable();
 }
