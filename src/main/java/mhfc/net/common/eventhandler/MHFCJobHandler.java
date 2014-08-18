@@ -143,7 +143,8 @@ public class MHFCJobHandler {
 	}
 
 	public void insert(MHFCDelayedJob job, int delay) {
-		startOfList = startOfList.insert(job, delay);
+		if (delay >= 0)
+			startOfList = startOfList.insert(job, delay);
 	}
 
 	public void remove(MHFCDelayedJob job) {

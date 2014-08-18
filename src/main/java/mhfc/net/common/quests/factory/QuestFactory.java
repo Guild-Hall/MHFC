@@ -1,6 +1,7 @@
-package mhfc.net.common.quests;
+package mhfc.net.common.quests.factory;
 
 import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.goals.ChainQuestGoal;
 import mhfc.net.common.quests.goals.DeathRestrictionQuestGoal;
 import mhfc.net.common.quests.goals.ForkQuestGoal;
@@ -32,7 +33,7 @@ public class QuestFactory {
 		if (goal == null)
 			return null;
 		GeneralQuest quest = new GeneralQuest(goal, qd.getMaxPartySize(),
-				qd.getReward(), qd.getFee(), qd.getAreaID());
+				qd.getReward(), qd.getFee(), qd.getAreaID(), qd);
 		if (quest.canJoin(initiator)) {
 			quest.addPlayer(initiator);
 			return quest;

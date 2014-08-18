@@ -12,16 +12,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import mhfc.net.common.network.packet.MessageQuestScreenInit;
 import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.network.packet.MessageRequestQuestVisual;
 import mhfc.net.common.quests.GeneralQuest;
-import mhfc.net.common.quests.GoalDescription;
-import mhfc.net.common.quests.QuestDescription;
-import mhfc.net.common.quests.QuestFactory;
 import mhfc.net.common.quests.QuestVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation.QuestType;
+import mhfc.net.common.quests.factory.GoalDescription;
+import mhfc.net.common.quests.factory.QuestDescription;
+import mhfc.net.common.quests.factory.QuestFactory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 
@@ -32,11 +34,16 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.stream.JsonReader;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * The registry for quests and quest goals. It will read some source files on
@@ -48,46 +55,12 @@ import cpw.mods.fml.relauncher.SideOnly;
  * "description", "maxPartySize", "timeLimit", "type", "client", "aims",
  * "fails", only the first ones until areaID are mandatory.
  */
+
 public class MHFCRegQuests {
 
-	@SideOnly(Side.SERVER)
-	private static final ParameterizedType typeOfMapGoal = new ParameterizedType() {
-		@Override
-		public Type[] getActualTypeArguments() {
-			return new Type[]{String.class, GoalDescription.class};
-		}
-
-		@Override
-		public Type getRawType() {
-			return Map.class;
-		}
-
-		@Override
-		public Type getOwnerType() {
-			return null;
-		}
-	};
-
-	@SideOnly(Side.SERVER)
-	private static final ParameterizedType typeOfMapQuest = new ParameterizedType() {
-		@Override
-		public Type[] getActualTypeArguments() {
-			return new Type[]{String.class, QuestDescription.class};
-		}
-
-		@Override
-		public Type getRawType() {
-			return Map.class;
-		}
-
-		@Override
-		public Type getOwnerType() {
-			return null;
-		}
-	};
-
-	@SideOnly(Side.SERVER)
-	private static class QuestSerializer implements JsonDeserializer {
+	private static class QuestSerializer
+			implements
+				JsonDeserializer<QuestDescription> {
 
 		@Override
 		public QuestDescription deserialize(JsonElement json, Type typeOfT,
@@ -199,8 +172,9 @@ public class MHFCRegQuests {
 		}
 	}
 
-	@SideOnly(Side.SERVER)
-	private static class GoalSerializer implements JsonDeserializer {
+	private static class GoalSerializer
+			implements
+				JsonDeserializer<GoalDescription> {
 
 		@Override
 		public GoalDescription deserialize(JsonElement json, Type typeOfT,
@@ -261,9 +235,9 @@ public class MHFCRegQuests {
 				MessageContext ctx) {
 			String identifier = message.getIdentifier();
 			QuestDescription description = getQuestDescription(identifier);
-			QuestVisualInformation info = description == null
+			QuestVisualInformation info = (description == null
 					? QuestVisualInformation.IDENTIFIER_ERROR
-					: description.getVisualInformation();
+					: description.getVisualInformation());
 			String[] stringArray = {identifier, info.getName(),
 					info.getDescription(), info.getClient(), info.getAims(),
 					info.getFails(), info.getAreaID(),
@@ -274,14 +248,123 @@ public class MHFCRegQuests {
 		}
 	}
 
+	public static class PlayerConnectionHandler {
+
+		@SubscribeEvent
+		public void onPlayerJoin(PlayerLoggedInEvent logIn) {
+			System.out
+					.println("[MHFC] Sent new identifier configuration to client");
+			networkWrapper.sendTo(new MessageQuestScreenInit(groupMapping,
+					groupIDs), (EntityPlayerMP) logIn.player);
+		}
+
+		@SubscribeEvent
+		public void onPlayerLeave(PlayerLoggedOutEvent logOut) {
+			playerQuest.get(logOut.player).leavePlayer(logOut.player);
+		}
+	}
+
+	private static final ParameterizedType typeOfMapGoal = new ParameterizedType() {
+		@Override
+		public Type[] getActualTypeArguments() {
+			return new Type[]{String.class, GoalDescription.class};
+		}
+
+		@Override
+		public Type getRawType() {
+			return Map.class;
+		}
+
+		@Override
+		public Type getOwnerType() {
+			return null;
+		}
+	};
+
+	private static final ParameterizedType typeOfMapQuest = new ParameterizedType() {
+		@Override
+		public Type[] getActualTypeArguments() {
+			return new Type[]{String.class, QuestDescription.class};
+		}
+
+		@Override
+		public Type getRawType() {
+			return Map.class;
+		}
+
+		@Override
+		public Type getOwnerType() {
+			return null;
+		}
+	};
+
+	//@formatter:off
+	private static final ParameterizedType typeOfGroupMap = new ParameterizedType() {
+		@Override
+		public Type[] getActualTypeArguments() {
+			return new Type[]{
+					String.class, // Don't go weird on me formatter
+					new ParameterizedType() {
+						@Override
+						public Type getRawType() {
+							return List.class;
+						}
+
+						@Override
+						public Type getOwnerType() {
+							return null;
+						}
+
+						@Override
+						public Type[] getActualTypeArguments() {
+							return new Type[]{String.class};
+						}
+					}//
+			};
+		}
+
+		@Override
+		public Type getRawType() {
+			return Map.class;
+		}
+
+		@Override
+		public Type getOwnerType() {
+			return null;
+		}
+	};
+	//@formatter:on
+
+	private static ParameterizedType typeOfGroupList = new ParameterizedType() {
+		@Override
+		public Type[] getActualTypeArguments() {
+			return new Type[]{String.class};
+		}
+
+		@Override
+		public Type getRawType() {
+			return List.class;
+		}
+
+		@Override
+		public Type getOwnerType() {
+			return null;
+		}
+	};
+
+	// TODO Externalize into util
 	public static final String questLocation = "mhfc:quests/quests.json";
 	public static final String goalLocation = "mhfc:quests/goals.json";
+	public static final String groupLocation = "mhfc:quests/groups.json";
 
 	public static final HashMap<String, QuestDescription> questDescriptions = new HashMap<String, QuestDescription>();
+	public static final Map<String, List<String>> groupMapping = new HashMap<String, List<String>>();
+	public static final List<String> groupIDs = new ArrayList<String>();
 	public static final HashMap<String, GoalDescription> goalDescriptions = new HashMap<String, GoalDescription>();
 
 	protected static HashMap<EntityPlayer, GeneralQuest> playerQuest = new HashMap<EntityPlayer, GeneralQuest>();
 	protected static List<GeneralQuest> questsRunning = new ArrayList<GeneralQuest>();
+
 	private final static Gson gsonInstance = (new GsonBuilder())
 			.registerTypeAdapter(GoalDescription.class, new GoalSerializer())
 			.registerTypeAdapter(QuestDescription.class, new QuestSerializer())
@@ -292,15 +375,27 @@ public class MHFCRegQuests {
 	public static final String QUEST_TYPE_EPIC_HUNTING = "quest.type.epichunting";
 	public static final String QUEST_TYPE_KILLING = "quests.type.killing";
 
+	// FIXME use our MHFC wide networkWrapper
+	public static final SimpleNetworkWrapper networkWrapper = new SimpleNetworkWrapper(
+			"MHFC:Quests");
+	public static final int discriminator_answer = 130;
+	public static final int discriminator_join = 131;
+
 	public static void init() {
 		generateQuests(new ResourceLocation(questLocation));
 		generateGoals(new ResourceLocation(goalLocation));
+		generateGroupMapping(new ResourceLocation(groupLocation));
 		System.out.println("[MHFC] Number of goals loaded: "
 				+ goalDescriptions.size());
 		System.out.println("[MHFC] Number of quests loaded: "
 				+ questDescriptions.size());
-		QuestFactory.constructQuest(questDescriptions.get("TestQuest"), null);
-		// FIXME register the message handler
+		// QuestFactory.constructQuest(questDescriptions.get("TestQuest"),
+		// null);
+		networkWrapper.registerMessage(RegistryRequestVisualHandler.class,
+				MessageRequestQuestVisual.class, discriminator_answer,
+				Side.SERVER);
+		FMLCommonHandler.instance().bus()
+				.register(new PlayerConnectionHandler());
 	}
 
 	private static void generateGoals(ResourceLocation location) {
@@ -316,6 +411,33 @@ public class MHFCRegQuests {
 				for (String qualifier : map.keySet()) {
 					goalDescriptions.put(qualifier, map.get(qualifier));
 				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private static void generateGroupMapping(ResourceLocation location) {
+		if (location == null) {
+		} else {
+			try (InputStream input = Minecraft.getMinecraft()
+					.getResourceManager().getResource(location)
+					.getInputStream();
+					BufferedReader reader = new BufferedReader(
+							new InputStreamReader(input))) {
+				JsonReader jSonRead = new JsonReader(reader);
+				jSonRead.setLenient(true);
+				List<String> list = (List<String>) gsonInstance.fromJson(
+						jSonRead, typeOfGroupList);
+				Map<String, List<String>> map = (Map<String, List<String>>) gsonInstance
+						.fromJson(jSonRead, typeOfGroupMap);
+				if (!(map.keySet().containsAll(list) && list.containsAll(map
+						.keySet()))) {
+					throw new JsonParseException(
+							"[MHFC] Group identifier list and mapping keys have to contain the same elements");
+				}
+				groupIDs.addAll(list);
+				groupMapping.putAll(map);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

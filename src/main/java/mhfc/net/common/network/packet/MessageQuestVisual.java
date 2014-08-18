@@ -10,23 +10,39 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class MessageQuestVisual implements IMessage {
 
+	private static final int[] lengthsPerID = {12};
+
+	protected int typeID;
 	protected String[] strings = new String[12];
 
-	public MessageQuestVisual() {
+	protected MessageQuestVisual() {
+		this(0);
+	}
 
+	protected MessageQuestVisual(int typeID) {
+		this.typeID = typeID;
 	}
 
 	public MessageQuestVisual(String[] strings) {
-		if (strings.length != 12)
+		this(0, strings);
+	}
+
+	public MessageQuestVisual(int typeID, String[] strings) {
+		this(typeID);
+		// TODO DEBUG code only, remove this later on
+		if (strings.length != lengthsPerID[typeID])
 			throw new IllegalArgumentException(
-					"[MHFC] MessageQuestVisual needs 12 strings to match QuestVisualInformation");
+					"[MHFC] MessageQuestVisual needs appropriate amount of strings");
 		this.strings = strings;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		try (ByteBufInputStream in = new ByteBufInputStream(buf);) {
-			for (int i = 0; i < 12; i++) {
+			typeID = in.readInt();
+			if (typeID > 0 && typeID < lengthsPerID.length)
+				strings = new String[lengthsPerID[typeID]];
+			for (int i = 0; i < strings.length; i++) {
 				strings[i] = in.readUTF();
 			}
 		} catch (IOException e) {
@@ -37,7 +53,8 @@ public class MessageQuestVisual implements IMessage {
 	@Override
 	public void toBytes(ByteBuf buf) {
 		try (ByteBufOutputStream out = new ByteBufOutputStream(buf)) {
-			for (int i = 0; i < 12; i++) {
+			out.writeInt(typeID);
+			for (int i = 0; i < strings.length; i++) {
 				String s = strings[i];
 				out.writeUTF(s == null ? "" : s);
 			}
@@ -48,6 +65,10 @@ public class MessageQuestVisual implements IMessage {
 
 	public String[] getStrings() {
 		return strings;
+	}
+
+	public int getTypeID() {
+		return typeID;
 	}
 
 }

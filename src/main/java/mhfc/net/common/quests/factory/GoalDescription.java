@@ -1,4 +1,4 @@
-package mhfc.net.common.quests;
+package mhfc.net.common.quests.factory;
 
 import java.util.ArrayList;
 import java.util.Arrays;

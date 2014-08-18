@@ -1,5 +1,7 @@
 package mhfc.net.common.core;
 
+import mhfc.net.MHFCMain;
+import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.core.registry.MHFCRegBlock;
 import mhfc.net.common.core.registry.MHFCRegCrafting;
 import mhfc.net.common.core.registry.MHFCRegEntity;
@@ -23,6 +25,7 @@ public class MHFCReg {
 		 * addSmelting(); addTile(); addMonsters(); addPotion(); addEvent();
 		 * addPacket();
 		 */
+
 		addQuests();
 	}
 
@@ -105,7 +108,13 @@ public class MHFCReg {
 	}
 
 	public static void addQuests() {
+		if (MHFCMain.isClient()) {
+			MHFCRegQuestVisual.init();
+			System.out.println("[MHFC] Quest Client is now initialized");
+		}
 		MHFCRegQuests.init();
+		System.out.println("[MHFC] Quest Server is now initialized");
+
 		System.out.println("[MHFC] Quests is now initialized");
 	}
 

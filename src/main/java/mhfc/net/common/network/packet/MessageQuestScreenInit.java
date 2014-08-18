@@ -85,7 +85,7 @@ public class MessageQuestScreenInit implements IMessage {
 		return identifiersInOrder;
 	}
 
-	public Map<String, List<String>> getIdentifierLists() {
+	public Map<String, List<String>> getIdentifierListMap() {
 		return identifierListsMap;
 	}
 }

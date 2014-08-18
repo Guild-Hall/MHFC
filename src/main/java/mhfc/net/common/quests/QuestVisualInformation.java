@@ -31,19 +31,35 @@ public class QuestVisualInformation {
 		String s;
 	}
 
-	protected final String name;
-	protected final String description;
-	protected final String client;
-	protected final String aims;
-	protected final String fails;
+	protected String name;
+	protected String description;
+	protected String client;
+	protected String aims;
+	protected String fails;
 
-	protected final String areaNameId;
-	protected final String timeLimitInS;
-	protected final QuestType type;
+	protected String areaNameId;
+	protected String timeLimitInS;
+	protected QuestType type;
 
-	protected final String reward;
-	protected final String fee;
-	protected final String maxPartySize;
+	protected String reward;
+	protected String fee;
+	protected String maxPartySize;
+
+	protected QuestVisualInformation(QuestVisualInformation copy) {
+		if (copy == null)
+			return;
+		this.name = copy.getName();
+		this.description = copy.getDescription();
+		this.client = copy.getClient();
+		this.aims = copy.getAims();
+		this.fails = copy.getFails();
+		this.areaNameId = copy.getAreaID();
+		this.timeLimitInS = copy.getTimeLimitAsString();
+		this.type = copy.getType();
+		this.reward = copy.getRewardString();
+		this.fee = copy.getFeeString();
+		this.maxPartySize = copy.getMaxPartySize();
+	}
 
 	public QuestVisualInformation(String name, String description,
 			String client, String aims, String fails, String areaNameID,

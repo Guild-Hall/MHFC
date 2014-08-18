@@ -1,6 +1,7 @@
-package mhfc.net.common.quests;
+package mhfc.net.common.quests.factory;
 
 import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.quests.QuestVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation.QuestType;
 
 /**

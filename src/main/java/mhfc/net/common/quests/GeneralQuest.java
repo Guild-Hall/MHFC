@@ -3,6 +3,7 @@ package mhfc.net.common.quests;
 import java.util.EnumSet;
 
 import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.quests.factory.QuestDescription;
 import mhfc.net.common.quests.goals.QuestGoal;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -11,6 +12,8 @@ public class GeneralQuest implements QuestGoalSocket {
 	enum QuestState {
 		pending, running, finished, resigned;
 	}
+
+	private QuestDescription originalDescription;
 
 	private EntityPlayer[] players;
 	private QuestSpawnController spawnController;
@@ -25,13 +28,14 @@ public class GeneralQuest implements QuestGoalSocket {
 	protected int fee;
 
 	public GeneralQuest(QuestGoal goal, int maxPartySize, int reward, int fee,
-			String areaId) {
+			String areaId, QuestDescription originalDescription) {
 		this.questGoal = goal;
 		this.players = new EntityPlayer[maxPartySize];
 		this.reward = reward;
 		this.fee = fee;
 		this.areaId = areaId;
 		this.state = QuestState.pending;
+		this.originalDescription = originalDescription;
 
 		MHFCRegQuests.registerQuest(this);
 	}
@@ -124,4 +128,7 @@ public class GeneralQuest implements QuestGoalSocket {
 		return spawnController;
 	}
 
+	public QuestDescription getOriginalDescription() {
+		return originalDescription;
+	}
 }
