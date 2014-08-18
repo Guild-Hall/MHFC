@@ -121,8 +121,8 @@ public class MHFCRegQuestVisual {
 	}
 
 	// FIXME Fix to a non-random chosen discriminator
-	public static final int initMessageDiscriminator = 128;
-	public static final int visualMessageDiscriminator = 129;
+	public static final int discriminator_initMessage = 128;
+	public static final int discriminator_visualMessage = 129;
 	public static final ResourceLocation QUEST_STATUS_INVENTORY_BACKGROUND = new ResourceLocation(
 			"textures/gui/demo_background.png");
 	public static final ResourceLocation QUEST_STATUS_ONSCREEN_BACKGROUND = new ResourceLocation(
@@ -159,10 +159,10 @@ public class MHFCRegQuestVisual {
 	public static void init() {
 		display = new QuestStatusDisplay();
 		networkWrapper.registerMessage(QuestVisualInitHandler.class,
-				MessageQuestScreenInit.class, initMessageDiscriminator,
+				MessageQuestScreenInit.class, discriminator_initMessage,
 				Side.CLIENT);
 		networkWrapper.registerMessage(QuestScreenVisualHandler.class,
-				MessageQuestVisual.class, visualMessageDiscriminator,
+				MessageQuestVisual.class, discriminator_visualMessage,
 				Side.CLIENT);
 		MinecraftForge.EVENT_BUS.register(display);
 	}

@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import mhfc.net.common.network.packet.MessageQuestInteraction;
 import mhfc.net.common.network.packet.MessageQuestScreenInit;
 import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.network.packet.MessageRequestQuestVisual;
@@ -40,6 +41,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -248,6 +250,19 @@ public class MHFCRegQuests {
 		}
 	}
 
+	public static class PlayerQuestInteractionHandler
+			implements
+				IMessageHandler<MessageQuestInteraction, IMessage> {
+
+		@Override
+		public IMessage onMessage(MessageQuestInteraction message,
+				MessageContext ctx) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+	}
+
 	public static class PlayerConnectionHandler {
 
 		@SubscribeEvent
@@ -378,8 +393,8 @@ public class MHFCRegQuests {
 	// FIXME use our MHFC wide networkWrapper
 	public static final SimpleNetworkWrapper networkWrapper = new SimpleNetworkWrapper(
 			"MHFC:Quests");
-	public static final int discriminator_answer = 130;
-	public static final int discriminator_join = 131;
+	public static final int discriminator_visualRequestAnswer = 130;
+	private static final int discriminator_interaction = 131;
 
 	public static void init() {
 		generateQuests(new ResourceLocation(questLocation));
@@ -392,7 +407,10 @@ public class MHFCRegQuests {
 		// QuestFactory.constructQuest(questDescriptions.get("TestQuest"),
 		// null);
 		networkWrapper.registerMessage(RegistryRequestVisualHandler.class,
-				MessageRequestQuestVisual.class, discriminator_answer,
+				MessageRequestQuestVisual.class,
+				discriminator_visualRequestAnswer, Side.SERVER);
+		networkWrapper.registerMessage(PlayerQuestInteractionHandler.class,
+				MessageQuestInteraction.class, discriminator_interaction,
 				Side.SERVER);
 		FMLCommonHandler.instance().bus()
 				.register(new PlayerConnectionHandler());
