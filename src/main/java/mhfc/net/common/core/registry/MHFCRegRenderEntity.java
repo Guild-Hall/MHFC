@@ -43,7 +43,7 @@ public class MHFCRegRenderEntity {
 				new RenderPopo(new ModelPopo(), 1f, 1.4f));
 		RenderingRegistry.registerEntityRenderingHandler(EntityTest.class,
 				new RenderAnimatedModel(new ModelAnimated(new ResourceLocation(
-						"mhfc:models/testcube.mhmd")), 1.0F));
+						"mhfc:models/Akura Vashimu.mhmd")), 1.0F));
 	}
 	public static void renderBlockEntities() {
 		RenderingRegistry.registerEntityRenderingHandler(

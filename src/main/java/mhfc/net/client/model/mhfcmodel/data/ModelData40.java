@@ -293,12 +293,21 @@ public class ModelData40 implements IModelData {
 			attrBuff.putFloat(tp.normal.z); // 24
 			attrBuff.putFloat(tp.texCoords.x); // 28
 			attrBuff.putFloat(tp.texCoords.y); // 32
-			// TODO: normalize binds
-			final int bindsPerPoint = 4;
-			for (int i = 0; i < bindsPerPoint; attrBuff
-					.put(tp.boneBindings[i++].boneIndex)); // 36
-			for (int i = 0; i < bindsPerPoint; attrBuff
-					.putFloat(tp.boneBindings[i++].bindingValue)); // 52
+			// TODO: normalize binds in shader
+			int i = 0;
+			for (RawDataV1.BoneBinding bind : tp.boneBindings) {
+				attrBuff.put(bind.boneIndex);
+			}
+			for (; i < RawDataV1.MAX_NBR_BONEBINDINGS; ++i) {
+				attrBuff.put((byte) 0xFF);
+			}
+			i = 0;
+			for (RawDataV1.BoneBinding bind : tp.boneBindings) {
+				attrBuff.putFloat(bind.bindingValue);
+			}
+			for (; i < RawDataV1.MAX_NBR_BONEBINDINGS; ++i) {
+				attrBuff.putFloat(0.0F);
+			}
 		}
 		indicesBuffer.put(part.indices);
 	}

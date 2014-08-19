@@ -1,0 +1,1 @@
+C:/Users/Public/Blender/blender-2.70-windows64/2.70/scripts/addons/io_import_tcn.py

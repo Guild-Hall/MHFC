@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -32,7 +33,6 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class LoaderVersion1 extends VersionizedModelLoader {
-	private static final int NBR_BONEBINDINGS = 4;
 	public static final LoaderVersion1 instance = new LoaderVersion1();
 
 	@Override
@@ -167,9 +167,7 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 		// Read material coordinates
 		Vector2f texCoords = Utils.readVector2f(di);
 		// Read bindings
-		BoneBinding[] bindings = new BoneBinding[NBR_BONEBINDINGS];
-		for (int i = 0; i < NBR_BONEBINDINGS; bindings[i++] = readBoneBindingFrom(
-				di, header));
+		BoneBinding[] bindings = readBoneBindingsFrom(di, header);
 		// Apply attributes
 		tessP.coords = coords;
 		tessP.normal = normal;
@@ -178,21 +176,28 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 		return tessP;
 	}
 
-	protected BoneBinding readBoneBindingFrom(DataInputStream di, Header header)
-			throws EOFException, IOException {
-		BoneBinding binding = new BoneBinding();
-		// Read index of bone this is bound to
-		int bindIndex = di.readUnsignedByte();
-		if (bindIndex >= header.nbrBones && bindIndex != 0xFF)
-			throw new ModelFormatException("Can't bind to non-existant bone.");
-		// Read strength of binding
-		float bindingValue = di.readFloat();
-		if (Math.abs(bindingValue) > 100.0F)
-			throw new ModelFormatException(String.format(
-					"Value for binding seems out of range: %f", bindingValue));
-		// Apply attributes
-		binding.boneIndex = (byte) bindIndex;
-		binding.bindingValue = bindingValue;
-		return binding;
+	protected BoneBinding[] readBoneBindingsFrom(DataInputStream di,
+			Header header) throws EOFException, IOException {
+		BoneBinding[] bindings = new BoneBinding[RawDataV1.MAX_NBR_BONEBINDINGS];
+		int bindIndex;
+		int i = 0;
+		while (i < RawDataV1.MAX_NBR_BONEBINDINGS
+				&& (bindIndex = di.readUnsignedByte()) != 0xFF) {
+			BoneBinding binding = new BoneBinding();
+			if (bindIndex >= header.nbrBones)
+				throw new ModelFormatException(
+						"Can't bind to non-existant bone.");
+			// Read strength of binding
+			float bindingValue = di.readFloat();
+			if (Math.abs(bindingValue) > 100.0F)
+				throw new ModelFormatException(String.format(
+						"Value for binding seems out of range: %f",
+						bindingValue));
+			// Apply attributes
+			binding.boneIndex = (byte) bindIndex;
+			binding.bindingValue = bindingValue;
+			bindings[i++] = binding;
+		}
+		return Arrays.copyOf(bindings, i);
 	}
 }

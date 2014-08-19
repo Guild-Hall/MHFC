@@ -66,6 +66,7 @@ public class RawDataV1 extends RawData {
 	 * A list of all bones
 	 */
 	public final List<Bone> bones;
+	public static final int MAX_NBR_BONEBINDINGS = 4;
 
 	public RawDataV1(RawData metaInfo, List<ModelPart> parts, List<Bone> bones) {
 		super(metaInfo);

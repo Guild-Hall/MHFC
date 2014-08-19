@@ -41,6 +41,8 @@ import java.util.Arrays;
 
 import javax.vecmath.Quat4f;
 
+import net.minecraft.client.renderer.GLAllocation;
+
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Quaternion;
@@ -195,7 +197,7 @@ public class Utils {
 	 * @return a new direct byte buffer
 	 */
 	public static ByteBuffer directByteBuffer(int size) {
-		return ByteBuffer.allocateDirect(size);
+		return GLAllocation.createDirectByteBuffer(size);
 	}
 	/**
 	 * Asks for a new directly backed IntBuffer
@@ -205,9 +207,7 @@ public class Utils {
 	 * @return a new direct int buffer
 	 */
 	public static IntBuffer directIntBuffer(int size) {
-		if (size > Integer.MAX_VALUE / 4)
-			throw new IllegalStateException("Asked for a too big ByteBuffer");
-		return ByteBuffer.allocateDirect(size * 4).asIntBuffer();
+		return GLAllocation.createDirectIntBuffer(size);
 	}
 	/**
 	 * Asks for a new directly backed FloatBuffer
@@ -217,9 +217,7 @@ public class Utils {
 	 * @return a new direct float buffer
 	 */
 	public static FloatBuffer directFloatBuffer(int size) {
-		if (size > Integer.MAX_VALUE / 4)
-			throw new IllegalStateException("Asked for a too big ByteBuffer");
-		return ByteBuffer.allocateDirect(size * 4).asFloatBuffer();
+		return GLAllocation.createDirectFloatBuffer(size);
 	}
 	/**
 	 * Asks for a new directly backed DoubleBuffer
@@ -229,9 +227,7 @@ public class Utils {
 	 * @return a new direct float buffer
 	 */
 	public static DoubleBuffer directDoubleBuffer(int size) {
-		if (size > Integer.MAX_VALUE / 4)
-			throw new IllegalStateException("Asked for a too big ByteBuffer");
-		return ByteBuffer.allocateDirect(size * 4).asDoubleBuffer();
+		return directByteBuffer(size * 4).asDoubleBuffer();
 	}
 	/**
 	 * Asks for a new directly backed ShortBuffer
@@ -241,9 +237,7 @@ public class Utils {
 	 * @return a new direct float buffer
 	 */
 	public static ShortBuffer directShortBuffer(int size) {
-		if (size > Integer.MAX_VALUE / 2)
-			throw new IllegalStateException("Asked for a too big ByteBuffer");
-		return ByteBuffer.allocateDirect(size * 2).asShortBuffer();
+		return directByteBuffer(size * 2).asShortBuffer();
 	}
 	/**
 	 * Gets the source in the {@link InputStream} as a direct byte buffer which

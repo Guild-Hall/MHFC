@@ -1,11 +1,6 @@
 package mhfc.net.client.model.mhfcmodel.data;
 
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
-import static org.lwjgl.opengl.GL11.glBegin;
-import static org.lwjgl.opengl.GL11.glEnd;
-import static org.lwjgl.opengl.GL11.glNormal3f;
-import static org.lwjgl.opengl.GL11.glTexCoord2f;
-import static org.lwjgl.opengl.GL11.glVertex4f;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,6 +11,7 @@ import mhfc.net.client.model.mhfcmodel.animation.IAnimation;
 import mhfc.net.client.model.mhfcmodel.animation.IAnimation.BoneTransformation;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1.TesselationPoint;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.util.vector.Matrix4f;
@@ -27,6 +23,8 @@ import com.google.common.base.Predicate;
 
 public class ModelDataBasic implements IModelData {
 	protected static Minecraft mc = Minecraft.getMinecraft();
+	private static Tessellator tess = Tessellator.instance;
+
 	private static class Part {
 		private static class Point {
 			protected static class Vertex {
@@ -42,9 +40,9 @@ public class ModelDataBasic implements IModelData {
 				 * Issues glVertex and glNormal and glTexCoord
 				 */
 				public void render() {
-					glNormal3f(norm.x, norm.y, norm.z);
-					glTexCoord2f(uv.x, uv.y);
-					glVertex4f(pos.x, pos.y, pos.z, pos.w);
+					tess.setNormal(norm.x, norm.y, norm.z);
+					tess.setTextureUV(uv.x, uv.y);
+					tess.addVertex(pos.x, pos.y, pos.z);
 				}
 				/**
 				 * Adds the other Vertex to this one. This will not touch this
@@ -63,11 +61,6 @@ public class ModelDataBasic implements IModelData {
 			 * recognized
 			 */
 			public static final float epsilon = 0.0F;
-
-			protected static boolean isApplicable(RawDataV1.BoneBinding binding) {
-				return Math.abs(binding.bindingValue) > epsilon
-						&& binding.boneIndex != 0xFF;
-			}
 
 			protected Vertex vert;
 			protected Point(Vector3f pos, Vector3f norm, Vector2f uv) {
@@ -93,13 +86,7 @@ public class ModelDataBasic implements IModelData {
 			 * @return the constructed point
 			 */
 			public static Point from(RawDataV1.TesselationPoint data) {
-				boolean isBound = false;
-				for (RawDataV1.BoneBinding bind : data.boneBindings) {
-					if (isApplicable(bind)) {
-						isBound = true;
-						break;
-					}
-				}
+				boolean isBound = data.boneBindings.length > 0;
 				if (isBound)
 					return new BoundPoint(data.coords, data.normal,
 							data.texCoords, data.boneBindings);
@@ -153,6 +140,10 @@ public class ModelDataBasic implements IModelData {
 				public void normalize(float sum) {
 					this.strength /= sum;
 				}
+			}
+
+			private static boolean isApplicable(RawDataV1.BoneBinding binding) {
+				return Math.abs(binding.bindingValue) > epsilon;
 			}
 
 			private static List<Binding> normalizeAndCompress(
@@ -214,11 +205,9 @@ public class ModelDataBasic implements IModelData {
 
 		public void render(Bone[] bones, BoneTransformation[] currTransforms) {
 			mc.renderEngine.bindTexture(this.resLocation);
-			glBegin(GL_TRIANGLES);
 			for (short idx : this.indices) {
 				this.pointsList[idx & 0xFFFF].render(bones, currTransforms);
 			}
-			glEnd();
 		}
 
 		public String getName() {
@@ -337,6 +326,7 @@ public class ModelDataBasic implements IModelData {
 		for (Part part : this.parts) {
 			part.render(this.bones, transforms);
 		}
+		tess.draw();
 	}
 
 	@Override
@@ -344,9 +334,11 @@ public class ModelDataBasic implements IModelData {
 			IAnimation currAnimation, int frame, float subFrame) {
 		BoneTransformation[] transforms = getTransforms(currAnimation, frame,
 				subFrame);
+		tess.startDrawing(GL_TRIANGLES);
 		for (Part part : this.parts) {
 			if (filter.apply(part.getName()))
 				part.render(this.bones, transforms);
 		}
+		tess.draw();
 	}
 }

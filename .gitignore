@@ -8,6 +8,9 @@
 !LICENSE
 !build.gradle
 
+# temporary until I make an own repository
+!blender/
+
 *.class
 
 # Mobile Tools for Java (J2ME)
