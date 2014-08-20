@@ -1,5 +1,6 @@
 package mhfc.heltrato.client.render.mob;
 
+import mhfc.heltrato.client.model.PartTickModelBase;
 import mhfc.heltrato.client.model.mob.boss.ModelTigrex;
 import mhfc.heltrato.common.entity.mob.EntityTigrex;
 import mhfc.heltrato.common.util.lib.MHFCReference;
@@ -17,7 +18,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderTigrex extends RenderLiving {
 	private float scale;
-	protected ModelTigrex mainModel;
 
 	public RenderTigrex(ModelBase par1ModelBase, float par2, float par3) {
 		super(par1ModelBase, par2 * par3);
@@ -43,7 +43,7 @@ public class RenderTigrex extends RenderLiving {
 	@Override
 	protected void preRenderCallback(EntityLivingBase par1EntityLivingBase,
 			float partialTick) {
-		this.mainModel.setPartialTick(partialTick);
+		((ModelTigrex) this.mainModel).setPartialTick(partialTick);
 	}
 
 	@Override

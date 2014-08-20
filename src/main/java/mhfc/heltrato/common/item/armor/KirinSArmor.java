@@ -128,22 +128,24 @@ public class KirinSArmor extends ItemArmor {
 	}
 	
 	
-/*	@Override
+	@Override
 	 public void onArmorTick(World world, EntityPlayer player, ItemStack armor) {
-	 // The player needs to wear all armor pieces, so when we check on the helmet it's enough
-	 if(this.armorType != 0)
-	  return;
-	 ItemStack chest = player.getCurrentArmor(1);
-	 ItemStack legs = player.getCurrentArmor(2);
-	 ItemStack boots = player.getCurrentArmor(3);
-	 // If all items are our items (except helmet, as this method is only called if helmet is equipped
-	 if( chest.getItem() == MHFCRegItem.mhfcitemkirinSchest &&
-	  boots.getItem() == MHFCRegItem.mhfcitemkirinSboots &&
-	  legs.getItem() == MHFCRegItem.mhfcitemkirinSlegs){
-	  int duration = 15;
-	  player.addPotionEffect(new PotionEffect(MHFCRegPotion.mhfcpotionkirinbless.id, duration, 1));
-	  world.spawnParticle("cloud", player.posX + this.rand.nextFloat() * 2.0F - 1.0D, player.posY + this.rand.nextFloat() * 3.0F + 1.0D, player.posZ + this.rand.nextFloat() * 2.0F - 1.0D, 0.0D, 0.0D, 0.0D);
+	  // The player needs to wear all armor pieces, so when we check on the helmet it's enough
+	  if(this.armorType != 0)
+	   return;
+	  ItemStack boots = player.getCurrentArmor(0);
+	  ItemStack legs = player.getCurrentArmor(1);
+	  ItemStack chest = player.getCurrentArmor(2);
+	  
+	  // If all items are our items (except helmet, as this method is only called if helmet is equipped
+	  if( chest != null && legs != null && boots != null && 
+	    chest.getItem() == MHFCRegItem.mhfcitemkirinSchest &&
+	    boots.getItem() == MHFCRegItem.mhfcitemkirinSboots &&
+	    legs.getItem() == MHFCRegItem.mhfcitemkirinSlegs){
+	   int duration = 15;
+	   player.addPotionEffect(new PotionEffect(MHFCRegPotion.mhfcpotionkirinbless.id, duration, 1));
+	   world.spawnParticle("cloud", player.posX + this.rand.nextFloat() * 2.0F - 1.0D, player.posY + this.rand.nextFloat() * 3.0F + 1.0D, player.posZ + this.rand.nextFloat() * 2.0F - 1.0D, 0.0D, 0.0D, 0.0D);
+	  }
 	 }
-	}*/
 
 }

@@ -114,18 +114,17 @@ public class TigrexArmor extends ItemArmor {
 	}
 
 	@Override
-	public void onArmorTick(World world, EntityPlayer player,
-			ItemStack itemstack) {
-		ItemStack boots = player.getCurrentArmor(0);
-		ItemStack legs = player.getCurrentArmor(1);
-		ItemStack chest = player.getCurrentArmor(2);
-		ItemStack helmet = player.getCurrentArmor(3);
+	public void onArmorTick(World world, EntityPlayer player,ItemStack itemstack) {
+		 if(this.armorType != 0)
+			   return;
+			  ItemStack boots = player.getCurrentArmor(0);
+			  ItemStack legs = player.getCurrentArmor(1);
+			  ItemStack chest = player.getCurrentArmor(2);
 		ItemStack food = player.getCurrentEquippedItem();
-		if (boots != null && legs != null && chest != null && helmet != null) {
-			if (boots.getItem() == MHFCRegItem.mhfcitemtigrexboots
-					&& legs.getItem() == MHFCRegItem.mhfcitemtigrexlegs
-					&& chest.getItem() == MHFCRegItem.mhfcitemtigrexchest
-					&& helmet.getItem() == MHFCRegItem.mhfcitemtigrexhelm) {
+		  if( chest != null && legs != null && boots != null && 
+				    chest.getItem() == MHFCRegItem.mhfcitemtigrexchest &&
+				    boots.getItem() == MHFCRegItem.mhfcitemtigrexboots &&
+				    legs.getItem() == MHFCRegItem.mhfcitemtigrexlegs){
 				if (food != null && food.getItem() instanceof ItemFood) {
 					int i = food.getItem().getMaxItemUseDuration(food);
 					int j = 16;
@@ -136,4 +135,3 @@ public class TigrexArmor extends ItemArmor {
 
 	}
 
-}

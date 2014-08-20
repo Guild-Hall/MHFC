@@ -57,7 +57,7 @@ public class RathalosArmor extends ItemArmor {
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer,
 			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
-		par3List.add("Attack Up H");
+		par3List.add("Attack Up L");
 		par3List.add("Poison D[+4%]");
 		par3List.add("+ 10 Fire");
 		par3List.add("+ 15 Thunder");

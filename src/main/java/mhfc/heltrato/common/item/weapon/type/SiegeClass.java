@@ -3,6 +3,7 @@ package mhfc.heltrato.common.item.weapon.type;
 import java.util.Random;
 
 import mhfc.heltrato.MHFCMain;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemSword;
 
 public class SiegeClass extends ItemSword {
@@ -20,5 +21,6 @@ public class SiegeClass extends ItemSword {
 	public boolean isFull3D() {
 		return true;
 	}
+	
 
 }
