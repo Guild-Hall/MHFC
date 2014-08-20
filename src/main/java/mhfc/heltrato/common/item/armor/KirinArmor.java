@@ -119,7 +119,7 @@ public class KirinArmor extends ItemArmor {
 		ItemStack chest = player.getCurrentArmor(2);
 		ItemStack helmet = player.getCurrentArmor(3);
 
-		if (boots != null && legs != null && chest != null && helmet != null) {
+		if (helmet != null && boots != null && legs != null && chest != null && helmet != null) {
 			if (boots.getItem() == MHFCRegItem.mhfcitemkirinboots
 					&& legs.getItem() == MHFCRegItem.mhfcitemkirinlegs
 					&& chest.getItem() == MHFCRegItem.mhfcitemkirinchest
