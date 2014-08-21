@@ -1,15 +1,12 @@
 package mhfc.heltrato.common.core.registry;
 
-import mhfc.heltrato.common.block.BlockCarbalite;
 import mhfc.heltrato.common.block.BlockDiscstone;
-import mhfc.heltrato.common.block.BlockDragonite;
-import mhfc.heltrato.common.block.BlockEltalite;
 import mhfc.heltrato.common.block.BlockIceCrystal;
 import mhfc.heltrato.common.block.BlockLosGable;
-import mhfc.heltrato.common.block.BlockMachalite;
 import mhfc.heltrato.common.block.BlockWyverniaClay;
 import mhfc.heltrato.common.block.BlockWyverniaDirt;
 import mhfc.heltrato.common.block.BlockWyverniaGrass;
+import mhfc.heltrato.common.block.BlockWyverniaOreBlock;
 import mhfc.heltrato.common.block.BlockWyverniaOres;
 import mhfc.heltrato.common.block.BlockWyverniaSand;
 import mhfc.heltrato.common.block.BlockWyverniaStone;
@@ -24,6 +21,7 @@ import mhfc.heltrato.common.item.block.ItemBlockBenchHunter;
 import mhfc.heltrato.common.item.block.ItemBlockIngot;
 import mhfc.heltrato.common.item.block.ItemBlockStunTrap;
 import mhfc.heltrato.common.item.block.ItemBlockWyverniaDefault;
+import mhfc.heltrato.common.item.block.ItemBlockWyverniaOreBlock;
 import mhfc.heltrato.common.item.block.ItemBlockWyverniaOres;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -55,15 +53,13 @@ public class MHFCRegBlock {
 	public static Block mhfcblocksand;
 	public static Block mhfcblockbbqspit;
 	public static Block mhfcblockores;
+	public static Block mhfcblockoreblocks;
 	
 	public static void init()
 	{
 		// Initiation Blocks
-		mhfcblockcarbalite = new BlockCarbalite();
-		mhfcblockdragonite = new BlockDragonite();
-		mhfcblockeltalite = new BlockEltalite();
-		mhfcblockmachalite = new BlockMachalite();
 		mhfcblocklosgable = new BlockLosGable();
+		mhfcblockoreblocks = new BlockWyverniaOreBlock();
 		mhfcblockarmorstandbase = new BlockArmorStandBase();
 		mhfcblockarmorstand = new BlockArmorStand();
 		mhfcblockhunterbench = new BlockHunterBench();
@@ -92,16 +88,13 @@ public class MHFCRegBlock {
 		getBlockID(mhfcblocksand);
 		getBlockID(mhfcblockdiscstone);
 		getBlockID(mhfcblockicecrystal);
-		getBlockID(mhfcblockcarbalite);
-		getBlockID(mhfcblockdragonite);
-		getBlockID(mhfcblockeltalite);
-		getBlockID(mhfcblockmachalite);
 		getBlockID(mhfcblocklosgable);
 		getBlockID(mhfcblockarmorstandbase);
 	}
 	
 	private static void regItemBlocks()
 	{
+		getItemBlockID(mhfcblockoreblocks, ItemBlockWyverniaOreBlock.class);
 		getItemBlockID(mhfcblockores, ItemBlockWyverniaOres.class);
 		getItemBlockID(mhfcblockarmorstand, ItemBlockWyverniaDefault.class);
 		getItemBlockID(mhfcblockstuntrap, ItemBlockStunTrap.class);
