@@ -22,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
@@ -145,6 +146,17 @@ public class UtilStuff {
 			 EntityLightning l = new EntityLightning(e.worldObj);
 			 l.setPosition(Lx, Ly, Lz);
 			 e.worldObj.spawnEntityInWorld(l);
+		 }
+	 }
+	 
+	 
+	 //TODO nullDamage is chance that all incoming singe target (projectiles , not aoe) has a 20% chance to 
+	 //  be block and will be feature on update on lance. - `Heltrato  
+	 public static void nullDamage(DamageSource source, EntityLivingBase attacker, float damage, EntityPlayer player){
+		 if(rand.nextInt(2) == 0){
+			 if(source.causeMobDamage(attacker) != null || source.isProjectile()){
+				 damage = 0;
+			 }
 		 }
 	 }
 	 

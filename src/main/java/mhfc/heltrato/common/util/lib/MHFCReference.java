@@ -78,7 +78,7 @@ public class MHFCReference {
 	public static final String block_losgable_tex = "mhfc:losgable";
 	public static final String block_machalite_name = "machalite";
 	public static final String block_machalite_tex = "mhfc:machalite";
-	public static final String block_orearmorshpere_name = "orearmorsphere";
+	public static final String block_orearmorsphere_name = "orearmorsphere";
 	public static final String block_orearmorsphere_tex = "mhfc:orearmorsphere";
 	public static final String block_orearmorsphereplus_name = "orearmorsphereplus";
 	public static final String block_orearmorsphereplus_tex = "mhfc:orearmorsphereplus";
@@ -272,6 +272,10 @@ public class MHFCReference {
 	public static final String weapon_ls_ironkatana_name = "longsword_1";
 	public static final String weapon_ls_ironkatana_tex = "mhfc:textures/weapons/(LS)ironkatana.png";
 	public static final String gui_questgiver_back_tex = "mhfc:texture/gui/questgiver.png";
+	
+	public static final String block_wyverniaores_name = "wyverniaores";
+	
+	public final static String[] oreSubBlocks = new String[] {block_orearmorsphere_name,block_orearmorsphereplus_name,block_orecarbalite_name,block_oredragonite_name,block_oreeltalite_name,block_oremachalite_name};
 
 	public static final int gui_hunterbench_id = 1;
 	public static final int gui_questgiver_id = 2;
