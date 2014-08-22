@@ -6,16 +6,18 @@ import io.netty.buffer.ByteBufOutputStream;
 
 import java.io.IOException;
 
+import mhfc.net.common.quests.QuestRunningInformation;
+import mhfc.net.common.quests.QuestVisualInformation;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class MessageQuestVisual implements IMessage {
 
-	private static final int[] lengthsPerID = {12};
+	private static final int[] lengthsPerID = {12, 14};
 
 	protected int typeID;
 	protected String[] strings = new String[12];
 
-	protected MessageQuestVisual() {
+	public MessageQuestVisual() {
 		this(0);
 	}
 
@@ -27,12 +29,35 @@ public class MessageQuestVisual implements IMessage {
 		this(0, strings);
 	}
 
+	public <E extends QuestVisualInformation> MessageQuestVisual(
+			String identifier, E visual) {
+		this(visual == null ? new String[]{""} : new String[]{identifier,
+				visual.getName(), visual.getDescription(), visual.getClient(),
+				visual.getAims(), visual.getFails(), visual.getAreaID(),
+				visual.getTimeLimitAsString(), visual.getType().getAsString(),
+				visual.getRewardString(), visual.getFeeString(),
+				visual.getMaxPartySize()});
+	}
+
+	public <E extends QuestRunningInformation> MessageQuestVisual(
+			String identifier, E visual) {
+		this(1, visual == null ? new String[]{""} : new String[]{identifier,
+				visual.getTrueName(), visual.getTrueDescription(),
+				visual.getTrueClient(), visual.getTrueAims(),
+				visual.getTrueFails(), visual.getTrueAreaID(),
+				visual.getTrueTimeLimitAsString(),
+				visual.getType().getAsString(), visual.getTrueRewardString(),
+				visual.getTrueFeeString(), visual.getTrueMaxPartySize(),
+				visual.getTrueShortStatus(), visual.getTrueLongStatus()});
+	}
+
 	public MessageQuestVisual(int typeID, String[] strings) {
 		this(typeID);
 		// TODO DEBUG code only, remove this later on
 		if (strings.length != lengthsPerID[typeID])
 			throw new IllegalArgumentException(
-					"[MHFC] MessageQuestVisual needs appropriate amount of strings");
+					"[MHFC] MessageQuestVisual needs appropriate amount of strings for type "
+							+ typeID);
 		this.strings = strings;
 	}
 

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
 import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
 import mhfc.net.common.quests.GeneralQuest;
+import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
@@ -66,4 +67,15 @@ public class DeathRestrictionQuestGoal extends QuestGoal
 		notifyOfStatus(isFulfilled(), isFailed());
 	}
 
+	@Override
+	public String modify(InformationType type, String current) {
+		if (type == InformationType.LongStatus) {
+			current += (current.equals("") ? "" : "\n") + "Died "
+					+ currentDeaths + " of " + maxDeaths + " times";
+		} else if (type == InformationType.ShortStatus) {
+			current += (current.equals("") ? "" : "\n") + currentDeaths + "/"
+					+ maxDeaths + "deaths";
+		}
+		return current;
+	}
 }

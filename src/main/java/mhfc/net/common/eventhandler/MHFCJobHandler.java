@@ -34,13 +34,15 @@ public class MHFCJobHandler {
 		private JobListElement following;
 		private int ticksToExecution;
 
-		public DelayedJob(MHFCDelayedJob initialJob, int delay) {
+		public DelayedJob(MHFCDelayedJob initialJob, int delay,
+				JobListElement following) {
 			if (initialJob == null)
 				throw new IllegalArgumentException(
 						"Initial job may not be null");
 			jobs = new ArrayList<MHFCDelayedJob>();
 			ticksToExecution = delay;
 			jobs.add(initialJob);
+			this.following = following;
 		}
 
 		@Override
@@ -53,7 +55,7 @@ public class MHFCJobHandler {
 				return this;
 			} else {
 				ticksToExecution -= delay;
-				return new DelayedJob(job, delay);
+				return new DelayedJob(job, delay, this);
 			}
 		}
 
@@ -98,7 +100,7 @@ public class MHFCJobHandler {
 
 		@Override
 		public JobListElement insert(MHFCDelayedJob job, int delay) {
-			return new DelayedJob(job, delay);
+			return new DelayedJob(job, delay, this);
 		}
 
 		@Override

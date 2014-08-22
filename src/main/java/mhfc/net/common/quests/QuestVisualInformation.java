@@ -1,6 +1,9 @@
 package mhfc.net.common.quests;
 
+import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.core.registry.MHFCRegQuests;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.util.StatCollector;
 
 public class QuestVisualInformation {
 
@@ -123,4 +126,158 @@ public class QuestVisualInformation {
 		return maxPartySize;
 	}
 
+	public void drawInformation(int positionX, int positionY, int width,
+			int height, FontRenderer fontRenderer, int millisecond) {
+		drawInformation(positionX, positionY, width, height,
+				Math.max(((millisecond / 2000) % 4) - 1, 0), fontRenderer);
+	}
+
+	public void drawInformation(int positionX, int positionY, int width,
+			int height, int page, FontRenderer fontRenderer) {
+		String TAG_MONSTERS = StatCollector
+				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_MONSTERS), //
+		TAG_REQUISITES = StatCollector
+				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_REQUISITES);
+//@formatter:off
+		int lineHeight = fontRenderer.FONT_HEIGHT+2;
+		String draw;
+		int currentY = drawHead(positionX, positionY, lineHeight, width,
+				fontRenderer);
+		switch (page) {
+			case 0 :
+				currentY = drawBaseInformation(positionX, currentY, lineHeight,
+						width, fontRenderer);
+				draw = TAG_MONSTERS;
+				fontRenderer.drawString(draw, positionX + 5, currentY, 0xB04040);
+				draw = "NYI";
+				currentY += lineHeight;
+				fontRenderer.drawSplitString(draw, positionX + width / 8,
+						currentY, width / 2 - 5, 0x404040);
+				currentY = positionY+(height-(positionY-currentY+lineHeight)-5)/2;
+				draw = TAG_REQUISITES;
+				fontRenderer.drawString(draw, positionX + 5, currentY, 0xB04040);
+				draw = "NYI";
+				currentY += lineHeight;
+				fontRenderer.drawSplitString(draw, positionX + width / 8,
+						currentY, width / 2 - 5, 0x404040);
+				break;
+			case 1 :
+				drawAimsFails(positionX, positionY, width, height, currentY,
+						lineHeight, fontRenderer);
+				break;
+			case 2 :
+				drawClientDescription(positionX, currentY, width, lineHeight,
+						fontRenderer);
+				break;
+		}
+		draw = (page + 1) + "/3";
+		fontRenderer.drawString(draw,
+				positionX + width - fontRenderer.getStringWidth(draw) - 4,
+				positionY + height - lineHeight, 0x404040);
+
+	}
+
+	protected void drawClientDescription(int positionX, int currentY,
+			int width, int lineHeight, FontRenderer fontRenderer) {
+		String TAG_CLIENT = StatCollector
+				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_CLIENT), //
+		TAG_DESCRIPTION = StatCollector
+				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_DESCRIPTION);
+		String draw;
+		draw = TAG_CLIENT;
+		fontRenderer.drawString(draw, positionX+5, currentY, 0xB04040);
+		draw = getClient();
+		fontRenderer.drawSplitString(draw, positionX+
+				(fontRenderer.getStringWidth(TAG_CLIENT)+width
+				-fontRenderer.getStringWidth(draw))/2,
+				currentY, 2*width/3, 0x404040);
+		currentY += fontRenderer.listFormattedStringToWidth(draw,width/2)
+				.size()*lineHeight;
+		draw = TAG_DESCRIPTION;
+		fontRenderer.drawString(draw, positionX+5, currentY, 0xB04040);
+		currentY += lineHeight;
+		draw = getDescription();
+		fontRenderer.drawSplitString(draw, positionX+width/8, currentY,
+				7*width/8-5, 0x404040);
+	}
+
+	protected void drawAimsFails(int positionX, int positionY, int width,
+			int height, int currentY, int lineHeight,
+			FontRenderer fontRenderer) {
+		String TAG_AIMS = StatCollector
+				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_AIMS), //
+		TAG_FAILS = StatCollector
+				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_FAILS);
+		String draw;
+		draw = TAG_AIMS;
+		fontRenderer.drawString(draw, positionX+5, currentY, 0xB04040);
+		currentY += lineHeight;
+		draw = getAims();
+		fontRenderer.drawSplitString(draw, positionX+width/8, currentY, 7*width/8-5, 0x404040);
+		draw = TAG_FAILS;
+		currentY = positionY+(height-(positionY-currentY+lineHeight)-5)/2;
+		fontRenderer.drawString(draw, positionX+5, currentY, 0xB04040);
+		currentY += lineHeight;
+		draw = getFails();
+		fontRenderer.drawSplitString(draw, positionX+width/8, currentY, 7*width/8-5, 0x404040);
+	}
+
+	protected int drawHead(int positionX, int positionY, int lineHeight,
+			int width, FontRenderer fontRenderer) {
+		String TAG_TYPE = StatCollector.translateToLocal(this.getType()
+				.getAsString());
+		fontRenderer
+				.drawString(
+						TAG_TYPE,
+						positionX
+								+ (width - fontRenderer
+										.getStringWidth(TAG_TYPE)) / 2,
+						positionY + 5, 0x000000);
+		String draw = getName();
+		fontRenderer.drawString(draw,
+				positionX + (width - fontRenderer.getStringWidth(draw)) / 2,
+				positionY + 5 + lineHeight, 0x000000);
+		int currentY = positionY + 2 * lineHeight + 8;
+		return currentY;
+	}
+
+	protected int drawBaseInformation(int positionX, int positionY,
+			int lineHeight, int width, FontRenderer fontRenderer) {
+		String TAG_FEE = StatCollector
+				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_FEE), //
+		TAG_REWARD = StatCollector
+				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_REWARD), //
+		TAG_TIME = StatCollector
+				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_TIME), //
+		TAG_AREA = StatCollector
+				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_AREA);
+		String draw;
+		draw = TAG_REWARD;
+		fontRenderer.drawString(draw, positionX + 5, positionY, 0xB04040);
+		draw = getRewardString();
+		fontRenderer.drawSplitString(draw, positionX + width / 2, positionY,
+				width / 2 - 5, 0x404040);
+		positionY += lineHeight;
+		draw = TAG_FEE;
+		fontRenderer.drawString(draw, positionX + 5, positionY, 0xB04040);
+		draw = getFeeString();
+		fontRenderer.drawSplitString(draw, positionX + width / 2, positionY,
+				width / 2 - 5, 0x404040);
+		positionY += lineHeight;
+		draw = TAG_TIME;
+		fontRenderer.drawString(draw, positionX + 5, positionY, 0xB04040);
+		draw = getTimeLimitAsString();
+		fontRenderer.drawSplitString(draw, positionX + width / 2, positionY,
+				width / 2 - 5, 0x404040);
+		positionY += lineHeight;
+		draw = TAG_AREA;
+		fontRenderer.drawString(draw, positionX + 5, positionY, 0xB04040);
+		draw = StatCollector.translateToLocal(getAreaID());
+		fontRenderer.drawSplitString(draw, positionX + width / 2, positionY,
+				width / 2 - 5, 0x404040);
+		positionY += lineHeight;
+		return positionY;
+	}
+
+	// @formatter:on
 }

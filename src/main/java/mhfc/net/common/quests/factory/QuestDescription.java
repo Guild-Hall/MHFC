@@ -36,7 +36,7 @@ public class QuestDescription {
 
 	private String resolveAreaIDToName(String areaId2) {
 		// TODO Auto-generated method stub
-		return null;
+		return areaId2;
 	}
 
 	public QuestDescription(GoalDescription goalDesc, String name,

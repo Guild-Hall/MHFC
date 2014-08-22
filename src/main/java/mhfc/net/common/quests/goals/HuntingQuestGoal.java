@@ -3,6 +3,8 @@ package mhfc.net.common.quests.goals;
 import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
 import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
 import mhfc.net.common.quests.QuestGoalSocket;
+import mhfc.net.common.quests.QuestRunningInformation.InformationType;
+import net.minecraft.entity.EntityList;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
@@ -56,6 +58,20 @@ public class HuntingQuestGoal extends QuestGoal
 	@Override
 	public void setActive(boolean newActive) {
 		goalHandler.setActive(newActive);
+	}
+
+	@Override
+	public String modify(InformationType type, String current) {
+		if (type == InformationType.LongStatus) {
+			current += (current.equals("") ? "" : "\n") + "Hunted "
+					+ currentNumber + " of " + goalNumber + " "
+					+ EntityList.classToStringMapping.get(goalClass);
+		} else if (type == InformationType.ShortStatus) {
+			current += (current.equals("") ? "" : "\n") + currentNumber + "/"
+					+ goalNumber
+					+ EntityList.classToStringMapping.get(goalClass);
+		}
+		return current;
 	}
 
 }

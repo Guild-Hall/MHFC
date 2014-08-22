@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import mhfc.net.common.quests.QuestGoalSocket;
+import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.QuestStatus;
 
 /**
@@ -99,5 +100,21 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 		for (QuestGoal g : optional) {
 			g.setActive(newActive);
 		}
+	}
+
+	@Override
+	public String modify(InformationType type, String current) {
+		for (QuestGoal g : requisites) {
+			current = g.modify(type, current);
+		}
+		if (type == InformationType.LongStatus) {
+			if (optional.size() > 0)
+				current += "\n---------------";
+			for (QuestGoal g : optional) {
+				current = g.modify(type, current);
+			}
+		}
+		return current;
+
 	}
 }

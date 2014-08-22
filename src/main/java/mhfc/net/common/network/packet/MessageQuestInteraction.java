@@ -5,17 +5,26 @@ import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 
 import java.io.IOException;
+import java.util.Iterator;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayerMP;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class MessageQuestInteraction implements IMessage {
 
 	public enum Interaction {
-		ACCEPT, VOTE_START, VOTE_END, GIVE_UP;
+		START_NEW, // Used to start a new quest
+		ACCEPT, // Used to accept a quest that is waiting for its start
+		VOTE_START, // Used to set status to ready (pre-quest to reset end vote
+		VOTE_END, // Used to set status to not ready (pre-quest) or to vote for
+					// resigning
+		GIVE_UP; // Used to instantly resign from a quest as a single person
 	}
 
-	private Interaction interaction;
-	private String[] options;
+	protected Interaction interaction;
+	protected String[] options;
+	protected String playerUUID;
 
 	public MessageQuestInteraction() {
 
@@ -24,13 +33,20 @@ public class MessageQuestInteraction implements IMessage {
 	public MessageQuestInteraction(Interaction action, String... options) {
 		interaction = action;
 		this.options = options;
+		// TODO resolve this to UUID if possible
+		playerUUID = Minecraft.getMinecraft().thePlayer.getGameProfile()
+				.getName();
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf) {
+	public void toBytes(ByteBuf buf) {
 		try (ByteBufOutputStream out = new ByteBufOutputStream(buf);) {
+			out.writeUTF(playerUUID);
 			byte toWrite;
 			switch (interaction) {
+				case START_NEW :
+					toWrite = 0;
+					break;
 				case ACCEPT :
 					toWrite = 1;
 					break;
@@ -44,7 +60,7 @@ public class MessageQuestInteraction implements IMessage {
 					toWrite = 4;
 					break;
 				default :
-					toWrite = 0;
+					toWrite = -1;
 					break;
 			}
 			out.writeByte(toWrite);
@@ -58,10 +74,14 @@ public class MessageQuestInteraction implements IMessage {
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf) {
+	public void fromBytes(ByteBuf buf) {
 		try (ByteBufInputStream in = new ByteBufInputStream(buf);) {
+			playerUUID = in.readUTF();
 			byte b = in.readByte();
 			switch (b) {
+				case 0 :
+					interaction = Interaction.START_NEW;
+					break;
 				case 1 :
 					interaction = Interaction.ACCEPT;
 					break;
@@ -86,6 +106,29 @@ public class MessageQuestInteraction implements IMessage {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
 
+	public EntityPlayerMP getPlayer() {
+		// UUID id = UUID.fromString(playerUUID);
+		EntityPlayerMP ret = null;
+		Iterator iter = Minecraft.getMinecraft().getIntegratedServer()
+				.getConfigurationManager().playerEntityList.iterator();
+		do {
+			if (!iter.hasNext()) {
+				return null;
+			}
+			ret = (EntityPlayerMP) iter.next();
+
+			// TODO resolve to UUID
+		} while (!ret.getGameProfile().getName().equals(playerUUID));
+		return ret;
+	}
+
+	public Interaction getInteraction() {
+		return interaction;
+	}
+
+	public String[] getOptions() {
+		return options;
 	}
 }

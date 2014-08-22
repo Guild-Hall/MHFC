@@ -33,8 +33,6 @@ public class MHFCRegQuestVisual {
 		@Override
 		public IMessage onMessage(MessageQuestScreenInit message,
 				MessageContext ctx) {
-			System.out
-					.println("[MHFC] Received new identifier configuration from server");
 			Map<String, List<String>> identifierLists = message
 					.getIdentifierListMap();
 			List<String> identifiers = message.getIdentifiers();
@@ -45,6 +43,9 @@ public class MHFCRegQuestVisual {
 				questGiverScreenlist.add(new QuestGiverScreen(groupIDToListMap
 						.get(groupID).toArray(new String[0])));
 			}
+			System.out
+					.println("[MHFC] Received new identifier configuration from server, "
+							+ groupIDsInOrder.size() + " groups");
 			return null;
 		}
 	}
@@ -120,6 +121,19 @@ public class MHFCRegQuestVisual {
 		}
 	}
 
+	public static final String UNLOCALIZED_TAG_FEE = "mhfc.quests.visual.tag.fee";
+	public static final String UNLOCALIZED_TAG_REWARD = "mfhc.quests.visual.tag.reward";
+	public static final String UNLOCALIZED_TAG_TIME = "mhfc.quests.visual.tag.time";
+	public static final String UNLOCALIZED_TAG_AREA = "mhfc.quests.visual.tag.area";
+	public static final String UNLOCALIZED_TAG_AIMS = "mhfc.quests.visual.tag.aims";
+	public static final String UNLOCALIZED_TAG_FAILS = "mhfc.quests.visual.tag.fails";
+	public static final String UNLOCALIZED_TAG_CLIENT = "mhfc.quests.visual.tag.client";
+	public static final String UNLOCALIZED_TAG_DESCRIPTION = "mhfc.quests.visual.tag.description";
+	public static final String UNLOCALIZED_TAG_MONSTERS = "mhfc.quests.visual.tag.monsters";
+	public static final String UNLOCALIZED_TAG_REQUISITES = "mhfc.quests.visual.tag.requisites";
+	public static final String UNLOCALIZED_TAG_STATUS_SHORT = "mhfc.quests.visual.tag.statusshort";
+	public static final String UNLOCALIZED_TAG_STATUS_LONG = "mhfc.quests.visual.tag.statuslong";
+
 	// FIXME Fix to a non-random chosen discriminator
 	public static final int discriminator_initMessage = 128;
 	public static final int discriminator_visualMessage = 129;
@@ -133,6 +147,7 @@ public class MHFCRegQuestVisual {
 	private static List<String> groupIDsInOrder = new ArrayList<String>();
 	private static Map<String, QuestVisualInformation> identifierToVisualInformationMap = new HashMap<String, QuestVisualInformation>();
 	private static QuestStatusDisplay display;
+	private static InteractionSubscribed iSub;
 
 	// FIXME choose our mfhc network wrapper
 	private static SimpleNetworkWrapper networkWrapper = MHFCRegQuests.networkWrapper;
@@ -165,5 +180,7 @@ public class MHFCRegQuestVisual {
 				MessageQuestVisual.class, discriminator_visualMessage,
 				Side.CLIENT);
 		MinecraftForge.EVENT_BUS.register(display);
+		MinecraftForge.EVENT_BUS.register(new InteractionSubscribed());
+
 	}
 }

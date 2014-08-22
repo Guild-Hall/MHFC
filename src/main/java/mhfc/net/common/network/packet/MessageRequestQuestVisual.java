@@ -10,7 +10,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class MessageRequestQuestVisual implements IMessage {
 
-	String identifier;
+	protected String identifier;
 
 	public MessageRequestQuestVisual() {
 

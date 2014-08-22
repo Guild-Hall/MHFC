@@ -15,8 +15,8 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class MessageQuestScreenInit implements IMessage {
 
-	private Map<String, List<String>> identifierListsMap;
-	private List<String> identifiersInOrder;
+	protected Map<String, List<String>> identifierListsMap;
+	protected List<String> identifiersInOrder;
 
 	public MessageQuestScreenInit() {
 		identifierListsMap = new HashMap<String, List<String>>();

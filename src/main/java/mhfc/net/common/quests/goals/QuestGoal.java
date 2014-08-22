@@ -4,6 +4,7 @@ import java.util.EnumSet;
 
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.QuestGoalSocket;
+import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.QuestStatus;
 
 /**
@@ -99,4 +100,9 @@ public abstract class QuestGoal {
 			e.add(QuestStatus.Failed);
 		notifyOfStatus(e);
 	}
+
+	/**
+	 * Modifies the settings of the quest information
+	 */
+	public abstract String modify(InformationType type, String current);
 }

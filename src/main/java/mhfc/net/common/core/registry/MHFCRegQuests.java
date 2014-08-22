@@ -257,10 +257,47 @@ public class MHFCRegQuests {
 		@Override
 		public IMessage onMessage(MessageQuestInteraction message,
 				MessageContext ctx) {
-			// TODO Auto-generated method stub
+			EntityPlayerMP player = message.getPlayer();
+			if (player == null)
+				System.out.println("Player null, this shouldnt happen");
+			else
+				switch (message.getInteraction()) {
+					case START_NEW :
+						if (getQuestForPlayer(player) == null) {
+							GeneralQuest newQuest = QuestFactory
+									.constructQuest(getQuestDescription(message
+											.getOptions()[0]), player);
+							String registerFor = player.getDisplayName() + "@"
+									+ message.getOptions()[0];
+							registerQuest(newQuest, registerFor);
+						} else {
+
+						}
+						break;
+					case ACCEPT :
+						getRunningQuest(message.getOptions()[0]);
+						break;
+					case VOTE_START :
+						GeneralQuest quest = getQuestForPlayer(player);
+						if (quest != null) {
+							quest.voteStart(player);
+						}
+						break;
+					case VOTE_END :
+						quest = getQuestForPlayer(player);
+						if (quest != null) {
+							// TODO handle to request over to quest
+						}
+						break;
+					case GIVE_UP :
+						quest = getQuestForPlayer(player);
+						if (quest != null) {
+							// TODO handle to request over to quest
+						}
+						break;
+				}
 			return null;
 		}
-
 	}
 
 	public static class PlayerConnectionHandler {
@@ -268,7 +305,8 @@ public class MHFCRegQuests {
 		@SubscribeEvent
 		public void onPlayerJoin(PlayerLoggedInEvent logIn) {
 			System.out
-					.println("[MHFC] Sent new identifier configuration to client");
+					.println("[MHFC] Sent new identifier configuration to client, "
+							+ groupIDs.size());
 			networkWrapper.sendTo(new MessageQuestScreenInit(groupMapping,
 					groupIDs), (EntityPlayerMP) logIn.player);
 		}
@@ -379,16 +417,18 @@ public class MHFCRegQuests {
 
 	protected static HashMap<EntityPlayer, GeneralQuest> playerQuest = new HashMap<EntityPlayer, GeneralQuest>();
 	protected static List<GeneralQuest> questsRunning = new ArrayList<GeneralQuest>();
+	protected static Map<String, GeneralQuest> runningQuestFromStringMap = new HashMap<String, GeneralQuest>();
+	protected static Map<GeneralQuest, String> runningQuestToStringMap = new HashMap<GeneralQuest, String>();
 
 	private final static Gson gsonInstance = (new GsonBuilder())
 			.registerTypeAdapter(GoalDescription.class, new GoalSerializer())
 			.registerTypeAdapter(QuestDescription.class, new QuestSerializer())
 			.create();
 
-	public static final String QUEST_TYPE_HUNTING = "quests.type.hunting";
-	public static final String QUEST_TYPE_GATHERING = "quests.type.gathering";
-	public static final String QUEST_TYPE_EPIC_HUNTING = "quest.type.epichunting";
-	public static final String QUEST_TYPE_KILLING = "quests.type.killing";
+	public static final String QUEST_TYPE_HUNTING = "mhfc.quests.type.hunting";
+	public static final String QUEST_TYPE_GATHERING = "mhfc.quests.type.gathering";
+	public static final String QUEST_TYPE_EPIC_HUNTING = "mhfc.quests.type.epichunting";
+	public static final String QUEST_TYPE_KILLING = "mhfc.quests.type.killing";
 
 	// FIXME use our MHFC wide networkWrapper
 	public static final SimpleNetworkWrapper networkWrapper = new SimpleNetworkWrapper(
@@ -414,6 +454,10 @@ public class MHFCRegQuests {
 				Side.SERVER);
 		FMLCommonHandler.instance().bus()
 				.register(new PlayerConnectionHandler());
+	}
+
+	public static GeneralQuest getRunningQuest(String string) {
+		return runningQuestFromStringMap.get(string);
 	}
 
 	private static void generateGoals(ResourceLocation location) {
@@ -589,6 +633,13 @@ public class MHFCRegQuests {
 	}
 
 	/**
+	 * Returns the identifier for a quest
+	 */
+	public static String getIdentifierForQuest(GeneralQuest quest) {
+		return runningQuestToStringMap.get(quest);
+	}
+
+	/**
 	 * Sets the quest for a player, use null to remove the entry
 	 * 
 	 */
@@ -600,7 +651,11 @@ public class MHFCRegQuests {
 			playerQuest.put(player, generalQuest);
 	}
 
-	public static void registerQuest(GeneralQuest generalQuest) {
+	public static void registerQuest(GeneralQuest generalQuest,
+			String identifier) {
 		questsRunning.add(generalQuest);
+		runningQuestFromStringMap.put(identifier, generalQuest);
+		runningQuestToStringMap.put(generalQuest, identifier);
+
 	}
 }

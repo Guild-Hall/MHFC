@@ -5,7 +5,7 @@
 	},
 	StandardTimer : {
 		type : "time",
-		arguments : [90000]
+		arguments : [600]
 	},
 	StandardDeath : {
 		type : "death",

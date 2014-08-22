@@ -3,6 +3,7 @@ package mhfc.net.common.quests.goals;
 import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
 import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
 import mhfc.net.common.quests.QuestGoalSocket;
+import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
@@ -70,6 +71,11 @@ public class EntityQuestGoal extends QuestGoal
 			died = true;
 			notifyOfStatus(true, false);
 		}
+	}
+
+	@Override
+	public String modify(InformationType type, String current) {
+		return current;
 	}
 
 }
