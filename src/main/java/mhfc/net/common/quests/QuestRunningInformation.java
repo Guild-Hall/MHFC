@@ -17,6 +17,8 @@ public class QuestRunningInformation extends QuestVisualInformation {
 
 	private interface StringElement {
 		public String stringValue();
+
+		public void remove();
 	}
 
 	private class StaticString implements StringElement {
@@ -30,21 +32,26 @@ public class QuestRunningInformation extends QuestVisualInformation {
 		public String stringValue() {
 			return this.str;
 		}
+
+		@Override
+		public void remove() {
+		}
 	}
 
 	private class DynamicString implements StringElement, MHFCDelayedJob {
 
 		private String str;
 		private volatile String stringValue;
-		private int delay;
+		private volatile int delay;
 
 		public DynamicString(String str) {
-			delay = 30;
+			delay = MHFCJobHandler.ticksPerSecond;
 			this.str = str;
 			switch (str.split(":")[0]) {
 				case "time" :
-					delay = 30;
+					delay = MHFCJobHandler.ticksPerSecond;
 				default :
+					stringValue = findReplacement(str);
 					MHFCJobHandler.getJobHandler().insert(this,
 							getInitialDelay());
 					break;
@@ -68,8 +75,12 @@ public class QuestRunningInformation extends QuestVisualInformation {
 
 		@Override
 		public String stringValue() {
-			System.out.println("StringValue");
 			return stringValue;
+		}
+
+		@Override
+		public void remove() {
+			MHFCJobHandler.getJobHandler().remove(this);
 		}
 
 	}
@@ -98,7 +109,6 @@ public class QuestRunningInformation extends QuestVisualInformation {
 		String localStatusShort = "", localStatusLong = "";
 		this.shortStatus = localStatusShort;
 		this.longStatus = localStatusLong;
-		breakAll();
 		updateFromQuest(quest);
 	}
 
@@ -134,8 +144,10 @@ public class QuestRunningInformation extends QuestVisualInformation {
 	}
 
 	private String decode(List<StringElement> elements) {
-		if (elements == null)
+		if (elements == null) {
+			System.out.println("Nothing to decode");
 			return "NULL";
+		}
 		String output = "";
 		for (int i = 0; i < elements.size(); i++) {
 			StringElement e = elements.get(i);
@@ -161,10 +173,18 @@ public class QuestRunningInformation extends QuestVisualInformation {
 						+ (delta >= 0 ? delta % 60 : delta) + "s";
 				break;
 			case "unlocalized" :
-				replacement = StatCollector.translateToLocal(split[2]);
+				replacement = StatCollector.translateToLocal(split[1]);
 				break;
 		}
 		return replacement;
+	}
+
+	protected void remove(List<StringElement> elements) {
+		if (elements == null)
+			return;
+		for (StringElement e : elements) {
+			e.remove();
+		}
 	}
 
 	public void updateFromQuest(GeneralQuest q) {
@@ -180,7 +200,6 @@ public class QuestRunningInformation extends QuestVisualInformation {
 		maxPartySize = q.update(InformationType.MaxPartySize, maxPartySize);
 		shortStatus = q.update(InformationType.ShortStatus, shortStatus);
 		longStatus = q.update(InformationType.LongStatus, longStatus);
-		breakAll();
 	}
 
 	private void breakAll() {
@@ -342,5 +361,20 @@ public class QuestRunningInformation extends QuestVisualInformation {
 		fontRenderer.drawString(draw,
 				positionX + width - fontRenderer.getStringWidth(draw) - 4,
 				positionY + height - lineHeight, 0x404040);
+	}
+
+	public void cleanUp() {
+		remove(nameElements);
+		remove(descriptionElements);
+		remove(clientElements);
+		remove(aimsElements);
+		remove(failsElements);
+		remove(areaNameIdElements);
+		remove(timeLimitInSElements);
+		remove(rewardElements);
+		remove(feeElements);
+		remove(maxPartySizeElements);
+		remove(shortStatusElements);
+		remove(longStatusElements);
 	}
 }

@@ -2,11 +2,13 @@ package mhfc.net.common.quests.goals;
 
 import java.util.Arrays;
 
+import mhfc.net.common.eventhandler.quests.LivingDeathEventHandler;
 import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
 import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 public class DeathRestrictionQuestGoal extends QuestGoal
@@ -28,8 +30,9 @@ public class DeathRestrictionQuestGoal extends QuestGoal
 	public DeathRestrictionQuestGoal(int maxDeaths) {
 		this.maxDeaths = maxDeaths;
 		currentDeaths = 0;
-		handler = new QuestGoalEventHandler<LivingDeathEvent>(this);
+		handler = new LivingDeathEventHandler(this);
 		handler.setActive(false);
+		MinecraftForge.EVENT_BUS.register(handler);
 	}
 
 	@Override
@@ -50,6 +53,11 @@ public class DeathRestrictionQuestGoal extends QuestGoal
 	@Override
 	public void setActive(boolean newActive) {
 		handler.setActive(newActive);
+	}
+
+	@Override
+	public void questGoalFinalize() {
+		MinecraftForge.EVENT_BUS.unregister(handler);
 	}
 
 	@Override
@@ -74,7 +82,7 @@ public class DeathRestrictionQuestGoal extends QuestGoal
 					+ currentDeaths + " of " + maxDeaths + " times";
 		} else if (type == InformationType.ShortStatus) {
 			current += (current.equals("") ? "" : "\n") + currentDeaths + "/"
-					+ maxDeaths + "deaths";
+					+ maxDeaths + " deaths";
 		}
 		return current;
 	}

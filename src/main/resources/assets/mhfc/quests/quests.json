@@ -2,7 +2,7 @@
 	TestQuest : {
 		goal : {
 			type : "fork",
-			dependencies : ["StandardDeath", "StandardTimer"]
+			dependencies : ["StandardDeath", "StandardTimer", "Test"]
 		} ,
 		name : "Test Hunting",
 		reward : 5000,

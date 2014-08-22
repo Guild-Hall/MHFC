@@ -50,15 +50,15 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 	@Override
 	public void setActive(boolean newActive) {
 		if (newActive) {
-			if (ticksToFail > 0)
+			if (ticksToFail > 0 && !active) {
 				MHFCJobHandler.getJobHandler().insert(this, ticksToFail);
+			}
 			timeOfLastUpdate = System.currentTimeMillis();
 			active = true;
 			notifyOfStatus(isFulfilled(), isFailed());
 		} else {
 			int delay = MHFCJobHandler.getJobHandler().getDelay(this);
-			if (delay > 0)
-				ticksToFail = delay;
+			ticksToFail = delay;
 			MHFCJobHandler.getJobHandler().remove(this);
 			active = false;
 		}
@@ -81,30 +81,33 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 		if (type == InformationType.TimeLimit) {
 			current += (current.equals("") ? "" : "\n");
 			if (active) {
-				current += "{time:" + (timeOfLastUpdate + ticksToFail * 33)
-						+ "}";
+				current += "{time:"
+						+ (timeOfLastUpdate + ticksToFail * 1000
+								/ MHFCJobHandler.ticksPerSecond) + "}";
 			} else {
-				long delta = ticksToFail * 33;
+				long delta = ticksToFail * 1000 / MHFCJobHandler.ticksPerSecond;
 				current += parseTime(delta);
 			}
 		} else if (type == InformationType.LongStatus) {
 			current += (current.equals("") ? "" : "\n");
 			if (active) {
-				current += "Finish within " + "{time:"
-						+ (timeOfLastUpdate + ticksToFail * 33) + "}";
+				current += "Finish within "
+						+ "{time:"
+						+ (timeOfLastUpdate + ticksToFail * 1000
+								/ MHFCJobHandler.ticksPerSecond) + "}";
 			} else {
-				long delta = ticksToFail * 33;
+				long delta = ticksToFail * 1000 / MHFCJobHandler.ticksPerSecond;
 				current += "Finish within " + parseTime(delta) + " Time Limit";
 			}
 		} else if (type == InformationType.ShortStatus) {
 			current += (current.equals("") ? "" : "\n");
 			if (active) {
-				current += "Finish within " + "{time:"
-						+ (timeOfLastUpdate + ticksToFail * 33) + "}";
+				current += "Finish within "
+						+ "{time:"
+						+ (timeOfLastUpdate + ticksToFail * 1000
+								/ MHFCJobHandler.ticksPerSecond) + "}";
 			}
 		}
-		if (type == InformationType.TimeLimit)
-			System.out.println("Time goal updated the string to " + current);
 		return current;
 	}
 

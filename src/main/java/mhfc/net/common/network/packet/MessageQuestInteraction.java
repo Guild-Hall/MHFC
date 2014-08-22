@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
@@ -31,11 +32,15 @@ public class MessageQuestInteraction implements IMessage {
 	}
 
 	public MessageQuestInteraction(Interaction action, String... options) {
+		this(action, Minecraft.getMinecraft().thePlayer, options);
+	}
+
+	public MessageQuestInteraction(Interaction action, EntityPlayer thePlayer,
+			String... options) {
 		interaction = action;
 		this.options = options;
 		// TODO resolve this to UUID if possible
-		playerUUID = Minecraft.getMinecraft().thePlayer.getGameProfile()
-				.getName();
+		playerUUID = thePlayer.getGameProfile().getName();
 	}
 
 	@Override

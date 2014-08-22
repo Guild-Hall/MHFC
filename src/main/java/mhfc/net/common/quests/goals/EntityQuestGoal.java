@@ -1,5 +1,6 @@
 package mhfc.net.common.quests.goals;
 
+import mhfc.net.common.eventhandler.quests.LivingDeathEventHandler;
 import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
 import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
 import mhfc.net.common.quests.QuestGoalSocket;
@@ -31,7 +32,7 @@ public class EntityQuestGoal extends QuestGoal
 					"The goal of an EntityQuestGoal can not be null");
 		this.entity = entity;
 		died = !entity.isEntityAlive();
-		eventHandler = new QuestGoalEventHandler<LivingDeathEvent>(this);
+		eventHandler = new LivingDeathEventHandler(this);
 		nbt = new NBTTagCompound();
 		entity.writeToNBT(nbt);
 		MinecraftForge.EVENT_BUS.register(eventHandler);

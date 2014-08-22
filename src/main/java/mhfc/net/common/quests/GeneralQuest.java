@@ -9,6 +9,7 @@ import mhfc.net.common.quests.factory.QuestDescription;
 import mhfc.net.common.quests.goals.QuestGoal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ChatComponentText;
 
 public class GeneralQuest implements QuestGoalSocket {
 
@@ -35,6 +36,7 @@ public class GeneralQuest implements QuestGoalSocket {
 	public GeneralQuest(QuestGoal goal, int maxPartySize, int reward, int fee,
 			String areaId, QuestDescription originalDescription) {
 		this.questGoal = goal;
+		goal.setSocket(this);
 		this.players = new EntityPlayer[maxPartySize];
 		this.votes = new boolean[maxPartySize];
 		for (int i = 0; i < maxPartySize; i++) {
@@ -72,21 +74,47 @@ public class GeneralQuest implements QuestGoalSocket {
 			onSuccess();
 		if (newStatus.contains(QuestStatus.Failed))
 			onFail();
-
-		visualInformation.updateFromQuest(this);
+		updatePlayers();
 	}
 
 	protected void onFail() {
-		// FIXME Teleport back when we have not finished yet, don't reward
+		for (int i = 0; i < playerCount; i++) {
+			players[i].addChatMessage(new ChatComponentText(
+					"You have failed a quest"));
+		}
+		// TODO do special stuff for fail
+		onEnd();
 	}
 
 	protected void onSuccess() {
-		// FIXME tp back and reward the players for finishing the quest
+		for (int i = 0; i < playerCount; i++) {
+			players[i].addExperienceLevel(10);
+			players[i].addChatMessage(new ChatComponentText(
+					"You have successfully completed a quest"));
+		}
+		this.state = QuestState.finished;
+		// TODO reward the players for finishing the quest
+		onEnd();
 	}
 
 	protected void onStart() {
 		questGoal.setActive(true);
+		this.state = QuestState.running;
 		updatePlayers();
+	}
+
+	/**
+	 * This method should be called whenever the quest ends, no matter how.
+	 */
+	protected void onEnd() {
+		for (int i = 0; i < playerCount; i++) {
+			removePlayer(i);
+		}
+		visualInformation.cleanUp();
+		state = QuestState.resigned;
+		// FIXME something goes wrong here
+		// questGoal.questGoalFinalize();
+		// TODO teleport players to the overworld if they aren't there.
 	}
 
 	protected void updatePlayers() {
@@ -94,8 +122,9 @@ public class GeneralQuest implements QuestGoalSocket {
 		for (int i = 0; i < playerCount; i++) {
 			EntityPlayer p = players[i];
 			String id = MHFCRegQuests.getIdentifierForQuest(this);
+			// FIXME ids of running quests are somehow wrong
 			MHFCRegQuests.networkWrapper.sendTo(
-					new<QuestRunningInformation> MessageQuestVisual(id,
+					new<QuestRunningInformation> MessageQuestVisual("Needed",
 							visualInformation), (EntityPlayerMP) p);
 
 		}
@@ -129,26 +158,33 @@ public class GeneralQuest implements QuestGoalSocket {
 		}
 	}
 
-	public boolean leavePlayer(EntityPlayer player) {
+	public boolean removePlayer(EntityPlayer player) {
 		int i;
 		boolean found = false;
 		for (i = 0; i < players.length; i++) {
-			if (players[i] == player) {
+			if (players[i] != null
+					&& players[i].getGameProfile().getName() == player
+							.getGameProfile().getName()) {
 				found = true;
 				break;
 			}
 		}
-		if (found) {
-			// TODO teleport the player back to the overworld if this happened
-			// during the quest (cautious of him being online) else do nothing
-			MHFCRegQuests.setQuestForPlayer(players[i], null);
-			MHFCRegQuests.networkWrapper.sendTo(
-					new MessageQuestVisual("", null), (EntityPlayerMP) player);
-		}
-		for (; i < players.length; i++) {
-			players[i] = (i == players.length - 1 ? null : players[i + 1]);
-		}
+		removePlayer(i);
 		return found;
+	}
+
+	protected void removePlayer(int index) {
+		if (index < 0 || index >= playerCount)
+			return;
+		MHFCRegQuests.networkWrapper.sendTo(
+				new<QuestRunningInformation> MessageQuestVisual("",
+						visualInformation), (EntityPlayerMP) players[index]);
+		MHFCRegQuests.setQuestForPlayer(players[index], null);
+		for (int i = index; i < playerCount - 1; i++) {
+			players[i] = players[i + 1];
+		}
+		players[playerCount - 1] = null;
+		--playerCount;
 	}
 
 	public EntityPlayer[] getPlayers() {
@@ -164,8 +200,11 @@ public class GeneralQuest implements QuestGoalSocket {
 	}
 
 	public String update(InformationType t, String current) {
+		if (t == InformationType.MaxPartySize) {
+			return playerCount + "/" + players.length
+					+ " {unlocalized:Players}";
+		}
 		String mod = questGoal.modify(t, "");
-		System.out.println(mod);
 		if (mod.equals(""))
 			return current;
 		return mod;
@@ -184,6 +223,22 @@ public class GeneralQuest implements QuestGoalSocket {
 		}
 		if (start) {
 			onStart();
+		}
+	}
+
+	public void voteEnd(EntityPlayerMP player) {
+		for (int i = 0; i < playerCount; i++) {
+			if (players[i] == player) {
+				votes[i] = false;
+				break;
+			}
+		}
+		boolean end = false;
+		for (int i = 0; i < playerCount; i++) {
+			end |= (player == null) && votes[i];
+		}
+		if (end && state == QuestState.running) {
+			onEnd();
 		}
 	}
 

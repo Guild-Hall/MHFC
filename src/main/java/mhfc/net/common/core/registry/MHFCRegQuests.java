@@ -264,18 +264,22 @@ public class MHFCRegQuests {
 				switch (message.getInteraction()) {
 					case START_NEW :
 						if (getQuestForPlayer(player) == null) {
-							GeneralQuest newQuest = QuestFactory
-									.constructQuest(getQuestDescription(message
-											.getOptions()[0]), player);
 							String registerFor = player.getDisplayName() + "@"
 									+ message.getOptions()[0];
-							registerQuest(newQuest, registerFor);
+							GeneralQuest newQuest = QuestFactory
+									.constructQuest(getQuestDescription(message
+											.getOptions()[0]), player,
+											registerFor);
+							if (newQuest == null) {
+								System.out.println("Quest not found");
+								return null;
+							}
 						} else {
-
 						}
 						break;
 					case ACCEPT :
-						getRunningQuest(message.getOptions()[0]);
+						getRunningQuest(message.getOptions()[0]).addPlayer(
+								player);
 						break;
 					case VOTE_START :
 						GeneralQuest quest = getQuestForPlayer(player);
@@ -286,13 +290,13 @@ public class MHFCRegQuests {
 					case VOTE_END :
 						quest = getQuestForPlayer(player);
 						if (quest != null) {
-							// TODO handle to request over to quest
+							quest.voteEnd(player);
 						}
 						break;
 					case GIVE_UP :
 						quest = getQuestForPlayer(player);
 						if (quest != null) {
-							// TODO handle to request over to quest
+							quest.removePlayer(player);
 						}
 						break;
 				}
@@ -313,7 +317,7 @@ public class MHFCRegQuests {
 
 		@SubscribeEvent
 		public void onPlayerLeave(PlayerLoggedOutEvent logOut) {
-			playerQuest.get(logOut.player).leavePlayer(logOut.player);
+			playerQuest.get(logOut.player).removePlayer(logOut.player);
 		}
 	}
 
@@ -444,8 +448,6 @@ public class MHFCRegQuests {
 				+ goalDescriptions.size());
 		System.out.println("[MHFC] Number of quests loaded: "
 				+ questDescriptions.size());
-		// QuestFactory.constructQuest(questDescriptions.get("TestQuest"),
-		// null);
 		networkWrapper.registerMessage(RegistryRequestVisualHandler.class,
 				MessageRequestQuestVisual.class,
 				discriminator_visualRequestAnswer, Side.SERVER);

@@ -34,6 +34,7 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 			throw new IllegalArgumentException(
 					"ForkQuestGoal: A null goal is not a valid requisite");
 		requisites.add(goal);
+		goal.setSocket(this);
 		notifyOfStatus(isFulfilled(), isFailed());
 	}
 
@@ -44,6 +45,7 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 		if (goal == null)
 			throw new IllegalArgumentException(
 					"ForkQuestGoal: A null goal is not a valid requisite");
+		goal.setSocket(this);
 		optional.add(goal);
 	}
 

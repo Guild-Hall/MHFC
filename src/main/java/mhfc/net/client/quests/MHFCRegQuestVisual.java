@@ -91,7 +91,7 @@ public class MHFCRegQuestVisual {
 									"[MHFC] Exception decoding QuestVisualMessage, Type unknown");
 					}
 					QuestVisualInformation visual;
-					if (identifier != "") {
+					if (!identifier.equals("")) {
 						visual = new QuestVisualInformation(name, description,
 								client, aims, fails, areaNameID, timeLimitInS,
 								reward, fee, maxPartySize, realType);
@@ -147,7 +147,6 @@ public class MHFCRegQuestVisual {
 	private static List<String> groupIDsInOrder = new ArrayList<String>();
 	private static Map<String, QuestVisualInformation> identifierToVisualInformationMap = new HashMap<String, QuestVisualInformation>();
 	private static QuestStatusDisplay display;
-	private static InteractionSubscribed iSub;
 
 	// FIXME choose our mfhc network wrapper
 	private static SimpleNetworkWrapper networkWrapper = MHFCRegQuests.networkWrapper;
@@ -180,7 +179,6 @@ public class MHFCRegQuestVisual {
 				MessageQuestVisual.class, discriminator_visualMessage,
 				Side.CLIENT);
 		MinecraftForge.EVENT_BUS.register(display);
-		MinecraftForge.EVENT_BUS.register(new InteractionSubscribed());
 
 	}
 }

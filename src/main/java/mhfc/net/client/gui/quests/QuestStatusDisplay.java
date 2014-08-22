@@ -19,7 +19,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class QuestStatusDisplay extends Gui {
 
-	private int[] widthFromScale = {140, 140, 140, 120};
 	private int[] heightFromScale = {166, 166, 166, 166};
 	private Minecraft mc = Minecraft.getMinecraft();
 
@@ -97,6 +96,8 @@ public class QuestStatusDisplay extends Gui {
 	}
 
 	public void setRunningInformation(QuestRunningInformation information) {
+		if (this.information != null)
+			this.information.cleanUp();
 		this.information = information;
 	}
 

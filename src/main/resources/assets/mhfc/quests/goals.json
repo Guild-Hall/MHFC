@@ -1,7 +1,7 @@
 {
 	Test : {
 		type : "hunting" ,
-		arguments : ["Kirin", "3"]
+		arguments : ["Pig", "3"]
 	},
 	StandardTimer : {
 		type : "time",

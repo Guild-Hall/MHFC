@@ -93,10 +93,10 @@ public abstract class QuestGoal {
 	}
 
 	protected void notifyOfStatus(boolean newFulfilled, boolean newFailed) {
-		EnumSet<QuestStatus> e = EnumSet.<QuestStatus> of(QuestStatus.Failed);
-		if (isFulfilled())
+		EnumSet<QuestStatus> e = EnumSet.noneOf(QuestStatus.class);
+		if (newFulfilled)
 			e.add(QuestStatus.Fulfilled);
-		if (isFailed())
+		if (newFailed)
 			e.add(QuestStatus.Failed);
 		notifyOfStatus(e);
 	}

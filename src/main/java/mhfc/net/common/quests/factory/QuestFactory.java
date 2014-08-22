@@ -28,12 +28,17 @@ public class QuestFactory {
 	 * the quest. If it is somehow invalid then null is returned.
 	 */
 	public static GeneralQuest constructQuest(QuestDescription qd,
-			EntityPlayer initiator) {
+			EntityPlayer initiator, String assignedID) {
+		if (qd == null)
+			return null;
 		QuestGoal goal = constructGoal(qd.getGoalDescription());
 		if (goal == null)
 			return null;
 		GeneralQuest quest = new GeneralQuest(goal, qd.getMaxPartySize(),
 				qd.getReward(), qd.getFee(), qd.getAreaID(), qd);
+		if (quest != null) {
+			MHFCRegQuests.registerQuest(quest, assignedID);
+		}
 		if (quest.canJoin(initiator)) {
 			quest.addPlayer(initiator);
 			return quest;
