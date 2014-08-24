@@ -1,12 +1,9 @@
-package mhfc.heltrato.common.item;
+package mhfc.heltrato.common.item.armor;
 
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.helper.MHFCArmorModelHelper;
-import mhfc.heltrato.common.util.UtilStuff;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,10 +11,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class MHFCItemArmor extends ItemArmor{
+public class ArmorMHFC extends ItemArmor implements ISpecialArmor{
 	/**TODO
 	 * 
 	 * Soon this will be the basing of all mhfc armor
@@ -26,13 +24,16 @@ public class MHFCItemArmor extends ItemArmor{
 	public Random rand;
 	public static int param;
 	public static int modelID;
+	public static int armorHeart;
 
-	public MHFCItemArmor(ArmorMaterial armor, int renderIndex, int armorType) {
+	public ArmorMHFC(ArmorMaterial armor, int renderIndex, int armorType) {
 		super(armor, renderIndex, armorType);
 		setCreativeTab(MHFCMain.mhfctabs);
 		rand = new Random();
 		param = armorType;
 	}
+	
+
 	
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister) {
@@ -73,6 +74,29 @@ public class MHFCItemArmor extends ItemArmor{
 			}	
 		}
 		return null;
+	}
+
+
+
+	@Override
+	public ArmorProperties getProperties(EntityLivingBase player,
+			ItemStack armor, DamageSource source, double damage, int slot) {
+		return null;
+	}
+
+
+
+	@Override
+	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
+		return armorHeart;
+	}
+
+
+
+	@Override
+	public void damageArmor(EntityLivingBase entity, ItemStack stack,
+			DamageSource source, int damage, int slot) {
+		
 	}
 	
 	

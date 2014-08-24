@@ -104,6 +104,10 @@ item.e.mhf_helm.name= Rathalos Helm
 item.e.mhf_chest.name= Rathalos Plate
 item.e.mhf_leg.name= Rathalos Leggings
 item.e.mhf_boots.name= Rathalos Greaves
+item.f.mhf_helm.name= Dragoon Helm
+item.f.mhf_chest.name= Dragoon Icon
+item.f.mhf_leg.name= Dragoon Shroud
+item.f.mhf_boots.name= Dragoon Shoes
 
 
 

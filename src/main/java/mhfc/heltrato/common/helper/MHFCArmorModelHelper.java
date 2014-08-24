@@ -1,5 +1,6 @@
 package mhfc.heltrato.common.helper;
 
+import mhfc.heltrato.client.model.armor.ModelDragoonArmor;
 import mhfc.heltrato.client.model.armor.ModelKirinArmor;
 import mhfc.heltrato.client.model.armor.ModelKirinSArmor;
 import mhfc.heltrato.client.model.armor.ModelRathalosArmor;
@@ -21,6 +22,7 @@ public class MHFCArmorModelHelper {
 	public static final ModelKirinSArmor kirinS = new ModelKirinSArmor(1.0F);
 	public static final ModelYukumoArmor yukumo = new ModelYukumoArmor(1.0F);
 	public static final ModelRathalosArmor rathalos = new ModelRathalosArmor(1.0F);
+	public static final ModelDragoonArmor dragoon = new ModelDragoonArmor(1.0F);
 
 
 	
@@ -37,6 +39,8 @@ public class MHFCArmorModelHelper {
 		case 4:
 			return rathalos;
 		case 5:
+			return dragoon;
+		case 6:
 			default:
 				break;
 		}

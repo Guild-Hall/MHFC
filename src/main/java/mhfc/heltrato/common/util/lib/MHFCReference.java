@@ -2,6 +2,16 @@ package mhfc.heltrato.common.util.lib;
 
 public class MHFCReference {
 
+	public static final String armor_default_boots_icon = "mhfc:mhf_3";
+	public static final String armor_default_boots_name = "c.mhf_boots";
+	public static final String armor_default_chest_icon = "mhfc:mhf_1";
+	public static final String armor_default_chest_name = "c.mhf_chest";
+	public static final String armor_default_helm_icon = "mhfc:mhf_0";
+	public static final String armor_default_helm_name = "c.mhf_helm";
+	public static final String armor_default_legs_icon = "mhfc:mhf_2";
+	public static final String armor_default_legs_name = "c.mhf_leg";
+	public static final String armor_dragoon_tex1 = "mhfc:textures/armor/dragoon_layer_1.png";
+	public static final String armor_dragoon_tex2 = "mhfc:textures/armor/dragoon_layer_2.png";
 	public static final String armor_kirinS_boots_icon = "mhfc:mhf_3";
 	public static final String armor_kirinS_boots_name = "c.mhf_boots";
 	public static final String armor_kirinS_chest_icon = "mhfc:mhf_1";

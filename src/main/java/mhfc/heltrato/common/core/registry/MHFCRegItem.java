@@ -22,6 +22,7 @@ import mhfc.heltrato.common.item.ItemWoodRig;
 import mhfc.heltrato.common.item.ItemWyvernCoin;
 import mhfc.heltrato.common.item.ItemWyverniaClay;
 import mhfc.heltrato.common.item.ItemWyverniaDust;
+import mhfc.heltrato.common.item.armor.DragoonArmor;
 import mhfc.heltrato.common.item.armor.KirinArmor;
 import mhfc.heltrato.common.item.armor.KirinSArmor;
 import mhfc.heltrato.common.item.armor.RathalosArmor;
@@ -86,6 +87,11 @@ public class MHFCRegItem {
 	public static Item mhfcitemrathaloschest;
 	public static Item mhfcitemrathaloslegs;
 	public static Item mhfcitemrathalosboots;
+	public static Item mhfcitemdragoonhelm;
+	public static Item mhfcitemdragoonchest;
+	public static Item mhfcitemdragoonlegs;
+	public static Item mhfcitemdragoonboots;
+	
 	
 	
 	
@@ -166,21 +172,25 @@ public class MHFCRegItem {
 		getItemID(mhfcitemtigrexhelm);
 		getItemID(mhfcitemkirinhelm);
 		getItemID(mhfcitemkirinShelm);
+		getItemID(mhfcitemdragoonhelm);
 		getItemID(mhfcitemyukumochest);
 		getItemID(mhfcitemrathaloschest);
 		getItemID(mhfcitemtigrexchest);
 		getItemID(mhfcitemkirinchest);
 		getItemID(mhfcitemkirinSchest);
+		getItemID(mhfcitemdragoonchest);
 		getItemID(mhfcitemyukumolegs);
 		getItemID(mhfcitemrathaloslegs);
 		getItemID(mhfcitemtigrexlegs);
 		getItemID(mhfcitemkirinlegs);
 		getItemID(mhfcitemkirinSlegs);
+		getItemID(mhfcitemdragoonlegs);
 		getItemID(mhfcitemyukumoboots);
 		getItemID(mhfcitemrathalosboots);
 		getItemID(mhfcitemtigrexboots);
 		getItemID(mhfcitemkirinboots);
 		getItemID(mhfcitemkirinSboots);
+		getItemID(mhfcitemdragoonboots);
 		
 		getItemID(MHFCItemFrontierSpawner);
 		getItemID(mhfcitemrathalosshell);
@@ -255,8 +265,10 @@ public class MHFCRegItem {
 		mhfcitemrathaloschest = new RathalosArmor(MHFCArmorMaterialHelper.ArmorRathalos, 4, 1).setUnlocalizedName("e.mhf_chest");
 		mhfcitemrathaloslegs = new RathalosArmor(MHFCArmorMaterialHelper.ArmorRathalos, 4, 2).setUnlocalizedName("e.mhf_leg");
 		mhfcitemrathalosboots = new RathalosArmor(MHFCArmorMaterialHelper.ArmorRathalos, 4, 3).setUnlocalizedName("e.mhf_boots");
-	
-	
+		mhfcitemdragoonhelm =new DragoonArmor(MHFCArmorMaterialHelper.ArmorDragoon, 4, 0).setUnlocalizedName("f.mhf_helm");
+		mhfcitemdragoonchest =new DragoonArmor(MHFCArmorMaterialHelper.ArmorDragoon, 4, 1).setUnlocalizedName("f.mhf_chest");
+		mhfcitemdragoonlegs =new DragoonArmor(MHFCArmorMaterialHelper.ArmorDragoon, 4, 2).setUnlocalizedName("f.mhf_leg");
+		mhfcitemdragoonboots =new DragoonArmor(MHFCArmorMaterialHelper.ArmorDragoon, 4, 3).setUnlocalizedName("f.mhf_boots");
 	}
 	
 	private static void registerMeleeWeapon()
