@@ -26,6 +26,7 @@ public class RenderHitbox {
 	private boolean getCascade;
 	private int ticksLoop = 150;
 	private int switchBoxTime = (30000 / ticksLoop) * 1;
+	public String getname;
 
 	// TODO
 	/**
@@ -126,8 +127,24 @@ public class RenderHitbox {
 		return ratePeriod++;
 	}
 
-	private void saveStateBoxes(String name) {
+	protected static void saveStateBoxes(String name) {
 		String.valueOf(name);
+	}
+	
+	
+	//TODO the skin thickness of everymob should be the same as in gameplay -Asur
+	public void getRiftEdgeVert(int par1, int par2, int par3,boolean fag) {
+		saveStateBoxes(getname);
+		if(getTranscent(fag)){
+			if(fag = true){
+				this.getCascade = false;
+			}
+		}
+		
+	}
+	
+	public boolean getTranscent(boolean show){
+		return show;
 	}
 
 }

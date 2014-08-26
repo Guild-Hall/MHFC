@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
@@ -48,7 +49,7 @@ public class DragoonArmor extends ItemArmor {
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer,
 			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
-		par3List.add("Health S");
+		par3List.add("Health +1");
 	}
 
 	@Override
@@ -114,19 +115,24 @@ public class DragoonArmor extends ItemArmor {
 	}
 	 public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack)
 	   {
-		 int boost = 0;
-		 for (int i = 0; i < 4; i++) {
-			 if ((player.getCurrentArmor(i) != null) && ((player.getCurrentArmor(i).getItem() instanceof DragoonArmor))) {
-	         boost += ((DragoonArmor)player.getCurrentArmor(i).getItem()).getHealthBoost(i);
-			 }
-	 }
-		 if (boost > 0)
-		 {
-	       float h = player.getHealth();
-	        player.removePotionEffect(21);
-	        player.addPotionEffect(new PotionEffect(21, 200, boost - 1, true));
-	       player.setHealth(h);
-	      }
+		  // The player needs to wear all armor pieces, so when we check on the helmet it's enough
+		  if(this.armorType != 0)
+		   return;
+		  ItemStack boots = player.getCurrentArmor(0);
+		  ItemStack legs = player.getCurrentArmor(1);
+		  ItemStack chest = player.getCurrentArmor(2);
+		  
+		  // If all items are our items (except helmet, as this method is only called if helmet is equipped
+		  if( chest != null && legs != null && boots != null && 
+		    chest.getItem() == MHFCRegItem.mhfcitemdragoonchest &&
+		    boots.getItem() == MHFCRegItem.mhfcitemdragoonboots &&
+		    legs.getItem() == MHFCRegItem.mhfcitemdragoonlegs){
+			  float h = player.getHealth();
+		        player.removePotionEffect(21);
+		        player.addPotionEffect(new PotionEffect(21, 200, 1, true));
+		       player.setHealth(h);
+			  
+		  }
 	    }
 	    
 	  public int getHealthBoost(int slot)

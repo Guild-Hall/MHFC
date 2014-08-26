@@ -32,16 +32,16 @@ public class RenderItemBBQSpit implements IItemRenderer {
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		switch (type) {
 			case ENTITY :
-				renderThisItem(0.3F, -0.02F, 0.0F, 180F, 0F, 0F, 1F);
+				renderThisItem(0.3F, 0.05F, 0.0F, 180F, 0F, 0F, 1F);
 				break;
 			case EQUIPPED :
-				renderThisItem(0.6F, 0.8F, 0.8F, 180F, 0F, 0F, 1F);
+				renderThisItem(0.6F, 1.7F, 0.8F, 180F, 0F, 0F, 1F);
 				break;
 			case EQUIPPED_FIRST_PERSON :
-				renderThisItem(0.6F, 0.8F, 0.8F, 180F, 0F, 0F, 1F);
+				renderThisItem(0.6F, 1.7F, 0.8F, 180F, 0F, 0F, 1F);
 				break;
 			case INVENTORY :
-				renderThisItem(0.9F, 0.9F, 1.0F, 180F, 0F, 0F, 1F);
+				renderThisItem(0.9F, 1.7F, 1.0F, 180F, 0F, 0F, 1F);
 				break;
 			default :
 				break;
@@ -51,7 +51,7 @@ public class RenderItemBBQSpit implements IItemRenderer {
 
 	private void renderThisItem(float x, float y, float z, float rotateX,
 			float rotateY, float rotateZ, float angle) {
-		float scale = 0.03125F;
+		float scale = 0.06125F;
 		// Tessellator tess = Tessellator.instance;
 		GL11.glPushMatrix();
 		Minecraft.getMinecraft().renderEngine

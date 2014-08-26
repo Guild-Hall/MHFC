@@ -283,10 +283,12 @@ public class MHFCReference {
 	public static final String weapon_ls_ironkatana_tex = "mhfc:textures/weapons/(LS)ironkatana.png";
 	public static final String gui_questgiver_back_tex = "mhfc:texture/gui/questgiver.png";
 	
-	public static final String block_wyverniaores_name = "wyverniaores";
-	
-	public final static String[] oreSubBlocks = new String[] {block_orearmorsphere_name,block_orearmorsphereplus_name,block_orecarbalite_name,block_oredragonite_name,block_oreeltalite_name,block_oremachalite_name};
-	public final static String[] oreblockSubBlocks = new String[] {block_carbalite_name,block_dragonite_name,block_eltalite_name,block_machalite_name};
+	public static final String[] oreSubBlocks = new String[] {block_orearmorsphere_name,block_orearmorsphereplus_name,block_orecarbalite_name,block_oredragonite_name,block_oreeltalite_name,block_oremachalite_name};
+	public static final String[] oreblockSubBlocks = new String[] {block_carbalite_name,block_dragonite_name,block_eltalite_name,block_machalite_name};
+	public static final String[] plankBlocks = new String[] {"plankcalfer", "plankdirewood", "plankgrandifolia", "plankmaven", "planknegundo", "plankpalmer", "plankradel", "planksandy", "planktilia"};
+	public static final String[] flowerBlocks = new String[] {"flowercarncase", "flowerfelron", "flowerorctal", "flowerpeno", "flowershrine", "flowerspindel"};
+	public static final String[] stoneBlocks = new String[] {"rockauvel", "rockcradle", "rocktacren"};
+	public static final String[] logBlocks = new String[] {"logcalfer", "logdirewood", "loggrandifolia", "logmaven", "lognegundo", "logpalmer", "logradel", "logsandy", "logtilia"};
 	public static final int gui_hunterbench_id = 1;
 	public static final int gui_questgiver_id = 2;
 	public static final int potion_paralyze_iconindex = 1;

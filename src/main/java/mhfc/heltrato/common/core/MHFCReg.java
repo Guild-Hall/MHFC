@@ -15,6 +15,14 @@ import mhfc.heltrato.common.core.registry.MHFCRegSmelting;
 import mhfc.heltrato.common.core.registry.MHFCRegTile;
 
 public class MHFCReg {
+	
+	
+	/**
+	 * @author Heltrato
+	 * The sorted Class for registries , reduce tick based on log analization - ven
+	 * **/
+	
+	
 	public static void init() 
 	{
 		addBlocks();
