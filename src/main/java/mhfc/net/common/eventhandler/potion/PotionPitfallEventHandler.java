@@ -11,8 +11,10 @@ public class PotionPitfallEventHandler {
 	@SubscribeEvent
 	public void onEntityUpdate(LivingUpdateEvent event) {
 
-		if (event.entityLiving.getActivePotionEffect(
-				MHFCRegPotion.mhfcpotionshock).getDuration() == 0) {
+		if (event.entityLiving
+				.getActivePotionEffect(MHFCRegPotion.mhfcpotionshock) != null
+				&& event.entityLiving.getActivePotionEffect(
+						MHFCRegPotion.mhfcpotionshock).getDuration() == 0) {
 			event.entityLiving
 					.removePotionEffect(MHFCRegPotion.mhfcpotionshock.id);
 			return;

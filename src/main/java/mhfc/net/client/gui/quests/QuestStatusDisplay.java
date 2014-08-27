@@ -2,11 +2,11 @@ package mhfc.net.client.gui.quests;
 
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.quests.QuestRunningInformation;
+import mhfc.net.common.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -47,8 +47,9 @@ public class QuestStatusDisplay extends Gui {
 			int positionY = (res.getScaledHeight() - height) / 2;
 			width = Math.min(width, res.getScaledWidth() - positionX - 10);
 			GL11.glTranslatef(0, 0, 0.5f);
-			this.drawTexturedBoxFromBorder(positionX, positionY, width, height,
-					40, 40f / 256, 248f / 256, 166f / 256);
+			MHFCGuiUtil.zLevel = this.zLevel;
+			MHFCGuiUtil.drawTexturedBoxFromBorder(positionX, positionY, width,
+					height, 40, 40f / 256, 248f / 256, 166f / 256);
 
 			if (information == null) {
 				String drawn = "No quest accepted";
@@ -82,8 +83,9 @@ public class QuestStatusDisplay extends Gui {
 					mc.displayHeight);
 			int posX = res.getScaledWidth() - width, posY = (res
 					.getScaledHeight() - height) / 2;
-			this.drawTexturedBoxFromBorder(posX, posY, width, height, 40,
-					30f / 256, 248f / 256, 166f / 256);
+			MHFCGuiUtil.zLevel = this.zLevel;
+			MHFCGuiUtil.drawTexturedBoxFromBorder(posX, posY, width, height,
+					40, 30f / 256, 248f / 256, 166f / 256);
 			GL11.glDisable(GL11.GL_BLEND);
 			String localizedStat = StatCollector
 					.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_STATUS_SHORT);
@@ -99,118 +101,5 @@ public class QuestStatusDisplay extends Gui {
 		if (this.information != null)
 			this.information.cleanUp();
 		this.information = information;
-	}
-
-	private void drawTexturedBoxFromBorder(int x, int y, int width, int height) {
-		this.drawTexturedBoxFromBorder(x, y, width, height,
-				Math.min(Math.min(15, width / 2), height / 2));
-	}
-
-	private void drawTexturedBoxFromBorder(int x, int y, int width, int height,
-			int borderSize) {
-		this.drawTexturedBoxFromBorder(x, y, width, height, borderSize,
-				borderSize / 256f);
-	}
-
-	private void drawTexturedBoxFromBorder(int x, int y, int width, int height,
-			int borderSize, float borderUV) {
-		this.drawTexturedBoxFromBorder(x, y, width, height, borderSize,
-				borderUV, 1, 1);
-	}
-
-	private void drawTexturedBoxFromBorder(int x, int y, int width, int height,
-			int borderSize, float borderUV, float maxU, float maxV) {
-		Tessellator tess = Tessellator.instance;
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x, y, this.zLevel, 0, 0);
-		tess.addVertexWithUV(x, y + borderSize, this.zLevel, 0, borderUV);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, this.zLevel,
-				borderUV, borderUV);
-		tess.addVertexWithUV(x + borderSize, y, this.zLevel, borderUV, 0);
-		tess.draw();
-		tess.startDrawingQuads();
-		tess.addTranslation(width - borderSize, 0, 0);
-		tess.addVertexWithUV(x, y, this.zLevel, maxU - borderUV, 0);
-		tess.addVertexWithUV(x, y + borderSize, this.zLevel, maxU - borderUV,
-				borderUV);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, this.zLevel, maxU,
-				borderUV);
-		tess.addVertexWithUV(x + borderSize, y, this.zLevel, maxU, 0);
-		tess.draw();
-		tess.startDrawingQuads();
-		tess.addTranslation(0, height - borderSize, 0);
-		tess.addVertexWithUV(x, y, this.zLevel, maxU - borderUV, maxV
-				- borderUV);
-		tess.addVertexWithUV(x, y + borderSize, this.zLevel, maxU - borderUV,
-				maxV);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, this.zLevel, maxU,
-				maxV);
-		tess.addVertexWithUV(x + borderSize, y, this.zLevel, maxU, maxV
-				- borderUV);
-		tess.draw();
-		tess.startDrawingQuads();
-		tess.addTranslation(-width + borderSize, 0, 0);
-		tess.addVertexWithUV(x, y, this.zLevel, 0, maxV - borderUV);
-		tess.addVertexWithUV(x, y + borderSize, this.zLevel, 0, maxV);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, this.zLevel,
-				borderUV, maxV);
-		tess.addVertexWithUV(x + borderSize, y, this.zLevel, borderUV, maxV
-				- borderUV);
-		tess.draw();
-		tess.addTranslation(0, -height + borderSize, 0);
-
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x, y + borderSize, this.zLevel, 0, borderUV);
-		tess.addVertexWithUV(x, y + height - borderSize, this.zLevel, 0, maxV
-				- borderUV);
-		tess.addVertexWithUV(x + borderSize, y + height - borderSize,
-				this.zLevel, borderUV, maxV - borderUV);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, this.zLevel,
-				borderUV, borderUV);
-		tess.draw();
-
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x + width - borderSize, y + borderSize,
-				this.zLevel, maxU - borderUV, borderUV);
-		tess.addVertexWithUV(x + width - borderSize, y + height - borderSize,
-				this.zLevel, maxU - borderUV, maxV - borderUV);
-		tess.addVertexWithUV(x + width, y + height - borderSize, this.zLevel,
-				maxU, maxV - borderUV);
-		tess.addVertexWithUV(x + width, y + borderSize, this.zLevel, maxU,
-				borderUV);
-		tess.draw();
-
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x + borderSize, y, this.zLevel, borderUV, 0);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, this.zLevel,
-				borderUV, borderUV);
-		tess.addVertexWithUV(x + width - borderSize, y + borderSize,
-				this.zLevel, maxU - borderUV, borderUV);
-		tess.addVertexWithUV(x + width - borderSize, y, this.zLevel, maxU
-				- borderUV, 0);
-		tess.draw();
-
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x + borderSize, y + height - borderSize,
-				this.zLevel, borderUV, maxV - borderUV);
-		tess.addVertexWithUV(x + borderSize, y + height, this.zLevel, borderUV,
-				maxV);
-		tess.addVertexWithUV(x + width - borderSize, y + height, this.zLevel,
-				maxU - borderUV, maxV);
-		tess.addVertexWithUV(x + width - borderSize, y + height - borderSize,
-				this.zLevel, maxU - borderUV, maxV - borderUV);
-		tess.draw();
-
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x + borderSize, y + borderSize, this.zLevel,
-				borderUV, borderUV);
-		tess.addVertexWithUV(x + borderSize, y + height - borderSize,
-				this.zLevel, borderUV, maxV - borderUV);
-		tess.addVertexWithUV(x + width - borderSize, y + height - borderSize,
-				this.zLevel, maxU - borderUV, maxV - borderUV);
-		tess.addVertexWithUV(x + width - borderSize, y + borderSize,
-				this.zLevel, maxU - borderUV, borderUV);
-		tess.draw();
-
 	}
 }

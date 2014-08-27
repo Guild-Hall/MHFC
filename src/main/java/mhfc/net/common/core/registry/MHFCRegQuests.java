@@ -25,6 +25,7 @@ import mhfc.net.common.quests.factory.QuestFactory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 
@@ -263,7 +264,8 @@ public class MHFCRegQuests {
 			else
 				switch (message.getInteraction()) {
 					case START_NEW :
-						if (getQuestForPlayer(player) == null) {
+						GeneralQuest quest = getQuestForPlayer(player);
+						if (quest == null) {
 							String registerFor = player.getDisplayName() + "@"
 									+ message.getOptions()[0];
 							GeneralQuest newQuest = QuestFactory
@@ -275,6 +277,9 @@ public class MHFCRegQuests {
 								return null;
 							}
 						} else {
+							player.addChatMessage(new ChatComponentText(
+									"You already are on quest "
+											+ getIdentifierForQuest(quest)));
 						}
 						break;
 					case ACCEPT :
@@ -282,7 +287,7 @@ public class MHFCRegQuests {
 								player);
 						break;
 					case VOTE_START :
-						GeneralQuest quest = getQuestForPlayer(player);
+						quest = getQuestForPlayer(player);
 						if (quest != null) {
 							quest.voteStart(player);
 						}
