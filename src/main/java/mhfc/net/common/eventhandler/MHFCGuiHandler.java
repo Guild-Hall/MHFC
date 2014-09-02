@@ -2,8 +2,10 @@ package mhfc.net.common.eventhandler;
 
 import mhfc.net.client.container.ContainerHunterBench;
 import mhfc.net.client.gui.GuiHunterBench;
+import mhfc.net.common.tile.TileHunterBench;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 
@@ -13,8 +15,12 @@ public class MHFCGuiHandler implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
-		if (ID == MHFCReference.gui_hunterbench_id)
-			return new ContainerHunterBench(player.inventory, world, x, y, z);
+		if (ID == MHFCReference.gui_hunterbench_id) {
+			TileEntity tE = world.getTileEntity(x, y, z);
+			if (tE instanceof TileHunterBench)
+				return new ContainerHunterBench(player.inventory, world,
+						(TileHunterBench) tE, x, y, z);
+		}
 		return null;
 
 	}
@@ -22,8 +28,12 @@ public class MHFCGuiHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
-		if (ID == MHFCReference.gui_hunterbench_id)
-			return new GuiHunterBench(player.inventory, world, z, z, z);
+		if (ID == MHFCReference.gui_hunterbench_id) {
+			TileEntity tE = world.getTileEntity(x, y, z);
+			if (tE instanceof TileHunterBench)
+				return new GuiHunterBench(player.inventory, world,
+						(TileHunterBench) tE, x, y, z);
+		}
 		return null;
 
 	}

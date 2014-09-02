@@ -120,3 +120,5 @@ mhfc.quests.type.hunting=Hunting Quest
 mhfc.quests.type.gathering=Gathering Quest
 mhfc.quests.type.epichunting=Epic Hunting Quest
 mhfc.quests.type.killing=Slaying Quest
+
+container.hunterbench=Hunter's Forging Bench

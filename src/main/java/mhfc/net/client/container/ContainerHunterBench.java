@@ -3,6 +3,7 @@ package mhfc.net.client.container;
 import mhfc.net.client.crafting.MHFCCraftingManager;
 import mhfc.net.client.gui.slot.SlotHunterBench;
 import mhfc.net.common.core.registry.MHFCRegBlock;
+import mhfc.net.common.tile.TileHunterBench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -22,7 +23,7 @@ public class ContainerHunterBench extends Container {
 	private int posZ;
 
 	public ContainerHunterBench(InventoryPlayer par1InventoryPlayer,
-			World par2World, int x, int y, int z) {
+			World par2World, TileHunterBench tileEntity, int x, int y, int z) {
 		this.worldObj = par2World;
 		this.posX = x;
 		this.posY = y;

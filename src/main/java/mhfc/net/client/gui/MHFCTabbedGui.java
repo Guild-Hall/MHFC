@@ -6,14 +6,13 @@ import java.util.List;
 import mhfc.net.common.util.gui.MHFCGuiUtil;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-public class MHFCTabbedGui extends GuiContainer {
+public abstract class MHFCTabbedGui extends GuiContainer {
 
 	protected String[] tabNames;
 	protected int tabIndex = 0;
@@ -128,25 +127,5 @@ public class MHFCTabbedGui extends GuiContainer {
 		if (tabIndex >= 0 && tabIndex < tabList.size())
 			tabList.get(tabIndex).handleClick(mouseX - guiLeft,
 					mouseY - guiTop, mouseButton);
-	}
-
-	@Override
-	protected void drawGuiContainerBackgroundLayer(float par1, int par2,
-			int par3) {
-		Tessellator.instance.addTranslation(0, 0, 1f);
-		this.mc.getTextureManager().bindTexture(
-				new ResourceLocation(MHFCReference.gui_hunterbench_back_tex));
-		int posX = (this.width - this.xSize) / 2;
-		int posY = (this.height - this.ySize) / 2;
-
-		Tessellator tess = Tessellator.instance;
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(posX, posY, this.zLevel, 0, 0);
-		tess.addVertexWithUV(posX, posY + ySize, this.zLevel, 0, 1);
-		tess.addVertexWithUV(posX + xSize, posY + ySize, this.zLevel, 1, 1);
-		tess.addVertexWithUV(posX + xSize, posY, this.zLevel, 1, 0);
-		tess.draw();
-
-		Tessellator.instance.addTranslation(0, 0, -1f);
 	}
 }

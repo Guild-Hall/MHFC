@@ -1,9 +1,12 @@
 package mhfc.net.client.gui;
 
 import mhfc.net.client.container.ContainerHunterBench;
+import mhfc.net.common.tile.TileHunterBench;
 import mhfc.net.common.util.lib.MHFCReference;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
@@ -114,10 +117,9 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	}
 
 	public GuiHunterBench(InventoryPlayer par1InventoryPlayer, World par2World,
-			int x, int y, int z) {
-		super(
-				new ContainerHunterBench(par1InventoryPlayer, par2World, x, y,
-						z), 3);
+			TileHunterBench tileEntity, int x, int y, int z) {
+		super(new ContainerHunterBench(par1InventoryPlayer, par2World,
+				tileEntity, x, y, z), 3);
 		this.xSize = 324;
 		this.ySize = 165;
 		this.guiLeft = (this.width - this.xSize) / 2;
@@ -131,6 +133,26 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	@Override
 	public boolean doesGuiPauseGame() {
 		return false;
+	}
+
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float par1, int par2,
+			int par3) {
+		Tessellator.instance.addTranslation(0, 0, 1f);
+		this.mc.getTextureManager().bindTexture(
+				new ResourceLocation(MHFCReference.gui_hunterbench_back_tex));
+		int posX = (this.width - this.xSize) / 2;
+		int posY = (this.height - this.ySize) / 2;
+
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawingQuads();
+		tess.addVertexWithUV(posX, posY, this.zLevel, 0, 0);
+		tess.addVertexWithUV(posX, posY + ySize, this.zLevel, 0, 1);
+		tess.addVertexWithUV(posX + xSize, posY + ySize, this.zLevel, 1, 1);
+		tess.addVertexWithUV(posX + xSize, posY, this.zLevel, 1, 0);
+		tess.draw();
+
+		Tessellator.instance.addTranslation(0, 0, -1f);
 	}
 
 }
