@@ -1,6 +1,5 @@
 package mhfc.net.client.model.mhfcmodel.glcontext;
 
-import mhfc.net.client.model.mhfcmodel.IRenderInformation;
 import mhfc.net.client.model.mhfcmodel.animation.IAnimatedObject;
 import mhfc.net.client.model.mhfcmodel.animation.IAnimation;
 import mhfc.net.client.model.mhfcmodel.data.ModelDataBasic;
@@ -21,16 +20,11 @@ public class GLHelperBasic extends GLHelper {
 		if (this.modelData == null) // Not loaded correctly
 			return;
 		Predicate<String> filter = object.getPartPredicate(subFrame);
-		IRenderInformation info = object.getRenderInformation();
-		IAnimation currAnim = null;
-		int frame = 0;
-		if (info != null) {
-			currAnim = info.getCurrentAnimation();
-			frame = info.getCurrentFrame();
-		}
+		IAnimation currAnim = object.getCurrentAnimation();
+		int frame = object.getCurrentFrame();
 		if (filter != null)
-			this.modelData.renderFiltered(filter, currAnim, frame, subFrame);
+			this.modelData.renderFiltered(filter, currAnim, frame + subFrame);
 		else
-			this.modelData.renderAll(currAnim, frame, subFrame);
+			this.modelData.renderAll(currAnim, frame + subFrame);
 	}
 }

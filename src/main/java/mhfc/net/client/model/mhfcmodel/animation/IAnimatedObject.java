@@ -1,12 +1,11 @@
 package mhfc.net.client.model.mhfcmodel.animation;
 
-import mhfc.net.client.model.mhfcmodel.IRenderInformation;
 import mhfc.net.client.render.mob.RenderAnimatedModel;
 
 import com.google.common.base.Predicate;
 /**
- * An animatable type that can be rendered with a {@link RenderAnimatedModel} or a
- * //TODO: RenderMHFCModelTile
+ * An animatable type that can be rendered with a {@link RenderAnimatedModel} or
+ * a //TODO: RenderMHFCModelTile
  *
  * @author WorldSEnder
  *
@@ -37,19 +36,20 @@ public interface IAnimatedObject {
 		}
 	};
 	/**
-	 * Should determine the currently "equipped" animInfo and return it. This is
-	 * used to render the model
+	 * Gets the animation to play. If you return null here the model will be
+	 * displayed in bind pose.
 	 *
-	 * @return The current {@link IRenderInformation}
+	 * @return the current attack
 	 */
-	public IRenderInformation getRenderInformation();
+	public IAnimation getCurrentAnimation();
+	/**
+	 * Returns the current Frame in the animation. This is not inside the
+	 * {@link IAnimation} so that each object/entity can decide on its own.
+	 */
+	public int getCurrentFrame();
 	/**
 	 * Returns for a specific subFrame in the current animation a predicate that
 	 * get applied all model-parts to test if they should be rendered.
-	 *
-	 * You might want to include parts from
-	 * {@link IRenderInformation#getPartFilter(float)} by first getting the
-	 * current Information with a call to {@link #getRenderInformation()}
 	 *
 	 * @param subFrame
 	 *            makes the method subFrame sensible

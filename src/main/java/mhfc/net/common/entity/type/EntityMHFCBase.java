@@ -2,11 +2,10 @@ package mhfc.net.common.entity.type;
 
 import java.util.List;
 
-import mhfc.net.client.model.mhfcmodel.IRenderInformation;
 import mhfc.net.client.model.mhfcmodel.animation.IAnimatedObject;
 import mhfc.net.client.model.mhfcmodel.animation.IAnimation;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.util.AxisAlignedBB;
@@ -24,11 +23,10 @@ import com.google.common.base.Predicate;
  * @author WorldSEnder
  *
  */
-public abstract class EntityMHFCBase extends EntityCreature
+public abstract class EntityMHFCBase extends EntityLiving
 		implements
 			IEntityMultiPart,
-			IAnimatedObject,
-			IRenderInformation {
+			IAnimatedObject {
 
 	public EntityMHFCBase(World world) {
 		super(world);
@@ -269,44 +267,19 @@ public abstract class EntityMHFCBase extends EntityCreature
 		// TODO handle attacked from
 		return false;
 	}
-
-	@Override
-	public IRenderInformation getRenderInformation() {
-		// TODO: return the AI here
-		return this;
-	}
 	/**
 	 * This implementation just forwards the call to the predicate of the
 	 * currently executed animation.
 	 */
 	@Override
 	public Predicate<String> getPartPredicate(float subFrame) {
-		IRenderInformation info = EntityMHFCBase.this.getRenderInformation();
-		if (info == null)
-			return IAnimatedObject.RENDER_ALL;
-		final Predicate<String> animationPredicate = info
-				.getPartFilter(subFrame);
-		if (animationPredicate == null)
-			return IAnimatedObject.RENDER_ALL;
-		return new Predicate<String>() {
-			@Override
-			public boolean apply(String input) {
-				return animationPredicate.apply(input);
-			}
-		};
+		return IAnimatedObject.RENDER_ALL;
 	}
 
 	@Override
 	public IAnimation getCurrentAnimation() {
-		// IRenderInformation
 		// TODO: get this from the AI
 		return null;
-	}
-
-	@Override
-	public Predicate<String> getPartFilter(float subFrame) {
-		// TODO: get this from the AI
-		return IAnimatedObject.RENDER_ALL;
 	}
 
 	@Override

@@ -3,9 +3,7 @@ package mhfc.net.client.model.mhfcmodel.loader;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -45,24 +43,24 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 		header.nbrBones = nbrBones;
 		header.nbrParts = nbrParts;
 		// Read parts
-		List<ModelPart> parts = new ArrayList<>(nbrParts);
+		ModelPart[] parts = new ModelPart[nbrParts];
 		Set<String> partsNameSet = new TreeSet<>();
-		for (int i = 0; i < nbrParts; ++i) {
+		for (int i = 0; i < nbrParts;) {
 			ModelPart newPart = readPartFrom(di, header);
 			if (!partsNameSet.add(newPart.name))
 				throw new ModelFormatException("Two parts with same name "
 						+ newPart.name);
-			parts.add(newPart);
+			parts[i++] = newPart;
 		}
 		// Read bones
-		List<Bone> bones = new ArrayList<>(nbrBones);
+		Bone[] bones = new Bone[nbrBones];
 		Set<String> boneNameSet = new TreeSet<>();
-		for (int i = 0; i < nbrBones; ++i) {
+		for (int i = 0; i < nbrBones;) {
 			Bone newBone = readBoneFrom(di, header);
 			if (!boneNameSet.add(newBone.name))
 				throw new ModelFormatException("Two bones with same name "
 						+ newBone.name);
-			bones.add(newBone);
+			bones[i++] = newBone;
 		}
 		// Read parents
 		readBoneParents(di, bones); // Structure has to be tree-like
@@ -82,10 +80,10 @@ public class LoaderVersion1 extends VersionizedModelLoader {
 	 * @throws IOException
 	 *             if an IOException occurs on the {@link DataInputStream}
 	 */
-	protected void readBoneParents(DataInputStream di, List<Bone> bones)
+	protected void readBoneParents(DataInputStream di, Bone[] bones)
 			throws EOFException, IOException {
 		// TODO: check for treeish structure
-		int nbrBones = bones.size();
+		int nbrBones = bones.length;
 		for (Bone bone : bones) {
 			int parentIndex = di.readUnsignedByte();
 			if (parentIndex != 255 && parentIndex >= nbrBones) {

@@ -1,6 +1,5 @@
 package mhfc.net.client.model.mhfcmodel.animation;
 
-import static org.lwjgl.opengl.GL11.glTranslatef;
 import mhfc.net.client.model.mhfcmodel.Utils;
 
 import org.lwjgl.util.vector.Matrix4f;
@@ -14,25 +13,28 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public interface IAnimation {
 	/**
-	 * Describes a BoneTransformation. This includes rotation, translation and
+	 * This is a default animation that always returns the binding pose for each
+	 * bone it is asked for. Actually it returns <code>null</code> which is to
+	 * be interpreted as the binding-pose.
+	 */
+	public static final IAnimation BIND_POSE = new IAnimation() {
+		@Override
+		public BoneTransformation getCurrentTransformation(String bone,
+				float frame) {
+			return null;
+		};
+	};
+	/**
+	 * Describes a BoneTransformation, including rotation, translation and
 	 * scaling.
 	 *
 	 * @author WorldSEnder
 	 *
 	 */
 	public static class BoneTransformation {
-		/**
-		 * This interpolation mode will yield to following results:<br>
-		 * <code>factor < 1.0F</code>: the left transformation<br>
-		 * <code>factor >= 1.0F</code>: the right transformation
-		 */
-		public static final int CONSTANT = 0;
-		/**
-		 * For every value the 'left' and 'right' {@link BoneTransformation}s
-		 * argument hold, the value in the result will be<br>
-		 * <code>(1-factor)*left + factor*right</code>.
-		 */
-		public static final int LINEAR = 1;
+		private static Vector3f identityScale() {
+			return new Vector3f(1.0F, 1.0F, 1.0F);
+		}
 		/**
 		 * For every value the 'left' and 'right' {@link BoneTransformation}s
 		 * argument hold, the value in the result will be<br>
@@ -41,67 +43,54 @@ public interface IAnimation {
 		 * Note: this holds that no two different factors will generate the same
 		 * output value (if left and right differ and factor is in [0, 1])
 		 */
+		@Deprecated
 		public static final int SPLINE = 3;
 
 		public static final BoneTransformation identity = new BoneTransformation();
 
 		private Quaternion rotationQuat;
 		private Vector3f translation;
-		private float scale;
+		private Vector3f scale;
 
 		public BoneTransformation() {
-			this(new Quaternion(), new Vector3f(), 1.0F);
+			this(new Vector3f(), new Quaternion(), identityScale());
 		}
 
-		public BoneTransformation(Quaternion quat, Vector3f translation,
-				float scale) {
-			glTranslatef(scale, scale, scale);
+		public BoneTransformation(Vector3f translation, Quaternion quat) {
+			this(translation, quat, identityScale());
+		}
+
+		public BoneTransformation(Vector3f translation, Quaternion quat,
+				Vector3f scale) {
+			if (quat == null)
+				quat = new Quaternion();
+			if (translation == null)
+				translation = new Vector3f();
+			if (scale == null)
+				scale = identityScale();
 			this.rotationQuat = quat;
 			this.translation = translation;
 			this.scale = scale;
 		}
 
 		public Matrix4f asMatrix() {
-			return Utils.fromRotTrans(this.rotationQuat, this.translation,
-					scale);
-		}
-		/**
-		 * Interpolates between two {@link BoneTransformation}s and returns
-		 * their interpolation. This is can be useful when using the current
-		 * subFrame as the factor.
-		 *
-		 * @param left
-		 *            the "left" transformation of two to interpolate between
-		 * @param right
-		 *            the "right" transformation of two to interpolate between
-		 * @param factor
-		 *            how much the left/right Transformation should influence
-		 *            the outcome. A value of 0 always means that the left
-		 *            transform is returned, a value of 1 will always output the
-		 *            right transformation
-		 * @param mode
-		 *            the mode to use. Use the symbolic constants
-		 * @return
-		 */
-		public static BoneTransformation interpolate(BoneTransformation left,
-				BoneTransformation right, float factor, int mode) {
-			// TODO: interpolation algorithms
-			return null;
+			Matrix4f mat = Utils.fromRotTrans(this.rotationQuat,
+					this.translation, 1.0F);
+			mat.scale(scale);
+			return mat;
 		}
 	}
 	/**
 	 * Returns the bone's current {@link BoneTransformation} (identified by
-	 * name). If is returned by this method it is assumed that Bone is in his
-	 * binding-pose-state (identity transform).<br>
+	 * name). If <code>null</code> is returned by this method it is assumed that
+	 * Bone is in his binding-pose-state (identity transform).<br>
 	 * The returned matrix should already be interpolated correctly.
 	 *
 	 * @param bone
 	 *            the name of the bone the matrix is requested
 	 * @param frame
 	 *            the current frame in the animation
-	 * @param subFrame
-	 *            the subFrame in the animation. Expect this to be in [0,1]
+	 * @return the actual, present state of the requested bone
 	 */
-	public BoneTransformation getCurrentTransformation(String bone, int frame,
-			float subFrame);
+	public BoneTransformation getCurrentTransformation(String bone, float frame);
 }

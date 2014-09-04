@@ -1,0 +1,3 @@
+/addons/
+!addons/io_export_mhfc.py
+!addons/io_import_tcn.py

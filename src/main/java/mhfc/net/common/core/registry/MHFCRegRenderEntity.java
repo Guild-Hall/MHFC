@@ -1,6 +1,9 @@
 package mhfc.net.common.core.registry;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.client.model.mhfcmodel.MHMDModelLoader;
+import mhfc.net.client.model.mhfcmodel.ModelRegistry;
+import mhfc.net.client.model.mhfcmodel.animation.stored.AnimationRegistry;
 import mhfc.net.client.model.mob.ModelAnimated;
 import mhfc.net.client.model.mob.ModelPopo;
 import mhfc.net.client.model.mob.boss.ModelKirin;
@@ -20,6 +23,9 @@ import mhfc.net.common.entity.mob.EntityTest;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityTigrexBlock;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.IReloadableResourceManager;
+import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -28,8 +34,23 @@ public class MHFCRegRenderEntity {
 
 	public static void render() {
 		AdvancedModelLoader.registerModelHandler(MHMDModelLoader.instance);
+		registerResourcePackListeners();
 		renderMonster();
 		renderBlockEntities();
+	}
+
+	public static void registerResourcePackListeners() {
+		IResourceManager resManager = Minecraft.getMinecraft()
+				.getResourceManager();
+		if (resManager instanceof IReloadableResourceManager) {
+			IReloadableResourceManager registry = (IReloadableResourceManager) resManager;
+			registry.registerReloadListener(AnimationRegistry.instance);
+			registry.registerReloadListener(ModelRegistry.instance);
+		} else {
+			MHFCMain.logger
+					.warn("Couldn't register reload managers. Models will not be reloaded on switching texture pack");
+		}
+
 	}
 
 	public static void renderMonster() {
@@ -43,7 +64,7 @@ public class MHFCRegRenderEntity {
 				new RenderPopo(new ModelPopo(), 1f, 1.4f));
 		RenderingRegistry.registerEntityRenderingHandler(EntityTest.class,
 				new RenderAnimatedModel(new ModelAnimated(new ResourceLocation(
-						"mhfc:models/Akura Vashimu.mhmd")), 1.0F));
+						"mhfc:models/Rathalos/Rathalos.mhmd")), 1.0F));
 	}
 	public static void renderBlockEntities() {
 		RenderingRegistry.registerEntityRenderingHandler(

@@ -3,7 +3,6 @@ package mhfc.net.client.model.mhfcmodel.data;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import mhfc.net.client.model.mhfcmodel.Utils;
@@ -32,37 +31,58 @@ public class ModelDataBasic implements IModelData {
 				private Vector3f norm;
 				private Vector2f uv;
 				public Vertex(Vector4f pos, Vector3f norm, Vector2f uv) {
+					if (pos == null)
+						pos = new Vector4f();
+					if (norm == null)
+						norm = new Vector3f();
+					if (uv == null)
+						uv = new Vector2f();
 					this.pos = pos;
 					this.norm = norm;
 					this.uv = uv;
 				}
 				/**
-				 * Issues glVertex and glNormal and glTexCoord
+				 * Uses the {@link Tessellator} to draw the model. Take care
+				 * that the Tessellator is already drawing.
 				 */
 				public void render() {
-					tess.setNormal(norm.x, norm.y, norm.z);
+					tess.setNormal(norm.x, norm.z, -norm.y);
 					tess.setTextureUV(uv.x, uv.y);
-					tess.addVertex(pos.x, pos.y, pos.z);
+					tess.addVertex(pos.x, pos.z, -pos.y);
 				}
 				/**
-				 * Adds the other Vertex to this one. This will not touch this
-				 * Vertex's UV-coordinates
+				 * Offsets this Vertex by the {@link Vector4f} given.
 				 *
-				 * @param other
+				 * @param vector
+				 *            the offset
 				 */
-				public void add(Vertex other) {
-					Vector4f.add(this.pos, other.pos, this.pos);
-					Vector3f.add(this.norm, other.norm, this.norm);
+				public void offset(Vector4f vector) {
+					Vector4f.add(this.pos, vector, this.pos);
+				}
+				/**
+				 * Adds the normal to this Vertex basically interpolating
+				 * between the current normal and the given one (by their
+				 * scale). No normalization is done as this is taken care of by
+				 * OpenGL during rendering.
+				 *
+				 * @param normal
+				 *            the normal to add
+				 */
+				public void addNormal(Vector3f normal) {
+					Vector3f.add(this.norm, normal, this.norm);
+				}
+				/**
+				 * Sets the UV texture coordinates for this vertex
+				 *
+				 * @param uv
+				 *            the new texture coordinates
+				 */
+				public void setUV(Vector2f uv) {
+					this.uv = uv;
 				}
 			}
+			protected final Vertex vert;
 
-			/**
-			 * Bindings with a (absolute) strength of less than this won't get
-			 * recognized
-			 */
-			public static final float epsilon = 0.0F;
-
-			protected Vertex vert;
 			protected Point(Vector3f pos, Vector3f norm, Vector2f uv) {
 				this.vert = new Vertex(new Vector4f(pos.x, pos.y, pos.z, 1F),
 						norm, uv);
@@ -73,7 +93,7 @@ public class ModelDataBasic implements IModelData {
 			 * @param bones
 			 *            the models bones
 			 */
-			public void render(Bone[] bones, BoneTransformation[] currTransforms) {
+			public void render() {
 				this.vert.render();
 			}
 			/**
@@ -85,11 +105,12 @@ public class ModelDataBasic implements IModelData {
 			 *            the point to construct from
 			 * @return the constructed point
 			 */
-			public static Point from(RawDataV1.TesselationPoint data) {
+			public static Point from(RawDataV1.TesselationPoint data,
+					Bone[] bones) {
 				boolean isBound = data.boneBindings.length > 0;
 				if (isBound)
 					return new BoundPoint(data.coords, data.normal,
-							data.texCoords, data.boneBindings);
+							data.texCoords, data.boneBindings, bones);
 				return new Point(data.coords, data.normal, data.texCoords);
 			}
 		}
@@ -98,89 +119,84 @@ public class ModelDataBasic implements IModelData {
 			private static class Binding {
 				// Used as a buffer, doesn't requite to always create new
 				// temporaries. Prevents parallelization, though
-				private static Vector4f posBuff;
-				private static Vector4f normBuff;
-				static {
-					posBuff = new Vector4f();
-					normBuff = new Vector4f();
-				}
-				private byte boneIndex;
+				private static Vector4f posBuff = new Vector4f();
+				private static Vector4f normBuff = new Vector4f();
+
+				private Bone bone;
+				private Vertex vert;
 				private float strength;
-				public Binding(byte index, float strengh) {
-					this.boneIndex = index;
-					this.strength = strengh;
+				public Binding(Bone bone, Vertex vert, float strenght) {
+					this.bone = bone;
+					this.vert = vert;
+					this.strength = strenght;
 				}
-				public Vertex transform(Bone[] bones,
-						BoneTransformation[] transforms, Vertex vert) {
-					posBuff.set(vert.pos.x, vert.pos.y, vert.pos.z, 1.0F);
-					normBuff.set(vert.norm.x, vert.norm.y, vert.norm.z, 0.0F);
-					Bone boundTo = bones[this.boneIndex & 0xFF];
-					Matrix4f boundMatrix = transforms[this.boneIndex & 0xFF]
-							.asMatrix();
+				/**
+				 * Computes the current position of the vertex owned with the
+				 * bone and the strenght owned and adds it position to the given
+				 * vertex.
+				 *
+				 * @param base
+				 *            the vertex to add the transformed version of the
+				 *            owned vertex to
+				 * @return the final vertex, a new vertex if <code>null</code>
+				 *         was given
+				 */
+				public Vertex addTransformed(Vertex base) {
+					if (base == null)
+						base = new Vertex(null, null, null);
+					posBuff.set(this.vert.pos.x, this.vert.pos.y,
+							this.vert.pos.z, 1.0F);
+					normBuff.set(this.vert.norm.x, this.vert.norm.y,
+							this.vert.norm.z, 0.0F);
 					// Transform matrix
-					Matrix4f globalTransform = new Matrix4f();
-					boundTo.toLocal(globalTransform, globalTransform);
-					Matrix4f.mul(boundMatrix, globalTransform, globalTransform);
-					boundTo.toGlobal(globalTransform, globalTransform);
+					Matrix4f globalTransform = this.bone.getTransformGlobal();
+					Matrix4f globalTransformIT = Matrix4f.invert(
+							globalTransform, null);
+					globalTransformIT.transpose();
 					// Transform points with matrix
 					Matrix4f.transform(globalTransform, posBuff, posBuff);
-					// Inverted transposed for normal
-					Matrix4f.invert(globalTransform, globalTransform);
-					Matrix4f.transpose(globalTransform, globalTransform);
 					// Transform normal
-					Matrix4f.transform(globalTransform, normBuff, normBuff);
+					Matrix4f.transform(globalTransformIT, normBuff, normBuff);
 					// Final result
 					Vector4f position = new Vector4f(posBuff);
 					Vector3f normal = new Vector3f(normBuff.x, normBuff.y,
 							normBuff.z);
 					position.scale(this.strength);
 					normal.scale(this.strength);
-					return new Vertex(position, normal, new Vector2f(vert.uv));
+					base.offset(position);
+					base.addNormal(normal);
+					return base;
 				}
 				public void normalize(float sum) {
 					this.strength /= sum;
 				}
 			}
 
-			private static boolean isApplicable(RawDataV1.BoneBinding binding) {
-				return Math.abs(binding.bindingValue) > epsilon;
-			}
-
-			private static List<Binding> normalizeAndCompress(
-					RawDataV1.BoneBinding[] data) {
-				float sum = 0.0F;
-				List<Binding> collected = new ArrayList<>(4);
-				for (RawDataV1.BoneBinding boneBind : data) {
-					if (!isApplicable(boneBind))
-						continue;
-					collected.add(new Binding(boneBind.boneIndex,
-							boneBind.bindingValue));
-					sum += Math.abs(boneBind.bindingValue);
-				}
-				for (Binding bind : collected) {
-					bind.normalize(sum);
-				}
-				return collected;
-			}
-
 			private List<Binding> binds;
 
 			public BoundPoint(Vector3f pos, Vector3f norm, Vector2f uv,
-					RawDataV1.BoneBinding[] readBinds) {
+					RawDataV1.BoneBinding[] readBinds, Bone[] bones) {
 				super(pos, norm, uv);
-				// This can be assumed to at least be size 1
-				this.binds = normalizeAndCompress(readBinds);
+				// readBinds can be assumed to at least be size 1
+				this.binds = new ArrayList<>();
+				float strengthSummed = 0.0F;
+				for (RawDataV1.BoneBinding bind : readBinds) {
+					this.binds.add(new Binding(bones[bind.boneIndex & 0xFF],
+							this.vert, bind.bindingValue));
+					strengthSummed += bind.bindingValue;
+				}
+				for (Binding bind : this.binds) {
+					bind.normalize(strengthSummed);
+				}
 			}
 
 			@Override
-			public void render(Bone[] bones, BoneTransformation[] currTransforms) {
-				Iterator<Binding> bindIter = this.binds.listIterator();
-				Vertex base = bindIter.next().transform(bones, currTransforms,
-						this.vert); // Assumed not to throw
-				while (bindIter.hasNext()) {
-					Binding curr = bindIter.next();
-					base.add(curr.transform(bones, currTransforms, this.vert));
+			public void render() {
+				Vertex base = null;
+				for (Binding bind : this.binds) {
+					base = bind.addTransformed(base);
 				}
+				base.setUV(this.vert.uv);
 				base.render();
 			}
 		}
@@ -190,11 +206,11 @@ public class ModelDataBasic implements IModelData {
 		private final short[] indices; // Unsigned
 		private final String name;
 
-		public Part(RawDataV1.ModelPart data) {
+		public Part(RawDataV1.ModelPart data, Bone[] bones) {
 			Point[] points = new Point[data.points.length];
 			int idx = 0;
 			for (RawDataV1.TesselationPoint point : data.points) {
-				points[idx++] = Point.from(point);
+				points[idx++] = Point.from(point, bones);
 			}
 			this.pointsList = points;
 			this.resLocation = new ResourceLocation(
@@ -203,10 +219,10 @@ public class ModelDataBasic implements IModelData {
 			this.name = data.name;
 		}
 
-		public void render(Bone[] bones, BoneTransformation[] currTransforms) {
+		public void render() {
 			mc.renderEngine.bindTexture(this.resLocation);
 			for (short idx : this.indices) {
-				this.pointsList[idx & 0xFFFF].render(bones, currTransforms);
+				this.pointsList[idx & 0xFFFF].render();
 			}
 		}
 
@@ -216,128 +232,236 @@ public class ModelDataBasic implements IModelData {
 	}
 
 	private static class Bone {
+		private static final Matrix4f identity = new Matrix4f();
+
 		private static class ParentedBone extends Bone {
 			private Bone parent;
-			private byte parentByte; // Never 0xFF
 
-			protected ParentedBone(Matrix4f lTp, Matrix4f pTl, byte parent,
-					String name) {
-				super(lTp, pTl, name);
-				this.parentByte = parent;
+			protected ParentedBone(Matrix4f lTp, String name, Bone parent) {
+				super(lTp, name);
+				if (parent == null)
+					throw new IllegalArgumentException(String.format(
+							"Parent of bone %s can't be null", this.name));
+				this.parent = parent;
 			}
 
 			@Override
-			public void setParent(Bone[] allBones) {
-				this.parent = allBones[this.parentByte & 0xFF];
+			protected Matrix4f worldToLocal(Matrix4f dst) {
+				// = parentToLocal * worldToParent
+				dst = this.parent.worldToLocal(dst);
+				return Matrix4f.mul(parentToLocal, dst, dst);
 			}
 
 			@Override
-			public Matrix4f toLocal(Matrix4f src, Matrix4f dst) {
-				// Handles dst == null
-				dst = this.parent.toLocal(src, dst);
-				return Matrix4f.mul(this.parentToLocal, dst, dst);
-			}
-
-			@Override
-			public Matrix4f toGlobal(Matrix4f src, Matrix4f dst) {
-				// Handles dst == null
-				dst = Matrix4f.mul(localToParent, src, dst);
-				return this.parent.toGlobal(dst, dst);
+			protected Matrix4f localToWorld(Matrix4f dst) {
+				// = parentToWorld * localToParent * transform
+				dst = this.parent.localToWorld(dst);
+				Matrix4f.mul(dst, this.localToParent, dst);
+				return Matrix4f.mul(dst, TMP_transform, dst);
 			}
 		}
+
 		protected Matrix4f localToParent;
 		protected Matrix4f parentToLocal;
-		private String name;
+		public final String name;
 
-		protected Bone(Matrix4f lTp, Matrix4f pTl, String name) {
-			this.localToParent = lTp;
-			this.parentToLocal = pTl;
+		protected Matrix4f TMP_transform = new Matrix4f();
+
+		protected Bone(Matrix4f localMatrix, String name) {
+			this.localToParent = localMatrix;
+			this.parentToLocal = Matrix4f.invert(localMatrix, null);
 			this.name = name;
 		}
 
-		public void setParent(Bone[] allBones) {} // Nothing to do here
-
-		public Matrix4f toLocal(Matrix4f src, Matrix4f dst) {
-			return Matrix4f.mul(this.parentToLocal, src, dst);
+		private void resetTransform() {
+			this.TMP_transform = identity;
 		}
-
-		public Matrix4f toGlobal(Matrix4f src, Matrix4f dst) {
-			return Matrix4f.mul(this.localToParent, src, dst);
+		/**
+		 * Sets up this bone for the following calls to
+		 * {@link #getLocalToWorld()}, {@link #getTransformGlobal()} and
+		 * {@link #getTransformITGlobal()}.
+		 *
+		 * @param anim
+		 *            the animation being executed
+		 * @param frame
+		 *            the frame in the animation
+		 * @param subFrame
+		 *            the subframe
+		 */
+		public void setTransformation(IAnimation anim, float frame) {
+			if (anim == null) {
+				resetTransform();
+				return;
+			}
+			BoneTransformation btr = anim.getCurrentTransformation(this.name,
+					frame);
+			if (btr == null) {
+				resetTransform();
+				return;
+			}
+			this.TMP_transform = btr.asMatrix();
 		}
-
-		public String getName() {
-			return this.name;
+		/**
+		 * Gets a a matrix transformation from world to local coordinates
+		 *
+		 * @param dst
+		 *            the matrix to place the result in
+		 * @return
+		 */
+		protected Matrix4f worldToLocal(Matrix4f dst) {
+			if (dst == null)
+				dst = new Matrix4f();
+			return dst.load(this.parentToLocal);
 		}
-
-		public static Bone fromData(RawDataV1.Bone data) {
+		/**
+		 * Gets a matrix that transforms from local to world respecting the
+		 * current transformation.
+		 *
+		 * @param dst
+		 *            the matrix to place the result in
+		 * @return a new matrix if dst is <code>null</code>
+		 */
+		protected Matrix4f localToWorld(Matrix4f dst) {
+			return Matrix4f.mul(this.localToParent, TMP_transform, dst);
+		}
+		/**
+		 * Gets the transform previously applied with
+		 * {@link #setTransformation(IAnimation, int, float)} already
+		 * transformed to the global matrix.
+		 *
+		 * @return world to transformed world
+		 */
+		public Matrix4f getTransformGlobal() {
+			Matrix4f worldToLocal = this.worldToLocal(null);
+			Matrix4f localToWorld = this.localToWorld(null);
+			return Matrix4f.mul(localToWorld, worldToLocal, worldToLocal);
+		}
+		/**
+		 * Returns a new bone from the data given. If the bone has a parent it
+		 * is fetched from allBones thus it is expected that allBones is
+		 * breadth-first (meaning that the parent is already handled).
+		 *
+		 * @param data
+		 *            the raw data
+		 * @param allBones
+		 *            all bones, including the parent
+		 * @return the new bone
+		 */
+		public static Bone fromData(RawDataV1.Bone data, Bone[] allBones) {
 			Matrix4f localToParent = Utils.fromRotTrans(data.rotation,
 					data.offset, 1.0F);
-			Matrix4f parentToLocal = Matrix4f.invert(localToParent, null);
-			if (data.parent == 0xFF)
-				return new ParentedBone(localToParent, parentToLocal,
-						data.parent, data.name);
-			return new Bone(localToParent, parentToLocal, data.name);
-
+			if (data.parent != -1)
+				return new ParentedBone(localToParent, data.name,
+						allBones[data.parent & 0xFF]);
+			return new Bone(localToParent, data.name);
 		}
 	}
 	private final Part[] parts; // May have Random order
-	private final Bone[] bones; // In correct order
-
-	public ModelDataBasic(RawDataV1 data) {
-		Part[] parts = new Part[data.parts.size()];
-		Bone[] bones = new Bone[data.bones.size()];
-		Iterator<RawDataV1.ModelPart> partIt = data.parts.iterator();
-		for (int i = 0; i < data.parts.size(); ++i) {
-			parts[i] = new Part(partIt.next());
+	private final Bone[] bones; // Breadth-first
+	private static int handleBone(RawDataV1.Bone bones[], int index,
+			List<List<Integer>> layers, List<Integer> handled) {
+		if (index == 0xFF)
+			return -1;
+		// Determine parent
+		int parent = bones[index].parent & 0xFF;
+		// Determine layer in tree and handle parent first
+		int layerNbr = handleBone(bones, parent, layers, handled) + 1;
+		// If already handled
+		if (handled.contains(index))
+			return layerNbr;
+		// Else handle
+		handled.add(index);
+		// Get layer
+		if (layers.size() <= layerNbr)
+			layers.add(new ArrayList<Integer>());
+		List<Integer> layer = layers.get(layerNbr);
+		// Add current index
+		layer.add(index);
+		return layerNbr;
+	}
+	/**
+	 * Orders the bones in a breadth first order. This trusts in the bones
+	 * having a tree-like structure.
+	 *
+	 * @param src
+	 *            the bone
+	 * @return indices in an order that is breadth first.
+	 */
+	private static int[] breadthFirst(RawDataV1.Bone[] src) {
+		List<List<Integer>> layers = new ArrayList<List<Integer>>();
+		List<Integer> handled = new ArrayList<>();
+		for (int i = 0; i < src.length; ++i) {
+			handleBone(src, i, layers, handled);
 		}
-		Iterator<RawDataV1.Bone> boneIt = data.bones.iterator();
-		for (int i = 0; i < data.bones.size(); ++i) {
-			bones[i] = Bone.fromData(boneIt.next());
+		int[] breadthFirst = new int[src.length];
+		int i = 0;
+		for (List<Integer> layer : layers) {
+			for (int b : layer) {
+				breadthFirst[i++] = b;
+			}
 		}
-		for (Bone bone : bones) {
-			bone.setParent(bones);
-		}
-		this.parts = parts;
-		this.bones = bones;
+		return breadthFirst;
 	}
 
-	private BoneTransformation[] getTransforms(IAnimation anim, int frame,
-			float subFrame) {
-		BoneTransformation[] transforms = new BoneTransformation[this.bones.length];
-		for (int i = 0; i < this.bones.length; ++i) {
-			if (anim == null) {
-				transforms[i] = BoneTransformation.identity;
-				continue;
-			}
-			Bone currBone = this.bones[i];
-			BoneTransformation transform = anim.getCurrentTransformation(
-					currBone.getName(), frame, subFrame);
-			transforms[i] = transform != null
-					? transform
-					: BoneTransformation.identity;
+	public ModelDataBasic(RawDataV1 data) {
+		Part[] parts = new Part[data.parts.length];
+		// This is in original order
+		Bone[] bones = new Bone[data.bones.length];
+		int[] breadthOrder = breadthFirst(data.bones);
+		// This is in breadth first order
+		Bone[] breadthFirst = new Bone[data.bones.length];
+
+		for (int i = 0; i < breadthOrder.length; ++i) {
+			int idx = breadthOrder[i];
+			RawDataV1.Bone bone = data.bones[idx];
+			Bone newBone = Bone.fromData(bone, bones);
+			bones[idx] = newBone;
+			breadthFirst[i] = newBone;
 		}
-		return transforms;
+		for (int i = 0; i < data.parts.length; ++i) {
+			parts[i] = new Part(data.parts[i], bones);
+		}
+		// Now we have to restructure the bones to breadth-first order
+		this.bones = breadthFirst;
+		this.parts = parts;
+	}
+	/**
+	 * Sets up all bones for the following draw call. It is assumed that the
+	 * bones are present in a breadth-first order so that applying a
+	 * transformation to a bone can already access the transformed parent of
+	 * this bone
+	 *
+	 * @param anim
+	 *            the animation currently executed
+	 * @param frame
+	 *            the frame in the animation
+	 * @param subFrame
+	 *            the subframe in the animation
+	 */
+	private void setupBones(IAnimation anim, float frame) {
+		for (Bone bone : this.bones) {
+			bone.setTransformation(anim, frame);
+		}
 	}
 
 	@Override
-	public void renderAll(IAnimation currAnimation, int frame, float subFrame) {
-		BoneTransformation[] transforms = getTransforms(currAnimation, frame,
-				subFrame);
+	public void renderAll(IAnimation currAnimation, float frame) {
+		setupBones(currAnimation, frame);
+		tess.startDrawing(GL_TRIANGLES);
 		for (Part part : this.parts) {
-			part.render(this.bones, transforms);
+			part.render();
 		}
 		tess.draw();
 	}
 
 	@Override
 	public void renderFiltered(Predicate<String> filter,
-			IAnimation currAnimation, int frame, float subFrame) {
-		BoneTransformation[] transforms = getTransforms(currAnimation, frame,
-				subFrame);
+			IAnimation currAnimation, float frame) {
+		setupBones(currAnimation, frame);
 		tess.startDrawing(GL_TRIANGLES);
 		for (Part part : this.parts) {
 			if (filter.apply(part.getName()))
-				part.render(this.bones, transforms);
+				part.render();
 		}
 		tess.draw();
 	}

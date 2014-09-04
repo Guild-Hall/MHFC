@@ -39,6 +39,7 @@ import java.nio.charset.MalformedInputException;
 import java.nio.charset.UnmappableCharacterException;
 import java.util.Arrays;
 
+import javax.vecmath.Matrix3f;
 import javax.vecmath.Quat4f;
 
 import net.minecraft.client.renderer.GLAllocation;
@@ -368,27 +369,18 @@ public class Utils {
 	public static Matrix4f fromRotTrans(Quaternion q, Vector3f off, float scale) {
 		Matrix4f mat = new Matrix4f();
 		if (q != null) {
-			float q2xs = 2 * q.x * scale;
-			float q2ys = 2 * q.y * scale;
-			float q2zs = 2 * q.z * scale;
-			float q2x2s = q2xs * q.x;
-			float q2y2s = q2ys * q.y;
-			float q2z2s = q2zs * q.z;
-			float q2xys = q2xs * q.y;
-			float q2xzs = q2xs * q.z;
-			float q2yzs = q2ys * q.z;
-			float q2xws = q2xs * q.w;
-			float q2yws = q2ys * q.w;
-			float q2zws = q2zs * q.w;
-			mat.m00 -= q2y2s + q2z2s;
-			mat.m11 -= q2x2s + q2z2s;
-			mat.m22 -= q2x2s + q2z2s;
-			mat.m01 = q2xys + q2zws;
-			mat.m02 = q2xzs - q2yws;
-			mat.m10 = q2xys - q2zws;
-			mat.m12 = q2yzs + q2xws;
-			mat.m20 = q2xzs + q2yws;
-			mat.m21 = q2yzs - q2xws;
+			Quat4f quat = new Quat4f(q.x, q.y, q.z, q.w);
+			Matrix3f rotMat = new Matrix3f();
+			rotMat.set(quat);
+			mat.m00 = rotMat.m00;
+			mat.m10 = rotMat.m01;
+			mat.m20 = rotMat.m02;
+			mat.m01 = rotMat.m10;
+			mat.m11 = rotMat.m11;
+			mat.m21 = rotMat.m12;
+			mat.m02 = rotMat.m20;
+			mat.m12 = rotMat.m21;
+			mat.m22 = rotMat.m22;
 		}
 		if (off != null) {
 			mat.m30 = off.x * scale;

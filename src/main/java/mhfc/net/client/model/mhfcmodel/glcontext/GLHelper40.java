@@ -20,7 +20,6 @@ import static org.lwjgl.opengl.GL41.glBindProgramPipeline;
 import static org.lwjgl.opengl.GL41.glGenProgramPipelines;
 import static org.lwjgl.opengl.GL41.glProgramParameteri;
 import static org.lwjgl.opengl.GL41.glUseProgramStages;
-import mhfc.net.client.model.mhfcmodel.IRenderInformation;
 import mhfc.net.client.model.mhfcmodel.Utils;
 import mhfc.net.client.model.mhfcmodel.animation.IAnimatedObject;
 import mhfc.net.client.model.mhfcmodel.animation.IAnimation;
@@ -88,11 +87,10 @@ public class GLHelper40 extends GLHelper {
 		glBindProgramPipeline(pipelineName);
 		glUseProgram(0);
 
-		IRenderInformation info = animatedObject.getRenderInformation();
-		IAnimation currentAttack = info.getCurrentAnimation();
-		int frame = info.getCurrentFrame();
-		Predicate<String> filter = info.getPartFilter(subFrame);
-		this.modelData.renderFiltered(filter, currentAttack, frame, subFrame);
+		IAnimation currentAttack = animatedObject.getCurrentAnimation();
+		int frame = animatedObject.getCurrentFrame();
+		Predicate<String> filter = animatedObject.getPartPredicate(subFrame);
+		this.modelData.renderFiltered(filter, currentAttack, frame + subFrame);
 
 		glUseProgram(currProgram);
 		glBindProgramPipeline(currPipeline);

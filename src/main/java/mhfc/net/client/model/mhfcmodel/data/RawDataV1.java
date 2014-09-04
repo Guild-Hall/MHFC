@@ -1,7 +1,5 @@
 package mhfc.net.client.model.mhfcmodel.data;
 
-import java.util.List;
-
 import org.lwjgl.util.vector.Quaternion;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -61,14 +59,14 @@ public class RawDataV1 extends RawData {
 	/**
 	 * A list of all parts
 	 */
-	public final List<ModelPart> parts;
+	public final ModelPart[] parts;
 	/**
-	 * A list of all bones
+	 * A list of all bones, in read order
 	 */
-	public final List<Bone> bones;
+	public final Bone[] bones;
 	public static final int MAX_NBR_BONEBINDINGS = 4;
 
-	public RawDataV1(RawData metaInfo, List<ModelPart> parts, List<Bone> bones) {
+	public RawDataV1(RawData metaInfo, ModelPart[] parts, Bone[] bones) {
 		super(metaInfo);
 		this.parts = parts;
 		this.bones = bones;
