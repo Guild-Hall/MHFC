@@ -30,7 +30,10 @@ import mhfc.heltrato.common.item.armor.TigrexArmor;
 import mhfc.heltrato.common.item.armor.YukumoArmor;
 import mhfc.heltrato.common.item.food.ItemKirinBuff;
 import mhfc.heltrato.common.item.food.ItemMeats;
+import mhfc.heltrato.common.item.weapon.WeaponBGLShooterBarrel;
+import mhfc.heltrato.common.item.weapon.WeaponBGLSpartacusFire;
 import mhfc.heltrato.common.item.weapon.WeaponBHunter;
+import mhfc.heltrato.common.item.weapon.WeaponBTigrexArrow;
 import mhfc.heltrato.common.item.weapon.WeaponGSBone;
 import mhfc.heltrato.common.item.weapon.WeaponGSKirinThunderSword;
 import mhfc.heltrato.common.item.weapon.WeaponGSTigrex;
@@ -65,6 +68,9 @@ public class MHFCRegItem {
 	public static Item mhfcitembhunter;
 	public static Item mhfcitemhhmetalbagpipe;
 	public static Item mhfcitemlsdarkvipern;
+	public static Item mhfcitembglshooterbarrel;
+	public static Item mhfcitembglspartacusfire;
+	public static Item mhfcitembtigrexarrow;
 	
 	//Armors
 	public static Item mhfcitemtigrexhelm;
@@ -166,31 +172,34 @@ public class MHFCRegItem {
 		getItemID(mhfcitemhkirinspark);
 		getItemID(mhfcitemhhmetalbagpipe);
 		getItemID(mhfcitembhunter);
+		getItemID(mhfcitembtigrexarrow);
+		getItemID(mhfcitembglshooterbarrel);
+		getItemID(mhfcitembglspartacusfire);
 		
 		getItemID(mhfcitemyukumohelm);
 		getItemID(mhfcitemrathaloshelm);
 		getItemID(mhfcitemtigrexhelm);
 		getItemID(mhfcitemkirinhelm);
-		getItemID(mhfcitemkirinShelm);
 		getItemID(mhfcitemdragoonhelm);
+		getItemID(mhfcitemkirinShelm);
 		getItemID(mhfcitemyukumochest);
 		getItemID(mhfcitemrathaloschest);
 		getItemID(mhfcitemtigrexchest);
 		getItemID(mhfcitemkirinchest);
-		getItemID(mhfcitemkirinSchest);
 		getItemID(mhfcitemdragoonchest);
+		getItemID(mhfcitemkirinSchest);
 		getItemID(mhfcitemyukumolegs);
 		getItemID(mhfcitemrathaloslegs);
 		getItemID(mhfcitemtigrexlegs);
 		getItemID(mhfcitemkirinlegs);
-		getItemID(mhfcitemkirinSlegs);
 		getItemID(mhfcitemdragoonlegs);
+		getItemID(mhfcitemkirinSlegs);
 		getItemID(mhfcitemyukumoboots);
 		getItemID(mhfcitemrathalosboots);
 		getItemID(mhfcitemtigrexboots);
 		getItemID(mhfcitemkirinboots);
-		getItemID(mhfcitemkirinSboots);
 		getItemID(mhfcitemdragoonboots);
+		getItemID(mhfcitemkirinSboots);
 		
 		getItemID(MHFCItemFrontierSpawner);
 		getItemID(mhfcitemrathalosshell);
@@ -283,12 +292,16 @@ public class MHFCRegItem {
 		mhfcitemhwarhammer = new WeaponHWar(mat.HWarHammer);
 		mhfcitemhwarhammerplus = new WeaponHWarPlus(mat.HWarHammerplus);
 		mhfcitemhwarslammer = new WeaponHWarSlammer(mat.HWarSlammer);
-		mhfcitemhhmetalbagpipe = new WeaponHHMetalBagpipe(mat.HHMetalBagpipe);			
+		mhfcitemhhmetalbagpipe = new WeaponHHMetalBagpipe(mat.HHMetalBagpipe);	
+		
 	}
 	
 	private static void registerRangeWeapon()
 	{
 		mhfcitembhunter = new WeaponBHunter();
+		mhfcitembtigrexarrow = new WeaponBTigrexArrow();
+		mhfcitembglshooterbarrel = new WeaponBGLShooterBarrel();
+		mhfcitembglspartacusfire = new WeaponBGLSpartacusFire();
 	}
 	private static void registerItem()
 	{

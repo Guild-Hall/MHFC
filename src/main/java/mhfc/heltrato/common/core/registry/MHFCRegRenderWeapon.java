@@ -1,6 +1,9 @@
 package mhfc.heltrato.common.core.registry;
 
+import mhfc.heltrato.client.render.weapon.RenderBGLShooterBarrel;
+import mhfc.heltrato.client.render.weapon.RenderBGLSpartacusFire;
 import mhfc.heltrato.client.render.weapon.RenderBHunter;
+import mhfc.heltrato.client.render.weapon.RenderBTigrexArrow;
 import mhfc.heltrato.client.render.weapon.RenderGSBone;
 import mhfc.heltrato.client.render.weapon.RenderGSKirinThunderSword;
 import mhfc.heltrato.client.render.weapon.RenderGSTigrex;
@@ -33,6 +36,9 @@ public class MHFCRegRenderWeapon {
 		reg.registerItemRenderer(MHFCRegItem.mhfcitembhunter, new RenderBHunter());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemhhmetalbagpipe, new RenderHHMetalBagpipe());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemlsdarkvipern, new RenderLSDarkVipern());
+		reg.registerItemRenderer(MHFCRegItem.mhfcitembglshooterbarrel, new RenderBGLShooterBarrel());
+		reg.registerItemRenderer(MHFCRegItem.mhfcitembglspartacusfire, new RenderBGLSpartacusFire());
+		reg.registerItemRenderer(MHFCRegItem.mhfcitembtigrexarrow, new RenderBTigrexArrow());
 		
 		
 		

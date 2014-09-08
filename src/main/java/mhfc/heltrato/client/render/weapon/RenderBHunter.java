@@ -73,7 +73,7 @@ public class RenderBHunter extends RenderWeapon {
 					if (usingItem < 5) {
 						Minecraft.getMinecraft().renderEngine
 								.bindTexture(new ResourceLocation(MHFCReference.weapon_bow_hunter_tex0));
-					} else if ((usingItem >= 5) && (usingItem < 35)) {
+					} else if ((usingItem > -5) && (usingItem < 35)) {
 						Minecraft.getMinecraft().renderEngine
 								.bindTexture(new ResourceLocation(MHFCReference.weapon_bow_hunter_tex1));
 					} else if (usingItem >= 35)

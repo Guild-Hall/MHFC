@@ -241,14 +241,18 @@ public class MHFCReference {
 	public static final String tile_huntertable_tex = "mhfc:textures/tile/huntertable.png";
 	public static final String tile_stuntrap_id = "Stun Trap";
 	public static final String tile_stuntrap_tex = "mhfc:textures/tile/stuntrap.png";
-	public static final String weapon_bow_hunter_icon0 = "mhfc:bow";
-	public static final String weapon_bow_hunter_icon1 = "mhfc:bow1";
-	public static final String weapon_bow_hunter_icon2 = "mhfc:bow2";
-	public static final String weapon_bow_hunter_icon3 = "mhfc:bow3";
+	public static final String weapon_bow_icon0 = "mhfc:bow";
+	public static final String weapon_bow_icon1 = "mhfc:bow1";
+	public static final String weapon_bow_icon2 = "mhfc:bow2";
+	public static final String weapon_bow_icon3 = "mhfc:bow3";
 	public static final String weapon_bow_hunter_name = "a.bow";
 	public static final String weapon_bow_hunter_tex0 = "mhfc:textures/weapons/bow/hunterbow0.png";
 	public static final String weapon_bow_hunter_tex1 = "mhfc:textures/weapons/bow/hunterbow1.png";
 	public static final String weapon_bow_hunter_tex2 = "mhfc:textures/weapons/bow/hunterbow2.png";
+	public static final String weapon_bow_tigrexarrow_name = "b.bow";
+	public static final String weapon_bow_tigrexarrow_tex0 = "mhfc:textures/weapons/bow/(B)tigrexarrow1.png";
+	public static final String weapon_bow_tigrexarrow_tex1 = "mhfc:textures/weapons/bow/(B)tigrexarrow2.png";
+	public static final String weapon_bow_tigrexarrow_tex2 = "mhfc:textures/weapons/bow/(B)tigrexarrow3.png";
 	public static final String weapon_gs_bone_icon = "mhfc:greatsword";
 	public static final String weapon_gs_bone_name = "greatsword_1";
 	public static final String weapon_gs_bone_tex = "mhfc:textures/weapons/(GS)bone.png";
@@ -281,6 +285,10 @@ public class MHFCReference {
 	public static final String weapon_ls_ironkatana_icon = "mhfc:longsword";
 	public static final String weapon_ls_ironkatana_name = "longsword_1";
 	public static final String weapon_ls_ironkatana_tex = "mhfc:textures/weapons/(LS)ironkatana.png";
+	public static final String weapon_bgl_shooterbarrel_name = "bowgun_1";
+	public static final String weapon_bgl_shooterbarrel_tex = "mhfc:textures/weapons/(BGL)shooterbarrel.png";
+	public static final String weapon_bgl_spartacusfire_name = "bowgun_2";
+	public static final String weapon_bgl_spartacusfire_tex = "mhfc:textures/weapons/(BGL)spartacusfire.png";
 	public static final String gui_questgiver_back_tex = "mhfc:texture/gui/questgiver.png";
 	
 	public static final String[] oreSubBlocks = new String[] {block_orearmorsphere_name,block_orearmorsphereplus_name,block_orecarbalite_name,block_oredragonite_name,block_oreeltalite_name,block_oremachalite_name};

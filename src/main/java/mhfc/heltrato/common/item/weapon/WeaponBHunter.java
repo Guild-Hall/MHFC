@@ -25,10 +25,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class WeaponBHunter extends Item {
 
 	public static final String[] itemNameArray = {
-			MHFCReference.weapon_bow_hunter_icon0,
-			MHFCReference.weapon_bow_hunter_icon1,
-			MHFCReference.weapon_bow_hunter_icon2,
-			MHFCReference.weapon_bow_hunter_icon3};
+			MHFCReference.weapon_bow_icon0,
+			MHFCReference.weapon_bow_icon1,
+			MHFCReference.weapon_bow_icon2,
+			MHFCReference.weapon_bow_icon3};
 
 	public int usingItem = 0;
 
