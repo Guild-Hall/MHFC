@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.client.model.mhfcmodel.animation.IAnimatedObject;
+import mhfc.net.client.model.mhfcmodel.animation.IAnimatedObject.Scale;
 import mhfc.net.client.model.mhfcmodel.data.RawData;
 import mhfc.net.client.model.mhfcmodel.glcontext.GLHelper;
 import mhfc.net.client.model.mhfcmodel.loader.VersionizedModelLoader;
@@ -156,6 +157,9 @@ public class ModelMHMD implements IModelCustom {
 	 *            the object to render (get animations from there)
 	 */
 	public void render(IAnimatedObject object, float parTick) {
+		Scale scale = object.getScale();
+		if (scale != null)
+			scale.apply();
 		renderHelper.render(object, parTick);
 	}
 

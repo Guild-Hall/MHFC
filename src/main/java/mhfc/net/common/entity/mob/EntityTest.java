@@ -9,8 +9,10 @@ import net.minecraft.world.World;
 
 import com.google.common.base.Predicate;
 
+// This is a really simple test Entity
 public class EntityTest extends EntityLiving implements IAnimatedObject {
-	private static IAnimation animation = AnimationRegistry
+	// Load the animation from the stored file
+	private static IAnimation snap = AnimationRegistry
 			.loadAnimation(new ResourceLocation(
 					"mhfc:models/Rathalos/testanim.mhanm"));
 
@@ -21,16 +23,24 @@ public class EntityTest extends EntityLiving implements IAnimatedObject {
 
 	@Override
 	public IAnimation getCurrentAnimation() {
-		return animation;
+		// Return the current animation, depends on the current attack/ AI
+		return snap;
 	}
 
 	@Override
 	public int getCurrentFrame() {
-		return this.ticksExisted % 100;
+		// Returns the frame in the animation (time since attack started?)
+		return this.ticksExisted % 50;
+	}
+
+	@Override
+	public Scale getScale() {
+		return NO_SCALE;
 	}
 
 	@Override
 	public Predicate<String> getPartPredicate(float subFrame) {
+		// Can decide not to show some parts
 		return RENDER_ALL;
 	}
 }
