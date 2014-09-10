@@ -17,6 +17,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		int startIndex, endIndex;
 
+		TileHunterBench bench;
+
 		/**
 		 * 
 		 * @param start
@@ -24,9 +26,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		 * @param end
 		 *            End index of slots on this page, exclusive
 		 */
-		public CraftArmorTab(int start, int end) {
+		public CraftArmorTab(int start, int end, TileHunterBench bench) {
 			startIndex = start;
 			endIndex = end;
+			this.bench = bench;
 		}
 
 		@Override
@@ -36,7 +39,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 					.drawString(
 							StatCollector
 									.translateToLocal(MHFCReference.gui_hunterbench_tab_armor_name),
-							guiLeft + 5, guiTop + 17, 4210752);
+							guiLeft + 5, guiTop + 4, 4210752);
+			// TODO reposition Slots accordingly
 		}
 
 		@Override
@@ -47,7 +51,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		public boolean containsSlot(Slot slot) {
-			return slot.slotNumber >= startIndex && slot.slotNumber < endIndex;
+			if (slot.slotNumber >= startIndex && slot.slotNumber < endIndex) {
+				return slot.slotNumber != bench.outputSlot || bench.isWorking();
+			}
+			return false;
 		}
 
 	}
@@ -56,6 +63,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		int startIndex, endIndex;
 
+		TileHunterBench bench;
+
 		/**
 		 * 
 		 * @param start
@@ -63,9 +72,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		 * @param end
 		 *            End index of slots on this page, exclusive
 		 */
-		public CraftWeaponTab(int start, int end) {
+		public CraftWeaponTab(int start, int end, TileHunterBench bench) {
 			startIndex = start;
 			endIndex = end;
+			this.bench = bench;
 		}
 
 		@Override
@@ -75,7 +85,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 					.drawString(
 							StatCollector
 									.translateToLocal(MHFCReference.gui_hunterbench_tab_weapon_name),
-							guiLeft + 5, guiTop + 17, 4210752);
+							guiLeft + 5, guiTop + 4, 4210752);
 		}
 
 		@Override
@@ -86,7 +96,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		public boolean containsSlot(Slot slot) {
-			return slot.slotNumber >= startIndex && slot.slotNumber < endIndex;
+			if (slot.slotNumber >= startIndex && slot.slotNumber < endIndex) {
+				return slot.slotNumber != bench.outputSlot || bench.isWorking();
+			}
+			return false;
 		}
 
 	}
@@ -125,9 +138,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		this.guiLeft = (this.width - this.xSize) / 2;
 		this.guiTop = (this.height - this.ySize) / 2;
 		tabNames = new String[]{"Armor", "Weapons", "Weapon tree"};
-		this.tabList.add(new CraftArmorTab(0, 16));
-		this.tabList.add(new CraftWeaponTab(16, 52));
+		this.tabList.add(new CraftArmorTab(51, 61, tileEntity));
+		this.tabList.add(new CraftWeaponTab(51, 61, tileEntity));
 		this.tabList.add(new WeaponTreeTab());
+		setTab(0);
 	}
 
 	@Override

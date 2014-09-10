@@ -1,4 +1,4 @@
-package mhfc.net.client.crafting.recipes;
+package mhfc.net.common.crafting.recipes;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,14 +9,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 
-public class MHFCShapelessRecipes implements IRecipe {
+public class MHFCShapelessRecipe implements IRecipe {
 	/** Is the ItemStack that you get when craft the recipe. */
 	private final ItemStack recipeOutput;
 
 	/** Is a List of ItemStack that composes the recipe. */
 	public final List<ItemStack> recipeItems;
 
-	public MHFCShapelessRecipes(ItemStack par1ItemStack,
+	public MHFCShapelessRecipe(ItemStack par1ItemStack,
 			List<ItemStack> par2List) {
 		this.recipeOutput = par1ItemStack;
 		this.recipeItems = par2List;
@@ -35,30 +35,27 @@ public class MHFCShapelessRecipes implements IRecipe {
 			World par2World) {
 		List<ItemStack> arraylist = new ArrayList<ItemStack>(this.recipeItems);
 
-		for (int i = 0; i < 5; ++i) {
-			for (int j = 0; j < 3; ++j) {
-				ItemStack itemstack = par1InventoryCrafting
-						.getStackInRowAndColumn(j, i);
+		for (int i = 0; i < par1InventoryCrafting.getSizeInventory(); ++i) {
+			ItemStack itemstack = par1InventoryCrafting.getStackInSlot(i);
 
-				if (itemstack != null) {
-					boolean flag = false;
-					Iterator<ItemStack> iterator = arraylist.iterator();
+			if (itemstack != null) {
+				boolean flag = false;
+				Iterator<ItemStack> iterator = arraylist.iterator();
 
-					while (iterator.hasNext()) {
-						ItemStack itemstack1 = iterator.next();
+				while (iterator.hasNext()) {
+					ItemStack itemstack1 = iterator.next();
 
-						if (itemstack1.getItemDamage() == 32767
-								|| itemstack.getItemDamage() == itemstack1
-										.getItemDamage()) {
-							flag = true;
-							arraylist.remove(itemstack1);
-							break;
-						}
+					if (itemstack1.getItemDamage() == 32767
+							|| itemstack.getItemDamage() == itemstack1
+									.getItemDamage()) {
+						flag = true;
+						arraylist.remove(itemstack1);
+						break;
 					}
+				}
 
-					if (!flag) {
-						return false;
-					}
+				if (!flag) {
+					return false;
 				}
 			}
 		}

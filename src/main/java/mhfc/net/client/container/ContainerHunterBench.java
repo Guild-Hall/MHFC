@@ -1,8 +1,8 @@
 package mhfc.net.client.container;
 
-import mhfc.net.client.crafting.MHFCCraftingManager;
 import mhfc.net.client.gui.slot.SlotHunterBench;
 import mhfc.net.common.core.registry.MHFCRegBlock;
+import mhfc.net.common.crafting.MHFCCraftingManager;
 import mhfc.net.common.tile.TileHunterBench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -51,6 +51,27 @@ public class ContainerHunterBench extends Container {
 			this.addSlotToContainer(new Slot(par1InventoryPlayer, var6,
 					158 + var6 * 18, 84));
 		}
+
+		for (var6 = 0; var6 < 8; ++var6) {
+			this.addSlotToContainer(new Slot(tileEntity, var6 + 2,
+					(var6 % 4) * 18 + 150, (var6 / 4) * 18 + 50) {
+				@Override
+				public boolean isItemValid(ItemStack stack) {
+					return false;
+				}
+			});
+		}
+
+		this.addSlotToContainer(new Slot(tileEntity,
+				TileHunterBench.outputSlot, 240, 59) {
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return false;
+			}
+		});
+
+		this.addSlotToContainer(new Slot(tileEntity, TileHunterBench.fuelSlot,
+				180, 170));
 
 		this.onCraftMatrixChanged(this.craftMatrix);
 	}

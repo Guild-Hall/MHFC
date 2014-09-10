@@ -1,4 +1,4 @@
-package mhfc.net.client.crafting.recipes;
+package mhfc.net.common.crafting.recipes;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;

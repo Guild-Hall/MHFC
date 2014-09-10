@@ -1,14 +1,14 @@
-package mhfc.net.client.crafting;
+package mhfc.net.common.crafting;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import mhfc.net.client.crafting.recipes.MHFCShapedRecipes;
-import mhfc.net.client.crafting.recipes.MHFCShapelessRecipes;
 import mhfc.net.common.core.registry.MHFCRegBlock;
 import mhfc.net.common.core.registry.MHFCRegCraftingHunter;
 import mhfc.net.common.core.registry.MHFCRegItem;
+import mhfc.net.common.crafting.recipes.MHFCShapedRecipes;
+import mhfc.net.common.crafting.recipes.MHFCShapelessRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
@@ -187,7 +187,7 @@ public class MHFCCraftingManager {
 			}
 		}
 
-		this.recipes.add(new MHFCShapelessRecipes(par1ItemStack, var3));
+		this.recipes.add(new MHFCShapelessRecipe(par1ItemStack, var3));
 	}
 
 }

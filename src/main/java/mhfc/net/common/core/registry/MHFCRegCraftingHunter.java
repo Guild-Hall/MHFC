@@ -1,6 +1,6 @@
 package mhfc.net.common.core.registry;
 
-import mhfc.net.client.crafting.MHFCCraftingManager;
+import mhfc.net.common.crafting.MHFCCraftingManager;
 
 public class MHFCRegCraftingHunter {
 
