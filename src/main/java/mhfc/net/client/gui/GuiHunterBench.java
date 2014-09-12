@@ -1,5 +1,7 @@
 package mhfc.net.client.gui;
 
+import java.util.List;
+
 import mhfc.net.client.container.ContainerHunterBench;
 import mhfc.net.common.tile.TileHunterBench;
 import mhfc.net.common.util.lib.MHFCReference;
@@ -13,11 +15,52 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
 public class GuiHunterBench extends MHFCTabbedGui {
-	protected class CraftArmorTab implements IMHFCTab {
 
-		int startIndex, endIndex;
+	protected abstract class BenchTab implements IMHFCTab {
 
-		TileHunterBench bench;
+		protected int startIndex, endIndex;
+		protected TileHunterBench bench;
+
+		protected List<ClickableGuiList> clickableLists;
+
+		public BenchTab(int start, int end, TileHunterBench bench) {
+			this.startIndex = start;
+			this.endIndex = end;
+			this.bench = bench;
+		}
+
+		@Override
+		public void drawTab(int posX, int posY, int mousePosX, int mousePosY,
+				float partialTick) {
+			for (ClickableGuiList list : clickableLists) {
+				list.draw();
+			}
+		};
+
+		@Override
+		public void handleClick(int relativeX, int relativeY, int button) {
+			for (ClickableGuiList list : clickableLists) {
+				if (list.handleClick(relativeX - list.posX, relativeY
+						- list.posY, button))
+					listUpdated(list);
+			}
+		}
+
+		protected void listUpdated(ClickableGuiList list) {
+		}
+
+		@Override
+		public boolean containsSlot(Slot slot) {
+			if (slot.slotNumber >= startIndex && slot.slotNumber < endIndex) {
+				return slot.slotNumber != TileHunterBench.outputSlot
+						|| bench.isWorking();
+			}
+			return false;
+		}
+
+	}
+
+	protected class CraftArmorTab extends BenchTab {
 
 		/**
 		 * 
@@ -27,14 +70,13 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		 *            End index of slots on this page, exclusive
 		 */
 		public CraftArmorTab(int start, int end, TileHunterBench bench) {
-			startIndex = start;
-			endIndex = end;
-			this.bench = bench;
+			super(start, end, bench);
 		}
 
 		@Override
 		public void drawTab(int posX, int posY, int mousePosX, int mousePosY,
 				float partialTick) {
+			super.drawTab(posX, posY, mousePosX, mousePosY, partialTick);
 			fontRendererObj
 					.drawString(
 							StatCollector
@@ -42,28 +84,9 @@ public class GuiHunterBench extends MHFCTabbedGui {
 							guiLeft + 5, guiTop + 4, 4210752);
 			// TODO reposition Slots accordingly
 		}
-
-		@Override
-		public void handleClick(int relativeX, int relativeY, int button) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public boolean containsSlot(Slot slot) {
-			if (slot.slotNumber >= startIndex && slot.slotNumber < endIndex) {
-				return slot.slotNumber != bench.outputSlot || bench.isWorking();
-			}
-			return false;
-		}
-
 	}
 
-	protected class CraftWeaponTab implements IMHFCTab {
-
-		int startIndex, endIndex;
-
-		TileHunterBench bench;
+	protected class CraftWeaponTab extends BenchTab {
 
 		/**
 		 * 
@@ -73,33 +96,18 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		 *            End index of slots on this page, exclusive
 		 */
 		public CraftWeaponTab(int start, int end, TileHunterBench bench) {
-			startIndex = start;
-			endIndex = end;
-			this.bench = bench;
+			super(start, end, bench);
 		}
 
 		@Override
 		public void drawTab(int posX, int posY, int mousePosX, int mousePosY,
 				float partialTick) {
+			super.drawTab(posX, posY, mousePosX, mousePosY, partialTick);
 			fontRendererObj
 					.drawString(
 							StatCollector
 									.translateToLocal(MHFCReference.gui_hunterbench_tab_weapon_name),
 							guiLeft + 5, guiTop + 4, 4210752);
-		}
-
-		@Override
-		public void handleClick(int relativeX, int relativeY, int button) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public boolean containsSlot(Slot slot) {
-			if (slot.slotNumber >= startIndex && slot.slotNumber < endIndex) {
-				return slot.slotNumber != bench.outputSlot || bench.isWorking();
-			}
-			return false;
 		}
 
 	}
