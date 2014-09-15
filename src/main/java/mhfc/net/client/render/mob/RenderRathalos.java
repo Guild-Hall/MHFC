@@ -18,7 +18,7 @@ public class RenderRathalos extends RenderLiving {
 	private float scale;
 	private static final ResourceLocation texture = new ResourceLocation(
 			"mhfc:textures/mobs/rathalos.png");
-	
+
 	public RenderRathalos(ModelRathalos par1ModelBase, float par2, float par3) {
 		super(par1ModelBase, par2 * par3);
 		this.scale = par3;
