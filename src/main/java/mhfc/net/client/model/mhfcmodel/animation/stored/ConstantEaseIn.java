@@ -12,10 +12,9 @@ import org.lwjgl.util.vector.Vector2f;
  *
  */
 public class ConstantEaseIn extends Spline {
-	public static final ISplineFactory factory = new ISplineFactory() {
+	public static final IEaseInSplineFactory factory = new IEaseInSplineFactory() {
 		@Override
-		public Spline newSpline(Vector2f left, Vector2f right,
-				DataInputStream additionalData) {
+		public Spline newSpline(Vector2f right, DataInputStream additionalData) {
 			return new ConstantEaseIn(right);
 		}
 	};

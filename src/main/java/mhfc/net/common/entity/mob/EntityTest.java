@@ -30,7 +30,7 @@ public class EntityTest extends EntityLiving implements IAnimatedObject {
 	@Override
 	public int getCurrentFrame() {
 		// Returns the frame in the animation (time since attack started?)
-		return this.ticksExisted % 50;
+		return this.ticksExisted % 90;
 	}
 
 	@Override

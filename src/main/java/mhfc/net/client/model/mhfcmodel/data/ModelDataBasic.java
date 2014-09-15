@@ -150,9 +150,8 @@ public class ModelDataBasic implements IModelData {
 							this.vert.norm.z, 0.0F);
 					// Transform matrix
 					Matrix4f globalTransform = this.bone.getTransformGlobal();
-					Matrix4f globalTransformIT = Matrix4f.invert(
-							globalTransform, null);
-					globalTransformIT.transpose();
+					Matrix4f globalTransformIT = this.bone
+							.getTransformGlobalIT();
 					// Transform points with matrix
 					Matrix4f.transform(globalTransform, posBuff, posBuff);
 					// Transform normal
@@ -266,6 +265,8 @@ public class ModelDataBasic implements IModelData {
 		public final String name;
 
 		protected Matrix4f TMP_transform = new Matrix4f();
+		protected Matrix4f TMP_globalMatrix = new Matrix4f();
+		protected Matrix4f TMP_globalMatrixIT = new Matrix4f();
 
 		protected Bone(Matrix4f localMatrix, String name) {
 			this.localToParent = localMatrix;
@@ -274,7 +275,9 @@ public class ModelDataBasic implements IModelData {
 		}
 
 		private void resetTransform() {
-			this.TMP_transform = identity;
+			Matrix4f.load(TMP_transform, identity);
+			Matrix4f.load(TMP_globalMatrix, identity);
+			Matrix4f.load(TMP_globalMatrixIT, identity);
 		}
 		/**
 		 * Sets up this bone for the following calls to
@@ -299,7 +302,12 @@ public class ModelDataBasic implements IModelData {
 				resetTransform();
 				return;
 			}
-			this.TMP_transform = btr.asMatrix();
+			Matrix4f.load(btr.asMatrix(), TMP_transform);
+			Matrix4f worldToLocal = this.worldToLocal(null);
+			Matrix4f localToWorld = this.localToWorld(null);
+			Matrix4f.mul(localToWorld, worldToLocal, this.TMP_globalMatrix);
+			Matrix4f.load(TMP_globalMatrix, TMP_globalMatrixIT);
+			this.TMP_globalMatrixIT.invert().transpose();
 		}
 		/**
 		 * Gets a a matrix transformation from world to local coordinates
@@ -332,9 +340,18 @@ public class ModelDataBasic implements IModelData {
 		 * @return world to transformed world
 		 */
 		public Matrix4f getTransformGlobal() {
-			Matrix4f worldToLocal = this.worldToLocal(null);
-			Matrix4f localToWorld = this.localToWorld(null);
-			return Matrix4f.mul(localToWorld, worldToLocal, worldToLocal);
+			return TMP_globalMatrix;
+		}
+		/**
+		 * Gets the inverse transposed transform previously applied with
+		 * {@link #setTransformation(IAnimation, int, float)} already
+		 * transformed to the global matrix. This matrix is suitable for usage
+		 * with normals
+		 *
+		 * @return world to transformed world
+		 */
+		public Matrix4f getTransformGlobalIT() {
+			return TMP_globalMatrixIT;
 		}
 		/**
 		 * Returns a new bone from the data given. If the bone has a parent it

@@ -5,8 +5,6 @@ import mhfc.net.client.model.mhfcmodel.data.RawData;
 import mhfc.net.client.model.mhfcmodel.data.RawDataV1;
 import mhfc.net.client.model.mhfcmodel.loader.VersionizedModelLoader;
 
-import org.lwjgl.opengl.GLContext;
-
 /**
  * Represents an GLHelper. That is a render-glHelper for the correct OpenGL-
  * version present on this computer.
@@ -17,8 +15,6 @@ import org.lwjgl.opengl.GLContext;
  *            the ModelDataType this GLHelper can handle
  */
 public abstract class GLHelper {
-	protected static final boolean supportsPipelines = GLContext
-			.getCapabilities().GL_ARB_separate_shader_objects;
 	/**
 	 * This method is used to translate the {@link RawDataV1} that was
 	 * previously read by the appropriate {@link VersionizedModelLoader}.
@@ -55,9 +51,8 @@ public abstract class GLHelper {
 	 * Selects an appropriate {@link GLHelper} from the known types.
 	 */
 	public static GLHelper getNewAppropriateHelper() {
-		// TODO: enable advanced rendering
-		// if (supportsPipelines)
-		// return new GLHelper40();
+		// TODO: enable advanced rendering, write when you feel like you have to
+		// optimize
 		return new GLHelperBasic();
 	}
 }

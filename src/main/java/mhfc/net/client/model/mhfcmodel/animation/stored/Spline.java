@@ -10,13 +10,16 @@ import net.minecraftforge.client.model.ModelFormatException;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
- * A spline is the line between two key-frames k_1 and k_2.
+ * A spline is the line between two key-frames k<SUB>1</SUB> and k<SUB>2</SUB>.
  *
  * @author WorldSEnder
  *
  */
 public abstract class Spline {
-	public static Map<Byte, ISplineFactory> factories;
+	private static Map<Byte, IEaseInSplineFactory> ease_in_factories;
+	private static Map<Byte, IInterpolationSplineFactory> interpolation_factories;
+	private static Map<Byte, IEaseOutSplineFactory> ease_out_factories;
+
 	public static final byte EASE_IN_CONST = 0;
 
 	public static final byte INTERPOLATION_CONST = 8;
@@ -25,19 +28,25 @@ public abstract class Spline {
 
 	public static final byte EASE_OUT_CONST = 16;
 	static {
-		factories = new HashMap<>();
+		ease_in_factories = new HashMap<>();
+		interpolation_factories = new HashMap<>();
+		ease_out_factories = new HashMap<>();
 		// Default registry
-		registerFactory(EASE_IN_CONST, ConstantEaseIn.factory);
-		registerFactory(INTERPOLATION_CONST, ConstantInterpolation.factory);
-		registerFactory(INTERPOLATION_LINEAR, LinearInterpolation.factory);
-		registerFactory(INTERPOLATION_BSPLINE, BSplineInterpolation.factory);
-		registerFactory(EASE_OUT_CONST, ConstantEaseOut.factory);
+		registerEaseInFactory(EASE_IN_CONST, ConstantEaseIn.factory);
+		registerInterpolateFactory(INTERPOLATION_CONST,
+				ConstantInterpolation.factory);
+		registerInterpolateFactory(INTERPOLATION_LINEAR,
+				LinearInterpolation.factory);
+		registerInterpolateFactory(INTERPOLATION_BSPLINE,
+				BSplineInterpolation.factory);
+		registerEaseOutFactory(EASE_OUT_CONST, ConstantEaseOut.factory);
 		// TODO: EASE_OUT_LINEAR
 	}
-	public static interface ISplineFactory {
+	public static interface IInterpolationSplineFactory {
 		/**
-		 * This function should construct a new between the two points given
-		 * reading additional data from the {@link DataInputStream} given.
+		 * This function should construct a new Spline between the two points
+		 * given the left and right point, reading additional data from the
+		 * {@link DataInputStream} given.
 		 *
 		 * @param left
 		 *            the left control-point of this spline
@@ -53,20 +62,41 @@ public abstract class Spline {
 		public Spline newSpline(Vector2f left, Vector2f right,
 				DataInputStream additionalData) throws IOException;
 	}
-	/**
-	 * Registers an {@link ISplineFactory} for the descriminator byte given.
-	 *
-	 * @param descriminator
-	 *            the descriminator byte
-	 * @param factory
-	 *            the factory, can't be <code>null</code>
-	 * @return a previously registered factory, if any
-	 */
-	public static ISplineFactory registerFactory(byte descriminator,
-			ISplineFactory factory) {
-		if (factory == null)
-			throw new IllegalArgumentException("Factory can't be null");
-		return factories.put(descriminator, factory);
+	public static interface IEaseInSplineFactory {
+		/**
+		 * This function should construct a new Spline from -infinity to the
+		 * right point, reading additional data from the {@link DataInputStream}
+		 * given.
+		 *
+		 * @param right
+		 *            the right control-point of this spline
+		 * @param additionalData
+		 *            read additional data from this
+		 * @return the constructed spline. Not <code>null</code>
+		 * @throws IOException
+		 *             if an {@link IOException} results from reading from the
+		 *             {@link DataInputStream} given
+		 */
+		public Spline newSpline(Vector2f right, DataInputStream additionalData)
+				throws IOException;
+	}
+	public static interface IEaseOutSplineFactory {
+		/**
+		 * This function should construct a new Spline from the left point
+		 * towards infinity, reading additional data from the
+		 * {@link DataInputStream} given.
+		 *
+		 * @param left
+		 *            the right control-point of this spline
+		 * @param additionalData
+		 *            read additional data from this
+		 * @return the constructed spline. Not <code>null</code>
+		 * @throws IOException
+		 *             if an {@link IOException} results from reading from the
+		 *             {@link DataInputStream} given
+		 */
+		public Spline newSpline(Vector2f left, DataInputStream additionalData)
+				throws IOException;
 	}
 	/**
 	 * Returns if the frame given is actually on this spline.
@@ -88,8 +118,64 @@ public abstract class Spline {
 	 */
 	public abstract float getValueAt(float frame);
 	/**
+	 * Registers an {@link IEaseInSplineFactory} for the descriminator byte
+	 * given.
+	 *
+	 * @param descriminator
+	 *            the descriminator byte
+	 * @param factory
+	 *            the factory, can't be <code>null</code>
+	 * @return a previously registered factory, if any
+	 */
+	public static IEaseInSplineFactory registerEaseInFactory(
+			byte descriminator, IEaseInSplineFactory factory) {
+		if (factory == null)
+			throw new IllegalArgumentException("Factory can't be null");
+		return ease_in_factories.put(descriminator, factory);
+	}
+	/**
 	 * Constructs a new spline from the read descriminator byte using previously
-	 * registered factories. Generally left.x should be less than right.x.
+	 * registered with
+	 * {@link #registerEaseInFactory(byte, IEaseInSplineFactory)}. This will be
+	 * the spline from -infinity to right.x.
+	 *
+	 * @param descr
+	 *            the read descriminator byte
+	 * @param right
+	 *            right point of this spline
+	 * @param dis
+	 *            a {@link DataInputStream} to read additional data from
+	 * @return
+	 * @throws ModelFormatException
+	 * @throws IOException
+	 */
+	public static Spline easeIn(byte descr, Vector2f right, DataInputStream dis)
+			throws ModelFormatException, IOException {
+		IEaseInSplineFactory factory = ease_in_factories.get(descr);
+		if (factory == null)
+			throw new ModelFormatException("Unknown ease-in mode.");
+		return factory.newSpline(right, dis);
+	}
+	/**
+	 * Registers an {@link IInterpolationSplineFactory} for the descriminator
+	 * byte given.
+	 *
+	 * @param descriminator
+	 *            the descriminator byte
+	 * @param factory
+	 *            the factory, can't be <code>null</code>
+	 * @return a previously registered factory, if any
+	 */
+	public static IInterpolationSplineFactory registerInterpolateFactory(
+			byte descriminator, IInterpolationSplineFactory factory) {
+		if (factory == null)
+			throw new IllegalArgumentException("Factory can't be null");
+		return interpolation_factories.put(descriminator, factory);
+	}
+	/**
+	 * Constructs a new spline from the read descriminator byte using previously
+	 * registered interpolation_factories. Generally left.x should be less than
+	 * right.x.
 	 *
 	 * @param descr
 	 *            the read descriminator byte
@@ -103,15 +189,53 @@ public abstract class Spline {
 	 * @throws ModelFormatException
 	 * @throws IOException
 	 */
-	public static Spline fromDescriminator(byte descr, Vector2f left,
+	public static Spline interpolating(byte descr, Vector2f left,
 			Vector2f right, DataInputStream dis) throws ModelFormatException,
 			IOException {
-		ISplineFactory factory = factories.get(descr);
+		IInterpolationSplineFactory factory = interpolation_factories
+				.get(descr);
 		if (factory == null)
-			throw new ModelFormatException("Unknown interpolation mode.");
-		// MHFCMain.logger
-		// .debug("Not supporting bspline interpolation yet, using linear");
+			throw new ModelFormatException("Unknown interpolate mode.");
 		return factory.newSpline(left, right, dis);
+	}
+	/**
+	 * Registers an {@link IEaseOutSplineFactory} for the descriminator byte
+	 * given.
+	 *
+	 * @param descriminator
+	 *            the descriminator byte
+	 * @param factory
+	 *            the factory, can't be <code>null</code>
+	 * @return a previously registered factory, if any
+	 */
+	public static IEaseOutSplineFactory registerEaseOutFactory(
+			byte descriminator, IEaseOutSplineFactory factory) {
+		if (factory == null)
+			throw new IllegalArgumentException("Factory can't be null");
+		return ease_out_factories.put(descriminator, factory);
+	}
+	/**
+	 * Constructs a new spline from the read descriminator byte using previously
+	 * registered with
+	 * {@link #registerEaseOutFactory(byte, IEaseOutSplineFactory)}. This will
+	 * be the spline from left.x to positive infinity.
+	 *
+	 * @param descr
+	 *            the read descriminator byte
+	 * @param left
+	 *            right point of this spline
+	 * @param dis
+	 *            a {@link DataInputStream} to read additional data from
+	 * @return
+	 * @throws ModelFormatException
+	 * @throws IOException
+	 */
+	public static Spline easeOut(byte descr, Vector2f left, DataInputStream dis)
+			throws ModelFormatException, IOException {
+		IEaseOutSplineFactory factory = ease_out_factories.get(descr);
+		if (factory == null)
+			throw new ModelFormatException("Unknown ease-out mode.");
+		return factory.newSpline(left, dis);
 	}
 	/**
 	 * Utility function for reading a sole point from the
