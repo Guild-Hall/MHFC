@@ -11,14 +11,12 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'org.batcha.gradle.plugins:git-dependencies:0.2'
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
     }
 }
 
 apply plugin: 'forge'
 apply plugin: 'eclipse'
-apply plugin: 'git-dependencies'
 
 version = "1.0"
 group= "com.yourname.modid"
@@ -37,7 +35,7 @@ dependencies {
     // initGitDependencies    -> clones locally = checkout
     // refreshGitDependencies -> refresh        = pull
 
-    compile files('./libs/mcanm-0.0.101a_1710.jar')
+    compile files('./externlibs/mcanm-0.0.101a_1710.jar')
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
