@@ -8,13 +8,14 @@ import static org.lwjgl.opengl.GL11.glTranslatef;
 import java.util.Random;
 
 import mhfc.net.client.model.PartTickModelBase;
-import mhfc.net.client.model.mhfcmodel.ModelMHMD;
-import mhfc.net.client.model.mhfcmodel.ModelRegistry;
-import mhfc.net.client.model.mhfcmodel.animation.IAnimatedObject;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.model.TextureOffset;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+
+import com.github.worldsender.mcanm.client.model.mhfcmodel.ModelMCMD;
+import com.github.worldsender.mcanm.client.model.mhfcmodel.ModelRegistry;
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimatedObject;
 
 /**
  * A general purpose model that should fulfill most of your needs. I uses a
@@ -26,7 +27,7 @@ import net.minecraft.util.ResourceLocation;
  *
  */
 public class ModelAnimated extends PartTickModelBase {
-	protected ModelMHMD model;
+	protected ModelMCMD model;
 	/**
 	 * Loads the model from the given ResourceLocation using the
 	 * {@link ModelRegistry} thus this constructor is exception-free and will
@@ -46,7 +47,7 @@ public class ModelAnimated extends PartTickModelBase {
 	 * @param model
 	 *            the model to render
 	 */
-	public ModelAnimated(ModelMHMD model) {
+	public ModelAnimated(ModelMCMD model) {
 		this.model = model;
 	}
 	/**

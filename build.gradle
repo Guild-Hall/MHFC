@@ -11,15 +11,17 @@ buildscript {
         }
     }
     dependencies {
+        classpath 'org.batcha.gradle.plugins:git-dependencies:0.2'
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
     }
 }
 
 apply plugin: 'forge'
 apply plugin: 'eclipse'
+apply plugin: 'git-dependencies'
 
 version = "1.0"
-group= "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "com.yourname.modid"
 archivesBaseName = "modid"
 
 sourceCompatibility = 1.7
@@ -27,10 +29,15 @@ targetCompatibility = 1.7
 
 minecraft {
     version = "1.7.10-10.13.0.1180"
-    assetDir = "eclipse/assets"
+    runDir = "eclipse"
 }
 
 dependencies {
+    //
+    // initGitDependencies    -> clones locally = checkout
+    // refreshGitDependencies -> refresh        = pull
+
+    compile files('./libs/mcanm-0.0.101a_1710.jar')
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
@@ -46,8 +53,7 @@ dependencies {
 
 }
 
-processResources
-{
+processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version

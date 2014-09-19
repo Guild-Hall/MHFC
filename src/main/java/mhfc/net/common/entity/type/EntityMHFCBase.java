@@ -2,8 +2,6 @@ package mhfc.net.common.entity.type;
 
 import java.util.List;
 
-import mhfc.net.client.model.mhfcmodel.animation.IAnimatedObject;
-import mhfc.net.client.model.mhfcmodel.animation.IAnimation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityMultiPart;
@@ -12,6 +10,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimatedObject;
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
 import com.google.common.base.Predicate;
 
 /**

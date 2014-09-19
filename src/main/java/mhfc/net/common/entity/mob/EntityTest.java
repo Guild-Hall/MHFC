@@ -1,12 +1,12 @@
 package mhfc.net.common.entity.mob;
 
-import mhfc.net.client.model.mhfcmodel.animation.IAnimatedObject;
-import mhfc.net.client.model.mhfcmodel.animation.IAnimation;
-import mhfc.net.client.model.mhfcmodel.animation.stored.AnimationRegistry;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimatedObject;
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.stored.AnimationRegistry;
 import com.google.common.base.Predicate;
 
 // This is a really simple test Entity
