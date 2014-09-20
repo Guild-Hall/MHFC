@@ -1,9 +1,6 @@
 package mhfc.net.common.core.registry;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.client.model.mhfcmodel.MHMDModelLoader;
-import mhfc.net.client.model.mhfcmodel.ModelRegistry;
-import mhfc.net.client.model.mhfcmodel.animation.stored.AnimationRegistry;
 import mhfc.net.client.model.mob.ModelPopo;
 import mhfc.net.client.model.mob.boss.ModelKirin;
 import mhfc.net.client.model.mob.boss.ModelRathalos;
@@ -24,12 +21,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraftforge.client.model.AdvancedModelLoader;
+
+import com.github.worldsender.mcanm.client.model.mhfcmodel.MCMDModelLoader;
+import com.github.worldsender.mcanm.client.model.mhfcmodel.ModelRegistry;
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.stored.AnimationRegistry;
+
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class MHFCRegRenderEntity {
 
 	public static void render() {
-		AdvancedModelLoader.registerModelHandler(MHMDModelLoader.instance);
+		AdvancedModelLoader.registerModelHandler(MCMDModelLoader.instance);
 		registerResourcePackListeners();
 		renderMonster();
 		renderBlockEntities();

@@ -2,14 +2,12 @@
 *
 !src/
 !gradle/
+!libs/
 !gradlew
 !gradlew.bat
 !README.md
 !LICENSE
 !build.gradle
-
-# temporary until I make an own repository
-!blender/
 
 *.class
 
