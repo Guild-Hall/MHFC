@@ -25,7 +25,11 @@ import cpw.mods.fml.relauncher.Side;
 /**
  * @author <Heltrato>
  * @license MHFModding Team Copyright (http://www.minecraftforum.net/topic/1977334-164spmp-monster-hunter-frontier-craft-extreme-mob-hunting-adventure-15000-downloads/) 
- * Visit www.mhfrontiercraft.blogspot.com for more info.
+ * Visit www.facebook.com/mhfcraft or follow @heltrato for more info.
+ * 
+ * NOTE: Martin/Andreas if im succeed of bypassing GL issues with some sort of stuff. We will update this to 1.7.10
+ * -Heltrato.
+ * 
  */
 
 @Mod(modid = MHFCReference.main_modid, name = MHFCReference.main_name, version = MHFCReference.main_version)
