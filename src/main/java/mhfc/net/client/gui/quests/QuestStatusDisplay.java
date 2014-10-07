@@ -47,9 +47,9 @@ public class QuestStatusDisplay extends Gui {
 			int positionY = (res.getScaledHeight() - height) / 2;
 			width = Math.min(width, res.getScaledWidth() - positionX - 10);
 			GL11.glTranslatef(0, 0, 0.5f);
-			MHFCGuiUtil.zLevel = this.zLevel;
-			MHFCGuiUtil.drawTexturedBoxFromBorder(positionX, positionY, width,
-					height, 40, 40f / 256, 248f / 256, 166f / 256);
+			MHFCGuiUtil.drawTexturedBoxFromBorder(positionX, positionY,
+					this.zLevel, width, height, 40, 40f / 256, 248f / 256,
+					166f / 256);
 
 			if (information == null) {
 				String drawn = "No quest accepted";
@@ -83,9 +83,8 @@ public class QuestStatusDisplay extends Gui {
 					mc.displayHeight);
 			int posX = res.getScaledWidth() - width, posY = (res
 					.getScaledHeight() - height) / 2;
-			MHFCGuiUtil.zLevel = this.zLevel;
-			MHFCGuiUtil.drawTexturedBoxFromBorder(posX, posY, width, height,
-					40, 30f / 256, 248f / 256, 166f / 256);
+			MHFCGuiUtil.drawTexturedBoxFromBorder(posX, posY, this.zLevel,
+					width, height, 40, 30f / 256, 248f / 256, 166f / 256);
 			GL11.glDisable(GL11.GL_BLEND);
 			String localizedStat = StatCollector
 					.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_STATUS_SHORT);

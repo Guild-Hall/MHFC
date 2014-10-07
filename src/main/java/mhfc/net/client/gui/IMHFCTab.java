@@ -9,4 +9,6 @@ public interface IMHFCTab {
 	public void handleClick(int relativeX, int relativeY, int button);
 
 	public boolean containsSlot(Slot slot);
+
+	public void updateScreen();
 }

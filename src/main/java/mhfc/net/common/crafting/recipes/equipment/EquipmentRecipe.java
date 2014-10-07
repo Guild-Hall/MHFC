@@ -3,6 +3,8 @@ package mhfc.net.common.crafting.recipes.equipment;
 import java.util.List;
 
 import mhfc.net.common.crafting.recipes.MHFCShapelessRecipe;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 
 public class EquipmentRecipe extends MHFCShapelessRecipe {
@@ -14,6 +16,11 @@ public class EquipmentRecipe extends MHFCShapelessRecipe {
 		super(recipeProduct, recipeIngredients);
 		this.heat = requiredHeat;
 		this.duration = duration;
+		Item it = recipeProduct.getItem();
+		if (it instanceof ItemArmor) {
+			EquipmentRecipeRegistry.register(this, ((ItemArmor) it).armorType);
+		}
+		// TODO long else if
 	}
 
 	public ItemStack[] getRequirements(int padTo) {

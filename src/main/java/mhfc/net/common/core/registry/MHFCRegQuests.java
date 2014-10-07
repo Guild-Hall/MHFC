@@ -322,7 +322,10 @@ public class MHFCRegQuests {
 
 		@SubscribeEvent
 		public void onPlayerLeave(PlayerLoggedOutEvent logOut) {
-			playerQuest.get(logOut.player).removePlayer(logOut.player);
+			GeneralQuest q = playerQuest.get(logOut.player);
+			if (q == null)
+				return;
+			q.removePlayer(logOut.player);
 		}
 	}
 

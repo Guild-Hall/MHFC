@@ -16,8 +16,7 @@ public class MHFCShapelessRecipe implements IRecipe {
 	/** Is a List of ItemStack that composes the recipe. */
 	public final List<ItemStack> recipeItems;
 
-	public MHFCShapelessRecipe(ItemStack par1ItemStack,
-			List<ItemStack> par2List) {
+	public MHFCShapelessRecipe(ItemStack par1ItemStack, List<ItemStack> par2List) {
 		this.recipeOutput = par1ItemStack;
 		this.recipeItems = par2List;
 	}

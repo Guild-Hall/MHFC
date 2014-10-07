@@ -52,18 +52,29 @@ public class ContainerHunterBench extends Container {
 					158 + var6 * 18, 84));
 		}
 
-		for (var6 = 0; var6 < 8; ++var6) {
-			this.addSlotToContainer(new Slot(tileEntity, var6 + 2,
-					(var6 % 4) * 18 + 150, (var6 / 4) * 18 + 50) {
+		for (var6 = 0; var6 < 7; ++var6) {
+			Slot s = new Slot(tileEntity, var6 + 2, var6 * 18 + 228, 5) {
 				@Override
 				public boolean isItemValid(ItemStack stack) {
 					return false;
 				}
+
+				@Override
+				public boolean canTakeStack(EntityPlayer p) {
+					return false;
+				}
+			};
+			this.addSlotToContainer(s);
+		}
+
+		for (var6 = 0; var6 < 7; ++var6) {
+			this.addSlotToContainer(new Slot(tileEntity, var6 + 9,
+					var6 * 18 + 228, 160) {
 			});
 		}
 
 		this.addSlotToContainer(new Slot(tileEntity,
-				TileHunterBench.outputSlot, 240, 59) {
+				TileHunterBench.outputSlot, 228 + 3 * 18, 121) {
 			@Override
 			public boolean isItemValid(ItemStack stack) {
 				return false;
@@ -71,7 +82,14 @@ public class ContainerHunterBench extends Container {
 		});
 
 		this.addSlotToContainer(new Slot(tileEntity, TileHunterBench.fuelSlot,
-				180, 170));
+				353, 140));
+
+		for (var6 = 0; var6 < 4; ++var6) {
+			for (var7 = 0; var7 < 9; ++var7) {
+				this.addSlotToContainer(new Slot(par1InventoryPlayer, var7
+						+ var6 * 9, 5 + var6 * 18, var7 * 18 + 16));
+			}
+		}
 
 		this.onCraftMatrixChanged(this.craftMatrix);
 	}

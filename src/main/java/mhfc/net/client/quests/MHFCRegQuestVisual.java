@@ -121,6 +121,8 @@ public class MHFCRegQuestVisual {
 		}
 	}
 
+	// FIXME outsource a lot of this into the main registry to avoid duplication
+	// and confusion
 	public static final String UNLOCALIZED_TAG_FEE = "mhfc.quests.visual.tag.fee";
 	public static final String UNLOCALIZED_TAG_REWARD = "mfhc.quests.visual.tag.reward";
 	public static final String UNLOCALIZED_TAG_TIME = "mhfc.quests.visual.tag.time";

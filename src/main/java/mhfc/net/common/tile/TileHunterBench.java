@@ -14,7 +14,8 @@ public class TileHunterBench extends TileEntity implements IInventory {
 
 	private ItemStack fuelStack;
 	private ItemStack outputStack;
-	private ItemStack[] stacks;
+	private ItemStack[] recipeStacks;
+	private ItemStack[] inputStacks;
 
 	/**
 	 * How hot the furnace currently is
@@ -42,12 +43,13 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	private boolean working;
 
 	public TileHunterBench() {
-		stacks = new ItemStack[8];
+		recipeStacks = new ItemStack[7];
+		inputStacks = new ItemStack[recipeStacks.length];
 	}
 
 	@Override
 	public int getSizeInventory() {
-		return stacks.length + 2;
+		return recipeStacks.length + inputStacks.length + 2;
 	}
 
 	@Override
@@ -89,7 +91,7 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	}
 
 	public void setIngredients(EquipmentRecipe recipe) {
-		this.stacks = recipe.getRequirements(8);
+		this.recipeStacks = recipe.getRequirements(7);
 	}
 
 	private static int getItemHeat(ItemStack itemStack) {
@@ -107,10 +109,12 @@ public class TileHunterBench extends TileEntity implements IInventory {
 
 	@Override
 	public ItemStack getStackInSlot(int i) {
-		if (i < 0 || i > stacks.length + 2)
+		if (i < 0 || i >= recipeStacks.length * 2 + 2)
 			return null;
+		if (i > recipeStacks.length + 1)
+			return inputStacks[i - 2 - recipeStacks.length];
 		if (i > 1)
-			return stacks[i - 2];
+			return recipeStacks[i - 2];
 		if (i == 1)
 			return outputStack;
 		else
@@ -119,9 +123,23 @@ public class TileHunterBench extends TileEntity implements IInventory {
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
-		if (i > 1)
+		if (i > recipeStacks.length * 2 + 1)
 			return null; // You cant get anything from the recipe slots
 		// TODO If you take anything out, cancel the recipe
+		if (i > recipeStacks.length + 1) {
+			ItemStack stack = inputStacks[i - recipeStacks.length - 2];
+			if (stack == null)
+				return null;
+			cancelRecipe();
+			if (j > stack.stackSize)
+				j = stack.stackSize;
+			if (j == stack.stackSize) {
+				inputStacks[i - recipeStacks.length - 2] = null;
+				return stack;
+			}
+			return stack.splitStack(j);
+
+		}
 		if (i == outputSlot) {
 			ItemStack output = outputStack;
 			outputStack = null;
@@ -140,6 +158,10 @@ public class TileHunterBench extends TileEntity implements IInventory {
 		}
 	}
 
+	public void cancelRecipe() {
+		setRecipe(null);
+	}
+
 	@Override
 	public ItemStack getStackInSlotOnClosing(int i) {
 		return null;
@@ -147,11 +169,13 @@ public class TileHunterBench extends TileEntity implements IInventory {
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
-		if (i < 0 || i > stacks.length + 2)
+		if (i < 0 || i >= recipeStacks.length * 2 + 1)
 			return;
-		if (i > 1)
-			stacks[i - 2] = itemstack;
-		if (i == 1)
+		if (i > recipeStacks.length + 1)
+			inputStacks[i - recipeStacks.length - 2] = itemstack;
+		else if (i > 1)
+			recipeStacks[i - 2] = itemstack;
+		else if (i == 1)
 			outputStack = itemstack;
 		else
 			fuelStack = itemstack;
@@ -174,7 +198,8 @@ public class TileHunterBench extends TileEntity implements IInventory {
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		return i == fuelSlot && TileEntityFurnace.isItemFuel(itemstack);
+		return (i == fuelSlot && TileEntityFurnace.isItemFuel(itemstack))
+				|| (i > recipeStacks.length + 1 && i < recipeStacks.length * 2 + 2);
 	}
 
 	@Override
@@ -195,6 +220,11 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	@Override
 	public void closeInventory() {
 		// TODO Auto-generated method stub
+	}
+
+	public void beginCrafting() {
+		if (recipe != null)
+			working = true;
 	}
 
 }

@@ -76,4 +76,8 @@ public class QuestDescription {
 		return visual;
 	}
 
+	public String getFactory() {
+		return "";
+	}
+
 }

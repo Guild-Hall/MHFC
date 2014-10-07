@@ -4,6 +4,7 @@ import mhfc.net.MHFCMain;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.core.registry.MHFCRegBlock;
 import mhfc.net.common.core.registry.MHFCRegCrafting;
+import mhfc.net.common.core.registry.MHFCRegCraftingHunter;
 import mhfc.net.common.core.registry.MHFCRegEntity;
 import mhfc.net.common.core.registry.MHFCRegEvents;
 import mhfc.net.common.core.registry.MHFCRegItem;
@@ -32,6 +33,7 @@ public class MHFCReg {
 		addEvent();
 		addPacket();
 		addQuests();
+		MHFCRegCraftingHunter.craftAll();
 	}
 
 	public static void addBlocks() {

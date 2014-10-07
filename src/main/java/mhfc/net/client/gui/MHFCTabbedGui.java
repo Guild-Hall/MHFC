@@ -34,26 +34,65 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 	}
 
 	@Override
-	public void drawScreen(int mousePosX, int mousePosY, float partialTick) {
-		int posX = (this.width - this.xSize) / 2;
+	protected void drawGuiContainerBackgroundLayer(float partialTick,
+			int mousePosX, int mousePosY) {
+		int posX = (this.width - this.xSize - tabWidth) / 2 + tabWidth;
 		int posY = (this.height - this.ySize) / 2;
 		GL11.glPushMatrix();
-		super.drawScreen(mousePosX, mousePosY, partialTick);
-		GL11.glTranslatef(0, 0, 1.5f);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_BLEND);
-		drawTabIcons(posX, posY, mousePosX, mousePosY);
+		drawInactiveTabIcons(posX, posY, mousePosX, mousePosY);
+		drawTabBackgroundLayer();
+		drawActiveTabIcon(posX, posY, mousePosX, mousePosY);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		drawTab(tabIndex, posX, posY, mousePosX, mousePosY, partialTick);
+		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopMatrix();
 	}
 
-	protected void drawTabIcons(int posX, int posY, int mouseX, int mouseY) {
+	protected void drawActiveTabIcon(int posX, int posY, int mouseX, int mouseY) {
+		posX += 3;
+		posY += 5;
+		int diff = tabHeight + tabSplit;
+		int realWidth = 0;
+		int i = tabIndex;
+		GL11.glPushMatrix();
+		realWidth = tabWidth + tabDelta[i];
+		if (mouseX >= posX - realWidth && mouseX <= posX
+				&& mouseY >= posY + i * diff
+				&& mouseY <= posY + i * diff + tabHeight) {
+			tabDelta[i] = Math.min(tabDelta[i] + 2, 10);
+		} else {
+			tabDelta[i] = Math.max(tabDelta[i] - 2, 0);
+		}
+		int colorOfTabName = 0x404040;
+		GL11.glColor4f(1f, 1f, 1f, 1f);
+		mc.getTextureManager().bindTexture(
+				new ResourceLocation(MHFCReference.gui_tab_texture));
+		MHFCGuiUtil.drawTexturedBoxFromBorder(posX - realWidth,
+				posY + i * diff, this.zLevel, realWidth, tabHeight, 3,
+				8f / 256, 8f / 128, 1f, 1f);
+		int nameHeight = fontRendererObj.splitStringWidth(tabNames[i],
+				tabWidth - 2);
+		fontRendererObj.drawSplitString(tabNames[i], posX - realWidth + 3, posY
+				+ i * diff + (tabHeight - nameHeight) / 2, tabWidth - 2,
+				colorOfTabName);
+		GL11.glPopMatrix();
+	}
+
+	protected abstract void drawTabBackgroundLayer();
+
+	protected void drawInactiveTabIcons(int posX, int posY, int mouseX,
+			int mouseY) {
 		posX += 3;
 		posY += 5;
 		int diff = tabHeight + tabSplit;
 		int realWidth = 0;
 		for (int i = 0; i < tabNames.length; i++) {
+			if (i == tabIndex)
+				continue;
 			GL11.glPushMatrix();
 			realWidth = tabWidth + tabDelta[i];
 			if (mouseX >= posX - realWidth && mouseX <= posX
@@ -63,20 +102,13 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 			} else {
 				tabDelta[i] = Math.max(tabDelta[i] - 2, 0);
 			}
-			int colorOfTabName;
-			if (i == tabIndex) {
-				colorOfTabName = 0x404040;
-			} else {
-				colorOfTabName = 0x808080;
-				GL11.glTranslatef(0, 0, -0.5f);
-			}
+			int colorOfTabName = 0x808080;
 			GL11.glColor4f(1f, 1f, 1f, 1f);
 			mc.getTextureManager().bindTexture(
 					new ResourceLocation(MHFCReference.gui_tab_texture));
-			MHFCGuiUtil
-					.drawTexturedBoxFromBorder(posX - realWidth, posY + i
-							* diff, realWidth, tabHeight, 3, 8f / 256,
-							8f / 128, 1f, 1f);
+			MHFCGuiUtil.drawTexturedBoxFromBorder(posX - realWidth, posY + i
+					* diff, this.zLevel, realWidth, tabHeight, 3, 8f / 256,
+					8f / 128, 1f, 1f);
 			int nameHeight = fontRendererObj.splitStringWidth(tabNames[i],
 					tabWidth - 2);
 			fontRendererObj.drawSplitString(tabNames[i], posX - realWidth + 3,
@@ -102,11 +134,11 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 		for (Slot slot : slots) {
 			if (index >= 0 && index < tabList.size()
 					&& tabList.get(tabIndex).containsSlot(slot)) {
-				slot.xDisplayPosition = Math.abs(slot.xDisplayPosition);
-				slot.yDisplayPosition = Math.abs(slot.yDisplayPosition);
+				slot.xDisplayPosition = Math.abs(slot.xDisplayPosition + 200) - 200;
+				slot.yDisplayPosition = Math.abs(slot.yDisplayPosition + 200) - 200;
 			} else {
-				slot.xDisplayPosition = -Math.abs(slot.xDisplayPosition);
-				slot.yDisplayPosition = -Math.abs(slot.yDisplayPosition);
+				slot.xDisplayPosition = -Math.abs(slot.xDisplayPosition + 200) - 200;
+				slot.yDisplayPosition = -Math.abs(slot.yDisplayPosition + 200) - 200;
 			}
 		}
 	}
@@ -125,7 +157,19 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 		}
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		if (tabIndex >= 0 && tabIndex < tabList.size())
-			tabList.get(tabIndex).handleClick(mouseX - guiLeft,
-					mouseY - guiTop, mouseButton);
+			tabList.get(tabIndex).handleClick(mouseX, mouseY, mouseButton);
 	}
+
+	public List<IMHFCTab> getTabList() {
+		return tabList;
+	}
+
+	@Override
+	public void updateScreen() {
+		IMHFCTab tab = tabList.get(tabIndex);
+		if (tab != null)
+			tab.updateScreen();
+		super.updateScreen();
+	}
+
 }

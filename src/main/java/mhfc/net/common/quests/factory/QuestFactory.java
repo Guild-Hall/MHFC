@@ -1,5 +1,8 @@
 package mhfc.net.common.quests.factory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import mhfc.net.common.core.registry.MHFCRegQuests;
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.goals.ChainQuestGoal;
@@ -13,6 +16,132 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class QuestFactory {
 
+	public static interface IQuestFactory {
+		public GeneralQuest buildQuest(QuestDescription questDesc);
+	}
+
+	public static class DefaultQuestFactory implements IQuestFactory {
+
+		@Override
+		public GeneralQuest buildQuest(QuestDescription qd) {
+			QuestGoal goal = constructGoal(qd.getGoalDescription());
+			if (goal == null)
+				return null;
+			return new GeneralQuest(goal, qd.getMaxPartySize(), qd.getReward(),
+					qd.getFee(), qd.getAreaID(), qd);
+		}
+
+	}
+
+	public static interface IGoalFactory {
+		public QuestGoal buildQuestGoal(GoalDescription goalDesc);
+	}
+
+	public static class DeathRestrictionGoalFactory implements IGoalFactory {
+
+		@Override
+		public QuestGoal buildQuestGoal(GoalDescription gd) {
+			if (gd.getArguments().length != 1
+					|| !String.class.isAssignableFrom(gd.getArguments()[0]
+							.getClass())) {
+				throw new IllegalArgumentException(
+						"A death restriction goal expects exactly one argument in string format that represents an integer");
+			}
+			Integer i = Integer.parseInt((String) gd.getArguments()[0]);
+			return new DeathRestrictionQuestGoal(i.intValue());
+		}
+
+	}
+
+	public static class TimeGoalFactory implements IGoalFactory {
+
+		@Override
+		public QuestGoal buildQuestGoal(GoalDescription gd) {
+			if (gd.getArguments().length != 1
+					|| !String.class.isAssignableFrom(gd.getArguments()[0]
+							.getClass())) {
+				throw new IllegalArgumentException(
+						"A time goal expects exactly one argument in string format that represents an integer");
+			}
+			Integer i = Integer.parseInt((String) gd.getArguments()[0]);
+			return new TimeQuestGoal(i.intValue());
+		}
+
+	}
+
+	public static class HuntingGoalFactory implements IGoalFactory {
+
+		@Override
+		public QuestGoal buildQuestGoal(GoalDescription gd) {
+			if (gd.getArguments().length != 2
+					|| !String.class.isAssignableFrom(gd.getArguments()[0]
+							.getClass())
+					|| !String.class.isAssignableFrom(gd.getArguments()[1]
+							.getClass()))
+				throw new IllegalArgumentException(
+						"[MHFC] A hunter goal needs a String and a string representing an integer argument");
+
+			Class<?> goalClass = (Class<?>) EntityList.stringToClassMapping
+					.get(gd.arguments[0]);
+			if (goalClass == null)
+				throw new IllegalArgumentException(
+						"[MHFC] The mob identifier could not be resolved");
+			int number = Integer.parseInt((String) gd.getArguments()[1]);
+			return new HuntingQuestGoal(null, goalClass, number);
+		}
+
+	}
+
+	public static class ChainGoalFactory implements IGoalFactory {
+
+		@Override
+		public QuestGoal buildQuestGoal(GoalDescription gd) {
+			ChainQuestGoal goal;
+			if (gd.getDependencies().length == 0)
+				return new ChainQuestGoal(null);
+			else if (gd.getDependencies().length == 1) {
+				QuestGoal dep1 = constructGoal(gd.getDependencies()[0]);
+
+				goal = new ChainQuestGoal(dep1);
+				if (dep1 != null)
+					dep1.setSocket(goal);
+				return goal;
+
+			} else if (gd.getDependencies().length == 2) {
+				QuestGoal dep1 = constructGoal(gd.getDependencies()[0]);
+				QuestGoal dep2 = constructGoal(gd.getDependencies()[1]);
+
+				goal = new ChainQuestGoal(dep1, dep2);
+				if (dep1 != null)
+					dep1.setSocket(goal);
+				if (dep2 != null)
+					dep2.setSocket(goal);
+				return goal;
+
+			} else
+				return null;
+		}
+
+	}
+
+	public static class ForkGoalFactory implements IGoalFactory {
+
+		@Override
+		public QuestGoal buildQuestGoal(GoalDescription goalDesc) {
+			GoalDescription[] dependencies = goalDesc.getDependencies();
+			ForkQuestGoal fork = new ForkQuestGoal(null);
+			for (GoalDescription desc : dependencies) {
+				QuestGoal q = constructGoal(desc);
+				if (q == null)
+					continue;
+				fork.addRequisite(constructGoal(desc));
+			}
+			return null;
+
+		}
+
+	}
+
 	public static QuestDescription getQuestDescription(String id) {
 		QuestDescription qd = MHFCRegQuests.getQuestDescription(id);
 		return qd;
@@ -23,19 +152,48 @@ public class QuestFactory {
 		return gd;
 	}
 
+	private static Map<String, IQuestFactory> questFactoryMap = new HashMap<String, IQuestFactory>();
+	private static Map<String, IGoalFactory> goalFactoryMap = new HashMap<String, IGoalFactory>();
+
+	static {
+		insertQuestFactory("", new DefaultQuestFactory());
+		DeathRestrictionGoalFactory drFactory = new DeathRestrictionGoalFactory();
+		insertGoalFactory("death", drFactory);
+		insertGoalFactory("death restriction", drFactory);
+		TimeGoalFactory tFactory = new TimeGoalFactory();
+		insertGoalFactory("time", tFactory);
+		insertGoalFactory("hunting", new HuntingGoalFactory());
+		insertGoalFactory("timer", tFactory);
+		insertGoalFactory("chain", new ChainGoalFactory());
+		insertGoalFactory("fork", new ForkGoalFactory());
+	}
+
+	public static boolean insertQuestFactory(String str, IQuestFactory fact) {
+		if (questFactoryMap.containsKey(str))
+			return false;
+		questFactoryMap.put(str, fact);
+		return true;
+	}
+
+	public static boolean insertGoalFactory(String str, IGoalFactory fact) {
+		if (goalFactoryMap.containsKey(str))
+			return false;
+		goalFactoryMap.put(str, fact);
+		return true;
+	}
+
 	/**
 	 * Constructs a quest based on the description object and a player to join
 	 * the quest. If it is somehow invalid then null is returned.
 	 */
 	public static GeneralQuest constructQuest(QuestDescription qd,
 			EntityPlayer initiator, String assignedID) {
-		if (qd == null)
+		if (qd == null || !questFactoryMap.containsKey(qd.getFactory()))
 			return null;
-		QuestGoal goal = constructGoal(qd.getGoalDescription());
-		if (goal == null)
+		IQuestFactory factory = questFactoryMap.get(qd.getFactory());
+		if (factory == null)
 			return null;
-		GeneralQuest quest = new GeneralQuest(goal, qd.getMaxPartySize(),
-				qd.getReward(), qd.getFee(), qd.getAreaID(), qd);
+		GeneralQuest quest = factory.buildQuest(qd);
 		if (quest != null) {
 			MHFCRegQuests.registerQuest(quest, assignedID);
 		}
@@ -58,92 +216,12 @@ public class QuestFactory {
 //@formatter:on
 
 	public static QuestGoal constructGoal(GoalDescription gd) {
-		QuestGoal goal = null;
-		switch (gd.getGoalType()) {
-			case "hunting" :
-				if (gd.getArguments().length != 2
-						|| !String.class.isAssignableFrom(gd.getArguments()[0]
-								.getClass())
-						|| !String.class.isAssignableFrom(gd.getArguments()[1]
-								.getClass()))
-					throw new IllegalArgumentException(
-							"[MHFC] A hunter goal needs a String and a string representing an integer argument");
-
-				Class<?> goalClass = (Class<?>) EntityList.stringToClassMapping
-						.get(gd.arguments[0]);
-				if (goalClass == null)
-					throw new IllegalArgumentException(
-							"[MHFC] The mob identifier could not be resolved");
-				int number = Integer.parseInt((String) gd.getArguments()[1]);
-				HuntingQuestGoal hGoal = new HuntingQuestGoal(null, goalClass,
-						number);
-				goal = hGoal;
-				break;
-			case "chain" :
-				if (gd.getDependencies().length == 0)
-					goal = new ChainQuestGoal(null);
-				else if (gd.getDependencies().length == 1) {
-					QuestGoal dep1 = constructGoal(gd.getDependencies()[0]);
-					if (dep1 == null) {
-						// TODO What should be done here?
-					} else {
-						goal = new ChainQuestGoal(dep1);
-						dep1.setSocket((ChainQuestGoal) goal);
-					}
-				} else if (gd.getDependencies().length == 2) {
-					QuestGoal dep1 = constructGoal(gd.getDependencies()[0]);
-					QuestGoal dep2 = constructGoal(gd.getDependencies()[1]);
-					if (dep1 == null || dep2 == null) {
-						// TODO What should be done here?
-					} else {
-						goal = new ChainQuestGoal(dep1, dep2);
-						dep1.setSocket((ChainQuestGoal) goal);
-						dep2.setSocket((ChainQuestGoal) goal);
-					}
-				} else {
-					throw new IllegalArgumentException(
-							"[MHFC] Too many dependencies for a chain goal");
-				}
-				break;
-			case "fork" :
-				ForkQuestGoal fGoal = new ForkQuestGoal(null);
-				for (GoalDescription desc : gd.getDependencies()) {
-					QuestGoal dep = constructGoal(desc);
-					if (dep == null) {
-						throw new IllegalArgumentException(
-								"[MHFC] A dependency of the description was wrong");
-					} else {
-						fGoal.addRequisite(dep);
-					}
-				}
-				// TODO what with optional?
-				goal = fGoal;
-				break;
-			case "timer" :
-			case "time" :
-				if (gd.getArguments().length != 1
-						|| !String.class.isAssignableFrom(gd.getArguments()[0]
-								.getClass())) {
-					throw new IllegalArgumentException(
-							"A time goal expects exactly one argument in string format that represents an integer");
-				}
-				Integer i = Integer.parseInt((String) gd.getArguments()[0]);
-				goal = new TimeQuestGoal(i.intValue());
-				break;
-			case "death restriction" :
-			case "death" :
-				if (gd.getArguments().length != 1
-						|| !String.class.isAssignableFrom(gd.getArguments()[0]
-								.getClass())) {
-					throw new IllegalArgumentException(
-							"A death restriction goal expects exactly one argument in string format that represents an integer");
-				}
-				i = Integer.parseInt((String) gd.getArguments()[0]);
-				goal = new DeathRestrictionQuestGoal(i.intValue());
-				break;
-			default :
-				break;
-		}
+		if (gd == null || !goalFactoryMap.containsKey(gd.getGoalType()))
+			return null;
+		IGoalFactory factory = goalFactoryMap.get(gd.getGoalType());
+		if (factory == null)
+			return null;
+		QuestGoal goal = factory.buildQuestGoal(gd);
 		return goal;
 	}
 }
