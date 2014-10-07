@@ -1,9 +1,6 @@
 package mhfc.net.common.entity.mob;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.ai.AIWyvernAttackOnCollide;
-import mhfc.net.common.ai.AIWyvernWander;
-import mhfc.net.common.ai.rathalos.AIRathalosFireball;
 import mhfc.net.common.core.registry.MHFCRegItem;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import mhfc.net.common.implement.iMHFC;
@@ -13,7 +10,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public class EntityRathalos extends EntityWyvernHostile implements iMHFC {
@@ -28,12 +24,6 @@ public class EntityRathalos extends EntityWyvernHostile implements iMHFC {
 		width = 4F;
 		height = 5F;
 		isImmuneToFire = true;
-		tasks.addTask(0, new AIRathalosFireball(this));
-		tasks.addTask(2, (new AIWyvernAttackOnCollide(this, EntityPlayer.class,
-				1f, false)).setMaxAttackTick(0));
-		tasks.addTask(2, (new AIWyvernAttackOnCollide(this, 1f, true))
-				.setMaxAttackTick(0));
-		tasks.addTask(3, (new AIWyvernWander(this, 0.8F)));
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
 				EntityAnimal.class, 0, true));
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,

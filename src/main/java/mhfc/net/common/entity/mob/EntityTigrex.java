@@ -1,13 +1,6 @@
 package mhfc.net.common.entity.mob;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.ai.AIWyvernAttackOnCollide;
-import mhfc.net.common.ai.AIWyvernWander;
-import mhfc.net.common.ai.tigrex.AITigrexAttack;
-import mhfc.net.common.ai.tigrex.AITigrexBite;
-import mhfc.net.common.ai.tigrex.AITigrexRoar;
-import mhfc.net.common.ai.tigrex.AITigrexSpin;
-import mhfc.net.common.ai.tigrex.AITigrexThrow;
 import mhfc.net.common.core.registry.MHFCRegItem;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import mhfc.net.common.implement.iMHFC;
@@ -17,7 +10,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public class EntityTigrex extends EntityWyvernHostile implements iMHFC {
@@ -32,16 +24,6 @@ public class EntityTigrex extends EntityWyvernHostile implements iMHFC {
 		animTick = 0;
 		width = 6F;
 		height = 4F;
-		tasks.addTask(0, (new AITigrexAttack(this, 0.3F)));
-		tasks.addTask(1, (new AITigrexBite(this)));
-		tasks.addTask(1, (new AITigrexSpin(this)));
-		tasks.addTask(1, (new AITigrexRoar(this)));
-		tasks.addTask(1, (new AITigrexThrow(this)));
-		tasks.addTask(2, (new AIWyvernAttackOnCollide(this, EntityPlayer.class,
-				1f, false)).setMaxAttackTick(0));
-		tasks.addTask(2, (new AIWyvernAttackOnCollide(this, 1f, true))
-				.setMaxAttackTick(0));
-		tasks.addTask(3, (new AIWyvernWander(this, 0.8F)));
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
 				EntityRathalos.class, 0, true));
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
@@ -137,7 +119,8 @@ public class EntityTigrex extends EntityWyvernHostile implements iMHFC {
 	}
 
 	public void sendAttackPacket(int id) {
-		if (MHFCMain.isEffectiveClient()) return;
+		if (MHFCMain.isEffectiveClient())
+			return;
 		currentAttackID = id;
 		MHFCMain.packetPipeline.sendToAll(new PacketAITigrex((byte) id, this));
 	}
