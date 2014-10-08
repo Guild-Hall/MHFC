@@ -313,6 +313,7 @@ public class MHFCRegQuests {
 
 		@SubscribeEvent
 		public void onPlayerJoin(PlayerLoggedInEvent logIn) {
+			// FIXME use a logger
 			System.out
 					.println("[MHFC] Sent new identifier configuration to client, "
 							+ groupIDs.size());

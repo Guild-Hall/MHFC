@@ -1,9 +1,11 @@
 package mhfc.net.common.quests;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import mhfc.net.client.quests.MHFCRegQuestVisual;
+import mhfc.net.common.core.registry.MHFCRegStringDecode;
 import mhfc.net.common.eventhandler.MHFCDelayedJob;
 import mhfc.net.common.eventhandler.MHFCJobHandler;
 import net.minecraft.client.gui.FontRenderer;
@@ -21,7 +23,43 @@ public class QuestRunningInformation extends QuestVisualInformation {
 		public void remove();
 	}
 
+	private class CompositeString implements StringElement {
+		protected CompositeString parent;
+		List<StringElement> parts;
+
+		public CompositeString(String toBreak) {
+			parts = new LinkedList<StringElement>();
+			parts.addAll(breakApart(toBreak));
+			for (StringElement s : parts) {
+				if (s instanceof CompositeString) {
+					((CompositeString) s).setParent(this);
+				}
+			}
+		}
+
+		public void setParent(CompositeString s) {
+			this.parent = s;
+		}
+
+		@Override
+		public String stringValue() {
+			return decode(parts);
+		}
+
+		@Override
+		public void remove() {
+			for (StringElement e : parts)
+				e.remove();
+		}
+
+		public void childUpdated(CompositeString dynamicString) {
+
+		}
+
+	}
+
 	private class StaticString implements StringElement {
+
 		public StaticString(String str) {
 			this.str = str;
 		}
@@ -38,34 +76,33 @@ public class QuestRunningInformation extends QuestVisualInformation {
 		}
 	}
 
-	private class DynamicString implements StringElement, MHFCDelayedJob {
+	private class DynamicString extends CompositeString
+			implements
+				MHFCDelayedJob {
 
-		private String str;
 		private volatile String stringValue;
 		private volatile int delay;
 
 		public DynamicString(String str) {
-			delay = MHFCJobHandler.ticksPerSecond;
-			this.str = str;
-			switch (str.split(":")[0]) {
-				case "time" :
-					delay = MHFCJobHandler.ticksPerSecond;
-				default :
-					stringValue = findReplacement(str);
-					MHFCJobHandler.getJobHandler().insert(this,
-							getInitialDelay());
-					break;
-				case "unlocalized" :
-					stringValue = findReplacement(str);
-					delay = -1;
-					break;
-			}
+			super(str);
+
 		}
 
 		@Override
 		public void executeJob() {
-			stringValue = findReplacement(str);
+			String superValue = super.stringValue();
+			String[] split = superValue.split(":", 2);
+			if (split.length == 1) {
+				this.stringValue = split[0];
+				delay = -1;
+			} else {
+				stringValue = findReplacement(super.stringValue());
+				delay = MHFCRegStringDecode.getDecoder(split[0])
+						.getUpdateDelay();
+			}
 			MHFCJobHandler.getJobHandler().insert(this, getInitialDelay());
+			if (parent != null)
+				parent.childUpdated(this);
 		}
 
 		@Override
@@ -83,26 +120,32 @@ public class QuestRunningInformation extends QuestVisualInformation {
 			MHFCJobHandler.getJobHandler().remove(this);
 		}
 
+		@Override
+		public void childUpdated(CompositeString dynamicString) {
+			MHFCJobHandler.getJobHandler().remove(this);
+			executeJob();
+		}
+
 	}
 
 	protected String shortStatus;
 	protected String longStatus;
 
-	protected volatile List<StringElement> nameElements;
-	protected volatile List<StringElement> descriptionElements;
-	protected volatile List<StringElement> clientElements;
-	protected volatile List<StringElement> aimsElements;
-	protected volatile List<StringElement> failsElements;
+	protected CompositeString nameElements;
+	protected CompositeString descriptionElements;
+	protected CompositeString clientElements;
+	protected CompositeString aimsElements;
+	protected CompositeString failsElements;
 
-	protected volatile List<StringElement> areaNameIdElements;
-	protected volatile List<StringElement> timeLimitInSElements;
+	protected CompositeString areaNameIdElements;
+	protected CompositeString timeLimitInSElements;
 
-	protected volatile List<StringElement> rewardElements;
-	protected volatile List<StringElement> feeElements;
-	protected volatile List<StringElement> maxPartySizeElements;
+	protected CompositeString rewardElements;
+	protected CompositeString feeElements;
+	protected CompositeString maxPartySizeElements;
 
-	protected volatile List<StringElement> shortStatusElements;
-	protected volatile List<StringElement> longStatusElements;
+	protected CompositeString shortStatusElements;
+	protected CompositeString longStatusElements;
 
 	public QuestRunningInformation(GeneralQuest quest) {
 		super(quest.getOriginalDescription().getVisualInformation());
@@ -125,6 +168,8 @@ public class QuestRunningInformation extends QuestVisualInformation {
 		boolean dynamic = false;
 		String firstSplit[] = str.split("\\{");
 		List<String> secondSplit = new ArrayList<String>();
+		// "foo{{st}other}bar{irr}" turns to foo {st}other bar irr
+		// Algorithm?
 		for (String part : firstSplit) {
 			for (String small : part.split("\\}")) {
 				secondSplit.add(small);
@@ -134,7 +179,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 			if (part == null)
 				part = "";
 			if (dynamic) {
-				list.add(new DynamicString(part));
+				list.add(new CompositeString(part));
 			} else {
 				list.add(new StaticString(part));
 			}
@@ -145,7 +190,6 @@ public class QuestRunningInformation extends QuestVisualInformation {
 
 	private String decode(List<StringElement> elements) {
 		if (elements == null) {
-			System.out.println("Nothing to decode");
 			return "NULL";
 		}
 		String output = "";
@@ -153,8 +197,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 			StringElement e = elements.get(i);
 			if (e != null) {
 				output += e.stringValue();
-			} else
-				System.out.println("Something totally wrong");
+			}
 		}
 		return output;
 	}
@@ -162,21 +205,13 @@ public class QuestRunningInformation extends QuestVisualInformation {
 	private String findReplacement(String descriptor) {
 		String split[] = descriptor.split(":", 2);
 		String identifier = split[0];
-		String replacement = "unknown Descriptor " + descriptor;
-		switch (identifier) {
-			case "time" :
-				long subTime = Long.parseLong(split[1]);
-				long delta = subTime - System.currentTimeMillis();
-				delta /= 1000;
-				replacement = "" + (delta >= 3600 ? delta / 3600 + "h " : "")
-						+ (delta >= 60 ? (delta % 3600) / 60 + "min " : "")
-						+ (delta >= 0 ? delta % 60 : delta) + "s";
-				break;
-			case "unlocalized" :
-				replacement = StatCollector.translateToLocal(split[1]);
-				break;
-		}
-		return replacement;
+		if (split.length == 1)
+			return identifier;
+		String replacement = MHFCRegStringDecode.getDecoder(identifier)
+				.getDecoded(identifier, split[1]);
+		return replacement == null
+				? "unknown Descriptor " + descriptor
+				: replacement;
 	}
 
 	protected void remove(List<StringElement> elements) {
@@ -203,22 +238,22 @@ public class QuestRunningInformation extends QuestVisualInformation {
 	}
 
 	private void breakAll() {
-		nameElements = breakApart(name);
-		descriptionElements = breakApart(description);
-		clientElements = breakApart(client);
-		aimsElements = breakApart(aims);
-		failsElements = breakApart(fails);
-		areaNameIdElements = breakApart(areaNameId);
-		timeLimitInSElements = breakApart(timeLimitInS);
-		rewardElements = breakApart(reward);
-		feeElements = breakApart(fee);
-		maxPartySizeElements = breakApart(maxPartySize);
-		shortStatusElements = breakApart(shortStatus);
-		longStatusElements = breakApart(longStatus);
+		nameElements = new CompositeString(name);
+		descriptionElements = new CompositeString(description);
+		clientElements = new CompositeString(client);
+		aimsElements = new CompositeString(aims);
+		failsElements = new CompositeString(fails);
+		areaNameIdElements = new CompositeString(areaNameId);
+		timeLimitInSElements = new CompositeString(timeLimitInS);
+		rewardElements = new CompositeString(reward);
+		feeElements = new CompositeString(fee);
+		maxPartySizeElements = new CompositeString(maxPartySize);
+		shortStatusElements = new CompositeString(shortStatus);
+		longStatusElements = new CompositeString(longStatus);
 	}
 
 	public String getShortStatus() {
-		return decode(shortStatusElements);
+		return shortStatusElements.stringValue();
 	}
 
 	public String getTrueShortStatus() {
@@ -226,7 +261,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 	}
 
 	public String getLongStatus() {
-		return decode(longStatusElements);
+		return longStatusElements.stringValue();
 	}
 
 	public String getTrueLongStatus() {
@@ -235,7 +270,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 
 	@Override
 	public String getName() {
-		return decode(nameElements);
+		return nameElements.stringValue();
 	}
 
 	public String getTrueName() {
@@ -244,7 +279,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 
 	@Override
 	public String getDescription() {
-		return decode(descriptionElements);
+		return descriptionElements.stringValue();
 	}
 
 	public String getTrueDescription() {
@@ -253,7 +288,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 
 	@Override
 	public String getClient() {
-		return decode(clientElements);
+		return clientElements.stringValue();
 	}
 
 	public String getTrueClient() {
@@ -262,7 +297,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 
 	@Override
 	public String getAims() {
-		return decode(aimsElements);
+		return aimsElements.stringValue();
 	}
 
 	public String getTrueAims() {
@@ -271,7 +306,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 
 	@Override
 	public String getFails() {
-		return decode(failsElements);
+		return failsElements.stringValue();
 	}
 
 	public String getTrueFails() {
@@ -280,7 +315,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 
 	@Override
 	public String getTimeLimitAsString() {
-		return decode(timeLimitInSElements);
+		return timeLimitInSElements.stringValue();
 	}
 
 	public String getTrueTimeLimitAsString() {
@@ -289,7 +324,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 
 	@Override
 	public String getRewardString() {
-		return decode(rewardElements);
+		return rewardElements.stringValue();
 	}
 
 	public String getTrueRewardString() {
@@ -298,7 +333,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 
 	@Override
 	public String getFeeString() {
-		return decode(feeElements);
+		return feeElements.stringValue();
 	}
 
 	public String getTrueFeeString() {
@@ -307,7 +342,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 
 	@Override
 	public String getAreaID() {
-		return decode(areaNameIdElements);
+		return areaNameIdElements.stringValue();
 	}
 
 	public String getTrueAreaID() {
@@ -316,7 +351,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 
 	@Override
 	public String getMaxPartySize() {
-		return decode(maxPartySizeElements);
+		return maxPartySizeElements.stringValue();
 	}
 
 	public String getTrueMaxPartySize() {
@@ -364,17 +399,17 @@ public class QuestRunningInformation extends QuestVisualInformation {
 	}
 
 	public void cleanUp() {
-		remove(nameElements);
-		remove(descriptionElements);
-		remove(clientElements);
-		remove(aimsElements);
-		remove(failsElements);
-		remove(areaNameIdElements);
-		remove(timeLimitInSElements);
-		remove(rewardElements);
-		remove(feeElements);
-		remove(maxPartySizeElements);
-		remove(shortStatusElements);
-		remove(longStatusElements);
+		nameElements.remove();
+		descriptionElements.remove();
+		clientElements.remove();
+		aimsElements.remove();
+		failsElements.remove();
+		areaNameIdElements.remove();
+		timeLimitInSElements.remove();
+		rewardElements.remove();
+		feeElements.remove();
+		maxPartySizeElements.remove();
+		shortStatusElements.remove();
+		longStatusElements.remove();
 	}
 }
