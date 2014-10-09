@@ -29,15 +29,13 @@ import cpw.mods.fml.relauncher.SideOnly;
  * Packet pipeline class. Directs all registered packet data to be handled by
  * the packets themselves.
  *
- * @author sirgingalot
- *         some code from: cpw
+ * @author sirgingalot some code from: cpw
  */
 @ChannelHandler.Sharable
-public class PacketPipeline extends
-		MessageToMessageCodec<FMLProxyPacket, AbstractPacket> {
+public class PacketPipeline
+		extends
+			MessageToMessageCodec<FMLProxyPacket, AbstractPacket> {
 
-	// private SimpleNetworkWrapper networkPipe = new
-	// SimpleNetworkWrapper("MHFC");
 	private EnumMap<Side, FMLEmbeddedChannel> channels;
 	private LinkedList<Class<? extends AbstractPacket>> packets = new LinkedList<Class<? extends AbstractPacket>>();
 	private boolean isPostInitialized = false;
@@ -46,7 +44,8 @@ public class PacketPipeline extends
 	 * Register your packet with the pipeline. Discriminators are automatically
 	 * set.
 	 *
-	 * @param clazz the class to register
+	 * @param clazz
+	 *            the class to register
 	 *
 	 * @return whether registration was successful. Failure may occur if 256
 	 *         packets have been registered or if the registry already contains
@@ -169,7 +168,8 @@ public class PacketPipeline extends
 	 * Adapted from CPW's code in
 	 * cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper
 	 *
-	 * @param message The message to send
+	 * @param message
+	 *            The message to send
 	 */
 	public void sendToAll(AbstractPacket message) {
 		this.channels.get(Side.SERVER)
@@ -184,8 +184,10 @@ public class PacketPipeline extends
 	 * Adapted from CPW's code in
 	 * cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper
 	 *
-	 * @param message The message to send
-	 * @param player The player to send it to
+	 * @param message
+	 *            The message to send
+	 * @param player
+	 *            The player to send it to
 	 */
 	public void sendTo(AbstractPacket message, EntityPlayerMP player) {
 		this.channels.get(Side.SERVER)
@@ -202,8 +204,10 @@ public class PacketPipeline extends
 	 * Adapted from CPW's code in
 	 * cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper
 	 *
-	 * @param message The message to send
-	 * @param point The
+	 * @param message
+	 *            The message to send
+	 * @param point
+	 *            The
 	 *            {@link cpw.mods.fml.common.network.NetworkRegistry.TargetPoint}
 	 *            around which to send
 	 */
@@ -223,8 +227,10 @@ public class PacketPipeline extends
 	 * Adapted from CPW's code in
 	 * cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper
 	 *
-	 * @param message The message to send
-	 * @param dimensionId The dimension id to target
+	 * @param message
+	 *            The message to send
+	 * @param dimensionId
+	 *            The dimension id to target
 	 */
 	public void sendToDimension(AbstractPacket message, int dimensionId) {
 		this.channels.get(Side.SERVER)
@@ -242,7 +248,8 @@ public class PacketPipeline extends
 	 * Adapted from CPW's code in
 	 * cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper
 	 *
-	 * @param message The message to send
+	 * @param message
+	 *            The message to send
 	 */
 	public void sendToServer(AbstractPacket message) {
 		this.channels.get(Side.CLIENT)

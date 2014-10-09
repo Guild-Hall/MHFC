@@ -34,7 +34,7 @@ public class MHFCMain {
 	@SidedProxy(clientSide = "mhfc.net.client.MHFCClient", serverSide = "mhfc.net.common.MHFCCommon")
 	public static MHFCCommon proxy;
 
-	@Mod.Instance("mhfc")
+	@Mod.Instance(MHFCReference.main_modid)
 	public static MHFCMain instance;
 
 	public static Logger logger;
@@ -45,7 +45,6 @@ public class MHFCMain {
 	public void preInit(FMLPreInitializationEvent pre) {
 		// MHFCConfig.init(pre);
 		logger = pre.getModLog();
-		pre.getModMetadata().logoFile = MHFCReference.main_logo;
 	}
 
 	@Mod.EventHandler

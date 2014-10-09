@@ -32,4 +32,17 @@ public class RenderAnimatedModel extends RenderLiving {
 	protected void preRenderCallback(EntityLivingBase entity, float partialRick) {
 		this.model.setPartialTick(partialRick);
 	}
+	/**
+	 * Convenience alternative to the constructor. A new {@link ModelAnimated}
+	 * is instanciated from the {@link ResourceLocation} given (using the normal
+	 * constructor).
+	 *
+	 * @param resLoc
+	 * @param shadowSize
+	 * @return
+	 */
+	public static RenderAnimatedModel fromResLocation(ResourceLocation resLoc,
+			float shadowSize) {
+		return new RenderAnimatedModel(new ModelAnimated(resLoc), shadowSize);
+	}
 }

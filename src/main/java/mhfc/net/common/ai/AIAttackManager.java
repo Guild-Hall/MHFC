@@ -8,13 +8,29 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAITasks;
 
-public class AIAttackManager<T extends EntityLivingBase> extends EntityAIBase {
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
+public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
+		extends
+			EntityAIBase {
 	private final List<IExecutableAttack<T>> attacks = new ArrayList<IExecutableAttack<T>>();
 	private IExecutableAttack<T> activeAttack = null;
 	private T entity;
 
 	public AIAttackManager(T entity) {
 		this.entity = Objects.requireNonNull(entity);
+	}
+
+	/**
+	 * Should be only called from arriving attack packages for the client as
+	 * attack selection is done on the server
+	 */
+	@SideOnly(Side.CLIENT)
+	public void setAttack(int index) {
+		this.activeAttack = this.attacks.get(index);
 	}
 
 	private IExecutableAttack<T> chooseAttack() {
@@ -30,6 +46,8 @@ public class AIAttackManager<T extends EntityLivingBase> extends EntityAIBase {
 	@Override
 	public void startExecuting() {
 		// TODO: send package to update client
+		this.entity.onAttackStart(activeAttack);
+		this.activeAttack.beginExecution();
 	}
 	/**
 	 * Return <code>true</code> to continue executing
@@ -43,6 +61,7 @@ public class AIAttackManager<T extends EntityLivingBase> extends EntityAIBase {
 	 */
 	@Override
 	public void resetTask() {
+		this.entity.onAttackEnd(activeAttack);
 		this.activeAttack.finishExecution();
 	}
 	/**
@@ -83,5 +102,9 @@ public class AIAttackManager<T extends EntityLivingBase> extends EntityAIBase {
 	public void registerAttack(IExecutableAttack<T> attack) {
 		attack.updateEntity(entity);
 		this.attacks.add(attack);
+	}
+
+	public IAnimation getCurrentAnimation() {
+		return activeAttack == null ? null : activeAttack.getCurrentAnimation();
 	}
 }

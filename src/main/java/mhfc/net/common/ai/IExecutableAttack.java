@@ -1,12 +1,24 @@
 package mhfc.net.common.ai;
 
 import mhfc.net.common.ai.WeightedPick.WeightedItem;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 
-public interface IExecutableAttack<T extends EntityLivingBase>
-		extends
-			WeightedItem {
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
+/**
+ * A derived class can specify an Entity-class this method is applicable to. The
+ * typeparameter T should be as narrow as necessary but as broad as possible.
+ * E.g. to make an entity jump you would set T as {@link EntityLivingBase}
+ * because all those entities can jump. This makes it possible to reuse attacks
+ * and (WIP) apply them to special weapons.
+ *
+ * @author WorldSEnder
+ *
+ * @param <T>
+ *            the necessary Entity class
+ */
+public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	/**
 	 * Tells the attack that it is rebound to the given entity. This might
 	 * happen when the entity is teleported and a new entity had to be created
@@ -37,6 +49,7 @@ public interface IExecutableAttack<T extends EntityLivingBase>
 	 *
 	 * @return if execution is to be forced (infinite weight)
 	 */
+	@Override
 	public boolean forceSelection();
 	/**
 	 * Gets called at the beginning of execution. This should behave as a setup
@@ -71,4 +84,10 @@ public interface IExecutableAttack<T extends EntityLivingBase>
 	 * @see EntityAIBase#getMutexBits()
 	 */
 	public byte mutexBits();
+	/**
+	 * Gets the animation that should be played alongside the executed attack.
+	 *
+	 * @return
+	 */
+	public IAnimation getCurrentAnimation();
 }

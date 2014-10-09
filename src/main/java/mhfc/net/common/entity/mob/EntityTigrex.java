@@ -1,29 +1,51 @@
 package mhfc.net.common.entity.mob;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.ai.AIAttackManager;
+import mhfc.net.common.ai.IExecutableAttack;
+import mhfc.net.common.ai.IMangedAttacks;
+import mhfc.net.common.ai.tigrex.RunAttack;
 import mhfc.net.common.core.registry.MHFCRegItem;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import mhfc.net.common.implement.iMHFC;
 import mhfc.net.common.network.packet.PacketAITigrex;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.world.World;
 
-public class EntityTigrex extends EntityWyvernHostile implements iMHFC {
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimatedObject;
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
+import com.google.common.base.Predicate;
+
+public class EntityTigrex extends EntityWyvernHostile
+		implements
+			iMHFC,
+			IAnimatedObject,
+			IMangedAttacks<EntityTigrex> {
 
 	public int currentAttackID;
 	public int animTick;
 	public int deathTick;
 	public int rageLevel;
+	/** Kept around to register attacks and return the currently executed one */
+	private AIAttackManager<EntityTigrex> attkManager;
+	/** Gets increased every tick by the entity to animate the model */
+	private int animFrame;
 
 	public EntityTigrex(World par1World) {
 		super(par1World);
 		animTick = 0;
 		width = 6F;
 		height = 4F;
+		// New AI
+		attkManager = new AIAttackManager<EntityTigrex>(this);
+		attkManager.registerAttack(new RunAttack());
+		// New AI test
+		tasks.addTask(0, attkManager);
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
 				EntityRathalos.class, 0, true));
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
@@ -35,6 +57,9 @@ public class EntityTigrex extends EntityWyvernHostile implements iMHFC {
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
+		this.getAttributeMap()
+				.getAttributeInstance(SharedMonsterAttributes.followRange)
+				.setBaseValue(128d);
 		applyMonsterAttributes(1.3D, 6000D, 7800D, 8600D, 35D, 0.3D);
 	}
 
@@ -145,4 +170,53 @@ public class EntityTigrex extends EntityWyvernHostile implements iMHFC {
 		return animTick;
 	}
 
+	@Override
+	public IAnimation getCurrentAnimation() {
+		return attkManager.getCurrentAnimation();
+	}
+
+	@Override
+	public int getCurrentFrame() {
+		return animFrame;
+	}
+
+	@Override
+	public Predicate<String> getPartPredicate(float arg0) {
+		return RENDER_ALL;
+	}
+
+	@Override
+	public Scale getScale() {
+		return NO_SCALE;
+	}
+
+	@Override
+	public void onAttackStart(IExecutableAttack<EntityTigrex> newAttack) {
+		animFrame = 0;
+	}
+
+	@Override
+	public void onAttackEnd(IExecutableAttack<EntityTigrex> oldAttack) {
+		animFrame = -1;
+	}
+	/**
+	 * @param animFrame
+	 *            the animFrame to set
+	 */
+	public void setAnimFrame(int animFrame) {
+		this.animFrame = animFrame;
+	}
+
+	@Override
+	public void onLivingUpdate() {
+		super.onLivingUpdate();
+		if (animFrame < 0)
+			return;
+		animFrame++;
+	}
+
+	@Override
+	public AIAttackManager<EntityTigrex> getAttackManager() {
+		return attkManager;
+	}
 }
