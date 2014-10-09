@@ -4,7 +4,6 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCRegItem;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import mhfc.net.common.implement.iMHFC;
-import mhfc.net.common.network.packet.PacketAIRathalos;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -71,8 +70,8 @@ public class EntityRathalos extends EntityWyvernHostile implements iMHFC {
 		if (MHFCMain.isEffectiveClient())
 			return;
 		currentAttackID = id;
-		MHFCMain.packetPipeline
-				.sendToAll(new PacketAIRathalos((byte) id, this));
+		// MHFCMain.packetPipeline
+		// .sendToAll(new PacketAIRathalos((byte) id, this));
 	}
 
 	@Override

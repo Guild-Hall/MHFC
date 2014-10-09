@@ -2,10 +2,6 @@ package mhfc.net;
 
 import mhfc.net.common.MHFCCommon;
 import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.packet.PacketAIAnim;
-import mhfc.net.common.network.packet.PacketAIKirin;
-import mhfc.net.common.network.packet.PacketAIRathalos;
-import mhfc.net.common.network.packet.PacketAITigrex;
 import mhfc.net.common.tab.MHFCTab;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.creativetab.CreativeTabs;
@@ -49,11 +45,6 @@ public class MHFCMain {
 
 	@Mod.EventHandler
 	public void load(FMLInitializationEvent event) {
-		packetPipeline.initialize();
-		packetPipeline.registerPacket(PacketAITigrex.class);
-		packetPipeline.registerPacket(PacketAIAnim.class);
-		packetPipeline.registerPacket(PacketAIKirin.class);
-		packetPipeline.registerPacket(PacketAIRathalos.class);
 		proxy.regSounds();
 		proxy.regStuff();
 		proxy.regTimer();
@@ -62,13 +53,13 @@ public class MHFCMain {
 	}
 
 	@Mod.EventHandler
-	public void postInit(FMLPostInitializationEvent e) {
-		packetPipeline.postInitialize();
-	}
+	public void postInit(FMLPostInitializationEvent e) {}
 
 	public static boolean isClient() {
-		return FMLCommonHandler.instance().getSide().isClient();
+		return proxy.isClient();
 	}
+
+	@Deprecated
 	public static boolean isEffectiveClient() {
 		return FMLCommonHandler.instance().getEffectiveSide().isClient();
 	}

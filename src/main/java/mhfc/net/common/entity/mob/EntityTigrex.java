@@ -8,7 +8,6 @@ import mhfc.net.common.ai.tigrex.RunAttack;
 import mhfc.net.common.core.registry.MHFCRegItem;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import mhfc.net.common.implement.iMHFC;
-import mhfc.net.common.network.packet.PacketAITigrex;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -147,7 +146,8 @@ public class EntityTigrex extends EntityWyvernHostile
 		if (MHFCMain.isEffectiveClient())
 			return;
 		currentAttackID = id;
-		MHFCMain.packetPipeline.sendToAll(new PacketAITigrex((byte) id, this));
+		// MHFCMain.packetPipeline.sendToAll(new PacketAITigrex((byte) id,
+		// this));
 	}
 
 	@Override
