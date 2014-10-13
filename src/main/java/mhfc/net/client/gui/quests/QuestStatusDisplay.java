@@ -81,7 +81,7 @@ public class QuestStatusDisplay extends Gui {
 		int j = scaledresolution.getScaledHeight();
 		final int k = Mouse.getX() * i / this.mc.displayWidth;
 		final int l = j - Mouse.getY() * j / this.mc.displayHeight - 1;
-		return (k > positionX && k < positionX + width && l < positionY && l > positionY
+		return (k > positionX && k < positionX + width && l > positionY && l < positionY
 				+ height);
 	}
 

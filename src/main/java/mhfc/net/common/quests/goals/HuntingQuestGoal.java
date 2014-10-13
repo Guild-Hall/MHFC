@@ -60,7 +60,11 @@ public class HuntingQuestGoal extends QuestGoal
 			Entity e = event.source.getEntity();
 			if (!(e instanceof EntityPlayer))
 				return;
+			if (getQuest() == null)
+				return;
 			List playerList = Arrays.asList(getQuest().getPlayers());
+			if (playerList == null)
+				return;
 			if (!playerList.contains(e))
 				return;
 			++currentNumber;

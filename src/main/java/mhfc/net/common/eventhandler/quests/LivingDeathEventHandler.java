@@ -14,7 +14,8 @@ public class LivingDeathEventHandler
 	@Override
 	@SubscribeEvent
 	public void onEventCaught(LivingDeathEvent event) {
-		questGoal.notifyOfEvent(event);
+		if (stillActive)
+			questGoal.notifyOfEvent(event);
 	}
 
 }

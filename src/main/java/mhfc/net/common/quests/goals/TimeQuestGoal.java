@@ -79,6 +79,8 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 	public String modify(InformationType type, String current) {
 		// TODO Externalize and unlocalize these strings
 		int ticksToFail = MHFCJobHandler.getJobHandler().getDelay(this);
+		if (ticksToFail < 0)
+			ticksToFail = initialTicksToFail;
 		if (type == InformationType.TimeLimit) {
 			current += (current.endsWith("\n") || current.matches("\\s*")
 					? ""
@@ -93,7 +95,8 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 			current += (current.endsWith("\n") || current.matches("\\s*")
 					? ""
 					: "\n");
-			current += "Finish within {time:" + ticksToFail + "} of a "
+			current += "Finish within "
+					+ (active ? " {time:" + ticksToFail + "} of " : "") + "a "
 					+ parseTimeFromTicks(initialTicksToFail) + " Time Limit";
 		} else if (type == InformationType.ShortStatus) {
 			current += (current.endsWith("\n") || current.matches("\\s*")
