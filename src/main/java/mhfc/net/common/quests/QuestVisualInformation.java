@@ -127,9 +127,10 @@ public class QuestVisualInformation {
 	}
 
 	public void drawInformation(int positionX, int positionY, int width,
-			int height, FontRenderer fontRenderer, int millisecond) {
+			int height, FontRenderer fontRenderer, int renderFrame) {
+		int FPS = 30;
 		drawInformation(positionX, positionY, width, height,
-				Math.max(((millisecond / 2000) % 4) - 1, 0), fontRenderer);
+				Math.max(((renderFrame / FPS) % 4) - 1, 0), fontRenderer);
 	}
 
 	public void drawInformation(int positionX, int positionY, int width,
@@ -143,6 +144,7 @@ public class QuestVisualInformation {
 		String draw;
 		int currentY = drawHead(positionX, positionY, lineHeight, width,
 				fontRenderer);
+		//TODO Implement NYI
 		switch (page) {
 			case 0 :
 				currentY = drawBaseInformation(positionX, currentY, lineHeight,

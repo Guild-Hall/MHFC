@@ -111,7 +111,6 @@ public class GeneralQuest implements QuestGoalSocket {
 			removePlayer(i);
 		}
 		visualInformation.cleanUp();
-		state = QuestState.resigned;
 		// FIXME something goes wrong here
 		// questGoal.questGoalFinalize();
 		// TODO teleport players to the overworld if they aren't there.

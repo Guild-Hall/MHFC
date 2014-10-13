@@ -17,6 +17,7 @@ import mhfc.net.common.core.registry.MHFCRegRenderItem;
 import mhfc.net.common.core.registry.MHFCRegRenderTile;
 import mhfc.net.common.core.registry.MHFCRegRenderWeapon;
 import mhfc.net.common.core.registry.MHFCRegSmelting;
+import mhfc.net.common.core.registry.MHFCRegStringDecode;
 import mhfc.net.common.core.registry.MHFCRegTile;
 
 public class MHFCReg {
@@ -33,7 +34,13 @@ public class MHFCReg {
 		addEvent();
 		addPacket();
 		addQuests();
+		addStringDecoders();
 		MHFCRegCraftingHunter.craftAll();
+	}
+
+	private static void addStringDecoders() {
+		MHFCRegStringDecode.init();
+		System.out.println("[MHFC] Client-Server string decoding initialize");
 	}
 
 	public static void addBlocks() {

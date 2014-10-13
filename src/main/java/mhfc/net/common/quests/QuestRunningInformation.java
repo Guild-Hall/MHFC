@@ -1,13 +1,10 @@
 package mhfc.net.common.quests;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import mhfc.net.client.quests.MHFCRegQuestVisual;
-import mhfc.net.common.core.registry.MHFCRegStringDecode;
-import mhfc.net.common.eventhandler.MHFCDelayedJob;
-import mhfc.net.common.eventhandler.MHFCJobHandler;
+import mhfc.net.common.core.registry.MHFCRegStringDecode.CompositeString;
+import mhfc.net.common.core.registry.MHFCRegStringDecode.StringElement;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.StatCollector;
 
@@ -15,117 +12,6 @@ public class QuestRunningInformation extends QuestVisualInformation {
 
 	public enum InformationType {
 		Name, Description, Client, Aims, Fails, AreaNameID, TimeLimit, Reward, Fee, MaxPartySize, ShortStatus, LongStatus;
-	}
-
-	private interface StringElement {
-		public String stringValue();
-
-		public void remove();
-	}
-
-	private class CompositeString implements StringElement {
-		protected CompositeString parent;
-		List<StringElement> parts;
-
-		public CompositeString(String toBreak) {
-			parts = new LinkedList<StringElement>();
-			parts.addAll(breakApart(toBreak));
-			for (StringElement s : parts) {
-				if (s instanceof CompositeString) {
-					((CompositeString) s).setParent(this);
-				}
-			}
-		}
-
-		public void setParent(CompositeString s) {
-			this.parent = s;
-		}
-
-		@Override
-		public String stringValue() {
-			return decode(parts);
-		}
-
-		@Override
-		public void remove() {
-			for (StringElement e : parts)
-				e.remove();
-		}
-
-		public void childUpdated(CompositeString dynamicString) {
-
-		}
-
-	}
-
-	private class StaticString implements StringElement {
-
-		public StaticString(String str) {
-			this.str = str;
-		}
-
-		private String str;
-
-		@Override
-		public String stringValue() {
-			return this.str;
-		}
-
-		@Override
-		public void remove() {
-		}
-	}
-
-	private class DynamicString extends CompositeString
-			implements
-				MHFCDelayedJob {
-
-		private volatile String stringValue;
-		private volatile int delay;
-
-		public DynamicString(String str) {
-			super(str);
-
-		}
-
-		@Override
-		public void executeJob() {
-			String superValue = super.stringValue();
-			String[] split = superValue.split(":", 2);
-			if (split.length == 1) {
-				this.stringValue = split[0];
-				delay = -1;
-			} else {
-				stringValue = findReplacement(super.stringValue());
-				delay = MHFCRegStringDecode.getDecoder(split[0])
-						.getUpdateDelay();
-			}
-			MHFCJobHandler.getJobHandler().insert(this, getInitialDelay());
-			if (parent != null)
-				parent.childUpdated(this);
-		}
-
-		@Override
-		public int getInitialDelay() {
-			return delay;
-		}
-
-		@Override
-		public String stringValue() {
-			return stringValue;
-		}
-
-		@Override
-		public void remove() {
-			MHFCJobHandler.getJobHandler().remove(this);
-		}
-
-		@Override
-		public void childUpdated(CompositeString dynamicString) {
-			MHFCJobHandler.getJobHandler().remove(this);
-			executeJob();
-		}
-
 	}
 
 	protected String shortStatus;
@@ -163,57 +49,6 @@ public class QuestRunningInformation extends QuestVisualInformation {
 		breakAll();
 	}
 
-	private List<StringElement> breakApart(String str) {
-		List<StringElement> list = new ArrayList<StringElement>(20);
-		boolean dynamic = false;
-		String firstSplit[] = str.split("\\{");
-		List<String> secondSplit = new ArrayList<String>();
-		// "foo{{st}other}bar{irr}" turns to foo {st}other bar irr
-		// Algorithm?
-		for (String part : firstSplit) {
-			for (String small : part.split("\\}")) {
-				secondSplit.add(small);
-			}
-		}
-		for (String part : secondSplit) {
-			if (part == null)
-				part = "";
-			if (dynamic) {
-				list.add(new CompositeString(part));
-			} else {
-				list.add(new StaticString(part));
-			}
-			dynamic = !dynamic;
-		}
-		return list;
-	}
-
-	private String decode(List<StringElement> elements) {
-		if (elements == null) {
-			return "NULL";
-		}
-		String output = "";
-		for (int i = 0; i < elements.size(); i++) {
-			StringElement e = elements.get(i);
-			if (e != null) {
-				output += e.stringValue();
-			}
-		}
-		return output;
-	}
-
-	private String findReplacement(String descriptor) {
-		String split[] = descriptor.split(":", 2);
-		String identifier = split[0];
-		if (split.length == 1)
-			return identifier;
-		String replacement = MHFCRegStringDecode.getDecoder(identifier)
-				.getDecoded(identifier, split[1]);
-		return replacement == null
-				? "unknown Descriptor " + descriptor
-				: replacement;
-	}
-
 	protected void remove(List<StringElement> elements) {
 		if (elements == null)
 			return;
@@ -223,6 +58,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 	}
 
 	public void updateFromQuest(GeneralQuest q) {
+		cleanUp();
 		name = q.update(InformationType.Name, name);
 		description = q.update(InformationType.Description, description);
 		client = q.update(InformationType.Client, client);
@@ -235,6 +71,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 		maxPartySize = q.update(InformationType.MaxPartySize, maxPartySize);
 		shortStatus = q.update(InformationType.ShortStatus, shortStatus);
 		longStatus = q.update(InformationType.LongStatus, longStatus);
+		breakAll();
 	}
 
 	private void breakAll() {
@@ -399,17 +236,29 @@ public class QuestRunningInformation extends QuestVisualInformation {
 	}
 
 	public void cleanUp() {
-		nameElements.remove();
-		descriptionElements.remove();
-		clientElements.remove();
-		aimsElements.remove();
-		failsElements.remove();
-		areaNameIdElements.remove();
-		timeLimitInSElements.remove();
-		rewardElements.remove();
-		feeElements.remove();
-		maxPartySizeElements.remove();
-		shortStatusElements.remove();
-		longStatusElements.remove();
+		if (nameElements != null)
+			nameElements.remove();
+		if (descriptionElements != null)
+			descriptionElements.remove();
+		if (clientElements != null)
+			clientElements.remove();
+		if (aimsElements != null)
+			aimsElements.remove();
+		if (failsElements != null)
+			failsElements.remove();
+		if (areaNameIdElements != null)
+			areaNameIdElements.remove();
+		if (timeLimitInSElements != null)
+			timeLimitInSElements.remove();
+		if (rewardElements != null)
+			rewardElements.remove();
+		if (feeElements != null)
+			feeElements.remove();
+		if (maxPartySizeElements != null)
+			maxPartySizeElements.remove();
+		if (shortStatusElements != null)
+			shortStatusElements.remove();
+		if (longStatusElements != null)
+			longStatusElements.remove();
 	}
 }

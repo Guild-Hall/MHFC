@@ -77,42 +77,39 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 
 	@Override
 	public String modify(InformationType type, String current) {
-		// TODO Externalize these strings
+		// TODO Externalize and unlocalize these strings
+		int ticksToFail = MHFCJobHandler.getJobHandler().getDelay(this);
 		if (type == InformationType.TimeLimit) {
-			current += (current.equals("") ? "" : "\n");
+			current += (current.endsWith("\n") || current.matches("\\s*")
+					? ""
+					: "\n");
 			if (active) {
-				current += "{time:"
-						+ (timeOfLastUpdate + ticksToFail * 1000
-								/ MHFCJobHandler.ticksPerSecond) + "}";
+				current += "{time:" + ticksToFail + "}/ "
+						+ parseTimeFromTicks(initialTicksToFail);
 			} else {
-				long delta = ticksToFail * 1000 / MHFCJobHandler.ticksPerSecond;
-				current += parseTime(delta);
+				current += parseTimeFromTicks(ticksToFail);
 			}
 		} else if (type == InformationType.LongStatus) {
-			current += (current.equals("") ? "" : "\n");
-			if (active) {
-				current += "Finish within "
-						+ "{time:"
-						+ (timeOfLastUpdate + ticksToFail * 1000
-								/ MHFCJobHandler.ticksPerSecond) + "}";
-			} else {
-				long delta = ticksToFail * 1000 / MHFCJobHandler.ticksPerSecond;
-				current += "Finish within " + parseTime(delta) + " Time Limit";
-			}
+			current += (current.endsWith("\n") || current.matches("\\s*")
+					? ""
+					: "\n");
+			current += "Finish within {time:" + ticksToFail + "} of a "
+					+ parseTimeFromTicks(initialTicksToFail) + " Time Limit";
 		} else if (type == InformationType.ShortStatus) {
-			current += (current.equals("") ? "" : "\n");
+			current += (current.endsWith("\n") || current.matches("\\s*")
+					? ""
+					: "\n");
 			if (active) {
-				current += "Finish within "
-						+ "{time:"
-						+ (timeOfLastUpdate + ticksToFail * 1000
-								/ MHFCJobHandler.ticksPerSecond) + "}";
+				current += "{time:" + ticksToFail + "} remaining";
+			} else {
+				current += parseTimeFromTicks(ticksToFail) + " limit";
 			}
 		}
 		return current;
 	}
 
-	private String parseTime(long delta) {
-		delta /= 1000;
+	private String parseTimeFromTicks(long delta) {
+		delta /= MHFCJobHandler.ticksPerSecond;
 		return "" + (delta >= 3600 ? delta / 3600 + "h " : "")
 				+ (delta >= 60 ? (delta % 3600) / 60 + "min " : "")
 				+ (delta >= 0 ? delta % 60 : delta) + "s";

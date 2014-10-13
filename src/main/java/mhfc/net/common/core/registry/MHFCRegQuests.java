@@ -273,7 +273,8 @@ public class MHFCRegQuests {
 											.getOptions()[0]), player,
 											registerFor);
 							if (newQuest == null) {
-								System.out.println("Quest not found");
+								player.addChatMessage(new ChatComponentText(
+										"Quest not found"));
 								return null;
 							}
 						} else {
@@ -283,8 +284,8 @@ public class MHFCRegQuests {
 						}
 						break;
 					case ACCEPT :
-						getRunningQuest(message.getOptions()[0]).addPlayer(
-								player);
+						GeneralQuest q = getRunningQuest(message.getOptions()[0]);
+						q.addPlayer(player);
 						break;
 					case VOTE_START :
 						quest = getQuestForPlayer(player);

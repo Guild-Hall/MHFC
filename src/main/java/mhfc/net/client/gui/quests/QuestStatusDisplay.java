@@ -12,6 +12,7 @@ import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
 
@@ -21,9 +22,11 @@ public class QuestStatusDisplay extends Gui {
 
 	private int[] heightFromScale = {166, 166, 166, 166};
 	private Minecraft mc = Minecraft.getMinecraft();
+	private int displayTick;
 
 	public QuestStatusDisplay() {
 		super();
+		displayTick = 0;
 	}
 
 	protected QuestRunningInformation information;
@@ -33,6 +36,7 @@ public class QuestStatusDisplay extends Gui {
 		if (screenEvent.gui instanceof GuiInventory) {
 			mc.getTextureManager().bindTexture(
 					MHFCRegQuestVisual.QUEST_STATUS_INVENTORY_BACKGROUND);
+			// FIXME rewrite for correctly
 			int scale = mc.gameSettings.guiScale & 3;
 			if (scale == 0) {
 				scale = 3;
@@ -59,12 +63,26 @@ public class QuestStatusDisplay extends Gui {
 				mc.fontRenderer.drawString(drawn, stringPosX, stringPosY,
 						0x000000);
 			} else {
+				if (!isMouseOverInfo(positionX, positionY, width, height)) {
+					displayTick++;
+				}
 				information.drawInformation(positionX, positionY, width,
-						height, mc.fontRenderer,
-						(int) (System.currentTimeMillis() % Integer.MAX_VALUE));
+						height, mc.fontRenderer, displayTick);
 			}
 			GL11.glTranslatef(0, 0, -0.5f);
 		}
+	}
+
+	private boolean isMouseOverInfo(int positionX, int positionY, int width,
+			int height) {
+		final ScaledResolution scaledresolution = new ScaledResolution(this.mc,
+				this.mc.displayWidth, this.mc.displayHeight);
+		int i = scaledresolution.getScaledWidth();
+		int j = scaledresolution.getScaledHeight();
+		final int k = Mouse.getX() * i / this.mc.displayWidth;
+		final int l = j - Mouse.getY() * j / this.mc.displayHeight - 1;
+		return (k > positionX && k < positionX + width && l < positionY && l > positionY
+				+ height);
 	}
 
 	@SubscribeEvent

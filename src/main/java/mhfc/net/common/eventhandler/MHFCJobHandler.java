@@ -124,7 +124,6 @@ public class MHFCJobHandler {
 
 		@Override
 		public JobListElement insert(MHFCDelayedJob job, int delay) {
-			System.out.println("Insert got to the end");
 			return new DelayedJob(job, delay, this);
 		}
 

@@ -136,7 +136,7 @@ public class QuestFactory {
 					continue;
 				fork.addRequisite(constructGoal(desc));
 			}
-			return null;
+			return fork;
 
 		}
 
@@ -194,9 +194,10 @@ public class QuestFactory {
 		if (factory == null)
 			return null;
 		GeneralQuest quest = factory.buildQuest(qd);
-		if (quest != null) {
-			MHFCRegQuests.registerQuest(quest, assignedID);
-		}
+		if (quest == null)
+			return null;
+
+		MHFCRegQuests.registerQuest(quest, assignedID);
 		if (quest.canJoin(initiator)) {
 			quest.addPlayer(initiator);
 			return quest;
@@ -216,12 +217,18 @@ public class QuestFactory {
 //@formatter:on
 
 	public static QuestGoal constructGoal(GoalDescription gd) {
-		if (gd == null || !goalFactoryMap.containsKey(gd.getGoalType()))
+		if (gd == null || !goalFactoryMap.containsKey(gd.getGoalType())) {
+			System.out.println("Description null or type not registered");
 			return null;
+		}
 		IGoalFactory factory = goalFactoryMap.get(gd.getGoalType());
-		if (factory == null)
+		if (factory == null) {
+			System.out.println("Factory was null");
 			return null;
+		}
 		QuestGoal goal = factory.buildQuestGoal(gd);
+		if (goal == null)
+			System.out.println("Goal was null");
 		return goal;
 	}
 }
