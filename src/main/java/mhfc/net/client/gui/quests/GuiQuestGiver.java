@@ -7,6 +7,7 @@ import mhfc.net.client.gui.ClickableGuiList;
 import mhfc.net.client.gui.ClickableGuiList.GuiListStringItem;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.quests.QuestVisualInformation;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -19,6 +20,7 @@ public class GuiQuestGiver extends GuiScreen {
 	private GuiButton start, left, right;
 	private List<String> questIdentifiers;
 	private int selectedIdentifier;
+	private int thisWidth, thisHeight;
 
 	public GuiQuestGiver(String[] groupIDs, EntityPlayer accessor) {
 		groupIDsDisplayed = new ArrayList<String>();
@@ -29,7 +31,15 @@ public class GuiQuestGiver extends GuiScreen {
 		for (int i = 0; i < groupIDs.length; i++)
 			groupList.add(new GuiListStringItem(groupIDs[i]));
 		start = new GuiButton(0, 0, 20, 40, 0x404040, "Take Quest") {
-
+			@Override
+			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
+					int p_146116_3_) {
+				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
+					groupList.setVisible(false);
+					return true;
+				}
+				return false;
+			}
 		};
 		left = new GuiButton(selectedIdentifier, selectedIdentifier,
 				selectedIdentifier, selectedIdentifier, selectedIdentifier, "<") {
@@ -39,6 +49,8 @@ public class GuiQuestGiver extends GuiScreen {
 				selectedIdentifier, selectedIdentifier, selectedIdentifier, ">") {
 
 		};
+		thisWidth = 220;
+		thisHeight = 220;
 	}
 
 	@Override
@@ -46,7 +58,8 @@ public class GuiQuestGiver extends GuiScreen {
 		super.mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
 		groupList.handleClick(p_73864_1_ - groupList.getPosX(), p_73864_2_
 				- groupList.getPosY(), p_73864_3_);
-		String selectedList = groupList.getSelectedItem()
+		GuiListStringItem item = groupList.getSelectedItem();
+		String selectedList = item == null ? "" : item
 				.getInitializationString();
 		questIdentifiers.clear();
 		questIdentifiers.addAll(MHFCRegQuestVisual
@@ -92,7 +105,13 @@ public class GuiQuestGiver extends GuiScreen {
 	@Override
 	public void updateScreen() {
 		groupList.setPosition(5, 5);
-		groupList.setWidthAndHeight(width, height);
+		groupList.setWidthAndHeight(thisWidth, thisHeight);
+		right.xPosition = 0;
+		right.yPosition = 0;
+		left.xPosition = 0;
+		left.yPosition = 0;
+		start.xPosition = 0;
+		start.yPosition = 0;
 		super.updateScreen();
 	}
 

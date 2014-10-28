@@ -56,6 +56,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> 
 	public ClickableGuiList(int posX, int posY, int width, int height) {
 		this(posX, posY, width, height, 0);
 		recalculateItemHeightOnDraw = true;
+		visible = true;
 	}
 
 	public ClickableGuiList(int width, int height) {
@@ -70,6 +71,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> 
 	protected float scrollAmount;
 	protected int selected;
 	protected boolean recalculateItemHeightOnDraw;
+	protected boolean visible;
 	private boolean alignmentMid, drawSmallestBounds;
 
 	private static final long serialVersionUID = -7451553351083938970L;
@@ -83,6 +85,8 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> 
 	}
 
 	public void draw() {
+		if (!visible)
+			return;
 		// if (size() == 0)
 		// return;
 		if (recalculateItemHeightOnDraw)
@@ -150,6 +154,8 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> 
 	}
 
 	public boolean handleClick(int relativeX, int relativeY, int button) {
+		if (!visible)
+			return false;
 		if (relativeX < 0 || relativeX >= width || relativeY < 0
 				|| relativeY >= height)
 			return false;
@@ -223,6 +229,14 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> 
 
 	public void setDrawSmallestBounds(boolean drawSmallestBounds) {
 		this.drawSmallestBounds = drawSmallestBounds;
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean newVisible) {
+		this.visible = newVisible;
 	}
 
 }
