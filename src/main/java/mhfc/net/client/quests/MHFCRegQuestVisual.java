@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import mhfc.net.client.gui.quests.QuestGiverScreen;
+import mhfc.net.client.gui.quests.GuiQuestGiver;
 import mhfc.net.client.gui.quests.QuestStatusDisplay;
 import mhfc.net.common.core.registry.MHFCRegQuests;
 import mhfc.net.common.network.packet.MessageQuestScreenInit;
@@ -14,6 +14,7 @@ import mhfc.net.common.network.packet.MessageRequestQuestVisual;
 import mhfc.net.common.quests.QuestRunningInformation;
 import mhfc.net.common.quests.QuestVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation.QuestType;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -38,11 +39,6 @@ public class MHFCRegQuestVisual {
 			List<String> identifiers = message.getIdentifiers();
 			groupIDsInOrder = identifiers;
 			groupIDToListMap = identifierLists;
-			questGiverScreenlist.clear();
-			for (String groupID : groupIDsInOrder) {
-				questGiverScreenlist.add(new QuestGiverScreen(groupIDToListMap
-						.get(groupID).toArray(new String[0])));
-			}
 			System.out
 					.println("[MHFC] Received new identifier configuration from server, "
 							+ groupIDsInOrder.size() + " groups");
@@ -144,7 +140,6 @@ public class MHFCRegQuestVisual {
 	public static final ResourceLocation QUEST_STATUS_ONSCREEN_BACKGROUND = new ResourceLocation(
 			"textures/gui/demo_background.png");
 
-	private static List<QuestGiverScreen> questGiverScreenlist = new ArrayList<QuestGiverScreen>();
 	private static Map<String, List<String>> groupIDToListMap = new HashMap<String, List<String>>();
 	private static List<String> groupIDsInOrder = new ArrayList<String>();
 	private static Map<String, QuestVisualInformation> identifierToVisualInformationMap = new HashMap<String, QuestVisualInformation>();
@@ -153,10 +148,18 @@ public class MHFCRegQuestVisual {
 	// FIXME choose our mfhc network wrapper
 	private static SimpleNetworkWrapper networkWrapper = MHFCRegQuests.networkWrapper;
 
-	public static QuestGiverScreen getScreen(int i) {
-		if (i < 0 || i >= questGiverScreenlist.size())
+	public static GuiQuestGiver getScreen(int i, EntityPlayer playerEntity) {
+		if (i < 0 || i >= groupIDToListMap.size())
 			return null;
-		return questGiverScreenlist.get(i);
+		List<String> list = groupIDToListMap.get(groupIDToListMap.keySet()
+				.toArray()[i]);
+		if (list == null)
+			return null;
+		return new GuiQuestGiver(list.toArray(new String[0]), playerEntity);
+	}
+
+	public static List<String> getIdentifierList(String groupId) {
+		return groupIDToListMap.get(groupId);
 	}
 
 	/**

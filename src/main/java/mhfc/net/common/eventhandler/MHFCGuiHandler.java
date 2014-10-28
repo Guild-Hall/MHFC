@@ -2,6 +2,7 @@ package mhfc.net.common.eventhandler;
 
 import mhfc.net.client.container.ContainerHunterBench;
 import mhfc.net.client.gui.GuiHunterBench;
+import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.tile.TileHunterBench;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,6 +34,8 @@ public class MHFCGuiHandler implements IGuiHandler {
 			if (tE instanceof TileHunterBench)
 				return new GuiHunterBench(player.inventory, world,
 						(TileHunterBench) tE, x, y, z);
+		} else if (ID == MHFCReference.gui_questgiver_id) {
+			return MHFCRegQuestVisual.getScreen(x, player);
 		}
 		return null;
 

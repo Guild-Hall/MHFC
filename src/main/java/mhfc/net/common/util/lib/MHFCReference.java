@@ -280,6 +280,7 @@ public class MHFCReference {
 	public static final int gui_questgiver_id = 2;
 	public static final int potion_paralyze_iconindex = 1;
 	public static final int potion_kirinbless_iconindex = 2;
+	public static final String mob_questGiver_name = "questGiver";
 
 	// public enum healthinfo {
 	// BULLDROME, // - 750

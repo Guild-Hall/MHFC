@@ -29,6 +29,10 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> 
 			return string;
 		}
 
+		public String getInitializationString() {
+			return string;
+		}
+
 	}
 
 	public ClickableGuiList(int posX, int posY, int width, int height,
@@ -196,7 +200,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> 
 		return height;
 	}
 
-	public void setSizeHeight(int width, int height) {
+	public void setWidthAndHeight(int width, int height) {
 		this.width = width;
 		this.height = height;
 	}
