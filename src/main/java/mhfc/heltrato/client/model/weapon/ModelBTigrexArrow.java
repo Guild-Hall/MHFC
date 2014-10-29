@@ -213,33 +213,33 @@ public class ModelBTigrexArrow extends ModelBase
   }
   
   public void render(float f5) {
-	  	Shape1.renderWithRotation(f5);
-	  	Shape2A.renderWithRotation(f5);
-	    Shape3a.renderWithRotation(f5);
-	    Shape4a.renderWithRotation(f5);
-	    Shape3b.renderWithRotation(f5);
-	    Shape4b.renderWithRotation(f5);
-	    Shape5.renderWithRotation(f5);
-	    Shape5a.renderWithRotation(f5);
-	    Shape5b.renderWithRotation(f5);
-	    Shape5c.renderWithRotation(f5);
-	    Shape5d.renderWithRotation(f5);
-	    Shape5e.renderWithRotation(f5);
-	    Shape6a.renderWithRotation(f5);
-	    Shape6b.renderWithRotation(f5);
-	    Shape7a.renderWithRotation(f5);
-	    Shape7b.renderWithRotation(f5);
-	    Shape8a.renderWithRotation(f5);
-	    Shape8b.renderWithRotation(f5);
-	    Shape9a.renderWithRotation(f5);
-	    Shape10b.renderWithRotation(f5);
-	    Shape10c.renderWithRotation(f5);
-	    Shape10e.renderWithRotation(f5);
-	    Shape10f.renderWithRotation(f5);
-	    Shape11h.renderWithRotation(f5);
-	    Shape12j.renderWithRotation(f5);
-	    Shape11k.renderWithRotation(f5);
-	    Shape12l.renderWithRotation(f5);
+	  	Shape1.render(f5);
+	  	Shape2A.render(f5);
+	    Shape3a.render(f5);
+	    Shape4a.render(f5);
+	    Shape3b.render(f5);
+	    Shape4b.render(f5);
+	    Shape5.render(f5);
+	    Shape5a.render(f5);
+	    Shape5b.render(f5);
+	    Shape5c.render(f5);
+	    Shape5d.render(f5);
+	    Shape5e.render(f5);
+	    Shape6a.render(f5);
+	    Shape6b.render(f5);
+	    Shape7a.render(f5);
+	    Shape7b.render(f5);
+	    Shape8a.render(f5);
+	    Shape8b.render(f5);
+	    Shape9a.render(f5);
+	    Shape10b.render(f5);
+	    Shape10c.render(f5);
+	    Shape10e.render(f5);
+	    Shape10f.render(f5);
+	    Shape11h.render(f5);
+	    Shape12j.render(f5);
+	    Shape11k.render(f5);
+	    Shape12l.render(f5);
 }
 
 private void setRotation(ModelRenderer model, float x, float y, float z)

@@ -122,7 +122,7 @@ public class RenderBTigrexArrow extends RenderWeapon {
 				// this is a method made by me in my model class to render only
 				// the modelparts, without an entity argument, because in your
 				// inventory, //the entity is always null.
-				weapon.render(0.0625F);
+				weapon.render(0.0325F);
 				GL11.glPopMatrix();
 				break;
 

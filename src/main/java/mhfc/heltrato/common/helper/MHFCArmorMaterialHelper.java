@@ -23,6 +23,5 @@ public class MHFCArmorMaterialHelper {
 	
 	
 	
-	public void init(){}
 
 }

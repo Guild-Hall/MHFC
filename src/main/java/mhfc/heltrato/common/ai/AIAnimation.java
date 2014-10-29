@@ -45,4 +45,10 @@ public abstract class AIAnimation extends EntityAIBase {
 	}
 	
 	private iMHFC animatedEntity;
+	
+	// Experimenting for a while please abandone deleting this.
+	public int getActiveSnaps(){
+		return 2;
+	}
+	
 }

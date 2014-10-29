@@ -142,8 +142,7 @@ public class KirinSArmor extends ItemArmor {
 	    chest.getItem() == MHFCRegItem.mhfcitemkirinSchest &&
 	    boots.getItem() == MHFCRegItem.mhfcitemkirinSboots &&
 	    legs.getItem() == MHFCRegItem.mhfcitemkirinSlegs){
-	   int duration = 15;
-	   player.addPotionEffect(new PotionEffect(MHFCRegPotion.mhfcpotionkirinbless.id, duration, 1));
+	   player.addPotionEffect(new PotionEffect(MHFCRegPotion.mhfcpotionkirinbless.id, 15, 1));
 	   world.spawnParticle("cloud", player.posX + this.rand.nextFloat() * 2.0F - 1.0D, player.posY + this.rand.nextFloat() * 3.0F + 1.0D, player.posZ + this.rand.nextFloat() * 2.0F - 1.0D, 0.0D, 0.0D, 0.0D);
 	  }
 	 }
