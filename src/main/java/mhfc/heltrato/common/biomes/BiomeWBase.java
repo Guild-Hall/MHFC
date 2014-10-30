@@ -10,7 +10,7 @@ public class BiomeWBase extends BiomeGenBase {
 	public boolean depends;
 	public String name;
 	public float getTemp;
-	public boolean questActive;// just sort of test for making sure if the biome will spawn in overworld
+	public static boolean questActive;// just sort of test for making sure if the biome will spawn in overworld
 
 	public BiomeWBase(int par1) {
 		super(par1);
@@ -24,6 +24,7 @@ public class BiomeWBase extends BiomeGenBase {
 		topBlock = MHFCRegBlock.mhfcblockgrass;
 		fillerBlock = MHFCRegBlock.mhfcblockdirt;
 		spawnableCreatureList.add(new SpawnListEntry(EntityAptonoth.class, 10, 3,5));
+		spawnThisBiome(this);
 	}
 	
 	public BiomeWBase setColor(int color) {
@@ -36,10 +37,10 @@ public class BiomeWBase extends BiomeGenBase {
 	
 	
 	//TODO this is just a test method for generating for quest.
-	public void generateforQuest(BiomeGenBase base){
+	public static void spawnThisBiome(BiomeGenBase base){
 		if(questActive)
 		BiomeManager.addSpawnBiome(base);
-		else{
+		if(!questActive){
 			BiomeManager.removeSpawnBiome(base);
 		}
 	}

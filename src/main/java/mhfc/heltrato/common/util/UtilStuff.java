@@ -160,6 +160,21 @@ public class UtilStuff {
 		 }
 	 }
 	 
+	 // Rage Form Test Method.
+	 public static void startIncrement(boolean a, int xcount, int duration, EntityWyvernHostile entity){
+		 xcount = 0;
+		 int durationVolt = 100 + duration; // default duration 
+		 if(a){
+			 if(!entity.isDead){
+				 xcount++;
+				 durationVolt--;
+				 if(durationVolt == 0){
+					 a = false;
+				 }
+			 }
+		 }
+		 
+	 }
 	 
 		 
 	 
