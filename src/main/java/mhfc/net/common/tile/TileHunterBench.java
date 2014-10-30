@@ -1,5 +1,8 @@
 package mhfc.net.common.tile;
 
+import mhfc.net.MHFCMain;
+import mhfc.net.common.core.registry.MHFCRegEquipmentRecipe;
+import mhfc.net.common.core.registry.MHFCRegQuests;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -41,10 +44,15 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	 * If the recipe is currently worked on
 	 */
 	private boolean working;
+	/**
+	 * If you can take out of the output slot
+	 */
+	private boolean canTakeResult;
 
 	public TileHunterBench() {
 		recipeStacks = new ItemStack[7];
 		inputStacks = new ItemStack[recipeStacks.length];
+		canTakeResult = false;
 	}
 
 	@Override
@@ -62,13 +70,16 @@ public class TileHunterBench extends TileEntity implements IInventory {
 		} else {
 			if (fuelStack != null && working) {
 				heatLength = TileEntityFurnace.getItemBurnTime(fuelStack);
-				heatStrength = getItemHeat(fuelStack);
+				heatFromItem = getItemHeat(fuelStack);
+				decrStackSize(fuelSlot, 1);
 			} else {
 				heatStrength = getNewHeat(heatStrength, 0);
 			}
 		}
 		if (recipe != null && itemSmeltDuration >= recipe.getDuration()) {
-			outputStack = recipe.getRecipeOutput();
+			canTakeResult = true;
+			itemSmeltDuration = 0;
+			working = false;
 		}
 	}
 
@@ -77,17 +88,25 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	}
 
 	public void setRecipe(EquipmentRecipe recipe) {
+		if (MHFCMain.isEffectiveClient()) {
+			sendSetRecipe(recipe);
+		}
 		if (recipe == null) {
-			itemSmeltDuration = 0;
+			recipeStacks = new ItemStack[7];
 			this.recipe = null;
 			this.working = false;
+			itemSmeltDuration = 0;
+			if (!canTakeResult)
+				outputStack = null;
 			return;
 		}
 		if (outputStack != null)
 			return;
+		outputStack = recipe.getRecipeOutput();
+		canTakeResult = false;
 		this.recipe = recipe;
 		setIngredients(recipe);
-		working = true;
+		working = false;
 	}
 
 	public void setIngredients(EquipmentRecipe recipe) {
@@ -96,7 +115,7 @@ public class TileHunterBench extends TileEntity implements IInventory {
 
 	private static int getItemHeat(ItemStack itemStack) {
 		// TODO Auto-generated method stub
-		return 0;
+		return 200;
 	}
 
 	private int getNewHeat(int heatOld, int heatAim) {
@@ -123,9 +142,6 @@ public class TileHunterBench extends TileEntity implements IInventory {
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
-		if (i > recipeStacks.length * 2 + 1)
-			return null; // You cant get anything from the recipe slots
-		// TODO If you take anything out, cancel the recipe
 		if (i > recipeStacks.length + 1) {
 			ItemStack stack = inputStacks[i - recipeStacks.length - 2];
 			if (stack == null)
@@ -138,9 +154,12 @@ public class TileHunterBench extends TileEntity implements IInventory {
 				return stack;
 			}
 			return stack.splitStack(j);
-
 		}
+		if (i > 1)
+			return null; // You cant get anything from the recipe slots
 		if (i == outputSlot) {
+			if (!canTakeResult)
+				return null;
 			ItemStack output = outputStack;
 			outputStack = null;
 			return output;
@@ -158,8 +177,12 @@ public class TileHunterBench extends TileEntity implements IInventory {
 		}
 	}
 
+	/**
+	 * Resets all working progress but leaves the recipe set
+	 */
 	public void cancelRecipe() {
-		setRecipe(null);
+		this.working = false;
+		itemSmeltDuration = 0;
 	}
 
 	@Override
@@ -175,9 +198,9 @@ public class TileHunterBench extends TileEntity implements IInventory {
 			inputStacks[i - recipeStacks.length - 2] = itemstack;
 		else if (i > 1)
 			recipeStacks[i - 2] = itemstack;
-		else if (i == 1)
+		else if (i == outputSlot)
 			outputStack = itemstack;
-		else
+		else if (i == fuelSlot)
 			fuelStack = itemstack;
 	}
 
@@ -223,8 +246,52 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	}
 
 	public void beginCrafting() {
-		if (recipe != null)
-			working = true;
+		if (MHFCMain.isEffectiveClient())
+			sendBeginCraft();
+		if (recipe != null) {
+			if (canBeginCrafting())
+				working = true;
+		}
+	}
+
+	private void sendBeginCraft() {
+		MHFCRegQuests.networkWrapper
+				.sendToServer(new MHFCRegEquipmentRecipe.BeginCraftingMessage(
+						this));
+	}
+
+	private void sendSetRecipe(EquipmentRecipe recipeToSend) {
+		MHFCRegQuests.networkWrapper
+				.sendToServer(new MHFCRegEquipmentRecipe.SetRecipeMessage(this,
+						recipeToSend));
+	}
+
+	public boolean canBeginCrafting() {
+		return matchesInputOutput() && canTakeResult == false && !working;
+	}
+
+	protected boolean matchesInputOutput() {
+		for (int i = 0; i < inputStacks.length; i++) {
+			if (!ItemStack.areItemStacksEqual(inputStacks[i], recipeStacks[i]))
+				return false;
+		}
+		return true;
+	}
+
+	public int getHeatStrength() {
+		return heatStrength;
+	}
+
+	public int getHeatFromItem() {
+		return heatFromItem;
+	}
+
+	public int getHeatLength() {
+		return heatLength;
+	}
+
+	public int getItemSmeltDuration() {
+		return itemSmeltDuration;
 	}
 
 }

@@ -45,6 +45,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> 
 		scrollAmount = 0;
 		selected = -1;
 		recalculateItemHeightOnDraw = false;
+		visible = true;
 		setAlignmentMid(false);
 		setDrawSmallestBounds(false);
 	}
@@ -56,7 +57,6 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> 
 	public ClickableGuiList(int posX, int posY, int width, int height) {
 		this(posX, posY, width, height, 0);
 		recalculateItemHeightOnDraw = true;
-		visible = true;
 	}
 
 	public ClickableGuiList(int width, int height) {

@@ -6,6 +6,7 @@ import mhfc.net.common.core.registry.MHFCRegBlock;
 import mhfc.net.common.core.registry.MHFCRegCrafting;
 import mhfc.net.common.core.registry.MHFCRegCraftingHunter;
 import mhfc.net.common.core.registry.MHFCRegEntity;
+import mhfc.net.common.core.registry.MHFCRegEquipmentRecipe;
 import mhfc.net.common.core.registry.MHFCRegEvents;
 import mhfc.net.common.core.registry.MHFCRegItem;
 import mhfc.net.common.core.registry.MHFCRegPacket;
@@ -35,10 +36,16 @@ public class MHFCReg {
 		addPacket();
 		addQuests();
 		addStringDecoders();
-		MHFCRegCraftingHunter.craftAll();
+		addCraftingRecipes();
 	}
 
-	private static void addStringDecoders() {
+	public static void addCraftingRecipes() {
+		MHFCRegCraftingHunter.craftAll();
+		MHFCRegEquipmentRecipe.init();
+		System.out.println("[MHFC] Recipes are now inserted");
+	}
+
+	public static void addStringDecoders() {
 		MHFCRegStringDecode.init();
 		System.out.println("[MHFC] Client-Server string decoding initialize");
 	}

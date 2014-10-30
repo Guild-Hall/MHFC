@@ -105,6 +105,7 @@ public class MHFCRegQuestVisual {
 								? null
 								: new QuestRunningInformation(visual,
 										strings[12], strings[13]));
+						hasPlayerQuest = (visual != null);
 						System.out.println("[MHFC] "
 								+ (visual == null
 										? "No quest active"
@@ -144,6 +145,7 @@ public class MHFCRegQuestVisual {
 	private static List<String> groupIDsInOrder = new ArrayList<String>();
 	private static Map<String, QuestVisualInformation> identifierToVisualInformationMap = new HashMap<String, QuestVisualInformation>();
 	private static QuestStatusDisplay display;
+	private static boolean hasPlayerQuest = false;
 
 	// FIXME choose our mfhc network wrapper
 	private static SimpleNetworkWrapper networkWrapper = MHFCRegQuests.networkWrapper;
@@ -173,6 +175,10 @@ public class MHFCRegQuestVisual {
 		}
 		networkWrapper.sendToServer(new MessageRequestQuestVisual(identifier));
 		return QuestVisualInformation.LOADING_REPLACEMENT;
+	}
+
+	public static boolean hasPlayerQuest() {
+		return hasPlayerQuest;
 	}
 
 	public static void init() {

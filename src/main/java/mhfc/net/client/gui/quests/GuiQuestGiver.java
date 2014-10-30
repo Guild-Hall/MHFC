@@ -21,6 +21,7 @@ public class GuiQuestGiver extends GuiScreen {
 	private List<String> questIdentifiers;
 	private int selectedIdentifier;
 	private int thisWidth, thisHeight;
+	private EntityPlayer accessor;
 
 	public GuiQuestGiver(String[] groupIDs, EntityPlayer accessor) {
 		groupIDsDisplayed = new ArrayList<String>();
@@ -43,30 +44,54 @@ public class GuiQuestGiver extends GuiScreen {
 		};
 		left = new GuiButton(selectedIdentifier, selectedIdentifier,
 				selectedIdentifier, selectedIdentifier, selectedIdentifier, "<") {
-
+			@Override
+			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
+					int p_146116_3_) {
+				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
+					setIdentifier(selectedIdentifier - 1);
+					return true;
+				}
+				return false;
+			}
 		};
 		right = new GuiButton(selectedIdentifier, selectedIdentifier,
 				selectedIdentifier, selectedIdentifier, selectedIdentifier, ">") {
-
+			@Override
+			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
+					int p_146116_3_) {
+				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
+					setIdentifier(selectedIdentifier + 1);
+					return true;
+				}
+				return false;
+			}
 		};
 		thisWidth = 220;
 		thisHeight = 220;
+		this.accessor = accessor;
+	}
+
+	protected void setIdentifier(int i) {
+		selectedIdentifier = Math.max(Math.min(questIdentifiers.size() - 1, i),
+				0);
 	}
 
 	@Override
 	protected void mouseClicked(int p_73864_1_, int p_73864_2_, int p_73864_3_) {
 		super.mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
-		groupList.handleClick(p_73864_1_ - groupList.getPosX(), p_73864_2_
-				- groupList.getPosY(), p_73864_3_);
-		GuiListStringItem item = groupList.getSelectedItem();
-		String selectedList = item == null ? "" : item
-				.getInitializationString();
-		questIdentifiers.clear();
-		questIdentifiers.addAll(MHFCRegQuestVisual
-				.getIdentifierList(selectedList));
-		selectedIdentifier = questIdentifiers.size() > 0 ? 0 : -1;
+		if (groupList.handleClick(p_73864_1_ - groupList.getPosX(), p_73864_2_
+				- groupList.getPosY(), p_73864_3_)) {
+			GuiListStringItem item = groupList.getSelectedItem();
+			String selectedList = item == null ? "" : item
+					.getInitializationString();
+			questIdentifiers.clear();
+			questIdentifiers.addAll(MHFCRegQuestVisual
+					.getIdentifierList(selectedList));
+			selectedIdentifier = questIdentifiers.size() > 0 ? 0 : -1;
+		}
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void drawScreen(int positionX, int positionY, float partialTick) {
 		super.drawScreen(positionX, positionY, partialTick);
@@ -78,10 +103,13 @@ public class GuiQuestGiver extends GuiScreen {
 			QuestVisualInformation info = MHFCRegQuestVisual
 					.getVisualInformation(questIdentifiers
 							.get(selectedIdentifier));
+			// TODO set start enabled based on can join
 			FontRenderer fontRenderer = mc.fontRenderer;
 			int page = 0;
 			// info.drawInformation(0, 0, 220, 220, page, fontRenderer);
 		} else {
+			boolean hasQuest = MHFCRegQuestVisual.hasPlayerQuest();
+			groupList.setVisible(!hasQuest);
 			// There is nothing to select and can't be
 			start.enabled = false;
 			left.visible = false;
@@ -94,12 +122,13 @@ public class GuiQuestGiver extends GuiScreen {
 		super.onGuiClosed();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui() {
 		buttonList.add(start);
 		buttonList.add(left);
 		buttonList.add(right);
-		super.initGui();
+		// super.initGui();
 	}
 
 	@Override

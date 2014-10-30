@@ -8,9 +8,9 @@ import mhfc.net.client.container.ContainerHunterBench;
 import mhfc.net.client.gui.ClickableGuiList.GuiListItem;
 import mhfc.net.client.gui.ClickableGuiList.GuiListStringItem;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
+import mhfc.net.common.core.registry.MHFCRegEquipmentRecipe;
 import mhfc.net.common.core.registry.MHFCRegItem;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
-import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipeRegistry;
 import mhfc.net.common.tile.TileHunterBench;
 import mhfc.net.common.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
@@ -73,6 +73,19 @@ public class GuiHunterBench extends MHFCTabbedGui {
 					500, 0x404040);
 
 			GuiHunterBench.this.startCrafting.visible = !bench.isWorking();
+			GuiHunterBench.this.startCrafting.enabled = bench
+					.canBeginCrafting();
+			fontRendererObj.drawString(bench.isWorking()
+					? "Working"
+					: "Sleeping", 50, 50, 0x404040);
+			fontRendererObj.drawString(bench.getHeatFromItem() + "", 50, 60,
+					0x404040);
+			fontRendererObj.drawString(bench.getHeatLength() + "", 50, 70,
+					0x404040);
+			fontRendererObj.drawString(bench.getHeatStrength() + "", 50, 80,
+					0x404040);
+			fontRendererObj.drawString(bench.getItemSmeltDuration() + "", 50,
+					90, 0x404040);
 			drawItemModelAndHeat(new ItemStack(MHFCRegItem.mhfcitembhunter));
 		};
 
@@ -104,6 +117,18 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			updateListPositions();
 		}
 
+		@Override
+		public void onClose() {
+			if (!bench.isWorking())
+				bench.setRecipe(null);
+		}
+
+		@Override
+		public void onOpen() {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 
 	protected class CraftArmorTab extends BenchEntityTab {
@@ -121,6 +146,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			this.clickableLists.add(armorRecipeList);
 			initializeTypeList();
 			armorTypeList.setSelected(0);
+			listUpdated(armorTypeList);
 		}
 
 		private void initializeTypeList() {
@@ -136,18 +162,13 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				armorRecipeList.clear();
 				int selected = armorTypeList.getSelected();
 				if (selected < 4)
-					fillRecipeList(EquipmentRecipeRegistry
+					fillRecipeList(MHFCRegEquipmentRecipe
 							.getRecipesFor(selected));
-				else {
-					fillRecipeList(EquipmentRecipeRegistry
-							.getRecipesFor(selected * 2 + 4));
-
-					fillRecipeList(EquipmentRecipeRegistry
-							.getRecipesFor(selected * 2 + 5));
-					if (selected == 4)
-						fillRecipeList(EquipmentRecipeRegistry
-								.getRecipesFor(selected * 2 + 6));
-				}
+			} else if (list == armorRecipeList) {
+				int selected = armorTypeList.getSelected();
+				EquipmentRecipe rec = MHFCRegEquipmentRecipe.getRecipeFor(
+						armorRecipeList.getSelected(), selected);
+				bench.setRecipe(rec);
 			}
 		}
 
@@ -158,8 +179,9 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		private void fillRecipeList(Set<EquipmentRecipe> correspondingRecipes) {
-			if (correspondingRecipes == null)
+			if (correspondingRecipes == null) {
 				return;
+			}
 			for (EquipmentRecipe rec : correspondingRecipes) {
 				armorRecipeList.add(new RecipeItem(rec));
 			}
@@ -199,6 +221,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			this.clickableLists.add(weaponRecipeList);
 			initializeTypeList();
 			weaponTypeList.setSelected(0);
+			listUpdated(weaponTypeList);
 		}
 
 		private void initializeTypeList() {
@@ -221,12 +244,12 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			if (list == weaponTypeList) {
 				weaponRecipeList.clear();
 				int selected = weaponTypeList.getSelected();
-				fillRecipeList(EquipmentRecipeRegistry
+				fillRecipeList(MHFCRegEquipmentRecipe
 						.getRecipesFor(selected * 2 + 4));
-				fillRecipeList(EquipmentRecipeRegistry
+				fillRecipeList(MHFCRegEquipmentRecipe
 						.getRecipesFor(selected * 2 + 5));
 				if (selected == 4)
-					fillRecipeList(EquipmentRecipeRegistry
+					fillRecipeList(MHFCRegEquipmentRecipe
 							.getRecipesFor(selected * 2 + 6));
 			}
 		}
@@ -282,6 +305,14 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		public void updateScreen() {
+		}
+
+		@Override
+		public void onClose() {
+		}
+
+		@Override
+		public void onOpen() {
 		}
 
 	}

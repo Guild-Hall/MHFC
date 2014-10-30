@@ -11,4 +11,8 @@ public interface IMHFCTab {
 	public boolean containsSlot(Slot slot);
 
 	public void updateScreen();
+
+	public void onClose();
+
+	public void onOpen();
 }

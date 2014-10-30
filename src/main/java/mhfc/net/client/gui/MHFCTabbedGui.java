@@ -128,6 +128,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 	protected void setTab(int index) {
 		if (index >= 0 && index < tabList.size()) {
 			tabIndex = index;
+			tabList.get(tabIndex).onOpen();
 		}
 		@SuppressWarnings("unchecked")
 		List<Slot> slots = inventorySlots.inventorySlots;
@@ -170,6 +171,13 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 		if (tab != null)
 			tab.updateScreen();
 		super.updateScreen();
+	}
+
+	@Override
+	public void onGuiClosed() {
+		for (int i = 0; i < tabList.size(); i++) {
+			tabList.get(i).onClose();
+		}
 	}
 
 }
