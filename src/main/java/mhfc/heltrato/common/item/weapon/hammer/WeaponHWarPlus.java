@@ -1,4 +1,4 @@
-package mhfc.heltrato.common.item.weapon;
+package mhfc.heltrato.common.item.weapon.hammer;
 
 import java.util.List;
 import java.util.Random;
@@ -17,14 +17,14 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 
-public class WeaponHWar extends SiegeClass {
+public class WeaponHWarPlus extends SiegeClass {
 
 	// private Random rand;
 	private float weaponDamage;
 
-	public WeaponHWar(ToolMaterial getType) {
+	public WeaponHWarPlus(ToolMaterial getType) {
 		super(getType);
-		setUnlocalizedName(MHFCReference.weapon_hm_war_name);
+		setUnlocalizedName(MHFCReference.weapon_hm_warplus_name);
 		setFull3D();
 		rand = new Random();
 		weaponDamage = getType.getDamageVsEntity() - 4;
@@ -47,7 +47,7 @@ public class WeaponHWar extends SiegeClass {
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
 		itemIcon = par1IconRegister
-				.registerIcon(MHFCReference.weapon_hm_war_icon);
+				.registerIcon(MHFCReference.weapon_hm_warplus_icon);
 	}
 
 	public float getDamageVsEntity(Entity entity) {
@@ -61,10 +61,10 @@ public class WeaponHWar extends SiegeClass {
 		player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 80, 1));
 		float damage = 0.0f;
 		if (ent instanceof EntityKirin) {
-			damage = 18;
+			damage = 26;
 		}
 		if (ent instanceof EntityTigrex) {
-			damage = 14f;
+			damage = 23f;
 			ent.motionX = 0.3D;
 		}
 

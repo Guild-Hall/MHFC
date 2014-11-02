@@ -1,5 +1,7 @@
 package mhfc.heltrato.common.core.registry;
 
+import mhfc.heltrato.client.model.weapon.ModelBAdventurer;
+import mhfc.heltrato.client.render.weapon.RenderBAdventurer;
 import mhfc.heltrato.client.render.weapon.RenderBGLShooterBarrel;
 import mhfc.heltrato.client.render.weapon.RenderBGLSpartacusFire;
 import mhfc.heltrato.client.render.weapon.RenderBHunter;
@@ -14,6 +16,7 @@ import mhfc.heltrato.client.render.weapon.RenderHWar;
 import mhfc.heltrato.client.render.weapon.RenderHWarSlammer;
 import mhfc.heltrato.client.render.weapon.RenderLSDarkVipern;
 import mhfc.heltrato.client.render.weapon.RenderLSIronKatana;
+import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 public class MHFCRegRenderWeapon {
@@ -39,6 +42,9 @@ public class MHFCRegRenderWeapon {
 		reg.registerItemRenderer(MHFCRegItem.mhfcitembglshooterbarrel, new RenderBGLShooterBarrel());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitembglspartacusfire, new RenderBGLSpartacusFire());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitembtigrexarrow, new RenderBTigrexArrow());
+		
+		//new type of rendering
+		reg.registerItemRenderer(MHFCRegItem.mhfcitembadventurer, new RenderBAdventurer(new ModelBAdventurer(), MHFCReference.weapon_bow_adventurer_tex));
 		
 		
 		

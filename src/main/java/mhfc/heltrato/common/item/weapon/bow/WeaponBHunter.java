@@ -1,4 +1,4 @@
-package mhfc.heltrato.common.item.weapon;
+package mhfc.heltrato.common.item.weapon.bow;
 
 import java.util.List;
 

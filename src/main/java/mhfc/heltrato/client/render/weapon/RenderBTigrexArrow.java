@@ -1,19 +1,20 @@
 package mhfc.heltrato.client.render.weapon;
 
 import mhfc.heltrato.client.model.weapon.ModelBTigrexArrow;
-import mhfc.heltrato.client.render.RenderWeapon;
-import mhfc.heltrato.common.item.weapon.WeaponBTigrexArrow;
+import mhfc.heltrato.common.item.weapon.bow.WeaponBTigrexArrow;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
+import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 
 import org.lwjgl.opengl.GL11;
 
-public class RenderBTigrexArrow extends RenderWeapon {
+public class RenderBTigrexArrow implements IItemRenderer {
 
 	private ModelBTigrexArrow weapon;
 	// private RenderWeapon getRender;
@@ -130,5 +131,24 @@ public class RenderBTigrexArrow extends RenderWeapon {
 				break;
 		}
 	}
+
+	@Override
+	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
+		return true;
+	}
+
+	@Override
+	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item,
+			ItemRendererHelper helper) {
+		switch (type) {
+			case INVENTORY :
+				return true;
+			default :
+				break;
+		}
+		return false;
+
+	}
+
 
 }

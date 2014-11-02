@@ -253,6 +253,8 @@ public class MHFCReference {
 	public static final String weapon_bow_tigrexarrow_tex0 = "mhfc:textures/weapons/bow/(B)tigrexarrow1.png";
 	public static final String weapon_bow_tigrexarrow_tex1 = "mhfc:textures/weapons/bow/(B)tigrexarrow2.png";
 	public static final String weapon_bow_tigrexarrow_tex2 = "mhfc:textures/weapons/bow/(B)tigrexarrow3.png";
+	public static final String weapon_bow_adventurer_name = "c.bow";
+	public static final String weapon_bow_adventurer_tex = "mhfc:textures/weapons/(B)Adventurer.png";
 	public static final String weapon_gs_bone_icon = "mhfc:greatsword";
 	public static final String weapon_gs_bone_name = "greatsword_1";
 	public static final String weapon_gs_bone_tex = "mhfc:textures/weapons/(GS)bone.png";

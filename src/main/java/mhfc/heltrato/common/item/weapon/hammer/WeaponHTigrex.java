@@ -1,10 +1,10 @@
-package mhfc.heltrato.common.item.weapon;
+package mhfc.heltrato.common.item.weapon.hammer;
 
 import java.util.List;
 import java.util.Random;
 
+import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.entity.mob.EntityKirin;
-import mhfc.heltrato.common.entity.mob.EntityTigrex;
 import mhfc.heltrato.common.item.weapon.type.SiegeClass;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -17,18 +17,20 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 
-public class WeaponHWarPlus extends SiegeClass {
+public class WeaponHTigrex extends SiegeClass {
 
-	// private Random rand;
+	private Random rand;
 	private float weaponDamage;
 
-	public WeaponHWarPlus(ToolMaterial getType) {
+	public WeaponHTigrex(ToolMaterial getType) {
 		super(getType);
-		setUnlocalizedName(MHFCReference.weapon_hm_warplus_name);
+		setUnlocalizedName(MHFCReference.weapon_hm_tigrex_name);
+		setCreativeTab(MHFCMain.mhfctabs);
 		setFull3D();
 		rand = new Random();
 		weaponDamage = getType.getDamageVsEntity() - 4;
 	}
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public void addInformation(ItemStack par1ItemStack,
@@ -47,7 +49,7 @@ public class WeaponHWarPlus extends SiegeClass {
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
 		itemIcon = par1IconRegister
-				.registerIcon(MHFCReference.weapon_hm_warplus_icon);
+				.registerIcon(MHFCReference.weapon_hm_tigrex_icon);
 	}
 
 	public float getDamageVsEntity(Entity entity) {
@@ -60,12 +62,12 @@ public class WeaponHWarPlus extends SiegeClass {
 			EntityLivingBase player) {
 		player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 80, 1));
 		float damage = 0.0f;
+		player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 40, 8));
 		if (ent instanceof EntityKirin) {
-			damage = 26;
+			damage = 60;
 		}
-		if (ent instanceof EntityTigrex) {
-			damage = 23f;
-			ent.motionX = 0.3D;
+		if (rand.nextInt() == 40) {
+			// damage = 232;
 		}
 
 		DamageSource dmgSource = DamageSource

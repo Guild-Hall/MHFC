@@ -1,9 +1,9 @@
-package mhfc.heltrato.common.item.weapon;
+package mhfc.heltrato.common.item.weapon.longsword;
 
 import java.util.List;
 
-import mhfc.heltrato.common.entity.mob.EntityTigrex;
-import mhfc.heltrato.common.item.weapon.type.SemiLethalClass;
+import mhfc.heltrato.common.entity.mob.EntityKirin;
+import mhfc.heltrato.common.item.weapon.type.LethalClass;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -11,15 +11,18 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 
-public class WeaponGSKirinThunderSword extends SemiLethalClass {
+public class WeaponLSDarkVipern extends LethalClass {
 
 	private float weaponDamage;
 
-	public WeaponGSKirinThunderSword(ToolMaterial getType) {
+	public WeaponLSDarkVipern(ToolMaterial getType) {
 		super(getType);
-		setUnlocalizedName(MHFCReference.weapon_gs_kirin_name);
+		setUnlocalizedName(MHFCReference.weapon_ls_darkvipern_name);
+		setFull3D();
 		weaponDamage = getType.getDamageVsEntity() - 4;
 	}
 
@@ -28,15 +31,15 @@ public class WeaponGSKirinThunderSword extends SemiLethalClass {
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer,
 			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
-		par3List.add("\u00a79Thunder Element");
-		par3List.add("\u00a72Semi Lethal Damage");
-
+		par3List.add("Longsword Class");
+		par3List.add("\u00a79Poison-Element");
+		par3List.add("\u00a72Lethal Damage");
 	}
 
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
 		itemIcon = par1IconRegister
-				.registerIcon(MHFCReference.weapon_gs_kirin_icon);
+				.registerIcon(MHFCReference.weapon_ls_darkvipern_icon);
 	}
 
 	public float getDamageVsEntity(Entity entity) {
@@ -49,8 +52,10 @@ public class WeaponGSKirinThunderSword extends SemiLethalClass {
 			EntityLivingBase player) {
 
 		float damage = 0.0f;
-		if (ent instanceof EntityTigrex) {
-			damage = 57f;
+		player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60, 3));
+		ent.addPotionEffect(new PotionEffect(Potion.poison.id, 40, 2));
+		if (ent instanceof EntityKirin) {
+			damage = (weaponDamage - 12);
 		}
 
 		DamageSource dmgSource = DamageSource

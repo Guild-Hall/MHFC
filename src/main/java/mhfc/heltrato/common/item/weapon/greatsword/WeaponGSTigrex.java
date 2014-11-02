@@ -1,4 +1,4 @@
-package mhfc.heltrato.common.item.weapon;
+package mhfc.heltrato.common.item.weapon.greatsword;
 
 import java.util.List;
 import java.util.Random;

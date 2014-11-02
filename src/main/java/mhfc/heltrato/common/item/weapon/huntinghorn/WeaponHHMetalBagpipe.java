@@ -1,4 +1,4 @@
-package mhfc.heltrato.common.item.weapon;
+package mhfc.heltrato.common.item.weapon.huntinghorn;
 
 import java.util.List;
 

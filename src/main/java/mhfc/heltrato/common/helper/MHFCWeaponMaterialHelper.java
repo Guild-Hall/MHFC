@@ -1,6 +1,6 @@
 package mhfc.heltrato.common.helper;
 
-import mhfc.heltrato.common.item.weapon.WeaponGSKirinThunderSword;
+import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSKirinThunderSword;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraftforge.common.util.EnumHelper;
 

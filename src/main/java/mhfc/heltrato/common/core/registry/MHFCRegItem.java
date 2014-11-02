@@ -30,21 +30,22 @@ import mhfc.heltrato.common.item.armor.TigrexArmor;
 import mhfc.heltrato.common.item.armor.YukumoArmor;
 import mhfc.heltrato.common.item.food.ItemKirinBuff;
 import mhfc.heltrato.common.item.food.ItemMeats;
-import mhfc.heltrato.common.item.weapon.WeaponBGLShooterBarrel;
-import mhfc.heltrato.common.item.weapon.WeaponBGLSpartacusFire;
-import mhfc.heltrato.common.item.weapon.WeaponBHunter;
-import mhfc.heltrato.common.item.weapon.WeaponBTigrexArrow;
-import mhfc.heltrato.common.item.weapon.WeaponGSBone;
-import mhfc.heltrato.common.item.weapon.WeaponGSKirinThunderSword;
-import mhfc.heltrato.common.item.weapon.WeaponGSTigrex;
-import mhfc.heltrato.common.item.weapon.WeaponHHMetalBagpipe;
-import mhfc.heltrato.common.item.weapon.WeaponHKirinSpark;
-import mhfc.heltrato.common.item.weapon.WeaponHTigrex;
-import mhfc.heltrato.common.item.weapon.WeaponHWar;
-import mhfc.heltrato.common.item.weapon.WeaponHWarPlus;
-import mhfc.heltrato.common.item.weapon.WeaponHWarSlammer;
-import mhfc.heltrato.common.item.weapon.WeaponLSDarkVipern;
-import mhfc.heltrato.common.item.weapon.WeaponLSIronKatana;
+import mhfc.heltrato.common.item.weapon.bow.WeaponBAdventurer;
+import mhfc.heltrato.common.item.weapon.bow.WeaponBHunter;
+import mhfc.heltrato.common.item.weapon.bow.WeaponBTigrexArrow;
+import mhfc.heltrato.common.item.weapon.bowgun.WeaponBGLShooterBarrel;
+import mhfc.heltrato.common.item.weapon.bowgun.WeaponBGLSpartacusFire;
+import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSBone;
+import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSKirinThunderSword;
+import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSTigrex;
+import mhfc.heltrato.common.item.weapon.hammer.WeaponHKirinSpark;
+import mhfc.heltrato.common.item.weapon.hammer.WeaponHTigrex;
+import mhfc.heltrato.common.item.weapon.hammer.WeaponHWar;
+import mhfc.heltrato.common.item.weapon.hammer.WeaponHWarPlus;
+import mhfc.heltrato.common.item.weapon.hammer.WeaponHWarSlammer;
+import mhfc.heltrato.common.item.weapon.huntinghorn.WeaponHHMetalBagpipe;
+import mhfc.heltrato.common.item.weapon.longsword.WeaponLSDarkVipern;
+import mhfc.heltrato.common.item.weapon.longsword.WeaponLSIronKatana;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -71,6 +72,7 @@ public class MHFCRegItem {
 	public static Item mhfcitembglshooterbarrel;
 	public static Item mhfcitembglspartacusfire;
 	public static Item mhfcitembtigrexarrow;
+	public static Item mhfcitembadventurer;
 	
 	//Armors
 	public static Item mhfcitemtigrexhelm;
@@ -171,6 +173,7 @@ public class MHFCRegItem {
 		getItemID(MHFCItemHTigrex);
 		getItemID(mhfcitemhkirinspark);
 		getItemID(mhfcitemhhmetalbagpipe);
+		getItemID(mhfcitembadventurer);
 		getItemID(mhfcitembhunter);
 		getItemID(mhfcitembtigrexarrow);
 		getItemID(mhfcitembglshooterbarrel);
@@ -298,6 +301,7 @@ public class MHFCRegItem {
 	
 	private static void registerRangeWeapon()
 	{
+		mhfcitembadventurer = new WeaponBAdventurer();
 		mhfcitembhunter = new WeaponBHunter();
 		mhfcitembtigrexarrow = new WeaponBTigrexArrow();
 		mhfcitembglshooterbarrel = new WeaponBGLShooterBarrel();
