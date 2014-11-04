@@ -153,10 +153,7 @@ public class MHFCRegQuestVisual {
 	public static GuiQuestGiver getScreen(int i, EntityPlayer playerEntity) {
 		if (i < 0 || i >= groupIDToListMap.size())
 			return null;
-		List<String> list = groupIDToListMap.get(groupIDToListMap.keySet()
-				.toArray()[i]);
-		if (list == null)
-			return null;
+		List<String> list = new ArrayList<String>(groupIDToListMap.keySet());
 		return new GuiQuestGiver(list.toArray(new String[0]), playerEntity);
 	}
 

@@ -91,6 +91,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> 
 		// return;
 		if (recalculateItemHeightOnDraw)
 			recalculateItemHeight();
+		int width = Math.max(this.width, 15);
 		Minecraft m = Minecraft.getMinecraft();
 		int scale = new ScaledResolution(m, m.displayWidth, m.displayHeight)
 				.getScaleFactor();
@@ -102,8 +103,9 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> 
 			GuiListItem item = this.get(i);
 			String representation = item.getRepresentationString();
 			FontRenderer fRend = Minecraft.getMinecraft().fontRenderer;
+			@SuppressWarnings("unchecked")
 			List<String> lineWrapped = fRend.listFormattedStringToWidth(
-					representation, width - 5);
+					representation, width);
 			int lines = lineWrapped.size();
 			int stringLength = 0;
 			for (String s : lineWrapped) {

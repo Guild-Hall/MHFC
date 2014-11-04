@@ -181,6 +181,7 @@ public class QuestVisualInformation {
 
 	protected void drawClientDescription(int positionX, int currentY,
 			int width, int lineHeight, FontRenderer fontRenderer) {
+		width = Math.max(width, 20);
 		String TAG_CLIENT = StatCollector
 				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_CLIENT), //
 		TAG_DESCRIPTION = StatCollector
@@ -193,7 +194,7 @@ public class QuestVisualInformation {
 				(fontRenderer.getStringWidth(TAG_CLIENT)+width
 				-fontRenderer.getStringWidth(draw))/2,
 				currentY, 2*width/3, 0x404040);
-		currentY += fontRenderer.listFormattedStringToWidth(draw,width/2)
+		currentY += fontRenderer.listFormattedStringToWidth(draw,Math.max(width/2,10))
 				.size()*lineHeight;
 		draw = TAG_DESCRIPTION;
 		fontRenderer.drawString(draw, positionX+5, currentY, 0xB04040);

@@ -12,11 +12,13 @@ import java.util.Set;
 
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import mhfc.net.common.tile.TileHunterBench;
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.WorldServer;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -24,34 +26,11 @@ import cpw.mods.fml.relauncher.Side;
 
 public class MHFCRegEquipmentRecipe {
 
-	public static class BeginCraftingMessage implements IMessage {
-
-		private int x;
-		private int y;
-		private int z;
-
-		public BeginCraftingMessage() {
-		}
-
-		public BeginCraftingMessage(TileHunterBench bench) {
-			this.x = bench.xCoord;
-			this.y = bench.yCoord;
-			this.z = bench.zCoord;
-		}
-
-		@Override
-		public void fromBytes(ByteBuf buf) {
-			x = buf.readInt();
-			y = buf.readInt();
-			z = buf.readInt();
-		}
-
-		@Override
-		public void toBytes(ByteBuf buf) {
-			buf.writeInt(x);
-			buf.writeInt(y);
-			buf.writeInt(z);
-		}
+	private static class LocationMessage {
+		protected int x;
+		protected int y;
+		protected int z;
+		protected int worldID;
 
 		public int getX() {
 			return x;
@@ -65,34 +44,15 @@ public class MHFCRegEquipmentRecipe {
 			return z;
 		}
 
+		public int getDimensionID() {
+			return worldID;
+		}
 	}
 
-	public static class BeginCraftingHandler
+	public static class SetRecipeMessage extends LocationMessage
 			implements
-				IMessageHandler<BeginCraftingMessage, IMessage> {
+				IMessage {
 
-		public BeginCraftingHandler() {
-		}
-
-		@Override
-		public IMessage onMessage(BeginCraftingMessage message,
-				MessageContext ctx) {
-			TileEntity bench = Minecraft.getMinecraft().theWorld.getTileEntity(
-					message.getX(), message.getY(), message.getZ());
-			if (!(bench instanceof TileHunterBench))
-				return null;
-			TileHunterBench b = (TileHunterBench) bench;
-			b.beginCrafting();
-			return null;
-		}
-
-	}
-
-	public static class SetRecipeMessage implements IMessage {
-
-		private int x;
-		private int y;
-		private int z;
 		private int recipeID;
 		private int typeID;
 
@@ -103,6 +63,8 @@ public class MHFCRegEquipmentRecipe {
 			this.x = bench.xCoord;
 			this.y = bench.yCoord;
 			this.z = bench.zCoord;
+			this.worldID = bench.getWorldObj().getWorldInfo()
+					.getVanillaDimension();
 			this.typeID = getType(r);
 			this.recipeID = getIDFor(r, typeID);
 		}
@@ -112,6 +74,7 @@ public class MHFCRegEquipmentRecipe {
 			x = buf.readInt();
 			y = buf.readInt();
 			z = buf.readInt();
+			worldID = buf.readInt();
 			recipeID = buf.readInt();
 			typeID = buf.readInt();
 		}
@@ -121,20 +84,9 @@ public class MHFCRegEquipmentRecipe {
 			buf.writeInt(x);
 			buf.writeInt(y);
 			buf.writeInt(z);
+			buf.writeInt(worldID);
 			buf.writeInt(recipeID);
 			buf.writeInt(typeID);
-		}
-
-		public int getX() {
-			return x;
-		}
-
-		public int getY() {
-			return y;
-		}
-
-		public int getZ() {
-			return z;
 		}
 
 		public int getRecipeID() {
@@ -147,25 +99,82 @@ public class MHFCRegEquipmentRecipe {
 
 	}
 
+	public static class BeginCraftingMessage extends LocationMessage
+			implements
+				IMessage {
+
+		public BeginCraftingMessage() {
+		}
+
+		public BeginCraftingMessage(TileHunterBench bench) {
+			this.x = bench.xCoord;
+			this.y = bench.yCoord;
+			this.z = bench.zCoord;
+			this.worldID = bench.getWorldObj().getWorldInfo()
+					.getVanillaDimension();
+		}
+
+		@Override
+		public void fromBytes(ByteBuf buf) {
+			x = buf.readInt();
+			y = buf.readInt();
+			z = buf.readInt();
+			worldID = buf.readInt();
+		}
+
+		@Override
+		public void toBytes(ByteBuf buf) {
+			buf.writeInt(x);
+			buf.writeInt(y);
+			buf.writeInt(z);
+			buf.writeInt(worldID);
+		}
+	}
+
 	public static class SetRecipeHandler
 			implements
 				IMessageHandler<SetRecipeMessage, IMessage> {
 		@Override
 		public IMessage onMessage(SetRecipeMessage message, MessageContext ctx) {
-			TileEntity bench = Minecraft.getMinecraft().theWorld.getTileEntity(
-					message.getX(), message.getY(), message.getZ());
-			if (!(bench instanceof TileHunterBench))
-				return null;
-			TileHunterBench b = (TileHunterBench) bench;
-			EquipmentRecipe r = getRecipeFor(message.getRecipeID(),
+			TileHunterBench b = getHunterBench(message);
+			EquipmentRecipe rec = getRecipeFor(message.getRecipeID(),
 					message.getTypeID());
-			b.setRecipe(r);
+			b.setRecipe(rec);
 			return null;
 		}
 	}
 
+	public static class BeginCraftingHandler
+			implements
+				IMessageHandler<BeginCraftingMessage, IMessage> {
+		@Override
+		public IMessage onMessage(BeginCraftingMessage message,
+				MessageContext ctx) {
+			TileHunterBench b = getHunterBench(message);
+			b.beginCrafting();
+			return null;
+		}
+	}
+
+	private static TileHunterBench getHunterBench(LocationMessage message) {
+		int id = message.getDimensionID();
+		MinecraftServer server = FMLCommonHandler.instance()
+				.getMinecraftServerInstance();
+		if (server == null) {
+			return null;
+		}
+		WorldServer world = server.worldServerForDimension(id);
+		TileEntity bench = world.getTileEntity(message.getX(), message.getY(),
+				message.getZ());
+		if (!(bench instanceof TileHunterBench)) {
+			System.out.println("No hunter bench on server");
+			return null;
+		}
+		return (TileHunterBench) bench;
+	}
+
 	// FIXME mod wide discriminators
-	private static final int DISCRIMINATOR_BEGIN = 120;
+	private static int DISCRIMINATOR_BEGIN_CRAFTING = 120;
 	private static int DISCRIMINATOR_SET_RECIPE = 121;
 
 	public static int TYPE_ARMOR_HEAD = 0;
@@ -196,13 +205,15 @@ public class MHFCRegEquipmentRecipe {
 
 		}
 		List<ItemStack> listReq = new ArrayList<ItemStack>();
-		listReq.add(new ItemStack(MHFCRegItem.MHFCItemTigrexScale, 4));
+		for (int a = 0; a < 7; a++) {
+			listReq.add(new ItemStack(MHFCRegItem.MHFCItemTigrexScale, 4));
+		}
 		new EquipmentRecipe(new ItemStack(MHFCRegItem.mhfcitemkirinhelm),
 				listReq, 200, 600);
 		// FIXME mod wide wrapper
 		MHFCRegQuests.networkWrapper.registerMessage(
 				BeginCraftingHandler.class, BeginCraftingMessage.class,
-				DISCRIMINATOR_BEGIN, Side.SERVER);
+				DISCRIMINATOR_BEGIN_CRAFTING, Side.SERVER);
 		MHFCRegQuests.networkWrapper.registerMessage(SetRecipeHandler.class,
 				SetRecipeMessage.class, DISCRIMINATOR_SET_RECIPE, Side.SERVER);
 	}

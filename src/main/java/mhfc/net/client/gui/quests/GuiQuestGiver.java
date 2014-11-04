@@ -25,13 +25,14 @@ public class GuiQuestGiver extends GuiScreen {
 
 	public GuiQuestGiver(String[] groupIDs, EntityPlayer accessor) {
 		groupIDsDisplayed = new ArrayList<String>();
+		questIdentifiers = new ArrayList<String>();
 		for (int i = 0; i < groupIDs.length; i++)
 			groupIDsDisplayed.add(groupIDs[i]);
 		groupList = new ClickableGuiList<ClickableGuiList.GuiListStringItem>(
 				width, height);
 		for (int i = 0; i < groupIDs.length; i++)
 			groupList.add(new GuiListStringItem(groupIDs[i]));
-		start = new GuiButton(0, 0, 20, 40, 0x404040, "Take Quest") {
+		start = new GuiButton(0, 25, 10, 60, 20, "Take Quest") {
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
 					int p_146116_3_) {
@@ -42,8 +43,7 @@ public class GuiQuestGiver extends GuiScreen {
 				return false;
 			}
 		};
-		left = new GuiButton(selectedIdentifier, selectedIdentifier,
-				selectedIdentifier, selectedIdentifier, selectedIdentifier, "<") {
+		left = new GuiButton(1, 10, 10, 20, 20, "<") {
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
 					int p_146116_3_) {
@@ -54,8 +54,7 @@ public class GuiQuestGiver extends GuiScreen {
 				return false;
 			}
 		};
-		right = new GuiButton(selectedIdentifier, selectedIdentifier,
-				selectedIdentifier, selectedIdentifier, selectedIdentifier, ">") {
+		right = new GuiButton(2, 10, 10, 20, 20, ">") {
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
 					int p_146116_3_) {
@@ -66,8 +65,8 @@ public class GuiQuestGiver extends GuiScreen {
 				return false;
 			}
 		};
-		thisWidth = 220;
-		thisHeight = 220;
+		this.width = 220;
+		this.height = 220;
 		this.accessor = accessor;
 	}
 
@@ -85,8 +84,10 @@ public class GuiQuestGiver extends GuiScreen {
 			String selectedList = item == null ? "" : item
 					.getInitializationString();
 			questIdentifiers.clear();
-			questIdentifiers.addAll(MHFCRegQuestVisual
-					.getIdentifierList(selectedList));
+			List<String> newIdentifiers = MHFCRegQuestVisual
+					.getIdentifierList(selectedList);
+			if (newIdentifiers != null)
+				questIdentifiers.addAll(newIdentifiers);
 			selectedIdentifier = questIdentifiers.size() > 0 ? 0 : -1;
 		}
 	}
@@ -94,27 +95,31 @@ public class GuiQuestGiver extends GuiScreen {
 	@SuppressWarnings("unused")
 	@Override
 	public void drawScreen(int positionX, int positionY, float partialTick) {
-		super.drawScreen(positionX, positionY, partialTick);
-		groupList.draw();
-		if (selectedIdentifier > 0) {
+		boolean hasQuest = MHFCRegQuestVisual.hasPlayerQuest();
+		groupList.setVisible(!hasQuest);
+		if (!hasQuest) {
+			groupList.draw();
 			left.visible = true;
 			right.visible = true;
 			start.enabled = false;
+			left.enabled = selectedIdentifier > 0;
+			right.enabled = questIdentifiers != null
+					&& selectedIdentifier < questIdentifiers.size() - 1;
 			QuestVisualInformation info = MHFCRegQuestVisual
 					.getVisualInformation(questIdentifiers
 							.get(selectedIdentifier));
 			// TODO set start enabled based on can join
 			FontRenderer fontRenderer = mc.fontRenderer;
 			int page = 0;
-			// info.drawInformation(0, 0, 220, 220, page, fontRenderer);
+			info.drawInformation(0, 0, 220, 220, page, fontRenderer);
 		} else {
-			boolean hasQuest = MHFCRegQuestVisual.hasPlayerQuest();
-			groupList.setVisible(!hasQuest);
-			// There is nothing to select and can't be
+			// The player already has a quest, give him a cancel option
 			start.enabled = false;
 			left.visible = false;
 			right.visible = false;
 		}
+
+		super.drawScreen(positionX, positionY, partialTick);
 	}
 
 	@Override
@@ -128,20 +133,20 @@ public class GuiQuestGiver extends GuiScreen {
 		buttonList.add(start);
 		buttonList.add(left);
 		buttonList.add(right);
+		updateScreen();
 		// super.initGui();
 	}
 
 	@Override
 	public void updateScreen() {
 		groupList.setPosition(5, 5);
-		groupList.setWidthAndHeight(thisWidth, thisHeight);
-		right.xPosition = 0;
-		right.yPosition = 0;
+		groupList.setWidthAndHeight(40, 300);
+		right.xPosition = 100;
+		right.yPosition = 10;
 		left.xPosition = 0;
-		left.yPosition = 0;
-		start.xPosition = 0;
-		start.yPosition = 0;
+		left.yPosition = 10;
+		start.xPosition = 30;
+		start.yPosition = 10;
 		super.updateScreen();
 	}
-
 }
