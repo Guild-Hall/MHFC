@@ -14,6 +14,8 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
 
+import org.lwjgl.opengl.GL11;
+
 public class GuiQuestGiver extends GuiScreen {
 
 	private List<String> groupIDsDisplayed;
@@ -22,6 +24,7 @@ public class GuiQuestGiver extends GuiScreen {
 	private List<String> questIdentifiers;
 	private int selectedIdentifier;
 	private int xPos, yPos;
+	private int xSize, ySize;
 	private EntityPlayer accessor;
 
 	public GuiQuestGiver(String[] groupIDs, EntityPlayer accessor) {
@@ -68,6 +71,8 @@ public class GuiQuestGiver extends GuiScreen {
 		};
 		this.width = 220;
 		this.height = 220;
+		this.xSize = 320;
+		this.ySize = 220;
 		this.accessor = accessor;
 	}
 
@@ -96,6 +101,9 @@ public class GuiQuestGiver extends GuiScreen {
 	@SuppressWarnings("unused")
 	@Override
 	public void drawScreen(int positionX, int positionY, float partialTick) {
+		drawWorldBackground(0);
+		GL11.glPushMatrix();
+		GL11.glTranslatef(0, 0, 0.0f);
 		boolean hasQuest = MHFCRegQuestVisual.hasPlayerQuest();
 		groupList.setVisible(!hasQuest);
 		if (!hasQuest) {
@@ -115,7 +123,8 @@ public class GuiQuestGiver extends GuiScreen {
 				FontRenderer fontRenderer = mc.fontRenderer;
 				int page = 0;
 				if (info != null)
-					info.drawInformation(0, 0, 220, 220, page, fontRenderer);
+					info.drawInformation(xPos + 80, yPos, 220, ySize - 30,
+							page, fontRenderer);
 			}
 		} else {
 			// The player already has a quest, give him a cancel option
@@ -125,6 +134,8 @@ public class GuiQuestGiver extends GuiScreen {
 		}
 
 		super.drawScreen(positionX, positionY, partialTick);
+
+		GL11.glPopMatrix();
 	}
 
 	@Override
@@ -146,16 +157,16 @@ public class GuiQuestGiver extends GuiScreen {
 	public void updateScreen() {
 		ScaledResolution s = new ScaledResolution(mc, mc.displayWidth,
 				mc.displayHeight);
-		xPos = (s.getScaledWidth() - width) / 2;
-		yPos = (s.getScaledHeight() - height) / 2;
+		xPos = (s.getScaledWidth() - xSize) / 2;
+		yPos = (s.getScaledHeight() - ySize) / 2;
 		groupList.setPosition(5 + xPos, 5 + yPos);
-		groupList.setWidthAndHeight(40, 300);
-		right.xPosition = 100 + xPos;
-		right.yPosition = 10 + yPos;
-		left.xPosition = 0 + xPos;
-		left.yPosition = 10 + yPos;
-		start.xPosition = 30 + xPos;
-		start.yPosition = 10 + yPos;
+		groupList.setWidthAndHeight(70, ySize - 10);
+		right.xPosition = 280 + xPos;
+		right.yPosition = 5 + yPos;
+		left.xPosition = 80 + xPos;
+		left.yPosition = 5 + yPos;
+		start.xPosition = 160 + xPos;
+		start.yPosition = 195 + yPos;
 		super.updateScreen();
 	}
 
