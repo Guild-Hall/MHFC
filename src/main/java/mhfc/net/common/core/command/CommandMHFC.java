@@ -63,6 +63,8 @@ public class CommandMHFC implements ICommand {
 				case "start" :
 					action = Interaction.VOTE_START;
 					break;
+				case "reload" :
+					action = Interaction.MOD_RELOAD;
 				default :
 					return;
 			}

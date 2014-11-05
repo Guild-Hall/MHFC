@@ -20,7 +20,8 @@ public class MessageQuestInteraction implements IMessage {
 		VOTE_START, // Used to set status to ready (pre-quest to reset end vote
 		VOTE_END, // Used to set status to not ready (pre-quest) or to vote for
 					// resigning
-		GIVE_UP; // Used to instantly resign from a quest as a single person
+		GIVE_UP, // Used to instantly resign from a quest as a single person
+		MOD_RELOAD;
 	}
 
 	protected Interaction interaction;

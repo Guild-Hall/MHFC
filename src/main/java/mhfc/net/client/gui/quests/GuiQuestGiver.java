@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class GuiQuestGiver extends GuiScreen {
@@ -20,7 +21,7 @@ public class GuiQuestGiver extends GuiScreen {
 	private GuiButton start, left, right;
 	private List<String> questIdentifiers;
 	private int selectedIdentifier;
-	private int thisWidth, thisHeight;
+	private int xPos, yPos;
 	private EntityPlayer accessor;
 
 	public GuiQuestGiver(String[] groupIDs, EntityPlayer accessor) {
@@ -105,13 +106,17 @@ public class GuiQuestGiver extends GuiScreen {
 			left.enabled = selectedIdentifier > 0;
 			right.enabled = questIdentifiers != null
 					&& selectedIdentifier < questIdentifiers.size() - 1;
-			QuestVisualInformation info = MHFCRegQuestVisual
-					.getVisualInformation(questIdentifiers
-							.get(selectedIdentifier));
-			// TODO set start enabled based on can join
-			FontRenderer fontRenderer = mc.fontRenderer;
-			int page = 0;
-			info.drawInformation(0, 0, 220, 220, page, fontRenderer);
+			if (!(questIdentifiers == null || selectedIdentifier < 0 || selectedIdentifier >= questIdentifiers
+					.size())) {
+				QuestVisualInformation info = MHFCRegQuestVisual
+						.getVisualInformation(questIdentifiers
+								.get(selectedIdentifier));
+				// TODO set start enabled based on can join
+				FontRenderer fontRenderer = mc.fontRenderer;
+				int page = 0;
+				if (info != null)
+					info.drawInformation(0, 0, 220, 220, page, fontRenderer);
+			}
 		} else {
 			// The player already has a quest, give him a cancel option
 			start.enabled = false;
@@ -139,14 +144,23 @@ public class GuiQuestGiver extends GuiScreen {
 
 	@Override
 	public void updateScreen() {
-		groupList.setPosition(5, 5);
+		ScaledResolution s = new ScaledResolution(mc, mc.displayWidth,
+				mc.displayHeight);
+		xPos = (s.getScaledWidth() - width) / 2;
+		yPos = (s.getScaledHeight() - height) / 2;
+		groupList.setPosition(5 + xPos, 5 + yPos);
 		groupList.setWidthAndHeight(40, 300);
-		right.xPosition = 100;
-		right.yPosition = 10;
-		left.xPosition = 0;
-		left.yPosition = 10;
-		start.xPosition = 30;
-		start.yPosition = 10;
+		right.xPosition = 100 + xPos;
+		right.yPosition = 10 + yPos;
+		left.xPosition = 0 + xPos;
+		left.yPosition = 10 + yPos;
+		start.xPosition = 30 + xPos;
+		start.yPosition = 10 + yPos;
 		super.updateScreen();
+	}
+
+	@Override
+	public boolean doesGuiPauseGame() {
+		return false;
 	}
 }

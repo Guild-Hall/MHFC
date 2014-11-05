@@ -251,6 +251,7 @@ public class MHFCRegQuests {
 		}
 	}
 
+	// TODO split this into more than one class, separation of concerns
 	public static class PlayerQuestInteractionHandler
 			implements
 				IMessageHandler<MessageQuestInteraction, IMessage> {
@@ -305,6 +306,12 @@ public class MHFCRegQuests {
 							quest.removePlayer(player);
 						}
 						break;
+					case MOD_RELOAD :
+						questDescriptions.clear();
+						goalDescriptions.clear();
+						groupIDs.clear();
+						groupMapping.clear();
+						loadQuests();
 				}
 			return null;
 		}
@@ -451,13 +458,7 @@ public class MHFCRegQuests {
 	private static final int discriminator_interaction = 131;
 
 	public static void init() {
-		generateQuests(new ResourceLocation(questLocation));
-		generateGoals(new ResourceLocation(goalLocation));
-		generateGroupMapping(new ResourceLocation(groupLocation));
-		System.out.println("[MHFC] Number of goals loaded: "
-				+ goalDescriptions.size());
-		System.out.println("[MHFC] Number of quests loaded: "
-				+ questDescriptions.size());
+		loadQuests();
 		networkWrapper.registerMessage(RegistryRequestVisualHandler.class,
 				MessageRequestQuestVisual.class,
 				discriminator_visualRequestAnswer, Side.SERVER);
@@ -466,6 +467,16 @@ public class MHFCRegQuests {
 				Side.SERVER);
 		FMLCommonHandler.instance().bus()
 				.register(new PlayerConnectionHandler());
+	}
+
+	public static void loadQuests() {
+		generateQuests(new ResourceLocation(questLocation));
+		generateGoals(new ResourceLocation(goalLocation));
+		generateGroupMapping(new ResourceLocation(groupLocation));
+		System.out.println("[MHFC] Number of goals loaded: "
+				+ goalDescriptions.size());
+		System.out.println("[MHFC] Number of quests loaded: "
+				+ questDescriptions.size());
 	}
 
 	public static GeneralQuest getRunningQuest(String string) {

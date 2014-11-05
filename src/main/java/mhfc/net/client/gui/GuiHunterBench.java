@@ -382,6 +382,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		// Draw heat target
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui() {
 		buttonList.add(startCrafting);

@@ -164,13 +164,18 @@ public class MHFCRegQuestVisual {
 	/**
 	 * 
 	 * @param identifier
-	 * @return
+	 *            of the quest in which you are interested
+	 * @return Either the visual representation of the requested quest or a
+	 *         replacement <br>
+	 *         representing loading.
 	 */
 	public static QuestVisualInformation getVisualInformation(String identifier) {
 		if (identifierToVisualInformationMap.containsKey(identifier)) {
 			return identifierToVisualInformationMap.get(identifier);
 		}
 		networkWrapper.sendToServer(new MessageRequestQuestVisual(identifier));
+		identifierToVisualInformationMap.put(identifier,
+				QuestVisualInformation.LOADING_REPLACEMENT);
 		return QuestVisualInformation.LOADING_REPLACEMENT;
 	}
 
