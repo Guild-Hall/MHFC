@@ -6,6 +6,9 @@ import java.util.List;
 import mhfc.net.client.gui.ClickableGuiList;
 import mhfc.net.client.gui.ClickableGuiList.GuiListStringItem;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
+import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.network.packet.MessageQuestInteraction;
+import mhfc.net.common.network.packet.MessageQuestInteraction.Interaction;
 import mhfc.net.common.quests.QuestVisualInformation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -21,11 +24,12 @@ public class GuiQuestGiver extends GuiScreen {
 	private List<String> groupIDsDisplayed;
 	private ClickableGuiList<GuiListStringItem> groupList;
 	private GuiButton start, left, right;
+	private GuiButton cancel;
 	private List<String> questIdentifiers;
 	private int selectedIdentifier;
 	private int xPos, yPos;
 	private int xSize, ySize;
-	private EntityPlayer accessor;
+	private final EntityPlayer accessor;
 
 	public GuiQuestGiver(String[] groupIDs, EntityPlayer accessor) {
 		groupIDsDisplayed = new ArrayList<String>();
@@ -42,6 +46,15 @@ public class GuiQuestGiver extends GuiScreen {
 					int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					groupList.setVisible(false);
+					if (questIdentifiers != null && selectedIdentifier >= 0
+							&& selectedIdentifier < questIdentifiers.size()) {
+						String questID = questIdentifiers
+								.get(selectedIdentifier);
+						MHFCRegQuests.networkWrapper
+								.sendToServer(new MessageQuestInteraction(
+										Interaction.START_NEW,
+										GuiQuestGiver.this.accessor, questID));
+					}
 					return true;
 				}
 				return false;
@@ -64,6 +77,22 @@ public class GuiQuestGiver extends GuiScreen {
 					int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					setIdentifier(selectedIdentifier + 1);
+					return true;
+				}
+				return false;
+			}
+		};
+		cancel = new GuiButton(0, 25, 10, 60, 20, "Cancel current Quest") {
+			@Override
+			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
+					int p_146116_3_) {
+				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
+					groupList.setVisible(true);
+					MHFCRegQuests.networkWrapper
+							.sendToServer(new MessageQuestInteraction(
+									Interaction.GIVE_UP,
+									GuiQuestGiver.this.accessor, new String[0]));
+					GuiQuestGiver.this.accessor.closeScreen();
 					return true;
 				}
 				return false;
@@ -98,7 +127,6 @@ public class GuiQuestGiver extends GuiScreen {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public void drawScreen(int positionX, int positionY, float partialTick) {
 		drawWorldBackground(0);
@@ -111,6 +139,8 @@ public class GuiQuestGiver extends GuiScreen {
 			left.visible = true;
 			right.visible = true;
 			start.enabled = false;
+			start.visible = true;
+			cancel.visible = false;
 			left.enabled = selectedIdentifier > 0;
 			right.enabled = questIdentifiers != null
 					&& selectedIdentifier < questIdentifiers.size() - 1;
@@ -119,6 +149,7 @@ public class GuiQuestGiver extends GuiScreen {
 				QuestVisualInformation info = MHFCRegQuestVisual
 						.getVisualInformation(questIdentifiers
 								.get(selectedIdentifier));
+				start.enabled = true;
 				// TODO set start enabled based on can join
 				FontRenderer fontRenderer = mc.fontRenderer;
 				int page = 0;
@@ -128,9 +159,11 @@ public class GuiQuestGiver extends GuiScreen {
 			}
 		} else {
 			// The player already has a quest, give him a cancel option
+			start.visible = false;
 			start.enabled = false;
 			left.visible = false;
 			right.visible = false;
+			cancel.visible = true;
 		}
 
 		super.drawScreen(positionX, positionY, partialTick);
@@ -149,6 +182,7 @@ public class GuiQuestGiver extends GuiScreen {
 		buttonList.add(start);
 		buttonList.add(left);
 		buttonList.add(right);
+		buttonList.add(cancel);
 		updateScreen();
 		// super.initGui();
 	}
@@ -167,6 +201,8 @@ public class GuiQuestGiver extends GuiScreen {
 		left.yPosition = 5 + yPos;
 		start.xPosition = 160 + xPos;
 		start.yPosition = 195 + yPos;
+		cancel.xPosition = xPos + xSize / 2 - cancel.width / 2;
+		cancel.yPosition = yPos + ySize / 2 - cancel.height / 2;
 		super.updateScreen();
 	}
 
