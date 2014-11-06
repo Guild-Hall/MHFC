@@ -26,7 +26,7 @@ public class SpinAttack extends AttackAdapter<EntityTigrex> {
 		Vec3 pos = this.entity.getPosition(1.0F);
 		Vec3 entityToTarget = target.getPosition(1.0F);
 		entityToTarget = pos.subtract(entityToTarget);
-		return (float) (15.0D - entityToTarget.lengthVector());
+		return (float) (7.0D - entityToTarget.lengthVector());
 	}
 
 	@Override
@@ -48,9 +48,7 @@ public class SpinAttack extends AttackAdapter<EntityTigrex> {
 
 	@Override
 	public int getNextFrame(int frame) {
-		if (true)
-			return 50;
-		if (frame == MAX_FRAME)
+		if (frame > MAX_FRAME)
 			finished = true;
 		return super.getNextFrame(frame);
 	}

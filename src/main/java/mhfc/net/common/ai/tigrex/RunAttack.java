@@ -18,7 +18,8 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 	}
 
 	@Override
-	public float getWeight() {
+	public float getWeight() { // The bigger the value the more likely to get
+								// executed
 		EntityLivingBase target = this.entity.getAttackTarget();
 		if (target == null)
 			return 0.0F;
@@ -38,30 +39,30 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 	}
 
 	@Override
-	public void beginExecution() {
+	public void beginExecution() { // Beginning the attack
 		this.entity.getNavigator().setPath(path, 1.5f);
 	}
 
 	@Override
-	public void update() {}
+	public void update() {} // Called each tick
 
 	@Override
-	public boolean shouldContinue() {
+	public boolean shouldContinue() { // To determine if to cancel
 		return !entity.getNavigator().noPath();
 	}
 
 	@Override
-	public void finishExecution() {
+	public void finishExecution() { // When finished
 		this.entity.setTarget(null);
 	}
 
 	@Override
-	public byte mutexBits() {
+	public byte mutexBits() { // Well known mutex bits
 		return 1;
 	}
 
 	@Override
-	public int getNextFrame(int frame) {
+	public int getNextFrame(int frame) { // For the animation
 		return (++frame % 80);
 	}
 }
