@@ -39,9 +39,11 @@ public class MHFCRegQuestVisual {
 			List<String> identifiers = message.getIdentifiers();
 			groupIDsInOrder = identifiers;
 			groupIDToListMap = identifierLists;
-			System.out
-					.println("[MHFC] Received new identifier configuration from server, "
-							+ groupIDsInOrder.size() + " groups");
+
+			// System.out
+			// .println("[MHFC] Received new identifier configuration from server, "
+			// + groupIDsInOrder.size() + " groups");
+
 			return null;
 		}
 	}
@@ -106,11 +108,11 @@ public class MHFCRegQuestVisual {
 								: new QuestRunningInformation(visual,
 										strings[12], strings[13]));
 						hasPlayerQuest = (visual != null);
-						System.out.println("[MHFC] "
-								+ (visual == null
-										? "No quest active"
-										: "Got a new visual to")
-								+ " set for the display");
+						// System.out.println("[MHFC] "
+						// + (visual == null
+						// ? "No quest active"
+						// : "Got a new visual to")
+						// + " set for the display");
 					}
 					break;
 			}

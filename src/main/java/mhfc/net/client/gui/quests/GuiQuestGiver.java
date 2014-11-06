@@ -10,6 +10,7 @@ import mhfc.net.common.core.registry.MHFCRegQuests;
 import mhfc.net.common.network.packet.MessageQuestInteraction;
 import mhfc.net.common.network.packet.MessageQuestInteraction.Interaction;
 import mhfc.net.common.quests.QuestVisualInformation;
+import mhfc.net.common.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -54,6 +55,7 @@ public class GuiQuestGiver extends GuiScreen {
 								.sendToServer(new MessageQuestInteraction(
 										Interaction.START_NEW,
 										GuiQuestGiver.this.accessor, questID));
+						GuiQuestGiver.this.accessor.closeScreen();
 					}
 					return true;
 				}
@@ -82,7 +84,7 @@ public class GuiQuestGiver extends GuiScreen {
 				return false;
 			}
 		};
-		cancel = new GuiButton(0, 25, 10, 60, 20, "Cancel current Quest") {
+		cancel = new GuiButton(0, 25, 10, 120, 20, "Cancel current Quest") {
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
 					int p_146116_3_) {
@@ -92,7 +94,6 @@ public class GuiQuestGiver extends GuiScreen {
 							.sendToServer(new MessageQuestInteraction(
 									Interaction.GIVE_UP,
 									GuiQuestGiver.this.accessor, new String[0]));
-					GuiQuestGiver.this.accessor.closeScreen();
 					return true;
 				}
 				return false;
@@ -130,6 +131,7 @@ public class GuiQuestGiver extends GuiScreen {
 	@Override
 	public void drawScreen(int positionX, int positionY, float partialTick) {
 		drawWorldBackground(0);
+		drawBackground(0);
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0, 0, 0.0f);
 		boolean hasQuest = MHFCRegQuestVisual.hasPlayerQuest();
@@ -209,5 +211,14 @@ public class GuiQuestGiver extends GuiScreen {
 	@Override
 	public boolean doesGuiPauseGame() {
 		return false;
+	}
+
+	@Override
+	public void drawBackground(int p_146278_1_) {
+		// FIXME change this to our background
+		mc.getTextureManager().bindTexture(
+				MHFCRegQuestVisual.QUEST_STATUS_INVENTORY_BACKGROUND);
+		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, 0f, xSize, ySize, 15,
+				15 / 265f, 1, 166f / 256f);
 	}
 }

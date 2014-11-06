@@ -327,7 +327,6 @@ public class TileHunterBench extends TileEntity implements IInventory {
 		heatLength = nbtTag.getInteger("heatLength");
 		itemSmeltDuration = nbtTag.getInteger("itemSmeltDuration");
 		TileHunterBench.this.workingMHFCBench = nbtTag.getBoolean("working");
-		System.out.println("loaded " + TileHunterBench.this.workingMHFCBench);
 		NBTTagList items = nbtTag.getTagList("Items", 10);
 		for (int a = 0; a < items.tagCount(); a++) {
 			NBTTagCompound stack = items.getCompoundTagAt(a);

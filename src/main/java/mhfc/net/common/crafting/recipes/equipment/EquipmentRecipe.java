@@ -17,8 +17,8 @@ public class EquipmentRecipe extends MHFCShapelessRecipe {
 		this.duration = duration;
 		int type = MHFCRegEquipmentRecipe.getType(this);
 		MHFCRegEquipmentRecipe.register(this, type);
-		System.out.println("Registered" + type + " "
-				+ (MHFCRegEquipmentRecipe.getIDFor(this, type) >= 0));
+		// System.out.println("Registered" + type + " "
+		// + (MHFCRegEquipmentRecipe.getIDFor(this, type) >= 0));
 	}
 
 	public ItemStack[] getRequirements(int padTo) {
