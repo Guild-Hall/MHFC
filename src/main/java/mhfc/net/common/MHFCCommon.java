@@ -1,6 +1,7 @@
 package mhfc.net.common;
 
 import net.minecraft.client.model.ModelBiped;
+import cpw.mods.fml.relauncher.Side;
 
 public class MHFCCommon {
 
@@ -17,8 +18,8 @@ public class MHFCCommon {
 		return 0.0F;
 	}
 
-	public boolean isClient() {
-		return false;
+	public Side getSide() {
+		return Side.SERVER;
 	}
 
 	public void regCapes() {

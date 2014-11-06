@@ -35,4 +35,9 @@ public abstract class AttackAdapter<T extends EntityLivingBase>
 	public byte mutexBits() {
 		return 7;
 	}
+
+	@Override
+	public int getNextFrame(int frame) {
+		return ++frame;
+	}
 }

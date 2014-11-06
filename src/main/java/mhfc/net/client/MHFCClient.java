@@ -6,6 +6,7 @@ import mhfc.net.common.sound.MHFCSound;
 import mhfc.net.common.util.MHFCCapes;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.relauncher.Side;
 
 public class MHFCClient extends MHFCCommon {
 	@Override
@@ -31,7 +32,7 @@ public class MHFCClient extends MHFCCommon {
 	}
 
 	@Override
-	public boolean isClient() {
-		return true;
+	public Side getSide() {
+		return Side.CLIENT;
 	}
 }

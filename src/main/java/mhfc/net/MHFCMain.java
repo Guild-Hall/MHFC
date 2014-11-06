@@ -2,6 +2,8 @@ package mhfc.net;
 
 import mhfc.net.common.MHFCCommon;
 import mhfc.net.common.network.PacketPipeline;
+import mhfc.net.common.network.message.MessageAIAttack;
+import mhfc.net.common.network.message.MessageAttackHandler;
 import mhfc.net.common.tab.MHFCTab;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,6 +16,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.relauncher.Side;
 
 /**
  * @author Heltrato, WorldSEnder
@@ -34,13 +37,14 @@ public class MHFCMain {
 	public static MHFCMain instance;
 
 	public static Logger logger;
-	public static final PacketPipeline packetPipeline = new PacketPipeline();
 	public static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID());
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent pre) {
 		// MHFCConfig.init(pre);
 		logger = pre.getModLog();
+		PacketPipeline.registerPacket(MessageAttackHandler.class,
+				MessageAIAttack.class, Side.CLIENT);
 	}
 
 	@Mod.EventHandler
@@ -56,7 +60,7 @@ public class MHFCMain {
 	public void postInit(FMLPostInitializationEvent e) {}
 
 	public static boolean isClient() {
-		return proxy.isClient();
+		return proxy.getSide() == Side.CLIENT;
 	}
 
 	@Deprecated

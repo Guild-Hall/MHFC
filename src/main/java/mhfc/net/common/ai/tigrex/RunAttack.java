@@ -59,4 +59,9 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 	public byte mutexBits() {
 		return 1;
 	}
+
+	@Override
+	public int getNextFrame(int frame) {
+		return (++frame % 80);
+	}
 }

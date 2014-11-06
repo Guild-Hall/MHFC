@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import mhfc.net.common.network.PacketPipeline;
+import mhfc.net.common.network.message.MessageAIAttack;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAITasks;
@@ -30,7 +32,12 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 	 */
 	@SideOnly(Side.CLIENT)
 	public void setAttack(int index) {
-		this.activeAttack = this.attacks.get(index);
+		if (index < 0)
+			this.activeAttack = null;
+		else {
+			this.activeAttack = this.attacks.get(index);
+			this.startExecuting();
+		}
 	}
 
 	private IExecutableAttack<T> chooseAttack() {
@@ -43,9 +50,15 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 		return this.activeAttack != null;
 	}
 
+	private void sendUpdate() {
+		if (!this.entity.worldObj.isRemote)
+			PacketPipeline.networkPipe.sendToAll(new MessageAIAttack<T>(
+					this.entity, this.attacks.indexOf(activeAttack)));
+	}
+
 	@Override
 	public void startExecuting() {
-		// TODO: send package to update client
+		this.sendUpdate();
 		this.entity.onAttackStart(activeAttack);
 		this.activeAttack.beginExecution();
 	}
@@ -106,5 +119,9 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 
 	public IAnimation getCurrentAnimation() {
 		return activeAttack == null ? null : activeAttack.getCurrentAnimation();
+	}
+
+	public int getNextFrame(int current) {
+		return activeAttack == null ? -1 : activeAttack.getNextFrame(current);
 	}
 }
