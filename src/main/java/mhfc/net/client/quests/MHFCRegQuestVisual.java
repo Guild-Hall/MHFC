@@ -204,6 +204,11 @@ public class MHFCRegQuestVisual {
 		return QuestVisualInformation.LOADING_REPLACEMENT;
 	}
 
+	public static QuestRunningInformation getRunningInformation(
+			String identifier) {
+		return identifierToVisualRunningMap.get(identifier);
+	}
+
 	public static void setAndSendRunningListenStatus(boolean newStatus,
 			EntityPlayer forPlayer) {
 		networkWrapper.sendToServer(new MessageQuestRunningSubscription(

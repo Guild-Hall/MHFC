@@ -204,7 +204,7 @@ public class GuiQuestGiver extends GuiScreen {
 
 			// Disable start quest when we already started the quest
 			startQuest.visible = true;
-			String warning = "You have already accepted a quest";
+			String warning = "You are already on a quest";
 			int warnX = (xSize - fontRendererObj.getStringWidth(warning)) / 2, warnY = 60;
 			fontRendererObj.drawString(warning, warnX, warnY, 0x404040);
 		}
