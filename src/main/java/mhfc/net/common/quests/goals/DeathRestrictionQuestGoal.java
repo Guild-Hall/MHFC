@@ -57,7 +57,10 @@ public class DeathRestrictionQuestGoal extends QuestGoal
 
 	@Override
 	public void questGoalFinalize() {
-		MinecraftForge.EVENT_BUS.unregister(handler);
+		if (handler != null)
+			MinecraftForge.EVENT_BUS.unregister(handler);
+		else
+			System.out.println("WTF just happened when deregistering listener");
 	}
 
 	@Override

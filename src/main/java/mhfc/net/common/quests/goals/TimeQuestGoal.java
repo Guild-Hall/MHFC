@@ -76,6 +76,11 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 	}
 
 	@Override
+	public void questGoalFinalize() {
+		MHFCJobHandler.getJobHandler().remove(this);
+	}
+
+	@Override
 	public String modify(InformationType type, String current) {
 		// TODO Externalize and unlocalize these strings
 		int ticksToFail = MHFCJobHandler.getJobHandler().getDelay(this);

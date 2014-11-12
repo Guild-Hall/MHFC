@@ -106,15 +106,12 @@ public class GeneralQuest implements QuestGoalSocket {
 	/**
 	 * This method should be called whenever the quest ends, no matter how.
 	 */
-	// FIXME somehow the quests end early now!!
 	protected void onEnd() {
-		System.out.println("Hey, a quest ended");
 		for (int i = 0; i < playerCount; i++) {
 			removePlayer(i);
 		}
 		visualInformation.cleanUp();
-		// FIXME something goes wrong here
-		// questGoal.questGoalFinalize();
+		questGoal.questGoalFinalize();
 		MHFCRegQuests.deregisterQuest(this);
 	}
 
@@ -123,7 +120,6 @@ public class GeneralQuest implements QuestGoalSocket {
 		for (int i = 0; i < playerCount; i++) {
 			EntityPlayer p = players[i];
 			String id = MHFCRegQuests.getIdentifierForQuest(this);
-			// TODO review id resolving
 			MHFCRegQuests.networkWrapper.sendTo(
 					new<QuestRunningInformation> MessageQuestVisual(id,
 							visualInformation), (EntityPlayerMP) p);
@@ -133,7 +129,7 @@ public class GeneralQuest implements QuestGoalSocket {
 	}
 
 	public boolean canJoin(EntityPlayer player) {
-		// TODO add more evaluation
+		// TODO add more evaluation and/or move to another class?
 		if (state == QuestState.pending && playerCount < players.length
 				&& MHFCRegQuests.getQuestForPlayer(player) == null) {
 			return true;

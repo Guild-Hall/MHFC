@@ -307,8 +307,8 @@ public class MHFCRegQuests {
 					case START_NEW :
 						GeneralQuest quest = getQuestForPlayer(player);
 						if (quest == null) {
-							String registerFor = player.getDisplayName() + "@"
-									+ message.getOptions()[0];
+							String registerFor = message.getOptions()[0] + "@"
+									+ player.getDisplayName();
 							GeneralQuest newQuest = QuestFactory
 									.constructQuest(getQuestDescription(message
 											.getOptions()[0]), player,
