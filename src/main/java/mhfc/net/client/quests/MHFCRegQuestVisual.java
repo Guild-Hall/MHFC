@@ -55,10 +55,10 @@ public class MHFCRegQuestVisual {
 			implements
 				IMessageHandler<MessageQuestVisual, IMessage> {
 
-		@SuppressWarnings("unchecked")
 		@Override
 		public IMessage onMessage(MessageQuestVisual message, MessageContext ctx) {
 			switch (message.getTypeID()) {
+				case 2 :
 				case 1 :
 				case 0 :
 					String[] strings = message.getStrings();

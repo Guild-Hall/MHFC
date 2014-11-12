@@ -59,18 +59,18 @@ public class QuestRunningInformation extends QuestVisualInformation {
 
 	public void updateFromQuest(GeneralQuest q) {
 		cleanUp();
-		name = q.update(InformationType.Name, name);
-		description = q.update(InformationType.Description, description);
-		client = q.update(InformationType.Client, client);
-		aims = q.update(InformationType.Aims, aims);
-		fails = q.update(InformationType.Fails, fails);
-		areaNameId = q.update(InformationType.AreaNameID, areaNameId);
-		timeLimitInS = q.update(InformationType.TimeLimit, timeLimitInS);
-		reward = q.update(InformationType.Reward, reward);
-		fee = q.update(InformationType.Fee, fee);
-		maxPartySize = q.update(InformationType.MaxPartySize, maxPartySize);
-		shortStatus = q.update(InformationType.ShortStatus, shortStatus);
-		longStatus = q.update(InformationType.LongStatus, longStatus);
+		name = q.updateVisual(InformationType.Name, name);
+		description = q.updateVisual(InformationType.Description, description);
+		client = q.updateVisual(InformationType.Client, client);
+		aims = q.updateVisual(InformationType.Aims, aims);
+		fails = q.updateVisual(InformationType.Fails, fails);
+		areaNameId = q.updateVisual(InformationType.AreaNameID, areaNameId);
+		timeLimitInS = q.updateVisual(InformationType.TimeLimit, timeLimitInS);
+		reward = q.updateVisual(InformationType.Reward, reward);
+		fee = q.updateVisual(InformationType.Fee, fee);
+		maxPartySize = q.updateVisual(InformationType.MaxPartySize, maxPartySize);
+		shortStatus = q.updateVisual(InformationType.ShortStatus, shortStatus);
+		longStatus = q.updateVisual(InformationType.LongStatus, longStatus);
 		breakAll();
 	}
 

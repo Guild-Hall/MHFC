@@ -188,6 +188,7 @@ public class QuestFactory {
 	 */
 	public static GeneralQuest constructQuest(QuestDescription qd,
 			EntityPlayer initiator, String assignedID) {
+		System.out.println(assignedID);
 		if (qd == null || !questFactoryMap.containsKey(qd.getFactory()))
 			return null;
 		IQuestFactory factory = questFactoryMap.get(qd.getFactory());
@@ -197,8 +198,8 @@ public class QuestFactory {
 		if (quest == null)
 			return null;
 
-		MHFCRegQuests.registerQuest(quest, assignedID);
 		if (quest.canJoin(initiator)) {
+			MHFCRegQuests.registerQuest(quest, assignedID);
 			quest.addPlayer(initiator);
 			return quest;
 		}

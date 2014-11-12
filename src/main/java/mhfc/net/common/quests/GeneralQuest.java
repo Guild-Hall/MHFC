@@ -106,7 +106,9 @@ public class GeneralQuest implements QuestGoalSocket {
 	/**
 	 * This method should be called whenever the quest ends, no matter how.
 	 */
+	// FIXME somehow the quests end early now!!
 	protected void onEnd() {
+		System.out.println("Hey, a quest ended");
 		for (int i = 0; i < playerCount; i++) {
 			removePlayer(i);
 		}
@@ -163,6 +165,7 @@ public class GeneralQuest implements QuestGoalSocket {
 		boolean found = false;
 		for (i = 0; i < players.length; i++) {
 			if (players[i] != null
+					&& player != null
 					&& players[i].getGameProfile().getName() == player
 							.getGameProfile().getName()) {
 				found = true;
@@ -202,7 +205,7 @@ public class GeneralQuest implements QuestGoalSocket {
 		return originalDescription;
 	}
 
-	public String update(InformationType t, String current) {
+	public String updateVisual(InformationType t, String current) {
 		if (t == InformationType.MaxPartySize) {
 			return playerCount + "/" + players.length
 					+ " {unlocalized:Players}";

@@ -21,6 +21,7 @@ public class GuiQuestBoard extends GuiScreen {
 
 	private ClickableGuiList<GuiListStringItem> runningQuestList;
 	private Map<String, GuiListStringItem> mapToListItems;
+	private Map<GuiListStringItem, String> mapToIdentifiers;
 	private GuiButton cancelQuest, startQuest;
 	private int xPos, yPos;
 	private int xSize, ySize;
@@ -34,7 +35,15 @@ public class GuiQuestBoard extends GuiScreen {
 		this.ySize = 220;
 		runningQuestList = new ClickableGuiList<GuiListStringItem>(width,
 				height);
+		runningQuestList.setDrawSmallestBounds(false);
+		runningQuestList.setRecalculateItemHeightOnDraw(false);
+		runningQuestList.setItemWidth(22);
+
+		runningQuestList.setPosition(5 + xPos, 5 + yPos);
+		runningQuestList.setWidthAndHeight(70, ySize - 10);
+
 		mapToListItems = new HashMap<String, GuiListStringItem>();
+		mapToIdentifiers = new HashMap<GuiListStringItem, String>();
 		page = 0;
 		cancelQuest = new GuiButton(0, 25, 10, 120, 20, "Cancel current Quest") {
 			@Override
@@ -87,8 +96,29 @@ public class GuiQuestBoard extends GuiScreen {
 		startQuest.yPosition = yPos + ySize / 2 - startQuest.height - 5;
 	}
 
-	public boolean doesGuiPauseScreen() {
+	@Override
+	public boolean doesGuiPauseGame() {
 		return false;
+	}
+
+	@Override
+	public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_) {
+		drawDefaultBackground();
+		drawBackground(0);
+		if (!MHFCRegQuestVisual.hasPlayerQuest() || true) {
+			runningQuestList.setVisible(true);
+			runningQuestList.draw();
+			cancelQuest.visible = false;
+			cancelQuest.enabled = false;
+			startQuest.visible = false;
+		} else {
+			cancelQuest.visible = true;
+			cancelQuest.enabled = true;
+			startQuest.visible = true;
+			runningQuestList.setVisible(false);
+		}
+
+		super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
 	}
 
 	@Override
@@ -132,17 +162,22 @@ public class GuiQuestBoard extends GuiScreen {
 	}
 
 	public void addQuest(String id, QuestRunningInformation info) {
+		System.out.println(info + " " + info.getName() + "@" + id);
 		GuiListStringItem item = new GuiListStringItem(info.getName());
-		if (!mapToListItems.containsKey(id)) {
+		if (!mapToListItems.containsKey(id) && item != null) {
 			mapToListItems.put(id, item);
+			mapToIdentifiers.put(item, id);
 			runningQuestList.add(item);
 		} else {
 		}
 	}
 
 	public void removeQuest(String id) {
-		runningQuestList.remove(mapToListItems.get(id));
+		GuiListStringItem item = mapToListItems.get(id);
+		runningQuestList.remove(item);
 		mapToListItems.remove(id);
+		if (item != null)
+			mapToIdentifiers.remove(item);
 	}
 
 	public void clearList() {

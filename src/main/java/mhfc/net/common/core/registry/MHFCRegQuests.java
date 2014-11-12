@@ -267,13 +267,14 @@ public class MHFCRegQuests {
 		public IMessage onMessage(MessageQuestRunningSubscription message,
 				MessageContext ctx) {
 			if (message.isSubscribed()) {
-				subscribers.add(message.getPlayer());
+				EntityPlayerMP player = message.getPlayer();
+				subscribers.add(player);
 				for (GeneralQuest q : questsRunning) {
 					String identifier = runningQuestToStringMap.get(q);
 					MessageQuestVisual messageSent = new MessageQuestVisual(
 							identifier, q.getRunningInformation());
 					messageSent.setTypeID(2);
-					networkWrapper.sendTo(messageSent, message.getPlayer());
+					networkWrapper.sendTo(messageSent, player);
 				}
 			} else {
 				subscribers.remove(message.getPlayer());
@@ -321,6 +322,11 @@ public class MHFCRegQuests {
 							player.addChatMessage(new ChatComponentText(
 									"You already are on quest "
 											+ getIdentifierForQuest(quest)));
+							String id = getIdentifierForQuest(quest);
+							MHFCRegQuests.networkWrapper
+									.sendTo(new<QuestRunningInformation> MessageQuestVisual(
+											id, quest.getRunningInformation()),
+											player);
 						}
 						break;
 					case ACCEPT :
@@ -367,9 +373,6 @@ public class MHFCRegQuests {
 		@SubscribeEvent
 		public void onPlayerJoin(PlayerLoggedInEvent logIn) {
 			// FIXME use a logger
-			System.out
-					.println("[MHFC] Sent new identifier configuration to client, "
-							+ groupIDs.size());
 			networkWrapper.sendTo(new MessageQuestScreenInit(groupMapping,
 					groupIDs), (EntityPlayerMP) logIn.player);
 		}
@@ -522,10 +525,6 @@ public class MHFCRegQuests {
 		generateQuests(new ResourceLocation(questLocation));
 		generateGoals(new ResourceLocation(goalLocation));
 		generateGroupMapping(new ResourceLocation(groupLocation));
-		System.out.println("[MHFC] Number of goals loaded: "
-				+ goalDescriptions.size());
-		System.out.println("[MHFC] Number of quests loaded: "
-				+ questDescriptions.size());
 	}
 
 	public static GeneralQuest getRunningQuest(String string) {
@@ -745,6 +744,7 @@ public class MHFCRegQuests {
 		runningQuestFromStringMap.remove(key);
 		MessageQuestVisual message = new<QuestRunningInformation> MessageQuestVisual(
 				key, null);
+		message.setTypeID(2);
 		RunningSubscriptionHandler.sendToAll(message);
 		return wasRunning;
 	}

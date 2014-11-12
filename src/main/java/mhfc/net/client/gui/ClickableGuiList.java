@@ -176,6 +176,52 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> 
 		return selected;
 	}
 
+	/**
+	 * Side effect, increase selection index when insertion happened before it.
+	 * If you insert before 0 and catch exceptions, the selection index might be
+	 * at a different position than expected
+	 */
+	@Override
+	public void add(int index, Item element) {
+		if (index <= selected)
+			selected++;
+		super.add(index, element);
+	}
+
+	/**
+	 * See {@link ClickableGuiList#remove(int)}
+	 */
+	@Override
+	public boolean remove(Object o) {
+		int index = indexOf(o);
+		if (index < selected)
+			selected--;
+		if (index == selected)
+			selected = -1;
+		return super.remove(o);
+	}
+
+	/**
+	 * Side effect, decreases selection index when deletion occurs before it.
+	 * Selects -1 when the selected element is removed. If you delete before 0
+	 * and catch exceptions, the selection index might be at a different
+	 * position than expected.
+	 */
+	@Override
+	public Item remove(int index) {
+		if (index < selected)
+			selected--;
+		if (index == selected)
+			selected = -1;
+		return super.remove(index);
+	}
+
+	@Override
+	public void clear() {
+		selected = -1;
+		super.clear();
+	}
+
 	public Item getSelectedItem() {
 		if (selected >= 0 && selected < size()) {
 			return get(selected);
