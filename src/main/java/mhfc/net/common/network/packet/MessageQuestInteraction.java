@@ -115,9 +115,13 @@ public class MessageQuestInteraction implements IMessage {
 	}
 
 	public EntityPlayerMP getPlayer() {
+		return getPlayer(this.playerUUID);
+	}
+
+	public static EntityPlayerMP getPlayer(String uuid) {
 		// UUID id = UUID.fromString(playerUUID);
 		EntityPlayerMP ret = null;
-		Iterator iter = Minecraft.getMinecraft().getIntegratedServer()
+		Iterator<?> iter = Minecraft.getMinecraft().getIntegratedServer()
 				.getConfigurationManager().playerEntityList.iterator();
 		do {
 			if (!iter.hasNext()) {
@@ -126,7 +130,7 @@ public class MessageQuestInteraction implements IMessage {
 			ret = (EntityPlayerMP) iter.next();
 
 			// TODO resolve to UUID
-		} while (!ret.getGameProfile().getName().equals(playerUUID));
+		} while (!ret.getGameProfile().getName().equals(uuid));
 		return ret;
 	}
 

@@ -102,6 +102,8 @@ public class MHFCReference {
 	public static final String block_wyveriansand_tex = "mhfc:wyverniasand";
 	public static final String block_wyverianstone_name = "wyverniastone";
 	public static final String block_wyverianstone_tex = "mhfc:wyverniastone";
+	public static final String block_questBoard_name = "questboard";
+	public static final String block_questBoard_tex = "mhfc:questboard";
 	public static final String damagesource_shatter_name = "shatter";
 	public static final String entity_rathalosFireball_name = "Fireball";
 	public static final String entity_rathalosfireball_tex = "mhfc:textures/projectile/rathalosfireball.png";
@@ -278,8 +280,10 @@ public class MHFCReference {
 
 	public static final int gui_hunterbench_id = 1;
 	public static final int gui_questgiver_id = 2;
+	public static final int gui_questboard_id = 3;
 	public static final int potion_paralyze_iconindex = 1;
 	public static final int potion_kirinbless_iconindex = 2;
+
 	public static final String mob_questGiver_name = "questGiver";
 
 	// public enum healthinfo {

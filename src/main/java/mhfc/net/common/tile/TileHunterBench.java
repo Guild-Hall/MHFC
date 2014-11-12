@@ -1,9 +1,9 @@
 package mhfc.net.common.tile;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.core.registry.MHFCRegEquipmentRecipe;
 import mhfc.net.common.core.registry.MHFCRegQuests;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
+import mhfc.net.common.network.packet.MessageTileLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -281,13 +281,13 @@ public class TileHunterBench extends TileEntity implements IInventory {
 
 	private void sendBeginCraft() {
 		MHFCRegQuests.networkWrapper
-				.sendToServer(new MHFCRegEquipmentRecipe.BeginCraftingMessage(
+				.sendToServer(new MessageTileLocation.BeginCraftingMessage(
 						this));
 	}
 
 	private void sendSetRecipe(EquipmentRecipe recipeToSend) {
 		MHFCRegQuests.networkWrapper
-				.sendToServer(new MHFCRegEquipmentRecipe.SetRecipeMessage(this,
+				.sendToServer(new MessageTileLocation.SetRecipeMessage(this,
 						recipeToSend));
 	}
 

@@ -8,15 +8,19 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import mhfc.net.common.network.packet.MessageQuestInteraction;
+import mhfc.net.common.network.packet.MessageQuestRunningSubscription;
 import mhfc.net.common.network.packet.MessageQuestScreenInit;
 import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.network.packet.MessageRequestQuestVisual;
 import mhfc.net.common.quests.GeneralQuest;
+import mhfc.net.common.quests.QuestRunningInformation;
 import mhfc.net.common.quests.QuestVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation.QuestType;
 import mhfc.net.common.quests.factory.GoalDescription;
@@ -251,7 +255,42 @@ public class MHFCRegQuests {
 		}
 	}
 
-	// TODO split this into more than one class, separation of concerns
+	public static class RunningSubscriptionHandler
+			implements
+				IMessageHandler<MessageQuestRunningSubscription, IMessage> {
+		private static Set<EntityPlayerMP> subscribers = new HashSet<EntityPlayerMP>();
+
+		public RunningSubscriptionHandler() {
+		}
+
+		@Override
+		public IMessage onMessage(MessageQuestRunningSubscription message,
+				MessageContext ctx) {
+			if (message.isSubscribed()) {
+				subscribers.add(message.getPlayer());
+				for (GeneralQuest q : questsRunning) {
+					String identifier = runningQuestToStringMap.get(q);
+					MessageQuestVisual messageSent = new MessageQuestVisual(
+							identifier, q.getRunningInformation());
+					messageSent.setTypeID(2);
+					networkWrapper.sendTo(messageSent, message.getPlayer());
+				}
+			} else {
+				subscribers.remove(message.getPlayer());
+			}
+			return null;
+		}
+
+		public static void sendToAll(MessageQuestVisual visual) {
+			Iterator<EntityPlayerMP> iter = subscribers.iterator();
+			while (iter.hasNext()) {
+				networkWrapper.sendTo(visual, iter.next());
+			}
+		}
+	}
+
+	// TODO split this into more than one class, separation of concerns, reload
+	// should not happen here
 	public static class PlayerQuestInteractionHandler
 			implements
 				IMessageHandler<MessageQuestInteraction, IMessage> {
@@ -298,12 +337,18 @@ public class MHFCRegQuests {
 						quest = getQuestForPlayer(player);
 						if (quest != null) {
 							quest.voteEnd(player);
+						} else {
+							networkWrapper.sendTo(new MessageQuestVisual("",
+									null), player);
 						}
 						break;
 					case GIVE_UP :
 						quest = getQuestForPlayer(player);
 						if (quest != null) {
 							quest.removePlayer(player);
+						} else {
+							networkWrapper.sendTo(new MessageQuestVisual("",
+									null), player);
 						}
 						break;
 					case MOD_RELOAD :
@@ -456,6 +501,7 @@ public class MHFCRegQuests {
 			"MHFC:Quests");
 	public static final int discriminator_visualRequestAnswer = 130;
 	private static final int discriminator_interaction = 131;
+	public static final int discriminator_running_quest_subscription = 132;
 
 	public static void init() {
 		loadQuests();
@@ -465,6 +511,9 @@ public class MHFCRegQuests {
 		networkWrapper.registerMessage(PlayerQuestInteractionHandler.class,
 				MessageQuestInteraction.class, discriminator_interaction,
 				Side.SERVER);
+		networkWrapper.registerMessage(RunningSubscriptionHandler.class,
+				MessageQuestRunningSubscription.class,
+				discriminator_running_quest_subscription, Side.SERVER);
 		FMLCommonHandler.instance().bus()
 				.register(new PlayerConnectionHandler());
 	}
@@ -622,6 +671,10 @@ public class MHFCRegQuests {
 				Map<String, QuestDescription> map = (Map) gsonInstance
 						.fromJson(reader, typeOfMapQuest);
 				for (String qualifier : map.keySet()) {
+					if (qualifier.equals("")) {
+						throw new java.util.InputMismatchException(
+								"[MHFC] Quest identifier can not be an empty string");
+					}
 					questDescriptions.put(qualifier, map.get(qualifier));
 				}
 			} catch (IOException e) {
@@ -679,6 +732,28 @@ public class MHFCRegQuests {
 		questsRunning.add(generalQuest);
 		runningQuestFromStringMap.put(identifier, generalQuest);
 		runningQuestToStringMap.put(generalQuest, identifier);
+		MessageQuestVisual message = new MessageQuestVisual(identifier,
+				generalQuest.getRunningInformation());
+		message.setTypeID(2);
+		RunningSubscriptionHandler.sendToAll(message);
+	}
 
+	public static boolean deregisterQuest(GeneralQuest generalQuest) {
+		boolean wasRunning = questsRunning.remove(generalQuest);
+		String key = runningQuestToStringMap.get(generalQuest);
+		runningQuestToStringMap.remove(generalQuest);
+		runningQuestFromStringMap.remove(key);
+		MessageQuestVisual message = new<QuestRunningInformation> MessageQuestVisual(
+				key, null);
+		RunningSubscriptionHandler.sendToAll(message);
+		return wasRunning;
+	}
+
+	public static void questUpdated(GeneralQuest q) {
+		String identifier = runningQuestToStringMap.get(q);
+		MessageQuestVisual message = new MessageQuestVisual(identifier,
+				q.getRunningInformation());
+		message.setTypeID(2);
+		RunningSubscriptionHandler.sendToAll(message);
 	}
 }

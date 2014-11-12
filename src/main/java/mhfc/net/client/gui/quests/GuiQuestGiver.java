@@ -24,13 +24,17 @@ public class GuiQuestGiver extends GuiScreen {
 
 	private List<String> groupIDsDisplayed;
 	private ClickableGuiList<GuiListStringItem> groupList;
-	private GuiButton start, left, right;
-	private GuiButton cancel;
+	private GuiButton newQuest, left, right;
+	private GuiButton cancelQuest, startQuest;
 	private List<String> questIdentifiers;
 	private int selectedIdentifier;
 	private int xPos, yPos;
 	private int xSize, ySize;
+	private int page = 0;
 	private final EntityPlayer accessor;
+	// Has the current click been handled by any element so that it should not
+	// be handled further
+	private boolean handled;
 
 	public GuiQuestGiver(String[] groupIDs, EntityPlayer accessor) {
 		groupIDsDisplayed = new ArrayList<String>();
@@ -41,11 +45,12 @@ public class GuiQuestGiver extends GuiScreen {
 				width, height);
 		for (int i = 0; i < groupIDs.length; i++)
 			groupList.add(new GuiListStringItem(groupIDs[i]));
-		start = new GuiButton(0, 25, 10, 60, 20, "Take Quest") {
+		newQuest = new GuiButton(0, 25, 10, 60, 20, "Take Quest") {
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
 					int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
+					handled = true;
 					groupList.setVisible(false);
 					if (questIdentifiers != null && selectedIdentifier >= 0
 							&& selectedIdentifier < questIdentifiers.size()) {
@@ -55,7 +60,6 @@ public class GuiQuestGiver extends GuiScreen {
 								.sendToServer(new MessageQuestInteraction(
 										Interaction.START_NEW,
 										GuiQuestGiver.this.accessor, questID));
-						GuiQuestGiver.this.accessor.closeScreen();
 					}
 					return true;
 				}
@@ -67,6 +71,7 @@ public class GuiQuestGiver extends GuiScreen {
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
 					int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
+					handled = true;
 					setIdentifier(selectedIdentifier - 1);
 					return true;
 				}
@@ -78,22 +83,41 @@ public class GuiQuestGiver extends GuiScreen {
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
 					int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
+					handled = true;
 					setIdentifier(selectedIdentifier + 1);
 					return true;
 				}
 				return false;
 			}
 		};
-		cancel = new GuiButton(0, 25, 10, 120, 20, "Cancel current Quest") {
+		cancelQuest = new GuiButton(0, 25, 10, 120, 20, "Cancel current Quest") {
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
 					int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
+					handled = true;
 					groupList.setVisible(true);
 					MHFCRegQuests.networkWrapper
 							.sendToServer(new MessageQuestInteraction(
 									Interaction.GIVE_UP,
 									GuiQuestGiver.this.accessor, new String[0]));
+					return true;
+				}
+				return false;
+			}
+		};
+		startQuest = new GuiButton(0, 25, 10, 120, 20, "Start current Quest") {
+			@Override
+			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
+					int p_146116_3_) {
+				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
+					handled = true;
+					groupList.setVisible(true);
+					MHFCRegQuests.networkWrapper
+							.sendToServer(new MessageQuestInteraction(
+									Interaction.VOTE_START,
+									GuiQuestGiver.this.accessor, new String[0]));
+					GuiQuestGiver.this.accessor.closeScreen();
 					return true;
 				}
 				return false;
@@ -112,10 +136,12 @@ public class GuiQuestGiver extends GuiScreen {
 	}
 
 	@Override
-	protected void mouseClicked(int p_73864_1_, int p_73864_2_, int p_73864_3_) {
-		super.mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
-		if (groupList.handleClick(p_73864_1_ - groupList.getPosX(), p_73864_2_
-				- groupList.getPosY(), p_73864_3_)) {
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+		handled = false;
+		super.mouseClicked(mouseX, mouseY, mouseButton);
+		if (groupList.handleClick(mouseX - groupList.getPosX(), mouseY
+				- groupList.getPosY(), mouseButton)) {
+			handled = true;
 			GuiListStringItem item = groupList.getSelectedItem();
 			String selectedList = item == null ? "" : item
 					.getInitializationString();
@@ -124,7 +150,16 @@ public class GuiQuestGiver extends GuiScreen {
 					.getIdentifierList(selectedList);
 			if (newIdentifiers != null)
 				questIdentifiers.addAll(newIdentifiers);
-			selectedIdentifier = questIdentifiers.size() > 0 ? 0 : -1;
+		} else if (questIdentifiers.size() > 0
+				&& !MHFCRegQuestVisual.hasPlayerQuest() // Is an info displayed
+				&& mouseX > xPos + 80 && mouseX < xPos + 300 // x check
+				&& mouseY > yPos && mouseY < yPos + ySize - 30) {
+			if (!handled) {
+				handled = true;
+				int add = mouseButton == 0 ? 1 : mouseButton == 1 ? -1 : 0;
+				page += add;
+				page = (page + 3) % 3;
+			}
 		}
 	}
 
@@ -140,9 +175,10 @@ public class GuiQuestGiver extends GuiScreen {
 			groupList.draw();
 			left.visible = true;
 			right.visible = true;
-			start.enabled = false;
-			start.visible = true;
-			cancel.visible = false;
+			newQuest.enabled = false;
+			newQuest.visible = true;
+			cancelQuest.visible = false;
+			startQuest.visible = false;
 			left.enabled = selectedIdentifier > 0;
 			right.enabled = questIdentifiers != null
 					&& selectedIdentifier < questIdentifiers.size() - 1;
@@ -151,21 +187,26 @@ public class GuiQuestGiver extends GuiScreen {
 				QuestVisualInformation info = MHFCRegQuestVisual
 						.getVisualInformation(questIdentifiers
 								.get(selectedIdentifier));
-				start.enabled = true;
+				newQuest.enabled = true;
 				// TODO set start enabled based on can join
 				FontRenderer fontRenderer = mc.fontRenderer;
-				int page = 0;
 				if (info != null)
 					info.drawInformation(xPos + 80, yPos, 220, ySize - 30,
 							page, fontRenderer);
 			}
 		} else {
 			// The player already has a quest, give him a cancel option
-			start.visible = false;
-			start.enabled = false;
+			newQuest.visible = false;
+			newQuest.enabled = false;
 			left.visible = false;
 			right.visible = false;
-			cancel.visible = true;
+			cancelQuest.visible = true;
+
+			// Disable start quest when we already started the quest
+			startQuest.visible = true;
+			String warning = "You have already accepted a quest";
+			int warnX = (xSize - fontRendererObj.getStringWidth(warning)) / 2, warnY = 60;
+			fontRendererObj.drawString(warning, warnX, warnY, 0x404040);
 		}
 
 		super.drawScreen(positionX, positionY, partialTick);
@@ -181,10 +222,11 @@ public class GuiQuestGiver extends GuiScreen {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui() {
-		buttonList.add(start);
+		buttonList.add(newQuest);
 		buttonList.add(left);
 		buttonList.add(right);
-		buttonList.add(cancel);
+		buttonList.add(cancelQuest);
+		buttonList.add(startQuest);
 		updateScreen();
 		// super.initGui();
 	}
@@ -201,10 +243,12 @@ public class GuiQuestGiver extends GuiScreen {
 		right.yPosition = 5 + yPos;
 		left.xPosition = 80 + xPos;
 		left.yPosition = 5 + yPos;
-		start.xPosition = 160 + xPos;
-		start.yPosition = 195 + yPos;
-		cancel.xPosition = xPos + xSize / 2 - cancel.width / 2;
-		cancel.yPosition = yPos + ySize / 2 - cancel.height / 2;
+		newQuest.xPosition = 160 + xPos;
+		newQuest.yPosition = 195 + yPos;
+		cancelQuest.xPosition = xPos + xSize / 2 - cancelQuest.width / 2;
+		cancelQuest.yPosition = yPos + ySize / 2 + 5;
+		startQuest.xPosition = xPos + xSize / 2 - startQuest.width / 2;
+		startQuest.yPosition = yPos + ySize / 2 - startQuest.height - 5;
 		super.updateScreen();
 	}
 
@@ -215,9 +259,8 @@ public class GuiQuestGiver extends GuiScreen {
 
 	@Override
 	public void drawBackground(int p_146278_1_) {
-		// FIXME change this to our background
 		mc.getTextureManager().bindTexture(
-				MHFCRegQuestVisual.QUEST_STATUS_INVENTORY_BACKGROUND);
+				MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
 		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, 0f, xSize, ySize, 15,
 				15 / 265f, 1, 166f / 256f);
 	}

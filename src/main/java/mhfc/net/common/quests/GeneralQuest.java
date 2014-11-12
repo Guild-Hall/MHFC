@@ -93,7 +93,7 @@ public class GeneralQuest implements QuestGoalSocket {
 					"You have successfully completed a quest"));
 		}
 		this.state = QuestState.finished;
-		// TODO reward the players for finishing the quest
+		// TODO reward the players for finishing the quest with dynamic rewards
 		onEnd();
 	}
 
@@ -113,7 +113,7 @@ public class GeneralQuest implements QuestGoalSocket {
 		visualInformation.cleanUp();
 		// FIXME something goes wrong here
 		// questGoal.questGoalFinalize();
-		// TODO teleport players to the overworld if they aren't there.
+		MHFCRegQuests.deregisterQuest(this);
 	}
 
 	protected void updatePlayers() {
@@ -121,12 +121,13 @@ public class GeneralQuest implements QuestGoalSocket {
 		for (int i = 0; i < playerCount; i++) {
 			EntityPlayer p = players[i];
 			String id = MHFCRegQuests.getIdentifierForQuest(this);
-			// FIXME ids of running quests are somehow wrong
+			// TODO review id resolving
 			MHFCRegQuests.networkWrapper.sendTo(
-					new<QuestRunningInformation> MessageQuestVisual("Needed",
+					new<QuestRunningInformation> MessageQuestVisual(id,
 							visualInformation), (EntityPlayerMP) p);
 
 		}
+		MHFCRegQuests.questUpdated(this);
 	}
 
 	public boolean canJoin(EntityPlayer player) {
@@ -169,6 +170,8 @@ public class GeneralQuest implements QuestGoalSocket {
 			}
 		}
 		removePlayer(i);
+		if (playerCount == 0)
+			onEnd();
 		return found;
 	}
 
@@ -176,9 +179,10 @@ public class GeneralQuest implements QuestGoalSocket {
 		if (index < 0 || index >= playerCount)
 			return;
 		MHFCRegQuests.networkWrapper.sendTo(
-				new<QuestRunningInformation> MessageQuestVisual("",
-						visualInformation), (EntityPlayerMP) players[index]);
+				new<QuestRunningInformation> MessageQuestVisual("", null),
+				(EntityPlayerMP) players[index]);
 		MHFCRegQuests.setQuestForPlayer(players[index], null);
+		// FIXME teleport players to the overworld if they aren't there.
 		for (int i = index; i < playerCount - 1; i++) {
 			players[i] = players[i + 1];
 		}
@@ -239,6 +243,10 @@ public class GeneralQuest implements QuestGoalSocket {
 		if (end && state == QuestState.running) {
 			onEnd();
 		}
+	}
+
+	public QuestRunningInformation getRunningInformation() {
+		return visualInformation;
 	}
 
 }

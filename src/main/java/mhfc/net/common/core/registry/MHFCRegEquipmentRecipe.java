@@ -1,7 +1,5 @@
 package mhfc.net.common.core.registry;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -11,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
+import mhfc.net.common.network.packet.MessageTileLocation;
 import mhfc.net.common.tile.TileHunterBench;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -26,116 +25,11 @@ import cpw.mods.fml.relauncher.Side;
 
 public class MHFCRegEquipmentRecipe {
 
-	private static class LocationMessage {
-		protected int x;
-		protected int y;
-		protected int z;
-		protected int worldID;
-
-		public int getX() {
-			return x;
-		}
-
-		public int getY() {
-			return y;
-		}
-
-		public int getZ() {
-			return z;
-		}
-
-		public int getDimensionID() {
-			return worldID;
-		}
-	}
-
-	public static class SetRecipeMessage extends LocationMessage
-			implements
-				IMessage {
-
-		private int recipeID;
-		private int typeID;
-
-		public SetRecipeMessage() {
-		}
-
-		public SetRecipeMessage(TileHunterBench bench, EquipmentRecipe r) {
-			this.x = bench.xCoord;
-			this.y = bench.yCoord;
-			this.z = bench.zCoord;
-			this.worldID = bench.getWorldObj().getWorldInfo()
-					.getVanillaDimension();
-			this.typeID = getType(r);
-			this.recipeID = getIDFor(r, typeID);
-		}
-
-		@Override
-		public void fromBytes(ByteBuf buf) {
-			x = buf.readInt();
-			y = buf.readInt();
-			z = buf.readInt();
-			worldID = buf.readInt();
-			recipeID = buf.readInt();
-			typeID = buf.readInt();
-		}
-
-		@Override
-		public void toBytes(ByteBuf buf) {
-			buf.writeInt(x);
-			buf.writeInt(y);
-			buf.writeInt(z);
-			buf.writeInt(worldID);
-			buf.writeInt(recipeID);
-			buf.writeInt(typeID);
-		}
-
-		public int getRecipeID() {
-			return recipeID;
-		}
-
-		public int getTypeID() {
-			return typeID;
-		}
-
-	}
-
-	public static class BeginCraftingMessage extends LocationMessage
-			implements
-				IMessage {
-
-		public BeginCraftingMessage() {
-		}
-
-		public BeginCraftingMessage(TileHunterBench bench) {
-			this.x = bench.xCoord;
-			this.y = bench.yCoord;
-			this.z = bench.zCoord;
-			this.worldID = bench.getWorldObj().getWorldInfo()
-					.getVanillaDimension();
-		}
-
-		@Override
-		public void fromBytes(ByteBuf buf) {
-			x = buf.readInt();
-			y = buf.readInt();
-			z = buf.readInt();
-			worldID = buf.readInt();
-		}
-
-		@Override
-		public void toBytes(ByteBuf buf) {
-			buf.writeInt(x);
-			buf.writeInt(y);
-			buf.writeInt(z);
-			buf.writeInt(worldID);
-		}
-	}
-
 	public static class SetRecipeHandler
 			implements
-				IMessageHandler<SetRecipeMessage, IMessage> {
+				IMessageHandler<MessageTileLocation.SetRecipeMessage, IMessage> {
 		@Override
-		public IMessage onMessage(SetRecipeMessage message, MessageContext ctx) {
+		public IMessage onMessage(MessageTileLocation.SetRecipeMessage message, MessageContext ctx) {
 			TileHunterBench b = getHunterBench(message);
 			EquipmentRecipe rec = getRecipeFor(message.getRecipeID(),
 					message.getTypeID());
@@ -146,9 +40,9 @@ public class MHFCRegEquipmentRecipe {
 
 	public static class BeginCraftingHandler
 			implements
-				IMessageHandler<BeginCraftingMessage, IMessage> {
+				IMessageHandler<MessageTileLocation.BeginCraftingMessage, IMessage> {
 		@Override
-		public IMessage onMessage(BeginCraftingMessage message,
+		public IMessage onMessage(MessageTileLocation.BeginCraftingMessage message,
 				MessageContext ctx) {
 			TileHunterBench b = getHunterBench(message);
 			b.beginCrafting();
@@ -156,7 +50,7 @@ public class MHFCRegEquipmentRecipe {
 		}
 	}
 
-	private static TileHunterBench getHunterBench(LocationMessage message) {
+	private static TileHunterBench getHunterBench(MessageTileLocation message) {
 		int id = message.getDimensionID();
 		MinecraftServer server = FMLCommonHandler.instance()
 				.getMinecraftServerInstance();
@@ -212,10 +106,10 @@ public class MHFCRegEquipmentRecipe {
 				listReq, 200, 600);
 		// FIXME mod wide wrapper
 		MHFCRegQuests.networkWrapper.registerMessage(
-				BeginCraftingHandler.class, BeginCraftingMessage.class,
+				BeginCraftingHandler.class, MessageTileLocation.BeginCraftingMessage.class,
 				DISCRIMINATOR_BEGIN_CRAFTING, Side.SERVER);
 		MHFCRegQuests.networkWrapper.registerMessage(SetRecipeHandler.class,
-				SetRecipeMessage.class, DISCRIMINATOR_SET_RECIPE, Side.SERVER);
+				MessageTileLocation.SetRecipeMessage.class, DISCRIMINATOR_SET_RECIPE, Side.SERVER);
 	}
 
 	public static int getType(EquipmentRecipe recipe) {

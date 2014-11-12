@@ -272,6 +272,8 @@ public class MHFCRegStringDecode {
 
 	private static List<StringElement> breakApart(String str) {
 		List<StringElement> list = new ArrayList<StringElement>(20);
+		if (str == null)
+			return list;
 		boolean dynamic = true;
 		String firstSplit[] = str.split("\\{");
 		List<String> secondSplit = new ArrayList<String>();

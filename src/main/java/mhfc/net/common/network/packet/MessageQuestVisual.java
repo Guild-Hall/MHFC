@@ -12,7 +12,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class MessageQuestVisual implements IMessage {
 
-	private static final int[] lengthsPerID = {12, 14};
+	private static final int[] lengthsPerID = {12, 14, 14};
 
 	protected int typeID;
 	protected String[] strings = new String[12];
@@ -29,35 +29,60 @@ public class MessageQuestVisual implements IMessage {
 		this(0, strings);
 	}
 
+	/**
+	 * Construct a message based on a visual. If it is null, the message means
+	 * that the identifier was removed and the client should do so too.
+	 * 
+	 * @param identifier
+	 *            The identifier of the quest for which the visual is for.
+	 * @param visual
+	 *            The visual information that corresponds to the identifier
+	 */
 	public <E extends QuestVisualInformation> MessageQuestVisual(
 			String identifier, E visual) {
-		this(visual == null ? new String[]{""} : new String[]{identifier,
-				visual.getName(), visual.getDescription(), visual.getClient(),
-				visual.getAims(), visual.getFails(), visual.getAreaID(),
-				visual.getTimeLimitAsString(), visual.getType().getAsString(),
-				visual.getRewardString(), visual.getFeeString(),
-				visual.getMaxPartySize()});
+		this(visual == null ? defaultStringsFor(0, identifier) : new String[]{
+				identifier, visual.getName(), visual.getDescription(),
+				visual.getClient(), visual.getAims(), visual.getFails(),
+				visual.getAreaID(), visual.getTimeLimitAsString(),
+				visual.getType().getAsString(), visual.getRewardString(),
+				visual.getFeeString(), visual.getMaxPartySize()});
 	}
 
 	public <E extends QuestRunningInformation> MessageQuestVisual(
 			String identifier, E visual) {
-		this(1, visual == null ? new String[]{""} : new String[]{identifier,
-				visual.getTrueName(), visual.getTrueDescription(),
-				visual.getTrueClient(), visual.getTrueAims(),
-				visual.getTrueFails(), visual.getTrueAreaID(),
-				visual.getTrueTimeLimitAsString(),
-				visual.getType().getAsString(), visual.getTrueRewardString(),
-				visual.getTrueFeeString(), visual.getTrueMaxPartySize(),
-				visual.getTrueShortStatus(), visual.getTrueLongStatus()});
+		this(1,
+				visual == null
+						? defaultStringsFor(1, identifier)
+						: new String[]{identifier, visual.getTrueName(),
+								visual.getTrueDescription(),
+								visual.getTrueClient(), visual.getTrueAims(),
+								visual.getTrueFails(), visual.getTrueAreaID(),
+								visual.getTrueTimeLimitAsString(),
+								visual.getType().getAsString(),
+								visual.getTrueRewardString(),
+								visual.getTrueFeeString(),
+								visual.getTrueMaxPartySize(),
+								visual.getTrueShortStatus(),
+								visual.getTrueLongStatus()});
 	}
 
-	public MessageQuestVisual(int typeID, String[] strings) {
+	public void setTypeID(int type) {
+		this.typeID = type;
+	}
+
+	private static String[] defaultStringsFor(int i, String identifier) {
+		String[] ret = null;
+		if (i >= 0 && i < lengthsPerID.length)
+			ret = new String[lengthsPerID[i]];
+		else
+			ret = new String[12];
+		ret[0] = identifier;
+		ret[1] = "";
+		return ret;
+	}
+
+	private MessageQuestVisual(int typeID, String[] strings) {
 		this(typeID);
-		// TODO DEBUG code only, remove this later on
-		if (strings.length != lengthsPerID[typeID])
-			throw new IllegalArgumentException(
-					"[MHFC] MessageQuestVisual needs appropriate amount of strings for type "
-							+ typeID);
 		this.strings = strings;
 	}
 

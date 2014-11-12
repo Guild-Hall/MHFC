@@ -29,10 +29,10 @@ public class QuestStatusDisplay extends Gui {
 		displayTick = 0;
 	}
 
-	protected QuestRunningInformation information;
-
 	@SubscribeEvent
 	public void onDrawOfGUI(DrawScreenEvent.Pre screenEvent) {
+		QuestRunningInformation information = MHFCRegQuestVisual
+				.getPlayerVisual();
 		if (screenEvent.gui instanceof GuiInventory) {
 			mc.getTextureManager().bindTexture(
 					MHFCRegQuestVisual.QUEST_STATUS_INVENTORY_BACKGROUND);
@@ -87,8 +87,9 @@ public class QuestStatusDisplay extends Gui {
 
 	@SubscribeEvent
 	public void onDraw(RenderGameOverlayEvent.Post overlayEvent) {
-		if (overlayEvent.type == ElementType.FOOD && mc.currentScreen == null
-				&& information != null) {
+		QuestRunningInformation information = MHFCRegQuestVisual
+				.getPlayerVisual();
+		if (overlayEvent.type == ElementType.FOOD && information != null) {
 			mc.getTextureManager().bindTexture(
 					MHFCRegQuestVisual.QUEST_STATUS_ONSCREEN_BACKGROUND);
 			GL11.glEnable(GL11.GL_BLEND);
@@ -112,11 +113,5 @@ public class QuestStatusDisplay extends Gui {
 			mc.fontRenderer.drawSplitString(information.getShortStatus(),
 					posX + 5, posY + lineHeight + 5, width - 10, 0x404040);
 		}
-	}
-
-	public void setRunningInformation(QuestRunningInformation information) {
-		if (this.information != null)
-			this.information.cleanUp();
-		this.information = information;
 	}
 }

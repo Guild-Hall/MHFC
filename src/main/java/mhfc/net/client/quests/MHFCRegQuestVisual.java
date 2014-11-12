@@ -5,15 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import mhfc.net.client.gui.quests.GuiQuestBoard;
 import mhfc.net.client.gui.quests.GuiQuestGiver;
 import mhfc.net.client.gui.quests.QuestStatusDisplay;
 import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.network.packet.MessageQuestRunningSubscription;
 import mhfc.net.common.network.packet.MessageQuestScreenInit;
 import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.network.packet.MessageRequestQuestVisual;
 import mhfc.net.common.quests.QuestRunningInformation;
 import mhfc.net.common.quests.QuestVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation.QuestType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -52,6 +55,7 @@ public class MHFCRegQuestVisual {
 			implements
 				IMessageHandler<MessageQuestVisual, IMessage> {
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public IMessage onMessage(MessageQuestVisual message, MessageContext ctx) {
 			switch (message.getTypeID()) {
@@ -85,34 +89,46 @@ public class MHFCRegQuestVisual {
 							realType = QuestType.Gathering;
 							break;
 						default :
-							throw new IllegalStateException(
-									"[MHFC] Exception decoding QuestVisualMessage, Type unknown");
 					}
 					QuestVisualInformation visual;
-					if (!identifier.equals("")) {
+					if (!name.equals("")) {
 						visual = new QuestVisualInformation(name, description,
 								client, aims, fails, areaNameID, timeLimitInS,
 								reward, fee, maxPartySize, realType);
 					} else {
 						visual = null;
 					}
-					if (message.getTypeID() == 0) {
-						identifierToVisualInformationMap
-								.put(identifier, visual);
-						System.out
-								.println("[MHFC] Assigned a new static visual to "
-										+ identifier);
-					} else {
-						display.setRunningInformation(visual == null
-								? null
-								: new QuestRunningInformation(visual,
-										strings[12], strings[13]));
-						hasPlayerQuest = (visual != null);
-						// System.out.println("[MHFC] "
-						// + (visual == null
-						// ? "No quest active"
-						// : "Got a new visual to")
-						// + " set for the display");
+					switch (message.getTypeID()) {
+						case 0 :
+							identifierToVisualInformationMap.put(identifier,
+									visual);
+							break;
+						case 1 :
+							hasPlayerQuest = (visual != null);
+							QuestRunningInformation runInfo = new QuestRunningInformation(
+									visual, strings[12], strings[13]);
+							if (playersVisual != null) {
+								playersVisual.cleanUp();
+							}
+							playersVisual = (!hasPlayerQuest) ? null : runInfo;
+							// System.out.println("[MHFC] "
+							// + (visual == null
+							// ? "No quest active"
+							// : "Got a new visual to")
+							// + " set for the display");
+							break;
+						case 2 :
+							boolean clear = visual == null;
+							runInfo = new QuestRunningInformation(visual,
+									strings[12], strings[13]);
+							if (clear) {
+								identifierToVisualRunningMap.remove(identifier);
+								questBoard.removeQuest(identifier);
+							} else {
+								identifierToVisualRunningMap.put(identifier,
+										runInfo);
+								questBoard.addQuest(identifier, runInfo);
+							}
 					}
 					break;
 			}
@@ -142,12 +158,19 @@ public class MHFCRegQuestVisual {
 			"textures/gui/demo_background.png");
 	public static final ResourceLocation QUEST_STATUS_ONSCREEN_BACKGROUND = new ResourceLocation(
 			"textures/gui/demo_background.png");
+	// FIXME change the texture
+	public static final ResourceLocation QUEST_BOARD_BACKGROUND = new ResourceLocation(
+			"textures/gui/demo_background.png");
 
 	private static Map<String, List<String>> groupIDToListMap = new HashMap<String, List<String>>();
 	private static List<String> groupIDsInOrder = new ArrayList<String>();
 	private static Map<String, QuestVisualInformation> identifierToVisualInformationMap = new HashMap<String, QuestVisualInformation>();
+	private static Map<String, QuestRunningInformation> identifierToVisualRunningMap = new HashMap<String, QuestRunningInformation>();
 	private static QuestStatusDisplay display;
+	private static GuiQuestBoard questBoard = new GuiQuestBoard(
+			Minecraft.getMinecraft().thePlayer);
 	private static boolean hasPlayerQuest = false;
+	private static QuestRunningInformation playersVisual;
 
 	// FIXME choose our mfhc network wrapper
 	private static SimpleNetworkWrapper networkWrapper = MHFCRegQuests.networkWrapper;
@@ -181,6 +204,15 @@ public class MHFCRegQuestVisual {
 		return QuestVisualInformation.LOADING_REPLACEMENT;
 	}
 
+	public static void setAndSendRunningListenStatus(boolean newStatus,
+			EntityPlayer forPlayer) {
+		networkWrapper.sendToServer(new MessageQuestRunningSubscription(
+				newStatus, forPlayer));
+		if (!newStatus) {
+			questBoard.clearList();
+		}
+	}
+
 	public static boolean hasPlayerQuest() {
 		return hasPlayerQuest;
 	}
@@ -195,5 +227,13 @@ public class MHFCRegQuestVisual {
 				Side.CLIENT);
 		MinecraftForge.EVENT_BUS.register(display);
 
+	}
+
+	public static QuestRunningInformation getPlayerVisual() {
+		return playersVisual;
+	}
+
+	public static GuiQuestBoard getQuestBoard() {
+		return questBoard;
 	}
 }

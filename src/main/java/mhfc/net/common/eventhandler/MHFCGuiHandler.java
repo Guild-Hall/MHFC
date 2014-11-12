@@ -29,13 +29,17 @@ public class MHFCGuiHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
-		if (ID == MHFCReference.gui_hunterbench_id) {
-			TileEntity tE = world.getTileEntity(x, y, z);
-			if (tE instanceof TileHunterBench)
-				return new GuiHunterBench(player.inventory, world,
-						(TileHunterBench) tE, x, y, z);
-		} else if (ID == MHFCReference.gui_questgiver_id) {
-			return MHFCRegQuestVisual.getScreen(x, player);
+		switch (ID) {
+			case MHFCReference.gui_hunterbench_id :
+				TileEntity tE = world.getTileEntity(x, y, z);
+				if (tE instanceof TileHunterBench)
+					return new GuiHunterBench(player.inventory, world,
+							(TileHunterBench) tE, x, y, z);
+				break;
+			case MHFCReference.gui_questgiver_id :
+				return MHFCRegQuestVisual.getScreen(x, player);
+			case MHFCReference.gui_questboard_id :
+				return MHFCRegQuestVisual.getQuestBoard();
 		}
 		return null;
 

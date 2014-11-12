@@ -13,6 +13,7 @@ import mhfc.net.common.block.BlockOreCarbalite;
 import mhfc.net.common.block.BlockOreDragonite;
 import mhfc.net.common.block.BlockOreEltalite;
 import mhfc.net.common.block.BlockOreMachalite;
+import mhfc.net.common.block.BlockQuestBoard;
 import mhfc.net.common.block.BlockWyverniaClay;
 import mhfc.net.common.block.BlockWyverniaDirt;
 import mhfc.net.common.block.BlockWyverniaGrass;
@@ -25,6 +26,7 @@ import mhfc.net.common.block.container.BlockHunterBench;
 import mhfc.net.common.block.container.BlockStunTrap;
 import mhfc.net.common.item.block.ItemBlockBBQSpit;
 import mhfc.net.common.item.block.ItemBlockBenchHunter;
+import mhfc.net.common.item.block.ItemBlockQuestBoard;
 import mhfc.net.common.item.block.ItemBlockStunTrap;
 import mhfc.net.common.item.block.ItemBlockWyverniaDefault;
 import net.minecraft.block.Block;
@@ -61,6 +63,8 @@ public class MHFCRegBlock {
 	public static Block mhfcblockoremachalite;
 	public static Block mhfcblockbbqspit;
 
+	public static Block mhfcblockquestboard;
+
 	public static void init() {
 		// Initiation Blocks
 		mhfcblockcarbalite = new BlockCarbalite();
@@ -86,6 +90,7 @@ public class MHFCRegBlock {
 		mhfcblockoreeltalite = new BlockOreEltalite();
 		mhfcblockoremachalite = new BlockOreMachalite();
 		mhfcblockbbqspit = new BlockBBQSpit();
+		mhfcblockquestboard = new BlockQuestBoard();
 		// ------------------------Game Registry
 		// ------------------------------//
 		regBlocks();
@@ -120,6 +125,7 @@ public class MHFCRegBlock {
 		getItemBlockID(mhfcblockstuntrap, ItemBlockStunTrap.class);
 		getItemBlockID(mhfcblockhunterbench, ItemBlockBenchHunter.class);
 		getItemBlockID(mhfcblockbbqspit, ItemBlockBBQSpit.class);
+		getItemBlockID(mhfcblockquestboard, ItemBlockQuestBoard.class);
 	}
 
 	private static void getBlockID(Block block) {
