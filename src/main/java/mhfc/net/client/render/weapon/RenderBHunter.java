@@ -17,6 +17,7 @@ public class RenderBHunter extends RenderWeapon {
 	private ModelBHunter weapon;
 	// private RenderWeapon getRender;
 	private float scale;
+
 	public RenderBHunter() {
 		weapon = new ModelBHunter();
 	}
@@ -33,18 +34,22 @@ public class RenderBHunter extends RenderWeapon {
 						&& (((EntityPlayer) data[1]).getCurrentEquippedItem() != null)) {
 					if (usingItem < 5) {
 						Minecraft.getMinecraft().renderEngine
-								.bindTexture(new ResourceLocation(MHFCReference.weapon_bow_hunter_tex0));
+								.bindTexture(new ResourceLocation(
+										MHFCReference.weapon_bow_hunter_tex0));
 					}
 					if ((usingItem > -5) && (usingItem < 35)) {
 						Minecraft.getMinecraft().renderEngine
-								.bindTexture(new ResourceLocation(MHFCReference.weapon_bow_hunter_tex1));
+								.bindTexture(new ResourceLocation(
+										MHFCReference.weapon_bow_hunter_tex1));
 					}
 					if ((usingItem >= 35)) {
 						Minecraft.getMinecraft().renderEngine
-								.bindTexture(new ResourceLocation(MHFCReference.weapon_bow_hunter_tex2));
+								.bindTexture(new ResourceLocation(
+										MHFCReference.weapon_bow_hunter_tex2));
 					} else {
 						Minecraft.getMinecraft().renderEngine
-								.bindTexture(new ResourceLocation(MHFCReference.weapon_bow_hunter_tex0));
+								.bindTexture(new ResourceLocation(
+										MHFCReference.weapon_bow_hunter_tex0));
 					}
 					scale = 1.5f;
 					GL11.glScalef(scale, scale, scale);
@@ -71,16 +76,20 @@ public class RenderBHunter extends RenderWeapon {
 						&& (((EntityPlayer) data[1]).getCurrentEquippedItem() != null)) {
 					if (usingItem < 5) {
 						Minecraft.getMinecraft().renderEngine
-								.bindTexture(new ResourceLocation(MHFCReference.weapon_bow_hunter_tex0));
+								.bindTexture(new ResourceLocation(
+										MHFCReference.weapon_bow_hunter_tex0));
 					} else if ((usingItem >= 5) && (usingItem < 35)) {
 						Minecraft.getMinecraft().renderEngine
-								.bindTexture(new ResourceLocation(MHFCReference.weapon_bow_hunter_tex1));
+								.bindTexture(new ResourceLocation(
+										MHFCReference.weapon_bow_hunter_tex1));
 					} else if (usingItem >= 35)
 						Minecraft.getMinecraft().renderEngine
-								.bindTexture(new ResourceLocation(MHFCReference.weapon_bow_hunter_tex2));
+								.bindTexture(new ResourceLocation(
+										MHFCReference.weapon_bow_hunter_tex2));
 				} else {
 					Minecraft.getMinecraft().renderEngine
-							.bindTexture(new ResourceLocation(MHFCReference.weapon_bow_hunter_tex0));
+							.bindTexture(new ResourceLocation(
+									MHFCReference.weapon_bow_hunter_tex0));
 				}
 				scale = 1.4f;
 				GL11.glScalef(scale, scale, scale);
@@ -95,10 +104,12 @@ public class RenderBHunter extends RenderWeapon {
 
 			case ENTITY :
 				GL11.glPushMatrix();
-				scale = 3F;
+				scale = 1F;
 				GL11.glScalef(scale, scale, scale);
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.weapon_bow_hunter_tex0));
+						.bindTexture(new ResourceLocation(
+								MHFCReference.weapon_bow_hunter_tex0));
+
 				GL11.glRotatef(90F, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(0F, 0.0f, 1.0f, 0.0f);
 				GL11.glRotatef(45F, 0.0f, 0.0f, 1.0f);
@@ -113,7 +124,8 @@ public class RenderBHunter extends RenderWeapon {
 				scale = 1.3F;
 				GL11.glScalef(scale, scale, scale);
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.weapon_bow_hunter_tex0));
+						.bindTexture(new ResourceLocation(
+								MHFCReference.weapon_bow_hunter_tex0));
 
 				GL11.glRotatef(200F, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(-80F, 0.0f, 1.0f, 0.0f);

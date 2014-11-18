@@ -102,12 +102,17 @@ public class MHFCReference {
 	public static final String block_wyveriansand_tex = "mhfc:wyverniasand";
 	public static final String block_wyverianstone_name = "wyverniastone";
 	public static final String block_wyverianstone_tex = "mhfc:wyverniastone";
+	public static final String block_questBoard_name = "questboard";
+	public static final String block_questBoard_tex = "mhfc:questboard";
 	public static final String damagesource_shatter_name = "shatter";
 	public static final String entity_rathalosFireball_name = "Fireball";
 	public static final String entity_rathalosfireball_tex = "mhfc:textures/projectile/rathalosfireball.png";
 	public static final String entity_tigrexBlock_name = "TigrexBlock";
-	public static final String gui_hunterbench_back_tex = "mhfc:textures/gui/bench.png";
+	public static final String gui_hunterbench_back_tex = "mhfc:textures/gui/CraftStation.png";
 	public static final String gui_hunterbench_name = "Hunter's Bench";
+	public static final String gui_hunterbench_tab_armor_name = "Armor Crafting";
+	public static final String gui_hunterbench_tab_weapon_name = "Weapon Crafting";
+	public static final String gui_tab_texture = "mhfc:textures/gui/TabbedGui.png";
 	public static final String gui_tab_name = "MHFC Tab";
 	public static final String item_armorsphere0_name = "armorsphere0";
 	public static final String item_armorsphere1_name = "armorsphere1";
@@ -271,10 +276,15 @@ public class MHFCReference {
 	public static final String weapon_ls_ironkatana_icon = "mhfc:longsword";
 	public static final String weapon_ls_ironkatana_name = "longsword_1";
 	public static final String weapon_ls_ironkatana_tex = "mhfc:textures/weapons/(LS)ironkatana.png";
+	public static final String gui_questgiver_back_tex = "mhfc:texture/gui/questgiver.png";
 
 	public static final int gui_hunterbench_id = 1;
+	public static final int gui_questgiver_id = 2;
+	public static final int gui_questboard_id = 3;
 	public static final int potion_paralyze_iconindex = 1;
 	public static final int potion_kirinbless_iconindex = 2;
+
+	public static final String mob_questGiver_name = "questGiver";
 
 	// public enum healthinfo {
 	// BULLDROME, // - 750

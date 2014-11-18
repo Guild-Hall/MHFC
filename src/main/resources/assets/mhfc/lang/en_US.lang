@@ -105,8 +105,6 @@ item.e.mhf_chest.name= Rathalos Plate
 item.e.mhf_leg.name= Rathalos Leggings
 item.e.mhf_boots.name= Rathalos Greaves
 
-
-
 entity.mhfc.tigrex.name=Tigrex
 entity.mhfc.kirin.name=Kirin
 entity.mhfc.rathalos.name=Rathalos
@@ -116,3 +114,23 @@ entity.mhfc.aptonoth.name=Aptonoth
 potion.kirinbless=Spark of Kirin
 potion.paralyze=Paralyze
 potion.attackup.low=Attack Up L
+
+mfhc.quests.visual.tag.reward=Reward
+mhfc.quests.visual.tag.fee=Fee
+mhfc.quests.visual.tag.time=Time Limit
+mhfc.quests.visual.tag.area=Location
+mhfc.quests.visual.tag.aims=Goal Condition 
+mhfc.quests.visual.tag.fails=Fail Condition
+mhfc.quests.visual.tag.client=Client
+mhfc.quests.visual.tag.description=Quest Details
+mhfc.quests.visual.tag.monsters=Main Monsters
+mhfc.quests.visual.tag.requisites=Requisites
+mhfc.quests.visual.tag.statuslong=Quest Status
+mhfc.quests.visual.tag.statusshort=Short Status
+
+mhfc.quests.type.hunting=Hunting Quest
+mhfc.quests.type.gathering=Gathering Quest
+mhfc.quests.type.epichunting=Epic Hunting Quest
+mhfc.quests.type.killing=Slaying Quest
+
+container.hunterbench=Hunter's Forging Bench

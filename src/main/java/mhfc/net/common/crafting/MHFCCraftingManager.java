@@ -1,16 +1,15 @@
-package mhfc.net.client.crafting;
+package mhfc.net.common.crafting;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
-import mhfc.net.client.crafting.recipes.MHFCShapedRecipes;
-import mhfc.net.client.crafting.recipes.MHFCShapelessRecipes;
-import mhfc.net.common.core.registry.MHFCRegBlock;
-import mhfc.net.common.core.registry.MHFCRegCraftingHunter;
-import mhfc.net.common.core.registry.MHFCRegItem;
+import mhfc.net.common.crafting.recipes.MHFCShapedRecipes;
+import mhfc.net.common.crafting.recipes.MHFCShapelessRecipe;
 import net.minecraft.block.Block;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,7 +20,7 @@ public class MHFCCraftingManager {
 	// TODO: beautify this, is an akward method to add recipes
 	private static final MHFCCraftingManager instance = new MHFCCraftingManager();
 
-	private List<IRecipe> recipes = new ArrayList<IRecipe>();
+	private Set<IRecipe> recipes;
 
 	public static final MHFCCraftingManager getInstance() {
 		return instance;
@@ -29,25 +28,8 @@ public class MHFCCraftingManager {
 
 	public MHFCCraftingManager() {
 
-		// Items
-		MHFCRegCraftingHunter.craftAll();
-		addShapedRecipe(new ItemStack(MHFCRegItem.MHFCItemHTigrex, 1),
-				new Object[]{"XXX", "XTX", "TXT", " S ", " S ", 'X',
-						MHFCRegItem.MHFCItemTigrexShell, 'T',
-						MHFCRegItem.MHFCItemTigrexScale, 'S', Items.stick});
-		addShapedRecipe(new ItemStack(MHFCRegItem.mhfcitemgsbone, 1),
-				new Object[]{" X ", "TXT", "TXT", " S ", " S ", 'X',
-						Items.iron_ingot, 'T', Items.bone, 'S', Items.stick});
-		addShapedRecipe(new ItemStack(MHFCRegItem.MHFCItemTrapTool, 1),
-				new Object[]{"   ", "   ", "XXX", "XXA", "AXA", 'X',
-						MHFCRegItem.MHFCItemBombMaterial, 'A', Items.gunpowder});
+		recipes = new LinkedHashSet<IRecipe>();
 
-		// Blocks
-		addShapedRecipe(
-				new ItemStack(MHFCRegBlock.mhfcblockstuntrap, 1),
-				new Object[]{"ADX", "DXF", "XXA", "FXD", "XXX", 'X',
-						MHFCRegItem.MHFCItemTrapTool, 'A', Items.redstone, 'D',
-						Items.iron_ingot, 'F', MHFCRegItem.MHFCItemBombMaterial});
 	}
 
 	public ItemStack findMatchingRecipe(
@@ -89,9 +71,7 @@ public class MHFCCraftingManager {
 			return new ItemStack(var4.getItem(), 1, var10);
 		}
 
-		for (var6 = 0; var6 < this.recipes.size(); ++var6) {
-			IRecipe var12 = this.recipes.get(var6);
-
+		for (IRecipe var12 : this.recipes) {
 			if (var12.matches(par1InventoryCrafting, par2World)) {
 				return var12.getCraftingResult(par1InventoryCrafting);
 			}
@@ -100,12 +80,14 @@ public class MHFCCraftingManager {
 		return null;
 	}
 
-	public List<IRecipe> getRecipeList() {
+	public Set<IRecipe> getRecipeList() {
 		return this.recipes;
 	}
 
 	public MHFCShapedRecipes addShapedRecipe(ItemStack par1ItemStack,
 			Object... par2ArrayOfObj) {
+
+		// TODO this should be moved into an constructor of shaped recipe
 		String var3 = "";
 		int var4 = 0;
 		int var5 = 0;
@@ -167,27 +149,22 @@ public class MHFCCraftingManager {
 	public void addShapelessRecipe(ItemStack par1ItemStack,
 			ItemStack... recipeStacks) {
 		List<ItemStack> var3 = new ArrayList<ItemStack>();
-		Object[] var4 = recipeStacks;
-		int var5 = recipeStacks.length;
+		var3.addAll(Arrays.asList(recipeStacks));
+		/*
+		 * Object[] var4 = recipeStacks; int var5 = recipeStacks.length;
+		 * 
+		 * for (int var6 = 0; var6 < var5; ++var6) { Object var7 = var4[var6];
+		 * 
+		 * if (var7 instanceof ItemStack) { var3.add(((ItemStack) var7).copy());
+		 * // FIXME downwards should be impossible to reach, why is it // here?
+		 * } else if (var7 instanceof Item) { var3.add(new ItemStack((Item)
+		 * var7)); } else { if (!(var7 instanceof Block)) { throw new
+		 * RuntimeException("Invalid shapeless recipe!"); }
+		 * 
+		 * var3.add(new ItemStack((Block) var7)); } }
+		 */
 
-		for (int var6 = 0; var6 < var5; ++var6) {
-			Object var7 = var4[var6];
-
-			if (var7 instanceof ItemStack) {
-				var3.add(((ItemStack) var7).copy());
-			} else if (var7 instanceof Item) {
-				var3.add(new ItemStack((Item) var7));
-			} else {
-				if (!(var7 instanceof Block)) {
-					throw new RuntimeException(
-							"Invalid shapeless recipe!");
-				}
-
-				var3.add(new ItemStack((Block) var7));
-			}
-		}
-
-		this.recipes.add(new MHFCShapelessRecipes(par1ItemStack, var3));
+		this.recipes.add(new MHFCShapelessRecipe(par1ItemStack, var3));
 	}
 
 }

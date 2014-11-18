@@ -7,6 +7,7 @@ import mhfc.net.common.entity.mob.EntityRathalos;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityTigrexBlock;
+import mhfc.net.common.entity.quests.EntityQuestGiver;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.Entity;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -30,6 +31,7 @@ public class MHFCRegEntity {
 		getMobID(EntityTigrex.class, MHFCReference.mob_tigrex_name);
 		getMobID(EntityKirin.class, MHFCReference.mob_kirin_name);
 		getMobID(EntityRathalos.class, MHFCReference.mob_rathalos_name);
+		getMobID(EntityQuestGiver.class, MHFCReference.mob_questGiver_name);
 	}
 
 	public static void registerOthers() {

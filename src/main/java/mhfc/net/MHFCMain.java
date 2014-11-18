@@ -1,6 +1,7 @@
 package mhfc.net;
 
 import mhfc.net.common.MHFCCommon;
+import mhfc.net.common.core.command.CommandMHFC;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.PacketAIAnim;
 import mhfc.net.common.network.packet.PacketAIKirin;
@@ -11,10 +12,12 @@ import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.creativetab.CreativeTabs;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
 /**
  * @author Heltrato, WorldSEnder
@@ -62,9 +65,15 @@ public class MHFCMain {
 		packetPipeline.postInitialize();
 	}
 
+	@EventHandler
+	public void serverLoad(FMLServerStartingEvent event) {
+		event.registerServerCommand(new CommandMHFC());
+	}
+
 	public static boolean isClient() {
 		return FMLCommonHandler.instance().getSide().isClient();
 	}
+
 	public static boolean isEffectiveClient() {
 		return FMLCommonHandler.instance().getEffectiveSide().isClient();
 	}

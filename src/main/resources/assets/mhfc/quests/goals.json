@@ -1,0 +1,18 @@
+{
+	Test : {
+		type : "hunting" ,
+		arguments : ["Pig", "3"]
+	},
+	StandardTimer : {
+		type : "time",
+		arguments : [3000]
+	},
+	StandardDeath : {
+		type : "death",
+		arguments : [2]
+	},
+	StandardFail : {
+		type : "fork",
+		dependencies : ["StandardDeath", "StandardTimer"]
+	}
+}

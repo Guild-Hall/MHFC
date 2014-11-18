@@ -1,0 +1,12 @@
+{
+	TestQuest : {
+		goal : {
+			type : "fork",
+			dependencies : ["StandardDeath", "StandardTimer", "Test"]
+		} ,
+		name : "Test Hunting",
+		reward : 5000,
+		fee : 200,
+		areaID : "TestArea"
+	}
+}

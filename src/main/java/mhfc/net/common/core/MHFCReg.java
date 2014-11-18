@@ -1,18 +1,24 @@
 package mhfc.net.common.core;
 
+import mhfc.net.MHFCMain;
+import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.core.registry.MHFCRegBlock;
 import mhfc.net.common.core.registry.MHFCRegCrafting;
+import mhfc.net.common.core.registry.MHFCRegCraftingHunter;
 import mhfc.net.common.core.registry.MHFCRegEntity;
+import mhfc.net.common.core.registry.MHFCRegEquipmentRecipe;
 import mhfc.net.common.core.registry.MHFCRegEvents;
 import mhfc.net.common.core.registry.MHFCRegItem;
 import mhfc.net.common.core.registry.MHFCRegPacket;
 import mhfc.net.common.core.registry.MHFCRegPotion;
+import mhfc.net.common.core.registry.MHFCRegQuests;
 import mhfc.net.common.core.registry.MHFCRegRenderEntity;
 import mhfc.net.common.core.registry.MHFCRegRenderID;
 import mhfc.net.common.core.registry.MHFCRegRenderItem;
 import mhfc.net.common.core.registry.MHFCRegRenderTile;
 import mhfc.net.common.core.registry.MHFCRegRenderWeapon;
 import mhfc.net.common.core.registry.MHFCRegSmelting;
+import mhfc.net.common.core.registry.MHFCRegStringDecode;
 import mhfc.net.common.core.registry.MHFCRegTile;
 
 public class MHFCReg {
@@ -28,7 +34,20 @@ public class MHFCReg {
 		addPotion();
 		addEvent();
 		addPacket();
+		addQuests();
+		addStringDecoders();
+		addCraftingRecipes();
+	}
 
+	public static void addCraftingRecipes() {
+		MHFCRegCraftingHunter.craftAll();
+		MHFCRegEquipmentRecipe.init();
+		System.out.println("[MHFC] Recipes are now inserted");
+	}
+
+	public static void addStringDecoders() {
+		MHFCRegStringDecode.init();
+		System.out.println("[MHFC] Client-Server string decoding initialize");
 	}
 
 	public static void addBlocks() {
@@ -79,10 +98,12 @@ public class MHFCReg {
 		MHFCRegPotion.init();
 		System.out.println("[MHFC] Potion is now initialize");
 	}
+
 	public static void addEvent() {
 		MHFCRegEvents.init();
 		System.out.println("[MHFC] Events are now initialize");
 	}
+
 	public static void addRenderTile() {
 		MHFCRegRenderTile.render();
 	}
@@ -105,6 +126,17 @@ public class MHFCReg {
 
 	public static void addRenderID() {
 		MHFCRegRenderID.renderID();
+	}
+
+	public static void addQuests() {
+		if (MHFCMain.isClient()) {
+			MHFCRegQuestVisual.init();
+			System.out.println("[MHFC] Quest Client is now initialized");
+		}
+		MHFCRegQuests.init();
+		System.out.println("[MHFC] Quest Server is now initialized");
+
+		System.out.println("[MHFC] Quests is now initialized");
 	}
 
 }
