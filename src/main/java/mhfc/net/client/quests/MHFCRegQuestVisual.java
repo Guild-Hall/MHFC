@@ -9,6 +9,7 @@ import mhfc.net.client.gui.quests.GuiQuestBoard;
 import mhfc.net.client.gui.quests.GuiQuestGiver;
 import mhfc.net.client.gui.quests.QuestStatusDisplay;
 import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestRunningSubscription;
 import mhfc.net.common.network.packet.MessageQuestScreenInit;
 import mhfc.net.common.network.packet.MessageQuestVisual;
@@ -23,7 +24,6 @@ import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -151,9 +151,6 @@ public class MHFCRegQuestVisual {
 	public static final String UNLOCALIZED_TAG_STATUS_SHORT = "mhfc.quests.visual.tag.statusshort";
 	public static final String UNLOCALIZED_TAG_STATUS_LONG = "mhfc.quests.visual.tag.statuslong";
 
-	// FIXME Fix to a non-random chosen discriminator
-	public static final int discriminator_initMessage = 128;
-	public static final int discriminator_visualMessage = 129;
 	public static final ResourceLocation QUEST_STATUS_INVENTORY_BACKGROUND = new ResourceLocation(
 			"textures/gui/demo_background.png");
 	public static final ResourceLocation QUEST_STATUS_ONSCREEN_BACKGROUND = new ResourceLocation(
@@ -173,7 +170,7 @@ public class MHFCRegQuestVisual {
 	private static QuestRunningInformation playersVisual;
 
 	// FIXME choose our mfhc network wrapper
-	private static SimpleNetworkWrapper networkWrapper = MHFCRegQuests.networkWrapper;
+	private static PacketPipeline pipeline = MHFCRegQuests.pipeline;
 
 	public static GuiQuestGiver getScreen(int i, EntityPlayer playerEntity) {
 		if (i < 0 || i >= groupIDToListMap.size())
@@ -198,7 +195,8 @@ public class MHFCRegQuestVisual {
 		if (identifierToVisualInformationMap.containsKey(identifier)) {
 			return identifierToVisualInformationMap.get(identifier);
 		}
-		networkWrapper.sendToServer(new MessageRequestQuestVisual(identifier));
+		pipeline.networkPipe.sendToServer(new MessageRequestQuestVisual(
+				identifier));
 		identifierToVisualInformationMap.put(identifier,
 				QuestVisualInformation.LOADING_REPLACEMENT);
 		return QuestVisualInformation.LOADING_REPLACEMENT;
@@ -211,7 +209,7 @@ public class MHFCRegQuestVisual {
 
 	public static void setAndSendRunningListenStatus(boolean newStatus,
 			EntityPlayer forPlayer) {
-		networkWrapper.sendToServer(new MessageQuestRunningSubscription(
+		pipeline.networkPipe.sendToServer(new MessageQuestRunningSubscription(
 				newStatus, forPlayer));
 		if (!newStatus) {
 			questBoard.clearList();
@@ -224,12 +222,10 @@ public class MHFCRegQuestVisual {
 
 	public static void init() {
 		display = new QuestStatusDisplay();
-		networkWrapper.registerMessage(QuestVisualInitHandler.class,
-				MessageQuestScreenInit.class, discriminator_initMessage,
-				Side.CLIENT);
-		networkWrapper.registerMessage(QuestScreenVisualHandler.class,
-				MessageQuestVisual.class, discriminator_visualMessage,
-				Side.CLIENT);
+		pipeline.registerPacket(QuestVisualInitHandler.class,
+				MessageQuestScreenInit.class, Side.CLIENT);
+		pipeline.registerPacket(QuestScreenVisualHandler.class,
+				MessageQuestVisual.class, Side.CLIENT);
 		MinecraftForge.EVENT_BUS.register(display);
 
 	}

@@ -62,7 +62,7 @@ public class GuiQuestBoard extends GuiScreen {
 						runningQuestList.setVisible(false);
 						if (questID == null)
 							return true;
-						MHFCRegQuests.networkWrapper
+						MHFCRegQuests.pipeline.networkPipe
 								.sendToServer(new MessageQuestInteraction(
 										Interaction.ACCEPT,
 										GuiQuestBoard.this.accessor, questID));
@@ -80,7 +80,7 @@ public class GuiQuestBoard extends GuiScreen {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					clickHandled = true;
 					runningQuestList.setVisible(true);
-					MHFCRegQuests.networkWrapper
+					MHFCRegQuests.pipeline.networkPipe
 							.sendToServer(new MessageQuestInteraction(
 									Interaction.GIVE_UP,
 									GuiQuestBoard.this.accessor, new String[0]));
@@ -96,7 +96,7 @@ public class GuiQuestBoard extends GuiScreen {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					clickHandled = true;
 					runningQuestList.setVisible(true);
-					MHFCRegQuests.networkWrapper
+					MHFCRegQuests.pipeline.networkPipe
 							.sendToServer(new MessageQuestInteraction(
 									Interaction.VOTE_START,
 									GuiQuestBoard.this.accessor, new String[0]));

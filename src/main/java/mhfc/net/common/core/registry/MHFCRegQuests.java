@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import mhfc.net.MHFCMain;
+import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestInteraction;
 import mhfc.net.common.network.packet.MessageQuestRunningSubscription;
 import mhfc.net.common.network.packet.MessageQuestScreenInit;
@@ -49,7 +51,6 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 
 /**
@@ -274,7 +275,7 @@ public class MHFCRegQuests {
 					MessageQuestVisual messageSent = new MessageQuestVisual(
 							identifier, q.getRunningInformation());
 					messageSent.setTypeID(2);
-					networkWrapper.sendTo(messageSent, player);
+					pipeline.networkPipe.sendTo(messageSent, player);
 				}
 			} else {
 				subscribers.remove(message.getPlayer());
@@ -285,7 +286,7 @@ public class MHFCRegQuests {
 		public static void sendToAll(MessageQuestVisual visual) {
 			Iterator<EntityPlayerMP> iter = subscribers.iterator();
 			while (iter.hasNext()) {
-				networkWrapper.sendTo(visual, iter.next());
+				pipeline.networkPipe.sendTo(visual, iter.next());
 			}
 		}
 	}
@@ -323,7 +324,7 @@ public class MHFCRegQuests {
 									"You already are on quest "
 											+ getIdentifierForQuest(quest)));
 							String id = getIdentifierForQuest(quest);
-							MHFCRegQuests.networkWrapper
+							pipeline.networkPipe
 									.sendTo(new<QuestRunningInformation> MessageQuestVisual(
 											id, quest.getRunningInformation()),
 											player);
@@ -344,8 +345,8 @@ public class MHFCRegQuests {
 						if (quest != null) {
 							quest.voteEnd(player);
 						} else {
-							networkWrapper.sendTo(new MessageQuestVisual("",
-									null), player);
+							pipeline.networkPipe.sendTo(new MessageQuestVisual(
+									"", null), player);
 						}
 						break;
 					case GIVE_UP :
@@ -353,8 +354,8 @@ public class MHFCRegQuests {
 						if (quest != null) {
 							quest.removePlayer(player);
 						} else {
-							networkWrapper.sendTo(new MessageQuestVisual("",
-									null), player);
+							pipeline.networkPipe.sendTo(new MessageQuestVisual(
+									"", null), player);
 						}
 						break;
 					case MOD_RELOAD :
@@ -372,9 +373,8 @@ public class MHFCRegQuests {
 
 		@SubscribeEvent
 		public void onPlayerJoin(PlayerLoggedInEvent logIn) {
-			// FIXME use a logger
-			networkWrapper.sendTo(new MessageQuestScreenInit(groupMapping,
-					groupIDs), (EntityPlayerMP) logIn.player);
+			pipeline.networkPipe.sendTo(new MessageQuestScreenInit(
+					groupMapping, groupIDs), (EntityPlayerMP) logIn.player);
 		}
 
 		@SubscribeEvent
@@ -499,24 +499,16 @@ public class MHFCRegQuests {
 	public static final String QUEST_TYPE_EPIC_HUNTING = "mhfc.quests.type.epichunting";
 	public static final String QUEST_TYPE_KILLING = "mhfc.quests.type.killing";
 
-	// FIXME use our MHFC wide networkWrapper
-	public static final SimpleNetworkWrapper networkWrapper = new SimpleNetworkWrapper(
-			"MHFC:Quests");
-	public static final int discriminator_visualRequestAnswer = 130;
-	private static final int discriminator_interaction = 131;
-	public static final int discriminator_running_quest_subscription = 132;
+	public static final PacketPipeline pipeline = MHFCMain.packetPipeline;
 
 	public static void init() {
 		loadQuests();
-		networkWrapper.registerMessage(RegistryRequestVisualHandler.class,
-				MessageRequestQuestVisual.class,
-				discriminator_visualRequestAnswer, Side.SERVER);
-		networkWrapper.registerMessage(PlayerQuestInteractionHandler.class,
-				MessageQuestInteraction.class, discriminator_interaction,
-				Side.SERVER);
-		networkWrapper.registerMessage(RunningSubscriptionHandler.class,
-				MessageQuestRunningSubscription.class,
-				discriminator_running_quest_subscription, Side.SERVER);
+		pipeline.registerPacket(RegistryRequestVisualHandler.class,
+				MessageRequestQuestVisual.class, Side.SERVER);
+		pipeline.registerPacket(PlayerQuestInteractionHandler.class,
+				MessageQuestInteraction.class, Side.SERVER);
+		pipeline.registerPacket(RunningSubscriptionHandler.class,
+				MessageQuestRunningSubscription.class, Side.SERVER);
 		FMLCommonHandler.instance().bus()
 				.register(new PlayerConnectionHandler());
 	}

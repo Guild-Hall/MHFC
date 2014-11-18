@@ -34,7 +34,7 @@ dependencies {
     // initGitDependencies    -> clones locally = checkout
     // refreshGitDependencies -> refresh        = pull
 
-    compile files('./externlibs/mcanm-0.0.101a_1710.jar')
+    compile files('./externlibs/mcanm-0.0.111a_1710-deobf.jar')
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"

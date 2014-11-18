@@ -280,13 +280,12 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	}
 
 	private void sendBeginCraft() {
-		MHFCRegQuests.networkWrapper
-				.sendToServer(new MessageTileLocation.BeginCraftingMessage(
-						this));
+		MHFCRegQuests.pipeline.networkPipe
+				.sendToServer(new MessageTileLocation.BeginCraftingMessage(this));
 	}
 
 	private void sendSetRecipe(EquipmentRecipe recipeToSend) {
-		MHFCRegQuests.networkWrapper
+		MHFCRegQuests.pipeline.networkPipe
 				.sendToServer(new MessageTileLocation.SetRecipeMessage(this,
 						recipeToSend));
 	}

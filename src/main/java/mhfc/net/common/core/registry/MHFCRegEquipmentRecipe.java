@@ -29,7 +29,8 @@ public class MHFCRegEquipmentRecipe {
 			implements
 				IMessageHandler<MessageTileLocation.SetRecipeMessage, IMessage> {
 		@Override
-		public IMessage onMessage(MessageTileLocation.SetRecipeMessage message, MessageContext ctx) {
+		public IMessage onMessage(MessageTileLocation.SetRecipeMessage message,
+				MessageContext ctx) {
 			TileHunterBench b = getHunterBench(message);
 			EquipmentRecipe rec = getRecipeFor(message.getRecipeID(),
 					message.getTypeID());
@@ -42,7 +43,8 @@ public class MHFCRegEquipmentRecipe {
 			implements
 				IMessageHandler<MessageTileLocation.BeginCraftingMessage, IMessage> {
 		@Override
-		public IMessage onMessage(MessageTileLocation.BeginCraftingMessage message,
+		public IMessage onMessage(
+				MessageTileLocation.BeginCraftingMessage message,
 				MessageContext ctx) {
 			TileHunterBench b = getHunterBench(message);
 			b.beginCrafting();
@@ -104,12 +106,10 @@ public class MHFCRegEquipmentRecipe {
 		}
 		new EquipmentRecipe(new ItemStack(MHFCRegItem.mhfcitemkirinhelm),
 				listReq, 200, 600);
-		// FIXME mod wide wrapper
-		MHFCRegQuests.networkWrapper.registerMessage(
-				BeginCraftingHandler.class, MessageTileLocation.BeginCraftingMessage.class,
-				DISCRIMINATOR_BEGIN_CRAFTING, Side.SERVER);
-		MHFCRegQuests.networkWrapper.registerMessage(SetRecipeHandler.class,
-				MessageTileLocation.SetRecipeMessage.class, DISCRIMINATOR_SET_RECIPE, Side.SERVER);
+		MHFCRegQuests.pipeline.registerPacket(BeginCraftingHandler.class,
+				MessageTileLocation.BeginCraftingMessage.class, Side.SERVER);
+		MHFCRegQuests.pipeline.registerPacket(SetRecipeHandler.class,
+				MessageTileLocation.SetRecipeMessage.class, Side.SERVER);
 	}
 
 	public static int getType(EquipmentRecipe recipe) {

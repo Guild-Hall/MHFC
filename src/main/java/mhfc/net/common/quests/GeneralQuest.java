@@ -120,7 +120,7 @@ public class GeneralQuest implements QuestGoalSocket {
 		for (int i = 0; i < playerCount; i++) {
 			EntityPlayer p = players[i];
 			String id = MHFCRegQuests.getIdentifierForQuest(this);
-			MHFCRegQuests.networkWrapper.sendTo(
+			MHFCRegQuests.pipeline.networkPipe.sendTo(
 					new<QuestRunningInformation> MessageQuestVisual(id,
 							visualInformation), (EntityPlayerMP) p);
 
@@ -177,7 +177,7 @@ public class GeneralQuest implements QuestGoalSocket {
 	protected void removePlayer(int index) {
 		if (index < 0 || index >= playerCount)
 			return;
-		MHFCRegQuests.networkWrapper.sendTo(
+		MHFCRegQuests.pipeline.networkPipe.sendTo(
 				new<QuestRunningInformation> MessageQuestVisual("", null),
 				(EntityPlayerMP) players[index]);
 		MHFCRegQuests.setQuestForPlayer(players[index], null);

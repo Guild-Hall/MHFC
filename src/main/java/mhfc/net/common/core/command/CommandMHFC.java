@@ -68,7 +68,7 @@ public class CommandMHFC implements ICommand {
 				default :
 					return;
 			}
-			MHFCRegQuests.networkWrapper
+			MHFCRegQuests.pipeline.networkPipe
 					.sendToServer(new MessageQuestInteraction(action,
 							(EntityPlayer) sender, Arrays.copyOfRange(
 									parameters, 1, parameters.length)));
