@@ -33,10 +33,6 @@ public class GuiQuestBoard extends GuiScreen {
 		this.accessor = accessor;
 		this.xSize = 320;
 		this.ySize = 220;
-		ScaledResolution s = new ScaledResolution(mc, mc.displayWidth,
-				mc.displayHeight);
-		xPos = (s.getScaledWidth() - xSize) / 2;
-		yPos = (s.getScaledHeight() - ySize) / 2;
 		runningQuestList = new ClickableGuiList<GuiListStringItem>(width,
 				height);
 		runningQuestList.setDrawSmallestBounds(false);
@@ -194,6 +190,10 @@ public class GuiQuestBoard extends GuiScreen {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui() {
+		ScaledResolution s = new ScaledResolution(mc, mc.displayWidth,
+				mc.displayHeight);
+		xPos = (s.getScaledWidth() - xSize) / 2;
+		yPos = (s.getScaledHeight() - ySize) / 2;
 		super.initGui();
 		buttonList.add(joinQuest);
 		buttonList.add(cancelQuest);

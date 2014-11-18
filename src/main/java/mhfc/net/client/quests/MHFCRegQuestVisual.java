@@ -169,7 +169,6 @@ public class MHFCRegQuestVisual {
 	private static boolean hasPlayerQuest = false;
 	private static QuestRunningInformation playersVisual;
 
-	// FIXME choose our mfhc network wrapper
 	private static PacketPipeline pipeline = MHFCRegQuests.pipeline;
 
 	public static GuiQuestGiver getScreen(int i, EntityPlayer playerEntity) {
