@@ -199,6 +199,7 @@ public class MHFCRegStringDecode {
 		@Override
 		public String stringValue() {
 			if (stringValue == null)
+				// FIXME Log in error instead
 				System.out.println("WTF I am bad");
 			return stringValue;
 		}

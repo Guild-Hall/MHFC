@@ -188,7 +188,6 @@ public class QuestFactory {
 	 */
 	public static GeneralQuest constructQuest(QuestDescription qd,
 			EntityPlayer initiator, String assignedID) {
-		System.out.println(assignedID);
 		if (qd == null || !questFactoryMap.containsKey(qd.getFactory()))
 			return null;
 		IQuestFactory factory = questFactoryMap.get(qd.getFactory());
@@ -217,6 +216,7 @@ public class QuestFactory {
 	 */
 //@formatter:on
 
+	// FIXME log instead of print, even if it doesnt happen
 	public static QuestGoal constructGoal(GoalDescription gd) {
 		if (gd == null || !goalFactoryMap.containsKey(gd.getGoalType())) {
 			System.out.println("Description null or type not registered");

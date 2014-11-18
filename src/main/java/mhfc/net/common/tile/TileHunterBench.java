@@ -84,8 +84,6 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	}
 
 	private void finishRecipe() {
-		System.out.println("Finished working at "
-				+ Thread.currentThread().getName());
 		System.out.println(worldObj);
 		inputStacks = new ItemStack[inputStacks.length];
 		outputStack = resultStack;

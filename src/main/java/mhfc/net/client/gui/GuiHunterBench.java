@@ -368,7 +368,6 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(
 				itemToRender, ENTITY);
 		if (customRenderer == null) {
-			System.out.println("no renderer");
 			return;
 		}
 		customRenderer.renderItem(ItemRenderType.ENTITY, itemToRender, null,

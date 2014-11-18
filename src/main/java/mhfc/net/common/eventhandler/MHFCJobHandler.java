@@ -175,7 +175,6 @@ public class MHFCJobHandler {
 	@SubscribeEvent
 	public void receiveTick(ServerTickEvent tick) {
 		if (!MHFCMain.isClient()) {
-			System.out.println("Got tick on server");
 			startOfList = startOfList.tick();
 		}
 	}

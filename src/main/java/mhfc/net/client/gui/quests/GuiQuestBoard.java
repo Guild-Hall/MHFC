@@ -209,7 +209,6 @@ public class GuiQuestBoard extends GuiScreen {
 	}
 
 	public void addQuest(String id, QuestRunningInformation info) {
-		System.out.println(info + " " + info.getName() + "@" + id);
 		GuiListStringItem item = new GuiListStringItem(info.getName());
 		if (!mapToListItems.containsKey(id) && item != null) {
 			mapToListItems.put(id, item);

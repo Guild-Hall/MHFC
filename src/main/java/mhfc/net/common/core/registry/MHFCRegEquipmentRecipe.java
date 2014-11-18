@@ -63,15 +63,11 @@ public class MHFCRegEquipmentRecipe {
 		TileEntity bench = world.getTileEntity(message.getX(), message.getY(),
 				message.getZ());
 		if (!(bench instanceof TileHunterBench)) {
-			System.out.println("No hunter bench on server");
+			// FIXME we shoud definitely log here
 			return null;
 		}
 		return (TileHunterBench) bench;
 	}
-
-	// FIXME mod wide discriminators
-	private static int DISCRIMINATOR_BEGIN_CRAFTING = 120;
-	private static int DISCRIMINATOR_SET_RECIPE = 121;
 
 	public static int TYPE_ARMOR_HEAD = 0;
 	public static int TYPE_ARMOR_BODY = 1;
