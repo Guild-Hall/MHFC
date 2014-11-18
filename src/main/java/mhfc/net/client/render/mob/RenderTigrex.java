@@ -17,9 +17,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderTigrex extends RenderLiving {
 	private float scale;
-	protected ModelTigrex mainModel;
-
-	public RenderTigrex(ModelBase par1ModelBase, float par2, float par3) {
+	private static final ResourceLocation texture = new ResourceLocation(
+			"mhfc:textures/mobs/tigrex.png");
+	
+	public RenderTigrex(ModelTigrex par1ModelBase, float par2, float par3) {
 		super(par1ModelBase, par2 * par3);
 		this.scale = par3;
 	}
@@ -37,13 +38,12 @@ public class RenderTigrex extends RenderLiving {
 
 	/**
 	 * Allows the render to do any OpenGL state modifications necessary before
-	 * the model is rendered. Args:
-	 * entityLiving, partialTickTime
+	 * the model is rendered. Args: entityLiving, partialTickTime
 	 */
 	@Override
 	protected void preRenderCallback(EntityLivingBase par1EntityLivingBase,
 			float partialTick) {
-		this.mainModel.setPartialTick(partialTick);
+		((ModelTigrex) this.mainModel).setPartialTick(partialTick);
 	}
 
 	@Override

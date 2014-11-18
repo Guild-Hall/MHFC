@@ -1,12 +1,12 @@
 package mhfc.net.common.ai;
 
 import mhfc.net.common.implement.iMHFC;
-import mhfc.net.common.network.packet.PacketAISetter;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
 
-public abstract class AIAnimation<T extends EntityLiving & iMHFC> extends
-		EntityAIBase {
+public abstract class AIAnimation<T extends EntityLiving & iMHFC>
+		extends
+			EntityAIBase {
 	private T animatedEntity;
 
 	public AIAnimation(T mob) {
@@ -30,14 +30,15 @@ public abstract class AIAnimation<T extends EntityLiving & iMHFC> extends
 
 	@Override
 	public boolean shouldExecute() {
-		if (isAutomatic()) return animatedEntity.getAnimID() == getAnimID();
+		if (isAutomatic())
+			return animatedEntity.getAnimID() == getAnimID();
 		return shouldAnimate();
 	}
 
 	@Override
 	public void startExecuting() {
-		if (!isAutomatic())
-			PacketAISetter.sendAnimPacket(animatedEntity, getAnimID());
+		// if (!isAutomatic())
+		// PacketAISetter.sendAnimPacket(animatedEntity, getAnimID());
 		animatedEntity.setAnimTick(0);
 	}
 
@@ -48,6 +49,6 @@ public abstract class AIAnimation<T extends EntityLiving & iMHFC> extends
 
 	@Override
 	public void resetTask() {
-		PacketAISetter.sendAnimPacket(animatedEntity, 0);
+		// PacketAISetter.sendAnimPacket(animatedEntity, 0);
 	}
 }

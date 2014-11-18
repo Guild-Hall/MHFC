@@ -2,6 +2,7 @@
 *
 !src/
 !gradle/
+!libs/
 !gradlew
 !gradlew.bat
 !README.md

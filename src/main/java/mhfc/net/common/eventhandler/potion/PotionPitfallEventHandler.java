@@ -1,6 +1,7 @@
 package mhfc.net.common.eventhandler.potion;
 
 import mhfc.net.common.core.registry.MHFCRegPotion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -11,13 +12,14 @@ public class PotionPitfallEventHandler {
 	@SubscribeEvent
 	public void onEntityUpdate(LivingUpdateEvent event) {
 
-		if (event.entityLiving
-				.getActivePotionEffect(MHFCRegPotion.mhfcpotionshock) != null
-				&& event.entityLiving.getActivePotionEffect(
-						MHFCRegPotion.mhfcpotionshock).getDuration() == 0) {
+		if (event == null || event.entityLiving == null) {
+			return;
+		}
+		PotionEffect activeEffect = event.entityLiving
+				.getActivePotionEffect(MHFCRegPotion.mhfcpotionshock);
+		if (activeEffect != null && activeEffect.getDuration() == 0) {
 			event.entityLiving
 					.removePotionEffect(MHFCRegPotion.mhfcpotionshock.id);
-			return;
 		}
 
 	}

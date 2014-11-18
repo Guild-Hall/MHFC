@@ -21,9 +21,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderKirin extends RenderLiving {
 	private float scale;
-	protected ModelKirin mainModel;
+	private static final ResourceLocation texture = new ResourceLocation(
+			"mhfc:textures/mobs/kirin.png");
 
-	public RenderKirin(ModelBase par1ModelBase, float par2, float par3) {
+	public RenderKirin(ModelKirin par1ModelBase, float par2, float par3) {
 		super(par1ModelBase, par2 * par3);
 		this.scale = par3;
 	}
@@ -41,13 +42,12 @@ public class RenderKirin extends RenderLiving {
 
 	/**
 	 * Allows the render to do any OpenGL state modifications necessary before
-	 * the model is rendered. Args:
-	 * entityLiving, partialTickTime
+	 * the model is rendered. Args: entityLiving, partialTickTime
 	 */
 	@Override
 	protected void preRenderCallback(EntityLivingBase par1EntityLivingBase,
 			float partialTickTime) {
-		this.mainModel.setPartialTick(partialTickTime);
+		((ModelKirin) this.mainModel).setPartialTick(partialTickTime);
 	}
 
 	@Override

@@ -3,12 +3,16 @@ package mhfc.net.common.entity.type;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimatedObject;
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
+import com.google.common.base.Predicate;
 
 /**
  * This class should provide a good base to code off. As almost every entity in
@@ -19,12 +23,21 @@ import net.minecraft.world.World;
  * @author WorldSEnder
  *
  */
-public abstract class EntityMHFCBase extends EntityCreature
+public abstract class EntityMHFCBase extends EntityLiving
 		implements
-			IEntityMultiPart {
+			IEntityMultiPart,
+			IAnimatedObject {
 
 	public EntityMHFCBase(World world) {
 		super(world);
+		this.boundingBox.setBounds(-0.5f, 0, -0.5f, 0.5f, 1f, 0.5f);
+	}
+
+	@Override
+	public void setLocationAndAngles(double posX, double posY, double posZ,
+			float yaw, float pitch) {
+		this.setPosition(posX, posY, posZ);
+		this.setRotation(yaw, pitch);
 	}
 
 	/**
@@ -45,7 +58,12 @@ public abstract class EntityMHFCBase extends EntityCreature
 	protected void setRotation(float newYaw, float newPitch) {
 		float diffYawDeg = newYaw - this.rotationYaw;
 		double diffYawRad = diffYawDeg / 180D;
-		for (EntityMHFCPart part : this.getParts()) {
+		this.rotationYaw = newYaw % 360.0F;
+		this.rotationPitch = newPitch % 360.0F;
+		EntityMHFCPart[] parts = this.getParts();
+		if (parts == null)
+			return;
+		for (EntityMHFCPart part : parts) {
 			double offXPart = part.posX - this.posX;
 			double offZPart = part.posZ - this.posZ;
 			part.posX = this.posX
@@ -55,8 +73,6 @@ public abstract class EntityMHFCBase extends EntityCreature
 					+ (Math.sin(diffYawRad) * offXPart + Math.cos(diffYawRad)
 							* offZPart);
 		}
-		this.rotationYaw = newYaw % 360.0F;
-		this.rotationPitch = newPitch % 360.0F;
 	}
 
 	/**
@@ -94,6 +110,8 @@ public abstract class EntityMHFCBase extends EntityCreature
 			double correctedOffY = currOffY;
 			double correctedOffZ = currOffZ;
 			EntityMHFCPart[] parts = this.getParts();
+			if (parts == null)
+				parts = new EntityMHFCPart[0];
 
 			@SuppressWarnings("unchecked")
 			List<AxisAlignedBB> bbsInWay = this.worldObj
@@ -110,17 +128,18 @@ public abstract class EntityMHFCBase extends EntityCreature
 				currOffZ = bb.calculateZOffset(this.boundingBox, currOffZ);
 			}
 			for (EntityMHFCPart part : parts) {
-				bbsInWay = this.worldObj
+				@SuppressWarnings("unchecked")
+				List<AxisAlignedBB> bbsInWayPart = this.worldObj
 						.getCollidingBoundingBoxes(this, part.boundingBox
 								.addCoord(currOffX, currOffY, currOffZ));
 				// Calculates the smallest possible offset in Y direction
-				for (AxisAlignedBB bb : bbsInWay) {
+				for (AxisAlignedBB bb : bbsInWayPart) {
 					currOffY = bb.calculateYOffset(part.boundingBox, currOffY);
 				}
-				for (AxisAlignedBB bb : bbsInWay) {
+				for (AxisAlignedBB bb : bbsInWayPart) {
 					currOffX = bb.calculateXOffset(part.boundingBox, currOffX);
 				}
-				for (AxisAlignedBB bb : bbsInWay) {
+				for (AxisAlignedBB bb : bbsInWayPart) {
 					currOffZ = bb.calculateZOffset(part.boundingBox, currOffZ);
 				}
 			}
@@ -138,49 +157,53 @@ public abstract class EntityMHFCBase extends EntityCreature
 				currOffY = this.stepHeight;
 				currOffZ = correctedOffZ;
 
-				bbsInWay = this.worldObj.getCollidingBoundingBoxes(this,
-						this.boundingBox.addCoord(correctedOffX, currOffY,
-								correctedOffZ));
+				@SuppressWarnings("unchecked")
+				List<AxisAlignedBB> bbsInStepup = this.worldObj
+						.getCollidingBoundingBoxes(this, this.boundingBox
+								.addCoord(correctedOffX, currOffY,
+										correctedOffZ));
 
-				for (AxisAlignedBB bb : bbsInWay) {
+				for (AxisAlignedBB bb : bbsInStepup) {
 					currOffY = bb.calculateYOffset(this.boundingBox, currOffY);
 				}
-				for (AxisAlignedBB bb : bbsInWay) {
+				for (AxisAlignedBB bb : bbsInStepup) {
 					currOffX = bb.calculateXOffset(this.boundingBox, currOffX);
 				}
-				for (AxisAlignedBB bb : bbsInWay) {
+				for (AxisAlignedBB bb : bbsInStepup) {
 					currOffZ = bb.calculateZOffset(this.boundingBox, currOffZ);
 				}
 				for (EntityMHFCPart part : parts) {
-					bbsInWay = this.worldObj.getCollidingBoundingBoxes(this,
-							part.boundingBox.addCoord(currOffX, currOffY,
-									currOffZ));
-					for (AxisAlignedBB bb : bbsInWay) {
+					@SuppressWarnings("unchecked")
+					List<AxisAlignedBB> bbsInStepupPart = this.worldObj
+							.getCollidingBoundingBoxes(this, part.boundingBox
+									.addCoord(currOffX, currOffY, currOffZ));
+					for (AxisAlignedBB bb : bbsInStepupPart) {
 						currOffY = bb.calculateYOffset(part.boundingBox,
 								currOffY);
 					}
-					for (AxisAlignedBB bb : bbsInWay) {
+					for (AxisAlignedBB bb : bbsInStepupPart) {
 						currOffX = bb.calculateXOffset(part.boundingBox,
 								currOffX);
 					}
-					for (AxisAlignedBB bb : bbsInWay) {
+					for (AxisAlignedBB bb : bbsInStepupPart) {
 						currOffZ = bb.calculateZOffset(part.boundingBox,
 								currOffZ);
 					}
 				}
 
 				double groundOffY = (-this.stepHeight);
-				for (AxisAlignedBB bb : bbsInWay) {
+				for (AxisAlignedBB bb : bbsInStepup) {
 					groundOffY = bb.calculateYOffset(
 							this.boundingBox.getOffsetBoundingBox(currOffX,
 									currOffY, currOffZ), groundOffY);
 				}
 				for (EntityMHFCPart part : parts) {
-					bbsInWay = this.worldObj.getCollidingBoundingBoxes(this,
-							part.boundingBox.addCoord(currOffX, currOffY,
-									currOffZ));
+					@SuppressWarnings("unchecked")
+					List<AxisAlignedBB> bbsInStepDown = this.worldObj
+							.getCollidingBoundingBoxes(this, part.boundingBox
+									.addCoord(currOffX, currOffY, currOffZ));
 					// Calculates the smallest possible offset in Y direction
-					for (AxisAlignedBB bb : bbsInWay) {
+					for (AxisAlignedBB bb : bbsInStepDown) {
 						currOffY = bb.calculateYOffset(part.boundingBox,
 								currOffY);
 					}
@@ -201,7 +224,6 @@ public abstract class EntityMHFCBase extends EntityCreature
 			double originalY = this.posY;
 			double originalZ = this.posZ;
 			AxisAlignedBB originalBB = this.boundingBox.copy();
-			// TODO take subentities into account
 			// Handle things like fire, movesounds, etc
 			super.moveEntity(originalOffX, originalOffY, originalOffZ);
 			// Pop the state
@@ -223,7 +245,10 @@ public abstract class EntityMHFCBase extends EntityCreature
 		this.posX += offX;
 		this.posY += offY;
 		this.posZ += offZ;
-		for (EntityMHFCPart part : this.getParts()) {
+		EntityMHFCPart[] parts = this.getParts();
+		if (parts == null)
+			return;
+		for (EntityMHFCPart part : parts) {
 			part.offsetEntity(offX, offY, offZ);
 		}
 	}
@@ -241,5 +266,25 @@ public abstract class EntityMHFCBase extends EntityCreature
 			DamageSource damageSource, float damageValue) {
 		// TODO handle attacked from
 		return false;
+	}
+	/**
+	 * This implementation just forwards the call to the predicate of the
+	 * currently executed animation.
+	 */
+	@Override
+	public Predicate<String> getPartPredicate(float subFrame) {
+		return IAnimatedObject.RENDER_ALL;
+	}
+
+	@Override
+	public IAnimation getCurrentAnimation() {
+		// TODO: get this from the AI
+		return null;
+	}
+
+	@Override
+	public int getCurrentFrame() {
+		// TODO: get this from the AI
+		return 0;
 	}
 }

@@ -1,5 +1,6 @@
 package mhfc.net.common.core.registry;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.client.model.mob.ModelPopo;
 import mhfc.net.client.model.mob.boss.ModelKirin;
 import mhfc.net.client.model.mob.boss.ModelRathalos;
@@ -16,13 +17,37 @@ import mhfc.net.common.entity.mob.EntityRathalos;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityTigrexBlock;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.IReloadableResourceManager;
+import net.minecraft.client.resources.IResourceManager;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+
+import com.github.worldsender.mcanm.client.model.mhfcmodel.MCMDModelLoader;
+import com.github.worldsender.mcanm.client.model.mhfcmodel.ModelRegistry;
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.stored.AnimationRegistry;
+
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class MHFCRegRenderEntity {
 
 	public static void render() {
+		AdvancedModelLoader.registerModelHandler(MCMDModelLoader.instance);
+		registerResourcePackListeners();
 		renderMonster();
 		renderBlockEntities();
+	}
+
+	public static void registerResourcePackListeners() {
+		IResourceManager resManager = Minecraft.getMinecraft()
+				.getResourceManager();
+		if (resManager instanceof IReloadableResourceManager) {
+			IReloadableResourceManager registry = (IReloadableResourceManager) resManager;
+			registry.registerReloadListener(AnimationRegistry.instance);
+			registry.registerReloadListener(ModelRegistry.instance);
+		} else {
+			MHFCMain.logger
+					.warn("Couldn't register reload managers. Models will not be reloaded on switching texture pack");
+		}
 
 	}
 
@@ -36,7 +61,6 @@ public class MHFCRegRenderEntity {
 		RenderingRegistry.registerEntityRenderingHandler(EntityPopo.class,
 				new RenderPopo(new ModelPopo(), 1f, 1.4f));
 	}
-
 	public static void renderBlockEntities() {
 		RenderingRegistry.registerEntityRenderingHandler(
 				EntityTigrexBlock.class, new RenderTigrexBlock());

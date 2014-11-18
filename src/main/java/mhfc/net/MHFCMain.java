@@ -3,13 +3,12 @@ package mhfc.net;
 import mhfc.net.common.MHFCCommon;
 import mhfc.net.common.core.command.CommandMHFC;
 import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.packet.PacketAIAnim;
-import mhfc.net.common.network.packet.PacketAIKirin;
-import mhfc.net.common.network.packet.PacketAIRathalos;
-import mhfc.net.common.network.packet.PacketAITigrex;
 import mhfc.net.common.tab.MHFCTab;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.creativetab.CreativeTabs;
+
+import org.apache.logging.log4j.Logger;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -37,22 +36,19 @@ public class MHFCMain {
 	@Mod.Instance("mhfc")
 	public static MHFCMain instance;
 
+	public static Logger logger;
 	public static final PacketPipeline packetPipeline = new PacketPipeline();
 	public static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID());
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent pre) {
 		// MHFCConfig.init(pre);
+		logger = pre.getModLog();
 		pre.getModMetadata().logoFile = MHFCReference.main_logo;
 	}
 
 	@Mod.EventHandler
 	public void load(FMLInitializationEvent event) {
-		packetPipeline.initialize();
-		packetPipeline.registerPacket(PacketAITigrex.class);
-		packetPipeline.registerPacket(PacketAIAnim.class);
-		packetPipeline.registerPacket(PacketAIKirin.class);
-		packetPipeline.registerPacket(PacketAIRathalos.class);
 		proxy.regSounds();
 		proxy.regStuff();
 		proxy.regTimer();
@@ -62,7 +58,6 @@ public class MHFCMain {
 
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent e) {
-		packetPipeline.postInitialize();
 	}
 
 	@EventHandler
@@ -71,9 +66,10 @@ public class MHFCMain {
 	}
 
 	public static boolean isClient() {
-		return FMLCommonHandler.instance().getSide().isClient();
+		return proxy.isClient();
 	}
 
+	@Deprecated
 	public static boolean isEffectiveClient() {
 		return FMLCommonHandler.instance().getEffectiveSide().isClient();
 	}

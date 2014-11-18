@@ -9,7 +9,6 @@ import mhfc.net.common.ai.kirin.AIKirinJump;
 import mhfc.net.common.core.registry.MHFCRegItem;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import mhfc.net.common.implement.iMHFC;
-import mhfc.net.common.network.packet.PacketAIKirin;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -113,7 +112,8 @@ public class EntityKirin extends EntityWyvernHostile implements iMHFC {
 		if (MHFCMain.isEffectiveClient())
 			return;
 		this.currentAttackID = id;
-		MHFCMain.packetPipeline.sendToAll(new PacketAIKirin((byte) id, this));
+		// MHFCMain.packetPipeline.sendToAll(new PacketAIKirin((byte) id,
+		// this));
 	}
 
 	@Override

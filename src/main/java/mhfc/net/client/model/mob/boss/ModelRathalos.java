@@ -12,7 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelRathalos extends PartTickModelBase {
-	public static final float PI = 3.141593F;
+	public static final float PI = (float) Math.PI;
 	private MHFCAnimator animator;
 	ModelRenderer rightrightfinger;
 	ModelRenderer lefthint;
