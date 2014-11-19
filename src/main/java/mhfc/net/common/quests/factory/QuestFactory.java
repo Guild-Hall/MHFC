@@ -3,6 +3,7 @@ package mhfc.net.common.quests.factory;
 import java.util.HashMap;
 import java.util.Map;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCRegQuests;
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.goals.ChainQuestGoal;
@@ -218,20 +219,19 @@ public class QuestFactory {
 	 */
 //@formatter:on
 
-	// FIXME log instead of print, even if it doesnt happen
 	public static QuestGoal constructGoal(GoalDescription gd) {
 		if (gd == null || !goalFactoryMap.containsKey(gd.getGoalType())) {
-			System.out.println("Description null or type not registered");
+			MHFCMain.logger.error("Description null or type not registered");
 			return null;
 		}
 		IGoalFactory factory = goalFactoryMap.get(gd.getGoalType());
 		if (factory == null) {
-			System.out.println("Factory was null");
+			MHFCMain.logger.error("Factory was null");
 			return null;
 		}
 		QuestGoal goal = factory.buildQuestGoal(gd);
 		if (goal == null)
-			System.out.println("Goal was null");
+			MHFCMain.logger.warn("Goal was null");
 		return goal;
 	}
 }

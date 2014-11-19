@@ -17,7 +17,6 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 
 public class MHFCCraftingManager {
-	// TODO: beautify this, is an akward method to add recipes
 	private static final MHFCCraftingManager instance = new MHFCCraftingManager();
 
 	private Set<IRecipe> recipes;
@@ -32,6 +31,8 @@ public class MHFCCraftingManager {
 
 	}
 
+	// TODO: beautify this, is an akward method to add recipes
+	// TODO rework this, pls, separation of concerns
 	public ItemStack findMatchingRecipe(
 			InventoryCrafting par1InventoryCrafting, World par2World) {
 		int var3 = 0;
@@ -150,20 +151,6 @@ public class MHFCCraftingManager {
 			ItemStack... recipeStacks) {
 		List<ItemStack> var3 = new ArrayList<ItemStack>();
 		var3.addAll(Arrays.asList(recipeStacks));
-		/*
-		 * Object[] var4 = recipeStacks; int var5 = recipeStacks.length;
-		 * 
-		 * for (int var6 = 0; var6 < var5; ++var6) { Object var7 = var4[var6];
-		 * 
-		 * if (var7 instanceof ItemStack) { var3.add(((ItemStack) var7).copy());
-		 * // FIXME downwards should be impossible to reach, why is it // here?
-		 * } else if (var7 instanceof Item) { var3.add(new ItemStack((Item)
-		 * var7)); } else { if (!(var7 instanceof Block)) { throw new
-		 * RuntimeException("Invalid shapeless recipe!"); }
-		 * 
-		 * var3.add(new ItemStack((Block) var7)); } }
-		 */
-
 		this.recipes.add(new MHFCShapelessRecipe(par1ItemStack, var3));
 	}
 

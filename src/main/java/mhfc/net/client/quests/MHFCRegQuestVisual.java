@@ -151,11 +151,11 @@ public class MHFCRegQuestVisual {
 	public static final String UNLOCALIZED_TAG_STATUS_SHORT = "mhfc.quests.visual.tag.statusshort";
 	public static final String UNLOCALIZED_TAG_STATUS_LONG = "mhfc.quests.visual.tag.statuslong";
 
+	// FIXME change the texture
 	public static final ResourceLocation QUEST_STATUS_INVENTORY_BACKGROUND = new ResourceLocation(
 			"textures/gui/demo_background.png");
 	public static final ResourceLocation QUEST_STATUS_ONSCREEN_BACKGROUND = new ResourceLocation(
 			"textures/gui/demo_background.png");
-	// FIXME change the texture
 	public static final ResourceLocation QUEST_BOARD_BACKGROUND = new ResourceLocation(
 			"textures/gui/demo_background.png");
 

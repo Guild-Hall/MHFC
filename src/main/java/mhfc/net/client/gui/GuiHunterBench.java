@@ -125,8 +125,6 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		public void onOpen() {
-			// TODO Auto-generated method stub
-
 		}
 
 	}

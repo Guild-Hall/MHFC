@@ -135,6 +135,7 @@ public class QuestVisualInformation {
 
 	public void drawInformation(int positionX, int positionY, int width,
 			int height, int page, FontRenderer fontRenderer) {
+		// FIXME rewrite for correctly position all lines, even with line breaks
 		String TAG_MONSTERS = StatCollector
 				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_MONSTERS), //
 		TAG_REQUISITES = StatCollector

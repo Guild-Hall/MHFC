@@ -84,11 +84,11 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	}
 
 	private void finishRecipe() {
-		System.out.println(worldObj);
 		inputStacks = new ItemStack[inputStacks.length];
 		outputStack = resultStack;
 		cancelRecipe();
 		setRecipe(null);
+		markDirty();
 	}
 
 	public boolean isWorking() {
@@ -258,12 +258,10 @@ public class TileHunterBench extends TileEntity implements IInventory {
 
 	@Override
 	public void openInventory() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void closeInventory() {
-		// TODO Auto-generated method stub
 	}
 
 	public void beginCrafting() {

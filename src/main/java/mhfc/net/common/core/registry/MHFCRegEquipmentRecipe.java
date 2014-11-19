@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import mhfc.net.common.network.packet.MessageTileLocation;
 import mhfc.net.common.tile.TileHunterBench;
@@ -63,7 +64,9 @@ public class MHFCRegEquipmentRecipe {
 		TileEntity bench = world.getTileEntity(message.getX(), message.getY(),
 				message.getZ());
 		if (!(bench instanceof TileHunterBench)) {
-			// FIXME we shoud definitely log here
+			MHFCMain.logger
+					.error("No tile entity for a block hunter bench found");
+
 			return null;
 		}
 		return (TileHunterBench) bench;

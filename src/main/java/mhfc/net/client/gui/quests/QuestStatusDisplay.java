@@ -36,7 +36,6 @@ public class QuestStatusDisplay extends Gui {
 		if (screenEvent.gui instanceof GuiInventory) {
 			mc.getTextureManager().bindTexture(
 					MHFCRegQuestVisual.QUEST_STATUS_INVENTORY_BACKGROUND);
-			// FIXME rewrite for correctly
 			int scale = mc.gameSettings.guiScale & 3;
 			if (scale == 0) {
 				scale = 3;
