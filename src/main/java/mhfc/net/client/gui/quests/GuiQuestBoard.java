@@ -102,6 +102,7 @@ public class GuiQuestBoard extends GuiScreen {
 				return false;
 			}
 		};
+		updateScreen();
 	}
 
 	@Override
@@ -111,8 +112,8 @@ public class GuiQuestBoard extends GuiScreen {
 		xPos = (s.getScaledWidth() - xSize) / 2;
 		yPos = (s.getScaledHeight() - ySize) / 2;
 
-		runningQuestList.setPosition(5 + xPos, 5 + yPos);
-		runningQuestList.setWidthAndHeight(70, ySize - 10);
+		runningQuestList.setPosition(15 + xPos, 5 + yPos);
+		runningQuestList.setWidthAndHeight(70, ySize - 20);
 
 		joinQuest.xPosition = 160 + xPos;
 		joinQuest.yPosition = 195 + yPos;
@@ -132,6 +133,7 @@ public class GuiQuestBoard extends GuiScreen {
 		drawDefaultBackground();
 		drawBackground(0);
 		if (!MHFCRegQuestVisual.hasPlayerQuest()) {
+			fontRendererObj.drawString("Currently running:", 3, 3, 0x404040);
 			runningQuestList.setVisible(true);
 			runningQuestList.draw();
 			joinQuest.visible = true;

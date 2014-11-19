@@ -172,6 +172,8 @@ public class GuiQuestGiver extends GuiScreen {
 		boolean hasQuest = MHFCRegQuestVisual.hasPlayerQuest();
 		groupList.setVisible(!hasQuest);
 		if (!hasQuest) {
+			fontRendererObj.drawString("Take a quest:", xPos + 3, yPos + 4,
+					0x404040);
 			groupList.draw();
 			left.visible = true;
 			right.visible = true;
@@ -237,8 +239,8 @@ public class GuiQuestGiver extends GuiScreen {
 				mc.displayHeight);
 		xPos = (s.getScaledWidth() - xSize) / 2;
 		yPos = (s.getScaledHeight() - ySize) / 2;
-		groupList.setPosition(5 + xPos, 5 + yPos);
-		groupList.setWidthAndHeight(70, ySize - 10);
+		groupList.setPosition(5 + xPos, 15 + yPos);
+		groupList.setWidthAndHeight(70, ySize - 20);
 		right.xPosition = 280 + xPos;
 		right.yPosition = 5 + yPos;
 		left.xPosition = 80 + xPos;
@@ -263,5 +265,6 @@ public class GuiQuestGiver extends GuiScreen {
 				MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
 		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, 0f, xSize, ySize, 15,
 				15 / 265f, 1, 166f / 256f);
+
 	}
 }
