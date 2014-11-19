@@ -162,6 +162,7 @@ public class MHFCJobHandler {
 	}
 
 	private volatile JobListElement startOfList;
+	private List<MHFCDelayedJob> listOfRemoves = new Vector<MHFCDelayedJob>();
 
 	private MHFCJobHandler() {
 		startOfList = new JobListEnd();
@@ -169,14 +170,27 @@ public class MHFCJobHandler {
 
 	@SubscribeEvent
 	public void receiveTick(ClientTickEvent tick) {
-		startOfList = startOfList.tick();
+		cleanUp();
+		synchronized (this) {
+			startOfList = startOfList.tick();
+		}
 	}
 
 	@SubscribeEvent
 	public void receiveTick(ServerTickEvent tick) {
-		if (!MHFCMain.isClient()) {
-			startOfList = startOfList.tick();
+		cleanUp();
+		synchronized (this) {
+			if (!MHFCMain.isClient()) {
+				startOfList = startOfList.tick();
+			}
 		}
+	}
+
+	private synchronized void cleanUp() {
+		for (MHFCDelayedJob job : listOfRemoves) {
+			startOfList.remove(job);
+		}
+		listOfRemoves.clear();
 	}
 
 	public void insert(MHFCDelayedJob job, int delay) {
@@ -185,7 +199,7 @@ public class MHFCJobHandler {
 	}
 
 	public void remove(MHFCDelayedJob job) {
-		startOfList.remove(job);
+		listOfRemoves.add(job);
 	}
 
 	public boolean containsJob(MHFCDelayedJob job) {

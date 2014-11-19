@@ -65,7 +65,9 @@ public class CommandMHFC implements ICommand {
 					break;
 				case "reload" :
 					action = Interaction.MOD_RELOAD;
+					break;
 				default :
+					System.out.println("Invalid parameter in command mhfc");
 					return;
 			}
 			MHFCRegQuests.pipeline.networkPipe
@@ -86,7 +88,7 @@ public class CommandMHFC implements ICommand {
 		List<String> list = new ArrayList<String>();
 		if (options.length == 1) {
 			for (String s : new String[]{"accept", "leave", "new", "surrender",
-					"start"}) {
+					"start", "reload"}) {
 				if (options[0] == null || s.startsWith(options[0]))
 					list.add(s);
 			}

@@ -8,5 +8,15 @@
 		reward : 5000,
 		fee : 200,
 		areaID : "TestArea"
+	},
+	"New Quest": {
+		goal :{
+			type : "fork",
+			dependencies : ["StandardFail", "AnotherTest"]
+		},
+		name : "Hunt Rathalos",
+		reward : 4000,
+		fee: 300,
+		areaID: "TestArea"
 	}
 }

@@ -83,9 +83,11 @@ public class QuestFactory {
 
 			Class<?> goalClass = (Class<?>) EntityList.stringToClassMapping
 					.get(gd.arguments[0]);
-			if (goalClass == null)
+			if (goalClass == null) {
+				System.out.println(gd.getArguments()[0]);
 				throw new IllegalArgumentException(
 						"[MHFC] The mob identifier could not be resolved");
+			}
 			int number = Integer.parseInt((String) gd.getArguments()[1]);
 			return new HuntingQuestGoal(null, goalClass, number);
 		}

@@ -21,7 +21,9 @@ public class MessageQuestInteraction implements IMessage {
 		VOTE_END, // Used to set status to not ready (pre-quest) or to vote for
 					// resigning
 		GIVE_UP, // Used to instantly resign from a quest as a single person
-		MOD_RELOAD;
+		MOD_RELOAD, // Used by any play OR THE COMMAND BLOCK to reload all
+					// quests
+		INVALID; //
 	}
 
 	protected Interaction interaction;
@@ -101,6 +103,7 @@ public class MessageQuestInteraction implements IMessage {
 					interaction = Interaction.GIVE_UP;
 					break;
 				default :
+					interaction = Interaction.INVALID;
 					break;
 
 			}

@@ -364,6 +364,7 @@ public class MHFCRegQuests {
 						groupIDs.clear();
 						groupMapping.clear();
 						loadQuests();
+
 				}
 			return null;
 		}
@@ -517,6 +518,8 @@ public class MHFCRegQuests {
 		generateQuests(new ResourceLocation(questLocation));
 		generateGoals(new ResourceLocation(goalLocation));
 		generateGroupMapping(new ResourceLocation(groupLocation));
+		// FIXME hand out new list to all clients
+		System.out.println("Quests reloaded");
 	}
 
 	public static GeneralQuest getRunningQuest(String string) {

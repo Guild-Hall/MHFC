@@ -14,5 +14,9 @@
 	StandardFail : {
 		type : "fork",
 		dependencies : ["StandardDeath", "StandardTimer"]
+	},
+	AnotherTest :{
+		type : "hunting",
+		arguments : ["mhfc.rathalos", "1"]
 	}
 }
