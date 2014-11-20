@@ -3,6 +3,7 @@
 !src/
 !gradle/
 !libs/
+!externlibs/
 !gradlew
 !gradlew.bat
 !README.md

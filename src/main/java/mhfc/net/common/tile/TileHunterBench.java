@@ -66,7 +66,7 @@ public class TileHunterBench extends TileEntity implements IInventory {
 		if (heatLength > 0) {
 			--heatLength;
 			heatStrength = getNewHeat(heatStrength, heatFromItem);
-			if (TileHunterBench.this.workingMHFCBench
+			if (TileHunterBench.this.workingMHFCBench && recipe != null
 					&& heatStrength >= recipe.getRequiredHeat())
 				++itemSmeltDuration;
 		} else {
@@ -257,12 +257,10 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	}
 
 	@Override
-	public void openInventory() {
-	}
+	public void openInventory() {}
 
 	@Override
-	public void closeInventory() {
-	}
+	public void closeInventory() {}
 
 	public void beginCrafting() {
 		if (MHFCMain.isEffectiveClient())

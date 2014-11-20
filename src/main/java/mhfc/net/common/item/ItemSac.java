@@ -25,7 +25,7 @@ public class ItemSac extends Item {
 
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
-		this.itemIcon = par1IconRegister.registerIcon(itemNames[meta]);
+		this.itemIcon = par1IconRegister.registerIcon(itemIcons[meta]);
 	}
 
 	@Override

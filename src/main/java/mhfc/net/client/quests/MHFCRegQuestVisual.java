@@ -183,7 +183,7 @@ public class MHFCRegQuestVisual {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param identifier
 	 *            of the quest in which you are interested
 	 * @return Either the visual representation of the requested quest or a
@@ -194,7 +194,7 @@ public class MHFCRegQuestVisual {
 		if (identifierToVisualInformationMap.containsKey(identifier)) {
 			return identifierToVisualInformationMap.get(identifier);
 		}
-		pipeline.networkPipe.sendToServer(new MessageRequestQuestVisual(
+		PacketPipeline.networkPipe.sendToServer(new MessageRequestQuestVisual(
 				identifier));
 		identifierToVisualInformationMap.put(identifier,
 				QuestVisualInformation.LOADING_REPLACEMENT);
@@ -208,8 +208,9 @@ public class MHFCRegQuestVisual {
 
 	public static void setAndSendRunningListenStatus(boolean newStatus,
 			EntityPlayer forPlayer) {
-		pipeline.networkPipe.sendToServer(new MessageQuestRunningSubscription(
-				newStatus, forPlayer));
+		PacketPipeline.networkPipe
+				.sendToServer(new MessageQuestRunningSubscription(newStatus,
+						forPlayer));
 		if (!newStatus) {
 			questBoard.clearList();
 		}

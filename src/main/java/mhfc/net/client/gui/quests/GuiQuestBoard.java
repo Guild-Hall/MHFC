@@ -6,7 +6,7 @@ import java.util.Map;
 import mhfc.net.client.gui.ClickableGuiList;
 import mhfc.net.client.gui.ClickableGuiList.GuiListStringItem;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
-import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestInteraction;
 import mhfc.net.common.network.packet.MessageQuestInteraction.Interaction;
 import mhfc.net.common.quests.QuestRunningInformation;
@@ -58,7 +58,7 @@ public class GuiQuestBoard extends GuiScreen {
 						runningQuestList.setVisible(false);
 						if (questID == null)
 							return true;
-						MHFCRegQuests.pipeline.networkPipe
+						PacketPipeline.networkPipe
 								.sendToServer(new MessageQuestInteraction(
 										Interaction.ACCEPT,
 										GuiQuestBoard.this.accessor, questID));
@@ -76,7 +76,7 @@ public class GuiQuestBoard extends GuiScreen {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					clickHandled = true;
 					runningQuestList.setVisible(true);
-					MHFCRegQuests.pipeline.networkPipe
+					PacketPipeline.networkPipe
 							.sendToServer(new MessageQuestInteraction(
 									Interaction.GIVE_UP,
 									GuiQuestBoard.this.accessor, new String[0]));
@@ -92,7 +92,7 @@ public class GuiQuestBoard extends GuiScreen {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					clickHandled = true;
 					runningQuestList.setVisible(true);
-					MHFCRegQuests.pipeline.networkPipe
+					PacketPipeline.networkPipe
 							.sendToServer(new MessageQuestInteraction(
 									Interaction.VOTE_START,
 									GuiQuestBoard.this.accessor, new String[0]));
@@ -102,7 +102,6 @@ public class GuiQuestBoard extends GuiScreen {
 				return false;
 			}
 		};
-		updateScreen();
 	}
 
 	@Override
@@ -216,8 +215,7 @@ public class GuiQuestBoard extends GuiScreen {
 			mapToListItems.put(id, item);
 			mapToIdentifiers.put(item, id);
 			runningQuestList.add(item);
-		} else {
-		}
+		} else {}
 	}
 
 	public void removeQuest(String id) {
