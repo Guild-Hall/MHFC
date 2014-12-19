@@ -111,7 +111,7 @@ public class RenderBAdventurer extends RenderWeapon {
 						GL11.glRotatef(5, 0.0f, 0.0f, 1.0f);
 						GL11.glRotatef(-10, 0.0f, 1.0f, 0.0f);
 						GL11.glRotatef(-20, 1.0f, 0.0f, 0.0f);
-					}
+					}//pabie
 				}
 			}else{
 				((ModelBAdventurer)model).renderBase();
