@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.eventhandler.MHFCDelayedJob;
 import mhfc.net.common.eventhandler.MHFCJobHandler;
 import net.minecraft.util.StatCollector;
@@ -199,8 +200,9 @@ public class MHFCRegStringDecode {
 		@Override
 		public String stringValue() {
 			if (stringValue == null)
-				// FIXME Log in error instead
-				System.out.println("WTF I am bad");
+				MHFCMain.logger.debug(
+						"String of dynamic string %s ended up as null",
+						this.toString());
 			return stringValue;
 		}
 

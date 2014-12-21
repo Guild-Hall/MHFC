@@ -1,7 +1,7 @@
 package mhfc.net.common.quests;
 
-import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.StatCollector;
 
@@ -137,9 +137,9 @@ public class QuestVisualInformation {
 			int height, int page, FontRenderer fontRenderer) {
 		// FIXME rewrite for correctly position all lines, even with line breaks
 		String TAG_MONSTERS = StatCollector
-				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_MONSTERS), //
+				.translateToLocal(MHFCReference.unlocalized_tag_monsters), //
 		TAG_REQUISITES = StatCollector
-				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_REQUISITES);
+				.translateToLocal(MHFCReference.unlocalized_tag_requisites);
 //@formatter:off
 		int lineHeight = fontRenderer.FONT_HEIGHT+2;
 		String draw;
@@ -184,9 +184,9 @@ public class QuestVisualInformation {
 			int width, int lineHeight, FontRenderer fontRenderer) {
 		width = Math.max(width, 20);
 		String TAG_CLIENT = StatCollector
-				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_CLIENT), //
+				.translateToLocal(MHFCReference.unlocalized_tag_client), //
 		TAG_DESCRIPTION = StatCollector
-				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_DESCRIPTION);
+				.translateToLocal(MHFCReference.unlocalized_tag_description);
 		String draw;
 		draw = TAG_CLIENT;
 		fontRenderer.drawString(draw, positionX+5, currentY, 0xB04040);
@@ -209,9 +209,9 @@ public class QuestVisualInformation {
 			int height, int currentY, int lineHeight,
 			FontRenderer fontRenderer) {
 		String TAG_AIMS = StatCollector
-				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_AIMS), //
+				.translateToLocal(MHFCReference.unlocalized_tag_aims), //
 		TAG_FAILS = StatCollector
-				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_FAILS);
+				.translateToLocal(MHFCReference.unlocalized_tag_fails);
 		String draw;
 		draw = TAG_AIMS;
 		fontRenderer.drawString(draw, positionX+5, currentY, 0xB04040);
@@ -248,13 +248,13 @@ public class QuestVisualInformation {
 	protected int drawBaseInformation(int positionX, int positionY,
 			int lineHeight, int width, FontRenderer fontRenderer) {
 		String TAG_FEE = StatCollector
-				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_FEE), //
+				.translateToLocal(MHFCReference.unlocalized_tag_fee), //
 		TAG_REWARD = StatCollector
-				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_REWARD), //
+				.translateToLocal(MHFCReference.unlocalized_tag_reward), //
 		TAG_TIME = StatCollector
-				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_TIME), //
+				.translateToLocal(MHFCReference.unlocalized_tag_time), //
 		TAG_AREA = StatCollector
-				.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_AREA);
+				.translateToLocal(MHFCReference.unlocalized_tag_area);
 		String draw;
 		draw = TAG_REWARD;
 		fontRenderer.drawString(draw, positionX + 5, positionY, 0xB04040);

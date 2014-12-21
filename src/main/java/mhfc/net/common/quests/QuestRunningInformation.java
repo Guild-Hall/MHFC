@@ -2,9 +2,9 @@ package mhfc.net.common.quests;
 
 import java.util.List;
 
-import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.core.registry.MHFCRegStringDecode.CompositeString;
 import mhfc.net.common.core.registry.MHFCRegStringDecode.StringElement;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.StatCollector;
 
@@ -208,7 +208,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 				currentY = drawBaseInformation(positionX, currentY, lineHeight,
 						width, fontRenderer);
 				String TAG_STATUS = StatCollector
-						.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_STATUS_LONG);
+						.translateToLocal(MHFCReference.unlocalized_tag_status_long);
 				draw = TAG_STATUS;
 				fontRenderer
 						.drawString(draw, positionX + 5, currentY, 0xB04040);

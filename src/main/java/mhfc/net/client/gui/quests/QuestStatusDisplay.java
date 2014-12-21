@@ -3,6 +3,7 @@ package mhfc.net.client.gui.quests;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.quests.QuestRunningInformation;
 import mhfc.net.common.util.gui.MHFCGuiUtil;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -105,7 +106,7 @@ public class QuestStatusDisplay extends Gui {
 					width, height, 40, 30f / 256, 248f / 256, 166f / 256);
 			GL11.glDisable(GL11.GL_BLEND);
 			String localizedStat = StatCollector
-					.translateToLocal(MHFCRegQuestVisual.UNLOCALIZED_TAG_STATUS_SHORT);
+					.translateToLocal(MHFCReference.unlocalized_tag_status_short);
 			mc.fontRenderer.drawString(localizedStat, posX + 5, posY + 5,
 					0x804040);
 			int lineHeight = mc.fontRenderer.FONT_HEIGHT + 2;

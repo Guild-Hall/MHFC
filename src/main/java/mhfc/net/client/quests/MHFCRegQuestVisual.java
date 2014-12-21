@@ -17,6 +17,7 @@ import mhfc.net.common.network.packet.MessageRequestQuestVisual;
 import mhfc.net.common.quests.QuestRunningInformation;
 import mhfc.net.common.quests.QuestVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation.QuestType;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -136,28 +137,13 @@ public class MHFCRegQuestVisual {
 		}
 	}
 
-	// FIXME outsource a lot of this into the main registry to avoid duplication
-	// and confusion
-	public static final String UNLOCALIZED_TAG_FEE = "mhfc.quests.visual.tag.fee";
-	public static final String UNLOCALIZED_TAG_REWARD = "mfhc.quests.visual.tag.reward";
-	public static final String UNLOCALIZED_TAG_TIME = "mhfc.quests.visual.tag.time";
-	public static final String UNLOCALIZED_TAG_AREA = "mhfc.quests.visual.tag.area";
-	public static final String UNLOCALIZED_TAG_AIMS = "mhfc.quests.visual.tag.aims";
-	public static final String UNLOCALIZED_TAG_FAILS = "mhfc.quests.visual.tag.fails";
-	public static final String UNLOCALIZED_TAG_CLIENT = "mhfc.quests.visual.tag.client";
-	public static final String UNLOCALIZED_TAG_DESCRIPTION = "mhfc.quests.visual.tag.description";
-	public static final String UNLOCALIZED_TAG_MONSTERS = "mhfc.quests.visual.tag.monsters";
-	public static final String UNLOCALIZED_TAG_REQUISITES = "mhfc.quests.visual.tag.requisites";
-	public static final String UNLOCALIZED_TAG_STATUS_SHORT = "mhfc.quests.visual.tag.statusshort";
-	public static final String UNLOCALIZED_TAG_STATUS_LONG = "mhfc.quests.visual.tag.statuslong";
-
 	// FIXME change the texture
 	public static final ResourceLocation QUEST_STATUS_INVENTORY_BACKGROUND = new ResourceLocation(
-			"textures/gui/demo_background.png");
+			MHFCReference.gui_status_inventory_tex);
 	public static final ResourceLocation QUEST_STATUS_ONSCREEN_BACKGROUND = new ResourceLocation(
-			"textures/gui/demo_background.png");
+			MHFCReference.gui_status_onscreen_tex);
 	public static final ResourceLocation QUEST_BOARD_BACKGROUND = new ResourceLocation(
-			"textures/gui/demo_background.png");
+			MHFCReference.gui_board_tex);
 
 	private static Map<String, List<String>> groupIDToListMap = new HashMap<String, List<String>>();
 	private static List<String> groupIDsInOrder = new ArrayList<String>();
@@ -183,7 +169,7 @@ public class MHFCRegQuestVisual {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param identifier
 	 *            of the quest in which you are interested
 	 * @return Either the visual representation of the requested quest or a
@@ -194,7 +180,7 @@ public class MHFCRegQuestVisual {
 		if (identifierToVisualInformationMap.containsKey(identifier)) {
 			return identifierToVisualInformationMap.get(identifier);
 		}
-		PacketPipeline.networkPipe.sendToServer(new MessageRequestQuestVisual(
+		pipeline.networkPipe.sendToServer(new MessageRequestQuestVisual(
 				identifier));
 		identifierToVisualInformationMap.put(identifier,
 				QuestVisualInformation.LOADING_REPLACEMENT);
@@ -208,9 +194,8 @@ public class MHFCRegQuestVisual {
 
 	public static void setAndSendRunningListenStatus(boolean newStatus,
 			EntityPlayer forPlayer) {
-		PacketPipeline.networkPipe
-				.sendToServer(new MessageQuestRunningSubscription(newStatus,
-						forPlayer));
+		pipeline.networkPipe.sendToServer(new MessageQuestRunningSubscription(
+				newStatus, forPlayer));
 		if (!newStatus) {
 			questBoard.clearList();
 		}

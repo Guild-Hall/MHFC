@@ -28,6 +28,7 @@ import mhfc.net.common.quests.QuestVisualInformation.QuestType;
 import mhfc.net.common.quests.factory.GoalDescription;
 import mhfc.net.common.quests.factory.QuestDescription;
 import mhfc.net.common.quests.factory.QuestFactory;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -275,7 +276,7 @@ public class MHFCRegQuests {
 					MessageQuestVisual messageSent = new MessageQuestVisual(
 							identifier, q.getRunningInformation());
 					messageSent.setTypeID(2);
-					pipeline.networkPipe.sendTo(messageSent, player);
+					PacketPipeline.networkPipe.sendTo(messageSent, player);
 				}
 			} else {
 				subscribers.remove(message.getPlayer());
@@ -286,7 +287,7 @@ public class MHFCRegQuests {
 		public static void sendToAll(MessageQuestVisual visual) {
 			Iterator<EntityPlayerMP> iter = subscribers.iterator();
 			while (iter.hasNext()) {
-				pipeline.networkPipe.sendTo(visual, iter.next());
+				PacketPipeline.networkPipe.sendTo(visual, iter.next());
 			}
 		}
 	}
@@ -324,7 +325,7 @@ public class MHFCRegQuests {
 									"You already are on quest "
 											+ getIdentifierForQuest(quest)));
 							String id = getIdentifierForQuest(quest);
-							pipeline.networkPipe
+							PacketPipeline.networkPipe
 									.sendTo(new<QuestRunningInformation> MessageQuestVisual(
 											id, quest.getRunningInformation()),
 											player);
@@ -345,8 +346,8 @@ public class MHFCRegQuests {
 						if (quest != null) {
 							quest.voteEnd(player);
 						} else {
-							pipeline.networkPipe.sendTo(new MessageQuestVisual(
-									"", null), player);
+							PacketPipeline.networkPipe.sendTo(
+									new MessageQuestVisual("", null), player);
 						}
 						break;
 					case GIVE_UP :
@@ -354,8 +355,8 @@ public class MHFCRegQuests {
 						if (quest != null) {
 							quest.removePlayer(player);
 						} else {
-							pipeline.networkPipe.sendTo(new MessageQuestVisual(
-									"", null), player);
+							PacketPipeline.networkPipe.sendTo(
+									new MessageQuestVisual("", null), player);
 						}
 						break;
 					case MOD_RELOAD :
@@ -364,7 +365,8 @@ public class MHFCRegQuests {
 						groupIDs.clear();
 						groupMapping.clear();
 						loadQuests();
-
+					default :
+						break;
 				}
 			return null;
 		}
@@ -374,7 +376,7 @@ public class MHFCRegQuests {
 
 		@SubscribeEvent
 		public void onPlayerJoin(PlayerLoggedInEvent logIn) {
-			pipeline.networkPipe.sendTo(new MessageQuestScreenInit(
+			PacketPipeline.networkPipe.sendTo(new MessageQuestScreenInit(
 					groupMapping, groupIDs), (EntityPlayerMP) logIn.player);
 		}
 
@@ -475,11 +477,6 @@ public class MHFCRegQuests {
 		}
 	};
 
-	// TODO Externalize into util
-	public static final String questLocation = "mhfc:quests/quests.json";
-	public static final String goalLocation = "mhfc:quests/goals.json";
-	public static final String groupLocation = "mhfc:quests/groups.json";
-
 	public static final HashMap<String, QuestDescription> questDescriptions = new HashMap<String, QuestDescription>();
 	public static final Map<String, List<String>> groupMapping = new HashMap<String, List<String>>();
 	public static final List<String> groupIDs = new ArrayList<String>();
@@ -515,11 +512,22 @@ public class MHFCRegQuests {
 	}
 
 	public static void loadQuests() {
-		generateQuests(new ResourceLocation(questLocation));
-		generateGoals(new ResourceLocation(goalLocation));
-		generateGroupMapping(new ResourceLocation(groupLocation));
-		// FIXME hand out new list to all clients
-		System.out.println("Quests reloaded");
+		generateQuests(new ResourceLocation(MHFCReference.questLocation));
+		generateGoals(new ResourceLocation(MHFCReference.goalLocation));
+		generateGroupMapping(new ResourceLocation(MHFCReference.groupLocation));
+		for (GeneralQuest q : questsRunning) {
+			RunningSubscriptionHandler.sendToAll(new MessageQuestVisual(
+					getIdentifierForQuest(q), q.getRunningInformation()));
+		}
+		Iterator<?> it = FMLCommonHandler.instance()
+				.getMinecraftServerInstance().getConfigurationManager().playerEntityList
+				.iterator();
+		while (it.hasNext()) {
+			EntityPlayerMP player = (EntityPlayerMP) it.next();
+			PacketPipeline.networkPipe.sendTo(new MessageQuestScreenInit(
+					groupMapping, groupIDs), player);
+		}
+		MHFCMain.logger.info("Quest loaded");
 	}
 
 	public static GeneralQuest getRunningQuest(String string) {
@@ -662,7 +670,7 @@ public class MHFCRegQuests {
 					.getInputStream();
 					BufferedReader reader = new BufferedReader(
 							new InputStreamReader(input))) {
-				Map<String, QuestDescription> map = (Map) gsonInstance
+				Map<String, QuestDescription> map = (Map<String, QuestDescription>) gsonInstance
 						.fromJson(reader, typeOfMapQuest);
 				for (String qualifier : map.keySet()) {
 					if (qualifier.equals("")) {

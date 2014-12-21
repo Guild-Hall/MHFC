@@ -108,10 +108,13 @@ public class MHFCReference {
 	public static final String entity_rathalosFireball_name = "Fireball";
 	public static final String entity_rathalosfireball_tex = "mhfc:textures/projectile/rathalosfireball.png";
 	public static final String entity_tigrexBlock_name = "TigrexBlock";
+	public static final String gui_board_tex = "textures/gui/demo_background.png";
 	public static final String gui_hunterbench_back_tex = "mhfc:textures/gui/CraftStation.png";
 	public static final String gui_hunterbench_name = "Hunter's Bench";
 	public static final String gui_hunterbench_tab_armor_name = "Armor Crafting";
 	public static final String gui_hunterbench_tab_weapon_name = "Weapon Crafting";
+	public static final String gui_status_inventory_tex = "textures/gui/demo_background.png";
+	public static final String gui_status_onscreen_tex = "textures/gui/demo_background.png";
 	public static final String gui_tab_texture = "mhfc:textures/gui/TabbedGui.png";
 	public static final String gui_tab_name = "MHFC Tab";
 	public static final String item_armorsphere0_name = "armorsphere0";
@@ -285,6 +288,22 @@ public class MHFCReference {
 	public static final int potion_kirinbless_iconindex = 2;
 
 	public static final String mob_questGiver_name = "questGiver";
+	public static final String unlocalized_tag_fee = "mhfc.quests.visual.tag.fee";
+	public static final String unlocalized_tag_reward = "mfhc.quests.visual.tag.reward";
+	public static final String unlocalized_tag_time = "mhfc.quests.visual.tag.time";
+	public static final String unlocalized_tag_area = "mhfc.quests.visual.tag.area";
+	public static final String unlocalized_tag_aims = "mhfc.quests.visual.tag.aims";
+	public static final String unlocalized_tag_fails = "mhfc.quests.visual.tag.fails";
+	public static final String unlocalized_tag_client = "mhfc.quests.visual.tag.client";
+	public static final String unlocalized_tag_description = "mhfc.quests.visual.tag.description";
+	public static final String unlocalized_tag_monsters = "mhfc.quests.visual.tag.monsters";
+	public static final String unlocalized_tag_requisites = "mhfc.quests.visual.tag.requisites";
+	public static final String unlocalized_tag_status_short = "mhfc.quests.visual.tag.statusshort";
+	public static final String unlocalized_tag_status_long = "mhfc.quests.visual.tag.statuslong";
+	// TODO Externalize into util
+	public static final String questLocation = "mhfc:quests/quests.json";
+	public static final String goalLocation = "mhfc:quests/goals.json";
+	public static final String groupLocation = "mhfc:quests/groups.json";
 
 	// public enum healthinfo {
 	// BULLDROME, // - 750
