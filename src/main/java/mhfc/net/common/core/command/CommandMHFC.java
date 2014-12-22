@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestInteraction;
 import mhfc.net.common.network.packet.MessageQuestInteraction.Interaction;
 import net.minecraft.command.ICommand;
@@ -70,7 +70,7 @@ public class CommandMHFC implements ICommand {
 					System.out.println("Invalid parameter in command mhfc");
 					return;
 			}
-			MHFCRegQuests.pipeline.networkPipe
+			PacketPipeline.networkPipe
 					.sendToServer(new MessageQuestInteraction(action,
 							(EntityPlayer) sender, Arrays.copyOfRange(
 									parameters, 1, parameters.length)));

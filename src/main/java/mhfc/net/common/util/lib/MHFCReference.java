@@ -300,7 +300,7 @@ public class MHFCReference {
 	public static final String unlocalized_tag_requisites = "mhfc.quests.visual.tag.requisites";
 	public static final String unlocalized_tag_status_short = "mhfc.quests.visual.tag.statusshort";
 	public static final String unlocalized_tag_status_long = "mhfc.quests.visual.tag.statuslong";
-	// TODO Externalize into util
+
 	public static final String questLocation = "mhfc:quests/quests.json";
 	public static final String goalLocation = "mhfc:quests/goals.json";
 	public static final String groupLocation = "mhfc:quests/groups.json";

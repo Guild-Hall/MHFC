@@ -3,6 +3,7 @@ package mhfc.net.common.quests;
 import java.util.EnumSet;
 
 import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.factory.QuestDescription;
@@ -120,7 +121,7 @@ public class GeneralQuest implements QuestGoalSocket {
 		for (int i = 0; i < playerCount; i++) {
 			EntityPlayer p = players[i];
 			String id = MHFCRegQuests.getIdentifierForQuest(this);
-			MHFCRegQuests.pipeline.networkPipe.sendTo(
+			PacketPipeline.networkPipe.sendTo(
 					new<QuestRunningInformation> MessageQuestVisual(id,
 							visualInformation), (EntityPlayerMP) p);
 
@@ -177,7 +178,7 @@ public class GeneralQuest implements QuestGoalSocket {
 	protected void removePlayer(int index) {
 		if (index < 0 || index >= playerCount)
 			return;
-		MHFCRegQuests.pipeline.networkPipe.sendTo(
+		PacketPipeline.networkPipe.sendTo(
 				new<QuestRunningInformation> MessageQuestVisual("", null),
 				(EntityPlayerMP) players[index]);
 		MHFCRegQuests.setQuestForPlayer(players[index], null);

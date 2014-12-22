@@ -1,8 +1,8 @@
 package mhfc.net.common.tile;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.core.registry.MHFCRegQuests;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
+import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageTileLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -257,10 +257,12 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	}
 
 	@Override
-	public void openInventory() {}
+	public void openInventory() {
+	}
 
 	@Override
-	public void closeInventory() {}
+	public void closeInventory() {
+	}
 
 	public void beginCrafting() {
 		if (MHFCMain.isEffectiveClient())
@@ -274,12 +276,12 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	}
 
 	private void sendBeginCraft() {
-		MHFCRegQuests.pipeline.networkPipe
+		PacketPipeline.networkPipe
 				.sendToServer(new MessageTileLocation.BeginCraftingMessage(this));
 	}
 
 	private void sendSetRecipe(EquipmentRecipe recipeToSend) {
-		MHFCRegQuests.pipeline.networkPipe
+		PacketPipeline.networkPipe
 				.sendToServer(new MessageTileLocation.SetRecipeMessage(this,
 						recipeToSend));
 	}

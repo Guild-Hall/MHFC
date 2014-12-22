@@ -6,7 +6,7 @@ import java.util.List;
 import mhfc.net.client.gui.ClickableGuiList;
 import mhfc.net.client.gui.ClickableGuiList.GuiListStringItem;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
-import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestInteraction;
 import mhfc.net.common.network.packet.MessageQuestInteraction.Interaction;
 import mhfc.net.common.quests.QuestVisualInformation;
@@ -56,7 +56,7 @@ public class GuiQuestGiver extends GuiScreen {
 							&& selectedIdentifier < questIdentifiers.size()) {
 						String questID = questIdentifiers
 								.get(selectedIdentifier);
-						MHFCRegQuests.pipeline.networkPipe
+						PacketPipeline.networkPipe
 								.sendToServer(new MessageQuestInteraction(
 										Interaction.START_NEW,
 										GuiQuestGiver.this.accessor, questID));
@@ -97,7 +97,7 @@ public class GuiQuestGiver extends GuiScreen {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					handled = true;
 					groupList.setVisible(true);
-					MHFCRegQuests.pipeline.networkPipe
+					PacketPipeline.networkPipe
 							.sendToServer(new MessageQuestInteraction(
 									Interaction.GIVE_UP,
 									GuiQuestGiver.this.accessor, new String[0]));
@@ -113,7 +113,7 @@ public class GuiQuestGiver extends GuiScreen {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					handled = true;
 					groupList.setVisible(true);
-					MHFCRegQuests.pipeline.networkPipe
+					PacketPipeline.networkPipe
 							.sendToServer(new MessageQuestInteraction(
 									Interaction.VOTE_START,
 									GuiQuestGiver.this.accessor, new String[0]));
