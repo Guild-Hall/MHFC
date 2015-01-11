@@ -38,6 +38,7 @@ import mhfc.heltrato.common.item.weapon.bowgun.WeaponBGLSpartacusFire;
 import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSBone;
 import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSKirinThunderSword;
 import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSTigrex;
+import mhfc.heltrato.common.item.weapon.hammer.WeaponHDeviljho;
 import mhfc.heltrato.common.item.weapon.hammer.WeaponHKirinSpark;
 import mhfc.heltrato.common.item.weapon.hammer.WeaponHTigrex;
 import mhfc.heltrato.common.item.weapon.hammer.WeaponHWar;
@@ -65,6 +66,7 @@ public class MHFCRegItem {
 	public static Item mhfcitemhwarhammer;
 	public static Item mhfcitemhwarhammerplus;
 	public static Item mhfcitemhwarslammer;
+	public static Item mhfcitemhdeviljho;
 	public static Item mhfcitemlsironkatana;
 	public static Item mhfcitembhunter;
 	public static Item mhfcitemhhmetalbagpipe;
@@ -172,12 +174,13 @@ public class MHFCRegItem {
 		getItemID(mhfcitemhwarslammer);
 		getItemID(MHFCItemHTigrex);
 		getItemID(mhfcitemhkirinspark);
+		getItemID(mhfcitemhdeviljho);
 		getItemID(mhfcitemhhmetalbagpipe);
-		getItemID(mhfcitembadventurer);
-		getItemID(mhfcitembhunter);
-		getItemID(mhfcitembtigrexarrow);
-		getItemID(mhfcitembglshooterbarrel);
-		getItemID(mhfcitembglspartacusfire);
+//		getItemID(mhfcitembadventurer);
+//		getItemID(mhfcitembhunter);
+//		getItemID(mhfcitembtigrexarrow);
+//		getItemID(mhfcitembglshooterbarrel);
+//		getItemID(mhfcitembglspartacusfire);
 		
 		getItemID(mhfcitemyukumohelm);
 		getItemID(mhfcitemrathaloshelm);
@@ -292,6 +295,7 @@ public class MHFCRegItem {
 		mhfcitemlsironkatana = new WeaponLSIronKatana(mat.LSIronKatana);
 		mhfcitemlsdarkvipern = new WeaponLSDarkVipern(mat.LSDarkVipern);
 		mhfcitemhkirinspark = new WeaponHKirinSpark(mat.HKirinSpark);
+		mhfcitemhdeviljho = new WeaponHDeviljho(mat.HDeviljho);
 		mhfcitemhwarhammer = new WeaponHWar(mat.HWarHammer);
 		mhfcitemhwarhammerplus = new WeaponHWarPlus(mat.HWarHammerplus);
 		mhfcitemhwarslammer = new WeaponHWarSlammer(mat.HWarSlammer);
@@ -301,11 +305,11 @@ public class MHFCRegItem {
 	
 	private static void registerRangeWeapon()
 	{
-		mhfcitembadventurer = new WeaponBAdventurer();
-		mhfcitembhunter = new WeaponBHunter();
-		mhfcitembtigrexarrow = new WeaponBTigrexArrow();
-		mhfcitembglshooterbarrel = new WeaponBGLShooterBarrel();
-		mhfcitembglspartacusfire = new WeaponBGLSpartacusFire();
+//		mhfcitembadventurer = new WeaponBAdventurer();
+//		mhfcitembhunter = new WeaponBHunter();
+//		mhfcitembtigrexarrow = new WeaponBTigrexArrow();
+//		mhfcitembglshooterbarrel = new WeaponBGLShooterBarrel();
+//		mhfcitembglspartacusfire = new WeaponBGLSpartacusFire();
 	}
 	private static void registerItem()
 	{

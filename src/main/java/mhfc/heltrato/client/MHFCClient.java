@@ -23,7 +23,7 @@ public class MHFCClient extends MHFCCommon
 	public void regTick(){}
 	
 	public void regCapes(){
-		Capes.addDevCapes();
+		Capes.addCapes();
 	}
 	
 	public void regSounds(){

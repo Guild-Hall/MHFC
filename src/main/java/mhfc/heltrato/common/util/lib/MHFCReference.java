@@ -281,6 +281,9 @@ public class MHFCReference {
 	public static final String weapon_hm_warslammer_icon = "mhfc:hammer";
 	public static final String weapon_hm_warslammer_name = "hammer_5";
 	public static final String weapon_hm_warslammer_tex = "mhfc:textures/weapons/(H)warslammer.png";
+	public static final String weapon_hm_deviljho_icon = "mhfc:hammer";
+	public static final String weapon_hm_deviljho_name = "hammer_6";
+	public static final String weapon_hm_deviljho_tex = "mhfc:textures/weapons/(H)deviljho.png";
 	public static final String weapon_ls_darkviper_tex = "mhfc:textures/weapons/(LS)darkvipern.png";
 	public static final String weapon_ls_darkvipern_icon = "mhfc:longsword";
 	public static final String weapon_ls_darkvipern_name = "longsword_2";

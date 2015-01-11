@@ -98,6 +98,8 @@ public class RenderHitbox {
 		}
 	}
 
+	
+	@Deprecated
 	private void getMetaID(String name, int id, boolean soft) {
 		getCascade = soft;
 		ratePeriod = id;
@@ -146,5 +148,7 @@ public class RenderHitbox {
 	public boolean getTranscent(boolean show){
 		return show;
 	}
+	
+
 
 }

@@ -9,6 +9,7 @@ import mhfc.heltrato.client.render.weapon.RenderBTigrexArrow;
 import mhfc.heltrato.client.render.weapon.RenderGSBone;
 import mhfc.heltrato.client.render.weapon.RenderGSKirinThunderSword;
 import mhfc.heltrato.client.render.weapon.RenderGSTigrex;
+import mhfc.heltrato.client.render.weapon.RenderHDeviljho;
 import mhfc.heltrato.client.render.weapon.RenderHHMetalBagpipe;
 import mhfc.heltrato.client.render.weapon.RenderHKirinSpark;
 import mhfc.heltrato.client.render.weapon.RenderHTigrex;
@@ -42,6 +43,7 @@ public class MHFCRegRenderWeapon {
 		reg.registerItemRenderer(MHFCRegItem.mhfcitembglshooterbarrel, new RenderBGLShooterBarrel());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitembglspartacusfire, new RenderBGLSpartacusFire());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitembtigrexarrow, new RenderBTigrexArrow());
+		reg.registerItemRenderer(MHFCRegItem.mhfcitemhdeviljho, new RenderHDeviljho());
 		
 		//new type of rendering
 		reg.registerItemRenderer(MHFCRegItem.mhfcitembadventurer, new RenderBAdventurer(new ModelBAdventurer(), MHFCReference.weapon_bow_adventurer_tex));

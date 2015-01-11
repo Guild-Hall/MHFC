@@ -1,6 +1,6 @@
 package mhfc.heltrato.client.render.weapon;
 
-import mhfc.heltrato.client.model.weapon.ModelBGLShooterBarrel;
+import mhfc.heltrato.client.model.weapon.ModelHDeviljho;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -10,12 +10,12 @@ import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
-public class RenderBGLShooterBarrel implements IItemRenderer {
+public class RenderHDeviljho implements IItemRenderer {
 
-	private ModelBGLShooterBarrel weapon;
+	private ModelHDeviljho weapon;
 
-	public RenderBGLShooterBarrel() {
-		weapon = new ModelBGLShooterBarrel();
+	public RenderHDeviljho() {
+		weapon = new ModelHDeviljho();
 	}
 
 	@Override
@@ -23,18 +23,18 @@ public class RenderBGLShooterBarrel implements IItemRenderer {
 		switch (type) {
 
 			case EQUIPPED : // render in third person
-				GL11.glPushMatrix(); // start gl rendering for this section
 				float scale = 1.5f;
 				GL11.glScalef(scale, scale, scale);
+				GL11.glPushMatrix(); // start gl rendering for this section
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.weapon_bgl_shooterbarrel_tex));
+						.bindTexture(new ResourceLocation(MHFCReference.weapon_hm_deviljho_tex));
 				GL11.glRotatef(0F, 1.0f, 0.0f, 0.0f); // rotate 0 ° on X axis
 				GL11.glRotatef(-5F, 0.0f, 1.0f, 0.0f); // rotate -5 ° on Y axis
 				GL11.glRotatef(-120F, 0.0f, 0.0f, 1.0f); // rotate -150 ° on Z
 															// axis
-				GL11.glTranslatef(-0.4F, 0.2F, -0.2F); // translate model to fit
-														// in the hand of the
-														// player
+				GL11.glTranslatef(-0.4F, -0.5F, -0.0F); // translate model to
+														// fit in the hand of
+														// the player
 				// the entity argument can/could be passed to as null.
 				weapon.render((Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
 						0.0625F);
@@ -46,14 +46,14 @@ public class RenderBGLShooterBarrel implements IItemRenderer {
 				// rince and repeat the rendering. adjust axis' and translation
 				// as needed
 				GL11.glPushMatrix();
-				scale = 1.5f;
+				scale = 1.4f;
 				GL11.glScalef(scale, scale, scale);
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.weapon_bgl_shooterbarrel_tex));
+						.bindTexture(new ResourceLocation(MHFCReference.weapon_hm_deviljho_tex));
 				GL11.glRotatef(0F, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(-5F, 0.0f, 1.0f, 0.0f);
-				GL11.glRotatef(-170F, 0.0f, 0.0f, 1.0f);
-				GL11.glTranslatef(-0.2F, -0.2F, -0.2F);
+				GL11.glRotatef(-150F, 0.0f, 0.0f, 1.0f);
+				GL11.glTranslatef(-0.4F, -0.4F, -0.1F);
 				weapon.render((Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
 						0.0625F);
 				GL11.glPopMatrix();
@@ -61,10 +61,10 @@ public class RenderBGLShooterBarrel implements IItemRenderer {
 
 			case ENTITY :
 				GL11.glPushMatrix();
-				scale = 1.5F;
+				scale = 2F;
 				GL11.glScalef(scale, scale, scale);
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.weapon_bgl_shooterbarrel_tex));
+						.bindTexture(new ResourceLocation(MHFCReference.weapon_hm_deviljho_tex));
 				GL11.glRotatef(90F, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(0F, 0.0f, 1.0f, 0.0f);
 				GL11.glRotatef(45F, 0.0f, 0.0f, 1.0f);
@@ -76,14 +76,14 @@ public class RenderBGLShooterBarrel implements IItemRenderer {
 
 			case INVENTORY :
 				GL11.glPushMatrix();
-				scale = 1.7F;
+				scale = 1.2F;
 				GL11.glScalef(scale, scale, scale);
 				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.weapon_bgl_shooterbarrel_tex));
+						.bindTexture(new ResourceLocation(MHFCReference.weapon_hm_deviljho_tex));
 
 				GL11.glRotatef(200F, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(-80F, 0.0f, 1.0f, 0.0f);
-				GL11.glTranslatef(0.1F, -0.1F, 0F);
+				GL11.glTranslatef(-0.4F, -0.7F, -0.2F);
 				// this is a method made by me in my model class to render only
 				// the modelparts, without an entity argument, because in your
 				// inventory, //the entity is always null.
