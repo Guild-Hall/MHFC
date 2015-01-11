@@ -29,8 +29,7 @@ import cpw.mods.fml.relauncher.Side;
  * 
  * NOTE: Martin/Andreas if im succeed of bypassing GL issues with some sort of stuff. We will update this to 1.7.10
  * -Heltrato.
- * 
- */
+  */
 
 @Mod(modid = MHFCReference.main_modid, name = MHFCReference.main_name, version = MHFCReference.main_version)
 
