@@ -2,7 +2,11 @@ package mhfc.net.common.ai.tigrex;
 
 import mhfc.net.common.ai.AttackAdapter;
 import mhfc.net.common.entity.mob.EntityTigrex;
+import mhfc.net.common.entity.type.EntityWyvernHostile;
+import mhfc.net.common.entity.type.EntityWyvernPeaceful;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 
@@ -26,7 +30,15 @@ public class SpinAttack extends AttackAdapter<EntityTigrex> {
 		Vec3 pos = this.entity.getPosition(1.0F);
 		Vec3 entityToTarget = target.getPosition(1.0F);
 		entityToTarget = pos.subtract(entityToTarget);
+		if(target instanceof EntityPlayer){
+			target.attackEntityFrom(DamageSource.causeMobDamage(entity), 22F);
+		}else if(target instanceof EntityWyvernHostile || target instanceof EntityWyvernPeaceful){
+			target.attackEntityFrom(DamageSource.causeMobDamage(entity), 62F);
+		}else{
+			target.attackEntityFrom(DamageSource.causeMobDamage(entity), 60F * 5 + 100);
+		}
 		return (float) (7.0D - entityToTarget.lengthVector());
+		
 	}
 
 	@Override
@@ -48,6 +60,7 @@ public class SpinAttack extends AttackAdapter<EntityTigrex> {
 
 	@Override
 	public int getNextFrame(int frame) {
+			
 		if (frame > MAX_FRAME)
 			finished = true;
 		return super.getNextFrame(frame);

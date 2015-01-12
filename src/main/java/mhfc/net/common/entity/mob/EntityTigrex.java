@@ -10,8 +10,6 @@ import mhfc.net.common.entity.type.EntityWyvernHostile;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.world.World;
 
 import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimatedObject;
@@ -40,12 +38,9 @@ public class EntityTigrex extends EntityWyvernHostile
 		attkManager.registerAttack(new SpinAttack());
 		// New AI test
 		tasks.addTask(0, attkManager);
+		
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
-				EntityRathalos.class, 0, true));
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
-				EntityAnimal.class, 0, true));
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
-				EntityMob.class, 0, true));
+				EntityPopo.class, 0, true));
 	}
 
 	@Override

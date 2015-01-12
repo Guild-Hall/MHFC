@@ -2,8 +2,12 @@ package mhfc.net.common.ai.tigrex;
 
 import mhfc.net.common.ai.AttackAdapter;
 import mhfc.net.common.entity.mob.EntityTigrex;
+import mhfc.net.common.entity.type.EntityWyvernHostile;
+import mhfc.net.common.entity.type.EntityWyvernPeaceful;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.pathfinding.PathEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 
@@ -32,19 +36,34 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 		destination = destination.addVector(pos.xCoord, pos.yCoord, pos.zCoord);
 		this.path = this.entity.getNavigator().getPathToXYZ(destination.xCoord,
 				destination.yCoord, destination.zCoord);
+		if(target instanceof EntityPlayer){
+			target.attackEntityFrom(DamageSource.causeMobDamage(entity), 22F);
+		}else if(target instanceof EntityWyvernHostile || target instanceof EntityWyvernPeaceful){
+			target.attackEntityFrom(DamageSource.causeMobDamage(entity), 62F);
+		}else{
+			target.attackEntityFrom(DamageSource.causeMobDamage(entity), 60F * 5 + 100);
+		}
+		
 		if (path == null)
 			return 0.0F;
 		double dist = entityToTarget.lengthVector();
 		return (float) Math.log(dist); // More likely the farer away
+		
 	}
 
 	@Override
 	public void beginExecution() { // Beginning the attack
 		this.entity.getNavigator().setPath(path, 1.5f);
+		EntityLivingBase target = entity.getAttackTarget();
+		
+
+		
 	}
 
 	@Override
-	public void update() {} // Called each tick
+	public void update() {
+		
+	} // Called each tick
 
 	@Override
 	public boolean shouldContinue() { // To determine if to cancel

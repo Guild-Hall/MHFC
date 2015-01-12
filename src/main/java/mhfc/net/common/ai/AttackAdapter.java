@@ -1,6 +1,7 @@
 package mhfc.net.common.ai;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.DamageSource;
 
 import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
 
@@ -9,6 +10,7 @@ public abstract class AttackAdapter<T extends EntityLivingBase>
 			IExecutableAttack<T> {
 	private IAnimation animation;
 	protected T entity;
+	private EntityLivingBase target;
 
 	public AttackAdapter() {}
 
@@ -24,6 +26,7 @@ public abstract class AttackAdapter<T extends EntityLivingBase>
 	@Override
 	public void updateEntity(T entity) {
 		this.entity = entity;
+		
 	}
 
 	@Override

@@ -14,7 +14,6 @@ public class MHFCCapes {
 
 		ThreadDownloadImageData image =
 				new ThreadDownloadImageData(null, // No local cache
-											capeURL, // Download location
 											defaultCapeRes, // On download-failure this will be displayed
 											null); // No postprocessing
 

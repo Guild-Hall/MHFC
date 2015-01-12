@@ -9,6 +9,7 @@ import mhfc.net.common.network.message.MessageAIAttack;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAITasks;
+import net.minecraft.util.DamageSource;
 
 import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
 
@@ -21,6 +22,7 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 	private final List<IExecutableAttack<T>> attacks = new ArrayList<IExecutableAttack<T>>();
 	private IExecutableAttack<T> activeAttack = null;
 	private T entity;
+	public int damage = 40;
 
 	public AIAttackManager(T entity) {
 		this.entity = Objects.requireNonNull(entity);
@@ -61,6 +63,9 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 		this.sendUpdate();
 		this.entity.onAttackStart(activeAttack);
 		this.activeAttack.beginExecution();
+		
+		
+		
 	}
 	/**
 	 * Return <code>true</code> to continue executing
