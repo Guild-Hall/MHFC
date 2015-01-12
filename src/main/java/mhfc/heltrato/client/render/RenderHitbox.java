@@ -1,5 +1,6 @@
 package mhfc.heltrato.client.render;
 
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
@@ -21,6 +22,7 @@ public class RenderHitbox {
 	public float rf1;
 	public float rf2;
 	public float rf3;
+	public ModelRenderer getEntitypart;
 	private Entity entity;
 	public float rf4;
 	private boolean getCascade;
