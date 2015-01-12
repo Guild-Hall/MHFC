@@ -161,6 +161,29 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 			tabList.get(tabIndex).handleClick(mouseX, mouseY, mouseButton);
 	}
 
+	@Override
+	protected void mouseMovedOrUp(int mouseX, int mouseY, int id) {
+		super.mouseMovedOrUp(mouseX, mouseY, id);
+		if (tabIndex >= 0 && tabIndex < tabList.size()) {
+			IMHFCTab tab = tabList.get(tabIndex);
+			if (id < 0) {
+				tab.handleMovement(mouseX, mouseY);
+			} else {
+				tab.handleMouseUp(mouseX, mouseY, id);
+			}
+		}
+	}
+
+	@Override
+	protected void mouseClickMove(int mouseX, int mouseY, int button,
+			long timeDiff) {
+		super.mouseClickMove(mouseX, mouseY, button, timeDiff);
+		if (tabIndex >= 0 && tabIndex < tabList.size()) {
+			tabList.get(tabIndex).handleMovementMouseDown(mouseX, mouseY,
+					button, timeDiff);
+		}
+	}
+
 	public List<IMHFCTab> getTabList() {
 		return tabList;
 	}

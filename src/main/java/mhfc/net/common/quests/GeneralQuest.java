@@ -11,6 +11,7 @@ import mhfc.net.common.quests.goals.QuestGoal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
+import cpw.mods.fml.server.FMLServerHandler;
 
 public class GeneralQuest implements QuestGoalSocket {
 
@@ -18,11 +19,38 @@ public class GeneralQuest implements QuestGoalSocket {
 		pending, running, finished, resigned;
 	}
 
+	private static class PlayerAttributes {
+		public EntityPlayerMP player;
+		public boolean vote;
+		public boolean restoreInventory;
+		public boolean reward;
+		public int posX, posY, posZ;
+		public int dimensionID;
+
+		public PlayerAttributes(EntityPlayerMP p, boolean vote,
+				boolean restoreInventory, boolean reward, int x, int y, int z,
+				int dim) {
+			this.player = p;
+			this.restoreInventory = restoreInventory;
+			this.vote = vote;
+			this.reward = reward;
+			this.posX = x;
+			this.posY = y;
+			this.posZ = z;
+			this.dimensionID = dim;
+		}
+	}
+
+	private static PlayerAttributes newAttribute(EntityPlayerMP player) {
+		return new PlayerAttributes(player, false, true, false,
+				player.serverPosX, player.serverPosY, player.serverPosZ,
+				player.worldObj.provider.dimensionId);
+	}
+
 	private QuestDescription originalDescription;
 	private QuestRunningInformation visualInformation;
 
-	private EntityPlayer[] players;
-	private boolean[] votes;
+	private PlayerAttributes[] playerAttributes;
 	private QuestSpawnController spawnController;
 	private int playerCount;
 
@@ -38,11 +66,9 @@ public class GeneralQuest implements QuestGoalSocket {
 			String areaId, QuestDescription originalDescription) {
 		this.questGoal = goal;
 		goal.setSocket(this);
-		this.players = new EntityPlayer[maxPartySize];
-		this.votes = new boolean[maxPartySize];
+		this.playerAttributes = new PlayerAttributes[maxPartySize];
 		for (int i = 0; i < maxPartySize; i++) {
-			players[i] = null;
-			votes[i] = false;
+			playerAttributes[i] = null;
 		}
 		this.reward = reward;
 		this.fee = fee;
@@ -80,7 +106,7 @@ public class GeneralQuest implements QuestGoalSocket {
 
 	protected void onFail() {
 		for (int i = 0; i < playerCount; i++) {
-			players[i].addChatMessage(new ChatComponentText(
+			playerAttributes[i].player.addChatMessage(new ChatComponentText(
 					"You have failed a quest"));
 		}
 		// TODO do special stuff for fail
@@ -89,8 +115,9 @@ public class GeneralQuest implements QuestGoalSocket {
 
 	protected void onSuccess() {
 		for (int i = 0; i < playerCount; i++) {
-			players[i].addExperienceLevel(10);
-			players[i].addChatMessage(new ChatComponentText(
+			playerAttributes[i].reward = true;
+			playerAttributes[i].player.addExperienceLevel(10);
+			playerAttributes[i].player.addChatMessage(new ChatComponentText(
 					"You have successfully completed a quest"));
 		}
 		this.state = QuestState.finished;
@@ -102,6 +129,13 @@ public class GeneralQuest implements QuestGoalSocket {
 		questGoal.setActive(true);
 		this.state = QuestState.running;
 		updatePlayers();
+		resetVotes();
+	}
+
+	private void resetVotes() {
+		for (int i = 0; i < playerCount; i++) {
+			playerAttributes[i].vote = false;
+		}
 	}
 
 	/**
@@ -119,11 +153,11 @@ public class GeneralQuest implements QuestGoalSocket {
 	protected void updatePlayers() {
 		visualInformation.updateFromQuest(this);
 		for (int i = 0; i < playerCount; i++) {
-			EntityPlayer p = players[i];
+			EntityPlayerMP p = playerAttributes[i].player;
 			String id = MHFCRegQuests.getIdentifierForQuest(this);
 			PacketPipeline.networkPipe.sendTo(
 					new<QuestRunningInformation> MessageQuestVisual(id,
-							visualInformation), (EntityPlayerMP) p);
+							visualInformation), p);
 
 		}
 		MHFCRegQuests.questUpdated(this);
@@ -131,7 +165,8 @@ public class GeneralQuest implements QuestGoalSocket {
 
 	public boolean canJoin(EntityPlayer player) {
 		// TODO add more evaluation and/or move to another class?
-		if (state == QuestState.pending && playerCount < players.length
+		if (state == QuestState.pending
+				&& playerCount < playerAttributes.length
 				&& MHFCRegQuests.getQuestForPlayer(player) == null) {
 			return true;
 		}
@@ -150,7 +185,7 @@ public class GeneralQuest implements QuestGoalSocket {
 
 	public void addPlayer(EntityPlayer player) {
 		if (canJoin(player)) {
-			players[playerCount] = player;
+			playerAttributes[playerCount] = newAttribute((EntityPlayerMP) player);
 			++playerCount;
 			MHFCRegQuests.setQuestForPlayer(player, this);
 			updatePlayers();
@@ -160,10 +195,10 @@ public class GeneralQuest implements QuestGoalSocket {
 	public boolean removePlayer(EntityPlayer player) {
 		int i;
 		boolean found = false;
-		for (i = 0; i < players.length; i++) {
-			if (players[i] != null
+		for (i = 0; i < playerAttributes.length; i++) {
+			if (playerAttributes[i] != null
 					&& player != null
-					&& players[i].getGameProfile().getName() == player
+					&& playerAttributes[i].player.getGameProfile().getName() == player
 							.getGameProfile().getName()) {
 				found = true;
 				break;
@@ -178,20 +213,31 @@ public class GeneralQuest implements QuestGoalSocket {
 	protected void removePlayer(int index) {
 		if (index < 0 || index >= playerCount)
 			return;
+
+		PlayerAttributes att = playerAttributes[index];
 		PacketPipeline.networkPipe.sendTo(
 				new<QuestRunningInformation> MessageQuestVisual("", null),
-				(EntityPlayerMP) players[index]);
-		MHFCRegQuests.setQuestForPlayer(players[index], null);
-		// FIXME teleport players to the overworld if they aren't there.
+				att.player);
+		MHFCRegQuests.setQuestForPlayer(att.player, null);
+		if (att.player.getEntityWorld().provider.dimensionId != att.dimensionID)
+			FMLServerHandler.instance().getServer().getConfigurationManager()
+					.transferPlayerToDimension(att.player, att.dimensionID);
+		att.player.moveEntity(att.posX, att.posY, att.posZ);
+
+		// Clean up, move rest up
 		for (int i = index; i < playerCount - 1; i++) {
-			players[i] = players[i + 1];
+			playerAttributes[i] = playerAttributes[i + 1];
 		}
-		players[playerCount - 1] = null;
+		playerAttributes[playerCount - 1] = null;
 		--playerCount;
 	}
 
-	public EntityPlayer[] getPlayers() {
-		return players;
+	public EntityPlayerMP[] getPlayers() {
+		EntityPlayerMP[] playrs = new EntityPlayerMP[playerCount];
+		for (int i = 0; i < playerCount; i++) {
+			playrs[i] = playerAttributes[i].player;
+		}
+		return playrs;
 	}
 
 	public QuestSpawnController getSpawnController() {
@@ -204,7 +250,7 @@ public class GeneralQuest implements QuestGoalSocket {
 
 	public String updateVisual(InformationType t, String current) {
 		if (t == InformationType.MaxPartySize) {
-			return playerCount + "/" + players.length
+			return playerCount + "/" + playerAttributes.length
 					+ " {unlocalized:Players}";
 		}
 		String mod = questGoal.modify(t, "");
@@ -215,31 +261,34 @@ public class GeneralQuest implements QuestGoalSocket {
 
 	public void voteStart(EntityPlayerMP player) {
 		for (int i = 0; i < playerCount; i++) {
-			if (players[i] == player) {
-				votes[i] = true;
+			if (playerAttributes[i].player == player) {
+				playerAttributes[i].vote = true;
 				break;
 			}
 		}
-		boolean start = true;
-		for (int i = 0; i < playerCount; i++) {
-			start &= (player == null) || votes[i];
-		}
+
+		boolean start = allVotes();
 		if (start) {
 			onStart();
 		}
 	}
 
+	private boolean allVotes() {
+		boolean votes = true;
+		for (int i = 0; i < playerCount; i++) {
+			votes &= (playerAttributes[i] == null) || playerAttributes[i].vote;
+		}
+		return votes;
+	}
+
 	public void voteEnd(EntityPlayerMP player) {
 		for (int i = 0; i < playerCount; i++) {
-			if (players[i] == player) {
-				votes[i] = false;
+			if (playerAttributes[i].player == player) {
+				playerAttributes[i].vote = false;
 				break;
 			}
 		}
-		boolean end = false;
-		for (int i = 0; i < playerCount; i++) {
-			end |= (player == null) && votes[i];
-		}
+		boolean end = allVotes();
 		if (end && state == QuestState.running) {
 			onEnd();
 		}

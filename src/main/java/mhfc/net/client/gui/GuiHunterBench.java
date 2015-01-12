@@ -127,6 +127,19 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		public void onOpen() {
 		}
 
+		@Override
+		public void handleMouseUp(int mouseX, int mouseY, int button) {
+		}
+
+		@Override
+		public void handleMovement(int mouseX, int mouseY) {
+		}
+
+		@Override
+		public void handleMovementMouseDown(int mouseX, int mouseY, int button,
+				long timeDiff) {
+		}
+
 	}
 
 	protected class CraftArmorTab extends BenchEntityTab {
@@ -275,6 +288,9 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 	protected class WeaponTreeTab implements IMHFCTab {
 
+		private int mouseX = 0, mouseY = 0;
+		private int baseX = 0, baseY = 0;
+
 		@Override
 		public void drawTab(int posX, int posY, int mousePosX, int mousePosY,
 				float partialTick) {
@@ -284,16 +300,15 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			drawRect(guiLeft + 10, guiTop + 10, guiLeft + xSize - 10, guiTop
 					+ ySize - 10, 0xFF101010);
 			drawCenteredString(fontRendererObj, "Not yet implemented", guiLeft
-					+ xSize / 2, guiTop + ySize / 2, 0xaaaaaa);
+					+ xSize / 2 + baseX, guiTop + ySize / 2 + baseY, 0xaaaaaa);
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
 			GL11.glPopMatrix();
 		}
 
 		@Override
 		public void handleClick(int relativeX, int relativeY, int button) {
-
-			// TODO Dragging should be handeled correctly
-
+			mouseX = relativeX;
+			mouseY = relativeY;
 		}
 
 		@Override
@@ -311,6 +326,33 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		public void onOpen() {
+		}
+
+		@Override
+		public void handleMovementMouseDown(int mouseX, int mouseY, int button,
+				long timeDiff) {
+			if (button == 0) {
+				baseX += mouseX - this.mouseX;
+				baseY += mouseY - this.mouseY;
+			}
+			this.mouseX = mouseX;
+			this.mouseY = mouseY;
+		}
+
+		@Override
+		public void handleMouseUp(int mouseX, int mouseY, int button) {
+			if (button == 0) {
+				baseX += mouseX - this.mouseX;
+				baseY += mouseY - this.mouseY;
+			}
+			this.mouseX = mouseX;
+			this.mouseY = mouseY;
+		}
+
+		@Override
+		public void handleMovement(int mouseX, int mouseY) {
+			this.mouseX = mouseX;
+			this.mouseY = mouseY;
 		}
 
 	}

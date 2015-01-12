@@ -365,6 +365,22 @@ public class MHFCRegQuests {
 						groupIDs.clear();
 						groupMapping.clear();
 						loadQuests();
+						for (GeneralQuest genQ : questsRunning) {
+							RunningSubscriptionHandler
+									.sendToAll(new MessageQuestVisual(
+											getIdentifierForQuest(genQ), genQ
+													.getRunningInformation()));
+						}
+						Iterator<?> it = FMLCommonHandler.instance()
+								.getMinecraftServerInstance()
+								.getConfigurationManager().playerEntityList
+								.iterator();
+						while (it.hasNext()) {
+							player = (EntityPlayerMP) it.next();
+							PacketPipeline.networkPipe.sendTo(
+									new MessageQuestScreenInit(groupMapping,
+											groupIDs), player);
+						}
 					default :
 						break;
 				}
@@ -515,18 +531,7 @@ public class MHFCRegQuests {
 		generateQuests(new ResourceLocation(MHFCReference.questLocation));
 		generateGoals(new ResourceLocation(MHFCReference.goalLocation));
 		generateGroupMapping(new ResourceLocation(MHFCReference.groupLocation));
-		for (GeneralQuest q : questsRunning) {
-			RunningSubscriptionHandler.sendToAll(new MessageQuestVisual(
-					getIdentifierForQuest(q), q.getRunningInformation()));
-		}
-		Iterator<?> it = FMLCommonHandler.instance()
-				.getMinecraftServerInstance().getConfigurationManager().playerEntityList
-				.iterator();
-		while (it.hasNext()) {
-			EntityPlayerMP player = (EntityPlayerMP) it.next();
-			PacketPipeline.networkPipe.sendTo(new MessageQuestScreenInit(
-					groupMapping, groupIDs), player);
-		}
+
 		MHFCMain.logger.info("Quest loaded");
 	}
 
