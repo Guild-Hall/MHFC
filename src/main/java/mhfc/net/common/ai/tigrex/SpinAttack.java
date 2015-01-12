@@ -35,7 +35,7 @@ public class SpinAttack extends AttackAdapter<EntityTigrex> {
 		}else if(target instanceof EntityWyvernHostile || target instanceof EntityWyvernPeaceful){
 			target.attackEntityFrom(DamageSource.causeMobDamage(entity), 62F);
 		}else{
-			target.attackEntityFrom(DamageSource.causeMobDamage(entity), 60F * 5 + 100);
+			target.attackEntityFrom(DamageSource.causeMobDamage(entity), 70F * 5 + 100);
 		}
 		return (float) (7.0D - entityToTarget.lengthVector());
 		
