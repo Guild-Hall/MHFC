@@ -10,6 +10,8 @@ public class MHFCWeaponMaterialHelper {
 	public static ToolMaterial GSBoneBlade = EnumHelper.addToolMaterial("BoneBlade", 3, 1000, 1.0F, 12, 5);
 	public static ToolMaterial GSTigrex = EnumHelper.addToolMaterial("GSTigrex", 3, 2100, 1.0F, 41, 25);
 	public static ToolMaterial GSKirin = EnumHelper.addToolMaterial("kirin", 3, 1750, 1.0F, 46f, 25); 
+	public static ToolMaterial GSDeviljho = EnumHelper.addToolMaterial("gsdjho", 3, 5000, 1000, 81, 24);
+	
 	
 	//LongSword
 	public static ToolMaterial LSIronKatana = EnumHelper.addToolMaterial("IronKatana", 7, 1500, 3.0F, 17, 25);

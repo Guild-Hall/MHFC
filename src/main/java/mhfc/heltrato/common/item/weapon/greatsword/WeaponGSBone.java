@@ -33,11 +33,6 @@ public class WeaponGSBone extends SemiLethalClass {
 	}
 
 	@Override
-	public boolean isFull3D() {
-		return true;
-	}
-
-	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
 		itemIcon = par1IconRegister
 				.registerIcon(MHFCReference.weapon_gs_bone_icon);

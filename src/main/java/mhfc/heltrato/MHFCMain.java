@@ -53,6 +53,7 @@ public class MHFCMain {
 	
 	@Mod.EventHandler
 	public void load(FMLInitializationEvent event){
+		
 	network = NetworkRegistry.INSTANCE.newSimpleChannel("mhfc");
 	network.registerMessage(MessageAIRathalos.PacketAIRathalosHandler.class, MessageAIRathalos.class, 0, Side.CLIENT);
 	network.registerMessage(MessageAITigrex.PacketAITigrexHandler.class, MessageAITigrex.class, 1, Side.CLIENT);

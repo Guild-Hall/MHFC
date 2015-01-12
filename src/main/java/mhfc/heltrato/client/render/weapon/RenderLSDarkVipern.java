@@ -75,14 +75,14 @@ public class RenderLSDarkVipern implements IItemRenderer {
 
 			case INVENTORY :
 				GL11.glPushMatrix();
-				scale = 1F;
+				scale = 0.9F;
 				GL11.glScalef(scale, scale, scale);
 				Minecraft.getMinecraft().renderEngine
 						.bindTexture(new ResourceLocation(MHFCReference.weapon_ls_darkviper_tex));
 
 				GL11.glRotatef(200F, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(-80F, 0.0f, 1.0f, 0.0f);
-				GL11.glTranslatef(-0.2F, 0.5F, -0.1F);
+				GL11.glTranslatef(-0.2F, 0.7F, -0.1F);
 				// this is a method made by me in my model class to render only
 				// the modelparts, without an entity argument, because in your
 				// inventory, //the entity is always null.

@@ -40,10 +40,6 @@ public class WeaponHKirinSpark extends SiegeClass {
 		par3List.add("\u00a72Siege Damage");
 	}
 
-	@Override
-	public boolean isFull3D() {
-		return true;
-	}
 
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
