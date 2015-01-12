@@ -5,6 +5,7 @@ import mhfc.heltrato.client.model.armor.ModelKirinArmor;
 import mhfc.heltrato.client.model.armor.ModelKirinSArmor;
 import mhfc.heltrato.client.model.armor.ModelRathalosArmor;
 import mhfc.heltrato.client.model.armor.ModelTigrexArmor;
+import mhfc.heltrato.client.model.armor.ModelVelocipreyArmor;
 import mhfc.heltrato.client.model.armor.ModelYukumoArmor;
 import net.minecraft.client.model.ModelBiped;
 
@@ -23,6 +24,7 @@ public class MHFCArmorModelHelper {
 	public static final ModelYukumoArmor yukumo = new ModelYukumoArmor(1.0F);
 	public static final ModelRathalosArmor rathalos = new ModelRathalosArmor(1.0F);
 	public static final ModelDragoonArmor dragoon = new ModelDragoonArmor(1.0F);
+	public static final ModelVelocipreyArmor velociprey = new ModelVelocipreyArmor(1.0F);
 
 
 	
@@ -41,6 +43,8 @@ public class MHFCArmorModelHelper {
 		case 5:
 			return dragoon;
 		case 6:
+			return velociprey;
+		case 7:
 			default:
 				break;
 		}

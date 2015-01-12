@@ -141,6 +141,10 @@ item.f.mhf_helm.name= Dragoon Helm
 item.f.mhf_chest.name= Dragoon Icon
 item.f.mhf_leg.name= Dragoon Shroud
 item.f.mhf_boots.name= Dragoon Shoes
+item.g.mhf_helm.name= Velociprey Helmet
+item.g.mhf_chest.name= Velociprey Plate
+item.g.mhf_leg.name= Velociprey Leggings
+item.g.mhf_boots.name= Velociprey Boots
 
 
 

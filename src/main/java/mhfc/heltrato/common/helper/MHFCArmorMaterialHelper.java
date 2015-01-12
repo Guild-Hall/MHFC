@@ -12,6 +12,7 @@ public class MHFCArmorMaterialHelper {
 	public static ArmorMaterial ArmorRathalos = EnumHelper.addArmorMaterial("rathalos", 200, new int[]{5, 11, 6, 4}, 35);
 	public static ArmorMaterial ArmorTigrex = EnumHelper.addArmorMaterial("tigrex", 300, new int[]{9, 17 , 13, 6}, 45);
 	public static ArmorMaterial ArmorKirin = EnumHelper.addArmorMaterial("kirin", 325, new int[]{12, 18 , 14, 7}, 45);
+	public static ArmorMaterial ArmorVelociprey = EnumHelper.addArmorMaterial("velociprey", 200, new int[]{3,7,5,2},45);
 	
 	// Senti Rank Armos
 	public static ArmorMaterial ArmorDragoon = EnumHelper.addArmorMaterial("dragoon", 850, new int[]{14, 16, 15, 11}, 80);

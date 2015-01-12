@@ -63,6 +63,16 @@ public class MHFCReference {
 	public static final String armor_yukumo_legs_name = "d.mhf_leg";
 	public static final String armor_yukumo_tex1 = "mhfc:textures/armor/yukumo_layer_1.png";
 	public static final String armor_yukumo_tex2 = "mhfc:textures/armor/yukumo_layer_2.png";
+	public static final String armor_velociprey_boots_icon = "mhfc:mhf_3";
+	public static final String armor_velociprey_boots_name = "f.mhf_boots";
+	public static final String armor_velociprey_chest_icon = "mhfc:mhf_1";
+	public static final String armor_velociprey_chest_name = "f.mhf_chest";
+	public static final String armor_velociprey_helm_icon = "mhfc:mhf_0";
+	public static final String armor_velociprey_helm_name = "f.mhf_helm";
+	public static final String armor_velociprey_legs_icon = "mhfc:mhf_2";
+	public static final String armor_velociprey_legs_name = "f.mhf_leg";
+	public static final String armor_velociprey_tex1 = "mhfc:textures/armor/velociprey_layer_1.png";
+	public static final String armor_velociprey_tex2 = "mhfc:textures/armor/velociprey_layer_2.png";
 	public static final String block_armorstand_icon = "mhfc:armorstandblock";
 	public static final String block_armorstand_name = "armorstand";
 	public static final String block_armorstandbase_icon = "mhfc:armorstandblock";
