@@ -277,6 +277,9 @@ public class MHFCReference {
 	public static final String weapon_gs_deviljho_icon = "mhfc:greatsword";
 	public static final String weapon_gs_deviljho_name = "greatsword_4";
 	public static final String weapon_gs_deviljho_tex = "mhfc:textures/weapons/(GS)deviljhobroadsword.png";
+	public static final String weapon_gs_rathalos_icon = "mhfc:greatsword";
+	public static final String weapon_gs_rathalos_name = "greatsword_5";
+	public static final String weapon_gs_rathalos_tex = "mhfc:textures/weapons/(GS)rathalosfiresword.png";
 	public static final String weapon_hh_metalbagpipe_icon = "mhfc:huntinghorn";
 	public static final String weapon_hh_metalbagpipe_name = "huntinghorn_1";
 	public static final String weapon_hh_metalbagpipe_tex = "mhfc:textures/weapons/(HH)metalbagpipe.png";
