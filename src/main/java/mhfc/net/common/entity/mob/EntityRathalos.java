@@ -1,9 +1,11 @@
 package mhfc.net.common.entity.mob;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.ai.AIAttackManager;
+import mhfc.net.common.ai.IExecutableAttack;
+import mhfc.net.common.ai.IMangedAttacks;
 import mhfc.net.common.core.registry.MHFCRegItem;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
-import mhfc.net.common.implement.iMHFC;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -11,7 +13,11 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.world.World;
 
-public class EntityRathalos extends EntityWyvernHostile implements iMHFC {
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimatedObject;
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
+import com.google.common.base.Predicate;
+
+public class EntityRathalos extends EntityWyvernHostile implements IAnimatedObject,IMangedAttacks<EntityRathalos> {
 
 	public int currentAttackID;
 	public int animTick;
@@ -35,19 +41,15 @@ public class EntityRathalos extends EntityWyvernHostile implements iMHFC {
 		if (currentAttackID != 0)
 			animTick++;
 	}
-	@Override
 	public void setAnimID(int id) {
 		currentAttackID = id;
 	}
-	@Override
 	public void setAnimTick(int tick) {
 		animTick = tick;
 	}
-	@Override
 	public int getAnimID() {
 		return currentAttackID;
 	}
-	@Override
 	public int getAnimTick() {
 		return animTick;
 	}
@@ -100,6 +102,48 @@ public class EntityRathalos extends EntityWyvernHostile implements iMHFC {
 		}
 		dropItemRand(MHFCRegItem.mhfcitemrathalosplate, 1);
 
+	}
+
+	@Override
+	public void onAttackStart(IExecutableAttack<EntityRathalos> newAttack) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAttackEnd(IExecutableAttack<EntityRathalos> oldAttack) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public AIAttackManager<EntityRathalos> getAttackManager() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IAnimation getCurrentAnimation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getCurrentFrame() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Predicate<String> getPartPredicate(float arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Scale getScale() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
