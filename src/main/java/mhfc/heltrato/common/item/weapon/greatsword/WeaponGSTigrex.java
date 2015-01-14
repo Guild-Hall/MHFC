@@ -3,14 +3,12 @@ package mhfc.heltrato.common.item.weapon.greatsword;
 import java.util.List;
 import java.util.Random;
 
-import mhfc.heltrato.common.entity.mob.EntityKirin;
 import mhfc.heltrato.common.item.weapon.type.SemiLethalClass;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 
@@ -51,9 +49,6 @@ public class WeaponGSTigrex extends SemiLethalClass {
 			EntityLivingBase player) {
 		Random rand = new Random();
 		float damage = 0.0f;
-		if (ent instanceof EntityKirin) {
-			damage = weaponDamage + rand.nextInt(9);
-		}
 
 		DamageSource dmgSource = DamageSource
 				.causePlayerDamage((EntityPlayer) player);

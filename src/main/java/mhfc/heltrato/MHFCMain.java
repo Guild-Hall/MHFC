@@ -2,9 +2,6 @@ package mhfc.heltrato;
 
 import mhfc.heltrato.common.MHFCCommon;
 import mhfc.heltrato.common.network.message.MessageAIAnim;
-import mhfc.heltrato.common.network.message.MessageAIKirin;
-import mhfc.heltrato.common.network.message.MessageAIRathalos;
-import mhfc.heltrato.common.network.message.MessageAITigrex;
 import mhfc.heltrato.common.tab.MHFCTab;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.creativetab.CreativeTabs;
@@ -55,10 +52,6 @@ public class MHFCMain {
 	public void load(FMLInitializationEvent event){
 		
 	network = NetworkRegistry.INSTANCE.newSimpleChannel("mhfc");
-	network.registerMessage(MessageAIRathalos.PacketAIRathalosHandler.class, MessageAIRathalos.class, 0, Side.CLIENT);
-	network.registerMessage(MessageAITigrex.PacketAITigrexHandler.class, MessageAITigrex.class, 1, Side.CLIENT);
-	network.registerMessage(MessageAIAnim.PacketAIAnimHandler.class, MessageAIAnim.class, 2, Side.CLIENT);
-	network.registerMessage(MessageAIKirin.PacketAIKirinHandler.class, MessageAIKirin.class, 3, Side.CLIENT);
 	proxy.regSounds();
 	proxy.regStuff();
 	proxy.regTimer();

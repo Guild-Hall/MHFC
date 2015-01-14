@@ -4,14 +4,12 @@ import java.util.List;
 import java.util.Random;
 
 import mhfc.heltrato.MHFCMain;
-import mhfc.heltrato.common.entity.mob.EntityKirin;
 import mhfc.heltrato.common.item.weapon.type.SiegeClass;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -60,9 +58,6 @@ public class WeaponHTigrex extends SiegeClass {
 		player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 80, 1));
 		float damage = 0.0f;
 		player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 40, 8));
-		if (ent instanceof EntityKirin) {
-			damage = 60;
-		}
 		if (rand.nextInt() == 40) {
 			// damage = 232;
 		}

@@ -1,7 +1,6 @@
 package mhfc.heltrato.common.biomes;
 
 import mhfc.heltrato.common.core.registry.MHFCRegBlock;
-import mhfc.heltrato.common.entity.mob.EntityAptonoth;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeManager;
 
@@ -23,7 +22,6 @@ public class BiomeWBase extends BiomeGenBase {
 		temperature = getTemp;
 		topBlock = MHFCRegBlock.mhfcblockgrass;
 		fillerBlock = MHFCRegBlock.mhfcblockdirt;
-		spawnableCreatureList.add(new SpawnListEntry(EntityAptonoth.class, 10, 3,5));
 		spawnThisBiome(this);
 	}
 	

@@ -2,14 +2,12 @@ package mhfc.heltrato.common.item.weapon.longsword;
 
 import java.util.List;
 
-import mhfc.heltrato.common.entity.mob.EntityKirin;
 import mhfc.heltrato.common.item.weapon.type.LethalClass;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -52,9 +50,6 @@ public class WeaponLSIronKatana extends LethalClass {
 
 		float damage = 0.0f;
 		player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60, 3));
-		if (ent instanceof EntityKirin) {
-			damage = weaponDamage / 2;
-		}
 
 		DamageSource dmgSource = DamageSource
 				.causePlayerDamage((EntityPlayer) player);

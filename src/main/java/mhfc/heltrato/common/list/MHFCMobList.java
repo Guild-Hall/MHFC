@@ -7,15 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import mhfc.heltrato.common.core.registry.MHFCRegEntity;
-import mhfc.heltrato.common.entity.mob.EntityAptonoth;
-import mhfc.heltrato.common.entity.mob.EntityKirin;
-import mhfc.heltrato.common.entity.mob.EntityPopo;
-import mhfc.heltrato.common.entity.mob.EntityRathalos;
-import mhfc.heltrato.common.entity.mob.EntityTigrex;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatBase;
 import net.minecraft.util.ChatComponentTranslation;
@@ -201,11 +193,6 @@ public class MHFCMobList
     {
     	int monsterID = MHFCRegEntity.getMobID();
     	
-    	addMapping(EntityAptonoth.class, "mhfc.aptonoth", 301, 0x1f94f01, 0x00ff00);
-    	addMapping(EntityPopo.class, "mhfc.popo", 302, 0xf8248234, 0x193192);
-    	addMapping(EntityRathalos.class, "mhfc.rathalos", 303, 0xff749819, 0xf838818);
-        addMapping(EntityTigrex.class,"mhfc.tigrex",304, 0xfff432e3, 0x1020394f);
-		addMapping(EntityKirin.class, "mhfc.kirin", 305, 0xfff85814, 0xff851f15);
 		
 		
     }

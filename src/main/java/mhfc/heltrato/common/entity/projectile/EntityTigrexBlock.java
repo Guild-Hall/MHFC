@@ -2,7 +2,6 @@ package mhfc.heltrato.common.entity.projectile;
 
 import java.util.List;
 
-import mhfc.heltrato.common.entity.mob.EntityTigrex;
 import mhfc.heltrato.common.entity.type.EntityWyvernHostile;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,7 +19,7 @@ public class EntityTigrexBlock extends EntityThrowable {
 		setSize(1.0F, 1.0F);
 	}
 	
-	public EntityTigrexBlock(World par, EntityTigrex e) {
+	public EntityTigrexBlock(World par, EntityLivingBase e) {
 		super(par,e);
 		rotationYaw = e.rotationYaw;
 		setSize(1.0F, 1.0F);

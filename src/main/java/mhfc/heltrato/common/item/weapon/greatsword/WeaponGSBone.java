@@ -2,14 +2,12 @@ package mhfc.heltrato.common.item.weapon.greatsword;
 
 import java.util.List;
 
-import mhfc.heltrato.common.entity.mob.EntityKirin;
 import mhfc.heltrato.common.item.weapon.type.SemiLethalClass;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 
@@ -48,9 +46,9 @@ public class WeaponGSBone extends SemiLethalClass {
 			EntityLivingBase player) {
 
 		float damage = 0.0f;
-		if (ent instanceof EntityKirin) {
+	/*	if (ent instanceof EntityKirin) {
 			damage = 16;
-		}
+		}*/
 
 		DamageSource dmgSource = DamageSource
 				.causePlayerDamage((EntityPlayer) player);
