@@ -1,12 +1,6 @@
 package mhfc.heltrato.common.core.registry;
 
 import mhfc.heltrato.MHFCMain;
-import mhfc.heltrato.common.entity.mob.EntityAptonoth;
-import mhfc.heltrato.common.entity.mob.EntityKirin;
-import mhfc.heltrato.common.entity.mob.EntityPopo;
-import mhfc.heltrato.common.entity.mob.EntityRathalos;
-import mhfc.heltrato.common.entity.mob.EntityTigrex;
-import mhfc.heltrato.common.entity.part.EntityTigrexTail;
 import mhfc.heltrato.common.entity.projectile.EntityRathalosFireball;
 import mhfc.heltrato.common.entity.projectile.EntityTigrexBlock;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -27,11 +21,7 @@ public class MHFCRegEntity {
 	
 	public static void registerMonster() {
 		
-		getMobID(EntityAptonoth.class, "aptonoth");
-		getMobID(EntityPopo.class, "popo");
-		getMobID(EntityRathalos.class, "rathalos");
-		getMobID(EntityTigrex.class, "tigrex");
-		getMobID(EntityKirin.class, "kirin");
+	
 		
 	}
 	
