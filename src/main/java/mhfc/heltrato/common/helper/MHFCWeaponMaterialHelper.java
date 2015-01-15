@@ -25,10 +25,12 @@ public class MHFCWeaponMaterialHelper {
 	public static ToolMaterial HTigrex = EnumHelper.addToolMaterial("Tigrex Hammer", 3, 2500, 1.0F, 44, 5);
 	public static ToolMaterial HKirinSpark = EnumHelper.addToolMaterial("Spark", 4, 2500, 1.0F, 63, 10);
 	public static ToolMaterial HDeviljho = EnumHelper.addToolMaterial("Djho", 3, 5000, 2, 86, 25);
+	public static ToolMaterial HRathalos = EnumHelper.addToolMaterial("rath", 4, 2000, 1, 60, 40);
 	
 	
 	//HuntingHorn
 	public static ToolMaterial HHMetalBagpipe = EnumHelper.addToolMaterial("metalbagpipe", 4, 1000, 1f, 8, 4);
+	public static ToolMaterial HHIvoryHorn = EnumHelper.addToolMaterial("ivoryhorn", 4, 650, 1, 5, 3);
 	
 	public void init(){}
 

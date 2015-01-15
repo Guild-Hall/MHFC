@@ -17,6 +17,7 @@ public class MHFCClient extends MHFCCommon
 	private MHFCReg reg;
 	private MinecraftForge forge;
 	private static Timer timer;
+	private static int getParticularTick; //
 	public void regStuff(){
 		reg.init();
 	}

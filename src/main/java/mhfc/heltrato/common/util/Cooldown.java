@@ -24,7 +24,7 @@ public class Cooldown{
 			MHFCNBTHelper.setInteger(iStack, COOLDOWN_NBT, maxCooldown);
 		}
 		if(MHFCNBTHelper.getInteger(iStack, COOLDOWN_NBT) > 0){
-			MHFCNBTHelper.decreaseInteger(iStack, COOLDOWN_NBT, 2);
+			MHFCNBTHelper.decreaseInteger(iStack, COOLDOWN_NBT, 1);
 		}
 	}
 	

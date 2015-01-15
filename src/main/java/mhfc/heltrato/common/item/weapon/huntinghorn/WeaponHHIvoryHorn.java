@@ -15,16 +15,16 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class WeaponHHMetalBagpipe extends SiegeClass {
+public class WeaponHHIvoryHorn extends SiegeClass {
 
 	private float weaponDamage;
 	// private EntityLivingBase target;
 
-	public static final int COOLDOWN = 2100; // 200 - cooldown in ticks. 1 sec -
+	public static final int COOLDOWN = 1400; // 200 - cooldown in ticks. 1 sec -
 												// 20 ticks.
-	public WeaponHHMetalBagpipe(ToolMaterial getType) {
+	public WeaponHHIvoryHorn(ToolMaterial getType) {
 		super(getType);
-		setUnlocalizedName(MHFCReference.weapon_hh_metalbagpipe_name);
+		setUnlocalizedName(MHFCReference.weapon_hh_ivoryhorn_name);
 
 		weaponDamage = getType.getDamageVsEntity() - 4;
 
@@ -37,7 +37,7 @@ public class WeaponHHMetalBagpipe extends SiegeClass {
 			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
 		par3List.add("\u00a79No Element");
 		par3List.add("\u00a72Siege Damage");
-		par3List.add("\u00a72Note Type: Supportive");
+		par3List.add("\u00a72Note Type: Damage");
 		Cooldown.displayCooldown(par1ItemStack, par3List, COOLDOWN); // display
 																		// current
 																		// cooldown
@@ -46,7 +46,7 @@ public class WeaponHHMetalBagpipe extends SiegeClass {
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
 		itemIcon = par1IconRegister
-				.registerIcon(MHFCReference.weapon_hh_metalbagpipe_icon);
+				.registerIcon(MHFCReference.weapon_hh_ivoryhorn_icon);
 	}
 
 	@Override
@@ -71,14 +71,6 @@ public class WeaponHHMetalBagpipe extends SiegeClass {
 				.getEntitiesWithinAABBExcludingEntity(player.getLastAttacker(),
 						player.boundingBox.expand(12D, 8D, 12D));
 		for (Entity entity : list) {
-			if (rand.nextInt(20) == 0) {
-				((EntityLivingBase) entity).addPotionEffect(new PotionEffect(
-						Potion.resistance.id, 100, 1));
-			}
-			if (rand.nextInt(40) == 0) {
-				((EntityLivingBase) entity).addPotionEffect(new PotionEffect(
-						Potion.jump.id, 60, 3));
-			}
 			float damage = 0.0f;
 
 			DamageSource dmgSource = DamageSource
@@ -102,7 +94,7 @@ public class WeaponHHMetalBagpipe extends SiegeClass {
 				if (entity instanceof EntityLivingBase)
 					((EntityLivingBase) entity)
 							.addPotionEffect(new PotionEffect(
-									Potion.regeneration.id, 800, 1));
+									Potion.damageBoost.id, 300, 1));
 			}
 
 		}

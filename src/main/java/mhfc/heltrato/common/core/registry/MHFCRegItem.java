@@ -38,10 +38,12 @@ import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSRathalosFiresword;
 import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSTigrex;
 import mhfc.heltrato.common.item.weapon.hammer.WeaponHDeviljho;
 import mhfc.heltrato.common.item.weapon.hammer.WeaponHKirinSpark;
+import mhfc.heltrato.common.item.weapon.hammer.WeaponHRathalos;
 import mhfc.heltrato.common.item.weapon.hammer.WeaponHTigrex;
 import mhfc.heltrato.common.item.weapon.hammer.WeaponHWar;
 import mhfc.heltrato.common.item.weapon.hammer.WeaponHWarPlus;
 import mhfc.heltrato.common.item.weapon.hammer.WeaponHWarSlammer;
+import mhfc.heltrato.common.item.weapon.huntinghorn.WeaponHHIvoryHorn;
 import mhfc.heltrato.common.item.weapon.huntinghorn.WeaponHHMetalBagpipe;
 import mhfc.heltrato.common.item.weapon.longsword.WeaponLSDarkVipern;
 import mhfc.heltrato.common.item.weapon.longsword.WeaponLSIronKatana;
@@ -59,16 +61,18 @@ public class MHFCRegItem {
 	public static Item mhfcitemgsbone;
 	public static Item MHFCItemGSTigrex;
 	public static Item mhfcitemgskirinthundersword;
-	public static Item mhfcitemgsdeviljhobroadsword;
+	public static Item mhfcitemgsberserkerssword;
 	public static Item mhfcitemgsrathalosfiresword;
 	public static Item MHFCItemHTigrex;
 	public static Item mhfcitemhkirinspark;
 	public static Item mhfcitemhwarhammer;
 	public static Item mhfcitemhwarhammerplus;
 	public static Item mhfcitemhwarslammer;
-	public static Item mhfcitemhdeviljho;
+	public static Item mhfcitemhdevilsdue;
+	public static Item mhfcitemhrathalos;
 	public static Item mhfcitemlsironkatana;
 	public static Item mhfcitembhunter;
+	public static Item mhfcitemhhivoryhorn;
 	public static Item mhfcitemhhmetalbagpipe;
 	public static Item mhfcitemlsdarkvipern;
 	public static Item mhfcitembglshooterbarrel;
@@ -105,6 +109,7 @@ public class MHFCRegItem {
 	public static Item mhfcitemvelocipreychest;
 	public static Item mhfcitemvelocipreylegs;
 	public static Item mhfcitemvelocipreyboots;
+	public static Item mhfcitemdeviljhohelm;
 	
 	
 	
@@ -173,14 +178,16 @@ public class MHFCRegItem {
 		getItemID(mhfcitemgsbone);
 		getItemID(MHFCItemGSTigrex);
 		getItemID(mhfcitemgskirinthundersword);
-		getItemID(mhfcitemgsdeviljhobroadsword);
+		getItemID(mhfcitemgsberserkerssword);
 		getItemID(mhfcitemgsrathalosfiresword);
 		getItemID(mhfcitemhwarhammer);
 		getItemID(mhfcitemhwarhammerplus);
 		getItemID(mhfcitemhwarslammer);
 		getItemID(MHFCItemHTigrex);
 		getItemID(mhfcitemhkirinspark);
-		getItemID(mhfcitemhdeviljho);
+		getItemID(mhfcitemhrathalos);
+		getItemID(mhfcitemhdevilsdue);
+		getItemID(mhfcitemhhivoryhorn);
 		getItemID(mhfcitemhhmetalbagpipe);
 //		getItemID(mhfcitembadventurer);
 //		getItemID(mhfcitembhunter);
@@ -311,17 +318,19 @@ public class MHFCRegItem {
 		MHFCItemGSTigrex = new WeaponGSTigrex(mat.GSTigrex);
 		mhfcitemgsbone = new WeaponGSBone(mat.GSBoneBlade);
 		mhfcitemgskirinthundersword = new WeaponGSKirinThunderSword(mat.GSKirin);
-		mhfcitemgsdeviljhobroadsword = new WeaponGSDeviljhobroadsword(mat.GSDeviljho);
+		mhfcitemgsberserkerssword = new WeaponGSDeviljhobroadsword(mat.GSDeviljho);
 		mhfcitemgsrathalosfiresword = new WeaponGSRathalosFiresword(mat.GSRathalos);
 		MHFCItemHTigrex = new WeaponHTigrex(mat.HTigrex);
 		mhfcitemlsironkatana = new WeaponLSIronKatana(mat.LSIronKatana);
 		mhfcitemlsdarkvipern = new WeaponLSDarkVipern(mat.LSDarkVipern);
 		mhfcitemhkirinspark = new WeaponHKirinSpark(mat.HKirinSpark);
-		mhfcitemhdeviljho = new WeaponHDeviljho(mat.HDeviljho);
+		mhfcitemhdevilsdue = new WeaponHDeviljho(mat.HDeviljho);
 		mhfcitemhwarhammer = new WeaponHWar(mat.HWarHammer);
 		mhfcitemhwarhammerplus = new WeaponHWarPlus(mat.HWarHammerplus);
 		mhfcitemhwarslammer = new WeaponHWarSlammer(mat.HWarSlammer);
 		mhfcitemhhmetalbagpipe = new WeaponHHMetalBagpipe(mat.HHMetalBagpipe);	
+		mhfcitemhhivoryhorn = new WeaponHHIvoryHorn(mat.HHIvoryHorn);
+		mhfcitemhrathalos = new WeaponHRathalos(mat.HRathalos);
 		
 		
 	}

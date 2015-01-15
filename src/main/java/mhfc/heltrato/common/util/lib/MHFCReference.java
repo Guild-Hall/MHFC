@@ -283,6 +283,9 @@ public class MHFCReference {
 	public static final String weapon_hh_metalbagpipe_icon = "mhfc:huntinghorn";
 	public static final String weapon_hh_metalbagpipe_name = "huntinghorn_1";
 	public static final String weapon_hh_metalbagpipe_tex = "mhfc:textures/weapons/(HH)metalbagpipe.png";
+	public static final String weapon_hh_ivoryhorn_icon = "mhfc:huntinghorn";
+	public static final String weapon_hh_ivoryhorn_name = "huntinghorn_2";
+	public static final String weapon_hh_ivoryhorn_tex = "mhfc:textures/weapons/(HH)ivoryhorn.png";
 	public static final String weapon_hm_kirin_icon = "mhfc:hammer";
 	public static final String weapon_hm_kirin_name = "hammer_2";
 	public static final String weapon_hm_kirin_tex = "mhfc:textures/weapons/(H)kirinspark.png";
@@ -300,6 +303,9 @@ public class MHFCReference {
 	public static final String weapon_hm_deviljho_icon = "mhfc:hammer";
 	public static final String weapon_hm_deviljho_name = "hammer_6";
 	public static final String weapon_hm_deviljho_tex = "mhfc:textures/weapons/(H)deviljho.png";
+	public static final String weapon_hm_rathalos_icon = "mhfc:hammer";
+	public static final String weapon_hm_rathalos_name = "hammer_7";
+	public static final String weapon_hm_rathalos_tex = "mhfc:textures/weapons/(H)rathalos.png";
 	public static final String weapon_ls_darkviper_tex = "mhfc:textures/weapons/(LS)darkvipern.png";
 	public static final String weapon_ls_darkvipern_icon = "mhfc:longsword";
 	public static final String weapon_ls_darkvipern_name = "longsword_2";

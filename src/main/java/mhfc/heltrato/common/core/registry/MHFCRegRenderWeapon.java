@@ -12,8 +12,10 @@ import mhfc.heltrato.client.render.weapon.RenderGSKirinThunderSword;
 import mhfc.heltrato.client.render.weapon.RenderGSRathalosFiresword;
 import mhfc.heltrato.client.render.weapon.RenderGSTigrex;
 import mhfc.heltrato.client.render.weapon.RenderHDeviljho;
+import mhfc.heltrato.client.render.weapon.RenderHHIvoryHorn;
 import mhfc.heltrato.client.render.weapon.RenderHHMetalBagpipe;
 import mhfc.heltrato.client.render.weapon.RenderHKirinSpark;
+import mhfc.heltrato.client.render.weapon.RenderHRathalos;
 import mhfc.heltrato.client.render.weapon.RenderHTigrex;
 import mhfc.heltrato.client.render.weapon.RenderHWar;
 import mhfc.heltrato.client.render.weapon.RenderHWarSlammer;
@@ -45,9 +47,11 @@ public class MHFCRegRenderWeapon {
 		reg.registerItemRenderer(MHFCRegItem.mhfcitembglshooterbarrel, new RenderBGLShooterBarrel());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitembglspartacusfire, new RenderBGLSpartacusFire());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitembtigrexarrow, new RenderBTigrexArrow());
-		reg.registerItemRenderer(MHFCRegItem.mhfcitemhdeviljho, new RenderHDeviljho());
-		reg.registerItemRenderer(MHFCRegItem.mhfcitemgsdeviljhobroadsword, new RenderGSDeviljhobroadsword());
+		reg.registerItemRenderer(MHFCRegItem.mhfcitemhdevilsdue, new RenderHDeviljho());
+		reg.registerItemRenderer(MHFCRegItem.mhfcitemgsberserkerssword, new RenderGSDeviljhobroadsword());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemgsrathalosfiresword, new RenderGSRathalosFiresword());
+		reg.registerItemRenderer(MHFCRegItem.mhfcitemhhivoryhorn, new RenderHHIvoryHorn());
+		reg.registerItemRenderer(MHFCRegItem.mhfcitemhrathalos, new RenderHRathalos());
 		
 		//new type of rendering
 		reg.registerItemRenderer(MHFCRegItem.mhfcitembadventurer, new RenderBAdventurer(new ModelBAdventurer(), MHFCReference.weapon_bow_adventurer_tex));

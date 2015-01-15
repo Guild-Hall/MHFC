@@ -1,4 +1,4 @@
-death.attack.mhfc.thunderelement=%1$s was thundered by %2$s
+death.attack.mhfc.thunderelement=%1$s was killed by %2$s using a thunder element weapon.
 
 
 tile.losgable.name=Los Gable
@@ -60,7 +60,7 @@ item.meat4.name=Poison Meat
 item.meat5.name=Slow Meat
 item.meat6.name=Hunger Meat
 item.meat7.name=Fire Meat
-item.huntinghorn_1.name=Metal Bagpipe
+
 item.wyverniadust.name=Wyvernia Dust
 item.wyverniaclay.name=Wyvernia Clay
 item.mhfcegg.name=Summon
@@ -72,17 +72,9 @@ item.ingot0.name=Carbalite Ingot
 item.ingot1.name=Dragonite Ingot
 item.ingot2.name=Eltalite Ingot
 item.ingot3.name=Machalite Ingot
-item.bowgun_1.name=Shooter's Barrel
-item.bowgun_2.name=Spartacus Fire
+
 item.base0.name=Anunium Base
 item.base1.name=Meganium Base
-item.greatsword_1.name=Bone Blade
-item.greatsword_2.name=Tigrex Agito
-item.greatsword_3.name=Kirin Thundersword
-item.greatsword_4.name=Deviljho Broadsword
-item.greatsword_5.name=Rathalos Firesword
-item.longsword_1.name=Iron Katana
-item.longsword_2.name=Dark Vipern
 item.tigrex0.name=Tigrex Scale
 item.tigrex1.name=Tigrex Shell
 item.tigrex2.name=Tigrex Fang
@@ -105,15 +97,6 @@ item.rathalos2.name=Wyvern Marrow
 item.rathalos3.name=Rathalos Wing
 item.rathalos4.name=Rathalos Plate
 item.sac0.name=Flame Sac
-item.hammer_1.name=Tigrex Hammer
-item.hammer_2.name=Thunder Hammer Prison
-item.hammer_3.name=War Hammer
-item.hammer_4.name=War Hammer+
-item.hammer_5.name=War Slammer
-item.hammer_6.name=Deviljho Hammer
-item.a.bow.name=Hunter's Bow
-item.b.bow.name=Tigrex Arrow
-item.c.bow.name=Adventurer's Bow
 item.traptool.name=Trap Tool
 item.bombmaterial.name=Bomb Material
 item.gaguaegg.name=Gagua Egg
@@ -146,6 +129,31 @@ item.g.mhf_helm.name= Velociprey Helmet
 item.g.mhf_chest.name= Velociprey Plate
 item.g.mhf_leg.name= Velociprey Leggings
 item.g.mhf_boots.name= Velociprey Boots
+
+
+
+item.a.bow.name=Hunter's Bow
+item.b.bow.name=Tigrex Arrow
+item.c.bow.name=Adventurer's Bow
+item.bowgun_1.name=Shooter's Barrel
+item.bowgun_2.name=Spartacus Fire
+item.greatsword_1.name=Bone Blade
+item.greatsword_2.name=Tigrex Agito
+item.greatsword_3.name=Kirin Thundersword
+item.greatsword_4.name=Berserkers Sword
+item.greatsword_5.name=Red Wing
+item.hammer_1.name=Striped Strike
+item.hammer_2.name=Thunder Hammer Prison
+item.hammer_3.name=War Hammer
+item.hammer_4.name=War Hammer+
+item.hammer_5.name=War Slammer
+item.hammer_6.name=Devil's Due
+item.hammer_7.name=Red Bludgeon
+item.huntinghorn_1.name=Metal Bagpipe
+item.huntinghorn_2.name=Ivory Horn
+item.longsword_1.name=Iron Katana
+item.longsword_2.name=Dark Vipern
+
 
 
 
