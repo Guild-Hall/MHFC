@@ -25,6 +25,7 @@ import mhfc.heltrato.common.item.ItemWyverniaDust;
 import mhfc.heltrato.common.item.armor.DragoonArmor;
 import mhfc.heltrato.common.item.armor.KirinArmor;
 import mhfc.heltrato.common.item.armor.KirinSArmor;
+import mhfc.heltrato.common.item.armor.KishinArmor;
 import mhfc.heltrato.common.item.armor.RathalosArmor;
 import mhfc.heltrato.common.item.armor.TigrexArmor;
 import mhfc.heltrato.common.item.armor.VelocipreyArmor;
@@ -112,9 +113,13 @@ public class MHFCRegItem {
 	public static Item mhfcitemvelocipreylegs;
 	public static Item mhfcitemvelocipreyboots;
 	public static Item mhfcitemdeviljhohelm;
-	
-	
-	
+	public static Item mhfcitemdeviljhochest;
+	public static Item mhfcitemdeviljholegs;
+	public static Item mhfcitemdeviljhoboots;
+	public static Item mhfcitemtigrexbhelm;
+	public static Item mhfcitemtigrexbchest;
+	public static Item mhfcitemtigrexblegs;
+	public static Item mhfcitemtigrexbboots;
 	
 	//Stuffs
 	public static Item MHFCItemFrontierSpawner;
@@ -208,6 +213,7 @@ public class MHFCRegItem {
 		getItemID(mhfcitemkirinhelm);
 		getItemID(mhfcitemdragoonhelm);
 		getItemID(mhfcitemkirinShelm);
+		getItemID(mhfcitemtigrexbhelm);
 		// Chest
 		getItemID(mhfcitemyukumochest);
 		getItemID(mhfcitemvelocipreychest);
@@ -216,6 +222,7 @@ public class MHFCRegItem {
 		getItemID(mhfcitemkirinchest);
 		getItemID(mhfcitemdragoonchest);
 		getItemID(mhfcitemkirinSchest);
+		getItemID(mhfcitemtigrexbchest);
 		// Legs
 		getItemID(mhfcitemyukumolegs);
 		getItemID(mhfcitemvelocipreylegs);
@@ -224,6 +231,7 @@ public class MHFCRegItem {
 		getItemID(mhfcitemkirinlegs);
 		getItemID(mhfcitemdragoonlegs);
 		getItemID(mhfcitemkirinSlegs);
+		getItemID(mhfcitemtigrexblegs);
 		// Boots
 		getItemID(mhfcitemyukumoboots);
 		getItemID(mhfcitemvelocipreyboots);
@@ -232,7 +240,9 @@ public class MHFCRegItem {
 		getItemID(mhfcitemkirinboots);
 		getItemID(mhfcitemdragoonboots);
 		getItemID(mhfcitemkirinSboots);
+		getItemID(mhfcitemtigrexbboots);
 		
+		//Stuffs
 		getItemID(MHFCItemFrontierSpawner);
 		getItemID(mhfcitemrathalosshell);
 		getItemID(mhfcitemrathaloswebbing);
@@ -314,6 +324,10 @@ public class MHFCRegItem {
 		mhfcitemvelocipreychest = new VelocipreyArmor(MHFCArmorMaterialHelper.ArmorVelociprey, 4, 1).setUnlocalizedName("g.mhf_chest");
 		mhfcitemvelocipreylegs = new VelocipreyArmor(MHFCArmorMaterialHelper.ArmorVelociprey, 4, 2).setUnlocalizedName("g.mhf_leg");
 		mhfcitemvelocipreyboots = new VelocipreyArmor(MHFCArmorMaterialHelper.ArmorVelociprey, 4, 3).setUnlocalizedName("g.mhf_boots");
+		mhfcitemtigrexbhelm = new KishinArmor(MHFCArmorMaterialHelper.ArmorTigrexB, 4, 0).setUnlocalizedName("h.mhf_helm");
+		mhfcitemtigrexbchest = new KishinArmor(MHFCArmorMaterialHelper.ArmorTigrexB, 4, 1).setUnlocalizedName("h.mhf_chest");
+		mhfcitemtigrexblegs = new KishinArmor(MHFCArmorMaterialHelper.ArmorTigrexB, 4, 2).setUnlocalizedName("h.mhf_leg");
+		mhfcitemtigrexbboots = new KishinArmor(MHFCArmorMaterialHelper.ArmorTigrexB, 4, 3).setUnlocalizedName("h.mhf_boots");
 	}
 	
 	private static void registerMeleeWeapon()

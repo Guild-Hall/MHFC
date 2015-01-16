@@ -73,6 +73,16 @@ public class MHFCReference {
 	public static final String armor_velociprey_legs_name = "f.mhf_leg";
 	public static final String armor_velociprey_tex1 = "mhfc:textures/armor/velociprey_layer_1.png";
 	public static final String armor_velociprey_tex2 = "mhfc:textures/armor/velociprey_layer_2.png";
+	public static final String armor_tigrexb_boots_icon = "mhfc:mhf_3";
+	public static final String armor_tigrexb_boots_name = "g.mhf_boots";
+	public static final String armor_tigrexb_chest_icon = "mhfc:mhf_1";
+	public static final String armor_tigrexb_chest_name = "g.mhf_chest";
+	public static final String armor_tigrexb_helm_icon = "mhfc:mhf_0";
+	public static final String armor_tigrexb_helm_name = "g.mhf_helm";
+	public static final String armor_tigrexb_legs_icon = "mhfc:mhf_2";
+	public static final String armor_tigrexb_legs_name = "g.mhf_leg";
+	public static final String armor_tigrexb_tex1 = "mhfc:textures/armor/kishin_layer_1.png";
+	public static final String armor_tigrexb_tex2 = "mhfc:textures/armor/kishin_layer_2.png";
 	public static final String block_armorstand_icon = "mhfc:armorstandblock";
 	public static final String block_armorstand_name = "armorstand";
 	public static final String block_armorstandbase_icon = "mhfc:armorstandblock";

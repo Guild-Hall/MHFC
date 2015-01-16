@@ -39,19 +39,12 @@ public class UtilStuff {
 		rand = new Random();
 	}
 	
-
-
-	
 	public static void sendAnimPacket(iMHFC entity, int animID) {
 		if(MHFCMain.isEffectiveClient()) return;
 		entity.setAnimID(animID);
 		Entity e = (Entity)entity;
 		MHFCMain.network.sendToAll(new MessageAIAnim((byte)animID, e.getEntityId()));
 	}
-	
-	
-	
-	
 	
 	public static ArrayList<Entity> getCollidingEntities(Entity entity, World world, AxisAlignedBB box)
 	{

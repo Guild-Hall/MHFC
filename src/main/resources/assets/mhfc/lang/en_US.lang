@@ -129,7 +129,10 @@ item.g.mhf_helm.name= Velociprey Helmet
 item.g.mhf_chest.name= Velociprey Plate
 item.g.mhf_leg.name= Velociprey Leggings
 item.g.mhf_boots.name= Velociprey Boots
-
+item.h.mhf_helm.name= Kishin Horn
+item.h.mhf_chest.name= Kishin Plate
+item.h.mhf_leg.name= Kishin Vambrace
+item.h.mhf_boots.name= Kishin Greaves
 
 
 item.a.bow.name=Hunter's Bow

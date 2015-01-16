@@ -21,7 +21,7 @@ public class MHFCArmorMaterialHelper {
 	
 	// S Rank Armors
 	public static ArmorMaterial ArmorKirinS = EnumHelper.addArmorMaterial("kirinS", 700, new int[]{19, 35, 27, 16}, 70);
-	
+	public static ArmorMaterial ArmorTigrexB = EnumHelper.addArmorMaterial("kishin", 1250, new int[]{28, 41, 30, 24}, 150);
 	
 	
 

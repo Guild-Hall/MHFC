@@ -3,6 +3,7 @@ package mhfc.heltrato.common.helper;
 import mhfc.heltrato.client.model.armor.ModelDragoonArmor;
 import mhfc.heltrato.client.model.armor.ModelKirinArmor;
 import mhfc.heltrato.client.model.armor.ModelKirinSArmor;
+import mhfc.heltrato.client.model.armor.ModelKishinArmor;
 import mhfc.heltrato.client.model.armor.ModelRathalosArmor;
 import mhfc.heltrato.client.model.armor.ModelTigrexArmor;
 import mhfc.heltrato.client.model.armor.ModelVelocipreyArmor;
@@ -25,6 +26,7 @@ public class MHFCArmorModelHelper {
 	public static final ModelRathalosArmor rathalos = new ModelRathalosArmor(1.0F);
 	public static final ModelDragoonArmor dragoon = new ModelDragoonArmor(1.0F);
 	public static final ModelVelocipreyArmor velociprey = new ModelVelocipreyArmor(1.0F);
+	public static final ModelKishinArmor tigrexb = new ModelKishinArmor(1.0F);
 
 
 	
@@ -45,6 +47,8 @@ public class MHFCArmorModelHelper {
 		case 6:
 			return velociprey;
 		case 7:
+			return tigrexb;
+		case 8:
 			default:
 				break;
 		}
