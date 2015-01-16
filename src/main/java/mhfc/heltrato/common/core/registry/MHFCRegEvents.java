@@ -2,7 +2,6 @@ package mhfc.heltrato.common.core.registry;
 
 import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.eventhandler.MHFCGuiHandler;
-import mhfc.heltrato.common.eventhandler.MHFCLoginHandler;
 import mhfc.heltrato.common.eventhandler.MHFCTickHandler;
 import mhfc.heltrato.common.eventhandler.potion.PotionPitfallEventHandler;
 import net.minecraftforge.common.MinecraftForge;
@@ -41,7 +40,6 @@ public class MHFCRegEvents {
 	
 	private static void registerEntityEventHandlers()
 	{
-		MinecraftForge.EVENT_BUS.register(MHFCLoginHandler.class);
 	}
 	
 	private static void registerPotionEventHandlers()

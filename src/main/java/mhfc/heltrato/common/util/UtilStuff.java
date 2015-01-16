@@ -27,6 +27,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import cpw.mods.fml.client.FMLClientHandler;
 
 public class UtilStuff {
 	
@@ -38,23 +39,7 @@ public class UtilStuff {
 		rand = new Random();
 	}
 	
-	/**
-	 * Adds a chat message, with color.
-	 */
-	public static ChatComponentTranslation addChatMessage(EnumChatFormatting color, String str, Object... args)
-	{
-		ChatComponentTranslation ret = new ChatComponentTranslation(str, args);
-		ret.getChatStyle().setColor(color);
-		return ret;
-	}
 
-	/**
-	 * Adds a chat message.
-	 */
-	public static void addChatMessage(String str, Object... args)
-	{
-		ChatComponentTranslation ret = new ChatComponentTranslation(str, args);
-	}
 
 	
 	public static void sendAnimPacket(iMHFC entity, int animID) {
@@ -63,6 +48,9 @@ public class UtilStuff {
 		Entity e = (Entity)entity;
 		MHFCMain.network.sendToAll(new MessageAIAnim((byte)animID, e.getEntityId()));
 	}
+	
+	
+	
 	
 	
 	public static ArrayList<Entity> getCollidingEntities(Entity entity, World world, AxisAlignedBB box)
