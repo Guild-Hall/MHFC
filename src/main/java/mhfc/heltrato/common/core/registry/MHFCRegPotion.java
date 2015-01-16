@@ -1,6 +1,6 @@
 package mhfc.heltrato.common.core.registry;
 
-import mhfc.heltrato.common.helper.MHFCReflectionHelper;
+import mhfc.heltrato.common.helper.system.MHFCReflectionHelper;
 import mhfc.heltrato.common.potion.PotionAttackUpLow;
 import mhfc.heltrato.common.potion.PotionKirinBless;
 import mhfc.heltrato.common.potion.PotionParalyze;

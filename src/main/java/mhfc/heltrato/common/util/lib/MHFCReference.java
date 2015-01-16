@@ -217,7 +217,7 @@ public class MHFCReference {
 	public static final String main_modid = "mhfc";
 	public static final String main_name = "Monster Hunter Frontier Craft";
 	public static final String main_url = "http://www.mhfrontiercraft.blogspot.com";
-	public static final String main_version = "1.7.2";
+	public static final String main_version = "0.1";
 	public static final String mob_kirin_name = "kirin";
 	public static final String mob_kirin_sound_say = "mhfc:kirin.say";
 	public static final String mob_kirin_tex = "mhfc:textures/mobs/kirin.png";

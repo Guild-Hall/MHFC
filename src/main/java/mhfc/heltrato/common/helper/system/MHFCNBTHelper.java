@@ -1,4 +1,4 @@
-package mhfc.heltrato.common.helper;
+package mhfc.heltrato.common.helper.system;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

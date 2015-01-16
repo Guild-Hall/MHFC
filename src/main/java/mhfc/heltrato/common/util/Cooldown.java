@@ -2,7 +2,7 @@ package mhfc.heltrato.common.util;
 
 import java.util.List;
 
-import mhfc.heltrato.common.helper.MHFCNBTHelper;
+import mhfc.heltrato.common.helper.system.MHFCNBTHelper;
 import net.minecraft.item.ItemStack;
 
 public class Cooldown{

@@ -22,7 +22,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
@@ -35,6 +37,25 @@ public class UtilStuff {
 	public UtilStuff() {
 		rand = new Random();
 	}
+	
+	/**
+	 * Adds a chat message, with color.
+	 */
+	public static ChatComponentTranslation addChatMessage(EnumChatFormatting color, String str, Object... args)
+	{
+		ChatComponentTranslation ret = new ChatComponentTranslation(str, args);
+		ret.getChatStyle().setColor(color);
+		return ret;
+	}
+
+	/**
+	 * Adds a chat message.
+	 */
+	public static void addChatMessage(String str, Object... args)
+	{
+		ChatComponentTranslation ret = new ChatComponentTranslation(str, args);
+	}
+
 	
 	public static void sendAnimPacket(iMHFC entity, int animID) {
 		if(MHFCMain.isEffectiveClient()) return;
