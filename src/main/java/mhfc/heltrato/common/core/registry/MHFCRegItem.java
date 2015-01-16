@@ -45,6 +45,7 @@ import mhfc.heltrato.common.item.weapon.hammer.WeaponHWarPlus;
 import mhfc.heltrato.common.item.weapon.hammer.WeaponHWarSlammer;
 import mhfc.heltrato.common.item.weapon.huntinghorn.WeaponHHIvoryHorn;
 import mhfc.heltrato.common.item.weapon.huntinghorn.WeaponHHMetalBagpipe;
+import mhfc.heltrato.common.item.weapon.huntinghorn.WeaponHHTigrex;
 import mhfc.heltrato.common.item.weapon.longsword.WeaponLSDarkVipern;
 import mhfc.heltrato.common.item.weapon.longsword.WeaponLSIronKatana;
 import net.minecraft.item.Item;
@@ -79,6 +80,7 @@ public class MHFCRegItem {
 	public static Item mhfcitembglspartacusfire;
 	public static Item mhfcitembtigrexarrow;
 	public static Item mhfcitembadventurer;
+	public static Item mhfcitemhhtigrex;
 	
 	//Armors
 	public static Item mhfcitemtigrexhelm;
@@ -189,6 +191,7 @@ public class MHFCRegItem {
 		getItemID(mhfcitemhdevilsdue);
 		getItemID(mhfcitemhhivoryhorn);
 		getItemID(mhfcitemhhmetalbagpipe);
+		getItemID(mhfcitemhhtigrex);
 //		getItemID(mhfcitembadventurer);
 //		getItemID(mhfcitembhunter);
 //		getItemID(mhfcitembtigrexarrow);
@@ -330,6 +333,7 @@ public class MHFCRegItem {
 		mhfcitemhwarslammer = new WeaponHWarSlammer(mat.HWarSlammer);
 		mhfcitemhhmetalbagpipe = new WeaponHHMetalBagpipe(mat.HHMetalBagpipe);	
 		mhfcitemhhivoryhorn = new WeaponHHIvoryHorn(mat.HHIvoryHorn);
+		mhfcitemhhtigrex = new WeaponHHTigrex(mat.HHTigrex);
 		mhfcitemhrathalos = new WeaponHRathalos(mat.HRathalos);
 		
 		

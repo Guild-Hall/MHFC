@@ -50,7 +50,7 @@ public class TigrexArmor extends ItemArmor {
 			return MHFCReference.armor_tigrex_tex1;
 		}
 		if (stack.getItem() == MHFCRegItem.mhfcitemtigrexlegs) {
-			return MHFCReference.armor_tigrex_tex1;
+			return MHFCReference.armor_tigrex_tex2;
 		}
 		return null;
 	}

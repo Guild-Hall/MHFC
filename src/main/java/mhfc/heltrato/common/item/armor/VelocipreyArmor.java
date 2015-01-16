@@ -57,7 +57,7 @@ public class VelocipreyArmor extends ItemArmor {
 				|| stack.getItem() == MHFCRegItem.mhfcitemvelocipreyboots) {
 			return MHFCReference.armor_velociprey_tex1;
 		}
-		if (stack.getItem() == MHFCRegItem.mhfcitemkirinlegs) {
+		if (stack.getItem() == MHFCRegItem.mhfcitemvelocipreylegs) {
 			return MHFCReference.armor_velociprey_tex2;
 		}
 		return null;

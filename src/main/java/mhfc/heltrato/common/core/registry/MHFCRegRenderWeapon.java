@@ -1,26 +1,27 @@
 package mhfc.heltrato.common.core.registry;
 
-import mhfc.heltrato.client.model.weapon.ModelBAdventurer;
-import mhfc.heltrato.client.render.weapon.RenderBAdventurer;
-import mhfc.heltrato.client.render.weapon.RenderBGLShooterBarrel;
-import mhfc.heltrato.client.render.weapon.RenderBGLSpartacusFire;
-import mhfc.heltrato.client.render.weapon.RenderBHunter;
-import mhfc.heltrato.client.render.weapon.RenderBTigrexArrow;
-import mhfc.heltrato.client.render.weapon.RenderGSBone;
-import mhfc.heltrato.client.render.weapon.RenderGSDeviljhobroadsword;
-import mhfc.heltrato.client.render.weapon.RenderGSKirinThunderSword;
-import mhfc.heltrato.client.render.weapon.RenderGSRathalosFiresword;
-import mhfc.heltrato.client.render.weapon.RenderGSTigrex;
-import mhfc.heltrato.client.render.weapon.RenderHDeviljho;
-import mhfc.heltrato.client.render.weapon.RenderHHIvoryHorn;
-import mhfc.heltrato.client.render.weapon.RenderHHMetalBagpipe;
-import mhfc.heltrato.client.render.weapon.RenderHKirinSpark;
-import mhfc.heltrato.client.render.weapon.RenderHRathalos;
-import mhfc.heltrato.client.render.weapon.RenderHTigrex;
-import mhfc.heltrato.client.render.weapon.RenderHWar;
-import mhfc.heltrato.client.render.weapon.RenderHWarSlammer;
-import mhfc.heltrato.client.render.weapon.RenderLSDarkVipern;
-import mhfc.heltrato.client.render.weapon.RenderLSIronKatana;
+import mhfc.heltrato.client.model.weapon.bow.ModelBAdventurer;
+import mhfc.heltrato.client.render.weapon.bow.RenderBAdventurer;
+import mhfc.heltrato.client.render.weapon.bow.RenderBHunter;
+import mhfc.heltrato.client.render.weapon.bow.RenderBTigrexArrow;
+import mhfc.heltrato.client.render.weapon.bowgun.RenderBGLShooterBarrel;
+import mhfc.heltrato.client.render.weapon.bowgun.RenderBGLSpartacusFire;
+import mhfc.heltrato.client.render.weapon.greatsword.RenderGSBone;
+import mhfc.heltrato.client.render.weapon.greatsword.RenderGSDeviljhobroadsword;
+import mhfc.heltrato.client.render.weapon.greatsword.RenderGSKirinThunderSword;
+import mhfc.heltrato.client.render.weapon.greatsword.RenderGSRathalosFiresword;
+import mhfc.heltrato.client.render.weapon.greatsword.RenderGSTigrex;
+import mhfc.heltrato.client.render.weapon.hammer.RenderHDeviljho;
+import mhfc.heltrato.client.render.weapon.hammer.RenderHKirinSpark;
+import mhfc.heltrato.client.render.weapon.hammer.RenderHRathalos;
+import mhfc.heltrato.client.render.weapon.hammer.RenderHTigrex;
+import mhfc.heltrato.client.render.weapon.hammer.RenderHWar;
+import mhfc.heltrato.client.render.weapon.hammer.RenderHWarSlammer;
+import mhfc.heltrato.client.render.weapon.huntinghorn.RenderHHIvoryHorn;
+import mhfc.heltrato.client.render.weapon.huntinghorn.RenderHHMetalBagpipe;
+import mhfc.heltrato.client.render.weapon.huntinghorn.RenderHHTigrex;
+import mhfc.heltrato.client.render.weapon.longsword.RenderLSDarkVipern;
+import mhfc.heltrato.client.render.weapon.longsword.RenderLSIronKatana;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraftforge.client.MinecraftForgeClient;
 
@@ -52,6 +53,7 @@ public class MHFCRegRenderWeapon {
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemgsrathalosfiresword, new RenderGSRathalosFiresword());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemhhivoryhorn, new RenderHHIvoryHorn());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemhrathalos, new RenderHRathalos());
+		reg.registerItemRenderer(MHFCRegItem.mhfcitemhhtigrex, new RenderHHTigrex());
 		
 		//new type of rendering
 		reg.registerItemRenderer(MHFCRegItem.mhfcitembadventurer, new RenderBAdventurer(new ModelBAdventurer(), MHFCReference.weapon_bow_adventurer_tex));

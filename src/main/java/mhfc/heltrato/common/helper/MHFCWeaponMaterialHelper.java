@@ -31,6 +31,7 @@ public class MHFCWeaponMaterialHelper {
 	//HuntingHorn
 	public static ToolMaterial HHMetalBagpipe = EnumHelper.addToolMaterial("metalbagpipe", 4, 1000, 1f, 8, 4);
 	public static ToolMaterial HHIvoryHorn = EnumHelper.addToolMaterial("ivoryhorn", 4, 650, 1, 5, 3);
+	public static ToolMaterial HHTigrex = EnumHelper.addToolMaterial("tigy", 4, 1700, 1, 32, 25);
 	
 	public void init(){}
 
