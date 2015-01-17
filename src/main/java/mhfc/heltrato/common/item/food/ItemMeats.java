@@ -17,7 +17,7 @@ public class ItemMeats extends ItemFood {
 	}
 	
 	public void registerIcons(IIconRegister par1IconRegister){
-        this.itemIcon = par1IconRegister.registerIcon("mhfc:meat" + metaData);
+        itemIcon = par1IconRegister.registerIcon("mhfc:meat" + metaData);
 	}
 	
 

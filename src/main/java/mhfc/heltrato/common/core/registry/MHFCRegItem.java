@@ -32,6 +32,7 @@ import mhfc.heltrato.common.item.armor.VelocipreyArmor;
 import mhfc.heltrato.common.item.armor.YukumoArmor;
 import mhfc.heltrato.common.item.food.ItemKirinBuff;
 import mhfc.heltrato.common.item.food.ItemMeats;
+import mhfc.heltrato.common.item.food.ItemNutrients;
 import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSBone;
 import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSDeviljhobroadsword;
 import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSKirinThunderSword;
@@ -160,7 +161,8 @@ public class MHFCRegItem {
 	public static Item mhfcitemarmorsphere;
 	public static Item mhfcitemarmorsphereplus;
 	public static Item mhfcitemwyverniaclay;
-	
+	public static Item mhfcfoodnutrients;
+	public static Item mhfcfoodmeganutrients;
 	
 	//Foods
 	public static Item mhfcfoodkirinbuff;
@@ -282,6 +284,8 @@ public class MHFCRegItem {
 		getItemID(MHFCItemGaguaEgg);
 		getItemID(MHFCItemWyvernCoin);
 		getItemID(mhfcfoodkirinbuff);
+		getItemID(mhfcfoodnutrients);
+		getItemID(mhfcfoodmeganutrients);
 		getItemID(mhfcfoodrawmeat);
 		getItemID(mhfcfoodcookmeat);
 		getItemID(mhfcfoodboostmeat);
@@ -415,6 +419,8 @@ public class MHFCRegItem {
 		mhfcfoodslowmeat = new ItemMeats(3, 100, true, 5).setPotionEffect(Potion.moveSlowdown.id, 400,2, 10);
 		mhfcfoodhungermeat = new ItemMeats(2, 30, true, 6).setPotionEffect(Potion.hunger.id, 400 , 2, 10);
 		mhfcfoodfiremeat = new ItemMeats(4, 150, true, 7).setPotionEffect(Potion.damageBoost.id, 600 , 2 ,10);
+		mhfcfoodnutrients = new ItemNutrients(2, 50, true, 0);
+		mhfcfoodmeganutrients = new ItemNutrients(3,70, true, 1);
 	}
 	
 	private static void getItemID(Item item){

@@ -61,6 +61,9 @@ item.meat5.name=Slow Meat
 item.meat6.name=Hunger Meat
 item.meat7.name=Fire Meat
 
+item.nutrients0.name=Nutrients
+item.nutrients1.name=Mega Nutrients
+
 item.wyverniadust.name=Wyvernia Dust
 item.wyverniaclay.name=Wyvernia Clay
 item.mhfcegg.name=Summon
@@ -170,3 +173,5 @@ entity.mhfc.aptonoth.name=Aptonoth
 potion.kirinbless=Spark of Kirin
 potion.paralyze=Paralyze
 potion.attackup.low=Attack Up L
+
+attribute.name.mhfc.attackSpeed=Attack Speed
