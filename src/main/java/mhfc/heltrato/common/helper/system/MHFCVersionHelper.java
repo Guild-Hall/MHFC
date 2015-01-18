@@ -30,10 +30,12 @@ public class MHFCVersionHelper {
 
 			if (!curVersion.equals(versionString))
 			{
+				System.out.println("New Update");
 				return newUpdate;
 			}
 			else
 			{
+				System.out.println("No Update");
 				return noUpdate;
 			}
 		}

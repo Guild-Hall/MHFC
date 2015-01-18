@@ -6,6 +6,7 @@ import mhfc.heltrato.common.helper.MHFCWeaponMaterialHelper;
 import mhfc.heltrato.common.item.ItemArmorSphere;
 import mhfc.heltrato.common.item.ItemBase;
 import mhfc.heltrato.common.item.ItemBombMaterial;
+import mhfc.heltrato.common.item.ItemBullet;
 import mhfc.heltrato.common.item.ItemFirestone;
 import mhfc.heltrato.common.item.ItemFrontierSpawner;
 import mhfc.heltrato.common.item.ItemGaguaEgg;
@@ -162,7 +163,11 @@ public class MHFCRegItem {
 	public static Item mhfcitemarmorsphereplus;
 	public static Item mhfcitemwyverniaclay;
 	public static Item mhfcfoodnutrients;
-	public static Item mhfcfoodmeganutrients;
+	
+	public static Item mhfcitembullet0;
+	public static Item mhfcitembullet1;
+	public static Item mhfcitembullet2;
+	public static Item mhfcitembullet3;
 	
 	//Foods
 	public static Item mhfcfoodkirinbuff;
@@ -174,6 +179,7 @@ public class MHFCRegItem {
 	public static Item mhfcfoodslowmeat;
 	public static Item mhfcfoodhungermeat;
 	public static Item mhfcfoodfiremeat;
+	public static Item mhfcfoodmeganutrients;
 	
 	public static void init(){
 		registerArmor();
@@ -284,6 +290,10 @@ public class MHFCRegItem {
 		getItemID(MHFCItemGaguaEgg);
 		getItemID(MHFCItemWyvernCoin);
 		getItemID(mhfcfoodkirinbuff);
+		getItemID(mhfcitembullet0);
+		getItemID(mhfcitembullet1);
+		getItemID(mhfcitembullet2);
+		getItemID(mhfcitembullet3);
 		getItemID(mhfcfoodnutrients);
 		getItemID(mhfcfoodmeganutrients);
 		getItemID(mhfcfoodrawmeat);
@@ -405,6 +415,10 @@ public class MHFCRegItem {
 		mhfcitemarmorsphere = new ItemArmorSphere(0);
 		mhfcitemarmorsphereplus = new ItemArmorSphere(1);
 		mhfcitemwyverniaclay = new ItemWyverniaClay();
+        mhfcitembullet0 = new ItemBullet(0);
+        mhfcitembullet1 = new ItemBullet(1);
+        mhfcitembullet2 = new ItemBullet(2);
+        mhfcitembullet3 = new ItemBullet(3);
 		
 				
 	}

@@ -64,6 +64,11 @@ item.meat7.name=Fire Meat
 item.nutrients0.name=Nutrients
 item.nutrients1.name=Mega Nutrients
 
+item.bullet0.name=Normal S
+item.bullet1.name=Pierce S
+item.bullet2.name=Crag S
+item.bullet3.name=Flame S
+
 item.wyverniadust.name=Wyvernia Dust
 item.wyverniaclay.name=Wyvernia Clay
 item.mhfcegg.name=Summon
@@ -174,4 +179,4 @@ potion.kirinbless=Spark of Kirin
 potion.paralyze=Paralyze
 potion.attackup.low=Attack Up L
 
-attribute.name.mhfc.attackSpeed=Attack Speed
+attribute.name.mhfc.attackspeed=Attack Speed

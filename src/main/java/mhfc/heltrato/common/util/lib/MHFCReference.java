@@ -281,7 +281,7 @@ public class MHFCReference {
 	public static final String weapon_gs_tigrex_icon = "mhfc:greatsword";
 	public static final String weapon_gs_tigrex_name = "greatsword_2";
 	public static final String weapon_gs_tigrexagito_tex = "mhfc:textures/weapons/(GS)TigrexAgito.png";
-	public static final String weapon_gs_kirin_icon = "mhfc:greatsword";
+	public static final String weapon_gs_default_icon = "mhfc:greatsword";
 	public static final String weapon_gs_kirin_name = "greatsword_3";
 	public static final String weapon_gs_kirin_tex = "mhfc:textures/weapons/(GS)kirin.png";
 	public static final String weapon_gs_deviljho_icon = "mhfc:greatsword";
@@ -320,7 +320,7 @@ public class MHFCReference {
 	public static final String weapon_hm_rathalos_name = "hammer_7";
 	public static final String weapon_hm_rathalos_tex = "mhfc:textures/weapons/(H)rathalos.png";
 	public static final String weapon_ls_darkviper_tex = "mhfc:textures/weapons/(LS)darkvipern.png";
-	public static final String weapon_ls_darkvipern_icon = "mhfc:longsword";
+	public static final String weapon_ls_default_icon = "mhfc:longsword";
 	public static final String weapon_ls_darkvipern_name = "longsword_2";
 	public static final String weapon_ls_ironkatana_icon = "mhfc:longsword";
 	public static final String weapon_ls_ironkatana_name = "longsword_1";

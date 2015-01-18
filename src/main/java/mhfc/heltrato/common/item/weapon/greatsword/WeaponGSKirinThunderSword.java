@@ -34,7 +34,7 @@ public class WeaponGSKirinThunderSword extends SemiLethalClass {
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
 		itemIcon = par1IconRegister
-				.registerIcon(MHFCReference.weapon_gs_kirin_icon);
+				.registerIcon(MHFCReference.weapon_gs_default_icon);
 	}
 
 	public float getDamageVsEntity(Entity entity) {
