@@ -4,9 +4,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import mhfc.heltrato.common.item.weapon.WeaponMelee;
+import mhfc.heltrato.common.item.weapon.WeaponClass;
 
-public class LongswordClass extends WeaponMelee {
+public class LongswordClass extends WeaponClass {
 	
 	public String lsLocal = "longsword_";
 	
