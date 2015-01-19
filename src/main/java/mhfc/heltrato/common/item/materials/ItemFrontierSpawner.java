@@ -1,4 +1,4 @@
-package mhfc.heltrato.common.item;
+package mhfc.heltrato.common.item.materials;
 
 import java.util.Iterator;
 import java.util.List;

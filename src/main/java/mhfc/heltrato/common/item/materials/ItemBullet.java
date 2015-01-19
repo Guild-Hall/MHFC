@@ -1,21 +1,26 @@
-package mhfc.heltrato.common.item;
+package mhfc.heltrato.common.item.materials;
 
 import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 
-public class ItemWoodRig extends Item {
+public class ItemBullet extends Item {
 
-	public ItemWoodRig() {
+	public int meta;
+
+	public ItemBullet(int metaData) {
 		super();
-		setUnlocalizedName(MHFCReference.item_woodrig_name);
+		meta = metaData;
+		setUnlocalizedName( "bullet" + meta );
 		setCreativeTab(MHFCMain.mhfctabs);
+		setMaxStackSize(12);
+
 	}
 
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
-		this.itemIcon = par1IconRegister
-				.registerIcon(MHFCReference.item_woodrig_icon);
+		this.itemIcon = par1IconRegister.registerIcon( "mhfc:bullet" + meta );
 	}
+
 }

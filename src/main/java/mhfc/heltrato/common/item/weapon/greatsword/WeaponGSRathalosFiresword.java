@@ -11,48 +11,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 
-public class WeaponGSRathalosFiresword extends SemiLethalClass {
+public class WeaponGSRathalosFiresword extends GreatswordClass {
 
 	private float weaponDamage;
 
 	public WeaponGSRathalosFiresword(ToolMaterial getType) {
 		super(getType);
-		setUnlocalizedName(MHFCReference.weapon_gs_rathalos_name);
-		weaponDamage = getType.getDamageVsEntity() - 4;
-	}
+		getWeaponDescription("Fire Element", 3);
+		elementalType(false, true);
+		setUnlocalizedName(gslocal + 5);	}
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public void addInformation(ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
-		par3List.add("\u00a79Thunder Element");
-		par3List.add("\u00a72Semi Lethal Damage");
-
-	}
-
-	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
-		itemIcon = par1IconRegister
-				.registerIcon(MHFCReference.weapon_gs_rathalos_icon);
-	}
-
-	public float getDamageVsEntity(Entity entity) {
-
-		return weaponDamage;
-	}
-
-	@Override
-	public boolean hitEntity(ItemStack stack, EntityLivingBase ent,
-			EntityLivingBase player) {
-
-		float damage = 0.0f;
-		ent.setFire(1);
-		DamageSource dmgSource = DamageSource
-				.causePlayerDamage((EntityPlayer) player);
-		ent.attackEntityFrom(dmgSource, damage);
-
-		return true;
-	}
 
 }

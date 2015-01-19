@@ -14,52 +14,14 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 
-public class WeaponHWarPlus extends SiegeClass {
+public class WeaponHWarPlus extends HammerClass {
 
-	// private Random rand;
-	private float weaponDamage;
 
 	public WeaponHWarPlus(ToolMaterial getType) {
 		super(getType);
-		setUnlocalizedName(MHFCReference.weapon_hm_warplus_name);
-		setFull3D();
-		rand = new Random();
-		weaponDamage = getType.getDamageVsEntity() - 4;
+		getWeaponDescription("No",2);
+		elementalType(false, false);
+		setUnlocalizedName(hmlocal + 4);
 	}
-	@Override
-	@SuppressWarnings("unchecked")
-	public void addInformation(ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
-		par3List.add("Hammer Class");
-		par3List.add("\u00a79No-Element");
-		par3List.add("\u00a72Siege Damage");
-	}
-
-	
-
-	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
-		itemIcon = par1IconRegister
-				.registerIcon(MHFCReference.weapon_hm_warplus_icon);
-	}
-
-	public float getDamageVsEntity(Entity entity) {
-
-		return weaponDamage;
-	}
-
-	@Override
-	public boolean hitEntity(ItemStack stack, EntityLivingBase ent,
-			EntityLivingBase player) {
-		player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 80, 1));
-		float damage = 0.0f;
-
-		DamageSource dmgSource = DamageSource
-				.causePlayerDamage((EntityPlayer) player);
-		ent.attackEntityFrom(dmgSource, damage);
-
-		return true;
-	}
-
 }
+

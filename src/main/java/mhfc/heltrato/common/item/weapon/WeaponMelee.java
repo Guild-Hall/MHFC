@@ -99,8 +99,6 @@ public class WeaponMelee extends ItemSword{
 		if( ent.hurtResistantTime == ent.maxHurtResistantTime){
 			ent.hurtResistantTime += getAttackDelay(stack, ent, player);
 		}
-		if(poisontype) ent.addPotionEffect(new PotionEffect(Potion.poison.id, 30, amplified));
-		if(firetype)  ent.setFire(1);
 		updateDamaging(ent, player, updateDamageAmount(damage));
 		return true;
 	}

@@ -299,7 +299,7 @@ public class MHFCReference {
 	public static final String weapon_hh_tigrex_icon = "mhfc:huntinghorn";
 	public static final String weapon_hh_tigrex_name = "huntinghorn_3";
 	public static final String weapon_hh_tigrex_tex = "mhfc:textures/weapons/(HH)tigrex.png";
-	public static final String weapon_hm_kirin_icon = "mhfc:hammer";
+	public static final String weapon_hm_default_icon = "mhfc:hammer";
 	public static final String weapon_hm_kirin_name = "hammer_2";
 	public static final String weapon_hm_kirin_tex = "mhfc:textures/weapons/(H)kirinspark.png";
 	public static final String weapon_hm_tigrex_icon = "mhfc:hammer";

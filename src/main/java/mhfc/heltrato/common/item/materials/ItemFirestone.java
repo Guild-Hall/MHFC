@@ -1,4 +1,4 @@
-package mhfc.heltrato.common.item;
+package mhfc.heltrato.common.item.materials;
 
 import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.util.lib.MHFCReference;

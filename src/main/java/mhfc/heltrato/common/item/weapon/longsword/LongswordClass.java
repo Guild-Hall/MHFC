@@ -22,7 +22,8 @@ public class LongswordClass extends WeaponMelee {
 	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase ent, EntityLivingBase player)  {
 	//	player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30, 1));
-		
+		if(poisontype) ent.addPotionEffect(new PotionEffect(Potion.poison.id, 30, amplified));
+		if(firetype)  ent.setFire(1);
 		return true;
 	}
 

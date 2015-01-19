@@ -1,26 +1,21 @@
-package mhfc.heltrato.common.item;
+package mhfc.heltrato.common.item.materials;
 
 import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 
-public class ItemBullet extends Item {
+public class ItemGaguaEgg extends Item {
 
-	public int meta;
-
-	public ItemBullet(int metaData) {
+	public ItemGaguaEgg() {
 		super();
-		meta = metaData;
-		setUnlocalizedName( "bullet" + meta );
+		setUnlocalizedName(MHFCReference.item_gaguaegg_name);
 		setCreativeTab(MHFCMain.mhfctabs);
-		setMaxStackSize(12);
-
 	}
 
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
-		this.itemIcon = par1IconRegister.registerIcon( "mhfc:bullet" + meta );
+		this.itemIcon = par1IconRegister
+				.registerIcon(MHFCReference.item_gaguaegg_icon);
 	}
-
 }

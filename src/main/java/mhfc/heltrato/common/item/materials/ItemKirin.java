@@ -1,4 +1,4 @@
-package mhfc.heltrato.common.item;
+package mhfc.heltrato.common.item.materials;
 
 import java.util.List;
 
@@ -9,23 +9,19 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ItemRathalos extends Item {
-	private static final String[] itemNames = {
-			MHFCReference.item_rathalos0_name,
-			MHFCReference.item_rathalos1_name,
-			MHFCReference.item_rathalos2_name,
-			MHFCReference.item_rathalos3_name,
-			MHFCReference.item_rathalos4_name};
-	private static final String[] itemIcons = {
-			MHFCReference.item_rathalos_icon0,
-			MHFCReference.item_rathalos_icon1,
-			MHFCReference.item_rathalos_icon2,
-			MHFCReference.item_rathalos_icon3,
-			MHFCReference.item_rathalos_icon4};
+public class ItemKirin extends Item {
+	private static final String[] itemNames = {MHFCReference.item_kirin0_name,
+			MHFCReference.item_kirin1_name, MHFCReference.item_kirin2_name,
+			MHFCReference.item_kirin3_name, MHFCReference.item_kirin4_name,
+			MHFCReference.item_kirin5_name};
+	private static final String[] itemIcons = {MHFCReference.item_kirin_icon0,
+			MHFCReference.item_kirin_icon1, MHFCReference.item_kirin_icon2,
+			MHFCReference.item_kirin_icon3, MHFCReference.item_kirin_icon4,
+			MHFCReference.item_kirin_icon5};
 
 	public int meta;
 
-	public ItemRathalos(int metaData) {
+	public ItemKirin(int metaData) {
 		super();
 		setHasSubtypes(true);
 		meta = metaData;
@@ -44,9 +40,9 @@ public class ItemRathalos extends Item {
 			EntityPlayer par2EntityPlayer,
 			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
 		if (meta > 3) {
-			par3List.add("Rare Drop by Rathalos");
+			par3List.add("Rare Drop by Kirin");
 		} else {
-			par3List.add("Drop by Rathalos");
+			par3List.add("Drop by Kirin");
 		}
 
 	}
