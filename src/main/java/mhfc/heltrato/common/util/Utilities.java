@@ -31,7 +31,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import cpw.mods.fml.client.FMLClientHandler;
 
-public class UtilStuff {
+public class Utilities {
 	
 	private static MHFCRegItem item;
 	private static Random rand;
@@ -41,7 +41,7 @@ public class UtilStuff {
 	private static int		knockBackModifier	= 0;
 	
 	
-	public UtilStuff() {
+	public Utilities() {
 		rand = new Random();
 	}
 	

@@ -34,6 +34,7 @@ import mhfc.heltrato.common.item.materials.ItemWoodRig;
 import mhfc.heltrato.common.item.materials.ItemWyvernCoin;
 import mhfc.heltrato.common.item.materials.ItemWyverniaClay;
 import mhfc.heltrato.common.item.materials.ItemWyverniaDust;
+import mhfc.heltrato.common.item.weapon.bowgun.WeaponBGHRathalos;
 import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSBone;
 import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSDeviljhobroadsword;
 import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSKirinThunderSword;
@@ -84,6 +85,7 @@ public class MHFCRegItem {
 	public static Item mhfcitembtigrexarrow;
 	public static Item mhfcitembadventurer;
 	public static Item mhfcitemhhtigrex;
+	public static Item mhfcitembghrath;
 	
 	//Armors
 	public static Item mhfcitemtigrexhelm;
@@ -188,23 +190,25 @@ public class MHFCRegItem {
 		registerRangeWeapon();
 		registerFood();
 		
-		getItemID(mhfcitemlsironkatana);
-		getItemID(mhfcitemlsdarkvipern);
+		
+		getItemID(mhfcitembghrath);
 		getItemID(mhfcitemgsbone);
 		getItemID(MHFCItemGSTigrex);
+		getItemID(mhfcitemgsrathalosfiresword);
 		getItemID(mhfcitemgskirinthundersword);
 		getItemID(mhfcitemgsberserkerssword);
-		getItemID(mhfcitemgsrathalosfiresword);
 		getItemID(mhfcitemhwarhammer);
 		getItemID(mhfcitemhwarhammerplus);
 		getItemID(mhfcitemhwarslammer);
+		getItemID(mhfcitemhrathalos);
 		getItemID(MHFCItemHTigrex);
 		getItemID(mhfcitemhkirinspark);
-		getItemID(mhfcitemhrathalos);
 		getItemID(mhfcitemhdevilsdue);
 		getItemID(mhfcitemhhivoryhorn);
 		getItemID(mhfcitemhhmetalbagpipe);
 		getItemID(mhfcitemhhtigrex);
+		getItemID(mhfcitemlsironkatana);
+		getItemID(mhfcitemlsdarkvipern);
 //		getItemID(mhfcitembadventurer);
 //		getItemID(mhfcitembhunter);
 //		getItemID(mhfcitembtigrexarrow);
@@ -369,6 +373,7 @@ public class MHFCRegItem {
 	
 	private static void registerRangeWeapon()
 	{
+		mhfcitembghrath = new WeaponBGHRathalos();
 //		mhfcitembadventurer = new WeaponBAdventurer();
 //		mhfcitembhunter = new WeaponBHunter();
 //		mhfcitembtigrexarrow = new WeaponBTigrexArrow();

@@ -46,7 +46,7 @@ public class WeaponHHMetalBagpipe extends SiegeClass {
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
 		itemIcon = par1IconRegister
-				.registerIcon(MHFCReference.weapon_hh_metalbagpipe_icon);
+				.registerIcon(MHFCReference.weapon_hh_default_icon);
 	}
 
 	@Override

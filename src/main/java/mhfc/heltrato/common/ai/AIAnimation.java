@@ -1,7 +1,7 @@
 package mhfc.heltrato.common.ai;
 
 import mhfc.heltrato.common.interfaces.iMHFC;
-import mhfc.heltrato.common.util.UtilStuff;
+import mhfc.heltrato.common.util.Utilities;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
 
@@ -32,7 +32,7 @@ public abstract class AIAnimation extends EntityAIBase {
 	}
 	
 	public void startExecuting() {
-	  if(!isAutomatic()) UtilStuff.sendAnimPacket(animatedEntity, getAnimID());
+	  if(!isAutomatic()) Utilities.sendAnimPacket(animatedEntity, getAnimID());
 		animatedEntity.setAnimTick(0);
 	}
 	
@@ -41,7 +41,7 @@ public abstract class AIAnimation extends EntityAIBase {
 	}
 	
 	public void resetTask() {
-		UtilStuff.sendAnimPacket(animatedEntity, 0);
+		Utilities.sendAnimPacket(animatedEntity, 0);
 	}
 	
 	private iMHFC animatedEntity;

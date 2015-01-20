@@ -1,8 +1,7 @@
 package mhfc.heltrato.common.item.weapon;
 
-import mhfc.heltrato.common.item.IExtendedReachItem;
 import mhfc.heltrato.common.util.Attributes;
-import mhfc.heltrato.common.util.UtilStuff;
+import mhfc.heltrato.common.util.Utilities;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -102,7 +101,7 @@ public class WeaponMelee extends AbstractWeaponClass
 			float kb = getKnockBack(itemstack, entityliving, attacker);
 			//if (entityliving.onGround)
 			{
-				UtilStuff.knockBack(entityliving, attacker, kb);
+				Utilities.knockBack(entityliving, attacker, kb);
 			}
 			entityliving.hurtResistantTime += getAttackDelay(itemstack, entityliving, attacker);
 		}
@@ -134,15 +133,15 @@ public class WeaponMelee extends AbstractWeaponClass
 		float dmg = getEntityDamage();
 		if (dmg > 0F || meleeSpecs.damageMult > 0F)
 		{
-			multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(weapon.getUUID(), "Weapon modifier", dmg, 0));
+	//		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(weapon.getUUID(), "Weapon modifier", dmg, 0));
 		}
-		multimap.put(Attributes.WEAPON_KNOCKBACK.getAttributeUnlocalizedName(), new AttributeModifier(weapon.getUUID(), "Weapon knockback modifier", meleeSpecs.getKnockBack(weaponMaterial) - 0.4F, 0));
-		multimap.put(Attributes.ATTACK_SPEED.getAttributeUnlocalizedName(), new AttributeModifier(weapon.getUUID(), "Weapon attack speed modifier", -meleeSpecs.attackDelay, 0));
+	//	multimap.put(Attributes.WEAPON_KNOCKBACK.getAttributeUnlocalizedName(), new AttributeModifier(weapon.getUUID(), "Weapon knockback modifier", meleeSpecs.getKnockBack(weaponMaterial) - 0.4F, 0));
+	//	multimap.put(Attributes.ATTACK_SPEED.getAttributeUnlocalizedName(), new AttributeModifier(weapon.getUUID(), "Weapon attack speed modifier", -meleeSpecs.attackDelay, 0));
 		if (this instanceof IExtendedReachItem)
 		{
 			try
 			{
-				multimap.put(Attributes.WEAPON_REACH.getAttributeUnlocalizedName(), new AttributeModifier(weapon.getUUID(), "Weapon reach modifier", ((IExtendedReachItem) this).getExtendedReach(null, null, null) - 3F, 0));
+		//		multimap.put(Attributes.WEAPON_REACH.getAttributeUnlocalizedName(), new AttributeModifier(weapon.getUUID(), "Weapon reach modifier", ((IExtendedReachItem) this).getExtendedReach(null, null, null) - 3F, 0));
 			} catch (NullPointerException e)
 			{}
 		}
@@ -153,7 +152,7 @@ public class WeaponMelee extends AbstractWeaponClass
 	{
 		if (entity instanceof EntityLivingBase)
 		{
-			UtilStuff.prepareKnockbackOnEntity(player, (EntityLivingBase) entity);
+			Utilities.prepareKnockbackOnEntity(player, (EntityLivingBase) entity);
 		}
 		return false;
 	}
@@ -201,16 +200,12 @@ public class WeaponMelee extends AbstractWeaponClass
 	
 	public static enum WeaponSpecs
 	{
-		//NAME db, dm, edb, edm, bd, kb, dfe, dfb, mss, ad
-		SPEAR(0, 1F, 3, 1F, 1F, 0.2F, 1, 2, 1, 0),
-		HALBERD(0, 1F, 4, 1F, 1.5F, 0.6F, 1, 2, 1, 8),
-		BATTLEAXE(0, 1F, 3, 1F, 1.5F, 0.5F, 1, 2, 1, 5),
-		WARHAMMER(0, 1F, 4, 1F, 1F, 0.7F, 1, 2, 1, 5),
-		KNIFE(0, 0.5F, 3, 1F, 1.5F, 0.2F, 1, 2, 1, 0),
-		KATANA(0, 1F, 1, 1F, 1F, 0F, 1, 2, 1, -6),
-		FIREROD(1, 0F, 1, 0F, 1F, 0.4F, 2, 0, 1, 0),
-		BOOMERANG(0, 0.5F, 2, 1F, 1F, 0.4F, 1, 1, 1, 0),
-		NONE(0, 0F, 1, 0F, 1F, 0.4F, 0, 0, 1, 0);
+		//NAME         db, dm, edb, edm, bd, kb, dfe, dfb, mss, ad
+		GREATSWORD    (0, 1F,   3, 1F, 1.5F, 0.5F, 1, 2, 1, 3),
+		HAMMER        (0, 1F,   4, 1F, 1F,   0.9F, 1, 2, 1, 9),
+		HUNTINGHORN   (0, 0.5F, 3, 1F, 1.5F, 0.6F, 1, 2, 1, 6),
+		LONGSWORD     (0, 1F,   1, 1F, 1F,   0F,   1, 2, 1,-6),
+		NONE          (0, 0F, 1, 0F, 1F, 0.4F, 0, 0, 1, 0);
 		
 		private WeaponSpecs(int durbase, float durmult, float dmgbase, float dmgmult, float blockdmg, float knockback, int dmgfromentity, int dmgfromblock, int stacksize, int attackdelay)
 		{

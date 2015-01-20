@@ -290,7 +290,7 @@ public class MHFCReference {
 	public static final String weapon_gs_rathalos_icon = "mhfc:greatsword";
 	public static final String weapon_gs_rathalos_name = "greatsword_5";
 	public static final String weapon_gs_rathalos_tex = "mhfc:textures/weapons/(GS)rathalosfiresword.png";
-	public static final String weapon_hh_metalbagpipe_icon = "mhfc:huntinghorn";
+	public static final String weapon_hh_default_icon = "mhfc:huntinghorn";
 	public static final String weapon_hh_metalbagpipe_name = "huntinghorn_1";
 	public static final String weapon_hh_metalbagpipe_tex = "mhfc:textures/weapons/(HH)metalbagpipe.png";
 	public static final String weapon_hh_ivoryhorn_icon = "mhfc:huntinghorn";
@@ -329,6 +329,8 @@ public class MHFCReference {
 	public static final String weapon_bgl_shooterbarrel_tex = "mhfc:textures/weapons/(BGL)shooterbarrel.png";
 	public static final String weapon_bgl_spartacusfire_name = "bowgun_2";
 	public static final String weapon_bgl_spartacusfire_tex = "mhfc:textures/weapons/(BGL)spartacusfire.png";
+	public static final String weapon_bgh_rath_name = "bowgun_3";
+	public static final String weapon_bgh_rath_tex = "mhfc:textures/weapons/(BGH)rath.png";
 	public static final String gui_questgiver_back_tex = "mhfc:texture/gui/questgiver.png";
 	
 	public static final String[] oreSubBlocks = new String[] {block_orearmorsphere_name,block_orearmorsphereplus_name,block_orecarbalite_name,block_oredragonite_name,block_oreeltalite_name,block_oremachalite_name};

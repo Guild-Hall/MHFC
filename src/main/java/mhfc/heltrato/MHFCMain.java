@@ -4,7 +4,7 @@ import mhfc.heltrato.common.MHFCCommon;
 import mhfc.heltrato.common.helper.system.MHFCVersionHelper;
 import mhfc.heltrato.common.network.message.MessageAIAnim;
 import mhfc.heltrato.common.tab.MHFCTab;
-import mhfc.heltrato.common.util.UtilStuff;
+import mhfc.heltrato.common.util.Utilities;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;

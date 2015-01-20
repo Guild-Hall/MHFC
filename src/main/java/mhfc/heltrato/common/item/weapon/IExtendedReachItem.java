@@ -1,4 +1,4 @@
-package mhfc.heltrato.common.item;
+package mhfc.heltrato.common.item.weapon;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
