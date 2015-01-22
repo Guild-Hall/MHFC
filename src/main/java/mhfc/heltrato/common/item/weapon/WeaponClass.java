@@ -7,6 +7,7 @@ import java.util.UUID;
 import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.helper.MHFCWeaponClassingHelper;
 import mhfc.heltrato.common.helper.system.MHFCColorHelper;
+import mhfc.heltrato.common.util.Cooldown;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -39,11 +40,11 @@ public class WeaponClass extends ItemSword implements IItemWeapon{
 	public String des1, des2 , des3 , weaponicon ; // <--- Shorten the handles
 	public float damage , damageincrease , matDamage, matReduction , knockback;
 	public Random rand ;
-	public int attackdelay, rarity , meta, amplified;
+	public int attackdelay, rarity , meta, amplified, getcooldown;
 	public Item.ToolMaterial weaponMat ;
 	public MHFCWeaponClassingHelper clazz;
 	public MHFCReference ref;
-	public boolean poisontype, firetype;
+	public boolean poisontype, firetype, enableCooldownDisplay;
 	
 	
 	public WeaponClass(WeaponMelee weaponf) {
@@ -76,6 +77,7 @@ public class WeaponClass extends ItemSword implements IItemWeapon{
 	
 	public void getWeaponDescription(String second, int rarerty){
 		 des2 = second;  rarity = rarerty;
+		 
 	}
 	
 	public void getWeaponTextureloc(String textureloc) {
@@ -113,6 +115,7 @@ public class WeaponClass extends ItemSword implements IItemWeapon{
 		par3List.add(MHFCColorHelper.gold + des1);
 		par3List.add(MHFCColorHelper.dark_green + des2);
 		par3List.add(MHFCColorHelper.dark_blue + "Rarity: " + rarity);
+		if(enableCooldownDisplay)Cooldown.displayCooldown(par1ItemStack, par3List, getcooldown);
 	}
 	
 	
