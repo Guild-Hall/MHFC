@@ -108,8 +108,9 @@ public class MHFCReference {
 	public static final String entity_rathalosFireball_name = "Fireball";
 	public static final String entity_rathalosfireball_tex = "mhfc:textures/projectile/rathalosfireball.png";
 	public static final String entity_tigrexBlock_name = "TigrexBlock";
-	public static final String gui_board_tex = "textures/gui/demo_background.png";
-	public static final String gui_hunterbench_back_tex = "mhfc:textures/gui/CraftStation.png";
+	public static final String gui_board_tex = "mhfc:textures/gui/MHFCBackground.png";
+	public static final String gui_hunterbench_back_tex = "mhfc:textures/gui/MHFCBackground.png";
+	public static final String gui_hunterbench_burn_back_tex = "mhfc:textures/gui/OvenHeat.png";
 	public static final String gui_hunterbench_name = "Hunter's Bench";
 	public static final String gui_hunterbench_tab_armor_name = "Armor Crafting";
 	public static final String gui_hunterbench_tab_weapon_name = "Weapon Crafting";

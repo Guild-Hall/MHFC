@@ -184,8 +184,8 @@ public class GuiQuestBoard extends GuiScreen {
 	public void drawBackground(int p_146278_1_) {
 		mc.getTextureManager().bindTexture(
 				MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
-		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, 0f, xSize, ySize, 15,
-				15 / 265f, 1, 166f / 256f);
+		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, 0f, xSize, ySize, 10,
+				8f / 512, 8f / 256, 1f, 1f);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -215,7 +215,8 @@ public class GuiQuestBoard extends GuiScreen {
 			mapToListItems.put(id, item);
 			mapToIdentifiers.put(item, id);
 			runningQuestList.add(item);
-		} else {}
+		} else {
+		}
 	}
 
 	public void removeQuest(String id) {

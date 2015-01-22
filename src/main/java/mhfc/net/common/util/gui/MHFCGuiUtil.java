@@ -5,6 +5,18 @@ import net.minecraft.client.renderer.Tessellator;
 public class MHFCGuiUtil {
 	public static float zLevel;
 
+	public static void drawTexturedRectangle(int xMin, int yMin, int width,
+			int height, float u, float v, float uWidth, float vHeight) {
+		Tessellator t = Tessellator.instance;
+		t.startDrawingQuads();
+		t.addVertexWithUV(xMin, yMin, zLevel, u, v);
+		t.addVertexWithUV(xMin, yMin + height, zLevel, u, v + vHeight);
+		t.addVertexWithUV(xMin + width, yMin + height, zLevel, u + uWidth, v
+				+ vHeight);
+		t.addVertexWithUV(xMin + width, yMin, zLevel, u + uWidth, v);
+		t.draw();
+	}
+
 	public static void drawTexturedBoxFromBorder(int x, int y, int width,
 			int height) {
 		drawTexturedBoxFromBorder(x, y, zLevel, width, height);

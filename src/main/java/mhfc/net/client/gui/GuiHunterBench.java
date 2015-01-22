@@ -75,18 +75,21 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			GuiHunterBench.this.startCrafting.visible = !bench.isWorking();
 			GuiHunterBench.this.startCrafting.enabled = bench
 					.canBeginCrafting();
-			/*
-			 * fontRendererObj.drawString(bench.isWorking() ? "Working" :
-			 * "Sleeping", 50, 50, 0x404040);
-			 * fontRendererObj.drawString(bench.getHeatFromItem() + "", 50, 60,
-			 * 0x404040); fontRendererObj.drawString(bench.getHeatLength() + "",
-			 * 50, 70, 0x404040);
-			 * fontRendererObj.drawString(bench.getHeatStrength() + "", 50, 80,
-			 * 0x404040);
-			 * fontRendererObj.drawString(bench.getItemSmeltDuration() + "", 50,
-			 * 90, 0x404040);
-			 */
-			drawItemModelAndHeat(new ItemStack(MHFCRegItem.mhfcitembhunter));
+
+			fontRendererObj.drawString(bench.isWorking()
+					? "Working"
+					: "Sleeping", 50, 50, 0x404040);
+			fontRendererObj.drawString(bench.getHeatFromItem() + "", 50, 60,
+					0x404040);
+			fontRendererObj.drawString(bench.getHeatLength() + "", 50, 70,
+					0x404040);
+			fontRendererObj.drawString(bench.getHeatStrength() + "", 50, 80,
+					0x404040);
+			fontRendererObj.drawString(bench.getItemSmeltDuration() + "", 50,
+					90, 0x404040);
+
+			drawItemModelAndHeat(new ItemStack(MHFCRegItem.mhfcitembhunter),
+					bench);
 		};
 
 		@Override
@@ -366,7 +369,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				tileEntity, x, y, z), 3);
 		this.tileEntity = tileEntity;
 		this.xSize = 374;
-		this.ySize = 182;
+		this.ySize = 220;
 		mc = Minecraft.getMinecraft();
 		ScaledResolution s = new ScaledResolution(mc, mc.displayWidth,
 				mc.displayHeight);
@@ -390,7 +393,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		};
 	}
 
-	private void drawItemModelAndHeat(ItemStack itemToRender) {
+	private void drawItemModelAndHeat(ItemStack itemToRender,
+			TileHunterBench bench) {
 
 		int rectX = guiLeft + 228, rectY = guiTop + 23;
 		int rectW = 7 * 18 - 2, rectH = 96;
@@ -408,17 +412,53 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(
 				itemToRender, ENTITY);
 		if (customRenderer == null) {
-			return;
+		} else {
+			customRenderer.renderItem(ItemRenderType.ENTITY, itemToRender,
+					null, null);
 		}
-		customRenderer.renderItem(ItemRenderType.ENTITY, itemToRender, null,
-				null);
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glPopMatrix();
 
-		// Draw heat background
-		// Draw heat indicator
-		// Draw heat target
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		final int maxHeat = 200;
+		final int burnHeight = 96;
+
+		if (bench != null) {
+			// Draw the background required heat indicator
+			GL11.glColor4f(0.8f, 0.8f, 0.8f, 0.6f);
+			int heat;
+			float burnTexVDiff;
+			float burnTexV;
+			int burnTexHeight;
+			int burnTexY;
+			if (bench.getRecipe() != null) {
+				heat = bench.getRecipe().getRequiredHeat();
+				heat = Math.min(heat, maxHeat);
+				mc.getTextureManager().bindTexture(
+						MHFCRegQuestVisual.HUNTER_BENCH_BURN_BACK);
+				burnTexVDiff = (float) (heat) / maxHeat;
+				burnTexV = 1.0f - burnTexVDiff;
+				burnTexHeight = (int) (burnTexVDiff * burnHeight);
+				burnTexY = rectY + burnHeight - burnTexHeight;
+				MHFCGuiUtil.drawTexturedRectangle(rectX + rectW + 5, burnTexY,
+						10, burnTexHeight, 0.0f, burnTexV, 1.0f, burnTexVDiff);
+			}
+			// Draw the foreground current heat indicator
+			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			heat = Math.min(bench.getHeatStrength(), maxHeat);
+			mc.getTextureManager().bindTexture(
+					MHFCRegQuestVisual.HUNTER_BENCH_BURN_BACK);
+			burnTexVDiff = (float) (heat) / maxHeat;
+			burnTexV = 1.0f - burnTexVDiff;
+			burnTexHeight = (int) (burnTexVDiff * burnHeight);
+			burnTexY = rectY + burnHeight - burnTexHeight;
+			MHFCGuiUtil.drawTexturedRectangle(rectX + rectW + 5, burnTexY, 10,
+					burnTexHeight, 0.0f, burnTexV, 1.0f, burnTexVDiff);
+
+			// TODO Draw heat border
+			// TODO Draw heat from item target
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -439,11 +479,11 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	protected void drawTabBackgroundLayer() {
 		GL11.glColor4f(1f, 1f, 1f, 1f);
 		this.mc.getTextureManager().bindTexture(
-				MHFCRegQuestVisual.QUEST_STATUS_INVENTORY_BACKGROUND);
+				MHFCRegQuestVisual.QUEST_HUNTERBENCH_BACKGROUND);
 		int posX = guiLeft;
 		int posY = guiTop;
 		MHFCGuiUtil.drawTexturedBoxFromBorder(posX, posY, this.zLevel,
-				this.xSize, this.ySize, 40, 40f / 256, 248f / 256, 166f / 256);
+				this.xSize, this.ySize, 10, 8f / 512, 8f / 256, 1f, 1f);
 	}
 
 	@Override

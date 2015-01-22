@@ -144,6 +144,10 @@ public class MHFCRegQuestVisual {
 			MHFCReference.gui_status_onscreen_tex);
 	public static final ResourceLocation QUEST_BOARD_BACKGROUND = new ResourceLocation(
 			MHFCReference.gui_board_tex);
+	public static final ResourceLocation HUNTER_BENCH_BURN_BACK = new ResourceLocation(
+			MHFCReference.gui_hunterbench_burn_back_tex);
+	public static final ResourceLocation QUEST_HUNTERBENCH_BACKGROUND = new ResourceLocation(
+			MHFCReference.gui_hunterbench_back_tex);
 
 	private static Map<String, List<String>> groupIDToListMap = new HashMap<String, List<String>>();
 	private static List<String> groupIDsInOrder = new ArrayList<String>();
