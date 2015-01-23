@@ -34,7 +34,6 @@ import mhfc.heltrato.common.item.materials.ItemWoodRig;
 import mhfc.heltrato.common.item.materials.ItemWyvernCoin;
 import mhfc.heltrato.common.item.materials.ItemWyverniaClay;
 import mhfc.heltrato.common.item.materials.ItemWyverniaDust;
-import mhfc.heltrato.common.item.weapon.bowgun.WeaponBGHRathalos;
 import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSBone;
 import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSDeviljhobroadsword;
 import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSKirinThunderSword;
@@ -191,7 +190,7 @@ public class MHFCRegItem {
 		registerFood();
 		
 		
-		getItemID(mhfcitembghrath);
+//		getItemID(mhfcitembghrath);
 		getItemID(mhfcitemgsbone);
 		getItemID(MHFCItemGSTigrex);
 		getItemID(mhfcitemgsrathalosfiresword);
@@ -373,7 +372,6 @@ public class MHFCRegItem {
 	
 	private static void registerRangeWeapon()
 	{
-		mhfcitembghrath = new WeaponBGHRathalos();
 //		mhfcitembadventurer = new WeaponBAdventurer();
 //		mhfcitembhunter = new WeaponBHunter();
 //		mhfcitembtigrexarrow = new WeaponBTigrexArrow();

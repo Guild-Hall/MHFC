@@ -19,7 +19,7 @@ public class WeaponHHMetalBagpipe extends HuntingHornClass {
 
 
 	public WeaponHHMetalBagpipe(ToolMaterial getType) {
-		super(getType, 2100);
+		super(getType, 2500);
 		setUnlocalizedName(hhlocal + 1);
 		getWeaponDescription("No Element",2);
 		elementalType(false, false);
