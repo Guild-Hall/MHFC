@@ -1,4 +1,4 @@
-package mhfc.heltrato.common.item.weapon.huntinghorn;
+package mhfc.heltrato.common.item.weapon.type;
 
 import java.util.List;
 
@@ -18,6 +18,8 @@ public class HuntingHornClass extends WeaponClass {
 	
 	public String hhlocal = "huntinghorn_";
 	public int cooldown;
+	public PotionEffect g;
+
 
 	public HuntingHornClass(ToolMaterial getType, int Cooldown) {
 		super(new WeaponMelee(WeaponSpecs.HUNTINGHORN, getType));
@@ -44,23 +46,7 @@ public class HuntingHornClass extends WeaponClass {
 		return true;
 	}
 	
-	@Override
-	public ItemStack onItemRightClick(ItemStack iStack, World world,
-			EntityPlayer player) {
-		weapon.onItemRightClick(iStack, world, player);
-		if (Cooldown.canUse(iStack, cooldown)) {
-			@SuppressWarnings("unchecked")
-			List<Entity> list = player.worldObj	.getEntitiesWithinAABBExcludingEntity(player.getLastAttacker(),	player.boundingBox.expand(12D, 8D, 12D));
-			for (Entity entity : list) {
-				if (entity instanceof EntityLivingBase)
-					((EntityLivingBase) entity)
-							.addPotionEffect(new PotionEffect(
-									Potion.damageBoost.id, 300, 1));
-			}
-
-		}
-		// player.motionY++;
-		return iStack;
-	}
+	
+	
 
 }

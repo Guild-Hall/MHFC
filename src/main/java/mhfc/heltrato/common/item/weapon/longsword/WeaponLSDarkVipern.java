@@ -2,6 +2,8 @@ package mhfc.heltrato.common.item.weapon.longsword;
 
 import java.util.List;
 
+import mhfc.heltrato.common.item.weapon.type.LongswordClass;
+
 public class WeaponLSDarkVipern extends LongswordClass {
 
 

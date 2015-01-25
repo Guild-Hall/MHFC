@@ -180,8 +180,8 @@ potion.kirinbless=Spark of Kirin
 potion.paralyze=Paralyze
 potion.attackup.low=Attack Up L
 
-attribute.name.mhfc.ignoreArmour=Ignore Armor
-attribute.name.mhfc.knockback=Knockback
-attribute.name.mhfc.attackSpeed=Attack Speed
+attribute.name.mhfc.ignoreArmour=G
+attribute.name.mhfc.knockback=KB 
+attribute.name.mhfc.attackSpeed=AS 
 attribute.name.mhfc.reloadTime=Reload Time
-attribute.name.mhfc.reach=Reach
+attribute.name.mhfc.reach=WS 

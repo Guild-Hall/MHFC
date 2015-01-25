@@ -3,6 +3,7 @@ package mhfc.heltrato.common.item.weapon.hammer;
 import java.util.List;
 import java.util.Random;
 
+import mhfc.heltrato.common.item.weapon.type.HammerClass;
 import mhfc.heltrato.common.item.weapon.type.SiegeClass;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
