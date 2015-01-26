@@ -24,6 +24,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class DragoonArmor extends ItemArmor {
+	
+	
 	private static final String[] icons_array = {
 			MHFCReference.armor_default_helm_icon,
 			MHFCReference.armor_default_chest_icon,

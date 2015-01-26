@@ -4,6 +4,6 @@ import java.util.ArrayList;
 
 public class Donators {
 
-	public static String[] dragoonHelm = {"XxHeltratoxX"};
+	public static String[] dragoonHelm = {"XxHeltratoxX","Danmar"};
 
 }
