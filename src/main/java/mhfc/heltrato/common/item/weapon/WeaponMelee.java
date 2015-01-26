@@ -204,7 +204,7 @@ public class WeaponMelee extends AbstractWeaponClass
 		GREATSWORD    (0, 1F,   3, 1F, 1.5F, 0.5F, 1, 2, 1, 3),
 		HAMMER        (0, 1F,   4, 1F, 1F,   0.9F, 1, 2, 1, 9),
 		HUNTINGHORN   (0, 0.5F, 3, 1F, 1.5F, 0.6F, 1, 2, 1, 6),
-		LONGSWORD     (0, 1F,   1, 1F, 1F,   0F,   1, 2, 1,-6),
+		LONGSWORD     (0, 1F,   1, 1F, 1F,   0F,   1, 2, 1,-4),
 		NONE          (0, 0F, 1, 0F, 1F, 0.4F, 0, 0, 1, 0);
 		
 		private WeaponSpecs(int durbase, float durmult, float dmgbase, float dmgmult, float blockdmg, float knockback, int dmgfromentity, int dmgfromblock, int stacksize, int attackdelay)

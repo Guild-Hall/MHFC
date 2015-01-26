@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "S1.0.172"
+version = "S1-1.7.2"
 group= "mhfc.net" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "MHFC"
 

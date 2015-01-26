@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import mhfc.heltrato.common.item.weapon.type.GreatswordClass;
-import mhfc.heltrato.common.item.weapon.type.SemiLethalClass;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;

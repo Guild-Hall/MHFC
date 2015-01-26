@@ -151,6 +151,20 @@ public class RenderHitbox {
 		return show;
 	}
 	
+	public ModelRenderer primaltest(ModelRenderer getcube, int varpart, String savestate, float bowl) {
+		
+		if(getcube != null){
+		savestate = getname;
+		}
+		saveStateBoxes(savestate);
+		varpart = getTest();
+		if(varpart <= 20) {
+			intervalTicks(varpart);
+		}
+		return getcube;
+		
+	}
+	
 
 
 }

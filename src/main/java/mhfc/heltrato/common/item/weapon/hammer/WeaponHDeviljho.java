@@ -5,7 +5,6 @@ import java.util.Random;
 
 import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.item.weapon.type.HammerClass;
-import mhfc.heltrato.common.item.weapon.type.SiegeClass;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;

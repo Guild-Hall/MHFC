@@ -3,7 +3,6 @@ package mhfc.heltrato.common.item.weapon.huntinghorn;
 import java.util.List;
 
 import mhfc.heltrato.common.item.weapon.type.HuntingHornClass;
-import mhfc.heltrato.common.item.weapon.type.SiegeClass;
 import mhfc.heltrato.common.util.Cooldown;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;

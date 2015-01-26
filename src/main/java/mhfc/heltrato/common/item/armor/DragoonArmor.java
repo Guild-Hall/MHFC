@@ -1,10 +1,13 @@
 package mhfc.heltrato.common.item.armor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.core.registry.MHFCRegItem;
 import mhfc.heltrato.common.helper.MHFCArmorModelHelper;
+import mhfc.heltrato.common.helper.system.MHFCColorHelper;
+import mhfc.heltrato.common.util.Donators;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -49,19 +52,28 @@ public class DragoonArmor extends ItemArmor {
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer,
 			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
+		par3List.add(MHFCColorHelper.RED + "Exclusive");
 		par3List.add("Health +1");
 	}
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
 			String type) {
-		if (stack.getItem() == MHFCRegItem.mhfcitemdragoonhelm
+		for(int i = 0; i < Donators.dragoonHelm.length; i++)
+		if(entity instanceof EntityPlayer)
+		{	
+			EntityPlayer player = (EntityPlayer)entity;
+			
+				if (stack.getItem() == MHFCRegItem.mhfcitemdragoonhelm
 				|| stack.getItem() == MHFCRegItem.mhfcitemdragoonchest
 				|| stack.getItem() == MHFCRegItem.mhfcitemdragoonboots) {
-			return MHFCReference.armor_dragoon_tex1;
-		}
-		if (stack.getItem() == MHFCRegItem.mhfcitemdragoonlegs) {
-			return MHFCReference.armor_dragoon_tex2;
+					if(player.getDisplayName() == Donators.dragoonHelm[i])
+						return MHFCReference.armor_dragoon_tex1;
+		}else return  "mhfc:textures/armor/null.png";
+				if (stack.getItem() == MHFCRegItem.mhfcitemdragoonlegs) {
+					if(player.getDisplayName() == Donators.dragoonHelm[i])
+						return MHFCReference.armor_dragoon_tex2;
+		}else return  "mhfc:textures/armor/null.png";
 		}
 		return null;
 	}
@@ -123,17 +135,20 @@ public class DragoonArmor extends ItemArmor {
 		  ItemStack chest = player.getCurrentArmor(2);
 		  
 		  // If all items are our items (except helmet, as this method is only called if helmet is equipped
+		  for(int i = 0; i < Donators.dragoonHelm.length; i++)
 		  if( chest != null && legs != null && boots != null && 
 		    chest.getItem() == MHFCRegItem.mhfcitemdragoonchest &&
 		    boots.getItem() == MHFCRegItem.mhfcitemdragoonboots &&
 		    legs.getItem() == MHFCRegItem.mhfcitemdragoonlegs){
-			  float h = player.getHealth();
+			  if(player.getDisplayName() != Donators.dragoonHelm[i]){
+		  }else{
+			  	float h = player.getHealth();
 		        player.removePotionEffect(21);
 		        player.addPotionEffect(new PotionEffect(21, 200, 1, true));
-		       player.setHealth(h);
-			  
+		        player.setHealth(h);
 		  }
 	    }
+	  }
 	    
 	  public int getHealthBoost(int slot)
 	    {
