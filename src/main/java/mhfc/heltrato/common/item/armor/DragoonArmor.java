@@ -69,11 +69,11 @@ public class DragoonArmor extends ItemArmor {
 				if (stack.getItem() == MHFCRegItem.mhfcitemdragoonhelm
 				|| stack.getItem() == MHFCRegItem.mhfcitemdragoonchest
 				|| stack.getItem() == MHFCRegItem.mhfcitemdragoonboots) {
-					if(player.getDisplayName() == Donators.dragoonHelm[i])
+					if(player.getDisplayName().equals(Donators.dragoonHelm[i]))
 						return MHFCReference.armor_dragoon_tex1;
 		}else return  "mhfc:textures/armor/null.png";
 				if (stack.getItem() == MHFCRegItem.mhfcitemdragoonlegs) {
-					if(player.getDisplayName() == Donators.dragoonHelm[i])
+					if(player.getDisplayName().equals(Donators.dragoonHelm[i]))
 						return MHFCReference.armor_dragoon_tex2;
 		}else return  "mhfc:textures/armor/null.png";
 		}
@@ -142,7 +142,7 @@ public class DragoonArmor extends ItemArmor {
 		    chest.getItem() == MHFCRegItem.mhfcitemdragoonchest &&
 		    boots.getItem() == MHFCRegItem.mhfcitemdragoonboots &&
 		    legs.getItem() == MHFCRegItem.mhfcitemdragoonlegs){
-			  if(player.getDisplayName() != Donators.dragoonHelm[i]){
+			  if(player.getDisplayName().equals(Donators.dragoonHelm[i])){
 		  }else{
 			  	float h = player.getHealth();
 		        player.removePotionEffect(21);
