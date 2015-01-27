@@ -1,6 +1,5 @@
 package mhfc.heltrato.common.item.armor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import mhfc.heltrato.MHFCMain;
@@ -17,7 +16,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
@@ -54,30 +52,31 @@ public class DragoonArmor extends ItemArmor {
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer,
 			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
-		par3List.add(MHFCColorHelper.RED + "Exclusive");
+		par3List.add(MHFCColorHelper.RED + "Exclusive " + "[ " + MHFCColorHelper.GOLD + " DONATORS  " + MHFCColorHelper.RED + "]");
 		par3List.add("Health +1");
 	}
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
-			String type) {
-		for(int i = 0; i < Donators.dragoonHelm.length; i++)
+			String type) 
+	{
+		
+		EntityPlayer player = (EntityPlayer)entity;
+		
 		if(entity instanceof EntityPlayer)
-		{	
-			EntityPlayer player = (EntityPlayer)entity;
-			
-				if (stack.getItem() == MHFCRegItem.mhfcitemdragoonhelm
+		if (stack.getItem() == MHFCRegItem.mhfcitemdragoonhelm
 				|| stack.getItem() == MHFCRegItem.mhfcitemdragoonchest
 				|| stack.getItem() == MHFCRegItem.mhfcitemdragoonboots) {
-					if(player.getDisplayName().equals(Donators.dragoonHelm[i]))
-						return MHFCReference.armor_dragoon_tex1;
-		}else return  "mhfc:textures/armor/null.png";
-				if (stack.getItem() == MHFCRegItem.mhfcitemdragoonlegs) {
-					if(player.getDisplayName().equals(Donators.dragoonHelm[i]))
-						return MHFCReference.armor_dragoon_tex2;
-		}else return  "mhfc:textures/armor/null.png";
+			for(int i = 0; i < Donators.dragoonHelm.length; i++)
+			if(player.getDisplayName().equals(Donators.dragoonHelm[i]))
+			return MHFCReference.armor_dragoon_tex1;
 		}
-		return null;
+		if(stack.getItem() == MHFCRegItem.mhfcitemdragoonlegs)
+			for(int i = 0; i < Donators.dragoonHelm.length; i++)
+			if(player.getDisplayName().equals(Donators.dragoonHelm[i]))
+			return MHFCReference.armor_dragoon_tex2;
+		return "mhfc:textures/armor/null.png";
+		
 	}
 
 	@Override
