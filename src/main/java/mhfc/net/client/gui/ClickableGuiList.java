@@ -93,8 +93,8 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> 
 			recalculateItemHeight();
 		int width = Math.max(this.width, 15);
 		Minecraft m = Minecraft.getMinecraft();
-		int scale = new ScaledResolution(m, m.displayWidth, m.displayHeight)
-				.getScaleFactor();
+		int scale = new ScaledResolution(m.gameSettings, m.displayWidth,
+				m.displayHeight).getScaleFactor();
 		int openGLy = m.displayHeight;
 		GL11.glScissor(posX * scale, openGLy - (posY + height) * scale, width
 				* scale, height * scale + 1);

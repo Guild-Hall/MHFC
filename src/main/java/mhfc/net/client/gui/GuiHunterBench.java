@@ -371,8 +371,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		this.xSize = 374;
 		this.ySize = 220;
 		mc = Minecraft.getMinecraft();
-		ScaledResolution s = new ScaledResolution(mc, mc.displayWidth,
-				mc.displayHeight);
+		ScaledResolution s = new ScaledResolution(mc.gameSettings,
+				mc.displayWidth, mc.displayHeight);
 		width = s.getScaledWidth();
 		height = s.getScaledHeight();
 		this.guiLeft = (s.getScaledWidth() - this.xSize - tabWidth) / 2
@@ -398,8 +398,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		int rectX = guiLeft + 228, rectY = guiTop + 23;
 		int rectW = 7 * 18 - 2, rectH = 96;
-		int scale = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight)
-				.getScaleFactor();
+		int scale = new ScaledResolution(mc.gameSettings, mc.displayWidth,
+				mc.displayHeight).getScaleFactor();
 		GL11.glPushMatrix();
 		drawRect(rectX, rectY, rectX + rectW, rectY + rectH, 0xFF000000);
 
@@ -441,7 +441,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				burnTexV = 1.0f - burnTexVDiff;
 				burnTexHeight = (int) (burnTexVDiff * burnHeight);
 				burnTexY = rectY + burnHeight - burnTexHeight;
-				MHFCGuiUtil.drawTexturedRectangle(rectX + rectW + 5, burnTexY,
+				MHFCGuiUtil.drawTexturedRectangle(rectX + rectW + 3, burnTexY,
 						10, burnTexHeight, 0.0f, burnTexV, 1.0f, burnTexVDiff);
 			}
 			// Draw the foreground current heat indicator
@@ -453,7 +453,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			burnTexV = 1.0f - burnTexVDiff;
 			burnTexHeight = (int) (burnTexVDiff * burnHeight);
 			burnTexY = rectY + burnHeight - burnTexHeight;
-			MHFCGuiUtil.drawTexturedRectangle(rectX + rectW + 5, burnTexY, 10,
+			MHFCGuiUtil.drawTexturedRectangle(rectX + rectW + 3, burnTexY, 10,
 					burnTexHeight, 0.0f, burnTexV, 1.0f, burnTexVDiff);
 
 			// TODO Draw heat border

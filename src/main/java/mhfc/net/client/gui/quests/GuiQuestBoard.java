@@ -19,6 +19,8 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class GuiQuestBoard extends GuiScreen {
 
+	private static final int startQuestWidth = 120;
+	private static final int startQuestHeight = 20;
 	private ClickableGuiList<GuiListStringItem> runningQuestList;
 	private Map<String, GuiListStringItem> mapToListItems;
 	private Map<GuiListStringItem, String> mapToIdentifiers;
@@ -69,7 +71,8 @@ public class GuiQuestBoard extends GuiScreen {
 			}
 		};
 
-		cancelQuest = new GuiButton(0, 25, 10, 120, 20, "Cancel current Quest") {
+		cancelQuest = new GuiButton(0, 25, 10, startQuestWidth,
+				startQuestHeight, "Cancel current Quest") {
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
 					int p_146116_3_) {
@@ -85,7 +88,8 @@ public class GuiQuestBoard extends GuiScreen {
 				return false;
 			}
 		};
-		startQuest = new GuiButton(0, 25, 10, 120, 20, "Start current Quest") {
+		startQuest = new GuiButton(0, 25, 10, startQuestWidth,
+				startQuestHeight, "Start current Quest") {
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
 					int p_146116_3_) {
@@ -106,8 +110,8 @@ public class GuiQuestBoard extends GuiScreen {
 
 	@Override
 	public void updateScreen() {
-		ScaledResolution s = new ScaledResolution(mc, mc.displayWidth,
-				mc.displayHeight);
+		ScaledResolution s = new ScaledResolution(mc.gameSettings,
+				mc.displayWidth, mc.displayHeight);
 		xPos = (s.getScaledWidth() - xSize) / 2;
 		yPos = (s.getScaledHeight() - ySize) / 2;
 
@@ -116,10 +120,10 @@ public class GuiQuestBoard extends GuiScreen {
 
 		joinQuest.xPosition = 160 + xPos;
 		joinQuest.yPosition = 195 + yPos;
-		cancelQuest.xPosition = xPos + xSize / 2 - cancelQuest.width / 2;
+		cancelQuest.xPosition = xPos + xSize / 2 - startQuestWidth / 2;
 		cancelQuest.yPosition = yPos + ySize / 2 + 5;
-		startQuest.xPosition = xPos + xSize / 2 - startQuest.width / 2;
-		startQuest.yPosition = yPos + ySize / 2 - startQuest.height - 5;
+		startQuest.xPosition = xPos + xSize / 2 - startQuestWidth / 2;
+		startQuest.yPosition = yPos + ySize / 2 - startQuestHeight - 5;
 	}
 
 	@Override
@@ -191,8 +195,8 @@ public class GuiQuestBoard extends GuiScreen {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui() {
-		ScaledResolution s = new ScaledResolution(mc, mc.displayWidth,
-				mc.displayHeight);
+		ScaledResolution s = new ScaledResolution(mc.gameSettings,
+				mc.displayWidth, mc.displayHeight);
 		xPos = (s.getScaledWidth() - xSize) / 2;
 		yPos = (s.getScaledHeight() - ySize) / 2;
 		super.initGui();

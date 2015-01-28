@@ -22,6 +22,8 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiQuestGiver extends GuiScreen {
 
+	private static final int startQuestHeight = 20;
+	private static final int startQuestWidth = 120;
 	private List<String> groupIDsDisplayed;
 	private ClickableGuiList<GuiListStringItem> groupList;
 	private GuiButton newQuest, left, right;
@@ -106,7 +108,8 @@ public class GuiQuestGiver extends GuiScreen {
 				return false;
 			}
 		};
-		startQuest = new GuiButton(0, 25, 10, 120, 20, "Start current Quest") {
+		startQuest = new GuiButton(0, 25, 10, startQuestWidth,
+				startQuestHeight, "Start current Quest") {
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
 					int p_146116_3_) {
@@ -235,8 +238,8 @@ public class GuiQuestGiver extends GuiScreen {
 
 	@Override
 	public void updateScreen() {
-		ScaledResolution s = new ScaledResolution(mc, mc.displayWidth,
-				mc.displayHeight);
+		ScaledResolution s = new ScaledResolution(mc.gameSettings,
+				mc.displayWidth, mc.displayHeight);
 		xPos = (s.getScaledWidth() - xSize) / 2;
 		yPos = (s.getScaledHeight() - ySize) / 2;
 		groupList.setPosition(5 + xPos, 15 + yPos);
@@ -247,10 +250,12 @@ public class GuiQuestGiver extends GuiScreen {
 		left.yPosition = 5 + yPos;
 		newQuest.xPosition = 160 + xPos;
 		newQuest.yPosition = 195 + yPos;
-		cancelQuest.xPosition = xPos + xSize / 2 - cancelQuest.width / 2;
+		cancelQuest.xPosition = xPos + xSize / 2 - cancelQuest.getButtonWidth()
+				/ 2;
 		cancelQuest.yPosition = yPos + ySize / 2 + 5;
-		startQuest.xPosition = xPos + xSize / 2 - startQuest.width / 2;
-		startQuest.yPosition = yPos + ySize / 2 - startQuest.height - 5;
+		startQuest.xPosition = xPos + xSize / 2 - startQuest.getButtonWidth()
+				/ 2;
+		startQuest.yPosition = yPos + ySize / 2 - startQuestHeight - 5;
 		super.updateScreen();
 	}
 

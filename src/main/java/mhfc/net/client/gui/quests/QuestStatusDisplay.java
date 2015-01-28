@@ -44,8 +44,8 @@ public class QuestStatusDisplay extends Gui {
 			int width = 200;
 			int height = heightFromScale[scale];
 			// Tessellator.instance.addTranslation(0f, 0f, 0.5f);
-			ScaledResolution res = new ScaledResolution(mc, mc.displayWidth,
-					mc.displayHeight);
+			ScaledResolution res = new ScaledResolution(mc.gameSettings,
+					mc.displayWidth, mc.displayHeight);
 			GL11.glColor3f(1.0F, 1.0F, 1.0F);
 			int positionX = (res.getScaledWidth()) / 2 + 96;
 			int positionY = (res.getScaledHeight() - height) / 2;
@@ -75,8 +75,8 @@ public class QuestStatusDisplay extends Gui {
 
 	private boolean isMouseOverInfo(int positionX, int positionY, int width,
 			int height) {
-		final ScaledResolution scaledresolution = new ScaledResolution(this.mc,
-				this.mc.displayWidth, this.mc.displayHeight);
+		final ScaledResolution scaledresolution = new ScaledResolution(
+				mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
 		int i = scaledresolution.getScaledWidth();
 		int j = scaledresolution.getScaledHeight();
 		final int k = Mouse.getX() * i / this.mc.displayWidth;
@@ -98,8 +98,8 @@ public class QuestStatusDisplay extends Gui {
 			GL14.glBlendColor(0.0f, 0.0f, 0.0f, 0.6f);
 			GL11.glBlendFunc(GL11.GL_CONSTANT_ALPHA,
 					GL11.GL_ONE_MINUS_CONSTANT_ALPHA);
-			ScaledResolution res = new ScaledResolution(mc, mc.displayWidth,
-					mc.displayHeight);
+			ScaledResolution res = new ScaledResolution(mc.gameSettings,
+					mc.displayWidth, mc.displayHeight);
 			int posX = res.getScaledWidth() - width, posY = (res
 					.getScaledHeight() - height) / 2;
 			MHFCGuiUtil.drawTexturedBoxFromBorder(posX, posY, this.zLevel,
