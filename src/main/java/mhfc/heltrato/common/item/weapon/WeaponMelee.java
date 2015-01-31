@@ -23,12 +23,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class WeaponMelee extends AbstractWeaponClass
 {
-	public final WeaponSpecs			meleeSpecs;
+	public final WeaponSpecs			weaponSpecs;
 	public final Item.ToolMaterial	weaponMaterial;
 	
 	public WeaponMelee(WeaponSpecs meleespecs, Item.ToolMaterial toolmaterial)
 	{
-		meleeSpecs = meleespecs;
+		weaponSpecs = meleespecs;
 		weaponMaterial = toolmaterial;
 	}
 	
@@ -42,12 +42,12 @@ public class WeaponMelee extends AbstractWeaponClass
 	{
 		if (weaponMaterial == null)
 		{
-			item.setMaxDamage(meleeSpecs.durabilityBase);
+			item.setMaxDamage(weaponSpecs.durabilityBase);
 		} else
 		{
-			item.setMaxDamage((int) (meleeSpecs.durabilityBase + weaponMaterial.getMaxUses() * meleeSpecs.damageMult));
+			item.setMaxDamage((int) (weaponSpecs.durabilityBase + weaponMaterial.getMaxUses() * weaponSpecs.damageMult));
 		}
-		item.setMaxStackSize(meleeSpecs.stackSize);
+		item.setMaxStackSize(weaponSpecs.stackSize);
 	}
 	
 	@Override
@@ -57,13 +57,13 @@ public class WeaponMelee extends AbstractWeaponClass
 		{
 			return 0F;
 		}
-		return weaponMaterial.getDamageVsEntity() * meleeSpecs.damageMult;
+		return weaponMaterial.getDamageVsEntity() * weaponSpecs.damageMult;
 	}
 	
 	@Override
 	public float getEntityDamage()
 	{
-		return meleeSpecs.damageBase + getEntityDamageMaterialPart();
+		return weaponSpecs.damageBase + getEntityDamageMaterialPart();
 	}
 	
 	@Override
@@ -71,10 +71,10 @@ public class WeaponMelee extends AbstractWeaponClass
 	{
 		if (canHarvestBlock(block))
 		{
-			return meleeSpecs.blockDamage * 10F;
+			return weaponSpecs.blockDamage * 10F;
 		}
 		Material material = block.getMaterial();
-		return material != Material.plants && material != Material.vine && material != Material.coral && material != Material.leaves && material != Material.gourd ? 1.0F : meleeSpecs.blockDamage;
+		return material != Material.plants && material != Material.vine && material != Material.coral && material != Material.leaves && material != Material.gourd ? 1.0F : weaponSpecs.blockDamage;
 	}
 	
 	@Override
@@ -86,9 +86,9 @@ public class WeaponMelee extends AbstractWeaponClass
 	@Override
 	public boolean onBlockDestroyed(ItemStack itemstack, World world, Block block, int j, int k, int l, EntityLivingBase entityliving)
 	{
-		if ((meleeSpecs.blockDamage > 1F || canHarvestBlock(block)) && block.getBlockHardness(world, j, k, l) != 0F)
+		if ((weaponSpecs.blockDamage > 1F || canHarvestBlock(block)) && block.getBlockHardness(world, j, k, l) != 0F)
 		{
-			itemstack.damageItem(meleeSpecs.dmgFromBlock, entityliving);
+			itemstack.damageItem(weaponSpecs.dmgFromBlock, entityliving);
 		}
 		return true;
 	}
@@ -105,20 +105,20 @@ public class WeaponMelee extends AbstractWeaponClass
 			}
 			entityliving.hurtResistantTime += getAttackDelay(itemstack, entityliving, attacker);
 		}
-		itemstack.damageItem(meleeSpecs.dmgFromEntity, attacker);
+		itemstack.damageItem(weaponSpecs.dmgFromEntity, attacker);
 		return true;
 	}
 	
 	@Override
 	public int getAttackDelay(ItemStack itemstack, EntityLivingBase entityliving, EntityLivingBase attacker)
 	{
-		return meleeSpecs.attackDelay;
+		return weaponSpecs.attackDelay;
 	}
 	
 	@Override
 	public float getKnockBack(ItemStack itemstack, EntityLivingBase entityliving, EntityLivingBase attacker)
 	{
-		return meleeSpecs.getKnockBack(weaponMaterial);
+		return weaponSpecs.getKnockBack(weaponMaterial);
 	}
 	
 	@Override
@@ -131,12 +131,12 @@ public class WeaponMelee extends AbstractWeaponClass
 	public void addItemAttributeModifiers(Multimap<String, AttributeModifier> multimap)
 	{
 		float dmg = getEntityDamage();
-		if (dmg > 0F || meleeSpecs.damageMult > 0F)
+		if (dmg > 0F || weaponSpecs.damageMult > 0F)
 		{
 			multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(weapon.getUUID(), "Weapon modifier", dmg - 4, 0));
 		}
-		multimap.put(Attributes.WEAPON_KNOCKBACK.getAttributeUnlocalizedName(), new AttributeModifier(weapon.getUUID(), "Weapon knockback modifier", meleeSpecs.getKnockBack(weaponMaterial) - 0.4F, 0));
-		multimap.put(Attributes.ATTACK_SPEED.getAttributeUnlocalizedName(), new AttributeModifier(weapon.getUUID(), "Weapon attack speed modifier", meleeSpecs.attackDelay, 0));
+		multimap.put(Attributes.WEAPON_KNOCKBACK.getAttributeUnlocalizedName(), new AttributeModifier(weapon.getUUID(), "Weapon knockback modifier", weaponSpecs.getKnockBack(weaponMaterial) - 0.4F, 0));
+		multimap.put(Attributes.ATTACK_SPEED.getAttributeUnlocalizedName(), new AttributeModifier(weapon.getUUID(), "Weapon attack speed modifier", weaponSpecs.attackDelay, 0));
 		if (this instanceof IExtendedReachItem)
 		{
 			try

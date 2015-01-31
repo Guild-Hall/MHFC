@@ -28,7 +28,8 @@ public class MHFCConfig {
 		Configuration config = new Configuration(new File("config/MHFC.cfg"));
 		
 
-		spawnTigrex = config.get("MHFC Mobs", "SummonTigrex", true).getBoolean(true);
+		spawnTigrex = config.get("MHFC Mobs", "Summon Tigrex", true).getBoolean(true);
+		spawnKirin = config.get("MHFC Mobs", "Summon Kirin", true).getBoolean(true);
 		
 		config.save();
 }

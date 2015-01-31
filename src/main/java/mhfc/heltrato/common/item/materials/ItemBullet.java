@@ -22,5 +22,13 @@ public class ItemBullet extends Item {
 	public void registerIcons(IIconRegister par1IconRegister) {
 		this.itemIcon = par1IconRegister.registerIcon( "mhfc:bullet" + meta );
 	}
+	
+	
+	public int getBulletType() {
+		if(meta == 0){
+			return 0;
+		}
+		return meta;
+	}
 
 }

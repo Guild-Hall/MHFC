@@ -234,8 +234,10 @@ public class Utilities {
 			kbMotionY = entity.motionY;
 			kbMotionZ = entity.motionZ;
 		}
+		
+		}
 	 
 		 
 	 
 	 
-}
+
