@@ -13,8 +13,8 @@ import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import mhfc.net.common.network.packet.MessageBeginCrafting;
 import mhfc.net.common.network.packet.MessageCancelRecipe;
 import mhfc.net.common.network.packet.MessageEndCrafting;
-import mhfc.net.common.network.packet.MessageTileLocation;
 import mhfc.net.common.network.packet.MessageSetRecipe;
+import mhfc.net.common.network.packet.MessageTileLocation;
 import mhfc.net.common.tile.TileHunterBench;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.item.Item;
@@ -37,8 +37,7 @@ public class MHFCRegEquipmentRecipe {
 			implements
 				IMessageHandler<MessageSetRecipe, IMessage> {
 		@Override
-		public IMessage onMessage(MessageSetRecipe message,
-				MessageContext ctx) {
+		public IMessage onMessage(MessageSetRecipe message, MessageContext ctx) {
 			TileHunterBench b = getHunterBench(message);
 			EquipmentRecipe rec = getRecipeFor(message.getRecipeID(),
 					message.getTypeID());
@@ -48,7 +47,11 @@ public class MHFCRegEquipmentRecipe {
 								"Set recipe to "
 										+ rec.getRecipeOutput()
 												.getDisplayName()));
-			b.setRecipe(rec);
+			else
+				ctx.getServerHandler().playerEntity
+						.addChatComponentMessage(new ChatComponentText(
+								"Set recipe to none"));
+			b.changeRecipe(rec);
 			return null;
 		}
 	}
@@ -73,8 +76,7 @@ public class MHFCRegEquipmentRecipe {
 			implements
 				IMessageHandler<MessageBeginCrafting, IMessage> {
 		@Override
-		public IMessage onMessage(
-				MessageBeginCrafting message,
+		public IMessage onMessage(MessageBeginCrafting message,
 				MessageContext ctx) {
 			TileHunterBench b = getHunterBench(message);
 			if (b.beginCrafting())

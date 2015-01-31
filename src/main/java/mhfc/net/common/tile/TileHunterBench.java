@@ -1,5 +1,6 @@
 package mhfc.net.common.tile;
 
+import mhfc.net.common.core.registry.MHFCRegEquipmentRecipe;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageBeginCrafting;
@@ -116,23 +117,26 @@ public class TileHunterBench extends TileEntity implements IInventory {
 		return TileHunterBench.this.workingMHFCBench;
 	}
 
-	public void setRecipe(EquipmentRecipe recipe) {
+	public void changeRecipe(EquipmentRecipe recipe) {
 		if (worldObj.isRemote) {
 			sendSetRecipe(recipe);
 			invalidate();
-			return;
 		}
+		cancelRecipe();
+		setRecipe(recipe);
+		itemSmeltDuration = 0;
+	}
+
+	protected void setRecipe(EquipmentRecipe recipe) {
 		if (recipe == null) {
 			recipeStacks = new ItemStack[7];
 			this.recipe = null;
-			itemSmeltDuration = 0;
 			resultStack = null;
-			return;
+		} else {
+			resultStack = recipe.getRecipeOutput();
+			this.recipe = recipe;
+			setIngredients(recipe);
 		}
-		cancelRecipe();
-		resultStack = recipe.getRecipeOutput();
-		this.recipe = recipe;
-		setIngredients(recipe);
 	}
 
 	public void setIngredients(EquipmentRecipe recipe) {
@@ -287,15 +291,16 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	}
 
 	public boolean beginCrafting() {
-		if (worldObj.isRemote)
+		if (worldObj.isRemote) {
 			sendBeginCraft();
+			invalidate();
+		}
 		if (recipe != null) {
 			if (canBeginCrafting()) {
-				workingMHFCBench = true;
+				TileHunterBench.this.workingMHFCBench = true;
 			}
 		}
-		markDirty();
-		return workingMHFCBench;
+		return TileHunterBench.this.workingMHFCBench;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -354,7 +359,10 @@ public class TileHunterBench extends TileEntity implements IInventory {
 		heatFromItem = nbtTag.getInteger("heatFromItem");
 		heatLength = nbtTag.getInteger("heatLength");
 		itemSmeltDuration = nbtTag.getInteger("itemSmeltDuration");
-		workingMHFCBench = nbtTag.getBoolean("working");
+		TileHunterBench.this.workingMHFCBench = nbtTag.getBoolean("working");
+		int recType = nbtTag.getInteger("recipeType");
+		int recId = nbtTag.getInteger("recipeID");
+		setRecipe(MHFCRegEquipmentRecipe.getRecipeFor(recId, recType));
 		NBTTagList items = nbtTag.getTagList("Items", 10);
 		for (int a = 0; a < items.tagCount(); a++) {
 			NBTTagCompound stack = items.getCompoundTagAt(a);
@@ -372,7 +380,11 @@ public class TileHunterBench extends TileEntity implements IInventory {
 		nbtTag.setInteger("heatFromItem", heatFromItem);
 		nbtTag.setInteger("heatLength", heatLength);
 		nbtTag.setInteger("itemSmeltDuration", itemSmeltDuration);
-		nbtTag.setBoolean("working", workingMHFCBench);
+		nbtTag.setBoolean("working", TileHunterBench.this.workingMHFCBench);
+		int typeID = MHFCRegEquipmentRecipe.getType(recipe);
+		int recipeID = MHFCRegEquipmentRecipe.getIDFor(recipe, typeID);
+		nbtTag.setInteger("recipeType", typeID);
+		nbtTag.setInteger("recipeID", recipeID);
 		NBTTagList itemsStored = new NBTTagList();
 		for (int a = 0; a < getSizeInventory(); a++) {
 			ItemStack s = getStackInSlot(a);

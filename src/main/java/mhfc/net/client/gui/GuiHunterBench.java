@@ -122,8 +122,6 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		public void onClose() {
-			if (!bench.isWorking())
-				bench.setRecipe(null);
 		}
 
 		@Override
@@ -182,7 +180,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				int selected = armorTypeList.getSelected();
 				EquipmentRecipe rec = MHFCRegEquipmentRecipe.getRecipeFor(
 						armorRecipeList.getSelected(), selected);
-				bench.setRecipe(rec);
+				bench.changeRecipe(rec);
 			}
 		}
 
