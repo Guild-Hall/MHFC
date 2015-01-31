@@ -1,4 +1,4 @@
-death.attack.mhfc.thunderelement=%1$s was thundered by %2$s
+death.attack.@MODID@.thunderelement=%1$s was thundered by %2$s
 
 
 tile.losgable.name=Los Gable
@@ -107,11 +107,11 @@ item.e.mhf_boots.name= Rathalos Greaves
 
 
 
-entity.mhfc.tigrex.name=Tigrex
-entity.mhfc.kirin.name=Kirin
-entity.mhfc.rathalos.name=Rathalos
-entity.mhfc.popo.name=Popo
-entity.mhfc.aptonoth.name=Aptonoth
+entity.@MODID@.tigrex.name=Tigrex
+entity.@MODID@.kirin.name=Kirin
+entity.@MODID@.rathalos.name=Rathalos
+entity.@MODID@.popo.name=Popo
+entity.@MODID@.aptonoth.name=Aptonoth
 
 potion.kirinbless=Spark of Kirin
 potion.paralyze=Paralyze

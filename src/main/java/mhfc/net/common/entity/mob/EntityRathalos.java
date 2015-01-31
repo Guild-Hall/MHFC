@@ -6,6 +6,7 @@ import mhfc.net.common.ai.IExecutableAttack;
 import mhfc.net.common.ai.IMangedAttacks;
 import mhfc.net.common.core.registry.MHFCRegItem;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
+import mhfc.net.common.implement.iMHFC;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -17,7 +18,11 @@ import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimatedOb
 import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
 import com.google.common.base.Predicate;
 
-public class EntityRathalos extends EntityWyvernHostile implements IAnimatedObject,IMangedAttacks<EntityRathalos> {
+public class EntityRathalos extends EntityWyvernHostile
+		implements
+			IAnimatedObject,
+			IMangedAttacks<EntityRathalos>,
+			iMHFC {
 
 	public int currentAttackID;
 	public int animTick;
@@ -41,15 +46,19 @@ public class EntityRathalos extends EntityWyvernHostile implements IAnimatedObje
 		if (currentAttackID != 0)
 			animTick++;
 	}
+	@Override
 	public void setAnimID(int id) {
 		currentAttackID = id;
 	}
+	@Override
 	public void setAnimTick(int tick) {
 		animTick = tick;
 	}
+	@Override
 	public int getAnimID() {
 		return currentAttackID;
 	}
+	@Override
 	public int getAnimTick() {
 		return animTick;
 	}
@@ -69,7 +78,7 @@ public class EntityRathalos extends EntityWyvernHostile implements IAnimatedObje
 	}
 
 	public void sendAttackPacket(int id) {
-		if (MHFCMain.isEffectiveClient())
+		if (MHFCMain.isClient())
 			return;
 		currentAttackID = id;
 		// MHFCMain.packetPipeline
@@ -107,13 +116,13 @@ public class EntityRathalos extends EntityWyvernHostile implements IAnimatedObje
 	@Override
 	public void onAttackStart(IExecutableAttack<EntityRathalos> newAttack) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onAttackEnd(IExecutableAttack<EntityRathalos> oldAttack) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

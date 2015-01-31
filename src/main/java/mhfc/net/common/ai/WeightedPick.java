@@ -5,11 +5,18 @@ import java.util.List;
 import java.util.Random;
 /**
  * This selects a Random Item from a list of items.<br>
+ * This class is written to be thread-safe.<br>
+ * BEWARE: Re-entering any picking method (recursive calls) of this class (from
+ * the same thread) will result in a crash.
  *
  * @author WorldSEnder
  *
  */
 public class WeightedPick {
+	/**
+	 * Making the whole thing relatively thread-safe. ONLY PROBLEM: re-entry
+	 * will result in a crash.
+	 */
 	private static final ThreadLocal<Integer> size;
 	private static final ThreadLocal<WeightedItem[]> itemcache;
 	private static final ThreadLocal<double[]> weightcache;
@@ -77,11 +84,9 @@ public class WeightedPick {
 		double sum = 0.0D;
 		int i = 0;
 		for (Iterator<T> iterator = list.iterator(); iterator.hasNext();) {
-			WeightedItem item = iterator.next();
+			T item = iterator.next();
 			if (item.forceSelection()) {
-				@SuppressWarnings("unchecked")
-				T t = (T) item;
-				return t;
+				return item;
 			}
 			double w = Math.max(0.0d, item.getWeight());
 			if (w == 0.0d)
@@ -109,9 +114,25 @@ public class WeightedPick {
 		throw new IllegalStateException(
 				"value is bigger than the sum of weightcache?");
 	}
-
 	public static interface WeightedItem {
+		/**
+		 * Returns the (positive) weight of this item. The chance of this item
+		 * being selected is <code>(weight/sum)</code> where <code>sum</code> is
+		 * the sum of all weights of all items to be picked out of.<br>
+		 * Returning a negative number or zero ensures that this item will not
+		 * be selected.
+		 *
+		 * @return the weight to be selected
+		 */
 		public float getWeight();
+		/**
+		 * Return <code>true</code> to instantly select this item before chances
+		 * have been taken for other items.<br>
+		 * This ensures that any item return <code>true</code> here will be
+		 * selected if it is the first item to do so.
+		 *
+		 * @return <code>true</code> if this item should always be selected
+		 */
 		public boolean forceSelection();
 	}
 }

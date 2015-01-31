@@ -6,6 +6,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 
 import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 /**
  * A derived class can specify an Entity-class this method is applicable to. The
  * typeparameter T should be as narrow as necessary but as broad as possible.
@@ -27,6 +30,7 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	 *
 	 * @param entity
 	 */
+	// @SideOnly(Side.SERVER)
 	public void updateEntity(T entity);
 	/**
 	 * Gets how firmly this attack wants to be executed. The higher the value
@@ -55,10 +59,12 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	 * Gets called at the beginning of execution. This should behave as a setup
 	 * method to determine the attack target for example.
 	 */
+	// @SideOnly(Side.SERVER)
 	public void beginExecution();
 	/**
 	 * Should get called every tick the entity receives to update this attack.
 	 */
+	// @SideOnly(Side.SERVER)
 	public void update();
 	/**
 	 * The return value determines whether this attack should still be executed.<br>
@@ -68,6 +74,7 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	 *
 	 * @return a value of <code>false</code> halts execution of this attack
 	 */
+	// @SideOnly(Side.SERVER)
 	public boolean shouldContinue();
 	/**
 	 * Finishes the execution of this attack. This method can also be called
@@ -76,6 +83,7 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	 * The attack is expected to clean-up and undo actions that were applied
 	 * temporarily to the entity like a different attack target.
 	 */
+	// @SideOnly(Side.SERVER)
 	public void finishExecution();
 	/**
 	 * Returns the mutex bits for the attack.
@@ -89,6 +97,7 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	 *
 	 * @return
 	 */
+	@SideOnly(Side.CLIENT)
 	public IAnimation getCurrentAnimation();
 	/**
 	 * Gets the next frame, depending on the state of the attack. For example
@@ -99,5 +108,6 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	 *            the current frame, mostly for convenience
 	 * @return the next frame in the animation
 	 */
+	@SideOnly(Side.CLIENT)
 	public int getNextFrame(int frame);
 }

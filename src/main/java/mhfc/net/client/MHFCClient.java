@@ -1,14 +1,13 @@
 package mhfc.net.client;
 
-import mhfc.net.common.MHFCCommon;
+import mhfc.net.ProxyBase;
 import mhfc.net.common.core.MHFCReg;
 import mhfc.net.common.sound.MHFCSound;
 import mhfc.net.common.util.MHFCCapes;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.relauncher.Side;
 
-public class MHFCClient extends MHFCCommon {
+public class MHFCClient extends ProxyBase {
 	@Override
 	public void regStuff() {
 		MHFCReg.init();
@@ -23,12 +22,7 @@ public class MHFCClient extends MHFCCommon {
 
 	@Override
 	public void regSounds() {
-		MinecraftForge.EVENT_BUS.register(new MHFCSound());
-	}
-
-	@Override
-	public ModelBiped getArmorModel(int id) {
-		return null;
+		MinecraftForge.EVENT_BUS.register(MHFCSound.instance);
 	}
 
 	@Override

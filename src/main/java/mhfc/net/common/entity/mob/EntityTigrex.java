@@ -38,7 +38,7 @@ public class EntityTigrex extends EntityWyvernHostile
 		attkManager.registerAttack(new SpinAttack());
 		// New AI test
 		tasks.addTask(0, attkManager);
-		
+
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
 				EntityPopo.class, 0, true));
 	}
@@ -133,7 +133,10 @@ public class EntityTigrex extends EntityWyvernHostile
 
 	@Override
 	public void onAttackStart(IExecutableAttack<EntityTigrex> newAttack) {
-		animFrame = 0;
+		if (newAttack == null)
+			animFrame = -1;
+		else
+			animFrame = 0;
 	}
 
 	@Override

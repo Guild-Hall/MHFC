@@ -95,7 +95,7 @@ public class EntityKirin extends EntityWyvernHostile implements iMHFC {
 	}
 
 	public void sendAttackPacket(int id) {
-		if (MHFCMain.isEffectiveClient())
+		if (MHFCMain.isClient())
 			return;
 		this.currentAttackID = id;
 		// MHFCMain.packetPipeline.sendToAll(new PacketAIKirin((byte) id,

@@ -9,7 +9,6 @@ import mhfc.net.common.network.message.MessageAIAttack;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.util.DamageSource;
 
 import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
 
@@ -19,13 +18,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 		extends
 			EntityAIBase {
+
 	private final List<IExecutableAttack<T>> attacks = new ArrayList<IExecutableAttack<T>>();
 	private IExecutableAttack<T> activeAttack = null;
 	private T entity;
-	public int damage = 40;
 
 	public AIAttackManager(T entity) {
-		this.entity = Objects.requireNonNull(entity);
+		this.entity = Objects.requireNonNull(entity, "Entity can't be null");
 	}
 
 	/**
@@ -34,12 +33,9 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 	 */
 	@SideOnly(Side.CLIENT)
 	public void setAttack(int index) {
-		if (index < 0)
-			this.activeAttack = null;
-		else {
-			this.activeAttack = this.attacks.get(index);
-			this.startExecuting();
-		}
+		this.entity.onAttackEnd(this.activeAttack);
+		this.activeAttack = index < 0 ? null : this.attacks.get(index);
+		this.entity.onAttackStart(this.activeAttack);
 	}
 
 	private IExecutableAttack<T> chooseAttack() {
@@ -63,9 +59,7 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 		this.sendUpdate();
 		this.entity.onAttackStart(activeAttack);
 		this.activeAttack.beginExecution();
-		
-		
-		
+
 	}
 	/**
 	 * Return <code>true</code> to continue executing
@@ -80,7 +74,10 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 	@Override
 	public void resetTask() {
 		this.entity.onAttackEnd(activeAttack);
+		this.entity.onAttackStart(null);
 		this.activeAttack.finishExecution();
+		this.activeAttack = null;
+		this.sendUpdate();
 	}
 	/**
 	 * Updates this AI every 3 ticks.<br>
@@ -118,6 +115,7 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 	}
 
 	public void registerAttack(IExecutableAttack<T> attack) {
+		Objects.requireNonNull(attack);
 		attack.updateEntity(entity);
 		this.attacks.add(attack);
 	}
