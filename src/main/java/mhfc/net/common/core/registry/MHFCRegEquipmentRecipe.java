@@ -10,14 +10,21 @@ import java.util.Set;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
+import mhfc.net.common.network.packet.MessageBeginCrafting;
+import mhfc.net.common.network.packet.MessageCancelRecipe;
+import mhfc.net.common.network.packet.MessageEndCrafting;
 import mhfc.net.common.network.packet.MessageTileLocation;
+import mhfc.net.common.network.packet.MessageSetRecipe;
 import mhfc.net.common.tile.TileHunterBench;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.WorldServer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.World;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -28,48 +35,107 @@ public class MHFCRegEquipmentRecipe {
 
 	public static class SetRecipeHandler
 			implements
-				IMessageHandler<MessageTileLocation.SetRecipeMessage, IMessage> {
+				IMessageHandler<MessageSetRecipe, IMessage> {
 		@Override
-		public IMessage onMessage(MessageTileLocation.SetRecipeMessage message,
+		public IMessage onMessage(MessageSetRecipe message,
 				MessageContext ctx) {
 			TileHunterBench b = getHunterBench(message);
 			EquipmentRecipe rec = getRecipeFor(message.getRecipeID(),
 					message.getTypeID());
+			if (rec != null)
+				ctx.getServerHandler().playerEntity
+						.addChatComponentMessage(new ChatComponentText(
+								"Set recipe to "
+										+ rec.getRecipeOutput()
+												.getDisplayName()));
 			b.setRecipe(rec);
+			return null;
+		}
+	}
+
+	public static class CancelRecipeHandler
+			implements
+				IMessageHandler<MessageCancelRecipe, IMessage> {
+
+		@Override
+		public IMessage onMessage(MessageCancelRecipe message,
+				MessageContext ctx) {
+			TileHunterBench b = getHunterBench(message);
+			b.cancelRecipe();
+			ctx.getServerHandler().playerEntity
+					.addChatComponentMessage(new ChatComponentText(
+							"Canceled recipe"));
 			return null;
 		}
 	}
 
 	public static class BeginCraftingHandler
 			implements
-				IMessageHandler<MessageTileLocation.BeginCraftingMessage, IMessage> {
+				IMessageHandler<MessageBeginCrafting, IMessage> {
 		@Override
 		public IMessage onMessage(
-				MessageTileLocation.BeginCraftingMessage message,
+				MessageBeginCrafting message,
 				MessageContext ctx) {
 			TileHunterBench b = getHunterBench(message);
-			b.beginCrafting();
+			if (b.beginCrafting())
+				ctx.getServerHandler().playerEntity
+						.addChatComponentMessage(new ChatComponentText(
+								"Started crafting"));
 			return null;
 		}
 	}
 
-	private static TileHunterBench getHunterBench(MessageTileLocation message) {
-		int id = message.getDimensionID();
-		MinecraftServer server = FMLCommonHandler.instance()
-				.getMinecraftServerInstance();
-		if (server == null) {
+	public static class EndCraftingHandler
+			implements
+				IMessageHandler<MessageEndCrafting, IMessage> {
+		@Override
+		public IMessage onMessage(MessageEndCrafting message, MessageContext ctx) {
+			TileHunterBench b = getHunterBench(message);
+			if (b != null) {
+				ItemStack stack = ItemStack.loadItemStackFromNBT(message
+						.getNBTTag());
+				b.forceEndCrafting(stack);
+				b.invalidate();
+			}
 			return null;
 		}
-		WorldServer world = server.worldServerForDimension(id);
-		TileEntity bench = world.getTileEntity(message.getX(), message.getY(),
-				message.getZ());
-		if (!(bench instanceof TileHunterBench)) {
-			MHFCMain.logger
-					.error("No tile entity for a block hunter bench found");
 
-			return null;
+	}
+
+	private static TileHunterBench getHunterBench(MessageTileLocation message) {
+		return MHFCRegEquipmentRecipe.getHunterBench(message, true);
+	}
+
+	private static TileHunterBench getHunterBench(MessageTileLocation message,
+			boolean server) {
+		World world = null;
+		if (server) {
+			int id = message.getDimensionID();
+			MinecraftServer mcserver = FMLCommonHandler.instance()
+					.getMinecraftServerInstance();
+			if (mcserver == null) {
+				return null;
+			}
+			world = mcserver.worldServerForDimension(id);
+		} else {
+			WorldClient clientW = FMLClientHandler.instance().getWorldClient();
+			if (clientW.provider.dimensionId == message.getDimensionID())
+				world = clientW;
+			else
+				world = null;
 		}
-		return (TileHunterBench) bench;
+		if (world != null) {
+			TileEntity bench = world.getTileEntity(message.getX(),
+					message.getY(), message.getZ());
+			if (!(bench instanceof TileHunterBench)) {
+				MHFCMain.logger
+						.error("No tile entity for a block hunter bench found");
+
+				return null;
+			}
+			return (TileHunterBench) bench;
+		}
+		return null;
 	}
 
 	public static int TYPE_ARMOR_HEAD = 0;
@@ -105,10 +171,14 @@ public class MHFCRegEquipmentRecipe {
 		}
 		new EquipmentRecipe(new ItemStack(MHFCRegItem.mhfcitemkirinhelm),
 				listReq, 200, 600);
-		MHFCRegQuests.pipeline.registerPacket(BeginCraftingHandler.class,
-				MessageTileLocation.BeginCraftingMessage.class, Side.SERVER);
-		MHFCRegQuests.pipeline.registerPacket(SetRecipeHandler.class,
-				MessageTileLocation.SetRecipeMessage.class, Side.SERVER);
+		MHFCMain.packetPipeline.registerPacket(BeginCraftingHandler.class,
+				MessageBeginCrafting.class, Side.SERVER);
+		MHFCMain.packetPipeline.registerPacket(SetRecipeHandler.class,
+				MessageSetRecipe.class, Side.SERVER);
+		MHFCMain.packetPipeline.registerPacket(CancelRecipeHandler.class,
+				MessageCancelRecipe.class, Side.SERVER);
+		MHFCMain.packetPipeline.registerPacket(EndCraftingHandler.class,
+				MessageEndCrafting.class, Side.CLIENT);
 	}
 
 	public static int getType(EquipmentRecipe recipe) {

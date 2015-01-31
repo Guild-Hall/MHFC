@@ -268,8 +268,8 @@ public class MHFCRegQuests {
 		@Override
 		public IMessage onMessage(MessageQuestRunningSubscription message,
 				MessageContext ctx) {
+			EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 			if (message.isSubscribed()) {
-				EntityPlayerMP player = message.getPlayer();
 				subscribers.add(player);
 				for (GeneralQuest q : questsRunning) {
 					String identifier = runningQuestToStringMap.get(q);
@@ -279,7 +279,7 @@ public class MHFCRegQuests {
 					PacketPipeline.networkPipe.sendTo(messageSent, player);
 				}
 			} else {
-				subscribers.remove(message.getPlayer());
+				subscribers.remove(player);
 			}
 			return null;
 		}
@@ -301,7 +301,7 @@ public class MHFCRegQuests {
 		@Override
 		public IMessage onMessage(MessageQuestInteraction message,
 				MessageContext ctx) {
-			EntityPlayerMP player = message.getPlayer();
+			EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 			if (player == null)
 				System.out.println("Player null, this shouldnt happen");
 			else

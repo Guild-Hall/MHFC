@@ -71,9 +71,8 @@ public class CommandMHFC implements ICommand {
 					return;
 			}
 			PacketPipeline.networkPipe
-					.sendToServer(new MessageQuestInteraction(action,
-							(EntityPlayer) sender, Arrays.copyOfRange(
-									parameters, 1, parameters.length)));
+					.sendToServer(new MessageQuestInteraction(action, Arrays
+							.copyOfRange(parameters, 1, parameters.length)));
 		}
 	}
 

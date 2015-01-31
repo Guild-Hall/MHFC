@@ -5,11 +5,7 @@ import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 
 import java.io.IOException;
-import java.util.Iterator;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class MessageQuestInteraction implements IMessage {
@@ -28,28 +24,18 @@ public class MessageQuestInteraction implements IMessage {
 
 	protected Interaction interaction;
 	protected String[] options;
-	protected String playerUUID;
 
 	public MessageQuestInteraction() {
-
 	}
 
 	public MessageQuestInteraction(Interaction action, String... options) {
-		this(action, Minecraft.getMinecraft().thePlayer, options);
-	}
-
-	public MessageQuestInteraction(Interaction action, EntityPlayer thePlayer,
-			String... options) {
 		interaction = action;
 		this.options = options;
-		// TODO resolve this to UUID if possible
-		playerUUID = thePlayer.getGameProfile().getName();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		try (ByteBufOutputStream out = new ByteBufOutputStream(buf);) {
-			out.writeUTF(playerUUID);
 			byte toWrite;
 			switch (interaction) {
 				case START_NEW :
@@ -84,7 +70,6 @@ public class MessageQuestInteraction implements IMessage {
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		try (ByteBufInputStream in = new ByteBufInputStream(buf);) {
-			playerUUID = in.readUTF();
 			byte b = in.readByte();
 			switch (b) {
 				case 0 :
@@ -115,26 +100,6 @@ public class MessageQuestInteraction implements IMessage {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public EntityPlayerMP getPlayer() {
-		return getPlayer(this.playerUUID);
-	}
-
-	public static EntityPlayerMP getPlayer(String uuid) {
-		// UUID id = UUID.fromString(playerUUID);
-		EntityPlayerMP ret = null;
-		Iterator<?> iter = Minecraft.getMinecraft().getIntegratedServer()
-				.getConfigurationManager().playerEntityList.iterator();
-		do {
-			if (!iter.hasNext()) {
-				return null;
-			}
-			ret = (EntityPlayerMP) iter.next();
-
-			// TODO resolve to UUID
-		} while (!ret.getGameProfile().getName().equals(uuid));
-		return ret;
 	}
 
 	public Interaction getInteraction() {

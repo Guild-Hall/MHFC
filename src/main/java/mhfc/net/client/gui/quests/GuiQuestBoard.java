@@ -62,8 +62,7 @@ public class GuiQuestBoard extends GuiScreen {
 							return true;
 						PacketPipeline.networkPipe
 								.sendToServer(new MessageQuestInteraction(
-										Interaction.ACCEPT,
-										GuiQuestBoard.this.accessor, questID));
+										Interaction.ACCEPT, questID));
 					}
 					return true;
 				}
@@ -81,8 +80,7 @@ public class GuiQuestBoard extends GuiScreen {
 					runningQuestList.setVisible(true);
 					PacketPipeline.networkPipe
 							.sendToServer(new MessageQuestInteraction(
-									Interaction.GIVE_UP,
-									GuiQuestBoard.this.accessor, new String[0]));
+									Interaction.GIVE_UP, new String[0]));
 					return true;
 				}
 				return false;
@@ -98,8 +96,7 @@ public class GuiQuestBoard extends GuiScreen {
 					runningQuestList.setVisible(true);
 					PacketPipeline.networkPipe
 							.sendToServer(new MessageQuestInteraction(
-									Interaction.VOTE_START,
-									GuiQuestBoard.this.accessor, new String[0]));
+									Interaction.VOTE_START, new String[0]));
 					GuiQuestBoard.this.accessor.closeScreen();
 					return true;
 				}
