@@ -33,9 +33,8 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 	 */
 	@SideOnly(Side.CLIENT)
 	public void setAttack(int index) {
-		this.entity.onAttackEnd(this.activeAttack);
-		this.activeAttack = index < 0 ? null : this.attacks.get(index);
-		this.entity.onAttackStart(this.activeAttack);
+		swapAttacks(this.activeAttack,
+				index < 0 ? null : this.attacks.get(index));
 	}
 
 	private IExecutableAttack<T> chooseAttack() {
@@ -54,12 +53,21 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 					this.entity, this.attacks.indexOf(activeAttack)));
 	}
 
+	private void swapAttacks(IExecutableAttack<T> oldAttack,
+			IExecutableAttack<T> newAttack) {
+		this.entity.onAttackEnd(oldAttack);
+		if (oldAttack != null)
+			oldAttack.finishExecution();
+		this.activeAttack = newAttack;
+		this.entity.onAttackStart(newAttack);
+		if (newAttack != null)
+			newAttack.beginExecution();
+		sendUpdate();
+	}
+
 	@Override
 	public void startExecuting() {
-		this.entity.onAttackEnd(null);
-		this.entity.onAttackStart(activeAttack);
-		this.sendUpdate();
-		this.activeAttack.beginExecution();
+		swapAttacks(null, this.activeAttack);
 	}
 	/**
 	 * Return <code>true</code> to continue executing
@@ -68,9 +76,10 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 	public boolean continueExecuting() {
 		if (this.activeAttack.shouldContinue())
 			return true;
-		if (!shouldExecute())
+		IExecutableAttack<T> nextAttack = chooseAttack();
+		if (nextAttack == null)
 			return false;
-		startExecuting();
+		swapAttacks(this.activeAttack, nextAttack);
 		return true;
 	}
 	/**
@@ -78,11 +87,7 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 	 */
 	@Override
 	public void resetTask() {
-		this.entity.onAttackEnd(activeAttack);
-		this.entity.onAttackStart(null);
-		this.activeAttack.finishExecution();
-		this.activeAttack = null;
-		this.sendUpdate();
+		swapAttacks(this.activeAttack, null);
 	}
 	/**
 	 * Updates this AI every 3 ticks.<br>
@@ -121,7 +126,7 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 
 	public void registerAttack(IExecutableAttack<T> attack) {
 		Objects.requireNonNull(attack);
-		attack.updateEntity(entity);
+		attack.rebind(entity);
 		this.attacks.add(attack);
 	}
 

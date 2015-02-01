@@ -24,7 +24,7 @@ public abstract class AttackAdapter<T extends EntityLivingBase>
 	}
 
 	@Override
-	public void updateEntity(T entity) {
+	public void rebind(T entity) {
 		this.entity = entity;
 		
 	}

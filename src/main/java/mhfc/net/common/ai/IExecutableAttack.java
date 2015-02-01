@@ -31,7 +31,7 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	 * @param entity
 	 */
 	// @SideOnly(Side.SERVER)
-	public void updateEntity(T entity);
+	public void rebind(T entity);
 	/**
 	 * Gets how firmly this attack wants to be executed. The higher the value
 	 * the more likely the attack will be executed. Returning 0 means that the
