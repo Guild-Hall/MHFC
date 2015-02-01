@@ -59,7 +59,6 @@ public class MHFCMain {
 	proxy.regStuff();
 	proxy.regTimer();
 	proxy.regTick();
-	proxy.regCapes();
 	}
 	
 	@Mod.EventHandler
