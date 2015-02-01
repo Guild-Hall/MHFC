@@ -76,17 +76,17 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			GuiHunterBench.this.startCrafting.enabled = bench
 					.canBeginCrafting();
 
-			fontRendererObj.drawString(bench.isWorking()
-					? "Working"
-					: "Sleeping", 50, 50, 0x404040);
-			fontRendererObj.drawString(bench.getHeatFromItem() + "", 50, 60,
-					0x404040);
-			fontRendererObj.drawString(bench.getHeatLength() + "", 50, 70,
-					0x404040);
-			fontRendererObj.drawString(bench.getHeatStrength() + "", 50, 80,
-					0x404040);
-			fontRendererObj.drawString(bench.getItemSmeltDuration() + "", 50,
-					90, 0x404040);
+			// fontRendererObj.drawString(bench.isWorking()
+			// ? "Working"
+			// : "Sleeping", 50, 50, 0x404040);
+			// fontRendererObj.drawString(bench.getHeatFromItem() + "", 50, 60,
+			// 0x404040);
+			// fontRendererObj.drawString(bench.getHeatLength() + "", 50, 70,
+			// 0x404040);
+			// fontRendererObj.drawString(bench.getHeatStrength() + "", 50, 80,
+			// 0x404040);
+			// fontRendererObj.drawString(bench.getItemSmeltDuration() + "", 50,
+			// 90, 0x404040);
 
 			drawItemModelAndHeat(new ItemStack(MHFCRegItem.mhfcitembhunter),
 					bench);
