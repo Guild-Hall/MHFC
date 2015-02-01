@@ -201,13 +201,13 @@ public class GuiQuestBoard extends GuiScreen {
 		buttonList.add(cancelQuest);
 		buttonList.add(startQuest);
 		this.accessor = mc.thePlayer;
-		MHFCRegQuestVisual.setAndSendRunningListenStatus(true, accessor);
+		MHFCRegQuestVisual.setAndSendRunningListenStatus(true);
 	}
 
 	@Override
 	public void onGuiClosed() {
 		super.onGuiClosed();
-		MHFCRegQuestVisual.setAndSendRunningListenStatus(false, accessor);
+		MHFCRegQuestVisual.setAndSendRunningListenStatus(false);
 	}
 
 	public void addQuest(String id, QuestRunningInformation info) {

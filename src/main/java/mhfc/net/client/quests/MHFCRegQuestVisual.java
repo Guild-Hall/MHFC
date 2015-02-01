@@ -196,11 +196,9 @@ public class MHFCRegQuestVisual {
 		return identifierToVisualRunningMap.get(identifier);
 	}
 
-	public static void setAndSendRunningListenStatus(boolean newStatus,
-			EntityPlayer forPlayer) {
+	public static void setAndSendRunningListenStatus(boolean newStatus) {
 		PacketPipeline.networkPipe
-				.sendToServer(new MessageQuestRunningSubscription(newStatus,
-						forPlayer));
+				.sendToServer(new MessageQuestRunningSubscription(newStatus));
 		if (!newStatus) {
 			questBoard.clearList();
 		}
