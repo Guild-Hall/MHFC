@@ -1,8 +1,8 @@
-package mhfc.heltrato.common.helper.system;
+package mhfc.heltrato.common.system;
 
 import net.minecraft.util.EnumChatFormatting;
 
-public class MHFCColorHelper
+public class ColorSystem
 {
 	public static EnumChatFormatting BLACK = EnumChatFormatting.BLACK;
 	public static EnumChatFormatting DARK_BLUE = EnumChatFormatting.DARK_BLUE;

@@ -1,6 +1,6 @@
 package mhfc.heltrato.common.helper;
 
-import mhfc.heltrato.common.helper.system.MHFCColorHelper;
+import mhfc.heltrato.common.system.ColorSystem;
 
 public class MHFCWeaponClassingHelper {
 	

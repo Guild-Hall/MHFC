@@ -5,7 +5,7 @@ import java.util.List;
 import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.core.registry.MHFCRegItem;
 import mhfc.heltrato.common.helper.MHFCArmorModelHelper;
-import mhfc.heltrato.common.helper.system.MHFCColorHelper;
+import mhfc.heltrato.common.system.ColorSystem;
 import mhfc.heltrato.common.util.Donators;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
@@ -52,7 +52,7 @@ public class DragoonArmor extends ItemArmor {
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer,
 			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
-		par3List.add(MHFCColorHelper.RED + "Exclusive " + "[ " + MHFCColorHelper.GOLD + " DONATORS  " + MHFCColorHelper.RED + "]");
+		par3List.add(ColorSystem.RED + "Exclusive " + "[ " + ColorSystem.GOLD + " DONATORS  " + ColorSystem.RED + "]");
 		par3List.add("Health +1");
 	}
 

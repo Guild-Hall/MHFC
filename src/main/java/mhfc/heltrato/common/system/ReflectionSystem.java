@@ -1,4 +1,4 @@
-package mhfc.heltrato.common.helper.system;
+package mhfc.heltrato.common.system;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -7,8 +7,13 @@ import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.relauncher.CoreModManager;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 
-public class MHFCReflectionHelper
+public class ReflectionSystem
 {   
+	
+	/*
+	 * Java Reflection extension or removal of final statics for better intger increments and IDS for minecraft
+	 * final setted values like Potion and other stuff. -Heltrato
+	 * */
 	public static <T> Field removeFinal(Class <? super T > classToAccess, T instance, String... fieldNames)
 	{
     	Field field = ReflectionHelper.findField(classToAccess, ObfuscationReflectionHelper.remapFieldNames(classToAccess.getName(), fieldNames));

@@ -1,8 +1,8 @@
 package mhfc.heltrato;
 
 import mhfc.heltrato.common.MHFCCommon;
-import mhfc.heltrato.common.helper.system.MHFCVersionHelper;
 import mhfc.heltrato.common.network.message.MessageAIAnim;
+import mhfc.heltrato.common.system.UpdateSystem;
 import mhfc.heltrato.common.tab.MHFCTab;
 import mhfc.heltrato.common.util.Utilities;
 import mhfc.heltrato.common.util.lib.MHFCReference;
@@ -48,7 +48,7 @@ public class MHFCMain {
 	public void preInit(FMLPreInitializationEvent pre){
 		//MHFCConfig.init(pre);
 		pre.getModMetadata().logoFile = "MHFCLogo.png";
-		MHFCVersionHelper.init("https://raw.githubusercontent.com/Heltrato/MHFC/master/versioncheck", MHFCReference.main_version);
+		UpdateSystem.init("https://raw.githubusercontent.com/Heltrato/MHFC/master/versioncheck", MHFCReference.main_version);
 	}
 	
 	@Mod.EventHandler

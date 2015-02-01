@@ -1,9 +1,9 @@
 package mhfc.heltrato.common.core.registry;
 
-import mhfc.heltrato.common.helper.system.MHFCReflectionHelper;
 import mhfc.heltrato.common.potion.PotionAttackUpLow;
 import mhfc.heltrato.common.potion.PotionKirinBless;
 import mhfc.heltrato.common.potion.PotionParalyze;
+import mhfc.heltrato.common.system.ReflectionSystem;
 import net.minecraft.potion.Potion;
 
 import org.apache.logging.log4j.Level;
@@ -35,7 +35,7 @@ public class MHFCRegPotion
 		Potion[] potionTypes = new Potion[potionOffset + MAXNEWPOTIONS];
 		System.arraycopy(Potion.potionTypes, 0, potionTypes, 0, potionOffset);
 
-		MHFCReflectionHelper.setPrivateFinalValue(Potion.class, null, potionTypes, "potionTypes", "field_76425_a");
+		ReflectionSystem.setPrivateFinalValue(Potion.class, null, potionTypes, "potionTypes", "field_76425_a");
 	}
 
 	private static void intializePotions()

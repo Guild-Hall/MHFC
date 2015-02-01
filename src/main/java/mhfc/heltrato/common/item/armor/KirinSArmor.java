@@ -7,7 +7,7 @@ import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.core.registry.MHFCRegItem;
 import mhfc.heltrato.common.core.registry.MHFCRegPotion;
 import mhfc.heltrato.common.helper.MHFCArmorModelHelper;
-import mhfc.heltrato.common.helper.system.MHFCColorHelper;
+import mhfc.heltrato.common.system.ColorSystem;
 import mhfc.heltrato.common.util.Donators;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
@@ -54,7 +54,7 @@ public class KirinSArmor extends ItemArmor {
 		par3List.add("All Resistance H");
 		par3List.add("Thunder + 40");
 		par3List.add("Aura");
-		par3List.add(MHFCColorHelper.RED + "Exclusive S Rank ");
+		par3List.add(ColorSystem.RED + "Exclusive S Rank ");
 		if (param == 0) {
 			par3List.add("\u00a79Kirin S Class Helmet");
 		} else if (param == 1) {

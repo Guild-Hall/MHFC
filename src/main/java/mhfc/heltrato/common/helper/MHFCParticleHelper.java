@@ -12,7 +12,7 @@ public class MHFCParticleHelper {
 	public static Minecraft minecraft = Minecraft.getMinecraft();
 	private EntityFX entityfx = null;
 
-	
+	//TODO will be moved / removed soon.
 	public static void spawnParticle(String string, double x, double y, double z , double fallx , double fally, double fallz) {
 		
 		EntityFX entityfx = null;

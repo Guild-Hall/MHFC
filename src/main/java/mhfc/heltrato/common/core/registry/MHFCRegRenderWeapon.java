@@ -1,11 +1,5 @@
 package mhfc.heltrato.common.core.registry;
 
-import mhfc.heltrato.client.model.weapon.bow.ModelBAdventurer;
-import mhfc.heltrato.client.render.weapon.bow.RenderBAdventurer;
-import mhfc.heltrato.client.render.weapon.bow.RenderBHunter;
-import mhfc.heltrato.client.render.weapon.bow.RenderBTigrexArrow;
-import mhfc.heltrato.client.render.weapon.bowgun.RenderBGLShooterBarrel;
-import mhfc.heltrato.client.render.weapon.bowgun.RenderBGLSpartacusFire;
 import mhfc.heltrato.client.render.weapon.greatsword.RenderGSBone;
 import mhfc.heltrato.client.render.weapon.greatsword.RenderGSDeviljhobroadsword;
 import mhfc.heltrato.client.render.weapon.greatsword.RenderGSKirinThunderSword;
@@ -42,12 +36,8 @@ public class MHFCRegRenderWeapon {
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemhwarhammer, new RenderHWar());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemhwarhammerplus, new RenderHWar());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemhwarslammer, new RenderHWarSlammer());
-		reg.registerItemRenderer(MHFCRegItem.mhfcitembhunter, new RenderBHunter());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemhhmetalbagpipe, new RenderHHMetalBagpipe());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemlsdarkvipern, new RenderLSDarkVipern());
-		reg.registerItemRenderer(MHFCRegItem.mhfcitembglshooterbarrel, new RenderBGLShooterBarrel());
-		reg.registerItemRenderer(MHFCRegItem.mhfcitembglspartacusfire, new RenderBGLSpartacusFire());
-		reg.registerItemRenderer(MHFCRegItem.mhfcitembtigrexarrow, new RenderBTigrexArrow());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemhdevilsdue, new RenderHDeviljho());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemgsberserkerssword, new RenderGSDeviljhobroadsword());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemgsrathalosfiresword, new RenderGSRathalosFiresword());
@@ -56,7 +46,6 @@ public class MHFCRegRenderWeapon {
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemhhtigrex, new RenderHHTigrex());
 		
 		//new type of rendering
-		reg.registerItemRenderer(MHFCRegItem.mhfcitembadventurer, new RenderBAdventurer(new ModelBAdventurer(), MHFCReference.weapon_bow_adventurer_tex));
 		
 		
 		

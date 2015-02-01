@@ -1,9 +1,9 @@
-package mhfc.heltrato.common.helper.system;
+package mhfc.heltrato.common.system;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class MHFCNBTHelper{
+public class NBTSystem{
 
 	/**
 	 * Used for null-safety

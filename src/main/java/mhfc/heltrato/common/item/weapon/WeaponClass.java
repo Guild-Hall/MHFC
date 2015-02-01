@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.helper.MHFCWeaponClassingHelper;
-import mhfc.heltrato.common.helper.system.MHFCColorHelper;
+import mhfc.heltrato.common.system.ColorSystem;
 import mhfc.heltrato.common.util.Cooldown;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
@@ -112,9 +112,9 @@ public class WeaponClass extends ItemSword implements IItemWeapon{
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer,
 			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
-		par3List.add(MHFCColorHelper.gold + des1);
-		par3List.add(MHFCColorHelper.dark_green + des2);
-		par3List.add(MHFCColorHelper.dark_blue + "Rarity: " + rarity);
+		par3List.add(ColorSystem.gold + des1);
+		par3List.add(ColorSystem.dark_green + des2);
+		par3List.add(ColorSystem.dark_blue + "Rarity: " + rarity);
 		if(enableCooldownDisplay)Cooldown.displayCooldown(par1ItemStack, par3List, getcooldown);
 	}
 	

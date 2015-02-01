@@ -2,7 +2,7 @@ package mhfc.heltrato.common.util;
 
 import java.util.List;
 
-import mhfc.heltrato.common.helper.system.MHFCNBTHelper;
+import mhfc.heltrato.common.system.NBTSystem;
 import net.minecraft.item.ItemStack;
 
 public class Cooldown{
@@ -19,12 +19,12 @@ public class Cooldown{
 	 *            maximum cooldown
 	 */
 	public static void onUpdate(ItemStack iStack, int maxCooldown){
-		MHFCNBTHelper.checkNBT(iStack);
-		if(!MHFCNBTHelper.verifyKey(iStack, COOLDOWN_NBT)){
-			MHFCNBTHelper.setInteger(iStack, COOLDOWN_NBT, maxCooldown);
+		NBTSystem.checkNBT(iStack);
+		if(!NBTSystem.verifyKey(iStack, COOLDOWN_NBT)){
+			NBTSystem.setInteger(iStack, COOLDOWN_NBT, maxCooldown);
 		}
-		if(MHFCNBTHelper.getInteger(iStack, COOLDOWN_NBT) > 0){
-			MHFCNBTHelper.decreaseInteger(iStack, COOLDOWN_NBT, 1);
+		if(NBTSystem.getInteger(iStack, COOLDOWN_NBT) > 0){
+			NBTSystem.decreaseInteger(iStack, COOLDOWN_NBT, 1);
 		}
 	}
 	
@@ -39,11 +39,11 @@ public class Cooldown{
 	 *         maximum, otherwise false
 	 */
 	public static boolean canUse(ItemStack iStack, int maxCooldown){
-		MHFCNBTHelper.checkNBT(iStack);
-		if(MHFCNBTHelper.getInteger(iStack, COOLDOWN_NBT) > 0){
+		NBTSystem.checkNBT(iStack);
+		if(NBTSystem.getInteger(iStack, COOLDOWN_NBT) > 0){
 			return false;
 		}else{
-			MHFCNBTHelper.setInteger(iStack, COOLDOWN_NBT, maxCooldown);
+			NBTSystem.setInteger(iStack, COOLDOWN_NBT, maxCooldown);
 			return true;
 		}
 	}
@@ -57,9 +57,9 @@ public class Cooldown{
 	 *            cooldown text
 	 */
 	public static void displayCooldown(ItemStack iStack, List info, int maxCooldown){
-		MHFCNBTHelper.checkNBT(iStack);
-		if(MHFCNBTHelper.getInteger(iStack, COOLDOWN_NBT) > 0){
-			info.add("Cooldown Time: " + MHFCNBTHelper.getInteger(iStack, COOLDOWN_NBT));
+		NBTSystem.checkNBT(iStack);
+		if(NBTSystem.getInteger(iStack, COOLDOWN_NBT) > 0){
+			info.add("Cooldown Time: " + NBTSystem.getInteger(iStack, COOLDOWN_NBT));
 		}else{
 			info.add("Cooldown Time: Ready to Use");
 		}

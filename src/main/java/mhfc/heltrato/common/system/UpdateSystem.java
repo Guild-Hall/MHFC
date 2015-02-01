@@ -1,10 +1,10 @@
-package mhfc.heltrato.common.helper.system;
+package mhfc.heltrato.common.system;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-public class MHFCVersionHelper {
+public class UpdateSystem {
 	
 	public static String urlString;
 	public static String versionString;

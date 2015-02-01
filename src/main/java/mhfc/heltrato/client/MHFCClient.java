@@ -4,6 +4,7 @@ import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.MHFCCommon;
 import mhfc.heltrato.common.core.MHFCReg;
 import mhfc.heltrato.common.sound.MHFCSound;
+import mhfc.heltrato.common.system.CapeSystem;
 import mhfc.heltrato.common.util.Capes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
@@ -24,7 +25,11 @@ public class MHFCClient extends MHFCCommon
 	public void regTick(){}
 	
 	public void regCapes(){
-		Capes.addCapes();
+		try {
+			CapeSystem.capeList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void regSounds(){
