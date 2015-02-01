@@ -6,35 +6,35 @@ import io.netty.buffer.ByteBufOutputStream;
 
 import java.io.IOException;
 
-import mhfc.net.common.tile.TileHunterBench;
-import net.minecraft.item.ItemStack;
+import mhfc.net.MHFCMain;
+import mhfc.net.common.tile.TileMHFCUpdateStream;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 
-public class MessageEndCrafting extends MessageTileLocation {
+public class MessageTileUpdate extends MessageTileLocation {
 
-	String outputTag;
+	String nbtString;
 
-	public MessageEndCrafting() {
+	public MessageTileUpdate() {
 	}
 
-	public MessageEndCrafting(TileHunterBench bench, ItemStack endStack) {
-		super(bench);
-		if (endStack != null) {
-			NBTTagCompound tag = new NBTTagCompound();
-			endStack.writeToNBT(tag);
-			outputTag = tag.toString();
-		}
-
+	public <T extends TileEntity & TileMHFCUpdateStream> MessageTileUpdate(
+			T tile) {
+		super(tile);
+		NBTTagCompound tag = new NBTTagCompound();
+		tile.storeCustomUpdate(tag);
+		nbtString = tag.toString();
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
 		try (ByteBufInputStream out = new ByteBufInputStream(buf);) {
-			outputTag = out.readUTF();
+			nbtString = out.readUTF();
 		} catch (IOException e) {
+			MHFCMain.logger.info("Error trying to receive update HunterBench");
 		}
 
 	}
@@ -43,18 +43,20 @@ public class MessageEndCrafting extends MessageTileLocation {
 	public void toBytes(ByteBuf buf) {
 		super.toBytes(buf);
 		try (ByteBufOutputStream out = new ByteBufOutputStream(buf);) {
-			out.writeUTF(outputTag);
+			out.writeUTF(nbtString);
 		} catch (IOException e) {
+			MHFCMain.logger.info("Error trying to update HunterBench");
 		}
 	}
 
 	public NBTTagCompound getNBTTag() {
 		NBTTagCompound tag = null;
 		try {
-			tag = ((NBTTagCompound) JsonToNBT.func_150315_a(outputTag));
+			tag = ((NBTTagCompound) JsonToNBT.func_150315_a(nbtString));
 		} catch (NBTException e) {
 			e.printStackTrace();
 		}
 		return tag;
 	}
+
 }

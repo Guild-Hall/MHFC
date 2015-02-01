@@ -12,7 +12,7 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import mhfc.net.common.network.packet.MessageBeginCrafting;
 import mhfc.net.common.network.packet.MessageCancelRecipe;
-import mhfc.net.common.network.packet.MessageEndCrafting;
+import mhfc.net.common.network.packet.MessageCraftingUpdate;
 import mhfc.net.common.network.packet.MessageSetRecipe;
 import mhfc.net.common.network.packet.MessageTileLocation;
 import mhfc.net.common.tile.TileHunterBench;
@@ -35,9 +35,10 @@ public class MHFCRegEquipmentRecipe {
 
 	public static class SetRecipeHandler
 			implements
-				IMessageHandler<MessageSetRecipe, IMessage> {
+				IMessageHandler<MessageSetRecipe, MessageCraftingUpdate> {
 		@Override
-		public IMessage onMessage(MessageSetRecipe message, MessageContext ctx) {
+		public MessageCraftingUpdate onMessage(MessageSetRecipe message,
+				MessageContext ctx) {
 			TileHunterBench b = getHunterBench(message);
 			EquipmentRecipe rec = getRecipeFor(message.getRecipeID(),
 					message.getTypeID());
@@ -52,52 +53,51 @@ public class MHFCRegEquipmentRecipe {
 						.addChatComponentMessage(new ChatComponentText(
 								"Set recipe to none"));
 			b.changeRecipe(rec);
-			return null;
+			return new MessageCraftingUpdate(b);
 		}
 	}
 
 	public static class CancelRecipeHandler
 			implements
-				IMessageHandler<MessageCancelRecipe, IMessage> {
+				IMessageHandler<MessageCancelRecipe, MessageCraftingUpdate> {
 
 		@Override
-		public IMessage onMessage(MessageCancelRecipe message,
+		public MessageCraftingUpdate onMessage(MessageCancelRecipe message,
 				MessageContext ctx) {
 			TileHunterBench b = getHunterBench(message);
 			b.cancelRecipe();
 			ctx.getServerHandler().playerEntity
 					.addChatComponentMessage(new ChatComponentText(
 							"Canceled recipe"));
-			return null;
+			return new MessageCraftingUpdate(b);
 		}
 	}
 
 	public static class BeginCraftingHandler
 			implements
-				IMessageHandler<MessageBeginCrafting, IMessage> {
+				IMessageHandler<MessageBeginCrafting, MessageCraftingUpdate> {
 		@Override
-		public IMessage onMessage(MessageBeginCrafting message,
+		public MessageCraftingUpdate onMessage(MessageBeginCrafting message,
 				MessageContext ctx) {
 			TileHunterBench b = getHunterBench(message);
 			if (b.beginCrafting())
 				ctx.getServerHandler().playerEntity
 						.addChatComponentMessage(new ChatComponentText(
 								"Started crafting"));
-			return null;
+			return new MessageCraftingUpdate(b);
 		}
 	}
 
-	public static class EndCraftingHandler
+	public static class CraftingUpdateHandler
 			implements
-				IMessageHandler<MessageEndCrafting, IMessage> {
+				IMessageHandler<MessageCraftingUpdate, IMessage> {
 		@Override
-		public IMessage onMessage(MessageEndCrafting message, MessageContext ctx) {
+		public IMessage onMessage(MessageCraftingUpdate message,
+				MessageContext ctx) {
 			TileHunterBench b = getHunterBench(message);
 			if (b != null) {
-				ItemStack stack = ItemStack.loadItemStackFromNBT(message
-						.getNBTTag());
-				b.forceEndCrafting(stack);
-				b.invalidate();
+				b.readCustomUpdate(message.getNBTTag());
+				MHFCMain.logger.info("Update HunterBench received");
 			}
 			return null;
 		}
@@ -179,8 +179,8 @@ public class MHFCRegEquipmentRecipe {
 				MessageSetRecipe.class, Side.SERVER);
 		MHFCMain.packetPipeline.registerPacket(CancelRecipeHandler.class,
 				MessageCancelRecipe.class, Side.SERVER);
-		MHFCMain.packetPipeline.registerPacket(EndCraftingHandler.class,
-				MessageEndCrafting.class, Side.CLIENT);
+		MHFCMain.packetPipeline.registerPacket(CraftingUpdateHandler.class,
+				MessageCraftingUpdate.class, Side.CLIENT);
 	}
 
 	public static int getType(EquipmentRecipe recipe) {

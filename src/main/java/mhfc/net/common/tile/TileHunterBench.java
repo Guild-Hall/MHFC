@@ -1,11 +1,12 @@
 package mhfc.net.common.tile;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCRegEquipmentRecipe;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageBeginCrafting;
 import mhfc.net.common.network.packet.MessageCancelRecipe;
-import mhfc.net.common.network.packet.MessageEndCrafting;
+import mhfc.net.common.network.packet.MessageCraftingUpdate;
 import mhfc.net.common.network.packet.MessageSetRecipe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -17,7 +18,10 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileHunterBench extends TileEntity implements IInventory {
+public class TileHunterBench extends TileEntity
+		implements
+			IInventory,
+			TileMHFCUpdateStream {
 
 	public static final int outputSlot = 2;
 	public static final int fuelSlot = 0;
@@ -32,19 +36,19 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	/**
 	 * How hot the furnace currently is
 	 */
-	private int heatStrength;
+	volatile private int heatStrength;
 	/**
 	 * How hot the fire produced by the currently burning item is
 	 */
-	private int heatFromItem;
+	volatile private int heatFromItem;
 	/**
 	 * How long the furnace stays hot
 	 */
-	private int heatLength;
+	volatile private int heatLength;
 	/**
 	 * How long the current item has been smelting
 	 */
-	private int itemSmeltDuration;
+	volatile private int itemSmeltDuration;
 	/**
 	 * The selected recipe
 	 */
@@ -52,7 +56,7 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	/**
 	 * If the recipe is currently worked on
 	 */
-	private boolean workingMHFCBench;
+	volatile private boolean workingMHFCBench;
 
 	public TileHunterBench() {
 		recipeStacks = new ItemStack[7];
@@ -66,7 +70,7 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	}
 
 	@Override
-	public void updateEntity() {
+	public synchronized void updateEntity() {
 		if (heatLength > 0) {
 			--heatLength;
 			heatStrength = getNewHeat(heatStrength, heatFromItem);
@@ -87,7 +91,7 @@ public class TileHunterBench extends TileEntity implements IInventory {
 		}
 	}
 
-	private void finishRecipe() {
+	private synchronized void finishRecipe() {
 		if (worldObj.isRemote) {
 			invalidate();
 			return;
@@ -120,11 +124,9 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	public void changeRecipe(EquipmentRecipe recipe) {
 		if (worldObj.isRemote) {
 			sendSetRecipe(recipe);
-			invalidate();
 		}
 		cancelRecipe();
 		setRecipe(recipe);
-		itemSmeltDuration = 0;
 	}
 
 	protected void setRecipe(EquipmentRecipe recipe) {
@@ -141,7 +143,6 @@ public class TileHunterBench extends TileEntity implements IInventory {
 
 	public void setIngredients(EquipmentRecipe recipe) {
 		this.recipeStacks = recipe.getRequirements(7);
-		markDirty();
 	}
 
 	private static int getItemHeat(ItemStack itemStack) {
@@ -152,9 +153,8 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	private int getNewHeat(int heatOld, int heatAim) {
 		int diff = heatAim - heatOld;
 		// Some math to confuse the hell out of everyone reading this
-		int change = (int) (Math.ceil(Math.log(Math.abs(diff) + 1.0)) * Math
-				.signum(diff));
-		return heatOld + (int) Math.ceil(change / 3.0);
+		int change = (int) (Math.ceil(Math.log(Math.abs(diff) + 1.0)));
+		return heatOld + (int) (Math.ceil(change / 3.0) * Math.signum(diff));
 	}
 
 	@Override
@@ -223,7 +223,7 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	/**
 	 * Resets all working progress but leaves the recipe set
 	 */
-	public void cancelRecipe() {
+	public synchronized void cancelRecipe() {
 		if (worldObj.isRemote)
 			sendCancelRecipe();
 		TileHunterBench.this.workingMHFCBench = false;
@@ -290,8 +290,9 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	public void closeInventory() {
 	}
 
-	public boolean beginCrafting() {
+	public synchronized boolean beginCrafting() {
 		if (worldObj.isRemote) {
+			MHFCMain.logger.info("Craft button pressed");
 			sendBeginCraft();
 			invalidate();
 		}
@@ -320,8 +321,7 @@ public class TileHunterBench extends TileEntity implements IInventory {
 	}
 
 	private void sendEndCraft(ItemStack endStack) {
-		PacketPipeline.networkPipe.sendToAll(new MessageEndCrafting(this,
-				endStack));
+		PacketPipeline.networkPipe.sendToAll(new MessageCraftingUpdate(this));
 	}
 
 	public boolean canBeginCrafting() {
@@ -400,6 +400,39 @@ public class TileHunterBench extends TileEntity implements IInventory {
 
 	public EquipmentRecipe getRecipe() {
 		return recipe;
+	}
+
+	@Override
+	public void storeCustomUpdate(NBTTagCompound nbtTag) {
+		nbtTag.setInteger("heatStrength", heatStrength);
+		nbtTag.setInteger("heatFromItem", heatFromItem);
+		nbtTag.setInteger("heatLength", heatLength);
+		nbtTag.setInteger("itemSmeltDuration", itemSmeltDuration);
+		nbtTag.setBoolean("working", TileHunterBench.this.workingMHFCBench);
+		int typeID = MHFCRegEquipmentRecipe.getType(recipe);
+		int recipeID = MHFCRegEquipmentRecipe.getIDFor(recipe, typeID);
+		nbtTag.setInteger("recipeType", typeID);
+		nbtTag.setInteger("recipeID", recipeID);
+		MHFCMain.logger.info("Stored " + nbtTag.toString());
+		MHFCMain.logger.info("w" + workingMHFCBench);
+	}
+
+	@Override
+	public void readCustomUpdate(NBTTagCompound nbtTag) {
+		heatStrength = nbtTag.getInteger("heatStrength");
+		heatFromItem = nbtTag.getInteger("heatFromItem");
+		heatLength = nbtTag.getInteger("heatLength");
+		itemSmeltDuration = nbtTag.getInteger("itemSmeltDuration");
+		TileHunterBench.this.workingMHFCBench = nbtTag.getBoolean("working");
+		int recType = nbtTag.getInteger("recipeType");
+		int recId = nbtTag.getInteger("recipeID");
+		setRecipe(MHFCRegEquipmentRecipe.getRecipeFor(recId, recType));
+		MHFCMain.logger.info("Received " + nbtTag.toString());
+		MHFCMain.logger.info("hs" + heatStrength);
+		MHFCMain.logger.info("hi" + heatFromItem);
+		MHFCMain.logger.info("hl" + heatLength);
+		MHFCMain.logger.info("d" + itemSmeltDuration);
+		MHFCMain.logger.info("w" + workingMHFCBench);
 	}
 
 }
