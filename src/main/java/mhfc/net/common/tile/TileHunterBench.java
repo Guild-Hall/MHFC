@@ -1,6 +1,5 @@
 package mhfc.net.common.tile;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCRegEquipmentRecipe;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import mhfc.net.common.network.PacketPipeline;
@@ -70,7 +69,7 @@ public class TileHunterBench extends TileEntity
 	}
 
 	@Override
-	public synchronized void updateEntity() {
+	public void updateEntity() {
 		if (heatLength > 0) {
 			--heatLength;
 			heatStrength = getNewHeat(heatStrength, heatFromItem);
@@ -82,6 +81,8 @@ public class TileHunterBench extends TileEntity
 				heatLength = TileEntityFurnace.getItemBurnTime(fuelStack);
 				heatFromItem = getItemHeat(fuelStack);
 				decrStackSize(fuelSlot, 1);
+				if (!worldObj.isRemote)
+					sendUpdateCraft();
 			} else {
 				heatStrength = getNewHeat(heatStrength, 0);
 			}
@@ -91,16 +92,15 @@ public class TileHunterBench extends TileEntity
 		}
 	}
 
-	private synchronized void finishRecipe() {
+	private void finishRecipe() {
 		if (worldObj.isRemote) {
-			invalidate();
 			return;
 		}
 		inputStacks = new ItemStack[inputStacks.length];
 		outputStack = resultStack;
 		workingMHFCBench = false;
 		itemSmeltDuration = 0;
-		sendEndCraft(resultStack);
+		sendUpdateCraft();
 	}
 
 	/**
@@ -153,7 +153,7 @@ public class TileHunterBench extends TileEntity
 	private int getNewHeat(int heatOld, int heatAim) {
 		int diff = heatAim - heatOld;
 		// Some math to confuse the hell out of everyone reading this
-		int change = (int) (Math.ceil(Math.log(Math.abs(diff) + 1.0)));
+		double change = Math.ceil(Math.log(Math.abs(diff) + 1.0));
 		return heatOld + (int) (Math.ceil(change / 3.0) * Math.signum(diff));
 	}
 
@@ -223,7 +223,7 @@ public class TileHunterBench extends TileEntity
 	/**
 	 * Resets all working progress but leaves the recipe set
 	 */
-	public synchronized void cancelRecipe() {
+	public void cancelRecipe() {
 		if (worldObj.isRemote)
 			sendCancelRecipe();
 		TileHunterBench.this.workingMHFCBench = false;
@@ -290,11 +290,9 @@ public class TileHunterBench extends TileEntity
 	public void closeInventory() {
 	}
 
-	public synchronized boolean beginCrafting() {
+	public boolean beginCrafting() {
 		if (worldObj.isRemote) {
-			MHFCMain.logger.info("Craft button pressed");
 			sendBeginCraft();
-			invalidate();
 		}
 		if (recipe != null) {
 			if (canBeginCrafting()) {
@@ -320,7 +318,7 @@ public class TileHunterBench extends TileEntity
 		PacketPipeline.networkPipe.sendToServer(new MessageCancelRecipe(this));
 	}
 
-	private void sendEndCraft(ItemStack endStack) {
+	private void sendUpdateCraft() {
 		PacketPipeline.networkPipe.sendToAll(new MessageCraftingUpdate(this));
 	}
 
@@ -413,8 +411,6 @@ public class TileHunterBench extends TileEntity
 		int recipeID = MHFCRegEquipmentRecipe.getIDFor(recipe, typeID);
 		nbtTag.setInteger("recipeType", typeID);
 		nbtTag.setInteger("recipeID", recipeID);
-		MHFCMain.logger.info("Stored " + nbtTag.toString());
-		MHFCMain.logger.info("w" + workingMHFCBench);
 	}
 
 	@Override
@@ -427,12 +423,6 @@ public class TileHunterBench extends TileEntity
 		int recType = nbtTag.getInteger("recipeType");
 		int recId = nbtTag.getInteger("recipeID");
 		setRecipe(MHFCRegEquipmentRecipe.getRecipeFor(recId, recType));
-		MHFCMain.logger.info("Received " + nbtTag.toString());
-		MHFCMain.logger.info("hs" + heatStrength);
-		MHFCMain.logger.info("hi" + heatFromItem);
-		MHFCMain.logger.info("hl" + heatLength);
-		MHFCMain.logger.info("d" + itemSmeltDuration);
-		MHFCMain.logger.info("w" + workingMHFCBench);
 	}
 
 }

@@ -22,7 +22,6 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -42,16 +41,6 @@ public class MHFCRegEquipmentRecipe {
 			TileHunterBench b = getHunterBench(message);
 			EquipmentRecipe rec = getRecipeFor(message.getRecipeID(),
 					message.getTypeID());
-			if (rec != null)
-				ctx.getServerHandler().playerEntity
-						.addChatComponentMessage(new ChatComponentText(
-								"Set recipe to "
-										+ rec.getRecipeOutput()
-												.getDisplayName()));
-			else
-				ctx.getServerHandler().playerEntity
-						.addChatComponentMessage(new ChatComponentText(
-								"Set recipe to none"));
 			b.changeRecipe(rec);
 			return new MessageCraftingUpdate(b);
 		}
@@ -66,9 +55,6 @@ public class MHFCRegEquipmentRecipe {
 				MessageContext ctx) {
 			TileHunterBench b = getHunterBench(message);
 			b.cancelRecipe();
-			ctx.getServerHandler().playerEntity
-					.addChatComponentMessage(new ChatComponentText(
-							"Canceled recipe"));
 			return new MessageCraftingUpdate(b);
 		}
 	}
@@ -80,10 +66,6 @@ public class MHFCRegEquipmentRecipe {
 		public MessageCraftingUpdate onMessage(MessageBeginCrafting message,
 				MessageContext ctx) {
 			TileHunterBench b = getHunterBench(message);
-			if (b.beginCrafting())
-				ctx.getServerHandler().playerEntity
-						.addChatComponentMessage(new ChatComponentText(
-								"Started crafting"));
 			return new MessageCraftingUpdate(b);
 		}
 	}
@@ -94,10 +76,9 @@ public class MHFCRegEquipmentRecipe {
 		@Override
 		public IMessage onMessage(MessageCraftingUpdate message,
 				MessageContext ctx) {
-			TileHunterBench b = getHunterBench(message);
+			TileHunterBench b = getHunterBench(message, false);
 			if (b != null) {
 				b.readCustomUpdate(message.getNBTTag());
-				MHFCMain.logger.info("Update HunterBench received");
 			}
 			return null;
 		}
@@ -108,7 +89,7 @@ public class MHFCRegEquipmentRecipe {
 		return MHFCRegEquipmentRecipe.getHunterBench(message, true);
 	}
 
-	private static TileHunterBench getHunterBench(MessageTileLocation message,
+	public static TileHunterBench getHunterBench(MessageTileLocation message,
 			boolean server) {
 		World world = null;
 		if (server) {

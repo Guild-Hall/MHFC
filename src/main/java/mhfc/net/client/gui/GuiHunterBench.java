@@ -393,7 +393,6 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 	private void drawItemModelAndHeat(ItemStack itemToRender,
 			TileHunterBench bench) {
-
 		int rectX = guiLeft + 228, rectY = guiTop + 23;
 		int rectW = 7 * 18 - 2, rectH = 96;
 		int scale = new ScaledResolution(mc.gameSettings, mc.displayWidth,

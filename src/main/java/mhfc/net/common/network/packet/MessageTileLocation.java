@@ -13,8 +13,7 @@ public class MessageTileLocation implements IMessage {
 		this.x = entity.xCoord;
 		this.y = entity.yCoord;
 		this.z = entity.zCoord;
-		this.worldID = entity.getWorldObj().getWorldInfo()
-				.getVanillaDimension();
+		this.worldID = entity.getWorldObj().provider.dimensionId;
 	}
 
 	protected int x;
