@@ -1,4 +1,4 @@
-package mhfc.heltrato.common.eventhandler;
+package mhfc.heltrato.common.eventhandler.player;
 
 import mhfc.heltrato.common.system.ColorSystem;
 import mhfc.heltrato.common.system.UpdateSystem;

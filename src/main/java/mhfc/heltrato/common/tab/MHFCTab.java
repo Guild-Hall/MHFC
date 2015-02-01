@@ -10,6 +10,7 @@ public class MHFCTab extends CreativeTabs{
 
 	public MHFCTab(int par1, String par2Str) {
 		super(par1, par2Str);
+		this.setBackgroundImageName("mhfc.png");
 	}
 	
 	@SideOnly(Side.CLIENT)

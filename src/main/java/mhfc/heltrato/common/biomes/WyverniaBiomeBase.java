@@ -4,14 +4,14 @@ import mhfc.heltrato.common.core.registry.MHFCRegBlock;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeManager;
 
-public class BiomeWBase extends BiomeGenBase {
+public class WyverniaBiomeBase extends BiomeGenBase {
 	
 	public boolean depends;
 	public String name;
 	public float getTemp;
 	public static boolean questActive;// just sort of test for making sure if the biome will spawn in overworld
 
-	public BiomeWBase(int par1) {
+	public WyverniaBiomeBase(int par1) {
 		super(par1);
 		spawnableMonsterList.clear();
 		spawnableCreatureList.clear();
@@ -25,8 +25,8 @@ public class BiomeWBase extends BiomeGenBase {
 		spawnThisBiome(this);
 	}
 	
-	public BiomeWBase setColor(int color) {
-		return (BiomeWBase)super.setColor(color);
+	public WyverniaBiomeBase setColor(int color) {
+		return (WyverniaBiomeBase)super.setColor(color);
 	}
 	
 	public void getBiomeName(String biomename){

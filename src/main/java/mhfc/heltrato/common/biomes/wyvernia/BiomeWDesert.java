@@ -1,10 +1,10 @@
 package mhfc.heltrato.common.biomes.wyvernia;
 
 import net.minecraft.block.Block;
-import mhfc.heltrato.common.biomes.BiomeWBase;
+import mhfc.heltrato.common.biomes.WyverniaBiomeBase;
 import mhfc.heltrato.common.core.registry.MHFCRegBlock;
 
-public class BiomeWDesert extends BiomeWBase {
+public class BiomeWDesert extends WyverniaBiomeBase {
 
 	public BiomeWDesert(int par1) {
 		super(par1);

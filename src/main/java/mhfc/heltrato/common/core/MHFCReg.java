@@ -35,8 +35,6 @@ public class MHFCReg {
 		addMonsters();
 		addPotion();
 		addEvent();
-	
-	   	
 	}
 	
 

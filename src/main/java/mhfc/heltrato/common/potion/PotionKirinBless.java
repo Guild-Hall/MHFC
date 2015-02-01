@@ -15,7 +15,7 @@ public class PotionKirinBless extends Potion {
 		setPotionName(MHFCReference.potion_kirinbless_name);
 		setIconIndex(1, 0);
 		func_111184_a(SharedMonsterAttributes.attackDamage,
-				MHFCReference.potion_kirinbless_uuid, 1.6D, 1);
+				MHFCReference.potion_kirinbless_uuid, 1.1D, 1);
 	}
 
 	@Override

@@ -14,8 +14,6 @@ import mhfc.heltrato.common.block.BlockWyverniaRock;
 import mhfc.heltrato.common.block.BlockWyverniaSand;
 import mhfc.heltrato.common.block.BlockWyverniaStone;
 import mhfc.heltrato.common.block.BlockWyverniaWood;
-import mhfc.heltrato.common.block.container.BlockArmorStand;
-import mhfc.heltrato.common.block.container.BlockArmorStandBase;
 import mhfc.heltrato.common.block.container.BlockBBQSpit;
 import mhfc.heltrato.common.block.container.BlockHunterBench;
 import mhfc.heltrato.common.block.container.BlockStunTrap;
@@ -72,8 +70,6 @@ public class MHFCRegBlock {
 		// Initiation Blocks
 		mhfcblocklosgable = new BlockLosGable();
 		mhfcblockoreblocks = new BlockWyverniaOreBlock();
-		mhfcblockarmorstandbase = new BlockArmorStandBase();
-		mhfcblockarmorstand = new BlockArmorStand();
 		mhfcblockhunterbench = new BlockHunterBench();
 		mhfcblockstuntrap = new BlockStunTrap();
 		mhfcblockdirt = new BlockWyverniaDirt();
@@ -115,8 +111,6 @@ public class MHFCRegBlock {
 		getItemBlockID(mhfcblockores, ItemBlockWyverniaOres.class);
 		getItemBlockID(mhfcblockwood, ItemBlockWyverniaWood.class);
 		getItemBlockID(mhfcblockoreblocks, ItemBlockWyverniaOreBlock.class);
-		getItemBlockID(mhfcblockarmorstand, ItemBlockWyverniaDefault.class);
-		getItemBlockID(mhfcblockarmorstandbase, ItemBlockWyverniaDefault.class);
 		getItemBlockID(mhfcblockstuntrap, ItemBlockStunTrap.class);
 		getItemBlockID(mhfcblockhunterbench, ItemBlockBenchHunter.class);
 		getItemBlockID(mhfcblockbbqspit, ItemBlockBBQSpit.class);

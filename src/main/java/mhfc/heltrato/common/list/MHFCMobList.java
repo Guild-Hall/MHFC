@@ -156,25 +156,16 @@ public class MHFCMobList
         return classToIDMapping.containsKey(oclass) ? ((Integer)classToIDMapping.get(oclass)).intValue() : 0;
     }
 
-    /**
-     * Return the class assigned to this entity ID.
-     */
     public static Class getClassFromID(int par0)
     {
         return (Class)IDtoClassMapping.get(Integer.valueOf(par0));
     }
 
-    /**
-     * Gets the string representation of a specific entity.
-     */
     public static String getEntityString(Entity par0Entity)
     {
         return (String)classToStringMapping.get(par0Entity.getClass());
     }
 
-    /**
-     * Finds the class using IDtoClassMapping and classToStringMapping
-     */
     public static String getStringFromID(int par0)
     {
         Class oclass = getClassFromID(par0);
@@ -192,12 +183,9 @@ public class MHFCMobList
     static
     {
     	int monsterID = MHFCRegEntity.getMobID();
-    	
-		
 		
     }
     
-
     public static class MHFCEggInfo
         {
             /**

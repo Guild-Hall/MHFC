@@ -23,6 +23,7 @@ public class MHFCConfig {
 	
 	public static boolean spawnTigrex;
 	public static boolean spawnKirin;
+	public static boolean setupComplexGraphics = false;// this initialize a improved game graphics for future use .
 	
 	public static void init(FMLPreInitializationEvent e){
 		Configuration config = new Configuration(new File("config/MHFC.cfg"));
@@ -30,6 +31,7 @@ public class MHFCConfig {
 
 		spawnTigrex = config.get("MHFC Mobs", "Summon Tigrex", true).getBoolean(true);
 		spawnKirin = config.get("MHFC Mobs", "Summon Kirin", true).getBoolean(true);
+		
 		
 		config.save();
 }
