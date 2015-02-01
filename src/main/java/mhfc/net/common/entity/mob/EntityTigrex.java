@@ -1,57 +1,54 @@
 package mhfc.net.common.entity.mob;
 
-import mhfc.net.MHFCMain;
-import mhfc.net.common.ai.AIWyvernAttackOnCollide;
-import mhfc.net.common.ai.AIWyvernWander;
-import mhfc.net.common.ai.tigrex.AITigrexAttack;
-import mhfc.net.common.ai.tigrex.AITigrexBite;
-import mhfc.net.common.ai.tigrex.AITigrexRoar;
-import mhfc.net.common.ai.tigrex.AITigrexSpin;
-import mhfc.net.common.ai.tigrex.AITigrexThrow;
-import mhfc.net.common.core.registry.MHFCRegItem;
+import mhfc.net.common.ai.AIAttackManager;
+import mhfc.net.common.ai.IExecutableAttack;
+import mhfc.net.common.ai.IMangedAttacks;
+import mhfc.net.common.ai.tigrex.RunAttack;
+import mhfc.net.common.ai.tigrex.SpinAttack;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
-import mhfc.net.common.implement.iMHFC;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class EntityTigrex extends EntityWyvernHostile implements iMHFC {
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimatedObject;
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
+import com.google.common.base.Predicate;
 
-	public int currentAttackID;
-	public int animTick;
+public class EntityTigrex extends EntityWyvernHostile
+		implements
+			IAnimatedObject,
+			IMangedAttacks<EntityTigrex> {
+
 	public int deathTick;
 	public int rageLevel;
+	/** Kept around to register attacks and return the currently executed one */
+	private AIAttackManager<EntityTigrex> attkManager;
+	/** Gets increased every tick by the entity to animate the model */
+	private int animFrame;
 
 	public EntityTigrex(World par1World) {
 		super(par1World);
-		animTick = 0;
 		width = 6F;
 		height = 4F;
-		tasks.addTask(0, (new AITigrexAttack(this, 0.3F)));
-		tasks.addTask(1, (new AITigrexBite(this)));
-		tasks.addTask(1, (new AITigrexSpin(this)));
-		tasks.addTask(1, (new AITigrexRoar(this)));
-		tasks.addTask(1, (new AITigrexThrow(this)));
-		tasks.addTask(2, (new AIWyvernAttackOnCollide(this, EntityPlayer.class,
-				1f, false)).setMaxAttackTick(0));
-		tasks.addTask(2, (new AIWyvernAttackOnCollide(this, 1f, true))
-				.setMaxAttackTick(0));
-		tasks.addTask(3, (new AIWyvernWander(this, 0.8F)));
+		// New AI
+		attkManager = new AIAttackManager<EntityTigrex>(this);
+		attkManager.registerAttack(new RunAttack());
+		attkManager.registerAttack(new SpinAttack());
+		// New AI test
+		tasks.addTask(0, attkManager);
+
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
-				EntityRathalos.class, 0, true));
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
-				EntityAnimal.class, 0, true));
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
-				EntityMob.class, 0, true));
+				EntityPopo.class, 0, true));
 	}
 
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
+		this.getAttributeMap()
+				.getAttributeInstance(SharedMonsterAttributes.followRange)
+				.setBaseValue(128d);
 		applyMonsterAttributes(1.3D, 6000D, 7800D, 8600D, 35D, 0.3D);
 	}
 
@@ -74,25 +71,23 @@ public class EntityTigrex extends EntityWyvernHostile implements iMHFC {
 	protected void dropFewItems(boolean par1, int par2) {
 		int var4;
 		for (var4 = 0; var4 < 13; ++var4) {
-			dropItemRand(MHFCRegItem.MHFCItemTigrexScale, 2);
+			dropItemRand(MHFCItemRegistry.MHFCItemTigrexScale, 2);
 		}
 		for (var4 = 0; var4 < 8; ++var4) {
-			dropItemRand(MHFCRegItem.MHFCItemTigrexShell, 1);
-			dropItemRand(MHFCRegItem.mhfcitemtigrexfang, 1);
-			dropItemRand(MHFCRegItem.mhfcitemtigrexclaw, 1);
+			dropItemRand(MHFCItemRegistry.MHFCItemTigrexShell, 1);
+			dropItemRand(MHFCItemRegistry.mhfcitemtigrexfang, 1);
+			dropItemRand(MHFCItemRegistry.mhfcitemtigrexclaw, 1);
 		}
 		for (var4 = 0; var4 < 1; ++var4) {
-			dropItemRand(MHFCRegItem.mhfcitemtigrextail, 2);
+			dropItemRand(MHFCItemRegistry.mhfcitemtigrextail, 2);
 		}
-		dropItemRand(MHFCRegItem.mhfcitemtigrexskullshell, 1);
+		dropItemRand(MHFCItemRegistry.mhfcitemtigrexskullshell, 1);
 	}
 
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		if (currentAttackID != 0) {
-			animTick++;
-		}
+		animFrame = this.attkManager.getNextFrame(animFrame);
 	}
 
 	@Override
@@ -110,57 +105,47 @@ public class EntityTigrex extends EntityWyvernHostile implements iMHFC {
 		return null;
 	}
 
-	public void attackEntityAtDistSq(EntityLivingBase living, float f) {
-		if (!worldObj.isRemote) {
-			if (currentAttackID == 0 && onGround && rand.nextInt(20) == 0) {
-				sendAttackPacket(1);
-			}
-
-			if (currentAttackID == 0 && f < 1.0F && rand.nextInt(100) == 0) {
-				sendAttackPacket(3);
-			}
-		}
-	}
-
 	@Override
+	@Deprecated
 	public boolean attackEntityAsMob(Entity entity) {
-		if (!worldObj.isRemote) {
-			if (currentAttackID == 0 && rand.nextInt(4) == 0) {
-				sendAttackPacket(3);
-			}
-			if (currentAttackID == 0 && onGround) {
-				sendAttackPacket(1);
-			}
-		}
 		return true;
 	}
 
-	public void sendAttackPacket(int id) {
-		if (MHFCMain.isEffectiveClient())
-			return;
-		currentAttackID = id;
-		// MHFCMain.packetPipeline.sendToAll(new PacketAITigrex((byte) id,
-		// this));
+	@Override
+	public IAnimation getCurrentAnimation() {
+		return attkManager.getCurrentAnimation();
 	}
 
 	@Override
-	public void setAnimID(int id) {
-		currentAttackID = id;
+	public int getCurrentFrame() {
+		return animFrame;
 	}
 
 	@Override
-	public void setAnimTick(int tick) {
-		animTick = tick;
+	public Predicate<String> getPartPredicate(float arg0) {
+		return RENDER_ALL;
 	}
 
 	@Override
-	public int getAnimID() {
-		return currentAttackID;
+	public Scale getScale() {
+		return NO_SCALE;
 	}
 
 	@Override
-	public int getAnimTick() {
-		return animTick;
+	public void onAttackStart(IExecutableAttack<EntityTigrex> newAttack) {
+		if (newAttack == null)
+			animFrame = -1;
+		else
+			animFrame = 0;
 	}
 
+	@Override
+	public void onAttackEnd(IExecutableAttack<EntityTigrex> oldAttack) {
+		animFrame = -1;
+	}
+
+	@Override
+	public AIAttackManager<EntityTigrex> getAttackManager() {
+		return attkManager;
+	}
 }

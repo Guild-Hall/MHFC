@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.core.registry.MHFCQuestsRegistry;
 
 public class GoalDescription {
 	protected String goalType;
@@ -61,7 +61,7 @@ public class GoalDescription {
 			return dependencies;
 		List<GoalDescription> descs = new ArrayList<GoalDescription>();
 		for (String dependency : dependencyIds) {
-			descs.add(MHFCRegQuests.getGoalDescription(dependency));
+			descs.add(MHFCQuestsRegistry.getGoalDescription(dependency));
 		}
 		if (dependencies != null)
 			descs.addAll(Arrays.asList(dependencies));

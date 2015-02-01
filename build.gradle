@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 buildscript {
     repositories {
         mavenCentral()
@@ -17,9 +19,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.0"
-group= "com.yourname.modid"
-archivesBaseName = "modid"
+apply from: 'build.properties'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -27,44 +27,50 @@ targetCompatibility = 1.7
 minecraft {
     version = "1.7.2-10.12.2.1121"
     runDir = "eclipse"
-}
 
-dependencies {
-    //
-    // initGitDependencies    -> clones locally = checkout
-    // refreshGitDependencies -> refresh        = pull
-
-    compile files('./externlibs/mcanm-0.0.111a_1710-deobf.jar')
-    // you may put jars on which you depend on in ./libs
-    // or you may define them like so..
-    //compile "some.group:artifact:version:classifier"
-    //compile "some.group:artifact:version"
-
-    // real examples
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
-    // for more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
+    replace "@VERSION@", project.version
+    replace "@MODID@", project.modID
+    replace "@MODNAME@", project.longname
+    replaceIn "MHFCReference.java"
 }
 
 processResources {
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
 
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        filter(ReplaceTokens, tokens: [VERSION: project.version, MCVERSION: project.minecraft.version, MODID: project.modID, MODNAME: project.longname])
     }
 
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+dependencies {
+    compile files('./externlibs/mcanm-0.0.111a_1710-deobf.jar')
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+}
+
+task sourceJar(type: Jar, dependsOn: 'sourceMainJava') {
+    from "build/sources/java"
+    classifier = 'sources'
+}
+
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from 'build/docs/javadoc'
+//}
+
+tasks.build.dependsOn('deobfJar', 'sourceJar')
+
+artifacts {
+    archives sourceJar
+    archives deobfJar
+    // archives javadocJar
 }

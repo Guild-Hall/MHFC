@@ -1,5 +1,7 @@
 package mhfc.net.client.gui;
 
+import static net.minecraftforge.client.IItemRenderer.ItemRenderType.ENTITY;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -8,8 +10,8 @@ import mhfc.net.client.container.ContainerHunterBench;
 import mhfc.net.client.gui.ClickableGuiList.GuiListItem;
 import mhfc.net.client.gui.ClickableGuiList.GuiListStringItem;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
-import mhfc.net.common.core.registry.MHFCRegEquipmentRecipe;
-import mhfc.net.common.core.registry.MHFCRegItem;
+import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import mhfc.net.common.tile.TileHunterBench;
 import mhfc.net.common.util.gui.MHFCGuiUtil;
@@ -25,8 +27,6 @@ import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 import org.lwjgl.opengl.GL11;
-
-import static net.minecraftforge.client.IItemRenderer.ItemRenderType.ENTITY;
 
 public class GuiHunterBench extends MHFCTabbedGui {
 
@@ -50,7 +50,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		protected List<ClickableGuiList<?>> clickableLists;
 
 		/**
-		 * 
+		 *
 		 * @param start
 		 *            Start index of slots on this page, inclusive
 		 * @param end
@@ -88,8 +88,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			// fontRendererObj.drawString(bench.getItemSmeltDuration() + "", 50,
 			// 90, 0x404040);
 
-			drawItemModelAndHeat(new ItemStack(MHFCRegItem.mhfcitembhunter),
-					bench);
+			drawItemModelAndHeat(
+					new ItemStack(MHFCItemRegistry.mhfcitembhunter), bench);
 		};
 
 		@Override
@@ -101,11 +101,9 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			}
 		}
 
-		protected void listUpdated(ClickableGuiList<?> list) {
-		}
+		protected void listUpdated(ClickableGuiList<?> list) {}
 
-		protected void updateListPositions() {
-		}
+		protected void updateListPositions() {}
 
 		@Override
 		public boolean containsSlot(Slot slot) {
@@ -121,25 +119,20 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public void onClose() {
-		}
+		public void onClose() {}
 
 		@Override
-		public void onOpen() {
-		}
+		public void onOpen() {}
 
 		@Override
-		public void handleMouseUp(int mouseX, int mouseY, int button) {
-		}
+		public void handleMouseUp(int mouseX, int mouseY, int button) {}
 
 		@Override
-		public void handleMovement(int mouseX, int mouseY) {
-		}
+		public void handleMovement(int mouseX, int mouseY) {}
 
 		@Override
 		public void handleMovementMouseDown(int mouseX, int mouseY, int button,
-				long timeDiff) {
-		}
+				long timeDiff) {}
 
 	}
 
@@ -174,12 +167,12 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				armorRecipeList.clear();
 				int selected = armorTypeList.getSelected();
 				if (selected < 4)
-					fillRecipeList(MHFCRegEquipmentRecipe
+					fillRecipeList(MHFCEquipementRecipeRegistry
 							.getRecipesFor(selected));
 			} else if (list == armorRecipeList) {
 				int selected = armorTypeList.getSelected();
-				EquipmentRecipe rec = MHFCRegEquipmentRecipe.getRecipeFor(
-						armorRecipeList.getSelected(), selected);
+				EquipmentRecipe rec = MHFCEquipementRecipeRegistry
+						.getRecipeFor(armorRecipeList.getSelected(), selected);
 				bench.changeRecipe(rec);
 			}
 		}
@@ -217,7 +210,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		ClickableGuiList<GuiListStringItem> weaponTypeList;
 
 		/**
-		 * 
+		 *
 		 * @param start
 		 *            Start index of slots on this page, inclusive
 		 * @param end
@@ -256,12 +249,12 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			if (list == weaponTypeList) {
 				weaponRecipeList.clear();
 				int selected = weaponTypeList.getSelected();
-				fillRecipeList(MHFCRegEquipmentRecipe
+				fillRecipeList(MHFCEquipementRecipeRegistry
 						.getRecipesFor(selected * 2 + 4));
-				fillRecipeList(MHFCRegEquipmentRecipe
+				fillRecipeList(MHFCEquipementRecipeRegistry
 						.getRecipesFor(selected * 2 + 5));
 				if (selected == 4)
-					fillRecipeList(MHFCRegEquipmentRecipe
+					fillRecipeList(MHFCEquipementRecipeRegistry
 							.getRecipesFor(selected * 2 + 6));
 			}
 		}
@@ -318,16 +311,13 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public void updateScreen() {
-		}
+		public void updateScreen() {}
 
 		@Override
-		public void onClose() {
-		}
+		public void onClose() {}
 
 		@Override
-		public void onOpen() {
-		}
+		public void onOpen() {}
 
 		@Override
 		public void handleMovementMouseDown(int mouseX, int mouseY, int button,
@@ -408,8 +398,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(
 				itemToRender, ENTITY);
-		if (customRenderer == null) {
-		} else {
+		if (customRenderer == null) {} else {
 			customRenderer.renderItem(ItemRenderType.ENTITY, itemToRender,
 					null, null);
 		}

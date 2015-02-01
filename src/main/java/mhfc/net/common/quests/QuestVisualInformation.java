@@ -1,6 +1,6 @@
 package mhfc.net.common.quests;
 
-import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.core.registry.MHFCQuestsRegistry;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.StatCollector;
@@ -19,10 +19,10 @@ public class QuestVisualInformation {
 			"A few seconds of your time", "Hopefully one", QuestType.Gathering);
 
 	public enum QuestType {
-		Hunting(MHFCRegQuests.QUEST_TYPE_HUNTING), EpicHunting(
-				MHFCRegQuests.QUEST_TYPE_EPIC_HUNTING), Killing(
-				MHFCRegQuests.QUEST_TYPE_KILLING), Gathering(
-				MHFCRegQuests.QUEST_TYPE_GATHERING);
+		Hunting(MHFCQuestsRegistry.QUEST_TYPE_HUNTING), EpicHunting(
+				MHFCQuestsRegistry.QUEST_TYPE_EPIC_HUNTING), Killing(
+				MHFCQuestsRegistry.QUEST_TYPE_KILLING), Gathering(
+				MHFCQuestsRegistry.QUEST_TYPE_GATHERING);
 		QuestType(String s) {
 			this.s = s;
 		}

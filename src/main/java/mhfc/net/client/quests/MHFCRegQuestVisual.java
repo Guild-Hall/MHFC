@@ -8,7 +8,7 @@ import java.util.Map;
 import mhfc.net.client.gui.quests.GuiQuestBoard;
 import mhfc.net.client.gui.quests.GuiQuestGiver;
 import mhfc.net.client.gui.quests.QuestStatusDisplay;
-import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.core.registry.MHFCQuestsRegistry;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestRunningSubscription;
 import mhfc.net.common.network.packet.MessageQuestScreenInit;
@@ -77,16 +77,16 @@ public class MHFCRegQuestVisual {
 					String maxPartySize = strings[11];
 					QuestType realType = null;
 					switch (type) {
-						case MHFCRegQuests.QUEST_TYPE_KILLING :
+						case MHFCQuestsRegistry.QUEST_TYPE_KILLING :
 							realType = QuestType.Killing;
 							break;
-						case MHFCRegQuests.QUEST_TYPE_HUNTING :
+						case MHFCQuestsRegistry.QUEST_TYPE_HUNTING :
 							realType = QuestType.Hunting;
 							break;
-						case MHFCRegQuests.QUEST_TYPE_EPIC_HUNTING :
+						case MHFCQuestsRegistry.QUEST_TYPE_EPIC_HUNTING :
 							realType = QuestType.EpicHunting;
 							break;
-						case MHFCRegQuests.QUEST_TYPE_GATHERING :
+						case MHFCQuestsRegistry.QUEST_TYPE_GATHERING :
 							realType = QuestType.Gathering;
 							break;
 						default :
@@ -159,8 +159,6 @@ public class MHFCRegQuestVisual {
 	private static boolean hasPlayerQuest = false;
 	private static QuestRunningInformation playersVisual;
 
-	private static PacketPipeline pipeline = MHFCRegQuests.pipeline;
-
 	public static GuiQuestGiver getScreen(int i, EntityPlayer playerEntity) {
 		if (i < 0 || i >= groupIDToListMap.size())
 			return null;
@@ -173,7 +171,7 @@ public class MHFCRegQuestVisual {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param identifier
 	 *            of the quest in which you are interested
 	 * @return Either the visual representation of the requested quest or a
@@ -210,10 +208,6 @@ public class MHFCRegQuestVisual {
 
 	public static void init() {
 		display = new QuestStatusDisplay();
-		pipeline.registerPacket(QuestVisualInitHandler.class,
-				MessageQuestScreenInit.class, Side.CLIENT);
-		pipeline.registerPacket(QuestScreenVisualHandler.class,
-				MessageQuestVisual.class, Side.CLIENT);
 		MinecraftForge.EVENT_BUS.register(display);
 
 	}

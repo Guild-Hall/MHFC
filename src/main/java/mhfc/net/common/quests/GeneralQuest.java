@@ -2,7 +2,7 @@ package mhfc.net.common.quests;
 
 import java.util.EnumSet;
 
-import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.core.registry.MHFCQuestsRegistry;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
@@ -147,27 +147,27 @@ public class GeneralQuest implements QuestGoalSocket {
 		}
 		visualInformation.cleanUp();
 		questGoal.questGoalFinalize();
-		MHFCRegQuests.deregisterQuest(this);
+		MHFCQuestsRegistry.deregisterQuest(this);
 	}
 
 	protected void updatePlayers() {
 		visualInformation.updateFromQuest(this);
 		for (int i = 0; i < playerCount; i++) {
 			EntityPlayerMP p = playerAttributes[i].player;
-			String id = MHFCRegQuests.getIdentifierForQuest(this);
+			String id = MHFCQuestsRegistry.getIdentifierForQuest(this);
 			PacketPipeline.networkPipe.sendTo(
 					new<QuestRunningInformation> MessageQuestVisual(id,
 							visualInformation), p);
 
 		}
-		MHFCRegQuests.questUpdated(this);
+		MHFCQuestsRegistry.questUpdated(this);
 	}
 
 	public boolean canJoin(EntityPlayer player) {
 		// TODO add more evaluation and/or move to another class?
 		if (state == QuestState.pending
 				&& playerCount < playerAttributes.length
-				&& MHFCRegQuests.getQuestForPlayer(player) == null) {
+				&& MHFCQuestsRegistry.getQuestForPlayer(player) == null) {
 			return true;
 		}
 		return false;
@@ -187,7 +187,7 @@ public class GeneralQuest implements QuestGoalSocket {
 		if (canJoin(player)) {
 			playerAttributes[playerCount] = newAttribute((EntityPlayerMP) player);
 			++playerCount;
-			MHFCRegQuests.setQuestForPlayer(player, this);
+			MHFCQuestsRegistry.setQuestForPlayer(player, this);
 			updatePlayers();
 		}
 	}
@@ -218,7 +218,7 @@ public class GeneralQuest implements QuestGoalSocket {
 		PacketPipeline.networkPipe.sendTo(
 				new<QuestRunningInformation> MessageQuestVisual("", null),
 				att.player);
-		MHFCRegQuests.setQuestForPlayer(att.player, null);
+		MHFCQuestsRegistry.setQuestForPlayer(att.player, null);
 		if (att.player.getEntityWorld().provider.dimensionId != att.dimensionID)
 			FMLServerHandler.instance().getServer().getConfigurationManager()
 					.transferPlayerToDimension(att.player, att.dimensionID);

@@ -1,10 +1,10 @@
 [
 {
-  "modid": "mhfc",
-  "name": "Monster Hunter Frontier Craft",
+  "modid": "@MODID@",
+  "name": "@MODNAME@",
   "description": " Developed by Heltrato and Danmar. Explore the wonders of a new adventure as you gone to the dimension and a life of being a monster hunter. Here you will encounter primieval biomes , unstoppable creatures , gain strong weapons and armors , explore a blight world. Inspired from Capcom's popular game Monster Hunter Frontier",
-  "version": "1.0.0.1710",
-  "mcversion": "1.7.10",
+  "version": "@VERSION@",
+  "mcversion": "@MCVERSION@",
   "logoFile": "MHFCLogo.png",
   "url": "http://mhfrontiercraft.blogspot.com/",
   "updateUrl": "",

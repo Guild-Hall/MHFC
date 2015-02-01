@@ -1,19 +1,12 @@
 package mhfc.net.common.entity.mob;
 
-import mhfc.net.MHFCMain;
-import mhfc.net.common.ai.AIWyvernAttackOnCollide;
-import mhfc.net.common.ai.AIWyvernWander;
-import mhfc.net.common.ai.kirin.AIKirinAttack;
-import mhfc.net.common.ai.kirin.AIKirinBolt;
-import mhfc.net.common.ai.kirin.AIKirinJump;
-import mhfc.net.common.core.registry.MHFCRegItem;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import mhfc.net.common.implement.iMHFC;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public class EntityKirin extends EntityWyvernHostile implements iMHFC {
@@ -29,14 +22,6 @@ public class EntityKirin extends EntityWyvernHostile implements iMHFC {
 		animTick = 0;
 		getArmor = 15;
 		isImmuneToFire = true;
-		tasks.addTask(0, (new AIKirinAttack(this, 0.5f)));
-		tasks.addTask(1, (new AIKirinJump(this, 1f)));
-		tasks.addTask(1, (new AIKirinBolt(this)));
-		tasks.addTask(2, (new AIWyvernAttackOnCollide(this, EntityPlayer.class,
-				1f, false)).setMaxAttackTick(0));
-		tasks.addTask(2, (new AIWyvernAttackOnCollide(this, 1f, true))
-				.setMaxAttackTick(0));
-		tasks.addTask(3, (new AIWyvernWander(this, 0.8F)));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 
 	}
@@ -109,7 +94,7 @@ public class EntityKirin extends EntityWyvernHostile implements iMHFC {
 	}
 
 	public void sendAttackPacket(int id) {
-		if (MHFCMain.isEffectiveClient())
+		if (this.worldObj.isRemote)
 			return;
 		this.currentAttackID = id;
 		// MHFCMain.packetPipeline.sendToAll(new PacketAIKirin((byte) id,
@@ -120,18 +105,18 @@ public class EntityKirin extends EntityWyvernHostile implements iMHFC {
 	protected void dropFewItems(boolean par1, int par2) {
 		int var4;
 		for (var4 = 0; var4 < 16; ++var4) {
-			dropItemRand(MHFCRegItem.mhfcitemkirinmane, 2);
+			dropItemRand(MHFCItemRegistry.mhfcitemkirinmane, 2);
 		}
 		for (var4 = 0; var4 < 9; ++var4) {
-			dropItemRand(MHFCRegItem.mhfcitemkiringem, 2);
+			dropItemRand(MHFCItemRegistry.mhfcitemkiringem, 2);
 		}
 		for (var4 = 0; var4 < 5; ++var4) {
-			dropItemRand(MHFCRegItem.mhfcitemkirinthundertail, 1);
-			dropItemRand(MHFCRegItem.mhfcitemlightcrystal, 1);
+			dropItemRand(MHFCItemRegistry.mhfcitemkirinthundertail, 1);
+			dropItemRand(MHFCItemRegistry.mhfcitemlightcrystal, 1);
 		}
 		for (var4 = 0; var4 < 2; ++var4) {
-			dropItemRand(MHFCRegItem.mhfcitempurecrystal, 1);
-			dropItemRand(MHFCRegItem.mhfcitemplatinummane, 1);
+			dropItemRand(MHFCItemRegistry.mhfcitempurecrystal, 1);
+			dropItemRand(MHFCItemRegistry.mhfcitemplatinummane, 1);
 		}
 
 	}

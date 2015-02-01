@@ -42,7 +42,7 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 
 	@Override
 	public void reset() {
-		MHFCJobHandler.getJobHandler().remove(this);
+		MHFCJobHandler.instance().remove(this);
 		isFailed = false;
 		ticksToFail = initialTicksToFail;
 	}
@@ -51,15 +51,15 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 	public void setActive(boolean newActive) {
 		if (newActive) {
 			if (ticksToFail > 0 && !active) {
-				MHFCJobHandler.getJobHandler().insert(this, ticksToFail);
+				MHFCJobHandler.instance().insert(this, ticksToFail);
 			}
 			timeOfLastUpdate = System.currentTimeMillis();
 			active = true;
 			notifyOfStatus(isFulfilled(), isFailed());
 		} else {
-			int delay = MHFCJobHandler.getJobHandler().getDelay(this);
+			int delay = MHFCJobHandler.instance().getDelay(this);
 			ticksToFail = delay;
-			MHFCJobHandler.getJobHandler().remove(this);
+			MHFCJobHandler.instance().remove(this);
 			active = false;
 		}
 	}
@@ -77,13 +77,13 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 
 	@Override
 	public void questGoalFinalize() {
-		MHFCJobHandler.getJobHandler().remove(this);
+		MHFCJobHandler.instance().remove(this);
 	}
 
 	@Override
 	public String modify(InformationType type, String current) {
 		// TODO Externalize and unlocalize these strings
-		int ticksToFail = MHFCJobHandler.getJobHandler().getDelay(this);
+		int ticksToFail = MHFCJobHandler.instance().getDelay(this);
 		if (ticksToFail < 0)
 			ticksToFail = initialTicksToFail;
 		if (type == InformationType.TimeLimit) {

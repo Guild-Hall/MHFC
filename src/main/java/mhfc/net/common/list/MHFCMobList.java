@@ -175,7 +175,7 @@ public class MHFCMobList {
 	}
 
 	static {
-		// int monsterID = MHFCRegEntity.getMobID();
+		// int monsterID = MHFCEntityRegistry.getMobID();
 		addMapping(EntityPopo.class, "mhfc.popo", 301, 0xf8248234, 0x193192);
 		addMapping(EntityTigrex.class, "mhfc.tigrex", 302, 0xfff432e3,
 				0x1020394f);

@@ -1,6 +1,6 @@
 package mhfc.net.common.tab;
 
-import mhfc.net.common.core.registry.MHFCRegItem;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -16,7 +16,7 @@ public class MHFCTab extends CreativeTabs {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Item getTabIconItem() {
-		return (MHFCRegItem.mhfcitemhkirinspark);
+		return (MHFCItemRegistry.mhfcitemhkirinspark);
 	}
 
 	@Override

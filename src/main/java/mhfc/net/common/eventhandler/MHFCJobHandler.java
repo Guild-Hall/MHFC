@@ -4,20 +4,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import mhfc.net.MHFCMain;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
+import cpw.mods.fml.relauncher.Side;
 
 public class MHFCJobHandler {
-
-	public static int ticksPerSecond = 50;
-	private static MHFCJobHandler instance;
-	static {
-		instance = new MHFCJobHandler();
-		FMLCommonHandler.instance().bus().register(instance);
-	}
+	public static final int ticksPerSecond = 50;
+	public static final MHFCJobHandler instance = new MHFCJobHandler();
 
 	private abstract class JobListElement {
 		public abstract JobListElement insert(MHFCDelayedJob job, int delay);
@@ -91,11 +86,8 @@ public class MHFCJobHandler {
 		public int getDelay(MHFCDelayedJob job) {
 			if (jobs.contains(job))
 				return ticksToExecution;
-			else {
-				int a = following.getDelay(job);
-				return a < 0 ? -1 : ticksToExecution + a;
-			}
-
+			int a = following.getDelay(job);
+			return a < 0 ? -1 : ticksToExecution + a;
 		}
 
 		@Override
@@ -138,8 +130,7 @@ public class MHFCJobHandler {
 		}
 
 		@Override
-		public void remove(MHFCDelayedJob job) {
-		}
+		public void remove(MHFCDelayedJob job) {}
 
 		@Override
 		public boolean containsJob(MHFCDelayedJob job) {
@@ -157,7 +148,7 @@ public class MHFCJobHandler {
 		}
 	}
 
-	public static MHFCJobHandler getJobHandler() {
+	public static MHFCJobHandler instance() {
 		return instance;
 	}
 
@@ -180,7 +171,7 @@ public class MHFCJobHandler {
 	public void receiveTick(ServerTickEvent tick) {
 		cleanUp();
 		synchronized (this) {
-			if (!MHFCMain.isClient()) {
+			if (FMLCommonHandler.instance().getSide() == Side.SERVER) {
 				startOfList = startOfList.tick();
 			}
 		}
@@ -213,5 +204,4 @@ public class MHFCJobHandler {
 	public int getMaxDelay() {
 		return startOfList.maxQueue();
 	}
-
 }

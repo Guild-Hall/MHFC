@@ -1,10 +1,9 @@
 package mhfc.net.common.entity.mob;
 
-import mhfc.net.MHFCMain;
-import mhfc.net.common.ai.AIWyvernAttackOnCollide;
-import mhfc.net.common.ai.AIWyvernWander;
-import mhfc.net.common.ai.rathalos.AIRathalosFireball;
-import mhfc.net.common.core.registry.MHFCRegItem;
+import mhfc.net.common.ai.AIAttackManager;
+import mhfc.net.common.ai.IExecutableAttack;
+import mhfc.net.common.ai.IMangedAttacks;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import mhfc.net.common.implement.iMHFC;
 import mhfc.net.common.util.lib.MHFCReference;
@@ -12,10 +11,17 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class EntityRathalos extends EntityWyvernHostile implements iMHFC {
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimatedObject;
+import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
+import com.google.common.base.Predicate;
+
+public class EntityRathalos extends EntityWyvernHostile
+		implements
+			IAnimatedObject,
+			IMangedAttacks<EntityRathalos>,
+			iMHFC {
 
 	public int currentAttackID;
 	public int animTick;
@@ -27,12 +33,6 @@ public class EntityRathalos extends EntityWyvernHostile implements iMHFC {
 		width = 4F;
 		height = 5F;
 		isImmuneToFire = true;
-		tasks.addTask(0, new AIRathalosFireball(this));
-		tasks.addTask(2, (new AIWyvernAttackOnCollide(this, EntityPlayer.class,
-				1f, false)).setMaxAttackTick(0));
-		tasks.addTask(2, (new AIWyvernAttackOnCollide(this, 1f, true))
-				.setMaxAttackTick(0));
-		tasks.addTask(3, (new AIWyvernWander(this, 0.8F)));
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
 				EntityAnimal.class, 0, true));
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
@@ -77,7 +77,7 @@ public class EntityRathalos extends EntityWyvernHostile implements iMHFC {
 	}
 
 	public void sendAttackPacket(int id) {
-		if (MHFCMain.isEffectiveClient())
+		if (this.worldObj.isRemote) // !isServerWorld(), actually
 			return;
 		currentAttackID = id;
 		// MHFCMain.packetPipeline
@@ -98,18 +98,60 @@ public class EntityRathalos extends EntityWyvernHostile implements iMHFC {
 	protected void dropFewItems(boolean par1, int par2) {
 		int var4;
 		for (var4 = 0; var4 < 13; ++var4) {
-			dropItemRand(MHFCRegItem.mhfcitemrathalosshell, 2);
+			dropItemRand(MHFCItemRegistry.mhfcitemrathalosshell, 2);
 		}
 		for (var4 = 0; var4 < 8; ++var4) {
-			dropItemRand(MHFCRegItem.mhfcitemflamesac, 2);
-			dropItemRand(MHFCRegItem.mhfcitemrathaloswebbing, 2);
-			dropItemRand(MHFCRegItem.mhfcitemrathaloswing, 1);
+			dropItemRand(MHFCItemRegistry.mhfcitemflamesac, 2);
+			dropItemRand(MHFCItemRegistry.mhfcitemrathaloswebbing, 2);
+			dropItemRand(MHFCItemRegistry.mhfcitemrathaloswing, 1);
 		}
 		for (var4 = 0; var4 < 1; ++var4) {
-			dropItemRand(MHFCRegItem.mhfcitemwyvernmarrow, 1);
+			dropItemRand(MHFCItemRegistry.mhfcitemwyvernmarrow, 1);
 		}
-		dropItemRand(MHFCRegItem.mhfcitemrathalosplate, 1);
+		dropItemRand(MHFCItemRegistry.mhfcitemrathalosplate, 1);
 
+	}
+
+	@Override
+	public void onAttackStart(IExecutableAttack<EntityRathalos> newAttack) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onAttackEnd(IExecutableAttack<EntityRathalos> oldAttack) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public AIAttackManager<EntityRathalos> getAttackManager() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IAnimation getCurrentAnimation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getCurrentFrame() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Predicate<String> getPartPredicate(float arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Scale getScale() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

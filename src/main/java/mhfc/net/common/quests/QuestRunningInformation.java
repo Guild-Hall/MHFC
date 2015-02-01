@@ -2,8 +2,8 @@ package mhfc.net.common.quests;
 
 import java.util.List;
 
-import mhfc.net.common.core.registry.MHFCRegStringDecode.CompositeString;
-import mhfc.net.common.core.registry.MHFCRegStringDecode.StringElement;
+import mhfc.net.common.util.MHFCStringDecode.CompositeString;
+import mhfc.net.common.util.MHFCStringDecode.StringElement;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.StatCollector;

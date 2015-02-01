@@ -1,6 +1,6 @@
 package mhfc.net.common.tile;
 
-import mhfc.net.common.core.registry.MHFCRegEquipmentRecipe;
+import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageBeginCrafting;
@@ -360,7 +360,7 @@ public class TileHunterBench extends TileEntity
 		TileHunterBench.this.workingMHFCBench = nbtTag.getBoolean("working");
 		int recType = nbtTag.getInteger("recipeType");
 		int recId = nbtTag.getInteger("recipeID");
-		setRecipe(MHFCRegEquipmentRecipe.getRecipeFor(recId, recType));
+		setRecipe(MHFCEquipementRecipeRegistry.getRecipeFor(recId, recType));
 		NBTTagList items = nbtTag.getTagList("Items", 10);
 		for (int a = 0; a < items.tagCount(); a++) {
 			NBTTagCompound stack = items.getCompoundTagAt(a);
@@ -379,8 +379,8 @@ public class TileHunterBench extends TileEntity
 		nbtTag.setInteger("heatLength", heatLength);
 		nbtTag.setInteger("itemSmeltDuration", itemSmeltDuration);
 		nbtTag.setBoolean("working", TileHunterBench.this.workingMHFCBench);
-		int typeID = MHFCRegEquipmentRecipe.getType(recipe);
-		int recipeID = MHFCRegEquipmentRecipe.getIDFor(recipe, typeID);
+		int typeID = MHFCEquipementRecipeRegistry.getType(recipe);
+		int recipeID = MHFCEquipementRecipeRegistry.getIDFor(recipe, typeID);
 		nbtTag.setInteger("recipeType", typeID);
 		nbtTag.setInteger("recipeID", recipeID);
 		NBTTagList itemsStored = new NBTTagList();
@@ -407,8 +407,8 @@ public class TileHunterBench extends TileEntity
 		nbtTag.setInteger("heatLength", heatLength);
 		nbtTag.setInteger("itemSmeltDuration", itemSmeltDuration);
 		nbtTag.setBoolean("working", TileHunterBench.this.workingMHFCBench);
-		int typeID = MHFCRegEquipmentRecipe.getType(recipe);
-		int recipeID = MHFCRegEquipmentRecipe.getIDFor(recipe, typeID);
+		int typeID = MHFCEquipementRecipeRegistry.getType(recipe);
+		int recipeID = MHFCEquipementRecipeRegistry.getIDFor(recipe, typeID);
 		nbtTag.setInteger("recipeType", typeID);
 		nbtTag.setInteger("recipeID", recipeID);
 	}
@@ -422,7 +422,7 @@ public class TileHunterBench extends TileEntity
 		TileHunterBench.this.workingMHFCBench = nbtTag.getBoolean("working");
 		int recType = nbtTag.getInteger("recipeType");
 		int recId = nbtTag.getInteger("recipeID");
-		setRecipe(MHFCRegEquipmentRecipe.getRecipeFor(recId, recType));
+		setRecipe(MHFCEquipementRecipeRegistry.getRecipeFor(recId, recType));
 	}
 
 }

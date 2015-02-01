@@ -1,6 +1,5 @@
 package mhfc.net.common.sound;
 
-
 /**
  * This File is for the MHF Sounds
  *
@@ -12,13 +11,13 @@ package mhfc.net.common.sound;
  *
  *
  *
- * DN: public<>? - easy access
- * DN: ArrayList < music = variable for imports;
- * DN: Resource Located <monsterhunter:(main_name.ogg)
+ * DN: public<>? - easy access DN: ArrayList < music = variable for imports; DN:
+ * Resource Located <monsterhunter:(main_name.ogg)
  *
  */
 
 public class MHFCSound {
+	public final static MHFCSound instance = new MHFCSound();
 
 	// private final ArrayList<Object> music = Lists.newArrayList();
 	// private Random rand;
@@ -27,7 +26,7 @@ public class MHFCSound {
 	private float bols;
 	private float dobs;
 
-	public MHFCSound() {
+	private MHFCSound() {
 		// rand = new Random();
 	}
 

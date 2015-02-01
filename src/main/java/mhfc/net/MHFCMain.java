@@ -1,17 +1,13 @@
 package mhfc.net;
 
-import mhfc.net.common.MHFCCommon;
 import mhfc.net.common.core.command.CommandMHFC;
-import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.tab.MHFCTab;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.creativetab.CreativeTabs;
 
 import org.apache.logging.log4j.Logger;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -27,50 +23,48 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
  *          www.mhfrontiercraft.blogspot.com for more info.
  */
 
-@Mod(modid = MHFCReference.main_modid, name = MHFCReference.main_name, version = MHFCReference.main_version)
+@Mod(modid = MHFCReference.main_modid, name = MHFCReference.main_name,
+		version = MHFCReference.main_version)
 public class MHFCMain {
 
-	@SidedProxy(clientSide = "mhfc.net.client.MHFCClient", serverSide = "mhfc.net.common.MHFCCommon")
-	public static MHFCCommon proxy;
+	@SidedProxy(clientSide = "mhfc.net.client.MHFCClient",
+			serverSide = "mhfc.net.server.MHFCServer")
+	public static ProxyBase proxy;
 
-	@Mod.Instance("mhfc")
+	@Mod.Instance(MHFCReference.main_modid)
 	public static MHFCMain instance;
 
 	public static Logger logger;
-	public static final PacketPipeline packetPipeline = new PacketPipeline();
 	public static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID());
+
+	private boolean isPreInitialized = false;
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent pre) {
 		// MHFCConfig.init(pre);
 		logger = pre.getModLog();
-		pre.getModMetadata().logoFile = MHFCReference.main_logo;
+		isPreInitialized = true;
 	}
 
 	@Mod.EventHandler
 	public void load(FMLInitializationEvent event) {
-		proxy.regSounds();
-		proxy.regStuff();
-		proxy.regTimer();
-		proxy.regTick();
-		proxy.regCapes();
+		proxy.register();
 	}
 
 	@Mod.EventHandler
-	public void postInit(FMLPostInitializationEvent e) {
-	}
+	public void postInit(FMLPostInitializationEvent e) {}
 
-	@EventHandler
+	@Mod.EventHandler
 	public void serverLoad(FMLServerStartingEvent event) {
 		event.registerServerCommand(new CommandMHFC());
 	}
 
-	public static boolean isClient() {
-		return proxy.isClient();
+	public static boolean isPreInitiliazed() {
+		return instance == null ? false : instance.isPreInitialized;
 	}
 
-	@Deprecated
-	public static boolean isEffectiveClient() {
-		return FMLCommonHandler.instance().getEffectiveSide().isClient();
+	public static void checkPreInitialized() {
+		if (!MHFCMain.isPreInitiliazed())
+			throw new IllegalStateException("Initializing too early");
 	}
 }

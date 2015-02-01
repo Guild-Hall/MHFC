@@ -3,7 +3,7 @@ package mhfc.net.common.block.container;
 import java.util.Random;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.core.registry.MHFCRegPotion;
+import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.tile.TileStunTrap;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.BlockContainer;
@@ -125,7 +125,7 @@ public class BlockStunTrap extends BlockContainer {
 		// world.getTileEntity(i,
 		// j, k);
 		entityliving.addPotionEffect(new PotionEffect(
-				MHFCRegPotion.mhfcpotionshock.id, 500, 10));
+				MHFCPotionRegistry.mhfcpotionshock.id, 500, 10));
 		return;
 
 	}

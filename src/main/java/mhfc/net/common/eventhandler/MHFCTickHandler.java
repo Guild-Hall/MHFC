@@ -7,26 +7,13 @@ public class MHFCTickHandler {
 	public static final MHFCTickHandler instance = new MHFCTickHandler();
 
 	@SubscribeEvent
-	public void onRenderTick(TickEvent.RenderTickEvent event) {
-		if (event.phase == TickEvent.Phase.END) {
-		}
-	}
+	public void onRenderTick(TickEvent.RenderTickEvent event) {}
 
 	@SubscribeEvent
-	public void onClientTick(TickEvent.ClientTickEvent event) {
-		if (event.phase == TickEvent.Phase.END) {
-		}
-
-	}
+	public void onClientTick(TickEvent.ClientTickEvent event) {}
 
 	@SubscribeEvent
-	public void onServerTick(TickEvent.ServerTickEvent event) {
-		if (event.phase == TickEvent.Phase.END) try {
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	public void onServerTick(TickEvent.ServerTickEvent event) {}
 
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent play) {}

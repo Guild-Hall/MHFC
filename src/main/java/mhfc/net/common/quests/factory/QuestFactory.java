@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.core.registry.MHFCQuestsRegistry;
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.goals.ChainQuestGoal;
 import mhfc.net.common.quests.goals.DeathRestrictionQuestGoal;
@@ -146,12 +146,12 @@ public class QuestFactory {
 	}
 
 	public static QuestDescription getQuestDescription(String id) {
-		QuestDescription qd = MHFCRegQuests.getQuestDescription(id);
+		QuestDescription qd = MHFCQuestsRegistry.getQuestDescription(id);
 		return qd;
 	}
 
 	public static GoalDescription getGoalDescription(String id) {
-		GoalDescription gd = MHFCRegQuests.getGoalDescription(id);
+		GoalDescription gd = MHFCQuestsRegistry.getGoalDescription(id);
 		return gd;
 	}
 
@@ -201,7 +201,7 @@ public class QuestFactory {
 			return null;
 
 		if (quest.canJoin(initiator)) {
-			MHFCRegQuests.registerQuest(quest, assignedID);
+			MHFCQuestsRegistry.registerQuest(quest, assignedID);
 			quest.addPlayer(initiator);
 			return quest;
 		}

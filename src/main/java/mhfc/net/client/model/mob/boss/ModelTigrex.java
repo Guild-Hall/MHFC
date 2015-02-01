@@ -546,8 +546,7 @@ public class ModelTigrex extends PartTickModelBase {
 		setRotation(RFrontLeftFinger, 0F, -0.5F, 0F);
 
 		/**
-		 * Parts Adding Child
-		 * DN: addChild<? = .<modelVar>
+		 * Parts Adding Child DN: addChild<? = .<modelVar>
 		 */
 
 		// Body
@@ -759,12 +758,6 @@ public class ModelTigrex extends PartTickModelBase {
 		RightShoulder.rotateAngleX = walkAnim2 * 0.6F;
 		Mouth.rotateAngleX += Math.max(0.0F, breatheAnim * 0.05F);
 		Tail.rotateAngleY -= tailBreathe * 0.06F;
-
-		if (tigrex.currentAttackID == 1) {
-
-			animateBite();
-
-		} else
 
 		if (animator.setAnim(2)) {
 			animateThrow();

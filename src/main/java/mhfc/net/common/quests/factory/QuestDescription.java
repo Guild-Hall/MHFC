@@ -1,6 +1,6 @@
 package mhfc.net.common.quests.factory;
 
-import mhfc.net.common.core.registry.MHFCRegQuests;
+import mhfc.net.common.core.registry.MHFCQuestsRegistry;
 import mhfc.net.common.quests.QuestVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation.QuestType;
 
@@ -53,7 +53,7 @@ public class QuestDescription {
 	public GoalDescription getGoalDescription() {
 		if (goalDescID == null)
 			return goalDesc;
-		return MHFCRegQuests.getGoalDescription(goalDescID);
+		return MHFCQuestsRegistry.getGoalDescription(goalDescID);
 	}
 
 	public int getReward() {

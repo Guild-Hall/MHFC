@@ -1,7 +1,7 @@
 package mhfc.net.client.container;
 
 import mhfc.net.client.gui.slot.SlotHunterBench;
-import mhfc.net.common.core.registry.MHFCRegBlock;
+import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.crafting.MHFCCraftingManager;
 import mhfc.net.common.tile.TileHunterBench;
 import net.minecraft.entity.player.EntityPlayer;
@@ -69,8 +69,7 @@ public class ContainerHunterBench extends Container {
 
 		for (var6 = 0; var6 < 7; ++var6) {
 			this.addSlotToContainer(new Slot(tileEntity, var6 + 10,
-					var6 * 18 + 228, 160) {
-			});
+					var6 * 18 + 228, 160) {});
 		}
 
 		this.addSlotToContainer(new Slot(tileEntity,
@@ -106,7 +105,7 @@ public class ContainerHunterBench extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
-		return this.worldObj.getBlock(this.posX, this.posY, this.posZ) != MHFCRegBlock.mhfcblockhunterbench
+		return this.worldObj.getBlock(this.posX, this.posY, this.posZ) != MHFCBlockRegistry.mhfcblockhunterbench
 				? false
 				: par1EntityPlayer.getDistanceSq(this.posX + 0.5D,
 						this.posY + 0.5D, this.posZ + 0.5D) <= 64.0D;

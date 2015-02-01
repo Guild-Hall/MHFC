@@ -3,7 +3,7 @@ package mhfc.net.common.item.armor;
 import java.util.List;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.core.registry.MHFCRegItem;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.helper.MHFCArmorModelHelper;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
@@ -48,12 +48,12 @@ public class YukumoArmor extends ItemArmor {
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
 			String type) {
-		if (stack.getItem() == MHFCRegItem.mhfcitemyukumohelm
-				|| stack.getItem() == MHFCRegItem.mhfcitemyukumochest
-				|| stack.getItem() == MHFCRegItem.mhfcitemyukumoboots) {
+		if (stack.getItem() == MHFCItemRegistry.mhfcitemyukumohelm
+				|| stack.getItem() == MHFCItemRegistry.mhfcitemyukumochest
+				|| stack.getItem() == MHFCItemRegistry.mhfcitemyukumoboots) {
 			return MHFCReference.armor_yukumo_tex1;
 		}
-		if (stack.getItem() == MHFCRegItem.mhfcitemyukumolegs) {
+		if (stack.getItem() == MHFCItemRegistry.mhfcitemyukumolegs) {
 			return MHFCReference.armor_yukumo_tex2;
 		}
 		return null;

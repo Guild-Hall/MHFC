@@ -9,6 +9,7 @@
 !README.md
 !LICENSE
 !build.gradle
+!build.properties
 
 *.class
 

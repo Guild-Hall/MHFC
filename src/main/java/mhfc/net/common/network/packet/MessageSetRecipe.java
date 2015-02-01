@@ -1,7 +1,7 @@
 package mhfc.net.common.network.packet;
 
 import io.netty.buffer.ByteBuf;
-import mhfc.net.common.core.registry.MHFCRegEquipmentRecipe;
+import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import mhfc.net.common.tile.TileHunterBench;
 
@@ -15,8 +15,8 @@ public class MessageSetRecipe extends MessageTileLocation {
 
 	public MessageSetRecipe(TileHunterBench bench, EquipmentRecipe r) {
 		super(bench);
-		this.typeID = MHFCRegEquipmentRecipe.getType(r);
-		this.recipeID = MHFCRegEquipmentRecipe.getIDFor(r, typeID);
+		this.typeID = MHFCEquipementRecipeRegistry.getType(r);
+		this.recipeID = MHFCEquipementRecipeRegistry.getIDFor(r, typeID);
 	}
 
 	@Override

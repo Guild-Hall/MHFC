@@ -1,6 +1,5 @@
 package mhfc.net.common.network;
 
-import io.netty.channel.ChannelHandler;
 import mhfc.net.MHFCMain;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -13,22 +12,20 @@ import cpw.mods.fml.relauncher.Side;
  *
  * @author WorldSEnder
  */
-@ChannelHandler.Sharable
 public class PacketPipeline {
-
 	public static final SimpleNetworkWrapper networkPipe = new SimpleNetworkWrapper(
 			"MHFC");
-	private int discriminator = 0xFF;
 
-	public <Req extends IMessage, Reply extends IMessage> void registerPacket(
-			Class<? extends IMessageHandler<Req, Reply>> messageHandler,
-			Class<Req> requestMessageType, Side side) {
-		if (discriminator <= 0) {
-			MHFCMain.logger
-					.error("Tried to register more than 256 message types");
-			return;
+	private static int discriminator = 0;
+
+	public static <REQ extends IMessage, ANS extends IMessage> void registerPacket(
+			Class<? extends IMessageHandler<REQ, ANS>> messageHandler,
+			Class<REQ> requestMessageType, Side side) {
+		if (discriminator > 255) {
+			throw MHFCMain.logger.throwing(new IllegalStateException(
+					"Tried to register more than 256 message types"));
 		}
 		networkPipe.registerMessage(messageHandler, requestMessageType,
-				discriminator--, side);
+				discriminator++, side);
 	}
 }
