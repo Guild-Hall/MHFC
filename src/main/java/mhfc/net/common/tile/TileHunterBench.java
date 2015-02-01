@@ -9,6 +9,7 @@ import mhfc.net.common.network.packet.MessageCraftingUpdate;
 import mhfc.net.common.network.packet.MessageSetRecipe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -145,8 +146,11 @@ public class TileHunterBench extends TileEntity
 		this.recipeStacks = recipe.getRequirements(7);
 	}
 
-	private static int getItemHeat(ItemStack itemStack) {
-		// TODO Auto-generated method stub
+	public static int getItemHeat(ItemStack itemStack) {
+		if (itemStack == null)
+			return 0;
+		if (itemStack.getItem() == Item.getItemById(327))
+			return 1000;
 		return 200;
 	}
 
@@ -338,7 +342,7 @@ public class TileHunterBench extends TileEntity
 		return heatStrength;
 	}
 
-	public int getHeatFromItem() {
+	public int getBurningItemHeat() {
 		return heatFromItem;
 	}
 

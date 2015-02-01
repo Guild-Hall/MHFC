@@ -172,7 +172,8 @@ public class GuiQuestGiver extends GuiScreen {
 		boolean hasQuest = MHFCRegQuestVisual.hasPlayerQuest();
 		groupList.setVisible(!hasQuest);
 		if (!hasQuest) {
-			fontRendererObj.drawString("Take a quest:", xPos + 3, yPos + 4,
+			// TODO unlocalize
+			fontRendererObj.drawString("Take a quest:", xPos + 3, yPos + 9,
 					0x404040);
 			groupList.draw();
 			left.visible = true;
@@ -193,7 +194,7 @@ public class GuiQuestGiver extends GuiScreen {
 				// TODO set start enabled based on can join
 				FontRenderer fontRenderer = mc.fontRenderer;
 				if (info != null)
-					info.drawInformation(xPos + 80, yPos, 220, ySize - 30,
+					info.drawInformation(xPos + 80, yPos + 5, 220, ySize - 30,
 							page, fontRenderer);
 			}
 		} else {
@@ -239,20 +240,20 @@ public class GuiQuestGiver extends GuiScreen {
 				mc.displayWidth, mc.displayHeight);
 		xPos = (s.getScaledWidth() - xSize) / 2;
 		yPos = (s.getScaledHeight() - ySize) / 2;
-		groupList.setPosition(5 + xPos, 15 + yPos);
-		groupList.setWidthAndHeight(70, ySize - 20);
+		groupList.setPosition(5 + xPos, 20 + yPos);
+		groupList.setWidthAndHeight(70, ySize - 30);
 		right.xPosition = 280 + xPos;
-		right.yPosition = 5 + yPos;
+		right.yPosition = 10 + yPos;
 		left.xPosition = 80 + xPos;
-		left.yPosition = 5 + yPos;
+		left.yPosition = 10 + yPos;
 		newQuest.xPosition = 160 + xPos;
-		newQuest.yPosition = 195 + yPos;
+		newQuest.yPosition = 190 + yPos;
 		cancelQuest.xPosition = xPos + xSize / 2 - cancelQuest.getButtonWidth()
 				/ 2;
 		cancelQuest.yPosition = yPos + ySize / 2 + 5;
 		startQuest.xPosition = xPos + xSize / 2 - startQuest.getButtonWidth()
 				/ 2;
-		startQuest.yPosition = yPos + ySize / 2 - startQuestHeight - 5;
+		startQuest.yPosition = yPos + ySize / 2 - startQuestHeight - 10;
 		super.updateScreen();
 	}
 
@@ -265,8 +266,8 @@ public class GuiQuestGiver extends GuiScreen {
 	public void drawBackground(int p_146278_1_) {
 		mc.getTextureManager().bindTexture(
 				MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
-		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, 0f, xSize, ySize, 15,
-				15 / 265f, 1, 166f / 256f);
+		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, 0f, xSize, ySize, 10,
+				10 / 512f, 10f / 256, 1, 1);
 
 	}
 }

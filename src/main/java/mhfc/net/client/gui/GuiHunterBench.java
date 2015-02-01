@@ -1,7 +1,5 @@
 package mhfc.net.client.gui;
 
-import static net.minecraftforge.client.IItemRenderer.ItemRenderType.ENTITY;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -28,7 +26,11 @@ import net.minecraftforge.client.MinecraftForgeClient;
 
 import org.lwjgl.opengl.GL11;
 
+import static net.minecraftforge.client.IItemRenderer.ItemRenderType.ENTITY;
+
 public class GuiHunterBench extends MHFCTabbedGui {
+
+	static final int maxHeat = 500;
 
 	public class RecipeItem implements GuiListItem {
 		String representation;
@@ -69,24 +71,12 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			for (ClickableGuiList<?> list : clickableLists) {
 				list.draw();
 			}
-			fontRendererObj.drawSplitString("Inventory", posX + 6, posY + 5,
+			fontRendererObj.drawSplitString("Inventory", posX + 6, posY + 12,
 					500, 0x404040);
 
 			GuiHunterBench.this.startCrafting.visible = !bench.isWorking();
 			GuiHunterBench.this.startCrafting.enabled = bench
 					.canBeginCrafting();
-
-			// fontRendererObj.drawString(bench.isWorking()
-			// ? "Working"
-			// : "Sleeping", 50, 50, 0x404040);
-			// fontRendererObj.drawString(bench.getHeatFromItem() + "", 50, 60,
-			// 0x404040);
-			// fontRendererObj.drawString(bench.getHeatLength() + "", 50, 70,
-			// 0x404040);
-			// fontRendererObj.drawString(bench.getHeatStrength() + "", 50, 80,
-			// 0x404040);
-			// fontRendererObj.drawString(bench.getItemSmeltDuration() + "", 50,
-			// 90, 0x404040);
 
 			drawItemModelAndHeat(
 					new ItemStack(MHFCItemRegistry.mhfcitembhunter), bench);
@@ -101,9 +91,11 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			}
 		}
 
-		protected void listUpdated(ClickableGuiList<?> list) {}
+		protected void listUpdated(ClickableGuiList<?> list) {
+		}
 
-		protected void updateListPositions() {}
+		protected void updateListPositions() {
+		}
 
 		@Override
 		public boolean containsSlot(Slot slot) {
@@ -119,20 +111,25 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public void onClose() {}
+		public void onClose() {
+		}
 
 		@Override
-		public void onOpen() {}
+		public void onOpen() {
+		}
 
 		@Override
-		public void handleMouseUp(int mouseX, int mouseY, int button) {}
+		public void handleMouseUp(int mouseX, int mouseY, int button) {
+		}
 
 		@Override
-		public void handleMovement(int mouseX, int mouseY) {}
+		public void handleMovement(int mouseX, int mouseY) {
+		}
 
 		@Override
 		public void handleMovementMouseDown(int mouseX, int mouseY, int button,
-				long timeDiff) {}
+				long timeDiff) {
+		}
 
 	}
 
@@ -142,10 +139,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		public CraftArmorTab(TileHunterBench bench) {
 			super(bench);
-			armorRecipeList = new ClickableGuiList<RecipeItem>(70, ySize - 10,
+			armorRecipeList = new ClickableGuiList<RecipeItem>(70, ySize - 20,
 					20);
 			armorTypeList = new ClickableGuiList<GuiListStringItem>(70,
-					ySize - 10);
+					ySize - 20);
 			armorTypeList.setAlignmentMid(true);
 			this.clickableLists.add(armorTypeList);
 			this.clickableLists.add(armorRecipeList);
@@ -179,8 +176,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		protected void updateListPositions() {
-			armorRecipeList.setPosition(guiLeft + 153, guiTop + 5);
-			armorTypeList.setPosition(guiLeft + 78, guiTop + 5);
+			armorRecipeList.setPosition(guiLeft + 153, guiTop + 10);
+			armorTypeList.setPosition(guiLeft + 78, guiTop + 10);
 		}
 
 		private void fillRecipeList(Set<EquipmentRecipe> correspondingRecipes) {
@@ -218,10 +215,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		 */
 		public CraftWeaponTab(TileHunterBench bench) {
 			super(bench);
-			weaponRecipeList = new ClickableGuiList<RecipeItem>(70, ySize - 10,
+			weaponRecipeList = new ClickableGuiList<RecipeItem>(70, ySize - 20,
 					20);
 			weaponTypeList = new ClickableGuiList<GuiListStringItem>(70,
-					ySize - 10);
+					ySize - 20);
 			this.clickableLists.add(weaponTypeList);
 			this.clickableLists.add(weaponRecipeList);
 			initializeTypeList();
@@ -240,8 +237,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		protected void updateListPositions() {
-			weaponRecipeList.setPosition(guiLeft + 153, guiTop + 5);
-			weaponTypeList.setPosition(guiLeft + 78, guiTop + 5);
+			weaponRecipeList.setPosition(guiLeft + 153, guiTop + 10);
+			weaponTypeList.setPosition(guiLeft + 78, guiTop + 10);
 		}
 
 		@Override
@@ -311,13 +308,16 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public void updateScreen() {}
+		public void updateScreen() {
+		}
 
 		@Override
-		public void onClose() {}
+		public void onClose() {
+		}
 
 		@Override
-		public void onOpen() {}
+		public void onOpen() {
+		}
 
 		@Override
 		public void handleMovementMouseDown(int mouseX, int mouseY, int button,
@@ -372,7 +372,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		this.tabList.add(new WeaponTreeTab());
 		setTab(0);
 		startCrafting = new GuiButton(0,
-				guiLeft + 228 + (xSize - 228 - 60) / 2, guiTop + 139, 40, 20,
+				guiLeft + 228 + (xSize - 228 - 60) / 2, guiTop + 149, 40, 20,
 				"Craft") {
 			@Override
 			public void mouseReleased(int p_146118_1_, int p_146118_2_) {
@@ -383,7 +383,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 	private void drawItemModelAndHeat(ItemStack itemToRender,
 			TileHunterBench bench) {
-		int rectX = guiLeft + 228, rectY = guiTop + 23;
+		int rectX = guiLeft + 228, rectY = guiTop + 28;
 		int rectW = 7 * 18 - 2, rectH = 96;
 		int scale = new ScaledResolution(mc.gameSettings, mc.displayWidth,
 				mc.displayHeight).getScaleFactor();
@@ -398,7 +398,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(
 				itemToRender, ENTITY);
-		if (customRenderer == null) {} else {
+		if (customRenderer == null) {
+		} else {
 			customRenderer.renderItem(ItemRenderType.ENTITY, itemToRender,
 					null, null);
 		}
@@ -407,7 +408,6 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		GL11.glPopMatrix();
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		final int maxHeat = 200;
 		final int burnHeight = 96;
 
 		if (bench != null) {
@@ -419,10 +419,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			int burnTexHeight;
 			int burnTexY;
 			if (bench.getRecipe() != null) {
-				heat = bench.getRecipe().getRequiredHeat();
-				heat = Math.min(heat, maxHeat);
 				mc.getTextureManager().bindTexture(
 						MHFCRegQuestVisual.HUNTER_BENCH_BURN_BACK);
+				heat = bench.getRecipe().getRequiredHeat();
+				heat = Math.min(heat, maxHeat);
 				burnTexVDiff = (float) (heat) / maxHeat;
 				burnTexV = 1.0f - burnTexVDiff;
 				burnTexHeight = (int) (burnTexVDiff * burnHeight);
@@ -432,9 +432,9 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			}
 			// Draw the foreground current heat indicator
 			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-			heat = Math.min(bench.getHeatStrength(), maxHeat);
 			mc.getTextureManager().bindTexture(
 					MHFCRegQuestVisual.HUNTER_BENCH_BURN_BACK);
+			heat = Math.min(bench.getHeatStrength(), maxHeat);
 			burnTexVDiff = (float) (heat) / maxHeat;
 			burnTexV = 1.0f - burnTexVDiff;
 			burnTexHeight = (int) (burnTexVDiff * burnHeight);
@@ -442,8 +442,24 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			MHFCGuiUtil.drawTexturedRectangle(rectX + rectW + 3, burnTexY, 10,
 					burnTexHeight, 0.0f, burnTexV, 1.0f, burnTexVDiff);
 
-			// TODO Draw heat border
-			// TODO Draw heat from item target
+			// Draw heat target
+			mc.getTextureManager().bindTexture(
+					MHFCRegQuestVisual.HUNTER_BENCH_BURN_TARGET);
+			heat = Math.min(TileHunterBench.getItemHeat(bench
+					.getStackInSlot(TileHunterBench.fuelSlot)), maxHeat);
+			if (heat > 0) {
+				burnTexVDiff = (float) (heat) / maxHeat;
+				burnTexHeight = (int) (burnTexVDiff * burnHeight);
+				burnTexY = rectY + burnHeight - burnTexHeight;
+				MHFCGuiUtil.drawTexturedBoxFromBorder(rectX + rectW + 3,
+						burnTexY - 1, this.zLevel, 10, 3, 0);
+			}
+
+			// Draw front layer, the border
+			mc.getTextureManager().bindTexture(
+					MHFCRegQuestVisual.HUNTER_BENCH_BURN_FRONT);
+			MHFCGuiUtil.drawTexturedBoxFromBorder(rectX + rectW + 3, rectY - 1,
+					this.zLevel, 10, burnHeight + 1, 0);
 		}
 	}
 
@@ -476,7 +492,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	public void updateScreen() {
 		super.updateScreen();
 		startCrafting.xPosition = guiLeft + 228 + (xSize - 228 - 60) / 2;
-		startCrafting.yPosition = guiTop + 139;
+		startCrafting.yPosition = guiTop + 149;
 	}
 
 }

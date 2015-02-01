@@ -121,6 +121,10 @@ public class MHFCEquipementRecipeRegistry {
 		return null;
 	}
 
+	public static final EquipmentRecipe recipe_tigrex_helm;
+	public static final EquipmentRecipe recipe_tigrex_boots;
+	public static final EquipmentRecipe recipe_kirin_helm;
+
 	public static int TYPE_ARMOR_HEAD = 0;
 	public static int TYPE_ARMOR_BODY = 1;
 	public static int TYPE_ARMOR_PANTS = 2;
@@ -140,7 +144,7 @@ public class MHFCEquipementRecipeRegistry {
 	private static Map<Integer, Set<EquipmentRecipe>> mapOfRecipeSets = new HashMap<Integer, Set<EquipmentRecipe>>();
 	private static Map<Integer, List<EquipmentRecipe>> mapOfListOfRecipes = new HashMap<Integer, List<EquipmentRecipe>>();
 
-	public static void init() {
+	static {
 		for (int i = 0; i < 15; i++) {
 			mapOfRecipeSets.put(new Integer(i),
 					new LinkedHashSet<EquipmentRecipe>());
@@ -149,11 +153,29 @@ public class MHFCEquipementRecipeRegistry {
 
 		}
 		List<ItemStack> listReq = new ArrayList<ItemStack>();
-		for (int a = 0; a < 7; a++) {
+		for (int a = 0; a < 3; a++) {
 			listReq.add(new ItemStack(MHFCItemRegistry.MHFCItemTigrexScale, 4));
 		}
-		new EquipmentRecipe(new ItemStack(MHFCItemRegistry.mhfcitemkirinhelm),
-				listReq, 200, 600);
+		listReq.add(new ItemStack(MHFCItemRegistry.MHFCItemTigrexShell, 1));
+		recipe_tigrex_helm = new EquipmentRecipe(new ItemStack(
+				MHFCItemRegistry.mhfcitemtigrexhelm), listReq, 200, 600);
+		MHFCEquipementRecipeRegistry.register(recipe_tigrex_helm);
+		listReq = new ArrayList<ItemStack>();
+		for (int a = 0; a < 3; a++) {
+			listReq.add(new ItemStack(MHFCItemRegistry.MHFCItemTigrexShell, 4));
+		}
+		listReq.add(new ItemStack(MHFCItemRegistry.MHFCItemTigrexScale, 1));
+		recipe_tigrex_boots = new EquipmentRecipe(new ItemStack(
+				MHFCItemRegistry.mhfcitemtigrexchest), listReq, 150, 300);
+		MHFCEquipementRecipeRegistry.register(recipe_tigrex_boots);
+		listReq = new ArrayList<ItemStack>();
+		for (int a = 0; a < 2; a++) {
+			listReq.add(new ItemStack(MHFCItemRegistry.mhfcitemkirinmane, 3));
+		}
+		listReq.add(new ItemStack(MHFCItemRegistry.mhfcitemkirinthundertail, 1));
+		recipe_kirin_helm = new EquipmentRecipe(new ItemStack(
+				MHFCItemRegistry.mhfcitemkirinhelm), listReq, 300, 300);
+		MHFCEquipementRecipeRegistry.register(recipe_kirin_helm);
 	}
 
 	public static int getType(EquipmentRecipe recipe) {
@@ -163,20 +185,26 @@ public class MHFCEquipementRecipeRegistry {
 		if (it instanceof ItemArmor) {
 			return ((ItemArmor) it).armorType;
 		}
-		// TODO long else if
-		return 5;
+		String name = it.getUnlocalizedName();
+		return 15;
 	}
 
 	public static Set<EquipmentRecipe> getRecipesFor(int type) {
 		return mapOfRecipeSets.get(new Integer(type));
 	}
 
-	public static void register(EquipmentRecipe recipe, int type) {
-		if (type < 0 | type > 14)
-			return;
+	private static boolean register(EquipmentRecipe recipe, int type) {
+		if (type < 0 || type > 14)
+			return false;
 		boolean inserted = mapOfRecipeSets.get(new Integer(type)).add(recipe);
-		if (inserted)
+		if (inserted) {
 			mapOfListOfRecipes.get(new Integer(type)).add(recipe);
+		}
+		return inserted;
+	}
+
+	public static void register(EquipmentRecipe recipe) {
+		register(recipe, getType(recipe));
 	}
 
 	public static int getIDFor(EquipmentRecipe recipe, int type) {

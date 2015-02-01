@@ -2,7 +2,6 @@ package mhfc.net.common.crafting.recipes.equipment;
 
 import java.util.List;
 
-import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
 import mhfc.net.common.crafting.recipes.MHFCShapelessRecipe;
 import net.minecraft.item.ItemStack;
 
@@ -15,13 +14,11 @@ public class EquipmentRecipe extends MHFCShapelessRecipe {
 		super(recipeProduct, recipeIngredients);
 		this.heat = requiredHeat;
 		this.duration = duration;
-		int type = MHFCEquipementRecipeRegistry.getType(this);
-		MHFCEquipementRecipeRegistry.register(this, type);
-		// System.out.println("Registered" + type + " "
-		// + (MHFCEquipementRecipeRegistry.getIDFor(this, type) >= 0));
+
 	}
 
 	public ItemStack[] getRequirements(int padTo) {
+		padTo = Math.max(0, padTo);
 		ItemStack[] stacks = new ItemStack[padTo];
 		return recipeItems.toArray(stacks);
 	}

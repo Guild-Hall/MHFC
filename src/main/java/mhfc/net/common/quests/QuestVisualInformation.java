@@ -128,7 +128,7 @@ public class QuestVisualInformation {
 
 	public void drawInformation(int positionX, int positionY, int width,
 			int height, FontRenderer fontRenderer, int renderFrame) {
-		int FPS = 30;
+		int FPS = 120;
 		drawInformation(positionX, positionY, width, height,
 				Math.max(((renderFrame / FPS) % 4) - 1, 0), fontRenderer);
 	}

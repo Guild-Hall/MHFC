@@ -4,7 +4,6 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.core.registry.MHFCCraftingRegistry;
 import mhfc.net.common.core.registry.MHFCEntityRegistry;
-import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
 import mhfc.net.common.core.registry.MHFCEventRegistry;
 import mhfc.net.common.core.registry.MHFCHunterCraftingRegistry;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
@@ -72,7 +71,6 @@ public class MHFCCommonRegistry {
 	private static void addRecipes() {
 		MHFCCraftingRegistry.init();
 		MHFCHunterCraftingRegistry.init();
-		MHFCEquipementRecipeRegistry.init();
 		logger.info("Recipes registered");
 	}
 
@@ -90,10 +88,12 @@ public class MHFCCommonRegistry {
 		MHFCPotionRegistry.init();
 		logger.info("Potions registered");
 	}
+
 	private static void addEvent() {
 		MHFCEventRegistry.init();
 		logger.info("Events registered");
 	}
+
 	private static void addMonsters() {
 		MHFCEntityRegistry.init();
 		logger.info("Monsters registered");

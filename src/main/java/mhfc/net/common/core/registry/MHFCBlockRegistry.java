@@ -13,6 +13,7 @@ import mhfc.net.common.block.BlockOreCarbalite;
 import mhfc.net.common.block.BlockOreDragonite;
 import mhfc.net.common.block.BlockOreEltalite;
 import mhfc.net.common.block.BlockOreMachalite;
+import mhfc.net.common.block.BlockQuestBoard;
 import mhfc.net.common.block.BlockWyverniaClay;
 import mhfc.net.common.block.BlockWyverniaDirt;
 import mhfc.net.common.block.BlockWyverniaGrass;
@@ -25,6 +26,7 @@ import mhfc.net.common.block.container.BlockHunterBench;
 import mhfc.net.common.block.container.BlockStunTrap;
 import mhfc.net.common.item.block.ItemBlockBBQSpit;
 import mhfc.net.common.item.block.ItemBlockBenchHunter;
+import mhfc.net.common.item.block.ItemBlockQuestBoard;
 import mhfc.net.common.item.block.ItemBlockStunTrap;
 import mhfc.net.common.item.block.ItemBlockWyverniaDefault;
 import net.minecraft.block.Block;
@@ -59,6 +61,7 @@ public class MHFCBlockRegistry {
 	public static final Block mhfcblockoreeltalite;
 	public static final Block mhfcblockoremachalite;
 	public static final Block mhfcblockbbqspit;
+	public static final Block mhfcblockquestboard;
 
 	static {
 		// Initialize Blocks
@@ -90,9 +93,12 @@ public class MHFCBlockRegistry {
 				ItemBlockStunTrap.class);
 		mhfcblockbbqspit = registerBlockWithItem(new BlockBBQSpit(),
 				ItemBlockBBQSpit.class);
+		mhfcblockquestboard = registerBlockWithItem(new BlockQuestBoard(),
+				ItemBlockQuestBoard.class);
 	}
 
-	public static void init() {}
+	public static void init() {
+	}
 
 	private static Block registerBlock(Block block) {
 		return registerBlock(block, block.getUnlocalizedName());
