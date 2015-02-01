@@ -66,6 +66,7 @@ public class MHFCRegEquipmentRecipe {
 		public MessageCraftingUpdate onMessage(MessageBeginCrafting message,
 				MessageContext ctx) {
 			TileHunterBench b = getHunterBench(message);
+			b.beginCrafting();
 			return new MessageCraftingUpdate(b);
 		}
 	}
