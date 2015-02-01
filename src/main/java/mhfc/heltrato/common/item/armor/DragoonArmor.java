@@ -67,13 +67,13 @@ public class DragoonArmor extends ItemArmor {
 		if (stack.getItem() == MHFCRegItem.mhfcitemdragoonhelm
 				|| stack.getItem() == MHFCRegItem.mhfcitemdragoonchest
 				|| stack.getItem() == MHFCRegItem.mhfcitemdragoonboots) {
-			for(int i = 0; i < Donators.dragoonHelm.length; i++)
-			if(player.getDisplayName().equals(Donators.dragoonHelm[i]))
+			for(int i = 0; i < Donators.dragoondonor.length; i++)
+			if(player.getDisplayName().equals(Donators.dragoondonor[i]))
 			return MHFCReference.armor_dragoon_tex1;
 		}
 		if(stack.getItem() == MHFCRegItem.mhfcitemdragoonlegs)
-			for(int i = 0; i < Donators.dragoonHelm.length; i++)
-			if(player.getDisplayName().equals(Donators.dragoonHelm[i]))
+			for(int i = 0; i < Donators.dragoondonor.length; i++)
+			if(player.getDisplayName().equals(Donators.dragoondonor[i]))
 			return MHFCReference.armor_dragoon_tex2;
 		return "mhfc:textures/armor/null.png";
 		
@@ -136,17 +136,18 @@ public class DragoonArmor extends ItemArmor {
 		  ItemStack chest = player.getCurrentArmor(2);
 		  
 		  // If all items are our items (except helmet, as this method is only called if helmet is equipped
-		  for(int i = 0; i < Donators.dragoonHelm.length; i++)
+		  for(int i = 0; i < Donators.dragoondonor.length; i++)
 		  if( chest != null && legs != null && boots != null && 
 		    chest.getItem() == MHFCRegItem.mhfcitemdragoonchest &&
 		    boots.getItem() == MHFCRegItem.mhfcitemdragoonboots &&
 		    legs.getItem() == MHFCRegItem.mhfcitemdragoonlegs){
-			  if(player.getDisplayName().equals(Donators.dragoonHelm[i])){
+			  if(player.getDisplayName().equals(Donators.dragoondonor[i])){
+				  float h = player.getHealth();
+			        player.removePotionEffect(21);
+			        player.addPotionEffect(new PotionEffect(21, 200, 1, true));
+			        player.setHealth(h);
 		  }else{
-			  	float h = player.getHealth();
-		        player.removePotionEffect(21);
-		        player.addPotionEffect(new PotionEffect(21, 200, 1, true));
-		        player.setHealth(h);
+			  	
 		  }
 	    }
 	  }

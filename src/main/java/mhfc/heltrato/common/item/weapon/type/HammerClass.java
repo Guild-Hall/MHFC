@@ -27,7 +27,6 @@ public class HammerClass extends WeaponClass {
 		getWeaponDescription(clazz.hammername);
 		getWeaponTextureloc(ref.weapon_hm_default_icon);
 		getWeaponTable(-5, 7, 1);
-		cooldown = coolDown;
 	}
 	
 	@Override

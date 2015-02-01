@@ -7,6 +7,8 @@ import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.core.registry.MHFCRegItem;
 import mhfc.heltrato.common.core.registry.MHFCRegPotion;
 import mhfc.heltrato.common.helper.MHFCArmorModelHelper;
+import mhfc.heltrato.common.helper.system.MHFCColorHelper;
+import mhfc.heltrato.common.util.Donators;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -37,6 +39,12 @@ public class KirinSArmor extends ItemArmor {
 		rand = new Random();
 		param = par2;
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister iconRegister) {
+		this.itemIcon = iconRegister.registerIcon(icons_array[this.armorType]);
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -46,6 +54,7 @@ public class KirinSArmor extends ItemArmor {
 		par3List.add("All Resistance H");
 		par3List.add("Thunder + 40");
 		par3List.add("Aura");
+		par3List.add(MHFCColorHelper.RED + "Exclusive S Rank ");
 		if (param == 0) {
 			par3List.add("\u00a79Kirin S Class Helmet");
 		} else if (param == 1) {
@@ -60,23 +69,26 @@ public class KirinSArmor extends ItemArmor {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister iconRegister) {
-		this.itemIcon = iconRegister.registerIcon(icons_array[this.armorType]);
-	}
-
-	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
-			String type) {
+			String type) 
+	{
+		
+		EntityPlayer player = (EntityPlayer)entity;
+		
+		if(entity instanceof EntityPlayer)
 		if (stack.getItem() == MHFCRegItem.mhfcitemkirinShelm
 				|| stack.getItem() == MHFCRegItem.mhfcitemkirinSchest
 				|| stack.getItem() == MHFCRegItem.mhfcitemkirinSboots) {
+			for(int i = 0; i < Donators.kirinSdonor.length; i++)
+			if(player.getDisplayName().equals(Donators.kirinSdonor[i]))
 			return MHFCReference.armor_kirinS_tex1;
 		}
-		if (stack.getItem() == MHFCRegItem.mhfcitemkirinSlegs) {
+		if(stack.getItem() == MHFCRegItem.mhfcitemkirinSlegs)
+			for(int i = 0; i < Donators.kirinSdonor.length; i++)
+			if(player.getDisplayName().equals(Donators.kirinSdonor[i]))
 			return MHFCReference.armor_kirinS_tex2;
-		}
-		return null;
+		return "mhfc:textures/armor/null.png";
+		
 	}
 
 	@Override
@@ -137,14 +149,15 @@ public class KirinSArmor extends ItemArmor {
 	  ItemStack legs = player.getCurrentArmor(1);
 	  ItemStack chest = player.getCurrentArmor(2);
 	  
-	  // If all items are our items (except helmet, as this method is only called if helmet is equipped
+	  for(int i = 0; i < Donators.kirinSdonor.length; i++)
 	  if( chest != null && legs != null && boots != null && 
 	    chest.getItem() == MHFCRegItem.mhfcitemkirinSchest &&
 	    boots.getItem() == MHFCRegItem.mhfcitemkirinSboots &&
 	    legs.getItem() == MHFCRegItem.mhfcitemkirinSlegs){
+		  if(player.getDisplayName().equals(Donators.kirinSdonor[i])){
 	   player.addPotionEffect(new PotionEffect(MHFCRegPotion.mhfcpotionkirinbless.id, 15, 1));
 	   world.spawnParticle("cloud", player.posX + this.rand.nextFloat() * 2.0F - 1.0D, player.posY + this.rand.nextFloat() * 3.0F + 1.0D, player.posZ + this.rand.nextFloat() * 2.0F - 1.0D, 0.0D, 0.0D, 0.0D);
 	  }
 	 }
-
+	}
 }

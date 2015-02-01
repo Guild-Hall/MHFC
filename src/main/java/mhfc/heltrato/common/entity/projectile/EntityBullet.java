@@ -1,5 +1,6 @@
 package mhfc.heltrato.common.entity.projectile;
 
+import mhfc.heltrato.common.item.weapon.WeaponRange;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -8,9 +9,13 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class EntityBullet extends EntityThrowable{
+	
+	private WeaponRange weapon;
+	
     public EntityBullet(World par1World)
     {
         super(par1World);
+        weapon = new WeaponRange();
     }
     public EntityBullet(World par1World, EntityLivingBase par2EntityLivingBase)
     {
@@ -24,14 +29,8 @@ public class EntityBullet extends EntityThrowable{
     {
         if (p_70184_1_.entityHit != null)
         {
-            byte b0 = 0;
 
-            if (p_70184_1_.entityHit instanceof EntityBlaze)
-            {
-                b0 = 3;
-            }
-
-            p_70184_1_.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), (float)b0);
+            p_70184_1_.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), weapon.damage);
         }
     }
 }
