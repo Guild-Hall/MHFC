@@ -25,7 +25,4 @@ public class MHFCCommon {
 		return false;
 	}
 	
-	public void regCapes(){
-		
-	}
 }

@@ -3,7 +3,6 @@ package mhfc.heltrato.client;
 import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.MHFCCommon;
 import mhfc.heltrato.common.core.MHFCReg;
-import mhfc.heltrato.common.sound.MHFCSound;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.util.Timer;
@@ -22,12 +21,6 @@ public class MHFCClient extends MHFCCommon
 	}
 	public void regTick(){}
 	
-	public void regCapes(){
-	}
-	
-	public void regSounds(){
-		forge.EVENT_BUS.register(new MHFCSound());
-	}
 	
 	public void regTimer(){
 		timer = (Timer)ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), MHFCMain.fTimer);
