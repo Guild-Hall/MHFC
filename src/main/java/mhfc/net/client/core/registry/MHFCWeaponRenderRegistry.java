@@ -1,4 +1,4 @@
-package mhfc.net.common.core.registry;
+package mhfc.net.client.core.registry;
 
 import mhfc.net.client.render.weapon.RenderBHunter;
 import mhfc.net.client.render.weapon.RenderGSBone;
@@ -11,36 +11,37 @@ import mhfc.net.client.render.weapon.RenderHWar;
 import mhfc.net.client.render.weapon.RenderHWarSlammer;
 import mhfc.net.client.render.weapon.RenderLSDarkVipern;
 import mhfc.net.client.render.weapon.RenderLSIronKatana;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import net.minecraftforge.client.MinecraftForgeClient;
 
-public class MHFCRegRenderWeapon {
-	public static void render() {
+public class MHFCWeaponRenderRegistry {
+	public static void init() {
 
-		MinecraftForgeClient.registerItemRenderer(MHFCRegItem.mhfcitemgsbone,
+		MinecraftForgeClient.registerItemRenderer(MHFCItemRegistry.mhfcitemgsbone,
 				new RenderGSBone());
-		MinecraftForgeClient.registerItemRenderer(MHFCRegItem.MHFCItemHTigrex,
+		MinecraftForgeClient.registerItemRenderer(MHFCItemRegistry.MHFCItemHTigrex,
 				new RenderHTigrex());
-		MinecraftForgeClient.registerItemRenderer(MHFCRegItem.MHFCItemGSTigrex,
+		MinecraftForgeClient.registerItemRenderer(MHFCItemRegistry.MHFCItemGSTigrex,
 				new RenderGSTigrex());
 		MinecraftForgeClient.registerItemRenderer(
-				MHFCRegItem.mhfcitemlsironkatana, new RenderLSIronKatana());
+				MHFCItemRegistry.mhfcitemlsironkatana, new RenderLSIronKatana());
 		MinecraftForgeClient.registerItemRenderer(
-				MHFCRegItem.mhfcitemgskirinthundersword,
+				MHFCItemRegistry.mhfcitemgskirinthundersword,
 				new RenderGSKirinThunderSword());
 		MinecraftForgeClient.registerItemRenderer(
-				MHFCRegItem.mhfcitemhkirinspark, new RenderHKirinSpark());
+				MHFCItemRegistry.mhfcitemhkirinspark, new RenderHKirinSpark());
 		MinecraftForgeClient.registerItemRenderer(
-				MHFCRegItem.mhfcitemhwarhammer, new RenderHWar());
+				MHFCItemRegistry.mhfcitemhwarhammer, new RenderHWar());
 		MinecraftForgeClient.registerItemRenderer(
-				MHFCRegItem.mhfcitemhwarhammerplus, new RenderHWar());
+				MHFCItemRegistry.mhfcitemhwarhammerplus, new RenderHWar());
 		MinecraftForgeClient.registerItemRenderer(
-				MHFCRegItem.mhfcitemhwarslammer, new RenderHWarSlammer());
-		MinecraftForgeClient.registerItemRenderer(MHFCRegItem.mhfcitembhunter,
+				MHFCItemRegistry.mhfcitemhwarslammer, new RenderHWarSlammer());
+		MinecraftForgeClient.registerItemRenderer(MHFCItemRegistry.mhfcitembhunter,
 				new RenderBHunter());
 		MinecraftForgeClient.registerItemRenderer(
-				MHFCRegItem.mhfcitemhhmetalbagpipe, new RenderHHMetalBagpipe());
+				MHFCItemRegistry.mhfcitemhhmetalbagpipe, new RenderHHMetalBagpipe());
 		MinecraftForgeClient.registerItemRenderer(
-				MHFCRegItem.mhfcitemlsdarkvipern, new RenderLSDarkVipern());
+				MHFCItemRegistry.mhfcitemlsdarkvipern, new RenderLSDarkVipern());
 
 	}
 

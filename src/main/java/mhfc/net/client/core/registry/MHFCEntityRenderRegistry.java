@@ -1,4 +1,4 @@
-package mhfc.net.common.core.registry;
+package mhfc.net.client.core.registry;
 
 import mhfc.net.client.model.mob.ModelPopo;
 import mhfc.net.client.model.mob.boss.ModelKirin;
@@ -22,9 +22,9 @@ import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimatedOb
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
-public class MHFCRegRenderEntity {
+public class MHFCEntityRenderRegistry {
 
-	public static void render() {
+	public static void init() {
 		renderMonster();
 		renderBlockEntities();
 	}

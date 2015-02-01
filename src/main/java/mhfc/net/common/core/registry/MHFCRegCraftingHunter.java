@@ -5,8 +5,8 @@ import mhfc.net.client.crafting.MHFCCraftingManager;
 public class MHFCRegCraftingHunter {
 
 	public static MHFCCraftingManager x;
-	public static MHFCRegItem z;
-	public static MHFCRegBlock y;
+	public static MHFCItemRegistry z;
+	public static MHFCBlockRegistry y;
 
 	public static void craftAll() {
 		/**

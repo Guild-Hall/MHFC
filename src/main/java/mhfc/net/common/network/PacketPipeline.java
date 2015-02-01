@@ -20,16 +20,10 @@ public class PacketPipeline {
 	public static <REQ extends IMessage, ANS extends IMessage> void registerPacket(
 			Class<? extends IMessageHandler<REQ, ANS>> messageHandler,
 			Class<REQ> requestMessageType, Side side) {
-		if (discriminator == 255) {
-			MHFCMain.logger
-					.error("Tried to register more than 256 message types");
-			return;
+		if (discriminator > 255) {
+			throw MHFCMain.logger.throwing(new IllegalStateException(
+					"Tried to register more than 256 message types"));
 		}
-		MHFCMain.logger
-				.info(String
-						.format("Registered message %s with Handler %s for Side %s at Side %s with discriminator 0x%x",
-								requestMessageType, messageHandler, side,
-								MHFCMain.proxy.getSide(), discriminator));
 		networkPipe.registerMessage(messageHandler, requestMessageType,
 				discriminator++, side);
 	}

@@ -2,7 +2,7 @@ package mhfc.net.client.container;
 
 import mhfc.net.client.crafting.MHFCCraftingManager;
 import mhfc.net.client.gui.slot.SlotHunterBench;
-import mhfc.net.common.core.registry.MHFCRegBlock;
+import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -63,7 +63,7 @@ public class ContainerHunterBench extends Container
 
 	public boolean canInteractWith(EntityPlayer par1EntityPlayer)
 	{
-		return this.worldObj.getBlock(this.posX, this.posY, this.posZ) != MHFCRegBlock.mhfcblockhunterbench ? false : par1EntityPlayer.getDistanceSq((double)this.posX + 0.5D, (double)this.posY + 0.5D, (double)this.posZ + 0.5D) <= 64.0D;
+		return this.worldObj.getBlock(this.posX, this.posY, this.posZ) != MHFCBlockRegistry.mhfcblockhunterbench ? false : par1EntityPlayer.getDistanceSq((double)this.posX + 0.5D, (double)this.posY + 0.5D, (double)this.posZ + 0.5D) <= 64.0D;
 	}
 
 	public void onContainerClosed(EntityPlayer par1EntityPlayer)

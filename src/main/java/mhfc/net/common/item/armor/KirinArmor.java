@@ -3,7 +3,7 @@ package mhfc.net.common.item.armor;
 import java.util.List;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.core.registry.MHFCRegItem;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.helper.MHFCArmorModelHelper;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
@@ -53,12 +53,12 @@ public class KirinArmor extends ItemArmor {
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
 			String type) {
-		if (stack.getItem() == MHFCRegItem.mhfcitemkirinhelm
-				|| stack.getItem() == MHFCRegItem.mhfcitemkirinchest
-				|| stack.getItem() == MHFCRegItem.mhfcitemkirinboots) {
+		if (stack.getItem() == MHFCItemRegistry.mhfcitemkirinhelm
+				|| stack.getItem() == MHFCItemRegistry.mhfcitemkirinchest
+				|| stack.getItem() == MHFCItemRegistry.mhfcitemkirinboots) {
 			return MHFCReference.armor_kirin_tex1;
 		}
-		if (stack.getItem() == MHFCRegItem.mhfcitemkirinlegs) {
+		if (stack.getItem() == MHFCItemRegistry.mhfcitemkirinlegs) {
 			return MHFCReference.armor_kirin_tex2;
 		}
 		return null;
@@ -114,10 +114,10 @@ public class KirinArmor extends ItemArmor {
 		ItemStack helmet = player.getCurrentArmor(3);
 
 		if (boots != null && legs != null && chest != null && helmet != null) {
-			if (boots.getItem() == MHFCRegItem.mhfcitemkirinboots
-					&& legs.getItem() == MHFCRegItem.mhfcitemkirinlegs
-					&& chest.getItem() == MHFCRegItem.mhfcitemkirinchest
-					&& helmet.getItem() == MHFCRegItem.mhfcitemkirinhelm) {
+			if (boots.getItem() == MHFCItemRegistry.mhfcitemkirinboots
+					&& legs.getItem() == MHFCItemRegistry.mhfcitemkirinlegs
+					&& chest.getItem() == MHFCItemRegistry.mhfcitemkirinchest
+					&& helmet.getItem() == MHFCItemRegistry.mhfcitemkirinhelm) {
 			}
 		}
 	}

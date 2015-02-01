@@ -6,9 +6,9 @@ import java.util.List;
 
 import mhfc.net.client.crafting.recipes.MHFCShapedRecipes;
 import mhfc.net.client.crafting.recipes.MHFCShapelessRecipes;
-import mhfc.net.common.core.registry.MHFCRegBlock;
+import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.core.registry.MHFCRegCraftingHunter;
-import mhfc.net.common.core.registry.MHFCRegItem;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
@@ -31,23 +31,23 @@ public class MHFCCraftingManager {
 
 		// Items
 		MHFCRegCraftingHunter.craftAll();
-		addShapedRecipe(new ItemStack(MHFCRegItem.MHFCItemHTigrex, 1),
+		addShapedRecipe(new ItemStack(MHFCItemRegistry.MHFCItemHTigrex, 1),
 				new Object[]{"XXX", "XTX", "TXT", " S ", " S ", 'X',
-						MHFCRegItem.MHFCItemTigrexShell, 'T',
-						MHFCRegItem.MHFCItemTigrexScale, 'S', Items.stick});
-		addShapedRecipe(new ItemStack(MHFCRegItem.mhfcitemgsbone, 1),
+						MHFCItemRegistry.MHFCItemTigrexShell, 'T',
+						MHFCItemRegistry.MHFCItemTigrexScale, 'S', Items.stick});
+		addShapedRecipe(new ItemStack(MHFCItemRegistry.mhfcitemgsbone, 1),
 				new Object[]{" X ", "TXT", "TXT", " S ", " S ", 'X',
 						Items.iron_ingot, 'T', Items.bone, 'S', Items.stick});
-		addShapedRecipe(new ItemStack(MHFCRegItem.MHFCItemTrapTool, 1),
+		addShapedRecipe(new ItemStack(MHFCItemRegistry.MHFCItemTrapTool, 1),
 				new Object[]{"   ", "   ", "XXX", "XXA", "AXA", 'X',
-						MHFCRegItem.MHFCItemBombMaterial, 'A', Items.gunpowder});
+						MHFCItemRegistry.MHFCItemBombMaterial, 'A', Items.gunpowder});
 
 		// Blocks
 		addShapedRecipe(
-				new ItemStack(MHFCRegBlock.mhfcblockstuntrap, 1),
+				new ItemStack(MHFCBlockRegistry.mhfcblockstuntrap, 1),
 				new Object[]{"ADX", "DXF", "XXA", "FXD", "XXX", 'X',
-						MHFCRegItem.MHFCItemTrapTool, 'A', Items.redstone, 'D',
-						Items.iron_ingot, 'F', MHFCRegItem.MHFCItemBombMaterial});
+						MHFCItemRegistry.MHFCItemTrapTool, 'A', Items.redstone, 'D',
+						Items.iron_ingot, 'F', MHFCItemRegistry.MHFCItemBombMaterial});
 	}
 
 	public ItemStack findMatchingRecipe(

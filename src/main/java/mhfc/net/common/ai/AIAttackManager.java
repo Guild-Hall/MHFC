@@ -56,17 +56,22 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 
 	@Override
 	public void startExecuting() {
-		this.sendUpdate();
+		this.entity.onAttackEnd(null);
 		this.entity.onAttackStart(activeAttack);
+		this.sendUpdate();
 		this.activeAttack.beginExecution();
-
 	}
 	/**
 	 * Return <code>true</code> to continue executing
 	 */
 	@Override
 	public boolean continueExecuting() {
-		return this.activeAttack.shouldContinue();
+		if (this.activeAttack.shouldContinue())
+			return true;
+		if (!shouldExecute())
+			return false;
+		startExecuting();
+		return true;
 	}
 	/**
 	 * Terminates this task.

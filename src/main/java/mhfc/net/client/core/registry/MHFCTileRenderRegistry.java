@@ -1,4 +1,4 @@
-package mhfc.net.common.core.registry;
+package mhfc.net.client.core.registry;
 
 import mhfc.net.client.render.block.RenderArmorStand;
 import mhfc.net.client.render.block.RenderArmorStandBase;
@@ -12,9 +12,9 @@ import mhfc.net.common.tile.TileHunterBench;
 import mhfc.net.common.tile.TileStunTrap;
 import cpw.mods.fml.client.registry.ClientRegistry;
 
-public class MHFCRegRenderTile {
+public class MHFCTileRenderRegistry {
 	
-	public static void render(){
+	public static void init(){
 		
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHunterBench.class, new RenderHunterBench());

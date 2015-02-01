@@ -3,7 +3,7 @@ package mhfc.net.common.item.armor;
 import java.util.List;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.core.registry.MHFCRegItem;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.helper.MHFCArmorModelHelper;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
@@ -39,12 +39,12 @@ public class RathalosArmor extends ItemArmor {
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
 			String type) {
-		if (stack.getItem() == MHFCRegItem.mhfcitemrathaloshelm
-				|| stack.getItem() == MHFCRegItem.mhfcitemrathaloschest
-				|| stack.getItem() == MHFCRegItem.mhfcitemrathalosboots) {
+		if (stack.getItem() == MHFCItemRegistry.mhfcitemrathaloshelm
+				|| stack.getItem() == MHFCItemRegistry.mhfcitemrathaloschest
+				|| stack.getItem() == MHFCItemRegistry.mhfcitemrathalosboots) {
 			return MHFCReference.armor_rathalos_tex1;
 		}
-		if (stack.getItem() == MHFCRegItem.mhfcitemrathaloslegs) {
+		if (stack.getItem() == MHFCItemRegistry.mhfcitemrathaloslegs) {
 			return MHFCReference.armor_rathalos_tex2;
 		}
 		return null;

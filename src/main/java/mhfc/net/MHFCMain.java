@@ -1,21 +1,16 @@
 package mhfc.net;
 
-import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.message.MessageAIAttack;
-import mhfc.net.common.network.message.MessageAttackHandler;
 import mhfc.net.common.tab.MHFCTab;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.creativetab.CreativeTabs;
 
 import org.apache.logging.log4j.Logger;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.relauncher.Side;
 
 /**
  * @author Heltrato, WorldSEnder
@@ -40,26 +35,29 @@ public class MHFCMain {
 	public static Logger logger;
 	public static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID());
 
+	private boolean isPreInitialized = false;
+
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent pre) {
 		// MHFCConfig.init(pre);
 		logger = pre.getModLog();
-		PacketPipeline.registerPacket(MessageAttackHandler.class,
-				MessageAIAttack.class, Side.CLIENT);
+		isPreInitialized = true;
 	}
 
 	@Mod.EventHandler
 	public void load(FMLInitializationEvent event) {
-		proxy.regSounds();
-		proxy.regStuff();
-		proxy.regTick();
-		proxy.regCapes();
+		proxy.register();
 	}
 
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent e) {}
 
-	public static boolean isClient() {
-		return FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT;
+	public static boolean isPreInitiliazed() {
+		return instance == null ? false : instance.isPreInitialized;
+	}
+
+	public static void checkPreInitialized() {
+		if (!MHFCMain.isPreInitiliazed())
+			throw new IllegalStateException("Initializing too early");
 	}
 }

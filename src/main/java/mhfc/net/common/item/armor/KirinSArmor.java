@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Random;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.core.registry.MHFCRegItem;
-import mhfc.net.common.core.registry.MHFCRegPotion;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.helper.MHFCArmorModelHelper;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
@@ -67,12 +67,12 @@ public class KirinSArmor extends ItemArmor {
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
 			String type) {
-		if (stack.getItem() == MHFCRegItem.mhfcitemkirinShelm
-				|| stack.getItem() == MHFCRegItem.mhfcitemkirinSchest
-				|| stack.getItem() == MHFCRegItem.mhfcitemkirinSboots) {
+		if (stack.getItem() == MHFCItemRegistry.mhfcitemkirinShelm
+				|| stack.getItem() == MHFCItemRegistry.mhfcitemkirinSchest
+				|| stack.getItem() == MHFCItemRegistry.mhfcitemkirinSboots) {
 			return MHFCReference.armor_kirinS_tex1;
 		}
-		if (stack.getItem() == MHFCRegItem.mhfcitemkirinSlegs) {
+		if (stack.getItem() == MHFCItemRegistry.mhfcitemkirinSlegs) {
 			return MHFCReference.armor_kirinS_tex2;
 		}
 		return null;
@@ -128,12 +128,12 @@ public class KirinSArmor extends ItemArmor {
 		ItemStack helmet = player.getCurrentArmor(3);
 		int duration = 15;
 		if (boots != null && legs != null && chest != null && helmet != null) {
-			if (boots.getItem() == MHFCRegItem.mhfcitemkirinSboots
-					&& legs.getItem() == MHFCRegItem.mhfcitemkirinSlegs
-					&& chest.getItem() == MHFCRegItem.mhfcitemkirinSchest
-					&& helmet.getItem() == MHFCRegItem.mhfcitemkirinShelm) {
+			if (boots.getItem() == MHFCItemRegistry.mhfcitemkirinSboots
+					&& legs.getItem() == MHFCItemRegistry.mhfcitemkirinSlegs
+					&& chest.getItem() == MHFCItemRegistry.mhfcitemkirinSchest
+					&& helmet.getItem() == MHFCItemRegistry.mhfcitemkirinShelm) {
 				player.addPotionEffect(new PotionEffect(
-						MHFCRegPotion.mhfcpotionkirinbless.id, duration++, 1));
+						MHFCPotionRegistry.mhfcpotionkirinbless.id, duration++, 1));
 				world.spawnParticle("cloud",
 						player.posX + this.rand.nextFloat() * 2.0F - 1.0D,
 						player.posY + this.rand.nextFloat() * 3.0F + 1.0D,

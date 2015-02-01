@@ -5,58 +5,45 @@ import mhfc.net.common.eventhandler.MHFCGuiHandler;
 import mhfc.net.common.eventhandler.MHFCTickHandler;
 import mhfc.net.common.eventhandler.potion.PotionPitfallEventHandler;
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
-public class MHFCRegEvents {
+public class MHFCEventRegistry {
+	private static MHFCMain mod;
 
-	private static MHFCMain mod = MHFCMain.instance;
+	static {
+		MHFCMain.checkPreInitialized();
+		mod = MHFCMain.instance;
+	}
 
 	public static void init() {
-		registerNetworkGuiHandler();
+		registerGuiHandler();
 		registerNetworkEventHandlers();
 		registerWorldEventHandlers();
 		registerEntityEventHandlers();
 		registerPotionEventHandlers();
-		registerGUIEventHandlers();
 		registerMiscEventHandlers();
 		registerMiscEventHandlers();
 		registerTickHandler();
 	}
 
-	private static void registerNetworkGuiHandler() {
-		getNetworkGuiHandler(MHFCGuiHandler.instance);
+	private static void registerGuiHandler() {
+		NetworkRegistry.INSTANCE.registerGuiHandler(mod,
+				MHFCGuiHandler.instance);
 	}
 
-	private static void registerNetworkEventHandlers() {
+	private static void registerNetworkEventHandlers() {}
 
-	}
+	private static void registerWorldEventHandlers() {}
 
-	private static void registerWorldEventHandlers() {
-	}
-
-	private static void registerEntityEventHandlers() {
-
-	}
+	private static void registerEntityEventHandlers() {}
 
 	private static void registerPotionEventHandlers() {
 		MinecraftForge.EVENT_BUS.register(PotionPitfallEventHandler.instance);
 	}
 
-	private static void registerGUIEventHandlers() {
-
-	}
-
-	private static void registerMiscEventHandlers() {
-
-	}
+	private static void registerMiscEventHandlers() {}
 
 	private static void registerTickHandler() {
 		MinecraftForge.EVENT_BUS.register(MHFCTickHandler.instance);
 	}
-
-	private static void getNetworkGuiHandler(IGuiHandler param) {
-		NetworkRegistry.INSTANCE.registerGuiHandler(mod, param);
-	}
-
 }

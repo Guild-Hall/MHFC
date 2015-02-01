@@ -3,7 +3,7 @@ package mhfc.net.common.item.armor;
 import java.util.List;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.core.registry.MHFCRegItem;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.helper.MHFCArmorModelHelper;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
@@ -43,12 +43,12 @@ public class TigrexArmor extends ItemArmor {
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
 			String type) {
-		if (stack.getItem() == MHFCRegItem.mhfcitemtigrexhelm
-				|| stack.getItem() == MHFCRegItem.mhfcitemtigrexchest
-				|| stack.getItem() == MHFCRegItem.mhfcitemtigrexboots) {
+		if (stack.getItem() == MHFCItemRegistry.mhfcitemtigrexhelm
+				|| stack.getItem() == MHFCItemRegistry.mhfcitemtigrexchest
+				|| stack.getItem() == MHFCItemRegistry.mhfcitemtigrexboots) {
 			return MHFCReference.armor_tigrex_tex1;
 		}
-		if (stack.getItem() == MHFCRegItem.mhfcitemtigrexlegs) {
+		if (stack.getItem() == MHFCItemRegistry.mhfcitemtigrexlegs) {
 			return MHFCReference.armor_tigrex_tex1;
 		}
 		return null;
@@ -114,10 +114,10 @@ public class TigrexArmor extends ItemArmor {
 		ItemStack helmet = player.getCurrentArmor(3);
 		ItemStack food = player.getCurrentEquippedItem();
 		if (boots != null && legs != null && chest != null && helmet != null) {
-			if (boots.getItem() == MHFCRegItem.mhfcitemtigrexboots
-					&& legs.getItem() == MHFCRegItem.mhfcitemtigrexlegs
-					&& chest.getItem() == MHFCRegItem.mhfcitemtigrexchest
-					&& helmet.getItem() == MHFCRegItem.mhfcitemtigrexhelm) {
+			if (boots.getItem() == MHFCItemRegistry.mhfcitemtigrexboots
+					&& legs.getItem() == MHFCItemRegistry.mhfcitemtigrexlegs
+					&& chest.getItem() == MHFCItemRegistry.mhfcitemtigrexchest
+					&& helmet.getItem() == MHFCItemRegistry.mhfcitemtigrexhelm) {
 				if (food != null && food.getItem() instanceof ItemFood) {
 					int i = food.getItem().getMaxItemUseDuration(food);
 					int j = 16;

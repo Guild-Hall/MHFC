@@ -3,7 +3,7 @@ package mhfc.net.common.item.weapon;
 import java.util.List;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.core.registry.MHFCRegItem;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.enchantment.Enchantment;
@@ -76,7 +76,7 @@ public class WeaponBHunter extends Item {
 	public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player,
 			ItemStack usingItem, int useRemaining) {
 		if ((stack == usingItem) && (usingItem != null)
-				&& (usingItem.getItem() == MHFCRegItem.mhfcitembhunter)) {
+				&& (usingItem.getItem() == MHFCItemRegistry.mhfcitembhunter)) {
 			if (useRemaining > 21)
 				return this.iconArray[3];
 			if (useRemaining > 14)

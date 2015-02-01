@@ -1,7 +1,6 @@
 package mhfc.net.common.entity.mob;
 
-import mhfc.net.MHFCMain;
-import mhfc.net.common.core.registry.MHFCRegItem;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import mhfc.net.common.implement.iMHFC;
 import mhfc.net.common.util.lib.MHFCReference;
@@ -95,7 +94,7 @@ public class EntityKirin extends EntityWyvernHostile implements iMHFC {
 	}
 
 	public void sendAttackPacket(int id) {
-		if (MHFCMain.isClient())
+		if (this.worldObj.isRemote)
 			return;
 		this.currentAttackID = id;
 		// MHFCMain.packetPipeline.sendToAll(new PacketAIKirin((byte) id,
@@ -106,18 +105,18 @@ public class EntityKirin extends EntityWyvernHostile implements iMHFC {
 	protected void dropFewItems(boolean par1, int par2) {
 		int var4;
 		for (var4 = 0; var4 < 16; ++var4) {
-			dropItemRand(MHFCRegItem.mhfcitemkirinmane, 2);
+			dropItemRand(MHFCItemRegistry.mhfcitemkirinmane, 2);
 		}
 		for (var4 = 0; var4 < 9; ++var4) {
-			dropItemRand(MHFCRegItem.mhfcitemkiringem, 2);
+			dropItemRand(MHFCItemRegistry.mhfcitemkiringem, 2);
 		}
 		for (var4 = 0; var4 < 5; ++var4) {
-			dropItemRand(MHFCRegItem.mhfcitemkirinthundertail, 1);
-			dropItemRand(MHFCRegItem.mhfcitemlightcrystal, 1);
+			dropItemRand(MHFCItemRegistry.mhfcitemkirinthundertail, 1);
+			dropItemRand(MHFCItemRegistry.mhfcitemlightcrystal, 1);
 		}
 		for (var4 = 0; var4 < 2; ++var4) {
-			dropItemRand(MHFCRegItem.mhfcitempurecrystal, 1);
-			dropItemRand(MHFCRegItem.mhfcitemplatinummane, 1);
+			dropItemRand(MHFCItemRegistry.mhfcitempurecrystal, 1);
+			dropItemRand(MHFCItemRegistry.mhfcitemplatinummane, 1);
 		}
 
 	}

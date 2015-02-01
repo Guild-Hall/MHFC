@@ -1,21 +1,18 @@
 package mhfc.net.server;
 
 import mhfc.net.ProxyBase;
-import cpw.mods.fml.relauncher.Side;
-
+import mhfc.net.common.core.MHFCCommonRegistry;
+import mhfc.net.server.core.MHFCServerRegistry;
+/**
+ * A proxy for the server, registering server only stuff.
+ * 
+ * @author WorldSEnder
+ *
+ */
 public class MHFCServer extends ProxyBase {
-
 	@Override
-	public void regStuff() {}
-	@Override
-	public void regTick() {}
-	@Override
-	public void regSounds() {}
-	@Override
-	public void regCapes() {}
-
-	@Override
-	public Side getSide() {
-		return Side.SERVER;
+	public void register() {
+		MHFCCommonRegistry.init();
+		MHFCServerRegistry.init();
 	}
 }

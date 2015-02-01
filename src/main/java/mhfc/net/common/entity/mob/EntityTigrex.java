@@ -5,7 +5,7 @@ import mhfc.net.common.ai.IExecutableAttack;
 import mhfc.net.common.ai.IMangedAttacks;
 import mhfc.net.common.ai.tigrex.RunAttack;
 import mhfc.net.common.ai.tigrex.SpinAttack;
-import mhfc.net.common.core.registry.MHFCRegItem;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -71,17 +71,17 @@ public class EntityTigrex extends EntityWyvernHostile
 	protected void dropFewItems(boolean par1, int par2) {
 		int var4;
 		for (var4 = 0; var4 < 13; ++var4) {
-			dropItemRand(MHFCRegItem.MHFCItemTigrexScale, 2);
+			dropItemRand(MHFCItemRegistry.MHFCItemTigrexScale, 2);
 		}
 		for (var4 = 0; var4 < 8; ++var4) {
-			dropItemRand(MHFCRegItem.MHFCItemTigrexShell, 1);
-			dropItemRand(MHFCRegItem.mhfcitemtigrexfang, 1);
-			dropItemRand(MHFCRegItem.mhfcitemtigrexclaw, 1);
+			dropItemRand(MHFCItemRegistry.MHFCItemTigrexShell, 1);
+			dropItemRand(MHFCItemRegistry.mhfcitemtigrexfang, 1);
+			dropItemRand(MHFCItemRegistry.mhfcitemtigrexclaw, 1);
 		}
 		for (var4 = 0; var4 < 1; ++var4) {
-			dropItemRand(MHFCRegItem.mhfcitemtigrextail, 2);
+			dropItemRand(MHFCItemRegistry.mhfcitemtigrextail, 2);
 		}
-		dropItemRand(MHFCRegItem.mhfcitemtigrexskullshell, 1);
+		dropItemRand(MHFCItemRegistry.mhfcitemtigrexskullshell, 1);
 	}
 
 	@Override

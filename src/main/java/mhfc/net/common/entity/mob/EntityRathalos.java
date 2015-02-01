@@ -1,10 +1,9 @@
 package mhfc.net.common.entity.mob;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.AIAttackManager;
 import mhfc.net.common.ai.IExecutableAttack;
 import mhfc.net.common.ai.IMangedAttacks;
-import mhfc.net.common.core.registry.MHFCRegItem;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import mhfc.net.common.implement.iMHFC;
 import mhfc.net.common.util.lib.MHFCReference;
@@ -78,7 +77,7 @@ public class EntityRathalos extends EntityWyvernHostile
 	}
 
 	public void sendAttackPacket(int id) {
-		if (MHFCMain.isClient())
+		if (this.worldObj.isRemote) // !isServerWorld(), actually
 			return;
 		currentAttackID = id;
 		// MHFCMain.packetPipeline
@@ -99,17 +98,17 @@ public class EntityRathalos extends EntityWyvernHostile
 	protected void dropFewItems(boolean par1, int par2) {
 		int var4;
 		for (var4 = 0; var4 < 13; ++var4) {
-			dropItemRand(MHFCRegItem.mhfcitemrathalosshell, 2);
+			dropItemRand(MHFCItemRegistry.mhfcitemrathalosshell, 2);
 		}
 		for (var4 = 0; var4 < 8; ++var4) {
-			dropItemRand(MHFCRegItem.mhfcitemflamesac, 2);
-			dropItemRand(MHFCRegItem.mhfcitemrathaloswebbing, 2);
-			dropItemRand(MHFCRegItem.mhfcitemrathaloswing, 1);
+			dropItemRand(MHFCItemRegistry.mhfcitemflamesac, 2);
+			dropItemRand(MHFCItemRegistry.mhfcitemrathaloswebbing, 2);
+			dropItemRand(MHFCItemRegistry.mhfcitemrathaloswing, 1);
 		}
 		for (var4 = 0; var4 < 1; ++var4) {
-			dropItemRand(MHFCRegItem.mhfcitemwyvernmarrow, 1);
+			dropItemRand(MHFCItemRegistry.mhfcitemwyvernmarrow, 1);
 		}
-		dropItemRand(MHFCRegItem.mhfcitemrathalosplate, 1);
+		dropItemRand(MHFCItemRegistry.mhfcitemrathalosplate, 1);
 
 	}
 

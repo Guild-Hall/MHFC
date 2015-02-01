@@ -1,6 +1,5 @@
 package mhfc.net.common.ai.tigrex;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.AttackAdapter;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
@@ -36,7 +35,6 @@ public class SpinAttack extends AttackAdapter<EntityTigrex> {
 				target.posZ);
 		entityToTarget = pos.subtract(entityToTarget);
 		trgt = target;
-		MHFCMain.logger.debug(MHFCMain.isClient() ? "CLIENT" : "SERVER");
 		return (float) (7.0D - entityToTarget.lengthVector());
 
 	}

@@ -1,30 +1,31 @@
-package mhfc.net.common.core.registry;
+package mhfc.net.client.core.registry;
 
 import mhfc.net.client.render.item.RenderItemArmorStand;
 import mhfc.net.client.render.item.RenderItemArmorStandBase;
 import mhfc.net.client.render.item.RenderItemBBQSpit;
 import mhfc.net.client.render.item.RenderItemHunterBench;
 import mhfc.net.client.render.item.RenderItemStunTrap;
+import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 
-public class MHFCRegRenderItem {
+public class MHFCItemRenderRegistry {
 
-	public static void render() {
+	public static void init() {
 		MinecraftForgeClient.registerItemRenderer(
-				Item.getItemFromBlock(MHFCRegBlock.mhfcblockhunterbench),
+				Item.getItemFromBlock(MHFCBlockRegistry.mhfcblockhunterbench),
 				new RenderItemHunterBench());
 		MinecraftForgeClient.registerItemRenderer(
-				Item.getItemFromBlock(MHFCRegBlock.mhfcblockstuntrap),
+				Item.getItemFromBlock(MHFCBlockRegistry.mhfcblockstuntrap),
 				new RenderItemStunTrap());
 		MinecraftForgeClient.registerItemRenderer(
-				Item.getItemFromBlock(MHFCRegBlock.mhfcblockarmorstandbase),
+				Item.getItemFromBlock(MHFCBlockRegistry.mhfcblockarmorstandbase),
 				new RenderItemArmorStandBase());
 		MinecraftForgeClient.registerItemRenderer(
-				Item.getItemFromBlock(MHFCRegBlock.mhfcblockarmorstand),
+				Item.getItemFromBlock(MHFCBlockRegistry.mhfcblockarmorstand),
 				new RenderItemArmorStand());
 		MinecraftForgeClient.registerItemRenderer(
-				Item.getItemFromBlock(MHFCRegBlock.mhfcblockbbqspit),
+				Item.getItemFromBlock(MHFCBlockRegistry.mhfcblockbbqspit),
 				new RenderItemBBQSpit());
 	}
 
