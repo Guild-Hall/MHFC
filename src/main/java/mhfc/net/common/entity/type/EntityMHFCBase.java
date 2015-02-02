@@ -2,10 +2,16 @@ package mhfc.net.common.entity.type;
 
 import java.util.List;
 
+import mhfc.net.common.ai.AIAttackManager;
+import mhfc.net.common.ai.IExecutableAttack;
+import mhfc.net.common.ai.IMangedAttacks;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.boss.EntityDragonPart;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
@@ -22,15 +28,51 @@ import com.google.common.base.Predicate;
  *
  * @author WorldSEnder
  *
+ * @param <YC>
+ *            your class, the class of the attacks
+ *
  */
-public abstract class EntityMHFCBase extends EntityLiving
+public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
+		extends
+			EntityCreature
 		implements
 			IEntityMultiPart,
-			IAnimatedObject {
+			IAnimatedObject,
+			IMangedAttacks<YC> {
+	protected final AIAttackManager<YC> attackManager;
+	protected int animFrame = -1;
 
 	public EntityMHFCBase(World world) {
 		super(world);
-		this.boundingBox.setBounds(-0.5f, 0, -0.5f, 0.5f, 1f, 0.5f);
+		// FIXME: think of some method to make this "type-safe"
+		this.attackManager = new AIAttackManager<YC>((YC) this);
+		tasks.addTask(0, attackManager);
+	}
+	/**
+	 * Specialize the return type to a {@link EntityMHFCPart}
+	 */
+	@Override
+	public abstract EntityMHFCPart[] getParts();
+
+	public void dropItemRand(Item item, int count) {
+		EntityItem var3 = new EntityItem(this.worldObj, posX
+				+ worldObj.rand.nextInt(5) - worldObj.rand.nextInt(5),
+				posY + 1.0D, this.posZ + worldObj.rand.nextInt(5)
+						- worldObj.rand.nextInt(5), new ItemStack(item, count,
+						0));
+		worldObj.spawnEntityInWorld(var3);
+	}
+
+	public double healthbaseHP(double lowhp, double medhp, double highhp) {
+		// FIXME: we can do that better
+		if (this.rand.nextInt(60) == 0) {
+			return medhp;
+		} else if (this.rand.nextInt(120) == 0) {
+			return highhp;
+		} else if (this.rand.nextInt(80) == 0) {
+			return lowhp;
+		}
+		return medhp;
 	}
 
 	@Override
@@ -39,7 +81,6 @@ public abstract class EntityMHFCBase extends EntityLiving
 		this.setPosition(posX, posY, posZ);
 		this.setRotation(yaw, pitch);
 	}
-
 	/**
 	 * This is a custom implementation of the movement algorithm. It just moves
 	 * the bounding box by the difference between the current and next position.
@@ -74,12 +115,6 @@ public abstract class EntityMHFCBase extends EntityLiving
 							* offZPart);
 		}
 	}
-
-	/**
-	 * Specialize the return type to a {@link EntityMHFCPart}
-	 */
-	@Override
-	public abstract EntityMHFCPart[] getParts();
 
 	/**
 	 * Tries to moves the entity by the passed in displacement. Args: x, y, z
@@ -262,6 +297,12 @@ public abstract class EntityMHFCBase extends EntityLiving
 	}
 
 	@Override
+	public void onUpdate() {
+		super.onUpdate();
+		animFrame = this.attackManager.getNextFrame(animFrame);
+	}
+
+	@Override
 	public boolean attackEntityFromPart(EntityDragonPart part,
 			DamageSource damageSource, float damageValue) {
 		// TODO handle attacked from
@@ -277,14 +318,33 @@ public abstract class EntityMHFCBase extends EntityLiving
 	}
 
 	@Override
+	public AIAttackManager<YC> getAttackManager() {
+		return attackManager;
+	}
+
+	@Override
 	public IAnimation getCurrentAnimation() {
-		// TODO: get this from the AI
-		return null;
+		return this.attackManager.getCurrentAnimation();
 	}
 
 	@Override
 	public int getCurrentFrame() {
-		// TODO: get this from the AI
-		return 0;
+		return animFrame;
+	}
+
+	@Override
+	public void onAttackEnd(IExecutableAttack<YC> oldAttack) {
+		animFrame = -1;
+	}
+
+	@Override
+	public void onAttackStart(IExecutableAttack<YC> newAttack) {
+		if (newAttack != null)
+			animFrame = 0;
+	}
+
+	@Override
+	public Scale getScale() {
+		return NO_SCALE;
 	}
 }
