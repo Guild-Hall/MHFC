@@ -460,6 +460,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 					MHFCRegQuestVisual.HUNTER_BENCH_BURN_FRONT);
 			MHFCGuiUtil.drawTexturedBoxFromBorder(rectX + rectW + 3, rectY - 1,
 					this.zLevel, 10, burnHeight + 1, 0);
+
+			// TODO draw the completition gauge
 		}
 	}
 
