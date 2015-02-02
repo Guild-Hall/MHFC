@@ -1,0 +1,25 @@
+package mhfc.net.common.weapon.melee.greatsword;
+
+import java.util.List;
+
+import mhfc.net.common.util.lib.MHFCReference;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
+
+public class GSBone extends GreatswordClass {
+
+	private float weaponDamage;
+
+	public GSBone(ToolMaterial getType) {
+		super(getType);
+		getWeaponDescription("No Element", 1);
+		elementalType(false, false);
+		setUnlocalizedName(gslocal + 1);
+	}
+
+
+}
