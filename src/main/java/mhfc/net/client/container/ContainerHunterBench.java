@@ -84,7 +84,7 @@ public class ContainerHunterBench extends Container {
 		this.addSlotToContainer(new Slot(tileEntity, TileHunterBench.fuelSlot,
 				353, 145));
 		this.addSlotToContainer(new Slot(tileEntity,
-				TileHunterBench.outputSlot, 228 + 5 * 18, 126));
+				TileHunterBench.outputSlot, 228 + 6 * 18, 126));
 
 		for (var6 = 0; var6 < 4; ++var6) {
 			for (var7 = 0; var7 < 9; ++var7) {

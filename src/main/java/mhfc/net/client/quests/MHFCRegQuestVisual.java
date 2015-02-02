@@ -145,6 +145,8 @@ public class MHFCRegQuestVisual {
 			MHFCReference.gui_hunterbench_burn_target_tex);
 	public static final ResourceLocation QUEST_HUNTERBENCH_BACKGROUND = new ResourceLocation(
 			MHFCReference.gui_hunterbench_back_tex);
+	public static final ResourceLocation HUNTER_BENCH_COMPLETE = new ResourceLocation(
+			MHFCReference.gui_hunterbench_complete_tex);
 
 	private static Map<String, List<String>> groupIDToListMap = new HashMap<String, List<String>>();
 	private static List<String> groupIDsInOrder = new ArrayList<String>();

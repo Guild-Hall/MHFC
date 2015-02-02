@@ -98,7 +98,7 @@ public class TileHunterBench extends TileEntity
 			return;
 		}
 		inputStacks = new ItemStack[inputStacks.length];
-		outputStack = resultStack;
+		outputStack = resultStack.copy();
 		workingMHFCBench = false;
 		itemSmeltDuration = 0;
 		sendUpdateCraft();
@@ -106,7 +106,7 @@ public class TileHunterBench extends TileEntity
 
 	/**
 	 * Forces the client to end the crafting and put the stack into the output
-	 * slot
+	 * slot. Unused
 	 * 
 	 * @param stack
 	 */

@@ -285,7 +285,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		@Override
 		public void drawTab(int posX, int posY, int mousePosX, int mousePosY,
 				float partialTick) {
-			GuiHunterBench.this.startCrafting.visible = false;
+			startCrafting.visible = false;
 			GL11.glPushMatrix();
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			drawRect(guiLeft + 10, guiTop + 10, guiLeft + xSize - 10, guiTop
@@ -383,6 +383,9 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 	private void drawItemModelAndHeat(ItemStack itemToRender,
 			TileHunterBench bench) {
+
+		final int burnHeight = 96;
+		final int completeWidth = 30;
 		int rectX = guiLeft + 228, rectY = guiTop + 28;
 		int rectW = 7 * 18 - 2, rectH = 96;
 		int scale = new ScaledResolution(mc.gameSettings, mc.displayWidth,
@@ -408,7 +411,6 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		GL11.glPopMatrix();
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		final int burnHeight = 96;
 
 		if (bench != null) {
 			// Draw the background required heat indicator
@@ -461,7 +463,19 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			MHFCGuiUtil.drawTexturedBoxFromBorder(rectX + rectW + 3, rectY - 1,
 					this.zLevel, 10, burnHeight + 1, 0);
 
-			// TODO draw the completition gauge
+			// TODO draw the completition gauge back
+			if (bench.getRecipe() != null) {
+				float completition = bench.getItemSmeltDuration()
+						/ (float) bench.getRecipe().getDuration();
+				int complete = (int) (completition * completeWidth);
+				completition = complete / (float) completeWidth;
+				mc.getTextureManager().bindTexture(
+						MHFCRegQuestVisual.HUNTER_BENCH_COMPLETE);
+				MHFCGuiUtil.drawTexturedBoxFromBorder(guiLeft + 300,
+						guiTop + 126, this.zLevel,
+						(int) (completition * completeWidth), 17, 0, 0,
+						completition, 1f);
+			}
 		}
 	}
 
