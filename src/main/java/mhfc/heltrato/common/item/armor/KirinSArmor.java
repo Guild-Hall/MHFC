@@ -8,7 +8,7 @@ import mhfc.heltrato.common.core.registry.MHFCRegItem;
 import mhfc.heltrato.common.core.registry.MHFCRegPotion;
 import mhfc.heltrato.common.helper.MHFCArmorModelHelper;
 import mhfc.heltrato.common.system.ColorSystem;
-import mhfc.heltrato.common.util.Donators;
+import mhfc.heltrato.common.system.DonatorSystem;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -79,13 +79,13 @@ public class KirinSArmor extends ItemArmor {
 		if (stack.getItem() == MHFCRegItem.mhfcitemkirinShelm
 				|| stack.getItem() == MHFCRegItem.mhfcitemkirinSchest
 				|| stack.getItem() == MHFCRegItem.mhfcitemkirinSboots) {
-			for(int i = 0; i < Donators.kirinSdonor.length; i++)
-			if(player.getDisplayName().equals(Donators.kirinSdonor[i]))
+			for(int i = 0; i < DonatorSystem.kirinSdonor.length; i++)
+			if(player.getDisplayName().equals(DonatorSystem.kirinSdonor[i]))
 			return MHFCReference.armor_kirinS_tex1;
 		}
 		if(stack.getItem() == MHFCRegItem.mhfcitemkirinSlegs)
-			for(int i = 0; i < Donators.kirinSdonor.length; i++)
-			if(player.getDisplayName().equals(Donators.kirinSdonor[i]))
+			for(int i = 0; i < DonatorSystem.kirinSdonor.length; i++)
+			if(player.getDisplayName().equals(DonatorSystem.kirinSdonor[i]))
 			return MHFCReference.armor_kirinS_tex2;
 		return "mhfc:textures/armor/null.png";
 		
@@ -149,12 +149,12 @@ public class KirinSArmor extends ItemArmor {
 	  ItemStack legs = player.getCurrentArmor(1);
 	  ItemStack chest = player.getCurrentArmor(2);
 	  
-	  for(int i = 0; i < Donators.kirinSdonor.length; i++)
+	  for(int i = 0; i < DonatorSystem.kirinSdonor.length; i++)
 	  if( chest != null && legs != null && boots != null && 
 	    chest.getItem() == MHFCRegItem.mhfcitemkirinSchest &&
 	    boots.getItem() == MHFCRegItem.mhfcitemkirinSboots &&
 	    legs.getItem() == MHFCRegItem.mhfcitemkirinSlegs){
-		  if(player.getDisplayName().equals(Donators.kirinSdonor[i])){
+		  if(player.getDisplayName().equals(DonatorSystem.kirinSdonor[i])){
 	   player.addPotionEffect(new PotionEffect(MHFCRegPotion.mhfcpotionkirinbless.id, 15, 1));
 	   world.spawnParticle("cloud", player.posX + this.rand.nextFloat() * 2.0F - 1.0D, player.posY + this.rand.nextFloat() * 3.0F + 1.0D, player.posZ + this.rand.nextFloat() * 2.0F - 1.0D, 0.0D, 0.0D, 0.0D);
 	  }

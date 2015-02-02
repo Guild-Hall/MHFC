@@ -1,6 +1,10 @@
 package mhfc.heltrato;
 
+
+import org.apache.logging.log4j.Logger;
+
 import mhfc.heltrato.common.MHFCCommon;
+import mhfc.heltrato.common.configuration.MHFCConfig;
 import mhfc.heltrato.common.network.message.MessageAIAnim;
 import mhfc.heltrato.common.system.UpdateSystem;
 import mhfc.heltrato.common.tab.MHFCTab;
@@ -42,11 +46,14 @@ public class MHFCMain {
 	public static SimpleNetworkWrapper network;
 	public static final String[] fTimer;
 	public static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID(),"MHFC Tab");
+	public static MHFCConfig modConfig;
+	public static Logger		modLog;
 	
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent pre){
 		//MHFCConfig.init(pre);
+		modLog = pre.getModLog();
 		pre.getModMetadata().logoFile = "MHFCLogo.png";
 		UpdateSystem.init("https://raw.githubusercontent.com/Heltrato/MHFC/master/versioncheck", MHFCReference.main_version);
 	}

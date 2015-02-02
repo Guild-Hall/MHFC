@@ -1,5 +1,6 @@
 package mhfc.heltrato.common.core.registry;
 
+import mhfc.heltrato.client.render.weapon.bowgun.RenderBHRath;
 import mhfc.heltrato.client.render.weapon.greatsword.RenderGSBone;
 import mhfc.heltrato.client.render.weapon.greatsword.RenderGSDeviljhobroadsword;
 import mhfc.heltrato.client.render.weapon.greatsword.RenderGSKirinThunderSword;
@@ -16,7 +17,6 @@ import mhfc.heltrato.client.render.weapon.huntinghorn.RenderHHMetalBagpipe;
 import mhfc.heltrato.client.render.weapon.huntinghorn.RenderHHTigrex;
 import mhfc.heltrato.client.render.weapon.longsword.RenderLSDarkVipern;
 import mhfc.heltrato.client.render.weapon.longsword.RenderLSIronKatana;
-import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 public class MHFCRegRenderWeapon {
@@ -44,6 +44,7 @@ public class MHFCRegRenderWeapon {
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemhhivoryhorn, new RenderHHIvoryHorn());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemhrathalos, new RenderHRathalos());
 		reg.registerItemRenderer(MHFCRegItem.mhfcitemhhtigrex, new RenderHHTigrex());
+		reg.registerItemRenderer(MHFCRegItem.mhfcitembghrath, new RenderBHRath());
 		
 		//new type of rendering
 		

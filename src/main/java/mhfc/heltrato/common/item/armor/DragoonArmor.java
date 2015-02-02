@@ -6,7 +6,7 @@ import mhfc.heltrato.MHFCMain;
 import mhfc.heltrato.common.core.registry.MHFCRegItem;
 import mhfc.heltrato.common.helper.MHFCArmorModelHelper;
 import mhfc.heltrato.common.system.ColorSystem;
-import mhfc.heltrato.common.util.Donators;
+import mhfc.heltrato.common.system.DonatorSystem;
 import mhfc.heltrato.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -67,13 +67,13 @@ public class DragoonArmor extends ItemArmor {
 		if (stack.getItem() == MHFCRegItem.mhfcitemdragoonhelm
 				|| stack.getItem() == MHFCRegItem.mhfcitemdragoonchest
 				|| stack.getItem() == MHFCRegItem.mhfcitemdragoonboots) {
-			for(int i = 0; i < Donators.dragoondonor.length; i++)
-			if(player.getDisplayName().equals(Donators.dragoondonor[i]))
+			for(int i = 0; i < DonatorSystem.dragoondonor.length; i++)
+			if(player.getDisplayName().equals(DonatorSystem.dragoondonor[i]))
 			return MHFCReference.armor_dragoon_tex1;
 		}
 		if(stack.getItem() == MHFCRegItem.mhfcitemdragoonlegs)
-			for(int i = 0; i < Donators.dragoondonor.length; i++)
-			if(player.getDisplayName().equals(Donators.dragoondonor[i]))
+			for(int i = 0; i < DonatorSystem.dragoondonor.length; i++)
+			if(player.getDisplayName().equals(DonatorSystem.dragoondonor[i]))
 			return MHFCReference.armor_dragoon_tex2;
 		return "mhfc:textures/armor/null.png";
 		
@@ -136,12 +136,12 @@ public class DragoonArmor extends ItemArmor {
 		  ItemStack chest = player.getCurrentArmor(2);
 		  
 		  // If all items are our items (except helmet, as this method is only called if helmet is equipped
-		  for(int i = 0; i < Donators.dragoondonor.length; i++)
+		  for(int i = 0; i < DonatorSystem.dragoondonor.length; i++)
 		  if( chest != null && legs != null && boots != null && 
 		    chest.getItem() == MHFCRegItem.mhfcitemdragoonchest &&
 		    boots.getItem() == MHFCRegItem.mhfcitemdragoonboots &&
 		    legs.getItem() == MHFCRegItem.mhfcitemdragoonlegs){
-			  if(player.getDisplayName().equals(Donators.dragoondonor[i])){
+			  if(player.getDisplayName().equals(DonatorSystem.dragoondonor[i])){
 				  float h = player.getHealth();
 			        player.removePotionEffect(21);
 			        player.addPotionEffect(new PotionEffect(21, 200, 1, true));

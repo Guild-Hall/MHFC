@@ -34,23 +34,24 @@ import mhfc.heltrato.common.item.materials.ItemWoodRig;
 import mhfc.heltrato.common.item.materials.ItemWyvernCoin;
 import mhfc.heltrato.common.item.materials.ItemWyverniaClay;
 import mhfc.heltrato.common.item.materials.ItemWyverniaDust;
-import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSBone;
-import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSDeviljhobroadsword;
-import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSKirinThunderSword;
-import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSRathalosFiresword;
-import mhfc.heltrato.common.item.weapon.greatsword.WeaponGSTigrex;
-import mhfc.heltrato.common.item.weapon.hammer.WeaponHDeviljho;
-import mhfc.heltrato.common.item.weapon.hammer.WeaponHKirinSpark;
-import mhfc.heltrato.common.item.weapon.hammer.WeaponHRathalos;
-import mhfc.heltrato.common.item.weapon.hammer.WeaponHTigrex;
-import mhfc.heltrato.common.item.weapon.hammer.WeaponHWar;
-import mhfc.heltrato.common.item.weapon.hammer.WeaponHWarPlus;
-import mhfc.heltrato.common.item.weapon.hammer.WeaponHWarSlammer;
-import mhfc.heltrato.common.item.weapon.huntinghorn.WeaponHHIvoryHorn;
-import mhfc.heltrato.common.item.weapon.huntinghorn.WeaponHHMetalBagpipe;
-import mhfc.heltrato.common.item.weapon.huntinghorn.WeaponHHTigrex;
-import mhfc.heltrato.common.item.weapon.longsword.WeaponLSDarkVipern;
-import mhfc.heltrato.common.item.weapon.longsword.WeaponLSIronKatana;
+import mhfc.heltrato.common.weapon.melee.greatsword.GSBone;
+import mhfc.heltrato.common.weapon.melee.greatsword.GSDeviljhobroadsword;
+import mhfc.heltrato.common.weapon.melee.greatsword.GSKirinThunderSword;
+import mhfc.heltrato.common.weapon.melee.greatsword.GSRathalosFiresword;
+import mhfc.heltrato.common.weapon.melee.greatsword.GSTigrex;
+import mhfc.heltrato.common.weapon.melee.hammer.HDeviljho;
+import mhfc.heltrato.common.weapon.melee.hammer.HKirinSpark;
+import mhfc.heltrato.common.weapon.melee.hammer.HRathalos;
+import mhfc.heltrato.common.weapon.melee.hammer.HTigrex;
+import mhfc.heltrato.common.weapon.melee.hammer.HWar;
+import mhfc.heltrato.common.weapon.melee.hammer.HWarPlus;
+import mhfc.heltrato.common.weapon.melee.hammer.HWarSlammer;
+import mhfc.heltrato.common.weapon.melee.huntinghorn.HHIvoryHorn;
+import mhfc.heltrato.common.weapon.melee.huntinghorn.HHMetalBagpipe;
+import mhfc.heltrato.common.weapon.melee.huntinghorn.HHTigrex;
+import mhfc.heltrato.common.weapon.melee.longsword.LSDarkVipern;
+import mhfc.heltrato.common.weapon.melee.longsword.LSIronKatana;
+import mhfc.heltrato.common.weapon.range.bowgun.BHRath;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -75,14 +76,9 @@ public class MHFCRegItem {
 	public static Item mhfcitemhdevilsdue;
 	public static Item mhfcitemhrathalos;
 	public static Item mhfcitemlsironkatana;
-	public static Item mhfcitembhunter;
 	public static Item mhfcitemhhivoryhorn;
 	public static Item mhfcitemhhmetalbagpipe;
 	public static Item mhfcitemlsdarkvipern;
-	public static Item mhfcitembglshooterbarrel;
-	public static Item mhfcitembglspartacusfire;
-	public static Item mhfcitembtigrexarrow;
-	public static Item mhfcitembadventurer;
 	public static Item mhfcitemhhtigrex;
 	public static Item mhfcitembghrath;
 	
@@ -190,7 +186,7 @@ public class MHFCRegItem {
 		registerFood();
 		
 		
-//		getItemID(mhfcitembghrath);
+		getItemID(mhfcitembghrath);
 		getItemID(mhfcitemgsbone);
 		getItemID(MHFCItemGSTigrex);
 		getItemID(mhfcitemgsrathalosfiresword);
@@ -208,11 +204,6 @@ public class MHFCRegItem {
 		getItemID(mhfcitemhhtigrex);
 		getItemID(mhfcitemlsironkatana);
 		getItemID(mhfcitemlsdarkvipern);
-//		getItemID(mhfcitembadventurer);
-//		getItemID(mhfcitembhunter);
-//		getItemID(mhfcitembtigrexarrow);
-//		getItemID(mhfcitembglshooterbarrel);
-//		getItemID(mhfcitembglspartacusfire);
 		
 		//// Armors
 		
@@ -349,34 +340,30 @@ public class MHFCRegItem {
 	
 	private static void registerMeleeWeapon()
 	{
-		MHFCItemGSTigrex = new WeaponGSTigrex(mat.GSTigrex);
-		mhfcitemgsbone = new WeaponGSBone(mat.GSBoneBlade);
-		mhfcitemgskirinthundersword = new WeaponGSKirinThunderSword(mat.GSKirin);
-		mhfcitemgsberserkerssword = new WeaponGSDeviljhobroadsword(mat.GSDeviljho);
-		mhfcitemgsrathalosfiresword = new WeaponGSRathalosFiresword(mat.GSRathalos);
-		MHFCItemHTigrex = new WeaponHTigrex(mat.HTigrex);
-		mhfcitemlsironkatana = new WeaponLSIronKatana(mat.LSIronKatana);
-		mhfcitemlsdarkvipern = new WeaponLSDarkVipern(mat.LSDarkVipern);
-		mhfcitemhkirinspark = new WeaponHKirinSpark(mat.HKirinSpark);
-		mhfcitemhdevilsdue = new WeaponHDeviljho(mat.HDeviljho);
-		mhfcitemhwarhammer = new WeaponHWar(mat.HWarHammer);
-		mhfcitemhwarhammerplus = new WeaponHWarPlus(mat.HWarHammerplus);
-		mhfcitemhwarslammer = new WeaponHWarSlammer(mat.HWarSlammer);
-		mhfcitemhhmetalbagpipe = new WeaponHHMetalBagpipe(mat.HHMetalBagpipe);	
-		mhfcitemhhivoryhorn = new WeaponHHIvoryHorn(mat.HHIvoryHorn);
-		mhfcitemhhtigrex = new WeaponHHTigrex(mat.HHTigrex);
-		mhfcitemhrathalos = new WeaponHRathalos(mat.HRathalos);
+		MHFCItemGSTigrex = new GSTigrex(mat.GSTigrex);
+		mhfcitemgsbone = new GSBone(mat.GSBoneBlade);
+		mhfcitemgskirinthundersword = new GSKirinThunderSword(mat.GSKirin);
+		mhfcitemgsberserkerssword = new GSDeviljhobroadsword(mat.GSDeviljho);
+		mhfcitemgsrathalosfiresword = new GSRathalosFiresword(mat.GSRathalos);
+		MHFCItemHTigrex = new HTigrex(mat.HTigrex);
+		mhfcitemlsironkatana = new LSIronKatana(mat.LSIronKatana);
+		mhfcitemlsdarkvipern = new LSDarkVipern(mat.LSDarkVipern);
+		mhfcitemhkirinspark = new HKirinSpark(mat.HKirinSpark);
+		mhfcitemhdevilsdue = new HDeviljho(mat.HDeviljho);
+		mhfcitemhwarhammer = new HWar(mat.HWarHammer);
+		mhfcitemhwarhammerplus = new HWarPlus(mat.HWarHammerplus);
+		mhfcitemhwarslammer = new HWarSlammer(mat.HWarSlammer);
+		mhfcitemhhmetalbagpipe = new HHMetalBagpipe(mat.HHMetalBagpipe);	
+		mhfcitemhhivoryhorn = new HHIvoryHorn(mat.HHIvoryHorn);
+		mhfcitemhhtigrex = new HHTigrex(mat.HHTigrex);
+		mhfcitemhrathalos = new HRathalos(mat.HRathalos);
 		
 		
 	}
 	
 	private static void registerRangeWeapon()
 	{
-//		mhfcitembadventurer = new WeaponBAdventurer();
-//		mhfcitembhunter = new WeaponBHunter();
-//		mhfcitembtigrexarrow = new WeaponBTigrexArrow();
-//		mhfcitembglshooterbarrel = new WeaponBGLShooterBarrel();
-//		mhfcitembglspartacusfire = new WeaponBGLSpartacusFire();
+		mhfcitembghrath = new BHRath();
 	}
 	private static void registerItem()
 	{

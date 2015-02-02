@@ -1,6 +1,7 @@
 package mhfc.heltrato.common.core.registry;
 
 import mhfc.heltrato.MHFCMain;
+import mhfc.heltrato.common.entity.projectile.EntityBullet;
 import mhfc.heltrato.common.entity.projectile.EntityRathalosFireball;
 import mhfc.heltrato.common.entity.projectile.EntityTigrexBlock;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -29,6 +30,7 @@ public class MHFCRegEntity {
 		
 		getEntityID(EntityTigrexBlock.class , "TigrexBlock");
 		getEntityID(EntityRathalosFireball.class, "Fireball");
+		getEntityID(EntityBullet.class, "Bullet");
 	}
 	
 	private static void getMobID(Class entityClass, String name) {

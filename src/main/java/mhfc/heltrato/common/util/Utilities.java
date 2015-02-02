@@ -27,6 +27,7 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -45,6 +46,13 @@ public class Utilities {
 		rand = new Random();
 	}
 	
+	
+	//.. Returns an instant vary of loc
+		public ResourceLocation resourcereLoc(String name, ResourceLocation loc) {
+			return new ResourceLocation(name);
+		}
+		
+		
 	public static void sendAnimPacket(iMHFC entity, int animID) {
 		if(MHFCMain.isEffectiveClient()) return;
 		entity.setAnimID(animID);
@@ -235,8 +243,8 @@ public class Utilities {
 			kbMotionZ = entity.motionZ;
 		}
 		
-		}
-	 
+		
+}	 
 		 
 	 
 	 

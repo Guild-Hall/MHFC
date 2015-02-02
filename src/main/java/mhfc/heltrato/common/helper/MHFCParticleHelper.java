@@ -6,6 +6,7 @@ import mhfc.heltrato.common.entity.particle.EntitySKirinFX;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityCloudFX;
 import net.minecraft.client.particle.EntityFX;
+import net.minecraft.util.ResourceLocation;
 
 public class MHFCParticleHelper {
 	
@@ -24,4 +25,7 @@ public class MHFCParticleHelper {
             entityfx = new EntitySKirinFX(minecraft.theWorld, x, y, z, fallx, fally, fallz);
         }
 	}
+	
+	
+	
 }

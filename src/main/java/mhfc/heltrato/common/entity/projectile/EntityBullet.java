@@ -1,6 +1,6 @@
 package mhfc.heltrato.common.entity.projectile;
 
-import mhfc.heltrato.common.item.weapon.WeaponRange;
+import mhfc.heltrato.common.weapon.ComponentRange;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -10,12 +10,12 @@ import net.minecraft.world.World;
 
 public class EntityBullet extends EntityThrowable{
 	
-	private WeaponRange weapon;
+	private ComponentRange weapon;
 	
     public EntityBullet(World par1World)
     {
         super(par1World);
-        weapon = new WeaponRange();
+        weapon = new ComponentRange();
     }
     public EntityBullet(World par1World, EntityLivingBase par2EntityLivingBase)
     {
