@@ -126,8 +126,10 @@ public class TileHunterBench extends TileEntity
 		if (worldObj.isRemote) {
 			sendSetRecipe(recipe);
 		}
-		cancelRecipe();
-		setRecipe(recipe);
+		if (recipe != this.recipe) {
+			cancelRecipe();
+			setRecipe(recipe);
+		}
 	}
 
 	protected void setRecipe(EquipmentRecipe recipe) {

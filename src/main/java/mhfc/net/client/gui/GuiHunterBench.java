@@ -147,8 +147,14 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			this.clickableLists.add(armorTypeList);
 			this.clickableLists.add(armorRecipeList);
 			initializeTypeList();
-			armorTypeList.setSelected(0);
-			listUpdated(armorTypeList);
+			if (bench != null) {
+				EquipmentRecipe rec = bench.getRecipe();
+				int type = MHFCEquipementRecipeRegistry.getType(rec);
+				int number = MHFCEquipementRecipeRegistry.getIDFor(rec, type);
+				armorTypeList.setSelected(type);
+				listUpdated(armorTypeList);
+				armorRecipeList.setSelected(number);
+			}
 		}
 
 		private void initializeTypeList() {
@@ -167,9 +173,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 					fillRecipeList(MHFCEquipementRecipeRegistry
 							.getRecipesFor(selected));
 			} else if (list == armorRecipeList) {
-				int selected = armorTypeList.getSelected();
+				int typeSelected = armorTypeList.getSelected();
 				EquipmentRecipe rec = MHFCEquipementRecipeRegistry
-						.getRecipeFor(armorRecipeList.getSelected(), selected);
+						.getRecipeFor(armorRecipeList.getSelected(),
+								typeSelected);
 				bench.changeRecipe(rec);
 			}
 		}
@@ -222,8 +229,14 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			this.clickableLists.add(weaponTypeList);
 			this.clickableLists.add(weaponRecipeList);
 			initializeTypeList();
-			weaponTypeList.setSelected(0);
-			listUpdated(weaponTypeList);
+			if (bench != null) {
+				EquipmentRecipe rec = bench.getRecipe();
+				int type = MHFCEquipementRecipeRegistry.getType(rec);
+				int number = MHFCEquipementRecipeRegistry.getIDFor(rec, type);
+				weaponTypeList.setSelected(type);
+				listUpdated(weaponTypeList);
+				weaponRecipeList.setSelected(number);
+			}
 		}
 
 		private void initializeTypeList() {
