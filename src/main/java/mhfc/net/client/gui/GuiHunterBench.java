@@ -385,7 +385,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		this.tabList.add(new WeaponTreeTab());
 		setTab(0);
 		startCrafting = new GuiButton(0,
-				guiLeft + 228 + (xSize - 228 - 60) / 2, guiTop + 149, 40, 20,
+				guiLeft + 228 + (xSize - 228 - 60) / 2, guiTop + 166, 40, 20,
 				"Craft") {
 			@Override
 			public void mouseReleased(int p_146118_1_, int p_146118_2_) {
@@ -398,8 +398,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			TileHunterBench bench) {
 
 		final int burnHeight = 96;
-		final int completeWidth = 30;
-		int rectX = guiLeft + 228, rectY = guiTop + 28;
+		final int completeWidth = 34;
+		int rectX = guiLeft + 228, rectY = guiTop + 45;
 		int rectW = 7 * 18 - 2, rectH = 96;
 		int scale = new ScaledResolution(mc.gameSettings, mc.displayWidth,
 				mc.displayHeight).getScaleFactor();
@@ -442,7 +442,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				burnTexV = 1.0f - burnTexVDiff;
 				burnTexHeight = (int) (burnTexVDiff * burnHeight);
 				burnTexY = rectY + burnHeight - burnTexHeight;
-				MHFCGuiUtil.drawTexturedRectangle(rectX + rectW + 3, burnTexY,
+				MHFCGuiUtil.drawTexturedRectangle(rectX + rectW + 4, burnTexY,
 						10, burnTexHeight, 0.0f, burnTexV, 1.0f, burnTexVDiff);
 			}
 			// Draw the foreground current heat indicator
@@ -454,7 +454,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			burnTexV = 1.0f - burnTexVDiff;
 			burnTexHeight = (int) (burnTexVDiff * burnHeight);
 			burnTexY = rectY + burnHeight - burnTexHeight;
-			MHFCGuiUtil.drawTexturedRectangle(rectX + rectW + 3, burnTexY, 10,
+			MHFCGuiUtil.drawTexturedRectangle(rectX + rectW + 4, burnTexY, 10,
 					burnTexHeight, 0.0f, burnTexV, 1.0f, burnTexVDiff);
 
 			// Draw heat target
@@ -466,17 +466,19 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				burnTexVDiff = (float) (heat) / maxHeat;
 				burnTexHeight = (int) (burnTexVDiff * burnHeight);
 				burnTexY = rectY + burnHeight - burnTexHeight;
-				MHFCGuiUtil.drawTexturedBoxFromBorder(rectX + rectW + 3,
+				MHFCGuiUtil.drawTexturedBoxFromBorder(rectX + rectW + 4,
 						burnTexY - 1, this.zLevel, 10, 3, 0);
 			}
 
 			// Draw front layer, the border
 			mc.getTextureManager().bindTexture(
 					MHFCRegQuestVisual.HUNTER_BENCH_BURN_FRONT);
-			MHFCGuiUtil.drawTexturedBoxFromBorder(rectX + rectW + 3, rectY - 1,
+			MHFCGuiUtil.drawTexturedBoxFromBorder(rectX + rectW + 4, rectY - 1,
 					this.zLevel, 10, burnHeight + 1, 0);
 
-			// TODO draw the completition gauge back
+			// TODO draw the heat length indicator
+
+			// draw the completition gauge back
 			if (bench.getRecipe() != null) {
 				float completition = bench.getItemSmeltDuration()
 						/ (float) bench.getRecipe().getDuration();
@@ -484,8 +486,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				completition = complete / (float) completeWidth;
 				mc.getTextureManager().bindTexture(
 						MHFCRegQuestVisual.HUNTER_BENCH_COMPLETE);
-				MHFCGuiUtil.drawTexturedBoxFromBorder(guiLeft + 300,
-						guiTop + 126, this.zLevel,
+				MHFCGuiUtil.drawTexturedBoxFromBorder(guiLeft + 298,
+						guiTop + 145, this.zLevel,
 						(int) (completition * completeWidth), 17, 0, 0,
 						completition, 1f);
 			}
@@ -521,7 +523,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	public void updateScreen() {
 		super.updateScreen();
 		startCrafting.xPosition = guiLeft + 228 + (xSize - 228 - 60) / 2;
-		startCrafting.yPosition = guiTop + 149;
+		startCrafting.yPosition = guiTop + 166;
 	}
 
 }

@@ -41,13 +41,13 @@ public class GuiQuestBoard extends GuiScreen {
 		runningQuestList.setRecalculateItemHeightOnDraw(false);
 		runningQuestList.setItemWidth(22);
 
-		runningQuestList.setPosition(5 + xPos, 5 + yPos);
-		runningQuestList.setWidthAndHeight(70, ySize - 10);
+		runningQuestList.setPosition(5 + xPos, 20 + yPos);
+		runningQuestList.setWidthAndHeight(70, ySize - 30);
 
 		mapToListItems = new HashMap<String, GuiListStringItem>();
 		mapToIdentifiers = new HashMap<GuiListStringItem, String>();
 		page = 0;
-		joinQuest = new GuiButton(0, 25, 10, 60, 20, "Take Quest") {
+		joinQuest = new GuiButton(0, 25, 10, 185 + yPos, 20, "Take Quest") {
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
 					int p_146116_3_) {
@@ -112,11 +112,11 @@ public class GuiQuestBoard extends GuiScreen {
 		xPos = (s.getScaledWidth() - xSize) / 2;
 		yPos = (s.getScaledHeight() - ySize) / 2;
 
-		runningQuestList.setPosition(15 + xPos, 5 + yPos);
-		runningQuestList.setWidthAndHeight(70, ySize - 20);
+		runningQuestList.setPosition(15 + xPos, 20 + yPos);
+		runningQuestList.setWidthAndHeight(70, ySize - 30);
 
 		joinQuest.xPosition = 160 + xPos;
-		joinQuest.yPosition = 195 + yPos;
+		joinQuest.yPosition = 190 + yPos;
 		cancelQuest.xPosition = xPos + xSize / 2 - startQuestWidth / 2;
 		cancelQuest.yPosition = yPos + ySize / 2 + 5;
 		startQuest.xPosition = xPos + xSize / 2 - startQuestWidth / 2;
@@ -133,7 +133,8 @@ public class GuiQuestBoard extends GuiScreen {
 		drawDefaultBackground();
 		drawBackground(0);
 		if (!MHFCRegQuestVisual.hasPlayerQuest()) {
-			fontRendererObj.drawString("Currently running:", 3, 3, 0x404040);
+			fontRendererObj.drawString("Currently running:", xPos + 8,
+					yPos + 11, 0x404040);
 			runningQuestList.setVisible(true);
 			runningQuestList.draw();
 			joinQuest.visible = true;
