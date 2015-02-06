@@ -3,10 +3,11 @@ package mhfc.net.common.tile;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.packet.MessageBeginCrafting;
-import mhfc.net.common.network.packet.MessageCancelRecipe;
-import mhfc.net.common.network.packet.MessageCraftingUpdate;
-import mhfc.net.common.network.packet.MessageSetRecipe;
+import mhfc.net.common.network.packet.bench.MessageBeginCrafting;
+import mhfc.net.common.network.packet.bench.MessageBenchRefreshRequest;
+import mhfc.net.common.network.packet.bench.MessageCancelRecipe;
+import mhfc.net.common.network.packet.bench.MessageCraftingUpdate;
+import mhfc.net.common.network.packet.bench.MessageSetRecipe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -46,6 +47,10 @@ public class TileHunterBench extends TileEntity
 	 */
 	volatile private int heatLength;
 	/**
+	 * How long the furnace stayed hot initially with the burning item
+	 */
+	private int heatLengthInit;
+	/**
 	 * How long the current item has been smelting
 	 */
 	volatile private int itemSmeltDuration;
@@ -62,6 +67,7 @@ public class TileHunterBench extends TileEntity
 		recipeStacks = new ItemStack[7];
 		inputStacks = new ItemStack[recipeStacks.length];
 		workingMHFCBench = false;
+		heatLengthInit = 1;
 	}
 
 	@Override
@@ -80,6 +86,7 @@ public class TileHunterBench extends TileEntity
 		} else {
 			if (fuelStack != null && TileHunterBench.this.workingMHFCBench) {
 				heatLength = TileEntityFurnace.getItemBurnTime(fuelStack);
+				heatLengthInit = heatLength;
 				heatFromItem = getItemHeat(fuelStack);
 				decrStackSize(fuelSlot, 1);
 				if (!worldObj.isRemote)
@@ -324,6 +331,13 @@ public class TileHunterBench extends TileEntity
 		PacketPipeline.networkPipe.sendToServer(new MessageCancelRecipe(this));
 	}
 
+	public void refreshState() {
+		if (worldObj.isRemote) {
+			PacketPipeline.networkPipe
+					.sendToServer(new MessageBenchRefreshRequest(this));
+		}
+	}
+
 	private void sendUpdateCraft() {
 		PacketPipeline.networkPipe.sendToAll(new MessageCraftingUpdate(this));
 	}
@@ -352,6 +366,10 @@ public class TileHunterBench extends TileEntity
 		return heatLength;
 	}
 
+	public int getHeatLengthOriginal() {
+		return heatLengthInit;
+	}
+
 	public int getItemSmeltDuration() {
 		return itemSmeltDuration;
 	}
@@ -362,6 +380,7 @@ public class TileHunterBench extends TileEntity
 		heatStrength = nbtTag.getInteger("heatStrength");
 		heatFromItem = nbtTag.getInteger("heatFromItem");
 		heatLength = nbtTag.getInteger("heatLength");
+		heatLengthInit = nbtTag.getInteger("heatLengthInit");
 		itemSmeltDuration = nbtTag.getInteger("itemSmeltDuration");
 		TileHunterBench.this.workingMHFCBench = nbtTag.getBoolean("working");
 		int recType = nbtTag.getInteger("recipeType");
@@ -383,6 +402,7 @@ public class TileHunterBench extends TileEntity
 		nbtTag.setInteger("heatStrength", heatStrength);
 		nbtTag.setInteger("heatFromItem", heatFromItem);
 		nbtTag.setInteger("heatLength", heatLength);
+		nbtTag.setInteger("heatLengthInit", heatLength);
 		nbtTag.setInteger("itemSmeltDuration", itemSmeltDuration);
 		nbtTag.setBoolean("working", TileHunterBench.this.workingMHFCBench);
 		int typeID = MHFCEquipementRecipeRegistry.getType(recipe);
@@ -411,6 +431,7 @@ public class TileHunterBench extends TileEntity
 		nbtTag.setInteger("heatStrength", heatStrength);
 		nbtTag.setInteger("heatFromItem", heatFromItem);
 		nbtTag.setInteger("heatLength", heatLength);
+		nbtTag.setInteger("heatLengthInit", heatLength);
 		nbtTag.setInteger("itemSmeltDuration", itemSmeltDuration);
 		nbtTag.setBoolean("working", TileHunterBench.this.workingMHFCBench);
 		int typeID = MHFCEquipementRecipeRegistry.getType(recipe);
@@ -424,6 +445,7 @@ public class TileHunterBench extends TileEntity
 		heatStrength = nbtTag.getInteger("heatStrength");
 		heatFromItem = nbtTag.getInteger("heatFromItem");
 		heatLength = nbtTag.getInteger("heatLength");
+		heatLengthInit = nbtTag.getInteger("heatLengthInit");
 		itemSmeltDuration = nbtTag.getInteger("itemSmeltDuration");
 		TileHunterBench.this.workingMHFCBench = nbtTag.getBoolean("working");
 		int recType = nbtTag.getInteger("recipeType");

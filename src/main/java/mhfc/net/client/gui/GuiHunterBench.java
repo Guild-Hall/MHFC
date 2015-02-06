@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.client.container.ContainerHunterBench;
 import mhfc.net.client.gui.ClickableGuiList.GuiListItem;
 import mhfc.net.client.gui.ClickableGuiList.GuiListStringItem;
@@ -16,6 +17,7 @@ import mhfc.net.common.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -116,6 +118,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		public void onOpen() {
+			bench.refreshState();
 		}
 
 		@Override
@@ -139,10 +142,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		public CraftArmorTab(TileHunterBench bench) {
 			super(bench);
-			armorRecipeList = new ClickableGuiList<RecipeItem>(70, ySize - 20,
+			armorRecipeList = new ClickableGuiList<RecipeItem>(70, ySize - 24,
 					20);
 			armorTypeList = new ClickableGuiList<GuiListStringItem>(70,
-					ySize - 20);
+					ySize - 24);
 			armorTypeList.setAlignmentMid(true);
 			this.clickableLists.add(armorTypeList);
 			this.clickableLists.add(armorRecipeList);
@@ -183,8 +186,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		protected void updateListPositions() {
-			armorRecipeList.setPosition(guiLeft + 153, guiTop + 10);
-			armorTypeList.setPosition(guiLeft + 78, guiTop + 10);
+			armorRecipeList.setPosition(guiLeft + 153, guiTop + 12);
+			armorTypeList.setPosition(guiLeft + 78, guiTop + 12);
 		}
 
 		private void fillRecipeList(Set<EquipmentRecipe> correspondingRecipes) {
@@ -222,10 +225,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		 */
 		public CraftWeaponTab(TileHunterBench bench) {
 			super(bench);
-			weaponRecipeList = new ClickableGuiList<RecipeItem>(70, ySize - 20,
+			weaponRecipeList = new ClickableGuiList<RecipeItem>(70, ySize - 24,
 					20);
 			weaponTypeList = new ClickableGuiList<GuiListStringItem>(70,
-					ySize - 20);
+					ySize - 24);
 			this.clickableLists.add(weaponTypeList);
 			this.clickableLists.add(weaponRecipeList);
 			initializeTypeList();
@@ -250,8 +253,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		protected void updateListPositions() {
-			weaponRecipeList.setPosition(guiLeft + 153, guiTop + 10);
-			weaponTypeList.setPosition(guiLeft + 78, guiTop + 10);
+			weaponRecipeList.setPosition(guiLeft + 153, guiTop + 12);
+			weaponTypeList.setPosition(guiLeft + 78, guiTop + 12);
 		}
 
 		@Override
@@ -476,7 +479,26 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			MHFCGuiUtil.drawTexturedBoxFromBorder(rectX + rectW + 4, rectY - 1,
 					this.zLevel, 10, burnHeight + 1, 0);
 
-			// TODO draw the heat length indicator
+			// draw the heat length indicator
+			mc.getTextureManager().bindTexture(
+					MHFCRegQuestVisual.HUNTER_BENCH_FUEL_DURATION);
+			float remaining = bench.getHeatLength()
+					/ (float) bench.getHeatLengthOriginal();
+			if (Float.isInfinite(remaining)) {
+				remaining = 0;
+				MHFCMain.logger.info("Cry");
+			}
+			int remain = (int) (remaining * 17);
+			remaining = remain / 17f;
+			Tessellator t = Tessellator.instance;
+			t.startDrawingQuads();
+			t.addVertexWithUV(guiLeft + 353, guiTop + 162 - remain,
+					this.zLevel, 0f, 1f - remaining);
+			t.addVertexWithUV(guiLeft + 353, guiTop + 162, this.zLevel, 0f, 1f);
+			t.addVertexWithUV(guiLeft + 370, guiTop + 162, this.zLevel, 1f, 1f);
+			t.addVertexWithUV(guiLeft + 370, guiTop + 162 - remain,
+					this.zLevel, 1f, 1f - remaining);
+			t.draw();
 
 			// draw the completition gauge back
 			if (bench.getRecipe() != null) {
@@ -516,7 +538,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		int posX = guiLeft;
 		int posY = guiTop;
 		MHFCGuiUtil.drawTexturedBoxFromBorder(posX, posY, this.zLevel,
-				this.xSize, this.ySize, 10, 8f / 512, 8f / 256, 1f, 1f);
+				this.xSize, this.ySize, 0, 0, 1f, 1f);
 	}
 
 	@Override

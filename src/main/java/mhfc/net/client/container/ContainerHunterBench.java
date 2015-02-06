@@ -53,7 +53,7 @@ public class ContainerHunterBench extends Container {
 		}
 
 		for (var6 = 0; var6 < 7; ++var6) {
-			Slot s = new Slot(tileEntity, var6 + 3, var6 * 18 + 228, 27) {
+			Slot s = new Slot(tileEntity, var6 + 3, var6 * 18 + 229, 28) {
 				@Override
 				public boolean isItemValid(ItemStack stack) {
 					return false;
@@ -69,12 +69,12 @@ public class ContainerHunterBench extends Container {
 
 		for (var6 = 0; var6 < 7; ++var6) {
 			this.addSlotToContainer(new Slot(tileEntity, var6 + 10,
-					var6 * 18 + 228, 190) {
+					var6 * 18 + 229, 191) {
 			});
 		}
 
 		this.addSlotToContainer(new Slot(tileEntity,
-				TileHunterBench.resultSlot, 279, 145) {
+				TileHunterBench.resultSlot, 280, 146) {
 			@Override
 			public boolean isItemValid(ItemStack stack) {
 				return false;
@@ -82,14 +82,14 @@ public class ContainerHunterBench extends Container {
 		});
 
 		this.addSlotToContainer(new Slot(tileEntity, TileHunterBench.fuelSlot,
-				353, 167));
+				354, 168));
 		this.addSlotToContainer(new Slot(tileEntity,
-				TileHunterBench.outputSlot, 334, 145));
+				TileHunterBench.outputSlot, 335, 146));
 
 		for (var6 = 0; var6 < 4; ++var6) {
 			for (var7 = 0; var7 < 9; ++var7) {
 				this.addSlotToContainer(new Slot(par1InventoryPlayer, var7
-						+ var6 * 9, 6 + var6 * 18, var7 * 18 + 27));
+						+ var6 * 9, 7 + var6 * 18, var7 * 18 + 28));
 			}
 		}
 

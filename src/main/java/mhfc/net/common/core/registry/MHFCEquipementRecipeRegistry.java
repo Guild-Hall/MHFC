@@ -10,11 +10,12 @@ import java.util.Set;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
-import mhfc.net.common.network.packet.MessageBeginCrafting;
-import mhfc.net.common.network.packet.MessageCancelRecipe;
-import mhfc.net.common.network.packet.MessageCraftingUpdate;
-import mhfc.net.common.network.packet.MessageSetRecipe;
 import mhfc.net.common.network.packet.MessageTileLocation;
+import mhfc.net.common.network.packet.bench.MessageBeginCrafting;
+import mhfc.net.common.network.packet.bench.MessageBenchRefreshRequest;
+import mhfc.net.common.network.packet.bench.MessageCancelRecipe;
+import mhfc.net.common.network.packet.bench.MessageCraftingUpdate;
+import mhfc.net.common.network.packet.bench.MessageSetRecipe;
 import mhfc.net.common.tile.TileHunterBench;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.item.Item;
@@ -30,6 +31,19 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class MHFCEquipementRecipeRegistry {
+
+	public static class BenchRefreshHandler
+			implements
+				IMessageHandler<MessageBenchRefreshRequest, MessageCraftingUpdate> {
+
+		@Override
+		public MessageCraftingUpdate onMessage(
+				MessageBenchRefreshRequest message, MessageContext ctx) {
+			TileHunterBench b = getHunterBench(message);
+			return new MessageCraftingUpdate(b);
+		}
+
+	}
 
 	public static class SetRecipeHandler
 			implements
