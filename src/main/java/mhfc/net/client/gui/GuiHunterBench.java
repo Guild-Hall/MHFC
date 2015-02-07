@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.client.container.ContainerHunterBench;
 import mhfc.net.client.gui.ClickableGuiList.GuiListItem;
 import mhfc.net.client.gui.ClickableGuiList.GuiListStringItem;
@@ -430,24 +429,12 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		if (bench != null) {
 			// Draw the background required heat indicator
-			GL11.glColor4f(0.8f, 0.8f, 0.8f, 0.6f);
 			int heat;
 			float burnTexVDiff;
 			float burnTexV;
 			int burnTexHeight;
 			int burnTexY;
-			if (bench.getRecipe() != null) {
-				mc.getTextureManager().bindTexture(
-						MHFCRegQuestVisual.HUNTER_BENCH_BURN_BACK);
-				heat = bench.getRecipe().getRequiredHeat();
-				heat = Math.min(heat, maxHeat);
-				burnTexVDiff = (float) (heat) / maxHeat;
-				burnTexV = 1.0f - burnTexVDiff;
-				burnTexHeight = (int) (burnTexVDiff * burnHeight);
-				burnTexY = rectY + burnHeight - burnTexHeight;
-				MHFCGuiUtil.drawTexturedRectangle(rectX + rectW + 4, burnTexY,
-						10, burnTexHeight, 0.0f, burnTexV, 1.0f, burnTexVDiff);
-			}
+
 			// Draw the foreground current heat indicator
 			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 			mc.getTextureManager().bindTexture(
@@ -459,6 +446,25 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			burnTexY = rectY + burnHeight - burnTexHeight;
 			MHFCGuiUtil.drawTexturedRectangle(rectX + rectW + 4, burnTexY, 10,
 					burnTexHeight, 0.0f, burnTexV, 1.0f, burnTexVDiff);
+
+			if (bench.getRecipe() != null) {
+				GL11.glLineWidth(1f);
+				heat = bench.getRecipe().getRequiredHeat();
+				heat = Math.min(heat, maxHeat);
+				burnTexVDiff = (float) (heat) / maxHeat;
+				burnTexHeight = (int) (burnTexVDiff * burnHeight);
+				burnTexY = rectY + burnHeight - burnTexHeight;
+				GL11.glDisable(GL11.GL_TEXTURE_2D);
+				GL11.glLineWidth(2.0f);
+				GL11.glBegin(GL11.GL_LINES);
+				GL11.glColor4f(0.4f, 0.4f, 0.4f, 1.0f);
+				GL11.glVertex3f(rectX + rectW + 4, burnTexY + 0.7f, this.zLevel);
+				GL11.glVertex3f(rectX + rectW + 14, burnTexY + 0.7f,
+						this.zLevel);
+				GL11.glEnd();
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+			}
+			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 			// Draw heat target
 			mc.getTextureManager().bindTexture(
@@ -486,21 +492,22 @@ public class GuiHunterBench extends MHFCTabbedGui {
 					/ (float) bench.getHeatLengthOriginal();
 			if (Float.isInfinite(remaining)) {
 				remaining = 0;
-				MHFCMain.logger.info("Cry");
 			}
-			int remain = (int) (remaining * 17);
+			int remain = (int) Math.ceil(remaining * 14);
 			remaining = remain / 17f;
 			Tessellator t = Tessellator.instance;
 			t.startDrawingQuads();
-			t.addVertexWithUV(guiLeft + 353, guiTop + 162 - remain,
-					this.zLevel, 0f, 1f - remaining);
-			t.addVertexWithUV(guiLeft + 353, guiTop + 162, this.zLevel, 0f, 1f);
-			t.addVertexWithUV(guiLeft + 370, guiTop + 162, this.zLevel, 1f, 1f);
-			t.addVertexWithUV(guiLeft + 370, guiTop + 162 - remain,
-					this.zLevel, 1f, 1f - remaining);
+			t.addVertexWithUV(guiLeft + 353, guiTop + 159 - remain,
+					this.zLevel, 0f, 14f / 17 - remaining);
+			t.addVertexWithUV(guiLeft + 353, guiTop + 159, this.zLevel, 0f,
+					14f / 17);
+			t.addVertexWithUV(guiLeft + 370, guiTop + 159, this.zLevel, 1f,
+					14f / 17);
+			t.addVertexWithUV(guiLeft + 370, guiTop + 159 - remain,
+					this.zLevel, 1f, 14f / 17 - remaining);
 			t.draw();
 
-			// draw the completition gauge back
+			// draw the completition gauge
 			if (bench.getRecipe() != null) {
 				float completition = bench.getItemSmeltDuration()
 						/ (float) bench.getRecipe().getDuration();

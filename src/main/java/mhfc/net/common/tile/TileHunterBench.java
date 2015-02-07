@@ -331,6 +331,7 @@ public class TileHunterBench extends TileEntity
 		PacketPipeline.networkPipe.sendToServer(new MessageCancelRecipe(this));
 	}
 
+	@Override
 	public void refreshState() {
 		if (worldObj.isRemote) {
 			PacketPipeline.networkPipe
@@ -402,7 +403,7 @@ public class TileHunterBench extends TileEntity
 		nbtTag.setInteger("heatStrength", heatStrength);
 		nbtTag.setInteger("heatFromItem", heatFromItem);
 		nbtTag.setInteger("heatLength", heatLength);
-		nbtTag.setInteger("heatLengthInit", heatLength);
+		nbtTag.setInteger("heatLengthInit", heatLengthInit);
 		nbtTag.setInteger("itemSmeltDuration", itemSmeltDuration);
 		nbtTag.setBoolean("working", TileHunterBench.this.workingMHFCBench);
 		int typeID = MHFCEquipementRecipeRegistry.getType(recipe);
@@ -431,7 +432,7 @@ public class TileHunterBench extends TileEntity
 		nbtTag.setInteger("heatStrength", heatStrength);
 		nbtTag.setInteger("heatFromItem", heatFromItem);
 		nbtTag.setInteger("heatLength", heatLength);
-		nbtTag.setInteger("heatLengthInit", heatLength);
+		nbtTag.setInteger("heatLengthInit", heatLengthInit);
 		nbtTag.setInteger("itemSmeltDuration", itemSmeltDuration);
 		nbtTag.setBoolean("working", TileHunterBench.this.workingMHFCBench);
 		int typeID = MHFCEquipementRecipeRegistry.getType(recipe);
