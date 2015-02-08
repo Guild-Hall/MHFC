@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.client.gui.quests.GuiQuestBoard;
 import mhfc.net.client.gui.quests.GuiQuestGiver;
 import mhfc.net.client.gui.quests.QuestStatusDisplay;
@@ -43,15 +44,12 @@ public class MHFCRegQuestVisual {
 			List<String> identifiers = message.getIdentifiers();
 			groupIDsInOrder = identifiers;
 			groupIDToListMap = identifierLists;
-
-			// System.out
-			// .println("[MHFC] Received new identifier configuration from server, "
-			// + groupIDsInOrder.size() + " groups");
-
+			MHFCMain.logger.info("Client received quest info");
 			return null;
 		}
 	}
 
+	// TODO rework this, it is so horrifying
 	public static class QuestScreenVisualHandler
 			implements
 				IMessageHandler<MessageQuestVisual, IMessage> {
@@ -112,11 +110,6 @@ public class MHFCRegQuestVisual {
 								playersVisual.cleanUp();
 							}
 							playersVisual = (!hasPlayerQuest) ? null : runInfo;
-							// System.out.println("[MHFC] "
-							// + (visual == null
-							// ? "No quest active"
-							// : "Got a new visual to")
-							// + " set for the display");
 							break;
 						case 2 :
 							boolean clear = visual == null;
@@ -146,8 +139,16 @@ public class MHFCRegQuestVisual {
 			MHFCReference.gui_board_tex);
 	public static final ResourceLocation HUNTER_BENCH_BURN_BACK = new ResourceLocation(
 			MHFCReference.gui_hunterbench_burn_back_tex);
+	public static final ResourceLocation HUNTER_BENCH_BURN_FRONT = new ResourceLocation(
+			MHFCReference.gui_hunterbench_burn_front_tex);
+	public static final ResourceLocation HUNTER_BENCH_BURN_TARGET = new ResourceLocation(
+			MHFCReference.gui_hunterbench_burn_target_tex);
 	public static final ResourceLocation QUEST_HUNTERBENCH_BACKGROUND = new ResourceLocation(
 			MHFCReference.gui_hunterbench_back_tex);
+	public static final ResourceLocation HUNTER_BENCH_COMPLETE = new ResourceLocation(
+			MHFCReference.gui_hunterbench_complete_tex);
+	public static final ResourceLocation HUNTER_BENCH_FUEL_DURATION = new ResourceLocation(
+			MHFCReference.gui_hunterbench_fuel_tex);
 
 	private static Map<String, List<String>> groupIDToListMap = new HashMap<String, List<String>>();
 	private static List<String> groupIDsInOrder = new ArrayList<String>();
@@ -206,10 +207,10 @@ public class MHFCRegQuestVisual {
 		return hasPlayerQuest;
 	}
 
+	// TODO make this a static block and then do intialization
 	public static void init() {
 		display = new QuestStatusDisplay();
 		MinecraftForge.EVENT_BUS.register(display);
-
 	}
 
 	public static QuestRunningInformation getPlayerVisual() {

@@ -24,6 +24,8 @@ public class GuiQuestGiver extends GuiScreen {
 
 	private static final int startQuestHeight = 20;
 	private static final int startQuestWidth = 120;
+	private static final int yBorder = 15;
+	private int questsW = 70, questsX = 15;
 	private List<String> groupIDsDisplayed;
 	private ClickableGuiList<GuiListStringItem> groupList;
 	private GuiButton newQuest, left, right;
@@ -123,9 +125,9 @@ public class GuiQuestGiver extends GuiScreen {
 				return false;
 			}
 		};
-		this.width = 220;
+		this.width = 374;
 		this.height = 220;
-		this.xSize = 320;
+		this.xSize = 374;
 		this.ySize = 220;
 		this.accessor = accessor;
 	}
@@ -172,8 +174,9 @@ public class GuiQuestGiver extends GuiScreen {
 		boolean hasQuest = MHFCRegQuestVisual.hasPlayerQuest();
 		groupList.setVisible(!hasQuest);
 		if (!hasQuest) {
-			fontRendererObj.drawString("Take a quest:", xPos + 3, yPos + 4,
-					0x404040);
+			// TODO unlocalize
+			fontRendererObj.drawString("Take a quest:", xPos + 8, yPos
+					+ yBorder, 0x404040);
 			groupList.draw();
 			left.visible = true;
 			right.visible = true;
@@ -193,8 +196,9 @@ public class GuiQuestGiver extends GuiScreen {
 				// TODO set start enabled based on can join
 				FontRenderer fontRenderer = mc.fontRenderer;
 				if (info != null)
-					info.drawInformation(xPos + 80, yPos, 220, ySize - 30,
-							page, fontRenderer);
+					info.drawInformation(xPos + questsX + questsW, yPos + 5,
+							xSize - 2 * questsX - questsW, ySize - 30, page,
+							fontRenderer);
 			}
 		} else {
 			// The player already has a quest, give him a cancel option
@@ -208,7 +212,7 @@ public class GuiQuestGiver extends GuiScreen {
 			startQuest.visible = true;
 			String warning = "You are already on a quest";
 			int warnX = (xSize - fontRendererObj.getStringWidth(warning)) / 2, warnY = 60;
-			fontRendererObj.drawString(warning, warnX, warnY, 0x404040);
+			fontRendererObj.drawString(warning, warnX + xPos, warnY, 0x404040);
 		}
 
 		super.drawScreen(positionX, positionY, partialTick);
@@ -239,20 +243,21 @@ public class GuiQuestGiver extends GuiScreen {
 				mc.displayWidth, mc.displayHeight);
 		xPos = (s.getScaledWidth() - xSize) / 2;
 		yPos = (s.getScaledHeight() - ySize) / 2;
-		groupList.setPosition(5 + xPos, 15 + yPos);
-		groupList.setWidthAndHeight(70, ySize - 20);
-		right.xPosition = 280 + xPos;
-		right.yPosition = 5 + yPos;
-		left.xPosition = 80 + xPos;
-		left.yPosition = 5 + yPos;
-		newQuest.xPosition = 160 + xPos;
-		newQuest.yPosition = 195 + yPos;
+		groupList.setPosition(questsX + xPos, yBorder + 10 + yPos);
+		groupList.setWidthAndHeight(questsW, ySize - 2 * yBorder - 10);
+		right.xPosition = xSize - questsX - right.getButtonWidth() + xPos;
+		right.yPosition = yBorder + yPos;
+		left.xPosition = questsX + questsW + 5 + xPos;
+		left.yPosition = yBorder + yPos;
+		newQuest.xPosition = (xSize - questsX - questsW - newQuest
+				.getButtonWidth()) / 2 + questsX + questsW + xPos;
+		newQuest.yPosition = ySize - yBorder - startQuestHeight + yPos;
 		cancelQuest.xPosition = xPos + xSize / 2 - cancelQuest.getButtonWidth()
 				/ 2;
 		cancelQuest.yPosition = yPos + ySize / 2 + 5;
 		startQuest.xPosition = xPos + xSize / 2 - startQuest.getButtonWidth()
 				/ 2;
-		startQuest.yPosition = yPos + ySize / 2 - startQuestHeight - 5;
+		startQuest.yPosition = yPos + ySize / 2 - startQuestHeight - 10;
 		super.updateScreen();
 	}
 
@@ -265,8 +270,8 @@ public class GuiQuestGiver extends GuiScreen {
 	public void drawBackground(int p_146278_1_) {
 		mc.getTextureManager().bindTexture(
 				MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
-		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, 0f, xSize, ySize, 15,
-				15 / 265f, 1, 166f / 256f);
+		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, 0f, xSize, ySize, 10,
+				10 / 512f, 10f / 256, 1, 1);
 
 	}
 }

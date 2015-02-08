@@ -1,8 +1,9 @@
-package mhfc.net.common.network.packet;
+package mhfc.net.common.network.message.bench;
 
 import io.netty.buffer.ByteBuf;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
+import mhfc.net.common.network.packet.MessageTileLocation;
 import mhfc.net.common.tile.TileHunterBench;
 
 public class MessageSetRecipe extends MessageTileLocation {

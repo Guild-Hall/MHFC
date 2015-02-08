@@ -10,14 +10,15 @@ import java.util.Set;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
-import mhfc.net.common.item.materials.ItemTigrex.TigrexSubType;
-import mhfc.net.common.network.packet.MessageBeginCrafting;
-import mhfc.net.common.network.packet.MessageCancelRecipe;
-import mhfc.net.common.network.packet.MessageCraftingUpdate;
-import mhfc.net.common.network.packet.MessageSetRecipe;
+import mhfc.net.common.item.materials.ItemKirin;
+import mhfc.net.common.item.materials.ItemTigrex;
+import mhfc.net.common.network.message.bench.MessageBeginCrafting;
+import mhfc.net.common.network.message.bench.MessageBenchRefreshRequest;
+import mhfc.net.common.network.message.bench.MessageCancelRecipe;
+import mhfc.net.common.network.message.bench.MessageCraftingUpdate;
+import mhfc.net.common.network.message.bench.MessageSetRecipe;
 import mhfc.net.common.network.packet.MessageTileLocation;
 import mhfc.net.common.tile.TileHunterBench;
-import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -32,6 +33,19 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class MHFCEquipementRecipeRegistry {
+
+	public static class BenchRefreshHandler
+			implements
+				IMessageHandler<MessageBenchRefreshRequest, MessageCraftingUpdate> {
+
+		@Override
+		public MessageCraftingUpdate onMessage(
+				MessageBenchRefreshRequest message, MessageContext ctx) {
+			TileHunterBench b = getHunterBench(message);
+			return new MessageCraftingUpdate(b);
+		}
+
+	}
 
 	public static class SetRecipeHandler
 			implements
@@ -123,6 +137,10 @@ public class MHFCEquipementRecipeRegistry {
 		return null;
 	}
 
+	public static final EquipmentRecipe recipe_tigrex_helm;
+	public static final EquipmentRecipe recipe_tigrex_boots;
+	public static final EquipmentRecipe recipe_kirin_helm;
+
 	public static int TYPE_ARMOR_HEAD = 0;
 	public static int TYPE_ARMOR_BODY = 1;
 	public static int TYPE_ARMOR_PANTS = 2;
@@ -142,7 +160,7 @@ public class MHFCEquipementRecipeRegistry {
 	private static Map<Integer, Set<EquipmentRecipe>> mapOfRecipeSets = new HashMap<Integer, Set<EquipmentRecipe>>();
 	private static Map<Integer, List<EquipmentRecipe>> mapOfListOfRecipes = new HashMap<Integer, List<EquipmentRecipe>>();
 
-	public static void init() {
+	static {
 		for (int i = 0; i < 15; i++) {
 			mapOfRecipeSets.put(new Integer(i),
 					new LinkedHashSet<EquipmentRecipe>());
@@ -150,12 +168,46 @@ public class MHFCEquipementRecipeRegistry {
 					new LinkedList<EquipmentRecipe>());
 
 		}
+
 		List<ItemStack> listReq = new ArrayList<ItemStack>();
-		for (int a = 0; a < 7; a++) {
-			listReq.add(SubTypedItem.fromSubItem(TigrexSubType.SCALE, 4));
+		ItemStack s;
+		for (int a = 0; a < 3; a++) {
+			s = new ItemStack(MHFCItemRegistry.MHFCItemtigrex, 4);
+			s.setItemDamage(ItemTigrex.TigrexSubType.SCALE.ordinal());
+			listReq.add(s);
 		}
-		new EquipmentRecipe(new ItemStack(MHFCItemRegistry.armor_kirin_helm),
-				listReq, 200, 600);
+		s = new ItemStack(MHFCItemRegistry.MHFCItemtigrex, 1);
+		s.setItemDamage(ItemTigrex.TigrexSubType.SHELL.ordinal());
+		listReq.add(s);
+		recipe_tigrex_helm = new EquipmentRecipe(new ItemStack(
+				MHFCItemRegistry.armor_tigrex_helm), listReq, 200, 600);
+		MHFCEquipementRecipeRegistry.register(recipe_tigrex_helm);
+
+		listReq = new ArrayList<ItemStack>();
+		for (int a = 0; a < 3; a++) {
+			s = new ItemStack(MHFCItemRegistry.MHFCItemtigrex, 4);
+			s.setItemDamage(ItemTigrex.TigrexSubType.SHELL.ordinal());
+			listReq.add(s);
+		}
+		s = new ItemStack(MHFCItemRegistry.MHFCItemtigrex, 1);
+		s.setItemDamage(ItemTigrex.TigrexSubType.SCALE.ordinal());
+		listReq.add(s);
+		recipe_tigrex_boots = new EquipmentRecipe(new ItemStack(
+				MHFCItemRegistry.armor_tigrex_chest), listReq, 150, 300);
+		MHFCEquipementRecipeRegistry.register(recipe_tigrex_boots);
+
+		listReq = new ArrayList<ItemStack>();
+		for (int a = 0; a < 2; a++) {
+			s = new ItemStack(MHFCItemRegistry.mhfcitemkirin, 4);
+			s.setItemDamage(ItemKirin.KirinSubType.MANE.ordinal());
+			listReq.add(s);
+		}
+		s = new ItemStack(MHFCItemRegistry.mhfcitemkirin, 4);
+		s.setItemDamage(ItemKirin.KirinSubType.THUNDERTAIL.ordinal());
+		listReq.add(s);
+		recipe_kirin_helm = new EquipmentRecipe(new ItemStack(
+				MHFCItemRegistry.armor_kirin_helm), listReq, 300, 300);
+		MHFCEquipementRecipeRegistry.register(recipe_kirin_helm);
 	}
 
 	public static int getType(EquipmentRecipe recipe) {
@@ -165,20 +217,26 @@ public class MHFCEquipementRecipeRegistry {
 		if (it instanceof ItemArmor) {
 			return ((ItemArmor) it).armorType;
 		}
-		// TODO long else if
-		return 5;
+		String name = it.getUnlocalizedName();
+		return 15;
 	}
 
 	public static Set<EquipmentRecipe> getRecipesFor(int type) {
 		return mapOfRecipeSets.get(new Integer(type));
 	}
 
-	public static void register(EquipmentRecipe recipe, int type) {
-		if (type < 0 | type > 14)
-			return;
+	private static boolean register(EquipmentRecipe recipe, int type) {
+		if (type < 0 || type > 14)
+			return false;
 		boolean inserted = mapOfRecipeSets.get(new Integer(type)).add(recipe);
-		if (inserted)
+		if (inserted) {
 			mapOfListOfRecipes.get(new Integer(type)).add(recipe);
+		}
+		return inserted;
+	}
+
+	public static void register(EquipmentRecipe recipe) {
+		register(recipe, getType(recipe));
 	}
 
 	public static int getIDFor(EquipmentRecipe recipe, int type) {

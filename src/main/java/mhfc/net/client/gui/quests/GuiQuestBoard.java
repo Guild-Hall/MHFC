@@ -21,6 +21,8 @@ public class GuiQuestBoard extends GuiScreen {
 
 	private static final int startQuestWidth = 120;
 	private static final int startQuestHeight = 20;
+	private static final int yBorder = 15;
+	private int runningW = 70, runningX = 15;
 	private ClickableGuiList<GuiListStringItem> runningQuestList;
 	private Map<String, GuiListStringItem> mapToListItems;
 	private Map<GuiListStringItem, String> mapToIdentifiers;
@@ -33,7 +35,7 @@ public class GuiQuestBoard extends GuiScreen {
 
 	public GuiQuestBoard(EntityPlayer accessor) {
 		this.accessor = accessor;
-		this.xSize = 320;
+		this.xSize = 374;
 		this.ySize = 220;
 		runningQuestList = new ClickableGuiList<GuiListStringItem>(width,
 				height);
@@ -41,13 +43,13 @@ public class GuiQuestBoard extends GuiScreen {
 		runningQuestList.setRecalculateItemHeightOnDraw(false);
 		runningQuestList.setItemWidth(22);
 
-		runningQuestList.setPosition(5 + xPos, 5 + yPos);
-		runningQuestList.setWidthAndHeight(70, ySize - 10);
+		runningQuestList.setPosition(5 + xPos, 20 + yPos);
+		runningQuestList.setWidthAndHeight(70, ySize - 30);
 
 		mapToListItems = new HashMap<String, GuiListStringItem>();
 		mapToIdentifiers = new HashMap<GuiListStringItem, String>();
 		page = 0;
-		joinQuest = new GuiButton(0, 25, 10, 60, 20, "Take Quest") {
+		joinQuest = new GuiButton(0, 25, 10, 185 + yPos, 20, "Take Quest") {
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
 					int p_146116_3_) {
@@ -86,6 +88,7 @@ public class GuiQuestBoard extends GuiScreen {
 				return false;
 			}
 		};
+
 		startQuest = new GuiButton(0, 25, 10, startQuestWidth,
 				startQuestHeight, "Start current Quest") {
 			@Override
@@ -112,11 +115,12 @@ public class GuiQuestBoard extends GuiScreen {
 		xPos = (s.getScaledWidth() - xSize) / 2;
 		yPos = (s.getScaledHeight() - ySize) / 2;
 
-		runningQuestList.setPosition(15 + xPos, 5 + yPos);
-		runningQuestList.setWidthAndHeight(70, ySize - 20);
+		runningQuestList.setPosition(runningX + xPos, yBorder + 10 + yPos);
+		runningQuestList.setWidthAndHeight(runningW, ySize - 2 * yBorder - 10);
 
-		joinQuest.xPosition = 160 + xPos;
-		joinQuest.yPosition = 195 + yPos;
+		joinQuest.xPosition = (xSize - runningX - runningW - joinQuest
+				.getButtonWidth()) / 2 + runningX + runningW + xPos;
+		joinQuest.yPosition = ySize - yBorder - startQuestHeight + yPos;
 		cancelQuest.xPosition = xPos + xSize / 2 - startQuestWidth / 2;
 		cancelQuest.yPosition = yPos + ySize / 2 + 5;
 		startQuest.xPosition = xPos + xSize / 2 - startQuestWidth / 2;
@@ -133,7 +137,8 @@ public class GuiQuestBoard extends GuiScreen {
 		drawDefaultBackground();
 		drawBackground(0);
 		if (!MHFCRegQuestVisual.hasPlayerQuest()) {
-			fontRendererObj.drawString("Currently running:", 3, 3, 0x404040);
+			fontRendererObj.drawString("Currently running:", xPos + 9, yPos
+					+ yBorder, 0x404040);
 			runningQuestList.setVisible(true);
 			runningQuestList.draw();
 			joinQuest.visible = true;
@@ -146,8 +151,9 @@ public class GuiQuestBoard extends GuiScreen {
 				QuestRunningInformation info = MHFCRegQuestVisual
 						.getRunningInformation(id);
 				if (info != null)
-					info.drawInformation(xPos + 80, yPos, 220, ySize - 30,
-							page, fontRendererObj);
+					info.drawInformation(xPos + runningW + runningX, yPos,
+							xSize - runningW - 2 * runningX, ySize - 30, page,
+							fontRendererObj);
 			}
 		} else {
 			joinQuest.visible = false;
@@ -157,7 +163,7 @@ public class GuiQuestBoard extends GuiScreen {
 			runningQuestList.setVisible(false);
 			String notice = "You are already on a quest";
 			int drawX = (xSize - fontRendererObj.getStringWidth(notice)) / 2;
-			fontRendererObj.drawString(notice, drawX, 60, 0x404040);
+			fontRendererObj.drawString(notice, drawX + xPos, 60, 0x404040);
 		}
 		super.drawScreen(mouseX, mouseY, partialTick);
 	}
@@ -202,6 +208,7 @@ public class GuiQuestBoard extends GuiScreen {
 		buttonList.add(startQuest);
 		this.accessor = mc.thePlayer;
 		MHFCRegQuestVisual.setAndSendRunningListenStatus(true);
+		updateScreen();
 	}
 
 	@Override
