@@ -11,12 +11,13 @@ public class MHFCTab extends CreativeTabs {
 
 	public MHFCTab(int par1) {
 		super(par1, MHFCReference.gui_tab_name);
+		this.setBackgroundImageName("mhfc.png");
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Item getTabIconItem() {
-		return (MHFCItemRegistry.mhfcitemhkirinspark);
+		return (MHFCItemRegistry.weapon_hm_kirinspark);
 	}
 
 	@Override

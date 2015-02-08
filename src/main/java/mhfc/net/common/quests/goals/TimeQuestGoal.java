@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package mhfc.net.common.quests.goals;
 
@@ -9,7 +9,7 @@ import mhfc.net.common.quests.QuestGoalSocket;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 
 /**
- * 
+ *
  */
 public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 
@@ -116,7 +116,7 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 		return current;
 	}
 
-	private String parseTimeFromTicks(long delta) {
+	private static String parseTimeFromTicks(long delta) {
 		delta /= MHFCJobHandler.ticksPerSecond;
 		return "" + (delta >= 3600 ? delta / 3600 + "h " : "")
 				+ (delta >= 60 ? (delta % 3600) / 60 + "min " : "")

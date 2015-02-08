@@ -16,7 +16,7 @@ public interface QuestGoalSocket {
 	 * this can not be guaranteed and some sockets may even want to take action
 	 * in exactly these cases) wants to notify this socket of its status. This
 	 * does not imply that the status has changed but this might have happened.
-	 * 
+	 *
 	 * @param caller
 	 *            The {@link QuestGoal} that this status notification concerns
 	 * @param newFinished

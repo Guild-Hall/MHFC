@@ -7,17 +7,20 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.potion.Potion;
 
 public class ItemKirinBuff extends ItemFood {
+	private static final int healAmount = 6;
+	private static final int saturation = 100;
+	private static final boolean isDogsFood = false;
 
-	public ItemKirinBuff(int healAmount, float modifier, boolean p_i45339_3_) {
-		super(healAmount, modifier, p_i45339_3_);
+	public ItemKirinBuff() {
+		super(healAmount, saturation, isDogsFood);
 		setUnlocalizedName(MHFCReference.armor_kirin_buff_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setPotionEffect(Potion.resistance.id, 15, 4, 100);
 	}
 
 	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
-		this.itemIcon = par1IconRegister
+	public void registerIcons(IIconRegister itemReg) {
+		this.itemIcon = itemReg
 				.registerIcon(MHFCReference.item_kirinbuff_icon);
 	}
 

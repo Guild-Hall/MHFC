@@ -23,7 +23,7 @@ public class DeathRestrictionQuestGoal extends QuestGoal
 	 * A new death count restriction is created with a maximum amount of deaths
 	 * from players in the overlaying quest. If there is no quest above then all
 	 * players are taken in account.
-	 * 
+	 *
 	 * @param maxDeaths
 	 *            How often players are allowed to die, inclusive
 	 */

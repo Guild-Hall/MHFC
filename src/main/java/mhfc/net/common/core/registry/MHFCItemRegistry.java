@@ -1,99 +1,138 @@
 package mhfc.net.common.core.registry;
 
-import mhfc.net.common.helper.MHFCArmorMaterialHelper;
-import mhfc.net.common.helper.MHFCWeaponMaterialHelper;
-import mhfc.net.common.item.ItemArmorSphere;
-import mhfc.net.common.item.ItemBase;
-import mhfc.net.common.item.ItemBombMaterial;
-import mhfc.net.common.item.ItemFirestone;
-import mhfc.net.common.item.ItemFrontierSpawner;
-import mhfc.net.common.item.ItemGaguaEgg;
-import mhfc.net.common.item.ItemIngot;
-import mhfc.net.common.item.ItemKirin;
-import mhfc.net.common.item.ItemLumberBar;
-import mhfc.net.common.item.ItemMoldedIron;
-import mhfc.net.common.item.ItemRathalos;
-import mhfc.net.common.item.ItemSac;
-import mhfc.net.common.item.ItemSteelBar;
-import mhfc.net.common.item.ItemTigrex;
-import mhfc.net.common.item.ItemTrapTool;
-import mhfc.net.common.item.ItemWoodRig;
-import mhfc.net.common.item.ItemWyvernCoin;
-import mhfc.net.common.item.ItemWyverniaClay;
-import mhfc.net.common.item.ItemWyverniaDust;
+import mhfc.net.common.item.armor.DragoonArmor;
 import mhfc.net.common.item.armor.KirinArmor;
 import mhfc.net.common.item.armor.KirinSArmor;
+import mhfc.net.common.item.armor.KishinArmor;
 import mhfc.net.common.item.armor.RathalosArmor;
 import mhfc.net.common.item.armor.TigrexArmor;
+import mhfc.net.common.item.armor.VelocipreyArmor;
 import mhfc.net.common.item.armor.YukumoArmor;
 import mhfc.net.common.item.food.ItemKirinBuff;
-import mhfc.net.common.item.weapon.WeaponBHunter;
-import mhfc.net.common.item.weapon.WeaponGSBone;
-import mhfc.net.common.item.weapon.WeaponGSKirinThunderSword;
-import mhfc.net.common.item.weapon.WeaponGSTigrex;
-import mhfc.net.common.item.weapon.WeaponHHMetalBagpipe;
-import mhfc.net.common.item.weapon.WeaponHKirinSpark;
-import mhfc.net.common.item.weapon.WeaponHTigrex;
-import mhfc.net.common.item.weapon.WeaponHWar;
-import mhfc.net.common.item.weapon.WeaponHWarPlus;
-import mhfc.net.common.item.weapon.WeaponHWarSlammer;
-import mhfc.net.common.item.weapon.WeaponLSDarkVipern;
-import mhfc.net.common.item.weapon.WeaponLSIronKatana;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.item.food.ItemMeats;
+import mhfc.net.common.item.food.ItemNutrients;
+import mhfc.net.common.item.materials.ItemArmorSphere;
+import mhfc.net.common.item.materials.ItemBase;
+import mhfc.net.common.item.materials.ItemBombMaterial;
+import mhfc.net.common.item.materials.ItemFirestone;
+import mhfc.net.common.item.materials.ItemFrontierSpawner;
+import mhfc.net.common.item.materials.ItemGaguaEgg;
+import mhfc.net.common.item.materials.ItemIngot;
+import mhfc.net.common.item.materials.ItemKirin;
+import mhfc.net.common.item.materials.ItemLumberBar;
+import mhfc.net.common.item.materials.ItemMoldedIron;
+import mhfc.net.common.item.materials.ItemRathalos;
+import mhfc.net.common.item.materials.ItemSac;
+import mhfc.net.common.item.materials.ItemSteelBar;
+import mhfc.net.common.item.materials.ItemTigrex;
+import mhfc.net.common.item.materials.ItemTrapTool;
+import mhfc.net.common.item.materials.ItemWoodRig;
+import mhfc.net.common.item.materials.ItemWyvernCoin;
+import mhfc.net.common.item.materials.ItemWyverniaClay;
+import mhfc.net.common.item.materials.ItemWyverniaDust;
+import mhfc.net.common.weapon.melee.greatsword.GSBone;
+import mhfc.net.common.weapon.melee.greatsword.GSDeviljhobroadsword;
+import mhfc.net.common.weapon.melee.greatsword.GSKirinThunderSword;
+import mhfc.net.common.weapon.melee.greatsword.GSRathalosFiresword;
+import mhfc.net.common.weapon.melee.greatsword.GSTigrex;
+import mhfc.net.common.weapon.melee.hammer.HDeviljho;
+import mhfc.net.common.weapon.melee.hammer.HKirinSpark;
+import mhfc.net.common.weapon.melee.hammer.HRathalos;
+import mhfc.net.common.weapon.melee.hammer.HTigrex;
+import mhfc.net.common.weapon.melee.hammer.HWar;
+import mhfc.net.common.weapon.melee.hammer.HWarPlus;
+import mhfc.net.common.weapon.melee.hammer.HWarSlammer;
+import mhfc.net.common.weapon.melee.huntinghorn.HHIvoryHorn;
+import mhfc.net.common.weapon.melee.huntinghorn.HHMetalBagpipe;
+import mhfc.net.common.weapon.melee.huntinghorn.HHTigrex;
+import mhfc.net.common.weapon.melee.longsword.LSDarkVipern;
+import mhfc.net.common.weapon.melee.longsword.LSIronKatana;
+import mhfc.net.common.weapon.range.bowgun.BHRath;
 import net.minecraft.item.Item;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class MHFCItemRegistry {
 	// Weapons
-	public static final Item mhfcitemgsbone;
-	public static final Item MHFCItemGSTigrex;
-	public static final Item mhfcitemgskirinthundersword;
-	public static final Item MHFCItemHTigrex;
-	public static final Item mhfcitemhkirinspark;
-	public static final Item mhfcitemhwarhammer;
-	public static final Item mhfcitemhwarhammerplus;
-	public static final Item mhfcitemhwarslammer;
-	public static final Item mhfcitemlsironkatana;
-	public static final Item mhfcitembhunter;
-	public static final Item mhfcitemhhmetalbagpipe;
-	public static final Item mhfcitemlsdarkvipern;
+	public static final Item weapon_gs_bone;
+	public static final Item weapon_gs_tigrex;
+	public static final Item weapon_gs_kirinthunders;
+	public static final Item weapon_gs_berserkers;
+	public static final Item weapon_gs_rathalosfire;
+
+	public static final Item weapon_hm_tigrex;
+	public static final Item weapon_hm_kirinspark;
+	public static final Item weapon_hm_warhammer;
+	public static final Item weapon_hm_warhammerplus;
+	public static final Item weapon_hm_warslammer;
+	public static final Item weapon_hm_devilsdue;
+	public static final Item weapon_hm_rathalos;
+
+	public static final Item weapon_ls_ironkatana;
+	public static final Item weapon_ls_darkvipern;
+
+	public static final Item weapon_hh_metalbagpipe;
+	public static final Item weapon_hh_ivoryhorn;
+	public static final Item weapon_hh_tigrex;
+
+	public static final Item weapon_bgh_rath;
+
+	// public static final Item weapon_bow_hunter;
 
 	// Armors
-	public static final Item mhfcitemtigrexhelm;
-	public static final Item mhfcitemkirinhelm;
-	public static final Item mhfcitemtigrexchest;
-	public static final Item mhfcitemkirinchest;
-	public static final Item mhfcitemtigrexlegs;
-	public static final Item mhfcitemkirinlegs;
-	public static final Item mhfcitemtigrexboots;
-	public static final Item mhfcitemkirinboots;
-	public static final Item mhfcitemkirinShelm;
-	public static final Item mhfcitemkirinSchest;
-	public static final Item mhfcitemkirinSlegs;
-	public static final Item mhfcitemkirinSboots;
-	public static final Item mhfcitemyukumohelm;
-	public static final Item mhfcitemyukumochest;
-	public static final Item mhfcitemyukumolegs;
-	public static final Item mhfcitemyukumoboots;
-	public static final Item mhfcitemrathaloshelm;
-	public static final Item mhfcitemrathaloschest;
-	public static final Item mhfcitemrathaloslegs;
-	public static final Item mhfcitemrathalosboots;
+	public static final Item armor_tigrex_helm;
+	public static final Item armor_tigrex_chest;
+	public static final Item armor_tigrex_legs;
+	public static final Item armor_tigrex_boots;
+
+	public static final Item armor_kirin_helm;
+	public static final Item armor_kirin_chest;
+	public static final Item armor_kirin_legs;
+	public static final Item armor_kirin_boots;
+
+	public static final Item armor_kirinS_helm;
+	public static final Item armor_kirinS_chest;
+	public static final Item armor_kirinS_legs;
+	public static final Item armor_kirinS_boots;
+
+	public static final Item armor_yukumo_helm;
+	public static final Item armor_yukumo_chest;
+	public static final Item armor_yukumo_legs;
+	public static final Item armor_yukumo_boots;
+
+	public static final Item armor_rathalos_helm;
+	public static final Item armor_rathalos_chest;
+	public static final Item armor_rathalos_legs;
+	public static final Item armor_rathalos_boots;
+
+	public static final Item armor_dragoon_helm;
+	public static final Item armor_dragoon_chest;
+	public static final Item armor_dragoon_legs;
+	public static final Item armor_dragoon_boots;
+
+	public static final Item armor_velociprey_helm;
+	public static final Item armor_velociprey_chest;
+	public static final Item armor_velociprey_legs;
+	public static final Item armor_velociprey_boots;
+
+	// public static final Item armor_deviljho_helm;
+	// public static final Item armor_deviljho_chest;
+	// public static final Item armor_deviljho_legs;
+	// public static final Item armor_deviljho_boots;
+
+	public static final Item armor_tigrexB_helm;
+	public static final Item armor_tigrexB_chest;
+	public static final Item armor_tigrexB_legs;
+	public static final Item armor_tigrexB_boots;
 
 	// Stuffs
 	public static final Item MHFCItemFrontierSpawner;
-	public static final Item MHFCItemTigrexScale;
-	public static final Item MHFCItemTigrexShell;
-	public static final Item mhfcitemtigrexclaw;
-	public static final Item mhfcitemtigrexfang;
-	public static final Item mhfcitemtigrexskullshell;
-	public static final Item mhfcitemtigrextail;
-	public static final Item mhfcitemkirinmane;
-	public static final Item mhfcitemkiringem;
-	public static final Item mhfcitemkirinthundertail;
-	public static final Item mhfcitemlightcrystal;
-	public static final Item mhfcitempurecrystal;
-	public static final Item mhfcitemplatinummane;
+
+	public static final Item MHFCItemtigrex;
+	public static final Item mhfcitemkirin;
+	// public static final Item mhfcitemlightcrystal;
+	// public static final Item mhfcitempurecrystal;
+	public static final Item mhfcitemrathalos;
+
 	public static final Item mhfcitemwoodrig;
 	public static final Item mhfcitemlumberbar;
 	public static final Item mhfcitemsteelbar;
@@ -102,114 +141,80 @@ public class MHFCItemRegistry {
 	public static final Item MHFCItemBombMaterial;
 	public static final Item MHFCItemGaguaEgg;
 	public static final Item MHFCItemWyvernCoin;
-	public static final Item mhfcitemingotcarbalite;
-	public static final Item mhfcitemingotdragonite;
-	public static final Item mhfcitemingoteltalite;
-	public static final Item mhfcitemingotmachalite;
-	public static final Item mhfcitemanunium;
-	public static final Item mhfcitemmeganum;
-	public static final Item mhfcitemmoldediron;
-	public static final Item mhfcitemflamesac;
-	public static final Item mhfcitemrathalosshell;
-	public static final Item mhfcitemrathaloswebbing;
-	public static final Item mhfcitemwyvernmarrow;
-	public static final Item mhfcitemrathaloswing;
-	public static final Item mhfcitemrathalosplate;
-	public static final Item mhfcitemfirestone;
+
+	public static final Item mhfcitemingot;
+	public static final Item mhfcitembase;
 	public static final Item mhfcitemarmorsphere;
-	public static final Item mhfcitemarmorsphereplus;
+	public static final Item mhfcitemsac;
+
+	public static final Item mhfcitemmoldediron;
+	public static final Item mhfcitemfirestone;
 	public static final Item mhfcitemwyverniaclay;
 
 	// Foods
 	public static final Item mhfcitemkirinbuff;
+	public static final Item mhfcfoodmeat;
+	public static final Item mhfcfoodnutrients;
 
 	static {
 		// Armor
-		mhfcitemtigrexhelm = registerItem(new TigrexArmor(
-				MHFCArmorMaterialHelper.ArmorTigrex, 4, 0)
-				.setUnlocalizedName(MHFCReference.armor_tigrex_helm_name));
-		mhfcitemkirinhelm = registerItem(new KirinArmor(
-				MHFCArmorMaterialHelper.ArmorKirin, 4, 0)
-				.setUnlocalizedName(MHFCReference.armor_kirin_helm_name));
-		mhfcitemtigrexchest = registerItem(new TigrexArmor(
-				MHFCArmorMaterialHelper.ArmorTigrex, 4, 1)
-				.setUnlocalizedName(MHFCReference.armor_tigrex_chest_name));
-		mhfcitemkirinchest = registerItem(new KirinArmor(
-				MHFCArmorMaterialHelper.ArmorKirin, 4, 1)
-				.setUnlocalizedName(MHFCReference.armor_kirin_chest_name));
-		mhfcitemtigrexlegs = registerItem(new TigrexArmor(
-				MHFCArmorMaterialHelper.ArmorTigrex, 4, 2)
-				.setUnlocalizedName(MHFCReference.armor_tigrex_legs_name));
-		mhfcitemkirinlegs = registerItem(new KirinArmor(
-				MHFCArmorMaterialHelper.ArmorKirin, 4, 2)
-				.setUnlocalizedName(MHFCReference.armor_kirin_legs_name));
-		mhfcitemtigrexboots = registerItem(new TigrexArmor(
-				MHFCArmorMaterialHelper.ArmorTigrex, 4, 3)
-				.setUnlocalizedName(MHFCReference.armor_tigrex_boots_name));
-		mhfcitemkirinboots = registerItem(new KirinArmor(
-				MHFCArmorMaterialHelper.ArmorKirin, 4, 3)
-				.setUnlocalizedName(MHFCReference.armor_kirin_boots_name));
-		mhfcitemkirinShelm = registerItem(new KirinSArmor(
-				MHFCArmorMaterialHelper.ArmorKirinS, 4, 0)
-				.setUnlocalizedName(MHFCReference.armor_kirinS_helm_name));
-		mhfcitemkirinSchest = registerItem(new KirinSArmor(
-				MHFCArmorMaterialHelper.ArmorKirinS, 4, 1)
-				.setUnlocalizedName(MHFCReference.armor_kirinS_chest_name));
-		mhfcitemkirinSlegs = registerItem(new KirinSArmor(
-				MHFCArmorMaterialHelper.ArmorKirinS, 4, 2)
-				.setUnlocalizedName(MHFCReference.armor_kirinS_legs_name));
-		mhfcitemkirinSboots = registerItem(new KirinSArmor(
-				MHFCArmorMaterialHelper.ArmorKirinS, 4, 3)
-				.setUnlocalizedName(MHFCReference.armor_kirinS_boots_name));
-		mhfcitemyukumohelm = registerItem(new YukumoArmor(
-				MHFCArmorMaterialHelper.ArmorYukumo, 4, 0)
-				.setUnlocalizedName(MHFCReference.armor_yukumo_helm_name));
-		mhfcitemyukumochest = registerItem(new YukumoArmor(
-				MHFCArmorMaterialHelper.ArmorYukumo, 4, 1)
-				.setUnlocalizedName(MHFCReference.armor_yukumo_chest_name));
-		mhfcitemyukumolegs = registerItem(new YukumoArmor(
-				MHFCArmorMaterialHelper.ArmorYukumo, 4, 2)
-				.setUnlocalizedName(MHFCReference.armor_yukumo_legs_name));
-		mhfcitemyukumoboots = registerItem(new YukumoArmor(
-				MHFCArmorMaterialHelper.ArmorYukumo, 4, 3)
-				.setUnlocalizedName(MHFCReference.armor_yukumo_boots_name));
-		mhfcitemrathaloshelm = registerItem(new RathalosArmor(
-				MHFCArmorMaterialHelper.ArmorRathalos, 4, 0)
-				.setUnlocalizedName(MHFCReference.armor_rathalos_helm_name));
-		mhfcitemrathaloschest = registerItem(new RathalosArmor(
-				MHFCArmorMaterialHelper.ArmorRathalos, 4, 1)
-				.setUnlocalizedName(MHFCReference.armor_rathalos_chest_name));
-		mhfcitemrathaloslegs = registerItem(new RathalosArmor(
-				MHFCArmorMaterialHelper.ArmorRathalos, 4, 2)
-				.setUnlocalizedName(MHFCReference.armor_rathalos_legs_name));
-		mhfcitemrathalosboots = registerItem(new RathalosArmor(
-				MHFCArmorMaterialHelper.ArmorRathalos, 4, 3)
-				.setUnlocalizedName(MHFCReference.armor_rathalos_boots_name));
+		armor_tigrex_helm = registerItem(new TigrexArmor(0));
+		armor_tigrex_chest = registerItem(new TigrexArmor(1));
+		armor_tigrex_legs = registerItem(new TigrexArmor(2));
+		armor_tigrex_boots = registerItem(new TigrexArmor(3));
+		armor_kirin_helm = registerItem(new KirinArmor(0));
+		armor_kirin_chest = registerItem(new KirinArmor(1));
+		armor_kirin_legs = registerItem(new KirinArmor(2));
+		armor_kirin_boots = registerItem(new KirinArmor(3));
+		armor_kirinS_helm = registerItem(new KirinSArmor(0));
+		armor_kirinS_chest = registerItem(new KirinSArmor(1));
+		armor_kirinS_legs = registerItem(new KirinSArmor(2));
+		armor_kirinS_boots = registerItem(new KirinSArmor(3));
+		armor_yukumo_helm = registerItem(new YukumoArmor(0));
+		armor_yukumo_chest = registerItem(new YukumoArmor(1));
+		armor_yukumo_legs = registerItem(new YukumoArmor(2));
+		armor_yukumo_boots = registerItem(new YukumoArmor(3));
+		armor_rathalos_helm = registerItem(new RathalosArmor(0));
+		armor_rathalos_chest = registerItem(new RathalosArmor(1));
+		armor_rathalos_legs = registerItem(new RathalosArmor(2));
+		armor_rathalos_boots = registerItem(new RathalosArmor(3));
+		armor_dragoon_helm = registerItem(new DragoonArmor(0));
+		armor_dragoon_chest = registerItem(new DragoonArmor(1));
+		armor_dragoon_legs = registerItem(new DragoonArmor(2));
+		armor_dragoon_boots = registerItem(new DragoonArmor(3));
+		armor_velociprey_helm = registerItem(new VelocipreyArmor(0));
+		armor_velociprey_chest = registerItem(new VelocipreyArmor(1));
+		armor_velociprey_legs = registerItem(new VelocipreyArmor(2));
+		armor_velociprey_boots = registerItem(new VelocipreyArmor(3));
+		armor_tigrexB_helm = registerItem(new KishinArmor(0));
+		armor_tigrexB_chest = registerItem(new KishinArmor(1));
+		armor_tigrexB_legs = registerItem(new KishinArmor(2));
+		armor_tigrexB_boots = registerItem(new KishinArmor(3));
 		// Weapons
-		MHFCItemGSTigrex = registerItem(new WeaponGSTigrex(
-				MHFCWeaponMaterialHelper.GSTigrex));
-		mhfcitemgsbone = registerItem(new WeaponGSBone(
-				MHFCWeaponMaterialHelper.GSBoneBlade));
-		mhfcitemgskirinthundersword = registerItem(new WeaponGSKirinThunderSword(
-				MHFCWeaponMaterialHelper.GSKirin));
-		MHFCItemHTigrex = registerItem(new WeaponHTigrex(
-				MHFCWeaponMaterialHelper.HTigrex));
-		mhfcitemlsironkatana = registerItem(new WeaponLSIronKatana(
-				MHFCWeaponMaterialHelper.LSIronKatana));
-		mhfcitemlsdarkvipern = registerItem(new WeaponLSDarkVipern(
-				MHFCWeaponMaterialHelper.LSDarkVipern));
-		mhfcitemhkirinspark = registerItem(new WeaponHKirinSpark(
-				MHFCWeaponMaterialHelper.HKirinSpark));
-		mhfcitemhwarhammer = registerItem(new WeaponHWar(
-				MHFCWeaponMaterialHelper.HWarHammer));
-		mhfcitemhwarhammerplus = registerItem(new WeaponHWarPlus(
-				MHFCWeaponMaterialHelper.HWarHammerplus));
-		mhfcitemhwarslammer = registerItem(new WeaponHWarSlammer(
-				MHFCWeaponMaterialHelper.HWarSlammer));
-		mhfcitemhhmetalbagpipe = registerItem(new WeaponHHMetalBagpipe(
-				MHFCWeaponMaterialHelper.HHMetalBagpipe));
+		weapon_gs_tigrex = registerItem(new GSTigrex());
+		weapon_gs_bone = registerItem(new GSBone());
+		weapon_gs_kirinthunders = registerItem(new GSKirinThunderSword());
+		weapon_gs_berserkers = registerItem(new GSDeviljhobroadsword());
+		weapon_gs_rathalosfire = registerItem(new GSRathalosFiresword());
+
+		weapon_hm_tigrex = registerItem(new HTigrex());
+		weapon_hm_devilsdue = registerItem(new HDeviljho());
+		weapon_hm_warhammer = registerItem(new HWar());
+		weapon_hm_rathalos = registerItem(new HRathalos());
+		weapon_hm_kirinspark = registerItem(new HKirinSpark());
+		weapon_hm_warhammerplus = registerItem(new HWarPlus());
+		weapon_hm_warslammer = registerItem(new HWarSlammer());
+
+		weapon_ls_ironkatana = registerItem(new LSIronKatana());
+		weapon_ls_darkvipern = registerItem(new LSDarkVipern());
+		weapon_hh_metalbagpipe = registerItem(new HHMetalBagpipe());
+
+		weapon_hh_ivoryhorn = registerItem(new HHIvoryHorn());
+		weapon_hh_tigrex = registerItem(new HHTigrex());
+
 		// Range weapons
-		mhfcitembhunter = registerItem(new WeaponBHunter());
+		// weapon_bow_hunter = registerItem(new WeaponBHunter());
+		weapon_bgh_rath = registerItem(new BHRath());
 		// Items... drops
 		MHFCItemWyverniaDust = registerItem(new ItemWyverniaDust());
 		MHFCItemFrontierSpawner = registerItem(new ItemFrontierSpawner());
@@ -221,36 +226,26 @@ public class MHFCItemRegistry {
 		MHFCItemBombMaterial = registerItem(new ItemBombMaterial());
 		MHFCItemGaguaEgg = registerItem(new ItemGaguaEgg());
 		MHFCItemWyvernCoin = registerItem(new ItemWyvernCoin());
-		mhfcitemingotcarbalite = registerItem(new ItemIngot(0));
-		mhfcitemingotdragonite = registerItem(new ItemIngot(1));
-		mhfcitemingoteltalite = registerItem(new ItemIngot(2));
-		mhfcitemingotmachalite = registerItem(new ItemIngot(3));
-		mhfcitemanunium = registerItem(new ItemBase(0));
-		mhfcitemmeganum = registerItem(new ItemBase(1));
-		mhfcitemkirinmane = registerItem(new ItemKirin(0));
-		mhfcitemkiringem = registerItem(new ItemKirin(1));
-		mhfcitemkirinthundertail = registerItem(new ItemKirin(2));
-		mhfcitemlightcrystal = registerItem(new ItemKirin(3));
-		mhfcitempurecrystal = registerItem(new ItemKirin(4));
-		mhfcitemplatinummane = registerItem(new ItemKirin(5));
-		MHFCItemTigrexScale = registerItem(new ItemTigrex(0));
-		MHFCItemTigrexShell = registerItem(new ItemTigrex(1));
-		mhfcitemtigrexclaw = registerItem(new ItemTigrex(2));
-		mhfcitemtigrexfang = registerItem(new ItemTigrex(3));
-		mhfcitemtigrexskullshell = registerItem(new ItemTigrex(4));
-		mhfcitemtigrextail = registerItem(new ItemTigrex(5));
-		mhfcitemflamesac = registerItem(new ItemSac(0));
-		mhfcitemrathalosshell = registerItem(new ItemRathalos(0));
-		mhfcitemrathaloswebbing = registerItem(new ItemRathalos(1));
-		mhfcitemwyvernmarrow = registerItem(new ItemRathalos(2));
-		mhfcitemrathaloswing = registerItem(new ItemRathalos(3));
-		mhfcitemrathalosplate = registerItem(new ItemRathalos(4));
+
+		mhfcitemingot = registerItem(new ItemIngot());
+		mhfcitembase = registerItem(new ItemBase());
+
+		mhfcitemkirin = registerItem(new ItemKirin());
+		MHFCItemtigrex = registerItem(new ItemTigrex());
+		mhfcitemrathalos = registerItem(new ItemRathalos());
+
+		mhfcitemsac = registerItem(new ItemSac());
 		mhfcitemfirestone = registerItem(new ItemFirestone());
-		mhfcitemarmorsphere = registerItem(new ItemArmorSphere(0));
-		mhfcitemarmorsphereplus = registerItem(new ItemArmorSphere(1));
+		mhfcitemarmorsphere = registerItem(new ItemArmorSphere());
 		mhfcitemwyverniaclay = registerItem(new ItemWyverniaClay());
+		// mhfcitembullet0 = new ItemBullet(0);
+		// mhfcitembullet1 = new ItemBullet(1);
+		// mhfcitembullet2 = new ItemBullet(2);
+		// mhfcitembullet3 = new ItemBullet(3);
 		// Foods
-		mhfcitemkirinbuff = registerItem(new ItemKirinBuff(6, 100, false));
+		mhfcitemkirinbuff = registerItem(new ItemKirinBuff());
+		mhfcfoodmeat = registerItem(new ItemMeats());
+		mhfcfoodnutrients = registerItem(new ItemNutrients());
 	}
 
 	public static void init() {}

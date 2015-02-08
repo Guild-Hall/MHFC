@@ -23,7 +23,6 @@ public class MHFCGuiHandler implements IGuiHandler {
 						(TileHunterBench) tE, x, y, z);
 		}
 		return null;
-
 	}
 
 	@Override
@@ -42,6 +41,6 @@ public class MHFCGuiHandler implements IGuiHandler {
 				return MHFCRegQuestVisual.getQuestBoard();
 		}
 		return null;
-
 	}
+
 }

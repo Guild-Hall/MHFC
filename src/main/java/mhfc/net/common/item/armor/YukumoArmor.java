@@ -4,6 +4,7 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.helper.MHFCArmorMaterialHelper;
 import mhfc.net.common.helper.MHFCArmorModelHelper;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
@@ -11,30 +12,34 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class YukumoArmor extends ItemArmor {
-	private static final String[] icons_array = {
+	private static final String[] names = {
+			MHFCReference.armor_yukumo_helm_name,
+			MHFCReference.armor_yukumo_chest_name,
+			MHFCReference.armor_yukumo_legs_name,
+			MHFCReference.armor_yukumo_boots_name};
+	private static final String[] icons = {
 			MHFCReference.armor_yukumo_helm_icon,
 			MHFCReference.armor_yukumo_chest_icon,
 			MHFCReference.armor_yukumo_legs_icon,
 			MHFCReference.armor_yukumo_boots_icon};
 
-	// private Item item;
-
-	public YukumoArmor(ArmorMaterial p_i45325_1_, int p_i45325_2_,
-			int p_i45325_3_) {
-		super(p_i45325_1_, p_i45325_2_, p_i45325_3_);
+	public YukumoArmor(int type) {
+		super(MHFCArmorMaterialHelper.ArmorYukumo, 4, type);
 		setCreativeTab(MHFCMain.mhfctabs);
+		setUnlocalizedName(names[type]);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister) {
-		this.itemIcon = iconRegister.registerIcon(icons_array[this.armorType]);
+		this.itemIcon = iconRegister.registerIcon(icons[this.armorType]);
 	}
 
 	@Override
@@ -48,12 +53,12 @@ public class YukumoArmor extends ItemArmor {
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
 			String type) {
-		if (stack.getItem() == MHFCItemRegistry.mhfcitemyukumohelm
-				|| stack.getItem() == MHFCItemRegistry.mhfcitemyukumochest
-				|| stack.getItem() == MHFCItemRegistry.mhfcitemyukumoboots) {
+		if (stack.getItem() == MHFCItemRegistry.armor_yukumo_helm
+				|| stack.getItem() == MHFCItemRegistry.armor_yukumo_chest
+				|| stack.getItem() == MHFCItemRegistry.armor_yukumo_boots) {
 			return MHFCReference.armor_yukumo_tex1;
 		}
-		if (stack.getItem() == MHFCItemRegistry.mhfcitemyukumolegs) {
+		if (stack.getItem() == MHFCItemRegistry.armor_yukumo_legs) {
 			return MHFCReference.armor_yukumo_tex2;
 		}
 		return null;
@@ -88,17 +93,23 @@ public class YukumoArmor extends ItemArmor {
 				armorModel.isSneak = entityLiving.isSneaking();
 				armorModel.isRiding = entityLiving.isRiding();
 				armorModel.isChild = entityLiving.isChild();
-				armorModel.heldItemRight = entityLiving.getEquipmentInSlot(0) != null
-						? 1
-						: 0;
-				if (entityLiving instanceof EntityPlayer) {
-					armorModel.aimedBow = ((EntityPlayer) entityLiving)
-							.getItemInUseDuration() > 2;
+				armorModel.heldItemRight = 0;
+				armorModel.aimedBow = false;
+				EntityPlayer player = (EntityPlayer) entityLiving;
+				ItemStack held_item = player.getEquipmentInSlot(0);
+				if (held_item != null) {
+					armorModel.heldItemRight = 1;
+					if (player.getItemInUseCount() > 0) {
+						EnumAction enumaction = held_item.getItemUseAction();
+						if (enumaction == EnumAction.bow) {
+							armorModel.aimedBow = true;
+						} else if (enumaction == EnumAction.block) {
+							armorModel.heldItemRight = 3;
+						}
+					}
 				}
-				return armorModel;
 			}
 		}
-		return null;
+		return armorModel;
 	}
-
 }

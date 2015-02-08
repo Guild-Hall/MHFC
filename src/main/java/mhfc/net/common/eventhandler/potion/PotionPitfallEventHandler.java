@@ -16,12 +16,11 @@ public class PotionPitfallEventHandler {
 			return;
 		}
 		PotionEffect activeEffect = event.entityLiving
-				.getActivePotionEffect(MHFCPotionRegistry.mhfcpotionshock);
+				.getActivePotionEffect(MHFCPotionRegistry.shock);
 		if (activeEffect != null && activeEffect.getDuration() == 0) {
 			event.entityLiving
-					.removePotionEffect(MHFCPotionRegistry.mhfcpotionshock.id);
+					.removePotionEffect(MHFCPotionRegistry.shock.id);
 		}
-
 	}
 
 }

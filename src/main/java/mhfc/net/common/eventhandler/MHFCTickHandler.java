@@ -8,13 +8,10 @@ public class MHFCTickHandler {
 
 	@SubscribeEvent
 	public void onRenderTick(TickEvent.RenderTickEvent event) {}
-
 	@SubscribeEvent
 	public void onClientTick(TickEvent.ClientTickEvent event) {}
-
 	@SubscribeEvent
 	public void onServerTick(TickEvent.ServerTickEvent event) {}
-
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent play) {}
 

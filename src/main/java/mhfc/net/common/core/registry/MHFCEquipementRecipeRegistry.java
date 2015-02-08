@@ -10,12 +10,14 @@ import java.util.Set;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
+import mhfc.net.common.item.materials.ItemTigrex.TigrexSubType;
 import mhfc.net.common.network.packet.MessageBeginCrafting;
 import mhfc.net.common.network.packet.MessageCancelRecipe;
 import mhfc.net.common.network.packet.MessageCraftingUpdate;
 import mhfc.net.common.network.packet.MessageSetRecipe;
 import mhfc.net.common.network.packet.MessageTileLocation;
 import mhfc.net.common.tile.TileHunterBench;
+import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -150,9 +152,9 @@ public class MHFCEquipementRecipeRegistry {
 		}
 		List<ItemStack> listReq = new ArrayList<ItemStack>();
 		for (int a = 0; a < 7; a++) {
-			listReq.add(new ItemStack(MHFCItemRegistry.MHFCItemTigrexScale, 4));
+			listReq.add(SubTypedItem.fromSubItem(TigrexSubType.SCALE, 4));
 		}
-		new EquipmentRecipe(new ItemStack(MHFCItemRegistry.mhfcitemkirinhelm),
+		new EquipmentRecipe(new ItemStack(MHFCItemRegistry.armor_kirin_helm),
 				listReq, 200, 600);
 	}
 

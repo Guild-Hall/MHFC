@@ -1,6 +1,8 @@
 package mhfc.net;
 
+import mhfc.net.common.configuration.MHFCConfig;
 import mhfc.net.common.core.command.CommandMHFC;
+import mhfc.net.common.system.UpdateSystem;
 import mhfc.net.common.tab.MHFCTab;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.creativetab.CreativeTabs;
@@ -15,6 +17,8 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
 /**
+ * <<<<<<< HEAD
+ *
  * @author Heltrato, WorldSEnder
  * @license MHFModding Team Copyright
  *          (http://www.minecraftforum.net/topic/1977334
@@ -36,13 +40,18 @@ public class MHFCMain {
 
 	public static Logger logger;
 	public static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID());
+	public static MHFCConfig config;
 
 	private boolean isPreInitialized = false;
-
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent pre) {
 		// MHFCConfig.init(pre);
 		logger = pre.getModLog();
+		config = new MHFCConfig(pre);
+		config.init();
+		UpdateSystem.init(MHFCReference.main_version);
+		logger.info("Starting MHFC v" + MHFCReference.main_version);
+		logger.info("Copyright (c) Heltrato & The Modding Team 2014");
 		isPreInitialized = true;
 	}
 

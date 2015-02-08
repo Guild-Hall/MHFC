@@ -4,22 +4,15 @@ MHFC Changelog:
 
 
 
-StrackTracing State:
----------- -------------------- ------------- ------------------------ ----------- ---------------- ----------------------
-------- ---------- 
---- -
-- 
---------------------
-- -----------------
- ----------------
- -------------------------------------------------------------------------
- -----------------------------
- -
 
+7/16/2014 | 8:34Pm.
+"Sorry for being late in committing stuff everyone . We are facing challenge here , typhoons and such kills our time to manage." - Heltrato
 
-
-
-
+Heltrato: Fixed yellow thing on Kirin's Aura (thanks to redzem).
+Heltrato: block texture location are moved to MHFCReference. See github.
+Heltrato: Removed MHFCSpawn - method/s are move to UtilStuff.
+Heltrato: Reworking AI's spawning lightning method , methods will be move to UtilStuff soon.
+Heltrato: Removed Dragonite Block onItemRightClick use.
 
 Planned Release on 1.0
 

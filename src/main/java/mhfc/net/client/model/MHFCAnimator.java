@@ -2,7 +2,7 @@ package mhfc.net.client.model;
 
 import java.util.HashMap;
 
-import mhfc.net.common.implement.iMHFC;
+import mhfc.net.common.interfaces.iMHFC;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.util.MathHelper;
 import cpw.mods.fml.relauncher.Side;

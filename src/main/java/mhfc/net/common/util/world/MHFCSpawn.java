@@ -12,12 +12,5 @@ public class MHFCSpawn {
 		return rand.nextInt(50 / i) == 0;
 	  }
 	
-	/*To be add soon :D
-	 * MHFCLightning l = new MHFCLightning(e.worldObj);
-	MHFCLightning l1 = new MHFCLightning(e.worldObj);
-	l.setLocationAndAngles(e.posX + 4, target.posY, e.posZ + 4, 0, 0);
-	l1.setLocationAndAngles(e.posX + 5, target.posY, e.posZ + 5, 0, 0);
-	e.worldObj.spawnEntityInWorld(l);
-	e.worldObj.spawnEntityInWorld(l1);
-	*/
+
 }

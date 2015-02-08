@@ -4,6 +4,7 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.helper.MHFCArmorMaterialHelper;
 import mhfc.net.common.helper.MHFCArmorModelHelper;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
@@ -11,40 +12,44 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class RathalosArmor extends ItemArmor {
-	private static final String[] icons_array = {
+	private static final String[] names = {
+			MHFCReference.armor_rathalos_helm_name,
+			MHFCReference.armor_rathalos_chest_name,
+			MHFCReference.armor_rathalos_legs_name,
+			MHFCReference.armor_rathalos_boots_name};
+	private static final String[] icons = {
 			MHFCReference.armor_rathalos_helm_icon,
 			MHFCReference.armor_rathalos_chest_icon,
 			MHFCReference.armor_rathalos_legs_icon,
 			MHFCReference.armor_rathalos_boots_icon};
 
-	// private Item item;
-
-	public RathalosArmor(ArmorMaterial p_i45325_1_, int p_i45325_2_,
-			int p_i45325_3_) {
-		super(p_i45325_1_, p_i45325_2_, p_i45325_3_);
+	public RathalosArmor(int type) {
+		super(MHFCArmorMaterialHelper.ArmorRathalos, 4, type);
 		setCreativeTab(MHFCMain.mhfctabs);
+		setUnlocalizedName(names[type]);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister) {
-		this.itemIcon = iconRegister.registerIcon(icons_array[this.armorType]);
+		this.itemIcon = iconRegister.registerIcon(icons[this.armorType]);
 	}
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
 			String type) {
-		if (stack.getItem() == MHFCItemRegistry.mhfcitemrathaloshelm
-				|| stack.getItem() == MHFCItemRegistry.mhfcitemrathaloschest
-				|| stack.getItem() == MHFCItemRegistry.mhfcitemrathalosboots) {
+		if (stack.getItem() == MHFCItemRegistry.armor_rathalos_helm
+				|| stack.getItem() == MHFCItemRegistry.armor_rathalos_chest
+				|| stack.getItem() == MHFCItemRegistry.armor_rathalos_boots) {
 			return MHFCReference.armor_rathalos_tex1;
 		}
-		if (stack.getItem() == MHFCItemRegistry.mhfcitemrathaloslegs) {
+		if (stack.getItem() == MHFCItemRegistry.armor_rathalos_legs) {
 			return MHFCReference.armor_rathalos_tex2;
 		}
 		return null;
@@ -56,7 +61,7 @@ public class RathalosArmor extends ItemArmor {
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer,
 			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
-		par3List.add("Attack Up H");
+		par3List.add("Attack Up L");
 		par3List.add("Poison D[+4%]");
 		par3List.add("+ 10 Fire");
 		par3List.add("+ 15 Thunder");
@@ -90,17 +95,24 @@ public class RathalosArmor extends ItemArmor {
 				armorModel.isSneak = entityLiving.isSneaking();
 				armorModel.isRiding = entityLiving.isRiding();
 				armorModel.isChild = entityLiving.isChild();
-				armorModel.heldItemRight = entityLiving.getEquipmentInSlot(0) != null
-						? 1
-						: 0;
-				if (entityLiving instanceof EntityPlayer) {
-					armorModel.aimedBow = ((EntityPlayer) entityLiving)
-							.getItemInUseDuration() > 2;
+				armorModel.heldItemRight = 0;
+				armorModel.aimedBow = false;
+				EntityPlayer player = (EntityPlayer) entityLiving;
+				ItemStack held_item = player.getEquipmentInSlot(0);
+				if (held_item != null) {
+					armorModel.heldItemRight = 1;
+					if (player.getItemInUseCount() > 0) {
+						EnumAction enumaction = held_item.getItemUseAction();
+						if (enumaction == EnumAction.bow) {
+							armorModel.aimedBow = true;
+						} else if (enumaction == EnumAction.block) {
+							armorModel.heldItemRight = 3;
+						}
+					}
 				}
-				return armorModel;
 			}
 		}
-		return null;
+		return armorModel;
 	}
 
 }

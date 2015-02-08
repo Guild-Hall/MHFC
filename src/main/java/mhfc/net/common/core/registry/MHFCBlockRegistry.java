@@ -1,32 +1,31 @@
 package mhfc.net.common.core.registry;
 
-import mhfc.net.common.block.BlockCarbalite;
 import mhfc.net.common.block.BlockDiscstone;
-import mhfc.net.common.block.BlockDragonite;
-import mhfc.net.common.block.BlockEltalite;
 import mhfc.net.common.block.BlockIceCrystal;
 import mhfc.net.common.block.BlockLosGable;
-import mhfc.net.common.block.BlockMachalite;
-import mhfc.net.common.block.BlockOreArmorSphere;
-import mhfc.net.common.block.BlockOreArmorSpherePlus;
-import mhfc.net.common.block.BlockOreCarbalite;
-import mhfc.net.common.block.BlockOreDragonite;
-import mhfc.net.common.block.BlockOreEltalite;
-import mhfc.net.common.block.BlockOreMachalite;
 import mhfc.net.common.block.BlockWyverniaClay;
 import mhfc.net.common.block.BlockWyverniaDirt;
+import mhfc.net.common.block.BlockWyverniaFlower;
 import mhfc.net.common.block.BlockWyverniaGrass;
+import mhfc.net.common.block.BlockWyverniaOreBlock;
+import mhfc.net.common.block.BlockWyverniaOres;
+import mhfc.net.common.block.BlockWyverniaPlank;
+import mhfc.net.common.block.BlockWyverniaRock;
 import mhfc.net.common.block.BlockWyverniaSand;
 import mhfc.net.common.block.BlockWyverniaStone;
-import mhfc.net.common.block.container.BlockArmorStand;
-import mhfc.net.common.block.container.BlockArmorStandBase;
+import mhfc.net.common.block.BlockWyverniaWood;
 import mhfc.net.common.block.container.BlockBBQSpit;
 import mhfc.net.common.block.container.BlockHunterBench;
 import mhfc.net.common.block.container.BlockStunTrap;
 import mhfc.net.common.item.block.ItemBlockBBQSpit;
 import mhfc.net.common.item.block.ItemBlockBenchHunter;
 import mhfc.net.common.item.block.ItemBlockStunTrap;
-import mhfc.net.common.item.block.ItemBlockWyverniaDefault;
+import mhfc.net.common.item.block.ItemBlockWyverniaFlower;
+import mhfc.net.common.item.block.ItemBlockWyverniaOreBlock;
+import mhfc.net.common.item.block.ItemBlockWyverniaOres;
+import mhfc.net.common.item.block.ItemBlockWyverniaPlank;
+import mhfc.net.common.item.block.ItemBlockWyverniaRock;
+import mhfc.net.common.item.block.ItemBlockWyverniaWood;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -35,14 +34,10 @@ public class MHFCBlockRegistry {
 
 	// private static Item item;
 	// private static ItemBlockIngot ingot;
-	public static final Block mhfcblockcarbalite;
-	public static final Block mhfcblockdragonite;
-	public static final Block mhfcblockeltalite;
-	public static final Block mhfcblockmachalite;
+	public static final Block mhfcblockoreblocks;
+	public static final Block mhfcblockore;
 
 	public static final Block mhfcblocklosgable;
-	public static final Block mhfcblockarmorstandbase;
-	public static final Block mhfcblockarmorstand;
 	public static final Block mhfcblockhunterbench;
 	public static final Block mhfcblockstuntrap;
 	public static final Block mhfcblockdirt;
@@ -52,20 +47,14 @@ public class MHFCBlockRegistry {
 	public static final Block mhfcblockicecrystal;
 	public static final Block mhfcblockclay;
 	public static final Block mhfcblocksand;
-	public static final Block mhfcblockorearmorsphere;
-	public static final Block mhfcblockorearmorsphereplus;
-	public static final Block mhfcblockorecarbalite;
-	public static final Block mhfcblockoredragonite;
-	public static final Block mhfcblockoreeltalite;
-	public static final Block mhfcblockoremachalite;
+	public static final Block mhfcblockflowers;
 	public static final Block mhfcblockbbqspit;
+	public static final Block mhfcblockplanks;
+	public static final Block mhfcblockrocks;
+	public static final Block mhfcblockwood;
 
 	static {
 		// Initialize Blocks
-		mhfcblockcarbalite = registerBlock(new BlockCarbalite());
-		mhfcblockdragonite = registerBlock(new BlockDragonite());
-		mhfcblockeltalite = registerBlock(new BlockEltalite());
-		mhfcblockmachalite = registerBlock(new BlockMachalite());
 		mhfcblocklosgable = registerBlock(new BlockLosGable());
 		mhfcblockdirt = registerBlock(new BlockWyverniaDirt());
 		mhfcblockgrass = registerBlock(new BlockWyverniaGrass());
@@ -74,22 +63,25 @@ public class MHFCBlockRegistry {
 		mhfcblocksand = registerBlock(new BlockWyverniaSand());
 		mhfcblockclay = registerBlock(new BlockWyverniaClay());
 		mhfcblockdiscstone = registerBlock(new BlockDiscstone());
-		mhfcblockorearmorsphere = registerBlock(new BlockOreArmorSphere());
-		mhfcblockorearmorsphereplus = registerBlock(new BlockOreArmorSpherePlus());
-		mhfcblockorecarbalite = registerBlock(new BlockOreCarbalite());
-		mhfcblockoredragonite = registerBlock(new BlockOreDragonite());
-		mhfcblockoreeltalite = registerBlock(new BlockOreEltalite());
-		mhfcblockoremachalite = registerBlock(new BlockOreMachalite());
-		mhfcblockarmorstandbase = registerBlock(new BlockArmorStandBase());
 		// Initialize Blocks with special items
 		mhfcblockhunterbench = registerBlockWithItem(new BlockHunterBench(),
 				ItemBlockBenchHunter.class);
-		mhfcblockarmorstand = registerBlockWithItem(new BlockArmorStand(),
-				ItemBlockWyverniaDefault.class);
 		mhfcblockstuntrap = registerBlockWithItem(new BlockStunTrap(),
 				ItemBlockStunTrap.class);
 		mhfcblockbbqspit = registerBlockWithItem(new BlockBBQSpit(),
 				ItemBlockBBQSpit.class);
+		mhfcblockoreblocks = registerBlockWithItem(new BlockWyverniaOreBlock(),
+				ItemBlockWyverniaOreBlock.class);
+		mhfcblockore = registerBlockWithItem(new BlockWyverniaOres(),
+				ItemBlockWyverniaOres.class);
+		mhfcblockflowers = registerBlockWithItem(new BlockWyverniaFlower(),
+				ItemBlockWyverniaFlower.class);
+		mhfcblockplanks = registerBlockWithItem(new BlockWyverniaPlank(),
+				ItemBlockWyverniaPlank.class);
+		mhfcblockrocks = registerBlockWithItem(new BlockWyverniaRock(),
+				ItemBlockWyverniaRock.class);
+		mhfcblockwood = registerBlockWithItem(new BlockWyverniaWood(),
+				ItemBlockWyverniaWood.class);
 	}
 
 	public static void init() {}

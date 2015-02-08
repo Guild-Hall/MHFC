@@ -22,7 +22,7 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 	 * Creates a new quest chain with a goal that has to be completed now and a
 	 * quest chain that is next. The current goal should not be null otherwise
 	 * an {@link IllegalArgumentException} is thrown.
-	 * 
+	 *
 	 * @param socket
 	 *            See {@link QuestGoal}
 	 * @param thisGoal

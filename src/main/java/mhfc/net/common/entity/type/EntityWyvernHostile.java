@@ -18,11 +18,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
+@Deprecated
 public class EntityWyvernHostile extends EntityCreature implements IMob {
 
-	public int getArmor = 12;
-	public int health;
-	public int speed;
+	public int getArmor = 17;
+	public double health;
+	public double speed;
 	public int getExpValue = 1000;
 	public boolean isHightoStun;
 	public boolean lethResist;
@@ -34,14 +35,16 @@ public class EntityWyvernHostile extends EntityCreature implements IMob {
 		getNavigator().setAvoidsWater(true);
 		tasks.addTask(1, new EntityAISwimming(this));
 		tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, false));
-		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class,
+		tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class,
 				8.0F));
 		tasks.addTask(6, new EntityAILookIdle(this));
+		targetTasks.addTask(0, new EntityAIHurtByTarget(this, false));
+
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
 				EntityPlayer.class, 0, true));
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
 				EntityIronGolem.class, 0, true));
-		targetTasks.addTask(2, new EntityAIHurtByTarget(this, false));
+
 	}
 
 	@Override
@@ -62,9 +65,13 @@ public class EntityWyvernHostile extends EntityCreature implements IMob {
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float dmg) {
-		// Entity entity = par1DamageSource.getEntity();
-		return super.attackEntityFrom(par1DamageSource, dmg);
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
+		float dmg = par2;
+		Entity entity = par1DamageSource.getEntity();
+		if (entity instanceof EntityPlayer
+				|| entity instanceof EntityWyvernHostile)
+			return super.attackEntityFrom(par1DamageSource, dmg);
+		return super.attackEntityFrom(par1DamageSource, (dmg / 2));
 	}
 
 	@Override
@@ -75,12 +82,14 @@ public class EntityWyvernHostile extends EntityCreature implements IMob {
 	}
 
 	public void dropItemRand(Item index, int par1) {
-		EntityItem var3 = new EntityItem(this.worldObj, posX
-				+ worldObj.rand.nextInt(5) - worldObj.rand.nextInt(5),
-				posY + 1.0D, this.posZ + worldObj.rand.nextInt(5)
-						- worldObj.rand.nextInt(5), new ItemStack(index, par1,
-						0));
-		worldObj.spawnEntityInWorld(var3);
+		dropItemRand(new ItemStack(index, par1, 0));
+	}
+
+	public void dropItemRand(ItemStack stack) {
+		EntityItem itemEntity = new EntityItem(this.worldObj, posX
+				+ worldObj.rand.nextInt(10) - 5, posY + 1.0D, this.posZ
+				+ worldObj.rand.nextInt(10) - 5, stack);
+		worldObj.spawnEntityInWorld(itemEntity);
 	}
 
 	@Override
@@ -111,16 +120,18 @@ public class EntityWyvernHostile extends EntityCreature implements IMob {
 	@Override
 	protected void updateFallState(double par1, boolean par3) {}
 
-	public void applyMonsterAttributes(double knockback, double lowhp,
-			double medhp, double highhp, double range, double speed) {
+	public void applyMonsterAttributes(double knockback, double baselowhp,
+			double basemedhp, double basehighhp, double baseRange,
+			double baseSpeed) {
+		speed = baseSpeed;
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
 				.setBaseValue(knockback);
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-				healthbaseHP(lowhp, medhp, highhp));
+				healthbaseHP(baselowhp, basemedhp, basehighhp));
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(
-				range);
+				baseRange);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(
-				speed);
+				baseSpeed);
 	}
 
 	@Override

@@ -5,11 +5,11 @@ import mhfc.net.common.ai.IExecutableAttack;
 import mhfc.net.common.ai.IMangedAttacks;
 import mhfc.net.common.ai.tigrex.RunAttack;
 import mhfc.net.common.ai.tigrex.SpinAttack;
-import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
+import mhfc.net.common.item.materials.ItemTigrex.TigrexSubType;
+import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.world.World;
 
 import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimatedObject;
@@ -38,9 +38,6 @@ public class EntityTigrex extends EntityWyvernHostile
 		attkManager.registerAttack(new SpinAttack());
 		// New AI test
 		tasks.addTask(0, attkManager);
-
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
-				EntityPopo.class, 0, true));
 	}
 
 	@Override
@@ -71,17 +68,17 @@ public class EntityTigrex extends EntityWyvernHostile
 	protected void dropFewItems(boolean par1, int par2) {
 		int var4;
 		for (var4 = 0; var4 < 13; ++var4) {
-			dropItemRand(MHFCItemRegistry.MHFCItemTigrexScale, 2);
+			dropItemRand(SubTypedItem.fromSubItem(TigrexSubType.SCALE, 2));
 		}
 		for (var4 = 0; var4 < 8; ++var4) {
-			dropItemRand(MHFCItemRegistry.MHFCItemTigrexShell, 1);
-			dropItemRand(MHFCItemRegistry.mhfcitemtigrexfang, 1);
-			dropItemRand(MHFCItemRegistry.mhfcitemtigrexclaw, 1);
+			dropItemRand(SubTypedItem.fromSubItem(TigrexSubType.SHELL, 1));
+			dropItemRand(SubTypedItem.fromSubItem(TigrexSubType.FANG, 1));
+			dropItemRand(SubTypedItem.fromSubItem(TigrexSubType.CLAW, 1));
 		}
 		for (var4 = 0; var4 < 1; ++var4) {
-			dropItemRand(MHFCItemRegistry.mhfcitemtigrextail, 2);
+			dropItemRand(SubTypedItem.fromSubItem(TigrexSubType.TAIL, 2));
 		}
-		dropItemRand(MHFCItemRegistry.mhfcitemtigrexskullshell, 1);
+		dropItemRand(SubTypedItem.fromSubItem(TigrexSubType.SKULLSHELL, 1));
 	}
 
 	@Override

@@ -12,10 +12,10 @@ import mhfc.net.common.quests.QuestStatus;
  * several methods that make it possible to deduce if a goal has been met or is
  * failed. This allows one goal to depend on others as it is implemented for
  * example in {@link ChainQuestGoal} or {@link ForkQuestGoal}.
- * 
+ *
  * Every goal has a socket that the goal notifies about its status whenever it
  * feels necessary but it should only do so when it has changed.
- * 
+ *
  * A QuestGoal can be activated and deactivated. On creation, a QuestGoal should
  * be inactive, and when deactivated it should not post any notifications to its
  * socket. If it does nevertheless, the socket is free to throw an exception.
@@ -41,13 +41,13 @@ public abstract class QuestGoal {
 
 	/**
 	 * Tests the quest goal if it is fulfilled right now.
-	 * 
+	 *
 	 */
 	public abstract boolean isFulfilled();
 
 	/**
 	 * Tests the quest goal if it is in failed status right now
-	 * 
+	 *
 	 */
 	public abstract boolean isFailed();
 
@@ -80,7 +80,7 @@ public abstract class QuestGoal {
 	/**
 	 * Notifies the overlaying {@link QuestGoalSocket} that our status has
 	 * changed.
-	 * 
+	 *
 	 * @param newFinished
 	 *            Is the quest goal finished now
 	 * @param newFailed

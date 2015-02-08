@@ -89,7 +89,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			// 90, 0x404040);
 
 			drawItemModelAndHeat(
-					new ItemStack(MHFCItemRegistry.mhfcitembhunter), bench);
+					new ItemStack(MHFCItemRegistry.weapon_bgh_rath), bench);
 		};
 
 		@Override

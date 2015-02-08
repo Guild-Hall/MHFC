@@ -2,7 +2,7 @@ package mhfc.net.common.util;
 
 import java.util.List;
 
-import mhfc.net.common.helper.MHFCNBTHelper;
+import mhfc.net.common.system.NBTSystem;
 import net.minecraft.item.ItemStack;
 
 public class Cooldown {
@@ -19,12 +19,12 @@ public class Cooldown {
 	 *            maximum cooldown
 	 */
 	public static void onUpdate(ItemStack iStack, int maxCooldown) {
-		MHFCNBTHelper.checkNBT(iStack);
-		if (!MHFCNBTHelper.verifyKey(iStack, COOLDOWN_NBT)) {
-			MHFCNBTHelper.setInteger(iStack, COOLDOWN_NBT, maxCooldown);
+		NBTSystem.checkNBT(iStack);
+		if (!NBTSystem.verifyKey(iStack, COOLDOWN_NBT)) {
+			NBTSystem.setInteger(iStack, COOLDOWN_NBT, maxCooldown);
 		}
-		if (MHFCNBTHelper.getInteger(iStack, COOLDOWN_NBT) > 0) {
-			MHFCNBTHelper.decreaseInteger(iStack, COOLDOWN_NBT, 2);
+		if (NBTSystem.getInteger(iStack, COOLDOWN_NBT) > 0) {
+			NBTSystem.decreaseInteger(iStack, COOLDOWN_NBT, 1);
 		}
 	}
 
@@ -39,11 +39,11 @@ public class Cooldown {
 	 *         maximum, otherwise false
 	 */
 	public static boolean canUse(ItemStack iStack, int maxCooldown) {
-		MHFCNBTHelper.checkNBT(iStack);
-		if (MHFCNBTHelper.getInteger(iStack, COOLDOWN_NBT) > 0) {
+		NBTSystem.checkNBT(iStack);
+		if (NBTSystem.getInteger(iStack, COOLDOWN_NBT) > 0) {
 			return false;
 		}
-		MHFCNBTHelper.setInteger(iStack, COOLDOWN_NBT, maxCooldown);
+		NBTSystem.setInteger(iStack, COOLDOWN_NBT, maxCooldown);
 		return true;
 	}
 
@@ -55,13 +55,12 @@ public class Cooldown {
 	 * @param info
 	 *            cooldown text
 	 */
-	@SuppressWarnings("unchecked")
-	public static void displayCooldown(ItemStack iStack,
-			@SuppressWarnings("rawtypes") List info, int maxCooldown) {
-		MHFCNBTHelper.checkNBT(iStack);
-		if (MHFCNBTHelper.getInteger(iStack, COOLDOWN_NBT) > 0) {
+	public static void displayCooldown(ItemStack iStack, List<String> info,
+			int maxCooldown) {
+		NBTSystem.checkNBT(iStack);
+		if (NBTSystem.getInteger(iStack, COOLDOWN_NBT) > 0) {
 			info.add("Cooldown Time: "
-					+ MHFCNBTHelper.getInteger(iStack, COOLDOWN_NBT));
+					+ NBTSystem.getInteger(iStack, COOLDOWN_NBT));
 		} else {
 			info.add("Cooldown Time: Ready to Use");
 		}

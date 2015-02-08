@@ -1,18 +1,22 @@
 package mhfc.net.common.item.armor;
 
 import java.util.List;
-import java.util.Random;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
+import mhfc.net.common.helper.MHFCArmorMaterialHelper;
 import mhfc.net.common.helper.MHFCArmorModelHelper;
+import mhfc.net.common.system.ColorSystem;
+import mhfc.net.common.system.DonatorSystem;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
@@ -21,20 +25,28 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class KirinSArmor extends ItemArmor {
-	private static final String[] icons_array = {
+	private static final String[] names = {
+			MHFCReference.armor_kirinS_helm_name,
+			MHFCReference.armor_kirinS_chest_name,
+			MHFCReference.armor_kirinS_legs_name,
+			MHFCReference.armor_kirinS_boots_name};
+
+	private static final String[] icons = {
 			MHFCReference.armor_kirinS_helm_icon,
 			MHFCReference.armor_kirinS_chest_icon,
 			MHFCReference.armor_kirinS_legs_icon,
 			MHFCReference.armor_kirinS_boots_icon};
 
-	private Random rand;
-	private int param;
-
-	public KirinSArmor(ArmorMaterial armor, int par1, int par2) {
-		super(armor, par1, par2);
+	public KirinSArmor(int type) {
+		super(MHFCArmorMaterialHelper.ArmorKirinS, 4, type);
 		setCreativeTab(MHFCMain.mhfctabs);
-		rand = new Random();
-		param = par2;
+		setUnlocalizedName(names[type]);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister iconRegister) {
+		this.itemIcon = iconRegister.registerIcon(icons[this.armorType]);
 	}
 
 	@Override
@@ -45,37 +57,34 @@ public class KirinSArmor extends ItemArmor {
 		par3List.add("All Resistance H");
 		par3List.add("Thunder + 40");
 		par3List.add("Aura");
-		if (param == 0) {
+		par3List.add(ColorSystem.red + "Exclusive S Rank ");
+		if (this.armorType == 0) {
 			par3List.add("\u00a79Kirin S Class Helmet");
-		} else if (param == 1) {
+		} else if (this.armorType == 1) {
 			par3List.add("\u00a79Kirin S Class Chest");
-		}
-		if (param == 2) {
+		} else if (this.armorType == 2) {
 			par3List.add("\u00a79Kirin S Class Leggings");
-		}
-		if (param == 3) {
+		} else if (this.armorType == 3) {
 			par3List.add("\u00a79Kirin S Class Boots");
 		}
 	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister iconRegister) {
-		this.itemIcon = iconRegister.registerIcon(icons_array[this.armorType]);
-	}
-
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
 			String type) {
-		if (stack.getItem() == MHFCItemRegistry.mhfcitemkirinShelm
-				|| stack.getItem() == MHFCItemRegistry.mhfcitemkirinSchest
-				|| stack.getItem() == MHFCItemRegistry.mhfcitemkirinSboots) {
+		if (!(entity instanceof EntityPlayer))
+			return MHFCReference.armor_null_tex;
+
+		EntityPlayer player = (EntityPlayer) entity;
+		if (!DonatorSystem.checkKirinS(player))
+			return MHFCReference.armor_null_tex;
+		if (stack.getItem() == MHFCItemRegistry.armor_kirinS_helm
+				|| stack.getItem() == MHFCItemRegistry.armor_kirinS_chest
+				|| stack.getItem() == MHFCItemRegistry.armor_kirinS_boots) {
 			return MHFCReference.armor_kirinS_tex1;
 		}
-		if (stack.getItem() == MHFCItemRegistry.mhfcitemkirinSlegs) {
+		if (stack.getItem() == MHFCItemRegistry.armor_kirinS_legs)
 			return MHFCReference.armor_kirinS_tex2;
-		}
-		return null;
+		return MHFCReference.armor_null_tex;
 	}
 
 	@Override
@@ -106,41 +115,50 @@ public class KirinSArmor extends ItemArmor {
 				armorModel.isSneak = entityLiving.isSneaking();
 				armorModel.isRiding = entityLiving.isRiding();
 				armorModel.isChild = entityLiving.isChild();
-				armorModel.heldItemRight = entityLiving.getEquipmentInSlot(0) != null
-						? 1
-						: 0;
-				if (entityLiving instanceof EntityPlayer) {
-
-					armorModel.aimedBow = ((EntityPlayer) entityLiving)
-							.getItemInUseDuration() > 2;
+				armorModel.heldItemRight = 0;
+				armorModel.aimedBow = false;
+				EntityPlayer player = (EntityPlayer) entityLiving;
+				ItemStack held_item = player.getEquipmentInSlot(0);
+				if (held_item != null) {
+					armorModel.heldItemRight = 1;
+					if (player.getItemInUseCount() > 0) {
+						EnumAction enumaction = held_item.getItemUseAction();
+						if (enumaction == EnumAction.bow) {
+							armorModel.aimedBow = true;
+						} else if (enumaction == EnumAction.block) {
+							armorModel.heldItemRight = 3;
+						}
+					}
 				}
-				return armorModel;
 			}
 		}
-		return null;
+		return armorModel;
 	}
 
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack armor) {
-		ItemStack boots = player.getCurrentArmor(0);
-		ItemStack legs = player.getCurrentArmor(1);
+		// The player needs to wear all armor pieces, so when we check on the
+		// helmet it's enough
+		if (this.armorType != 0)
+			return;
 		ItemStack chest = player.getCurrentArmor(2);
-		ItemStack helmet = player.getCurrentArmor(3);
-		int duration = 15;
-		if (boots != null && legs != null && chest != null && helmet != null) {
-			if (boots.getItem() == MHFCItemRegistry.mhfcitemkirinSboots
-					&& legs.getItem() == MHFCItemRegistry.mhfcitemkirinSlegs
-					&& chest.getItem() == MHFCItemRegistry.mhfcitemkirinSchest
-					&& helmet.getItem() == MHFCItemRegistry.mhfcitemkirinShelm) {
-				player.addPotionEffect(new PotionEffect(
-						MHFCPotionRegistry.mhfcpotionkirinbless.id, duration++, 1));
-				world.spawnParticle("cloud",
-						player.posX + this.rand.nextFloat() * 2.0F - 1.0D,
-						player.posY + this.rand.nextFloat() * 3.0F + 1.0D,
-						player.posZ + this.rand.nextFloat() * 2.0F - 1.0D,
-						0.0D, 0.0D, 0.0D);
-			}
-		}
-	}
+		ItemStack legs = player.getCurrentArmor(1);
+		ItemStack boots = player.getCurrentArmor(0);
 
+		if (chest == null && legs == null && boots == null)
+			return;
+		if (chest.getItem() == MHFCItemRegistry.armor_kirinS_chest
+				&& boots.getItem() == MHFCItemRegistry.armor_kirinS_boots
+				&& legs.getItem() == MHFCItemRegistry.armor_kirinS_legs)
+			return;
+		if (!DonatorSystem.checkKirinS(player))
+			return;
+
+		player.addPotionEffect(new PotionEffect(
+				MHFCPotionRegistry.kirin_blessing.id, 15, 1));
+		world.spawnParticle("cloud", player.posX + Item.itemRand.nextFloat()
+				* 2.0F - 1.0D, player.posY + Item.itemRand.nextFloat() * 3.0F
+				+ 1.0D, player.posZ + Item.itemRand.nextFloat() * 2.0F - 1.0D,
+				0.0D, 0.0D, 0.0D);
+	}
 }

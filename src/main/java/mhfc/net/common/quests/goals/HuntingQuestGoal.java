@@ -11,6 +11,7 @@ import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
@@ -62,7 +63,8 @@ public class HuntingQuestGoal extends QuestGoal
 				return;
 			if (getQuest() == null)
 				return;
-			List playerList = Arrays.asList(getQuest().getPlayers());
+			List<EntityPlayerMP> playerList = Arrays.asList(getQuest()
+					.getPlayers());
 			if (playerList == null)
 				return;
 			if (!playerList.contains(e))
