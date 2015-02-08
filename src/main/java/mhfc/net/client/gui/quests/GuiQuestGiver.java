@@ -24,7 +24,7 @@ public class GuiQuestGiver extends GuiScreen {
 
 	private static final int startQuestHeight = 20;
 	private static final int startQuestWidth = 120;
-	private static final int yBorder = 20;
+	private static final int yBorder = 15;
 	private int questsW = 70, questsX = 15;
 	private List<String> groupIDsDisplayed;
 	private ClickableGuiList<GuiListStringItem> groupList;
@@ -175,7 +175,7 @@ public class GuiQuestGiver extends GuiScreen {
 		groupList.setVisible(!hasQuest);
 		if (!hasQuest) {
 			// TODO unlocalize
-			fontRendererObj.drawString("Take a quest:", xPos + 3, yPos
+			fontRendererObj.drawString("Take a quest:", xPos + 8, yPos
 					+ yBorder, 0x404040);
 			groupList.draw();
 			left.visible = true;
@@ -212,7 +212,7 @@ public class GuiQuestGiver extends GuiScreen {
 			startQuest.visible = true;
 			String warning = "You are already on a quest";
 			int warnX = (xSize - fontRendererObj.getStringWidth(warning)) / 2, warnY = 60;
-			fontRendererObj.drawString(warning, warnX, warnY, 0x404040);
+			fontRendererObj.drawString(warning, warnX + xPos, warnY, 0x404040);
 		}
 
 		super.drawScreen(positionX, positionY, partialTick);
@@ -243,15 +243,15 @@ public class GuiQuestGiver extends GuiScreen {
 				mc.displayWidth, mc.displayHeight);
 		xPos = (s.getScaledWidth() - xSize) / 2;
 		yPos = (s.getScaledHeight() - ySize) / 2;
-		groupList.setPosition(questsX + xPos, 10 + yBorder + yPos);
-		groupList.setWidthAndHeight(questsW, ySize - 30);
+		groupList.setPosition(questsX + xPos, yBorder + 10 + yPos);
+		groupList.setWidthAndHeight(questsW, ySize - 2 * yBorder - 10);
 		right.xPosition = xSize - questsX - right.getButtonWidth() + xPos;
-		right.yPosition = 10 + yPos;
+		right.yPosition = yBorder + yPos;
 		left.xPosition = questsX + questsW + 5 + xPos;
-		left.yPosition = 10 + yPos;
+		left.yPosition = yBorder + yPos;
 		newQuest.xPosition = (xSize - questsX - questsW - newQuest
 				.getButtonWidth()) / 2 + questsX + questsW + xPos;
-		newQuest.yPosition = ySize - 40 + yPos;
+		newQuest.yPosition = ySize - yBorder - startQuestHeight + yPos;
 		cancelQuest.xPosition = xPos + xSize / 2 - cancelQuest.getButtonWidth()
 				/ 2;
 		cancelQuest.yPosition = yPos + ySize / 2 + 5;

@@ -21,6 +21,7 @@ public class GuiQuestBoard extends GuiScreen {
 
 	private static final int startQuestWidth = 120;
 	private static final int startQuestHeight = 20;
+	private static final int yBorder = 15;
 	private int runningW = 70, runningX = 15;
 	private ClickableGuiList<GuiListStringItem> runningQuestList;
 	private Map<String, GuiListStringItem> mapToListItems;
@@ -114,12 +115,12 @@ public class GuiQuestBoard extends GuiScreen {
 		xPos = (s.getScaledWidth() - xSize) / 2;
 		yPos = (s.getScaledHeight() - ySize) / 2;
 
-		runningQuestList.setPosition(runningX + xPos, 20 + yPos);
-		runningQuestList.setWidthAndHeight(runningW, ySize - 30);
+		runningQuestList.setPosition(runningX + xPos, yBorder + 10 + yPos);
+		runningQuestList.setWidthAndHeight(runningW, ySize - 2 * yBorder - 10);
 
 		joinQuest.xPosition = (xSize - runningX - runningW - joinQuest
 				.getButtonWidth()) / 2 + runningX + runningW + xPos;
-		joinQuest.yPosition = ySize - 40 + yPos;
+		joinQuest.yPosition = ySize - yBorder - startQuestHeight + yPos;
 		cancelQuest.xPosition = xPos + xSize / 2 - startQuestWidth / 2;
 		cancelQuest.yPosition = yPos + ySize / 2 + 5;
 		startQuest.xPosition = xPos + xSize / 2 - startQuestWidth / 2;
@@ -136,8 +137,8 @@ public class GuiQuestBoard extends GuiScreen {
 		drawDefaultBackground();
 		drawBackground(0);
 		if (!MHFCRegQuestVisual.hasPlayerQuest()) {
-			fontRendererObj.drawString("Currently running:", xPos + 8,
-					yPos + 11, 0x404040);
+			fontRendererObj.drawString("Currently running:", xPos + 9, yPos
+					+ yBorder, 0x404040);
 			runningQuestList.setVisible(true);
 			runningQuestList.draw();
 			joinQuest.visible = true;
@@ -162,7 +163,7 @@ public class GuiQuestBoard extends GuiScreen {
 			runningQuestList.setVisible(false);
 			String notice = "You are already on a quest";
 			int drawX = (xSize - fontRendererObj.getStringWidth(notice)) / 2;
-			fontRendererObj.drawString(notice, drawX, 60, 0x404040);
+			fontRendererObj.drawString(notice, drawX + xPos, 60, 0x404040);
 		}
 		super.drawScreen(mouseX, mouseY, partialTick);
 	}
@@ -207,6 +208,7 @@ public class GuiQuestBoard extends GuiScreen {
 		buttonList.add(startQuest);
 		this.accessor = mc.thePlayer;
 		MHFCRegQuestVisual.setAndSendRunningListenStatus(true);
+		updateScreen();
 	}
 
 	@Override
