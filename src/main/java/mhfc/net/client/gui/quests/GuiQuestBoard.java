@@ -21,6 +21,7 @@ public class GuiQuestBoard extends GuiScreen {
 
 	private static final int startQuestWidth = 120;
 	private static final int startQuestHeight = 20;
+	private int runningW = 70, runningX = 15;
 	private ClickableGuiList<GuiListStringItem> runningQuestList;
 	private Map<String, GuiListStringItem> mapToListItems;
 	private Map<GuiListStringItem, String> mapToIdentifiers;
@@ -33,7 +34,7 @@ public class GuiQuestBoard extends GuiScreen {
 
 	public GuiQuestBoard(EntityPlayer accessor) {
 		this.accessor = accessor;
-		this.xSize = 320;
+		this.xSize = 374;
 		this.ySize = 220;
 		runningQuestList = new ClickableGuiList<GuiListStringItem>(width,
 				height);
@@ -86,6 +87,7 @@ public class GuiQuestBoard extends GuiScreen {
 				return false;
 			}
 		};
+
 		startQuest = new GuiButton(0, 25, 10, startQuestWidth,
 				startQuestHeight, "Start current Quest") {
 			@Override
@@ -112,11 +114,12 @@ public class GuiQuestBoard extends GuiScreen {
 		xPos = (s.getScaledWidth() - xSize) / 2;
 		yPos = (s.getScaledHeight() - ySize) / 2;
 
-		runningQuestList.setPosition(15 + xPos, 20 + yPos);
-		runningQuestList.setWidthAndHeight(70, ySize - 30);
+		runningQuestList.setPosition(runningX + xPos, 20 + yPos);
+		runningQuestList.setWidthAndHeight(runningW, ySize - 30);
 
-		joinQuest.xPosition = 160 + xPos;
-		joinQuest.yPosition = 190 + yPos;
+		joinQuest.xPosition = (xSize - runningX - runningW - joinQuest
+				.getButtonWidth()) / 2 + runningX + runningW + xPos;
+		joinQuest.yPosition = ySize - 40 + yPos;
 		cancelQuest.xPosition = xPos + xSize / 2 - startQuestWidth / 2;
 		cancelQuest.yPosition = yPos + ySize / 2 + 5;
 		startQuest.xPosition = xPos + xSize / 2 - startQuestWidth / 2;
@@ -147,8 +150,9 @@ public class GuiQuestBoard extends GuiScreen {
 				QuestRunningInformation info = MHFCRegQuestVisual
 						.getRunningInformation(id);
 				if (info != null)
-					info.drawInformation(xPos + 80, yPos, 220, ySize - 30,
-							page, fontRendererObj);
+					info.drawInformation(xPos + runningW + runningX, yPos,
+							xSize - runningW - 2 * runningX, ySize - 30, page,
+							fontRendererObj);
 			}
 		} else {
 			joinQuest.visible = false;

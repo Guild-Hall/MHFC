@@ -11,7 +11,6 @@ public class LivingDeathEventHandler
 		super(g, LivingDeathEvent.class);
 	}
 
-	@Override
 	@SubscribeEvent
 	public void onEventCaught(LivingDeathEvent event) {
 		if (stillActive)

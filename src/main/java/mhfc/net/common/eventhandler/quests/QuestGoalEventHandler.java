@@ -14,8 +14,6 @@ public abstract class QuestGoalEventHandler<EventType extends Event> {
 		this.eventType = t;
 	}
 
-	public abstract <E extends EventType> void onEventCaught(E event);
-
 	public void setActive(boolean active) {
 		stillActive = active;
 	}
