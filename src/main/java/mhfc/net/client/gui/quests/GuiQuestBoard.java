@@ -151,9 +151,9 @@ public class GuiQuestBoard extends GuiScreen {
 				QuestRunningInformation info = MHFCRegQuestVisual
 						.getRunningInformation(id);
 				if (info != null)
-					info.drawInformation(xPos + runningW + runningX, yPos,
-							xSize - runningW - 2 * runningX, ySize - 30, page,
-							fontRendererObj);
+					info.drawInformation(xPos + runningW + runningX, yPos
+							+ yBorder, xSize - runningW - 2 * runningX, ySize
+							- 2 * yBorder, page, fontRendererObj);
 			}
 		} else {
 			joinQuest.visible = false;

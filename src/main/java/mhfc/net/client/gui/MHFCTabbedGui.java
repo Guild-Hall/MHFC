@@ -53,7 +53,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 	}
 
 	protected void drawActiveTabIcon(int posX, int posY, int mouseX, int mouseY) {
-		posX += 4;
+		posX += 5;
 		posY += 14;
 		int diff = tabHeight + tabSplit;
 		int realWidth = 0;
@@ -86,7 +86,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 
 	protected void drawInactiveTabIcons(int posX, int posY, int mouseX,
 			int mouseY) {
-		posX += 4;
+		posX += 5;
 		posY += 14;
 		int diff = tabHeight + tabSplit;
 		int realWidth = 0;

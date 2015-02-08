@@ -196,9 +196,9 @@ public class GuiQuestGiver extends GuiScreen {
 				// TODO set start enabled based on can join
 				FontRenderer fontRenderer = mc.fontRenderer;
 				if (info != null)
-					info.drawInformation(xPos + questsX + questsW, yPos + 5,
-							xSize - 2 * questsX - questsW, ySize - 30, page,
-							fontRenderer);
+					info.drawInformation(xPos + questsX + questsW, yPos
+							+ yBorder, xSize - 2 * questsX - questsW,
+							ySize - 30, page, fontRenderer);
 			}
 		} else {
 			// The player already has a quest, give him a cancel option
