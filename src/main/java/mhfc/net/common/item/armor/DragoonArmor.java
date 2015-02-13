@@ -127,25 +127,22 @@ public class DragoonArmor extends ItemArmor {
 			ItemStack itemStack) {
 		// The player needs to wear all armor pieces, so when we check on the
 		// helmet it's enough
+		float h = player.getHealth();
 		if (this.armorType != 0)
 			return;
 		ItemStack boots = player.getCurrentArmor(0);
 		ItemStack legs = player.getCurrentArmor(1);
 		ItemStack chest = player.getCurrentArmor(2);
-		if (chest == null || legs == null || boots == null)
-			return;
-		if (chest.getItem() != MHFCItemRegistry.armor_dragoon_chest
-				|| boots.getItem() != MHFCItemRegistry.armor_dragoon_boots
-				|| legs.getItem() != MHFCItemRegistry.armor_dragoon_legs)
-			return;
-
-		// If all items are our items (except helmet, as this method is only
-		// called if helmet is equipped
-		if (DonatorSystem.checkDragoon(player)) {
-			// float h = player.getHealth();
-			player.removePotionEffect(21);
-			player.addPotionEffect(new PotionEffect(21, 200, 1, true));
-			// player.setHealth(h);
+		if( chest != null && legs != null && boots != null && 
+				 chest.getItem() == MHFCItemRegistry.armor_dragoon_chest &&
+				 boots.getItem() == MHFCItemRegistry.armor_dragoon_boots &&
+				 legs.getItem() == MHFCItemRegistry.armor_dragoon_legs){
+			 if (!DonatorSystem.checkDragoon(player))
+				 return;
+			 else
+				player.removePotionEffect(21);
+				player.addPotionEffect(new PotionEffect(21, 200, 1, true));
+				player.setHealth(h);
 		}
 	}
 

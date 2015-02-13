@@ -9,8 +9,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class MHFCTab extends CreativeTabs {
 
-	public MHFCTab(int par1) {
-		super(par1, MHFCReference.gui_tab_name);
+	public MHFCTab(int par) {
+		super(par, MHFCReference.gui_tab_name);
 		this.setBackgroundImageName("mhfc.png");
 	}
 

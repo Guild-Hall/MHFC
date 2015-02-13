@@ -21,9 +21,9 @@ public class DonatorSystem {
 			return playerInList(player.getDisplayName(), kirinSdonor);
 		}
 	};
-	private static final String[] dragoondonor = {"XxHeltratoxX", "Danmar"};
+	private static final String[] dragoondonor = {"Danmar"};
 	private static String[] kirinSdonor = {"requillias", "PCAwesomeness",
-			"Schmidmix"};
+			"Schmidmix", "Heltrato"};
 
 	private static boolean playerInList(String name, String[] array) {
 		for (int i = 0; i < array.length; i++)

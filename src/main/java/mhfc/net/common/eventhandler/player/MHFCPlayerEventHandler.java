@@ -17,7 +17,7 @@ public class MHFCPlayerEventHandler {
 		if (player.worldObj.isRemote || hasSeen)
 			return;
 
-		if (UpdateSystem.isUpdateAvailable() == UpdateSystem.newUpdate) {
+		if (UpdateSystem.isUpdateAvailable() == UpdateSystem.newUpdate ) {
 			player.addChatMessage(new ChatComponentText(
 					ColorSystem.GOLD
 							+ "Hunter "
@@ -26,7 +26,7 @@ public class MHFCPlayerEventHandler {
 							+ " Check out the facebook page or the mod thread."));
 		}
 
-		if (UpdateSystem.isUpdateAvailable() == UpdateSystem.noUpdate) {
+		if (UpdateSystem.isUpdateAvailable() == UpdateSystem.noUpdate ) {
 			player.addChatMessage(new ChatComponentText(ColorSystem.GOLD
 					+ "Welcome Hunter " + player.getDisplayName()
 					+ ", you're up to date, have fun hunting !!"));
@@ -37,7 +37,8 @@ public class MHFCPlayerEventHandler {
 					+ "Hunter " + player.getDisplayName()
 					+ ", you're in offline mode."));
 			player.addChatMessage(new ChatComponentText(
-					"Make sure you frequently check for updates on our facebook site or !!"));
+					"Make sure you frequently check for updates on our facebook site or Minecraft forum thread!!"));
+			
 		}
 		hasSeen = true;
 	}

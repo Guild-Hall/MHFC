@@ -43,7 +43,7 @@ public class MHFCConfig {
 				.get("settings",
 						"pickup-all",
 						true,
-						"Change this to 'false' to allow only the thrower/shooter of the projectile to pick the item up. If set to 'true' everyone can pick the item up.")
+						"Another work-in-progress soon.")
 				.getBoolean(true);
 		config.save();
 	}

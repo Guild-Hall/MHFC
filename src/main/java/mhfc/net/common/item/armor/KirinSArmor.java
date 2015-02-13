@@ -134,31 +134,30 @@ public class KirinSArmor extends ItemArmor {
 		}
 		return armorModel;
 	}
-
+	
 	@Override
-	public void onArmorTick(World world, EntityPlayer player, ItemStack armor) {
-		// The player needs to wear all armor pieces, so when we check on the
-		// helmet it's enough
-		if (this.armorType != 0)
-			return;
-		ItemStack chest = player.getCurrentArmor(2);
-		ItemStack legs = player.getCurrentArmor(1);
-		ItemStack boots = player.getCurrentArmor(0);
-
-		if (chest == null && legs == null && boots == null)
-			return;
-		if (chest.getItem() == MHFCItemRegistry.armor_kirinS_chest
-				&& boots.getItem() == MHFCItemRegistry.armor_kirinS_boots
-				&& legs.getItem() == MHFCItemRegistry.armor_kirinS_legs)
-			return;
-		if (!DonatorSystem.checkKirinS(player))
-			return;
-
-		player.addPotionEffect(new PotionEffect(
-				MHFCPotionRegistry.kirin_blessing.id, 15, 1));
-		world.spawnParticle("cloud", player.posX + Item.itemRand.nextFloat()
-				* 2.0F - 1.0D, player.posY + Item.itemRand.nextFloat() * 3.0F
-				+ 1.0D, player.posZ + Item.itemRand.nextFloat() * 2.0F - 1.0D,
-				0.0D, 0.0D, 0.0D);
+	 public void onArmorTick(World world, EntityPlayer player, ItemStack armor) {
+	  // The player needs to wear all armor pieces, so when we check on the helmet it's enough
+	  if(this.armorType != 0)
+	   return;
+	  ItemStack boots = player.getCurrentArmor(0);
+	  ItemStack legs = player.getCurrentArmor(1);
+	  ItemStack chest = player.getCurrentArmor(2);
+	  
+	  if( chest != null && legs != null && boots != null && 
+	    chest.getItem() == MHFCItemRegistry.armor_kirinS_chest &&
+	    boots.getItem() == MHFCItemRegistry.armor_kirinS_boots &&
+	    legs.getItem() == MHFCItemRegistry.armor_kirinS_legs){
+		  if (!DonatorSystem.checkKirinS(player))
+				return;
+		  else{
+			player.addPotionEffect(new PotionEffect(
+					MHFCPotionRegistry.kirin_blessing.id, 15, 1));
+			world.spawnParticle("cloud", player.posX + Item.itemRand.nextFloat()
+					* 2.0F - 1.0D, player.posY + Item.itemRand.nextFloat() * 3.0F
+					+ 1.0D, player.posZ + Item.itemRand.nextFloat() * 2.0F - 1.0D,
+					0.0D, 0.0D, 0.0D);}
+	 }
 	}
 }
+

@@ -1,4 +1,4 @@
-death.attack.@MODID@.thunderelement=%1$s was killed by %2$s using a thunder element weapon.
+death.attack.mhfc.thunderelement=%1$s was killed by %2$s using a thunder element weapon.
 
 tile.losgable.name=Los Gable
 tile.armorstandbase.name=Pike Base
@@ -167,11 +167,11 @@ item.huntinghorn_3.name=Striped Dragonga
 item.longsword_1.name=Iron Katana
 item.longsword_2.name=Dark Vipern
 
-entity.@MODID@.tigrex.name=Tigrex
-entity.@MODID@.kirin.name=Kirin
-entity.@MODID@.rathalos.name=Rathalos
-entity.@MODID@.popo.name=Popo
-entity.@MODID@.aptonoth.name=Aptonoth
+entity.mhfc.tigrex.name=Tigrex
+entity.mhfc.kirin.name=Kirin
+entity.mhfc.rathalos.name=Rathalos
+entity.mhfc.popo.name=Popo
+entity.mhfc.aptonoth.name=Aptonoth
 
 potion.kirinbless=Spark of Kirin
 potion.paralyze=Paralyze

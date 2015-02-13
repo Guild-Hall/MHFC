@@ -341,9 +341,9 @@ public class MHFCReference {
 	public static final String main_config_file = "config/MHFC.cfg";
 	public static final String main_config_mobCategory = "MHFC Mobs";
 	public static final String main_config_mobs_summonTigrex_key = "SummonTigrex";
-	public static final String main_modid = "@MODID@";
-	public static final String main_name = "@MODNAME@";
-	public static final String main_version = "@VERSION@";
+	public static final String main_modid = "mhfc";
+	public static final String main_name = "Monster Hunter Frontier Craft";
+	public static final String main_version = "1.0";
 	public static final String mob_tigrex_name = "tigrex";
 	public static final String mob_tigrex_sound_roar = "mhfc:tigrex.roar";
 	public static final String mob_tigrex_sound_say = "mhfc:tigrex.say";
