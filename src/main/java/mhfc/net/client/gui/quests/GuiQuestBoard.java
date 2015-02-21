@@ -23,6 +23,8 @@ public class GuiQuestBoard extends MHFCTabbedGui {
 		tabList.add(join);
 		tabList.add(questMg);
 		tabWidth = 0;
+		xSize = 374;
+		ySize = 220;
 	}
 
 	@Override
@@ -48,7 +50,6 @@ public class GuiQuestBoard extends MHFCTabbedGui {
 			setTab(1);
 		else
 			setTab(0);
-
 	}
 
 }

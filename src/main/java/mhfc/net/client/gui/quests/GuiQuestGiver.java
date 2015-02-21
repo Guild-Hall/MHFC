@@ -22,6 +22,8 @@ public class GuiQuestGiver extends MHFCTabbedGui {
 		tabList.add(questGet);
 		tabList.add(questMg);
 		tabWidth = 0;
+		xSize = 374;
+		ySize = 220;
 	}
 
 	@Override

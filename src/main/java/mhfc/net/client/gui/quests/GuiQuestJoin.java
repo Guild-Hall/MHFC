@@ -143,8 +143,8 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 	public void drawBackground(int p_146278_1_) {
 		mc.getTextureManager().bindTexture(
 				MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
-		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, 0f, xSize, ySize, 10,
-				8f / 512, 8f / 256, 1f, 1f);
+		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, this.zLevel,
+				this.xSize, this.ySize, 0, 0, 1f, 1f);
 	}
 
 	@SuppressWarnings("unchecked")

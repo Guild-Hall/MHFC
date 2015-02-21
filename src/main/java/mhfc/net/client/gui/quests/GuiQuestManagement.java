@@ -3,9 +3,11 @@ package mhfc.net.client.gui.quests;
 import java.util.List;
 
 import mhfc.net.client.gui.IMHFCTab;
+import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestInteraction;
 import mhfc.net.common.network.packet.MessageQuestInteraction.Interaction;
+import mhfc.net.common.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -65,6 +67,15 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 		buttonList.add(cancelQuest);
 		buttonList.add(startQuest);
 		super.initGui();
+	}
+
+	@Override
+	public void drawBackground(int p_146278_1_) {
+		mc.getTextureManager().bindTexture(
+				MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
+		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, this.zLevel,
+				this.xSize, this.ySize, 0, 0, 1f, 1f);
+		super.drawBackground(p_146278_1_);
 	}
 
 	@Override
