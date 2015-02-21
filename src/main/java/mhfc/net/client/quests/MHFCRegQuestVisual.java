@@ -8,6 +8,8 @@ import java.util.Map;
 import mhfc.net.MHFCMain;
 import mhfc.net.client.gui.quests.GuiQuestBoard;
 import mhfc.net.client.gui.quests.GuiQuestGiver;
+import mhfc.net.client.gui.quests.GuiQuestJoin;
+import mhfc.net.client.gui.quests.GuiQuestNew;
 import mhfc.net.client.gui.quests.QuestStatusDisplay;
 import mhfc.net.common.core.registry.MHFCQuestsRegistry;
 import mhfc.net.common.network.PacketPipeline;
@@ -130,7 +132,6 @@ public class MHFCRegQuestVisual {
 		}
 	}
 
-	// FIXME change the texture
 	public static final ResourceLocation QUEST_STATUS_INVENTORY_BACKGROUND = new ResourceLocation(
 			MHFCReference.gui_status_inventory_tex);
 	public static final ResourceLocation QUEST_STATUS_ONSCREEN_BACKGROUND = new ResourceLocation(
@@ -155,7 +156,7 @@ public class MHFCRegQuestVisual {
 	private static Map<String, QuestVisualInformation> identifierToVisualInformationMap = new HashMap<String, QuestVisualInformation>();
 	private static Map<String, QuestRunningInformation> identifierToVisualRunningMap = new HashMap<String, QuestRunningInformation>();
 	private static QuestStatusDisplay display;
-	private static GuiQuestBoard questBoard = new GuiQuestBoard(
+	private static GuiQuestJoin questBoard = new GuiQuestJoin(
 			Minecraft.getMinecraft().thePlayer);
 	private static boolean hasPlayerQuest = false;
 	private static QuestRunningInformation playersVisual;
@@ -164,7 +165,9 @@ public class MHFCRegQuestVisual {
 		if (i < 0 || i >= groupIDToListMap.size())
 			return null;
 		List<String> list = new ArrayList<String>(groupIDToListMap.keySet());
-		return new GuiQuestGiver(list.toArray(new String[0]), playerEntity);
+		GuiQuestNew newQuest = new GuiQuestNew(list.toArray(new String[0]),
+				playerEntity);
+		return new GuiQuestGiver(playerEntity, newQuest);
 	}
 
 	public static List<String> getIdentifierList(String groupId) {
@@ -217,7 +220,7 @@ public class MHFCRegQuestVisual {
 		return playersVisual;
 	}
 
-	public static GuiQuestBoard getQuestBoard() {
-		return questBoard;
+	public static GuiQuestBoard getQuestBoard(EntityPlayer player) {
+		return new GuiQuestBoard(questBoard, player);
 	}
 }

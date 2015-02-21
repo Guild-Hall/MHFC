@@ -20,6 +20,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 	protected int tabHeight;
 	protected int tabSplit;
 	protected int tabWidth;
+	protected int tabX, tabY;
 	protected List<IMHFCTab> tabList;
 
 	public MHFCTabbedGui(Container p_i1072_1_, int tabCount) {
@@ -38,6 +39,8 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 			int mousePosX, int mousePosY) {
 		int posX = (this.width - this.xSize - tabWidth) / 2 + tabWidth;
 		int posY = (this.height - this.ySize) / 2;
+		tabX = posX;
+		tabY = posY;
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glDisable(GL11.GL_LIGHTING);
@@ -121,7 +124,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 	protected void drawTab(int tabIndex, int posX, int posY, int mousePosX,
 			int mousePosY, float partialTick) {
 		if (tabIndex >= 0 && tabIndex < tabList.size())
-			tabList.get(tabIndex).drawTab(posX, posY, mousePosX, mousePosY,
+			tabList.get(tabIndex).drawTab(tabX, tabY, mousePosX, mousePosY,
 					partialTick);
 	}
 
@@ -192,7 +195,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 	public void updateScreen() {
 		IMHFCTab tab = tabList.get(tabIndex);
 		if (tab != null)
-			tab.updateScreen();
+			tab.updateTab(tabX, tabY);
 		super.updateScreen();
 	}
 

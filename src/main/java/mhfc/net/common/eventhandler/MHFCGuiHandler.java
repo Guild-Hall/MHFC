@@ -38,7 +38,7 @@ public class MHFCGuiHandler implements IGuiHandler {
 			case MHFCReference.gui_questgiver_id :
 				return MHFCRegQuestVisual.getScreen(x, player);
 			case MHFCReference.gui_questboard_id :
-				return MHFCRegQuestVisual.getQuestBoard();
+				return MHFCRegQuestVisual.getQuestBoard(player);
 		}
 		return null;
 	}

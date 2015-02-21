@@ -24,7 +24,7 @@ public interface IMHFCTab {
 	 * Called whenever the windows is resized or the screen has to be updated
 	 * otherwise
 	 */
-	public void updateScreen();
+	public void updateTab(int posX, int posY);
 
 	/**
 	 * Gets called when the tab should be closed

@@ -107,7 +107,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public void updateScreen() {
+		public void updateTab(int pX, int pY) {
 			updateListPositions();
 		}
 
@@ -323,7 +323,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public void updateScreen() {
+		public void updateTab(int pX, int pY) {
 		}
 
 		@Override
