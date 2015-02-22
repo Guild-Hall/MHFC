@@ -47,9 +47,9 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 		GL11.glEnable(GL11.GL_BLEND);
 		drawInactiveTabIcons(posX, posY, mousePosX, mousePosY);
 		drawTabBackgroundLayer();
-		drawActiveTabIcon(posX, posY, mousePosX, mousePosY);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		drawTab(tabIndex, posX, posY, mousePosX, mousePosY, partialTick);
+		drawActiveTabIcon(posX, posY, mousePosX, mousePosY);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopMatrix();

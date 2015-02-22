@@ -140,6 +140,7 @@ public class MHFCEquipementRecipeRegistry {
 	public static final EquipmentRecipe recipe_tigrex_helm;
 	public static final EquipmentRecipe recipe_tigrex_boots;
 	public static final EquipmentRecipe recipe_kirin_helm;
+	public static final EquipmentRecipe recipe_gs_rathalos_firesword;
 
 	public static int TYPE_ARMOR_HEAD = 0;
 	public static int TYPE_ARMOR_BODY = 1;
@@ -208,6 +209,19 @@ public class MHFCEquipementRecipeRegistry {
 		recipe_kirin_helm = new EquipmentRecipe(new ItemStack(
 				MHFCItemRegistry.armor_kirin_helm), listReq, 300, 300);
 		MHFCEquipementRecipeRegistry.register(recipe_kirin_helm);
+
+		listReq = new ArrayList<ItemStack>();
+		for (int a = 0; a < 1; a++) {
+			s = new ItemStack(MHFCItemRegistry.mhfcitemkirin, 2);
+			s.setItemDamage(ItemKirin.KirinSubType.MANE.ordinal());
+			listReq.add(s);
+		}
+		s = new ItemStack(MHFCItemRegistry.mhfcitemkirin, 6);
+		s.setItemDamage(ItemKirin.KirinSubType.THUNDERTAIL.ordinal());
+		listReq.add(s);
+		recipe_gs_rathalos_firesword = new EquipmentRecipe(new ItemStack(
+				MHFCItemRegistry.weapon_gs_rathalosfire), listReq, 300, 900);
+		MHFCEquipementRecipeRegistry.register(recipe_gs_rathalos_firesword);
 	}
 
 	public static int getType(EquipmentRecipe recipe) {
@@ -218,7 +232,7 @@ public class MHFCEquipementRecipeRegistry {
 			return ((ItemArmor) it).armorType;
 		}
 		String name = it.getUnlocalizedName();
-		return 15;
+		return 5;
 	}
 
 	public static Set<EquipmentRecipe> getRecipesFor(int type) {
