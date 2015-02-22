@@ -426,14 +426,16 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		if (itemToRender != null) {
 			if (itemType < 4) {
 				GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 				GL11.glTranslatef(rectX + rectW / 2, rectY + rectH / 2, 40F);
 				// TODO switch the type and add displacement based on that
 				GL11.glTranslatef(3f, -10f, 0F);
+				GL11.glRotatef(-45f, 0.5f, 0.5f, 0.0f);
 				float sc = rectH / 2;
-				GL11.glScalef(sc, sc, sc);
+				GL11.glScalef(sc, sc, -sc);
 				ResourceLocation loc = RenderBiped.getArmorResource(
 						mc.thePlayer, itemToRender, itemType, null);
 				mc.getTextureManager().bindTexture(loc);
@@ -441,15 +443,20 @@ public class GuiHunterBench extends MHFCTabbedGui {
 						itemToRender, itemType, null);
 				if (model == null) {
 				} else {
-					model.render(mc.thePlayer, 0, 0, 0, 0, 1.0f, 0.06125f);
+					// GL11.glCullFace(GL11.GL_FRONT_AND_BACK);
+					model.render(mc.thePlayer, 0, 0, 0, 0, 0, 0.06125f);
+					GL11.glFrontFace(GL11.GL_CW);
+					model.render(mc.thePlayer, 0, 0, 0, 0, 0, 0.06125f);
+					GL11.glFrontFace(GL11.GL_CCW);
 				}
 			} else {
 				GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 				GL11.glTranslatef(rectX + rectW / 2, rectY + rectH / 2, 40F);
 				GL11.glTranslatef(3f, -15f, 0F);
 				GL11.glRotatef(90F, 1.0f, 0.0f, 0.0f);
+				GL11.glRotatef(20f, -0.5f, 0.0f, 0.5f);
 				float sc = rectH / 8;
-				GL11.glScalef(sc, sc, sc);
+				GL11.glScalef(sc, -sc, sc);
 
 				IItemRenderer customRenderer = MinecraftForgeClient
 						.getItemRenderer(itemToRender, ENTITY);
@@ -458,10 +465,14 @@ public class GuiHunterBench extends MHFCTabbedGui {
 					customRenderer.renderItem(ItemRenderType.ENTITY,
 							itemToRender, null,
 							Minecraft.getMinecraft().thePlayer);
+					GL11.glFrontFace(GL11.GL_CW);
+					customRenderer.renderItem(ItemRenderType.ENTITY,
+							itemToRender, null,
+							Minecraft.getMinecraft().thePlayer);
+					GL11.glFrontFace(GL11.GL_CCW);
 				}
 			}
 		}
-		// GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glPopMatrix();
 	}
 
