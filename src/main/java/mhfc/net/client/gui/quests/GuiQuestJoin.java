@@ -78,7 +78,7 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 		this.xPos = posX;
 		this.yPos = posY;
 
-		runningQuestList.setPosition(runningX + xPos, yBorder + 10 + yPos);
+		runningQuestList.setPosition(runningX, yBorder + 10);
 		runningQuestList.setWidthAndHeight(runningW, ySize - 2 * yBorder - 10);
 
 		joinQuest.xPosition = (xSize - runningX - runningW - joinQuest
@@ -104,7 +104,7 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 		fontRendererObj.drawString("Currently running:", xPos + 9, yPos
 				+ yBorder, 0x404040);
 		runningQuestList.setVisible(true);
-		runningQuestList.draw();
+		runningQuestList.draw(xPos, yPos);
 		joinQuest.visible = true;
 		GuiListStringItem item = runningQuestList.getSelectedItem();
 		if (item != null) {

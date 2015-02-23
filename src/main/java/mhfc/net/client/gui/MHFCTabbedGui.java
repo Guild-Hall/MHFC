@@ -154,14 +154,15 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 		for (int i = 0; i < tabNames.length; i++) {
 			realWidth = tabWidth + tabDelta[i];
 			if (mouseX >= guiLeft + 3 - realWidth && mouseX <= guiLeft + 3
-					&& mouseY >= guiTop + 5 + i * diff
-					&& mouseY <= guiTop + 5 + i * diff + tabHeight) {
+					&& mouseY >= guiTop + 14 + i * diff
+					&& mouseY <= guiTop + 14 + i * diff + tabHeight) {
 				setTab(i);
 			}
 		}
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		if (tabIndex >= 0 && tabIndex < tabList.size())
-			tabList.get(tabIndex).handleClick(mouseX, mouseY, mouseButton);
+			tabList.get(tabIndex).handleClick(mouseX - tabX, mouseY - tabY,
+					mouseButton);
 	}
 
 	@Override
@@ -170,9 +171,9 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 		if (tabIndex >= 0 && tabIndex < tabList.size()) {
 			IMHFCTab tab = tabList.get(tabIndex);
 			if (id < 0) {
-				tab.handleMovement(mouseX, mouseY);
+				tab.handleMovement(mouseX - tabX, mouseY - tabY);
 			} else {
-				tab.handleMouseUp(mouseX, mouseY, id);
+				tab.handleMouseUp(mouseX - tabX, mouseY - tabY, id);
 			}
 		}
 	}
@@ -182,8 +183,8 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 			long timeDiff) {
 		super.mouseClickMove(mouseX, mouseY, button, timeDiff);
 		if (tabIndex >= 0 && tabIndex < tabList.size()) {
-			tabList.get(tabIndex).handleMovementMouseDown(mouseX, mouseY,
-					button, timeDiff);
+			tabList.get(tabIndex).handleMovementMouseDown(mouseX - tabX,
+					mouseY - tabY, button, timeDiff);
 		}
 	}
 

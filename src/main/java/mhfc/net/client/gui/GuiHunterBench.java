@@ -35,6 +35,10 @@ import static net.minecraftforge.client.IItemRenderer.ItemRenderType.ENTITY;
 public class GuiHunterBench extends MHFCTabbedGui {
 
 	static final int maxHeat = 500;
+	static final int modelRectRelX = 228;
+	static final int modelRectRelY = 45;
+	static final int modelRectW = 7 * 18 - 2;
+	static final int modelRectH = 96;
 
 	public class RecipeItem implements GuiListItem {
 		String representation;
@@ -52,6 +56,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 	protected abstract class BenchEntityTab implements IMHFCTab {
 		protected TileHunterBench bench;
+		protected float modelRotX, modelRotY;
+		protected int mouseLastX, mouseLastY;
+		protected int mouseClickX, mouseClickY, mouseClickButton;
+		protected float maxRotation = 50;
 
 		protected List<ClickableGuiList<?>> clickableLists;
 
@@ -65,6 +73,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		public BenchEntityTab(TileHunterBench bench) {
 			this.bench = bench;
 			clickableLists = new ArrayList<ClickableGuiList<?>>();
+			resetModelRot();
 		}
 
 		@Override
@@ -79,7 +88,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 			updateListPositions();
 			for (ClickableGuiList<?> list : clickableLists) {
-				list.draw();
+				list.draw(posX, posY);
 			}
 			fontRendererObj.drawSplitString("Inventory", posX + 6, posY + 12,
 					500, 0x404040);
@@ -87,16 +96,30 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			GuiHunterBench.this.startCrafting.visible = !bench.isWorking();
 			GuiHunterBench.this.startCrafting.enabled = bench
 					.canBeginCrafting();
-			drawItemModelAndHeat(bench);
+			drawItemModelAndHeat(bench, modelRotX, modelRotY);
 		};
 
 		@Override
 		public void handleClick(int relativeX, int relativeY, int button) {
+			mouseClickX = relativeX;
+			mouseClickY = relativeY;
+			mouseLastX = relativeX;
+			mouseLastY = relativeY;
+			mouseClickButton = button;
+			if (isInModelWindow(mouseClickX, mouseClickY)
+					&& mouseClickButton == 1) {
+				resetModelRot();
+			}
 			for (ClickableGuiList<?> list : clickableLists) {
 				if (list.handleClick(relativeX - list.posX, relativeY
 						- list.posY, button))
 					listUpdated(list);
 			}
+		}
+
+		private void resetModelRot() {
+			modelRotX = -50f;
+			modelRotY = 20f;
 		}
 
 		protected void listUpdated(ClickableGuiList<?> list) {
@@ -138,6 +161,16 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		@Override
 		public void handleMovementMouseDown(int mouseX, int mouseY, int button,
 				long timeDiff) {
+			if (isInModelWindow(mouseClickX, mouseClickY)
+					&& mouseClickButton == 0) {
+				modelRotX += (mouseX - mouseLastX);
+				modelRotY += (mouseY - mouseLastY);
+				if (Math.abs(modelRotY) > maxRotation) {
+					modelRotY = maxRotation * Math.signum(modelRotY);
+				}
+			}
+			mouseLastX = mouseX;
+			mouseLastY = mouseY;
 		}
 
 	}
@@ -162,7 +195,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				int number = MHFCEquipementRecipeRegistry.getIDFor(rec, type);
 				armorTypeList.setSelected(type);
 				listUpdated(armorTypeList);
-				armorRecipeList.setSelected(number);
+				if (type < 4)
+					armorRecipeList.setSelected(number);
 			}
 		}
 
@@ -180,7 +214,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				int selected = armorTypeList.getSelected();
 				if (selected < 4)
 					fillRecipeList(MHFCEquipementRecipeRegistry
-							.getRecipesFor(selected));
+							.getRecipesForType(selected));
 			} else if (list == armorRecipeList) {
 				int typeSelected = armorTypeList.getSelected();
 				EquipmentRecipe rec = MHFCEquipementRecipeRegistry
@@ -192,8 +226,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		protected void updateListPositions() {
-			armorRecipeList.setPosition(guiLeft + 153, guiTop + 12);
-			armorTypeList.setPosition(guiLeft + 78, guiTop + 12);
+			armorRecipeList.setPosition(153, 12);
+			armorTypeList.setPosition(78, 12);
 		}
 
 		private void fillRecipeList(Set<EquipmentRecipe> correspondingRecipes) {
@@ -230,6 +264,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 					20);
 			weaponTypeList = new ClickableGuiList<GuiListStringItem>(70,
 					ySize - 24);
+			this.clickableLists.clear();
 			this.clickableLists.add(weaponTypeList);
 			this.clickableLists.add(weaponRecipeList);
 			initializeTypeList();
@@ -238,8 +273,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				int type = MHFCEquipementRecipeRegistry.getType(rec);
 				int number = MHFCEquipementRecipeRegistry.getIDFor(rec, type);
 				weaponTypeList.setSelected(type - 4);
-				listUpdated(weaponTypeList);
-				weaponRecipeList.setSelected(number);
+				if (type >= 4) {
+					listUpdated(weaponTypeList);
+					weaponRecipeList.setSelected(number);
+				}
 			}
 		}
 
@@ -254,8 +291,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		protected void updateListPositions() {
-			weaponRecipeList.setPosition(guiLeft + 153, guiTop + 12);
-			weaponTypeList.setPosition(guiLeft + 78, guiTop + 12);
+			weaponRecipeList.setPosition(153, 12);
+			weaponTypeList.setPosition(78, 12);
 		}
 
 		@Override
@@ -263,8 +300,9 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			if (list == weaponTypeList) {
 				weaponRecipeList.clear();
 				int selected = weaponTypeList.getSelected();
-				fillRecipeList(MHFCEquipementRecipeRegistry
-						.getRecipesFor(selected + 4));
+				if (selected >= 0)
+					fillRecipeList(MHFCEquipementRecipeRegistry
+							.getRecipesForType(selected + 4));
 			} else if (list == weaponRecipeList) {
 				int selected = weaponRecipeList.getSelected();
 				EquipmentRecipe rec = MHFCEquipementRecipeRegistry
@@ -397,26 +435,36 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		};
 	}
 
-	private void drawItemModelAndHeat(TileHunterBench bench) {
+	private void drawItemModelAndHeat(TileHunterBench bench, float modelRotX,
+			float modelRotY) {
 		if (bench != null) {
 			ItemStack itemToRender = bench
 					.getStackInSlot(TileHunterBench.resultSlot);
 			int itemType = MHFCEquipementRecipeRegistry.getType(bench
 					.getRecipe());
 
-			int rectX = guiLeft + 228, rectY = guiTop + 45;
-			int rectW = 7 * 18 - 2, rectH = 96;
+			int rectX = guiLeft + modelRectRelX, rectY = guiTop + modelRectRelY;
 			int scale = new ScaledResolution(mc.gameSettings, mc.displayWidth,
 					mc.displayHeight).getScaleFactor();
 
-			drawItemModel(itemToRender, rectX, rectY, rectW, rectH, scale,
-					itemType);
-			drawBenchOverlay(bench, rectX, rectY, rectW);
+			drawItemModel(itemToRender, rectX, rectY, modelRectW, modelRectH,
+					scale, itemType, modelRotX, modelRotY);
+			drawBenchOverlay(bench, rectX, rectY, modelRectW);
 		}
 	}
 
+	private boolean isInModelWindow(int mouseClickRelX, int mouseClickRelY) {
+		return (mouseClickRelX >= modelRectRelX //
+				&& mouseClickRelX <= modelRectRelX + modelRectW)
+				&& (mouseClickRelY >= modelRectRelY //
+				&& mouseClickRelY <= modelRectRelY + modelRectH);
+	}
+
 	private void drawItemModel(ItemStack itemToRender, int rectX, int rectY,
-			int rectW, int rectH, int guiScale, int itemType) {
+			int rectW, int rectH, int guiScale, int itemType, float modelRotX,
+			float modelRotY) {
+		modelRotX /= 2;
+		modelRotY /= 4;
 		GL11.glPushMatrix();
 		drawRect(rectX, rectY, rectX + rectW + 1, rectY + rectH, 0xFF000000);
 		GL11.glScissor(rectX * guiScale, mc.displayHeight - rectY * guiScale,
@@ -431,9 +479,22 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			if (itemType < 4) {
 				GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 				GL11.glTranslatef(rectX + rectW / 2, rectY + rectH / 2, 40F);
-				// TODO switch the type and add displacement based on that
-				GL11.glTranslatef(3f, -10f, 0F);
-				GL11.glRotatef(-45f, 0.5f, 0.5f, 0.0f);
+				switch (itemType) {
+					case 0 :
+						GL11.glTranslatef(3f, 15f, 0F);
+						break;
+					case 1 :
+						GL11.glTranslatef(3f, -15f, 0F);
+						break;
+					case 2 :
+						GL11.glTranslatef(3f, -40f, 0F);
+						break;
+					case 3 :
+						GL11.glTranslatef(3f, -55f, 0F);
+						break;
+				}
+				GL11.glRotatef(modelRotX, 0.0f, 1.0f, 0.0f);
+				GL11.glRotatef(-modelRotY, 1.0f, 0.0f, 0.0f);
 				float sc = rectH / 2;
 				GL11.glScalef(sc, sc, -sc);
 				ResourceLocation loc = RenderBiped.getArmorResource(
@@ -443,7 +504,6 @@ public class GuiHunterBench extends MHFCTabbedGui {
 						itemToRender, itemType, null);
 				if (model == null) {
 				} else {
-					// GL11.glCullFace(GL11.GL_FRONT_AND_BACK);
 					model.render(mc.thePlayer, 0, 0, 0, 0, 0, 0.06125f);
 					GL11.glFrontFace(GL11.GL_CW);
 					model.render(mc.thePlayer, 0, 0, 0, 0, 0, 0.06125f);
@@ -454,7 +514,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				GL11.glTranslatef(rectX + rectW / 2, rectY + rectH / 2, 40F);
 				GL11.glTranslatef(3f, -15f, 0F);
 				GL11.glRotatef(90F, 1.0f, 0.0f, 0.0f);
-				GL11.glRotatef(20f, -0.5f, 0.0f, 0.5f);
+				modelRotY = Math.min(Math.abs(modelRotY), 30f)
+						* Math.signum(modelRotY);
+				GL11.glRotatef(modelRotX, 0.0f, 0.0f, -1.0f);
+				GL11.glRotatef(modelRotY, 0.0f, -1.0f, 0.0f);
 				float sc = rectH / 8;
 				GL11.glScalef(sc, -sc, sc);
 

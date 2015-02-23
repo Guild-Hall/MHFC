@@ -138,7 +138,7 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 		// TODO unlocalize
 		fontRendererObj.drawString("Take a quest:", xPos + 8, yPos + yBorder,
 				0x404040);
-		groupList.draw();
+		groupList.draw(xPos, yPos);
 		left.visible = true;
 		right.visible = true;
 		newQuest.enabled = false;
@@ -182,7 +182,7 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 	public void updateTab(int posX, int posY) {
 		this.xPos = posX;
 		this.yPos = posY;
-		groupList.setPosition(questsX + xPos, yBorder + 10 + yPos);
+		groupList.setPosition(questsX, yBorder + 10);
 		groupList.setWidthAndHeight(questsW, ySize - 2 * yBorder - 10);
 		right.xPosition = xSize - questsX - right.getButtonWidth() + xPos;
 		right.yPosition = yBorder + yPos;

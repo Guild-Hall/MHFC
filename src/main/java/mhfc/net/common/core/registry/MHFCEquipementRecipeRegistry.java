@@ -235,7 +235,7 @@ public class MHFCEquipementRecipeRegistry {
 		return 5;
 	}
 
-	public static Set<EquipmentRecipe> getRecipesFor(int type) {
+	public static Set<EquipmentRecipe> getRecipesForType(int type) {
 		return mapOfRecipeSets.get(new Integer(type));
 	}
 
