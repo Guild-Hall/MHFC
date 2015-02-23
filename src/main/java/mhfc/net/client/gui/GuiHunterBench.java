@@ -235,12 +235,11 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		protected void listUpdated(ClickableGuiList<?> list) {
+			ItemType typeOfSelection = getSelectedType();
 			if (list == armorTypeList) {
 				armorRecipeList.clear();
-				ItemType typeOfSelection = getSelectedType();
 				if (typeOfSelection.getGeneralType() == GeneralType.ARMOR)
-					fillRecipeList(MHFCEquipementRecipeRegistry
-							.getRecipesForType(typeOfSelection));
+					fillRecipeList(typeOfSelection);
 			} else if (list == armorRecipeList) {
 				RecipeItem recI = armorRecipeList.getSelectedItem();
 				bench.changeRecipe(recI == null ? null : recI.getRecipe());
@@ -259,7 +258,9 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			armorTypeList.setPosition(78, 12);
 		}
 
-		private void fillRecipeList(Set<EquipmentRecipe> correspondingRecipes) {
+		private void fillRecipeList(ItemType typeOfSelection) {
+			Set<EquipmentRecipe> correspondingRecipes = MHFCEquipementRecipeRegistry
+					.getRecipesForType(typeOfSelection);
 			if (correspondingRecipes == null) {
 				return;
 			}
@@ -322,12 +323,11 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		protected void listUpdated(ClickableGuiList<?> list) {
-			ItemType typeOfSelected = getSelectedType();
+			ItemType typeOfSelection = getSelectedType();
 			if (list == weaponTypeList) {
 				weaponRecipeList.clear();
-				if (typeOfSelected.getGeneralType() == GeneralType.WEAPON)
-					fillRecipeList(MHFCEquipementRecipeRegistry
-							.getRecipesForType(typeOfSelected));
+				if (typeOfSelection.getGeneralType() == GeneralType.WEAPON)
+					fillRecipeList(typeOfSelection);
 			} else if (list == weaponRecipeList) {
 				RecipeItem recI = weaponRecipeList.getSelectedItem();
 				bench.changeRecipe(recI == null ? null : recI.getRecipe());
@@ -340,7 +340,9 @@ public class GuiHunterBench extends MHFCTabbedGui {
 					.getType();
 		}
 
-		private void fillRecipeList(Set<EquipmentRecipe> correspondingRecipes) {
+		private void fillRecipeList(ItemType typeOfSelection) {
+			Set<EquipmentRecipe> correspondingRecipes = MHFCEquipementRecipeRegistry
+					.getRecipesForType(typeOfSelection);
 			if (correspondingRecipes == null)
 				return;
 			for (EquipmentRecipe rec : correspondingRecipes) {
