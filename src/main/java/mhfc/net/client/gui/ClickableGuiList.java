@@ -84,11 +84,13 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> 
 		this.itemHeight = itemWidth;
 	}
 
-	public void draw() {
+	public void draw(int baseX, int baseY) {
 		if (!visible)
 			return;
 		// if (size() == 0)
 		// return;
+		int posX = this.posX + baseX;
+		int posY = this.posY + baseY;
 		if (recalculateItemHeightOnDraw)
 			recalculateItemHeight();
 		int width = Math.max(this.width, 15);

@@ -1,14 +1,16 @@
 package mhfc.net.common.block;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.tile.TileQuestBoard;
 import mhfc.net.common.util.lib.MHFCReference;
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockQuestBoard extends Block {
+public class BlockQuestBoard extends BlockContainer {
 
 	public BlockQuestBoard() {
 		super(Material.ground);
@@ -18,7 +20,22 @@ public class BlockQuestBoard extends Block {
 	}
 
 	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+
+	@Override
+	public int getRenderType() {
+		return -1;
+	}
+
+	@Override
 	protected boolean canSilkHarvest() {
+		return false;
+	}
+
+	@Override
+	public boolean renderAsNormalBlock() {
 		return false;
 	}
 
@@ -34,8 +51,14 @@ public class BlockQuestBoard extends Block {
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister p_149651_1_) {
-		// FIXME blockIcon
+	public void registerBlockIcons(IIconRegister par1IconRegister) {
+		blockIcon = par1IconRegister
+				.registerIcon(MHFCReference.block_hunterbench_icon);
+	}
+
+	@Override
+	public TileEntity createNewTileEntity(World var1, int var2) {
+		return new TileQuestBoard();
 	}
 
 }

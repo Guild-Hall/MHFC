@@ -20,6 +20,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 	protected int tabHeight;
 	protected int tabSplit;
 	protected int tabWidth;
+	protected int tabX, tabY;
 	protected List<IMHFCTab> tabList;
 
 	public MHFCTabbedGui(Container p_i1072_1_, int tabCount) {
@@ -38,22 +39,24 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 			int mousePosX, int mousePosY) {
 		int posX = (this.width - this.xSize - tabWidth) / 2 + tabWidth;
 		int posY = (this.height - this.ySize) / 2;
+		tabX = posX;
+		tabY = posY;
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_BLEND);
 		drawInactiveTabIcons(posX, posY, mousePosX, mousePosY);
 		drawTabBackgroundLayer();
-		drawActiveTabIcon(posX, posY, mousePosX, mousePosY);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		drawTab(tabIndex, posX, posY, mousePosX, mousePosY, partialTick);
+		drawActiveTabIcon(posX, posY, mousePosX, mousePosY);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopMatrix();
 	}
 
 	protected void drawActiveTabIcon(int posX, int posY, int mouseX, int mouseY) {
-		posX += 4;
+		posX += 5;
 		posY += 14;
 		int diff = tabHeight + tabSplit;
 		int realWidth = 0;
@@ -86,7 +89,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 
 	protected void drawInactiveTabIcons(int posX, int posY, int mouseX,
 			int mouseY) {
-		posX += 4;
+		posX += 5;
 		posY += 14;
 		int diff = tabHeight + tabSplit;
 		int realWidth = 0;
@@ -121,7 +124,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 	protected void drawTab(int tabIndex, int posX, int posY, int mousePosX,
 			int mousePosY, float partialTick) {
 		if (tabIndex >= 0 && tabIndex < tabList.size())
-			tabList.get(tabIndex).drawTab(posX, posY, mousePosX, mousePosY,
+			tabList.get(tabIndex).drawTab(tabX, tabY, mousePosX, mousePosY,
 					partialTick);
 	}
 
@@ -151,14 +154,15 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 		for (int i = 0; i < tabNames.length; i++) {
 			realWidth = tabWidth + tabDelta[i];
 			if (mouseX >= guiLeft + 3 - realWidth && mouseX <= guiLeft + 3
-					&& mouseY >= guiTop + 5 + i * diff
-					&& mouseY <= guiTop + 5 + i * diff + tabHeight) {
+					&& mouseY >= guiTop + 14 + i * diff
+					&& mouseY <= guiTop + 14 + i * diff + tabHeight) {
 				setTab(i);
 			}
 		}
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		if (tabIndex >= 0 && tabIndex < tabList.size())
-			tabList.get(tabIndex).handleClick(mouseX, mouseY, mouseButton);
+			tabList.get(tabIndex).handleClick(mouseX - tabX, mouseY - tabY,
+					mouseButton);
 	}
 
 	@Override
@@ -167,9 +171,9 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 		if (tabIndex >= 0 && tabIndex < tabList.size()) {
 			IMHFCTab tab = tabList.get(tabIndex);
 			if (id < 0) {
-				tab.handleMovement(mouseX, mouseY);
+				tab.handleMovement(mouseX - tabX, mouseY - tabY);
 			} else {
-				tab.handleMouseUp(mouseX, mouseY, id);
+				tab.handleMouseUp(mouseX - tabX, mouseY - tabY, id);
 			}
 		}
 	}
@@ -179,8 +183,8 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 			long timeDiff) {
 		super.mouseClickMove(mouseX, mouseY, button, timeDiff);
 		if (tabIndex >= 0 && tabIndex < tabList.size()) {
-			tabList.get(tabIndex).handleMovementMouseDown(mouseX, mouseY,
-					button, timeDiff);
+			tabList.get(tabIndex).handleMovementMouseDown(mouseX - tabX,
+					mouseY - tabY, button, timeDiff);
 		}
 	}
 
@@ -192,7 +196,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 	public void updateScreen() {
 		IMHFCTab tab = tabList.get(tabIndex);
 		if (tab != null)
-			tab.updateScreen();
+			tab.updateTab(tabX, tabY);
 		super.updateScreen();
 	}
 

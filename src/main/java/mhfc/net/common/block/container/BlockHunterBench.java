@@ -44,7 +44,7 @@ public class BlockHunterBench extends BlockContainer {
 	@Override
 	public void registerBlockIcons(IIconRegister par1IconRegister) {
 		blockIcon = par1IconRegister
-				.registerIcon(MHFCReference.block_hunterbench_icon);
+				.registerIcon(MHFCReference.block_questBoard_icon);
 	}
 
 	@Override

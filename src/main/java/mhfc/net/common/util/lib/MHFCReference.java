@@ -198,7 +198,7 @@ public class MHFCReference {
 	public static final String block_wyverianstone_name = "wyverniastone";
 	public static final String block_wyverianstone_tex = "mhfc:wyverniastone";
 	public static final String block_questBoard_name = "questboard";
-	public static final String block_questBoard_tex = "mhfc:questboard";
+	public static final String block_questBoard_icon = "mhfc:questboard";
 	public static final String damagesource_shatter_name = "shatter";
 	public static final String entity_rathalosFireball_name = "Fireball";
 	public static final String entity_rathalosfireball_tex = "mhfc:textures/projectile/rathalosfireball.png";
@@ -366,6 +366,8 @@ public class MHFCReference {
 	public static final String tile_bbqspit_tex = "mhfc:textures/tile/bbqspit.png";
 	public static final String tile_huntersbench_id = "Hunter's Bench";
 	public static final String tile_huntertable_tex = "mhfc:textures/tile/huntertable.png";
+	public static final String tile_questboard_id = "Quest Board";
+	public static final String tile_questboard_tex = "mhfc:textures/tile/questboard.png";
 	public static final String tile_stuntrap_id = "Stun Trap";
 	public static final String tile_stuntrap_tex = "mhfc:textures/tile/stuntrap.png";
 

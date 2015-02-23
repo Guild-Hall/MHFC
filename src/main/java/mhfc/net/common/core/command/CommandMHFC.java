@@ -37,7 +37,7 @@ public class CommandMHFC implements ICommand {
 	}
 
 	@Override
-	public List getCommandAliases() {
+	public List<String> getCommandAliases() {
 		return aliases;
 	}
 
