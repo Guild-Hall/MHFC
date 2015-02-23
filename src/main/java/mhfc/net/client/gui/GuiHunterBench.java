@@ -6,10 +6,11 @@ import java.util.Set;
 
 import mhfc.net.client.container.ContainerHunterBench;
 import mhfc.net.client.gui.ClickableGuiList.GuiListItem;
-import mhfc.net.client.gui.ClickableGuiList.GuiListStringItem;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
+import mhfc.net.common.item.ItemType;
+import mhfc.net.common.item.ItemType.GeneralType;
 import mhfc.net.common.tile.TileHunterBench;
 import mhfc.net.common.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
@@ -22,6 +23,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.IItemRenderer;
@@ -40,11 +42,36 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	static final int modelRectW = 7 * 18 - 2;
 	static final int modelRectH = 96;
 
+	public class TypeItem implements GuiListItem {
+		ItemType type;
+
+		public TypeItem(ItemType type) {
+			this.type = type;
+		}
+
+		public ItemType getType() {
+			return type;
+		}
+
+		@Override
+		public String getRepresentationString() {
+			String str = type.getNameString();
+			return StatCollector.translateToLocal(str);
+		}
+
+	}
+
 	public class RecipeItem implements GuiListItem {
 		String representation;
+		EquipmentRecipe recipe;
 
 		public RecipeItem(EquipmentRecipe recipe) {
+			this.recipe = recipe;
 			representation = recipe.getRecipeOutput().getDisplayName();
+		}
+
+		public EquipmentRecipe getRecipe() {
+			return recipe;
 		}
 
 		@Override
@@ -177,33 +204,32 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 	protected class CraftArmorTab extends BenchEntityTab {
 		ClickableGuiList<RecipeItem> armorRecipeList;
-		ClickableGuiList<GuiListStringItem> armorTypeList;
+		ClickableGuiList<TypeItem> armorTypeList;
 
 		public CraftArmorTab(TileHunterBench bench) {
 			super(bench);
 			armorRecipeList = new ClickableGuiList<RecipeItem>(70, ySize - 24,
 					20);
-			armorTypeList = new ClickableGuiList<GuiListStringItem>(70,
-					ySize - 24);
+			armorTypeList = new ClickableGuiList<TypeItem>(70, ySize - 24);
 			armorTypeList.setAlignmentMid(true);
 			this.clickableLists.add(armorTypeList);
 			this.clickableLists.add(armorRecipeList);
 			initializeTypeList();
 			if (bench != null) {
 				EquipmentRecipe rec = bench.getRecipe();
-				int type = MHFCEquipementRecipeRegistry.getType(rec);
+				ItemType type = MHFCEquipementRecipeRegistry.getType(rec);
 				int number = MHFCEquipementRecipeRegistry.getIDFor(rec, type);
-				armorTypeList.setSelected(type);
+				armorTypeList.setSelected(type.getArmorOrdinal());
 				listUpdated(armorTypeList);
-				if (type < 4)
+				if (type.getGeneralType() == GeneralType.ARMOR)
 					armorRecipeList.setSelected(number);
 			}
 		}
 
 		private void initializeTypeList() {
-			String[] strings = {"Helmet", "Chestplate", "Waist", "Boots"};
-			for (int i = 0; i < 4; i++) {
-				armorTypeList.add(new GuiListStringItem(strings[i]));
+			ItemType[] types = ItemType.armorTypes;
+			for (int i = 0; i < types.length; i++) {
+				armorTypeList.add(new TypeItem(types[i]));
 			}
 		}
 
@@ -211,17 +237,20 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		protected void listUpdated(ClickableGuiList<?> list) {
 			if (list == armorTypeList) {
 				armorRecipeList.clear();
-				int selected = armorTypeList.getSelected();
-				if (selected < 4)
+				ItemType typeOfSelection = getSelectedType();
+				if (typeOfSelection.getGeneralType() == GeneralType.ARMOR)
 					fillRecipeList(MHFCEquipementRecipeRegistry
-							.getRecipesForType(selected));
+							.getRecipesForType(typeOfSelection));
 			} else if (list == armorRecipeList) {
-				int typeSelected = armorTypeList.getSelected();
-				EquipmentRecipe rec = MHFCEquipementRecipeRegistry
-						.getRecipeFor(armorRecipeList.getSelected(),
-								typeSelected);
-				bench.changeRecipe(rec);
+				RecipeItem recI = armorRecipeList.getSelectedItem();
+				bench.changeRecipe(recI == null ? null : recI.getRecipe());
 			}
+		}
+
+		private ItemType getSelectedType() {
+			TypeItem selectedItem = armorTypeList.getSelectedItem();
+			return selectedItem == null ? ItemType.NO_OTHER : selectedItem
+					.getType();
 		}
 
 		@Override
@@ -249,7 +278,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	protected class CraftWeaponTab extends BenchEntityTab {
 
 		ClickableGuiList<RecipeItem> weaponRecipeList;
-		ClickableGuiList<GuiListStringItem> weaponTypeList;
+		ClickableGuiList<TypeItem> weaponTypeList;
 
 		/**
 		 *
@@ -262,30 +291,26 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			super(bench);
 			weaponRecipeList = new ClickableGuiList<RecipeItem>(70, ySize - 24,
 					20);
-			weaponTypeList = new ClickableGuiList<GuiListStringItem>(70,
-					ySize - 24);
+			weaponTypeList = new ClickableGuiList<TypeItem>(70, ySize - 24);
 			this.clickableLists.clear();
 			this.clickableLists.add(weaponTypeList);
 			this.clickableLists.add(weaponRecipeList);
 			initializeTypeList();
 			if (bench != null) {
 				EquipmentRecipe rec = bench.getRecipe();
-				int type = MHFCEquipementRecipeRegistry.getType(rec);
+				ItemType type = MHFCEquipementRecipeRegistry.getType(rec);
 				int number = MHFCEquipementRecipeRegistry.getIDFor(rec, type);
-				weaponTypeList.setSelected(type - 4);
-				if (type >= 4) {
-					listUpdated(weaponTypeList);
+				weaponTypeList.setSelected(type.getWeaponOrdinal());
+				listUpdated(weaponTypeList);
+				if (type.getGeneralType() == GeneralType.WEAPON)
 					weaponRecipeList.setSelected(number);
-				}
 			}
 		}
 
 		private void initializeTypeList() {
-			String[] strings = {"Greatsword", "Longsword", "Hammer",
-					"HuntingHorn", "Sword+Shield", "Dual Sword", "Lance",
-					"Gunlance", "Bow", "SmBowgun", "LgBowgun"};
-			for (int i = 0; i < strings.length; i++) {
-				weaponTypeList.add(new GuiListStringItem(strings[i]));
+			ItemType[] types = ItemType.weaponTypes;
+			for (int i = 0; i < types.length; i++) {
+				weaponTypeList.add(new TypeItem(types[i]));
 			}
 		}
 
@@ -297,19 +322,22 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		protected void listUpdated(ClickableGuiList<?> list) {
+			ItemType typeOfSelected = getSelectedType();
 			if (list == weaponTypeList) {
 				weaponRecipeList.clear();
-				int selected = weaponTypeList.getSelected();
-				if (selected >= 0)
+				if (typeOfSelected.getGeneralType() == GeneralType.WEAPON)
 					fillRecipeList(MHFCEquipementRecipeRegistry
-							.getRecipesForType(selected + 4));
+							.getRecipesForType(typeOfSelected));
 			} else if (list == weaponRecipeList) {
-				int selected = weaponRecipeList.getSelected();
-				EquipmentRecipe rec = MHFCEquipementRecipeRegistry
-						.getRecipeFor(selected,
-								weaponTypeList.getSelected() + 4);
-				bench.changeRecipe(rec);
+				RecipeItem recI = weaponRecipeList.getSelectedItem();
+				bench.changeRecipe(recI == null ? null : recI.getRecipe());
 			}
+		}
+
+		private ItemType getSelectedType() {
+			TypeItem selectedItem = weaponTypeList.getSelectedItem();
+			return selectedItem == null ? ItemType.NO_OTHER : selectedItem
+					.getType();
 		}
 
 		private void fillRecipeList(Set<EquipmentRecipe> correspondingRecipes) {
@@ -421,10 +449,13 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		this.tabList.add(new CraftArmorTab(tileEntity));
 		this.tabList.add(new CraftWeaponTab(tileEntity));
 		this.tabList.add(new WeaponTreeTab());
-		int type = 0;
+		int type = -2;
 		if (tileEntity != null)
-			type = MHFCEquipementRecipeRegistry.getType(tileEntity.getRecipe());
-		setTab(type >= 4 ? 1 : 0);
+			type = MHFCEquipementRecipeRegistry.getType(tileEntity.getRecipe())
+					.getArmorOrdinal();
+		setTab(type > -2 ? type > -1 ? 0 : 1 : 0); // TODO change the last index
+													// to 2 once tree is
+													// implemented
 		startCrafting = new GuiButton(0,
 				guiLeft + 228 + (xSize - 228 - 60) / 2, guiTop + 166, 40, 20,
 				"Craft") {
@@ -440,7 +471,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		if (bench != null) {
 			ItemStack itemToRender = bench
 					.getStackInSlot(TileHunterBench.resultSlot);
-			int itemType = MHFCEquipementRecipeRegistry.getType(bench
+			ItemType itemType = MHFCEquipementRecipeRegistry.getType(bench
 					.getRecipe());
 
 			int rectX = guiLeft + modelRectRelX, rectY = guiTop + modelRectRelY;
@@ -461,8 +492,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	}
 
 	private void drawItemModel(ItemStack itemToRender, int rectX, int rectY,
-			int rectW, int rectH, int guiScale, int itemType, float modelRotX,
-			float modelRotY) {
+			int rectW, int rectH, int guiScale, ItemType itemType,
+			float modelRotX, float modelRotY) {
 		modelRotX /= 2;
 		modelRotY /= 4;
 		GL11.glPushMatrix();
@@ -476,10 +507,11 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		if (itemToRender != null) {
-			if (itemType < 4) {
+			if (itemType.getGeneralType() == GeneralType.ARMOR) {
 				GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 				GL11.glTranslatef(rectX + rectW / 2, rectY + rectH / 2, 40F);
-				switch (itemType) {
+				int armorType = itemType.getArmorOrdinal();
+				switch (armorType) {
 					case 0 :
 						GL11.glTranslatef(3f, 15f, 0F);
 						break;
@@ -498,10 +530,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				float sc = rectH / 2;
 				GL11.glScalef(sc, sc, -sc);
 				ResourceLocation loc = RenderBiped.getArmorResource(
-						mc.thePlayer, itemToRender, itemType, null);
+						mc.thePlayer, itemToRender, armorType, null);
 				mc.getTextureManager().bindTexture(loc);
 				ModelBiped model = ForgeHooksClient.getArmorModel(mc.thePlayer,
-						itemToRender, itemType, null);
+						itemToRender, armorType, null);
 				if (model == null) {
 				} else {
 					model.render(mc.thePlayer, 0, 0, 0, 0, 0, 0.06125f);
@@ -509,7 +541,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 					model.render(mc.thePlayer, 0, 0, 0, 0, 0, 0.06125f);
 					GL11.glFrontFace(GL11.GL_CCW);
 				}
-			} else {
+			} else if (itemType.getGeneralType() == GeneralType.WEAPON) {
 				GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 				GL11.glTranslatef(rectX + rectW / 2, rectY + rectH / 2, 40F);
 				GL11.glTranslatef(3f, -15f, 0F);
