@@ -4,6 +4,7 @@ import mhfc.net.common.implement.iMHFC;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
 
+@Deprecated
 public abstract class AIAnimation<T extends EntityLiving & iMHFC>
 		extends
 			EntityAIBase {

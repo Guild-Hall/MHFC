@@ -1,6 +1,7 @@
 package mhfc.net.common.entity.type;
 
 import java.util.List;
+import java.util.Random;
 
 import mhfc.net.common.ai.AIAttackManager;
 import mhfc.net.common.ai.IExecutableAttack;
@@ -45,22 +46,38 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	public EntityMHFCBase(World world) {
 		super(world);
 		// FIXME: think of some method to make this "type-safe"
-		this.attackManager = new AIAttackManager<YC>((YC) this);
-		tasks.addTask(0, attackManager);
+		tasks.addTask(0,
+				this.attackManager = new AIAttackManager<YC>((YC) this));
 	}
 	/**
 	 * Specialize the return type to a {@link EntityMHFCPart}
 	 */
 	@Override
 	public abstract EntityMHFCPart[] getParts();
-
+	/**
+	 * Drops the given item near this entity in the world. Utility method
+	 *
+	 * @param item
+	 *            the item to drop
+	 * @param count
+	 *            the stack size
+	 */
 	public void dropItemRand(Item item, int count) {
-		EntityItem var3 = new EntityItem(this.worldObj, posX
-				+ worldObj.rand.nextInt(5) - worldObj.rand.nextInt(5),
-				posY + 1.0D, this.posZ + worldObj.rand.nextInt(5)
-						- worldObj.rand.nextInt(5), new ItemStack(item, count,
-						0));
-		worldObj.spawnEntityInWorld(var3);
+		dropItemRand(new ItemStack(item, count, 0));
+	}
+	/**
+	 * Drops the given item stack as entity in the world of this entity. Utility
+	 * method
+	 *
+	 * @param stack
+	 *            the stack to drop
+	 */
+	public void dropItemRand(ItemStack stack) {
+		Random rand = worldObj.rand;
+		EntityItem entityItem = new EntityItem(this.worldObj, posX
+				+ rand.nextInt(10) - 5, posY + 1.0D, posZ + rand.nextInt(10)
+				- 5, stack);
+		worldObj.spawnEntityInWorld(entityItem);
 	}
 
 	public double healthbaseHP(double lowhp, double medhp, double highhp) {
@@ -74,12 +91,18 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 		}
 		return medhp;
 	}
-
+	/**
+	 * Sets the location AND angles of this entity. Custom implementation
+	 * because we need to be notified when the angles of the entity change.<br>
+	 * This is only called once per update-tick
+	 */
 	@Override
 	public void setLocationAndAngles(double posX, double posY, double posZ,
 			float yaw, float pitch) {
-		this.setPosition(posX, posY, posZ);
+		super.setLocationAndAngles(posX, posY, posZ, yaw, pitch);
 		this.setRotation(yaw, pitch);
+		// super.setPosition(posX, posY, posZ);
+		// this.setRotation(yaw, pitch);
 	}
 	/**
 	 * This is a custom implementation of the movement algorithm. It just moves
@@ -88,32 +111,41 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	 */
 	@Override
 	public void setPosition(double newPosX, double newPosY, double newPosZ) {
-		// If there are bugs with messy bounding boxes, look here
+		// TODO: rework, getting posX, posY, posZ is not ?same?
+		// hm, somehow keep the BB the same size
+		this.posX = newPosX;
+		this.posY = newPosY;
+		this.posZ = newPosZ;
 		double diffX = newPosX - this.posX;
 		double diffY = newPosY - this.posY;
 		double diffZ = newPosZ - this.posZ;
-		this.offsetEntity(diffX, diffY, diffZ);
+		this.boundingBox.offset(diffX, diffY, diffZ);
+		// this.offsetEntity(diffX, diffY, diffZ);
+	}
+	@Override
+	protected void setRotation(float newYaw, float newPitch) {
+		// float diffYawDeg = newYaw - this.rotationYaw;
+		// double diffYawRad = diffYawDeg / 180D;
+		this.rotationYaw = newYaw % 360.0F;
+		this.rotationPitch = newPitch % 360.0F;
+		// EntityMHFCPart[] parts = this.getParts();
+		// if (parts == null)
+		// return;
+		// for (EntityMHFCPart part : parts) {
+		// double offXPart = part.posX - this.posX;
+		// double offZPart = part.posZ - this.posZ;
+		// part.posX = this.posX
+		// + (Math.cos(diffYawRad) * offXPart - Math.sin(diffYawRad)
+		// * offZPart);
+		// part.posY = this.posY
+		// + (Math.sin(diffYawRad) * offXPart + Math.cos(diffYawRad)
+		// * offZPart);
+		// }
 	}
 
 	@Override
-	protected void setRotation(float newYaw, float newPitch) {
-		float diffYawDeg = newYaw - this.rotationYaw;
-		double diffYawRad = diffYawDeg / 180D;
-		this.rotationYaw = newYaw % 360.0F;
-		this.rotationPitch = newPitch % 360.0F;
-		EntityMHFCPart[] parts = this.getParts();
-		if (parts == null)
-			return;
-		for (EntityMHFCPart part : parts) {
-			double offXPart = part.posX - this.posX;
-			double offZPart = part.posZ - this.posZ;
-			part.posX = this.posX
-					+ (Math.cos(diffYawRad) * offXPart - Math.sin(diffYawRad)
-							* offZPart);
-			part.posY = this.posY
-					+ (Math.sin(diffYawRad) * offXPart + Math.cos(diffYawRad)
-							* offZPart);
-		}
+	protected boolean canDespawn() {
+		return false;
 	}
 
 	/**
@@ -294,6 +326,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	@Override
 	public World func_82194_d() {
 		return this.worldObj;
+	}
+
+	@Override
+	protected boolean isAIEnabled() {
+		return true;
 	}
 
 	@Override

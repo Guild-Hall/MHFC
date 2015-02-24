@@ -16,8 +16,9 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	public EntityTigrex(World par1World) {
 		super(par1World);
-		width = 6F;
-		height = 4F;
+		this.boundingBox.setBounds(-3, 0, -3, 3, 4, 3);
+		this.height = 4f;
+		this.width = 6f;
 
 		this.attackManager.registerAttack(new RunAttack());
 		this.attackManager.registerAttack(new SpinAttack());
