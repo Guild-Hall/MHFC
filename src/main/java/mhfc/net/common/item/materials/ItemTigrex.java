@@ -11,6 +11,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 
 public class ItemTigrex extends Item {
 	public static enum TigrexSubType implements SubTypedItem.SubTypeEnum<Item> {
@@ -55,6 +56,11 @@ public class ItemTigrex extends Item {
 	public String getUnlocalizedName(ItemStack itemStack) {
 		return super.getUnlocalizedName(itemStack) + "."
 				+ itemPerk.getSubType(itemStack).name;
+	}
+
+	@Override
+	public IIcon getIconFromDamage(int meta) {
+		return itemPerk.getIcons()[meta];
 	}
 
 	@Override

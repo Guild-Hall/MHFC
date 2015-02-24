@@ -11,7 +11,6 @@ public class ItemBlockWyverniaOres extends ItemBlock {
 		super(block);
 		setHasSubtypes(true);
 		maxStackSize = 12;
-
 	}
 
 	@Override

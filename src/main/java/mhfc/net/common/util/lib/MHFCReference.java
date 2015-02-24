@@ -447,10 +447,13 @@ public class MHFCReference {
 	public static final String weapon_ls_ironkatana_tex = "mhfc:textures/weapons/(LS)ironkatana.png";
 
 	public static final String weapon_bgl_shooterbarrel_name = "bowgun_1";
+	public static final String weapon_bgl_shooterbarrel_icon = "mhfc:bow";
 	public static final String weapon_bgl_shooterbarrel_tex = "mhfc:textures/weapons/(BGL)shooterbarrel.png";
 	public static final String weapon_bgl_spartacusfire_name = "bowgun_2";
+	public static final String weapon_bgh_spartacusfire_icon = "mhfc:bow";
 	public static final String weapon_bgl_spartacusfire_tex = "mhfc:textures/weapons/(BGL)spartacusfire.png";
 	public static final String weapon_bgh_rath_name = "bowgun_3";
+	public static final String weapon_bgh_rath_icon = "mhfc:bow";
 	public static final String weapon_bgh_rath_tex = "mhfc:textures/weapons/(BGH)rath.png";
 
 	public static final String gui_questgiver_back_tex = "mhfc:texture/gui/questgiver.png";

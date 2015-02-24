@@ -13,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class ItemNutrients extends ItemFood {
@@ -76,6 +77,11 @@ public class ItemNutrients extends ItemFood {
 	public String getUnlocalizedName(ItemStack itemStack) {
 		return super.getUnlocalizedName(itemStack) + "."
 				+ itemPerk.getSubType(itemStack).name;
+	}
+
+	@Override
+	public IIcon getIconFromDamage(int meta) {
+		return itemPerk.getIcons()[meta];
 	}
 
 	@Override

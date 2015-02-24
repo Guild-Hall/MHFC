@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 
 public class ItemArmorSphere extends Item {
 	public static enum ArmorSphereSubType
@@ -47,6 +48,11 @@ public class ItemArmorSphere extends Item {
 		setUnlocalizedName(MHFCReference.item_armorsphere_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(16);
+	}
+
+	@Override
+	public IIcon getIconFromDamage(int meta) {
+		return itemPerk.getIcons()[meta];
 	}
 
 	@Override

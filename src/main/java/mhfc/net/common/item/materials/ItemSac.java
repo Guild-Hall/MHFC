@@ -11,6 +11,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 
 public class ItemSac extends Item {
 	public static enum SacSubType implements SubTypedItem.SubTypeEnum<Item> {
@@ -49,6 +50,11 @@ public class ItemSac extends Item {
 	public String getUnlocalizedName(ItemStack itemStack) {
 		return super.getUnlocalizedName(itemStack) + "."
 				+ itemPerk.getSubType(itemStack).getName();
+	}
+
+	@Override
+	public IIcon getIconFromDamage(int meta) {
+		return itemPerk.getIcons()[meta];
 	}
 
 	@Override
