@@ -201,7 +201,7 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 
 	@Override
 	public void handleClick(int relativeX, int relativeY, int button) {
-		mouseClicked(relativeX, relativeY, button);
+		mouseClicked(relativeX + xPos, relativeY + yPos, button);
 	}
 
 	@Override
@@ -222,12 +222,12 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 	@Override
 	public void handleMovementMouseDown(int mouseX, int mouseY, int button,
 			long timeDiff) {
-		mouseClickMove(mouseX, mouseY, button, timeDiff);
+		mouseClickMove(mouseX + xPos, mouseY + yPos, button, timeDiff);
 	}
 
 	@Override
 	public void handleMouseUp(int mouseX, int mouseY, int id) {
-		mouseMovedOrUp(mouseX, mouseY, id);
+		mouseMovedOrUp(mouseX + xPos, mouseY + yPos, id);
 	}
 
 	@Override

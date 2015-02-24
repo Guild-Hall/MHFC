@@ -35,7 +35,7 @@ public class QuestDescription {
 	}
 
 	private String resolveAreaIDToName(String areaId2) {
-		// TODO Auto-generated method stub
+		// TODO Really resolve, once we have an area system in place
 		return areaId2;
 	}
 

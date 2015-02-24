@@ -45,15 +45,27 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 			}
 		};
 		startQuest = new GuiButton(0, 25, 10, startQuestWidth,
-				startQuestHeight, "Start current Quest") {
+				startQuestHeight, "Set ready status") {
+			boolean voted = false;
+
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
 					int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
-					PacketPipeline.networkPipe
-							.sendToServer(new MessageQuestInteraction(
-									Interaction.VOTE_START, new String[0]));
-					accessor.closeScreen();
+					if (!voted) {
+						PacketPipeline.networkPipe
+								.sendToServer(new MessageQuestInteraction(
+										Interaction.VOTE_START, new String[0]));
+						accessor.closeScreen();
+						voted = true;
+						displayString = "Unset ready status";
+					} else {
+						PacketPipeline.networkPipe
+								.sendToServer(new MessageQuestInteraction(
+										Interaction.VOTE_END, new String[0]));
+						voted = false;
+						displayString = "Set ready status";
+					}
 					return true;
 				}
 				return false;

@@ -52,9 +52,10 @@ public class BlockQuestBoard extends BlockContainer {
 
 	@Override
 	public void registerBlockIcons(IIconRegister par1IconRegister) {
-		// FIXME: supply proxy texture?
-		// blockIcon = par1IconRegister
-		// .registerIcon(MHFCReference.block_questBoard_icon);
+		// TODO this looks actually pretty awesome for the questing board, but
+		// maybe get a dedicated one
+		blockIcon = par1IconRegister
+				.registerIcon(MHFCReference.block_hunterbench_icon);
 	}
 
 	@Override
