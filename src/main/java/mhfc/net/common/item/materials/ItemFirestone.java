@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class ItemFirestone extends Item {
 
 	public ItemFirestone() {
-		maxStackSize = 1;
+		maxStackSize = 12;
 		setUnlocalizedName(MHFCReference.item_firestone_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
