@@ -12,7 +12,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public abstract class ExtendedReachHelper
+public abstract class PerceptionHelper
 {
 	private static Minecraft	mc	= FMLClientHandler.instance().getClient();
 	

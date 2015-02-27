@@ -140,16 +140,23 @@ public class MHFCEquipementRecipeRegistry {
 		}
 		return null;
 	}
-
+	
+	//Armors
 	public static final EquipmentRecipe recipe_tigrex_helm;
 	public static final EquipmentRecipe recipe_tigrex_chest;
 	public static final EquipmentRecipe recipe_tigrex_legs;
 	public static final EquipmentRecipe recipe_tigrex_boots;
 	public static final EquipmentRecipe recipe_kirin_helm;
+	
+	//Weapons
 	public static final EquipmentRecipe recipe_gs_rathalos_firesword;
 	public static final EquipmentRecipe recipe_gs_kirin_thundersword;
+	public static final EquipmentRecipe recipe_gs_berserker;
+	public static final EquipmentRecipe recipe_gs_agito;
+	public static final EquipmentRecipe recipe_gs_bone;
 	public static final EquipmentRecipe recipe_hm_war;
 	public static final EquipmentRecipe recipe_hm_warplus;
+	
 
 	private static Map<ItemType, Set<EquipmentRecipe>> mapOfRecipeSets = new HashMap<ItemType, Set<EquipmentRecipe>>();
 	private static Map<ItemType, List<EquipmentRecipe>> mapOfListOfRecipes = new HashMap<ItemType, List<EquipmentRecipe>>();
@@ -226,28 +233,45 @@ public class MHFCEquipementRecipeRegistry {
 				MHFCItemRegistry.armor_kirin_helm), listReq, 500, 300);
 		MHFCEquipementRecipeRegistry.register(recipe_kirin_helm);
 
+		/*@Andreas: Im sorry to adjust the formating code here but i can understand this a little bit more. Thanks -Heltrato.
+		 * **/
+		
 		listReq = new ArrayList<ItemStack>();
-		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemrathalos, 2,
-				RathalosSubType.WING.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemsac, 2,
-				SacSubType.FIRE.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemrathalos, 5,
-				RathalosSubType.MARROW.ordinal());
+		addItemStackToList(listReq, Item.getItemById(352), 6, 0);
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemlumberbar, 4, 0);
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemmoldediron, 2, 0);
+		recipe_gs_bone = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_gs_bone), listReq, 100, 500);
+		MHFCEquipementRecipeRegistry.register(recipe_gs_bone);
+//dont mind// 
+		listReq = new ArrayList<ItemStack>();
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemrathalos, 2,RathalosSubType.WING.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemsac, 2,SacSubType.FIRE.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemrathalos, 5,RathalosSubType.MARROW.ordinal());
 		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemfirestone, 3, 0);
-		recipe_gs_rathalos_firesword = new EquipmentRecipe(new ItemStack(
-				MHFCItemRegistry.weapon_gs_rathalosfire), listReq, 300, 900);
+		recipe_gs_rathalos_firesword = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_gs_rathalosfire), listReq, 300, 900);
 		MHFCEquipementRecipeRegistry.register(recipe_gs_rathalos_firesword);
-
+		//
 		listReq = new ArrayList<ItemStack>();
-		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemkirin, 7,
-				ItemKirin.KirinSubType.MANE.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemingot, 2,
-				ItemIngot.IngotsSubType.CARBALITE.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemkirin, 3,
-				ItemKirin.KirinSubType.LIGHTCRYSTAL.ordinal());
-		recipe_gs_kirin_thundersword = new EquipmentRecipe(new ItemStack(
-				MHFCItemRegistry.weapon_gs_kirinthunders), listReq, 300, 900);
-
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemkirin, 7,ItemKirin.KirinSubType.MANE.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemingot, 5,ItemIngot.IngotsSubType.CARBALITE.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemkirin, 4,ItemKirin.KirinSubType.LIGHTCRYSTAL.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemkirin, 2, ItemKirin.KirinSubType.PURECRYSTAL.ordinal());
+		recipe_gs_kirin_thundersword = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_gs_kirinthunders), listReq, 300, 900);
+		MHFCEquipementRecipeRegistry.register(recipe_gs_kirin_thundersword);
+		//
+		listReq = new ArrayList<ItemStack>();
+		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 6, ItemTigrex.TigrexSubType.SCALE.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 7, ItemTigrex.TigrexSubType.FANG.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 3, ItemTigrex.TigrexSubType.SHELL.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 4, ItemTigrex.TigrexSubType.SCALE.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 1, ItemTigrex.TigrexSubType.SKULLSHELL.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemingot, 2, ItemIngot.IngotsSubType.DRAGONITE.ordinal());
+		recipe_gs_agito = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_gs_tigrex), listReq, 500, 1000);
+		MHFCEquipementRecipeRegistry.register(recipe_gs_agito);
+		//
+		listReq = new ArrayList<ItemStack>();
+		recipe_gs_berserker = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_gs_berserkers), listReq, 600, 1500);
+		//
 		listReq = new ArrayList<ItemStack>();
 		addItemStackToList(listReq, Item.getItemById(256), 4, 0);// 256 is iron
 																	// ingot

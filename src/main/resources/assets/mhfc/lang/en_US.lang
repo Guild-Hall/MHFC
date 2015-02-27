@@ -151,8 +151,8 @@ item.bowgun_1.name=Shooter's Barrel
 item.bowgun_2.name=Spartacus Fire
 item.bowgun_3.name=Rath Bowgun
 item.greatsword_1.name=Bone Blade
-item.greatsword_2.name=Tigrex Agito
-item.greatsword_3.name=Kirin Thundersword
+item.greatsword_2.name=Agito Blade
+item.greatsword_3.name=Thundersword
 item.greatsword_4.name=Berserkers Sword
 item.greatsword_5.name=Red Wing
 item.hammer_1.name=Striped Strike
@@ -198,11 +198,11 @@ mhfc.quests.type.killing=Slaying Quest
 
 container.hunterbench=Hunter's Forging Bench
 
-attribute.name.mhfc.ignoreArmour=G
-attribute.name.mhfc.knockback=KB 
-attribute.name.mhfc.attackSpeed=AS 
-attribute.name.mhfc.reloadTime=Reload Time
-attribute.name.mhfc.reach=WS 
+attribute.name.mhfc.ignoreArmour=Sharpness
+attribute.name.mhfc.knockback=Fencing 
+attribute.name.mhfc.attackSpeed=Combo Rate 
+attribute.name.mhfc.reloadTime=Precision
+attribute.name.mhfc.reach=Perception 
 
 type.armor_head.name=Helmet
 type.armor_body.name=Chestplate

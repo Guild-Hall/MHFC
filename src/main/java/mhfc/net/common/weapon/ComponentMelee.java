@@ -2,7 +2,7 @@ package mhfc.net.common.weapon;
 
 import mhfc.net.common.util.Attributes;
 import mhfc.net.common.util.Utilities;
-import mhfc.net.common.weapon.melee.IExtendedReachItem;
+import mhfc.net.common.weapon.melee.IPerception;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -55,7 +55,7 @@ public class ComponentMelee extends AbstractWeaponClass {
 
 	@Override
 	public float getEntityDamage() {
-		return weaponSpecs.damageBase + getEntityDamageMaterialPart();
+		return weaponSpecs.attackBase + getEntityDamageMaterialPart();
 	}
 
 	@Override
@@ -96,14 +96,14 @@ public class ComponentMelee extends AbstractWeaponClass {
 			entityliving.hurtResistantTime += getAttackDelay(itemstack,
 					entityliving, attacker);
 		}
-		itemstack.damageItem(weaponSpecs.dmgFromEntity, attacker);
+		itemstack.damageItem(weaponSpecs.damageincome, attacker);
 		return true;
 	}
 
 	@Override
 	public int getAttackDelay(ItemStack itemstack,
 			EntityLivingBase entityliving, EntityLivingBase attacker) {
-		return weaponSpecs.attackDelay;
+		return weaponSpecs.comboRate;
 	}
 
 	@Override
@@ -130,18 +130,18 @@ public class ComponentMelee extends AbstractWeaponClass {
 				Attributes.WEAPON_KNOCKBACK.getAttributeUnlocalizedName(),
 				new AttributeModifier(weapon.getUUID(),
 						"Weapon knockback modifier", weaponSpecs
-								.getKnockBack(weaponMaterial) - 0.4F, 0));
+								.getKnockBack(weaponMaterial) - 0.6F + 1* 12F, 0));
 		multimap.put(Attributes.ATTACK_SPEED.getAttributeUnlocalizedName(),
 				new AttributeModifier(weapon.getUUID(),
 						"Weapon attack speed modifier",
-						weaponSpecs.attackDelay, 0));
-		if (this instanceof IExtendedReachItem) {
+						weaponSpecs.comboRate *-4, 0));
+		if (this instanceof IPerception) {
 			try {
 				multimap.put(
 						Attributes.WEAPON_REACH.getAttributeUnlocalizedName(),
 						new AttributeModifier(weapon.getUUID(),
 								"Weapon reach modifier",
-								((IExtendedReachItem) this).getExtendedReach(
+								((IPerception) this).getExtendedReach(
 										null, null, null) - 3F, 0));
 			} catch (NullPointerException e) {}
 		}
@@ -189,43 +189,43 @@ public class ComponentMelee extends AbstractWeaponClass {
 	}
 
 	public static enum WeaponSpecs {
-		// NAME db, dm, edb, edm, bd, kb, dfe, dfb, mss, ad
+		//@Todo var3 is base damage
+		//      var5 is block rate
+		//      var6 is fencing 
+		//      lastvar is comborate
 		GREATSWORD(0, 1F, 3, 1F, 1.5F, 0.5F, 1, 2, 1, 3), //
 		HAMMER(0, 1F, 4, 1F, 1F, 0.9F, 1, 2, 1, 9), //
 		HUNTINGHORN(0, 0.5F, 3, 1F, 1.5F, 0.6F, 1, 2, 1, 6), //
 		LONGSWORD(0, 1F, 1, 1F, 1F, 0F, 1, 2, 1, -4), //
 		NONE(0, 0F, 1, 0F, 1F, 0.4F, 0, 0, 1, 0);
 
-		private WeaponSpecs(int durbase, float durmult, float dmgbase,
-				float dmgmult, float blockdmg, float knockback,
-				int dmgfromentity, int dmgfromblock, int stacksize,
-				int attackdelay) {
+		private WeaponSpecs(int durbase, float durmult, float attackbase,
+				float dmgmult, float blockrate, float fencing,
+				int incomeDamage, int dmgfromblock, int stacksize,
+				int comborate) {
 			durabilityBase = durbase;
 			durabilityMult = durmult;
-
-			damageBase = dmgbase;
+			attackBase = attackbase;
 			damageMult = dmgmult;
-			blockDamage = blockdmg;
-			this.knockback = knockback;
-
-			dmgFromEntity = dmgfromentity;
+			blockDamage = blockrate;
+			fencerate = fencing;
+			damageincome = incomeDamage;
 			dmgFromBlock = dmgfromblock;
-
 			stackSize = stacksize;
-			attackDelay = attackdelay;
+			comboRate = comborate;
 		}
 
 		public float getKnockBack(ToolMaterial material) {
-			return material == ToolMaterial.GOLD ? knockback * 1.5F : knockback;
+			return material == ToolMaterial.GOLD ? fencerate * 1.5F : fencerate;
 		}
 
 		public final int durabilityBase;
 		public final float durabilityMult;
 
-		public final float damageBase, damageMult, blockDamage, knockback;
+		public final float attackBase, damageMult, blockDamage, fencerate;
 
-		public final int dmgFromEntity, dmgFromBlock;
+		public final int damageincome, dmgFromBlock;
 
-		public final int stackSize, attackDelay;
+		public final int stackSize, comboRate;
 	}
 }

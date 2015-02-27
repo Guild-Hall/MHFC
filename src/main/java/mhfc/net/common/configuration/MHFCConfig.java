@@ -22,6 +22,7 @@ public class MHFCConfig {
 	public final boolean spawnTigrex;
 	public final boolean spawnKirin;
 	public final boolean setupComplexGraphics = false;
+	
 
 	private Map<String, EnableSetting> enableSettings;
 	private Map<String, ReloadTimeSetting> reloadTimeSettings;
