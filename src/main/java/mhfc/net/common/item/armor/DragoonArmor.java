@@ -52,8 +52,8 @@ public class DragoonArmor extends ItemArmor {
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer,
 			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
-		par3List.add(ColorSystem.RED + "Exclusive " + "[ " + ColorSystem.GOLD
-				+ " DONATORS  " + ColorSystem.RED + "]");
+		par3List.add(ColorSystem.ENUMRED + "Exclusive " + "[ " + ColorSystem.ENUMGOLD
+				+ " DONATORS  " + ColorSystem.ENUMRED + "]");
 		par3List.add("Health +1");
 	}
 

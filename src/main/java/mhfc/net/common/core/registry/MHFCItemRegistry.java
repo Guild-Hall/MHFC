@@ -15,7 +15,7 @@ import mhfc.net.common.item.materials.ItemArmorSphere;
 import mhfc.net.common.item.materials.ItemBase;
 import mhfc.net.common.item.materials.ItemBombMaterial;
 import mhfc.net.common.item.materials.ItemFirestone;
-import mhfc.net.common.item.materials.ItemFrontierSpawner;
+import mhfc.net.common.item.materials.ItemSpawner;
 import mhfc.net.common.item.materials.ItemGaguaEgg;
 import mhfc.net.common.item.materials.ItemIngot;
 import mhfc.net.common.item.materials.ItemKirin;
@@ -217,7 +217,7 @@ public class MHFCItemRegistry {
 		weapon_bgh_rath = registerItem(new BHRath());
 		// Items... drops
 		MHFCItemWyverniaDust = registerItem(new ItemWyverniaDust());
-		MHFCItemFrontierSpawner = registerItem(new ItemFrontierSpawner());
+		MHFCItemFrontierSpawner = registerItem(new ItemSpawner());
 		mhfcitemmoldediron = registerItem(new ItemMoldedIron());
 		mhfcitemwoodrig = registerItem(new ItemWoodRig());
 		mhfcitemlumberbar = registerItem(new ItemLumberBar());

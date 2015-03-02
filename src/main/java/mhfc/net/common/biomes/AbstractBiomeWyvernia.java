@@ -18,5 +18,6 @@ public abstract class AbstractBiomeWyvernia {
 	public abstract void getCoordinateSpawn(ChunkCoordinates coor, int x , int y, int z);
 	public abstract void getParticlesToSpawn(Block block, EntityFX fx, int temp);
 	public abstract void getBiomeGenName(String savename, int retakeID);
+	public abstract int idSize(byte size);
 
 }

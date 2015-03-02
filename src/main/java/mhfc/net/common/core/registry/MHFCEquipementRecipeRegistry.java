@@ -156,6 +156,8 @@ public class MHFCEquipementRecipeRegistry {
 	public static final EquipmentRecipe recipe_gs_bone;
 	public static final EquipmentRecipe recipe_hm_war;
 	public static final EquipmentRecipe recipe_hm_warplus;
+	public static final EquipmentRecipe recipe_hm_warslammer;
+	public static final EquipmentRecipe recipe_ls_ironkatana;
 	
 
 	private static Map<ItemType, Set<EquipmentRecipe>> mapOfRecipeSets = new HashMap<ItemType, Set<EquipmentRecipe>>();
@@ -272,20 +274,36 @@ public class MHFCEquipementRecipeRegistry {
 		listReq = new ArrayList<ItemStack>();
 		recipe_gs_berserker = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_gs_berserkers), listReq, 600, 1500);
 		//
+		
+		//Hammer Class
 		listReq = new ArrayList<ItemStack>();
-		addItemStackToList(listReq, Item.getItemById(256), 4, 0);// 256 is iron
-																	// ingot
-		addItemStackToList(listReq,
-				Item.getItemFromBlock(Block.getBlockById(1)), 1, 0);
-		recipe_hm_war = new EquipmentRecipe(new ItemStack(
-				MHFCItemRegistry.weapon_hm_warhammer), listReq, 100, 200);
-
+		addItemStackToList(listReq, Item.getItemById(265), 7, 0);// 265 is iron ingot
+		addItemStackToList(listReq,	Item.getItemFromBlock(MHFCBlockRegistry.mhfcblockdiskstone), 2, 0);
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemsteelbar, 4, 0);
+		recipe_hm_war = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_hm_warhammer), listReq, 100, 200);
+		MHFCEquipementRecipeRegistry.register(recipe_hm_war);
+		//
 		listReq = new ArrayList<ItemStack>();
 		addItemStackToList(listReq, MHFCItemRegistry.weapon_hm_warhammer, 1, 0);
-		addItemStackToList(listReq, Item.getItemById(256), 5, 0);// 256 is iron
-																	// ingot
-		recipe_hm_warplus = new EquipmentRecipe(new ItemStack(
-				MHFCItemRegistry.weapon_hm_warhammerplus), listReq, 150, 400);
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemsteelbar, 2, 0);
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemmoldediron, 1, 0);
+		addItemStackToList(listReq, Item.getItemById(265), 5, 0);// 265 is iron
+		recipe_hm_warplus = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_hm_warhammerplus), listReq, 100, 350);
+		MHFCEquipementRecipeRegistry.register(recipe_hm_warplus);
+		//
+		listReq = new ArrayList<ItemStack>();
+		addItemStackToList(listReq, MHFCItemRegistry.weapon_hm_warhammerplus, 1, 0);
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemsteelbar, 7, 0);
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemmoldediron, 3, 0);
+		recipe_hm_warslammer = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_hm_warslammer), listReq, 150, 500);
+		MHFCEquipementRecipeRegistry.register(recipe_hm_warslammer);
+		
+		//Longsword class
+		listReq = new ArrayList<ItemStack>();
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemsteelbar, 7, 0);
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemlumberbar, 2, 0);
+		recipe_ls_ironkatana = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_ls_ironkatana), listReq, 150, 600);
+		MHFCEquipementRecipeRegistry.register(recipe_ls_ironkatana);
 	}
 
 	public static void addItemStackToList(List<ItemStack> list, Item item,

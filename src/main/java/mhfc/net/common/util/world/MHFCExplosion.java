@@ -70,6 +70,7 @@ public class MHFCExplosion extends Explosion {
 	
 	public boolean isRepeated = false;
 	public int repeatTimes;
+	public int oilStacking;
 
 	public MHFCExplosion(World world, double x, double y, double z, float r) {
 		this(world, null, x, y, z, r);

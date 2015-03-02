@@ -19,7 +19,7 @@ public class MHFCPlayerEventHandler {
 
 		if (UpdateSystem.isUpdateAvailable() == UpdateSystem.newUpdate ) {
 			player.addChatMessage(new ChatComponentText(
-					ColorSystem.GOLD
+					ColorSystem.ENUMGOLD
 							+ "Hunter "
 							+ player.getDisplayName()
 							+ ", a new version of Monster Hunter Frontier Craft is out!"
@@ -27,13 +27,13 @@ public class MHFCPlayerEventHandler {
 		}
 
 		if (UpdateSystem.isUpdateAvailable() == UpdateSystem.noUpdate ) {
-			player.addChatMessage(new ChatComponentText(ColorSystem.GOLD
+			player.addChatMessage(new ChatComponentText(ColorSystem.ENUMGOLD
 					+ "Welcome Hunter " + player.getDisplayName()
 					+ ", you're up to date, have fun hunting !!"));
 		}
 
 		if (UpdateSystem.isUpdateAvailable() == UpdateSystem.offline) {
-			player.addChatMessage(new ChatComponentText(ColorSystem.GOLD
+			player.addChatMessage(new ChatComponentText(ColorSystem.ENUMGOLD
 					+ "Hunter " + player.getDisplayName()
 					+ ", you're in offline mode."));
 			player.addChatMessage(new ChatComponentText(
