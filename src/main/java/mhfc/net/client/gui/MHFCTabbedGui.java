@@ -129,6 +129,9 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 	}
 
 	protected void setTab(int index) {
+		if (tabIndex >= 0 && tabIndex < tabList.size()) {
+			tabList.get(tabIndex).onClose();
+		}
 		if (index >= 0 && index < tabList.size()) {
 			tabIndex = index;
 			tabList.get(tabIndex).onOpen();

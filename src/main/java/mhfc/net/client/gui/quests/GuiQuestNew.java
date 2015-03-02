@@ -107,8 +107,8 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 		handled = false;
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-		if (groupList.handleClick(mouseX - groupList.getPosX(), mouseY
-				- groupList.getPosY(), mouseButton)) {
+		if (groupList.handleClick(mouseX - xPos - groupList.getPosX(), mouseY
+				- yPos - groupList.getPosY(), mouseButton)) {
 			handled = true;
 			GuiListStringItem item = groupList.getSelectedItem();
 			String selectedList = item == null ? "" : item

@@ -87,7 +87,6 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 				MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
 		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, this.zLevel,
 				this.xSize, this.ySize, 0, 0, 1f, 1f);
-		super.drawBackground(p_146278_1_);
 	}
 
 	@Override
@@ -96,6 +95,7 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 		this.xPos = posX;
 		this.yPos = posY;
 		updateScreen();
+		drawBackground(0);
 		drawScreen(mousePosX, mousePosY, partialTick);
 	}
 
@@ -110,7 +110,7 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 
 	@Override
 	public void handleClick(int relativeX, int relativeY, int button) {
-		super.mouseClicked(relativeX, relativeY, button);
+		super.mouseClicked(relativeX + xPos, relativeY + yPos, button);
 	}
 
 	@Override

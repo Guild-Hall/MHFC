@@ -2,8 +2,10 @@ package mhfc.net.client.quests;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.client.gui.quests.GuiQuestBoard;
@@ -13,7 +15,6 @@ import mhfc.net.client.gui.quests.GuiQuestNew;
 import mhfc.net.client.gui.quests.QuestStatusDisplay;
 import mhfc.net.common.core.registry.MHFCQuestsRegistry;
 import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.packet.MessageQuestRunningSubscription;
 import mhfc.net.common.network.packet.MessageQuestScreenInit;
 import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.network.packet.MessageRequestQuestVisual;
@@ -58,77 +59,93 @@ public class MHFCRegQuestVisual {
 
 		@Override
 		public IMessage onMessage(MessageQuestVisual message, MessageContext ctx) {
+			String[] strings = message.getStrings();
+			String identifier = message.getStrings()[0];
+			QuestVisualInformation visual = getInformationFromMessage(message);
 			switch (message.getTypeID()) {
-				case 2 :
-				case 1 :
 				case 0 :
-					String[] strings = message.getStrings();
-					String identifier = strings[0];
-					String name = strings[1];
-					String description = strings[2];
-					String client = strings[3];
-					String aims = strings[4];
-					String fails = strings[5];
-					String areaNameID = strings[6];
-					String timeLimitInS = strings[7];
-					String type = strings[8];
-					String reward = strings[9];
-					String fee = strings[10];
-					String maxPartySize = strings[11];
-					QuestType realType = null;
-					switch (type) {
-						case MHFCQuestsRegistry.QUEST_TYPE_KILLING :
-							realType = QuestType.Killing;
-							break;
-						case MHFCQuestsRegistry.QUEST_TYPE_HUNTING :
-							realType = QuestType.Hunting;
-							break;
-						case MHFCQuestsRegistry.QUEST_TYPE_EPIC_HUNTING :
-							realType = QuestType.EpicHunting;
-							break;
-						case MHFCQuestsRegistry.QUEST_TYPE_GATHERING :
-							realType = QuestType.Gathering;
-							break;
-						default :
-					}
-					QuestVisualInformation visual;
-					if (!name.equals("")) {
-						visual = new QuestVisualInformation(name, description,
-								client, aims, fails, areaNameID, timeLimitInS,
-								reward, fee, maxPartySize, realType);
-					} else {
-						visual = null;
-					}
-					switch (message.getTypeID()) {
-						case 0 :
-							identifierToVisualInformationMap.put(identifier,
-									visual);
-							break;
-						case 1 :
-							hasPlayerQuest = (visual != null);
-							QuestRunningInformation runInfo = new QuestRunningInformation(
-									visual, strings[12], strings[13]);
-							if (playersVisual != null) {
-								playersVisual.cleanUp();
-							}
-							playersVisual = (!hasPlayerQuest) ? null : runInfo;
-							break;
-						case 2 :
-							boolean clear = visual == null;
-							runInfo = new QuestRunningInformation(visual,
-									strings[12], strings[13]);
-							if (clear) {
-								identifierToVisualRunningMap.remove(identifier);
-								questBoard.removeQuest(identifier);
-							} else {
-								identifierToVisualRunningMap.put(identifier,
-										runInfo);
-								questBoard.addQuest(identifier, runInfo);
-							}
-					}
+					modifyVisualOfIdentifier(identifier, visual);
 					break;
+				case 1 :
+					setPlayerVisual(visual, strings);
+					break;
+				case 2 :
+					modifyRunningQuestList(identifier, visual, strings);
 			}
 			return null;
+		}
+	}
+
+	private static QuestVisualInformation getInformationFromMessage(
+			MessageQuestVisual message) {
+		String[] strings = message.getStrings();
+		String name = strings[1];
+		String description = strings[2];
+		String client = strings[3];
+		String aims = strings[4];
+		String fails = strings[5];
+		String areaNameID = strings[6];
+		String timeLimitInS = strings[7];
+		String type = strings[8];
+		String reward = strings[9];
+		String fee = strings[10];
+		String maxPartySize = strings[11];
+		QuestType realType = null;
+		switch (type) {
+			case MHFCQuestsRegistry.QUEST_TYPE_KILLING :
+				realType = QuestType.Killing;
+				break;
+			case MHFCQuestsRegistry.QUEST_TYPE_HUNTING :
+				realType = QuestType.Hunting;
+				break;
+			case MHFCQuestsRegistry.QUEST_TYPE_EPIC_HUNTING :
+				realType = QuestType.EpicHunting;
+				break;
+			case MHFCQuestsRegistry.QUEST_TYPE_GATHERING :
+				realType = QuestType.Gathering;
+				break;
+			default :
+		}
+		QuestVisualInformation visual;
+		if (!name.equals("")) {
+			visual = new QuestVisualInformation(name, description, client,
+					aims, fails, areaNameID, timeLimitInS, reward, fee,
+					maxPartySize, realType);
+		} else {
+			visual = null;
+		}
+		return visual;
+	}
+
+	private static void modifyVisualOfIdentifier(String identifier,
+			QuestVisualInformation visual) {
+		identifierToVisualInformationMap.put(identifier, visual);
+	}
+
+	private static void setPlayerVisual(QuestVisualInformation visual,
+			String[] strings) {
+		hasPlayerQuest = (visual != null);
+		QuestRunningInformation runInfo = new QuestRunningInformation(visual,
+				strings[12], strings[13]);
+		if (playersVisual != null) {
+			playersVisual.cleanUp();
+		}
+		playersVisual = (!hasPlayerQuest) ? null : runInfo;
+	}
+
+	private static void modifyRunningQuestList(String identifier,
+			QuestVisualInformation visual, String[] strings) {
+		boolean clear = visual == null;
+		QuestRunningInformation runInfo = new QuestRunningInformation(visual,
+				strings[12], strings[13]);
+		if (clear) {
+			identifierToVisualRunningMap.remove(identifier);
+			runningQuestIDs.remove(identifier);
+			questBoard.removeQuest(identifier);
+		} else {
+			identifierToVisualRunningMap.put(identifier, runInfo);
+			runningQuestIDs.add(identifier);
+			questBoard.addQuest(identifier, runInfo);
 		}
 	}
 
@@ -153,11 +170,17 @@ public class MHFCRegQuestVisual {
 
 	private static Map<String, List<String>> groupIDToListMap = new HashMap<String, List<String>>();
 	private static List<String> groupIDsInOrder = new ArrayList<String>();
+	private static Set<String> runningQuestIDs = new HashSet<String>();
 	private static Map<String, QuestVisualInformation> identifierToVisualInformationMap = new HashMap<String, QuestVisualInformation>();
 	private static Map<String, QuestRunningInformation> identifierToVisualRunningMap = new HashMap<String, QuestRunningInformation>();
+
+	@SideOnly(Side.CLIENT)
 	private static QuestStatusDisplay display;
+
+	@SideOnly(Side.CLIENT)
 	private static GuiQuestJoin questBoard = new GuiQuestJoin(
 			Minecraft.getMinecraft().thePlayer);
+
 	private static boolean hasPlayerQuest = false;
 	private static QuestRunningInformation playersVisual;
 
@@ -172,6 +195,10 @@ public class MHFCRegQuestVisual {
 
 	public static List<String> getIdentifierList(String groupId) {
 		return groupIDToListMap.get(groupId);
+	}
+
+	public static Set<String> getRunningQuestIDs() {
+		return runningQuestIDs;
 	}
 
 	/**
@@ -196,14 +223,6 @@ public class MHFCRegQuestVisual {
 	public static QuestRunningInformation getRunningInformation(
 			String identifier) {
 		return identifierToVisualRunningMap.get(identifier);
-	}
-
-	public static void setAndSendRunningListenStatus(boolean newStatus) {
-		PacketPipeline.networkPipe
-				.sendToServer(new MessageQuestRunningSubscription(newStatus));
-		if (!newStatus) {
-			questBoard.clearList();
-		}
 	}
 
 	public static boolean hasPlayerQuest() {

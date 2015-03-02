@@ -7,15 +7,22 @@ import net.minecraft.entity.Entity;
 public class ModelQuestBoard extends ModelBase {
 	// fields
 	ModelRenderer Shape1;
+	ModelRenderer mainBoard;
 	ModelRenderer Shape2;
 	ModelRenderer Shape3;
 	ModelRenderer Shape4;
 	ModelRenderer Shape5;
-	ModelRenderer Shape6;
 
 	public ModelQuestBoard() {
 		textureWidth = 64;
 		textureHeight = 64;
+
+		mainBoard = new ModelRenderer(this, 0, 0);
+		mainBoard.addBox(-8F, 0F, -1.5F, 16, 12, 3);
+		mainBoard.setRotationPoint(0F, 10F, 0F);
+		mainBoard.setTextureSize(64, 64);
+		mainBoard.mirror = true;
+		setRotation(mainBoard, 0F, 0F, 0F);
 
 		Shape1 = new ModelRenderer(this, 14, 16);
 		Shape1.addBox(-1.5F, 0F, 0F, 3, 4, 0);
@@ -23,12 +30,6 @@ public class ModelQuestBoard extends ModelBase {
 		Shape1.setTextureSize(64, 64);
 		Shape1.mirror = true;
 		setRotation(Shape1, -0.0872665F, 0F, 0F);
-		Shape2 = new ModelRenderer(this, 0, 0);
-		Shape2.addBox(-8F, 0F, -1.5F, 16, 12, 3);
-		Shape2.setRotationPoint(0F, 10F, 0F);
-		Shape2.setTextureSize(64, 64);
-		Shape2.mirror = true;
-		setRotation(Shape2, 0F, 0F, 0F);
 		Shape3 = new ModelRenderer(this, 7, 16);
 		Shape3.addBox(-1.5F, 0F, 0F, 3, 4, 0);
 		Shape3.setRotationPoint(1F, 11F, -1.5F);
@@ -47,12 +48,12 @@ public class ModelQuestBoard extends ModelBase {
 		Shape5.setTextureSize(64, 64);
 		Shape5.mirror = true;
 		setRotation(Shape5, -0.122173F, 0F, 0F);
-		Shape6 = new ModelRenderer(this, 0, 16);
-		Shape6.addBox(-1.5F, 0F, 0F, 3, 4, 0);
-		Shape6.setRotationPoint(3F, 13F, -1.5F);
-		Shape6.setTextureSize(64, 64);
-		Shape6.mirror = true;
-		setRotation(Shape6, -0.1047198F, 0F, 0F);
+		Shape2 = new ModelRenderer(this, 0, 16);
+		Shape2.addBox(-1.5F, 0F, 0F, 3, 4, 0);
+		Shape2.setRotationPoint(3F, 13F, -1.5F);
+		Shape2.setTextureSize(64, 64);
+		Shape2.mirror = true;
+		setRotation(Shape2, -0.1047198F, 0F, 0F);
 	}
 
 	@Override
@@ -60,21 +61,28 @@ public class ModelQuestBoard extends ModelBase {
 			float f4, float f5) {
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+		mainBoard.render(f5);
 		Shape1.render(f5);
-		Shape2.render(f5);
 		Shape3.render(f5);
 		Shape4.render(f5);
 		Shape5.render(f5);
-		Shape6.render(f5);
+		Shape2.render(f5);
 	}
 
-	public void renderModel(float f5) {
-		Shape1.render(f5);
-		Shape2.render(f5);
-		Shape3.render(f5);
-		Shape4.render(f5);
-		Shape5.render(f5);
-		Shape6.render(f5);
+	public void renderModel(int count) {
+		float f5 = 0.0325F;
+		mainBoard.render(f5);
+
+		if (count > 0)
+			Shape1.render(f5);
+		if (count > 1)
+			Shape2.render(f5);
+		if (count > 2)
+			Shape5.render(f5);
+		if (count > 3)
+			Shape4.render(f5);
+		if (count > 4)
+			Shape3.render(f5);
 	}
 
 	private void setRotation(ModelRenderer model, float x, float y, float z) {
@@ -82,11 +90,4 @@ public class ModelQuestBoard extends ModelBase {
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
 	}
-
-	@Override
-	public void setRotationAngles(float f, float f1, float f2, float f3,
-			float f4, float f5, Entity entity) {
-		super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-	}
-
 }

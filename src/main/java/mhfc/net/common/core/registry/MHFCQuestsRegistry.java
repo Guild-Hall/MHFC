@@ -260,7 +260,8 @@ public class MHFCQuestsRegistry {
 				IMessageHandler<MessageQuestRunningSubscription, IMessage> {
 		private static Set<EntityPlayerMP> subscribers = new HashSet<EntityPlayerMP>();
 
-		public RunningSubscriptionHandler() {}
+		public RunningSubscriptionHandler() {
+		}
 
 		@Override
 		public IMessage onMessage(MessageQuestRunningSubscription message,
@@ -268,17 +269,21 @@ public class MHFCQuestsRegistry {
 			EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 			if (message.isSubscribed()) {
 				subscribers.add(player);
-				for (GeneralQuest q : questsRunning) {
-					String identifier = runningQuestToStringMap.get(q);
-					MessageQuestVisual messageSent = new MessageQuestVisual(
-							identifier, q.getRunningInformation());
-					messageSent.setTypeID(2);
-					PacketPipeline.networkPipe.sendTo(messageSent, player);
-				}
+				sendAllTo(player);
 			} else {
 				subscribers.remove(player);
 			}
 			return null;
+		}
+
+		public static void sendAllTo(EntityPlayerMP player) {
+			for (GeneralQuest q : questsRunning) {
+				String identifier = runningQuestToStringMap.get(q);
+				MessageQuestVisual messageSent = new MessageQuestVisual(
+						identifier, q.getRunningInformation());
+				messageSent.setTypeID(2);
+				PacketPipeline.networkPipe.sendTo(messageSent, player);
+			}
 		}
 
 		public static void sendToAll(MessageQuestVisual visual) {
@@ -389,8 +394,11 @@ public class MHFCQuestsRegistry {
 
 		@SubscribeEvent
 		public void onPlayerJoin(PlayerLoggedInEvent logIn) {
+			EntityPlayerMP playerMP = (EntityPlayerMP) logIn.player;
 			PacketPipeline.networkPipe.sendTo(new MessageQuestScreenInit(
-					groupMapping, groupIDs), (EntityPlayerMP) logIn.player);
+					groupMapping, groupIDs), playerMP);
+			RunningSubscriptionHandler.subscribers.add(playerMP);
+			RunningSubscriptionHandler.sendAllTo(playerMP);
 		}
 
 		@SubscribeEvent
@@ -399,6 +407,7 @@ public class MHFCQuestsRegistry {
 			if (q == null)
 				return;
 			q.removePlayer(logOut.player);
+			RunningSubscriptionHandler.subscribers.remove(logOut.player);
 		}
 	}
 
@@ -529,7 +538,8 @@ public class MHFCQuestsRegistry {
 	}
 
 	private static void generateGoals(ResourceLocation location) {
-		if (location == null) {} else {
+		if (location == null) {
+		} else {
 			try (InputStream input = Minecraft.getMinecraft()
 					.getResourceManager().getResource(location)
 					.getInputStream();
@@ -548,7 +558,8 @@ public class MHFCQuestsRegistry {
 	}
 
 	private static void generateGroupMapping(ResourceLocation location) {
-		if (location == null) {} else {
+		if (location == null) {
+		} else {
 			try (InputStream input = Minecraft.getMinecraft()
 					.getResourceManager().getResource(location)
 					.getInputStream();
@@ -656,7 +667,8 @@ public class MHFCQuestsRegistry {
 	//@formatter:on
 
 	private static void generateQuests(ResourceLocation location) {
-		if (location == null) {} else {
+		if (location == null) {
+		} else {
 			try (InputStream input = Minecraft.getMinecraft()
 					.getResourceManager().getResource(location)
 					.getInputStream();

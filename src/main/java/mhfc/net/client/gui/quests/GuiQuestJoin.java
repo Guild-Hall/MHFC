@@ -58,7 +58,6 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 							.getSelectedItem();
 					if (selectedItem != null) {
 						String questID = mapToIdentifiers.get(selectedItem);
-						runningQuestList.setVisible(false);
 						if (questID == null)
 							return true;
 						PacketPipeline.networkPipe
@@ -106,6 +105,7 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 		runningQuestList.setVisible(true);
 		runningQuestList.draw(xPos, yPos);
 		joinQuest.visible = true;
+		joinQuest.enabled = MHFCRegQuestVisual.hasPlayerQuest();
 		GuiListStringItem item = runningQuestList.getSelectedItem();
 		if (item != null) {
 			String id = mapToIdentifiers.get(item);
@@ -124,8 +124,9 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 	protected void mouseClicked(int mouseX, int mouseY, int button) {
 		clickHandled = false;
 		super.mouseClicked(mouseX, mouseY, button);
-		if (runningQuestList.handleClick(mouseX - runningQuestList.getPosX(),
-				mouseY - runningQuestList.getPosY(), button)) {
+		if (runningQuestList.handleClick(
+				mouseX - xPos - runningQuestList.getPosX(), mouseY - yPos
+						- runningQuestList.getPosY(), button)) {
 
 		} else if (!MHFCRegQuestVisual.hasPlayerQuest() // Is an info displayed
 				&& mouseX > xPos + 80 && mouseX < xPos + 300 // x check
@@ -156,14 +157,12 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 		yPos = (s.getScaledHeight() - ySize) / 2;
 		super.initGui();
 		buttonList.add(joinQuest);
-		MHFCRegQuestVisual.setAndSendRunningListenStatus(true);
 		updateScreen();
 	}
 
 	@Override
 	public void onGuiClosed() {
 		super.onGuiClosed();
-		MHFCRegQuestVisual.setAndSendRunningListenStatus(false);
 	}
 
 	public void addQuest(String id, QuestRunningInformation info) {
@@ -211,12 +210,10 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 
 	@Override
 	public void onClose() {
-		MHFCRegQuestVisual.setAndSendRunningListenStatus(false);
 	}
 
 	@Override
 	public void onOpen() {
-		MHFCRegQuestVisual.setAndSendRunningListenStatus(true);
 	}
 
 	@Override

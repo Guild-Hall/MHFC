@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -80,9 +81,17 @@ public class BlockQuestBoard extends BlockContainer {
 	}
 
 	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_,
-			int p_149650_3_) {
-		return null;
+	public Item getItemDropped(int p_149650_1_, Random random, int p_149650_3_) {
+		switch (random.nextInt(3)) {
+			case 0 :
+				return Items.apple;
+			case 1 :
+				return Items.bed;
+			case 2 :
+				return Items.beef;
+			default :
+				return null;
+		}
 	}
 
 	@Override
@@ -132,7 +141,6 @@ public class BlockQuestBoard extends BlockContainer {
 			int meta = world.getBlockMetadata(x, y, z);
 			double hitX = look.xCoord;
 			double hitZ = look.zCoord;
-			MHFCMain.logger.info(side);
 			if (side > 1) {
 				if (side == 2) // face pointing north hit
 					meta = 0x6;
@@ -156,7 +164,6 @@ public class BlockQuestBoard extends BlockContainer {
 					metaData += upMask;
 				meta = metaData;
 			}
-			MHFCMain.logger.info(meta);
 			world.setBlockMetadataWithNotify(x, y, z, meta, 3);
 		}
 		super.onBlockPlacedBy(world, x, y, z, entity, stack);
@@ -196,8 +203,10 @@ public class BlockQuestBoard extends BlockContainer {
 	public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x,
 			int y, int z) {
 		int meta = blockAccess.getBlockMetadata(x, y, z);
-		float maxY = meta == 0 ? 0.75f : 1.0f;
-		float minY = meta == 0 ? 0 : 0.25f;
+		boolean boxUpFlag = ((meta & upMask) == upMask)
+				| ((meta & offsetMask) == offsetMask);
+		float maxY = !boxUpFlag ? 0.70f : 1.0f;
+		float minY = !boxUpFlag ? 0 : 0.3f;
 		float minX, maxX, minZ, maxZ;
 		if ((meta & 0x1) == 0) {
 			minX = 0;

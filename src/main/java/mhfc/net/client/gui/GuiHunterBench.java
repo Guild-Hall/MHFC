@@ -521,7 +521,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 						GL11.glTranslatef(3f, -15f, 0F);
 						break;
 					case 2 :
-						GL11.glTranslatef(3f, -40f, 0F);
+						GL11.glTranslatef(3f, -35f, 0F);
 						break;
 					case 3 :
 						GL11.glTranslatef(3f, -55f, 0F);
