@@ -132,13 +132,13 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 	}
 
 	@Override
-	public void drawScreen(int positionX, int positionY, float partialTick) {
+	public void drawScreen(int mouseX, int mouseY, float partialTick) {
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0, 0, 0.0f);
 		// TODO unlocalize
 		fontRendererObj.drawString("Take a quest:", xPos + 8, yPos + yBorder,
 				0x404040);
-		groupList.draw(xPos, yPos);
+		groupList.draw(xPos, yPos, mouseX - xPos, mouseY - yPos);
 		left.visible = true;
 		right.visible = true;
 		newQuest.enabled = false;
@@ -159,7 +159,7 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 						xSize - 2 * questsX - questsW, ySize - 30, page,
 						fontRenderer);
 		}
-		super.drawScreen(positionX, positionY, partialTick);
+		super.drawScreen(mouseX, mouseY, partialTick);
 		GL11.glPopMatrix();
 	}
 
@@ -227,8 +227,9 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 	}
 
 	@Override
-	public void handleClick(int relativeX, int relativeY, int button) {
+	public boolean handleClick(int relativeX, int relativeY, int button) {
 		mouseClicked(relativeX + xPos, relativeY + yPos, button);
+		return true;
 	}
 
 	@Override

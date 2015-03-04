@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import mhfc.net.client.container.ContainerHunterBench;
-import mhfc.net.client.gui.ClickableGuiList.GuiListItem;
+import mhfc.net.client.gui.GuiListItem.Alignment;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
@@ -42,7 +42,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	static final int modelRectW = 7 * 18 - 2;
 	static final int modelRectH = 96;
 
-	public class TypeItem implements GuiListItem {
+	public class TypeItem extends GuiListItem {
 		ItemType type;
 
 		public TypeItem(ItemType type) {
@@ -61,7 +61,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 	}
 
-	public class RecipeItem implements GuiListItem {
+	public class RecipeItem extends GuiListItem {
 		String representation;
 		EquipmentRecipe recipe;
 
@@ -115,7 +115,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 			updateListPositions();
 			for (ClickableGuiList<?> list : clickableLists) {
-				list.draw(posX, posY);
+				list.draw(posX, posY, mousePosX - list.posX, mousePosY
+						- list.posY);
 			}
 			fontRendererObj.drawSplitString("Inventory", posX + 6, posY + 12,
 					500, 0x404040);
@@ -127,7 +128,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		};
 
 		@Override
-		public void handleClick(int relativeX, int relativeY, int button) {
+		public boolean handleClick(int relativeX, int relativeY, int button) {
 			mouseClickX = relativeX;
 			mouseClickY = relativeY;
 			mouseLastX = relativeX;
@@ -142,6 +143,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 						- list.posY, button))
 					listUpdated(list);
 			}
+			return true;
 		}
 
 		private void resetModelRot() {
@@ -179,10 +181,16 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		public void handleMouseUp(int mouseX, int mouseY, int button) {
+			for (ClickableGuiList<?> list : clickableLists) {
+				list.handleMouseUp(mouseX, mouseY, button);
+			}
 		}
 
 		@Override
 		public void handleMovement(int mouseX, int mouseY) {
+			for (ClickableGuiList<?> list : clickableLists) {
+				list.handleMovement(mouseX, mouseY);
+			}
 		}
 
 		@Override
@@ -195,6 +203,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				if (Math.abs(modelRotY) > maxRotation) {
 					modelRotY = maxRotation * Math.signum(modelRotY);
 				}
+			}
+			for (ClickableGuiList<?> list : clickableLists) {
+				list.handleMovementMouseDown(mouseX - list.posX, mouseY
+						- list.posY, button, timeDiff);
 			}
 			mouseLastX = mouseX;
 			mouseLastY = mouseY;
@@ -211,7 +223,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			armorRecipeList = new ClickableGuiList<RecipeItem>(70, ySize - 24,
 					20);
 			armorTypeList = new ClickableGuiList<TypeItem>(70, ySize - 24);
-			armorTypeList.setAlignmentMid(true);
+			armorTypeList.setAlignment(Alignment.MIDDLE);
 			this.clickableLists.add(armorTypeList);
 			this.clickableLists.add(armorRecipeList);
 			initializeTypeList();
@@ -378,9 +390,14 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public void handleClick(int relativeX, int relativeY, int button) {
+		public boolean handleClick(int relativeX, int relativeY, int button) {
 			mouseX = relativeX;
 			mouseY = relativeY;
+			if (button == 1) {
+				baseX = 0;
+				baseY = 0;
+			}
+			return true;
 		}
 
 		@Override

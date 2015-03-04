@@ -124,8 +124,8 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 	protected void drawTab(int tabIndex, int posX, int posY, int mousePosX,
 			int mousePosY, float partialTick) {
 		if (tabIndex >= 0 && tabIndex < tabList.size())
-			tabList.get(tabIndex).drawTab(tabX, tabY, mousePosX, mousePosY,
-					partialTick);
+			tabList.get(tabIndex).drawTab(tabX, tabY, mousePosX - tabX,
+					mousePosY - tabY, partialTick);
 	}
 
 	protected void setTab(int index) {

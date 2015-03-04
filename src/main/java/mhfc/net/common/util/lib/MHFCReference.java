@@ -218,6 +218,7 @@ public class MHFCReference {
 	public static final String gui_status_onscreen_tex = "textures/gui/demo_background.png";
 	public static final String gui_tab_texture = "mhfc:textures/gui/TabbedGui.png";
 	public static final String gui_tab_name = "MHFC Tab";
+	public static final String gui_list_tex = "mhfc:textures/gui/GuiList.png";
 
 	public static final String item_armorsphere_basename = "armorsphere";
 	public static final String item_armorsphere0_name = "normal";

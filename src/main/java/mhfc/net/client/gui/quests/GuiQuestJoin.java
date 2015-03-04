@@ -103,7 +103,7 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 		fontRendererObj.drawString("Currently running:", xPos + 9, yPos
 				+ yBorder, 0x404040);
 		runningQuestList.setVisible(true);
-		runningQuestList.draw(xPos, yPos);
+		runningQuestList.draw(xPos, yPos, mouseX - xPos, mouseY - yPos);
 		joinQuest.visible = true;
 		joinQuest.enabled = MHFCRegQuestVisual.hasPlayerQuest();
 		GuiListStringItem item = runningQuestList.getSelectedItem();
@@ -199,8 +199,9 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 	}
 
 	@Override
-	public void handleClick(int relativeX, int relativeY, int button) {
+	public boolean handleClick(int relativeX, int relativeY, int button) {
 		mouseClicked(relativeX + xPos, relativeY + yPos, button);
+		return true;
 	}
 
 	@Override

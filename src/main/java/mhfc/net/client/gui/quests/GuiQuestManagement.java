@@ -109,8 +109,9 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 	}
 
 	@Override
-	public void handleClick(int relativeX, int relativeY, int button) {
+	public boolean handleClick(int relativeX, int relativeY, int button) {
 		super.mouseClicked(relativeX + xPos, relativeY + yPos, button);
+		return true;
 	}
 
 	@Override
