@@ -45,7 +45,7 @@ public class MHFCBlockRegistry {
 	public static final Block mhfcblockdirt;
 	public static final Block mhfcblockgrass;
 	public static final Block mhfcblockstone;
-	public static final Block mhfcblockdiscstone;
+	public static final Block mhfcblockdiskstone;
 	public static final Block mhfcblockicecrystal;
 	public static final Block mhfcblockclay;
 	public static final Block mhfcblocksand;
@@ -65,7 +65,7 @@ public class MHFCBlockRegistry {
 		mhfcblockicecrystal = registerBlock(new BlockIceCrystal());
 		mhfcblocksand = registerBlock(new BlockWyverniaSand());
 		mhfcblockclay = registerBlock(new BlockWyverniaClay());
-		mhfcblockdiscstone = registerBlock(new BlockDiscstone());
+		mhfcblockdiskstone = registerBlock(new BlockDiscstone());
 		// Initialize Blocks with special items
 		mhfcblockhunterbench = registerBlockWithItem(new BlockHunterBench(),
 				ItemBlockBenchHunter.class);

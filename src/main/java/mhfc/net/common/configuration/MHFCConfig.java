@@ -21,7 +21,9 @@ public class MHFCConfig {
 	public final boolean allCanPickup;
 	public final boolean spawnTigrex;
 	public final boolean spawnKirin;
-	public final boolean setupComplexGraphics = false;
+	public final boolean setupComplexGraphics = false;   // I'll add this soon if dan is finish with the block HD's better biome performance for faster pc
+	
+	
 
 	private Map<String, EnableSetting> enableSettings;
 	private Map<String, ReloadTimeSetting> reloadTimeSettings;

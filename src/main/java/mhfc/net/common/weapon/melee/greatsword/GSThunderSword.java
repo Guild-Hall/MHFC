@@ -3,9 +3,9 @@ package mhfc.net.common.weapon.melee.greatsword;
 import mhfc.net.common.helper.MHFCWeaponMaterialHelper;
 import mhfc.net.common.util.lib.MHFCReference;
 
-public class GSKirinThunderSword extends GreatswordClass {
+public class GSThunderSword extends GreatswordClass {
 
-	public GSKirinThunderSword() {
+	public GSThunderSword() {
 		super(MHFCWeaponMaterialHelper.GSKirin);
 		getWeaponDescription("Thunder Element", 4);
 		elementalType(false, false);

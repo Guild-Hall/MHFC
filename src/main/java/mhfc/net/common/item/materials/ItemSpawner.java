@@ -28,11 +28,11 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemFrontierSpawner extends Item {
+public class ItemSpawner extends Item {
 	@SideOnly(Side.CLIENT)
 	private IIcon theIcon;
 
-	public ItemFrontierSpawner() {
+	public ItemSpawner() {
 		super();
 		setTextureName(MHFCReference.item_mhfcspawnegg_icon);
 		setUnlocalizedName(MHFCReference.item_mhfcspawnegg_name);
@@ -64,11 +64,6 @@ public class ItemFrontierSpawner extends Item {
 				: entityegginfo.secondaryColor) : 16777215;
 	}
 
-	/**
-	 * Callback for item usage. If the item does something special on right
-	 * clicking, he will have one of those. Return True if something happen and
-	 * false if it don't. This is for ITEMS, not BLOCKS
-	 */
 	@Override
 	public boolean onItemUse(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer, World par3World, int par4, int par5,
@@ -104,10 +99,7 @@ public class ItemFrontierSpawner extends Item {
 		return true;
 	}
 
-	/**
-	 * Called whenever this item is equipped and the right mouse button is
-	 * pressed. Args: itemStack, world, entityPlayer
-	 */
+	
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
@@ -156,10 +148,6 @@ public class ItemFrontierSpawner extends Item {
 		return par1ItemStack;
 	}
 
-	/**
-	 * Spawns the creature specified by the egg's type in the location specified
-	 * by the last three parameters. Parameters: world, entityID, x, y, z.
-	 */
 	public static Entity spawnCreature(World par0World, int par1, double par2,
 			double par4, double par6) {
 		if (!MHFCMobList.registeredEggs().containsKey(Integer.valueOf(par1))) {
@@ -194,9 +182,6 @@ public class ItemFrontierSpawner extends Item {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	/**
-	 * Gets an icon index based on an item's damage value and the given render pass
-	 */
 	public IIcon getIconFromDamageForRenderPass(int par1, int par2) {
 		return par2 > 0 ? this.theIcon : super.getIconFromDamageForRenderPass(
 				par1, par2);
@@ -205,9 +190,6 @@ public class ItemFrontierSpawner extends Item {
 	@Override
 	@SuppressWarnings("unchecked")
 	@SideOnly(Side.CLIENT)
-	/**
-	 * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
-	 */
 	public void getSubItems(Item base, CreativeTabs par2CreativeTabs,
 			@SuppressWarnings("rawtypes") List list) {
 		Iterator<MHFCEggInfo> iterator = MHFCMobList.registeredEggs().values()

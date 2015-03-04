@@ -15,7 +15,7 @@ import mhfc.net.common.item.materials.ItemArmorSphere;
 import mhfc.net.common.item.materials.ItemBase;
 import mhfc.net.common.item.materials.ItemBombMaterial;
 import mhfc.net.common.item.materials.ItemFirestone;
-import mhfc.net.common.item.materials.ItemFrontierSpawner;
+import mhfc.net.common.item.materials.ItemSpawner;
 import mhfc.net.common.item.materials.ItemGaguaEgg;
 import mhfc.net.common.item.materials.ItemIngot;
 import mhfc.net.common.item.materials.ItemKirin;
@@ -32,7 +32,7 @@ import mhfc.net.common.item.materials.ItemWyverniaClay;
 import mhfc.net.common.item.materials.ItemWyverniaDust;
 import mhfc.net.common.weapon.melee.greatsword.GSBone;
 import mhfc.net.common.weapon.melee.greatsword.GSDeviljhobroadsword;
-import mhfc.net.common.weapon.melee.greatsword.GSKirinThunderSword;
+import mhfc.net.common.weapon.melee.greatsword.GSThunderSword;
 import mhfc.net.common.weapon.melee.greatsword.GSRathalosFiresword;
 import mhfc.net.common.weapon.melee.greatsword.GSTigrex;
 import mhfc.net.common.weapon.melee.hammer.HDeviljho;
@@ -193,7 +193,7 @@ public class MHFCItemRegistry {
 		// Weapons
 		weapon_gs_tigrex = registerItem(new GSTigrex());
 		weapon_gs_bone = registerItem(new GSBone());
-		weapon_gs_kirinthunders = registerItem(new GSKirinThunderSword());
+		weapon_gs_kirinthunders = registerItem(new GSThunderSword());
 		weapon_gs_berserkers = registerItem(new GSDeviljhobroadsword());
 		weapon_gs_rathalosfire = registerItem(new GSRathalosFiresword());
 
@@ -217,7 +217,7 @@ public class MHFCItemRegistry {
 		weapon_bgh_rath = registerItem(new BHRath());
 		// Items... drops
 		MHFCItemWyverniaDust = registerItem(new ItemWyverniaDust());
-		MHFCItemFrontierSpawner = registerItem(new ItemFrontierSpawner());
+		MHFCItemFrontierSpawner = registerItem(new ItemSpawner());
 		mhfcitemmoldediron = registerItem(new ItemMoldedIron());
 		mhfcitemwoodrig = registerItem(new ItemWoodRig());
 		mhfcitemlumberbar = registerItem(new ItemLumberBar());

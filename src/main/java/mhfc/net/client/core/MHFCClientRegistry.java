@@ -1,7 +1,6 @@
 package mhfc.net.client.core;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.client.core.registry.MHFCCapeRegistry;
 import mhfc.net.client.core.registry.MHFCEntityRenderRegistry;
 import mhfc.net.client.core.registry.MHFCItemRenderRegistry;
 import mhfc.net.client.core.registry.MHFCRenderIDRegistry;
@@ -19,7 +18,6 @@ public class MHFCClientRegistry {
 	public static void init() {
 		addRenderers();
 		addSounds();
-		addCapes();
 		addQuestDisplay();
 	}
 
@@ -42,8 +40,4 @@ public class MHFCClientRegistry {
 		MHFCMain.logger.info("Sounds registerd");
 	}
 
-	private static void addCapes() {
-		MHFCCapeRegistry.init();
-		MHFCMain.logger.info("Capes registerd");
-	}
 }

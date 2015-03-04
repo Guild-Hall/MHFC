@@ -11,7 +11,7 @@ public class PotionAttackUpLow extends Potion {
 		setPotionName(MHFCReference.potion_attackup_name);
 		setIconIndex(1, 0);
 		func_111184_a(SharedMonsterAttributes.attackDamage,
-				MHFCReference.potion_attackup_uuid, 0.65D, 1);
+				MHFCReference.potion_attackup_uuid, 0.35D, 1);
 	}
 
 }
