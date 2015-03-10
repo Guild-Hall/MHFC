@@ -1,10 +1,11 @@
-package mhfc.net.common.quests.goals;
+package mhfc.net.common.quests.api;
 
 import java.util.EnumSet;
 
 import mhfc.net.common.quests.GeneralQuest;
-import mhfc.net.common.quests.QuestGoalSocket;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
+import mhfc.net.common.quests.goals.ChainQuestGoal;
+import mhfc.net.common.quests.goals.ForkQuestGoal;
 import mhfc.net.common.quests.QuestStatus;
 
 /**

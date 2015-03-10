@@ -5,8 +5,9 @@ package mhfc.net.common.quests.goals;
 
 import mhfc.net.common.eventhandler.MHFCDelayedJob;
 import mhfc.net.common.eventhandler.MHFCJobHandler;
-import mhfc.net.common.quests.QuestGoalSocket;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
+import mhfc.net.common.quests.api.QuestGoal;
+import mhfc.net.common.quests.api.QuestGoalSocket;
 
 /**
  *

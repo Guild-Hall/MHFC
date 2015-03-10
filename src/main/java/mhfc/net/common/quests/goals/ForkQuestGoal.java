@@ -4,8 +4,9 @@ import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
 
-import mhfc.net.common.quests.QuestGoalSocket;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
+import mhfc.net.common.quests.api.QuestGoal;
+import mhfc.net.common.quests.api.QuestGoalSocket;
 import mhfc.net.common.quests.QuestStatus;
 
 /**

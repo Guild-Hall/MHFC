@@ -25,9 +25,10 @@ import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.QuestRunningInformation;
 import mhfc.net.common.quests.QuestVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation.QuestType;
-import mhfc.net.common.quests.factory.GoalDescription;
-import mhfc.net.common.quests.factory.QuestDescription;
-import mhfc.net.common.quests.factory.QuestFactory;
+import mhfc.net.common.quests.api.GoalDescription;
+import mhfc.net.common.quests.api.IGoalFactory;
+import mhfc.net.common.quests.api.QuestDescription;
+import mhfc.net.common.quests.api.QuestFactory;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -194,42 +195,8 @@ public class MHFCQuestsRegistry {
 			}
 			String type = JsonUtils.getJsonObjectStringFieldValue(jsonAsObject,
 					"type");
-			String[] dependencies = new String[0];
-			if (jsonAsObject.has("dependencies")) {
-				List<String> list = new ArrayList<String>();
-				Iterator<JsonElement> iter = JsonUtils
-						.getJsonObjectJsonArrayField(jsonAsObject,
-								"dependencies").getAsJsonArray().iterator();
-				JsonElement element;
-				while (iter.hasNext()) {
-					element = iter.next();
-					if (JsonUtils.jsonElementTypeIsString(element)) {
-						list.add(element.getAsString());
-					} else {
-						throw new JsonParseException(
-								"[MHFC] The array dependencies should be a String array.");
-					}
-				}
-				dependencies = list.toArray(new String[0]);
-			}
-			Object[] arguments = new String[0];
-			if (jsonAsObject.has("arguments")) {
-				List<Object> list = new ArrayList<Object>();
-				Iterator<JsonElement> iter = JsonUtils
-						.getJsonObjectJsonArrayField(jsonAsObject, "arguments")
-						.getAsJsonArray().iterator();
-				JsonElement element;
-				while (iter.hasNext()) {
-					element = iter.next();
-					if (element.isJsonPrimitive()) {
-						list.add(element.getAsString());
-					} else {
-						context.deserialize(element, typeOfMapGoal);
-					}
-				}
-				arguments = list.toArray(new Object[0]);
-			}
-			return new GoalDescription(type, dependencies, arguments);
+			IGoalFactory gFactory = QuestFactory.getGoalFactory(type);
+			return gFactory.buildGoalDescription(jsonAsObject, context);
 		}
 	}
 
@@ -411,7 +378,7 @@ public class MHFCQuestsRegistry {
 		}
 	}
 
-	private static final ParameterizedType typeOfMapGoal = new ParameterizedType() {
+	public static final ParameterizedType typeOfMapGoal = new ParameterizedType() {
 		@Override
 		public Type[] getActualTypeArguments() {
 			return new Type[]{String.class, GoalDescription.class};
@@ -428,7 +395,7 @@ public class MHFCQuestsRegistry {
 		}
 	};
 
-	private static final ParameterizedType typeOfMapQuest = new ParameterizedType() {
+	public static final ParameterizedType typeOfMapQuest = new ParameterizedType() {
 		@Override
 		public Type[] getActualTypeArguments() {
 			return new Type[]{String.class, QuestDescription.class};
@@ -446,7 +413,7 @@ public class MHFCQuestsRegistry {
 	};
 
 	//@formatter:off
-	private static final ParameterizedType typeOfGroupMap = new ParameterizedType() {
+	public static final ParameterizedType typeOfGroupMap = new ParameterizedType() {
 		@Override
 		public Type[] getActualTypeArguments() {
 			return new Type[]{
@@ -482,7 +449,7 @@ public class MHFCQuestsRegistry {
 	};
 	//@formatter:on
 
-	private static ParameterizedType typeOfGroupList = new ParameterizedType() {
+	public static ParameterizedType typeOfGroupList = new ParameterizedType() {
 		@Override
 		public Type[] getActualTypeArguments() {
 			return new Type[]{String.class};
@@ -513,6 +480,12 @@ public class MHFCQuestsRegistry {
 			.registerTypeAdapter(GoalDescription.class, new GoalSerializer())
 			.registerTypeAdapter(QuestDescription.class, new QuestSerializer())
 			.create();
+
+	public static final String GOAL_CHAIN_TYPE = "chain";
+	public static final String GOAL_FORK_TYPE = "fork";
+	public static final String GOAL_DEATH_RESTRICTION_TYPE = "death";
+	public static final String GOAL_HUNTING_TYPE = "hunting";
+	public static final String GOAL_TIME_TYPE = "time";
 
 	public static final String QUEST_TYPE_HUNTING = "mhfc.quests.type.hunting";
 	public static final String QUEST_TYPE_GATHERING = "mhfc.quests.type.gathering";
@@ -584,88 +557,6 @@ public class MHFCQuestsRegistry {
 		}
 	}
 
-	//@formatter:off
-	/**
-	 * Get the next string of characters that is considered a word. Words are
-	 * divided by whitespace character chars, commas and semicolons, or all
-	 * types of brackets and a ':'. If a non-whitespace character divides two
-	 * words, it itself is also considered a word. Whenever characters appear in
-	 * quotation marks, everything within is treated as one single word,
-	 * including all whitespace characters, but not the quotation marks. A
-	 * quotation mark looses its meaning if there is a \ in front of it.
-	 *
-	 * @return Returns the next word or null if the end of file was reached.
-	 * @throws IOException
-	 *             Passed on from reader.read()
-	 *
-	private static String getNextWord(BufferedReader reader) throws IOException {
-		char a = getChar(reader);
-		while (a != ((char) -1) && Character.isWhitespace(a)) {
-			a = getChar(reader);
-		}
-		if (a < 0) {
-			System.out.println("Null, becuase of eof");
-			return null;
-		} else {
-			if (isBracketOrComma(a) || (a == ':')) {
-				return Character.toString(a);
-			} else if (a == '"') {
-				String ret = "";
-				boolean validNow = false;
-				boolean validNext = true;
-				while (a != ((char) -1) && !(a == '"' && validNow)) {
-					ret += a;
-					a = getChar(reader);
-					validNow = validNext;
-					validNext = !(a == '\\');
-				}
-				return ret.substring(1);
-			} else {
-				String ret = "";
-				while (a != ((char) -1) && !Character.isWhitespace(a)
-						&& !isBracketOrComma(a) && !(a == ':')) {
-					ret += a;
-					reader.mark(1);
-					a = getChar(reader);
-				}
-				reader.reset();
-				return ret;
-			}
-		}
-	}
-
-	private static char getChar(BufferedReader reader) throws IOException {
-		char a = (char) reader.read();
-		if (a == '\n') {
-			++currentLine;
-		}
-		return a;
-	}
-
-	/**
-	 * Determines if a character is a bracket, a comma or a semicolon.
-	 *
-	 *
-	private static boolean isBracketOrComma(char a) {
-		return a == '{' || a == '}' || a == '(' || a == ')' || a == '['
-				|| a == ']' || a == ',' || a == ';';
-	}
-
-	private static boolean isBracketOrComma(String s) {
-		return (s != null) && s.length() == 1 && isBracketOrComma(s.charAt(0));
-	}
-
-	private static String getNextLine(BufferedReader reader) throws IOException {
-		String retString = "";
-		do {
-			retString = reader.readLine();
-			++currentLine;
-		} while (retString != null
-				&& (retString.startsWith("//") || retString.startsWith("#")));
-		return retString;
-	}*/
-	//@formatter:on
-
 	private static void generateQuests(ResourceLocation location) {
 		if (location == null) {
 		} else {
@@ -733,7 +624,10 @@ public class MHFCQuestsRegistry {
 			playerQuest.put(player, generalQuest);
 	}
 
-	public static void registerQuest(GeneralQuest generalQuest,
+	/**
+	 * Should be called when a new quest was started
+	 */
+	public static void regRunningQuest(GeneralQuest generalQuest,
 			String identifier) {
 		questsRunning.add(generalQuest);
 		runningQuestFromStringMap.put(identifier, generalQuest);
@@ -744,7 +638,12 @@ public class MHFCQuestsRegistry {
 		RunningSubscriptionHandler.sendToAll(message);
 	}
 
-	public static boolean deregisterQuest(GeneralQuest generalQuest) {
+	/**
+	 * Should be called when a quest is no longer running and was terminated.
+	 * Might also be called to ensure client sync. Returns true if the quest was
+	 * registered.
+	 */
+	public static boolean deregRunningQuest(GeneralQuest generalQuest) {
 		boolean wasRunning = questsRunning.remove(generalQuest);
 		String key = runningQuestToStringMap.get(generalQuest);
 		runningQuestToStringMap.remove(generalQuest);
@@ -756,6 +655,10 @@ public class MHFCQuestsRegistry {
 		return wasRunning;
 	}
 
+	/*
+	 * Should be called when major changes to a quest were made that require
+	 * resending the information to all clients
+	 */
 	public static void questUpdated(GeneralQuest q) {
 		String identifier = runningQuestToStringMap.get(q);
 		MessageQuestVisual message = new MessageQuestVisual(identifier,

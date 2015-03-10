@@ -1,4 +1,4 @@
-package mhfc.net.common.quests.factory;
+package mhfc.net.common.quests.api;
 
 import mhfc.net.common.core.registry.MHFCQuestsRegistry;
 import mhfc.net.common.quests.QuestVisualInformation;

@@ -6,8 +6,9 @@ import mhfc.net.common.core.registry.MHFCQuestsRegistry;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
-import mhfc.net.common.quests.factory.QuestDescription;
-import mhfc.net.common.quests.goals.QuestGoal;
+import mhfc.net.common.quests.api.QuestDescription;
+import mhfc.net.common.quests.api.QuestGoal;
+import mhfc.net.common.quests.api.QuestGoalSocket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
@@ -147,7 +148,7 @@ public class GeneralQuest implements QuestGoalSocket {
 		}
 		visualInformation.cleanUp();
 		questGoal.questGoalFinalize();
-		MHFCQuestsRegistry.deregisterQuest(this);
+		MHFCQuestsRegistry.deregRunningQuest(this);
 	}
 
 	protected void updatePlayers() {
