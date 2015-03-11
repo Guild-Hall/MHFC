@@ -130,7 +130,8 @@ public class MHFCJobHandler {
 		}
 
 		@Override
-		public void remove(MHFCDelayedJob job) {}
+		public void remove(MHFCDelayedJob job) {
+		}
 
 		@Override
 		public boolean containsJob(MHFCDelayedJob job) {
@@ -161,16 +162,16 @@ public class MHFCJobHandler {
 
 	@SubscribeEvent
 	public void receiveTick(ClientTickEvent tick) {
-		cleanUp();
 		synchronized (this) {
+			cleanUp();
 			startOfList = startOfList.tick();
 		}
 	}
 
 	@SubscribeEvent
 	public void receiveTick(ServerTickEvent tick) {
-		cleanUp();
 		synchronized (this) {
+			cleanUp();
 			if (FMLCommonHandler.instance().getSide() == Side.SERVER) {
 				startOfList = startOfList.tick();
 			}

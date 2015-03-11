@@ -1,18 +1,9 @@
 package mhfc.net.client.quests;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.client.gui.quests.GuiQuestBoard;
-import mhfc.net.client.gui.quests.GuiQuestGiver;
-import mhfc.net.client.gui.quests.GuiQuestJoin;
-import mhfc.net.client.gui.quests.GuiQuestNew;
-import mhfc.net.client.gui.quests.QuestStatusDisplay;
+import mhfc.net.client.gui.quests.*;
 import mhfc.net.common.core.registry.MHFCQuestsRegistry;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestScreenInit;
@@ -62,14 +53,20 @@ public class MHFCRegQuestVisual {
 			String[] strings = message.getStrings();
 			String identifier = message.getStrings()[0];
 			QuestVisualInformation visual = getInformationFromMessage(message);
+			MHFCMain.logger.info(((visual == null)
+					? "Issue a clear"
+					: "Issue a set") + " " + identifier);
 			switch (message.getTypeID()) {
 				case 0 :
+					MHFCMain.logger.info("Of a id mapping");
 					modifyVisualOfIdentifier(identifier, visual);
 					break;
 				case 1 :
+					MHFCMain.logger.info("Of the player visual");
 					setPlayerVisual(visual, strings);
 					break;
 				case 2 :
+					MHFCMain.logger.info("Of the quest list");
 					modifyRunningQuestList(identifier, visual, strings);
 			}
 			return null;
@@ -80,6 +77,8 @@ public class MHFCRegQuestVisual {
 			MessageQuestVisual message) {
 		String[] strings = message.getStrings();
 		String name = strings[1];
+		if ("".equals(name))
+			return null;
 		String description = strings[2];
 		String client = strings[3];
 		String aims = strings[4];
@@ -107,13 +106,9 @@ public class MHFCRegQuestVisual {
 			default :
 		}
 		QuestVisualInformation visual;
-		if (!name.equals("")) {
-			visual = new QuestVisualInformation(name, description, client,
-					aims, fails, areaNameID, timeLimitInS, reward, fee,
-					maxPartySize, realType);
-		} else {
-			visual = null;
-		}
+		visual = new QuestVisualInformation(name, description, client, aims,
+				fails, areaNameID, timeLimitInS, reward, fee, maxPartySize,
+				realType);
 		return visual;
 	}
 

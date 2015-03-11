@@ -647,6 +647,8 @@ public class MHFCQuestsRegistry {
 	 */
 	public static void questUpdated(GeneralQuest q) {
 		String identifier = runningQuestToStringMap.get(q);
+		if (q == null || identifier == null)
+			return;
 		MessageQuestVisual message = new MessageQuestVisual(identifier,
 				q.getRunningInformation());
 		message.setTypeID(2);
