@@ -5,6 +5,8 @@ import mhfc.net.common.quests.api.GoalDescription;
 
 public class DeathRestrictionDescription extends GoalDescription {
 
+	public static final String ID_LIFES = "lives";
+
 	private int allowedDeaths;
 
 	public DeathRestrictionDescription(int allowedDeaths) {

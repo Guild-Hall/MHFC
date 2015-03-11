@@ -5,15 +5,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
+import mhfc.net.common.quests.QuestStatus;
+import mhfc.net.common.quests.api.GoalDescription;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
-import mhfc.net.common.quests.QuestStatus;
 
 /**
  * This is the super type for quest goals that do depend on multiple others but
  * in no specific order. The order should not make a difference and any order
  * should be possible. If this is not the case use {@link ChainQuestGoal}
- * instead.
+ * instead. The additions to the goal format are as following:<br>
+ * {@value ForkQuestDescription#ID_REQUIRED} : ({@linkplain String}|
+ * {@linkplain GoalDescription})[]<br>
+ * [{@value ForkQuestDesciption#ID_OPTIONAL} : ({@linkplain String}|
+ * {@linkplain GoalDescription})[]]
  */
 
 public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {

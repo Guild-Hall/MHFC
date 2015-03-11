@@ -4,7 +4,18 @@ import mhfc.net.common.core.registry.MHFCQuestsRegistry;
 import mhfc.net.common.quests.api.GoalDescription;
 import mhfc.net.common.quests.api.GoalReference;
 
+/**
+ * Format for a goal description:<br>
+ * {@value ChainGoalDescription#ID_GOAL} : {@linkplain String}|
+ * {@linkplain GoalDescription}<br>
+ * [{@value ChainGoalDescription#ID_SUCCESSOR} : {@linkplain String}|
+ * {@linkplain GoalDescription}]
+ */
+
 public class ChainGoalDescription extends GoalDescription {
+
+	public static final String ID_GOAL = "goal";
+	public static final String ID_SUCCESSOR = "successor";
 
 	GoalReference trueGoal, successorGoal;
 

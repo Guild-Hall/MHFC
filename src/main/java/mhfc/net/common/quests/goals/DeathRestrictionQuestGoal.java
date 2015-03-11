@@ -80,11 +80,11 @@ public class DeathRestrictionQuestGoal extends QuestGoal
 	@Override
 	public String modify(InformationType type, String current) {
 		if (type == InformationType.LongStatus) {
-			current += (current.equals("") ? "" : "\n") + "Died "
-					+ currentDeaths + " of " + maxDeaths + " times";
+			current += (current.equals("") ? "" : "\n")
+					+ (maxDeaths - currentDeaths) + " respawns left";
 		} else if (type == InformationType.ShortStatus) {
-			current += (current.equals("") ? "" : "\n") + currentDeaths + "/"
-					+ maxDeaths + " deaths";
+			current += (current.equals("") ? "" : "\n")
+					+ (maxDeaths - currentDeaths) + " respawns";
 		}
 		return current;
 	}

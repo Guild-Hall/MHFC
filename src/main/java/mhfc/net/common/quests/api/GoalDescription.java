@@ -1,18 +1,16 @@
 package mhfc.net.common.quests.api;
 
-
 public class GoalDescription {
+	public static final String ID_TYPE = "type";
+
 	protected String goalType;
 
 	/**
-	 * Construct a goal with the given parameters. These parameters are then
-	 * used in the factory to generate quest goals. The parameter type and the
-	 * parameter should match the implementations in the factory class.
-	 * {@link QuestFactory} for more details on the format.
-	 * 
-	 * @param type
-	 * @param dependencyIds
-	 * @param arguments
+	 * Construct a goal of the given type identificator. In the json file, every
+	 * goal description has to have at least the following content:<br>
+	 * {@value GoalDescription#goalType} : {@linkplain String} <br>
+	 * More specific types may have additional requirements. See the child
+	 * classes for more details on their format.
 	 */
 	public GoalDescription(String type) {
 		this.goalType = type;

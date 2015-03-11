@@ -5,6 +5,9 @@ import mhfc.net.common.quests.api.GoalDescription;
 
 public class HuntingGoalDescription extends GoalDescription {
 
+	public static final String ID_HUNTED_TYPE = "target";
+	public static final String ID_AMOUNT = "amount";
+
 	private int amount;
 	private Class<?> huntedClass;
 

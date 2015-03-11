@@ -5,9 +5,14 @@ import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.descriptions.HuntingGoalDescription;
 import mhfc.net.common.quests.goals.HuntingQuestGoal;
+import net.minecraft.entity.EntityList;
+import net.minecraft.util.JsonUtils;
 
 import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
+import static mhfc.net.common.quests.descriptions.HuntingGoalDescription.*;
 
 public class HuntingGoalFactory implements IGoalFactory {
 
@@ -19,26 +24,25 @@ public class HuntingGoalFactory implements IGoalFactory {
 	}
 
 	@Override
-	public GoalDescription buildGoalDescription(JsonElement json,
+	public GoalDescription buildGoalDescription(JsonObject json,
 			JsonDeserializationContext context) {
-		// if (gd.getArguments().length != 2
-		// || !String.class.isAssignableFrom(gd.getArguments()[0]
-		// .getClass())
-		// || !String.class.isAssignableFrom(gd.getArguments()[1]
-		// .getClass()))
-		// throw new IllegalArgumentException(
-		// "[MHFC] A hunter goal needs a String and a string representing an integer argument");
-		//
-		// Class<?> goalClass = (Class<?>) EntityList.stringToClassMapping
-		// .get(gd.arguments[0]);
-		// if (goalClass == null) {
-		// System.out.println(gd.getArguments()[0]);
-		// throw new IllegalArgumentException(
-		// "[MHFC] The mob identifier could not be resolved");
-		// }
-		// int number = Integer.parseInt((String) gd.getArguments()[1]);
-		// FIXME Auto-generated method stub
-		return null;
+		if (!json.has(ID_HUNTED_TYPE) || !json.has(ID_AMOUNT))
+			throw new JsonParseException("A hunting goal needs a "
+					+ ID_HUNTED_TYPE + " and a " + ID_AMOUNT + "attribute");
+		if (!JsonUtils.jsonObjectFieldTypeIsString(json, ID_HUNTED_TYPE))
+			throw new JsonParseException("The target must be a mob id");
+		String mobID = JsonUtils.getJsonElementStringValue(
+				json.get(ID_HUNTED_TYPE), ID_HUNTED_TYPE);
+		Class<?> goalClass = (Class<?>) EntityList.stringToClassMapping
+				.get(mobID);
+		if (goalClass == null) {
+			throw new JsonParseException("The mob identifier " + mobID
+					+ " could not be resolved");
+		}
+		if (!json.get(ID_AMOUNT).isJsonPrimitive())
+			throw new JsonParseException(
+					"The amount given is not of type integer");
+		int amount = json.get(ID_AMOUNT).getAsInt();
+		return new HuntingGoalDescription(goalClass, amount);
 	}
-
 }

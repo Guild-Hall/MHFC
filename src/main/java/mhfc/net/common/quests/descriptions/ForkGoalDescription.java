@@ -7,9 +7,10 @@ import mhfc.net.common.core.registry.MHFCQuestsRegistry;
 import mhfc.net.common.quests.api.GoalDescription;
 import mhfc.net.common.quests.api.GoalReference;
 
-import com.sun.istack.internal.NotNull;
-
 public class ForkGoalDescription extends GoalDescription {
+
+	public static final String ID_REQUIRED = "requisites";
+	public static final String ID_OPTIONAL = "optional";
 
 	private GoalReference[] required;
 	private GoalReference[] optional;
@@ -21,7 +22,6 @@ public class ForkGoalDescription extends GoalDescription {
 		this.optional = optional;
 	}
 
-	@NotNull
 	public List<GoalDescription> getRequired() {
 		List<GoalDescription> list = new ArrayList<GoalDescription>();
 		if (required == null)
@@ -32,7 +32,6 @@ public class ForkGoalDescription extends GoalDescription {
 		return list;
 	}
 
-	@NotNull
 	public List<GoalDescription> getOptional() {
 		List<GoalDescription> list = new ArrayList<GoalDescription>();
 		if (optional == null)

@@ -7,7 +7,10 @@ import mhfc.net.common.quests.descriptions.DeathRestrictionDescription;
 import mhfc.net.common.quests.goals.DeathRestrictionQuestGoal;
 
 import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
+import static mhfc.net.common.quests.descriptions.DeathRestrictionDescription.ID_LIFES;
 
 public class DeathRestrictionGoalFactory implements IGoalFactory {
 
@@ -18,10 +21,13 @@ public class DeathRestrictionGoalFactory implements IGoalFactory {
 	}
 
 	@Override
-	public GoalDescription buildGoalDescription(JsonElement json,
+	public GoalDescription buildGoalDescription(JsonObject json,
 			JsonDeserializationContext context) {
-		// FIXME Auto-generated method stub
-		return null;
+		if (!json.has(ID_LIFES) || !json.get(ID_LIFES).isJsonPrimitive())
+			throw new JsonParseException(
+					"A death restriction goal requires a \"lives\" integer");
+		int lifes = json.get(ID_LIFES).getAsInt();
+		return new DeathRestrictionDescription(lifes);
 	}
 
 }

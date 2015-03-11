@@ -1,14 +1,28 @@
 package mhfc.net.common.quests.api;
 
+import java.lang.reflect.Type;
+
 import mhfc.net.common.core.registry.MHFCQuestsRegistry;
 import net.minecraft.util.JsonUtils;
 
 import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.sun.istack.internal.NotNull;
 
 public class GoalReference {
+
+	public static class GoalRefSerializer
+			implements
+				JsonDeserializer<GoalReference> {
+
+		@Override
+		public GoalReference deserialize(JsonElement json, Type typeOfT,
+				JsonDeserializationContext context) throws JsonParseException {
+			return constructFromJson(json, context);
+		}
+
+	}
 
 	/**
 	 * Constructs a GoalReference from the json stream and raises an exception
@@ -16,9 +30,10 @@ public class GoalReference {
 	 * 
 	 * @return A GoalReference for the json, not null
 	 */
-	@NotNull
 	public static GoalReference constructFromJson(JsonElement element,
 			JsonDeserializationContext context) {
+		if (element == null)
+			return new GoalReference((GoalDescription) null);
 		if (JsonUtils.jsonElementTypeIsString(element)) {
 			return new GoalReference(JsonUtils.getJsonElementStringValue(
 					element, "Goal Reference"));

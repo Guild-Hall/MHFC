@@ -5,6 +5,8 @@ import mhfc.net.common.quests.api.GoalDescription;
 
 public class TimeGoalDescription extends GoalDescription {
 
+	public static final String ID_TIME = "time";
+
 	private int time;
 
 	public TimeGoalDescription(int time) {

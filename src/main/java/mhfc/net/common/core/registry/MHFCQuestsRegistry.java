@@ -6,29 +6,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.packet.MessageQuestInteraction;
-import mhfc.net.common.network.packet.MessageQuestRunningSubscription;
-import mhfc.net.common.network.packet.MessageQuestScreenInit;
-import mhfc.net.common.network.packet.MessageQuestVisual;
-import mhfc.net.common.network.packet.MessageRequestQuestVisual;
+import mhfc.net.common.network.packet.*;
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.QuestRunningInformation;
 import mhfc.net.common.quests.QuestVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation.QuestType;
-import mhfc.net.common.quests.api.GoalDescription;
-import mhfc.net.common.quests.api.IGoalFactory;
-import mhfc.net.common.quests.api.QuestDescription;
-import mhfc.net.common.quests.api.QuestFactory;
+import mhfc.net.common.quests.api.*;
+import mhfc.net.common.quests.api.GoalReference.GoalRefSerializer;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -37,13 +25,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -188,8 +170,10 @@ public class MHFCQuestsRegistry {
 		@Override
 		public GoalDescription deserialize(JsonElement json, Type typeOfT,
 				JsonDeserializationContext context) throws JsonParseException {
-			JsonObject jsonAsObject = JsonUtils.getJsonElementAsJsonObject(
-					json, "goal");
+			if (json == null || !json.isJsonObject())
+				throw new JsonParseException(
+						"Expected a json object for a goal, got a primitive or null");
+			JsonObject jsonAsObject = json.getAsJsonObject();
 			if (!jsonAsObject.has("type")) {
 				throw new JsonParseException("Goal has no type");
 			}
@@ -479,6 +463,7 @@ public class MHFCQuestsRegistry {
 	private final static Gson gsonInstance = (new GsonBuilder())
 			.registerTypeAdapter(GoalDescription.class, new GoalSerializer())
 			.registerTypeAdapter(QuestDescription.class, new QuestSerializer())
+			.registerTypeAdapter(GoalReference.class, new GoalRefSerializer())
 			.create();
 
 	public static final String GOAL_CHAIN_TYPE = "chain";
@@ -630,6 +615,8 @@ public class MHFCQuestsRegistry {
 	public static void regRunningQuest(GeneralQuest generalQuest,
 			String identifier) {
 		questsRunning.add(generalQuest);
+		MHFCMain.logger.info(questsRunning.size()
+				+ " quests are running at the moment.");
 		runningQuestFromStringMap.put(identifier, generalQuest);
 		runningQuestToStringMap.put(generalQuest, identifier);
 		MessageQuestVisual message = new MessageQuestVisual(identifier,
@@ -645,8 +632,7 @@ public class MHFCQuestsRegistry {
 	 */
 	public static boolean deregRunningQuest(GeneralQuest generalQuest) {
 		boolean wasRunning = questsRunning.remove(generalQuest);
-		String key = runningQuestToStringMap.get(generalQuest);
-		runningQuestToStringMap.remove(generalQuest);
+		String key = runningQuestToStringMap.remove(generalQuest);
 		runningQuestFromStringMap.remove(key);
 		MessageQuestVisual message = new<QuestRunningInformation> MessageQuestVisual(
 				key, null);

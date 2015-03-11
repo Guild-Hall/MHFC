@@ -1,22 +1,24 @@
 {
 	Test : {
 		type : "hunting" ,
-		arguments : ["Pig", "3"]
+		target: "Pig",
+		amount: 3
 	},
 	StandardTimer : {
 		type : "time",
-		arguments : [3000]
+		time : 3000
 	},
 	StandardDeath : {
 		type : "death",
-		arguments : [2]
+		lives : 2
 	},
 	StandardFail : {
 		type : "fork",
-		dependencies : ["StandardDeath", "StandardTimer"]
+		requisites : ["StandardDeath", "StandardTimer"]
 	},
 	AnotherTest :{
 		type : "hunting",
-		arguments : ["mhfc.rathalos", "1"]
+		target: "mhfc.tigrex",
+		amount: 1
 	}
 }

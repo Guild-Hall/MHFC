@@ -2,6 +2,7 @@ package mhfc.net.common.quests.factory;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.quests.api.GoalDescription;
+import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.api.QuestFactory;
 import mhfc.net.common.quests.api.QuestGoal;
@@ -9,7 +10,11 @@ import mhfc.net.common.quests.descriptions.ChainGoalDescription;
 import mhfc.net.common.quests.goals.ChainQuestGoal;
 
 import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
+import static mhfc.net.common.quests.descriptions.ChainGoalDescription.ID_GOAL;
+import static mhfc.net.common.quests.descriptions.ChainGoalDescription.ID_SUCCESSOR;
 
 public class ChainGoalFactory implements IGoalFactory {
 
@@ -47,10 +52,15 @@ public class ChainGoalFactory implements IGoalFactory {
 	}
 
 	@Override
-	public GoalDescription buildGoalDescription(JsonElement json,
+	public GoalDescription buildGoalDescription(JsonObject json,
 			JsonDeserializationContext context) {
-		// FIXME Auto-generated method stub
-		return null;
+		if (!json.has(ID_GOAL))
+			throw new JsonParseException("A chain goal requires field "
+					+ ID_GOAL);
+		GoalReference goal, successor;
+		goal = GoalReference.constructFromJson(json.get(ID_GOAL), context);
+		successor = GoalReference.constructFromJson(json.get(ID_SUCCESSOR),
+				context);
+		return new ChainGoalDescription(goal, successor);
 	}
-
 }
