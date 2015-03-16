@@ -10,20 +10,15 @@ import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
-
-import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.stored.AnimationRegistry;
 
 public class SpinAttack extends AttackAdapter<EntityTigrex> {
 	private static final int MAX_FRAME = 40;
 	private static final double MAX_DISTANCE = 5d;
 
-	private boolean finished = false;
-
 	public SpinAttack() {
-		setAnimation(AnimationRegistry.loadAnimation(new ResourceLocation(
-				"mhfc:models/Tigrex/tailswipe.mcanm")));
+		setAnimation("mhfc:models/Tigrex/tailswipe.mcanm");
+		setLastFrame(MAX_FRAME);
 	}
 
 	@Override
@@ -40,7 +35,6 @@ public class SpinAttack extends AttackAdapter<EntityTigrex> {
 	@Override
 	public void beginExecution() {
 		getEntity().getNavigator().noPath();
-		finished = false;
 	}
 
 	@Override
@@ -61,17 +55,6 @@ public class SpinAttack extends AttackAdapter<EntityTigrex> {
 	}
 
 	@Override
-	public boolean shouldContinue() {
-		return !finished;
-	}
-
-	@Override
 	public void finishExecution() {}
 
-	@Override
-	public int getNextFrame(int frame) {
-		if (frame > MAX_FRAME)
-			finished = true;
-		return super.getNextFrame(frame);
-	}
 }

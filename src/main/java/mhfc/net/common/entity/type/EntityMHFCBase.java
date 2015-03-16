@@ -40,12 +40,14 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 			IEntityMultiPart,
 			IAnimatedObject,
 			IMangedAttacks<YC> {
+	/**
+	 * {@link #getDataWatcher()}
+	 */
+	protected static final int DATA_FRAME = 12;
 	protected final AIAttackManager<YC> attackManager;
-	protected int animFrame = -1;
 
 	public EntityMHFCBase(World world) {
 		super(world);
-		// FIXME: think of some method to make this "type-safe"
 		tasks.addTask(0,
 				this.attackManager = new AIAttackManager<YC>((YC) this));
 	}
@@ -64,6 +66,12 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	 */
 	public void dropItemRand(Item item, int count) {
 		dropItemRand(new ItemStack(item, count, 0));
+	}
+
+	@Override
+	protected void entityInit() {
+		super.entityInit();
+		this.dataWatcher.addObject(DATA_FRAME, Integer.valueOf(-1));
 	}
 	/**
 	 * Drops the given item stack as entity in the world of this entity. Utility
@@ -91,57 +99,58 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 		}
 		return medhp;
 	}
+	// FIXME: will update location, rotation set algs in 1.8, bc huge changes
+	// inc
 	/**
 	 * Sets the location AND angles of this entity. Custom implementation
 	 * because we need to be notified when the angles of the entity change.<br>
 	 * This is only called once per update-tick
 	 */
-	@Override
-	public void setLocationAndAngles(double posX, double posY, double posZ,
-			float yaw, float pitch) {
-		super.setLocationAndAngles(posX, posY, posZ, yaw, pitch);
-		this.setRotation(yaw, pitch);
-		// super.setPosition(posX, posY, posZ);
-		// this.setRotation(yaw, pitch);
-	}
+	// @Override
+	// public void setLocationAndAngles(double posX, double posY, double posZ,
+	// float yaw, float pitch) {
+	// super.setLocationAndAngles(posX, posY, posZ, yaw, pitch);
+	// this.setRotation(yaw, pitch);
+	// super.setPosition(posX, posY, posZ);
+	// this.setRotation(yaw, pitch);
+	// }
 	/**
 	 * This is a custom implementation of the movement algorithm. It just moves
 	 * the bounding box by the difference between the current and next position.
 	 * No height or width, just offset the whole box.
 	 */
-	@Override
-	public void setPosition(double newPosX, double newPosY, double newPosZ) {
-		// TODO: rework, getting posX, posY, posZ is not ?same?
-		// hm, somehow keep the BB the same size
-		this.posX = newPosX;
-		this.posY = newPosY;
-		this.posZ = newPosZ;
-		double diffX = newPosX - this.posX;
-		double diffY = newPosY - this.posY;
-		double diffZ = newPosZ - this.posZ;
-		this.boundingBox.offset(diffX, diffY, diffZ);
-		// this.offsetEntity(diffX, diffY, diffZ);
-	}
-	@Override
-	protected void setRotation(float newYaw, float newPitch) {
-		// float diffYawDeg = newYaw - this.rotationYaw;
-		// double diffYawRad = diffYawDeg / 180D;
-		this.rotationYaw = newYaw % 360.0F;
-		this.rotationPitch = newPitch % 360.0F;
-		// EntityMHFCPart[] parts = this.getParts();
-		// if (parts == null)
-		// return;
-		// for (EntityMHFCPart part : parts) {
-		// double offXPart = part.posX - this.posX;
-		// double offZPart = part.posZ - this.posZ;
-		// part.posX = this.posX
-		// + (Math.cos(diffYawRad) * offXPart - Math.sin(diffYawRad)
-		// * offZPart);
-		// part.posY = this.posY
-		// + (Math.sin(diffYawRad) * offXPart + Math.cos(diffYawRad)
-		// * offZPart);
-		// }
-	}
+	// @Override
+	// public void setPosition(double newPosX, double newPosY, double newPosZ) {
+	// hm, somehow keep the BB the same size
+	// this.posX = newPosX;
+	// this.posY = newPosY;
+	// this.posZ = newPosZ;
+	// double diffX = newPosX - this.posX;
+	// double diffY = newPosY - this.posY;
+	// double diffZ = newPosZ - this.posZ;
+	// this.boundingBox.offset(diffX, diffY, diffZ);
+	// this.offsetEntity(diffX, diffY, diffZ);
+	// }
+	// @Override
+	// protected void setRotation(float newYaw, float newPitch) {
+	// float diffYawDeg = newYaw - this.rotationYaw;
+	// double diffYawRad = diffYawDeg / 180D;
+	// this.rotationYaw = newYaw % 360.0F;
+	// this.rotationPitch = newPitch % 360.0F;
+	// EntityMHFCPart[] parts = this.getParts();
+	// if (parts == null)
+	// return;
+	// for (EntityMHFCPart part : parts) {
+	// double offXPart = part.posX - this.posX;
+	// double offZPart = part.posZ - this.posZ;
+	// part.posX = this.posX
+	// + (Math.cos(diffYawRad) * offXPart - Math.sin(diffYawRad)
+	// * offZPart);
+	// part.posY = this.posY
+	// + (Math.sin(diffYawRad) * offXPart + Math.cos(diffYawRad)
+	// * offZPart);
+	// }
+	// }
 
 	@Override
 	protected boolean canDespawn() {
@@ -336,7 +345,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		animFrame = this.attackManager.getNextFrame(animFrame);
+		setFrame(this.attackManager.getNextFrame(getCurrentFrame()));
+	}
+
+	public void setFrame(int newframe) {
+		this.dataWatcher.updateObject(DATA_FRAME, Integer.valueOf(newframe));
 	}
 
 	@Override
@@ -366,18 +379,18 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 
 	@Override
 	public int getCurrentFrame() {
-		return animFrame;
+		return this.dataWatcher.getWatchableObjectInt(DATA_FRAME);
 	}
 
 	@Override
 	public void onAttackEnd(IExecutableAttack<YC> oldAttack) {
-		animFrame = -1;
+		setFrame(-1);
 	}
 
 	@Override
 	public void onAttackStart(IExecutableAttack<YC> newAttack) {
 		if (newAttack != null)
-			animFrame = 0;
+			setFrame(0);
 	}
 
 	@Override

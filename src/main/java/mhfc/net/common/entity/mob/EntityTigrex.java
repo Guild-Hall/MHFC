@@ -1,5 +1,8 @@
 package mhfc.net.common.entity.mob;
 
+import mhfc.net.common.ai.tigrex.BiteAttack;
+import mhfc.net.common.ai.tigrex.GroundHurl;
+import mhfc.net.common.ai.tigrex.JumpAttack;
 import mhfc.net.common.ai.tigrex.RunAttack;
 import mhfc.net.common.ai.tigrex.SpinAttack;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
@@ -7,6 +10,7 @@ import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
@@ -16,15 +20,19 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	public EntityTigrex(World par1World) {
 		super(par1World);
-		this.boundingBox.setBounds(-3, 0, -3, 3, 4, 3);
 		this.height = 4f;
 		this.width = 6f;
 
 		this.attackManager.registerAttack(new RunAttack());
 		this.attackManager.registerAttack(new SpinAttack());
+		this.attackManager.registerAttack(new GroundHurl());
+		this.attackManager.registerAttack(new BiteAttack());
+		this.attackManager.registerAttack(new JumpAttack());
 
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
 				EntityPopo.class, 0, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
+				EntityPlayer.class, 0, true));
 	}
 
 	@Override
