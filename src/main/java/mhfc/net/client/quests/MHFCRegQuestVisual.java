@@ -43,7 +43,6 @@ public class MHFCRegQuestVisual {
 		}
 	}
 
-	// TODO rework this, it is so horrifying
 	public static class QuestScreenVisualHandler
 			implements
 				IMessageHandler<MessageQuestVisual, IMessage> {
@@ -53,20 +52,14 @@ public class MHFCRegQuestVisual {
 			String[] strings = message.getStrings();
 			String identifier = message.getStrings()[0];
 			QuestVisualInformation visual = getInformationFromMessage(message);
-			MHFCMain.logger.info(((visual == null)
-					? "Issue a clear"
-					: "Issue a set") + " " + identifier);
 			switch (message.getTypeID()) {
 				case 0 :
-					MHFCMain.logger.info("Of a id mapping");
 					modifyVisualOfIdentifier(identifier, visual);
 					break;
 				case 1 :
-					MHFCMain.logger.info("Of the player visual");
 					setPlayerVisual(visual, strings);
 					break;
 				case 2 :
-					MHFCMain.logger.info("Of the quest list");
 					modifyRunningQuestList(identifier, visual, strings);
 			}
 			return null;

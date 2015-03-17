@@ -4,6 +4,7 @@ import java.util.List;
 
 import mhfc.net.common.util.MHFCStringDecode.CompositeString;
 import mhfc.net.common.util.MHFCStringDecode.StringElement;
+import mhfc.net.common.util.gui.MHFCGuiUtil;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.StatCollector;
@@ -11,7 +12,18 @@ import net.minecraft.util.StatCollector;
 public class QuestRunningInformation extends QuestVisualInformation {
 
 	public enum InformationType {
-		Name, Description, Client, Aims, Fails, AreaNameID, TimeLimit, Reward, Fee, MaxPartySize, ShortStatus, LongStatus;
+		Name,
+		Description,
+		Client,
+		Aims,
+		Fails,
+		AreaNameID,
+		TimeLimit,
+		Reward,
+		Fee,
+		MaxPartySize,
+		ShortStatus,
+		LongStatus;
 	}
 
 	protected String shortStatus;
@@ -42,7 +54,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 	}
 
 	public QuestRunningInformation(QuestVisualInformation information,
-			String shortStatus, String longStatus) {
+		String shortStatus, String longStatus) {
 		super(information);
 		this.shortStatus = shortStatus;
 		this.longStatus = longStatus;
@@ -68,7 +80,8 @@ public class QuestRunningInformation extends QuestVisualInformation {
 		timeLimitInS = q.updateVisual(InformationType.TimeLimit, timeLimitInS);
 		reward = q.updateVisual(InformationType.Reward, reward);
 		fee = q.updateVisual(InformationType.Fee, fee);
-		maxPartySize = q.updateVisual(InformationType.MaxPartySize, maxPartySize);
+		maxPartySize = q.updateVisual(InformationType.MaxPartySize,
+			maxPartySize);
 		shortStatus = q.updateVisual(InformationType.ShortStatus, shortStatus);
 		longStatus = q.updateVisual(InformationType.LongStatus, longStatus);
 		breakAll();
@@ -197,43 +210,38 @@ public class QuestRunningInformation extends QuestVisualInformation {
 
 	@Override
 	public void drawInformation(int positionX, int positionY, int width,
-			int height, int page, FontRenderer fontRenderer) {
+		int height, int page, FontRenderer fontRenderer) {
 		width = Math.max(width, 20);
-		String draw;
-		int lineHeight = fontRenderer.FONT_HEIGHT + 2;
-		int currentY = drawHead(positionX, positionY, lineHeight, width,
-				fontRenderer);
+		int currentY = drawHead(positionX, positionY, width, fontRenderer);
 		switch (page) {
 			case 0 :
-				currentY = drawBaseInformation(positionX, currentY, lineHeight,
-						width, fontRenderer);
+				currentY = drawBaseInformation(positionX, currentY, width,
+					fontRenderer);
 				String TAG_STATUS = StatCollector
-						.translateToLocal(MHFCReference.unlocalized_tag_status_long);
-				draw = TAG_STATUS;
-				fontRenderer
-						.drawString(draw, positionX + 5, currentY, 0xB04040);
-				draw = getLongStatus();
-				currentY += lineHeight;
+					.translateToLocal(MHFCReference.unlocalized_tag_status_long);
+				currentY += MHFCGuiUtil.drawTextAndReturnHeight(fontRenderer,
+					TAG_STATUS, positionX + 5, currentY, 0, COLOUR_HEADER);
+				currentY += LINE_SEPERATION;
+				String draw = getLongStatus();
 				for (String line : draw.split("\n")) {
-					fontRenderer.drawSplitString(line, positionX + width / 8,
-							currentY, 7 * width / 8 - 5, 0x404040);
-					currentY += (fontRenderer.listFormattedStringToWidth(line,
-							7 * width / 8 - 5).size()) * lineHeight + 2;
+					currentY += MHFCGuiUtil.drawTextAndReturnHeight(
+						fontRenderer, line, positionX + width / 8, currentY, 7
+							* width / 8 - BORDER, COLOUR_TEXT);
+					currentY += LINE_SEPERATION;
 				}
 				break;
 			case 1 :
 				drawAimsFails(positionX, positionY, width, height, currentY,
-						lineHeight, fontRenderer);
+					fontRenderer);
 				break;
 			case 2 :
-				drawClientDescription(positionX, currentY, width, lineHeight,
-						fontRenderer);
+				drawClientDescription(positionX, currentY, width, fontRenderer);
 				break;
 		}
-		draw = (page + 1) + "/3";
-		fontRenderer.drawString(draw,
-				positionX + width - fontRenderer.getStringWidth(draw) - 4,
-				positionY + height - lineHeight, 0x404040);
+		String draw = (page + 1) + "/3";
+		fontRenderer.drawString(draw, positionX + width
+			- fontRenderer.getStringWidth(draw) - BORDER, positionY + height
+			- fontRenderer.FONT_HEIGHT - BORDER, COLOUR_TEXT);
 	}
 
 	public void cleanUp() {
