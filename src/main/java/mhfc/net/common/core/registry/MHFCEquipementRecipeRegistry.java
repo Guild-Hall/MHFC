@@ -11,6 +11,7 @@ import java.util.Set;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import mhfc.net.common.item.ItemType;
+import mhfc.net.common.item.materials.ItemDeviljho;
 import mhfc.net.common.item.materials.ItemIngot;
 import mhfc.net.common.item.materials.ItemKirin;
 import mhfc.net.common.item.materials.ItemRathalos;
@@ -245,6 +246,8 @@ public class MHFCEquipementRecipeRegistry {
 		/*@Andreas: Im sorry to adjust the formating code here but i can understand this a little bit more. Thanks -Heltrato.
 		 * **/
 		
+		//GreatSword
+		
 		listReq = new ArrayList<ItemStack>();
 		addItemStackToList(listReq, Item.getItemById(352), 6, 0);
 		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemlumberbar, 4, 0);
@@ -279,7 +282,14 @@ public class MHFCEquipementRecipeRegistry {
 		MHFCEquipementRecipeRegistry.register(recipe_gs_agito);
 		//
 		listReq = new ArrayList<ItemStack>();
+		
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemdeviljho, 7, ItemDeviljho.DeviljhoSubType.FANG.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemdeviljho, 7, ItemDeviljho.DeviljhoSubType.SCALE.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemdeviljho, 5, ItemDeviljho.DeviljhoSubType.TALON.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemdeviljho, 3, ItemDeviljho.DeviljhoSubType.SCALP.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemingot, 5, ItemIngot.IngotsSubType.DRAGONITE.ordinal());
 		recipe_gs_berserker = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_gs_berserkers), listReq, 600, 1500);
+		MHFCEquipementRecipeRegistry.register(recipe_gs_berserker);
 		//
 		
 		//Hammer Class

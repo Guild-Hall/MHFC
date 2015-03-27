@@ -248,6 +248,20 @@ public class MHFCReference {
 	public static final String item_ingot2_name = "eltalite";
 	public static final String item_ingot3_icon = "mhfc:ingot3";
 	public static final String item_ingot3_name = "machalite";
+	
+	public static final String item_deviljho_basename= "deviljho";
+	public static final String item_deviljho0_name = "scale";
+	public static final String item_deviljho0_icon = "mhfc:deviljho0";
+	public static final String item_deviljho1_name = "fang";
+	public static final String item_deviljho1_icon = "mhfc:deviljho1";
+	public static final String item_deviljho2_name = "hide";
+	public static final String item_deviljho2_icon = "mhfc:deviljho2";
+	public static final String item_deviljho3_name = "talon";
+	public static final String item_deviljho3_icon = "mhfc:deviljho3";
+	public static final String item_deviljho4_name = "scalp";
+	public static final String item_deviljho4_icon = "mhfc:deviljho4";
+	public static final String item_deviljho5_name = "tail";
+	public static final String item_deviljho5_icon = "mhfc:deviljho5";
 
 	public static final String item_kirin_basename = "kirin";
 	public static final String item_kirin0_name = "mane";

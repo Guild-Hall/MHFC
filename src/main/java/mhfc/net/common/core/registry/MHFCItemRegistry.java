@@ -14,6 +14,7 @@ import mhfc.net.common.item.food.ItemNutrients;
 import mhfc.net.common.item.materials.ItemArmorSphere;
 import mhfc.net.common.item.materials.ItemBase;
 import mhfc.net.common.item.materials.ItemBombMaterial;
+import mhfc.net.common.item.materials.ItemDeviljho;
 import mhfc.net.common.item.materials.ItemFirestone;
 import mhfc.net.common.item.materials.ItemSpawner;
 import mhfc.net.common.item.materials.ItemGaguaEgg;
@@ -132,6 +133,7 @@ public class MHFCItemRegistry {
 	// public static final Item mhfcitemlightcrystal;
 	// public static final Item mhfcitempurecrystal;
 	public static final Item mhfcitemrathalos;
+	public static final Item mhfcitemdeviljho;
 
 	public static final Item mhfcitemwoodrig;
 	public static final Item mhfcitemlumberbar;
@@ -233,6 +235,7 @@ public class MHFCItemRegistry {
 		mhfcitemkirin = registerItem(new ItemKirin());
 		MHFCItemtigrex = registerItem(new ItemTigrex());
 		mhfcitemrathalos = registerItem(new ItemRathalos());
+		mhfcitemdeviljho = registerItem(new ItemDeviljho());
 
 		mhfcitemsac = registerItem(new ItemSac());
 		mhfcitemfirestone = registerItem(new ItemFirestone());
