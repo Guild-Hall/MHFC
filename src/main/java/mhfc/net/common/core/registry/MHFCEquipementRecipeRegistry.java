@@ -162,6 +162,7 @@ public class MHFCEquipementRecipeRegistry {
 	public static final EquipmentRecipe recipe_hm_tigrex;
 	public static final EquipmentRecipe recipe_hm_kirin;
 	public static final EquipmentRecipe recipe_hm_rathalos;
+	public static final EquipmentRecipe recipe_hm_devilsdue;
 	public static final EquipmentRecipe recipe_ls_ironkatana;
 	public static final EquipmentRecipe recipe_hh_ivoryhorn;
 	public static final EquipmentRecipe recipe_hh_metalbagpipe;
@@ -339,6 +340,14 @@ public class MHFCEquipementRecipeRegistry {
 		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemingot, 4, ItemIngot.IngotsSubType.ELTALITE.ordinal());
 		recipe_hm_kirin = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_hm_kirinspark), listReq, 750, 1200);
 		MHFCEquipementRecipeRegistry.register(recipe_hm_kirin);
+		//
+		listReq = new ArrayList<ItemStack>();
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemdeviljho, 10, ItemDeviljho.DeviljhoSubType.FANG.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemdeviljho, 4, ItemDeviljho.DeviljhoSubType.SCALE.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemdeviljho, 6, ItemDeviljho.DeviljhoSubType.SCALP.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemingot, 4, ItemIngot.IngotsSubType.DRAGONITE.ordinal());
+		recipe_hm_devilsdue = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_hm_devilsdue), listReq, 750, 1800);
+		MHFCEquipementRecipeRegistry.register(recipe_hm_devilsdue);
 		//
 		//Longsword class
 		listReq = new ArrayList<ItemStack>();
