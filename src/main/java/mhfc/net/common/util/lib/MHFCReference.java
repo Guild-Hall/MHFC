@@ -332,6 +332,7 @@ public class MHFCReference {
 
 	public static final String item_traptool_icon = "mhfc:traptool";
 	public static final String item_traptool_name = "traptool";
+	public static final String item_flashbomb_icon = "mhfc:flashbomb";
 	public static final String item_flashbomb_name = "flashbomb";
 	public static final String item_woodrig_icon = "mhfc:woodrig";
 	public static final String item_woodrig_name = "woodrig";

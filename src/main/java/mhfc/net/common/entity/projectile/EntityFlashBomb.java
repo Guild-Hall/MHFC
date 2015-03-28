@@ -20,7 +20,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 public class EntityFlashBomb extends EntityThrowable {
 
 	public static final int EXPLOSIVE_TIMER = 40;
-	public static final int EXPLOSION_DURATION = 60;
+	public static final int EXPLOSION_DURATION = 180;
 	public static final int PHASE_IN_DURATION = 5;
 
 	public static final int FALL_OFF_BEGIN = 90;
