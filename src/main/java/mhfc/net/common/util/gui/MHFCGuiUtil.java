@@ -1,12 +1,52 @@
 package mhfc.net.common.util.gui;
 
 import mhfc.net.MHFCMain;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.Tessellator;
 
 public class MHFCGuiUtil {
 	private static final String WIDTH_WARNING = "The width of the draw was smaller than the first character. This creates a stack overflow.\n Please don't do this, track it down. Stacktrace:";
 	public static float zLevel;
+	private static ScaledResolution s;
+
+	public static int realScreenWidth(Minecraft mc) {
+		if (mc == null)
+			throw new IllegalArgumentException(
+				"Gui utils may only be accessed with valid minecraft");
+		return mc.displayWidth;
+	}
+
+	public static int realScreenHeight(Minecraft mc) {
+		if (mc == null)
+			throw new IllegalArgumentException(
+				"Gui utils may only be accessed with valid minecraft");
+		return mc.displayHeight;
+	}
+
+	public static int minecraftWidth(Minecraft mc) {
+		refreshScaled(mc);
+		return s.getScaledWidth();
+	}
+
+	public static int minecraftHeight(Minecraft mc) {
+		refreshScaled(mc);
+		return s.getScaledHeight();
+	}
+
+	public static int guiScaleFactor(Minecraft mc) {
+		refreshScaled(mc);
+		return s.getScaleFactor();
+	}
+
+	private static void refreshScaled(Minecraft mc) {
+		if (mc == null)
+			throw new IllegalArgumentException(
+				"Gui utils may only be accessed with valid minecraft");
+		s = new ScaledResolution(mc.gameSettings, mc.displayHeight,
+			mc.displayWidth);
+	}
 
 	/**
 	 * Draws a string onto the screen at the desired position. If width is > 0,

@@ -16,7 +16,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
@@ -195,10 +194,8 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 
 	@Override
 	public void updateScreen() {
-		ScaledResolution s = new ScaledResolution(mc.gameSettings,
-			mc.displayWidth, mc.displayHeight);
-		xPos = (s.getScaledWidth() - xSize) / 2;
-		yPos = (s.getScaledHeight() - ySize) / 2;
+		xPos = (MHFCGuiUtil.minecraftWidth(mc) - xSize) / 2;
+		yPos = (MHFCGuiUtil.minecraftHeight(mc) - ySize) / 2;
 		updateTab(xPos, yPos);
 		super.updateScreen();
 	}

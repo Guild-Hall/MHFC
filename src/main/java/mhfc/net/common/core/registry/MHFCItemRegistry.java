@@ -1,47 +1,12 @@
 package mhfc.net.common.core.registry;
 
-import mhfc.net.common.item.armor.DragoonArmor;
-import mhfc.net.common.item.armor.KirinArmor;
-import mhfc.net.common.item.armor.KirinSArmor;
-import mhfc.net.common.item.armor.KishinArmor;
-import mhfc.net.common.item.armor.RathalosArmor;
-import mhfc.net.common.item.armor.TigrexArmor;
-import mhfc.net.common.item.armor.VelocipreyArmor;
-import mhfc.net.common.item.armor.YukumoArmor;
+import mhfc.net.common.item.armor.*;
 import mhfc.net.common.item.food.ItemKirinBuff;
 import mhfc.net.common.item.food.ItemMeats;
 import mhfc.net.common.item.food.ItemNutrients;
-import mhfc.net.common.item.materials.ItemArmorSphere;
-import mhfc.net.common.item.materials.ItemBase;
-import mhfc.net.common.item.materials.ItemBombMaterial;
-import mhfc.net.common.item.materials.ItemFirestone;
-import mhfc.net.common.item.materials.ItemSpawner;
-import mhfc.net.common.item.materials.ItemGaguaEgg;
-import mhfc.net.common.item.materials.ItemIngot;
-import mhfc.net.common.item.materials.ItemKirin;
-import mhfc.net.common.item.materials.ItemLumberBar;
-import mhfc.net.common.item.materials.ItemMoldedIron;
-import mhfc.net.common.item.materials.ItemRathalos;
-import mhfc.net.common.item.materials.ItemSac;
-import mhfc.net.common.item.materials.ItemSteelBar;
-import mhfc.net.common.item.materials.ItemTigrex;
-import mhfc.net.common.item.materials.ItemTrapTool;
-import mhfc.net.common.item.materials.ItemWoodRig;
-import mhfc.net.common.item.materials.ItemWyvernCoin;
-import mhfc.net.common.item.materials.ItemWyverniaClay;
-import mhfc.net.common.item.materials.ItemWyverniaDust;
-import mhfc.net.common.weapon.melee.greatsword.GSBone;
-import mhfc.net.common.weapon.melee.greatsword.GSDeviljhobroadsword;
-import mhfc.net.common.weapon.melee.greatsword.GSThunderSword;
-import mhfc.net.common.weapon.melee.greatsword.GSRathalosFiresword;
-import mhfc.net.common.weapon.melee.greatsword.GSTigrex;
-import mhfc.net.common.weapon.melee.hammer.HDeviljho;
-import mhfc.net.common.weapon.melee.hammer.HKirinSpark;
-import mhfc.net.common.weapon.melee.hammer.HRathalos;
-import mhfc.net.common.weapon.melee.hammer.HTigrex;
-import mhfc.net.common.weapon.melee.hammer.HWar;
-import mhfc.net.common.weapon.melee.hammer.HWarPlus;
-import mhfc.net.common.weapon.melee.hammer.HWarSlammer;
+import mhfc.net.common.item.materials.*;
+import mhfc.net.common.weapon.melee.greatsword.*;
+import mhfc.net.common.weapon.melee.hammer.*;
 import mhfc.net.common.weapon.melee.huntinghorn.HHIvoryHorn;
 import mhfc.net.common.weapon.melee.huntinghorn.HHMetalBagpipe;
 import mhfc.net.common.weapon.melee.huntinghorn.HHTigrex;
@@ -138,6 +103,7 @@ public class MHFCItemRegistry {
 	public static final Item mhfcitemsteelbar;
 	public static final Item MHFCItemWyverniaDust;
 	public static final Item MHFCItemTrapTool;
+	public static final Item MHFCItemFlashBomb;
 	public static final Item MHFCItemBombMaterial;
 	public static final Item MHFCItemGaguaEgg;
 	public static final Item MHFCItemWyvernCoin;
@@ -224,6 +190,7 @@ public class MHFCItemRegistry {
 		mhfcitemsteelbar = registerItem(new ItemSteelBar());
 		MHFCItemTrapTool = registerItem(new ItemTrapTool());
 		MHFCItemBombMaterial = registerItem(new ItemBombMaterial());
+		MHFCItemFlashBomb = registerItem(new ItemFlashBomb());
 		MHFCItemGaguaEgg = registerItem(new ItemGaguaEgg());
 		MHFCItemWyvernCoin = registerItem(new ItemWyvernCoin());
 
@@ -248,7 +215,8 @@ public class MHFCItemRegistry {
 		mhfcfoodnutrients = registerItem(new ItemNutrients());
 	}
 
-	public static void init() {}
+	public static void init() {
+	}
 
 	private static Item registerItem(Item item) {
 		GameRegistry.registerItem(item, item.getUnlocalizedName());
