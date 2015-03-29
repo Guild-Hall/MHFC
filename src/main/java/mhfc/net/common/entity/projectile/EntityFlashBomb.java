@@ -1,6 +1,5 @@
 package mhfc.net.common.entity.projectile;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.common.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,7 +19,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 public class EntityFlashBomb extends EntityThrowable {
 
 	public static final int EXPLOSIVE_TIMER = 40;
-	public static final int EXPLOSION_DURATION = 180;
+	public static final int EXPLOSION_DURATION = 90;
 	public static final int PHASE_IN_DURATION = 5;
 
 	public static final int FALL_OFF_BEGIN = 90;
@@ -72,8 +71,10 @@ public class EntityFlashBomb extends EntityThrowable {
 		if (ticksToExplode == 0) {
 			explode();
 		}
-		if (exploded && ticksToExplode < -EXPLOSION_DURATION) {
-			finishExplosion();
+		if (exploded) {
+			setVelocity(0, 0, 0);
+			if (ticksToExplode < -EXPLOSION_DURATION)
+				finishExplosion();
 		}
 	}
 
@@ -153,9 +154,8 @@ public class EntityFlashBomb extends EntityThrowable {
 			float alpha = getAlphaFromExplosionDuration(-ticksToExplode)
 				* alphaMultiplier;
 			GL11.glColor4f(1, 1, 1, alpha);
-			MHFCMain.logger.info("Draw with alpha " + alpha);
 			int screenWidth = MHFCGuiUtil.minecraftWidth(mc), screenHeight = MHFCGuiUtil
-				.minecraftWidth(mc);
+				.minecraftHeight(mc);
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
