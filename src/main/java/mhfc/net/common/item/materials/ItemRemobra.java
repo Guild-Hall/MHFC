@@ -13,19 +13,23 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class ItemTigrex extends Item {
-	public static enum TigrexSubType implements SubTypedItem.SubTypeEnum<Item> {
-		SCALE(MHFCReference.item_tigrex0_name, MHFCReference.item_tigrex0_icon), //
-		SHELL(MHFCReference.item_tigrex1_name, MHFCReference.item_tigrex1_icon), //
-		CLAW(MHFCReference.item_tigrex2_name, MHFCReference.item_tigrex2_icon), //
-		FANG(MHFCReference.item_tigrex3_name, MHFCReference.item_tigrex3_icon), //
-		SKULLSHELL(MHFCReference.item_tigrex4_name,
-				MHFCReference.item_tigrex4_icon), // , //
-		TAIL(MHFCReference.item_tigrex5_name, MHFCReference.item_tigrex5_icon);
+public class ItemRemobra extends Item {
+	public static enum RemobraSubType
+			implements
+				SubTypedItem.SubTypeEnum<Item> {
+		SKIN(MHFCReference.item_remobra0_name,
+				MHFCReference.item_remobra0_icon), //
+		STRIPE(MHFCReference.item_remobra1_name,
+				MHFCReference.item_remobra1_icon), //
+		SKULL(MHFCReference.item_remobra2_name,
+				MHFCReference.item_remobra2_icon), //
+		WING(MHFCReference.item_remobra3_name,
+				MHFCReference.item_remobra3_icon),;//
+			
 
 		public final String name;
 		public final String texture;
-		private TigrexSubType(String name, String texture) {
+		private RemobraSubType(String name, String texture) {
 			this.name = name;
 			this.texture = texture;
 		}
@@ -39,16 +43,16 @@ public class ItemTigrex extends Item {
 		}
 		@Override
 		public Item getBaseItem() {
-			return MHFCItemRegistry.mhfcitemtigrex;
+			return MHFCItemRegistry.mhfcitemremobra;
 		}
 	}
 
-	private final SubTypedItem<Item, TigrexSubType> itemPerk;
+	private final SubTypedItem<Item, RemobraSubType> itemPerk;
 
-	public ItemTigrex() {
-		itemPerk = new SubTypedItem<>(TigrexSubType.class);
+	public ItemRemobra() {
+		itemPerk = new SubTypedItem<>(RemobraSubType.class);
 		setHasSubtypes(true);
-		setUnlocalizedName(MHFCReference.item_tigrex_basename);
+		setUnlocalizedName(MHFCReference.item_remobra_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 
@@ -77,16 +81,16 @@ public class ItemTigrex extends Item {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void addInformation(ItemStack itemStack, EntityPlayer player,
-			@SuppressWarnings("rawtypes") List list, boolean par4) {
-		switch (itemPerk.getSubType(itemStack)) {
-			case SKULLSHELL :
-			case TAIL :
-				list.add("Rare Drop by Tigrex");
+	public void addInformation(ItemStack par1ItemStack,
+			EntityPlayer par2EntityPlayer,
+			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
+		switch (itemPerk.getSubType(par1ItemStack)) {
+			case WING :
+				par3List.add("Rare Drop by Remobra");
 				break;
 			default :
-				list.add("Drop by Tigrex");
+				par3List.add("Drop by Remobra");
+				break;
 		}
 	}
-
 }

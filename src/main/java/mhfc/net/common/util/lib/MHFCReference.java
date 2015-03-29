@@ -249,6 +249,17 @@ public class MHFCReference {
 	public static final String item_ingot3_icon = "mhfc:ingot3";
 	public static final String item_ingot3_name = "machalite";
 	
+	public static final String item_remobra_basename= "remobra";
+	public static final String item_remobra0_name= "skin";
+	public static final String item_remobra0_icon = "mhfc:remobra0";
+	public static final String item_remobra1_name= "stripe";
+	public static final String item_remobra1_icon = "mhfc:remobra1";
+	public static final String item_remobra2_name= "skull";
+	public static final String item_remobra2_icon = "mhfc:remobra2";
+	public static final String item_remobra3_name= "wing";
+	public static final String item_remobra3_icon = "mhfc:remobra3";
+	
+	
 	public static final String item_deviljho_basename= "deviljho";
 	public static final String item_deviljho0_name = "scale";
 	public static final String item_deviljho0_icon = "mhfc:deviljho0";
@@ -419,6 +430,8 @@ public class MHFCReference {
 	public static final String weapon_gs_rathalos_icon = "mhfc:greatsword";
 	public static final String weapon_gs_rathalos_name = "greatsword_5";
 	public static final String weapon_gs_rathalos_tex = "mhfc:textures/weapons/(GS)rathalosfiresword.png";
+	public static final String weapon_gs_deadlyserpentblade_name = "greatsword_6";
+	public static final String weapon_gs_deadlyserpentblade_tex = "mhfc:textures/weapons/(GS)deadlyserpentblade.png";
 
 	public static final String weapon_hh_default_icon = "mhfc:huntinghorn";
 	public static final String weapon_hh_metalbagpipe_icon = "mhfc:huntinghorn";

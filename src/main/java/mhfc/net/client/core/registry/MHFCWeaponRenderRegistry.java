@@ -2,6 +2,7 @@ package mhfc.net.client.core.registry;
 
 import mhfc.net.client.render.weapon.bowgun.RenderBHRath;
 import mhfc.net.client.render.weapon.greatsword.RenderGSBone;
+import mhfc.net.client.render.weapon.greatsword.RenderGSDeadlySerpentblade;
 import mhfc.net.client.render.weapon.greatsword.RenderGSDeviljhobroadsword;
 import mhfc.net.client.render.weapon.greatsword.RenderGSKirinThunderSword;
 import mhfc.net.client.render.weapon.greatsword.RenderGSRathalosFiresword;
@@ -35,6 +36,8 @@ public class MHFCWeaponRenderRegistry {
 				new RenderGSDeviljhobroadsword());
 		registerItemRenderer(MHFCItemRegistry.weapon_gs_rathalosfire,
 				new RenderGSRathalosFiresword());
+		registerItemRenderer(MHFCItemRegistry.weapon_gs_deadlyserpentblade,
+				new RenderGSDeadlySerpentblade());
 
 		registerItemRenderer(MHFCItemRegistry.weapon_hm_tigrex,
 				new RenderHTigrex());

@@ -16,14 +16,15 @@ import mhfc.net.common.item.materials.ItemBase;
 import mhfc.net.common.item.materials.ItemBombMaterial;
 import mhfc.net.common.item.materials.ItemDeviljho;
 import mhfc.net.common.item.materials.ItemFirestone;
-import mhfc.net.common.item.materials.ItemSpawner;
 import mhfc.net.common.item.materials.ItemGaguaEgg;
 import mhfc.net.common.item.materials.ItemIngot;
 import mhfc.net.common.item.materials.ItemKirin;
 import mhfc.net.common.item.materials.ItemLumberBar;
 import mhfc.net.common.item.materials.ItemMoldedIron;
 import mhfc.net.common.item.materials.ItemRathalos;
+import mhfc.net.common.item.materials.ItemRemobra;
 import mhfc.net.common.item.materials.ItemSac;
+import mhfc.net.common.item.materials.ItemSpawner;
 import mhfc.net.common.item.materials.ItemSteelBar;
 import mhfc.net.common.item.materials.ItemTigrex;
 import mhfc.net.common.item.materials.ItemTrapTool;
@@ -32,9 +33,10 @@ import mhfc.net.common.item.materials.ItemWyvernCoin;
 import mhfc.net.common.item.materials.ItemWyverniaClay;
 import mhfc.net.common.item.materials.ItemWyverniaDust;
 import mhfc.net.common.weapon.melee.greatsword.GSBone;
+import mhfc.net.common.weapon.melee.greatsword.GSDeadlySerpentBlade;
 import mhfc.net.common.weapon.melee.greatsword.GSDeviljhobroadsword;
-import mhfc.net.common.weapon.melee.greatsword.GSThunderSword;
 import mhfc.net.common.weapon.melee.greatsword.GSRathalosFiresword;
+import mhfc.net.common.weapon.melee.greatsword.GSThunderSword;
 import mhfc.net.common.weapon.melee.greatsword.GSTigrex;
 import mhfc.net.common.weapon.melee.hammer.HDeviljho;
 import mhfc.net.common.weapon.melee.hammer.HKirinSpark;
@@ -59,6 +61,7 @@ public class MHFCItemRegistry {
 	public static final Item weapon_gs_kirinthunders;
 	public static final Item weapon_gs_berserkers;
 	public static final Item weapon_gs_rathalosfire;
+	public static final Item weapon_gs_deadlyserpentblade;
 
 	public static final Item weapon_hm_tigrex;
 	public static final Item weapon_hm_kirinspark;
@@ -128,8 +131,9 @@ public class MHFCItemRegistry {
 	// Stuffs
 	public static final Item MHFCItemFrontierSpawner;
 
-	public static final Item MHFCItemtigrex;
+	public static final Item mhfcitemtigrex;
 	public static final Item mhfcitemkirin;
+	public static final Item mhfcitemremobra;
 	// public static final Item mhfcitemlightcrystal;
 	// public static final Item mhfcitempurecrystal;
 	public static final Item mhfcitemrathalos;
@@ -193,8 +197,9 @@ public class MHFCItemRegistry {
 		armor_tigrexB_legs = registerItem(new KishinArmor(2));
 		armor_tigrexB_boots = registerItem(new KishinArmor(3));
 		// Weapons
-		weapon_gs_tigrex = registerItem(new GSTigrex());
 		weapon_gs_bone = registerItem(new GSBone());
+		weapon_gs_deadlyserpentblade = registerItem(new GSDeadlySerpentBlade());
+		weapon_gs_tigrex = registerItem(new GSTigrex());
 		weapon_gs_kirinthunders = registerItem(new GSThunderSword());
 		weapon_gs_berserkers = registerItem(new GSDeviljhobroadsword());
 		weapon_gs_rathalosfire = registerItem(new GSRathalosFiresword());
@@ -233,9 +238,10 @@ public class MHFCItemRegistry {
 		mhfcitembase = registerItem(new ItemBase());
 
 		mhfcitemkirin = registerItem(new ItemKirin());
-		MHFCItemtigrex = registerItem(new ItemTigrex());
+		mhfcitemtigrex = registerItem(new ItemTigrex());
 		mhfcitemrathalos = registerItem(new ItemRathalos());
 		mhfcitemdeviljho = registerItem(new ItemDeviljho());
+		mhfcitemremobra = registerItem(new ItemRemobra());
 
 		mhfcitemsac = registerItem(new ItemSac());
 		mhfcitemfirestone = registerItem(new ItemFirestone());

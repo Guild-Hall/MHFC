@@ -16,6 +16,7 @@ import mhfc.net.common.item.materials.ItemIngot;
 import mhfc.net.common.item.materials.ItemKirin;
 import mhfc.net.common.item.materials.ItemRathalos;
 import mhfc.net.common.item.materials.ItemRathalos.RathalosSubType;
+import mhfc.net.common.item.materials.ItemRemobra;
 import mhfc.net.common.item.materials.ItemSac.SacSubType;
 import mhfc.net.common.item.materials.ItemTigrex;
 import mhfc.net.common.network.message.bench.MessageBeginCrafting;
@@ -164,6 +165,7 @@ public class MHFCEquipementRecipeRegistry {
 	public static final EquipmentRecipe recipe_hm_rathalos;
 	public static final EquipmentRecipe recipe_hm_devilsdue;
 	public static final EquipmentRecipe recipe_ls_ironkatana;
+	public static final EquipmentRecipe recipe_ls_darkvipern;
 	public static final EquipmentRecipe recipe_hh_ivoryhorn;
 	public static final EquipmentRecipe recipe_hh_metalbagpipe;
 	public static final EquipmentRecipe recipe_hh_tigrex;
@@ -182,11 +184,11 @@ public class MHFCEquipementRecipeRegistry {
 
 		List<ItemStack> listReq = new ArrayList<ItemStack>();
 		ItemStack s;
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 3,
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 3,
 				ItemTigrex.TigrexSubType.SKULLSHELL.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 3,
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 3,
 				ItemTigrex.TigrexSubType.SCALE.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 2,
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 2,
 				ItemTigrex.TigrexSubType.SHELL.ordinal());
 		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemingot, 2,
 				ItemIngot.IngotsSubType.MACHALTIE.ordinal());
@@ -195,22 +197,22 @@ public class MHFCEquipementRecipeRegistry {
 		MHFCEquipementRecipeRegistry.register(recipe_tigrex_helm);
 
 		listReq = new ArrayList<ItemStack>();
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 2,
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 2,
 				ItemTigrex.TigrexSubType.FANG.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 3,
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 3,
 				ItemTigrex.TigrexSubType.CLAW.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 3,
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 3,
 				ItemTigrex.TigrexSubType.SHELL.ordinal());
 		recipe_tigrex_chest = new EquipmentRecipe(new ItemStack(
 				MHFCItemRegistry.armor_tigrex_chest), listReq, 200, 600);
 		MHFCEquipementRecipeRegistry.register(recipe_tigrex_chest);
 
 		listReq = new ArrayList<ItemStack>();
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 3,
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 3,
 				ItemTigrex.TigrexSubType.CLAW.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 2,
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 2,
 				ItemTigrex.TigrexSubType.SCALE.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 2,
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 2,
 				ItemTigrex.TigrexSubType.FANG.ordinal());
 		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemingot, 5,
 				ItemIngot.IngotsSubType.MACHALTIE.ordinal());
@@ -219,11 +221,11 @@ public class MHFCEquipementRecipeRegistry {
 		MHFCEquipementRecipeRegistry.register(recipe_tigrex_legs);
 
 		listReq = new ArrayList<ItemStack>();
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 3,
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 3,
 				ItemTigrex.TigrexSubType.FANG.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 3,
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 3,
 				ItemTigrex.TigrexSubType.SCALE.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 2,
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 2,
 				ItemTigrex.TigrexSubType.SHELL.ordinal());
 		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemingot, 2,
 				ItemIngot.IngotsSubType.DRAGONITE.ordinal());
@@ -273,11 +275,11 @@ public class MHFCEquipementRecipeRegistry {
 		MHFCEquipementRecipeRegistry.register(recipe_gs_kirin_thundersword);
 		//
 		listReq = new ArrayList<ItemStack>();
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 6, ItemTigrex.TigrexSubType.SCALE.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 7, ItemTigrex.TigrexSubType.FANG.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 3, ItemTigrex.TigrexSubType.SHELL.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 4, ItemTigrex.TigrexSubType.SCALE.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 1, ItemTigrex.TigrexSubType.SKULLSHELL.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 6, ItemTigrex.TigrexSubType.SCALE.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 7, ItemTigrex.TigrexSubType.FANG.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 3, ItemTigrex.TigrexSubType.SHELL.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 4, ItemTigrex.TigrexSubType.SCALE.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 1, ItemTigrex.TigrexSubType.SKULLSHELL.ordinal());
 		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemingot, 2, ItemIngot.IngotsSubType.DRAGONITE.ordinal());
 		recipe_gs_agito = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_gs_tigrex), listReq, 500, 1000);
 		MHFCEquipementRecipeRegistry.register(recipe_gs_agito);
@@ -324,9 +326,9 @@ public class MHFCEquipementRecipeRegistry {
 		MHFCEquipementRecipeRegistry.register(recipe_hm_rathalos);
 		//
 		listReq = new ArrayList<ItemStack>();
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 3, ItemTigrex.TigrexSubType.CLAW.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 5, ItemTigrex.TigrexSubType.SCALE.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 5, ItemTigrex.TigrexSubType.SHELL.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 3, ItemTigrex.TigrexSubType.CLAW.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 5, ItemTigrex.TigrexSubType.SCALE.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 5, ItemTigrex.TigrexSubType.SHELL.ordinal());
 		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemWyvernCoin, 10, 0);
 		recipe_hm_tigrex = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_hm_tigrex), listReq, 400, 700);
 		MHFCEquipementRecipeRegistry.register(recipe_hm_tigrex);
@@ -355,8 +357,14 @@ public class MHFCEquipementRecipeRegistry {
 		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemlumberbar, 2, 0);
 		recipe_ls_ironkatana = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_ls_ironkatana), listReq, 150, 600);
 		MHFCEquipementRecipeRegistry.register(recipe_ls_ironkatana);
-		
-		
+		//
+		listReq = new ArrayList<ItemStack>();
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemremobra, 6, ItemRemobra.RemobraSubType.SKIN.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemremobra, 6, ItemRemobra.RemobraSubType.STRIPE.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemremobra, 2, ItemRemobra.RemobraSubType.WING.ordinal());
+		recipe_ls_darkvipern = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_ls_darkvipern), listReq, 500, 750);
+		MHFCEquipementRecipeRegistry.register(recipe_ls_darkvipern);
+		//
 		//Hunting Horn Class
 		listReq = new ArrayList<ItemStack>();
 		recipe_hh_ivoryhorn = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_hh_ivoryhorn), listReq, 100, 250);
@@ -373,8 +381,8 @@ public class MHFCEquipementRecipeRegistry {
 		
 		listReq = new ArrayList<ItemStack>();
 		recipe_hh_tigrex = new EquipmentRecipe(new ItemStack(MHFCItemRegistry.weapon_hh_tigrex), listReq, 350, 600);
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 5, ItemTigrex.TigrexSubType.SHELL.ordinal());
-		addItemStackToList(listReq, MHFCItemRegistry.MHFCItemtigrex, 7, ItemTigrex.TigrexSubType.FANG.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 5, ItemTigrex.TigrexSubType.SHELL.ordinal());
+		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemtigrex, 7, ItemTigrex.TigrexSubType.FANG.ordinal());
 		addItemStackToList(listReq, MHFCItemRegistry.mhfcitemingot, 10, ItemIngot.IngotsSubType.DRAGONITE.ordinal());
 		MHFCEquipementRecipeRegistry.register(recipe_hh_tigrex);
 	}

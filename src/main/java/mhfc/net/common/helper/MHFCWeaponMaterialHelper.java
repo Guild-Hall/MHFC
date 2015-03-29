@@ -7,15 +7,17 @@ public class MHFCWeaponMaterialHelper {
 
 	// GreatSword
 	public static final ToolMaterial GSBoneBlade = EnumHelper.addToolMaterial(
-			"BoneBlade", 3, 1000, 1.0F, 12, 5);
+			"BoneBlade", 3, 1000, 1.0F, 14, 5);
 	public static final ToolMaterial GSTigrex = EnumHelper.addToolMaterial(
-			"GSTigrex", 3, 2100, 1.0F, 41, 25);
+			"GSTigrex", 3, 2100, 1.0F, 47, 25);
 	public static final ToolMaterial GSKirin = EnumHelper.addToolMaterial(
-			"kirin", 3, 1750, 1.0F, 46f, 25);
+			"kirin", 3, 1750, 1.0F, 52f, 25);
 	public static final ToolMaterial GSRathalos = EnumHelper.addToolMaterial(
-			"rath", 3, 4000, 1, 56, 25);
+			"rath", 3, 4000, 1, 64, 25);
 	public static final ToolMaterial GSDeviljho = EnumHelper.addToolMaterial(
-			"gsdjho", 3, 5000, 1000, 81, 24);
+			"gsdjho", 3, 5000, 1000, 102, 24);
+	public static final ToolMaterial GSDeadlySerpentBlade = EnumHelper.addToolMaterial(
+			"deadly", 3, 5000, 100, 41, 24);
 
 	// LongSword
 	public static final ToolMaterial LSIronKatana = EnumHelper.addToolMaterial(
