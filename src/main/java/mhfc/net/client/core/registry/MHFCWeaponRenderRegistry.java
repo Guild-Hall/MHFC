@@ -17,6 +17,9 @@ import mhfc.net.client.render.weapon.huntinghorn.RenderHHIvoryHorn;
 import mhfc.net.client.render.weapon.huntinghorn.RenderHHMetalBagpipe;
 import mhfc.net.client.render.weapon.huntinghorn.RenderHHTigrex;
 import mhfc.net.client.render.weapon.longsword.RenderLSDarkVipern;
+import mhfc.net.client.render.weapon.longsword.RenderLSEagerCleaver;
+import mhfc.net.client.render.weapon.longsword.RenderLSIKGospel;
+import mhfc.net.client.render.weapon.longsword.RenderLSIKGrace;
 import mhfc.net.client.render.weapon.longsword.RenderLSIronKatana;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import net.minecraft.item.Item;
@@ -58,6 +61,12 @@ public class MHFCWeaponRenderRegistry {
 				new RenderLSIronKatana());
 		registerItemRenderer(MHFCItemRegistry.weapon_ls_darkvipern,
 				new RenderLSDarkVipern());
+		registerItemRenderer(MHFCItemRegistry.weapon_ls_ironkatanagrace,
+				new RenderLSIKGrace());
+		registerItemRenderer(MHFCItemRegistry.weapon_ls_ironkatanagospel,
+				new RenderLSIKGospel());
+		registerItemRenderer(MHFCItemRegistry.weapon_ls_eagercleaver,
+				new RenderLSEagerCleaver());
 
 		registerItemRenderer(MHFCItemRegistry.weapon_hh_metalbagpipe,
 				new RenderHHMetalBagpipe());

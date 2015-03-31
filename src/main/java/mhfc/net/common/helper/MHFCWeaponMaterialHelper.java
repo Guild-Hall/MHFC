@@ -20,10 +20,31 @@ public class MHFCWeaponMaterialHelper {
 			"deadly", 3, 5000, 100, 41, 24);
 
 	// LongSword
+	
+	/**
+	 * LS Tree Weapon Damage additional:
+	 * 
+	 * @Iron Katana Tree: "IK" + 12 Damage , 1st 5 Upgrade , + 16 Damage next 5upgrade..
+	 * Switch Upgrade + 
+	 * 
+	 * 
+	 * */
+	  
+	 
 	public static final ToolMaterial LSIronKatana = EnumHelper.addToolMaterial(
-			"IronKatana", 7, 1500, 3.0F, 17, 25);
+			"IronKatana", 7, 1500, 3.0F, 15, 25);
+	
+	public static final ToolMaterial LSIKGrace  = EnumHelper.addToolMaterial(
+			"IKGrace", 3, 1500, 1, 27, 25);
+	
+	public static final ToolMaterial LSIKGospel = EnumHelper.addToolMaterial
+			("IKGospel", 3, 2500, 1, 39, 25);
+	
 	public static final ToolMaterial LSDarkVipern = EnumHelper.addToolMaterial(
 			"LSDarkVipern", 3, 2000, 1, 39, 30);
+	
+	public static final ToolMaterial LSEagerCleaver = EnumHelper.addToolMaterial(
+			"eagercleaver", 3, 2500, 1, 51, 25);
 
 	// Hammer
 	public static final ToolMaterial HWarHammer = EnumHelper.addToolMaterial(

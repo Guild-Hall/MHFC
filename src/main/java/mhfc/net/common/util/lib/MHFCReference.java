@@ -116,6 +116,8 @@ public class MHFCReference {
 	public static final String block_oredragonite_tex = "mhfc:oredragonite";
 	public static final String block_oreeltalite_name = "oreeltalite";
 	public static final String block_oreeltalite_tex = "mhfc:oreeltalite";
+	public static final String block_orefurukuraito_name = "orefurukuraito";
+	public static final String block_orefurukuraito_tex = "mhfc:orefurukuraito";
 
 	public static final String block_wyverniaflower_basename = "wyverniaflower";
 	public static final String block_carncase_name = "flowercarncase";
@@ -467,13 +469,17 @@ public class MHFCReference {
 	public static final String weapon_hm_rathalos_tex = "mhfc:textures/weapons/(H)rathalos.png";
 
 	public static final String weapon_ls_default_icon = "mhfc:longsword";
-	public static final String weapon_ls_darkviper_tex = "mhfc:textures/weapons/(LS)darkvipern.png";
-	public static final String weapon_ls_darkvipern_icon = "mhfc:longsword";
-	public static final String weapon_ls_darkvipern_name = "longsword_2";
-	public static final String weapon_ls_ironkatana_icon = "mhfc:longsword";
 	public static final String weapon_ls_ironkatana_name = "longsword_1";
 	public static final String weapon_ls_ironkatana_tex = "mhfc:textures/weapons/(LS)ironkatana.png";
-
+	public static final String weapon_ls_darkvipern_name = "longsword_2";
+	public static final String weapon_ls_darkviper_tex = "mhfc:textures/weapons/(LS)darkvipern.png";
+	public static final String weapon_ls_ikgrace_name ="longsword_3";
+	public static final String weapon_ls_ikgrace_tex = "mhfc:textures/weapons/(LS)IKGrace.png";
+	public static final String weapon_ls_ikgospel_name = "longsword_4";
+	public static final String weapon_ls_ikgospel_tex = "mhfc:textures/weapons/(LS)IKGospel.png";
+	public static final String weapon_ls_eagercleaver_name = "longsword_5";
+	public static final String weapon_ls_eagercleaver_tex = "mhfc:textures/weapons/(LS)eagercleaver.png";
+	
 	public static final String weapon_bgl_shooterbarrel_name = "bowgun_1";
 	public static final String weapon_bgl_shooterbarrel_icon = "mhfc:bow";
 	public static final String weapon_bgl_shooterbarrel_tex = "mhfc:textures/weapons/(BGL)shooterbarrel.png";

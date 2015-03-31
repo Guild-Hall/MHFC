@@ -23,6 +23,7 @@ tile.wyverniaores.orecarbalite.name=Carbalite Ore
 tile.wyverniaores.oredragonite.name=Dragonite Ore
 tile.wyverniaores.oreeltalite.name=Eltalite Ore
 tile.wyverniaores.oremachalite.name=Machalite Ore
+tile.wyverniaores.orefurukuraito.name=Furukuraito Ore
 tile.bbqspit.name=BBQ Spit
 tile.wyverniaflower.flowercarncase.name=Carncase
 tile.wyverniaflower.flowerfelron.name=Felron
@@ -178,6 +179,9 @@ item.huntinghorn_2.name=Ivory Horn
 item.huntinghorn_3.name=Striped Dragonga
 item.longsword_1.name=Iron Katana
 item.longsword_2.name=Dark Vipern
+item.longsword_3.name=Iron Katana 'Grace'
+item.longsword_4.name=Iron Katana 'Gospel'
+item.longsword_5.name=Eager Cleaver
 
 entity.mhfc.tigrex.name=Tigrex
 entity.mhfc.kirin.name=Kirin

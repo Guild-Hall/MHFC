@@ -31,7 +31,9 @@ public class BlockWyverniaOres extends Block {
 		ELTALITE_ORE(MHFCReference.block_oreeltalite_name,
 				MHFCReference.block_oreeltalite_tex), //
 		MACHALITE_ORE(MHFCReference.block_oremachalite_name,
-				MHFCReference.block_oremachalite_tex);
+				MHFCReference.block_oremachalite_tex),
+		FURUKURAITO_ORE(MHFCReference.block_orefurukuraito_name,
+				MHFCReference.block_orefurukuraito_tex),		;
 
 		public final String name;
 		public final String texture;

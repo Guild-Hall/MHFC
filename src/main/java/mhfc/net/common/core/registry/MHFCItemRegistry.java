@@ -49,6 +49,9 @@ import mhfc.net.common.weapon.melee.huntinghorn.HHIvoryHorn;
 import mhfc.net.common.weapon.melee.huntinghorn.HHMetalBagpipe;
 import mhfc.net.common.weapon.melee.huntinghorn.HHTigrex;
 import mhfc.net.common.weapon.melee.longsword.LSDarkVipern;
+import mhfc.net.common.weapon.melee.longsword.LSEagerCleaver;
+import mhfc.net.common.weapon.melee.longsword.LSIKGospel;
+import mhfc.net.common.weapon.melee.longsword.LSIKGrace;
 import mhfc.net.common.weapon.melee.longsword.LSIronKatana;
 import mhfc.net.common.weapon.range.bowgun.BHRath;
 import net.minecraft.item.Item;
@@ -72,6 +75,9 @@ public class MHFCItemRegistry {
 	public static final Item weapon_hm_rathalos;
 
 	public static final Item weapon_ls_ironkatana;
+	public static final Item weapon_ls_ironkatanagrace;
+	public static final Item weapon_ls_ironkatanagospel;
+	public static final Item weapon_ls_eagercleaver;
 	public static final Item weapon_ls_darkvipern;
 
 	public static final Item weapon_hh_metalbagpipe;
@@ -128,8 +134,7 @@ public class MHFCItemRegistry {
 	public static final Item armor_tigrexB_legs;
 	public static final Item armor_tigrexB_boots;
 
-	// Stuffs
-	public static final Item MHFCItemFrontierSpawner;
+	//Materials
 
 	public static final Item mhfcitemtigrex;
 	public static final Item mhfcitemkirin;
@@ -161,8 +166,19 @@ public class MHFCItemRegistry {
 	public static final Item mhfcitemkirinbuff;
 	public static final Item mhfcfoodmeat;
 	public static final Item mhfcfoodnutrients;
+	
+	//Spawners.(They must be Last)
+	public static final Item MHFCItemFrontierSpawner;
 
 	static {
+		
+		/**
+		 * @author Heltrato:
+		 * 		"Please sort the weapon by there Rarity.. Thanks"
+		 * 
+		 * */
+		
+		
 		// Armor
 		armor_tigrex_helm = registerItem(new TigrexArmor(0));
 		armor_tigrex_chest = registerItem(new TigrexArmor(1));
@@ -196,6 +212,8 @@ public class MHFCItemRegistry {
 		armor_tigrexB_chest = registerItem(new KishinArmor(1));
 		armor_tigrexB_legs = registerItem(new KishinArmor(2));
 		armor_tigrexB_boots = registerItem(new KishinArmor(3));
+		
+		
 		// Weapons
 		weapon_gs_bone = registerItem(new GSBone());
 		weapon_gs_deadlyserpentblade = registerItem(new GSDeadlySerpentBlade());
@@ -204,19 +222,25 @@ public class MHFCItemRegistry {
 		weapon_gs_berserkers = registerItem(new GSDeviljhobroadsword());
 		weapon_gs_rathalosfire = registerItem(new GSRathalosFiresword());
 
-		weapon_hm_tigrex = registerItem(new HTigrex());
-		weapon_hm_devilsdue = registerItem(new HDeviljho());
+		
 		weapon_hm_warhammer = registerItem(new HWar());
-		weapon_hm_rathalos = registerItem(new HRathalos());
-		weapon_hm_kirinspark = registerItem(new HKirinSpark());
 		weapon_hm_warhammerplus = registerItem(new HWarPlus());
 		weapon_hm_warslammer = registerItem(new HWarSlammer());
+		weapon_hm_tigrex = registerItem(new HTigrex());
+		weapon_hm_devilsdue = registerItem(new HDeviljho());
+		
+		weapon_hm_rathalos = registerItem(new HRathalos());
+		weapon_hm_kirinspark = registerItem(new HKirinSpark());
+		
 
 		weapon_ls_ironkatana = registerItem(new LSIronKatana());
+		weapon_ls_ironkatanagrace = registerItem(new LSIKGrace());
+		weapon_ls_ironkatanagospel = registerItem(new LSIKGospel());
+		weapon_ls_eagercleaver = registerItem(new LSEagerCleaver());
 		weapon_ls_darkvipern = registerItem(new LSDarkVipern());
-		weapon_hh_metalbagpipe = registerItem(new HHMetalBagpipe());
-
+		
 		weapon_hh_ivoryhorn = registerItem(new HHIvoryHorn());
+		weapon_hh_metalbagpipe = registerItem(new HHMetalBagpipe());
 		weapon_hh_tigrex = registerItem(new HHTigrex());
 
 		// Range weapons
