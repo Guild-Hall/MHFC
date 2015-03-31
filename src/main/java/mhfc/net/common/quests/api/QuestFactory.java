@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.core.registry.MHFCQuestsRegistry;
+import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
+import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.factory.ChainGoalFactory;
 import mhfc.net.common.quests.factory.DeathRestrictionGoalFactory;
@@ -17,12 +18,12 @@ import net.minecraft.entity.player.EntityPlayer;
 public class QuestFactory {
 
 	public static QuestDescription getQuestDescription(String id) {
-		QuestDescription qd = MHFCQuestsRegistry.getQuestDescription(id);
+		QuestDescription qd = MHFCQuestBuildRegistry.getQuestDescription(id);
 		return qd;
 	}
 
 	public static GoalDescription getGoalDescription(String id) {
-		GoalDescription gd = MHFCQuestsRegistry.getGoalDescription(id);
+		GoalDescription gd = MHFCQuestBuildRegistry.getGoalDescription(id);
 		return gd;
 	}
 
@@ -33,17 +34,17 @@ public class QuestFactory {
 		insertQuestFactory("", new DefaultQuestFactory());
 
 		DeathRestrictionGoalFactory drFactory = new DeathRestrictionGoalFactory();
-		insertGoalFactory(MHFCQuestsRegistry.GOAL_DEATH_RESTRICTION_TYPE,
+		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_DEATH_RESTRICTION_TYPE,
 				drFactory);
 		insertGoalFactory("death restriction", drFactory);
 		TimeGoalFactory tFactory = new TimeGoalFactory();
-		insertGoalFactory(MHFCQuestsRegistry.GOAL_TIME_TYPE, tFactory);
-		insertGoalFactory(MHFCQuestsRegistry.GOAL_HUNTING_TYPE,
+		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_TIME_TYPE, tFactory);
+		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_HUNTING_TYPE,
 				new HuntingGoalFactory());
 		insertGoalFactory("timer", tFactory);
-		insertGoalFactory(MHFCQuestsRegistry.GOAL_CHAIN_TYPE,
+		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_CHAIN_TYPE,
 				new ChainGoalFactory());
-		insertGoalFactory(MHFCQuestsRegistry.GOAL_FORK_TYPE,
+		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_FORK_TYPE,
 				new ForkGoalFactory());
 	}
 
@@ -77,7 +78,7 @@ public class QuestFactory {
 			return null;
 
 		if (quest.canJoin(initiator)) {
-			MHFCQuestsRegistry.regRunningQuest(quest, assignedID);
+			MHFCQuestRegistry.regRunningQuest(quest, assignedID);
 			quest.addPlayer(initiator);
 			return quest;
 		}

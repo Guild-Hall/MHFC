@@ -1,6 +1,6 @@
 package mhfc.net.common.quests.descriptions;
 
-import mhfc.net.common.core.registry.MHFCQuestsRegistry;
+import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalDescription;
 
 public class HuntingGoalDescription extends GoalDescription {
@@ -12,7 +12,7 @@ public class HuntingGoalDescription extends GoalDescription {
 	private Class<?> huntedClass;
 
 	public HuntingGoalDescription(Class<?> huntedClass, int amount) {
-		super(MHFCQuestsRegistry.GOAL_HUNTING_TYPE);
+		super(MHFCQuestBuildRegistry.GOAL_HUNTING_TYPE);
 		this.huntedClass = huntedClass;
 		this.amount = amount;
 	}

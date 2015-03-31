@@ -4,7 +4,7 @@ import java.util.*;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.client.gui.quests.*;
-import mhfc.net.common.core.registry.MHFCQuestsRegistry;
+import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestScreenInit;
 import mhfc.net.common.network.packet.MessageQuestVisual;
@@ -27,14 +27,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class MHFCRegQuestVisual {
 
 	public static class QuestVisualInitHandler
-			implements
-				IMessageHandler<MessageQuestScreenInit, IMessage> {
+		implements
+			IMessageHandler<MessageQuestScreenInit, IMessage> {
 
 		@Override
 		public IMessage onMessage(MessageQuestScreenInit message,
-				MessageContext ctx) {
+			MessageContext ctx) {
 			Map<String, List<String>> identifierLists = message
-					.getIdentifierListMap();
+				.getIdentifierListMap();
 			List<String> identifiers = message.getIdentifiers();
 			groupIDsInOrder = identifiers;
 			groupIDToListMap = identifierLists;
@@ -44,30 +44,28 @@ public class MHFCRegQuestVisual {
 	}
 
 	public static class QuestScreenVisualHandler
-			implements
-				IMessageHandler<MessageQuestVisual, IMessage> {
+		implements
+			IMessageHandler<MessageQuestVisual, IMessage> {
 
 		@Override
 		public IMessage onMessage(MessageQuestVisual message, MessageContext ctx) {
-			String[] strings = message.getStrings();
-			String identifier = message.getStrings()[0];
 			QuestVisualInformation visual = getInformationFromMessage(message);
 			switch (message.getTypeID()) {
 				case 0 :
-					modifyVisualOfIdentifier(identifier, visual);
+					modifyVisualOfIdentifier(visual, message);
 					break;
 				case 1 :
-					setPlayerVisual(visual, strings);
+					setPlayerVisual(visual, message);
 					break;
 				case 2 :
-					modifyRunningQuestList(identifier, visual, strings);
+					modifyRunningQuestList(visual, message);
 			}
 			return null;
 		}
 	}
 
 	private static QuestVisualInformation getInformationFromMessage(
-			MessageQuestVisual message) {
+		MessageQuestVisual message) {
 		String[] strings = message.getStrings();
 		String name = strings[1];
 		if ("".equals(name))
@@ -84,48 +82,52 @@ public class MHFCRegQuestVisual {
 		String maxPartySize = strings[11];
 		QuestType realType = null;
 		switch (type) {
-			case MHFCQuestsRegistry.QUEST_TYPE_KILLING :
+			case MHFCQuestBuildRegistry.QUEST_TYPE_KILLING :
 				realType = QuestType.Killing;
 				break;
-			case MHFCQuestsRegistry.QUEST_TYPE_HUNTING :
+			case MHFCQuestBuildRegistry.QUEST_TYPE_HUNTING :
 				realType = QuestType.Hunting;
 				break;
-			case MHFCQuestsRegistry.QUEST_TYPE_EPIC_HUNTING :
+			case MHFCQuestBuildRegistry.QUEST_TYPE_EPIC_HUNTING :
 				realType = QuestType.EpicHunting;
 				break;
-			case MHFCQuestsRegistry.QUEST_TYPE_GATHERING :
+			case MHFCQuestBuildRegistry.QUEST_TYPE_GATHERING :
 				realType = QuestType.Gathering;
 				break;
 			default :
 		}
 		QuestVisualInformation visual;
 		visual = new QuestVisualInformation(name, description, client, aims,
-				fails, areaNameID, timeLimitInS, reward, fee, maxPartySize,
-				realType);
+			fails, areaNameID, timeLimitInS, reward, fee, maxPartySize,
+			realType);
 		return visual;
 	}
 
-	private static void modifyVisualOfIdentifier(String identifier,
-			QuestVisualInformation visual) {
+	private static void modifyVisualOfIdentifier(QuestVisualInformation visual,
+		MessageQuestVisual message) {
+		String identifier = message.getStrings()[0];
 		identifierToVisualInformationMap.put(identifier, visual);
 	}
 
 	private static void setPlayerVisual(QuestVisualInformation visual,
-			String[] strings) {
+		MessageQuestVisual message) {
+		String[] strings = message.getStrings();
 		hasPlayerQuest = (visual != null);
 		QuestRunningInformation runInfo = new QuestRunningInformation(visual,
-				strings[12], strings[13]);
+			strings[12], strings[13]);
 		if (playersVisual != null) {
 			playersVisual.cleanUp();
 		}
 		playersVisual = (!hasPlayerQuest) ? null : runInfo;
 	}
 
-	private static void modifyRunningQuestList(String identifier,
-			QuestVisualInformation visual, String[] strings) {
+	private static void modifyRunningQuestList(QuestVisualInformation visual,
+		MessageQuestVisual message) {
+		String[] strings = message.getStrings();
+		String identifier = strings[0];
 		boolean clear = visual == null;
 		QuestRunningInformation runInfo = new QuestRunningInformation(visual,
-				strings[12], strings[13]);
+			strings[12], strings[13]);
 		if (clear) {
 			identifierToVisualRunningMap.remove(identifier);
 			runningQuestIDs.remove(identifier);
@@ -138,25 +140,25 @@ public class MHFCRegQuestVisual {
 	}
 
 	public static final ResourceLocation QUEST_STATUS_INVENTORY_BACKGROUND = new ResourceLocation(
-			MHFCReference.gui_status_inventory_tex);
+		MHFCReference.gui_status_inventory_tex);
 	public static final ResourceLocation QUEST_STATUS_ONSCREEN_BACKGROUND = new ResourceLocation(
-			MHFCReference.gui_status_onscreen_tex);
+		MHFCReference.gui_status_onscreen_tex);
 	public static final ResourceLocation QUEST_BOARD_BACKGROUND = new ResourceLocation(
-			MHFCReference.gui_board_tex);
+		MHFCReference.gui_board_tex);
 	public static final ResourceLocation HUNTER_BENCH_BURN_BACK = new ResourceLocation(
-			MHFCReference.gui_hunterbench_burn_back_tex);
+		MHFCReference.gui_hunterbench_burn_back_tex);
 	public static final ResourceLocation HUNTER_BENCH_BURN_FRONT = new ResourceLocation(
-			MHFCReference.gui_hunterbench_burn_front_tex);
+		MHFCReference.gui_hunterbench_burn_front_tex);
 	public static final ResourceLocation HUNTER_BENCH_BURN_TARGET = new ResourceLocation(
-			MHFCReference.gui_hunterbench_burn_target_tex);
+		MHFCReference.gui_hunterbench_burn_target_tex);
 	public static final ResourceLocation QUEST_HUNTERBENCH_BACKGROUND = new ResourceLocation(
-			MHFCReference.gui_hunterbench_back_tex);
+		MHFCReference.gui_hunterbench_back_tex);
 	public static final ResourceLocation HUNTER_BENCH_COMPLETE = new ResourceLocation(
-			MHFCReference.gui_hunterbench_complete_tex);
+		MHFCReference.gui_hunterbench_complete_tex);
 	public static final ResourceLocation HUNTER_BENCH_FUEL_DURATION = new ResourceLocation(
-			MHFCReference.gui_hunterbench_fuel_tex);
+		MHFCReference.gui_hunterbench_fuel_tex);
 	public static final ResourceLocation SCROLL_BAR = new ResourceLocation(
-			MHFCReference.gui_list_tex);
+		MHFCReference.gui_list_tex);
 
 	private static Map<String, List<String>> groupIDToListMap = new HashMap<String, List<String>>();
 	private static List<String> groupIDsInOrder = new ArrayList<String>();
@@ -168,8 +170,8 @@ public class MHFCRegQuestVisual {
 	private static QuestStatusDisplay display;
 
 	@SideOnly(Side.CLIENT)
-	private static GuiQuestJoin questBoard = new GuiQuestJoin(
-			Minecraft.getMinecraft().thePlayer);
+	private static GuiQuestJoin questBoard = new GuiQuestJoin(Minecraft
+		.getMinecraft().thePlayer);
 
 	private static boolean hasPlayerQuest = false;
 	private static QuestRunningInformation playersVisual;
@@ -179,7 +181,7 @@ public class MHFCRegQuestVisual {
 			return null;
 		List<String> list = new ArrayList<String>(groupIDToListMap.keySet());
 		GuiQuestNew newQuest = new GuiQuestNew(list.toArray(new String[0]),
-				playerEntity);
+			playerEntity);
 		return new GuiQuestGiver(playerEntity, newQuest);
 	}
 
@@ -204,14 +206,14 @@ public class MHFCRegQuestVisual {
 			return identifierToVisualInformationMap.get(identifier);
 		}
 		PacketPipeline.networkPipe.sendToServer(new MessageRequestQuestVisual(
-				identifier));
+			identifier));
 		identifierToVisualInformationMap.put(identifier,
-				QuestVisualInformation.LOADING_REPLACEMENT);
+			QuestVisualInformation.LOADING_REPLACEMENT);
 		return QuestVisualInformation.LOADING_REPLACEMENT;
 	}
 
 	public static QuestRunningInformation getRunningInformation(
-			String identifier) {
+		String identifier) {
 		return identifierToVisualRunningMap.get(identifier);
 	}
 

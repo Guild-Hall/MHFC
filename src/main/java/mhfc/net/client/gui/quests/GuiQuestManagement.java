@@ -5,8 +5,8 @@ import java.util.List;
 import mhfc.net.client.gui.IMHFCTab;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.packet.MessageQuestInteraction;
-import mhfc.net.common.network.packet.MessageQuestInteraction.Interaction;
+import mhfc.net.common.network.packet.MessageMHFCInteraction;
+import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
 import mhfc.net.common.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -38,8 +38,8 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 				int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					PacketPipeline.networkPipe
-						.sendToServer(new MessageQuestInteraction(
-							Interaction.GIVE_UP, new String[0]));
+						.sendToServer(new MessageMHFCInteraction(
+							Interaction.FORFEIT_QUEST, new String[0]));
 					return true;
 				}
 				return false;
@@ -56,14 +56,14 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					if (!voted) {
 						PacketPipeline.networkPipe
-							.sendToServer(new MessageQuestInteraction(
-								Interaction.VOTE_START, new String[0]));
+							.sendToServer(new MessageMHFCInteraction(
+								Interaction.START_QUEST, new String[0]));
 						accessor.closeScreen();
 						voted = true;
 					} else {
 						PacketPipeline.networkPipe
-							.sendToServer(new MessageQuestInteraction(
-								Interaction.VOTE_END, new String[0]));
+							.sendToServer(new MessageMHFCInteraction(
+								Interaction.END_QUEST, new String[0]));
 						voted = false;
 					}
 					return true;

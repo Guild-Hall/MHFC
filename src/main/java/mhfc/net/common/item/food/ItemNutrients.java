@@ -18,14 +18,14 @@ import net.minecraft.world.World;
 
 public class ItemNutrients extends ItemFood {
 	public static enum NutrientsSubType
-			implements
-				SubTypedItem.SubTypeEnum<Item> {
+		implements
+			SubTypedItem.SubTypeEnum<Item> {
 		NORMAL(MHFCReference.item_boostmeat_name,
-				MHFCReference.item_boostmeat_icon, 2, 50, new PotionEffect(21,
-						12000, 1, true)), //
+			MHFCReference.item_boostmeat_icon, 2, 50, new PotionEffect(21,
+				12000, 1, true)), //
 		MEGA(MHFCReference.item_protectionmeat_name,
-				MHFCReference.item_protectionmeat_icon, 3, 70,
-				new PotionEffect(21, 12000, 3, true));
+			MHFCReference.item_protectionmeat_icon, 3, 70, new PotionEffect(21,
+				12000, 3, true));
 
 		public final String name;
 		public final String texture;
@@ -35,11 +35,12 @@ public class ItemNutrients extends ItemFood {
 		public final PotionEffect potion;
 
 		private NutrientsSubType(String name, String texture, int healAmount,
-				float modifier) {
+			float modifier) {
 			this(name, texture, healAmount, modifier, null);
 		}
+
 		private NutrientsSubType(String name, String texture, int healAmount,
-				float modifier, PotionEffect effect) {
+			float modifier, PotionEffect effect) {
 			this.name = name;
 			this.texture = texture;
 			this.healAmount = healAmount;
@@ -47,6 +48,7 @@ public class ItemNutrients extends ItemFood {
 			// this.isDogsFood = isDogsFood;
 			this.potion = effect;
 		}
+
 		@Override
 		public String getName() {
 			return this.name;
@@ -56,6 +58,7 @@ public class ItemNutrients extends ItemFood {
 		public String getTexPath() {
 			return this.texture;
 		}
+
 		@Override
 		public Item getBaseItem() {
 			return MHFCItemRegistry.mhfcfoodnutrients;
@@ -76,7 +79,7 @@ public class ItemNutrients extends ItemFood {
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack) {
 		return super.getUnlocalizedName(itemStack) + "."
-				+ itemPerk.getSubType(itemStack).name;
+			+ itemPerk.getSubType(itemStack).name;
 	}
 
 	@Override
@@ -92,7 +95,7 @@ public class ItemNutrients extends ItemFood {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void getSubItems(Item base, CreativeTabs tab,
-			@SuppressWarnings("rawtypes") List list) {
+		@SuppressWarnings("rawtypes") List list) {
 		itemPerk.getSubItems(base, list);
 	}
 
@@ -115,7 +118,7 @@ public class ItemNutrients extends ItemFood {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer player,
-			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
+		@SuppressWarnings("rawtypes") List par3List, boolean par4) {
 		NutrientsSubType subType = itemPerk.getSubType(itemStack);
 		switch (subType) {
 			case NORMAL :

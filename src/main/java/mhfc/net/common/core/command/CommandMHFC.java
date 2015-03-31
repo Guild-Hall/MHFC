@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.packet.MessageQuestInteraction;
-import mhfc.net.common.network.packet.MessageQuestInteraction.Interaction;
+import mhfc.net.common.network.packet.MessageMHFCInteraction;
+import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,19 +49,19 @@ public class CommandMHFC implements ICommand {
 				return;
 			switch (parameters[0]) {
 				case "new" :
-					action = Interaction.START_NEW;
+					action = Interaction.NEW_QUEST;
 					break;
 				case "surrender" :
-					action = Interaction.VOTE_END;
+					action = Interaction.END_QUEST;
 					break;
 				case "accept" :
-					action = Interaction.ACCEPT;
+					action = Interaction.ACCEPT_QUEST;
 					break;
 				case "leave" :
-					action = Interaction.GIVE_UP;
+					action = Interaction.FORFEIT_QUEST;
 					break;
 				case "start" :
-					action = Interaction.VOTE_START;
+					action = Interaction.START_QUEST;
 					break;
 				case "reload" :
 					action = Interaction.MOD_RELOAD;
@@ -71,7 +71,7 @@ public class CommandMHFC implements ICommand {
 					return;
 			}
 			PacketPipeline.networkPipe
-					.sendToServer(new MessageQuestInteraction(action, Arrays
+					.sendToServer(new MessageMHFCInteraction(action, Arrays
 							.copyOfRange(parameters, 1, parameters.length)));
 		}
 	}

@@ -3,7 +3,7 @@ package mhfc.net.common.quests.descriptions;
 import java.util.ArrayList;
 import java.util.List;
 
-import mhfc.net.common.core.registry.MHFCQuestsRegistry;
+import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalDescription;
 import mhfc.net.common.quests.api.GoalReference;
 
@@ -17,7 +17,7 @@ public class ForkGoalDescription extends GoalDescription {
 
 	public ForkGoalDescription(GoalReference[] required,
 			GoalReference[] optional) {
-		super(MHFCQuestsRegistry.GOAL_FORK_TYPE);
+		super(MHFCQuestBuildRegistry.GOAL_FORK_TYPE);
 		this.required = required;
 		this.optional = optional;
 	}

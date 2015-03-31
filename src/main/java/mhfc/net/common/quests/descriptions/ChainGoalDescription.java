@@ -1,6 +1,6 @@
 package mhfc.net.common.quests.descriptions;
 
-import mhfc.net.common.core.registry.MHFCQuestsRegistry;
+import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalDescription;
 import mhfc.net.common.quests.api.GoalReference;
 
@@ -21,7 +21,7 @@ public class ChainGoalDescription extends GoalDescription {
 
 	public ChainGoalDescription(GoalReference trueGoal,
 			GoalReference successorGoal) {
-		super(MHFCQuestsRegistry.GOAL_CHAIN_TYPE);
+		super(MHFCQuestBuildRegistry.GOAL_CHAIN_TYPE);
 		this.trueGoal = trueGoal;
 		this.successorGoal = successorGoal;
 	}

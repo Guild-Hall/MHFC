@@ -2,7 +2,7 @@ package mhfc.net.common.quests.api;
 
 import java.lang.reflect.Type;
 
-import mhfc.net.common.core.registry.MHFCQuestsRegistry;
+import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import net.minecraft.util.JsonUtils;
 
 import com.google.gson.JsonDeserializationContext;
@@ -72,7 +72,7 @@ public class GoalReference {
 	 */
 	public GoalDescription getReferredDescription() {
 		if (referByString)
-			return MHFCQuestsRegistry.getGoalDescription(id);
+			return MHFCQuestBuildRegistry.getGoalDescription(id);
 		else
 			return description;
 	}

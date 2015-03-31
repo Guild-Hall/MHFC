@@ -8,8 +8,8 @@ import mhfc.net.client.gui.ClickableGuiList.GuiListStringItem;
 import mhfc.net.client.gui.IMHFCTab;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.packet.MessageQuestInteraction;
-import mhfc.net.common.network.packet.MessageQuestInteraction.Interaction;
+import mhfc.net.common.network.packet.MessageMHFCInteraction;
+import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
 import mhfc.net.common.quests.QuestRunningInformation;
 import mhfc.net.common.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
@@ -60,8 +60,8 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 						if (questID == null)
 							return true;
 						PacketPipeline.networkPipe
-							.sendToServer(new MessageQuestInteraction(
-								Interaction.ACCEPT, questID));
+							.sendToServer(new MessageMHFCInteraction(
+								Interaction.ACCEPT_QUEST, questID));
 					}
 					return true;
 				}
