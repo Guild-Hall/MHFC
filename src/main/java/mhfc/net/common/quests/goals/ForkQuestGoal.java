@@ -4,6 +4,7 @@ import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.QuestStatus;
 import mhfc.net.common.quests.api.GoalDescription;
@@ -36,9 +37,11 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 	 * Adds a {@link QuestGoal} as the requisite for this QuestGoal
 	 */
 	public void addRequisite(QuestGoal goal) {
-		if (goal == null)
-			throw new IllegalArgumentException(
-					"ForkQuestGoal: A null goal is not a valid requisite");
+		if (goal == null) {
+			MHFCMain.logger
+				.warn("ForkQuestGoal: Ignored requisite, a null goal is not valid");
+			return;
+		}
 		requisites.add(goal);
 		goal.setSocket(this);
 		notifyOfStatus(isFulfilled(), isFailed());
@@ -48,9 +51,11 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 	 * Adds a {@link QuestGoal} as an optional one for this QuestGoal
 	 */
 	public void addOptional(QuestGoal goal) {
-		if (goal == null)
-			throw new IllegalArgumentException(
-					"ForkQuestGoal: A null goal is not a valid requisite");
+		if (goal == null) {
+			MHFCMain.logger
+				.warn("ForkQuestGoal: Ignored optional, a null goal is not valid");
+			return;
+		}
 		goal.setSocket(this);
 		optional.add(goal);
 	}
@@ -75,7 +80,7 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 
 	@Override
 	public void questGoalStatusNotification(QuestGoal goal,
-			EnumSet<QuestStatus> newStatus) {
+		EnumSet<QuestStatus> newStatus) {
 		notifyOfStatus(isFulfilled(), isFailed());
 	}
 

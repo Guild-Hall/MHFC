@@ -2,6 +2,7 @@ package mhfc.net.common.quests.descriptions;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalDescription;
+import mhfc.net.common.quests.goals.HuntingQuestGoal;
 
 public class HuntingGoalDescription extends GoalDescription {
 
@@ -23,5 +24,10 @@ public class HuntingGoalDescription extends GoalDescription {
 
 	public int getAmount() {
 		return amount;
+	}
+
+	@Override
+	public HuntingQuestGoal build() {
+		return new HuntingQuestGoal(null, getHuntedClass(), getAmount());
 	}
 }

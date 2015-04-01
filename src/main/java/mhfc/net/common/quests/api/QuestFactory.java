@@ -2,17 +2,13 @@ package mhfc.net.common.quests.api;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.quests.GeneralQuest;
-import mhfc.net.common.quests.factory.ChainGoalFactory;
-import mhfc.net.common.quests.factory.DeathRestrictionGoalFactory;
-import mhfc.net.common.quests.factory.DefaultQuestFactory;
-import mhfc.net.common.quests.factory.ForkGoalFactory;
-import mhfc.net.common.quests.factory.HuntingGoalFactory;
-import mhfc.net.common.quests.factory.TimeGoalFactory;
+import mhfc.net.common.quests.factory.*;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class QuestFactory {
@@ -35,17 +31,17 @@ public class QuestFactory {
 
 		DeathRestrictionGoalFactory drFactory = new DeathRestrictionGoalFactory();
 		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_DEATH_RESTRICTION_TYPE,
-				drFactory);
+			drFactory);
 		insertGoalFactory("death restriction", drFactory);
 		TimeGoalFactory tFactory = new TimeGoalFactory();
 		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_TIME_TYPE, tFactory);
 		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_HUNTING_TYPE,
-				new HuntingGoalFactory());
+			new HuntingGoalFactory());
 		insertGoalFactory("timer", tFactory);
 		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_CHAIN_TYPE,
-				new ChainGoalFactory());
+			new ChainGoalFactory());
 		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_FORK_TYPE,
-				new ForkGoalFactory());
+			new ForkGoalFactory());
 	}
 
 	public static boolean insertQuestFactory(String str, IQuestFactory fact) {
@@ -67,7 +63,7 @@ public class QuestFactory {
 	 * the quest. If it is somehow invalid then null is returned.
 	 */
 	public static GeneralQuest constructQuest(QuestDescription qd,
-			EntityPlayer initiator, String assignedID) {
+		EntityPlayer initiator, String assignedID) {
 		if (qd == null || !questFactoryMap.containsKey(qd.getFactory()))
 			return null;
 		IQuestFactory factory = getQuestFactory(qd.getFactory());
@@ -99,18 +95,10 @@ public class QuestFactory {
 	 */
 
 	public static QuestGoal constructGoal(GoalDescription gd) {
-		if (gd == null || !goalFactoryMap.containsKey(gd.getGoalType())) {
-			MHFCMain.logger.error("Description null or type not registered");
-			return null;
-		}
-		IGoalFactory factory = getGoalFactory(gd.getGoalType());
-		if (factory == null) {
-			MHFCMain.logger.error("Factory was not found");
-			return null;
-		}
-		QuestGoal goal = factory.buildQuestGoal(gd);
+		Objects.requireNonNull(gd, "Goal description was null");
+		QuestGoal goal = gd.build();
 		if (goal == null)
-			MHFCMain.logger.warn("Constructed goal was given as null");
+			MHFCMain.logger.warn("Constructed goal returned as null");
 		return goal;
 	}
 

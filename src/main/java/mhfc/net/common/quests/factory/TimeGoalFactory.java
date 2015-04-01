@@ -4,7 +4,6 @@ import mhfc.net.common.quests.api.GoalDescription;
 import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.descriptions.TimeGoalDescription;
-import mhfc.net.common.quests.goals.TimeQuestGoal;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
@@ -16,16 +15,15 @@ public class TimeGoalFactory implements IGoalFactory {
 
 	@Override
 	public QuestGoal buildQuestGoal(GoalDescription gd) {
-		TimeGoalDescription description = (TimeGoalDescription) gd;
-		return new TimeQuestGoal(description.getTime());
+		return gd.build();
 	}
 
 	@Override
 	public GoalDescription buildGoalDescription(JsonObject json,
-			JsonDeserializationContext context) {
+		JsonDeserializationContext context) {
 		if (!json.has(ID_TIME) || !json.get(ID_TIME).isJsonPrimitive())
 			throw new JsonParseException(
-					"Time goal needs one integer attribute " + ID_TIME);
+				"Time goal needs one integer attribute " + ID_TIME);
 		int time = json.get(ID_TIME).getAsInt();
 		return new TimeGoalDescription(time);
 	}

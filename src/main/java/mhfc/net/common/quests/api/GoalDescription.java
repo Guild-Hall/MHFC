@@ -1,6 +1,6 @@
 package mhfc.net.common.quests.api;
 
-public class GoalDescription {
+public abstract class GoalDescription {
 	public static final String ID_TYPE = "type";
 
 	protected String goalType;
@@ -19,4 +19,6 @@ public class GoalDescription {
 	public String getGoalType() {
 		return goalType;
 	}
+
+	public abstract QuestGoal build();
 }
