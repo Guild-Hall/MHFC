@@ -32,6 +32,7 @@ public class AIUtils {
 		 */
 		public float accept(Entity e);
 	}
+
 	/**
 	 * A default implementation for {@link IDamageCalculator}. It decides
 	 *
@@ -54,12 +55,13 @@ public class AIUtils {
 			if (trgt instanceof EntityPlayer) {
 				return player;
 			} else if (trgt instanceof EntityWyvernHostile
-					|| trgt instanceof EntityWyvernPeaceful) {
+				|| trgt instanceof EntityWyvernPeaceful) {
 				return wyvern;
 			}
 			return rest;
 		}
 	}
+
 	/**
 	 * Damages all entities who collide with the given Entity
 	 *
@@ -67,7 +69,7 @@ public class AIUtils {
 	 *            the entity to check collision against
 	 */
 	public static void damageCollidingEntities(EntityLivingBase ai,
-			final float damage) {
+		final float damage) {
 		damageCollidingEntities(ai, new IDamageCalculator() {
 			@Override
 			public float accept(Entity e) {
@@ -75,6 +77,7 @@ public class AIUtils {
 			}
 		});
 	}
+
 	/**
 	 * The same as {@link #damageCollidingEntities(EntityLivingBase, float)} but
 	 * with an {@link IDamageCalculator} that returns the damage that is
@@ -87,7 +90,7 @@ public class AIUtils {
 	 * @see IDamageCalculator
 	 */
 	public static void damageCollidingEntities(EntityLivingBase ai,
-			IDamageCalculator damageCalc) {
+		IDamageCalculator damageCalc) {
 		List<Entity> collidingEntities = WorldHelper.collidingEntities(ai);
 		for (Entity trgt : collidingEntities) {
 			float damage = damageCalc.accept(trgt);
@@ -97,16 +100,18 @@ public class AIUtils {
 	}
 
 	public static IDamageCalculator defaultDamageCalc(final float player,
-			final float wyvern, final float rest) {
+		final float wyvern, final float rest) {
 		return new DefDamageCalculator(player, wyvern, rest);
 	}
 
 	public static float lookVecToYaw(Vec3 vec) {
-		double cos = Math.acos(vec.xCoord);
+		double tan = Math.atan(vec.xCoord / vec.zCoord);
+		tan *= -RAD2DEG;
 		if (vec.zCoord < 0)
-			cos *= -1;
-		cos *= RAD2DEG;
-		return (float) cos;
+			tan += 180;
+		if (tan > 180)
+			tan -= 360;
+		return (float) tan;
 	}
 
 }
