@@ -114,4 +114,24 @@ public class AIUtils {
 		return (float) tan;
 	}
 
+	public static float modifyYaw(Vec3 look, Vec3 target, float max) {
+		float yaw = lookVecToYaw(look);
+		float tarYaw = lookVecToYaw(target);
+		float diff = tarYaw - yaw;
+		if (diff > 180)
+			diff -= 360;
+		else if (diff < -180)
+			diff += 360;
+		if (diff < 0) {
+			diff = diff < -max ? -max : diff;
+		} else {
+			diff = diff > max ? max : diff;
+		}
+		if (yaw + diff > 180)
+			diff -= 360;
+		else if (yaw + diff < -180)
+			diff += 360;
+		return yaw + diff;
+	}
+
 }

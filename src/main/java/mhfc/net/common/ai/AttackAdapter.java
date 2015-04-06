@@ -2,15 +2,16 @@ package mhfc.net.common.ai;
 
 import java.util.Random;
 
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 
 import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
 import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.stored.AnimationRegistry;
 
-public abstract class AttackAdapter<T extends EntityLivingBase>
-		implements
-			IExecutableAttack<T> {
+public abstract class AttackAdapter<T extends EntityCreature>
+	implements
+		IExecutableAttack<T> {
 	private static final Random rand = new Random();
 
 	private IAnimation animation;
@@ -23,22 +24,27 @@ public abstract class AttackAdapter<T extends EntityLivingBase>
 	 */
 	protected EntityLivingBase target;
 
-	public AttackAdapter() {}
+	public AttackAdapter() {
+	}
 
 	@Override
 	public void beginExecution() {
 		recentFrame = -1;
 	}
-	@Override
-	public void finishExecution() {}
 
 	@Override
-	public void update() {}
+	public void finishExecution() {
+	}
+
+	@Override
+	public void update() {
+	}
 
 	@Override
 	public float getWeight() {
 		return DONT_SELECT;
 	}
+
 	/**
 	 * Gets the entity this attack is bounded to (executed on).
 	 *
@@ -47,6 +53,7 @@ public abstract class AttackAdapter<T extends EntityLivingBase>
 	protected T getEntity() {
 		return entity;
 	}
+
 	/**
 	 * Gets the last recent frame, set everytime {@link #getNextFrame(int frame)}
 	 * is called to <code>frame+1</code>
@@ -56,6 +63,7 @@ public abstract class AttackAdapter<T extends EntityLivingBase>
 	protected int getRecentFrame() {
 		return recentFrame;
 	}
+
 	/**
 	 * Retrieves a random to use to generate random numbers
 	 *
@@ -66,6 +74,7 @@ public abstract class AttackAdapter<T extends EntityLivingBase>
 			return rand;
 		return entity.worldObj.rand;
 	}
+
 	/**
 	 * Sets the animation of this attack (to be used in the constructor)
 	 *
@@ -74,12 +83,14 @@ public abstract class AttackAdapter<T extends EntityLivingBase>
 	protected void setAnimation(IAnimation anim) {
 		this.animation = anim;
 	}
+
 	protected void setAnimation(ResourceLocation resLoc) {
 		this.animation = AnimationRegistry.loadAnimation(resLoc);
 	}
+
 	protected void setAnimation(String resLoc) {
 		this.animation = AnimationRegistry.loadAnimation(new ResourceLocation(
-				resLoc));
+			resLoc));
 	}
 
 	protected void setLastFrame(int lastFrame) {

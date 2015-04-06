@@ -6,8 +6,7 @@ import mhfc.net.common.ai.AttackAdapter;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.util.Vec3;
 
 public class RunAttack extends AttackAdapter<EntityTigrex> {
@@ -15,52 +14,64 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 	private static final int runningEnds = 56;
 	private static final int attackEnd = 75;
 	private static final IDamageCalculator damageCalc = AIUtils
-			.defaultDamageCalc(2.2f, 62f, 400f);
+		.defaultDamageCalc(2.2f, 62f, 400f);
 
 	private static enum PastEntityEnum {
-		NOT_PASSED, PASSED, LOOP_FINISHED;
+		NOT_PASSED,
+		PASSED,
+		LOOP_FINISHED;
 	}
+
 	private static enum AttackPhase {
 		START(false) {
+
 			@Override
 			public void onPhaseStart(RunAttack attk) {
-				Entity entity = attk.getEntity();
+				EntityCreature entity = attk.getEntity();
 				entity.motionX = entity.motionY = entity.motionZ = 0f;
+				attk.targetPoint = Vec3.createVectorHelper(entity.posX,
+					entity.posY, entity.posZ);
 			}
+
 			@Override
 			public void update(RunAttack attk) {
-				// TODO: gradually update rotation
-				attk.getEntity().rotationYaw = AIUtils
-						.lookVecToYaw(attk.targetDir);
+				EntityCreature entity = attk.getEntity();
+				Entity target = attk.target;
+				attk.targetPoint = Vec3.createVectorHelper(target.posX,
+					target.posY, target.posZ);
+				Vec3 vecToTarget = Vec3.createVectorHelper(entity.posX,
+					entity.posY, entity.posZ).subtract(attk.targetPoint);
+				entity.rotationYaw = AIUtils.modifyYaw(entity.getLookVec(),
+					vecToTarget, 20);
 			}
+
 			@Override
 			public AttackPhase next(RunAttack attk) {
-				if (attk.getRecentFrame() < runningStarts)
+				if (attk.target == null)
+					return STOPPED;
+				if (attk.getRecentFrame() < runningStarts) {
 					return START;
+				}
 				return RUNNING;
 			}
 		},
 		RUNNING(true) {
 			@Override
 			public void update(RunAttack attk) {
-				EntityLivingBase e = attk.getEntity();
-				double speed = e.getEntityAttribute(
-						SharedMonsterAttributes.movementSpeed)
-						.getAttributeValue();
-				Vec3 dir = attk.targetDir;
-				e.motionX = dir.xCoord * speed;
-				e.motionZ = dir.zCoord * speed;
-				// TODO: update motion
-				Entity t = attk.target;
-				Vec3 eTot = Vec3.createVectorHelper(t.posX, t.posY, t.posZ);
-				eTot = eTot.subtract(
-						Vec3.createVectorHelper(e.posX, e.posY, e.posZ))
-						.normalize();
-				if (eTot.dotProduct(dir) > 0
-						&& attk.hasPassed == PastEntityEnum.NOT_PASSED) {
+				EntityCreature e = attk.getEntity();
+				Vec3 vecToTarget = Vec3.createVectorHelper(e.posX, e.posY,
+					e.posZ).subtract(attk.target.getPosition(1.0f));
+				e.rotationYaw = AIUtils.modifyYaw(e.getLookVec(), vecToTarget,
+					1);
+				Vec3 look = e.getLookVec();
+				e.getMoveHelper().setMoveTo(e.posX + 3 * look.xCoord,
+					e.posY + 3 * look.yCoord, e.posZ + 3 * look.zCoord, 1.4);
+				if (vecToTarget.normalize().dotProduct(look) > 0
+					&& attk.hasPassed == PastEntityEnum.NOT_PASSED) {
 					attk.hasPassed = PastEntityEnum.PASSED;
 				}
 			}
+
 			@Override
 			public AttackPhase next(RunAttack attk) {
 				if (attk.hasPassed == PastEntityEnum.LOOP_FINISHED) {
@@ -68,17 +79,26 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 				}
 				return RUNNING;
 			}
+
 			@Override
 			public int nextFrame(RunAttack attk, int curr) {
 				int looping = runningEnds - runningStarts;
 				if (attk.hasPassed == PastEntityEnum.PASSED
-						&& (curr + 1 - runningStarts) >= looping) {
+					&& (curr + 1 - runningStarts) >= looping) {
 					attk.hasPassed = PastEntityEnum.LOOP_FINISHED;
 				}
 				return runningStarts + (curr + 1 - runningStarts) % looping;
 			}
 		},
 		STOPPING(true) {
+			@Override
+			public void update(RunAttack attk) {
+				EntityCreature e = attk.getEntity();
+				Vec3 look = e.getLookVec();
+				e.getMoveHelper().setMoveTo(e.posX + 3 * look.xCoord,
+					e.posY + 3 * look.yCoord, e.posZ + 3 * look.zCoord, 0.5);
+			}
+
 			@Override
 			public AttackPhase next(RunAttack attk) {
 				if (attackEnd < attk.getRecentFrame())
@@ -94,22 +114,31 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 			}
 		};
 		public final boolean isDamaging;
+
 		private AttackPhase(boolean isDamaging) {
 			this.isDamaging = isDamaging;
 		}
-		public void onPhaseStart(RunAttack attk) {}
-		public void update(RunAttack attk) {}
+
+		public void onPhaseStart(RunAttack attk) {
+		}
+
+		public void update(RunAttack attk) {
+		}
+
 		public AttackPhase next(RunAttack attk) {
 			return this;
 		}
+
 		public int nextFrame(RunAttack attk, int curr) {
 			return ++curr;
 		}
 	}
+
 	private AttackPhase currentPhase;
 	private PastEntityEnum hasPassed;
-	private Vec3 startingDir;
+	private Vec3 startingLookDir;
 	private Vec3 targetDir;
+	private Vec3 targetPoint;
 
 	public RunAttack() {
 		setAnimation("mhfc:models/Tigrex/run_new.mcanm");
@@ -124,15 +153,17 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
 		this.targetDir = toTarget.normalize();
 		double dist = toTarget.lengthVector();
-		return (float) Math.log(dist); // More likely the farer away
+		return (float) Math.log(dist) * 30; // More likely the farer away
 	}
 
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
+		target = getEntity().getAttackTarget();
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;
-		startingDir = getEntity().getLookVec();
+		startingLookDir = getEntity().getLookVec();
+		currentPhase.onPhaseStart(this);
 	}
 
 	@Override
