@@ -17,8 +17,10 @@ import net.minecraft.util.Vec3;
 public class BiteAttack extends AttackAdapter<EntityTigrex> {
 	private static final int LAST_FRAME = 55;
 	private static final IDamageCalculator damageCalc = AIUtils
-			.defaultDamageCalc(2.2f, 62f, 400f);
-	private static final double MAX_DIST = 4f;
+		.defaultDamageCalc(2.2f, 62f, 400f);
+
+	private static final double MAX_DIST = 7f;
+	private static final double MAX_ANGLE = 0.155; // This is cos(30)
 
 	public BiteAttack() {
 		setAnimation("mhfc:models/Tigrex/rawr.mcanm");
@@ -32,6 +34,8 @@ public class BiteAttack extends AttackAdapter<EntityTigrex> {
 		if (target == null)
 			return DONT_SELECT;
 		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
+		if (toTarget.normalize().dotProduct(tigrex.getLookVec()) < MAX_ANGLE)
+			return DONT_SELECT;
 		double dist = toTarget.lengthVector();
 		return (float) (MAX_DIST - dist);
 	}
