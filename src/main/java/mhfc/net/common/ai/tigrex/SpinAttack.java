@@ -15,6 +15,7 @@ import net.minecraft.util.Vec3;
 public class SpinAttack extends AttackAdapter<EntityTigrex> {
 	private static final int MAX_FRAME = 40;
 	private static final double MAX_DISTANCE = 10d;
+	private static final double MAX_ANGLE_DOT = -0.2;
 
 	public SpinAttack() {
 		setAnimation("mhfc:models/Tigrex/tailswipe.mcanm");
@@ -30,9 +31,9 @@ public class SpinAttack extends AttackAdapter<EntityTigrex> {
 		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
 		Vec3 lookVec = tigrex.getLookVec();
 		Vec3 rightSide = lookVec.crossProduct(Vec3.createVectorHelper(0, 1, 0));
-		if (rightSide.dotProduct(toTarget) < -0.2)
+		if (rightSide.dotProduct(toTarget) < MAX_ANGLE_DOT)
 			return DONT_SELECT;
-		return (float) (MAX_DISTANCE - toTarget.lengthVector()) * 3;
+		return (float) (MAX_DISTANCE - toTarget.lengthVector()) * 2;
 
 	}
 

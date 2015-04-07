@@ -1,14 +1,18 @@
 package mhfc.net.common.ai.tigrex;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.AttackAdapter;
 import mhfc.net.common.entity.mob.EntityTigrex;
+import mhfc.net.common.entity.projectile.EntityTigrexBlock;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.Vec3;
 
 public class GroundHurl extends AttackAdapter<EntityTigrex> {
 	private static final float MIN_DIST = 10f;
 	private static final int LAST_FRAME = 60;
+	private static final int THROW_FRAME = 21;
+
+	private static final double SPLIT_MULTIPLIER = 0.125;
+	private static final double THROW_HEIGHT = 0.35;
 
 	private boolean thrown;
 
@@ -25,7 +29,7 @@ public class GroundHurl extends AttackAdapter<EntityTigrex> {
 			return DONT_SELECT;
 		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
 		double dist = toTarget.lengthVector();
-		return (float) (dist - MIN_DIST);
+		return (float) (dist - MIN_DIST) * 10;
 	}
 
 	@Override
@@ -38,10 +42,28 @@ public class GroundHurl extends AttackAdapter<EntityTigrex> {
 	public void update() {
 		if (thrown)
 			return;
-		if (getRecentFrame() < 30)
+		if (getRecentFrame() < THROW_FRAME)
 			return;
-		// TODO: throw actual rock-entities, what is their name again?
-		MHFCMain.logger.info("Throwing rocks");
+		EntityTigrex tigrex = getEntity();
+		Vec3 look = tigrex.getLookVec();
+		Vec3 lookVec = tigrex.getLookVec();
+		Vec3 rightSide = lookVec.crossProduct(Vec3.createVectorHelper(0, 1, 0));
+		for (int i = 0; i < 3; i++) {
+			EntityTigrexBlock block = new EntityTigrexBlock(tigrex.worldObj,
+				tigrex);
+			double xCo = look.xCoord;
+			double yCo = look.yCoord + THROW_HEIGHT;
+			double zCo = look.zCoord;
+			if (i == 0) {
+				xCo += rightSide.xCoord * SPLIT_MULTIPLIER;
+				zCo += rightSide.zCoord * SPLIT_MULTIPLIER;
+			} else if (i == 2) {
+				xCo -= rightSide.xCoord * SPLIT_MULTIPLIER;
+				zCo -= rightSide.zCoord * SPLIT_MULTIPLIER;
+			}
+			block.setThrowableHeading(xCo, yCo, zCo, 1f, 0.5f);
+			tigrex.worldObj.spawnEntityInWorld(block);
+		}
 		thrown = true;
 	}
 
