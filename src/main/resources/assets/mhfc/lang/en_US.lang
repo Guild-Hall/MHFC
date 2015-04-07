@@ -182,6 +182,8 @@ item.longsword_2.name=Dark Vipern
 item.longsword_3.name=Iron Katana 'Grace'
 item.longsword_4.name=Iron Katana 'Gospel'
 item.longsword_5.name=Eager Cleaver
+item.longsword_6.name=Devil Slicer
+item.longsword_7.name=True Devil Slicer
 
 entity.mhfc.tigrex.name=Tigrex
 entity.mhfc.kirin.name=Kirin

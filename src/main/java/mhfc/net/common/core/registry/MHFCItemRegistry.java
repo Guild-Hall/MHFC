@@ -49,10 +49,12 @@ import mhfc.net.common.weapon.melee.huntinghorn.HHIvoryHorn;
 import mhfc.net.common.weapon.melee.huntinghorn.HHMetalBagpipe;
 import mhfc.net.common.weapon.melee.huntinghorn.HHTigrex;
 import mhfc.net.common.weapon.melee.longsword.LSDarkVipern;
+import mhfc.net.common.weapon.melee.longsword.LSDevilSlicer;
 import mhfc.net.common.weapon.melee.longsword.LSEagerCleaver;
 import mhfc.net.common.weapon.melee.longsword.LSIKGospel;
 import mhfc.net.common.weapon.melee.longsword.LSIKGrace;
 import mhfc.net.common.weapon.melee.longsword.LSIronKatana;
+import mhfc.net.common.weapon.melee.longsword.LSTrueDevilSlicer;
 import mhfc.net.common.weapon.range.bowgun.BHRath;
 import net.minecraft.item.Item;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -78,6 +80,8 @@ public class MHFCItemRegistry {
 	public static final Item weapon_ls_ironkatanagrace;
 	public static final Item weapon_ls_ironkatanagospel;
 	public static final Item weapon_ls_eagercleaver;
+	public static final Item weapon_ls_devilslicer;
+	public static final Item weapon_ls_truedevilslicer;
 	public static final Item weapon_ls_darkvipern;
 
 	public static final Item weapon_hh_metalbagpipe;
@@ -237,6 +241,8 @@ public class MHFCItemRegistry {
 		weapon_ls_ironkatanagrace = registerItem(new LSIKGrace());
 		weapon_ls_ironkatanagospel = registerItem(new LSIKGospel());
 		weapon_ls_eagercleaver = registerItem(new LSEagerCleaver());
+		weapon_ls_devilslicer = registerItem(new LSDevilSlicer());
+		weapon_ls_truedevilslicer = registerItem(new LSTrueDevilSlicer());
 		weapon_ls_darkvipern = registerItem(new LSDarkVipern());
 		
 		weapon_hh_ivoryhorn = registerItem(new HHIvoryHorn());

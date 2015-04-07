@@ -45,6 +45,12 @@ public class MHFCWeaponMaterialHelper {
 	
 	public static final ToolMaterial LSEagerCleaver = EnumHelper.addToolMaterial(
 			"eagercleaver", 3, 2500, 1, 51, 25);
+	
+	public static final ToolMaterial LSDevilSlicer = EnumHelper.addToolMaterial(
+			"devilslicer", 3, 3000, 1, 67, 30);
+	
+	public static final ToolMaterial LSTrueDevilSlicer = EnumHelper.addToolMaterial(
+			"tdevilslicer", 3, 3500, 1, 83, 30);
 
 	// Hammer
 	public static final ToolMaterial HWarHammer = EnumHelper.addToolMaterial(

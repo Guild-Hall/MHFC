@@ -17,10 +17,12 @@ import mhfc.net.client.render.weapon.huntinghorn.RenderHHIvoryHorn;
 import mhfc.net.client.render.weapon.huntinghorn.RenderHHMetalBagpipe;
 import mhfc.net.client.render.weapon.huntinghorn.RenderHHTigrex;
 import mhfc.net.client.render.weapon.longsword.RenderLSDarkVipern;
+import mhfc.net.client.render.weapon.longsword.RenderLSDevilSlicer;
 import mhfc.net.client.render.weapon.longsword.RenderLSEagerCleaver;
 import mhfc.net.client.render.weapon.longsword.RenderLSIKGospel;
 import mhfc.net.client.render.weapon.longsword.RenderLSIKGrace;
 import mhfc.net.client.render.weapon.longsword.RenderLSIronKatana;
+import mhfc.net.client.render.weapon.longsword.RenderLSTrueDevilSlicer;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.IItemRenderer;
@@ -67,6 +69,10 @@ public class MHFCWeaponRenderRegistry {
 				new RenderLSIKGospel());
 		registerItemRenderer(MHFCItemRegistry.weapon_ls_eagercleaver,
 				new RenderLSEagerCleaver());
+		registerItemRenderer(MHFCItemRegistry.weapon_ls_devilslicer,
+				new RenderLSDevilSlicer());
+		registerItemRenderer(MHFCItemRegistry.weapon_ls_truedevilslicer,
+				new RenderLSTrueDevilSlicer());
 
 		registerItemRenderer(MHFCItemRegistry.weapon_hh_metalbagpipe,
 				new RenderHHMetalBagpipe());

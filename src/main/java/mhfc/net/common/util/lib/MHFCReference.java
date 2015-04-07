@@ -479,6 +479,10 @@ public class MHFCReference {
 	public static final String weapon_ls_ikgospel_tex = "mhfc:textures/weapons/(LS)IKGospel.png";
 	public static final String weapon_ls_eagercleaver_name = "longsword_5";
 	public static final String weapon_ls_eagercleaver_tex = "mhfc:textures/weapons/(LS)eagercleaver.png";
+	public static final String weapon_ls_devilslicer_name = "longsword_6";
+	public static final String weapon_ls_devilslicer_tex = "mhfc:textures/weapons/(LS)devilslicer.png";
+	public static final String weapon_ls_truedevilslicer_name = "longsword_7";
+	public static final String weapon_ls_truedevilslicer_tex = "mhfc:textures/weapons/(LS)truedevilslicer.png";
 	
 	public static final String weapon_bgl_shooterbarrel_name = "bowgun_1";
 	public static final String weapon_bgl_shooterbarrel_icon = "mhfc:bow";
