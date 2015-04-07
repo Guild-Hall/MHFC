@@ -13,6 +13,8 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 	private static final int runningStarts = 21;
 	private static final int runningEnds = 56;
 	private static final int attackEnd = 75;
+	private static final float TURN_RATE_INITIAL = 7;
+	private static final float TURN_RATE_DURING_RUN = 1;
 	private static final IDamageCalculator damageCalc = AIUtils
 		.defaultDamageCalc(2.2f, 62f, 400f);
 
@@ -29,20 +31,14 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 			public void onPhaseStart(RunAttack attk) {
 				EntityCreature entity = attk.getEntity();
 				entity.motionX = entity.motionY = entity.motionZ = 0f;
-				attk.targetPoint = Vec3.createVectorHelper(entity.posX,
-					entity.posY, entity.posZ);
+				attk.getEntity().getTurnHelper().updateTurnSpeed(
+					TURN_RATE_INITIAL);
 			}
 
 			@Override
 			public void update(RunAttack attk) {
-				EntityCreature entity = attk.getEntity();
 				Entity target = attk.target;
-				attk.targetPoint = Vec3.createVectorHelper(target.posX,
-					target.posY, target.posZ);
-				Vec3 vecToTarget = Vec3.createVectorHelper(entity.posX,
-					entity.posY, entity.posZ).subtract(attk.targetPoint);
-				entity.rotationYaw = AIUtils.modifyYaw(entity.getLookVec(),
-					vecToTarget, 20);
+				attk.getEntity().getTurnHelper().updateTargetPoint(target);
 			}
 
 			@Override
@@ -57,12 +53,17 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 		},
 		RUNNING(true) {
 			@Override
+			public void onPhaseStart(RunAttack attk) {
+				attk.getEntity().getTurnHelper().updateTurnSpeed(
+					TURN_RATE_DURING_RUN);
+			}
+
+			@Override
 			public void update(RunAttack attk) {
-				EntityCreature e = attk.getEntity();
+				EntityTigrex e = attk.getEntity();
 				Vec3 vecToTarget = Vec3.createVectorHelper(e.posX, e.posY,
 					e.posZ).subtract(attk.target.getPosition(1.0f));
-				e.rotationYaw = AIUtils.modifyYaw(e.getLookVec(), vecToTarget,
-					1);
+				e.getTurnHelper().updateTargetPoint(attk.target);
 				Vec3 look = e.getLookVec();
 				e.getMoveHelper().setMoveTo(e.posX + 3 * look.xCoord,
 					e.posY + 3 * look.yCoord, e.posZ + 3 * look.zCoord, 1.4);
@@ -136,9 +137,6 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 
 	private AttackPhase currentPhase;
 	private PastEntityEnum hasPassed;
-	private Vec3 startingLookDir;
-	private Vec3 targetDir;
-	private Vec3 targetPoint;
 
 	public RunAttack() {
 		setAnimation("mhfc:models/Tigrex/run_new.mcanm");
@@ -151,9 +149,8 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 		if (target == null)
 			return DONT_SELECT;
 		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
-		this.targetDir = toTarget.normalize();
 		double dist = toTarget.lengthVector();
-		return (float) Math.log(dist) * 30; // More likely the farer away
+		return (float) Math.log(dist); // More likely the farer away
 	}
 
 	@Override
@@ -162,7 +159,6 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 		target = getEntity().getAttackTarget();
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;
-		startingLookDir = getEntity().getLookVec();
 		currentPhase.onPhaseStart(this);
 	}
 

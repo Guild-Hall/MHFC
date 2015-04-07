@@ -14,7 +14,7 @@ import net.minecraft.util.Vec3;
 
 public class SpinAttack extends AttackAdapter<EntityTigrex> {
 	private static final int MAX_FRAME = 40;
-	private static final double MAX_DISTANCE = 5d;
+	private static final double MAX_DISTANCE = 10d;
 
 	public SpinAttack() {
 		setAnimation("mhfc:models/Tigrex/tailswipe.mcanm");
@@ -28,7 +28,11 @@ public class SpinAttack extends AttackAdapter<EntityTigrex> {
 		if (target == null)
 			return DONT_SELECT;
 		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
-		return (float) (MAX_DISTANCE - toTarget.lengthVector());
+		Vec3 lookVec = tigrex.getLookVec();
+		Vec3 rightSide = lookVec.crossProduct(Vec3.createVectorHelper(0, 1, 0));
+		if (rightSide.dotProduct(toTarget) < -0.2)
+			return DONT_SELECT;
+		return (float) (MAX_DISTANCE - toTarget.lengthVector()) * 3;
 
 	}
 
@@ -45,16 +49,17 @@ public class SpinAttack extends AttackAdapter<EntityTigrex> {
 			if (trgt instanceof EntityPlayer) {
 				trgt.attackEntityFrom(DamageSource.causeMobDamage(tigrex), 4F);
 			} else if (trgt instanceof EntityWyvernHostile
-					|| trgt instanceof EntityWyvernPeaceful) {
+				|| trgt instanceof EntityWyvernPeaceful) {
 				trgt.attackEntityFrom(DamageSource.causeMobDamage(tigrex), 62F);
 			} else {
 				trgt.attackEntityFrom(DamageSource.causeMobDamage(tigrex),
-						70F * 5 + 100);
+					70F * 5 + 100);
 			}
 		}
 	}
 
 	@Override
-	public void finishExecution() {}
+	public void finishExecution() {
+	}
 
 }

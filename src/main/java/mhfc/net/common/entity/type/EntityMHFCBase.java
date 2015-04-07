@@ -6,6 +6,7 @@ import java.util.Random;
 import mhfc.net.common.ai.AIAttackManager;
 import mhfc.net.common.ai.IExecutableAttack;
 import mhfc.net.common.ai.IMangedAttacks;
+import mhfc.net.common.ai.TargetTurnHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityMultiPart;
@@ -45,9 +46,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	 */
 	protected static final int DATA_FRAME = 12;
 	protected final AIAttackManager<YC> attackManager;
+	private final TargetTurnHelper turnHelper;
 
 	public EntityMHFCBase(World world) {
 		super(world);
+		turnHelper = new TargetTurnHelper(this);
 		tasks.addTask(0,
 			this.attackManager = new AIAttackManager<YC>((YC) this));
 	}
@@ -354,6 +357,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	protected void updateAITick() {
 		super.updateAITick();
 		setFrame(this.attackManager.getNextFrame(getCurrentFrame()));
+		turnHelper.onUpdateTurn();
 	}
 
 	public void setFrame(int newframe) {
@@ -405,5 +409,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	@Override
 	public Scale getScale() {
 		return NO_SCALE;
+	}
+
+	public TargetTurnHelper getTurnHelper() {
+		return turnHelper;
 	}
 }
