@@ -13,9 +13,8 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.world.World;
 
-import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimatedObject;
-import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
-import com.google.common.base.Predicate;
+import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
+import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
 
 public class EntityRathalos extends EntityWyvernHostile
 		implements
@@ -131,27 +130,10 @@ public class EntityRathalos extends EntityWyvernHostile
 	}
 
 	@Override
-	public IAnimation getCurrentAnimation() {
+	public RenderPassInformation preRenderCallback(float subFrame,
+			RenderPassInformation info) {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getCurrentFrame() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Predicate<String> getPartPredicate(float arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Scale getScale() {
-		// TODO Auto-generated method stub
-		return null;
+		return info;
 	}
 
 }

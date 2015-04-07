@@ -6,12 +6,12 @@ import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 
-import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
-import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.stored.AnimationRegistry;
+import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
+import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.stored.AnimationRegistry;
 
 public abstract class AttackAdapter<T extends EntityCreature>
-	implements
-		IExecutableAttack<T> {
+		implements
+			IExecutableAttack<T> {
 	private static final Random rand = new Random();
 
 	private IAnimation animation;
@@ -24,8 +24,7 @@ public abstract class AttackAdapter<T extends EntityCreature>
 	 */
 	protected EntityLivingBase target;
 
-	public AttackAdapter() {
-	}
+	public AttackAdapter() {}
 
 	@Override
 	public void beginExecution() {
@@ -33,12 +32,10 @@ public abstract class AttackAdapter<T extends EntityCreature>
 	}
 
 	@Override
-	public void finishExecution() {
-	}
+	public void finishExecution() {}
 
 	@Override
-	public void update() {
-	}
+	public void update() {}
 
 	@Override
 	public float getWeight() {
@@ -90,7 +87,7 @@ public abstract class AttackAdapter<T extends EntityCreature>
 
 	protected void setAnimation(String resLoc) {
 		this.animation = AnimationRegistry.loadAnimation(new ResourceLocation(
-			resLoc));
+				resLoc));
 	}
 
 	protected void setLastFrame(int lastFrame) {

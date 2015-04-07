@@ -3,7 +3,6 @@ package mhfc.net.client.core.registry;
 import mhfc.net.client.model.mob.ModelPopo;
 import mhfc.net.client.model.mob.boss.ModelKirin;
 import mhfc.net.client.model.mob.boss.ModelRathalos;
-import mhfc.net.client.render.mob.RenderAnimatedModel;
 import mhfc.net.client.render.mob.RenderKirin;
 import mhfc.net.client.render.mob.RenderPopo;
 import mhfc.net.client.render.mob.RenderRathalos;
@@ -18,7 +17,8 @@ import mhfc.net.common.entity.projectile.EntityTigrexBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
-import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimatedObject;
+import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
+import com.github.worldsender.mcanm.client.renderer.entity.RenderAnimatedModel;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
