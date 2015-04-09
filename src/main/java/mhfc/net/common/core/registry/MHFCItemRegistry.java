@@ -54,6 +54,10 @@ import mhfc.net.common.weapon.melee.longsword.LSEagerCleaver;
 import mhfc.net.common.weapon.melee.longsword.LSIKGospel;
 import mhfc.net.common.weapon.melee.longsword.LSIKGrace;
 import mhfc.net.common.weapon.melee.longsword.LSIronKatana;
+import mhfc.net.common.weapon.melee.longsword.LSLionDanceSaber;
+import mhfc.net.common.weapon.melee.longsword.LSLionKaiserSaber;
+import mhfc.net.common.weapon.melee.longsword.LSLionKingSaber;
+import mhfc.net.common.weapon.melee.longsword.LSSaber;
 import mhfc.net.common.weapon.melee.longsword.LSTrueDevilSlicer;
 import mhfc.net.common.weapon.range.bowgun.BHRath;
 import net.minecraft.item.Item;
@@ -83,7 +87,11 @@ public class MHFCItemRegistry {
 	public static final Item weapon_ls_devilslicer;
 	public static final Item weapon_ls_truedevilslicer;
 	public static final Item weapon_ls_darkvipern;
-
+	public static final Item weapon_ls_saber;
+	public static final Item weapon_ls_liondancesaber;
+	public static final Item weapon_ls_lionkingsaber;
+	public static final Item weapon_ls_lionkaisersaber;
+	
 	public static final Item weapon_hh_metalbagpipe;
 	public static final Item weapon_hh_ivoryhorn;
 	public static final Item weapon_hh_tigrex;
@@ -243,6 +251,10 @@ public class MHFCItemRegistry {
 		weapon_ls_eagercleaver = registerItem(new LSEagerCleaver());
 		weapon_ls_devilslicer = registerItem(new LSDevilSlicer());
 		weapon_ls_truedevilslicer = registerItem(new LSTrueDevilSlicer());
+		weapon_ls_saber = registerItem(new LSSaber());
+		weapon_ls_liondancesaber = registerItem(new LSLionDanceSaber());
+		weapon_ls_lionkingsaber = registerItem(new LSLionKingSaber());
+		weapon_ls_lionkaisersaber = registerItem(new LSLionKaiserSaber());
 		weapon_ls_darkvipern = registerItem(new LSDarkVipern());
 		
 		weapon_hh_ivoryhorn = registerItem(new HHIvoryHorn());

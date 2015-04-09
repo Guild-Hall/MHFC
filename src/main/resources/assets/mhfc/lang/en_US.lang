@@ -184,6 +184,10 @@ item.longsword_4.name=Iron Katana 'Gospel'
 item.longsword_5.name=Eager Cleaver
 item.longsword_6.name=Devil Slicer
 item.longsword_7.name=True Devil Slicer
+item.longsword_8.name=Saber
+item.longsword_9.name='Lion Dance' Saber
+item.longsword_10.name='Lion King' Saber
+item.longsword_11.name='Lion Kaiser' Saber
 
 entity.mhfc.tigrex.name=Tigrex
 entity.mhfc.kirin.name=Kirin

@@ -50,6 +50,9 @@ public class Utilities {
 			chargingEntity.setPathToEntity(pathentity);
 			chargingEntity.speed = moveSpeed;
 		}
+		if ((target != null) && ((dependsonWater = true))){
+			chargingEntity.speed = moveSpeed - 2D;
+		}
 	}
 	/**
 	 * Counts the number of players in a world // FIXME: actually useful?

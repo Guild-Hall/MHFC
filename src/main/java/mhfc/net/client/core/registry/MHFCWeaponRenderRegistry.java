@@ -22,6 +22,10 @@ import mhfc.net.client.render.weapon.longsword.RenderLSEagerCleaver;
 import mhfc.net.client.render.weapon.longsword.RenderLSIKGospel;
 import mhfc.net.client.render.weapon.longsword.RenderLSIKGrace;
 import mhfc.net.client.render.weapon.longsword.RenderLSIronKatana;
+import mhfc.net.client.render.weapon.longsword.RenderLSLionDanceSaber;
+import mhfc.net.client.render.weapon.longsword.RenderLSLionKaiserSaber;
+import mhfc.net.client.render.weapon.longsword.RenderLSLionKingSaber;
+import mhfc.net.client.render.weapon.longsword.RenderLSSaber;
 import mhfc.net.client.render.weapon.longsword.RenderLSTrueDevilSlicer;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import net.minecraft.item.Item;
@@ -73,6 +77,14 @@ public class MHFCWeaponRenderRegistry {
 				new RenderLSDevilSlicer());
 		registerItemRenderer(MHFCItemRegistry.weapon_ls_truedevilslicer,
 				new RenderLSTrueDevilSlicer());
+		registerItemRenderer(MHFCItemRegistry.weapon_ls_saber, 
+				new RenderLSSaber());
+		registerItemRenderer(MHFCItemRegistry.weapon_ls_liondancesaber, 
+				new RenderLSLionDanceSaber());
+		registerItemRenderer(MHFCItemRegistry.weapon_ls_lionkingsaber, 
+				new RenderLSLionKingSaber());
+		registerItemRenderer(MHFCItemRegistry.weapon_ls_lionkaisersaber, 
+				new RenderLSLionKaiserSaber());
 
 		registerItemRenderer(MHFCItemRegistry.weapon_hh_metalbagpipe,
 				new RenderHHMetalBagpipe());

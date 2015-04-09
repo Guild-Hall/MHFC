@@ -50,8 +50,8 @@ public class MHFCMain {
 		config = new MHFCConfig(pre);
 		config.init();
 		UpdateSystem.init(MHFCReference.main_version);
-		logger.info("Starting MHFC v" + MHFCReference.main_version);
-		logger.info("Copyright (c) Heltrato & The Modding Team 2014");
+		logger.info("Starting MHFC" + MHFCReference.main_version);
+		logger.info("Copyright (c) Guild Hall 2015");
 		isPreInitialized = true;
 	}
 
