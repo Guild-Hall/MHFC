@@ -48,13 +48,13 @@ public class SpinAttack extends AttackAdapter<EntityTigrex> {
 		List<Entity> collidingEntities = WorldHelper.collidingEntities(tigrex);
 		for (Entity trgt : collidingEntities) {
 			if (trgt instanceof EntityPlayer) {
-				trgt.attackEntityFrom(DamageSource.causeMobDamage(tigrex), 4F);
+				trgt.attackEntityFrom(DamageSource.causeMobDamage(tigrex), 64F);
 			} else if (trgt instanceof EntityWyvernHostile
 				|| trgt instanceof EntityWyvernPeaceful) {
 				trgt.attackEntityFrom(DamageSource.causeMobDamage(tigrex), 62F);
 			} else {
 				trgt.attackEntityFrom(DamageSource.causeMobDamage(tigrex),
-					70F * 5 + 100);
+					5000);
 			}
 		}
 	}

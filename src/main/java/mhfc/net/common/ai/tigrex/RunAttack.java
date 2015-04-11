@@ -16,7 +16,7 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 	private static final float TURN_RATE_INITIAL = 7;
 	private static final float TURN_RATE_DURING_RUN = 1;
 	private static final IDamageCalculator damageCalc = AIUtils
-		.defaultDamageCalc(2.2f, 62f, 400f);
+		.defaultDamageCalc(16f, 62f, 400f);
 
 	private static enum PastEntityEnum {
 		NOT_PASSED,
