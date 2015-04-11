@@ -30,8 +30,8 @@ public class EntityTigrex extends EntityWyvernHostile
 
 	public EntityTigrex(World par1World) {
 		super(par1World);
-		width = 6F;
-		height = 4F;
+		width = 3F;
+		height = 2F;
 		// New AI
 		attkManager = new AIAttackManager<EntityTigrex>(this);
 		attkManager.registerAttack(new RunAttack());

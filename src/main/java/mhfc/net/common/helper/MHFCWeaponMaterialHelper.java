@@ -70,7 +70,7 @@ public class MHFCWeaponMaterialHelper {
 	// Mirage Finsword Tree
 	public static final ToolMaterial LSMirageFinsword = EnumHelper.addToolMaterial     ("lsmirage1"   , 3, durC, defaulteffiency, 77, enchA);
 	public static final ToolMaterial LSMirageFinswordplus = EnumHelper.addToolMaterial ("lsmirage2"   , 3, durD, defaulteffiency, 106, enchA);
-	public static final ToolMaterial LSImperialFinsword = EnumHelper.addToolMaterial   ("lsmirage3"   , 3, durD, defaulteffiency, 132, enchA);
+	public static final ToolMaterial LSPhantomMirage = EnumHelper.addToolMaterial      ("lsmirage3"   , 3, durD, defaulteffiency, 132, enchA);
 	
 	// Dark Vipern Tree
 	public static final ToolMaterial LSDarkVipern = EnumHelper.addToolMaterial         ("LSDarkVipern", 3, durB, defaulteffiency, 39, enchA);

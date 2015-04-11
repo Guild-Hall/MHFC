@@ -38,6 +38,7 @@ public class ItemSpawner extends Item {
 		setUnlocalizedName(MHFCReference.item_mhfcspawnegg_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHasSubtypes(true);
+		setMaxStackSize(1);
 	}
 
 	@Override

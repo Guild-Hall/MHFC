@@ -493,6 +493,12 @@ public class MHFCReference {
 	public static final String weapon_ls_lionkaisersaber_tex = "mhfc:textures/weapons/(LS)lionkaisersaber.png";
 	public static final String weapon_ls_lionsroarsaber_name = "longsword_12";
 	public static final String weapon_ls_lionsroarsaber_tex = "mhfc:textures/weapons/(LS)lionsroarsaber.png";
+	public static final String weapon_ls_miragefinsword_name = "longsword_13";
+	public static final String weapon_ls_miragefinsword_tex = "mhfc:textures/weapons/(LS)miragefinsword.png";
+	public static final String weapon_ls_miragefinswordplus_name = "longsword_14";
+	public static final String weapon_ls_miragefinswordplus_tex = "mhfc:textures/weapons/(LS)miragefinswordplus.png";
+	public static final String weapon_ls_phantommirage_name = "longsword_15";
+	public static final String weapon_ls_phantommirage_tex = "mhfc:textures/weapons/(LS)phantommirage.png";
 	
 	public static final String weapon_bgl_shooterbarrel_name = "bowgun_1";
 	public static final String weapon_bgl_shooterbarrel_icon = "mhfc:bow";

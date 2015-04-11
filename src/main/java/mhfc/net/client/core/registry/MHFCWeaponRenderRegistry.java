@@ -26,6 +26,9 @@ import mhfc.net.client.render.weapon.longsword.RenderLSLionDanceSaber;
 import mhfc.net.client.render.weapon.longsword.RenderLSLionKaiserSaber;
 import mhfc.net.client.render.weapon.longsword.RenderLSLionKingSaber;
 import mhfc.net.client.render.weapon.longsword.RenderLSLionsRoarSaber;
+import mhfc.net.client.render.weapon.longsword.RenderLSMirageFinsword;
+import mhfc.net.client.render.weapon.longsword.RenderLSMirageFinswordplus;
+import mhfc.net.client.render.weapon.longsword.RenderLSPhantomMirage;
 import mhfc.net.client.render.weapon.longsword.RenderLSSaber;
 import mhfc.net.client.render.weapon.longsword.RenderLSTrueDevilSlicer;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
@@ -88,6 +91,12 @@ public class MHFCWeaponRenderRegistry {
 				new RenderLSLionKaiserSaber());
 		registerItemRenderer(MHFCItemRegistry.weapon_ls_lionsroarsaber, 
 				new RenderLSLionsRoarSaber());
+		registerItemRenderer(MHFCItemRegistry.weapon_ls_miragefinsword, 
+				new RenderLSMirageFinsword());
+		registerItemRenderer(MHFCItemRegistry.weapon_ls_miragefinswordplus, 
+				new RenderLSMirageFinswordplus());
+		registerItemRenderer(MHFCItemRegistry.weapon_ls_phantommirage, 
+				new RenderLSPhantomMirage());
 
 		registerItemRenderer(MHFCItemRegistry.weapon_hh_metalbagpipe,
 				new RenderHHMetalBagpipe());

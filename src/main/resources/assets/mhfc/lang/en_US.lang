@@ -189,6 +189,9 @@ item.longsword_9.name='Lion Dance' Saber
 item.longsword_10.name='Lion King' Saber
 item.longsword_11.name='Lion Kaiser' Saber
 item.longsword_12.name='Lions Roar' Saber
+item.longsword_13.name=Mirage Finsword
+item.longsword_14.name=Mirage Finsword+
+item.longsword_15.name=Phantom Mirage
 
 
 entity.mhfc.tigrex.name=Tigrex

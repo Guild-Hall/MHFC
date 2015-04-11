@@ -58,6 +58,9 @@ import mhfc.net.common.weapon.melee.longsword.LSLionDanceSaber;
 import mhfc.net.common.weapon.melee.longsword.LSLionKaiserSaber;
 import mhfc.net.common.weapon.melee.longsword.LSLionKingSaber;
 import mhfc.net.common.weapon.melee.longsword.LSLionsRoarSaber;
+import mhfc.net.common.weapon.melee.longsword.LSMirageFinsword;
+import mhfc.net.common.weapon.melee.longsword.LSMirageFinswordplus;
+import mhfc.net.common.weapon.melee.longsword.LSPhantomMirage;
 import mhfc.net.common.weapon.melee.longsword.LSSaber;
 import mhfc.net.common.weapon.melee.longsword.LSTrueDevilSlicer;
 import mhfc.net.common.weapon.range.bowgun.BHRath;
@@ -93,6 +96,9 @@ public class MHFCItemRegistry {
 	public static final Item weapon_ls_lionkingsaber;
 	public static final Item weapon_ls_lionkaisersaber;
 	public static final Item weapon_ls_lionsroarsaber;
+	public static final Item weapon_ls_miragefinsword;
+	public static final Item weapon_ls_miragefinswordplus;
+	public static final Item weapon_ls_phantommirage;
 	
 	public static final Item weapon_hh_metalbagpipe;
 	public static final Item weapon_hh_ivoryhorn;
@@ -194,37 +200,40 @@ public class MHFCItemRegistry {
 		
 		
 		// Armor
-		armor_tigrex_helm = registerItem(new TigrexArmor(0));
-		armor_tigrex_chest = registerItem(new TigrexArmor(1));
-		armor_tigrex_legs = registerItem(new TigrexArmor(2));
-		armor_tigrex_boots = registerItem(new TigrexArmor(3));
-		armor_kirin_helm = registerItem(new KirinArmor(0));
-		armor_kirin_chest = registerItem(new KirinArmor(1));
-		armor_kirin_legs = registerItem(new KirinArmor(2));
-		armor_kirin_boots = registerItem(new KirinArmor(3));
-		armor_kirinS_helm = registerItem(new KirinSArmor(0));
-		armor_kirinS_chest = registerItem(new KirinSArmor(1));
-		armor_kirinS_legs = registerItem(new KirinSArmor(2));
-		armor_kirinS_boots = registerItem(new KirinSArmor(3));
 		armor_yukumo_helm = registerItem(new YukumoArmor(0));
-		armor_yukumo_chest = registerItem(new YukumoArmor(1));
-		armor_yukumo_legs = registerItem(new YukumoArmor(2));
-		armor_yukumo_boots = registerItem(new YukumoArmor(3));
-		armor_rathalos_helm = registerItem(new RathalosArmor(0));
-		armor_rathalos_chest = registerItem(new RathalosArmor(1));
-		armor_rathalos_legs = registerItem(new RathalosArmor(2));
-		armor_rathalos_boots = registerItem(new RathalosArmor(3));
-		armor_dragoon_helm = registerItem(new DragoonArmor(0));
-		armor_dragoon_chest = registerItem(new DragoonArmor(1));
-		armor_dragoon_legs = registerItem(new DragoonArmor(2));
-		armor_dragoon_boots = registerItem(new DragoonArmor(3));
 		armor_velociprey_helm = registerItem(new VelocipreyArmor(0));
-		armor_velociprey_chest = registerItem(new VelocipreyArmor(1));
-		armor_velociprey_legs = registerItem(new VelocipreyArmor(2));
-		armor_velociprey_boots = registerItem(new VelocipreyArmor(3));
+		armor_rathalos_helm = registerItem(new RathalosArmor(0));
+		armor_tigrex_helm = registerItem(new TigrexArmor(0));
+		armor_kirin_helm = registerItem(new KirinArmor(0));
+		armor_dragoon_helm = registerItem(new DragoonArmor(0));
+		armor_kirinS_helm = registerItem(new KirinSArmor(0));
 		armor_tigrexB_helm = registerItem(new KishinArmor(0));
+		
+		armor_yukumo_chest = registerItem(new YukumoArmor(1));
+		armor_velociprey_chest = registerItem(new VelocipreyArmor(1));
+		armor_rathalos_chest = registerItem(new RathalosArmor(1));
+		armor_tigrex_chest = registerItem(new TigrexArmor(1));
+		armor_kirin_chest = registerItem(new KirinArmor(1));
+		armor_dragoon_chest = registerItem(new DragoonArmor(1));
+		armor_kirinS_chest = registerItem(new KirinSArmor(1));
 		armor_tigrexB_chest = registerItem(new KishinArmor(1));
+		
+		armor_yukumo_legs = registerItem(new YukumoArmor(2));
+		armor_velociprey_legs = registerItem(new VelocipreyArmor(2));
+		armor_rathalos_legs = registerItem(new RathalosArmor(2));
+		armor_tigrex_legs = registerItem(new TigrexArmor(2));
+		armor_kirin_legs = registerItem(new KirinArmor(2));
+		armor_dragoon_legs = registerItem(new DragoonArmor(2));
+		armor_kirinS_legs = registerItem(new KirinSArmor(2));
 		armor_tigrexB_legs = registerItem(new KishinArmor(2));
+		
+		armor_yukumo_boots = registerItem(new YukumoArmor(3));
+		armor_velociprey_boots = registerItem(new VelocipreyArmor(3));
+		armor_rathalos_boots = registerItem(new RathalosArmor(3));
+		armor_tigrex_boots = registerItem(new TigrexArmor(3));
+		armor_kirin_boots = registerItem(new KirinArmor(3));
+		armor_dragoon_boots = registerItem(new DragoonArmor(3));
+		armor_kirinS_boots = registerItem(new KirinSArmor(3));
 		armor_tigrexB_boots = registerItem(new KishinArmor(3));
 		
 		
@@ -236,17 +245,6 @@ public class MHFCItemRegistry {
 		weapon_gs_berserkers = registerItem(new GSDeviljhobroadsword());
 		weapon_gs_rathalosfire = registerItem(new GSRathalosFiresword());
 
-		
-		weapon_hm_warhammer = registerItem(new HWar());
-		weapon_hm_warhammerplus = registerItem(new HWarPlus());
-		weapon_hm_warslammer = registerItem(new HWarSlammer());
-		weapon_hm_tigrex = registerItem(new HTigrex());
-		weapon_hm_devilsdue = registerItem(new HDeviljho());
-		
-		weapon_hm_rathalos = registerItem(new HRathalos());
-		weapon_hm_kirinspark = registerItem(new HKirinSpark());
-		
-
 		weapon_ls_ironkatana = registerItem(new LSIronKatana());
 		weapon_ls_ironkatanagrace = registerItem(new LSIKGrace());
 		weapon_ls_ironkatanagospel = registerItem(new LSIKGospel());
@@ -257,8 +255,20 @@ public class MHFCItemRegistry {
 		weapon_ls_liondancesaber = registerItem(new LSLionDanceSaber());
 		weapon_ls_lionkingsaber = registerItem(new LSLionKingSaber());
 		weapon_ls_lionkaisersaber = registerItem(new LSLionKaiserSaber());
+		weapon_ls_miragefinsword = registerItem(new LSMirageFinsword());
+		weapon_ls_miragefinswordplus = registerItem(new LSMirageFinswordplus());
+		weapon_ls_phantommirage = registerItem(new LSPhantomMirage());
 		weapon_ls_darkvipern = registerItem(new LSDarkVipern());
 		weapon_ls_lionsroarsaber = registerItem(new LSLionsRoarSaber());
+		
+		weapon_hm_warhammer = registerItem(new HWar());
+		weapon_hm_warhammerplus = registerItem(new HWarPlus());
+		weapon_hm_warslammer = registerItem(new HWarSlammer());
+		weapon_hm_tigrex = registerItem(new HTigrex());
+		weapon_hm_devilsdue = registerItem(new HDeviljho());
+		weapon_hm_rathalos = registerItem(new HRathalos());
+		weapon_hm_kirinspark = registerItem(new HKirinSpark());
+		
 		
 		weapon_hh_ivoryhorn = registerItem(new HHIvoryHorn());
 		weapon_hh_metalbagpipe = registerItem(new HHMetalBagpipe());
