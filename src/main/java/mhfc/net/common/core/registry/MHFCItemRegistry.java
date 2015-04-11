@@ -57,6 +57,7 @@ import mhfc.net.common.weapon.melee.longsword.LSIronKatana;
 import mhfc.net.common.weapon.melee.longsword.LSLionDanceSaber;
 import mhfc.net.common.weapon.melee.longsword.LSLionKaiserSaber;
 import mhfc.net.common.weapon.melee.longsword.LSLionKingSaber;
+import mhfc.net.common.weapon.melee.longsword.LSLionsRoarSaber;
 import mhfc.net.common.weapon.melee.longsword.LSSaber;
 import mhfc.net.common.weapon.melee.longsword.LSTrueDevilSlicer;
 import mhfc.net.common.weapon.range.bowgun.BHRath;
@@ -91,6 +92,7 @@ public class MHFCItemRegistry {
 	public static final Item weapon_ls_liondancesaber;
 	public static final Item weapon_ls_lionkingsaber;
 	public static final Item weapon_ls_lionkaisersaber;
+	public static final Item weapon_ls_lionsroarsaber;
 	
 	public static final Item weapon_hh_metalbagpipe;
 	public static final Item weapon_hh_ivoryhorn;
@@ -256,6 +258,7 @@ public class MHFCItemRegistry {
 		weapon_ls_lionkingsaber = registerItem(new LSLionKingSaber());
 		weapon_ls_lionkaisersaber = registerItem(new LSLionKaiserSaber());
 		weapon_ls_darkvipern = registerItem(new LSDarkVipern());
+		weapon_ls_lionsroarsaber = registerItem(new LSLionsRoarSaber());
 		
 		weapon_hh_ivoryhorn = registerItem(new HHIvoryHorn());
 		weapon_hh_metalbagpipe = registerItem(new HHMetalBagpipe());

@@ -25,6 +25,7 @@ import mhfc.net.client.render.weapon.longsword.RenderLSIronKatana;
 import mhfc.net.client.render.weapon.longsword.RenderLSLionDanceSaber;
 import mhfc.net.client.render.weapon.longsword.RenderLSLionKaiserSaber;
 import mhfc.net.client.render.weapon.longsword.RenderLSLionKingSaber;
+import mhfc.net.client.render.weapon.longsword.RenderLSLionsRoarSaber;
 import mhfc.net.client.render.weapon.longsword.RenderLSSaber;
 import mhfc.net.client.render.weapon.longsword.RenderLSTrueDevilSlicer;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
@@ -85,6 +86,8 @@ public class MHFCWeaponRenderRegistry {
 				new RenderLSLionKingSaber());
 		registerItemRenderer(MHFCItemRegistry.weapon_ls_lionkaisersaber, 
 				new RenderLSLionKaiserSaber());
+		registerItemRenderer(MHFCItemRegistry.weapon_ls_lionsroarsaber, 
+				new RenderLSLionsRoarSaber());
 
 		registerItemRenderer(MHFCItemRegistry.weapon_hh_metalbagpipe,
 				new RenderHHMetalBagpipe());
