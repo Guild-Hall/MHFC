@@ -4,15 +4,22 @@ import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
 
-import mhfc.net.common.quests.QuestGoalSocket;
+import mhfc.net.MHFCMain;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.QuestStatus;
+import mhfc.net.common.quests.api.GoalDescription;
+import mhfc.net.common.quests.api.QuestGoal;
+import mhfc.net.common.quests.api.QuestGoalSocket;
 
 /**
  * This is the super type for quest goals that do depend on multiple others but
  * in no specific order. The order should not make a difference and any order
  * should be possible. If this is not the case use {@link ChainQuestGoal}
- * instead.
+ * instead. The additions to the goal format are as following:<br>
+ * {@value ForkQuestDescription#ID_REQUIRED} : ({@linkplain String}|
+ * {@linkplain GoalDescription})[]<br>
+ * [{@value ForkQuestDesciption#ID_OPTIONAL} : ({@linkplain String}|
+ * {@linkplain GoalDescription})[]]
  */
 
 public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
@@ -30,9 +37,11 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 	 * Adds a {@link QuestGoal} as the requisite for this QuestGoal
 	 */
 	public void addRequisite(QuestGoal goal) {
-		if (goal == null)
-			throw new IllegalArgumentException(
-					"ForkQuestGoal: A null goal is not a valid requisite");
+		if (goal == null) {
+			MHFCMain.logger
+				.warn("ForkQuestGoal: Ignored requisite, a null goal is not valid");
+			return;
+		}
 		requisites.add(goal);
 		goal.setSocket(this);
 		notifyOfStatus(isFulfilled(), isFailed());
@@ -42,9 +51,11 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 	 * Adds a {@link QuestGoal} as an optional one for this QuestGoal
 	 */
 	public void addOptional(QuestGoal goal) {
-		if (goal == null)
-			throw new IllegalArgumentException(
-					"ForkQuestGoal: A null goal is not a valid requisite");
+		if (goal == null) {
+			MHFCMain.logger
+				.warn("ForkQuestGoal: Ignored optional, a null goal is not valid");
+			return;
+		}
 		goal.setSocket(this);
 		optional.add(goal);
 	}
@@ -69,7 +80,7 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 
 	@Override
 	public void questGoalStatusNotification(QuestGoal goal,
-			EnumSet<QuestStatus> newStatus) {
+		EnumSet<QuestStatus> newStatus) {
 		notifyOfStatus(isFulfilled(), isFailed());
 	}
 

@@ -8,15 +8,15 @@ import java.io.IOException;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
-public class MessageQuestInteraction implements IMessage {
+public class MessageMHFCInteraction implements IMessage {
 
 	public enum Interaction {
-		START_NEW, // Used to start a new quest
-		ACCEPT, // Used to accept a quest that is waiting for its start
-		VOTE_START, // Used to set status to ready (pre-quest to reset end vote
-		VOTE_END, // Used to set status to not ready (pre-quest) or to vote for
+		NEW_QUEST, // Used to start a new quest
+		ACCEPT_QUEST, // Used to accept a quest that is waiting for its start
+		START_QUEST, // Used to set status to ready (pre-quest to reset end vote
+		END_QUEST, // Used to set status to not ready (pre-quest) or to vote for
 					// resigning
-		GIVE_UP, // Used to instantly resign from a quest as a single person
+		FORFEIT_QUEST, // Used to instantly resign from a quest as a single person
 		MOD_RELOAD, // Used by any play OR THE COMMAND BLOCK to reload all
 					// quests
 		INVALID; //
@@ -25,10 +25,10 @@ public class MessageQuestInteraction implements IMessage {
 	protected Interaction interaction;
 	protected String[] options;
 
-	public MessageQuestInteraction() {
+	public MessageMHFCInteraction() {
 	}
 
-	public MessageQuestInteraction(Interaction action, String... options) {
+	public MessageMHFCInteraction(Interaction action, String... options) {
 		interaction = action;
 		this.options = options;
 	}
@@ -38,19 +38,19 @@ public class MessageQuestInteraction implements IMessage {
 		try (ByteBufOutputStream out = new ByteBufOutputStream(buf);) {
 			byte toWrite;
 			switch (interaction) {
-				case START_NEW :
+				case NEW_QUEST :
 					toWrite = 0;
 					break;
-				case ACCEPT :
+				case ACCEPT_QUEST :
 					toWrite = 1;
 					break;
-				case VOTE_START :
+				case START_QUEST :
 					toWrite = 2;
 					break;
-				case VOTE_END :
+				case END_QUEST :
 					toWrite = 3;
 					break;
-				case GIVE_UP :
+				case FORFEIT_QUEST :
 					toWrite = 4;
 					break;
 				default :
@@ -73,19 +73,19 @@ public class MessageQuestInteraction implements IMessage {
 			byte b = in.readByte();
 			switch (b) {
 				case 0 :
-					interaction = Interaction.START_NEW;
+					interaction = Interaction.NEW_QUEST;
 					break;
 				case 1 :
-					interaction = Interaction.ACCEPT;
+					interaction = Interaction.ACCEPT_QUEST;
 					break;
 				case 2 :
-					interaction = Interaction.VOTE_START;
+					interaction = Interaction.START_QUEST;
 					break;
 				case 3 :
-					interaction = Interaction.VOTE_END;
+					interaction = Interaction.END_QUEST;
 					break;
 				case 4 :
-					interaction = Interaction.GIVE_UP;
+					interaction = Interaction.FORFEIT_QUEST;
 					break;
 				default :
 					interaction = Interaction.INVALID;

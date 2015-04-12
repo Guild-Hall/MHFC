@@ -2,9 +2,10 @@ package mhfc.net.common.quests.goals;
 
 import java.util.EnumSet;
 
-import mhfc.net.common.quests.QuestGoalSocket;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.QuestStatus;
+import mhfc.net.common.quests.api.QuestGoal;
+import mhfc.net.common.quests.api.QuestGoalSocket;
 
 /**
  *
@@ -36,8 +37,11 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 		if (thisGoal == null)
 			throw new IllegalArgumentException(
 					"ChainQuestGoal: The goal of this step may not be null");
+		thisGoal.setSocket(this);
 		this.thisGoal = thisGoal;
 		this.next = next;
+		if (next != null)
+			next.setSocket(this);
 		finalFailed = false;
 	}
 

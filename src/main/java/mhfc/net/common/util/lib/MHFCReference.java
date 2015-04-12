@@ -206,6 +206,7 @@ public class MHFCReference {
 	public static final String entity_rathalosfireball_tex = "mhfc:textures/projectile/rathalosfireball.png";
 	public static final String entity_tigrexBlock_name = "TigrexBlock";
 	public static final String entity_bullet_name = "Bullet";
+	public static final String entity_flashbomb_name = "Flashbomb";
 	public static final String gui_board_tex = "mhfc:textures/gui/MHFCBackground.png";
 	public static final String gui_hunterbench_back_tex = "mhfc:textures/gui/MHFCCraftStation.png";
 	public static final String gui_hunterbench_burn_back_tex = "mhfc:textures/gui/OvenHeat.png";
@@ -358,6 +359,8 @@ public class MHFCReference {
 
 	public static final String item_traptool_icon = "mhfc:traptool";
 	public static final String item_traptool_name = "traptool";
+	public static final String item_flashbomb_icon = "mhfc:flashbomb";
+	public static final String item_flashbomb_name = "flashbomb";
 	public static final String item_woodrig_icon = "mhfc:woodrig";
 	public static final String item_woodrig_name = "woodrig";
 	public static final String item_wyverncoin_icon = "mhfc:wyverncoin";

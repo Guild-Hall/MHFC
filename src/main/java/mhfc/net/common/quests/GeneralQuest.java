@@ -2,12 +2,13 @@ package mhfc.net.common.quests;
 
 import java.util.EnumSet;
 
-import mhfc.net.common.core.registry.MHFCQuestsRegistry;
+import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
-import mhfc.net.common.quests.factory.QuestDescription;
-import mhfc.net.common.quests.goals.QuestGoal;
+import mhfc.net.common.quests.api.QuestDescription;
+import mhfc.net.common.quests.api.QuestGoal;
+import mhfc.net.common.quests.api.QuestGoalSocket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
@@ -147,27 +148,27 @@ public class GeneralQuest implements QuestGoalSocket {
 		}
 		visualInformation.cleanUp();
 		questGoal.questGoalFinalize();
-		MHFCQuestsRegistry.deregisterQuest(this);
+		MHFCQuestRegistry.deregRunningQuest(this);
 	}
 
 	protected void updatePlayers() {
 		visualInformation.updateFromQuest(this);
 		for (int i = 0; i < playerCount; i++) {
 			EntityPlayerMP p = playerAttributes[i].player;
-			String id = MHFCQuestsRegistry.getIdentifierForQuest(this);
+			String id = MHFCQuestRegistry.getIdentifierForQuest(this);
 			PacketPipeline.networkPipe.sendTo(
 					new<QuestRunningInformation> MessageQuestVisual(id,
 							visualInformation), p);
 
 		}
-		MHFCQuestsRegistry.questUpdated(this);
+		MHFCQuestRegistry.questUpdated(this);
 	}
 
 	public boolean canJoin(EntityPlayer player) {
 		// TODO add more evaluation and/or move to another class?
 		if (state == QuestState.pending
 				&& playerCount < playerAttributes.length
-				&& MHFCQuestsRegistry.getQuestForPlayer(player) == null) {
+				&& MHFCQuestRegistry.getQuestForPlayer(player) == null) {
 			return true;
 		}
 		return false;
@@ -187,7 +188,7 @@ public class GeneralQuest implements QuestGoalSocket {
 		if (canJoin(player)) {
 			playerAttributes[playerCount] = newAttribute((EntityPlayerMP) player);
 			++playerCount;
-			MHFCQuestsRegistry.setQuestForPlayer(player, this);
+			MHFCQuestRegistry.setQuestForPlayer(player, this);
 			updatePlayers();
 		}
 	}
@@ -218,7 +219,7 @@ public class GeneralQuest implements QuestGoalSocket {
 		PacketPipeline.networkPipe.sendTo(
 				new<QuestRunningInformation> MessageQuestVisual("", null),
 				att.player);
-		MHFCQuestsRegistry.setQuestForPlayer(att.player, null);
+		MHFCQuestRegistry.setQuestForPlayer(att.player, null);
 		if (att.player.getEntityWorld().provider.dimensionId != att.dimensionID)
 			FMLServerHandler.instance().getServer().getConfigurationManager()
 					.transferPlayerToDimension(att.player, att.dimensionID);

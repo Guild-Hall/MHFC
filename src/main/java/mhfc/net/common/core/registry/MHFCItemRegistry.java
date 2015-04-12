@@ -1,68 +1,16 @@
 package mhfc.net.common.core.registry;
 
-import mhfc.net.common.item.armor.DragoonArmor;
-import mhfc.net.common.item.armor.KirinArmor;
-import mhfc.net.common.item.armor.KirinSArmor;
-import mhfc.net.common.item.armor.KishinArmor;
-import mhfc.net.common.item.armor.RathalosArmor;
-import mhfc.net.common.item.armor.TigrexArmor;
-import mhfc.net.common.item.armor.VelocipreyArmor;
-import mhfc.net.common.item.armor.YukumoArmor;
+import mhfc.net.common.item.armor.*;
 import mhfc.net.common.item.food.ItemKirinBuff;
 import mhfc.net.common.item.food.ItemMeats;
 import mhfc.net.common.item.food.ItemNutrients;
-import mhfc.net.common.item.materials.ItemArmorSphere;
-import mhfc.net.common.item.materials.ItemBase;
-import mhfc.net.common.item.materials.ItemBombMaterial;
-import mhfc.net.common.item.materials.ItemDeviljho;
-import mhfc.net.common.item.materials.ItemFirestone;
-import mhfc.net.common.item.materials.ItemGaguaEgg;
-import mhfc.net.common.item.materials.ItemIngot;
-import mhfc.net.common.item.materials.ItemKirin;
-import mhfc.net.common.item.materials.ItemLumberBar;
-import mhfc.net.common.item.materials.ItemMoldedIron;
-import mhfc.net.common.item.materials.ItemRathalos;
-import mhfc.net.common.item.materials.ItemRemobra;
-import mhfc.net.common.item.materials.ItemSac;
-import mhfc.net.common.item.materials.ItemSpawner;
-import mhfc.net.common.item.materials.ItemSteelBar;
-import mhfc.net.common.item.materials.ItemTigrex;
-import mhfc.net.common.item.materials.ItemTrapTool;
-import mhfc.net.common.item.materials.ItemWoodRig;
-import mhfc.net.common.item.materials.ItemWyvernCoin;
-import mhfc.net.common.item.materials.ItemWyverniaClay;
-import mhfc.net.common.item.materials.ItemWyverniaDust;
-import mhfc.net.common.weapon.melee.greatsword.GSBone;
-import mhfc.net.common.weapon.melee.greatsword.GSDeadlySerpentBlade;
-import mhfc.net.common.weapon.melee.greatsword.GSDeviljhobroadsword;
-import mhfc.net.common.weapon.melee.greatsword.GSRathalosFiresword;
-import mhfc.net.common.weapon.melee.greatsword.GSThunderSword;
-import mhfc.net.common.weapon.melee.greatsword.GSTigrex;
-import mhfc.net.common.weapon.melee.hammer.HDeviljho;
-import mhfc.net.common.weapon.melee.hammer.HKirinSpark;
-import mhfc.net.common.weapon.melee.hammer.HRathalos;
-import mhfc.net.common.weapon.melee.hammer.HTigrex;
-import mhfc.net.common.weapon.melee.hammer.HWar;
-import mhfc.net.common.weapon.melee.hammer.HWarPlus;
-import mhfc.net.common.weapon.melee.hammer.HWarSlammer;
+import mhfc.net.common.item.materials.*;
+import mhfc.net.common.weapon.melee.greatsword.*;
+import mhfc.net.common.weapon.melee.hammer.*;
 import mhfc.net.common.weapon.melee.huntinghorn.HHIvoryHorn;
 import mhfc.net.common.weapon.melee.huntinghorn.HHMetalBagpipe;
 import mhfc.net.common.weapon.melee.huntinghorn.HHTigrex;
-import mhfc.net.common.weapon.melee.longsword.LSDarkVipern;
-import mhfc.net.common.weapon.melee.longsword.LSDevilSlicer;
-import mhfc.net.common.weapon.melee.longsword.LSEagerCleaver;
-import mhfc.net.common.weapon.melee.longsword.LSIKGospel;
-import mhfc.net.common.weapon.melee.longsword.LSIKGrace;
-import mhfc.net.common.weapon.melee.longsword.LSIronKatana;
-import mhfc.net.common.weapon.melee.longsword.LSLionDanceSaber;
-import mhfc.net.common.weapon.melee.longsword.LSLionKaiserSaber;
-import mhfc.net.common.weapon.melee.longsword.LSLionKingSaber;
-import mhfc.net.common.weapon.melee.longsword.LSLionsRoarSaber;
-import mhfc.net.common.weapon.melee.longsword.LSMirageFinsword;
-import mhfc.net.common.weapon.melee.longsword.LSMirageFinswordplus;
-import mhfc.net.common.weapon.melee.longsword.LSPhantomMirage;
-import mhfc.net.common.weapon.melee.longsword.LSSaber;
-import mhfc.net.common.weapon.melee.longsword.LSTrueDevilSlicer;
+import mhfc.net.common.weapon.melee.longsword.*;
 import mhfc.net.common.weapon.range.bowgun.BHRath;
 import net.minecraft.item.Item;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -99,7 +47,7 @@ public class MHFCItemRegistry {
 	public static final Item weapon_ls_miragefinsword;
 	public static final Item weapon_ls_miragefinswordplus;
 	public static final Item weapon_ls_phantommirage;
-	
+
 	public static final Item weapon_hh_metalbagpipe;
 	public static final Item weapon_hh_ivoryhorn;
 	public static final Item weapon_hh_tigrex;
@@ -154,7 +102,7 @@ public class MHFCItemRegistry {
 	public static final Item armor_tigrexB_legs;
 	public static final Item armor_tigrexB_boots;
 
-	//Materials
+	// Materials
 
 	public static final Item mhfcitemtigrex;
 	public static final Item mhfcitemkirin;
@@ -169,6 +117,7 @@ public class MHFCItemRegistry {
 	public static final Item mhfcitemsteelbar;
 	public static final Item MHFCItemWyverniaDust;
 	public static final Item MHFCItemTrapTool;
+	public static final Item MHFCItemFlashBomb;
 	public static final Item MHFCItemBombMaterial;
 	public static final Item MHFCItemGaguaEgg;
 	public static final Item MHFCItemWyvernCoin;
@@ -186,19 +135,17 @@ public class MHFCItemRegistry {
 	public static final Item mhfcitemkirinbuff;
 	public static final Item mhfcfoodmeat;
 	public static final Item mhfcfoodnutrients;
-	
-	//Spawners.(They must be Last)
+
+	// Spawners.(They must be Last)
 	public static final Item MHFCItemFrontierSpawner;
 
 	static {
-		
+
 		/**
-		 * @author Heltrato:
-		 * 		"Please sort the weapon by there Rarity.. Thanks"
+		 * @author Heltrato: "Please sort the weapon by there Rarity.. Thanks"
 		 * 
 		 * */
-		
-		
+
 		// Armor
 		armor_yukumo_helm = registerItem(new YukumoArmor(0));
 		armor_velociprey_helm = registerItem(new VelocipreyArmor(0));
@@ -208,7 +155,7 @@ public class MHFCItemRegistry {
 		armor_dragoon_helm = registerItem(new DragoonArmor(0));
 		armor_kirinS_helm = registerItem(new KirinSArmor(0));
 		armor_tigrexB_helm = registerItem(new KishinArmor(0));
-		
+
 		armor_yukumo_chest = registerItem(new YukumoArmor(1));
 		armor_velociprey_chest = registerItem(new VelocipreyArmor(1));
 		armor_rathalos_chest = registerItem(new RathalosArmor(1));
@@ -217,7 +164,7 @@ public class MHFCItemRegistry {
 		armor_dragoon_chest = registerItem(new DragoonArmor(1));
 		armor_kirinS_chest = registerItem(new KirinSArmor(1));
 		armor_tigrexB_chest = registerItem(new KishinArmor(1));
-		
+
 		armor_yukumo_legs = registerItem(new YukumoArmor(2));
 		armor_velociprey_legs = registerItem(new VelocipreyArmor(2));
 		armor_rathalos_legs = registerItem(new RathalosArmor(2));
@@ -226,7 +173,7 @@ public class MHFCItemRegistry {
 		armor_dragoon_legs = registerItem(new DragoonArmor(2));
 		armor_kirinS_legs = registerItem(new KirinSArmor(2));
 		armor_tigrexB_legs = registerItem(new KishinArmor(2));
-		
+
 		armor_yukumo_boots = registerItem(new YukumoArmor(3));
 		armor_velociprey_boots = registerItem(new VelocipreyArmor(3));
 		armor_rathalos_boots = registerItem(new RathalosArmor(3));
@@ -235,8 +182,7 @@ public class MHFCItemRegistry {
 		armor_dragoon_boots = registerItem(new DragoonArmor(3));
 		armor_kirinS_boots = registerItem(new KirinSArmor(3));
 		armor_tigrexB_boots = registerItem(new KishinArmor(3));
-		
-		
+
 		// Weapons
 		weapon_gs_bone = registerItem(new GSBone());
 		weapon_gs_deadlyserpentblade = registerItem(new GSDeadlySerpentBlade());
@@ -260,7 +206,7 @@ public class MHFCItemRegistry {
 		weapon_ls_phantommirage = registerItem(new LSPhantomMirage());
 		weapon_ls_darkvipern = registerItem(new LSDarkVipern());
 		weapon_ls_lionsroarsaber = registerItem(new LSLionsRoarSaber());
-		
+
 		weapon_hm_warhammer = registerItem(new HWar());
 		weapon_hm_warhammerplus = registerItem(new HWarPlus());
 		weapon_hm_warslammer = registerItem(new HWarSlammer());
@@ -268,8 +214,7 @@ public class MHFCItemRegistry {
 		weapon_hm_devilsdue = registerItem(new HDeviljho());
 		weapon_hm_rathalos = registerItem(new HRathalos());
 		weapon_hm_kirinspark = registerItem(new HKirinSpark());
-		
-		
+
 		weapon_hh_ivoryhorn = registerItem(new HHIvoryHorn());
 		weapon_hh_metalbagpipe = registerItem(new HHMetalBagpipe());
 		weapon_hh_tigrex = registerItem(new HHTigrex());
@@ -286,6 +231,7 @@ public class MHFCItemRegistry {
 		mhfcitemsteelbar = registerItem(new ItemSteelBar());
 		MHFCItemTrapTool = registerItem(new ItemTrapTool());
 		MHFCItemBombMaterial = registerItem(new ItemBombMaterial());
+		MHFCItemFlashBomb = registerItem(new ItemFlashBomb());
 		MHFCItemGaguaEgg = registerItem(new ItemGaguaEgg());
 		MHFCItemWyvernCoin = registerItem(new ItemWyvernCoin());
 
@@ -312,7 +258,8 @@ public class MHFCItemRegistry {
 		mhfcfoodnutrients = registerItem(new ItemNutrients());
 	}
 
-	public static void init() {}
+	public static void init() {
+	}
 
 	private static Item registerItem(Item item) {
 		GameRegistry.registerItem(item, item.getUnlocalizedName());

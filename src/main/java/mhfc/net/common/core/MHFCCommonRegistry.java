@@ -1,17 +1,7 @@
 package mhfc.net.common.core;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.core.registry.MHFCBlockRegistry;
-import mhfc.net.common.core.registry.MHFCCraftingRegistry;
-import mhfc.net.common.core.registry.MHFCEntityRegistry;
-import mhfc.net.common.core.registry.MHFCEventRegistry;
-import mhfc.net.common.core.registry.MHFCHunterCraftingRegistry;
-import mhfc.net.common.core.registry.MHFCItemRegistry;
-import mhfc.net.common.core.registry.MHFCPacketRegistry;
-import mhfc.net.common.core.registry.MHFCPotionRegistry;
-import mhfc.net.common.core.registry.MHFCQuestsRegistry;
-import mhfc.net.common.core.registry.MHFCSmeltingRegistry;
-import mhfc.net.common.core.registry.MHFCTileRegistry;
+import mhfc.net.common.core.registry.*;
 import mhfc.net.common.util.MHFCStringDecode;
 
 import org.apache.logging.log4j.Logger;
@@ -44,7 +34,8 @@ public class MHFCCommonRegistry {
 	}
 
 	private static void addQuests() {
-		MHFCQuestsRegistry.init();
+		MHFCQuestRegistry.init();
+		MHFCQuestBuildRegistry.init();
 		MHFCMain.logger.info("Quest Server registered");
 	}
 

@@ -1,8 +1,9 @@
-package mhfc.net.common.quests;
+package mhfc.net.common.quests.api;
 
 import java.util.EnumSet;
 
-import mhfc.net.common.quests.goals.QuestGoal;
+import mhfc.net.common.quests.GeneralQuest;
+import mhfc.net.common.quests.QuestStatus;
 
 /**
  * An interface for classes that do have a quest goal. This is necessary as they

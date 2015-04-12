@@ -6,13 +6,12 @@ import mhfc.net.client.gui.GuiListItem.Alignment;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 
 import org.lwjgl.opengl.GL11;
 
 public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
-		implements
-			IMouseInteractable {
+	implements
+		IMouseInteractable {
 
 	public static class GuiListStringItem extends GuiListItem {
 
@@ -48,7 +47,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	 *            The height to be used for list items
 	 */
 	public ClickableGuiList(int posX, int posY, int width, int height,
-			float itemHeight) {
+		float itemHeight) {
 		this.posX = posX;
 		this.posY = posY;
 		this.width = width;
@@ -128,11 +127,10 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 			recalculateItemHeight();
 		int width = Math.max(this.width, 15);
 		Minecraft m = Minecraft.getMinecraft();
-		int scale = new ScaledResolution(m.gameSettings, m.displayWidth,
-				m.displayHeight).getScaleFactor();
+		int scale = MHFCGuiUtil.guiScaleFactor(m);
 		int openGLy = m.displayHeight;
 		GL11.glScissor(posX * scale, openGLy - (posY + height) * scale, width
-				* scale, height * scale + 1);
+			* scale, height * scale + 1);
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 
 		drawBackground(posX, posY, mouseX, mouseY);
@@ -150,10 +148,10 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 			float sliderHeight = height * height / extendedHeight;
 			float sliderPosY = scrollAmount * height / extendedHeight;
 			GL11.glColor4f(1, 1, 1, alpha);
-			Minecraft.getMinecraft().getTextureManager()
-					.bindTexture(MHFCRegQuestVisual.SCROLL_BAR);
+			Minecraft.getMinecraft().getTextureManager().bindTexture(
+				MHFCRegQuestVisual.SCROLL_BAR);
 			MHFCGuiUtil.drawTexturedRectangle(posX + width - sliderWidth, posY
-					+ sliderPosY, sliderWidth, sliderHeight, 0, 0, 1f, 1f);
+				+ sliderPosY, sliderWidth, sliderHeight, 0, 0, 1f, 1f);
 		}
 	}
 
@@ -210,7 +208,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	 */
 	protected boolean hoversMouseOverSlider(int mouseX, int mouseY) {
 		if (mouseY >= 0 && mouseY <= height && mouseX > width - sliderWidth
-				&& mouseX <= width) {
+			&& mouseX <= width) {
 			return true;
 		}
 		return false;
@@ -227,7 +225,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 		for (i = (int) (scrollAmount / itemHeight); i <= this.size(); i++) {
 			GL11.glVertex3f(posX, posY - scrollAmount + i * itemHeight, 0f);
 			GL11.glVertex3f(posX + width, posY - scrollAmount + i * itemHeight,
-					0f);
+				0f);
 		}
 		GL11.glEnd();
 
@@ -237,13 +235,13 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 			maxY = Math.min(posY + i * itemHeight, maxY);
 		GL11.glBegin(GL11.GL_LINE_STRIP);
 		GL11.glVertex3d(posX - 0.5f + width, posY - scrollAmount + (selected)
-				* itemHeight, 0f);
+			* itemHeight, 0f);
 		GL11.glVertex3d(posX - 0.5f + width, posY, 0f);
 		GL11.glVertex3d(posX + 0.5f, posY, 0f);
 		GL11.glVertex3d(posX + 0.5f, maxY, 0f);
 		GL11.glVertex3d(posX - 0.5f + width, maxY, 0f);
 		GL11.glVertex3d(posX - 0.5f + width, posY - scrollAmount
-				+ (selected + 1) * itemHeight, 0f);
+			+ (selected + 1) * itemHeight, 0f);
 		if (size() == 0)
 			GL11.glVertex3d(posX + 0.5f, maxY, 0f);
 		GL11.glEnd();
@@ -257,7 +255,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 		for (int i = (int) (scrollAmount / itemHeight); i < this.size(); i++) {
 			GuiListItem item = this.get(i);
 			item.draw(posX, posY - (int) (scrollAmount - i * itemHeight),
-					width, (int) itemHeight, m, i == selected, alignment);
+				width, (int) itemHeight, m, i == selected, alignment);
 		}
 	}
 
@@ -272,7 +270,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	@Override
 	public boolean handleClick(int relativeX, int relativeY, int button) {
 		if (!visible || relativeX < 0 || relativeX >= width || relativeY < 0
-				|| relativeY >= height)
+			|| relativeY >= height)
 			return false;
 		if (isMouseOnSlider(relativeX, relativeY)) {
 			mouseClickX = relativeX;
@@ -290,10 +288,10 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 
 	@Override
 	public void handleMovementMouseDown(int mouseX, int mouseY, int button,
-			long timeDiff) {
+		long timeDiff) {
 		if (isMouseOnSlider(mouseClickX, mouseClickY)) {
 			scrollAmount += (mouseY - mouseClickMoveY) / (float) height
-					* getFullHeight();
+				* getFullHeight();
 			scrollAmount = Math.min(scrollAmount, getFullHeight() - height);
 			scrollAmount = Math.max(scrollAmount, 0f);
 			isSliderDragged = true;

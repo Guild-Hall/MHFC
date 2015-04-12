@@ -8,14 +8,13 @@ import mhfc.net.client.gui.ClickableGuiList.GuiListStringItem;
 import mhfc.net.client.gui.IMHFCTab;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.packet.MessageQuestInteraction;
-import mhfc.net.common.network.packet.MessageQuestInteraction.Interaction;
+import mhfc.net.common.network.packet.MessageMHFCInteraction;
+import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
 import mhfc.net.common.quests.QuestRunningInformation;
 import mhfc.net.common.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
@@ -37,7 +36,7 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 		this.xSize = 374;
 		this.ySize = 220;
 		runningQuestList = new ClickableGuiList<GuiListStringItem>(width,
-				height);
+			height);
 		runningQuestList.setDrawSmallestBounds(false);
 		runningQuestList.setRecalculateItemHeightOnDraw(false);
 		runningQuestList.setItemWidth(22);
@@ -51,18 +50,18 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 		joinQuest = new GuiButton(0, 25, 10, 185 + yPos, 20, "Take Quest") {
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
-					int p_146116_3_) {
+				int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					clickHandled = true;
 					GuiListStringItem selectedItem = runningQuestList
-							.getSelectedItem();
+						.getSelectedItem();
 					if (selectedItem != null) {
 						String questID = mapToIdentifiers.get(selectedItem);
 						if (questID == null)
 							return true;
 						PacketPipeline.networkPipe
-								.sendToServer(new MessageQuestInteraction(
-										Interaction.ACCEPT, questID));
+							.sendToServer(new MessageMHFCInteraction(
+								Interaction.ACCEPT_QUEST, questID));
 					}
 					return true;
 				}
@@ -81,7 +80,8 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 		runningQuestList.setWidthAndHeight(runningW, ySize - 2 * yBorder - 10);
 
 		joinQuest.xPosition = (xSize - runningX - runningW - joinQuest
-				.getButtonWidth()) / 2 + runningX + runningW + xPos;
+			.getButtonWidth())
+			/ 2 + runningX + runningW + xPos;
 		joinQuest.yPosition = ySize - yBorder - buttonHeight + yPos;
 	}
 
@@ -101,7 +101,7 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTick) {
 		fontRendererObj.drawString("Currently running:", xPos + 9, yPos
-				+ yBorder, 0x404040);
+			+ yBorder, 0x404040);
 		runningQuestList.setVisible(true);
 		runningQuestList.draw(xPos, yPos, mouseX - xPos, mouseY - yPos);
 		joinQuest.visible = true;
@@ -110,11 +110,11 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 		if (item != null) {
 			String id = mapToIdentifiers.get(item);
 			QuestRunningInformation info = MHFCRegQuestVisual
-					.getRunningInformation(id);
+				.getRunningInformation(id);
 			if (info != null)
 				info.drawInformation(xPos + runningW + runningX,
-						yPos + yBorder, xSize - runningW - 2 * runningX, ySize
-								- 2 * yBorder, page, fontRendererObj);
+					yPos + yBorder, xSize - runningW - 2 * runningX, ySize - 2
+						* yBorder, page, fontRendererObj);
 		}
 
 		super.drawScreen(mouseX, mouseY, partialTick);
@@ -124,13 +124,13 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 	protected void mouseClicked(int mouseX, int mouseY, int button) {
 		clickHandled = false;
 		super.mouseClicked(mouseX, mouseY, button);
-		if (runningQuestList.handleClick(
-				mouseX - xPos - runningQuestList.getPosX(), mouseY - yPos
-						- runningQuestList.getPosY(), button)) {
+		if (runningQuestList.handleClick(mouseX - xPos
+			- runningQuestList.getPosX(), mouseY - yPos
+			- runningQuestList.getPosY(), button)) {
 
 		} else if (!MHFCRegQuestVisual.hasPlayerQuest() // Is an info displayed
-				&& mouseX > xPos + 80 && mouseX < xPos + 300 // x check
-				&& mouseY > yPos && mouseY < yPos + ySize - 30) {
+			&& mouseX > xPos + 80 && mouseX < xPos + 300 // x check
+			&& mouseY > yPos && mouseY < yPos + ySize - 30) {
 			if (!clickHandled) {
 				clickHandled = true;
 				int add = button == 0 ? 1 : button == 1 ? -1 : 0;
@@ -143,18 +143,16 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 	@Override
 	public void drawBackground(int p_146278_1_) {
 		mc.getTextureManager().bindTexture(
-				MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
+			MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
 		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, this.zLevel,
-				this.xSize, this.ySize, 0, 0, 1f, 1f);
+			this.xSize, this.ySize, 0, 0, 1f, 1f);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui() {
-		ScaledResolution s = new ScaledResolution(mc.gameSettings,
-				mc.displayWidth, mc.displayHeight);
-		xPos = (s.getScaledWidth() - xSize) / 2;
-		yPos = (s.getScaledHeight() - ySize) / 2;
+		xPos = (MHFCGuiUtil.minecraftWidth(mc) - xSize) / 2;
+		yPos = (MHFCGuiUtil.minecraftHeight(mc) - ySize) / 2;
 		super.initGui();
 		buttonList.add(joinQuest);
 		updateScreen();
@@ -190,12 +188,12 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 
 	@Override
 	public void drawTab(int posX, int posY, int mousePosX, int mousePosY,
-			float partialTick) {
+		float partialTick) {
 		this.xPos = posX;
 		this.yPos = posY;
 		updateTab(xPos, yPos);
 		drawBackground(0);
-		drawScreen(mousePosX, mousePosY, partialTick);
+		drawScreen(mousePosX + xPos, mousePosY + yPos, partialTick);
 	}
 
 	@Override
@@ -219,7 +217,7 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 
 	@Override
 	public void handleMovementMouseDown(int mouseX, int mouseY, int button,
-			long timeDiff) {
+		long timeDiff) {
 		mouseClickMove(mouseX + xPos, mouseY + yPos, button, timeDiff);
 	}
 

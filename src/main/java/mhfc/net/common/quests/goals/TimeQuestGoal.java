@@ -5,8 +5,9 @@ package mhfc.net.common.quests.goals;
 
 import mhfc.net.common.eventhandler.MHFCDelayedJob;
 import mhfc.net.common.eventhandler.MHFCJobHandler;
-import mhfc.net.common.quests.QuestGoalSocket;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
+import mhfc.net.common.quests.api.QuestGoal;
+import mhfc.net.common.quests.api.QuestGoalSocket;
 
 /**
  *
@@ -86,40 +87,46 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 		int ticksToFail = MHFCJobHandler.instance().getDelay(this);
 		if (ticksToFail < 0)
 			ticksToFail = initialTicksToFail;
-		if (type == InformationType.TimeLimit) {
-			current += (current.endsWith("\n") || current.matches("\\s*")
+		switch (type) {
+			case TimeLimit :
+				current += (current.endsWith("\n") || current.matches("\\s*")
 					? ""
 					: "\n");
-			if (active) {
-				current += "{time:" + ticksToFail + "}/ "
+				if (active) {
+					current += "{time:" + ticksToFail + "}/ "
 						+ parseTimeFromTicks(initialTicksToFail);
-			} else {
-				current += parseTimeFromTicks(ticksToFail);
-			}
-		} else if (type == InformationType.LongStatus) {
-			current += (current.endsWith("\n") || current.matches("\\s*")
+				} else {
+					current += parseTimeFromTicks(ticksToFail);
+				}
+				break;
+			case LongStatus :
+				current += (current.endsWith("\n") || current.matches("\\s*")
 					? ""
 					: "\n");
-			current += "Finish within "
+				current += "Finish within "
 					+ (active ? " {time:" + ticksToFail + "} of " : "") + "a "
-					+ parseTimeFromTicks(initialTicksToFail) + " Time Limit";
-		} else if (type == InformationType.ShortStatus) {
-			current += (current.endsWith("\n") || current.matches("\\s*")
+					+ parseTimeFromTicks(initialTicksToFail) + "Time Limit";
+				break;
+			case ShortStatus :
+				current += (current.endsWith("\n") || current.matches("\\s*")
 					? ""
 					: "\n");
-			if (active) {
-				current += "{time:" + ticksToFail + "} remaining";
-			} else {
-				current += parseTimeFromTicks(ticksToFail) + " limit";
-			}
+				if (active) {
+					current += "{time:" + ticksToFail + "} remaining";
+				} else {
+					current += parseTimeFromTicks(ticksToFail) + "limit";
+				}
+				break;
+			default :
+				break;
 		}
 		return current;
 	}
 
 	private static String parseTimeFromTicks(long delta) {
 		delta /= MHFCJobHandler.ticksPerSecond;
-		return "" + (delta >= 3600 ? delta / 3600 + "h " : "")
-				+ (delta >= 60 ? (delta % 3600) / 60 + "min " : "")
-				+ (delta >= 0 ? delta % 60 : delta) + "s";
+		return "" + (delta / 3600 > 0 ? delta / 3600 + "h " : "")
+			+ ((delta % 3600) / 60 > 0 ? (delta % 3600) / 60 + "min " : "")
+			+ (delta % 60 > 0 ? delta % 60 + "s " : "");
 	}
 }

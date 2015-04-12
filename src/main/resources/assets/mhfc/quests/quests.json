@@ -2,7 +2,7 @@
 	TestQuest : {
 		goal : {
 			type : "fork",
-			dependencies : ["StandardDeath", "StandardTimer", "Test"]
+			requisites : ["StandardDeath", "StandardTimer", "Test"]
 		} ,
 		name : "Test Hunting",
 		reward : 5000,
@@ -12,7 +12,7 @@
 	"New Quest": {
 		goal :{
 			type : "fork",
-			dependencies : ["StandardFail", "AnotherTest"]
+			requisites : ["StandardFail", "AnotherTest"]
 		},
 		name : "Hunt Rathalos",
 		reward : 4000,
