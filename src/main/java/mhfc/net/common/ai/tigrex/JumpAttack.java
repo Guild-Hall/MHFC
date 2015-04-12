@@ -10,12 +10,16 @@ import net.minecraft.util.Vec3;
 public class JumpAttack extends AttackAdapter<EntityTigrex> {
 	private static final int LAST_FRAME = 80;
 	private static final int JUMP_FRAME = 20;
-	private static final float TURN_RATE = 3;
-	private static final float JUMP_SCALE = 1.4f;
+	private static final float TURN_RATE = 4;
+	private static final float JUMP_SCALE = 0.95f;
+	private static final float MAX_SCALE = 3;
+	private static final float MIN_SCALE = 0.8f;
+	private static final float JUMP_HEIGHT = 0.5f;
 
 	private static final IDamageCalculator damageCalc = AIUtils
 		.defaultDamageCalc(2.2f, 62f, 400f);
 	private static final double MIN_DIST = 10f;
+	private static final float MAX_ANGLE = -0.1f;
 	private static final float SELECTION_WEIGHT = 5f;
 
 	public JumpAttack() {
@@ -30,10 +34,10 @@ public class JumpAttack extends AttackAdapter<EntityTigrex> {
 		if (target == null)
 			return DONT_SELECT;
 		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
-		if (toTarget.normalize().dotProduct(tigrex.getLookVec()) < 0)
+		if (toTarget.normalize().dotProduct(tigrex.getLookVec()) < MAX_ANGLE)
 			return DONT_SELECT;
 		double dist = toTarget.lengthVector();
-		return MIN_DIST < dist ? DONT_SELECT : SELECTION_WEIGHT;
+		return MIN_DIST > dist ? DONT_SELECT : SELECTION_WEIGHT;
 	}
 
 	@Override
@@ -49,9 +53,15 @@ public class JumpAttack extends AttackAdapter<EntityTigrex> {
 			getEntity().getTurnHelper().updateTargetPoint(
 				getEntity().getAttackTarget());
 		} else if (frame == JUMP_FRAME) {
+			float distanceMult = JUMP_SCALE;
+			distanceMult *= Math.sqrt(getEntity().getDistanceToEntity(
+				getEntity().getAttackTarget()));
+			distanceMult = Math.min(MAX_SCALE, Math
+				.max(distanceMult, MIN_SCALE));
+			getEntity().addVelocity(look.xCoord * JUMP_SCALE * distanceMult,
+				JUMP_HEIGHT, look.zCoord * JUMP_SCALE * distanceMult);
+		} else {
 			AIUtils.damageCollidingEntities(getEntity(), damageCalc);
-			getEntity().addVelocity(look.xCoord * JUMP_SCALE,
-				0.35f * JUMP_SCALE, look.zCoord * JUMP_SCALE);
 		}
 	}
 

@@ -1,10 +1,6 @@
 package mhfc.net.common.entity.mob;
 
-import mhfc.net.common.ai.tigrex.BiteAttack;
-import mhfc.net.common.ai.tigrex.GroundHurl;
-import mhfc.net.common.ai.tigrex.JumpAttack;
-import mhfc.net.common.ai.tigrex.RunAttack;
-import mhfc.net.common.ai.tigrex.SpinAttack;
+import mhfc.net.common.ai.tigrex.*;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -30,25 +26,24 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		this.attackManager.registerAttack(new JumpAttack());
 
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
-				EntityPopo.class, 0, true));
+			EntityPopo.class, 0, true));
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
-				EntityPlayer.class, 0, true));
+			EntityPlayer.class, 0, true));
 	}
 
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getAttributeMap()
-				.getAttributeInstance(SharedMonsterAttributes.followRange)
-				.setBaseValue(128d);
+		this.getAttributeMap().getAttributeInstance(
+			SharedMonsterAttributes.followRange).setBaseValue(128d);
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
-				.setBaseValue(1.3D);
+			.setBaseValue(1.3D);
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-				healthbaseHP(6000D, 7800D, 8600D));
+			healthbaseHP(6000D, 7800D, 8600D));
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(
-				35D);
+			35D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(
-				0.3D);
+			0.3D);
 	}
 
 	@Override
@@ -89,6 +84,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	protected String getDeathSound() {
 		return null;
 	}
+
 	@Override
 	public EntityMHFCPart[] getParts() {
 		// TODO Auto-generated method stub

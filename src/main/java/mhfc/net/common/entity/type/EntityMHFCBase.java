@@ -34,12 +34,12 @@ import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
  *
  */
 public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
-		extends
-			EntityCreature
-		implements
-			IEntityMultiPart,
-			IAnimatedObject,
-			IMangedAttacks<YC> {
+	extends
+		EntityCreature
+	implements
+		IEntityMultiPart,
+		IAnimatedObject,
+		IMangedAttacks<YC> {
 	/**
 	 * {@link #getDataWatcher()}
 	 */
@@ -51,7 +51,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
 		tasks.addTask(0,
-				this.attackManager = new AIAttackManager<YC>((YC) this));
+			this.attackManager = new AIAttackManager<YC>((YC) this));
 	}
 
 	/**
@@ -88,8 +88,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	public void dropItemRand(ItemStack stack) {
 		Random rand = worldObj.rand;
 		EntityItem entityItem = new EntityItem(this.worldObj, posX
-				+ rand.nextInt(10) - 5, posY + 1.0D, posZ + rand.nextInt(10)
-				- 5, stack);
+			+ rand.nextInt(10) - 5, posY + 1.0D, posZ + rand.nextInt(10) - 5,
+			stack);
 		worldObj.spawnEntityInWorld(entityItem);
 	}
 
@@ -197,8 +197,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 
 			@SuppressWarnings("unchecked")
 			List<AxisAlignedBB> bbsInWay = this.worldObj
-					.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(
-							currOffX, currOffY, currOffZ));
+				.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(
+					currOffX, currOffY, currOffZ));
 			// Calculates the smallest possible offset in Y direction
 			for (AxisAlignedBB bb : bbsInWay) {
 				currOffY = bb.calculateYOffset(this.boundingBox, currOffY);
@@ -212,8 +212,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 			for (EntityMHFCPart part : parts) {
 				@SuppressWarnings("unchecked")
 				List<AxisAlignedBB> bbsInWayPart = this.worldObj
-						.getCollidingBoundingBoxes(this, part.boundingBox
-								.addCoord(currOffX, currOffY, currOffZ));
+					.getCollidingBoundingBoxes(this, part.boundingBox.addCoord(
+						currOffX, currOffY, currOffZ));
 				// Calculates the smallest possible offset in Y direction
 				for (AxisAlignedBB bb : bbsInWayPart) {
 					currOffY = bb.calculateYOffset(part.boundingBox, currOffY);
@@ -227,10 +227,10 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 			}
 			/** If we will are or will land on something */
 			boolean landed = this.onGround
-					|| (correctedOffY != currOffY && correctedOffY < 0.0D);
+				|| (correctedOffY != currOffY && correctedOffY < 0.0D);
 
 			if (this.stepHeight > 0.0F && landed && (this.ySize < 0.125F)
-					&& (correctedOffX != currOffX || correctedOffZ != currOffZ)) {
+				&& (correctedOffX != currOffX || correctedOffZ != currOffZ)) {
 				double nostepOffX = currOffX;
 				double nostepOffY = currOffY;
 				double nostepOffZ = currOffZ;
@@ -241,9 +241,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 
 				@SuppressWarnings("unchecked")
 				List<AxisAlignedBB> bbsInStepup = this.worldObj
-						.getCollidingBoundingBoxes(this, this.boundingBox
-								.addCoord(correctedOffX, currOffY,
-										correctedOffZ));
+					.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(
+						correctedOffX, currOffY, correctedOffZ));
 
 				for (AxisAlignedBB bb : bbsInStepup) {
 					currOffY = bb.calculateYOffset(this.boundingBox, currOffY);
@@ -257,43 +256,43 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 				for (EntityMHFCPart part : parts) {
 					@SuppressWarnings("unchecked")
 					List<AxisAlignedBB> bbsInStepupPart = this.worldObj
-							.getCollidingBoundingBoxes(this, part.boundingBox
-									.addCoord(currOffX, currOffY, currOffZ));
+						.getCollidingBoundingBoxes(this, part.boundingBox
+							.addCoord(currOffX, currOffY, currOffZ));
 					for (AxisAlignedBB bb : bbsInStepupPart) {
 						currOffY = bb.calculateYOffset(part.boundingBox,
-								currOffY);
+							currOffY);
 					}
 					for (AxisAlignedBB bb : bbsInStepupPart) {
 						currOffX = bb.calculateXOffset(part.boundingBox,
-								currOffX);
+							currOffX);
 					}
 					for (AxisAlignedBB bb : bbsInStepupPart) {
 						currOffZ = bb.calculateZOffset(part.boundingBox,
-								currOffZ);
+							currOffZ);
 					}
 				}
 
 				double groundOffY = (-this.stepHeight);
 				for (AxisAlignedBB bb : bbsInStepup) {
-					groundOffY = bb.calculateYOffset(
-							this.boundingBox.getOffsetBoundingBox(currOffX,
-									currOffY, currOffZ), groundOffY);
+					groundOffY = bb.calculateYOffset(this.boundingBox
+						.getOffsetBoundingBox(currOffX, currOffY, currOffZ),
+						groundOffY);
 				}
 				for (EntityMHFCPart part : parts) {
 					@SuppressWarnings("unchecked")
 					List<AxisAlignedBB> bbsInStepDown = this.worldObj
-							.getCollidingBoundingBoxes(this, part.boundingBox
-									.addCoord(currOffX, currOffY, currOffZ));
+						.getCollidingBoundingBoxes(this, part.boundingBox
+							.addCoord(currOffX, currOffY, currOffZ));
 					// Calculates the smallest possible offset in Y direction
 					for (AxisAlignedBB bb : bbsInStepDown) {
 						currOffY = bb.calculateYOffset(part.boundingBox,
-								currOffY);
+							currOffY);
 					}
 				}
 				currOffY += groundOffY;
 
 				if (nostepOffX * nostepOffX + nostepOffY * nostepOffY >= currOffX
-						* currOffX + currOffZ * currOffZ) {
+					* currOffX + currOffZ * currOffZ) {
 					currOffX = nostepOffX;
 					currOffY = nostepOffY;
 					currOffZ = nostepOffZ;
@@ -366,7 +365,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 
 	@Override
 	public boolean attackEntityFromPart(EntityDragonPart part,
-			DamageSource damageSource, float damageValue) {
+		DamageSource damageSource, float damageValue) {
 		// TODO handle attacked from
 		return false;
 	}
@@ -382,9 +381,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 
 	@Override
 	public RenderPassInformation preRenderCallback(float subFrame,
-			RenderPassInformation passInfo) {
+		RenderPassInformation passInfo) {
 		return passInfo.setAnimation(attackManager.getCurrentAnimation())
-				.setFrame(getCurrentFrame());
+			.setFrame(getCurrentFrame());
 	}
 
 	@Override
@@ -401,4 +400,10 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	public TargetTurnHelper getTurnHelper() {
 		return turnHelper;
 	}
+
+	@Override
+	public boolean canBePushed() {
+		return false;
+	}
+
 }

@@ -10,7 +10,7 @@ public class GroundHurl extends AttackAdapter<EntityTigrex> {
 	private static final float MIN_DIST = 10f;
 	private static final int LAST_FRAME = 60;
 	private static final int THROW_FRAME = 21;
-	private static final int TURN_FRAMES = 10;
+	private static final int TURN_FRAMES = 14;
 
 	private static final double SPLIT_MULTIPLIER = 0.125;
 	private static final double THROW_HEIGHT = 0.35;
@@ -19,10 +19,12 @@ public class GroundHurl extends AttackAdapter<EntityTigrex> {
 	private static final double MAX_ANGLE = 0.155;
 
 	private boolean thrown;
+	private int weightFactor;
 
 	public GroundHurl() {
 		setAnimation("mhfc:models/Tigrex/dirtthrow.mcanm");
 		setLastFrame(LAST_FRAME);
+		weightFactor = 1;
 	}
 
 	@Override
@@ -35,13 +37,17 @@ public class GroundHurl extends AttackAdapter<EntityTigrex> {
 		if (toTarget.normalize().dotProduct(tigrex.getLookVec()) < MAX_ANGLE)
 			return DONT_SELECT;
 		double dist = toTarget.lengthVector();
-		return (float) (dist - MIN_DIST) * 2;
+		int weight = weightFactor;
+		if (weightFactor > 1)
+			weightFactor--;
+		return (float) (dist - MIN_DIST) / (weight);
 	}
 
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
 		thrown = false;
+		weightFactor *= 3;
 	}
 
 	@Override
@@ -49,12 +55,18 @@ public class GroundHurl extends AttackAdapter<EntityTigrex> {
 		if (thrown)
 			return;
 		EntityTigrex tigrex = getEntity();
-		if (getRecentFrame() < TURN_FRAMES) {
-			tigrex.getTurnHelper().updateTurnSpeed(TURN_RATE);
-			tigrex.getTurnHelper().updateTargetPoint(tigrex.getAttackTarget());
-		}
-		if (getRecentFrame() < THROW_FRAME)
+		if (getRecentFrame() < THROW_FRAME) {
+			if (getRecentFrame() < TURN_FRAMES) {
+				tigrex.getTurnHelper().updateTurnSpeed(TURN_RATE);
+				tigrex.getTurnHelper().updateTargetPoint(
+					tigrex.getAttackTarget());
+			} else if (getRecentFrame() == TURN_FRAMES) {
+				Vec3 look = tigrex.getLookVec();
+				tigrex.getMoveHelper().setMoveTo(tigrex.posX + look.xCoord,
+					tigrex.posY + look.yCoord, tigrex.posZ + look.zCoord, 0.2);
+			}
 			return;
+		}
 		Vec3 look = tigrex.getLookVec();
 		Vec3 lookVec = tigrex.getLookVec();
 		Vec3 rightSide = lookVec.crossProduct(Vec3.createVectorHelper(0, 1, 0));

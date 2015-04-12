@@ -19,8 +19,9 @@ public class BiteAttack extends AttackAdapter<EntityTigrex> {
 	private static final IDamageCalculator damageCalc = AIUtils
 		.defaultDamageCalc(2.2f, 62f, 400f);
 
-	private static final double MAX_DIST = 7f;
+	private static final double MAX_DIST = 3f;
 	private static final double MAX_ANGLE = 0.155; // This is cos(30)
+	private static final float WEIGHT = 15;
 
 	public BiteAttack() {
 		setAnimation("mhfc:models/Tigrex/rawr.mcanm");
@@ -34,10 +35,12 @@ public class BiteAttack extends AttackAdapter<EntityTigrex> {
 		if (target == null)
 			return DONT_SELECT;
 		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
+		double dist = toTarget.lengthVector();
+		if (dist > MAX_DIST)
+			return DONT_SELECT;
 		if (toTarget.normalize().dotProduct(tigrex.getLookVec()) < MAX_ANGLE)
 			return DONT_SELECT;
-		double dist = toTarget.lengthVector();
-		return (float) (MAX_DIST - dist);
+		return WEIGHT;
 	}
 
 	@Override

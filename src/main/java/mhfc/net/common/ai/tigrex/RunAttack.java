@@ -15,13 +15,15 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 	private static final int attackEnd = 75;
 	private static final float TURN_RATE_INITIAL = 7;
 	private static final float TURN_RATE_DURING_RUN = 1;
+	private static final float MAX_RUN_DISTANCE = 40f;
 	private static final IDamageCalculator damageCalc = AIUtils
 		.defaultDamageCalc(2.2f, 62f, 400f);
 
 	private static enum PastEntityEnum {
 		NOT_PASSED,
 		PASSED,
-		LOOP_FINISHED;
+		LOOP_FINISHED,
+		TURNING;
 	}
 
 	private static enum AttackPhase {
@@ -61,13 +63,17 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 			@Override
 			public void update(RunAttack attk) {
 				EntityTigrex e = attk.getEntity();
-				Vec3 vecToTarget = Vec3.createVectorHelper(e.posX, e.posY,
-					e.posZ).subtract(attk.target.getPosition(1.0f));
+				Vec3 tigPos = Vec3.createVectorHelper(e.posX, e.posY, e.posZ);
+				Vec3 vecToTarget = tigPos.subtract(attk.target
+					.getPosition(1.0f));
 				e.getTurnHelper().updateTargetPoint(attk.target);
 				Vec3 look = e.getLookVec();
 				e.getMoveHelper().setMoveTo(e.posX + 3 * look.xCoord,
 					e.posY + 3 * look.yCoord, e.posZ + 3 * look.zCoord, 1.4);
-				if (vecToTarget.normalize().dotProduct(look) > 0
+				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
+				boolean ranLongEnough = attk.runStartPoint.subtract(tigPos)
+					.lengthVector() > MAX_RUN_DISTANCE;
+				if ((tarBeh || ranLongEnough)
 					&& attk.hasPassed == PastEntityEnum.NOT_PASSED) {
 					attk.hasPassed = PastEntityEnum.PASSED;
 				}
@@ -137,6 +143,7 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 
 	private AttackPhase currentPhase;
 	private PastEntityEnum hasPassed;
+	private Vec3 runStartPoint;
 
 	public RunAttack() {
 		setAnimation("mhfc:models/Tigrex/run_new.mcanm");
@@ -156,10 +163,12 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
-		target = getEntity().getAttackTarget();
+		EntityTigrex tig = getEntity();
+		target = tig.getAttackTarget();
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;
 		currentPhase.onPhaseStart(this);
+		runStartPoint = Vec3.createVectorHelper(tig.posX, tig.posY, tig.posZ);
 	}
 
 	@Override
