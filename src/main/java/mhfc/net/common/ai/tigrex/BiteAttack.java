@@ -17,7 +17,7 @@ import net.minecraft.util.Vec3;
 public class BiteAttack extends AttackAdapter<EntityTigrex> {
 	private static final int LAST_FRAME = 55;
 	private static final IDamageCalculator damageCalc = AIUtils
-		.defaultDamageCalc(2.2f, 62f, 400f);
+		.defaultDamageCalc(34f, 62f, 700f);
 
 	private static final double MAX_DIST = 3f;
 	private static final double MAX_ANGLE = 0.155; // This is cos(30)
@@ -47,5 +47,4 @@ public class BiteAttack extends AttackAdapter<EntityTigrex> {
 	public void update() {
 		AIUtils.damageCollidingEntities(getEntity(), damageCalc);
 	}
-
 }

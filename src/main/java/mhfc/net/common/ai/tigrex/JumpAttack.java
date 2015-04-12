@@ -17,7 +17,7 @@ public class JumpAttack extends AttackAdapter<EntityTigrex> {
 	private static final float JUMP_HEIGHT = 0.5f;
 
 	private static final IDamageCalculator damageCalc = AIUtils
-		.defaultDamageCalc(2.2f, 62f, 400f);
+		.defaultDamageCalc(32f, 62f, 500f);
 	private static final double MIN_DIST = 10f;
 	private static final float MAX_ANGLE = -0.1f;
 	private static final float SELECTION_WEIGHT = 5f;
