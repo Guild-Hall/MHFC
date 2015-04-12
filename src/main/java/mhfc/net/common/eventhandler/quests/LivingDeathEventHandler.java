@@ -4,8 +4,8 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class LivingDeathEventHandler
-		extends
-			QuestGoalEventHandler<LivingDeathEvent> {
+	extends
+		QuestGoalEventHandler<LivingDeathEvent> {
 
 	public LivingDeathEventHandler(NotifyableQuestGoal<LivingDeathEvent> g) {
 		super(g, LivingDeathEvent.class);

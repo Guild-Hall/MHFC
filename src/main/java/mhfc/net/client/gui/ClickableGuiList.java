@@ -412,6 +412,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 
 	public void setAlignment(Alignment alignment) {
 		this.alignment = alignment;
+
 	}
 
 	public void setRecalculateItemHeightOnDraw(boolean recalculate) {

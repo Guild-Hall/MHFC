@@ -3,9 +3,8 @@ package mhfc.net.common.ai;
 import mhfc.net.common.ai.WeightedPick.WeightedItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIBase;
 
-import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
+import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,6 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  *            the necessary Entity class
  */
 public interface IExecutableAttack<T extends Entity> extends WeightedItem {
+	public static final float DONT_SELECT = 0f;
 	/**
 	 * Tells the attack that it is rebound to the given entity. This might
 	 * happen when the entity is teleported and a new entity had to be created
@@ -34,8 +34,9 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	public void rebind(T entity);
 	/**
 	 * Gets how firmly this attack wants to be executed. The higher the value
-	 * the more likely the attack will be executed. Returning 0 means that the
-	 * attack will not be executed at all.
+	 * the more likely the attack will be executed. Returning
+	 * {@value #DONT_SELECT} or less means that the attack will not be executed
+	 * at all.
 	 *
 	 * @return
 	 */
@@ -89,7 +90,7 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	 * Returns the mutex bits for the attack.
 	 *
 	 * @return
-	 * @see EntityAIBase#getMutexBits()
+	 * @see AIAttackManager#getMutexBits()
 	 */
 	public byte mutexBits();
 	/**

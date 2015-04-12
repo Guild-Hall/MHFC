@@ -8,7 +8,7 @@ public abstract class QuestGoalEventHandler<EventType extends Event> {
 	protected Class<EventType> eventType;
 
 	public QuestGoalEventHandler(NotifyableQuestGoal<EventType> g,
-			Class<EventType> t) {
+		Class<EventType> t) {
 		this.questGoal = g;
 		stillActive = false;
 		this.eventType = t;

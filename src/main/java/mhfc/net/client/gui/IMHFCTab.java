@@ -7,7 +7,7 @@ public interface IMHFCTab extends IMouseInteractable {
 	 * Main draw function of the tab
 	 */
 	public void drawTab(int posX, int posY, int mousePosX, int mousePosY,
-			float partialTick);
+		float partialTick);
 
 	/**
 	 * Whether the tab contains a slot, so it can be moved out of the screen

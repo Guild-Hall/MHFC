@@ -1,6 +1,5 @@
 package mhfc.net.client.core.registry;
 
-import mhfc.net.client.render.mob.RenderAnimatedModel;
 import mhfc.net.client.render.projectile.RenderRathalosFireball;
 import mhfc.net.client.render.projectile.RenderTigrexBlock;
 import mhfc.net.common.entity.mob.EntityTigrex;
@@ -10,7 +9,8 @@ import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
-import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimatedObject;
+import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
+import com.github.worldsender.mcanm.client.renderer.entity.RenderAnimatedModel;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 

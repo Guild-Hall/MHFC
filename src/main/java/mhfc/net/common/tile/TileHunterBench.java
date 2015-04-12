@@ -4,11 +4,7 @@ import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import mhfc.net.common.item.ItemType;
 import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.message.bench.MessageBeginCrafting;
-import mhfc.net.common.network.message.bench.MessageBenchRefreshRequest;
-import mhfc.net.common.network.message.bench.MessageCancelRecipe;
-import mhfc.net.common.network.message.bench.MessageCraftingUpdate;
-import mhfc.net.common.network.message.bench.MessageSetRecipe;
+import mhfc.net.common.network.message.bench.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -21,9 +17,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileHunterBench extends TileEntity
-		implements
-			IInventory,
-			TileMHFCUpdateStream {
+	implements
+		IInventory,
+		TileMHFCUpdateStream {
 
 	public static final int outputSlot = 2;
 	public static final int fuelSlot = 0;
@@ -82,7 +78,7 @@ public class TileHunterBench extends TileEntity
 			--heatLength;
 			heatStrength = getNewHeat(heatStrength, heatFromItem);
 			if (TileHunterBench.this.workingMHFCBench && recipe != null
-					&& heatStrength >= recipe.getRequiredHeat())
+				&& heatStrength >= recipe.getRequiredHeat())
 				++itemSmeltDuration;
 		} else {
 			if (fuelStack != null && TileHunterBench.this.workingMHFCBench) {
@@ -277,13 +273,13 @@ public class TileHunterBench extends TileEntity
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
 		return getDistanceFrom(entityplayer.posX, entityplayer.posY,
-				entityplayer.posZ) <= 64.0f;
+			entityplayer.posZ) <= 64.0f;
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
 		return (i == fuelSlot && TileEntityFurnace.isItemFuel(itemstack))
-				|| (i > recipeStacks.length + 2 && i < recipeStacks.length * 2 + 3);
+			|| (i > recipeStacks.length + 2 && i < recipeStacks.length * 2 + 3);
 	}
 
 	@Override
@@ -324,7 +320,7 @@ public class TileHunterBench extends TileEntity
 	@SideOnly(Side.CLIENT)
 	private void sendSetRecipe(EquipmentRecipe recipeToSend) {
 		PacketPipeline.networkPipe.sendToServer(new MessageSetRecipe(this,
-				recipeToSend));
+			recipeToSend));
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -336,7 +332,7 @@ public class TileHunterBench extends TileEntity
 	public void refreshState() {
 		if (worldObj.isRemote) {
 			PacketPipeline.networkPipe
-					.sendToServer(new MessageBenchRefreshRequest(this));
+				.sendToServer(new MessageBenchRefreshRequest(this));
 		}
 	}
 
@@ -394,8 +390,8 @@ public class TileHunterBench extends TileEntity
 			NBTTagCompound stack = items.getCompoundTagAt(a);
 			byte id = stack.getByte("Slot");
 			if (id >= 0 && id < getSizeInventory())
-				setInventorySlotContents(id,
-						ItemStack.loadItemStackFromNBT(stack));
+				setInventorySlotContents(id, ItemStack
+					.loadItemStackFromNBT(stack));
 		}
 	}
 

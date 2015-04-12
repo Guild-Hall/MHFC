@@ -37,10 +37,10 @@ public class MHFCJobHandler {
 		private volatile int ticksToExecution;
 
 		public DelayedJob(MHFCDelayedJob initialJob, int delay,
-				JobListElement following) {
+			JobListElement following) {
 			if (initialJob == null)
 				throw new IllegalArgumentException(
-						"Initial job may not be null");
+					"Initial job may not be null");
 			jobs = new Vector<MHFCDelayedJob>();
 			ticksToExecution = delay;
 			jobs.add(initialJob);

@@ -3,21 +3,29 @@ package mhfc.net.common.network.message;
 import io.netty.buffer.ByteBuf;
 import mhfc.net.common.ai.IMangedAttacks;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class MessageAIAttack<T extends EntityLivingBase & IMangedAttacks<T>>
-		implements
-			IMessage {
+	implements
+		IMessage {
 	private int entityId;
+	private int targetId;
 	private int attackIndex;
 
-	public MessageAIAttack() {}
+	public MessageAIAttack() {
+	}
 
 	public MessageAIAttack(T entity, int attackIndex) {
 		this.entityId = entity.getEntityId();
+		if (entity.getAITarget() != null) {
+			this.targetId = entity.getAITarget().getEntityId();
+		} else {
+			this.targetId = -1;
+		}
 		this.attackIndex = attackIndex;
 	}
 
@@ -25,12 +33,14 @@ public class MessageAIAttack<T extends EntityLivingBase & IMangedAttacks<T>>
 	public void fromBytes(ByteBuf buf) {
 		entityId = buf.readInt();
 		attackIndex = buf.readInt();
+		targetId = buf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		buf.writeInt(entityId);
 		buf.writeInt(attackIndex);
+		buf.writeInt(targetId);
 	}
 
 	/**
@@ -43,7 +53,18 @@ public class MessageAIAttack<T extends EntityLivingBase & IMangedAttacks<T>>
 	@SideOnly(Side.CLIENT)
 	public <U extends EntityLivingBase & IMangedAttacks<U>> IMangedAttacks<U> getEntity() {
 		return (IMangedAttacks<U>) Minecraft.getMinecraft().theWorld
-				.getEntityByID(entityId);
+			.getEntityByID(entityId);
+	}
+
+	@SuppressWarnings("unchecked")
+	@SideOnly(Side.CLIENT)
+	public <U extends EntityLiving & IMangedAttacks<U>> U getEntityLiving() {
+		return (U) Minecraft.getMinecraft().theWorld.getEntityByID(entityId);
+	}
+
+	public EntityLivingBase getTarget() {
+		return (EntityLivingBase) Minecraft.getMinecraft().theWorld
+			.getEntityByID(targetId);
 	}
 
 	public int getAttackIndex() {

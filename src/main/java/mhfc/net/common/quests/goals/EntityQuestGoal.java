@@ -15,8 +15,8 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
  * A quest goal that is based on killing a specific entity.
  */
 public class EntityQuestGoal extends QuestGoal
-		implements
-			NotifyableQuestGoal<LivingDeathEvent> {
+	implements
+		NotifyableQuestGoal<LivingDeathEvent> {
 	private EntityLivingBase entity;
 	private boolean died;
 	private NBTTagCompound nbt;
@@ -30,7 +30,7 @@ public class EntityQuestGoal extends QuestGoal
 		super(socket);
 		if (entity == null)
 			throw new IllegalArgumentException(
-					"The goal of an EntityQuestGoal can not be null");
+				"The goal of an EntityQuestGoal can not be null");
 		this.entity = entity;
 		died = !entity.isEntityAlive();
 		eventHandler = new LivingDeathEventHandler(this);
