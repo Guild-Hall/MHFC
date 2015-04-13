@@ -3,6 +3,8 @@ package mhfc.net.client.gui;
 import java.util.Iterator;
 import java.util.List;
 
+import mhfc.net.client.quests.MHFCRegQuestVisual;
+import mhfc.net.common.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 
@@ -17,13 +19,22 @@ public abstract class GuiListItem {
 	public abstract String getRepresentationString();
 
 	public void draw(int x, int y, int width, int height, Minecraft m,
-			boolean selected, Alignment alignment) {
+		boolean selected, Alignment alignment) {
+
+		float yPos = 0f;
+		if (selected)
+			yPos = 0.25f;
+		Minecraft.getMinecraft().getTextureManager().bindTexture(
+			MHFCRegQuestVisual.CLICKABLE_LIST);
+		MHFCGuiUtil.drawTexturedRectangle(x, y, width, height, 0.5f, yPos,
+			0.5f, 0.25f);
+
 		int innerStringWidth = width - 5;
 		FontRenderer fRend = m.fontRenderer;
 		String representation = getRepresentationString().trim();
 		@SuppressWarnings("unchecked")
 		List<String> lineWrapped = fRend.listFormattedStringToWidth(
-				representation, innerStringWidth);
+			representation, innerStringWidth);
 		int stringLength = 0;
 		Iterator<String> it = lineWrapped.iterator();
 		while (it.hasNext()) {
@@ -48,6 +59,6 @@ public abstract class GuiListItem {
 
 		int color = (selected) ? 0x404040 : 0x808080;
 		fRend.drawSplitString(representation, positionX, positionY,
-				innerStringWidth, color);
+			innerStringWidth, color);
 	}
 }
