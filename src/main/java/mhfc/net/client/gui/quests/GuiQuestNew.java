@@ -136,7 +136,7 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 		GL11.glTranslatef(0, 0, 0.0f);
 		// TODO unlocalize
 		fontRendererObj.drawString("Take a quest:", xPos + 8, yPos + yBorder,
-			0x404040);
+			MHFCGuiUtil.COLOUR_TEXT);
 		groupList.draw(xPos, yPos, mouseX - xPos, mouseY - yPos);
 		left.visible = true;
 		right.visible = true;

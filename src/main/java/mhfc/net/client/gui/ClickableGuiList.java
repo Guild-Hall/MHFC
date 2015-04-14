@@ -135,11 +135,15 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 		GL11.glScissor(posX * scale, openGLy - (posY + height) * scale, width
 			* scale, height * scale + 1);
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_BLEND);
 
 		drawBackground(posX, posY, mouseX, mouseY);
 		drawListItems(posX, posY, mouseX, mouseY);
 		drawListSlider(posX, posY, mouseX, mouseY);
 
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
 	}
@@ -219,7 +223,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	}
 
 	protected void drawBackground(int posX, int posY, int mouseX, int mouseY) {
-		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glColor4f(1, 1, 1, 1);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(
 			MHFCRegQuestVisual.CLICKABLE_LIST);
 		float texheight = height;
@@ -243,7 +247,6 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 				+ selectionYMin, BORDER_WIDTH, selectionYHeight, 0.625f, 0.5f,
 				0.125f, 0.25f);
 		}
-		GL11.glEnable(GL11.GL_BLEND);
 	}
 
 	protected void drawListItems(int posX, int posY, int mouseX, int mouseY) {
