@@ -14,6 +14,12 @@ public interface IActiveArea extends AutoCloseable {
 	 */
 	IArea getArea();
 	/**
+	 * Gets the {@link IAreaType} of the underlying area
+	 *
+	 * @return
+	 */
+	IAreaType getType();
+	/**
 	 * Dismisses the area. All following calls to this area should fail - and
 	 * may throw an {@link IllegalStateException}.
 	 *

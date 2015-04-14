@@ -6,4 +6,7 @@ public interface IAreaType {
 
 	void populate(IWorldProxy world);
 
+	@Override
+	int hashCode();
+
 }
