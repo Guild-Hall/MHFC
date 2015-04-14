@@ -101,7 +101,7 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTick) {
 		fontRendererObj.drawString("Currently running:", xPos + 9, yPos
-			+ yBorder, 0x404040);
+			+ yBorder, MHFCGuiUtil.COLOUR_TEXT);
 		runningQuestList.setVisible(true);
 		runningQuestList.draw(xPos, yPos, mouseX - xPos, mouseY - yPos);
 		joinQuest.visible = true;

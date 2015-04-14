@@ -13,6 +13,9 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	implements
 		IMouseInteractable {
 
+	private static final float SLIDER_WIDTH = 6;
+	private static final float BORDER_WIDTH = 2;
+
 	public static class GuiListStringItem extends GuiListItem {
 
 		private String string;
@@ -88,6 +91,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 
 	protected float scrollAmount = 0;
 	protected int selected = -1;
+	protected float sliderWidth = SLIDER_WIDTH;
 
 	protected boolean recalculateItemHeightOnDraw = false;
 	protected boolean visible = true;
@@ -95,7 +99,6 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	private Alignment alignment = Alignment.LEFT;
 
 	protected boolean isSliderDragged = false;
-	private float sliderWidth = 7;
 
 	protected int mouseClickX, mouseClickY;
 	protected int mouseClickMoveX, mouseClickMoveY;
@@ -132,11 +135,15 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 		GL11.glScissor(posX * scale, openGLy - (posY + height) * scale, width
 			* scale, height * scale + 1);
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_BLEND);
 
 		drawBackground(posX, posY, mouseX, mouseY);
 		drawListItems(posX, posY, mouseX, mouseY);
 		drawListSlider(posX, posY, mouseX, mouseY);
 
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
 	}
@@ -149,9 +156,10 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 			float sliderPosY = scrollAmount * height / extendedHeight;
 			GL11.glColor4f(1, 1, 1, alpha);
 			Minecraft.getMinecraft().getTextureManager().bindTexture(
-				MHFCRegQuestVisual.SCROLL_BAR);
+				MHFCRegQuestVisual.CLICKABLE_LIST);
 			MHFCGuiUtil.drawTexturedRectangle(posX + width - sliderWidth, posY
-				+ sliderPosY, sliderWidth, sliderHeight, 0, 0, 1f, 1f);
+				+ sliderPosY, sliderWidth, sliderHeight, 0.5f, 0.5f, 0.125f,
+				0.5f);
 		}
 	}
 
@@ -215,39 +223,30 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	}
 
 	protected void drawBackground(int posX, int posY, int mouseX, int mouseY) {
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-
-		GL11.glLineWidth(2.0f);
-		GL11.glColor3f(0.25f, 0.25f, 0.25f);
-		GL11.glBegin(GL11.GL_LINES);
-		int i;
-		for (i = (int) (scrollAmount / itemHeight); i <= this.size(); i++) {
-			GL11.glVertex3f(posX, posY - scrollAmount + i * itemHeight, 0f);
-			GL11.glVertex3f(posX + width, posY - scrollAmount + i * itemHeight,
-				0f);
-		}
-		GL11.glEnd();
-
-		i = Math.max((int) (scrollAmount / itemHeight), this.size()) - 1;
-		float maxY = posY + height - 0.5f;
+		GL11.glColor4f(1, 1, 1, 1);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(
+			MHFCRegQuestVisual.CLICKABLE_LIST);
+		float texheight = height;
 		if (drawSmallestBounds)
-			maxY = Math.min(posY + i * itemHeight, maxY);
-		GL11.glBegin(GL11.GL_LINE_STRIP);
-		GL11.glVertex3d(posX - 0.5f + width, posY - scrollAmount + (selected)
-			* itemHeight, 0f);
-		GL11.glVertex3d(posX - 0.5f + width, posY, 0f);
-		GL11.glVertex3d(posX + 0.5f, posY, 0f);
-		GL11.glVertex3d(posX + 0.5f, maxY, 0f);
-		GL11.glVertex3d(posX - 0.5f + width, maxY, 0f);
-		GL11.glVertex3d(posX - 0.5f + width, posY - scrollAmount
-			+ (selected + 1) * itemHeight, 0f);
-		if (size() == 0)
-			GL11.glVertex3d(posX + 0.5f, maxY, 0f);
-		GL11.glEnd();
-
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+			texheight = Math.min(size() * itemHeight, texheight);
+		MHFCGuiUtil.drawTexturedRectangle(posX, posY, width, texheight, 0, 0,
+			0.5f, 1.0f);
+		if (selected >= 0) {
+			float selectionYMin = selected * itemHeight - scrollAmount;
+			float selectionYHeight = itemHeight;
+			if (selectionYMin < BORDER_WIDTH) {
+				float sm = BORDER_WIDTH - selectionYMin;
+				selectionYMin += sm;
+				selectionYHeight -= sm;
+			}
+			if (selectionYMin + selectionYHeight > height) {
+				float sm = selectionYMin + selectionYHeight - height;
+				selectionYHeight -= sm;
+			}
+			MHFCGuiUtil.drawTexturedRectangle(posX + width - BORDER_WIDTH, posY
+				+ selectionYMin, BORDER_WIDTH, selectionYHeight, 0.625f, 0.5f,
+				0.125f, 0.25f);
+		}
 	}
 
 	protected void drawListItems(int posX, int posY, int mouseX, int mouseY) {

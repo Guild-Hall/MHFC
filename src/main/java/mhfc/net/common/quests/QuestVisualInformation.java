@@ -10,9 +10,9 @@ public class QuestVisualInformation {
 
 	public static final int BORDER = 5;
 	public static final int LINE_SEPERATION = 2;
-	public static final int COLOUR_HEADER = 0xb04040;
-	public static final int COLOUR_TEXT = 0x404040;
-	public static final int COLOUR_TITLE = 0x000000;
+	public static final int COLOUR_HEADER = MHFCGuiUtil.COLOUR_FOREGROUND;
+	public static final int COLOUR_TEXT = MHFCGuiUtil.COLOUR_TEXT;
+	public static final int COLOUR_TITLE = MHFCGuiUtil.COLOUR_TITLE;
 
 	public static final QuestVisualInformation LOADING_REPLACEMENT = new QuestVisualInformation(
 		"Loading...", "Waiting for server response", "Guild hunter", "---",
@@ -180,7 +180,7 @@ public class QuestVisualInformation {
 		draw = (page + 1) + "/3";
 		fontRenderer.drawString(draw, positionX + width
 			- fontRenderer.getStringWidth(draw) - 4, positionY + height
-			- lineHeight, 0x404040);
+			- lineHeight, COLOUR_TEXT);
 
 	}
 

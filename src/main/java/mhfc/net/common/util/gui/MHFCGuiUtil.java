@@ -7,6 +7,11 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.Tessellator;
 
 public class MHFCGuiUtil {
+
+	public static final int COLOUR_FOREGROUND = 0xd8953c;
+	public static final int COLOUR_TEXT = 0x404040;
+	public static final int COLOUR_TITLE = 0x000000;
+
 	private static final String WIDTH_WARNING = "The width of the draw was smaller than the first character. This creates a stack overflow.\n Please don't do this, track it down. Stacktrace:";
 	public static float zLevel;
 	private static ScaledResolution s;
