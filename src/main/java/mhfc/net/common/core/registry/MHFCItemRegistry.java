@@ -224,7 +224,7 @@ public class MHFCItemRegistry {
 		weapon_bgh_rath = registerItem(new BHRath());
 		// Items... drops
 		MHFCItemWyverniaDust = registerItem(new ItemWyverniaDust());
-		MHFCItemFrontierSpawner = registerItem(new ItemSpawner());
+		
 		mhfcitemmoldediron = registerItem(new ItemMoldedIron());
 		mhfcitemwoodrig = registerItem(new ItemWoodRig());
 		mhfcitemlumberbar = registerItem(new ItemLumberBar());
@@ -256,6 +256,8 @@ public class MHFCItemRegistry {
 		mhfcitemkirinbuff = registerItem(new ItemKirinBuff());
 		mhfcfoodmeat = registerItem(new ItemMeats());
 		mhfcfoodnutrients = registerItem(new ItemNutrients());
+		
+		MHFCItemFrontierSpawner = registerItem(new ItemSpawner());
 	}
 
 	public static void init() {

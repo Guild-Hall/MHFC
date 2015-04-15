@@ -4,27 +4,29 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
 
 public class MHFCArmorMaterialHelper {
+	
+	
+	
+	public static int enchant = 50;
+	// Armor Durability: Basic = 400<durA> | Donors Rank = 850<durB> | S Rank = 1500<durC>
+	//TODO G Rank , Promo, Exclusive<Choosen Players>
+	public static int durA = 400, durB = 900, durC = 1500;
 
 	// Basic Armors
-	public static final ArmorMaterial ArmorYukumo = EnumHelper
-			.addArmorMaterial("yukumo", 120, new int[]{4, 9, 7, 4}, 25);
-	public static final ArmorMaterial ArmorRathalos = EnumHelper
-			.addArmorMaterial("rathalos", 200, new int[]{5, 11, 6, 4}, 35);
-	public static final ArmorMaterial ArmorTigrex = EnumHelper
-			.addArmorMaterial("tigrex", 300, new int[]{9, 17, 13, 6}, 45);
-	public static final ArmorMaterial ArmorKirin = EnumHelper.addArmorMaterial(
-			"kirin", 325, new int[]{12, 18, 14, 7}, 45);
-	public static final ArmorMaterial ArmorVelociprey = EnumHelper
-			.addArmorMaterial("velociprey", 200, new int[]{3, 7, 5, 2}, 45);
+	public static final ArmorMaterial ArmorYukumo = EnumHelper.addArmorMaterial         ("yukumo", durA, new int[]  {3, 5, 5, 3}, enchant);
+	public static final ArmorMaterial ArmorVelociprey = EnumHelper.addArmorMaterial     ("velociprey",durA,new int[]{3, 6, 5, 2}, enchant);
+	public static final ArmorMaterial ArmorRathalos = EnumHelper.addArmorMaterial       ("rathalos", durA, new int[]{3, 9, 5, 3}, enchant);
+	public static final ArmorMaterial ArmorTigrex = EnumHelper.addArmorMaterial         ("tigrex", durA, new int[]  {3, 9, 7, 5}, enchant);
+	public static final ArmorMaterial ArmorKirin = EnumHelper.addArmorMaterial          ("kirin", durA, new int[]   {3, 11, 6, 5},enchant);
+	public static final ArmorMaterial ArmorLagiacrus = EnumHelper.addArmorMaterial      ("lagia", durA, new int[]   {3, 10, 5, 3},enchant);
+	public static final ArmorMaterial ArmorBarroth = EnumHelper.addArmorMaterial        ("barroth", durA, new int[] {3, 15, 4, 3}, enchant);
+	public static final ArmorMaterial ArmorCephalos = EnumHelper.addArmorMaterial       ("cepha", durA, new int[]   {3, 6, 5, 5}, enchant);
 
-	// Senti Rank Armos
-	public static final ArmorMaterial ArmorDragoon = EnumHelper
-			.addArmorMaterial("dragoon", 850, new int[]{14, 16, 15, 11}, 80);
+	// Donors Rank Armors
+	public static final ArmorMaterial ArmorDragoon = EnumHelper.addArmorMaterial        ("dragoon", durB, new int[]{4, 7, 4, 2}, enchant);
 
 	// S Rank Armors
-	public static final ArmorMaterial ArmorKirinS = EnumHelper
-			.addArmorMaterial("kirinS", 700, new int[]{19, 35, 27, 16}, 70);
-	public static final ArmorMaterial ArmorTigrexB = EnumHelper
-			.addArmorMaterial("kishin", 1250, new int[]{28, 41, 30, 24}, 150);
+	public static final ArmorMaterial ArmorKirinS = EnumHelper.addArmorMaterial         ("kirinS", durC, new int[]{5, 22, 9, 7}, enchant);
+	public static final ArmorMaterial ArmorTigrexB = EnumHelper.addArmorMaterial        ("kishin", durC, new int[]{5, 28, 13, 3}, enchant);
 
 }
