@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import static mhfc.net.common.util.gui.MHFCGuiUtil.*;
 
 public class QuestStatusDisplay extends Gui {
 
@@ -60,7 +61,7 @@ public class QuestStatusDisplay extends Gui {
 					+ (height - mc.fontRenderer.FONT_HEIGHT) / 2, stringPosX = positionX
 					+ (width - mc.fontRenderer.getStringWidth(drawn)) / 2;
 				mc.fontRenderer.drawString(drawn, stringPosX, stringPosY,
-					0x000000);
+					COLOUR_TITLE);
 			} else {
 				if (!isMouseOverInfo(positionX, positionY, width, height)) {
 					displayTick++;
@@ -106,7 +107,7 @@ public class QuestStatusDisplay extends Gui {
 				0x804040);
 			int lineHeight = mc.fontRenderer.FONT_HEIGHT + 2;
 			mc.fontRenderer.drawSplitString(information.getShortStatus(),
-				posX + 5, posY + lineHeight + 5, width - 10, 0x404040);
+				posX + 5, posY + lineHeight + 5, width - 10, COLOUR_TEXT);
 		}
 	}
 }

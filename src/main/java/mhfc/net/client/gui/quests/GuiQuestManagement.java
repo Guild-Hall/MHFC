@@ -113,7 +113,7 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 		String warning = "You are already on a quest";
 		int warnX = (xSize - fontRendererObj.getStringWidth(warning)) / 2, warnY = 60;
 		fontRendererObj.drawString(warning, warnX + xPos, warnY + yPos,
-			0x404040);
+			MHFCGuiUtil.COLOUR_TEXT);
 		super.drawScreen(mouseX, mouseY, partialTick);
 	}
 

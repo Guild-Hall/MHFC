@@ -157,7 +157,7 @@ public class MHFCRegQuestVisual {
 		MHFCReference.gui_hunterbench_complete_tex);
 	public static final ResourceLocation HUNTER_BENCH_FUEL_DURATION = new ResourceLocation(
 		MHFCReference.gui_hunterbench_fuel_tex);
-	public static final ResourceLocation SCROLL_BAR = new ResourceLocation(
+	public static final ResourceLocation CLICKABLE_LIST = new ResourceLocation(
 		MHFCReference.gui_list_tex);
 
 	private static Map<String, List<String>> groupIDToListMap = new HashMap<String, List<String>>();
