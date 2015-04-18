@@ -1,5 +1,6 @@
 package mhfc.net.common.helper;
 
+import mhfc.net.client.model.armor.ModelBarrothArmor;
 import mhfc.net.client.model.armor.ModelDragoonArmor;
 import mhfc.net.client.model.armor.ModelKirinArmor;
 import mhfc.net.client.model.armor.ModelKirinSArmor;
@@ -29,6 +30,7 @@ public class MHFCArmorModelHelper {
 	public static final ModelVelocipreyArmor velociprey = new ModelVelocipreyArmor(
 			1.0F);
 	public static final ModelKishinArmor tigrexb = new ModelKishinArmor(1.0F);
+	public static final ModelBarrothArmor barroth = new ModelBarrothArmor(1.0F);
 
 	public static ModelBiped getArmorModel(int id) {
 		switch (id) {
@@ -49,6 +51,8 @@ public class MHFCArmorModelHelper {
 			case 7 :
 				return tigrexb;
 			case 8 :
+				return barroth;
+			case 9 :
 			default :
 				break;
 		}

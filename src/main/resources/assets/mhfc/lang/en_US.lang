@@ -154,6 +154,10 @@ item.h.mhf_helm.name= Kishin Horn
 item.h.mhf_chest.name= Kishin Plate
 item.h.mhf_leg.name= Kishin Vambrace
 item.h.mhf_boots.name= Kishin Greaves
+item.i.mhf_helm.name= Barroth Helm
+item.i.mhf_chest.name= Barroth Mail
+item.i.mhf_leg.name= Barroth Faulds
+item.i.mhf_boots.name= Barroth Greaves
 
 
 item.a.bow.name=Hunter's Bow

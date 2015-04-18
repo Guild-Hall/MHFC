@@ -84,6 +84,16 @@ public class MHFCReference {
 	public static final String armor_tigrexb_legs_name = "h.mhf_leg";
 	public static final String armor_tigrexb_tex1 = "mhfc:textures/armor/kishin_layer_1.png";
 	public static final String armor_tigrexb_tex2 = "mhfc:textures/armor/kishin_layer_2.png";
+	public static final String armor_barroth_boots_icon = "mhfc:mhf_3";
+	public static final String armor_barroth_boots_name = "i.mhf_boots";
+	public static final String armor_barroth_chest_icon = "mhfc:mhf_1";
+	public static final String armor_barroth_chest_name = "i.mhf_chest";
+	public static final String armor_barroth_helm_icon = "mhfc:mhf_0";
+	public static final String armor_barroth_helm_name = "i.mhf_helm";
+	public static final String armor_barroth_legs_icon = "mhfc:mhf_2";
+	public static final String armor_barroth_legs_name = "i.mhf_leg";
+	public static final String armor_barroth_tex1 = "mhfc:textures/armor/barroth_layer_1.png";
+	public static final String armor_barroth_tex2 = "mhfc:textures/armor/barroth_layer_2.png";
 
 	public static final String block_bbqspit_icon = "mhfc:armorstandblock";
 	public static final String block_bbqspit_name = "bbqspit";

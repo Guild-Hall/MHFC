@@ -91,6 +91,11 @@ public class MHFCItemRegistry {
 	public static final Item armor_velociprey_chest;
 	public static final Item armor_velociprey_legs;
 	public static final Item armor_velociprey_boots;
+	
+	public static final Item armor_barroth_helm;
+	public static final Item armor_barroth_chest;
+	public static final Item armor_barroth_legs;
+	public static final Item armor_barroth_boots;
 
 	// public static final Item armor_deviljho_helm;
 	// public static final Item armor_deviljho_chest;
@@ -149,6 +154,7 @@ public class MHFCItemRegistry {
 		// Armor
 		armor_yukumo_helm = registerItem(new YukumoArmor(0));
 		armor_velociprey_helm = registerItem(new VelocipreyArmor(0));
+		armor_barroth_helm = registerItem(new BarrothArmor(0));
 		armor_rathalos_helm = registerItem(new RathalosArmor(0));
 		armor_tigrex_helm = registerItem(new TigrexArmor(0));
 		armor_kirin_helm = registerItem(new KirinArmor(0));
@@ -158,6 +164,7 @@ public class MHFCItemRegistry {
 
 		armor_yukumo_chest = registerItem(new YukumoArmor(1));
 		armor_velociprey_chest = registerItem(new VelocipreyArmor(1));
+		armor_barroth_chest = registerItem(new BarrothArmor(1));
 		armor_rathalos_chest = registerItem(new RathalosArmor(1));
 		armor_tigrex_chest = registerItem(new TigrexArmor(1));
 		armor_kirin_chest = registerItem(new KirinArmor(1));
@@ -167,6 +174,7 @@ public class MHFCItemRegistry {
 
 		armor_yukumo_legs = registerItem(new YukumoArmor(2));
 		armor_velociprey_legs = registerItem(new VelocipreyArmor(2));
+		armor_barroth_legs = registerItem(new BarrothArmor(2));
 		armor_rathalos_legs = registerItem(new RathalosArmor(2));
 		armor_tigrex_legs = registerItem(new TigrexArmor(2));
 		armor_kirin_legs = registerItem(new KirinArmor(2));
@@ -176,6 +184,7 @@ public class MHFCItemRegistry {
 
 		armor_yukumo_boots = registerItem(new YukumoArmor(3));
 		armor_velociprey_boots = registerItem(new VelocipreyArmor(3));
+		armor_barroth_boots = registerItem(new BarrothArmor(3));
 		armor_rathalos_boots = registerItem(new RathalosArmor(3));
 		armor_tigrex_boots = registerItem(new TigrexArmor(3));
 		armor_kirin_boots = registerItem(new KirinArmor(3));
