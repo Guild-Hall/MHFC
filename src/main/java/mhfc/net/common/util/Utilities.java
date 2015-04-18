@@ -7,6 +7,7 @@ import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.entity.projectile.EntityLightning;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
+import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -40,6 +41,7 @@ public class Utilities {
 			}
 		}
 	}
+	
 
 	public static void chargeMobToEntity(EntityWyvernHostile chargingEntity,
 			Entity target, float distance, float moveSpeed,
@@ -51,7 +53,7 @@ public class Utilities {
 			chargingEntity.speed = moveSpeed;
 		}
 		if ((target != null) && ((dependsonWater = true))){
-			chargingEntity.speed = moveSpeed - 2D;
+			chargingEntity.speed = moveSpeed / 2D;
 		}
 	}
 	/**
@@ -61,61 +63,9 @@ public class Utilities {
 	 * @return
 	 */
 	public static int countPlayers(WorldServer worldObj) {
-		// int players = 0;
-		// for (Object player : worldObj.playerEntities) {
-		// EntityPlayerMP entityplayermp = (EntityPlayerMP) player;
-		//
-		// if (entityplayermp.dimension == dimension) {
-		// players++;
-		// }
-		// }
-		// System.out.println(players);
 		return worldObj.playerEntities.size();
 	}
-	// FIXME: wrong spot, this belongs to ArmorHandler and is actually unused
-	public static void updateArmorTick(World world, EntityPlayer player) {
-		ItemStack[] armorstack = new ItemStack[4];
-		armorstack[0] = player.inventory.armorItemInSlot(0);
-		armorstack[1] = player.inventory.armorItemInSlot(1);
-		armorstack[2] = player.inventory.armorItemInSlot(2);
-		armorstack[3] = player.inventory.armorItemInSlot(3);
-		if (armorstack[0] == null || armorstack[1] == null
-				|| armorstack[2] == null || armorstack[3] == null)
-			return;
 
-		if ((armorstack[0].getItem() == MHFCItemRegistry.armor_kirin_helm)
-				&& (armorstack[1].getItem() == MHFCItemRegistry.armor_kirin_chest)
-				&& (armorstack[2].getItem() == MHFCItemRegistry.armor_kirin_legs)
-				&& (armorstack[3].getItem() == MHFCItemRegistry.armor_kirin_boots)) {
-			return;
-		}
-		if ((armorstack[0].getItem() == MHFCItemRegistry.armor_kirinS_helm)
-				&& (armorstack[1].getItem() == MHFCItemRegistry.armor_kirinS_chest)
-				&& (armorstack[2].getItem() == MHFCItemRegistry.armor_kirinS_legs)
-				&& (armorstack[3].getItem() == MHFCItemRegistry.armor_kirinS_boots)) {
-			int duration = 15;
-			player.addPotionEffect(new PotionEffect(
-					MHFCPotionRegistry.kirin_blessing.id, duration++, 1));
-			world.spawnParticle("cloud", player.posX + rand.nextFloat() * 2.0F
-					- 1.0D, player.posY + rand.nextFloat() * 3.0F + 1.0D,
-					player.posZ + rand.nextFloat() * 2.0F - 1.0D, 0.0D, 0.0D,
-					0.0D);
-			return;
-		}
-		if ((armorstack[0].getItem() == MHFCItemRegistry.armor_tigrex_helm)
-				&& (armorstack[1].getItem() == MHFCItemRegistry.armor_tigrex_chest)
-				&& (armorstack[2].getItem() == MHFCItemRegistry.armor_tigrex_legs)
-				&& (armorstack[3].getItem() == MHFCItemRegistry.armor_tigrex_boots)) {
-			return;
-		}
-		if ((armorstack[0].getItem() == MHFCItemRegistry.armor_rathalos_helm)
-				&& (armorstack[1].getItem() == MHFCItemRegistry.armor_rathalos_chest)
-				&& (armorstack[2].getItem() == MHFCItemRegistry.armor_rathalos_legs)
-				&& (armorstack[3].getItem() == MHFCItemRegistry.armor_rathalos_boots)) {
-			return;
-		}
-
-	}
 
 	public static void spawnLightnings(double Lx, double Ly, double Lz,
 			int many, World world) {
