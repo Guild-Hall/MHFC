@@ -28,8 +28,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.server.S27PacketExplosion;
 /*     */
-import net.minecraft.util.AABBPool;
-/*     */
 import net.minecraft.util.AxisAlignedBB;
 /*     */
 import net.minecraft.util.DamageSource;
@@ -37,8 +35,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 /*     */
 import net.minecraft.util.Vec3;
-/*     */
-import net.minecraft.util.Vec3Pool;
 /*     */
 import net.minecraft.world.ChunkPosition;
 /*     */
