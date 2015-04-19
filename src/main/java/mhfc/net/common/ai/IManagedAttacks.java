@@ -8,7 +8,7 @@ import net.minecraft.entity.EntityLivingBase;
  * @author WorldSEnder
  *
  */
-public interface IMangedAttacks<T extends EntityLivingBase & IMangedAttacks<T>> {
+public interface IManagedAttacks<T extends EntityLivingBase & IManagedAttacks<T>> {
 	/**
 	 * When a new attack is being selected.
 	 *

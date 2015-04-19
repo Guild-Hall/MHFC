@@ -1,7 +1,7 @@
 package mhfc.net.common.network.message;
 
 import mhfc.net.common.ai.AIAttackManager;
-import mhfc.net.common.ai.IMangedAttacks;
+import mhfc.net.common.ai.IManagedAttacks;
 import net.minecraft.entity.EntityLiving;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -14,7 +14,7 @@ public class MessageAttackHandler
 		IMessageHandler<MessageAIAttack, IMessage> {
 	@Override
 	public IMessage onMessage(MessageAIAttack message, MessageContext ctx) {
-		IMangedAttacks<?> entity = message.getEntity();
+		IManagedAttacks<?> entity = message.getEntity();
 		EntityLiving entityLiving = message.getEntityLiving();
 		if (entity == null)
 			return null;

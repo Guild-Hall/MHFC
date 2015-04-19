@@ -15,9 +15,9 @@ import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
-		extends
-			EntityAIBase {
+public class AIAttackManager<T extends EntityLivingBase & IManagedAttacks<T>>
+	extends
+		EntityAIBase implements IAttackManager<T, AIAttackManager<T>> {
 
 	private final List<IExecutableAttack<T>> attacks = new ArrayList<IExecutableAttack<T>>();
 	private IExecutableAttack<T> activeAttack = null;
@@ -33,11 +33,12 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 	 */
 	@SideOnly(Side.CLIENT)
 	public void setAttack(int index) {
-		swapAttacks(this.activeAttack,
-				index < 0 ? null : this.attacks.get(index));
+		swapAttacks(this.activeAttack, index < 0 ? null : this.attacks
+			.get(index));
 	}
 
-	private IExecutableAttack<T> chooseAttack() {
+	@Override
+	public IExecutableAttack<T> chooseAttack() {
 		return WeightedPick.pickRandom(attacks);
 	}
 
@@ -50,11 +51,11 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 	private void sendUpdate() {
 		if (!this.entity.worldObj.isRemote)
 			PacketPipeline.networkPipe.sendToAll(new MessageAIAttack<T>(
-					this.entity, this.attacks.indexOf(activeAttack)));
+				this.entity, this.attacks.indexOf(activeAttack)));
 	}
 
 	private void swapAttacks(IExecutableAttack<T> oldAttack,
-			IExecutableAttack<T> newAttack) {
+		IExecutableAttack<T> newAttack) {
 		this.entity.onAttackEnd(oldAttack);
 		if (oldAttack != null)
 			oldAttack.finishExecution();
@@ -69,6 +70,7 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 	public void startExecuting() {
 		swapAttacks(null, this.activeAttack);
 	}
+
 	/**
 	 * Return <code>true</code> to continue executing
 	 */
@@ -82,6 +84,7 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 		swapAttacks(this.activeAttack, nextAttack);
 		return true;
 	}
+
 	/**
 	 * Terminates this task.
 	 */
@@ -89,6 +92,7 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 	public void resetTask() {
 		swapAttacks(this.activeAttack, null);
 	}
+
 	/**
 	 * Updates this AI every 3 ticks.<br>
 	 *
@@ -98,6 +102,7 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 	public void updateTask() {
 		this.activeAttack.update();
 	}
+
 	/**
 	 * <table border="1px">
 	 * <caption>Mutexbit Usage</caption>
@@ -124,17 +129,26 @@ public class AIAttackManager<T extends EntityLivingBase & IMangedAttacks<T>>
 		return this.activeAttack == null ? 0 : this.activeAttack.mutexBits();
 	}
 
+	@Override
 	public void registerAttack(IExecutableAttack<T> attack) {
 		Objects.requireNonNull(attack);
 		attack.rebind(entity);
 		this.attacks.add(attack);
 	}
 
+	@Override
 	public IAnimation getCurrentAnimation() {
 		return activeAttack == null ? null : activeAttack.getCurrentAnimation();
 	}
 
+	@Override
 	public int getNextFrame(int current) {
 		return activeAttack == null ? -1 : activeAttack.getNextFrame(current);
 	}
+
+	@Override
+	public AIAttackManager<T> getEntityAI() {
+		return this;
+	}
+
 }

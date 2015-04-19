@@ -5,7 +5,7 @@ import java.util.Random;
 
 import mhfc.net.common.ai.AIAttackManager;
 import mhfc.net.common.ai.IExecutableAttack;
-import mhfc.net.common.ai.IMangedAttacks;
+import mhfc.net.common.ai.IManagedAttacks;
 import mhfc.net.common.ai.TargetTurnHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -39,7 +39,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	implements
 		IEntityMultiPart,
 		IAnimatedObject,
-		IMangedAttacks<YC> {
+		IManagedAttacks<YC> {
 	/**
 	 * {@link #getDataWatcher()}
 	 */
