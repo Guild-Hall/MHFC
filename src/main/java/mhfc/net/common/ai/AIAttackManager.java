@@ -15,15 +15,15 @@ import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class AIAttackManager<T extends EntityLivingBase & IManagedAttacks<T>>
+public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<EntType>>
 	extends
-		EntityAIBase implements IAttackManager<T, AIAttackManager<T>> {
+		EntityAIBase implements IAttackManager<EntType> {
 
-	private final List<IExecutableAttack<T>> attacks = new ArrayList<IExecutableAttack<T>>();
-	private IExecutableAttack<T> activeAttack = null;
-	private T entity;
+	private final List<IExecutableAttack<EntType>> attacks = new ArrayList<IExecutableAttack<EntType>>();
+	private IExecutableAttack<EntType> activeAttack = null;
+	private EntType entity;
 
-	public AIAttackManager(T entity) {
+	public AIAttackManager(EntType entity) {
 		this.entity = Objects.requireNonNull(entity, "Entity can't be null");
 	}
 
@@ -38,7 +38,7 @@ public class AIAttackManager<T extends EntityLivingBase & IManagedAttacks<T>>
 	}
 
 	@Override
-	public IExecutableAttack<T> chooseAttack() {
+	public IExecutableAttack<EntType> chooseAttack() {
 		return WeightedPick.pickRandom(attacks);
 	}
 
@@ -50,12 +50,12 @@ public class AIAttackManager<T extends EntityLivingBase & IManagedAttacks<T>>
 
 	private void sendUpdate() {
 		if (!this.entity.worldObj.isRemote)
-			PacketPipeline.networkPipe.sendToAll(new MessageAIAttack<T>(
+			PacketPipeline.networkPipe.sendToAll(new MessageAIAttack<EntType>(
 				this.entity, this.attacks.indexOf(activeAttack)));
 	}
 
-	private void swapAttacks(IExecutableAttack<T> oldAttack,
-		IExecutableAttack<T> newAttack) {
+	private void swapAttacks(IExecutableAttack<EntType> oldAttack,
+		IExecutableAttack<EntType> newAttack) {
 		this.entity.onAttackEnd(oldAttack);
 		if (oldAttack != null)
 			oldAttack.finishExecution();
@@ -78,7 +78,7 @@ public class AIAttackManager<T extends EntityLivingBase & IManagedAttacks<T>>
 	public boolean continueExecuting() {
 		if (this.activeAttack.shouldContinue())
 			return true;
-		IExecutableAttack<T> nextAttack = chooseAttack();
+		IExecutableAttack<EntType> nextAttack = chooseAttack();
 		if (nextAttack == null)
 			return false;
 		swapAttacks(this.activeAttack, nextAttack);
@@ -130,7 +130,7 @@ public class AIAttackManager<T extends EntityLivingBase & IManagedAttacks<T>>
 	}
 
 	@Override
-	public void registerAttack(IExecutableAttack<T> attack) {
+	public void registerAttack(IExecutableAttack<EntType> attack) {
 		Objects.requireNonNull(attack);
 		attack.rebind(entity);
 		this.attacks.add(attack);
@@ -145,10 +145,4 @@ public class AIAttackManager<T extends EntityLivingBase & IManagedAttacks<T>>
 	public int getNextFrame(int current) {
 		return activeAttack == null ? -1 : activeAttack.getNextFrame(current);
 	}
-
-	@Override
-	public AIAttackManager<T> getEntityAI() {
-		return this;
-	}
-
 }
