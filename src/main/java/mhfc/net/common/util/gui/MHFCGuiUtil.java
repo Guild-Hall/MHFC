@@ -19,14 +19,14 @@ public class MHFCGuiUtil {
 	public static int realScreenWidth(Minecraft mc) {
 		if (mc == null)
 			throw new IllegalArgumentException(
-					"Gui utils may only be accessed with valid minecraft");
+				"Gui utils may only be accessed with valid minecraft");
 		return mc.displayWidth;
 	}
 
 	public static int realScreenHeight(Minecraft mc) {
 		if (mc == null)
 			throw new IllegalArgumentException(
-					"Gui utils may only be accessed with valid minecraft");
+				"Gui utils may only be accessed with valid minecraft");
 		return mc.displayHeight;
 	}
 
@@ -48,8 +48,9 @@ public class MHFCGuiUtil {
 	private static void refreshScaled(Minecraft mc) {
 		if (mc == null)
 			throw new IllegalArgumentException(
-					"Gui utils may only be accessed with valid minecraft");
-		s = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+				"Gui utils may only be accessed with valid minecraft");
+		s = new ScaledResolution(mc.gameSettings, mc.displayWidth,
+			mc.displayHeight);
 	}
 
 	/**
@@ -63,11 +64,11 @@ public class MHFCGuiUtil {
 	 *         parameters and width==0
 	 */
 	public static int drawTextAndReturnHeight(FontRenderer fRend,
-			String string, int posX, int posY, int width, int colour) {
+		String string, int posX, int posY, int width, int colour) {
 		if (fRend == null || string == null) {
 			MHFCMain.logger.warn(fRend == null
-					? "Null renderer used as argument"
-					: "Render request for a null string");
+				? "Null renderer used as argument"
+				: "Render request for a null string");
 			Thread.dumpStack();
 			return 0;
 		}
@@ -94,63 +95,63 @@ public class MHFCGuiUtil {
 	 *         this width
 	 */
 	public static boolean isDrawWidthTooSmall(FontRenderer fRend, int width,
-			String string) {
+		String string) {
 		return !string.isEmpty()
-				&& width < fRend.getStringWidth(string.substring(0, 1));
+			&& width < fRend.getStringWidth(string.substring(0, 1));
 	}
 
 	public static void drawTexturedRectangle(double xMin, double yMin,
-			double width, double height, float u, float v, float uWidth,
-			float vHeight) {
+		double width, double height, float u, float v, float uWidth,
+		float vHeight) {
 		Tessellator t = Tessellator.instance;
 		t.startDrawingQuads();
 		t.addVertexWithUV(xMin, yMin, zLevel, u, v);
 		t.addVertexWithUV(xMin, yMin + height, zLevel, u, v + vHeight);
 		t.addVertexWithUV(xMin + width, yMin + height, zLevel, u + uWidth, v
-				+ vHeight);
+			+ vHeight);
 		t.addVertexWithUV(xMin + width, yMin, zLevel, u + uWidth, v);
 		t.draw();
 	}
 
 	public static void drawTexturedBoxFromBorder(int x, int y, int width,
-			int height) {
+		int height) {
 		drawTexturedBoxFromBorder(x, y, zLevel, width, height);
 	}
 
 	public static void drawTexturedBoxFromBorder(int x, int y, float zLevel,
-			int width, int height) {
-		drawTexturedBoxFromBorder(x, y, zLevel, width, height,
-				Math.min(Math.min(15, width / 2), height / 2));
+		int width, int height) {
+		drawTexturedBoxFromBorder(x, y, zLevel, width, height, Math.min(Math
+			.min(15, width / 2), height / 2));
 	}
 
 	public static void drawTexturedBoxFromBorder(int x, int y, float zLevel,
-			int width, int height, int borderSize) {
+		int width, int height, int borderSize) {
 		drawTexturedBoxFromBorder(x, y, zLevel, width, height, borderSize,
-				borderSize / 256f);
+			borderSize / 256f);
 	}
 
 	public static void drawTexturedBoxFromBorder(int x, int y, float zLevel,
-			int width, int height, int borderSize, float borderUV) {
+		int width, int height, int borderSize, float borderUV) {
 		drawTexturedBoxFromBorder(x, y, zLevel, width, height, borderSize,
-				borderUV, 1, 1);
+			borderUV, 1, 1);
 	}
 
 	public static void drawTexturedBoxFromBorder(int x, int y, float zLevel,
-			int width, int height, int borderSize, float borderUV, float maxU,
-			float maxV) {
+		int width, int height, int borderSize, float borderUV, float maxU,
+		float maxV) {
 		drawTexturedBoxFromBorder(x, y, zLevel, width, height, borderSize,
-				borderUV, borderUV, maxU, maxV);
+			borderUV, borderUV, maxU, maxV);
 	}
 
 	public static void drawTexturedBoxFromBorder(int x, int y, float zLevel,
-			int width, int height, int borderSize, float borderU,
-			float borderV, float maxU, float maxV) {
+		int width, int height, int borderSize, float borderU, float borderV,
+		float maxU, float maxV) {
 		Tessellator tess = Tessellator.instance;
 		tess.startDrawingQuads();
 		tess.addVertexWithUV(x, y, zLevel, 0, 0);
 		tess.addVertexWithUV(x, y + borderSize, zLevel, 0, borderV);
 		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, borderU,
-				borderV);
+			borderV);
 		tess.addVertexWithUV(x + borderSize, y, zLevel, borderU, 0);
 		tess.draw();
 		tess.startDrawingQuads();
@@ -158,7 +159,7 @@ public class MHFCGuiUtil {
 		tess.addVertexWithUV(x, y, zLevel, maxU - borderU, 0);
 		tess.addVertexWithUV(x, y + borderSize, zLevel, maxU - borderU, borderV);
 		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, maxU,
-				borderV);
+			borderV);
 		tess.addVertexWithUV(x + borderSize, y, zLevel, maxU, 0);
 		tess.draw();
 		tess.startDrawingQuads();
@@ -173,7 +174,7 @@ public class MHFCGuiUtil {
 		tess.addVertexWithUV(x, y, zLevel, 0, maxV - borderV);
 		tess.addVertexWithUV(x, y + borderSize, zLevel, 0, maxV);
 		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, borderU,
-				maxV);
+			maxV);
 		tess.addVertexWithUV(x + borderSize, y, zLevel, borderU, maxV - borderV);
 		tess.draw();
 		tess.addTranslation(0, -height + borderSize, 0);
@@ -181,52 +182,52 @@ public class MHFCGuiUtil {
 		tess.startDrawingQuads();
 		tess.addVertexWithUV(x, y + borderSize, zLevel, 0, borderV);
 		tess.addVertexWithUV(x, y + height - borderSize, zLevel, 0, maxV
-				- borderV);
+			- borderV);
 		tess.addVertexWithUV(x + borderSize, y + height - borderSize, zLevel,
-				borderU, maxV - borderV);
+			borderU, maxV - borderV);
 		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, borderU,
-				borderV);
+			borderV);
 		tess.draw();
 
 		tess.startDrawingQuads();
 		tess.addVertexWithUV(x + width - borderSize, y + borderSize, zLevel,
-				maxU - borderU, borderV);
+			maxU - borderU, borderV);
 		tess.addVertexWithUV(x + width - borderSize, y + height - borderSize,
-				zLevel, maxU - borderU, maxV - borderV);
+			zLevel, maxU - borderU, maxV - borderV);
 		tess.addVertexWithUV(x + width, y + height - borderSize, zLevel, maxU,
-				maxV - borderV);
+			maxV - borderV);
 		tess.addVertexWithUV(x + width, y + borderSize, zLevel, maxU, borderV);
 		tess.draw();
 
 		tess.startDrawingQuads();
 		tess.addVertexWithUV(x + borderSize, y, zLevel, borderU, 0);
 		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, borderU,
-				borderV);
+			borderV);
 		tess.addVertexWithUV(x + width - borderSize, y + borderSize, zLevel,
-				maxU - borderU, borderV);
+			maxU - borderU, borderV);
 		tess.addVertexWithUV(x + width - borderSize, y, zLevel, maxU - borderU,
-				0);
+			0);
 		tess.draw();
 
 		tess.startDrawingQuads();
 		tess.addVertexWithUV(x + borderSize, y + height - borderSize, zLevel,
-				borderU, maxV - borderV);
+			borderU, maxV - borderV);
 		tess.addVertexWithUV(x + borderSize, y + height, zLevel, borderU, maxV);
 		tess.addVertexWithUV(x + width - borderSize, y + height, zLevel, maxU
-				- borderU, maxV);
+			- borderU, maxV);
 		tess.addVertexWithUV(x + width - borderSize, y + height - borderSize,
-				zLevel, maxU - borderU, maxV - borderV);
+			zLevel, maxU - borderU, maxV - borderV);
 		tess.draw();
 
 		tess.startDrawingQuads();
 		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, borderU,
-				borderV);
+			borderV);
 		tess.addVertexWithUV(x + borderSize, y + height - borderSize, zLevel,
-				borderU, maxV - borderV);
+			borderU, maxV - borderV);
 		tess.addVertexWithUV(x + width - borderSize, y + height - borderSize,
-				zLevel, maxU - borderU, maxV - borderV);
+			zLevel, maxU - borderU, maxV - borderV);
 		tess.addVertexWithUV(x + width - borderSize, y + borderSize, zLevel,
-				maxU - borderU, borderV);
+			maxU - borderU, borderV);
 		tess.draw();
 
 	}
