@@ -3,6 +3,7 @@ package mhfc.net.common.ai;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
 /**
  * This selects a Random Item from a list of items.<br>
  * This class is written to be thread-safe.<br>
@@ -51,6 +52,7 @@ public class WeightedPick {
 		itemcache.set(new WeightedItem[size.get()]);
 		weightcache.set(new double[size.get()]);
 	}
+
 	/**
 	 * Randomly picks one of the items in the list if no item returns
 	 * <code>true</code> for {@link WeightedItem#forceSelection()}. If an item
@@ -96,24 +98,31 @@ public class WeightedPick {
 			weights[i] = w;
 			i++;
 		}
-		// If no items
-		if (i == 0)
+		int index = pickRandomIndex(weights, i, sum);
+		if (index < 0)
 			return null;
+		@SuppressWarnings("unchecked")
+		T t = (T) items[i];
+		return t;
+	}
+
+	private static int pickRandomIndex(double weights[], int count, double sum) {
+		// If no items
+		if (count == 0)
+			return -1;
 		// Generate selection
 		double value = rand.nextDouble() * sum;
 		sum = 0.0d;
 		// Select item from cache
-		for (; i > 0;) {
-			sum += weights[--i];
+		for (; count > 0;) {
+			sum += weights[--count];
 			if (sum < value)
 				continue;
-			@SuppressWarnings("unchecked")
-			T t = (T) items[i];
-			return t;
+			return count;
 		}
-		throw new IllegalStateException(
-				"value is bigger than the sum of weightcache?");
+		return -1;
 	}
+
 	public static interface WeightedItem {
 		/**
 		 * Returns the (positive) weight of this item. The chance of this item
@@ -125,6 +134,7 @@ public class WeightedPick {
 		 * @return the weight to be selected
 		 */
 		public float getWeight();
+
 		/**
 		 * Return <code>true</code> to instantly select this item before chances
 		 * have been taken for other items.<br>

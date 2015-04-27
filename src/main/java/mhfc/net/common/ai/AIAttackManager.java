@@ -19,9 +19,9 @@ public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<
 	extends
 		EntityAIBase implements IAttackManager<EntType> {
 
-	private final List<IExecutableAttack<EntType>> attacks = new ArrayList<IExecutableAttack<EntType>>();
-	private IExecutableAttack<EntType> activeAttack = null;
-	private EntType entity;
+	private final List<IExecutableAttack<? super EntType>> attacks = new ArrayList<IExecutableAttack<? super EntType>>();
+	protected IExecutableAttack<? super EntType> activeAttack = null;
+	protected EntType entity;
 
 	public AIAttackManager(EntType entity) {
 		this.entity = Objects.requireNonNull(entity, "Entity can't be null");
@@ -38,7 +38,7 @@ public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<
 	}
 
 	@Override
-	public IExecutableAttack<EntType> chooseAttack() {
+	public IExecutableAttack<? super EntType> chooseAttack() {
 		return WeightedPick.pickRandom(attacks);
 	}
 
@@ -54,8 +54,8 @@ public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<
 				this.entity, this.attacks.indexOf(activeAttack)));
 	}
 
-	private void swapAttacks(IExecutableAttack<EntType> oldAttack,
-		IExecutableAttack<EntType> newAttack) {
+	protected void swapAttacks(IExecutableAttack<? super EntType> oldAttack,
+		IExecutableAttack<? super EntType> newAttack) {
 		this.entity.onAttackEnd(oldAttack);
 		if (oldAttack != null)
 			oldAttack.finishExecution();
@@ -78,7 +78,7 @@ public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<
 	public boolean continueExecuting() {
 		if (this.activeAttack.shouldContinue())
 			return true;
-		IExecutableAttack<EntType> nextAttack = chooseAttack();
+		IExecutableAttack<? super EntType> nextAttack = chooseAttack();
 		if (nextAttack == null)
 			return false;
 		swapAttacks(this.activeAttack, nextAttack);
@@ -130,7 +130,7 @@ public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<
 	}
 
 	@Override
-	public void registerAttack(IExecutableAttack<EntType> attack) {
+	public void registerAttack(IExecutableAttack<? super EntType> attack) {
 		Objects.requireNonNull(attack);
 		attack.rebind(entity);
 		this.attacks.add(attack);

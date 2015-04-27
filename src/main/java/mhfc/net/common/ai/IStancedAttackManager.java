@@ -24,8 +24,6 @@ StanceT extends Enum<StanceT> & IStancedAttackManager.Stance<EntityT, StanceT>>
 	StanceT extends Enum<StanceT> & IStancedAttackManager.Stance<EntityT, StanceT>> {
 		public IExecutableAttack<EntityT> chooseAttack(
 			IStancedAttackManager<EntityT, StanceT> manager);
-
-		public void registerAttack(IExecutableAttack<EntityT> attack);
 	}
 
 	public void switchMode(StanceT newMode);

@@ -14,9 +14,9 @@ public interface IManagedAttacks<T extends EntityLivingBase & IManagedAttacks<T>
 	 *
 	 * @param newAttack
 	 */
-	public void onAttackStart(IExecutableAttack<T> newAttack);
+	public void onAttackStart(IExecutableAttack<? super T> newAttack);
 
-	public void onAttackEnd(IExecutableAttack<T> oldAttack);
+	public void onAttackEnd(IExecutableAttack<? super T> oldAttack);
 
 	public AIAttackManager<T> getAttackManager();
 }

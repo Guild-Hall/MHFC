@@ -8,6 +8,7 @@ import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
 /**
  * A derived class can specify an Entity-class this method is applicable to. The
  * typeparameter T should be as narrow as necessary but as broad as possible.
@@ -22,6 +23,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	public static final float DONT_SELECT = 0f;
+
 	/**
 	 * Tells the attack that it is rebound to the given entity. This might
 	 * happen when the entity is teleported and a new entity had to be created
@@ -32,6 +34,7 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	 */
 	// @SideOnly(Side.SERVER)
 	public void rebind(T entity);
+
 	/**
 	 * Gets how firmly this attack wants to be executed. The higher the value
 	 * the more likely the attack will be executed. Returning
@@ -42,6 +45,7 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	 */
 	@Override
 	public float getWeight();
+
 	/**
 	 * Returns if this attack has to be executed (e.g. a stun animation) this
 	 * gets checked every tick to determine if the current attack should be
@@ -56,17 +60,20 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	 */
 	@Override
 	public boolean forceSelection();
+
 	/**
 	 * Gets called at the beginning of execution. This should behave as a setup
 	 * method to determine the attack target for example.
 	 */
 	// @SideOnly(Side.SERVER)
 	public void beginExecution();
+
 	/**
 	 * Should get called every tick the entity receives to update this attack.
 	 */
 	// @SideOnly(Side.SERVER)
 	public void update();
+
 	/**
 	 * The return value determines whether this attack should still be executed.<br>
 	 * Returning false should determines the attack instantly, call
@@ -77,6 +84,7 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	 */
 	// @SideOnly(Side.SERVER)
 	public boolean shouldContinue();
+
 	/**
 	 * Finishes the execution of this attack. This method can also be called
 	 * when this attack was terminated unexpectedly, for example if some other
@@ -86,6 +94,7 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	 */
 	// @SideOnly(Side.SERVER)
 	public void finishExecution();
+
 	/**
 	 * Returns the mutex bits for the attack.
 	 *
@@ -93,6 +102,7 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	 * @see AIAttackManager#getMutexBits()
 	 */
 	public byte mutexBits();
+
 	/**
 	 * Gets the animation that should be played alongside the executed attack.
 	 *
@@ -100,6 +110,7 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	 */
 	@SideOnly(Side.CLIENT)
 	public IAnimation getCurrentAnimation();
+
 	/**
 	 * Gets the next frame, depending on the state of the attack. For example
 	 * running can loop over the running part of the animation, and play wind up

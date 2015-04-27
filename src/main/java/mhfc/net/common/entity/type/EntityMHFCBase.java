@@ -387,12 +387,12 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	}
 
 	@Override
-	public void onAttackEnd(IExecutableAttack<YC> oldAttack) {
+	public void onAttackEnd(IExecutableAttack<? super YC> oldAttack) {
 		setFrame(-1);
 	}
 
 	@Override
-	public void onAttackStart(IExecutableAttack<YC> newAttack) {
+	public void onAttackStart(IExecutableAttack<? super YC> newAttack) {
 		if (newAttack != null)
 			setFrame(0);
 	}
