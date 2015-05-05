@@ -48,7 +48,7 @@ public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<
 		return this.activeAttack != null;
 	}
 
-	private void sendUpdate() {
+	protected void sendUpdate() {
 		if (!this.entity.worldObj.isRemote)
 			PacketPipeline.networkPipe.sendToAll(new MessageAIAttack<EntType>(
 				this.entity, this.attacks.indexOf(activeAttack)));
@@ -78,6 +78,10 @@ public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<
 	public boolean continueExecuting() {
 		if (this.activeAttack.shouldContinue())
 			return true;
+		return executeNextAttack();
+	}
+
+	protected boolean executeNextAttack() {
 		IExecutableAttack<? super EntType> nextAttack = chooseAttack();
 		if (nextAttack == null)
 			return false;

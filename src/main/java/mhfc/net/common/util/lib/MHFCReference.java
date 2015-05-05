@@ -251,19 +251,18 @@ public class MHFCReference {
 	public static final String item_ingot2_name = "eltalite";
 	public static final String item_ingot3_icon = "mhfc:ingot3";
 	public static final String item_ingot3_name = "machalite";
-	
-	public static final String item_remobra_basename= "remobra";
-	public static final String item_remobra0_name= "skin";
+
+	public static final String item_remobra_basename = "remobra";
+	public static final String item_remobra0_name = "skin";
 	public static final String item_remobra0_icon = "mhfc:remobra0";
-	public static final String item_remobra1_name= "stripe";
+	public static final String item_remobra1_name = "stripe";
 	public static final String item_remobra1_icon = "mhfc:remobra1";
-	public static final String item_remobra2_name= "skull";
+	public static final String item_remobra2_name = "skull";
 	public static final String item_remobra2_icon = "mhfc:remobra2";
-	public static final String item_remobra3_name= "wing";
+	public static final String item_remobra3_name = "wing";
 	public static final String item_remobra3_icon = "mhfc:remobra3";
-	
-	
-	public static final String item_deviljho_basename= "deviljho";
+
+	public static final String item_deviljho_basename = "deviljho";
 	public static final String item_deviljho0_name = "scale";
 	public static final String item_deviljho0_icon = "mhfc:deviljho0";
 	public static final String item_deviljho1_name = "fang";
@@ -379,6 +378,10 @@ public class MHFCReference {
 	public static final String mob_tigrex_sound_roar = "mhfc:tigrex.roar";
 	public static final String mob_tigrex_sound_say = "mhfc:tigrex.say";
 	public static final String mob_tigrex_model = "mhfc:models/Tigrex/Tigrex.mcmd";
+	public static final String mob_rathalos_name = "rathalos";
+	public static final String mob_rathalos_sound_roar = "mhfc:rathalos.roar";
+	public static final String mob_rathalos_sound_say = "mhfc:rathalos.say";
+	public static final String mob_rathalos_model = "mhfc:models/Rathalos/Rathalos.mcmd";
 	public static final String particle_kirinsfx_tex = "mhfc:textures/particle/kirinSFX.png";
 	public static final String potion_attackup_name = "potion.attackuplow";
 	public static final String potion_attackup_uuid = "6a80c830-745d-4edd-8a17-e580f813bf20";
@@ -476,7 +479,7 @@ public class MHFCReference {
 	public static final String weapon_ls_ironkatana_tex = "mhfc:textures/weapons/(LS)ironkatana.png";
 	public static final String weapon_ls_darkvipern_name = "longsword_2";
 	public static final String weapon_ls_darkviper_tex = "mhfc:textures/weapons/(LS)darkvipern.png";
-	public static final String weapon_ls_ikgrace_name ="longsword_3";
+	public static final String weapon_ls_ikgrace_name = "longsword_3";
 	public static final String weapon_ls_ikgrace_tex = "mhfc:textures/weapons/(LS)IKGrace.png";
 	public static final String weapon_ls_ikgospel_name = "longsword_4";
 	public static final String weapon_ls_ikgospel_tex = "mhfc:textures/weapons/(LS)IKGospel.png";
@@ -502,7 +505,7 @@ public class MHFCReference {
 	public static final String weapon_ls_miragefinswordplus_tex = "mhfc:textures/weapons/(LS)miragefinswordplus.png";
 	public static final String weapon_ls_phantommirage_name = "longsword_15";
 	public static final String weapon_ls_phantommirage_tex = "mhfc:textures/weapons/(LS)phantommirage.png";
-	
+
 	public static final String weapon_bgl_shooterbarrel_name = "bowgun_1";
 	public static final String weapon_bgl_shooterbarrel_icon = "mhfc:bow";
 	public static final String weapon_bgl_shooterbarrel_tex = "mhfc:textures/weapons/(BGL)shooterbarrel.png";

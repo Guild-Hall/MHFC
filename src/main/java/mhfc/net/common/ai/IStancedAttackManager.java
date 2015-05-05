@@ -22,11 +22,19 @@ StanceT extends Enum<StanceT> & IStancedAttackManager.Stance<EntityT, StanceT>>
 
 	public static interface Stance<EntityT extends EntityLivingBase & IStancedManagedAttacks<EntityT, StanceT> & IManagedAttacks<EntityT>, //
 	StanceT extends Enum<StanceT> & IStancedAttackManager.Stance<EntityT, StanceT>> {
-		public IExecutableAttack<EntityT> chooseAttack(
-			IStancedAttackManager<EntityT, StanceT> manager);
+
+		void onAttackStart(IExecutableAttack<? super EntityT> attack,
+			EntityT entity);
+
+		void onAttackEnd(IExecutableAttack<? super EntityT> attack,
+			EntityT entity);
+
+		void onStanceStart();
+
+		void onStanceEnd();
 	}
 
-	public void switchMode(StanceT newMode);
+	public void setNextMode(StanceT newMode);
 
 	public StanceT getCurrentMode();
 

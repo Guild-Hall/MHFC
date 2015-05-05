@@ -1,6 +1,8 @@
 package mhfc.net.common.ai;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import mhfc.net.common.entity.type.EntityWyvernPeaceful;
@@ -33,6 +35,53 @@ public class AIUtils {
 		public float accept(Entity e);
 	}
 
+	public static abstract class DecisiveDamageCalculator
+		implements
+			IDamageCalculator {
+
+		/**
+		 * Decides whether the given Entity should be damaged
+		 */
+		public abstract boolean shouldDamage(Entity e);
+
+		/**
+		 * Returns the damage that should be dealt to the entity e.
+		 */
+		public abstract float damage(Entity e);
+
+		@Override
+		public float accept(Entity e) {
+			if (shouldDamage(e))
+				return damage(e);
+			return 0f;
+		}
+	}
+
+	public static class MemoryDamageCalculator extends DecisiveDamageCalculator {
+
+		private final Set<Entity> damagedEntities = new HashSet<Entity>();
+		private IDamageCalculator forward;
+
+		public MemoryDamageCalculator(IDamageCalculator otherCalculator) {
+			forward = otherCalculator;
+		}
+
+		@Override
+		public boolean shouldDamage(Entity e) {
+			return !damagedEntities.contains(e);
+		}
+
+		@Override
+		public float damage(Entity e) {
+			return forward.accept(e);
+		}
+
+		public void reset() {
+			damagedEntities.clear();
+		}
+
+	}
+
 	/**
 	 * A default implementation for {@link IDamageCalculator}. It decides
 	 *
@@ -59,6 +108,72 @@ public class AIUtils {
 				return wyvern;
 			}
 			return rest;
+		}
+	}
+
+	public static class DamageCalculatorHelper {
+		private enum Type {
+			MEMORY,
+			DEFAULT,
+			NONE,
+			UNKNOWN;
+		}
+
+		private IDamageCalculator calculator;
+		private Type type;
+
+		public DamageCalculatorHelper() {
+			type = Type.NONE;
+		}
+
+		protected void setDamageCalculator(IDamageCalculator dmg) {
+			calculator = dmg;
+			if (calculator == null)
+				type = Type.NONE;
+			else
+				type = Type.UNKNOWN;
+		}
+
+		protected void setDefaultDamageCalculator(float player, float wyvern,
+			float rest) {
+			calculator = AIUtils.defaultDamageCalc(player, wyvern, rest);
+			type = Type.DEFAULT;
+		}
+
+		/**
+		 * Create a new MemoryDamageCalculator using the provided calculator
+		 */
+		protected void setMemoryDamageCalculator(IDamageCalculator dmg) {
+			calculator = new MemoryDamageCalculator(dmg);
+			type = Type.MEMORY;
+		}
+
+		/**
+		 * Create a new MemoryDamageCalculator using a default calculator with
+		 * the provided damage values.
+		 */
+		protected void setMemoryDamageCalculator(float player, float wyvern,
+			float rest) {
+			calculator = new MemoryDamageCalculator(AIUtils.defaultDamageCalc(
+				player, wyvern, rest));
+			type = Type.MEMORY;
+		}
+
+		/**
+		 * Resets the damage calculator if it is of memory type. Does nothing if
+		 * not.
+		 */
+		public void reset() {
+			if (type == Type.MEMORY)
+				((MemoryDamageCalculator) calculator).reset();
+			if (type == Type.UNKNOWN) {
+				if (calculator instanceof MemoryDamageCalculator)
+					((MemoryDamageCalculator) calculator).reset();
+			}
+		}
+
+		public IDamageCalculator getCalculator() {
+			return calculator;
 		}
 	}
 

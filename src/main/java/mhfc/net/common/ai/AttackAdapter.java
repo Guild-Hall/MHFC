@@ -2,6 +2,7 @@ package mhfc.net.common.ai;
 
 import java.util.Random;
 
+import mhfc.net.common.ai.AIUtils.DamageCalculatorHelper;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
@@ -23,8 +24,10 @@ public abstract class AttackAdapter<T extends EntityCreature>
 	 * you want to use this
 	 */
 	protected EntityLivingBase target;
+	protected DamageCalculatorHelper dmgHelper;
 
 	public AttackAdapter() {
+		dmgHelper = new DamageCalculatorHelper();
 	}
 
 	@Override
@@ -37,13 +40,10 @@ public abstract class AttackAdapter<T extends EntityCreature>
 	}
 
 	@Override
-	public void update() {
-	}
+	public abstract void update();
 
 	@Override
-	public float getWeight() {
-		return DONT_SELECT;
-	}
+	public abstract float getWeight();
 
 	/**
 	 * Gets the entity this attack is bounded to (executed on).
@@ -127,4 +127,5 @@ public abstract class AttackAdapter<T extends EntityCreature>
 	public boolean shouldContinue() {
 		return getRecentFrame() < lastFrame;
 	}
+
 }

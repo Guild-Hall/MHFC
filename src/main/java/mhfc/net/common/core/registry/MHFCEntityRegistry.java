@@ -5,9 +5,11 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.MHFCMobList;
+import mhfc.net.common.entity.mob.EntityRathalos;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityBullet;
 import mhfc.net.common.entity.projectile.EntityFlashBomb;
+import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityTigrexBlock;
 import mhfc.net.common.entity.quests.EntityQuestGiver;
 import mhfc.net.common.util.lib.MHFCReference;
@@ -23,11 +25,11 @@ public class MHFCEntityRegistry {
 	// public static final int popoID;
 	public static final int tigrexID;
 	// public static final int kirinID;
-	// public static final int rathalosID;
+	public static final int rathalosID;
 	public static final int questGiverID;
 
 	public static final int tigrexBlockID;
-	// public static final int rathalosFireballID;
+	public static final int rathalosFireballID;
 	public static final int bulletID;
 	public static final int flashbombID;
 
@@ -43,8 +45,8 @@ public class MHFCEntityRegistry {
 			0xfff432e3, 0x1020394f);
 		// kirinID = getMobID(EntityKirin.class, MHFCReference.mob_kirin_name,
 		// 0xfff85814, 0xff851f15);
-		// rathalosID = getMobID(EntityRathalos.class,
-		// MHFCReference.mob_rathalos_name, 0xff749819, 0xf838818);
+		rathalosID = getMobID(EntityRathalos.class,
+			MHFCReference.mob_rathalos_name, 0xff749819, 0xf838818);
 		questGiverID = getMobID(EntityQuestGiver.class,
 			MHFCReference.mob_questGiver_name);
 
@@ -52,8 +54,8 @@ public class MHFCEntityRegistry {
 			MHFCReference.entity_tigrexBlock_name);
 		bulletID = getProjectileID(EntityBullet.class,
 			MHFCReference.entity_bullet_name);
-		// rathalosFireballID = getProjectileID(EntityRathalosFireball.class,
-		// MHFCReference.entity_rathalosFireball_name);
+		rathalosFireballID = getProjectileID(EntityRathalosFireball.class,
+			MHFCReference.entity_rathalosFireball_name);
 		flashbombID = getProjectileID(EntityFlashBomb.class,
 			MHFCReference.entity_flashbomb_name, EntityFlashBomb.FALL_OFF_END);
 	}
