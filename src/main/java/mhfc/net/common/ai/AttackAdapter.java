@@ -41,7 +41,7 @@ public abstract class AttackAdapter<T extends EntityCreature>
 
 	@Override
 	public void update() {
-		setToNextFrame(getCurrentFrame());
+		setToNextFrame(getCurrentFrame() + 1);
 	}
 
 	@Override
@@ -57,8 +57,8 @@ public abstract class AttackAdapter<T extends EntityCreature>
 	}
 
 	/**
-	 * Gets the last recent frame, set everytime {@link #setToNextFrame(int frame)}
-	 * is called to <code>frame+1</code>
+	 * Gets the last recent frame, set everytime
+	 * {@link #setToNextFrame(int frame)} is called to <code>frame+1</code>
 	 *
 	 * @return the most recently returned frame
 	 */
@@ -121,7 +121,7 @@ public abstract class AttackAdapter<T extends EntityCreature>
 	}
 
 	public int setToNextFrame(int frame) {
-		return recentFrame = ++frame;
+		return recentFrame = frame;
 	}
 
 	@Override
