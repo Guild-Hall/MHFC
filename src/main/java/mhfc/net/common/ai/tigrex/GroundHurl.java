@@ -52,6 +52,7 @@ public class GroundHurl extends AttackAdapter<EntityTigrex> {
 
 	@Override
 	public void update() {
+		super.update();
 		if (thrown)
 			return;
 		EntityTigrex tigrex = getEntity();

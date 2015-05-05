@@ -10,7 +10,7 @@ public interface IAttackManager<EntityT extends EntityLivingBase & IManagedAttac
 
 	public IAnimation getCurrentAnimation();
 
-	public int getNextFrame(int current);
+	public int getCurrentFrame();
 
 	public IExecutableAttack<? super EntityT> chooseAttack();
 }

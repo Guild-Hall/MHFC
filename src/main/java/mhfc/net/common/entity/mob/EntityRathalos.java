@@ -34,7 +34,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 				IExecutableAttack<? super EntityRathalos> attack,
 				EntityRathalos entity) {
 				if (entity.getNumberOfConfusedAttacks() == 3) {
-					entity.getAttackManager().setNextMode(GROUND);
+					entity.getAttackManager().setNextStance(GROUND);
 				}
 			}
 		};
@@ -66,15 +66,16 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 
 	public EntityRathalos(World world) {
 		super(world);
+		tasks.removeTask(super.attackManager);
 		this.attackManager = new AIStancedAttackManager<EntityRathalos, Stances>(
-			this);
-		attackManager.setNextMode(Stances.GROUND);
+			this, Stances.GROUND);
 		attackManager.registerAttack(new BiteAttack());
 		attackManager.registerAttack(new ChargeAttack());
 		attackManager.registerAttack(new FireballAttack());
 		attackManager.registerAttack(new FlyStart());
 		attackManager.registerAttack(new JumpFireball());
 		attackManager.registerAttack(new TailSpin());
+		attackManager.registerAttack(new FlyLand());
 		tasks.addTask(0, attackManager);
 	}
 
@@ -91,7 +92,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	@Override
 	public void confuse() {
 		confusedAttacks = 0;
-		attackManager.setNextMode(Stances.BLINDED);
+		attackManager.setNextStance(Stances.BLINDED);
 	}
 
 	@Override
@@ -104,7 +105,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		super.onEntityUpdate();
 		// FIXME This should disable falling during flying but it also makes
 		// collision weird I don't know if it disables AI movement as well
-		if (attackManager.getCurrentMode() == Stances.FLYING)
+		if (attackManager.getCurrentStance() == Stances.FLYING)
 			this.posY = this.prevPosY;
 	}
 
@@ -113,7 +114,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	 */
 	@Override
 	protected void updateFallState(double par1, boolean par3) {
-		if (attackManager.getCurrentMode() != Stances.FALLING)
+		if (attackManager.getCurrentStance() != Stances.FALLING)
 			return;
 		super.updateFallState(par1, par3);
 	}

@@ -45,6 +45,7 @@ public class BiteAttack extends AttackAdapter<EntityTigrex> {
 
 	@Override
 	public void update() {
+		super.update();
 		AIUtils.damageCollidingEntities(getEntity(), damageCalc);
 	}
 }

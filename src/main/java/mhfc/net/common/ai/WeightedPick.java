@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import mhfc.net.MHFCMain;
+
 /**
  * This selects a Random Item from a list of items.<br>
  * This class is written to be thread-safe.<br>
@@ -73,8 +75,11 @@ public class WeightedPick {
 	 * @return the picked item
 	 */
 	public static <T extends WeightedItem> T pickRandom(List<T> list) {
-		if (list == null)
+		if (list == null) {
+			MHFCMain.logger
+				.warn("List supplied to random pick null. Is some IAttackManager invalid?");
 			return null;
+		}
 		WeightedItem[] items = itemcache.get();
 		double[] weights = weightcache.get();
 		// Check cache size
@@ -91,7 +96,7 @@ public class WeightedPick {
 				return item;
 			}
 			double w = Math.max(0.0d, item.getWeight());
-			if (w == 0.0d)
+			if (w <= 0.0d)
 				continue;
 			sum += w;
 			items[i] = item;
@@ -99,17 +104,19 @@ public class WeightedPick {
 			i++;
 		}
 		int index = pickRandomIndex(weights, i, sum);
-		if (index < 0)
+		if (index < 0) {
 			return null;
+		}
 		@SuppressWarnings("unchecked")
-		T t = (T) items[i];
+		T t = (T) items[index];
 		return t;
 	}
 
 	private static int pickRandomIndex(double weights[], int count, double sum) {
 		// If no items
-		if (count == 0)
+		if (count <= 0) {
 			return -1;
+		}
 		// Generate selection
 		double value = rand.nextDouble() * sum;
 		sum = 0.0d;

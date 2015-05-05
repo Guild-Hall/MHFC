@@ -157,7 +157,7 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 			return DONT_SELECT;
 		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
 		double dist = toTarget.lengthVector();
-		return (float) Math.log(dist); // More likely the farer away
+		return (float) Math.log(dist / 5f); // More likely the farer away
 	}
 
 	@Override
@@ -173,6 +173,7 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 
 	@Override
 	public void update() {
+		super.update();
 		currentPhase.update(this);
 		if (currentPhase.isDamaging) {
 			AIUtils.damageCollidingEntities(getEntity(), damageCalc);
@@ -191,6 +192,7 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 
 	@Override
 	public void finishExecution() { // When finished
+		super.finishExecution();
 		this.getEntity().setTarget(null);
 	}
 
@@ -200,8 +202,9 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 	}
 
 	@Override
-	public int getNextFrame(int frame) { // For the animation
-		super.getNextFrame(frame); // Notify the adapter
-		return currentPhase.nextFrame(this, frame);
+	public int setToNextFrame(int frame) { // For the animation
+		return super.setToNextFrame(currentPhase.nextFrame(this, frame)); // Notify
+																			// the
+																			// adapter
 	}
 }

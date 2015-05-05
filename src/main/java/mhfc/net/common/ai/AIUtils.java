@@ -126,7 +126,7 @@ public class AIUtils {
 			type = Type.NONE;
 		}
 
-		protected void setDamageCalculator(IDamageCalculator dmg) {
+		public void setDamageCalculator(IDamageCalculator dmg) {
 			calculator = dmg;
 			if (calculator == null)
 				type = Type.NONE;
@@ -134,7 +134,7 @@ public class AIUtils {
 				type = Type.UNKNOWN;
 		}
 
-		protected void setDefaultDamageCalculator(float player, float wyvern,
+		public void setDefaultDamageCalculator(float player, float wyvern,
 			float rest) {
 			calculator = AIUtils.defaultDamageCalc(player, wyvern, rest);
 			type = Type.DEFAULT;
@@ -143,7 +143,7 @@ public class AIUtils {
 		/**
 		 * Create a new MemoryDamageCalculator using the provided calculator
 		 */
-		protected void setMemoryDamageCalculator(IDamageCalculator dmg) {
+		public void setMemoryDamageCalculator(IDamageCalculator dmg) {
 			calculator = new MemoryDamageCalculator(dmg);
 			type = Type.MEMORY;
 		}
@@ -152,7 +152,7 @@ public class AIUtils {
 		 * Create a new MemoryDamageCalculator using a default calculator with
 		 * the provided damage values.
 		 */
-		protected void setMemoryDamageCalculator(float player, float wyvern,
+		public void setMemoryDamageCalculator(float player, float wyvern,
 			float rest) {
 			calculator = new MemoryDamageCalculator(AIUtils.defaultDamageCalc(
 				player, wyvern, rest));

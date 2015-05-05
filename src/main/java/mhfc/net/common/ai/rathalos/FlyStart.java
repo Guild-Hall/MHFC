@@ -1,5 +1,6 @@
 package mhfc.net.common.ai.rathalos;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.AttackAdapter;
 import mhfc.net.common.entity.mob.EntityRathalos;
 
@@ -14,19 +15,22 @@ public class FlyStart extends AttackAdapter<EntityRathalos> {
 
 	@Override
 	public void beginExecution() {
+		super.beginExecution();
 		EntityRathalos entity = getEntity();
-		entity.getAttackManager().setNextMode(EntityRathalos.Stances.FLYING);
+		entity.getAttackManager().setNextStance(EntityRathalos.Stances.FLYING);
 	}
 
 	@Override
 	public void update() {
+		super.update();
+		MHFCMain.logger.info("Update of Fly");
 		EntityRathalos entity = getEntity();
-		entity.moveFlying(0, 0.2f, 0);
+		entity.moveFlying(0, 10f, 0);
 	}
 
 	@Override
 	public float getWeight() {
-		if (getEntity().getAttackManager().getCurrentMode() != EntityRathalos.Stances.GROUND)
+		if (getEntity().getAttackManager().getCurrentStance() != EntityRathalos.Stances.GROUND)
 			return DONT_SELECT;
 		return WEIGHT;
 	}

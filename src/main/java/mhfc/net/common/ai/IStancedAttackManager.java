@@ -34,8 +34,8 @@ StanceT extends Enum<StanceT> & IStancedAttackManager.Stance<EntityT, StanceT>>
 		void onStanceEnd();
 	}
 
-	public void setNextMode(StanceT newMode);
+	public void setNextStance(StanceT newMode);
 
-	public StanceT getCurrentMode();
+	public StanceT getCurrentStance();
 
 }

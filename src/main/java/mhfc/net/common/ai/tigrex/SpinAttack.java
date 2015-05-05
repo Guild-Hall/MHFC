@@ -4,11 +4,8 @@ import java.util.List;
 
 import mhfc.net.common.ai.AttackAdapter;
 import mhfc.net.common.entity.mob.EntityTigrex;
-import mhfc.net.common.entity.type.EntityWyvernHostile;
-import mhfc.net.common.entity.type.EntityWyvernPeaceful;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 
@@ -20,6 +17,7 @@ public class SpinAttack extends AttackAdapter<EntityTigrex> {
 	public SpinAttack() {
 		setAnimation("mhfc:models/Tigrex/tailswipe.mcanm");
 		setLastFrame(MAX_FRAME);
+		dmgHelper.setMemoryDamageCalculator(64f, 62f, 500f);
 	}
 
 	@Override
@@ -39,23 +37,18 @@ public class SpinAttack extends AttackAdapter<EntityTigrex> {
 
 	@Override
 	public void beginExecution() {
-		getEntity().getNavigator().noPath();
+		super.beginExecution();
+		getEntity().getNavigator().clearPathEntity();
 	}
 
 	@Override
 	public void update() {
+		super.update();
 		EntityTigrex tigrex = this.getEntity();
 		List<Entity> collidingEntities = WorldHelper.collidingEntities(tigrex);
 		for (Entity trgt : collidingEntities) {
-			if (trgt instanceof EntityPlayer) {
-				trgt.attackEntityFrom(DamageSource.causeMobDamage(tigrex), 64F);
-			} else if (trgt instanceof EntityWyvernHostile
-				|| trgt instanceof EntityWyvernPeaceful) {
-				trgt.attackEntityFrom(DamageSource.causeMobDamage(tigrex), 62F);
-			} else {
-				trgt.attackEntityFrom(DamageSource.causeMobDamage(tigrex),
-					5000);
-			}
+			trgt.attackEntityFrom(DamageSource.causeMobDamage(tigrex),
+				dmgHelper.getCalculator().accept(trgt));
 		}
 	}
 

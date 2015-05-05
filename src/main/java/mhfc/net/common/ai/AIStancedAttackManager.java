@@ -1,5 +1,8 @@
 package mhfc.net.common.ai;
 
+import java.util.Objects;
+
+import mhfc.net.MHFCMain;
 import net.minecraft.entity.EntityLivingBase;
 
 public class AIStancedAttackManager<EntityT extends EntityLivingBase & IStancedManagedAttacks<EntityT, StanceT>, //
@@ -11,12 +14,14 @@ StanceT extends Enum<StanceT> & IStancedAttackManager.Stance<EntityT, StanceT>>
 
 	protected StanceT currentStance, nextStance;
 
-	public AIStancedAttackManager(EntityT entity) {
+	public AIStancedAttackManager(EntityT entity, StanceT initalStance) {
 		super(entity);
+		Objects.requireNonNull(initalStance);
+		this.currentStance = this.nextStance = initalStance;
 	}
 
 	@Override
-	public void setNextMode(StanceT newMode) {
+	public void setNextStance(StanceT newMode) {
 		nextStance = newMode;
 	}
 
@@ -39,6 +44,7 @@ StanceT extends Enum<StanceT> & IStancedAttackManager.Stance<EntityT, StanceT>>
 	 */
 	@Override
 	protected boolean executeNextAttack() {
+		MHFCMain.logger.info("Executing next attack");
 		currentStance.onAttackEnd(activeAttack, entity);
 		swapStances();
 		boolean hasAttack = super.executeNextAttack();
@@ -69,7 +75,16 @@ StanceT extends Enum<StanceT> & IStancedAttackManager.Stance<EntityT, StanceT>>
 	}
 
 	@Override
-	public StanceT getCurrentMode() {
+	public StanceT getCurrentStance() {
 		return currentStance;
+	}
+
+	@Override
+	public IExecutableAttack<? super EntityT> chooseAttack() {
+		MHFCMain.logger.info("Choosing next attack ");
+		MHFCMain.logger.info(this.currentStance);
+		IExecutableAttack<? super EntityT> attack = super.chooseAttack();
+		MHFCMain.logger.info("Chose " + attack);
+		return attack;
 	}
 }

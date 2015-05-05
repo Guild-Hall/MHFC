@@ -112,14 +112,11 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	public IAnimation getCurrentAnimation();
 
 	/**
-	 * Gets the next frame, depending on the state of the attack. For example
+	 * Gets the current frame, depending on the state of the attack. For example
 	 * running can loop over the running part of the animation, and play wind up
 	 * and wind down only when it is needed.
 	 *
-	 * @param frame
-	 *            the current frame, mostly for convenience
-	 * @return the next frame in the animation
+	 * @return the current frame to display in the animation
 	 */
-	@SideOnly(Side.CLIENT)
-	public int getNextFrame(int frame);
+	public int getCurrentFrame();
 }

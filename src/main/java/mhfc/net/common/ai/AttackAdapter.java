@@ -40,7 +40,9 @@ public abstract class AttackAdapter<T extends EntityCreature>
 	}
 
 	@Override
-	public abstract void update();
+	public void update() {
+		setToNextFrame(getCurrentFrame());
+	}
 
 	@Override
 	public abstract float getWeight();
@@ -55,7 +57,7 @@ public abstract class AttackAdapter<T extends EntityCreature>
 	}
 
 	/**
-	 * Gets the last recent frame, set everytime {@link #getNextFrame(int frame)}
+	 * Gets the last recent frame, set everytime {@link #setToNextFrame(int frame)}
 	 * is called to <code>frame+1</code>
 	 *
 	 * @return the most recently returned frame
@@ -118,14 +120,18 @@ public abstract class AttackAdapter<T extends EntityCreature>
 		return 7;
 	}
 
-	@Override
-	public int getNextFrame(int frame) {
+	public int setToNextFrame(int frame) {
 		return recentFrame = ++frame;
 	}
 
 	@Override
+	public int getCurrentFrame() {
+		return recentFrame;
+	};
+
+	@Override
 	public boolean shouldContinue() {
-		return getRecentFrame() < lastFrame;
+		return getCurrentFrame() < lastFrame;
 	}
 
 }

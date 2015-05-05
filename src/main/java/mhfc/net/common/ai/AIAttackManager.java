@@ -19,7 +19,7 @@ public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<
 	extends
 		EntityAIBase implements IAttackManager<EntType> {
 
-	private final List<IExecutableAttack<? super EntType>> attacks = new ArrayList<IExecutableAttack<? super EntType>>();
+	protected final List<IExecutableAttack<? super EntType>> attacks = new ArrayList<IExecutableAttack<? super EntType>>();
 	protected IExecutableAttack<? super EntType> activeAttack = null;
 	protected EntType entity;
 
@@ -44,7 +44,7 @@ public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<
 
 	@Override
 	public boolean shouldExecute() {
-		this.activeAttack = this.chooseAttack();
+		this.activeAttack = chooseAttack();
 		return this.activeAttack != null;
 	}
 
@@ -81,6 +81,10 @@ public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<
 		return executeNextAttack();
 	}
 
+	/**
+	 * Go to the next attack, cancel the current attack. This may for example be
+	 * used when staggered.
+	 */
 	protected boolean executeNextAttack() {
 		IExecutableAttack<? super EntType> nextAttack = chooseAttack();
 		if (nextAttack == null)
@@ -146,7 +150,7 @@ public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<
 	}
 
 	@Override
-	public int getNextFrame(int current) {
-		return activeAttack == null ? -1 : activeAttack.getNextFrame(current);
+	public int getCurrentFrame() {
+		return activeAttack == null ? -1 : activeAttack.getCurrentFrame();
 	}
 }

@@ -15,13 +15,14 @@ public class BiteAttack extends AttackAdapter<EntityRathalos> {
 
 	@Override
 	public void update() {
+		super.update();
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public float getWeight() {
-		if (getEntity().getAttackManager().getCurrentMode() != EntityRathalos.Stances.GROUND)
+		if (getEntity().getAttackManager().getCurrentStance() != EntityRathalos.Stances.GROUND)
 			return DONT_SELECT;
 		return WEIGHT;
 	}

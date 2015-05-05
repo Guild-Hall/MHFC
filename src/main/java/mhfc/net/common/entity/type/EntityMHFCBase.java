@@ -355,7 +355,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	@Override
 	protected void updateAITick() {
 		super.updateAITick();
-		setFrame(this.attackManager.getNextFrame(getCurrentFrame()));
+		setFrame(this.attackManager.getCurrentFrame());
 		turnHelper.onUpdateTurn();
 	}
 
