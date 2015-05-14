@@ -1,4 +1,4 @@
-package mhfc.net.common.ai;
+package mhfc.net.common.ai.general;
 
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;

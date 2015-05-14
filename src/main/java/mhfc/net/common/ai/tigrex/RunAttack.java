@@ -1,7 +1,7 @@
 package mhfc.net.common.ai.tigrex;
 
-import mhfc.net.common.ai.AIUtils;
-import mhfc.net.common.ai.AIUtils.IDamageCalculator;
+import mhfc.net.common.ai.general.AIUtils;
+import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.AttackAdapter;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.util.world.WorldHelper;
@@ -13,8 +13,8 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 	private static final int runningStarts = 21;
 	private static final int runningEnds = 56;
 	private static final int attackEnd = 75;
-	private static final float TURN_RATE_INITIAL = 7;
-	private static final float TURN_RATE_DURING_RUN = 1;
+	private static final float TURN_RATE_INITIAL = 12;
+	private static final float TURN_RATE_DURING_RUN = 2;
 	private static final float MAX_RUN_DISTANCE = 40f;
 	private static final IDamageCalculator damageCalc = AIUtils
 		.defaultDamageCalc(16f, 62f, 400f);
@@ -47,7 +47,7 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 			public AttackPhase next(RunAttack attk) {
 				if (attk.target == null)
 					return STOPPED;
-				if (attk.getRecentFrame() < runningStarts) {
+				if (attk.getCurrentFrame() < runningStarts) {
 					return START;
 				}
 				return RUNNING;
@@ -103,12 +103,12 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 				EntityCreature e = attk.getEntity();
 				Vec3 look = e.getLookVec();
 				e.getMoveHelper().setMoveTo(e.posX + 3 * look.xCoord,
-					e.posY + 3 * look.yCoord, e.posZ + 3 * look.zCoord, 0.5);
+					e.posY + 3 * look.yCoord, e.posZ + 3 * look.zCoord, 0.8);
 			}
 
 			@Override
 			public AttackPhase next(RunAttack attk) {
-				if (attackEnd < attk.getRecentFrame())
+				if (attackEnd < attk.getCurrentFrame())
 					return STOPPED;
 				return STOPPING;
 			}
@@ -157,7 +157,7 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 			return DONT_SELECT;
 		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
 		double dist = toTarget.lengthVector();
-		return (float) Math.log(dist / 5f); // More likely the farer away
+		return (float) Math.log(dist / 5f + 1); // More likely the farer away
 	}
 
 	@Override

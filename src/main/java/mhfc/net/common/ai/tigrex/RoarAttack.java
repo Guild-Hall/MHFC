@@ -13,7 +13,7 @@ public class RoarAttack extends AttackAdapter<EntityTigrex> {
 
 	@Override
 	public float getWeight() {
-		return rng().nextFloat() * 30;
+		return rng().nextFloat() * 3;
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package mhfc.net.common.ai.tigrex;
 
-import mhfc.net.common.ai.AIUtils;
-import mhfc.net.common.ai.AIUtils.IDamageCalculator;
+import mhfc.net.common.ai.general.AIUtils;
+import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.AttackAdapter;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.util.world.WorldHelper;
@@ -18,7 +18,7 @@ public class JumpAttack extends AttackAdapter<EntityTigrex> {
 
 	private static final IDamageCalculator damageCalc = AIUtils
 		.defaultDamageCalc(32f, 62f, 500f);
-	private static final double MIN_DIST = 7f;
+	private static final double MIN_DIST = 3f;
 	private static final float MAX_ANGLE = -0.2f;
 	private static final float SELECTION_WEIGHT = 5f;
 
@@ -52,7 +52,7 @@ public class JumpAttack extends AttackAdapter<EntityTigrex> {
 	public void update() {
 		super.update();
 		Vec3 look = getEntity().getLookVec();
-		int frame = getRecentFrame();
+		int frame = getCurrentFrame();
 		if (frame < JUMP_FRAME) {
 			getEntity().getTurnHelper().updateTargetPoint(
 				getEntity().getAttackTarget());

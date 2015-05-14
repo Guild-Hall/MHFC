@@ -103,19 +103,20 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	@Override
 	public void onEntityUpdate() {
 		super.onEntityUpdate();
-		// FIXME This should disable falling during flying but it also makes
-		// collision weird I don't know if it disables AI movement as well
-		if (attackManager.getCurrentStance() == Stances.FLYING)
-			this.posY = this.prevPosY;
+		//
 	}
 
 	/**
-	 * Deals fall damage to the entity, capture it unless Rathalos was staggered
+	 * FIXME This should disable falling during flying but it also makes
+	 * collision weird I don't know if it disables AI movement as well
 	 */
 	@Override
 	protected void updateFallState(double par1, boolean par3) {
-		if (attackManager.getCurrentStance() != Stances.FALLING)
-			return;
+		if (attackManager.getCurrentStance() == Stances.FLYING) {
+			this.moveEntity(0, -par1, 0);
+			this.fallDistance = 0;
+			par1 = 0;
+		}
 		super.updateFallState(par1, par3);
 	}
 }

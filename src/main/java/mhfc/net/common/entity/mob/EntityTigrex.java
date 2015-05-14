@@ -1,5 +1,6 @@
 package mhfc.net.common.entity.mob;
 
+import mhfc.net.common.ai.general.TurnAttack;
 import mhfc.net.common.ai.tigrex.*;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -25,6 +26,8 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		this.attackManager.registerAttack(new GroundHurl());
 		this.attackManager.registerAttack(new BiteAttack());
 		this.attackManager.registerAttack(new JumpAttack());
+		this.attackManager.registerAttack(new RoarAttack());
+		this.attackManager.registerAttack(new TurnAttack(110, 180, 5f, 12f));
 
 		// TODO enable this when Popos are a thing again
 		// targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,

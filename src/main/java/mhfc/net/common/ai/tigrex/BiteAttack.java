@@ -3,9 +3,9 @@
  */
 package mhfc.net.common.ai.tigrex;
 
-import mhfc.net.common.ai.AIUtils;
-import mhfc.net.common.ai.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.AttackAdapter;
+import mhfc.net.common.ai.general.AIUtils;
+import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.Vec3;
@@ -19,12 +19,12 @@ public class BiteAttack extends AttackAdapter<EntityTigrex> {
 	private static final IDamageCalculator damageCalc = AIUtils
 		.defaultDamageCalc(34f, 62f, 700f);
 
-	private static final double MAX_DIST = 3f;
+	private static final double MAX_DIST = 4f;
 	private static final double MAX_ANGLE = 0.155; // This is cos(30)
 	private static final float WEIGHT = 15;
 
 	public BiteAttack() {
-		setAnimation("mhfc:models/Tigrex/rawr.mcanm");
+		setAnimation("mhfc:models/Tigrex/bite.mcanm");
 		setLastFrame(LAST_FRAME);
 	}
 
@@ -46,6 +46,16 @@ public class BiteAttack extends AttackAdapter<EntityTigrex> {
 	@Override
 	public void update() {
 		super.update();
+		if (isMoveForwardFrame(getCurrentFrame())) {
+			EntityTigrex tig = getEntity();
+			Vec3 look = tig.getLookVec();
+			tig.getMoveHelper().setMoveTo(tig.posX + look.xCoord, tig.posY,
+				tig.posZ + look.zCoord, 1);
+		}
 		AIUtils.damageCollidingEntities(getEntity(), damageCalc);
+	}
+
+	private boolean isMoveForwardFrame(int frame) {
+		return (frame > 20 && frame < 30);
 	}
 }

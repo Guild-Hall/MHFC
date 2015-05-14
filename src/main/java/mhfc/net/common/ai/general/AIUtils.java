@@ -1,4 +1,4 @@
-package mhfc.net.common.ai;
+package mhfc.net.common.ai.general;
 
 import java.util.HashSet;
 import java.util.List;

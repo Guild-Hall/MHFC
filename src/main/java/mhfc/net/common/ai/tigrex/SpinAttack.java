@@ -11,7 +11,7 @@ import net.minecraft.util.Vec3;
 
 public class SpinAttack extends AttackAdapter<EntityTigrex> {
 	private static final int MAX_FRAME = 40;
-	private static final double MAX_DISTANCE = 10d;
+	private static final double MAX_DISTANCE = 5d;
 	private static final double MAX_ANGLE_DOT = -0.2;
 
 	public SpinAttack() {

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import mhfc.net.MHFCMain;
+import mhfc.net.common.ai.general.WeightedPick;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.message.MessageAIAttack;
 import net.minecraft.entity.EntityLivingBase;
@@ -45,6 +47,8 @@ public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<
 	@Override
 	public boolean shouldExecute() {
 		this.activeAttack = chooseAttack();
+		if (this.activeAttack == null)
+			MHFCMain.logger.info("Did not choose any attack, not executing");
 		return this.activeAttack != null;
 	}
 

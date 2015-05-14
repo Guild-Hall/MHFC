@@ -6,7 +6,7 @@ import java.util.Random;
 import mhfc.net.common.ai.AIAttackManager;
 import mhfc.net.common.ai.IExecutableAttack;
 import mhfc.net.common.ai.IManagedAttacks;
-import mhfc.net.common.ai.TargetTurnHelper;
+import mhfc.net.common.ai.general.TargetTurnHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityMultiPart;

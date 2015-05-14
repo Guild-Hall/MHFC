@@ -1,6 +1,6 @@
 package mhfc.net.common.ai;
 
-import mhfc.net.common.ai.WeightedPick.WeightedItem;
+import mhfc.net.common.ai.general.WeightedPick.WeightedItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 
@@ -63,7 +63,9 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 
 	/**
 	 * Gets called at the beginning of execution. This should behave as a setup
-	 * method to determine the attack target for example.
+	 * method to determine the attack target for example. Should also be used to
+	 * determine the following stance for stanced AIs. This avoids
+	 * non-deterministic behavior for staggering etc.
 	 */
 	// @SideOnly(Side.SERVER)
 	public void beginExecution();

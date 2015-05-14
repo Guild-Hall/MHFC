@@ -56,12 +56,12 @@ public class GroundHurl extends AttackAdapter<EntityTigrex> {
 		if (thrown)
 			return;
 		EntityTigrex tigrex = getEntity();
-		if (getRecentFrame() < THROW_FRAME) {
-			if (getRecentFrame() < TURN_FRAMES) {
+		if (getCurrentFrame() < THROW_FRAME) {
+			if (getCurrentFrame() < TURN_FRAMES) {
 				tigrex.getTurnHelper().updateTurnSpeed(TURN_RATE);
 				tigrex.getTurnHelper().updateTargetPoint(
 					tigrex.getAttackTarget());
-			} else if (getRecentFrame() == TURN_FRAMES) {
+			} else if (getCurrentFrame() == TURN_FRAMES) {
 				Vec3 look = tigrex.getLookVec();
 				tigrex.getMoveHelper().setMoveTo(tigrex.posX + look.xCoord,
 					tigrex.posY + look.yCoord, tigrex.posZ + look.zCoord, 0.2);

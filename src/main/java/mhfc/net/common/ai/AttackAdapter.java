@@ -2,7 +2,7 @@ package mhfc.net.common.ai;
 
 import java.util.Random;
 
-import mhfc.net.common.ai.AIUtils.DamageCalculatorHelper;
+import mhfc.net.common.ai.general.AIUtils.DamageCalculatorHelper;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
@@ -54,16 +54,6 @@ public abstract class AttackAdapter<T extends EntityCreature>
 	 */
 	protected T getEntity() {
 		return entity;
-	}
-
-	/**
-	 * Gets the last recent frame, set everytime
-	 * {@link #setToNextFrame(int frame)} is called to <code>frame+1</code>
-	 *
-	 * @return the most recently returned frame
-	 */
-	protected int getRecentFrame() {
-		return recentFrame;
 	}
 
 	/**

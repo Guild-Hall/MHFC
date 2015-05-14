@@ -25,7 +25,7 @@ public class FlyStart extends AttackAdapter<EntityRathalos> {
 		super.update();
 		MHFCMain.logger.info("Update of Fly");
 		EntityRathalos entity = getEntity();
-		entity.moveFlying(0, 10f, 0);
+		entity.moveEntity(0, 0.5f, 0);
 	}
 
 	@Override
