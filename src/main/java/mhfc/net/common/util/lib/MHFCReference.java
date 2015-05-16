@@ -381,7 +381,7 @@ public class MHFCReference {
 	public static final String mob_rathalos_name = "rathalos";
 	public static final String mob_rathalos_sound_roar = "mhfc:rathalos.roar";
 	public static final String mob_rathalos_sound_say = "mhfc:rathalos.say";
-	public static final String mob_rathalos_model = "mhfc:models/Rathalos/Rathalos.mcmd";
+	public static final String mob_rathalos_model = "mhfc:models/Rathalos/Rathalos.mhmd";
 	public static final String particle_kirinsfx_tex = "mhfc:textures/particle/kirinSFX.png";
 	public static final String potion_attackup_name = "potion.attackuplow";
 	public static final String potion_attackup_uuid = "6a80c830-745d-4edd-8a17-e580f813bf20";

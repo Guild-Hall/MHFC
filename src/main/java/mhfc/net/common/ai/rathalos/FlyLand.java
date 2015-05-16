@@ -37,7 +37,6 @@ public class FlyLand extends AttackAdapter<EntityRathalos> {
 		super.update();
 		if (!hasTouchedDown) {
 			EntityLiving entity = getEntity();
-			entity.moveFlying(0, -0.2f, 0);
 			if (!entity.isAirBorne) {
 				hasTouchedDown = true;
 				setToNextFrame(-1);

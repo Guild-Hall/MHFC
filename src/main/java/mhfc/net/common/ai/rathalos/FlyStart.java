@@ -1,6 +1,5 @@
 package mhfc.net.common.ai.rathalos;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.AttackAdapter;
 import mhfc.net.common.entity.mob.EntityRathalos;
 
@@ -23,9 +22,9 @@ public class FlyStart extends AttackAdapter<EntityRathalos> {
 	@Override
 	public void update() {
 		super.update();
-		MHFCMain.logger.info("Update of Fly");
+		// MHFCMain.logger.info("Update of Fly");
 		EntityRathalos entity = getEntity();
-		entity.moveEntity(0, 0.5f, 0);
+		entity.moveEntity(0, 1f, 0);
 	}
 
 	@Override

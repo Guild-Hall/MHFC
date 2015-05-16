@@ -30,6 +30,8 @@ public class TurnAttack extends AttackAdapter<EntityMHFCBase<?>> {
 	public float getWeight() {
 		EntityMHFCBase<?> entity = getEntity();
 		EntityLivingBase target = entity.getAttackTarget();
+		if (target == null)
+			return DONT_SELECT;
 		Vec3 vec = WorldHelper.getVectorToTarget(entity, target);
 		Vec3 look = entity.getLookVec();
 		return isValidTarget(vec, look) ? weight : DONT_SELECT;

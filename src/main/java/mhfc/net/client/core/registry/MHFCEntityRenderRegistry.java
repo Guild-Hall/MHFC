@@ -2,6 +2,7 @@ package mhfc.net.client.core.registry;
 
 import mhfc.net.client.render.projectile.RenderRathalosFireball;
 import mhfc.net.client.render.projectile.RenderTigrexBlock;
+import mhfc.net.common.entity.mob.EntityRathalos;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityTigrexBlock;
@@ -23,25 +24,27 @@ public class MHFCEntityRenderRegistry {
 
 	private static void renderMonster() {
 		registerAnimatedRenderer(EntityTigrex.class,
-				MHFCReference.mob_tigrex_model, 1.0F);
+			MHFCReference.mob_tigrex_model, 1.0F);
+		registerAnimatedRenderer(EntityRathalos.class,
+			MHFCReference.mob_rathalos_model, 1.0F);
 	}
 
 	private static void renderBlockEntities() {
 		RenderingRegistry.registerEntityRenderingHandler(
-				EntityTigrexBlock.class, new RenderTigrexBlock());
+			EntityTigrexBlock.class, new RenderTigrexBlock());
 		RenderingRegistry.registerEntityRenderingHandler(
-				EntityRathalosFireball.class, new RenderRathalosFireball());
+			EntityRathalosFireball.class, new RenderRathalosFireball());
 	}
 
 	private static <T extends Entity & IAnimatedObject> void registerAnimatedRenderer(
-			Class<T> entityClass, String resource, float shadow) {
+		Class<T> entityClass, String resource, float shadow) {
 		registerAnimatedRenderer(entityClass, new ResourceLocation(resource),
-				shadow);
+			shadow);
 	}
 
 	private static <T extends Entity & IAnimatedObject> void registerAnimatedRenderer(
-			Class<T> entityClass, ResourceLocation resLoc, float shadow) {
+		Class<T> entityClass, ResourceLocation resLoc, float shadow) {
 		RenderingRegistry.registerEntityRenderingHandler(entityClass,
-				RenderAnimatedModel.fromResLocation(resLoc, shadow));
+			RenderAnimatedModel.fromResLocation(resLoc, shadow));
 	}
 }

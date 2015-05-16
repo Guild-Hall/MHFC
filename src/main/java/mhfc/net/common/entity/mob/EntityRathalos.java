@@ -8,6 +8,7 @@ import mhfc.net.common.ai.rathalos.*;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.entity.type.IConfusable;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.world.World;
 
 public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
@@ -80,6 +81,16 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	}
 
 	@Override
+	protected void applyEntityAttributes() {
+
+		super.applyEntityAttributes();
+
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
+			healthbaseHP(6000D, 7800D, 8600D));
+
+	}
+
+	@Override
 	public EntityMHFCPart[] getParts() {
 		return null;
 	}
@@ -112,11 +123,10 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	 */
 	@Override
 	protected void updateFallState(double par1, boolean par3) {
-		if (attackManager.getCurrentStance() == Stances.FLYING) {
-			this.moveEntity(0, -par1, 0);
-			this.fallDistance = 0;
-			par1 = 0;
-		}
+		/*
+		 * if (attackManager.getCurrentStance() == Stances.FLYING) { this.posY
+		 * -= par1; this.fallDistance = 0; par1 = 0; }
+		 */
 		super.updateFallState(par1, par3);
 	}
 }
