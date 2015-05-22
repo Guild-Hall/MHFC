@@ -9,6 +9,7 @@ public class FlyStart extends AttackAdapter<EntityRathalos> {
 	public static final float WEIGHT = 3.0f;
 
 	public FlyStart() {
+		setAnimation("mhfc:models/Rathalos/RathalosFlightHover.mcanm");
 		setLastFrame(LAST_FRAME);
 	}
 
@@ -24,7 +25,9 @@ public class FlyStart extends AttackAdapter<EntityRathalos> {
 		super.update();
 		// MHFCMain.logger.info("Update of Fly");
 		EntityRathalos entity = getEntity();
-		entity.moveEntity(0, 1f, 0);
+		if (getCurrentFrame() < 20)
+			entity.moveEntity(0, 1f, 0);
+		entity.motionY = 0;
 	}
 
 	@Override

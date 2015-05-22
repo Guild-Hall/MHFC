@@ -123,10 +123,13 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	 */
 	@Override
 	protected void updateFallState(double par1, boolean par3) {
-		/*
-		 * if (attackManager.getCurrentStance() == Stances.FLYING) { this.posY
-		 * -= par1; this.fallDistance = 0; par1 = 0; }
-		 */
+
+		if (attackManager.getCurrentStance() == Stances.FLYING) {
+			this.motionY = 0;
+			this.fallDistance = 0;
+			par1 = 0;
+		}
+
 		super.updateFallState(par1, par3);
 	}
 }

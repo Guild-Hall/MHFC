@@ -13,6 +13,7 @@ public class FlyLand extends AttackAdapter<EntityRathalos> {
 	boolean hasTouchedDown;
 
 	public FlyLand() {
+		setAnimation("mhfc:models/Rathalos/RathalosIntoFlight.mcanm");
 		setLastFrame(LAND_LAST_FRAME);
 	}
 
@@ -41,6 +42,7 @@ public class FlyLand extends AttackAdapter<EntityRathalos> {
 				hasTouchedDown = true;
 				setToNextFrame(-1);
 			}
+			entity.fallDistance = 0;
 		} else {
 
 		}

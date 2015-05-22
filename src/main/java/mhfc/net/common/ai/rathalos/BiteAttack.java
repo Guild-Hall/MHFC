@@ -9,7 +9,7 @@ public class BiteAttack extends AttackAdapter<EntityRathalos> {
 	private static float WEIGHT = 3.0f;
 
 	public BiteAttack() {
-		setAnimation("mhfc:models/Rathalos/"); // TODO path to real animation
+		setAnimation("mhfc:models/Rathalos/RathalosBiteLeft.mcanm");
 		setLastFrame(LAST_FRAME);
 	}
 
