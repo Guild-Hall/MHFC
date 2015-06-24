@@ -7,5 +7,7 @@ public interface iBowAnim {
 	void restBow(boolean show);
 	void pullSlow(boolean show);
 	void pullHard(boolean show);
+	
+	int baseAnim(int frame);
 
 }

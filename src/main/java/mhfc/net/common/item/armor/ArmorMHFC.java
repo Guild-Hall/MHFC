@@ -79,5 +79,12 @@ public class ArmorMHFC extends ItemArmor implements ISpecialArmor {
 			DamageSource source, int damage, int slot) {
 
 	}
+	
+	public void displayInstancesStack(EntityLivingBase entity, int stack, int entID, DamageSource source) 
+	{
+		//WIP for armors.. display in the description how much the armor can absords lethal damage from mobs..
+		// SPECIFIC DAMAGE CALCULATIONS NOT JUST DIAMOND BASIS.
+		// still thinking of how to implement.. /Heltrato
+	}
 
 }
