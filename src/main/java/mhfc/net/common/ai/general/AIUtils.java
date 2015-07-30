@@ -2,12 +2,14 @@ package mhfc.net.common.ai.general;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import mhfc.net.common.entity.type.EntityWyvernPeaceful;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
@@ -57,13 +59,17 @@ public class AIUtils {
 		}
 	}
 
+	/**
+	 * This special damage calculator remembers which entities were damaged by
+	 * it and only damages entities once until it is reset.
+	 */
 	public static class MemoryDamageCalculator extends DecisiveDamageCalculator {
 
 		private final Set<Entity> damagedEntities = new HashSet<Entity>();
 		private IDamageCalculator forward;
 
 		public MemoryDamageCalculator(IDamageCalculator otherCalculator) {
-			forward = otherCalculator;
+			forward = Objects.requireNonNull(otherCalculator);
 		}
 
 		@Override
@@ -73,6 +79,7 @@ public class AIUtils {
 
 		@Override
 		public float damage(Entity e) {
+			damagedEntities.add(e);
 			return forward.accept(e);
 		}
 
@@ -229,14 +236,15 @@ public class AIUtils {
 		return (float) tan;
 	}
 
+	/**
+	 * Returns the yaw that gives the direction of the target but with a maximum
+	 * absolute value of max
+	 */
 	public static float modifyYaw(Vec3 look, Vec3 target, float max) {
 		float yaw = lookVecToYaw(look);
 		float tarYaw = lookVecToYaw(target);
 		float diff = tarYaw - yaw;
-		if (diff > 180)
-			diff -= 360;
-		else if (diff < -180)
-			diff += 360;
+		diff = normalizeAngle(diff);
 		if (diff < 0) {
 			diff = diff < -max ? -max : diff;
 		} else {
@@ -247,6 +255,42 @@ public class AIUtils {
 		else if (yaw + diff < -180)
 			diff += 360;
 		return yaw + diff;
+	}
+
+	/**
+	 * Transforms an angle into the Minecraft specific version between -180 and
+	 * 180 degrees.
+	 */
+	public static float normalizeAngle(float yaw) {
+		if (yaw > 180)
+			return yaw - 360;
+		else if (yaw < -180)
+			return yaw + 180;
+		else
+			return yaw;
+	}
+
+	/**
+	 * Determines if the length of the direction vector lies between the
+	 * arguments. Both sides of the range are inclusive.
+	 */
+	public static boolean isInDistance(Vec3 direction, double minDistance,
+		double maxDistance) {
+		double distance = direction.lengthVector();
+		return distance >= minDistance && distance <= maxDistance;
+	}
+
+	/**
+	 * Returns the yaw under which the given target is viewed by the actor.
+	 * Negative values represent the left side of the actor, positive ones the
+	 * right.
+	 */
+	public static float getViewingAngle(EntityLiving actor, Entity target) {
+		Vec3 lookVector = actor.getLookVec();
+		Vec3 targetVector = WorldHelper.getVectorToTarget(actor, target);
+		float yaw = lookVecToYaw(lookVector);
+		float tarYaw = lookVecToYaw(targetVector);
+		return normalizeAngle(tarYaw - yaw);
 	}
 
 }

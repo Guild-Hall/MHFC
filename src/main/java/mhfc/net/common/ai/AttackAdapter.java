@@ -19,6 +19,7 @@ public abstract class AttackAdapter<T extends EntityCreature>
 	private int recentFrame;
 	private int lastFrame = -2;
 	private T entity;
+
 	/**
 	 * Almost every attack has a target entity. This is completely up to you if
 	 * you want to use this
