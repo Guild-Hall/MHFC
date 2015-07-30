@@ -18,16 +18,16 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	public EntityTigrex(World par1World) {
 		super(par1World);
-		this.height = 2f;
-		this.width = 3f;
+		height = 2f;
+		width = 3f;
 
-		this.attackManager.registerAttack(new RunAttack());
-		this.attackManager.registerAttack(new SpinAttack());
-		this.attackManager.registerAttack(new GroundHurl());
-		this.attackManager.registerAttack(new BiteAttack());
-		this.attackManager.registerAttack(new JumpTigrex());
-		this.attackManager.registerAttack(new RoarAttack());
-		this.attackManager.registerAttack(new TurnAttack(110, 180, 5f, 12f));
+		attackManager.registerAttack(new TurnAttack(110, 180, 5f, 12f));
+		attackManager.registerAttack(new RunAttack());
+		attackManager.registerAttack(new SpinAttack());
+		attackManager.registerAttack(new GroundHurl());
+		attackManager.registerAttack(new BiteAttack());
+		attackManager.registerAttack(new RoarAttack());
+//		attackManager.registerAttack(new JumpTigrex());
 
 		// TODO enable this when Popos are a thing again
 		// targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
@@ -39,16 +39,11 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getAttributeMap().getAttributeInstance(
-			SharedMonsterAttributes.followRange).setBaseValue(128d);
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
-			.setBaseValue(1.3D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-			healthbaseHP(6000D, 7800D, 8600D));
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(
-			35D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(
-			0.3D);
+		getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
+		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(6000D, 7800D, 8600D));
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
 	}
 
 	@Override

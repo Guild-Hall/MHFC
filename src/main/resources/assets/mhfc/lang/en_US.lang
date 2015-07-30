@@ -62,8 +62,8 @@ item.meat.slow.name=Slow Meat
 item.meat.hunger.name=Hunger Meat
 item.meat.fire.name=Fire Meat
 
-item.nutrients.boost.name=Nutrients
-item.nutrients.protection.name=Mega Nutrients
+item.nutrients.normal.name=Nutrients
+item.nutrients.mega.name=Mega Nutrients
 
 item.bullet0.name=Normal S
 item.bullet1.name=Pierce S
