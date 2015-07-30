@@ -21,7 +21,7 @@ public class JumpTigrex extends JumpAttack<EntityTigrex> {
 	private static final IDamageCalculator damageCalc = AIUtils
 		.defaultDamageCalc(32f, 62f, 500f);
 	private static final double MIN_DIST = 3f;
-	private static final float MAX_ANGLE = 15f;
+	private static final float MAX_ANGLE = 45f;
 	private static final float SELECTION_WEIGHT = 5f;
 
 	public JumpTigrex() {
@@ -32,13 +32,13 @@ public class JumpTigrex extends JumpAttack<EntityTigrex> {
 		IAnimationProvider anim = new IAnimationProvider.AnimationAdapter(
 			"mhfc:models/Tigrex/jump.mcanm", LAST_FRAME);
 		IDamageProvider dmg = new IDamageProvider.DamageAdapter(damageCalc);
-		ISelectionPredicate<EntityTigrex> pred = new ISelectionPredicate.SelectionAdapter<EntityTigrex>(
+		ISelectionPredicate<EntityTigrex> pred = new ISelectionPredicate.SelectionAdapter<>(
 			-MAX_ANGLE, MAX_ANGLE, MIN_DIST, Double.MAX_VALUE);
 		IWeightProvider<EntityTigrex> weight = new IWeightProvider.SimpleWeightAdapter<>(
 			SELECTION_WEIGHT);
-		IJumpProvider<EntityTigrex> jmp = new JumpAttack.JumpAdapter<EntityTigrex>(
-			anim, pred, weight, dmg, JUMP_SCALE, MAX_SCALE, JUMP_HEIGHT,
-			JUMP_FRAME, TURN_RATE);
+		IJumpProvider<EntityTigrex> jmp = new JumpAttack.JumpAdapter<>(anim,
+			pred, weight, dmg, JUMP_SCALE, MAX_SCALE, JUMP_HEIGHT, JUMP_FRAME,
+			TURN_RATE);
 		return jmp;
 	}
 }
