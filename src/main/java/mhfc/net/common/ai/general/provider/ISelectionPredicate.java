@@ -72,4 +72,15 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 		}
 
 	}
+
+	public static class SelectIdleAdapter<EntityT extends EntityLiving>
+		implements
+			ISelectionPredicate<EntityT> {
+
+		@Override
+		public boolean shouldSelectAttack(EntityT actor, Entity target) {
+			return target == null;
+		}
+
+	}
 }
