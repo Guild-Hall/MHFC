@@ -49,8 +49,7 @@ public class MHFCGuiUtil {
 		if (mc == null)
 			throw new IllegalArgumentException(
 				"Gui utils may only be accessed with valid minecraft");
-		s = new ScaledResolution(mc.gameSettings, mc.displayWidth,
-			mc.displayHeight);
+		s = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 	}
 
 	/**

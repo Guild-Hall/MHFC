@@ -45,6 +45,8 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 
 		@Override
 		public boolean shouldSelectAttack(EntityT actor, Entity target) {
+			if (target == null)
+				return false;
 			double distance = actor.getDistanceToEntity(target);
 			return distance >= minDistance && distance <= maxDistance;
 		}
@@ -63,6 +65,8 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 
 		@Override
 		public boolean shouldSelectAttack(EntityT actor, Entity target) {
+			if (target == null)
+				return false;
 			float angle = AIUtils.getViewingAngle(actor, target);
 			return angle >= minAngle && angle <= maxAngle;
 		}
