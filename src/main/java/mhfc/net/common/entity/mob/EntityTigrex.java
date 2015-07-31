@@ -27,13 +27,12 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		attackManager.registerAttack(new GroundHurl());
 		attackManager.registerAttack(new BiteAttack());
 		attackManager.registerAttack(new RoarAttack());
-//		attackManager.registerAttack(new JumpTigrex());
+     	attackManager.registerAttack(new JumpTigrex());
 
 		// TODO enable this when Popos are a thing again
 		// targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
 		// EntityPopo.class, 0, true));
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
-			EntityPlayer.class, 0, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,EntityPlayer.class, 0, true));
 	}
 
 	@Override

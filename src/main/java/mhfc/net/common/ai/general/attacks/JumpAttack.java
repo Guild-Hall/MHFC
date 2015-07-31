@@ -14,8 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.Vec3;
 
-public class JumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
-	extends
+public class JumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>extends
 		AttackAdapter<EntityT> {
 
 	public static interface IJumpProvider<EntityT extends EntityMHFCBase<? super EntityT>>
