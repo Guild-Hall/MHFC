@@ -1,8 +1,8 @@
 package mhfc.net.common.ai.tigrex;
 
+import mhfc.net.common.ai.AttackAdapter;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
-import mhfc.net.common.ai.AttackAdapter;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
@@ -11,11 +11,12 @@ import net.minecraft.util.Vec3;
 
 public class RunAttack extends AttackAdapter<EntityTigrex> {
 	private static final int runningStarts = 21;
-	private static final int runningEnds = 56;
+	private static final int runningEnds = 60;
 	private static final int attackEnd = 75;
 	private static final float TURN_RATE_INITIAL = 12;
 	private static final float TURN_RATE_DURING_RUN = 2;
 	private static final float MAX_RUN_DISTANCE = 40f;
+	private static final int MAX_RUN_FRAMES = 200;
 	private static final IDamageCalculator damageCalc = AIUtils
 		.defaultDamageCalc(16f, 62f, 400f);
 
@@ -58,6 +59,7 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 			public void onPhaseStart(RunAttack attk) {
 				attk.getEntity().getTurnHelper().updateTurnSpeed(
 					TURN_RATE_DURING_RUN);
+				attk.framesRunning = 0;
 			}
 
 			@Override
@@ -72,7 +74,8 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 					e.posY + 3 * look.yCoord, e.posZ + 3 * look.zCoord, 1.4);
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
 				boolean ranLongEnough = attk.runStartPoint.subtract(tigPos)
-					.lengthVector() > MAX_RUN_DISTANCE;
+					.lengthVector() > MAX_RUN_DISTANCE
+					|| attk.framesRunning > MAX_RUN_FRAMES;
 				if ((tarBeh || ranLongEnough)
 					&& attk.hasPassed == PastEntityEnum.NOT_PASSED) {
 					attk.hasPassed = PastEntityEnum.PASSED;
@@ -89,9 +92,10 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 
 			@Override
 			public int nextFrame(RunAttack attk, int curr) {
+				attk.framesRunning++;
 				int looping = runningEnds - runningStarts;
 				if (attk.hasPassed == PastEntityEnum.PASSED
-					&& (curr + 1 - runningStarts) >= looping) {
+					&& (curr + 1 >= runningEnds)) {
 					attk.hasPassed = PastEntityEnum.LOOP_FINISHED;
 				}
 				return runningStarts + (curr + 1 - runningStarts) % looping;
@@ -144,6 +148,8 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 	private AttackPhase currentPhase;
 	private PastEntityEnum hasPassed;
 	private Vec3 runStartPoint;
+	private int framesRunning;
+	private int runCycles;
 
 	public RunAttack() {
 		setAnimation("mhfc:models/Tigrex/run_new.mcanm");
@@ -165,8 +171,12 @@ public class RunAttack extends AttackAdapter<EntityTigrex> {
 		super.beginExecution();
 		EntityTigrex tig = getEntity();
 		target = tig.getAttackTarget();
+
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;
+		runCycles = 0;
+		framesRunning = 0;
+
 		currentPhase.onPhaseStart(this);
 		runStartPoint = Vec3.createVectorHelper(tig.posX, tig.posY, tig.posZ);
 	}
