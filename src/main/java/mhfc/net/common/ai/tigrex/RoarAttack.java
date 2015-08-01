@@ -21,7 +21,7 @@ public class RoarAttack extends ActionAdapter<EntityTigrex> {
 		EntityTigrex tigrex = this.getEntity();
 		
 		if(this.getCurrentFrame() == 18)
-			tigrex.playSound("mhfc:tigrex-roar", 5.0F, 1.0F);
+			tigrex.playSound("mhfc:tigrex-roar", 4.0F, 1.0F);
 		// TODO stun all hunters in the near range if possible
 	}
 }
