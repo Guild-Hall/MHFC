@@ -1,5 +1,7 @@
 package mhfc.net.common.ai.general.provider;
 
+import java.util.Random;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 
@@ -7,7 +9,7 @@ public interface IWeightProvider<EntityT extends EntityLiving> {
 
 	public float getWeight(EntityT entity, Entity target);
 
-	static class SimpleWeightAdapter<EntityT extends EntityLiving>
+	public static class SimpleWeightAdapter<EntityT extends EntityLiving>
 		implements
 			IWeightProvider<EntityT> {
 		private float weight;
@@ -19,6 +21,50 @@ public interface IWeightProvider<EntityT extends EntityLiving> {
 		@Override
 		public float getWeight(EntityT entity, Entity target) {
 			return weight;
+		}
+	}
+
+	public static class RandomWeightAdapter<EntityT extends EntityLiving>
+		implements
+			IWeightProvider<EntityT> {
+
+		private static final Random rng = new Random(System.nanoTime());
+		private float max;
+
+		public RandomWeightAdapter(float maximum) {
+			this.max = maximum;
+		}
+
+		@Override
+		public float getWeight(EntityT entity, Entity target) {
+			return rng.nextFloat() * max;
+		}
+	}
+
+	public static class CooldownAdapter<EntityT extends EntityLiving>
+		implements
+			IWeightProvider<EntityT> {
+
+		private int cooldown;
+		private int cooldownRemaining;
+		IWeightProvider<EntityT> originalWeight;
+
+		public CooldownAdapter(int cooldown,
+			IWeightProvider<EntityT> originalWeight) {
+			this.cooldown = cooldown;
+			this.cooldownRemaining = 0;
+			this.originalWeight = originalWeight;
+		}
+
+		@Override
+		public float getWeight(EntityT entity, Entity target) {
+			if (cooldownRemaining > 0) {
+				cooldownRemaining--;
+				return 0;
+			} else {
+				cooldownRemaining = cooldown;
+				return originalWeight.getWeight(entity, target);
+			}
 		}
 	}
 

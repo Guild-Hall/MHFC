@@ -16,6 +16,7 @@ public abstract class ActionAdapter<T extends EntityCreature>
 	private static final Random rand = new Random();
 
 	private IAnimation animation;
+	private int framesPassed;
 	private int recentFrame;
 	private int lastFrame = -2;
 	private T entity;
@@ -33,6 +34,7 @@ public abstract class ActionAdapter<T extends EntityCreature>
 
 	@Override
 	public void beginAction() {
+		framesPassed = 0;
 		recentFrame = -1;
 		beginExecution();
 	}
@@ -45,6 +47,7 @@ public abstract class ActionAdapter<T extends EntityCreature>
 	@Override
 	public void updateAction() {
 		setToNextFrame(getCurrentFrame() + 1);
+		framesPassed++;
 		update();
 	}
 
