@@ -13,11 +13,15 @@ public class RoarAttack extends ActionAdapter<EntityTigrex> {
 
 	@Override
 	public float getWeight() {
-		return rng().nextFloat() * 3;
+		return rng().nextFloat() * 1;
 	}
 
 	@Override
 	public void update() {
+		EntityTigrex tigrex = this.getEntity();
+		
+		if(this.getCurrentFrame() == 18)
+			tigrex.playSound("mhfc:tigrex-roar", 5.0F, 1.0F);
 		// TODO stun all hunters in the near range if possible
 	}
 }
