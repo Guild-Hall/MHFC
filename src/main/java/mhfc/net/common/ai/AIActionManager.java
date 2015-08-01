@@ -62,11 +62,11 @@ public class AIActionManager<EntType extends EntityLivingBase & IManagedActions<
 		IExecutableAction<? super EntType> newAttack) {
 		this.entity.onAttackEnd(oldAttack);
 		if (oldAttack != null)
-			oldAttack.finishExecution();
+			oldAttack.finishAction();
 		this.activeAttack = newAttack;
 		this.entity.onAttackStart(newAttack);
 		if (newAttack != null)
-			newAttack.beginExecution();
+			newAttack.beginAction();
 		sendUpdate();
 	}
 
@@ -112,7 +112,7 @@ public class AIActionManager<EntType extends EntityLivingBase & IManagedActions<
 	 */
 	@Override
 	public void updateTask() {
-		this.activeAttack.update();
+		this.activeAttack.updateAction();
 	}
 
 	/**

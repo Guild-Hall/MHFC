@@ -27,7 +27,6 @@ public class FlyLand extends ActionAdapter<EntityRathalos> {
 
 	@Override
 	public void beginExecution() {
-		super.beginExecution();
 		EntityRathalos rathalos = this.getEntity();
 		rathalos.getAttackManager().setNextStance(Stances.GROUND);
 		hasTouchedDown = false;
@@ -35,7 +34,6 @@ public class FlyLand extends ActionAdapter<EntityRathalos> {
 
 	@Override
 	public void update() {
-		super.update();
 		if (!hasTouchedDown) {
 			EntityLiving entity = getEntity();
 			if (!entity.isAirBorne) {

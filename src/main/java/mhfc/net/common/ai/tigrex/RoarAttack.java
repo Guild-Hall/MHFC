@@ -18,7 +18,6 @@ public class RoarAttack extends ActionAdapter<EntityTigrex> {
 
 	@Override
 	public void update() {
-		super.update();
 		// TODO stun all hunters in the near range if possible
 	}
 }

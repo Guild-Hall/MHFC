@@ -15,9 +15,6 @@ public class BiteAttack extends ActionAdapter<EntityRathalos> {
 
 	@Override
 	public void update() {
-		super.update();
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

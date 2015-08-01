@@ -32,18 +32,44 @@ public abstract class ActionAdapter<T extends EntityCreature>
 	}
 
 	@Override
-	public void beginExecution() {
+	public void beginAction() {
 		recentFrame = -1;
+		beginExecution();
 	}
 
 	@Override
-	public void finishExecution() {
+	public void finishAction() {
+		finishExecution();
 	}
 
 	@Override
-	public void update() {
+	public void updateAction() {
 		setToNextFrame(getCurrentFrame() + 1);
+		update();
 	}
+
+	/**
+	 * This should be overridden by a subclass if it wants to take actions on
+	 * begin of the action
+	 */
+	protected void beginExecution() {
+
+	}
+
+	/**
+	 * 
+	 * This should be overridden by a subclass if it wants to take actions on
+	 * end of the action
+	 */
+	protected void finishExecution() {
+
+	}
+
+	/**
+	 * This must be overridden by the subclass to specify the behavior during
+	 * execution
+	 */
+	protected abstract void update();
 
 	@Override
 	public abstract float getWeight();

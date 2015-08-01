@@ -37,13 +37,11 @@ public class SpinAttack extends ActionAdapter<EntityTigrex> {
 
 	@Override
 	public void beginExecution() {
-		super.beginExecution();
 		getEntity().getNavigator().clearPathEntity();
 	}
 
 	@Override
 	public void update() {
-		super.update();
 		EntityTigrex tigrex = this.getEntity();
 		List<Entity> collidingEntities = WorldHelper.collidingEntities(tigrex);
 		for (Entity trgt : collidingEntities) {
@@ -51,9 +49,4 @@ public class SpinAttack extends ActionAdapter<EntityTigrex> {
 				dmgHelper.getCalculator().accept(trgt));
 		}
 	}
-
-	@Override
-	public void finishExecution() {
-	}
-
 }

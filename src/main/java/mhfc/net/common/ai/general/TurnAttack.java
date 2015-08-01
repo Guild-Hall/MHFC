@@ -39,7 +39,6 @@ public class TurnAttack extends ActionAdapter<EntityMHFCBase<?>> {
 
 	@Override
 	public void update() {
-		super.update();
 		EntityMHFCBase<?> entity = getEntity();
 		entity.getTurnHelper().updateTargetPoint(entity.getAttackTarget());
 		entity.getTurnHelper().updateTurnSpeed(turnRate);

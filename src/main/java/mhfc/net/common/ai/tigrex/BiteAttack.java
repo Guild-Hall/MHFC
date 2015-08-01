@@ -45,7 +45,6 @@ public class BiteAttack extends ActionAdapter<EntityTigrex> {
 
 	@Override
 	public void update() {
-		super.update();
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			EntityTigrex tig = getEntity();
 			Vec3 look = tig.getLookVec();

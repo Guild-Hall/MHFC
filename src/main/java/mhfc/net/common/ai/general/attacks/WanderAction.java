@@ -13,4 +13,10 @@ public class WanderAction<EntityT extends EntityMHFCBase<? super EntityT>>
 		return 0;
 	}
 
+	@Override
+	protected void update() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

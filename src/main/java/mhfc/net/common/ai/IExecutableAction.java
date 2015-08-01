@@ -68,13 +68,13 @@ public interface IExecutableAction<T extends Entity> extends WeightedItem {
 	 * non-deterministic behavior for staggering etc.
 	 */
 	// @SideOnly(Side.SERVER)
-	public void beginExecution();
+	public void beginAction();
 
 	/**
 	 * Should get called every tick the entity receives to update this attack.
 	 */
 	// @SideOnly(Side.SERVER)
-	public void update();
+	public void updateAction();
 
 	/**
 	 * The return value determines whether this attack should still be executed.<br>
@@ -95,7 +95,7 @@ public interface IExecutableAction<T extends Entity> extends WeightedItem {
 	 * temporarily to the entity like a different attack target.
 	 */
 	// @SideOnly(Side.SERVER)
-	public void finishExecution();
+	public void finishAction();
 
 	/**
 	 * Returns the mutex bits for the attack.

@@ -64,11 +64,11 @@ StanceT extends Enum<StanceT> & IStancedActionManager.Stance<EntityT, StanceT>>
 		IExecutableAction<? super EntityT> newAttack) {
 		this.entity.onAttackEnd(oldAttack);
 		if (oldAttack != null)
-			oldAttack.finishExecution();
+			oldAttack.finishAction();
 		this.activeAttack = newAttack;
 		this.entity.onAttackStart(newAttack);
 		if (newAttack != null)
-			newAttack.beginExecution();
+			newAttack.beginAction();
 		sendUpdate();
 	}
 

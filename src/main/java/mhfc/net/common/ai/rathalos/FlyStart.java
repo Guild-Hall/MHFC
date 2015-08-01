@@ -15,15 +15,12 @@ public class FlyStart extends ActionAdapter<EntityRathalos> {
 
 	@Override
 	public void beginExecution() {
-		super.beginExecution();
 		EntityRathalos entity = getEntity();
 		entity.getAttackManager().setNextStance(EntityRathalos.Stances.FLYING);
 	}
 
 	@Override
 	public void update() {
-		super.update();
-		// MHFCMain.logger.info("Update of Fly");
 		EntityRathalos entity = getEntity();
 		if (getCurrentFrame() < 20)
 			entity.moveEntity(0, 1f, 0);

@@ -160,7 +160,6 @@ public class JumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
 
 	@Override
 	public void update() {
-		super.update();
 		Vec3 look = getEntity().getLookVec();
 		int frame = getCurrentFrame();
 		if (frame < provider.getJumpFrame()) {

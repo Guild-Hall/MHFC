@@ -45,14 +45,12 @@ public class GroundHurl extends ActionAdapter<EntityTigrex> {
 
 	@Override
 	public void beginExecution() {
-		super.beginExecution();
 		thrown = false;
 		weightFactor *= 3;
 	}
 
 	@Override
 	public void update() {
-		super.update();
 		if (thrown)
 			return;
 		EntityTigrex tigrex = getEntity();

@@ -168,7 +168,6 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 
 	@Override
 	public void beginExecution() {
-		super.beginExecution();
 		EntityTigrex tig = getEntity();
 		target = tig.getAttackTarget();
 
@@ -183,7 +182,6 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 
 	@Override
 	public void update() {
-		super.update();
 		currentPhase.update(this);
 		if (currentPhase.isDamaging) {
 			AIUtils.damageCollidingEntities(getEntity(), damageCalc);
@@ -202,7 +200,6 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 
 	@Override
 	public void finishExecution() { // When finished
-		super.finishExecution();
 		this.getEntity().setTarget(null);
 	}
 
