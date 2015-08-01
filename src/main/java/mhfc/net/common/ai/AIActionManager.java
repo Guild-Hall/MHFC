@@ -17,15 +17,15 @@ import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<EntType>>
+public class AIActionManager<EntType extends EntityLivingBase & IManagedActions<EntType>>
 	extends
-		EntityAIBase implements IAttackManager<EntType> {
+		EntityAIBase implements IActionManager<EntType> {
 
-	protected final List<IExecutableAttack<? super EntType>> attacks = new ArrayList<IExecutableAttack<? super EntType>>();
-	protected IExecutableAttack<? super EntType> activeAttack = null;
+	protected final List<IExecutableAction<? super EntType>> attacks = new ArrayList<IExecutableAction<? super EntType>>();
+	protected IExecutableAction<? super EntType> activeAttack = null;
 	protected EntType entity;
 
-	public AIAttackManager(EntType entity) {
+	public AIActionManager(EntType entity) {
 		this.entity = Objects.requireNonNull(entity, "Entity can't be null");
 	}
 
@@ -40,7 +40,7 @@ public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<
 	}
 
 	@Override
-	public IExecutableAttack<? super EntType> chooseAttack() {
+	public IExecutableAction<? super EntType> chooseAttack() {
 		return WeightedPick.pickRandom(attacks);
 	}
 
@@ -58,8 +58,8 @@ public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<
 				this.entity, this.attacks.indexOf(activeAttack)));
 	}
 
-	protected void swapAttacks(IExecutableAttack<? super EntType> oldAttack,
-		IExecutableAttack<? super EntType> newAttack) {
+	protected void swapAttacks(IExecutableAction<? super EntType> oldAttack,
+		IExecutableAction<? super EntType> newAttack) {
 		this.entity.onAttackEnd(oldAttack);
 		if (oldAttack != null)
 			oldAttack.finishExecution();
@@ -90,7 +90,7 @@ public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<
 	 * used when staggered.
 	 */
 	protected boolean executeNextAttack() {
-		IExecutableAttack<? super EntType> nextAttack = chooseAttack();
+		IExecutableAction<? super EntType> nextAttack = chooseAttack();
 		if (nextAttack == null)
 			return false;
 		swapAttacks(this.activeAttack, nextAttack);
@@ -142,7 +142,7 @@ public class AIAttackManager<EntType extends EntityLivingBase & IManagedAttacks<
 	}
 
 	@Override
-	public void registerAttack(IExecutableAttack<? super EntType> attack) {
+	public void registerAttack(IExecutableAction<? super EntType> attack) {
 		Objects.requireNonNull(attack);
 		attack.rebind(entity);
 		this.attacks.add(attack);

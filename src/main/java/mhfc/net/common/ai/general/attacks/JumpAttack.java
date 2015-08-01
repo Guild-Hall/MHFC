@@ -2,7 +2,8 @@ package mhfc.net.common.ai.general.attacks;
 
 import java.util.Objects;
 
-import mhfc.net.common.ai.AttackAdapter;
+import mhfc.net.common.ai.ActionAdapter;
+import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;
@@ -16,7 +17,7 @@ import net.minecraft.util.Vec3;
 
 public class JumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
 	extends
-		AttackAdapter<EntityT> {
+		ActionAdapter<EntityT> {
 
 	public static interface IJumpProvider<EntityT extends EntityMHFCBase<? super EntityT>>
 		extends
@@ -79,8 +80,9 @@ public class JumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
 		}
 
 		@Override
-		public boolean shouldSelectAttack(EntityT actor, Entity target) {
-			return predicate.shouldSelectAttack(actor, target);
+		public boolean shouldSelectAttack(IExecutableAction<EntityT> attack,
+			EntityT actor, Entity target) {
+			return predicate.shouldSelectAttack(attack, actor, target);
 		}
 
 		@Override
@@ -143,7 +145,7 @@ public class JumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
 	public float getWeight() {
 		EntityT entity = this.getEntity();
 		target = entity.getAttackTarget();
-		if (provider.shouldSelectAttack(entity, target)) {
+		if (provider.shouldSelectAttack(this, entity, target)) {
 			return provider.getWeight(entity, target);
 		} else {
 			return DONT_SELECT;

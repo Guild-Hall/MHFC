@@ -1,9 +1,9 @@
 package mhfc.net.common.ai.rathalos;
 
-import mhfc.net.common.ai.AttackAdapter;
+import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.entity.mob.EntityRathalos;
 
-public class FlyStart extends AttackAdapter<EntityRathalos> {
+public class FlyStart extends ActionAdapter<EntityRathalos> {
 
 	public static final int LAST_FRAME = 55;
 	public static final float WEIGHT = 3.0f;

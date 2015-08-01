@@ -1,9 +1,9 @@
 package mhfc.net.common.ai.tigrex;
 
-import mhfc.net.common.ai.AttackAdapter;
+import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.entity.mob.EntityTigrex;
 
-public class RoarAttack extends AttackAdapter<EntityTigrex> {
+public class RoarAttack extends ActionAdapter<EntityTigrex> {
 	private static final int LAST_FRAME = 70;
 
 	public RoarAttack() {

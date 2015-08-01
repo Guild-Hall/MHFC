@@ -1,6 +1,6 @@
 package mhfc.net.common.ai.tigrex;
 
-import mhfc.net.common.ai.AttackAdapter;
+import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.entity.mob.EntityTigrex;
@@ -9,7 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.util.Vec3;
 
-public class RunAttack extends AttackAdapter<EntityTigrex> {
+public class RunAttack extends ActionAdapter<EntityTigrex> {
 	private static final int runningStarts = 21;
 	private static final int runningEnds = 60;
 	private static final int attackEnd = 75;

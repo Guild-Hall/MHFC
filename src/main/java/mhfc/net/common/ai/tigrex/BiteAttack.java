@@ -3,7 +3,7 @@
  */
 package mhfc.net.common.ai.tigrex;
 
-import mhfc.net.common.ai.AttackAdapter;
+import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.entity.mob.EntityTigrex;
@@ -14,7 +14,7 @@ import net.minecraft.util.Vec3;
  * @author WorldSEnder
  *
  */
-public class BiteAttack extends AttackAdapter<EntityTigrex> {
+public class BiteAttack extends ActionAdapter<EntityTigrex> {
 	private static final int LAST_FRAME = 55;
 	private static final IDamageCalculator damageCalc = AIUtils
 		.defaultDamageCalc(34f, 62f, 700f);

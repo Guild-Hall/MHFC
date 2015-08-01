@@ -1,9 +1,9 @@
 package mhfc.net.common.ai.rathalos;
 
-import mhfc.net.common.ai.AttackAdapter;
+import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.entity.mob.EntityRathalos;
 
-public class FireballAttack extends AttackAdapter<EntityRathalos> {
+public class FireballAttack extends ActionAdapter<EntityRathalos> {
 
 	@Override
 	public void update() {

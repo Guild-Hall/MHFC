@@ -1,12 +1,12 @@
 package mhfc.net.common.ai.tigrex;
 
-import mhfc.net.common.ai.AttackAdapter;
+import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityTigrexBlock;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.Vec3;
 
-public class GroundHurl extends AttackAdapter<EntityTigrex> {
+public class GroundHurl extends ActionAdapter<EntityTigrex> {
 	private static final float MIN_DIST = 10f;
 	private static final int LAST_FRAME = 60;
 	private static final int THROW_FRAME = 21;

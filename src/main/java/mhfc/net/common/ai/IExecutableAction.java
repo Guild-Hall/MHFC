@@ -21,7 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @param <T>
  *            the necessary Entity class
  */
-public interface IExecutableAttack<T extends Entity> extends WeightedItem {
+public interface IExecutableAction<T extends Entity> extends WeightedItem {
 	public static final float DONT_SELECT = 0f;
 
 	/**
@@ -101,7 +101,7 @@ public interface IExecutableAttack<T extends Entity> extends WeightedItem {
 	 * Returns the mutex bits for the attack.
 	 *
 	 * @return
-	 * @see AIAttackManager#getMutexBits()
+	 * @see AIActionManager#getMutexBits()
 	 */
 	public byte mutexBits();
 

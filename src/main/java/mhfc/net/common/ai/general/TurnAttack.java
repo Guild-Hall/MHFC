@@ -1,12 +1,12 @@
 package mhfc.net.common.ai.general;
 
-import mhfc.net.common.ai.AttackAdapter;
+import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.Vec3;
 
-public class TurnAttack extends AttackAdapter<EntityMHFCBase<?>> {
+public class TurnAttack extends ActionAdapter<EntityMHFCBase<?>> {
 
 	private double minAngleCos, maxAngleCos;
 	private float weight;

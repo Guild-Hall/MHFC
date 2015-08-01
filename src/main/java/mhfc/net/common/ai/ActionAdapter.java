@@ -10,9 +10,9 @@ import net.minecraft.util.ResourceLocation;
 import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
 import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.stored.AnimationRegistry;
 
-public abstract class AttackAdapter<T extends EntityCreature>
+public abstract class ActionAdapter<T extends EntityCreature>
 	implements
-		IExecutableAttack<T> {
+		IExecutableAction<T> {
 	private static final Random rand = new Random();
 
 	private IAnimation animation;
@@ -27,7 +27,7 @@ public abstract class AttackAdapter<T extends EntityCreature>
 	protected EntityLivingBase target;
 	protected DamageCalculatorHelper dmgHelper;
 
-	public AttackAdapter() {
+	public ActionAdapter() {
 		dmgHelper = new DamageCalculatorHelper();
 	}
 

@@ -3,9 +3,9 @@ package mhfc.net.common.entity.type;
 import java.util.List;
 import java.util.Random;
 
-import mhfc.net.common.ai.AIAttackManager;
-import mhfc.net.common.ai.IExecutableAttack;
-import mhfc.net.common.ai.IManagedAttacks;
+import mhfc.net.common.ai.AIActionManager;
+import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.IManagedActions;
 import mhfc.net.common.ai.general.TargetTurnHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -39,19 +39,19 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	implements
 		IEntityMultiPart,
 		IAnimatedObject,
-		IManagedAttacks<YC> {
+		IManagedActions<YC> {
 	/**
 	 * {@link #getDataWatcher()}
 	 */
 	protected static final int DATA_FRAME = 12;
-	protected final AIAttackManager<YC> attackManager;
+	protected final AIActionManager<YC> attackManager;
 	private final TargetTurnHelper turnHelper;
 
 	public EntityMHFCBase(World world) {
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
 		tasks.addTask(0,
-			this.attackManager = new AIAttackManager<YC>((YC) this));
+			this.attackManager = new AIActionManager<YC>((YC) this));
 	}
 
 	/**
@@ -371,7 +371,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	}
 
 	@Override
-	public AIAttackManager<YC> getAttackManager() {
+	public AIActionManager<YC> getAttackManager() {
 		return attackManager;
 	}
 
@@ -387,12 +387,12 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	}
 
 	@Override
-	public void onAttackEnd(IExecutableAttack<? super YC> oldAttack) {
+	public void onAttackEnd(IExecutableAction<? super YC> oldAttack) {
 		setFrame(-1);
 	}
 
 	@Override
-	public void onAttackStart(IExecutableAttack<? super YC> newAttack) {
+	public void onAttackStart(IExecutableAction<? super YC> newAttack) {
 		if (newAttack != null)
 			setFrame(0);
 	}

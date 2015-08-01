@@ -1,9 +1,9 @@
 package mhfc.net.common.entity.mob;
 
-import mhfc.net.common.ai.AIStancedAttackManager;
-import mhfc.net.common.ai.IExecutableAttack;
-import mhfc.net.common.ai.IStancedAttackManager;
-import mhfc.net.common.ai.IStancedManagedAttacks;
+import mhfc.net.common.ai.AIStancedActionManager;
+import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.IStancedActionManager;
+import mhfc.net.common.ai.IStancedManagedActions;
 import mhfc.net.common.ai.rathalos.*;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -13,26 +13,26 @@ import net.minecraft.world.World;
 
 public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	implements
-		IStancedManagedAttacks<EntityRathalos, EntityRathalos.Stances>,
+		IStancedManagedActions<EntityRathalos, EntityRathalos.Stances>,
 		IConfusable {
 
 	public static enum Stances
 		implements
-			IStancedAttackManager.Stance<EntityRathalos, Stances> {
+			IStancedActionManager.Stance<EntityRathalos, Stances> {
 		GROUND,
 		FLYING,
 		FALLING,
 		BLINDED {
 			@Override
 			public void onAttackStart(
-				IExecutableAttack<? super EntityRathalos> attack,
+				IExecutableAction<? super EntityRathalos> attack,
 				EntityRathalos entity) {
 				entity.confusedAttacks++;
 			}
 
 			@Override
 			public void onAttackEnd(
-				IExecutableAttack<? super EntityRathalos> attack,
+				IExecutableAction<? super EntityRathalos> attack,
 				EntityRathalos entity) {
 				if (entity.getNumberOfConfusedAttacks() == 3) {
 					entity.getAttackManager().setNextStance(GROUND);
@@ -42,13 +42,13 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 
 		@Override
 		public void onAttackEnd(
-			IExecutableAttack<? super EntityRathalos> attack,
+			IExecutableAction<? super EntityRathalos> attack,
 			EntityRathalos entity) {
 		}
 
 		@Override
 		public void onAttackStart(
-			IExecutableAttack<? super EntityRathalos> attack,
+			IExecutableAction<? super EntityRathalos> attack,
 			EntityRathalos entity) {
 		}
 
@@ -62,13 +62,13 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 
 	}
 
-	private final AIStancedAttackManager<EntityRathalos, Stances> attackManager;
+	private final AIStancedActionManager<EntityRathalos, Stances> attackManager;
 	private int confusedAttacks;
 
 	public EntityRathalos(World world) {
 		super(world);
 		tasks.removeTask(super.attackManager);
-		this.attackManager = new AIStancedAttackManager<EntityRathalos, Stances>(
+		this.attackManager = new AIStancedActionManager<EntityRathalos, Stances>(
 			this, Stances.GROUND);
 		attackManager.registerAttack(new BiteAttack());
 		attackManager.registerAttack(new ChargeAttack());
@@ -96,7 +96,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	}
 
 	@Override
-	public AIStancedAttackManager<EntityRathalos, Stances> getAttackManager() {
+	public AIStancedActionManager<EntityRathalos, Stances> getAttackManager() {
 		return attackManager;
 	}
 

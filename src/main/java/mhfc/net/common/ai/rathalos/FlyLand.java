@@ -1,11 +1,11 @@
 package mhfc.net.common.ai.rathalos;
 
-import mhfc.net.common.ai.AttackAdapter;
+import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.entity.mob.EntityRathalos;
 import mhfc.net.common.entity.mob.EntityRathalos.Stances;
 import net.minecraft.entity.EntityLiving;
 
-public class FlyLand extends AttackAdapter<EntityRathalos> {
+public class FlyLand extends ActionAdapter<EntityRathalos> {
 
 	public static final float WEIGHT = 1.0f;
 	private static final int LAND_LAST_FRAME = 10;

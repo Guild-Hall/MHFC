@@ -15,18 +15,18 @@ import net.minecraft.entity.EntityLivingBase;
  * @param <EntityT>
  */
 
-public interface IStancedAttackManager<EntityT extends EntityLivingBase & IStancedManagedAttacks<EntityT, StanceT> & IManagedAttacks<EntityT>, //
-StanceT extends Enum<StanceT> & IStancedAttackManager.Stance<EntityT, StanceT>>
+public interface IStancedActionManager<EntityT extends EntityLivingBase & IStancedManagedActions<EntityT, StanceT> & IManagedActions<EntityT>, //
+StanceT extends Enum<StanceT> & IStancedActionManager.Stance<EntityT, StanceT>>
 	extends
-		IAttackManager<EntityT> {
+		IActionManager<EntityT> {
 
-	public static interface Stance<EntityT extends EntityLivingBase & IStancedManagedAttacks<EntityT, StanceT> & IManagedAttacks<EntityT>, //
-	StanceT extends Enum<StanceT> & IStancedAttackManager.Stance<EntityT, StanceT>> {
+	public static interface Stance<EntityT extends EntityLivingBase & IStancedManagedActions<EntityT, StanceT> & IManagedActions<EntityT>, //
+	StanceT extends Enum<StanceT> & IStancedActionManager.Stance<EntityT, StanceT>> {
 
-		void onAttackStart(IExecutableAttack<? super EntityT> attack,
+		void onAttackStart(IExecutableAction<? super EntityT> attack,
 			EntityT entity);
 
-		void onAttackEnd(IExecutableAttack<? super EntityT> attack,
+		void onAttackEnd(IExecutableAction<? super EntityT> attack,
 			EntityT entity);
 
 		void onStanceStart();

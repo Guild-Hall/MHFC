@@ -4,16 +4,16 @@ import java.util.Objects;
 
 import net.minecraft.entity.EntityLivingBase;
 
-public class AIStancedAttackManager<EntityT extends EntityLivingBase & IStancedManagedAttacks<EntityT, StanceT>, //
-StanceT extends Enum<StanceT> & IStancedAttackManager.Stance<EntityT, StanceT>>
+public class AIStancedActionManager<EntityT extends EntityLivingBase & IStancedManagedActions<EntityT, StanceT>, //
+StanceT extends Enum<StanceT> & IStancedActionManager.Stance<EntityT, StanceT>>
 	extends
-		AIAttackManager<EntityT>
+		AIActionManager<EntityT>
 	implements
-		IStancedAttackManager<EntityT, StanceT> {
+		IStancedActionManager<EntityT, StanceT> {
 
 	protected StanceT currentStance, nextStance;
 
-	public AIStancedAttackManager(EntityT entity, StanceT initalStance) {
+	public AIStancedActionManager(EntityT entity, StanceT initalStance) {
 		super(entity);
 		Objects.requireNonNull(initalStance);
 		this.currentStance = this.nextStance = initalStance;
@@ -60,8 +60,8 @@ StanceT extends Enum<StanceT> & IStancedAttackManager.Stance<EntityT, StanceT>>
 	}
 
 	@Override
-	protected void swapAttacks(IExecutableAttack<? super EntityT> oldAttack,
-		IExecutableAttack<? super EntityT> newAttack) {
+	protected void swapAttacks(IExecutableAction<? super EntityT> oldAttack,
+		IExecutableAction<? super EntityT> newAttack) {
 		this.entity.onAttackEnd(oldAttack);
 		if (oldAttack != null)
 			oldAttack.finishExecution();
@@ -78,8 +78,8 @@ StanceT extends Enum<StanceT> & IStancedAttackManager.Stance<EntityT, StanceT>>
 	}
 
 	@Override
-	public IExecutableAttack<? super EntityT> chooseAttack() {
-		IExecutableAttack<? super EntityT> attack = super.chooseAttack();
+	public IExecutableAction<? super EntityT> chooseAttack() {
+		IExecutableAction<? super EntityT> attack = super.chooseAttack();
 		return attack;
 	}
 }

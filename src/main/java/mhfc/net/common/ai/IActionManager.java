@@ -4,13 +4,13 @@ import net.minecraft.entity.EntityLivingBase;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
 
-public interface IAttackManager<EntityT extends EntityLivingBase & IManagedAttacks<EntityT>> {
+public interface IActionManager<EntityT extends EntityLivingBase & IManagedActions<EntityT>> {
 
-	public void registerAttack(IExecutableAttack<? super EntityT> attack);
+	public void registerAttack(IExecutableAction<? super EntityT> attack);
 
 	public IAnimation getCurrentAnimation();
 
 	public int getCurrentFrame();
 
-	public IExecutableAttack<? super EntityT> chooseAttack();
+	public IExecutableAction<? super EntityT> chooseAttack();
 }

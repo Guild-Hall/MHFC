@@ -1,12 +1,14 @@
 package mhfc.net.common.ai.general.provider;
 
+import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 
 public interface ISelectionPredicate<EntityT extends EntityLiving> {
 
-	public boolean shouldSelectAttack(EntityT actor, Entity target);
+	public boolean shouldSelectAttack(IExecutableAction<EntityT> attack,
+		EntityT actor, Entity target);
 
 	public static class SelectionAdapter<EntityT extends EntityLiving>
 		implements
@@ -26,9 +28,10 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 		}
 
 		@Override
-		public boolean shouldSelectAttack(EntityT actor, Entity target) {
-			return distanceAdapter.shouldSelectAttack(actor, target)
-				&& angleAdapter.shouldSelectAttack(actor, target);
+		public boolean shouldSelectAttack(IExecutableAction<EntityT> attack,
+			EntityT actor, Entity target) {
+			return distanceAdapter.shouldSelectAttack(attack, actor, target)
+				&& angleAdapter.shouldSelectAttack(attack, actor, target);
 		}
 	}
 
@@ -44,7 +47,8 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 		}
 
 		@Override
-		public boolean shouldSelectAttack(EntityT actor, Entity target) {
+		public boolean shouldSelectAttack(IExecutableAction<EntityT> attack,
+			EntityT actor, Entity target) {
 			if (target == null)
 				return false;
 			double distance = actor.getDistanceToEntity(target);
@@ -64,7 +68,8 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 		}
 
 		@Override
-		public boolean shouldSelectAttack(EntityT actor, Entity target) {
+		public boolean shouldSelectAttack(IExecutableAction<EntityT> attack,
+			EntityT actor, Entity target) {
 			if (target == null)
 				return false;
 			float angle = AIUtils.getViewingAngle(actor, target);
@@ -78,7 +83,8 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 			ISelectionPredicate<EntityT> {
 
 		@Override
-		public boolean shouldSelectAttack(EntityT actor, Entity target) {
+		public boolean shouldSelectAttack(IExecutableAction<EntityT> attack,
+			EntityT actor, Entity target) {
 			return target == null;
 		}
 
