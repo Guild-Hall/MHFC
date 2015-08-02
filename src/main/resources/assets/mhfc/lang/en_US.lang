@@ -195,7 +195,8 @@ item.longsword_14.name=Mirage Finsword+
 item.longsword_15.name=Phantom Mirage
 
 
-entity.tigrex.name=Tigrex
+entity.tigrex.name=§2Tigrex
+entity.mhfc.tigrex.name=§2Tigrex
 entity.kirin.name=Kirin
 entity.rathalos.name=Rathalos
 entity.popo.name=Popo

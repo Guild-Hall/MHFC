@@ -155,11 +155,13 @@ public class JumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
+		
 		getEntity().getTurnHelper().updateTurnSpeed(provider.getTurnRate());
 	}
 
 	@Override
 	public void update() {
+	
 		Vec3 look = getEntity().getLookVec();
 		int frame = getCurrentFrame();
 		if (frame < provider.getJumpFrame()) {

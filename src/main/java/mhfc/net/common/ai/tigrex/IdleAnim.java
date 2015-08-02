@@ -15,6 +15,7 @@ public class IdleAnim extends ActionAdapter<EntityTigrex> {
 	@Override
 	public float getWeight() {
 		EntityTigrex tigrex = this.getEntity();
+		target = tigrex.getAttackTarget();
 		if (target != null)
 			return DONT_SELECT;
 		return rng().nextFloat() * 3;
