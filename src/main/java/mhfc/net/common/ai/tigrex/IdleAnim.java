@@ -24,6 +24,7 @@ public class IdleAnim extends ActionAdapter<EntityTigrex> {
 	@Override
 	public void update() {
 		EntityTigrex tigrex = this.getEntity();
+		tigrex.playLivingSound();
 		// just a copy from roar the update method. nothing else
 	}
 }
