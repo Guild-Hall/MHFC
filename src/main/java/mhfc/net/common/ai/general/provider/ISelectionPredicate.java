@@ -2,8 +2,10 @@ package mhfc.net.common.ai.general.provider;
 
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
+import mhfc.net.common.eventhandler.ai.ActionSelectionEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public interface ISelectionPredicate<EntityT extends EntityLiving> {
 
@@ -32,6 +34,38 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 			EntityT actor, Entity target) {
 			return distanceAdapter.shouldSelectAttack(attack, actor, target)
 				&& angleAdapter.shouldSelectAttack(attack, actor, target);
+		}
+	}
+
+	public static class CooldownAdapter<EntityT extends EntityLiving>
+		implements
+			ISelectionPredicate<EntityT> {
+
+		private int cooldown;
+		private int cooldownRemaining;
+		private IExecutableAction<EntityT> attack;
+		ISelectionPredicate<EntityT> originalPredicate;
+
+		public CooldownAdapter(IExecutableAction<EntityT> attack, int cooldown,
+			ISelectionPredicate<EntityT> originalPredicate) {
+			this.attack = attack;
+			this.cooldown = cooldown;
+			this.cooldownRemaining = 0;
+			this.originalPredicate = originalPredicate;
+		}
+
+		@Override
+		public boolean shouldSelectAttack(IExecutableAction<EntityT> attack,
+			EntityT actor, Entity target) {
+			if (cooldownRemaining > 0)
+				cooldownRemaining--;
+			return cooldownRemaining == 0;
+		}
+
+		@SubscribeEvent
+		public void onSelectionSuccess(ActionSelectionEvent ase) {
+			if (ase.chosenAction == attack)
+				cooldownRemaining = cooldown;
 		}
 	}
 
@@ -75,7 +109,6 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 			float angle = AIUtils.getViewingAngle(actor, target);
 			return angle >= minAngle && angle <= maxAngle;
 		}
-
 	}
 
 	public static class SelectIdleAdapter<EntityT extends EntityLiving>
@@ -87,6 +120,5 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 			EntityT actor, Entity target) {
 			return target == null;
 		}
-
 	}
 }

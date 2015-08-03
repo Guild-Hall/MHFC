@@ -126,18 +126,13 @@ public class JumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
 		}
 
 		@Override
-		public void onSelected() {
-			weightProvider.onSelected();
-		}
-
-		@Override
 		public IDamageCalculator getDamageCalculator() {
 			return damageProvider.getDamageCalculator();
 		}
 
 	}
 
-	IJumpProvider<EntityT> provider;
+	protected IJumpProvider<EntityT> provider;
 
 	public JumpAttack(IJumpProvider<EntityT> provider) {
 		this.provider = provider;

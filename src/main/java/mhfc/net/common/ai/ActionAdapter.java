@@ -3,12 +3,15 @@ package mhfc.net.common.ai;
 import java.util.Random;
 
 import mhfc.net.common.ai.general.AIUtils.DamageCalculatorHelper;
+import mhfc.net.common.eventhandler.ai.ActionSelectionEvent;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
 import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.stored.AnimationRegistry;
+
+import cpw.mods.fml.common.FMLCommonHandler;
 
 public abstract class ActionAdapter<T extends EntityCreature>
 	implements
@@ -36,6 +39,8 @@ public abstract class ActionAdapter<T extends EntityCreature>
 	public void beginAction() {
 		framesPassed = 0;
 		recentFrame = -1;
+		FMLCommonHandler.instance().bus().post(
+			new ActionSelectionEvent(this, getEntity()));
 		beginExecution();
 	}
 
