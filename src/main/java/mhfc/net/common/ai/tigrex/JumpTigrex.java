@@ -2,7 +2,7 @@ package mhfc.net.common.ai.tigrex;
 
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
-import mhfc.net.common.ai.general.attacks.JumpAttack;
+import mhfc.net.common.ai.general.actions.JumpAttack;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.IDamageProvider;
 import mhfc.net.common.ai.general.provider.ISelectionPredicate;

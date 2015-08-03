@@ -16,6 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
@@ -397,13 +398,25 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 			setFrame(0);
 	}
 
-	public TargetTurnHelper getTurnHelper() {
-		return turnHelper;
-	}
-
 	@Override
 	public boolean canBePushed() {
 		return false;
 	}
 
+	public TargetTurnHelper getTurnHelper() {
+		return turnHelper;
+	}
+
+	/**
+	 * Uses the minecraft movement helper to move the mob forward this tick.
+	 * Forward is the direction the mob is facing
+	 * 
+	 * @param movementSpeed
+	 *            The speed multiplier to be used
+	 */
+	public void moveForward(double movementSpeed) {
+		Vec3 view = getLookVec();
+		getMoveHelper().setMoveTo(posX + view.xCoord, posY + view.yCoord,
+			posZ + view.zCoord, movementSpeed);
+	}
 }
