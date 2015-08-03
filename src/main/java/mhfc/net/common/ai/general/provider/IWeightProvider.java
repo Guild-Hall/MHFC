@@ -9,6 +9,8 @@ public interface IWeightProvider<EntityT extends EntityLiving> {
 
 	public float getWeight(EntityT entity, Entity target);
 
+	public void onSelected();
+
 	public static class SimpleWeightAdapter<EntityT extends EntityLiving>
 		implements
 			IWeightProvider<EntityT> {
@@ -21,6 +23,10 @@ public interface IWeightProvider<EntityT extends EntityLiving> {
 		@Override
 		public float getWeight(EntityT entity, Entity target) {
 			return weight;
+		}
+
+		@Override
+		public void onSelected() {
 		}
 	}
 
@@ -38,6 +44,10 @@ public interface IWeightProvider<EntityT extends EntityLiving> {
 		@Override
 		public float getWeight(EntityT entity, Entity target) {
 			return rng.nextFloat() * max;
+		}
+
+		@Override
+		public void onSelected() {
 		}
 	}
 
@@ -62,9 +72,13 @@ public interface IWeightProvider<EntityT extends EntityLiving> {
 				cooldownRemaining--;
 				return 0;
 			} else {
-				cooldownRemaining = cooldown;
 				return originalWeight.getWeight(entity, target);
 			}
+		}
+
+		@Override
+		public void onSelected() {
+			cooldownRemaining = cooldown;
 		}
 	}
 

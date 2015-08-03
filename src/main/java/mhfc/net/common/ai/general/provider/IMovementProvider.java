@@ -11,14 +11,14 @@ public interface IMovementProvider<EntityT extends EntityLiving>
 		IMoveParameterProvider,
 		IPathProvider<EntityT> {
 
-	public static class TurnThenMoveProvider<EntityT extends EntityLiving>
+	public static class TurnThenMoveAdapter<EntityT extends EntityLiving>
 		implements
 			IMoveParameterProvider,
 			IPathProvider<EntityT> {
 		IPathProvider<EntityLiving> underlyingPathProvider;
 		IMoveParameterProvider moveParameterProvider;
 
-		public TurnThenMoveProvider(
+		public TurnThenMoveAdapter(
 			IPathProvider<EntityLiving> underlyingPathProvider,
 			IMoveParameterProvider moveParameterProvider, float allowedAngle) {
 			this.underlyingPathProvider = Objects
