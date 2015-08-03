@@ -17,6 +17,9 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 	private static final float TURN_RATE_DURING_RUN = 2;
 	private static final float MAX_RUN_DISTANCE = 40f;
 	private static final int MAX_RUN_FRAMES = 200;
+
+	private static final double RUN_SPEED = 1.4;
+	private static final double STOP_SPEED = 0.7;
 	private static final IDamageCalculator damageCalc = AIUtils
 		.defaultDamageCalc(16f, 62f, 400f);
 
@@ -70,8 +73,7 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 					.getPosition(1.0f));
 				e.getTurnHelper().updateTargetPoint(attk.target);
 				Vec3 look = e.getLookVec();
-				e.getMoveHelper().setMoveTo(e.posX + 3 * look.xCoord,
-					e.posY + 3 * look.yCoord, e.posZ + 3 * look.zCoord, 1.4);
+				e.moveForward(RUN_SPEED);
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
 				boolean ranLongEnough = attk.runStartPoint.subtract(tigPos)
 					.lengthVector() > MAX_RUN_DISTANCE
@@ -107,7 +109,9 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 				EntityCreature e = attk.getEntity();
 				Vec3 look = e.getLookVec();
 				e.getMoveHelper().setMoveTo(e.posX + 3 * look.xCoord,
-					e.posY + 3 * look.yCoord, e.posZ + 3 * look.zCoord, 0.8);
+					e.posY + 3 * look.yCoord, e.posZ + 3 * look.zCoord,
+					STOP_SPEED); // The mulitplication with 3 should prevent a
+									// step here
 			}
 
 			@Override

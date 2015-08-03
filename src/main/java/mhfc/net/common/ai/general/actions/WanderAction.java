@@ -1,22 +1,11 @@
-package mhfc.net.common.ai.general.attacks;
+package mhfc.net.common.ai.general.actions;
 
 import mhfc.net.common.ai.ActionAdapter;
-import mhfc.net.common.ai.general.provider.*;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 
 public class WanderAction<EntityT extends EntityMHFCBase<? super EntityT>>
 	extends
 		ActionAdapter<EntityT> {
-
-	public static interface IWanderProvider<EntityT extends EntityMHFCBase<? super EntityT>>
-		extends
-			IAnimationProvider,
-			ISelectionPredicate<EntityT>,
-			IContinuationPredicate<EntityT>,
-			IWeightProvider<EntityT>,
-			IPathProvider<EntityT> {
-
-	}
 
 	@Override
 	public float getWeight() {

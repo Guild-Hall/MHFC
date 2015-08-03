@@ -1,4 +1,4 @@
-package mhfc.net.common.ai.general.attacks;
+package mhfc.net.common.ai.general.actions;
 
 import java.util.Objects;
 
