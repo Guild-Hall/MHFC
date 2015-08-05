@@ -59,10 +59,10 @@ public interface IMovementProvider<EntityT extends EntityLiving>
 		@Override
 		public float getMoveSpeed() {
 			float angle = AIUtils.getViewingAngle(actor, getCurrentWaypoint());
-			if (angle <= maxAngle)
+			if (Math.abs(angle) <= maxAngle)
 				return moveParameterProvider.getMoveSpeed();
 			else
-				return 0;
+				return 0.1f;
 		}
 	}
 }

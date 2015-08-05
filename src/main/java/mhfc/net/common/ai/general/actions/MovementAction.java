@@ -44,14 +44,18 @@ public class MovementAction<EntityT extends EntityMHFCBase<? super EntityT>>
 			actor.getTurnHelper().updateTurnSpeed(
 				movementProvider.getTurnRate());
 			actor.getTurnHelper().updateTargetPoint(checkPoint);
-			actor.moveForward(movementProvider.getMoveSpeed());
+			actor.moveForward(movementProvider.getMoveSpeed(), true);
 		}
 	}
 
 	@Override
 	public float getWeight() {
-		return movementProvider.getWeight(getEntity(), getEntity()
-			.getAITarget());
+		if (movementProvider.shouldSelectAttack(this, getEntity(), getEntity()
+			.getAttackTarget()))
+			return movementProvider.getWeight(getEntity(), getEntity()
+				.getAITarget());
+		else
+			return DONT_SELECT;
 	}
 
 	@Override

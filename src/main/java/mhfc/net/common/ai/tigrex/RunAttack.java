@@ -73,7 +73,7 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 					.getPosition(1.0f));
 				e.getTurnHelper().updateTargetPoint(attk.target);
 				Vec3 look = e.getLookVec();
-				e.moveForward(RUN_SPEED);
+				e.moveForward(RUN_SPEED, true);
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
 				boolean ranLongEnough = attk.runStartPoint.subtract(tigPos)
 					.lengthVector() > MAX_RUN_DISTANCE

@@ -16,9 +16,10 @@ public class JumpTigrex extends JumpAttack<EntityTigrex> {
 	private static final float TURN_RATE = 4;
 	private static final float JUMP_SCALE = 0.17f;
 	private static final float MAX_SCALE = 4f;
-	private static final float JUMP_HEIGHT = 0.7f;
+	private static final float JUMP_HEIGHT = 0.9f;
 
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(32f, 62f, 500f);
+	private static final IDamageCalculator damageCalc = AIUtils
+		.defaultDamageCalc(32f, 62f, 500f);
 	private static final double MIN_DIST = 3f;
 	private static final float MAX_ANGLE = 45f;
 	private static final float SELECTION_WEIGHT = 5f;
@@ -40,6 +41,5 @@ public class JumpTigrex extends JumpAttack<EntityTigrex> {
 			TURN_RATE);
 		return jmp;
 	}
-	 
-	
+
 }
