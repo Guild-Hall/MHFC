@@ -1,5 +1,7 @@
 package mhfc.net.common.ai.general.provider;
 
+import java.util.Objects;
+
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.eventhandler.ai.ActionSelectionEvent;
@@ -48,10 +50,10 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 
 		public CooldownAdapter(IExecutableAction<EntityT> attack, int cooldown,
 			ISelectionPredicate<EntityT> originalPredicate) {
-			this.attack = attack;
+			this.attack = Objects.requireNonNull(attack);
+			this.originalPredicate = Objects.requireNonNull(originalPredicate);
 			this.cooldown = cooldown;
 			this.cooldownRemaining = 0;
-			this.originalPredicate = originalPredicate;
 		}
 
 		@Override

@@ -293,4 +293,13 @@ public class AIUtils {
 		return normalizeAngle(tarYaw - yaw);
 	}
 
+	public static float getViewingAngle(EntityLiving actor, Vec3 point) {
+		Vec3 lookVector = actor.getLookVec();
+		Vec3 pos = actor.getPosition(1f);
+		Vec3 targetVector = pos.subtract(point);
+		float yaw = lookVecToYaw(lookVector);
+		float tarYaw = lookVecToYaw(targetVector);
+		return normalizeAngle(tarYaw - yaw);
+	}
+
 }

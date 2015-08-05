@@ -159,4 +159,12 @@ public abstract class ActionAdapter<T extends EntityCreature>
 		return getCurrentFrame() < lastFrame;
 	}
 
+	/**
+	 * Returns the number of frames this attack is running, counting only
+	 * upwards even when the animation loops
+	 */
+	public int getFramesPased() {
+		return framesPassed;
+	}
+
 }

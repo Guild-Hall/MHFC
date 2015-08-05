@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.Vec3;
 
@@ -15,13 +14,13 @@ public interface IPathProvider<EntityT extends EntityLiving> {
 	 * Resets the path provider and initializes it with the information about
 	 * the actor
 	 */
-	public void initialize(EntityT actor, Entity target);
+	public void initialize(EntityT actor);
 
-	public Vec3 getCurrentWaypoint(EntityT actor, Entity target);
+	public Vec3 getCurrentWaypoint();
 
-	public boolean hasWaypointReached(EntityT actor, Entity target);
+	public boolean hasWaypointReached();
 
-	public void onWaypointReached(EntityT actor, Entity target);
+	public void onWaypointReached();
 
 	public static class PathListAdapter<EntityT extends EntityLiving>
 		implements
@@ -29,6 +28,7 @@ public interface IPathProvider<EntityT extends EntityLiving> {
 
 		public static final double DEFAULT_MAX_DISTANCE = 0.25f;
 
+		private EntityT actor;
 		protected List<Vec3> path;
 		protected int currentIndex;
 		protected double maxDistance;
@@ -57,12 +57,13 @@ public interface IPathProvider<EntityT extends EntityLiving> {
 		}
 
 		@Override
-		public void initialize(EntityT actor, Entity target) {
+		public void initialize(EntityT actor) {
+			this.actor = Objects.requireNonNull(actor);
 			currentIndex = 0;
 		}
 
 		@Override
-		public Vec3 getCurrentWaypoint(EntityT actor, Entity target) {
+		public Vec3 getCurrentWaypoint() {
 			if (currentIndex < path.size())
 				return path.get(currentIndex);
 			else
@@ -70,14 +71,13 @@ public interface IPathProvider<EntityT extends EntityLiving> {
 		}
 
 		@Override
-		public boolean hasWaypointReached(EntityT actor, Entity target) {
+		public boolean hasWaypointReached() {
 			Vec3 position = actor.getPosition(0);
-			return position.subtract(getCurrentWaypoint(actor, target))
-				.lengthVector() < maxDistance;
+			return position.subtract(getCurrentWaypoint()).lengthVector() < maxDistance;
 		}
 
 		@Override
-		public void onWaypointReached(EntityT actor, Entity target) {
+		public void onWaypointReached() {
 			currentIndex++;
 		}
 
@@ -104,8 +104,8 @@ public interface IPathProvider<EntityT extends EntityLiving> {
 		}
 
 		@Override
-		public void onWaypointReached(EntityT actor, Entity target) {
-			super.onWaypointReached(actor, target);
+		public void onWaypointReached() {
+			super.onWaypointReached();
 			if (currentIndex == path.size())
 				currentIndex = 0;
 		}
