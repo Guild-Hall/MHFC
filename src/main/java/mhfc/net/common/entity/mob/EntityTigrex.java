@@ -12,6 +12,7 @@ import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.item.materials.ItemTigrex.TigrexSubType;
 import mhfc.net.common.util.SubTypedItem;
+import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
@@ -89,7 +90,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	@Override
 	protected String getLivingSound() {
 	//	playSound("mhfc:tigrex.say1", 1.0F, 1.0F);
-		return "mhfc:tigrex.say1";
+		return null;
 	}
 
 	@Override
@@ -107,4 +108,9 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	protected void func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_)
+    {
+        this.playSound("mhfc:tigrex-step", 1.0F, 1.0F);
+    }
 }
