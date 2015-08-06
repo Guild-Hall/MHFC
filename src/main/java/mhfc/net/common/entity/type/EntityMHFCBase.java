@@ -414,9 +414,13 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	 * @param movementSpeed
 	 *            The speed multiplier to be used
 	 */
-	public void moveForward(double movementSpeed) {
+	public void moveForward(double movementSpeed, boolean makeStep) {
 		Vec3 view = getLookVec();
-		getMoveHelper().setMoveTo(posX + view.xCoord, posY + view.yCoord,
-			posZ + view.zCoord, movementSpeed);
+		double aimY = posY + view.yCoord;
+		boolean stepNeeded = false;
+		if (makeStep && stepNeeded)
+			aimY += 1;
+		getMoveHelper().setMoveTo(posX + view.xCoord, aimY, posZ + view.zCoord,
+			movementSpeed);
 	}
 }

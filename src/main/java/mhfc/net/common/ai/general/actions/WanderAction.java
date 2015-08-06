@@ -76,7 +76,7 @@ public class WanderAction<EntityT extends EntityMHFCBase<? super EntityT>>
 			if (waypoint.subtract(position).lengthVector() < acceptedDistance) {
 				return true;
 			} else {
-				acceptedDistance += 0.01f;
+				acceptedDistance += 0.01f * wanderDistance;
 				return false;
 			}
 		}
