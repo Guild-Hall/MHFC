@@ -82,7 +82,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	}
 	
 	 public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub){
-		 GL11.glScaled(1.5, 1.5, 1.5);
+		 GL11.glScaled(1.9, 1.9, 1.9);
 		 return super.preRenderCallback(scale, sub);
 		 
 	 }
