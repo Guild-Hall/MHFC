@@ -3,6 +3,7 @@
     "tigrex-roar": {"category": "master", "sounds": ["tigrex-roar1"]},
     "tigrex-step": {"category": "master", "sounds": ["tigrex-step"]},
     "tigrex-bite": {"category": "master", "sounds": ["tigrex-bite1"]},
-    "tigrex-charge": {"category": "master", "sounds": ["tigrex-charge1"]}
-
+    "tigrex-charge": {"category": "master", "sounds": ["tigrex-charge1"]},
+    "tigrex-idle": {"category": "master", "sounds": ["tigrex-idle1", "tigrex-idle2", "tigrex-idle3"]}
+    
 }

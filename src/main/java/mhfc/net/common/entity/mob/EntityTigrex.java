@@ -92,8 +92,8 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	@Override
 	protected String getLivingSound() {
-		// playSound("mhfc:tigrex.say1", 1.0F, 1.0F);
-		return null;
+		
+		return "mhfc:tigrex-idle";
 	}
 
 	@Override
