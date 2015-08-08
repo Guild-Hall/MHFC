@@ -51,7 +51,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
 			.setBaseValue(1.3D);
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-			healthbaseHP(7164D, 9722D, 13410D));
+			healthbaseHP(7164D, 9722D, 17410D));
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(
 			35D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(

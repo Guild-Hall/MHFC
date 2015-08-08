@@ -197,10 +197,15 @@ item.longsword_15.name=Phantom Mirage
 
 entity.tigrex.name=§2Tigrex
 entity.mhfc.tigrex.name=§2Tigrex
-entity.kirin.name=Kirin
-entity.rathalos.name=Rathalos
-entity.popo.name=Popo
-entity.aptonoth.name=Aptonoth
+entity.greatjaggi.name=§2Great Jaggi
+entity.mhfc.greatjaggi.name=§2Great Jaggiuu8
+entity.deviljho.name=§2Deviljho
+entity.mhfc.deviljho.name=§2Deviljho
+entity.barroth.name=§2Barroth
+entity.mhfc.barroth.name=§2Barroth
+entity.nargacuga.name=§2Nargacuga
+entity.mhfc.nargacuga.name=§2Nargacuga
+
 
 potion.kirinbless=Spark of Kirin
 potion.paralyze=Paralyze

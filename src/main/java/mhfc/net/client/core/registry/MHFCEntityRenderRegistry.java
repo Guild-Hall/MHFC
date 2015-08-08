@@ -2,6 +2,10 @@ package mhfc.net.client.core.registry;
 
 import mhfc.net.client.render.projectile.RenderRathalosFireball;
 import mhfc.net.client.render.projectile.RenderTigrexBlock;
+import mhfc.net.common.entity.mob.EntityBarroth;
+import mhfc.net.common.entity.mob.EntityDeviljho;
+import mhfc.net.common.entity.mob.EntityGreatJaggi;
+import mhfc.net.common.entity.mob.EntityNargacuga;
 import mhfc.net.common.entity.mob.EntityRathalos;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
@@ -27,6 +31,14 @@ public class MHFCEntityRenderRegistry {
 			MHFCReference.mob_tigrex_model, 1.0F);
 		registerAnimatedRenderer(EntityRathalos.class,
 			MHFCReference.mob_rathalos_model, 1.0F);
+		registerAnimatedRenderer(EntityGreatJaggi.class,
+			MHFCReference.mob_greatjaggi_model, 1.0F);
+		registerAnimatedRenderer(EntityDeviljho.class,
+			MHFCReference.mob_deviljho_model, 1.0F);
+		registerAnimatedRenderer(EntityBarroth.class,
+			MHFCReference.mob_barroth_model, 1.0F);
+		registerAnimatedRenderer(EntityNargacuga.class,
+			MHFCReference.mob_nargacuga_model, 1.0F);
 	}
 
 	private static void renderBlockEntities() {
