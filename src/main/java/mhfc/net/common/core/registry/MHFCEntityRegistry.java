@@ -25,7 +25,7 @@ public class MHFCEntityRegistry {
 	// public static final int popoID;
 	public static final int tigrexID;
 	// public static final int kirinID;
-	public static final int rathalosID;
+//	public static final int rathalosID;
 	public static final int questGiverID;
 
 	public static final int tigrexBlockID;
@@ -45,8 +45,8 @@ public class MHFCEntityRegistry {
 			0xfff432e3, 0x1020394f);
 		// kirinID = getMobID(EntityKirin.class, MHFCReference.mob_kirin_name,
 		// 0xfff85814, 0xff851f15);
-		rathalosID = getMobID(EntityRathalos.class,
-			MHFCReference.mob_rathalos_name, 0xff749819, 0xf838818);
+		/// rathalosID = getMobID(EntityRathalos.class,
+		//	MHFCReference.mob_rathalos_name, 0xff749819, 0xf838818);
 		questGiverID = getMobID(EntityQuestGiver.class,
 			MHFCReference.mob_questGiver_name);
 

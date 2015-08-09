@@ -82,19 +82,19 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		}
 		dropItemRand(SubTypedItem.fromSubItem(TigrexSubType.SKULLSHELL, 1));
 	}
+	
+	 public RenderPassInformation preRenderCallback(float scale,
+		RenderPassInformation sub){
+		 GL11.glScaled(1.9, 1.9, 1.9);
+		 return super.preRenderCallback(scale, sub);
+		 
+	 }
 
-	@Override
-	public RenderPassInformation preRenderCallback(float scale,
-		RenderPassInformation sub) {
-		GL11.glScaled(1.5, 1.5, 1.5);
-		return super.preRenderCallback(scale, sub);
-
-	}
 
 	@Override
 	protected String getLivingSound() {
-		// playSound("mhfc:tigrex.say1", 1.0F, 1.0F);
-		return null;
+		
+		return "mhfc:tigrex-idle";
 	}
 
 	@Override

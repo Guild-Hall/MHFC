@@ -21,7 +21,7 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 	private static final double RUN_SPEED = 1.4;
 	private static final double STOP_SPEED = 0.7;
 	private static final IDamageCalculator damageCalc = AIUtils
-		.defaultDamageCalc(16f, 62f, 400f);
+		.defaultDamageCalc(28f, 62f, 1000f);
 
 	private static enum PastEntityEnum {
 		NOT_PASSED,
@@ -174,7 +174,7 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 	public void beginExecution() {
 		EntityTigrex tig = getEntity();
 		target = tig.getAttackTarget();
-
+		tig.playSound("mhfc:tigrex-charge", 1.0F, 1.0F);
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;
 		runCycles = 0;

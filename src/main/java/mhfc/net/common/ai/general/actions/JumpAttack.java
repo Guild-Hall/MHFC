@@ -133,6 +133,7 @@ public class JumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
 	}
 
 	protected IJumpProvider<EntityT> provider;
+	
 
 	public JumpAttack(IJumpProvider<EntityT> provider) {
 		this.provider = provider;
@@ -158,6 +159,8 @@ public class JumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
 
 		getEntity().getTurnHelper().updateTurnSpeed(provider.getTurnRate());
 	}
+	
+	
 
 	@Override
 	public void update() {
