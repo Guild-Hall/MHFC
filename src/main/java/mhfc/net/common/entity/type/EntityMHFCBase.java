@@ -417,9 +417,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	public void moveForward(double movementSpeed, boolean makeStep) {
 		Vec3 view = getLookVec();
 		double aimY = posY + view.yCoord;
-		boolean stepNeeded = false;
-		if (makeStep && stepNeeded)
-			aimY += 1;
+
 		getMoveHelper().setMoveTo(posX + view.xCoord, aimY, posZ + view.zCoord,
 			movementSpeed);
 	}

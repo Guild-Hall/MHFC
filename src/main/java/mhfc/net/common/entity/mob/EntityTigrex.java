@@ -25,6 +25,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		super(par1World);
 		height = 2f;
 		width = 3f;
+		stepHeight = 1.5f;
 
 		attackManager.registerAttack(new TurnAttack(110, 180, 5f, 12f));
 		attackManager.registerAttack(new RunAttack());
