@@ -28,7 +28,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 		attackManager.registerAttack(new TurnAttack(110, 180, 5f, 12f));
 		attackManager.registerAttack(new RunAttack());
-		attackManager.registerAttack(new SpinAttack());
+		attackManager.registerAttack(new TailWhipTigrex());
 		attackManager.registerAttack(new GroundHurl());
 		attackManager.registerAttack(new BiteAttack());
 		attackManager.registerAttack(new RoarAttack());

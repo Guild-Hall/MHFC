@@ -1,6 +1,7 @@
 package mhfc.net.common.ai.general.actions;
 
 import java.util.List;
+import java.util.Objects;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
@@ -16,7 +17,7 @@ import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.util.world.WorldHelper;
 
-public class AISpinGeneral <EntityT extends EntityMHFCBase<? super EntityT>>
+public class AITailWhipGeneral <EntityT extends EntityMHFCBase<? super EntityT>>
 	extends
 		ActionAdapter<EntityT> {
 	
@@ -28,30 +29,21 @@ public class AISpinGeneral <EntityT extends EntityMHFCBase<? super EntityT>>
 		IDamageProvider {
 		
 	}
-	public static class SpinAdapter<EntityT extends EntityMHFCBase<? super EntityT>>
+	public static class TailWhipAdapter<EntityT extends EntityMHFCBase<? super EntityT>>
 	implements
 	ISpinProvider<EntityT> {
 		private IAnimationProvider animationProvider;
 		private ISelectionPredicate<EntityT> predicate;
 		private IWeightProvider<EntityT> weightProvider;
 		private IDamageProvider damageProvider;
-		private float rangeScale;
-		private float maxScale;
-		private float Strenght;
-		private int spinFrame;
-		private float turnRate;
-		public SpinAdapter(IAnimationProvider ANIMPROVIDER,
-				ISelectionPredicate<EntityT> PREDICATE,
+
+		public TailWhipAdapter(IAnimationProvider ANIMPROVIDER,
 				IWeightProvider<EntityT> WEIGHTPROVIDER,
-				IDamageProvider DAMAGEPROVIDER, float RANGESCALE,
-				float MAXSCALE, float STRENGTH, int SPINFRAME, float TURNRATE){
+				IDamageProvider DAMAGEPROVIDER, ISelectionPredicate<EntityT> PREDICATE){
 			animationProvider = ANIMPROVIDER;
-			predicate = PREDICATE;
-			weightProvider = WEIGHTPROVIDER;
 			damageProvider = DAMAGEPROVIDER;
-			rangeScale = RANGESCALE;
-			spinFrame = SPINFRAME;
-			turnRate = TURNRATE;
+			weightProvider = Objects.requireNonNull(WEIGHTPROVIDER);
+			predicate = Objects.requireNonNull(PREDICATE);
 					
 			
 		}
@@ -82,7 +74,7 @@ public class AISpinGeneral <EntityT extends EntityMHFCBase<? super EntityT>>
 	
 	protected ISpinProvider<EntityT> provider;
 	
-	public AISpinGeneral(ISpinProvider<EntityT> PROVIDER){
+	public AITailWhipGeneral(ISpinProvider<EntityT> PROVIDER){
 		this.provider = PROVIDER;
 		dmgHelper.setDamageCalculator(provider.getDamageCalculator());
 		setAnimation(provider.getAnimationLocation());
