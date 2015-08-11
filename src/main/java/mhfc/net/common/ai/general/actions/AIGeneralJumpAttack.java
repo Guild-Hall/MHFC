@@ -15,7 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.Vec3;
 
-public class JumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
+public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
 	extends
 		ActionAdapter<EntityT> {
 
@@ -135,7 +135,7 @@ public class JumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
 	protected IJumpProvider<EntityT> provider;
 	
 
-	public JumpAttack(IJumpProvider<EntityT> provider) {
+	public AIGeneralJumpAttack(IJumpProvider<EntityT> provider) {
 		this.provider = provider;
 		dmgHelper.setDamageCalculator(provider.getDamageCalculator());
 		setAnimation(provider.getAnimationLocation());

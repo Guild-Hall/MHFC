@@ -2,14 +2,14 @@ package mhfc.net.common.ai.tigrex;
 
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
-import mhfc.net.common.ai.general.actions.JumpAttack;
+import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.IDamageProvider;
 import mhfc.net.common.ai.general.provider.ISelectionPredicate;
 import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.mob.EntityTigrex;
 
-public class JumpTigrex extends JumpAttack<EntityTigrex> {
+public class JumpTigrex extends AIGeneralJumpAttack<EntityTigrex> {
 
 	private static final int LAST_FRAME = 80;
 	private static final int JUMP_FRAME = 20;
@@ -36,7 +36,7 @@ public class JumpTigrex extends JumpAttack<EntityTigrex> {
 			-MAX_ANGLE, MAX_ANGLE, MIN_DIST, Double.MAX_VALUE);
 		IWeightProvider<EntityTigrex> weight = new IWeightProvider.SimpleWeightAdapter<>(
 			SELECTION_WEIGHT);
-		IJumpProvider<EntityTigrex> jmp = new JumpAttack.JumpAdapter<>(anim,
+		IJumpProvider<EntityTigrex> jmp = new AIGeneralJumpAttack.JumpAdapter<>(anim,
 			pred, weight, dmg, JUMP_SCALE, MAX_SCALE, JUMP_HEIGHT, JUMP_FRAME,
 			TURN_RATE);
 		return jmp;

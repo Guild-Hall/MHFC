@@ -9,7 +9,7 @@ import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Vec3;
 
-public class MovementAction<EntityT extends EntityMHFCBase<? super EntityT>>
+public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>>
 	extends
 		ActionAdapter<EntityT> {
 
@@ -24,7 +24,7 @@ public class MovementAction<EntityT extends EntityMHFCBase<? super EntityT>>
 
 	protected MovementActionProvider<EntityT> movementProvider;
 
-	public MovementAction(MovementActionProvider<EntityT> movementActionProvider) {
+	public AIGeneralMovement(MovementActionProvider<EntityT> movementActionProvider) {
 		this.movementProvider = Objects.requireNonNull(movementActionProvider);
 	}
 

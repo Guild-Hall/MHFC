@@ -8,11 +8,11 @@ import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.Vec3;
 
-public class WanderAction<EntityT extends EntityMHFCBase<? super EntityT>>
+public class AIGeneralWander<EntityT extends EntityMHFCBase<? super EntityT>>
 	extends
-		MovementAction<EntityT> {
+		AIGeneralMovement<EntityT> {
 
-	public WanderAction(IAnimationProvider animationProvider,
+	public AIGeneralWander(IAnimationProvider animationProvider,
 		IWeightProvider<EntityT> weightProvider,
 		IMoveParameterProvider parameterProvider) {
 		super(generateProvider(animationProvider, weightProvider,

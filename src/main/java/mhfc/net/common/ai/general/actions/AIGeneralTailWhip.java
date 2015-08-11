@@ -9,7 +9,7 @@ import net.minecraft.util.Vec3;
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
-import mhfc.net.common.ai.general.actions.JumpAttack.IJumpProvider;
+import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack.IJumpProvider;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.IDamageProvider;
 import mhfc.net.common.ai.general.provider.ISelectionPredicate;
@@ -17,7 +17,7 @@ import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.util.world.WorldHelper;
 
-public class AITailWhipGeneral <EntityT extends EntityMHFCBase<? super EntityT>>
+public class AIGeneralTailWhip <EntityT extends EntityMHFCBase<? super EntityT>>
 	extends
 		ActionAdapter<EntityT> {
 	
@@ -74,7 +74,7 @@ public class AITailWhipGeneral <EntityT extends EntityMHFCBase<? super EntityT>>
 	
 	protected ISpinProvider<EntityT> provider;
 	
-	public AITailWhipGeneral(ISpinProvider<EntityT> PROVIDER){
+	public AIGeneralTailWhip(ISpinProvider<EntityT> PROVIDER){
 		this.provider = PROVIDER;
 		dmgHelper.setDamageCalculator(provider.getDamageCalculator());
 		setAnimation(provider.getAnimationLocation());
@@ -102,13 +102,7 @@ public class AITailWhipGeneral <EntityT extends EntityMHFCBase<? super EntityT>>
 		EntityT entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (provider.shouldSelectAttack(this, entity, target)) {
-			Vec3 toTarget = WorldHelper.getVectorToTarget(entity, target);
-			Vec3 lookVec = entity.getLookVec();
-			Vec3 rightSide = lookVec.crossProduct(Vec3.createVectorHelper(0, 1, 0));
-			if (rightSide.dotProduct(toTarget) < MAX_ANGLE_DOT)
-				return DONT_SELECT;
-
-			return (float) (MAX_DISTANCE - toTarget.lengthVector()) * provider.getWeight(entity, target);
+			return provider.getWeight(entity, target);
 		} else {
 			return DONT_SELECT;
 		}
