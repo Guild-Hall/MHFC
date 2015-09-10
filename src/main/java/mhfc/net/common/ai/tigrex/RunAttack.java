@@ -156,7 +156,7 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 	private int runCycles;
 
 	public RunAttack() {
-		setAnimation("mhfc:models/Tigrex/run_new.mcanm");
+		setAnimation("mhfc:models/Tigrex/run.mcanm");
 	}
 
 	@Override
