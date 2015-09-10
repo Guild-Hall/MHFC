@@ -1,7 +1,6 @@
 package mhfc.net.common.ai;
 
 import mhfc.net.common.ai.general.WeightedPick.WeightedItem;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
@@ -21,7 +20,9 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @param <T>
  *            the necessary Entity class
  */
-public interface IExecutableAction<T extends Entity> extends WeightedItem {
+public interface IExecutableAction<T extends EntityLivingBase>
+	extends
+		WeightedItem {
 	public static final float DONT_SELECT = 0f;
 
 	/**

@@ -15,7 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.Vec3;
 
-public class JumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
+public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
 	extends
 		ActionAdapter<EntityT> {
 
@@ -132,9 +132,10 @@ public class JumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
 
 	}
 
-	IJumpProvider<EntityT> provider;
+	protected IJumpProvider<EntityT> provider;
+	
 
-	public JumpAttack(IJumpProvider<EntityT> provider) {
+	public AIGeneralJumpAttack(IJumpProvider<EntityT> provider) {
 		this.provider = provider;
 		dmgHelper.setDamageCalculator(provider.getDamageCalculator());
 		setAnimation(provider.getAnimationLocation());
@@ -155,13 +156,15 @@ public class JumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
-		
+
 		getEntity().getTurnHelper().updateTurnSpeed(provider.getTurnRate());
 	}
+	
+	
 
 	@Override
 	public void update() {
-	
+
 		Vec3 look = getEntity().getLookVec();
 		int frame = getCurrentFrame();
 		if (frame < provider.getJumpFrame()) {

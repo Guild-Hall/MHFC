@@ -54,6 +54,22 @@ public class Utilities {
 			chargingEntity.speed = moveSpeed - 2D;
 		}
 	}
+	
+	
+	public static void checkEntityPositionState(Entity ent,double xS, double yS, double zS, boolean isInLiquid)  {
+		double xLiqRadius = xS * Math.sin(ent.posX * Math.cos(xS - 2));
+		double yLiqRadius = yS * Math.tanh(yS * Math.sin(yS * ent.posY));
+		double zLiqRadius = zS * Math.sin(ent.posX * Math.cos(zS - 2));
+		double setRadiusState = Math.toRadians(xLiqRadius / zLiqRadius) * Math.abs(yLiqRadius);	//<--- must be above the ground>	
+		if(ent.isOffsetPositionInLiquid(xS, yS, zS))
+		{
+			isInLiquid = true;
+			ent.moveEntity(xLiqRadius, yLiqRadius, zLiqRadius);
+		}else if (ent.noClip){
+			//to be aded.
+		}
+	
+	}
 	/**
 	 * Counts the number of players in a world // FIXME: actually useful?
 	 *

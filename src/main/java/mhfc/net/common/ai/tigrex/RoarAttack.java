@@ -50,11 +50,13 @@ public class RoarAttack extends ActionAdapter<EntityTigrex> {
 			.getEntitiesWithinAABBExcludingEntity(tigrex, tigrex.boundingBox
 				.expand(16.0D, 8.0D, 16.0D));
 
-		for (Entity entity : list) {// <---Loop start
+		for (Entity entity : list) {
 			if (!affectedEntities.contains(entity)
 				&& entity instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) entity;
 				player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id,
+					80, 10));
+				player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id,
 					80, 10));
 				affectedEntities.add(player);
 			}

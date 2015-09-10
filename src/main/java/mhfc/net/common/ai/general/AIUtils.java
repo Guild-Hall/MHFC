@@ -227,13 +227,13 @@ public class AIUtils {
 	}
 
 	public static float lookVecToYaw(Vec3 vec) {
-		double tan = Math.atan(vec.xCoord / vec.zCoord);
-		tan *= -RAD2DEG;
-		if (vec.zCoord < 0)
-			tan += 180;
-		if (tan > 180)
-			tan -= 360;
-		return (float) tan;
+
+		double pitch_rad = -Math.asin(vec.yCoord);
+		double cos_pitch = -Math.cos(-pitch_rad);
+
+		double yaw_rad = -(Math.asin(vec.xCoord / cos_pitch) + Math.PI);
+		return (float) Math.toDegrees(yaw_rad);
+
 	}
 
 	/**
@@ -262,6 +262,7 @@ public class AIUtils {
 	 * 180 degrees.
 	 */
 	public static float normalizeAngle(float yaw) {
+		yaw %= 360;
 		if (yaw > 180)
 			return yaw - 360;
 		else if (yaw < -180)
@@ -288,6 +289,15 @@ public class AIUtils {
 	public static float getViewingAngle(EntityLiving actor, Entity target) {
 		Vec3 lookVector = actor.getLookVec();
 		Vec3 targetVector = WorldHelper.getVectorToTarget(actor, target);
+		float yaw = lookVecToYaw(lookVector);
+		float tarYaw = lookVecToYaw(targetVector);
+		return normalizeAngle(tarYaw - yaw);
+	}
+
+	public static float getViewingAngle(EntityLiving actor, Vec3 point) {
+		Vec3 lookVector = actor.getLookVec();
+		Vec3 pos = actor.getPosition(1f);
+		Vec3 targetVector = point.subtract(pos);
 		float yaw = lookVecToYaw(lookVector);
 		float tarYaw = lookVecToYaw(targetVector);
 		return normalizeAngle(tarYaw - yaw);

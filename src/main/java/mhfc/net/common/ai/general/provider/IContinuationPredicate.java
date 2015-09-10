@@ -5,7 +5,7 @@ import net.minecraft.entity.EntityLiving;
 
 public interface IContinuationPredicate<EntityT extends EntityLiving> {
 
-	public boolean shouldContinueAttack(IExecutableAction<EntityT> attack,
+	public boolean shouldContinueAction(IExecutableAction<EntityT> attack,
 		EntityT actor);
 
 	public static class HasTargetAdapter<EntityT extends EntityLiving>
@@ -13,7 +13,7 @@ public interface IContinuationPredicate<EntityT extends EntityLiving> {
 			IContinuationPredicate<EntityT> {
 
 		@Override
-		public boolean shouldContinueAttack(IExecutableAction<EntityT> attack,
+		public boolean shouldContinueAction(IExecutableAction<EntityT> attack,
 			EntityT actor) {
 			return actor.getAITarget() != null;
 		}
@@ -25,7 +25,7 @@ public interface IContinuationPredicate<EntityT extends EntityLiving> {
 			IContinuationPredicate<EntityT> {
 
 		@Override
-		public boolean shouldContinueAttack(IExecutableAction<EntityT> attack,
+		public boolean shouldContinueAction(IExecutableAction<EntityT> attack,
 			EntityT actor) {
 			return actor.getAITarget() == null;
 		}

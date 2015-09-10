@@ -17,9 +17,9 @@ import net.minecraft.util.Vec3;
 public class BiteAttack extends ActionAdapter<EntityTigrex> {
 	private static final int LAST_FRAME = 55;
 	private static final IDamageCalculator damageCalc = AIUtils
-		.defaultDamageCalc(34f, 62f, 700f);
+		.defaultDamageCalc(44f, 62f, 1600f);
 
-	private static final double MAX_DIST = 4f;
+	private static final double MAX_DIST = 5f;
 	private static final double MAX_ANGLE = 0.155; // This is cos(30)
 	private static final float WEIGHT = 15;
 
@@ -42,9 +42,13 @@ public class BiteAttack extends ActionAdapter<EntityTigrex> {
 			return DONT_SELECT;
 		return WEIGHT;
 	}
+	
 
 	@Override
 	public void update() {
+		if(this.getCurrentFrame() == 23){
+			getEntity().playSound("mhfc:tigrex-bite", 1.0F, 1.0F);
+		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			EntityTigrex tig = getEntity();
 			Vec3 look = tig.getLookVec();
