@@ -1,5 +1,6 @@
 package mhfc.net.common.ai.general;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -70,18 +71,17 @@ public class TargetTurnHelper {
 	 * so before the Minecraft default helpers are called.
 	 */
 	public void onUpdateTurn() {
-		if (!isUpdating) {
+		if (!isUpdating)
 			return;
-		} else {
-			isUpdating = false;
-			if (targetPoint == null || entity == null) {
-				return;
-			}
-			Vec3 vecToTarget = Vec3.createVectorHelper(entity.posX,
-				entity.posY, entity.posZ).subtract(targetPoint);
-			entity.rotationYaw = AIUtils.modifyYaw(entity.getLookVec(),
-				vecToTarget, maxTurnSpeed);
+		isUpdating = false;
+		if (targetPoint == null || entity == null) {
+			MHFCMain.logger.info("No target despite updating");
+			return;
 		}
+		Vec3 vecToTarget = (Vec3.createVectorHelper(entity.posX, entity.posY,
+			entity.posZ)).subtract(targetPoint);
+		entity.rotationYaw = AIUtils.modifyYaw(entity.getLookVec(), vecToTarget
+			.normalize(), maxTurnSpeed);
 	}
 
 }

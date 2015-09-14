@@ -60,9 +60,7 @@ public class GroundHurl extends ActionAdapter<EntityTigrex> {
 				tigrex.getTurnHelper().updateTargetPoint(
 					tigrex.getAttackTarget());
 			} else if (getCurrentFrame() == TURN_FRAMES) {
-				Vec3 look = tigrex.getLookVec();
-				tigrex.getMoveHelper().setMoveTo(tigrex.posX + look.xCoord,
-					tigrex.posY + look.yCoord, tigrex.posZ + look.zCoord, 0.2);
+				tigrex.moveForward(0.2, false);
 			}
 			return;
 		}

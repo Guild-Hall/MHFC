@@ -231,42 +231,49 @@ public class AIUtils {
 		double pitch_rad = -Math.asin(vec.yCoord);
 		double cos_pitch = -Math.cos(-pitch_rad);
 
-		double yaw_rad = -(Math.asin(vec.xCoord / cos_pitch) + Math.PI);
-		return (float) Math.toDegrees(yaw_rad);
+		double yaw_rad = -(Math.acos(vec.zCoord / cos_pitch));
+		yaw_rad *= Math.signum(-vec.xCoord);
+		yaw_rad += Math.PI;
+		return normalizeAngle((float) Math.toDegrees(yaw_rad));
 
 	}
 
 	/**
 	 * Returns the yaw that gives the direction of the target but with a maximum
 	 * absolute value of max
+	 * 
+	 * @param look
+	 *            A normalized look vector
+	 * @param target
+	 *            A normalized vector, the target for the look
+	 * @param maxAbsoluteChange
+	 *            The maximum allowed change of the look in degrees. Must be
+	 *            greater than zero
 	 */
-	public static float modifyYaw(Vec3 look, Vec3 target, float max) {
+	public static float modifyYaw(Vec3 look, Vec3 target,
+		float maxAbsoluteChange) {
 		float yaw = lookVecToYaw(look);
 		float tarYaw = lookVecToYaw(target);
 		float diff = tarYaw - yaw;
 		diff = normalizeAngle(diff);
 		if (diff < 0) {
-			diff = diff < -max ? -max : diff;
+			diff = diff < -maxAbsoluteChange ? -maxAbsoluteChange : diff;
 		} else {
-			diff = diff > max ? max : diff;
+			diff = diff > maxAbsoluteChange ? maxAbsoluteChange : diff;
 		}
-		if (yaw + diff > 180)
-			diff -= 360;
-		else if (yaw + diff < -180)
-			diff += 360;
-		return yaw + diff;
+		return normalizeAngle(yaw + diff);
 	}
 
 	/**
-	 * Transforms an angle into the Minecraft specific version between -180 and
+	 * Transforms an angle into the Minecraft specific angle between -180 and
 	 * 180 degrees.
 	 */
 	public static float normalizeAngle(float yaw) {
-		yaw %= 360;
+		yaw = yaw % 360;
 		if (yaw > 180)
 			return yaw - 360;
 		else if (yaw < -180)
-			return yaw + 180;
+			return yaw + 360;
 		else
 			return yaw;
 	}

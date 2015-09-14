@@ -6,7 +6,6 @@ import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.util.Vec3;
 
 public class RunAttack extends ActionAdapter<EntityTigrex> {
@@ -35,16 +34,15 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 
 			@Override
 			public void onPhaseStart(RunAttack attk) {
-				EntityCreature entity = attk.getEntity();
-				entity.motionX = entity.motionY = entity.motionZ = 0f;
-				attk.getEntity().getTurnHelper().updateTurnSpeed(
-					TURN_RATE_INITIAL);
+				EntityTigrex tigrex = attk.getEntity();
+				tigrex.motionX = tigrex.motionY = tigrex.motionZ = 0f;
+				tigrex.getTurnHelper().updateTurnSpeed(TURN_RATE_INITIAL);
+				attk.getEntity().getTurnHelper().updateTargetPoint(attk.target);
 			}
 
 			@Override
 			public void update(RunAttack attk) {
-				Entity target = attk.target;
-				attk.getEntity().getTurnHelper().updateTargetPoint(target);
+				attk.getEntity().getTurnHelper().forceUpdate();
 			}
 
 			@Override
@@ -67,13 +65,14 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 
 			@Override
 			public void update(RunAttack attk) {
-				EntityTigrex e = attk.getEntity();
-				Vec3 tigPos = Vec3.createVectorHelper(e.posX, e.posY, e.posZ);
+				EntityTigrex tigrex = attk.getEntity();
+				Vec3 tigPos = Vec3.createVectorHelper(tigrex.posX, tigrex.posY,
+					tigrex.posZ);
 				Vec3 vecToTarget = tigPos.subtract(attk.target
 					.getPosition(1.0f));
-				e.getTurnHelper().updateTargetPoint(attk.target);
-				Vec3 look = e.getLookVec();
-				e.moveForward(RUN_SPEED, true);
+				tigrex.getTurnHelper().updateTargetPoint(attk.target);
+				tigrex.moveForward(RUN_SPEED, true);
+				Vec3 look = tigrex.getLookVec();
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
 				boolean ranLongEnough = attk.runStartPoint.subtract(tigPos)
 					.lengthVector() > MAX_RUN_DISTANCE
@@ -106,12 +105,8 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 		STOPPING(true) {
 			@Override
 			public void update(RunAttack attk) {
-				EntityCreature e = attk.getEntity();
-				Vec3 look = e.getLookVec();
-				e.getMoveHelper().setMoveTo(e.posX + 3 * look.xCoord,
-					e.posY + 3 * look.yCoord, e.posZ + 3 * look.zCoord,
-					STOP_SPEED); // The mulitplication with 3 should prevent a
-									// step here
+				EntityTigrex e = attk.getEntity();
+				e.moveForward(STOP_SPEED, false);
 			}
 
 			@Override
@@ -204,7 +199,6 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 
 	@Override
 	public void finishExecution() { // When finished
-		this.getEntity().setTarget(null);
 	}
 
 	@Override

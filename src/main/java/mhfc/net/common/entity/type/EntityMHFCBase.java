@@ -10,6 +10,7 @@ import mhfc.net.common.ai.general.TargetTurnHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityMultiPart;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
@@ -416,9 +417,10 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	 */
 	public void moveForward(double movementSpeed, boolean makeStep) {
 		Vec3 view = getLookVec();
-		double aimY = posY + view.yCoord;
 
-		getMoveHelper().setMoveTo(posX + view.xCoord, aimY, posZ + view.zCoord,
-			movementSpeed);
+		float effectiveSpeed = (float) (movementSpeed * getEntityAttribute(
+			SharedMonsterAttributes.movementSpeed).getAttributeValue());
+		setVelocity(effectiveSpeed * view.xCoord, 0, effectiveSpeed
+			* view.zCoord);
 	}
 }

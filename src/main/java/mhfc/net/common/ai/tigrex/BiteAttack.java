@@ -42,18 +42,15 @@ public class BiteAttack extends ActionAdapter<EntityTigrex> {
 			return DONT_SELECT;
 		return WEIGHT;
 	}
-	
 
 	@Override
 	public void update() {
-		if(this.getCurrentFrame() == 23){
+		if (this.getCurrentFrame() == 23) {
 			getEntity().playSound("mhfc:tigrex-bite", 1.0F, 1.0F);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			EntityTigrex tig = getEntity();
-			Vec3 look = tig.getLookVec();
-			tig.getMoveHelper().setMoveTo(tig.posX + look.xCoord, tig.posY,
-				tig.posZ + look.zCoord, 1);
+			tig.moveForward(1, false);
 		}
 		AIUtils.damageCollidingEntities(getEntity(), damageCalc);
 	}
