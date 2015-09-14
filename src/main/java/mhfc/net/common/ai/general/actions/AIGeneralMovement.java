@@ -27,6 +27,8 @@ public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>>
 	public AIGeneralMovement(
 		MovementActionProvider<EntityT> movementActionProvider) {
 		this.movementProvider = Objects.requireNonNull(movementActionProvider);
+		setAnimation(movementProvider.getAnimationLocation());
+		setLastFrame(movementActionProvider.getAnimationLength());
 	}
 
 	@Override

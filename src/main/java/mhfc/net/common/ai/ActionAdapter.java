@@ -9,13 +9,12 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
-import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.stored.AnimationRegistry;
-
+import com.github.worldsender.mcanm.client.model.util.AnimationLoader;
 import cpw.mods.fml.common.FMLCommonHandler;
 
 public abstract class ActionAdapter<T extends EntityCreature>
-	implements
-		IExecutableAction<T> {
+		implements
+			IExecutableAction<T> {
 	private static final Random rand = new Random();
 
 	private IAnimation animation;
@@ -65,7 +64,7 @@ public abstract class ActionAdapter<T extends EntityCreature>
 	}
 
 	/**
-	 * 
+	 *
 	 * This should be overridden by a subclass if it wants to take actions on
 	 * end of the action
 	 */
@@ -112,12 +111,11 @@ public abstract class ActionAdapter<T extends EntityCreature>
 	}
 
 	protected void setAnimation(ResourceLocation resLoc) {
-		this.animation = AnimationRegistry.loadAnimation(resLoc);
+		this.animation = AnimationLoader.loadAnimation(resLoc);
 	}
 
 	protected void setAnimation(String resLoc) {
-		this.animation = AnimationRegistry.loadAnimation(new ResourceLocation(
-			resLoc));
+		this.animation = AnimationLoader.loadAnimation(resLoc);
 	}
 
 	protected void setLastFrame(int lastFrame) {

@@ -5,7 +5,7 @@ import mhfc.net.common.entity.mob.EntityTigrex;
 
 public class IdleAnim extends ActionAdapter<EntityTigrex> {
 
-	private static final int LAST_FRAME = 70;
+	private static final int LAST_FRAME = 160;
 
 	public IdleAnim() {
 		setLastFrame(LAST_FRAME);

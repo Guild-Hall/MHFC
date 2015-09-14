@@ -1,6 +1,5 @@
 package mhfc.net.common.ai.tigrex;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.general.actions.AIGeneralWander;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.IMoveParameterProvider;
@@ -23,7 +22,7 @@ public class WanderTigrex extends AIGeneralWander<EntityTigrex> {
 	@Override
 	protected void beginExecution() {
 		super.beginExecution();
-		MHFCMain.logger.info("Wander selected");
+		// MHFCMain.logger.info("Wander selected");
 	}
 
 }

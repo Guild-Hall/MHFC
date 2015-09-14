@@ -5,14 +5,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
-import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.stored.AnimationRegistry;
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
+import com.github.worldsender.mcanm.client.model.util.AnimationLoader;
 import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
 
 // This is a really simple test Entity
 public class EntityTest extends EntityLiving implements IAnimatedObject {
 	// Load the animation from the stored file
-	private static IAnimation snap = AnimationRegistry
+	private static IAnimation snap = AnimationLoader
 			.loadAnimation(new ResourceLocation(
 					"mhfc:models/Rathalos/testanim.mhanm"));
 
