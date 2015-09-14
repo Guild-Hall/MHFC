@@ -1,6 +1,6 @@
 package mhfc.net.common.ai;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityLiving;
 
 /**
  * Offers callback methods e.g. when attacks change etc.
@@ -8,7 +8,7 @@ import net.minecraft.entity.EntityLivingBase;
  * @author WorldSEnder
  *
  */
-public interface IManagedActions<T extends EntityLivingBase & IManagedActions<T>> {
+public interface IManagedActions<T extends EntityLiving & IManagedActions<T>> {
 	/**
 	 * When a new attack is being selected.
 	 *

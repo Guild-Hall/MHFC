@@ -15,7 +15,7 @@ public interface IContinuationPredicate<EntityT extends EntityLiving> {
 		@Override
 		public boolean shouldContinueAction(IExecutableAction<EntityT> attack,
 			EntityT actor) {
-			return actor.getAITarget() != null;
+			return actor.getAttackTarget() != null;
 		}
 
 	}
@@ -27,7 +27,7 @@ public interface IContinuationPredicate<EntityT extends EntityLiving> {
 		@Override
 		public boolean shouldContinueAction(IExecutableAction<EntityT> attack,
 			EntityT actor) {
-			return actor.getAITarget() == null;
+			return actor.getAttackTarget() == null;
 		}
 
 	}

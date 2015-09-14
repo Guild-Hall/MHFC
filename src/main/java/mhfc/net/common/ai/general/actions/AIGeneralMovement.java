@@ -24,7 +24,8 @@ public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>>
 
 	protected MovementActionProvider<EntityT> movementProvider;
 
-	public AIGeneralMovement(MovementActionProvider<EntityT> movementActionProvider) {
+	public AIGeneralMovement(
+		MovementActionProvider<EntityT> movementActionProvider) {
 		this.movementProvider = Objects.requireNonNull(movementActionProvider);
 	}
 
@@ -53,7 +54,7 @@ public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>>
 		if (movementProvider.shouldSelectAttack(this, getEntity(), getEntity()
 			.getAttackTarget()))
 			return movementProvider.getWeight(getEntity(), getEntity()
-				.getAITarget());
+				.getAttackTarget());
 		else
 			return DONT_SELECT;
 	}

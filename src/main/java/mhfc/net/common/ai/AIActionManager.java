@@ -8,7 +8,7 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.general.WeightedPick;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.message.MessageAIAttack;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAITasks;
 
@@ -17,7 +17,7 @@ import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class AIActionManager<EntType extends EntityLivingBase & IManagedActions<EntType>>
+public class AIActionManager<EntType extends EntityLiving & IManagedActions<EntType>>
 	extends
 		EntityAIBase implements IActionManager<EntType> {
 

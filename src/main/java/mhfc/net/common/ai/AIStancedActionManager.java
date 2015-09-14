@@ -2,9 +2,9 @@ package mhfc.net.common.ai;
 
 import java.util.Objects;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityLiving;
 
-public class AIStancedActionManager<EntityT extends EntityLivingBase & IStancedManagedActions<EntityT, StanceT>, //
+public class AIStancedActionManager<EntityT extends EntityLiving & IStancedManagedActions<EntityT, StanceT>, //
 StanceT extends Enum<StanceT> & IStancedActionManager.Stance<EntityT, StanceT>>
 	extends
 		AIActionManager<EntityT>

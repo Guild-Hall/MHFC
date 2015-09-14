@@ -9,7 +9,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class MessageAIAttack<T extends EntityLivingBase & IManagedActions<T>>
+public class MessageAIAttack<T extends EntityLiving & IManagedActions<T>>
 	implements
 		IMessage {
 	private int entityId;
@@ -21,8 +21,8 @@ public class MessageAIAttack<T extends EntityLivingBase & IManagedActions<T>>
 
 	public MessageAIAttack(T entity, int attackIndex) {
 		this.entityId = entity.getEntityId();
-		if (entity.getAITarget() != null) {
-			this.targetId = entity.getAITarget().getEntityId();
+		if (entity.getAttackTarget() != null) {
+			this.targetId = entity.getAttackTarget().getEntityId();
 		} else {
 			this.targetId = -1;
 		}
@@ -51,7 +51,7 @@ public class MessageAIAttack<T extends EntityLivingBase & IManagedActions<T>>
 	 */
 	@SuppressWarnings("unchecked")
 	@SideOnly(Side.CLIENT)
-	public <U extends EntityLivingBase & IManagedActions<U>> IManagedActions<U> getEntity() {
+	public <U extends EntityLiving & IManagedActions<U>> IManagedActions<U> getEntity() {
 		return (IManagedActions<U>) Minecraft.getMinecraft().theWorld
 			.getEntityByID(entityId);
 	}

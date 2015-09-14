@@ -1,6 +1,6 @@
 package mhfc.net.common.ai;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityLiving;
 
 /*
  * What is this wtf-ery with types? Basically it makes sure the entity really is
@@ -15,12 +15,12 @@ import net.minecraft.entity.EntityLivingBase;
  * @param <EntityT>
  */
 
-public interface IStancedActionManager<EntityT extends EntityLivingBase & IStancedManagedActions<EntityT, StanceT> & IManagedActions<EntityT>, //
+public interface IStancedActionManager<EntityT extends EntityLiving & IStancedManagedActions<EntityT, StanceT> & IManagedActions<EntityT>, //
 StanceT extends Enum<StanceT> & IStancedActionManager.Stance<EntityT, StanceT>>
 	extends
 		IActionManager<EntityT> {
 
-	public static interface Stance<EntityT extends EntityLivingBase & IStancedManagedActions<EntityT, StanceT> & IManagedActions<EntityT>, //
+	public static interface Stance<EntityT extends EntityLiving & IStancedManagedActions<EntityT, StanceT> & IManagedActions<EntityT>, //
 	StanceT extends Enum<StanceT> & IStancedActionManager.Stance<EntityT, StanceT>> {
 
 		void onAttackStart(IExecutableAction<? super EntityT> attack,
