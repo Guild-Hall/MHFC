@@ -5,16 +5,16 @@ import net.minecraft.entity.EntityLiving;
 
 public interface IContinuationPredicate<EntityT extends EntityLiving> {
 
-	public boolean shouldContinueAction(IExecutableAction<EntityT> attack,
-		EntityT actor);
+	public boolean shouldContinueAction(
+		IExecutableAction<? super EntityT> attack, EntityT actor);
 
 	public static class HasTargetAdapter<EntityT extends EntityLiving>
 		implements
 			IContinuationPredicate<EntityT> {
 
 		@Override
-		public boolean shouldContinueAction(IExecutableAction<EntityT> attack,
-			EntityT actor) {
+		public boolean shouldContinueAction(
+			IExecutableAction<? super EntityT> attack, EntityT actor) {
 			return actor.getAttackTarget() != null;
 		}
 
@@ -25,8 +25,8 @@ public interface IContinuationPredicate<EntityT extends EntityLiving> {
 			IContinuationPredicate<EntityT> {
 
 		@Override
-		public boolean shouldContinueAction(IExecutableAction<EntityT> attack,
-			EntityT actor) {
+		public boolean shouldContinueAction(
+			IExecutableAction<? super EntityT> attack, EntityT actor) {
 			return actor.getAttackTarget() == null;
 		}
 

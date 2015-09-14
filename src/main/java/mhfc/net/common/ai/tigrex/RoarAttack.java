@@ -16,7 +16,7 @@ public class RoarAttack extends AIGeneralRoar<EntityTigrex> {
 	private static IRoarProvider<EntityTigrex> generateProvider() {
 		IAnimationProvider anim = new IAnimationProvider.AnimationAdapter(
 			"mhfc:models/Tigrex/rawr.mcanm", LAST_FRAME);
-		ISelectionPredicate<EntityTigrex> select = new ISelectionPredicate.SelectAlways();
+		ISelectionPredicate<EntityTigrex> select = new ISelectionPredicate.SelectAlways<EntityTigrex>();
 		IWeightProvider<EntityTigrex> weight = new IWeightProvider.RandomWeightAdapter<>(
 			1F);
 		IRoarProvider<EntityTigrex> provide = new AIGeneralRoar.RoarAdapter<>(

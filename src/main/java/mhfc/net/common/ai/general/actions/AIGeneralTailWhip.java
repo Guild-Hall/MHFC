@@ -56,8 +56,9 @@ public class AIGeneralTailWhip<EntityT extends EntityMHFCBase<? super EntityT>>
 		}
 
 		@Override
-		public boolean shouldSelectAttack(IExecutableAction<EntityT> attack,
-			EntityT actor, Entity target) {
+		public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityT> attack, EntityT actor,
+			Entity target) {
 			return predicate.shouldSelectAttack(attack, actor, target);
 		}
 

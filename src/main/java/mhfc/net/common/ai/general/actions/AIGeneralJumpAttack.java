@@ -80,8 +80,9 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 		}
 
 		@Override
-		public boolean shouldSelectAttack(IExecutableAction<EntityT> attack,
-			EntityT actor, Entity target) {
+		public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityT> attack, EntityT actor,
+			Entity target) {
 			return predicate.shouldSelectAttack(attack, actor, target);
 		}
 
@@ -133,7 +134,6 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 	}
 
 	protected IJumpProvider<EntityT> provider;
-	
 
 	public AIGeneralJumpAttack(IJumpProvider<EntityT> provider) {
 		this.provider = provider;
@@ -159,8 +159,6 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 
 		getEntity().getTurnHelper().updateTurnSpeed(provider.getTurnRate());
 	}
-	
-	
 
 	@Override
 	public void update() {

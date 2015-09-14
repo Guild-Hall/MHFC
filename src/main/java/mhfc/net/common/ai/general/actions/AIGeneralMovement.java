@@ -100,14 +100,15 @@ public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>>
 		}
 
 		@Override
-		public boolean shouldSelectAttack(IExecutableAction<EntityT> attack,
-			EntityT actor, Entity target) {
+		public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityT> attack, EntityT actor,
+			Entity target) {
 			return selectionPredicate.shouldSelectAttack(attack, actor, target);
 		}
 
 		@Override
-		public boolean shouldContinueAction(IExecutableAction<EntityT> attack,
-			EntityT actor) {
+		public boolean shouldContinueAction(
+			IExecutableAction<? super EntityT> attack, EntityT actor) {
 			return continuationPredicate.shouldContinueAction(attack, actor);
 		}
 

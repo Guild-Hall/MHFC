@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.eventhandler.ai.ActionSelectionEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -12,19 +11,8 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public interface ISelectionPredicate<EntityT extends EntityLiving> {
 
-	public class SelectAlways implements ISelectionPredicate<EntityTigrex> {
-
-		@Override
-		public boolean shouldSelectAttack(
-			IExecutableAction<EntityTigrex> attack, EntityTigrex actor,
-			Entity target) {
-			return true;
-		}
-
-	}
-
-	public boolean shouldSelectAttack(IExecutableAction<EntityT> attack,
-		EntityT actor, Entity target);
+	public boolean shouldSelectAttack(
+		IExecutableAction<? super EntityT> attack, EntityT actor, Entity target);
 
 	public static class SelectionAdapter<EntityT extends EntityLiving>
 		implements
@@ -44,8 +32,9 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 		}
 
 		@Override
-		public boolean shouldSelectAttack(IExecutableAction<EntityT> attack,
-			EntityT actor, Entity target) {
+		public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityT> attack, EntityT actor,
+			Entity target) {
 			return distanceAdapter.shouldSelectAttack(attack, actor, target)
 				&& angleAdapter.shouldSelectAttack(attack, actor, target);
 		}
@@ -57,11 +46,11 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 
 		private int cooldown;
 		private int cooldownRemaining;
-		private IExecutableAction<EntityT> attack;
-		ISelectionPredicate<EntityT> originalPredicate;
+		private IExecutableAction<? super EntityT> attack;
+		ISelectionPredicate<? super EntityT> originalPredicate;
 
-		public CooldownAdapter(IExecutableAction<EntityT> attack, int cooldown,
-			ISelectionPredicate<EntityT> originalPredicate) {
+		public CooldownAdapter(IExecutableAction<? super EntityT> attack,
+			int cooldown, ISelectionPredicate<EntityT> originalPredicate) {
 			this.attack = Objects.requireNonNull(attack);
 			this.originalPredicate = Objects.requireNonNull(originalPredicate);
 			this.cooldown = cooldown;
@@ -69,8 +58,9 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 		}
 
 		@Override
-		public boolean shouldSelectAttack(IExecutableAction<EntityT> attack,
-			EntityT actor, Entity target) {
+		public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityT> attack, EntityT actor,
+			Entity target) {
 			if (cooldownRemaining > 0)
 				cooldownRemaining--;
 			return cooldownRemaining == 0;
@@ -95,8 +85,9 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 		}
 
 		@Override
-		public boolean shouldSelectAttack(IExecutableAction<EntityT> attack,
-			EntityT actor, Entity target) {
+		public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityT> attack, EntityT actor,
+			Entity target) {
 			if (target == null)
 				return false;
 			double distance = actor.getDistanceToEntity(target);
@@ -116,8 +107,9 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 		}
 
 		@Override
-		public boolean shouldSelectAttack(IExecutableAction<EntityT> attack,
-			EntityT actor, Entity target) {
+		public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityT> attack, EntityT actor,
+			Entity target) {
 			if (target == null)
 				return false;
 			float angle = AIUtils.getViewingAngle(actor, target);
@@ -130,9 +122,47 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 			ISelectionPredicate<EntityT> {
 
 		@Override
-		public boolean shouldSelectAttack(IExecutableAction<EntityT> attack,
-			EntityT actor, Entity target) {
+		public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityT> attack, EntityT actor,
+			Entity target) {
 			return target == null;
 		}
 	}
+
+	public static class SelectAlways<EntityT extends EntityLiving>
+		implements
+			ISelectionPredicate<EntityT> {
+
+		@Override
+		public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityT> attack, EntityT actor,
+			Entity target) {
+			return true;
+		}
+
+	}
+
+	public static class AllOfAdapter<EntityT extends EntityLiving>
+		implements
+			ISelectionPredicate<EntityT> {
+
+		private ISelectionPredicate<EntityT>[] group;
+
+		public AllOfAdapter(ISelectionPredicate<EntityT>[] toFulfil) {
+			group = Objects.requireNonNull(toFulfil);
+		}
+
+		@Override
+		public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityT> attack, EntityT actor,
+			Entity target) {
+			boolean all = true;
+			for (ISelectionPredicate<EntityT> pred : group) {
+				all &= pred.shouldSelectAttack(attack, actor, target);
+			}
+			return all;
+		}
+
+	}
+
 }
