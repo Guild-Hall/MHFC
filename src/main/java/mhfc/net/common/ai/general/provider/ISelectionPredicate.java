@@ -4,12 +4,24 @@ import java.util.Objects;
 
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
+import mhfc.net.common.entity.mob.EntityTigrex;
 import mhfc.net.common.eventhandler.ai.ActionSelectionEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public interface ISelectionPredicate<EntityT extends EntityLiving> {
+
+	public class SelectAlways implements ISelectionPredicate<EntityTigrex> {
+
+		@Override
+		public boolean shouldSelectAttack(
+			IExecutableAction<EntityTigrex> attack, EntityTigrex actor,
+			Entity target) {
+			return true;
+		}
+
+	}
 
 	public boolean shouldSelectAttack(IExecutableAction<EntityT> attack,
 		EntityT actor, Entity target);

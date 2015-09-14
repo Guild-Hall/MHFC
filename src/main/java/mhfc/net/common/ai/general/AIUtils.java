@@ -171,6 +171,8 @@ public class AIUtils {
 		 * not.
 		 */
 		public void reset() {
+			if (calculator == null)
+				return;
 			if (type == Type.MEMORY)
 				((MemoryDamageCalculator) calculator).reset();
 			if (type == Type.UNKNOWN) {

@@ -10,11 +10,12 @@ import net.minecraft.util.ResourceLocation;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
 import com.github.worldsender.mcanm.client.model.util.AnimationLoader;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 
 public abstract class ActionAdapter<T extends EntityCreature>
-		implements
-			IExecutableAction<T> {
+	implements
+		IExecutableAction<T> {
 	private static final Random rand = new Random();
 
 	private IAnimation animation;
@@ -38,6 +39,7 @@ public abstract class ActionAdapter<T extends EntityCreature>
 	public void beginAction() {
 		framesPassed = 0;
 		recentFrame = -1;
+		dmgHelper.reset();
 		FMLCommonHandler.instance().bus().post(
 			new ActionSelectionEvent(this, getEntity()));
 		beginExecution();
