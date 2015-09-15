@@ -11,8 +11,8 @@ import mhfc.net.common.entity.mob.EntityTigrex;
 public class TailWhipTigrex extends AIGeneralTailWhip<EntityTigrex> {
 
 	private static final double MAX_DISTANCE = 7F;
-	private static final double MIN_DIST = 3f;
-	private static final float MIN_RIGHT_ANGLE = 80f;
+	private static final double MIN_DIST = 0f;
+	private static final float MIN_RIGHT_ANGLE = 10f;
 
 	public TailWhipTigrex() {
 		super(generateProvider());

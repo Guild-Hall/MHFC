@@ -7,7 +7,7 @@ import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.Vec3;
 
 public class GroundHurl extends ActionAdapter<EntityTigrex> {
-	private static final float MIN_DIST = 10f;
+	private static final float MIN_DIST = 3f;
 	private static final int LAST_FRAME = 60;
 	private static final int THROW_FRAME = 21;
 	private static final int TURN_FRAMES = 14;
@@ -59,8 +59,6 @@ public class GroundHurl extends ActionAdapter<EntityTigrex> {
 				tigrex.getTurnHelper().updateTurnSpeed(TURN_RATE);
 				tigrex.getTurnHelper().updateTargetPoint(
 					tigrex.getAttackTarget());
-			} else if (getCurrentFrame() == TURN_FRAMES) {
-				tigrex.moveForward(0.2, false);
 			}
 			return;
 		}

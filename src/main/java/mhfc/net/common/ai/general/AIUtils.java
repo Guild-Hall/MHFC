@@ -1,9 +1,6 @@
 package mhfc.net.common.ai.general;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import mhfc.net.common.entity.type.EntityWyvernPeaceful;
@@ -12,6 +9,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 
@@ -228,6 +228,12 @@ public class AIUtils {
 		return new DefDamageCalculator(player, wyvern, rest);
 	}
 
+	public static void stun(EntityLivingBase target) {
+		target
+			.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 80, 10));
+		target.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 80, 10));
+	}
+
 	public static float lookVecToYaw(Vec3 vec) {
 
 		double pitch_rad = -Math.asin(vec.yCoord);
@@ -299,7 +305,7 @@ public class AIUtils {
 		Vec3 lookVector = actor.getLookVec();
 		Vec3 targetVector = WorldHelper.getVectorToTarget(actor, target);
 		float yaw = lookVecToYaw(lookVector);
-		float tarYaw = lookVecToYaw(targetVector);
+		float tarYaw = lookVecToYaw(targetVector.normalize());
 		return normalizeAngle(tarYaw - yaw);
 	}
 
@@ -310,6 +316,32 @@ public class AIUtils {
 		float yaw = lookVecToYaw(lookVector);
 		float tarYaw = lookVecToYaw(targetVector);
 		return normalizeAngle(tarYaw - yaw);
+	}
+
+	public static List<AxisAlignedBB> gatherOverlappingBounds(
+		AxisAlignedBB bounds, Entity entity) {
+
+		int minX = (int) Math.floor(bounds.minX), //
+		maxX = (int) Math.ceil(bounds.maxX);
+		int minY = (int) Math.floor(bounds.minY), //
+		maxY = (int) Math.ceil(bounds.maxY);
+		int minZ = (int) Math.floor(bounds.minZ), //
+		maxZ = (int) Math.ceil(bounds.maxZ);
+
+		List<AxisAlignedBB> list = new ArrayList<AxisAlignedBB>();
+
+		for (int xC = minX; xC <= maxX; xC++) {
+			for (int yC = minY; yC <= maxY; yC++) {
+				for (int zC = minZ; zC <= maxZ; zC++) {
+					entity.worldObj.getBlock(xC, yC, zC)
+						.addCollisionBoxesToList(entity.worldObj, xC, yC, zC,
+							bounds, list, entity);
+				}
+			}
+		}
+
+		return list;
+
 	}
 
 }

@@ -6,6 +6,7 @@ import java.util.Random;
 import mhfc.net.common.ai.AIActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IManagedActions;
+import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.TargetTurnHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -29,19 +30,19 @@ import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
  * covered. Instead of setting {@link Entity#width} and {@link Entity#height}
  * you should set your bounding box correctly in the constructor.
  *
- * @author WorldSEnder
+ * @author WorldSEnder, HeroicKatora
  *
  * @param <YC>
  *            your class, the class of the attacks
  *
  */
 public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
-		extends
-			EntityCreature
-		implements
-			IEntityMultiPart,
-			IAnimatedObject,
-			IManagedActions<YC> {
+	extends
+		EntityCreature
+	implements
+		IEntityMultiPart,
+		IAnimatedObject,
+		IManagedActions<YC> {
 	/**
 	 * {@link #getDataWatcher()}
 	 */
@@ -53,7 +54,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
 		tasks.addTask(0,
-				this.attackManager = new AIActionManager<YC>((YC) this));
+			this.attackManager = new AIActionManager<YC>((YC) this));
 	}
 
 	/**
@@ -90,8 +91,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	public void dropItemRand(ItemStack stack) {
 		Random rand = worldObj.rand;
 		EntityItem entityItem = new EntityItem(this.worldObj, posX
-				+ rand.nextInt(10) - 5, posY + 1.0D, posZ + rand.nextInt(10)
-				- 5, stack);
+			+ rand.nextInt(10) - 5, posY + 1.0D, posZ + rand.nextInt(10) - 5,
+			stack);
 		worldObj.spawnEntityInWorld(entityItem);
 	}
 
@@ -199,8 +200,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 
 			@SuppressWarnings("unchecked")
 			List<AxisAlignedBB> bbsInWay = this.worldObj
-					.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(
-							currOffX, currOffY, currOffZ));
+				.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(
+					currOffX, currOffY, currOffZ));
 			// Calculates the smallest possible offset in Y direction
 			for (AxisAlignedBB bb : bbsInWay) {
 				currOffY = bb.calculateYOffset(this.boundingBox, currOffY);
@@ -214,8 +215,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 			for (EntityMHFCPart part : parts) {
 				@SuppressWarnings("unchecked")
 				List<AxisAlignedBB> bbsInWayPart = this.worldObj
-						.getCollidingBoundingBoxes(this, part.boundingBox
-								.addCoord(currOffX, currOffY, currOffZ));
+					.getCollidingBoundingBoxes(this, part.boundingBox.addCoord(
+						currOffX, currOffY, currOffZ));
 				// Calculates the smallest possible offset in Y direction
 				for (AxisAlignedBB bb : bbsInWayPart) {
 					currOffY = bb.calculateYOffset(part.boundingBox, currOffY);
@@ -229,10 +230,10 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 			}
 			/** If we will are or will land on something */
 			boolean landed = this.onGround
-					|| (correctedOffY != currOffY && correctedOffY < 0.0D);
+				|| (correctedOffY != currOffY && correctedOffY < 0.0D);
 
 			if (this.stepHeight > 0.0F && landed && (this.ySize < 0.125F)
-					&& (correctedOffX != currOffX || correctedOffZ != currOffZ)) {
+				&& (correctedOffX != currOffX || correctedOffZ != currOffZ)) {
 				double nostepOffX = currOffX;
 				double nostepOffY = currOffY;
 				double nostepOffZ = currOffZ;
@@ -243,9 +244,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 
 				@SuppressWarnings("unchecked")
 				List<AxisAlignedBB> bbsInStepup = this.worldObj
-						.getCollidingBoundingBoxes(this, this.boundingBox
-								.addCoord(correctedOffX, currOffY,
-										correctedOffZ));
+					.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(
+						correctedOffX, currOffY, correctedOffZ));
 
 				for (AxisAlignedBB bb : bbsInStepup) {
 					currOffY = bb.calculateYOffset(this.boundingBox, currOffY);
@@ -259,43 +259,43 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 				for (EntityMHFCPart part : parts) {
 					@SuppressWarnings("unchecked")
 					List<AxisAlignedBB> bbsInStepupPart = this.worldObj
-							.getCollidingBoundingBoxes(this, part.boundingBox
-									.addCoord(currOffX, currOffY, currOffZ));
+						.getCollidingBoundingBoxes(this, part.boundingBox
+							.addCoord(currOffX, currOffY, currOffZ));
 					for (AxisAlignedBB bb : bbsInStepupPart) {
 						currOffY = bb.calculateYOffset(part.boundingBox,
-								currOffY);
+							currOffY);
 					}
 					for (AxisAlignedBB bb : bbsInStepupPart) {
 						currOffX = bb.calculateXOffset(part.boundingBox,
-								currOffX);
+							currOffX);
 					}
 					for (AxisAlignedBB bb : bbsInStepupPart) {
 						currOffZ = bb.calculateZOffset(part.boundingBox,
-								currOffZ);
+							currOffZ);
 					}
 				}
 
 				double groundOffY = (-this.stepHeight);
 				for (AxisAlignedBB bb : bbsInStepup) {
-					groundOffY = bb.calculateYOffset(
-							this.boundingBox.getOffsetBoundingBox(currOffX,
-									currOffY, currOffZ), groundOffY);
+					groundOffY = bb.calculateYOffset(this.boundingBox
+						.getOffsetBoundingBox(currOffX, currOffY, currOffZ),
+						groundOffY);
 				}
 				for (EntityMHFCPart part : parts) {
 					@SuppressWarnings("unchecked")
 					List<AxisAlignedBB> bbsInStepDown = this.worldObj
-							.getCollidingBoundingBoxes(this, part.boundingBox
-									.addCoord(currOffX, currOffY, currOffZ));
+						.getCollidingBoundingBoxes(this, part.boundingBox
+							.addCoord(currOffX, currOffY, currOffZ));
 					// Calculates the smallest possible offset in Y direction
 					for (AxisAlignedBB bb : bbsInStepDown) {
 						currOffY = bb.calculateYOffset(part.boundingBox,
-								currOffY);
+							currOffY);
 					}
 				}
 				currOffY += groundOffY;
 
 				if (nostepOffX * nostepOffX + nostepOffY * nostepOffY >= currOffX
-						* currOffX + currOffZ * currOffZ) {
+					* currOffX + currOffZ * currOffZ) {
 					currOffX = nostepOffX;
 					currOffY = nostepOffY;
 					currOffZ = nostepOffZ;
@@ -368,7 +368,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 
 	@Override
 	public boolean attackEntityFromPart(EntityDragonPart part,
-			DamageSource damageSource, float damageValue) {
+		DamageSource damageSource, float damageValue) {
 		// TODO handle attacked from
 		return false;
 	}
@@ -385,12 +385,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 
 	@Override
 	public RenderPassInformation preRenderCallback(float subFrame,
-			RenderPassInformation passInfo) {
+		RenderPassInformation passInfo) {
 		return passInfo.setAnimation(attackManager.getCurrentAnimation())
-				.setFrame(getCurrentFrame()/*
-											 * + subframe //^ See
-											 * #getCurrentFrame()
-											 */);
+			.setFrame(getCurrentFrame()/*
+										 * + subframe //^ See #getCurrentFrame()
+										 */);
 	}
 
 	@Override
@@ -424,8 +423,33 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 		Vec3 view = getLookVec();
 
 		float effectiveSpeed = (float) (movementSpeed * getEntityAttribute(
-				SharedMonsterAttributes.movementSpeed).getAttributeValue());
-		setVelocity(effectiveSpeed * view.xCoord, 0, effectiveSpeed
-				* view.zCoord);
+			SharedMonsterAttributes.movementSpeed).getAttributeValue());
+		Vec3 forwardVector = Vec3.createVectorHelper(view.xCoord
+			* effectiveSpeed, motionY, view.zCoord * effectiveSpeed);
+		boolean jump = false;
+		if (makeStep) {
+			// copy the bounding box
+			AxisAlignedBB bounds = boundingBox.getOffsetBoundingBox(0, 0, 0);
+
+			bounds.offset(forwardVector.xCoord, 0, forwardVector.zCoord);
+			List<?> normalPathCollision = AIUtils.gatherOverlappingBounds(
+				bounds, this);
+
+			bounds.offset(0, stepHeight, 0);
+			List<?> jumpPathCollision = AIUtils.gatherOverlappingBounds(bounds,
+				this);
+
+			if (!normalPathCollision.isEmpty() && jumpPathCollision.isEmpty()) {
+				jump = true;
+			}
+		}
+		if (jump) {
+			this.moveEntity(0, stepHeight + 0.5, 0);
+			this.motionY = 0;
+			this.isAirBorne = true;
+		}
+		setVelocity(forwardVector.xCoord, forwardVector.yCoord,
+			forwardVector.zCoord);
+
 	}
 }
