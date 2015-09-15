@@ -305,7 +305,7 @@ public class AIUtils {
 		Vec3 lookVector = actor.getLookVec();
 		Vec3 targetVector = WorldHelper.getVectorToTarget(actor, target);
 		float yaw = lookVecToYaw(lookVector);
-		float tarYaw = lookVecToYaw(targetVector);
+		float tarYaw = lookVecToYaw(targetVector.normalize());
 		return normalizeAngle(tarYaw - yaw);
 	}
 

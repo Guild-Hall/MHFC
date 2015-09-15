@@ -3,17 +3,16 @@ package mhfc.net.common.ai.general;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.Vec3;
 
 public class TargetTurnHelper {
 
-	private EntityLivingBase entity;
+	private EntityMHFCBase<?> entity;
 	private Vec3 targetPoint;
 	private float maxTurnSpeed;
 	private boolean isUpdating;
 
-	public TargetTurnHelper(EntityLivingBase controlledEntity) {
+	public TargetTurnHelper(EntityMHFCBase<?> controlledEntity) {
 		this.entity = controlledEntity;
 	}
 
@@ -82,6 +81,7 @@ public class TargetTurnHelper {
 			entity.posZ)).subtract(targetPoint);
 		entity.rotationYaw = AIUtils.modifyYaw(entity.getLookVec(), vecToTarget
 			.normalize(), maxTurnSpeed);
+		entity.moveForward(0.01, false);
 	}
 
 }

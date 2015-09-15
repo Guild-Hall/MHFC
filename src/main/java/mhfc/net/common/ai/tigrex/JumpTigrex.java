@@ -20,9 +20,9 @@ public class JumpTigrex extends AIGeneralJumpAttack<EntityTigrex> {
 
 	private static final IDamageCalculator damageCalc = AIUtils
 		.defaultDamageCalc(40f, 62f, 1500f);
-	private static final double MIN_DIST = 3f;
+	private static final double MIN_DIST = 6f;
 	private static final float MAX_ANGLE = 140f;
-	private static final float SELECTION_WEIGHT = 5f;
+	private static final float SELECTION_WEIGHT = 1f;
 
 	public JumpTigrex() {
 		super(generateProvider());

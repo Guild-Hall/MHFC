@@ -162,7 +162,8 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 			return DONT_SELECT;
 		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
 		double dist = toTarget.lengthVector();
-		return (float) Math.log(dist / 5f + 1); // More likely the further away
+		return (float) Math.log(dist / 5f + 1); // More likely the
+												// further away
 	}
 
 	@Override

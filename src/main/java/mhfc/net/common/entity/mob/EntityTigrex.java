@@ -25,9 +25,10 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		super(par1World);
 		height = 2f;
 		width = 3f;
-		stepHeight = 1.5f;
+		stepHeight = 1f;
 
 		attackManager.registerAttack(new TurnAttack(110, 180, 5f, 12f));
+		attackManager.registerAttack(new JumpTigrex());
 		attackManager.registerAttack(new RunAttack());
 		attackManager.registerAttack(new GroundHurl());
 		attackManager.registerAttack(new BiteAttack());
@@ -35,7 +36,6 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		attackManager.registerAttack(new IdleAnim());
 		attackManager.registerAttack(new WanderTigrex());
 		attackManager.registerAttack(new TailWhipTigrex());
-		attackManager.registerAttack(new JumpTigrex());
 
 		// TODO enable this when Popos are a thing again
 		// targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
@@ -82,18 +82,18 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		}
 		dropItemRand(SubTypedItem.fromSubItem(TigrexSubType.SKULLSHELL, 1));
 	}
-	
-	 public RenderPassInformation preRenderCallback(float scale,
-		RenderPassInformation sub){
-		 GL11.glScaled(1.9, 1.9, 1.9);
-		 return super.preRenderCallback(scale, sub);
-		 
-	 }
 
+	@Override
+	public RenderPassInformation preRenderCallback(float scale,
+		RenderPassInformation sub) {
+		GL11.glScaled(1.9, 1.9, 1.9);
+		return super.preRenderCallback(scale, sub);
+
+	}
 
 	@Override
 	protected String getLivingSound() {
-		
+
 		return "mhfc:tigrex-idle";
 	}
 
