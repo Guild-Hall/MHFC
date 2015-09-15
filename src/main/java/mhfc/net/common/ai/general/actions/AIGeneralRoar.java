@@ -6,14 +6,13 @@ import java.util.List;
 
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.ISelectionPredicate;
 import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 
 public class AIGeneralRoar<EntityT extends EntityMHFCBase<? super EntityT>>
 	extends
@@ -96,16 +95,13 @@ public class AIGeneralRoar<EntityT extends EntityMHFCBase<? super EntityT>>
 		@SuppressWarnings("unchecked")
 		List<Entity> list = roaringEntity.worldObj
 			.getEntitiesWithinAABBExcludingEntity(roaringEntity,
-				roaringEntity.boundingBox.expand(16.0D, 8.0D, 16.0D));
+				roaringEntity.boundingBox.expand(4.0D, 3.0D, 4.0D));
 
 		for (Entity affectedEntity : list) {
 			if (!affectedEntities.contains(affectedEntity)
 				&& affectedEntity instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) affectedEntity;
-				player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id,
-					80, 10));
-				player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id,
-					80, 10));
+				AIUtils.stun(player);
 				affectedEntities.add(player);
 			}
 		}

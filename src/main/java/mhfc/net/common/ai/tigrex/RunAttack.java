@@ -12,8 +12,8 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 	private static final int runningStarts = 21;
 	private static final int runningEnds = 60;
 	private static final int attackEnd = 75;
-	private static final float TURN_RATE_INITIAL = 12;
-	private static final float TURN_RATE_DURING_RUN = 2;
+	private static final float TURN_RATE_INITIAL = 10.5f;
+	private static final float TURN_RATE_DURING_RUN = 0.15f;
 	private static final float MAX_RUN_DISTANCE = 40f;
 	private static final int MAX_RUN_FRAMES = 200;
 
@@ -162,7 +162,7 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 			return DONT_SELECT;
 		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
 		double dist = toTarget.lengthVector();
-		return (float) Math.log(dist / 5f + 1); // More likely the farer away
+		return (float) Math.log(dist / 5f + 1); // More likely the further away
 	}
 
 	@Override

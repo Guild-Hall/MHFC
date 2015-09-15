@@ -6,6 +6,7 @@ import java.util.Random;
 import mhfc.net.common.ai.AIActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IManagedActions;
+import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.TargetTurnHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -29,7 +30,7 @@ import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
  * covered. Instead of setting {@link Entity#width} and {@link Entity#height}
  * you should set your bounding box correctly in the constructor.
  *
- * @author WorldSEnder
+ * @author WorldSEnder, HeroicKatora
  *
  * @param <YC>
  *            your class, the class of the attacks
@@ -420,7 +421,32 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 
 		float effectiveSpeed = (float) (movementSpeed * getEntityAttribute(
 			SharedMonsterAttributes.movementSpeed).getAttributeValue());
-		setVelocity(effectiveSpeed * view.xCoord, 0, effectiveSpeed
-			* view.zCoord);
+		Vec3 forwardVector = Vec3.createVectorHelper(view.xCoord
+			* effectiveSpeed, motionY, view.zCoord * effectiveSpeed);
+		boolean jump = false;
+		if (makeStep) {
+			// copy the bounding box
+			AxisAlignedBB bounds = boundingBox.getOffsetBoundingBox(0, 0, 0);
+
+			bounds.offset(forwardVector.xCoord, 0, forwardVector.zCoord);
+			List<?> normalPathCollision = AIUtils.gatherOverlappingBounds(
+				bounds, this);
+
+			bounds.offset(0, stepHeight, 0);
+			List<?> jumpPathCollision = AIUtils.gatherOverlappingBounds(bounds,
+				this);
+
+			if (!normalPathCollision.isEmpty() && jumpPathCollision.isEmpty()) {
+				jump = true;
+			}
+		}
+		if (jump) {
+			this.moveEntity(0, stepHeight + 0.5, 0);
+			this.motionY = 0;
+			this.isAirBorne = true;
+		}
+		setVelocity(forwardVector.xCoord, forwardVector.yCoord,
+			forwardVector.zCoord);
+
 	}
 }

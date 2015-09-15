@@ -249,6 +249,8 @@ public class BlockQuestBoard extends BlockContainer {
 	public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_,
 		int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_,
 		@SuppressWarnings("rawtypes") List p_149743_6_, Entity p_149743_7_) {
+		// CLEANUP remove this as the state does not change during lifetime of
+		// this block
 		this.setBlockBoundsBasedOnState(p_149743_1_, p_149743_2_, p_149743_3_,
 			p_149743_4_);
 		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_,
