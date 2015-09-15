@@ -379,6 +379,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	}
 
 	protected int getCurrentFrame() {
+		// CLEANUP: send only keyframes to reduce server load, assume advanced
 		return this.dataWatcher.getWatchableObjectInt(DATA_FRAME);
 	}
 
@@ -386,7 +387,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	public RenderPassInformation preRenderCallback(float subFrame,
 		RenderPassInformation passInfo) {
 		return passInfo.setAnimation(attackManager.getCurrentAnimation())
-			.setFrame(getCurrentFrame());
+			.setFrame(getCurrentFrame()/*
+										 * + subframe //^ See #getCurrentFrame()
+										 */);
 	}
 
 	@Override
@@ -412,7 +415,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	/**
 	 * Uses the minecraft movement helper to move the mob forward this tick.
 	 * Forward is the direction the mob is facing
-	 * 
+	 *
 	 * @param movementSpeed
 	 *            The speed multiplier to be used
 	 */
