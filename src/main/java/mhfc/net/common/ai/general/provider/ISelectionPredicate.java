@@ -2,6 +2,7 @@ package mhfc.net.common.ai.general.provider;
 
 import java.util.Objects;
 
+import mhfc.net.common.ai.IActionRecorder;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.eventhandler.ai.ActionSelectionEvent;
@@ -161,6 +162,20 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 				all &= pred.shouldSelectAttack(attack, actor, target);
 			}
 			return all;
+		}
+	}
+
+	public static class SpecificLastActionAdapter<EntityT extends EntityLiving & IActionRecorder<? super EntityT>>
+		implements
+			ISelectionPredicate<EntityT> {
+
+		private IExecutableAction<? super EntityT> actionToTrack;
+
+		@Override
+		public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityT> attack, EntityT actor,
+			Entity target) {
+			return actor.getLastAction() == actionToTrack;
 		}
 
 	}

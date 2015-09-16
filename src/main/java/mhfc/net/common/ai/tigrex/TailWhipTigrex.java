@@ -13,6 +13,7 @@ public class TailWhipTigrex extends AIGeneralTailWhip<EntityTigrex> {
 	private static final double MAX_DISTANCE = 7F;
 	private static final double MIN_DIST = 0f;
 	private static final float MIN_RIGHT_ANGLE = 10f;
+	private static final int LAST_FRAME = 70; // CLEANUP exact value here please
 
 	public TailWhipTigrex() {
 		super(generateProvider());
@@ -20,7 +21,7 @@ public class TailWhipTigrex extends AIGeneralTailWhip<EntityTigrex> {
 
 	private static ISpinProvider<EntityTigrex> generateProvider() {
 		IAnimationProvider anim = new IAnimationProvider.AnimationAdapter(
-			"mhfc:models/Tigrex/tailswipe.mcanm", 40);
+			"mhfc:models/Tigrex/tailswipe.mcanm", LAST_FRAME);
 		IDamageProvider dmg = new IDamageProvider.DamageAdapter(AIUtils
 			.defaultDamageCalc(46, 92, 777));
 		IWeightProvider<EntityTigrex> weight = new IWeightProvider.SimpleWeightAdapter<>(

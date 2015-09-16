@@ -171,11 +171,12 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 		} else if (frame == provider.getJumpFrame()) {
 			EntityLivingBase trgt = getEntity().getAttackTarget();
 			float scale = provider.getDistanceScale();
+			float strength = provider.getJumpStrength();
 			if (trgt != null)
 				scale *= getEntity().getDistanceToEntity(trgt);
 			scale = Math.min(provider.getMaxScale(), scale);
-			getEntity().addVelocity(look.xCoord * scale,
-				provider.getJumpStrength(), look.zCoord * scale);
+			getEntity().addVelocity(look.xCoord * scale, strength,
+				look.zCoord * scale);
 		} else {
 			AIUtils.damageCollidingEntities(getEntity(), dmgHelper
 				.getCalculator());

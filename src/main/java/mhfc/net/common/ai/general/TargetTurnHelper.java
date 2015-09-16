@@ -81,7 +81,8 @@ public class TargetTurnHelper {
 			entity.posZ)).subtract(targetPoint);
 		entity.rotationYaw = AIUtils.modifyYaw(entity.getLookVec(), vecToTarget
 			.normalize(), maxTurnSpeed);
-		entity.moveForward(0.01, false);
+		// CLEANUP Figure out a way to send the updates to the client cleanly
+		entity.addVelocity(10e-4, 0, 10e-4);
 	}
 
 }
