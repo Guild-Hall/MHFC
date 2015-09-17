@@ -6,13 +6,9 @@ import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
-import mhfc.net.common.ai.general.provider.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.IDamageProvider;
-import mhfc.net.common.ai.general.provider.ISelectionPredicate;
-import mhfc.net.common.ai.general.provider.IWeightProvider;
+import mhfc.net.common.ai.general.provider.*;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.Vec3;
 
 public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
@@ -24,23 +20,8 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 			IAnimationProvider,
 			ISelectionPredicate<EntityT>,
 			IWeightProvider<EntityT>,
-			IDamageProvider {
-
-		/**
-		 * The velocity scale factor for the distance
-		 */
-		public float getDistanceScale();
-
-		/**
-		 * The maximum scale factor for the distance
-		 */
-		public float getMaxScale();
-
-		/**
-		 * Returns the velocity to add in y direction
-		 */
-		public float getJumpStrength();
-
+			IDamageProvider,
+			IJumpParamterProvider<EntityT> {
 		/**
 		 * Returns the frame at which the monster should perform the jump
 		 */
@@ -56,25 +37,22 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 		private ISelectionPredicate<EntityT> predicate;
 		private IWeightProvider<EntityT> weightProvider;
 		private IDamageProvider damageProvider;
-		private float distanceScale;
-		private float maxScale;
-		private float jumpStrength;
+		private IJumpParamterProvider<EntityT> jumpProvider;
 		private int jumpFrame;
 		private float turnRate;
 
 		public JumpAdapter(IAnimationProvider animProvider,
 			ISelectionPredicate<EntityT> predicate,
 			IWeightProvider<EntityT> weightProvider,
-			IDamageProvider damageProvider, float distanceScale,
-			float maxScale, float jumpStrength, int jumpFrame, float turnRate) {
+			IDamageProvider damageProvider,
+			IJumpParamterProvider<EntityT> jumpProvider, int jumpFrame,
+			float turnRate) {
 			this.animationProvider = Objects.requireNonNull(animProvider);
 			this.predicate = Objects.requireNonNull(predicate);
 			this.weightProvider = Objects.requireNonNull(weightProvider);
 			this.damageProvider = Objects.requireNonNull(damageProvider);
+			this.jumpProvider = Objects.requireNonNull(jumpProvider);
 
-			this.distanceScale = distanceScale;
-			this.maxScale = maxScale;
-			this.jumpStrength = jumpStrength;
 			this.jumpFrame = jumpFrame;
 			this.turnRate = turnRate;
 		}
@@ -87,18 +65,13 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 		}
 
 		@Override
-		public float getDistanceScale() {
-			return distanceScale;
+		public float getInitialUpVelocity(EntityT entity) {
+			return jumpProvider.getInitialUpVelocity(entity);
 		}
 
 		@Override
-		public float getMaxScale() {
-			return maxScale;
-		}
-
-		@Override
-		public float getJumpStrength() {
-			return jumpStrength;
+		public float getForwardVelocity(EntityT entity) {
+			return jumpProvider.getForwardVelocity(entity);
 		}
 
 		@Override
@@ -156,7 +129,6 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
-
 		getEntity().getTurnHelper().updateTurnSpeed(provider.getTurnRate());
 	}
 
@@ -169,14 +141,15 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 			getEntity().getTurnHelper().updateTargetPoint(
 				getEntity().getAttackTarget());
 		} else if (frame == provider.getJumpFrame()) {
-			EntityLivingBase trgt = getEntity().getAttackTarget();
-			float scale = provider.getDistanceScale();
-			float strength = provider.getJumpStrength();
-			if (trgt != null)
-				scale *= getEntity().getDistanceToEntity(trgt);
-			scale = Math.min(provider.getMaxScale(), scale);
-			getEntity().addVelocity(look.xCoord * scale, strength,
-				look.zCoord * scale);
+			EntityT entity = getEntity();
+			float upVelocity = provider.getInitialUpVelocity(entity);
+			float forwardVelocity = provider.getForwardVelocity(entity);
+			upVelocity = Math.min(upVelocity, 20);
+			forwardVelocity = Math.min(forwardVelocity, 100f);
+			entity.motionX = look.xCoord * forwardVelocity;
+			entity.motionY = upVelocity;
+			entity.motionZ = look.zCoord * forwardVelocity;
+			entity.isAirBorne = true;
 		} else {
 			AIUtils.damageCollidingEntities(getEntity(), dmgHelper
 				.getCalculator());
