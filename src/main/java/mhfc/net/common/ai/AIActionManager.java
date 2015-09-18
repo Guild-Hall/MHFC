@@ -18,8 +18,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class AIActionManager<EntType extends EntityLiving & IManagedActions<EntType>>
-	extends
-		EntityAIBase implements IActionManager<EntType> {
+		extends
+			EntityAIBase implements IActionManager<EntType> {
 
 	protected final List<IExecutableAction<? super EntType>> attacks = new ArrayList<IExecutableAction<? super EntType>>();
 	protected IExecutableAction<? super EntType> activeAttack = null;
@@ -35,8 +35,8 @@ public class AIActionManager<EntType extends EntityLiving & IManagedActions<EntT
 	 */
 	@SideOnly(Side.CLIENT)
 	public void setAttack(int index) {
-		swapAttacks(this.activeAttack, index < 0 ? null : this.attacks
-			.get(index));
+		swapAttacks(this.activeAttack,
+				index < 0 ? null : this.attacks.get(index));
 	}
 
 	@Override
@@ -48,18 +48,18 @@ public class AIActionManager<EntType extends EntityLiving & IManagedActions<EntT
 	public boolean shouldExecute() {
 		this.activeAttack = chooseAttack();
 		if (this.activeAttack == null)
-			MHFCMain.logger.info("Did not choose any attack, not executing");
+			MHFCMain.logger.debug("Did not choose any attack, not executing");
 		return this.activeAttack != null;
 	}
 
 	protected void sendUpdate() {
 		if (!this.entity.worldObj.isRemote)
 			PacketPipeline.networkPipe.sendToAll(new MessageAIAttack<EntType>(
-				this.entity, this.attacks.indexOf(activeAttack)));
+					this.entity, this.attacks.indexOf(activeAttack)));
 	}
 
 	protected void swapAttacks(IExecutableAction<? super EntType> oldAttack,
-		IExecutableAction<? super EntType> newAttack) {
+			IExecutableAction<? super EntType> newAttack) {
 		this.entity.onAttackEnd(oldAttack);
 		if (oldAttack != null)
 			oldAttack.finishAction();

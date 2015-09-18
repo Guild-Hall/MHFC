@@ -2,7 +2,6 @@ package mhfc.net.common.ai.deviljho;
 
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.entity.mob.EntityDeviljho;
-import mhfc.net.common.entity.mob.EntityTigrex;
 
 public class DeviljhoIdle extends ActionAdapter<EntityDeviljho> {
 
@@ -10,15 +9,15 @@ public class DeviljhoIdle extends ActionAdapter<EntityDeviljho> {
 
 	public DeviljhoIdle() {
 		setLastFrame(LAST_FRAME);
-		setAnimation("mhfc:models/Deviljho/DeviljhoIdle.mcanm");
+		setAnimation("mhfc:models/Deviljho/idle.mcanm");
 	}
 
 	@Override
 	public float getWeight() {
 		EntityDeviljho deviljho = this.getEntity();
 		target = deviljho.getAttackTarget();
-		if (target != null)
-			return DONT_SELECT;
+		// if (target == null)
+		// return DONT_SELECT;
 		return rng().nextFloat() * 3;
 	}
 
