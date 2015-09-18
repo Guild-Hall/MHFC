@@ -1,30 +1,19 @@
 package mhfc.net.common.ai.tigrex;
 
-import mhfc.net.common.ai.ActionAdapter;
+import mhfc.net.common.ai.general.actions.AIGeneralIdle;
+import mhfc.net.common.ai.general.provider.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.mob.EntityTigrex;
 
-public class IdleAnim extends ActionAdapter<EntityTigrex> {
+public class IdleAnim extends AIGeneralIdle<EntityTigrex> {
 
 	private static final int LAST_FRAME = 160;
+	private static final IAnimationProvider ANIM_PROVIDER = new IAnimationProvider.AnimationAdapter(
+		"mhfc:models/Tigrex/idle.mcanm", LAST_FRAME);
+	private static final IWeightProvider<EntityTigrex> WEIGHT_PROVIDER = new IWeightProvider.RandomWeightAdapter<>(
+		3);
 
 	public IdleAnim() {
-		setLastFrame(LAST_FRAME);
-		setAnimation("mhfc:models/Tigrex/idle.mcanm");
-	}
-
-	@Override
-	public float getWeight() {
-		EntityTigrex tigrex = this.getEntity();
-		target = tigrex.getAttackTarget();
-		if (target != null)
-			return DONT_SELECT;
-		return rng().nextFloat() * 3;
-	}
-
-	@Override
-	public void update() {
-		EntityTigrex tigrex = this.getEntity();
-		tigrex.playLivingSound();
-		// just a copy from roar the update method. nothing else
+		super(ANIM_PROVIDER, WEIGHT_PROVIDER);
 	}
 }

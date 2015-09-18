@@ -387,9 +387,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	public RenderPassInformation preRenderCallback(float subFrame,
 		RenderPassInformation passInfo) {
 		return passInfo.setAnimation(attackManager.getCurrentAnimation())
-			.setFrame(getCurrentFrame()/*
-										 * + subframe //^ See #getCurrentFrame()
-										 */);
+			.setFrame(getCurrentFrame() + subFrame // ^ See #getCurrentFrame()+
+			);
 	}
 
 	@Override
