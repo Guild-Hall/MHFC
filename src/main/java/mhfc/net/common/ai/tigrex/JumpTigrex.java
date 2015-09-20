@@ -34,8 +34,10 @@ public class JumpTigrex extends AIGeneralJumpAttack<EntityTigrex> {
 			SELECTION_WEIGHT);
 		IJumpParamterProvider<EntityTigrex> params = new IJumpParamterProvider.AttackTargetAdapter<>(
 			JUMP_TIME);
+		IJumpTimingProvider<EntityTigrex> timing = new IJumpTimingProvider.JumpTimingAdapter<EntityTigrex>(
+			JUMP_FRAME, TURN_RATE);
 		IJumpProvider<EntityTigrex> jmp = new AIGeneralJumpAttack.JumpAdapter<>(
-			anim, pred, weight, dmg, params, JUMP_FRAME, TURN_RATE);
+			anim, pred, weight, dmg, params, timing);
 		return jmp;
 	}
 }

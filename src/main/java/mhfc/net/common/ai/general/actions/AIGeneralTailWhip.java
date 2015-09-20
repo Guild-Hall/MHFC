@@ -2,7 +2,6 @@ package mhfc.net.common.ai.general.actions;
 
 import java.util.Objects;
 
-import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
@@ -15,13 +14,11 @@ import net.minecraft.entity.Entity;
 
 public class AIGeneralTailWhip<EntityT extends EntityMHFCBase<? super EntityT>>
 	extends
-		ActionAdapter<EntityT> {
+		AIAnimatedAction<EntityT> {
 
 	public static interface ISpinProvider<EntityT extends EntityMHFCBase<? super EntityT>>
 		extends
-			IAnimationProvider,
-			ISelectionPredicate<EntityT>,
-			IWeightProvider<EntityT>,
+			IAnimatedActionProvider<EntityT>,
 			IDamageProvider {
 
 	}
@@ -77,6 +74,7 @@ public class AIGeneralTailWhip<EntityT extends EntityMHFCBase<? super EntityT>>
 	protected ISpinProvider<EntityT> provider;
 
 	public AIGeneralTailWhip(ISpinProvider<EntityT> PROVIDER) {
+		super(PROVIDER);
 		this.provider = PROVIDER;
 		dmgHelper.setDamageCalculator(provider.getDamageCalculator());
 		setAnimation(provider.getAnimationLocation());

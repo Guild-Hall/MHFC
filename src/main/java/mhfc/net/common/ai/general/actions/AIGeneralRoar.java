@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;
@@ -16,13 +15,11 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class AIGeneralRoar<EntityT extends EntityMHFCBase<? super EntityT>>
 	extends
-		ActionAdapter<EntityT> {
+		AIAnimatedAction<EntityT> {
 
 	public static interface IRoarProvider<EntityT extends EntityMHFCBase<? super EntityT>>
 		extends
-			IAnimationProvider,
-			ISelectionPredicate<EntityT>,
-			IWeightProvider<EntityT> {
+			IAnimatedActionProvider<EntityT> {
 
 		public String getRoarSoundLocation();
 
@@ -77,6 +74,7 @@ public class AIGeneralRoar<EntityT extends EntityMHFCBase<? super EntityT>>
 	private IRoarProvider<EntityT> roarProvider;
 
 	public AIGeneralRoar(IRoarProvider<EntityT> provider) {
+		super(provider);
 		setAnimation(provider.getAnimationLocation());
 		setLastFrame(provider.getAnimationLength());
 		affectedEntities = new HashSet<EntityPlayer>();
@@ -106,15 +104,4 @@ public class AIGeneralRoar<EntityT extends EntityMHFCBase<? super EntityT>>
 			}
 		}
 	}
-
-	@Override
-	public float getWeight() {
-		if (roarProvider.shouldSelectAttack(this, getEntity(), getEntity()
-			.getAttackTarget()))
-			return roarProvider.getWeight(getEntity(), getEntity()
-				.getAttackTarget());
-		else
-			return DONT_SELECT;
-	}
-
 }

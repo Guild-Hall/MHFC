@@ -12,25 +12,40 @@ public class AIGeneralWander<EntityT extends EntityMHFCBase<? super EntityT>>
 	extends
 		AIGeneralMovement<EntityT> {
 
+	public static class WanderAdapter<EntityT extends EntityMHFCBase<? super EntityT>>
+		extends
+			MovementActionAdapter<EntityT> {
+
+		private static <EntityT extends EntityMHFCBase<? super EntityT>> ISelectionPredicate<EntityT> SelectionPredicate() {
+			return new ISelectionPredicate.SelectIdleAdapter<EntityT>();
+		}
+
+		private static <EntityT extends EntityMHFCBase<? super EntityT>> IContinuationPredicate<EntityT> ContinuationPredicate() {
+			return new IContinuationPredicate.HasNoTargetAdapter<EntityT>();
+		}
+
+		private static <EntityT extends EntityMHFCBase<? super EntityT>> IMovementProvider<EntityT> MovementProvider(
+			IMoveParameterProvider provider) {
+			IPathProvider<EntityT> pathProvider = new RandomWanderProvider<EntityT>();
+			return new IMovementProvider.TurnThenMoveAdapter<>(pathProvider,
+				provider, 5f);
+		}
+
+		public WanderAdapter(IAnimationProvider animationProvider,
+			IWeightProvider<EntityT> weightProvider,
+			IMoveParameterProvider movementProvider) {
+			super(animationProvider, WanderAdapter
+				.<EntityT> SelectionPredicate(), WanderAdapter
+				.<EntityT> ContinuationPredicate(), weightProvider,
+				WanderAdapter.<EntityT> MovementProvider(movementProvider));
+		}
+	}
+
 	public AIGeneralWander(IAnimationProvider animationProvider,
 		IWeightProvider<EntityT> weightProvider,
 		IMoveParameterProvider parameterProvider) {
-		super(generateProvider(animationProvider, weightProvider,
+		super(new WanderAdapter<EntityT>(animationProvider, weightProvider,
 			parameterProvider));
-	}
-
-	private static <EntityT extends EntityMHFCBase<? super EntityT>> MovementActionProvider<EntityT> generateProvider(
-		IAnimationProvider animationProvider,
-		IWeightProvider<EntityT> weightProvider,
-		IMoveParameterProvider parameterProvider) {
-		ISelectionPredicate<EntityT> selectionPredicate = new ISelectionPredicate.SelectIdleAdapter<>();
-		IContinuationPredicate<EntityT> continuationPredicate = new IContinuationPredicate.HasNoTargetAdapter<>();
-		IPathProvider<EntityT> pathProvider = new RandomWanderProvider<EntityT>();
-		IMovementProvider<EntityT> movementProvider = new IMovementProvider.TurnThenMoveAdapter<EntityT>(
-			pathProvider, parameterProvider, 5f);
-		return new MovementActionAdapter<EntityT>(animationProvider,
-			selectionPredicate, continuationPredicate, weightProvider,
-			movementProvider);
 	}
 
 	public static class RandomWanderProvider<EntityT extends EntityLiving>
