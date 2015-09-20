@@ -7,6 +7,7 @@ import mhfc.net.common.ai.IActionRecorder;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
+import mhfc.net.common.entity.type.IEnragable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +22,8 @@ import com.google.common.collect.Queues;
 
 public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	implements
-		IActionRecorder<EntityNargacuga> {
+		IActionRecorder<EntityNargacuga>,
+		IEnragable {
 
 	public static final int EYES_RECORD_LENGTH = 30;
 	// How many ticks are between each recording of the eyes positions
@@ -31,6 +33,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	private Queue<Vec3> eyesPositionsRight;
 	private Queue<Vec3> eyesPositionsLeft;
 	private int ticksSinceEyesSaved;
+	private boolean enraged;
 
 	public EntityNargacuga(World world) {
 		super(world);
@@ -44,6 +47,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		eyesPositionsLeft = Queues.synchronizedQueue(EvictingQueue
 			.<Vec3> create(EYES_RECORD_LENGTH));
 		ticksSinceEyesSaved = 0;
+		enraged = false;
 	}
 
 	@Override
@@ -113,6 +117,11 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	@Override
 	public IExecutableAction<? super EntityNargacuga> getLastAction() {
 		return recorder.getLastAction();
+	}
+
+	@Override
+	public boolean isEnraged() {
+		return enraged;
 	}
 
 }

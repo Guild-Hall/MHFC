@@ -13,9 +13,9 @@ public class AIGeneralIdle<EntityT extends EntityMHFCBase<? super EntityT>>
 	extends
 		ActionAdapter<EntityT> {
 
-	private IAnimationProvider animation;
-	private IWeightProvider<EntityT> weight;
-	private ISelectionPredicate<EntityT> selectOnIdle;
+	protected IAnimationProvider animation;
+	protected IWeightProvider<EntityT> weight;
+	protected ISelectionPredicate<EntityT> selectOnIdle;
 
 	public AIGeneralIdle(IAnimationProvider animation,
 		IWeightProvider<EntityT> weight) {

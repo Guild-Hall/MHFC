@@ -171,6 +171,11 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 
 		private IExecutableAction<? super EntityT> actionToTrack;
 
+		public SpecificLastActionAdapter(
+			IExecutableAction<? super EntityT> actionToTrack) {
+			this.actionToTrack = actionToTrack;
+		}
+
 		@Override
 		public boolean shouldSelectAttack(
 			IExecutableAction<? super EntityT> attack, EntityT actor,

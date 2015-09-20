@@ -2,7 +2,6 @@ package mhfc.net.common.ai.general.actions;
 
 import java.util.Objects;
 
-import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.provider.*;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -11,14 +10,12 @@ import net.minecraft.util.Vec3;
 
 public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>>
 	extends
-		ActionAdapter<EntityT> {
+		AIAnimatedAction<EntityT> {
 
 	public static interface MovementActionProvider<EntityT extends EntityMHFCBase<? super EntityT>>
 		extends
-			IAnimationProvider,
-			ISelectionPredicate<EntityT>,
+			IAnimatedActionProvider<EntityT>,
 			IContinuationPredicate<EntityT>,
-			IWeightProvider<EntityT>,
 			IMovementProvider<EntityT> {
 	}
 
@@ -26,6 +23,7 @@ public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>>
 
 	public AIGeneralMovement(
 		MovementActionProvider<EntityT> movementActionProvider) {
+		super(movementActionProvider);
 		this.movementProvider = Objects.requireNonNull(movementActionProvider);
 		setAnimation(movementProvider.getAnimationLocation());
 		setLastFrame(movementActionProvider.getAnimationLength());

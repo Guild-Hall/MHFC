@@ -1,9 +1,11 @@
 package mhfc.net.common.ai.general.provider;
 
 import java.security.InvalidParameterException;
+import java.util.Objects;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.Vec3;
 
 public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 
@@ -17,23 +19,23 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 	 */
 	public float getForwardVelocity(EntityT entity);
 
-	/**
-	 * A class that implements the jump parameter aiming to provide a constant
-	 * jump time when jumping towards the enemy with enough speed to land
-	 * directly at his position.
-	 * 
-	 * @param <EntityT>
-	 */
-	public static class AttackTargetAdapter<EntityT extends EntityLiving>
+	public static class ConstantJumpTimeAdapter<EntityT extends EntityLiving>
 		implements
 			IJumpParamterProvider<EntityT> {
+
+		public static interface ITargetResolver<EntityT extends EntityLiving> {
+			Vec3 getJumpTarget(EntityT entity);
+		}
 
 		public static final float GRAVITATIONAL_C_LIVING = 0.08f; // blocks per
 																	// tick^2
 		private float jumpTime;
+		private ITargetResolver<EntityT> targetResolver;
 
-		public AttackTargetAdapter(float jumpTimeInTicks) {
+		public ConstantJumpTimeAdapter(float jumpTimeInTicks,
+			ITargetResolver<EntityT> targetResolver) {
 			this.jumpTime = jumpTimeInTicks;
+			this.targetResolver = Objects.requireNonNull(targetResolver);
 			if (jumpTime <= 0)
 				throw new InvalidParameterException(
 					"Jump time must be bigger than zero");
@@ -41,22 +43,80 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 
 		@Override
 		public float getInitialUpVelocity(EntityT entity) {
-			EntityLivingBase target = entity.getAttackTarget();
-			float velocity = (float) (target.posY - entity.posY) / jumpTime
+			Vec3 target = Objects.requireNonNull(targetResolver
+				.getJumpTarget(entity));
+			float velocity = (float) (target.yCoord - entity.posY) / jumpTime
 				+ GRAVITATIONAL_C_LIVING * jumpTime / 2;
 			return velocity;
 		}
 
 		@Override
 		public float getForwardVelocity(EntityT entity) {
-			float distance = entity.getDistanceToEntity(entity
-				.getAttackTarget());
+			Vec3 target = Objects.requireNonNull(targetResolver
+				.getJumpTarget(entity));
+			float distance = (float) entity.getPosition(1.0f)
+				.distanceTo(target);
 			// CLEANUP why does a multiplication with 3 work so well here??
 			// It should be v = s/t just straight up, not v = s/t*3.....
-			float velocity = distance / jumpTime * 3;
+			float velocity = distance / jumpTime * 3 *
+			// Correct minecraft slowdown
+				(jumpTime * 0.02f) / (1 - (float) Math.pow(0.98, jumpTime));
 			return velocity;
 		}
 
+	}
+
+	public static class AttackPointAdapter<EntityT extends EntityLiving>
+		extends
+			ConstantJumpTimeAdapter<EntityT> {
+
+		private static class ConstPointResolver<EntityT extends EntityLiving>
+			implements
+				ITargetResolver<EntityT> {
+
+			private Vec3 targetPoint;
+
+			public ConstPointResolver(Vec3 target) {
+				this.targetPoint = target;
+			}
+
+			@Override
+			public Vec3 getJumpTarget(EntityT entity) {
+				return this.targetPoint;
+			}
+
+		}
+
+		public AttackPointAdapter(float jumpTimeInTicks, Vec3 targetPoint) {
+			super(jumpTimeInTicks, new ConstPointResolver<EntityT>(targetPoint));
+		}
+
+	}
+
+	/**
+	 * A class that implements the jump parameter aiming to provide a constant
+	 * jump time when jumping towards the enemy with enough speed to land
+	 * directly at his position.
+	 */
+	public static class AttackTargetAdapter<EntityT extends EntityLiving>
+		extends
+			ConstantJumpTimeAdapter<EntityT> {
+
+		public AttackTargetAdapter(float jumpTimeInTicks) {
+			super(jumpTimeInTicks, new ITargetResolver<EntityT>() {
+				@Override
+				public Vec3 getJumpTarget(EntityLiving entity) {
+					EntityLivingBase attackTarget = entity.getAttackTarget();
+					Vec3 target;
+					if (attackTarget != null) {
+						target = attackTarget.getPosition(1.0f);
+					} else {
+						target = entity.getPosition(1.0f);
+					}
+					return target;
+				}
+			});
+		}
 	}
 
 }

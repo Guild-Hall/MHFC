@@ -2,7 +2,6 @@ package mhfc.net.common.ai.general.actions;
 
 import java.util.Objects;
 
-import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
@@ -13,48 +12,79 @@ import net.minecraft.util.Vec3;
 
 public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
 	extends
-		ActionAdapter<EntityT> {
+		AIAnimatedAction<EntityT> {
 
-	public static interface IJumpProvider<EntityT extends EntityMHFCBase<? super EntityT>>
-		extends
-			IAnimationProvider,
-			ISelectionPredicate<EntityT>,
-			IWeightProvider<EntityT>,
-			IDamageProvider,
-			IJumpParamterProvider<EntityT> {
+	public static interface IJumpTimingProvider<EntityT extends EntityMHFCBase<? super EntityT>> {
+
 		/**
 		 * Returns the frame at which the monster should perform the jump
 		 */
-		public int getJumpFrame();
+		public boolean isJumpFrame(EntityT entity, int frame);
 
-		public float getTurnRate();
+		public boolean isDamageFrame(EntityT entity, int frame);
+
+		public float getTurnRate(EntityT entity, int frame);
+
+		public static class JumpTimingAdapter<EntityT extends EntityMHFCBase<? super EntityT>>
+			implements
+				IJumpTimingProvider<EntityT> {
+			private int jumpFrame;
+			private float turnRate;
+
+			public JumpTimingAdapter(int jumpFrame, float turnRate) {
+				this.jumpFrame = jumpFrame;
+				this.turnRate = turnRate;
+			}
+
+			@Override
+			public boolean isJumpFrame(EntityT entity, int frame) {
+				return frame == jumpFrame;
+			}
+
+			@Override
+			public float getTurnRate(EntityT entity, int frame) {
+				return turnRate;
+			}
+
+			@Override
+			public boolean isDamageFrame(EntityT entity, int frame) {
+				return frame > jumpFrame;
+			}
+
+		}
+	}
+
+	public static interface IJumpProvider<EntityT extends EntityMHFCBase<? super EntityT>>
+		extends
+			IAnimatedActionProvider<EntityT>,
+			IDamageProvider,
+			IJumpParamterProvider<EntityT>,
+			IJumpTimingProvider<EntityT> {
+
 	}
 
 	public static class JumpAdapter<EntityT extends EntityMHFCBase<? super EntityT>>
 		implements
 			IJumpProvider<EntityT> {
-		private IAnimationProvider animationProvider;
-		private ISelectionPredicate<EntityT> predicate;
-		private IWeightProvider<EntityT> weightProvider;
-		private IDamageProvider damageProvider;
-		private IJumpParamterProvider<EntityT> jumpProvider;
-		private int jumpFrame;
-		private float turnRate;
+		protected IAnimationProvider animationProvider;
+		protected ISelectionPredicate<EntityT> predicate;
+		protected IWeightProvider<EntityT> weightProvider;
+		protected IDamageProvider damageProvider;
+		protected IJumpParamterProvider<EntityT> jumpProvider;
+		protected IJumpTimingProvider<EntityT> jumpTiming;
 
 		public JumpAdapter(IAnimationProvider animProvider,
 			ISelectionPredicate<EntityT> predicate,
 			IWeightProvider<EntityT> weightProvider,
 			IDamageProvider damageProvider,
-			IJumpParamterProvider<EntityT> jumpProvider, int jumpFrame,
-			float turnRate) {
+			IJumpParamterProvider<EntityT> jumpProvider,
+			IJumpTimingProvider<EntityT> jumpTiming) {
 			this.animationProvider = Objects.requireNonNull(animProvider);
 			this.predicate = Objects.requireNonNull(predicate);
 			this.weightProvider = Objects.requireNonNull(weightProvider);
 			this.damageProvider = Objects.requireNonNull(damageProvider);
 			this.jumpProvider = Objects.requireNonNull(jumpProvider);
-
-			this.jumpFrame = jumpFrame;
-			this.turnRate = turnRate;
+			this.jumpTiming = Objects.requireNonNull(jumpTiming);
 		}
 
 		@Override
@@ -72,16 +102,6 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 		@Override
 		public float getForwardVelocity(EntityT entity) {
 			return jumpProvider.getForwardVelocity(entity);
-		}
-
-		@Override
-		public int getJumpFrame() {
-			return jumpFrame;
-		}
-
-		@Override
-		public float getTurnRate() {
-			return turnRate;
 		}
 
 		@Override
@@ -104,11 +124,27 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 			return damageProvider.getDamageCalculator();
 		}
 
+		@Override
+		public boolean isJumpFrame(EntityT entity, int frame) {
+			return jumpTiming.isJumpFrame(entity, frame);
+		}
+
+		@Override
+		public boolean isDamageFrame(EntityT entity, int frame) {
+			return jumpTiming.isDamageFrame(entity, frame);
+		}
+
+		@Override
+		public float getTurnRate(EntityT entity, int frame) {
+			return jumpTiming.getTurnRate(entity, frame);
+		}
+
 	}
 
 	protected IJumpProvider<EntityT> provider;
 
 	public AIGeneralJumpAttack(IJumpProvider<EntityT> provider) {
+		super(provider);
 		this.provider = provider;
 		dmgHelper.setDamageCalculator(provider.getDamageCalculator());
 		setAnimation(provider.getAnimationLocation());
@@ -129,28 +165,35 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
-		getEntity().getTurnHelper().updateTurnSpeed(provider.getTurnRate());
+		getEntity().getTurnHelper().updateTurnSpeed(
+			provider.getTurnRate(getEntity(), 0));
 	}
 
 	@Override
 	public void update() {
 
-		Vec3 look = getEntity().getLookVec();
+		EntityT entity = getEntity();
+		Vec3 look = entity.getLookVec();
+		Vec3 forward = Vec3.createVectorHelper(look.xCoord, 0, look.yCoord)
+			.normalize();
 		int frame = getCurrentFrame();
-		if (frame < provider.getJumpFrame()) {
-			getEntity().getTurnHelper().updateTargetPoint(
+		float turnRate = provider.getTurnRate(entity, frame);
+		if (turnRate > 0) {
+			entity.getTurnHelper().updateTurnSpeed(turnRate);
+			entity.getTurnHelper().updateTargetPoint(
 				getEntity().getAttackTarget());
-		} else if (frame == provider.getJumpFrame()) {
-			EntityT entity = getEntity();
+		}
+		if (provider.isJumpFrame(entity, frame)) {
 			float upVelocity = provider.getInitialUpVelocity(entity);
 			float forwardVelocity = provider.getForwardVelocity(entity);
 			upVelocity = Math.min(upVelocity, 20);
-			forwardVelocity = Math.min(forwardVelocity, 100f);
-			entity.motionX = look.xCoord * forwardVelocity;
+			forwardVelocity = Math.min(forwardVelocity, 20f);
+			entity.motionX = forward.xCoord * forwardVelocity;
 			entity.motionY = upVelocity;
-			entity.motionZ = look.zCoord * forwardVelocity;
+			entity.motionZ = forward.zCoord * forwardVelocity;
 			entity.isAirBorne = true;
-		} else {
+		}
+		if (provider.isDamageFrame(entity, frame)) {
 			AIUtils.damageCollidingEntities(getEntity(), dmgHelper
 				.getCalculator());
 		}
