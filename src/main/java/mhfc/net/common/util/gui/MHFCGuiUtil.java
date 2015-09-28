@@ -49,7 +49,7 @@ public class MHFCGuiUtil {
 		if (mc == null)
 			throw new IllegalArgumentException(
 				"Gui utils may only be accessed with valid minecraft");
-		s = new ScaledResolution(mc.gameSettings, mc.displayWidth,
+		s = new ScaledResolution(mc, mc.displayWidth,
 			mc.displayHeight);
 	}
 
@@ -59,7 +59,7 @@ public class MHFCGuiUtil {
 	 * space occupied by the draw is calculated and returned. If one attempts to
 	 * draw a null String or with a null renderer, a warning is printed
 	 * (including a stack trace) and 0 is returned.
-	 * 
+	 *
 	 * @return The drawn height of the string. Always line height for valid
 	 *         parameters and width==0
 	 */
@@ -90,7 +90,7 @@ public class MHFCGuiUtil {
 	 * Considers if the draw width would cause Minecraft to crash using the
 	 * given string. This can happen when the first character can't even fit
 	 * into the width.
-	 * 
+	 *
 	 * @return If the font renderer will crash the game with this string and
 	 *         this width
 	 */

@@ -17,6 +17,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class MHFCItemRegistry {
 	// Weapons
+	
+	public static int serverIDchecker;
+	
+	
 	public static final Item weapon_gs_bone;
 	public static final Item weapon_gs_tigrex;
 	public static final Item weapon_gs_kirinthunders;

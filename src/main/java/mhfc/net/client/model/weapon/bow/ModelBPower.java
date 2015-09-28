@@ -153,6 +153,12 @@ public void pullSlow(boolean show) {
 public void pullHard(boolean show) {
 	stringU.showModel = stringL.showModel = spearB.showModel = spearPinB.showModel = show;
 }
+
+@Override
+public int baseAnim(int frame) {
+	// TODO Auto-generated method stub
+	return 0;
+}
   
 
 }

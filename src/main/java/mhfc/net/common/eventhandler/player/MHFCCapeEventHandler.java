@@ -19,10 +19,8 @@ import javax.swing.ImageIcon;
 
 import mhfc.net.MHFCMain;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -116,14 +114,18 @@ public class MHFCCapeEventHandler {
 				BufferedImage bo = new BufferedImage(cape.getWidth(null),
 						cape.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 				bo.getGraphics().drawImage(cape, 0, 0, null);
+				// FIXME: load the capes, check if that is "legal":
+				// @see
+				// https://twitter.com/MojangSupport/status/497365165893902336
+				// https://twitter.com/TheZerotiger/status/497356712668852224/photo/1
 
-				ReflectionHelper.setPrivateValue(ThreadDownloadImageData.class,
-						abstractClientPlayer.getTextureCape(), bo,
-						new String[]{"bufferedImage", "field_110560_d"});
-
-				ReflectionHelper.setPrivateValue(ThreadDownloadImageData.class,
-						abstractClientPlayer.getTextureCape(), false,
-						new String[]{"textureUploaded", "field_110559_g"});
+				// ReflectionHelper.setPrivateValue(ThreadDownloadImageData.class,
+				// abstractClientPlayer.getTextureCape(), bo,
+				// new String[]{"bufferedImage", "field_110560_d"});
+				//
+				// ReflectionHelper.setPrivateValue(ThreadDownloadImageData.class,
+				// abstractClientPlayer.getTextureCape(), false,
+				// new String[]{"textureUploaded", "field_110559_g"});
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			}
