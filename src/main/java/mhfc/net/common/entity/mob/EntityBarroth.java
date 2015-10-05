@@ -23,7 +23,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 		this.height = 4f;
 		this.width = 5f;
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
-		attackManager.registerAttack(new BarrothIdle());
+//		attackManager.registerAttack(new BarrothIdle());
 		//AI
 		//attackManager.registerAttack(new RoarAnim());
 	}
