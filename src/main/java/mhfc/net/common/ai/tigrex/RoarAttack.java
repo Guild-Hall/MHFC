@@ -27,11 +27,11 @@ public class RoarAttack extends AIGeneralRoar<EntityTigrex> {
 	@Override
 	public void update() {
 		super.update();
-		EntityTigrex tigrex = this.getEntity();
-		target = tigrex.getAttackTarget();
+		EntityTigrex entity = this.getEntity();
+		target = entity.getAttackTarget();
 		if (this.getCurrentFrame() >= 18 && this.getCurrentFrame() <= 22) {
-			tigrex.getTurnHelper().updateTargetPoint(target);
-			tigrex.getTurnHelper().updateTurnSpeed(30.0f);
+			entity.getTurnHelper().updateTargetPoint(target);
+			entity.getTurnHelper().updateTurnSpeed(30.0f);
 		}
 	}
 }

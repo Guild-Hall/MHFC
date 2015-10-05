@@ -5,7 +5,7 @@ import mhfc.net.common.entity.mob.EntityDeviljho;
 
 public class DeviljhoIdle extends ActionAdapter<EntityDeviljho> {
 
-	private static final int LAST_FRAME = 160;
+	private static final int LAST_FRAME = 100;
 
 	public DeviljhoIdle() {
 		setLastFrame(LAST_FRAME);

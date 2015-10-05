@@ -5,6 +5,8 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 
 import mhfc.net.common.ai.deviljho.DeviljhoIdle;
+import mhfc.net.common.ai.deviljho.DeviljhoRoar;
+import mhfc.net.common.ai.deviljho.DeviljhoWander;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -20,6 +22,8 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		setSize(4,5);
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 		attackManager.registerAttack(new DeviljhoIdle());
+		attackManager.registerAttack(new DeviljhoRoar());
+	//	attackManager.registerAttack(new DeviljhoWander());
 	}
 
 	@Override
