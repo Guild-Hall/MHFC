@@ -4,9 +4,9 @@ import org.lwjgl.opengl.GL11;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 
-import mhfc.net.common.ai.deviljho.DeviljhoIdle;
-import mhfc.net.common.ai.deviljho.DeviljhoRoar;
-import mhfc.net.common.ai.deviljho.DeviljhoWander;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoIdle;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoRoar;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoWander;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;

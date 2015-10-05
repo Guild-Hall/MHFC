@@ -1,12 +1,12 @@
-package mhfc.net.common.ai.rathalos;
+package mhfc.net.common.ai.entity.nargacuga;
 
 import mhfc.net.common.ai.ActionAdapter;
-import mhfc.net.common.entity.mob.EntityRathalos;
+import mhfc.net.common.entity.mob.EntityNargacuga;
 
-public class TailSpin extends ActionAdapter<EntityRathalos> {
+public class ProwlerStance extends ActionAdapter<EntityNargacuga> {
 
 	@Override
-	public void update() {
+	protected void update() {
 		// TODO Auto-generated method stub
 
 	}

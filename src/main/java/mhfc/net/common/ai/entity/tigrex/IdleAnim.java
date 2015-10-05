@@ -1,4 +1,4 @@
-package mhfc.net.common.ai.tigrex;
+package mhfc.net.common.ai.entity.tigrex;
 
 import mhfc.net.common.ai.general.actions.AIGeneralIdle;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;

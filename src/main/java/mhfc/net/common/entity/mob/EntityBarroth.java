@@ -1,15 +1,16 @@
 package mhfc.net.common.entity.mob;
 
+import org.lwjgl.opengl.GL11;
+
+import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
+
+import mhfc.net.common.ai.entity.barroth.BarrothIdle;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-
-import org.lwjgl.opengl.GL11;
-
-import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 
 public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 
@@ -22,7 +23,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 		this.height = 4f;
 		this.width = 5f;
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
-		
+		attackManager.registerAttack(new BarrothIdle());
 		//AI
 		//attackManager.registerAttack(new RoarAnim());
 	}

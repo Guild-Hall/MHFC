@@ -1,7 +1,14 @@
 package mhfc.net.common.entity.mob;
 
+import mhfc.net.common.ai.entity.tigrex.BiteAttack;
+import mhfc.net.common.ai.entity.tigrex.GroundHurl;
+import mhfc.net.common.ai.entity.tigrex.IdleAnim;
+import mhfc.net.common.ai.entity.tigrex.JumpTigrex;
+import mhfc.net.common.ai.entity.tigrex.RoarAttack;
+import mhfc.net.common.ai.entity.tigrex.RunAttack;
+import mhfc.net.common.ai.entity.tigrex.TailWhipTigrex;
+import mhfc.net.common.ai.entity.tigrex.WanderTigrex;
 import mhfc.net.common.ai.general.TurnAttack;
-import mhfc.net.common.ai.tigrex.*;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.item.materials.ItemTigrex.TigrexSubType;

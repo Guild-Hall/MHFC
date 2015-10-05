@@ -1,12 +1,12 @@
-package mhfc.net.common.ai.nargacuga;
+package mhfc.net.common.ai.entity.rathalos;
 
 import mhfc.net.common.ai.ActionAdapter;
-import mhfc.net.common.entity.mob.EntityNargacuga;
+import mhfc.net.common.entity.mob.EntityRathalos;
 
-public class ProwlerStance extends ActionAdapter<EntityNargacuga> {
+public class FireballAttack extends ActionAdapter<EntityRathalos> {
 
 	@Override
-	protected void update() {
+	public void update() {
 		// TODO Auto-generated method stub
 
 	}

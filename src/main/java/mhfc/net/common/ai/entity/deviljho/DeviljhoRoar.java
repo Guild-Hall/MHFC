@@ -1,4 +1,4 @@
-package mhfc.net.common.ai.deviljho;
+package mhfc.net.common.ai.entity.deviljho;
 
 import mhfc.net.common.ai.general.actions.AIGeneralRoar;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;
