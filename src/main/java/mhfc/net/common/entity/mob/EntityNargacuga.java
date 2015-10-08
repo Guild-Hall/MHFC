@@ -1,10 +1,16 @@
 package mhfc.net.common.entity.mob;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
+import mhfc.net.common.ai.AIFollowUpActionManager;
 import mhfc.net.common.ai.IActionRecorder;
 import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.nargacuga.NargacugaPounce;
+import mhfc.net.common.ai.nargacuga.NargacugaRoar;
+import mhfc.net.common.ai.nargacuga.ProwlerStance;
+import mhfc.net.common.ai.nargacuga.TailSlam;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.entity.type.IEnragable;
@@ -15,7 +21,9 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Matrix4f;
 
+import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation.BoneTransformation;
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 import com.google.common.collect.EvictingQueue;
 import com.google.common.collect.Queues;
@@ -48,6 +56,22 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 			.<Vec3> create(EYES_RECORD_LENGTH));
 		ticksSinceEyesSaved = 0;
 		enraged = false;
+
+		AIFollowUpActionManager<EntityNargacuga> attackManager = new AIFollowUpActionManager<EntityNargacuga>(
+			this);
+		TailSlam tailSlam = new TailSlam();
+		NargacugaRoar roar = new NargacugaRoar();
+		ProwlerStance prowler = new ProwlerStance();
+		NargacugaPounce pounce = NargacugaPounce.createNargaPounce();
+
+		List<IExecutableAction<? super EntityNargacuga>> prowlerFollow = new ArrayList<IExecutableAction<? super EntityNargacuga>>();
+		prowlerFollow.add(pounce);
+
+		attackManager.registerAttack(tailSlam);
+		attackManager.registerAttack(roar);
+		attackManager.registerAttack(prowler, prowlerFollow);
+		setAIActionManager(attackManager);
+
 	}
 
 	@Override
@@ -77,13 +101,25 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		return super.preRenderCallback(scale, sub);
 	}
 
+	private Vec3 getRelativePositionOfBone(String name) {
+		int frame = getCurrentFrame();
+		BoneTransformation boneTrans = getAttackManager().getCurrentAnimation()
+			.getCurrentTransformation(name, frame);
+		Matrix4f transform = boneTrans.asMatrix();
+
+		Vec3 relativePosition = Vec3.createVectorHelper(transform.m03,
+			transform.m13, transform.m23);
+		return relativePosition;
+	}
+
 	private Vec3 getPositionLeftEye() {
-		// FIXME use bones that should exist at the eyes positions for this
-		return Vec3.createVectorHelper(posX, posY, posZ);
+		Vec3 relativePosition = getRelativePositionOfBone("Eye.L");
+		return relativePosition.addVector(posX, posY, posZ);
 	}
 
 	private Vec3 getPositionRightEye() {
-		return Vec3.createVectorHelper(posX, posY, posZ);
+		Vec3 relativePosition = getRelativePositionOfBone("Eye.R");
+		return relativePosition.addVector(posX, posY, posZ);
 	}
 
 	public Queue<Vec3> getEyesPositionsRight() {

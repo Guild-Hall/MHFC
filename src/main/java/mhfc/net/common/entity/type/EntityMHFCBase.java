@@ -1,6 +1,7 @@
 package mhfc.net.common.entity.type;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import mhfc.net.common.ai.AIActionManager;
@@ -47,14 +48,15 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	 * {@link #getDataWatcher()}
 	 */
 	protected static final int DATA_FRAME = 12;
-	protected final AIActionManager<YC> attackManager;
 	private final TargetTurnHelper turnHelper;
+	private AIActionManager<YC> attackManager;
 
+	@SuppressWarnings("unchecked")
 	public EntityMHFCBase(World world) {
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
-		tasks.addTask(0,
-			this.attackManager = new AIActionManager<YC>((YC) this));
+		attackManager = new AIActionManager<YC>((YC) this);
+		tasks.addTask(0, attackManager);
 	}
 
 	/**
@@ -348,6 +350,17 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	@Override
 	protected boolean isAIEnabled() {
 		return true;
+	}
+
+	protected AIActionManager<YC> getAIActionManager() {
+		return this.attackManager;
+	}
+
+	protected void setAIActionManager(AIActionManager<YC> newManager) {
+		Objects.requireNonNull(newManager);
+		tasks.removeTask(this.attackManager);
+		this.attackManager = newManager;
+		tasks.addTask(0, newManager);
 	}
 
 	@Override

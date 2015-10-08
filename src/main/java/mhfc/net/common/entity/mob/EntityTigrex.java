@@ -1,5 +1,6 @@
 package mhfc.net.common.entity.mob;
 
+import mhfc.net.common.ai.AIActionManager;
 import mhfc.net.common.ai.general.TurnAttack;
 import mhfc.net.common.ai.tigrex.*;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -26,6 +27,8 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		height = 2f;
 		width = 3f;
 		stepHeight = 1f;
+
+		AIActionManager<EntityTigrex> attackManager = getAIActionManager();
 
 		attackManager.registerAttack(new TurnAttack(110, 180, 5f, 12f));
 		attackManager.registerAttack(new JumpTigrex());

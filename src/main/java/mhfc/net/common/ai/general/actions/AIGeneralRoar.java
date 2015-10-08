@@ -16,12 +16,28 @@ import net.minecraft.entity.player.EntityPlayer;
 public class AIGeneralRoar<EntityT extends EntityMHFCBase<? super EntityT>>
 	extends
 		AIAnimatedAction<EntityT> {
+	public static interface IRoarSoundProvider {
+		public String getRoarSoundLocation();
+
+		public static class RoarSoundAdapter implements IRoarSoundProvider {
+			private String soundLocation;
+
+			public RoarSoundAdapter(String soundLocation) {
+				this.soundLocation = soundLocation;
+			}
+
+			@Override
+			public String getRoarSoundLocation() {
+				return soundLocation;
+			}
+
+		}
+	}
 
 	public static interface IRoarProvider<EntityT extends EntityMHFCBase<? super EntityT>>
 		extends
-			IAnimatedActionProvider<EntityT> {
-
-		public String getRoarSoundLocation();
+			IAnimatedActionProvider<EntityT>,
+			IRoarSoundProvider {
 
 	}
 
@@ -31,15 +47,15 @@ public class AIGeneralRoar<EntityT extends EntityMHFCBase<? super EntityT>>
 		private IAnimationProvider animationProvider;
 		private ISelectionPredicate<EntityT> selectionProvider;
 		private IWeightProvider<EntityT> weightProvider;
-		private String roarSoundFileLocation;
+		private IRoarSoundProvider roarSoundProvider;
 
 		public RoarAdapter(IAnimationProvider animation,
 			ISelectionPredicate<EntityT> selection,
-			IWeightProvider<EntityT> weight, String roarSoundFile) {
+			IWeightProvider<EntityT> weight, IRoarSoundProvider roarSoundFile) {
 			animationProvider = animation;
 			selectionProvider = selection;
 			weightProvider = weight;
-			roarSoundFileLocation = roarSoundFile;
+			roarSoundProvider = roarSoundFile;
 		}
 
 		@Override
@@ -66,7 +82,7 @@ public class AIGeneralRoar<EntityT extends EntityMHFCBase<? super EntityT>>
 
 		@Override
 		public String getRoarSoundLocation() {
-			return roarSoundFileLocation;
+			return roarSoundProvider.getRoarSoundLocation();
 		}
 	}
 

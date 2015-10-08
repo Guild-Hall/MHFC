@@ -31,11 +31,10 @@ public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> 
 
 	}
 
-	public static NargacugaPounce createNargaPounce(ProwlerStance prowler) {
+	public static NargacugaPounce createNargaPounce() {
 		IAnimationProvider animation = new IAnimationProvider.AnimationAdapter(
 			"", 5); // We provide it dynamically
-		ISelectionPredicate<EntityNargacuga> select = new ISelectionPredicate.SpecificLastActionAdapter<EntityNargacuga>(
-			prowler);
+		ISelectionPredicate<EntityNargacuga> select = new ISelectionPredicate.SelectAlways<>();
 		IDamageProvider damage = new IDamageProvider.DamageAdapter(
 			dmgCalculator);
 		NargaJumpAdapter adapter = new NargaJumpAdapter(animation, select,

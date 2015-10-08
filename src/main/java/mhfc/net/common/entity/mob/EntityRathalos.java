@@ -62,22 +62,22 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 
 	}
 
-	private final AIStancedActionManager<EntityRathalos, Stances> attackManager;
+	private final AIStancedActionManager<EntityRathalos, Stances> stancedAttackManager;
 	private int confusedAttacks;
 
 	public EntityRathalos(World world) {
 		super(world);
-		tasks.removeTask(super.attackManager);
-		this.attackManager = new AIStancedActionManager<EntityRathalos, Stances>(
+		AIStancedActionManager<EntityRathalos, Stances> stancedAttackManager = new AIStancedActionManager<EntityRathalos, Stances>(
 			this, Stances.GROUND);
-		attackManager.registerAttack(new BiteAttack());
-		attackManager.registerAttack(new ChargeAttack());
-		attackManager.registerAttack(new FireballAttack());
-		attackManager.registerAttack(new FlyStart());
-		attackManager.registerAttack(new JumpFireball());
-		attackManager.registerAttack(new TailSpin());
-		attackManager.registerAttack(new FlyLand());
-		tasks.addTask(0, attackManager);
+		stancedAttackManager.registerAttack(new BiteAttack());
+		stancedAttackManager.registerAttack(new ChargeAttack());
+		stancedAttackManager.registerAttack(new FireballAttack());
+		stancedAttackManager.registerAttack(new FlyStart());
+		stancedAttackManager.registerAttack(new JumpFireball());
+		stancedAttackManager.registerAttack(new TailSpin());
+		stancedAttackManager.registerAttack(new FlyLand());
+		setAIActionManager(stancedAttackManager);
+		this.stancedAttackManager = stancedAttackManager;
 	}
 
 	@Override
@@ -97,13 +97,13 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 
 	@Override
 	public AIStancedActionManager<EntityRathalos, Stances> getAttackManager() {
-		return attackManager;
+		return stancedAttackManager;
 	}
 
 	@Override
 	public void confuse() {
 		confusedAttacks = 0;
-		attackManager.setNextStance(Stances.BLINDED);
+		stancedAttackManager.setNextStance(Stances.BLINDED);
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	@Override
 	protected void updateFallState(double par1, boolean par3) {
 
-		if (attackManager.getCurrentStance() == Stances.FLYING) {
+		if (stancedAttackManager.getCurrentStance() == Stances.FLYING) {
 			this.motionY = 0;
 			this.fallDistance = 0;
 			par1 = 0;

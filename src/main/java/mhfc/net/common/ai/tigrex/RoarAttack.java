@@ -19,8 +19,10 @@ public class RoarAttack extends AIGeneralRoar<EntityTigrex> {
 		ISelectionPredicate<EntityTigrex> select = new ISelectionPredicate.SelectAlways<EntityTigrex>();
 		IWeightProvider<EntityTigrex> weight = new IWeightProvider.RandomWeightAdapter<>(
 			1F);
+		IRoarSoundProvider roar = new IRoarSoundProvider.RoarSoundAdapter(
+			"mhfc:tigrex-roar");
 		IRoarProvider<EntityTigrex> provide = new AIGeneralRoar.RoarAdapter<>(
-			anim, select, weight, "mhfc:tigrex-roar");
+			anim, select, weight, roar);
 		return provide;
 	}
 
