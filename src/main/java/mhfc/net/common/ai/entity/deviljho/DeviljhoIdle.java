@@ -1,11 +1,11 @@
-package mhfc.net.common.ai.deviljho;
+package mhfc.net.common.ai.entity.deviljho;
 
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.entity.mob.EntityDeviljho;
 
 public class DeviljhoIdle extends ActionAdapter<EntityDeviljho> {
 
-	private static final int LAST_FRAME = 160;
+	private static final int LAST_FRAME = 100;
 
 	public DeviljhoIdle() {
 		setLastFrame(LAST_FRAME);
@@ -14,8 +14,8 @@ public class DeviljhoIdle extends ActionAdapter<EntityDeviljho> {
 
 	@Override
 	public float getWeight() {
-		EntityDeviljho deviljho = this.getEntity();
-		target = deviljho.getAttackTarget();
+		EntityDeviljho entity = this.getEntity();
+		target = entity.getAttackTarget();
 		// if (target == null)
 		// return DONT_SELECT;
 		return rng().nextFloat() * 3;
@@ -23,8 +23,8 @@ public class DeviljhoIdle extends ActionAdapter<EntityDeviljho> {
 
 	@Override
 	public void update() {
-		EntityDeviljho deviljho = this.getEntity();
-		deviljho.playLivingSound();
+		EntityDeviljho entity = this.getEntity();
+		entity.playLivingSound();
 		// just a copy from roar the update method. nothing else
 	}
 }

@@ -1,4 +1,4 @@
-package mhfc.net.common.ai.nargacuga;
+package mhfc.net.common.ai.entity.nargacuga;
 
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;

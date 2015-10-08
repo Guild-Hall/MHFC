@@ -1,4 +1,4 @@
-package mhfc.net.common.ai.rathalos;
+package mhfc.net.common.ai.entity.rathalos;
 
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.entity.mob.EntityRathalos;

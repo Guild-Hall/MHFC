@@ -1,8 +1,8 @@
 package mhfc.net.common.entity.mob;
 
 import mhfc.net.common.ai.AIActionManager;
+import mhfc.net.common.ai.entity.tigrex.*;
 import mhfc.net.common.ai.general.TurnAttack;
-import mhfc.net.common.ai.tigrex.*;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.item.materials.ItemTigrex.TigrexSubType;

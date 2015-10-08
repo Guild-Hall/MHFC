@@ -1,7 +1,7 @@
 package mhfc.net.common.entity.mob;
 
 import mhfc.net.common.ai.AIActionManager;
-import mhfc.net.common.ai.deviljho.DeviljhoIdle;
+import mhfc.net.common.ai.entity.deviljho.*;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -23,6 +23,11 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 
 		AIActionManager<EntityDeviljho> attackManager = getAIActionManager();
 		attackManager.registerAttack(new DeviljhoIdle());
+		attackManager.registerAttack(new DeviljhoRoar());
+		attackManager.registerAttack(new DeviljhoBiteA());
+		attackManager.registerAttack(new DeviljhoBiteB());
+		attackManager.registerAttack(new DeviljhoTailWhip());
+		// attackManager.registerAttack(new DeviljhoWander());
 	}
 
 	@Override
