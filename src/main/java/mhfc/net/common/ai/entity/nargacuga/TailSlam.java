@@ -4,7 +4,7 @@ import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
 import mhfc.net.common.ai.general.provider.*;
-import mhfc.net.common.ai.general.provider.IJumpParamterProvider.ConstantJumpTimeAdapter.ITargetResolver;
+import mhfc.net.common.ai.general.provider.IJumpParamterProvider.ConstantAirTimeAdapter.ITargetResolver;
 import mhfc.net.common.entity.mob.EntityNargacuga;
 import net.minecraft.util.Vec3;
 
@@ -33,7 +33,7 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 	private static IJumpProvider<EntityNargacuga> generateProvider() {
 		IDamageProvider damage = new IDamageProvider.DamageAdapter(
 			damageCalculator);
-		IJumpParamterProvider<EntityNargacuga> jumpParams = new IJumpParamterProvider.ConstantJumpTimeAdapter<>(
+		IJumpParamterProvider<EntityNargacuga> jumpParams = new IJumpParamterProvider.ConstantAirTimeAdapter<>(
 			JUMP_TIME, new ITargetResolver<EntityNargacuga>() {
 				@Override
 				public Vec3 getJumpTarget(EntityNargacuga entity) {
@@ -54,5 +54,6 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 		EntityNargacuga nargacuga = getEntity();
 		nargacuga.rotationYaw = AIUtils
 			.normalizeAngle(nargacuga.rotationYaw + 180);
+		nargacuga.addVelocity(10e-4, 0, 10e-4);
 	}
 }

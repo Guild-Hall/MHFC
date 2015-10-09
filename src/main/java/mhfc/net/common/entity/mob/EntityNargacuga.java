@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
 
+import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
 import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation.BoneTransformation;
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 import com.google.common.collect.EvictingQueue;
@@ -103,10 +104,15 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 
 	private Vec3 getRelativePositionOfBone(String name) {
 		int frame = getCurrentFrame();
-		BoneTransformation boneTrans = getAttackManager().getCurrentAnimation()
-			.getCurrentTransformation(name, frame);
+		IAnimation animation = getAttackManager().getCurrentAnimation();
+		if (animation == null)
+			return Vec3.createVectorHelper(0, 0, 0);
+		BoneTransformation boneTrans = animation.getCurrentTransformation(name,
+			frame);
+		// FIXME find out why the bones give null pointers and fix thise
+		if (boneTrans == null)
+			return Vec3.createVectorHelper(0, 0, 0);
 		Matrix4f transform = boneTrans.asMatrix();
-
 		Vec3 relativePosition = Vec3.createVectorHelper(transform.m03,
 			transform.m13, transform.m23);
 		return relativePosition;

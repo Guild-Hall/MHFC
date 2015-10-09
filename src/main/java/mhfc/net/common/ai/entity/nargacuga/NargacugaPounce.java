@@ -1,15 +1,20 @@
 package mhfc.net.common.ai.entity.nargacuga;
 
+import java.util.Objects;
+
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
 import mhfc.net.common.ai.general.provider.*;
+import mhfc.net.common.ai.general.provider.IJumpParamterProvider.AttackTargetAdapter;
 import mhfc.net.common.entity.mob.EntityNargacuga;
 
 public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> {
 
 	private static final int TURN_SLOW = 2;
 	private static final int TURN_FAST = 10;
+
+	private static final float WEIGHT = 3.0f;
 
 	private static final IDamageCalculator dmgCalculator = AIUtils
 		.defaultDamageCalc(28, 300, 5000);
@@ -19,14 +24,18 @@ public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> 
 		public NargaJumpAdapter(IAnimationProvider animProvider,
 			ISelectionPredicate<EntityNargacuga> predicate,
 			IWeightProvider<EntityNargacuga> weightProvider,
-			IDamageProvider damageProvider,
-			IJumpParamterProvider<EntityNargacuga> jumpProvider) {
+			IDamageProvider damageProvider) {
 			super(animProvider, predicate, weightProvider, damageProvider,
-				jumpProvider, new JumpTimingAdapter<EntityNargacuga>(0, 0));
+				new IJumpParamterProvider.AttackTargetAdapter<EntityNargacuga>(
+					1.0f), new JumpTimingAdapter<EntityNargacuga>(0, 0));
 		}
 
-		public void setDynamicTimingAdapter(NargaJumpTiming params) {
-			this.jumpTiming = params;
+		public void setDynamicTimingAdapter(NargaJumpTiming timing) {
+			this.jumpTiming = Objects.requireNonNull(timing);
+		}
+
+		public void setDynamicJumpParameterAdapter(NargaJumpParameter param) {
+			this.jumpProvider = Objects.requireNonNull(param);
 		}
 
 	}
@@ -35,12 +44,15 @@ public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> 
 		IAnimationProvider animation = new IAnimationProvider.AnimationAdapter(
 			"", 5); // We provide it dynamically
 		ISelectionPredicate<EntityNargacuga> select = new ISelectionPredicate.SelectAlways<>();
+		IWeightProvider<EntityNargacuga> weight = new IWeightProvider.SimpleWeightAdapter<>(
+			WEIGHT);
 		IDamageProvider damage = new IDamageProvider.DamageAdapter(
 			dmgCalculator);
 		NargaJumpAdapter adapter = new NargaJumpAdapter(animation, select,
-			null, damage, null);
+			weight, damage);
 		NargacugaPounce pounce = new NargacugaPounce(adapter);
 		adapter.setDynamicTimingAdapter(pounce.new NargaJumpTiming());
+		adapter.setDynamicJumpParameterAdapter(pounce.new NargaJumpParameter());
 		return pounce;
 
 	}
@@ -62,6 +74,33 @@ public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> 
 		@Override
 		public float getTurnRate(EntityNargacuga entity, int frame) {
 			return variation.getTurnRate(entity, frame);
+		}
+
+	}
+
+	private class NargaJumpParameter
+		extends
+			AttackTargetAdapter<EntityNargacuga> {
+
+		public NargaJumpParameter() {
+			super(1.0f);
+		}
+
+		private void updateAirTime() {
+			this.airTime = NargacugaPounce.this.variation
+				.getAirTime(NargacugaPounce.this.getCurrentFrame());
+		}
+
+		@Override
+		public float getForwardVelocity(EntityNargacuga entity) {
+			updateAirTime();
+			return super.getForwardVelocity(entity);
+		}
+
+		@Override
+		public float getInitialUpVelocity(EntityNargacuga entity) {
+			updateAirTime();
+			return super.getInitialUpVelocity(entity);
 		}
 
 	}
@@ -100,6 +139,11 @@ public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> 
 				return "mhfc:models/Nargacuga/Pounce.mcanm";
 			}
 
+			@Override
+			public int getAirTime(int frame) {
+				return JUMP_TIME;
+			}
+
 		},
 		ThreeJumps() {
 			@Override
@@ -124,6 +168,12 @@ public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> 
 			public String getAnimation() {
 				// TODO Auto-generated method stub
 				return null;
+			}
+
+			@Override
+			public int getAirTime(int frame) {
+				// TODO Auto-generated method stub
+				return 0;
 			}
 		},
 		FourJumps() {
@@ -150,9 +200,20 @@ public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> 
 				// TODO Auto-generated method stub
 				return null;
 			}
+
+			@Override
+			public int getAirTime(int frame) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
 		};
 
 		public abstract String getAnimation();
+
+		/**
+		 * Gets the air time for the next jump that occurs after the frame given
+		 */
+		public abstract int getAirTime(int frame);
 
 	}
 
@@ -177,6 +238,7 @@ public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> 
 	public void beginExecution() {
 		super.beginExecution();
 		chooseAttackIterations();
+		setToNextFrame(17);
 	}
 
 }

@@ -19,7 +19,7 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 	 */
 	public float getForwardVelocity(EntityT entity);
 
-	public static class ConstantJumpTimeAdapter<EntityT extends EntityLiving>
+	public static class ConstantAirTimeAdapter<EntityT extends EntityLiving>
 		implements
 			IJumpParamterProvider<EntityT> {
 
@@ -29,14 +29,14 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 
 		public static final float GRAVITATIONAL_C_LIVING = 0.08f; // blocks per
 																	// tick^2
-		private float jumpTime;
+		protected float airTime;
 		private ITargetResolver<EntityT> targetResolver;
 
-		public ConstantJumpTimeAdapter(float jumpTimeInTicks,
+		public ConstantAirTimeAdapter(float jumpAirTimeInTicks,
 			ITargetResolver<EntityT> targetResolver) {
-			this.jumpTime = jumpTimeInTicks;
+			this.airTime = jumpAirTimeInTicks;
 			this.targetResolver = Objects.requireNonNull(targetResolver);
-			if (jumpTime <= 0)
+			if (airTime <= 0)
 				throw new InvalidParameterException(
 					"Jump time must be bigger than zero");
 		}
@@ -45,8 +45,8 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 		public float getInitialUpVelocity(EntityT entity) {
 			Vec3 target = Objects.requireNonNull(targetResolver
 				.getJumpTarget(entity));
-			float velocity = (float) (target.yCoord - entity.posY) / jumpTime
-				+ GRAVITATIONAL_C_LIVING * jumpTime / 2;
+			float velocity = (float) (target.yCoord - entity.posY) / airTime
+				+ GRAVITATIONAL_C_LIVING * airTime / 2;
 			return velocity;
 		}
 
@@ -58,9 +58,9 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 				.distanceTo(target);
 			// CLEANUP why does a multiplication with 3 work so well here??
 			// It should be v = s/t just straight up, not v = s/t*3.....
-			float velocity = distance / jumpTime * 3 *
+			float velocity = distance / airTime * 3 *
 			// Correct minecraft slowdown
-				(jumpTime * 0.02f) / (1 - (float) Math.pow(0.98, jumpTime));
+				(airTime * 0.02f) / (1 - (float) Math.pow(0.98, airTime));
 			return velocity;
 		}
 
@@ -68,7 +68,7 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 
 	public static class AttackPointAdapter<EntityT extends EntityLiving>
 		extends
-			ConstantJumpTimeAdapter<EntityT> {
+			ConstantAirTimeAdapter<EntityT> {
 
 		private static class ConstPointResolver<EntityT extends EntityLiving>
 			implements
@@ -100,7 +100,7 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 	 */
 	public static class AttackTargetAdapter<EntityT extends EntityLiving>
 		extends
-			ConstantJumpTimeAdapter<EntityT> {
+			ConstantAirTimeAdapter<EntityT> {
 
 		public AttackTargetAdapter(float jumpTimeInTicks) {
 			super(jumpTimeInTicks, new ITargetResolver<EntityT>() {
