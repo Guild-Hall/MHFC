@@ -49,7 +49,7 @@ public class MHFCMain {
 		logger = pre.getModLog();
 		config = new MHFCConfig(pre);
 		config.init();
-		UpdateSystem.init(MHFCReference.main_version);
+		UpdateSystem.init();
 		logger.info("Starting MHFC" + MHFCReference.main_version);
 		logger.info("Copyright (c) Guild Hall 2015");
 		isPreInitialized = true;

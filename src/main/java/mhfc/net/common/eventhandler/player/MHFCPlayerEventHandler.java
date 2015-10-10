@@ -2,45 +2,69 @@ package mhfc.net.common.eventhandler.player;
 
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.system.UpdateSystem;
-import net.minecraft.entity.player.EntityPlayer;
+import mhfc.net.common.system.UpdateSystem.UpdateInfo;
+import net.minecraft.client.Minecraft;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public class MHFCPlayerEventHandler {
 	public static final MHFCPlayerEventHandler instance = new MHFCPlayerEventHandler();
 
-	private boolean hasSeen = false;
+	@SuppressWarnings("static-method")
+	// Event Handlers can't be static
 	@SubscribeEvent
-	public void onPlayerLogin(PlayerLoggedInEvent e) {
-		EntityPlayer player = e.player;
-		if (player.worldObj.isRemote || hasSeen)
-			return;
-
-		if (UpdateSystem.isUpdateAvailable() == UpdateSystem.newUpdate ) {
-			player.addChatMessage(new ChatComponentText(
-					ColorSystem.ENUMGOLD
-							+ "Hunter "
-							+ player.getDisplayName()
-							+ ", a new version of Monster Hunter Frontier Craft is out!"
-							+ " Check out the facebook page or the mod thread."));
+	private void onServerStart(FMLServerStartedEvent sse) {
+		ICommandSender console = null;
+		if (sse.getSide().isClient()) {
+			console = Minecraft.getMinecraft().thePlayer;
+		} else {
+			console = MinecraftServer.getServer();
 		}
-
-		if (UpdateSystem.isUpdateAvailable() == UpdateSystem.noUpdate ) {
-			player.addChatMessage(new ChatComponentText(ColorSystem.ENUMGOLD
-					+ "Welcome Hunter " + player.getDisplayName()
-					+ ", you're up to date, have fun hunting !!"));
-		}
-
-		if (UpdateSystem.isUpdateAvailable() == UpdateSystem.offline) {
-			player.addChatMessage(new ChatComponentText(ColorSystem.ENUMGOLD
-					+ "Hunter " + player.getDisplayName()
-					+ ", you're in offline mode."));
-			player.addChatMessage(new ChatComponentText(
-					"Make sure you frequently check for updates on our facebook site or Minecraft forum thread!!"));
-			
-		}
-		hasSeen = true;
+		// console.addChatMessage(null);
+		final ICommandSender finalConsole = console;
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				UpdateInfo info = UpdateSystem.getUpdateInfo(); // Blocks
+				notifyOfUpdate(finalConsole, info);
+			}
+		}).start();
 	}
 
+	private static void notifyOfUpdate(ICommandSender console, UpdateInfo info) {
+		switch (info.status) {
+			case NEWUPDATE :
+				console.addChatMessage(new ChatComponentText(
+						ColorSystem.ENUMGOLD
+								+ "Hunter "
+								+ console.getCommandSenderName()
+								+ ", a new version ("
+								+ info.version
+								+ ") of Monster Hunter Frontier Craft is out!"
+								+ " Check out the facebook page or the mod thread."));
+				break;
+			case NOUPDATE :
+				console.addChatMessage(new ChatComponentText(
+						ColorSystem.ENUMGOLD + "Welcome Hunter "
+								+ console.getCommandSenderName()
+								+ ", you're up to date, have fun hunting !!"));
+				break;
+			case OFFLINE :
+				console.addChatMessage(new ChatComponentText(
+						ColorSystem.ENUMGOLD + "Hunter "
+								+ console.getCommandSenderName()
+								+ ", unable to check for updates automatically"));
+				console.addChatMessage(new ChatComponentText(
+						"Make sure you frequently stop by on our facebook site or Minecraft forum thread!!"));
+				break;
+			default : // Should not happen?
+				console.addChatMessage(new ChatComponentText(
+						ColorSystem.ENUMRED
+								+ "MHFC: Unknown UpdateStatus, pls report with a logfile."
+								+ " Version info: " + info.version));
+		}
+	}
 }
