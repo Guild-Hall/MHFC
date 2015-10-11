@@ -12,7 +12,7 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 
 	private static final int MAX_ANGLE = 20;
 	private static final float MAX_DISTANCE = 6;
-	private static final float WEIGHT = 3;
+	private static final float WEIGHT = 13;
 	private static final int JUMP_FRAME = 19;
 	private static final int JUMP_TIME = 12;
 	private static final int ANIM_LENGTH = 100;
