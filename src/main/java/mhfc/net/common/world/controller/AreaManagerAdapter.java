@@ -6,12 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import mhfc.net.common.world.area.ActiveAreaAdapter;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IAreaType;
+import mhfc.net.common.world.controller.WorldProxies.Recorder;
 
 public abstract class AreaManagerAdapter implements IAreaManager {
 
@@ -45,31 +44,22 @@ public abstract class AreaManagerAdapter implements IAreaManager {
 
 	private Map<IAreaType, List<IArea>> spawnedAreas = new HashMap<>();
 
-	public AreaManagerAdapter() {
-	}
-
-	/**
-	 * Gets a proxy for the world represented by this Manager. Read and write
-	 * should both be possible.
-	 * 
-	 * @return a proxy for the world
-	 */
-	protected abstract IWorldProxy getProxiedWorld();
-
 	private void dismiss(IActiveArea active) {
 		this.spawnedAreas.get(active.getType()).add(active.getArea());
 	}
 
 	/**
-	 * Finds a place int the world for the rectangular area of sizeX*sizeZ.
+	 * Applies the {@link Recorder} to the world represented by this
+	 * {@link IAreaManager} and returns an area manger that represents the
+	 * equivalent of the recorded blocks in the "real world".
 	 * 
-	 * @param sizeX
-	 *            the x-size of the area to fit
-	 * @param sizeZ
-	 *            the z-size of the area to fit
-	 * @return an offset (in chunks) to place the area in
+	 * @param recorder
+	 *            the recorder to apply.
+	 * @return a representation of the recorder in the world this AreaManager
+	 *         manages. The {@link IWorldProxy} may chose not to allow any
+	 *         set-operations
 	 */
-	protected abstract Pair<Integer, Integer> getEmptyPlaceFor(int sizeX, int sizeZ);
+	protected abstract IWorldProxy applyRecorder(Recorder recorder);
 
 	@Override
 	public Active getUnusedInstance(IAreaType type) {
@@ -89,14 +79,12 @@ public abstract class AreaManagerAdapter implements IAreaManager {
 	}
 
 	private IArea newArea(IAreaType type) {
-		WorldProxies.RecordingProxy recorder = new WorldProxies.RecordingProxy();
+		WorldProxies.Recorder recorder = new WorldProxies.Recorder();
 		WorldProxies.WorldProxyProxy proxy = new WorldProxies.WorldProxyProxy(recorder);
-		IWorldProxy actual = getProxiedWorld();
 
 		IArea contoller = type.populate(proxy);
 
-		// TODO: figure out the offset of the consumed terrain, not (0, 0)
-		IWorldProxy finishedProxy = recorder.applyTo(actual, 0, 0);
+		IWorldProxy finishedProxy = applyRecorder(recorder);
 		proxy.setProxy(finishedProxy);
 		return contoller;
 	}

@@ -21,4 +21,5 @@ public interface IWorldProxy extends IBlockAccess {
 	void setBlockAt(int x, int y, int z, Block block);
 
 	void setTileEntityAt(int x, int y, int z, TileEntity tile);
+
 }

@@ -2,6 +2,8 @@ package mhfc.net.common.world.controller;
 
 import java.util.Objects;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -109,20 +111,38 @@ public class WorldProxies {
 	}
 
 	/**
-	 * A {@link RecordingProxy} is a proxy that first is potentially infinitely
-	 * large. It offers read and write from any block position. One can spawn
-	 * entities anywhere, etc.<br>
+	 * A {@link Recorder} is a proxy that first is potentially infinitely large.
+	 * It offers read and write from any block position. One can spawn entities
+	 * anywhere, etc.<br>
 	 * The main feature is that it can be applied to another proxy (possibly a
 	 * world) given an offset. This records all changes made to the
-	 * {@link RecordingProxy} up to this point in the other proxy.<br>
+	 * {@link Recorder} up to this point in the other proxy.<br>
 	 * In combination with a
 	 * 
 	 * @author WorldSEnder
 	 *
 	 */
-	public static class RecordingProxy implements IWorldProxy {
+	public static class Recorder implements IWorldProxy {
+		/**
+		 * Gets the current size of this Recorder.
+		 * 
+		 * @return the size as a tuple (x, z)
+		 */
+		public Pair<Integer, Integer> getCurrentSize() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 
-		public IWorldProxy applyTo(IWorldProxy other, int x, int y) {
+		/**
+		 * Applies the actions this {@link Recorder} represents to the other
+		 * proxy given.<br>
+		 * 
+		 * @param other
+		 *            the proxy to apply the recorded actions to
+		 * @return a proxy that accesses the changed region of the other proxy.
+		 */
+		public IWorldProxy applyTo(IWorldProxy other) {
+			// TODO Auto-generated method stub
 			return null;
 		}
 
@@ -200,9 +220,9 @@ public class WorldProxies {
 	}
 
 	public static class OffsetProxy implements IWorldProxy {
-		private int chunksX;
-		private int chunksZ;
-		private IWorldProxy actual;
+		private final int chunksX;
+		private final int chunksZ;
+		private final IWorldProxy actual;
 
 		public OffsetProxy(IWorldProxy proxy, int offsetChunksX, int offsetChunksZ) {
 			this.actual = proxy;
@@ -284,7 +304,7 @@ public class WorldProxies {
 	}
 
 	public static class WorldProxy implements IWorldProxy {
-		private World proxied;
+		private final World proxied;
 
 		public WorldProxy(World proxied) {
 			this.proxied = Objects.requireNonNull(proxied);
@@ -292,8 +312,7 @@ public class WorldProxies {
 
 		@Override
 		public boolean isSideSolid(int x, int y, int z, ForgeDirection side, boolean _default) {
-			// TODO Auto-generated method stub
-			return false;
+			return this.proxied.isSideSolid(x, y, z, side, _default);
 		}
 
 		@Override
