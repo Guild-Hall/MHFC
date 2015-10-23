@@ -13,8 +13,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 public class DeathRestrictionQuestGoal extends QuestGoal
-		implements
-			NotifyableQuestGoal<LivingDeathEvent> {
+	implements
+		NotifyableQuestGoal<LivingDeathEvent> {
 
 	protected int maxDeaths;
 	protected int currentDeaths;
@@ -70,7 +70,7 @@ public class DeathRestrictionQuestGoal extends QuestGoal
 		} else {
 			EntityPlayer[] players = quest.getPlayers();
 			if (players != null
-					&& Arrays.asList(players).contains(event.entityLiving)) {
+				&& Arrays.asList(players).contains(event.entityLiving)) {
 				++currentDeaths;
 			}
 		}
@@ -81,10 +81,10 @@ public class DeathRestrictionQuestGoal extends QuestGoal
 	public String modify(InformationType type, String current) {
 		if (type == InformationType.LongStatus) {
 			current += (current.equals("") ? "" : "\n")
-					+ (maxDeaths - currentDeaths) + " respawns left";
+				+ (maxDeaths - currentDeaths) + " respawns left";
 		} else if (type == InformationType.ShortStatus) {
 			current += (current.equals("") ? "" : "\n")
-					+ (maxDeaths - currentDeaths) + " respawns";
+				+ (maxDeaths - currentDeaths) + " respawns";
 		}
 		return current;
 	}

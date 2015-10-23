@@ -1,52 +1,65 @@
 package mhfc.net.common.entity.mob;
 
-import mhfc.net.common.ai.AIAttackManager;
-import mhfc.net.common.ai.IExecutableAttack;
-import mhfc.net.common.ai.IMangedAttacks;
-import mhfc.net.common.ai.tigrex.RunAttack;
-import mhfc.net.common.ai.tigrex.SpinAttack;
-import mhfc.net.common.entity.type.EntityWyvernHostile;
+import mhfc.net.common.ai.AIActionManager;
+import mhfc.net.common.ai.entity.tigrex.*;
+import mhfc.net.common.ai.general.TurnAttack;
+import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.item.materials.ItemTigrex.TigrexSubType;
 import mhfc.net.common.util.SubTypedItem;
-import net.minecraft.entity.Entity;
+import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimatedObject;
-import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
-import com.google.common.base.Predicate;
+import org.lwjgl.opengl.GL11;
 
-public class EntityTigrex extends EntityWyvernHostile
-		implements
-			IAnimatedObject,
-			IMangedAttacks<EntityTigrex> {
+import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
+
+public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	public int deathTick;
 	public int rageLevel;
-	/** Kept around to register attacks and return the currently executed one */
-	private AIAttackManager<EntityTigrex> attkManager;
-	/** Gets increased every tick by the entity to animate the model */
-	private int animFrame;
 
 	public EntityTigrex(World par1World) {
 		super(par1World);
-		width = 6F;
-		height = 4F;
-		// New AI
-		attkManager = new AIAttackManager<EntityTigrex>(this);
-		attkManager.registerAttack(new RunAttack());
-		attkManager.registerAttack(new SpinAttack());
-		// New AI test
-		tasks.addTask(0, attkManager);
+		height = 2f;
+		width = 3f;
+		stepHeight = 1f;
+
+		AIActionManager<EntityTigrex> attackManager = getAIActionManager();
+
+		attackManager.registerAttack(new TurnAttack(110, 180, 5f, 12f));
+		attackManager.registerAttack(new JumpTigrex());
+		attackManager.registerAttack(new RunAttack());
+		attackManager.registerAttack(new GroundHurl());
+		attackManager.registerAttack(new BiteAttack());
+		attackManager.registerAttack(new RoarAttack());
+		attackManager.registerAttack(new IdleAnim());
+		attackManager.registerAttack(new WanderTigrex());
+		attackManager.registerAttack(new TailWhipTigrex());
+
+		// TODO enable this when Popos are a thing again
+		// targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
+		// EntityPopo.class, 0, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
+			EntityPlayer.class, 0, true));
 	}
 
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getAttributeMap()
-				.getAttributeInstance(SharedMonsterAttributes.followRange)
-				.setBaseValue(128d);
-		applyMonsterAttributes(1.3D, 6000D, 7800D, 8600D, 35D, 0.3D);
+		getAttributeMap().getAttributeInstance(
+			SharedMonsterAttributes.followRange).setBaseValue(128d);
+		getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
+			.setBaseValue(1.3D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
+			healthbaseHP(7164D, 9722D, 17410D));
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(
+			35D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(
+			0.3D);
 	}
 
 	@Override
@@ -54,14 +67,6 @@ public class EntityTigrex extends EntityWyvernHostile
 		super.entityInit();
 		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
 		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
-	}
-
-	public void setThrownBlock() {
-		dataWatcher.updateObject(16, Byte.valueOf((byte) 1));
-	}
-
-	public boolean getThrownBlock() {
-		return dataWatcher.getWatchableObjectByte(16) == 1;
 	}
 
 	@Override
@@ -82,14 +87,17 @@ public class EntityTigrex extends EntityWyvernHostile
 	}
 
 	@Override
-	public void onUpdate() {
-		super.onUpdate();
-		animFrame = this.attkManager.getNextFrame(animFrame);
+	public RenderPassInformation preRenderCallback(float scale,
+		RenderPassInformation sub) {
+		GL11.glScaled(1.9, 1.9, 1.9);
+		return super.preRenderCallback(scale, sub);
+
 	}
 
 	@Override
 	protected String getLivingSound() {
-		return null;
+
+		return "mhfc:tigrex-idle";
 	}
 
 	@Override
@@ -103,46 +111,14 @@ public class EntityTigrex extends EntityWyvernHostile
 	}
 
 	@Override
-	@Deprecated
-	public boolean attackEntityAsMob(Entity entity) {
-		return true;
+	public EntityMHFCPart[] getParts() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public IAnimation getCurrentAnimation() {
-		return attkManager.getCurrentAnimation();
-	}
-
-	@Override
-	public int getCurrentFrame() {
-		return animFrame;
-	}
-
-	@Override
-	public Predicate<String> getPartPredicate(float arg0) {
-		return RENDER_ALL;
-	}
-
-	@Override
-	public Scale getScale() {
-		return NO_SCALE;
-	}
-
-	@Override
-	public void onAttackStart(IExecutableAttack<EntityTigrex> newAttack) {
-		if (newAttack == null)
-			animFrame = -1;
-		else
-			animFrame = 0;
-	}
-
-	@Override
-	public void onAttackEnd(IExecutableAttack<EntityTigrex> oldAttack) {
-		animFrame = -1;
-	}
-
-	@Override
-	public AIAttackManager<EntityTigrex> getAttackManager() {
-		return attkManager;
+	protected void func_145780_a(int p_145780_1_, int p_145780_2_,
+		int p_145780_3_, Block p_145780_4_) {
+		this.playSound("mhfc:tigrex-step", 1.0F, 1.0F);
 	}
 }

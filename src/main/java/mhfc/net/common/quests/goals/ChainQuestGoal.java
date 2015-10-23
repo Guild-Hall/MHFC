@@ -32,11 +32,11 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 	 *            The next chain element, null if the chain is over
 	 */
 	public ChainQuestGoal(QuestGoalSocket socket, QuestGoal thisGoal,
-			QuestGoal next) {
+		QuestGoal next) {
 		super(socket);
 		if (thisGoal == null)
 			throw new IllegalArgumentException(
-					"ChainQuestGoal: The goal of this step may not be null");
+				"ChainQuestGoal: The goal of this step may not be null");
 		thisGoal.setSocket(this);
 		this.thisGoal = thisGoal;
 		this.next = next;
@@ -69,7 +69,7 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 
 	@Override
 	public void questGoalStatusNotification(QuestGoal caller,
-			EnumSet<QuestStatus> newStatus) {
+		EnumSet<QuestStatus> newStatus) {
 		if (caller == thisGoal) {
 			if (newStatus.contains(QuestStatus.Fulfilled)) {
 				onFulfilled(newStatus.contains(QuestStatus.Failed));
@@ -139,9 +139,9 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 	 * not the next goal.
 	 */
 	protected void onUnknownStatusNotification(QuestGoal caller,
-			EnumSet<QuestStatus> newStatus) {
+		EnumSet<QuestStatus> newStatus) {
 		throw new IllegalArgumentException(
-				"ChainQuestGoal: A QuestGoal that is not our next goal should not notify us");
+			"ChainQuestGoal: A QuestGoal that is not our next goal should not notify us");
 	}
 
 	public QuestGoal getNext() {

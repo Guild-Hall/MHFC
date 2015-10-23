@@ -10,7 +10,7 @@ public class EquipmentRecipe extends MHFCShapelessRecipe {
 	private int heat, duration;
 
 	public EquipmentRecipe(ItemStack recipeProduct,
-			List<ItemStack> recipeIngredients, int requiredHeat, int duration) {
+		List<ItemStack> recipeIngredients, int requiredHeat, int duration) {
 		super(recipeProduct, recipeIngredients);
 		this.heat = requiredHeat;
 		this.duration = duration;

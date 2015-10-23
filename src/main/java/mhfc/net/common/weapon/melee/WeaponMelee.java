@@ -75,9 +75,9 @@ public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
 		meta = metaData;
 	}
 
-	public void getWeaponDescription(String second, int rarerty) {
+	public void getWeaponDescription(String second, int rareity) {
 		des2 = second;
-		rarity = rarerty;
+		rarity = rareity;
 	}
 
 	public float updateDamageAmount(float damageX) {
@@ -109,7 +109,7 @@ public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
 			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
 		par3List.add(ColorSystem.gold + des1);
 		par3List.add(ColorSystem.dark_green + des2);
-		par3List.add(ColorSystem.dark_blue + "Rarity: " + rarity);
+		par3List.add(ColorSystem.yellow + "Rarity: " + rarity);
 		if (enableCooldownDisplay)
 			Cooldown.displayCooldown(par1ItemStack, par3List, getcooldown);
 	}

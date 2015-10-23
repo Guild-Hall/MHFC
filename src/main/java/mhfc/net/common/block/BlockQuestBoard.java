@@ -173,7 +173,7 @@ public class BlockQuestBoard extends BlockContainer {
 	 * This method returns the side of the next block which would be hit if the
 	 * look vector was to be traced through the block, starting at the hit
 	 * vector (which is relative to the block).
-	 * 
+	 *
 	 */
 	private int getOppositeSide(Vec3 hitVector, Vec3 lookVector) {
 		double dX = Math.signum(lookVector.xCoord);
@@ -187,7 +187,7 @@ public class BlockQuestBoard extends BlockContainer {
 		double tZ = (targetZ - hitVector.zCoord) / dZ;
 		double t = tX;
 		if (!(tX > 0 && tY >= 0 && tZ >= 0))
-			MHFCMain.logger.info("Noooo");
+			MHFCMain.logger.debug("Noooo");
 		int side = lookVector.xCoord > 0 ? 4 : 5;
 		if (!Double.isNaN(tY) && tY < t) {
 			side = lookVector.yCoord > 0 ? 0 : 1;
@@ -249,6 +249,8 @@ public class BlockQuestBoard extends BlockContainer {
 	public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_,
 			int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_,
 			@SuppressWarnings("rawtypes") List p_149743_6_, Entity p_149743_7_) {
+		// CLEANUP remove this as the state does not change during lifetime of
+		// this block
 		this.setBlockBoundsBasedOnState(p_149743_1_, p_149743_2_, p_149743_3_,
 				p_149743_4_);
 		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_,

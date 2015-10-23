@@ -17,7 +17,10 @@ import cpw.mods.fml.server.FMLServerHandler;
 public class GeneralQuest implements QuestGoalSocket {
 
 	enum QuestState {
-		pending, running, finished, resigned;
+		pending,
+		running,
+		finished,
+		resigned;
 	}
 
 	private static class PlayerAttributes {
@@ -29,8 +32,8 @@ public class GeneralQuest implements QuestGoalSocket {
 		public int dimensionID;
 
 		public PlayerAttributes(EntityPlayerMP p, boolean vote,
-				boolean restoreInventory, boolean reward, int x, int y, int z,
-				int dim) {
+			boolean restoreInventory, boolean reward, int x, int y, int z,
+			int dim) {
 			this.player = p;
 			this.restoreInventory = restoreInventory;
 			this.vote = vote;
@@ -44,8 +47,8 @@ public class GeneralQuest implements QuestGoalSocket {
 
 	private static PlayerAttributes newAttribute(EntityPlayerMP player) {
 		return new PlayerAttributes(player, false, true, false,
-				player.serverPosX, player.serverPosY, player.serverPosZ,
-				player.worldObj.provider.dimensionId);
+			player.serverPosX, player.serverPosY, player.serverPosZ,
+			player.worldObj.provider.dimensionId);
 	}
 
 	private QuestDescription originalDescription;
@@ -64,7 +67,7 @@ public class GeneralQuest implements QuestGoalSocket {
 	protected int fee;
 
 	public GeneralQuest(QuestGoal goal, int maxPartySize, int reward, int fee,
-			String areaId, QuestDescription originalDescription) {
+		String areaId, QuestDescription originalDescription) {
 		this.questGoal = goal;
 		goal.setSocket(this);
 		this.playerAttributes = new PlayerAttributes[maxPartySize];
@@ -97,7 +100,7 @@ public class GeneralQuest implements QuestGoalSocket {
 
 	@Override
 	public void questGoalStatusNotification(QuestGoal goal,
-			EnumSet<QuestStatus> newStatus) {
+		EnumSet<QuestStatus> newStatus) {
 		if (newStatus.contains(QuestStatus.Fulfilled))
 			onSuccess();
 		if (newStatus.contains(QuestStatus.Failed))
@@ -108,7 +111,7 @@ public class GeneralQuest implements QuestGoalSocket {
 	protected void onFail() {
 		for (int i = 0; i < playerCount; i++) {
 			playerAttributes[i].player.addChatMessage(new ChatComponentText(
-					"You have failed a quest"));
+				"You have failed a quest"));
 		}
 		// TODO do special stuff for fail
 		onEnd();
@@ -119,7 +122,7 @@ public class GeneralQuest implements QuestGoalSocket {
 			playerAttributes[i].reward = true;
 			playerAttributes[i].player.addExperienceLevel(10);
 			playerAttributes[i].player.addChatMessage(new ChatComponentText(
-					"You have successfully completed a quest"));
+				"You have successfully completed a quest"));
 		}
 		this.state = QuestState.finished;
 		// TODO reward the players for finishing the quest with dynamic rewards
@@ -157,8 +160,8 @@ public class GeneralQuest implements QuestGoalSocket {
 			EntityPlayerMP p = playerAttributes[i].player;
 			String id = MHFCQuestRegistry.getIdentifierForQuest(this);
 			PacketPipeline.networkPipe.sendTo(
-					new<QuestRunningInformation> MessageQuestVisual(id,
-							visualInformation), p);
+				new<QuestRunningInformation> MessageQuestVisual(id,
+					visualInformation), p);
 
 		}
 		MHFCQuestRegistry.questUpdated(this);
@@ -167,8 +170,8 @@ public class GeneralQuest implements QuestGoalSocket {
 	public boolean canJoin(EntityPlayer player) {
 		// TODO add more evaluation and/or move to another class?
 		if (state == QuestState.pending
-				&& playerCount < playerAttributes.length
-				&& MHFCQuestRegistry.getQuestForPlayer(player) == null) {
+			&& playerCount < playerAttributes.length
+			&& MHFCQuestRegistry.getQuestForPlayer(player) == null) {
 			return true;
 		}
 		return false;
@@ -198,9 +201,9 @@ public class GeneralQuest implements QuestGoalSocket {
 		boolean found = false;
 		for (i = 0; i < playerAttributes.length; i++) {
 			if (playerAttributes[i] != null
-					&& player != null
-					&& playerAttributes[i].player.getGameProfile().getName() == player
-							.getGameProfile().getName()) {
+				&& player != null
+				&& playerAttributes[i].player.getGameProfile().getName() == player
+					.getGameProfile().getName()) {
 				found = true;
 				break;
 			}
@@ -217,12 +220,12 @@ public class GeneralQuest implements QuestGoalSocket {
 
 		PlayerAttributes att = playerAttributes[index];
 		PacketPipeline.networkPipe.sendTo(
-				new<QuestRunningInformation> MessageQuestVisual("", null),
-				att.player);
+			new<QuestRunningInformation> MessageQuestVisual("", null),
+			att.player);
 		MHFCQuestRegistry.setQuestForPlayer(att.player, null);
 		if (att.player.getEntityWorld().provider.dimensionId != att.dimensionID)
 			FMLServerHandler.instance().getServer().getConfigurationManager()
-					.transferPlayerToDimension(att.player, att.dimensionID);
+				.transferPlayerToDimension(att.player, att.dimensionID);
 		att.player.moveEntity(att.posX, att.posY, att.posZ);
 
 		// Clean up, move rest up
@@ -252,7 +255,7 @@ public class GeneralQuest implements QuestGoalSocket {
 	public String updateVisual(InformationType t, String current) {
 		if (t == InformationType.MaxPartySize) {
 			return playerCount + "/" + playerAttributes.length
-					+ " {unlocalized:Players}";
+				+ " {unlocalized:Players}";
 		}
 		String mod = questGoal.modify(t, "");
 		if (mod.equals(""))

@@ -4,15 +4,15 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimatedObject;
-import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.IAnimation;
-import com.github.worldsender.mcanm.client.model.mhfcmodel.animation.stored.AnimationRegistry;
-import com.google.common.base.Predicate;
+import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
+import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
+import com.github.worldsender.mcanm.client.model.util.AnimationLoader;
+import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
 
 // This is a really simple test Entity
 public class EntityTest extends EntityLiving implements IAnimatedObject {
 	// Load the animation from the stored file
-	private static IAnimation snap = AnimationRegistry
+	private static IAnimation snap = AnimationLoader
 			.loadAnimation(new ResourceLocation(
 					"mhfc:models/Rathalos/testanim.mhanm"));
 
@@ -22,25 +22,8 @@ public class EntityTest extends EntityLiving implements IAnimatedObject {
 	}
 
 	@Override
-	public IAnimation getCurrentAnimation() {
-		// Return the current animation, depends on the current attack/ AI
-		return snap;
-	}
-
-	@Override
-	public int getCurrentFrame() {
-		// Returns the frame in the animation (time since attack started?)
-		return this.ticksExisted % 90;
-	}
-
-	@Override
-	public Scale getScale() {
-		return NO_SCALE;
-	}
-
-	@Override
-	public Predicate<String> getPartPredicate(float subFrame) {
-		// Can decide not to show some parts
-		return RENDER_ALL;
+	public RenderPassInformation preRenderCallback(float subFrame,
+			RenderPassInformation info) {
+		return info.setAnimation(snap).setFrame(this.ticksExisted % 90);
 	}
 }

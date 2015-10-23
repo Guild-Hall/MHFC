@@ -70,9 +70,8 @@ public class CommandMHFC implements ICommand {
 					System.out.println("Invalid parameter in command mhfc");
 					return;
 			}
-			PacketPipeline.networkPipe
-					.sendToServer(new MessageMHFCInteraction(action, Arrays
-							.copyOfRange(parameters, 1, parameters.length)));
+			PacketPipeline.networkPipe.sendToServer(new MessageMHFCInteraction(
+				action, Arrays.copyOfRange(parameters, 1, parameters.length)));
 		}
 	}
 
@@ -83,7 +82,7 @@ public class CommandMHFC implements ICommand {
 
 	@Override
 	public List<String> addTabCompletionOptions(ICommandSender p_71516_1_,
-			String[] options) {
+		String[] options) {
 		List<String> list = new ArrayList<String>();
 		if (options.length == 1) {
 			for (String s : new String[]{"accept", "leave", "new", "surrender",

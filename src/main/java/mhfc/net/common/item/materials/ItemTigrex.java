@@ -39,7 +39,7 @@ public class ItemTigrex extends Item {
 		}
 		@Override
 		public Item getBaseItem() {
-			return MHFCItemRegistry.MHFCItemtigrex;
+			return MHFCItemRegistry.mhfcitemtigrex;
 		}
 	}
 
