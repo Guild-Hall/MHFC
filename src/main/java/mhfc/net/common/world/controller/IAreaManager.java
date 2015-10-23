@@ -18,5 +18,5 @@ public interface IAreaManager {
 	 * @return an {@link IActiveArea} with an empty area that can be used for
 	 *         e.g. questing
 	 */
-	IActiveArea getEmptyInstance(IAreaType type);
+	IActiveArea getUnusedInstance(IAreaType type);
 }
