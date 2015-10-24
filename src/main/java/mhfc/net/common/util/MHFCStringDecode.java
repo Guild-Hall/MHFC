@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.eventhandler.MHFCDelayedJob;
+import mhfc.net.common.eventhandler.DelayedJob;
 import mhfc.net.common.eventhandler.MHFCJobHandler;
 import net.minecraft.util.StatCollector;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 
 public class MHFCStringDecode {
 	public static class TimeTickDecoderFactory implements StringDecoderFactory {
@@ -146,7 +147,7 @@ public class MHFCStringDecode {
 
 	public static class DynamicString extends CompositeString
 			implements
-				MHFCDelayedJob {
+				DelayedJob {
 
 		protected Map<String, StringDecoder> personalDecoderMap;
 		protected String stringValue;
@@ -155,11 +156,13 @@ public class MHFCStringDecode {
 		public DynamicString(String str) {
 			super(str);
 			personalDecoderMap = new HashMap<String, StringDecoder>();
-			executeJob();
+			executeJob(Phase.START);
 		}
 
 		@Override
-		public void executeJob() {
+		public void executeJob(Phase tickPhase) {
+			if (tickPhase != Phase.START)
+				return;
 			String superValue = super.stringValue();
 			String[] split = superValue.split(":", 2);
 			if (split.length == 1) {
@@ -173,8 +176,6 @@ public class MHFCStringDecode {
 			if (parent != null)
 				parent.childUpdated(this);
 		}
-
-		@Override
 		public int getInitialDelay() {
 			return delay;
 		}
@@ -213,7 +214,7 @@ public class MHFCStringDecode {
 		@Override
 		public void childUpdated(CompositeString dynamicString) {
 			MHFCJobHandler.instance().remove(this);
-			executeJob();
+			executeJob(Phase.START);
 		}
 
 	}

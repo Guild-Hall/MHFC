@@ -3,20 +3,22 @@
  */
 package mhfc.net.common.quests.goals;
 
-import mhfc.net.common.eventhandler.MHFCDelayedJob;
+import mhfc.net.common.eventhandler.DelayedJob;
 import mhfc.net.common.eventhandler.MHFCJobHandler;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 
 /**
  *
  */
-public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
+public class TimeQuestGoal extends QuestGoal implements DelayedJob {
+	private long scheduledTime;
 
 	protected boolean isFailed = false;
 	protected boolean active;
-	protected int ticksToFail;
+	protected long ticksToFail;
 	protected long timeOfLastUpdate;
 	protected int initialTicksToFail;
 
@@ -25,6 +27,7 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 		this.initialTicksToFail = initialTime;
 		ticksToFail = initialTime;
 		active = false;
+		scheduledTime = 0;
 	}
 
 	public TimeQuestGoal(int initialTime) {
@@ -52,13 +55,14 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 	public void setActive(boolean newActive) {
 		if (newActive) {
 			if (ticksToFail > 0 && !active) {
-				MHFCJobHandler.instance().insert(this, ticksToFail);
+				scheduledTime = MHFCJobHandler.instance().insert(this,
+						ticksToFail);
 			}
 			timeOfLastUpdate = System.currentTimeMillis();
 			active = true;
 			notifyOfStatus(isFulfilled(), isFailed());
 		} else {
-			int delay = MHFCJobHandler.instance().getDelay(this);
+			long delay = MHFCJobHandler.instance().getDelay(scheduledTime);
 			ticksToFail = delay;
 			MHFCJobHandler.instance().remove(this);
 			active = false;
@@ -66,12 +70,13 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 	}
 
 	@Override
-	public void executeJob() {
+	public void executeJob(Phase phase) {
+		if (phase != Phase.END)
+			return;
 		isFailed = true;
 		notifyOfStatus(isFulfilled(), isFailed());
 	}
 
-	@Override
 	public int getInitialDelay() {
 		return initialTicksToFail;
 	}
@@ -84,33 +89,34 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 	@Override
 	public String modify(InformationType type, String current) {
 		// TODO Externalize and unlocalize these strings
-		int ticksToFail = MHFCJobHandler.instance().getDelay(this);
+		long ticksToFail = MHFCJobHandler.instance().getDelay(scheduledTime);
 		if (ticksToFail < 0)
 			ticksToFail = initialTicksToFail;
 		switch (type) {
 			case TimeLimit :
 				current += (current.endsWith("\n") || current.matches("\\s*")
-					? ""
-					: "\n");
+						? ""
+						: "\n");
 				if (active) {
 					current += "{time:" + ticksToFail + "}/ "
-						+ parseTimeFromTicks(initialTicksToFail);
+							+ parseTimeFromTicks(initialTicksToFail);
 				} else {
 					current += parseTimeFromTicks(ticksToFail);
 				}
 				break;
 			case LongStatus :
 				current += (current.endsWith("\n") || current.matches("\\s*")
-					? ""
-					: "\n");
+						? ""
+						: "\n");
 				current += "Finish within "
-					+ (active ? " {time:" + ticksToFail + "} of " : "") + "a "
-					+ parseTimeFromTicks(initialTicksToFail) + "Time Limit";
+						+ (active ? " {time:" + ticksToFail + "} of " : "")
+						+ "a " + parseTimeFromTicks(initialTicksToFail)
+						+ "Time Limit";
 				break;
 			case ShortStatus :
 				current += (current.endsWith("\n") || current.matches("\\s*")
-					? ""
-					: "\n");
+						? ""
+						: "\n");
 				if (active) {
 					current += "{time:" + ticksToFail + "} remaining";
 				} else {
@@ -126,7 +132,7 @@ public class TimeQuestGoal extends QuestGoal implements MHFCDelayedJob {
 	private static String parseTimeFromTicks(long delta) {
 		delta /= MHFCJobHandler.ticksPerSecond;
 		return "" + (delta / 3600 > 0 ? delta / 3600 + "h " : "")
-			+ ((delta % 3600) / 60 > 0 ? (delta % 3600) / 60 + "min " : "")
-			+ (delta % 60 > 0 ? delta % 60 + "s " : "");
+				+ ((delta % 3600) / 60 > 0 ? (delta % 3600) / 60 + "min " : "")
+				+ (delta % 60 > 0 ? delta % 60 + "s " : "");
 	}
 }
