@@ -1,14 +1,9 @@
 package mhfc.net.common.util.parsing.valueholders;
 
-import java.lang.ref.WeakReference;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Objects;
 
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.Holder.DefaultPolicies;
-import mhfc.net.common.util.parsing.IListenableValue;
 import mhfc.net.common.util.parsing.IValueHolder;
 
 /**
@@ -17,14 +12,14 @@ import mhfc.net.common.util.parsing.IValueHolder;
  * @author WorldSEnder
  *
  */
-public final class Any implements IListenableValue {
-	private static class FromHolderTag {}
+public final class Any implements IValueHolder {
+	private static class FromHolderTag {
+	}
 
 	public static final FromHolderTag snapshot_tag = new FromHolderTag();
 
 	private Holder holder;
 	private FailPolicy onFail = DefaultPolicies.STRICT;
-	private Collection<WeakReference<IValueListener>> listeners = new HashSet<>();
 
 	public Any() {
 		this.disengage();
@@ -137,25 +132,6 @@ public final class Any implements IListenableValue {
 
 	private void setHolder(Holder newHolder) {
 		this.holder = newHolder;
-		changedCallback(newHolder);
-	}
-
-	private void changedCallback(Holder newHolder) {
-		synchronized (this.listeners) {
-			Iterator<WeakReference<IValueListener>> it = this.listeners
-					.iterator();
-			while (it.hasNext()) {
-				IValueListener ref = it.next().get();
-				if (ref == null) {
-					it.remove();
-					continue;
-				}
-				if (!ref.onChange(newHolder)) {
-					it.remove();
-					continue;
-				}
-			}
-		}
 	}
 
 	@Override
@@ -172,21 +148,4 @@ public final class Any implements IListenableValue {
 	public FailPolicy getDefaultPolicy() {
 		return this.onFail;
 	}
-
-	@Override
-	public void register(IValueListener listener) {
-		synchronized (this.listeners) {
-			this.listeners
-					.add(new WeakReference<IListenableValue.IValueListener>(
-							Objects.requireNonNull(listener)));
-		}
-	}
-
-	@Override
-	public boolean unregister(IValueListener listener) {
-		synchronized (this.listeners) {
-			return this.listeners.remove(listener);
-		}
-	}
-
 }

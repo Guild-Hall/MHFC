@@ -3,12 +3,12 @@ package mhfc.net.common.util.parsing.valueholders;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 
-import mhfc.net.common.util.parsing.Holder;
-import mhfc.net.common.util.parsing.IValueHolder;
-
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import com.google.common.collect.ComputationException;
+
+import mhfc.net.common.util.parsing.Holder;
+import mhfc.net.common.util.parsing.IValueHolder;
 
 /**
  * Represents a member of an {@link IValueHolder}. This is dynamically
@@ -25,14 +25,12 @@ public class MemberAccess implements IValueHolder {
 			// Special because reflection doesn't find the field "length"
 			// see http://stackoverflow.com/q/11097658/
 			if (!name.equals("length"))
-				throw new ComputationException(new IllegalArgumentException(
-						clazz.getName() + " has no field " + name));
+				throw new ComputationException(new IllegalArgumentException(clazz.getName() + " has no field " + name));
 			return null; // Marker for ARRAY_LENGTH
 		}
 		Field f = FieldUtils.getField(clazz, name);
 		if (f == null)
-			throw new ComputationException(new IllegalArgumentException(
-					clazz.getName() + " has no field " + name));
+			throw new ComputationException(new IllegalArgumentException(clazz.getName() + " has no field " + name));
 		return f;
 	}
 
@@ -86,6 +84,7 @@ public class MemberAccess implements IValueHolder {
 			return int.class;
 		return f.getType();
 	}
+
 	/**
 	 * Represents a member of a snapshotted {@link IValueHolder}. The current
 	 * value of the member is determined at the time {@link #snapshot()} and
@@ -98,6 +97,7 @@ public class MemberAccess implements IValueHolder {
 		private final IValueHolder origin;
 		private final Field field;
 		private final Class<?> classOfField;
+
 		/**
 		 *
 		 * @param object
@@ -121,11 +121,18 @@ public class MemberAccess implements IValueHolder {
 		public Class<?> getContainedClass() {
 			return classOfField;
 		}
+
 		@Override
 		public BoundMemberAccess snapshotClass() {
 			return this;
 		}
+
+		@Override
+		public boolean isClassSnapshot() {
+			return true;
+		}
 	}
+
 	private IValueHolder origin;
 	private String name;
 

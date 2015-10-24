@@ -7,40 +7,34 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 
-import mhfc.net.common.util.parsing.Holder;
-import mhfc.net.common.util.parsing.IValueHolder;
-
 import org.apache.commons.lang3.reflect.MethodUtils;
 
 import com.google.common.collect.ComputationException;
 
+import mhfc.net.common.util.parsing.Holder;
+import mhfc.net.common.util.parsing.IValueHolder;
+
 public class MemberFunctionCall implements IValueHolder, Callable<Holder> {
-	private static Method resolveMethod(Class<?> clazz, String name,
-			Class<?>... args) {
+	private static Method resolveMethod(Class<?> clazz, String name, Class<?>... args) {
 		if (clazz.isArray() && name.equals("clone")) {
 			// Ofc there's an exception....
 			if (args.length != 0)
 				throw new ComputationException(new IllegalArgumentException(
-						clazz.getName()
-								+ " has no method that takes the paramters "
-								+ args));
+						clazz.getName() + " has no method that takes the paramters " + args));
 			return null; // Marker...
 		}
 		Method m = MethodUtils.getMatchingAccessibleMethod(clazz, name, args);
 		if (m == null) {
 			throw new ComputationException(
-					new IllegalArgumentException(clazz.getName()
-							+ " has no method that takes the paramters " + args));
+					new IllegalArgumentException(clazz.getName() + " has no method that takes the paramters " + args));
 		}
 		return m;
 	}
 
-	private static Holder invokeMethod(Method m, Object instance,
-			Object... arguments) {
+	private static Holder invokeMethod(Method m, Object instance, Object... arguments) {
 		if (m == null) {
 			if (instance == null)
-				throw new ComputationException(new NullPointerException(
-						"Can't copy a null array"));
+				throw new ComputationException(new NullPointerException("Can't copy a null array"));
 			Class<?> componentType = instance.getClass().getComponentType();
 			int length = Array.getLength(instance);
 			Object newArray = Array.newInstance(componentType, length);
@@ -48,8 +42,7 @@ public class MemberFunctionCall implements IValueHolder, Callable<Holder> {
 			return Holder.valueOf(newArray);
 		}
 		if (instance == null)
-			throw new ComputationException(new NullPointerException(
-					"Can't invoke member method on null instance"));
+			throw new ComputationException(new NullPointerException("Can't invoke member method on null instance"));
 		try {
 			Class<?> typeOfRet = classOfMethod(null, m); // Not an array, safe
 			Object ret = m.invoke(instance, arguments);
@@ -89,8 +82,7 @@ public class MemberFunctionCall implements IValueHolder, Callable<Holder> {
 				return Holder.valueOf(wrapper.doubleValue());
 			}
 			return Holder.valueOfUnsafe(ret, typeOfRet);
-		} catch (IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException e) {
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			throw new ComputationException(e);
 		}
 	}
@@ -133,23 +125,17 @@ public class MemberFunctionCall implements IValueHolder, Callable<Holder> {
 		return arr;
 	}
 
-	public static class BoundMemberFunctionCall
-			implements
-				IValueHolder,
-				Callable<Holder> {
+	public static class BoundMemberFunctionCall implements IValueHolder, Callable<Holder> {
 		private final IValueHolder object;
 		private final IValueHolder[] args;
 		private final Class<?> returnClass;
 		private final Method method;
 
-		private BoundMemberFunctionCall(IValueHolder object, String name,
-				IValueHolder... arguments) {
+		private BoundMemberFunctionCall(IValueHolder object, String name, IValueHolder... arguments) {
 			this.object = object.snapshotClass();
 			this.args = snapshotClassAll(arguments);
-			this.method = resolveMethod(this.object.getContainedClass(), name,
-					getContainedClassAll(arguments));
-			this.returnClass = classOfMethod(this.object.getContainedClass(),
-					method);
+			this.method = resolveMethod(this.object.getContainedClass(), name, getContainedClassAll(arguments));
+			this.returnClass = classOfMethod(this.object.getContainedClass(), method);
 		}
 
 		@Override
@@ -158,11 +144,15 @@ public class MemberFunctionCall implements IValueHolder, Callable<Holder> {
 		}
 
 		@Override
+		public boolean isClassSnapshot() {
+			return true;
+		}
+
+		@Override
 		public Holder snapshot() {
 			Holder instance = this.object.snapshot();
 			Holder[] arguments = snapshotAll(args);
-			return invokeMethod(method, instance.getAs(Object.class),
-					wrapped(arguments));
+			return invokeMethod(method, instance.getAs(Object.class), wrapped(arguments));
 		}
 
 		@Override
@@ -180,11 +170,9 @@ public class MemberFunctionCall implements IValueHolder, Callable<Holder> {
 	private IValueHolder[] arguments;
 	private String name;
 
-	public MemberFunctionCall(IValueHolder object, String methodName,
-			IValueHolder... arguments) {
+	public MemberFunctionCall(IValueHolder object, String methodName, IValueHolder... arguments) {
 		this.object = Objects.requireNonNull(object, "Object can't be null");
-		this.name = Objects.requireNonNull(methodName,
-				"The method name can't be null");
+		this.name = Objects.requireNonNull(methodName, "The method name can't be null");
 		for (IValueHolder arg : arguments) {
 			Objects.requireNonNull(arg, "Argument-Holder can't be null");
 		}
@@ -201,6 +189,7 @@ public class MemberFunctionCall implements IValueHolder, Callable<Holder> {
 		assert (!clazz.isPrimitive());
 		return invokeMethod(m, base.getAs(Object.class), wrapped(arguments));
 	}
+
 	@Override
 	public BoundMemberFunctionCall snapshotClass() {
 		return new BoundMemberFunctionCall(this.object, name, this.arguments);
@@ -213,6 +202,7 @@ public class MemberFunctionCall implements IValueHolder, Callable<Holder> {
 		Method m = resolveMethod(invokedOn, name, argClasses);
 		return classOfMethod(invokedOn, m);
 	}
+
 	@Override
 	public Holder call() throws Exception {
 		return snapshot();

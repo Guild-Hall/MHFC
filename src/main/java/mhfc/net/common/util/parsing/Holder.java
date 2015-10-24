@@ -15,8 +15,7 @@ public final class Holder implements IValueHolder {
 	}
 
 	private static <F> F throwNotAssignable(Class<?> from, Class<?> to) {
-		throw new ClassCastException(from.getName() + " not assignable to "
-				+ to.getName());
+		throw new ClassCastException(from.getName() + " not assignable to " + to.getName());
 	}
 
 	public static enum DefaultPolicies implements FailPolicy {
@@ -226,6 +225,7 @@ public final class Holder implements IValueHolder {
 
 	public static final Holder FALSE = new Holder(false);
 	public static final Holder TRUE = new Holder(true);
+
 	public static Holder valueOf(boolean bool) {
 		return bool ? TRUE : FALSE;
 	}
@@ -261,6 +261,7 @@ public final class Holder implements IValueHolder {
 	public static Holder valueOf(Object o) {
 		return o == null ? empty() : new Holder(o);
 	}
+
 	/**
 	 * Constructs a Holder of the given class. The class can't denote a primitve
 	 * type such as int.class. The object given has to be an instance of the
@@ -276,6 +277,7 @@ public final class Holder implements IValueHolder {
 		Holder ret = new Holder(object, clazz);
 		return ret;
 	}
+
 	public static <F> Holder valueOfUnsafe(F object, Class<?> clazz) {
 		Holder ret = new Holder(object, clazz);
 		return ret;
@@ -293,6 +295,7 @@ public final class Holder implements IValueHolder {
 	private final double dValue;
 
 	private final Class<?> clazz;
+
 	/**
 	 * Any empty Any
 	 */
@@ -412,6 +415,7 @@ public final class Holder implements IValueHolder {
 		this.lValue = 0;
 		this.sValue = 0;
 	}
+
 	/**
 	 * Initializes the Any with an Object. If the value is <code>null</code>,
 	 * this does the same as {@link #Holder()}. If you want to enforce a type
@@ -456,8 +460,7 @@ public final class Holder implements IValueHolder {
 		// return this.contained.equals(other.contained);
 		Object thisBoxed = this.boxed();
 		Object otherBoxed = o.boxed();
-		return thisBoxed == null ? otherBoxed == null : thisBoxed
-				.equals(otherBoxed);
+		return thisBoxed == null ? otherBoxed == null : thisBoxed.equals(otherBoxed);
 	}
 
 	private Object boxed() {
@@ -510,6 +513,7 @@ public final class Holder implements IValueHolder {
 	public char asChar() {
 		return asChar(DefaultPolicies.STRICT);
 	}
+
 	@Override
 	public char asChar(FailPolicy onFail) {
 		if (char.class.isAssignableFrom(clazz))
@@ -621,8 +625,7 @@ public final class Holder implements IValueHolder {
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public <F> F getAs(Class<F> fClazz, FailPolicy onFail)
-			throws IllegalStateException {
+	public <F> F getAs(Class<F> fClazz, FailPolicy onFail) throws IllegalStateException {
 		// Unboxing: the given type is primitive
 		if (fClazz.isAssignableFrom(boolean.class)) {
 			return (F) Boolean.valueOf(asBool(onFail));
@@ -716,6 +719,7 @@ public final class Holder implements IValueHolder {
 			return (F) this.value;
 		return onFail.failedObject(clazz, fClazz);
 	}
+
 	/**
 	 *
 	 * @return
@@ -728,6 +732,7 @@ public final class Holder implements IValueHolder {
 	public Class<?> getContainedClass() {
 		return this.clazz;
 	}
+
 	/**
 	 *
 	 * {@inheritDoc}
@@ -740,8 +745,18 @@ public final class Holder implements IValueHolder {
 	}
 
 	@Override
+	public boolean isSnapshot() {
+		return true;
+	}
+
+	@Override
 	public Holder snapshotClass() {
 		return this;
+	}
+
+	@Override
+	public boolean isClassSnapshot() {
+		return true;
 	}
 
 	@Override
