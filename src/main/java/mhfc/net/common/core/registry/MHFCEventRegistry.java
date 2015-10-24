@@ -5,7 +5,7 @@ import mhfc.net.common.eventhandler.MHFCGuiHandler;
 import mhfc.net.common.eventhandler.MHFCJobHandler;
 import mhfc.net.common.eventhandler.MHFCTickHandler;
 import mhfc.net.common.eventhandler.player.MHFCCapeEventHandler;
-import mhfc.net.common.eventhandler.player.MHFCPlayerEventHandler;
+import mhfc.net.common.eventhandler.player.ConnectionEventHandler;
 import mhfc.net.common.eventhandler.potion.PotionPitfallEventHandler;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -39,7 +39,7 @@ public class MHFCEventRegistry {
 
 	private static void registerWorldEventHandlers() {
 		FMLCommonHandler.instance().bus()
-				.register(MHFCPlayerEventHandler.instance);
+				.register(ConnectionEventHandler.instance);
 	}
 
 	private static void registerEntityEventHandlers() {}
