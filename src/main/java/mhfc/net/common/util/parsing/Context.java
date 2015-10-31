@@ -4,21 +4,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import mhfc.net.common.util.parsing.valueholders.Any;
-
 public class Context {
-	private Map<String, Any> set = new HashMap<String, Any>();
+	private Map<String, IValueHolder> map = new HashMap<String, IValueHolder>();
 
-	public Any get(String key) {
-		return set.get(key);
+	public IValueHolder getVar(String key) {
+		return map.get(key);
 	}
 
-	public boolean has(String key) {
-		return set.containsKey(key);
+	public boolean hasVar(String key) {
+		return map.containsKey(key);
 	}
 
-	public boolean put(String key, Any any) {
-		return set
-				.put(Objects.requireNonNull(key), Objects.requireNonNull(any)) == null;
+	public boolean putVar(String key, IValueHolder any) {
+		Objects.requireNonNull(key);
+		Objects.requireNonNull(any);
+		if (key.isEmpty())
+			throw new IllegalArgumentException("Key can't be the empty string");
+		return map.put(key, any) == null;
 	}
+
 }

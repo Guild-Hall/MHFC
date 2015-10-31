@@ -18,7 +18,7 @@ public class Access implements IExpression {
 
 	@Override
 	public IValueHolder resolveAgainst(Context context) {
-		return new MemberAccess(instance.resolveAgainst(context), name);
+		return MemberAccess.makeMemberAccess(instance.resolveAgainst(context), name);
 	}
 
 }

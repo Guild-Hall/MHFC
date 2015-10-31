@@ -51,6 +51,8 @@ public interface IValueHolder {
 	 * every future invocation on the returned value of
 	 * {@link #getContainedClass()}. Different stored values are allowed,
 	 * though.<br>
+	 * If {@link #isClassSnapshot()} would return <code>true</code>, then
+	 * <code>this</code> should be returned.<br>
 	 * Clarification: The value returned may still be dependable on the time
 	 * when the next {@link #snapshot()} is invoked for the resulting value
 	 * computation. For example a {@link MemberAccess} chooses to snapshot the

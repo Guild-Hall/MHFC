@@ -5,7 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.concurrent.Callable;
 
 import org.apache.commons.lang3.reflect.MethodUtils;
 
@@ -14,7 +13,7 @@ import com.google.common.collect.ComputationException;
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
 
-public class MemberFunctionCall implements IValueHolder, Callable<Holder> {
+public class MemberFunctionCall implements ICallableValueHolder {
 	private static Method resolveMethod(Class<?> clazz, String name, Class<?>... args) {
 		if (clazz.isArray() && name.equals("clone")) {
 			// Ofc there's an exception....
@@ -106,7 +105,6 @@ public class MemberFunctionCall implements IValueHolder, Callable<Holder> {
 			arr[i] = holders[i].getAs(Object.class);
 		}
 		return arr;
-
 	}
 
 	private static Holder[] snapshotAll(IValueHolder... holders) {
@@ -125,7 +123,15 @@ public class MemberFunctionCall implements IValueHolder, Callable<Holder> {
 		return arr;
 	}
 
-	public static class BoundMemberFunctionCall implements IValueHolder, Callable<Holder> {
+	private static boolean isClassSnapshotAll(IValueHolder... holders) {
+		for (IValueHolder h : holders) {
+			if (!h.isClassSnapshot())
+				return false;
+		}
+		return true;
+	}
+
+	public static class BoundMemberFunctionCall implements ICallableValueHolder {
 		private final IValueHolder object;
 		private final IValueHolder[] args;
 		private final Class<?> returnClass;
@@ -166,11 +172,19 @@ public class MemberFunctionCall implements IValueHolder, Callable<Holder> {
 		}
 	}
 
+	public static ICallableValueHolder makeFunctionCall(IValueHolder object, String methodName,
+			IValueHolder... arguments) {
+		if (object.isClassSnapshot() && isClassSnapshotAll(arguments)) {
+			return new BoundMemberFunctionCall(object, methodName, arguments);
+		}
+		return new MemberFunctionCall(object, methodName, arguments);
+	}
+
 	private IValueHolder object;
 	private IValueHolder[] arguments;
 	private String name;
 
-	public MemberFunctionCall(IValueHolder object, String methodName, IValueHolder... arguments) {
+	private MemberFunctionCall(IValueHolder object, String methodName, IValueHolder... arguments) {
 		this.object = Objects.requireNonNull(object, "Object can't be null");
 		this.name = Objects.requireNonNull(methodName, "The method name can't be null");
 		for (IValueHolder arg : arguments) {

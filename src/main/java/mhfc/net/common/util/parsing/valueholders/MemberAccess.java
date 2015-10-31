@@ -133,10 +133,16 @@ public class MemberAccess implements IValueHolder {
 		}
 	}
 
+	public static IValueHolder makeMemberAccess(IValueHolder holder, String memberName) {
+		if (holder.isClassSnapshot())
+			return new BoundMemberAccess(holder, memberName);
+		return new MemberAccess(holder, memberName);
+	}
+
 	private IValueHolder origin;
 	private String name;
 
-	public MemberAccess(IValueHolder object, String memberName) {
+	private MemberAccess(IValueHolder object, String memberName) {
 		this.origin = object;
 		this.name = memberName;
 	}

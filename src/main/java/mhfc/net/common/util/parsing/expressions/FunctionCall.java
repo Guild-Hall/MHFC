@@ -20,8 +20,7 @@ public class FunctionCall implements IExpression {
 	private final String name;
 	private final IExpression[] arguments;
 
-	public FunctionCall(IExpression instance, String name,
-			IExpression... arguments) {
+	public FunctionCall(IExpression instance, String name, IExpression... arguments) {
 		this.instance = Objects.requireNonNull(instance);
 		this.name = Objects.requireNonNull(name);
 		this.arguments = new IExpression[arguments.length];
@@ -32,8 +31,8 @@ public class FunctionCall implements IExpression {
 
 	@Override
 	public IValueHolder resolveAgainst(Context context) {
-		return new MemberFunctionCall(instance.resolveAgainst(context), name,
-				resolveAll(null, arguments));
+		return MemberFunctionCall.makeFunctionCall(instance.resolveAgainst(context), name,
+				resolveAll(context, arguments));
 	}
 
 }

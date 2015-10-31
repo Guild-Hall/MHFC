@@ -16,7 +16,7 @@ public class Variable implements IExpression {
 
 	@Override
 	public IValueHolder resolveAgainst(Context context) {
-		return context.has(name) ? context.get(name) : Holder.empty();
+		return context.hasVar(name) ? context.getVar(name) : Holder.empty();
 	}
 
 }
