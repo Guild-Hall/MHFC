@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.function.Function;
 
 import org.apache.commons.lang3.reflect.MethodUtils;
 
@@ -91,44 +92,30 @@ public class MemberFunctionCall implements ICallableValueHolder {
 				: m.getReturnType();
 	}
 
+	@SuppressWarnings("unchecked")
+	private static <T> T[] mapAll(Function<? super IValueHolder, T> func, IValueHolder... holders) {
+		return (T[]) Arrays.stream(holders).sequential().map(func).toArray();
+
+	}
+
 	private static Class<?>[] getContainedClassAll(IValueHolder... holders) {
-		Class<?>[] arr = new Class<?>[holders.length];
-		for (int i = 0; i < holders.length; i++) {
-			arr[i] = holders[i].getContainedClass();
-		}
-		return arr;
+		return mapAll(IValueHolder::getContainedClass, holders);
 	}
 
 	private static Object[] wrapped(Holder... holders) {
-		Object[] arr = new Object[holders.length];
-		for (int i = 0; i < holders.length; i++) {
-			arr[i] = holders[i].getAs(Object.class);
-		}
-		return arr;
+		return mapAll(h -> h.getAs(Object.class), holders);
 	}
 
 	private static Holder[] snapshotAll(IValueHolder... holders) {
-		Holder[] arr = new Holder[holders.length];
-		for (int i = 0; i < holders.length; i++) {
-			arr[i] = holders[i].snapshot();
-		}
-		return arr;
+		return mapAll(IValueHolder::snapshot, holders);
 	}
 
 	private static IValueHolder[] snapshotClassAll(IValueHolder... holders) {
-		IValueHolder[] arr = new IValueHolder[holders.length];
-		for (int i = 0; i < holders.length; i++) {
-			arr[i] = holders[i].snapshotClass();
-		}
-		return arr;
+		return mapAll(IValueHolder::snapshotClass, holders);
 	}
 
 	private static boolean isClassSnapshotAll(IValueHolder... holders) {
-		for (IValueHolder h : holders) {
-			if (!h.isClassSnapshot())
-				return false;
-		}
-		return true;
+		return Arrays.stream(holders).unordered().allMatch(IValueHolder::isClassSnapshot);
 	}
 
 	public static class BoundMemberFunctionCall implements ICallableValueHolder {
