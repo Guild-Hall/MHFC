@@ -45,8 +45,8 @@ public class DeviljhoBiteB extends ActionAdapter<EntityDeviljho> {
 
 	@Override
 	public void update() {
-		if (this.getCurrentFrame() == 23) {
-			getEntity().playSound("mhfc:tigrex-bite", 1.0F, 1.0F);
+		if (this.getCurrentFrame() == 22) {
+			getEntity().playSound("mhfc:deviljho-bite", 1.0F, 1.0F);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			EntityDeviljho tig = getEntity();

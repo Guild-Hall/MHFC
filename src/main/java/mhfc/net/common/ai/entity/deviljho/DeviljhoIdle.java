@@ -24,7 +24,9 @@ public class DeviljhoIdle extends ActionAdapter<EntityDeviljho> {
 	@Override
 	public void update() {
 		EntityDeviljho entity = this.getEntity();
+		if (this.getCurrentFrame() == 50) {
 		entity.playLivingSound();
 		// just a copy from roar the update method. nothing else
 	}
+}
 }

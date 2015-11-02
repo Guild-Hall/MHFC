@@ -20,7 +20,7 @@ public class DeviljhoRoar extends AIGeneralRoar<EntityDeviljho> {
 		IWeightProvider<EntityDeviljho> weight = new IWeightProvider.RandomWeightAdapter<>(
 			1F);
 		IRoarSoundProvider sound = new IRoarSoundProvider.RoarSoundAdapter(
-			"mhfc:tigrex-roar");
+			"mhfc:deviljho-roar");
 		IRoarProvider<EntityDeviljho> provide = new AIGeneralRoar.RoarAdapter<EntityDeviljho>(
 			anim, select, weight, sound);
 		return provide;

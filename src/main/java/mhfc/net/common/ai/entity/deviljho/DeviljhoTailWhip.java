@@ -10,7 +10,7 @@ import mhfc.net.common.entity.mob.EntityDeviljho;
 
 public class DeviljhoTailWhip extends AIGeneralTailWhip<EntityDeviljho> {
 
-	private static final double MAX_DISTANCE = 9F;
+	private static final double MAX_DISTANCE = 12F;
 	private static final double MIN_DIST = 0f;
 	private static final float MIN_RIGHT_ANGLE = 13f;
 	private static final int LAST_FRAME = 55; // CLEANUP exact value here please

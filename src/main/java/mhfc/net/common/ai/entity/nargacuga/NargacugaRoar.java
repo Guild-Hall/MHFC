@@ -20,7 +20,7 @@ public class NargacugaRoar extends AIGeneralRoar<EntityNargacuga> {
 		IWeightProvider<EntityNargacuga> weight = new IWeightProvider.RandomWeightAdapter<>(
 			1F);
 		IRoarSoundProvider roar = new IRoarSoundProvider.RoarSoundAdapter(
-			"mhfc:nargacuga-roar");
+			"mhfc:narga-roar");
 		IRoarProvider<EntityNargacuga> provide = new AIGeneralRoar.RoarAdapter<>(
 			anim, select, weight, roar);
 		return provide;

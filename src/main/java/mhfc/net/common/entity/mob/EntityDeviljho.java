@@ -4,6 +4,7 @@ import mhfc.net.common.ai.AIActionManager;
 import mhfc.net.common.ai.entity.deviljho.*;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
+import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,7 +18,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 
 	public EntityDeviljho(World WORLD) {
 		super(WORLD);
-		setSize(4, 5);
+		setSize(9, 7);
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
 			EntityPlayer.class, 0, true));
 
@@ -27,7 +28,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		attackManager.registerAttack(new DeviljhoBiteA());
 		attackManager.registerAttack(new DeviljhoBiteB());
 		attackManager.registerAttack(new DeviljhoTailWhip());
-		// attackManager.registerAttack(new DeviljhoWander());
+		//attackManager.registerAttack(new DeviljhoWander());
 	}
 
 	@Override
@@ -56,6 +57,18 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		GL11.glScaled(3.5, 3.5, 3.5);
 		return super.preRenderCallback(scale, sub);
 
+	}
+	
+	@Override
+	protected String getLivingSound() {
+
+		return "mhfc:deviljho-idle";
+	}
+	
+	@Override
+	protected void func_145780_a(int p_145780_1_, int p_145780_2_,
+		int p_145780_3_, Block p_145780_4_) {
+		this.playSound("mhfc:deviljho-step", 1.0F, 1.0F);
 	}
 
 }

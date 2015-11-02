@@ -4,6 +4,18 @@
     "tigrex-step": {"category": "master", "sounds": ["tigrex-step"]},
     "tigrex-bite": {"category": "master", "sounds": ["tigrex-bite1"]},
     "tigrex-charge": {"category": "master", "sounds": ["tigrex-charge1"]},
-    "tigrex-idle": {"category": "master", "sounds": ["tigrex-idle1", "tigrex-idle2", "tigrex-idle3"]}
-    
+    "tigrex-idle": {"category": "master", "sounds": ["tigrex-idle1", "tigrex-idle2", "tigrex-idle3"]},
+    "narga-idle": {"category": "master", "sounds": ["narga-idle1", "narga-idle2"]},
+    "narga-roar": {"category": "master", "sounds": ["narga-roar1"]},
+    "narga-spikes": {"category": "master", "sounds": ["narga-spikes1"]},
+    "narga-tailslam": {"category": "master", "sounds": ["narga-tailslam1"]},
+    "narga-tailsweep": {"category": "master", "sounds": ["narga-tailsweep1"]},
+    "narga-wingslash": {"category": "master", "sounds": ["narga-wingslash1"]},
+    "deviljho-dragonbreath": {"category": "master", "sounds": ["deviljho-dragonbreath1"]},
+    "deviljho-roar": {"category": "master", "sounds": ["deviljho-roar1"]},
+    "deviljho-idle": {"category": "master", "sounds": ["deviljho-idle1"]},
+    "deviljho-bite": {"category": "master", "sounds": ["deviljho-bite1"]},
+    "deviljho-rockthrow": {"category": "master", "sounds": ["deviljho-rockthrow1"]},
+    "deviljho-stomp": {"category": "master", "sounds": ["deviljho-stomp1"]},
+    "deviljho-step": {"category": "master", "sounds": ["deviljho-step1", "deviljho-step2","deviljho-step3","deviljho-step4"]}
 }
