@@ -174,9 +174,7 @@ public class MemberFunctionCall implements ICallableValueHolder {
 	private MemberFunctionCall(IValueHolder object, String methodName, IValueHolder... arguments) {
 		this.object = Objects.requireNonNull(object, "Object can't be null");
 		this.name = Objects.requireNonNull(methodName, "The method name can't be null");
-		for (IValueHolder arg : arguments) {
-			Objects.requireNonNull(arg, "Argument-Holder can't be null");
-		}
+		mhfc.net.common.util.Objects.requireNonNullDeep(arguments);
 		this.arguments = Arrays.copyOf(arguments, arguments.length);
 	}
 
