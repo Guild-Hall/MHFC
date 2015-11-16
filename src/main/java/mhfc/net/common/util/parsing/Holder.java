@@ -10,6 +10,11 @@ import mhfc.net.common.util.parsing.valueholders.Any;
  * @author WorldSEnder
  */
 public final class Holder implements IValueHolder {
+	private static class FailedComputation {
+	}
+
+	private static FailedComputation failedTag = new FailedComputation();
+
 	private static boolean representsNothing(Class<?> clazz) {
 		return clazz.isAssignableFrom(void.class);
 	}
@@ -283,6 +288,10 @@ public final class Holder implements IValueHolder {
 		return ret;
 	}
 
+	public static Holder failedComputation(RuntimeException cause) {
+		return new Holder(failedTag, cause);
+	}
+
 	private final Object value;
 	// Sad, that Java has no union
 	private final boolean boolValue;
@@ -295,11 +304,38 @@ public final class Holder implements IValueHolder {
 	private final double dValue;
 
 	private final Class<?> clazz;
+	/**
+	 * If the Holder is empty, it may have a cause to why it is.
+	 */
+	private final RuntimeException cause;
 
 	/**
 	 * Any empty Any
 	 */
 	private Holder() {
+		this.value = null;
+		this.cause = null;
+		this.clazz = void.class;
+		this.boolValue = false;
+		this.bValue = 0;
+		this.cValue = 0;
+		this.dValue = 0;
+		this.fValue = 0;
+		this.iValue = 0;
+		this.lValue = 0;
+		this.sValue = 0;
+	}
+
+	/**
+	 * An empty Any that is empty for a reason
+	 * 
+	 * @param tag
+	 *            ignored tag for overload
+	 * @param cause
+	 *            the cause why this {@link Holder} is empty
+	 */
+	private Holder(FailedComputation tag, RuntimeException cause) {
+		this.cause = cause;
 		this.value = null;
 		this.clazz = void.class;
 		this.boolValue = false;
@@ -314,6 +350,7 @@ public final class Holder implements IValueHolder {
 
 	private Holder(boolean bool) {
 		this.value = null;
+		this.cause = null;
 		this.clazz = boolean.class;
 		this.boolValue = bool;
 		this.bValue = 0;
@@ -327,6 +364,7 @@ public final class Holder implements IValueHolder {
 
 	private Holder(byte b) {
 		this.value = null;
+		this.cause = null;
 		this.clazz = byte.class;
 		this.boolValue = false;
 		this.bValue = b;
@@ -340,6 +378,7 @@ public final class Holder implements IValueHolder {
 
 	private Holder(char c) {
 		this.value = null;
+		this.cause = null;
 		this.clazz = char.class;
 		this.boolValue = false;
 		this.bValue = 0;
@@ -353,6 +392,7 @@ public final class Holder implements IValueHolder {
 
 	private Holder(short s) {
 		this.value = null;
+		this.cause = null;
 		this.clazz = short.class;
 		this.boolValue = false;
 		this.bValue = 0;
@@ -366,6 +406,7 @@ public final class Holder implements IValueHolder {
 
 	private Holder(int i) {
 		this.value = null;
+		this.cause = null;
 		this.clazz = int.class;
 		this.boolValue = false;
 		this.bValue = 0;
@@ -379,6 +420,7 @@ public final class Holder implements IValueHolder {
 
 	private Holder(long l) {
 		this.value = null;
+		this.cause = null;
 		this.clazz = long.class;
 		this.boolValue = false;
 		this.bValue = 0;
@@ -392,6 +434,7 @@ public final class Holder implements IValueHolder {
 
 	private Holder(float f) {
 		this.value = null;
+		this.cause = null;
 		this.clazz = float.class;
 		this.boolValue = false;
 		this.bValue = 0;
@@ -405,6 +448,7 @@ public final class Holder implements IValueHolder {
 
 	public Holder(double d) {
 		this.value = null;
+		this.cause = null;
 		this.clazz = double.class;
 		this.boolValue = false;
 		this.bValue = 0;
@@ -427,6 +471,7 @@ public final class Holder implements IValueHolder {
 	 */
 	private Holder(Object value) {
 		this.value = value;
+		this.cause = null;
 		this.clazz = value == null ? void.class : value.getClass();
 		this.boolValue = false;
 		this.bValue = 0;
@@ -440,6 +485,7 @@ public final class Holder implements IValueHolder {
 
 	private <F> Holder(F value, Class<?> clazz) {
 		Objects.requireNonNull(clazz);
+		this.cause = null;
 		this.value = clazz.cast(value);
 		this.clazz = clazz;
 		this.boolValue = false;
@@ -458,6 +504,8 @@ public final class Holder implements IValueHolder {
 			return false;
 		Holder o = (Holder) obj;
 		// return this.contained.equals(other.contained);
+		if (!this.isValid() || !o.isValid())
+			return false;
 		Object thisBoxed = this.boxed();
 		Object otherBoxed = o.boxed();
 		return thisBoxed == null ? otherBoxed == null : thisBoxed.equals(otherBoxed);
@@ -486,6 +534,15 @@ public final class Holder implements IValueHolder {
 		return this.value;
 	}
 
+	/**
+	 * Check if an error is stored, if yes, throw, if no, return
+	 */
+	private void checkError() {
+		if (this.isValid())
+			return;
+		throw new IllegalStateException(this.cause);
+	}
+
 	@Override
 	public FailPolicy getDefaultPolicy() {
 		return DefaultPolicies.STRICT;
@@ -493,6 +550,7 @@ public final class Holder implements IValueHolder {
 
 	@Override
 	public boolean asBool(FailPolicy onFail) {
+		checkError();
 		if (Boolean.class.isAssignableFrom(clazz))
 			return ((Boolean) this.value).booleanValue();
 		if (boolean.class.isAssignableFrom(clazz))
@@ -502,6 +560,7 @@ public final class Holder implements IValueHolder {
 
 	@Override
 	public byte asByte(FailPolicy onFail) {
+		checkError();
 		if (byte.class.isAssignableFrom(clazz))
 			return this.bValue;
 		if (Byte.class.isAssignableFrom(clazz))
@@ -510,12 +569,8 @@ public final class Holder implements IValueHolder {
 	}
 
 	@Override
-	public char asChar() {
-		return asChar(DefaultPolicies.STRICT);
-	}
-
-	@Override
 	public char asChar(FailPolicy onFail) {
+		checkError();
 		if (char.class.isAssignableFrom(clazz))
 			return this.cValue;
 		if (Character.class.isAssignableFrom(clazz))
@@ -525,6 +580,7 @@ public final class Holder implements IValueHolder {
 
 	@Override
 	public short asShort(FailPolicy onFail) {
+		checkError();
 		if (short.class.isAssignableFrom(clazz))
 			return this.sValue;
 		if (byte.class.isAssignableFrom(clazz))
@@ -536,6 +592,7 @@ public final class Holder implements IValueHolder {
 
 	@Override
 	public int asInt(FailPolicy onFail) {
+		checkError();
 		if (int.class.isAssignableFrom(clazz))
 			return this.iValue;
 		if (byte.class.isAssignableFrom(clazz))
@@ -551,6 +608,7 @@ public final class Holder implements IValueHolder {
 
 	@Override
 	public long asLong(FailPolicy onFail) {
+		checkError();
 		if (long.class.isAssignableFrom(clazz))
 			return this.lValue;
 		if (byte.class.isAssignableFrom(clazz))
@@ -568,6 +626,7 @@ public final class Holder implements IValueHolder {
 
 	@Override
 	public float asFloat(FailPolicy onFail) {
+		checkError();
 		if (float.class.isAssignableFrom(clazz))
 			return this.fValue;
 		if (byte.class.isAssignableFrom(clazz))
@@ -587,6 +646,7 @@ public final class Holder implements IValueHolder {
 
 	@Override
 	public double asDouble(FailPolicy onFail) {
+		checkError();
 		if (double.class.isAssignableFrom(clazz))
 			return this.dValue;
 		if (byte.class.isAssignableFrom(clazz))
@@ -620,13 +680,13 @@ public final class Holder implements IValueHolder {
 	 *            unboxed anyway because with type erasure this method returns
 	 *            an Object
 	 * @return
-	 * @throws IllegalStateException
-	 *             when the object stored can not be assigned to the given class
+	 * @throws Throwable
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public <F> F getAs(Class<F> fClazz, FailPolicy onFail) throws IllegalStateException {
+	public <F> F getAs(Class<F> fClazz, FailPolicy onFail) {
 		// Unboxing: the given type is primitive
+		checkError();
 		if (fClazz.isAssignableFrom(boolean.class)) {
 			return (F) Boolean.valueOf(asBool(onFail));
 		}
@@ -651,7 +711,7 @@ public final class Holder implements IValueHolder {
 		if (fClazz.isAssignableFrom(double.class)) {
 			return (F) Double.valueOf(asDouble(onFail));
 		}
-		// Boxing: The stored type is primitive
+		// Boxing: The stored type is primitive, the given is not
 		if (clazz.isAssignableFrom(boolean.class)) {
 			if (fClazz.isAssignableFrom(Boolean.class))
 				return (F) Boolean.valueOf(this.boolValue);
@@ -730,6 +790,7 @@ public final class Holder implements IValueHolder {
 
 	@Override
 	public Class<?> getContainedClass() {
+		checkError();
 		return this.clazz;
 	}
 
@@ -759,8 +820,20 @@ public final class Holder implements IValueHolder {
 		return true;
 	}
 
+	/**
+	 * This Holder is said to be "valid" when it is either engaged or the cause
+	 * is <code>null</code>.
+	 * 
+	 * @return
+	 */
+	public boolean isValid() {
+		return this.isEngaged() || this.cause == null;
+	}
+
 	@Override
 	public String toString() {
+		if (!isValid())
+			return "Stored Error: " + this.cause.toString();
 		Object hold = boxed();
 		return hold == null ? "Na/V" : hold.toString();
 	}
