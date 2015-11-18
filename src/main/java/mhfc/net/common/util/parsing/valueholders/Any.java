@@ -140,8 +140,8 @@ public final class Any implements IValueHolder {
 	}
 
 	@Override
-	public Class<?> getContainedClass() {
-		return this.holder.getContainedClass();
+	public Class<?> getType() {
+		return this.holder.getType();
 	}
 
 	@Override

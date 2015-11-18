@@ -49,7 +49,7 @@ public interface IValueHolder {
 	 * s. <br>
 	 * <b>Requirements:</b> The returned value shall return the same class for
 	 * every future invocation on the returned value of
-	 * {@link #getContainedClass()}. Different stored values are allowed,
+	 * {@link #getType()}. Different stored values are allowed,
 	 * though.<br>
 	 * If {@link #isClassSnapshot()} would return <code>true</code>, then
 	 * <code>this</code> should be returned.<br>
@@ -68,31 +68,6 @@ public interface IValueHolder {
 
 	default boolean isClassSnapshot() {
 		return false;
-	}
-
-	default Holder compute() {
-		return compute(getDefaultPolicy());
-	}
-
-	/**
-	 * Compute a value. This should, in contrast to {@link #snapshot()} not
-	 * throw a {@link ComputationException}.
-	 *
-	 * @param onFail
-	 *
-	 * @return the computed value or a default
-	 */
-	default Holder compute(FailPolicy onFail) {
-		try {
-			return snapshot();
-		} catch (ComputationException ce) {
-			try {
-				Class<?> resultType = getContainedClass();
-				return Holder.fallbackNoResult(resultType, onFail);
-			} catch (ComputationException ce2) {
-				return Holder.empty();
-			}
-		}
 	}
 
 	default boolean asBool() throws ClassCastException {
@@ -183,12 +158,12 @@ public interface IValueHolder {
 	 * object would have if {@link #snapshot()} was being invoked at this point.
 	 * Actually computing the value of the Object shall explicitly not be done.
 	 * <br>
-	 * A {@link ComputationException} is appropriate if the {@link Class} can
-	 * not be deduced at the moment.
+	 * {@link #EMPTY_CLASS} is appropriate if the {@link Class} can not be
+	 * deduced at the moment.
 	 *
 	 * @return
 	 */
-	Class<?> getContainedClass();
+	Class<?> getType();
 
 	default FailPolicy getDefaultPolicy() {
 		return DefaultPolicies.STRICT;

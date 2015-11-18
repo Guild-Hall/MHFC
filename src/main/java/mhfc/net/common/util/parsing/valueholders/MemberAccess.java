@@ -2,10 +2,7 @@ package mhfc.net.common.util.parsing.valueholders;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-
-import org.apache.commons.lang3.reflect.FieldUtils;
-
-import com.google.common.collect.ComputationException;
+import java.util.Objects;
 
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
@@ -18,71 +15,117 @@ import mhfc.net.common.util.parsing.IValueHolder;
  * @author WorldSEnder
  */
 public class MemberAccess implements IValueHolder {
-	// TODO: use a cache to speedup performance
+	private static class FieldProxy {
+		private final Field parent;
+		private final Class<?> declaringClass;
+		private final String fieldName;
+		private final Class<?> fieldC;
+		private boolean isArrayLength; // Special case....
 
-	private static Field resolveField(Class<?> clazz, String name) {
-		if (clazz.isArray()) {
-			// Special because reflection doesn't find the field "length"
-			// see http://stackoverflow.com/q/11097658/
-			if (!name.equals("length"))
-				throw new ComputationException(new IllegalArgumentException(clazz.getName() + " has no field " + name));
-			return null; // Marker for ARRAY_LENGTH
+		public FieldProxy() {
+			this.parent = null;
+			this.fieldName = "length";
+			this.declaringClass = Object.class; // Best guess for an array
+			this.fieldC = int.class;
+			this.isArrayLength = true;
 		}
-		Field f = FieldUtils.getField(clazz, name);
-		if (f == null)
-			throw new ComputationException(new IllegalArgumentException(clazz.getName() + " has no field " + name));
-		return f;
+
+		public FieldProxy(Field f) {
+			this.parent = Objects.requireNonNull(f);
+			this.fieldName = f.getName();
+			this.declaringClass = f.getDeclaringClass();
+			this.fieldC = f.getType();
+			this.isArrayLength = false;
+		}
+
+		public FieldProxy(Class<?> notFoundIn, String name) {
+			this.parent = null;
+			this.fieldName = Objects.requireNonNull(name);
+			this.declaringClass = Objects.requireNonNull(notFoundIn);
+			this.fieldC = Holder.EMPTY_CLASS;
+			this.isArrayLength = false;
+		}
+
+		public Class<?> getType() {
+			return this.fieldC;
+		}
+
+		public Holder get(Holder instance) {
+			if (!this.isArrayLength && this.parent == null) {
+				return Holder.failedComputation(new IllegalArgumentException(
+						String.format("Couldn't find the field %s.%s", this.declaringClass.getName(), this.fieldName)));
+			}
+			if (!instance.isValid()) {
+				return Holder
+						.failedComputation(
+								new IllegalArgumentException(
+										String.format("Instance for field %s.%s could not be computed",
+												this.declaringClass.getName(), this.fieldName),
+										instance.getFailCause()));
+			}
+			assert (!declaringClass.isPrimitive());
+			Object inst = instance.getAs(this.declaringClass);
+			if (inst == null) {
+				return Holder.failedComputation(new IllegalArgumentException(String.format(
+						"Can't access field %s.%s on null instance", this.declaringClass.getName(), this.fieldName)));
+			}
+			if (this.isArrayLength) {
+				return Holder.valueOf(Array.getLength(inst));
+			}
+			try {
+				this.parent.setAccessible(true);
+				Object fieldValue = this.parent.get(inst);
+				if (void.class.isAssignableFrom(fieldC)) {
+					return Holder.empty();
+				}
+				if (boolean.class.isAssignableFrom(fieldC)) {
+					return Holder.valueOf(((Boolean) fieldValue).booleanValue());
+				}
+				if (char.class.isAssignableFrom(fieldC)) {
+					return Holder.valueOf(((Character) fieldValue).charValue());
+				}
+				if (byte.class.isAssignableFrom(fieldC)) {
+					return Holder.valueOf(((Byte) fieldValue).byteValue());
+				}
+				if (short.class.isAssignableFrom(fieldC)) {
+					return Holder.valueOf(((Short) fieldValue).shortValue());
+				}
+				if (int.class.isAssignableFrom(fieldC)) {
+					return Holder.valueOf(((Integer) fieldValue).intValue());
+				}
+				if (long.class.isAssignableFrom(fieldC)) {
+					return Holder.valueOf(((Long) fieldValue).longValue());
+				}
+				if (float.class.isAssignableFrom(fieldC)) {
+					return Holder.valueOf(((Float) fieldValue).floatValue());
+				}
+				if (double.class.isAssignableFrom(fieldC)) {
+					return Holder.valueOf(((Double) fieldValue).doubleValue());
+				}
+				// FIXME: does this lead to wrong classes on non-null values?
+				return Holder.valueOfUnsafe(fieldValue, fieldC);
+			} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
+				return Holder.failedComputation(
+						new IllegalArgumentException(String.format("Accessing the field %s.%s failed on %s",
+								this.declaringClass.getName(), this.fieldName, inst), e));
+			}
+		}
 	}
 
-	private static Holder readField(Field f, Object obj) {
+	private static final FieldProxy arrayLengthProxy = new FieldProxy();
+
+	private static FieldProxy resolveField(Class<?> originC2, String memberName) {
+		// TODO: use a cache to speedup performance
+		if (originC2.isArray() && memberName.equals("length")) {
+			return arrayLengthProxy;
+		}
 		try {
-			if (f == null) { // Marker for array_length
-				return Holder.valueOf(Array.getLength(obj));
-			}
-			Class<?> classOfField = f.getType();
-			Object o = FieldUtils.readField(f, obj);
-			if (boolean.class.isAssignableFrom(classOfField)) {
-				Boolean wrapper = (Boolean) o;
-				return Holder.valueOf(wrapper.booleanValue());
-			}
-			if (char.class.isAssignableFrom(classOfField)) {
-				Character wrapper = (Character) o;
-				return Holder.valueOf(wrapper.charValue());
-			}
-			if (byte.class.isAssignableFrom(classOfField)) {
-				Byte wrapper = (Byte) o;
-				return Holder.valueOf(wrapper.byteValue());
-			}
-			if (short.class.isAssignableFrom(classOfField)) {
-				Short wrapper = (Short) o;
-				return Holder.valueOf(wrapper.shortValue());
-			}
-			if (int.class.isAssignableFrom(classOfField)) {
-				Integer wrapper = (Integer) o;
-				return Holder.valueOf(wrapper.intValue());
-			}
-			if (long.class.isAssignableFrom(classOfField)) {
-				Long wrapper = (Long) o;
-				return Holder.valueOf(wrapper.longValue());
-			}
-			if (float.class.isAssignableFrom(classOfField)) {
-				Float wrapper = (Float) o;
-				return Holder.valueOf(wrapper.floatValue());
-			}
-			if (double.class.isAssignableFrom(classOfField)) {
-				Double wrapper = (Double) o;
-				return Holder.valueOf(wrapper.doubleValue());
-			}
-			return Holder.valueOfUnsafe(o, classOfField);
-		} catch (IllegalAccessException | IllegalArgumentException e) {
-			throw new ComputationException(e);
+			return new FieldProxy(originC2.getField(memberName));
+		} catch (NoSuchFieldException e) {
+			return new FieldProxy(originC2, memberName);
+		} catch (SecurityException e) {
+			return new FieldProxy(originC2, memberName);
 		}
-	}
-
-	private static Class<?> classOfField(Field f) {
-		if (f == null) // Marker for array_length
-			return int.class;
-		return f.getType();
 	}
 
 	/**
@@ -95,8 +138,9 @@ public class MemberAccess implements IValueHolder {
 	 */
 	public static class BoundMemberAccess implements IValueHolder {
 		private final IValueHolder origin;
-		private final Field field;
-		private final Class<?> classOfField;
+		private final Class<?> originC;
+		private final FieldProxy field;
+		private final Class<?> fieldC;
 
 		/**
 		 *
@@ -104,22 +148,20 @@ public class MemberAccess implements IValueHolder {
 		 * @param memberName
 		 */
 		public BoundMemberAccess(IValueHolder object, String memberName) {
-			this.origin = object.snapshotClass();
-			Class<?> originC = this.origin.getContainedClass();
+			this.origin = Objects.requireNonNull(object.snapshotClass());
+			this.originC = this.origin.getType();
 			this.field = resolveField(originC, memberName);
-			assert (!originC.isPrimitive());
-			this.classOfField = classOfField(field);
+			this.fieldC = field.getType();
 		}
 
 		@Override
 		public Holder snapshot() {
-			Object o = origin.getAs(Object.class);
-			return readField(field, o);
+			return this.field.get(this.origin.snapshot());
 		}
 
 		@Override
-		public Class<?> getContainedClass() {
-			return classOfField;
+		public Class<?> getType() {
+			return fieldC;
 		}
 
 		@Override
@@ -154,17 +196,15 @@ public class MemberAccess implements IValueHolder {
 
 	@Override
 	public Holder snapshot() {
-		Holder value = this.origin.snapshot();
-		Class<?> clazz = value.getContainedClass();
-		Field f = resolveField(clazz, name);
-		Object asObject = value.getAs(Object.class);
-		return readField(f, asObject);
+		Holder instance = this.origin.snapshot();
+		FieldProxy field = resolveField(instance.getType(), this.name);
+		return field.get(instance);
 	}
 
 	@Override
-	public Class<?> getContainedClass() {
-		Class<?> storedC = this.origin.getContainedClass();
-		Field f = resolveField(storedC, name);
-		return classOfField(f);
+	public Class<?> getType() {
+		Class<?> instanceC = this.origin.getType();
+		FieldProxy field = resolveField(instanceC, this.name);
+		return field.getType();
 	}
 }

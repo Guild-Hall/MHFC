@@ -39,7 +39,7 @@ public class FreeFunction implements IExpression {
 			}
 
 			@Override
-			public Class<?> getContainedClass() {
+			public Class<?> getType() {
 				// TODO Auto-generated method stub
 				return null;
 			}

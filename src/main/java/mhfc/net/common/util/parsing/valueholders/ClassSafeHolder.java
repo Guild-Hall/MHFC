@@ -51,7 +51,7 @@ public class ClassSafeHolder<V> implements IValueHolder {
 	}
 
 	@Override
-	public Class<?> getContainedClass() {
+	public Class<?> getType() {
 		return this.clazz;
 	}
 

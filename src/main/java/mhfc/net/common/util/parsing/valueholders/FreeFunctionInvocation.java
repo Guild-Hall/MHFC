@@ -25,7 +25,7 @@ public class FreeFunctionInvocation implements IValueHolder {
 	}
 
 	@Override
-	public Class<?> getContainedClass() {
+	public Class<?> getType() {
 		// TODO Auto-generated method stub
 		return null;
 	}

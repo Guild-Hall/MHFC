@@ -1,134 +1,116 @@
 package mhfc.net.common.util.parsing.valueholders;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.IntFunction;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.reflect.MethodUtils;
 
-import com.google.common.collect.ComputationException;
+import com.google.common.base.Joiner;
 
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
 
 public class MemberFunctionCall implements ICallableValueHolder {
-	private static Method resolveMethod(Class<?> clazz, String name, Class<?>... args) {
-		if (clazz.isArray() && name.equals("clone")) {
-			// Ofc there's an exception....
-			if (args.length != 0)
-				throw new ComputationException(new IllegalArgumentException(
-						clazz.getName() + " has no method that takes the paramters " + args));
-			return null; // Marker...
-		}
-		Method m = MethodUtils.getMatchingAccessibleMethod(clazz, name, args);
-		if (m == null) {
-			throw new ComputationException(
-					new IllegalArgumentException(clazz.getName() + " has no method that takes the paramters " + args));
-		}
-		return m;
+	private static final Joiner argList = Joiner.on(", ");
+
+	private static String signatureFor(Class<?> instanceC, Class<?>... argsC) {
+		return instanceC.getName() + " (" + argList.join(mapAll(Class::getName, argsC, String[]::new)) + ")";
 	}
 
-	private static Holder invokeMethod(Method m, Object instance, Object... arguments) {
-		if (m == null) {
-			if (instance == null)
-				throw new ComputationException(new NullPointerException("Can't copy a null array"));
-			Class<?> componentType = instance.getClass().getComponentType();
-			int length = Array.getLength(instance);
-			Object newArray = Array.newInstance(componentType, length);
-			System.arraycopy(instance, 0, newArray, 0, length);
-			return Holder.valueOf(newArray);
+	private static Holder invokeMethod(Method m, Holder instance, Holder[] args) {
+		if (!instance.isValid()) {
+			return Holder.failedComputation(new IllegalArgumentException(
+					"The instance to invoke the method on could not be computed", instance.getFailCause()));
 		}
-		if (instance == null)
-			throw new ComputationException(new NullPointerException("Can't invoke member method on null instance"));
+		for (Holder h : args) {
+			if (h.isValid())
+				continue;
+			return Holder.failedComputation(new IllegalArgumentException(
+					"An argument to the function could not be computed", h.getFailCause()));
+		}
+		Object inst = instance.boxed();
+		Class<?> retClazz = m.getReturnType();
+		Object ret;
 		try {
-			Class<?> typeOfRet = classOfMethod(null, m); // Not an array, safe
-			Object ret = m.invoke(instance, arguments);
-			if (void.class.isAssignableFrom(typeOfRet)) {
-				return Holder.empty();
-			}
-			if (boolean.class.isAssignableFrom(typeOfRet)) {
-				Boolean wrapper = (Boolean) ret;
-				return Holder.valueOf(wrapper.booleanValue());
-			}
-			if (char.class.isAssignableFrom(typeOfRet)) {
-				Character wrapper = (Character) ret;
-				return Holder.valueOf(wrapper.charValue());
-			}
-			if (byte.class.isAssignableFrom(typeOfRet)) {
-				Byte wrapper = (Byte) ret;
-				return Holder.valueOf(wrapper.byteValue());
-			}
-			if (short.class.isAssignableFrom(typeOfRet)) {
-				Short wrapper = (Short) ret;
-				return Holder.valueOf(wrapper.shortValue());
-			}
-			if (int.class.isAssignableFrom(typeOfRet)) {
-				Integer wrapper = (Integer) ret;
-				return Holder.valueOf(wrapper.intValue());
-			}
-			if (long.class.isAssignableFrom(typeOfRet)) {
-				Long wrapper = (Long) ret;
-				return Holder.valueOf(wrapper.longValue());
-			}
-			if (float.class.isAssignableFrom(typeOfRet)) {
-				Float wrapper = (Float) ret;
-				return Holder.valueOf(wrapper.floatValue());
-			}
-			if (double.class.isAssignableFrom(typeOfRet)) {
-				Double wrapper = (Double) ret;
-				return Holder.valueOf(wrapper.doubleValue());
-			}
-			return Holder.valueOfUnsafe(ret, typeOfRet);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			throw new ComputationException(e);
+			m.setAccessible(true);
+			ret = m.invoke(inst, mapAll(Holder::boxed, args, Object[]::new));
+		} catch (IllegalAccessException | IllegalArgumentException | NullPointerException | SecurityException e) {
+			return Holder.failedComputation(e);
+		} catch (InvocationTargetException e) {
+			return Holder.failedComputation(e.getCause());
 		}
+		if (void.class.isAssignableFrom(retClazz)) {
+			return Holder.empty();
+		}
+		if (boolean.class.isAssignableFrom(retClazz)) {
+			return Holder.valueOf(((Boolean) ret).booleanValue());
+		}
+		if (char.class.isAssignableFrom(retClazz)) {
+			return Holder.valueOf(((Character) ret).charValue());
+		}
+		if (byte.class.isAssignableFrom(retClazz)) {
+			return Holder.valueOf(((Byte) ret).byteValue());
+		}
+		if (short.class.isAssignableFrom(retClazz)) {
+			return Holder.valueOf(((Short) ret).shortValue());
+		}
+		if (int.class.isAssignableFrom(retClazz)) {
+			return Holder.valueOf(((Integer) ret).intValue());
+		}
+		if (long.class.isAssignableFrom(retClazz)) {
+			return Holder.valueOf(((Long) ret).longValue());
+		}
+		if (float.class.isAssignableFrom(retClazz)) {
+			return Holder.valueOf(((Float) ret).floatValue());
+		}
+		if (double.class.isAssignableFrom(retClazz)) {
+			return Holder.valueOf(((Double) ret).doubleValue());
+		}
+		// FIXME: does this lead to wrong classes on non-null values?
+		return Holder.valueOfUnsafe(ret, retClazz);
 	}
 
-	private static Class<?> classOfMethod(Class<?> clazz, Method m) {
-		return m == null ? clazz // array.clone()
-				: m.getReturnType();
+	private static Method findMethod(Class<?> instanceClazz, String name, Class<?>... argumentClasses) {
+		try {
+			if (instanceClazz.isArray() && name.equals("clone")) {
+				Method clone = instanceClazz.getSuperclass().getDeclaredMethod("clone", argumentClasses);
+				clone.setAccessible(true);
+				return clone;
+			}
+			// FIXME: this finds static methods I think, should not
+			return MethodUtils.getMatchingAccessibleMethod(instanceClazz, name, argumentClasses);
+		} catch (NoSuchMethodException e) {
+			return null;
+		} catch (SecurityException e) {
+			return null;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private static <T> T[] mapAll(Function<? super IValueHolder, T> func, IValueHolder... holders) {
-		return (T[]) Arrays.stream(holders).sequential().map(func).toArray();
-
-	}
-
-	private static Class<?>[] getContainedClassAll(IValueHolder... holders) {
-		return mapAll(IValueHolder::getContainedClass, holders);
-	}
-
-	private static Object[] wrapped(Holder... holders) {
-		return mapAll(h -> h.getAs(Object.class), holders);
-	}
-
-	private static Holder[] snapshotAll(IValueHolder... holders) {
-		return mapAll(IValueHolder::snapshot, holders);
-	}
-
-	private static IValueHolder[] snapshotClassAll(IValueHolder... holders) {
-		return mapAll(IValueHolder::snapshotClass, holders);
-	}
-
-	private static boolean isClassSnapshotAll(IValueHolder... holders) {
-		return Arrays.stream(holders).unordered().allMatch(IValueHolder::isClassSnapshot);
+	private static <T, R> T[] mapAll(Function<? super R, T> func, R[] holders, IntFunction<T[]> arrNew) {
+		return (T[]) Arrays.stream(holders).sequential().map(func).toArray(arrNew);
 	}
 
 	public static class BoundMemberFunctionCall implements ICallableValueHolder {
 		private final IValueHolder object;
+		private final Class<?> instC;
 		private final IValueHolder[] args;
-		private final Class<?> returnClass;
+		private final Class<?>[] argsClasses;
 		private final Method method;
+		private final Class<?> returnClass;
 
 		private BoundMemberFunctionCall(IValueHolder object, String name, IValueHolder... arguments) {
 			this.object = object.snapshotClass();
-			this.args = snapshotClassAll(arguments);
-			this.method = resolveMethod(this.object.getContainedClass(), name, getContainedClassAll(arguments));
-			this.returnClass = classOfMethod(this.object.getContainedClass(), method);
+			this.instC = this.object.getType();
+			this.args = mapAll(IValueHolder::snapshot, arguments, IValueHolder[]::new);
+			this.argsClasses = mapAll(IValueHolder::getType, this.args, Class<?>[]::new);
+			this.method = findMethod(this.instC, name, this.argsClasses);
+			this.returnClass = this.method == null ? Holder.EMPTY_CLASS : this.method.getReturnType();
 		}
 
 		@Override
@@ -143,13 +125,19 @@ public class MemberFunctionCall implements ICallableValueHolder {
 
 		@Override
 		public Holder snapshot() {
+			// Snapshot first, to keep contract
 			Holder instance = this.object.snapshot();
-			Holder[] arguments = snapshotAll(args);
-			return invokeMethod(method, instance.getAs(Object.class), wrapped(arguments));
+			Holder[] arguments = mapAll(e -> e.snapshot(), this.args, Holder[]::new);
+			if (this.method == null) {
+				return Holder.failedComputation(
+						new IllegalArgumentException(String.format("Couldn't find a method matching the signature %s",
+								signatureFor(this.instC, this.argsClasses))));
+			}
+			return invokeMethod(this.method, instance, arguments);
 		}
 
 		@Override
-		public Class<?> getContainedClass() {
+		public Class<?> getType() {
 			return this.returnClass;
 		}
 
@@ -161,7 +149,7 @@ public class MemberFunctionCall implements ICallableValueHolder {
 
 	public static ICallableValueHolder makeFunctionCall(IValueHolder object, String methodName,
 			IValueHolder... arguments) {
-		if (object.isClassSnapshot() && isClassSnapshotAll(arguments)) {
+		if (object.isClassSnapshot() && Stream.of(arguments).allMatch(IValueHolder::isClassSnapshot)) {
 			return new BoundMemberFunctionCall(object, methodName, arguments);
 		}
 		return new MemberFunctionCall(object, methodName, arguments);
@@ -180,13 +168,16 @@ public class MemberFunctionCall implements ICallableValueHolder {
 
 	@Override
 	public Holder snapshot() {
-		Holder base = this.object.snapshot();
-		Class<?> clazz = base.getContainedClass();
-		Holder[] arguments = snapshotAll(this.arguments);
-		Class<?>[] argClasses = getContainedClassAll(arguments);
-		Method m = resolveMethod(clazz, name, argClasses);
-		assert (!clazz.isPrimitive());
-		return invokeMethod(m, base.getAs(Object.class), wrapped(arguments));
+		Holder instance = this.object.snapshot();
+		Holder[] arguments = mapAll(IValueHolder::snapshot, this.arguments, Holder[]::new);
+		Class<?> instC = instance.getType();
+		Class<?>[] argsC = mapAll(Holder::getType, arguments, Class<?>[]::new);
+		Method m = findMethod(instC, name, argsC);
+		if (m == null) {
+			return Holder.failedComputation(new IllegalArgumentException(
+					String.format("Couldn't find a method matching the signature %s", signatureFor(instC, argsC))));
+		}
+		return invokeMethod(m, instance, arguments);
 	}
 
 	@Override
@@ -195,15 +186,17 @@ public class MemberFunctionCall implements ICallableValueHolder {
 	}
 
 	@Override
-	public Class<?> getContainedClass() {
-		Class<?> invokedOn = this.object.getContainedClass();
-		Class<?>[] argClasses = getContainedClassAll(arguments);
-		Method m = resolveMethod(invokedOn, name, argClasses);
-		return classOfMethod(invokedOn, m);
+	public Class<?> getType() {
+		Class<?> instC = this.object.getType();
+		Class<?>[] argsC = mapAll(IValueHolder::getType, arguments, Class<?>[]::new);
+		Method m = findMethod(instC, name, argsC);
+		if (m == null)
+			return Holder.EMPTY_CLASS;
+		return m.getReturnType();
 	}
 
 	@Override
-	public Holder call() throws Exception {
+	public Holder call() {
 		return snapshot();
 	}
 

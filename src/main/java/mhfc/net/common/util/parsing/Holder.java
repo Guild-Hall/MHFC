@@ -191,37 +191,6 @@ public final class Holder implements IValueHolder {
 		}
 	}
 
-	public static Holder fallbackNoResult(Class<?> resultType, FailPolicy onFail) {
-		if (void.class.isAssignableFrom(resultType)) {
-			return Holder.empty();
-		}
-		if (boolean.class.isAssignableFrom(resultType)) {
-			return Holder.valueOf(onFail.failedBoolean(void.class));
-		}
-		if (char.class.isAssignableFrom(resultType)) {
-			return Holder.valueOf(onFail.failedChar(void.class));
-		}
-		if (byte.class.isAssignableFrom(resultType)) {
-			return Holder.valueOf(onFail.failedByte(void.class));
-		}
-		if (short.class.isAssignableFrom(resultType)) {
-			return Holder.valueOf(onFail.failedShort(void.class));
-		}
-		if (int.class.isAssignableFrom(resultType)) {
-			return Holder.valueOf(onFail.failedInt(void.class));
-		}
-		if (long.class.isAssignableFrom(resultType)) {
-			return Holder.valueOf(onFail.failedLong(void.class));
-		}
-		if (float.class.isAssignableFrom(resultType)) {
-			return Holder.valueOf(onFail.failedFloat(void.class));
-		}
-		if (double.class.isAssignableFrom(resultType)) {
-			return Holder.valueOf(onFail.failedDouble(void.class));
-		}
-		return Holder.valueOf(onFail.failedObject(void.class, resultType));
-	}
-
 	public static final Holder EMPTY = new Holder();
 
 	public static Holder empty() {
@@ -288,7 +257,7 @@ public final class Holder implements IValueHolder {
 		return ret;
 	}
 
-	public static Holder failedComputation(RuntimeException cause) {
+	public static Holder failedComputation(Throwable cause) {
 		return new Holder(failedTag, cause);
 	}
 
@@ -307,7 +276,7 @@ public final class Holder implements IValueHolder {
 	/**
 	 * If the Holder is empty, it may have a cause to why it is.
 	 */
-	private final RuntimeException cause;
+	private final Throwable cause;
 
 	/**
 	 * Any empty Any
@@ -334,8 +303,8 @@ public final class Holder implements IValueHolder {
 	 * @param cause
 	 *            the cause why this {@link Holder} is empty
 	 */
-	private Holder(FailedComputation tag, RuntimeException cause) {
-		this.cause = cause;
+	private Holder(FailedComputation tag, Throwable cause) {
+		this.cause = Objects.requireNonNull(cause);
 		this.value = null;
 		this.clazz = void.class;
 		this.boolValue = false;
@@ -511,7 +480,8 @@ public final class Holder implements IValueHolder {
 		return thisBoxed == null ? otherBoxed == null : thisBoxed.equals(otherBoxed);
 	}
 
-	private Object boxed() {
+	public Object boxed() {
+		checkError();
 		if (!isEngaged())
 			return null;
 		if (boolean.class.isAssignableFrom(clazz)) {
@@ -540,7 +510,7 @@ public final class Holder implements IValueHolder {
 	private void checkError() {
 		if (this.isValid())
 			return;
-		throw new IllegalStateException(this.cause);
+		throw new IllegalStateException("Holding an exception: " + this.cause, this.cause);
 	}
 
 	@Override
@@ -789,7 +759,7 @@ public final class Holder implements IValueHolder {
 	}
 
 	@Override
-	public Class<?> getContainedClass() {
+	public Class<?> getType() {
 		checkError();
 		return this.clazz;
 	}
@@ -828,6 +798,12 @@ public final class Holder implements IValueHolder {
 	 */
 	public boolean isValid() {
 		return this.isEngaged() || this.cause == null;
+	}
+
+	public Throwable getFailCause() {
+		if (isValid())
+			return null;
+		return this.cause;
 	}
 
 	@Override

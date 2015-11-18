@@ -20,7 +20,7 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public Class<?> getContainedClass() {
+		public Class<?> getType() {
 			return boolean.class;
 		}
 
@@ -56,7 +56,7 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public Class<?> getContainedClass() {
+		public Class<?> getType() {
 			return char.class;
 		}
 
@@ -92,7 +92,7 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public Class<?> getContainedClass() {
+		public Class<?> getType() {
 			return byte.class;
 		}
 
@@ -128,7 +128,7 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public Class<?> getContainedClass() {
+		public Class<?> getType() {
 			return short.class;
 		}
 
@@ -164,7 +164,7 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public Class<?> getContainedClass() {
+		public Class<?> getType() {
 			return int.class;
 		}
 
@@ -200,7 +200,7 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public Class<?> getContainedClass() {
+		public Class<?> getType() {
 			return long.class;
 		}
 
@@ -236,7 +236,7 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public Class<?> getContainedClass() {
+		public Class<?> getType() {
 			return float.class;
 		}
 
@@ -272,7 +272,7 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public Class<?> getContainedClass() {
+		public Class<?> getType() {
 			return double.class;
 		}
 
