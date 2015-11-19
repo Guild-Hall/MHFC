@@ -20,7 +20,8 @@ public class MemberAccess implements IValueHolder {
 		private final Class<?> declaringClass;
 		private final String fieldName;
 		private final Class<?> fieldC;
-		private boolean isArrayLength; // Special case....
+		private final boolean isArrayLength; // Special case....
+		private final Throwable fieldNotFound;
 
 		public FieldProxy() {
 			this.parent = null;
@@ -28,6 +29,8 @@ public class MemberAccess implements IValueHolder {
 			this.declaringClass = Object.class; // Best guess for an array
 			this.fieldC = int.class;
 			this.isArrayLength = true;
+			this.fieldNotFound = null;
+			;
 		}
 
 		public FieldProxy(Field f) {
@@ -36,6 +39,7 @@ public class MemberAccess implements IValueHolder {
 			this.declaringClass = f.getDeclaringClass();
 			this.fieldC = f.getType();
 			this.isArrayLength = false;
+			this.fieldNotFound = null;
 		}
 
 		public FieldProxy(Class<?> notFoundIn, String name) {
@@ -44,6 +48,8 @@ public class MemberAccess implements IValueHolder {
 			this.declaringClass = Objects.requireNonNull(notFoundIn);
 			this.fieldC = Holder.EMPTY_CLASS;
 			this.isArrayLength = false;
+			this.fieldNotFound = new IllegalArgumentException(
+					String.format("Couldn't find the field %s.%s", this.declaringClass.getName(), this.fieldName));
 		}
 
 		public Class<?> getType() {
@@ -52,8 +58,7 @@ public class MemberAccess implements IValueHolder {
 
 		public Holder get(Holder instance) {
 			if (!this.isArrayLength && this.parent == null) {
-				return Holder.failedComputation(new IllegalArgumentException(
-						String.format("Couldn't find the field %s.%s", this.declaringClass.getName(), this.fieldName)));
+				return Holder.failedComputation(this.fieldNotFound);
 			}
 			if (!instance.isValid()) {
 				return Holder
