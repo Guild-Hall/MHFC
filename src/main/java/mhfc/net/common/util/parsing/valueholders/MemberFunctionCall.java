@@ -1,11 +1,11 @@
 package mhfc.net.common.util.parsing.valueholders;
 
+import static mhfc.net.common.util.Utilities.mapAll;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.IntFunction;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.reflect.MethodUtils;
@@ -89,11 +89,6 @@ public class MemberFunctionCall implements ICallableValueHolder {
 		} catch (SecurityException e) {
 			return null;
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private static <T, R> T[] mapAll(Function<? super R, T> func, R[] holders, IntFunction<T[]> arrNew) {
-		return (T[]) Arrays.stream(holders).sequential().map(func).toArray(arrNew);
 	}
 
 	public static class BoundMemberFunctionCall implements ICallableValueHolder {

@@ -1,21 +1,18 @@
 package mhfc.net.common.util;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
+import java.util.function.IntFunction;
 
-import mhfc.net.common.core.registry.MHFCItemRegistry;
-import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.entity.projectile.EntityLightning;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
-import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathEntity;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -23,6 +20,7 @@ import net.minecraft.world.WorldServer;
 
 public class Utilities {
 	private static Random rand = new Random();
+
 	/**
 	 * For all nearby entities that are attacking the EntityLiving, resets the
 	 * attack and revenge target
@@ -31,8 +29,7 @@ public class Utilities {
 	 */
 	public static void removeAttackers(EntityLiving living) {
 		@SuppressWarnings("unchecked")
-		List<EntityLiving> list = living.worldObj.getEntitiesWithinAABB(
-				EntityLiving.class,
+		List<EntityLiving> list = living.worldObj.getEntitiesWithinAABB(EntityLiving.class,
 				living.boundingBox.expand(16.0D, 10.0D, 16.0D));
 		for (EntityLiving attacker : list) {
 			if ((attacker != living) && (attacker.getAttackTarget() == living)) {
@@ -41,21 +38,20 @@ public class Utilities {
 			}
 		}
 	}
-	
 
-	public static void chargeMobToEntity(EntityWyvernHostile chargingEntity,
-			Entity target, float distance, float moveSpeed,
-			boolean dependsonWater) {
-		PathEntity pathentity = chargingEntity.worldObj.getPathEntityToEntity(
-				chargingEntity, target, 16, false, false, dependsonWater, true);
+	public static void chargeMobToEntity(EntityWyvernHostile chargingEntity, Entity target, float distance,
+			float moveSpeed, boolean dependsonWater) {
+		PathEntity pathentity = chargingEntity.worldObj.getPathEntityToEntity(chargingEntity, target, 16, false, false,
+				dependsonWater, true);
 		if ((pathentity != null) && (distance < 12.0F)) {
 			chargingEntity.setPathToEntity(pathentity);
 			chargingEntity.speed = moveSpeed;
 		}
-		if ((target != null) && ((dependsonWater = true))){
+		if ((target != null) && ((dependsonWater = true))) {
 			chargingEntity.speed = moveSpeed / 2D;
 		}
 	}
+
 	/**
 	 * Counts the number of players in a world // FIXME: actually useful?
 	 *
@@ -66,9 +62,7 @@ public class Utilities {
 		return worldObj.playerEntities.size();
 	}
 
-
-	public static void spawnLightnings(double Lx, double Ly, double Lz,
-			int many, World world) {
+	public static void spawnLightnings(double Lx, double Ly, double Lz, int many, World world) {
 		for (int i = 0; i < many; i++) {
 			EntityLightning l = new EntityLightning(world);
 			l.setPosition(Lx, Ly, Lz);
@@ -88,11 +82,9 @@ public class Utilities {
 		return damage;
 	}
 
-	public static void knockBack(EntityLivingBase attacker,
-			EntityLivingBase entity, float knockback) {
+	public static void knockBack(EntityLivingBase attacker, EntityLivingBase entity, float knockback) {
 
-		int knockBackModifier = EnchantmentHelper.getKnockbackModifier(
-				attacker, entity);
+		int knockBackModifier = EnchantmentHelper.getKnockbackModifier(attacker, entity);
 		if (attacker.isSprinting()) {
 			knockBackModifier++;
 		}
@@ -106,8 +98,7 @@ public class Utilities {
 			dx = (Math.random() - Math.random()) * 0.01D;
 		}
 
-		entity.attackedAtYaw = (float) ((Math.atan2(dz, dx) * 180D) / Math.PI)
-				- entity.rotationYaw;
+		entity.attackedAtYaw = (float) ((Math.atan2(dz, dx) * 180D) / Math.PI) - entity.rotationYaw;
 
 		// knockBack part
 		float f = MathHelper.sqrt_double(dx * dx + dz * dz);
@@ -119,11 +110,14 @@ public class Utilities {
 		}
 
 		if (knockBackModifier > 0) {
-			dx = -Math.sin(Math.toRadians(attacker.rotationYaw))
-					* knockBackModifier * 0.5F;
-			dz = Math.cos(Math.toRadians(attacker.rotationYaw))
-					* knockBackModifier * 0.5F;
+			dx = -Math.sin(Math.toRadians(attacker.rotationYaw)) * knockBackModifier * 0.5F;
+			dz = Math.cos(Math.toRadians(attacker.rotationYaw)) * knockBackModifier * 0.5F;
 			entity.addVelocity(dx, 0.1D, dz);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T, R> T[] mapAll(Function<? super R, T> func, R[] holders, IntFunction<T[]> arrNew) {
+		return (T[]) Arrays.stream(holders).sequential().map(func).toArray(arrNew);
 	}
 }
