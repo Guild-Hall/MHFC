@@ -7,8 +7,10 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import mhfc.net.common.util.parsing.Context;
+import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IExpression;
 import mhfc.net.common.util.parsing.IValueHolder;
+import mhfc.net.common.util.parsing.expressions.UnresolvedContextVariableException.UnresolvedFunctionException;
 import mhfc.net.common.util.parsing.valueholders.FreeFunctionInvocation;
 
 public class FreeFunction implements IExpression {
@@ -24,7 +26,7 @@ public class FreeFunction implements IExpression {
 	public IValueHolder resolveAgainst(Context context) {
 		Function<Arguments, IValueHolder> func = context.getFilter(name);
 		if (func == null) {
-			throw new UnresolvedContextVariableException(name, context);
+			return Holder.failedComputation(new UnresolvedFunctionException(name, context));
 		}
 		return new FreeFunctionInvocation(func, mapAll(e -> e.resolveAgainst(context), this.args, IValueHolder[]::new));
 	}
