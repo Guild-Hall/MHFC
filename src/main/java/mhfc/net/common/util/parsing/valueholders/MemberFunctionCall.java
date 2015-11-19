@@ -18,8 +18,9 @@ import mhfc.net.common.util.parsing.IValueHolder;
 public class MemberFunctionCall implements ICallableValueHolder {
 	private static final Joiner argList = Joiner.on(", ");
 
-	private static String signatureFor(Class<?> instanceC, Class<?>... argsC) {
-		return instanceC.getName() + " (" + argList.join(mapAll(Class::getName, argsC, String[]::new)) + ")";
+	private static String signatureFor(Class<?> instanceC, String methodName, Class<?>... argsC) {
+		return "public " + instanceC.getName() + "." + methodName + "("
+				+ argList.join(mapAll(Class::getName, argsC, String[]::new)) + ")";
 	}
 
 	private static Holder invokeMethod(Method m, Holder instance, Holder[] args) {
@@ -96,7 +97,9 @@ public class MemberFunctionCall implements ICallableValueHolder {
 		private final Class<?> instC;
 		private final IValueHolder[] args;
 		private final Class<?>[] argsClasses;
+		private final String methodName;
 		private final Method method;
+		private final Throwable notResolvedExc;
 		private final Class<?> returnClass;
 
 		private BoundMemberFunctionCall(IValueHolder object, String name, IValueHolder... arguments) {
@@ -104,7 +107,12 @@ public class MemberFunctionCall implements ICallableValueHolder {
 			this.instC = this.object.getType();
 			this.args = mapAll(IValueHolder::snapshot, arguments, IValueHolder[]::new);
 			this.argsClasses = mapAll(IValueHolder::getType, this.args, Class<?>[]::new);
+			this.methodName = name;
 			this.method = findMethod(this.instC, name, this.argsClasses);
+			this.notResolvedExc = this.method == null
+					? new IllegalArgumentException(String.format("Couldn't find a method matching %s",
+							signatureFor(this.instC, this.methodName, this.argsClasses)))
+					: null;
 			this.returnClass = this.method == null ? Holder.EMPTY_CLASS : this.method.getReturnType();
 		}
 
@@ -124,9 +132,7 @@ public class MemberFunctionCall implements ICallableValueHolder {
 			Holder instance = this.object.snapshot();
 			Holder[] arguments = mapAll(e -> e.snapshot(), this.args, Holder[]::new);
 			if (this.method == null) {
-				return Holder.failedComputation(
-						new IllegalArgumentException(String.format("Couldn't find a method matching the signature %s",
-								signatureFor(this.instC, this.argsClasses))));
+				return Holder.failedComputation(this.notResolvedExc);
 			}
 			return invokeMethod(this.method, instance, arguments);
 		}
@@ -170,7 +176,7 @@ public class MemberFunctionCall implements ICallableValueHolder {
 		Method m = findMethod(instC, name, argsC);
 		if (m == null) {
 			return Holder.failedComputation(new IllegalArgumentException(
-					String.format("Couldn't find a method matching the signature %s", signatureFor(instC, argsC))));
+					String.format("Couldn't find a method matching %s", signatureFor(instC, name, argsC))));
 		}
 		return invokeMethod(m, instance, arguments);
 	}
