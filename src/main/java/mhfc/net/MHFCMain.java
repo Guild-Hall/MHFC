@@ -1,12 +1,5 @@
 package mhfc.net;
 
-import mhfc.net.common.configuration.MHFCConfig;
-import mhfc.net.common.core.command.CommandMHFC;
-import mhfc.net.common.system.UpdateSystem;
-import mhfc.net.common.tab.MHFCTab;
-import mhfc.net.common.util.lib.MHFCReference;
-import net.minecraft.creativetab.CreativeTabs;
-
 import org.apache.logging.log4j.Logger;
 
 import cpw.mods.fml.common.Mod;
@@ -14,7 +7,14 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import mhfc.net.common.configuration.MHFCConfig;
+import mhfc.net.common.core.command.CommandMHFC;
+import mhfc.net.common.system.UpdateSystem;
+import mhfc.net.common.tab.MHFCTab;
+import mhfc.net.common.util.lib.MHFCReference;
+import net.minecraft.creativetab.CreativeTabs;
 
 /**
  * <<<<<<< HEAD
@@ -27,12 +27,10 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
  *          www.mhfrontiercraft.blogspot.com for more info.
  */
 
-@Mod(modid = MHFCReference.main_modid, name = MHFCReference.main_name,
-		version = MHFCReference.main_version)
+@Mod(modid = MHFCReference.main_modid, name = MHFCReference.main_name,version = MHFCReference.main_version)
 public class MHFCMain {
 
-	@SidedProxy(clientSide = "mhfc.net.client.MHFCClient",
-			serverSide = "mhfc.net.server.MHFCServer")
+	@SidedProxy(clientSide = "mhfc.net.client.MHFCClient",serverSide = "mhfc.net.server.MHFCServer")
 	public static ProxyBase proxy;
 
 	@Mod.Instance(MHFCReference.main_modid)
@@ -49,7 +47,7 @@ public class MHFCMain {
 		logger = pre.getModLog();
 		config = new MHFCConfig(pre);
 		config.init();
-		UpdateSystem.init(MHFCReference.main_version);
+		UpdateSystem.init();
 		logger.info("Starting MHFC" + MHFCReference.main_version);
 		logger.info("Copyright (c) Guild Hall 2015");
 		isPreInitialized = true;
@@ -61,11 +59,18 @@ public class MHFCMain {
 	}
 
 	@Mod.EventHandler
-	public void postInit(FMLPostInitializationEvent e) {}
+	public void postInit(FMLPostInitializationEvent e) {
+		
+	}
 
 	@Mod.EventHandler
 	public void serverLoad(FMLServerStartingEvent event) {
 		event.registerServerCommand(new CommandMHFC());
+	}
+	
+	@Mod.EventHandler
+	public static void onServerStart(FMLServerStartedEvent sse) {
+		UpdateSystem.onServerStart(sse);
 	}
 
 	public static boolean isPreInitiliazed() {
