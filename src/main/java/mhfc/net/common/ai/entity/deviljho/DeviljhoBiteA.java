@@ -21,7 +21,7 @@ public class DeviljhoBiteA extends ActionAdapter<EntityDeviljho> {
 
 	private static final double MAX_DIST = 5f;
 	private static final double MAX_ANGLE = 0.155; // This is cos(30)
-	private static final float WEIGHT = 13;
+	private static final float WEIGHT = 2;
 
 	public DeviljhoBiteA() {
 		setAnimation("mhfc:models/Deviljho/bite2.mcanm");

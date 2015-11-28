@@ -25,7 +25,7 @@ public class DeviljhoTailWhip extends AIGeneralTailWhip<EntityDeviljho> {
 		IDamageProvider dmg = new IDamageProvider.DamageAdapter(AIUtils
 			.defaultDamageCalc(85, 192, 9777));
 		IWeightProvider<EntityDeviljho> weight = new IWeightProvider.SimpleWeightAdapter<>(
-			17F);
+			1F);
 		ISelectionPredicate<EntityDeviljho> pred = new ISelectionPredicate.SelectionAdapter<>(
 			MIN_RIGHT_ANGLE, 180, MIN_DIST, MAX_DISTANCE);
 		ISpinProvider<EntityDeviljho> provide = new AIGeneralTailWhip.TailWhipAdapter<>(

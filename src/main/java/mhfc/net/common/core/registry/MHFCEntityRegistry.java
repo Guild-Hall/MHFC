@@ -29,10 +29,10 @@ public class MHFCEntityRegistry {
 	public static final int tigrexID;
 	// public static final int kirinID;
 //	public static final int rathalosID;
-	public static int greatjaggiID;
+	public static final int greatjaggiID;
 	public static int deviljhoID;
 	public static int nargacugaID;
-	public static int barrothID;
+	public static final int barrothID;
 	
 	public static final int questGiverID;
 
@@ -52,10 +52,10 @@ public class MHFCEntityRegistry {
 		tigrexID = getMobID(EntityTigrex.class, MHFCReference.mob_tigrex_name,0xfff432e3, 0x1020394f);
 		// kirinID = getMobID(EntityKirin.class, MHFCReference.mob_kirin_name, 0xfff85814, 0xff851f15);
 		/// rathalosID = getMobID(EntityRathalos.class,	MHFCReference.mob_rathalos_name, 0xff749819, 0xf838818);
-//		greatjaggiID = getMobID(EntityGreatJaggi.class, MHFCReference.mob_greatjaggi_name,0xff119f91, 0xff929ff);
+		greatjaggiID = getMobID(EntityGreatJaggi.class, MHFCReference.mob_greatjaggi_name,0xff119f91, 0xff929ff);
 		deviljhoID = getMobID(EntityDeviljho.class, MHFCReference.mob_deviljho_name,0x6ff81ff, 0xff11d830);
 //		nargacugaID = getMobID(EntityNargacuga.class, MHFCReference.mob_nargacuga_name,	0xf351631, 0x516f13f);
-//		barrothID = getMobID(EntityBarroth.class, MHFCReference.mob_barroth_name,0x6ffffff, 0x654321);
+		barrothID = getMobID(EntityBarroth.class, MHFCReference.mob_barroth_name,0x6ffffff, 0x654321);
 		questGiverID = getMobID(EntityQuestGiver.class,MHFCReference.mob_questGiver_name);
 
 		tigrexBlockID = getProjectileID(EntityTigrexBlock.class,
