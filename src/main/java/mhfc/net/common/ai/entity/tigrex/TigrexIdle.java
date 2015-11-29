@@ -5,7 +5,7 @@ import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.mob.EntityTigrex;
 
-public class IdleAnim extends AIGeneralIdle<EntityTigrex> {
+public class TigrexIdle extends AIGeneralIdle<EntityTigrex> {
 
 	private static final int LAST_FRAME = 160;
 	private static final IAnimationProvider ANIM_PROVIDER = new IAnimationProvider.AnimationAdapter(
@@ -13,7 +13,7 @@ public class IdleAnim extends AIGeneralIdle<EntityTigrex> {
 	private static final IWeightProvider<EntityTigrex> WEIGHT_PROVIDER = new IWeightProvider.RandomWeightAdapter<>(
 		3);
 
-	public IdleAnim() {
+	public TigrexIdle() {
 		super(ANIM_PROVIDER, WEIGHT_PROVIDER);
 	}
 }

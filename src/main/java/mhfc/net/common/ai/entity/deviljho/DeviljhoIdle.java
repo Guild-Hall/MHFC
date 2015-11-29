@@ -16,8 +16,8 @@ public class DeviljhoIdle extends ActionAdapter<EntityDeviljho> {
 	public float getWeight() {
 		EntityDeviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
-		// if (target == null)
-		// return DONT_SELECT;
+		 if (target != null)
+		 return DONT_SELECT;
 		return rng().nextFloat() * 3;
 	}
 

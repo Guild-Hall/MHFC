@@ -373,7 +373,7 @@ public class MHFCReference {
 	public static final String main_config_mobs_summonTigrex_key = "SummonTigrex";
 	public static final String main_modid = "mhfc";
 	public static final String main_name = "@MODNAME@";
-	public static final String main_version = "@VERSION@";
+	public static final String main_version = "0.2.400a_1.7.10";
 	public static final String modelLoc = "mhfc:models/";
 	public static final String mob_tigrex_name = "tigrex";
 	public static final String mob_tigrex_model = modelLoc + "Tigrex/Tigrex.mcmd";

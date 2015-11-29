@@ -18,7 +18,7 @@ public class DeviljhoRoar extends AIGeneralRoar<EntityDeviljho> {
 			"mhfc:models/Deviljho/DeviljhoRoar.mcanm", LAST_FRAME);
 		ISelectionPredicate<EntityDeviljho> select = new ISelectionPredicate.SelectAlways<EntityDeviljho>();
 		IWeightProvider<EntityDeviljho> weight = new IWeightProvider.RandomWeightAdapter<>(
-			1F);
+			2F);
 		IRoarSoundProvider sound = new IRoarSoundProvider.RoarSoundAdapter(
 			"mhfc:deviljho-roar");
 		IRoarProvider<EntityDeviljho> provide = new AIGeneralRoar.RoarAdapter<EntityDeviljho>(

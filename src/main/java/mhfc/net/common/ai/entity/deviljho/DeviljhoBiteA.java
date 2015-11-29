@@ -21,7 +21,7 @@ public class DeviljhoBiteA extends ActionAdapter<EntityDeviljho> {
 
 	private static final double MAX_DIST = 5f;
 	private static final double MAX_ANGLE = 0.155; // This is cos(30)
-	private static final float WEIGHT = 2;
+	private static final float WEIGHT = 3;
 
 	public DeviljhoBiteA() {
 		setAnimation("mhfc:models/Deviljho/bite2.mcanm");
@@ -38,8 +38,7 @@ public class DeviljhoBiteA extends ActionAdapter<EntityDeviljho> {
 		double dist = toTarget.lengthVector();
 		if (dist > MAX_DIST)
 			return DONT_SELECT;
-		if (toTarget.normalize().dotProduct(entity.getLookVec()) < MAX_ANGLE)
-			return DONT_SELECT;
+//		if (toTarget.normalize().dotProduct(entity.getLookVec()) < MAX_ANGLE)return DONT_SELECT;
 		return WEIGHT;
 	}
 

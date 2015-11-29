@@ -6,7 +6,7 @@ import mhfc.net.common.ai.general.provider.IMoveParameterProvider;
 import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.mob.EntityTigrex;
 
-public class WanderTigrex extends AIGeneralWander<EntityTigrex> {
+public class TigrexWander extends AIGeneralWander<EntityTigrex> {
 
 	private static final IAnimationProvider animationProvider = new IAnimationProvider.AnimationAdapter(
 		"mhfc:models/Tigrex/walk.mcanm", 40);
@@ -15,7 +15,7 @@ public class WanderTigrex extends AIGeneralWander<EntityTigrex> {
 	private static final IMoveParameterProvider parameterProvider = new IMoveParameterProvider.MoveParameterAdapter(
 		10f, 1f);
 
-	public WanderTigrex() {
+	public TigrexWander() {
 		super(animationProvider, weightProvider, parameterProvider);
 	}
 

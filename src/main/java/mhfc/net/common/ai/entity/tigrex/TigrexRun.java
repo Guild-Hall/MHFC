@@ -8,7 +8,7 @@ import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Vec3;
 
-public class RunAttack extends ActionAdapter<EntityTigrex> {
+public class TigrexRun extends ActionAdapter<EntityTigrex> {
 	private static final int runningStarts = 21;
 	private static final int runningEnds = 60;
 	private static final int attackEnd = 75;
@@ -32,7 +32,7 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 		START(false) {
 
 			@Override
-			public void onPhaseStart(RunAttack attk) {
+			public void onPhaseStart(TigrexRun attk) {
 				EntityTigrex tigrex = attk.getEntity();
 				tigrex.motionX = tigrex.motionY = tigrex.motionZ = 0f;
 				tigrex.getTurnHelper().updateTurnSpeed(TURN_RATE_INITIAL);
@@ -40,12 +40,12 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 			}
 
 			@Override
-			public void update(RunAttack attk) {
+			public void update(TigrexRun attk) {
 				attk.getEntity().getTurnHelper().forceUpdate();
 			}
 
 			@Override
-			public AttackPhase next(RunAttack attk) {
+			public AttackPhase next(TigrexRun attk) {
 				if (attk.target == null)
 					return STOPPED;
 				if (attk.getCurrentFrame() < runningStarts) {
@@ -56,14 +56,14 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 		},
 		RUNNING(true) {
 			@Override
-			public void onPhaseStart(RunAttack attk) {
+			public void onPhaseStart(TigrexRun attk) {
 				attk.getEntity().getTurnHelper().updateTurnSpeed(
 					TURN_RATE_DURING_RUN);
 				attk.framesRunning = 0;
 			}
 
 			@Override
-			public void update(RunAttack attk) {
+			public void update(TigrexRun attk) {
 				EntityTigrex tigrex = attk.getEntity();
 				Vec3 tigPos = Vec3.createVectorHelper(tigrex.posX, tigrex.posY,
 					tigrex.posZ);
@@ -83,7 +83,7 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 			}
 
 			@Override
-			public AttackPhase next(RunAttack attk) {
+			public AttackPhase next(TigrexRun attk) {
 				if (attk.hasPassed == PastEntityEnum.LOOP_FINISHED) {
 					return STOPPING;
 				}
@@ -91,7 +91,7 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 			}
 
 			@Override
-			public int nextFrame(RunAttack attk, int curr) {
+			public int nextFrame(TigrexRun attk, int curr) {
 				attk.framesRunning++;
 				int looping = runningEnds - runningStarts;
 				if (attk.hasPassed == PastEntityEnum.PASSED
@@ -103,13 +103,13 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 		},
 		STOPPING(true) {
 			@Override
-			public void update(RunAttack attk) {
+			public void update(TigrexRun attk) {
 				EntityTigrex e = attk.getEntity();
 				e.moveForward(STOP_SPEED, false);
 			}
 
 			@Override
-			public AttackPhase next(RunAttack attk) {
+			public AttackPhase next(TigrexRun attk) {
 				if (attackEnd < attk.getCurrentFrame())
 					return STOPPED;
 				return STOPPING;
@@ -117,7 +117,7 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 		},
 		STOPPED(false) {
 			@Override
-			public void onPhaseStart(RunAttack attk) {
+			public void onPhaseStart(TigrexRun attk) {
 				Entity entity = attk.getEntity();
 				entity.motionX = entity.motionY = entity.motionZ = 0f;
 			}
@@ -128,17 +128,17 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 			this.isDamaging = isDamaging;
 		}
 
-		public void onPhaseStart(RunAttack attk) {
+		public void onPhaseStart(TigrexRun attk) {
 		}
 
-		public void update(RunAttack attk) {
+		public void update(TigrexRun attk) {
 		}
 
-		public AttackPhase next(RunAttack attk) {
+		public AttackPhase next(TigrexRun attk) {
 			return this;
 		}
 
-		public int nextFrame(RunAttack attk, int curr) {
+		public int nextFrame(TigrexRun attk, int curr) {
 			return ++curr;
 		}
 	}
@@ -149,7 +149,7 @@ public class RunAttack extends ActionAdapter<EntityTigrex> {
 	private int framesRunning;
 	private int runCycles;
 
-	public RunAttack() {
+	public TigrexRun() {
 		setAnimation("mhfc:models/Tigrex/run.mcanm");
 	}
 

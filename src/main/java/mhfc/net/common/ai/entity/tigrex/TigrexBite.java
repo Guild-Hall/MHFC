@@ -14,7 +14,7 @@ import net.minecraft.util.Vec3;
  * @author WorldSEnder
  *
  */
-public class BiteAttack extends ActionAdapter<EntityTigrex> {
+public class TigrexBite extends ActionAdapter<EntityTigrex> {
 	private static final int LAST_FRAME = 55;
 	private static final IDamageCalculator damageCalc = AIUtils
 		.defaultDamageCalc(44f, 62f, 1600f);
@@ -23,7 +23,7 @@ public class BiteAttack extends ActionAdapter<EntityTigrex> {
 	private static final double MAX_ANGLE = 0.155; // This is cos(30)
 	private static final float WEIGHT = 15;
 
-	public BiteAttack() {
+	public TigrexBite() {
 		setAnimation("mhfc:models/Tigrex/bite.mcanm");
 		setLastFrame(LAST_FRAME);
 	}

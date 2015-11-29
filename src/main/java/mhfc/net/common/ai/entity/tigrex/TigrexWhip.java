@@ -8,14 +8,14 @@ import mhfc.net.common.ai.general.provider.ISelectionPredicate;
 import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.mob.EntityTigrex;
 
-public class TailWhipTigrex extends AIGeneralTailWhip<EntityTigrex> {
+public class TigrexWhip extends AIGeneralTailWhip<EntityTigrex> {
 
 	private static final double MAX_DISTANCE = 7F;
 	private static final double MIN_DIST = 0f;
 	private static final float MIN_RIGHT_ANGLE = 10f;
 	private static final int LAST_FRAME = 70; // CLEANUP exact value here please
 
-	public TailWhipTigrex() {
+	public TigrexWhip() {
 		super(generateProvider());
 	}
 

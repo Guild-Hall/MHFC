@@ -6,6 +6,7 @@ import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInfor
 
 import mhfc.net.common.ai.AIActionManager;
 import mhfc.net.common.ai.entity.barroth.BarrothIdle;
+import mhfc.net.common.ai.entity.barroth.BarrothRoar;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -25,9 +26,11 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 		this.width = 5f;
 		AIActionManager<EntityBarroth> attackManager = getAIActionManager();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		
+		
 		attackManager.registerAttack(new BarrothIdle());
-		//AI
-		//attackManager.registerAttack(new RoarAnim());
+		attackManager.registerAttack(new BarrothRoar());
+		
 	}
 	
 	@Override

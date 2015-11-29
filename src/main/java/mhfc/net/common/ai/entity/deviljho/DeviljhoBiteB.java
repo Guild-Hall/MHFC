@@ -21,7 +21,7 @@ public class DeviljhoBiteB extends DeviljhoBiteA {
 
 	private static final double MAX_DIST = 9f;
 	private static final double MAX_ANGLE = 0.155; // This is cos(30)
-	private static final float WEIGHT = 3;
+	private static final float WEIGHT = 4;
 
 	public DeviljhoBiteB() {
 		setAnimation("mhfc:models/Deviljho/bite.mcanm");

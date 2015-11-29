@@ -12,15 +12,16 @@ import net.minecraft.util.Vec3;
 public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 	private static final int runningStarts = 5;
 	private static final int runningEnds = 40;
-	private static final int attackEnd = 75;
-	private static final float TURN_RATE_INITIAL = 10.5f;
-	private static final float TURN_RATE_DURING_RUN = 0.15f;
-	private static final float MAX_RUN_DISTANCE = 40f;
+	private static final int attackEnd = 40;
+	private static final float TURN_RATE_INITIAL = 20.5f;
+	private static final float TURN_RATE_DURING_RUN = 1.05f;
+	private static final float MAX_RUN_DISTANCE = 20f;
 	private static final int MAX_RUN_FRAMES = 200;
 
-	private static final double RUN_SPEED = 1.0;
-	private static final double STOP_SPEED = 0.7;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(28f, 62f, 1000f);
+	private static final double RUN_SPEED = 0.6;
+	private static final double STOP_SPEED = 0.4;
+	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(47f, 92f, 1000f);
+	private static final double MAX_DIST = 3f;
 
 	
 	private static enum PastEntityEnum {
@@ -66,16 +67,13 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 			@Override
 			public void update(DeviljhoMovetoTarget attk) {
 				EntityDeviljho monster = attk.getEntity();
-				Vec3 tigPos = Vec3.createVectorHelper(monster.posX, monster.posY,
-					monster.posZ);
-				Vec3 vecToTarget = tigPos.subtract(attk.target
-					.getPosition(1.0f));
+				Vec3 mobPos = Vec3.createVectorHelper(monster.posX, monster.posY,monster.posZ);
+				Vec3 vecToTarget = mobPos.subtract(attk.target.getPosition(1.0f));
 				monster.getTurnHelper().updateTargetPoint(attk.target);
 				monster.moveForward(RUN_SPEED, true);
 				Vec3 look = monster.getLookVec();
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
-				boolean ranLongEnough = attk.runStartPoint.subtract(tigPos)
-					.lengthVector() > MAX_RUN_DISTANCE
+				boolean ranLongEnough = attk.runStartPoint.subtract(mobPos).lengthVector() > MAX_RUN_DISTANCE
 					|| attk.framesRunning > MAX_RUN_FRAMES;
 				if ((tarBeh || ranLongEnough)
 					&& attk.hasPassed == PastEntityEnum.NOT_PASSED) {
@@ -160,24 +158,27 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 		target = monster.getAttackTarget();
 		if (target == null)
 			return DONT_SELECT;
+		
 		Vec3 toTarget = WorldHelper.getVectorToTarget(monster, target);
 		double dist = toTarget.lengthVector();
+		if(dist < MAX_DIST)
+			return DONT_SELECT;
 		return (float) Math.log(dist / 5f + 1); // More likely the
 												// further away
 	}
 
 	@Override
 	public void beginExecution() {
-		EntityDeviljho tig = getEntity();
-		target = tig.getAttackTarget();
-		tig.playSound("mhfc:deviljho-roar", 1.0F, 1.0F);
+		EntityDeviljho mob = getEntity();
+		target = mob.getAttackTarget();
+		mob.playSound("mhfc:deviljho-roar", 1.0F, 1.0F);
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;
 		runCycles = 0;
 		framesRunning = 0;
 
 		currentPhase.onPhaseStart(this);
-		runStartPoint = Vec3.createVectorHelper(tig.posX, tig.posY, tig.posZ);
+		runStartPoint = Vec3.createVectorHelper(mob.posX, mob.posY, mob.posZ);
 	}
 
 	@Override

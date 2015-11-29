@@ -6,7 +6,7 @@ import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
 import mhfc.net.common.ai.general.provider.*;
 import mhfc.net.common.entity.mob.EntityTigrex;
 
-public class JumpTigrex extends AIGeneralJumpAttack<EntityTigrex> {
+public class TigrexJump extends AIGeneralJumpAttack<EntityTigrex> {
 
 	private static final int LAST_FRAME = 50;
 	private static final int JUMP_FRAME = 20;
@@ -20,7 +20,7 @@ public class JumpTigrex extends AIGeneralJumpAttack<EntityTigrex> {
 	private static final float MAX_ANGLE = 140f;
 	private static final float SELECTION_WEIGHT = 1f;
 
-	public JumpTigrex() {
+	public TigrexJump() {
 		super(generateProvider());
 	}
 

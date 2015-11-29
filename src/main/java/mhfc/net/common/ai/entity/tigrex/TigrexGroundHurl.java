@@ -6,7 +6,7 @@ import mhfc.net.common.entity.projectile.EntityTigrexBlock;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.Vec3;
 
-public class GroundHurl extends ActionAdapter<EntityTigrex> {
+public class TigrexGroundHurl extends ActionAdapter<EntityTigrex> {
 	private static final float MIN_DIST = 3f;
 	private static final int LAST_FRAME = 60;
 	private static final int THROW_FRAME = 21;
@@ -21,7 +21,7 @@ public class GroundHurl extends ActionAdapter<EntityTigrex> {
 	private boolean thrown;
 	private int weightFactor;
 
-	public GroundHurl() {
+	public TigrexGroundHurl() {
 		setAnimation("mhfc:models/Tigrex/dirtthrow.mcanm");
 		setLastFrame(LAST_FRAME);
 		weightFactor = 1;

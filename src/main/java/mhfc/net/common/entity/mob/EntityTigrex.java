@@ -31,14 +31,14 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		AIActionManager<EntityTigrex> attackManager = getAIActionManager();
 
 		attackManager.registerAttack(new TurnAttack(110, 180, 5f, 12f));
-		attackManager.registerAttack(new JumpTigrex());
-		attackManager.registerAttack(new RunAttack());
-		attackManager.registerAttack(new GroundHurl());
-		attackManager.registerAttack(new BiteAttack());
-		attackManager.registerAttack(new RoarAttack());
-		attackManager.registerAttack(new IdleAnim());
-		attackManager.registerAttack(new WanderTigrex());
-		attackManager.registerAttack(new TailWhipTigrex());
+		attackManager.registerAttack(new TigrexJump());
+		attackManager.registerAttack(new TigrexRun());
+		attackManager.registerAttack(new TigrexGroundHurl());
+		attackManager.registerAttack(new TigrexBite());
+		attackManager.registerAttack(new TigrexRoar());
+		attackManager.registerAttack(new TigrexIdle());
+		attackManager.registerAttack(new TigrexWander());
+		attackManager.registerAttack(new TigrexWhip());
 
 		// TODO enable this when Popos are a thing again
 		// targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,

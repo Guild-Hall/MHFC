@@ -10,9 +10,9 @@ import mhfc.net.common.entity.mob.EntityDeviljho;
 
 public class DeviljhoTailWhip extends AIGeneralTailWhip<EntityDeviljho> {
 
-	private static final double MAX_DISTANCE = 12F;
+	private static final double MAX_DISTANCE = 8F;
 	private static final double MIN_DIST = 0f;
-	private static final float MIN_RIGHT_ANGLE = 13f;
+	private static final float MIN_RIGHT_ANGLE = 5f;
 	private static final int LAST_FRAME = 55; // CLEANUP exact value here please
 
 	public DeviljhoTailWhip() {
@@ -25,7 +25,7 @@ public class DeviljhoTailWhip extends AIGeneralTailWhip<EntityDeviljho> {
 		IDamageProvider dmg = new IDamageProvider.DamageAdapter(AIUtils
 			.defaultDamageCalc(85, 192, 9777));
 		IWeightProvider<EntityDeviljho> weight = new IWeightProvider.SimpleWeightAdapter<>(
-			1F);
+			5F);
 		ISelectionPredicate<EntityDeviljho> pred = new ISelectionPredicate.SelectionAdapter<>(
 			MIN_RIGHT_ANGLE, 180, MIN_DIST, MAX_DISTANCE);
 		ISpinProvider<EntityDeviljho> provide = new AIGeneralTailWhip.TailWhipAdapter<>(
