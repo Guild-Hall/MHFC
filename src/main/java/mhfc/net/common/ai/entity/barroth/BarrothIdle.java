@@ -5,7 +5,7 @@ import mhfc.net.common.entity.mob.EntityBarroth;
 
 public class BarrothIdle extends ActionAdapter<EntityBarroth> {
 
-	private static final int LAST_FRAME = 100;
+	private static final int LAST_FRAME = 60;
 
 	public BarrothIdle() {
 		setLastFrame(LAST_FRAME);
