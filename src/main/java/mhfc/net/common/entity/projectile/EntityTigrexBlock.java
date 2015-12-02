@@ -2,7 +2,7 @@ package mhfc.net.common.entity.projectile;
 
 import java.util.List;
 
-import mhfc.net.common.entity.mob.EntityTigrex;
+import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

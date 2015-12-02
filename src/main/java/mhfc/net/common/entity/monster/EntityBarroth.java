@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.mob;
+package mhfc.net.common.entity.monster;
 
 import org.lwjgl.opengl.GL11;
 
@@ -60,6 +60,12 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 		 
 	 }
 
+	 @Override
+		protected String getLivingSound() {
+
+			return "mhfc:barroth-idle";
+		}
+	 
 	@Override
 	public void entityInit() {
 		super.entityInit();

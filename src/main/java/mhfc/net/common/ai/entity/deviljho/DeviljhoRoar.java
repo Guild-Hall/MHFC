@@ -4,7 +4,7 @@ import mhfc.net.common.ai.general.actions.AIGeneralRoar;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.ISelectionPredicate;
 import mhfc.net.common.ai.general.provider.IWeightProvider;
-import mhfc.net.common.entity.mob.EntityDeviljho;
+import mhfc.net.common.entity.monster.EntityDeviljho;
 
 public class DeviljhoRoar extends AIGeneralRoar<EntityDeviljho> {
 	private static final int LAST_FRAME = 70;

@@ -1,7 +1,7 @@
 package mhfc.net.common.ai.entity.tigrex;
 
 import mhfc.net.common.ai.ActionAdapter;
-import mhfc.net.common.entity.mob.EntityTigrex;
+import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityTigrexBlock;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.Vec3;

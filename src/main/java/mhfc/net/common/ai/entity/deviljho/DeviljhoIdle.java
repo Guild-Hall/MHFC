@@ -1,7 +1,7 @@
 package mhfc.net.common.ai.entity.deviljho;
 
 import mhfc.net.common.ai.ActionAdapter;
-import mhfc.net.common.entity.mob.EntityDeviljho;
+import mhfc.net.common.entity.monster.EntityDeviljho;
 
 public class DeviljhoIdle extends ActionAdapter<EntityDeviljho> {
 

@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.mob;
+package mhfc.net.common.entity.monster;
 
 import mhfc.net.common.ai.AIActionManager;
 import mhfc.net.common.ai.entity.deviljho.*;
@@ -18,7 +18,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 
 	public EntityDeviljho(World WORLD) {
 		super(WORLD);
-		setSize(9, 7);
+		setSize(7, 5);
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
 			EntityPlayer.class, 0, true));
 

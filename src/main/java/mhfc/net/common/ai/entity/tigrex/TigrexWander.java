@@ -4,7 +4,7 @@ import mhfc.net.common.ai.general.actions.AIGeneralWander;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.IMoveParameterProvider;
 import mhfc.net.common.ai.general.provider.IWeightProvider;
-import mhfc.net.common.entity.mob.EntityTigrex;
+import mhfc.net.common.entity.monster.EntityTigrex;
 
 public class TigrexWander extends AIGeneralWander<EntityTigrex> {
 

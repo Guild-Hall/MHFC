@@ -4,7 +4,7 @@ import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
 import mhfc.net.common.ai.general.provider.*;
-import mhfc.net.common.entity.mob.EntityTigrex;
+import mhfc.net.common.entity.monster.EntityTigrex;
 
 public class TigrexJump extends AIGeneralJumpAttack<EntityTigrex> {
 

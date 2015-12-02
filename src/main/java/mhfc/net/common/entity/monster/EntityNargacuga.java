@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.mob;
+package mhfc.net.common.entity.monster;
 
 import java.util.ArrayList;
 import java.util.List;

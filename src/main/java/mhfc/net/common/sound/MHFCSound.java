@@ -32,11 +32,11 @@ public class MHFCSound {
 
 	public void getEventSound(int pitch, float strength, String type,
 			String name, boolean get) {
-		soundTemp(pitch, (int) strength, (int) dobs, bols, type);
+		soundTemp(pitch, (int) strength, dobs , bols, type);
 	}
 
-	public void soundTemp(int par1, int par3, int par5, float par7, String par8) {
-
+	@Deprecated
+	public void soundTemp(int par1, int par3, float dobs2, float par7, String par8) {
 	}
 
 }

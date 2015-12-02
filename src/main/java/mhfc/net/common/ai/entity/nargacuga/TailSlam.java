@@ -5,7 +5,7 @@ import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
 import mhfc.net.common.ai.general.provider.*;
 import mhfc.net.common.ai.general.provider.IJumpParamterProvider.ConstantAirTimeAdapter.ITargetResolver;
-import mhfc.net.common.entity.mob.EntityNargacuga;
+import mhfc.net.common.entity.monster.EntityNargacuga;
 import net.minecraft.util.Vec3;
 
 public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {

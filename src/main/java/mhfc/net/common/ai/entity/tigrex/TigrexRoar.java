@@ -4,7 +4,7 @@ import mhfc.net.common.ai.general.actions.AIGeneralRoar;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.ISelectionPredicate;
 import mhfc.net.common.ai.general.provider.IWeightProvider;
-import mhfc.net.common.entity.mob.EntityTigrex;
+import mhfc.net.common.entity.monster.EntityTigrex;
 
 public class TigrexRoar extends AIGeneralRoar<EntityTigrex> {
 	private static final int LAST_FRAME = 70;

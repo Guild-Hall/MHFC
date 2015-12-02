@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.mob;
+package mhfc.net.common.entity.monster;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;

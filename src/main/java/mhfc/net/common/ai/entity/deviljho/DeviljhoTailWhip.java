@@ -6,7 +6,7 @@ import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.IDamageProvider;
 import mhfc.net.common.ai.general.provider.ISelectionPredicate;
 import mhfc.net.common.ai.general.provider.IWeightProvider;
-import mhfc.net.common.entity.mob.EntityDeviljho;
+import mhfc.net.common.entity.monster.EntityDeviljho;
 
 public class DeviljhoTailWhip extends AIGeneralTailWhip<EntityDeviljho> {
 

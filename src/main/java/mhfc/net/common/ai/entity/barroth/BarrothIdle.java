@@ -1,7 +1,7 @@
 package mhfc.net.common.ai.entity.barroth;
 
 import mhfc.net.common.ai.ActionAdapter;
-import mhfc.net.common.entity.mob.EntityBarroth;
+import mhfc.net.common.entity.monster.EntityBarroth;
 
 public class BarrothIdle extends ActionAdapter<EntityBarroth> {
 

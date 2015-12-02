@@ -2,12 +2,12 @@ package mhfc.net.client.core.registry;
 
 import mhfc.net.client.render.projectile.RenderRathalosFireball;
 import mhfc.net.client.render.projectile.RenderTigrexBlock;
-import mhfc.net.common.entity.mob.EntityBarroth;
-import mhfc.net.common.entity.mob.EntityDeviljho;
-import mhfc.net.common.entity.mob.EntityGreatJaggi;
-import mhfc.net.common.entity.mob.EntityNargacuga;
-import mhfc.net.common.entity.mob.EntityRathalos;
-import mhfc.net.common.entity.mob.EntityTigrex;
+import mhfc.net.common.entity.monster.EntityBarroth;
+import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.entity.monster.EntityGreatJaggi;
+import mhfc.net.common.entity.monster.EntityNargacuga;
+import mhfc.net.common.entity.monster.EntityRathalos;
+import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityTigrexBlock;
 import mhfc.net.common.util.lib.MHFCReference;

@@ -1,7 +1,7 @@
 package mhfc.net.common.ai.entity.rathalos;
 
 import mhfc.net.common.ai.ActionAdapter;
-import mhfc.net.common.entity.mob.EntityRathalos;
+import mhfc.net.common.entity.monster.EntityRathalos;
 
 public class TailSpin extends ActionAdapter<EntityRathalos> {
 

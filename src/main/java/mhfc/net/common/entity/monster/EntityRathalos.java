@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.mob;
+package mhfc.net.common.entity.monster;
 
 import mhfc.net.common.ai.AIStancedActionManager;
 import mhfc.net.common.ai.IExecutableAction;

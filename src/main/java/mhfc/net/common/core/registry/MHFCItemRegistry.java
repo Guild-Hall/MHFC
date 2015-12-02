@@ -1,19 +1,73 @@
 package mhfc.net.common.core.registry;
 
-import mhfc.net.common.item.armor.*;
+import cpw.mods.fml.common.registry.GameRegistry;
+import mhfc.net.common.item.armor.DragoonArmor;
+import mhfc.net.common.item.armor.KirinArmor;
+import mhfc.net.common.item.armor.KirinSArmor;
+import mhfc.net.common.item.armor.KishinArmor;
+import mhfc.net.common.item.armor.RathalosArmor;
+import mhfc.net.common.item.armor.TigrexArmor;
+import mhfc.net.common.item.armor.VelocipreyArmor;
+import mhfc.net.common.item.armor.YukumoArmor;
 import mhfc.net.common.item.food.ItemKirinBuff;
 import mhfc.net.common.item.food.ItemMeats;
 import mhfc.net.common.item.food.ItemNutrients;
-import mhfc.net.common.item.materials.*;
-import mhfc.net.common.weapon.melee.greatsword.*;
-import mhfc.net.common.weapon.melee.hammer.*;
+import mhfc.net.common.item.materials.ItemArmorSphere;
+import mhfc.net.common.item.materials.ItemBase;
+import mhfc.net.common.item.materials.ItemBombMaterial;
+import mhfc.net.common.item.materials.ItemDeviljho;
+import mhfc.net.common.item.materials.ItemFirestone;
+import mhfc.net.common.item.materials.ItemFlashBomb;
+import mhfc.net.common.item.materials.ItemGaguaEgg;
+import mhfc.net.common.item.materials.ItemIngot;
+import mhfc.net.common.item.materials.ItemKirin;
+import mhfc.net.common.item.materials.ItemLumberBar;
+import mhfc.net.common.item.materials.ItemMoldedIron;
+import mhfc.net.common.item.materials.ItemRathalos;
+import mhfc.net.common.item.materials.ItemRemobra;
+import mhfc.net.common.item.materials.ItemSac;
+import mhfc.net.common.item.materials.ItemSpawner;
+import mhfc.net.common.item.materials.ItemSteelBar;
+import mhfc.net.common.item.materials.ItemTigrex;
+import mhfc.net.common.item.materials.ItemTrapTool;
+import mhfc.net.common.item.materials.ItemWoodRig;
+import mhfc.net.common.item.materials.ItemWyvernCoin;
+import mhfc.net.common.item.materials.ItemWyverniaClay;
+import mhfc.net.common.item.materials.ItemWyverniaDust;
+import mhfc.net.common.weapon.melee.greatsword.GSBone;
+import mhfc.net.common.weapon.melee.greatsword.GSDeadlySerpentBlade;
+import mhfc.net.common.weapon.melee.greatsword.GSDeviljhobroadsword;
+import mhfc.net.common.weapon.melee.greatsword.GSRathalosFiresword;
+import mhfc.net.common.weapon.melee.greatsword.GSThunderSword;
+import mhfc.net.common.weapon.melee.greatsword.GSTigrex;
+import mhfc.net.common.weapon.melee.hammer.HDeviljho;
+import mhfc.net.common.weapon.melee.hammer.HKirinSpark;
+import mhfc.net.common.weapon.melee.hammer.HRathalos;
+import mhfc.net.common.weapon.melee.hammer.HTigrex;
+import mhfc.net.common.weapon.melee.hammer.HWar;
+import mhfc.net.common.weapon.melee.hammer.HWarPlus;
+import mhfc.net.common.weapon.melee.hammer.HWarSlammer;
 import mhfc.net.common.weapon.melee.huntinghorn.HHIvoryHorn;
 import mhfc.net.common.weapon.melee.huntinghorn.HHMetalBagpipe;
 import mhfc.net.common.weapon.melee.huntinghorn.HHTigrex;
-import mhfc.net.common.weapon.melee.longsword.*;
+import mhfc.net.common.weapon.melee.longsword.LSDarkVipern;
+import mhfc.net.common.weapon.melee.longsword.LSDevilSlicer;
+import mhfc.net.common.weapon.melee.longsword.LSEagerCleaver;
+import mhfc.net.common.weapon.melee.longsword.LSIKGospel;
+import mhfc.net.common.weapon.melee.longsword.LSIKGrace;
+import mhfc.net.common.weapon.melee.longsword.LSIronKatana;
+import mhfc.net.common.weapon.melee.longsword.LSLionDanceSaber;
+import mhfc.net.common.weapon.melee.longsword.LSLionKaiserSaber;
+import mhfc.net.common.weapon.melee.longsword.LSLionKingSaber;
+import mhfc.net.common.weapon.melee.longsword.LSLionsRoarSaber;
+import mhfc.net.common.weapon.melee.longsword.LSMirageFinsword;
+import mhfc.net.common.weapon.melee.longsword.LSMirageFinswordplus;
+import mhfc.net.common.weapon.melee.longsword.LSPhantomMirage;
+import mhfc.net.common.weapon.melee.longsword.LSSaber;
+import mhfc.net.common.weapon.melee.longsword.LSTrueDevilSlicer;
 import mhfc.net.common.weapon.range.bowgun.BHRath;
+import mhfc.net.common.weapon.range.bowgun.BLBarrel;
 import net.minecraft.item.Item;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class MHFCItemRegistry {
 	// Weapons
@@ -52,7 +106,9 @@ public class MHFCItemRegistry {
 	public static final Item weapon_hh_ivoryhorn;
 	public static final Item weapon_hh_tigrex;
 
+	public static final Item weapon_bgl_barrel;
 	public static final Item weapon_bgh_rath;
+	
 
 	// public static final Item weapon_bow_hunter;
 
@@ -219,8 +275,12 @@ public class MHFCItemRegistry {
 		weapon_hh_metalbagpipe = registerItem(new HHMetalBagpipe());
 		weapon_hh_tigrex = registerItem(new HHTigrex());
 
+		
+		
 		// Range weapons
+	
 		// weapon_bow_hunter = registerItem(new WeaponBHunter());
+		weapon_bgl_barrel = registerItem(new BLBarrel());
 		weapon_bgh_rath = registerItem(new BHRath());
 		// Items... drops
 		MHFCItemWyverniaDust = registerItem(new ItemWyverniaDust());

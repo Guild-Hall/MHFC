@@ -511,9 +511,9 @@ public class MHFCReference {
 	public static final String weapon_ls_phantommirage_name = "longsword_15";
 	public static final String weapon_ls_phantommirage_tex = "mhfc:textures/weapons/(LS)phantommirage.png";
 
-	public static final String weapon_bgl_shooterbarrel_name = "bowgun_1";
-	public static final String weapon_bgl_shooterbarrel_icon = "mhfc:bow";
-	public static final String weapon_bgl_shooterbarrel_tex = "mhfc:textures/weapons/(BGL)shooterbarrel.png";
+	public static final String weapon_bgl_barrel_name = "bowgun_1";
+	public static final String weapon_bgl_barrel_icon = "mhfc:bow";
+	public static final String weapon_bgl_barrel_tex = "mhfc:textures/weapons/(BL)barrel.png";
 	public static final String weapon_bgl_spartacusfire_name = "bowgun_2";
 	public static final String weapon_bgh_spartacusfire_icon = "mhfc:bow";
 	public static final String weapon_bgl_spartacusfire_tex = "mhfc:textures/weapons/(BGL)spartacusfire.png";

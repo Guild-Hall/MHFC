@@ -1,8 +1,8 @@
 package mhfc.net.common.ai.entity.rathalos;
 
 import mhfc.net.common.ai.ActionAdapter;
-import mhfc.net.common.entity.mob.EntityRathalos;
-import mhfc.net.common.entity.mob.EntityRathalos.Stances;
+import mhfc.net.common.entity.monster.EntityRathalos;
+import mhfc.net.common.entity.monster.EntityRathalos.Stances;
 import net.minecraft.entity.EntityLiving;
 
 public class FlyLand extends ActionAdapter<EntityRathalos> {

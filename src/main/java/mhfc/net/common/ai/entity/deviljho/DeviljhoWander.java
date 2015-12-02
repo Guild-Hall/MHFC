@@ -4,7 +4,7 @@ import mhfc.net.common.ai.general.actions.AIGeneralWander;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.IMoveParameterProvider;
 import mhfc.net.common.ai.general.provider.IWeightProvider;
-import mhfc.net.common.entity.mob.EntityDeviljho;
+import mhfc.net.common.entity.monster.EntityDeviljho;
 
 public class DeviljhoWander extends AIGeneralWander<EntityDeviljho> {
 

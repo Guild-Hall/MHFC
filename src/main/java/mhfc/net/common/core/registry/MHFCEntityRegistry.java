@@ -5,11 +5,11 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.MHFCMobList;
-import mhfc.net.common.entity.mob.EntityBarroth;
-import mhfc.net.common.entity.mob.EntityDeviljho;
-import mhfc.net.common.entity.mob.EntityGreatJaggi;
-import mhfc.net.common.entity.mob.EntityNargacuga;
-import mhfc.net.common.entity.mob.EntityTigrex;
+import mhfc.net.common.entity.monster.EntityBarroth;
+import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.entity.monster.EntityGreatJaggi;
+import mhfc.net.common.entity.monster.EntityNargacuga;
+import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityBullet;
 import mhfc.net.common.entity.projectile.EntityFlashBomb;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;

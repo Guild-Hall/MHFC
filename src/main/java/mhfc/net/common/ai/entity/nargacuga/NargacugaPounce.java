@@ -7,7 +7,7 @@ import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
 import mhfc.net.common.ai.general.provider.*;
 import mhfc.net.common.ai.general.provider.IJumpParamterProvider.AttackTargetAdapter;
-import mhfc.net.common.entity.mob.EntityNargacuga;
+import mhfc.net.common.entity.monster.EntityNargacuga;
 
 public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> {
 

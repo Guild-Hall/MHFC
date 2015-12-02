@@ -4,7 +4,7 @@ import mhfc.net.common.ai.general.actions.AIAnimatedAction;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.ISelectionPredicate;
 import mhfc.net.common.ai.general.provider.IWeightProvider;
-import mhfc.net.common.entity.mob.EntityNargacuga;
+import mhfc.net.common.entity.monster.EntityNargacuga;
 
 public class ProwlerStance extends AIAnimatedAction<EntityNargacuga> {
 

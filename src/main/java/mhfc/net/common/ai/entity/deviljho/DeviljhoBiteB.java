@@ -6,7 +6,7 @@ package mhfc.net.common.ai.entity.deviljho;
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
-import mhfc.net.common.entity.mob.EntityDeviljho;
+import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.Vec3;
 
@@ -26,6 +26,13 @@ public class DeviljhoBiteB extends DeviljhoBiteA {
 	public DeviljhoBiteB() {
 		setAnimation("mhfc:models/Deviljho/bite.mcanm");
 		setLastFrame(LAST_FRAME);
+	}
+	
+	@Override
+	public void update() {
+		if (this.getCurrentFrame() == 25) {
+			getEntity().playSound("mhfc:deviljho-bite", 1.0F, 1.0F);
+		}
 	}
 
 

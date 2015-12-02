@@ -4,7 +4,7 @@ import mhfc.net.common.ai.general.actions.AIGeneralRoar;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.ISelectionPredicate;
 import mhfc.net.common.ai.general.provider.IWeightProvider;
-import mhfc.net.common.entity.mob.EntityBarroth;
+import mhfc.net.common.entity.monster.EntityBarroth;
 
 public class BarrothRoar extends AIGeneralRoar<EntityBarroth>{
 	private static final int LAST_FRAME = 105;
@@ -20,7 +20,7 @@ public class BarrothRoar extends AIGeneralRoar<EntityBarroth>{
 		IWeightProvider<EntityBarroth> weight = new IWeightProvider.RandomWeightAdapter<>(
 			1F);
 		IRoarSoundProvider roar = new IRoarSoundProvider.RoarSoundAdapter(
-			"");
+			"mhfc:barroth-roar");
 		IRoarProvider<EntityBarroth> provide = new AIGeneralRoar.RoarAdapter<>(
 			anim, select, weight, roar);
 		return provide;

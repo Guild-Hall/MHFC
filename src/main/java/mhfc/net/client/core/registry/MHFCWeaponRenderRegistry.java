@@ -1,6 +1,7 @@
 package mhfc.net.client.core.registry;
 
 import mhfc.net.client.render.weapon.bowgun.RenderBHRath;
+import mhfc.net.client.render.weapon.bowgun.RenderBLBarrel;
 import mhfc.net.client.render.weapon.greatsword.RenderGSBone;
 import mhfc.net.client.render.weapon.greatsword.RenderGSDeadlySerpentblade;
 import mhfc.net.client.render.weapon.greatsword.RenderGSDeviljhobroadsword;
@@ -108,6 +109,9 @@ public class MHFCWeaponRenderRegistry {
 		// registerItemRenderer(MHFCItemRegistry.weapon_bow_hunter,
 		// new RenderBHunter());
 
+		registerItemRenderer(MHFCItemRegistry.weapon_bgl_barrel,
+				new RenderBLBarrel());
+		
 		registerItemRenderer(MHFCItemRegistry.weapon_bgh_rath,
 				new RenderBHRath());
 	}
