@@ -6,6 +6,7 @@
 !externlibs/
 !gradlew
 !gradlew.bat
+!.travis.yml
 !README.md
 !LICENSE
 !build.gradle
