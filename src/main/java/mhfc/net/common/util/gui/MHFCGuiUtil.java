@@ -62,8 +62,8 @@ public class MHFCGuiUtil {
 	 * @return The drawn height of the string. Always line height for valid
 	 *         parameters and width==0
 	 */
-	public static int drawTextAndReturnHeight(FontRenderer fRend,
-		String string, int posX, int posY, int width, int colour) {
+	public static int drawTextAndReturnHeight(FontRenderer fRend, String string,
+		int posX, int posY, int width, int colour) {
 		if (fRend == null || string == null) {
 			MHFCMain.logger.warn(fRend == null
 				? "Null renderer used as argument"
@@ -95,8 +95,8 @@ public class MHFCGuiUtil {
 	 */
 	public static boolean isDrawWidthTooSmall(FontRenderer fRend, int width,
 		String string) {
-		return !string.isEmpty()
-			&& width < fRend.getStringWidth(string.substring(0, 1));
+		return !string.isEmpty() && width < fRend.getStringWidth(string
+			.substring(0, 1));
 	}
 
 	public static void drawTexturedRectangle(double xMin, double yMin,
@@ -112,39 +112,39 @@ public class MHFCGuiUtil {
 		t.draw();
 	}
 
-	public static void drawTexturedBoxFromBorder(int x, int y, int width,
-		int height) {
+	public static void drawTexturedBoxFromBorder(float x, float y, float width,
+		float height) {
 		drawTexturedBoxFromBorder(x, y, zLevel, width, height);
 	}
 
-	public static void drawTexturedBoxFromBorder(int x, int y, float zLevel,
-		int width, int height) {
+	public static void drawTexturedBoxFromBorder(float x, float y, float zLevel,
+		float width, float height) {
 		drawTexturedBoxFromBorder(x, y, zLevel, width, height, Math.min(Math
 			.min(15, width / 2), height / 2));
 	}
 
-	public static void drawTexturedBoxFromBorder(int x, int y, float zLevel,
-		int width, int height, int borderSize) {
+	public static void drawTexturedBoxFromBorder(float x, float y, float zLevel,
+		float width, float height, float borderSize) {
 		drawTexturedBoxFromBorder(x, y, zLevel, width, height, borderSize,
 			borderSize / 256f);
 	}
 
-	public static void drawTexturedBoxFromBorder(int x, int y, float zLevel,
-		int width, int height, int borderSize, float borderUV) {
+	public static void drawTexturedBoxFromBorder(float x, float y, float zLevel,
+		float width, float height, float borderSize, float borderUV) {
 		drawTexturedBoxFromBorder(x, y, zLevel, width, height, borderSize,
 			borderUV, 1, 1);
 	}
 
-	public static void drawTexturedBoxFromBorder(int x, int y, float zLevel,
-		int width, int height, int borderSize, float borderUV, float maxU,
+	public static void drawTexturedBoxFromBorder(float x, float y, float zLevel,
+		float width, float height, float borderSize, float borderUV, float maxU,
 		float maxV) {
 		drawTexturedBoxFromBorder(x, y, zLevel, width, height, borderSize,
 			borderUV, borderUV, maxU, maxV);
 	}
 
-	public static void drawTexturedBoxFromBorder(int x, int y, float zLevel,
-		int width, int height, int borderSize, float borderU, float borderV,
-		float maxU, float maxV) {
+	public static void drawTexturedBoxFromBorder(float x, float y, float zLevel,
+		float width, float height, float borderSize, float borderU,
+		float borderV, float maxU, float maxV) {
 		Tessellator tess = Tessellator.instance;
 		tess.startDrawingQuads();
 		tess.addVertexWithUV(x, y, zLevel, 0, 0);
@@ -156,7 +156,8 @@ public class MHFCGuiUtil {
 		tess.startDrawingQuads();
 		tess.addTranslation(width - borderSize, 0, 0);
 		tess.addVertexWithUV(x, y, zLevel, maxU - borderU, 0);
-		tess.addVertexWithUV(x, y + borderSize, zLevel, maxU - borderU, borderV);
+		tess.addVertexWithUV(x, y + borderSize, zLevel, maxU - borderU,
+			borderV);
 		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, maxU,
 			borderV);
 		tess.addVertexWithUV(x + borderSize, y, zLevel, maxU, 0);
@@ -165,7 +166,8 @@ public class MHFCGuiUtil {
 		tess.addTranslation(0, height - borderSize, 0);
 		tess.addVertexWithUV(x, y, zLevel, maxU - borderU, maxV - borderV);
 		tess.addVertexWithUV(x, y + borderSize, zLevel, maxU - borderU, maxV);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, maxU, maxV);
+		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, maxU,
+			maxV);
 		tess.addVertexWithUV(x + borderSize, y, zLevel, maxU, maxV - borderV);
 		tess.draw();
 		tess.startDrawingQuads();
@@ -174,7 +176,8 @@ public class MHFCGuiUtil {
 		tess.addVertexWithUV(x, y + borderSize, zLevel, 0, maxV);
 		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, borderU,
 			maxV);
-		tess.addVertexWithUV(x + borderSize, y, zLevel, borderU, maxV - borderV);
+		tess.addVertexWithUV(x + borderSize, y, zLevel, borderU, maxV
+			- borderV);
 		tess.draw();
 		tess.addTranslation(0, -height + borderSize, 0);
 

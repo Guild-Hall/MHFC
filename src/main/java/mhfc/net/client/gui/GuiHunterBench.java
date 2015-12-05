@@ -219,13 +219,13 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	 */
 	protected abstract class FilteredRecipeTab extends BenchEntityTab {
 
-		private RecipeType recipeType;
-		private ItemType[] itemTypes;
+		protected RecipeType recipeType;
+		protected ItemType[] itemTypes;
 
-		Map<ItemType, Integer> indicesOfTypes;
-		Map<EquipmentRecipe, Integer> indicesOfRecipes;
-		ClickableGuiList<TypeItem> typeList;
-		ClickableGuiList<RecipeItem> recipeList;
+		protected Map<ItemType, Integer> indicesOfTypes;
+		protected Map<EquipmentRecipe, Integer> indicesOfRecipes;
+		protected ClickableGuiList<TypeItem> typeList;
+		protected ClickableGuiList<RecipeItem> recipeList;
 
 		public FilteredRecipeTab(TileHunterBench bench, RecipeType recipeType,
 			ItemType[] itemTypes) {
@@ -324,6 +324,13 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 	}
 
+	protected class CraftUpgradeTab extends FilteredRecipeTab {
+		public CraftUpgradeTab(TileHunterBench bench) {
+			super(bench, RecipeType.UPGRADE, ItemType.values());
+			typeList.setItemWidth(20);
+		}
+	}
+
 	protected class WeaponTreeTab implements IMHFCTab {
 
 		private int mouseX = 0, mouseY = 0;
@@ -403,21 +410,25 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	public final GuiButton startCrafting;
 	public final TileHunterBench tileEntity;
 
+	private static final String[] TAB_NAMES = new String[]{"Armor", "Weapons",
+			"Upgrade", "Weapon tree"};
+
 	public GuiHunterBench(InventoryPlayer par1InventoryPlayer, World par2World,
 		TileHunterBench tileEntity, int x, int y, int z) {
 		super(new ContainerHunterBench(par1InventoryPlayer, par2World,
-			tileEntity, x, y, z), 3);
+			tileEntity, x, y, z), TAB_NAMES.length);
 		this.tileEntity = tileEntity;
 		this.xSize = 374;
 		this.ySize = 220;
+		tabNames = TAB_NAMES;
 		mc = Minecraft.getMinecraft();
 		width = MHFCGuiUtil.minecraftWidth(mc);
 		height = MHFCGuiUtil.minecraftHeight(mc);
 		this.guiLeft = (width - this.xSize - tabWidth) / 2 + tabWidth;
 		this.guiTop = (height - this.ySize) / 2;
-		tabNames = new String[]{"Armor", "Weapons", "Weapon tree"};
 		this.tabList.add(new CraftArmorTab(tileEntity));
 		this.tabList.add(new CraftWeaponTab(tileEntity));
+		this.tabList.add(new CraftUpgradeTab(tileEntity));
 		this.tabList.add(new WeaponTreeTab());
 
 		startCrafting = new GuiButton(0, guiLeft + 228 + (xSize - 228 - 60) / 2,
@@ -445,8 +456,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				case WEAPON :
 					type = 1;
 					break;
-				default :
+				case UPGRADE :
 					type = 2;
+				default :
+					type = 0;
 			}
 		}
 		setTab(type);

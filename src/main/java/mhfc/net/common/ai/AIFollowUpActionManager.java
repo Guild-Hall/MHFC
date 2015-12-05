@@ -48,7 +48,7 @@ public class AIFollowUpActionManager<EntType extends EntityLiving & IManagedActi
 			.get(activeAttack);
 		if (followUps == null)
 			followUps = attacks;
-		return WeightedPick.pickRandom(attacks);
+		return WeightedPick.pickRandom(followUps);
 	}
 
 }
