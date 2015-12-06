@@ -31,7 +31,7 @@ public class RenderBHunters implements IItemRenderer {
 				if (((Entity) data[1] instanceof EntityPlayer)&& (((EntityPlayer) data[1]).getCurrentEquippedItem() != null)) {
 					if (usingItem < 5) {
 						Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(MHFCReference.weapon_bow_hunters_tex_start));
-					}  if ((usingItem >= 5) && (usingItem < 25)) {
+					}else  if ((usingItem >= 5) && (usingItem < 25)) {
 						Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(MHFCReference.weapon_bow_hunters_tex_half));
 					}  if (usingItem >= 25) {
 						Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(MHFCReference.weapon_bow_hunters_tex_full));

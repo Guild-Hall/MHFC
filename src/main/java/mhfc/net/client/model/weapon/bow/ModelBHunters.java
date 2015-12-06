@@ -175,6 +175,7 @@ public class ModelBHunters extends ModelBase
     setRotationAngles(f, f1, f2, f3, f4, f5, entity);
     renderA(entity, f, f1, f2, f3, f4, f5);
     renderRest(f5);
+    renderStart(f5);
   }
   
   public void renderRest(float f5) {
@@ -189,6 +190,31 @@ public class ModelBHunters extends ModelBase
 	  Shape19.render(f5);
 	  Shape20.render(f5);
 	  Shape21.render(f5);
+  }
+  
+  public void renderStart(float f5) {
+	  Shape1.renderWithRotation(f5);
+	  Shape2.renderWithRotation(f5);
+	  Shape3.renderWithRotation(f5);
+	  Shape4.renderWithRotation(f5);
+	  Shape5.renderWithRotation(f5);
+	  Shape6.renderWithRotation(f5);
+	  Shape7.renderWithRotation(f5);
+	  Shape8.renderWithRotation(f5);
+	  Shape9.renderWithRotation(f5);
+	  start.renderWithRotation(f5);
+	  half.renderWithRotation(f5);
+	  full.renderWithRotation(f5);
+	  pinStart.renderWithRotation(f5);
+	  pinHalf.renderWithRotation(f5);
+	  pinful.renderWithRotation(f5);
+	  Shape16.renderWithRotation(f5);
+	  Shape17.renderWithRotation(f5);
+	  Shape18.renderWithRotation(f5);
+	  Shape19.renderWithRotation(f5);
+	  Shape20.renderWithRotation(f5);
+	  Shape21.renderWithRotation(f5);
+	  Shape22.renderWithRotation(f5);
   }
 
 public void renderA(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
