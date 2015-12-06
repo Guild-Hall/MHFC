@@ -15,6 +15,7 @@ import mhfc.net.common.item.food.ItemNutrients;
 import mhfc.net.common.item.materials.ItemArmorSphere;
 import mhfc.net.common.item.materials.ItemBase;
 import mhfc.net.common.item.materials.ItemBombMaterial;
+import mhfc.net.common.item.materials.ItemBullet;
 import mhfc.net.common.item.materials.ItemDeviljho;
 import mhfc.net.common.item.materials.ItemFirestone;
 import mhfc.net.common.item.materials.ItemFlashBomb;
@@ -65,8 +66,9 @@ import mhfc.net.common.weapon.melee.longsword.LSMirageFinswordplus;
 import mhfc.net.common.weapon.melee.longsword.LSPhantomMirage;
 import mhfc.net.common.weapon.melee.longsword.LSSaber;
 import mhfc.net.common.weapon.melee.longsword.LSTrueDevilSlicer;
-import mhfc.net.common.weapon.range.bowgun.BHRath;
-import mhfc.net.common.weapon.range.bowgun.BLBarrel;
+import mhfc.net.common.weapon.range.bow.BPower;
+import mhfc.net.common.weapon.range.bowgun.heavy.BHRath;
+import mhfc.net.common.weapon.range.bowgun.light.BLBarrel;
 import net.minecraft.item.Item;
 
 public class MHFCItemRegistry {
@@ -110,7 +112,7 @@ public class MHFCItemRegistry {
 	public static final Item weapon_bgh_rath;
 	
 
-	// public static final Item weapon_bow_hunter;
+	public static final Item weapon_bow_power;
 
 	// Armors
 	public static final Item armor_tigrex_helm;
@@ -167,6 +169,7 @@ public class MHFCItemRegistry {
 	// public static final Item mhfcitempurecrystal;
 	public static final Item mhfcitemrathalos;
 	public static final Item mhfcitemdeviljho;
+	public static final Item mhfcitembullet;
 
 	public static final Item mhfcitemwoodrig;
 	public static final Item mhfcitemlumberbar;
@@ -279,7 +282,8 @@ public class MHFCItemRegistry {
 		
 		// Range weapons
 	
-		// weapon_bow_hunter = registerItem(new WeaponBHunter());
+		weapon_bow_power = registerItem(new BPower());
+
 		weapon_bgl_barrel = registerItem(new BLBarrel());
 		weapon_bgh_rath = registerItem(new BHRath());
 		// Items... drops
@@ -304,6 +308,8 @@ public class MHFCItemRegistry {
 		mhfcitemdeviljho = registerItem(new ItemDeviljho());
 		mhfcitemremobra = registerItem(new ItemRemobra());
 
+		
+		mhfcitembullet = registerItem(new ItemBullet());
 		mhfcitemsac = registerItem(new ItemSac());
 		mhfcitemfirestone = registerItem(new ItemFirestone());
 		mhfcitemarmorsphere = registerItem(new ItemArmorSphere());

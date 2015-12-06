@@ -1,4 +1,4 @@
-package mhfc.net.common.weapon.range.bowgun;
+package mhfc.net.common.weapon.range.bowgun.heavy;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.util.lib.MHFCReference;

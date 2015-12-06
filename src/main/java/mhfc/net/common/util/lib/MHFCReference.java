@@ -339,6 +339,17 @@ public class MHFCReference {
 	public static final String item_normalnutrients_icon = "mhfc:nutrients0";
 	public static final String item_meganutrient_name = "mega";
 	public static final String item_meganutrient_icon = "mhfc:nutrients1";
+	
+	public static final String item_bullet_basename = "bullet";
+	public static final String item_bulletnormal_name = "normalS";
+	public static final String item_bulletnormal_icon = "mhfc:bullet0";
+	public static final String item_bulletpierce_name = "pierceS";
+	public static final String item_bulletpierce_icon = "mhfc:bullet1";
+	public static final String item_bulletcrag_name = "cragS";
+	public static final String item_bulletcrag_icon = "mhfc:bullet2";
+	public static final String item_bulletflame_name = "flameS";
+	public static final String item_bulletflame_icon = "mhfc:bullet3";
+	
 
 	public static final String item_kirinbuff_icon = "mhfc:kirinbuff";
 	public static final String item_lumberbar_icon = "mhfc:lumberbar";
@@ -373,7 +384,7 @@ public class MHFCReference {
 	public static final String main_config_mobs_summonTigrex_key = "SummonTigrex";
 	public static final String main_modid = "mhfc";
 	public static final String main_name = "@MODNAME@";
-	public static final String main_version = "0.2.400a_1.7.10";
+	public static final String main_version = "0.2.500a_1.7.10";
 	public static final String modelLoc = "mhfc:models/";
 	public static final String mob_tigrex_name = "tigrex";
 	public static final String mob_tigrex_model = modelLoc + "Tigrex/Tigrex.mcmd";
@@ -410,14 +421,8 @@ public class MHFCReference {
 	public static final String tile_stuntrap_id = "Stun Trap";
 	public static final String tile_stuntrap_tex = "mhfc:textures/tile/stuntrap.png";
 
-	public static final String weapon_bow_hunter_icon0 = "mhfc:bow";
-	public static final String weapon_bow_hunter_icon1 = "mhfc:bow1";
-	public static final String weapon_bow_hunter_icon2 = "mhfc:bow2";
-	public static final String weapon_bow_hunter_icon3 = "mhfc:bow3";
-	public static final String weapon_bow_hunter_name = "a.bow";
-	public static final String weapon_bow_hunter_tex0 = "mhfc:textures/weapons/bow/hunterbow0.png";
-	public static final String weapon_bow_hunter_tex1 = "mhfc:textures/weapons/bow/hunterbow1.png";
-	public static final String weapon_bow_hunter_tex2 = "mhfc:textures/weapons/bow/hunterbow2.png";
+	public static final String weapon_bow_power_name = "a.bow";
+	public static final String weapon_bow_power_tex = "mhfc:textures/weapons/bow/(B)power.png";
 
 	public static final String weapon_bow_tigrexarrow_name = "b.bow";
 	public static final String weapon_bow_tigrexarrow_tex0 = "mhfc:textures/weapons/bow/(B)tigrexarrow1.png";

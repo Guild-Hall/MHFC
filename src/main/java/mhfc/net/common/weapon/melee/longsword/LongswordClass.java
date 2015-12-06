@@ -31,7 +31,7 @@ public class LongswordClass extends WeaponMelee {
 					amplified));
 		if (firetype)
 			ent.setFire(1);
-		weapon.hitEntity(stack, ent, player);
+		meleecomp.hitEntity(stack, ent, player);
 		return true;
 	}
 }

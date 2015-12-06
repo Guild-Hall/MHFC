@@ -65,4 +65,15 @@ public class Cooldown {
 			info.add("Cooldown Time: Ready to Use");
 		}
 	}
+	
+	public static void displayAttackDelay(ItemStack iStack, List<String> info,
+			int maxCooldown) {
+		NBTSystem.checkNBT(iStack);
+		if (NBTSystem.getInteger(iStack, COOLDOWN_NBT) > 0) {
+			info.add("Attack Time: "
+					+ NBTSystem.getInteger(iStack, COOLDOWN_NBT));
+		} else {
+			info.add("Attack Time: Ready");
+		}
+	}
 }

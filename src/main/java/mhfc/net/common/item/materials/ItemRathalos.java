@@ -17,16 +17,11 @@ public class ItemRathalos extends Item {
 	public static enum RathalosSubType
 			implements
 				SubTypedItem.SubTypeEnum<Item> {
-		SHELL(MHFCReference.item_rathalos0_name,
-				MHFCReference.item_rathalos0_icon), //
-		WEBBING(MHFCReference.item_rathalos1_name,
-				MHFCReference.item_rathalos1_icon), //
-		MARROW(MHFCReference.item_rathalos2_name,
-				MHFCReference.item_rathalos2_icon), //
-		WING(MHFCReference.item_rathalos3_name,
-				MHFCReference.item_rathalos3_icon), //
-		PLATE(MHFCReference.item_rathalos4_name,
-				MHFCReference.item_rathalos4_icon);
+		SHELL	(MHFCReference.item_rathalos0_name,MHFCReference.item_rathalos0_icon), //
+		WEBBING (MHFCReference.item_rathalos1_name,MHFCReference.item_rathalos1_icon), //
+		MARROW  (MHFCReference.item_rathalos2_name,MHFCReference.item_rathalos2_icon), //
+		WING    (MHFCReference.item_rathalos3_name,MHFCReference.item_rathalos3_icon), //
+		PLATE   (MHFCReference.item_rathalos4_name,MHFCReference.item_rathalos4_icon);
 
 		public final String name;
 		public final String texture;

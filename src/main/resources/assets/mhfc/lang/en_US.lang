@@ -65,10 +65,10 @@ item.meat.fire.name=Fire Meat
 item.nutrients.normal.name=Nutrients
 item.nutrients.mega.name=Mega Nutrients
 
-item.bullet0.name=Normal S
-item.bullet1.name=Pierce S
-item.bullet2.name=Crag S
-item.bullet3.name=Flame S
+item.bullet.normalS.name=Normal S
+item.bullet.pierceS.name=Pierce S
+item.bullet.cragS.name=Crag S
+item.bullet.flameS.name=Flame S
 
 item.wyverniadust.name=Wyvernia Dust
 item.wyverniaclay.name=Wyvernia Clay
@@ -156,7 +156,7 @@ item.h.mhf_leg.name= Kishin Vambrace
 item.h.mhf_boots.name= Kishin Greaves
 
 
-item.a.bow.name=Hunter's Bow
+item.a.bow.name=Power I
 item.b.bow.name=Tigrex Arrow
 item.c.bow.name=Adventurer's Bow
 item.bowgun_1.name=Shooter's Barrel

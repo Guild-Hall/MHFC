@@ -32,7 +32,7 @@ public class HuntingHornClass extends WeaponMelee {
 		if (!world.isRemote) {
 			Cooldown.onUpdate(iStack, cooldown);
 		}
-		weapon.onUpdate(iStack, world, entity, i, flag);
+		meleecomp.onUpdate(iStack, world, entity, i, flag);
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class HuntingHornClass extends WeaponMelee {
 					amplified));
 		if (firetype)
 			target.setFire(1);
-		weapon.hitEntity(stack, target, player);
+		meleecomp.hitEntity(stack, target, player);
 		return true;
 	}
 }

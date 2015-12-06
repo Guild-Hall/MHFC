@@ -34,7 +34,7 @@ public class HammerClass extends WeaponMelee {
 		if (!world.isRemote) {
 			Cooldown.onUpdate(iStack, cooldown);
 		}
-		weapon.onUpdate(iStack, world, entity, i, flag);
+		meleecomp.onUpdate(iStack, world, entity, i, flag);
 	}
 
 	@Override

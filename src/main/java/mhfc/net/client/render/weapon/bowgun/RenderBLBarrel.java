@@ -23,16 +23,16 @@ public class RenderBLBarrel implements IItemRenderer {
 		switch (type) {
 
 			case EQUIPPED : // render in third person
-				float scale = 3f;
+				float scale = 2f;
 				GL11.glScalef(scale, scale, scale);
 				GL11.glPushMatrix(); // start gl rendering for this section
 				Minecraft.getMinecraft().renderEngine
 						.bindTexture(new ResourceLocation(MHFCReference.weapon_bgl_barrel_tex));
-				GL11.glRotatef(0F, 1.0f, 0.0f, 0.0f); // rotate 0 ° on X axis
-				GL11.glRotatef(-90F, 0.0f, 1.0f, 0.0f); // rotate -5 ° on Y axis
-				GL11.glRotatef(-180F, 0.0f, 0.0f, 1.0f); // rotate -150 ° on Z
+				GL11.glRotatef(180F, 1.0f, 0.0f, 0.0f); // rotate 0 ° on X axis
+				GL11.glRotatef(180F, 0.0f, 1.0f, 0.0f); // rotate -5 ° on Y axis
+				GL11.glRotatef(90F, 0.0f, 0.0f, 1.0f); // rotate -150 ° on Z
 															// axis
-				GL11.glTranslatef(0.0F, -0.2F, -0.3F);// translate model to fit
+				GL11.glTranslatef(-0.1F, 0.2F, -0.2F);// translate model to fit
 														// in the hand of the
 														// player
 				// the entity argument can/could be passed to as null.

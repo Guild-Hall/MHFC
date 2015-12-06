@@ -1,6 +1,5 @@
 package mhfc.net.common.entity.projectile;
 
-import mhfc.net.common.weapon.ComponentRange;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
@@ -9,8 +8,11 @@ import net.minecraft.world.World;
 
 public class EntityBullet extends EntityThrowable {
 
-	private ComponentRange weapon;
-
+//	private ComponentRange weapon;
+	
+	public boolean flame;
+	
+	
 	public EntityBullet(World par1World) {
 		super(par1World);
 		// weapon = new ComponentRange();
@@ -26,8 +28,8 @@ public class EntityBullet extends EntityThrowable {
 		if (p_70184_1_.entityHit != null) {
 
 			p_70184_1_.entityHit.attackEntityFrom(
-					DamageSource.causeThrownDamage(this, this.getThrower()),
-					weapon.getEntityDamage());
+					DamageSource.causeThrownDamage(this, this.getThrower()),0);
+					//		weapon.getEntityDamage());
 		}
 	}
 }

@@ -22,6 +22,7 @@ import net.minecraft.world.WorldServer;
 
 public class Utilities {
 	private static Random rand = new Random();
+	public static int motionTick;
 	/**
 	 * For all nearby entities that are attacking the EntityLiving, resets the
 	 * attack and revenge target
