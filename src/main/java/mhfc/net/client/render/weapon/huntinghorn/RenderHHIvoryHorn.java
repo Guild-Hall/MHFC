@@ -23,11 +23,10 @@ public class RenderHHIvoryHorn implements IItemRenderer {
 		switch (type) {
 
 			case EQUIPPED : // render in third person
+				GL11.glPushMatrix(); // start gl rendering for this section
 				float scale = 1.5f;
 				GL11.glScalef(scale, scale, scale);
-				GL11.glPushMatrix(); // start gl rendering for this section
-				Minecraft.getMinecraft().renderEngine
-						.bindTexture(new ResourceLocation(MHFCReference.weapon_hh_ivoryhorn_tex));
+				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(MHFCReference.weapon_hh_ivoryhorn_tex));
 				GL11.glRotatef(0F, 1.0f, 0.0f, 0.0f); // rotate 0 ° on X axis
 				GL11.glRotatef(-5F, 0.0f, 1.0f, 0.0f); // rotate -5 ° on Y axis
 				GL11.glRotatef(-120F, 0.0f, 0.0f, 1.0f); // rotate -150 ° on Z

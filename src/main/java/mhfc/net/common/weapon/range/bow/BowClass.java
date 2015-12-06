@@ -30,7 +30,7 @@ public class BowClass extends Item {
 	public int usingItem = 72000;
 	
 	@SideOnly(Side.CLIENT)
-	private IIcon[] IconArray;
+	public IIcon[] IconArray;
 
 	public BowClass() {
 		super();
@@ -179,7 +179,6 @@ public class BowClass extends Item {
 
 			entityarrow.setDamage(entityarrow.getDamage()+ (flag ? 2D : 1D));
 			entityarrow.setKnockbackStrength(1);
-			entityarrow.setFire(5);
 
 			if (flag) {
 				entityarrow.canBePickedUp = 2;
@@ -198,9 +197,7 @@ public class BowClass extends Item {
 	public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
 		
 		player.setItemInUse(stack, count);
-		
 		usingItem = count;
-		FMLLog.getLogger().info(count);
 		
 	}
 	

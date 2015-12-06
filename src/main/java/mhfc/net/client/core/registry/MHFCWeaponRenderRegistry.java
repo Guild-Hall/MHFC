@@ -1,6 +1,6 @@
 package mhfc.net.client.core.registry;
 
-import mhfc.net.client.render.weapon.bow.RenderBPower;
+import mhfc.net.client.render.weapon.bow.RenderBHunters;
 import mhfc.net.client.render.weapon.bowgun.RenderBHRath;
 import mhfc.net.client.render.weapon.bowgun.RenderBLBarrel;
 import mhfc.net.client.render.weapon.greatsword.RenderGSBone;
@@ -107,8 +107,8 @@ public class MHFCWeaponRenderRegistry {
 		registerItemRenderer(MHFCItemRegistry.weapon_hh_tigrex,
 				new RenderHHTigrex());
 
-		registerItemRenderer(MHFCItemRegistry.weapon_bow_power,
-				new RenderBPower());
+		registerItemRenderer(MHFCItemRegistry.weapon_bow_hunters,
+				new RenderBHunters());
 
 		registerItemRenderer(MHFCItemRegistry.weapon_bgl_barrel,
 				new RenderBLBarrel());

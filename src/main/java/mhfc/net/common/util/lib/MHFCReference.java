@@ -421,16 +421,12 @@ public class MHFCReference {
 	public static final String tile_stuntrap_id = "Stun Trap";
 	public static final String tile_stuntrap_tex = "mhfc:textures/tile/stuntrap.png";
 
-	public static final String weapon_bow_power_name = "a.bow";
-	public static final String weapon_bow_power_tex = "mhfc:textures/weapons/bow/(B)power.png";
+	public static final String weapon_bow_hunters_name = "a.bow";
+	public static final String weapon_bow_hunters_tex_rest = "mhfc:textures/weapons/bow/(B)hunters-rest.png";
+	public static final String weapon_bow_hunters_tex_start = "mhfc:textures/weapons/bow/(B)hunters-start.png";
+	public static final String weapon_bow_hunters_tex_half = "mhfc:textures/weapons/bow/(B)hunters-half.png";
+	public static final String weapon_bow_hunters_tex_full = "mhfc:textures/weapons/bow/(B)hunters-full.png";
 
-	public static final String weapon_bow_tigrexarrow_name = "b.bow";
-	public static final String weapon_bow_tigrexarrow_tex0 = "mhfc:textures/weapons/bow/(B)tigrexarrow1.png";
-	public static final String weapon_bow_tigrexarrow_tex1 = "mhfc:textures/weapons/bow/(B)tigrexarrow2.png";
-	public static final String weapon_bow_tigrexarrow_tex2 = "mhfc:textures/weapons/bow/(B)tigrexarrow3.png";
-
-	public static final String weapon_bow_adventurer_name = "c.bow";
-	public static final String weapon_bow_adventurer_tex = "mhfc:textures/weapons/(B)Adventurer.png";
 
 	public static final String weapon_gs_default_icon = "mhfc:greatsword";
 	public static final String weapon_gs_bone_icon = "mhfc:greatsword";
