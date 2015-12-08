@@ -30,17 +30,18 @@ public class ChainGoalDescription extends GoalDescription {
 		this.successorGoal = successorGoal;
 	}
 
-	public GoalDescription getTrueGoal() {
-		return trueGoal.getReferredDescription();
+	public GoalReference getTrueGoal() {
+		return trueGoal;
 	}
 
-	public GoalDescription getSuccessorGoal() {
-		return successorGoal.getReferredDescription();
+	public GoalReference getSuccessorGoal() {
+		return successorGoal;
 	}
 
 	@Override
 	public QuestGoal build() {
-		GoalDescription truG = getTrueGoal(), sucG = getSuccessorGoal();
+		GoalDescription truG = getTrueGoal().getReferredDescription(),
+			sucG = getSuccessorGoal().getReferredDescription();
 
 		QuestGoal dep1, dep2;
 		if (sucG == null) {
@@ -56,8 +57,8 @@ public class ChainGoalDescription extends GoalDescription {
 		trueGoalNull |= dep1 == null;
 
 		if (trueGoalNull) {
-			MHFCMain.logger
-				.warn("A chain goal used an invalid description as its goal. Using the successor goal instead of the chain goal");
+			MHFCMain.logger.warn(
+				"A chain goal used an invalid description as its goal. Using the successor goal instead of the chain goal");
 			return dep2;
 		}
 

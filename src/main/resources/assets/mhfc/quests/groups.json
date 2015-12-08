@@ -1,10 +1,10 @@
-[
-	"TestGroup"
-]
-
-
 {
-	"TestGroup":[
-		"TestQuest", "New Quest"
-	]
+	"orderedGroups":[
+		"TestGroup"
+	],
+	"mapping":{
+		"TestGroup":[
+			"TestQuest", "New Quest"
+		]
+	}
 }

@@ -1,63 +1,36 @@
 package mhfc.net.client.quests;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import mhfc.net.MHFCMain;
-import mhfc.net.client.gui.quests.GuiQuestBoard;
-import mhfc.net.client.gui.quests.GuiQuestGiver;
-import mhfc.net.client.gui.quests.GuiQuestJoin;
-import mhfc.net.client.gui.quests.GuiQuestNew;
-import mhfc.net.client.gui.quests.QuestStatusDisplay;
-import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.packet.MessageQuestScreenInit;
-import mhfc.net.common.network.packet.MessageQuestVisual;
-import mhfc.net.common.network.packet.MessageRequestQuestVisual;
-import mhfc.net.common.quests.QuestRunningInformation;
-import mhfc.net.common.quests.QuestVisualInformation;
-import mhfc.net.common.quests.QuestVisualInformation.QuestType;
-import mhfc.net.common.util.lib.MHFCReference;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import mhfc.net.client.gui.quests.*;
+import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
+import mhfc.net.common.network.PacketPipeline;
+import mhfc.net.common.network.packet.MessageQuestVisual;
+import mhfc.net.common.network.packet.MessageRequestQuestVisual;
+import mhfc.net.common.quests.QuestRunningInformation;
+import mhfc.net.common.quests.QuestVisualInformation;
+import mhfc.net.common.quests.QuestVisualInformation.QuestType;
+import mhfc.net.common.quests.api.QuestDescription;
+import mhfc.net.common.util.lib.MHFCReference;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 
 @SideOnly(Side.CLIENT)
 public class MHFCRegQuestVisual {
-
-	public static class QuestVisualInitHandler
-			implements
-				IMessageHandler<MessageQuestScreenInit, IMessage> {
-
-		@Override
-		public IMessage onMessage(MessageQuestScreenInit message,
-				MessageContext ctx) {
-			Map<String, List<String>> identifierLists = message
-					.getIdentifierListMap();
-			List<String> identifiers = message.getIdentifiers();
-			groupIDsInOrder = identifiers;
-			groupIDToListMap = identifierLists;
-			MHFCMain.logger.debug("Client received quest info");
-			return null;
-		}
-	}
-
 	public static class QuestScreenVisualHandler
-			implements
-				IMessageHandler<MessageQuestVisual, IMessage> {
+		implements
+			IMessageHandler<MessageQuestVisual, IMessage> {
 
 		@Override
-		public IMessage onMessage(MessageQuestVisual message, MessageContext ctx) {
+		public IMessage onMessage(MessageQuestVisual message,
+			MessageContext ctx) {
 			QuestVisualInformation visual = getInformationFromMessage(message);
 			switch (message.getTypeID()) {
 				case 0 :
@@ -74,7 +47,7 @@ public class MHFCRegQuestVisual {
 	}
 
 	private static QuestVisualInformation getInformationFromMessage(
-			MessageQuestVisual message) {
+		MessageQuestVisual message) {
 		String[] strings = message.getStrings();
 		String name = strings[1];
 		if ("".equals(name))
@@ -107,23 +80,23 @@ public class MHFCRegQuestVisual {
 		}
 		QuestVisualInformation visual;
 		visual = new QuestVisualInformation(name, description, client, aims,
-				fails, areaNameID, timeLimitInS, reward, fee, maxPartySize,
-				realType);
+			fails, areaNameID, timeLimitInS, reward, fee, maxPartySize,
+			realType);
 		return visual;
 	}
 
 	private static void modifyVisualOfIdentifier(QuestVisualInformation visual,
-			MessageQuestVisual message) {
+		MessageQuestVisual message) {
 		String identifier = message.getStrings()[0];
 		identifierToVisualInformationMap.put(identifier, visual);
 	}
 
 	private static void setPlayerVisual(QuestVisualInformation visual,
-			MessageQuestVisual message) {
+		MessageQuestVisual message) {
 		String[] strings = message.getStrings();
 		hasPlayerQuest = (visual != null);
 		QuestRunningInformation runInfo = new QuestRunningInformation(visual,
-				strings[12], strings[13]);
+			strings[12], strings[13]);
 		if (playersVisual != null) {
 			playersVisual.cleanUp();
 		}
@@ -131,12 +104,12 @@ public class MHFCRegQuestVisual {
 	}
 
 	private static void modifyRunningQuestList(QuestVisualInformation visual,
-			MessageQuestVisual message) {
+		MessageQuestVisual message) {
 		String[] strings = message.getStrings();
 		String identifier = strings[0];
 		boolean clear = visual == null;
 		QuestRunningInformation runInfo = new QuestRunningInformation(visual,
-				strings[12], strings[13]);
+			strings[12], strings[13]);
 		if (clear) {
 			identifierToVisualRunningMap.remove(identifier);
 			runningQuestIDs.remove(identifier);
@@ -149,25 +122,25 @@ public class MHFCRegQuestVisual {
 	}
 
 	public static final ResourceLocation QUEST_STATUS_INVENTORY_BACKGROUND = new ResourceLocation(
-			MHFCReference.gui_status_inventory_tex);
+		MHFCReference.gui_status_inventory_tex);
 	public static final ResourceLocation QUEST_STATUS_ONSCREEN_BACKGROUND = new ResourceLocation(
-			MHFCReference.gui_status_onscreen_tex);
+		MHFCReference.gui_status_onscreen_tex);
 	public static final ResourceLocation QUEST_BOARD_BACKGROUND = new ResourceLocation(
-			MHFCReference.gui_board_tex);
+		MHFCReference.gui_board_tex);
 	public static final ResourceLocation HUNTER_BENCH_BURN_BACK = new ResourceLocation(
-			MHFCReference.gui_hunterbench_burn_back_tex);
+		MHFCReference.gui_hunterbench_burn_back_tex);
 	public static final ResourceLocation HUNTER_BENCH_BURN_FRONT = new ResourceLocation(
-			MHFCReference.gui_hunterbench_burn_front_tex);
+		MHFCReference.gui_hunterbench_burn_front_tex);
 	public static final ResourceLocation HUNTER_BENCH_BURN_TARGET = new ResourceLocation(
-			MHFCReference.gui_hunterbench_burn_target_tex);
+		MHFCReference.gui_hunterbench_burn_target_tex);
 	public static final ResourceLocation QUEST_HUNTERBENCH_BACKGROUND = new ResourceLocation(
-			MHFCReference.gui_hunterbench_back_tex);
+		MHFCReference.gui_hunterbench_back_tex);
 	public static final ResourceLocation HUNTER_BENCH_COMPLETE = new ResourceLocation(
-			MHFCReference.gui_hunterbench_complete_tex);
+		MHFCReference.gui_hunterbench_complete_tex);
 	public static final ResourceLocation HUNTER_BENCH_FUEL_DURATION = new ResourceLocation(
-			MHFCReference.gui_hunterbench_fuel_tex);
+		MHFCReference.gui_hunterbench_fuel_tex);
 	public static final ResourceLocation CLICKABLE_LIST = new ResourceLocation(
-			MHFCReference.gui_list_tex);
+		MHFCReference.gui_list_tex);
 
 	private static Map<String, List<String>> groupIDToListMap = new HashMap<String, List<String>>();
 	private static List<String> groupIDsInOrder = new ArrayList<String>();
@@ -179,8 +152,8 @@ public class MHFCRegQuestVisual {
 	private static QuestStatusDisplay display;
 
 	@SideOnly(Side.CLIENT)
-	private static GuiQuestJoin questBoard = new GuiQuestJoin(
-			Minecraft.getMinecraft().thePlayer);
+	private static GuiQuestJoin questBoard = new GuiQuestJoin(Minecraft
+		.getMinecraft().thePlayer);
 
 	private static boolean hasPlayerQuest = false;
 	private static QuestRunningInformation playersVisual;
@@ -190,7 +163,7 @@ public class MHFCRegQuestVisual {
 			return null;
 		List<String> list = new ArrayList<String>(groupIDToListMap.keySet());
 		GuiQuestNew newQuest = new GuiQuestNew(list.toArray(new String[0]),
-				playerEntity);
+			playerEntity);
 		return new GuiQuestGiver(playerEntity, newQuest);
 	}
 
@@ -210,19 +183,25 @@ public class MHFCRegQuestVisual {
 	 *         replacement <br>
 	 *         representing loading.
 	 */
-	public static QuestVisualInformation getVisualInformation(String identifier) {
+	public static QuestVisualInformation getVisualInformation(
+		String identifier) {
+		QuestDescription staticDescription = MHFCQuestBuildRegistry
+			.getQuestDescription(identifier);
+		if (staticDescription != null) {
+			return staticDescription.getVisualInformation();
+		}
 		if (identifierToVisualInformationMap.containsKey(identifier)) {
 			return identifierToVisualInformationMap.get(identifier);
 		}
 		PacketPipeline.networkPipe.sendToServer(new MessageRequestQuestVisual(
-				identifier));
+			identifier));
 		identifierToVisualInformationMap.put(identifier,
-				QuestVisualInformation.LOADING_REPLACEMENT);
+			QuestVisualInformation.LOADING_REPLACEMENT);
 		return QuestVisualInformation.LOADING_REPLACEMENT;
 	}
 
 	public static QuestRunningInformation getRunningInformation(
-			String identifier) {
+		String identifier) {
 		return identifierToVisualRunningMap.get(identifier);
 	}
 

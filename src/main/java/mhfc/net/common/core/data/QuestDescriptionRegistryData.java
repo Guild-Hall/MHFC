@@ -5,10 +5,10 @@ import java.util.*;
 import mhfc.net.common.quests.api.GoalDescription;
 import mhfc.net.common.quests.api.QuestDescription;
 
-public class QuestDescriptionData {
+public class QuestDescriptionRegistryData {
 
 	public static interface IQuestDescriptionDirector {
-		public void construct(QuestDescriptionData data);
+		public void construct(QuestDescriptionRegistryData data);
 	}
 
 	public static class QuestGroupData {
@@ -113,6 +113,14 @@ public class QuestDescriptionData {
 	public GoalDescription getGoalDescription(String id) {
 		GoalDescription qd = goalDescriptions.get(id);
 		return qd;
+	}
+
+	public Map<String, QuestDescription> getQuestDescriptionMap() {
+		return questDescriptions;
+	}
+
+	public Map<String, GoalDescription> getGoalDescriptionMap() {
+		return goalDescriptions;
 	}
 
 	public void clearData() {

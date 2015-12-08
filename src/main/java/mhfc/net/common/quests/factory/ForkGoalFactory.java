@@ -1,24 +1,18 @@
 package mhfc.net.common.quests.factory;
 
-import mhfc.net.common.quests.api.GoalDescription;
-import mhfc.net.common.quests.api.GoalReference;
-import mhfc.net.common.quests.api.IGoalFactory;
-import mhfc.net.common.quests.api.QuestGoal;
-import mhfc.net.common.quests.descriptions.ForkGoalDescription;
+import static mhfc.net.common.quests.descriptions.ForkGoalDescription.*;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
 
-import static mhfc.net.common.quests.descriptions.ForkGoalDescription.*;
+import mhfc.net.common.quests.api.GoalDescription;
+import mhfc.net.common.quests.api.GoalReference;
+import mhfc.net.common.quests.api.IGoalFactory;
+import mhfc.net.common.quests.descriptions.ForkGoalDescription;
 
 public class ForkGoalFactory implements IGoalFactory {
-
-	@Override
-	public QuestGoal buildQuestGoal(GoalDescription goalDesc) {
-		return goalDesc.build();
-	}
-
 	@Override
 	public GoalDescription buildGoalDescription(JsonObject json,
 		JsonDeserializationContext context) {
@@ -32,6 +26,13 @@ public class ForkGoalFactory implements IGoalFactory {
 			opt = context.<GoalReference[]> deserialize(json.get(ID_OPTIONAL),
 				GoalReference[].class);
 		return new ForkGoalDescription(rqs, opt);
+	}
+
+	@Override
+	public JsonObject serialize(GoalDescription description,
+		JsonSerializationContext context) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

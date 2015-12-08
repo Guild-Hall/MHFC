@@ -1,12 +1,9 @@
 package mhfc.net.common.core.registry;
 
+import cpw.mods.fml.relauncher.Side;
 import mhfc.net.client.quests.MHFCRegQuestVisual.QuestScreenVisualHandler;
-import mhfc.net.client.quests.MHFCRegQuestVisual.QuestVisualInitHandler;
-import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.BeginCraftingHandler;
-import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.BenchRefreshHandler;
-import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.CancelRecipeHandler;
-import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.CraftingUpdateHandler;
-import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.SetRecipeHandler;
+import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.*;
+import mhfc.net.common.core.registry.MHFCQuestBuildRegistry.QuestClientInitHandler;
 import mhfc.net.common.core.registry.MHFCQuestRegistry.RegistryRequestVisualHandler;
 import mhfc.net.common.core.registry.MHFCQuestRegistry.RunningSubscriptionHandler;
 import mhfc.net.common.eventhandler.MHFCInteractionHandler;
@@ -15,7 +12,6 @@ import mhfc.net.common.network.message.MessageAIAttack;
 import mhfc.net.common.network.message.MessageAttackHandler;
 import mhfc.net.common.network.message.bench.*;
 import mhfc.net.common.network.packet.*;
-import cpw.mods.fml.relauncher.Side;
 
 public class MHFCPacketRegistry {
 
@@ -41,8 +37,8 @@ public class MHFCPacketRegistry {
 		PacketPipeline.registerPacket(RunningSubscriptionHandler.class,
 			MessageQuestRunningSubscription.class, Side.SERVER);
 
-		PacketPipeline.registerPacket(QuestVisualInitHandler.class,
-			MessageQuestScreenInit.class, Side.CLIENT);
+		PacketPipeline.registerPacket(QuestClientInitHandler.class,
+			MessageQuestInit.class, Side.CLIENT);
 		PacketPipeline.registerPacket(QuestScreenVisualHandler.class,
 			MessageQuestVisual.class, Side.CLIENT);
 	}

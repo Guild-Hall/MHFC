@@ -27,7 +27,8 @@ public class QuestFactory {
 	private static Map<String, IGoalFactory> goalFactoryMap = new HashMap<String, IGoalFactory>();
 
 	static {
-		insertQuestFactory("", new DefaultQuestFactory());
+		insertQuestFactory(MHFCQuestBuildRegistry.QUEST_DEFAULT,
+			new DefaultQuestFactory());
 
 		DeathRestrictionGoalFactory drFactory = new DeathRestrictionGoalFactory();
 		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_DEATH_RESTRICTION_TYPE,
