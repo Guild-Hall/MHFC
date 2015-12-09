@@ -2,10 +2,7 @@ package mhfc.net.common.quests.factory;
 
 import static mhfc.net.common.quests.descriptions.ForkGoalDescription.*;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
+import com.google.gson.*;
 
 import mhfc.net.common.quests.api.GoalDescription;
 import mhfc.net.common.quests.api.GoalReference;
@@ -14,8 +11,9 @@ import mhfc.net.common.quests.descriptions.ForkGoalDescription;
 
 public class ForkGoalFactory implements IGoalFactory {
 	@Override
-	public GoalDescription buildGoalDescription(JsonObject json,
+	public GoalDescription buildGoalDescription(JsonElement jsonE,
 		JsonDeserializationContext context) {
+		JsonObject json = jsonE.getAsJsonObject();
 		if (!json.has(ID_REQUIRED))
 			throw new JsonParseException(
 				"A fork does at least need a list of required goals. This could be empty, but is needed");
@@ -31,8 +29,15 @@ public class ForkGoalFactory implements IGoalFactory {
 	@Override
 	public JsonObject serialize(GoalDescription description,
 		JsonSerializationContext context) {
-		// TODO Auto-generated method stub
-		return null;
+		ForkGoalDescription forkGoal = (ForkGoalDescription) description;
+		JsonObject holder = new JsonObject();
+		JsonElement jsonRequired = context.serialize(forkGoal.getRequired()
+			.toArray(), GoalReference[].class);
+		JsonElement jsonOptional = context.serialize(forkGoal.getOptional()
+			.toArray(), GoalReference[].class);
+		holder.add(ID_REQUIRED, jsonRequired);
+		holder.add(ID_OPTIONAL, jsonOptional);
+		return holder;
 	}
 
 }

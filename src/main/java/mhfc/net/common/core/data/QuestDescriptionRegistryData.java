@@ -115,12 +115,29 @@ public class QuestDescriptionRegistryData {
 		return qd;
 	}
 
-	public Map<String, QuestDescription> getQuestDescriptionMap() {
+	/**
+	 * <b>WARNING:</b> The objected returned here is backed by the real map
+	 */
+	public Map<String, QuestDescription> getFullQuestDescriptionMap() {
 		return questDescriptions;
 	}
 
-	public Map<String, GoalDescription> getGoalDescriptionMap() {
+	/**
+	 * <b>WARNING:</b> The objected returned here is backed by the real map
+	 */
+	public Map<String, GoalDescription> getFullGoalDescriptionMap() {
 		return goalDescriptions;
+	}
+
+	/**
+	 * <b>WARNING:</b> The objected returned here is backed by the real map
+	 */
+	public Map<String, Set<String>> getFullGroupMap() {
+		return groupData.groupMapping;
+	}
+
+	public List<String> getGroupsInOrder() {
+		return new ArrayList<>(groupData.groupIDs);
 	}
 
 	public void clearData() {

@@ -14,7 +14,8 @@ import net.minecraft.entity.player.EntityPlayer;
 public class QuestFactory {
 
 	public static QuestDescription getQuestDescription(String id) {
-		QuestDescription qd = MHFCQuestBuildRegistry.getQuestDescription(id);
+		QuestDescription qd = MHFCQuestBuildRegistry.getQuestDescription(
+			id);
 		return qd;
 	}
 
@@ -65,9 +66,9 @@ public class QuestFactory {
 	 */
 	public static GeneralQuest constructQuest(QuestDescription qd,
 		EntityPlayer initiator, String assignedID) {
-		if (qd == null || !questFactoryMap.containsKey(qd.getFactory()))
+		if (qd == null || !questFactoryMap.containsKey(qd.getType()))
 			return null;
-		IQuestFactory factory = getQuestFactory(qd.getFactory());
+		IQuestFactory factory = getQuestFactory(qd.getType());
 		if (factory == null)
 			return null;
 		GeneralQuest quest = factory.buildQuest(qd);

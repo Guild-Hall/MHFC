@@ -43,7 +43,7 @@ public class MHFCJsonUtils {
 		if (!jsonAsObject.has(string))
 			return false;
 		JsonElement field = jsonAsObject.get(string);
-		if (!field.isJsonObject())
+		if (!field.isJsonPrimitive())
 			return false;
 		return field.getAsJsonPrimitive().isNumber();
 	}
@@ -53,7 +53,7 @@ public class MHFCJsonUtils {
 		if (!jsonAsObject.has(string))
 			return false;
 		JsonElement field = jsonAsObject.get(string);
-		if (!field.isJsonObject())
+		if (!field.isJsonPrimitive())
 			return false;
 		return field.getAsJsonPrimitive().isBoolean();
 	}
@@ -63,7 +63,7 @@ public class MHFCJsonUtils {
 		if (!jsonAsObject.has(string))
 			return false;
 		JsonElement field = jsonAsObject.get(string);
-		if (!field.isJsonObject())
+		if (!field.isJsonPrimitive())
 			return false;
 		return field.getAsJsonPrimitive().isString();
 	}

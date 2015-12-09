@@ -2,10 +2,7 @@ package mhfc.net.common.quests.factory;
 
 import static mhfc.net.common.quests.descriptions.TimeGoalDescription.*;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
+import com.google.gson.*;
 
 import mhfc.net.common.quests.api.GoalDescription;
 import mhfc.net.common.quests.api.IGoalFactory;
@@ -13,8 +10,9 @@ import mhfc.net.common.quests.descriptions.TimeGoalDescription;
 
 public class TimeGoalFactory implements IGoalFactory {
 	@Override
-	public GoalDescription buildGoalDescription(JsonObject json,
+	public GoalDescription buildGoalDescription(JsonElement jsonE,
 		JsonDeserializationContext context) {
+		JsonObject json = jsonE.getAsJsonObject();
 		if (!json.has(ID_TIME) || !json.get(ID_TIME).isJsonPrimitive())
 			throw new JsonParseException(
 				"Time goal needs one integer attribute " + ID_TIME);
@@ -25,7 +23,9 @@ public class TimeGoalFactory implements IGoalFactory {
 	@Override
 	public JsonObject serialize(GoalDescription description,
 		JsonSerializationContext context) {
-		// TODO Auto-generated method stub
-		return null;
+		TimeGoalDescription timeGoalDesc = (TimeGoalDescription) description;
+		JsonObject holder = new JsonObject();
+		holder.addProperty(ID_TIME, timeGoalDesc.getTime());
+		return holder;
 	}
 }

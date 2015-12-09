@@ -11,8 +11,9 @@ import mhfc.net.common.quests.descriptions.ChainGoalDescription;
 
 public class ChainGoalFactory implements IGoalFactory {
 	@Override
-	public GoalDescription buildGoalDescription(JsonObject json,
+	public GoalDescription buildGoalDescription(JsonElement jsonE,
 		JsonDeserializationContext context) {
+		JsonObject json = jsonE.getAsJsonObject();
 		if (!json.has(ID_GOAL))
 			throw new JsonParseException("A chain goal requires field "
 				+ ID_GOAL);

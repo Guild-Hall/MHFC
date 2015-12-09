@@ -18,6 +18,7 @@ import mhfc.net.common.network.packet.MessageQuestInit;
 import mhfc.net.common.quests.api.GoalDescription;
 import mhfc.net.common.quests.api.QuestDescription;
 import mhfc.net.common.quests.api.QuestFactory;
+import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 /**
@@ -25,9 +26,10 @@ import net.minecraft.entity.player.EntityPlayerMP;
  * init, these war written in the json format. The name for the primary variable
  * of {@link GoalDescription} is "type", see {@link QuestFactory} for further
  * information.<br>
- * For {@link QuestDescription} the names are as following: "goal", "name",
- * "reward", "fee", "areaID", "description", "maxPartySize", "timeLimit",
- * "type", "client", "aims", "fails", only the ones until areaID are mandatory.
+ * For {@link DefaultQuestDescription} the names are as following: "goal",
+ * "name", "reward", "fee", "areaID", "description", "maxPartySize",
+ * "timeLimit", "type", "client", "aims", "fails", only the ones until areaID
+ * are mandatory.
  */
 
 public class MHFCQuestBuildRegistry {
@@ -37,8 +39,8 @@ public class MHFCQuestBuildRegistry {
 	public static final String KEY_TYPE = "type";
 	public static final String KEY_DATA = "data";
 
-	public static final String KEY_ORDERED_GROUPS = "orderedGroups";
-	public static final String KEY_GROUP_MAPPING = "mappings";
+	public static final String KEY_ORDERED_GROUPS = "groupDisplayOrder";
+	public static final String KEY_GROUP_MAPPING = "groups";
 
 	public static final String KEY_GROUPS = "groups";
 	public static final String KEY_GOAL_DESCRIPTION = "goalDescription";
@@ -74,9 +76,9 @@ public class MHFCQuestBuildRegistry {
 		@Override
 		public IMessage onMessage(MessageQuestInit message,
 			MessageContext ctx) {
-			MHFCQuestBuildRegistry.dataObject = message
-				.getQuestDescriptionData();
+			dataObject = message.getQuestDescriptionData();
 			MHFCMain.logger.debug("Client received quest info from server");
+			logStats(dataObject);
 			return null;
 		}
 	}
@@ -94,6 +96,15 @@ public class MHFCQuestBuildRegistry {
 	private static void loadQuestsFromFiles() {
 		DirectorLoadQuestsFromLocal director = new DirectorLoadQuestsFromLocal();
 		director.construct(dataObject);
+		logStats(dataObject);
+	}
+
+	private static void logStats(QuestDescriptionRegistryData dataObject) {
+		int numberQuests = dataObject.getFullQuestDescriptionMap().size();
+		int numberGroups = dataObject.getGroupsInOrder().size();
+		String output = String.format("Loaded %d quests in %d groups.",
+			numberQuests, numberGroups);
+		MHFCMain.logger.info(output);
 	}
 
 	@SubscribeEvent

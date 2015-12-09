@@ -1,22 +1,32 @@
 {
 	TestQuest : {
-		goal : {
-			type : "fork",
-			requisites : ["StandardDeath", "StandardTimer", "Test"]
-		} ,
-		name : "Test Hunting",
-		reward : 5000,
-		fee : 200,
-		areaID : "TestArea"
+		type : "default",
+		data : {
+			goal : {
+				type : "fork",
+				data : {
+					requisites : ["StandardDeath", "StandardTimer", "Test"]
+				}
+			} ,
+			name : "Test Hunting",
+			reward : 5000,
+			fee : 200,
+			areaID : "TestArea"
+		}
 	},
 	"New Quest": {
-		goal :{
-			type : "fork",
-			requisites : ["StandardFail", "AnotherTest"]
-		},
-		name : "Hunt Rathalos",
-		reward : 4000,
-		fee: 300,
-		areaID: "TestArea"
+		type : "default",
+		data : {
+			goal :{
+				type : "fork",
+				data : {
+					requisites : ["StandardFail", "AnotherTest"]
+				}
+			},
+			name : "Hunt Rathalos",
+			reward : 4000,
+			fee: 300,
+			areaID: "TestArea"
+		}
 	}
 }

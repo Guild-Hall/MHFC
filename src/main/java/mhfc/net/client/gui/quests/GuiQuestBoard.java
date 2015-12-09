@@ -29,7 +29,7 @@ public class GuiQuestBoard extends MHFCTabbedGui {
 
 	@Override
 	public void setWorldAndResolution(Minecraft p_146280_1_, int p_146280_2_,
-			int p_146280_3_) {
+		int p_146280_3_) {
 		join.setWorldAndResolution(p_146280_1_, p_146280_2_, p_146280_3_);
 		questMg.setWorldAndResolution(p_146280_1_, p_146280_2_, p_146280_3_);
 		super.setWorldAndResolution(p_146280_1_, p_146280_2_, p_146280_3_);
@@ -37,11 +37,12 @@ public class GuiQuestBoard extends MHFCTabbedGui {
 
 	@Override
 	protected void drawInactiveTabIcons(int posX, int posY, int mouseX,
-			int mouseY) {
+		int mouseY) {
 	}
 
 	@Override
-	protected void drawActiveTabIcon(int posX, int posY, int mouseX, int mouseY) {
+	protected void drawActiveTabIcon(int posX, int posY, int mouseX,
+		int mouseY) {
 	}
 
 	@Override

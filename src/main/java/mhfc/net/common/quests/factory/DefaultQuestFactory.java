@@ -1,22 +1,24 @@
 package mhfc.net.common.quests.factory;
 
+import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.*;
 import static mhfc.net.common.util.MHFCJsonUtils.*;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import com.google.gson.*;
 
+import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.GeneralQuest;
+import mhfc.net.common.quests.QuestVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation.QuestType;
 import mhfc.net.common.quests.api.*;
+import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import net.minecraft.util.JsonUtils;
 
 public class DefaultQuestFactory implements IQuestFactory {
 
 	@Override
 	public GeneralQuest buildQuest(QuestDescription qd) {
-		QuestGoal goal = QuestFactory.constructGoal(qd.getGoalDescription());
+		QuestGoal goal = QuestFactory.constructGoal(qd.getGoalReference()
+			.getReferredDescription());
 		if (goal == null)
 			return null;
 		return new GeneralQuest(goal, qd.getMaxPartySize(), qd.getReward(), qd
@@ -24,95 +26,114 @@ public class DefaultQuestFactory implements IQuestFactory {
 	}
 
 	@Override
-	public QuestDescription buildQuestDescription(JsonElement json,
+	public DefaultQuestDescription buildQuestDescription(JsonElement json,
 		JsonDeserializationContext context) {
 		JsonObject jsonAsObject = JsonUtils.getJsonElementAsJsonObject(json,
 			"quest");
-		if (!jsonAsObject.has("name")) {
+		if (!jsonAsObject.has(KEY_NAME)) {
 			throw new JsonParseException("Every Quest needs a name");
-		} else if (!jsonAsObject.has("goal")) {
+		} else if (!jsonAsObject.has(KEY_GOAL)) {
 			throw new JsonParseException("Every Quest needs a goal");
-		} else if (!jsonAsObject.has("reward")) {
+		} else if (!jsonAsObject.has(KEY_REWARD)) {
 			throw new JsonParseException("Every Quest needs a reward");
-		} else if (!jsonAsObject.has("fee")) {
+		} else if (!jsonAsObject.has(KEY_FEE)) {
 			throw new JsonParseException("Every Quest needs a fee");
-		} else if (!jsonAsObject.has("areaID")) {
+		} else if (!jsonAsObject.has(KEY_AREA_ID)) {
 			throw new JsonParseException("Every Quest needs an area");
 		} else {
-			String goal = null;
-			GoalDescription goalDesc = null;
-			if (jsonAsObject.get("goal").isJsonPrimitive()) {
-				goal = JsonUtils.getJsonElementStringValue(jsonAsObject,
-					"goal");
-			} else {
-				goalDesc = context.deserialize(jsonAsObject.get("goal"),
-					GoalDescription.class);
-			}
+			GoalReference goal = context.deserialize(jsonAsObject.get(KEY_GOAL),
+				GoalReference.class);
 			String name = JsonUtils.getJsonObjectStringFieldValue(jsonAsObject,
-				"name");
+				KEY_NAME);
 			int timeLimitInS = getJsonObjectIntegerFieldValueOrDefault(
-				jsonAsObject, "timeLimit", 50 * 60);
+				jsonAsObject, KEY_TIME_LIMIT, 50 * 60);
 			String description = getJsonObjectStringFieldValueOrDefault(
-				jsonAsObject, "description",
+				jsonAsObject, KEY_DESCRIPTION,
 				"A new monster threatens the town so go out and kill it soon.");
 			String client = getJsonObjectStringFieldValueOrDefault(jsonAsObject,
-				"client", "Hunter Guild");
+				KEY_CLIENT, "Hunter Guild");
 
 			String aims = getJsonObjectStringFieldValueOrDefault(jsonAsObject,
-				"fails", "Kill all big monsters!");
+				KEY_AIMS, "Kill all big monsters!");
 			String fails = getJsonObjectStringFieldValueOrDefault(jsonAsObject,
-				"fails", "Died three times or time has run out!");
+				KEY_FAILS, "Died three times or time has run out!");
 			String areaId = JsonUtils.getJsonObjectStringFieldValue(
-				jsonAsObject, "areaID");
+				jsonAsObject, KEY_AREA_ID);
 
 			String typeString = getJsonObjectStringFieldValueOrDefault(
-				jsonAsObject, "type", "hunting");
+				jsonAsObject, KEY_TYPE, "hunting");
 			QuestType type = mhfc.net.common.quests.QuestVisualInformation.QuestType.Hunting;
 			switch (typeString) {
-				default :
-					System.out.println(
-						"[MHFC] Type string was not recognized, allowed are hunting, epichunting, gathering and killing\n Falling back to hunting.");
-				case "hunting" :
+				case MHFCQuestBuildRegistry.QUEST_TYPE_HUNTING :
 					type = QuestType.Hunting;
 					break;
-				case "epichunting" :
+				case MHFCQuestBuildRegistry.QUEST_TYPE_EPIC_HUNTING :
 					type = QuestType.EpicHunting;
 					break;
-				case "gathering" :
+				case MHFCQuestBuildRegistry.QUEST_TYPE_GATHERING :
 					type = QuestType.Gathering;
 					break;
-				case "killing" :
+				case MHFCQuestBuildRegistry.QUEST_TYPE_KILLING :
 					type = QuestType.Killing;
 					break;
+				default :
+					System.out.println("[MHFC] Type " + typeString
+						+ " was not recognized, for allowed keys see documentation of MHFCQuestBuildRegistry. Falling back to hunting.");
+					type = QuestType.Hunting;
 			}
 			int reward = JsonUtils.getJsonObjectIntegerFieldValue(jsonAsObject,
-				"reward");
+				KEY_REWARD);
 			int fee = JsonUtils.getJsonObjectIntegerFieldValue(jsonAsObject,
-				"fee");
+				KEY_FEE);
 			int maxPartySize = getJsonObjectIntegerFieldValueOrDefault(
-				jsonAsObject, "maxPartySize", 4);
+				jsonAsObject, KEY_MAX_PARTY_SIZE, 4);
 			String rewardAsString = getJsonObjectStringFieldValueOrDefault(
-				jsonAsObject, "rewardAsString", Integer.toString(reward) + "z");
+				jsonAsObject, KEY_REWARD_AS_STRING, Integer.toString(reward)
+					+ "z");
 			String feeAsString = getJsonObjectStringFieldValueOrDefault(
-				jsonAsObject, "feeAsString", Integer.toString(fee) + "z");
+				jsonAsObject, KEY_FEE_AS_STRING, Integer.toString(fee) + "z");
 			String timeLimitAsString = getJsonObjectStringFieldValueOrDefault(
-				jsonAsObject, "timeLimitAsString", Integer.toString(timeLimitInS
-					/ 60) + " min" + ((timeLimitInS % 60 == 0)
+				jsonAsObject, KEY_TIME_LIMIT_AS_STRING, Integer.toString(
+					timeLimitInS / 60) + " min" + ((timeLimitInS % 60 == 0)
 						? ""
 						: " " + Integer.toString(timeLimitInS % 60) + " s"));
 			String maxPartySizeAsString = getJsonObjectStringFieldValueOrDefault(
-				jsonAsObject, "maxPartySizeAsString", Integer.toString(
+				jsonAsObject, KEY_MAX_PARTY_SIZE_AS_STRING, Integer.toString(
 					maxPartySize) + " hunters");
-			if (goal != null)
-				return new QuestDescription(goal, name, type, reward, fee,
-					maxPartySize, areaId, description, client, aims, fails,
-					rewardAsString, feeAsString, timeLimitAsString,
-					maxPartySizeAsString);
-			return new QuestDescription(goalDesc, name, type, reward, fee,
+			return new DefaultQuestDescription(goal, name, type, reward, fee,
 				maxPartySize, areaId, description, client, aims, fails,
 				rewardAsString, feeAsString, timeLimitAsString,
 				maxPartySizeAsString);
 		}
+	}
+
+	@Override
+	public JsonObject serialize(QuestDescription description,
+		JsonSerializationContext context) {
+		DefaultQuestDescription questDesc = (DefaultQuestDescription) description;
+		QuestVisualInformation visual = questDesc.getVisualInformation();
+		JsonObject holder = new JsonObject();
+		holder.addProperty(KEY_MAX_PARTY_SIZE_AS_STRING, visual
+			.getMaxPartySize());
+		holder.addProperty(KEY_TIME_LIMIT_AS_STRING, visual
+			.getTimeLimitAsString());
+		holder.addProperty(KEY_FEE_AS_STRING, visual.getFeeString());
+		holder.addProperty(KEY_REWARD_AS_STRING, visual.getRewardString());
+		holder.addProperty(KEY_MAX_PARTY_SIZE, questDesc.getMaxPartySize());
+		holder.addProperty(KEY_TYPE, visual.getType().getAsString());
+		holder.addProperty(KEY_FAILS, visual.getFails());
+		holder.addProperty(KEY_AIMS, visual.getAims());
+		holder.addProperty(KEY_CLIENT, visual.getClient());
+		holder.addProperty(KEY_DESCRIPTION, visual.getDescription());
+		// holder.addProperty(KEY_TIME_LIMIT, questDesc.get);
+		holder.addProperty(KEY_AREA_ID, questDesc.getAreaID());
+		holder.addProperty(KEY_FEE, questDesc.getFee());
+		holder.addProperty(KEY_REWARD, questDesc.getReward());
+		JsonElement jsonGoalReference = context.serialize(questDesc
+			.getGoalReference(), GoalReference.class);
+		holder.add(KEY_GOAL, jsonGoalReference);
+		holder.addProperty(KEY_NAME, visual.getName());
+		return holder;
 	}
 
 }

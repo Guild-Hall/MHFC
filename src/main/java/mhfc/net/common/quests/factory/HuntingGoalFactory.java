@@ -2,10 +2,7 @@ package mhfc.net.common.quests.factory;
 
 import static mhfc.net.common.quests.descriptions.HuntingGoalDescription.*;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
+import com.google.gson.*;
 
 import mhfc.net.common.quests.api.GoalDescription;
 import mhfc.net.common.quests.api.IGoalFactory;
@@ -15,8 +12,9 @@ import net.minecraft.util.JsonUtils;
 
 public class HuntingGoalFactory implements IGoalFactory {
 	@Override
-	public GoalDescription buildGoalDescription(JsonObject json,
+	public GoalDescription buildGoalDescription(JsonElement jsonE,
 		JsonDeserializationContext context) {
+		JsonObject json = jsonE.getAsJsonObject();
 		if (!json.has(ID_HUNTED_TYPE) || !json.has(ID_AMOUNT))
 			throw new JsonParseException("A hunting goal needs a "
 				+ ID_HUNTED_TYPE + " and a " + ID_AMOUNT + "attribute");
@@ -38,7 +36,12 @@ public class HuntingGoalFactory implements IGoalFactory {
 	@Override
 	public JsonObject serialize(GoalDescription description,
 		JsonSerializationContext context) {
-		// TODO Auto-generated method stub
-		return null;
+		HuntingGoalDescription huntingGoal = (HuntingGoalDescription) description;
+		JsonObject holder = new JsonObject();
+		String huntedName = (String) EntityList.classToStringMapping.get(
+			huntingGoal.getHuntedClass());
+		holder.addProperty(ID_HUNTED_TYPE, huntedName);
+		holder.addProperty(ID_AMOUNT, huntingGoal.getAmount());
+		return holder;
 	}
 }
