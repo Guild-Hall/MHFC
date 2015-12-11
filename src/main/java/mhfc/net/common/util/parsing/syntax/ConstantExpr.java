@@ -1,35 +1,52 @@
 package mhfc.net.common.util.parsing.syntax;
 
-import mhfc.net.common.util.parsing.IExpression;
+import mhfc.net.common.util.parsing.Holder;
+import mhfc.net.common.util.parsing.expressions.Constant;
+import mhfc.net.common.util.parsing.syntax.BasicSequences.FloatMatch;
+import mhfc.net.common.util.parsing.syntax.BasicSequences.IntMatch;
+import mhfc.net.common.util.parsing.syntax.BasicSequences.StringMatch;
+import mhfc.net.common.util.parsing.syntax.ISyntaxRule.ISyntaxRuleInstance;
 
-public class ConstantExpr implements ISyntaxRule {
-	public static class ConstantExprParse implements ISyntaxRuleInstance {
-		private StringBuilder encountered = new StringBuilder();
-		private boolean done = false;
+public class ConstantExpr implements ISyntaxRuleInstance {
+	public static ISyntaxRule<ConstantExpr> factory = ConstantExpr::new;
 
-		@Override
-		public int match(String toMatch) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public IExpression representation() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-	}
-
-	public static final ConstantExpr instance = new ConstantExpr();
-
-	public static ISyntaxRuleInstance createInstance() {
-		return instance.newInstance();
-	}
+	private final IntMatch intMatcher = IntMatch.factory.newInstance();
+	private final FloatMatch fpMatcher = FloatMatch.factory.newInstance();
+	private final StringMatch stringMatcher = StringMatch.factory.newInstance();
+	private Holder value;
 
 	@Override
-	public ConstantExprParse newInstance() {
-		return new ConstantExprParse();
+	public int match(CharSequence toMatch) {
+		value = null; // Reset
+		int matched;
+		matched = stringMatcher.match(toMatch);
+		if (matched > 0) {
+			value = Holder.valueOf(stringMatcher.getRaw().get());
+			return matched;
+		}
+		matched = intMatcher.match(toMatch);
+		if (matched > 0) {
+			try {
+				int constantValue = Integer.parseInt(intMatcher.getRaw().get());
+				value = Holder.valueOf(constantValue);
+			} catch (NumberFormatException mfe) {
+				// Int too large to fit
+				value = Holder.failedComputation(mfe);
+			}
+			return matched;
+		}
+		matched = fpMatcher.match(toMatch);
+		if (matched > 0) {
+			float fpValue = Float.parseFloat(fpMatcher.getRaw().get());
+			value = Holder.valueOf(fpValue);
+			return matched;
+		}
+		return 0;
 	}
 
+	public Constant representation() {
+		if (this.value == null)
+			throw new IllegalStateException("Didn't match anything");
+		return new Constant(this.value);
+	}
 }

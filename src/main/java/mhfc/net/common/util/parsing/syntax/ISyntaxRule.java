@@ -1,8 +1,8 @@
 package mhfc.net.common.util.parsing.syntax;
 
-import mhfc.net.common.util.parsing.IExpression;
+import mhfc.net.common.util.parsing.syntax.ISyntaxRule.ISyntaxRuleInstance;
 
-public interface ISyntaxRule {
+public interface ISyntaxRule<E extends ISyntaxRuleInstance> {
 	public static interface ISyntaxRuleInstance {
 		/**
 		 * Match the input string. This will mutate this instance to contain
@@ -11,10 +11,8 @@ public interface ISyntaxRule {
 		 * @param toParse
 		 * @return
 		 */
-		int match(String toParse);
-
-		IExpression representation();
+		int match(CharSequence toParse);
 	}
 
-	ISyntaxRuleInstance newInstance();
+	E newInstance();
 }
