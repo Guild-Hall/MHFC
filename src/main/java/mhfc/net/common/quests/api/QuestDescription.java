@@ -1,12 +1,12 @@
 package mhfc.net.common.quests.api;
 
-import mhfc.net.common.quests.QuestVisualInformation;
+import mhfc.net.common.quests.IVisualInformation;
 
 public abstract class QuestDescription {
 
 	protected final String type;
 
-	public abstract QuestVisualInformation getVisualInformation();
+	public abstract IVisualInformation getVisualInformation();
 
 	public abstract int getMaxPartySize();
 

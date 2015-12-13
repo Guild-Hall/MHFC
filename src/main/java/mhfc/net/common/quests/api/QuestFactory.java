@@ -14,8 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 public class QuestFactory {
 
 	public static QuestDescription getQuestDescription(String id) {
-		QuestDescription qd = MHFCQuestBuildRegistry.getQuestDescription(
-			id);
+		QuestDescription qd = MHFCQuestBuildRegistry.getQuestDescription(id);
 		return qd;
 	}
 
@@ -26,6 +25,7 @@ public class QuestFactory {
 
 	private static Map<String, IQuestFactory> questFactoryMap = new HashMap<String, IQuestFactory>();
 	private static Map<String, IGoalFactory> goalFactoryMap = new HashMap<String, IGoalFactory>();
+	private static Map<String, IVisualInformationFactory> visualFactoryMap = new HashMap<String, IVisualInformationFactory>();
 
 	static {
 		insertQuestFactory(MHFCQuestBuildRegistry.QUEST_DEFAULT,
@@ -44,6 +44,11 @@ public class QuestFactory {
 			new ChainGoalFactory());
 		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_FORK_TYPE,
 			new ForkGoalFactory());
+
+		insertQuestVisualFactory(MHFCQuestBuildRegistry.VISUAL_DEFAULT,
+			new QuestVisualInformationFactory());
+		insertQuestVisualFactory(MHFCQuestBuildRegistry.VISUAL_RUNNING,
+			new QuestRunningInformationFactory());
 	}
 
 	public static boolean insertQuestFactory(String str, IQuestFactory fact) {
@@ -57,6 +62,14 @@ public class QuestFactory {
 		if (goalFactoryMap.containsKey(str))
 			return false;
 		goalFactoryMap.put(str, fact);
+		return true;
+	}
+
+	public static boolean insertQuestVisualFactory(String str,
+		IVisualInformationFactory fact) {
+		if (visualFactoryMap.containsKey(str))
+			return false;
+		visualFactoryMap.put(str, fact);
 		return true;
 	}
 
@@ -106,5 +119,10 @@ public class QuestFactory {
 
 	public static IGoalFactory getGoalFactory(String type) {
 		return goalFactoryMap.get(type);
+	}
+
+	public static IVisualInformationFactory getQuestVisualInformationFactory(
+		String type) {
+		return visualFactoryMap.get(type);
 	}
 }

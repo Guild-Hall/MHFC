@@ -2,6 +2,7 @@ package mhfc.net.common.quests;
 
 import java.util.List;
 
+import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.util.MHFCStringDecode.CompositeString;
 import mhfc.net.common.util.MHFCStringDecode.StringElement;
 import mhfc.net.common.util.gui.MHFCGuiUtil;
@@ -53,7 +54,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 		updateFromQuest(quest);
 	}
 
-	public QuestRunningInformation(QuestVisualInformation information,
+	public QuestRunningInformation(IVisualInformation information,
 		String shortStatus, String longStatus) {
 		super(information);
 		this.shortStatus = shortStatus;
@@ -217,8 +218,8 @@ public class QuestRunningInformation extends QuestVisualInformation {
 			case 0 :
 				currentY = drawBaseInformation(positionX, currentY, width,
 					fontRenderer);
-				String TAG_STATUS = StatCollector
-					.translateToLocal(MHFCReference.unlocalized_tag_status_long);
+				String TAG_STATUS = StatCollector.translateToLocal(
+					MHFCReference.unlocalized_tag_status_long);
 				currentY += MHFCGuiUtil.drawTextAndReturnHeight(fontRenderer,
 					TAG_STATUS, positionX + 5, currentY, 0, COLOUR_HEADER);
 				currentY += LINE_SEPERATION;
@@ -239,9 +240,9 @@ public class QuestRunningInformation extends QuestVisualInformation {
 				break;
 		}
 		String draw = (page + 1) + "/3";
-		fontRenderer.drawString(draw, positionX + width
-			- fontRenderer.getStringWidth(draw) - BORDER, positionY + height
-			- fontRenderer.FONT_HEIGHT - BORDER, COLOUR_TEXT);
+		fontRenderer.drawString(draw, positionX + width - fontRenderer
+			.getStringWidth(draw) - BORDER, positionY + height
+				- fontRenderer.FONT_HEIGHT - BORDER, COLOUR_TEXT);
 	}
 
 	public void cleanUp() {
@@ -269,5 +270,10 @@ public class QuestRunningInformation extends QuestVisualInformation {
 			shortStatusElements.remove();
 		if (longStatusElements != null)
 			longStatusElements.remove();
+	}
+
+	@Override
+	public String getSerializerType() {
+		return MHFCQuestBuildRegistry.VISUAL_RUNNING;
 	}
 }

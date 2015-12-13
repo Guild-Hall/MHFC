@@ -17,6 +17,7 @@ import mhfc.net.common.network.packet.MessageQuestRunningSubscription;
 import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.network.packet.MessageRequestQuestVisual;
 import mhfc.net.common.quests.GeneralQuest;
+import mhfc.net.common.quests.IVisualInformation;
 import mhfc.net.common.quests.QuestRunningInformation;
 import mhfc.net.common.quests.QuestVisualInformation;
 import mhfc.net.common.quests.api.QuestDescription;
@@ -37,7 +38,7 @@ public class MHFCQuestRegistry {
 			String identifier = message.getIdentifier();
 			QuestDescription description = MHFCQuestBuildRegistry
 				.getQuestDescription(identifier);
-			QuestVisualInformation info = (description == null
+			IVisualInformation info = (description == null
 				? QuestVisualInformation.IDENTIFIER_ERROR
 				: description.getVisualInformation());
 			String[] stringArray = {identifier, info.getName(), info
@@ -111,6 +112,7 @@ public class MHFCQuestRegistry {
 		GeneralQuest quest;
 		EntityPlayerMP player = event.player;
 		MessageMHFCInteraction message = event.message;
+		MHFCMain.logger.info(event.interaction + "" + event.message);
 		switch (event.interaction) {
 			case NEW_QUEST :
 				quest = getQuestForPlayer(player);

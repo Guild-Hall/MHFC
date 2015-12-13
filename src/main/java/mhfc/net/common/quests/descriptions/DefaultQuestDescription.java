@@ -1,6 +1,7 @@
 package mhfc.net.common.quests.descriptions;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
+import mhfc.net.common.quests.IVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation.QuestType;
 import mhfc.net.common.quests.api.GoalReference;
@@ -11,25 +12,16 @@ import mhfc.net.common.quests.api.QuestDescription;
  */
 public class DefaultQuestDescription extends QuestDescription {
 
-	public static final String KEY_MAX_PARTY_SIZE_AS_STRING = "maxPartySizeAsString";
-	public static final String KEY_TIME_LIMIT_AS_STRING = "timeLimitAsString";
-	public static final String KEY_FEE_AS_STRING = "feeAsString";
-	public static final String KEY_REWARD_AS_STRING = "rewardAsString";
 	public static final String KEY_MAX_PARTY_SIZE = "maxPartySize";
 	public static final String KEY_TYPE = "type";
-	public static final String KEY_FAILS = "fails";
-	public static final String KEY_AIMS = "aims";
-	public static final String KEY_CLIENT = "client";
-	public static final String KEY_DESCRIPTION = "description";
 	public static final String KEY_TIME_LIMIT = "timeLimit";
 	public static final String KEY_AREA_ID = "areaID";
 	public static final String KEY_FEE = "fee";
 	public static final String KEY_REWARD = "reward";
 	public static final String KEY_GOAL = "goal";
-	public static final String KEY_NAME = "name";
 
 	protected GoalReference goalReference;
-	protected QuestVisualInformation visual;
+	protected IVisualInformation visual;
 
 	protected String areaId;
 
@@ -51,6 +43,10 @@ public class DefaultQuestDescription extends QuestDescription {
 		this.visual = new QuestVisualInformation(name, description, client,
 			aims, fails, resolveAreaIDToName(this.areaId), timeLimitAsS,
 			rewardAsS, feeAsS, maxPartySizeAsS, type);
+	}
+
+	public void setVisualInformation(IVisualInformation visualInformation) {
+
 	}
 
 	private String resolveAreaIDToName(String areaId2) {
@@ -84,7 +80,7 @@ public class DefaultQuestDescription extends QuestDescription {
 	}
 
 	@Override
-	public QuestVisualInformation getVisualInformation() {
+	public IVisualInformation getVisualInformation() {
 		return visual;
 	}
 

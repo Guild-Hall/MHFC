@@ -7,6 +7,7 @@ import com.google.gson.*;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.GeneralQuest;
+import mhfc.net.common.quests.IVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation.QuestType;
 import mhfc.net.common.quests.api.*;
@@ -49,20 +50,20 @@ public class DefaultQuestFactory implements IQuestFactory {
 				jsonAsObject, KEY_TIME_LIMIT, 50 * 60);
 			String description = getJsonObjectStringFieldValueOrDefault(
 				jsonAsObject, KEY_DESCRIPTION,
-				"A new monster threatens the town so go out and kill it soon.");
+				);
 			String client = getJsonObjectStringFieldValueOrDefault(jsonAsObject,
-				KEY_CLIENT, "Hunter Guild");
+				KEY_CLIENT, );
 
 			String aims = getJsonObjectStringFieldValueOrDefault(jsonAsObject,
-				KEY_AIMS, "Kill all big monsters!");
+				KEY_AIMS, );
 			String fails = getJsonObjectStringFieldValueOrDefault(jsonAsObject,
-				KEY_FAILS, "Died three times or time has run out!");
+				KEY_FAILS, );
 			String areaId = JsonUtils.getJsonObjectStringFieldValue(
 				jsonAsObject, KEY_AREA_ID);
 
 			String typeString = getJsonObjectStringFieldValueOrDefault(
 				jsonAsObject, KEY_TYPE, "hunting");
-			QuestType type = mhfc.net.common.quests.QuestVisualInformation.QuestType.Hunting;
+			QuestType type = QuestVisualInformation.QuestType.Hunting;
 			switch (typeString) {
 				case MHFCQuestBuildRegistry.QUEST_TYPE_HUNTING :
 					type = QuestType.Hunting;
@@ -111,7 +112,7 @@ public class DefaultQuestFactory implements IQuestFactory {
 	public JsonObject serialize(QuestDescription description,
 		JsonSerializationContext context) {
 		DefaultQuestDescription questDesc = (DefaultQuestDescription) description;
-		QuestVisualInformation visual = questDesc.getVisualInformation();
+		IVisualInformation visual = questDesc.getVisualInformation();
 		JsonObject holder = new JsonObject();
 		holder.addProperty(KEY_MAX_PARTY_SIZE_AS_STRING, visual
 			.getMaxPartySize());

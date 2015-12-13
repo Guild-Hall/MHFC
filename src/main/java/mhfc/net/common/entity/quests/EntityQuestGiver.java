@@ -26,13 +26,13 @@ public class EntityQuestGiver extends EntityVillager {
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-				100.0f);
+			100.0f);
 	}
 
 	@Override
 	public boolean interact(EntityPlayer player) {
 		player.openGui(MHFCMain.instance, MHFCReference.gui_questgiver_id,
-				this.worldObj, subID, 0, 0);
+			this.worldObj, subID, 0, 0);
 		return true;
 	}
 

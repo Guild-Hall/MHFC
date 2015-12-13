@@ -1,7 +1,11 @@
 package mhfc.net.client.gui.quests;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+
+import org.lwjgl.opengl.GL11;
 
 import mhfc.net.client.gui.ClickableGuiList;
 import mhfc.net.client.gui.ClickableGuiList.GuiListStringItem;
@@ -10,7 +14,7 @@ import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageMHFCInteraction;
 import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
-import mhfc.net.common.quests.QuestVisualInformation;
+import mhfc.net.common.quests.IVisualInformation;
 import mhfc.net.common.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -18,8 +22,6 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
-
-import org.lwjgl.opengl.GL11;
 
 public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 
@@ -38,28 +40,26 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 	// be handled further
 	private boolean handled;
 
-	public GuiQuestNew(String[] groupIDs, EntityPlayer accessor) {
-		groupIDsDisplayed = new ArrayList<String>();
+	public GuiQuestNew(Collection<String> groupIDs, EntityPlayer accessor) {
+		groupIDsDisplayed = new ArrayList<String>(groupIDs);
 		questIdentifiers = new ArrayList<String>();
-		for (int i = 0; i < groupIDs.length; i++)
-			groupIDsDisplayed.add(groupIDs[i]);
 		groupList = new ClickableGuiList<ClickableGuiList.GuiListStringItem>(
 			width, height);
-		for (int i = 0; i < groupIDs.length; i++)
-			groupList.add(new GuiListStringItem(groupIDs[i]));
+		for (String groupID : groupIDs)
+			groupList.add(new GuiListStringItem(groupID));
 		newQuest = new GuiButton(0, 25, 10, 60, 20, "Take Quest") {
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
 				int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					handled = true;
-					if (questIdentifiers != null && selectedIdentifier >= 0
+					if (selectedIdentifier >= 0
 						&& selectedIdentifier < questIdentifiers.size()) {
-						String questID = questIdentifiers
-							.get(selectedIdentifier);
-						PacketPipeline.networkPipe
-							.sendToServer(new MessageMHFCInteraction(
-								Interaction.NEW_QUEST, questID));
+						String questID = questIdentifiers.get(
+							selectedIdentifier);
+						PacketPipeline.networkPipe.sendToServer(
+							new MessageMHFCInteraction(Interaction.NEW_QUEST,
+								questID));
 					}
 					return true;
 				}
@@ -110,15 +110,15 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 			- yPos - groupList.getPosY(), mouseButton)) {
 			handled = true;
 			GuiListStringItem item = groupList.getSelectedItem();
-			String selectedList = item == null ? "" : item
-				.getInitializationString();
+			String selectedList = item == null
+				? ""
+				: item.getInitializationString();
 			questIdentifiers.clear();
-			List<String> newIdentifiers = MHFCRegQuestVisual
-				.getIdentifierList(selectedList);
-			if (newIdentifiers != null)
-				questIdentifiers.addAll(newIdentifiers);
-		} else if (questIdentifiers.size() > 0
-			&& !MHFCRegQuestVisual.hasPlayerQuest() // Is an info displayed
+			Set<String> newIdentifiers = MHFCRegQuestVisual.getIdentifierList(
+				selectedList);
+			questIdentifiers.addAll(newIdentifiers);
+		} else if (questIdentifiers.size() > 0 && !MHFCRegQuestVisual
+			.hasPlayerQuest() // Is an info displayed
 			&& mouseX > xPos + 80 && mouseX < xPos + 300 // x check
 			&& mouseY > yPos && mouseY < yPos + ySize - 30) {
 			if (!handled) {
@@ -145,9 +145,9 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 		left.enabled = selectedIdentifier > 0;
 		right.enabled = questIdentifiers != null
 			&& selectedIdentifier < questIdentifiers.size() - 1;
-		if (!(questIdentifiers == null || selectedIdentifier < 0 || selectedIdentifier >= questIdentifiers
-			.size())) {
-			QuestVisualInformation info = MHFCRegQuestVisual
+		if (!(questIdentifiers == null || selectedIdentifier < 0
+			|| selectedIdentifier >= questIdentifiers.size())) {
+			IVisualInformation info = MHFCRegQuestVisual
 				.getVisualInformation(questIdentifiers.get(selectedIdentifier));
 			newQuest.enabled = true;
 			// TODO set start enabled based on can join
@@ -187,8 +187,7 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 		left.xPosition = questsX + questsW + 5 + xPos;
 		left.yPosition = yBorder + yPos;
 		newQuest.xPosition = (xSize - questsX - questsW - newQuest
-			.getButtonWidth())
-			/ 2 + questsX + questsW + xPos;
+			.getButtonWidth()) / 2 + questsX + questsW + xPos;
 		newQuest.yPosition = ySize - yBorder - buttonHeight + yPos;
 	}
 

@@ -140,6 +140,14 @@ public class QuestDescriptionRegistryData {
 		return new ArrayList<>(groupData.groupIDs);
 	}
 
+	public Set<String> getQuestIdentifiersFor(String group) {
+		Set<String> identifiers = groupData.groupMapping.get(group);
+		if (identifiers == null) {
+			return new HashSet<>();
+		}
+		return new HashSet<String>(identifiers);
+	}
+
 	public void clearData() {
 		questDescriptions.clear();
 		goalDescriptions.clear();

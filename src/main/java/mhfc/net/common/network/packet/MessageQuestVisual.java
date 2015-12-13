@@ -6,8 +6,8 @@ import io.netty.buffer.ByteBufOutputStream;
 
 import java.io.IOException;
 
+import mhfc.net.common.quests.IVisualInformation;
 import mhfc.net.common.quests.QuestRunningInformation;
-import mhfc.net.common.quests.QuestVisualInformation;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class MessageQuestVisual implements IMessage {
@@ -38,7 +38,7 @@ public class MessageQuestVisual implements IMessage {
 	 * @param visual
 	 *            The visual information that corresponds to the identifier
 	 */
-	public <E extends QuestVisualInformation> MessageQuestVisual(
+	public <E extends IVisualInformation> MessageQuestVisual(
 			String identifier, E visual) {
 		this(visual == null ? defaultStringsFor(0, identifier) : new String[]{
 				identifier, visual.getName(), visual.getDescription(),

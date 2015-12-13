@@ -2,19 +2,23 @@ package mhfc.net.common.quests;
 
 import java.util.EnumSet;
 
+import cpw.mods.fml.server.FMLServerHandler;
+import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
+import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.QuestDescription;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
-import cpw.mods.fml.server.FMLServerHandler;
 
-public class GeneralQuest implements QuestGoalSocket {
+public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
+
+	public static final String KEY_TYPE_RUNNING = "running";
 
 	enum QuestState {
 		pending,
@@ -68,6 +72,7 @@ public class GeneralQuest implements QuestGoalSocket {
 
 	public GeneralQuest(QuestGoal goal, int maxPartySize, int reward, int fee,
 		String areaId, QuestDescription originalDescription) {
+		super(MHFCQuestBuildRegistry.QUEST_RUNNING);
 		this.questGoal = goal;
 		goal.setSocket(this);
 		this.playerAttributes = new PlayerAttributes[maxPartySize];
@@ -90,10 +95,12 @@ public class GeneralQuest implements QuestGoalSocket {
 		return questGoal;
 	}
 
+	@Override
 	public int getReward() {
 		return reward;
 	}
 
+	@Override
 	public int getFee() {
 		return fee;
 	}
@@ -169,8 +176,7 @@ public class GeneralQuest implements QuestGoalSocket {
 
 	public boolean canJoin(EntityPlayer player) {
 		// TODO add more evaluation and/or move to another class?
-		if (state == QuestState.pending
-			&& playerCount < playerAttributes.length
+		if (state == QuestState.pending && playerCount < playerAttributes.length
 			&& MHFCQuestRegistry.getQuestForPlayer(player) == null) {
 			return true;
 		}
@@ -189,7 +195,8 @@ public class GeneralQuest implements QuestGoalSocket {
 
 	public void addPlayer(EntityPlayer player) {
 		if (canJoin(player)) {
-			playerAttributes[playerCount] = newAttribute((EntityPlayerMP) player);
+			playerAttributes[playerCount] = newAttribute(
+				(EntityPlayerMP) player);
 			++playerCount;
 			MHFCQuestRegistry.setQuestForPlayer(player, this);
 			updatePlayers();
@@ -200,10 +207,9 @@ public class GeneralQuest implements QuestGoalSocket {
 		int i;
 		boolean found = false;
 		for (i = 0; i < playerAttributes.length; i++) {
-			if (playerAttributes[i] != null
-				&& player != null
-				&& playerAttributes[i].player.getGameProfile().getName() == player
-					.getGameProfile().getName()) {
+			if (playerAttributes[i] != null && player != null
+				&& playerAttributes[i].player.getGameProfile()
+					.getName() == player.getGameProfile().getName()) {
 				found = true;
 				break;
 			}
@@ -300,6 +306,26 @@ public class GeneralQuest implements QuestGoalSocket {
 
 	public QuestRunningInformation getRunningInformation() {
 		return visualInformation;
+	}
+
+	@Override
+	public IVisualInformation getVisualInformation() {
+		return getRunningInformation();
+	}
+
+	@Override
+	public int getMaxPartySize() {
+		return playerAttributes.length;
+	}
+
+	@Override
+	public String getAreaID() {
+		return areaId;
+	}
+
+	@Override
+	public GoalReference getGoalReference() {
+		return originalDescription.getGoalReference();
 	}
 
 }

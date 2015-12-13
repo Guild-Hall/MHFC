@@ -1,6 +1,8 @@
 package mhfc.net.common.core.registry;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -53,6 +55,10 @@ public class MHFCQuestBuildRegistry {
 	public static final String GOAL_TIME_TYPE = "time";
 
 	public static final String QUEST_DEFAULT = "default";
+	public static final String QUEST_RUNNING = "running";
+
+	public static final String VISUAL_DEFAULT = "default";
+	public static final String VISUAL_RUNNING = "running";
 
 	public static final String QUEST_TYPE_HUNTING = "mhfc.quests.type.hunting";
 	public static final String QUEST_TYPE_GATHERING = "mhfc.quests.type.gathering";
@@ -129,5 +135,13 @@ public class MHFCQuestBuildRegistry {
 
 	public static QuestDescription getQuestDescription(String id) {
 		return dataObject.getQuestDescription(id);
+	}
+
+	public static List<String> getGroupList() {
+		return dataObject.getGroupsInOrder();
+	}
+
+	public static Set<String> getQuestIdentifiersFor(String group) {
+		return dataObject.getQuestIdentifiersFor(group);
 	}
 }

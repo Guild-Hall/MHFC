@@ -12,6 +12,7 @@ import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.network.packet.MessageRequestQuestVisual;
+import mhfc.net.common.quests.IVisualInformation;
 import mhfc.net.common.quests.QuestRunningInformation;
 import mhfc.net.common.quests.QuestVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation.QuestType;
@@ -91,7 +92,7 @@ public class MHFCRegQuestVisual {
 		identifierToVisualInformationMap.put(identifier, visual);
 	}
 
-	private static void setPlayerVisual(QuestVisualInformation visual,
+	private static void setPlayerVisual(IVisualInformation visual,
 		MessageQuestVisual message) {
 		String[] strings = message.getStrings();
 		hasPlayerQuest = (visual != null);
@@ -103,7 +104,7 @@ public class MHFCRegQuestVisual {
 		playersVisual = (!hasPlayerQuest) ? null : runInfo;
 	}
 
-	private static void modifyRunningQuestList(QuestVisualInformation visual,
+	private static void modifyRunningQuestList(IVisualInformation visual,
 		MessageQuestVisual message) {
 		String[] strings = message.getStrings();
 		String identifier = strings[0];
@@ -142,8 +143,6 @@ public class MHFCRegQuestVisual {
 	public static final ResourceLocation CLICKABLE_LIST = new ResourceLocation(
 		MHFCReference.gui_list_tex);
 
-	private static Map<String, List<String>> groupIDToListMap = new HashMap<String, List<String>>();
-	private static List<String> groupIDsInOrder = new ArrayList<String>();
 	private static Set<String> runningQuestIDs = new HashSet<String>();
 	private static Map<String, QuestVisualInformation> identifierToVisualInformationMap = new HashMap<String, QuestVisualInformation>();
 	private static Map<String, QuestRunningInformation> identifierToVisualRunningMap = new HashMap<String, QuestRunningInformation>();
@@ -159,16 +158,16 @@ public class MHFCRegQuestVisual {
 	private static QuestRunningInformation playersVisual;
 
 	public static GuiQuestGiver getScreen(int i, EntityPlayer playerEntity) {
-		if (i < 0 || i >= groupIDToListMap.size())
-			return null;
-		List<String> list = new ArrayList<String>(groupIDToListMap.keySet());
-		GuiQuestNew newQuest = new GuiQuestNew(list.toArray(new String[0]),
-			playerEntity);
+		// ignore i for now
+
+		List<String> list = new ArrayList<String>(MHFCQuestBuildRegistry
+			.getGroupList());
+		GuiQuestNew newQuest = new GuiQuestNew(list, playerEntity);
 		return new GuiQuestGiver(playerEntity, newQuest);
 	}
 
-	public static List<String> getIdentifierList(String groupId) {
-		return groupIDToListMap.get(groupId);
+	public static Set<String> getIdentifierList(String groupId) {
+		return MHFCQuestBuildRegistry.getQuestIdentifiersFor(groupId);
 	}
 
 	public static Set<String> getRunningQuestIDs() {
@@ -183,7 +182,7 @@ public class MHFCRegQuestVisual {
 	 *         replacement <br>
 	 *         representing loading.
 	 */
-	public static QuestVisualInformation getVisualInformation(
+	public static IVisualInformation getVisualInformation(
 		String identifier) {
 		QuestDescription staticDescription = MHFCQuestBuildRegistry
 			.getQuestDescription(identifier);
