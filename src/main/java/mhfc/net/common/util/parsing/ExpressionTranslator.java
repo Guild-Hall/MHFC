@@ -25,7 +25,9 @@ public class ExpressionTranslator {
 		sequences.add(new BasicSequences.Identifier());
 		sequences.add(new BasicSequences.Whitespace());
 
+		syntaxRules.add(SyntaxRules.bracketExpression);
 		syntaxRules.add(SyntaxRules.functionCall);
+		syntaxRules.add(SyntaxRules.functionCallArgument);
 		syntaxRules.add(SyntaxRules.functionCalleePromotion);
 		syntaxRules.add(SyntaxRules.memberExpression);
 	}
@@ -55,6 +57,7 @@ public class ExpressionTranslator {
 					if (!basicSequences.hasNext()) {
 						// All sequences tried, push raw
 						syntaxStack.push(Symbol.makeTerminal(cp));
+						reduce(syntaxStack);
 						basicSequences = sequences.iterator();
 						expressionBuf.mark();
 						continue;
@@ -109,7 +112,7 @@ public class ExpressionTranslator {
 	}
 
 	public static boolean reduce(Stack<Symbol> syntaxStack) {
-		System.out.println("Reducing:" + syntaxStack);
+		// System.out.println("Reducing:" + syntaxStack);
 		boolean changed = false;
 		match_loop: while (true) {
 			for (ISyntaxRule rule : syntaxRules) {
@@ -120,7 +123,8 @@ public class ExpressionTranslator {
 			}
 			break match_loop;
 		}
-		System.out.println(syntaxStack);
+		// System.out.println(syntaxStack);
+		// System.out.println();
 		return changed;
 	}
 }

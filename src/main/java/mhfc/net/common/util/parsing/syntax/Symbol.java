@@ -20,6 +20,7 @@ public class Symbol {
 		MEMBER_ACCESS(MemberAccessSymbol.class), //
 		FREE_FUNCTION_CALL(FreeFunctionCallSymbol.class), //
 		MEMBER_FUNCTION_CALL(MemberFunctionCallSymbol.class), //
+		BRACKET_EXPRESSION(BracketExpressionSymbol.class), //
 		// INT_CONSTANT(IntegerConstant.class), //
 		// STR_CONSTANT
 		;
@@ -192,8 +193,28 @@ public class Symbol {
 		}
 	}
 
-	public SymbolType type;
+	public static class BracketExpressionSymbol implements IExpressionSymbol {
+		public final Symbol innerSymbol;
+
+		public BracketExpressionSymbol(Symbol inner) {
+			this.innerSymbol = Objects.requireNonNull(inner);
+			if (!inner.type.isExpression())
+				throw new IllegalArgumentException();
+		}
+
+		@Override
+		public IExpression asExpression() {
+			return ((IExpressionSymbol) innerSymbol.symbol).asExpression();
+		}
+
+		@Override
+		public String toString() {
+			return "(" + innerSymbol.symbol.toString() + ")";
+		}
+	}
+
 	public ISymbol symbol;
+	public SymbolType type;
 
 	@Override
 	public String toString() {

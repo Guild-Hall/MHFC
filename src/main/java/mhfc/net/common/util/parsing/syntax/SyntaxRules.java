@@ -131,4 +131,58 @@ public class SyntaxRules {
 		s.push(symbol);
 		return true;
 	};
+
+	public static final ISyntaxRule functionCallArgument = (s) -> {
+		if (s.size() < 3)
+			return false;
+		Symbol argument = s.pop();
+		Symbol terminal = s.pop();
+		Symbol functionCall = s.pop();
+		if (!argument.type.isExpression() || terminal.type != SymbolType.TERMINAL_SYMBOL
+				|| !functionCall.type.isFunctionCall()) {
+			s.push(functionCall);
+			s.push(terminal);
+			s.push(argument);
+			return false;
+		}
+		TerminalSymbol terminalRaw = (TerminalSymbol) terminal.symbol;
+		if (terminalRaw.codepoint != ':') {
+			s.push(functionCall);
+			s.push(terminal);
+			s.push(argument);
+			return false;
+		}
+		IFunctionCallSymbol functionCallS = (IFunctionCallSymbol) functionCall.symbol;
+		functionCallS.getArguments().add((IExpressionSymbol) argument.symbol);
+		s.push(functionCall);
+		return true;
+	};
+
+	public static final ISyntaxRule bracketExpression = (s) -> {
+		if (s.size() < 3)
+			return false;
+		Symbol rightBracket = s.pop();
+		Symbol expression = s.pop();
+		Symbol leftBracket = s.pop();
+		if (rightBracket.type != SymbolType.TERMINAL_SYMBOL || leftBracket.type != SymbolType.TERMINAL_SYMBOL
+				|| !expression.type.isExpression()) {
+			s.push(leftBracket);
+			s.push(expression);
+			s.push(rightBracket);
+			return false;
+		}
+		TerminalSymbol right = (TerminalSymbol) rightBracket.symbol;
+		TerminalSymbol left = (TerminalSymbol) leftBracket.symbol;
+		if (right.codepoint != ')' || left.codepoint != '(') {
+			s.push(leftBracket);
+			s.push(expression);
+			s.push(rightBracket);
+			return false;
+		}
+		Symbol symbol = new Symbol();
+		symbol.type = SymbolType.BRACKET_EXPRESSION;
+		symbol.symbol = new Symbol.BracketExpressionSymbol(expression);
+		s.push(symbol);
+		return true;
+	};
 }
