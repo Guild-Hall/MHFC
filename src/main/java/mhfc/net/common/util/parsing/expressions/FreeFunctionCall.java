@@ -13,11 +13,11 @@ import mhfc.net.common.util.parsing.IValueHolder;
 import mhfc.net.common.util.parsing.expressions.UnresolvedContextVariableException.UnresolvedFunctionException;
 import mhfc.net.common.util.parsing.valueholders.FreeFunctionInvocation;
 
-public class FreeFunction implements IExpression {
+public class FreeFunctionCall implements IExpression {
 	private final IExpression[] args;
 	private final String name;
 
-	public FreeFunction(String name, IExpression... expressions) {
+	public FreeFunctionCall(String name, IExpression... expressions) {
 		this.name = Objects.requireNonNull(name);
 		this.args = mhfc.net.common.util.Objects.requireNonNullDeep(Arrays.copyOf(expressions, expressions.length));
 	}
