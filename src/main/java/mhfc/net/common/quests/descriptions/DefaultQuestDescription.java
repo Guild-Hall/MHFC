@@ -3,7 +3,6 @@ package mhfc.net.common.quests.descriptions;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.IVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation;
-import mhfc.net.common.quests.QuestVisualInformation.QuestType;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.QuestDescription;
 
@@ -13,15 +12,17 @@ import mhfc.net.common.quests.api.QuestDescription;
 public class DefaultQuestDescription extends QuestDescription {
 
 	public static final String KEY_MAX_PARTY_SIZE = "maxPartySize";
-	public static final String KEY_TYPE = "type";
-	public static final String KEY_TIME_LIMIT = "timeLimit";
+	public static final String KEY_QUEST_TYPE = "questType";
+	// public static final String KEY_TIME_LIMIT = "timeLimit";
 	public static final String KEY_AREA_ID = "areaID";
 	public static final String KEY_FEE = "fee";
 	public static final String KEY_REWARD = "reward";
 	public static final String KEY_GOAL = "goal";
+	public static final String KEY_VISUAL = "visual";
 
 	protected GoalReference goalReference;
 	protected IVisualInformation visual;
+	protected QuestType questType;
 
 	protected String areaId;
 
@@ -29,24 +30,21 @@ public class DefaultQuestDescription extends QuestDescription {
 	protected int fee;
 	protected int maxPartySize;
 
-	public DefaultQuestDescription(GoalReference goalDescID, String name,
-		QuestType type, int reward, int fee, int maxPartySize, String areaId,
-		String description, String client, String aims, String fails,
-		String rewardAsS, String feeAsS, String timeLimitAsS,
-		String maxPartySizeAsS) {
+	public DefaultQuestDescription(GoalReference goalDescID,
+		QuestDescription.QuestType type, String areaId, int reward, int fee,
+		int maxPartySize) {
 		super(MHFCQuestBuildRegistry.QUEST_DEFAULT);
 		this.goalReference = goalDescID;
+		this.questType = type;
 		this.areaId = areaId;
 		this.reward = reward;
 		this.fee = fee;
 		this.maxPartySize = maxPartySize;
-		this.visual = new QuestVisualInformation(name, description, client,
-			aims, fails, resolveAreaIDToName(this.areaId), timeLimitAsS,
-			rewardAsS, feeAsS, maxPartySizeAsS, type);
+		this.visual = QuestVisualInformation.UNKNOWN;
 	}
 
 	public void setVisualInformation(IVisualInformation visualInformation) {
-
+		this.visual = visualInformation;
 	}
 
 	private String resolveAreaIDToName(String areaId2) {
@@ -82,6 +80,11 @@ public class DefaultQuestDescription extends QuestDescription {
 	@Override
 	public IVisualInformation getVisualInformation() {
 		return visual;
+	}
+
+	@Override
+	public QuestType getQuestType() {
+		return questType;
 	}
 
 }

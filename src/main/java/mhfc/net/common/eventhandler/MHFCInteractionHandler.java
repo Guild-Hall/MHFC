@@ -6,7 +6,7 @@ import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import mhfc.net.MHFCMain;
+import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.network.packet.MessageMHFCInteraction;
 import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -117,7 +117,7 @@ public class MHFCInteractionHandler
 					player, message, Interaction.INVALID));
 				break;
 		}
-		MHFCMain.logger.info(message.getInteraction());
+		MHFCQuestRegistry.onPlayerInteraction(player, message);
 		return null;
 	}
 }

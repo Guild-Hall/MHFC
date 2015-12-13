@@ -1,6 +1,7 @@
 package mhfc.net.common.quests;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
+import mhfc.net.common.quests.api.QuestDescription;
 import mhfc.net.common.util.gui.MHFCGuiUtil;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.gui.FontRenderer;
@@ -17,29 +18,20 @@ public class QuestVisualInformation implements IVisualInformation {
 	public static final QuestVisualInformation LOADING_REPLACEMENT = new QuestVisualInformation(
 		"Loading...", "Waiting for server response", "Guild hunter", "---",
 		"----", "Town", "No time limit", "A quest", "None", "---",
-		QuestType.EpicHunting);
+		QuestDescription.QuestType.EpicHunting.getAsString());
 	public static final IVisualInformation IDENTIFIER_ERROR = new QuestVisualInformation(
 		"Identifier invalid",
 		"Please contact the server operator so he can give information to the mod team",
 		"MHFC mod team", "Work out this issue", "Not contacting anyone",
 		"Network or server", "Just do it asap", "A better experience",
-		"A few seconds of your time", "Hopefully one", QuestType.Gathering);
-
-	public enum QuestType {
-		Hunting(MHFCQuestBuildRegistry.QUEST_TYPE_HUNTING),
-		EpicHunting(MHFCQuestBuildRegistry.QUEST_TYPE_EPIC_HUNTING),
-		Killing(MHFCQuestBuildRegistry.QUEST_TYPE_KILLING),
-		Gathering(MHFCQuestBuildRegistry.QUEST_TYPE_GATHERING);
-		QuestType(String s) {
-			this.s = s;
-		}
-
-		public String getAsString() {
-			return s;
-		}
-
-		String s;
-	}
+		"A few seconds of your time", "Hopefully one",
+		QuestDescription.QuestType.Gathering.getAsString());
+	public static final IVisualInformation UNKNOWN = new QuestVisualInformation(
+		"Unknown quest", "Creating visual failed. The quest exists though",
+		"Hunter's guild", "Gather and slay what you can and report this",
+		"Dont't die", "Somewhere in a galaxy far away", "A long time ago",
+		"Server owners gratitude for reporting", "What did you pay?",
+		"A few friends", "Unknown quest");
 
 	protected String name;
 	protected String description;
@@ -49,7 +41,7 @@ public class QuestVisualInformation implements IVisualInformation {
 
 	protected String areaNameId;
 	protected String timeLimitInS;
-	protected QuestType type;
+	protected String typeString;
 
 	protected String reward;
 	protected String fee;
@@ -63,9 +55,9 @@ public class QuestVisualInformation implements IVisualInformation {
 		this.client = copy.getClient();
 		this.aims = copy.getAims();
 		this.fails = copy.getFails();
-		this.areaNameId = copy.getAreaID();
+		this.areaNameId = copy.getAreaName();
 		this.timeLimitInS = copy.getTimeLimitAsString();
-		this.type = copy.getType();
+		this.typeString = copy.getQuestType();
 		this.reward = copy.getRewardString();
 		this.fee = copy.getFeeString();
 		this.maxPartySize = copy.getMaxPartySize();
@@ -74,9 +66,9 @@ public class QuestVisualInformation implements IVisualInformation {
 	public QuestVisualInformation(String name, String description,
 		String client, String aims, String fails, String areaNameID,
 		String timeLimitInS, String reward, String fee, String maxPartySize,
-		QuestType type) {
+		String type) {
 		this.name = name;
-		this.type = type;
+		this.typeString = type;
 		this.timeLimitInS = timeLimitInS;
 		this.description = description;
 		this.client = client;
@@ -155,8 +147,8 @@ public class QuestVisualInformation implements IVisualInformation {
 	 * @see mhfc.net.common.quests.IVisualInformation#getType()
 	 */
 	@Override
-	public QuestType getType() {
-		return type;
+	public String getQuestType() {
+		return typeString;
 	}
 
 	/*
@@ -185,7 +177,7 @@ public class QuestVisualInformation implements IVisualInformation {
 	 * @see mhfc.net.common.quests.IVisualInformation#getAreaID()
 	 */
 	@Override
-	public String getAreaID() {
+	public String getAreaName() {
 		return areaNameId;
 	}
 
@@ -319,8 +311,7 @@ public class QuestVisualInformation implements IVisualInformation {
 
 	protected int drawHead(int positionX, int positionY, int width,
 		FontRenderer fontRenderer) {
-		String TAG_TYPE = StatCollector.translateToLocal(this.getType()
-			.getAsString());
+		String TAG_TYPE = StatCollector.translateToLocal(this.getQuestType());
 		positionY += BORDER;
 		positionY += MHFCGuiUtil.drawTextAndReturnHeight(fontRenderer, TAG_TYPE,
 			positionX + (width - fontRenderer.getStringWidth(TAG_TYPE)) / 2,
@@ -344,7 +335,7 @@ public class QuestVisualInformation implements IVisualInformation {
 				MHFCReference.unlocalized_tag_time), //
 			TAG_AREA = StatCollector.translateToLocal(
 				MHFCReference.unlocalized_tag_area), //
-			AREA_ID = StatCollector.translateToLocal(getAreaID());
+			AREA_ID = StatCollector.translateToLocal(getAreaName());
 		fontRenderer.drawString(TAG_REWARD, positionX + BORDER, positionY,
 			COLOUR_HEADER);
 		positionY += MHFCGuiUtil.drawTextAndReturnHeight(fontRenderer,

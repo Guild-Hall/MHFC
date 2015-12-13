@@ -2,6 +2,7 @@ package mhfc.net.common.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
 public class MHFCJsonUtils {
 	public static String getJsonObjectStringFieldValueOrDefault(
@@ -66,6 +67,15 @@ public class MHFCJsonUtils {
 		if (!field.isJsonPrimitive())
 			return false;
 		return field.getAsJsonPrimitive().isString();
+	}
+
+	public static void requireFields(JsonObject object, String... fields)
+		throws JsonParseException {
+		for (String fieldIdentifier : fields) {
+			if (!object.has(fieldIdentifier))
+				throw new JsonParseException("Expecte json object to have a "
+					+ fieldIdentifier);
+		}
 	}
 
 }

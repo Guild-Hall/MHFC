@@ -8,10 +8,13 @@
 					requisites : ["StandardDeath", "StandardTimer", "Test"]
 				}
 			} ,
-			name : "Test Hunting",
 			reward : 5000,
 			fee : 200,
-			areaID : "TestArea"
+			areaID : "TestArea",
+			questType : "mhfc.quests.type.hunting",
+			visual : {
+				name : "Test Hunting"
+			}
 		}
 	},
 	"New Quest": {
@@ -23,10 +26,13 @@
 					requisites : ["StandardFail", "AnotherTest"]
 				}
 			},
-			name : "Hunt Rathalos",
 			reward : 4000,
 			fee: 300,
-			areaID: "TestArea"
+			areaID: "TestArea",
+			questType : "mhfc.quests.type.hunting",
+			visual : {
+				name : "Hunt Rathalos"
+			}
 		}
 	}
 }

@@ -21,10 +21,10 @@ public class QuestVisualInformationFactory
 	public static final String KEY_AIMS = "aims";
 	public static final String KEY_FAILS = "fails";
 	public static final String KEY_AREA_ID = "areaID";
-	public static final String KEY_REWARD_AS_STRING = "rewardAsString";
-	public static final String KEY_FEE_AS_STRING = "feeAsString";
-	public static final String KEY_MAX_PARTY_SIZE_AS_STRING = "maxPartySizeAsString";
-	public static final String KEY_TIME_LIMIT_AS_STRING = "timeLimitAsString";
+	public static final String KEY_REWARD = "reward";
+	public static final String KEY_FEE = "fee";
+	public static final String KEY_MAX_PARTY_SIZE = "maxPartySize";
+	public static final String KEY_TIME_LIMIT = "timeLimit";
 	public static final String KEY_TYPE = "questType";
 
 	private QuestDescription quest;
@@ -52,20 +52,38 @@ public class QuestVisualInformationFactory
 		String fails = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(
 			jsonObject, KEY_FAILS, getDefaultFails());
 		String areaName = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(
-			jsonObject, KEY_AREA_ID, getDefaultAreaID());
+			jsonObject, KEY_AREA_ID, getDefaultAreaName());
 		String timeLimit = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(
-			jsonObject, KEY_TIME_LIMIT_AS_STRING, getDefaultTimeLimit());
+			jsonObject, KEY_TIME_LIMIT, getDefaultTimeLimit());
 		String reward = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(
-			jsonObject, KEY_REWARD_AS_STRING, getDefaultReward());
+			jsonObject, KEY_REWARD, getDefaultReward());
 		String fee = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(
-			jsonObject, KEY_FEE_AS_STRING, getDefaultFee());
+			jsonObject, KEY_FEE, getDefaultFee());
 		String maxPartySize = MHFCJsonUtils
 			.getJsonObjectStringFieldValueOrDefault(jsonObject,
-				KEY_MAX_PARTY_SIZE_AS_STRING, getDefaultPartySize());
+				KEY_MAX_PARTY_SIZE, getDefaultPartySize());
 		String type = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(
-			jsonObject, KEY_TYPE, getDefaultType());
+			jsonObject, KEY_TYPE, getDefaultQuestType());
 		return new QuestVisualInformation(name, description, client, aims,
 			fails, areaName, timeLimit, reward, fee, maxPartySize, type);
+	}
+
+	@Override
+	public JsonElement serialize(IVisualInformation information,
+		JsonSerializationContext context) {
+		JsonObject holder = new JsonObject();
+		holder.addProperty(KEY_NAME, information.getName());
+		holder.addProperty(KEY_DESCRIPTION, information.getDescription());
+		holder.addProperty(KEY_CLIENT, information.getClient());
+		holder.addProperty(KEY_AIMS, information.getAims());
+		holder.addProperty(KEY_FAILS, information.getFails());
+		holder.addProperty(KEY_AREA_ID, information.getAreaName());
+		holder.addProperty(KEY_TIME_LIMIT, information.getTimeLimitAsString());
+		holder.addProperty(KEY_REWARD, information.getRewardString());
+		holder.addProperty(KEY_FEE, information.getFeeString());
+		holder.addProperty(KEY_MAX_PARTY_SIZE, information.getMaxPartySize());
+		holder.addProperty(KEY_TYPE, information.getQuestType());
+		return holder;
 	}
 
 	private String getDefaultName() {
@@ -88,7 +106,7 @@ public class QuestVisualInformationFactory
 		return "Died three times or time has run out!";
 	}
 
-	private String getDefaultAreaID() {
+	private String getDefaultAreaName() {
 		// FIXME when areas are implemented, this needs a fix
 		return quest == null ? "Unknown" : quest.getAreaID();
 	}
@@ -113,15 +131,8 @@ public class QuestVisualInformationFactory
 			: quest.getMaxPartySize() + " hunters";
 	}
 
-	private String getDefaultType() {
-		return quest == null ? "Unknown" : quest.getType();
-	}
-
-	@Override
-	public JsonElement serialize(IVisualInformation information,
-		JsonSerializationContext context) {
-		JsonObject holder = new JsonObject();
-
+	private String getDefaultQuestType() {
+		return quest == null ? "Unknown" : quest.getQuestType().getAsString();
 	}
 
 }

@@ -7,6 +7,7 @@ import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestVisual;
+import mhfc.net.common.network.packet.MessageQuestVisual.VisualType;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.QuestDescription;
@@ -32,12 +33,12 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 		public boolean vote;
 		public boolean restoreInventory;
 		public boolean reward;
-		public int posX, posY, posZ;
+		public double posX, posY, posZ;
 		public int dimensionID;
 
 		public PlayerAttributes(EntityPlayerMP p, boolean vote,
-			boolean restoreInventory, boolean reward, int x, int y, int z,
-			int dim) {
+			boolean restoreInventory, boolean reward, double x, double y,
+			double z, int dim) {
 			this.player = p;
 			this.restoreInventory = restoreInventory;
 			this.vote = vote;
@@ -50,9 +51,8 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 	}
 
 	private static PlayerAttributes newAttribute(EntityPlayerMP player) {
-		return new PlayerAttributes(player, false, true, false,
-			player.serverPosX, player.serverPosY, player.serverPosZ,
-			player.worldObj.provider.dimensionId);
+		return new PlayerAttributes(player, false, true, false, player.posX,
+			player.posY, player.posZ, player.worldObj.provider.dimensionId);
 	}
 
 	private QuestDescription originalDescription;
@@ -166,9 +166,8 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 		for (int i = 0; i < playerCount; i++) {
 			EntityPlayerMP p = playerAttributes[i].player;
 			String id = MHFCQuestRegistry.getIdentifierForQuest(this);
-			PacketPipeline.networkPipe.sendTo(
-				new<QuestRunningInformation> MessageQuestVisual(id,
-					visualInformation), p);
+			PacketPipeline.networkPipe.sendTo(new MessageQuestVisual(
+				VisualType.PERSONAL_QUEST, id, visualInformation), p);
 
 		}
 		MHFCQuestRegistry.questUpdated(this);
@@ -225,9 +224,8 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 			return;
 
 		PlayerAttributes att = playerAttributes[index];
-		PacketPipeline.networkPipe.sendTo(
-			new<QuestRunningInformation> MessageQuestVisual("", null),
-			att.player);
+		PacketPipeline.networkPipe.sendTo(new MessageQuestVisual(
+			VisualType.PERSONAL_QUEST, "", null), att.player);
 		MHFCQuestRegistry.setQuestForPlayer(att.player, null);
 		if (att.player.getEntityWorld().provider.dimensionId != att.dimensionID)
 			FMLServerHandler.instance().getServer().getConfigurationManager()
@@ -326,6 +324,11 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 	@Override
 	public GoalReference getGoalReference() {
 		return originalDescription.getGoalReference();
+	}
+
+	@Override
+	public QuestType getQuestType() {
+		return originalDescription.getQuestType();
 	}
 
 }

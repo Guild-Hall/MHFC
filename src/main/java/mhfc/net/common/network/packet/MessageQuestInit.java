@@ -36,12 +36,14 @@ public class MessageQuestInit implements IMessage {
 
 	@Override
 	public void toBytes(ByteBuf buf) {
+		buf.retain();
 		try (ByteBufOutputStream out = new ByteBufOutputStream(buf);) {
 			DirectorUploadQuests uploader = new DirectorUploadQuests(out);
 			uploader.construct(data);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		buf.release();
 	}
 
 	public QuestDescriptionRegistryData getQuestDescriptionData() {

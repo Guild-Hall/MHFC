@@ -1,124 +1,79 @@
 package mhfc.net.common.network.packet;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
-
-import java.io.IOException;
-
+import mhfc.net.common.core.builders.BuilderJsonToQuests;
 import mhfc.net.common.quests.IVisualInformation;
-import mhfc.net.common.quests.QuestRunningInformation;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class MessageQuestVisual implements IMessage {
 
-	private static final int[] lengthsPerID = {12, 14, 14};
+	public static enum VisualType {
+		RUNNING_QUEST,
+		PERSONAL_QUEST
+	}
 
-	protected int typeID;
-	protected String[] strings = new String[12];
+	private VisualType messageType;
+	private String messageIdentifier;
+	private IVisualInformation information;
 
 	public MessageQuestVisual() {
-		this(0);
 	}
 
-	protected MessageQuestVisual(int typeID) {
-		this.typeID = typeID;
-	}
-
-	public MessageQuestVisual(String[] strings) {
-		this(0, strings);
-	}
-
-	/**
-	 * Construct a message based on a visual. If it is null, the message means
-	 * that the identifier was removed and the client should do so too.
-	 * 
-	 * @param identifier
-	 *            The identifier of the quest for which the visual is for.
-	 * @param visual
-	 *            The visual information that corresponds to the identifier
-	 */
-	public <E extends IVisualInformation> MessageQuestVisual(
-			String identifier, E visual) {
-		this(visual == null ? defaultStringsFor(0, identifier) : new String[]{
-				identifier, visual.getName(), visual.getDescription(),
-				visual.getClient(), visual.getAims(), visual.getFails(),
-				visual.getAreaID(), visual.getTimeLimitAsString(),
-				visual.getType().getAsString(), visual.getRewardString(),
-				visual.getFeeString(), visual.getMaxPartySize()});
-	}
-
-	public <E extends QuestRunningInformation> MessageQuestVisual(
-			String identifier, E visual) {
-		this(1,
-				visual == null
-						? defaultStringsFor(1, identifier)
-						: new String[]{identifier, visual.getTrueName(),
-								visual.getTrueDescription(),
-								visual.getTrueClient(), visual.getTrueAims(),
-								visual.getTrueFails(), visual.getTrueAreaID(),
-								visual.getTrueTimeLimitAsString(),
-								visual.getType().getAsString(),
-								visual.getTrueRewardString(),
-								visual.getTrueFeeString(),
-								visual.getTrueMaxPartySize(),
-								visual.getTrueShortStatus(),
-								visual.getTrueLongStatus()});
-	}
-
-	public void setTypeID(int type) {
-		this.typeID = type;
-	}
-
-	private static String[] defaultStringsFor(int i, String identifier) {
-		String[] ret = null;
-		if (i >= 0 && i < lengthsPerID.length)
-			ret = new String[lengthsPerID[i]];
-		else
-			ret = new String[12];
-		ret[0] = identifier;
-		ret[1] = "";
-		return ret;
-	}
-
-	private MessageQuestVisual(int typeID, String[] strings) {
-		this(typeID);
-		this.strings = strings;
-	}
-
-	@Override
-	public void fromBytes(ByteBuf buf) {
-		try (ByteBufInputStream in = new ByteBufInputStream(buf);) {
-			typeID = in.readInt();
-			if (typeID > 0 && typeID < lengthsPerID.length)
-				strings = new String[lengthsPerID[typeID]];
-			for (int i = 0; i < strings.length; i++) {
-				strings[i] = in.readUTF();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public MessageQuestVisual(VisualType messageType, String identifier,
+		IVisualInformation information) {
+		this.messageType = messageType;
+		this.messageIdentifier = identifier;
+		this.information = information;
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		try (ByteBufOutputStream out = new ByteBufOutputStream(buf)) {
-			out.writeInt(typeID);
-			for (int i = 0; i < strings.length; i++) {
-				String s = strings[i];
-				out.writeUTF(s == null ? "" : s);
-			}
+		buf.retain();
+		try (ByteBufOutputStream out = new ByteBufOutputStream(buf);) {
+			OutputStreamWriter writer = new OutputStreamWriter(out);
+			out.writeInt(messageType.ordinal());
+			out.writeUTF(messageIdentifier);
+			BuilderJsonToQuests.gsonInstance.toJson(information,
+				IVisualInformation.class, writer);
+			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		buf.release();
 	}
 
-	public String[] getStrings() {
-		return strings;
+	@Override
+	public void fromBytes(ByteBuf buf) {
+		buf.retain();
+		try (ByteBufInputStream in = new ByteBufInputStream(buf);) {
+			InputStreamReader reader = new InputStreamReader(in);
+			messageType = VisualType.values()[in.readInt()];
+			messageIdentifier = in.readUTF();
+			information = BuilderJsonToQuests.gsonInstance.fromJson(reader,
+				IVisualInformation.class);
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		buf.release();
 	}
 
-	public int getTypeID() {
-		return typeID;
+	public VisualType getMessageType() {
+		return messageType;
+	}
+
+	public String getMessageIdentifier() {
+		return messageIdentifier;
+	}
+
+	public IVisualInformation getInformation() {
+		return information;
 	}
 
 }

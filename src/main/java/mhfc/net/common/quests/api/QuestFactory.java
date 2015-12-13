@@ -108,7 +108,6 @@ public class QuestFactory {
 	 * hunting: Needs to have exactly two arguments in its argument array, both
 	 * of type string and the latter one representing an Integer.
 	 */
-
 	public static QuestGoal constructGoal(GoalDescription gd) {
 		Objects.requireNonNull(gd, "Goal description was null");
 		QuestGoal goal = gd.build();

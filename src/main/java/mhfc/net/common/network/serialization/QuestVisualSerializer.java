@@ -28,7 +28,7 @@ public class QuestVisualSerializer
 		JsonObject holder = new JsonObject();
 		holder.add(MHFCQuestBuildRegistry.KEY_DATA, serialized);
 		holder.addProperty(MHFCQuestBuildRegistry.KEY_TYPE, serializerType);
-		return serialized;
+		return holder;
 	}
 
 	@Override

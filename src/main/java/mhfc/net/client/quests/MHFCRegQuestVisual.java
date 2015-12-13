@@ -7,6 +7,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import mhfc.net.MHFCMain;
 import mhfc.net.client.gui.quests.*;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.network.PacketPipeline;
@@ -15,7 +16,6 @@ import mhfc.net.common.network.packet.MessageRequestQuestVisual;
 import mhfc.net.common.quests.IVisualInformation;
 import mhfc.net.common.quests.QuestRunningInformation;
 import mhfc.net.common.quests.QuestVisualInformation;
-import mhfc.net.common.quests.QuestVisualInformation.QuestType;
 import mhfc.net.common.quests.api.QuestDescription;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
@@ -32,93 +32,48 @@ public class MHFCRegQuestVisual {
 		@Override
 		public IMessage onMessage(MessageQuestVisual message,
 			MessageContext ctx) {
-			QuestVisualInformation visual = getInformationFromMessage(message);
-			switch (message.getTypeID()) {
-				case 0 :
-					modifyVisualOfIdentifier(visual, message);
+			MHFCMain.logger.debug("Received visual for " + message
+				.getMessageIdentifier());
+			IVisualInformation visual = getInformationFromMessage(message);
+			switch (message.getMessageType()) {
+				case PERSONAL_QUEST :
+					setPlayerVisual((QuestRunningInformation) visual, message);
 					break;
-				case 1 :
-					setPlayerVisual(visual, message);
-					break;
-				case 2 :
+				case RUNNING_QUEST :
 					modifyRunningQuestList(visual, message);
+					break;
 			}
 			return null;
 		}
 	}
 
-	private static QuestVisualInformation getInformationFromMessage(
+	private static IVisualInformation getInformationFromMessage(
 		MessageQuestVisual message) {
-		String[] strings = message.getStrings();
-		String name = strings[1];
-		if ("".equals(name))
-			return null;
-		String description = strings[2];
-		String client = strings[3];
-		String aims = strings[4];
-		String fails = strings[5];
-		String areaNameID = strings[6];
-		String timeLimitInS = strings[7];
-		String type = strings[8];
-		String reward = strings[9];
-		String fee = strings[10];
-		String maxPartySize = strings[11];
-		QuestType realType = null;
-		switch (type) {
-			case MHFCQuestBuildRegistry.QUEST_TYPE_KILLING :
-				realType = QuestType.Killing;
-				break;
-			case MHFCQuestBuildRegistry.QUEST_TYPE_HUNTING :
-				realType = QuestType.Hunting;
-				break;
-			case MHFCQuestBuildRegistry.QUEST_TYPE_EPIC_HUNTING :
-				realType = QuestType.EpicHunting;
-				break;
-			case MHFCQuestBuildRegistry.QUEST_TYPE_GATHERING :
-				realType = QuestType.Gathering;
-				break;
-			default :
-		}
-		QuestVisualInformation visual;
-		visual = new QuestVisualInformation(name, description, client, aims,
-			fails, areaNameID, timeLimitInS, reward, fee, maxPartySize,
-			realType);
-		return visual;
+		return message.getInformation();
 	}
 
-	private static void modifyVisualOfIdentifier(QuestVisualInformation visual,
+	private static void setPlayerVisual(QuestRunningInformation visual,
 		MessageQuestVisual message) {
-		String identifier = message.getStrings()[0];
-		identifierToVisualInformationMap.put(identifier, visual);
-	}
-
-	private static void setPlayerVisual(IVisualInformation visual,
-		MessageQuestVisual message) {
-		String[] strings = message.getStrings();
 		hasPlayerQuest = (visual != null);
-		QuestRunningInformation runInfo = new QuestRunningInformation(visual,
-			strings[12], strings[13]);
 		if (playersVisual != null) {
 			playersVisual.cleanUp();
 		}
-		playersVisual = (!hasPlayerQuest) ? null : runInfo;
+		playerQuestIdentifier = message.getMessageIdentifier();
+		playersVisual = visual;
 	}
 
 	private static void modifyRunningQuestList(IVisualInformation visual,
 		MessageQuestVisual message) {
-		String[] strings = message.getStrings();
-		String identifier = strings[0];
 		boolean clear = visual == null;
-		QuestRunningInformation runInfo = new QuestRunningInformation(visual,
-			strings[12], strings[13]);
+		String identifier = message.getMessageIdentifier();
 		if (clear) {
-			identifierToVisualRunningMap.remove(identifier);
+			identifierToVisualInformationMap.remove(identifier);
 			runningQuestIDs.remove(identifier);
 			questBoard.removeQuest(identifier);
 		} else {
-			identifierToVisualRunningMap.put(identifier, runInfo);
+			identifierToVisualInformationMap.put(identifier, visual);
 			runningQuestIDs.add(identifier);
-			questBoard.addQuest(identifier, runInfo);
+			questBoard.addQuest(identifier, visual);
 		}
 	}
 
@@ -144,8 +99,7 @@ public class MHFCRegQuestVisual {
 		MHFCReference.gui_list_tex);
 
 	private static Set<String> runningQuestIDs = new HashSet<String>();
-	private static Map<String, QuestVisualInformation> identifierToVisualInformationMap = new HashMap<String, QuestVisualInformation>();
-	private static Map<String, QuestRunningInformation> identifierToVisualRunningMap = new HashMap<String, QuestRunningInformation>();
+	private static Map<String, IVisualInformation> identifierToVisualInformationMap = new HashMap<String, IVisualInformation>();
 
 	@SideOnly(Side.CLIENT)
 	private static QuestStatusDisplay display;
@@ -155,6 +109,7 @@ public class MHFCRegQuestVisual {
 		.getMinecraft().thePlayer);
 
 	private static boolean hasPlayerQuest = false;
+	private static String playerQuestIdentifier;
 	private static QuestRunningInformation playersVisual;
 
 	public static GuiQuestGiver getScreen(int i, EntityPlayer playerEntity) {
@@ -182,8 +137,7 @@ public class MHFCRegQuestVisual {
 	 *         replacement <br>
 	 *         representing loading.
 	 */
-	public static IVisualInformation getVisualInformation(
-		String identifier) {
+	public static IVisualInformation getVisualInformation(String identifier) {
 		QuestDescription staticDescription = MHFCQuestBuildRegistry
 			.getQuestDescription(identifier);
 		if (staticDescription != null) {
@@ -199,9 +153,9 @@ public class MHFCRegQuestVisual {
 		return QuestVisualInformation.LOADING_REPLACEMENT;
 	}
 
-	public static QuestRunningInformation getRunningInformation(
+	public static IVisualInformation getQuestVisualInformation(
 		String identifier) {
-		return identifierToVisualRunningMap.get(identifier);
+		return identifierToVisualInformationMap.get(identifier);
 	}
 
 	public static boolean hasPlayerQuest() {

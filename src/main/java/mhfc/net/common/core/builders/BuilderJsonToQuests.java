@@ -9,7 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 
@@ -19,8 +22,12 @@ import mhfc.net.common.core.data.QuestDescriptionRegistryData.QuestGroupData;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.network.serialization.GoalSerializer;
 import mhfc.net.common.network.serialization.QuestSerializer;
-import mhfc.net.common.quests.api.*;
+import mhfc.net.common.network.serialization.QuestVisualSerializer;
+import mhfc.net.common.quests.IVisualInformation;
+import mhfc.net.common.quests.api.GoalDescription;
+import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.GoalReference.GoalRefSerializer;
+import mhfc.net.common.quests.api.QuestDescription;
 
 public class BuilderJsonToQuests {
 
@@ -123,6 +130,8 @@ public class BuilderJsonToQuests {
 			new QuestSerializer());
 		builder.registerTypeAdapter(GoalReference.class,
 			new GoalRefSerializer());
+		builder.registerTypeAdapter(IVisualInformation.class,
+			new QuestVisualSerializer());
 		builder.serializeNulls();
 		gsonInstance = builder.create();
 	}

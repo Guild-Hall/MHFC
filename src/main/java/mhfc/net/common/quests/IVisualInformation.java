@@ -1,6 +1,5 @@
 package mhfc.net.common.quests;
 
-import mhfc.net.common.quests.QuestVisualInformation.QuestType;
 import net.minecraft.client.gui.FontRenderer;
 
 public interface IVisualInformation {
@@ -19,13 +18,13 @@ public interface IVisualInformation {
 
 	String getTimeLimitAsString();
 
-	QuestType getType();
+	String getQuestType();
 
 	String getRewardString();
 
 	String getFeeString();
 
-	String getAreaID();
+	String getAreaName();
 
 	String getMaxPartySize();
 

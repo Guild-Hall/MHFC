@@ -192,7 +192,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 	}
 
 	@Override
-	public String getAreaID() {
+	public String getAreaName() {
 		return areaNameIdElements.stringValue();
 	}
 
