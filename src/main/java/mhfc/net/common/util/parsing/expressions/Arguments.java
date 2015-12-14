@@ -77,7 +77,8 @@ public class Arguments implements Iterable<IValueHolder> {
 	 */
 	@Override
 	public PermissiveIterator<IValueHolder> iterator() {
-		return new PermissiveIterator<IValueHolder>(Arrays.stream(args).iterator(), Holder.empty());
+		return new PermissiveIterator<IValueHolder>(Arrays.stream(args).iterator(),
+				Holder.failedComputation(new IllegalStateException("No more arguments")));
 	}
 
 }

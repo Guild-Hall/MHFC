@@ -510,7 +510,7 @@ public final class Holder implements IValueHolder {
 	private void checkError() {
 		if (this.isValid())
 			return;
-		throw new IllegalStateException("Holding an exception: " + this.cause, this.cause);
+		throw new IllegalStateException(this.cause.toString(), this.cause);
 	}
 
 	@Override
