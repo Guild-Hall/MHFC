@@ -21,11 +21,10 @@ public class Symbol {
 		FREE_FUNCTION_CALL(FreeFunctionCallSymbol.class), //
 		MEMBER_FUNCTION_CALL(MemberFunctionCallSymbol.class), //
 		BRACKET_EXPRESSION(BracketExpressionSymbol.class), //
-		// INT_CONSTANT(IntegerConstant.class), //
-		// STR_CONSTANT
+		CONSTANT(ConstantSymbol.class), //
 		;
 
-		public final Class<?> snytaxClass;
+		public final Class<? extends ISymbol> snytaxClass;
 
 		private SymbolType(Class<? extends ISymbol> syntaxClass) {
 			this.snytaxClass = Objects.requireNonNull(syntaxClass);

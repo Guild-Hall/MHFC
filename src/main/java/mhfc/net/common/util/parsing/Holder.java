@@ -809,8 +809,8 @@ public final class Holder implements IValueHolder {
 	@Override
 	public String toString() {
 		if (!isValid())
-			return "Stored Error: " + this.cause.toString();
+			return "{error: " + this.cause.toString() + "}";
 		Object hold = boxed();
-		return hold == null ? "Na/V" : hold.toString();
+		return hold == null ? "void" : hold.toString();
 	}
 }

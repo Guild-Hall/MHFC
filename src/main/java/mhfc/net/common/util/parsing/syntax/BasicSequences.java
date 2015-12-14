@@ -1,7 +1,11 @@
 package mhfc.net.common.util.parsing.syntax;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
+import mhfc.net.common.util.parsing.Holder;
+import mhfc.net.common.util.parsing.expressions.Constant;
 import mhfc.net.common.util.parsing.syntax.Symbol.IdentifierSymbol;
 import mhfc.net.common.util.parsing.syntax.Symbol.SymbolType;
 
@@ -101,4 +105,127 @@ public class BasicSequences {
 			return SiftResult.FINISHED;
 		}
 	}
+
+	public static class StringConstant implements IBasicSequence {
+		private static class CompositeException extends IllegalArgumentException {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 3901532003007263456L;
+			private List<Throwable> exceptions = new ArrayList<Throwable>();
+
+			public CompositeException(List<Throwable> exceptions) {
+				super("");
+				this.exceptions = new ArrayList<>(exceptions);
+			}
+
+			@Override
+			public String toString() {
+				// TODO Auto-generated method stub
+				return super.toString() + exceptions.toString();
+			}
+		}
+
+		private static enum State {
+			BEGIN, ACTIVE, ENDED;
+		}
+
+		private StringBuilder string = new StringBuilder();
+		private State state = State.BEGIN;
+		private boolean escaped = false;
+		private List<Throwable> errors = new ArrayList<>();
+		private int encountered = 0;
+
+		@Override
+		public SiftResult accepting(int cp) {
+			if (state == State.ENDED)
+				return SiftResult.FINISHED;
+			if (state == State.BEGIN) {
+				if (cp == '\"') {
+					this.state = State.ACTIVE;
+					this.encountered++;
+					return SiftResult.ACCEPTED;
+				}
+				return SiftResult.REJCECTED;
+			}
+			if (!escaped) {
+				if (cp == '\\') {
+					escaped = true;
+					return SiftResult.ACCEPTED;
+				}
+				if (cp == '\"') {
+					this.state = State.ENDED;
+					return SiftResult.ACCEPTED;
+				}
+				string.appendCodePoint(cp);
+				this.encountered++;
+				return SiftResult.ACCEPTED;
+			}
+			switch (cp) {
+			// \b \t \n \f \r \" \' \\
+			case 'b':
+				string.appendCodePoint('\b');
+				break;
+			case 't':
+				string.appendCodePoint('\t');
+				break;
+			case 'n':
+				string.appendCodePoint('\n');
+				break;
+			case 'f':
+				string.appendCodePoint('\f');
+				break;
+			case 'r':
+				string.appendCodePoint('\r');
+				break;
+			case '"':
+				string.appendCodePoint('\"');
+				break;
+			case '\'':
+				string.appendCodePoint('\'');
+				break;
+			case '\\':
+				string.appendCodePoint('\\');
+				break;
+			default: {
+				// Illegal escape sequence
+				String error = "Illegal escape sequence \\" + String.valueOf(Character.toChars(cp)) + " at index "
+						+ this.encountered;
+				this.encountered++;
+				this.errors.add(new IllegalArgumentException(error));
+			}
+			}
+			this.escaped = false;
+			return SiftResult.ACCEPTED;
+		}
+
+		@Override
+		public void reset() {
+			state = State.BEGIN;
+			escaped = false;
+			string.setLength(0);
+			errors.clear();
+			encountered = 0;
+		}
+
+		@Override
+		public void pushOnto(Stack<Symbol> tokenStack) {
+			Symbol s = new Symbol();
+			s.type = SymbolType.CONSTANT;
+			Holder h;
+			if (this.errors.size() == 0) {
+				h = Holder.valueOf(this.string.toString());
+			} else {
+				h = Holder.failedComputation(new CompositeException(this.errors));
+			}
+			s.symbol = new Symbol.ConstantSymbol(new Constant(h));
+			tokenStack.push(s);
+		}
+
+		@Override
+		public SiftResult endOfStream() {
+			return state == State.ENDED ? SiftResult.REJCECTED : SiftResult.FINISHED;
+		}
+	}
+
 }

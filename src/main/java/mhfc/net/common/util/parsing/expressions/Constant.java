@@ -3,18 +3,18 @@ package mhfc.net.common.util.parsing.expressions;
 import java.util.Objects;
 
 import mhfc.net.common.util.parsing.Context;
+import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IExpression;
-import mhfc.net.common.util.parsing.IValueHolder;
 
 public class Constant implements IExpression {
-	private final IValueHolder value;
+	private final Holder value;
 
-	public Constant(IValueHolder holder) {
+	public Constant(Holder holder) {
 		this.value = Objects.requireNonNull(holder);
 	}
 
 	@Override
-	public IValueHolder resolveAgainst(Context context) {
+	public Holder resolveAgainst(Context context) {
 		return value;
 	}
 }
