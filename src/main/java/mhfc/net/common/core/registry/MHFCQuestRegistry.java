@@ -97,7 +97,7 @@ public class MHFCQuestRegistry {
 			GeneralQuest q = playerQuest.get(logOut.player);
 			if (q == null)
 				return;
-			q.removePlayer(logOut.player);
+			q.removePlayer((EntityPlayerMP) logOut.player);
 			RunningSubscriptionHandler.subscribers.remove(logOut.player);
 		}
 	}

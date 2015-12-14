@@ -9,7 +9,7 @@ import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.factory.*;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 public class QuestFactory {
 
@@ -78,7 +78,7 @@ public class QuestFactory {
 	 * the quest. If it is somehow invalid then null is returned.
 	 */
 	public static GeneralQuest constructQuest(QuestDescription qd,
-		EntityPlayer initiator, String assignedID) {
+		EntityPlayerMP initiator, String assignedID) {
 		if (qd == null || !questFactoryMap.containsKey(qd.getType()))
 			return null;
 		IQuestFactory factory = getQuestFactory(qd.getType());

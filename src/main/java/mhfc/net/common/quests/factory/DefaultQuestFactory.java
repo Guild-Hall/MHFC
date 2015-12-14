@@ -70,9 +70,8 @@ public class DefaultQuestFactory implements IQuestFactory {
 
 		DefaultQuestDescription description = new DefaultQuestDescription(goal,
 			type, areaId, reward, fee, maxPartySize);
-		IVisualInformationFactory defaultFactory = QuestFactory
-			.getQuestVisualInformationFactory(
-				MHFCQuestBuildRegistry.VISUAL_DEFAULT);
+		IVisualInformationFactory defaultFactory = new QuestVisualInformationFactory(
+			description);
 		JsonElement visualInformation = jsonAsObject.get(KEY_VISUAL);
 		IVisualInformation visual = defaultFactory.buildInformation(
 			visualInformation, context);
@@ -88,7 +87,8 @@ public class DefaultQuestFactory implements IQuestFactory {
 
 		JsonObject holder = new JsonObject();
 		holder.addProperty(KEY_MAX_PARTY_SIZE, questDesc.getMaxPartySize());
-		holder.addProperty(KEY_QUEST_TYPE, questDesc.getQuestType().getAsString());
+		holder.addProperty(KEY_QUEST_TYPE, questDesc.getQuestType()
+			.getAsString());
 		// holder.addProperty(KEY_TIME_LIMIT, questDesc.get);
 		holder.addProperty(KEY_AREA_ID, questDesc.getAreaID());
 		holder.addProperty(KEY_FEE, questDesc.getFee());
