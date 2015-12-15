@@ -121,7 +121,6 @@ public class BasicSequences {
 
 			@Override
 			public String toString() {
-				// TODO Auto-generated method stub
 				return super.toString() + exceptions.toString();
 			}
 		}
@@ -228,4 +227,93 @@ public class BasicSequences {
 		}
 	}
 
+	public static class IntegerConstant implements IBasicSequence {
+		private static enum State {
+			START, POSTSIGN, NUMBER;
+		}
+
+		private int base = 10;
+		private int length = 0;
+		private State state = State.START;
+		private StringBuilder string = new StringBuilder();
+
+		@Override
+		public SiftResult accepting(int cp) {
+			if (state == State.START) {
+				if (cp == '+' || cp == '-') {
+					string.appendCodePoint(cp);
+					state = State.POSTSIGN;
+					return SiftResult.ACCEPTED;
+				}
+			}
+			if (state == State.START || state == State.POSTSIGN) {
+				if (cp == '0') {
+					base = 0;
+					return SiftResult.ACCEPTED;
+				}
+				if (cp == 'o' && base == 0) {
+					base = 8;
+					state = State.NUMBER;
+					return SiftResult.ACCEPTED;
+				}
+				if (cp == 'x' && base == 0) {
+					base = 16;
+					state = State.NUMBER;
+					return SiftResult.ACCEPTED;
+				}
+				if (cp == 'b' && base == 0) {
+					base = 2;
+					state = State.NUMBER;
+					return SiftResult.ACCEPTED;
+				}
+				state = State.NUMBER;
+				if (base == 0) {
+					// Literal 0, followed...
+					string.appendCodePoint('0');
+					base = 10;
+					return SiftResult.FINISHED;
+				}
+			}
+			if (state != State.NUMBER)
+				return SiftResult.REJCECTED;
+			if (Character.digit(cp, base) != -1) {
+				length++;
+				string.appendCodePoint(cp);
+				return SiftResult.ACCEPTED;
+			}
+			if (length > 0) {
+				return SiftResult.FINISHED;
+			}
+			return SiftResult.REJCECTED;
+		}
+
+		@Override
+		public SiftResult endOfStream() {
+			return length > 0 ? SiftResult.FINISHED : SiftResult.REJCECTED;
+		}
+
+		@Override
+		public void reset() {
+			base = 10;
+			length = 0;
+			state = State.START;
+			string.setLength(0);
+		}
+
+		@Override
+		public void pushOnto(Stack<Symbol> tokenStack) {
+			Symbol s = new Symbol();
+			s.type = SymbolType.CONSTANT;
+			Holder h;
+			try {
+				int val = Integer.parseInt(string.toString(), base);
+				h = Holder.valueOf(val);
+			} catch (NumberFormatException nfe) {
+				h = Holder.failedComputation(nfe);
+			}
+			s.symbol = new Symbol.ConstantSymbol(new Constant(h));
+			tokenStack.push(s);
+		}
+
+	}
 }

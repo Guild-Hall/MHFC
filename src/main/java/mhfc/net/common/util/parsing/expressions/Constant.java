@@ -17,4 +17,9 @@ public class Constant implements IExpression {
 	public Holder resolveAgainst(Context context) {
 		return value;
 	}
+
+	@Override
+	public String toString() {
+		return value.toString();
+	}
 }

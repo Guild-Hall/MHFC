@@ -25,6 +25,7 @@ public class ExpressionTranslator {
 		sequences.add(new BasicSequences.Identifier());
 		sequences.add(new BasicSequences.Whitespace());
 		sequences.add(new BasicSequences.StringConstant());
+		sequences.add(new BasicSequences.IntegerConstant());
 
 		syntaxRules.add(SyntaxRules.bracketExpression);
 		syntaxRules.add(SyntaxRules.functionCall);
