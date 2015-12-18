@@ -10,6 +10,7 @@ import mhfc.net.common.item.armor.RathalosArmor;
 import mhfc.net.common.item.armor.TigrexArmor;
 import mhfc.net.common.item.armor.VelocipreyArmor;
 import mhfc.net.common.item.armor.YukumoArmor;
+import mhfc.net.common.item.armor.community.ST_Bionic;
 import mhfc.net.common.item.food.ItemKirinBuff;
 import mhfc.net.common.item.food.ItemMeats;
 import mhfc.net.common.item.food.ItemNutrients;
@@ -167,6 +168,12 @@ public class MHFCItemRegistry {
 	public static final Item armor_tigrexB_chest;
 	public static final Item armor_tigrexB_legs;
 	public static final Item armor_tigrexB_boots;
+	
+	
+	public static final Item armor_bionic_helm;
+	public static final Item armor_bionic_chest;
+	public static final Item armor_bionic_legs;
+	public static final Item armor_bionic_boots;
 
 	// Materials
 
@@ -223,6 +230,7 @@ public class MHFCItemRegistry {
 		armor_dragoon_helm = registerItem(new DragoonArmor(0));
 		armor_kirinS_helm = registerItem(new KirinSArmor(0));
 		armor_tigrexB_helm = registerItem(new KishinArmor(0));
+		armor_bionic_helm = registerItem(new ST_Bionic(0));
 
 		armor_yukumo_chest = registerItem(new YukumoArmor(1));
 		armor_velociprey_chest = registerItem(new VelocipreyArmor(1));
@@ -233,6 +241,7 @@ public class MHFCItemRegistry {
 		armor_dragoon_chest = registerItem(new DragoonArmor(1));
 		armor_kirinS_chest = registerItem(new KirinSArmor(1));
 		armor_tigrexB_chest = registerItem(new KishinArmor(1));
+		armor_bionic_chest = registerItem(new ST_Bionic(1));
 
 		armor_yukumo_legs = registerItem(new YukumoArmor(2));
 		armor_velociprey_legs = registerItem(new VelocipreyArmor(2));
@@ -243,6 +252,7 @@ public class MHFCItemRegistry {
 		armor_dragoon_legs = registerItem(new DragoonArmor(2));
 		armor_kirinS_legs = registerItem(new KirinSArmor(2));
 		armor_tigrexB_legs = registerItem(new KishinArmor(2));
+		armor_bionic_legs = registerItem(new ST_Bionic(2));
 
 		armor_yukumo_boots = registerItem(new YukumoArmor(3));
 		armor_velociprey_boots = registerItem(new VelocipreyArmor(3));
@@ -253,6 +263,7 @@ public class MHFCItemRegistry {
 		armor_dragoon_boots = registerItem(new DragoonArmor(3));
 		armor_kirinS_boots = registerItem(new KirinSArmor(3));
 		armor_tigrexB_boots = registerItem(new KishinArmor(3));
+		armor_bionic_boots = registerItem(new ST_Bionic(3));
 
 		// Weapons
 		weapon_gs_bone = registerItem(new GSBone());

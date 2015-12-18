@@ -28,5 +28,7 @@ public class MHFCArmorMaterialHelper {
 	// S Rank Armors
 	public static final ArmorMaterial ArmorKirinS = EnumHelper.addArmorMaterial         ("kirinS", durC, new int[]{5, 22, 9, 7}, enchant);
 	public static final ArmorMaterial ArmorTigrexB = EnumHelper.addArmorMaterial        ("kishin", durC, new int[]{5, 28, 13, 3}, enchant);
-
+	
+	//Community 
+	public static final ArmorMaterial ArmorST_1_Bionic = EnumHelper.addArmorMaterial    ("bionic", durB, new int[]{4, 7, 4, 2}, enchant);
 }

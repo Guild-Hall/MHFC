@@ -158,6 +158,10 @@ item.i.mhf_helm.name= Barroth Helm
 item.i.mhf_chest.name= Barroth Mail
 item.i.mhf_leg.name= Barroth Faulds
 item.i.mhf_boots.name= Barroth Greaves
+item.j.mhf_helm.name=§2ST - 1 "Bionic" Helmet
+item.j.mhf_chest.name=§2ST - 1 "Bionic" Plate
+item.j.mhf_leg.name=§2ST - 1 "Bionic" Leggings
+item.j.mhf_boots.name=§2ST - 1 "Bionic" Greaves
 
 
 item.a.bow.name=Hunter's Bow I
