@@ -422,6 +422,7 @@ public class MHFCReference {
 	public static final String tile_stuntrap_tex = "mhfc:textures/tile/stuntrap.png";
 
 	public static final String weapon_bow_hunters_name = "a.bow";
+	public static final String weapon_bow_hunters_tex = "mhfc:textures/weapons/(B)hunters.png";
 	public static final String weapon_bow_hunters_tex_rest = "mhfc:textures/weapons/bow/(B)hunters-rest.png";
 	public static final String weapon_bow_hunters_tex_start = "mhfc:textures/weapons/bow/(B)hunters-start.png";
 	public static final String weapon_bow_hunters_tex_half = "mhfc:textures/weapons/bow/(B)hunters-half.png";
