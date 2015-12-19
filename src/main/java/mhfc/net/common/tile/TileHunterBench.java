@@ -1,8 +1,10 @@
 package mhfc.net.common.tile;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
-import mhfc.net.common.item.ItemType;
+import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe.RecipeType;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.message.bench.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,8 +15,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileHunterBench extends TileEntity
 	implements
@@ -331,8 +331,8 @@ public class TileHunterBench extends TileEntity
 	@Override
 	public void refreshState() {
 		if (worldObj.isRemote) {
-			PacketPipeline.networkPipe
-				.sendToServer(new MessageBenchRefreshRequest(this));
+			PacketPipeline.networkPipe.sendToServer(
+				new MessageBenchRefreshRequest(this));
 		}
 	}
 
@@ -375,39 +375,23 @@ public class TileHunterBench extends TileEntity
 	@Override
 	public void readFromNBT(NBTTagCompound nbtTag) {
 		super.readFromNBT(nbtTag);
-		heatStrength = nbtTag.getInteger("heatStrength");
-		heatFromItem = nbtTag.getInteger("heatFromItem");
-		heatLength = nbtTag.getInteger("heatLength");
-		heatLengthInit = nbtTag.getInteger("heatLengthInit");
-		itemSmeltDuration = nbtTag.getInteger("itemSmeltDuration");
-		TileHunterBench.this.workingMHFCBench = nbtTag.getBoolean("working");
-		int recType = nbtTag.getInteger("recipeType");
-		int recId = nbtTag.getInteger("recipeID");
-		ItemType type = ItemType.values()[recType];
-		setRecipe(MHFCEquipementRecipeRegistry.getRecipeFor(recId, type));
+		readCustomUpdate(nbtTag);
+
 		NBTTagList items = nbtTag.getTagList("Items", 10);
 		for (int a = 0; a < items.tagCount(); a++) {
 			NBTTagCompound stack = items.getCompoundTagAt(a);
 			byte id = stack.getByte("Slot");
 			if (id >= 0 && id < getSizeInventory())
-				setInventorySlotContents(id, ItemStack
-					.loadItemStackFromNBT(stack));
+				setInventorySlotContents(id, ItemStack.loadItemStackFromNBT(
+					stack));
 		}
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbtTag) {
 		super.writeToNBT(nbtTag);
-		nbtTag.setInteger("heatStrength", heatStrength);
-		nbtTag.setInteger("heatFromItem", heatFromItem);
-		nbtTag.setInteger("heatLength", heatLength);
-		nbtTag.setInteger("heatLengthInit", heatLengthInit);
-		nbtTag.setInteger("itemSmeltDuration", itemSmeltDuration);
-		nbtTag.setBoolean("working", TileHunterBench.this.workingMHFCBench);
-		ItemType type = MHFCEquipementRecipeRegistry.getType(recipe);
-		int recipeID = MHFCEquipementRecipeRegistry.getIDFor(recipe, type);
-		nbtTag.setInteger("recipeType", type.ordinal());
-		nbtTag.setInteger("recipeID", recipeID);
+		storeCustomUpdate(nbtTag);
+
 		NBTTagList itemsStored = new NBTTagList();
 		for (int a = 0; a < getSizeInventory(); a++) {
 			ItemStack s = getStackInSlot(a);
@@ -425,32 +409,43 @@ public class TileHunterBench extends TileEntity
 		return recipe;
 	}
 
+	private static final String heatStrID = "heatStrength";
+	private static final String heatFromItemID = "heatFromItem";
+	private static final String heatLengthID = "heatLength";
+	private static final String heatLengthInitID = "heatLengthInit";
+	private static final String itemSmeltDurationID = "itemSmeltDuration";
+	private static final String workingID = "workingID";
+	private static final String recipeTypeID = "recipeType";
+	private static final String recipeIDID = "recipeID";
+
 	@Override
 	public void storeCustomUpdate(NBTTagCompound nbtTag) {
-		nbtTag.setInteger("heatStrength", heatStrength);
-		nbtTag.setInteger("heatFromItem", heatFromItem);
-		nbtTag.setInteger("heatLength", heatLength);
-		nbtTag.setInteger("heatLengthInit", heatLengthInit);
-		nbtTag.setInteger("itemSmeltDuration", itemSmeltDuration);
-		nbtTag.setBoolean("working", TileHunterBench.this.workingMHFCBench);
-		ItemType type = MHFCEquipementRecipeRegistry.getType(recipe);
-		int recipeID = MHFCEquipementRecipeRegistry.getIDFor(recipe, type);
-		nbtTag.setInteger("recipeType", type.ordinal());
-		nbtTag.setInteger("recipeID", recipeID);
+		nbtTag.setInteger(heatStrID, heatStrength);
+		nbtTag.setInteger(heatFromItemID, heatFromItem);
+		nbtTag.setInteger(heatLengthID, heatLength);
+		nbtTag.setInteger(heatLengthInitID, heatLengthInit);
+		nbtTag.setInteger(itemSmeltDurationID, itemSmeltDuration);
+		nbtTag.setBoolean(workingID, TileHunterBench.this.workingMHFCBench);
+		RecipeType type = recipe != null
+			? recipe.getRecipeType()
+			: RecipeType.MHFC;
+		int recipeID = MHFCEquipementRecipeRegistry.getIDFor(recipe);
+		nbtTag.setInteger(recipeTypeID, type.ordinal());
+		nbtTag.setInteger(recipeIDID, recipeID);
 	}
 
 	@Override
 	public void readCustomUpdate(NBTTagCompound nbtTag) {
-		heatStrength = nbtTag.getInteger("heatStrength");
-		heatFromItem = nbtTag.getInteger("heatFromItem");
-		heatLength = nbtTag.getInteger("heatLength");
-		heatLengthInit = nbtTag.getInteger("heatLengthInit");
-		itemSmeltDuration = nbtTag.getInteger("itemSmeltDuration");
-		TileHunterBench.this.workingMHFCBench = nbtTag.getBoolean("working");
-		int recType = nbtTag.getInteger("recipeType");
-		int recId = nbtTag.getInteger("recipeID");
-		ItemType type = ItemType.values()[recType];
-		setRecipe(MHFCEquipementRecipeRegistry.getRecipeFor(recId, type));
+		heatStrength = nbtTag.getInteger(heatStrID);
+		heatFromItem = nbtTag.getInteger(heatFromItemID);
+		heatLength = nbtTag.getInteger(heatLengthID);
+		heatLengthInit = nbtTag.getInteger(heatLengthInitID);
+		itemSmeltDuration = nbtTag.getInteger(itemSmeltDurationID);
+		TileHunterBench.this.workingMHFCBench = nbtTag.getBoolean(workingID);
+		int irecType = nbtTag.getInteger(recipeTypeID);
+		int recId = nbtTag.getInteger(recipeIDID);
+		RecipeType recType = RecipeType.values()[irecType];
+		setRecipe(MHFCEquipementRecipeRegistry.getRecipeFor(recId, recType));
 	}
 
 }

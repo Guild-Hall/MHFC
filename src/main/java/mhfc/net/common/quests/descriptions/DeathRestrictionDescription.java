@@ -6,7 +6,7 @@ import mhfc.net.common.quests.goals.DeathRestrictionQuestGoal;
 
 public class DeathRestrictionDescription extends GoalDescription {
 
-	public static final String ID_LIFES = "lives";
+	public static final String ID_LIVES = "lives";
 
 	private int allowedDeaths;
 

@@ -2,18 +2,18 @@ package mhfc.net.client.gui;
 
 import java.util.ArrayList;
 
+import org.lwjgl.opengl.GL11;
+
 import mhfc.net.client.gui.GuiListItem.Alignment;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
 
-import org.lwjgl.opengl.GL11;
-
 public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	implements
 		IMouseInteractable {
 
-	private static final float SLIDER_WIDTH = 6;
+	private static final float SLIDER_WIDTH = 8;
 	private static final float BORDER_WIDTH = 2;
 
 	public static class GuiListStringItem extends GuiListItem {
@@ -111,6 +111,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 
 	public void setItemWidth(int itemWidth) {
 		this.itemHeight = itemWidth;
+		this.recalculateItemHeightOnDraw = false;
 	}
 
 	public float getSliderWidth() {
@@ -144,7 +145,6 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
-
 	}
 
 	protected void drawListSlider(int posX, int posY, int mouseX, int mouseY) {
@@ -157,7 +157,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 			Minecraft.getMinecraft().getTextureManager().bindTexture(
 				MHFCRegQuestVisual.CLICKABLE_LIST);
 			MHFCGuiUtil.drawTexturedRectangle(posX + width - sliderWidth, posY
-				+ sliderPosY, sliderWidth, sliderHeight, 0.5f, 0.5f, 0.125f,
+				+ sliderPosY, sliderWidth, sliderHeight, 0.5f, 0.5f, 0.0625f,
 				0.5f);
 		}
 	}
@@ -252,8 +252,8 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 		Minecraft m = Minecraft.getMinecraft();
 		for (int i = (int) (scrollAmount / itemHeight); i < this.size(); i++) {
 			GuiListItem item = this.get(i);
-			item.draw(posX, posY - (int) (scrollAmount - i * itemHeight),
-				width, (int) itemHeight, m, i == selected, alignment);
+			item.draw(posX, posY - (int) (scrollAmount - i * itemHeight), width,
+				(int) itemHeight, m, i == selected, alignment);
 		}
 	}
 

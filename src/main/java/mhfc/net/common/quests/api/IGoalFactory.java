@@ -1,13 +1,13 @@
 package mhfc.net.common.quests.api;
 
 import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonSerializationContext;
 
 public interface IGoalFactory {
-	@Deprecated
-	public QuestGoal buildQuestGoal(GoalDescription goalDesc);
-
-	public GoalDescription buildGoalDescription(JsonObject json,
+	public GoalDescription buildGoalDescription(JsonElement jsonElement,
 		JsonDeserializationContext context);
 
+	public JsonElement serialize(GoalDescription description,
+		JsonSerializationContext context);
 }

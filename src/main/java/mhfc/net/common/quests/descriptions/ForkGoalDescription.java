@@ -2,13 +2,15 @@ package mhfc.net.common.quests.descriptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalDescription;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.QuestFactory;
-import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.goals.ForkQuestGoal;
+import scala.actors.threadpool.Arrays;
 
 public class ForkGoalDescription extends GoalDescription {
 
@@ -25,45 +27,37 @@ public class ForkGoalDescription extends GoalDescription {
 		this.optional = optional;
 	}
 
-	public List<GoalDescription> getRequired() {
-		List<GoalDescription> list = new ArrayList<GoalDescription>();
+	@SuppressWarnings("unchecked")
+	public List<GoalReference> getRequired() {
+		List<GoalReference> list = new ArrayList<GoalReference>();
 		if (required == null)
 			return list;
-		for (int i = 0; i < required.length; i++) {
-			list.add(required[i].getReferredDescription());
-		}
+		list.addAll(Arrays.asList(required));
 		return list;
 	}
 
-	public List<GoalDescription> getOptional() {
-		List<GoalDescription> list = new ArrayList<GoalDescription>();
+	@SuppressWarnings("unchecked")
+	public List<GoalReference> getOptional() {
+		List<GoalReference> list = new ArrayList<GoalReference>();
 		if (optional == null)
 			return list;
-		for (int i = 0; i < optional.length; i++) {
-			list.add(optional[i].getReferredDescription());
-		}
+		list.addAll(Arrays.asList(optional));
 		return list;
 	}
 
 	@Override
 	public ForkQuestGoal build() {
-		List<GoalDescription> required = getRequired();
-		List<GoalDescription> optional = getOptional();
+		Stream<GoalDescription> required = getRequired().stream().map(
+			GoalReference::getReferredDescription);
+		Stream<GoalDescription> optional = getOptional().stream().map(
+			GoalReference::getReferredDescription);
 		ForkQuestGoal fork = new ForkQuestGoal(null);
 
-		for (GoalDescription desc : required) {
-			QuestGoal q = QuestFactory.constructGoal(desc);
-			if (q == null)
-				continue;
-			fork.addRequisite(q);
-		}
+		required.map(QuestFactory::constructGoal).filter(Objects::nonNull)
+			.forEach(fork::addRequisite);
 
-		for (GoalDescription desc : optional) {
-			QuestGoal q = QuestFactory.constructGoal(desc);
-			if (q == null)
-				continue;
-			fork.addOptional(q);
-		}
+		optional.map(QuestFactory::constructGoal).filter(Objects::nonNull)
+			.forEach(fork::addOptional);
 
 		return fork;
 	}

@@ -1,9 +1,9 @@
 # push src/ only
-*
-!src/
-!gradle/
-!libs/
-!externlibs/
+/*
+!/src/
+!/gradle/
+!/libs/
+!/externlibs/
 !gradlew
 !gradlew.bat
 !.travis.yml
@@ -11,6 +11,7 @@
 !LICENSE
 !build.gradle
 !build.properties
+!.gitignore
 
 *.class
 

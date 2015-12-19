@@ -1,24 +1,34 @@
 {
 	Test : {
-		type : "hunting" ,
-		target: "Pig",
-		amount: 3
+		type : "hunting",
+		data : {
+			target: "Pig",
+			amount: 3
+		}
 	},
 	StandardTimer : {
 		type : "time",
-		time : 3000
+		data : {
+			time : 3000
+		}
 	},
 	StandardDeath : {
 		type : "death",
-		lives : 2
+		data : { 
+			lives : 2
+		}
 	},
 	StandardFail : {
 		type : "fork",
-		requisites : ["StandardDeath", "StandardTimer"]
+		data : {
+			requisites : ["StandardDeath", "StandardTimer"]
+		}
 	},
-	AnotherTest :{
-		type : "hunting",
-		target: "mhfc.tigrex",
-		amount: 1
+	AnotherTest : {
+		"type" : "hunting",
+		data : {
+			target: "mhfc.tigrex",
+			amount: 1
+		}
 	}
 }

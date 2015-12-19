@@ -52,7 +52,7 @@ public class RenderGSBone implements IItemRenderer {
 						.bindTexture(new ResourceLocation(MHFCReference.weapon_gs_bone_tex));
 				GL11.glRotatef(0F, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(-5F, 0.0f, 1.0f, 0.0f);
-				GL11.glRotatef(-170F, 0.0f, 0.0f, 1.0f);
+				GL11.glRotatef(-150F, 0.0f, 0.0f, 1.0f);
 				GL11.glTranslatef(-0.8F, -0.8F, -0.1F);
 				weapon.render((Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
 						0.0625F);

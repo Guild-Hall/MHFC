@@ -1,7 +1,7 @@
 package mhfc.net.common.network.message;
 
 import io.netty.buffer.ByteBuf;
-import mhfc.net.common.ai.IMangedAttacks;
+import mhfc.net.common.ai.IManagedActions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -9,7 +9,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class MessageAIAttack<T extends EntityLivingBase & IMangedAttacks<T>>
+public class MessageAIAttack<T extends EntityLiving & IManagedActions<T>>
 	implements
 		IMessage {
 	private int entityId;
@@ -21,8 +21,8 @@ public class MessageAIAttack<T extends EntityLivingBase & IMangedAttacks<T>>
 
 	public MessageAIAttack(T entity, int attackIndex) {
 		this.entityId = entity.getEntityId();
-		if (entity.getAITarget() != null) {
-			this.targetId = entity.getAITarget().getEntityId();
+		if (entity.getAttackTarget() != null) {
+			this.targetId = entity.getAttackTarget().getEntityId();
 		} else {
 			this.targetId = -1;
 		}
@@ -51,14 +51,14 @@ public class MessageAIAttack<T extends EntityLivingBase & IMangedAttacks<T>>
 	 */
 	@SuppressWarnings("unchecked")
 	@SideOnly(Side.CLIENT)
-	public <U extends EntityLivingBase & IMangedAttacks<U>> IMangedAttacks<U> getEntity() {
-		return (IMangedAttacks<U>) Minecraft.getMinecraft().theWorld
+	public <U extends EntityLiving & IManagedActions<U>> IManagedActions<U> getEntity() {
+		return (IManagedActions<U>) Minecraft.getMinecraft().theWorld
 			.getEntityByID(entityId);
 	}
 
 	@SuppressWarnings("unchecked")
 	@SideOnly(Side.CLIENT)
-	public <U extends EntityLiving & IMangedAttacks<U>> U getEntityLiving() {
+	public <U extends EntityLiving & IManagedActions<U>> U getEntityLiving() {
 		return (U) Minecraft.getMinecraft().theWorld.getEntityByID(entityId);
 	}
 

@@ -2,7 +2,7 @@ package mhfc.net.common.entity.projectile;
 
 import java.util.List;
 
-import mhfc.net.common.entity.mob.EntityTigrex;
+import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -47,7 +47,7 @@ public class EntityTigrexBlock extends EntityThrowable {
 				if (entity instanceof EntityPlayer
 					|| entity instanceof EntityWyvernHostile) {
 					entity.attackEntityFrom(DamageSource
-						.causeMobDamage(getThrower()), 14 + this.rand
+						.causeMobDamage(getThrower()), 36 + this.rand
 						.nextInt(17));
 				} else {
 					entity.attackEntityFrom(DamageSource

@@ -57,7 +57,8 @@ public class MHFCJobHandler {
 	// See http://stackoverflow.com/q/11167566/
 	private Object lock = new Object();
 
-	private MHFCJobHandler() {}
+	private MHFCJobHandler() {
+	}
 
 	private void doRemoves() {
 		synchronized (listOfRemoves) {
@@ -70,7 +71,7 @@ public class MHFCJobHandler {
 	private void tick(TickEvent tick) {
 		synchronized (this.lock) {
 			doRemoves();
-			if (tick.phase == Phase.START) {
+			if (tick.phase == Phase.START && !jobQueue.isEmpty()) {
 				thisTick.clear();
 				long timeNow = now.incrementAndGet();
 				assert (!(jobQueue.peek().procTime < timeNow));
@@ -100,6 +101,7 @@ public class MHFCJobHandler {
 			return;
 		tick(tick);
 	}
+
 	/**
 	 * Insert a new job into the Handler. If the delay is less than or equal to
 	 * zero, an {@link IllegalArgumentException} is thrown. If the job is
@@ -115,8 +117,7 @@ public class MHFCJobHandler {
 	 */
 	public long insert(DelayedJob job, long delay) {
 		if (delay <= 0)
-			throw new IllegalArgumentException("Delay must be positive: "
-					+ delay);
+			throw new IllegalArgumentException("Delay must be positive: " + delay);
 		Objects.requireNonNull(job);
 		synchronized (this.lock) {
 			long jobTime = now.get() + delay;
@@ -137,6 +138,7 @@ public class MHFCJobHandler {
 		Objects.requireNonNull(job);
 		return jobQueue.contains(job);
 	}
+
 	/**
 	 * Can be used to poll how much time is left until a job that was previously
 	 * registered with {@link #insert(DelayedJob, long)} is due. Given the

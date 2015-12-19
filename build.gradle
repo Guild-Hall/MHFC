@@ -25,7 +25,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 minecraft {
-    version = "1.7.10-10.13.3.1380-1.7.10"
+    version = "1.7.10-10.13.4.1492-1.7.10"
     runDir = "eclipse"
 
     replace "@VERSION@", project.version
@@ -53,7 +53,7 @@ processResources {
 }
 
 dependencies {
-    compile files('./externlibs/mcanm-0.2.001b_1710-deobf.jar')
+    compile files('./externlibs/mcanm-1.0.001b_1710-deobf.jar')
 }
 
 task deobfJar(type: Jar) {

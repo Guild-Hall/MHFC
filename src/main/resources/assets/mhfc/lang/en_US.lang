@@ -42,7 +42,7 @@ tile.wyverniaplanks.planksandy.name=Sandy Wood Plank
 tile.wyverniaplanks.planktilia.name=Tilia Wood Plank
 tile.wyverniarock.rockauvel.name=Auvel Rock
 tile.wyverniarock.rockcradle.name=Cradle Rock
-tile.wyverniarock.rockacren.name=Acren Rock
+tile.wyverniarock.rocktacren.name=Tacren Rock
 tile.wyverniawood.logcalfer.name=Calfer Wood
 tile.wyverniawood.logdirewood.name=Direwood
 tile.wyverniawood.loggrandifolia.name=Grandifolia Wood
@@ -62,13 +62,13 @@ item.meat.slow.name=Slow Meat
 item.meat.hunger.name=Hunger Meat
 item.meat.fire.name=Fire Meat
 
-item.nutrients.boost.name=Nutrients
-item.nutrients.protection.name=Mega Nutrients
+item.nutrients.normal.name=Nutrients
+item.nutrients.mega.name=Mega Nutrients
 
-item.bullet0.name=Normal S
-item.bullet1.name=Pierce S
-item.bullet2.name=Crag S
-item.bullet3.name=Flame S
+item.bullet.normalS.name=Normal S
+item.bullet.pierceS.name=Pierce S
+item.bullet.cragS.name=Crag S
+item.bullet.flameS.name=Flame S
 
 item.wyverniadust.name=Wyvernia Dust
 item.wyverniaclay.name=Wyvernia Clay
@@ -160,7 +160,7 @@ item.i.mhf_leg.name= Barroth Faulds
 item.i.mhf_boots.name= Barroth Greaves
 
 
-item.a.bow.name=Hunter's Bow
+item.a.bow.name=Hunter's Bow I
 item.b.bow.name=Tigrex Arrow
 item.c.bow.name=Adventurer's Bow
 item.bowgun_1.name=Shooter's Barrel
@@ -199,11 +199,17 @@ item.longsword_14.name=Mirage Finsword+
 item.longsword_15.name=Phantom Mirage
 
 
-entity.tigrex.name=Tigrex
-entity.kirin.name=Kirin
-entity.rathalos.name=Rathalos
-entity.popo.name=Popo
-entity.aptonoth.name=Aptonoth
+entity.tigrex.name=§2Tigrex
+entity.mhfc.tigrex.name=§2Tigrex
+entity.greatjaggi.name=§2Great Jaggi
+entity.mhfc.greatjaggi.name=§2Great Jaggiuu8
+entity.deviljho.name=§2Deviljho
+entity.mhfc.deviljho.name=§2Deviljho
+entity.barroth.name=§2Barroth
+entity.mhfc.barroth.name=§2Barroth
+entity.nargacuga.name=§2Nargacuga
+entity.mhfc.nargacuga.name=§2Nargacuga
+
 
 potion.kirinbless=Spark of Kirin
 potion.paralyze=Paralyze

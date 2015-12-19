@@ -1,14 +1,15 @@
 package mhfc.net.common.eventhandler;
 
-import mhfc.net.common.network.packet.MessageMHFCInteraction;
-import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
-import net.minecraft.entity.player.EntityPlayerMP;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.Cancelable;
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import mhfc.net.common.core.registry.MHFCQuestRegistry;
+import mhfc.net.common.network.packet.MessageMHFCInteraction;
+import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 public class MHFCInteractionHandler
 	implements
@@ -83,7 +84,8 @@ public class MHFCInteractionHandler
 	}
 
 	@Override
-	public IMessage onMessage(MessageMHFCInteraction message, MessageContext ctx) {
+	public IMessage onMessage(MessageMHFCInteraction message,
+		MessageContext ctx) {
 		EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 		switch (message.getInteraction()) {
 			case NEW_QUEST :
@@ -111,11 +113,11 @@ public class MHFCInteractionHandler
 					new MHFCInteractionModReloadEvent(player, message));
 				break;
 			default :
-				FMLCommonHandler.instance().bus().post(
-					new MHFCInteractionEvent(player, message,
-						Interaction.INVALID));
+				FMLCommonHandler.instance().bus().post(new MHFCInteractionEvent(
+					player, message, Interaction.INVALID));
 				break;
 		}
+		MHFCQuestRegistry.onPlayerInteraction(player, message);
 		return null;
 	}
 }

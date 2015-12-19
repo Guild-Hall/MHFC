@@ -88,7 +88,6 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 	private final T[] values;
 	@SideOnly(Side.CLIENT)
 	private IIcon[] textures;
-	@SideOnly(Side.CLIENT)
 	private TexturePathModificator modifier;
 
 	public SubTypedItem(Class<T> enumClazz) {
@@ -100,15 +99,16 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 		// Cache the value, getEnumConstants() doesn't and can not safely
 		this.values = clazzToken.getEnumConstants();
 		this.modifier = modifier == null ? PASSTHROUGH : modifier;
-		textures = new IIcon[values.length];
 	}
 
+	@SideOnly(Side.CLIENT)
 	public IIcon[] getIcons() {
 		return textures;
 	}
 
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister regIcon) {
+		textures = new IIcon[values.length];
 		for (int i = 0; i < values.length; i++) {
 			textures[i] = regIcon.registerIcon(modifier.modify(values[i].getTexPath()));
 		}

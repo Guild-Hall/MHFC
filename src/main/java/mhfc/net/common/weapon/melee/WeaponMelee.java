@@ -33,7 +33,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
 
-	protected ComponentMelee weapon;
+	protected ComponentMelee meleecomp;
 	protected String des1, des2, des3; // <--- Shorten the handles
 	protected float damage, damageincrease, matDamage, matReduction, knockback;
 	protected int attackdelay, rarity, meta, amplified, getcooldown;
@@ -46,9 +46,9 @@ public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
 				: weaponf.weaponMaterial));
 		setCreativeTab(MHFCMain.mhfctabs);
 		setFull3D();
-		weapon = weaponf;
-		weapon.setItem(this);
-		weapon.setThisItemProperties();
+		meleecomp = weaponf;
+		meleecomp.setItem(this);
+		meleecomp.setThisItemProperties();
 	}
 
 	public void elementalType(boolean poison, boolean fire) {
@@ -95,8 +95,7 @@ public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
 			EntityLivingBase player, float damageincrease2) {
 		damage = matDamage;
 		damageincrease = damageincrease2;
-		DamageSource dmgSource = DamageSource
-				.causePlayerDamage((EntityPlayer) player);
+		DamageSource dmgSource = DamageSource.causePlayerDamage((EntityPlayer) player);
 		updateDamageAmount(damage);
 		target.attackEntityFrom(dmgSource, damage);
 
@@ -116,88 +115,88 @@ public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
 
 	@Override
 	public float func_150931_i() {
-		return weapon.getEntityDamageMaterialPart();
+		return meleecomp.getEntityDamageMaterialPart();
 	}
 
 	@Override
 	public float func_150893_a(ItemStack itemstack, Block block) {
-		return weapon.getBlockDamage(itemstack, block);
+		return meleecomp.getBlockDamage(itemstack, block);
 	}
 
 	@Override
 	public boolean func_150897_b(Block block) {
-		return weapon.canHarvestBlock(block);
+		return meleecomp.canHarvestBlock(block);
 	}
 
 	@Override
 	public boolean hitEntity(ItemStack itemstack,
 			EntityLivingBase entityliving, EntityLivingBase attacker) {
-		return weapon.hitEntity(itemstack, entityliving, attacker);
+		return meleecomp.hitEntity(itemstack, entityliving, attacker);
 	}
 
 	@Override
 	public boolean onBlockDestroyed(ItemStack itemstack, World world,
 			Block block, int j, int k, int l, EntityLivingBase entityliving) {
-		return weapon.onBlockDestroyed(itemstack, world, block, j, k, l,
+		return meleecomp.onBlockDestroyed(itemstack, world, block, j, k, l,
 				entityliving);
 	}
 
 	@Override
 	public int getItemEnchantability() {
-		return weapon.getItemEnchantability();
+		return meleecomp.getItemEnchantability();
 	}
 
 	@Override
 	public EnumAction getItemUseAction(ItemStack itemstack) {
-		return weapon.getItemUseAction(itemstack);
+		return meleecomp.getItemUseAction(itemstack);
 	}
 
 	@Override
 	public int getMaxItemUseDuration(ItemStack itemstack) {
-		return weapon.getMaxItemUseDuration(itemstack);
+		return meleecomp.getMaxItemUseDuration(itemstack);
 	}
 
 	@Override
 	public boolean onLeftClickEntity(ItemStack itemstack, EntityPlayer player,
 			Entity entity) {
-		return weapon.onLeftClickEntity(itemstack, player, entity);
+		return meleecomp.onLeftClickEntity(itemstack, player, entity);
 	}
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world,
 			EntityPlayer entityplayer) {
-		return weapon.onItemRightClick(itemstack, world, entityplayer);
+		return meleecomp.onItemRightClick(itemstack, world, entityplayer);
 	}
 
 	@Override
 	public void onUsingTick(ItemStack itemstack, EntityPlayer entityplayer,
 			int count) {
-		weapon.onUsingTick(itemstack, entityplayer, count);
+		meleecomp.onUsingTick(itemstack, entityplayer, count);
 	}
 
 	@Override
 	public void onPlayerStoppedUsing(ItemStack itemstack, World world,
 			EntityPlayer entityplayer, int i) {
-		weapon.onPlayerStoppedUsing(itemstack, world, entityplayer, i);
+		meleecomp.onPlayerStoppedUsing(itemstack, world, entityplayer, i);
 	}
 
 	@Override
 	public void onUpdate(ItemStack itemstack, World world, Entity entity,
 			int i, boolean flag) {
-		weapon.onUpdate(itemstack, world, entity, i, flag);
+		meleecomp.onUpdate(itemstack, world, entity, i, flag);
 	}
 
 	@Override
 	public Multimap<String, AttributeModifier> getItemAttributeModifiers() {
 		Multimap<String, AttributeModifier> multimap = HashMultimap.create();
-		weapon.addItemAttributeModifiers(multimap);
+		meleecomp.addItemAttributeModifiers(multimap);
 		return multimap;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public boolean shouldRotateAroundWhenRendering() {
-		return weapon.shouldRotateAroundWhenRendering();
+		return meleecomp.shouldRotateAroundWhenRendering();
 	}
 
 	@Override
@@ -207,7 +206,7 @@ public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
 
 	@Override
 	public ComponentMelee getMeleeComponent() {
-		return weapon;
+		return meleecomp;
 	}
 
 }

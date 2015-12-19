@@ -1,10 +1,10 @@
-[
-	"TestGroup"
-]
-
-
 {
-	"TestGroup":[
-		"TestQuest", "New Quest"
-	]
+	"groupDisplayOrder":[
+		"TestGroup"
+	],
+	"groups":{
+		"TestGroup":[
+			"TestQuest", "New Quest"
+		]
+	}
 }

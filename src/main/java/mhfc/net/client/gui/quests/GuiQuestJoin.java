@@ -10,7 +10,7 @@ import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageMHFCInteraction;
 import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
-import mhfc.net.common.quests.QuestRunningInformation;
+import mhfc.net.common.quests.IVisualInformation;
 import mhfc.net.common.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -59,9 +59,9 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 						String questID = mapToIdentifiers.get(selectedItem);
 						if (questID == null)
 							return true;
-						PacketPipeline.networkPipe
-							.sendToServer(new MessageMHFCInteraction(
-								Interaction.ACCEPT_QUEST, questID));
+						PacketPipeline.networkPipe.sendToServer(
+							new MessageMHFCInteraction(Interaction.ACCEPT_QUEST,
+								questID));
 					}
 					return true;
 				}
@@ -80,8 +80,7 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 		runningQuestList.setWidthAndHeight(runningW, ySize - 2 * yBorder - 10);
 
 		joinQuest.xPosition = (xSize - runningX - runningW - joinQuest
-			.getButtonWidth())
-			/ 2 + runningX + runningW + xPos;
+			.getButtonWidth()) / 2 + runningX + runningW + xPos;
 		joinQuest.yPosition = ySize - yBorder - buttonHeight + yPos;
 	}
 
@@ -109,12 +108,12 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 		GuiListStringItem item = runningQuestList.getSelectedItem();
 		if (item != null) {
 			String id = mapToIdentifiers.get(item);
-			QuestRunningInformation info = MHFCRegQuestVisual
-				.getRunningInformation(id);
+			IVisualInformation info = MHFCRegQuestVisual.getQuestVisualInformation(
+				id);
 			if (info != null)
-				info.drawInformation(xPos + runningW + runningX,
-					yPos + yBorder, xSize - runningW - 2 * runningX, ySize - 2
-						* yBorder, page, fontRendererObj);
+				info.drawInformation(xPos + runningW + runningX, yPos + yBorder,
+					xSize - runningW - 2 * runningX, ySize - 2 * yBorder, page,
+					fontRendererObj);
 		}
 
 		super.drawScreen(mouseX, mouseY, partialTick);
@@ -124,9 +123,8 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 	protected void mouseClicked(int mouseX, int mouseY, int button) {
 		clickHandled = false;
 		super.mouseClicked(mouseX, mouseY, button);
-		if (runningQuestList.handleClick(mouseX - xPos
-			- runningQuestList.getPosX(), mouseY - yPos
-			- runningQuestList.getPosY(), button)) {
+		if (runningQuestList.handleClick(mouseX - xPos - runningQuestList
+			.getPosX(), mouseY - yPos - runningQuestList.getPosY(), button)) {
 
 		} else if (!MHFCRegQuestVisual.hasPlayerQuest() // Is an info displayed
 			&& mouseX > xPos + 80 && mouseX < xPos + 300 // x check
@@ -163,7 +161,7 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 		super.onGuiClosed();
 	}
 
-	public void addQuest(String id, QuestRunningInformation info) {
+	public void addQuest(String id, IVisualInformation info) {
 		GuiListStringItem item = new GuiListStringItem(info.getName());
 		if (!mapToListItems.containsKey(id) && item != null) {
 			mapToListItems.put(id, item);

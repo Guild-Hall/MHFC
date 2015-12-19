@@ -23,9 +23,8 @@ public class HHIvoryHorn extends HuntingHornClass {
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack iStack, World world,
-			EntityPlayer player) {
-		weapon.onItemRightClick(iStack, world, player);
+	public ItemStack onItemRightClick(ItemStack iStack, World world,EntityPlayer player) {
+		meleecomp.onItemRightClick(iStack, world, player);
 		if (Cooldown.canUse(iStack, cooldown)) {
 			@SuppressWarnings("unchecked")
 			List<Entity> list = player.worldObj

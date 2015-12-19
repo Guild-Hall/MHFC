@@ -1,21 +1,25 @@
 package mhfc.net.common.entity.type;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
-import mhfc.net.common.ai.AIAttackManager;
-import mhfc.net.common.ai.IExecutableAttack;
-import mhfc.net.common.ai.IMangedAttacks;
-import mhfc.net.common.ai.TargetTurnHelper;
+import mhfc.net.common.ai.AIActionManager;
+import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.IManagedActions;
+import mhfc.net.common.ai.general.AIUtils;
+import mhfc.net.common.ai.general.TargetTurnHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityMultiPart;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
@@ -27,7 +31,7 @@ import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
  * covered. Instead of setting {@link Entity#width} and {@link Entity#height}
  * you should set your bounding box correctly in the constructor.
  *
- * @author WorldSEnder
+ * @author WorldSEnder, HeroicKatora
  *
  * @param <YC>
  *            your class, the class of the attacks
@@ -39,19 +43,20 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	implements
 		IEntityMultiPart,
 		IAnimatedObject,
-		IMangedAttacks<YC> {
+		IManagedActions<YC> {
 	/**
 	 * {@link #getDataWatcher()}
 	 */
 	protected static final int DATA_FRAME = 12;
-	protected final AIAttackManager<YC> attackManager;
 	private final TargetTurnHelper turnHelper;
+	private AIActionManager<YC> attackManager;
 
+	@SuppressWarnings("unchecked")
 	public EntityMHFCBase(World world) {
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
-		tasks.addTask(0,
-			this.attackManager = new AIAttackManager<YC>((YC) this));
+		attackManager = new AIActionManager<YC>((YC) this);
+		tasks.addTask(0, attackManager);
 	}
 
 	/**
@@ -347,6 +352,17 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 		return true;
 	}
 
+	protected AIActionManager<YC> getAIActionManager() {
+		return this.attackManager;
+	}
+
+	protected void setAIActionManager(AIActionManager<YC> newManager) {
+		Objects.requireNonNull(newManager);
+		tasks.removeTask(this.attackManager);
+		this.attackManager = newManager;
+		tasks.addTask(0, newManager);
+	}
+
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
@@ -355,7 +371,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	@Override
 	protected void updateAITick() {
 		super.updateAITick();
-		setFrame(this.attackManager.getNextFrame(getCurrentFrame()));
+		setFrame(this.attackManager.getCurrentFrame());
 		turnHelper.onUpdateTurn();
 	}
 
@@ -371,11 +387,12 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	}
 
 	@Override
-	public AIAttackManager<YC> getAttackManager() {
+	public AIActionManager<YC> getAttackManager() {
 		return attackManager;
 	}
 
 	protected int getCurrentFrame() {
+		// CLEANUP: send only keyframes to reduce server load, assume advanced
 		return this.dataWatcher.getWatchableObjectInt(DATA_FRAME);
 	}
 
@@ -383,22 +400,19 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	public RenderPassInformation preRenderCallback(float subFrame,
 		RenderPassInformation passInfo) {
 		return passInfo.setAnimation(attackManager.getCurrentAnimation())
-			.setFrame(getCurrentFrame());
+			.setFrame(getCurrentFrame() + subFrame // ^ See #getCurrentFrame()+
+			);
 	}
 
 	@Override
-	public void onAttackEnd(IExecutableAttack<YC> oldAttack) {
+	public void onAttackEnd(IExecutableAction<? super YC> oldAttack) {
 		setFrame(-1);
 	}
 
 	@Override
-	public void onAttackStart(IExecutableAttack<YC> newAttack) {
+	public void onAttackStart(IExecutableAction<? super YC> newAttack) {
 		if (newAttack != null)
 			setFrame(0);
-	}
-
-	public TargetTurnHelper getTurnHelper() {
-		return turnHelper;
 	}
 
 	@Override
@@ -406,4 +420,48 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 		return false;
 	}
 
+	public TargetTurnHelper getTurnHelper() {
+		return turnHelper;
+	}
+
+	/**
+	 * Uses the minecraft movement helper to move the mob forward this tick.
+	 * Forward is the direction the mob is facing
+	 *
+	 * @param movementSpeed
+	 *            The speed multiplier to be used
+	 */
+	public void moveForward(double movementSpeed, boolean makeStep) {
+		Vec3 view = getLookVec();
+
+		float effectiveSpeed = (float) (movementSpeed * getEntityAttribute(
+			SharedMonsterAttributes.movementSpeed).getAttributeValue());
+		Vec3 forwardVector = Vec3.createVectorHelper(view.xCoord
+			* effectiveSpeed, motionY, view.zCoord * effectiveSpeed);
+		boolean jump = false;
+		if (makeStep) {
+			// copy the bounding box
+			AxisAlignedBB bounds = boundingBox.getOffsetBoundingBox(0, 0, 0);
+
+			bounds.offset(forwardVector.xCoord, 0, forwardVector.zCoord);
+			List<?> normalPathCollision = AIUtils.gatherOverlappingBounds(
+				bounds, this);
+
+			bounds.offset(0, stepHeight, 0);
+			List<?> jumpPathCollision = AIUtils.gatherOverlappingBounds(bounds,
+				this);
+
+			if (!normalPathCollision.isEmpty() && jumpPathCollision.isEmpty()) {
+				jump = true;
+			}
+		}
+		if (jump) {
+			this.moveEntity(0, stepHeight + 0.5, 0);
+			this.motionY = 0;
+			this.isAirBorne = true;
+		}
+		setVelocity(forwardVector.xCoord, forwardVector.yCoord,
+			forwardVector.zCoord);
+
+	}
 }

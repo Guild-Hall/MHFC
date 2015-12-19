@@ -9,7 +9,7 @@ import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.factory.*;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 public class QuestFactory {
 
@@ -25,9 +25,11 @@ public class QuestFactory {
 
 	private static Map<String, IQuestFactory> questFactoryMap = new HashMap<String, IQuestFactory>();
 	private static Map<String, IGoalFactory> goalFactoryMap = new HashMap<String, IGoalFactory>();
+	private static Map<String, IVisualInformationFactory> visualFactoryMap = new HashMap<String, IVisualInformationFactory>();
 
 	static {
-		insertQuestFactory("", new DefaultQuestFactory());
+		insertQuestFactory(MHFCQuestBuildRegistry.QUEST_DEFAULT,
+			new DefaultQuestFactory());
 
 		DeathRestrictionGoalFactory drFactory = new DeathRestrictionGoalFactory();
 		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_DEATH_RESTRICTION_TYPE,
@@ -42,6 +44,11 @@ public class QuestFactory {
 			new ChainGoalFactory());
 		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_FORK_TYPE,
 			new ForkGoalFactory());
+
+		insertQuestVisualFactory(MHFCQuestBuildRegistry.VISUAL_DEFAULT,
+			new QuestVisualInformationFactory());
+		insertQuestVisualFactory(MHFCQuestBuildRegistry.VISUAL_RUNNING,
+			new QuestRunningInformationFactory());
 	}
 
 	public static boolean insertQuestFactory(String str, IQuestFactory fact) {
@@ -58,15 +65,23 @@ public class QuestFactory {
 		return true;
 	}
 
+	public static boolean insertQuestVisualFactory(String str,
+		IVisualInformationFactory fact) {
+		if (visualFactoryMap.containsKey(str))
+			return false;
+		visualFactoryMap.put(str, fact);
+		return true;
+	}
+
 	/**
 	 * Constructs a quest based on the description object and a player to join
 	 * the quest. If it is somehow invalid then null is returned.
 	 */
 	public static GeneralQuest constructQuest(QuestDescription qd,
-		EntityPlayer initiator, String assignedID) {
-		if (qd == null || !questFactoryMap.containsKey(qd.getFactory()))
+		EntityPlayerMP initiator, String assignedID) {
+		if (qd == null || !questFactoryMap.containsKey(qd.getType()))
 			return null;
-		IQuestFactory factory = getQuestFactory(qd.getFactory());
+		IQuestFactory factory = getQuestFactory(qd.getType());
 		if (factory == null)
 			return null;
 		GeneralQuest quest = factory.buildQuest(qd);
@@ -93,7 +108,6 @@ public class QuestFactory {
 	 * hunting: Needs to have exactly two arguments in its argument array, both
 	 * of type string and the latter one representing an Integer.
 	 */
-
 	public static QuestGoal constructGoal(GoalDescription gd) {
 		Objects.requireNonNull(gd, "Goal description was null");
 		QuestGoal goal = gd.build();
@@ -104,5 +118,10 @@ public class QuestFactory {
 
 	public static IGoalFactory getGoalFactory(String type) {
 		return goalFactoryMap.get(type);
+	}
+
+	public static IVisualInformationFactory getQuestVisualInformationFactory(
+		String type) {
+		return visualFactoryMap.get(type);
 	}
 }

@@ -1,15 +1,15 @@
 package mhfc.net.common.core.registry;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.eventhandler.MHFCGuiHandler;
 import mhfc.net.common.eventhandler.MHFCJobHandler;
 import mhfc.net.common.eventhandler.MHFCTickHandler;
-import mhfc.net.common.eventhandler.player.MHFCCapeEventHandler;
 import mhfc.net.common.eventhandler.player.ConnectionEventHandler;
+import mhfc.net.common.eventhandler.player.MHFCCapeEventHandler;
 import mhfc.net.common.eventhandler.potion.PotionPitfallEventHandler;
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
 
 public class MHFCEventRegistry {
 	private static MHFCMain mod;
@@ -31,18 +31,18 @@ public class MHFCEventRegistry {
 	}
 
 	private static void registerGuiHandler() {
-		NetworkRegistry.INSTANCE.registerGuiHandler(mod,
-				MHFCGuiHandler.instance);
+		NetworkRegistry.INSTANCE.registerGuiHandler(mod, MHFCGuiHandler.instance);
 	}
 
-	private static void registerNetworkEventHandlers() {}
+	private static void registerNetworkEventHandlers() {
+	}
 
 	private static void registerWorldEventHandlers() {
-		FMLCommonHandler.instance().bus()
-				.register(ConnectionEventHandler.instance);
+		FMLCommonHandler.instance().bus().register(ConnectionEventHandler.instance);
 	}
 
-	private static void registerEntityEventHandlers() {}
+	private static void registerEntityEventHandlers() {
+	}
 
 	private static void registerPotionEventHandlers() {
 		MinecraftForge.EVENT_BUS.register(PotionPitfallEventHandler.instance);

@@ -13,7 +13,7 @@ public enum ItemType {
 		@Override
 		public boolean isTypeOf(Item item) {
 			return (item instanceof ItemArmor)
-					&& ((ItemArmor) item).armorType == 0;
+				&& ((ItemArmor) item).armorType == 0;
 		}
 
 		@Override
@@ -25,7 +25,7 @@ public enum ItemType {
 		@Override
 		public boolean isTypeOf(Item item) {
 			return (item instanceof ItemArmor)
-					&& ((ItemArmor) item).armorType == 1;
+				&& ((ItemArmor) item).armorType == 1;
 		}
 
 		@Override
@@ -37,7 +37,7 @@ public enum ItemType {
 		@Override
 		public boolean isTypeOf(Item item) {
 			return (item instanceof ItemArmor)
-					&& ((ItemArmor) item).armorType == 2;
+				&& ((ItemArmor) item).armorType == 2;
 		}
 
 		@Override
@@ -49,7 +49,7 @@ public enum ItemType {
 		@Override
 		public boolean isTypeOf(Item item) {
 			return (item instanceof ItemArmor)
-					&& ((ItemArmor) item).armorType == 3;
+				&& ((ItemArmor) item).armorType == 3;
 		}
 
 		@Override
@@ -245,7 +245,7 @@ public enum ItemType {
 	 */
 	public int getWeaponOrdinal() {
 		if (generalType == GeneralType.WEAPON)
-			return ordinal() - 4;
+			return ordinal() - WEAPON_BIG_BOWGUN.ordinal();
 		return -1;
 	}
 
@@ -256,7 +256,7 @@ public enum ItemType {
 	 */
 	public int getArmorOrdinal() {
 		if (generalType == GeneralType.ARMOR)
-			return ordinal();
+			return ordinal() - ARMOR_BODY.ordinal();
 		return -1;
 	}
 

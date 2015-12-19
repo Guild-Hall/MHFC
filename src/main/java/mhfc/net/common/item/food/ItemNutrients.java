@@ -20,11 +20,11 @@ public class ItemNutrients extends ItemFood {
 	public static enum NutrientsSubType
 		implements
 			SubTypedItem.SubTypeEnum<Item> {
-		NORMAL(MHFCReference.item_boostmeat_name,
-			MHFCReference.item_boostmeat_icon, 2, 50, new PotionEffect(21,
+		NORMAL(MHFCReference.item_normalnutrients_name,
+			MHFCReference.item_normalnutrients_icon, 2, 50, new PotionEffect(21,
 				12000, 1, true)), //
-		MEGA(MHFCReference.item_protectionmeat_name,
-			MHFCReference.item_protectionmeat_icon, 3, 70, new PotionEffect(21,
+		MEGA(MHFCReference.item_meganutrient_name,
+			MHFCReference.item_meganutrient_icon, 3, 70, new PotionEffect(21,
 				12000, 3, true));
 
 		public final String name;
