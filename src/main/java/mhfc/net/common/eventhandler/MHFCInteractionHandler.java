@@ -87,6 +87,12 @@ public class MHFCInteractionHandler
 	public IMessage onMessage(MessageMHFCInteraction message,
 		MessageContext ctx) {
 		EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+		onInteraction(player, message);
+		return null;
+	}
+
+	public static void onInteraction(EntityPlayerMP player,
+		MessageMHFCInteraction message) {
 		switch (message.getInteraction()) {
 			case NEW_QUEST :
 				FMLCommonHandler.instance().bus().post(
@@ -118,6 +124,5 @@ public class MHFCInteractionHandler
 				break;
 		}
 		MHFCQuestRegistry.onPlayerInteraction(player, message);
-		return null;
 	}
 }

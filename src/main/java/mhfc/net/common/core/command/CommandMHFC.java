@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import mhfc.net.common.network.PacketPipeline;
+import mhfc.net.common.eventhandler.MHFCInteractionHandler;
 import mhfc.net.common.network.packet.MessageMHFCInteraction;
 import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 public class CommandMHFC implements ICommand {
 
@@ -43,7 +43,8 @@ public class CommandMHFC implements ICommand {
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] parameters) {
-		if (sender instanceof EntityPlayer) {
+		if (sender instanceof EntityPlayerMP) {
+			EntityPlayerMP player = (EntityPlayerMP) sender;
 			Interaction action;
 			if (parameters.length == 0)
 				return;
@@ -70,8 +71,9 @@ public class CommandMHFC implements ICommand {
 					System.out.println("Invalid parameter in command mhfc");
 					return;
 			}
-			PacketPipeline.networkPipe.sendToServer(new MessageMHFCInteraction(
-				action, Arrays.copyOfRange(parameters, 1, parameters.length)));
+			MessageMHFCInteraction msg = new MessageMHFCInteraction(action,
+				Arrays.copyOfRange(parameters, 1, parameters.length));
+			MHFCInteractionHandler.onInteraction(player, msg);
 		}
 	}
 

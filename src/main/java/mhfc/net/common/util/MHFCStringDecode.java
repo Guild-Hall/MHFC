@@ -1,35 +1,31 @@
 package mhfc.net.common.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.eventhandler.DelayedJob;
 import mhfc.net.common.eventhandler.MHFCJobHandler;
 import net.minecraft.util.StatCollector;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 
 public class MHFCStringDecode {
 	public static class TimeTickDecoderFactory implements StringDecoderFactory {
 
 		@Override
 		public StringDecoder getStringDecoder(DynamicString dynString,
-				String key) {
+			String key) {
 			return new TimeTickDecoder();
 		}
 
 	}
 
 	public static class LocalizationDecoderFactory
-			implements
-				StringDecoderFactory {
+		implements
+			StringDecoderFactory {
 
 		@Override
 		public StringDecoder getStringDecoder(DynamicString dynString,
-				String key) {
+			String key) {
 			return new LocalizationDecoder();
 		}
 
@@ -58,8 +54,8 @@ public class MHFCStringDecode {
 			long delta = Long.parseLong(value) - ticksPassed;
 			delta /= MHFCJobHandler.ticksPerSecond;
 			String ret = "" + (delta >= 3600 ? delta / 3600 + "h " : "")
-					+ (delta >= 60 ? (delta % 3600) / 60 + "min " : "")
-					+ (delta >= 0 ? delta % 60 : delta) + "s";
+				+ (delta >= 60 ? (delta % 3600) / 60 + "min " : "")
+				+ (delta >= 0 ? delta % 60 : delta) + "s";
 			ticksPassed += getUpdateDelay();
 			return ret;
 		}
@@ -142,12 +138,13 @@ public class MHFCStringDecode {
 		}
 
 		@Override
-		public void remove() {}
+		public void remove() {
+		}
 	}
 
 	public static class DynamicString extends CompositeString
-			implements
-				DelayedJob {
+		implements
+			DelayedJob {
 
 		protected Map<String, StringDecoder> personalDecoderMap;
 		protected String stringValue;
@@ -172,10 +169,12 @@ public class MHFCStringDecode {
 				stringValue = findReplacement(superValue);
 				delay = personalDecoderMap.get(split[0]).getUpdateDelay();
 			}
-			MHFCJobHandler.instance().insert(this, getInitialDelay());
+			if (this.delay >= 0)
+				MHFCJobHandler.instance().insert(this, getInitialDelay());
 			if (parent != null)
 				parent.childUpdated(this);
 		}
+
 		public int getInitialDelay() {
 			return delay;
 		}
@@ -186,23 +185,23 @@ public class MHFCStringDecode {
 			if (split.length == 1)
 				return identifier;
 			if (!personalDecoderMap.containsKey(identifier))
-				personalDecoderMap.put(identifier,
-						MHFCStringDecode.getNewDecoderFor(this, identifier));
+				personalDecoderMap.put(identifier, MHFCStringDecode
+					.getNewDecoderFor(this, identifier));
 			StringDecoder decoder = personalDecoderMap.get(identifier);
 			if (decoder == null)
 				return "No decoder for " + identifier;
 			String replacement = decoder.getDecoded(identifier, split[1]);
 			return replacement == null
-					? "unknown Descriptor " + descriptor
-					: replacement;
+				? "unknown Descriptor " + descriptor
+				: replacement;
 		}
 
 		@Override
 		public String stringValue() {
 			if (stringValue == null)
 				MHFCMain.logger.debug(
-						"String of dynamic string %s ended up as null",
-						this.toString());
+					"String of dynamic string %s ended up as null", this
+						.toString());
 			return stringValue;
 		}
 
@@ -227,10 +226,11 @@ public class MHFCStringDecode {
 		registerDecoder("unlocalized", new LocalizationDecoderFactory());
 	}
 
-	public static void init() {}
+	public static void init() {
+	}
 
 	public static boolean registerDecoder(String key,
-			StringDecoderFactory decoder) {
+		StringDecoderFactory decoder) {
 		if (stringDecoderMap.containsKey(key))
 			return false;
 		stringDecoderMap.put(key, decoder);
@@ -272,7 +272,7 @@ public class MHFCStringDecode {
 	}
 
 	public static StringDecoder getNewDecoderFor(DynamicString dynString,
-			String key) {
+		String key) {
 		return stringDecoderMap.get(key).getStringDecoder(dynString, key);
 	}
 

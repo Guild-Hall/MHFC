@@ -138,18 +138,27 @@ public class MHFCQuestRegistry {
 				quest = getRunningQuest(message.getOptions()[0]);
 				if (quest != null) {
 					quest.addPlayer(player);
+					player.addChatMessage(new ChatComponentText(
+						"You have accepted a quest"));
+				} else {
+					player.addChatMessage(new ChatComponentText(
+						"The quest you wanted to accept does not exist"));
 				}
 				break;
 			case START_QUEST :
 				quest = getQuestForPlayer(player);
 				if (quest != null) {
 					quest.voteStart(player);
+					player.addChatMessage(new ChatComponentText(
+						"You have voted for starting the quest"));
 				}
 				break;
 			case END_QUEST :
 				quest = getQuestForPlayer(player);
 				if (quest != null) {
 					quest.voteEnd(player);
+					player.addChatMessage(new ChatComponentText(
+						"You have voted for ending the quest"));
 				} else {
 					sendResetPlayerVisual(player);
 				}
@@ -158,6 +167,8 @@ public class MHFCQuestRegistry {
 				quest = getQuestForPlayer(player);
 				if (quest != null) {
 					quest.removePlayer(player);
+					player.addChatMessage(new ChatComponentText(
+						"You have left the quest"));
 				} else {
 					sendResetPlayerVisual(player);
 				}
