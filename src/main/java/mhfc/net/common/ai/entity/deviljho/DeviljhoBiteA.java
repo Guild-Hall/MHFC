@@ -16,8 +16,7 @@ import net.minecraft.util.Vec3;
  */
 public class DeviljhoBiteA extends ActionAdapter<EntityDeviljho> {
 	private static final int LAST_FRAME = 35;
-	private static final IDamageCalculator damageCalc = AIUtils
-		.defaultDamageCalc(72f, 62f, 8888f);
+	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(72f, 62f, 8888f);
 
 	private static final double MAX_DIST = 5f;
 	private static final double MAX_ANGLE = 0.155; // This is cos(30)
@@ -38,7 +37,8 @@ public class DeviljhoBiteA extends ActionAdapter<EntityDeviljho> {
 		double dist = toTarget.lengthVector();
 		if (dist > MAX_DIST)
 			return DONT_SELECT;
-//		if (toTarget.normalize().dotProduct(entity.getLookVec()) < MAX_ANGLE)return DONT_SELECT;
+		// if (toTarget.normalize().dotProduct(entity.getLookVec()) <
+		// MAX_ANGLE)return DONT_SELECT;
 		return WEIGHT;
 	}
 

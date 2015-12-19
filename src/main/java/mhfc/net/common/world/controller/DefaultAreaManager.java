@@ -1,104 +1,49 @@
 package mhfc.net.common.world.controller;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
-import mhfc.net.common.world.area.ActiveAreaAdapter;
-import mhfc.net.common.world.area.IActiveArea;
-import mhfc.net.common.world.area.IArea;
-import mhfc.net.common.world.area.IAreaType;
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
+import org.apache.commons.lang3.tuple.Pair;
+
+import mhfc.net.common.world.controller.WorldProxies.Recorder;
 import net.minecraft.world.World;
 
-public class DefaultAreaManager implements IAreaManager {
-	private static class Active extends ActiveAreaAdapter {
-		private IArea area;
-		private IAreaType type;
-		private DefaultAreaManager ref;
-
-		public Active(IArea area, IAreaType type, DefaultAreaManager ref) {
-			this.area = Objects.requireNonNull(area);
-			this.type = Objects.requireNonNull(type);
-			this.ref = Objects.requireNonNull(ref);
-		}
-
-		@Override
-		public IArea getArea() {
-			return area;
-		}
-
-		@Override
-		public IAreaType getType() {
-			return type;
-		}
-
-		@Override
-		protected void onDismiss() {
-			ref.dismiss(this);
-		}
-
-	}
-
-	private static class Proxy implements IWorldProxy {
-
-		@Override
-		public void setBlockAt(int x, int y, int z, Block block) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void setTileEntityAt(int x, int y, int z, TileEntity tile) {
-			// TODO Auto-generated method stub
-
-		}
-
-		public void applyTo(World world, int chunkOffX, int chunkOffZ) {
-			// TODO Auto-generated method stub
+public class DefaultAreaManager extends AreaManagerAdapter {
+	private static class RegionManager {
+		/**
+		 * Reserves a rectangle of the size (sizeX, sizeZ) in this
+		 * {@link RegionManager).
+		 * 
+		 * @param sizeX
+		 *            the size of the reserved rectangle
+		 * @param sizeZ
+		 *            the size of the reserved rectangle
+		 * @return the offset of that rectangle
+		 */
+		public Pair<Integer, Integer> reserve(int sizeX, int sizeZ) {
+			// FIXME: figure out the offset of the consumed terrain, not (0, 0)
+			return Pair.of(0, 0);
 		}
 	}
-	private Map<IAreaType, List<IArea>> spawnedAreas = new HashMap<>();
+
 	private World world;
+	private WorldProxies.WorldProxy proxied;
+	private RegionManager regionManager;
 
 	public DefaultAreaManager(World world) {
 		this.world = Objects.requireNonNull(world);
+		this.proxied = new WorldProxies.WorldProxy(world);
+		this.regionManager = new RegionManager();
 	}
 
-	private void dismiss(IActiveArea active) {
-		this.spawnedAreas.get(active.getType()).add(active.getArea());
+	public World getWorld() {
+		return this.world;
 	}
 
 	@Override
-	public IActiveArea getEmptyInstance(IAreaType type) {
-		List<IArea> list = spawnedAreas.get(type);
-		if (list == null) {
-			IArea newArea = newArea(type);
-			spawnedAreas.put(type, Arrays.asList(newArea));
-			return new Active(newArea, type, this);
-		}
-		for (IArea area : list) {
-			if (area.isBlocked())
-				continue;
-			return new Active(area, type, this);
-		}
-		IArea newArea = newArea(type);
-		return new Active(newArea, type, this);
-	}
-
-	private IArea newArea(IAreaType type) {
-		Proxy proxy = newProxy();
-		type.populate(proxy);
-		// TODO
-		proxy.applyTo(world, 0, 0);
-		return null;
-	}
-
-	private static Proxy newProxy() {
-		return new Proxy();
+	protected IWorldProxy applyRecorder(Recorder recorder) {
+		Pair<Integer, Integer> sizeXZ = recorder.getCurrentSize();
+		Pair<Integer, Integer> offset = regionManager.reserve(sizeXZ.getLeft(), sizeXZ.getRight());
+		return recorder.applyTo(new WorldProxies.OffsetProxy(proxied, offset.getLeft(), offset.getRight()));
 	}
 
 }

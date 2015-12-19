@@ -17,15 +17,11 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class ItemNutrients extends ItemFood {
-	public static enum NutrientsSubType
-		implements
-			SubTypedItem.SubTypeEnum<Item> {
-		NORMAL(MHFCReference.item_normalnutrients_name,
-			MHFCReference.item_normalnutrients_icon, 2, 50, new PotionEffect(21,
-				12000, 1, true)), //
-		MEGA(MHFCReference.item_meganutrient_name,
-			MHFCReference.item_meganutrient_icon, 3, 70, new PotionEffect(21,
-				12000, 3, true));
+	public static enum NutrientsSubType implements SubTypedItem.SubTypeEnum<Item> {
+		NORMAL(MHFCReference.item_normalnutrients_name, MHFCReference.item_normalnutrients_icon, 2, 50,
+				new PotionEffect(21, 12000, 1, true)), //
+				MEGA(MHFCReference.item_meganutrient_name, MHFCReference.item_meganutrient_icon, 3, 70,
+						new PotionEffect(21, 12000, 3, true));
 
 		public final String name;
 		public final String texture;
@@ -34,13 +30,11 @@ public class ItemNutrients extends ItemFood {
 		public final boolean isDogsFood = true;
 		public final PotionEffect potion;
 
-		private NutrientsSubType(String name, String texture, int healAmount,
-			float modifier) {
+		private NutrientsSubType(String name, String texture, int healAmount, float modifier) {
 			this(name, texture, healAmount, modifier, null);
 		}
 
-		private NutrientsSubType(String name, String texture, int healAmount,
-			float modifier, PotionEffect effect) {
+		private NutrientsSubType(String name, String texture, int healAmount, float modifier, PotionEffect effect) {
 			this.name = name;
 			this.texture = texture;
 			this.healAmount = healAmount;
@@ -78,8 +72,7 @@ public class ItemNutrients extends ItemFood {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack) {
-		return super.getUnlocalizedName(itemStack) + "."
-			+ itemPerk.getSubType(itemStack).name;
+		return super.getUnlocalizedName(itemStack) + "." + itemPerk.getSubType(itemStack).name;
 	}
 
 	@Override
@@ -94,8 +87,7 @@ public class ItemNutrients extends ItemFood {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void getSubItems(Item base, CreativeTabs tab,
-		@SuppressWarnings("rawtypes") List list) {
+	public void getSubItems(Item base, CreativeTabs tab, @SuppressWarnings("rawtypes") List list) {
 		itemPerk.getSubItems(base, list);
 	}
 
@@ -111,25 +103,25 @@ public class ItemNutrients extends ItemFood {
 
 	@Override
 	public boolean isWolfsFavoriteMeat() {
-		// FIXME: MeatSubType.values()[itemPerk.clumpedMeta(itemStack)]....;
+		// FIXME: itemPerk.getSubType(itemStack)....;
 		return true;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void addInformation(ItemStack itemStack, EntityPlayer player,
-		@SuppressWarnings("rawtypes") List par3List, boolean par4) {
+	public void addInformation(ItemStack itemStack, EntityPlayer player, @SuppressWarnings("rawtypes") List par3List,
+			boolean par4) {
 		NutrientsSubType subType = itemPerk.getSubType(itemStack);
 		switch (subType) {
-			case NORMAL :
-				par3List.add("Adds 4 health points");
-				par3List.add("Duration:10 minutes");
-				par3List.add("\u00a79[Only Once]");
-				break;
-			case MEGA :
-				par3List.add("Adds 8 health points for 10 minutes [Only Once]");
-				par3List.add("Duration:10 minutes");
-				par3List.add("\u00a79[Only Once]");
+		case NORMAL:
+			par3List.add("Adds 4 health points");
+			par3List.add("Duration:10 minutes");
+			par3List.add("\u00a79[Only Once]");
+			break;
+		case MEGA:
+			par3List.add("Adds 8 health points for 10 minutes [Only Once]");
+			par3List.add("Duration:10 minutes");
+			par3List.add("\u00a79[Only Once]");
 		}
 	}
 

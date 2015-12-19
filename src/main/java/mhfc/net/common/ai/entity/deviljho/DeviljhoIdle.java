@@ -16,8 +16,8 @@ public class DeviljhoIdle extends ActionAdapter<EntityDeviljho> {
 	public float getWeight() {
 		EntityDeviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
-		 if (target != null)
-		 return DONT_SELECT;
+		if (target != null)
+			return DONT_SELECT;
 		return rng().nextFloat() * 3;
 	}
 
@@ -25,8 +25,8 @@ public class DeviljhoIdle extends ActionAdapter<EntityDeviljho> {
 	public void update() {
 		EntityDeviljho entity = this.getEntity();
 		if (this.getCurrentFrame() == 50) {
-		entity.playLivingSound();
-		// just a copy from roar the update method. nothing else
+			entity.playLivingSound();
+			// just a copy from roar the update method. nothing else
+		}
 	}
-}
 }

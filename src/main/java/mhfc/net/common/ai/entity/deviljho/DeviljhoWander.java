@@ -9,11 +9,11 @@ import mhfc.net.common.entity.monster.EntityDeviljho;
 public class DeviljhoWander extends AIGeneralWander<EntityDeviljho> {
 
 	private static final IAnimationProvider animationProvider = new IAnimationProvider.AnimationAdapter(
-		"mhfc:models/Deviljho/DeviljhoWalk.mcanm", 40);
+			"mhfc:models/Deviljho/DeviljhoWalk.mcanm", 40);
 	private static final IWeightProvider<EntityDeviljho> weightProvider = new IWeightProvider.SimpleWeightAdapter<EntityDeviljho>(
-		50);
-	private static final IMoveParameterProvider parameterProvider = new IMoveParameterProvider.MoveParameterAdapter(
-		10f, 1f);
+			50);
+	private static final IMoveParameterProvider parameterProvider = new IMoveParameterProvider.MoveParameterAdapter(10f,
+			1f);
 
 	public DeviljhoWander() {
 		super(animationProvider, weightProvider, parameterProvider);

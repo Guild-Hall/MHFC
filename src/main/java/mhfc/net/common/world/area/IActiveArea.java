@@ -26,5 +26,12 @@ public interface IActiveArea extends AutoCloseable {
 	 * @return <code>true</code> if the area was active before, aka there was no
 	 *         call to {@link #dismiss()} before
 	 */
-	boolean dismiss();
+	boolean dismiss() throws IllegalStateException;
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see #dismiss()
+	 * @see ActiveAreaAdapter
+	 */
+    void close() throws Exception;
 }
