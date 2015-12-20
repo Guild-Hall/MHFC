@@ -15,8 +15,7 @@ apply plugin: 'forge'
 apply from: 'build.properties'
 
 minecraft {
-    version = "1.7.10-10.13.4.1492-1.7.10"
-    runDir = "eclipse"
+    runDir = "run"
 }
 
 def getVersion() {
@@ -44,10 +43,6 @@ minecraft {
     replace "@MODID@", project.modid
     replace "@MODNAME@", project.longname
     replaceIn "MHFCReference.java"
-}
-
-dependencies {
-    compile files('./externlibs/mcanm-1.0.001b_1710-deobf.jar')
 }
 
 processResources {
