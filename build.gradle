@@ -1,5 +1,3 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-
 buildscript {
     repositories {
         mavenCentral()
@@ -7,31 +5,49 @@ buildscript {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2.0.777'
     }
 }
 
 apply plugin: 'forge'
-
 apply from: 'build.properties'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 minecraft {
     version = "1.7.10-10.13.4.1492-1.7.10"
     runDir = "eclipse"
+}
 
+def getVersion() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        executable "git"
+        args "rev-list", "--count", "HEAD"
+        standardOutput = stdout
+    }
+    project.ext.revision = stdout.toString().trim()
+    stdout.reset()
+    exec {
+        executable "git"
+        args "rev-parse", "--abbrev-ref", "HEAD"
+        standardOutput = stdout
+    }
+    project.ext.branch = stdout.toString().trim()
+    return "${major}.${minor}.${patch}.${revision}${branch == 'master' ? '' : '-' + branch}-${minecraft.version}"
+}
+
+version = getVersion()
+
+minecraft {
     replace "@VERSION@", project.version
-    replace "@MODID@", project.modID
+    replace "@MODID@", project.modid
     replace "@MODNAME@", project.longname
     replaceIn "MHFCReference.java"
+}
+
+dependencies {
+    compile files('./externlibs/mcanm-1.0.001b_1710-deobf.jar')
 }
 
 processResources {
@@ -39,21 +55,14 @@ processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-
-        filter(ReplaceTokens, tokens: [VERSION: project.version, MCVERSION: project.minecraft.version, MODID: project.modID, MODNAME: project.longname])
+        expand project.properties
     }
-
-    // copy everything else, thats not the mcmod.info
+    
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
-}
-
-dependencies {
-    compile files('./externlibs/mcanm-1.0.001b_1710-deobf.jar')
 }
 
 task deobfJar(type: Jar) {
@@ -66,15 +75,9 @@ task sourceJar(type: Jar, dependsOn: 'sourceMainJava') {
     classifier = 'sources'
 }
 
-//task javadocJar(type: Jar, dependsOn: javadoc) {
-//    classifier = 'javadoc'
-//    from 'build/docs/javadoc'
-//}
-
 tasks.build.dependsOn('deobfJar', 'sourceJar')
 
 artifacts {
     archives sourceJar
     archives deobfJar
-    // archives javadocJar
 }
