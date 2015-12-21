@@ -397,17 +397,23 @@ public class MHFCReference {
 
 	public static final String modelLoc = "mhfc:models/";
 	public static final String mob_tigrex_name = "tigrex";
-	public static final String mob_tigrex_model = modelLoc + "Tigrex/Tigrex.mcmd";
+	public static final String mob_tigrex_model = modelLoc
+		+ "Tigrex/Tigrex.mcmd";
 	public static final String mob_rathalos_name = "rathalos";
-	public static final String mob_rathalos_model = modelLoc + "Rathalos/Rathalos.mcmd";
+	public static final String mob_rathalos_model = modelLoc
+		+ "Rathalos/Rathalos.mcmd";
 	public static final String mob_greatjaggi_name = "greatjaggi";
-	public static final String mob_greatjaggi_model = modelLoc + "GreatJaggi/GreatJaggi.mcmd";
+	public static final String mob_greatjaggi_model = modelLoc
+		+ "GreatJaggi/GreatJaggi.mcmd";
 	public static final String mob_deviljho_name = "deviljho";
-	public static final String mob_deviljho_model = modelLoc + "Deviljho/Deviljho.mcmd";
+	public static final String mob_deviljho_model = modelLoc
+		+ "Deviljho/Deviljho.mcmd";
 	public static final String mob_barroth_name = "barroth";
-	public static final String mob_barroth_model = modelLoc + "Barroth/Barroth.mcmd";
+	public static final String mob_barroth_model = modelLoc
+		+ "Barroth/Barroth.mcmd";
 	public static final String mob_nargacuga_name = "nargacuga";
-	public static final String mob_nargacuga_model = modelLoc + "Nargacuga/Nargacuga.mcmd";
+	public static final String mob_nargacuga_model = modelLoc
+		+ "Nargacuga/Nargacuga.mcmd";
 	public static final String particle_kirinsfx_tex = "mhfc:textures/particle/kirinSFX.png";
 	public static final String potion_attackup_name = "potion.attackuplow";
 	public static final String potion_attackup_uuid = "6a80c830-745d-4edd-8a17-e580f813bf20";
@@ -540,6 +546,8 @@ public class MHFCReference {
 	public static final int gui_hunterbench_id = 1;
 	public static final int gui_questgiver_id = 2;
 	public static final int gui_questboard_id = 3;
+	public static final int gui_queststatus_id = 4;
+
 	public static final int potion_paralyze_iconindex = 1;
 	public static final int potion_kirinbless_iconindex = 2;
 	public static final int potion_attackuplow_iconindex = 3;

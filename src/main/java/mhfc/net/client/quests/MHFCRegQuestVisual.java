@@ -101,16 +101,16 @@ public class MHFCRegQuestVisual {
 	private static Set<String> runningQuestIDs = new HashSet<String>();
 	private static Map<String, IVisualInformation> identifierToVisualInformationMap = new HashMap<String, IVisualInformation>();
 
+	private static boolean hasPlayerQuest = false;
+	private static String playerQuestIdentifier;
+	private static QuestRunningInformation playersVisual;
+
 	@SideOnly(Side.CLIENT)
 	private static QuestStatusDisplay display;
 
 	@SideOnly(Side.CLIENT)
 	private static GuiQuestJoin questBoard = new GuiQuestJoin(Minecraft
 		.getMinecraft().thePlayer);
-
-	private static boolean hasPlayerQuest = false;
-	private static String playerQuestIdentifier;
-	private static QuestRunningInformation playersVisual;
 
 	public static GuiQuestGiver getScreen(int i, EntityPlayer playerEntity) {
 		// ignore i for now

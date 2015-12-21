@@ -28,7 +28,7 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 	private static final int buttonHeight = 20;
 	private static final int yBorder = 15;
 	private int questsW = 70, questsX = 15;
-	private List<String> groupIDsDisplayed;
+	// private List<String> groupIDsDisplayed;
 	private ClickableGuiList<GuiListStringItem> groupList;
 	private GuiButton newQuest, left, right;
 	private List<String> questIdentifiers;
@@ -41,7 +41,7 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 	private boolean handled;
 
 	public GuiQuestNew(Collection<String> groupIDs, EntityPlayer accessor) {
-		groupIDsDisplayed = new ArrayList<String>(groupIDs);
+		// groupIDsDisplayed = new ArrayList<String>(groupIDs);
 		questIdentifiers = new ArrayList<String>();
 		groupList = new ClickableGuiList<ClickableGuiList.GuiListStringItem>(
 			width, height);
@@ -147,8 +147,8 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 			&& selectedIdentifier < questIdentifiers.size() - 1;
 		if (!(questIdentifiers == null || selectedIdentifier < 0
 			|| selectedIdentifier >= questIdentifiers.size())) {
-			IVisualInformation info = MHFCRegQuestVisual
-				.getVisualInformation(questIdentifiers.get(selectedIdentifier));
+			IVisualInformation info = MHFCRegQuestVisual.getVisualInformation(
+				questIdentifiers.get(selectedIdentifier));
 			newQuest.enabled = true;
 			// TODO set start enabled based on can join
 			FontRenderer fontRenderer = mc.fontRenderer;

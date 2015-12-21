@@ -212,6 +212,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 	@Override
 	public void drawInformation(int positionX, int positionY, int width,
 		int height, int page, FontRenderer fontRenderer) {
+		page = page % 3;
 		width = Math.max(width, 20);
 		int currentY = drawHead(positionX, positionY, width, fontRenderer);
 		switch (page) {

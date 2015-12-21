@@ -220,6 +220,7 @@ public class QuestVisualInformation implements IVisualInformation {
 				MHFCReference.unlocalized_tag_requisites);
 		int lineHeight = fontRenderer.FONT_HEIGHT + 2;
 		String draw;
+		page = page % 3;
 		int currentY = drawHead(positionX, positionY, width, fontRenderer);
 		// TODO Implement NYI
 		switch (page) {
