@@ -1,12 +1,19 @@
 package mhfc.net.common.util.lib;
 
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.ModMetadata;
+
 public class MHFCReference {
 	public static final String main_config_file = "config/MHFC.cfg";
 	public static final String main_config_mobCategory = "MHFC Mobs";
 	public static final String main_config_mobs_summonTigrex_key = "SummonTigrex";
 	public static final String main_modid = "mhfc";
-	public static final String main_name = "@MODNAME@";
-	public static final String main_version = "@VERSION@";
+	@Mod.Metadata(MHFCReference.main_modid)
+	private static ModMetadata main_metadata = null;
+
+	public static ModMetadata getMetadata() {
+		return main_metadata;
+	}
 
 	public static final String armor_null_tex = "mhfc:textures/armor/null.png";
 	public static final String armor_kirinS_boots_icon = "mhfc:mhf_3";

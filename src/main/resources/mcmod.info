@@ -1,17 +1,19 @@
-[
 {
-  "modid": "${modid}",
-  "name": "${longname}",
-  "description": " Developed by Heltrato, WorldSEnder, HeroicKatora and Danmar. Explore the wonders of a new adventure as you gone to the dimension and a life of being a monster hunter. Here you will encounter primieval biomes , unstoppable creatures , gain strong weapons and armors , explore a blight world. Inspired from Capcom's popular game Monster Hunter Frontier",
-  "version": "${version}",
-  "mcversion": "${minecraft.version}",
-  "logoFile": "MHFCLogo.png",
-  "url": "http://mhfrontiercraft.blogspot.com/",
-  "updateUrl": "",
-  "authors": ["Heltrato", "WorldSEnder", "HeroicKatora" , "Daniel"],
-  "credits": "CAPCOM , the_hippomaster , the_slayer , theycallmedanger and darkhax",
-  "parent": "",
-  "screenshots": [],
-  "dependencies": ["mcanm"]
+  "modListVersion": 2,
+  "modList": [{
+    "modid": "mhfc",
+    "name": "${longname}",
+    "description": " Developed by Heltrato, WorldSEnder, HeroicKatora and Danmar. Explore the wonders of a new adventure as you gone to the dimension and a life of being a monster hunter. Here you will encounter primieval biomes , unstoppable creatures , gain strong weapons and armors , explore a blight world. Inspired from Capcom's popular game Monster Hunter Frontier",
+    "version": "${version}",
+    "mcversion": "${minecraft.version}",
+    "url": "http://mhfrontiercraft.blogspot.com/",
+    "updateUrl": "",
+    "authorList": ["Heltrato", "WorldSEnder", "HeroicKatora", "Daniel"],
+    "credits": "CAPCOM , the_hippomaster , the_slayer , theycallmedanger and darkhax",
+    "logoFile": "/MHFCLogo.png",
+    "screenshots": [],
+    "parent": "",
+    "dependencies": ["mcanm"],
+    "useDependencyInformation": true
+  }]
 }
-]

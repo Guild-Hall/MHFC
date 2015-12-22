@@ -22,7 +22,10 @@ import net.minecraft.util.ChatComponentText;
 public class UpdateSystem {
 
 	public static enum UpdateStatus {
-		NEWUPDATE, NOUPDATE, OFFLINE, FAILED;
+		NEWUPDATE,
+		NOUPDATE,
+		OFFLINE,
+		FAILED;
 	}
 
 	public static class UpdateInfo {
@@ -53,7 +56,7 @@ public class UpdateSystem {
 		/* Noop, used as static-init */}
 
 	private static UpdateInfo pollUpdate() {
-		String current = MHFCReference.main_version;
+		String current = MHFCReference.getMetadata().version;
 		try (BufferedReader versionFile = new BufferedReader(new InputStreamReader(new URL(urlString).openStream()))) {
 			String newVersionStr = versionFile.readLine();
 			Matcher match = Pattern.compile("version\\s*=\\s*\\\"(.*?)\\\"").matcher(newVersionStr);
@@ -64,7 +67,8 @@ public class UpdateSystem {
 				return new UpdateInfo(UpdateStatus.NEWUPDATE, newVersionStr);
 			}
 			return new UpdateInfo(UpdateStatus.NOUPDATE, current);
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			return new UpdateInfo(UpdateStatus.OFFLINE, current);
 		}
 	}
@@ -77,9 +81,11 @@ public class UpdateSystem {
 	public static UpdateInfo getUpdateInfo() {
 		try {
 			return updateInfo.get();
-		} catch (InterruptedException e) {
+		}
+		catch (InterruptedException e) {
 			return new UpdateInfo(UpdateStatus.FAILED, "UNKNOWN"); // Not likely
-		} catch (ExecutionException e) {
+		}
+		catch (ExecutionException e) {
 			return new UpdateInfo(UpdateStatus.FAILED, "UNKNOWN"); // impossible
 		}
 	}
@@ -104,23 +110,31 @@ public class UpdateSystem {
 		switch (info.status) {
 		case NEWUPDATE:
 			console.addChatMessage(
-					new ChatComponentText(ColorSystem.ENUMGOLD + "Hunter " + console.getCommandSenderName()
-							+ ", a new version (" + info.version + ") of Monster Hunter Frontier Craft is out!"
-							+ " Check out the facebook page or the mod thread."));
+					new ChatComponentText(
+							ColorSystem.ENUMGOLD + "Hunter " + console.getCommandSenderName() + ", a new version ("
+									+ info.version + ") of Monster Hunter Frontier Craft is out!"
+									+ " Check out the facebook page or the mod thread."));
 			break;
 		case NOUPDATE:
-			console.addChatMessage(new ChatComponentText(ColorSystem.ENUMGOLD + "Welcome Hunter "
-					+ console.getCommandSenderName() + ", you're up to date, have fun hunting !!"));
+			console.addChatMessage(
+					new ChatComponentText(
+							ColorSystem.ENUMGOLD + "Welcome Hunter " + console.getCommandSenderName()
+									+ ", you're up to date, have fun hunting !!"));
 			break;
 		case OFFLINE:
-			console.addChatMessage(new ChatComponentText(ColorSystem.ENUMGOLD + "Hunter "
-					+ console.getCommandSenderName() + ", unable to check for updates automatically"));
-			console.addChatMessage(new ChatComponentText(
-					"Make sure you frequently stop by on our facebook site or Minecraft forum thread!!"));
+			console.addChatMessage(
+					new ChatComponentText(
+							ColorSystem.ENUMGOLD + "Hunter " + console.getCommandSenderName()
+									+ ", unable to check for updates automatically"));
+			console.addChatMessage(
+					new ChatComponentText(
+							"Make sure you frequently stop by on our facebook site or Minecraft forum thread!!"));
 			break;
 		default: // Should not happen?
-			console.addChatMessage(new ChatComponentText(ColorSystem.ENUMRED
-					+ "MHFC: Unknown UpdateStatus, pls report with a logfile." + " Version info: " + info.version));
+			console.addChatMessage(
+					new ChatComponentText(
+							ColorSystem.ENUMRED + "MHFC: Unknown UpdateStatus, pls report with a logfile."
+									+ " Version info: " + info.version));
 		}
 	}
 }

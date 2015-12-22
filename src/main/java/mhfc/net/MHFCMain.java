@@ -17,7 +17,6 @@ import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.creativetab.CreativeTabs;
 
 /**
- * <<<<<<< HEAD
  *
  * @author Heltrato, WorldSEnder
  * @license MHFModding Team Copyright
@@ -27,7 +26,7 @@ import net.minecraft.creativetab.CreativeTabs;
  *          www.mhfrontiercraft.blogspot.com for more info.
  */
 
-@Mod(modid = MHFCReference.main_modid, name = MHFCReference.main_name, version = MHFCReference.main_version)
+@Mod(modid = MHFCReference.main_modid)
 public class MHFCMain {
 
 	@SidedProxy(clientSide = "mhfc.net.client.MHFCClient", serverSide = "mhfc.net.server.MHFCServer")
@@ -49,7 +48,7 @@ public class MHFCMain {
 		config = new MHFCConfig(pre);
 		config.init();
 		UpdateSystem.init();
-		logger.info("Starting MHFC" + MHFCReference.main_version);
+		logger.info("Starting MHFC v" + MHFCReference.getMetadata().version);
 		logger.info("Copyright (c) Guild Hall 2015");
 		isPreInitialized = true;
 	}
@@ -60,8 +59,7 @@ public class MHFCMain {
 	}
 
 	@Mod.EventHandler
-	public void postInit(FMLPostInitializationEvent e) {
-	}
+	public void postInit(FMLPostInitializationEvent e) {}
 
 	@Mod.EventHandler
 	public void serverLoad(FMLServerStartingEvent event) {
