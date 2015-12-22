@@ -17,10 +17,29 @@ public class Variable implements IExpression {
 
 	@Override
 	public IValueHolder resolveAgainst(Context context) {
-		IValueHolder var = context.getVar(name);
-		if (var == null) {
-			return Holder.failedComputation(new UnresolvedVariableException(name, context));
-		}
-		return var;
+		return new IValueHolder() {
+			private IValueHolder resolveNow() {
+				IValueHolder var = context.getVar(name);
+				if (var == null) {
+					return Holder.failedComputation(new UnresolvedVariableException(name, context));
+				}
+				return var;
+			}
+
+			@Override
+			public Holder snapshot() {
+				return resolveNow().snapshot();
+			}
+
+			@Override
+			public IValueHolder snapshotClass() {
+				return resolveNow().snapshotClass();
+			}
+
+			@Override
+			public Class<?> getType() {
+				return resolveNow().getType();
+			}
+		};
 	}
 }

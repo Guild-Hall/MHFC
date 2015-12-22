@@ -36,7 +36,6 @@ public interface IValueHolder {
 	 *
 	 * @return the Holder this {@link IValueHolder} represents at the time of
 	 *         invokation, never <code>null</code>
-	 * @throws ComputationException
 	 */
 	Holder snapshot();
 
@@ -48,9 +47,8 @@ public interface IValueHolder {
 	 * Makes this {@link IValueHolder} independant of other {@link IValueHolder}
 	 * s. <br>
 	 * <b>Requirements:</b> The returned value shall return the same class for
-	 * every future invocation on the returned value of
-	 * {@link #getType()}. Different stored values are allowed,
-	 * though.<br>
+	 * every future invocation on the returned value of {@link #getType()}.
+	 * Different stored values are allowed, though.<br>
 	 * If {@link #isClassSnapshot()} would return <code>true</code>, then
 	 * <code>this</code> should be returned.<br>
 	 * Clarification: The value returned may still be dependable on the time
@@ -59,10 +57,8 @@ public interface IValueHolder {
 	 * {@link IValueHolder} the member is being accessed on but does not
 	 * retrieve the actual value of the field until {@link #snapshot()} is
 	 * invoked.<br>
-	 * {@link ComputationException} is appropriate to throw if something fails
 	 *
 	 * @return
-	 * @throws ComputationException
 	 */
 	IValueHolder snapshotClass();
 
