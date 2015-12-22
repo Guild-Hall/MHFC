@@ -47,7 +47,7 @@ public class EntityTigrexBlock extends EntityThrowable {
 				if (entity instanceof EntityPlayer
 					|| entity instanceof EntityWyvernHostile) {
 					entity.attackEntityFrom(DamageSource
-						.causeMobDamage(getThrower()), 36 + this.rand
+						.causeMobDamage(getThrower()), 35 + this.rand
 						.nextInt(17));
 				} else {
 					entity.attackEntityFrom(DamageSource

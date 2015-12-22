@@ -92,7 +92,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		super.applyEntityAttributes();
 
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-			healthbaseHP(6000D, 7800D, 8600D));
+			healthbaseHP(4500D, 9000D, 18000D));
 
 	}
 

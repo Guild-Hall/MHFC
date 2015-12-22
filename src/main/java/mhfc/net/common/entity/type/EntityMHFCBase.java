@@ -76,6 +76,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	public void dropItemRand(Item item, int count) {
 		dropItemRand(new ItemStack(item, count, 0));
 	}
+	
+	@Override
+    public int getTotalArmorValue() {
+        return 20;
+    }
 
 	@Override
 	protected void entityInit() {
@@ -98,16 +103,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 		worldObj.spawnEntityInWorld(entityItem);
 	}
 
-	public double healthbaseHP(double lowhp, double medhp, double highhp) {
+	public double healthbaseHP(double lowRankHealthPoints, double highRankHealthPoints, double GRankHealthPoints) {
 		// FIXME: we can do that better
-		if (this.rand.nextInt(60) == 0) {
-			return medhp;
-		} else if (this.rand.nextInt(120) == 0) {
-			return highhp;
-		} else if (this.rand.nextInt(80) == 0) {
-			return lowhp;
-		}
-		return medhp;
+		return lowRankHealthPoints;
 	}
 
 	// FIXME: will update location, rotation set algs in 1.8, bc huge changes

@@ -40,7 +40,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
 			.setBaseValue(1.3D);
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-			healthbaseHP(7219D, 10366D, 15137D));
+			healthbaseHP(5000D, 10000D, 20000D));
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(
 			35D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(

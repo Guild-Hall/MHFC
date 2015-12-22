@@ -83,7 +83,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
 			.setBaseValue(1.3D);
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-			healthbaseHP(9000D, 13888D, 18465D));
+			healthbaseHP(5500D, 11000D, 22000D));
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(
 			35D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(

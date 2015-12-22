@@ -23,7 +23,7 @@ public class TigrexWhip extends AIGeneralTailWhip<EntityTigrex> {
 		IAnimationProvider anim = new IAnimationProvider.AnimationAdapter(
 			"mhfc:models/Tigrex/tailswipe.mcanm", LAST_FRAME);
 		IDamageProvider dmg = new IDamageProvider.DamageAdapter(AIUtils
-			.defaultDamageCalc(46, 92, 777));
+			.defaultDamageCalc(55, 92, 777));
 		IWeightProvider<EntityTigrex> weight = new IWeightProvider.SimpleWeightAdapter<>(
 			7F);
 		ISelectionPredicate<EntityTigrex> pred = new ISelectionPredicate.SelectionAdapter<>(

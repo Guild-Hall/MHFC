@@ -26,11 +26,11 @@ public class VelocipreyArmor extends ItemArmor {
 			MHFCReference.armor_velociprey_legs_name,
 			MHFCReference.armor_velociprey_boots_name};
 
-	private static final String[] icons = {
-			MHFCReference.armor_velociprey_helm_icon,
-			MHFCReference.armor_velociprey_chest_icon,
-			MHFCReference.armor_velociprey_legs_icon,
-			MHFCReference.armor_velociprey_boots_icon};
+
+	private static final String[] icons = {MHFCReference.armor_default_helm_icon,
+			MHFCReference.armor_default_chest_icon,
+			MHFCReference.armor_default_legs_icon,
+			MHFCReference.armor_default_boots_icon};
 
 	public VelocipreyArmor(int type) {
 		super(MHFCArmorMaterialHelper.ArmorVelociprey, 4, type);
@@ -70,41 +70,39 @@ public class VelocipreyArmor extends ItemArmor {
 
 		ModelBiped armorModel = null;
 
-		if (itemStack != null) {
-			int type = ((ItemArmor) itemStack.getItem()).armorType;
+		if (itemStack == null || !(itemStack.getItem() instanceof ItemArmor))
+			return null;
 
-			if (type == 1 || type == 3 || type == 0) {
-				armorModel = MHFCArmorModelHelper.getArmorModel(6);
-			}
-			if (armorModel != null) {
-				armorModel.bipedHead.showModel = armorSlot == 0;
-				armorModel.bipedHeadwear.showModel = armorSlot == 0;
-				armorModel.bipedBody.showModel = armorSlot == 1
-						|| armorSlot == 2;
-				armorModel.bipedRightArm.showModel = armorSlot == 1;
-				armorModel.bipedLeftArm.showModel = armorSlot == 1;
-				armorModel.bipedRightLeg.showModel = armorSlot == 2
-						|| armorSlot == 3;
-				armorModel.bipedLeftLeg.showModel = armorSlot == 2
-						|| armorSlot == 3;
+		int type = ((ItemArmor) itemStack.getItem()).armorType;
 
-				armorModel.isSneak = entityLiving.isSneaking();
-				armorModel.isRiding = entityLiving.isRiding();
-				armorModel.isChild = entityLiving.isChild();
-				armorModel.heldItemRight = 0;
-				armorModel.aimedBow = false;
-				EntityPlayer player = (EntityPlayer) entityLiving;
-				ItemStack held_item = player.getEquipmentInSlot(0);
-				if (held_item != null) {
-					armorModel.heldItemRight = 1;
-					if (player.getItemInUseCount() > 0) {
-						EnumAction enumaction = held_item.getItemUseAction();
-						if (enumaction == EnumAction.bow) {
-							armorModel.aimedBow = true;
-						} else if (enumaction == EnumAction.block) {
-							armorModel.heldItemRight = 3;
-						}
-					}
+		if (type == 1 || type == 3 || type == 0) {
+			armorModel = MHFCArmorModelHelper.velociprey;
+		}
+		if (armorModel == null)
+			return null;
+		armorModel.bipedHead.showModel = armorSlot == 0;
+		armorModel.bipedHeadwear.showModel = armorSlot == 0;
+		armorModel.bipedBody.showModel = armorSlot == 1 || armorSlot == 2;
+		armorModel.bipedRightArm.showModel = armorSlot == 1;
+		armorModel.bipedLeftArm.showModel = armorSlot == 1;
+		armorModel.bipedRightLeg.showModel = armorSlot == 2 || armorSlot == 3;
+		armorModel.bipedLeftLeg.showModel = armorSlot == 2 || armorSlot == 3;
+
+		armorModel.isSneak = entityLiving.isSneaking();
+		armorModel.isRiding = entityLiving.isRiding();
+		armorModel.isChild = entityLiving.isChild();
+		armorModel.heldItemRight = 0;
+		armorModel.aimedBow = false;
+		ItemStack held_item = entityLiving.getEquipmentInSlot(0);
+		if (held_item != null) {
+			armorModel.heldItemRight = 1;
+			if (entityLiving instanceof EntityPlayer
+					&& ((EntityPlayer) entityLiving).getItemInUseCount() > 0) {
+				EnumAction enumaction = held_item.getItemUseAction();
+				if (enumaction == EnumAction.bow) {
+					armorModel.aimedBow = true;
+				} else if (enumaction == EnumAction.block) {
+					armorModel.heldItemRight = 3;
 				}
 			}
 		}

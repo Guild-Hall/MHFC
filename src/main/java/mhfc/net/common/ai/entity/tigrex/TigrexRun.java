@@ -19,7 +19,7 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 
 	private static final double RUN_SPEED = 1.4;
 	private static final double STOP_SPEED = 0.7;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(28f, 62f, 1000f);
+	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(50f, 62f, 1000f);
 
 	private static enum PastEntityEnum {
 		NOT_PASSED,
