@@ -10,8 +10,8 @@ public class ProwlerStance extends AIAnimatedAction<EntityNargacuga> {
 
 	private static final String ANIMATION_LOCATION = "mhfc:models/Nargacuga/Pounce.mcanm";
 	private static final int ANIMATION_LENGTH = 18;
-	private static final float MAX_ANGLE = 20;
-	private static final float MAX_DISTANCE = 10;
+	private static final float MAX_ANGLE = 40;
+	private static final float MAX_DISTANCE = 25;
 	private static final float WEIGHT = 15;
 
 	public ProwlerStance() {

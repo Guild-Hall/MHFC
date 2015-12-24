@@ -43,8 +43,8 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 
 		@Override
 		public float getInitialUpVelocity(EntityT entity) {
-			Vec3 target = Objects.requireNonNull(targetResolver
-				.getJumpTarget(entity));
+			Vec3 target = Objects.requireNonNull(targetResolver.getJumpTarget(
+				entity));
 			float velocity = (float) (target.yCoord - entity.posY) / airTime
 				+ GRAVITATIONAL_C_LIVING * airTime / 2;
 			return velocity;
@@ -52,16 +52,16 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 
 		@Override
 		public float getForwardVelocity(EntityT entity) {
-			Vec3 target = Objects.requireNonNull(targetResolver
-				.getJumpTarget(entity));
-			float distance = (float) entity.getPosition(1.0f)
-				.distanceTo(target);
+			Vec3 target = Objects.requireNonNull(targetResolver.getJumpTarget(
+				entity));
+			float distance = (float) entity.getPosition(1.0f).distanceTo(
+				target);
 			// CLEANUP why does a multiplication with 3 work so well here??
 			// It should be v = s/t just straight up, not v = s/t*3.....
 			float velocity = distance / airTime * 3 *
-			// Correct minecraft slowdown
+				// Correct minecraft slowdown
 				(airTime * 0.02f) / (1 - (float) Math.pow(0.98, airTime));
-			return velocity;
+			return Math.max(velocity, 0);
 		}
 
 	}
@@ -88,7 +88,8 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 		}
 
 		public AttackPointAdapter(float jumpTimeInTicks, Vec3 targetPoint) {
-			super(jumpTimeInTicks, new ConstPointResolver<EntityT>(targetPoint));
+			super(jumpTimeInTicks, new ConstPointResolver<EntityT>(
+				targetPoint));
 		}
 
 	}

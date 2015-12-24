@@ -4,10 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Matrix4f;
+
+import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
+import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation.BoneTransformation;
+import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
+import com.google.common.collect.EvictingQueue;
+import com.google.common.collect.Queues;
+
 import mhfc.net.common.ai.AIFollowUpActionManager;
 import mhfc.net.common.ai.IActionRecorder;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaPounce;
+import mhfc.net.common.ai.entity.nargacuga.NargacugaPounce.NargaJumpBehaviour;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaRoar;
 import mhfc.net.common.ai.entity.nargacuga.ProwlerStance;
 import mhfc.net.common.ai.entity.nargacuga.TailSlam;
@@ -19,15 +29,6 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.vector.Matrix4f;
-
-import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
-import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation.BoneTransformation;
-import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
-import com.google.common.collect.EvictingQueue;
-import com.google.common.collect.Queues;
 
 public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	implements
@@ -63,16 +64,22 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		TailSlam tailSlam = new TailSlam();
 		NargacugaRoar roar = new NargacugaRoar();
 		ProwlerStance prowler = new ProwlerStance();
-		NargacugaPounce pounce = NargacugaPounce.createNargaPounce();
+		NargacugaPounce pounceTwo = NargacugaPounce.createNargaPounce(
+			NargaJumpBehaviour.TWO_JUMPS);
+		NargacugaPounce pounceThree = NargacugaPounce.createNargaPounce(
+			NargaJumpBehaviour.THREE_JUMPS);
+		// NargacugaPounce pounceFour = NargacugaPounce.createNargaPounce(
+		// NargaJumpBehaviour.FOUR_JUMPS);
 
 		List<IExecutableAction<? super EntityNargacuga>> prowlerFollow = new ArrayList<IExecutableAction<? super EntityNargacuga>>();
-		prowlerFollow.add(pounce);
+		prowlerFollow.add(pounceTwo);
+		prowlerFollow.add(pounceThree);
+		// prowlerFollow.add(pounceFour);
 
 		attackManager.registerAttack(tailSlam);
 		attackManager.registerAttack(roar);
 		attackManager.registerAttack(prowler, prowlerFollow);
 		setAIActionManager(attackManager);
-
 	}
 
 	@Override
@@ -147,7 +154,8 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	}
 
 	@Override
-	public void onAttackEnd(IExecutableAction<? super EntityNargacuga> oldAttack) {
+	public void onAttackEnd(
+		IExecutableAction<? super EntityNargacuga> oldAttack) {
 		recorder.addAction(oldAttack);
 	}
 

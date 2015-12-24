@@ -15,7 +15,30 @@ public class AIFollowUpActionManager<EntType extends EntityLiving & IManagedActi
 	extends
 		AIActionManager<EntType> {
 
-	protected Map<IExecutableAction<? super EntType>, List<IExecutableAction<? super EntType>>> allowedFollowUps;
+	public static interface FollowUpChooser<EntType extends EntityLiving & IManagedActions<EntType>> {
+		public List<IExecutableAction<? super EntType>> collectFollowups(
+			EntType entity);
+	}
+
+	public static class FollowUpAdapter<EntType extends EntityLiving & IManagedActions<EntType>>
+		implements
+			FollowUpChooser<EntType> {
+
+		List<IExecutableAction<? super EntType>> followUps;
+
+		public FollowUpAdapter(
+			List<IExecutableAction<? super EntType>> followUps) {
+			this.followUps = followUps;
+		}
+
+		@Override
+		public List<IExecutableAction<? super EntType>> collectFollowups(
+			EntType entity) {
+			return followUps;
+		}
+	}
+
+	protected Map<IExecutableAction<? super EntType>, FollowUpChooser<EntType>> allowedFollowUps;
 
 	public AIFollowUpActionManager(EntType entity) {
 		super(entity);
@@ -38,16 +61,33 @@ public class AIFollowUpActionManager<EntType extends EntityLiving & IManagedActi
 	 */
 	public void registerAttack(IExecutableAction<? super EntType> attack,
 		List<IExecutableAction<? super EntType>> followUps) {
+		registerAttac(attack, new FollowUpAdapter<EntType>(followUps));
+	}
+
+	public void registerAttac(IExecutableAction<? super EntType> attack,
+		FollowUpChooser<EntType> chooser) {
 		super.registerAttack(attack);
-		allowedFollowUps.put(attack, followUps);
+		allowedFollowUps.put(attack, chooser);
+	}
+
+	private List<IExecutableAction<? super EntType>> getFollowUpList(
+		IExecutableAction<? super EntType> action) {
+		FollowUpChooser<EntType> followUpChooser = allowedFollowUps.get(
+			activeAttack);
+		if (followUpChooser == null)
+			return attacks;
+		List<IExecutableAction<? super EntType>> followUps = followUpChooser
+			.collectFollowups(this.entity);
+		if (followUps == null)
+			return attacks;
+		followUps.forEach((x) -> x.rebind(entity));
+		return followUps;
 	}
 
 	@Override
 	public IExecutableAction<? super EntType> chooseAttack() {
-		List<IExecutableAction<? super EntType>> followUps = allowedFollowUps
-			.get(activeAttack);
-		if (followUps == null)
-			followUps = attacks;
+		List<IExecutableAction<? super EntType>> followUps = getFollowUpList(
+			activeAttack);
 		return WeightedPick.pickRandom(followUps);
 	}
 
