@@ -83,6 +83,7 @@ public class AIGeneralTailWhip<EntityT extends EntityMHFCBase<? super EntityT>>
 
 	@Override
 	public void beginExecution() {
+		super.beginExecution();
 		getEntity().getNavigator().clearPathEntity();
 	}
 

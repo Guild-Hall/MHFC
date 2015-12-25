@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.Vec3;
 
@@ -72,8 +73,9 @@ public interface IPathProvider<EntityT extends EntityLiving> {
 
 		@Override
 		public boolean hasWaypointReached() {
-			Vec3 position = actor.getPosition(0);
-			return position.subtract(getCurrentWaypoint()).lengthVector() < maxDistance;
+			Vec3 position = WorldHelper.getEntityVector(actor);
+			return position.subtract(getCurrentWaypoint())
+				.lengthVector() < maxDistance;
 		}
 
 		@Override

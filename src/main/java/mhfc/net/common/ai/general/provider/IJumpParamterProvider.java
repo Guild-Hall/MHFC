@@ -3,6 +3,7 @@ package mhfc.net.common.ai.general.provider;
 import java.security.InvalidParameterException;
 import java.util.Objects;
 
+import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.Vec3;
@@ -54,8 +55,8 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 		public float getForwardVelocity(EntityT entity) {
 			Vec3 target = Objects.requireNonNull(targetResolver.getJumpTarget(
 				entity));
-			float distance = (float) entity.getPosition(1.0f).distanceTo(
-				target);
+			Vec3 position = WorldHelper.getEntityVector(entity);
+			float distance = (float) position.distanceTo(target);
 			// CLEANUP why does a multiplication with 3 work so well here??
 			// It should be v = s/t just straight up, not v = s/t*3.....
 			float velocity = distance / airTime * 3 *
@@ -110,9 +111,9 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 					EntityLivingBase attackTarget = entity.getAttackTarget();
 					Vec3 target;
 					if (attackTarget != null) {
-						target = attackTarget.getPosition(1.0f);
+						target = WorldHelper.getEntityVector(attackTarget);
 					} else {
-						target = entity.getPosition(1.0f);
+						target = WorldHelper.getEntityVector(entity);
 					}
 					return target;
 				}

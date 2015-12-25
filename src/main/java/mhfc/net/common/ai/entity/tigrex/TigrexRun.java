@@ -19,7 +19,8 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 
 	private static final double RUN_SPEED = 1.4;
 	private static final double STOP_SPEED = 0.7;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(28f, 62f, 1000f);
+	private static final IDamageCalculator damageCalc = AIUtils
+		.defaultDamageCalc(28f, 62f, 1000f);
 
 	private static enum PastEntityEnum {
 		NOT_PASSED,
@@ -67,8 +68,8 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 				EntityTigrex tigrex = attk.getEntity();
 				Vec3 tigPos = Vec3.createVectorHelper(tigrex.posX, tigrex.posY,
 					tigrex.posZ);
-				Vec3 vecToTarget = tigPos.subtract(attk.target
-					.getPosition(1.0f));
+				Vec3 vecToTarget = tigPos.subtract(WorldHelper.getEntityVector(
+					attk.target));
 				tigrex.getTurnHelper().updateTargetPoint(attk.target);
 				tigrex.moveForward(RUN_SPEED, true);
 				Vec3 look = tigrex.getLookVec();
@@ -94,8 +95,8 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 			public int nextFrame(TigrexRun attk, int curr) {
 				attk.framesRunning++;
 				int looping = runningEnds - runningStarts;
-				if (attk.hasPassed == PastEntityEnum.PASSED
-					&& (curr + 1 >= runningEnds)) {
+				if (attk.hasPassed == PastEntityEnum.PASSED && (curr
+					+ 1 >= runningEnds)) {
 					attk.hasPassed = PastEntityEnum.LOOP_FINISHED;
 				}
 				return runningStarts + (curr + 1 - runningStarts) % looping;
@@ -150,7 +151,6 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 	private int runCycles;
 
 	public TigrexRun() {
-		setAnimation("mhfc:models/Tigrex/run.mcanm");
 	}
 
 	@Override
@@ -167,6 +167,7 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 
 	@Override
 	public void beginExecution() {
+		setAnimation("mhfc:models/Tigrex/run.mcanm");
 		EntityTigrex tig = getEntity();
 		target = tig.getAttackTarget();
 		tig.playSound("mhfc:tigrex-charge", 1.0F, 1.0F);

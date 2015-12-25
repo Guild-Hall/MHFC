@@ -5,6 +5,7 @@ import java.util.Random;
 
 import mhfc.net.common.ai.general.provider.*;
 import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.Vec3;
 
@@ -36,7 +37,7 @@ public class AIGeneralWander<EntityT extends EntityMHFCBase<? super EntityT>>
 			IMoveParameterProvider movementProvider) {
 			super(animationProvider, WanderAdapter
 				.<EntityT> SelectionPredicate(), WanderAdapter
-				.<EntityT> ContinuationPredicate(), weightProvider,
+					.<EntityT> ContinuationPredicate(), weightProvider,
 				WanderAdapter.<EntityT> MovementProvider(movementProvider));
 		}
 	}
@@ -76,7 +77,7 @@ public class AIGeneralWander<EntityT extends EntityMHFCBase<? super EntityT>>
 		@Override
 		public void initialize(EntityT actor) {
 			this.actor = Objects.requireNonNull(actor);
-			startingPosition = actor.getPosition(1f);
+			startingPosition = WorldHelper.getEntityVector(actor);
 			onWaypointReached();
 		}
 
@@ -87,7 +88,7 @@ public class AIGeneralWander<EntityT extends EntityMHFCBase<? super EntityT>>
 
 		@Override
 		public boolean hasWaypointReached() {
-			Vec3 position = actor.getPosition(1f);
+			Vec3 position = WorldHelper.getEntityVector(actor);
 			if (waypoint.subtract(position).lengthVector() < acceptedDistance) {
 				return true;
 			} else {
@@ -103,10 +104,10 @@ public class AIGeneralWander<EntityT extends EntityMHFCBase<? super EntityT>>
 		}
 
 		private Vec3 generateNewRandomPoint() {
-			int randomX = (int) (startingPosition.xCoord + random
-				.nextInt(wanderDistance));
-			int randomZ = (int) (startingPosition.zCoord + random
-				.nextInt(wanderDistance));
+			int randomX = (int) (startingPosition.xCoord + random.nextInt(
+				wanderDistance));
+			int randomZ = (int) (startingPosition.zCoord + random.nextInt(
+				wanderDistance));
 			return Vec3.createVectorHelper(randomX, startingPosition.yCoord,
 				randomZ);
 		}

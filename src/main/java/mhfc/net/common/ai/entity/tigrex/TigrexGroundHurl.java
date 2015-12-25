@@ -22,8 +22,6 @@ public class TigrexGroundHurl extends ActionAdapter<EntityTigrex> {
 	private int weightFactor;
 
 	public TigrexGroundHurl() {
-		setAnimation("mhfc:models/Tigrex/dirtthrow.mcanm");
-		setLastFrame(LAST_FRAME);
 		weightFactor = 1;
 	}
 
@@ -45,6 +43,8 @@ public class TigrexGroundHurl extends ActionAdapter<EntityTigrex> {
 
 	@Override
 	public void beginExecution() {
+		setAnimation("mhfc:models/Tigrex/dirtthrow.mcanm");
+		setLastFrame(LAST_FRAME);
 		thrown = false;
 		weightFactor *= 3;
 	}
@@ -57,8 +57,8 @@ public class TigrexGroundHurl extends ActionAdapter<EntityTigrex> {
 		if (getCurrentFrame() < THROW_FRAME) {
 			if (getCurrentFrame() < TURN_FRAMES) {
 				tigrex.getTurnHelper().updateTurnSpeed(TURN_RATE);
-				tigrex.getTurnHelper().updateTargetPoint(
-					tigrex.getAttackTarget());
+				tigrex.getTurnHelper().updateTargetPoint(tigrex
+					.getAttackTarget());
 			}
 			return;
 		}

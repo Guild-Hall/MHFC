@@ -146,7 +146,8 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		if (++ticksSinceEyesSaved >= EYES_RECORD_FREQUENCY) {
+		if (++ticksSinceEyesSaved >= EYES_RECORD_FREQUENCY
+			&& this.worldObj.isRemote) {
 			ticksSinceEyesSaved = 0;
 			eyesPositionsLeft.add(getPositionLeftEye());
 			eyesPositionsRight.add(getPositionRightEye());

@@ -42,7 +42,7 @@ public class TargetTurnHelper {
 			return;
 		isUpdating = true;
 		this.targetPoint = Vec3.createVectorHelper(entity.posX, entity.posY,
-				entity.posZ);
+			entity.posZ);
 	}
 
 	/**
@@ -78,9 +78,9 @@ public class TargetTurnHelper {
 			return;
 		}
 		Vec3 vecToTarget = (Vec3.createVectorHelper(entity.posX, entity.posY,
-				entity.posZ)).subtract(targetPoint);
-		entity.rotationYaw = AIUtils.modifyYaw(entity.getLookVec(),
-				vecToTarget.normalize(), maxTurnSpeed);
+			entity.posZ)).subtract(targetPoint);
+		entity.rotationYaw = AIUtils.modifyYaw(entity.getLookVec(), vecToTarget
+			.normalize(), maxTurnSpeed);
 		// CLEANUP Figure out a way to send the updates to the client cleanly
 		entity.addVelocity(10e-4, 0, 10e-4);
 	}

@@ -19,16 +19,17 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 
 	private static final double RUN_SPEED = 0.6;
 	private static final double STOP_SPEED = 0.4;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(47f, 92f, 1000f);
+	private static final IDamageCalculator damageCalc = AIUtils
+		.defaultDamageCalc(47f, 92f, 1000f);
 	private static final double MAX_DIST = 3f;
 
-	
 	private static enum PastEntityEnum {
 		NOT_PASSED,
 		PASSED,
 		LOOP_FINISHED,
 		TURNING;
 	}
+
 	private static enum AttackPhase {
 		START(false) {
 
@@ -66,13 +67,16 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 			@Override
 			public void update(DeviljhoMovetoTarget attk) {
 				EntityDeviljho monster = attk.getEntity();
-				Vec3 mobPos = Vec3.createVectorHelper(monster.posX, monster.posY,monster.posZ);
-				Vec3 vecToTarget = mobPos.subtract(attk.target.getPosition(1.0f));
+				Vec3 mobPos = Vec3.createVectorHelper(monster.posX,
+					monster.posY, monster.posZ);
+				Vec3 vecToTarget = mobPos.subtract(WorldHelper.getEntityVector(
+					attk.target));
 				monster.getTurnHelper().updateTargetPoint(attk.target);
 				monster.moveForward(RUN_SPEED, true);
 				Vec3 look = monster.getLookVec();
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
-				boolean ranLongEnough = attk.runStartPoint.subtract(mobPos).lengthVector() > MAX_RUN_DISTANCE
+				boolean ranLongEnough = attk.runStartPoint.subtract(mobPos)
+					.lengthVector() > MAX_RUN_DISTANCE
 					|| attk.framesRunning > MAX_RUN_FRAMES;
 				if ((tarBeh || ranLongEnough)
 					&& attk.hasPassed == PastEntityEnum.NOT_PASSED) {
@@ -92,8 +96,8 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 			public int nextFrame(DeviljhoMovetoTarget attk, int curr) {
 				attk.framesRunning++;
 				int looping = runningEnds - runningStarts;
-				if (attk.hasPassed == PastEntityEnum.PASSED
-					&& (curr + 1 >= runningEnds)) {
+				if (attk.hasPassed == PastEntityEnum.PASSED && (curr
+					+ 1 >= runningEnds)) {
 					attk.hasPassed = PastEntityEnum.LOOP_FINISHED;
 				}
 				return runningStarts + (curr + 1 - runningStarts) % looping;
@@ -157,10 +161,10 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 		target = monster.getAttackTarget();
 		if (target == null)
 			return DONT_SELECT;
-		
+
 		Vec3 toTarget = WorldHelper.getVectorToTarget(monster, target);
 		double dist = toTarget.lengthVector();
-		if(dist < MAX_DIST)
+		if (dist < MAX_DIST)
 			return DONT_SELECT;
 		return (float) Math.log(dist / 5f + 1); // More likely the
 												// further away
@@ -213,5 +217,5 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 																			// the
 																			// adapter
 	}
-	
+
 }

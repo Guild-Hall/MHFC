@@ -22,12 +22,12 @@ public class AIGeneralIdle<EntityT extends EntityMHFCBase<? super EntityT>>
 		this.animation = Objects.requireNonNull(animation);
 		this.weight = Objects.requireNonNull(weight);
 		selectOnIdle = new ISelectionPredicate.SelectIdleAdapter<>();
-		setAnimation(animation.getAnimationLocation());
-		setLastFrame(animation.getAnimationLength());
 	}
 
 	@Override
-	public void beginAction() {
+	public void beginExecution() {
+		setAnimation(animation.getAnimationLocation());
+		setLastFrame(animation.getAnimationLength());
 		getEntity().playLivingSound();
 	}
 

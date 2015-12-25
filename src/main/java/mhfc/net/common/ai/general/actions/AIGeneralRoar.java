@@ -99,6 +99,7 @@ public class AIGeneralRoar<EntityT extends EntityMHFCBase<? super EntityT>>
 
 	@Override
 	public void beginExecution() {
+		super.beginExecution();
 		affectedEntities.clear();
 		getEntity().playSound(roarProvider.getRoarSoundLocation(), 1.0F, 1.0F);
 	}

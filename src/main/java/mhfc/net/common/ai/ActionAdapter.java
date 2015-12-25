@@ -2,16 +2,15 @@ package mhfc.net.common.ai;
 
 import java.util.Random;
 
+import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
+import com.github.worldsender.mcanm.client.model.util.AnimationLoader;
+
+import cpw.mods.fml.common.FMLCommonHandler;
 import mhfc.net.common.ai.general.AIUtils.DamageCalculatorHelper;
 import mhfc.net.common.eventhandler.ai.ActionSelectionEvent;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
-
-import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
-import com.github.worldsender.mcanm.client.model.util.AnimationLoader;
-
-import cpw.mods.fml.common.FMLCommonHandler;
 
 public abstract class ActionAdapter<T extends EntityCreature>
 	implements
@@ -40,8 +39,8 @@ public abstract class ActionAdapter<T extends EntityCreature>
 		framesPassed = 0;
 		recentFrame = -1;
 		dmgHelper.reset();
-		FMLCommonHandler.instance().bus().post(
-			new ActionSelectionEvent(this, getEntity()));
+		FMLCommonHandler.instance().bus().post(new ActionSelectionEvent(this,
+			getEntity()));
 		beginExecution();
 	}
 
@@ -112,12 +111,18 @@ public abstract class ActionAdapter<T extends EntityCreature>
 		this.animation = anim;
 	}
 
+	protected boolean isEffectiveClient() {
+		return this.entity != null && this.entity.worldObj.isRemote;
+	}
+
 	protected void setAnimation(ResourceLocation resLoc) {
-		this.animation = AnimationLoader.loadAnimation(resLoc);
+		if (isEffectiveClient())
+			this.animation = AnimationLoader.loadAnimation(resLoc);
 	}
 
 	protected void setAnimation(String resLoc) {
-		this.animation = AnimationLoader.loadAnimation(resLoc);
+		if (isEffectiveClient())
+			this.animation = AnimationLoader.loadAnimation(resLoc);
 	}
 
 	protected void setLastFrame(int lastFrame) {

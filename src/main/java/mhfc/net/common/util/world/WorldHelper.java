@@ -6,6 +6,7 @@ import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+
 /**
  * This class should help with some general problems related with the World and
  * Entities like path-finding, target-finding and collision-detection.
@@ -24,6 +25,7 @@ public class WorldHelper {
 	public static List<Entity> collidingEntities(Entity entity) {
 		return collidingEntities(entity, null);
 	}
+
 	/**
 	 * Like {@link #collidingEntities(Entity)} but allows the entities to be
 	 * filtered before being returned.
@@ -35,20 +37,18 @@ public class WorldHelper {
 	 * @return all collidig entities that are not filtered
 	 */
 	public static List<Entity> collidingEntities(Entity entity,
-			IEntitySelector filter) {
+		IEntitySelector filter) {
 		World world = entity.worldObj;
 		@SuppressWarnings("unchecked")
 		List<Entity> collidingEntities = world
-				.getEntitiesWithinAABBExcludingEntity(entity,
-						entity.boundingBox);
+			.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox);
 		Entity[] subEntities = entity.getParts();
 		if (subEntities == null)
 			return collidingEntities;
 		for (Entity subE : subEntities) {
 			@SuppressWarnings("unchecked")
 			List<Entity> collidingEntitiesSub = world
-					.getEntitiesWithinAABBExcludingEntity(entity,
-							subE.boundingBox);
+				.getEntitiesWithinAABBExcludingEntity(entity, subE.boundingBox);
 			for (Entity collidingE : collidingEntitiesSub) {
 				if (!collidingEntities.contains(collidingE)) {
 					collidingEntities.add(collidingE);
@@ -57,6 +57,7 @@ public class WorldHelper {
 		}
 		return collidingEntities;
 	}
+
 	/**
 	 * Finds the vector that points from the entity to the target.
 	 *
@@ -68,12 +69,14 @@ public class WorldHelper {
 	 */
 	public static Vec3 getVectorToTarget(Entity entity, Entity target) {
 		// TODO: ?use entity.getPosition() on CLIENT-side?
-		Vec3 pos = Vec3.createVectorHelper(entity.posX, entity.posY,
-				entity.posZ);
-		Vec3 entityToTarget = Vec3.createVectorHelper(target.posX, target.posY,
-				target.posZ);
+		Vec3 pos = getEntityVector(entity);
+		Vec3 entityToTarget = getEntityVector(target);
 		entityToTarget = pos.subtract(entityToTarget);
 		return entityToTarget;
+	}
+
+	public static Vec3 getEntityVector(Entity entity) {
+		return Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
 	}
 
 }

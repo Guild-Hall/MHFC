@@ -3,7 +3,6 @@ package mhfc.net.common.ai.entity.rathalos;
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.entity.monster.EntityRathalos.Stances;
-import net.minecraft.entity.EntityLiving;
 
 public class FlyLand extends ActionAdapter<EntityRathalos> {
 
@@ -12,32 +11,30 @@ public class FlyLand extends ActionAdapter<EntityRathalos> {
 
 	boolean hasTouchedDown;
 
-	public FlyLand() {
-		setAnimation("mhfc:models/Rathalos/RathalosIntoFlight.mcanm");
-		setLastFrame(LAND_LAST_FRAME);
-	}
+	public FlyLand() {}
 
 	@Override
 	public float getWeight() {
 		EntityRathalos rathalos = this.getEntity();
-		if (rathalos.getAttackManager().getCurrentStance() != Stances.FLYING)
+		if (rathalos.getStance() != Stances.FLYING)
 			return DONT_SELECT;
 		return WEIGHT;
 	}
 
 	@Override
 	public void beginExecution() {
-		EntityRathalos rathalos = this.getEntity();
-		rathalos.getAttackManager().setNextStance(Stances.GROUND);
+		setAnimation("mhfc:models/Rathalos/RathalosIntoFlight.mcanm");
+		setLastFrame(LAND_LAST_FRAME);
 		hasTouchedDown = false;
 	}
 
 	@Override
 	public void update() {
 		if (!hasTouchedDown) {
-			EntityLiving entity = getEntity();
+			EntityRathalos entity = getEntity();
 			if (!entity.isAirBorne) {
 				hasTouchedDown = true;
+				entity.setStance(Stances.GROUND);
 				setToNextFrame(-1);
 			}
 			entity.fallDistance = 0;

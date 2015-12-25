@@ -63,7 +63,9 @@ public class AIUtils {
 	 * This special damage calculator remembers which entities were damaged by
 	 * it and only damages entities once until it is reset.
 	 */
-	public static class MemoryDamageCalculator extends DecisiveDamageCalculator {
+	public static class MemoryDamageCalculator
+		extends
+			DecisiveDamageCalculator {
 
 		private final Set<Entity> damagedEntities = new HashSet<Entity>();
 		private IDamageCalculator forward;
@@ -229,8 +231,8 @@ public class AIUtils {
 	}
 
 	public static void stun(EntityLivingBase target) {
-		target
-			.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 80, 10));
+		target.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 80,
+			10));
 		target.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 80, 10));
 	}
 
@@ -311,7 +313,7 @@ public class AIUtils {
 
 	public static float getViewingAngle(EntityLiving actor, Vec3 point) {
 		Vec3 lookVector = actor.getLookVec();
-		Vec3 pos = actor.getPosition(1f);
+		Vec3 pos = WorldHelper.getEntityVector(actor);
 		Vec3 targetVector = point.subtract(pos);
 		float yaw = lookVecToYaw(lookVector);
 		float tarYaw = lookVecToYaw(targetVector);
@@ -322,11 +324,11 @@ public class AIUtils {
 		AxisAlignedBB bounds, Entity entity) {
 
 		int minX = (int) Math.floor(bounds.minX), //
-		maxX = (int) Math.ceil(bounds.maxX);
+			maxX = (int) Math.ceil(bounds.maxX);
 		int minY = (int) Math.floor(bounds.minY), //
-		maxY = (int) Math.ceil(bounds.maxY);
+			maxY = (int) Math.ceil(bounds.maxY);
 		int minZ = (int) Math.floor(bounds.minZ), //
-		maxZ = (int) Math.ceil(bounds.maxZ);
+			maxZ = (int) Math.ceil(bounds.maxZ);
 
 		List<AxisAlignedBB> list = new ArrayList<AxisAlignedBB>();
 

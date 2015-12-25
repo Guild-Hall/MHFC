@@ -14,12 +14,11 @@ public class BiteAttack extends ActionAdapter<EntityRathalos> {
 	}
 
 	@Override
-	public void update() {
-	}
+	public void update() {}
 
 	@Override
 	public float getWeight() {
-		if (getEntity().getAttackManager().getCurrentStance() != EntityRathalos.Stances.GROUND)
+		if (getEntity().getStance() != EntityRathalos.Stances.GROUND)
 			return DONT_SELECT;
 		return WEIGHT;
 	}

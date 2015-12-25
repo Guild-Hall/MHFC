@@ -25,13 +25,10 @@ public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>>
 		MovementActionProvider<EntityT> movementActionProvider) {
 		super(movementActionProvider);
 		this.movementProvider = Objects.requireNonNull(movementActionProvider);
-		setAnimation(movementProvider.getAnimationLocation());
-		setLastFrame(movementActionProvider.getAnimationLength());
 	}
 
 	@Override
 	protected void beginExecution() {
-		super.beginExecution();
 		movementProvider.initialize(getEntity());
 	}
 
@@ -42,8 +39,8 @@ public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>>
 			movementProvider.onWaypointReached();
 		} else {
 			Vec3 checkPoint = movementProvider.getCurrentWaypoint();
-			actor.getTurnHelper().updateTurnSpeed(
-				movementProvider.getTurnRate());
+			actor.getTurnHelper().updateTurnSpeed(movementProvider
+				.getTurnRate());
 			actor.getTurnHelper().updateTargetPoint(checkPoint);
 			actor.moveForward(movementProvider.getMoveSpeed(), true);
 		}
@@ -79,10 +76,10 @@ public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>>
 			IWeightProvider<EntityT> weightProvider,
 			IMovementProvider<EntityT> movementProvider) {
 			this.animationProvider = Objects.requireNonNull(animationProvider);
-			this.selectionPredicate = Objects
-				.requireNonNull(selectionPredicate);
-			this.continuationPredicate = Objects
-				.requireNonNull(continuationPredicate);
+			this.selectionPredicate = Objects.requireNonNull(
+				selectionPredicate);
+			this.continuationPredicate = Objects.requireNonNull(
+				continuationPredicate);
 			this.weightProvider = Objects.requireNonNull(weightProvider);
 			this.movementProvider = Objects.requireNonNull(movementProvider);
 		}

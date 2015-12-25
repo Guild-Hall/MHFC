@@ -24,6 +24,10 @@ public class TigrexBite extends ActionAdapter<EntityTigrex> {
 	private static final float WEIGHT = 15;
 
 	public TigrexBite() {
+	}
+
+	@Override
+	protected void beginExecution() {
 		setAnimation("mhfc:models/Tigrex/bite.mcanm");
 		setLastFrame(LAST_FRAME);
 	}

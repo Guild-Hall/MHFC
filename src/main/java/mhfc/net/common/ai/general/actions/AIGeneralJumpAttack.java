@@ -147,8 +147,6 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 		super(provider);
 		this.provider = provider;
 		dmgHelper.setDamageCalculator(provider.getDamageCalculator());
-		setAnimation(provider.getAnimationLocation());
-		setLastFrame(provider.getAnimationLength());
 	}
 
 	@Override
@@ -165,8 +163,8 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
-		getEntity().getTurnHelper().updateTurnSpeed(
-			provider.getTurnRate(getEntity(), 0));
+		getEntity().getTurnHelper().updateTurnSpeed(provider.getTurnRate(
+			getEntity(), 0));
 	}
 
 	@Override
@@ -180,8 +178,8 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 		float turnRate = provider.getTurnRate(entity, frame);
 		if (turnRate > 0) {
 			entity.getTurnHelper().updateTurnSpeed(turnRate);
-			entity.getTurnHelper().updateTargetPoint(
-				getEntity().getAttackTarget());
+			entity.getTurnHelper().updateTargetPoint(getEntity()
+				.getAttackTarget());
 		}
 		if (provider.isJumpFrame(entity, frame)) {
 			float upVelocity = provider.getInitialUpVelocity(entity);

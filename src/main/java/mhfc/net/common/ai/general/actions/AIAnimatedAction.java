@@ -65,6 +65,10 @@ public abstract class AIAnimatedAction<EntityT extends EntityCreature>
 
 	public AIAnimatedAction(IAnimatedActionProvider<EntityT> provider) {
 		this.provider = Objects.requireNonNull(provider);
+	}
+
+	@Override
+	protected void beginExecution() {
 		setAnimation(provider.getAnimationLocation());
 		setLastFrame(provider.getAnimationLength());
 	}
