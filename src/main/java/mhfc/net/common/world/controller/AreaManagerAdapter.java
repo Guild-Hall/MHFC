@@ -7,10 +7,11 @@ import java.util.Map;
 import java.util.Objects;
 
 import mhfc.net.common.world.area.ActiveAreaAdapter;
+import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IAreaType;
-import mhfc.net.common.world.controller.WorldProxies.Recorder;
+import mhfc.net.common.world.proxies.IWorldProxy;
 
 public abstract class AreaManagerAdapter implements IAreaManager {
 
@@ -48,19 +49,6 @@ public abstract class AreaManagerAdapter implements IAreaManager {
 		this.spawnedAreas.get(active.getType()).add(active.getArea());
 	}
 
-	/**
-	 * Applies the {@link Recorder} to the world represented by this
-	 * {@link IAreaManager} and returns an area manger that represents the
-	 * equivalent of the recorded blocks in the "real world".
-	 * 
-	 * @param recorder
-	 *            the recorder to apply.
-	 * @return a representation of the recorder in the world this AreaManager
-	 *         manages. The {@link IWorldProxy} may chose not to allow any
-	 *         set-operations
-	 */
-	protected abstract IWorldProxy applyRecorder(Recorder recorder);
-
 	@Override
 	public Active getUnusedInstance(IAreaType type) {
 		List<IArea> list = spawnedAreas.get(type);
@@ -69,24 +57,16 @@ public abstract class AreaManagerAdapter implements IAreaManager {
 			spawnedAreas.put(type, Arrays.asList(newArea));
 			return new Active(newArea, type, this);
 		}
-		for (IArea area : list) {
-			if (area.isBlocked())
-				continue;
-			return new Active(area, type, this);
-		}
-		IArea newArea = newArea(type);
+		IArea newArea = list.stream().filter(a -> !a.isUnusable()).findFirst().orElseGet(() -> newArea(type));
 		return new Active(newArea, type, this);
 	}
 
 	private IArea newArea(IAreaType type) {
-		WorldProxies.Recorder recorder = new WorldProxies.Recorder();
-		WorldProxies.WorldProxyProxy proxy = new WorldProxies.WorldProxyProxy(recorder);
-
-		IArea contoller = type.populate(proxy);
-
-		IWorldProxy finishedProxy = applyRecorder(recorder);
-		proxy.setProxy(finishedProxy);
+		AreaConfiguration config = type.configureNewArea();
+		IWorldProxy proxy = fitNewArea(config);
+		IArea contoller = type.populate(proxy, config);
 		return contoller;
 	}
 
+	protected abstract IWorldProxy fitNewArea(AreaConfiguration config);
 }

@@ -14,7 +14,7 @@ public interface IArea extends IQuestArea {
 	 *
 	 * @return <code>false</code> to disable questing in this area.
 	 */
-	boolean isBlocked();
+	boolean isUnusable();
 
 	IAreaType getOwnType();
 }

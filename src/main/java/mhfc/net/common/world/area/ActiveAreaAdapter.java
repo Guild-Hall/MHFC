@@ -16,6 +16,7 @@ public abstract class ActiveAreaAdapter implements IActiveArea {
 		}
 		return false;
 	}
+
 	/**
 	 * Alias to {@link #dismiss()} to implement {@link AutoCloseable}.
 	 */

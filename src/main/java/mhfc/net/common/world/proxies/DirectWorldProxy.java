@@ -1,4 +1,4 @@
-package mhfc.net.common.world.controller.proxies;
+package mhfc.net.common.world.proxies;
 
 import java.util.ArrayList;
 import java.util.Calendar;
