@@ -234,9 +234,9 @@ public class MHFCItemRegistry {
 		// Armor
 		armor_yukumo_helm = registerItem(new YukumoArmor(0));
 		armor_velociprey_helm = registerItem(new VelocipreyArmor(0));
-		armor_barroth_helm = registerItem(new BarrothArmor(0));
 		armor_jaggi_helm = registerItem(new GreatJaggiArmor(0));
 		armor_rathalos_helm = registerItem(new RathalosArmor(0));
+		armor_barroth_helm = registerItem(new BarrothArmor(0));
 		armor_tigrex_helm = registerItem(new TigrexArmor(0));
 		armor_kirin_helm = registerItem(new KirinArmor(0));
 		armor_deviljho_helm = registerItem(new DeviljhoArmor(0));
@@ -244,12 +244,12 @@ public class MHFCItemRegistry {
 		armor_kirinS_helm = registerItem(new KirinSArmor(0));
 		armor_tigrexB_helm = registerItem(new KishinArmor(0));
 		armor_bionic_helm = registerItem(new ST_Bionic(0));
-
 		armor_yukumo_chest = registerItem(new YukumoArmor(1));
 		armor_velociprey_chest = registerItem(new VelocipreyArmor(1));
-		armor_barroth_chest = registerItem(new BarrothArmor(1));
+		
 		armor_jaggi_chest = registerItem(new GreatJaggiArmor(1));
 		armor_rathalos_chest = registerItem(new RathalosArmor(1));
+		armor_barroth_chest = registerItem(new BarrothArmor(1));
 		armor_tigrex_chest = registerItem(new TigrexArmor(1));
 		armor_kirin_chest = registerItem(new KirinArmor(1));
 		armor_deviljho_chest = registerItem(new DeviljhoArmor(1));
@@ -260,9 +260,9 @@ public class MHFCItemRegistry {
 
 		armor_yukumo_legs = registerItem(new YukumoArmor(2));
 		armor_velociprey_legs = registerItem(new VelocipreyArmor(2));
-		armor_barroth_legs = registerItem(new BarrothArmor(2));
 		armor_jaggi_legs = registerItem(new GreatJaggiArmor(2));
 		armor_rathalos_legs = registerItem(new RathalosArmor(2));
+		armor_barroth_legs = registerItem(new BarrothArmor(2));
 		armor_tigrex_legs = registerItem(new TigrexArmor(2));
 		armor_kirin_legs = registerItem(new KirinArmor(2));
 		armor_deviljho_legs = registerItem(new DeviljhoArmor(2));
@@ -273,9 +273,9 @@ public class MHFCItemRegistry {
 
 		armor_yukumo_boots = registerItem(new YukumoArmor(3));
 		armor_velociprey_boots = registerItem(new VelocipreyArmor(3));
-		armor_barroth_boots = registerItem(new BarrothArmor(3));
 		armor_jaggi_boots = registerItem(new GreatJaggiArmor(3));
 		armor_rathalos_boots = registerItem(new RathalosArmor(3));
+		armor_barroth_boots = registerItem(new BarrothArmor(3));
 		armor_tigrex_boots = registerItem(new TigrexArmor(3));
 		armor_kirin_boots = registerItem(new KirinArmor(3));
 		armor_deviljho_boots = registerItem(new DeviljhoArmor(3));

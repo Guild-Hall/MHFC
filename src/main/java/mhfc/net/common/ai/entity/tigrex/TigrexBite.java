@@ -17,7 +17,7 @@ import net.minecraft.util.Vec3;
 public class TigrexBite extends ActionAdapter<EntityTigrex> {
 	private static final int LAST_FRAME = 55;
 	private static final IDamageCalculator damageCalc = AIUtils
-		.defaultDamageCalc(45f, 62f, 1600f);
+		.defaultDamageCalc(50f, 62f, 1600f);
 
 	private static final double MAX_DIST = 5f;
 	private static final double MAX_ANGLE = 0.155; // This is cos(30)
