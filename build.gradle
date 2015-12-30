@@ -23,6 +23,7 @@ minecraft {
 }
 
 def getVersion() {
+    return "offline-version"
     def stdout = new ByteArrayOutputStream()
     exec {
         executable "git"
@@ -64,6 +65,10 @@ processResources {
     }
 }
 
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
+
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'deobf'
@@ -79,4 +84,13 @@ tasks.build.dependsOn('deobfJar', 'sourceJar')
 artifacts {
     archives sourceJar
     archives deobfJar
+}
+
+test {
+    testLogging {
+        exceptionFormat "full"
+    }
+    afterTest { desc, result ->
+         println "${desc.className} > ${desc.name} ${result.resultType}"
+    }
 }

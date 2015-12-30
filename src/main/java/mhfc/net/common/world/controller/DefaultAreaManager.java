@@ -2,16 +2,19 @@ package mhfc.net.common.world.controller;
 
 import java.util.Objects;
 
-import org.apache.commons.lang3.tuple.Pair;
+import com.mojang.realmsclient.util.Pair;
 
 import mhfc.net.common.world.area.AreaConfiguration;
+import mhfc.net.common.world.proxies.DirectWorldProxy;
 import mhfc.net.common.world.proxies.IWorldProxy;
+import mhfc.net.common.world.proxies.OffsetProxy;
 import net.minecraft.world.World;
 
 public class DefaultAreaManager extends AreaManagerAdapter {
 	private static class RegionManager {
 		/**
-		 * Reserves a rectangle of the size (sizeX, sizeZ) in this {@link RegionManager).
+		 * Reserves a rectangle of the size (sizeX, sizeZ) in this
+		 * {@link RegionManager).
 		 * 
 		 * @param sizeX
 		 *            the size of the reserved rectangle
@@ -39,8 +42,10 @@ public class DefaultAreaManager extends AreaManagerAdapter {
 
 	@Override
 	protected IWorldProxy fitNewArea(AreaConfiguration config) {
-		// TODO Auto-generated method stub
-		return null;
+		Pair<Integer, Integer> offset = regionManager.reserve(config.sizeX,
+				config.sizeZ);
+		return new OffsetProxy(new DirectWorldProxy(world), offset.first(),
+				offset.second());
 	}
 
 }
