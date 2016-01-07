@@ -1,5 +1,4 @@
-MHFC
-====
+# [![MHFC](http://i.imgur.com/60AOtpy.png)](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1291781-monster-hunter-frontier-craft-0-2-501a-barroth)
 
 Monster Hunter Frontier Craft mod created by the Guild Hall team authored by : Heltrato, WorldsEnder, HeroicKatora, Danieru :)
 
@@ -7,9 +6,6 @@ Monster Hunter Frontier Craft mod created by the Guild Hall team authored by : H
 
 Description
 -----------
-
-What is Guild Hall?
-- Guild Hall is the official name of the Modding Team and it is now lead by WorldSEnder and founded by Heltrato.
 
 What is this mod?
 - This mod aims to recreate the great experience from the popular Monster Hunter game series in Minecraft
@@ -39,3 +35,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 DISCLAIMER
 
 This is a fan made modification, all copyrighted names, monsters, weapons, armors as well as other work of art belongs to its original owner, including but not necessarily limited to CAPCOM (C).
+
