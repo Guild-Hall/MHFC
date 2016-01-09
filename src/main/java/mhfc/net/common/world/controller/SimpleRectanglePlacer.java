@@ -39,6 +39,24 @@ public class SimpleRectanglePlacer {
 		return forward ? it.previous() : it.next();
 	}
 
+	private static void addBefore(ListIterator<Corner> it, Corner corner, boolean forward) {
+		if (forward) {
+			it.add(corner);
+		} else {
+			it.add(corner);
+			it.next();
+		}
+	}
+
+	private static void addAfter(ListIterator<Corner> it, Corner corner, boolean forward) {
+		if (forward) {
+			it.add(corner);
+			it.previous();
+		} else {
+			it.add(corner);
+		}
+	}
+
 	// Never two adjacent Bs, thus the sequence S making up the bounding
 	// line
 	// must be
@@ -108,7 +126,7 @@ public class SimpleRectanglePlacer {
 		CornerPosition currMin = CornerPosition.totalMin(diagonalCorner, currentMinCorner);
 		CornerPosition currMax = CornerPosition.totalMax(diagonalCorner, currentMaxCorner);
 		long currRectSize = SimpleRectanglePlacer.rectangleSize(currMin, currMax);
-		if (Long.compareUnsigned(currRectSize, currentBestSize) <= 0) {
+		if (Long.compareUnsigned(currRectSize, currentBestSize) >= 0) {
 			return null;
 		}
 		CornerPosition placedAt = CornerPosition.totalMin(curr.pos, diagonalCorner);
@@ -116,8 +134,8 @@ public class SimpleRectanglePlacer {
 		Corner upperC = new Corner(curr.type, upper);
 		Corner diagonal = new Corner(upperC.type.followUp(true), diagonalCorner);
 		CornerPosition branching = curr.type.outgoing.add(curr.pos, outgoingSize);
-		Corner branchC = new Corner(diagonal.type.followUp(false), branching);
 		if (cmpOut > 0) {
+			Corner branchC = new Corner(diagonal.type.followUp(false), branching);
 			replacementOut.add(prev);
 			replacementOut.add(upperC);
 			replacementOut.add(diagonal);
@@ -128,7 +146,7 @@ public class SimpleRectanglePlacer {
 			replacementOut.add(upperC);
 			replacementOut.add(diagonal);
 		} else {
-			Corner newBranch = new Corner(branchC.type.followUp(false), branchC.pos);
+			Corner newBranch = new Corner(diagonal.type.followUp(true), branching);
 			Corner newNext = new Corner(next.type.rebranch(true), next.pos);
 			replacementOut.add(prev);
 			replacementOut.add(upperC);
@@ -289,6 +307,7 @@ public class SimpleRectanglePlacer {
 			int incomingSize = incHorizontal ? sizeX : sizeY;
 			int outgoingSize = !incHorizontal ? sizeX : sizeY;
 			for (IRectanglePlacingFunction func : SimpleRectanglePlacer.placingFunctions) {
+				replacementBuffer.clear();
 				CornerPosition placedAtInner = func.tryPlace(
 						prev,
 						curr,
@@ -299,49 +318,43 @@ public class SimpleRectanglePlacer {
 						incomingSize,
 						outgoingSize,
 						replacementBuffer);
-				if (placedAtInner != null) {
-					replacementResult.clear();
-					replacementResult.addAll(replacementBuffer);
-					placedAt = placedAtInner;
-					midCornerIndex = currentCorner.previousIndex();
-					for (Corner c : replacementBuffer) {
-						newMaxCorner = CornerPosition.totalMax(c.pos, newMaxCorner);
-						newMinCorner = CornerPosition.totalMin(c.pos, newMinCorner);
-					}
-					bestSize = SimpleRectanglePlacer.rectangleSize(newMinCorner, newMaxCorner);
+				if (placedAtInner == null) {
+					continue;
 				}
-				replacementBuffer.clear();
+				replacementResult.clear();
+				replacementResult.addAll(replacementBuffer);
+				placedAt = placedAtInner;
+				midCornerIndex = currentCorner.previousIndex();
+				for (Corner c : replacementBuffer) {
+					newMaxCorner = CornerPosition.totalMax(c.pos, newMaxCorner);
+					newMinCorner = CornerPosition.totalMin(c.pos, newMinCorner);
+				}
+				bestSize = SimpleRectanglePlacer.rectangleSize(newMinCorner, newMaxCorner);
 			}
 		}
 		this.minCorner = newMinCorner;
 		this.maxCorner = newMaxCorner;
 		ListIterator<Corner> replacingIt = corners.cyclicIterator(midCornerIndex);
 		replacingIt.previous();
-		replacingIt.remove();
+		replacingIt.remove(); // Before
 		replacingIt.next();
-		replacingIt.remove();
+		replacingIt.remove(); // Current
 		replacingIt.next();
-		replacingIt.remove();
+		replacingIt.remove(); // Next
 		RewindableListIterator<Corner> beforeIt = new RewindableListIterator<>(replacingIt);
 		beforeIt.mark();
 		for (Corner c : replacementResult) {
 			beforeIt.add(c);
 		}
 		beforeIt.previous();
-		beforeIt.previous();
 		SimpleRectanglePlacer.fixInvariant(beforeIt, true);
 		beforeIt.rewind();
-		beforeIt.next();
 		beforeIt.next();
 		SimpleRectanglePlacer.fixInvariant(beforeIt, false);
 		return placedAt;
 	}
 
 	static void fixInvariant(ListIterator<Corner> iterator, boolean forward) {
-		Corner c = SimpleRectanglePlacer.forward(iterator, forward);
-		if (!c.type.isOuter()) {
-			SimpleRectanglePlacer.backward(iterator, forward);
-		}
 		while (true) {
 			Corner firstB = SimpleRectanglePlacer.forward(iterator, forward);
 			Corner secondB = SimpleRectanglePlacer.forward(iterator, forward);
@@ -355,6 +368,7 @@ public class SimpleRectanglePlacer {
 			Corner beforeBB = SimpleRectanglePlacer.backward(iterator, forward);
 			int cmp = secondB.type.outgoing.compare(beforeBB.pos, afterBB.pos);
 			if (cmp < 0) {
+				SimpleRectanglePlacer.forward(iterator, forward); // BeforeBB
 				iterator.remove();
 				SimpleRectanglePlacer.forward(iterator, forward); // FirstBB
 				iterator.remove();
@@ -363,8 +377,7 @@ public class SimpleRectanglePlacer {
 				CornerPosition newCorner = secondB.type.outgoing.isHorizontal()
 						? new CornerPosition(beforeBB.pos.posX, afterBB.pos.posY)
 						: new CornerPosition(afterBB.pos.posX, beforeBB.pos.posY);
-				iterator.add(new Corner(secondB.type, newCorner));
-				SimpleRectanglePlacer.backward(iterator, forward);
+				SimpleRectanglePlacer.addAfter(iterator, new Corner(secondB.type, newCorner), forward);
 			} else if (cmp == 0) {
 				iterator.remove();
 				SimpleRectanglePlacer.forward(iterator, forward); // FirstBB
@@ -384,7 +397,7 @@ public class SimpleRectanglePlacer {
 				CornerPosition newCorner = secondB.type.outgoing.isHorizontal()
 						? new CornerPosition(afterBB.pos.posX, beforeBB.pos.posY)
 						: new CornerPosition(beforeBB.pos.posX, afterBB.pos.posY);
-				iterator.add(new Corner(firstB.type, newCorner));
+				SimpleRectanglePlacer.addAfter(iterator, new Corner(firstB.type, newCorner), forward);
 			}
 		}
 	}
