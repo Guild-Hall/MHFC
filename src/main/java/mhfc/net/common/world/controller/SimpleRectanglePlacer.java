@@ -9,6 +9,9 @@ import java.util.ListIterator;
 import mhfc.net.common.util.CyclicIterator;
 import mhfc.net.common.util.ICyclicList;
 import mhfc.net.common.util.RewindableListIterator;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.util.Constants.NBT;
 
 /**
  * This rectangler packer organizes the rectangles as follows:
@@ -23,7 +26,7 @@ import mhfc.net.common.util.RewindableListIterator;
  * @author WorldSEnder
  *
  */
-public class SimpleRectanglePlacer {
+public class SimpleRectanglePlacer implements IRectanglePlacer {
 
 	private static long rectangleSize(CornerPosition downLeft, CornerPosition upRight) {
 		long diffX = Integer.toUnsignedLong(upRight.posX - downLeft.posX);
@@ -37,15 +40,6 @@ public class SimpleRectanglePlacer {
 
 	private static Corner backward(ListIterator<Corner> it, boolean forward) {
 		return forward ? it.previous() : it.next();
-	}
-
-	private static void addBefore(ListIterator<Corner> it, Corner corner, boolean forward) {
-		if (forward) {
-			it.add(corner);
-		} else {
-			it.add(corner);
-			it.next();
-		}
 	}
 
 	private static void addAfter(ListIterator<Corner> it, Corner corner, boolean forward) {
@@ -273,6 +267,7 @@ public class SimpleRectanglePlacer {
 
 	public SimpleRectanglePlacer() {}
 
+	@Override
 	public CornerPosition addRectangle(final int sizeX, final int sizeY) {
 		if (corners.isEmpty()) {
 			corners.add(new Corner(CornerType.DOWN_RIGHT, 0, 0));
@@ -399,6 +394,49 @@ public class SimpleRectanglePlacer {
 						: new CornerPosition(beforeBB.pos.posX, afterBB.pos.posY);
 				SimpleRectanglePlacer.addAfter(iterator, new Corner(firstB.type, newCorner), forward);
 			}
+		}
+	}
+
+	private void writeCornerPosition(NBTTagCompound nbtTag, CornerPosition pos) {
+		nbtTag.setInteger("x", pos.posX);
+		nbtTag.setInteger("y", pos.posY);
+	}
+
+	private CornerPosition readCornerPosition(NBTTagCompound nbtTag) {
+		return new CornerPosition(nbtTag.getInteger("x"), nbtTag.getInteger("y"));
+	}
+
+	@Override
+	public void saveTo(NBTTagCompound nbtTag) {
+		NBTTagList listOfCornerPos = new NBTTagList();
+		for (Corner c : this.corners) {
+			NBTTagCompound cornerTag = new NBTTagCompound();
+			writeCornerPosition(nbtTag, c.pos);
+			cornerTag.setString("type", c.type.name());
+			listOfCornerPos.appendTag(cornerTag);
+		}
+		NBTTagCompound minCornerTag = new NBTTagCompound();
+		NBTTagCompound maxCornerTag = new NBTTagCompound();
+		writeCornerPosition(maxCornerTag, maxCorner);
+		writeCornerPosition(minCornerTag, minCorner);
+		nbtTag.setTag("minCorner", minCornerTag);
+		nbtTag.setTag("maxCorner", maxCornerTag);
+		nbtTag.setTag("corners", listOfCornerPos);
+	}
+
+	@Override
+	public void readFrom(NBTTagCompound nbtTag) {
+		NBTTagList listOfCornerPos = nbtTag.getTagList("corners", NBT.TAG_COMPOUND);
+		NBTTagCompound minCornerTag = nbtTag.getCompoundTag("minCorner");
+		NBTTagCompound maxCornerTag = nbtTag.getCompoundTag("maxCorner");
+		maxCorner = readCornerPosition(maxCornerTag);
+		minCorner = readCornerPosition(minCornerTag);
+		corners.clear();
+		for (int i = 0; i < listOfCornerPos.tagCount(); i++) {
+			NBTTagCompound cornerTag = listOfCornerPos.getCompoundTagAt(i);
+			CornerType type = CornerType.valueOf(cornerTag.getString("type"));
+			CornerPosition pos = readCornerPosition(cornerTag);
+			corners.add(new Corner(type, pos));
 		}
 	}
 

@@ -2,38 +2,20 @@ package mhfc.net.common.world.controller;
 
 import java.util.Objects;
 
-import com.mojang.realmsclient.util.Pair;
-
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.proxies.DirectWorldProxy;
 import mhfc.net.common.world.proxies.IWorldProxy;
 import mhfc.net.common.world.proxies.OffsetProxy;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class DefaultAreaManager extends AreaManagerAdapter {
-	private static class RegionManager {
-		/**
-		 * Reserves a rectangle of the size (sizeX, sizeZ) in this
-		 * {@link RegionManager).
-		 * 
-		 * @param sizeX
-		 *            the size of the reserved rectangle
-		 * @param sizeZ
-		 *            the size of the reserved rectangle
-		 * @return the offset of that rectangle
-		 */
-		public Pair<Integer, Integer> reserve(int sizeX, int sizeZ) {
-			// FIXME: figure out the offset of the consumed terrain, not (0, 0)
-			return Pair.of(0, 0);
-		}
-	}
-
 	private World world;
-	private RegionManager regionManager;
+	private IRectanglePlacer rectangles;
 
 	public DefaultAreaManager(World world) {
 		this.world = Objects.requireNonNull(world);
-		this.regionManager = new RegionManager();
+		this.rectangles = new SimpleRectanglePlacer();
 	}
 
 	public World getWorld() {
@@ -42,10 +24,21 @@ public class DefaultAreaManager extends AreaManagerAdapter {
 
 	@Override
 	protected IWorldProxy fitNewArea(AreaConfiguration config) {
-		Pair<Integer, Integer> offset = regionManager.reserve(config.sizeX,
-				config.sizeZ);
-		return new OffsetProxy(new DirectWorldProxy(world), offset.first(),
-				offset.second());
+		CornerPosition offset = rectangles.addRectangle(config.sizeX, config.sizeZ);
+		return new OffsetProxy(new DirectWorldProxy(world), offset.posX, offset.posY);
+	}
+
+	@Override
+	public void saveTo(NBTTagCompound nbtTag) {
+		NBTTagCompound placerTag = new NBTTagCompound();
+		this.rectangles.saveTo(placerTag);
+		nbtTag.setTag("placer", placerTag);
+	}
+
+	@Override
+	public void readFrom(NBTTagCompound nbtTag) {
+		NBTTagCompound placerTag = nbtTag.getCompoundTag("placer");
+		this.rectangles.readFrom(placerTag);
 	}
 
 }
