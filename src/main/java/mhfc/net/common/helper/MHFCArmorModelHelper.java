@@ -7,6 +7,7 @@ import mhfc.net.client.model.armor.ModelGreatJaggiArmor;
 import mhfc.net.client.model.armor.ModelKirinArmor;
 import mhfc.net.client.model.armor.ModelKirinSArmor;
 import mhfc.net.client.model.armor.ModelKishinArmor;
+import mhfc.net.client.model.armor.ModelNibelsnarfArmor;
 import mhfc.net.client.model.armor.ModelRathalosArmor;
 import mhfc.net.client.model.armor.ModelTigrexArmor;
 import mhfc.net.client.model.armor.ModelVelocipreyArmor;
@@ -31,8 +32,9 @@ public class MHFCArmorModelHelper {
 	public static final ModelDragoonArmor dragoon = new ModelDragoonArmor(1.0F);
 	public static final ModelVelocipreyArmor velociprey = new ModelVelocipreyArmor(1.0F);
 	public static final ModelKishinArmor tigrexb = new ModelKishinArmor(1.0F);
+	public static final ModelNibelsnarfArmor nibelsnarf = new ModelNibelsnarfArmor(1.0F);
 	public static final ModelBarrothArmor barroth = new ModelBarrothArmor(1.0F);
-
+	
 	public static final ModelGreatJaggiArmor jaggi = new ModelGreatJaggiArmor(1.0F);
 
 	// Community

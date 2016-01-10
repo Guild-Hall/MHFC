@@ -1,5 +1,6 @@
 package mhfc.net.client.core.registry;
 
+import mhfc.net.client.render.weapon.bow.RenderBHunterStout;
 import mhfc.net.client.render.weapon.bow.RenderBHunters;
 import mhfc.net.client.render.weapon.bowgun.RenderBHRath;
 import mhfc.net.client.render.weapon.bowgun.RenderBLBarrel;
@@ -109,6 +110,9 @@ public class MHFCWeaponRenderRegistry {
 
 		registerItemRenderer(MHFCItemRegistry.weapon_bow_hunters,
 				new RenderBHunters());
+		
+		registerItemRenderer(MHFCItemRegistry.weapon_bow_huntersstout,
+				new RenderBHunterStout());
 
 		registerItemRenderer(MHFCItemRegistry.weapon_bgl_barrel,
 				new RenderBLBarrel());

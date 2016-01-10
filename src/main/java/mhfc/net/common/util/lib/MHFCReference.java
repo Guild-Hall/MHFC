@@ -77,16 +77,12 @@ public class MHFCReference {
 	public static final String armor_tigrexb_tex1 = "mhfc:textures/armor/kishin_layer_1.png";
 	public static final String armor_tigrexb_tex2 = "mhfc:textures/armor/kishin_layer_2.png";
 
-	public static final String armor_barroth_boots_icon = "mhfc:mhf_3";
-	public static final String armor_barroth_boots_name = "i.mhf_boots";
-	public static final String armor_barroth_chest_icon = "mhfc:mhf_1";
-	public static final String armor_barroth_chest_name = "i.mhf_chest";
-	public static final String armor_barroth_helm_icon = "mhfc:mhf_0";
-	public static final String armor_barroth_helm_name = "i.mhf_helm";
-	public static final String armor_barroth_legs_icon = "mhfc:mhf_2";
-	public static final String armor_barroth_legs_name = "i.mhf_leg";
-	public static final String armor_barroth_tex1 = "mhfc:textures/armor/barroth_layer_1.png";
-	public static final String armor_barroth_tex2 = "mhfc:textures/armor/barroth_layer_2.png";
+	public static final String armor_nibelsnarf_boots_name = "i.mhf_boots";
+	public static final String armor_nibelsnarf_chest_name = "i.mhf_chest";
+	public static final String armor_nibelsnarf_helm_name = "i.mhf_helm";
+	public static final String armor_nibelsnarf_legs_name = "i.mhf_leg";
+	public static final String armor_nibelsnarf_tex1 = "mhfc:textures/armor/nibelsnarf_layer_1.png";
+	public static final String armor_nibelsnarf_tex2 = "mhfc:textures/armor/nibelsnarf_layer_2.png";
 
 	public static final String armor_bionic_tex1 = "mhfc:textures/armor/st_bionic_layer_1.png";
 	public static final String armor_bionic_tex2 = "mhfc:textures/armor/st_bionic_layer_2.png";
@@ -108,6 +104,13 @@ public class MHFCReference {
 	public static final String armor_greatjaggi_chest_name = "l.mhf_chest";
 	public static final String armor_greatjaggi_legs_name = "l.mhf_leg";
 	public static final String armor_greatjaggi_boots_name = "l.mhf_boots";
+	
+	public static final String armor_barroth_tex1 = "mhfc:textures/armor/barroth_layer_1.png";
+	public static final String armor_barroth_tex2 = "mhfc:textures/armor/barroth_layer_2.png";
+	public static final String armor_barroth_helm_name = "m.mhf_helm";
+	public static final String armor_barroth_chest_name = "m.mhf_chest";
+	public static final String armor_barroth_legs_name = "m.mhf_leg";
+	public static final String armor_barroth_boots_name = "m.mhf_boots";
 
 	public static final String block_bbqspit_icon = "mhfc:armorstandblock";
 	public static final String block_bbqspit_name = "bbqspit";
@@ -441,10 +444,9 @@ public class MHFCReference {
 
 	public static final String weapon_bow_hunters_name = "a.bow";
 	public static final String weapon_bow_hunters_tex = "mhfc:textures/weapons/(B)hunters.png";
-	public static final String weapon_bow_hunters_tex_rest = "mhfc:textures/weapons/bow/(B)hunters-rest.png";
-	public static final String weapon_bow_hunters_tex_start = "mhfc:textures/weapons/bow/(B)hunters-start.png";
-	public static final String weapon_bow_hunters_tex_half = "mhfc:textures/weapons/bow/(B)hunters-half.png";
-	public static final String weapon_bow_hunters_tex_full = "mhfc:textures/weapons/bow/(B)hunters-full.png";
+	public static final String weapon_bow_huntersstout_name = "b.bow";
+	public static final String weapon_bow_huntersstout_tex = "mhfc:textures/weapons/(B)huntersstout.png";
+
 
 	public static final String weapon_gs_default_icon = "mhfc:greatsword";
 	public static final String weapon_gs_bone_icon = "mhfc:greatsword";

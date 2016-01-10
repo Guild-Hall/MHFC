@@ -17,6 +17,7 @@ public class MHFCArmorMaterialHelper {
 	public static final ArmorMaterial ArmorCephalos = EnumHelper.addArmorMaterial       ("cepha", durA, new int[]   {4, 6, 5, 3}, enchant);
 	public static final ArmorMaterial ArmorVelociprey = EnumHelper.addArmorMaterial     ("velociprey",durA,new int[]{4, 5, 4, 3}, enchant);
 	public static final ArmorMaterial ArmorGreatJaggi = EnumHelper.addArmorMaterial     ("greatjaggi",durA,new int[]{4, 5, 5, 3}, enchant);
+	public static final ArmorMaterial ArmorNibelsnarf = EnumHelper.addArmorMaterial     ("nibelsnarf", durA, new int[] {4, 5, 5, 4}, enchant);
 	public static final ArmorMaterial ArmorRathalos = EnumHelper.addArmorMaterial       ("rathalos", durA, new int[]{4, 8, 6, 4}, enchant);
 	public static final ArmorMaterial ArmorBarroth = EnumHelper.addArmorMaterial        ("barroth", durA, new int[] {4, 8, 6, 5}, enchant);
 	public static final ArmorMaterial ArmorTigrex = EnumHelper.addArmorMaterial         ("tigrex", durA, new int[]  {4, 8, 8, 3}, enchant);

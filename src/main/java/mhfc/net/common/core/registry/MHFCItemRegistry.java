@@ -8,6 +8,7 @@ import mhfc.net.common.item.armor.GreatJaggiArmor;
 import mhfc.net.common.item.armor.KirinArmor;
 import mhfc.net.common.item.armor.KirinSArmor;
 import mhfc.net.common.item.armor.KishinArmor;
+import mhfc.net.common.item.armor.NibelsnarfArmor;
 import mhfc.net.common.item.armor.RathalosArmor;
 import mhfc.net.common.item.armor.TigrexArmor;
 import mhfc.net.common.item.armor.VelocipreyArmor;
@@ -71,6 +72,7 @@ import mhfc.net.common.weapon.melee.longsword.LSPhantomMirage;
 import mhfc.net.common.weapon.melee.longsword.LSSaber;
 import mhfc.net.common.weapon.melee.longsword.LSTrueDevilSlicer;
 import mhfc.net.common.weapon.range.bow.BHunters;
+import mhfc.net.common.weapon.range.bow.BHuntersStout;
 import mhfc.net.common.weapon.range.bowgun.heavy.BHRath;
 import mhfc.net.common.weapon.range.bowgun.light.BLBarrel;
 import net.minecraft.item.Item;
@@ -119,6 +121,7 @@ public class MHFCItemRegistry {
 	public static final Item weapon_bgh_rath;
 
 	public static final Item weapon_bow_hunters;
+	public static final Item weapon_bow_huntersstout;
 
 	// Armors
 	public static final Item armor_tigrex_helm;
@@ -156,10 +159,12 @@ public class MHFCItemRegistry {
 	public static final Item armor_velociprey_legs;
 	public static final Item armor_velociprey_boots;
 
-	public static final Item armor_barroth_helm;
-	public static final Item armor_barroth_chest;
-	public static final Item armor_barroth_legs;
-	public static final Item armor_barroth_boots;
+	public static final Item armor_nibelsnarf_helm;
+	public static final Item armor_nibelsnarf_chest;
+	public static final Item armor_nibelsnarf_legs;
+	public static final Item armor_nibelsnarf_boots;
+	
+
 
 	// public static final Item armor_deviljho_helm;
 	// public static final Item armor_deviljho_chest;
@@ -185,6 +190,11 @@ public class MHFCItemRegistry {
 	public static final Item armor_jaggi_chest;
 	public static final Item armor_jaggi_legs;
 	public static final Item armor_jaggi_boots;
+	
+	public static final Item armor_barroth_helm;
+	public static final Item armor_barroth_chest;
+	public static final Item armor_barroth_legs;
+	public static final Item armor_barroth_boots;
 
 	// Materials
 
@@ -236,52 +246,56 @@ public class MHFCItemRegistry {
 		armor_velociprey_helm = registerItem(new VelocipreyArmor(0));
 		armor_jaggi_helm = registerItem(new GreatJaggiArmor(0));
 		armor_rathalos_helm = registerItem(new RathalosArmor(0));
+		armor_nibelsnarf_helm = registerItem(new NibelsnarfArmor(0));
 		armor_barroth_helm = registerItem(new BarrothArmor(0));
 		armor_tigrex_helm = registerItem(new TigrexArmor(0));
 		armor_kirin_helm = registerItem(new KirinArmor(0));
 		armor_deviljho_helm = registerItem(new DeviljhoArmor(0));
+		armor_tigrexB_helm = registerItem(new KishinArmor(0));
 		armor_dragoon_helm = registerItem(new DragoonArmor(0));
 		armor_kirinS_helm = registerItem(new KirinSArmor(0));
-		armor_tigrexB_helm = registerItem(new KishinArmor(0));
 		armor_bionic_helm = registerItem(new ST_Bionic(0));
+		
 		armor_yukumo_chest = registerItem(new YukumoArmor(1));
 		armor_velociprey_chest = registerItem(new VelocipreyArmor(1));
-		
 		armor_jaggi_chest = registerItem(new GreatJaggiArmor(1));
 		armor_rathalos_chest = registerItem(new RathalosArmor(1));
+		armor_nibelsnarf_chest = registerItem(new NibelsnarfArmor(1));
 		armor_barroth_chest = registerItem(new BarrothArmor(1));
 		armor_tigrex_chest = registerItem(new TigrexArmor(1));
 		armor_kirin_chest = registerItem(new KirinArmor(1));
 		armor_deviljho_chest = registerItem(new DeviljhoArmor(1));
+		armor_tigrexB_chest = registerItem(new KishinArmor(1));
 		armor_dragoon_chest = registerItem(new DragoonArmor(1));
 		armor_kirinS_chest = registerItem(new KirinSArmor(1));
-		armor_tigrexB_chest = registerItem(new KishinArmor(1));
 		armor_bionic_chest = registerItem(new ST_Bionic(1));
 
 		armor_yukumo_legs = registerItem(new YukumoArmor(2));
 		armor_velociprey_legs = registerItem(new VelocipreyArmor(2));
 		armor_jaggi_legs = registerItem(new GreatJaggiArmor(2));
 		armor_rathalos_legs = registerItem(new RathalosArmor(2));
+		armor_nibelsnarf_legs = registerItem(new NibelsnarfArmor(2));
 		armor_barroth_legs = registerItem(new BarrothArmor(2));
 		armor_tigrex_legs = registerItem(new TigrexArmor(2));
 		armor_kirin_legs = registerItem(new KirinArmor(2));
 		armor_deviljho_legs = registerItem(new DeviljhoArmor(2));
+		armor_tigrexB_legs = registerItem(new KishinArmor(2));
 		armor_dragoon_legs = registerItem(new DragoonArmor(2));
 		armor_kirinS_legs = registerItem(new KirinSArmor(2));
-		armor_tigrexB_legs = registerItem(new KishinArmor(2));
 		armor_bionic_legs = registerItem(new ST_Bionic(2));
 
 		armor_yukumo_boots = registerItem(new YukumoArmor(3));
 		armor_velociprey_boots = registerItem(new VelocipreyArmor(3));
 		armor_jaggi_boots = registerItem(new GreatJaggiArmor(3));
 		armor_rathalos_boots = registerItem(new RathalosArmor(3));
+		armor_nibelsnarf_boots = registerItem(new NibelsnarfArmor(3));
 		armor_barroth_boots = registerItem(new BarrothArmor(3));
 		armor_tigrex_boots = registerItem(new TigrexArmor(3));
 		armor_kirin_boots = registerItem(new KirinArmor(3));
 		armor_deviljho_boots = registerItem(new DeviljhoArmor(3));
+		armor_tigrexB_boots = registerItem(new KishinArmor(3));
 		armor_dragoon_boots = registerItem(new DragoonArmor(3));
 		armor_kirinS_boots = registerItem(new KirinSArmor(3));
-		armor_tigrexB_boots = registerItem(new KishinArmor(3));
 		armor_bionic_boots = registerItem(new ST_Bionic(3));
 
 		// Weapons
@@ -323,6 +337,7 @@ public class MHFCItemRegistry {
 		// Range weapons
 
 		weapon_bow_hunters = registerItem(new BHunters());
+		weapon_bow_huntersstout = registerItem(new BHuntersStout());
 
 		weapon_bgl_barrel = registerItem(new BLBarrel());
 		weapon_bgh_rath = registerItem(new BHRath());
