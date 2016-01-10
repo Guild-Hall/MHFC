@@ -14,11 +14,13 @@ public class RewindableListIterator<E> implements ListIterator<E>, IRewindable {
 		this.isActive = false;
 	}
 
+	@Override
 	public void mark() {
 		this.offset = 0;
 		this.isActive = true;
 	}
 
+	@Override
 	public void clearMark() {
 		this.offset = 0;
 		this.isActive = false;
@@ -68,10 +70,12 @@ public class RewindableListIterator<E> implements ListIterator<E>, IRewindable {
 	@Override
 	public void remove() {
 		iterator.remove();
-		if (wasLastNext && offset <= 0)
+		if (wasLastNext && offset <= 0) {
 			return;
-		if (!wasLastNext && offset >= 0)
+		}
+		if (!wasLastNext && offset >= 0) {
 			return;
+		}
 		@SuppressWarnings("unused")
 		int _unused = wasLastNext ? --offset : ++offset;
 	}
@@ -79,19 +83,24 @@ public class RewindableListIterator<E> implements ListIterator<E>, IRewindable {
 	@Override
 	public void add(E e) {
 		iterator.add(e);
-		if (offset > 0)
+		if (offset >= 0) {
 			offset++;
+		}
 	}
 
+	@Override
 	public RewindableListIterator<E> rewind() {
-		if (!isActive)
+		if (!isActive) {
 			throw new IllegalStateException("Not marked");
+		}
 		if (offset > 0) {
-			while (offset-- > 0)
+			while (offset-- > 0) {
 				iterator.previous();
+			}
 		} else if (offset < 0) {
-			while (offset++ < 0)
+			while (offset++ < 0) {
 				iterator.next();
+			}
 		}
 		return this;
 	}

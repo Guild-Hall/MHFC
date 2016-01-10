@@ -438,7 +438,7 @@ public class SimpleRectanglePlacerTest extends TestCase {
 	}
 
 	@Test
-	public void simpleFix() {
+	public void simpleInvariantFix() {
 		List<Corner> test = new ArrayList<>(
 				Arrays.asList(
 						new Corner(CornerType.RIGHT_DOWN, 1, 4),
@@ -476,11 +476,13 @@ public class SimpleRectanglePlacerTest extends TestCase {
 	public void fullTest() {
 		SimpleRectanglePlacer placer = new SimpleRectanglePlacer();
 		Random rand = new Random();
+
 		for (int i = 0; i < 25; i++) {
 			int sizeX = rand.nextInt(10) + 1, sizeZ = rand.nextInt(10) + 1;
-			System.out.print(sizeX + " " + sizeZ + "->");
-			System.out.println(placer.addRectangle(sizeX, sizeZ));
-			System.out.println(placer);
+			placer.addRectangle(sizeX, sizeZ);
+			//			System.out.print(sizeX + " " + sizeZ + "->");
+			//			System.out.println(placedAt);
+			//			System.out.println(placer);
 			checkCornerList(placer.getCorners());
 		}
 	}
