@@ -484,6 +484,11 @@ public class SimpleRectanglePlacerTest extends TestCase {
 			//			System.out.println(placedAt);
 			//			System.out.println(placer);
 			checkCornerList(placer.getCorners());
+			int count = 0;
+			for (Corner c : placer.getCorners()) {
+				count += c.type.isOuter ? 1 : -1;
+			}
+			Assert.assertTrue(count == 4);
 		}
 	}
 }

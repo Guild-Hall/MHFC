@@ -1,20 +1,14 @@
 package mhfc.net.common.world.controller;
 
-import java.util.Objects;
-
 import mhfc.net.common.world.area.AreaConfiguration;
-import mhfc.net.common.world.proxies.DirectWorldProxy;
-import mhfc.net.common.world.proxies.IWorldProxy;
-import mhfc.net.common.world.proxies.OffsetProxy;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class DefaultAreaManager extends AreaManagerAdapter {
-	private World world;
 	private IRectanglePlacer rectangles;
 
 	public DefaultAreaManager(World world) {
-		this.world = Objects.requireNonNull(world);
+		super(world);
 		this.rectangles = new SimpleRectanglePlacer();
 	}
 
@@ -23,13 +17,13 @@ public class DefaultAreaManager extends AreaManagerAdapter {
 	}
 
 	@Override
-	protected IWorldProxy fitNewArea(AreaConfiguration config) {
-		CornerPosition offset = rectangles.addRectangle(config.sizeX, config.sizeZ);
-		return new OffsetProxy(new DirectWorldProxy(world), offset.posX, offset.posY);
+	protected CornerPosition fitNewArea(AreaConfiguration config) {
+		return rectangles.addRectangle(config.sizeX, config.sizeZ);
 	}
 
 	@Override
 	public void saveTo(NBTTagCompound nbtTag) {
+		super.saveTo(nbtTag);
 		NBTTagCompound placerTag = new NBTTagCompound();
 		this.rectangles.saveTo(placerTag);
 		nbtTag.setTag("placer", placerTag);
@@ -37,6 +31,7 @@ public class DefaultAreaManager extends AreaManagerAdapter {
 
 	@Override
 	public void readFrom(NBTTagCompound nbtTag) {
+		super.saveTo(nbtTag);
 		NBTTagCompound placerTag = nbtTag.getCompoundTag("placer");
 		this.rectangles.readFrom(placerTag);
 	}

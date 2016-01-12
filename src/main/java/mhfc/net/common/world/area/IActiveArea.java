@@ -1,7 +1,7 @@
 package mhfc.net.common.world.area;
+
 /**
- * Represents an {@link IArea} in use. It can be dismissed via
- * {@link #dismiss()}.
+ * Represents an {@link IArea} in use. It can be dismissed via {@link #dismiss()}.
  *
  * @author WorldSEnder
  *
@@ -13,25 +13,31 @@ public interface IActiveArea extends AutoCloseable {
 	 * @return the underlying area
 	 */
 	IArea getArea();
+
 	/**
 	 * Gets the {@link IAreaType} of the underlying area
 	 *
 	 * @return
 	 */
 	IAreaType getType();
+
 	/**
-	 * Dismisses the area. All following calls to this area should fail - and
-	 * may throw an {@link IllegalStateException}.
+	 * Dismisses the area. All following calls to this area should fail - and may throw an
+	 * {@link IllegalStateException}.
 	 *
-	 * @return <code>true</code> if the area was active before, aka there was no
-	 *         call to {@link #dismiss()} before
 	 */
-	boolean dismiss() throws IllegalStateException;
+	void dismiss() throws IllegalStateException;
+
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see #dismiss()
 	 * @see ActiveAreaAdapter
 	 */
-    void close() throws Exception;
+	@Override
+	default void close() throws Exception {
+		dismiss();
+	}
+
+	void you_should_probably_inherit_from_ActiveAreaAdapter();
 }
