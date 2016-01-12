@@ -3,27 +3,25 @@ package mhfc.net.common.configuration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.common.config.Configuration;
 
 /**
  * @author Heltrato
  *
- *         MHF Configuration Files Created for the fix of ID Conflicts in 1.6.4
- *         however this wouldnt be last as 1.7 will going be release for Forge
- *         and MCP .
+ *         MHF Configuration Files Created for the fix of ID Conflicts in 1.6.4 however this wouldnt be last as 1.7 will
+ *         going be release for Forge and MCP .
  *
  *         DN: public<? for easy access; DN: int<? no dec. variables;
  *
  */
 public class MHFCConfig {
 
-	public final boolean allCanPickup;
-	public final boolean spawnTigrex;
-	public final boolean spawnKirin;
-	public final boolean setupComplexGraphics = false;   // I'll add this soon if dan is finish with the block HD's better biome performance for faster pc
-	
-	
+	private boolean allCanPickup;
+	private boolean spawnTigrex;
+	private boolean spawnKirin;
+	private int dimensionHandlerID;
+	//	public final boolean setupComplexGraphics = false;   // I'll add this soon if dan is finish with the block HD's better biome performance for faster pc
 
 	private Map<String, EnableSetting> enableSettings;
 	private Map<String, ReloadTimeSetting> reloadTimeSettings;
@@ -36,31 +34,30 @@ public class MHFCConfig {
 		reloadTimeSettings = new LinkedHashMap<String, ReloadTimeSetting>();
 		config = new Configuration(e.getSuggestedConfigurationFile());
 
-		spawnTigrex = config.get("MHFC Mobs", "Summon Tigrex", true)
-				.getBoolean(true);
-		spawnKirin = config.get("MHFC Mobs", "Summon Kirin", true).getBoolean(
-				true);
-
-		allCanPickup = config
-				.get("settings",
-						"pickup-all",
-						true,
-						"Another work-in-progress soon.")
-				.getBoolean(true);
-		config.save();
 	}
+
 	/**
 	 * TBC after all Settings have been registered
 	 */
 	public void init() {
 		for (EnableSetting es : enableSettings.values()) {
-			es.enabled = config.get("enable", es.settingName, es.enabled)
-					.getBoolean(es.enabled);
+			es.enabled = config.get("enable", es.settingName, es.enabled).getBoolean(es.enabled);
 		}
 		for (ReloadTimeSetting rs : reloadTimeSettings.values()) {
-			rs.reloadTime = config.get("reloadtime", rs.settingName,
-					rs.reloadTime).getInt(rs.reloadTime);
+			rs.reloadTime = config.get("reloadtime", rs.settingName, rs.reloadTime).getInt(rs.reloadTime);
 		}
+
+		spawnTigrex = config.get("MHFC Mobs", "Summon Tigrex", true).getBoolean(true);
+		spawnKirin = config.get("MHFC Mobs", "Summon Kirin", true).getBoolean(true);
+		allCanPickup = config.get("settings", "pickup-all", true, "Another work-in-progress soon.").getBoolean(true);
+		dimensionHandlerID = config.getInt(
+				"dimensionHandlerID",
+				"Questing",
+				-71,
+				Integer.MIN_VALUE,
+				Integer.MAX_VALUE,
+				"Change this if you have any collisions");
+		config.save();
 	}
 
 	private static abstract class Setting {
@@ -95,8 +92,7 @@ public class MHFCConfig {
 	}
 
 	public void addReloadTimeSetting(String weapon, int defaulttime) {
-		reloadTimeSettings.put(weapon, new ReloadTimeSetting(weapon,
-				defaulttime));
+		reloadTimeSettings.put(weapon, new ReloadTimeSetting(weapon, defaulttime));
 	}
 
 	public boolean isEnabled(String weapon) {
@@ -107,6 +103,22 @@ public class MHFCConfig {
 	public int getReloadTime(String weapon) {
 		ReloadTimeSetting rs = reloadTimeSettings.get(weapon);
 		return rs == null ? 0 : rs.reloadTime;
+	}
+
+	public boolean isAllCanPickup() {
+		return allCanPickup;
+	}
+
+	public boolean isSpawnTigrex() {
+		return spawnTigrex;
+	}
+
+	public boolean isSpawnKirin() {
+		return spawnKirin;
+	}
+
+	public int getDimensionHandlerID() {
+		return dimensionHandlerID;
 	}
 
 }

@@ -1,5 +1,6 @@
 package mhfc.net.common.world.gen;
 
+import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.entity.EnumCreatureType;
@@ -9,62 +10,57 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 
+// Pretty much a void generator
 public class QuestingChunkProvider implements IChunkProvider {
+	private World world;
 
-	public QuestingChunkProvider(World world) {}
+	public QuestingChunkProvider(World world) {
+		this.world = world;
+	}
 
 	@Override
 	public boolean chunkExists(int p_73149_1_, int p_73149_2_) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
-	public Chunk provideChunk(int p_73154_1_, int p_73154_2_) {
-		// TODO Auto-generated method stub
-		return null;
+	public Chunk provideChunk(int x, int z) {
+		return new Chunk(world, x, z);
 	}
 
 	@Override
-	public Chunk loadChunk(int p_73158_1_, int p_73158_2_) {
-		// TODO Auto-generated method stub
-		return null;
+	public Chunk loadChunk(int x, int z) {
+		return this.provideChunk(x, z);
 	}
 
 	@Override
-	public void populate(IChunkProvider p_73153_1_, int p_73153_2_, int p_73153_3_) {
-		// TODO Auto-generated method stub
-
+	public void populate(IChunkProvider provider, int x, int z) {
+		;
 	}
 
 	@Override
 	public boolean saveChunks(boolean p_73151_1_, IProgressUpdate p_73151_2_) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean unloadQueuedChunks() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean canSave() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public String makeString() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Questing World";
 	}
 
 	@Override
-	public List getPossibleCreatures(EnumCreatureType p_73155_1_, int p_73155_2_, int p_73155_3_, int p_73155_4_) {
-		// TODO Auto-generated method stub
-		return null;
+	public List getPossibleCreatures(EnumCreatureType type, int x, int y, int z) {
+		return Collections.emptyList();
 	}
 
 	@Override
@@ -80,20 +76,17 @@ public class QuestingChunkProvider implements IChunkProvider {
 
 	@Override
 	public int getLoadedChunkCount() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void recreateStructures(int p_82695_1_, int p_82695_2_) {
-		// TODO Auto-generated method stub
-
+		;
 	}
 
 	@Override
 	public void saveExtraData() {
-		// TODO Auto-generated method stub
-
+		;
 	}
 
 }
