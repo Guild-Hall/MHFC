@@ -108,10 +108,10 @@ public class MHFCWeaponRenderRegistry {
 		registerItemRenderer(MHFCItemRegistry.weapon_hh_tigrex,
 				new RenderHHTigrex());
 
-		registerItemRenderer(MHFCItemRegistry.weapon_bow_hunters,
+		registerItemRenderer(MHFCItemRegistry.weapon_b_hunters,
 				new RenderBHunters());
 		
-		registerItemRenderer(MHFCItemRegistry.weapon_bow_huntersstout,
+		registerItemRenderer(MHFCItemRegistry.weapon_b_huntersstout,
 				new RenderBHunterStout());
 
 		registerItemRenderer(MHFCItemRegistry.weapon_bgl_barrel,

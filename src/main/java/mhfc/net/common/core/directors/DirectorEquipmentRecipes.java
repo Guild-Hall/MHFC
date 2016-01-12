@@ -18,13 +18,32 @@ public class DirectorEquipmentRecipes {
 	public final EquipmentRecipe recipe_tigrex_chest;
 	public final EquipmentRecipe recipe_tigrex_legs;
 	public final EquipmentRecipe recipe_tigrex_boots;
+	
+	public final EquipmentRecipe recipe_yukumo_helm;
+	public final EquipmentRecipe recipe_yukumo_chest;
+	public final EquipmentRecipe recipe_yukumo_legs;
+	public final EquipmentRecipe recipe_yukumo_boots;
+	
+	
+	public final EquipmentRecipe recipe_vangis_helm;
+	public final EquipmentRecipe recipe_vangis_chest;
+	public final EquipmentRecipe recipe_vangis_legs;
+	public final EquipmentRecipe recipe_vangis_boots;
+	
+	public final EquipmentRecipe recipe_rathalos_helm;
+	public final EquipmentRecipe recipe_rathalos_chest;
+	public final EquipmentRecipe recipe_rathalos_legs;
+	public final EquipmentRecipe recipe_rathalos_boots;
+	
 	public final EquipmentRecipe recipe_kirin_helm;
 	// Weapon
-	public final EquipmentRecipe recipe_gs_rathalos_firesword;
-	public final EquipmentRecipe recipe_gs_kirin_thundersword;
+	public final EquipmentRecipe recipe_gs_redwing;
+	public final EquipmentRecipe recipe_gs_thundersword;
 	public final EquipmentRecipe recipe_gs_berserker;
 	public final EquipmentRecipe recipe_gs_agito;
 	public final EquipmentRecipe recipe_gs_bone;
+	
+	
 	public final EquipmentRecipe recipe_hm_war;
 	public final EquipmentRecipe recipe_hm_warplus;
 	public final EquipmentRecipe recipe_hm_warslammer;
@@ -32,21 +51,43 @@ public class DirectorEquipmentRecipes {
 	public final EquipmentRecipe recipe_hm_kirin;
 	public final EquipmentRecipe recipe_hm_rathalos;
 	public final EquipmentRecipe recipe_hm_devilsdue;
+	
 	public final EquipmentRecipe recipe_ls_ironkatana;
 	public final EquipmentRecipe recipe_ls_darkvipern;
+	
 	public final EquipmentRecipe recipe_hh_ivoryhorn;
 	public final EquipmentRecipe recipe_hh_metalbagpipe;
 	public final EquipmentRecipe recipe_hh_tigrex;
+	
+	public final EquipmentRecipe recipe_b_hunters;
+	public final EquipmentRecipe recipe_b_huntersstout;
 
 	public void construct(EquipmentRecipeRegistryData dataObject) {
+		
+		dataObject.register(recipe_yukumo_helm);
+		dataObject.register(recipe_rathalos_helm);
 		dataObject.register(recipe_tigrex_helm);
-		dataObject.register(recipe_tigrex_chest);
-		dataObject.register(recipe_tigrex_legs);
-		dataObject.register(recipe_tigrex_boots);
 		dataObject.register(recipe_kirin_helm);
+		dataObject.register(recipe_vangis_helm);
+		
+		dataObject.register(recipe_yukumo_chest);
+		dataObject.register(recipe_rathalos_chest);
+		dataObject.register(recipe_tigrex_chest);
+		dataObject.register(recipe_vangis_chest);
+		
+		dataObject.register(recipe_yukumo_legs);
+		dataObject.register(recipe_rathalos_legs);
+		dataObject.register(recipe_tigrex_legs);
+		dataObject.register(recipe_vangis_legs);
+		
+		dataObject.register(recipe_yukumo_boots);
+		dataObject.register(recipe_rathalos_boots);		
+		dataObject.register(recipe_tigrex_boots);
+		dataObject.register(recipe_vangis_boots);
+		
 		// Weapon
-		dataObject.register(recipe_gs_rathalos_firesword);
-		dataObject.register(recipe_gs_kirin_thundersword);
+		dataObject.register(recipe_gs_redwing);
+		dataObject.register(recipe_gs_thundersword);
 		dataObject.register(recipe_gs_berserker);
 		dataObject.register(recipe_gs_agito);
 		dataObject.register(recipe_gs_bone);
@@ -62,6 +103,9 @@ public class DirectorEquipmentRecipes {
 		dataObject.register(recipe_hh_ivoryhorn);
 		dataObject.register(recipe_hh_metalbagpipe);
 		dataObject.register(recipe_hh_tigrex);
+		
+		dataObject.register(recipe_b_hunters);
+		dataObject.register(recipe_b_huntersstout);
 	}
 
 	public DirectorEquipmentRecipes() {
@@ -76,7 +120,7 @@ public class DirectorEquipmentRecipes {
 		builder.addIngredient(MHFCItemRegistry.mhfcitemtigrex, 2,
 			ItemTigrex.TigrexSubType.SHELL.ordinal());
 		builder.addIngredient(MHFCItemRegistry.mhfcitemingot, 2,
-			ItemIngot.IngotsSubType.MACHALTIE.ordinal());
+			ItemIngot.IngotsSubType.MACHALITE.ordinal());
 		builder.setRequiredHeat(200).setDuration(400);
 		recipe_tigrex_helm = builder.build();
 
@@ -98,7 +142,7 @@ public class DirectorEquipmentRecipes {
 		builder.addIngredient(MHFCItemRegistry.mhfcitemtigrex, 2,
 			ItemTigrex.TigrexSubType.FANG.ordinal());
 		builder.addIngredient(MHFCItemRegistry.mhfcitemingot, 5,
-			ItemIngot.IngotsSubType.MACHALTIE.ordinal());
+			ItemIngot.IngotsSubType.MACHALITE.ordinal());
 		builder.setRequiredHeat(200).setDuration(400);
 		recipe_tigrex_legs = builder.build();
 
@@ -113,6 +157,96 @@ public class DirectorEquipmentRecipes {
 			ItemIngot.IngotsSubType.DRAGONITE.ordinal());
 		builder.setRequiredHeat(200).setDuration(300);
 		recipe_tigrex_boots = builder.build();
+		
+		
+		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_yukumo_helm));
+		builder.addIngredient(MHFCItemRegistry.mhfcitemlumberbar, 2,0);
+		builder.addIngredient(Item.getItemById(265), 11, 0);
+		builder.setRequiredHeat(100).setDuration(300);
+		recipe_yukumo_helm = builder.build();
+		
+		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_yukumo_chest));
+		builder.addIngredient(MHFCItemRegistry.mhfcitemlumberbar, 10,0);
+		builder.addIngredient(Item.getItemById(265), 15, 0);
+		builder.setRequiredHeat(100).setDuration(300);
+		recipe_yukumo_chest = builder.build();
+		
+		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_yukumo_legs));
+		builder.addIngredient(MHFCItemRegistry.mhfcitemlumberbar, 10,0);
+		builder.setRequiredHeat(100).setDuration(300);
+		recipe_yukumo_legs = builder.build();
+		
+		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_yukumo_boots));
+		builder.addIngredient(MHFCItemRegistry.mhfcitemlumberbar, 4,0);
+		builder.setRequiredHeat(100).setDuration(300);
+		recipe_yukumo_boots = builder.build();
+		
+		
+		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_vangis_helm));
+		builder.addIngredient(MHFCItemRegistry.mhfcitemdeviljho, 3,	ItemDeviljho.DeviljhoSubType.FANG.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemdeviljho, 5, ItemDeviljho.DeviljhoSubType.HIDE.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemdeviljho, 5,	ItemDeviljho.DeviljhoSubType.SCALP.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemingot, 2,	ItemIngot.IngotsSubType.DRAGONITE.ordinal());// Will be replaced by Conquerors Seal
+		builder.setRequiredHeat(200).setDuration(1500);
+		recipe_vangis_helm = builder.build();
+			
+		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_vangis_chest));
+		builder.addIngredient(MHFCItemRegistry.mhfcitemdeviljho, 5,	ItemDeviljho.DeviljhoSubType.FANG.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemdeviljho, 2, ItemDeviljho.DeviljhoSubType.HIDE.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemrathalos, 8,	ItemRathalos.RathalosSubType.WEBBING.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemingot, 4,	ItemIngot.IngotsSubType.CARBALITE.ordinal());// Will be Replaced by Dragonbone Relic
+		builder.setRequiredHeat(200).setDuration(1500);
+		recipe_vangis_chest = builder.build();
+		
+		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_vangis_legs));
+		builder.addIngredient(MHFCItemRegistry.mhfcitemdeviljho, 12,	ItemDeviljho.DeviljhoSubType.SCALE.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemdeviljho, 1, ItemDeviljho.DeviljhoSubType.TAIL.ordinal()); // Will be replaced by Gem 
+		builder.addIngredient(MHFCItemRegistry.mhfcitemdeviljho, 4,	ItemDeviljho.DeviljhoSubType.SCALP.ordinal()); // Will be replaced by Rath Medul
+		builder.addIngredient(MHFCItemRegistry.mhfcitemingot, 4,	ItemIngot.IngotsSubType.CARBALITE.ordinal()); //Will be replaced by Dragonbone Relic  
+		builder.setRequiredHeat(200).setDuration(1500);
+		recipe_vangis_legs = builder.build();
+		
+		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_vangis_boots));
+		builder.addIngredient(MHFCItemRegistry.mhfcitemdeviljho, 3,	ItemDeviljho.DeviljhoSubType.SCALE.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemdeviljho, 5, ItemDeviljho.DeviljhoSubType.TALON.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemdeviljho, 1,	ItemDeviljho.DeviljhoSubType.TAIL.ordinal()); //gem
+		builder.addIngredient(MHFCItemRegistry.mhfcitemingot, 2,	ItemIngot.IngotsSubType.DRAGONITE.ordinal());  //dragonbonerelic
+ 		builder.setRequiredHeat(200).setDuration(1500);
+		recipe_vangis_boots = builder.build();
+		
+		
+		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_rathalos_helm));
+		builder.addIngredient(MHFCItemRegistry.mhfcitemrathalos, 3,RathalosSubType.SHELL.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemrathalos, 4,RathalosSubType.PLATE.ordinal());  // will be replaced by scale
+		builder.addIngredient(MHFCItemRegistry.mhfcitemingot, 4,	ItemIngot.IngotsSubType.DRAGONITE.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemfirestone, 4, 0);
+		builder.setRequiredHeat(200).setDuration(1100);
+		recipe_rathalos_helm = builder.build();
+		
+		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_rathalos_chest));
+		builder.addIngredient(MHFCItemRegistry.mhfcitemrathalos, 4,RathalosSubType.SHELL.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemrathalos, 4,RathalosSubType.PLATE.ordinal());  // will be replaced by scale
+		builder.addIngredient(MHFCItemRegistry.mhfcitemingot, 3,	ItemIngot.IngotsSubType.DRAGONITE.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemrathalos, 1,RathalosSubType.MARROW.ordinal());
+		builder.setRequiredHeat(200).setDuration(1100);
+		recipe_rathalos_chest = builder.build();
+		
+		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_rathalos_legs));
+		builder.addIngredient(MHFCItemRegistry.mhfcitemrathalos, 4,RathalosSubType.WEBBING.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemrathalos, 1,RathalosSubType.WING.ordinal()); // will be replaced by TAIL 
+		builder.addIngredient(MHFCItemRegistry.mhfcitemrathalos, 4,RathalosSubType.SHELL.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemingot, 3,	ItemIngot.IngotsSubType.DRAGONITE.ordinal());
+		builder.setRequiredHeat(200).setDuration(1100);
+		recipe_rathalos_legs = builder.build();
+		
+		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_rathalos_boots));
+		builder.addIngredient(MHFCItemRegistry.mhfcitemrathalos, 4,RathalosSubType.PLATE.ordinal());  // will be replaced by scale
+		builder.addIngredient(MHFCItemRegistry.mhfcitemrathalos, 3,RathalosSubType.WEBBING.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemrathalos, 1,RathalosSubType.MARROW.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemrathalos, 1,RathalosSubType.WEBBING.ordinal());// will be repalced by rare scarab
+		builder.setRequiredHeat(200).setDuration(1100);
+		recipe_rathalos_boots = builder.build();
+		
 
 		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_kirin_helm));
 		for (int a = 0; a < 2; a++) {
@@ -139,18 +273,17 @@ public class DirectorEquipmentRecipes {
 		recipe_gs_bone = builder.build();
 
 		// dont mind//
-
-		builder.setProduct(new ItemStack(
-			MHFCItemRegistry.weapon_gs_rathalosfire));
-		builder.addIngredient(MHFCItemRegistry.mhfcitemrathalos, 2,
-			RathalosSubType.WING.ordinal());
-		builder.addIngredient(MHFCItemRegistry.mhfcitemsac, 2, SacSubType.FIRE
-			.ordinal());
-		builder.addIngredient(MHFCItemRegistry.mhfcitemrathalos, 5,
-			RathalosSubType.MARROW.ordinal());
+		
+		
+		
+		
+		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_gs_rathalosfire));
+		builder.addIngredient(MHFCItemRegistry.mhfcitemrathalos, 2,RathalosSubType.WING.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemsac, 2, SacSubType.FIRE.ordinal());
+		builder.addIngredient(MHFCItemRegistry.mhfcitemrathalos, 5,RathalosSubType.MARROW.ordinal());
 		builder.addIngredient(MHFCItemRegistry.mhfcitemfirestone, 3, 0);
 		builder.setRequiredHeat(300).setDuration(900);
-		recipe_gs_rathalos_firesword = builder.build();
+		recipe_gs_redwing = builder.build();
 
 		//
 
@@ -165,7 +298,7 @@ public class DirectorEquipmentRecipes {
 		builder.addIngredient(MHFCItemRegistry.mhfcitemkirin, 2,
 			ItemKirin.KirinSubType.PURECRYSTAL.ordinal());
 		builder.setRequiredHeat(300).setDuration(900);
-		recipe_gs_kirin_thundersword = builder.build();
+		recipe_gs_thundersword = builder.build();
 
 		//
 
@@ -322,7 +455,7 @@ public class DirectorEquipmentRecipes {
 		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_hh_ivoryhorn));
 		builder.setRequiredHeat(100).setDuration(250);
 		builder.addIngredient(MHFCItemRegistry.mhfcitemingot, 3,
-			ItemIngot.IngotsSubType.MACHALTIE.ordinal());
+			ItemIngot.IngotsSubType.MACHALITE.ordinal());
 		builder.addIngredient(MHFCItemRegistry.mhfcitemlumberbar, 1, 0);
 		builder.addIngredient(Item.getItemById(352), 6, 0);
 		recipe_hh_ivoryhorn = builder.build();
@@ -330,7 +463,7 @@ public class DirectorEquipmentRecipes {
 		builder.setProduct(new ItemStack(
 			MHFCItemRegistry.weapon_hh_metalbagpipe));
 		builder.addIngredient(MHFCItemRegistry.mhfcitemingot, 3,
-			ItemIngot.IngotsSubType.MACHALTIE.ordinal());
+			ItemIngot.IngotsSubType.MACHALITE.ordinal());
 		builder.addIngredient(MHFCItemRegistry.mhfcitemmoldediron, 2, 0);
 		builder.setRequiredHeat(200).setDuration(400);
 		recipe_hh_metalbagpipe = builder.build();
@@ -344,6 +477,22 @@ public class DirectorEquipmentRecipes {
 			ItemIngot.IngotsSubType.DRAGONITE.ordinal());
 		builder.setRequiredHeat(350).setDuration(600);
 		recipe_hh_tigrex = builder.build();
+		
+		//Bow Class
+		
+		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_b_hunters));
+		builder.addIngredient(MHFCItemRegistry.mhfcitemlumberbar, 15,0);
+		builder.addIngredient(Item.getItemById(265), 12, 0);
+		builder.addIngredient(Item.getItemById(352), 12, 0);
+		builder.setRequiredHeat(350).setDuration(600);
+		recipe_b_hunters = builder.build();
+		
+		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_b_huntersstout));
+		builder.addIngredient(MHFCItemRegistry.mhfcitemlumberbar, 5,0);
+		builder.addIngredient(Item.getItemById(265), 15, 0);
+		builder.addIngredient(MHFCItemRegistry.mhfcitemingot, 15,ItemIngot.IngotsSubType.MACHALITE.ordinal());
+		builder.setRequiredHeat(350).setDuration(600); 
+		recipe_b_huntersstout = builder.build();
 
 	}
 

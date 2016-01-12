@@ -46,12 +46,12 @@ public class DeviljhoArmor extends ItemArmor {
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
 		String type) {
-		if (stack.getItem() == MHFCItemRegistry.armor_deviljho_helm || stack
-			.getItem() == MHFCItemRegistry.armor_deviljho_chest || stack
-				.getItem() == MHFCItemRegistry.armor_deviljho_boots) {
+		if (stack.getItem() == MHFCItemRegistry.armor_vangis_helm || stack
+			.getItem() == MHFCItemRegistry.armor_vangis_chest || stack
+				.getItem() == MHFCItemRegistry.armor_vangis_boots) {
 			return MHFCReference.armor_deviljho_tex1;
 		}
-		if (stack.getItem() == MHFCItemRegistry.armor_deviljho_legs) {
+		if (stack.getItem() == MHFCItemRegistry.armor_vangis_legs) {
 			return MHFCReference.armor_deviljho_tex2;
 		}
 		return null;
@@ -120,9 +120,9 @@ public class DeviljhoArmor extends ItemArmor {
 		ItemStack chest = player.getCurrentArmor(2);
 		ItemStack food = player.getCurrentEquippedItem();
 		if (boots != null && legs != null && chest != null) {
-			if (boots.getItem() == MHFCItemRegistry.armor_deviljho_boots && legs
-				.getItem() == MHFCItemRegistry.armor_deviljho_legs && chest
-					.getItem() == MHFCItemRegistry.armor_deviljho_chest) {
+			if (boots.getItem() == MHFCItemRegistry.armor_vangis_boots && legs
+				.getItem() == MHFCItemRegistry.armor_vangis_legs && chest
+					.getItem() == MHFCItemRegistry.armor_vangis_chest) {
 			}
 		}
 	}

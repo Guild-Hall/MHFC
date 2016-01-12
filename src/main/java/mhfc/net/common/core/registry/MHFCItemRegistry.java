@@ -120,8 +120,8 @@ public class MHFCItemRegistry {
 	public static final Item weapon_bgl_barrel;
 	public static final Item weapon_bgh_rath;
 
-	public static final Item weapon_bow_hunters;
-	public static final Item weapon_bow_huntersstout;
+	public static final Item weapon_b_hunters;
+	public static final Item weapon_b_huntersstout;
 
 	// Armors
 	public static final Item armor_tigrex_helm;
@@ -181,10 +181,10 @@ public class MHFCItemRegistry {
 	public static final Item armor_bionic_legs;
 	public static final Item armor_bionic_boots;
 
-	public static final Item armor_deviljho_helm;
-	public static final Item armor_deviljho_chest;
-	public static final Item armor_deviljho_legs;
-	public static final Item armor_deviljho_boots;
+	public static final Item armor_vangis_helm;
+	public static final Item armor_vangis_chest;
+	public static final Item armor_vangis_legs;
+	public static final Item armor_vangis_boots;
 
 	public static final Item armor_jaggi_helm;
 	public static final Item armor_jaggi_chest;
@@ -250,7 +250,7 @@ public class MHFCItemRegistry {
 		armor_barroth_helm = registerItem(new BarrothArmor(0));
 		armor_tigrex_helm = registerItem(new TigrexArmor(0));
 		armor_kirin_helm = registerItem(new KirinArmor(0));
-		armor_deviljho_helm = registerItem(new DeviljhoArmor(0));
+		armor_vangis_helm = registerItem(new DeviljhoArmor(0));
 		armor_tigrexB_helm = registerItem(new KishinArmor(0));
 		armor_dragoon_helm = registerItem(new DragoonArmor(0));
 		armor_kirinS_helm = registerItem(new KirinSArmor(0));
@@ -264,7 +264,7 @@ public class MHFCItemRegistry {
 		armor_barroth_chest = registerItem(new BarrothArmor(1));
 		armor_tigrex_chest = registerItem(new TigrexArmor(1));
 		armor_kirin_chest = registerItem(new KirinArmor(1));
-		armor_deviljho_chest = registerItem(new DeviljhoArmor(1));
+		armor_vangis_chest = registerItem(new DeviljhoArmor(1));
 		armor_tigrexB_chest = registerItem(new KishinArmor(1));
 		armor_dragoon_chest = registerItem(new DragoonArmor(1));
 		armor_kirinS_chest = registerItem(new KirinSArmor(1));
@@ -278,7 +278,7 @@ public class MHFCItemRegistry {
 		armor_barroth_legs = registerItem(new BarrothArmor(2));
 		armor_tigrex_legs = registerItem(new TigrexArmor(2));
 		armor_kirin_legs = registerItem(new KirinArmor(2));
-		armor_deviljho_legs = registerItem(new DeviljhoArmor(2));
+		armor_vangis_legs = registerItem(new DeviljhoArmor(2));
 		armor_tigrexB_legs = registerItem(new KishinArmor(2));
 		armor_dragoon_legs = registerItem(new DragoonArmor(2));
 		armor_kirinS_legs = registerItem(new KirinSArmor(2));
@@ -292,7 +292,7 @@ public class MHFCItemRegistry {
 		armor_barroth_boots = registerItem(new BarrothArmor(3));
 		armor_tigrex_boots = registerItem(new TigrexArmor(3));
 		armor_kirin_boots = registerItem(new KirinArmor(3));
-		armor_deviljho_boots = registerItem(new DeviljhoArmor(3));
+		armor_vangis_boots = registerItem(new DeviljhoArmor(3));
 		armor_tigrexB_boots = registerItem(new KishinArmor(3));
 		armor_dragoon_boots = registerItem(new DragoonArmor(3));
 		armor_kirinS_boots = registerItem(new KirinSArmor(3));
@@ -336,8 +336,8 @@ public class MHFCItemRegistry {
 
 		// Range weapons
 
-		weapon_bow_hunters = registerItem(new BHunters());
-		weapon_bow_huntersstout = registerItem(new BHuntersStout());
+		weapon_b_hunters = registerItem(new BHunters());
+		weapon_b_huntersstout = registerItem(new BHuntersStout());
 
 		weapon_bgl_barrel = registerItem(new BLBarrel());
 		weapon_bgh_rath = registerItem(new BHRath());
