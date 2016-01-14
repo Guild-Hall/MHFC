@@ -1,11 +1,16 @@
 package mhfc.net.common.core.registry;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.world.QuestingWorldProvider;
+import mhfc.net.common.world.WorldProviderQuesting;
 import net.minecraftforge.common.DimensionManager;
 
 public class MHFCDimensionRegistry {
 	private static MHFCMain mod;
+
+	private static int dimensionID = 0;
+	private static boolean isInit = false;
+
+	private MHFCDimensionRegistry() {}
 
 	static {
 		MHFCMain.checkPreInitialized();
@@ -15,9 +20,18 @@ public class MHFCDimensionRegistry {
 
 	public static void init() {
 		int dimHandlerId = MHFCMain.config.getDimensionHandlerID();
-		int dimensionID = DimensionManager.getNextFreeDimId();
+		MHFCDimensionRegistry.dimensionID = DimensionManager.getNextFreeDimId();
 
-		DimensionManager.registerProviderType(dimHandlerId, QuestingWorldProvider.class, false);
-		DimensionManager.registerDimension(dimensionID, dimHandlerId);
+		DimensionManager.registerProviderType(dimHandlerId, WorldProviderQuesting.class, false);
+		DimensionManager.registerDimension(MHFCDimensionRegistry.dimensionID, dimHandlerId);
+
+		MHFCDimensionRegistry.isInit = true;
+	}
+
+	public static int getQuestingDimensionID() {
+		if (!MHFCDimensionRegistry.isInit) {
+			throw new IllegalStateException("Not initialized yet");
+		}
+		return MHFCDimensionRegistry.dimensionID;
 	}
 }
