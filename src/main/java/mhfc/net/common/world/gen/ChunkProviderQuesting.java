@@ -30,4 +30,5 @@ public class ChunkProviderQuesting extends ChunkProviderFlat {
 		ret.generateSkylightMap();
 		return ret;
 	}
+
 }

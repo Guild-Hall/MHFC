@@ -44,4 +44,12 @@ public class WorldProviderQuesting extends WorldProvider {
 	public boolean canCoordinateBeSpawn(int x, int z) {
 		return true;
 	}
+
+	@Override
+	public void calculateInitialWeather() {
+		// As much as I'd like to move this to registerWorldChunkManager, I can't
+		// ^ called too early in the constructor, where the perWorldStorage hasn't been loaded yet
+		super.calculateInitialWeather();
+		((ChunkManagerQuesting) this.worldChunkMgr).finishSetup();
+	}
 }

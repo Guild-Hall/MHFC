@@ -3,33 +3,21 @@ package mhfc.net.common.world.controller;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import mhfc.net.common.world.MHFCWorldData;
+import mhfc.net.common.world.MHFCWorldData.AreaInformation;
 import mhfc.net.common.world.area.ActiveAreaAdapter;
 import mhfc.net.common.world.area.AreaConfiguration;
-import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IAreaType;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants.NBT;
 
-public abstract class AreaManagerAdapter implements IAreaManager {
-	private static class AreaInformation {
-		public final IAreaType type;
-		public final IArea controller;
-
-		public AreaInformation(IAreaType type, IArea controller) {
-			this.type = Objects.requireNonNull(type);
-			this.controller = controller;
-		}
-	}
+public class AreaManagerAdapter implements IAreaManager {
 
 	private static class Active extends ActiveAreaAdapter {
 		private IArea area;
@@ -60,11 +48,18 @@ public abstract class AreaManagerAdapter implements IAreaManager {
 	}
 
 	protected Map<IAreaType, List<IArea>> nonactiveAreas = new HashMap<>();
-	private Collection<AreaInformation> spawnedAreas = new HashSet<>();
+	private MHFCWorldData saveData;
 	protected final World world;
 
-	public AreaManagerAdapter(World world) {
+	public AreaManagerAdapter(World world, MHFCWorldData saveData) {
 		this.world = Objects.requireNonNull(world);
+		this.saveData = Objects.requireNonNull(saveData);
+		Collection<AreaInformation> loadedAreas = this.saveData.getAllSpawnedAreas();
+		for (AreaInformation info : loadedAreas) {
+			IArea loadingArea = info.type.provideForLoading(world);
+			loadingArea.loadFromConfig(info.config);
+			this.nonactiveAreas.computeIfAbsent(info.type, (k) -> new ArrayList<>()).add(loadingArea);
+		}
 	}
 
 	private void dismiss(IActiveArea active) {
@@ -90,51 +85,11 @@ public abstract class AreaManagerAdapter implements IAreaManager {
 	}
 
 	private IArea newArea(IAreaType type) {
-		AreaConfiguration config = type.configureNewArea();
-		CornerPosition pos = fitNewArea(config);
+		AreaConfiguration config = type.configForNewArea();
+		CornerPosition pos = saveData.newArea(type, config);
 		// TODO make sure that chunks are cleared?
 		IArea controller = type.populate(world, pos, config);
-		spawnedAreas.add(new AreaInformation(type, controller));
 		return controller;
 	}
 
-	protected abstract CornerPosition fitNewArea(AreaConfiguration config);
-
-	@Override
-	public void readFrom(NBTTagCompound nbtTag) {
-		spawnedAreas.clear();
-		nonactiveAreas.clear();
-		NBTTagList list = nbtTag.getTagList("spawnedAreas", NBT.TAG_COMPOUND);
-		for (int i = 0; i < list.tagCount(); i++) {
-			NBTTagCompound confTag = list.getCompoundTagAt(i);
-			String typeS = confTag.getString("type");
-			NBTTagCompound dataTag = confTag.getCompoundTag("data");
-			IAreaType type = AreaRegistry.instance.getType(typeS);
-			if (type == null) {
-				continue;
-			}
-			IArea area = type.provideForLoading(world);
-			area.readFrom(dataTag);
-			spawnedAreas.add(new AreaInformation(type, area));
-			nonactiveAreas.computeIfAbsent(type, (k) -> new ArrayList<>()).add(area);
-		}
-	}
-
-	@Override
-	public void saveTo(NBTTagCompound nbtTag) {
-		NBTTagList list = new NBTTagList();
-		for (AreaInformation conf : spawnedAreas) {
-			NBTTagCompound dataTag = new NBTTagCompound();
-			conf.controller.saveTo(dataTag);
-			String typeS = AreaRegistry.instance.getName(conf.type);
-			if (typeS == null) {
-				continue;
-			}
-			NBTTagCompound confTag = new NBTTagCompound();
-			confTag.setString("type", typeS);
-			confTag.setTag("data", dataTag);
-			list.appendTag(confTag);
-		}
-		nbtTag.setTag("spawnedAreas", list);
-	}
 }

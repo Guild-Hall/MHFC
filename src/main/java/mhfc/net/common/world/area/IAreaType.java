@@ -18,14 +18,16 @@ public interface IAreaType {
 	 * @param lowerLeftCorner
 	 *            the position of the lower left corner of the area that has been assigned to this Area
 	 * @param configuration
-	 *            the configuration previously returned from {@link #configureNewArea()}
+	 *            the configuration previously returned from {@link #configForNewArea()}
 	 * @return the {@link IArea} controller.
 	 */
 	IArea populate(World world, CornerPosition lowerLeftCorner, AreaConfiguration configuration);
 
 	IArea provideForLoading(World world);
 
-	AreaConfiguration configureNewArea();
+	AreaConfiguration configForNewArea();
+
+	AreaConfiguration configForLoading();
 
 	@Override
 	int hashCode();

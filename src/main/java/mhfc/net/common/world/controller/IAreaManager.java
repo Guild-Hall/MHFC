@@ -1,11 +1,10 @@
 package mhfc.net.common.world.controller;
 
-import mhfc.net.common.util.ISavableToNBT;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IAreaType;
 
-public interface IAreaManager extends ISavableToNBT {
+public interface IAreaManager {
 	/**
 	 * Gets an empty {@link IArea} of the {@link IAreaType} given. This tries to reuse existing instances if possible.
 	 * If no existing IArea of the type can be found, a new one is created.<br>

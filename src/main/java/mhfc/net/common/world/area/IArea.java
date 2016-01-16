@@ -1,10 +1,9 @@
 package mhfc.net.common.world.area;
 
 import mhfc.net.common.quests.world.IQuestArea;
-import mhfc.net.common.util.ISavableToNBT;
 import mhfc.net.common.world.controller.IAreaManager;
 
-public interface IArea extends IQuestArea, ISavableToNBT {
+public interface IArea extends IQuestArea {
 	/**
 	 * Returns whether this area can (temporarily) not be used.<br>
 	 * Checked by the {@link IAreaManager} when it searches for an area to put a questing party in. When an area without
@@ -14,6 +13,8 @@ public interface IArea extends IQuestArea, ISavableToNBT {
 	 * @return <code>false</code> to disable questing in this area.
 	 */
 	boolean isUnusable();
+
+	void loadFromConfig(AreaConfiguration config);
 
 	IAreaType getOwnType();
 }

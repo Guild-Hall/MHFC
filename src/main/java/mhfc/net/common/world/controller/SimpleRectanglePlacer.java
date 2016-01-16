@@ -263,9 +263,12 @@ public class SimpleRectanglePlacer implements IRectanglePlacer {
 			SimpleRectanglePlacer.AtInnerCorner);
 
 	private CornerList corners = new CornerList();
-	private CornerPosition minCorner = null, maxCorner = null;
+	private CornerPosition minCorner, maxCorner;
 
-	public SimpleRectanglePlacer() {}
+	public SimpleRectanglePlacer() {
+		minCorner = new CornerPosition(0, 0);
+		maxCorner = new CornerPosition(0, 0);
+	}
 
 	@Override
 	public CornerPosition addRectangle(final int sizeX, final int sizeY) {
@@ -417,8 +420,8 @@ public class SimpleRectanglePlacer implements IRectanglePlacer {
 		}
 		NBTTagCompound minCornerTag = new NBTTagCompound();
 		NBTTagCompound maxCornerTag = new NBTTagCompound();
-		writeCornerPosition(maxCornerTag, maxCorner);
 		writeCornerPosition(minCornerTag, minCorner);
+		writeCornerPosition(maxCornerTag, maxCorner);
 		nbtTag.setTag("minCorner", minCornerTag);
 		nbtTag.setTag("maxCorner", maxCornerTag);
 		nbtTag.setTag("corners", listOfCornerPos);
