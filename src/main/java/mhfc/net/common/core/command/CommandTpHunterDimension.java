@@ -8,11 +8,38 @@ import mhfc.net.common.core.registry.MHFCDimensionRegistry;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerSelector;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
+import net.minecraft.world.Teleporter;
+import net.minecraft.world.WorldServer;
 
 public class CommandTpHunterDimension implements ICommand {
+	private static class InstantTeleporter extends Teleporter {
+
+		public InstantTeleporter(WorldServer server) {
+			super(server);
+		}
+
+		@Override
+		public void placeInPortal(Entity entity, double posX, double posY, double posZ, float rotationYaw) {
+			int x = (int) posX, z = (int) posZ, y = (int) posY;
+			entity.setLocationAndAngles(x, y, z, rotationYaw, 0.0F);
+			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
+		}
+
+		@Override
+		public boolean makePortal(Entity e) {
+			return false;
+		}
+
+		@Override
+		public void removeStalePortalLocations(long time) {
+			;
+		}
+
+	}
 
 	@Override
 	public int compareTo(Object o) {
@@ -43,8 +70,13 @@ public class CommandTpHunterDimension implements ICommand {
 					: new EntityPlayerMP[] { player };
 			ServerConfigurationManager mg = MinecraftServer.getServer().getConfigurationManager();
 			int questWorldID = MHFCDimensionRegistry.getQuestingDimensionID();
+			Teleporter tp = new InstantTeleporter(MinecraftServer.getServer().worldServerForDimension(questWorldID));
 			for (EntityPlayerMP toTp : players) {
-				mg.transferPlayerToDimension(toTp, questWorldID);
+				if (toTp.dimension == questWorldID) {
+					mg.transferPlayerToDimension(toTp, 0, tp);
+				} else {
+					mg.transferPlayerToDimension(toTp, questWorldID, tp);
+				}
 			}
 			MHFCMain.logger.debug("Teleported to dimension " + questWorldID);
 		}
