@@ -72,6 +72,7 @@ import mhfc.net.common.weapon.melee.longsword.LSPhantomMirage;
 import mhfc.net.common.weapon.melee.longsword.LSSaber;
 import mhfc.net.common.weapon.melee.longsword.LSTrueDevilSlicer;
 import mhfc.net.common.weapon.range.bow.BHunters;
+import mhfc.net.common.weapon.range.bow.BHuntersProud;
 import mhfc.net.common.weapon.range.bow.BHuntersStout;
 import mhfc.net.common.weapon.range.bowgun.heavy.BHRath;
 import mhfc.net.common.weapon.range.bowgun.light.BLBarrel;
@@ -122,6 +123,7 @@ public class MHFCItemRegistry {
 
 	public static final Item weapon_b_hunters;
 	public static final Item weapon_b_huntersstout;
+	public static final Item weapon_b_huntersproud;
 
 	// Armors
 	public static final Item armor_tigrex_helm;
@@ -338,6 +340,7 @@ public class MHFCItemRegistry {
 
 		weapon_b_hunters = registerItem(new BHunters());
 		weapon_b_huntersstout = registerItem(new BHuntersStout());
+		weapon_b_huntersproud = registerItem(new BHuntersProud());
 
 		weapon_bgl_barrel = registerItem(new BLBarrel());
 		weapon_bgh_rath = registerItem(new BHRath());

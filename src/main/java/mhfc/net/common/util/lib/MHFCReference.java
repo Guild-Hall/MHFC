@@ -446,6 +446,8 @@ public class MHFCReference {
 	public static final String weapon_bow_hunters_tex = "mhfc:textures/weapons/(B)hunters.png";
 	public static final String weapon_bow_huntersstout_name = "b.bow";
 	public static final String weapon_bow_huntersstout_tex = "mhfc:textures/weapons/(B)huntersstout.png";
+	public static final String weapon_bow_huntersproud_name = "c.bow";
+	public static final String weapon_bow_huntersproud_tex = "mhfc:textures/weapons/(B)huntersproud.png";
 
 
 	public static final String weapon_gs_default_icon = "mhfc:greatsword";
