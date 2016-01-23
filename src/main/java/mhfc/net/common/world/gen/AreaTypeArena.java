@@ -2,6 +2,7 @@ package mhfc.net.common.world.gen;
 
 import java.util.Objects;
 
+import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.IArea;
@@ -64,7 +65,7 @@ public class AreaTypeArena implements IAreaType {
 			for (int j = 0; j < 16; j++) {
 				int x = lowerLeftCorner.posX * 16 + i;
 				int z = lowerLeftCorner.posY * 16 + j;
-				world.setBlock(x, 64, z, Block.getBlockFromName("grass"));
+				world.setBlock(x, 64, z, MHFCBlockRegistry.mhfcblockdirt);
 			}
 		}
 		return new AreaArena(world, lowerLeftCorner, configuration);
