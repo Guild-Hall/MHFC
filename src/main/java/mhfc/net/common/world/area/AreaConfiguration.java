@@ -3,7 +3,7 @@ package mhfc.net.common.world.area;
 import mhfc.net.common.util.ISavableToNBT;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class AreaConfiguration implements ISavableToNBT {
+public class AreaConfiguration implements ISavableToNBT {
 	private int sizeX;
 	private int sizeZ;
 	private boolean initialized;

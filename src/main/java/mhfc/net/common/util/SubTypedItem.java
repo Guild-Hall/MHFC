@@ -14,10 +14,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 
 /**
- * A util interface to describes blocks and items that store part of their
- * actual "value" in the meta-information of each Block/ItemStack.
+ * A util interface to describes blocks and items that store part of their actual "value" in the meta-information of
+ * each Block/ItemStack.
  *
- * //FIXME: overthink extends Enum<T> as an requirement?!
  *
  * @author WorldSEnder
  *
@@ -58,9 +57,8 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 	}
 
 	/**
-	 * A quick and dirty way to reuse the same texture path for multiple
-	 * textures. Used for trees as they have different paths for the top and
-	 * sides of leave blocks.
+	 * A quick and dirty way to reuse the same texture path for multiple textures. Used for trees as they have different
+	 * paths for the top and sides of leave blocks.
 	 *
 	 * @author WorldSEnder
 	 *
@@ -69,12 +67,7 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 		public String modify(String texPath);
 	}
 
-	private static TexturePathModificator PASSTHROUGH = new TexturePathModificator() {
-		@Override
-		public String modify(String texPath) {
-			return texPath;
-		}
-	};
+	private static TexturePathModificator PASSTHROUGH = texPath -> texPath;
 
 	public static ItemStack fromSubBlock(SubTypeEnum<Block> subBlock, int size) {
 		return new ItemStack(subBlock.getBaseItem(), size, subBlock.ordinal());
@@ -98,7 +91,7 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 		this.clazzToken = Objects.requireNonNull(enumClazz);
 		// Cache the value, getEnumConstants() doesn't and can not safely
 		this.values = clazzToken.getEnumConstants();
-		this.modifier = modifier == null ? PASSTHROUGH : modifier;
+		this.modifier = modifier == null ? SubTypedItem.PASSTHROUGH : modifier;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -116,8 +109,8 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item block, List<ItemStack> list) {
-		for (int i = 0; i < values.length; i++) {
-			list.add(new ItemStack(block, 1, values[i].ordinal()));
+		for (T value : values) {
+			list.add(new ItemStack(block, 1, value.ordinal()));
 		}
 	}
 

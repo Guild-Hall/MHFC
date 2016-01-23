@@ -88,10 +88,11 @@ public class MHFCWorldData extends WorldSavedData {
 	}
 
 	public CornerPosition newArea(IAreaType type, AreaConfiguration config) {
-		CornerPosition pos = rectanglePlacer.addRectangle(config.getSizeX(), config.getSizeZ());
-		spawnedAreas.add(new AreaInformation(type, pos, config));
+		CornerPosition pos = rectanglePlacer.addRectangle(config.getSizeX() + 2, config.getSizeZ() + 2);
+		CornerPosition actual = new CornerPosition(pos.posX + 1, pos.posY + 1);
+		spawnedAreas.add(new AreaInformation(type, actual, config));
 		this.markDirty();
-		return pos;
+		return actual;
 	}
 
 	public Collection<AreaInformation> getAllSpawnedAreas() {

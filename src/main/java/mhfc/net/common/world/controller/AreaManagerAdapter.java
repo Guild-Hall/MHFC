@@ -28,6 +28,7 @@ public class AreaManagerAdapter implements IAreaManager {
 			this.area = Objects.requireNonNull(area);
 			this.type = Objects.requireNonNull(type);
 			this.ref = Objects.requireNonNull(ref);
+			this.area.onAcquire();
 		}
 
 		@Override
@@ -42,6 +43,7 @@ public class AreaManagerAdapter implements IAreaManager {
 
 		@Override
 		protected void onDismiss() {
+			this.area.onDismiss();
 			ref.dismiss(this);
 		}
 
