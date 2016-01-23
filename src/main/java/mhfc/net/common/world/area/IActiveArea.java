@@ -1,12 +1,14 @@
 package mhfc.net.common.world.area;
 
+import java.io.Closeable;
+
 /**
  * Represents an {@link IArea} in use. It can be dismissed via {@link #dismiss()}.
  *
  * @author WorldSEnder
  *
  */
-public interface IActiveArea extends AutoCloseable {
+public interface IActiveArea extends Closeable {
 	/**
 	 * Gets the area of the active area
 	 *
@@ -35,7 +37,7 @@ public interface IActiveArea extends AutoCloseable {
 	 * @see ActiveAreaAdapter
 	 */
 	@Override
-	default void close() throws Exception {
+	default void close() {
 		dismiss();
 	}
 

@@ -59,7 +59,7 @@ public class AreaManagerAdapter implements IAreaManager {
 		Collection<AreaInformation> loadedAreas = this.saveData.getAllSpawnedAreas();
 		for (AreaInformation info : loadedAreas) {
 			IArea loadingArea = info.type.provideForLoading(world);
-			loadingArea.loadFromConfig(info.config);
+			loadingArea.loadFromConfig(info.position, info.config);
 			this.nonactiveAreas.computeIfAbsent(info.type, (k) -> new ArrayList<>()).add(loadingArea);
 		}
 	}
