@@ -109,7 +109,8 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item block, List<ItemStack> list) {
-		for (T value : values) {
+		for (int i = 0; i < values.length;) {
+			T value = values[i++];
 			list.add(new ItemStack(block, 1, value.ordinal()));
 		}
 	}
