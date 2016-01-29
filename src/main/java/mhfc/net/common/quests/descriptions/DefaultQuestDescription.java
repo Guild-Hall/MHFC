@@ -5,6 +5,8 @@ import mhfc.net.common.quests.IVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.QuestDescription;
+import mhfc.net.common.world.area.AreaRegistry;
+import mhfc.net.common.world.area.IAreaType;
 
 /**
  * Used by the QuestFactory as well as to display quests.
@@ -24,19 +26,23 @@ public class DefaultQuestDescription extends QuestDescription {
 	protected IVisualInformation visual;
 	protected QuestType questType;
 
-	protected String areaId;
+	protected IAreaType areaType;
 
 	protected int reward;
 	protected int fee;
 	protected int maxPartySize;
 
-	public DefaultQuestDescription(GoalReference goalDescID,
-		QuestDescription.QuestType type, String areaId, int reward, int fee,
-		int maxPartySize) {
+	public DefaultQuestDescription(
+			GoalReference goalDescID,
+			QuestDescription.QuestType type,
+			String areaId,
+			int reward,
+			int fee,
+			int maxPartySize) {
 		super(MHFCQuestBuildRegistry.QUEST_DEFAULT);
 		this.goalReference = goalDescID;
 		this.questType = type;
-		this.areaId = areaId;
+		this.areaType = AreaRegistry.instance.getType(areaId);
 		this.reward = reward;
 		this.fee = fee;
 		this.maxPartySize = maxPartySize;
@@ -45,11 +51,6 @@ public class DefaultQuestDescription extends QuestDescription {
 
 	public void setVisualInformation(IVisualInformation visualInformation) {
 		this.visual = visualInformation;
-	}
-
-	private String resolveAreaIDToName(String areaId2) {
-		// TODO Really resolve, once we have an area system in place
-		return areaId2;
 	}
 
 	@Override
@@ -68,8 +69,8 @@ public class DefaultQuestDescription extends QuestDescription {
 	}
 
 	@Override
-	public String getAreaID() {
-		return areaId;
+	public IAreaType getAreaType() {
+		return areaType;
 	}
 
 	@Override

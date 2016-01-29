@@ -2,6 +2,9 @@ package mhfc.net.common.core.registry;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.world.WorldProviderQuesting;
+import mhfc.net.common.world.gen.ChunkManagerQuesting;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 
 public class MHFCDimensionRegistry {
@@ -33,5 +36,11 @@ public class MHFCDimensionRegistry {
 			throw new IllegalStateException("Not initialized yet");
 		}
 		return MHFCDimensionRegistry.dimensionID;
+	}
+
+	public static ChunkManagerQuesting getQuestingDimensionChunkManager() {
+		WorldServer server = MinecraftServer.getServer().worldServerForDimension(dimensionID);
+		ChunkManagerQuesting manager = (ChunkManagerQuesting) server.getWorldChunkManager();
+		return manager;
 	}
 }

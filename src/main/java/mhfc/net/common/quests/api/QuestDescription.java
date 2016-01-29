@@ -2,6 +2,7 @@ package mhfc.net.common.quests.api;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.IVisualInformation;
+import mhfc.net.common.world.area.IAreaType;
 
 public abstract class QuestDescription {
 
@@ -27,7 +28,7 @@ public abstract class QuestDescription {
 
 	public abstract int getMaxPartySize();
 
-	public abstract String getAreaID();
+	public abstract IAreaType getAreaType();
 
 	public abstract int getFee();
 
