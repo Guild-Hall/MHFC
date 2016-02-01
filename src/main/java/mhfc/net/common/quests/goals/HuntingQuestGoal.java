@@ -1,7 +1,6 @@
 package mhfc.net.common.quests.goals;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 
 import mhfc.net.common.eventhandler.quests.LivingDeathEventHandler;
 import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
@@ -16,12 +15,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
-public class HuntingQuestGoal extends QuestGoal
-	implements
-		NotifyableQuestGoal<LivingDeathEvent> {
+public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<LivingDeathEvent> {
 
-	public HuntingQuestGoal(QuestGoalSocket socket, Class<?> goalClass,
-		int goalNumber) {
+	public HuntingQuestGoal(QuestGoalSocket socket, Class<?> goalClass, int goalNumber) {
 		super(socket);
 		this.goalClass = goalClass;
 		this.goalNumber = goalNumber;
@@ -60,17 +56,12 @@ public class HuntingQuestGoal extends QuestGoal
 		if (goalClass.isAssignableFrom(event.entityLiving.getClass())) {
 			// FIXME Redo this so that we check if inside borders
 			Entity e = event.source.getEntity();
-			if (!(e instanceof EntityPlayer))
-				return;
-			if (getQuest() == null)
-				return;
-			List<EntityPlayerMP> playerList = Arrays.asList(getQuest()
-				.getPlayers());
-			if (playerList == null)
-				return;
-			if (!playerList.contains(e))
-				return;
-			++currentNumber;
+			if ((e instanceof EntityPlayer) && getQuest() != null) {
+				Collection<EntityPlayerMP> playerList = getQuest().getPlayers();
+				if (playerList.contains(e)) {
+					++currentNumber;
+				}
+			}
 			notifyOfStatus(isFulfilled(), isFailed());
 		}
 	}
@@ -83,13 +74,11 @@ public class HuntingQuestGoal extends QuestGoal
 	@Override
 	public String modify(InformationType type, String current) {
 		if (type == InformationType.LongStatus) {
-			current += (current.equals("") ? "" : "\n") + "Hunted "
-				+ currentNumber + " of " + goalNumber + " "
-				+ EntityList.classToStringMapping.get(goalClass);
+			current += (current.equals("") ? "" : "\n") + "Hunted " + currentNumber + " of " + goalNumber + " "
+					+ EntityList.classToStringMapping.get(goalClass);
 		} else if (type == InformationType.ShortStatus) {
-			current += (current.equals("") ? "" : "\n") + currentNumber + "/"
-				+ goalNumber + " "
-				+ EntityList.classToStringMapping.get(goalClass);
+			current += (current.equals("") ? "" : "\n") + currentNumber + "/" + goalNumber + " "
+					+ EntityList.classToStringMapping.get(goalClass);
 		}
 		return current;
 	}

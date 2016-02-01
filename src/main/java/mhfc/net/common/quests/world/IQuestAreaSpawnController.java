@@ -75,4 +75,9 @@ public interface IQuestAreaSpawnController {
 	 * @return How many monsters were removed
 	 */
 	public int clearAreaOf(String entityClassID);
+
+	/**
+	 * Tells the area spawn controller to look through the current spawn queues and take appropriate action.
+	 */
+	public void runSpawnCycle();
 }

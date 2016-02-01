@@ -4,36 +4,57 @@ import java.util.Objects;
 
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
-import mhfc.net.common.world.area.AreaConfiguration;
-import mhfc.net.common.world.area.IArea;
-import mhfc.net.common.world.area.IAreaType;
+import mhfc.net.common.quests.world.SpawnControllerAdapter;
+import mhfc.net.common.world.area.*;
 import mhfc.net.common.world.controller.CornerPosition;
-import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public class AreaTypeArena implements IAreaType {
 	private static class AreaArena implements IArea {
+		private class ArenaSpawnController extends SpawnControllerAdapter {
+			public ArenaSpawnController() {
+				super(AreaArena.this);
+			}
+
+			@Override
+			protected void enqueDefaultSpawns() {
+				return;
+			}
+
+			@Override
+			protected SpawnInformation constructDefaultSpawnInformation(Entity entity) {
+				int height = world.getChunkFromChunkCoords(chunkPos.posX, chunkPos.posY).getHeightValue(8, 8);
+				return new SpawnInformation(entity, 6, height, 6);
+			}
+		}
+
 		private final World world;
 		private CornerPosition chunkPos;
 		private AreaConfiguration config;
+		private IWorldView worldView;
+		private IQuestAreaSpawnController spawnController;
 
 		public AreaArena(World world) {
 			this.world = Objects.requireNonNull(world);
 			this.chunkPos = null;
 			this.config = null;
+			this.worldView = null;
+			this.spawnController = null;
 		}
 
 		public AreaArena(World world, CornerPosition pos, AreaConfiguration config) {
 			this.world = Objects.requireNonNull(world);
 			this.chunkPos = Objects.requireNonNull(pos);
 			this.config = Objects.requireNonNull(config);
+			this.worldView = new WorldViewDisplaced(chunkPos, config, world);
+			this.spawnController = new ArenaSpawnController();
 		}
 
 		@Override
 		public IQuestAreaSpawnController getSpawnController() {
-			// TODO Auto-generated method stub
-			return null;
+			return spawnController;
 		}
 
 		@Override
@@ -52,6 +73,13 @@ public class AreaTypeArena implements IAreaType {
 		public void loadFromConfig(CornerPosition pos, AreaConfiguration config) {
 			this.chunkPos = Objects.requireNonNull(pos);
 			this.config = Objects.requireNonNull(config);
+			this.worldView = new WorldViewDisplaced(chunkPos, config, world);
+			this.spawnController = new ArenaSpawnController();
+		}
+
+		@Override
+		public IWorldView getWorldView() {
+			return worldView;
 		}
 	}
 

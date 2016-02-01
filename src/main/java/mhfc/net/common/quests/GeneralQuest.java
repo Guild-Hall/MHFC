@@ -1,5 +1,6 @@
 package mhfc.net.common.quests;
 
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -81,7 +82,7 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 
 	protected QuestState state;
 	protected QuestGoal questGoal;
-	// FIXME replace with real area
+
 	protected IActiveArea questingArea;
 
 	protected int reward;
@@ -219,6 +220,10 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 		if (canJoin(player)) {
 			playerAttributes.put(player, newAttribute(player));
 			MHFCQuestRegistry.setQuestForPlayer(player, this);
+
+			if (questingArea != null) {
+				questingArea.getArea().teleportToSpawn(player);
+			}
 			updatePlayers();
 		}
 	}
@@ -229,6 +234,7 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 			PlayerAttributes att = playerAttributes.get(player);
 			PacketPipeline.networkPipe.sendTo(new MessageQuestVisual(VisualType.PERSONAL_QUEST, "", null), att.player);
 			MHFCQuestRegistry.setQuestForPlayer(att.player, null);
+
 			if (att.player.getEntityWorld().provider.dimensionId != att.dimensionID)
 				FMLServerHandler.instance().getServer().getConfigurationManager()
 						.transferPlayerToDimension(att.player, att.dimensionID);
@@ -241,8 +247,8 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 		return found;
 	}
 
-	public EntityPlayerMP[] getPlayers() {
-		return playerAttributes.keySet().toArray(new EntityPlayerMP[0]);
+	public Collection<EntityPlayerMP> getPlayers() {
+		return playerAttributes.keySet();
 	}
 
 	public QuestSpawnController getSpawnController() {

@@ -23,6 +23,8 @@ public interface IArea extends IQuestArea {
 
 	void loadFromConfig(CornerPosition pos, AreaConfiguration config);
 
+	IWorldView getWorldView();
+
 	// probably unreliable, not needed for now
-	//IAreaType getOwnType();
+	// IAreaType getOwnType();
 }
