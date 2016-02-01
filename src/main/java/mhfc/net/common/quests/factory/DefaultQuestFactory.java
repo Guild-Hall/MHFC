@@ -1,7 +1,13 @@
 package mhfc.net.common.quests.factory;
 
-import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.*;
-import static mhfc.net.common.util.MHFCJsonUtils.*;
+import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_AREA_ID;
+import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_FEE;
+import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_GOAL;
+import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_MAX_PARTY_SIZE;
+import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_QUEST_TYPE;
+import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_REWARD;
+import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_VISUAL;
+import static mhfc.net.common.util.MHFCJsonUtils.getJsonObjectIntegerFieldValueOrDefault;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
@@ -11,7 +17,12 @@ import com.google.gson.JsonSerializationContext;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.IVisualInformation;
-import mhfc.net.common.quests.api.*;
+import mhfc.net.common.quests.api.GoalReference;
+import mhfc.net.common.quests.api.IQuestFactory;
+import mhfc.net.common.quests.api.IVisualInformationFactory;
+import mhfc.net.common.quests.api.QuestDescription;
+import mhfc.net.common.quests.api.QuestFactory;
+import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.util.MHFCJsonUtils;
 import mhfc.net.common.world.area.AreaRegistry;
@@ -82,7 +93,8 @@ public class DefaultQuestFactory implements IQuestFactory {
 		holder.addProperty(KEY_MAX_PARTY_SIZE, questDesc.getMaxPartySize());
 		holder.addProperty(KEY_QUEST_TYPE, questDesc.getQuestType().getAsString());
 		// holder.addProperty(KEY_TIME_LIMIT, questDesc.get);
-		holder.addProperty(KEY_AREA_ID, AreaRegistry.instance.getName(questDesc.getAreaType()));
+		String areaName = AreaRegistry.instance.getName(questDesc.getAreaType());
+		holder.addProperty(KEY_AREA_ID, areaName == null ? "Unknown" : areaName);
 		holder.addProperty(KEY_FEE, questDesc.getFee());
 		holder.addProperty(KEY_REWARD, questDesc.getReward());
 		JsonElement jsonGoalReference = context.serialize(questDesc.getGoalReference(), GoalReference.class);

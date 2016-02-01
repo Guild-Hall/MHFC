@@ -1,41 +1,29 @@
 package mhfc.net.common.quests.world;
 
+import java.util.Queue;
+
 import net.minecraft.entity.Entity;
 
 public interface IQuestAreaSpawnController {
 
 	/**
-	 * Set whether default spawn are enabled or whether all spawns are
-	 * controlled by the quest
+	 * Set whether default spawn are enabled or whether all spawns are controlled by the quest
 	 * 
 	 * @param defaultSpawnsEnabled
 	 *            If false no monsters will spawn from default
 	 */
-	public void setDefaultSpawns(boolean defaultSpawnsEnabled);
+	public void defaultSpawnsEnabled(boolean defaultSpawnsEnabled);
 
 	/**
-	 * Same as {@link #setDefaultSpawns(boolean)} except it is only set for one
-	 * specific type of monster. Whatever method is called later will overwrite
-	 * all others before. Calling on a super type should set for all children of
-	 * the type.
-	 * 
-	 * @param entityID
-	 *            The monster to set the spawn for.
-	 * @param defaultSpawnEnabled
-	 */
-	public void setDefaultSpawnFor(String entityID, boolean defaultSpawnEnabled);
-
-	/**
-	 * Spawn one monster from an entityID. For example Creeper for a creeper.
-	 * The position is determined by the controller.
+	 * Spawn one monster from an entityID. For example "Creeper" for a creeper. The position is determined by the
+	 * controller.
 	 * 
 	 * @param entityID
 	 */
 	public void spawnEntity(String entityID);
 
 	/**
-	 * Spawn an entity from the given ID at the given position only if it is
-	 * inside the area.
+	 * Spawn an entity from the given ID at the given position only if it is inside the area.
 	 * 
 	 * @param entityID
 	 */
@@ -49,35 +37,42 @@ public interface IQuestAreaSpawnController {
 	public void spawnEntity(Entity entity);
 
 	/**
-	 * Directly spawn an entity at the position if the position is inside the
-	 * controlled area.
+	 * Directly spawn an entity at the position if the position is inside the controlled area.
 	 * 
 	 * @param entity
 	 */
 	public void spawnEntity(Entity entity, int x, int y, int z);
 
 	/**
-	 * Advises the controller to spawn entities of the given entity id until the
-	 * max amount is reached
+	 * Enqueues the queue for spawning. The area will, in each tick, try to spawn the next entity from the queue. If it
+	 * is not restricted it will do so and remove the element, else it will not consume it.
+	 */
+	public void enqueueSpawns(Queue<Entity> qu);
+
+	/**
+	 * Advises the controller to generate entities of the given entity id only until the max amount is reached. <br>
+	 * This does not affect entities spawned directly through the {@link IQuestAreaSpawnController#spawnEntity(Entity)}
+	 * and {@link IQuestAreaSpawnController#spawnEntity(String)} methods but only does spawned by
+	 * {@link IQuestAreaSpawnController#enque()}
 	 * 
 	 * @param entityID
 	 * @param maxAmount
 	 */
-	public void spawnEntityUpTo(String entityID, int maxAmount);
+	public void setGenerationMaximum(String entityID, int maxAmount);
+
+	public <T extends Entity> void setGenerationMaximum(Class<T> entityclass, int maxAmount);
 
 	/**
-	 * Remove all MHFC or hostile monsters from the area and return the number
-	 * removed.
+	 * Remove all MHFC or hostile monsters from the area and return the number removed.
 	 * 
 	 * @return How many monsters were removed
 	 */
 	public int clearArea();
 
 	/**
-	 * Clear the area from all monsters whose classes are instances of the class
-	 * belonging the the given id.
+	 * Clear the area from all monsters whose classes are instances of the class belonging the the given id.
 	 * 
 	 * @return How many monsters were removed
 	 */
-	public int clearArea(String entityClassID);
+	public int clearAreaOf(String entityClassID);
 }
