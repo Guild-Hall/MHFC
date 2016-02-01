@@ -49,6 +49,8 @@ public interface IQuestAreaSpawnController {
 	 */
 	public void enqueueSpawns(Queue<Entity> qu);
 
+	public void clearQueues();
+
 	/**
 	 * Advises the controller to generate entities of the given entity id only until the max amount is reached. <br>
 	 * This does not affect entities spawned directly through the {@link IQuestAreaSpawnController#spawnEntity(Entity)}

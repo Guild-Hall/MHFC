@@ -12,6 +12,7 @@ public abstract class ActiveAreaAdapter implements IActiveArea {
 	public final void dismiss() {
 		if (!dismissed) {
 			onDismiss();
+			getArea().getSpawnController().clearQueues();
 			getArea().getSpawnController().clearArea();
 			dismissed = true;
 		}

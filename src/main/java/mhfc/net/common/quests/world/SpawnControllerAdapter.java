@@ -142,7 +142,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 	}
 
-	List<Queue<Entity>> spawnQueues;
+	Set<Queue<Entity>> spawnQueues;
 	Map<Class<? extends Entity>, Integer> aliveCount;
 	Map<Class<? extends Entity>, Integer> spawnMaximum;
 	Set<Entity> managedEntities;
@@ -150,7 +150,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 	public SpawnControllerAdapter(IArea area) {
 		this.area = area;
-		this.spawnQueues = new ArrayList<>();
+		this.spawnQueues = new HashSet<>();
 		this.aliveCount = new HashMap<>();
 		this.managedEntities = new HashSet<>();
 		this.area.getWorldView().addWorldAccess(new WorldAccessor());
@@ -191,6 +191,11 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	@Override
 	public void enqueueSpawns(Queue<Entity> qu) {
 		spawnQueues.add(qu);
+	}
+
+	@Override
+	public void clearQueues() {
+		spawnQueues.clear();
 	}
 
 	@Override
