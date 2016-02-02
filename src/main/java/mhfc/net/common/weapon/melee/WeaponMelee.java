@@ -39,6 +39,8 @@ public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
 	protected int attackdelay, rarity, meta, amplified, getcooldown;
 	protected Item.ToolMaterial weaponMat;
 	protected boolean poisontype, firetype, enableCooldownDisplay;
+	
+	protected double getDamageAnalysis;
 
 	public WeaponMelee(ComponentMelee weaponf) {
 		super((weaponf.weaponMaterial == null
@@ -49,6 +51,7 @@ public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
 		meleecomp = weaponf;
 		meleecomp.setItem(this);
 		meleecomp.setThisItemProperties();
+		getDamageAnalysis = 0;
 	}
 
 	public void elementalType(boolean poison, boolean fire) {
@@ -208,5 +211,6 @@ public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
 	public ComponentMelee getMeleeComponent() {
 		return meleecomp;
 	}
+	
 
 }
