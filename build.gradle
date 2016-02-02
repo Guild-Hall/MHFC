@@ -23,7 +23,6 @@ minecraft {
 }
 
 def getVersion() {
-    return "offline-version"
     def stdout = new ByteArrayOutputStream()
     exec {
         executable "git"
