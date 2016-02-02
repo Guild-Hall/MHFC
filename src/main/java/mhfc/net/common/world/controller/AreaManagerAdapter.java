@@ -1,20 +1,10 @@
 package mhfc.net.common.world.controller;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import mhfc.net.common.world.MHFCWorldData;
 import mhfc.net.common.world.MHFCWorldData.AreaInformation;
-import mhfc.net.common.world.area.ActiveAreaAdapter;
-import mhfc.net.common.world.area.AreaConfiguration;
-import mhfc.net.common.world.area.IActiveArea;
-import mhfc.net.common.world.area.IArea;
-import mhfc.net.common.world.area.IAreaType;
+import mhfc.net.common.world.area.*;
 import net.minecraft.world.World;
 
 public class AreaManagerAdapter implements IAreaManager {
@@ -70,28 +60,28 @@ public class AreaManagerAdapter implements IAreaManager {
 
 	@Override
 	public Active getUnusedInstance(IAreaType type) {
-		List<IArea> list = nonactiveAreas.computeIfAbsent(type, (k) -> new ArrayList<>());
-		IArea chosen = null;
-		for (Iterator<IArea> it = list.iterator(); it.hasNext();) {
-			IArea area = it.next();
-			if (area.isUnusable()) {
-				continue;
-			}
-			chosen = area;
-			it.remove();
-		}
-		if (chosen == null) {
-			chosen = newArea(type);
-		}
+		IArea chosen = nonactiveAreas.computeIfAbsent(type, (k) -> new ArrayList<>()).stream()
+				.filter(a -> !a.isUnusable()).findFirst().orElse(newArea(type));
 		return new Active(chosen, type, this);
 	}
 
 	private IArea newArea(IAreaType type) {
 		AreaConfiguration config = type.configForNewArea();
 		CornerPosition pos = saveData.newArea(type, config);
-		// TODO make sure that chunks are cleared?
+		for (int cX = 0; cX < config.getChunkSizeX(); cX++) {
+			for (int cZ = 0; cZ < config.getChunkSizeZ(); cZ++) {
+				if (world.getChunkFromChunkCoords(cX, cZ).isEmpty())
+					continue;
+				for (int x = 0; x < 16; x++) {
+					for (int y = 0; y < world.getActualHeight(); y++) {
+						for (int z = 0; z < 16; z++) {
+							world.setBlockToAir(x, y, z);
+						}
+					}
+				}
+			}
+		}
 		IArea controller = type.populate(world, pos, config);
 		return controller;
 	}
-
 }

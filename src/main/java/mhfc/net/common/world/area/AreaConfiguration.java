@@ -32,14 +32,14 @@ public class AreaConfiguration implements ISavableToNBT {
 		nbtTag.setInteger("sizeZ", this.sizeZ);
 	}
 
-	public int getSizeX() {
+	public int getChunkSizeX() {
 		if (!initialized) {
 			throw new IllegalStateException("Not initialized");
 		}
 		return sizeX;
 	}
 
-	public int getSizeZ() {
+	public int getChunkSizeZ() {
 		if (!initialized) {
 			throw new IllegalStateException("Not initialized");
 		}

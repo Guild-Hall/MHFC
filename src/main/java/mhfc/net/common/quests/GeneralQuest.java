@@ -16,6 +16,7 @@ import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.QuestDescription;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
+import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -77,7 +78,6 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 	private QuestRunningInformation visualInformation;
 
 	private Map<EntityPlayerMP, PlayerAttributes> playerAttributes;
-	private QuestSpawnController spawnController;
 	private int maxPlayerCount;
 
 	protected QuestState state;
@@ -251,8 +251,12 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 		return playerAttributes.keySet();
 	}
 
-	public QuestSpawnController getSpawnController() {
-		return spawnController;
+	/**
+	 * Utility method to provide the spawn controller. Might also introduce an indirection if the publicly available
+	 * controller should behave differently.
+	 */
+	public IQuestAreaSpawnController getSpawnController() {
+		return questingArea.getArea().getSpawnController();
 	}
 
 	public QuestDescription getOriginalDescription() {
@@ -312,6 +316,10 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 	@Override
 	public IAreaType getAreaType() {
 		return questingArea.getType();
+	}
+
+	public IActiveArea getQuestingArea() {
+		return questingArea;
 	}
 
 	@Override

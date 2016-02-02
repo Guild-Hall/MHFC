@@ -25,8 +25,8 @@ public class WorldViewDisplaced implements IWorldView {
 	public WorldViewDisplaced(CornerPosition chunkCorner, AreaConfiguration configuration, World world) {
 		chunkDeltaX = chunkCorner.posX;
 		chunkDeltaZ = chunkCorner.posY;
-		dimensionX = configuration.getSizeX();
-		dimensionZ = configuration.getSizeZ();
+		dimensionX = configuration.getChunkSizeX();
+		dimensionZ = configuration.getChunkSizeZ();
 		worldObj = Objects.requireNonNull(world);
 
 		addX = chunkDeltaX << 4;

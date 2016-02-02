@@ -5,12 +5,14 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.controller.CornerPosition;
 import mhfc.net.common.world.controller.IRectanglePlacer;
 import mhfc.net.common.world.controller.SimpleRectanglePlacer;
+import mhfc.net.common.world.gen.AreaTypePlayfield;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.WorldSavedData;
@@ -49,15 +51,18 @@ public class MHFCWorldData extends WorldSavedData {
 			String typeS = confTag.getString("type");
 			NBTTagCompound dataTag = confTag.getCompoundTag("data");
 			NBTTagCompound posTag = confTag.getCompoundTag("position");
+			int posX = posTag.getInteger("posX");
+			int posZ = posTag.getInteger("posZ");
+			CornerPosition pos = new CornerPosition(posX, posZ);
 			IAreaType type = AreaRegistry.instance.getType(typeS);
-			if (type == null) {
+			if (type == null) {// and warn about invalid area
+				MHFCMain.logger.error("Invalid area was found in save data of the hunting world!");
+				AreaConfiguration config = AreaTypePlayfield.PLAYFIELD_TYPE.configForLoading();
+				// TODO maybe clear the world data at this position
 				continue;
 			}
 			AreaConfiguration config = type.configForLoading();
 			config.readFrom(dataTag);
-			int posX = posTag.getInteger("posX");
-			int posZ = posTag.getInteger("posZ");
-			CornerPosition pos = new CornerPosition(posX, posZ);
 			spawnedAreas.add(new AreaInformation(type, pos, config));
 		}
 	}
@@ -88,7 +93,7 @@ public class MHFCWorldData extends WorldSavedData {
 	}
 
 	public CornerPosition newArea(IAreaType type, AreaConfiguration config) {
-		CornerPosition pos = rectanglePlacer.addRectangle(config.getSizeX() + 2, config.getSizeZ() + 2);
+		CornerPosition pos = rectanglePlacer.addRectangle(config.getChunkSizeX() + 2, config.getChunkSizeZ() + 2);
 		CornerPosition actual = new CornerPosition(pos.posX + 1, pos.posY + 1);
 		spawnedAreas.add(new AreaInformation(type, actual, config));
 		this.markDirty();

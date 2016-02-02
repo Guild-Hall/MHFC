@@ -52,4 +52,9 @@ public class WorldProviderQuesting extends WorldProvider {
 		super.calculateInitialWeather();
 		((ChunkManagerQuesting) this.worldChunkMgr).finishSetup();
 	}
+
+	@Override
+	public long getWorldTime() {
+		return 1000L;
+	}
 }

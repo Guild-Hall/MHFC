@@ -1,7 +1,5 @@
 package mhfc.net.common.quests.goals;
 
-import java.util.Collection;
-
 import mhfc.net.common.eventhandler.quests.LivingDeathEventHandler;
 import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
 import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
@@ -11,13 +9,12 @@ import mhfc.net.common.quests.api.QuestGoalSocket;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<LivingDeathEvent> {
 
-	public HuntingQuestGoal(QuestGoalSocket socket, Class<?> goalClass, int goalNumber) {
+	public HuntingQuestGoal(QuestGoalSocket socket, Class<? extends Entity> goalClass, int goalNumber) {
 		super(socket);
 		this.goalClass = goalClass;
 		this.goalNumber = goalNumber;
@@ -57,8 +54,10 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 			// FIXME Redo this so that we check if inside borders
 			Entity e = event.source.getEntity();
 			if ((e instanceof EntityPlayer) && getQuest() != null) {
-				Collection<EntityPlayerMP> playerList = getQuest().getPlayers();
-				if (playerList.contains(e)) {
+				boolean shouldcount = false;
+				shouldcount |= getQuest().getPlayers().contains(e);
+				// shouldcount |= getQuest().getSpawnController();
+				if (shouldcount) {
 					++currentNumber;
 				}
 			}

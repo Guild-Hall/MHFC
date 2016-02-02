@@ -4,14 +4,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import mhfc.net.common.world.gen.AreaTypeArena;
+import mhfc.net.common.world.gen.AreaTypePlayfield;
 
 public class AreaRegistry {
 
 	public static AreaRegistry instance = new AreaRegistry();
+	public static final String NAME_PLAYFIELD = "playfield";
+	public static final String NAME_PLAYFIELD_MEDIUM = "playfield_medium";
+	public static final String NAME_PLAYFIELD_BIG = "playfield_big";
 
 	static {
-		AreaRegistry.register("arena", AreaTypeArena.ARENA_TYPE);
+		AreaRegistry.register(NAME_PLAYFIELD, AreaTypePlayfield.PLAYFIELD_TYPE);
+		AreaRegistry.register(NAME_PLAYFIELD_MEDIUM, AreaTypePlayfield.PLAYFIELD_MEDIUM);
+		AreaRegistry.register(NAME_PLAYFIELD_BIG, AreaTypePlayfield.PLAYFIELD_BIG);
 	}
 
 	private Map<String, IAreaType> stringToType = new HashMap<>();

@@ -11,11 +11,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class AreaTypeArena implements IAreaType {
-	private static class AreaArena implements IArea {
-		private class ArenaSpawnController extends SpawnControllerAdapter {
-			public ArenaSpawnController() {
-				super(AreaArena.this);
+public class AreaTypePlayfield implements IAreaType {
+	private static class AreaPlayfield implements IArea {
+		private class PlayfieldSpawnController extends SpawnControllerAdapter {
+			public PlayfieldSpawnController() {
+				super(AreaPlayfield.this);
 			}
 
 			@Override
@@ -25,7 +25,10 @@ public class AreaTypeArena implements IAreaType {
 
 			@Override
 			protected SpawnInformation constructDefaultSpawnInformation(Entity entity) {
-				int height = world.getChunkFromChunkCoords(chunkPos.posX, chunkPos.posY).getHeightValue(8, 8);
+				int spawnX = config.getChunkSizeX() * 8;
+				int spawnZ = config.getChunkSizeZ() * 8;
+				int height = world.getChunkFromChunkCoords(chunkPos.posX + spawnX / 16, chunkPos.posY + spawnZ / 16)
+						.getHeightValue(spawnX % 16, spawnZ % 16);
 				return new SpawnInformation(entity, 6, height, 6);
 			}
 		}
@@ -36,7 +39,7 @@ public class AreaTypeArena implements IAreaType {
 		private IWorldView worldView;
 		private IQuestAreaSpawnController spawnController;
 
-		public AreaArena(World world) {
+		public AreaPlayfield(World world) {
 			this.world = Objects.requireNonNull(world);
 			this.chunkPos = null;
 			this.config = null;
@@ -44,12 +47,12 @@ public class AreaTypeArena implements IAreaType {
 			this.spawnController = null;
 		}
 
-		public AreaArena(World world, CornerPosition pos, AreaConfiguration config) {
+		public AreaPlayfield(World world, CornerPosition pos, AreaConfiguration config) {
 			this.world = Objects.requireNonNull(world);
 			this.chunkPos = Objects.requireNonNull(pos);
 			this.config = Objects.requireNonNull(config);
 			this.worldView = new WorldViewDisplaced(chunkPos, config, world);
-			this.spawnController = new ArenaSpawnController();
+			this.spawnController = new PlayfieldSpawnController();
 		}
 
 		@Override
@@ -74,7 +77,7 @@ public class AreaTypeArena implements IAreaType {
 			this.chunkPos = Objects.requireNonNull(pos);
 			this.config = Objects.requireNonNull(config);
 			this.worldView = new WorldViewDisplaced(chunkPos, config, world);
-			this.spawnController = new ArenaSpawnController();
+			this.spawnController = new PlayfieldSpawnController();
 		}
 
 		@Override
@@ -83,34 +86,72 @@ public class AreaTypeArena implements IAreaType {
 		}
 	}
 
-	public static final AreaTypeArena ARENA_TYPE = new AreaTypeArena();
+	public static final AreaTypePlayfield PLAYFIELD_TYPE = new AreaTypePlayfield();
+	public static final AreaTypePlayfield PLAYFIELD_MEDIUM = new AreaTypePlayfield(4, 4);
+	public static final AreaTypePlayfield PLAYFIELD_BIG = new AreaTypePlayfield(8, 8);
 
-	private AreaTypeArena() {}
+	private AreaTypePlayfield() {
+		this(1, 1);
+	}
+
+	public AreaTypePlayfield(int chunkSizeX, int chunkSizeY) {
+		this.chunkSizeX = chunkSizeX;
+		this.chunkSizeY = chunkSizeY;
+	}
+
+	private int chunkSizeX, chunkSizeY;
 
 	@Override
 	public IArea populate(World world, CornerPosition lowerLeftCorner, AreaConfiguration configuration) {
-		for (int i = 0; i < 16; i++) {
-			for (int j = 0; j < 16; j++) {
+		int chunksX = configuration.getChunkSizeX();
+		int chunksZ = configuration.getChunkSizeZ();
+		for (int i = 0; i < 16 * chunksX; i++) {
+			for (int j = 0; j < 16 * chunksZ; j++) {
 				int x = lowerLeftCorner.posX * 16 + i;
 				int z = lowerLeftCorner.posY * 16 + j;
 				world.setBlock(x, 64, z, MHFCBlockRegistry.mhfcblockdirt);
 			}
 		}
-		return new AreaArena(world, lowerLeftCorner, configuration);
+		return new AreaPlayfield(world, lowerLeftCorner, configuration);
 	}
 
 	@Override
 	public IArea provideForLoading(World world) {
-		return new AreaArena(world);
+		return new AreaPlayfield(world);
 	}
 
 	@Override
 	public AreaConfiguration configForNewArea() {
-		return new AreaConfiguration(1, 1);
+		return new AreaConfiguration(chunkSizeX, chunkSizeY);
 	}
 
 	@Override
 	public AreaConfiguration configForLoading() {
 		return new AreaConfiguration();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + chunkSizeX;
+		result = prime * result + chunkSizeY;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AreaTypePlayfield other = (AreaTypePlayfield) obj;
+		if (chunkSizeX != other.chunkSizeX)
+			return false;
+		if (chunkSizeY != other.chunkSizeY)
+			return false;
+		return true;
 	}
 }
