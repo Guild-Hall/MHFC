@@ -15,14 +15,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class WorldViewDisplaced implements IWorldView {
+public class DisplacedView implements IWorldView {
 
 	private int chunkDeltaX, chunkDeltaZ;
 	private int addX, addZ;
 	private int dimensionX, dimensionZ;
 	private World worldObj;
 
-	public WorldViewDisplaced(CornerPosition chunkCorner, AreaConfiguration configuration, World world) {
+	public DisplacedView(CornerPosition chunkCorner, AreaConfiguration configuration, World world) {
 		chunkDeltaX = chunkCorner.posX;
 		chunkDeltaZ = chunkCorner.posY;
 		dimensionX = configuration.getChunkSizeX();
@@ -33,6 +33,30 @@ public class WorldViewDisplaced implements IWorldView {
 		addZ = chunkDeltaZ << 4;
 	}
 
+	public int getChunkDeltaX() {
+		return chunkDeltaX;
+	}
+
+	public int getChunkDeltaZ() {
+		return chunkDeltaZ;
+	}
+
+	public int getAddX() {
+		return addX;
+	}
+
+	public int getAddZ() {
+		return addZ;
+	}
+
+	public int getDimensionX() {
+		return dimensionX;
+	}
+
+	public int getDimensionZ() {
+		return dimensionZ;
+	}
+	
 	private boolean isInBoundary(double x, double y, double z) {
 		return x >= 0 && y >= 0 && z >= 0 && x < dimensionX * 16 && z < dimensionZ * 16
 				&& y < worldObj.getActualHeight();

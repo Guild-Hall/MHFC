@@ -61,11 +61,17 @@ public class AreaManagerAdapter implements IAreaManager {
 	@Override
 	public Active getUnusedInstance(IAreaType type) {
 		IArea chosen = nonactiveAreas.computeIfAbsent(type, (k) -> new ArrayList<>()).stream()
-				.filter(a -> !a.isUnusable()).findFirst().orElse(newArea(type));
+				.filter(a -> !a.isUnusable()).findFirst().orElseGet(()->{
+					try{
+						return newArea(type);
+					}catch(Exception e){
+						throw new RuntimeException("WIP, Well thats life", e);
+					}
+				});
 		return new Active(chosen, type, this);
 	}
 
-	private IArea newArea(IAreaType type) {
+	private IArea newArea(IAreaType type) throws Exception {
 		AreaConfiguration config = type.configForNewArea();
 		CornerPosition pos = saveData.newArea(type, config);
 		for (int cX = 0; cX < config.getChunkSizeX(); cX++) {

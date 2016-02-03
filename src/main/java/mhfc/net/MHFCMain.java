@@ -2,6 +2,8 @@ package mhfc.net;
 
 import org.apache.logging.log4j.Logger;
 
+import com.sk89q.worldedit.forge.ForgeWorldEdit;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -28,7 +30,7 @@ import net.minecraftforge.event.world.WorldEvent;
  *          -craft-extreme-mob-hunting-adventure-15000-downloads/) Visit www.mhfrontiercraft.blogspot.com for more info.
  */
 
-@Mod(modid = MHFCReference.main_modid)
+@Mod(modid = MHFCReference.main_modid, dependencies=ForgeWorldEdit.MOD_ID)
 public class MHFCMain {
 
 	@SidedProxy(clientSide = "mhfc.net.client.MHFCClient", serverSide = "mhfc.net.server.MHFCServer")
@@ -36,6 +38,9 @@ public class MHFCMain {
 
 	@Mod.Instance(MHFCReference.main_modid)
 	public static MHFCMain instance;
+	
+	@Mod.Instance(ForgeWorldEdit.MOD_ID)
+	public static ForgeWorldEdit worldedit;
 
 	public static Logger logger;
 	public static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID());

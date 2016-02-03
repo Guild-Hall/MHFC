@@ -1,11 +1,13 @@
 package mhfc.net.common.util;
 
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 
+import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.entity.projectile.EntityLightning;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -15,6 +17,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
@@ -120,4 +123,11 @@ public class Utilities {
 	public static <T, R> T[] mapAll(Function<? super R, T> func, R[] holders, IntFunction<T[]> arrNew) {
 		return (T[]) Arrays.stream(holders).sequential().map(func).toArray(arrNew);
 	}
+	
+	public static InputStream inputStream(ResourceLocation location){
+		String pathToRes = "/assets/" + location.getResourceDomain() + "/"
+				+ location.getResourcePath();
+		return MHFCQuestBuildRegistry.class.getResourceAsStream(pathToRes);
+	}
+	
 }

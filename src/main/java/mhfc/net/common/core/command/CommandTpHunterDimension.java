@@ -20,6 +20,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.Vec3;
@@ -46,7 +47,8 @@ public class CommandTpHunterDimension implements ICommand {
 				Vec3 spawnAt = teleportPoints
 						.getOrDefault(entity, Vec3.createVectorHelper(coords.posX, coords.posY, coords.posZ));
 				entity.setLocationAndAngles(spawnAt.xCoord, spawnAt.yCoord, spawnAt.zCoord, rotationYaw, 0.0F);
-				if (entity.worldObj.checkBlockCollision(entity.getBoundingBox())) {
+				AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(entity.posX, entity.posY, entity.posZ, entity.posX+1, entity.posY+entity.height, entity.posZ+1);
+				if (entity.worldObj.checkBlockCollision(bb)) {
 					spawnAt.yCoord = entity.worldObj
 							.getTopSolidOrLiquidBlock((int) spawnAt.xCoord, (int) spawnAt.zCoord);
 					entity.setLocationAndAngles(spawnAt.xCoord, spawnAt.yCoord, spawnAt.zCoord, rotationYaw, 0.0F);
@@ -91,29 +93,27 @@ public class CommandTpHunterDimension implements ICommand {
 	public void processCommand(ICommandSender sender, String[] args) {
 		if (sender instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP) sender;
-			EntityPlayerMP[] players = new EntityPlayerMP[] { player };
 			// players = args.length > 0 ? PlayerSelector.matchPlayers(sender, args[0]) : players;
 			ServerConfigurationManager mg = MinecraftServer.getServer().getConfigurationManager();
 			int questWorldID = MHFCDimensionRegistry.getQuestingDimensionID();
 			WorldServer server = MinecraftServer.getServer().worldServerForDimension(questWorldID);
-			String areaName = args.length > 0 ? args[0] : AreaRegistry.NAME_PLAYFIELD;
-			IAreaType areaType = AreaRegistry.instance.getType(areaName);
-			if (areaType == null) {
-				sender.addChatMessage(new ChatComponentText("Could not find requested target area type."));
-				MHFCMain.logger.debug("No area type found for " + areaName);
-				return;
-			}
-			ChunkManagerQuesting manager = (ChunkManagerQuesting) server.getWorldChunkManager();
-			try (IActiveArea active = manager.getAreaManager().getUnusedInstance(areaType)) {
+			
+			if (player.dimension == questWorldID) {
 				Teleporter tpOverworld = new AreaTeleporter(server, null);
-				Teleporter tpArea = new AreaTeleporter(server, active.getArea());
-				for (EntityPlayerMP toTp : players) {
-					if (toTp.dimension == questWorldID) {
-						mg.transferPlayerToDimension(toTp, 0, tpOverworld);
-					} else {
-						teleportPoints.put(toTp, WorldHelper.getVectorOfEntity(toTp));
-						mg.transferPlayerToDimension(toTp, questWorldID, tpArea);
-					}
+				mg.transferPlayerToDimension(player, 0, tpOverworld);
+			} else {
+				String areaName = args.length > 0 ? args[0] : AreaRegistry.NAME_PLAYFIELD;
+				IAreaType areaType = AreaRegistry.instance.getType(areaName);
+				if (areaType == null) {
+					sender.addChatMessage(new ChatComponentText("Could not find requested target area type."));
+					MHFCMain.logger.debug("No area type found for " + areaName);
+					return;
+				}
+				ChunkManagerQuesting manager = (ChunkManagerQuesting) server.getWorldChunkManager();
+				try (IActiveArea active = manager.getAreaManager().getUnusedInstance(areaType)) {
+					Teleporter tpArea = new AreaTeleporter(server, active.getArea());
+					teleportPoints.put(player, WorldHelper.getVectorOfEntity(player));
+					mg.transferPlayerToDimension(player, questWorldID, tpArea);
 				}
 			}
 			MHFCMain.logger.debug("Teleported to/from dimension " + questWorldID);

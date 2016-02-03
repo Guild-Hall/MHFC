@@ -1,7 +1,5 @@
 package mhfc.net.common.world.gen;
 
-import java.util.Objects;
-
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.SpawnControllerAdapter;
@@ -12,7 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public class AreaTypePlayfield implements IAreaType {
-	private static class AreaPlayfield implements IArea {
+	private static class AreaPlayfield extends AreaAdapter {
 		private class PlayfieldSpawnController extends SpawnControllerAdapter {
 			public PlayfieldSpawnController() {
 				super(AreaPlayfield.this);
@@ -33,25 +31,15 @@ public class AreaTypePlayfield implements IAreaType {
 			}
 		}
 
-		private final World world;
-		private CornerPosition chunkPos;
-		private AreaConfiguration config;
-		private IWorldView worldView;
 		private IQuestAreaSpawnController spawnController;
 
 		public AreaPlayfield(World world) {
-			this.world = Objects.requireNonNull(world);
-			this.chunkPos = null;
-			this.config = null;
-			this.worldView = null;
+			super(world);
 			this.spawnController = null;
 		}
 
 		public AreaPlayfield(World world, CornerPosition pos, AreaConfiguration config) {
-			this.world = Objects.requireNonNull(world);
-			this.chunkPos = Objects.requireNonNull(pos);
-			this.config = Objects.requireNonNull(config);
-			this.worldView = new WorldViewDisplaced(chunkPos, config, world);
+			super(world, pos, config);
 			this.spawnController = new PlayfieldSpawnController();
 		}
 
@@ -74,16 +62,10 @@ public class AreaTypePlayfield implements IAreaType {
 
 		@Override
 		public void loadFromConfig(CornerPosition pos, AreaConfiguration config) {
-			this.chunkPos = Objects.requireNonNull(pos);
-			this.config = Objects.requireNonNull(config);
-			this.worldView = new WorldViewDisplaced(chunkPos, config, world);
+			super.loadFromConfig(pos, config);
 			this.spawnController = new PlayfieldSpawnController();
 		}
 
-		@Override
-		public IWorldView getWorldView() {
-			return worldView;
-		}
 	}
 
 	public static final AreaTypePlayfield PLAYFIELD_TYPE = new AreaTypePlayfield();
