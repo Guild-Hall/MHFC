@@ -56,7 +56,7 @@ public class DisplacedView implements IWorldView {
 	public int getDimensionZ() {
 		return dimensionZ;
 	}
-	
+
 	private boolean isInBoundary(double x, double y, double z) {
 		return x >= 0 && y >= 0 && z >= 0 && x < dimensionX * 16 && z < dimensionZ * 16
 				&& y < worldObj.getActualHeight();
@@ -258,6 +258,8 @@ public class DisplacedView implements IWorldView {
 
 	@Override
 	public void addTileEntity(TileEntity entity) {
+		entity.xCoord += addX;
+		entity.zCoord += addZ;
 		worldObj.addTileEntity(entity);
 	}
 
@@ -274,7 +276,7 @@ public class DisplacedView implements IWorldView {
 	}
 
 	@Override
-	public boolean spawnEntityAt(Entity entity, int x, int y, int z) {
+	public boolean spawnEntityAt(Entity entity, double x, double y, double z) {
 		entity.posX = x + addX;
 		entity.posY = y;
 		entity.posZ = z + addZ;

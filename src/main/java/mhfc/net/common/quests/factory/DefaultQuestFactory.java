@@ -14,6 +14,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 
+import mhfc.net.common.core.registry.MHFCDimensionRegistry;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.IVisualInformation;
@@ -26,7 +27,12 @@ import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.util.MHFCJsonUtils;
 import mhfc.net.common.world.area.AreaRegistry;
+import mhfc.net.common.world.area.IActiveArea;
+import mhfc.net.common.world.area.IAreaType;
+import mhfc.net.common.world.gen.ChunkManagerQuesting;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.JsonUtils;
+import net.minecraft.world.WorldServer;
 
 public class DefaultQuestFactory implements IQuestFactory {
 
@@ -35,7 +41,16 @@ public class DefaultQuestFactory implements IQuestFactory {
 		QuestGoal goal = QuestFactory.constructGoal(qd.getGoalReference().getReferredDescription());
 		if (goal == null)
 			return null;
-		return new GeneralQuest(goal, qd.getMaxPartySize(), qd.getReward(), qd.getFee(), qd.getAreaType(), qd);
+		IAreaType areaType = qd.getAreaType();
+		int questWorldID = MHFCDimensionRegistry.getQuestingDimensionID();
+		WorldServer server = MinecraftServer.getServer().worldServerForDimension(questWorldID);
+		ChunkManagerQuesting manager = (ChunkManagerQuesting) server.getWorldChunkManager();
+
+		IActiveArea activeArea = manager.getAreaManager().getUnusedInstance(areaType);
+		if (activeArea == null)
+			return null;
+
+		return new GeneralQuest(goal, qd.getMaxPartySize(), qd.getReward(), qd.getFee(), activeArea, qd);
 	}
 
 	@Override
@@ -94,7 +109,7 @@ public class DefaultQuestFactory implements IQuestFactory {
 		holder.addProperty(KEY_QUEST_TYPE, questDesc.getQuestType().getAsString());
 		// holder.addProperty(KEY_TIME_LIMIT, questDesc.get);
 		String areaName = AreaRegistry.instance.getName(questDesc.getAreaType());
-		holder.addProperty(KEY_AREA_ID, areaName == null ? "Unknown" : areaName);
+		holder.addProperty(KEY_AREA_ID, areaName == null ? AreaRegistry.NAME_ARENA : areaName);
 		holder.addProperty(KEY_FEE, questDesc.getFee());
 		holder.addProperty(KEY_REWARD, questDesc.getReward());
 		JsonElement jsonGoalReference = context.serialize(questDesc.getGoalReference(), GoalReference.class);

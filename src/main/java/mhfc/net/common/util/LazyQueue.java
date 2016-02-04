@@ -36,7 +36,6 @@ public class LazyQueue<E> implements Queue<E> {
 
 	public LazyQueue(Iterator<E> iter) {
 		this.iter = iter;
-		poll();
 	}
 
 	public LazyQueue(Iterable<E> orig) {
@@ -129,34 +128,60 @@ public class LazyQueue<E> implements Queue<E> {
 		return false;
 	}
 
-	@Override
-	public E remove() {
+	/**
+	 * Advances the internal state and returns the previous first element.<br>
+	 * Throws {@link NullPointerException} when the new element is null.
+	 */
+	private E advance() throws NullPointerException {
+		E storage = bufferEl;
+		bufferEl = iter.next();
+		if (bufferEl == null)
+			throw new NullPointerException("Null elements are not permitted");
+		return storage;
+	}
+
+	private void ensureState() throws NullPointerException, NoSuchElementException {
 		if (isEmpty())
 			throw new NoSuchElementException();
+		if (bufferEl == null) // This only happens at the first element
+			advance();
+	}
+
+	@Override
+	public E remove() {
+		ensureState();
 		return poll();
 	}
 
 	@Override
 	public E poll() {
-		E buffer = bufferEl;
+		try {
+			ensureState();
+		} catch (NoSuchElementException e) {
+			return null;
+		}
 		if (iter.hasNext()) {
-			bufferEl = iter.next();
-			if (bufferEl == null)
-				throw new NullPointerException("Null elements are not permitted");
-		} else
+			return advance();
+		} else {
+			E last = bufferEl;
 			bufferEl = null;
-		return buffer;
+			return last;
+		}
 	}
 
 	@Override
 	public E element() {
-		if (isEmpty())
-			throw new NoSuchElementException();
+		ensureState();
 		return bufferEl;
 	}
 
 	@Override
 	public E peek() {
+		try {
+			ensureState();
+		} catch (NoSuchElementException e) {
+			return null;
+		}
 		return bufferEl;
 	}
 

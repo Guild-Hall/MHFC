@@ -29,8 +29,9 @@ public class ArenaType extends AreaTypeSchematic {
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
 			player.posX = chunkPos.posX * 16 + 54;
-			player.posY = 54;
 			player.posZ = chunkPos.posY * 16 + 11;
+			player.posY = world.getChunkFromBlockCoords((int) player.posX, (int) player.posZ)
+					.getHeightValue((int) player.posX % 16, (int) player.posZ % 16) + 1;
 		}
 
 		@Override
@@ -40,7 +41,7 @@ public class ArenaType extends AreaTypeSchematic {
 
 		@Override
 		public SpawnInformation constructDefaultSpawnInformation(Entity entity) {
-			return new SpawnInformation(entity, 50, 54, 62);
+			return new SpawnInformation(entity, 50, 54.5, 62);
 		}
 
 	}

@@ -9,6 +9,13 @@ import net.minecraft.world.chunk.IChunkProvider;
 
 public class WorldProviderQuesting extends WorldProvider {
 
+	// public static WorldServer SERVER_QUESTING;
+	//
+	// static {
+	// int questWorldID = MHFCDimensionRegistry.getQuestingDimensionID();
+	// SERVER_QUESTING = MinecraftServer.getServer().worldServerForDimension(questWorldID);
+	// }
+
 	public WorldProviderQuesting() {
 		super();
 	}

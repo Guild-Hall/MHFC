@@ -1,10 +1,19 @@
 package mhfc.net.common.world.controller;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import mhfc.net.common.world.MHFCWorldData;
 import mhfc.net.common.world.MHFCWorldData.AreaInformation;
-import mhfc.net.common.world.area.*;
+import mhfc.net.common.world.area.ActiveAreaAdapter;
+import mhfc.net.common.world.area.AreaConfiguration;
+import mhfc.net.common.world.area.IActiveArea;
+import mhfc.net.common.world.area.IArea;
+import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.world.World;
 
 public class AreaManagerAdapter implements IAreaManager {
@@ -61,10 +70,10 @@ public class AreaManagerAdapter implements IAreaManager {
 	@Override
 	public Active getUnusedInstance(IAreaType type) {
 		IArea chosen = nonactiveAreas.computeIfAbsent(type, (k) -> new ArrayList<>()).stream()
-				.filter(a -> !a.isUnusable()).findFirst().orElseGet(()->{
-					try{
+				.filter(a -> !a.isUnusable()).findFirst().orElseGet(() -> {
+					try {
 						return newArea(type);
-					}catch(Exception e){
+					} catch (Exception e) {
 						throw new RuntimeException("WIP, Well thats life", e);
 					}
 				});

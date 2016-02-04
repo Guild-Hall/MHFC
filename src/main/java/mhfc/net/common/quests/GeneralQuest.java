@@ -1,11 +1,14 @@
 package mhfc.net.common.quests;
 
-import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 import cpw.mods.fml.server.FMLServerHandler;
+import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.network.PacketPipeline;
@@ -17,6 +20,7 @@ import mhfc.net.common.quests.api.QuestDescription;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
+import mhfc.net.common.world.AreaTeleporter;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -93,18 +97,20 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 			int maxPartySize,
 			int reward,
 			int fee,
-			IAreaType areaId,
+			IActiveArea area,
 			QuestDescription originalDescription) {
 		super(MHFCQuestBuildRegistry.QUEST_RUNNING);
-		this.questGoal = goal;
-		goal.setSocket(this);
 		this.playerAttributes = new HashMap<EntityPlayerMP, PlayerAttributes>();
+		this.questGoal = Objects.requireNonNull(goal);
+		this.questingArea = Objects.requireNonNull(area);
+		goal.setSocket(this);
+
 		this.reward = reward;
 		this.fee = fee;
-		this.questingArea = null;
 		this.state = QuestState.pending;
 		this.originalDescription = originalDescription;
 		this.maxPlayerCount = maxPartySize;
+
 		this.visualInformation = new QuestRunningInformation(this);
 	}
 
@@ -157,6 +163,9 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 	protected void onStart() {
 		questGoal.setActive(true);
 		this.state = QuestState.running;
+		for (EntityPlayerMP player : playerAttributes.keySet()) {
+			AreaTeleporter.movePlayerToArea(player, questingArea.getArea());
+		}
 		updatePlayers();
 		resetVotes();
 	}
@@ -176,9 +185,9 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 		}
 		visualInformation.cleanUp();
 		questGoal.questGoalFinalize();
-		if (questingArea != null)
-			questingArea.close();
+		questingArea.close();
 		MHFCQuestRegistry.deregRunningQuest(this);
+		MHFCMain.logger.info("Quest {} ended", this.visualInformation.getName());
 	}
 
 	protected void updatePlayers() {
@@ -216,19 +225,13 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 		return this;
 	}
 
-	public void addPlayer(EntityPlayerMP player) {
-		if (canJoin(player)) {
-			playerAttributes.put(player, newAttribute(player));
-			MHFCQuestRegistry.setQuestForPlayer(player, this);
-
-			if (questingArea != null) {
-				questingArea.getArea().teleportToSpawn(player);
-			}
-			updatePlayers();
-		}
+	private void addPlayer(EntityPlayerMP player) {
+		playerAttributes.put(player, newAttribute(player));
+		MHFCQuestRegistry.setQuestForPlayer(player, this);
+		updatePlayers();
 	}
 
-	public boolean removePlayer(EntityPlayerMP player) {
+	private boolean removePlayer(EntityPlayerMP player) {
 		boolean found = playerAttributes.containsKey(player);
 		if (found) {
 			PlayerAttributes att = playerAttributes.get(player);
@@ -242,13 +245,25 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 
 			playerAttributes.remove(player);
 		}
+		return found;
+	}
+
+	public boolean joinPlayer(EntityPlayerMP player) {
+		if (!canJoin(player))
+			return false;
+		addPlayer(player);
+		return true;
+	}
+
+	public boolean quitPlayer(EntityPlayerMP player) {
+		boolean found = removePlayer(player);
 		if (playerCount() == 0)
 			onEnd();
 		return found;
 	}
 
-	public Collection<EntityPlayerMP> getPlayers() {
-		return playerAttributes.keySet();
+	public Set<EntityPlayerMP> getPlayers() {
+		return Collections.unmodifiableSet(playerAttributes.keySet());
 	}
 
 	/**

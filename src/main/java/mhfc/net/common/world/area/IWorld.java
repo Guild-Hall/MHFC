@@ -157,6 +157,6 @@ public interface IWorld {
 	 */
 	boolean isSideSolid(int x, int y, int z, ForgeDirection side);
 
-	boolean spawnEntityAt(Entity entity, int x, int y, int z);
+	boolean spawnEntityAt(Entity entity, double x, double y, double z);
 
 }

@@ -8,7 +8,14 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.quests.GeneralQuest;
-import mhfc.net.common.quests.factory.*;
+import mhfc.net.common.quests.factory.ChainGoalFactory;
+import mhfc.net.common.quests.factory.DeathRestrictionGoalFactory;
+import mhfc.net.common.quests.factory.DefaultQuestFactory;
+import mhfc.net.common.quests.factory.ForkGoalFactory;
+import mhfc.net.common.quests.factory.HuntingGoalFactory;
+import mhfc.net.common.quests.factory.QuestRunningInformationFactory;
+import mhfc.net.common.quests.factory.QuestVisualInformationFactory;
+import mhfc.net.common.quests.factory.TimeGoalFactory;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 public class QuestFactory {
@@ -28,27 +35,20 @@ public class QuestFactory {
 	private static Map<String, IVisualInformationFactory> visualFactoryMap = new HashMap<String, IVisualInformationFactory>();
 
 	static {
-		insertQuestFactory(MHFCQuestBuildRegistry.QUEST_DEFAULT,
-			new DefaultQuestFactory());
+		insertQuestFactory(MHFCQuestBuildRegistry.QUEST_DEFAULT, new DefaultQuestFactory());
 
 		DeathRestrictionGoalFactory drFactory = new DeathRestrictionGoalFactory();
-		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_DEATH_RESTRICTION_TYPE,
-			drFactory);
+		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_DEATH_RESTRICTION_TYPE, drFactory);
 		insertGoalFactory("death restriction", drFactory);
 		TimeGoalFactory tFactory = new TimeGoalFactory();
 		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_TIME_TYPE, tFactory);
-		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_HUNTING_TYPE,
-			new HuntingGoalFactory());
+		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_HUNTING_TYPE, new HuntingGoalFactory());
 		insertGoalFactory("timer", tFactory);
-		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_CHAIN_TYPE,
-			new ChainGoalFactory());
-		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_FORK_TYPE,
-			new ForkGoalFactory());
+		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_CHAIN_TYPE, new ChainGoalFactory());
+		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_FORK_TYPE, new ForkGoalFactory());
 
-		insertQuestVisualFactory(MHFCQuestBuildRegistry.VISUAL_DEFAULT,
-			new QuestVisualInformationFactory());
-		insertQuestVisualFactory(MHFCQuestBuildRegistry.VISUAL_RUNNING,
-			new QuestRunningInformationFactory());
+		insertQuestVisualFactory(MHFCQuestBuildRegistry.VISUAL_DEFAULT, new QuestVisualInformationFactory());
+		insertQuestVisualFactory(MHFCQuestBuildRegistry.VISUAL_RUNNING, new QuestRunningInformationFactory());
 	}
 
 	public static boolean insertQuestFactory(String str, IQuestFactory fact) {
@@ -65,8 +65,7 @@ public class QuestFactory {
 		return true;
 	}
 
-	public static boolean insertQuestVisualFactory(String str,
-		IVisualInformationFactory fact) {
+	public static boolean insertQuestVisualFactory(String str, IVisualInformationFactory fact) {
 		if (visualFactoryMap.containsKey(str))
 			return false;
 		visualFactoryMap.put(str, fact);
@@ -74,11 +73,10 @@ public class QuestFactory {
 	}
 
 	/**
-	 * Constructs a quest based on the description object and a player to join
-	 * the quest. If it is somehow invalid then null is returned.
+	 * Constructs a quest based on the description object and a player to join the quest. If it is somehow invalid then
+	 * null is returned.
 	 */
-	public static GeneralQuest constructQuest(QuestDescription qd,
-		EntityPlayerMP initiator, String assignedID) {
+	public static GeneralQuest constructQuest(QuestDescription qd, EntityPlayerMP initiator, String assignedID) {
 		if (qd == null || !questFactoryMap.containsKey(qd.getType()))
 			return null;
 		IQuestFactory factory = getQuestFactory(qd.getType());
@@ -90,7 +88,7 @@ public class QuestFactory {
 
 		if (quest.canJoin(initiator)) {
 			MHFCQuestRegistry.regRunningQuest(quest, assignedID);
-			quest.addPlayer(initiator);
+			quest.joinPlayer(initiator);
 			return quest;
 		}
 		quest.getQuestGoal().questGoalFinalize();
@@ -102,11 +100,10 @@ public class QuestFactory {
 	}
 
 	/**
-	 * Constructs a quest goal based on the description object. If it is somehow
-	 * invalid then null is returned. The following types are implemented in the
-	 * following way: <br>
-	 * hunting: Needs to have exactly two arguments in its argument array, both
-	 * of type string and the latter one representing an Integer.
+	 * Constructs a quest goal based on the description object. If it is somehow invalid then null is returned. The
+	 * following types are implemented in the following way: <br>
+	 * hunting: Needs to have exactly two arguments in its argument array, both of type string and the latter one
+	 * representing an Integer.
 	 */
 	public static QuestGoal constructGoal(GoalDescription gd) {
 		Objects.requireNonNull(gd, "Goal description was null");
@@ -120,8 +117,7 @@ public class QuestFactory {
 		return goalFactoryMap.get(type);
 	}
 
-	public static IVisualInformationFactory getQuestVisualInformationFactory(
-		String type) {
+	public static IVisualInformationFactory getQuestVisualInformationFactory(String type) {
 		return visualFactoryMap.get(type);
 	}
 }

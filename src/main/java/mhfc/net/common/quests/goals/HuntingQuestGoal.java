@@ -1,11 +1,14 @@
 package mhfc.net.common.quests.goals;
 
+import java.util.stream.Stream;
+
 import mhfc.net.common.eventhandler.quests.LivingDeathEventHandler;
 import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
 import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
+import mhfc.net.common.util.LazyQueue;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +17,8 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<LivingDeathEvent> {
 
+	LazyQueue<Entity> infSpawns;
+
 	public HuntingQuestGoal(QuestGoalSocket socket, Class<? extends Entity> goalClass, int goalNumber) {
 		super(socket);
 		this.goalClass = goalClass;
@@ -21,11 +26,17 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 		this.currentNumber = 0;
 		goalHandler = new LivingDeathEventHandler(this);
 		MinecraftForge.EVENT_BUS.register(goalHandler);
+		String goalMob = (String) EntityList.classToStringMapping.get(goalClass);
+		Stream<Entity> generator = Stream.generate(
+				() -> EntityList.createEntityByName(
+						goalMob,
+						getQuest().getQuestingArea().getArea().getWorldView().getWorldObject()));
+		infSpawns = new LazyQueue<>(generator.iterator());
 	}
 
 	private int goalNumber;
 	private int currentNumber;
-	private Class<?> goalClass;
+	private Class<? extends Entity> goalClass;
 	private QuestGoalEventHandler<LivingDeathEvent> goalHandler;
 
 	@Override
@@ -51,12 +62,11 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 	@Override
 	public void notifyOfEvent(LivingDeathEvent event) {
 		if (goalClass.isAssignableFrom(event.entityLiving.getClass())) {
-			// FIXME Redo this so that we check if inside borders
-			Entity e = event.source.getEntity();
-			if ((e instanceof EntityPlayer) && getQuest() != null) {
-				boolean shouldcount = false;
-				shouldcount |= getQuest().getPlayers().contains(e);
-				// shouldcount |= getQuest().getSpawnController();
+			Entity damageSource = event.source.getEntity();
+			if ((damageSource instanceof EntityPlayer) && getQuest() != null) {
+				boolean shouldcount = true;
+				shouldcount &= getQuest().getPlayers().contains(damageSource);
+				shouldcount &= getQuest().getSpawnController().getControlledEntities().contains(event.entity);
 				if (shouldcount) {
 					++currentNumber;
 				}
@@ -68,6 +78,12 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 	@Override
 	public void setActive(boolean newActive) {
 		goalHandler.setActive(newActive);
+		if (newActive) {
+			getQuest().getSpawnController().enqueueSpawns(infSpawns);
+			getQuest().getSpawnController().setGenerationMaximum(goalClass, goalNumber);
+		} else {
+			getQuest().getSpawnController().dequeueSpawns(infSpawns);
+		}
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package mhfc.net.common.quests.world;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,15 +15,16 @@ import mhfc.net.common.world.area.IArea;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IWorldAccess;
 
 public abstract class SpawnControllerAdapter implements IQuestAreaSpawnController {
 
 	public static class SpawnInformation {
 		private Entity entity;
-		private int relX, relY, relZ;
+		private double relX, relY, relZ;
 
-		public SpawnInformation(Entity entity, int relX, int relY, int relZ) {
+		public SpawnInformation(Entity entity, double relX, double relY, double relZ) {
 			this.entity = entity;
 			this.relX = relX;
 			this.relY = relY;
@@ -37,27 +39,27 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 			this.entity = entity;
 		}
 
-		public int getRelX() {
+		public double getRelX() {
 			return relX;
 		}
 
-		public void setRelX(int relX) {
+		public void setRelX(double relX) {
 			this.relX = relX;
 		}
 
-		public int getRelY() {
+		public double getRelY() {
 			return relY;
 		}
 
-		public void setRelY(int relY) {
+		public void setRelY(double relY) {
 			this.relY = relY;
 		}
 
-		public int getRelZ() {
+		public double getRelZ() {
 			return relZ;
 		}
 
-		public void setRelZ(int relZ) {
+		public void setRelZ(double relZ) {
 			this.relZ = relZ;
 		}
 
@@ -149,18 +151,37 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 	}
 
-	Set<Queue<Entity>> spawnQueues;
-	Map<Class<? extends Entity>, Integer> aliveCount;
-	Map<Class<? extends Entity>, Integer> spawnMaximum;
-	Set<Entity> managedEntities;
-	IArea area;
+	protected class TickerEntity extends TileEntity {
+		public TickerEntity() {
+			super();
+			xCoord = 0;
+			yCoord = 10;
+			zCoord = 0;
+		}
+
+		@Override
+		public void updateEntity() {
+			SpawnControllerAdapter.this.runSpawnCycle();
+		}
+	}
+
+	protected Set<Queue<Entity>> spawnQueues;
+	protected Map<Class<? extends Entity>, Integer> aliveCount;
+	protected Map<Class<? extends Entity>, Integer> spawnMaximum;
+	protected Set<Entity> managedEntities;
+	protected IArea area;
+	protected TileEntity tickerEntity;
 
 	public SpawnControllerAdapter(IArea area) {
 		this.area = area;
 		this.spawnQueues = new HashSet<>();
 		this.aliveCount = new HashMap<>();
+		this.spawnMaximum = new HashMap<>();
 		this.managedEntities = new HashSet<>();
+		this.tickerEntity = new TickerEntity();
 		this.area.getWorldView().addWorldAccess(new WorldAccessor());
+		this.area.getWorldView().addTileEntity(tickerEntity);
+		// MHFCMain.logger.info(this.area.getWorldView().getWorldObject().loadedTileEntityList.contains(tickerEntity));
 	}
 
 	@Override
@@ -200,6 +221,10 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		spawnQueues.add(qu);
 	}
 
+	public void dequeueSpawns(Queue<Entity> qu) {
+		spawnQueues.remove(qu);
+	}
+
 	@Override
 	public void clearQueues() {
 		spawnQueues.clear();
@@ -223,6 +248,10 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	public int clearArea() {
 		List<Entity> allEntities = new ArrayList<>(managedEntities);
 		return allEntities.stream().filter((e) -> despawnEntity(e)).collect(Collectors.counting()).intValue();
+	}
+
+	public Set<Entity> getControlledEntities() {
+		return Collections.unmodifiableSet(this.managedEntities);
 	}
 
 	@Override
@@ -292,6 +321,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 	@Override
 	public void runSpawnCycle() {
+		// MHFCMain.logger.info("Spawn cycle for {} queues", spawnQueues.size());
 		Iterator<Queue<Entity>> it = spawnQueues.iterator();
 		while (it.hasNext()) {
 			Queue<Entity> spawnQ = it.next();

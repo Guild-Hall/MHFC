@@ -1,6 +1,7 @@
 package mhfc.net.common.quests.world;
 
 import java.util.Queue;
+import java.util.Set;
 
 import net.minecraft.entity.Entity;
 
@@ -49,6 +50,8 @@ public interface IQuestAreaSpawnController {
 	 */
 	public void enqueueSpawns(Queue<Entity> qu);
 
+	public void dequeueSpawns(Queue<Entity> qu);
+
 	public void clearQueues();
 
 	/**
@@ -82,4 +85,7 @@ public interface IQuestAreaSpawnController {
 	 * Tells the area spawn controller to look through the current spawn queues and take appropriate action.
 	 */
 	public void runSpawnCycle();
+
+	public Set<Entity> getControlledEntities();
+
 }
