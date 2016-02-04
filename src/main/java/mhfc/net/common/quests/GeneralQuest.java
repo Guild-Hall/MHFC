@@ -27,7 +27,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 
-public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
+public class GeneralQuest extends QuestDescription implements QuestGoalSocket, AutoCloseable {
 
 	public static final String KEY_TYPE_RUNNING = "running";
 
@@ -92,6 +92,8 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 	protected int reward;
 	protected int fee;
 
+	private boolean closed;
+
 	public GeneralQuest(
 			QuestGoal goal,
 			int maxPartySize,
@@ -112,6 +114,8 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 		this.maxPlayerCount = maxPartySize;
 
 		this.visualInformation = new QuestRunningInformation(this);
+
+		this.closed = false;
 	}
 
 	public QuestState getState() {
@@ -183,9 +187,6 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 		for (EntityPlayerMP player : playerAttributes.keySet()) {
 			removePlayer(player);
 		}
-		visualInformation.cleanUp();
-		questGoal.questGoalFinalize();
-		questingArea.close();
 		MHFCQuestRegistry.deregRunningQuest(this);
 		MHFCMain.logger.info("Quest {} ended", this.visualInformation.getName());
 	}
@@ -345,6 +346,24 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket {
 	@Override
 	public QuestType getQuestType() {
 		return originalDescription.getQuestType();
+	}
+
+	@Override
+	public void close() {
+		if (closed) {
+			MHFCMain.logger.debug("Tried to close already closed instance of quest {}", visualInformation.getName());
+			return;
+		}
+		visualInformation.cleanUp();
+		questGoal.questGoalFinalize();
+		questingArea.close();
+		closed = true;
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		if (!closed)
+			close();
 	}
 
 }

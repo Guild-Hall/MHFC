@@ -85,14 +85,13 @@ public class QuestFactory {
 		GeneralQuest quest = factory.buildQuest(qd);
 		if (quest == null)
 			return null;
-
-		if (quest.canJoin(initiator)) {
-			MHFCQuestRegistry.regRunningQuest(quest, assignedID);
-			quest.joinPlayer(initiator);
-			return quest;
+		if (!quest.canJoin(initiator)) {
+			quest.close();
+			return null;
 		}
-		quest.getQuestGoal().questGoalFinalize();
-		return null;
+		MHFCQuestRegistry.regRunningQuest(quest, assignedID);
+		quest.joinPlayer(initiator);
+		return quest;
 	}
 
 	public static IQuestFactory getQuestFactory(String type) {

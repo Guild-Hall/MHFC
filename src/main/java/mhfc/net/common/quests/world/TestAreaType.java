@@ -3,12 +3,12 @@ package mhfc.net.common.quests.world;
 import java.io.IOException;
 
 import mhfc.net.common.quests.world.SpawnControllerAdapter.SpawnInformation;
+import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.EmptyArea;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.controller.CornerPosition;
 import mhfc.net.common.world.gen.AreaTypeSchematic;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -40,7 +40,7 @@ public class TestAreaType extends AreaTypeSchematic {
 		}
 
 		@Override
-		public SpawnInformation constructDefaultSpawnInformation(Entity entity) {
+		public SpawnInformation constructDefaultSpawnInformation(Spawnable entity) {
 			return new SpawnInformation(entity, 10, 9, 10);
 		}
 

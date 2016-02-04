@@ -2,7 +2,6 @@ package mhfc.net.common.quests.goals;
 
 import java.util.Collection;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.common.eventhandler.quests.LivingDeathEventHandler;
 import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
 import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
@@ -57,7 +56,6 @@ public class DeathRestrictionQuestGoal extends QuestGoal implements NotifyableQu
 	@Override
 	public void questGoalFinalize() {
 		MinecraftForge.EVENT_BUS.unregister(handler);
-		MHFCMain.logger.info("Unregistered");
 	}
 
 	@Override

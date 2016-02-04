@@ -252,10 +252,13 @@ public class MHFCQuestRegistry {
 	 */
 	public static boolean deregRunningQuest(GeneralQuest generalQuest) {
 		boolean wasRunning = questsRunning.remove(generalQuest);
-		String key = runningQuestToStringMap.remove(generalQuest);
-		runningQuestFromStringMap.remove(key);
-		MessageQuestVisual message = new MessageQuestVisual(VisualType.RUNNING_QUEST, key, null);
-		RunningSubscriptionHandler.sendToAll(message);
+		if (wasRunning) {
+			String key = runningQuestToStringMap.remove(generalQuest);
+			runningQuestFromStringMap.remove(key);
+			MessageQuestVisual message = new MessageQuestVisual(VisualType.RUNNING_QUEST, key, null);
+			RunningSubscriptionHandler.sendToAll(message);
+		}
+		generalQuest.close();
 		return wasRunning;
 	}
 

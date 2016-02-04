@@ -8,15 +8,14 @@ import java.util.Map;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCDimensionRegistry;
 import mhfc.net.common.util.world.WorldHelper;
+import mhfc.net.common.world.AreaTeleporter;
 import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IActiveArea;
-import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.gen.ChunkManagerQuesting;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
@@ -30,36 +29,28 @@ import net.minecraft.world.WorldServer;
 public class CommandTpHunterDimension implements ICommand {
 	private Map<EntityPlayerMP, Vec3> teleportPoints = new HashMap<EntityPlayerMP, Vec3>();
 
-	private class AreaTeleporter extends Teleporter {
-		private final IArea area;
+	private class BackTeleporter extends Teleporter {
 
-		public AreaTeleporter(WorldServer server, IArea area) {
+		public BackTeleporter(WorldServer server) {
 			super(server);
-			this.area = area;
 		}
 
 		@Override
 		public void placeInPortal(Entity entity, double posX, double posY, double posZ, float rotationYaw) {
-			if (entity instanceof EntityPlayer && area != null) {
-				EntityPlayer player = (EntityPlayer) entity;
-				area.teleportToSpawn(player);
-			} else {
-				ChunkCoordinates coords = entity.worldObj.getSpawnPoint();
-				Vec3 spawnAt = teleportPoints
-						.getOrDefault(entity, Vec3.createVectorHelper(coords.posX, coords.posY, coords.posZ));
+			ChunkCoordinates coords = entity.worldObj.getSpawnPoint();
+			Vec3 spawnAt = teleportPoints
+					.getOrDefault(entity, Vec3.createVectorHelper(coords.posX, coords.posY, coords.posZ));
+			entity.setLocationAndAngles(spawnAt.xCoord, spawnAt.yCoord, spawnAt.zCoord, rotationYaw, 0.0F);
+			AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
+					entity.posX,
+					entity.posY,
+					entity.posZ,
+					entity.posX + 1,
+					entity.posY + entity.height,
+					entity.posZ + 1);
+			if (entity.worldObj.checkBlockCollision(bb)) {
+				spawnAt.yCoord = entity.worldObj.getTopSolidOrLiquidBlock((int) spawnAt.xCoord, (int) spawnAt.zCoord);
 				entity.setLocationAndAngles(spawnAt.xCoord, spawnAt.yCoord, spawnAt.zCoord, rotationYaw, 0.0F);
-				AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
-						entity.posX,
-						entity.posY,
-						entity.posZ,
-						entity.posX + 1,
-						entity.posY + entity.height,
-						entity.posZ + 1);
-				if (entity.worldObj.checkBlockCollision(bb)) {
-					spawnAt.yCoord = entity.worldObj
-							.getTopSolidOrLiquidBlock((int) spawnAt.xCoord, (int) spawnAt.zCoord);
-					entity.setLocationAndAngles(spawnAt.xCoord, spawnAt.yCoord, spawnAt.zCoord, rotationYaw, 0.0F);
-				}
 			}
 			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
 		}
@@ -106,7 +97,7 @@ public class CommandTpHunterDimension implements ICommand {
 			WorldServer server = MinecraftServer.getServer().worldServerForDimension(questWorldID);
 
 			if (player.dimension == questWorldID) {
-				Teleporter tpOverworld = new AreaTeleporter(server, null);
+				Teleporter tpOverworld = new BackTeleporter(server);
 				mg.transferPlayerToDimension(player, 0, tpOverworld);
 			} else {
 				String areaName = args.length > 0 ? args[0] : AreaRegistry.NAME_PLAYFIELD;
@@ -118,9 +109,8 @@ public class CommandTpHunterDimension implements ICommand {
 				}
 				ChunkManagerQuesting manager = (ChunkManagerQuesting) server.getWorldChunkManager();
 				try (IActiveArea active = manager.getAreaManager().getUnusedInstance(areaType)) {
-					Teleporter tpArea = new AreaTeleporter(server, active.getArea());
 					teleportPoints.put(player, WorldHelper.getVectorOfEntity(player));
-					mg.transferPlayerToDimension(player, questWorldID, tpArea);
+					AreaTeleporter.movePlayerToArea(player, active.getArea());
 				}
 
 				server.getPlayerManager().updatePlayerPertinentChunks(player);

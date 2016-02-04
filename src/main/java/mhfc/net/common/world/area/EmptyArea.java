@@ -3,8 +3,8 @@ package mhfc.net.common.world.area;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.SpawnControllerAdapter;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.SpawnInformation;
+import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
 import mhfc.net.common.world.controller.CornerPosition;
-import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 
 public abstract class EmptyArea extends AreaAdapter {
@@ -20,7 +20,7 @@ public abstract class EmptyArea extends AreaAdapter {
 		protected void enqueDefaultSpawns() {}
 
 		@Override
-		protected SpawnInformation constructDefaultSpawnInformation(Entity entity) {
+		protected SpawnInformation constructDefaultSpawnInformation(Spawnable entity) {
 			return EmptyArea.this.constructDefaultSpawnInformation(entity);
 		}
 	}
@@ -45,5 +45,5 @@ public abstract class EmptyArea extends AreaAdapter {
 		return spawnController;
 	}
 
-	public abstract SpawnInformation constructDefaultSpawnInformation(Entity entity);
+	public abstract SpawnInformation constructDefaultSpawnInformation(Spawnable entity);
 }

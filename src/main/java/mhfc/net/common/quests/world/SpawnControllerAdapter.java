@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import mhfc.net.common.world.area.IArea;
@@ -17,26 +18,29 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IWorldAccess;
+import net.minecraft.world.World;
 
 public abstract class SpawnControllerAdapter implements IQuestAreaSpawnController {
 
+	public static interface Spawnable extends Function<World, Entity> {}
+
 	public static class SpawnInformation {
-		private Entity entity;
+		private Spawnable spawnable;
 		private double relX, relY, relZ;
 
-		public SpawnInformation(Entity entity, double relX, double relY, double relZ) {
-			this.entity = entity;
+		public SpawnInformation(Spawnable entity, double relX, double relY, double relZ) {
+			this.spawnable = entity;
 			this.relX = relX;
 			this.relY = relY;
 			this.relZ = relZ;
 		}
 
-		public Entity getEntity() {
-			return entity;
+		public Spawnable getEntity() {
+			return spawnable;
 		}
 
-		public void setEntity(Entity entity) {
-			this.entity = entity;
+		public void setEntity(Spawnable entity) {
+			this.spawnable = entity;
 		}
 
 		public double getRelX() {
@@ -155,8 +159,9 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		public TickerEntity() {
 			super();
 			xCoord = 0;
-			yCoord = 10;
+			yCoord = 0;
 			zCoord = 0;
+			tileEntityInvalid = false;
 		}
 
 		@Override
@@ -165,7 +170,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		}
 	}
 
-	protected Set<Queue<Entity>> spawnQueues;
+	protected Set<Queue<Spawnable>> spawnQueues;
 	protected Map<Class<? extends Entity>, Integer> aliveCount;
 	protected Map<Class<? extends Entity>, Integer> spawnMaximum;
 	protected Set<Entity> managedEntities;
@@ -181,7 +186,6 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		this.tickerEntity = new TickerEntity();
 		this.area.getWorldView().addWorldAccess(new WorldAccessor());
 		this.area.getWorldView().addTileEntity(tickerEntity);
-		// MHFCMain.logger.info(this.area.getWorldView().getWorldObject().loadedTileEntityList.contains(tickerEntity));
 	}
 
 	@Override
@@ -192,36 +196,33 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 	protected abstract void enqueDefaultSpawns();
 
-	protected abstract SpawnInformation constructDefaultSpawnInformation(Entity entity);
+	protected abstract SpawnInformation constructDefaultSpawnInformation(Spawnable entity);
 
 	@Override
 	public void spawnEntity(String entityID) {
-		Entity entity = EntityList.createEntityByName(entityID, area.getWorldView().getWorldObject());
-		spawnEntity(entity);
+		spawnEntity((world) -> EntityList.createEntityByName(entityID, world));
 	}
 
 	@Override
-	public void spawnEntity(String entityID, int x, int y, int z) {
-		Entity entity = EntityList.createEntityByName(entityID, area.getWorldView().getWorldObject());
-		spawnEntity(new SpawnInformation(entity, x, y, z));
+	public void spawnEntity(String entityID, double x, double y, double z) {
+		spawnEntity(new SpawnInformation((world) -> EntityList.createEntityByName(entityID, world), x, y, z));
 	}
 
 	@Override
-	public void spawnEntity(Entity entity) {
+	public void spawnEntity(Spawnable entity) {
 		spawnEntity(constructDefaultSpawnInformation(entity));
 	}
 
-	@Override
-	public void spawnEntity(Entity entity, int x, int y, int z) {
+	public void spawnEntity(Spawnable entity, double x, double y, double z) {
 		spawnEntity(new SpawnInformation(entity, x, y, z));
 	}
 
 	@Override
-	public void enqueueSpawns(Queue<Entity> qu) {
+	public void enqueueSpawns(Queue<Spawnable> qu) {
 		spawnQueues.add(qu);
 	}
 
-	public void dequeueSpawns(Queue<Entity> qu) {
+	public void dequeueSpawns(Queue<Spawnable> qu) {
 		spawnQueues.remove(qu);
 	}
 
@@ -271,13 +272,11 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	}
 
 	/**
-	 * Directly spawns the given entity at the position
-	 * 
-	 * @param information
-	 * @return
+	 * Directly spawns the given entity at the position. Forces the spawn
 	 */
 	protected boolean spawnEntity(SpawnInformation information) {
-		area.getWorldView().spawnEntityAt(information.entity, information.relX, information.relY, information.relZ);
+		Entity entity = information.spawnable.apply(area.getWorldView().getWorldObject());
+		area.getWorldView().spawnEntityAt(entity, information.relX, information.relY, information.relZ);
 		return false;
 	}
 
@@ -321,19 +320,23 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 	@Override
 	public void runSpawnCycle() {
-		// MHFCMain.logger.info("Spawn cycle for {} queues", spawnQueues.size());
-		Iterator<Queue<Entity>> it = spawnQueues.iterator();
+		Iterator<Queue<Spawnable>> it = spawnQueues.iterator();
 		while (it.hasNext()) {
-			Queue<Entity> spawnQ = it.next();
-			Entity firstEnt = spawnQ.peek();
+			Queue<Spawnable> spawnQ = it.next();
+			Spawnable firstEnt = spawnQ.peek();
 			if (firstEnt == null)
 				it.remove();
-			Class<? extends Entity> firstClass = firstEnt.getClass();
-			if (aliveCount.getOrDefault(firstClass, 0) < spawnMaximum.getOrDefault(firstClass, 0)) {
+			if (spawnIfFreeSlots(firstEnt))
 				spawnQ.poll();
-				spawnEntity(firstEnt);
-			}
 		}
+	}
+
+	private boolean spawnIfFreeSlots(Spawnable firstEnt) {
+		Entity entity = firstEnt.apply(area.getWorldView().getWorldObject());
+		if (aliveCount.getOrDefault(entity.getClass(), 0) >= spawnMaximum.getOrDefault(entity.getClass(), 0))
+			return false;
+		spawnEntity((world) -> entity);
+		return true;
 	}
 
 }

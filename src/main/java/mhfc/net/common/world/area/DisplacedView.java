@@ -258,6 +258,7 @@ public class DisplacedView implements IWorldView {
 
 	@Override
 	public void addTileEntity(TileEntity entity) {
+		entity.setWorldObj(worldObj);
 		entity.xCoord += addX;
 		entity.zCoord += addZ;
 		worldObj.addTileEntity(entity);
@@ -277,6 +278,7 @@ public class DisplacedView implements IWorldView {
 
 	@Override
 	public boolean spawnEntityAt(Entity entity, double x, double y, double z) {
+		entity.setWorld(worldObj);
 		entity.posX = x + addX;
 		entity.posY = y;
 		entity.posZ = z + addZ;

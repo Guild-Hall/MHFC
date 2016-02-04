@@ -3,9 +3,11 @@ package mhfc.net.common.world.gen;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.SpawnControllerAdapter;
-import mhfc.net.common.world.area.*;
+import mhfc.net.common.world.area.AreaAdapter;
+import mhfc.net.common.world.area.AreaConfiguration;
+import mhfc.net.common.world.area.IArea;
+import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.controller.CornerPosition;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
@@ -22,7 +24,7 @@ public class AreaTypePlayfield implements IAreaType {
 			}
 
 			@Override
-			protected SpawnInformation constructDefaultSpawnInformation(Entity entity) {
+			protected SpawnInformation constructDefaultSpawnInformation(Spawnable entity) {
 				int spawnX = config.getChunkSizeX() * 8;
 				int spawnZ = config.getChunkSizeZ() * 8;
 				int height = world.getChunkFromChunkCoords(chunkPos.posX + spawnX / 16, chunkPos.posY + spawnZ / 16)

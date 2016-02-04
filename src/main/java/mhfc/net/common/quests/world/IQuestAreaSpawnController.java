@@ -3,6 +3,7 @@ package mhfc.net.common.quests.world;
 import java.util.Queue;
 import java.util.Set;
 
+import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
 import net.minecraft.entity.Entity;
 
 public interface IQuestAreaSpawnController {
@@ -28,29 +29,29 @@ public interface IQuestAreaSpawnController {
 	 * 
 	 * @param entityID
 	 */
-	public void spawnEntity(String entityID, int x, int y, int z);
+	public void spawnEntity(String entityID, double x, double y, double z);
 
 	/**
 	 * Directly spawn an entity, position controlled by the controller.
 	 * 
 	 * @param entity
 	 */
-	public void spawnEntity(Entity entity);
+	public void spawnEntity(Spawnable entity);
 
 	/**
 	 * Directly spawn an entity at the position if the position is inside the controlled area.
 	 * 
 	 * @param entity
 	 */
-	public void spawnEntity(Entity entity, int x, int y, int z);
+	public void spawnEntity(Spawnable entity, double x, double y, double z);
 
 	/**
 	 * Enqueues the queue for spawning. The area will, in each tick, try to spawn the next entity from the queue. If it
 	 * is not restricted it will do so and remove the element, else it will not consume it.
 	 */
-	public void enqueueSpawns(Queue<Entity> qu);
+	public void enqueueSpawns(Queue<Spawnable> qu);
 
-	public void dequeueSpawns(Queue<Entity> qu);
+	public void dequeueSpawns(Queue<Spawnable> qu);
 
 	public void clearQueues();
 

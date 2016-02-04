@@ -8,6 +8,7 @@ import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
+import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
 import mhfc.net.common.util.LazyQueue;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -17,7 +18,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<LivingDeathEvent> {
 
-	LazyQueue<Entity> infSpawns;
+	LazyQueue<Spawnable> infSpawns;
 
 	public HuntingQuestGoal(QuestGoalSocket socket, Class<? extends Entity> goalClass, int goalNumber) {
 		super(socket);
@@ -27,10 +28,8 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 		goalHandler = new LivingDeathEventHandler(this);
 		MinecraftForge.EVENT_BUS.register(goalHandler);
 		String goalMob = (String) EntityList.classToStringMapping.get(goalClass);
-		Stream<Entity> generator = Stream.generate(
-				() -> EntityList.createEntityByName(
-						goalMob,
-						getQuest().getQuestingArea().getArea().getWorldView().getWorldObject()));
+		Spawnable creation = (world) -> EntityList.createEntityByName(goalMob, world);
+		Stream<Spawnable> generator = Stream.generate(() -> creation);
 		infSpawns = new LazyQueue<>(generator.iterator());
 	}
 
