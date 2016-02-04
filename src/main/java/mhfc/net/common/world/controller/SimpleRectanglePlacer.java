@@ -414,7 +414,7 @@ public class SimpleRectanglePlacer implements IRectanglePlacer {
 		NBTTagList listOfCornerPos = new NBTTagList();
 		for (Corner c : this.corners) {
 			NBTTagCompound cornerTag = new NBTTagCompound();
-			writeCornerPosition(nbtTag, c.pos);
+			writeCornerPosition(cornerTag, c.pos);
 			cornerTag.setString("type", c.type.name());
 			listOfCornerPos.appendTag(cornerTag);
 		}

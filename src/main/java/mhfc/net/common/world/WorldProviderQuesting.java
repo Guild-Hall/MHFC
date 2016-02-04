@@ -51,10 +51,8 @@ public class WorldProviderQuesting extends WorldProvider {
 		// ^ called too early in the constructor, where the perWorldStorage hasn't been loaded yet
 		super.calculateInitialWeather();
 		((ChunkManagerQuesting) this.worldChunkMgr).finishSetup();
-	}
-
-	@Override
-	public long getWorldTime() {
-		return 1000L;
+		this.worldObj.setWorldTime(1000L);
+		this.worldObj.getGameRules().setOrCreateGameRule("doDaylightCycle", "false");
+		this.worldObj.getGameRules().setOrCreateGameRule("doMobSpawning", "false");
 	}
 }

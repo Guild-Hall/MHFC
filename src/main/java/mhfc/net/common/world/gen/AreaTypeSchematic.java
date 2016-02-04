@@ -1,14 +1,14 @@
 package mhfc.net.common.world.gen;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
-import com.sk89q.jnbt.NBTInputStream;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
-import com.sk89q.worldedit.extent.clipboard.io.SchematicReader;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
+import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.function.operation.RunContext;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
@@ -25,40 +25,47 @@ import mhfc.net.common.worldedit.WorldDisplacedView;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public abstract class AreaTypeSchematic implements IAreaType{
+public abstract class AreaTypeSchematic implements IAreaType {
 
 	private static WorldData forgeData = LegacyWorldData.getInstance();
+	private static ClipboardFormat format = ClipboardFormat.SCHEMATIC;
+
 	protected Clipboard areaInformation;
 	protected Vector absoluteMinimum;
 	protected Region clipboardRegion;
-	
+
 	public AreaTypeSchematic(ResourceLocation schematicLocation) throws IOException {
-		try(InputStream instream = Utilities.inputStream(schematicLocation);NBTInputStream nbtIn = new NBTInputStream(instream)){
-			areaInformation = new SchematicReader(nbtIn).read(forgeData);
+		try (BufferedInputStream instream = Utilities.inputStream(schematicLocation)) {
+			areaInformation = format.getReader(instream).read(forgeData);
 		}
+
 		Vector origin = areaInformation.getOrigin();
 		Vector clipLowerLeft = areaInformation.getMinimumPoint();
 		absoluteMinimum = Vector.getMinimum(origin, clipLowerLeft);
 		clipboardRegion = new CuboidRegion(absoluteMinimum, areaInformation.getMaximumPoint());
+
 	}
-	
+
 	@Override
-	public final IArea populate(World world, CornerPosition lowerLeftCorner, AreaConfiguration configuration) throws WorldEditException {
+	public final IArea populate(World world, CornerPosition lowerLeftCorner, AreaConfiguration configuration)
+			throws WorldEditException {
 		DisplacedView view = new DisplacedView(lowerLeftCorner, configuration, world);
 		WorldDisplacedView displacedWorld = new WorldDisplacedView(view);
-		
+
 		ForwardExtentCopy copyOp = new ForwardExtentCopy(areaInformation, clipboardRegion, displacedWorld, Vector.ZERO);
-		copyOp.resume(new RunContext());
-		
+		RunContext def = new RunContext();
+		Operations.completeLegacy(copyOp.resume(def));
+		Operations.completeLegacy(displacedWorld.commit());
+
 		return onPopulate(world, lowerLeftCorner, configuration);
 	}
-	
+
 	@Override
 	public AreaConfiguration configForNewArea() {
 		Vector absoluteSize = areaInformation.getMaximumPoint().subtract(absoluteMinimum);
-		return new AreaConfiguration((absoluteSize.getBlockX()+15)/16, (absoluteSize.getBlockZ()+15)/16);
+		return new AreaConfiguration((absoluteSize.getBlockX() + 15) / 16, (absoluteSize.getBlockZ() + 15) / 16);
 	}
-	
-	protected abstract IArea onPopulate(World world, CornerPosition lowerLeftCorner, AreaConfiguration configuration); 
+
+	protected abstract IArea onPopulate(World world, CornerPosition lowerLeftCorner, AreaConfiguration configuration);
 
 }
