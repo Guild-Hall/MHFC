@@ -41,13 +41,20 @@ public class CommandTpHunterDimension implements ICommand {
 		@Override
 		public void placeInPortal(Entity entity, double posX, double posY, double posZ, float rotationYaw) {
 			if (entity instanceof EntityPlayer && area != null) {
-				area.teleportToSpawn((EntityPlayer) entity);
+				EntityPlayer player = (EntityPlayer) entity;
+				area.teleportToSpawn(player);
 			} else {
 				ChunkCoordinates coords = entity.worldObj.getSpawnPoint();
 				Vec3 spawnAt = teleportPoints
 						.getOrDefault(entity, Vec3.createVectorHelper(coords.posX, coords.posY, coords.posZ));
 				entity.setLocationAndAngles(spawnAt.xCoord, spawnAt.yCoord, spawnAt.zCoord, rotationYaw, 0.0F);
-				AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(entity.posX, entity.posY, entity.posZ, entity.posX+1, entity.posY+entity.height, entity.posZ+1);
+				AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
+						entity.posX,
+						entity.posY,
+						entity.posZ,
+						entity.posX + 1,
+						entity.posY + entity.height,
+						entity.posZ + 1);
 				if (entity.worldObj.checkBlockCollision(bb)) {
 					spawnAt.yCoord = entity.worldObj
 							.getTopSolidOrLiquidBlock((int) spawnAt.xCoord, (int) spawnAt.zCoord);
@@ -97,7 +104,7 @@ public class CommandTpHunterDimension implements ICommand {
 			ServerConfigurationManager mg = MinecraftServer.getServer().getConfigurationManager();
 			int questWorldID = MHFCDimensionRegistry.getQuestingDimensionID();
 			WorldServer server = MinecraftServer.getServer().worldServerForDimension(questWorldID);
-			
+
 			if (player.dimension == questWorldID) {
 				Teleporter tpOverworld = new AreaTeleporter(server, null);
 				mg.transferPlayerToDimension(player, 0, tpOverworld);
@@ -115,6 +122,9 @@ public class CommandTpHunterDimension implements ICommand {
 					teleportPoints.put(player, WorldHelper.getVectorOfEntity(player));
 					mg.transferPlayerToDimension(player, questWorldID, tpArea);
 				}
+
+				server.getPlayerManager().updatePlayerPertinentChunks(player);
+				server.getPlayerManager().updatePlayerInstances();
 			}
 			MHFCMain.logger.debug("Teleported to/from dimension " + questWorldID);
 		}

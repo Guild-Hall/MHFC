@@ -1,6 +1,13 @@
 package mhfc.net.common.quests.world;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import mhfc.net.common.world.area.IArea;
@@ -11,7 +18,7 @@ import net.minecraft.world.IWorldAccess;
 
 public abstract class SpawnControllerAdapter implements IQuestAreaSpawnController {
 
-	protected static class SpawnInformation {
+	public static class SpawnInformation {
 		private Entity entity;
 		private int relX, relY, relZ;
 

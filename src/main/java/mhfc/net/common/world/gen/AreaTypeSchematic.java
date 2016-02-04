@@ -42,7 +42,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 		Vector origin = areaInformation.getOrigin();
 		Vector clipLowerLeft = areaInformation.getMinimumPoint();
 		absoluteMinimum = Vector.getMinimum(origin, clipLowerLeft);
-		clipboardRegion = new CuboidRegion(absoluteMinimum, areaInformation.getMaximumPoint());
+		clipboardRegion = new CuboidRegion(areaInformation.getMinimumPoint(), areaInformation.getMaximumPoint());
 
 	}
 
@@ -52,7 +52,11 @@ public abstract class AreaTypeSchematic implements IAreaType {
 		DisplacedView view = new DisplacedView(lowerLeftCorner, configuration, world);
 		WorldDisplacedView displacedWorld = new WorldDisplacedView(view);
 
-		ForwardExtentCopy copyOp = new ForwardExtentCopy(areaInformation, clipboardRegion, displacedWorld, Vector.ZERO);
+		ForwardExtentCopy copyOp = new ForwardExtentCopy(
+				areaInformation,
+				clipboardRegion,
+				displacedWorld,
+				areaInformation.getMinimumPoint().subtract(absoluteMinimum));
 		RunContext def = new RunContext();
 		Operations.completeLegacy(copyOp.resume(def));
 		Operations.completeLegacy(displacedWorld.commit());

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import mhfc.net.common.quests.world.ArenaType;
 import mhfc.net.common.quests.world.TestAreaType;
 import mhfc.net.common.world.gen.AreaTypePlayfield;
 
@@ -14,12 +15,14 @@ public class AreaRegistry {
 	public static final String NAME_PLAYFIELD_MEDIUM = "playfield_medium";
 	public static final String NAME_PLAYFIELD_BIG = "playfield_big";
 	public static final String NAME_TEST_SCHEMATIC = "test_schematic";
+	public static final String NAME_ARENA = "arena";
 
 	static {
 		AreaRegistry.register(NAME_PLAYFIELD, AreaTypePlayfield.PLAYFIELD_TYPE);
 		AreaRegistry.register(NAME_PLAYFIELD_MEDIUM, AreaTypePlayfield.PLAYFIELD_MEDIUM);
 		AreaRegistry.register(NAME_PLAYFIELD_BIG, AreaTypePlayfield.PLAYFIELD_BIG);
 		AreaRegistry.register(NAME_TEST_SCHEMATIC, TestAreaType.INSTANCE);
+		AreaRegistry.register(NAME_ARENA, ArenaType.INSTANCE);
 	}
 
 	private Map<String, IAreaType> stringToType = new HashMap<>();

@@ -13,12 +13,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class TestAreaType extends AreaTypeSchematic {
+public class ArenaType extends AreaTypeSchematic {
 
-	public static final ResourceLocation schematicLocation = new ResourceLocation("mhfc:schematics/Test.schematic");
+	public static final ResourceLocation schematicLocation = new ResourceLocation("mhfc:schematics/Arena.schematic");
 
 	private static class Area extends EmptyArea {
-
 		public Area(World world, CornerPosition pos, AreaConfiguration config) {
 			super(world, pos, config);
 		}
@@ -29,35 +28,35 @@ public class TestAreaType extends AreaTypeSchematic {
 
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
-			player.posX = chunkPos.posX * 16 + 3;
-			player.posY = 8;
-			player.posZ = chunkPos.posY * 16 + 3;
+			player.posX = chunkPos.posX * 16 + 54;
+			player.posY = 54;
+			player.posZ = chunkPos.posY * 16 + 11;
 		}
 
 		@Override
 		public String getUnlocalizedDisplayName() {
-			return "area.test.name";
+			return "area.arena.name";
 		}
 
 		@Override
 		public SpawnInformation constructDefaultSpawnInformation(Entity entity) {
-			return new SpawnInformation(entity, 10, 9, 10);
+			return new SpawnInformation(entity, 50, 54, 62);
 		}
 
 	}
 
-	public static TestAreaType INSTANCE;
+	private ArenaType() throws IOException {
+		super(schematicLocation);
+	}
+
+	public static ArenaType INSTANCE;
 
 	static {
 		try {
-			INSTANCE = new TestAreaType();
+			INSTANCE = new ArenaType();
 		} catch (IOException e) {
 			throw new RuntimeException("Could not load test area", e);
 		}
-	}
-
-	private TestAreaType() throws IOException {
-		super(schematicLocation);
 	}
 
 	@Override
