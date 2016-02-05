@@ -112,9 +112,6 @@ public class CommandTpHunterDimension implements ICommand {
 					teleportPoints.put(player, WorldHelper.getVectorOfEntity(player));
 					AreaTeleporter.movePlayerToArea(player, active.getArea());
 				}
-
-				server.getPlayerManager().updatePlayerPertinentChunks(player);
-				server.getPlayerManager().updatePlayerInstances();
 			}
 			MHFCMain.logger.debug("Teleported to/from dimension " + questWorldID);
 		}

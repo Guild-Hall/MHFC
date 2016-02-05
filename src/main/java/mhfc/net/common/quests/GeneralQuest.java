@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import cpw.mods.fml.server.FMLServerHandler;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
@@ -239,10 +238,7 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 			PacketPipeline.networkPipe.sendTo(new MessageQuestVisual(VisualType.PERSONAL_QUEST, "", null), att.player);
 			MHFCQuestRegistry.setQuestForPlayer(att.player, null);
 
-			if (att.player.getEntityWorld().provider.dimensionId != att.dimensionID)
-				FMLServerHandler.instance().getServer().getConfigurationManager()
-						.transferPlayerToDimension(att.player, att.dimensionID);
-			att.player.setPosition(att.posX, att.posY, att.posZ);
+			AreaTeleporter.movePlayerToOverworld(player, att.posX, att.posY, att.posZ);
 
 			playerAttributes.remove(player);
 		}

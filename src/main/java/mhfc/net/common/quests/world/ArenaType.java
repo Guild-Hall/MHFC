@@ -28,10 +28,10 @@ public class ArenaType extends AreaTypeSchematic {
 
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
-			player.posX = chunkPos.posX * 16 + 54;
-			player.posZ = chunkPos.posY * 16 + 11;
-			player.posY = world.getChunkFromBlockCoords((int) player.posX, (int) player.posZ)
-					.getHeightValue((int) player.posX % 16, (int) player.posZ % 16) + 1;
+			double posX = chunkPos.posX * 16 + 54;
+			double posZ = chunkPos.posY * 16 + 11;
+			double posY = world.getTopSolidOrLiquidBlock((int) posX, (int) posZ) + 1;
+			player.setPosition(posX, posY, posZ);
 		}
 
 		@Override

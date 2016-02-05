@@ -24,7 +24,7 @@ public class ChunkProviderQuesting extends ChunkProviderFlat {
 		byte[] ids = ret.getBiomeArray();
 
 		for (int i = 0; i < ids.length; ++i) {
-			ids[i] = (byte) biomes[i].biomeID;
+			ids[i] = 0;
 		}
 
 		ret.generateSkylightMap();
