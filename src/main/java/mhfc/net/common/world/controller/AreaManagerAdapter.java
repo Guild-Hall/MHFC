@@ -58,7 +58,7 @@ public class AreaManagerAdapter implements IAreaManager {
 		Collection<AreaInformation> loadedAreas = this.saveData.getAllSpawnedAreas();
 		for (AreaInformation info : loadedAreas) {
 			IArea loadingArea = info.type.provideForLoading(world);
-			loadingArea.loadFromConfig(info.position, info.config);
+			loadingArea.loadFromConfig(info.config);
 			this.nonactiveAreas.computeIfAbsent(info.type, (k) -> new ArrayList<>()).add(loadingArea);
 		}
 	}
@@ -82,11 +82,13 @@ public class AreaManagerAdapter implements IAreaManager {
 
 	private IArea newArea(IAreaType type) throws Exception {
 		AreaConfiguration config = type.configForNewArea();
-		CornerPosition pos = saveData.newArea(type, config);
+		CornerPosition position = saveData.newArea(type, config);
+		// Clear the area
 		for (int cX = 0; cX < config.getChunkSizeX(); cX++) {
 			for (int cZ = 0; cZ < config.getChunkSizeZ(); cZ++) {
-				if (world.getChunkFromChunkCoords(cX, cZ).isEmpty())
+				if (world.getChunkFromChunkCoords(cX, cZ).isEmpty()) {
 					continue;
+				}
 				for (int x = 0; x < 16; x++) {
 					for (int y = 0; y < world.getActualHeight(); y++) {
 						for (int z = 0; z < 16; z++) {
@@ -96,7 +98,8 @@ public class AreaManagerAdapter implements IAreaManager {
 				}
 			}
 		}
-		IArea controller = type.populate(world, pos, config);
+		config.setPosition(position);
+		IArea controller = type.populate(world, config);
 		return controller;
 	}
 }

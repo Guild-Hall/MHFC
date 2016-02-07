@@ -1,48 +1,78 @@
 package mhfc.net.common.world.area;
 
+import java.util.Objects;
+
 import mhfc.net.common.util.ISavableToNBT;
+import mhfc.net.common.world.controller.CornerPosition;
+import mhfc.net.common.world.controller.IAreaManager;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class AreaConfiguration implements ISavableToNBT {
-	private int sizeX;
-	private int sizeZ;
-	private boolean initialized;
+public final class AreaConfiguration implements ISavableToNBT {
+	private int chunkSizeX;
+	private int chunkSizeZ;
+	private CornerPosition lowerChunkPos;
+	private IExtendedConfiguration extendedConfig;
+	private boolean isLoaded;
 
-	public AreaConfiguration() {
-		this(0, 0);
-		initialized = false;
+	private AreaConfiguration(IExtendedConfiguration config) {
+		this.extendedConfig = Objects.requireNonNull(config);
+		isLoaded = false;
 	}
 
-	public AreaConfiguration(int sizeX, int sizeZ) {
-		this.sizeX = sizeX;
-		this.sizeZ = sizeZ;
-		initialized = true;
+	public AreaConfiguration(int sizeX, int sizeZ, IExtendedConfiguration config) {
+		this.chunkSizeX = sizeX;
+		this.chunkSizeZ = sizeZ;
+		this.extendedConfig = Objects.requireNonNull(config);
+		this.isLoaded = true;
 	}
 
 	@Override
 	public void readFrom(NBTTagCompound nbtTag) {
-		this.sizeX = nbtTag.getInteger("sizeX");
-		this.sizeZ = nbtTag.getInteger("sizeZ");
-		initialized = true;
+		this.chunkSizeX = nbtTag.getInteger("sizeX");
+		this.chunkSizeZ = nbtTag.getInteger("sizeZ");
+		this.lowerChunkPos = new CornerPosition(nbtTag.getInteger("posX"), nbtTag.getInteger("posZ"));
+		this.extendedConfig.readFrom(nbtTag.getCompoundTag("extendedConfig"));
+		this.isLoaded = true;
 	}
 
 	@Override
 	public void saveTo(NBTTagCompound nbtTag) {
-		nbtTag.setInteger("sizeX", this.sizeX);
-		nbtTag.setInteger("sizeZ", this.sizeZ);
+		nbtTag.setInteger("sizeX", this.chunkSizeX);
+		nbtTag.setInteger("sizeZ", this.chunkSizeZ);
+		nbtTag.setInteger("posX", this.lowerChunkPos.posX);
+		nbtTag.setInteger("posZ", this.lowerChunkPos.posY);
+		NBTTagCompound extendedConfig = new NBTTagCompound();
+		this.extendedConfig.saveTo(extendedConfig);
+		nbtTag.setTag("extendedConfig", extendedConfig);
 	}
 
 	public int getChunkSizeX() {
-		if (!initialized) {
-			throw new IllegalStateException("Not initialized");
-		}
-		return sizeX;
+		return chunkSizeX;
 	}
 
 	public int getChunkSizeZ() {
-		if (!initialized) {
-			throw new IllegalStateException("Not initialized");
-		}
-		return sizeZ;
+		return chunkSizeZ;
+	}
+
+	/**
+	 * Don't call this if you are not an {@link IAreaManager} that sets up the configuration for an {@link IArea}.
+	 *
+	 * @param newPos
+	 *            the new position that the {@link IAreaManager} assigns to this config
+	 */
+	public void setPosition(CornerPosition newPos) {
+		this.lowerChunkPos = Objects.requireNonNull(newPos);
+	}
+
+	public CornerPosition getPosition() {
+		return this.lowerChunkPos;
+	}
+
+	public IExtendedConfiguration getExtendedConfig() {
+		return this.extendedConfig;
+	}
+
+	public static AreaConfiguration newConfigForLoading(IExtendedConfiguration extendedConfigToLoad) {
+		return new AreaConfiguration(extendedConfigToLoad);
 	}
 }

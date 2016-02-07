@@ -20,7 +20,7 @@ import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.DisplacedView;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IAreaType;
-import mhfc.net.common.world.controller.CornerPosition;
+import mhfc.net.common.world.area.IExtendedConfiguration;
 import mhfc.net.common.worldedit.WorldDisplacedView;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -36,7 +36,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 
 	public AreaTypeSchematic(ResourceLocation schematicLocation) throws IOException {
 		try (BufferedInputStream instream = Utilities.inputStream(schematicLocation)) {
-			areaInformation = format.getReader(instream).read(forgeData);
+			areaInformation = AreaTypeSchematic.format.getReader(instream).read(AreaTypeSchematic.forgeData);
 		}
 
 		Vector origin = areaInformation.getOrigin();
@@ -47,9 +47,8 @@ public abstract class AreaTypeSchematic implements IAreaType {
 	}
 
 	@Override
-	public final IArea populate(World world, CornerPosition lowerLeftCorner, AreaConfiguration configuration)
-			throws WorldEditException {
-		DisplacedView view = new DisplacedView(lowerLeftCorner, configuration, world);
+	public final IArea populate(World world, AreaConfiguration configuration) throws WorldEditException {
+		DisplacedView view = new DisplacedView(configuration.getPosition(), configuration, world);
 		WorldDisplacedView displacedWorld = new WorldDisplacedView(view);
 
 		ForwardExtentCopy copyOp = new ForwardExtentCopy(
@@ -61,15 +60,18 @@ public abstract class AreaTypeSchematic implements IAreaType {
 		Operations.completeLegacy(copyOp.resume(def));
 		Operations.completeLegacy(displacedWorld.commit());
 
-		return onPopulate(world, lowerLeftCorner, configuration);
+		return onPopulate(world, configuration);
 	}
 
 	@Override
 	public AreaConfiguration configForNewArea() {
 		Vector absoluteSize = areaInformation.getMaximumPoint().subtract(absoluteMinimum);
-		return new AreaConfiguration((absoluteSize.getBlockX() + 15) / 16, (absoluteSize.getBlockZ() + 15) / 16);
+		return new AreaConfiguration(
+				(absoluteSize.getBlockX() + 15) / 16,
+				(absoluteSize.getBlockZ() + 15) / 16,
+				IExtendedConfiguration.EMPTY);
 	}
 
-	protected abstract IArea onPopulate(World world, CornerPosition lowerLeftCorner, AreaConfiguration configuration);
+	protected abstract IArea onPopulate(World world, AreaConfiguration configuration);
 
 }
