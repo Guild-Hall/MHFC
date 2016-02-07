@@ -23,6 +23,7 @@ allprojects {
 }
 
 apply plugin: 'forge'
+apply plugin: 'maven'
 apply from: 'build.properties'
 
 minecraft {
@@ -86,8 +87,10 @@ task sourceJar(type: Jar, dependsOn: 'sourceMainJava') {
 }
 
 tasks.build.dependsOn('deobfJar', 'sourceJar')
+tasks.install.dependsOn 'build'
 
 artifacts {
+    archives jar
     archives sourceJar
     archives deobfJar
 }
