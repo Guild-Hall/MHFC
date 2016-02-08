@@ -8,6 +8,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
 
 public abstract class AreaAdapter implements IArea {
 
@@ -83,16 +86,41 @@ public abstract class AreaAdapter implements IArea {
 		state = State.INITIALIZED;
 	}
 
+	private boolean isInArea(double xCoord, double zCoord) {
+		return xCoord / 16 >= chunkPos.posX && xCoord / 16 < chunkPos.posX + config.getChunkSizeX()
+				&& zCoord / 16 >= chunkPos.posY && zCoord / 16 < chunkPos.posY + config.getChunkSizeZ();
+	}
+
+	private boolean isInArea(BlockEvent event) {
+		if (event.world != world)
+			return false;
+		return isInArea(event.x, event.z);
+	}
+
 	@SubscribeEvent
 	public void onPlayerClickBlock(PlayerInteractEvent event) {
 		if (event.world != world)
 			return;
 		if (event.action != Action.LEFT_CLICK_BLOCK)
 			return;
-		if (event.x / 16 >= chunkPos.posX && event.x / 16 < chunkPos.posX + config.getChunkSizeX()
-				&& event.z / 16 >= chunkPos.posY && event.z / 16 < chunkPos.posY + config.getChunkSizeZ()) {
+		if (isInArea(event.x, event.z)) {
 			event.setCanceled(true);
 		}
+	}
+
+	@SubscribeEvent
+	public void onBlockBreakEvent(BreakEvent event) {
+		if (!isInArea(event))
+			return;
+		event.setCanceled(true);
+	}
+
+	@SubscribeEvent
+	public void onBlockPlaceEvent(PlaceEvent event) {
+		// FIXME allow the placement of the bbq item or stasis traps for example but revert them on leaving the area
+		if (!isInArea(event))
+			return;
+		event.setCanceled(true);
 	}
 
 }

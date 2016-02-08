@@ -54,5 +54,7 @@ public class WorldProviderQuesting extends WorldProvider {
 		this.worldObj.setWorldTime(1000L);
 		this.worldObj.getGameRules().setOrCreateGameRule("doDaylightCycle", "false");
 		this.worldObj.getGameRules().setOrCreateGameRule("doMobSpawning", "false");
+		this.worldObj.getGameRules().setOrCreateGameRule("keepInventory", "true");
+		this.worldObj.getGameRules().setOrCreateGameRule("doFireTick", "false");
 	}
 }

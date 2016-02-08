@@ -1,7 +1,8 @@
-package mhfc.net.common.quests.world;
+package mhfc.net.common.world.types;
 
 import java.io.IOException;
 
+import mhfc.net.common.quests.world.SpawnControllerAdapter;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.SpawnInformation;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
 import mhfc.net.common.world.area.AreaConfiguration;

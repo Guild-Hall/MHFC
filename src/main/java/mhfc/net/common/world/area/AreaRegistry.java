@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import mhfc.net.common.quests.world.ArenaType;
-import mhfc.net.common.quests.world.TestAreaType;
 import mhfc.net.common.world.gen.AreaTypePlayfield;
+import mhfc.net.common.world.types.ArenaType;
+import mhfc.net.common.world.types.TestAreaType;
 
 public class AreaRegistry {
 
