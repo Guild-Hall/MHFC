@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.IArea;
-import mhfc.net.common.world.controller.CornerPosition;
+import mhfc.net.common.world.area.IExtendedConfiguration;
 import mhfc.net.common.world.gen.AreaTypeSchematic;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -25,13 +25,13 @@ public class VillagePokeType extends AreaTypeSchematic {
 	}
 
 	@Override
-	public AreaConfiguration configForLoading() {
+	public IExtendedConfiguration configForLoading() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected IArea onPopulate(World world, CornerPosition lowerLeftCorner, AreaConfiguration configuration) {
+	protected IArea onPopulate(World world, AreaConfiguration configuration) {
 		// TODO Auto-generated method stub
 		return null;
 	}

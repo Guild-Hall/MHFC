@@ -21,7 +21,6 @@ public abstract class AreaAdapter implements IArea {
 	}
 
 	protected final World world;
-	protected CornerPosition chunkPos;
 	protected AreaConfiguration config;
 	protected IWorldView worldView;
 	protected State state;
@@ -31,7 +30,6 @@ public abstract class AreaAdapter implements IArea {
 	 */
 	public AreaAdapter(World world) {
 		this.world = Objects.requireNonNull(world);
-		this.chunkPos = null;
 		this.config = null;
 		this.worldView = null;
 		this.state = State.RAW;
@@ -40,22 +38,24 @@ public abstract class AreaAdapter implements IArea {
 	/**
 	 * Constructs and initializes the area
 	 */
-	public AreaAdapter(World world, CornerPosition pos, AreaConfiguration config) {
+	public AreaAdapter(World world, AreaConfiguration config) {
 		this.world = Objects.requireNonNull(world);
-		this.chunkPos = Objects.requireNonNull(pos);
 		this.config = Objects.requireNonNull(config);
-		this.worldView = new DisplacedView(chunkPos, config, world);
+		this.worldView = new DisplacedView(config.getPosition(), config, world);
 		this.state = State.INITIALIZED;
+	}
+
+	protected CornerPosition getChunkPosition() {
+		return this.config.getPosition();
 	}
 
 	/**
 	 * Initializes the area
 	 */
 	@Override
-	public void loadFromConfig(CornerPosition pos, AreaConfiguration config) {
-		this.chunkPos = Objects.requireNonNull(pos);
+	public void loadFromConfig(AreaConfiguration config) {
 		this.config = Objects.requireNonNull(config);
-		this.worldView = new DisplacedView(chunkPos, config, world);
+		this.worldView = new DisplacedView(config.getPosition(), config, world);
 		this.state = State.INITIALIZED;
 	}
 
@@ -65,28 +65,32 @@ public abstract class AreaAdapter implements IArea {
 
 	@Override
 	public IWorldView getWorldView() {
-		if (!isAccessLegal())
+		if (!isAccessLegal()) {
 			throw new IllegalStateException("Area is not yet initialized");
+		}
 		return worldView;
 	}
 
 	@Override
 	public void onAcquire() {
-		if (state != State.INITIALIZED)
+		if (state != State.INITIALIZED) {
 			throw new IllegalStateException("Area is not acquireable");
+		}
 		MinecraftForge.EVENT_BUS.register(this);
 		state = State.ACQUIRED;
 	}
 
 	@Override
 	public void onDismiss() {
-		if (state != State.ACQUIRED)
+		if (state != State.ACQUIRED) {
 			throw new IllegalStateException("Area is dismissable");
+		}
 		MinecraftForge.EVENT_BUS.unregister(this);
 		state = State.INITIALIZED;
 	}
 
 	private boolean isInArea(double xCoord, double zCoord) {
+		CornerPosition chunkPos = getChunkPosition();
 		return xCoord / 16 >= chunkPos.posX && xCoord / 16 < chunkPos.posX + config.getChunkSizeX()
 				&& zCoord / 16 >= chunkPos.posY && zCoord / 16 < chunkPos.posY + config.getChunkSizeZ();
 	}
@@ -99,8 +103,9 @@ public abstract class AreaAdapter implements IArea {
 
 	@SubscribeEvent
 	public void onPlayerClickBlock(PlayerInteractEvent event) {
-		if (event.world != world)
+		if (event.world != world) {
 			return;
+		}
 		if (event.action != Action.LEFT_CLICK_BLOCK)
 			return;
 		if (isInArea(event.x, event.z)) {

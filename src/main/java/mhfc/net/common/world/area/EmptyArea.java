@@ -4,7 +4,6 @@ import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.SpawnControllerAdapter;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.SpawnInformation;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
-import mhfc.net.common.world.controller.CornerPosition;
 import net.minecraft.world.World;
 
 public abstract class EmptyArea extends AreaAdapter {
@@ -29,14 +28,14 @@ public abstract class EmptyArea extends AreaAdapter {
 		super(world);
 	}
 
-	public EmptyArea(World world, CornerPosition pos, AreaConfiguration config) {
-		super(world, pos, config);
+	public EmptyArea(World world, AreaConfiguration config) {
+		super(world, config);
 		spawnController = new SpawnController();
 	}
 
 	@Override
-	public void loadFromConfig(CornerPosition pos, AreaConfiguration config) {
-		super.loadFromConfig(pos, config);
+	public void loadFromConfig(AreaConfiguration config) {
+		super.loadFromConfig(config);
 		spawnController = new SpawnController();
 	}
 

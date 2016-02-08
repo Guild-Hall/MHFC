@@ -1,7 +1,6 @@
 package mhfc.net.common.world.area;
 
 import mhfc.net.common.quests.world.IQuestArea;
-import mhfc.net.common.world.controller.CornerPosition;
 import mhfc.net.common.world.controller.IAreaManager;
 
 public interface IArea extends IQuestArea {
@@ -21,7 +20,7 @@ public interface IArea extends IQuestArea {
 
 	default void onDismiss() {}
 
-	void loadFromConfig(CornerPosition pos, AreaConfiguration config);
+	void loadFromConfig(AreaConfiguration config);
 
 	IWorldView getWorldView();
 

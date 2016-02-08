@@ -2,7 +2,6 @@ package mhfc.net.common.world.area;
 
 import com.sk89q.worldedit.WorldEditException;
 
-import mhfc.net.common.world.controller.CornerPosition;
 import net.minecraft.world.World;
 
 public interface IAreaType {
@@ -17,20 +16,18 @@ public interface IAreaType {
 	 *
 	 * @param world
 	 *            the world
-	 * @param lowerLeftCorner
-	 *            the position of the lower left corner of the area that has been assigned to this Area
 	 * @param configuration
 	 *            the configuration previously returned from {@link #configForNewArea()}
 	 * @return the {@link IArea} controller.
-	 * @throws WorldEditException 
+	 * @throws WorldEditException
 	 */
-	IArea populate(World world, CornerPosition lowerLeftCorner, AreaConfiguration configuration) throws Exception;
+	IArea populate(World world, AreaConfiguration configuration) throws Exception;
 
 	IArea provideForLoading(World world);
 
 	AreaConfiguration configForNewArea();
 
-	AreaConfiguration configForLoading();
+	IExtendedConfiguration configForLoading();
 
 	@Override
 	int hashCode();

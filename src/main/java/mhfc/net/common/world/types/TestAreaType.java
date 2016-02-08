@@ -2,13 +2,12 @@ package mhfc.net.common.world.types;
 
 import java.io.IOException;
 
-import mhfc.net.common.quests.world.SpawnControllerAdapter;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.SpawnInformation;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.EmptyArea;
 import mhfc.net.common.world.area.IArea;
-import mhfc.net.common.world.controller.CornerPosition;
+import mhfc.net.common.world.area.IExtendedConfiguration;
 import mhfc.net.common.world.gen.AreaTypeSchematic;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -20,8 +19,8 @@ public class TestAreaType extends AreaTypeSchematic {
 
 	private static class Area extends EmptyArea {
 
-		public Area(World world, CornerPosition pos, AreaConfiguration config) {
-			super(world, pos, config);
+		public Area(World world, AreaConfiguration config) {
+			super(world, config);
 		}
 
 		public Area(World world) {
@@ -30,9 +29,9 @@ public class TestAreaType extends AreaTypeSchematic {
 
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
-			player.posX = chunkPos.posX * 16 + 3;
+			player.posX = getChunkPosition().posX * 16 + 3;
 			player.posY = 8;
-			player.posZ = chunkPos.posY * 16 + 3;
+			player.posZ = getChunkPosition().posY * 16 + 3;
 		}
 
 		@Override
@@ -51,14 +50,14 @@ public class TestAreaType extends AreaTypeSchematic {
 
 	static {
 		try {
-			INSTANCE = new TestAreaType();
+			TestAreaType.INSTANCE = new TestAreaType();
 		} catch (IOException e) {
 			throw new RuntimeException("Could not load test area", e);
 		}
 	}
 
 	private TestAreaType() throws IOException {
-		super(schematicLocation);
+		super(TestAreaType.schematicLocation);
 	}
 
 	@Override
@@ -67,13 +66,13 @@ public class TestAreaType extends AreaTypeSchematic {
 	}
 
 	@Override
-	public AreaConfiguration configForLoading() {
-		return new AreaConfiguration();
+	public IExtendedConfiguration configForLoading() {
+		return IExtendedConfiguration.EMPTY;
 	}
 
 	@Override
-	protected IArea onPopulate(World world, CornerPosition lowerLeftCorner, AreaConfiguration configuration) {
-		return new Area(world, lowerLeftCorner, configuration);
+	protected IArea onPopulate(World world, AreaConfiguration configuration) {
+		return new Area(world, configuration);
 	}
 
 }

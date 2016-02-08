@@ -7,6 +7,7 @@ import mhfc.net.common.world.area.AreaAdapter;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IAreaType;
+import mhfc.net.common.world.area.IExtendedConfiguration;
 import mhfc.net.common.world.controller.CornerPosition;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -27,7 +28,10 @@ public class AreaTypePlayfield implements IAreaType {
 			protected SpawnInformation constructDefaultSpawnInformation(Spawnable entity) {
 				int spawnX = config.getChunkSizeX() * 8;
 				int spawnZ = config.getChunkSizeZ() * 8;
-				int height = world.getChunkFromChunkCoords(chunkPos.posX + spawnX / 16, chunkPos.posY + spawnZ / 16)
+				int height = world
+						.getChunkFromChunkCoords(
+								getChunkPosition().posX + spawnX / 16,
+								getChunkPosition().posY + spawnZ / 16)
 						.getHeightValue(spawnX % 16, spawnZ % 16);
 				return new SpawnInformation(entity, 6, height, 6);
 			}
@@ -40,8 +44,8 @@ public class AreaTypePlayfield implements IAreaType {
 			this.spawnController = null;
 		}
 
-		public AreaPlayfield(World world, CornerPosition pos, AreaConfiguration config) {
-			super(world, pos, config);
+		public AreaPlayfield(World world, AreaConfiguration config) {
+			super(world, config);
 			this.spawnController = new PlayfieldSpawnController();
 		}
 
@@ -52,6 +56,7 @@ public class AreaTypePlayfield implements IAreaType {
 
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
+			CornerPosition chunkPos = getChunkPosition();
 			player.posX = chunkPos.posX * 16 + 8;
 			player.posZ = chunkPos.posY * 16 + 8;
 			player.posY = world.getChunkFromChunkCoords(chunkPos.posX, chunkPos.posY).getHeightValue(8, 8);
@@ -63,8 +68,8 @@ public class AreaTypePlayfield implements IAreaType {
 		}
 
 		@Override
-		public void loadFromConfig(CornerPosition pos, AreaConfiguration config) {
-			super.loadFromConfig(pos, config);
+		public void loadFromConfig(AreaConfiguration config) {
+			super.loadFromConfig(config);
 			this.spawnController = new PlayfieldSpawnController();
 		}
 
@@ -86,17 +91,17 @@ public class AreaTypePlayfield implements IAreaType {
 	private int chunkSizeX, chunkSizeY;
 
 	@Override
-	public IArea populate(World world, CornerPosition lowerLeftCorner, AreaConfiguration configuration) {
+	public IArea populate(World world, AreaConfiguration configuration) {
 		int chunksX = configuration.getChunkSizeX();
 		int chunksZ = configuration.getChunkSizeZ();
 		for (int i = 0; i < 16 * chunksX; i++) {
 			for (int j = 0; j < 16 * chunksZ; j++) {
-				int x = lowerLeftCorner.posX * 16 + i;
-				int z = lowerLeftCorner.posY * 16 + j;
+				int x = configuration.getPosition().posX * 16 + i;
+				int z = configuration.getPosition().posY * 16 + j;
 				world.setBlock(x, 64, z, MHFCBlockRegistry.mhfcblockdirt);
 			}
 		}
-		return new AreaPlayfield(world, lowerLeftCorner, configuration);
+		return new AreaPlayfield(world, configuration);
 	}
 
 	@Override
@@ -106,12 +111,12 @@ public class AreaTypePlayfield implements IAreaType {
 
 	@Override
 	public AreaConfiguration configForNewArea() {
-		return new AreaConfiguration(chunkSizeX, chunkSizeY);
+		return new AreaConfiguration(chunkSizeX, chunkSizeY, IExtendedConfiguration.EMPTY);
 	}
 
 	@Override
-	public AreaConfiguration configForLoading() {
-		return new AreaConfiguration();
+	public IExtendedConfiguration configForLoading() {
+		return IExtendedConfiguration.EMPTY;
 	}
 
 	@Override
@@ -125,17 +130,22 @@ public class AreaTypePlayfield implements IAreaType {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		AreaTypePlayfield other = (AreaTypePlayfield) obj;
-		if (chunkSizeX != other.chunkSizeX)
+		if (chunkSizeX != other.chunkSizeX) {
 			return false;
-		if (chunkSizeY != other.chunkSizeY)
+		}
+		if (chunkSizeY != other.chunkSizeY) {
 			return false;
+		}
 		return true;
 	}
 }

@@ -7,7 +7,6 @@ import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_MA
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_QUEST_TYPE;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_REWARD;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_VISUAL;
-import static mhfc.net.common.util.MHFCJsonUtils.getJsonObjectIntegerFieldValueOrDefault;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
@@ -30,25 +29,23 @@ import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.gen.ChunkManagerQuesting;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.JsonUtils;
-import net.minecraft.world.WorldServer;
 
 public class DefaultQuestFactory implements IQuestFactory {
 
 	@Override
 	public GeneralQuest buildQuest(QuestDescription qd) {
 		QuestGoal goal = QuestFactory.constructGoal(qd.getGoalReference().getReferredDescription());
-		if (goal == null)
+		if (goal == null) {
 			return null;
+		}
 		IAreaType areaType = qd.getAreaType();
-		int questWorldID = MHFCDimensionRegistry.getQuestingDimensionID();
-		WorldServer server = MinecraftServer.getServer().worldServerForDimension(questWorldID);
-		ChunkManagerQuesting manager = (ChunkManagerQuesting) server.getWorldChunkManager();
+		ChunkManagerQuesting manager = MHFCDimensionRegistry.getQuestingDimensionChunkManager();
 
 		IActiveArea activeArea = manager.getAreaManager().getUnusedInstance(areaType);
-		if (activeArea == null)
+		if (activeArea == null) {
 			return null;
+		}
 
 		return new GeneralQuest(goal, qd.getMaxPartySize(), qd.getReward(), qd.getFee(), activeArea, qd);
 	}
@@ -83,7 +80,7 @@ public class DefaultQuestFactory implements IQuestFactory {
 		}
 		int reward = JsonUtils.getJsonObjectIntegerFieldValue(jsonAsObject, KEY_REWARD);
 		int fee = JsonUtils.getJsonObjectIntegerFieldValue(jsonAsObject, KEY_FEE);
-		int maxPartySize = getJsonObjectIntegerFieldValueOrDefault(jsonAsObject, KEY_MAX_PARTY_SIZE, 4);
+		int maxPartySize = MHFCJsonUtils.getJsonObjectIntegerFieldValueOrDefault(jsonAsObject, KEY_MAX_PARTY_SIZE, 4);
 
 		DefaultQuestDescription description = new DefaultQuestDescription(
 				goal,
