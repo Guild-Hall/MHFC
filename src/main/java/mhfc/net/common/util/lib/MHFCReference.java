@@ -188,13 +188,8 @@ public class MHFCReference {
 	public static final String block_tacren_name = "rocktacren";
 	public static final String block_tacren_tex = "mhfc:rocktacren";
 	
-	public static final String block_wyverniamud_basename = "wyverniamud";
 	public static final String block_quicksand_name = "quicksand";
 	public static final String block_quicksand_tex = "mhfc:mudquicksand";
-	public static final String block_ashmud_name = "ashmud";
-	public static final String block_ashmud_tex = "mhfc:mudash";
-	public static final String block_desertmud_name = "desertmud";
-	public static final String block_desertmud_tex = "mhfc:muddesert";
 
 	public static final String block_wyvernialog_basename = "wyverniawood";
 	public static final String block_log_calfer_name = "logcalfer";
