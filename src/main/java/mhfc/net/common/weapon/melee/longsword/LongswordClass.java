@@ -5,12 +5,14 @@ import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.weapon.ComponentMelee;
 import mhfc.net.common.weapon.ComponentMelee.WeaponSpecs;
 import mhfc.net.common.weapon.melee.WeaponMelee;
+import mhfc.net.common.weapon.melee.iWeaponReach;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.World;
 
-public class LongswordClass extends WeaponMelee {
+public class LongswordClass extends WeaponMelee implements iWeaponReach {
 
 	public String lsLocal = "longsword_";
 
@@ -18,7 +20,7 @@ public class LongswordClass extends WeaponMelee {
 		super(new ComponentMelee(WeaponSpecs.LONGSWORD, getType));
 		getWeaponDescription(MHFCWeaponClassingHelper.longswordname);
 		setTextureName(MHFCReference.weapon_ls_default_icon);
-		getWeaponTable(4, -6, 0);
+		getWeaponTable(4, -12, 0);
 
 	}
 
@@ -33,5 +35,10 @@ public class LongswordClass extends WeaponMelee {
 			ent.setFire(1);
 		meleecomp.hitEntity(stack, ent, player);
 		return true;
+	}
+
+	@Override
+	public float getExtendedReach(World world, EntityLivingBase living, ItemStack itemstack) {
+		return 4;
 	}
 }

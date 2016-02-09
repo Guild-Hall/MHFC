@@ -7,7 +7,7 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.Cooldown;
 import mhfc.net.common.weapon.ComponentMelee;
-import mhfc.net.common.weapon.IItemWeapon;
+import mhfc.net.common.weapon.iWeaponCluster;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -31,7 +31,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  *
  * Easy Class for making weapons with effects.
  */
-public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
+public abstract class WeaponMelee extends ItemSword implements iWeaponCluster {
 
 	protected ComponentMelee meleecomp;
 	protected String des1, des2, des3; // <--- Shorten the handles

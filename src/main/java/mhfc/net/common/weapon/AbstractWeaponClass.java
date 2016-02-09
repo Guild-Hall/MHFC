@@ -18,7 +18,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public abstract class AbstractWeaponClass
 {
 	public Item	item;
-	protected IItemWeapon	weapon;
+	protected iWeaponCluster	weapon;
 	
 	public AbstractWeaponClass()
 	{
@@ -26,7 +26,7 @@ public abstract class AbstractWeaponClass
 		weapon = null;
 	}
 	
-	public final void setItem(IItemWeapon itemweapon)
+	public final void setItem(iWeaponCluster itemweapon)
 	{
 		item = (Item) itemweapon;
 		weapon = itemweapon;

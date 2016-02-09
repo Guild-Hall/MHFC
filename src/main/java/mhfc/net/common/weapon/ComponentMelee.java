@@ -2,7 +2,7 @@ package mhfc.net.common.weapon;
 
 import mhfc.net.common.util.Attributes;
 import mhfc.net.common.util.Utilities;
-import mhfc.net.common.weapon.melee.IPerception;
+import mhfc.net.common.weapon.melee.iWeaponReach;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -135,13 +135,13 @@ public class ComponentMelee extends AbstractWeaponClass {
 				new AttributeModifier(weapon.getUUID(),
 						"Weapon attack speed modifier",
 						weaponSpecs.comboRate *-4, 0));
-		if (this instanceof IPerception) {
+		if (this instanceof iWeaponReach) {
 			try {
 				multimap.put(
 						Attributes.WEAPON_REACH.getAttributeUnlocalizedName(),
 						new AttributeModifier(weapon.getUUID(),
 								"Weapon reach modifier",
-								((IPerception) this).getExtendedReach(
+								((iWeaponReach) this).getExtendedReach(
 										null, null, null) - 3F, 0));
 			} catch (NullPointerException e) {}
 		}
@@ -193,10 +193,10 @@ public class ComponentMelee extends AbstractWeaponClass {
 		//      var5 is block rate
 		//      var6 is fencing 
 		//      lastvar is comborate
-		GREATSWORD(0, 1F, 3, 1F, 1.5F, 0.5F, 1, 2, 1, 3), //
-		HAMMER(0, 1F, 4, 1F, 1F, 0.9F, 1, 2, 1, 9), //
+		GREATSWORD(0, 1F, 3, 1F, 1.5F, 0.5F, 1, 2, 1, 8), //
+		HAMMER(0, 1F, 4, 1F, 1F, 0.9F, 1, 2, 1, 14), //
 		HUNTINGHORN(0, 0.5F, 3, 1F, 1.5F, 0.6F, 1, 2, 1, 6), //
-		LONGSWORD(0, 1F, 1, 1F, 1F, 0F, 1, 2, 1, -4), //
+		LONGSWORD(0, 1F, 1, 1F, 1F, 0F, 1, 2, 1, -9), //
 		NONE(0, 0F, 1, 0F, 1F, 0.4F, 0, 0, 1, 0);
 
 		private WeaponSpecs(int durbase, float durmult, float attackbase,
