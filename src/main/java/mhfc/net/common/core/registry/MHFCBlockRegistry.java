@@ -1,5 +1,6 @@
 package mhfc.net.common.core.registry;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import mhfc.net.common.block.BlockDiscstone;
 import mhfc.net.common.block.BlockIceCrystal;
 import mhfc.net.common.block.BlockLosGable;
@@ -8,6 +9,7 @@ import mhfc.net.common.block.BlockWyverniaClay;
 import mhfc.net.common.block.BlockWyverniaDirt;
 import mhfc.net.common.block.BlockWyverniaFlower;
 import mhfc.net.common.block.BlockWyverniaGrass;
+import mhfc.net.common.block.BlockWyverniaMud;
 import mhfc.net.common.block.BlockWyverniaOreBlock;
 import mhfc.net.common.block.BlockWyverniaOres;
 import mhfc.net.common.block.BlockWyverniaPlank;
@@ -23,6 +25,7 @@ import mhfc.net.common.item.block.ItemBlockBenchHunter;
 import mhfc.net.common.item.block.ItemBlockQuestBoard;
 import mhfc.net.common.item.block.ItemBlockStunTrap;
 import mhfc.net.common.item.block.ItemBlockWyverniaFlower;
+import mhfc.net.common.item.block.ItemBlockWyverniaMud;
 import mhfc.net.common.item.block.ItemBlockWyverniaOreBlock;
 import mhfc.net.common.item.block.ItemBlockWyverniaOres;
 import mhfc.net.common.item.block.ItemBlockWyverniaPlank;
@@ -30,7 +33,6 @@ import mhfc.net.common.item.block.ItemBlockWyverniaRock;
 import mhfc.net.common.item.block.ItemBlockWyverniaWood;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class MHFCBlockRegistry {
 
@@ -53,6 +55,7 @@ public class MHFCBlockRegistry {
 	public static final Block mhfcblockbbqspit;
 	public static final Block mhfcblockplanks;
 	public static final Block mhfcblockrocks;
+	public static final Block mhfcblockmuds;
 	public static final Block mhfcblockwood;
 	public static final Block mhfcblockquestboard;
 
@@ -83,6 +86,8 @@ public class MHFCBlockRegistry {
 				ItemBlockWyverniaPlank.class);
 		mhfcblockrocks = registerBlockWithItem(new BlockWyverniaRock(),
 				ItemBlockWyverniaRock.class);
+		mhfcblockmuds = registerBlockWithItem(new BlockWyverniaMud(),
+				ItemBlockWyverniaMud.class);
 		mhfcblockwood = registerBlockWithItem(new BlockWyverniaWood(),
 				ItemBlockWyverniaWood.class);
 		mhfcblockquestboard = registerBlockWithItem(new BlockQuestBoard(),
