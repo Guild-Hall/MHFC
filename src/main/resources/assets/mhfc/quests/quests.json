@@ -17,6 +17,25 @@
 			}
 		}
 	},
+	NightTestQuest : {
+		type : "default",
+		data : {
+			goal : {
+				type : "fork",
+				data : {
+					requisites : ["StandardDeath", "StandardTimer", "Test"]
+				}
+			} ,
+			reward : 5000,
+			fee : 200,
+			areaID : "playfield",
+			flair: "NIGHTTIME",
+			questType : "mhfc.quests.type.hunting",
+			visual : {
+				name : "Hunting during nighttime"
+			}
+		}
+	},
 	"New Quest": {
 		type : "default",
 		data : {

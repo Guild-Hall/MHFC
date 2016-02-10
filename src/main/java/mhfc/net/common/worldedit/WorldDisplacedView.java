@@ -24,8 +24,8 @@ import com.sk89q.worldedit.world.registry.WorldData;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.world.area.DisplacedView;
 
-public class WorldDisplacedView extends AbstractWorld{
-	
+public class WorldDisplacedView extends AbstractWorld {
+
 	protected DisplacedView worldView;
 	protected ForgeWorld forgeWorld;
 	protected Vector add;
@@ -33,7 +33,7 @@ public class WorldDisplacedView extends AbstractWorld{
 
 	public WorldDisplacedView(DisplacedView worldView) {
 		this.worldView = worldView;
-		this.forgeWorld = MHFCMain.worldedit.getWorld(worldView.getWorldObject());
+		this.forgeWorld = MHFCMain.worldedit().getWorld(worldView.getWorldObject());
 		this.add = new Vector(worldView.getAddX(), 0, worldView.getAddZ());
 		this.chunkAdd = new Vector2D(worldView.getChunkDeltaX(), worldView.getChunkDeltaZ());
 	}
@@ -125,6 +125,5 @@ public class WorldDisplacedView extends AbstractWorld{
 	public boolean setBiome(Vector2D position, BaseBiome biome) {
 		return forgeWorld.setBiome(position.add(chunkAdd), biome);
 	}
-
 
 }

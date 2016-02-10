@@ -13,8 +13,8 @@ import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mhfc.net.common.configuration.MHFCConfig;
-import mhfc.net.common.core.command.CommandTpHunterDimension;
 import mhfc.net.common.core.command.CommandMHFC;
+import mhfc.net.common.core.command.CommandTpHunterDimension;
 import mhfc.net.common.system.UpdateSystem;
 import mhfc.net.common.tab.MHFCTab;
 import mhfc.net.common.util.lib.MHFCReference;
@@ -30,7 +30,7 @@ import net.minecraftforge.event.world.WorldEvent;
  *          -craft-extreme-mob-hunting-adventure-15000-downloads/) Visit www.mhfrontiercraft.blogspot.com for more info.
  */
 
-@Mod(modid = MHFCReference.main_modid, dependencies=ForgeWorldEdit.MOD_ID)
+@Mod(modid = MHFCReference.main_modid, dependencies = ForgeWorldEdit.MOD_ID)
 public class MHFCMain {
 
 	@SidedProxy(clientSide = "mhfc.net.client.MHFCClient", serverSide = "mhfc.net.server.MHFCServer")
@@ -38,9 +38,13 @@ public class MHFCMain {
 
 	@Mod.Instance(MHFCReference.main_modid)
 	public static MHFCMain instance;
-	
+
 	@Mod.Instance(ForgeWorldEdit.MOD_ID)
 	public static ForgeWorldEdit worldedit;
+
+	public static ForgeWorldEdit worldedit() {
+		return worldedit == null ? ForgeWorldEdit.inst : worldedit;
+	}
 
 	public static Logger logger;
 	public static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID());

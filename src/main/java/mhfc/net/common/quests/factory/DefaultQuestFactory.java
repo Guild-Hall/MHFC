@@ -2,6 +2,7 @@ package mhfc.net.common.quests.factory;
 
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_AREA_ID;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_FEE;
+import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_FLAIR;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_GOAL;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_MAX_PARTY_SIZE;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_QUEST_TYPE;
@@ -58,7 +59,7 @@ public class DefaultQuestFactory implements IQuestFactory {
 		GoalReference goal = context.deserialize(jsonAsObject.get(KEY_GOAL), GoalReference.class);
 		String areaId = JsonUtils.getJsonObjectStringFieldValue(jsonAsObject, KEY_AREA_ID);
 		String typeString = JsonUtils.getJsonObjectStringFieldValue(jsonAsObject, KEY_QUEST_TYPE);
-		String flairString = JsonUtils.getJsonObjectStringFieldValueOrDefault(jsonAsObject, KEY_QUEST_TYPE, "DAYTIME");
+		String flairString = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonAsObject, KEY_FLAIR, "DAYTIME");
 		QuestDescription.QuestType type = QuestDescription.QuestType.Hunting;
 		switch (typeString) {
 		case MHFCQuestBuildRegistry.QUEST_TYPE_HUNTING:
