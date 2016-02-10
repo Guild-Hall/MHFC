@@ -19,6 +19,7 @@ public class MHFCClientRegistry {
 		addRenderers();
 		addSounds();
 		addQuestDisplay();
+		
 	}
 
 	private static void addQuestDisplay() {

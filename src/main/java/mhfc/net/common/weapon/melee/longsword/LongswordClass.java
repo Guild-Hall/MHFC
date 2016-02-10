@@ -39,6 +39,6 @@ public class LongswordClass extends WeaponMelee implements iWeaponReach {
 
 	@Override
 	public float getExtendedReach(World world, EntityLivingBase living, ItemStack itemstack) {
-		return 4;
+		return 6;
 	}
 }
