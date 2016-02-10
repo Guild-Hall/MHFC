@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import mhfc.net.common.world.MHFCWorldData;
-import mhfc.net.common.world.controller.AreaManagerAdapter;
+import mhfc.net.common.world.controller.AreaManager;
 import mhfc.net.common.world.controller.IAreaManager;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
@@ -25,7 +25,7 @@ public class ChunkManagerQuesting extends WorldChunkManager {
 			data = new MHFCWorldData("mhfcareas");
 			this.world.perWorldStorage.setData("mhfcareas", data);
 		}
-		this.areaManger = new AreaManagerAdapter(world, data);
+		this.areaManger = new AreaManager(world, data);
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCDimensionRegistry;
+import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.util.world.WorldHelper;
 import mhfc.net.common.world.AreaTeleporter;
 import mhfc.net.common.world.area.AreaRegistry;
@@ -93,7 +94,7 @@ public class CommandTpHunterDimension implements ICommand {
 			EntityPlayerMP player = (EntityPlayerMP) sender;
 			// players = args.length > 0 ? PlayerSelector.matchPlayers(sender, args[0]) : players;
 			ServerConfigurationManager mg = MinecraftServer.getServer().getConfigurationManager();
-			int questWorldID = MHFCDimensionRegistry.getQuestingDimensionID();
+			int questWorldID = MHFCDimensionRegistry.getQuestingDimensionID(QuestFlair.DAYTIME);
 			WorldServer server = MinecraftServer.getServer().worldServerForDimension(questWorldID);
 
 			if (player.dimension == questWorldID) {

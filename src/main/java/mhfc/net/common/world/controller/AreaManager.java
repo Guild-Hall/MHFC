@@ -16,14 +16,14 @@ import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.world.World;
 
-public class AreaManagerAdapter implements IAreaManager {
+public class AreaManager implements IAreaManager {
 
 	private static class Active extends ActiveAreaAdapter {
 		private IArea area;
 		private IAreaType type;
-		private AreaManagerAdapter ref;
+		private AreaManager ref;
 
-		public Active(IArea area, IAreaType type, AreaManagerAdapter ref) {
+		public Active(IArea area, IAreaType type, AreaManager ref) {
 			this.area = Objects.requireNonNull(area);
 			this.type = Objects.requireNonNull(type);
 			this.ref = Objects.requireNonNull(ref);
@@ -52,7 +52,7 @@ public class AreaManagerAdapter implements IAreaManager {
 	private MHFCWorldData saveData;
 	protected final World world;
 
-	public AreaManagerAdapter(World world, MHFCWorldData saveData) {
+	public AreaManager(World world, MHFCWorldData saveData) {
 		this.world = Objects.requireNonNull(world);
 		this.saveData = Objects.requireNonNull(saveData);
 		Collection<AreaInformation> loadedAreas = this.saveData.getAllSpawnedAreas();

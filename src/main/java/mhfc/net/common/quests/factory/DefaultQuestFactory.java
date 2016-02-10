@@ -13,6 +13,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCDimensionRegistry;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.GeneralQuest;
@@ -24,6 +25,7 @@ import mhfc.net.common.quests.api.QuestDescription;
 import mhfc.net.common.quests.api.QuestFactory;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
+import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.util.MHFCJsonUtils;
 import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IActiveArea;
@@ -40,7 +42,7 @@ public class DefaultQuestFactory implements IQuestFactory {
 			return null;
 		}
 		IAreaType areaType = qd.getAreaType();
-		ChunkManagerQuesting manager = MHFCDimensionRegistry.getQuestingDimensionChunkManager();
+		ChunkManagerQuesting manager = MHFCDimensionRegistry.getQuestingDimensionChunkManager(qd.getQuestFlair());
 
 		IActiveArea activeArea = manager.getAreaManager().getUnusedInstance(areaType);
 		if (activeArea == null) {
@@ -58,6 +60,7 @@ public class DefaultQuestFactory implements IQuestFactory {
 		GoalReference goal = context.deserialize(jsonAsObject.get(KEY_GOAL), GoalReference.class);
 		String areaId = JsonUtils.getJsonObjectStringFieldValue(jsonAsObject, KEY_AREA_ID);
 		String typeString = JsonUtils.getJsonObjectStringFieldValue(jsonAsObject, KEY_QUEST_TYPE);
+		String flairString = JsonUtils.getJsonObjectStringFieldValueOrDefault(jsonAsObject, KEY_QUEST_TYPE, "DAYTIME");
 		QuestDescription.QuestType type = QuestDescription.QuestType.Hunting;
 		switch (typeString) {
 		case MHFCQuestBuildRegistry.QUEST_TYPE_HUNTING:
@@ -73,10 +76,18 @@ public class DefaultQuestFactory implements IQuestFactory {
 			type = QuestDescription.QuestType.Killing;
 			break;
 		default:
-			System.out.println(
+			MHFCMain.logger.error(
 					"[MHFC] Type " + typeString
 							+ " was not recognized, for allowed keys see documentation of MHFCQuestBuildRegistry. Falling back to hunting.");
 			type = QuestDescription.QuestType.Hunting;
+		}
+		QuestFlair flair = QuestFlair.DAYTIME;
+		try {
+			flair = QuestFlair.valueOf(flairString);
+		} catch (IllegalArgumentException iae) {
+			MHFCMain.logger.error(
+					"[MHFC] Flair " + typeString
+							+ " was not recognized, for allowed values see documentation of MHFCQuestBuildRegistry. Falling back to DAYTIME.");
 		}
 		int reward = JsonUtils.getJsonObjectIntegerFieldValue(jsonAsObject, KEY_REWARD);
 		int fee = JsonUtils.getJsonObjectIntegerFieldValue(jsonAsObject, KEY_FEE);
@@ -86,6 +97,7 @@ public class DefaultQuestFactory implements IQuestFactory {
 				goal,
 				type,
 				areaId,
+				flair,
 				reward,
 				fee,
 				maxPartySize);

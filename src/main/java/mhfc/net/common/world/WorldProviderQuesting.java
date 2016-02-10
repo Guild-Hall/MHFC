@@ -1,5 +1,7 @@
 package mhfc.net.common.world;
 
+import mhfc.net.common.core.registry.MHFCDimensionRegistry;
+import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.gen.ChunkManagerQuesting;
 import mhfc.net.common.world.gen.ChunkProviderQuesting;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,9 +10,16 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.IChunkProvider;
 
 public class WorldProviderQuesting extends WorldProvider {
+	private QuestFlair flair;
 
 	public WorldProviderQuesting() {
 		super();
+	}
+
+	@Override
+	public void setDimension(int dim) {
+		super.setDimension(dim);
+		flair = MHFCDimensionRegistry.getQuestingFlair(dim);
 	}
 
 	@Override
@@ -51,7 +60,7 @@ public class WorldProviderQuesting extends WorldProvider {
 		// ^ called too early in the constructor, where the perWorldStorage hasn't been loaded yet
 		super.calculateInitialWeather();
 		((ChunkManagerQuesting) this.worldChunkMgr).finishSetup();
-		this.worldObj.setWorldTime(1000L);
+		this.worldObj.setWorldTime(flair.worldTime);
 		this.worldObj.getGameRules().setOrCreateGameRule("doDaylightCycle", "false");
 		this.worldObj.getGameRules().setOrCreateGameRule("doMobSpawning", "false");
 		this.worldObj.getGameRules().setOrCreateGameRule("keepInventory", "true");

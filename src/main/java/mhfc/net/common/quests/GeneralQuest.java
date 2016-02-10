@@ -19,6 +19,7 @@ import mhfc.net.common.quests.api.QuestDescription;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
+import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.AreaTeleporter;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
@@ -137,10 +138,12 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 
 	@Override
 	public void questGoalStatusNotification(QuestGoal goal, EnumSet<QuestStatus> newStatus) {
-		if (newStatus.contains(QuestStatus.Fulfilled))
+		if (newStatus.contains(QuestStatus.Fulfilled)) {
 			onSuccess();
-		if (newStatus.contains(QuestStatus.Failed))
+		}
+		if (newStatus.contains(QuestStatus.Failed)) {
 			onFail();
+		}
 		updatePlayers();
 	}
 
@@ -226,7 +229,7 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 	}
 
 	private void addPlayer(EntityPlayerMP player) {
-		playerAttributes.put(player, newAttribute(player));
+		playerAttributes.put(player, GeneralQuest.newAttribute(player));
 		MHFCQuestRegistry.setQuestForPlayer(player, this);
 		updatePlayers();
 	}
@@ -246,16 +249,18 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 	}
 
 	public boolean joinPlayer(EntityPlayerMP player) {
-		if (!canJoin(player))
+		if (!canJoin(player)) {
 			return false;
+		}
 		addPlayer(player);
 		return true;
 	}
 
 	public boolean quitPlayer(EntityPlayerMP player) {
 		boolean found = removePlayer(player);
-		if (playerCount() == 0)
+		if (playerCount() == 0) {
 			onEnd();
+		}
 		return found;
 	}
 
@@ -280,8 +285,9 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 			return playerCount() + "/" + maxPlayerCount + " {unlocalized:Players}";
 		}
 		String mod = questGoal.modify(t, "");
-		if (mod.equals(""))
+		if (mod.equals("")) {
 			return current;
+		}
 		return mod;
 	}
 
@@ -345,6 +351,11 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 	}
 
 	@Override
+	public QuestFlair getQuestFlair() {
+		return originalDescription.getQuestFlair();
+	}
+
+	@Override
 	public void close() {
 		if (closed) {
 			MHFCMain.logger.debug("Tried to close already closed instance of quest {}", visualInformation.getName());
@@ -358,8 +369,9 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 
 	@Override
 	protected void finalize() throws Throwable {
-		if (!closed)
+		if (!closed) {
 			close();
+		}
 	}
 
 }

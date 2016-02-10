@@ -21,17 +21,17 @@ import mhfc.net.common.quests.api.GoalDescription;
 import mhfc.net.common.quests.api.QuestDescription;
 import mhfc.net.common.quests.api.QuestFactory;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
+import mhfc.net.common.quests.world.QuestFlair;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 /**
- * The registry for quests and quest goals. It will read some source files on
- * init, these war written in the json format. The name for the primary variable
- * of {@link GoalDescription} is "type", see {@link QuestFactory} for further
+ * The registry for quests and quest goals. It will read some source files on init, these war written in the json
+ * format. The name for the primary variable of {@link GoalDescription} is "type", see {@link QuestFactory} for further
  * information.<br>
- * For {@link DefaultQuestDescription} the names are as following: "goal",
- * "name", "reward", "fee", "areaID", "description", "maxPartySize",
- * "timeLimit", "type", "client", "aims", "fails", only the ones until areaID
- * are mandatory.
+ * For {@link DefaultQuestDescription} the names are as following: "goal", "name", "reward", "fee", "areaID",
+ * "description", "maxPartySize", "timeLimit", "type", "client", "aims", "fails", only the ones until areaID are
+ * mandatory.<br>
+ * The allowed flairs can be found at {@link QuestFlair}
  */
 
 public class MHFCQuestBuildRegistry {
@@ -70,61 +70,52 @@ public class MHFCQuestBuildRegistry {
 		@SubscribeEvent
 		public void onPlayerJoin(PlayerLoggedInEvent logIn) {
 			EntityPlayerMP playerMP = (EntityPlayerMP) logIn.player;
-			PacketPipeline.networkPipe.sendTo(new MessageQuestInit(dataObject),
-				playerMP);
+			PacketPipeline.networkPipe.sendTo(new MessageQuestInit(dataObject), playerMP);
 			RunningSubscriptionHandler.sendAllTo(playerMP);
 		}
 	}
 
-	public static class QuestClientInitHandler
-		implements
-			IMessageHandler<MessageQuestInit, IMessage> {
+	public static class QuestClientInitHandler implements IMessageHandler<MessageQuestInit, IMessage> {
 		@Override
-		public IMessage onMessage(MessageQuestInit message,
-			MessageContext ctx) {
+		public IMessage onMessage(MessageQuestInit message, MessageContext ctx) {
 			dataObject = message.getQuestDescriptionData();
 			MHFCMain.logger.debug("Client received quest info from server");
-			logStats(dataObject);
+			MHFCQuestBuildRegistry.logStats(dataObject);
 			return null;
 		}
 	}
 
 	public static void init() {
 		dataObject = new QuestDescriptionRegistryData();
-		loadQuestsFromFiles();
-		FMLCommonHandler.instance().bus().register(
-			new QuestClientInitHandler());
-		FMLCommonHandler.instance().bus().register(
-			new PlayerConnectionHandler());
+		MHFCQuestBuildRegistry.loadQuestsFromFiles();
+		FMLCommonHandler.instance().bus().register(new QuestClientInitHandler());
+		FMLCommonHandler.instance().bus().register(new PlayerConnectionHandler());
 		MHFCMain.logger.info("Quest loaded");
 	}
 
 	private static void loadQuestsFromFiles() {
 		DirectorLoadQuestsFromLocal director = new DirectorLoadQuestsFromLocal();
 		director.construct(dataObject);
-		logStats(dataObject);
+		MHFCQuestBuildRegistry.logStats(dataObject);
 	}
 
 	private static void logStats(QuestDescriptionRegistryData dataObject) {
 		int numberQuests = dataObject.getFullQuestDescriptionMap().size();
 		int numberGroups = dataObject.getGroupsInOrder().size();
-		String output = String.format("Loaded %d quests in %d groups.",
-			numberQuests, numberGroups);
+		String output = String.format("Loaded %d quests in %d groups.", numberQuests, numberGroups);
 		MHFCMain.logger.info(output);
 	}
 
 	@SubscribeEvent
 	void onModReload(MHFCInteractionModReloadEvent event) {
 		dataObject.clearData();
-		loadQuestsFromFiles();
+		MHFCQuestBuildRegistry.loadQuestsFromFiles();
 
-		Iterator<?> it = FMLCommonHandler.instance()
-			.getMinecraftServerInstance()
-			.getConfigurationManager().playerEntityList.iterator();
+		Iterator<?> it = FMLCommonHandler.instance().getMinecraftServerInstance()
+				.getConfigurationManager().playerEntityList.iterator();
 		while (it.hasNext()) {
 			EntityPlayerMP player = (EntityPlayerMP) it.next();
-			PacketPipeline.networkPipe.sendTo(new MessageQuestInit(dataObject),
-				player);
+			PacketPipeline.networkPipe.sendTo(new MessageQuestInit(dataObject), player);
 		}
 		MHFCMain.logger.info("Quests reloaded");
 	}

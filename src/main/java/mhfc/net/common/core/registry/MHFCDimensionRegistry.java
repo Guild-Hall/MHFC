@@ -1,6 +1,12 @@
 package mhfc.net.common.core.registry;
 
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 import mhfc.net.MHFCMain;
+import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.WorldProviderQuesting;
 import mhfc.net.common.world.gen.ChunkManagerQuesting;
 import net.minecraft.server.MinecraftServer;
@@ -10,8 +16,8 @@ import net.minecraftforge.common.DimensionManager;
 public class MHFCDimensionRegistry {
 	private static MHFCMain mod;
 
-	private static int dimensionID = 0;
-	private static boolean isInit = false;
+	private static Map<Integer, QuestFlair> worldIDToFlair;
+	private static Map<QuestFlair, Integer> flairToWorldID;
 
 	private MHFCDimensionRegistry() {}
 
@@ -19,27 +25,33 @@ public class MHFCDimensionRegistry {
 		MHFCMain.checkPreInitialized();
 		MHFCDimensionRegistry.mod = MHFCMain.instance;
 		MHFCDimensionRegistry.mod.getClass();
+		worldIDToFlair = new HashMap<>(QuestFlair.values().length);
+		flairToWorldID = new EnumMap<>(QuestFlair.class);
 	}
 
 	public static void init() {
 		int dimHandlerId = MHFCMain.config.getDimensionHandlerID();
-		MHFCDimensionRegistry.dimensionID = DimensionManager.getNextFreeDimId();
-
 		DimensionManager.registerProviderType(dimHandlerId, WorldProviderQuesting.class, false);
-		DimensionManager.registerDimension(MHFCDimensionRegistry.dimensionID, dimHandlerId);
 
-		MHFCDimensionRegistry.isInit = true;
-	}
-
-	public static int getQuestingDimensionID() {
-		if (!MHFCDimensionRegistry.isInit) {
-			throw new IllegalStateException("Not initialized yet");
+		for (QuestFlair flair : QuestFlair.values()) {
+			Integer worldID = DimensionManager.getNextFreeDimId();
+			worldIDToFlair.put(worldID, flair);
+			flairToWorldID.put(flair, worldID);
+			DimensionManager.registerDimension(worldID, dimHandlerId);
 		}
-		return MHFCDimensionRegistry.dimensionID;
 	}
 
-	public static ChunkManagerQuesting getQuestingDimensionChunkManager() {
-		WorldServer server = MinecraftServer.getServer().worldServerForDimension(dimensionID);
+	public static int getQuestingDimensionID(QuestFlair flair) {
+		return flairToWorldID.get(Objects.requireNonNull(flair));
+	}
+
+	public static QuestFlair getQuestingFlair(int worldId) {
+		return worldIDToFlair.get(worldId);
+	}
+
+	public static ChunkManagerQuesting getQuestingDimensionChunkManager(QuestFlair flair) {
+		WorldServer server = MinecraftServer.getServer()
+				.worldServerForDimension(MHFCDimensionRegistry.getQuestingDimensionID(flair));
 		ChunkManagerQuesting manager = (ChunkManagerQuesting) server.getWorldChunkManager();
 		return manager;
 	}
