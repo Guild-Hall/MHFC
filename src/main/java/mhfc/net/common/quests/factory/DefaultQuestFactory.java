@@ -14,7 +14,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.core.registry.MHFCDimensionRegistry;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.IVisualInformation;
@@ -25,12 +24,12 @@ import mhfc.net.common.quests.api.QuestDescription;
 import mhfc.net.common.quests.api.QuestFactory;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
+import mhfc.net.common.quests.world.GlobalAreaManager;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.util.MHFCJsonUtils;
 import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
-import mhfc.net.common.world.gen.ChunkManagerQuesting;
 import net.minecraft.util.JsonUtils;
 
 public class DefaultQuestFactory implements IQuestFactory {
@@ -42,9 +41,8 @@ public class DefaultQuestFactory implements IQuestFactory {
 			return null;
 		}
 		IAreaType areaType = qd.getAreaType();
-		ChunkManagerQuesting manager = MHFCDimensionRegistry.getQuestingDimensionChunkManager(qd.getQuestFlair());
 
-		IActiveArea activeArea = manager.getAreaManager().getUnusedInstance(areaType);
+		IActiveArea activeArea = GlobalAreaManager.getInstance().getUnusedInstance(areaType, qd.getQuestFlair());
 		if (activeArea == null) {
 			return null;
 		}

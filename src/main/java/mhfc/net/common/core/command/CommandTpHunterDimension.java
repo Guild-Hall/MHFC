@@ -6,14 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.core.registry.MHFCDimensionRegistry;
+import mhfc.net.common.quests.world.GlobalAreaManager;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.util.world.WorldHelper;
 import mhfc.net.common.world.AreaTeleporter;
 import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
-import mhfc.net.common.world.gen.ChunkManagerQuesting;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
@@ -94,8 +93,8 @@ public class CommandTpHunterDimension implements ICommand {
 			EntityPlayerMP player = (EntityPlayerMP) sender;
 			// players = args.length > 0 ? PlayerSelector.matchPlayers(sender, args[0]) : players;
 			ServerConfigurationManager mg = MinecraftServer.getServer().getConfigurationManager();
-			int questWorldID = MHFCDimensionRegistry.getQuestingDimensionID(QuestFlair.DAYTIME);
-			WorldServer server = MinecraftServer.getServer().worldServerForDimension(questWorldID);
+			int questWorldID = GlobalAreaManager.instance.getWorldIDFor(QuestFlair.DAYTIME);
+			WorldServer server = GlobalAreaManager.instance.getServerFor(QuestFlair.DAYTIME);
 
 			if (player.dimension == questWorldID) {
 				Teleporter tpOverworld = new BackTeleporter(server);
@@ -108,8 +107,7 @@ public class CommandTpHunterDimension implements ICommand {
 					MHFCMain.logger.debug("No area type found for " + areaName);
 					return;
 				}
-				ChunkManagerQuesting manager = (ChunkManagerQuesting) server.getWorldChunkManager();
-				try (IActiveArea active = manager.getAreaManager().getUnusedInstance(areaType)) {
+				try (IActiveArea active = GlobalAreaManager.instance.getUnusedInstance(areaType, QuestFlair.DAYTIME)) {
 					teleportPoints.put(player, WorldHelper.getVectorOfEntity(player));
 					AreaTeleporter.movePlayerToArea(player, active.getArea());
 				}
