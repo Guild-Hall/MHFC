@@ -7,9 +7,6 @@ import java.util.Set;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.data.QuestDescriptionRegistryData;
 import mhfc.net.common.core.directors.DirectorLoadQuestsFromLocal;
@@ -75,20 +72,9 @@ public class MHFCQuestBuildRegistry {
 		}
 	}
 
-	public static class QuestClientInitHandler implements IMessageHandler<MessageQuestInit, IMessage> {
-		@Override
-		public IMessage onMessage(MessageQuestInit message, MessageContext ctx) {
-			dataObject = message.getQuestDescriptionData();
-			MHFCMain.logger.debug("Client received quest info from server");
-			MHFCQuestBuildRegistry.logStats(dataObject);
-			return null;
-		}
-	}
-
 	public static void init() {
 		dataObject = new QuestDescriptionRegistryData();
 		MHFCQuestBuildRegistry.loadQuestsFromFiles();
-		FMLCommonHandler.instance().bus().register(new QuestClientInitHandler());
 		FMLCommonHandler.instance().bus().register(new PlayerConnectionHandler());
 		MHFCMain.logger.info("Quest loaded");
 	}
