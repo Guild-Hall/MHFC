@@ -50,16 +50,10 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	 * @param itemHeight
 	 *            The height to be used for list items
 	 */
-	public ClickableGuiList(int posX, int posY, int width, int height, float itemHeight) {
-		this.posX = posX;
-		this.posY = posY;
+	public ClickableGuiList(int width, int height, float itemHeight) {
 		this.width = width;
 		this.height = height;
 		this.itemHeight = itemHeight;
-	}
-
-	public ClickableGuiList(int width, int height, float itemHeight) {
-		this(0, 0, width, height, itemHeight);
 	}
 
 	/**
@@ -74,16 +68,11 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	 * @param height
 	 *            The height of the list
 	 */
-	public ClickableGuiList(int posX, int posY, int width, int height) {
-		this(posX, posY, width, height, 0);
+	public ClickableGuiList(int width, int height) {
+		this(width, height, 0);
 		recalculateItemHeightOnDraw = true;
 	}
 
-	public ClickableGuiList(int width, int height) {
-		this(0, 0, width, height);
-	}
-
-	protected int posX, posY;
 	protected int width, height;
 
 	protected float itemHeight;
@@ -101,6 +90,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 
 	protected int mouseClickX, mouseClickY;
 	protected int mouseClickMoveX, mouseClickMoveY;
+	private Minecraft mc;
 
 	private static final long serialVersionUID = -7451553351083938970L;
 
@@ -121,19 +111,13 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 		this.sliderWidth = sliderWidth;
 	}
 
-	public void draw(int baseX, int baseY, int mouseX, int mouseY) {
+	protected void draw(int baseX, int baseY, int mouseX, int mouseY) {
 		if (!visible)
 			return;
-		int posX = this.posX + baseX;
-		int posY = this.posY + baseY;
+		int posX = baseX;
+		int posY = baseY;
 		if (recalculateItemHeightOnDraw)
 			recalculateItemHeight();
-		int width = Math.max(this.width, 15);
-		Minecraft m = Minecraft.getMinecraft();
-		int scale = MHFCGuiUtil.guiScaleFactor(m);
-		int openGLy = m.displayHeight;
-		GL11.glScissor(posX * scale, openGLy - (posY + height) * scale, width * scale, height * scale + 1);
-		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
 
@@ -142,7 +126,6 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 		drawListSlider(posX, posY, mouseX, mouseY);
 
 		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 	}
 
 	protected void drawListSlider(int posX, int posY, int mouseX, int mouseY) {
@@ -152,7 +135,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 			float sliderHeight = height * height / extendedHeight;
 			float sliderPosY = scrollAmount * height / extendedHeight;
 			GL11.glColor4f(1, 1, 1, alpha);
-			Minecraft.getMinecraft().getTextureManager().bindTexture(MHFCRegQuestVisual.CLICKABLE_LIST);
+			mc.getTextureManager().bindTexture(MHFCRegQuestVisual.CLICKABLE_LIST);
 			MHFCGuiUtil.drawTexturedRectangle(
 					posX + width - sliderWidth,
 					posY + sliderPosY,
@@ -224,7 +207,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 
 	protected void drawBackground(int posX, int posY, int mouseX, int mouseY) {
 		GL11.glColor4f(1, 1, 1, 1);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(MHFCRegQuestVisual.CLICKABLE_LIST);
+		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.CLICKABLE_LIST);
 		float texheight = height;
 		if (drawSmallestBounds)
 			texheight = Math.min(size() * itemHeight, texheight);
@@ -254,7 +237,6 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	}
 
 	protected void drawListItems(int posX, int posY, int mouseX, int mouseY) {
-		Minecraft m = Minecraft.getMinecraft();
 		for (int i = (int) (scrollAmount / itemHeight); i < this.size(); i++) {
 			GuiListItem item = this.get(i);
 			item.draw(
@@ -262,7 +244,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 					posY - (int) (scrollAmount - i * itemHeight),
 					width,
 					(int) itemHeight,
-					m,
+					mc,
 					i == selected,
 					alignment);
 		}
@@ -379,19 +361,6 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 		selected = newSelected;
 	}
 
-	public int getPosX() {
-		return posX;
-	}
-
-	public int getPosY() {
-		return posY;
-	}
-
-	public void setPosition(int posX, int posY) {
-		this.posX = posX;
-		this.posY = posY;
-	}
-
 	public int getWidth() {
 		return width;
 	}
@@ -440,6 +409,11 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	@Override
 	public void draw(double mouseX, double mouseY, float partialTick) {
 		draw(0, 0, (int) mouseX, (int) mouseY);
+	}
+
+	@Override
+	public void initializeContext(Minecraft mc) {
+		this.mc = mc;
 	}
 
 }

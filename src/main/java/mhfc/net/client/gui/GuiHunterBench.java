@@ -2,9 +2,7 @@ package mhfc.net.client.gui;
 
 import static net.minecraftforge.client.IItemRenderer.ItemRenderType.ENTITY;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -83,14 +81,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 	}
 
-	protected abstract class BenchEntityTab implements IMHFCTab {
+	protected abstract class BenchEntityTab extends MHFCGui implements IMHFCTab {
 		protected TileHunterBench bench;
 		protected float modelRotX, modelRotY;
-		protected int mouseLastX, mouseLastY;
-		protected int mouseClickX, mouseClickY, mouseClickButton;
 		protected float maxRotation = 50;
-
-		protected List<ClickableGuiList<?>> clickableLists;
 
 		/**
 		 *
@@ -101,22 +95,19 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		 */
 		public BenchEntityTab(TileHunterBench bench) {
 			this.bench = bench;
-			clickableLists = new ArrayList<ClickableGuiList<?>>();
 			resetModelRot();
 		}
 
 		@Override
-		public void drawTab(int posX, int posY, int mousePosX, int mousePosY, float partialTick) {
-
+		public void draw(double mousePosX, double mousePosY, float partialTick) {
 			GL11.glColor4f(1f, 1f, 1f, 1f);
 			mc.getTextureManager().bindTexture(MHFCRegQuestVisual.QUEST_HUNTERBENCH_BACKGROUND);
-			MHFCGuiUtil.drawTexturedBoxFromBorder(posX, posY, zLevel, xSize, ySize, 0, 0, 1f, 1f);
+			MHFCGuiUtil.drawTexturedBoxFromBorder(0, 0, zLevel, xSize, ySize, 0, 0, 1f, 1f);
 
-			updateListPositions();
-			for (ClickableGuiList<?> list : clickableLists) {
-				list.draw(posX, posY, mousePosX - list.posX, mousePosY - list.posY);
-			}
-			fontRendererObj.drawSplitString("Inventory", posX + 6, posY + 12, 500, 0x404040);
+			// updateListPositions();
+			super.draw(mousePosX, mousePosY, partialTick);
+
+			fontRendererObj.drawSplitString("Inventory", 6, 12, 500, 0x404040);
 
 			GuiHunterBench.this.startCrafting.visible = !bench.isWorking();
 			GuiHunterBench.this.startCrafting.enabled = bench.canBeginCrafting();
@@ -125,24 +116,23 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		public boolean handleClick(int relativeX, int relativeY, int button) {
-			mouseClickX = relativeX;
-			mouseClickY = relativeY;
-			mouseLastX = relativeX;
-			mouseLastY = relativeY;
-			mouseClickButton = button;
 			if (isInModelWindow(mouseClickX, mouseClickY) && mouseClickButton == 1) {
 				resetModelRot();
 			}
-			for (ClickableGuiList<?> list : clickableLists) {
-				if (list.handleClick(relativeX - list.posX, relativeY - list.posY, button))
-					listUpdated(list);
-			}
+			super.handleClick(relativeX, relativeY, button);
 			return true;
 		}
 
 		private void resetModelRot() {
 			modelRotX = -50f;
 			modelRotY = 20f;
+		}
+
+		@Override
+		protected void itemUpdated(IMHFCGuiItem item) {
+			if (item instanceof ClickableGuiList<?>) {
+				listUpdated((ClickableGuiList<?>) item);
+			}
 		}
 
 		protected void listUpdated(ClickableGuiList<?> list) {}
@@ -157,7 +147,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public void updateTab(int pX, int pY) {
+		public void updateTab() {
 			updateListPositions();
 		}
 
@@ -170,20 +160,6 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public void handleMouseUp(int mouseX, int mouseY, int button) {
-			for (ClickableGuiList<?> list : clickableLists) {
-				list.handleMouseUp(mouseX, mouseY, button);
-			}
-		}
-
-		@Override
-		public void handleMovement(int mouseX, int mouseY) {
-			for (ClickableGuiList<?> list : clickableLists) {
-				list.handleMovement(mouseX, mouseY);
-			}
-		}
-
-		@Override
 		public void handleMovementMouseDown(int mouseX, int mouseY, int button, long timeDiff) {
 			if (isInModelWindow(mouseClickX, mouseClickY) && mouseClickButton == 0) {
 				modelRotX += (mouseX - mouseLastX);
@@ -192,13 +168,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 					modelRotY = maxRotation * Math.signum(modelRotY);
 				}
 			}
-			for (ClickableGuiList<?> list : clickableLists) {
-				list.handleMovementMouseDown(mouseX - list.posX, mouseY - list.posY, button, timeDiff);
-			}
-			mouseLastX = mouseX;
-			mouseLastY = mouseY;
+			super.handleMovementMouseDown(mouseX, mouseY, button, timeDiff);
 		}
-
 	}
 
 	/**
@@ -227,9 +198,9 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			typeList = new ClickableGuiList<TypeItem>(70, ySize - 24);
 			recipeList = new ClickableGuiList<RecipeItem>(70, ySize - 24, 20);
 			typeList.setAlignment(Alignment.MIDDLE);
-			this.clickableLists.add(typeList);
-			this.clickableLists.add(recipeList);
 			initializeTypeList();
+			addScreenComponent(typeList, new ComponentPosition(78, 12));
+			addScreenComponent(recipeList, new ComponentPosition(153, 12));
 
 			if (bench != null) {
 				EquipmentRecipe recipe = bench.getRecipe();
@@ -273,8 +244,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		protected void updateListPositions() {
-			recipeList.setPosition(153, 12);
-			typeList.setPosition(78, 12);
+			getPosition(typeList).setPosition(78, 12);
+			getPosition(recipeList).setPosition(153, 12);
 		}
 
 		protected void fillRecipeList(ItemType typeOfSelection) {
@@ -317,17 +288,12 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		private int baseX = 0, baseY = 0;
 
 		@Override
-		public void drawTab(int posX, int posY, int mousePosX, int mousePosY, float partialTick) {
+		public void draw(double mousePosX, double mousePosY, float partialTick) {
 			startCrafting.visible = false;
 			GL11.glPushMatrix();
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
-			drawRect(guiLeft + 10, guiTop + 10, guiLeft + xSize - 10, guiTop + ySize - 10, 0xFF101010);
-			drawCenteredString(
-					fontRendererObj,
-					"Not yet implemented",
-					guiLeft + xSize / 2 + baseX,
-					guiTop + ySize / 2 + baseY,
-					0xaaaaaa);
+			drawRect(10, 10, xSize - 10, ySize - 10, 0xFF101010);
+			drawCenteredString(fontRendererObj, "Not yet implemented", xSize / 2 + baseX, ySize / 2 + baseY, 0xaaaaaa);
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
 			GL11.glPopMatrix();
 		}
@@ -349,7 +315,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public void updateTab(int pX, int pY) {}
+		public void updateTab() {}
 
 		@Override
 		public void onClose() {}
@@ -383,12 +349,13 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			this.mouseY = mouseY;
 		}
 
+		@Override
+		public void initializeContext(Minecraft mc) {}
+
 	}
 
 	public final GuiButton startCrafting;
 	public final TileHunterBench tileEntity;
-
-	private static final String[] TAB_NAMES = new String[] { "Armor", "Weapons", "Upgrade", "Weapon tree" };
 
 	public GuiHunterBench(
 			InventoryPlayer par1InventoryPlayer,
@@ -397,20 +364,19 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			int x,
 			int y,
 			int z) {
-		super(new ContainerHunterBench(par1InventoryPlayer, par2World, tileEntity, x, y, z), TAB_NAMES.length);
+		super(new ContainerHunterBench(par1InventoryPlayer, par2World, tileEntity, x, y, z));
 		this.tileEntity = tileEntity;
 		this.xSize = 374;
 		this.ySize = 220;
-		tabNames = TAB_NAMES;
 		mc = Minecraft.getMinecraft();
 		width = MHFCGuiUtil.minecraftWidth(mc);
 		height = MHFCGuiUtil.minecraftHeight(mc);
 		this.guiLeft = (width - this.xSize - tabWidth) / 2 + tabWidth;
 		this.guiTop = (height - this.ySize) / 2;
-		this.tabList.add(new CraftArmorTab(tileEntity));
-		this.tabList.add(new CraftWeaponTab(tileEntity));
-		this.tabList.add(new CraftUpgradeTab(tileEntity));
-		this.tabList.add(new WeaponTreeTab());
+		this.addTab(new CraftArmorTab(tileEntity), "Armor");
+		this.addTab(new CraftWeaponTab(tileEntity), "Weapons");
+		this.addTab(new CraftUpgradeTab(tileEntity), "Upgrade");
+		this.addTab(new WeaponTreeTab(), "Weapon tree");
 
 		startCrafting = new GuiButton(0, guiLeft + 228 + (xSize - 228 - 60) / 2, guiTop + 166, 40, 20, "Craft") {
 			@Override
@@ -450,7 +416,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			ItemStack itemToRender = bench.getStackInSlot(TileHunterBench.resultSlot);
 			ItemType itemType = ItemType.getTypeOf(itemToRender);
 
-			int rectX = guiLeft + modelRectRelX, rectY = guiTop + modelRectRelY;
+			int rectX = modelRectRelX, rectY = modelRectRelY;
 			int scale = MHFCGuiUtil.guiScaleFactor(mc);
 
 			drawItemModel(itemToRender, rectX, rectY, modelRectW, modelRectH, scale, itemType, modelRotX, modelRotY);
@@ -458,11 +424,11 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 	}
 
-	private boolean isInModelWindow(int mouseClickRelX, int mouseClickRelY) {
-		return (mouseClickRelX >= modelRectRelX //
-				&& mouseClickRelX <= modelRectRelX + modelRectW)
-				&& (mouseClickRelY >= modelRectRelY //
-						&& mouseClickRelY <= modelRectRelY + modelRectH);
+	private boolean isInModelWindow(double mouseClickX, double mouseClickY) {
+		return (mouseClickX >= modelRectRelX //
+				&& mouseClickX <= modelRectRelX + modelRectW)
+				&& (mouseClickY >= modelRectRelY //
+						&& mouseClickY <= modelRectRelY + modelRectH);
 	}
 
 	private void drawItemModel(
@@ -616,10 +582,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		remaining = remain / 17f;
 		Tessellator t = Tessellator.instance;
 		t.startDrawingQuads();
-		t.addVertexWithUV(guiLeft + 353, guiTop + 159 - remain, this.zLevel, 0f, 14f / 17 - remaining);
-		t.addVertexWithUV(guiLeft + 353, guiTop + 159, this.zLevel, 0f, 14f / 17);
-		t.addVertexWithUV(guiLeft + 370, guiTop + 159, this.zLevel, 1f, 14f / 17);
-		t.addVertexWithUV(guiLeft + 370, guiTop + 159 - remain, this.zLevel, 1f, 14f / 17 - remaining);
+		t.addVertexWithUV(353, 159 - remain, this.zLevel, 0f, 14f / 17 - remaining);
+		t.addVertexWithUV(353, 159, this.zLevel, 0f, 14f / 17);
+		t.addVertexWithUV(370, 159, this.zLevel, 1f, 14f / 17);
+		t.addVertexWithUV(370, 159 - remain, this.zLevel, 1f, 14f / 17 - remaining);
 		t.draw();
 
 		// draw the completition gauge
@@ -629,8 +595,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			completition = complete / (float) completeWidth;
 			mc.getTextureManager().bindTexture(MHFCRegQuestVisual.HUNTER_BENCH_COMPLETE);
 			MHFCGuiUtil.drawTexturedBoxFromBorder(
-					guiLeft + 298,
-					guiTop + 145,
+					298,
+					145,
 					this.zLevel,
 					(int) (completition * completeWidth),
 					17,

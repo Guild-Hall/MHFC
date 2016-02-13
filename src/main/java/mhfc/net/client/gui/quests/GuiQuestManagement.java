@@ -2,7 +2,9 @@ package mhfc.net.client.gui.quests;
 
 import java.util.List;
 
+import mhfc.net.client.gui.IMHFCGuiItem;
 import mhfc.net.client.gui.IMHFCTab;
+import mhfc.net.client.gui.MHFCGui;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageMHFCInteraction;
@@ -10,17 +12,15 @@ import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
 import mhfc.net.common.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 
-public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
+public class GuiQuestManagement extends MHFCGui implements IMHFCTab {
 
 	private static final int startQuestHeight = 20;
 	private static final int startQuestWidth = 120;
 	private List<Slot> chestSlots;
-	private int xPos, yPos;
 	private int xSize, ySize;
 	// TODO Change functionality of start button to a switch to vote that
 	// actually does not just asume stuff
@@ -84,30 +84,17 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 	@Override
 	public void drawBackground(int p_146278_1_) {
 		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
-		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, this.zLevel, this.xSize, this.ySize, 0, 0, 1f, 1f);
+		MHFCGuiUtil.drawTexturedBoxFromBorder(0, 0, this.zLevel, this.xSize, this.ySize, 0, 0, 1f, 1f);
 	}
 
 	@Override
-	public void drawTab(int posX, int posY, int mousePosX, int mousePosY, float partialTick) {
-		this.xPos = posX;
-		this.yPos = posY;
+	public void draw(double mousePosX, double mousePosY, float partialTick) {
 		updateScreen();
 		drawBackground(0);
-		drawScreen(mousePosX + xPos, mousePosY + yPos, partialTick);
-	}
-
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTick) {
 		String warning = "You are already on a quest";
 		int warnX = (xSize - fontRendererObj.getStringWidth(warning)) / 2, warnY = 60;
-		fontRendererObj.drawString(warning, warnX + xPos, warnY + yPos, MHFCGuiUtil.COLOUR_TEXT);
-		super.drawScreen(mouseX, mouseY, partialTick);
-	}
-
-	@Override
-	public boolean handleClick(int relativeX, int relativeY, int button) {
-		super.mouseClicked(relativeX + xPos, relativeY + yPos, button);
-		return true;
+		fontRendererObj.drawString(warning, warnX, warnY, MHFCGuiUtil.COLOUR_TEXT);
+		super.draw(mousePosX, mousePosY, partialTick);
 	}
 
 	@Override
@@ -118,18 +105,16 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 	}
 
 	@Override
-	public void updateTab(int posX, int posY) {
-		cancelQuest.xPosition = xPos + xSize / 2 - cancelQuest.getButtonWidth() / 2;
-		cancelQuest.yPosition = yPos + ySize / 2 + 5;
-		startQuest.xPosition = xPos + xSize / 2 - startQuest.getButtonWidth() / 2;
-		startQuest.yPosition = yPos + ySize / 2 - startQuestHeight - 10;
+	public void updateTab() {
+		cancelQuest.xPosition = xSize / 2 - cancelQuest.getButtonWidth() / 2;
+		cancelQuest.yPosition = ySize / 2 + 5;
+		startQuest.xPosition = xSize / 2 - startQuest.getButtonWidth() / 2;
+		startQuest.yPosition = ySize / 2 - startQuestHeight - 10;
 	}
 
 	@Override
 	public void updateScreen() {
-		xPos = (width - xSize) / 2;
-		yPos = (height - ySize) / 2;
-		updateTab(xPos, yPos);
+		updateTab();
 	}
 
 	@Override
@@ -143,15 +128,6 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 	}
 
 	@Override
-	public void handleMovementMouseDown(int mouseX, int mouseY, int button, long timeDiff) {
-		mouseClickMove(mouseX + xPos, mouseY + yPos, button, timeDiff);
-	}
+	protected void itemUpdated(IMHFCGuiItem item) {}
 
-	@Override
-	public void handleMouseUp(int mouseX, int mouseY, int id) {
-		mouseMovedOrUp(mouseX + xPos, mouseY + yPos, id);
-	}
-
-	@Override
-	public void handleMovement(int mouseX, int mouseY) {}
 }

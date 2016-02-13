@@ -43,12 +43,12 @@ public class GuiBlockExploreArea extends MHFCGui {
 	public void initGui() {
 		super.initGui();
 		targetAreaText = new GuiTextField(this.fontRendererObj, width / 6, height / 4, 2 * width / 3, 20);
-		targetFlairList = new ClickableGuiList<>(width / 6, height / 2, 2 * width / 3, 60, 15);
+		targetFlairList = new ClickableGuiList<>(2 * width / 3, 60, 15);
 		for (QuestFlair f : QuestFlair.values()) {
 			targetFlairList.add(new QuestFlairItem(f));
 		}
 		targetFlairList.setSelected(tileEntity.getFlair().ordinal());
-		screenComponents.put(targetFlairList, new ComponentPosition(width / 6, height / 2));
+		addScreenComponent(targetFlairList, new ComponentPosition(width / 6, height / 2));
 		saveButton = new GuiButton(0, width / 2 - 75, 3 * height / 4, 150, 20, I18n.format("gui.save"));
 		buttonList.add(saveButton);
 		targetAreaText.setText(tileEntity.getTargetArea());

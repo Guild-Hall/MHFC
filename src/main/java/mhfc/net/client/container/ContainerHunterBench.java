@@ -22,34 +22,43 @@ public class ContainerHunterBench extends Container {
 	private int posY;
 	private int posZ;
 
-	public ContainerHunterBench(InventoryPlayer par1InventoryPlayer,
-			World par2World, TileHunterBench tileEntity, int x, int y, int z) {
+	public ContainerHunterBench(
+			InventoryPlayer par1InventoryPlayer,
+			World par2World,
+			TileHunterBench tileEntity,
+			int x,
+			int y,
+			int z) {
 		this.worldObj = par2World;
 		this.posX = x;
 		this.posY = y;
 		this.posZ = z;
-		this.addSlotToContainer(new SlotHunterBench(par1InventoryPlayer.player,
-				this.craftMatrix, this.craftResult, 0, 124 + 8, 35 + 1));
+		this.addSlotToContainer(
+				new SlotHunterBench(
+						par1InventoryPlayer.player,
+						this.craftMatrix,
+						this.craftResult,
+						0,
+						124 + 8,
+						35 + 1));
 		int var6;
 		int var7;
 
 		for (var6 = 0; var6 < 5; ++var6) {
 			for (var7 = 0; var7 < 3; ++var7) {
-				this.addSlotToContainer(new Slot(this.craftMatrix, var7 + var6
-						* 3, 30 + var7 * 18, var6 * 18 + 15));
+				this.addSlotToContainer(new Slot(this.craftMatrix, var7 + var6 * 3, 30 + var7 * 18, var6 * 18 + 15));
 			}
 		}
 
 		for (var6 = 0; var6 < 3; ++var6) {
 			for (var7 = 0; var7 < 9; ++var7) {
-				this.addSlotToContainer(new Slot(par1InventoryPlayer, var7
-						+ var6 * 9 + 9, 158 + var7 * 18, var6 * 18 + 15));
+				this.addSlotToContainer(
+						new Slot(par1InventoryPlayer, var7 + var6 * 9 + 9, 158 + var7 * 18, var6 * 18 + 15));
 			}
 		}
 
 		for (var6 = 0; var6 < 9; ++var6) {
-			this.addSlotToContainer(new Slot(par1InventoryPlayer, var6,
-					158 + var6 * 18, 84));
+			this.addSlotToContainer(new Slot(par1InventoryPlayer, var6, 158 + var6 * 18, 84));
 		}
 
 		for (var6 = 0; var6 < 7; ++var6) {
@@ -68,28 +77,23 @@ public class ContainerHunterBench extends Container {
 		}
 
 		for (var6 = 0; var6 < 7; ++var6) {
-			this.addSlotToContainer(new Slot(tileEntity, var6 + 10,
-					var6 * 18 + 229, 191) {
+			this.addSlotToContainer(new Slot(tileEntity, var6 + 10, var6 * 18 + 229, 191) {
 			});
 		}
 
-		this.addSlotToContainer(new Slot(tileEntity,
-				TileHunterBench.resultSlot, 280, 146) {
+		this.addSlotToContainer(new Slot(tileEntity, TileHunterBench.resultSlot, 280, 146) {
 			@Override
 			public boolean isItemValid(ItemStack stack) {
 				return false;
 			}
 		});
 
-		this.addSlotToContainer(new Slot(tileEntity, TileHunterBench.fuelSlot,
-				354, 168));
-		this.addSlotToContainer(new Slot(tileEntity,
-				TileHunterBench.outputSlot, 335, 146));
+		this.addSlotToContainer(new Slot(tileEntity, TileHunterBench.fuelSlot, 354, 168));
+		this.addSlotToContainer(new Slot(tileEntity, TileHunterBench.outputSlot, 335, 146));
 
 		for (var6 = 0; var6 < 4; ++var6) {
 			for (var7 = 0; var7 < 9; ++var7) {
-				this.addSlotToContainer(new Slot(par1InventoryPlayer, var7
-						+ var6 * 9, 7 + var6 * 18, var7 * 18 + 28));
+				this.addSlotToContainer(new Slot(par1InventoryPlayer, var7 + var6 * 9, 7 + var6 * 18, var7 * 18 + 28));
 			}
 		}
 
@@ -100,16 +104,14 @@ public class ContainerHunterBench extends Container {
 	public void onCraftMatrixChanged(IInventory par1IInventory) {
 		this.craftResult.setInventorySlotContents(
 				0,
-				MHFCCraftingManager.getInstance().findMatchingRecipe(
-						this.craftMatrix, this.worldObj));
+				MHFCCraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj));
 	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
 		return this.worldObj.getBlock(this.posX, this.posY, this.posZ) != MHFCBlockRegistry.mhfcblockhunterbench
 				? false
-				: par1EntityPlayer.getDistanceSq(this.posX + 0.5D,
-						this.posY + 0.5D, this.posZ + 0.5D) <= 64.0D;
+				: par1EntityPlayer.getDistanceSq(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D) <= 64.0D;
 	}
 
 	@Override
@@ -118,12 +120,10 @@ public class ContainerHunterBench extends Container {
 
 		if (!this.worldObj.isRemote) {
 			for (int i = 0; i < 15; ++i) {
-				ItemStack itemstack = this.craftMatrix
-						.getStackInSlotOnClosing(i);
+				ItemStack itemstack = this.craftMatrix.getStackInSlotOnClosing(i);
 
 				if (itemstack != null) {
-					par1EntityPlayer.dropPlayerItemWithRandomChoice(itemstack,
-							false);
+					par1EntityPlayer.dropPlayerItemWithRandomChoice(itemstack, false);
 				}
 			}
 		}
@@ -174,7 +174,6 @@ public class ContainerHunterBench extends Container {
 
 	@Override
 	public boolean func_94530_a(ItemStack par1ItemStack, Slot par2Slot) {
-		return par2Slot.inventory != this.craftResult
-				&& super.func_94530_a(par1ItemStack, par2Slot);
+		return par2Slot.inventory != this.craftResult && super.func_94530_a(par1ItemStack, par2Slot);
 	}
 }
