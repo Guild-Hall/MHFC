@@ -1,4 +1,4 @@
-package mhfc.net.common.world.gen;
+package mhfc.net.common.world.types;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

@@ -5,7 +5,6 @@ import java.io.IOException;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IExtendedConfiguration;
-import mhfc.net.common.world.gen.AreaTypeSchematic;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 

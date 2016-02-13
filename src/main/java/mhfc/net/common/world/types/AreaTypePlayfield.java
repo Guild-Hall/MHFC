@@ -1,12 +1,12 @@
-package mhfc.net.common.world.gen;
+package mhfc.net.common.world.types;
 
-import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.RunContext;
 
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.SpawnControllerAdapter;
+import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.AreaAdapter;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.AreaPlanAdapter;
@@ -63,9 +63,10 @@ public class AreaTypePlayfield implements IAreaType {
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
 			CornerPosition chunkPos = getChunkPosition();
-			player.posX = chunkPos.posX * 16 + 8;
-			player.posZ = chunkPos.posY * 16 + 8;
-			player.posY = world.getChunkFromChunkCoords(chunkPos.posX, chunkPos.posY).getHeightValue(8, 8);
+			double posX = chunkPos.posX * 16 + 8;
+			double posZ = chunkPos.posY * 16 + 8;
+			double posY = world.getChunkFromChunkCoords(chunkPos.posX, chunkPos.posY).getHeightValue(8, 8);
+			AreaTeleportation.moveEntity(player, posX, posY, posZ);
 		}
 
 		@Override
@@ -102,7 +103,7 @@ public class AreaTypePlayfield implements IAreaType {
 		int chunksZ = configuration.getChunkSizeZ();
 		return new AreaPlanAdapter(new AreaPlayfield(world, configuration), new Operation() {
 			@Override
-			public Operation resume(RunContext run) throws WorldEditException {
+			public Operation resume(RunContext run) {
 				for (int i = 0; i < 16 * chunksX; i++) {
 					for (int j = 0; j < 16 * chunksZ; j++) {
 						int x = configuration.getPosition().posX * 16 + i;

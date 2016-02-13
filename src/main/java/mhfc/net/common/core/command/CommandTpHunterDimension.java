@@ -10,7 +10,7 @@ import mhfc.net.common.quests.world.GlobalAreaManager;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.util.StagedFuture;
 import mhfc.net.common.util.world.WorldHelper;
-import mhfc.net.common.world.AreaTeleporter;
+import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
@@ -114,7 +114,7 @@ public class CommandTpHunterDimension implements ICommand {
 				futureArea.asCompletionStage().thenAccept((a) -> {
 					try (IActiveArea active = a) {
 						teleportPoints.put(player, WorldHelper.getVectorOfEntity(player));
-						AreaTeleporter.movePlayerToArea(player, active.getArea());
+						AreaTeleportation.movePlayerToArea(player, active.getArea());
 					}
 				});
 			}

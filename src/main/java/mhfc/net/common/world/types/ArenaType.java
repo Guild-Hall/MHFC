@@ -4,11 +4,11 @@ import java.io.IOException;
 
 import mhfc.net.common.quests.world.SpawnControllerAdapter.SpawnInformation;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
+import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.EmptyArea;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IExtendedConfiguration;
-import mhfc.net.common.world.gen.AreaTypeSchematic;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -31,7 +31,7 @@ public class ArenaType extends AreaTypeSchematic {
 			double posX = getChunkPosition().posX * 16 + 54;
 			double posZ = getChunkPosition().posY * 16 + 11;
 			double posY = world.getTopSolidOrLiquidBlock((int) posX, (int) posZ) + 1;
-			player.setPosition(posX, posY, posZ);
+			AreaTeleportation.moveEntity(player, posX, posY, posZ);
 		}
 
 		@Override

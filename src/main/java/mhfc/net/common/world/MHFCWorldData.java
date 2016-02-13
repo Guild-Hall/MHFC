@@ -13,7 +13,7 @@ import mhfc.net.common.world.area.IExtendedConfiguration;
 import mhfc.net.common.world.controller.CornerPosition;
 import mhfc.net.common.world.controller.IRectanglePlacer;
 import mhfc.net.common.world.controller.SimpleRectanglePlacer;
-import mhfc.net.common.world.gen.AreaTypePlayfield;
+import mhfc.net.common.world.types.AreaTypePlayfield;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.WorldSavedData;

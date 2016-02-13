@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import mhfc.net.common.world.gen.AreaTypePlayfield;
+import mhfc.net.common.world.types.AreaTypePlayfield;
 import mhfc.net.common.world.types.ArenaType;
 import mhfc.net.common.world.types.TestAreaType;
 

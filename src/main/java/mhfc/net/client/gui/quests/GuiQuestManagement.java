@@ -34,36 +34,30 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 		this.ySize = 220;
 		cancelQuest = new GuiButton(0, 25, 10, 120, 20, "Cancel current Quest") {
 			@Override
-			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
-				int p_146116_3_) {
+			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_, int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					PacketPipeline.networkPipe
-						.sendToServer(new MessageMHFCInteraction(
-							Interaction.FORFEIT_QUEST, new String[0]));
+							.sendToServer(new MessageMHFCInteraction(Interaction.FORFEIT_QUEST, new String[0]));
 					return true;
 				}
 				return false;
 			}
 		};
-		startQuest = new GuiButton(0, 25, 10, startQuestWidth,
-			startQuestHeight, "Set ready status") {
+		startQuest = new GuiButton(0, 25, 10, startQuestWidth, startQuestHeight, "Set ready status") {
 			// FIXME this assumes that have voted when you have a quest
 			boolean voted = MHFCRegQuestVisual.hasPlayerQuest();
 
 			@Override
-			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
-				int p_146116_3_) {
+			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_, int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					if (!voted) {
 						PacketPipeline.networkPipe
-							.sendToServer(new MessageMHFCInteraction(
-								Interaction.START_QUEST, new String[0]));
+								.sendToServer(new MessageMHFCInteraction(Interaction.START_QUEST, new String[0]));
 						accessor.closeScreen();
 						voted = true;
 					} else {
 						PacketPipeline.networkPipe
-							.sendToServer(new MessageMHFCInteraction(
-								Interaction.END_QUEST, new String[0]));
+								.sendToServer(new MessageMHFCInteraction(Interaction.END_QUEST, new String[0]));
 						voted = false;
 					}
 					return true;
@@ -72,11 +66,8 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 			}
 
 			@Override
-			public void drawButton(Minecraft p_146112_1_, int p_146112_2_,
-				int p_146112_3_) {
-				this.displayString = voted
-					? "Unset ready status"
-					: "Set ready status";
+			public void drawButton(Minecraft p_146112_1_, int p_146112_2_, int p_146112_3_) {
+				this.displayString = voted ? "Unset ready status" : "Set ready status";
 				super.drawButton(p_146112_1_, p_146112_2_, p_146112_3_);
 			}
 		};
@@ -92,15 +83,12 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 
 	@Override
 	public void drawBackground(int p_146278_1_) {
-		mc.getTextureManager().bindTexture(
-			MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
-		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, this.zLevel,
-			this.xSize, this.ySize, 0, 0, 1f, 1f);
+		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
+		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, this.zLevel, this.xSize, this.ySize, 0, 0, 1f, 1f);
 	}
 
 	@Override
-	public void drawTab(int posX, int posY, int mousePosX, int mousePosY,
-		float partialTick) {
+	public void drawTab(int posX, int posY, int mousePosX, int mousePosY, float partialTick) {
 		this.xPos = posX;
 		this.yPos = posY;
 		updateScreen();
@@ -112,8 +100,7 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 	public void drawScreen(int mouseX, int mouseY, float partialTick) {
 		String warning = "You are already on a quest";
 		int warnX = (xSize - fontRendererObj.getStringWidth(warning)) / 2, warnY = 60;
-		fontRendererObj.drawString(warning, warnX + xPos, warnY + yPos,
-			MHFCGuiUtil.COLOUR_TEXT);
+		fontRendererObj.drawString(warning, warnX + xPos, warnY + yPos, MHFCGuiUtil.COLOUR_TEXT);
 		super.drawScreen(mouseX, mouseY, partialTick);
 	}
 
@@ -132,11 +119,9 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 
 	@Override
 	public void updateTab(int posX, int posY) {
-		cancelQuest.xPosition = xPos + xSize / 2 - cancelQuest.getButtonWidth()
-			/ 2;
+		cancelQuest.xPosition = xPos + xSize / 2 - cancelQuest.getButtonWidth() / 2;
 		cancelQuest.yPosition = yPos + ySize / 2 + 5;
-		startQuest.xPosition = xPos + xSize / 2 - startQuest.getButtonWidth()
-			/ 2;
+		startQuest.xPosition = xPos + xSize / 2 - startQuest.getButtonWidth() / 2;
 		startQuest.yPosition = yPos + ySize / 2 - startQuestHeight - 10;
 	}
 
@@ -158,16 +143,15 @@ public class GuiQuestManagement extends GuiScreen implements IMHFCTab {
 	}
 
 	@Override
-	public void handleMovementMouseDown(int mouseX, int mouseY, int button,
-		long timeDiff) {
+	public void handleMovementMouseDown(int mouseX, int mouseY, int button, long timeDiff) {
+		mouseClickMove(mouseX + xPos, mouseY + yPos, button, timeDiff);
 	}
 
 	@Override
 	public void handleMouseUp(int mouseX, int mouseY, int id) {
-		super.mouseMovedOrUp(mouseX, mouseY, id);
+		mouseMovedOrUp(mouseX + xPos, mouseY + yPos, id);
 	}
 
 	@Override
-	public void handleMovement(int mouseX, int mouseY) {
-	}
+	public void handleMovement(int mouseX, int mouseY) {}
 }

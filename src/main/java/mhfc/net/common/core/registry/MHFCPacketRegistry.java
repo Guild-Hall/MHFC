@@ -10,10 +10,12 @@ import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.CraftingUpdate
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.SetRecipeHandler;
 import mhfc.net.common.core.registry.MHFCQuestRegistry.RegistryRequestVisualHandler;
 import mhfc.net.common.core.registry.MHFCQuestRegistry.RunningSubscriptionHandler;
+import mhfc.net.common.core.registry.MHFCTileRegistry.TileUpdateHandler;
 import mhfc.net.common.eventhandler.MHFCInteractionHandler;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.message.MessageAIAttack;
 import mhfc.net.common.network.message.MessageAttackHandler;
+import mhfc.net.common.network.message.MessageExploreTileUpdate;
 import mhfc.net.common.network.message.bench.MessageBeginCrafting;
 import mhfc.net.common.network.message.bench.MessageBenchRefreshRequest;
 import mhfc.net.common.network.message.bench.MessageCancelRecipe;
@@ -24,12 +26,15 @@ import mhfc.net.common.network.packet.MessageQuestInit;
 import mhfc.net.common.network.packet.MessageQuestRunningSubscription;
 import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.network.packet.MessageRequestQuestVisual;
+import mhfc.net.common.network.packet.MessageTileUpdate;
+import mhfc.net.common.tile.TileExploreArea.UpdateRequestHandler;
 
 public class MHFCPacketRegistry {
 
 	public static void init() {
 		PacketPipeline.registerPacket(MessageAttackHandler.class, MessageAIAttack.class, Side.CLIENT);
 
+		PacketPipeline.registerPacket(TileUpdateHandler.class, MessageTileUpdate.class, Side.CLIENT);
 		PacketPipeline.registerPacket(BeginCraftingHandler.class, MessageBeginCrafting.class, Side.SERVER);
 		PacketPipeline.registerPacket(SetRecipeHandler.class, MessageSetRecipe.class, Side.SERVER);
 		PacketPipeline.registerPacket(CancelRecipeHandler.class, MessageCancelRecipe.class, Side.SERVER);
@@ -43,5 +48,7 @@ public class MHFCPacketRegistry {
 
 		PacketPipeline.registerPacket(QuestClientInitHandler.class, MessageQuestInit.class, Side.CLIENT);
 		PacketPipeline.registerPacket(QuestScreenVisualHandler.class, MessageQuestVisual.class, Side.CLIENT);
+
+		PacketPipeline.registerPacket(UpdateRequestHandler.class, MessageExploreTileUpdate.class, Side.SERVER);
 	}
 }

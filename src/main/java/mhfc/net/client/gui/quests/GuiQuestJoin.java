@@ -35,8 +35,7 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 	public GuiQuestJoin(EntityPlayer accessor) {
 		this.xSize = 374;
 		this.ySize = 220;
-		runningQuestList = new ClickableGuiList<GuiListStringItem>(width,
-			height);
+		runningQuestList = new ClickableGuiList<GuiListStringItem>(width, height);
 		runningQuestList.setDrawSmallestBounds(false);
 		runningQuestList.setRecalculateItemHeightOnDraw(false);
 		runningQuestList.setItemWidth(22);
@@ -49,19 +48,16 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 		page = 0;
 		joinQuest = new GuiButton(0, 25, 10, 185 + yPos, 20, "Take Quest") {
 			@Override
-			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
-				int p_146116_3_) {
+			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_, int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					clickHandled = true;
-					GuiListStringItem selectedItem = runningQuestList
-						.getSelectedItem();
+					GuiListStringItem selectedItem = runningQuestList.getSelectedItem();
 					if (selectedItem != null) {
 						String questID = mapToIdentifiers.get(selectedItem);
 						if (questID == null)
 							return true;
-						PacketPipeline.networkPipe.sendToServer(
-							new MessageMHFCInteraction(Interaction.ACCEPT_QUEST,
-								questID));
+						PacketPipeline.networkPipe
+								.sendToServer(new MessageMHFCInteraction(Interaction.ACCEPT_QUEST, questID));
 					}
 					return true;
 				}
@@ -79,8 +75,8 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 		runningQuestList.setPosition(runningX, yBorder + 10);
 		runningQuestList.setWidthAndHeight(runningW, ySize - 2 * yBorder - 10);
 
-		joinQuest.xPosition = (xSize - runningX - runningW - joinQuest
-			.getButtonWidth()) / 2 + runningX + runningW + xPos;
+		joinQuest.xPosition = (xSize - runningX - runningW - joinQuest.getButtonWidth()) / 2 + runningX + runningW
+				+ xPos;
 		joinQuest.yPosition = ySize - yBorder - buttonHeight + yPos;
 	}
 
@@ -99,8 +95,7 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTick) {
-		fontRendererObj.drawString("Currently running:", xPos + 9, yPos
-			+ yBorder, MHFCGuiUtil.COLOUR_TEXT);
+		fontRendererObj.drawString("Currently running:", xPos + 9, yPos + yBorder, MHFCGuiUtil.COLOUR_TEXT);
 		runningQuestList.setVisible(true);
 		runningQuestList.draw(xPos, yPos, mouseX - xPos, mouseY - yPos);
 		joinQuest.visible = true;
@@ -108,12 +103,15 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 		GuiListStringItem item = runningQuestList.getSelectedItem();
 		if (item != null) {
 			String id = mapToIdentifiers.get(item);
-			IVisualInformation info = MHFCRegQuestVisual.getQuestVisualInformation(
-				id);
+			IVisualInformation info = MHFCRegQuestVisual.getQuestVisualInformation(id);
 			if (info != null)
-				info.drawInformation(xPos + runningW + runningX, yPos + yBorder,
-					xSize - runningW - 2 * runningX, ySize - 2 * yBorder, page,
-					fontRendererObj);
+				info.drawInformation(
+						xPos + runningW + runningX,
+						yPos + yBorder,
+						xSize - runningW - 2 * runningX,
+						ySize - 2 * yBorder,
+						page,
+						fontRendererObj);
 		}
 
 		super.drawScreen(mouseX, mouseY, partialTick);
@@ -123,12 +121,14 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 	protected void mouseClicked(int mouseX, int mouseY, int button) {
 		clickHandled = false;
 		super.mouseClicked(mouseX, mouseY, button);
-		if (runningQuestList.handleClick(mouseX - xPos - runningQuestList
-			.getPosX(), mouseY - yPos - runningQuestList.getPosY(), button)) {
+		if (runningQuestList.handleClick(
+				mouseX - xPos - runningQuestList.getPosX(),
+				mouseY - yPos - runningQuestList.getPosY(),
+				button)) {
 
 		} else if (!MHFCRegQuestVisual.hasPlayerQuest() // Is an info displayed
-			&& mouseX > xPos + 80 && mouseX < xPos + 300 // x check
-			&& mouseY > yPos && mouseY < yPos + ySize - 30) {
+				&& mouseX > xPos + 80 && mouseX < xPos + 300 // x check
+				&& mouseY > yPos && mouseY < yPos + ySize - 30) {
 			if (!clickHandled) {
 				clickHandled = true;
 				int add = button == 0 ? 1 : button == 1 ? -1 : 0;
@@ -140,10 +140,8 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 
 	@Override
 	public void drawBackground(int p_146278_1_) {
-		mc.getTextureManager().bindTexture(
-			MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
-		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, this.zLevel,
-			this.xSize, this.ySize, 0, 0, 1f, 1f);
+		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
+		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, this.zLevel, this.xSize, this.ySize, 0, 0, 1f, 1f);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -167,8 +165,7 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 			mapToListItems.put(id, item);
 			mapToIdentifiers.put(item, id);
 			runningQuestList.add(item);
-		} else {
-		}
+		} else {}
 	}
 
 	public void removeQuest(String id) {
@@ -185,8 +182,7 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 	}
 
 	@Override
-	public void drawTab(int posX, int posY, int mousePosX, int mousePosY,
-		float partialTick) {
+	public void drawTab(int posX, int posY, int mousePosX, int mousePosY, float partialTick) {
 		this.xPos = posX;
 		this.yPos = posY;
 		updateTab(xPos, yPos);
@@ -206,16 +202,13 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 	}
 
 	@Override
-	public void onClose() {
-	}
+	public void onClose() {}
 
 	@Override
-	public void onOpen() {
-	}
+	public void onOpen() {}
 
 	@Override
-	public void handleMovementMouseDown(int mouseX, int mouseY, int button,
-		long timeDiff) {
+	public void handleMovementMouseDown(int mouseX, int mouseY, int button, long timeDiff) {
 		mouseClickMove(mouseX + xPos, mouseY + yPos, button, timeDiff);
 	}
 
@@ -225,6 +218,5 @@ public class GuiQuestJoin extends GuiScreen implements IMHFCTab {
 	}
 
 	@Override
-	public void handleMovement(int mouseX, int mouseY) {
-	}
+	public void handleMovement(int mouseX, int mouseY) {}
 }

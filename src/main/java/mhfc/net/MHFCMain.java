@@ -12,6 +12,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import mhfc.net.client.MHFCClient;
 import mhfc.net.common.configuration.MHFCConfig;
 import mhfc.net.common.core.command.CommandMHFC;
 import mhfc.net.common.core.command.CommandTpHunterDimension;
@@ -96,7 +97,7 @@ public class MHFCMain {
 
 	@SubscribeEvent
 	public void onWorldLoad(WorldEvent.Load event) {
-		//Load a 3x3 around spawn to make sure that it populates and calls our hooks.
+		// Load a 3x3 around spawn to make sure that it populates and calls our hooks.
 		if (!event.world.isRemote && event.world instanceof WorldServer) {
 			WorldServer world = (WorldServer) event.world;
 			int spawnX = (int) (event.world.getWorldInfo().getSpawnX() / world.provider.getMovementFactor() / 16);
@@ -107,5 +108,9 @@ public class MHFCMain {
 				}
 			}
 		}
+	}
+
+	public static boolean isClientSide() {
+		return MHFCMain.proxy instanceof MHFCClient;
 	}
 }

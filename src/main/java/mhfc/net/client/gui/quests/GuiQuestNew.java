@@ -43,23 +43,18 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 	public GuiQuestNew(Collection<String> groupIDs, EntityPlayer accessor) {
 		// groupIDsDisplayed = new ArrayList<String>(groupIDs);
 		questIdentifiers = new ArrayList<String>();
-		groupList = new ClickableGuiList<ClickableGuiList.GuiListStringItem>(
-			width, height);
+		groupList = new ClickableGuiList<ClickableGuiList.GuiListStringItem>(width, height);
 		for (String groupID : groupIDs)
 			groupList.add(new GuiListStringItem(groupID));
 		newQuest = new GuiButton(0, 25, 10, 60, 20, "Take Quest") {
 			@Override
-			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
-				int p_146116_3_) {
+			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_, int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					handled = true;
-					if (selectedIdentifier >= 0
-						&& selectedIdentifier < questIdentifiers.size()) {
-						String questID = questIdentifiers.get(
-							selectedIdentifier);
-						PacketPipeline.networkPipe.sendToServer(
-							new MessageMHFCInteraction(Interaction.NEW_QUEST,
-								questID));
+					if (selectedIdentifier >= 0 && selectedIdentifier < questIdentifiers.size()) {
+						String questID = questIdentifiers.get(selectedIdentifier);
+						PacketPipeline.networkPipe
+								.sendToServer(new MessageMHFCInteraction(Interaction.NEW_QUEST, questID));
 					}
 					return true;
 				}
@@ -68,8 +63,7 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 		};
 		left = new GuiButton(1, 10, 10, 20, 20, "<") {
 			@Override
-			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
-				int p_146116_3_) {
+			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_, int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					handled = true;
 					setIdentifier(selectedIdentifier - 1);
@@ -80,8 +74,7 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 		};
 		right = new GuiButton(2, 10, 10, 20, 20, ">") {
 			@Override
-			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_,
-				int p_146116_3_) {
+			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_, int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					handled = true;
 					setIdentifier(selectedIdentifier + 1);
@@ -98,29 +91,24 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 	}
 
 	protected void setIdentifier(int i) {
-		selectedIdentifier = Math.max(Math.min(questIdentifiers.size() - 1, i),
-			0);
+		selectedIdentifier = Math.max(Math.min(questIdentifiers.size() - 1, i), 0);
 	}
 
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 		handled = false;
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-		if (groupList.handleClick(mouseX - xPos - groupList.getPosX(), mouseY
-			- yPos - groupList.getPosY(), mouseButton)) {
+		if (groupList
+				.handleClick(mouseX - xPos - groupList.getPosX(), mouseY - yPos - groupList.getPosY(), mouseButton)) {
 			handled = true;
 			GuiListStringItem item = groupList.getSelectedItem();
-			String selectedList = item == null
-				? ""
-				: item.getInitializationString();
+			String selectedList = item == null ? "" : item.getInitializationString();
 			questIdentifiers.clear();
-			Set<String> newIdentifiers = MHFCRegQuestVisual.getIdentifierList(
-				selectedList);
+			Set<String> newIdentifiers = MHFCRegQuestVisual.getIdentifierList(selectedList);
 			questIdentifiers.addAll(newIdentifiers);
-		} else if (questIdentifiers.size() > 0 && !MHFCRegQuestVisual
-			.hasPlayerQuest() // Is an info displayed
-			&& mouseX > xPos + 80 && mouseX < xPos + 300 // x check
-			&& mouseY > yPos && mouseY < yPos + ySize - 30) {
+		} else if (questIdentifiers.size() > 0 && !MHFCRegQuestVisual.hasPlayerQuest() // Is an info displayed
+				&& mouseX > xPos + 80 && mouseX < xPos + 300 // x check
+				&& mouseY > yPos && mouseY < yPos + ySize - 30) {
 			if (!handled) {
 				handled = true;
 				int add = mouseButton == 0 ? 1 : mouseButton == 1 ? -1 : 0;
@@ -135,27 +123,27 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0, 0, 0.0f);
 		// TODO unlocalize
-		fontRendererObj.drawString("Take a quest:", xPos + 8, yPos + yBorder,
-			MHFCGuiUtil.COLOUR_TEXT);
+		fontRendererObj.drawString("Take a quest:", xPos + 8, yPos + yBorder, MHFCGuiUtil.COLOUR_TEXT);
 		groupList.draw(xPos, yPos, mouseX - xPos, mouseY - yPos);
 		left.visible = true;
 		right.visible = true;
 		newQuest.enabled = false;
 		newQuest.visible = true;
 		left.enabled = selectedIdentifier > 0;
-		right.enabled = questIdentifiers != null
-			&& selectedIdentifier < questIdentifiers.size() - 1;
-		if (!(questIdentifiers == null || selectedIdentifier < 0
-			|| selectedIdentifier >= questIdentifiers.size())) {
-			IVisualInformation info = MHFCRegQuestVisual.getVisualInformation(
-				questIdentifiers.get(selectedIdentifier));
+		right.enabled = questIdentifiers != null && selectedIdentifier < questIdentifiers.size() - 1;
+		if (!(questIdentifiers == null || selectedIdentifier < 0 || selectedIdentifier >= questIdentifiers.size())) {
+			IVisualInformation info = MHFCRegQuestVisual.getVisualInformation(questIdentifiers.get(selectedIdentifier));
 			newQuest.enabled = true;
 			// TODO set start enabled based on can join
 			FontRenderer fontRenderer = mc.fontRenderer;
 			if (info != null)
-				info.drawInformation(xPos + questsX + questsW, yPos + yBorder,
-					xSize - 2 * questsX - questsW, ySize - 30, page,
-					fontRenderer);
+				info.drawInformation(
+						xPos + questsX + questsW,
+						yPos + yBorder,
+						xSize - 2 * questsX - questsW,
+						ySize - 30,
+						page,
+						fontRenderer);
 		}
 		super.drawScreen(mouseX, mouseY, partialTick);
 		GL11.glPopMatrix();
@@ -186,8 +174,7 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 		right.yPosition = yBorder + yPos;
 		left.xPosition = questsX + questsW + 5 + xPos;
 		left.yPosition = yBorder + yPos;
-		newQuest.xPosition = (xSize - questsX - questsW - newQuest
-			.getButtonWidth()) / 2 + questsX + questsW + xPos;
+		newQuest.xPosition = (xSize - questsX - questsW - newQuest.getButtonWidth()) / 2 + questsX + questsW + xPos;
 		newQuest.yPosition = ySize - yBorder - buttonHeight + yPos;
 	}
 
@@ -206,15 +193,12 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 
 	@Override
 	public void drawBackground(int p_146278_1_) {
-		mc.getTextureManager().bindTexture(
-			MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
-		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, this.zLevel,
-			this.xSize, this.ySize, 0, 0, 1f, 1f);
+		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
+		MHFCGuiUtil.drawTexturedBoxFromBorder(xPos, yPos, this.zLevel, this.xSize, this.ySize, 0, 0, 1f, 1f);
 	}
 
 	@Override
-	public void drawTab(int posX, int posY, int mousePosX, int mousePosY,
-		float partialTick) {
+	public void drawTab(int posX, int posY, int mousePosX, int mousePosY, float partialTick) {
 		this.xPos = posX;
 		this.yPos = posY;
 		updateScreen();
@@ -234,16 +218,13 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 	}
 
 	@Override
-	public void onClose() {
-	}
+	public void onClose() {}
 
 	@Override
-	public void onOpen() {
-	}
+	public void onOpen() {}
 
 	@Override
-	public void handleMovementMouseDown(int mouseX, int mouseY, int button,
-		long timeDiff) {
+	public void handleMovementMouseDown(int mouseX, int mouseY, int button, long timeDiff) {
 		mouseClickMove(mouseX + xPos, mouseY + yPos, button, timeDiff);
 	}
 
@@ -253,6 +234,5 @@ public class GuiQuestNew extends GuiScreen implements IMHFCTab {
 	}
 
 	@Override
-	public void handleMovement(int mouseX, int mouseY) {
-	}
+	public void handleMovement(int mouseX, int mouseY) {}
 }

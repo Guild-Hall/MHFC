@@ -4,11 +4,11 @@ import java.io.IOException;
 
 import mhfc.net.common.quests.world.SpawnControllerAdapter.SpawnInformation;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
+import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.EmptyArea;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IExtendedConfiguration;
-import mhfc.net.common.world.gen.AreaTypeSchematic;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -29,9 +29,10 @@ public class TestAreaType extends AreaTypeSchematic {
 
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
-			player.posX = getChunkPosition().posX * 16 + 3;
-			player.posY = 8;
-			player.posZ = getChunkPosition().posY * 16 + 3;
+			double posX = getChunkPosition().posX * 16 + 3;
+			double posY = 8;
+			double posZ = getChunkPosition().posY * 16 + 3;
+			AreaTeleportation.moveEntity(player, posX, posY, posZ);
 		}
 
 		@Override

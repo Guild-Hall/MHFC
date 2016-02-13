@@ -21,7 +21,7 @@ import mhfc.net.common.quests.api.QuestGoalSocket;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.util.StagedFuture;
-import mhfc.net.common.world.AreaTeleporter;
+import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -153,7 +153,19 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 
 	protected void onAreaFinished(IActiveArea area) {
 		this.questingArea = Objects.requireNonNull(area);
-		// TODO trigger any event?
+		tryStart();
+	}
+
+	protected boolean canStart() {
+		boolean start = allVotes();
+		return start && this.questingArea != null;
+	}
+
+	private void tryStart() {
+		if (canStart()) {
+			onStart();
+			resetVotes();
+		}
 	}
 
 	protected void onFail() {
@@ -179,7 +191,7 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 		questGoal.setActive(true);
 		this.state = QuestState.running;
 		for (EntityPlayerMP player : playerAttributes.keySet()) {
-			AreaTeleporter.movePlayerToArea(player, questingArea.getArea());
+			AreaTeleportation.movePlayerToArea(player, questingArea.getArea());
 		}
 		updatePlayers();
 		resetVotes();
@@ -250,7 +262,7 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 			PacketPipeline.networkPipe.sendTo(new MessageQuestVisual(VisualType.PERSONAL_QUEST, "", null), att.player);
 			MHFCQuestRegistry.setQuestForPlayer(att.player, null);
 
-			AreaTeleporter.movePlayerToOverworld(player, att.posX, att.posY, att.posZ);
+			AreaTeleportation.movePlayerToOverworld(player, att.posX, att.posY, att.posZ);
 
 			playerAttributes.remove(player);
 		}
@@ -303,12 +315,7 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 	public void voteStart(EntityPlayerMP player) {
 		PlayerAttributes attributes = playerAttributes.get(player);
 		attributes.vote = true;
-
-		boolean start = allVotes();
-		if (start) {
-			onStart();
-			resetVotes();
-		}
+		tryStart();
 	}
 
 	private boolean allVotes() {
