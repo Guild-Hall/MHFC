@@ -21,21 +21,30 @@ import mhfc.net.common.quests.api.QuestGoalSocket;
 public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 	private class Timer implements Operation {
 		private int tickTime, initialTickTime;
+		private boolean isCancelled;
 
 		public Timer(int ticks) {
 			if (ticks < 0) {
 				throw new IllegalArgumentException("ticks must be greater than 0");
 			}
 			this.initialTickTime = this.tickTime = ticks;
+			isCancelled = false;
 		}
 
-		@Override
-		public void cancel() {
+		public void reset() {
 			tickTime = initialTickTime;
 		}
 
 		@Override
+		public void cancel() {
+			isCancelled = true;
+		}
+
+		@Override
 		public Operation resume(RunContext run) throws WorldEditException {
+			if (isCancelled) {
+				return null;
+			}
 			if (!TimeQuestGoal.this.active) {
 				return this;
 			}
@@ -87,7 +96,7 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 	@Override
 	public void reset() {
 		isFailed = false;
-		this.timer.cancel();
+		this.timer.reset();
 	}
 
 	@Override
@@ -113,6 +122,7 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 	@Override
 	public void questGoalFinalize() {
 		setActive(false);
+		timer.cancel();
 	}
 
 	@Override

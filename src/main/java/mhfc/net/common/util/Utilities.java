@@ -32,7 +32,6 @@ public class Utilities {
 	 * @param living
 	 */
 	public static void removeAttackers(EntityLiving living) {
-		@SuppressWarnings("unchecked")
 		List<EntityLiving> list = living.worldObj
 				.getEntitiesWithinAABB(EntityLiving.class, living.boundingBox.expand(16.0D, 10.0D, 16.0D));
 		for (EntityLiving attacker : list) {
@@ -123,16 +122,16 @@ public class Utilities {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <T, R> T[] mapAll(Function<? super R, T> func, R[] holders, IntFunction<T[]> arrNew) {
-		return (T[]) Arrays.stream(holders).sequential().map(func).toArray(arrNew);
+		return Arrays.stream(holders).sequential().map(func).toArray(arrNew);
 	}
 
 	public static BufferedInputStream inputStream(ResourceLocation location) throws IOException {
 		String pathToRes = "/assets/" + location.getResourceDomain() + "/" + location.getResourcePath();
 		InputStream instream = MHFCQuestBuildRegistry.class.getResourceAsStream(pathToRes);
-		if (instream == null)
+		if (instream == null) {
 			throw new IOException("File doesn't exist");
+		}
 		return new BufferedInputStream(instream);
 	}
 
