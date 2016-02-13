@@ -1,7 +1,5 @@
 package mhfc.net.common.world.area;
 
-import com.sk89q.worldedit.WorldEditException;
-
 import net.minecraft.world.World;
 
 public interface IAreaType {
@@ -11,17 +9,15 @@ public interface IAreaType {
 	 *
 	 * This implies generating the terrain, spawning structures but not necessarily spawning entities. On the contrary:
 	 * The entities should not be spawned until after the Area is being taken into use by a group of hunters.<br>
-	 * Returns the {@link IArea} that is later being used to interact with the generated instace of this
-	 * {@link IAreaType}.
+	 * Returns the {@link IAreaPlan} that is later being used to actually generate the structures.
 	 *
 	 * @param world
 	 *            the world
 	 * @param configuration
 	 *            the configuration previously returned from {@link #configForNewArea()}
-	 * @return the {@link IArea} controller.
-	 * @throws WorldEditException
+	 * @return the {@link IAreaPlan} to construct the area.
 	 */
-	IArea populate(World world, AreaConfiguration configuration) throws Exception;
+	IAreaPlan populate(World world, AreaConfiguration configuration);
 
 	IArea provideForLoading(World world);
 

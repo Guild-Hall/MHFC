@@ -6,13 +6,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
+import com.sk89q.worldedit.function.operation.Operation;
+
+import mhfc.net.common.eventhandler.MHFCTickHandler;
+import mhfc.net.common.eventhandler.TickPhase;
+import mhfc.net.common.util.Operations;
+import mhfc.net.common.util.StagedFuture;
 import mhfc.net.common.world.MHFCWorldData;
 import mhfc.net.common.world.MHFCWorldData.AreaInformation;
 import mhfc.net.common.world.area.ActiveAreaAdapter;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IArea;
+import mhfc.net.common.world.area.IAreaPlan;
 import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.world.World;
 
@@ -68,19 +77,24 @@ public class AreaManager implements IAreaManager {
 	}
 
 	@Override
-	public Active getUnusedInstance(IAreaType type) {
-		IArea chosen = nonactiveAreas.computeIfAbsent(type, (k) -> new ArrayList<>()).stream()
-				.filter(a -> !a.isUnusable()).findFirst().orElseGet(() -> {
-					try {
-						return newArea(type);
-					} catch (Exception e) {
-						throw new RuntimeException("WIP, Well thats life", e);
-					}
-				});
-		return new Active(chosen, type, this);
+	public StagedFuture<IActiveArea> getUnusedInstance(IAreaType type) {
+		Optional<IArea> chosen = nonactiveAreas.computeIfAbsent(type, (k) -> new ArrayList<>()).stream()
+				.filter(a -> !a.isUnusable()).findFirst();
+		if (chosen.isPresent()) {
+			return StagedFuture.wrap(CompletableFuture.completedFuture(new Active(chosen.get(), type, this)));
+		}
+		CompletableFuture<IActiveArea> area = new CompletableFuture<>();
+		final IAreaPlan plan = newArea(type);
+		final Operation op = plan.getFirstOperation();
+		// FIXME: maybe loop over a few more or less per tick, or with a timelimit, not a total
+		final Operation fewReps = Operations.limitedLoop(op, 2000);
+		MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_PRE, Operations.withCallback(fewReps, () -> {
+			area.complete(new Active(plan.getFinishedArea(), type, this));
+		}));
+		return StagedFuture.wrap(area);
 	}
 
-	private IArea newArea(IAreaType type) throws Exception {
+	private IAreaPlan newArea(IAreaType type) {
 		AreaConfiguration config = type.configForNewArea();
 		CornerPosition position = saveData.newArea(type, config);
 		// Clear the area
@@ -99,7 +113,7 @@ public class AreaManager implements IAreaManager {
 			}
 		}
 		config.setPosition(position);
-		IArea controller = type.populate(world, config);
-		return controller;
+		IAreaPlan plan = type.populate(world, config);
+		return plan;
 	}
 }

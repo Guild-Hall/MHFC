@@ -3,6 +3,7 @@ package mhfc.net.common.eventhandler;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.Executor;
 
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.function.operation.Operation;
@@ -57,6 +58,10 @@ public class MHFCTickHandler {
 				MHFCMain.logger.error("Exception when handling an operation", e);
 			}
 		});
+	}
+
+	public Executor poolFor(final TickPhase phase) {
+		return command -> registerRunnable(phase, command);
 	}
 
 	@SubscribeEvent

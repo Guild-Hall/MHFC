@@ -1,5 +1,6 @@
 package mhfc.net.common.world.controller;
 
+import mhfc.net.common.util.StagedFuture;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IAreaType;
@@ -14,8 +15,7 @@ public interface IAreaManager {
 	 * @param type
 	 *            the type of the requested area
 	 * @return an {@link IActiveArea} with an empty area that can be used for e.g. questing
-	 * @throws Exception 
+	 * @throws Exception
 	 */
-	IActiveArea getUnusedInstance(IAreaType type);
-
+	StagedFuture<IActiveArea> getUnusedInstance(IAreaType type);
 }

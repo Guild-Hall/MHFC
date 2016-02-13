@@ -8,6 +8,7 @@ import java.util.Map;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.quests.world.GlobalAreaManager;
 import mhfc.net.common.quests.world.QuestFlair;
+import mhfc.net.common.util.StagedFuture;
 import mhfc.net.common.util.world.WorldHelper;
 import mhfc.net.common.world.AreaTeleporter;
 import mhfc.net.common.world.area.AreaRegistry;
@@ -107,10 +108,15 @@ public class CommandTpHunterDimension implements ICommand {
 					MHFCMain.logger.debug("No area type found for " + areaName);
 					return;
 				}
-				try (IActiveArea active = GlobalAreaManager.instance.getUnusedInstance(areaType, QuestFlair.DAYTIME)) {
-					teleportPoints.put(player, WorldHelper.getVectorOfEntity(player));
-					AreaTeleporter.movePlayerToArea(player, active.getArea());
-				}
+				StagedFuture<IActiveArea> futureArea = GlobalAreaManager.instance
+						.getUnusedInstance(areaType, QuestFlair.DAYTIME);
+				sender.addChatMessage(new ChatComponentText("You will be teleported when the area is finished"));
+				futureArea.asCompletionStage().thenAccept((a) -> {
+					try (IActiveArea active = a) {
+						teleportPoints.put(player, WorldHelper.getVectorOfEntity(player));
+						AreaTeleporter.movePlayerToArea(player, active.getArea());
+					}
+				});
 			}
 			MHFCMain.logger.debug("Teleported to/from dimension " + questWorldID);
 		}

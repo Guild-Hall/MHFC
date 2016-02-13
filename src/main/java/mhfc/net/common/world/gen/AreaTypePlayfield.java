@@ -1,11 +1,17 @@
 package mhfc.net.common.world.gen;
 
+import com.sk89q.worldedit.WorldEditException;
+import com.sk89q.worldedit.function.operation.Operation;
+import com.sk89q.worldedit.function.operation.RunContext;
+
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.SpawnControllerAdapter;
 import mhfc.net.common.world.area.AreaAdapter;
 import mhfc.net.common.world.area.AreaConfiguration;
+import mhfc.net.common.world.area.AreaPlanAdapter;
 import mhfc.net.common.world.area.IArea;
+import mhfc.net.common.world.area.IAreaPlan;
 import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.area.IExtendedConfiguration;
 import mhfc.net.common.world.controller.CornerPosition;
@@ -91,17 +97,25 @@ public class AreaTypePlayfield implements IAreaType {
 	private int chunkSizeX, chunkSizeY;
 
 	@Override
-	public IArea populate(World world, AreaConfiguration configuration) {
+	public IAreaPlan populate(World world, AreaConfiguration configuration) {
 		int chunksX = configuration.getChunkSizeX();
 		int chunksZ = configuration.getChunkSizeZ();
-		for (int i = 0; i < 16 * chunksX; i++) {
-			for (int j = 0; j < 16 * chunksZ; j++) {
-				int x = configuration.getPosition().posX * 16 + i;
-				int z = configuration.getPosition().posY * 16 + j;
-				world.setBlock(x, 64, z, MHFCBlockRegistry.mhfcblockdirt);
+		return new AreaPlanAdapter(new AreaPlayfield(world, configuration), new Operation() {
+			@Override
+			public Operation resume(RunContext run) throws WorldEditException {
+				for (int i = 0; i < 16 * chunksX; i++) {
+					for (int j = 0; j < 16 * chunksZ; j++) {
+						int x = configuration.getPosition().posX * 16 + i;
+						int z = configuration.getPosition().posY * 16 + j;
+						world.setBlock(x, 64, z, MHFCBlockRegistry.mhfcblockdirt);
+					}
+				}
+				return null;
 			}
-		}
-		return new AreaPlayfield(world, configuration);
+
+			@Override
+			public void cancel() {}
+		});
 	}
 
 	@Override

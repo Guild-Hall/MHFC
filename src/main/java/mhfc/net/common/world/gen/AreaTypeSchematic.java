@@ -4,12 +4,11 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 
 import com.sk89q.worldedit.Vector;
-import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
+import com.sk89q.worldedit.function.operation.DelegateOperation;
 import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
-import com.sk89q.worldedit.function.operation.Operations;
-import com.sk89q.worldedit.function.operation.RunContext;
+import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.world.registry.LegacyWorldData;
@@ -17,8 +16,10 @@ import com.sk89q.worldedit.world.registry.WorldData;
 
 import mhfc.net.common.util.Utilities;
 import mhfc.net.common.world.area.AreaConfiguration;
+import mhfc.net.common.world.area.AreaPlanAdapter;
 import mhfc.net.common.world.area.DisplacedView;
 import mhfc.net.common.world.area.IArea;
+import mhfc.net.common.world.area.IAreaPlan;
 import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.area.IExtendedConfiguration;
 import mhfc.net.common.worldedit.WorldDisplacedView;
@@ -47,7 +48,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 	}
 
 	@Override
-	public final IArea populate(World world, AreaConfiguration configuration) throws WorldEditException {
+	public final IAreaPlan populate(World world, AreaConfiguration configuration) {
 		DisplacedView view = new DisplacedView(configuration.getPosition(), configuration, world);
 		WorldDisplacedView displacedWorld = new WorldDisplacedView(view);
 
@@ -56,11 +57,10 @@ public abstract class AreaTypeSchematic implements IAreaType {
 				clipboardRegion,
 				displacedWorld,
 				areaInformation.getMinimumPoint().subtract(absoluteMinimum));
-		RunContext def = new RunContext();
-		Operations.completeLegacy(copyOp.resume(def));
-		Operations.completeLegacy(displacedWorld.commit());
+		Operation commit = displacedWorld.commit();
+		Operation chain = commit == null ? copyOp : new DelegateOperation(commit, copyOp);
 
-		return onPopulate(world, configuration);
+		return new AreaPlanAdapter(onPopulate(world, configuration), chain);
 	}
 
 	@Override

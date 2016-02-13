@@ -20,6 +20,7 @@ import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.QuestFlair;
+import mhfc.net.common.util.StagedFuture;
 import mhfc.net.common.world.AreaTeleporter;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
@@ -87,6 +88,9 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 	protected QuestState state;
 	protected QuestGoal questGoal;
 
+	/**
+	 * Not set before the {@link StagedFuture} from that the area is retrieved from is complete.
+	 */
 	protected IActiveArea questingArea;
 
 	protected int reward;
@@ -99,12 +103,12 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 			int maxPartySize,
 			int reward,
 			int fee,
-			IActiveArea area,
+			StagedFuture<IActiveArea> area,
 			QuestDescription originalDescription) {
 		super(MHFCQuestBuildRegistry.QUEST_RUNNING);
 		this.playerAttributes = new HashMap<EntityPlayerMP, PlayerAttributes>();
 		this.questGoal = Objects.requireNonNull(goal);
-		this.questingArea = Objects.requireNonNull(area);
+		area.asCompletionStage().thenAccept(this::onAreaFinished);
 		goal.setSocket(this);
 
 		this.reward = reward;
@@ -145,6 +149,11 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 			onFail();
 		}
 		updatePlayers();
+	}
+
+	protected void onAreaFinished(IActiveArea area) {
+		this.questingArea = Objects.requireNonNull(area);
+		// TODO trigger any event?
 	}
 
 	protected void onFail() {
