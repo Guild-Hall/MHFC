@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 import mhfc.net.common.world.controller.CornerPosition;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
@@ -278,7 +279,12 @@ public class DisplacedView implements IWorldView {
 
 	@Override
 	public boolean spawnEntityAt(Entity entity, double x, double y, double z) {
-		entity.setLocationAndAngles(x + addX, y, z + addZ, 0, 0);
+		entity.worldObj = worldObj;
+		if (entity instanceof EntityLivingBase) {
+			((EntityLivingBase) entity).setPositionAndUpdate(x + addX, y, z + addZ);
+		} else {
+			entity.setLocationAndAngles(x + addX, y, z + addZ, 0, 0);
+		}
 		if (!worldObj.spawnEntityInWorld(entity))
 			return false;
 		return true;

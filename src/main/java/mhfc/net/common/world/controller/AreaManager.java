@@ -24,7 +24,11 @@ import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IAreaPlan;
 import mhfc.net.common.world.area.IAreaType;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.ForgeChunkManager.Type;
 
 public class AreaManager implements IAreaManager {
 
@@ -61,6 +65,7 @@ public class AreaManager implements IAreaManager {
 	protected Map<IAreaType, List<IArea>> nonactiveAreas = new HashMap<>();
 	private MHFCWorldData saveData;
 	protected final World world;
+	protected Ticket loadingTicket;
 
 	public AreaManager(World world, MHFCWorldData saveData) {
 		this.world = Objects.requireNonNull(world);
@@ -71,6 +76,7 @@ public class AreaManager implements IAreaManager {
 			loadingArea.loadFromConfig(info.config);
 			this.nonactiveAreas.computeIfAbsent(info.type, (k) -> new ArrayList<>()).add(loadingArea);
 		}
+		loadingTicket = ForgeChunkManager.requestTicket(MHFCMain.class, world, Type.NORMAL);
 	}
 
 	private void dismiss(IActiveArea active) {
@@ -85,35 +91,30 @@ public class AreaManager implements IAreaManager {
 			return StagedFuture.wrap(CompletableFuture.completedFuture(new Active(chosen.get(), type, this)));
 		}
 		CompletableFuture<IActiveArea> area = new CompletableFuture<>();
-		final IAreaPlan plan = newArea(type);
+		AreaConfiguration config = newArea(type);
+		CornerPosition position = config.getPosition();
+
+		final IAreaPlan plan = type.populate(world, config);
+		final ChunkCoordIntPair chunk = new ChunkCoordIntPair(position.posX, position.posY);
+		ForgeChunkManager.forceChunk(loadingTicket, chunk);
+
 		final Operation op = Operations.timingOperation(plan.getFirstOperation(), 20);
 		MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_PRE, Operations.withCallback(op, () -> {
 			area.complete(new Active(plan.getFinishedArea(), type, this));
+			ForgeChunkManager.unforceChunk(loadingTicket, chunk);
 			MHFCMain.logger.info("Area completed");
+		} , () -> {
+			ForgeChunkManager.unforceChunk(loadingTicket, chunk);
 		}));
 		return StagedFuture.wrap(area);
 	}
 
-	private IAreaPlan newArea(IAreaType type) {
+	private AreaConfiguration newArea(IAreaType type) {
 		AreaConfiguration config = type.configForNewArea();
 		CornerPosition position = saveData.newArea(type, config);
-		// Clear the area
-		for (int cX = 0; cX < config.getChunkSizeX(); cX++) {
-			for (int cZ = 0; cZ < config.getChunkSizeZ(); cZ++) {
-				if (world.getChunkFromChunkCoords(cX, cZ).isEmpty()) {
-					continue;
-				}
-				for (int x = 0; x < 16; x++) {
-					for (int y = 0; y < world.getActualHeight(); y++) {
-						for (int z = 0; z < 16; z++) {
-							world.setBlockToAir(x, y, z);
-						}
-					}
-				}
-			}
-		}
+
 		config.setPosition(position);
-		IAreaPlan plan = type.populate(world, config);
-		return plan;
+
+		return config;
 	}
 }

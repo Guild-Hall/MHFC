@@ -305,8 +305,8 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	}
 
 	/**
-	 * This method should be called by all methods removing entity from the area. It only handles the internal lists and
-	 * maps, not the actual world.
+	 * This method should be called by all methods removing entities from the area. It only handles the internal lists
+	 * and maps, not the actual world.
 	 */
 	protected boolean releaseEntity(Entity entity) {
 		if (!managedEntities.remove(entity))
