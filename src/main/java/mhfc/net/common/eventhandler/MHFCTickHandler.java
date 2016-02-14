@@ -20,11 +20,11 @@ public class MHFCTickHandler {
 
 	private DoubleBufferRunnableRegistry getQueueFor(TickPhase phase) {
 		phase = Objects.requireNonNull(phase);
-		return jobQueue.computeIfAbsent(phase, (p) -> new DoubleBufferRunnableRegistry());
+		return jobQueue.computeIfAbsent(phase, p -> new DoubleBufferRunnableRegistry());
 	}
 
 	public void registerRunnable(TickPhase phase, Runnable run) {
-		run = Objects.requireNonNull(run);
+		Objects.requireNonNull(run);
 		getQueueFor(phase).register(run);
 	}
 

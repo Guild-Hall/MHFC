@@ -86,10 +86,8 @@ public class AreaManager implements IAreaManager {
 		}
 		CompletableFuture<IActiveArea> area = new CompletableFuture<>();
 		final IAreaPlan plan = newArea(type);
-		final Operation op = plan.getFirstOperation();
-		// FIXME: maybe loop over a few more or less per tick, or with a timelimit, not a total
-		final Operation fewReps = Operations.limitedLoop(op, 4);
-		MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_PRE, Operations.withCallback(fewReps, () -> {
+		final Operation op = Operations.timingOperation(plan.getFirstOperation(), 20);
+		MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_PRE, Operations.withCallback(op, () -> {
 			area.complete(new Active(plan.getFinishedArea(), type, this));
 			MHFCMain.logger.info("Area completed");
 		}));

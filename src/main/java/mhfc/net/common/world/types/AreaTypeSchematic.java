@@ -58,7 +58,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 				"Starting to copy {} blocks in chunks of {}",
 				clipboardRegion.getArea(),
 				DIM_SIZE * DIM_SIZE * DIM_SIZE);
-		Operation copyOp = new RegionSplittingOperation(clipboardRegion, (region) -> {
+		Operation copyOp = new RegionSplittingOperation(clipboardRegion, region -> {
 			return new ForwardExtentCopy(
 					areaInformation,
 					region,
