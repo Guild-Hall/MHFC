@@ -31,7 +31,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 
 	private static WorldData forgeData = LegacyWorldData.getInstance();
 	private static ClipboardFormat format = ClipboardFormat.SCHEMATIC;
-	private static int COPY_SIZE = 10000;
+	private static int DIM_SIZE = 16;
 
 	protected Clipboard areaInformation;
 	protected Vector absoluteMinimum;
@@ -54,15 +54,17 @@ public abstract class AreaTypeSchematic implements IAreaType {
 		DisplacedView view = new DisplacedView(configuration.getPosition(), configuration, world);
 		WorldDisplacedView displacedWorld = new WorldDisplacedView(view);
 
-		MHFCMain.logger.debug("Starting to copy {} blocks in chunks of {}", clipboardRegion.getArea(), COPY_SIZE);
+		MHFCMain.logger.debug(
+				"Starting to copy {} blocks in chunks of {}",
+				clipboardRegion.getArea(),
+				DIM_SIZE * DIM_SIZE * DIM_SIZE);
 		Operation copyOp = new RegionSplittingOperation(clipboardRegion, (region) -> {
-			MHFCMain.logger.info("Performing Copy operation for {} blocks", region.getArea());
 			return new ForwardExtentCopy(
 					areaInformation,
 					region,
 					displacedWorld,
 					region.getMinimumPoint().subtract(absoluteMinimum));
-		} , COPY_SIZE);
+		} , DIM_SIZE);
 		Operation commit = displacedWorld.commit();
 		Operation chain = commit == null ? copyOp : new DelegateOperation(commit, copyOp);
 

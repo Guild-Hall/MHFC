@@ -4,49 +4,45 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Function;
 
+import javax.xml.ws.Holder;
+
 import com.sk89q.worldedit.WorldEditException;
+import com.sk89q.worldedit.function.operation.DelegateOperation;
 import com.sk89q.worldedit.function.operation.Operation;
-import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.function.operation.RunContext;
 import com.sk89q.worldedit.regions.CuboidRegion;
 
-import mhfc.net.common.util.ExceptionLessFunctions;
-
 public class RegionSplittingOperation implements Operation {
 
-	private Queue<RegionSpliterator> regionSplitter;
+	private Queue<RegionSpliterator> regionsSplitter;
 	private Function<CuboidRegion, Operation> generator;
-	private int maxSize;
 
-	public RegionSplittingOperation(CuboidRegion region, Function<CuboidRegion, Operation> generator, int maxSize) {
-		this.regionSplitter = new LinkedList<>();
-		this.regionSplitter.add(new RegionSpliterator(region));
+	public RegionSplittingOperation(CuboidRegion region, Function<CuboidRegion, Operation> generator, int minSize) {
+		this.regionsSplitter = new LinkedList<>();
+		regionsSplitter.add(new RegionSpliterator(region, minSize));
 		this.generator = generator;
-		this.maxSize = maxSize;
 	}
 
 	@Override
 	public Operation resume(RunContext run) throws WorldEditException {
-		RegionSpliterator toSplit = regionSplitter.poll();
-		while (maxSize < toSplit.estimateBlocksAtOnce()) {
-			RegionSpliterator split = toSplit.trySplit();
-			if (split == null) {
-				break;
-			}
-			regionSplitter.add(split);
+		RegionSpliterator polled = regionsSplitter.poll();
+		assert (polled != null);
+		RegionSpliterator splitOff;
+		// Force a split
+		while ((splitOff = polled.trySplit()) != null) {
+			regionsSplitter.add(splitOff);
 		}
-		if (toSplit.tryAdvance(ExceptionLessFunctions.uncheckedConsumer(e -> {
-			Operation op = generator.apply(e);
-			Operations.complete(op);
-		}))) {
-			regionSplitter.add(toSplit);
+		final Holder<Operation> op = new Holder<>();
+		if (polled.tryAdvance(e -> {
+			op.value = generator.apply(e);
+		})) {
+			regionsSplitter.add(polled);
+			return new DelegateOperation(this, op.value);
 		}
-		return regionSplitter.isEmpty() ? null : this;
+		return regionsSplitter.isEmpty() ? null : this;
 	}
 
 	@Override
-	public void cancel() {
-		regionSplitter.clear();
-	}
+	public void cancel() {}
 
 }
