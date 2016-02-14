@@ -10,6 +10,8 @@ import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.function.operation.RunContext;
 import com.sk89q.worldedit.regions.CuboidRegion;
 
+import mhfc.net.common.util.ExceptionLessFunctions;
+
 public class RegionSplittingOperation implements Operation {
 
 	private Queue<RegionSpliterator> regionSplitter;
@@ -28,16 +30,15 @@ public class RegionSplittingOperation implements Operation {
 		RegionSpliterator toSplit = regionSplitter.poll();
 		while (maxSize < toSplit.estimateBlocksAtOnce()) {
 			RegionSpliterator split = toSplit.trySplit();
-			if (split == null)
+			if (split == null) {
 				break;
+			}
 			regionSplitter.add(split);
 		}
-		if (toSplit.tryAdvance((e) -> {
+		if (toSplit.tryAdvance(ExceptionLessFunctions.uncheckedConsumer(e -> {
 			Operation op = generator.apply(e);
-			try {
-				Operations.complete(op);
-			} catch (Exception e1) {}
-		})) {
+			Operations.complete(op);
+		}))) {
 			regionSplitter.add(toSplit);
 		}
 		return regionSplitter.isEmpty() ? null : this;
