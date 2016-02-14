@@ -41,7 +41,6 @@ public class MHFCRegQuestVisual {
 
 		@Override
 		public IMessage onMessage(MessageQuestVisual message, MessageContext ctx) {
-			MHFCMain.logger.debug("Received visual for " + message.getMessageIdentifier());
 			IVisualInformation visual = getInformationFromMessage(message);
 			switch (message.getMessageType()) {
 			case PERSONAL_QUEST:
@@ -59,7 +58,6 @@ public class MHFCRegQuestVisual {
 		@Override
 		public IMessage onMessage(MessageQuestInit message, MessageContext ctx) {
 			clientDataObject = message.getQuestDescriptionData();
-			MHFCMain.logger.debug("Client received quest info from server");
 			MHFCRegQuestVisual.logStats(clientDataObject);
 			return null;
 		}

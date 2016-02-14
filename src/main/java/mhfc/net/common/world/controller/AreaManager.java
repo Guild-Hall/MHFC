@@ -11,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
 
 import com.sk89q.worldedit.function.operation.Operation;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.eventhandler.MHFCTickHandler;
 import mhfc.net.common.eventhandler.TickPhase;
 import mhfc.net.common.util.Operations;
@@ -87,9 +88,10 @@ public class AreaManager implements IAreaManager {
 		final IAreaPlan plan = newArea(type);
 		final Operation op = plan.getFirstOperation();
 		// FIXME: maybe loop over a few more or less per tick, or with a timelimit, not a total
-		final Operation fewReps = Operations.limitedLoop(op, 2000);
+		final Operation fewReps = Operations.limitedLoop(op, 4);
 		MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_PRE, Operations.withCallback(fewReps, () -> {
 			area.complete(new Active(plan.getFinishedArea(), type, this));
+			MHFCMain.logger.info("Area completed");
 		}));
 		return StagedFuture.wrap(area);
 	}

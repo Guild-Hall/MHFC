@@ -22,7 +22,7 @@ public class Operations {
 				if (current == null) {
 					runnable.run();
 				}
-				return current;
+				return current == null ? null : this;
 			}
 
 			@Override
@@ -59,8 +59,8 @@ public class Operations {
 						break;
 					}
 				}
-				System.out.println("Trace");
-				return current;
+				// System.out.println("Trace");
+				return current == null ? null : this;
 			}
 
 			@Override

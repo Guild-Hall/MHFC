@@ -113,6 +113,7 @@ public class CommandTpHunterDimension implements ICommand {
 				sender.addChatMessage(new ChatComponentText("You will be teleported when the area is finished"));
 				futureArea.asCompletionStage().thenAccept((a) -> {
 					try (IActiveArea active = a) {
+						MHFCMain.logger.info("Teleporting");
 						teleportPoints.put(player, WorldHelper.getVectorOfEntity(player));
 						AreaTeleportation.movePlayerToArea(player, active.getArea());
 					}

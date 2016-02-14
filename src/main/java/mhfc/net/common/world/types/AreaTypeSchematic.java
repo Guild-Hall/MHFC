@@ -10,10 +10,10 @@ import com.sk89q.worldedit.function.operation.DelegateOperation;
 import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.regions.CuboidRegion;
-import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.world.registry.LegacyWorldData;
 import com.sk89q.worldedit.world.registry.WorldData;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.util.Utilities;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.AreaPlanAdapter;
@@ -22,6 +22,7 @@ import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IAreaPlan;
 import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.area.IExtendedConfiguration;
+import mhfc.net.common.worldedit.RegionSplittingOperation;
 import mhfc.net.common.worldedit.WorldDisplacedView;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -30,10 +31,11 @@ public abstract class AreaTypeSchematic implements IAreaType {
 
 	private static WorldData forgeData = LegacyWorldData.getInstance();
 	private static ClipboardFormat format = ClipboardFormat.SCHEMATIC;
+	private static int COPY_SIZE = 10000;
 
 	protected Clipboard areaInformation;
 	protected Vector absoluteMinimum;
-	protected Region clipboardRegion;
+	protected CuboidRegion clipboardRegion;
 
 	public AreaTypeSchematic(ResourceLocation schematicLocation) throws IOException {
 		try (BufferedInputStream instream = Utilities.inputStream(schematicLocation)) {
@@ -52,11 +54,15 @@ public abstract class AreaTypeSchematic implements IAreaType {
 		DisplacedView view = new DisplacedView(configuration.getPosition(), configuration, world);
 		WorldDisplacedView displacedWorld = new WorldDisplacedView(view);
 
-		ForwardExtentCopy copyOp = new ForwardExtentCopy(
-				areaInformation,
-				clipboardRegion,
-				displacedWorld,
-				areaInformation.getMinimumPoint().subtract(absoluteMinimum));
+		MHFCMain.logger.debug("Starting to copy {} blocks in chunks of {}", clipboardRegion.getArea(), COPY_SIZE);
+		Operation copyOp = new RegionSplittingOperation(clipboardRegion, (region) -> {
+			MHFCMain.logger.info("Performing Copy operation for {} blocks", region.getArea());
+			return new ForwardExtentCopy(
+					areaInformation,
+					region,
+					displacedWorld,
+					region.getMinimumPoint().subtract(absoluteMinimum));
+		} , COPY_SIZE);
 		Operation commit = displacedWorld.commit();
 		Operation chain = commit == null ? copyOp : new DelegateOperation(commit, copyOp);
 
