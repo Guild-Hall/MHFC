@@ -45,7 +45,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
 			.setBaseValue(1.3D);
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-			healthbaseHP(12500D, 25000D, 50000D));
+			healthbaseHP(26839D, 25000D, 50000D));
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(
 			35D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(

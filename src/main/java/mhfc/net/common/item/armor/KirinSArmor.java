@@ -71,12 +71,7 @@ public class KirinSArmor extends ItemArmor {
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
 			String type) {
-		if (!(entity instanceof EntityPlayer))
-			return MHFCReference.armor_null_tex;
-
-		EntityPlayer player = (EntityPlayer) entity;
-		if (!DonatorSystem.checkKirinS(player))
-			return MHFCReference.armor_null_tex;
+	
 		if (stack.getItem() == MHFCItemRegistry.armor_kirinS_helm
 				|| stack.getItem() == MHFCItemRegistry.armor_kirinS_chest
 				|| stack.getItem() == MHFCItemRegistry.armor_kirinS_boots) {

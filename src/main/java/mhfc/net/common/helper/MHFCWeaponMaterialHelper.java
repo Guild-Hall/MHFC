@@ -21,11 +21,11 @@ public class MHFCWeaponMaterialHelper {
 
 	// GreatSword
 	public static final ToolMaterial GSBoneBlade = EnumHelper.addToolMaterial         ("BoneBlade", 3, durA, defaulteffiency, 14, enchA);
-	public static final ToolMaterial GSTigrex = EnumHelper.addToolMaterial            ("GSTigrex" , 3, durB, defaulteffiency, 47, enchA);
-	public static final ToolMaterial GSKirin = EnumHelper.addToolMaterial             ("kirin"    , 3, durC, defaulteffiency, 52, enchA);
-	public static final ToolMaterial GSRathalos = EnumHelper.addToolMaterial          ("rath"     , 3, durC, defaulteffiency, 64, enchA);
-	public static final ToolMaterial GSDeviljho = EnumHelper.addToolMaterial          ("gsdjho"   , 3, 5000, defaulteffiency, 102, enchA);
-	public static final ToolMaterial GSDeadlySerpentBlade = EnumHelper.addToolMaterial("deadly"   , 3, durC, defaulteffiency, 41, enchA);
+	public static final ToolMaterial GSTigrex = EnumHelper.addToolMaterial            ("GSTigrex" , 3, durB, defaulteffiency, 42, enchA);
+	public static final ToolMaterial GSKirin = EnumHelper.addToolMaterial             ("kirin"    , 3, durC, defaulteffiency, 46, enchA);
+	public static final ToolMaterial GSRathalos = EnumHelper.addToolMaterial          ("rath"     , 3, durC, defaulteffiency, 51, enchA);
+	public static final ToolMaterial GSDeviljho = EnumHelper.addToolMaterial          ("gsdjho"   , 3, 5000, defaulteffiency, 70, enchA);
+	public static final ToolMaterial GSDeadlySerpentBlade = EnumHelper.addToolMaterial("deadly"   , 3, durC, defaulteffiency, 35, enchA);
 
 	/**
 	 * 
@@ -58,10 +58,10 @@ public class MHFCWeaponMaterialHelper {
 	public static final ToolMaterial LSIKGospel = EnumHelper.addToolMaterial           ("ik3"         , 3, durB, defaulteffiency, 40, enchA);
 	
 	// Saber Tree
-	public static final ToolMaterial LSSaber = EnumHelper.addToolMaterial              ("LSSaber"     , 3, durC, defaulteffiency, 56, enchA);
-	public static final ToolMaterial LSLionDanceSaber = EnumHelper.addToolMaterial     ("LSSaber1"    , 3, durC, defaulteffiency, 73, enchA);
-	public static final ToolMaterial LSLionKingSaber = EnumHelper.addToolMaterial      ("LSSaber2"    , 3, durC, defaulteffiency, 90, enchA);
-	public static final ToolMaterial LSLionKaiserSaber = EnumHelper.addToolMaterial    ("LSSaber3"    , 3, durD, defaulteffiency, 107, enchA);
+	public static final ToolMaterial LSSaber = EnumHelper.addToolMaterial              ("LSSaber"     , 3, durC, defaulteffiency, 21, enchA);
+	public static final ToolMaterial LSLionDanceSaber = EnumHelper.addToolMaterial     ("LSSaber1"    , 3, durC, defaulteffiency, 34, enchA);
+	public static final ToolMaterial LSLionKingSaber = EnumHelper.addToolMaterial      ("LSSaber2"    , 3, durC, defaulteffiency, 51, enchA);
+	public static final ToolMaterial LSLionKaiserSaber = EnumHelper.addToolMaterial    ("LSSaber3"    , 3, durD, defaulteffiency, 68, enchA);
 	
 	// Eager Cleaver Tree
 	public static final ToolMaterial LSEagerCleaver = EnumHelper.addToolMaterial       ("eagercleaver", 3, durC, defaulteffiency, 46, enchA);
