@@ -53,27 +53,12 @@ public class LongswordClass extends WeaponMelee implements iWeaponReach {
        EntityPlayer par3 = (EntityPlayer)entityLiving;
 
   
-         for (int i = 0; i < 10; i++) {
-          par3.worldObj.spawnParticle("enchantmenttable", par3.posX, par3.posY, par3.posZ, itemRand.nextGaussian(), itemRand.nextGaussian(), itemRand.nextGaussian());
+         for (int i = 0; i < 6; i++) {
+          par3.worldObj.spawnParticle("lava", par3.posX, par3.posY, par3.posZ, itemRand.nextGaussian(), itemRand.nextGaussian(), itemRand.nextGaussian());
          }
-        Random random = new Random();
-         Vec3 look = par3.getLookVec();
-        double posX = par3.posX + look.xCoord * 1.0D;
-        double posY = par3.posY + look.yCoord * 1.0D;
-         double posZ = par3.posZ + look.zCoord * 1.0D;
-         double X = look.xCoord * 0.1D;
-         double Y = look.yCoord * 0.1D;
-         double Z = look.zCoord * 0.1D;
-         
+       
  
-       for (int i = 0; i < 100; i++) {
-         for (int z = 0; z < 10; z++) {
-          par3.worldObj.spawnParticle("lava", posX + X * 1.1D, posY + Y * 1.1D, posZ + Z * 1.1D, random.nextInt(10) / 10 - 0.2D, random.nextInt(10) / 10 - 0.2D, random.nextInt(10) / 10 - 0.2D);
-        }
-     par3.worldObj.spawnParticle("lava", posX + X * 1.1D, posY + Y * 1.1D, posZ + Z * 1.1D, random.nextInt(10) / 10 - 0.2D, random.nextInt(10) / 10 - 0.2D, random.nextInt(10) / 10 - 0.2D);
-         }
-         par3.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1009, (int)par3.posX, (int)par3.posY, (int)par3.posZ, 0);
-      
+    
       }
      
      return false;
