@@ -44,6 +44,11 @@ public abstract class WeaponMelee extends ItemSword implements iWeaponCluster {
 	protected boolean enableCooldownDisplay;
 	protected double getDamageAnalysis;
 	
+	public float getDamageB;
+	
+	public int counter;
+	public int hits = 0;
+	
 	public boolean poisontype, firetype, icetype, watertype, dragontype, thundertype, blighttype, windtype;
 
 	public WeaponMelee(ComponentMelee weaponf) {
@@ -56,6 +61,7 @@ public abstract class WeaponMelee extends ItemSword implements iWeaponCluster {
 		meleecomp.setItem(this);
 		meleecomp.setThisItemProperties();
 		getDamageAnalysis = 0;
+		getDamageB = meleecomp.attackBase;
 	}
 
 	

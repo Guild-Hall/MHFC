@@ -1,19 +1,16 @@
 package mhfc.net.common.weapon.melee.longsword;
 
-import java.util.Random;
-
 import mhfc.net.common.helper.MHFCWeaponClassingHelper;
 import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.weapon.ComponentMelee;
 import mhfc.net.common.weapon.ComponentMelee.WeaponSpecs;
 import mhfc.net.common.weapon.melee.WeaponMelee;
 import mhfc.net.common.weapon.melee.iWeaponReach;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class LongswordClass extends WeaponMelee implements iWeaponReach {
@@ -29,21 +26,29 @@ public class LongswordClass extends WeaponMelee implements iWeaponReach {
 	}
 
 	@Override
-	public boolean hitEntity(ItemStack stack, EntityLivingBase ent,
-			EntityLivingBase par3) {
-		// player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30, 1));
-
-		if (poisontype)
-			ent.addPotionEffect(new PotionEffect(Potion.poison.id, 30,
-					amplified));
+	public boolean hitEntity(ItemStack stack, EntityLivingBase ent,EntityLivingBase par3) {
+		if (counter < 60) {
+			hits += 1;
+			counter = 0;
+		}else {
+			hits = 0;
+			counter = 0;
+		}
 
 		meleecomp.hitEntity(stack, ent, par3);
 		return true;
 	}
 
+	
 	@Override
-	public float getExtendedReach(World world, EntityLivingBase living, ItemStack itemstack) {
-		return 6;
+	public void onUpdate(ItemStack stack, World world, Entity entity, int par4, boolean par5){
+		EntityPlayer player = (EntityPlayer)entity;
+		ItemStack equipped = player.getCurrentEquippedItem();
+		if (equipped == stack) {
+			if (this.hits > 15) {
+				meleecomp.setDamageEntity(meleecomp.getEntityDamage() - 30);
+			}
+		}
 	}
 	
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
@@ -58,4 +63,10 @@ public class LongswordClass extends WeaponMelee implements iWeaponReach {
      
      return false;
    }
+	
+	
+	@Override
+	public float getExtendedReach(World world, EntityLivingBase living, ItemStack itemstack) {
+		return 6;
+	}
 }

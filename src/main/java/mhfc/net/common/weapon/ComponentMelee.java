@@ -25,7 +25,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ComponentMelee extends AbstractWeaponClass {
 	public final WeaponSpecs weaponSpecs;
 	public final Item.ToolMaterial weaponMaterial;
-
+	public float attackBase, damageMult, blockDamage, fencerate;
 	public ComponentMelee(WeaponSpecs meleespecs, Item.ToolMaterial toolmaterial) {
 		weaponSpecs = meleespecs;
 		weaponMaterial = toolmaterial;
@@ -56,6 +56,10 @@ public class ComponentMelee extends AbstractWeaponClass {
 	@Override
 	public float getEntityDamage() {
 		return weaponSpecs.attackBase + getEntityDamageMaterialPart();
+	}
+	
+	public float setDamageEntity(float damage){
+		return attackBase = damage;
 	}
 
 	@Override
@@ -222,7 +226,7 @@ public class ComponentMelee extends AbstractWeaponClass {
 		public final int durabilityBase;
 		public final float durabilityMult;
 
-		public final float attackBase, damageMult, blockDamage, fencerate;
+		public float attackBase, damageMult, blockDamage, fencerate;
 
 		public final int damageincome, dmgFromBlock;
 
