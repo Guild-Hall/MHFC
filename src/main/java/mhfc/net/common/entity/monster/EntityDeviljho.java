@@ -1,7 +1,16 @@
 package mhfc.net.common.entity.monster;
 
+import org.lwjgl.opengl.GL11;
+
+import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
+
 import mhfc.net.common.ai.AIActionManager;
-import mhfc.net.common.ai.entity.deviljho.*;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoBiteA;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoBiteB;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoIdle;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoMovetoTarget;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoRoar;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoTailWhip;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.block.Block;
@@ -10,17 +19,12 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-import org.lwjgl.opengl.GL11;
-
-import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
-
 public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 
 	public EntityDeviljho(World WORLD) {
 		super(WORLD);
 		setSize(7, 5);
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
-			EntityPlayer.class, 0, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 
 		AIActionManager<EntityDeviljho> attackManager = getAIActionManager();
 		attackManager.registerAttack(new DeviljhoIdle());
@@ -29,7 +33,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		attackManager.registerAttack(new DeviljhoBiteA());
 		attackManager.registerAttack(new DeviljhoBiteB());
 		attackManager.registerAttack(new DeviljhoTailWhip());
-	//    attackManager.registerAttack(new DeviljhoWander());
+		//    attackManager.registerAttack(new DeviljhoWander());
 	}
 
 	@Override
@@ -40,36 +44,29 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getAttributeMap().getAttributeInstance(
-			SharedMonsterAttributes.followRange).setBaseValue(128d);
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
-			.setBaseValue(1.3D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-			healthbaseHP(17432D, 23874D, 29100D));
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(
-			35D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(
-			0.32D);
+		getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
+		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(17432D, 23874D, 29100D));
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.32D);
 	}
 
 	@Override
-	public RenderPassInformation preRenderCallback(float scale,
-		RenderPassInformation sub) {
+	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
 		GL11.glScaled(3.5, 3.5, 3.5);
 		return super.preRenderCallback(scale, sub);
 
 	}
-	
+
 	@Override
 	protected String getLivingSound() {
 
-		return "mhfc:deviljho-idle";
+		return "mhfc:deviljho.idle";
 	}
-	
+
 	@Override
-	protected void func_145780_a(int p_145780_1_, int p_145780_2_,
-		int p_145780_3_, Block p_145780_4_) {
-		this.playSound("mhfc:deviljho-step", 1.0F, 1.0F);
+	protected void func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_) {
+		this.playSound("mhfc:deviljho.step", 1.0F, 1.0F);
 	}
 
 }

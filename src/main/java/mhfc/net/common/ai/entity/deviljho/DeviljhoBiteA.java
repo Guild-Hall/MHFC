@@ -31,12 +31,14 @@ public class DeviljhoBiteA extends ActionAdapter<EntityDeviljho> {
 	public float getWeight() {
 		EntityDeviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
-		if (target == null)
+		if (target == null) {
 			return DONT_SELECT;
+		}
 		Vec3 toTarget = WorldHelper.getVectorToTarget(entity, target);
 		double dist = toTarget.lengthVector();
-		if (dist > MAX_DIST)
+		if (dist > MAX_DIST) {
 			return DONT_SELECT;
+		}
 		// if (toTarget.normalize().dotProduct(entity.getLookVec()) <
 		// MAX_ANGLE)return DONT_SELECT;
 		return WEIGHT;
@@ -45,7 +47,7 @@ public class DeviljhoBiteA extends ActionAdapter<EntityDeviljho> {
 	@Override
 	public void update() {
 		if (this.getCurrentFrame() == 25) {
-			getEntity().playSound("mhfc:deviljho-bite", 1.0F, 1.0F);
+			getEntity().playSound("mhfc:deviljho.bite", 1.0F, 1.0F);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			EntityDeviljho e = getEntity();

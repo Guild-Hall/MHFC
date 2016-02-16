@@ -6,23 +6,21 @@ import mhfc.net.common.ai.general.provider.ISelectionPredicate;
 import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.monster.EntityBarroth;
 
-public class BarrothRoar extends AIGeneralRoar<EntityBarroth>{
+public class BarrothRoar extends AIGeneralRoar<EntityBarroth> {
 	private static final int LAST_FRAME = 105;
 
 	public BarrothRoar() {
-		super(generateProvider());
+		super(BarrothRoar.generateProvider());
 	}
 
 	private static IRoarProvider<EntityBarroth> generateProvider() {
 		IAnimationProvider anim = new IAnimationProvider.AnimationAdapter(
-			"mhfc:models/Barroth/BarrothRoar.mcanm", LAST_FRAME);
+				"mhfc:models/Barroth/BarrothRoar.mcanm",
+				LAST_FRAME);
 		ISelectionPredicate<EntityBarroth> select = new ISelectionPredicate.SelectAlways<EntityBarroth>();
-		IWeightProvider<EntityBarroth> weight = new IWeightProvider.RandomWeightAdapter<>(
-			1F);
-		IRoarSoundProvider roar = new IRoarSoundProvider.RoarSoundAdapter(
-			"mhfc:barroth-roar");
-		IRoarProvider<EntityBarroth> provide = new AIGeneralRoar.RoarAdapter<>(
-			anim, select, weight, roar);
+		IWeightProvider<EntityBarroth> weight = new IWeightProvider.RandomWeightAdapter<>(1F);
+		IRoarSoundProvider roar = new IRoarSoundProvider.RoarSoundAdapter("mhfc:barroth.roar");
+		IRoarProvider<EntityBarroth> provide = new AIGeneralRoar.RoarAdapter<>(anim, select, weight, roar);
 		return provide;
 	}
 

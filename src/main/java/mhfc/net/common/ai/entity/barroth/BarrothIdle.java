@@ -24,7 +24,9 @@ public class BarrothIdle extends ActionAdapter<EntityBarroth> {
 	@Override
 	public void update() {
 		EntityBarroth entity = this.getEntity();
-		entity.playLivingSound();
+		if (this.getCurrentFrame() == 50) {
+			entity.playLivingSound();
+		}
 		// just a copy from roar the update method. nothing else
 	}
 }

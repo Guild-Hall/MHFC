@@ -16,15 +16,13 @@ import net.minecraft.util.Vec3;
  */
 public class TigrexBite extends ActionAdapter<EntityTigrex> {
 	private static final int LAST_FRAME = 55;
-	private static final IDamageCalculator damageCalc = AIUtils
-		.defaultDamageCalc(44f, 62f, 1600f);
+	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(44f, 62f, 1600f);
 
 	private static final double MAX_DIST = 5f;
 	private static final double MAX_ANGLE = 0.155; // This is cos(30)
 	private static final float WEIGHT = 15;
 
-	public TigrexBite() {
-	}
+	public TigrexBite() {}
 
 	@Override
 	protected void beginExecution() {
@@ -36,21 +34,24 @@ public class TigrexBite extends ActionAdapter<EntityTigrex> {
 	public float getWeight() {
 		EntityTigrex tigrex = this.getEntity();
 		target = tigrex.getAttackTarget();
-		if (target == null)
+		if (target == null) {
 			return DONT_SELECT;
+		}
 		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
 		double dist = toTarget.lengthVector();
-		if (dist > MAX_DIST)
+		if (dist > MAX_DIST) {
 			return DONT_SELECT;
-		if (toTarget.normalize().dotProduct(tigrex.getLookVec()) < MAX_ANGLE)
+		}
+		if (toTarget.normalize().dotProduct(tigrex.getLookVec()) < MAX_ANGLE) {
 			return DONT_SELECT;
+		}
 		return WEIGHT;
 	}
 
 	@Override
 	public void update() {
 		if (this.getCurrentFrame() == 23) {
-			getEntity().playSound("mhfc:tigrex-bite", 1.0F, 1.0F);
+			getEntity().playSound("mhfc:tigrex.bite", 1.0F, 1.0F);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			EntityTigrex tig = getEntity();

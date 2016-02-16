@@ -1,7 +1,18 @@
 package mhfc.net.common.entity.monster;
 
+import org.lwjgl.opengl.GL11;
+
+import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
+
 import mhfc.net.common.ai.AIActionManager;
-import mhfc.net.common.ai.entity.tigrex.*;
+import mhfc.net.common.ai.entity.tigrex.TigrexBite;
+import mhfc.net.common.ai.entity.tigrex.TigrexGroundHurl;
+import mhfc.net.common.ai.entity.tigrex.TigrexIdle;
+import mhfc.net.common.ai.entity.tigrex.TigrexJump;
+import mhfc.net.common.ai.entity.tigrex.TigrexRoar;
+import mhfc.net.common.ai.entity.tigrex.TigrexRun;
+import mhfc.net.common.ai.entity.tigrex.TigrexWander;
+import mhfc.net.common.ai.entity.tigrex.TigrexWhip;
 import mhfc.net.common.ai.general.TurnAttack;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -12,10 +23,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-
-import org.lwjgl.opengl.GL11;
-
-import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 
 public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
@@ -43,23 +50,17 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		// TODO enable this when Popos are a thing again
 		// targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
 		// EntityPopo.class, 0, true));
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
-			EntityPlayer.class, 0, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 	}
 
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getAttributeMap().getAttributeInstance(
-			SharedMonsterAttributes.followRange).setBaseValue(128d);
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
-			.setBaseValue(1.3D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-			healthbaseHP(7164D, 9722D, 17410D));
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(
-			35D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(
-			0.3D);
+		getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
+		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(7164D, 9722D, 17410D));
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
 	}
 
 	@Override
@@ -87,8 +88,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	}
 
 	@Override
-	public RenderPassInformation preRenderCallback(float scale,
-		RenderPassInformation sub) {
+	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
 		GL11.glScaled(1.9, 1.9, 1.9);
 		return super.preRenderCallback(scale, sub);
 
@@ -96,8 +96,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	@Override
 	protected String getLivingSound() {
-
-		return "mhfc:tigrex-idle";
+		return "mhfc:tigrex.idle";
 	}
 
 	@Override
@@ -117,8 +116,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	}
 
 	@Override
-	protected void func_145780_a(int p_145780_1_, int p_145780_2_,
-		int p_145780_3_, Block p_145780_4_) {
-		this.playSound("mhfc:tigrex-step", 1.0F, 1.0F);
+	protected void func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_) {
+		this.playSound("mhfc:tigrex.step", 1.0F, 1.0F);
 	}
 }

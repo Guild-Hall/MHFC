@@ -19,8 +19,7 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 
 	private static final double RUN_SPEED = 1.4;
 	private static final double STOP_SPEED = 0.7;
-	private static final IDamageCalculator damageCalc = AIUtils
-		.defaultDamageCalc(28f, 62f, 1000f);
+	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(28f, 62f, 1000f);
 
 	private static enum PastEntityEnum {
 		NOT_PASSED,
@@ -47,8 +46,9 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 
 			@Override
 			public AttackPhase next(TigrexRun attk) {
-				if (attk.target == null)
+				if (attk.target == null) {
 					return STOPPED;
+				}
 				if (attk.getCurrentFrame() < runningStarts) {
 					return START;
 				}
@@ -58,27 +58,22 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 		RUNNING(true) {
 			@Override
 			public void onPhaseStart(TigrexRun attk) {
-				attk.getEntity().getTurnHelper().updateTurnSpeed(
-					TURN_RATE_DURING_RUN);
+				attk.getEntity().getTurnHelper().updateTurnSpeed(TURN_RATE_DURING_RUN);
 				attk.framesRunning = 0;
 			}
 
 			@Override
 			public void update(TigrexRun attk) {
 				EntityTigrex tigrex = attk.getEntity();
-				Vec3 tigPos = Vec3.createVectorHelper(tigrex.posX, tigrex.posY,
-					tigrex.posZ);
-				Vec3 vecToTarget = tigPos.subtract(WorldHelper.getEntityVector(
-					attk.target));
+				Vec3 tigPos = Vec3.createVectorHelper(tigrex.posX, tigrex.posY, tigrex.posZ);
+				Vec3 vecToTarget = tigPos.subtract(WorldHelper.getEntityVector(attk.target));
 				tigrex.getTurnHelper().updateTargetPoint(attk.target);
 				tigrex.moveForward(RUN_SPEED, true);
 				Vec3 look = tigrex.getLookVec();
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
-				boolean ranLongEnough = attk.runStartPoint.subtract(tigPos)
-					.lengthVector() > MAX_RUN_DISTANCE
-					|| attk.framesRunning > MAX_RUN_FRAMES;
-				if ((tarBeh || ranLongEnough)
-					&& attk.hasPassed == PastEntityEnum.NOT_PASSED) {
+				boolean ranLongEnough = attk.runStartPoint.subtract(tigPos).lengthVector() > MAX_RUN_DISTANCE
+						|| attk.framesRunning > MAX_RUN_FRAMES;
+				if ((tarBeh || ranLongEnough) && attk.hasPassed == PastEntityEnum.NOT_PASSED) {
 					attk.hasPassed = PastEntityEnum.PASSED;
 				}
 			}
@@ -95,8 +90,7 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 			public int nextFrame(TigrexRun attk, int curr) {
 				attk.framesRunning++;
 				int looping = runningEnds - runningStarts;
-				if (attk.hasPassed == PastEntityEnum.PASSED && (curr
-					+ 1 >= runningEnds)) {
+				if (attk.hasPassed == PastEntityEnum.PASSED && (curr + 1 >= runningEnds)) {
 					attk.hasPassed = PastEntityEnum.LOOP_FINISHED;
 				}
 				return runningStarts + (curr + 1 - runningStarts) % looping;
@@ -111,8 +105,9 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 
 			@Override
 			public AttackPhase next(TigrexRun attk) {
-				if (attackEnd < attk.getCurrentFrame())
+				if (attackEnd < attk.getCurrentFrame()) {
 					return STOPPED;
+				}
 				return STOPPING;
 			}
 		},
@@ -129,11 +124,9 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 			this.isDamaging = isDamaging;
 		}
 
-		public void onPhaseStart(TigrexRun attk) {
-		}
+		public void onPhaseStart(TigrexRun attk) {}
 
-		public void update(TigrexRun attk) {
-		}
+		public void update(TigrexRun attk) {}
 
 		public AttackPhase next(TigrexRun attk) {
 			return this;
@@ -150,15 +143,15 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 	private int framesRunning;
 	private int runCycles;
 
-	public TigrexRun() {
-	}
+	public TigrexRun() {}
 
 	@Override
 	public float getWeight() {
 		EntityTigrex tigrex = this.getEntity();
 		target = tigrex.getAttackTarget();
-		if (target == null)
+		if (target == null) {
 			return DONT_SELECT;
+		}
 		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
 		double dist = toTarget.lengthVector();
 		return (float) Math.log(dist / 5f + 1); // More likely the
@@ -170,7 +163,7 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 		setAnimation("mhfc:models/Tigrex/run.mcanm");
 		EntityTigrex tig = getEntity();
 		target = tig.getAttackTarget();
-		tig.playSound("mhfc:tigrex-charge", 1.0F, 1.0F);
+		tig.playSound("mhfc:tigrex.charge", 1.0F, 1.0F);
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;
 		runCycles = 0;

@@ -26,7 +26,7 @@ public class DeviljhoBiteB extends DeviljhoBiteA {
 	@Override
 	public void update() {
 		if (this.getCurrentFrame() == 25) {
-			getEntity().playSound("mhfc:deviljho-bite", 1.0F, 1.0F);
+			getEntity().playSound("mhfc:deviljho.bite", 1.0F, 1.0F);
 		}
 	}
 

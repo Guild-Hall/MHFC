@@ -16,56 +16,49 @@ import net.minecraft.world.World;
 
 public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 
-	
 	public int deathTick;
 	public int rageLevel;
-	
+
 	public EntityBarroth(World WORLD) {
 		super(WORLD);
 		this.height = 4f;
 		this.width = 5f;
 		AIActionManager<EntityBarroth> attackManager = getAIActionManager();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
-		
-		
+
 		attackManager.registerAttack(new BarrothIdle());
 		attackManager.registerAttack(new BarrothRoar());
-		
+
 	}
-	
+
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
-			.setBaseValue(1.3D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-			healthbaseHP(7219D, 10366D, 15137D));
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(
-			35D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(
-			0.3D);
+		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(7219D, 10366D, 15137D));
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
 	}
-	
-	
 
 	@Override
 	public EntityMHFCPart[] getParts() {
 		return null;
 	}
 
-	 public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub){
-		 GL11.glScaled(4,4.2, 4);
-		 return super.preRenderCallback(scale, sub);
-		 
-	 }
+	@Override
+	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
+		GL11.glScaled(4, 4.2, 4);
+		return super.preRenderCallback(scale, sub);
 
-	 @Override
-		protected String getLivingSound() {
+	}
 
-			return "mhfc:barroth-idle";
-		}
-	 
+	@Override
+	protected String getLivingSound() {
+
+		return "mhfc:barroth.idle";
+	}
+
 	@Override
 	public void entityInit() {
 		super.entityInit();
