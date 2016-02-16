@@ -7,8 +7,8 @@ public class LSEagerCleaver extends LongswordClass {
 
 	public LSEagerCleaver() {
 		super(MHFCWeaponMaterialHelper.LSEagerCleaver);
-		getWeaponDescription("Thunder Element", 3);
-		elementalType(false, false);
+		labelWeaponRarity(3);
+		elementalType(false, false, false, false, false, true, false, false);
 		setUnlocalizedName(MHFCReference.weapon_ls_eagercleaver_name);
 	}
 

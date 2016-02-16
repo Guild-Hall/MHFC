@@ -4,6 +4,9 @@ import mhfc.net.common.ai.AIActionManager;
 import mhfc.net.common.ai.entity.deviljho.*;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
+import mhfc.net.common.item.materials.ItemDeviljho.DeviljhoSubType;
+import mhfc.net.common.item.materials.ItemTigrex.TigrexSubType;
+import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -70,6 +73,25 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	protected void func_145780_a(int p_145780_1_, int p_145780_2_,
 		int p_145780_3_, Block p_145780_4_) {
 		this.playSound("mhfc:deviljho-step", 1.0F, 1.0F);
+	}
+	
+	@Override
+	protected void dropFewItems(boolean par1, int par2) {
+		int var4;
+		for (var4 = 0; var4 < 13; ++var4) {
+			dropItemRand(SubTypedItem.fromSubItem(DeviljhoSubType.SCALE, 2));
+		}
+		for (var4 = 0; var4 < 8; ++var4) {
+			dropItemRand(SubTypedItem.fromSubItem(DeviljhoSubType.FANG, 1));
+			
+		}
+		for (var4 = 0; var4 < 1; ++var4) {
+			dropItemRand(SubTypedItem.fromSubItem(DeviljhoSubType.HIDE, 1));
+			
+		}
+		dropItemRand(SubTypedItem.fromSubItem(DeviljhoSubType.SCALP, 1));
+		dropItemRand(SubTypedItem.fromSubItem(DeviljhoSubType.TALON, 1));
+		dropItemRand(SubTypedItem.fromSubItem(DeviljhoSubType.TAIL, 1));
 	}
 
 }

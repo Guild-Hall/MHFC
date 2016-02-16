@@ -39,44 +39,44 @@ public class MHFCWeaponMaterialHelper {
 	 * @MirageFinswordTree <No Element>: |Starting = 77| Upgrade[1st 5 Upgrades] +26 Base |
 	 * */
 	// Bone Tree
-	public static final ToolMaterial LSBone = EnumHelper.addToolMaterial               ("bone1"       , 3, durA, defaulteffiency, 13, enchA);
-	public static final ToolMaterial LSWhiteBone = EnumHelper.addToolMaterial          ("bone2"       , 3, durB, defaulteffiency, 22, enchA);
-	public static final ToolMaterial LSBoneHunt = EnumHelper.addToolMaterial           ("bone3"       , 3, durB, defaulteffiency, 31, enchA);
+	public static final ToolMaterial LSBone = EnumHelper.addToolMaterial               ("bone1"       , 3, durA, defaulteffiency, 8, enchA);
+	public static final ToolMaterial LSWhiteBone = EnumHelper.addToolMaterial          ("bone2"       , 3, durB, defaulteffiency, 10, enchA);
+	public static final ToolMaterial LSBoneHunt = EnumHelper.addToolMaterial           ("bone3"       , 3, durB, defaulteffiency, 13, enchA);
 	
 	// LSBone 3 new branch wolf, shark dragon, <titan>:special branch.
 	// Bone Katana Wolf <No Element> +11 Damage per upgrade
-	public static final ToolMaterial LSBoneWolf = EnumHelper.addToolMaterial           ("bone4"       , 3, durB, defaulteffiency, 42, enchA);
+	public static final ToolMaterial LSBoneWolf = EnumHelper.addToolMaterial           ("bone4"       , 3, durB, defaulteffiency, 15, enchA);
 	// Bone Katana Shark <Water Element [Soon]> +9 Damage per upgrade
-	public static final ToolMaterial LSBoneShark = EnumHelper.addToolMaterial          ("bone5"       , 3, durB, defaulteffiency, 40, enchA);
+	public static final ToolMaterial LSBoneShark = EnumHelper.addToolMaterial          ("bone5"       , 3, durB, defaulteffiency, 17, enchA);
 	// Bone Katana Dragon <Dragon Element [Soon]> +21 Damage; R
-	public static final ToolMaterial LSBoneDragon = EnumHelper.addToolMaterial         ("bone6"       , 3, durC, defaulteffiency, 13, enchA);
+	public static final ToolMaterial LSBoneDragon = EnumHelper.addToolMaterial         ("bone6"       , 3, durC, defaulteffiency, 19, enchA);
 	
 	
 	// Iron Katana Tree 
-	public static final ToolMaterial LSIronKatana = EnumHelper.addToolMaterial         ("ik1"         , 3, durA, defaulteffiency, 16, enchA);
-	public static final ToolMaterial LSIKGrace  = EnumHelper.addToolMaterial           ("ik2"         , 3, durB, defaulteffiency, 28, enchA);
-	public static final ToolMaterial LSIKGospel = EnumHelper.addToolMaterial           ("ik3"         , 3, durB, defaulteffiency, 40, enchA);
+	public static final ToolMaterial LSIronKatana = EnumHelper.addToolMaterial         ("ik1"         , 3, durA, defaulteffiency, 18, enchA);
+	public static final ToolMaterial LSIKGrace  = EnumHelper.addToolMaterial           ("ik2"         , 3, durB, defaulteffiency, 23, enchA);
+	public static final ToolMaterial LSIKGospel = EnumHelper.addToolMaterial           ("ik3"         , 3, durB, defaulteffiency, 26, enchA);
 	
 	// Saber Tree
-	public static final ToolMaterial LSSaber = EnumHelper.addToolMaterial              ("LSSaber"     , 3, durC, defaulteffiency, 21, enchA);
+	public static final ToolMaterial LSSaber = EnumHelper.addToolMaterial              ("LSSaber"     , 3, durC, defaulteffiency, 31, enchA);
 	public static final ToolMaterial LSLionDanceSaber = EnumHelper.addToolMaterial     ("LSSaber1"    , 3, durC, defaulteffiency, 34, enchA);
-	public static final ToolMaterial LSLionKingSaber = EnumHelper.addToolMaterial      ("LSSaber2"    , 3, durC, defaulteffiency, 51, enchA);
-	public static final ToolMaterial LSLionKaiserSaber = EnumHelper.addToolMaterial    ("LSSaber3"    , 3, durD, defaulteffiency, 68, enchA);
+	public static final ToolMaterial LSLionKingSaber = EnumHelper.addToolMaterial      ("LSSaber2"    , 3, durC, defaulteffiency, 39, enchA);
+	public static final ToolMaterial LSLionKaiserSaber = EnumHelper.addToolMaterial    ("LSSaber3"    , 3, durD, defaulteffiency, 47, enchA);
 	
 	// Eager Cleaver Tree
-	public static final ToolMaterial LSEagerCleaver = EnumHelper.addToolMaterial       ("eagercleaver", 3, durC, defaulteffiency, 46, enchA);
-	public static final ToolMaterial LSDevilSlicer = EnumHelper.addToolMaterial        ("devilslicer" , 3, durC, defaulteffiency, 59, enchA);
-	public static final ToolMaterial LSTrueDevilSlicer = EnumHelper.addToolMaterial    ("tdevilslicer", 3, durC, defaulteffiency, 72, enchA);
+	public static final ToolMaterial LSEagerCleaver = EnumHelper.addToolMaterial       ("eagercleaver", 3, durC, defaulteffiency, 32, enchA);
+	public static final ToolMaterial LSDevilSlicer = EnumHelper.addToolMaterial        ("devilslicer" , 3, durC, defaulteffiency, 37, enchA);
+	public static final ToolMaterial LSTrueDevilSlicer = EnumHelper.addToolMaterial    ("tdevilslicer", 3, durC, defaulteffiency, 49, enchA);
 	// Mirage Finsword Tree
-	public static final ToolMaterial LSMirageFinsword = EnumHelper.addToolMaterial     ("lsmirage1"   , 3, durC, defaulteffiency, 77, enchA);
-	public static final ToolMaterial LSMirageFinswordplus = EnumHelper.addToolMaterial ("lsmirage2"   , 3, durD, defaulteffiency, 106, enchA);
-	public static final ToolMaterial LSPhantomMirage = EnumHelper.addToolMaterial      ("lsmirage3"   , 3, durD, defaulteffiency, 132, enchA);
+	public static final ToolMaterial LSMirageFinsword = EnumHelper.addToolMaterial     ("lsmirage1"   , 3, durC, defaulteffiency, 33, enchA);
+	public static final ToolMaterial LSMirageFinswordplus = EnumHelper.addToolMaterial ("lsmirage2"   , 3, durD, defaulteffiency, 41, enchA);
+	public static final ToolMaterial LSPhantomMirage = EnumHelper.addToolMaterial      ("lsmirage3"   , 3, durD, defaulteffiency, 50, enchA);
 	
 	// Dark Vipern Tree
-	public static final ToolMaterial LSDarkVipern = EnumHelper.addToolMaterial         ("LSDarkVipern", 3, durB, defaulteffiency, 39, enchA);
+	public static final ToolMaterial LSDarkVipern = EnumHelper.addToolMaterial         ("LSDarkVipern", 3, durB, defaulteffiency, 16, enchA);
 	
 	// Lions Roar Saber Tree [Original Mod Tree] +26 per upgrade.
-	public static final ToolMaterial LSLionsRoarSaber = EnumHelper.addToolMaterial     ("LSSaber4"    , 3, durD, defaulteffiency, 124, enchA);
+	public static final ToolMaterial LSLionsRoarSaber = EnumHelper.addToolMaterial     ("LSSaber4"    , 3, durD, defaulteffiency, 59, enchA);
 	
 	
 	/**

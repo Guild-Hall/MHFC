@@ -1,12 +1,12 @@
-package mhfc.net.common.eventhandler.potion;
+package mhfc.net.common.eventhandler.entity;
 
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class PotionPitfallEventHandler {
-	public final static PotionPitfallEventHandler instance = new PotionPitfallEventHandler();
+public class PitfallEventHandler {
+	public final static PitfallEventHandler instance = new PitfallEventHandler();
 
 	// TODO
 	@SubscribeEvent

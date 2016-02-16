@@ -7,8 +7,8 @@ public class HTigrex extends HammerClass {
 
 	public HTigrex() {
 		super(MHFCWeaponMaterialHelper.HTigrex);
-		getWeaponDescription("No Element", 5);
-		elementalType(false, false);
+		labelWeaponRarity(3);
+		elementalType(false, false, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_hm_tigrex_name);
 	}
 

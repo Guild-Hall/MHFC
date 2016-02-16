@@ -7,8 +7,8 @@ public class LSMirageFinswordplus extends LongswordClass {
 
 	public LSMirageFinswordplus() {
 		super(MHFCWeaponMaterialHelper.LSMirageFinswordplus);
-		getWeaponDescription("No Element", 6);
-		elementalType(false, false);
+		labelWeaponRarity(6);
+		elementalType(false, false, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_ls_miragefinswordplus_name);
 	}
 

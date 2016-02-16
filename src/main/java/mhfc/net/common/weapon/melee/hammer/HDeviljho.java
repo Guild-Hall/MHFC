@@ -7,8 +7,8 @@ public class HDeviljho extends HammerClass {
 
 	public HDeviljho() {
 		super(MHFCWeaponMaterialHelper.HDeviljho);
-		getWeaponDescription("No Element", 7);
-		elementalType(false, false);
+		labelWeaponRarity(7);
+		elementalType(false, false, false, false, true, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_hm_deviljho_name);
 	}
 }

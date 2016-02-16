@@ -7,8 +7,8 @@ public class LSLionKaiserSaber extends LongswordClass {
 
 	public LSLionKaiserSaber() {
 		super(MHFCWeaponMaterialHelper.LSLionKaiserSaber);
-		getWeaponDescription("Fire Element", 8);
-		elementalType(false, true);
+		labelWeaponRarity(8);
+		elementalType(false, true, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_ls_lionkaisersaber_name);
 	}
 

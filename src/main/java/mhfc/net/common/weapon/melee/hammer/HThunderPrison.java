@@ -3,12 +3,12 @@ package mhfc.net.common.weapon.melee.hammer;
 import mhfc.net.common.helper.MHFCWeaponMaterialHelper;
 import mhfc.net.common.util.lib.MHFCReference;
 
-public class HKirinSpark extends HammerClass {
+public class HThunderPrison extends HammerClass {
 
-	public HKirinSpark() {
+	public HThunderPrison() {
 		super(MHFCWeaponMaterialHelper.HKirinSpark);
-		getWeaponDescription("Thunder Element", 7);
-		elementalType(false, false);
+		labelWeaponRarity(8);
+		elementalType(false, false, false, false, false, true, false, false);
 		setUnlocalizedName(MHFCReference.weapon_hm_kirin_name);
 	}
 

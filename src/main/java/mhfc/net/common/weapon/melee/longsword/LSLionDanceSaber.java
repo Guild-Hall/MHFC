@@ -7,8 +7,8 @@ public class LSLionDanceSaber extends LongswordClass {
 
 	public LSLionDanceSaber() {
 		super(MHFCWeaponMaterialHelper.LSLionDanceSaber);
-		getWeaponDescription("Fire Element", 7);
-		elementalType(false, true);
+		labelWeaponRarity(7);
+		elementalType(false, true, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_ls_liondancesaber_name);
 	}
 

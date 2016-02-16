@@ -7,8 +7,8 @@ public class GSThunderSword extends GreatswordClass {
 
 	public GSThunderSword() {
 		super(MHFCWeaponMaterialHelper.GSKirin);
-		getWeaponDescription("Thunder Element", 4);
-		elementalType(false, false);
+		labelWeaponRarity(4);
+		elementalType(false, false, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_gs_kirin_name);
 	}
 

@@ -47,7 +47,7 @@ import mhfc.net.common.weapon.melee.greatsword.GSRathalosFiresword;
 import mhfc.net.common.weapon.melee.greatsword.GSThunderSword;
 import mhfc.net.common.weapon.melee.greatsword.GSTigrex;
 import mhfc.net.common.weapon.melee.hammer.HDeviljho;
-import mhfc.net.common.weapon.melee.hammer.HKirinSpark;
+import mhfc.net.common.weapon.melee.hammer.HThunderPrison;
 import mhfc.net.common.weapon.melee.hammer.HRathalos;
 import mhfc.net.common.weapon.melee.hammer.HTigrex;
 import mhfc.net.common.weapon.melee.hammer.HWar;
@@ -59,8 +59,8 @@ import mhfc.net.common.weapon.melee.huntinghorn.HHTigrex;
 import mhfc.net.common.weapon.melee.longsword.LSDarkVipern;
 import mhfc.net.common.weapon.melee.longsword.LSDevilSlicer;
 import mhfc.net.common.weapon.melee.longsword.LSEagerCleaver;
-import mhfc.net.common.weapon.melee.longsword.LSIKGospel;
-import mhfc.net.common.weapon.melee.longsword.LSIKGrace;
+import mhfc.net.common.weapon.melee.longsword.LSIronKatana_Gospel;
+import mhfc.net.common.weapon.melee.longsword.LSIronKatana_Grace;
 import mhfc.net.common.weapon.melee.longsword.LSIronKatana;
 import mhfc.net.common.weapon.melee.longsword.LSLionDanceSaber;
 import mhfc.net.common.weapon.melee.longsword.LSLionKaiserSaber;
@@ -79,6 +79,9 @@ import mhfc.net.common.weapon.range.bowgun.light.BLBarrel;
 import net.minecraft.item.Item;
 
 public class MHFCItemRegistry {
+	
+	/** Please Arrange The Weapons by its RARITY refer to the weapon package ~@Heltrato
+	 * */
 	// Weapons
 
 	public static int serverIDchecker;
@@ -304,34 +307,35 @@ public class MHFCItemRegistry {
 		weapon_gs_bone = registerItem(new GSBone());
 		weapon_gs_deadlyserpentblade = registerItem(new GSDeadlySerpentBlade());
 		weapon_gs_tigrex = registerItem(new GSTigrex());
+		weapon_gs_rathalosfire = registerItem(new GSRathalosFiresword());
 		weapon_gs_kirinthunders = registerItem(new GSThunderSword());
 		weapon_gs_berserkers = registerItem(new GSDeviljhobroadsword());
-		weapon_gs_rathalosfire = registerItem(new GSRathalosFiresword());
+		
 
 		weapon_ls_ironkatana = registerItem(new LSIronKatana());
-		weapon_ls_ironkatanagrace = registerItem(new LSIKGrace());
-		weapon_ls_ironkatanagospel = registerItem(new LSIKGospel());
+		weapon_ls_ironkatanagrace = registerItem(new LSIronKatana_Grace());
+		weapon_ls_ironkatanagospel = registerItem(new LSIronKatana_Gospel());
+		weapon_ls_darkvipern = registerItem(new LSDarkVipern());
 		weapon_ls_eagercleaver = registerItem(new LSEagerCleaver());
 		weapon_ls_devilslicer = registerItem(new LSDevilSlicer());
-		weapon_ls_truedevilslicer = registerItem(new LSTrueDevilSlicer());
 		weapon_ls_saber = registerItem(new LSSaber());
 		weapon_ls_liondancesaber = registerItem(new LSLionDanceSaber());
-		weapon_ls_lionkingsaber = registerItem(new LSLionKingSaber());
-		weapon_ls_lionkaisersaber = registerItem(new LSLionKaiserSaber());
 		weapon_ls_miragefinsword = registerItem(new LSMirageFinsword());
 		weapon_ls_miragefinswordplus = registerItem(new LSMirageFinswordplus());
+		weapon_ls_truedevilslicer = registerItem(new LSTrueDevilSlicer());
 		weapon_ls_phantommirage = registerItem(new LSPhantomMirage());
-		weapon_ls_darkvipern = registerItem(new LSDarkVipern());
+		weapon_ls_lionkingsaber = registerItem(new LSLionKingSaber());
+		weapon_ls_lionkaisersaber = registerItem(new LSLionKaiserSaber());
 		weapon_ls_lionsroarsaber = registerItem(new LSLionsRoarSaber());
 
 		weapon_hm_warhammer = registerItem(new HWar());
 		weapon_hm_warhammerplus = registerItem(new HWarPlus());
 		weapon_hm_warslammer = registerItem(new HWarSlammer());
 		weapon_hm_tigrex = registerItem(new HTigrex());
-		weapon_hm_devilsdue = registerItem(new HDeviljho());
 		weapon_hm_rathalos = registerItem(new HRathalos());
-		weapon_hm_kirinspark = registerItem(new HKirinSpark());
-
+		weapon_hm_devilsdue = registerItem(new HDeviljho());
+		weapon_hm_kirinspark = registerItem(new HThunderPrison());
+		
 		weapon_hh_ivoryhorn = registerItem(new HHIvoryHorn());
 		weapon_hh_metalbagpipe = registerItem(new HHMetalBagpipe());
 		weapon_hh_tigrex = registerItem(new HHTigrex());

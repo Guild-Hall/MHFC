@@ -22,7 +22,7 @@ public class LongswordClass extends WeaponMelee implements iWeaponReach {
 
 	public LongswordClass(ToolMaterial getType) {
 		super(new ComponentMelee(WeaponSpecs.LONGSWORD, getType));
-		getWeaponDescription(MHFCWeaponClassingHelper.longswordname);
+		labelWeaponClass(MHFCWeaponClassingHelper.longswordname);
 		setTextureName(MHFCReference.weapon_ls_default_icon);
 		getWeaponTable(4, -12, 0);
 
@@ -36,7 +36,6 @@ public class LongswordClass extends WeaponMelee implements iWeaponReach {
 		if (poisontype)
 			ent.addPotionEffect(new PotionEffect(Potion.poison.id, 30,
 					amplified));
-		if (firetype)//a pre test knowledge of particles.
 
 		meleecomp.hitEntity(stack, ent, par3);
 		return true;
@@ -48,16 +47,12 @@ public class LongswordClass extends WeaponMelee implements iWeaponReach {
 	}
 	
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
-   {
+	{
      if ((entityLiving instanceof EntityPlayer)) {
        EntityPlayer par3 = (EntityPlayer)entityLiving;
-
-  
          for (int i = 0; i < 6; i++) {
-          par3.worldObj.spawnParticle("lava", par3.posX, par3.posY, par3.posZ, itemRand.nextGaussian(), itemRand.nextGaussian(), itemRand.nextGaussian());
+        	if(firetype)par3.worldObj.spawnParticle("lava", par3.posX, par3.posY, par3.posZ, itemRand.nextGaussian(), itemRand.nextGaussian(), itemRand.nextGaussian());
          }
-       
- 
     
       }
      

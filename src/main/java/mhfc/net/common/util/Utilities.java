@@ -12,6 +12,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -20,7 +21,11 @@ import net.minecraft.world.WorldServer;
 
 public class Utilities {
 	private static Random rand = new Random();
-
+	
+	public void addWeaponElementFX(EntityLivingBase entityLiving, ItemStack stack) {
+		
+	}
+	
 	/**
 	 * For all nearby entities that are attacking the EntityLiving, resets the
 	 * attack and revenge target

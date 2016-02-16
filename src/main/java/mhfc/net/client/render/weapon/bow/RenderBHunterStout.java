@@ -66,7 +66,7 @@ public class RenderBHunterStout implements IItemRenderer {
 			break;
 
 		case ENTITY:
-			scale = 2.4F;
+			scale = 1.2F;
 			GL11.glScalef(scale, scale, scale);
 			GL11.glRotatef(90F, 1.0f, 0.0f, 0.0f);
 			GL11.glRotatef(0F, 0.0f, 1.0f, 0.0f);

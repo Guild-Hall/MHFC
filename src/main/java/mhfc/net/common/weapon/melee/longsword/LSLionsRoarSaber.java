@@ -7,8 +7,8 @@ public class LSLionsRoarSaber extends LongswordClass {
 
 	public LSLionsRoarSaber() {
 		super(MHFCWeaponMaterialHelper.LSLionsRoarSaber);
-		getWeaponDescription("Fire Element", 9);
-		elementalType(false, true);
+		labelWeaponRarity(9);
+		elementalType(false, true, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_ls_lionsroarsaber_name);
 	}
 

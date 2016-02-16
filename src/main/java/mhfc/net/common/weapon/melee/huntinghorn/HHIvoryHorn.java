@@ -15,10 +15,10 @@ import net.minecraft.world.World;
 public class HHIvoryHorn extends HuntingHornClass {
 
 	public HHIvoryHorn() {
-		super(MHFCWeaponMaterialHelper.HHIvoryHorn, 2000);
+		super(MHFCWeaponMaterialHelper.HHIvoryHorn, 400);
 		setUnlocalizedName(MHFCReference.weapon_hh_ivoryhorn_name);
-		getWeaponDescription("No Element", 1);
-		elementalType(false, false);
+		labelWeaponRarity(1);
+		elementalType(false, false, false, false, false, false, false, false);
 		enableCooldownDisplay = true;
 	}
 

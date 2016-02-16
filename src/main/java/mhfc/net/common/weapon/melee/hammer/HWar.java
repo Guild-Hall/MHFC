@@ -7,8 +7,8 @@ public class HWar extends HammerClass {
 
 	public HWar() {
 		super(MHFCWeaponMaterialHelper.HWarHammer);
-		getWeaponDescription("No", 2);
-		elementalType(false, false);
+		labelWeaponRarity(1);
+		elementalType(false, false, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_hm_war_name);
 	}
 

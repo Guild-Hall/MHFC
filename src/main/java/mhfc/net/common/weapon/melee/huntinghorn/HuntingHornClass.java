@@ -20,7 +20,7 @@ public class HuntingHornClass extends WeaponMelee {
 
 	public HuntingHornClass(ToolMaterial getType, int Cooldown) {
 		super(new ComponentMelee(WeaponSpecs.HUNTINGHORN, getType));
-		getWeaponDescription(MHFCWeaponClassingHelper.huntinghornname);
+		labelWeaponClass(MHFCWeaponClassingHelper.huntinghornname);
 		setTextureName(MHFCReference.weapon_hh_default_icon);
 		getWeaponTable(-6, 8, 1);
 		cooldown = Cooldown;

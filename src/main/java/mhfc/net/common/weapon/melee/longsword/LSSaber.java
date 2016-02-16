@@ -7,8 +7,8 @@ public class LSSaber extends LongswordClass {
 
 	public LSSaber() {
 		super(MHFCWeaponMaterialHelper.LSSaber);
-		getWeaponDescription("Fire Element", 5);
-		elementalType(false, true);
+		labelWeaponRarity(5);
+		elementalType(false, true, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_ls_saber_name);
 	}
 

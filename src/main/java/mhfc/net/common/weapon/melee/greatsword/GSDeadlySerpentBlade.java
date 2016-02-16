@@ -7,8 +7,8 @@ public class GSDeadlySerpentBlade extends GreatswordClass {
 
 	public GSDeadlySerpentBlade() {
 		super(MHFCWeaponMaterialHelper.GSDeadlySerpentBlade);
-		getWeaponDescription("Poison Element", 3);
-		elementalType(true, false);
+		labelWeaponRarity(3);
+		elementalType(true, false, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_gs_deadlyserpentblade_name);
 	}
 

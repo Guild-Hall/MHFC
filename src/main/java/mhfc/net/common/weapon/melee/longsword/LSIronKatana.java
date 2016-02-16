@@ -7,8 +7,8 @@ public class LSIronKatana extends LongswordClass {
 
 	public LSIronKatana() {
 		super(MHFCWeaponMaterialHelper.LSIronKatana);
-		getWeaponDescription("No Element", 1);
-		elementalType(false, false);
+		labelWeaponRarity(1);
+		elementalType(false, false, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_ls_ironkatana_name);
 	}
 

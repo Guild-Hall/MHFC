@@ -3,12 +3,12 @@ package mhfc.net.common.weapon.melee.longsword;
 import mhfc.net.common.helper.MHFCWeaponMaterialHelper;
 import mhfc.net.common.util.lib.MHFCReference;
 
-public class LSIKGrace extends LongswordClass {
+public class LSIronKatana_Grace extends LongswordClass {
 
-	public LSIKGrace() {
+	public LSIronKatana_Grace() {
 		super(MHFCWeaponMaterialHelper.LSIKGrace);
-		getWeaponDescription("No Element", 2);
-		elementalType(false, false);
+		labelWeaponRarity(2);
+		elementalType(false, false, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_ls_ikgrace_name);
 	}
 
