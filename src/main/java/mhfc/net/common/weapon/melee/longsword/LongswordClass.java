@@ -46,8 +46,15 @@ public class LongswordClass extends WeaponMelee implements iWeaponReach {
 		ItemStack equipped = player.getCurrentEquippedItem();
 		if (equipped == stack) {
 			if (this.hits > 15) {
-				meleecomp.setDamageEntity(meleecomp.getEntityDamage() - 30);
+				System.out.println("Damage"  +   damage);
+				meleecomp.setDamageEntity(damage + 10);
 			}
+		}
+		
+		counter += 1;
+		if (counter > 60) {
+			hits = 0;
+			counter = 0;
 		}
 	}
 	
@@ -60,6 +67,8 @@ public class LongswordClass extends WeaponMelee implements iWeaponReach {
          }
     
       }
+     
+     
      
      return false;
    }
