@@ -239,8 +239,8 @@ entity.mhfc.nargacuga.name=§2Nargacuga
 
 potion.kirinbless=Spark of Kirin
 potion.paralyze=Paralyze
-potion.attackup.low=Attack Up L
-
+potion.attackuplow=Attack Up Low
+potion.longswordattackup=Longsword Attack Up
 mfhc.quests.visual.tag.reward=Reward
 mhfc.quests.visual.tag.fee=Fee
 mhfc.quests.visual.tag.time=Time Limit

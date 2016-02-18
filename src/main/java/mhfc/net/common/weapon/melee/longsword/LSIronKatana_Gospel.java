@@ -6,7 +6,7 @@ import mhfc.net.common.util.lib.MHFCReference;
 public class LSIronKatana_Gospel extends LongswordClass {
 
 	public LSIronKatana_Gospel() {
-		super(MHFCWeaponMaterialHelper.LSIKGospel);
+		super(MHFCWeaponMaterialHelper.LSIKGospel, 120);
 		labelWeaponRarity(2);
 		elementalType(false, false, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_ls_ikgospel_name);

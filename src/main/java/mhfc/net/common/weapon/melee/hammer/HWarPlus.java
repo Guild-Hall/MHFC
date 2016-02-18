@@ -6,7 +6,7 @@ import mhfc.net.common.util.lib.MHFCReference;
 public class HWarPlus extends HammerClass {
 
 	public HWarPlus() {
-		super(MHFCWeaponMaterialHelper.HWarHammerplus);
+		super(MHFCWeaponMaterialHelper.HWarHammerplus, 500);
 		labelWeaponRarity(1);
 		elementalType(false, false, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_hm_warplus_name);

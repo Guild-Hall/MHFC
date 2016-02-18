@@ -5,8 +5,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class PitfallEventHandler {
-	public final static PitfallEventHandler instance = new PitfallEventHandler();
+public class PitfallEvent {
+	public final static PitfallEvent instance = new PitfallEvent();
 
 	// TODO
 	@SubscribeEvent

@@ -6,7 +6,7 @@ import mhfc.net.common.util.lib.MHFCReference;
 public class LSSaber extends LongswordClass {
 
 	public LSSaber() {
-		super(MHFCWeaponMaterialHelper.LSSaber);
+		super(MHFCWeaponMaterialHelper.LSSaber, 120);
 		labelWeaponRarity(5);
 		elementalType(false, true, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_ls_saber_name);

@@ -6,7 +6,7 @@ import mhfc.net.common.util.lib.MHFCReference;
 public class HDeviljho extends HammerClass {
 
 	public HDeviljho() {
-		super(MHFCWeaponMaterialHelper.HDeviljho);
+		super(MHFCWeaponMaterialHelper.HDeviljho, 300);
 		labelWeaponRarity(7);
 		elementalType(false, false, false, false, true, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_hm_deviljho_name);

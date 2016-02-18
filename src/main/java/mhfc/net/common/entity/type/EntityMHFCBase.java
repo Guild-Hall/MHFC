@@ -79,7 +79,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	
 	@Override
     public int getTotalArmorValue() {
-        return 15;
+        return 10;
     }
 
 	@Override

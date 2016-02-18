@@ -25,7 +25,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ComponentMelee extends AbstractWeaponClass {
 	public final WeaponSpecs weaponSpecs;
 	public final Item.ToolMaterial weaponMaterial;
-	public float attackBase, damageMult, blockDamage, fencerate;
+	public float damageMult;
+	public float blockDamage;
+	public float fencerate;
 	public ComponentMelee(WeaponSpecs meleespecs, Item.ToolMaterial toolmaterial) {
 		weaponSpecs = meleespecs;
 		weaponMaterial = toolmaterial;
@@ -59,7 +61,7 @@ public class ComponentMelee extends AbstractWeaponClass {
 	}
 	
 	public float setDamageEntity(float damage){
-		return attackBase = damage;
+		return weaponSpecs.attackBase = damage;
 	}
 
 	@Override
@@ -126,19 +128,10 @@ public class ComponentMelee extends AbstractWeaponClass {
 			Multimap<String, AttributeModifier> multimap) {
 		float dmg = getEntityDamage();
 		if (dmg > 0F || weaponSpecs.damageMult > 0F) {
-			multimap.put(SharedMonsterAttributes.attackDamage
-					.getAttributeUnlocalizedName(), new AttributeModifier(
-					weapon.getUUID(), "Weapon modifier", dmg - 4, 0));
+			multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(	weapon.getUUID(), "Weapon modifier", dmg, 0));
 		}
-		multimap.put(
-				Attributes.WEAPON_KNOCKBACK.getAttributeUnlocalizedName(),
-				new AttributeModifier(weapon.getUUID(),
-						"Weapon knockback modifier", weaponSpecs
-								.getKnockBack(weaponMaterial) - 0.6F + 1* 12F, 0));
-		multimap.put(Attributes.ATTACK_SPEED.getAttributeUnlocalizedName(),
-				new AttributeModifier(weapon.getUUID(),
-						"Weapon attack speed modifier",
-						weaponSpecs.comboRate *-4, 0));
+		multimap.put(Attributes.WEAPON_KNOCKBACK.getAttributeUnlocalizedName(),	new AttributeModifier(weapon.getUUID(),"Weapon knockback modifier", weaponSpecs	.getKnockBack(weaponMaterial) - 0.6F + 1* 12F, 0));
+		multimap.put(Attributes.ATTACK_SPEED.getAttributeUnlocalizedName(),	new AttributeModifier(weapon.getUUID(),"Weapon attack speed modifier",weaponSpecs.comboRate *-4, 0));
 		if (this instanceof iWeaponReach) {
 			try {
 				multimap.put(
@@ -175,12 +168,10 @@ public class ComponentMelee extends AbstractWeaponClass {
 	}
 
 	@Override
-	public void onUsingTick(ItemStack itemstack, EntityPlayer entityplayer,
-			int count) {}
+	public void onUsingTick(ItemStack itemstack, EntityPlayer entityplayer,int count) {}
 
 	@Override
-	public void onPlayerStoppedUsing(ItemStack itemstack, World world,
-			EntityPlayer entityplayer, int i) {}
+	public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityPlayer entityplayer, int i) {}
 
 	@Override
 	public void onUpdate(ItemStack itemstack, World world, Entity entity,
@@ -197,22 +188,20 @@ public class ComponentMelee extends AbstractWeaponClass {
 		//      var5 is block rate
 		//      var6 is fencing 
 		//      lastvar is comborate
-		GREATSWORD(0, 1F, 3, 1F, 1.5F, 0.5F, 1, 2, 1, 8), //
-		HAMMER(0, 1F, 4, 1F, 1F, 0.9F, 1, 2, 1, 14), //
-		HUNTINGHORN(0, 0.5F, 3, 1F, 1.5F, 0.6F, 1, 2, 1, 6), //
-		LONGSWORD(0, 1F, 1, 1F, 1F, 0F, 1, 2, 1, -9), //
+		GREATSWORD(0, 1F, 7F, 1F, 1.5F, 0.5F, 1, 2, 1, 8), //
+		HAMMER(0, 1F, 10, 1F, 1F, 0.9F, 1, 2, 1, 14), //
+		HUNTINGHORN(0, 0.5F, 4, 1F, 1.5F, 0.6F, 1, 2, 1, 6), //
+		LONGSWORD(0, 1F, 0F, 1F, 1.2F, 0F, 1, 2, 1, -9), //
 		NONE(0, 0F, 1, 0F, 1F, 0.4F, 0, 0, 1, 0);
 
-		private WeaponSpecs(int durbase, float durmult, float attackbase,
-				float dmgmult, float blockrate, float fencing,
-				int incomeDamage, int dmgfromblock, int stacksize,
+		private WeaponSpecs(int durbase, float durmult, float attackbase,float dmgmult, float blockrate, float kBack,		int incomeDamage, int dmgfromblock, int stacksize,
 				int comborate) {
 			durabilityBase = durbase;
 			durabilityMult = durmult;
 			attackBase = attackbase;
 			damageMult = dmgmult;
 			blockDamage = blockrate;
-			fencerate = fencing;
+			fencerate = kBack;
 			damageincome = incomeDamage;
 			dmgFromBlock = dmgfromblock;
 			stackSize = stacksize;

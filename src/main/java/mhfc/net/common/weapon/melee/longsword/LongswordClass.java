@@ -1,5 +1,6 @@
 package mhfc.net.common.weapon.melee.longsword;
 
+import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.helper.MHFCWeaponClassingHelper;
 import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.weapon.ComponentMelee;
@@ -10,21 +11,26 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
 public class LongswordClass extends WeaponMelee implements iWeaponReach {
 
 	public String lsLocal = "longsword_";
+	
+	protected int longswordAttackUpDuration;
 
-	public LongswordClass(ToolMaterial getType) {
+	public LongswordClass(ToolMaterial getType, int weaponAttackUpDuration) {
 		super(new ComponentMelee(WeaponSpecs.LONGSWORD, getType));
 		labelWeaponClass(MHFCWeaponClassingHelper.longswordname);
 		setTextureName(MHFCReference.weapon_ls_default_icon);
 		getWeaponTable(4, -12, 0);
+		
+		longswordAttackUpDuration = weaponAttackUpDuration;
 
 	}
-
+	
 	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase ent,EntityLivingBase par3) {
 		if (counter < 60) {
@@ -45,9 +51,9 @@ public class LongswordClass extends WeaponMelee implements iWeaponReach {
 		EntityPlayer player = (EntityPlayer)entity;
 		ItemStack equipped = player.getCurrentEquippedItem();
 		if (equipped == stack) {
-			if (this.hits > 15) {
-				System.out.println("Damage"  +   damage);
-				meleecomp.setDamageEntity(damage + 10);
+		//	System.out.println("weapon longsword "); check if the weapon is held. it works. @heltrato
+			if (this.hits > 40) {
+				player.addPotionEffect(new PotionEffect(MHFCPotionRegistry.longswordattackup.id, longswordAttackUpDuration));;
 			}
 		}
 		

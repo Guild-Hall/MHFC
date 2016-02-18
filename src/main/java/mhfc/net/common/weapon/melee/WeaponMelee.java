@@ -44,7 +44,7 @@ public abstract class WeaponMelee extends ItemSword implements iWeaponCluster {
 	protected boolean enableCooldownDisplay;
 	protected double getDamageAnalysis;
 	
-	public float getDamageB;
+	public static float getDamageB;
 	
 	public int counter;
 	public int hits = 0;
@@ -52,17 +52,16 @@ public abstract class WeaponMelee extends ItemSword implements iWeaponCluster {
 	public boolean poisontype, firetype, icetype, watertype, dragontype, thundertype, blighttype, windtype;
 
 	public WeaponMelee(ComponentMelee weaponf) {
-		super((weaponf.weaponMaterial == null
-				? ToolMaterial.WOOD
-				: weaponf.weaponMaterial));
+		super((weaponf.weaponMaterial == null? ToolMaterial.WOOD: weaponf.weaponMaterial));
 		setCreativeTab(MHFCMain.mhfctabs);
 		setFull3D();
 		meleecomp = weaponf;
 		meleecomp.setItem(this);
 		meleecomp.setThisItemProperties();
 		getDamageAnalysis = 0;
-		getDamageB = meleecomp.attackBase;
+		getDamageB = meleecomp.weaponSpecs.attackBase;
 	}
+	
 
 	
 	public void elementalType(boolean poison, boolean fire, boolean ice, boolean water, boolean dragon, boolean thunder, boolean blight,boolean wind) {
@@ -160,8 +159,7 @@ public abstract class WeaponMelee extends ItemSword implements iWeaponCluster {
 	}
 
 	@Override
-	public boolean hitEntity(ItemStack itemstack,
-			EntityLivingBase entityliving, EntityLivingBase attacker) {
+	public boolean hitEntity(ItemStack itemstack,EntityLivingBase entityliving, EntityLivingBase attacker) {
 		return meleecomp.hitEntity(itemstack, entityliving, attacker);
 	}
 

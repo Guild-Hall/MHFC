@@ -425,6 +425,8 @@ public class MHFCReference {
 	public static final String particle_kirinsfx_tex = "mhfc:textures/particle/kirinSFX.png";
 	public static final String potion_attackup_name = "potion.attackuplow";
 	public static final String potion_attackup_uuid = "6a80c830-745d-4edd-8a17-e580f813bf20";
+	public static final String potion_longsworddamageup_name = "potion.longswordattackup";
+	public static final String potion_longsworddamageup_uuid = "6a80c830-745d-4edd-8a17-e580f813bf20";
 	public static final String potion_kirinbless_name = "potion.kirinbless";
 	public static final String potion_kirinbless_tex = "mhfc:textures/potion/mhfcpotion.png";
 	public static final String potion_kirinbless_uuid = "6a80c830-745d-4edd-8a17-e580f813bf20";
@@ -560,7 +562,8 @@ public class MHFCReference {
 	public static final int potion_paralyze_iconindex = 1;
 	public static final int potion_kirinbless_iconindex = 2;
 	public static final int potion_attackuplow_iconindex = 3;
-
+	
+	
 	public static final String mob_questGiver_name = "questGiver";
 	public static final String unlocalized_tag_fee = "mhfc.quests.visual.tag.fee";
 	public static final String unlocalized_tag_reward = "mfhc.quests.visual.tag.reward";
