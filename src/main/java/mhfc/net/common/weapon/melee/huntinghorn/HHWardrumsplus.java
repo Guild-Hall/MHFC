@@ -8,7 +8,7 @@ public class HHWardrumsplus extends HuntingHornClass {
 	public HHWardrumsplus() {
 		super(MHFCWeaponMaterialHelper.HHWardrumsplus, 400, 600);
 		setUnlocalizedName(MHFCReference.weapon_hh_wardrumsplus_name);
-		labelWeaponRarity(1);
+		labelWeaponRarity(2);
 		elementalType(false, false, false, false, false, false, false, false);
 		enableCooldownDisplay = true;
 	}

@@ -9,7 +9,7 @@ public class HHMogwardDrums extends HuntingHornClass {
 	public HHMogwardDrums() {
 		super(MHFCWeaponMaterialHelper.HHMogwardDrums, 400, 600);
 		setUnlocalizedName(MHFCReference.weapon_hh_mogwarddrums_name);
-		labelWeaponRarity(1);
+		labelWeaponRarity(5);
 		elementalType(false, false, false, false, false, false, false, false);
 		enableCooldownDisplay = true;
 	}

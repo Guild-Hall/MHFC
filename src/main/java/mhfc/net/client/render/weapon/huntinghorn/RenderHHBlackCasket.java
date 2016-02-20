@@ -1,5 +1,7 @@
 package mhfc.net.client.render.weapon.huntinghorn;
 
+import org.lwjgl.opengl.GL11;
+
 import mhfc.net.client.model.weapon.huntinghorn.ModelHHBlackCasket;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
@@ -7,8 +9,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-
-import org.lwjgl.opengl.GL11;
 
 public class RenderHHBlackCasket implements IItemRenderer {
 

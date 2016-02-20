@@ -14,7 +14,7 @@ public class TigrexJump extends AIGeneralJumpAttack<EntityTigrex> {
 	private static final float JUMP_TIME = 16f;
 
 	private static final IDamageCalculator damageCalc = AIUtils
-		.defaultDamageCalc(45f, 62f, 1500f);
+		.defaultDamageCalc(45f, 62f, 9999999f);
 	private static final double MIN_DIST = 6f;
 	private static final double MAX_DIST = 60f;
 	private static final float MAX_ANGLE = 140f;

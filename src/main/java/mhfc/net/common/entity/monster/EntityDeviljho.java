@@ -9,6 +9,7 @@ import mhfc.net.common.item.materials.ItemTigrex.TigrexSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -32,6 +33,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		attackManager.registerAttack(new DeviljhoBiteA());
 		attackManager.registerAttack(new DeviljhoBiteB());
 		attackManager.registerAttack(new DeviljhoTailWhip());
+		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 	//    attackManager.registerAttack(new DeviljhoWander());
 	}
 

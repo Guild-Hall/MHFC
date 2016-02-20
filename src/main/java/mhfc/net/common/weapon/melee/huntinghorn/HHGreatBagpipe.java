@@ -17,7 +17,7 @@ public class HHGreatBagpipe extends HuntingHornClass {
 	public HHGreatBagpipe() {
 		super(MHFCWeaponMaterialHelper.HHGreatbagpipe, 400, 600);
 		setUnlocalizedName(MHFCReference.weapon_hh_greatbagpipe_name);
-		labelWeaponRarity(1);
+		labelWeaponRarity(2);
 		elementalType(false, false, false, false, false, false, false, false);
 		enableCooldownDisplay = true;
 	}

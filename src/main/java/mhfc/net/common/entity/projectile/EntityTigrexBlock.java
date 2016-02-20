@@ -51,7 +51,7 @@ public class EntityTigrexBlock extends EntityThrowable {
 						.nextInt(17));
 				} else {
 					entity.attackEntityFrom(DamageSource
-						.causeMobDamage(getThrower()), 86 + this.rand
+						.causeMobDamage(getThrower()), 9999999f + this.rand
 						.nextInt(102));
 				}
 			}

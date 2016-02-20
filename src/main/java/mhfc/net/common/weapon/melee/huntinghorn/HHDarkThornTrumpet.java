@@ -8,7 +8,7 @@ public class HHDarkThornTrumpet extends HuntingHornClass {
 	public HHDarkThornTrumpet() {
 		super(MHFCWeaponMaterialHelper.HHDarkThornTrumpet, 400, 600);
 		setUnlocalizedName(MHFCReference.weapon_hh_darkthorntrumpet_name);
-		labelWeaponRarity(1);
+		labelWeaponRarity(9);
 		elementalType(false, false, false, false, false, false, false, false);
 		enableCooldownDisplay = true;
 	}

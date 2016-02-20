@@ -8,7 +8,7 @@ public class HHBlackCasket extends HuntingHornClass {
 	public HHBlackCasket() {
 		super(MHFCWeaponMaterialHelper.HHBlackCasket, 400, 600);
 		setUnlocalizedName(MHFCReference.weapon_hh_blackcasket_name);
-		labelWeaponRarity(1);
+		labelWeaponRarity(10);
 		elementalType(false, false, false, false, false, false, false, false);
 		enableCooldownDisplay = true;
 	}
