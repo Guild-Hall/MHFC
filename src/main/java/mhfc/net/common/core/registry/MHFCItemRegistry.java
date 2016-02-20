@@ -47,21 +47,30 @@ import mhfc.net.common.weapon.melee.greatsword.GSRathalosFiresword;
 import mhfc.net.common.weapon.melee.greatsword.GSThunderSword;
 import mhfc.net.common.weapon.melee.greatsword.GSTigrex;
 import mhfc.net.common.weapon.melee.hammer.HDeviljho;
-import mhfc.net.common.weapon.melee.hammer.HThunderPrison;
 import mhfc.net.common.weapon.melee.hammer.HRathalos;
+import mhfc.net.common.weapon.melee.hammer.HThunderPrison;
 import mhfc.net.common.weapon.melee.hammer.HTigrex;
 import mhfc.net.common.weapon.melee.hammer.HWar;
 import mhfc.net.common.weapon.melee.hammer.HWarPlus;
 import mhfc.net.common.weapon.melee.hammer.HWarSlammer;
+import mhfc.net.common.weapon.melee.huntinghorn.HHBlackCasket;
+import mhfc.net.common.weapon.melee.huntinghorn.HHDarkThornTrumpet;
+import mhfc.net.common.weapon.melee.huntinghorn.HHEliteBagpipe;
+import mhfc.net.common.weapon.melee.huntinghorn.HHGreatBagpipe;
+import mhfc.net.common.weapon.melee.huntinghorn.HHHeavyBagpipe;
+import mhfc.net.common.weapon.melee.huntinghorn.HHHeavyBagpipeplus;
 import mhfc.net.common.weapon.melee.huntinghorn.HHIvoryHorn;
 import mhfc.net.common.weapon.melee.huntinghorn.HHMetalBagpipe;
+import mhfc.net.common.weapon.melee.huntinghorn.HHMogwardDrums;
 import mhfc.net.common.weapon.melee.huntinghorn.HHTigrex;
+import mhfc.net.common.weapon.melee.huntinghorn.HHWardrums;
+import mhfc.net.common.weapon.melee.huntinghorn.HHWardrumsplus;
 import mhfc.net.common.weapon.melee.longsword.LSDarkVipern;
 import mhfc.net.common.weapon.melee.longsword.LSDevilSlicer;
 import mhfc.net.common.weapon.melee.longsword.LSEagerCleaver;
+import mhfc.net.common.weapon.melee.longsword.LSIronKatana;
 import mhfc.net.common.weapon.melee.longsword.LSIronKatana_Gospel;
 import mhfc.net.common.weapon.melee.longsword.LSIronKatana_Grace;
-import mhfc.net.common.weapon.melee.longsword.LSIronKatana;
 import mhfc.net.common.weapon.melee.longsword.LSLionDanceSaber;
 import mhfc.net.common.weapon.melee.longsword.LSLionKaiserSaber;
 import mhfc.net.common.weapon.melee.longsword.LSLionKingSaber;
@@ -120,6 +129,15 @@ public class MHFCItemRegistry {
 	public static final Item weapon_hh_metalbagpipe;
 	public static final Item weapon_hh_ivoryhorn;
 	public static final Item weapon_hh_tigrex;
+	public static final Item weapon_hh_greatbagpipe;
+	public static final Item weapon_hh_heavybagpipe;
+	public static final Item weapon_hh_heavybagpipeplus;
+	public static final Item weapon_hh_elitebagpipe;
+	public static final Item weapon_hh_wardrums;
+	public static final Item weapon_hh_wardrumsplus;
+	public static final Item weapon_hh_mogwarddrums;
+	public static final Item weapon_hh_blackcasket;
+	public static final Item weapon_hh_darkthorntrumpet;
 
 	public static final Item weapon_bgl_barrel;
 	public static final Item weapon_bgh_rath;
@@ -339,6 +357,15 @@ public class MHFCItemRegistry {
 		weapon_hh_ivoryhorn = registerItem(new HHIvoryHorn());
 		weapon_hh_metalbagpipe = registerItem(new HHMetalBagpipe());
 		weapon_hh_tigrex = registerItem(new HHTigrex());
+		weapon_hh_greatbagpipe = registerItem(new HHGreatBagpipe());
+		weapon_hh_heavybagpipe = registerItem(new HHHeavyBagpipe());
+		weapon_hh_heavybagpipeplus = registerItem(new HHHeavyBagpipeplus());
+		weapon_hh_elitebagpipe = registerItem(new HHEliteBagpipe());
+		weapon_hh_wardrums = registerItem(new HHWardrums());
+		weapon_hh_wardrumsplus = registerItem(new HHWardrumsplus());
+		weapon_hh_mogwarddrums = registerItem(new HHMogwardDrums());
+		weapon_hh_blackcasket = registerItem(new HHBlackCasket());
+		weapon_hh_darkthorntrumpet = registerItem(new HHDarkThornTrumpet());
 
 		// Range weapons
 

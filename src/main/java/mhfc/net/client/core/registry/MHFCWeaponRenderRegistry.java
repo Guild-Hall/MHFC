@@ -17,9 +17,16 @@ import mhfc.net.client.render.weapon.hammer.RenderHRathalos;
 import mhfc.net.client.render.weapon.hammer.RenderHTigrex;
 import mhfc.net.client.render.weapon.hammer.RenderHWar;
 import mhfc.net.client.render.weapon.hammer.RenderHWarSlammer;
+import mhfc.net.client.render.weapon.huntinghorn.RenderHHBlackCasket;
+import mhfc.net.client.render.weapon.huntinghorn.RenderHHDarkThornTrumpet;
+import mhfc.net.client.render.weapon.huntinghorn.RenderHHEliteBagpipe;
+import mhfc.net.client.render.weapon.huntinghorn.RenderHHGreatBagpipe;
+import mhfc.net.client.render.weapon.huntinghorn.RenderHHHeavyBagpipe;
 import mhfc.net.client.render.weapon.huntinghorn.RenderHHIvoryHorn;
 import mhfc.net.client.render.weapon.huntinghorn.RenderHHMetalBagpipe;
+import mhfc.net.client.render.weapon.huntinghorn.RenderHHMogwardDrums;
 import mhfc.net.client.render.weapon.huntinghorn.RenderHHTigrex;
+import mhfc.net.client.render.weapon.huntinghorn.RenderHHWarDrums;
 import mhfc.net.client.render.weapon.longsword.RenderLSDarkVipern;
 import mhfc.net.client.render.weapon.longsword.RenderLSDevilSlicer;
 import mhfc.net.client.render.weapon.longsword.RenderLSEagerCleaver;
@@ -108,6 +115,24 @@ public class MHFCWeaponRenderRegistry {
 				new RenderHHIvoryHorn());
 		registerItemRenderer(MHFCItemRegistry.weapon_hh_tigrex,
 				new RenderHHTigrex());
+		registerItemRenderer(MHFCItemRegistry.weapon_hh_greatbagpipe,
+				new RenderHHGreatBagpipe());
+		registerItemRenderer(MHFCItemRegistry.weapon_hh_heavybagpipe,
+				new RenderHHHeavyBagpipe());
+		registerItemRenderer(MHFCItemRegistry.weapon_hh_heavybagpipeplus,
+				new RenderHHHeavyBagpipe());
+		registerItemRenderer(MHFCItemRegistry.weapon_hh_elitebagpipe,
+				new RenderHHEliteBagpipe());
+		registerItemRenderer(MHFCItemRegistry.weapon_hh_wardrums,
+				new RenderHHWarDrums());
+		registerItemRenderer(MHFCItemRegistry.weapon_hh_wardrumsplus,
+				new RenderHHWarDrums());
+		registerItemRenderer(MHFCItemRegistry.weapon_hh_mogwarddrums,
+				new RenderHHMogwardDrums());
+		registerItemRenderer(MHFCItemRegistry.weapon_hh_darkthorntrumpet,
+				new RenderHHDarkThornTrumpet());
+		registerItemRenderer(MHFCItemRegistry.weapon_hh_blackcasket,
+				new RenderHHBlackCasket());
 
 		registerItemRenderer(MHFCItemRegistry.weapon_b_hunters,
 				new RenderBHunters());

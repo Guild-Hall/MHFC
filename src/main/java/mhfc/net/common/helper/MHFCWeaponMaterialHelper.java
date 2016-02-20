@@ -98,9 +98,18 @@ public class MHFCWeaponMaterialHelper {
 	 * Hunting Horn
 	 * */
 	
-	public static final ToolMaterial HHMetalBagpipe = EnumHelper.addToolMaterial       ("metalbagpipe", 4, durA, defaulteffiency, 8, enchA);
-	public static final ToolMaterial HHIvoryHorn = EnumHelper.addToolMaterial          ("ivoryhorn"   , 4, durA, defaulteffiency, 5, enchA);
-	public static final ToolMaterial HHTigrex = EnumHelper.addToolMaterial             ("tigy"        , 4, durB, defaulteffiency, 32, enchA);
+	public static final ToolMaterial HHMetalBagpipe = EnumHelper.addToolMaterial       ("hha", 4, durA, defaulteffiency, 8, enchA);
+	public static final ToolMaterial HHIvoryHorn = EnumHelper.addToolMaterial          ("hhb"   , 4, durA, defaulteffiency, 5, enchA);
+	public static final ToolMaterial HHTigrex = EnumHelper.addToolMaterial             ("hhc"        , 4, durB, defaulteffiency, 32, enchA);
+	public static final ToolMaterial HHGreatbagpipe = EnumHelper.addToolMaterial       ("hhd"        , 4, durB, defaulteffiency, 12, enchA);
+	public static final ToolMaterial HHHeavyBagpipe = EnumHelper.addToolMaterial       ("hhe"        , 4, durB, defaulteffiency, 16, enchA);
+	public static final ToolMaterial HHHeavyBagpipeplus = EnumHelper.addToolMaterial   ("hhf"        , 4, durB, defaulteffiency, 19, enchA);
+	public static final ToolMaterial HHEliteBagpipe = EnumHelper.addToolMaterial       ("hhg"        , 4, durC, defaulteffiency, 25, enchA);
+	public static final ToolMaterial HHWardrums = EnumHelper.addToolMaterial           ("hhh"        , 4, durB, defaulteffiency, 14, enchA);
+	public static final ToolMaterial HHWardrumsplus = EnumHelper.addToolMaterial       ("hhi"        , 4, durB, defaulteffiency, 18, enchA);
+	public static final ToolMaterial HHMogwardDrums = EnumHelper.addToolMaterial       ("hhj"        , 4, durB, defaulteffiency, 35, enchA);
+	public static final ToolMaterial HHDarkThornTrumpet = EnumHelper.addToolMaterial   ("hhk"        , 4, durC, defaulteffiency, 71, enchA);
+	public static final ToolMaterial HHBlackCasket = EnumHelper.addToolMaterial        ("hhl"        , 4, durC, defaulteffiency, 84, enchA);
 	
 	public void init() {}
 

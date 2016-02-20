@@ -475,15 +475,30 @@ public class MHFCReference {
 	public static final String weapon_gs_deadlyserpentblade_tex = "mhfc:textures/weapons/(GS)deadlyserpentblade.png";
 
 	public static final String weapon_hh_default_icon = "mhfc:huntinghorn";
-	public static final String weapon_hh_metalbagpipe_icon = "mhfc:huntinghorn";
 	public static final String weapon_hh_metalbagpipe_name = "huntinghorn_1";
 	public static final String weapon_hh_metalbagpipe_tex = "mhfc:textures/weapons/(HH)metalbagpipe.png";
-	public static final String weapon_hh_ivoryhorn_icon = "mhfc:huntinghorn";
 	public static final String weapon_hh_ivoryhorn_name = "huntinghorn_2";
 	public static final String weapon_hh_ivoryhorn_tex = "mhfc:textures/weapons/(HH)ivoryhorn.png";
-	public static final String weapon_hh_tigrex_icon = "mhfc:huntinghorn";
 	public static final String weapon_hh_tigrex_name = "huntinghorn_3";
 	public static final String weapon_hh_tigrex_tex = "mhfc:textures/weapons/(HH)tigrex.png";
+	public static final String weapon_hh_greatbagpipe_name = "huntinghorn_4";
+	public static final String weapon_hh_greatbagpipe_tex = "mhfc:textures/weapons/(HH)greatbagpipe.png";
+	public static final String weapon_hh_heavybagpipe_name = "huntinghorn_5";
+	public static final String weapon_hh_heavybagpipe_tex = "mhfc:textures/weapons/(HH)heavybagpipe.png";
+	public static final String weapon_hh_heavybagpipeplus_name = "huntinghorn_6";
+	public static final String weapon_hh_heavybagpipeplus_tex = "mhfc:textures/weapons/(HH)heavybagpipe.png";
+	public static final String weapon_hh_elitebagpipe_name = "huntinghorn_7";
+	public static final String weapon_hh_elitebagpipe_tex = "mhfc:textures/weapons/(HH)elitebagpipe.png";
+	public static final String weapon_hh_wardrums_name = "huntinghorn_8";
+	public static final String weapon_hh_wardrums_tex = "mhfc:textures/weapons/(HH)wardrums.png";
+	public static final String weapon_hh_wardrumsplus_name = "huntinghorn_9";
+	public static final String weapon_hh_wardrumsplus_tex = "mhfc:textures/weapons/(HH)wardrums.png";
+	public static final String weapon_hh_mogwarddrums_name = "huntinghorn_10";
+	public static final String weapon_hh_mogwarddrums_tex = "mhfc:textures/weapons/(HH)mogwarddrums.png";
+	public static final String weapon_hh_darkthorntrumpet_name = "huntinghorn_11";
+	public static final String weapon_hh_darkthorntrumpet_tex = "mhfc:textures/weapons/(HH)darkthorntrumpet.png";
+	public static final String weapon_hh_blackcasket_name = "huntinghorn_12";
+	public static final String weapon_hh_blackcasket_tex = "mhfc:textures/weapons/(HH)blackcasket.png";
 
 	public static final String weapon_hm_default_icon = "mhfc:hammer";
 	public static final String weapon_hm_kirin_icon = "mhfc:hammer";
