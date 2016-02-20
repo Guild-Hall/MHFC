@@ -17,7 +17,7 @@ public abstract class RenderBow<T extends ModelBase & IModelBow> extends RenderW
 	}
 
 	protected void setup(EntityLivingBase living) {
-		if (living instanceof EntityPlayer) {
+		if (!(living instanceof EntityPlayer)) {
 			return;
 		}
 		EntityPlayer player = (EntityPlayer) living;
@@ -58,6 +58,7 @@ public abstract class RenderBow<T extends ModelBase & IModelBow> extends RenderW
 
 	@Override
 	public void preEntityItem(RenderBlocks render, EntityItem entityItem) {
+		model.setupStart();
 		GL11.glScalef(scale, scale, scale);
 		GL11.glRotatef(90F, 1.0f, 0.0f, 0.0f);
 		GL11.glRotatef(0F, 0.0f, 1.0f, 0.0f);
@@ -67,6 +68,7 @@ public abstract class RenderBow<T extends ModelBase & IModelBow> extends RenderW
 
 	@Override
 	public void preInventory(RenderBlocks render) {
+		model.setupStart();
 		GL11.glRotatef(200F, 1.0f, 0.0f, 0.0f);
 		GL11.glRotatef(-80F, 0.0f, 1.0f, 0.0f);
 		GL11.glTranslatef(0.1F, -0.0F, -0.1F);

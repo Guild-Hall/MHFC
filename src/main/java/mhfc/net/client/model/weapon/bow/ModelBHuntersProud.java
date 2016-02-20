@@ -216,7 +216,7 @@ public class ModelBHuntersProud extends ModelBase implements IModelBow {
 	@Override
 	public void setupHalf() {
 		stringrest.isHidden = pina.isHidden = heada.isHidden = true;
-		stringrest.isHidden = stringbhalf.isHidden = pinb.isHidden = headb.isHidden = false;
+		stringahalf.isHidden = stringbhalf.isHidden = pinb.isHidden = headb.isHidden = false;
 		stringafull.isHidden = stringbfull.isHidden = pinc.isHidden = headc.isHidden = true;
 	}
 
