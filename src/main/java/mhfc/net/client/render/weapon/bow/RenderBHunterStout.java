@@ -3,108 +3,73 @@ package mhfc.net.client.render.weapon.bow;
 import org.lwjgl.opengl.GL11;
 
 import mhfc.net.client.model.weapon.bow.ModelBHuntersStout;
+import mhfc.net.client.render.weapon.RenderWeapon;
 import mhfc.net.common.util.lib.MHFCReference;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.IItemRenderer;
 
-public class RenderBHunterStout implements IItemRenderer {
-
-	private ModelBHuntersStout weapon;
+public class RenderBHunterStout extends RenderWeapon<ModelBHuntersStout> {
 
 	public RenderBHunterStout() {
-		weapon = new ModelBHuntersStout();
+		super(new ModelBHuntersStout(), MHFCReference.weapon_bow_huntersstout_tex, 1.2f);
 	}
 
-	private void setup(Object player) {
-		if ((player instanceof EntityPlayer) && (((EntityPlayer) player).getCurrentEquippedItem() != null)) {
-			int usingItem = ((EntityPlayer) player).getItemInUseDuration();
+	private void setup(EntityLivingBase living) {
+		if (living instanceof EntityPlayer) {
+			return;
+		}
+		EntityPlayer player = (EntityPlayer) living;
+		if (player.getCurrentEquippedItem() != null) {
+			int usingItem = player.getItemInUseDuration();
 			if (usingItem >= 1) {
-				weapon.setupStart();
+				model.setupStart();
 			}
 			if (usingItem >= 5) {
-				weapon.setupHalf();
+				model.setupHalf();
 			}
 			if (usingItem >= 25) {
-				weapon.setupFull();
+				model.setupFull();
 			}
 		}
 	}
 
 	@Override
-	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-
-		float scale = 1.2f;
-		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(MHFCReference.weapon_bow_huntersstout_tex));
-		weapon.setupRest();
-		GL11.glPushMatrix();
-		switch (type) {
-		case EQUIPPED: // render in third person
-			setup(data[1]);
-			GL11.glRotatef(00F, 1.0f, 0.0f, 0.0f);
-			GL11.glRotatef(-90F, 0.0f, 1.0f, 0.0f);
-			GL11.glRotatef(-180F, 0.0f, 0.0f, 1.0f);
-			GL11.glTranslatef(-0.1F, -0.2F, -0.4F);
-			GL11.glScalef(scale, scale, scale);
-			weapon.render(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-			break;
-
-		case EQUIPPED_FIRST_PERSON:
-			// rince and repeat the rendering. adjust axis' and translation
-			// as needed
-			setup(data[1]);
-			scale = 1.5f;
-			GL11.glScalef(scale, scale, scale);
-			GL11.glRotatef(0F, 1.0f, 0.0f, 0.0f);
-			GL11.glRotatef(-5F, 0.0f, 1.0f, 0.0f);
-			GL11.glRotatef(-150F, 0.0f, 0.0f, 1.0f);
-			GL11.glTranslatef(-1.1F, -0.6F, 0.5F);
-			weapon.render((Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-			break;
-
-		case ENTITY:
-			scale = 1.2F;
-			GL11.glScalef(scale, scale, scale);
-			GL11.glRotatef(90F, 1.0f, 0.0f, 0.0f);
-			GL11.glRotatef(0F, 0.0f, 1.0f, 0.0f);
-			GL11.glRotatef(45F, 0.0f, 0.0f, 1.0f);
-			GL11.glTranslatef(0F, -0.6F, -0.1F);
-			weapon.render((Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-			break;
-
-		case INVENTORY:
-			scale = 1.0F;
-			GL11.glScalef(scale, scale, scale);
-			GL11.glRotatef(200F, 1.0f, 0.0f, 0.0f);
-			GL11.glRotatef(-80F, 0.0f, 1.0f, 0.0f);
-			GL11.glTranslatef(0.1F, -0.0F, -0.1F);
-			weapon.render(null, 0f, 0f, 0f, 0f, 0f, 0.0625F);
-			break;
-
-		default:
-			break;
-		}
-		GL11.glPopMatrix();
-
+	public void preEquipped(RenderBlocks render, EntityLivingBase entityLiving) {
+		setup(entityLiving);
+		GL11.glRotatef(00F, 1.0f, 0.0f, 0.0f);
+		GL11.glRotatef(-90F, 0.0f, 1.0f, 0.0f);
+		GL11.glRotatef(-180F, 0.0f, 0.0f, 1.0f);
+		GL11.glTranslatef(-0.1F, -0.2F, -0.4F);
+		GL11.glScalef(scale, scale, scale);
 	}
 
 	@Override
-	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-		return true;
+	public void preFirstPerson(RenderBlocks render, EntityLivingBase entityLiving) {
+		setup(entityLiving);
+		float scale = 1.5f;
+		GL11.glScalef(scale, scale, scale);
+		GL11.glRotatef(0F, 1.0f, 0.0f, 0.0f);
+		GL11.glRotatef(-5F, 0.0f, 1.0f, 0.0f);
+		GL11.glRotatef(-150F, 0.0f, 0.0f, 1.0f);
+		GL11.glTranslatef(-1.1F, -0.6F, 0.5F);
 	}
 
 	@Override
-	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-		switch (type) {
-		case INVENTORY:
-			return true;
-		default:
-			break;
-		}
-		return false;
+	public void preEntityItem(RenderBlocks render, EntityItem entityItem) {
+		GL11.glScalef(scale, scale, scale);
+		GL11.glRotatef(90F, 1.0f, 0.0f, 0.0f);
+		GL11.glRotatef(0F, 0.0f, 1.0f, 0.0f);
+		GL11.glRotatef(45F, 0.0f, 0.0f, 1.0f);
+		GL11.glTranslatef(0F, -0.6F, -0.1F);
+	}
+
+	@Override
+	public void preInventory(RenderBlocks render) {
+		GL11.glRotatef(200F, 1.0f, 0.0f, 0.0f);
+		GL11.glRotatef(-80F, 0.0f, 1.0f, 0.0f);
+		GL11.glTranslatef(0.1F, -0.0F, -0.1F);
 	}
 
 }
