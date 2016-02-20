@@ -152,6 +152,7 @@ public class ModelHHDarkThornTrumpet extends ModelBase
   {
     super.render(entity, f, f1, f2, f3, f4, f5);
     setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+    render(f5);
 
   }
   
