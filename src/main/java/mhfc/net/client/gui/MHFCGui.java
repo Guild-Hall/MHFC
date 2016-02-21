@@ -8,6 +8,7 @@ import java.util.Objects;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
 public abstract class MHFCGui extends GuiScreen implements IMHFCGuiItem {
@@ -29,6 +30,7 @@ public abstract class MHFCGui extends GuiScreen implements IMHFCGuiItem {
 	protected double mouseLastX, mouseLastY;
 	protected double mouseClickX, mouseClickY;
 	protected int mouseClickButton;
+	boolean clickHandled;
 
 	private Map<IMHFCGuiItem, ComponentPosition> screenComponents = new IdentityHashMap<>();
 
@@ -70,22 +72,27 @@ public abstract class MHFCGui extends GuiScreen implements IMHFCGuiItem {
 	}
 
 	@Override
+	protected void actionPerformed(GuiButton p_146284_1_) {
+		clickHandled = true;
+	}
+
+	@Override
 	public boolean handleClick(int relativeX, int relativeY, int button) {
 		mouseClickX = relativeX;
 		mouseClickY = relativeY;
 		mouseLastX = relativeX;
 		mouseLastY = relativeY;
 		mouseClickButton = button;
-		boolean handled = false;
+		clickHandled = false;
 		super.mouseClicked(relativeX, relativeY, button);
 		for (IMHFCGuiItem item : screenComponents.keySet()) {
 			ComponentPosition pos = screenComponents.get(item);
 			if (item.handleClick(relativeX - pos.positionX, relativeY - pos.positionY, button)) {
 				itemUpdated(item);
-				handled = true;
+				clickHandled = true;
 			}
 		}
-		return handled;
+		return clickHandled;
 	}
 
 	@Override
@@ -97,7 +104,6 @@ public abstract class MHFCGui extends GuiScreen implements IMHFCGuiItem {
 			item.initializeContext(mc);
 			ComponentPosition pos = screenComponents.get(item);
 			GL11.glPushMatrix();
-			// FIXME enable this again and rework everything else to be compliant
 			GL11.glTranslated(pos.positionX, pos.positionY, pos.positionY);
 			item.draw(mouseX - pos.positionX, mouseY - pos.positionY, partialTick);
 			GL11.glPopMatrix();

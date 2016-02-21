@@ -60,6 +60,10 @@ public class DefaultQuestFactory implements IQuestFactory {
 
 		GoalReference goal = context.deserialize(jsonAsObject.get(KEY_GOAL), GoalReference.class);
 		String areaId = JsonUtils.getJsonObjectStringFieldValue(jsonAsObject, KEY_AREA_ID);
+		IAreaType areaType = AreaRegistry.instance.getType(areaId);
+		if (areaType == null) {
+			throw new NullPointerException("Key " + areaId + " is not a registered area type");
+		}
 		String typeString = JsonUtils.getJsonObjectStringFieldValue(jsonAsObject, KEY_QUEST_TYPE);
 		String flairString = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonAsObject, KEY_FLAIR, "DAYTIME");
 		QuestDescription.QuestType type = QuestDescription.QuestType.Hunting;
@@ -78,8 +82,8 @@ public class DefaultQuestFactory implements IQuestFactory {
 			break;
 		default:
 			MHFCMain.logger.error(
-					"[MHFC] Type " + typeString
-							+ " was not recognized, for allowed keys see documentation of MHFCQuestBuildRegistry. Falling back to hunting.");
+					"[MHFC] Type {} was not recognized, for allowed keys see documentation of MHFCQuestBuildRegistry. Falling back to hunting.",
+					typeString);
 			type = QuestDescription.QuestType.Hunting;
 		}
 		QuestFlair flair = QuestFlair.DAYTIME;
@@ -87,8 +91,8 @@ public class DefaultQuestFactory implements IQuestFactory {
 			flair = QuestFlair.valueOf(flairString);
 		} catch (IllegalArgumentException iae) {
 			MHFCMain.logger.error(
-					"[MHFC] Flair " + typeString
-							+ " was not recognized, for allowed values see documentation of MHFCQuestBuildRegistry. Falling back to DAYTIME.");
+					"[MHFC] Flair {} was not recognized, for allowed values see documentation of MHFCQuestBuildRegistry. Falling back to DAYTIME.",
+					typeString);
 		}
 		int reward = JsonUtils.getJsonObjectIntegerFieldValue(jsonAsObject, KEY_REWARD);
 		int fee = JsonUtils.getJsonObjectIntegerFieldValue(jsonAsObject, KEY_FEE);
@@ -97,7 +101,7 @@ public class DefaultQuestFactory implements IQuestFactory {
 		DefaultQuestDescription description = new DefaultQuestDescription(
 				goal,
 				type,
-				areaId,
+				areaType,
 				flair,
 				reward,
 				fee,

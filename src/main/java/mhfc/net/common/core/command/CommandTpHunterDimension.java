@@ -80,7 +80,7 @@ public class CommandTpHunterDimension implements ICommand {
 
 	@Override
 	public String getCommandUsage(ICommandSender p_71518_1_) {
-		return "/" + getCommandName() + "[entity-selector]";
+		return "/" + getCommandName() + "[area-name]";
 	}
 
 	@Override
@@ -90,37 +90,38 @@ public class CommandTpHunterDimension implements ICommand {
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
-		if (sender instanceof EntityPlayerMP) {
-			EntityPlayerMP player = (EntityPlayerMP) sender;
-			// players = args.length > 0 ? PlayerSelector.matchPlayers(sender, args[0]) : players;
-			ServerConfigurationManager mg = MinecraftServer.getServer().getConfigurationManager();
-			int questWorldID = GlobalAreaManager.instance.getWorldIDFor(QuestFlair.DAYTIME);
-			WorldServer server = GlobalAreaManager.instance.getServerFor(QuestFlair.DAYTIME);
+		if (!canCommandSenderUseCommand(sender))
+			return;
 
-			if (player.dimension == questWorldID) {
-				Teleporter tpOverworld = new BackTeleporter(server);
-				mg.transferPlayerToDimension(player, 0, tpOverworld);
-			} else {
-				String areaName = args.length > 0 ? args[0] : AreaRegistry.NAME_PLAYFIELD;
-				IAreaType areaType = AreaRegistry.instance.getType(areaName);
-				if (areaType == null) {
-					sender.addChatMessage(new ChatComponentText("Could not find requested target area type."));
-					MHFCMain.logger.debug("No area type found for " + areaName);
-					return;
-				}
-				StagedFuture<IActiveArea> futureArea = GlobalAreaManager.instance
-						.getUnusedInstance(areaType, QuestFlair.DAYTIME);
-				sender.addChatMessage(new ChatComponentText("You will be teleported when the area is finished"));
-				futureArea.asCompletionStage().thenAccept((a) -> {
-					try (IActiveArea active = a) {
-						MHFCMain.logger.info("Teleporting");
-						teleportPoints.put(player, WorldHelper.getVectorOfEntity(player));
-						AreaTeleportation.movePlayerToArea(player, active.getArea());
-					}
-				});
+		EntityPlayerMP player = (EntityPlayerMP) sender;
+		// players = args.length > 0 ? PlayerSelector.matchPlayers(sender, args[0]) : players;
+		ServerConfigurationManager mg = MinecraftServer.getServer().getConfigurationManager();
+		int questWorldID = GlobalAreaManager.instance.getWorldIDFor(QuestFlair.DAYTIME);
+		WorldServer server = GlobalAreaManager.instance.getServerFor(QuestFlair.DAYTIME);
+
+		if (player.dimension == questWorldID) {
+			Teleporter tpOverworld = new BackTeleporter(server);
+			mg.transferPlayerToDimension(player, 0, tpOverworld);
+		} else {
+			String areaName = args.length > 0 ? args[0] : AreaRegistry.NAME_PLAYFIELD;
+			IAreaType areaType = AreaRegistry.instance.getType(areaName);
+			if (areaType == null) {
+				sender.addChatMessage(new ChatComponentText("Could not find requested target area type."));
+				MHFCMain.logger.debug("No area type found for " + areaName);
+				return;
 			}
-			MHFCMain.logger.debug("Teleported to/from dimension " + questWorldID);
+			StagedFuture<IActiveArea> futureArea = GlobalAreaManager.instance
+					.getUnusedInstance(areaType, QuestFlair.DAYTIME);
+			sender.addChatMessage(new ChatComponentText("You will be teleported when the area is finished"));
+			futureArea.asCompletionStage().thenAccept((a) -> {
+				try (IActiveArea active = a) {
+					MHFCMain.logger.info("Teleporting");
+					teleportPoints.put(player, WorldHelper.getVectorOfEntity(player));
+					AreaTeleportation.movePlayerToArea(player, active.getArea());
+				}
+			});
 		}
+		MHFCMain.logger.debug("Teleported to/from dimension " + questWorldID);
 	}
 
 	@Override

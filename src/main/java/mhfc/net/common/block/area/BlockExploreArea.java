@@ -1,19 +1,26 @@
 package mhfc.net.common.block.area;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import mhfc.net.MHFCMain;
+import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.tile.TileExploreArea;
 import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class BlockExploreArea extends Block implements ITileEntityProvider {
+
+	private static Set<EntityPlayerMP> teleportingPlayers = new HashSet<>();
 
 	public BlockExploreArea() {
 		super(Material.plants);
@@ -61,10 +68,19 @@ public class BlockExploreArea extends Block implements ITileEntityProvider {
 		TileEntity tile = world.getTileEntity(x, y, z);
 		if (!(tile instanceof TileExploreArea))
 			return;
-		if (!(entity instanceof EntityLiving))
+		if (!(entity instanceof EntityPlayerMP))
 			return;
 		TileExploreArea tileChangeArea = (TileExploreArea) tile;
-
+		EntityPlayerMP player = (EntityPlayerMP) entity;
+		if (teleportingPlayers.contains(player)) {
+			player.setVelocity(player.motionX, 0, player.motionZ);
+			return;
+		}
+		IAreaType targetArea = tileChangeArea.getTargetArea();
+		teleportingPlayers.add(player);
+		MHFCExplorationRegistry.transferPlayer(player, targetArea, (t) -> {
+			teleportingPlayers.remove(player);
+		});
 	}
 
 }

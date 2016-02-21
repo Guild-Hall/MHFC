@@ -6,7 +6,6 @@ import mhfc.net.common.quests.QuestVisualInformation;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.QuestDescription;
 import mhfc.net.common.quests.world.QuestFlair;
-import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IAreaType;
 
 /**
@@ -38,7 +37,7 @@ public class DefaultQuestDescription extends QuestDescription {
 	public DefaultQuestDescription(
 			GoalReference goalDescID,
 			QuestDescription.QuestType type,
-			String areaId,
+			IAreaType areaId,
 			QuestFlair flair,
 			int reward,
 			int fee,
@@ -46,7 +45,7 @@ public class DefaultQuestDescription extends QuestDescription {
 		super(MHFCQuestBuildRegistry.QUEST_DEFAULT);
 		this.goalReference = goalDescID;
 		this.questType = type;
-		this.areaType = AreaRegistry.instance.getType(areaId);
+		this.areaType = areaId;
 		this.questFlair = flair;
 		this.reward = reward;
 		this.fee = fee;

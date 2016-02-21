@@ -159,4 +159,6 @@ public interface IWorld {
 
 	boolean spawnEntityAt(Entity entity, double x, double y, double z);
 
+	void moveEntityTo(Entity entity, double x, double y, double z);
+
 }

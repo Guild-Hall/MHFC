@@ -88,7 +88,9 @@ public class AreaManager implements IAreaManager {
 		Optional<IArea> chosen = nonactiveAreas.computeIfAbsent(type, (k) -> new ArrayList<>()).stream()
 				.filter(a -> !a.isUnusable()).findFirst();
 		if (chosen.isPresent()) {
-			return StagedFuture.wrap(CompletableFuture.completedFuture(new Active(chosen.get(), type, this)));
+			Active active = new Active(chosen.get(), type, this);
+			nonactiveAreas.get(type).remove(active.getArea());
+			return StagedFuture.wrap(CompletableFuture.completedFuture(active));
 		}
 		CompletableFuture<IActiveArea> area = new CompletableFuture<>();
 		AreaConfiguration config = newArea(type);
@@ -102,7 +104,7 @@ public class AreaManager implements IAreaManager {
 		MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_PRE, Operations.withCallback(op, () -> {
 			area.complete(new Active(plan.getFinishedArea(), type, this));
 			ForgeChunkManager.unforceChunk(loadingTicket, chunk);
-			MHFCMain.logger.info("Area completed");
+			MHFCMain.logger.info("Area of type {} completed", type);
 		} , () -> {
 			ForgeChunkManager.unforceChunk(loadingTicket, chunk);
 		}));

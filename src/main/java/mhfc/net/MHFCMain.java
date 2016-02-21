@@ -14,6 +14,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mhfc.net.client.MHFCClient;
 import mhfc.net.common.configuration.MHFCConfig;
+import mhfc.net.common.core.command.CommandExplore;
 import mhfc.net.common.core.command.CommandMHFC;
 import mhfc.net.common.core.command.CommandTpHunterDimension;
 import mhfc.net.common.system.UpdateSystem;
@@ -78,6 +79,7 @@ public class MHFCMain {
 	public void serverLoad(FMLServerStartingEvent event) {
 		event.registerServerCommand(new CommandMHFC());
 		event.registerServerCommand(new CommandTpHunterDimension());
+		event.registerServerCommand(new CommandExplore());
 	}
 
 	@Mod.EventHandler

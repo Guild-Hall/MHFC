@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import mhfc.net.common.quests.world.SpawnControllerAdapter.SpawnInformation;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
-import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.EmptyArea;
 import mhfc.net.common.world.area.IArea;
@@ -28,10 +27,10 @@ public class ArenaType extends AreaTypeSchematic {
 
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
-			double posX = getChunkPosition().posX * 16 + 54;
-			double posZ = getChunkPosition().posY * 16 + 11;
-			double posY = world.getTopSolidOrLiquidBlock((int) posX, (int) posZ) + 1;
-			AreaTeleportation.moveEntity(player, posX, posY, posZ);
+			double posX = 54;
+			double posZ = 11;
+			double posY = worldView.getTopSolidOrLiquidBlock((int) posX, (int) posZ) + 1;
+			worldView.moveEntityTo(player, posX, posY, posZ);
 		}
 
 		@Override
@@ -71,7 +70,7 @@ public class ArenaType extends AreaTypeSchematic {
 	}
 
 	@Override
-	protected IArea onPopulate(World world, AreaConfiguration configuration) {
+	protected IArea areaToPopulate(World world, AreaConfiguration configuration) {
 		return new Area(world, configuration);
 	}
 

@@ -36,7 +36,7 @@ public class AreaTeleportation {
 				double p_77185_6_,
 				float p_77185_8_) {
 			MHFCMain.logger.debug("Teleporting " + entity.getClass() + " to overworld to {} {} {}", posX, posY, posZ);
-			moveEntity(entity, posX, posY, posZ);
+			moveEntityTo(entity, posX, posY, posZ);
 		}
 
 		@Override
@@ -156,7 +156,7 @@ public class AreaTeleportation {
 		return MinecraftServer.getServer().worldServerForDimension(dim);
 	}
 
-	public static void moveEntity(Entity entity, double posX, double posY, double posZ) {
+	public static void moveEntityTo(Entity entity, double posX, double posY, double posZ) {
 		if (entity instanceof EntityLivingBase) {
 			EntityLivingBase entityLiving = (EntityLivingBase) entity;
 			entityLiving.setPositionAndUpdate(posX, posY, posZ);

@@ -51,7 +51,7 @@ public class GuiBlockExploreArea extends MHFCGui {
 		addScreenComponent(targetFlairList, new ComponentPosition(width / 6, height / 2));
 		saveButton = new GuiButton(0, width / 2 - 75, 3 * height / 4, 150, 20, I18n.format("gui.save"));
 		buttonList.add(saveButton);
-		targetAreaText.setText(tileEntity.getTargetArea());
+		targetAreaText.setText(tileEntity.getTargetAreaName());
 	}
 
 	@Override

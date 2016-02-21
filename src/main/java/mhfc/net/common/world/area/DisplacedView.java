@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.controller.CornerPosition;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -295,4 +296,9 @@ public class DisplacedView implements IWorldView {
 		return worldObj;
 	}
 
+	public void moveEntityTo(Entity entity, double posX, double posY, double posZ) {
+		posX += addX;
+		posZ += addZ;
+		AreaTeleportation.moveEntityTo(entity, posX, posY, posZ);
+	}
 }

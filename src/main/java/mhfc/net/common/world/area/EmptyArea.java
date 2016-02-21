@@ -7,12 +7,9 @@ import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
 import net.minecraft.world.World;
 
 public abstract class EmptyArea extends AreaAdapter {
-
-	protected IQuestAreaSpawnController spawnController;
-
 	public class SpawnController extends SpawnControllerAdapter {
 		public SpawnController() {
-			super(EmptyArea.this);
+			super(EmptyArea.this.worldView);
 		}
 
 		@Override
@@ -30,18 +27,11 @@ public abstract class EmptyArea extends AreaAdapter {
 
 	public EmptyArea(World world, AreaConfiguration config) {
 		super(world, config);
-		spawnController = new SpawnController();
 	}
 
 	@Override
-	public void loadFromConfig(AreaConfiguration config) {
-		super.loadFromConfig(config);
-		spawnController = new SpawnController();
-	}
-
-	@Override
-	public IQuestAreaSpawnController getSpawnController() {
-		return spawnController;
+	protected IQuestAreaSpawnController initializeSpawnController() {
+		return new SpawnController();
 	}
 
 	public abstract SpawnInformation constructDefaultSpawnInformation(Spawnable entity);

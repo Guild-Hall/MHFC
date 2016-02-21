@@ -10,12 +10,13 @@ import java.util.Set;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ServerDisconnectionFromClientEvent;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import mhfc.net.MHFCMain;
+import mhfc.net.common.core.data.KeyToInstanceRegistryData;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageMHFCInteraction;
 import mhfc.net.common.network.packet.MessageQuestRunningSubscription;
@@ -29,6 +30,7 @@ import mhfc.net.common.quests.api.QuestDescription;
 import mhfc.net.common.quests.api.QuestFactory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.util.ChatComponentText;
 
 public class MHFCQuestRegistry {
@@ -69,7 +71,7 @@ public class MHFCQuestRegistry {
 
 		public static void sendAllTo(EntityPlayerMP player) {
 			for (GeneralQuest q : questsRunning) {
-				String identifier = runningQuestToStringMap.get(q);
+				String identifier = runningQuestRegistry.getKey(q);
 				MessageQuestVisual messageSent = new MessageQuestVisual(
 						VisualType.RUNNING_QUEST,
 						identifier,
@@ -89,18 +91,20 @@ public class MHFCQuestRegistry {
 	public static class PlayerConnectionHandler {
 
 		@SubscribeEvent
-		public void onPlayerJoin(PlayerLoggedInEvent logIn) {
-			EntityPlayerMP playerMP = (EntityPlayerMP) logIn.player;
-			RunningSubscriptionHandler.subscribers.add(playerMP);
+		public void onPlayerJoin(ServerConnectionFromClientEvent logIn) {
+			NetHandlerPlayServer playerNetHandler = (NetHandlerPlayServer) logIn.handler;
+			RunningSubscriptionHandler.subscribers.add(playerNetHandler.playerEntity);
 		}
 
 		@SubscribeEvent
-		public void onPlayerLeave(PlayerLoggedOutEvent logOut) {
-			GeneralQuest q = playerQuest.get(logOut.player);
+		public void onPlayerLeave(ServerDisconnectionFromClientEvent logOut) {
+			NetHandlerPlayServer playerNetHandler = (NetHandlerPlayServer) logOut.handler;
+			EntityPlayerMP player = playerNetHandler.playerEntity;
+			GeneralQuest q = playerQuest.get(player);
 			if (q == null)
 				return;
-			q.quitPlayer((EntityPlayerMP) logOut.player);
-			RunningSubscriptionHandler.subscribers.remove(logOut.player);
+			q.quitPlayer((EntityPlayerMP) player);
+			RunningSubscriptionHandler.subscribers.remove(player);
 		}
 	}
 
@@ -186,17 +190,16 @@ public class MHFCQuestRegistry {
 		PacketPipeline.networkPipe.sendTo(new MessageQuestVisual(VisualType.PERSONAL_QUEST, "", null), player);
 	}
 
-	protected static HashMap<EntityPlayer, GeneralQuest> playerQuest = new HashMap<EntityPlayer, GeneralQuest>();
+	protected static Map<EntityPlayer, GeneralQuest> playerQuest = new HashMap<EntityPlayer, GeneralQuest>();
 	protected static List<GeneralQuest> questsRunning = new ArrayList<GeneralQuest>();
-	protected static Map<String, GeneralQuest> runningQuestFromStringMap = new HashMap<String, GeneralQuest>();
-	protected static Map<GeneralQuest, String> runningQuestToStringMap = new HashMap<GeneralQuest, String>();
+	protected static KeyToInstanceRegistryData<String, GeneralQuest> runningQuestRegistry = new KeyToInstanceRegistryData<String, GeneralQuest>();
 
 	public static void init() {
 		FMLCommonHandler.instance().bus().register(new PlayerConnectionHandler());
 	}
 
 	public static GeneralQuest getRunningQuest(String string) {
-		return runningQuestFromStringMap.get(string);
+		return runningQuestRegistry.getData(string);
 	}
 
 	/**
@@ -217,7 +220,7 @@ public class MHFCQuestRegistry {
 	 * Returns the identifier for a quest
 	 */
 	public static String getIdentifierForQuest(GeneralQuest quest) {
-		return runningQuestToStringMap.get(quest);
+		return runningQuestRegistry.getKey(quest);
 	}
 
 	/**
@@ -234,16 +237,17 @@ public class MHFCQuestRegistry {
 	/**
 	 * Should be called when a new quest was started
 	 */
-	public static void regRunningQuest(GeneralQuest generalQuest, String identifier) {
+	public static boolean regRunningQuest(GeneralQuest generalQuest, String identifier) {
 		questsRunning.add(generalQuest);
 		MHFCMain.logger.debug(questsRunning.size() + " quests are running at the moment.");
-		runningQuestFromStringMap.put(identifier, generalQuest);
-		runningQuestToStringMap.put(generalQuest, identifier);
+		if (!runningQuestRegistry.offerMapping(identifier, generalQuest))
+			return false;
 		MessageQuestVisual message = new MessageQuestVisual(
 				VisualType.RUNNING_QUEST,
 				identifier,
 				generalQuest.getRunningInformation());
 		RunningSubscriptionHandler.sendToAll(message);
+		return true;
 	}
 
 	/**
@@ -253,8 +257,7 @@ public class MHFCQuestRegistry {
 	public static boolean deregRunningQuest(GeneralQuest generalQuest) {
 		boolean wasRunning = questsRunning.remove(generalQuest);
 		if (wasRunning) {
-			String key = runningQuestToStringMap.remove(generalQuest);
-			runningQuestFromStringMap.remove(key);
+			String key = runningQuestRegistry.removeKey(generalQuest);
 			MessageQuestVisual message = new MessageQuestVisual(VisualType.RUNNING_QUEST, key, null);
 			RunningSubscriptionHandler.sendToAll(message);
 		}
@@ -266,7 +269,7 @@ public class MHFCQuestRegistry {
 	 * Should be called when major changes to a quest were made that require resending the information to all clients
 	 */
 	public static void questUpdated(GeneralQuest q) {
-		String identifier = runningQuestToStringMap.get(q);
+		String identifier = runningQuestRegistry.getKey(q);
 		if (q == null || identifier == null)
 			return;
 		MessageQuestVisual message = new MessageQuestVisual(

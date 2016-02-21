@@ -7,12 +7,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import mhfc.net.common.world.area.IArea;
+import mhfc.net.common.world.area.IWorldView;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
@@ -174,18 +175,19 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	protected Map<Class<? extends Entity>, Integer> aliveCount;
 	protected Map<Class<? extends Entity>, Integer> spawnMaximum;
 	protected Set<Entity> managedEntities;
-	protected IArea area;
 	protected TileEntity tickerEntity;
+	protected IWorldView worldView;
 
-	public SpawnControllerAdapter(IArea area) {
-		this.area = area;
+	public SpawnControllerAdapter(IWorldView worldView) {
+		Objects.requireNonNull(worldView);
+		this.worldView = worldView;
 		this.spawnQueues = new HashSet<>();
 		this.aliveCount = new HashMap<>();
 		this.spawnMaximum = new HashMap<>();
 		this.managedEntities = new HashSet<>();
 		this.tickerEntity = new TickerEntity();
-		this.area.getWorldView().addWorldAccess(new WorldAccessor());
-		this.area.getWorldView().addTileEntity(tickerEntity);
+		worldView.addWorldAccess(new WorldAccessor());
+		worldView.addTileEntity(tickerEntity);
 	}
 
 	@Override
@@ -268,15 +270,15 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	}
 
 	protected boolean inArea(double posX, double posY, double posZ) {
-		return area.getWorldView().isManaged(posX, posY, posZ);
+		return worldView.isManaged(posX, posY, posZ);
 	}
 
 	/**
 	 * Directly spawns the given entity at the position. Forces the spawn
 	 */
 	protected boolean spawnEntity(SpawnInformation information) {
-		Entity entity = information.spawnable.apply(area.getWorldView().getWorldObject());
-		area.getWorldView().spawnEntityAt(entity, information.relX, information.relY, information.relZ);
+		Entity entity = information.spawnable.apply(worldView.getWorldObject());
+		worldView.spawnEntityAt(entity, information.relX, information.relY, information.relZ);
 		return false;
 	}
 
@@ -287,7 +289,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	 * @return
 	 */
 	protected boolean despawnEntity(Entity entity) {
-		area.getWorldView().removeEntity(entity);
+		worldView.removeEntity(entity);
 		return releaseEntity(entity);
 	}
 
@@ -332,7 +334,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	}
 
 	private boolean spawnIfFreeSlots(Spawnable firstEnt) {
-		Entity entity = firstEnt.apply(area.getWorldView().getWorldObject());
+		Entity entity = firstEnt.apply(worldView.getWorldObject());
 		if (aliveCount.getOrDefault(entity.getClass(), 0) >= spawnMaximum.getOrDefault(entity.getClass(), 0))
 			return false;
 		spawnEntity((world) -> entity);

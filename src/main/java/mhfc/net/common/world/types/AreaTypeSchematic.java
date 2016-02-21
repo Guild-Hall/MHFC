@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 
 import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.function.operation.DelegateOperation;
@@ -37,9 +38,14 @@ public abstract class AreaTypeSchematic implements IAreaType {
 	protected Vector absoluteMinimum;
 	protected CuboidRegion clipboardRegion;
 
-	public AreaTypeSchematic(ResourceLocation schematicLocation) throws IOException {
+	public AreaTypeSchematic(ResourceLocation schematicLocation) {
 		try (BufferedInputStream instream = Utilities.inputStream(schematicLocation)) {
 			areaInformation = AreaTypeSchematic.format.getReader(instream).read(AreaTypeSchematic.forgeData);
+		} catch (IOException e) {
+			MHFCMain.logger.error(
+					"Unable to load schematic {}. The area type will be blank instead",
+					schematicLocation.getResourcePath());
+			areaInformation = new BlockArrayClipboard(new CuboidRegion(Vector.ZERO, Vector.ZERO));
 		}
 
 		Vector origin = areaInformation.getOrigin();
@@ -68,7 +74,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 		Operation commit = displacedWorld.commit();
 		Operation chain = commit == null ? copyOp : new DelegateOperation(commit, copyOp);
 
-		return new AreaPlanAdapter(onPopulate(world, configuration), chain);
+		return new AreaPlanAdapter(areaToPopulate(world, configuration), chain);
 	}
 
 	@Override
@@ -80,6 +86,6 @@ public abstract class AreaTypeSchematic implements IAreaType {
 				IExtendedConfiguration.EMPTY);
 	}
 
-	protected abstract IArea onPopulate(World world, AreaConfiguration configuration);
+	protected abstract IArea areaToPopulate(World world, AreaConfiguration configuration);
 
 }

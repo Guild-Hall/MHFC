@@ -6,7 +6,6 @@ import com.sk89q.worldedit.function.operation.RunContext;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.SpawnControllerAdapter;
-import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.AreaAdapter;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.AreaPlanAdapter;
@@ -22,7 +21,7 @@ public class AreaTypePlayfield implements IAreaType {
 	private static class AreaPlayfield extends AreaAdapter {
 		private class PlayfieldSpawnController extends SpawnControllerAdapter {
 			public PlayfieldSpawnController() {
-				super(AreaPlayfield.this);
+				super(AreaPlayfield.this.worldView);
 			}
 
 			@Override
@@ -43,30 +42,21 @@ public class AreaTypePlayfield implements IAreaType {
 			}
 		}
 
-		private IQuestAreaSpawnController spawnController;
-
 		public AreaPlayfield(World world) {
 			super(world);
-			this.spawnController = null;
 		}
 
 		public AreaPlayfield(World world, AreaConfiguration config) {
 			super(world, config);
-			this.spawnController = new PlayfieldSpawnController();
-		}
-
-		@Override
-		public IQuestAreaSpawnController getSpawnController() {
-			return spawnController;
 		}
 
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
 			CornerPosition chunkPos = getChunkPosition();
-			double posX = chunkPos.posX * 16 + 8;
-			double posZ = chunkPos.posY * 16 + 8;
+			double posX = 8;
+			double posZ = 8;
 			double posY = world.getChunkFromChunkCoords(chunkPos.posX, chunkPos.posY).getHeightValue(8, 8);
-			AreaTeleportation.moveEntity(player, posX, posY, posZ);
+			worldView.moveEntityTo(player, posX, posY, posZ);
 		}
 
 		@Override
@@ -75,9 +65,8 @@ public class AreaTypePlayfield implements IAreaType {
 		}
 
 		@Override
-		public void loadFromConfig(AreaConfiguration config) {
-			super.loadFromConfig(config);
-			this.spawnController = new PlayfieldSpawnController();
+		protected IQuestAreaSpawnController initializeSpawnController() {
+			return new PlayfieldSpawnController();
 		}
 
 	}

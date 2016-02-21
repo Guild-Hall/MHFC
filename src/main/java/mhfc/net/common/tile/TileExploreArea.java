@@ -7,6 +7,8 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.network.message.MessageExploreTileUpdate;
 import mhfc.net.common.network.packet.MessageTileUpdate;
 import mhfc.net.common.quests.world.QuestFlair;
+import mhfc.net.common.world.area.AreaRegistry;
+import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -41,8 +43,12 @@ public class TileExploreArea extends TileEntity {
 		flair = QuestFlair.DAYTIME;
 	}
 
-	public String getTargetArea() {
+	public String getTargetAreaName() {
 		return targetArea;
+	}
+
+	public IAreaType getTargetArea() {
+		return AreaRegistry.instance.getType(getTargetAreaName());
 	}
 
 	public void setTargetArea(String targetArea) {

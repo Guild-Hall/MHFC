@@ -1,9 +1,8 @@
 package mhfc.net.common.block.area;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.util.lib.MHFCReference;
-import mhfc.net.common.world.AreaTeleportation;
-import mhfc.net.common.world.area.IArea;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -33,13 +32,11 @@ public class BlockRespawn extends Block {
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
 		if (world.isRemote)
 			return;
-		if (entity instanceof EntityPlayerMP) {
-			EntityPlayerMP player = (EntityPlayerMP) entity;
-			IArea area = AreaTeleportation.getAssignedArea(entity);
-			AreaTeleportation.movePlayerToArea(player, area);
-		} else {
-
+		if (!(entity instanceof EntityPlayerMP)) {
+			return;
 		}
+		EntityPlayerMP player = (EntityPlayerMP) entity;
+		MHFCExplorationRegistry.getExplorationManagerFor(player).respawn(player);
 	}
 
 }

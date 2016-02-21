@@ -8,15 +8,18 @@ import mhfc.net.common.core.registry.MHFCCraftingRegistry;
 import mhfc.net.common.core.registry.MHFCDimensionRegistry;
 import mhfc.net.common.core.registry.MHFCEntityRegistry;
 import mhfc.net.common.core.registry.MHFCEventRegistry;
+import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.core.registry.MHFCHunterCraftingRegistry;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.core.registry.MHFCPacketRegistry;
+import mhfc.net.common.core.registry.MHFCPlayerPropertiesRegistry;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.core.registry.MHFCSmeltingRegistry;
 import mhfc.net.common.core.registry.MHFCTileRegistry;
 import mhfc.net.common.util.MHFCStringDecode;
+import mhfc.net.common.world.area.AreaRegistry;
 
 public class MHFCCommonRegistry {
 	private final static Logger logger;
@@ -27,6 +30,7 @@ public class MHFCCommonRegistry {
 	}
 
 	public static void init() {
+		MHFCCommonRegistry.addPlayerProperties();
 		MHFCCommonRegistry.addStringDecoders();
 		MHFCCommonRegistry.addBlocks();
 		MHFCCommonRegistry.addItems();
@@ -38,7 +42,13 @@ public class MHFCCommonRegistry {
 		MHFCCommonRegistry.addPotion();
 		MHFCCommonRegistry.addEvent();
 		MHFCCommonRegistry.addPacket();
+		MHFCCommonRegistry.addAreas();
 		MHFCCommonRegistry.addQuests();
+	}
+
+	private static void addPlayerProperties() {
+		MHFCPlayerPropertiesRegistry.init();
+		MHFCMain.logger.info("Custom player properties registered");
 	}
 
 	private static void addStringDecoders() {
@@ -101,4 +111,12 @@ public class MHFCCommonRegistry {
 		MHFCEntityRegistry.init();
 		MHFCCommonRegistry.logger.info("Monsters registered");
 	}
+
+	private static void addAreas() {
+		MHFCExplorationRegistry.init();
+		AreaRegistry.init();
+		MHFCExplorationRegistry.init();
+		MHFCCommonRegistry.logger.info("Areas and exploration registered");
+	}
+
 }

@@ -1,5 +1,7 @@
 package mhfc.net.common.world.exploration;
 
+import java.util.function.Consumer;
+
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -14,11 +16,23 @@ import net.minecraft.entity.player.EntityPlayerMP;
  */
 public interface IExplorationManager {
 
-	public void transferPlayerInto(EntityPlayerMP player, IAreaType type);
+	public void transferPlayerInto(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback);
 
 	/**
 	 * Returns the enclosing instance for the player or null if the player is not managed by this exploration manager.
 	 */
-	public IActiveArea getActiveAreaFor(EntityPlayerMP player);
+	public IActiveArea getActiveAreaOf(EntityPlayerMP player);
+
+	/**
+	 * Respawn the player if it is managed by this exploration manager. If it is not, throws
+	 * {@link IllegalArgumentException}
+	 * 
+	 * @throws IllegalArgumentException
+	 */
+	public void respawn(EntityPlayerMP player) throws IllegalArgumentException;
+
+	public void onPlayerRemove(EntityPlayerMP player);
+
+	public void onPlayerAdded(EntityPlayerMP player);
 
 }

@@ -1,10 +1,7 @@
 package mhfc.net.common.world.types;
 
-import java.io.IOException;
-
 import mhfc.net.common.quests.world.SpawnControllerAdapter.SpawnInformation;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
-import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.EmptyArea;
 import mhfc.net.common.world.area.IArea;
@@ -29,10 +26,10 @@ public class TestAreaType extends AreaTypeSchematic {
 
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
-			double posX = getChunkPosition().posX * 16 + 3;
+			double posX = 3;
 			double posY = 8;
-			double posZ = getChunkPosition().posY * 16 + 3;
-			AreaTeleportation.moveEntity(player, posX, posY, posZ);
+			double posZ = 3;
+			worldView.moveEntityTo(player, posX, posY, posZ);
 		}
 
 		@Override
@@ -50,14 +47,10 @@ public class TestAreaType extends AreaTypeSchematic {
 	public static TestAreaType INSTANCE;
 
 	static {
-		try {
-			TestAreaType.INSTANCE = new TestAreaType();
-		} catch (IOException e) {
-			throw new RuntimeException("Could not load test area", e);
-		}
+		TestAreaType.INSTANCE = new TestAreaType();
 	}
 
-	private TestAreaType() throws IOException {
+	private TestAreaType() {
 		super(TestAreaType.schematicLocation);
 	}
 
@@ -72,7 +65,7 @@ public class TestAreaType extends AreaTypeSchematic {
 	}
 
 	@Override
-	protected IArea onPopulate(World world, AreaConfiguration configuration) {
+	protected IArea areaToPopulate(World world, AreaConfiguration configuration) {
 		return new Area(world, configuration);
 	}
 

@@ -3,6 +3,7 @@ package mhfc.net.common.world.area;
 import java.util.Objects;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.world.controller.CornerPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -24,6 +25,7 @@ public abstract class AreaAdapter implements IArea {
 	protected AreaConfiguration config;
 	protected IWorldView worldView;
 	protected State state;
+	protected IQuestAreaSpawnController spawnController;
 
 	/**
 	 * Constructs but does not initialize the area
@@ -32,6 +34,7 @@ public abstract class AreaAdapter implements IArea {
 		this.world = Objects.requireNonNull(world);
 		this.config = null;
 		this.worldView = null;
+		this.spawnController = null;
 		this.state = State.RAW;
 	}
 
@@ -42,8 +45,11 @@ public abstract class AreaAdapter implements IArea {
 		this.world = Objects.requireNonNull(world);
 		this.config = Objects.requireNonNull(config);
 		this.worldView = new DisplacedView(config.getPosition(), config, world);
+		this.spawnController = initializeSpawnController();
 		this.state = State.INITIALIZED;
 	}
+
+	protected abstract IQuestAreaSpawnController initializeSpawnController();
 
 	protected CornerPosition getChunkPosition() {
 		return this.config.getPosition();
@@ -56,6 +62,7 @@ public abstract class AreaAdapter implements IArea {
 	public void loadFromConfig(AreaConfiguration config) {
 		this.config = Objects.requireNonNull(config);
 		this.worldView = new DisplacedView(config.getPosition(), config, world);
+		this.spawnController = initializeSpawnController();
 		this.state = State.INITIALIZED;
 	}
 
@@ -83,10 +90,15 @@ public abstract class AreaAdapter implements IArea {
 	@Override
 	public void onDismiss() {
 		if (state != State.ACQUIRED) {
-			throw new IllegalStateException("Area is dismissable");
+			throw new IllegalStateException("Area is not dismissable");
 		}
 		MinecraftForge.EVENT_BUS.unregister(this);
 		state = State.INITIALIZED;
+	}
+
+	@Override
+	public IQuestAreaSpawnController getSpawnController() {
+		return spawnController;
 	}
 
 	private boolean isInArea(double xCoord, double zCoord) {

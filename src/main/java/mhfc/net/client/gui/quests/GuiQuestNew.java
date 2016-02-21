@@ -34,9 +34,6 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 	private int selectedIdentifier;
 	private int xSize, ySize;
 	private int page = 0;
-	// Has the current click been handled by any element so that it should not
-	// be handled further
-	private boolean clickHandled;
 
 	public GuiQuestNew(Collection<String> groupIDs, EntityPlayer accessor) {
 		// groupIDsDisplayed = new ArrayList<String>(groupIDs);
@@ -49,7 +46,6 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_, int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
-					clickHandled = true;
 					if (selectedIdentifier >= 0 && selectedIdentifier < questIdentifiers.size()) {
 						String questID = questIdentifiers.get(selectedIdentifier);
 						PacketPipeline.networkPipe
@@ -64,7 +60,6 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_, int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
-					clickHandled = true;
 					setIdentifier(selectedIdentifier - 1);
 					return true;
 				}
@@ -75,7 +70,6 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_, int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
-					clickHandled = true;
 					setIdentifier(selectedIdentifier + 1);
 					return true;
 				}
@@ -169,7 +163,7 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 
 	@Override
 	public boolean handleClick(int mouseX, int mouseY, int mouseButton) {
-		clickHandled = false;
+		boolean clickHandled = false;
 		clickHandled |= super.handleClick(mouseX, mouseY, mouseButton);
 		if (questIdentifiers.size() > 0 && !MHFCRegQuestVisual.hasPlayerQuest() // Is an info displayed
 				&& mouseX > 80 && mouseX < 300 // x check
