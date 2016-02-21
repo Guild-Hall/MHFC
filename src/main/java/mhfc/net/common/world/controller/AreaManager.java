@@ -104,9 +104,11 @@ public class AreaManager implements IAreaManager {
 		MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_PRE, Operations.withCallback(op, () -> {
 			area.complete(new Active(plan.getFinishedArea(), type, this));
 			ForgeChunkManager.unforceChunk(loadingTicket, chunk);
-			MHFCMain.logger.info("Area of type {} completed", type);
+			MHFCMain.logger.debug("Area of type {} completed", type);
 		} , () -> {
+			area.cancel(true);
 			ForgeChunkManager.unforceChunk(loadingTicket, chunk);
+			MHFCMain.logger.debug("Area of type {} cancelled", type);
 		}));
 		return StagedFuture.wrap(area);
 	}
