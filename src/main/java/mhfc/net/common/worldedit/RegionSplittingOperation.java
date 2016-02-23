@@ -25,6 +25,9 @@ public class RegionSplittingOperation implements Operation {
 
 	@Override
 	public Operation resume(RunContext run) throws WorldEditException {
+		if (regionsSplitter.isEmpty()) {
+			return null;
+		}
 		RegionSpliterator polled = regionsSplitter.poll();
 		assert (polled != null);
 		RegionSpliterator splitOff;
@@ -39,10 +42,12 @@ public class RegionSplittingOperation implements Operation {
 			regionsSplitter.add(polled);
 			return new DelegateOperation(this, op.value);
 		}
-		return regionsSplitter.isEmpty() ? null : this;
+		return this;
 	}
 
 	@Override
-	public void cancel() {}
+	public void cancel() {
+		regionsSplitter.clear();
+	}
 
 }

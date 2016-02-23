@@ -15,11 +15,12 @@ public class Operations {
 	public static Operation withCallback(final Operation op, final Runnable onCompletion, final Runnable onCancel) {
 		return new Operation() {
 			private Operation current = op;
+			private boolean isCancelled = false;
 
 			@Override
 			public Operation resume(RunContext run) throws WorldEditException {
 				current = current.resume(run);
-				if (current == null) {
+				if (current == null && !isCancelled) {
 					onCompletion.run();
 				}
 				return current == null ? null : this;
@@ -29,6 +30,7 @@ public class Operations {
 			public void cancel() {
 				current.cancel();
 				onCancel.run();
+				isCancelled = true;
 			}
 		};
 	}
