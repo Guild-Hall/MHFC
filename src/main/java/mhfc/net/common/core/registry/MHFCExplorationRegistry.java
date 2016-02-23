@@ -5,8 +5,10 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 
-import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.data.KeyToInstanceRegistryData;
 import mhfc.net.common.world.area.IActiveArea;
@@ -17,7 +19,6 @@ import mhfc.net.common.world.exploration.MHFCExploration;
 import mhfc.net.common.world.exploration.OverworldManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 
 public class MHFCExplorationRegistry {
 
@@ -28,21 +29,27 @@ public class MHFCExplorationRegistry {
 
 	public static class RespawnListener {
 		@SubscribeEvent
-		public void onRespawn(LivingSpawnEvent.CheckSpawn spawn) {
-			if (spawn.entity.worldObj.isRemote)
+		public void onInitialSpawn(PlayerLoggedInEvent loggedIn) {
+			if (loggedIn.player.worldObj.isRemote)
 				return;
-			if (!(spawn.entityLiving instanceof EntityPlayerMP))
+			EntityPlayerMP player = (EntityPlayerMP) loggedIn.player;
+			IExplorationManager manager = getExplorationManagerFor(player);
+			manager.onPlayerAdded(player);
+			manager.initialAddPlayer(player);
+		}
+
+		@SubscribeEvent
+		public void onRespawn(PlayerRespawnEvent spawn) {
+			if (spawn.player.worldObj.isRemote)
 				return;
-			EntityPlayerMP player = (EntityPlayerMP) spawn.entityLiving;
-			// FIXME Quest should register its own exploration handler that respawn correctly
-			if (MHFCQuestRegistry.getQuestForPlayer(player) != null)
-				return;
-			spawn.setResult(Result.ALLOW);
+			EntityPlayerMP player = (EntityPlayerMP) spawn.player;
 			getExplorationManagerFor(player).respawn(player);
 		}
 	}
 
 	public static void init() {
+		RespawnListener listener = new RespawnListener();
+		FMLCommonHandler.instance().bus().register(listener);
 		registerExplorationManager(NAME_OVERWORLD, OverworldManager.instance);
 		registerExplorationManager(NAME_MHFC_EXPLORATION, MHFCExploration.instance);
 	}
@@ -86,16 +93,14 @@ public class MHFCExplorationRegistry {
 	@Nonnull
 	public static IExplorationManager getExplorationManagerFor(EntityPlayerMP player) {
 		Objects.requireNonNull(player);
-		IExplorationManager manager = getExplorationProperties(player).getManager();
-		if (manager == null) {
-			MHFCMain.logger.debug("Defaulted exploration manager", player);
-			manager = OverworldManager.instance;
-			getExplorationProperties(player).setManager(OverworldManager.instance);
-		}
-		return manager;
+		return getExplorationProperties(player).getManager();
 	}
 
 	public static ExplorationProperties getExplorationProperties(EntityPlayer player) {
 		return MHFCPlayerPropertiesRegistry.getPlayerProperties(player).getExploration();
+	}
+
+	public static void respawnPlayer(EntityPlayerMP player) {
+		getExplorationManagerFor(player).respawn(player);
 	}
 }

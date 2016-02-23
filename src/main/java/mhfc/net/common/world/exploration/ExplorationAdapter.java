@@ -27,12 +27,14 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 	protected Map<EntityPlayerMP, IActiveArea> playerToArea;
 	private Map<IAreaType, List<IActiveArea>> areaInstances;
 	private Map<IActiveArea, Set<EntityPlayerMP>> inhabitants;
+	protected Map<EntityPlayerMP, StagedFuture<IActiveArea>> waitingOnTeleport;
 
 	public ExplorationAdapter() {
 		playerSet = new HashSet<>();
 		playerToArea = new HashMap<>();
 		areaInstances = new HashMap<>();
 		inhabitants = new IdentityHashMap<>();
+		waitingOnTeleport = new HashMap<>();
 	}
 
 	protected abstract QuestFlair getFlairFor(IAreaType type);
@@ -44,6 +46,24 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 
 	protected List<IActiveArea> getAreasOfType(IAreaType type) {
 		return areaInstances.getOrDefault(type, new ArrayList<>());
+	}
+
+	protected abstract void transferIntoInstance(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback);
+
+	public void transferPlayerInto(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback) {
+		if (waitingOnTeleport.containsKey(player)) {
+			playerAlreadyTeleporting(player, type, callback);
+		} else {
+			transferIntoInstance(player, type, callback);
+		}
+	}
+
+	protected void playerAlreadyTeleporting(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback) {
+		Objects.requireNonNull(player);
+		StagedFuture<IActiveArea> waitingFor = waitingOnTeleport.get(player);
+		waitingFor.asFuture().cancel(true);
+		waitingOnTeleport.remove(player);
+		transferPlayerInto(player, type, callback);
 	}
 
 	protected void transferIntoNewInstance(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback) {
@@ -58,18 +78,17 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 					addInstance(area);
 					transferIntoInstance(player, area);
 				} else {
-					MHFCMain.logger
-							.error("Unable to create new area for player, removing player from exploration manager");
-					MHFCExplorationRegistry.releasePlayer(player);
+					MHFCMain.logger.debug("Canceled teleport to area due to cancellation of area");
 				}
 			} catch (Exception exception) {
-				MHFCMain.logger.error("Error during transfer into {}", area);
+				MHFCMain.logger.error("Error during transfer into {}, releasing player from exploration manager", area);
 				MHFCExplorationRegistry.releasePlayer(player);
 				if (area != null) {
 					removeInstance(area);
 					area = null;
 				}
 			} finally {
+				waitingOnTeleport.remove(player);
 				callback.accept(area);
 			}
 			return area;
@@ -77,13 +96,17 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 	}
 
 	protected void removePlayerFromInstance(EntityPlayerMP player) {
-		IActiveArea currentArea = getActiveAreaOf(player);
-		Set<EntityPlayerMP> inhabitantSet = getInhabitants(currentArea);
+		IActiveArea currentInstance = getActiveAreaOf(player);
+		Set<EntityPlayerMP> inhabitantSet = getInhabitants(currentInstance);
 		inhabitantSet.remove(player);
-		if (currentArea == null)
+		StagedFuture<IActiveArea> stagedFuture = waitingOnTeleport.get(player);
+		if (stagedFuture != null) {
+			stagedFuture.asFuture().cancel(true);
+		}
+		if (currentInstance == null)
 			return;
 		if (inhabitantSet.isEmpty()) {
-			removeInstance(currentArea);
+			removeInstance(currentInstance);
 		}
 	}
 
@@ -128,12 +151,17 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 
 	protected abstract void respawnInInstance(EntityPlayerMP player, IActiveArea instance);
 
+	protected void throwOnIllegalPlayer(EntityPlayerMP player) throws IllegalArgumentException {
+		Objects.requireNonNull(player);
+		if (!playerSet.contains(player)) {
+			throw new IllegalArgumentException("Player is not managed by exploration manager " + this.toString());
+		}
+	}
+
 	@Override
 	public void respawn(EntityPlayerMP player) throws IllegalArgumentException {
 		Objects.requireNonNull(player);
-		if (!playerSet.contains(player)) {
-			throw new IllegalArgumentException();
-		}
+		throwOnIllegalPlayer(player);
 		if (!playerToArea.containsKey(player)) {
 			transferPlayerInto(player, initialAreaType(player), (t) -> {});
 			return;
@@ -160,4 +188,10 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		Objects.requireNonNull(player);
 		playerSet.add(player);
 	}
+
+	@Override
+	public void initialAddPlayer(EntityPlayerMP player) throws IllegalArgumentException {
+		throwOnIllegalPlayer(player);
+	}
+
 }

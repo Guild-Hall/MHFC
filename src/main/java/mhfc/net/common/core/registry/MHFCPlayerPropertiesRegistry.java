@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 
 public class MHFCPlayerPropertiesRegistry {
 
@@ -16,6 +17,19 @@ public class MHFCPlayerPropertiesRegistry {
 	public static class PlayerLoadHandler {
 		private boolean isValidPlayerEntity(Entity entity) {
 			return entity instanceof EntityPlayer && !entity.worldObj.isRemote;
+		}
+
+		@SubscribeEvent
+		public void onClonePlayer(PlayerEvent.Clone cloning) {
+			if (!isValidPlayerEntity(cloning.entityPlayer))
+				return;
+			if (cloning.wasDeath) {
+				EntityPlayer original = cloning.original;
+				EntityPlayer target = cloning.entityPlayer;
+				PlayerProperties originalProperties = MHFCPlayerPropertiesRegistry.getPlayerProperties(original);
+				PlayerProperties targetProperties = MHFCPlayerPropertiesRegistry.getPlayerProperties(target);
+				targetProperties.cloneProperties(originalProperties);
+			}
 		}
 
 		@SubscribeEvent

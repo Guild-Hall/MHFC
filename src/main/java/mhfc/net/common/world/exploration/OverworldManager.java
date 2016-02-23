@@ -2,7 +2,6 @@ package mhfc.net.common.world.exploration;
 
 import java.util.function.Consumer;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.AreaTeleportation;
@@ -17,18 +16,16 @@ public class OverworldManager extends ExplorationAdapter {
 	private OverworldManager() {}
 
 	private void transferPlayerToOverworld(EntityPlayerMP player) {
-		MHFCMain.logger.debug("Transfering player to overworld if needed");
 		if (player.worldObj.provider.dimensionId == 0) {
-			MHFCMain.logger.debug("Player already in overworld, nothing to do");
 			return;
 		}
-		MHFCMain.logger.debug("Player is not in overworld, teleporting him");
 		AreaTeleportation.movePlayerToOverworld(player);
 	}
 
 	@Override
-	public void transferPlayerInto(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback) {
+	public void transferIntoInstance(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback) {
 		if (type == null) {
+			playerToArea.put(player, null);
 			transferPlayerToOverworld(player);
 			callback.accept(null);
 		} else {
@@ -44,7 +41,7 @@ public class OverworldManager extends ExplorationAdapter {
 
 	@Override
 	protected void respawnWithoutInstance(EntityPlayerMP player) {
-		AreaTeleportation.movePlayerToOverworld(player);
+		// transferPlayerToOverworld(player);
 	}
 
 	@Override
@@ -58,4 +55,9 @@ public class OverworldManager extends ExplorationAdapter {
 		return null;
 	}
 
+	@Override
+	public void onPlayerAdded(EntityPlayerMP player) {
+		super.onPlayerAdded(player);
+		transferPlayerToOverworld(player);
+	}
 }

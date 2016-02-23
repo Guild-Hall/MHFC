@@ -9,21 +9,24 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
-public class PlayerProperties implements IExtendedEntityProperties {
+public final class PlayerProperties implements IExtendedEntityProperties {
 
 	private static final int SaveFormatVersion = 1;
 	private static final String VERSION_KEY = "version";
+
+	private int saveVersion;
 	private ExplorationProperties exploration;
 
 	public PlayerProperties() {
 		exploration = new ExplorationProperties();
+		saveVersion = 0;
 	}
 
 	@Override
 	public void saveNBTData(NBTTagCompound compound) {
 		HandlePropertiesV1 saveDirector = new HandlePropertiesV1(this);
 		saveDirector.save(compound);
-		compound.setInteger(VERSION_KEY, 1);
+		compound.setInteger(VERSION_KEY, SaveFormatVersion);
 	}
 
 	@Override
@@ -44,6 +47,7 @@ public class PlayerProperties implements IExtendedEntityProperties {
 			CreateNewProperties creator = new CreateNewProperties(this);
 			creator.construct();
 		}
+		saveVersion = SaveFormatVersion;
 	}
 
 	@Override
@@ -57,6 +61,11 @@ public class PlayerProperties implements IExtendedEntityProperties {
 
 	public void setExploration(ExplorationProperties exploration) {
 		this.exploration = exploration;
+	}
+
+	public void cloneProperties(PlayerProperties originalProperties) {
+		this.exploration.cloneProperties(originalProperties.exploration);
+		this.saveVersion = originalProperties.saveVersion;
 	}
 
 }

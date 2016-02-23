@@ -35,7 +35,7 @@ public class AreaTeleportation {
 				double p_77185_4_,
 				double p_77185_6_,
 				float p_77185_8_) {
-			MHFCMain.logger.debug("Teleporting " + entity.getClass() + " to overworld to {} {} {}", posX, posY, posZ);
+			MHFCMain.logger.debug("Teleporting {} to overworld to {} {} {}", entity, posX, posY, posZ);
 			moveEntityTo(entity, posX, posY, posZ);
 		}
 
@@ -72,6 +72,7 @@ public class AreaTeleportation {
 				double p_77185_6_,
 				float p_77185_8_) {
 			if (player instanceof EntityPlayerMP) {
+				MHFCMain.logger.debug("Teleporting {} to area {}", player, area);
 				area.teleportToSpawn((EntityPlayerMP) player);
 			}
 		}
@@ -109,11 +110,12 @@ public class AreaTeleportation {
 			return;
 		}
 		int areaDimensionId = area.getWorldView().getWorldObject().provider.dimensionId;
+		AreaTeleporter areaTeleporter = new AreaTeleporter(area);
 		if (player.dimension == areaDimensionId) {
-			area.teleportToSpawn(player);
+			areaTeleporter.placeInPortal(player, 0, 0, 0, 0);
 		} else {
 			ServerConfigurationManager mg = MinecraftServer.getServer().getConfigurationManager();
-			mg.transferPlayerToDimension(player, areaDimensionId, new AreaTeleporter(area));
+			mg.transferPlayerToDimension(player, areaDimensionId, areaTeleporter);
 		}
 	}
 
@@ -142,7 +144,7 @@ public class AreaTeleportation {
 
 	public static void movePlayerToOverworld(EntityPlayerMP player, double posX, double posY, double posZ) {
 		assignAreaForEntity(player, null);
-		Teleporter tp = new OverworldTeleporter(posX, posY, posZ);
+		OverworldTeleporter tp = new OverworldTeleporter(posX, posY, posZ);
 		if (player.dimension == 0) {
 			tp.placeInPortal(player, 0, 0, 0, 0);
 		} else {
@@ -160,6 +162,7 @@ public class AreaTeleportation {
 		if (entity instanceof EntityLivingBase) {
 			EntityLivingBase entityLiving = (EntityLivingBase) entity;
 			entityLiving.setPositionAndUpdate(posX, posY, posZ);
+			entityLiving.setPosition(posX, posY, posZ);
 		} else {
 			entity.setPosition(posX, posY, posZ);
 		}

@@ -99,7 +99,6 @@ public class AreaManager implements IAreaManager {
 		final IAreaPlan plan = type.populate(world, config);
 		final ChunkCoordIntPair chunk = new ChunkCoordIntPair(position.posX, position.posY);
 		ForgeChunkManager.forceChunk(loadingTicket, chunk);
-
 		final Operation op = Operations.timingOperation(plan.getFirstOperation(), 20);
 		MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_PRE, Operations.withCallback(op, () -> {
 			area.complete(new Active(plan.getFinishedArea(), type, this));

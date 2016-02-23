@@ -31,6 +31,13 @@ public interface IExplorationManager {
 	 */
 	public void respawn(EntityPlayerMP player) throws IllegalArgumentException;
 
+	/**
+	 * Handles the first spawn of a player into the map. Not the first spawn in this manager, just the very first spawn
+	 * of a player.
+	 * 
+	 */
+	public void initialAddPlayer(EntityPlayerMP player) throws IllegalArgumentException;
+
 	public void onPlayerRemove(EntityPlayerMP player);
 
 	public void onPlayerAdded(EntityPlayerMP player);

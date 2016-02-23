@@ -9,7 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
-public class ExplorationProperties implements IExtendedEntityProperties {
+public final class ExplorationProperties implements IExtendedEntityProperties {
 
 	public static final String KEY_MANAGER = "manager";
 	public static final String KEY_AREA_TYPE = "areaType";
@@ -29,9 +29,11 @@ public class ExplorationProperties implements IExtendedEntityProperties {
 		compound.setString(KEY_MANAGER, managerName);
 		String areaTypeName = AreaRegistry.instance.getName(getAreaType());
 		if (areaTypeName == null) {
-			MHFCMain.logger.warn(
-					"The area type {} did not have a public name, this will default on load",
-					getAreaType());
+			if (manager != OverworldManager.instance) {
+				MHFCMain.logger.warn(
+						"The area type {} did not have a public name, this will default on load",
+						getAreaType());
+			}
 			areaTypeName = "";
 		}
 		compound.setString(KEY_AREA_TYPE, areaTypeName);
@@ -41,7 +43,12 @@ public class ExplorationProperties implements IExtendedEntityProperties {
 	public void loadNBTData(NBTTagCompound compound) {
 		String managerName = compound.getString(KEY_MANAGER);
 		String areaTypeName = compound.getString(KEY_AREA_TYPE);
-		setManager(MHFCExplorationRegistry.getExplorationManagerByName(managerName));
+		IExplorationManager manager = MHFCExplorationRegistry.getExplorationManagerByName(managerName);
+		if (manager == null) {
+			MHFCMain.logger.debug("Defaulted exploration manager for key {}", managerName);
+			manager = OverworldManager.instance;
+		}
+		setManager(manager);
 		setAreaType(AreaRegistry.instance.getType(areaTypeName));
 	}
 
@@ -62,6 +69,11 @@ public class ExplorationProperties implements IExtendedEntityProperties {
 
 	public void setManager(IExplorationManager manager) {
 		this.manager = manager;
+	}
+
+	public void cloneProperties(ExplorationProperties originalProperties) {
+		this.manager = originalProperties.manager;
+		this.areaType = originalProperties.areaType;
 	}
 
 }
