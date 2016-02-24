@@ -9,19 +9,13 @@ public abstract class ActiveAreaAdapter implements IActiveArea {
 	protected abstract void onDismiss();
 
 	@Override
-	public final boolean dismiss() {
+	public final void dismiss() {
 		if (!dismissed) {
 			onDismiss();
-			return dismissed = true;
+			getArea().getSpawnController().clearQueues();
+			getArea().getSpawnController().clearArea();
+			dismissed = true;
 		}
-		return false;
-	}
-	/**
-	 * Alias to {@link #dismiss()} to implement {@link AutoCloseable}.
-	 */
-	@Override
-	public void close() throws Exception {
-		dismiss();
 	}
 
 	@Override
@@ -30,4 +24,6 @@ public abstract class ActiveAreaAdapter implements IActiveArea {
 		dismiss();
 	}
 
+	@Override
+	final public void you_should_probably_inherit_from_ActiveAreaAdapter() {}
 }

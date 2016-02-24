@@ -3,31 +3,80 @@
  */
 package mhfc.net.common.quests.goals;
 
+import com.sk89q.worldedit.WorldEditException;
+import com.sk89q.worldedit.function.operation.Operation;
+import com.sk89q.worldedit.function.operation.RunContext;
+
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import mhfc.net.common.eventhandler.DelayedJob;
-import mhfc.net.common.eventhandler.MHFCJobHandler;
+import mhfc.net.common.eventhandler.MHFCTickHandler;
+import mhfc.net.common.eventhandler.TickPhase;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 
 /**
  *
  */
 public class TimeQuestGoal extends QuestGoal implements DelayedJob {
-	private long scheduledTime;
+	private class Timer implements Operation {
+		private int tickTime, initialTickTime;
+		private boolean isCancelled;
+
+		public Timer(int ticks) {
+			if (ticks < 0) {
+				throw new IllegalArgumentException("ticks must be greater than 0");
+			}
+			this.initialTickTime = this.tickTime = ticks;
+			isCancelled = false;
+		}
+
+		public void reset() {
+			tickTime = initialTickTime;
+		}
+
+		@Override
+		public void cancel() {
+			isCancelled = true;
+		}
+
+		@Override
+		public Operation resume(RunContext run) throws WorldEditException {
+			if (isCancelled) {
+				return null;
+			}
+			if (!TimeQuestGoal.this.active) {
+				return this;
+			}
+			tickTime--;
+			if (tickTime > 0) {
+				return this;
+			}
+			tickTime = 0; // Possible underflow from cancelling etc...
+			TimeQuestGoal.this.isFailed = true;
+			TimeQuestGoal.this.notifyOfStatus(isFulfilled(), isFailed());
+			return null;
+		}
+
+		public int getRemaining() {
+			return tickTime;
+		}
+
+		public int getDuration() {
+			return initialTickTime;
+		}
+	}
 
 	protected boolean isFailed = false;
 	protected boolean active;
-	protected long ticksToFail;
 	protected long timeOfLastUpdate;
-	protected int initialTicksToFail;
+	protected Timer timer;
 
 	public TimeQuestGoal(QuestGoalSocket socket, int initialTime) {
 		super(socket);
-		this.initialTicksToFail = initialTime;
-		ticksToFail = initialTime;
 		active = false;
-		scheduledTime = 0;
+		this.timer = new Timer(initialTime);
+		MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_POST, this.timer);
 	}
 
 	public TimeQuestGoal(int initialTime) {
@@ -46,93 +95,66 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 
 	@Override
 	public void reset() {
-		MHFCJobHandler.instance().remove(this);
 		isFailed = false;
-		ticksToFail = initialTicksToFail;
+		this.timer.reset();
 	}
 
 	@Override
 	public void setActive(boolean newActive) {
 		if (newActive) {
-			if (ticksToFail > 0 && !active) {
-				scheduledTime = MHFCJobHandler.instance().insert(this,
-						ticksToFail);
-			}
 			timeOfLastUpdate = System.currentTimeMillis();
 			active = true;
 			notifyOfStatus(isFulfilled(), isFailed());
 		} else {
-			long delay = MHFCJobHandler.instance().getDelay(scheduledTime);
-			ticksToFail = delay;
-			MHFCJobHandler.instance().remove(this);
 			active = false;
 		}
 	}
 
 	@Override
 	public void executeJob(Phase phase) {
-		if (phase != Phase.END)
+		if (phase != Phase.END) {
 			return;
+		}
 		isFailed = true;
 		notifyOfStatus(isFulfilled(), isFailed());
 	}
 
-	public int getInitialDelay() {
-		return initialTicksToFail;
-	}
-
 	@Override
 	public void questGoalFinalize() {
-		MHFCJobHandler.instance().remove(this);
+		setActive(false);
+		timer.cancel();
 	}
 
 	@Override
 	public String modify(InformationType type, String current) {
 		// TODO Externalize and unlocalize these strings
-		long ticksToFail = MHFCJobHandler.instance().getDelay(scheduledTime);
-		if (ticksToFail < 0)
-			ticksToFail = initialTicksToFail;
+		int ticksToFail = Math.max(0, timer.getRemaining());
+		int totalTime = timer.getDuration();
 		switch (type) {
-			case TimeLimit :
-				current += (current.endsWith("\n") || current.matches("\\s*")
-						? ""
-						: "\n");
-				if (active) {
-					current += "{time:" + ticksToFail + "}/ "
-							+ parseTimeFromTicks(initialTicksToFail);
-				} else {
-					current += parseTimeFromTicks(ticksToFail);
-				}
-				break;
-			case LongStatus :
-				current += (current.endsWith("\n") || current.matches("\\s*")
-						? ""
-						: "\n");
-				current += "Finish within "
-						+ (active ? " {time:" + ticksToFail + "} of " : "")
-						+ "a " + parseTimeFromTicks(initialTicksToFail)
-						+ "Time Limit";
-				break;
-			case ShortStatus :
-				current += (current.endsWith("\n") || current.matches("\\s*")
-						? ""
-						: "\n");
-				if (active) {
-					current += "{time:" + ticksToFail + "} remaining";
-				} else {
-					current += parseTimeFromTicks(ticksToFail) + "limit";
-				}
-				break;
-			default :
-				break;
+		case TimeLimit:
+			current += (current.endsWith("\n") || current.matches("\\s*") ? "" : "\n");
+			if (active) {
+				current += "{time:" + ticksToFail + "}/ " + "{time:" + totalTime + "}";
+			} else {
+				current += "{time:" + totalTime + "}";
+			}
+			break;
+		case LongStatus:
+			current += (current.endsWith("\n") || current.matches("\\s*") ? "" : "\n");
+			current += "Finish within " + (active ? "{time:" + ticksToFail + "} of " : "") + "a " + "{time:" + totalTime
+					+ "}" + " Time Limit";
+			break;
+		case ShortStatus:
+			current += (current.endsWith("\n") || current.matches("\\s*") ? "" : "\n");
+			if (active) {
+				current += "{time:" + ticksToFail + "} remaining";
+			} else {
+				current += "{time:" + totalTime + "}" + "limit";
+			}
+			break;
+		default:
+			break;
 		}
 		return current;
-	}
-
-	private static String parseTimeFromTicks(long delta) {
-		delta /= MHFCJobHandler.ticksPerSecond;
-		return "" + (delta / 3600 > 0 ? delta / 3600 + "h " : "")
-				+ ((delta % 3600) / 60 > 0 ? (delta % 3600) / 60 + "min " : "")
-				+ (delta % 60 > 0 ? delta % 60 + "s " : "");
 	}
 }

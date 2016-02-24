@@ -77,7 +77,7 @@ public class AIGeneralWander<EntityT extends EntityMHFCBase<? super EntityT>>
 		@Override
 		public void initialize(EntityT actor) {
 			this.actor = Objects.requireNonNull(actor);
-			startingPosition = WorldHelper.getEntityVector(actor);
+			startingPosition = WorldHelper.getEntityPositionVector(actor);
 			onWaypointReached();
 		}
 
@@ -88,7 +88,7 @@ public class AIGeneralWander<EntityT extends EntityMHFCBase<? super EntityT>>
 
 		@Override
 		public boolean hasWaypointReached() {
-			Vec3 position = WorldHelper.getEntityVector(actor);
+			Vec3 position = WorldHelper.getEntityPositionVector(actor);
 			if (waypoint.subtract(position).lengthVector() < acceptedDistance) {
 				return true;
 			} else {

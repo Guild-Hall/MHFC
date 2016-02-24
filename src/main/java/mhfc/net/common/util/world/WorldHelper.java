@@ -8,15 +8,14 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 /**
- * This class should help with some general problems related with the World and
- * Entities like path-finding, target-finding and collision-detection.
+ * This class should help with some general problems related with the World and Entities like path-finding,
+ * target-finding and collision-detection.
  *
  * @author WorldSEnder
  */
 public class WorldHelper {
 	/**
-	 * Returns a list of all entities that are colliding with the entity given
-	 * or any sub-entities if there are any.
+	 * Returns a list of all entities that are colliding with the entity given or any sub-entities if there are any.
 	 *
 	 * @param entity
 	 *            the entity to collide with
@@ -27,8 +26,7 @@ public class WorldHelper {
 	}
 
 	/**
-	 * Like {@link #collidingEntities(Entity)} but allows the entities to be
-	 * filtered before being returned.
+	 * Like {@link #collidingEntities(Entity)} but allows the entities to be filtered before being returned.
 	 *
 	 * @param entity
 	 *            the entity to collide with
@@ -36,19 +34,16 @@ public class WorldHelper {
 	 *            the filter to apply, <code>null</code> means no filtering
 	 * @return all collidig entities that are not filtered
 	 */
-	public static List<Entity> collidingEntities(Entity entity,
-		IEntitySelector filter) {
+	public static List<Entity> collidingEntities(Entity entity, IEntitySelector filter) {
 		World world = entity.worldObj;
 		@SuppressWarnings("unchecked")
-		List<Entity> collidingEntities = world
-			.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox);
+		List<Entity> collidingEntities = world.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox);
 		Entity[] subEntities = entity.getParts();
 		if (subEntities == null)
 			return collidingEntities;
 		for (Entity subE : subEntities) {
 			@SuppressWarnings("unchecked")
-			List<Entity> collidingEntitiesSub = world
-				.getEntitiesWithinAABBExcludingEntity(entity, subE.boundingBox);
+			List<Entity> collidingEntitiesSub = world.getEntitiesWithinAABBExcludingEntity(entity, subE.boundingBox);
 			for (Entity collidingE : collidingEntitiesSub) {
 				if (!collidingEntities.contains(collidingE)) {
 					collidingEntities.add(collidingE);
@@ -69,13 +64,13 @@ public class WorldHelper {
 	 */
 	public static Vec3 getVectorToTarget(Entity entity, Entity target) {
 		// TODO: ?use entity.getPosition() on CLIENT-side?
-		Vec3 pos = getEntityVector(entity);
-		Vec3 entityToTarget = getEntityVector(target);
+		Vec3 pos = getEntityPositionVector(entity);
+		Vec3 entityToTarget = getEntityPositionVector(target);
 		entityToTarget = pos.subtract(entityToTarget);
 		return entityToTarget;
 	}
 
-	public static Vec3 getEntityVector(Entity entity) {
+	public static Vec3 getEntityPositionVector(Entity entity) {
 		return Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
 	}
 

@@ -66,7 +66,7 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 			public void update(TigrexRun attk) {
 				EntityTigrex tigrex = attk.getEntity();
 				Vec3 tigPos = Vec3.createVectorHelper(tigrex.posX, tigrex.posY, tigrex.posZ);
-				Vec3 vecToTarget = tigPos.subtract(WorldHelper.getEntityVector(attk.target));
+				Vec3 vecToTarget = tigPos.subtract(WorldHelper.getEntityPositionVector(attk.target));
 				tigrex.getTurnHelper().updateTargetPoint(attk.target);
 				tigrex.moveForward(RUN_SPEED, true);
 				Vec3 look = tigrex.getLookVec();

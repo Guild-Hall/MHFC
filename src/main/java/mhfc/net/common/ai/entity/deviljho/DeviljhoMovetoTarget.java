@@ -67,7 +67,7 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 			public void update(DeviljhoMovetoTarget attk) {
 				EntityDeviljho monster = attk.getEntity();
 				Vec3 mobPos = Vec3.createVectorHelper(monster.posX, monster.posY, monster.posZ);
-				Vec3 vecToTarget = mobPos.subtract(WorldHelper.getEntityVector(attk.target));
+				Vec3 vecToTarget = mobPos.subtract(WorldHelper.getEntityPositionVector(attk.target));
 				monster.getTurnHelper().updateTargetPoint(attk.target);
 				monster.moveForward(RUN_SPEED, true);
 				Vec3 look = monster.getLookVec();

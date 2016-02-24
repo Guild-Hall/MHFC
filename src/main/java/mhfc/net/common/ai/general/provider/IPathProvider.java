@@ -73,7 +73,7 @@ public interface IPathProvider<EntityT extends EntityLiving> {
 
 		@Override
 		public boolean hasWaypointReached() {
-			Vec3 position = WorldHelper.getEntityVector(actor);
+			Vec3 position = WorldHelper.getEntityPositionVector(actor);
 			return position.subtract(getCurrentWaypoint())
 				.lengthVector() < maxDistance;
 		}

@@ -14,6 +14,7 @@ public class EntityQuestGiver extends EntityVillager {
 
 	public EntityQuestGiver(World world) {
 		super(world, 0);
+		this.tasks.taskEntries.clear();
 		this.boundingBox.setBounds(0, 0, 0, 1.0f, 1.0f, 1.0f);
 	}
 
@@ -25,21 +26,24 @@ public class EntityQuestGiver extends EntityVillager {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-			100.0f);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(10.0f);
 	}
 
 	@Override
 	public boolean interact(EntityPlayer player) {
-		player.openGui(MHFCMain.instance, MHFCReference.gui_questgiver_id,
-			this.worldObj, subID, 0, 0);
+		player.openGui(MHFCMain.instance, MHFCReference.gui_questgiver_id, this.worldObj, subID, 0, 0);
 		return true;
 	}
 
 	@Override
 	protected void damageEntity(DamageSource source, float p_70665_2_) {
-		// This should avoid taking any damage
-		super.damageEntity(source, p_70665_2_ * 10);
+		// This should avoid taking any damage if the player is not in creative mode
+		if (!(source.getEntity() instanceof EntityPlayer))
+			return;
+		EntityPlayer player = (EntityPlayer) source.getEntity();
+		if (!player.capabilities.isCreativeMode)
+			return;
+		super.damageEntity(source, p_70665_2_);
 	}
 
 	@Override

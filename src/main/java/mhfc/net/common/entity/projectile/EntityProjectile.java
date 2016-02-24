@@ -2,6 +2,9 @@ package mhfc.net.common.entity.projectile;
 
 import java.util.List;
 
+import cpw.mods.fml.common.registry.IThrowableEntity;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -19,15 +22,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.IThrowableEntity;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class EntityProjectile extends EntityArrow
-		implements
-			IThrowableEntity {
-	public static final int NO_PICKUP = 0, PICKUP_ALL = 1, PICKUP_CREATIVE = 2,
-			PICKUP_OWNER = 3;
+public abstract class EntityProjectile extends EntityArrow implements IThrowableEntity {
+	public static final int NO_PICKUP = 0, PICKUP_ALL = 1, PICKUP_CREATIVE = 2, PICKUP_OWNER = 3;
 
 	protected int xTile;
 	protected int yTile;
@@ -54,7 +51,7 @@ public abstract class EntityProjectile extends EntityArrow
 		arrowShake = 0;
 		ticksInAir = 0;
 		yOffset = 0F;
-		pickupMode = NO_PICKUP;
+		pickupMode = EntityProjectile.NO_PICKUP;
 
 		extraDamage = 0;
 		knockBack = 0;
@@ -80,20 +77,18 @@ public abstract class EntityProjectile extends EntityArrow
 	protected void setPickupModeFromEntity(EntityLivingBase entityliving) {
 		if (entityliving instanceof EntityPlayer) {
 			if (((EntityPlayer) entityliving).capabilities.isCreativeMode) {
-				setPickupMode(PICKUP_CREATIVE);
+				setPickupMode(EntityProjectile.PICKUP_CREATIVE);
 			} else {
-				setPickupMode(MHFCMain.config.allCanPickup
-						? PICKUP_ALL
-						: PICKUP_OWNER);
+				setPickupMode(
+						MHFCMain.config.isAllCanPickup() ? EntityProjectile.PICKUP_ALL : EntityProjectile.PICKUP_OWNER);
 			}
 		} else {
-			setPickupMode(NO_PICKUP);
+			setPickupMode(EntityProjectile.NO_PICKUP);
 		}
 	}
 
 	@Override
-	public void setThrowableHeading(double x, double y, double z, float speed,
-			float deviation) {
+	public void setThrowableHeading(double x, double y, double z, float speed, float deviation) {
 		float f2 = MathHelper.sqrt_double(x * x + y * y + z * z);
 		x /= f2;
 		y /= f2;
@@ -118,8 +113,7 @@ public abstract class EntityProjectile extends EntityArrow
 		motionX = d;
 		motionY = d1;
 		motionZ = d2;
-		if (aimRotation() && prevRotationPitch == 0.0F
-				&& prevRotationYaw == 0.0F) {
+		if (aimRotation() && prevRotationPitch == 0.0F && prevRotationYaw == 0.0F) {
 			float f = MathHelper.sqrt_double(d * d + d2 * d2);
 			prevRotationYaw = rotationYaw = (float) ((Math.atan2(d, d2) * 180D) / Math.PI);
 			prevRotationPitch = rotationPitch = (float) ((Math.atan2(d1, f) * 180D) / Math.PI);
@@ -138,25 +132,19 @@ public abstract class EntityProjectile extends EntityArrow
 		super.onEntityUpdate();
 
 		if (aimRotation()/*
-						 * && prevRotationPitch == 0.0F && prevRotationYaw ==
-						 * 0.0F
-						 */) {
-			float f = MathHelper.sqrt_double(motionX * motionX + motionZ
-					* motionZ);
-			prevRotationYaw = rotationYaw = (float) ((Math.atan2(motionX,
-					motionZ) * 180D) / Math.PI);
-			prevRotationPitch = rotationPitch = (float) ((Math
-					.atan2(motionY, f) * 180D) / Math.PI);
+							* && prevRotationPitch == 0.0F && prevRotationYaw ==
+							* 0.0F
+							*/) {
+			float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+			prevRotationYaw = rotationYaw = (float) ((Math.atan2(motionX, motionZ) * 180D) / Math.PI);
+			prevRotationPitch = rotationPitch = (float) ((Math.atan2(motionY, f) * 180D) / Math.PI);
 		}
 
 		Block i = worldObj.getBlock(xTile, yTile, zTile);
 		if (i != null) {
 			i.setBlockBoundsBasedOnState(worldObj, xTile, yTile, zTile);
-			AxisAlignedBB axisalignedbb = i.getCollisionBoundingBoxFromPool(
-					worldObj, xTile, yTile, zTile);
-			if (axisalignedbb != null
-					&& axisalignedbb.isVecInside(Vec3.createVectorHelper(posX,
-							posY, posZ))) {
+			AxisAlignedBB axisalignedbb = i.getCollisionBoundingBoxFromPool(worldObj, xTile, yTile, zTile);
+			if (axisalignedbb != null && axisalignedbb.isVecInside(Vec3.createVectorHelper(posX, posY, posZ))) {
 				inGround = true;
 			}
 		}
@@ -188,13 +176,10 @@ public abstract class EntityProjectile extends EntityArrow
 		ticksInAir++;
 
 		Vec3 vec3d = Vec3.createVectorHelper(posX, posY, posZ);
-		Vec3 vec3d1 = Vec3.createVectorHelper(posX + motionX, posY + motionY,
-				posZ + motionZ);
-		MovingObjectPosition movingobjectposition = worldObj.func_147447_a(
-				vec3d, vec3d1, false, true, false);
+		Vec3 vec3d1 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
+		MovingObjectPosition movingobjectposition = worldObj.func_147447_a(vec3d, vec3d1, false, true, false);
 		vec3d = Vec3.createVectorHelper(posX, posY, posZ);
-		vec3d1 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ
-				+ motionZ);
+		vec3d1 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
 		if (movingobjectposition != null) {
 			vec3d1 = Vec3.createVectorHelper(
 					movingobjectposition.hitVec.xCoord,
@@ -206,20 +191,16 @@ public abstract class EntityProjectile extends EntityArrow
 		@SuppressWarnings("unchecked")
 		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(
 				this,
-				boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D,
-						1.0D, 1.0D));
+				boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
 		double d = 0.0D;
 		for (int l = 0; l < list.size(); l++) {
 			Entity entity1 = list.get(l);
-			if (!entity1.canBeCollidedWith() || entity1 == shootingEntity
-					&& ticksInAir < 5) {
+			if (!entity1.canBeCollidedWith() || entity1 == shootingEntity && ticksInAir < 5) {
 				continue;
 			}
 			float f4 = 0.3F;
-			AxisAlignedBB axisalignedbb1 = entity1.boundingBox.expand(f4, f4,
-					f4);
-			MovingObjectPosition movingobjectposition1 = axisalignedbb1
-					.calculateIntercept(vec3d, vec3d1);
+			AxisAlignedBB axisalignedbb1 = entity1.boundingBox.expand(f4, f4, f4);
+			MovingObjectPosition movingobjectposition1 = axisalignedbb1.calculateIntercept(vec3d, vec3d1);
 			if (movingobjectposition1 == null) {
 				continue;
 			}
@@ -244,9 +225,14 @@ public abstract class EntityProjectile extends EntityArrow
 
 		if (getIsCritical()) {
 			for (int i1 = 0; i1 < 2; i1++) {
-				worldObj.spawnParticle("crit", posX + (motionX * i1) / 4D, posY
-						+ (motionY * i1) / 4D, posZ + (motionZ * i1) / 4D,
-						-motionX, -motionY + 0.2D, -motionZ);
+				worldObj.spawnParticle(
+						"crit",
+						posX + (motionX * i1) / 4D,
+						posY + (motionY * i1) / 4D,
+						posZ + (motionZ * i1) / 4D,
+						-motionX,
+						-motionY + 0.2D,
+						-motionZ);
 			}
 		}
 
@@ -255,18 +241,15 @@ public abstract class EntityProjectile extends EntityArrow
 		posZ += motionZ;
 
 		if (aimRotation()) {
-			float f2 = MathHelper.sqrt_double(motionX * motionX + motionZ
-					* motionZ);
+			float f2 = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
 			rotationYaw = (float) ((Math.atan2(motionX, motionZ) * 180D) / Math.PI);
 			for (rotationPitch = (float) ((Math.atan2(motionY, f2) * 180D) / Math.PI); rotationPitch
 					- prevRotationPitch < -180F; prevRotationPitch -= 360F) {}
 			for (; rotationPitch - prevRotationPitch >= 180F; prevRotationPitch += 360F) {}
 			for (; rotationYaw - prevRotationYaw < -180F; prevRotationYaw -= 360F) {}
 			for (; rotationYaw - prevRotationYaw >= 180F; prevRotationYaw += 360F) {}
-			rotationPitch = prevRotationPitch
-					+ (rotationPitch - prevRotationPitch) * 0.2F;
-			rotationYaw = prevRotationYaw + (rotationYaw - prevRotationYaw)
-					* 0.2F;
+			rotationPitch = prevRotationPitch + (rotationPitch - prevRotationPitch) * 0.2F;
+			rotationYaw = prevRotationYaw + (rotationYaw - prevRotationYaw) * 0.2F;
 		}
 
 		float res = getAirResistance();
@@ -275,8 +258,13 @@ public abstract class EntityProjectile extends EntityArrow
 			beenInGround = true;
 			for (int i1 = 0; i1 < 4; i1++) {
 				float f6 = 0.25F;
-				worldObj.spawnParticle("bubble", posX - motionX * f6, posY
-						- motionY * f6, posZ - motionZ * f6, motionX, motionY,
+				worldObj.spawnParticle(
+						"bubble",
+						posX - motionX * f6,
+						posY - motionY * f6,
+						posZ - motionZ * f6,
+						motionX,
+						motionY,
 						motionZ);
 			}
 
@@ -302,24 +290,18 @@ public abstract class EntityProjectile extends EntityArrow
 		if (entity instanceof EntityLivingBase) {
 			EntityLivingBase entityliving = (EntityLivingBase) entity;
 			if (knockBack > 0) {
-				float f = MathHelper.sqrt_double(motionX * motionX + motionZ
-						* motionZ);
+				float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
 				if (f > 0.0F) {
-					entity.addVelocity(motionX * knockBack * 0.6D / f, 0.1D,
-							motionZ * knockBack * 0.6D / f);
+					entity.addVelocity(motionX * knockBack * 0.6D / f, 0.1D, motionZ * knockBack * 0.6D / f);
 				}
 			}
 			if (shootingEntity instanceof EntityLivingBase) {
-				EnchantmentHelper.func_151384_a(entityliving,
-						this.shootingEntity);
-				EnchantmentHelper.func_151385_b(
-						(EntityLivingBase) this.shootingEntity, entityliving);
+				EnchantmentHelper.func_151384_a(entityliving, this.shootingEntity);
+				EnchantmentHelper.func_151385_b((EntityLivingBase) this.shootingEntity, entityliving);
 			}
-			if (shootingEntity instanceof EntityPlayerMP
-					&& shootingEntity != entity
+			if (shootingEntity instanceof EntityPlayerMP && shootingEntity != entity
 					&& entity instanceof EntityPlayer) {
-				((EntityPlayerMP) shootingEntity).playerNetServerHandler
-						.sendPacket(new S2BPacketChangeGameState(6, 0));
+				((EntityPlayerMP) shootingEntity).playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(6, 0));
 			}
 		}
 	}
@@ -333,8 +315,7 @@ public abstract class EntityProjectile extends EntityArrow
 		motionX = mop.hitVec.xCoord - posX;
 		motionY = mop.hitVec.yCoord - posY;
 		motionZ = mop.hitVec.zCoord - posZ;
-		float f1 = MathHelper.sqrt_double(motionX * motionX + motionY * motionY
-				+ motionZ * motionZ);
+		float f1 = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
 		posX -= motionX / f1 * 0.05D;
 		posY -= motionY / f1 * 0.05D;
 		posZ -= motionZ / f1 * 0.05D;
@@ -345,8 +326,7 @@ public abstract class EntityProjectile extends EntityArrow
 		playHitSound();
 
 		if (inTile != null) {
-			inTile.onEntityCollidedWithBlock(worldObj, xTile, yTile, zTile,
-					this);
+			inTile.onEntityCollidedWithBlock(worldObj, xTile, yTile, zTile, this);
 		}
 	}
 
@@ -360,8 +340,7 @@ public abstract class EntityProjectile extends EntityArrow
 	}
 
 	public final double getTotalVelocity() {
-		return Math.sqrt(motionX * motionX + motionY * motionY + motionZ
-				* motionZ);
+		return Math.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
 	}
 
 	public boolean aimRotation() {
@@ -424,11 +403,11 @@ public abstract class EntityProjectile extends EntityArrow
 	}
 
 	public boolean canPickup(EntityPlayer entityplayer) {
-		if (pickupMode == PICKUP_ALL) {
+		if (pickupMode == EntityProjectile.PICKUP_ALL) {
 			return true;
-		} else if (pickupMode == PICKUP_CREATIVE) {
+		} else if (pickupMode == EntityProjectile.PICKUP_CREATIVE) {
 			return entityplayer.capabilities.isCreativeMode;
-		} else if (pickupMode == PICKUP_OWNER) {
+		} else if (pickupMode == EntityProjectile.PICKUP_OWNER) {
 			return entityplayer == shootingEntity;
 		} else {
 			return false;
@@ -441,13 +420,12 @@ public abstract class EntityProjectile extends EntityArrow
 			if (canPickup(entityplayer)) {
 				if (!worldObj.isRemote) {
 					ItemStack item = getPickupItem();
-					if (item == null)
+					if (item == null) {
 						return;
+					}
 
-					if (pickupMode == PICKUP_CREATIVE
-							&& entityplayer.capabilities.isCreativeMode
-							|| entityplayer.inventory
-									.addItemStackToInventory(item)) {
+					if (pickupMode == EntityProjectile.PICKUP_CREATIVE && entityplayer.capabilities.isCreativeMode
+							|| entityplayer.inventory.addItemStackToInventory(item)) {
 						worldObj.playSoundAtEntity(
 								this,
 								"random.pop",

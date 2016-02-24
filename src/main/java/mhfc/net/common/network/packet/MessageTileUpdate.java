@@ -1,10 +1,10 @@
 package mhfc.net.common.network.packet;
 
+import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import mhfc.net.common.tile.TileMHFCUpdateStream;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import cpw.mods.fml.common.network.ByteBufUtils;
 
 public class MessageTileUpdate extends MessageTileLocation {
 
@@ -12,11 +12,14 @@ public class MessageTileUpdate extends MessageTileLocation {
 
 	public MessageTileUpdate() {}
 
-	public <T extends TileEntity & TileMHFCUpdateStream> MessageTileUpdate(
-			T tile) {
+	public MessageTileUpdate(TileEntity tile) {
 		super(tile);
 		updateNBT = new NBTTagCompound();
-		tile.storeCustomUpdate(updateNBT);
+		if (tile instanceof TileMHFCUpdateStream) {
+			((TileMHFCUpdateStream) tile).storeCustomUpdate(updateNBT);
+		} else {
+			tile.writeToNBT(updateNBT);
+		}
 	}
 
 	@Override

@@ -24,11 +24,34 @@ public class FreeFunctionCall implements IExpression {
 
 	@Override
 	public IValueHolder resolveAgainst(Context context) {
-		Function<Arguments, IValueHolder> func = context.getFilter(name);
-		if (func == null) {
-			return Holder.failedComputation(new UnresolvedFunctionException(name, context));
-		}
-		return new FreeFunctionInvocation(func, mapAll(e -> e.resolveAgainst(context), this.args, IValueHolder[]::new));
+		return new IValueHolder() {
+
+			private IValueHolder resolveNow() {
+				Function<Arguments, IValueHolder> func = context.getFilter(name);
+				if (func == null) {
+					return Holder.failedComputation(new UnresolvedFunctionException(name, context));
+				}
+				return new FreeFunctionInvocation(
+						func,
+						mapAll(e -> e.resolveAgainst(context), FreeFunctionCall.this.args, IValueHolder[]::new));
+			}
+
+			@Override
+			public Holder snapshot() {
+				return resolveNow().snapshot();
+			}
+
+			@Override
+			public IValueHolder snapshotClass() {
+				return resolveNow().snapshotClass();
+			}
+
+			@Override
+			public Class<?> getType() {
+				return resolveNow().getType();
+			}
+
+		};
 	}
 
 }

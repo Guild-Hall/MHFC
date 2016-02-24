@@ -9,6 +9,7 @@ import mhfc.net.common.core.builders.BuilderJsonToQuests;
 import mhfc.net.common.core.data.QuestDescriptionRegistryData;
 import mhfc.net.common.core.data.QuestDescriptionRegistryData.IQuestDescriptionDirector;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
+import mhfc.net.common.util.Utilities;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.util.ResourceLocation;
 
@@ -29,10 +30,7 @@ public class DirectorLoadQuestsFromLocal implements IQuestDescriptionDirector {
 	private void generateGroupMapping(BuilderJsonToQuests builderFromJson) {
 		ResourceLocation location = new ResourceLocation(
 			MHFCReference.groupLocation);
-		String pathToRes = "/assets/" + location.getResourceDomain() + "/"
-			+ location.getResourcePath();
-		try (InputStream input = MHFCQuestBuildRegistry.class
-			.getResourceAsStream(pathToRes);
+		try (InputStream input = Utilities.inputStream(location);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 				input))) {
 			builderFromJson.generateGroupMapping(reader);
@@ -45,10 +43,7 @@ public class DirectorLoadQuestsFromLocal implements IQuestDescriptionDirector {
 	private void generateGoals(BuilderJsonToQuests builderFromJson) {
 		ResourceLocation location = new ResourceLocation(
 			MHFCReference.goalLocation);
-		String pathToRes = "/assets/" + location.getResourceDomain() + "/"
-			+ location.getResourcePath();
-		try (InputStream input = MHFCQuestBuildRegistry.class
-			.getResourceAsStream(pathToRes);
+		try (InputStream input = Utilities.inputStream(location);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 				input))) {
 			builderFromJson.generateGoals(reader);

@@ -313,7 +313,7 @@ public class AIUtils {
 
 	public static float getViewingAngle(EntityLiving actor, Vec3 point) {
 		Vec3 lookVector = actor.getLookVec();
-		Vec3 pos = WorldHelper.getEntityVector(actor);
+		Vec3 pos = WorldHelper.getEntityPositionVector(actor);
 		Vec3 targetVector = point.subtract(pos);
 		float yaw = lookVecToYaw(lookVector);
 		float tarYaw = lookVecToYaw(targetVector);

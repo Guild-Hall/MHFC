@@ -1,6 +1,14 @@
 package mhfc.net.common.core.data;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import mhfc.net.common.quests.api.GoalDescription;
 import mhfc.net.common.quests.api.QuestDescription;
@@ -39,15 +47,13 @@ public class QuestDescriptionRegistryData {
 			groupMapping.get(groupID).add(questID);
 		}
 
-		public void addQuestsToGroup(String groupID,
-			Collection<String> quests) {
+		public void addQuestsToGroup(String groupID, Collection<String> quests) {
 			ensureGroupID(groupID);
 			groupMapping.get(groupID).addAll(quests);
 		}
 
 		/**
-		 * Merges the data parameter into this data. The parameter overrides
-		 * previous data held.
+		 * Merges the data parameter into this data. The parameter overrides previous data held.
 		 */
 		public void addInto(QuestGroupData data) {
 			groupMapping.putAll(data.groupMapping);
@@ -60,8 +66,8 @@ public class QuestDescriptionRegistryData {
 		}
 
 		/**
-		 * Orders the group identifiers as they are ordered in the iterable. If
-		 * a group doesn't exist already, it is created empty.
+		 * Orders the group identifiers as they are ordered in the iterable. If a group doesn't exist already, it is
+		 * created empty.
 		 */
 		public void orderGroups(Iterable<String> groupIDsInOrder) {
 			LinkedHashSet<String> tempOrdering = new LinkedHashSet<String>();
@@ -83,8 +89,7 @@ public class QuestDescriptionRegistryData {
 		questDescriptions.putAll(mapData);
 	}
 
-	public void putQuestDescription(String identifier,
-		QuestDescription questDescription) {
+	public void putQuestDescription(String identifier, QuestDescription questDescription) {
 		questDescriptions.put(identifier, questDescription);
 	}
 
@@ -92,8 +97,7 @@ public class QuestDescriptionRegistryData {
 		goalDescriptions.putAll(mapData);
 	}
 
-	public void putGoalDescription(String identifier,
-		GoalDescription questDescription) {
+	public void putGoalDescription(String identifier, GoalDescription questDescription) {
 		goalDescriptions.put(identifier, questDescription);
 	}
 
@@ -115,25 +119,19 @@ public class QuestDescriptionRegistryData {
 		return qd;
 	}
 
-	/**
-	 * <b>WARNING:</b> The objected returned here is backed by the real map
-	 */
 	public Map<String, QuestDescription> getFullQuestDescriptionMap() {
-		return questDescriptions;
+		return Collections.unmodifiableMap(questDescriptions);
 	}
 
-	/**
-	 * <b>WARNING:</b> The objected returned here is backed by the real map
-	 */
 	public Map<String, GoalDescription> getFullGoalDescriptionMap() {
-		return goalDescriptions;
+		return Collections.unmodifiableMap(goalDescriptions);
 	}
 
 	/**
 	 * <b>WARNING:</b> The objected returned here is backed by the real map
 	 */
 	public Map<String, Set<String>> getFullGroupMap() {
-		return groupData.groupMapping;
+		return Collections.unmodifiableMap(groupData.groupMapping);
 	}
 
 	public List<String> getGroupsInOrder() {

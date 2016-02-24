@@ -15,6 +15,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 
+@Deprecated
 public class MHFCJobHandler {
 	private static final class JobEntry implements Comparable<JobEntry> {
 		public final long procTime;
@@ -57,8 +58,7 @@ public class MHFCJobHandler {
 	// See http://stackoverflow.com/q/11167566/
 	private Object lock = new Object();
 
-	private MHFCJobHandler() {
-	}
+	private MHFCJobHandler() {}
 
 	private void doRemoves() {
 		synchronized (listOfRemoves) {
@@ -97,27 +97,28 @@ public class MHFCJobHandler {
 	@SubscribeEvent
 	public void receiveTick(ServerTickEvent tick) {
 		// Only if we really are on a server
-		if (!FMLCommonHandler.instance().getSide().isServer())
+		if (!FMLCommonHandler.instance().getSide().isServer()) {
 			return;
+		}
 		tick(tick);
 	}
 
 	/**
-	 * Insert a new job into the Handler. If the delay is less than or equal to
-	 * zero, an {@link IllegalArgumentException} is thrown. If the job is
-	 * <code>null</code> an {@link NullPointerException} is thrown.
+	 * Insert a new job into the Handler. If the delay is less than or equal to zero, an
+	 * {@link IllegalArgumentException} is thrown. If the job is <code>null</code> an {@link NullPointerException} is
+	 * thrown.
 	 *
 	 * @param job
 	 *            the job to insert
 	 * @param delay
 	 *            the delay after which to execute the job
-	 * @return a time-point at which the job is scheduled to be executed, the
-	 *         difference between the received timepoint and the current time
-	 *         can be polled with {@link #getDelay(DelayedJob)}
+	 * @return a time-point at which the job is scheduled to be executed, the difference between the received timepoint
+	 *         and the current time can be polled with {@link #getDelay(DelayedJob)}
 	 */
 	public long insert(DelayedJob job, long delay) {
-		if (delay <= 0)
+		if (delay <= 0) {
 			throw new IllegalArgumentException("Delay must be positive: " + delay);
+		}
 		Objects.requireNonNull(job);
 		synchronized (this.lock) {
 			long jobTime = now.get() + delay;
@@ -140,10 +141,9 @@ public class MHFCJobHandler {
 	}
 
 	/**
-	 * Can be used to poll how much time is left until a job that was previously
-	 * registered with {@link #insert(DelayedJob, long)} is due. Given the
-	 * return value of the {@link #insert(DelayedJob, long)} method, this tells
-	 * how long (in ticks) until the job is due.
+	 * Can be used to poll how much time is left until a job that was previously registered with
+	 * {@link #insert(DelayedJob, long)} is due. Given the return value of the {@link #insert(DelayedJob, long)} method,
+	 * this tells how long (in ticks) until the job is due.
 	 *
 	 * @param timepoint
 	 *            the return value of {@link #insert(DelayedJob, long)}

@@ -55,7 +55,7 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 		public float getForwardVelocity(EntityT entity) {
 			Vec3 target = Objects.requireNonNull(targetResolver.getJumpTarget(
 				entity));
-			Vec3 position = WorldHelper.getEntityVector(entity);
+			Vec3 position = WorldHelper.getEntityPositionVector(entity);
 			float distance = (float) position.distanceTo(target);
 			// CLEANUP why does a multiplication with 3 work so well here??
 			// It should be v = s/t just straight up, not v = s/t*3.....
@@ -111,9 +111,9 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 					EntityLivingBase attackTarget = entity.getAttackTarget();
 					Vec3 target;
 					if (attackTarget != null) {
-						target = WorldHelper.getEntityVector(attackTarget);
+						target = WorldHelper.getEntityPositionVector(attackTarget);
 					} else {
-						target = WorldHelper.getEntityVector(entity);
+						target = WorldHelper.getEntityPositionVector(entity);
 					}
 					return target;
 				}

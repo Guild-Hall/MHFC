@@ -17,33 +17,28 @@ public class GuiQuestBoard extends MHFCTabbedGui {
 			public boolean canInteractWith(EntityPlayer var1) {
 				return false;
 			}
-		}, 2);
+		});
 		questMg = new GuiQuestManagement(null, accessor);
 		this.join = join;
-		tabList.add(join);
-		tabList.add(questMg);
+		addTab(join, "");
+		addTab(questMg, "");
 		tabWidth = 0;
 		xSize = 374;
 		ySize = 220;
 	}
 
 	@Override
-	public void setWorldAndResolution(Minecraft p_146280_1_, int p_146280_2_,
-		int p_146280_3_) {
+	public void setWorldAndResolution(Minecraft p_146280_1_, int p_146280_2_, int p_146280_3_) {
 		join.setWorldAndResolution(p_146280_1_, p_146280_2_, p_146280_3_);
 		questMg.setWorldAndResolution(p_146280_1_, p_146280_2_, p_146280_3_);
 		super.setWorldAndResolution(p_146280_1_, p_146280_2_, p_146280_3_);
 	}
 
 	@Override
-	protected void drawInactiveTabIcons(int posX, int posY, int mouseX,
-		int mouseY) {
-	}
+	protected void drawInactiveTabIcons(int posX, int posY, int mouseX, int mouseY) {}
 
 	@Override
-	protected void drawActiveTabIcon(int posX, int posY, int mouseX,
-		int mouseY) {
-	}
+	protected void drawActiveTabIcon(int posX, int posY, int mouseX, int mouseY) {}
 
 	@Override
 	protected void drawTabBackgroundLayer() {
