@@ -1,5 +1,6 @@
 package mhfc.net.common.world.area;
 
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 /**
@@ -19,5 +20,9 @@ public interface IWorldView extends IWorld {
 	 * Fall back method where the interface is not enough to provide the access needed.
 	 */
 	public World getWorldObject();
+
+	public Vec3 convertToLocal(Vec3 pos);
+
+	public Vec3 convertToGlobal(Vec3 local);
 
 }

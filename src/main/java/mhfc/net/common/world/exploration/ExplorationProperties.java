@@ -14,8 +14,8 @@ public final class ExplorationProperties implements IExtendedEntityProperties {
 	public static final String KEY_MANAGER = "manager";
 	public static final String KEY_AREA_TYPE = "areaType";
 
-	private IExplorationManager manager;
-	private IAreaType areaType;
+	private IExplorationManager manager = OverworldManager.instance;
+	private IAreaType areaType = null;
 
 	@Override
 	public void saveNBTData(NBTTagCompound compound) {

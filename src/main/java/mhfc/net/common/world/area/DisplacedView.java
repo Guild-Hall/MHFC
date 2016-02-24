@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -300,5 +301,15 @@ public class DisplacedView implements IWorldView {
 		posX += addX;
 		posZ += addZ;
 		AreaTeleportation.moveEntityTo(entity, posX, posY, posZ);
+	}
+
+	@Override
+	public Vec3 convertToLocal(Vec3 global) {
+		return global.addVector(-addX, 0, -addZ);
+	}
+
+	@Override
+	public Vec3 convertToGlobal(Vec3 local) {
+		return local.addVector(addX, 0, addZ);
 	}
 }

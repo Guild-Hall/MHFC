@@ -73,7 +73,7 @@ public class BlockExploreArea extends Block implements ITileEntityProvider {
 		TileExploreArea tileChangeArea = (TileExploreArea) tile;
 		EntityPlayerMP player = (EntityPlayerMP) entity;
 		if (teleportingPlayers.contains(player)) {
-			player.setVelocity(player.motionX, 0, player.motionZ);
+			player.motionY = 0;
 			return;
 		}
 		IAreaType targetArea = tileChangeArea.getTargetArea();

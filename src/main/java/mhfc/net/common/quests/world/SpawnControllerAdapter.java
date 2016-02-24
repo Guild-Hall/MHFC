@@ -18,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IWorldAccess;
 import net.minecraft.world.World;
 
@@ -118,7 +119,9 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 		@Override
 		public void onEntityCreate(Entity entity) {
-			if (!inArea(entity.posX, entity.posY, entity.posZ))
+			Vec3 pos = Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
+			pos = SpawnControllerAdapter.this.worldView.convertToLocal(pos);
+			if (!inArea(pos.xCoord, pos.yCoord, pos.zCoord))
 				return;
 			SpawnControllerAdapter.this.controlEntity(entity);
 		}
@@ -279,7 +282,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	protected boolean spawnEntity(SpawnInformation information) {
 		Entity entity = information.spawnable.apply(worldView.getWorldObject());
 		worldView.spawnEntityAt(entity, information.relX, information.relY, information.relZ);
-		return false;
+		return controlEntity(entity);
 	}
 
 	/**
