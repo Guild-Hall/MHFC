@@ -43,7 +43,7 @@ public class HuntingHornClass extends WeaponMelee {
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target,
 			EntityLivingBase player) {
 		if (Cooldown.canUse(stack, stunChances)) {
-			target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.shock.id, 10, 5));
+			target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.stun.id, 10, 5));
 		}
 		meleecomp.hitEntity(stack, target, player);
 		return true;

@@ -15,7 +15,7 @@ public class MHFCPotionRegistry {
 	private static final int originalSize;
 	private static int offset = 0;
 
-	public static final Potion shock;
+	public static final Potion stun;
 	public static final Potion kirin_blessing;
 	public static final Potion attack_up_low;
 	public static final Potion longswordattackup;
@@ -24,7 +24,7 @@ public class MHFCPotionRegistry {
 		MHFCMain.checkPreInitialized();
 		originalSize = extendPotionsArray(MAXPOTIONS);
 
-		shock = new PotionParalyze(getNextID(), true, 999999);
+		stun = new PotionParalyze(getNextID(), true, 999999);
 		kirin_blessing = new PotionKirinBless(getNextID(), false, 0000000);
 		attack_up_low = new PotionAttackUpLow(getNextID(), false,4059188);
 		longswordattackup =new LongswordDamageUp(getNextID(), false,0000000);

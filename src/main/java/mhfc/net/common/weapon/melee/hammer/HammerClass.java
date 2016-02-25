@@ -55,7 +55,7 @@ public class HammerClass extends WeaponMelee {
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target,
 			EntityLivingBase player) {
 		if (Cooldown.canUse(stack, cooldown)) {
-			target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.shock.id, stunDur, 5));
+			target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.stun.id, stunDur, 5));
 		}
 		
 		return true;

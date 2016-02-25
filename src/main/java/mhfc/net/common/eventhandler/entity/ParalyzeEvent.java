@@ -11,7 +11,7 @@ public class ParalyzeEvent {
 	 public void onLivingUpdate(LivingEvent.LivingUpdateEvent event)
 	 {
 		 EntityLivingBase entity = event.entityLiving;
-		 if (entity.getActivePotionEffect(MHFCPotionRegistry.shock) != null) {
+		 if (entity.getActivePotionEffect(MHFCPotionRegistry.stun) != null) {
 			 for (int i = 0; i < 15; i++) {
 				 
 			 }

@@ -16,10 +16,10 @@ public class PitfallEvent {
 			return;
 		}
 		PotionEffect activeEffect = event.entityLiving
-				.getActivePotionEffect(MHFCPotionRegistry.shock);
+				.getActivePotionEffect(MHFCPotionRegistry.stun);
 		if (activeEffect != null && activeEffect.getDuration() == 0) {
 			event.entityLiving
-					.removePotionEffect(MHFCPotionRegistry.shock.id);
+					.removePotionEffect(MHFCPotionRegistry.stun.id);
 		}
 	}
 
