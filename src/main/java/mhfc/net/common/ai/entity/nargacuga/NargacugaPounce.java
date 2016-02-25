@@ -1,203 +1,48 @@
 package mhfc.net.common.ai.entity.nargacuga;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
-import mhfc.net.common.ai.general.provider.*;
-import mhfc.net.common.ai.general.provider.IJumpParamterProvider.AttackTargetAdapter;
+import mhfc.net.common.ai.general.provider.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.IDamageProvider;
+import mhfc.net.common.ai.general.provider.IJumpParamterProvider;
+import mhfc.net.common.ai.general.provider.ISelectionPredicate;
+import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 
-public final class NargacugaPounce
-	extends
-		AIGeneralJumpAttack<EntityNargacuga> {
-
-	private static final int TURN_SLOW = 2;
-	private static final int TURN_FAST = 8;
+public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> {
 
 	private static final float WEIGHT = 3.0f;
 
-	private static final IDamageCalculator dmgCalculator = AIUtils
-		.defaultDamageCalc(28, 300, 5000);
+	private static final IDamageCalculator dmgCalculator = AIUtils.defaultDamageCalc(28, 300, 5000);
 
-	public static enum NargaJumpBehaviour {
-		TWO_JUMPS() {
-			private static final String animation = "mhfc:models/Nargacuga/Pounce.mcanm";
-			public static final int animationLength = 68;
-
-			@Override
-			IJumpTimingProvider<EntityNargacuga> getJumpTiming() {
-				return new IJumpTimingProvider<EntityNargacuga>() {
-					private final int JUMP1_FRAME = 28;
-					private final int LAND1_FRAME = 38;
-					private final int JUMP2_FRAME = 47;
-					// private final int LAND2_FRAME = 57;
-
-					@Override
-					public boolean isJumpFrame(EntityNargacuga entity,
-						int frame) {
-						return frame == JUMP1_FRAME || frame == JUMP2_FRAME;
-					}
-
-					@Override
-					public boolean isDamageFrame(EntityNargacuga entity,
-						int frame) {
-						return frame > JUMP1_FRAME;
-					}
-
-					@Override
-					public float getTurnRate(EntityNargacuga entity,
-						int frame) {
-						if (frame < JUMP1_FRAME)
-							return TURN_FAST;
-						else if (frame < LAND1_FRAME)
-							return 0;
-						else if (frame < JUMP2_FRAME)
-							return TURN_SLOW;
-						return 0;
-					}
-				};
-			}
-
-			private final int JUMP_TIME = 10;
-
-			@Override
-			IJumpParamterProvider<EntityNargacuga> getJumpParameters() {
-				return new AttackTargetAdapter<EntityNargacuga>(JUMP_TIME);
-			}
-
-			@Override
-			IAnimationProvider getAnimation() {
-				return new IAnimationProvider.AnimationAdapter(animation,
-					animationLength);
-			}
-
-			@Override
-			ISelectionPredicate<EntityNargacuga> getSelectionPredicate() {
-				return new ISelectionPredicate.SelectAlways<>();
-			}
-
-		},
-		THREE_JUMPS() {
-
-			private static final String animation = "mhfc:models/Nargacuga/Pounce.mcanm";
-			public static final int animationLength = 68;
-
-			@Override
-			IJumpTimingProvider<EntityNargacuga> getJumpTiming() {
-				return new IJumpTimingProvider<EntityNargacuga>() {
-					private final int JUMP1_FRAME = 28;
-					private final int LAND1_FRAME = 38;
-					private final int JUMP2_FRAME = 47;
-					private final int LAND2_FRAME = 57;
-					private final int JUMP3_FRAME = 68;
-
-					@Override
-					public boolean isJumpFrame(EntityNargacuga entity,
-						int frame) {
-						return frame == JUMP1_FRAME || frame == JUMP2_FRAME
-							|| frame == JUMP3_FRAME;
-					}
-
-					@Override
-					public boolean isDamageFrame(EntityNargacuga entity,
-						int frame) {
-						return frame > JUMP1_FRAME && frame < LAND1_FRAME;
-					}
-
-					@Override
-					public float getTurnRate(EntityNargacuga entity,
-						int frame) {
-						if (frame < JUMP1_FRAME)
-							return TURN_FAST;
-						else if (frame < LAND1_FRAME)
-							return 0;
-						else if (frame < JUMP2_FRAME)
-							return TURN_SLOW;
-						else if (frame < LAND2_FRAME)
-							return 0;
-						else if (frame < JUMP3_FRAME)
-							return TURN_SLOW;
-						return 0;
-					}
-				};
-			}
-
-			private final int JUMP_TIME = 10;
-
-			@Override
-			IJumpParamterProvider<EntityNargacuga> getJumpParameters() {
-				return new AttackTargetAdapter<EntityNargacuga>(JUMP_TIME);
-			}
-
-			@Override
-			IAnimationProvider getAnimation() {
-				return new IAnimationProvider.AnimationAdapter(animation,
-					animationLength);
-			}
-
-			@Override
-			ISelectionPredicate<EntityNargacuga> getSelectionPredicate() {
-				return new ISelectionPredicate.SelectAlways<>();
-			}
-
-		},
-		// FIXME implement four jumps when the animation is there
-		// FOUR_JUMPS() {
-		// @Override
-		// IJumpTimingProvider<EntityNargacuga> getJumpTiming() {
-		// // TODO Auto-generated method stub
-		// return null;
-		// }
-		//
-		// @Override
-		// IJumpParamterProvider<EntityNargacuga> getJumpParameters() {
-		// // TODO Auto-generated method stub
-		// return null;
-		// }
-		//
-		// @Override
-		// IAnimationProvider getAnimation() {
-		// // TODO Auto-generated method stub
-		// return null;
-		// }
-		//
-		// @Override
-		// ISelectionPredicate<EntityNargacuga> getSelectionPredicate() {
-		// // TODO Auto-generated method stub
-		// return null;
-		// }
-		// };
-		;
-		abstract IJumpTimingProvider<EntityNargacuga> getJumpTiming();
-
-		abstract IJumpParamterProvider<EntityNargacuga> getJumpParameters();
-
-		abstract IAnimationProvider getAnimation();
-
-		abstract ISelectionPredicate<EntityNargacuga> getSelectionPredicate();
-	}
-
-	public static NargacugaPounce createNargaPounce(
-		NargaJumpBehaviour behaviour) {
+	public static NargacugaPounce createNargaPounce(NargaJumpBehaviour behaviour) {
 		IAnimationProvider animation = behaviour.getAnimation();
-		ISelectionPredicate<EntityNargacuga> select = behaviour
-			.getSelectionPredicate();
-		IWeightProvider<EntityNargacuga> weight = new IWeightProvider.SimpleWeightAdapter<>(
-			WEIGHT);
-		IDamageProvider damage = new IDamageProvider.DamageAdapter(
-			dmgCalculator);
+		ISelectionPredicate<EntityNargacuga> select = behaviour.getSelectionPredicate();
+		IWeightProvider<EntityNargacuga> weight = new IWeightProvider.SimpleWeightAdapter<>(WEIGHT);
+		IDamageProvider damage = new IDamageProvider.DamageAdapter(dmgCalculator);
 		IJumpTimingProvider<EntityNargacuga> timing = behaviour.getJumpTiming();
-		IJumpParamterProvider<EntityNargacuga> params = behaviour
-			.getJumpParameters();
+		IJumpParamterProvider<EntityNargacuga> params = behaviour.getJumpParameters();
 		NargacugaPounce pounce = new NargacugaPounce(
-			new JumpAdapter<EntityNargacuga>(animation, select, weight, damage,
-				params, timing));
+				new JumpAdapter<EntityNargacuga>(animation, select, weight, damage, params, timing),
+				behaviour);
 		return pounce;
 
 	}
 
-	private NargacugaPounce(IJumpProvider<EntityNargacuga> provider) {
+	private NargaJumpBehaviour behaviour;
+
+	private NargacugaPounce(IJumpProvider<EntityNargacuga> provider, NargaJumpBehaviour behaviour) {
 		super(provider);
+		this.behaviour = behaviour;
+	}
+
+	@Override
+	public void beginExecution() {
+		super.beginExecution();
+		MHFCMain.logger.debug("Narga jump {}", this.behaviour);
+		setToNextFrame(18);
 	}
 
 }

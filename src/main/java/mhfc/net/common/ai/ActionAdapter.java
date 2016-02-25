@@ -12,9 +12,7 @@ import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class ActionAdapter<T extends EntityCreature>
-	implements
-		IExecutableAction<T> {
+public abstract class ActionAdapter<T extends EntityCreature> implements IExecutableAction<T> {
 	private static final Random rand = new Random();
 
 	private IAnimation animation;
@@ -24,8 +22,7 @@ public abstract class ActionAdapter<T extends EntityCreature>
 	private T entity;
 
 	/**
-	 * Almost every attack has a target entity. This is completely up to you if
-	 * you want to use this
+	 * Almost every attack has a target entity. This is completely up to you if you want to use this
 	 */
 	protected EntityLivingBase target;
 	protected DamageCalculatorHelper dmgHelper;
@@ -39,8 +36,7 @@ public abstract class ActionAdapter<T extends EntityCreature>
 		framesPassed = 0;
 		recentFrame = -1;
 		dmgHelper.reset();
-		FMLCommonHandler.instance().bus().post(new ActionSelectionEvent(this,
-			getEntity()));
+		FMLCommonHandler.instance().bus().post(new ActionSelectionEvent(this, getEntity()));
 		beginExecution();
 	}
 
@@ -57,8 +53,7 @@ public abstract class ActionAdapter<T extends EntityCreature>
 	}
 
 	/**
-	 * This should be overridden by a subclass if it wants to take actions on
-	 * begin of the action
+	 * This should be overridden by a subclass if it wants to take actions on begin of the action
 	 */
 	protected void beginExecution() {
 
@@ -66,16 +61,14 @@ public abstract class ActionAdapter<T extends EntityCreature>
 
 	/**
 	 *
-	 * This should be overridden by a subclass if it wants to take actions on
-	 * end of the action
+	 * This should be overridden by a subclass if it wants to take actions on end of the action
 	 */
 	protected void finishExecution() {
 
 	}
 
 	/**
-	 * This must be overridden by the subclass to specify the behavior during
-	 * execution
+	 * This must be overridden by the subclass to specify the behavior during execution
 	 */
 	protected abstract void update();
 
@@ -165,8 +158,7 @@ public abstract class ActionAdapter<T extends EntityCreature>
 	}
 
 	/**
-	 * Returns the number of frames this attack is running, counting only
-	 * upwards even when the animation loops
+	 * Returns the number of frames this attack is running, counting only upwards even when the animation loops
 	 */
 	public int getFramesPased() {
 		return framesPassed;

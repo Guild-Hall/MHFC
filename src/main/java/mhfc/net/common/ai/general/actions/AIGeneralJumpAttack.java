@@ -5,14 +5,16 @@ import java.util.Objects;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
-import mhfc.net.common.ai.general.provider.*;
+import mhfc.net.common.ai.general.provider.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.IDamageProvider;
+import mhfc.net.common.ai.general.provider.IJumpParamterProvider;
+import mhfc.net.common.ai.general.provider.ISelectionPredicate;
+import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Vec3;
 
-public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
-	extends
-		AIAnimatedAction<EntityT> {
+public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>> extends AIAnimatedAction<EntityT> {
 
 	public static interface IJumpTimingProvider<EntityT extends EntityMHFCBase<? super EntityT>> {
 
@@ -26,14 +28,15 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 		public float getTurnRate(EntityT entity, int frame);
 
 		public static class JumpTimingAdapter<EntityT extends EntityMHFCBase<? super EntityT>>
-			implements
+				implements
 				IJumpTimingProvider<EntityT> {
-			private int jumpFrame;
-			private float turnRate;
+			protected int jumpFrame;
+			protected float turnRate, turnRateAir;
 
-			public JumpTimingAdapter(int jumpFrame, float turnRate) {
+			public JumpTimingAdapter(int jumpFrame, float turnRate, float turnRateAir) {
 				this.jumpFrame = jumpFrame;
 				this.turnRate = turnRate;
+				this.turnRateAir = turnRateAir;
 			}
 
 			@Override
@@ -43,7 +46,7 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 
 			@Override
 			public float getTurnRate(EntityT entity, int frame) {
-				return turnRate;
+				return frame > jumpFrame ? turnRateAir : turnRate;
 			}
 
 			@Override
@@ -55,7 +58,7 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 	}
 
 	public static interface IJumpProvider<EntityT extends EntityMHFCBase<? super EntityT>>
-		extends
+			extends
 			IAnimatedActionProvider<EntityT>,
 			IDamageProvider,
 			IJumpParamterProvider<EntityT>,
@@ -63,9 +66,7 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 
 	}
 
-	public static class JumpAdapter<EntityT extends EntityMHFCBase<? super EntityT>>
-		implements
-			IJumpProvider<EntityT> {
+	public static class JumpAdapter<EntityT extends EntityMHFCBase<? super EntityT>> implements IJumpProvider<EntityT> {
 		protected IAnimationProvider animationProvider;
 		protected ISelectionPredicate<EntityT> predicate;
 		protected IWeightProvider<EntityT> weightProvider;
@@ -73,12 +74,13 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 		protected IJumpParamterProvider<EntityT> jumpProvider;
 		protected IJumpTimingProvider<EntityT> jumpTiming;
 
-		public JumpAdapter(IAnimationProvider animProvider,
-			ISelectionPredicate<EntityT> predicate,
-			IWeightProvider<EntityT> weightProvider,
-			IDamageProvider damageProvider,
-			IJumpParamterProvider<EntityT> jumpProvider,
-			IJumpTimingProvider<EntityT> jumpTiming) {
+		public JumpAdapter(
+				IAnimationProvider animProvider,
+				ISelectionPredicate<EntityT> predicate,
+				IWeightProvider<EntityT> weightProvider,
+				IDamageProvider damageProvider,
+				IJumpParamterProvider<EntityT> jumpProvider,
+				IJumpTimingProvider<EntityT> jumpTiming) {
 			this.animationProvider = Objects.requireNonNull(animProvider);
 			this.predicate = Objects.requireNonNull(predicate);
 			this.weightProvider = Objects.requireNonNull(weightProvider);
@@ -88,9 +90,7 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 		}
 
 		@Override
-		public boolean shouldSelectAttack(
-			IExecutableAction<? super EntityT> attack, EntityT actor,
-			Entity target) {
+		public boolean shouldSelectAttack(IExecutableAction<? super EntityT> attack, EntityT actor, Entity target) {
 			return predicate.shouldSelectAttack(attack, actor, target);
 		}
 
@@ -163,8 +163,7 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
-		getEntity().getTurnHelper().updateTurnSpeed(provider.getTurnRate(
-			getEntity(), 0));
+		getEntity().getTurnHelper().updateTurnSpeed(provider.getTurnRate(getEntity(), 0));
 	}
 
 	@Override
@@ -172,14 +171,12 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 
 		EntityT entity = getEntity();
 		Vec3 look = entity.getLookVec();
-		Vec3 forward = Vec3.createVectorHelper(look.xCoord, 0, look.yCoord)
-			.normalize();
+		Vec3 forward = Vec3.createVectorHelper(look.xCoord, 0, look.zCoord).normalize();
 		int frame = getCurrentFrame();
 		float turnRate = provider.getTurnRate(entity, frame);
 		if (turnRate > 0) {
 			entity.getTurnHelper().updateTurnSpeed(turnRate);
-			entity.getTurnHelper().updateTargetPoint(getEntity()
-				.getAttackTarget());
+			entity.getTurnHelper().updateTargetPoint(getEntity().getAttackTarget());
 		}
 		if (provider.isJumpFrame(entity, frame)) {
 			float upVelocity = provider.getInitialUpVelocity(entity);
@@ -192,8 +189,7 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 			entity.isAirBorne = true;
 		}
 		if (provider.isDamageFrame(entity, frame)) {
-			AIUtils.damageCollidingEntities(getEntity(), dmgHelper
-				.getCalculator());
+			AIUtils.damageCollidingEntities(getEntity(), dmgHelper.getCalculator());
 		}
 	}
 

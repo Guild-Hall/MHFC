@@ -11,7 +11,7 @@ public class ProwlerStance extends AIAnimatedAction<EntityNargacuga> {
 	private static final String ANIMATION_LOCATION = "mhfc:models/Nargacuga/Pounce.mcanm";
 	private static final int ANIMATION_LENGTH = 18;
 	private static final float MAX_ANGLE = 40;
-	private static final float MAX_DISTANCE = 25;
+	private static final float MAX_DISTANCE = 40;
 	private static final float WEIGHT = 15;
 
 	public ProwlerStance() {
@@ -19,20 +19,19 @@ public class ProwlerStance extends AIAnimatedAction<EntityNargacuga> {
 	}
 
 	private static IAnimatedActionProvider<EntityNargacuga> generateProvider() {
-		IAnimationProvider anim = new IAnimationProvider.AnimationAdapter(
-			ANIMATION_LOCATION, ANIMATION_LENGTH);
+		IAnimationProvider anim = new IAnimationProvider.AnimationAdapter(ANIMATION_LOCATION, ANIMATION_LENGTH);
 		ISelectionPredicate<EntityNargacuga> select = new ISelectionPredicate.SelectionAdapter<>(
-			-MAX_ANGLE, MAX_ANGLE, 0, MAX_DISTANCE);
-		IWeightProvider<EntityNargacuga> weight = new IWeightProvider.SimpleWeightAdapter<EntityNargacuga>(
-			WEIGHT);
+				-MAX_ANGLE,
+				MAX_ANGLE,
+				0,
+				MAX_DISTANCE);
+		IWeightProvider<EntityNargacuga> weight = new IWeightProvider.SimpleWeightAdapter<EntityNargacuga>(WEIGHT);
 
-		AnimatedActionAdapter<EntityNargacuga> adapter = new AnimatedActionAdapter<>(
-			anim, select, weight);
+		AnimatedActionAdapter<EntityNargacuga> adapter = new AnimatedActionAdapter<>(anim, select, weight);
 		return adapter;
 	}
 
 	@Override
-	protected void update() {
-	}
+	protected void update() {}
 
 }

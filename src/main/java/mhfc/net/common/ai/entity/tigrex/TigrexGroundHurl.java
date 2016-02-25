@@ -14,7 +14,7 @@ public class TigrexGroundHurl extends ActionAdapter<EntityTigrex> {
 
 	private static final double SPLIT_MULTIPLIER = 0.125;
 	private static final double THROW_HEIGHT = 0.35;
-	private static final float TURN_RATE = 2;
+	private static final float TURN_RATE = 4;
 
 	private static final double MAX_ANGLE = 0.155;
 
@@ -57,8 +57,7 @@ public class TigrexGroundHurl extends ActionAdapter<EntityTigrex> {
 		if (getCurrentFrame() < THROW_FRAME) {
 			if (getCurrentFrame() < TURN_FRAMES) {
 				tigrex.getTurnHelper().updateTurnSpeed(TURN_RATE);
-				tigrex.getTurnHelper().updateTargetPoint(tigrex
-					.getAttackTarget());
+				tigrex.getTurnHelper().updateTargetPoint(tigrex.getAttackTarget());
 			}
 			return;
 		}
@@ -66,8 +65,7 @@ public class TigrexGroundHurl extends ActionAdapter<EntityTigrex> {
 		Vec3 lookVec = tigrex.getLookVec();
 		Vec3 rightSide = lookVec.crossProduct(Vec3.createVectorHelper(0, 1, 0));
 		for (int i = 0; i < 3; i++) {
-			EntityTigrexBlock block = new EntityTigrexBlock(tigrex.worldObj,
-				tigrex);
+			EntityTigrexBlock block = new EntityTigrexBlock(tigrex.worldObj, tigrex);
 			double xCo = look.xCoord;
 			double yCo = look.yCoord + THROW_HEIGHT;
 			double zCo = look.zCoord;

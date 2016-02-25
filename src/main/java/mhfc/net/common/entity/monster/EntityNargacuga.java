@@ -16,9 +16,10 @@ import com.google.common.collect.Queues;
 import mhfc.net.common.ai.AIFollowUpActionManager;
 import mhfc.net.common.ai.IActionRecorder;
 import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.entity.nargacuga.NargaJumpBehaviour;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaPounce;
-import mhfc.net.common.ai.entity.nargacuga.NargacugaPounce.NargaJumpBehaviour;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaRoar;
+import mhfc.net.common.ai.entity.nargacuga.NargacugaTailWhip;
 import mhfc.net.common.ai.entity.nargacuga.ProwlerStance;
 import mhfc.net.common.ai.entity.nargacuga.TailSlam;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -31,7 +32,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
-	implements
+		implements
 		IActionRecorder<EntityNargacuga>,
 		IEnragable {
 
@@ -50,30 +51,26 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		setSize(4, 5);
 
 		recorder = new RecorderAdapter<>(100);
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
-			EntityPlayer.class, 0, true));
-		eyesPositionsRight = Queues.synchronizedQueue(EvictingQueue
-			.<Vec3> create(EYES_RECORD_LENGTH));
-		eyesPositionsLeft = Queues.synchronizedQueue(EvictingQueue
-			.<Vec3> create(EYES_RECORD_LENGTH));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		eyesPositionsRight = Queues.synchronizedQueue(EvictingQueue.<Vec3>create(EYES_RECORD_LENGTH));
+		eyesPositionsLeft = Queues.synchronizedQueue(EvictingQueue.<Vec3>create(EYES_RECORD_LENGTH));
 		ticksSinceEyesSaved = 0;
 		enraged = false;
 
-		AIFollowUpActionManager<EntityNargacuga> attackManager = new AIFollowUpActionManager<EntityNargacuga>(
-			this);
+		AIFollowUpActionManager<EntityNargacuga> attackManager = new AIFollowUpActionManager<EntityNargacuga>(this);
 		TailSlam tailSlam = new TailSlam();
 		NargacugaRoar roar = new NargacugaRoar();
 		ProwlerStance prowler = new ProwlerStance();
-		NargacugaPounce pounceTwo = NargacugaPounce.createNargaPounce(
-			NargaJumpBehaviour.TWO_JUMPS);
-		NargacugaPounce pounceThree = NargacugaPounce.createNargaPounce(
-			NargaJumpBehaviour.THREE_JUMPS);
+		NargacugaPounce pounceTwo = NargacugaPounce.createNargaPounce(NargaJumpBehaviour.TWO_JUMPS);
+		NargacugaPounce pounceThree = NargacugaPounce.createNargaPounce(NargaJumpBehaviour.THREE_JUMPS);
+		NargacugaTailWhip tailWhip = new NargacugaTailWhip();
 		// NargacugaPounce pounceFour = NargacugaPounce.createNargaPounce(
 		// NargaJumpBehaviour.FOUR_JUMPS);
 
 		List<IExecutableAction<? super EntityNargacuga>> prowlerFollow = new ArrayList<IExecutableAction<? super EntityNargacuga>>();
 		prowlerFollow.add(pounceTwo);
 		prowlerFollow.add(pounceThree);
+		prowlerFollow.add(tailWhip);
 		// prowlerFollow.add(pounceFour);
 
 		attackManager.registerAttack(tailSlam);
@@ -85,16 +82,11 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getAttributeMap().getAttributeInstance(
-			SharedMonsterAttributes.followRange).setBaseValue(128d);
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
-			.setBaseValue(1.3D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-			healthbaseHP(9000D, 13888D, 18465D));
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(
-			35D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(
-			0.43D);
+		getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
+		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(9000D, 13888D, 18465D));
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.43D);
 	}
 
 	@Override
@@ -103,8 +95,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	}
 
 	@Override
-	public RenderPassInformation preRenderCallback(float scale,
-		RenderPassInformation sub) {
+	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
 		GL11.glScaled(2, 2, 2);
 		return super.preRenderCallback(scale, sub);
 	}
@@ -114,14 +105,12 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		IAnimation animation = getAttackManager().getCurrentAnimation();
 		if (animation == null)
 			return Vec3.createVectorHelper(0, 0, 0);
-		BoneTransformation boneTrans = animation.getCurrentTransformation(name,
-			frame);
+		BoneTransformation boneTrans = animation.getCurrentTransformation(name, frame);
 		// FIXME find out why the bones give null pointers and fix thise
 		if (boneTrans == null)
 			return Vec3.createVectorHelper(0, 0, 0);
 		Matrix4f transform = boneTrans.asMatrix();
-		Vec3 relativePosition = Vec3.createVectorHelper(transform.m03,
-			transform.m13, transform.m23);
+		Vec3 relativePosition = Vec3.createVectorHelper(transform.m03, transform.m13, transform.m23);
 		return relativePosition;
 	}
 
@@ -146,8 +135,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		if (++ticksSinceEyesSaved >= EYES_RECORD_FREQUENCY
-			&& this.worldObj.isRemote) {
+		if (++ticksSinceEyesSaved >= EYES_RECORD_FREQUENCY && this.worldObj.isRemote) {
 			ticksSinceEyesSaved = 0;
 			eyesPositionsLeft.add(getPositionLeftEye());
 			eyesPositionsRight.add(getPositionRightEye());
@@ -155,8 +143,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	}
 
 	@Override
-	public void onAttackEnd(
-		IExecutableAction<? super EntityNargacuga> oldAttack) {
+	public void onAttackEnd(IExecutableAction<? super EntityNargacuga> oldAttack) {
 		recorder.addAction(oldAttack);
 	}
 

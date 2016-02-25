@@ -5,9 +5,14 @@ import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.ISelectionPredicate;
 import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.monster.EntityTigrex;
+import mhfc.net.common.util.world.WorldHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.Vec3;
 
 public class TigrexRoar extends AIGeneralRoar<EntityTigrex> {
 	private static final int LAST_FRAME = 70;
+
+	Vec3 targetPoint;
 
 	public TigrexRoar() {
 		super(TigrexRoar.generateProvider());
@@ -23,13 +28,21 @@ public class TigrexRoar extends AIGeneralRoar<EntityTigrex> {
 	}
 
 	@Override
+	public void beginExecution() {
+		super.beginExecution();
+		Entity target = getEntity().getAttackTarget();
+		if (target != null) {
+			targetPoint = WorldHelper.getEntityPositionVector(target);
+		}
+	}
+
+	@Override
 	public void update() {
 		super.update();
 		EntityTigrex entity = this.getEntity();
-		target = entity.getAttackTarget();
-		if (this.getCurrentFrame() >= 18 && this.getCurrentFrame() <= 22) {
-			entity.getTurnHelper().updateTargetPoint(target);
-			entity.getTurnHelper().updateTurnSpeed(30.0f);
+		if (this.getCurrentFrame() <= 10) {
+			entity.getTurnHelper().updateTargetPoint(targetPoint);
+			entity.getTurnHelper().updateTurnSpeed(6.0f);
 		}
 	}
 }

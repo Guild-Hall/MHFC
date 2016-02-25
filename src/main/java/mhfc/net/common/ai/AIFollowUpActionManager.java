@@ -8,32 +8,28 @@ import mhfc.net.common.ai.general.WeightedPick;
 import net.minecraft.entity.EntityLiving;
 
 /**
- * An action manager who selects the new attack only from a set of follow up
- * actions specific to the last action.
+ * An action manager who selects the new attack only from a set of follow up actions specific to the last action.
  */
 public class AIFollowUpActionManager<EntType extends EntityLiving & IManagedActions<EntType>>
-	extends
+		extends
 		AIActionManager<EntType> {
 
 	public static interface FollowUpChooser<EntType extends EntityLiving & IManagedActions<EntType>> {
-		public List<IExecutableAction<? super EntType>> collectFollowups(
-			EntType entity);
+		public List<IExecutableAction<? super EntType>> collectFollowups(EntType entity);
 	}
 
 	public static class FollowUpAdapter<EntType extends EntityLiving & IManagedActions<EntType>>
-		implements
+			implements
 			FollowUpChooser<EntType> {
 
 		List<IExecutableAction<? super EntType>> followUps;
 
-		public FollowUpAdapter(
-			List<IExecutableAction<? super EntType>> followUps) {
+		public FollowUpAdapter(List<IExecutableAction<? super EntType>> followUps) {
 			this.followUps = followUps;
 		}
 
 		@Override
-		public List<IExecutableAction<? super EntType>> collectFollowups(
-			EntType entity) {
+		public List<IExecutableAction<? super EntType>> collectFollowups(EntType entity) {
 			return followUps;
 		}
 	}
@@ -50,34 +46,30 @@ public class AIFollowUpActionManager<EntType extends EntityLiving & IManagedActi
 	 */
 	@Override
 	public void registerAttack(IExecutableAction<? super EntType> attack) {
-		registerAttack(attack, null);
+		registerAttack(attack, (List<IExecutableAction<? super EntType>>) null);
 	}
 
 	/**
 	 * Register an attack with a set of allowed follow up actions.<br>
-	 * To allow every action, provide null, to allow no action to follow up,
-	 * provide an empty list.<br>
+	 * To allow every action, provide null, to allow no action to follow up, provide an empty list.<br>
 	 * The list is NOT copied, so don't use it afterwards.
 	 */
-	public void registerAttack(IExecutableAction<? super EntType> attack,
-		List<IExecutableAction<? super EntType>> followUps) {
-		registerAttac(attack, new FollowUpAdapter<EntType>(followUps));
+	public void registerAttack(
+			IExecutableAction<? super EntType> attack,
+			List<IExecutableAction<? super EntType>> followUps) {
+		registerAttack(attack, new FollowUpAdapter<EntType>(followUps));
 	}
 
-	public void registerAttac(IExecutableAction<? super EntType> attack,
-		FollowUpChooser<EntType> chooser) {
+	public void registerAttack(IExecutableAction<? super EntType> attack, FollowUpChooser<EntType> chooser) {
 		super.registerAttack(attack);
 		allowedFollowUps.put(attack, chooser);
 	}
 
-	private List<IExecutableAction<? super EntType>> getFollowUpList(
-		IExecutableAction<? super EntType> action) {
-		FollowUpChooser<EntType> followUpChooser = allowedFollowUps.get(
-			activeAttack);
+	private List<IExecutableAction<? super EntType>> getFollowUpList(IExecutableAction<? super EntType> action) {
+		FollowUpChooser<EntType> followUpChooser = allowedFollowUps.get(activeAttack);
 		if (followUpChooser == null)
 			return attacks;
-		List<IExecutableAction<? super EntType>> followUps = followUpChooser
-			.collectFollowups(this.entity);
+		List<IExecutableAction<? super EntType>> followUps = followUpChooser.collectFollowups(this.entity);
 		if (followUps == null)
 			return attacks;
 		followUps.forEach((x) -> x.rebind(entity));
@@ -86,8 +78,7 @@ public class AIFollowUpActionManager<EntType extends EntityLiving & IManagedActi
 
 	@Override
 	public IExecutableAction<? super EntType> chooseAttack() {
-		List<IExecutableAction<? super EntType>> followUps = getFollowUpList(
-			activeAttack);
+		List<IExecutableAction<? super EntType>> followUps = getFollowUpList(activeAttack);
 		return WeightedPick.pickRandom(followUps);
 	}
 

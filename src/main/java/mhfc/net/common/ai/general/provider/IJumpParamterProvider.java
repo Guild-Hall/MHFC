@@ -20,9 +20,7 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 	 */
 	public float getForwardVelocity(EntityT entity);
 
-	public static class ConstantAirTimeAdapter<EntityT extends EntityLiving>
-		implements
-			IJumpParamterProvider<EntityT> {
+	public static class ConstantAirTimeAdapter<EntityT extends EntityLiving> implements IJumpParamterProvider<EntityT> {
 
 		public static interface ITargetResolver<EntityT extends EntityLiving> {
 			Vec3 getJumpTarget(EntityT entity);
@@ -31,49 +29,50 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 		public static final float GRAVITATIONAL_C_LIVING = 0.08f; // blocks per
 																	// tick^2
 		protected float airTime;
+		private float maxSpeed, minSpeed;
 		private ITargetResolver<EntityT> targetResolver;
 
-		public ConstantAirTimeAdapter(float jumpAirTimeInTicks,
-			ITargetResolver<EntityT> targetResolver) {
+		public ConstantAirTimeAdapter(float jumpAirTimeInTicks, ITargetResolver<EntityT> targetResolver) {
+			if (jumpAirTimeInTicks <= 0)
+				throw new InvalidParameterException("Jump time must be bigger than zero");
 			this.airTime = jumpAirTimeInTicks;
 			this.targetResolver = Objects.requireNonNull(targetResolver);
-			if (airTime <= 0)
-				throw new InvalidParameterException(
-					"Jump time must be bigger than zero");
+			this.maxSpeed = 100;
+			this.minSpeed = 0;
 		}
 
 		@Override
 		public float getInitialUpVelocity(EntityT entity) {
-			Vec3 target = Objects.requireNonNull(targetResolver.getJumpTarget(
-				entity));
-			float velocity = (float) (target.yCoord - entity.posY) / airTime
-				+ GRAVITATIONAL_C_LIVING * airTime / 2;
+			Vec3 target = Objects.requireNonNull(targetResolver.getJumpTarget(entity));
+			float velocity = (float) (target.yCoord - entity.posY) / airTime + GRAVITATIONAL_C_LIVING * airTime / 2;
 			return velocity;
 		}
 
 		@Override
 		public float getForwardVelocity(EntityT entity) {
-			Vec3 target = Objects.requireNonNull(targetResolver.getJumpTarget(
-				entity));
+			Vec3 target = Objects.requireNonNull(targetResolver.getJumpTarget(entity));
 			Vec3 position = WorldHelper.getEntityPositionVector(entity);
 			float distance = (float) position.distanceTo(target);
 			// CLEANUP why does a multiplication with 3 work so well here??
 			// It should be v = s/t just straight up, not v = s/t*3.....
-			float velocity = distance / airTime * 3 *
-				// Correct minecraft slowdown
-				(airTime * 0.02f) / (1 - (float) Math.pow(0.98, airTime));
-			return Math.max(velocity, 0);
+			float velocity = distance / airTime * 2.8f *
+					// Correct minecraft slowdown
+					(airTime * 0.02f) / (1 - (float) Math.pow(0.98, airTime));
+			return Math.min(Math.max(velocity, minSpeed), maxSpeed);
+		}
+
+		public void setSpeedInterval(float newMinSpeed, float newMaxSpeed) {
+			if (newMaxSpeed < newMinSpeed)
+				throw new InvalidParameterException("Min speed can not be bigger than max speed");
+			this.minSpeed = newMinSpeed;
+			this.maxSpeed = newMaxSpeed;
 		}
 
 	}
 
-	public static class AttackPointAdapter<EntityT extends EntityLiving>
-		extends
-			ConstantAirTimeAdapter<EntityT> {
+	public static class AttackPointAdapter<EntityT extends EntityLiving> extends ConstantAirTimeAdapter<EntityT> {
 
-		private static class ConstPointResolver<EntityT extends EntityLiving>
-			implements
-				ITargetResolver<EntityT> {
+		private static class ConstPointResolver<EntityT extends EntityLiving> implements ITargetResolver<EntityT> {
 
 			private Vec3 targetPoint;
 
@@ -89,20 +88,16 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 		}
 
 		public AttackPointAdapter(float jumpTimeInTicks, Vec3 targetPoint) {
-			super(jumpTimeInTicks, new ConstPointResolver<EntityT>(
-				targetPoint));
+			super(jumpTimeInTicks, new ConstPointResolver<EntityT>(targetPoint));
 		}
 
 	}
 
 	/**
-	 * A class that implements the jump parameter aiming to provide a constant
-	 * jump time when jumping towards the enemy with enough speed to land
-	 * directly at his position.
+	 * A class that implements the jump parameter aiming to provide a constant jump time when jumping towards the enemy
+	 * with enough speed to land directly at his position.
 	 */
-	public static class AttackTargetAdapter<EntityT extends EntityLiving>
-		extends
-			ConstantAirTimeAdapter<EntityT> {
+	public static class AttackTargetAdapter<EntityT extends EntityLiving> extends ConstantAirTimeAdapter<EntityT> {
 
 		public AttackTargetAdapter(float jumpTimeInTicks) {
 			super(jumpTimeInTicks, new ITargetResolver<EntityT>() {

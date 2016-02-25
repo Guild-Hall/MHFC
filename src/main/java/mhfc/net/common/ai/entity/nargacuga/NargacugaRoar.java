@@ -23,4 +23,14 @@ public class NargacugaRoar extends AIGeneralRoar<EntityNargacuga> {
 		IRoarProvider<EntityNargacuga> provide = new AIGeneralRoar.RoarAdapter<>(anim, select, weight, roar);
 		return provide;
 	}
+
+	@Override
+	protected void update() {
+		super.update();
+		EntityNargacuga entity = getEntity();
+		if (this.getCurrentFrame() <= 10) {
+			entity.getTurnHelper().updateTargetPoint(target);
+			entity.getTurnHelper().updateTurnSpeed(7.0f);
+		}
+	}
 }

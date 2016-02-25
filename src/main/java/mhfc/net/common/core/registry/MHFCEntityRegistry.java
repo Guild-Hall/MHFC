@@ -9,6 +9,7 @@ import mhfc.net.common.core.MHFCMobList;
 import mhfc.net.common.entity.monster.EntityBarroth;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
+import mhfc.net.common.entity.monster.EntityNargacuga;
 import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityBullet;
@@ -54,7 +55,7 @@ public class MHFCEntityRegistry {
 		rathalosID = getMobID(EntityRathalos.class, MHFCReference.mob_rathalos_name, 0xff749819, 0xf838818);
 		greatjaggiID = getMobID(EntityGreatJaggi.class, MHFCReference.mob_greatjaggi_name, 0xff119f91, 0xff929ff);
 		deviljhoID = getMobID(EntityDeviljho.class, MHFCReference.mob_deviljho_name, 0x6ff81ff, 0xff11d830);
-		// nargacugaID = getMobID(EntityNargacuga.class, MHFCReference.mob_nargacuga_name, 0xf351631, 0x516f13f);
+		nargacugaID = getMobID(EntityNargacuga.class, MHFCReference.mob_nargacuga_name, 0xf351631, 0x516f13f);
 		barrothID = getMobID(EntityBarroth.class, MHFCReference.mob_barroth_name, 0x6ffffff, 0x654321);
 		questGiverID = getMobID(EntityQuestGiver.class, MHFCReference.mob_questGiver_name);
 		tigrexBlockID = getProjectileID(EntityTigrexBlock.class, MHFCReference.entity_tigrexBlock_name);

@@ -13,11 +13,11 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 	private static final int runningEnds = 60;
 	private static final int attackEnd = 75;
 	private static final float TURN_RATE_INITIAL = 10.5f;
-	private static final float TURN_RATE_DURING_RUN = 0.15f;
+	private static final float TURN_RATE_DURING_RUN = 0.17f;
 	private static final float MAX_RUN_DISTANCE = 40f;
 	private static final int MAX_RUN_FRAMES = 200;
 
-	private static final double RUN_SPEED = 1.4;
+	private static final double RUN_SPEED = 1.9;
 	private static final double STOP_SPEED = 0.7;
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(28f, 62f, 1000f);
 
