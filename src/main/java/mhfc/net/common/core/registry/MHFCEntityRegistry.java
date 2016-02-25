@@ -6,9 +6,12 @@ import java.util.List;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.MHFCMobList;
 import mhfc.net.common.entity.monster.EntityBarroth;
+import mhfc.net.common.entity.monster.EntityDelex;
 import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.entity.monster.EntityGiaprey;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
 import mhfc.net.common.entity.monster.EntityNargacuga;
+import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityBullet;
 import mhfc.net.common.entity.projectile.EntityFlashBomb;
@@ -28,18 +31,20 @@ public class MHFCEntityRegistry {
 	// public static final int popoID;
 	public static final int tigrexID;
 	// public static final int kirinID;
-//	public static final int rathalosID;
+	public static final int rathalosID;
 	public static final int greatjaggiID;
 	public static int deviljhoID;
 	public static int nargacugaID;
 	public static final int barrothID;
-	
+	public static final int delexID;
+	public static final int giapreyID;
 	public static final int questGiverID;
 
 	public static final int tigrexBlockID;
 	public static final int rathalosFireballID;
 	public static final int bulletID;
 	public static final int flashbombID;
+	
 
 	static {
 		MHFCMain.checkPreInitialized();
@@ -51,11 +56,13 @@ public class MHFCEntityRegistry {
 		// 0xf8248234, 0x193192);
 		tigrexID = getMobID(EntityTigrex.class, MHFCReference.mob_tigrex_name,0xfff432e3, 0x1020394f);
 		// kirinID = getMobID(EntityKirin.class, MHFCReference.mob_kirin_name, 0xfff85814, 0xff851f15);
-		/// rathalosID = getMobID(EntityRathalos.class,	MHFCReference.mob_rathalos_name, 0xff749819, 0xf838818);
+	    rathalosID = getMobID(EntityRathalos.class,	MHFCReference.mob_rathalos_name, 0xff749819, 0xf838818);
 		greatjaggiID = getMobID(EntityGreatJaggi.class, MHFCReference.mob_greatjaggi_name,0xff119f91, 0xff929ff);
 		deviljhoID = getMobID(EntityDeviljho.class, MHFCReference.mob_deviljho_name,0x6ff81ff, 0xff11d830);
-//		nargacugaID = getMobID(EntityNargacuga.class, MHFCReference.mob_nargacuga_name,	0xf351631, 0x516f13f);
+ 		nargacugaID = getMobID(EntityNargacuga.class, MHFCReference.mob_nargacuga_name,	0xf351631, 0x516f13f);
 		barrothID = getMobID(EntityBarroth.class, MHFCReference.mob_barroth_name,0x6ffffff, 0x654321);
+		delexID = getMobID(EntityDelex.class, MHFCReference.mob_delex_name,0x6f33333, 0x654321);
+		giapreyID = getMobID(EntityGiaprey.class, MHFCReference.mob_giaprey_name,0x6f41512, 0x654321);
 		questGiverID = getMobID(EntityQuestGiver.class,MHFCReference.mob_questGiver_name);
 
 		tigrexBlockID = getProjectileID(EntityTigrexBlock.class,

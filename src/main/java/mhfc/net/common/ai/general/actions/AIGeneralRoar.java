@@ -16,6 +16,8 @@ import net.minecraft.entity.player.EntityPlayer;
 public class AIGeneralRoar<EntityT extends EntityMHFCBase<? super EntityT>>
 	extends
 		AIAnimatedAction<EntityT> {
+	
+	public static boolean ifCauseStun;
 	public static interface IRoarSoundProvider {
 		public String getRoarSoundLocation();
 
@@ -38,6 +40,8 @@ public class AIGeneralRoar<EntityT extends EntityMHFCBase<? super EntityT>>
 		extends
 			IAnimatedActionProvider<EntityT>,
 			IRoarSoundProvider {
+		public boolean shouldStun(EntityT actor);
+		
 
 	}
 
@@ -83,6 +87,11 @@ public class AIGeneralRoar<EntityT extends EntityMHFCBase<? super EntityT>>
 		@Override
 		public String getRoarSoundLocation() {
 			return roarSoundProvider.getRoarSoundLocation();
+		}
+
+		@Override
+		public boolean shouldStun(EntityT actor) {
+			return ifCauseStun;
 		}
 	}
 

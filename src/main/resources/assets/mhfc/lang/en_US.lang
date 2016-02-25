@@ -244,7 +244,10 @@ entity.barroth.name=§2Barroth
 entity.mhfc.barroth.name=§2Barroth
 entity.nargacuga.name=§2Nargacuga
 entity.mhfc.nargacuga.name=§2Nargacuga
-
+entity.delex.name=§2Delex
+entity.mhfc.delex.name=§2Delex
+entity.giaprey.name=§2Giaprey
+entity.mhfc.giaprey.name=§2Giaprey
 
 potion.kirinbless=Spark of Kirin
 potion.paralyze=Paralyze

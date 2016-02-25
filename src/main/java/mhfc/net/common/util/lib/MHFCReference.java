@@ -422,6 +422,11 @@ public class MHFCReference {
 	public static final String mob_barroth_model = modelLoc + "Barroth/Barroth.mcmd";
 	public static final String mob_nargacuga_name = "nargacuga";
 	public static final String mob_nargacuga_model = modelLoc + "Nargacuga/Nargacuga.mcmd";
+	public static final String mob_delex_name = "delex";
+	public static final String mob_delex_model = modelLoc + "Delex/PDelex.mcmd";
+	public static final String mob_giaprey_name = "giaprey";
+	public static final String mob_giaprey_model = modelLoc + "Giaprey/Giaprey.mcmd";
+	
 	public static final String particle_kirinsfx_tex = "mhfc:textures/particle/kirinSFX.png";
 	public static final String potion_attackup_name = "potion.attackuplow";
 	public static final String potion_attackup_uuid = "6a80c830-745d-4edd-8a17-e580f813bf20";
