@@ -71,6 +71,8 @@ item.bullet.pierceS.name=Pierce S
 item.bullet.cragS.name=Crag S
 item.bullet.flameS.name=Flame S
 
+item.arrow0.name=Wyvernia Arrow
+
 item.wyverniadust.name=Wyvernia Dust
 item.wyverniaclay.name=Wyvernia Clay
 item.mhfcegg.name=Summon
@@ -248,6 +250,8 @@ entity.delex.name=§2Delex
 entity.mhfc.delex.name=§2Delex
 entity.giaprey.name=§2Giaprey
 entity.mhfc.giaprey.name=§2Giaprey
+entity.ukanlos.name=§3Ukanlos
+entity.mhfc.ukanlos.name=§3Ukanlos
 
 potion.kirinbless=Spark of Kirin
 potion.paralyze=Paralyze

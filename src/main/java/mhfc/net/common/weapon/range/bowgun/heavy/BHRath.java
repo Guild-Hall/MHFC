@@ -1,16 +1,18 @@
 package mhfc.net.common.weapon.range.bowgun.heavy;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.common.util.lib.MHFCReference;
-import net.minecraft.item.Item;
 
-public class BHRath extends Item {
+public class BHRath extends HeavyBowgun {
 
 	public BHRath() {
 		super();
-		setUnlocalizedName(MHFCReference.weapon_bgh_rath_name);
-		setTextureName(MHFCReference.weapon_bgh_rath_icon);
-		setCreativeTab(MHFCMain.mhfctabs);
+	
+		getDamage = 40;
+		
+		setUnlocalizedName(MHFCReference.weapon_bgl_spartacusfire_name);
+		getWeaponDescription("No Element", 1);
 	}
+	
+	
 
 }

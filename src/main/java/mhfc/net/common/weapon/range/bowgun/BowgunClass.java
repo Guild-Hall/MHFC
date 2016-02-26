@@ -8,12 +8,14 @@ import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.Cooldown;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class BowgunClass extends Item {
+public class BowgunClass extends Item  {
 	
+	protected float getDamage = 12;
 	protected boolean poisontype, firetype, enableCooldownDisplay;
 	protected String des1, des2, des3; // <--- Shorten the handles
 	protected int attackdelay, rarity, meta, getcooldown;
@@ -31,6 +33,17 @@ public class BowgunClass extends Item {
 			Cooldown.onUpdate(iStack, getcooldown);
 		}
 	}
+	
+	@Override
+	public int getMaxItemUseDuration(ItemStack par1ItemStack) {
+		return 72000;
+	}
+	
+	@Override
+	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
+		return EnumAction.bow;
+	}
+
 	
 	public void elementalType(boolean poison, boolean fire) {
 		poisontype = poison;

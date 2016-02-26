@@ -1,4 +1,4 @@
-package mhfc.net.common.weapon.range.bowgun.light;
+package mhfc.net.common.weapon.range.bowgun.heavy;
 
 import java.util.Random;
 
@@ -13,12 +13,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class LightBowgun extends BowgunClass{
+public class HeavyBowgun extends BowgunClass{
 	protected Random rand = new Random();;
-	public LightBowgun() {
+	public HeavyBowgun() {
 		super();
-		getWeaponDescription(MHFCWeaponClassingHelper.lbowgunname);
-		getcooldown = 8;
+		getWeaponDescription(MHFCWeaponClassingHelper.hbowgunname);
+		getcooldown = 20;
 		setTextureName(MHFCReference.weapon_bgl_barrel_icon);
 		enableCooldownDisplay = true;
 		

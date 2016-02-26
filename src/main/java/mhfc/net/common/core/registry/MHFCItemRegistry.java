@@ -38,6 +38,7 @@ import mhfc.net.common.item.materials.ItemTigrex;
 import mhfc.net.common.item.materials.ItemTrapTool;
 import mhfc.net.common.item.materials.ItemWoodRig;
 import mhfc.net.common.item.materials.ItemWyvernCoin;
+import mhfc.net.common.item.materials.ItemWyverniaArrow;
 import mhfc.net.common.item.materials.ItemWyverniaClay;
 import mhfc.net.common.item.materials.ItemWyverniaDust;
 import mhfc.net.common.weapon.melee.greatsword.GSBone;
@@ -239,7 +240,8 @@ public class MHFCItemRegistry {
 	public static final Item MHFCItemBombMaterial;
 	public static final Item MHFCItemGaguaEgg;
 	public static final Item MHFCItemWyvernCoin;
-
+	public static final Item mhfcitemarrow;
+	
 	public static final Item mhfcitemingot;
 	public static final Item mhfcitembase;
 	public static final Item mhfcitemarmorsphere;
@@ -263,7 +265,9 @@ public class MHFCItemRegistry {
 		 * @author Heltrato: "Please sort the weapon by there Rarity.. Thanks"
 		 * 
 		 */
-
+		
+		mhfcitemarrow = registerItem(new ItemWyverniaArrow());
+		
 		// Armor
 		armor_yukumo_helm = registerItem(new YukumoArmor(0));
 		armor_velociprey_helm = registerItem(new VelocipreyArmor(0));

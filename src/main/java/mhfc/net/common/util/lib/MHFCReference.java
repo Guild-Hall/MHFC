@@ -253,6 +253,10 @@ public class MHFCReference {
 	public static final String gui_tab_name = "MHFC Tab";
 	public static final String gui_list_tex = "mhfc:textures/gui/GuiList.png";
 
+	public static final String item_arrow0_icon = "mhfc:arrow0";
+	public static final String item_arrow0_name = "arrow0";
+
+	
 	public static final String item_armorsphere_basename = "armorsphere";
 	public static final String item_armorsphere0_name = "normal";
 	public static final String item_armorsphere0_icon = "mhfc:armorsphere0";
@@ -408,7 +412,10 @@ public class MHFCReference {
 	public static final String item_wyverniaclay_name = "wyverniaclay";
 	public static final String item_wyverniadust_icon = "mhfc:wyverniadust";
 	public static final String item_wyverniadust_name = "wyverniadust";
-
+	
+	
+	// If something persist or crash and pointed at this line of codes. probably
+	// you have a wrong input of directory @Heltrato
 	public static final String modelLoc = "mhfc:models/";
 	public static final String mob_tigrex_name = "tigrex";
 	public static final String mob_tigrex_model = modelLoc + "Tigrex/Tigrex.mcmd";
@@ -426,6 +433,8 @@ public class MHFCReference {
 	public static final String mob_delex_model = modelLoc + "Delex/PDelex.mcmd";
 	public static final String mob_giaprey_name = "giaprey";
 	public static final String mob_giaprey_model = modelLoc + "Giaprey/Giaprey.mcmd";
+	public static final String mob_ukanlos_name = "ukanlos";
+	public static final String mob_ukanlos_model = modelLoc + "Ukanlos/Ukanlos.mcmd";
 	
 	public static final String particle_kirinsfx_tex = "mhfc:textures/particle/kirinSFX.png";
 	public static final String potion_attackup_name = "potion.attackuplow";
@@ -571,6 +580,13 @@ public class MHFCReference {
 	public static final String weapon_bgh_rath_name = "bowgun_3";
 	public static final String weapon_bgh_rath_icon = "mhfc:bow";
 	public static final String weapon_bgh_rath_tex = "mhfc:textures/weapons/(BGH)rath.png";
+	
+	
+	
+	public static final String projectile_wyverniaarrow_name = "Wyvernia Arrow";
+	public static final String projectile_wyverniaarrow_tex = "mhfc:textures/projectile/wyverniaarrow.png";
+	public static final String projectile_wyverniabullet_name = "Wyvernia Bullet";
+	public static final String projectile_wyverniabullet_tex = "mhfc:textures/projectile/bullet0.png";
 
 	public static final String gui_questgiver_back_tex = "mhfc:texture/gui/questgiver.png";
 
