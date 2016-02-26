@@ -5,15 +5,23 @@ import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.IJumpParamterProvider;
 import mhfc.net.common.ai.general.provider.IJumpParamterProvider.AttackTargetAdapter;
 import mhfc.net.common.ai.general.provider.ISelectionPredicate;
+import mhfc.net.common.ai.general.provider.ISelectionPredicate.SelectAlways;
+import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 
-public enum NargaJumpBehaviour {
+abstract class NargaJumpBehaviour {
 
-	TWO_JUMPS() {
-		private static final String animation = "mhfc:models/Nargacuga/Pounce.mcanm";
-		public static final int animationLength = 68;
-		private final int JUMP_TIME = 10;
+	static NargaJumpBehaviour TWO_JUMPS = new NargaJumpBehaviour() {
+
+		private static final String ANIMATION = "mhfc:models/Nargacuga/Pounce.mcanm";
+		private static final int ANIMATION_LENGTH = 68;
+		private static final int JUMP_TIME = 10;
+		private static final float WEIGHT = 3f;
 		private AttackTargetAdapter<EntityNargacuga> jumpParam = new AttackTargetAdapter<EntityNargacuga>(JUMP_TIME);
+		private IAnimationProvider animationProvider = new IAnimationProvider.AnimationAdapter(
+				ANIMATION,
+				ANIMATION_LENGTH);
+		private IWeightProvider<EntityNargacuga> weightProvider = new IWeightProvider.SimpleWeightAdapter<>(WEIGHT);
 
 		@Override
 		IJumpTimingProvider<EntityNargacuga> getJumpTiming() {
@@ -54,7 +62,7 @@ public enum NargaJumpBehaviour {
 
 		@Override
 		IAnimationProvider getAnimation() {
-			return new IAnimationProvider.AnimationAdapter(animation, animationLength);
+			return animationProvider;
 		}
 
 		@Override
@@ -62,14 +70,25 @@ public enum NargaJumpBehaviour {
 			return new ISelectionPredicate.SelectAlways<>();
 		}
 
-	},
+		@Override
+		IWeightProvider<EntityNargacuga> getWeightProvider() {
+			return weightProvider;
+		}
 
-	THREE_JUMPS() {
+	};
 
-		private static final String animation = "mhfc:models/Nargacuga/Pounce.mcanm";
-		public static final int animationLength = 74;
-		private final int JUMP_TIME = 13;
+	static NargaJumpBehaviour THREE_JUMPS = new NargaJumpBehaviour() {
+
+		private static final String ANIMATION = "mhfc:models/Nargacuga/Pounce.mcanm";
+		private static final int ANIMATION_LENGTH = 74;
+		private static final int JUMP_TIME = 13;
+		private static final float WEIGHT = 1f;
 		private AttackTargetAdapter<EntityNargacuga> jumpParam = new AttackTargetAdapter<EntityNargacuga>(JUMP_TIME);
+		private IAnimationProvider animationProvider = new IAnimationProvider.AnimationAdapter(
+				ANIMATION,
+				ANIMATION_LENGTH);
+		private SelectAlways<EntityNargacuga> selectAlways = new ISelectionPredicate.SelectAlways<>();
+		private IWeightProvider<EntityNargacuga> weightProvider = new IWeightProvider.SimpleWeightAdapter<>(WEIGHT);
 
 		@Override
 		IJumpTimingProvider<EntityNargacuga> getJumpTiming() {
@@ -115,15 +134,20 @@ public enum NargaJumpBehaviour {
 
 		@Override
 		IAnimationProvider getAnimation() {
-			return new IAnimationProvider.AnimationAdapter(animation, animationLength);
+			return animationProvider;
 		}
 
 		@Override
 		ISelectionPredicate<EntityNargacuga> getSelectionPredicate() {
-			return new ISelectionPredicate.SelectAlways<>();
+			return selectAlways;
 		}
 
-	},
+		@Override
+		IWeightProvider<EntityNargacuga> getWeightProvider() {
+			return weightProvider;
+		}
+
+	};
 	// FIXME implement four jumps when the animation is there
 	// FOUR_JUMPS() {
 	// @Override
@@ -162,4 +186,6 @@ public enum NargaJumpBehaviour {
 	abstract IAnimationProvider getAnimation();
 
 	abstract ISelectionPredicate<EntityNargacuga> getSelectionPredicate();
+
+	abstract IWeightProvider<EntityNargacuga> getWeightProvider();
 }

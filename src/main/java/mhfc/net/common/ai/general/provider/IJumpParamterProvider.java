@@ -10,6 +10,11 @@ import net.minecraft.util.Vec3;
 
 public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 
+	public default Vec3 getJumpVector(EntityT entity) {
+		Vec3 lookVector = entity.getLookVec();
+		return Vec3.createVectorHelper(lookVector.xCoord, 0, lookVector.zCoord);
+	}
+
 	/**
 	 * Gets the speed upwards which the entity should have when jumping.
 	 */
@@ -20,6 +25,13 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 	 */
 	public float getForwardVelocity(EntityT entity);
 
+	/**
+	 * Tries to jump as exactly as possible onto the target coordinate
+	 * 
+	 * @author Katora
+	 *
+	 * @param <EntityT>
+	 */
 	public static class ConstantAirTimeAdapter<EntityT extends EntityLiving> implements IJumpParamterProvider<EntityT> {
 
 		public static interface ITargetResolver<EntityT extends EntityLiving> {

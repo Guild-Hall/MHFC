@@ -16,8 +16,9 @@ import com.google.common.collect.Queues;
 import mhfc.net.common.ai.AIFollowUpActionManager;
 import mhfc.net.common.ai.IActionRecorder;
 import mhfc.net.common.ai.IExecutableAction;
-import mhfc.net.common.ai.entity.nargacuga.NargaJumpBehaviour;
+import mhfc.net.common.ai.entity.nargacuga.NargacugaBackOff;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaPounce;
+import mhfc.net.common.ai.entity.nargacuga.NargacugaPounce.JumpBehaviour;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaRoar;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaTailWhip;
 import mhfc.net.common.ai.entity.nargacuga.ProwlerStance;
@@ -61,9 +62,10 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		TailSlam tailSlam = new TailSlam();
 		NargacugaRoar roar = new NargacugaRoar();
 		ProwlerStance prowler = new ProwlerStance();
-		NargacugaPounce pounceTwo = NargacugaPounce.createNargaPounce(NargaJumpBehaviour.TWO_JUMPS);
-		NargacugaPounce pounceThree = NargacugaPounce.createNargaPounce(NargaJumpBehaviour.THREE_JUMPS);
+		NargacugaPounce pounceTwo = NargacugaPounce.createNargaPounce(JumpBehaviour.TwoJumps);
+		NargacugaPounce pounceThree = NargacugaPounce.createNargaPounce(JumpBehaviour.ThreeJump);
 		NargacugaTailWhip tailWhip = new NargacugaTailWhip();
+		NargacugaBackOff backOff = new NargacugaBackOff();
 		// NargacugaPounce pounceFour = NargacugaPounce.createNargaPounce(
 		// NargaJumpBehaviour.FOUR_JUMPS);
 
@@ -76,6 +78,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		attackManager.registerAttack(tailSlam);
 		attackManager.registerAttack(roar);
 		attackManager.registerAttack(prowler, prowlerFollow);
+		attackManager.registerAttack(backOff);
 		setAIActionManager(attackManager);
 	}
 

@@ -15,7 +15,8 @@ public class NargacugaTailWhip extends AIGeneralTailWhip<EntityNargacuga> {
 	private static final int ANIMATION_LENGTH = 0;
 	private static final float WEIGHT = 2;
 	private static final IDamageCalculator CALCULATOR = AIUtils.defaultDamageCalc(20, 40, 200);
-	private static final float ANGLE = 90;
+	private static final float MIN_ANGLE = 0;
+	private static final float MAX_ANGLE = -150;
 	private static final float MAX_DISTANCE = 4;
 
 	public static ISpinProvider<EntityNargacuga> generateProvider() {
@@ -24,8 +25,8 @@ public class NargacugaTailWhip extends AIGeneralTailWhip<EntityNargacuga> {
 		IWeightProvider<EntityNargacuga> weight = new IWeightProvider.SimpleWeightAdapter<EntityNargacuga>(WEIGHT);
 		IDamageProvider damage = new IDamageProvider.DamageAdapter(CALCULATOR);
 		ISelectionPredicate<EntityNargacuga> predicate = new ISelectionPredicate.SelectionAdapter<>(
-				-ANGLE,
-				ANGLE,
+				MIN_ANGLE,
+				MAX_ANGLE,
 				0,
 				MAX_DISTANCE);
 		TailWhipAdapter<EntityNargacuga> adapter = new TailWhipAdapter<>(anim, weight, damage, predicate);

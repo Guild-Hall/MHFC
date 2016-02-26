@@ -13,14 +13,23 @@ import mhfc.net.common.entity.monster.EntityNargacuga;
 
 public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> {
 
-	private static final float WEIGHT = 3.0f;
+	public static enum JumpBehaviour {
+		TwoJumps(NargaJumpBehaviour.TWO_JUMPS),
+		ThreeJump(NargaJumpBehaviour.THREE_JUMPS);
+		private JumpBehaviour(NargaJumpBehaviour internal) {
+			this.internal = internal;
+		}
+
+		NargaJumpBehaviour internal;
+	}
 
 	private static final IDamageCalculator dmgCalculator = AIUtils.defaultDamageCalc(28, 300, 5000);
 
-	public static NargacugaPounce createNargaPounce(NargaJumpBehaviour behaviour) {
+	public static NargacugaPounce createNargaPounce(JumpBehaviour jumpBehaviour) {
+		NargaJumpBehaviour behaviour = jumpBehaviour.internal;
 		IAnimationProvider animation = behaviour.getAnimation();
 		ISelectionPredicate<EntityNargacuga> select = behaviour.getSelectionPredicate();
-		IWeightProvider<EntityNargacuga> weight = new IWeightProvider.SimpleWeightAdapter<>(WEIGHT);
+		IWeightProvider<EntityNargacuga> weight = behaviour.getWeightProvider();
 		IDamageProvider damage = new IDamageProvider.DamageAdapter(dmgCalculator);
 		IJumpTimingProvider<EntityNargacuga> timing = behaviour.getJumpTiming();
 		IJumpParamterProvider<EntityNargacuga> params = behaviour.getJumpParameters();

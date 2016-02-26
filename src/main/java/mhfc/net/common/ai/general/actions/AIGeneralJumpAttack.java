@@ -105,6 +105,11 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 		}
 
 		@Override
+		public Vec3 getJumpVector(EntityT entity) {
+			return jumpProvider.getJumpVector(entity);
+		}
+
+		@Override
 		public String getAnimationLocation() {
 			return animationProvider.getAnimationLocation();
 		}
@@ -142,6 +147,8 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 	}
 
 	protected IJumpProvider<EntityT> provider;
+	protected float forwardVelocityCap = 20f;
+	protected float upwardVelocityCap = 20f;
 
 	public AIGeneralJumpAttack(IJumpProvider<EntityT> provider) {
 		super(provider);
@@ -166,12 +173,15 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 		getEntity().getTurnHelper().updateTurnSpeed(provider.getTurnRate(getEntity(), 0));
 	}
 
+	protected Vec3 getJumpVector(Vec3 lookVector) {
+		return Vec3.createVectorHelper(lookVector.xCoord, 0, lookVector.zCoord);
+	}
+
 	@Override
 	public void update() {
 
 		EntityT entity = getEntity();
-		Vec3 look = entity.getLookVec();
-		Vec3 forward = Vec3.createVectorHelper(look.xCoord, 0, look.zCoord).normalize();
+		Vec3 forward = provider.getJumpVector(entity).normalize();
 		int frame = getCurrentFrame();
 		float turnRate = provider.getTurnRate(entity, frame);
 		if (turnRate > 0) {
@@ -181,8 +191,8 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 		if (provider.isJumpFrame(entity, frame)) {
 			float upVelocity = provider.getInitialUpVelocity(entity);
 			float forwardVelocity = provider.getForwardVelocity(entity);
-			upVelocity = Math.min(upVelocity, 20);
-			forwardVelocity = Math.min(forwardVelocity, 20f);
+			upVelocity = Math.min(upVelocity, upwardVelocityCap);
+			forwardVelocity = Math.max(Math.min(forwardVelocity, forwardVelocityCap), -forwardVelocityCap);
 			entity.motionX = forward.xCoord * forwardVelocity;
 			entity.motionY = upVelocity;
 			entity.motionZ = forward.zCoord * forwardVelocity;
