@@ -10,28 +10,26 @@ import mhfc.net.common.ai.general.provider.IWeightProvider;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 
-public abstract class AIAnimatedAction<EntityT extends EntityCreature>
-	extends
-		ActionAdapter<EntityT> {
+public abstract class AIAnimatedAction<EntityT extends EntityCreature> extends ActionAdapter<EntityT> {
 
 	public static interface IAnimatedActionProvider<EntityT extends EntityCreature>
-		extends
+			extends
 			IAnimationProvider,
 			ISelectionPredicate<EntityT>,
-			IWeightProvider<EntityT> {
-	}
+			IWeightProvider<EntityT> {}
 
 	public static class AnimatedActionAdapter<EntityT extends EntityCreature>
-		implements
+			implements
 			IAnimatedActionProvider<EntityT> {
 
 		IAnimationProvider animationProvider;
 		ISelectionPredicate<EntityT> selectionProvider;
 		IWeightProvider<EntityT> weightProvider;
 
-		public AnimatedActionAdapter(IAnimationProvider animationProvider,
-			ISelectionPredicate<EntityT> selectionProvider,
-			IWeightProvider<EntityT> weightProvider) {
+		public AnimatedActionAdapter(
+				IAnimationProvider animationProvider,
+				ISelectionPredicate<EntityT> selectionProvider,
+				IWeightProvider<EntityT> weightProvider) {
 			this.animationProvider = Objects.requireNonNull(animationProvider);
 			this.selectionProvider = Objects.requireNonNull(selectionProvider);
 			this.weightProvider = Objects.requireNonNull(weightProvider);
@@ -48,9 +46,7 @@ public abstract class AIAnimatedAction<EntityT extends EntityCreature>
 		}
 
 		@Override
-		public boolean shouldSelectAttack(
-			IExecutableAction<? super EntityT> attack, EntityT actor,
-			Entity target) {
+		public boolean shouldSelectAttack(IExecutableAction<? super EntityT> attack, EntityT actor, Entity target) {
 			return selectionProvider.shouldSelectAttack(attack, actor, target);
 		}
 
@@ -61,7 +57,7 @@ public abstract class AIAnimatedAction<EntityT extends EntityCreature>
 
 	}
 
-	private IAnimatedActionProvider<EntityT> provider;
+	protected IAnimatedActionProvider<EntityT> provider;
 
 	public AIAnimatedAction(IAnimatedActionProvider<EntityT> provider) {
 		this.provider = Objects.requireNonNull(provider);

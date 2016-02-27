@@ -1,10 +1,18 @@
 package mhfc.net.common.ai;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.common.ai.general.WeightedPick;
+import mhfc.net.common.network.PacketPipeline;
+import mhfc.net.common.network.message.MessageAIAttack;
 import net.minecraft.entity.EntityLiving;
 
 /**
@@ -16,6 +24,9 @@ public class AIFollowUpActionManager<EntType extends EntityLiving & IManagedActi
 
 	public static interface FollowUpChooser<EntType extends EntityLiving & IManagedActions<EntType>> {
 		public List<IExecutableAction<? super EntType>> collectFollowups(EntType entity);
+
+		@Nonnull
+		public List<IExecutableAction<? super EntType>> allFollowUps();
 	}
 
 	public static class FollowUpAdapter<EntType extends EntityLiving & IManagedActions<EntType>>
@@ -32,13 +43,20 @@ public class AIFollowUpActionManager<EntType extends EntityLiving & IManagedActi
 		public List<IExecutableAction<? super EntType>> collectFollowups(EntType entity) {
 			return followUps;
 		}
+
+		@Override
+		public List<IExecutableAction<? super EntType>> allFollowUps() {
+			return followUps == null ? Collections.emptyList() : followUps;
+		}
 	}
 
 	protected Map<IExecutableAction<? super EntType>, FollowUpChooser<EntType>> allowedFollowUps;
+	protected List<IExecutableAction<? super EntType>> collectedAttacks;
 
 	public AIFollowUpActionManager(EntType entity) {
 		super(entity);
 		allowedFollowUps = new HashMap<>();
+		collectedAttacks = new ArrayList<>();
 	}
 
 	/**
@@ -63,16 +81,20 @@ public class AIFollowUpActionManager<EntType extends EntityLiving & IManagedActi
 	public void registerAttack(IExecutableAction<? super EntType> attack, FollowUpChooser<EntType> chooser) {
 		super.registerAttack(attack);
 		allowedFollowUps.put(attack, chooser);
+
+		List<IExecutableAction<? super EntType>> followUps = chooser.allFollowUps();
+		followUps.forEach((x) -> x.rebind(entity));
+		collectedAttacks.add(attack);
+		collectedAttacks.addAll(followUps);
 	}
 
-	private List<IExecutableAction<? super EntType>> getFollowUpList(IExecutableAction<? super EntType> action) {
+	protected List<IExecutableAction<? super EntType>> getFollowUpList(IExecutableAction<? super EntType> action) {
 		FollowUpChooser<EntType> followUpChooser = allowedFollowUps.get(activeAttack);
 		if (followUpChooser == null)
 			return attacks;
 		List<IExecutableAction<? super EntType>> followUps = followUpChooser.collectFollowups(this.entity);
 		if (followUps == null)
 			return attacks;
-		followUps.forEach((x) -> x.rebind(entity));
 		return followUps;
 	}
 
@@ -80,6 +102,19 @@ public class AIFollowUpActionManager<EntType extends EntityLiving & IManagedActi
 	public IExecutableAction<? super EntType> chooseAttack() {
 		List<IExecutableAction<? super EntType>> followUps = getFollowUpList(activeAttack);
 		return WeightedPick.pickRandom(followUps);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void setAttack(int index) {
+		swapAttacks(this.activeAttack, index < 0 ? null : collectedAttacks.get(index));
+	}
+
+	@Override
+	protected void sendUpdate() {
+		if (!this.entity.worldObj.isRemote)
+			PacketPipeline.networkPipe
+					.sendToAll(new MessageAIAttack<EntType>(this.entity, collectedAttacks.indexOf(activeAttack)));
 	}
 
 }

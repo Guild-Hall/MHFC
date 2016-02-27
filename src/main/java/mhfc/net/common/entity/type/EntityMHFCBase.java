@@ -53,7 +53,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
 		attackManager = new AIActionManager<YC>((YC) this);
-		tasks.addTask(0, attackManager);
 	}
 
 	/**
@@ -165,6 +164,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	@Override
 	protected boolean canDespawn() {
 		return false;
+	}
+
+	@Override
+	protected void kill() {
+		this.attackEntityFrom(DamageSource.outOfWorld, getMaxHealth());
 	}
 
 	/**
@@ -347,20 +351,20 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	protected void setAIActionManager(AIActionManager<YC> newManager) {
 		Objects.requireNonNull(newManager);
-		tasks.removeTask(this.attackManager);
 		this.attackManager = newManager;
-		tasks.addTask(0, newManager);
 	}
 
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
+		setFrame(this.attackManager.getCurrentFrame());
+		this.attackManager.continueExecuting();
+		this.attackManager.updateTask();
 	}
 
 	@Override
 	protected void updateAITick() {
 		super.updateAITick();
-		setFrame(this.attackManager.getCurrentFrame());
 		turnHelper.onUpdateTurn();
 	}
 

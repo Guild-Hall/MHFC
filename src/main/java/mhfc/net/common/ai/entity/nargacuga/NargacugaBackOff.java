@@ -19,8 +19,8 @@ public class NargacugaBackOff extends AIGeneralJumpAttack<EntityNargacuga> {
 	private static final float JUMP_TIME = 12;
 	private static final float ANGLE = 40;
 	private static final int JUMP_FRAME = 23;
-	private static final float TURN_RATE = 6;
-	private static final float TURN_RATE_AIR = 4;
+	private static final float TURN_RATE = 2.5f;
+	private static final float TURN_RATE_AIR = 1.5f;
 
 	public NargacugaBackOff() {
 		super(generateProvider());

@@ -21,6 +21,7 @@ abstract class NargaJumpBehaviour {
 		private IAnimationProvider animationProvider = new IAnimationProvider.AnimationAdapter(
 				ANIMATION,
 				ANIMATION_LENGTH);
+		private SelectAlways<EntityNargacuga> selectAlways = new ISelectionPredicate.SelectAlways<>();
 		private IWeightProvider<EntityNargacuga> weightProvider = new IWeightProvider.SimpleWeightAdapter<>(WEIGHT);
 
 		@Override
@@ -56,7 +57,7 @@ abstract class NargaJumpBehaviour {
 
 		@Override
 		IJumpParamterProvider<EntityNargacuga> getJumpParameters() {
-			jumpParam.setSpeedInterval(0, 5);
+			jumpParam.setSpeedInterval(0, 3.5f);
 			return jumpParam;
 		}
 
@@ -67,7 +68,7 @@ abstract class NargaJumpBehaviour {
 
 		@Override
 		ISelectionPredicate<EntityNargacuga> getSelectionPredicate() {
-			return new ISelectionPredicate.SelectAlways<>();
+			return selectAlways;
 		}
 
 		@Override
@@ -128,7 +129,7 @@ abstract class NargaJumpBehaviour {
 
 		@Override
 		IJumpParamterProvider<EntityNargacuga> getJumpParameters() {
-			jumpParam.setSpeedInterval(0, 5);
+			jumpParam.setSpeedInterval(0, 2.8f);
 			return jumpParam;
 		}
 
