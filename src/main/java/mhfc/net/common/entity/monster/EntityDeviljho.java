@@ -5,9 +5,15 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 
 import mhfc.net.common.ai.AIActionManager;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoBiteA;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoBiteB;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoDeath;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoIdle;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoLaunch;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoMovetoTarget;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoRoar;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoStomp;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoTailWhip;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.item.materials.ItemDeviljho.DeviljhoSubType;
@@ -29,12 +35,12 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 
 		AIActionManager<EntityDeviljho> attackManager = getAIActionManager();
 		attackManager.registerAttack(new DeviljhoIdle());
-	//	attackManager.registerAttack(new DeviljhoMovetoTarget());
-		//attackManager.registerAttack(new DeviljhoRoar());
-	//	attackManager.registerAttack(new DeviljhoBiteA());
-	//	attackManager.registerAttack(new DeviljhoBiteB());
-	//	attackManager.registerAttack(new DeviljhoTailWhip());
-	//	attackManager.registerAttack(new DeviljhoLaunch());
+		attackManager.registerAttack(new DeviljhoMovetoTarget());
+		attackManager.registerAttack(new DeviljhoRoar());
+		attackManager.registerAttack(new DeviljhoBiteA());
+		attackManager.registerAttack(new DeviljhoBiteB());
+		attackManager.registerAttack(new DeviljhoTailWhip());
+		attackManager.registerAttack(new DeviljhoLaunch());
 		attackManager.registerAttack(new DeviljhoStomp());
 		attackManager.registerAttack(new DeviljhoDeath());
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
@@ -45,8 +51,6 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	public EntityMHFCPart[] getParts() {
 		return null;
 	}
-	
-	
 
 	@Override
 	public void applyEntityAttributes() {
@@ -56,7 +60,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
 			.setBaseValue(1.3D);
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-			healthbaseHP(20D, 25000D, 50000D));
+			healthbaseHP(26839D, 25000D, 50000D));
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(
 			35D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(

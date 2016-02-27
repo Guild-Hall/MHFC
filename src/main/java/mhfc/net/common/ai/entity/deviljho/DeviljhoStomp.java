@@ -20,7 +20,7 @@ public class DeviljhoStomp extends ActionAdapter<EntityDeviljho> {
 	
 	private static final int LAST_FRAME = 55;
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(60f, 50F,9999999f);
-	private static final double MAX_DIST = 15f;
+	private static final double MAX_DIST = 9f;
 	private static final float WEIGHT = 7;
 	
 	public DeviljhoStomp() {
@@ -65,10 +65,6 @@ public class DeviljhoStomp extends ActionAdapter<EntityDeviljho> {
 				 if (block != Blocks.air) {
 					 for (int i1 = 0; i1 < 3000; i1++) {
 						 entity.worldObj.spawnParticle("blockcrack_" + Block.getIdFromBlock(block) + "_" + entity.worldObj.getBlockMetadata(j, i1, k), entity.posX - 5.0D + random.nextInt(1000) / 100, entity.posY - 1.4D, entity.posZ - 5.0D + random.nextInt(1000) / 100, 0.0D, 0.0D, 0.0D);
-					 }
-				 }else {
-					 for (int i2 = 0; i2 < 3000; i2++) {
-						 entity.worldObj.spawnParticle("blockcrack_2_1", entity.posX - 5.0D + random.nextInt(1000) / 100, entity.posY - 1.4D, entity.posZ - 5.0D + random.nextInt(1000) / 100, 0.0D, 0.0D, 0.0D);
 					 }
 				 }
 				 
