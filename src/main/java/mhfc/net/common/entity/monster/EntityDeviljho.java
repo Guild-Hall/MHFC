@@ -1,11 +1,21 @@
 package mhfc.net.common.entity.monster;
 
+import org.lwjgl.opengl.GL11;
+
+import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
+
 import mhfc.net.common.ai.AIActionManager;
-import mhfc.net.common.ai.entity.deviljho.*;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoBiteA;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoBiteB;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoIdle;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoLaunch;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoMovetoTarget;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoRoar;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoStomp;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoTailWhip;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.item.materials.ItemDeviljho.DeviljhoSubType;
-import mhfc.net.common.item.materials.ItemTigrex.TigrexSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -13,10 +23,6 @@ import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-
-import org.lwjgl.opengl.GL11;
-
-import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 
 public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 
@@ -28,13 +34,15 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 
 		AIActionManager<EntityDeviljho> attackManager = getAIActionManager();
 		attackManager.registerAttack(new DeviljhoIdle());
-		attackManager.registerAttack(new DeviljhoMovetoTarget());
-		attackManager.registerAttack(new DeviljhoRoar());
-		attackManager.registerAttack(new DeviljhoBiteA());
-		attackManager.registerAttack(new DeviljhoBiteB());
-		attackManager.registerAttack(new DeviljhoTailWhip());
+	//	attackManager.registerAttack(new DeviljhoMovetoTarget());
+		//attackManager.registerAttack(new DeviljhoRoar());
+	//	attackManager.registerAttack(new DeviljhoBiteA());
+	//	attackManager.registerAttack(new DeviljhoBiteB());
+	//	attackManager.registerAttack(new DeviljhoTailWhip());
+	//	attackManager.registerAttack(new DeviljhoLaunch());
+		attackManager.registerAttack(new DeviljhoStomp());
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-	//    attackManager.registerAttack(new DeviljhoWander());
+	    //attackManager.registerAttack(new DeviljhoWander());
 	}
 
 	@Override

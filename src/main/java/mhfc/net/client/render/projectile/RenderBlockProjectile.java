@@ -14,9 +14,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderTigrexBlock extends Render {
+public class RenderBlockProjectile extends Render {
 
-	public RenderTigrexBlock() {
+	public RenderBlockProjectile() {
 		shadowSize = 0.5f; // <-- set the size of its shadow.
 	}
 

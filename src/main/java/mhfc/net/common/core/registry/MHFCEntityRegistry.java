@@ -17,7 +17,7 @@ import mhfc.net.common.entity.monster.EntityUkanlos;
 import mhfc.net.common.entity.projectile.EntityBullet;
 import mhfc.net.common.entity.projectile.EntityFlashBomb;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
-import mhfc.net.common.entity.projectile.EntityTigrexBlock;
+import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import mhfc.net.common.entity.quests.EntityQuestGiver;
 import mhfc.net.common.util.lib.MHFCReference;
@@ -73,7 +73,7 @@ public class MHFCEntityRegistry {
 		
 		questGiverID = getMobID(EntityQuestGiver.class,MHFCReference.mob_questGiver_name);
 
-		tigrexBlockID = getProjectileID(EntityTigrexBlock.class,
+		tigrexBlockID = getProjectileID(EntityProjectileBlock.class,
 			MHFCReference.entity_tigrexBlock_name);
 		bulletID = getProjectileID(EntityBullet.class,
 			MHFCReference.entity_bullet_name);

@@ -6,7 +6,7 @@ import com.github.worldsender.mcanm.client.renderer.entity.RenderAnimatedModel;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import mhfc.net.client.render.projectile.RenderBullet;
 import mhfc.net.client.render.projectile.RenderRathalosFireball;
-import mhfc.net.client.render.projectile.RenderTigrexBlock;
+import mhfc.net.client.render.projectile.RenderBlockProjectile;
 import mhfc.net.client.render.projectile.RenderWyverniaArrow;
 import mhfc.net.common.entity.monster.EntityBarroth;
 import mhfc.net.common.entity.monster.EntityDelex;
@@ -19,7 +19,7 @@ import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.monster.EntityUkanlos;
 import mhfc.net.common.entity.projectile.EntityBullet;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
-import mhfc.net.common.entity.projectile.EntityTigrexBlock;
+import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.Entity;
@@ -56,7 +56,7 @@ public class MHFCEntityRenderRegistry {
 
 	private static void renderBlockEntities() {
 		RenderingRegistry.registerEntityRenderingHandler(
-			EntityTigrexBlock.class, new RenderTigrexBlock());
+			EntityProjectileBlock.class, new RenderBlockProjectile());
 		RenderingRegistry.registerEntityRenderingHandler(
 			EntityRathalosFireball.class, new RenderRathalosFireball());
 		RenderingRegistry.registerEntityRenderingHandler(

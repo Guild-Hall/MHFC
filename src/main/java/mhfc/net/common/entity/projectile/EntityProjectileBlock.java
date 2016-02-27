@@ -2,6 +2,7 @@ package mhfc.net.common.entity.projectile;
 
 import java.util.List;
 
+import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.type.EntityWyvernHostile;
 import net.minecraft.entity.Entity;
@@ -13,14 +14,14 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class EntityTigrexBlock extends EntityThrowable {
+public class EntityProjectileBlock extends EntityThrowable {
 
-	public EntityTigrexBlock(World par) {
+	public EntityProjectileBlock(World par) {
 		super(par);
 		setSize(1.0F, 1.0F);
 	}
 
-	public EntityTigrexBlock(World par, EntityTigrex e) {
+	public EntityProjectileBlock(World par, EntityTigrex e) {
 		super(par, e);
 		this.posY -= e.getEyeHeight();
 		Vec3 look = e.getLookVec();
@@ -28,6 +29,16 @@ public class EntityTigrexBlock extends EntityThrowable {
 		this.posZ += look.zCoord * 2;
 		rotationYaw = e.rotationYaw;
 		setSize(1.0F, 1.0F);
+	}
+	
+	public EntityProjectileBlock(World par, EntityDeviljho e) {
+		super(par, e);
+		this.posY -= e.getEyeHeight();
+		Vec3 look = e.getLookVec();
+		this.posX += look.xCoord * 2;
+		this.posZ += look.zCoord * 2;
+		rotationYaw = e.rotationYaw;
+		setSize(1.4F, 1.4F);
 	}
 
 	@Override
