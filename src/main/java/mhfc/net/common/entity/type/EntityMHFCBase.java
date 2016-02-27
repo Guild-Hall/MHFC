@@ -358,8 +358,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	public void onUpdate() {
 		super.onUpdate();
 		setFrame(this.attackManager.getCurrentFrame());
-		this.attackManager.continueExecuting();
-		this.attackManager.updateTask();
+		if (this.attackManager.continueExecuting())
+			this.attackManager.updateTask();
 	}
 
 	@Override

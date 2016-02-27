@@ -227,14 +227,17 @@ public class AIUtils {
 		target.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 80, 10));
 	}
 
+	/**
+	 * Gives the yaw of a normalized vector
+	 */
 	public static float lookVecToYaw(Vec3 vec) {
-
-		double pitch_rad = -Math.asin(vec.yCoord);
-		double cos_pitch = -Math.cos(-pitch_rad);
-
-		double yaw_rad = -(Math.acos(vec.zCoord / cos_pitch));
+		double pitch_rad = Math.asin(vec.yCoord);
+		double cos_pitch = Math.cos(pitch_rad);
+		double adjusted_z = vec.zCoord / cos_pitch;
+		// Corrects rounding issues
+		adjusted_z = Math.max(-1.0, Math.min(1.0, adjusted_z));
+		double yaw_rad = Math.acos(adjusted_z);
 		yaw_rad *= Math.signum(-vec.xCoord);
-		yaw_rad += Math.PI;
 		return normalizeAngle((float) Math.toDegrees(yaw_rad));
 
 	}
@@ -299,9 +302,9 @@ public class AIUtils {
 	public static float getViewingAngle(EntityLiving actor, Vec3 point) {
 		Vec3 lookVector = actor.getLookVec();
 		Vec3 pos = WorldHelper.getEntityPositionVector(actor);
-		Vec3 targetVector = point.subtract(pos);
+		Vec3 targetVector = pos.subtract(point);
 		float yaw = lookVecToYaw(lookVector);
-		float tarYaw = lookVecToYaw(targetVector);
+		float tarYaw = lookVecToYaw(targetVector.normalize());
 		return normalizeAngle(tarYaw - yaw);
 	}
 

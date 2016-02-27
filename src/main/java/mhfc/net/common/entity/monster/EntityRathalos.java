@@ -3,7 +3,13 @@ package mhfc.net.common.entity.monster;
 import mhfc.net.common.ai.AIActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IStancedEntity;
-import mhfc.net.common.ai.entity.rathalos.*;
+import mhfc.net.common.ai.entity.rathalos.BiteAttack;
+import mhfc.net.common.ai.entity.rathalos.ChargeAttack;
+import mhfc.net.common.ai.entity.rathalos.FireballAttack;
+import mhfc.net.common.ai.entity.rathalos.FlyLand;
+import mhfc.net.common.ai.entity.rathalos.FlyStart;
+import mhfc.net.common.ai.entity.rathalos.JumpFireball;
+import mhfc.net.common.ai.entity.rathalos.TailSpin;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.entity.type.IConfusable;
@@ -63,6 +69,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		stancedAttackManager.registerAttack(new FlyLand());
 		setAIActionManager(stancedAttackManager);
 		this.stancedAttackManager = stancedAttackManager;
+		this.stance = Stances.GROUND;
 	}
 
 	@Override
@@ -98,7 +105,6 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	@Override
 	public void onEntityUpdate() {
 		super.onEntityUpdate();
-		//
 	}
 
 	/**

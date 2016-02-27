@@ -3,32 +3,33 @@ package mhfc.net.common.ai.general.actions;
 import java.util.Objects;
 
 import mhfc.net.common.ai.IExecutableAction;
-import mhfc.net.common.ai.general.provider.*;
+import mhfc.net.common.ai.general.provider.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.IContinuationPredicate;
+import mhfc.net.common.ai.general.provider.IMovementProvider;
+import mhfc.net.common.ai.general.provider.ISelectionPredicate;
+import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Vec3;
 
-public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>>
-	extends
-		AIAnimatedAction<EntityT> {
+public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>> extends AIAnimatedAction<EntityT> {
 
 	public static interface MovementActionProvider<EntityT extends EntityMHFCBase<? super EntityT>>
-		extends
+			extends
 			IAnimatedActionProvider<EntityT>,
 			IContinuationPredicate<EntityT>,
-			IMovementProvider<EntityT> {
-	}
+			IMovementProvider<EntityT> {}
 
 	protected MovementActionProvider<EntityT> movementProvider;
 
-	public AIGeneralMovement(
-		MovementActionProvider<EntityT> movementActionProvider) {
+	public AIGeneralMovement(MovementActionProvider<EntityT> movementActionProvider) {
 		super(movementActionProvider);
 		this.movementProvider = Objects.requireNonNull(movementActionProvider);
 	}
 
 	@Override
 	protected void beginExecution() {
+		super.beginExecution();
 		movementProvider.initialize(getEntity());
 	}
 
@@ -39,8 +40,7 @@ public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>>
 			movementProvider.onWaypointReached();
 		} else {
 			Vec3 checkPoint = movementProvider.getCurrentWaypoint();
-			actor.getTurnHelper().updateTurnSpeed(movementProvider
-				.getTurnRate());
+			actor.getTurnHelper().updateTurnSpeed(movementProvider.getTurnRate());
 			actor.getTurnHelper().updateTargetPoint(checkPoint);
 			actor.moveForward(movementProvider.getMoveSpeed(), true);
 		}
@@ -48,12 +48,11 @@ public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>>
 
 	@Override
 	public float getWeight() {
-		if (movementProvider.shouldSelectAttack(this, getEntity(), getEntity()
-			.getAttackTarget()))
-			return movementProvider.getWeight(getEntity(), getEntity()
-				.getAttackTarget());
-		else
+		if (movementProvider.shouldSelectAttack(this, getEntity(), getEntity().getAttackTarget())) {
+			return movementProvider.getWeight(getEntity(), getEntity().getAttackTarget());
+		} else {
 			return DONT_SELECT;
+		}
 	}
 
 	@Override
@@ -62,7 +61,7 @@ public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>>
 	}
 
 	public static class MovementActionAdapter<EntityT extends EntityMHFCBase<? super EntityT>>
-		implements
+			implements
 			MovementActionProvider<EntityT> {
 		private IAnimationProvider animationProvider;
 		private ISelectionPredicate<EntityT> selectionPredicate;
@@ -70,16 +69,15 @@ public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>>
 		private IWeightProvider<EntityT> weightProvider;
 		private IMovementProvider<EntityT> movementProvider;
 
-		public MovementActionAdapter(IAnimationProvider animationProvider,
-			ISelectionPredicate<EntityT> selectionPredicate,
-			IContinuationPredicate<EntityT> continuationPredicate,
-			IWeightProvider<EntityT> weightProvider,
-			IMovementProvider<EntityT> movementProvider) {
+		public MovementActionAdapter(
+				IAnimationProvider animationProvider,
+				ISelectionPredicate<EntityT> selectionPredicate,
+				IContinuationPredicate<EntityT> continuationPredicate,
+				IWeightProvider<EntityT> weightProvider,
+				IMovementProvider<EntityT> movementProvider) {
 			this.animationProvider = Objects.requireNonNull(animationProvider);
-			this.selectionPredicate = Objects.requireNonNull(
-				selectionPredicate);
-			this.continuationPredicate = Objects.requireNonNull(
-				continuationPredicate);
+			this.selectionPredicate = Objects.requireNonNull(selectionPredicate);
+			this.continuationPredicate = Objects.requireNonNull(continuationPredicate);
 			this.weightProvider = Objects.requireNonNull(weightProvider);
 			this.movementProvider = Objects.requireNonNull(movementProvider);
 		}
@@ -95,15 +93,12 @@ public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>>
 		}
 
 		@Override
-		public boolean shouldSelectAttack(
-			IExecutableAction<? super EntityT> attack, EntityT actor,
-			Entity target) {
+		public boolean shouldSelectAttack(IExecutableAction<? super EntityT> attack, EntityT actor, Entity target) {
 			return selectionPredicate.shouldSelectAttack(attack, actor, target);
 		}
 
 		@Override
-		public boolean shouldContinueAction(
-			IExecutableAction<? super EntityT> attack, EntityT actor) {
+		public boolean shouldContinueAction(IExecutableAction<? super EntityT> attack, EntityT actor) {
 			return continuationPredicate.shouldContinueAction(attack, actor);
 		}
 

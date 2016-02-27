@@ -82,7 +82,6 @@ public class MHFCEquipementRecipeRegistry {
 
 	}
 
-	@SideOnly(Side.SERVER)
 	public static TileHunterBench getHunterBenchServer(MessageTileLocation message) {
 		World world = null;
 		int id = message.getDimensionID();

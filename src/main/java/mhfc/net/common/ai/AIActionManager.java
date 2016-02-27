@@ -95,7 +95,7 @@ public class AIActionManager<EntType extends EntityLiving & IManagedActions<EntT
 	 * @see EntityAITasks#tickRate
 	 */
 	public void updateTask() {
-		this.activeAttack.updateAction();
+		activeAttack.updateAction();
 	}
 
 	@Override

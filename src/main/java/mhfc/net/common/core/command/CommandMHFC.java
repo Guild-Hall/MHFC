@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.eventhandler.MHFCInteractionHandler;
 import mhfc.net.common.network.packet.MessageMHFCInteraction;
 import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
@@ -45,34 +46,36 @@ public class CommandMHFC implements ICommand {
 	public void processCommand(ICommandSender sender, String[] parameters) {
 		if (sender instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP) sender;
+			MHFCMain.logger.debug("Look vec: {} yaw: {}", player.getLookVec(), player.rotationYaw);
 			Interaction action;
 			if (parameters.length == 0)
 				return;
 			switch (parameters[0]) {
-				case "new" :
-					action = Interaction.NEW_QUEST;
-					break;
-				case "surrender" :
-					action = Interaction.END_QUEST;
-					break;
-				case "accept" :
-					action = Interaction.ACCEPT_QUEST;
-					break;
-				case "leave" :
-					action = Interaction.FORFEIT_QUEST;
-					break;
-				case "start" :
-					action = Interaction.START_QUEST;
-					break;
-				case "reload" :
-					action = Interaction.MOD_RELOAD;
-					break;
-				default :
-					System.out.println("Invalid parameter in command mhfc");
-					return;
+			case "new":
+				action = Interaction.NEW_QUEST;
+				break;
+			case "surrender":
+				action = Interaction.END_QUEST;
+				break;
+			case "accept":
+				action = Interaction.ACCEPT_QUEST;
+				break;
+			case "leave":
+				action = Interaction.FORFEIT_QUEST;
+				break;
+			case "start":
+				action = Interaction.START_QUEST;
+				break;
+			case "reload":
+				action = Interaction.MOD_RELOAD;
+				break;
+			default:
+				System.out.println("Invalid parameter in command mhfc");
+				return;
 			}
-			MessageMHFCInteraction msg = new MessageMHFCInteraction(action,
-				Arrays.copyOfRange(parameters, 1, parameters.length));
+			MessageMHFCInteraction msg = new MessageMHFCInteraction(
+					action,
+					Arrays.copyOfRange(parameters, 1, parameters.length));
 			MHFCInteractionHandler.onInteraction(player, msg);
 		}
 	}
@@ -83,12 +86,10 @@ public class CommandMHFC implements ICommand {
 	}
 
 	@Override
-	public List<String> addTabCompletionOptions(ICommandSender p_71516_1_,
-		String[] options) {
+	public List<String> addTabCompletionOptions(ICommandSender p_71516_1_, String[] options) {
 		List<String> list = new ArrayList<String>();
 		if (options.length == 1) {
-			for (String s : new String[]{"accept", "leave", "new", "surrender",
-					"start", "reload"}) {
+			for (String s : new String[] { "accept", "leave", "new", "surrender", "start", "reload" }) {
 				if (options[0] == null || s.startsWith(options[0]))
 					list.add(s);
 			}

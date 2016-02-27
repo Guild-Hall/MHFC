@@ -75,7 +75,8 @@ public class TargetTurnHelper {
 		if (targetPoint == null) {
 			return;
 		}
-		Vec3 vecToTarget = WorldHelper.getEntityPositionVector(entity).subtract(targetPoint);
+		Vec3 entityPos = WorldHelper.getEntityPositionVector(entity);
+		Vec3 vecToTarget = entityPos.subtract(targetPoint);
 		entity.rotationYaw = AIUtils.modifyYaw(entity.getLookVec(), vecToTarget.normalize(), maxTurnSpeed);
 		// CLEANUP Figure out a way to send the updates to the client cleanly
 		entity.addVelocity(10e-4, 0, 10e-4);

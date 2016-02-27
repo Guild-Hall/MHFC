@@ -35,7 +35,6 @@ public class FlyLand extends ActionAdapter<EntityRathalos> {
 			if (!entity.isAirBorne) {
 				hasTouchedDown = true;
 				entity.setStance(Stances.GROUND);
-				setToNextFrame(-1);
 			}
 			entity.fallDistance = 0;
 		} else {

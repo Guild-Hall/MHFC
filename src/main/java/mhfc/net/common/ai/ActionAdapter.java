@@ -1,5 +1,6 @@
 package mhfc.net.common.ai;
 
+import java.util.Objects;
 import java.util.Random;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
@@ -7,6 +8,7 @@ import com.github.worldsender.mcanm.client.model.util.AnimationLoader;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import mhfc.net.common.ai.general.AIUtils.DamageCalculatorHelper;
+import mhfc.net.common.ai.general.IFrameAdvancer;
 import mhfc.net.common.eventhandler.ai.ActionSelectionEvent;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,6 +22,7 @@ public abstract class ActionAdapter<T extends EntityCreature> implements IExecut
 	private int recentFrame;
 	private int lastFrame = -2;
 	private T entity;
+	private IFrameAdvancer frameAdvancer;
 
 	/**
 	 * Almost every attack has a target entity. This is completely up to you if you want to use this
@@ -29,6 +32,12 @@ public abstract class ActionAdapter<T extends EntityCreature> implements IExecut
 
 	public ActionAdapter() {
 		dmgHelper = new DamageCalculatorHelper();
+		frameAdvancer = new IFrameAdvancer.LinearAdvancer();
+	}
+
+	protected void setFrameAdvancer(IFrameAdvancer frameAdvancer) {
+		Objects.requireNonNull(frameAdvancer);
+		this.frameAdvancer = frameAdvancer;
 	}
 
 	@Override
@@ -36,6 +45,7 @@ public abstract class ActionAdapter<T extends EntityCreature> implements IExecut
 		framesPassed = 0;
 		recentFrame = -1;
 		dmgHelper.reset();
+		frameAdvancer.reset();
 		FMLCommonHandler.instance().bus().post(new ActionSelectionEvent(this, getEntity()));
 		beginExecution();
 	}
@@ -47,7 +57,7 @@ public abstract class ActionAdapter<T extends EntityCreature> implements IExecut
 
 	@Override
 	public void updateAction() {
-		setToNextFrame(getCurrentFrame() + 1);
+		setToNextFrame(frameAdvancer.getFollowingFrame(getCurrentFrame()));
 		framesPassed++;
 		update();
 	}

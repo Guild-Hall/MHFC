@@ -3,18 +3,22 @@ package mhfc.net.common.ai.general.actions;
 import java.util.Objects;
 import java.util.Random;
 
-import mhfc.net.common.ai.general.provider.*;
+import mhfc.net.common.ai.general.provider.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.IContinuationPredicate;
+import mhfc.net.common.ai.general.provider.IMoveParameterProvider;
+import mhfc.net.common.ai.general.provider.IMovementProvider;
+import mhfc.net.common.ai.general.provider.IPathProvider;
+import mhfc.net.common.ai.general.provider.ISelectionPredicate;
+import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.Vec3;
 
-public class AIGeneralWander<EntityT extends EntityMHFCBase<? super EntityT>>
-	extends
-		AIGeneralMovement<EntityT> {
+public class AIGeneralWander<EntityT extends EntityMHFCBase<? super EntityT>> extends AIGeneralMovement<EntityT> {
 
 	public static class WanderAdapter<EntityT extends EntityMHFCBase<? super EntityT>>
-		extends
+			extends
 			MovementActionAdapter<EntityT> {
 
 		private static <EntityT extends EntityMHFCBase<? super EntityT>> ISelectionPredicate<EntityT> SelectionPredicate() {
@@ -26,32 +30,25 @@ public class AIGeneralWander<EntityT extends EntityMHFCBase<? super EntityT>>
 		}
 
 		private static <EntityT extends EntityMHFCBase<? super EntityT>> IMovementProvider<EntityT> MovementProvider(
-			IMoveParameterProvider provider) {
+				IMoveParameterProvider provider) {
 			IPathProvider<EntityT> pathProvider = new RandomWanderProvider<EntityT>();
-			return new IMovementProvider.TurnThenMoveAdapter<>(pathProvider,
-				provider, 5f);
+			return new IMovementProvider.TurnThenMoveAdapter<>(pathProvider, provider, 5f);
 		}
 
-		public WanderAdapter(IAnimationProvider animationProvider,
-			IWeightProvider<EntityT> weightProvider,
-			IMoveParameterProvider movementProvider) {
-			super(animationProvider, WanderAdapter
-				.<EntityT> SelectionPredicate(), WanderAdapter
-					.<EntityT> ContinuationPredicate(), weightProvider,
-				WanderAdapter.<EntityT> MovementProvider(movementProvider));
+		public WanderAdapter(
+				IAnimationProvider animationProvider,
+				IWeightProvider<EntityT> weightProvider,
+				IMoveParameterProvider movementProvider) {
+			super(
+					animationProvider,
+					WanderAdapter.<EntityT>SelectionPredicate(),
+					WanderAdapter.<EntityT>ContinuationPredicate(),
+					weightProvider,
+					WanderAdapter.<EntityT>MovementProvider(movementProvider));
 		}
 	}
 
-	public AIGeneralWander(IAnimationProvider animationProvider,
-		IWeightProvider<EntityT> weightProvider,
-		IMoveParameterProvider parameterProvider) {
-		super(new WanderAdapter<EntityT>(animationProvider, weightProvider,
-			parameterProvider));
-	}
-
-	public static class RandomWanderProvider<EntityT extends EntityLiving>
-		implements
-			IPathProvider<EntityT> {
+	public static class RandomWanderProvider<EntityT extends EntityLiving> implements IPathProvider<EntityT> {
 
 		public static final int DEFAULT_WANDER_DISTANCE = 20;
 
@@ -61,12 +58,11 @@ public class AIGeneralWander<EntityT extends EntityMHFCBase<? super EntityT>>
 
 		public RandomWanderProvider(int maxWanderDistance) {
 			if (maxWanderDistance < 0)
-				throw new IllegalArgumentException(
-					"The wander distance must not be negative");
+				throw new IllegalArgumentException("The wander distance must not be negative");
 			this.wanderDistance = maxWanderDistance;
 		}
 
-		private Random random = new Random();
+		private Random random = new Random(0);
 		private int wanderDistance;
 
 		protected EntityT actor;
@@ -104,13 +100,19 @@ public class AIGeneralWander<EntityT extends EntityMHFCBase<? super EntityT>>
 		}
 
 		private Vec3 generateNewRandomPoint() {
-			int randomX = (int) (startingPosition.xCoord + random.nextInt(
-				wanderDistance));
-			int randomZ = (int) (startingPosition.zCoord + random.nextInt(
-				wanderDistance));
-			return Vec3.createVectorHelper(randomX, startingPosition.yCoord,
-				randomZ);
+			int randomAddX = random.nextInt(wanderDistance) - wanderDistance / 2;
+			int randomAddZ = random.nextInt(wanderDistance) - wanderDistance / 2;
+			int randomX = (int) (startingPosition.xCoord + randomAddX);
+			int randomZ = (int) (startingPosition.zCoord + randomAddZ);
+			return Vec3.createVectorHelper(randomX, startingPosition.yCoord, randomZ);
 		}
+	}
+
+	public AIGeneralWander(
+			IAnimationProvider animationProvider,
+			IWeightProvider<EntityT> weightProvider,
+			IMoveParameterProvider parameterProvider) {
+		super(new WanderAdapter<EntityT>(animationProvider, weightProvider, parameterProvider));
 	}
 
 }
