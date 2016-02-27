@@ -37,6 +37,14 @@ public class ComponentMelee  {
 		item = null;
 		weapon = null;
 	}
+	
+	public final void setItem(iWeaponCluster itemweapon)
+	{
+		item = (Item) itemweapon;
+		weapon = itemweapon;
+		onSetItem();
+	}
+	
 
 	protected void onSetItem() {}
 
@@ -224,4 +232,5 @@ public class ComponentMelee  {
 
 		public final int stackSize, comboRate;
 	}
+
 }
