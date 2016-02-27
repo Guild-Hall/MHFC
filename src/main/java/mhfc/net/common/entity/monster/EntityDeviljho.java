@@ -8,6 +8,7 @@ import mhfc.net.common.ai.AIActionManager;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoBiteA;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoBiteB;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoIdle;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoLaunch;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoMovetoTarget;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoRoar;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoTailWhip;
@@ -33,6 +34,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		attackManager.registerAttack(new DeviljhoBiteA());
 		attackManager.registerAttack(new DeviljhoBiteB());
 		attackManager.registerAttack(new DeviljhoTailWhip());
+		attackManager.registerAttack(new DeviljhoLaunch());
 		//    attackManager.registerAttack(new DeviljhoWander());
 	}
 
