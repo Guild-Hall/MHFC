@@ -22,21 +22,24 @@ import com.google.common.collect.Multimap;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ComponentMelee extends AbstractWeaponClass {
+public class ComponentMelee  {
 	public final WeaponSpecs weaponSpecs;
 	public final Item.ToolMaterial weaponMaterial;
 	public float damageMult;
 	public float blockDamage;
 	public float fencerate;
+	public Item	item;
+	protected iWeaponCluster	weapon;
 	public ComponentMelee(WeaponSpecs meleespecs, Item.ToolMaterial toolmaterial) {
 		weaponSpecs = meleespecs;
 		weaponMaterial = toolmaterial;
+		
+		item = null;
+		weapon = null;
 	}
 
-	@Override
 	protected void onSetItem() {}
 
-	@Override
 	public void setThisItemProperties() {
 		if (weaponMaterial == null) {
 			item.setMaxDamage(weaponSpecs.durabilityBase);
@@ -47,7 +50,7 @@ public class ComponentMelee extends AbstractWeaponClass {
 		item.setMaxStackSize(weaponSpecs.stackSize);
 	}
 
-	@Override
+	
 	public float getEntityDamageMaterialPart() {
 		if (weaponMaterial == null) {
 			return 0F;
@@ -55,7 +58,7 @@ public class ComponentMelee extends AbstractWeaponClass {
 		return weaponMaterial.getDamageVsEntity() * weaponSpecs.damageMult;
 	}
 
-	@Override
+	
 	public float getEntityDamage() {
 		return weaponSpecs.attackBase + getEntityDamageMaterialPart();
 	}
@@ -64,7 +67,7 @@ public class ComponentMelee extends AbstractWeaponClass {
 		return weaponSpecs.attackBase = damage;
 	}
 
-	@Override
+	
 	public float getBlockDamage(ItemStack itemstack, Block block) {
 		if (canHarvestBlock(block)) {
 			return weaponSpecs.blockDamage * 10F;
@@ -75,12 +78,12 @@ public class ComponentMelee extends AbstractWeaponClass {
 				&& material != Material.gourd ? 1.0F : weaponSpecs.blockDamage;
 	}
 
-	@Override
+	
 	public boolean canHarvestBlock(Block block) {
 		return block == Blocks.web;
 	}
 
-	@Override
+	
 	public boolean onBlockDestroyed(ItemStack itemstack, World world,
 			Block block, int j, int k, int l, EntityLivingBase entityliving) {
 		if ((weaponSpecs.blockDamage > 1F || canHarvestBlock(block))
@@ -90,7 +93,7 @@ public class ComponentMelee extends AbstractWeaponClass {
 		return true;
 	}
 
-	@Override
+	
 	public boolean hitEntity(ItemStack itemstack,
 			EntityLivingBase entityliving, EntityLivingBase attacker) {
 		if (entityliving.hurtResistantTime == entityliving.maxHurtResistantTime) {
@@ -106,24 +109,24 @@ public class ComponentMelee extends AbstractWeaponClass {
 		return true;
 	}
 
-	@Override
+	
 	public int getAttackDelay(ItemStack itemstack,
 			EntityLivingBase entityliving, EntityLivingBase attacker) {
 		return weaponSpecs.comboRate;
 	}
 
-	@Override
+	
 	public float getKnockBack(ItemStack itemstack,
 			EntityLivingBase entityliving, EntityLivingBase attacker) {
 		return weaponSpecs.getKnockBack(weaponMaterial);
 	}
 
-	@Override
+	
 	public int getItemEnchantability() {
 		return weaponMaterial == null ? 1 : weaponMaterial.getEnchantability();
 	}
 
-	@Override
+	
 	public void addItemAttributeModifiers(
 			Multimap<String, AttributeModifier> multimap) {
 		float dmg = getEntityDamage();
@@ -144,41 +147,41 @@ public class ComponentMelee extends AbstractWeaponClass {
 		}
 	}
 
-	@Override
+	
 	public boolean onLeftClickEntity(ItemStack itemstack, EntityPlayer player,
 			Entity entity) {
 		return false;
 	}
 
-	@Override
+	
 	public EnumAction getItemUseAction(ItemStack itemstack) {
 		return EnumAction.block;
 	}
 
-	@Override
+	
 	public int getMaxItemUseDuration(ItemStack itemstack) {
 		return 72000;
 	}
 
-	@Override
+	
 	public ItemStack onItemRightClick(ItemStack itemstack, World world,
 			EntityPlayer entityplayer) {
 		entityplayer.setItemInUse(itemstack, getMaxItemUseDuration(itemstack));
 		return itemstack;
 	}
 
-	@Override
+	
 	public void onUsingTick(ItemStack itemstack, EntityPlayer entityplayer,int count) {}
 
-	@Override
+	
 	public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityPlayer entityplayer, int i) {}
 
-	@Override
+	
 	public void onUpdate(ItemStack itemstack, World world, Entity entity,
 			int i, boolean flag) {}
 
 	@SideOnly(Side.CLIENT)
-	@Override
+	
 	public boolean shouldRotateAroundWhenRendering() {
 		return false;
 	}
