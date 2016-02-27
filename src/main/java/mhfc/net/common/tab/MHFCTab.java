@@ -11,7 +11,7 @@ public class MHFCTab extends CreativeTabs {
 
 	public MHFCTab(int par) {
 		super(par, MHFCReference.gui_tab_name);
-		this.setBackgroundImageName("mhfc.png");
+	//	this.setBackgroundImageName("mhfc:textures/gui/tab_mhfc.png");
 	}
 
 	@Override
