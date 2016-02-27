@@ -9,7 +9,7 @@ public class DeviljhoIdle extends ActionAdapter<EntityDeviljho> {
 
 	public DeviljhoIdle() {
 		setLastFrame(LAST_FRAME);
-		setAnimation("mhfc:models/Deviljho/idle.mcanm");
+		setAnimation("mhfc:models/Deviljho/DeviljhoIdle.mcanm");
 	}
 
 	@Override

@@ -50,6 +50,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
 	protected static final int DATA_FRAME = 12;
 	private final TargetTurnHelper turnHelper;
 	private AIActionManager<YC> attackManager;
+	
+	public int deathTime;
+	public boolean mobDead = false;
 
 	@SuppressWarnings("unchecked")
 	public EntityMHFCBase(World world) {
@@ -81,6 +84,15 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>>
     public int getTotalArmorValue() {
         return 10;
     }
+	
+	 protected void onDeathUpdate() {
+		 super.onDeathUpdate();
+		 deathTime++;
+		 mobDead = true;
+		 if(deathTime == 50){
+			 this.setDead();
+		 }
+	    }
 
 	@Override
 	protected void entityInit() {
