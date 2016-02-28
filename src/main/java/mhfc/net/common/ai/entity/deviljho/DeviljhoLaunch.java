@@ -1,11 +1,15 @@
 package mhfc.net.common.ai.entity.deviljho;
 
+import java.util.List;
+
+import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import mhfc.net.common.util.world.WorldHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 
@@ -49,8 +53,12 @@ public class DeviljhoLaunch extends ActionAdapter<EntityDeviljho> {
 			getEntity().playSound("mhfc:deviljho.bite", 1.0F, 1.0F);
 
 			AIUtils.damageCollidingEntities(getEntity(), damageCalc);
-			if (!entity.worldObj.isRemote)
-			entity.getAttackTarget().motionY *= 5.33300712D;
+			   List<Entity> collidingEnts = WorldHelper.collidingEntities(entity);
+			   if (!entity.worldObj.isRemote) {
+			    for (Entity collider : collidingEnts) {
+			     collider.addVelocity(0, 1.8, 0);
+			     MHFCMain.logger.debug(entity.getAttackTarget().motionY);
+			    }
 		}
 		if (this.getCurrentFrame() >= 35) {
 		Vec3 look = entity.getLookVec();
@@ -82,7 +90,7 @@ public class DeviljhoLaunch extends ActionAdapter<EntityDeviljho> {
 			block.setThrowableHeading(xCo, yCo, zCo, 2f, 1.5f);
 			entity.worldObj.spawnEntityInWorld(block);
 		}
-		
+		}
 		thrown = true;
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
