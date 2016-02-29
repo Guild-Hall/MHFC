@@ -18,7 +18,7 @@ public class DeviljhoLaunch extends ActionAdapter<EntityDeviljho> {
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(92f, 62f, 8888f);
 	private static final double MAX_DIST = 6f;
 	private static final float WEIGHT = 6F;
-	private static final double HEIGHT_BLOCK = 0.40D;
+	private static final double HEIGHT_BLOCK = 0.50D;
 	private boolean thrown;
 	private static final double SPLIT_MULTIPLIER = 0.535;  // from TigrexGroundHurl (C) Andreas.
 	
@@ -56,8 +56,9 @@ public class DeviljhoLaunch extends ActionAdapter<EntityDeviljho> {
 			   List<Entity> collidingEnts = WorldHelper.collidingEntities(entity);
 			   if (!entity.worldObj.isRemote) {
 			    for (Entity collider : collidingEnts) {
-			     collider.addVelocity(0, 1.8, 0);
+			     collider.addVelocity(0, 1.4, 0);
 			     MHFCMain.logger.debug(entity.getAttackTarget().motionY);
+			    }
 			    }
 		}
 		if (this.getCurrentFrame() >= 35) {
@@ -90,7 +91,7 @@ public class DeviljhoLaunch extends ActionAdapter<EntityDeviljho> {
 			block.setThrowableHeading(xCo, yCo, zCo, 2f, 1.5f);
 			entity.worldObj.spawnEntityInWorld(block);
 		}
-		}
+		
 		thrown = true;
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
