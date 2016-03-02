@@ -13,6 +13,8 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import mhfc.net.common.world.AreaTeleportation;
+import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IWorldView;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -180,6 +182,11 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	protected Set<Entity> managedEntities;
 	protected TileEntity tickerEntity;
 	protected IWorldView worldView;
+	protected IArea areaInstance;
+
+	public void setAreaInstance(IArea areaInstance) {
+		this.areaInstance = areaInstance;
+	}
 
 	public SpawnControllerAdapter(IWorldView worldView) {
 		Objects.requireNonNull(worldView);
@@ -281,6 +288,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	 */
 	protected boolean spawnEntity(SpawnInformation information) {
 		Entity entity = information.spawnable.apply(worldView.getWorldObject());
+		AreaTeleportation.assignAreaForEntity(entity, areaInstance);
 		worldView.spawnEntityAt(entity, information.relX, information.relY, information.relZ);
 		return controlEntity(entity);
 	}

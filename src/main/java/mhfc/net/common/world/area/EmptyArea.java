@@ -31,7 +31,9 @@ public abstract class EmptyArea extends AreaAdapter {
 
 	@Override
 	protected IQuestAreaSpawnController initializeSpawnController() {
-		return new SpawnController();
+		SpawnController spawnController = new SpawnController();
+		spawnController.setAreaInstance(this);
+		return spawnController;
 	}
 
 	public abstract SpawnInformation constructDefaultSpawnInformation(Spawnable entity);

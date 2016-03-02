@@ -12,29 +12,28 @@ import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;
 
-public class AIGeneralTailWhip<EntityT extends EntityMHFCBase<? super EntityT>>
-	extends
-		AIAnimatedAction<EntityT> {
+public class AIGeneralTailWhip<EntityT extends EntityMHFCBase<? super EntityT>> extends AIAnimatedAction<EntityT> {
 
 	public static interface ISpinProvider<EntityT extends EntityMHFCBase<? super EntityT>>
-		extends
+			extends
 			IAnimatedActionProvider<EntityT>,
 			IDamageProvider {
 
 	}
 
 	public static class TailWhipAdapter<EntityT extends EntityMHFCBase<? super EntityT>>
-		implements
+			implements
 			ISpinProvider<EntityT> {
 		private IAnimationProvider animationProvider;
 		private ISelectionPredicate<EntityT> predicate;
 		private IWeightProvider<EntityT> weightProvider;
 		private IDamageProvider damageProvider;
 
-		public TailWhipAdapter(IAnimationProvider ANIMPROVIDER,
-			IWeightProvider<EntityT> WEIGHTPROVIDER,
-			IDamageProvider DAMAGEPROVIDER,
-			ISelectionPredicate<EntityT> PREDICATE) {
+		public TailWhipAdapter(
+				IAnimationProvider ANIMPROVIDER,
+				IWeightProvider<EntityT> WEIGHTPROVIDER,
+				IDamageProvider DAMAGEPROVIDER,
+				ISelectionPredicate<EntityT> PREDICATE) {
 			animationProvider = ANIMPROVIDER;
 			damageProvider = DAMAGEPROVIDER;
 			weightProvider = Objects.requireNonNull(WEIGHTPROVIDER);
@@ -53,9 +52,7 @@ public class AIGeneralTailWhip<EntityT extends EntityMHFCBase<? super EntityT>>
 		}
 
 		@Override
-		public boolean shouldSelectAttack(
-			IExecutableAction<? super EntityT> attack, EntityT actor,
-			Entity target) {
+		public boolean shouldSelectAttack(IExecutableAction<? super EntityT> attack, EntityT actor, Entity target) {
 			return predicate.shouldSelectAttack(attack, actor, target);
 		}
 
@@ -89,19 +86,7 @@ public class AIGeneralTailWhip<EntityT extends EntityMHFCBase<? super EntityT>>
 
 	@Override
 	protected void update() {
-		AIUtils.damageCollidingEntities(this.getEntity(), dmgHelper
-			.getCalculator());
-	}
-
-	@Override
-	public float getWeight() {
-		EntityT entity = this.getEntity();
-		target = entity.getAttackTarget();
-		if (provider.shouldSelectAttack(this, entity, target)) {
-			return provider.getWeight(entity, target);
-		} else {
-			return DONT_SELECT;
-		}
+		AIUtils.damageCollidingEntities(this.getEntity(), dmgHelper.getCalculator());
 	}
 
 }

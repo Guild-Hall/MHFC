@@ -228,9 +228,15 @@ public class AIUtils {
 	}
 
 	/**
-	 * Gives the yaw of a normalized vector
+	 * Gives the yaw of a vector
 	 */
 	public static float lookVecToYaw(Vec3 vec) {
+		Objects.requireNonNull(vec);
+		if (vec.lengthVector() == 0)
+			throw new IllegalArgumentException("The vector may not have zero length");
+		vec = vec.normalize();
+		if (vec.xCoord == 0 && vec.zCoord == 0)
+			throw new IllegalArgumentException("A vector point straight up does not have a yaw");
 		double pitch_rad = Math.asin(vec.yCoord);
 		double cos_pitch = Math.cos(pitch_rad);
 		double adjusted_z = vec.zCoord / cos_pitch;
@@ -239,7 +245,6 @@ public class AIUtils {
 		double yaw_rad = Math.acos(adjusted_z);
 		yaw_rad *= Math.signum(-vec.xCoord);
 		return normalizeAngle((float) Math.toDegrees(yaw_rad));
-
 	}
 
 	/**

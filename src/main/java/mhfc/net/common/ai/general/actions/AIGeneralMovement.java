@@ -47,15 +47,6 @@ public class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>> 
 	}
 
 	@Override
-	public float getWeight() {
-		if (movementProvider.shouldSelectAttack(this, getEntity(), getEntity().getAttackTarget())) {
-			return movementProvider.getWeight(getEntity(), getEntity().getAttackTarget());
-		} else {
-			return DONT_SELECT;
-		}
-	}
-
-	@Override
 	public boolean shouldContinue() {
 		return movementProvider.shouldContinueAction(this, getEntity());
 	}

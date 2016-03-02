@@ -157,17 +157,6 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 	}
 
 	@Override
-	public float getWeight() {
-		EntityT entity = this.getEntity();
-		target = entity.getAttackTarget();
-		if (provider.shouldSelectAttack(this, entity, target)) {
-			return provider.getWeight(entity, target);
-		} else {
-			return DONT_SELECT;
-		}
-	}
-
-	@Override
 	public void beginExecution() {
 		super.beginExecution();
 		getEntity().getTurnHelper().updateTurnSpeed(provider.getTurnRate(getEntity(), 0));

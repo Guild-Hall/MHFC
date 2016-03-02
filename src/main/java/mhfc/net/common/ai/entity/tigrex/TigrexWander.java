@@ -23,7 +23,7 @@ public class TigrexWander extends AIGeneralWander<EntityTigrex> {
 
 	public TigrexWander() {
 		super(animationProvider, weightProvider, parameterProvider);
-		setFrameAdvancer(new IFrameAdvancer.LoopAdvancer(10, ANIMATION_LENGTH, -1));
+		setFrameAdvancer(new IFrameAdvancer.CountLoopAdvancer(10, ANIMATION_LENGTH, -1));
 	}
 
 	@Override

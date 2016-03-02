@@ -16,6 +16,8 @@ import mhfc.net.common.entity.type.IConfusable;
 import mhfc.net.common.item.materials.ItemRathalos.RathalosSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
@@ -68,15 +70,18 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		stancedAttackManager.registerAttack(new FlyStart());
 		stancedAttackManager.registerAttack(new JumpFireball());
 		stancedAttackManager.registerAttack(new TailSpin());
-		stancedAttackManager.registerAttack(new FlyLand());
+		stancedAttackManager.registerAttack(FlyLand.generate());
 		setAIActionManager(stancedAttackManager);
 		this.stancedAttackManager = stancedAttackManager;
 		this.stance = Stances.GROUND;
+
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 	}
 
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(50f);
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(4500D, 9000D, 18000D));
 	}
 

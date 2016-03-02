@@ -7,8 +7,6 @@ import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.world.controller.CornerPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
@@ -111,18 +109,6 @@ public abstract class AreaAdapter implements IArea {
 		if (event.world != world)
 			return false;
 		return isInArea(event.x, event.z);
-	}
-
-	@SubscribeEvent
-	public void onPlayerClickBlock(PlayerInteractEvent event) {
-		if (event.world != world) {
-			return;
-		}
-		if (event.action != Action.LEFT_CLICK_BLOCK)
-			return;
-		if (isInArea(event.x, event.z)) {
-			event.setCanceled(true);
-		}
 	}
 
 	@SubscribeEvent

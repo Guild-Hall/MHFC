@@ -66,7 +66,9 @@ public class AreaTypePlayfield implements IAreaType {
 
 		@Override
 		protected IQuestAreaSpawnController initializeSpawnController() {
-			return new PlayfieldSpawnController();
+			PlayfieldSpawnController playfieldSpawnController = new PlayfieldSpawnController();
+			playfieldSpawnController.setAreaInstance(this);
+			return playfieldSpawnController;
 		}
 
 	}
