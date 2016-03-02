@@ -7,8 +7,8 @@ public class GSTigrex extends GreatswordClass {
 
 	public GSTigrex() {
 		super(MHFCWeaponMaterialHelper.GSTigrex);
-		getWeaponDescription("No Element", 3);
-		elementalType(false, false);
+		labelWeaponRarity(4);
+		elementalType(false, false, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_gs_tigrex_name);
 	}
 

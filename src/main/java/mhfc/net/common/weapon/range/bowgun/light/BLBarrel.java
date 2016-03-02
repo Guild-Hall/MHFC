@@ -12,7 +12,8 @@ public class BLBarrel extends LightBowgun {
 
 	public BLBarrel() {
 		super();
-		enableCooldownDisplay = true;
+	
+		damage = 12;
 		
 		setUnlocalizedName(MHFCReference.weapon_bgl_barrel_name);
 		getWeaponDescription("No Element", 1);

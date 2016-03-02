@@ -6,9 +6,9 @@ import mhfc.net.common.util.lib.MHFCReference;
 public class HRathalos extends HammerClass {
 
 	public HRathalos() {
-		super(MHFCWeaponMaterialHelper.HRathalos);
-		getWeaponDescription("Fire Element", 5);
-		elementalType(false, true);
+		super(MHFCWeaponMaterialHelper.HRathalos, 450);
+		labelWeaponRarity(4);
+		elementalType(false, true, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_hm_rathalos_name);
 	}
 

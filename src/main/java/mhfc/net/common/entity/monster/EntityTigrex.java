@@ -20,6 +20,7 @@ import mhfc.net.common.item.materials.ItemTigrex.TigrexSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -46,6 +47,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		attackManager.registerAttack(new TigrexIdle());
 		attackManager.registerAttack(new TigrexWander());
 		attackManager.registerAttack(new TigrexWhip());
+		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 
 		// TODO enable this when Popos are a thing again
 		// targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
@@ -58,7 +60,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		super.applyEntityAttributes();
 		getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(7164D, 9722D, 17410D));
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(9807D, 12000D, 24000D));
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
 	}

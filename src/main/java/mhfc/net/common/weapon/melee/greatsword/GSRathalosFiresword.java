@@ -7,9 +7,9 @@ public class GSRathalosFiresword extends GreatswordClass {
 
 	public GSRathalosFiresword() {
 		super(MHFCWeaponMaterialHelper.GSRathalos);
-		elementalType(false, true);
+		elementalType(false, true, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_gs_rathalos_name);
-		getWeaponDescription("Fire Element", 3);
+		labelWeaponRarity(4);
 	}
 
 }

@@ -6,9 +6,9 @@ import mhfc.net.common.util.lib.MHFCReference;
 public class LSLionKingSaber extends LongswordClass {
 
 	public LSLionKingSaber() {
-		super(MHFCWeaponMaterialHelper.LSLionKingSaber);
-		getWeaponDescription("Fire Element", 8);
-		elementalType(false, true);
+		super(MHFCWeaponMaterialHelper.LSLionKingSaber, 120);
+		labelWeaponRarity(8);
+		elementalType(false, true, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_ls_lionkingsaber_name);
 	}
 

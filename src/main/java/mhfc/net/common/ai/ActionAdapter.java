@@ -77,13 +77,16 @@ public abstract class ActionAdapter<T extends EntityCreature> implements IExecut
 
 	}
 
+	
+	@Override
+	public abstract float getWeight();
+	
 	/**
 	 * This must be overridden by the subclass to specify the behavior during execution
 	 */
 	protected abstract void update();
 
-	@Override
-	public abstract float getWeight();
+
 
 	/**
 	 * Gets the entity this attack is bounded to (executed on).

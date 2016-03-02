@@ -1,23 +1,29 @@
 package mhfc.net.client.core.registry;
 
-import mhfc.net.client.render.projectile.RenderRathalosFireball;
-import mhfc.net.client.render.projectile.RenderTigrexBlock;
-import mhfc.net.common.entity.monster.EntityBarroth;
-import mhfc.net.common.entity.monster.EntityDeviljho;
-import mhfc.net.common.entity.monster.EntityGreatJaggi;
-import mhfc.net.common.entity.monster.EntityNargacuga;
-import mhfc.net.common.entity.monster.EntityRathalos;
-import mhfc.net.common.entity.monster.EntityTigrex;
-import mhfc.net.common.entity.projectile.EntityRathalosFireball;
-import mhfc.net.common.entity.projectile.EntityTigrexBlock;
-import mhfc.net.common.util.lib.MHFCReference;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
-
 import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
 import com.github.worldsender.mcanm.client.renderer.entity.RenderAnimatedModel;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import mhfc.net.client.render.projectile.RenderBullet;
+import mhfc.net.client.render.projectile.RenderRathalosFireball;
+import mhfc.net.client.render.projectile.RenderBlockProjectile;
+import mhfc.net.client.render.projectile.RenderWyverniaArrow;
+import mhfc.net.common.entity.monster.EntityBarroth;
+import mhfc.net.common.entity.monster.EntityDelex;
+import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.entity.monster.EntityGiaprey;
+import mhfc.net.common.entity.monster.EntityGreatJaggi;
+import mhfc.net.common.entity.monster.EntityNargacuga;
+import mhfc.net.common.entity.monster.EntityRathalos;
+import mhfc.net.common.entity.monster.EntityTigrex;
+import mhfc.net.common.entity.monster.EntityUkanlos;
+import mhfc.net.common.entity.projectile.EntityBullet;
+import mhfc.net.common.entity.projectile.EntityRathalosFireball;
+import mhfc.net.common.entity.projectile.EntityProjectileBlock;
+import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
+import mhfc.net.common.util.lib.MHFCReference;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 
 public class MHFCEntityRenderRegistry {
 
@@ -27,6 +33,8 @@ public class MHFCEntityRenderRegistry {
 	}
 
 	private static void renderMonster() {
+		registerAnimatedRenderer(EntityDelex.class,
+				MHFCReference.mob_delex_model, 1.0F);
 		registerAnimatedRenderer(EntityTigrex.class,
 			MHFCReference.mob_tigrex_model, 1.0F);
 		registerAnimatedRenderer(EntityRathalos.class,
@@ -39,13 +47,22 @@ public class MHFCEntityRenderRegistry {
 			MHFCReference.mob_barroth_model, 1.0F);
 		registerAnimatedRenderer(EntityNargacuga.class,
 			MHFCReference.mob_nargacuga_model, 1.0F);
+		registerAnimatedRenderer(EntityGiaprey.class,
+				MHFCReference.mob_giaprey_model, 1.0F);
+		registerAnimatedRenderer(EntityUkanlos.class,
+				MHFCReference.mob_ukanlos_model, 1.0F);
+		
 	}
 
 	private static void renderBlockEntities() {
 		RenderingRegistry.registerEntityRenderingHandler(
-			EntityTigrexBlock.class, new RenderTigrexBlock());
+			EntityProjectileBlock.class, new RenderBlockProjectile());
 		RenderingRegistry.registerEntityRenderingHandler(
 			EntityRathalosFireball.class, new RenderRathalosFireball());
+		RenderingRegistry.registerEntityRenderingHandler(
+				EntityWyverniaArrow.class, new RenderWyverniaArrow());
+		RenderingRegistry.registerEntityRenderingHandler(
+				EntityBullet.class, new RenderBullet());
 	}
 
 	private static <T extends Entity & IAnimatedObject> void registerAnimatedRenderer(

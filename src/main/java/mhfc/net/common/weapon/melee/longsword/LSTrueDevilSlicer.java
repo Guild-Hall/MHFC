@@ -6,9 +6,9 @@ import mhfc.net.common.util.lib.MHFCReference;
 public class LSTrueDevilSlicer extends LongswordClass {
 
 	public LSTrueDevilSlicer() {
-		super(MHFCWeaponMaterialHelper.LSTrueDevilSlicer);
-		getWeaponDescription("Thunder Element", 7);
-		elementalType(false, false);
+		super(MHFCWeaponMaterialHelper.LSTrueDevilSlicer, 120);
+		labelWeaponRarity(7);
+		elementalType(false, false, false, false, false, true, false, false);
 		setUnlocalizedName(MHFCReference.weapon_ls_truedevilslicer_name);
 	}
 

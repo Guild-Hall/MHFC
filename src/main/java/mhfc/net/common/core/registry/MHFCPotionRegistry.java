@@ -2,6 +2,7 @@ package mhfc.net.common.core.registry;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.helper.MHFCReflectionHelper;
+import mhfc.net.common.potion.LongswordDamageUp;
 import mhfc.net.common.potion.PotionAttackUpLow;
 import mhfc.net.common.potion.PotionKirinBless;
 import mhfc.net.common.potion.PotionParalyze;
@@ -14,18 +15,19 @@ public class MHFCPotionRegistry {
 	private static final int originalSize;
 	private static int offset = 0;
 
-	public static final Potion shock;
+	public static final Potion stun;
 	public static final Potion kirin_blessing;
 	public static final Potion attack_up_low;
+	public static final Potion longswordattackup;
 
 	static {
 		MHFCMain.checkPreInitialized();
 		originalSize = extendPotionsArray(MAXPOTIONS);
 
-		shock = new PotionParalyze(getNextID(), true, 1684929);
-		kirin_blessing = new PotionKirinBless(getNextID(), false, 591932);
-		attack_up_low = new PotionAttackUpLow(getNextID(), false,
-				493491);
+		stun = new PotionParalyze(getNextID(), true, 999999);
+		kirin_blessing = new PotionKirinBless(getNextID(), false, 0000000);
+		attack_up_low = new PotionAttackUpLow(getNextID(), false,4059188);
+		longswordattackup =new LongswordDamageUp(getNextID(), false,0000000);
 	}
 
 	public static void init() {}

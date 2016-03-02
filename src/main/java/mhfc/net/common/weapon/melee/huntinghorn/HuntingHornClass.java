@@ -1,5 +1,6 @@
 package mhfc.net.common.weapon.melee.huntinghorn;
 
+import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.helper.MHFCWeaponClassingHelper;
 import mhfc.net.common.util.Cooldown;
 import mhfc.net.common.util.lib.MHFCReference;
@@ -16,14 +17,17 @@ import net.minecraft.world.World;
 public class HuntingHornClass extends WeaponMelee {
 
 	protected int cooldown;
+	protected int stunChances;
 	protected PotionEffect g;
 
-	public HuntingHornClass(ToolMaterial getType, int Cooldown) {
+	public HuntingHornClass(ToolMaterial getType, int Cooldown, int StunCooldown) {
 		super(new ComponentMelee(WeaponSpecs.HUNTINGHORN, getType));
-		getWeaponDescription(MHFCWeaponClassingHelper.huntinghornname);
+		labelWeaponClass(MHFCWeaponClassingHelper.huntinghornname);
 		setTextureName(MHFCReference.weapon_hh_default_icon);
-		getWeaponTable(-6, 8, 1);
+		getWeaponTable(-3, 8, 1);
 		cooldown = Cooldown;
+		
+		stunChances = StunCooldown;
 	}
 
 	@Override
@@ -38,11 +42,9 @@ public class HuntingHornClass extends WeaponMelee {
 	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target,
 			EntityLivingBase player) {
-		if (poisontype)
-			target.addPotionEffect(new PotionEffect(Potion.poison.id, 10,
-					amplified));
-		if (firetype)
-			target.setFire(1);
+		if (Cooldown.canUse(stack, stunChances)) {
+			target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.stun.id, 10, 5));
+		}
 		meleecomp.hitEntity(stack, target, player);
 		return true;
 	}

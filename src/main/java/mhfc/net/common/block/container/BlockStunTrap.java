@@ -125,7 +125,7 @@ public class BlockStunTrap extends BlockContainer {
 		// world.getTileEntity(i,
 		// j, k);
 		entityliving.addPotionEffect(new PotionEffect(
-				MHFCPotionRegistry.shock.id, 500, 10));
+				MHFCPotionRegistry.stun.id, 500, 10));
 		return;
 
 	}

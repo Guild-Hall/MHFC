@@ -4,6 +4,7 @@ import mhfc.net.common.weapon.melee.greatsword.GreatswordClass;
 import mhfc.net.common.weapon.melee.hammer.HammerClass;
 import mhfc.net.common.weapon.melee.huntinghorn.HuntingHornClass;
 import mhfc.net.common.weapon.melee.longsword.LongswordClass;
+import mhfc.net.common.weapon.range.bow.BowClass;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -153,7 +154,7 @@ public enum ItemType {
 		@Override
 		public boolean isTypeOf(Item item) {
 			// TODO Auto-generated method stub
-			return false;
+			return (item instanceof BowClass);
 		}
 
 		@Override

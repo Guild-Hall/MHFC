@@ -7,9 +7,9 @@ public class GSDeviljhobroadsword extends GreatswordClass {
 
 	public GSDeviljhobroadsword() {
 		super(MHFCWeaponMaterialHelper.GSDeviljho);
-		getWeaponDescription("No Element", 6);
+		labelWeaponRarity(6);
 		setUnlocalizedName(MHFCReference.weapon_gs_deviljho_name);
-		elementalType(false, false);
+		elementalType(false, false, false, false, false, false, false, false);
 	}
 
 }

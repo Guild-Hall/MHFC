@@ -47,6 +47,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	protected static final int DATA_FRAME = 12;
 	private final TargetTurnHelper turnHelper;
 	private AIActionManager<YC> attackManager;
+	
+	public int deathTime;
+	public boolean mobDead = false;
 
 	@SuppressWarnings("unchecked")
 	public EntityMHFCBase(World world) {
@@ -72,6 +75,20 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	public void dropItemRand(Item item, int count) {
 		dropItemRand(new ItemStack(item, count, 0));
 	}
+	
+	@Override
+    public int getTotalArmorValue() {
+        return 10;
+    }
+	
+	 protected void onDeathUpdate() {
+		 super.onDeathUpdate();
+		 deathTime++;
+		 mobDead = true;
+		 if(deathTime == 50){
+			 this.setDead();
+		 }
+	    }
 
 	@Override
 	protected void entityInit() {
@@ -96,16 +113,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		worldObj.spawnEntityInWorld(entityItem);
 	}
 
-	public double healthbaseHP(double lowhp, double medhp, double highhp) {
+	public double healthbaseHP(double lowRankHealthPoints, double highRankHealthPoints, double GRankHealthPoints) {
 		// FIXME: we can do that better
-		if (this.rand.nextInt(60) == 0) {
-			return medhp;
-		} else if (this.rand.nextInt(120) == 0) {
-			return highhp;
-		} else if (this.rand.nextInt(80) == 0) {
-			return lowhp;
-		}
-		return medhp;
+		return lowRankHealthPoints;
 	}
 
 	// FIXME: will update location, rotation set algs in 1.8, bc huge changes

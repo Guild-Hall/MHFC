@@ -16,10 +16,9 @@ import net.minecraft.util.Vec3;
  */
 public class DeviljhoBiteA extends ActionAdapter<EntityDeviljho> {
 	private static final int LAST_FRAME = 35;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(72f, 62f, 8888f);
+	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(72f, 50F,9999999f);
 
 	private static final double MAX_DIST = 5f;
-	private static final double MAX_ANGLE = 0.155; // This is cos(30)
 	private static final float WEIGHT = 3;
 
 	public DeviljhoBiteA() {
@@ -46,6 +45,10 @@ public class DeviljhoBiteA extends ActionAdapter<EntityDeviljho> {
 
 	@Override
 	public void update() {
+		
+		EntityDeviljho entity = this.getEntity();
+		target = entity.getAttackTarget();
+		
 		if (this.getCurrentFrame() == 25) {
 			getEntity().playSound("mhfc:deviljho.bite", 1.0F, 1.0F);
 		}

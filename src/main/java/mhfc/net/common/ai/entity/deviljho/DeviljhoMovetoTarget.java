@@ -19,7 +19,7 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 
 	private static final double RUN_SPEED = 0.6;
 	private static final double STOP_SPEED = 0.4;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(47f, 92f, 1000f);
+	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(47f, 50f, 9999999f);
 	private static final double MAX_DIST = 3f;
 
 	private static enum PastEntityEnum {

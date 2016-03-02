@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.UUID;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.helper.MHFCWeaponClassingHelper;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.Cooldown;
 import mhfc.net.common.weapon.ComponentMelee;
-import mhfc.net.common.weapon.IItemWeapon;
+import mhfc.net.common.weapon.IWeaponCluster;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,6 +18,8 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
@@ -31,29 +34,69 @@ import cpw.mods.fml.relauncher.SideOnly;
  *
  * Easy Class for making weapons with effects.
  */
-public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
+public abstract class WeaponMelee extends ItemSword implements IWeaponCluster {
 
 	protected ComponentMelee meleecomp;
-	protected String des1, des2, des3; // <--- Shorten the handles
+	protected String des1,  des3 , des2; // <--- Shorten the handles
 	protected float damage, damageincrease, matDamage, matReduction, knockback;
 	protected int attackdelay, rarity, meta, amplified, getcooldown;
 	protected Item.ToolMaterial weaponMat;
-	protected boolean poisontype, firetype, enableCooldownDisplay;
+	protected boolean enableCooldownDisplay;
+	protected double getDamageAnalysis;
+	
+	public static float getDamageB;
+	
+	public int counter;
+	public int hits = 0;
+	
+	public boolean poisontype, firetype, icetype, watertype, dragontype, thundertype, blighttype, windtype;
 
 	public WeaponMelee(ComponentMelee weaponf) {
-		super((weaponf.weaponMaterial == null
-				? ToolMaterial.WOOD
-				: weaponf.weaponMaterial));
+		super((weaponf.weaponMaterial == null? ToolMaterial.WOOD: weaponf.weaponMaterial));
 		setCreativeTab(MHFCMain.mhfctabs);
 		setFull3D();
 		meleecomp = weaponf;
 		meleecomp.setItem(this);
 		meleecomp.setThisItemProperties();
+		getDamageAnalysis = 0;
+		getDamageB = meleecomp.weaponSpecs.attackBase;
 	}
+	
 
-	public void elementalType(boolean poison, boolean fire) {
+	
+	public void elementalType(boolean poison, boolean fire, boolean ice, boolean water, boolean dragon, boolean thunder, boolean blight,boolean wind) {
 		poisontype = poison;
 		firetype = fire;
+		icetype = ice;
+		watertype = water;
+		dragontype = dragon;
+		thundertype = thunder;
+		blighttype = blight;
+		windtype = wind;
+		
+	}
+	
+	
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public void addInformation(ItemStack par1ItemStack,
+			EntityPlayer par2EntityPlayer,
+			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
+		par3List.add(ColorSystem.gold + des1);
+		par3List.add(ColorSystem.light_purple + des2);
+		par3List.add(ColorSystem.yellow + "Rarity: " + rarity);
+		if (enableCooldownDisplay)
+			Cooldown.displayCooldown(par1ItemStack, par3List, getcooldown);
+		des2 = MHFCWeaponClassingHelper.noelementname;
+		if(poisontype) des2 = MHFCWeaponClassingHelper.poisonname;
+		if(firetype) des2 = MHFCWeaponClassingHelper.firename;
+		if(icetype) des2 = MHFCWeaponClassingHelper.icename;
+		if(watertype) des2 = MHFCWeaponClassingHelper.watername;
+		if(dragontype) des2 = MHFCWeaponClassingHelper.dragonname;
+		if(thundertype) des2 = MHFCWeaponClassingHelper.thundername;
+		if(blighttype) des2 = MHFCWeaponClassingHelper.blightname;
+		if(windtype) des2 = MHFCWeaponClassingHelper.windname;
 	}
 
 	public float getEntityDamage() {
@@ -61,10 +104,8 @@ public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
 			return 0;
 		return matDamage;
 	}
-
-	@Deprecated
-	// will rework soon
-	public void getWeaponDescription(String title) {
+	
+	public void labelWeaponClass(String title) {
 		des1 = title;
 	}
 
@@ -75,8 +116,7 @@ public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
 		meta = metaData;
 	}
 
-	public void getWeaponDescription(String second, int rareity) {
-		des2 = second;
+	public void labelWeaponRarity(int rareity) {
 		rarity = rareity;
 	}
 
@@ -101,17 +141,7 @@ public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
 
 	}
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public void addInformation(ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
-		par3List.add(ColorSystem.gold + des1);
-		par3List.add(ColorSystem.dark_green + des2);
-		par3List.add(ColorSystem.yellow + "Rarity: " + rarity);
-		if (enableCooldownDisplay)
-			Cooldown.displayCooldown(par1ItemStack, par3List, getcooldown);
-	}
+	
 
 	@Override
 	public float func_150931_i() {
@@ -129,8 +159,7 @@ public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
 	}
 
 	@Override
-	public boolean hitEntity(ItemStack itemstack,
-			EntityLivingBase entityliving, EntityLivingBase attacker) {
+	public boolean hitEntity(ItemStack itemstack,EntityLivingBase entityliving, EntityLivingBase attacker) {
 		return meleecomp.hitEntity(itemstack, entityliving, attacker);
 	}
 
@@ -181,9 +210,10 @@ public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
 	}
 
 	@Override
-	public void onUpdate(ItemStack itemstack, World world, Entity entity,
+	public void onUpdate(ItemStack itemstack, World world, Entity par3Entity,
 			int i, boolean flag) {
-		meleecomp.onUpdate(itemstack, world, entity, i, flag);
+		meleecomp.onUpdate(itemstack, world, par3Entity, i, flag);
+		
 	}
 
 	@Override
@@ -208,5 +238,6 @@ public abstract class WeaponMelee extends ItemSword implements IItemWeapon {
 	public ComponentMelee getMeleeComponent() {
 		return meleecomp;
 	}
+	
 
 }

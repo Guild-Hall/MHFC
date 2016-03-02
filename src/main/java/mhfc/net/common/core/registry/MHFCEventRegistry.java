@@ -6,9 +6,10 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.eventhandler.MHFCGuiHandler;
 import mhfc.net.common.eventhandler.MHFCJobHandler;
 import mhfc.net.common.eventhandler.MHFCTickHandler;
+import mhfc.net.common.eventhandler.entity.PitfallEvent;
+import mhfc.net.common.eventhandler.player.CombatEventHandler;
 import mhfc.net.common.eventhandler.player.ConnectionEventHandler;
 import mhfc.net.common.eventhandler.player.MHFCCapeEventHandler;
-import mhfc.net.common.eventhandler.potion.PotionPitfallEventHandler;
 import net.minecraftforge.common.MinecraftForge;
 
 public class MHFCEventRegistry {
@@ -34,18 +35,17 @@ public class MHFCEventRegistry {
 		NetworkRegistry.INSTANCE.registerGuiHandler(mod, MHFCGuiHandler.instance);
 	}
 
-	private static void registerNetworkEventHandlers() {
-	}
+	private static void registerNetworkEventHandlers() {}
 
 	private static void registerWorldEventHandlers() {
 		FMLCommonHandler.instance().bus().register(ConnectionEventHandler.instance);
+		FMLCommonHandler.instance().bus().register(CombatEventHandler.instance);
 	}
 
-	private static void registerEntityEventHandlers() {
-	}
+	private static void registerEntityEventHandlers() {}
 
 	private static void registerPotionEventHandlers() {
-		MinecraftForge.EVENT_BUS.register(PotionPitfallEventHandler.instance);
+		MinecraftForge.EVENT_BUS.register(PitfallEvent.instance);
 	}
 
 	private static void registerMiscEventHandlers() {

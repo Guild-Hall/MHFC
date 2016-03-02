@@ -6,9 +6,9 @@ import mhfc.net.common.util.lib.MHFCReference;
 public class LSMirageFinswordplus extends LongswordClass {
 
 	public LSMirageFinswordplus() {
-		super(MHFCWeaponMaterialHelper.LSMirageFinswordplus);
-		getWeaponDescription("No Element", 6);
-		elementalType(false, false);
+		super(MHFCWeaponMaterialHelper.LSMirageFinswordplus, 120);
+		labelWeaponRarity(6);
+		elementalType(false, false, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_ls_miragefinswordplus_name);
 	}
 

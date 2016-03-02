@@ -6,6 +6,8 @@ import java.util.Random;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import mhfc.net.common.helper.MHFCWeaponClassingHelper;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.Cooldown;
@@ -150,7 +152,7 @@ public class BowClass extends Item {
 		super.onPlayerStoppedUsing(stack, par2World, player, par4);
 		int maxItemUse = getMaxItemUseDuration(stack) - par4;
 		boolean flag = (player.capabilities.isCreativeMode);
-		if (player.inventory.hasItem(Items.arrow) || flag) {
+		if (player.inventory.hasItem(MHFCItemRegistry.mhfcitemarrow) || flag) {
 
 			float f = maxItemUse / 20.0F;
 			f = ((f * f) + (f * 2.0F)) / 3.0F;
@@ -159,7 +161,7 @@ public class BowClass extends Item {
 				return;
 			}
 
-			EntityArrow entityarrow = new EntityArrow(par2World, player, f * 2.0F);
+			EntityWyverniaArrow entityarrow = new EntityWyverniaArrow(par2World, player, f * 2.0F);
 			boolean crit = new Random().nextInt(10) == 0 ? true : false;
 
 			entityarrow.setIsCritical(crit);
@@ -172,13 +174,13 @@ public class BowClass extends Item {
 				f = 1.0F;
 			}
 
-			entityarrow.setDamage(entityarrow.getDamage() + (flag ? 2D : 1D));
-			entityarrow.setKnockbackStrength(1);
+			entityarrow.setDamage(entityarrow.getDamage() + (flag ? 8D : 2D));
+			
 
 			if (flag) {
 				entityarrow.canBePickedUp = 2;
 			} else {
-				player.inventory.consumeInventoryItem(Items.arrow);
+				player.inventory.consumeInventoryItem(MHFCItemRegistry.mhfcitemarrow);
 			}
 			if (!par2World.isRemote) {
 				par2World.spawnEntityInWorld(entityarrow);
@@ -188,6 +190,8 @@ public class BowClass extends Item {
 					(1.0F / ((itemRand.nextFloat() * 0.4F) + 1.2F)) + (f * 0.5F));
 		}
 	}
+	
+	
 
 	@Override
 	public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {

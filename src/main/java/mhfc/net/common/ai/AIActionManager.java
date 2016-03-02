@@ -41,21 +41,24 @@ public class AIActionManager<EntType extends EntityLiving & IManagedActions<EntT
 	}
 
 	protected void sendUpdate() {
-		if (!this.entity.worldObj.isRemote)
+		if (!this.entity.worldObj.isRemote) {
 			PacketPipeline.networkPipe
 					.sendToAll(new MessageAIAttack<EntType>(this.entity, this.attacks.indexOf(activeAttack)));
+		}
 	}
 
 	protected void swapAttacks(
 			IExecutableAction<? super EntType> oldAttack,
 			IExecutableAction<? super EntType> newAttack) {
 		this.entity.onAttackEnd(oldAttack);
-		if (oldAttack != null)
+		if (oldAttack != null) {
 			oldAttack.finishAction();
+		}
 		this.activeAttack = newAttack;
 		this.entity.onAttackStart(newAttack);
-		if (newAttack != null)
+		if (newAttack != null) {
 			newAttack.beginAction();
+		}
 		MHFCMain.logger.debug("Manager for entity {} switched to attack {}", this.entity, this.activeAttack);
 		sendUpdate();
 	}
@@ -67,14 +70,14 @@ public class AIActionManager<EntType extends EntityLiving & IManagedActions<EntT
 		if (this.activeAttack == null) {
 			IExecutableAction<? super EntType> nextAttack = chooseAttack();
 			if (nextAttack == null) {
-				MHFCMain.logger.debug("Did not choose any attack, not executing");
 				return false;
 			}
 			swapAttacks(null, nextAttack);
 		}
 
-		if (this.activeAttack.shouldContinue())
+		if (this.activeAttack.shouldContinue()) {
 			return true;
+		}
 		return executeNextAttack();
 	}
 
@@ -83,8 +86,9 @@ public class AIActionManager<EntType extends EntityLiving & IManagedActions<EntT
 	 */
 	protected boolean executeNextAttack() {
 		IExecutableAction<? super EntType> nextAttack = chooseAttack();
-		if (nextAttack == null)
+		if (nextAttack == null) {
 			return false;
+		}
 		swapAttacks(this.activeAttack, nextAttack);
 		return true;
 	}

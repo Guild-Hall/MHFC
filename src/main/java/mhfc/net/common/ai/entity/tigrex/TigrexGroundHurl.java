@@ -2,7 +2,7 @@ package mhfc.net.common.ai.entity.tigrex;
 
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.entity.monster.EntityTigrex;
-import mhfc.net.common.entity.projectile.EntityTigrexBlock;
+import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.Vec3;
 
@@ -29,15 +29,18 @@ public class TigrexGroundHurl extends ActionAdapter<EntityTigrex> {
 	public float getWeight() {
 		EntityTigrex tigrex = this.getEntity();
 		target = tigrex.getAttackTarget();
-		if (target == null)
+		if (target == null) {
 			return DONT_SELECT;
+		}
 		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
-		if (toTarget.normalize().dotProduct(tigrex.getLookVec()) < MAX_ANGLE)
+		if (toTarget.normalize().dotProduct(tigrex.getLookVec()) < MAX_ANGLE) {
 			return DONT_SELECT;
+		}
 		double dist = toTarget.lengthVector();
 		int weight = weightFactor;
-		if (weightFactor > 1)
+		if (weightFactor > 1) {
 			weightFactor--;
+		}
 		return (float) (dist - MIN_DIST) / (weight);
 	}
 
@@ -51,8 +54,9 @@ public class TigrexGroundHurl extends ActionAdapter<EntityTigrex> {
 
 	@Override
 	public void update() {
-		if (thrown)
+		if (thrown) {
 			return;
+		}
 		EntityTigrex tigrex = getEntity();
 		if (getCurrentFrame() < THROW_FRAME) {
 			if (getCurrentFrame() < TURN_FRAMES) {
@@ -65,7 +69,7 @@ public class TigrexGroundHurl extends ActionAdapter<EntityTigrex> {
 		Vec3 lookVec = tigrex.getLookVec();
 		Vec3 rightSide = lookVec.crossProduct(Vec3.createVectorHelper(0, 1, 0));
 		for (int i = 0; i < 3; i++) {
-			EntityTigrexBlock block = new EntityTigrexBlock(tigrex.worldObj, tigrex);
+			EntityProjectileBlock block = new EntityProjectileBlock(tigrex.worldObj, tigrex);
 			double xCo = look.xCoord;
 			double yCo = look.yCoord + THROW_HEIGHT;
 			double zCo = look.zCoord;

@@ -16,10 +16,10 @@ import net.minecraft.world.World;
 public class HHMetalBagpipe extends HuntingHornClass {
 
 	public HHMetalBagpipe() {
-		super(MHFCWeaponMaterialHelper.HHMetalBagpipe, 2500);
+		super(MHFCWeaponMaterialHelper.HHMetalBagpipe, 2500, 600);
 		setUnlocalizedName(MHFCReference.weapon_hh_metalbagpipe_name);
-		getWeaponDescription("No Element", 2);
-		elementalType(false, false);
+		labelWeaponRarity(2);
+		elementalType(false, false, blighttype, blighttype, blighttype, blighttype, blighttype, blighttype);
 		enableCooldownDisplay = true;
 	}
 

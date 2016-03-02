@@ -7,8 +7,8 @@ public class GSBone extends GreatswordClass {
 
 	public GSBone() {
 		super(MHFCWeaponMaterialHelper.GSBoneBlade);
-		getWeaponDescription("No Element", 1);
-		elementalType(false, false);
+		labelWeaponRarity(1);
+		elementalType(false, false, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_gs_bone_name);
 	}
 

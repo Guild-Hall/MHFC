@@ -12,10 +12,9 @@ import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
  */
 public class DeviljhoBiteB extends DeviljhoBiteA {
 	private static final int LAST_FRAME = 40;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(44f, 62f, 1600f);
+	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(44f, 50F, 9999999f);
 
 	private static final double MAX_DIST = 9f;
-	private static final double MAX_ANGLE = 0.155; // This is cos(30)
 	private static final float WEIGHT = 4;
 
 	public DeviljhoBiteB() {

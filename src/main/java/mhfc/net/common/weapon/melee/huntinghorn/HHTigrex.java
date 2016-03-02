@@ -16,10 +16,10 @@ import net.minecraft.world.World;
 public class HHTigrex extends HuntingHornClass {
 
 	public HHTigrex() {
-		super(MHFCWeaponMaterialHelper.HHTigrex, 3600);
+		super(MHFCWeaponMaterialHelper.HHTigrex, 3600, 550);
 		setUnlocalizedName(MHFCReference.weapon_hh_tigrex_name);
-		getWeaponDescription("No Element", 4);
-		elementalType(false, false);
+		labelWeaponRarity(4);
+		elementalType(false, false, false, false, false, false, false, false);
 		enableCooldownDisplay = true;
 	}
 

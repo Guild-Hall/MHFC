@@ -87,7 +87,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		super.applyEntityAttributes();
 		getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(9000D, 13888D, 18465D));
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(5500D, 11000D, 22000D));
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.43D);
 	}
@@ -106,12 +106,14 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	private Vec3 getRelativePositionOfBone(String name) {
 		int frame = getCurrentFrame();
 		IAnimation animation = getAttackManager().getCurrentAnimation();
-		if (animation == null)
+		if (animation == null) {
 			return Vec3.createVectorHelper(0, 0, 0);
+		}
 		BoneTransformation boneTrans = animation.getCurrentTransformation(name, frame);
 		// FIXME find out why the bones give null pointers and fix thise
-		if (boneTrans == null)
+		if (boneTrans == null) {
 			return Vec3.createVectorHelper(0, 0, 0);
+		}
 		Matrix4f transform = boneTrans.asMatrix();
 		Vec3 relativePosition = Vec3.createVectorHelper(transform.m03, transform.m13, transform.m23);
 		return relativePosition;

@@ -6,9 +6,9 @@ import mhfc.net.common.util.lib.MHFCReference;
 public class HTigrex extends HammerClass {
 
 	public HTigrex() {
-		super(MHFCWeaponMaterialHelper.HTigrex);
-		getWeaponDescription("No Element", 5);
-		elementalType(false, false);
+		super(MHFCWeaponMaterialHelper.HTigrex, 450);
+		labelWeaponRarity(3);
+		elementalType(false, false, false, false, false, false, false, false);
 		setUnlocalizedName(MHFCReference.weapon_hm_tigrex_name);
 	}
 
