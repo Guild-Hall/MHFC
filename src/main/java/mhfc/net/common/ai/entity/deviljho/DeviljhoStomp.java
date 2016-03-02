@@ -44,7 +44,7 @@ public class DeviljhoStomp extends ActionAdapter<EntityDeviljho> {
 		return WEIGHT;
 	}
 
-	private void updateThrow() {
+	private void updateStomp() {
 		EntityDeviljho entity = this.getEntity();
 		if (!entity.onGround || thrown || this.getCurrentFrame() < 26)
 			return;
@@ -57,8 +57,8 @@ public class DeviljhoStomp extends ActionAdapter<EntityDeviljho> {
 		if (block != Blocks.air) {
 			block = Blocks.dirt;
 		}
-		for (int x = 0; x < 10; x++) {
-			for (int z = 0; z < 10; z++) {
+		for (int x = 0; x < 100; x++) {
+			for (int z = 0; z < 100; z++) {
 				entity.worldObj.spawnParticle("blockcrack_" + Block.getIdFromBlock(block) + "_0", entity.posX - 5.0D + x, entity.posY + 0.5D, entity.posZ - 5.0D + z, random.nextGaussian(), random.nextGaussian(), random.nextGaussian());
 			}
 		}
@@ -67,8 +67,8 @@ public class DeviljhoStomp extends ActionAdapter<EntityDeviljho> {
 				continue;
 			}
 			EntityLivingBase living = (EntityLivingBase) entity;
-				entity.attackEntityFrom(DamageSource.causeMobDamage(entity), 60.0F);
-				entity.addVelocity(0.4, 0, 0);
+				entity1.attackEntityFrom(DamageSource.causeMobDamage(entity), 60.0F);
+				entity1.addVelocity(-0.2, 0.2, 0);
 			}
 		entity.playSound("mhfc:deviljho-bite", 1.0F, 1.0F);
 		thrown = true;	
@@ -79,7 +79,7 @@ public class DeviljhoStomp extends ActionAdapter<EntityDeviljho> {
 		EntityDeviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
 		
-		updateThrow();
+		updateStomp();
 
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			EntityDeviljho e = getEntity();
