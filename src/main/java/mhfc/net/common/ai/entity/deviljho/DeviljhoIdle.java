@@ -1,24 +1,20 @@
 package mhfc.net.common.ai.entity.deviljho;
 
-import mhfc.net.common.ai.ActionAdapter;
+import mhfc.net.common.ai.general.actions.AIGeneralIdle;
+import mhfc.net.common.ai.general.provider.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 
-public class DeviljhoIdle extends ActionAdapter<EntityDeviljho> {
+public class DeviljhoIdle extends AIGeneralIdle<EntityDeviljho> {
 
 	private static final int LAST_FRAME = 100;
+	public static final String ANIMATION = "mhfc:models/Deviljho/DeviljhoIdle.mcanm";
+	public static final float WEIGHT = 3;
 
 	public DeviljhoIdle() {
-		setLastFrame(LAST_FRAME);
-		setAnimation("mhfc:models/Deviljho/DeviljhoIdle.mcanm");
-	}
-
-	@Override
-	public float getWeight() {
-		EntityDeviljho entity = this.getEntity();
-		target = entity.getAttackTarget();
-		if (target != null)
-			return DONT_SELECT;
-		return rng().nextFloat() * 3;
+		super(
+				new IAnimationProvider.AnimationAdapter(ANIMATION, LAST_FRAME),
+				new IWeightProvider.RandomWeightAdapter<>(WEIGHT));
 	}
 
 	@Override

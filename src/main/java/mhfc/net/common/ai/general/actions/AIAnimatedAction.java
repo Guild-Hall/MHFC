@@ -65,6 +65,7 @@ public abstract class AIAnimatedAction<EntityT extends EntityCreature> extends A
 
 	@Override
 	protected void beginExecution() {
+		super.beginExecution();
 		setAnimation(provider.getAnimationLocation());
 		setLastFrame(provider.getAnimationLength());
 	}

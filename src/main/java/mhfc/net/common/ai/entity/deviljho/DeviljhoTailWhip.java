@@ -20,13 +20,17 @@ public class DeviljhoTailWhip extends AIGeneralTailWhip<EntityDeviljho> {
 	}
 
 	private static ISpinProvider<EntityDeviljho> generateProvider() {
-		IAnimationProvider anim = new IAnimationProvider.AnimationAdapter("mhfc:models/Deviljho/tailswipe.mcanm",
+		IAnimationProvider anim = new IAnimationProvider.AnimationAdapter(
+				"mhfc:models/Deviljho/tailswipe.mcanm",
 				LAST_FRAME);
 		IDamageProvider dmg = new IDamageProvider.DamageAdapter(AIUtils.defaultDamageCalc(85, 50, 9999999f));
 		IWeightProvider<EntityDeviljho> weight = new IWeightProvider.SimpleWeightAdapter<>(5F);
-		ISelectionPredicate<EntityDeviljho> pred = new ISelectionPredicate.SelectionAdapter<>(MIN_RIGHT_ANGLE, 180,
-				MIN_DIST, MAX_DISTANCE);
-		ISpinProvider<EntityDeviljho> provide = new AIGeneralTailWhip.TailWhipAdapter<>(anim, weight, dmg, pred);
+		ISelectionPredicate<EntityDeviljho> pred = new ISelectionPredicate.SelectionAdapter<>(
+				MIN_RIGHT_ANGLE,
+				180,
+				MIN_DIST,
+				MAX_DISTANCE);
+		ISpinProvider<EntityDeviljho> provide = new AIGeneralTailWhip.TailWhipAdapter<>(anim, weight, pred, dmg);
 		return provide;
 	}
 

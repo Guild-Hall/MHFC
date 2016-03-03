@@ -146,9 +146,7 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 	private int framesRunning;
 	private int runCycles;
 
-	public DeviljhoMovetoTarget() {
-		setAnimation("mhfc:models/Deviljho/DeviljhoWalk.mcanm");
-	}
+	public DeviljhoMovetoTarget() {}
 
 	@Override
 	public float getWeight() {
@@ -168,6 +166,8 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 
 	@Override
 	public void beginExecution() {
+		setAnimation("mhfc:models/Deviljho/DeviljhoWalk.mcanm");
+
 		EntityDeviljho mob = getEntity();
 		target = mob.getAttackTarget();
 		mob.playSound("mhfc:deviljho.roar", 1.0F, 1.0F);

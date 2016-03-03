@@ -1,6 +1,5 @@
 package mhfc.net.common.ai.entity.rathalos;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.actions.AIAnimatedAction;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;
@@ -38,8 +37,6 @@ public class FireballAttack extends AIAnimatedAction<EntityRathalos> {
 					IExecutableAction<? super EntityRathalos> attack,
 					EntityRathalos actor,
 					Entity target) {
-				MHFCMain.logger.debug("Actor {} , Target {}", actor, target);
-				MHFCMain.logger.debug("Fireball available {}", actor.getStance() == Stances.GROUND);
 				return actor.getStance() == Stances.GROUND && super.shouldSelectAttack(attack, actor, target);
 			}
 		};

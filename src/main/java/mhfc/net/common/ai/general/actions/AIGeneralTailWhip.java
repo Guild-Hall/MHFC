@@ -1,71 +1,30 @@
 package mhfc.net.common.ai.general.actions;
 
-import java.util.Objects;
-
-import mhfc.net.common.ai.IExecutableAction;
-import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.IDamageProvider;
 import mhfc.net.common.ai.general.provider.ISelectionPredicate;
 import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.type.EntityMHFCBase;
-import net.minecraft.entity.Entity;
 
-public class AIGeneralTailWhip<EntityT extends EntityMHFCBase<? super EntityT>> extends AIAnimatedAction<EntityT> {
+public class AIGeneralTailWhip<EntityT extends EntityMHFCBase<? super EntityT>> extends AIGeneralAttack<EntityT> {
 
 	public static interface ISpinProvider<EntityT extends EntityMHFCBase<? super EntityT>>
 			extends
-			IAnimatedActionProvider<EntityT>,
-			IDamageProvider {
+			IAttackProvider<EntityT> {
 
 	}
 
 	public static class TailWhipAdapter<EntityT extends EntityMHFCBase<? super EntityT>>
-			implements
-			ISpinProvider<EntityT> {
-		private IAnimationProvider animationProvider;
-		private ISelectionPredicate<EntityT> predicate;
-		private IWeightProvider<EntityT> weightProvider;
-		private IDamageProvider damageProvider;
+			extends
+			AIGeneralAttack.AttackAdapter<EntityT> implements ISpinProvider<EntityT> {
 
 		public TailWhipAdapter(
 				IAnimationProvider ANIMPROVIDER,
 				IWeightProvider<EntityT> WEIGHTPROVIDER,
-				IDamageProvider DAMAGEPROVIDER,
-				ISelectionPredicate<EntityT> PREDICATE) {
-			animationProvider = ANIMPROVIDER;
-			damageProvider = DAMAGEPROVIDER;
-			weightProvider = Objects.requireNonNull(WEIGHTPROVIDER);
-			predicate = Objects.requireNonNull(PREDICATE);
-
+				ISelectionPredicate<EntityT> PREDICATE,
+				IDamageProvider DAMAGEPROVIDER) {
+			super(ANIMPROVIDER, WEIGHTPROVIDER, PREDICATE, DAMAGEPROVIDER);
 		}
-
-		@Override
-		public String getAnimationLocation() {
-			return animationProvider.getAnimationLocation();
-		}
-
-		@Override
-		public int getAnimationLength() {
-			return animationProvider.getAnimationLength();
-		}
-
-		@Override
-		public boolean shouldSelectAttack(IExecutableAction<? super EntityT> attack, EntityT actor, Entity target) {
-			return predicate.shouldSelectAttack(attack, actor, target);
-		}
-
-		@Override
-		public float getWeight(EntityT entity, Entity target) {
-			return weightProvider.getWeight(entity, target);
-		}
-
-		@Override
-		public IDamageCalculator getDamageCalculator() {
-			return damageProvider.getDamageCalculator();
-		}
-
 	}
 
 	protected ISpinProvider<EntityT> provider;
@@ -74,19 +33,6 @@ public class AIGeneralTailWhip<EntityT extends EntityMHFCBase<? super EntityT>> 
 		super(PROVIDER);
 		this.provider = PROVIDER;
 		dmgHelper.setDamageCalculator(provider.getDamageCalculator());
-		setAnimation(provider.getAnimationLocation());
-		setLastFrame(provider.getAnimationLength());
-	}
-
-	@Override
-	public void beginExecution() {
-		super.beginExecution();
-		getEntity().getNavigator().clearPathEntity();
-	}
-
-	@Override
-	protected void update() {
-		AIUtils.damageCollidingEntities(this.getEntity(), dmgHelper.getCalculator());
 	}
 
 }

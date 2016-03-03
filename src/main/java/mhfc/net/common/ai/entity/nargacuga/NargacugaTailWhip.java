@@ -29,7 +29,7 @@ public class NargacugaTailWhip extends AIGeneralTailWhip<EntityNargacuga> {
 				MAX_ANGLE,
 				0,
 				MAX_DISTANCE);
-		TailWhipAdapter<EntityNargacuga> adapter = new TailWhipAdapter<>(anim, weight, damage, predicate);
+		TailWhipAdapter<EntityNargacuga> adapter = new TailWhipAdapter<>(anim, weight, predicate, damage);
 		return adapter;
 	}
 
