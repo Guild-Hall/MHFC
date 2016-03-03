@@ -67,8 +67,8 @@ public class DeviljhoStomp extends ActionAdapter<EntityDeviljho> {
 				continue;
 			}
 			EntityLivingBase living = (EntityLivingBase) entity;
-				entity.attackEntityFrom(DamageSource.causeMobDamage(entity), 60.0F);
-				entity.addVelocity(0.4, 0, 0);
+				entity1.attackEntityFrom(DamageSource.causeMobDamage(entity), 60.0F);
+				entity1.addVelocity(-0.4, 0.25, 0);
 			}
 		entity.playSound("mhfc:deviljho-bite", 1.0F, 1.0F);
 		thrown = true;	

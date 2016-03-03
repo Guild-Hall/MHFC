@@ -34,12 +34,12 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 			EntityPlayer.class, 0, true));
 
 		AIActionManager<EntityDeviljho> attackManager = getAIActionManager();
-	//	attackManager.registerAttack(new DeviljhoIdle());
-	//	attackManager.registerAttack(new DeviljhoMovetoTarget());
-	//	attackManager.registerAttack(new DeviljhoRoar());
-	//	attackManager.registerAttack(new DeviljhoBiteA());
-	//	attackManager.registerAttack(new DeviljhoBiteB());
-	//	attackManager.registerAttack(new DeviljhoTailWhip());
+	attackManager.registerAttack(new DeviljhoIdle());
+		attackManager.registerAttack(new DeviljhoMovetoTarget());
+		attackManager.registerAttack(new DeviljhoRoar());
+		attackManager.registerAttack(new DeviljhoBiteA());
+		attackManager.registerAttack(new DeviljhoBiteB());
+		attackManager.registerAttack(new DeviljhoTailWhip());
 		attackManager.registerAttack(new DeviljhoLaunch());
 		attackManager.registerAttack(new DeviljhoStomp());
 		attackManager.registerAttack(new DeviljhoDeath());
