@@ -10,7 +10,7 @@ import net.minecraft.util.Vec3;
 
 public class AIUtilsTest {
 
-	public static final double delta = 0.001d;
+	public static final double delta = 0.1d;
 
 	@Before
 	public void setUp() throws Exception {}
