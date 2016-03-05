@@ -70,6 +70,5 @@
     "tigrex.clawswipe": {"category": "hostile", "sounds": ["mob/tigrex/clawswipe"]},
     "tigrex.step": {"category": "hostile", "sounds": ["mob/tigrex/step"]},
     "tigrex.tailwhip": {"category": "hostile", "sounds": ["mob/tigrex/tailwhip"]}
-    "tigrex.spin": {"category": "hostile", "sounds": ["mob/tigrex/spin"]}
-    "tigrex.death": {"category": "hostile", "sounds": ["mob/tigrex/death"]},
+    "tigrex.spin": {"category":"hostile", "sounds": ["mob/tigrex/spin"]
 }
