@@ -35,6 +35,13 @@
     "greatjaggi.roar": {"category": "hostile", "sounds": ["mob/greatjaggi/roar"]},
     "greatjaggi.tailwhip": {"category": "hostile", "sounds": ["mob/greatjaggi/tailwhip"]},
     
+    "lagiacrus.idle": {"category": "hostile", "sounds": ["mob/lagiacrus/idle1", "mob/lagiacrus/idle2", "mob/lagiacrus/idle3"]},
+    "lagiacrus.charge": {"category": "hostile", "sounds": ["mob/lagiacrus/charge"]},
+    "lagiacrus.bite": {"category": "hostile", "sounds": ["mob/lagiacrus/bite"]},
+    "lagiacrus.discharge": {"category": "hostile", "sounds": ["mob/lagiacrus/discharge"]},
+    "lagiacrus.lightningball": {"category": "hostile", "sounds": ["mob/lagiacrus/lightningball"]},
+    "lagiacrus.roar": {"category": "hostile", "sounds": ["mob/lagiacrus/roar"]},
+    
     "narga.idle": {"category": "hostile", "sounds": ["mob/nargacuga/idle1", "mob/nargacuga/idle2"]},
     "narga.bite": {"category": "hostile", "sounds": ["mob/nargacuga/bite"]},
     "narga.charge": {"category": "hostile", "sounds": ["mob/nargacuga/charge"]},
