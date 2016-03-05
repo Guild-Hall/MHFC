@@ -68,7 +68,7 @@
     "tigrex.roar": {"category": "hostile", "sounds": ["mob/tigrex/roar"]},
     "tigrex.rockthrow": {"category": "hostile", "sounds": ["mob/tigrex/rockthrow"]},
     "tigrex.clawswipe": {"category": "hostile", "sounds": ["mob/tigrex/clawswipe"]},
-    "tigrex.tailwhip": {"category": "hostile", "sounds": ["mob/tigrex/tailwhip"]}
+    "tigrex.tailwhip": {"category": "hostile", "sounds": ["mob/tigrex/tailwhip"]},
     "tigrex.spin": {"category": "hostile", "sounds": ["mob/tigrex/spin"]},
     "tigrex.step": {"category": "hostile", "sounds": ["mob/tigrex/step"]},
     "tigrex.death": {"category": "hostile", "sounds": ["mob/tigrex/death"]},
