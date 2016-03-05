@@ -11,7 +11,7 @@ import java.util.function.IntFunction;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.entity.projectile.EntityLightning;
-import mhfc.net.common.entity.type.EntityWyvernHostile;
+import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -51,7 +51,7 @@ public class Utilities {
 	}
 
 	public static void chargeMobToEntity(
-			EntityWyvernHostile chargingEntity,
+			EntityMHFCBase chargingEntity,
 			Entity target,
 			float distance,
 			float moveSpeed,
@@ -60,10 +60,10 @@ public class Utilities {
 				.getPathEntityToEntity(chargingEntity, target, 16, false, false, dependsonWater, true);
 		if ((pathentity != null) && (distance < 12.0F)) {
 			chargingEntity.setPathToEntity(pathentity);
-			chargingEntity.speed = moveSpeed;
+			//chargingEntity. = moveSpeed;
 		}
 		if ((target != null) && ((dependsonWater = true))) {
-			chargingEntity.speed = moveSpeed / 2D;
+			//chargingEntity.speed = moveSpeed / 2D;
 		}
 	}
 

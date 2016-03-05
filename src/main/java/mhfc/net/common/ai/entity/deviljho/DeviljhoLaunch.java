@@ -20,7 +20,7 @@ public class DeviljhoLaunch extends AIAnimatedAction<EntityDeviljho> {
 	private static final int LAST_FRAME = 50;
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(92f, 62f, 8888f);
 	private static final double MAX_DIST = 6f;
-	private static final float WEIGHT = 6F;
+	private static final float WEIGHT = 7F;
 	private static final double HEIGHT_BLOCK = 0.50D;
 	private static final double SPLIT_MULTIPLIER = 0.535; // from TigrexGroundHurl (C) Andreas.
 
@@ -47,7 +47,7 @@ public class DeviljhoLaunch extends AIAnimatedAction<EntityDeviljho> {
 			if (entity.getAttackTarget() == null) {
 				return;
 			}
-			getEntity().playSound("mhfc:deviljho.bite", 1.0F, 1.0F);
+			getEntity().playSound("mhfc:deviljho.rockthrow", 1.0F, 1.0F);
 
 			AIUtils.damageCollidingEntities(getEntity(), damageCalc);
 			List<Entity> collidingEnts = WorldHelper.collidingEntities(entity);

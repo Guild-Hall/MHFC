@@ -67,4 +67,13 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 		nargacuga.rotationYaw = AIUtils.normalizeAngle(nargacuga.rotationYaw + 180);
 		nargacuga.addVelocity(10e-4, 0, 10e-4);
 	}
+	
+	
+	@Override
+	public void update() {
+		EntityNargacuga nargacuga = getEntity();
+		if(ANIM_LENGTH >= 60){
+			
+		}
+	}
 }

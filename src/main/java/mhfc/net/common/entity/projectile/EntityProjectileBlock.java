@@ -4,7 +4,7 @@ import java.util.List;
 
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.monster.EntityTigrex;
-import mhfc.net.common.entity.type.EntityWyvernHostile;
+import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -56,7 +56,7 @@ public class EntityProjectileBlock extends EntityThrowable {
 		for (Entity entity : list) {
 			if (getDistanceSqToEntity(entity) <= 6.25D) {
 				if (entity instanceof EntityPlayer
-					|| entity instanceof EntityWyvernHostile) {
+					|| entity instanceof EntityMHFCBase) {
 					entity.attackEntityFrom(DamageSource
 						.causeMobDamage(getThrower()), 100 + this.rand
 						.nextInt(17));

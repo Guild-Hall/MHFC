@@ -69,7 +69,7 @@ public class DeviljhoStomp extends AIAnimatedAction<EntityDeviljho> {
 			damageCalc.accept(living);
 			entity1.addVelocity(-0.2, 0.2, 0);
 		}
-		entity.playSound("mhfc:deviljho-bite", 1.0F, 1.0F);
+		entity.playSound("mhfc:deviljho.stomp", 1.0F, 1.0F);
 		thrown = true;
 	}
 

@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import mhfc.net.common.entity.type.EntityWyvernHostile;
-import mhfc.net.common.entity.type.EntityWyvernPeaceful;
+import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -112,7 +111,7 @@ public class AIUtils {
 		public float accept(Entity trgt) {
 			if (trgt instanceof EntityPlayer) {
 				return player;
-			} else if (trgt instanceof EntityWyvernHostile || trgt instanceof EntityWyvernPeaceful) {
+			} else if (trgt instanceof EntityMHFCBase) {
 				return wyvern;
 			}
 			return rest;
