@@ -3,6 +3,8 @@ package mhfc.net.common.entity.projectile;
 import java.util.List;
 
 import mhfc.net.common.entity.type.EntityMHFCBase;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -62,14 +64,22 @@ public class EntityBreathe extends EntityThrowable {
 	public void onUpdate() {
 		super.onUpdate();
 		for (int i = 0; i < 20; i++) {
-			worldObj.spawnParticle(
-					"lava",
-					posX,
-					posY,
-					posZ,
-					rand.nextGaussian(),
-					rand.nextGaussian(),
-					rand.nextGaussian());
+
+			double timePassed = (ticksExisted / 2 + (i * 40)) / 10;
+			double particlePositionX = Math.cos(timePassed) * 2;
+			double particlePositionY = Math.sin(timePassed) * 2;
+			double particlePositionZ = Math.sin(timePassed) * 2;
+			EntityFlameFX particle = new EntityFlameFX(
+					worldObj,
+					posX + particlePositionX,
+					posY - 1.52,
+					posZ + particlePositionZ,
+					0,
+					0,
+					0); // Flame particle constructor
+			particle.setRBGColorF(0.0F, 0.1F, 0.6F); // Sets the color.
+
+			Minecraft.getMinecraft().effectRenderer.addEffect(particle);
 		}
 	}
 
