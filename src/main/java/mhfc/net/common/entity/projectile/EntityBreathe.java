@@ -2,9 +2,9 @@ package mhfc.net.common.entity.projectile;
 
 import java.util.List;
 
-import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,8 +26,8 @@ public class EntityBreathe extends EntityThrowable {
 		super(the_World);
 	}
 
-	public EntityBreathe(World the_World, EntityDeviljho the_Entity, boolean isFire) {
-		super(the_World);
+	public EntityBreathe(World the_World, EntityLivingBase the_Entity, boolean isFire) {
+		super(the_World, the_Entity);
 		flameable = isFire;
 	}
 

@@ -36,7 +36,7 @@ public class DeviljhoFrontalBreathe extends AIAnimatedAction<EntityDeviljho> {
 		EntityLivingBase set_TARGET = set_ENTITY.getAttackTarget();
 		getEntity().playSound("mhfc:deviljho.dragonbreath", 1.0F, 1.0F);
 		Random random = new Random();
-		if (this.getCurrentFrame() == 30) {
+		if (this.getCurrentFrame() == 40) {
 			if (set_ENTITY.getAttackTarget() == null) {
 				return;
 			}
