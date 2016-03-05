@@ -12,43 +12,35 @@ import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.world.World;
 
 public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
-	
+
 	public int deathTick;
 	public int rageLevel;
 
 	public EntityGreatJaggi(World world) {
 		super(world);
-		
-		
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
-				EntityCow.class, 0, true));
+
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityCow.class, 0, true));
 	}
 
 	@Override
 	public EntityMHFCPart[] getParts() {
 		return null;
 	}
-	
+
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getAttributeMap().getAttributeInstance(
-			SharedMonsterAttributes.followRange).setBaseValue(128d);
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
-			.setBaseValue(1.0D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-			healthbaseHP(2633D, 5200D, 10400D));
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(
-			35D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(
-			0.4D);
+		getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
+		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.0D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(2653D, 5200D, 10400D));
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.4D);
 	}
-	
-	 public RenderPassInformation preRenderCallback(float scale,
-			 RenderPassInformation sub){
-		 GL11.glScaled(1.6, 1.6, 1.6);
-		 return super.preRenderCallback(scale, sub);
-				 
-	 }
+
+	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
+		GL11.glScaled(1.6, 1.6, 1.6);
+		return super.preRenderCallback(scale, sub);
+
+	}
 
 }

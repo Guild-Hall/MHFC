@@ -14,6 +14,7 @@ import mhfc.net.common.entity.monster.EntityDelex;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.monster.EntityGiaprey;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
+import mhfc.net.common.entity.monster.EntityLagiacrus;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.entity.monster.EntityTigrex;
@@ -44,6 +45,7 @@ public class MHFCEntityRenderRegistry {
 		registerAnimatedRenderer(EntityNargacuga.class, MHFCReference.mob_nargacuga_model, 1.0F);
 		registerAnimatedRenderer(EntityGiaprey.class, MHFCReference.mob_giaprey_model, 1.0F);
 		registerAnimatedRenderer(EntityUkanlos.class, MHFCReference.mob_ukanlos_model, 1.0F);
+		registerAnimatedRenderer(EntityLagiacrus.class, MHFCReference.mob_lagiacrus_model, 1.0F);
 
 	}
 

@@ -12,13 +12,13 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
+public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 
-	public EntityUkanlos(World world) {
+	public EntityLagiacrus(World world) {
 		super(world);
-		this.height = 9f;
-		this.width = 9f;
-		AIActionManager<EntityUkanlos> attackManager = getAIActionManager();
+		this.height = 4f;
+		this.width = 4f;
+		AIActionManager<EntityLagiacrus> attackManager = getAIActionManager();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 	}
 
@@ -32,13 +32,13 @@ public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
 		super.applyEntityAttributes();
 		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(95391D, 140000D, 175000D));
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(12738D, 1000D, 1400D));
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.32D);
 	}
 
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
-		GL11.glScaled(5, 5, 5);
+		GL11.glScaled(5.1, 5.1, 5.1);
 		return super.preRenderCallback(scale, sub);
 
 	}

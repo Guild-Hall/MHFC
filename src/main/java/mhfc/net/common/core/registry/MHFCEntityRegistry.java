@@ -11,6 +11,7 @@ import mhfc.net.common.entity.monster.EntityDelex;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.monster.EntityGiaprey;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
+import mhfc.net.common.entity.monster.EntityLagiacrus;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.entity.monster.EntityTigrex;
@@ -41,6 +42,7 @@ public class MHFCEntityRegistry {
 	public static final int barrothID;
 	public static final int delexID;
 	public static final int giapreyID;
+	public static final int lagiacrusID;
 	public static final int ukanlosID;
 
 	public static final int questGiverID;
@@ -70,6 +72,7 @@ public class MHFCEntityRegistry {
 		ukanlosID = getMobID(EntityUkanlos.class, MHFCReference.mob_ukanlos_name, 0x33333333, 0x654321);
 		delexID = getMobID(EntityDelex.class, MHFCReference.mob_delex_name, 0x6f33333, 0x654321);
 		giapreyID = getMobID(EntityGiaprey.class, MHFCReference.mob_giaprey_name, 0x6f41512, 0x654321);
+		lagiacrusID = getMobID(EntityLagiacrus.class, MHFCReference.mob_lagiacrus_name, 0x6fff512, 0x6ff14f1);
 
 		questGiverID = getMobID(EntityQuestGiver.class, MHFCReference.mob_questGiver_name);
 

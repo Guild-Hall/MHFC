@@ -438,6 +438,8 @@ public class MHFCReference {
 	public static final String mob_giaprey_model = modelLoc + "Giaprey/Giaprey.mcmd";
 	public static final String mob_ukanlos_name = "ukanlos";
 	public static final String mob_ukanlos_model = modelLoc + "Ukanlos/Ukanlos.mcmd";
+	public static final String mob_lagiacrus_name = "lagiacrus";
+	public static final String mob_lagiacrus_model = modelLoc + "Lagiacrus/Lagiacrus.mcmd";
 
 	public static final String particle_kirinsfx_tex = "mhfc:textures/particle/kirinSFX.png";
 	public static final String potion_attackup_name = "potion.attackuplow";
