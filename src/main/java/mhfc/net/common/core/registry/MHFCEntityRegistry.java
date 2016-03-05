@@ -15,6 +15,7 @@ import mhfc.net.common.entity.monster.EntityNargacuga;
 import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.monster.EntityUkanlos;
+import mhfc.net.common.entity.projectile.EntityBreathe;
 import mhfc.net.common.entity.projectile.EntityBullet;
 import mhfc.net.common.entity.projectile.EntityFlashBomb;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
@@ -44,8 +45,9 @@ public class MHFCEntityRegistry {
 
 	public static final int questGiverID;
 
-	public static final int tigrexBlockID;
+	public static final int projectileBlockID;
 	public static final int rathalosFireballID;
+	public static final int breatheID;
 	public static final int bulletID;
 	public static final int flashbombID;
 	public static final int arrowID;
@@ -71,7 +73,7 @@ public class MHFCEntityRegistry {
 
 		questGiverID = getMobID(EntityQuestGiver.class, MHFCReference.mob_questGiver_name);
 
-		tigrexBlockID = getProjectileID(EntityProjectileBlock.class, MHFCReference.entity_tigrexBlock_name);
+		projectileBlockID = getProjectileID(EntityProjectileBlock.class, MHFCReference.entity_tigrexBlock_name);
 		bulletID = getProjectileID(EntityBullet.class, MHFCReference.entity_bullet_name);
 		rathalosFireballID = getProjectileID(EntityRathalosFireball.class, MHFCReference.entity_rathalosFireball_name);
 		flashbombID = getProjectileID(
@@ -79,6 +81,7 @@ public class MHFCEntityRegistry {
 				MHFCReference.entity_flashbomb_name,
 				EntityFlashBomb.FALL_OFF_END);
 		arrowID = getProjectileID(EntityWyverniaArrow.class, MHFCReference.projectile_wyverniaarrow_name);
+		breatheID = getProjectileID(EntityBreathe.class, MHFCReference.projectile_wyverniaarrow_name);
 	}
 
 	public static void init() {}

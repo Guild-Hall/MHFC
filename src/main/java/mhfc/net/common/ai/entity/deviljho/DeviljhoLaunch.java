@@ -2,7 +2,6 @@ package mhfc.net.common.ai.entity.deviljho;
 
 import java.util.List;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIAnimatedAction;
@@ -54,7 +53,6 @@ public class DeviljhoLaunch extends AIAnimatedAction<EntityDeviljho> {
 			if (!entity.worldObj.isRemote) {
 				for (Entity collider : collidingEnts) {
 					collider.addVelocity(0, 1.4, 0);
-					MHFCMain.logger.debug(entity.getAttackTarget().motionY);
 				}
 			}
 		}

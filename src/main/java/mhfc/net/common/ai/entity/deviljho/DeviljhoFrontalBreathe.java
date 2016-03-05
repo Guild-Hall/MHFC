@@ -7,6 +7,7 @@ import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.ISelectionPredicate;
 import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.entity.projectile.EntityBreathe;
 import net.minecraft.entity.EntityLivingBase;
 
 public class DeviljhoFrontalBreathe extends AIAnimatedAction<EntityDeviljho> {
@@ -39,31 +40,11 @@ public class DeviljhoFrontalBreathe extends AIAnimatedAction<EntityDeviljho> {
 			if (set_ENTITY.getAttackTarget() == null) {
 				return;
 			}
-			double posX = set_ENTITY.posX + set_TARGET.posX * 1.0D;
-			double posY = set_ENTITY.posY + set_TARGET.posY * 1.0D;
-			double posZ = set_ENTITY.posZ + set_TARGET.posZ * 1.0D;
-			double X = set_TARGET.posX * 0.1D;
-			double Y = set_TARGET.posZ * 0.1D;
-			double Z = set_TARGET.posY * 0.1D;
-			for (int i = 0; i < 100; i++) {
-				for (int z = 0; z < 10; z++) {
-					set_ENTITY.worldObj.spawnParticle(
-							"lava",
-							posX + X * 1.1D,
-							posY + Y * 1.1D,
-							posZ + Z * 1.1D,
-							random.nextInt(10) / 10 - 0.2D,
-							random.nextInt(10) / 10 - 0.2D,
-							random.nextInt(10) / 10 - 0.2D);
-				}
-				set_ENTITY.worldObj.spawnParticle(
-						"lava",
-						posX + X * 1.1D,
-						posY + Y * 1.1D,
-						posZ + Z * 1.1D,
-						random.nextInt(10) / 10 - 0.2D,
-						random.nextInt(10) / 10 - 0.2D,
-						random.nextInt(10) / 10 - 0.2D);
+
+			for (int i = 0; i < 3; ++i) {
+				EntityBreathe set_Breathe = new EntityBreathe(set_ENTITY.worldObj, set_ENTITY, true);
+				set_Breathe.posY = set_ENTITY.posY + (double) (set_ENTITY.height / 2.0F) + 0.5D;
+				set_ENTITY.worldObj.spawnEntityInWorld(set_Breathe);
 			}
 		}
 

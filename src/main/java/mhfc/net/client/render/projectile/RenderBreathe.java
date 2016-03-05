@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import mhfc.net.common.entity.projectile.EntityBullet;
+import mhfc.net.common.entity.projectile.EntityBreathe;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
@@ -13,9 +13,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
-public class RenderBullet extends Render {
-	private static final ResourceLocation set_TEXTURES = new ResourceLocation(
-			MHFCReference.projectile_wyverniabullet_tex);
+public class RenderBreathe extends Render {
+	private static final ResourceLocation set_TEXTURES = new ResourceLocation(MHFCReference.projectile_breathe_tex);
 
 	/**
 	 * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
@@ -23,7 +22,7 @@ public class RenderBullet extends Render {
 	 * (Render<T extends Entity) and this method has signature public void func_76986_a(T entity, double d, double d1,
 	 * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
 	 */
-	public void doRender(EntityBullet projectile, double x, double y, double z, float par8, float par9) {
+	public void doRender(EntityBreathe projectile, double x, double y, double z, float par8, float par9) {
 		GL11.glPushMatrix();
 		this.bindEntityTexture(projectile);
 		GL11.glTranslatef((float) x, (float) y, (float) z);
@@ -53,7 +52,7 @@ public class RenderBullet extends Render {
 	/**
 	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
 	 */
-	protected ResourceLocation getEntityTexture(EntityBullet p_110775_1_) {
+	protected ResourceLocation getEntityTexture(EntityBreathe p_110775_1_) {
 		return set_TEXTURES;
 	}
 
@@ -61,7 +60,7 @@ public class RenderBullet extends Render {
 	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
 	 */
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		return this.getEntityTexture((EntityBullet) p_110775_1_);
+		return this.getEntityTexture((EntityBreathe) p_110775_1_);
 	}
 
 	/**
@@ -77,6 +76,6 @@ public class RenderBullet extends Render {
 			double p_76986_6_,
 			float p_76986_8_,
 			float p_76986_9_) {
-		this.doRender((EntityBullet) p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
+		this.doRender((EntityBreathe) p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
 	}
 }
