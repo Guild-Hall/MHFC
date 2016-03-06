@@ -47,15 +47,18 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	protected static final int DATA_FRAME = 12;
 	private final TargetTurnHelper turnHelper;
 	private AIActionManager<YC> attackManager;
-	
-	public int deathTime;
-	public boolean mobDead = false;
+
+	protected boolean hasDied;
+	// Time (in ticks) that this mob stays in the world, defaults to around a minute
+	protected int deathLingerTime;
 
 	@SuppressWarnings("unchecked")
 	public EntityMHFCBase(World world) {
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
 		attackManager = new AIActionManager<YC>((YC) this);
+		hasDied = false;
+		deathLingerTime = 50 * 20;
 	}
 
 	/**
@@ -75,20 +78,23 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	public void dropItemRand(Item item, int count) {
 		dropItemRand(new ItemStack(item, count, 0));
 	}
-	
+
 	@Override
-    public int getTotalArmorValue() {
-        return 10;
-    }
-	
-	 protected void onDeathUpdate() {
-		 super.onDeathUpdate();
-		 deathTime++;
-		 mobDead = true;
-		 if(deathTime == 50){
-			 this.setDead();
-		 }
-	    }
+	public int getTotalArmorValue() {
+		return 10;
+	}
+
+	protected void onDeathUpdate() {
+		if (!hasDied)
+			onDeath();
+		hasDied = true;
+		deathTime++;
+		if (deathTime == deathLingerTime) {
+			this.setDead();
+		}
+	}
+
+	protected void onDeath() {}
 
 	@Override
 	protected void entityInit() {
@@ -400,7 +406,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	@Override
 	public RenderPassInformation preRenderCallback(float subFrame, RenderPassInformation passInfo) {
-		return passInfo.setAnimation(attackManager.getCurrentAnimation()).setFrame(getCurrentFrame() + subFrame // ^ See
+		return passInfo.setAnimation(attackManager.getCurrentAnimation()).setFrame(getCurrentFrame() + subFrame // ^
+																												// See
 																												// #getCurrentFrame()+
 		);
 	}

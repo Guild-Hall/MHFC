@@ -67,12 +67,12 @@ public class EntityBreathe extends EntityThrowable {
 
 			double timePassed = (ticksExisted / 2 + (i * 40)) / 10;
 			double particlePositionX = Math.cos(timePassed) * 2;
-			double particlePositionY = Math.sin(timePassed) * 2;
+			double particlePositionY = Math.sin(timePassed) * 0.2;
 			double particlePositionZ = Math.sin(timePassed) * 2;
 			EntityFlameFX particle = new EntityFlameFX(
 					worldObj,
 					posX + particlePositionX,
-					posY - 1.52,
+					posY + particlePositionY,
 					posZ + particlePositionZ,
 					0,
 					0,

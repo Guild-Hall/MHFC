@@ -1,10 +1,14 @@
 package mhfc.net.common.entity.monster;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 
-import mhfc.net.common.ai.AIActionManager;
+import mhfc.net.common.ai.AIFollowUpActionManager;
+import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.tigrex.TigrexBite;
 import mhfc.net.common.ai.entity.tigrex.TigrexGroundHurl;
 import mhfc.net.common.ai.entity.tigrex.TigrexIdle;
@@ -36,17 +40,23 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		width = 3f;
 		stepHeight = 1f;
 
-		AIActionManager<EntityTigrex> attackManager = getAIActionManager();
+		AIFollowUpActionManager<EntityTigrex> attackManager = new AIFollowUpActionManager<EntityTigrex>(this);
 
-		attackManager.registerAttack(new TurnAttack(110, 180, 5f, 12f));
+		attackManager.registerAttack(new TurnAttack(110, 180, 5f, 12f, 20));
 		attackManager.registerAttack(new TigrexJump());
 		attackManager.registerAttack(new TigrexRun());
 		attackManager.registerAttack(new TigrexGroundHurl());
 		attackManager.registerAttack(new TigrexBite());
-		attackManager.registerAttack(new TigrexRoar());
+		TigrexRoar tigrexRoar = new TigrexRoar();
+		attackManager.registerAttack(tigrexRoar);
 		attackManager.registerAttack(new TigrexIdle());
-		attackManager.registerAttack(new TigrexWander());
+		// Register roar to be the only allowed initial move on sight of an enemy
+		List<IExecutableAction<? super EntityTigrex>> allowedFirstSight = new ArrayList<>();
+		allowedFirstSight.add(tigrexRoar);
+		attackManager.registerAttack(new TigrexWander(), allowedFirstSight);
 		attackManager.registerAttack(new TigrexWhip());
+		setAIActionManager(attackManager);
+
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 
 		// TODO enable this when Popos are a thing again

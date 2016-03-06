@@ -10,16 +10,19 @@ import mhfc.net.common.ai.general.provider.IJumpParamterProvider.ConstantAirTime
 import mhfc.net.common.ai.general.provider.ISelectionPredicate;
 import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.monster.EntityNargacuga;
+import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import net.minecraft.util.Vec3;
 
 public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 
 	private static final int MAX_ANGLE = 20;
 	private static final float MAX_DISTANCE = 6;
-	private static final float WEIGHT = 13;
+	private static final float WEIGHT = 8000;
 	private static final int JUMP_FRAME = 19;
 	private static final int JUMP_TIME = 12;
 	private static final int ANIM_LENGTH = 100;
+	private static final int SPIKE_FRAME = 50;
+	private static final float SPEED = 1.f;
 
 	private static final IAnimationProvider animation = new IAnimationProvider.AnimationAdapter(
 			"mhfc:models/Nargacuga/TailSlam.mcanm",
@@ -67,13 +70,40 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 		nargacuga.rotationYaw = AIUtils.normalizeAngle(nargacuga.rotationYaw + 180);
 		nargacuga.addVelocity(10e-4, 0, 10e-4);
 	}
-	
-	
+
 	@Override
 	public void update() {
 		EntityNargacuga nargacuga = getEntity();
-		if(ANIM_LENGTH >= 60){
-			
+		if (nargacuga.worldObj.isRemote)
+			return;
+		if (getCurrentFrame() == SPIKE_FRAME) {
+			Vec3 up = Vec3.createVectorHelper(0, 1, 0);
+			Vec3 look = nargacuga.getLookVec();
+			Vec3 left = look.crossProduct(up).normalize();
+			Vec3 relUp = left.crossProduct(look);
+			final int spikeClusters = 4;
+			final int spikesPerCluster = 6;
+			final float offsetScaleBack = 6;
+			for (int i = 0; i < spikeClusters * spikesPerCluster; i++) {
+				int cluster = i / spikesPerCluster;
+				int spike = i % spikesPerCluster;
+				// FIXME replace with narga spikes once they are done
+				EntityProjectileBlock spikeEntity = new EntityProjectileBlock(nargacuga.worldObj, nargacuga);
+				spikeEntity.moveEntity(
+						offsetScaleBack * look.xCoord,
+						offsetScaleBack * look.yCoord - 2.5,
+						offsetScaleBack * look.zCoord);
+				float weightRelUp = (float) Math.sin(Math.PI / (spikesPerCluster - 1) * spike);
+				float weightLeft = (float) Math.cos(Math.PI / (spikesPerCluster - 1) * spike);
+				float weightLook = (float) Math.cos(Math.PI / spikeClusters * cluster) * 0.6f;
+				spikeEntity.setThrowableHeading(
+						weightLeft * left.xCoord + weightRelUp * relUp.xCoord + weightLook * look.xCoord,
+						weightLeft * left.yCoord + weightRelUp * relUp.yCoord + weightLook * look.yCoord,
+						weightLeft * left.zCoord + weightRelUp * relUp.zCoord + weightLook * look.zCoord,
+						SPEED,
+						0);
+				nargacuga.worldObj.spawnEntityInWorld(spikeEntity);
+			}
 		}
 	}
 }

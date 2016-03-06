@@ -33,7 +33,7 @@ public class WorldDisplacedView extends AbstractWorld {
 
 	public WorldDisplacedView(DisplacedView worldView) {
 		this.worldView = worldView;
-		this.forgeWorld = MHFCMain.worldedit().getWorld(worldView.getWorldObject());
+		this.forgeWorld = MHFCMain.worldedit.getWorld(worldView.getWorldObject());
 		this.add = new Vector(worldView.getAddX(), 0, worldView.getAddZ());
 		this.chunkAdd = new Vector2D(worldView.getChunkDeltaX(), worldView.getChunkDeltaZ());
 	}

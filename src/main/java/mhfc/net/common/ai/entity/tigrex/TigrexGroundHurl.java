@@ -65,6 +65,10 @@ public class TigrexGroundHurl extends ActionAdapter<EntityTigrex> {
 			}
 			return;
 		}
+		thrown = true;
+		if (tigrex.worldObj.isRemote) {
+			return;
+		}
 		Vec3 look = tigrex.getLookVec();
 		Vec3 lookVec = tigrex.getLookVec();
 		Vec3 rightSide = lookVec.crossProduct(Vec3.createVectorHelper(0, 1, 0));
@@ -83,7 +87,6 @@ public class TigrexGroundHurl extends ActionAdapter<EntityTigrex> {
 			block.setThrowableHeading(xCo, yCo, zCo, 1f, 0.5f);
 			tigrex.worldObj.spawnEntityInWorld(block);
 		}
-		thrown = true;
 	}
 
 }

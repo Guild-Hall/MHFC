@@ -7,6 +7,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import mhfc.net.client.render.projectile.RenderBlockProjectile;
 import mhfc.net.client.render.projectile.RenderBreathe;
 import mhfc.net.client.render.projectile.RenderBullet;
+import mhfc.net.client.render.projectile.RenderNargacugaSpike;
 import mhfc.net.client.render.projectile.RenderRathalosFireball;
 import mhfc.net.client.render.projectile.RenderWyverniaArrow;
 import mhfc.net.common.entity.monster.EntityBarroth;
@@ -24,6 +25,7 @@ import mhfc.net.common.entity.projectile.EntityBullet;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
+import mhfc.net.common.entity.projectile.NargacugaSpike;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
@@ -55,6 +57,7 @@ public class MHFCEntityRenderRegistry {
 		RenderingRegistry.registerEntityRenderingHandler(EntityWyverniaArrow.class, new RenderWyverniaArrow());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderBullet());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBreathe.class, new RenderBreathe());
+		RenderingRegistry.registerEntityRenderingHandler(NargacugaSpike.class, new RenderNargacugaSpike());
 	}
 
 	private static <T extends Entity & IAnimatedObject> void registerAnimatedRenderer(

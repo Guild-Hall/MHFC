@@ -5,6 +5,7 @@ import java.util.Objects;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
+import mhfc.net.common.ai.general.actions.AIGeneralAttack.IAttackProvider;
 import mhfc.net.common.ai.general.provider.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.IDamageProvider;
 import mhfc.net.common.ai.general.provider.IJumpParamterProvider;
@@ -59,8 +60,7 @@ public class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>
 
 	public static interface IJumpProvider<EntityT extends EntityMHFCBase<? super EntityT>>
 			extends
-			IAnimatedActionProvider<EntityT>,
-			IDamageProvider,
+			IAttackProvider<EntityT>,
 			IJumpParamterProvider<EntityT>,
 			IJumpTimingProvider<EntityT> {
 

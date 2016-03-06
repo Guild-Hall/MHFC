@@ -12,12 +12,12 @@ public class TurnAttack extends ActionAdapter<EntityMHFCBase<?>> {
 	private float weight;
 	private float turnRate;
 
-	public TurnAttack(float minAngleDeg, float maxAngleDeg, float weight,
-		float turnRate) {
+	public TurnAttack(float minAngleDeg, float maxAngleDeg, float weight, float turnRate, int turnTime) {
 		this.minAngleCos = Math.cos(Math.toRadians(minAngleDeg));
 		this.maxAngleCos = Math.cos(Math.toRadians(maxAngleDeg));
 		this.weight = weight;
 		this.turnRate = turnRate;
+		this.setLastFrame(turnTime);
 	}
 
 	protected boolean isValidTarget(Vec3 toTarget, Vec3 look) {

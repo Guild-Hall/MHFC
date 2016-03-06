@@ -592,6 +592,8 @@ public class MHFCReference {
 	public static final String projectile_wyverniabullet_tex = "mhfc:textures/projectile/bullet0.png";
 	public static final String projectile_breathe_name = "Breathe";
 	public static final String projectile_breathe_tex = "mhfc:textures/projectile/invinsible.png";
+	public static final String projectile_nargacugaspike_name = "Nargacuga Spike";
+	public static final String projectile_nargacugaspike_tex = "mhfc:textures/projectile/bullet0.png";
 
 	public static final String gui_questgiver_back_tex = "mhfc:texture/gui/questgiver.png";
 

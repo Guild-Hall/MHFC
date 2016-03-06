@@ -43,7 +43,6 @@ public class DeviljhoFrontalBreathe extends AIAnimatedAction<EntityDeviljho> {
 
 			for (int i = 0; i < 3; ++i) {
 				EntityBreathe set_Breathe = new EntityBreathe(set_ENTITY.worldObj, set_ENTITY, true);
-				set_Breathe.posY = set_ENTITY.posY + (double) (set_ENTITY.height / 2.0F) + 0.5D;
 				set_ENTITY.worldObj.spawnEntityInWorld(set_Breathe);
 			}
 		}

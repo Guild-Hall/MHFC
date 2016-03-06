@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 
@@ -52,11 +53,13 @@ public class AIFollowUpActionManager<EntType extends EntityLiving & IManagedActi
 
 	protected Map<IExecutableAction<? super EntType>, FollowUpChooser<EntType>> allowedFollowUps;
 	protected List<IExecutableAction<? super EntType>> collectedAttacks;
+	protected FollowUpChooser<EntType> initialFollowUps;
 
 	public AIFollowUpActionManager(EntType entity) {
 		super(entity);
 		allowedFollowUps = new HashMap<>();
 		collectedAttacks = new ArrayList<>();
+		initialFollowUps = new FollowUpAdapter<>(null);
 	}
 
 	/**
@@ -79,17 +82,24 @@ public class AIFollowUpActionManager<EntType extends EntityLiving & IManagedActi
 	}
 
 	public void registerAttack(IExecutableAction<? super EntType> attack, FollowUpChooser<EntType> chooser) {
-		super.registerAttack(attack);
-		allowedFollowUps.put(attack, chooser);
+		Objects.requireNonNull(chooser);
+		if (attack == null) {
+			initialFollowUps = chooser;
+		} else {
+			super.registerAttack(attack);
+			allowedFollowUps.put(attack, chooser);
 
-		List<IExecutableAction<? super EntType>> followUps = chooser.allFollowUps();
-		followUps.forEach((x) -> x.rebind(entity));
-		collectedAttacks.add(attack);
-		collectedAttacks.addAll(followUps);
+			List<IExecutableAction<? super EntType>> followUps = chooser.allFollowUps();
+			followUps.forEach((x) -> x.rebind(entity));
+			collectedAttacks.add(attack);
+			collectedAttacks.addAll(followUps);
+		}
 	}
 
 	protected List<IExecutableAction<? super EntType>> getFollowUpList(IExecutableAction<? super EntType> action) {
-		FollowUpChooser<EntType> followUpChooser = allowedFollowUps.get(activeAttack);
+		FollowUpChooser<EntType> followUpChooser = action == null
+				? initialFollowUps
+				: allowedFollowUps.get(activeAttack);
 		if (followUpChooser == null)
 			return attacks;
 		List<IExecutableAction<? super EntType>> followUps = followUpChooser.collectFollowups(this.entity);
