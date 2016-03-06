@@ -4,8 +4,9 @@ import org.lwjgl.opengl.GL11;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 
-import mhfc.net.common.ai.AIActionManager;
+import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.delex.DelexIdle;
+import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -19,9 +20,14 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 		super(world);
 		this.height = 1f;
 		this.width = 2f;
-		AIActionManager<EntityDelex> attackManager = getAIActionManager();
-		attackManager.registerAttack(new DelexIdle());
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+	}
+
+	@Override
+	public IActionManager<EntityDelex> constructActionManager() {
+		ActionManagerBuilder<EntityDelex> actionManager = new ActionManagerBuilder<>();
+		actionManager.registerAction(new DelexIdle());
+		return actionManager.build(this);
 	}
 
 	@Override

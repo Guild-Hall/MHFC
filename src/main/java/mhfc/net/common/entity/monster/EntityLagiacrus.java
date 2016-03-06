@@ -4,7 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 
-import mhfc.net.common.ai.AIActionManager;
+import mhfc.net.common.ai.IActionManager;
+import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -18,8 +19,13 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 		super(world);
 		this.height = 4f;
 		this.width = 4f;
-		AIActionManager<EntityLagiacrus> attackManager = getAIActionManager();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+	}
+
+	@Override
+	public IActionManager<EntityLagiacrus> constructActionManager() {
+		ActionManagerBuilder<EntityLagiacrus> actionManager = new ActionManagerBuilder<>();
+		return actionManager.build(this);
 	}
 
 	@Override

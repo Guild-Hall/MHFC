@@ -1,6 +1,6 @@
 package mhfc.net.common.entity.monster;
 
-import mhfc.net.common.ai.AIActionManager;
+import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IStancedEntity;
 import mhfc.net.common.ai.entity.rathalos.BiteAttack;
@@ -10,6 +10,7 @@ import mhfc.net.common.ai.entity.rathalos.FlyLand;
 import mhfc.net.common.ai.entity.rathalos.FlyStart;
 import mhfc.net.common.ai.entity.rathalos.JumpFireball;
 import mhfc.net.common.ai.entity.rathalos.TailSpin;
+import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.entity.type.IConfusable;
@@ -57,25 +58,26 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 
 	}
 
-	private final AIActionManager<EntityRathalos> stancedAttackManager;
 	private int confusedAttacks;
 	private Stances stance;
 
 	public EntityRathalos(World world) {
 		super(world);
-		AIActionManager<EntityRathalos> stancedAttackManager = new AIActionManager<EntityRathalos>(this);
-		stancedAttackManager.registerAttack(new BiteAttack());
-		stancedAttackManager.registerAttack(new ChargeAttack());
-		stancedAttackManager.registerAttack(new FireballAttack());
-		stancedAttackManager.registerAttack(new FlyStart());
-		stancedAttackManager.registerAttack(new JumpFireball());
-		stancedAttackManager.registerAttack(new TailSpin());
-		stancedAttackManager.registerAttack(FlyLand.generate());
-		setAIActionManager(stancedAttackManager);
-		this.stancedAttackManager = stancedAttackManager;
 		this.stance = Stances.GROUND;
-
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+	}
+
+	@Override
+	public IActionManager<EntityRathalos> constructActionManager() {
+		ActionManagerBuilder<EntityRathalos> stancedAttackManager = new ActionManagerBuilder<>();
+		stancedAttackManager.registerAction(new BiteAttack());
+		stancedAttackManager.registerAction(new ChargeAttack());
+		stancedAttackManager.registerAction(new FireballAttack());
+		stancedAttackManager.registerAction(new FlyStart());
+		stancedAttackManager.registerAction(new JumpFireball());
+		stancedAttackManager.registerAction(new TailSpin());
+		stancedAttackManager.registerAction(FlyLand.generate());
+		return stancedAttackManager.build(this);
 	}
 
 	@Override
@@ -88,11 +90,6 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	@Override
 	public EntityMHFCPart[] getParts() {
 		return null;
-	}
-
-	@Override
-	public AIActionManager<EntityRathalos> getAttackManager() {
-		return stancedAttackManager;
 	}
 
 	@Override

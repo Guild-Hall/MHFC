@@ -44,6 +44,10 @@ public class MHFCMain {
 	@Mod.Instance("worldedit")
 	public static ForgeWorldEdit worldedit;
 
+	public static ForgeWorldEdit getWorldedit() {
+		return worldedit;
+	}
+
 	public static Logger logger;
 	public static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID());
 	public static MHFCConfig config;

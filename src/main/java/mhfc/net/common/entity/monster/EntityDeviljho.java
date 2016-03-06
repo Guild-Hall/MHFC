@@ -4,17 +4,19 @@ import org.lwjgl.opengl.GL11;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 
-import mhfc.net.common.ai.AIActionManager;
+import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoDeath;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoFrontalBreathe;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoIdle;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoWander;
+import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.item.materials.ItemDeviljho.DeviljhoSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -25,15 +27,17 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		super(WORLD);
 		setSize(7.6F, 6F);
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
+	}
 
-		AIActionManager<EntityDeviljho> attackManager = getAIActionManager();
-
-		attackManager.registerAttack(new DeviljhoIdle());
-
-		attackManager.registerAttack(new DeviljhoFrontalBreathe());
-		attackManager.registerAttack(new DeviljhoDeath());
-		attackManager.registerAttack(new DeviljhoWander());
-
+	@Override
+	public IActionManager<EntityDeviljho> constructActionManager() {
+		ActionManagerBuilder<EntityDeviljho> attackManager = new ActionManagerBuilder<>();
+		attackManager.registerAction(new DeviljhoIdle());
+		attackManager.registerAction(new DeviljhoFrontalBreathe());
+		attackManager.registerAction(new DeviljhoDeath());
+		attackManager.registerAction(new DeviljhoWander());
+		return attackManager.build(this);
 	}
 
 	@Override

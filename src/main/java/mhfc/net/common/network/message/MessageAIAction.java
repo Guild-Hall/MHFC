@@ -9,17 +9,17 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class MessageAIAttack<T extends EntityLiving & IManagedActions<T>>
+public class MessageAIAction<T extends EntityLiving & IManagedActions<T>>
 	implements
 		IMessage {
 	private int entityId;
 	private int targetId;
 	private int attackIndex;
 
-	public MessageAIAttack() {
+	public MessageAIAction() {
 	}
 
-	public MessageAIAttack(T entity, int attackIndex) {
+	public MessageAIAction(T entity, int attackIndex) {
 		this.entityId = entity.getEntityId();
 		if (entity.getAttackTarget() != null) {
 			this.targetId = entity.getAttackTarget().getEntityId();

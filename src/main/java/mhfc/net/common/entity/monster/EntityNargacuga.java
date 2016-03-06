@@ -13,7 +13,7 @@ import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInfor
 import com.google.common.collect.EvictingQueue;
 import com.google.common.collect.Queues;
 
-import mhfc.net.common.ai.AIFollowUpActionManager;
+import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IActionRecorder;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaBackOff;
@@ -23,6 +23,7 @@ import mhfc.net.common.ai.entity.nargacuga.NargacugaRoar;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaTailWhip;
 import mhfc.net.common.ai.entity.nargacuga.ProwlerStance;
 import mhfc.net.common.ai.entity.nargacuga.TailSlam;
+import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.entity.type.IEnragable;
@@ -57,8 +58,11 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		eyesPositionsLeft = Queues.synchronizedQueue(EvictingQueue.<Vec3>create(EYES_RECORD_LENGTH));
 		ticksSinceEyesSaved = 0;
 		enraged = false;
+	}
 
-		AIFollowUpActionManager<EntityNargacuga> attackManager = new AIFollowUpActionManager<EntityNargacuga>(this);
+	@Override
+	public IActionManager<EntityNargacuga> constructActionManager() {
+		FollowUpManagerBuilder<EntityNargacuga> attackManager = new FollowUpManagerBuilder<>();
 		TailSlam tailSlam = new TailSlam();
 		NargacugaRoar roar = new NargacugaRoar();
 		ProwlerStance prowler = new ProwlerStance();
@@ -75,11 +79,15 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		prowlerFollow.add(tailWhip);
 		// prowlerFollow.add(pounceFour);
 
-		attackManager.registerAttack(tailSlam);
-		attackManager.registerAttack(roar);
-		attackManager.registerAttack(prowler, prowlerFollow);
-		attackManager.registerAttack(backOff);
-		setAIActionManager(attackManager);
+		attackManager.registerAllowingAllActions(tailSlam);
+		attackManager.registerAllowingAllActions(roar);
+		attackManager.registerActionWithFollowUps(prowler, prowlerFollow);
+		attackManager.registerAllowingAllActions(backOff);
+
+		attackManager.allowAllStrongActions(pounceThree);
+		attackManager.allowAllStrongActions(pounceTwo);
+		attackManager.allowAllStrongActions(tailWhip);
+		return attackManager.build(this);
 	}
 
 	@Override
@@ -105,7 +113,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 
 	private Vec3 getRelativePositionOfBone(String name) {
 		int frame = getCurrentFrame();
-		IAnimation animation = getAttackManager().getCurrentAnimation();
+		IAnimation animation = getActionManager().getCurrentAnimation();
 		if (animation == null) {
 			return Vec3.createVectorHelper(0, 0, 0);
 		}

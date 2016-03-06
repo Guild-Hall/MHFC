@@ -4,6 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 
+import mhfc.net.common.ai.IActionManager;
+import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -20,6 +22,12 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 		super(world);
 
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityCow.class, 0, true));
+	}
+
+	@Override
+	public IActionManager<EntityGreatJaggi> constructActionManager() {
+		ActionManagerBuilder<EntityGreatJaggi> actionManager = new ActionManagerBuilder<>();
+		return actionManager.build(this);
 	}
 
 	@Override

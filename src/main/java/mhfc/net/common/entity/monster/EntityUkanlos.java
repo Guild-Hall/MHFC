@@ -4,7 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 
-import mhfc.net.common.ai.AIActionManager;
+import mhfc.net.common.ai.IActionManager;
+import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -18,8 +19,13 @@ public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
 		super(world);
 		this.height = 9f;
 		this.width = 9f;
-		AIActionManager<EntityUkanlos> attackManager = getAIActionManager();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+	}
+
+	@Override
+	public IActionManager<EntityUkanlos> constructActionManager() {
+		ActionManagerBuilder<EntityUkanlos> manager = new ActionManagerBuilder<>();
+		return manager.build(this);
 	}
 
 	@Override

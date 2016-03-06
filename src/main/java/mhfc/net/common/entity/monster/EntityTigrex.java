@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 
-import mhfc.net.common.ai.AIFollowUpActionManager;
+import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.tigrex.TigrexBite;
 import mhfc.net.common.ai.entity.tigrex.TigrexGroundHurl;
@@ -18,12 +18,14 @@ import mhfc.net.common.ai.entity.tigrex.TigrexRun;
 import mhfc.net.common.ai.entity.tigrex.TigrexWander;
 import mhfc.net.common.ai.entity.tigrex.TigrexWhip;
 import mhfc.net.common.ai.general.TurnAttack;
+import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.item.materials.ItemTigrex.TigrexSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -38,28 +40,30 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		height = 3.4f;
 		width = 4.3f;
 		stepHeight = 1f;
-
-		AIFollowUpActionManager<EntityTigrex> attackManager = new AIFollowUpActionManager<EntityTigrex>(this);
-
-		attackManager.registerAttack(new TurnAttack(110, 180, 5f, 12f, 20));
-		attackManager.registerAttack(new TigrexJump());
-		attackManager.registerAttack(new TigrexRun());
-		attackManager.registerAttack(new TigrexGroundHurl());
-		attackManager.registerAttack(new TigrexBite());
-		TigrexRoar tigrexRoar = new TigrexRoar();
-		attackManager.registerAttack(tigrexRoar);
-		attackManager.registerAttack(new TigrexIdle());
-		// Register roar to be the only allowed initial move on sight of an enemy
-		List<IExecutableAction<? super EntityTigrex>> allowedFirstSight = new ArrayList<>();
-		allowedFirstSight.add(tigrexRoar);
-		attackManager.registerAttack(new TigrexWander(), allowedFirstSight);
-		attackManager.registerAttack(new TigrexWhip());
-		setAIActionManager(attackManager);
-
+		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		// TODO enable this when Popos are a thing again
 		// targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
 		// EntityPopo.class, 0, true));
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+	}
+
+	@Override
+	public IActionManager<EntityTigrex> constructActionManager() {
+		FollowUpManagerBuilder<EntityTigrex> manager = new FollowUpManagerBuilder<>();
+		manager.registerAllowingAllActions(new TurnAttack(110, 180, 5f, 12f, 20));
+		manager.registerAllowingAllActions(new TigrexJump());
+		manager.registerAllowingAllActions(new TigrexRun());
+		manager.registerAllowingAllActions(new TigrexGroundHurl());
+		manager.registerAllowingAllActions(new TigrexBite());
+		TigrexRoar tigrexRoar = new TigrexRoar();
+		manager.registerAllowingAllActions(tigrexRoar);
+		manager.registerAllowingAllActions(new TigrexIdle());
+		// Register roar to be the only allowed initial move on sight of an enemy
+		List<IExecutableAction<? super EntityTigrex>> allowedFirstSight = new ArrayList<>();
+		allowedFirstSight.add(tigrexRoar);
+		manager.registerActionWithFollowUps(new TigrexWander(), allowedFirstSight);
+		manager.registerAllowingAllActions(new TigrexWhip());
+		return manager.build(this);
 	}
 
 	@Override

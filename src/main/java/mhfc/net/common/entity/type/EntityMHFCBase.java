@@ -7,16 +7,16 @@ import java.util.Random;
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
 
-import mhfc.net.common.ai.AIActionManager;
+import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IManagedActions;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.TargetTurnHelper;
+import mhfc.net.common.ai.manager.AIActionManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
@@ -47,21 +47,21 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	 */
 	protected static final int DATA_FRAME = 12;
 	private final TargetTurnHelper turnHelper;
-	private AIActionManager<YC> attackManager;
+	private IActionManager<? extends YC> attackManager;
 
 	protected boolean hasDied;
 	// Time (in ticks) that this mob stays in the world, defaults to around a minute
 	protected int deathLingerTime;
 
-	@SuppressWarnings("unchecked")
 	public EntityMHFCBase(World world) {
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
-		attackManager = new AIActionManager<YC>((YC) this);
-		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-		hasDied = false;
+		attackManager = Objects.requireNonNull(constructActionManager());
 		deathLingerTime = 50 * 20;
+		hasDied = false;
 	}
+
+	public abstract IActionManager<YC> constructActionManager();
 
 	/**
 	 * Specialize the return type to a {@link EntityMHFCPart}
@@ -363,10 +363,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		return true;
 	}
 
-	protected AIActionManager<YC> getAIActionManager() {
-		return this.attackManager;
-	}
-
 	protected void setAIActionManager(AIActionManager<YC> newManager) {
 		Objects.requireNonNull(newManager);
 		this.attackManager = newManager;
@@ -397,7 +393,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	}
 
 	@Override
-	public AIActionManager<YC> getAttackManager() {
+	public IActionManager<? extends YC> getActionManager() {
 		return attackManager;
 	}
 

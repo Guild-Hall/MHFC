@@ -4,9 +4,10 @@ import org.lwjgl.opengl.GL11;
 
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 
-import mhfc.net.common.ai.AIActionManager;
+import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.barroth.BarrothIdle;
 import mhfc.net.common.ai.entity.barroth.BarrothRoar;
+import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -23,12 +24,15 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 		super(WORLD);
 		this.height = 4f;
 		this.width = 5f;
-		AIActionManager<EntityBarroth> attackManager = getAIActionManager();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+	}
 
-		attackManager.registerAttack(new BarrothIdle());
-		attackManager.registerAttack(new BarrothRoar());
-
+	@Override
+	public IActionManager<EntityBarroth> constructActionManager() {
+		ActionManagerBuilder<EntityBarroth> actionManager = new ActionManagerBuilder<>();
+		actionManager.registerAction(new BarrothIdle());
+		actionManager.registerAction(new BarrothRoar());
+		return actionManager.build(this);
 	}
 
 	@Override
@@ -62,8 +66,9 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	@Override
 	public void entityInit() {
 		super.entityInit();
-		//if(this.isInWater())
+		// if(this.isInWater())
 		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
 		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
 	}
+
 }
