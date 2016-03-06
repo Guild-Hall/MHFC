@@ -13,7 +13,8 @@
     "logoFile": "/MHFCLogo.png",
     "screenshots": [],
     "parent": "",
-    "dependencies": ["mcanm"],
+    "requiredMods": ["worldedit"],
+    "dependencies": ["worldedit", "mcanm"],
     "useDependencyInformation": true
   }]
 }

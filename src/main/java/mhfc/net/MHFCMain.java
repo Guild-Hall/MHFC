@@ -32,7 +32,7 @@ import net.minecraftforge.event.world.WorldEvent;
  *          -craft-extreme-mob-hunting-adventure-15000-downloads/) Visit www.mhfrontiercraft.blogspot.com for more info.
  */
 
-@Mod(modid = MHFCReference.main_modid, dependencies = "worldedit")
+@Mod(modid = MHFCReference.main_modid)
 public class MHFCMain {
 
 	@SidedProxy(clientSide = "mhfc.net.client.MHFCClient", serverSide = "mhfc.net.server.MHFCServer")
