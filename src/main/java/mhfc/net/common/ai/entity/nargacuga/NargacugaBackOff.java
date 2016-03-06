@@ -15,7 +15,7 @@ public class NargacugaBackOff extends AIGeneralJumpAttack<EntityNargacuga> {
 	private static final String ANIMATION_LOCATION = "mhfc:models/Nargacuga/JumpBack.mcanm";
 	private static final int ANIMATION_LENGTH = 50;
 	private static final float WEIGHT = 1;
-	private static final IDamageCalculator CALCULATOR = AIUtils.defaultDamageCalc(10, 250, 70);
+	private static final IDamageCalculator CALCULATOR = AIUtils.defaultDamageCalc(50, 250, 70);
 	private static final float JUMP_TIME = 12;
 	private static final float ANGLE = 40;
 	private static final int JUMP_FRAME = 23;

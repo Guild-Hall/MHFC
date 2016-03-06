@@ -15,7 +15,6 @@ import mhfc.net.common.item.materials.ItemDeviljho.DeviljhoSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -24,7 +23,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 
 	public EntityDeviljho(World WORLD) {
 		super(WORLD);
-		setSize(7, 5);
+		setSize(7.6F, 6F);
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 
 		AIActionManager<EntityDeviljho> attackManager = getAIActionManager();
@@ -35,7 +34,6 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		attackManager.registerAttack(new DeviljhoDeath());
 		attackManager.registerAttack(new DeviljhoWander());
 
-		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 	}
 
 	@Override
@@ -55,7 +53,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 
 	@Override
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
-		GL11.glScaled(3.5, 3.5, 3.5);
+		GL11.glScaled(3.7, 3.7, 3.7);
 		return super.preRenderCallback(scale, sub);
 
 	}

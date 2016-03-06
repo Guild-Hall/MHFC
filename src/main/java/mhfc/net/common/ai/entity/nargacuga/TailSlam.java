@@ -33,7 +33,7 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 			0,
 			MAX_DISTANCE);
 	private static final IWeightProvider<EntityNargacuga> weight = new IWeightProvider.SimpleWeightAdapter<>(WEIGHT);
-	private static final IDamageCalculator damageCalculator = AIUtils.defaultDamageCalc(50, 100, 80);
+	private static final IDamageCalculator damageCalculator = AIUtils.defaultDamageCalc(150, 1000, 888880);
 
 	public TailSlam() {
 		super(generateProvider());

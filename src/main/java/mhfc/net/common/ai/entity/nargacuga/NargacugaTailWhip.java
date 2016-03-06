@@ -14,7 +14,7 @@ public class NargacugaTailWhip extends AIGeneralTailWhip<EntityNargacuga> {
 	private static final String ANIMATION_LOCATION = "mhfc:models/Nargacuga/TailSwipeRight.mcanm";
 	private static final int ANIMATION_LENGTH = 0;
 	private static final float WEIGHT = 2;
-	private static final IDamageCalculator CALCULATOR = AIUtils.defaultDamageCalc(20, 40, 200);
+	private static final IDamageCalculator CALCULATOR = AIUtils.defaultDamageCalc(81, 500, 3333333);
 	private static final float MIN_ANGLE = 0;
 	private static final float MAX_ANGLE = -150;
 	private static final float MAX_DISTANCE = 4;

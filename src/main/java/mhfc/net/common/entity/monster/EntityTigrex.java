@@ -24,7 +24,6 @@ import mhfc.net.common.item.materials.ItemTigrex.TigrexSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -36,8 +35,8 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	public EntityTigrex(World par1World) {
 		super(par1World);
-		height = 2f;
-		width = 3f;
+		height = 3.4f;
+		width = 4.3f;
 		stepHeight = 1f;
 
 		AIFollowUpActionManager<EntityTigrex> attackManager = new AIFollowUpActionManager<EntityTigrex>(this);
@@ -56,8 +55,6 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		attackManager.registerAttack(new TigrexWander(), allowedFirstSight);
 		attackManager.registerAttack(new TigrexWhip());
 		setAIActionManager(attackManager);
-
-		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 
 		// TODO enable this when Popos are a thing again
 		// targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
@@ -101,7 +98,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	@Override
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
-		GL11.glScaled(1.9, 1.9, 1.9);
+		GL11.glScaled(2.3, 2.3, 2.3);
 		return super.preRenderCallback(scale, sub);
 
 	}

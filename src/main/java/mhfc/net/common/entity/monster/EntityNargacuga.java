@@ -49,7 +49,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 
 	public EntityNargacuga(World world) {
 		super(world);
-		setSize(4, 5);
+		setSize(4.6F, 4.4F);
 
 		recorder = new RecorderAdapter<>(100);
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
@@ -99,7 +99,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 
 	@Override
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
-		GL11.glScaled(2, 2, 2);
+		GL11.glScaled(2.6, 2.6, 2.6);
 		return super.preRenderCallback(scale, sub);
 	}
 
