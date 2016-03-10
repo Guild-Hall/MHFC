@@ -17,6 +17,7 @@
     "deviljho.dragonbreath": {"category": "hostile", "sounds": ["mob/deviljho/dragonbreath"]},
     "deviljho.roar": {"category": "hostile", "sounds": ["mob/deviljho/roar"]},
     "deviljho.rockthrow": {"category": "hostile", "sounds": ["mob/deviljho/rockthrow"]},
+    "deviljho.leap": {"category": "hostile", "sounds": ["mob/deviljho/leap"]},
     "deviljho.stomp": {"category": "hostile", "sounds": ["mob/deviljho/stomp"]},
     "deviljho.step": {"category": "hostile", "sounds": ["mob/deviljho/step1", "mob/deviljho/step2","mob/deviljho/step3","mob/deviljho/step4"]},
     "deviljho.death": {"category": "hostile", "sounds": ["mob/deviljho/death"]},
