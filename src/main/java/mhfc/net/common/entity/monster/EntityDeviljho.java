@@ -5,9 +5,17 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoBiteA;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoBiteB;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoDeath;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoFrontalBreathe;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoIdle;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoJump;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoLaunch;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoMovetoTarget;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoRoar;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoStomp;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoTailWhip;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoWander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -34,6 +42,14 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	public IActionManager<EntityDeviljho> constructActionManager() {
 		ActionManagerBuilder<EntityDeviljho> attackManager = new ActionManagerBuilder<>();
 		attackManager.registerAction(new DeviljhoIdle());
+		attackManager.registerAction(new DeviljhoBiteA());
+		attackManager.registerAction(new DeviljhoBiteB());
+		attackManager.registerAction(new DeviljhoLaunch());
+		attackManager.registerAction(new DeviljhoMovetoTarget());
+		attackManager.registerAction(new DeviljhoRoar());
+		attackManager.registerAction(new DeviljhoStomp());
+		attackManager.registerAction(new DeviljhoTailWhip());
+		attackManager.registerAction(new DeviljhoJump());
 		attackManager.registerAction(new DeviljhoFrontalBreathe());
 		attackManager.registerAction(new DeviljhoDeath());
 		attackManager.registerAction(new DeviljhoWander());
