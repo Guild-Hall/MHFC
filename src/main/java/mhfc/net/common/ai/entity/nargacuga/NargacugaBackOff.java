@@ -21,6 +21,7 @@ public class NargacugaBackOff extends AIGeneralJumpAttack<EntityNargacuga> {
 	private static final int JUMP_FRAME = 23;
 	private static final float TURN_RATE = 2.5f;
 	private static final float TURN_RATE_AIR = 1.5f;
+	private static final float BACK_OFF_SPEED = -1.7f;
 
 	public NargacugaBackOff() {
 		super(generateProvider());
@@ -36,7 +37,7 @@ public class NargacugaBackOff extends AIGeneralJumpAttack<EntityNargacuga> {
 				JUMP_TIME) {
 			@Override
 			public float getForwardVelocity(EntityNargacuga entity) {
-				return -2.2f;
+				return BACK_OFF_SPEED;
 			}
 		};
 		IJumpTimingProvider<EntityNargacuga> jumpTiming = new IJumpTimingProvider.JumpTimingAdapter<EntityNargacuga>(

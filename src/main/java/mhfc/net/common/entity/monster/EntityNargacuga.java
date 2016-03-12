@@ -175,4 +175,11 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		return enraged;
 	}
 
+	@Override
+	protected void updateFallState(double distance, boolean p_70064_3_) {
+		distance = 0;
+		this.fallDistance = 0;
+		super.updateFallState(distance, p_70064_3_);
+	}
+
 }
