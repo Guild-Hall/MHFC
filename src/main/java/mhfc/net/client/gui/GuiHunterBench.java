@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.vecmath.Vector2f;
+
 import org.lwjgl.opengl.GL11;
 
 import mhfc.net.client.container.ContainerHunterBench;
@@ -115,7 +117,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		};
 
 		@Override
-		public boolean handleClick(int relativeX, int relativeY, int button) {
+		public boolean handleClick(float relativeX, float relativeY, int button) {
 			if (isInModelWindow(mouseClickX, mouseClickY) && mouseClickButton == 1) {
 				resetModelRot();
 			}
@@ -160,7 +162,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public void handleMovementMouseDown(int mouseX, int mouseY, int button, long timeDiff) {
+		public void handleMovementMouseDown(float mouseX, float mouseY, int button, long timeDiff) {
 			if (isInModelWindow(mouseClickX, mouseClickY) && mouseClickButton == 0) {
 				modelRotX += (mouseX - mouseLastX);
 				modelRotY += (mouseY - mouseLastY);
@@ -199,8 +201,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			recipeList = new ClickableGuiList<RecipeItem>(70, ySize - 24, 20);
 			typeList.setAlignment(Alignment.MIDDLE);
 			initializeTypeList();
-			addScreenComponent(typeList, new ComponentPosition(78, 12));
-			addScreenComponent(recipeList, new ComponentPosition(153, 12));
+			addScreenComponent(typeList, new Vector2f(78, 12));
+			addScreenComponent(recipeList, new Vector2f(153, 12));
 
 			if (bench != null) {
 				EquipmentRecipe recipe = bench.getRecipe();
@@ -244,8 +246,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		protected void updateListPositions() {
-			getPosition(typeList).setPosition(78, 12);
-			getPosition(recipeList).setPosition(153, 12);
+			getPosition(typeList).set(78, 12);
+			getPosition(recipeList).set(153, 12);
 		}
 
 		protected void fillRecipeList(ItemType typeOfSelection) {
@@ -284,7 +286,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 	protected class WeaponTreeTab implements IMHFCTab {
 
-		private int mouseX = 0, mouseY = 0;
+		private float mouseX = 0, mouseY = 0;
 		private int baseX = 0, baseY = 0;
 
 		@Override
@@ -299,7 +301,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public boolean handleClick(int relativeX, int relativeY, int button) {
+		public boolean handleClick(float relativeX, float relativeY, int button) {
 			mouseX = relativeX;
 			mouseY = relativeY;
 			if (button == 1) {
@@ -324,7 +326,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		public void onOpen() {}
 
 		@Override
-		public void handleMovementMouseDown(int mouseX, int mouseY, int button, long timeDiff) {
+		public void handleMovementMouseDown(float mouseX, float mouseY, int button, long timeDiff) {
 			if (button == 0) {
 				baseX += mouseX - this.mouseX;
 				baseY += mouseY - this.mouseY;
@@ -334,7 +336,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public void handleMouseUp(int mouseX, int mouseY, int button) {
+		public void handleMouseUp(float mouseX, float mouseY, int button) {
 			if (button == 0) {
 				baseX += mouseX - this.mouseX;
 				baseY += mouseY - this.mouseY;
@@ -344,7 +346,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public void handleMovement(int mouseX, int mouseY) {
+		public void handleMovement(float mouseX, float mouseY) {
 			this.mouseX = mouseX;
 			this.mouseY = mouseY;
 		}

@@ -2,9 +2,7 @@ package mhfc.net.common.ai.entity.rathalos;
 
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.actions.AIAnimatedAction;
-import mhfc.net.common.ai.general.provider.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.ISelectionPredicate;
-import mhfc.net.common.ai.general.provider.IWeightProvider;
+import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.entity.monster.EntityRathalos.Stances;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
@@ -21,13 +19,12 @@ public class FireballAttack extends AIAnimatedAction<EntityRathalos> {
 	public static final double MAX_DISTANCE = 50;
 	public static final float WEIGHT = 4;
 
-	public FireballAttack() {
-		super(generateProvider());
-	}
+	private static ISelectionPredicate<EntityRathalos> selectionProvider;
 
-	private static IAnimatedActionProvider<EntityRathalos> generateProvider() {
-		IAnimationProvider animationProvider = new IAnimationProvider.AnimationAdapter(ANIMATION_LOCATION, LENGTH);
-		ISelectionPredicate<EntityRathalos> selectionProvider = new ISelectionPredicate.SelectionAdapter<EntityRathalos>(
+	public FireballAttack() {}
+
+	static {
+		selectionProvider = new ISelectionPredicate.SelectionAdapter<EntityRathalos>(
 				-ANGLE,
 				ANGLE,
 				MIN_DISTANCE,
@@ -40,8 +37,6 @@ public class FireballAttack extends AIAnimatedAction<EntityRathalos> {
 				return actor.getStance() == Stances.GROUND && super.shouldSelectAttack(attack, actor, target);
 			}
 		};
-		IWeightProvider<EntityRathalos> weightProvider = new IWeightProvider.SimpleWeightAdapter<>(WEIGHT);
-		return new AnimatedActionAdapter<EntityRathalos>(animationProvider, selectionProvider, weightProvider);
 	}
 
 	@Override
@@ -54,6 +49,29 @@ public class FireballAttack extends AIAnimatedAction<EntityRathalos> {
 			fireball.setThrowableHeading(lookVec.xCoord, lookVec.yCoord, lookVec.zCoord, 1.0f, 0);
 			rathalos.worldObj.spawnEntityInWorld(fireball);
 		}
+	}
+
+	@Override
+	public String getAnimationLocation() {
+		return ANIMATION_LOCATION;
+	}
+
+	@Override
+	public int getAnimationLength() {
+		return LENGTH;
+	}
+
+	@Override
+	public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityRathalos> attack,
+			EntityRathalos actor,
+			Entity target) {
+		return selectionProvider.shouldSelectAttack(attack, actor, target);
+	}
+
+	@Override
+	public float getWeight(EntityRathalos entity, Entity target) {
+		return WEIGHT;
 	}
 
 }

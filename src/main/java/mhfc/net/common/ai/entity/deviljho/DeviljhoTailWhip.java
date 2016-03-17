@@ -1,37 +1,58 @@
 package mhfc.net.common.ai.entity.deviljho;
 
+import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
+import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIGeneralTailWhip;
-import mhfc.net.common.ai.general.provider.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.IDamageProvider;
-import mhfc.net.common.ai.general.provider.ISelectionPredicate;
-import mhfc.net.common.ai.general.provider.IWeightProvider;
+import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.entity.monster.EntityDeviljho;
+import net.minecraft.entity.Entity;
 
 public class DeviljhoTailWhip extends AIGeneralTailWhip<EntityDeviljho> {
 
+	private static final String ANIMATION = "mhfc:models/Deviljho/tailswipe.mcanm";
 	private static final double MAX_DISTANCE = 16F;
 	private static final double MIN_DIST = 0f;
 	private static final float MIN_RIGHT_ANGLE = 5f;
 	private static final int LAST_FRAME = 55; // CLEANUP exact value here please
+	private static final float WEIGHT = 5F;
 
-	public DeviljhoTailWhip() {
-		super(generateProvider());
+	private static final IDamageCalculator damageCalculator;
+	private static final ISelectionPredicate<EntityDeviljho> select;
+
+	static {
+		damageCalculator = AIUtils.defaultDamageCalc(85, 50, 9999999f);
+		select = new ISelectionPredicate.SelectionAdapter<>(MIN_RIGHT_ANGLE, 180, MIN_DIST, MAX_DISTANCE);
 	}
 
-	private static ISpinProvider<EntityDeviljho> generateProvider() {
-		IAnimationProvider anim = new IAnimationProvider.AnimationAdapter(
-				"mhfc:models/Deviljho/tailswipe.mcanm",
-				LAST_FRAME);
-		IDamageProvider dmg = new IDamageProvider.DamageAdapter(AIUtils.defaultDamageCalc(85, 50, 9999999f));
-		IWeightProvider<EntityDeviljho> weight = new IWeightProvider.SimpleWeightAdapter<>(5F);
-		ISelectionPredicate<EntityDeviljho> pred = new ISelectionPredicate.SelectionAdapter<>(
-				MIN_RIGHT_ANGLE,
-				180,
-				MIN_DIST,
-				MAX_DISTANCE);
-		ISpinProvider<EntityDeviljho> provide = new AIGeneralTailWhip.TailWhipAdapter<>(anim, weight, pred, dmg);
-		return provide;
+	public DeviljhoTailWhip() {}
+
+	@Override
+	public String getAnimationLocation() {
+		return ANIMATION;
+	}
+
+	@Override
+	public int getAnimationLength() {
+		return LAST_FRAME;
+	}
+
+	@Override
+	public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityDeviljho> attack,
+			EntityDeviljho actor,
+			Entity target) {
+		return select.shouldSelectAttack(attack, actor, target);
+	}
+
+	@Override
+	public float getWeight(EntityDeviljho entity, Entity target) {
+		return WEIGHT;
+	}
+
+	@Override
+	public IDamageCalculator getDamageCalculator() {
+		return damageCalculator;
 	}
 
 }

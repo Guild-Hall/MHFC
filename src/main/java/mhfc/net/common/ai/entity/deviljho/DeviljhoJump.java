@@ -1,17 +1,18 @@
 package mhfc.net.common.ai.entity.deviljho;
 
+import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
-import mhfc.net.common.ai.general.provider.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.IDamageProvider;
-import mhfc.net.common.ai.general.provider.IJumpParamterProvider;
-import mhfc.net.common.ai.general.provider.ISelectionPredicate;
-import mhfc.net.common.ai.general.provider.IWeightProvider;
+import mhfc.net.common.ai.general.actions.IJumpTimingProvider;
+import mhfc.net.common.ai.general.provider.simple.IJumpParamterProvider;
+import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.entity.monster.EntityDeviljho;
+import net.minecraft.entity.Entity;
 
 public class DeviljhoJump extends AIGeneralJumpAttack<EntityDeviljho> {
 
+	private static final String set_ANIMATION = "mhfc:models/Deviljho/DeviljhoJump.mcanm";
 	private static final int set_FRAME = 60;
 	private static final int set_JUMPFRAME = 20;
 	private static final float set_TURNRATE = 14;
@@ -23,35 +24,72 @@ public class DeviljhoJump extends AIGeneralJumpAttack<EntityDeviljho> {
 	private static final float set_ANGLETHETA = 140f;
 	private static final float set_ARITHMETICWEIGHT = 1f;
 
-	public DeviljhoJump() {
-		super(generateProvider());
-	}
+	private static ISelectionPredicate<EntityDeviljho> set_PREDICATE;
+	private static IJumpParamterProvider<EntityDeviljho> set_ADAPTERVAR;
+	private static IJumpTimingProvider<EntityDeviljho> set_COUNTIME;
 
-	private static IJumpProvider<EntityDeviljho> generateProvider() {
-		IAnimationProvider set_ANIMATION = new IAnimationProvider.AnimationAdapter(
-				"mhfc:models/Deviljho/DeviljhoJump.mcanm",
-				set_FRAME);
-		IDamageProvider set_DAMAGE = new IDamageProvider.DamageAdapter(set_DAMAGEBASE);
-		ISelectionPredicate<EntityDeviljho> set_PREDICATE = new ISelectionPredicate.SelectionAdapter<>(
+	static {
+		set_PREDICATE = new ISelectionPredicate.SelectionAdapter<>(
 				-set_ANGLETHETA,
 				set_ANGLETHETA,
 				set_DISTANCEMINIMUM,
 				set_DISTANCEMAX);
-		IWeightProvider<EntityDeviljho> set_ARITHWEIGHT = new IWeightProvider.SimpleWeightAdapter<>(
-				set_ARITHMETICWEIGHT);
-		IJumpParamterProvider<EntityDeviljho> set_ADAPTERVAR = new IJumpParamterProvider.AttackTargetAdapter<>(
-				set_JUMPDURATION);
-		IJumpTimingProvider<EntityDeviljho> set_COUNTIME = new IJumpTimingProvider.JumpTimingAdapter<EntityDeviljho>(
-				set_JUMPFRAME,
-				set_TURNRATE,
-				0);
-		IJumpProvider<EntityDeviljho> set_JUMPPROVIDER = new AIGeneralJumpAttack.JumpAdapter<>(
-				set_ANIMATION,
-				set_PREDICATE,
-				set_ARITHWEIGHT,
-				set_DAMAGE,
-				set_ADAPTERVAR,
-				set_COUNTIME);
-		return set_JUMPPROVIDER;
+		set_ADAPTERVAR = new IJumpParamterProvider.AttackTargetAdapter<>(set_JUMPDURATION);
+		set_COUNTIME = new IJumpTimingProvider.JumpTimingAdapter<EntityDeviljho>(set_JUMPFRAME, set_TURNRATE, 0);
+	}
+
+	public DeviljhoJump() {}
+
+	@Override
+	public String getAnimationLocation() {
+		return set_ANIMATION;
+	}
+
+	@Override
+	public int getAnimationLength() {
+		return set_FRAME;
+	}
+
+	@Override
+	public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityDeviljho> attack,
+			EntityDeviljho actor,
+			Entity target) {
+		return set_PREDICATE.shouldSelectAttack(attack, actor, target);
+	}
+
+	@Override
+	public float getWeight(EntityDeviljho entity, Entity target) {
+		return set_ARITHMETICWEIGHT;
+	}
+
+	@Override
+	public IDamageCalculator getDamageCalculator() {
+		return set_DAMAGEBASE;
+	}
+
+	@Override
+	public float getInitialUpVelocity(EntityDeviljho entity) {
+		return set_ADAPTERVAR.getInitialUpVelocity(entity);
+	}
+
+	@Override
+	public float getForwardVelocity(EntityDeviljho entity) {
+		return set_ADAPTERVAR.getForwardVelocity(entity);
+	}
+
+	@Override
+	public boolean isJumpFrame(EntityDeviljho entity, int frame) {
+		return set_COUNTIME.isJumpFrame(entity, frame);
+	}
+
+	@Override
+	public boolean isDamageFrame(EntityDeviljho entity, int frame) {
+		return set_COUNTIME.isDamageFrame(entity, frame);
+	}
+
+	@Override
+	public float getTurnRate(EntityDeviljho entity, int frame) {
+		return set_COUNTIME.getTurnRate(entity, frame);
 	}
 }

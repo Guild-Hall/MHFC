@@ -88,8 +88,8 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 
 	protected boolean isSliderDragged = false;
 
-	protected int mouseClickX, mouseClickY;
-	protected int mouseClickMoveX, mouseClickMoveY;
+	protected float mouseClickX, mouseClickY;
+	protected float mouseClickMoveX, mouseClickMoveY;
 	private Minecraft mc;
 
 	private static final long serialVersionUID = -7451553351083938970L;
@@ -190,16 +190,16 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	/**
 	 * Return if the mouse actually hit the slider with its positioning
 	 */
-	protected boolean isMouseOnSlider(int mouseX, int mouseY) {
-		return hoversMouseOverSlider(mouseX, mouseY) && isSliderRequired();
+	protected boolean isMouseOnSlider(float relativeX, float relativeY) {
+		return hoversMouseOverSlider(relativeX, relativeY) && isSliderRequired();
 	}
 
 	/**
 	 * Tells if the mouse position (relative to parent frame, like this list, is over the area where the scroll bar
 	 * would be.
 	 */
-	protected boolean hoversMouseOverSlider(int mouseX, int mouseY) {
-		if (mouseY >= 0 && mouseY <= height && mouseX > width - sliderWidth && mouseX <= width) {
+	protected boolean hoversMouseOverSlider(float relativeX, float relativeY) {
+		if (relativeY >= 0 && relativeY <= height && relativeX > width - sliderWidth && relativeX <= width) {
 			return true;
 		}
 		return false;
@@ -258,7 +258,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	}
 
 	@Override
-	public boolean handleClick(int relativeX, int relativeY, int button) {
+	public boolean handleClick(float relativeX, float relativeY, int button) {
 		if (!visible || relativeX < 0 || relativeX >= width || relativeY < 0 || relativeY >= height)
 			return false;
 		if (isMouseOnSlider(relativeX, relativeY)) {
@@ -276,7 +276,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	}
 
 	@Override
-	public void handleMovementMouseDown(int mouseX, int mouseY, int button, long timeDiff) {
+	public void handleMovementMouseDown(float mouseX, float mouseY, int button, long timeDiff) {
 		if (isMouseOnSlider(mouseClickX, mouseClickY)) {
 			scrollAmount += (mouseY - mouseClickMoveY) / (float) height * getFullHeight();
 			scrollAmount = Math.min(scrollAmount, getFullHeight() - height);
@@ -288,12 +288,12 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	}
 
 	@Override
-	public void handleMouseUp(int mouseX, int mouseY, int id) {
+	public void handleMouseUp(float mouseX, float mouseY, int id) {
 		isSliderDragged = false;
 	}
 
 	@Override
-	public void handleMovement(int mouseX, int mouseY) {}
+	public void handleMovement(float mouseX, float mouseY) {}
 
 	/**
 	 * Returns which item id is selected or -1 if none

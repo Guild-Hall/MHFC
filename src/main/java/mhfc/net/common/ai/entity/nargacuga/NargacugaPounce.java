@@ -1,15 +1,17 @@
 package mhfc.net.common.ai.entity.nargacuga;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
-import mhfc.net.common.ai.general.provider.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.IDamageProvider;
-import mhfc.net.common.ai.general.provider.IJumpParamterProvider;
-import mhfc.net.common.ai.general.provider.ISelectionPredicate;
-import mhfc.net.common.ai.general.provider.IWeightProvider;
+import mhfc.net.common.ai.general.actions.IJumpTimingProvider;
+import mhfc.net.common.ai.general.provider.simple.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.simple.IJumpParamterProvider;
+import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
 import mhfc.net.common.entity.monster.EntityNargacuga;
+import net.minecraft.entity.Entity;
 
 public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> {
 
@@ -26,25 +28,23 @@ public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> 
 	private static final IDamageCalculator dmgCalculator = AIUtils.defaultDamageCalc(81, 300, 5000);
 
 	public static NargacugaPounce createNargaPounce(JumpBehaviour jumpBehaviour) {
-		NargaJumpBehaviour behaviour = jumpBehaviour.internal;
-		IAnimationProvider animation = behaviour.getAnimation();
-		ISelectionPredicate<EntityNargacuga> select = behaviour.getSelectionPredicate();
-		IWeightProvider<EntityNargacuga> weight = behaviour.getWeightProvider();
-		IDamageProvider damage = new IDamageProvider.DamageAdapter(dmgCalculator);
-		IJumpTimingProvider<EntityNargacuga> timing = behaviour.getJumpTiming();
-		IJumpParamterProvider<EntityNargacuga> params = behaviour.getJumpParameters();
-		NargacugaPounce pounce = new NargacugaPounce(
-				new JumpAdapter<EntityNargacuga>(animation, select, weight, damage, params, timing),
-				behaviour);
-		return pounce;
-
+		return new NargacugaPounce(jumpBehaviour.internal);
 	}
 
 	private NargaJumpBehaviour behaviour;
+	private IAnimationProvider animation;
+	private ISelectionPredicate<EntityNargacuga> select;
+	private IWeightProvider<EntityNargacuga> weight;
+	private IJumpTimingProvider<EntityNargacuga> timing;
+	private IJumpParamterProvider<EntityNargacuga> params;
 
-	private NargacugaPounce(IJumpProvider<EntityNargacuga> provider, NargaJumpBehaviour behaviour) {
-		super(provider);
+	private NargacugaPounce(NargaJumpBehaviour behaviour) {
 		this.behaviour = behaviour;
+		animation = behaviour.getAnimation();
+		select = behaviour.getSelectionPredicate();
+		weight = behaviour.getWeightProvider();
+		timing = behaviour.getJumpTiming();
+		params = behaviour.getJumpParameters();
 	}
 
 	@Override
@@ -52,6 +52,59 @@ public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> 
 		super.beginExecution();
 		MHFCMain.logger.debug("Narga jump {}", this.behaviour);
 		setToNextFrame(18);
+	}
+
+	@Override
+	public String getAnimationLocation() {
+		return animation.getAnimationLocation();
+	}
+
+	@Override
+	public int getAnimationLength() {
+		return animation.getAnimationLength();
+	}
+
+	@Override
+	public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityNargacuga> attack,
+			EntityNargacuga actor,
+			Entity target) {
+		return select.shouldSelectAttack(attack, actor, target);
+	}
+
+	@Override
+	public float getWeight(EntityNargacuga entity, Entity target) {
+		return weight.getWeight(entity, target);
+	}
+
+	@Override
+	public IDamageCalculator getDamageCalculator() {
+		return dmgCalculator;
+	}
+
+	@Override
+	public float getInitialUpVelocity(EntityNargacuga entity) {
+		return params.getInitialUpVelocity(entity);
+	}
+
+	@Override
+	public float getForwardVelocity(EntityNargacuga entity) {
+		return params.getForwardVelocity(entity);
+	}
+
+	@Override
+	public boolean isJumpFrame(EntityNargacuga entity, int frame) {
+		return timing.isJumpFrame(entity, frame);
+	}
+
+	@Override
+	public boolean isDamageFrame(EntityNargacuga entity, int frame) {
+		return timing.isDamageFrame(entity, frame);
+	}
+
+	@Override
+	public float getTurnRate(EntityNargacuga entity, int frame) {
+		return timing.getTurnRate(entity, frame);
 	}
 
 }

@@ -1,5 +1,7 @@
 package mhfc.net.client.gui.block;
 
+import javax.vecmath.Vector2f;
+
 import mhfc.net.client.gui.ClickableGuiList;
 import mhfc.net.client.gui.GuiListItem;
 import mhfc.net.client.gui.IMHFCGuiItem;
@@ -48,7 +50,7 @@ public class GuiBlockExploreArea extends MHFCGui {
 			targetFlairList.add(new QuestFlairItem(f));
 		}
 		targetFlairList.setSelected(tileEntity.getFlair().ordinal());
-		addScreenComponent(targetFlairList, new ComponentPosition(width / 6, height / 2));
+		addScreenComponent(targetFlairList, new Vector2f(width / 6, height / 2));
 		saveButton = new GuiButton(0, width / 2 - 75, 3 * height / 4, 150, 20, I18n.format("gui.save"));
 		buttonList.add(saveButton);
 		targetAreaText.setText(tileEntity.getTargetAreaName());

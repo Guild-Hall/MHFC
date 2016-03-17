@@ -1,12 +1,12 @@
 package mhfc.net.common.ai.entity.nargacuga;
 
-import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack.IJumpTimingProvider;
-import mhfc.net.common.ai.general.provider.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.IJumpParamterProvider;
-import mhfc.net.common.ai.general.provider.IJumpParamterProvider.AttackTargetAdapter;
-import mhfc.net.common.ai.general.provider.ISelectionPredicate;
-import mhfc.net.common.ai.general.provider.ISelectionPredicate.SelectAlways;
-import mhfc.net.common.ai.general.provider.IWeightProvider;
+import mhfc.net.common.ai.general.actions.IJumpTimingProvider;
+import mhfc.net.common.ai.general.provider.simple.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.simple.IJumpParamterProvider;
+import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
+import mhfc.net.common.ai.general.provider.simple.IJumpParamterProvider.AttackTargetAdapter;
+import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate.SelectAlways;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 
 abstract class NargaJumpBehaviour {

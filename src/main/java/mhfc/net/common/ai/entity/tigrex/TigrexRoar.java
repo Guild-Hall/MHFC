@@ -1,31 +1,31 @@
 package mhfc.net.common.ai.entity.tigrex;
 
+import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.actions.AIGeneralRoar;
-import mhfc.net.common.ai.general.provider.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.ISelectionPredicate;
-import mhfc.net.common.ai.general.provider.IWeightProvider;
+import mhfc.net.common.ai.general.provider.simple.IRoarSoundProvider;
+import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.Vec3;
 
 public class TigrexRoar extends AIGeneralRoar<EntityTigrex> {
+
+	private static final String ANIMATION = "mhfc:models/Tigrex/jump.mcanm";
 	private static final int LAST_FRAME = 70;
 
-	Vec3 targetPoint;
+	private static final IWeightProvider<EntityTigrex> weight;
+	private static final IRoarSoundProvider roar;
 
-	public TigrexRoar() {
-		super(TigrexRoar.generateProvider());
+	static {
+		weight = new IWeightProvider.RandomWeightAdapter<>(1F);
+		roar = new IRoarSoundProvider.RoarSoundAdapter("mhfc:tigrex.roar");
 	}
 
-	private static IRoarProvider<EntityTigrex> generateProvider() {
-		IAnimationProvider anim = new IAnimationProvider.AnimationAdapter("mhfc:models/Tigrex/rawr.mcanm", LAST_FRAME);
-		ISelectionPredicate<EntityTigrex> select = new ISelectionPredicate.SelectAlways<EntityTigrex>();
-		IWeightProvider<EntityTigrex> weight = new IWeightProvider.RandomWeightAdapter<>(1F);
-		IRoarSoundProvider roar = new IRoarSoundProvider.RoarSoundAdapter("mhfc:tigrex.roar");
-		IRoarProvider<EntityTigrex> provide = new AIGeneralRoar.RoarAdapter<>(anim, select, weight, roar);
-		return provide;
-	}
+	protected Vec3 targetPoint;
+
+	public TigrexRoar() {}
 
 	@Override
 	public void beginExecution() {
@@ -44,5 +44,38 @@ public class TigrexRoar extends AIGeneralRoar<EntityTigrex> {
 			entity.getTurnHelper().updateTargetPoint(targetPoint);
 			entity.getTurnHelper().updateTurnSpeed(6.0f);
 		}
+	}
+
+	@Override
+	public boolean shouldStun(EntityLivingBase actor) {
+		return true;
+	}
+
+	@Override
+	public String getAnimationLocation() {
+		return ANIMATION;
+	}
+
+	@Override
+	public int getAnimationLength() {
+		return LAST_FRAME;
+	}
+
+	@Override
+	public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityTigrex> attack,
+			EntityTigrex actor,
+			Entity target) {
+		return true;
+	}
+
+	@Override
+	public float getWeight(EntityTigrex entity, Entity target) {
+		return weight.getWeight(entity, target);
+	}
+
+	@Override
+	public String getRoarSoundLocation() {
+		return roar.getRoarSoundLocation();
 	}
 }

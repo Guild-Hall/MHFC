@@ -1,4 +1,4 @@
-package mhfc.net.common.ai.general.provider;
+package mhfc.net.common.ai.general.provider.simple;
 
 import mhfc.net.common.ai.IExecutableAction;
 import net.minecraft.entity.EntityLiving;

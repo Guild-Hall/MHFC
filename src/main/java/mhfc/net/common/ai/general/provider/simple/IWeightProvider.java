@@ -1,4 +1,4 @@
-package mhfc.net.common.ai.general.provider;
+package mhfc.net.common.ai.general.provider.simple;
 
 import java.util.Random;
 
@@ -9,9 +9,7 @@ public interface IWeightProvider<EntityT extends EntityLiving> {
 
 	public float getWeight(EntityT entity, Entity target);
 
-	public static class SimpleWeightAdapter<EntityT extends EntityLiving>
-		implements
-			IWeightProvider<EntityT> {
+	public static class SimpleWeightAdapter<EntityT extends EntityLiving> implements IWeightProvider<EntityT> {
 		private float weight;
 
 		public SimpleWeightAdapter(float weight) {
@@ -25,9 +23,7 @@ public interface IWeightProvider<EntityT extends EntityLiving> {
 
 	}
 
-	public static class RandomWeightAdapter<EntityT extends EntityLiving>
-		implements
-			IWeightProvider<EntityT> {
+	public static class RandomWeightAdapter<EntityT extends EntityLiving> implements IWeightProvider<EntityT> {
 
 		private static final Random rng = new Random(System.nanoTime());
 		private float max;

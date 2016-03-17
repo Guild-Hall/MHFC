@@ -1,28 +1,25 @@
 package mhfc.net.common.ai.entity.nargacuga;
 
+import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.actions.AIGeneralRoar;
-import mhfc.net.common.ai.general.provider.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.ISelectionPredicate;
-import mhfc.net.common.ai.general.provider.IWeightProvider;
+import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
 import mhfc.net.common.entity.monster.EntityNargacuga;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 
 public class NargacugaRoar extends AIGeneralRoar<EntityNargacuga> {
+
+	private static final String ANIMATION = "mhfc:models/Nargacuga/Roar.mcanm";
 	private static final int LAST_FRAME = 71;
+	private static final String ROAR_SOUND = "mhfc:narga.roar";
 
-	public NargacugaRoar() {
-		super(NargacugaRoar.generateProvider());
+	private static final IWeightProvider<EntityNargacuga> weight;
+
+	static {
+		weight = new IWeightProvider.RandomWeightAdapter<>(1F);
 	}
 
-	private static IRoarProvider<EntityNargacuga> generateProvider() {
-		IAnimationProvider anim = new IAnimationProvider.AnimationAdapter(
-				"mhfc:models/Nargacuga/Roar.mcanm",
-				LAST_FRAME);
-		ISelectionPredicate<EntityNargacuga> select = new ISelectionPredicate.SelectAlways<EntityNargacuga>();
-		IWeightProvider<EntityNargacuga> weight = new IWeightProvider.RandomWeightAdapter<>(1F);
-		IRoarSoundProvider roar = new IRoarSoundProvider.RoarSoundAdapter("mhfc:narga.roar");
-		IRoarProvider<EntityNargacuga> provide = new AIGeneralRoar.RoarAdapter<>(anim, select, weight, roar);
-		return provide;
-	}
+	public NargacugaRoar() {}
 
 	@Override
 	protected void update() {
@@ -32,5 +29,38 @@ public class NargacugaRoar extends AIGeneralRoar<EntityNargacuga> {
 			entity.getTurnHelper().updateTargetPoint(target);
 			entity.getTurnHelper().updateTurnSpeed(7.0f);
 		}
+	}
+
+	@Override
+	public boolean shouldStun(EntityLivingBase actor) {
+		return true;
+	}
+
+	@Override
+	public String getAnimationLocation() {
+		return ANIMATION;
+	}
+
+	@Override
+	public int getAnimationLength() {
+		return LAST_FRAME;
+	}
+
+	@Override
+	public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityNargacuga> attack,
+			EntityNargacuga actor,
+			Entity target) {
+		return true;
+	}
+
+	@Override
+	public float getWeight(EntityNargacuga entity, Entity target) {
+		return weight.getWeight(entity, target);
+	}
+
+	@Override
+	public String getRoarSoundLocation() {
+		return ROAR_SOUND;
 	}
 }

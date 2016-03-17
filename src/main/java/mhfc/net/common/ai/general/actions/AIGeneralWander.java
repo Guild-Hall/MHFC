@@ -3,50 +3,21 @@ package mhfc.net.common.ai.general.actions;
 import java.util.Objects;
 import java.util.Random;
 
-import mhfc.net.common.ai.general.provider.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.IContinuationPredicate;
-import mhfc.net.common.ai.general.provider.IMoveParameterProvider;
-import mhfc.net.common.ai.general.provider.IMovementProvider;
-import mhfc.net.common.ai.general.provider.IPathProvider;
-import mhfc.net.common.ai.general.provider.ISelectionPredicate;
-import mhfc.net.common.ai.general.provider.IWeightProvider;
+import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
+import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
+import mhfc.net.common.ai.general.provider.simple.IMovementProvider;
+import mhfc.net.common.ai.general.provider.simple.IPathProvider;
+import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.util.world.WorldHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.Vec3;
 
-public class AIGeneralWander<EntityT extends EntityMHFCBase<? super EntityT>> extends AIGeneralMovement<EntityT> {
-
-	public static class WanderAdapter<EntityT extends EntityMHFCBase<? super EntityT>>
-			extends
-			MovementActionAdapter<EntityT> {
-
-		private static <EntityT extends EntityMHFCBase<? super EntityT>> ISelectionPredicate<EntityT> SelectionPredicate() {
-			return new ISelectionPredicate.SelectIdleAdapter<EntityT>();
-		}
-
-		private static <EntityT extends EntityMHFCBase<? super EntityT>> IContinuationPredicate<EntityT> ContinuationPredicate() {
-			return new IContinuationPredicate.HasNoTargetAdapter<EntityT>();
-		}
-
-		private static <EntityT extends EntityMHFCBase<? super EntityT>> IMovementProvider<EntityT> MovementProvider(
-				IMoveParameterProvider provider) {
-			IPathProvider<EntityT> pathProvider = new RandomWanderProvider<EntityT>();
-			return new IMovementProvider.TurnThenMoveAdapter<>(pathProvider, provider, 5f);
-		}
-
-		public WanderAdapter(
-				IAnimationProvider animationProvider,
-				IWeightProvider<EntityT> weightProvider,
-				IMoveParameterProvider movementProvider) {
-			super(
-					animationProvider,
-					WanderAdapter.<EntityT>SelectionPredicate(),
-					WanderAdapter.<EntityT>ContinuationPredicate(),
-					weightProvider,
-					WanderAdapter.<EntityT>MovementProvider(movementProvider));
-		}
-	}
+public abstract class AIGeneralWander<EntityT extends EntityMHFCBase<? super EntityT>>
+		extends
+		AIGeneralMovement<EntityT> {
 
 	public static class RandomWanderProvider<EntityT extends EntityLiving> implements IPathProvider<EntityT> {
 
@@ -108,11 +79,56 @@ public class AIGeneralWander<EntityT extends EntityMHFCBase<? super EntityT>> ex
 		}
 	}
 
-	public AIGeneralWander(
-			IAnimationProvider animationProvider,
-			IWeightProvider<EntityT> weightProvider,
-			IMoveParameterProvider parameterProvider) {
-		super(new WanderAdapter<EntityT>(animationProvider, weightProvider, parameterProvider));
+	private ISelectionPredicate.SelectIdleAdapter<EntityT> selectIdleAdapter;
+	private IContinuationPredicate.HasNoTargetAdapter<EntityT> hasNoTargetAdapter;
+	private RandomWanderProvider<EntityT> pathProvider;
+	private IMovementProvider.TurnThenMoveAdapter<EntityT> turnThenMoveAdapter;
+
+	public AIGeneralWander(IMoveParameterProvider parameterProvider) {
+		selectIdleAdapter = new ISelectionPredicate.SelectIdleAdapter<EntityT>();
+		hasNoTargetAdapter = new IContinuationPredicate.HasNoTargetAdapter<EntityT>();
+		pathProvider = new RandomWanderProvider<EntityT>();
+		turnThenMoveAdapter = new IMovementProvider.TurnThenMoveAdapter<>(pathProvider, parameterProvider, 5f);
+	}
+
+	@Override
+	public boolean shouldSelectAttack(IExecutableAction<? super EntityT> attack, EntityT actor, Entity target) {
+		return selectIdleAdapter.shouldSelectAttack(attack, actor, target);
+	}
+
+	@Override
+	public boolean shouldContinueAction(IExecutableAction<? super EntityT> attack, EntityT actor) {
+		return hasNoTargetAdapter.shouldContinueAction(attack, actor);
+	}
+
+	@Override
+	public void initialize(EntityT actor) {
+		turnThenMoveAdapter.initialize(actor);
+	}
+
+	@Override
+	public Vec3 getCurrentWaypoint() {
+		return turnThenMoveAdapter.getCurrentWaypoint();
+	}
+
+	@Override
+	public boolean hasWaypointReached() {
+		return turnThenMoveAdapter.hasWaypointReached();
+	}
+
+	@Override
+	public void onWaypointReached() {
+		turnThenMoveAdapter.onWaypointReached();
+	}
+
+	@Override
+	public float getTurnRate() {
+		return turnThenMoveAdapter.getTurnRate();
+	}
+
+	@Override
+	public float getMoveSpeed() {
+		return turnThenMoveAdapter.getMoveSpeed();
 	}
 
 }

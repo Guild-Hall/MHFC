@@ -3,28 +3,25 @@ package mhfc.net.common.ai.entity.rathalos;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.IFrameAdvancer.SwitchLoopAdvancer;
 import mhfc.net.common.ai.general.actions.AIAnimatedAction;
-import mhfc.net.common.ai.general.provider.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.ISelectionPredicate;
-import mhfc.net.common.ai.general.provider.IWeightProvider;
+import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.entity.monster.EntityRathalos.Stances;
 import net.minecraft.entity.Entity;
 
 public class FlyLand extends AIAnimatedAction<EntityRathalos> {
 
-	public static final float WEIGHT = 1.0f;
-	public static final int FLAP_LAST_FRAME = 20;
-	public static final int LAND_LAST_FRAME = 50;
-	public static final String ANIMATION_LENGTH = "mhfc:models/Rathalos/RathalosFlightHover.mcanm";
+	private static final String ANIMATION = "mhfc:models/Rathalos/RathalosFlightHover.mcanm";
+	private static final float WEIGHT = 1.0f;
+	private static final int FLAP_LAST_FRAME = 20;
+	private static final int LAND_LAST_FRAME = 50;
+
+	private static ISelectionPredicate<EntityRathalos> selectionProvider;
 
 	protected boolean hasTouchedDown;
 	protected SwitchLoopAdvancer animationStep;
 
-	public static FlyLand generate() {
-		IAnimationProvider animationProvider = new IAnimationProvider.AnimationAdapter(
-				ANIMATION_LENGTH,
-				LAND_LAST_FRAME);
-		ISelectionPredicate<EntityRathalos> selectionProvider = new ISelectionPredicate<EntityRathalos>() {
+	static {
+		selectionProvider = new ISelectionPredicate<EntityRathalos>() {
 			@Override
 			public boolean shouldSelectAttack(
 					IExecutableAction<? super EntityRathalos> attack,
@@ -33,18 +30,10 @@ public class FlyLand extends AIAnimatedAction<EntityRathalos> {
 				return actor.getStance() == Stances.FLYING;
 			}
 		};
-		IWeightProvider<EntityRathalos> weightProvider = new IWeightProvider.SimpleWeightAdapter<>(WEIGHT);
-		AnimatedActionAdapter<EntityRathalos> actionAdapter = new AnimatedActionAdapter<>(
-				animationProvider,
-				selectionProvider,
-				weightProvider);
-		SwitchLoopAdvancer animationStep = new SwitchLoopAdvancer(0, FLAP_LAST_FRAME);
-		return new FlyLand(actionAdapter, animationStep);
 	}
 
-	private FlyLand(AnimatedActionAdapter<EntityRathalos> actionAdapter, SwitchLoopAdvancer animationStep) {
-		super(actionAdapter);
-		this.animationStep = animationStep;
+	public FlyLand() {
+		this.animationStep = new SwitchLoopAdvancer(0, FLAP_LAST_FRAME);
 		setFrameAdvancer(animationStep);
 	}
 
@@ -70,6 +59,29 @@ public class FlyLand extends AIAnimatedAction<EntityRathalos> {
 	@Override
 	public boolean shouldContinue() {
 		return !hasTouchedDown || super.shouldContinue();
+	}
+
+	@Override
+	public String getAnimationLocation() {
+		return ANIMATION;
+	}
+
+	@Override
+	public int getAnimationLength() {
+		return LAND_LAST_FRAME;
+	}
+
+	@Override
+	public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityRathalos> attack,
+			EntityRathalos actor,
+			Entity target) {
+		return selectionProvider.shouldSelectAttack(attack, actor, target);
+	}
+
+	@Override
+	public float getWeight(EntityRathalos entity, Entity target) {
+		return WEIGHT;
 	}
 
 }

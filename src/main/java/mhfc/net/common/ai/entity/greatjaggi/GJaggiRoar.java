@@ -1,28 +1,24 @@
 package mhfc.net.common.ai.entity.greatjaggi;
 
+import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.actions.AIGeneralRoar;
-import mhfc.net.common.ai.general.provider.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.ISelectionPredicate;
-import mhfc.net.common.ai.general.provider.IWeightProvider;
+import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
-import mhfc.net.common.entity.monster.EntityGreatJaggi;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 
 public class GJaggiRoar extends AIGeneralRoar<EntityGreatJaggi> {
+
+	private static final String ANIMATION = "mhfc:models/GreatJaggi/GreatJaggiRoar.mcanm";
 	private static final int LAST_FRAME = 64;
+	private static final String ROAR_SOUND = "mhfc:greatjaggi.roar";
 
-	public GJaggiRoar() {
-		super(GJaggiRoar.generateProvider());
-	}
+	private static final IWeightProvider<EntityGreatJaggi> weight;
 
-	private static IRoarProvider<EntityGreatJaggi> generateProvider() {
-		IAnimationProvider anim = new IAnimationProvider.AnimationAdapter(
-				"mhfc:models/GreatJaggi/GreatJaggiRoar.mcanm",
-				LAST_FRAME);
-		ISelectionPredicate<EntityGreatJaggi> select = new ISelectionPredicate.SelectAlways<EntityGreatJaggi>();
-		IWeightProvider<EntityGreatJaggi> weight = new IWeightProvider.RandomWeightAdapter<>(1F);
-		IRoarSoundProvider roar = new IRoarSoundProvider.RoarSoundAdapter("mhfc:greatjaggi.roar");
-		IRoarProvider<EntityGreatJaggi> provide = new AIGeneralRoar.RoarAdapter<>(anim, select, weight, roar);
-		return provide;
+	public GJaggiRoar() {}
+
+	static {
+		weight = new IWeightProvider.RandomWeightAdapter<>(1F);
 	}
 
 	@Override
@@ -34,5 +30,38 @@ public class GJaggiRoar extends AIGeneralRoar<EntityGreatJaggi> {
 			entity.getTurnHelper().updateTargetPoint(target);
 			entity.getTurnHelper().updateTurnSpeed(30.0f);
 		}
+	}
+
+	@Override
+	public boolean shouldStun(EntityLivingBase actor) {
+		return true;
+	}
+
+	@Override
+	public String getAnimationLocation() {
+		return ANIMATION;
+	}
+
+	@Override
+	public int getAnimationLength() {
+		return LAST_FRAME;
+	}
+
+	@Override
+	public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityGreatJaggi> attack,
+			EntityGreatJaggi actor,
+			Entity target) {
+		return true;
+	}
+
+	@Override
+	public float getWeight(EntityGreatJaggi entity, Entity target) {
+		return weight.getWeight(entity, target);
+	}
+
+	@Override
+	public String getRoarSoundLocation() {
+		return ROAR_SOUND;
 	}
 }

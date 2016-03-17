@@ -1,20 +1,27 @@
 package mhfc.net.common.ai.general.actions;
 
-import mhfc.net.common.ai.general.provider.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.ISelectionPredicate;
-import mhfc.net.common.ai.general.provider.IWeightProvider;
+import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.entity.type.EntityMHFCBase;
+import net.minecraft.entity.Entity;
 
-public class AIGeneralIdle<EntityT extends EntityMHFCBase<? super EntityT>> extends AIAnimatedAction<EntityT> {
+public abstract class AIGeneralIdle<EntityT extends EntityMHFCBase<? super EntityT>> extends AIAnimatedAction<EntityT> {
 
-	public AIGeneralIdle(IAnimationProvider animation, IWeightProvider<EntityT> weight) {
-		super(new AnimatedActionAdapter<>(animation, new ISelectionPredicate.SelectIdleAdapter<EntityT>(), weight));
+	private ISelectionPredicate.SelectIdleAdapter<EntityT> selectIdleAdapter;
+
+	public AIGeneralIdle() {
+		selectIdleAdapter = new ISelectionPredicate.SelectIdleAdapter<EntityT>();
 	}
 
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
 		getEntity().playLivingSound();
+	}
+
+	@Override
+	public boolean shouldSelectAttack(IExecutableAction<? super EntityT> attack, EntityT actor, Entity target) {
+		return selectIdleAdapter.shouldSelectAttack(attack, actor, target);
 	}
 
 	@Override

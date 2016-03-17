@@ -1,9 +1,8 @@
 package mhfc.net.common.ai.entity.deviljho;
 
 import mhfc.net.common.ai.general.actions.AIGeneralIdle;
-import mhfc.net.common.ai.general.provider.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.IWeightProvider;
 import mhfc.net.common.entity.monster.EntityDeviljho;
+import net.minecraft.entity.Entity;
 
 public class DeviljhoIdle extends AIGeneralIdle<EntityDeviljho> {
 
@@ -11,11 +10,7 @@ public class DeviljhoIdle extends AIGeneralIdle<EntityDeviljho> {
 	public static final String ANIMATION = "mhfc:models/Deviljho/DeviljhoIdle.mcanm";
 	public static final float WEIGHT = 3;
 
-	public DeviljhoIdle() {
-		super(
-				new IAnimationProvider.AnimationAdapter(ANIMATION, LAST_FRAME),
-				new IWeightProvider.RandomWeightAdapter<>(WEIGHT));
-	}
+	public DeviljhoIdle() {}
 
 	@Override
 	public void update() {
@@ -24,5 +19,20 @@ public class DeviljhoIdle extends AIGeneralIdle<EntityDeviljho> {
 			entity.playLivingSound();
 			// just a copy from roar the update method. nothing else
 		}
+	}
+
+	@Override
+	public String getAnimationLocation() {
+		return ANIMATION;
+	}
+
+	@Override
+	public int getAnimationLength() {
+		return LAST_FRAME;
+	}
+
+	@Override
+	public float getWeight(EntityDeviljho entity, Entity target) {
+		return WEIGHT;
 	}
 }

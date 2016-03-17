@@ -1,4 +1,4 @@
-package mhfc.net.common.ai.general.provider;
+package mhfc.net.common.ai.general.provider.simple;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,8 +12,7 @@ import net.minecraft.util.Vec3;
 public interface IPathProvider<EntityT extends EntityLiving> {
 
 	/**
-	 * Resets the path provider and initializes it with the information about
-	 * the actor
+	 * Resets the path provider and initializes it with the information about the actor
 	 */
 	public void initialize(EntityT actor);
 
@@ -23,9 +22,7 @@ public interface IPathProvider<EntityT extends EntityLiving> {
 
 	public void onWaypointReached();
 
-	public static class PathListAdapter<EntityT extends EntityLiving>
-		implements
-			IPathProvider<EntityT> {
+	public static class PathListAdapter<EntityT extends EntityLiving> implements IPathProvider<EntityT> {
 
 		public static final double DEFAULT_MAX_DISTANCE = 0.25f;
 
@@ -74,8 +71,7 @@ public interface IPathProvider<EntityT extends EntityLiving> {
 		@Override
 		public boolean hasWaypointReached() {
 			Vec3 position = WorldHelper.getEntityPositionVector(actor);
-			return position.subtract(getCurrentWaypoint())
-				.lengthVector() < maxDistance;
+			return position.subtract(getCurrentWaypoint()).lengthVector() < maxDistance;
 		}
 
 		@Override
@@ -85,9 +81,7 @@ public interface IPathProvider<EntityT extends EntityLiving> {
 
 	}
 
-	public static class PathCircleAdapter<EntityT extends EntityLiving>
-		extends
-			PathListAdapter<EntityT> {
+	public static class PathCircleAdapter<EntityT extends EntityLiving> extends PathListAdapter<EntityT> {
 
 		public PathCircleAdapter(List<Vec3> path, double allowedDistance) {
 			super(path, allowedDistance);

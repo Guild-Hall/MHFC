@@ -1,4 +1,4 @@
-package mhfc.net.common.ai.general.provider;
+package mhfc.net.common.ai.general.provider.simple;
 
 import java.security.InvalidParameterException;
 import java.util.Objects;
@@ -68,7 +68,7 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 			// CLEANUP why does a multiplication with 3 work so well here??
 			// It should be v = s/t just straight up, not v = s/t*3.....
 			float velocity = distance / airTime * 2.8f *
-					// Correct minecraft slowdown
+			// Correct minecraft slowdown
 					(airTime * 0.02f) / (1 - (float) Math.pow(0.98, airTime));
 			return Math.min(Math.max(velocity, minSpeed), maxSpeed);
 		}

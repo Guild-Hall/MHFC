@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import javax.vecmath.Vector2f;
+
 import mhfc.net.client.gui.ClickableGuiList;
 import mhfc.net.client.gui.ClickableGuiList.GuiListStringItem;
 import mhfc.net.client.gui.IMHFCGuiItem;
@@ -41,7 +43,7 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 		groupList = new ClickableGuiList<ClickableGuiList.GuiListStringItem>(width, height);
 		for (String groupID : groupIDs)
 			groupList.add(new GuiListStringItem(groupID));
-		addScreenComponent(groupList, new ComponentPosition(questsX, yBorder + 10));
+		addScreenComponent(groupList, new Vector2f(questsX, yBorder + 10));
 		newQuest = new GuiButton(0, 25, 10, 60, 20, "Take Quest") {
 			@Override
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_, int p_146116_3_) {
@@ -104,7 +106,7 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 
 	@Override
 	public void updateTab() {
-		getPosition(groupList).setPosition(questsX, yBorder + 10);
+		getPosition(groupList).set(questsX, yBorder + 10);
 		groupList.setWidthAndHeight(questsW, ySize - 2 * yBorder - 10);
 		right.xPosition = xSize - questsX - right.getButtonWidth();
 		right.yPosition = yBorder;
@@ -162,10 +164,13 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 	}
 
 	@Override
-	public boolean handleClick(int mouseX, int mouseY, int mouseButton) {
+	public boolean handleClick(float mouseX, float mouseY, int mouseButton) {
 		boolean clickHandled = false;
 		clickHandled |= super.handleClick(mouseX, mouseY, mouseButton);
-		if (questIdentifiers.size() > 0 && !MHFCRegQuestVisual.hasPlayerQuest() // Is an info displayed
+		if (questIdentifiers.size() > 0 && !MHFCRegQuestVisual.hasPlayerQuest() // Is
+																				// an
+																				// info
+																				// displayed
 				&& mouseX > 80 && mouseX < 300 // x check
 				&& mouseY > 0 && mouseY < ySize - 30) {
 			if (!clickHandled) {

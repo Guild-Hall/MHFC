@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.vecmath.Vector2f;
+
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
@@ -13,35 +15,21 @@ import net.minecraft.client.gui.GuiScreen;
 
 public abstract class MHFCGui extends GuiScreen implements IMHFCGuiItem {
 
-	public static class ComponentPosition {
-		public int positionX, positionY;
-
-		public ComponentPosition(int positionX, int positionY) {
-			this.positionX = positionX;
-			this.positionY = positionY;
-		}
-
-		public void setPosition(int posX, int posY) {
-			positionX = posX;
-			positionY = posY;
-		}
-	}
-
 	protected double mouseLastX, mouseLastY;
 	protected double mouseClickX, mouseClickY;
 	protected int mouseClickButton;
 	boolean clickHandled;
 
-	private Map<IMHFCGuiItem, ComponentPosition> screenComponents = new IdentityHashMap<>();
+	private Map<IMHFCGuiItem, Vector2f> screenComponents = new IdentityHashMap<>();
 
-	protected void addScreenComponent(IMHFCGuiItem component, ComponentPosition position) {
+	protected void addScreenComponent(IMHFCGuiItem component, Vector2f position) {
 		Objects.requireNonNull(position);
 		Objects.requireNonNull(component);
 		component.initializeContext(mc);
 		screenComponents.put(component, position);
 	}
 
-	protected ComponentPosition getPosition(IMHFCGuiItem component) {
+	protected Vector2f getPosition(IMHFCGuiItem component) {
 		return screenComponents.get(component);
 	}
 
@@ -77,17 +65,17 @@ public abstract class MHFCGui extends GuiScreen implements IMHFCGuiItem {
 	}
 
 	@Override
-	public boolean handleClick(int relativeX, int relativeY, int button) {
+	public boolean handleClick(float relativeX, float relativeY, int button) {
 		mouseClickX = relativeX;
 		mouseClickY = relativeY;
 		mouseLastX = relativeX;
 		mouseLastY = relativeY;
 		mouseClickButton = button;
 		clickHandled = false;
-		super.mouseClicked(relativeX, relativeY, button);
+		super.mouseClicked((int) relativeX, (int) relativeY, button);
 		for (IMHFCGuiItem item : screenComponents.keySet()) {
-			ComponentPosition pos = screenComponents.get(item);
-			if (item.handleClick(relativeX - pos.positionX, relativeY - pos.positionY, button)) {
+			Vector2f pos = screenComponents.get(item);
+			if (item.handleClick(relativeX - pos.x, relativeY - pos.y, button)) {
 				itemUpdated(item);
 				clickHandled = true;
 			}
@@ -102,20 +90,20 @@ public abstract class MHFCGui extends GuiScreen implements IMHFCGuiItem {
 		while (it.hasNext()) {
 			IMHFCGuiItem item = it.next();
 			item.initializeContext(mc);
-			ComponentPosition pos = screenComponents.get(item);
+			Vector2f pos = screenComponents.get(item);
 			GL11.glPushMatrix();
-			GL11.glTranslated(pos.positionX, pos.positionY, pos.positionY);
-			item.draw(mouseX - pos.positionX, mouseY - pos.positionY, partialTick);
+			GL11.glTranslated(pos.x, 0, pos.y);
+			item.draw(mouseX - pos.x, mouseY - pos.y, partialTick);
 			GL11.glPopMatrix();
 		}
 	}
 
 	@Override
-	public void handleMovementMouseDown(int mouseX, int mouseY, int button, long timeDiff) {
-		super.mouseClickMove(mouseX, mouseY, button, timeDiff);
+	public void handleMovementMouseDown(float mouseX, float mouseY, int button, long timeDiff) {
+		super.mouseClickMove((int) mouseX, (int) mouseY, button, timeDiff);
 		for (IMHFCGuiItem item : screenComponents.keySet()) {
-			ComponentPosition pos = screenComponents.get(item);
-			item.handleMovementMouseDown(mouseX - pos.positionX, mouseY - pos.positionY, button, timeDiff);
+			Vector2f pos = screenComponents.get(item);
+			item.handleMovementMouseDown(mouseX - pos.x, mouseY - pos.y, button, timeDiff);
 		}
 		mouseLastX = mouseX;
 		mouseLastY = mouseY;
@@ -123,22 +111,22 @@ public abstract class MHFCGui extends GuiScreen implements IMHFCGuiItem {
 	}
 
 	@Override
-	public void handleMouseUp(int mouseX, int mouseY, int id) {
-		super.mouseMovedOrUp(mouseX, mouseY, id);
+	public void handleMouseUp(float mouseX, float mouseY, int id) {
+		super.mouseMovedOrUp((int) mouseX, (int) mouseY, id);
 		for (IMHFCGuiItem item : screenComponents.keySet()) {
-			ComponentPosition pos = screenComponents.get(item);
-			item.handleMouseUp(mouseX - pos.positionX, mouseY - pos.positionY, id);
+			Vector2f pos = screenComponents.get(item);
+			item.handleMouseUp(mouseX - pos.x, mouseY - pos.y, id);
 		}
 		mouseLastX = mouseX;
 		mouseLastY = mouseY;
 	}
 
 	@Override
-	public void handleMovement(int mouseX, int mouseY) {
-		super.mouseMovedOrUp(mouseX, mouseY, -1);
+	public void handleMovement(float mouseX, float mouseY) {
+		super.mouseMovedOrUp((int) mouseX, (int) mouseY, -1);
 		for (IMHFCGuiItem item : screenComponents.keySet()) {
-			ComponentPosition pos = screenComponents.get(item);
-			item.handleMovement(mouseX - pos.positionX, mouseY - pos.positionY);
+			Vector2f pos = screenComponents.get(item);
+			item.handleMovement(mouseX - pos.x, mouseY - pos.y);
 		}
 		mouseLastX = mouseX;
 		mouseLastY = mouseY;

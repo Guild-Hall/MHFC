@@ -1,13 +1,11 @@
 package mhfc.net.common.ai.entity.deviljho;
 
-import java.util.Random;
-
+import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.actions.AIAnimatedAction;
-import mhfc.net.common.ai.general.provider.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.ISelectionPredicate;
-import mhfc.net.common.ai.general.provider.IWeightProvider;
+import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.projectile.EntityBreathe;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 
 public class DeviljhoFrontalBreathe extends AIAnimatedAction<EntityDeviljho> {
@@ -17,17 +15,12 @@ public class DeviljhoFrontalBreathe extends AIAnimatedAction<EntityDeviljho> {
 	private static final double Set_MaxDistance = 6f;
 	private static final float Set_Weight = 6F;
 
-	public DeviljhoFrontalBreathe() {
-		super(generateProvider());
-	}
+	private static ISelectionPredicate<EntityDeviljho> selectionProvider;
 
-	private static IAnimatedActionProvider<EntityDeviljho> generateProvider() {
-		IAnimationProvider animationProvider = new IAnimationProvider.AnimationAdapter(SET_Animation, Set_Frame);
-		ISelectionPredicate<EntityDeviljho> selectionProvider = new ISelectionPredicate.DistanceAdapter<>(
-				0,
-				Set_MaxDistance);
-		IWeightProvider<EntityDeviljho> weightProvider = new IWeightProvider.SimpleWeightAdapter<>(Set_Weight);
-		return new AnimatedActionAdapter<EntityDeviljho>(animationProvider, selectionProvider, weightProvider);
+	public DeviljhoFrontalBreathe() {}
+
+	static {
+		selectionProvider = new ISelectionPredicate.DistanceAdapter<>(0, Set_MaxDistance);
 	}
 
 	@Override
@@ -35,7 +28,6 @@ public class DeviljhoFrontalBreathe extends AIAnimatedAction<EntityDeviljho> {
 		EntityDeviljho set_ENTITY = this.getEntity();
 		EntityLivingBase set_TARGET = set_ENTITY.getAttackTarget();
 		getEntity().playSound("mhfc:deviljho.dragonbreath", 1.0F, 1.0F);
-		Random random = new Random();
 		if (this.getCurrentFrame() == 40) {
 			if (set_ENTITY.getAttackTarget() == null) {
 				return;
@@ -51,6 +43,29 @@ public class DeviljhoFrontalBreathe extends AIAnimatedAction<EntityDeviljho> {
 
 	private boolean isMoveForwardFrame(int frame) {
 		return (frame > 20 && frame < 30);
+	}
+
+	@Override
+	public String getAnimationLocation() {
+		return SET_Animation;
+	}
+
+	@Override
+	public int getAnimationLength() {
+		return Set_Frame;
+	}
+
+	@Override
+	public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityDeviljho> attack,
+			EntityDeviljho actor,
+			Entity target) {
+		return selectionProvider.shouldSelectAttack(attack, actor, target);
+	}
+
+	@Override
+	public float getWeight(EntityDeviljho entity, Entity target) {
+		return Set_Weight;
 	}
 
 }

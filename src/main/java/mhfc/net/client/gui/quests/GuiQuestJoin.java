@@ -3,6 +3,8 @@ package mhfc.net.client.gui.quests;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.vecmath.Vector2f;
+
 import mhfc.net.client.gui.ClickableGuiList;
 import mhfc.net.client.gui.ClickableGuiList.GuiListStringItem;
 import mhfc.net.client.gui.IMHFCGuiItem;
@@ -41,7 +43,7 @@ public class GuiQuestJoin extends MHFCGui implements IMHFCTab {
 		runningQuestList.setItemWidth(22);
 
 		runningQuestList.setWidthAndHeight(70, ySize - 30);
-		addScreenComponent(runningQuestList, new ComponentPosition(5, 20));
+		addScreenComponent(runningQuestList, new Vector2f(5, 20));
 
 		mapToListItems = new HashMap<String, GuiListStringItem>();
 		mapToIdentifiers = new HashMap<GuiListStringItem, String>();
@@ -69,8 +71,8 @@ public class GuiQuestJoin extends MHFCGui implements IMHFCTab {
 
 	@Override
 	public void updateTab() {
-		ComponentPosition position = getPosition(runningQuestList);
-		position.setPosition(runningX, yBorder + 10);
+		Vector2f position = getPosition(runningQuestList);
+		position.set(runningX, yBorder + 10);
 		runningQuestList.setWidthAndHeight(runningW, ySize - 2 * yBorder - 10);
 
 		joinQuest.xPosition = (xSize - runningX - runningW - joinQuest.getButtonWidth()) / 2 + runningX + runningW;
@@ -153,7 +155,7 @@ public class GuiQuestJoin extends MHFCGui implements IMHFCTab {
 	}
 
 	@Override
-	public boolean handleClick(int relativeX, int relativeY, int button) {
+	public boolean handleClick(float relativeX, float relativeY, int button) {
 		clickHandled = false;
 		clickHandled |= super.handleClick(relativeX, relativeY, button);
 		if (!MHFCRegQuestVisual.hasPlayerQuest() // Is an info displayed

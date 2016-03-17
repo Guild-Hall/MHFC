@@ -3,12 +3,11 @@ package mhfc.net.common.ai.entity.deviljho;
 import java.util.List;
 import java.util.Random;
 
+import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIAnimatedAction;
-import mhfc.net.common.ai.general.provider.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.ISelectionPredicate;
-import mhfc.net.common.ai.general.provider.IWeightProvider;
+import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -22,18 +21,16 @@ public class DeviljhoStomp extends AIAnimatedAction<EntityDeviljho> {
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(60f, 50F, 9999999f);
 	private static final double MAX_DIST = 9f;
 	private static final float WEIGHT = 7;
+
+	private static final ISelectionPredicate<EntityDeviljho> selectionProvider;
+
+	static {
+		selectionProvider = new ISelectionPredicate.DistanceAdapter<>(0, MAX_DIST);
+	}
+
 	private boolean thrown = false;
 
-	public DeviljhoStomp() {
-		super(generateProvider());
-	}
-
-	private static IAnimatedActionProvider<EntityDeviljho> generateProvider() {
-		IAnimationProvider animationProvider = new IAnimationProvider.AnimationAdapter(ANIMATION, LAST_FRAME);
-		ISelectionPredicate<EntityDeviljho> selectionProvider = new ISelectionPredicate.DistanceAdapter<>(0, MAX_DIST);
-		IWeightProvider<EntityDeviljho> weightProvider = new IWeightProvider.SimpleWeightAdapter<>(WEIGHT);
-		return new AnimatedActionAdapter<EntityDeviljho>(animationProvider, selectionProvider, weightProvider);
-	}
+	public DeviljhoStomp() {}
 
 	private void updateStomp() {
 		EntityDeviljho entity = this.getEntity();
@@ -95,6 +92,29 @@ public class DeviljhoStomp extends AIAnimatedAction<EntityDeviljho> {
 
 	private boolean isMoveForwardFrame(int frame) {
 		return (frame > 20 && frame < 30);
+	}
+
+	@Override
+	public String getAnimationLocation() {
+		return ANIMATION;
+	}
+
+	@Override
+	public int getAnimationLength() {
+		return LAST_FRAME;
+	}
+
+	@Override
+	public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityDeviljho> attack,
+			EntityDeviljho actor,
+			Entity target) {
+		return selectionProvider.shouldSelectAttack(attack, actor, target);
+	}
+
+	@Override
+	public float getWeight(EntityDeviljho entity, Entity target) {
+		return WEIGHT;
 	}
 
 }

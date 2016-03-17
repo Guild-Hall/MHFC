@@ -1,28 +1,25 @@
 package mhfc.net.common.ai.entity.barroth;
 
+import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.actions.AIGeneralRoar;
-import mhfc.net.common.ai.general.provider.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.ISelectionPredicate;
-import mhfc.net.common.ai.general.provider.IWeightProvider;
+import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
 import mhfc.net.common.entity.monster.EntityBarroth;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 
 public class BarrothRoar extends AIGeneralRoar<EntityBarroth> {
+
+	private static final String ANIMATION = "mhfc:models/Barroth/BarrothRoar.mcanm";
 	private static final int LAST_FRAME = 105;
+	private static final String ROAR_SOUND = "mhfc:barroth.roar";
 
-	public BarrothRoar() {
-		super(BarrothRoar.generateProvider());
+	private static final IWeightProvider<EntityBarroth> weight;
+
+	static {
+		weight = new IWeightProvider.RandomWeightAdapter<>(1F);
 	}
 
-	private static IRoarProvider<EntityBarroth> generateProvider() {
-		IAnimationProvider anim = new IAnimationProvider.AnimationAdapter(
-				"mhfc:models/Barroth/BarrothRoar.mcanm",
-				LAST_FRAME);
-		ISelectionPredicate<EntityBarroth> select = new ISelectionPredicate.SelectAlways<EntityBarroth>();
-		IWeightProvider<EntityBarroth> weight = new IWeightProvider.RandomWeightAdapter<>(1F);
-		IRoarSoundProvider roar = new IRoarSoundProvider.RoarSoundAdapter("mhfc:barroth.roar");
-		IRoarProvider<EntityBarroth> provide = new AIGeneralRoar.RoarAdapter<>(anim, select, weight, roar);
-		return provide;
-	}
+	public BarrothRoar() {}
 
 	@Override
 	public void update() {
@@ -33,5 +30,38 @@ public class BarrothRoar extends AIGeneralRoar<EntityBarroth> {
 			entity.getTurnHelper().updateTargetPoint(target);
 			entity.getTurnHelper().updateTurnSpeed(30.0f);
 		}
+	}
+
+	@Override
+	public boolean shouldStun(EntityLivingBase actor) {
+		return true;
+	}
+
+	@Override
+	public String getAnimationLocation() {
+		return ANIMATION;
+	}
+
+	@Override
+	public int getAnimationLength() {
+		return LAST_FRAME;
+	}
+
+	@Override
+	public boolean shouldSelectAttack(
+			IExecutableAction<? super EntityBarroth> attack,
+			EntityBarroth actor,
+			Entity target) {
+		return true;
+	}
+
+	@Override
+	public float getWeight(EntityBarroth entity, Entity target) {
+		return weight.getWeight(entity, target);
+	}
+
+	@Override
+	public String getRoarSoundLocation() {
+		return ROAR_SOUND;
 	}
 }

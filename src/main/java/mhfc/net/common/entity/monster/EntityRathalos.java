@@ -76,7 +76,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		stancedAttackManager.registerAction(new FlyStart());
 		stancedAttackManager.registerAction(new JumpFireball());
 		stancedAttackManager.registerAction(new TailSpin());
-		stancedAttackManager.registerAction(FlyLand.generate());
+		stancedAttackManager.registerAction(new FlyLand());
 		return stancedAttackManager.build(this);
 	}
 
