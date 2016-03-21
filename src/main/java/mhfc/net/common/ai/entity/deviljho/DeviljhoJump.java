@@ -16,7 +16,7 @@ public class DeviljhoJump extends AIGeneralJumpAttack<EntityDeviljho> {
 	private static final int set_FRAME = 60;
 	private static final int set_JUMPFRAME = 20;
 	private static final float set_TURNRATE = 14;
-	private static final float set_JUMPDURATION = 16f;
+	private static final float set_JUMPDURATION = 12f;
 
 	private static final IDamageCalculator set_DAMAGEBASE = AIUtils.defaultDamageCalc(105f, 2000f, 999999F);
 	private static final double set_DISTANCEMINIMUM = 6F;

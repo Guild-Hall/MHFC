@@ -21,7 +21,7 @@ public class TigrexWhip extends AIGeneralTailWhip<EntityTigrex> {
 	private static final ISelectionPredicate<EntityTigrex> pred;
 
 	static {
-		damageCalc = AIUtils.defaultDamageCalc(90, 92, 9999999f);
+		damageCalc = AIUtils.defaultDamageCalc(94, 92, 9999999f);
 		pred = new ISelectionPredicate.SelectionAdapter<>(MIN_RIGHT_ANGLE, 180, MIN_DIST, MAX_DISTANCE);
 	}
 
