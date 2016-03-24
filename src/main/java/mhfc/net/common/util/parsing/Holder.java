@@ -1,6 +1,12 @@
 package mhfc.net.common.util.parsing;
 
 import java.util.Objects;
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+import java.util.function.Function;
+import java.util.function.IntSupplier;
+import java.util.function.LongSupplier;
+import java.util.function.Supplier;
 
 import mhfc.net.common.util.parsing.valueholders.Any;
 
@@ -10,184 +16,631 @@ import mhfc.net.common.util.parsing.valueholders.Any;
  * @author WorldSEnder
  */
 public final class Holder implements IValueHolder {
-	private static class FailedComputation {
-	}
+	private static class FailedComputation {}
 
 	private static FailedComputation failedTag = new FailedComputation();
 
-	private static boolean representsNothing(Class<?> clazz) {
-		return clazz.isAssignableFrom(void.class);
+	@FunctionalInterface
+	private static interface ByteSupplier {
+		byte getAsByte();
 	}
 
-	private static <F> F throwNotAssignable(Class<?> from, Class<?> to) {
-		throw new ClassCastException(from.getName() + " not assignable to " + to.getName());
+	@FunctionalInterface
+	private static interface CharSupplier {
+		char getAsChar();
 	}
 
-	public static enum DefaultPolicies implements FailPolicy {
+	@FunctionalInterface
+	private static interface ShortSupplier {
+		short getAsShort();
+	}
+
+	@FunctionalInterface
+	private static interface FloatSupplier {
+		float getAsFloat();
+	}
+
+	private static interface Wrapper {
 		/**
-		 * If the request fails, return the default of the value
+		 *
+		 * @return <code>null</code> if not convertible, else a supplier
 		 */
-		REALLY_LENIENT {
-			@Override
-			public boolean failedBoolean(Class<?> existing) {
-				return false;
-			}
+		BooleanSupplier asBool();
 
-			@Override
-			public byte failedByte(Class<?> existing) {
-				return 0;
-			}
+		CharSupplier asChar();
 
-			@Override
-			public char failedChar(Class<?> existing) {
-				return 0;
-			}
+		ByteSupplier asByte();
 
-			@Override
-			public double failedDouble(Class<?> existing) {
-				return 0;
-			}
+		ShortSupplier asShort();
 
-			@Override
-			public float failedFloat(Class<?> existing) {
-				return 0;
-			}
+		IntSupplier asInt();
 
-			@Override
-			public int failedInt(Class<?> existing) {
-				return 0;
-			}
+		LongSupplier asLong();
 
-			@Override
-			public long failedLong(Class<?> existing) {
-				return 0;
-			}
+		FloatSupplier asFloat();
 
-			@Override
-			public <F> F failedObject(Class<?> existing, Class<F> request) {
-				return null;
-			}
+		DoubleSupplier asDouble();
 
-			@Override
-			public short failedShort(Class<?> existing) {
-				return 0;
-			}
-		},
-		/**
-		 * If the any is not engaged, return the default value for the request
-		 */
-		LENIENT {
-			@Override
-			public boolean failedBoolean(Class<?> existing) {
-				if (representsNothing(existing))
-					return Boolean.FALSE;
-				return throwNotAssignable(existing, boolean.class);
-			}
+		<T> Supplier<T> asObject(Class<T> clazz);
 
-			@Override
-			public byte failedByte(Class<?> existing) {
-				if (representsNothing(existing))
-					return (byte) 0;
-				return throwNotAssignable(existing, byte.class);
-			}
+		Class<?> getWrappedClass();
 
-			@Override
-			public char failedChar(Class<?> existing) {
-				if (representsNothing(existing))
-					return '\0';
-				return throwNotAssignable(existing, char.class);
-			}
+		Throwable checkError();
+	}
 
-			@Override
-			public double failedDouble(Class<?> existing) {
-				if (representsNothing(existing))
-					return 0d;
-				return throwNotAssignable(existing, double.class);
-			}
+	private static abstract class BasicWrapper implements Wrapper {
 
-			@Override
-			public float failedFloat(Class<?> existing) {
-				if (representsNothing(existing))
-					return 0f;
-				return throwNotAssignable(existing, float.class);
+		@SuppressWarnings("unchecked")
+		public <T> Supplier<T> asBoxedPrimitive(Class<T> clazz) {
+			if (!clazz.isPrimitive()) {
+				throw new IllegalArgumentException("clazz must be primitive");
 			}
+			if (boolean.class.isAssignableFrom(clazz)) {
+				BooleanSupplier supp = asBool();
+				return supp == null ? null : () -> (T) Boolean.valueOf(supp.getAsBoolean());
+			}
+			if (char.class.isAssignableFrom(clazz)) {
+				CharSupplier supp = asChar();
+				return supp == null ? null : () -> (T) Character.valueOf(supp.getAsChar());
+			}
+			if (byte.class.isAssignableFrom(clazz)) {
+				ByteSupplier supp = asByte();
+				return supp == null ? null : () -> (T) Byte.valueOf(supp.getAsByte());
+			}
+			if (short.class.isAssignableFrom(clazz)) {
+				ShortSupplier supp = asShort();
+				return supp == null ? null : () -> (T) Short.valueOf(supp.getAsShort());
+			}
+			if (int.class.isAssignableFrom(clazz)) {
+				IntSupplier supp = asInt();
+				return supp == null ? null : () -> (T) Integer.valueOf(supp.getAsInt());
+			}
+			if (long.class.isAssignableFrom(clazz)) {
+				LongSupplier supp = asLong();
+				return supp == null ? null : () -> (T) Long.valueOf(supp.getAsLong());
+			}
+			if (float.class.isAssignableFrom(clazz)) {
+				FloatSupplier supp = asFloat();
+				return supp == null ? null : () -> (T) Float.valueOf(supp.getAsFloat());
+			}
+			if (double.class.isAssignableFrom(clazz)) {
+				DoubleSupplier supp = asDouble();
+				return supp == null ? null : () -> (T) Double.valueOf(supp.getAsDouble());
+			}
+			throw new IllegalArgumentException("Unreachable. Did java add another primitive type?");
+		}
+	}
 
-			@Override
-			public int failedInt(Class<?> existing) {
-				if (representsNothing(existing))
-					return 0;
-				return throwNotAssignable(existing, int.class);
-			}
+	private static abstract class PrimitiveWrapper<B> extends BasicWrapper {
+		private Class<B> boxedClazz;
 
-			@Override
-			public long failedLong(Class<?> existing) {
-				if (representsNothing(existing))
-					return 0;
-				return throwNotAssignable(existing, long.class);
-			}
+		public PrimitiveWrapper() {
+			boxedClazz = Objects.requireNonNull(getBoxedClass());
+		}
 
-			@Override
-			public <F> F failedObject(Class<?> existing, Class<F> request) {
-				if (representsNothing(existing))
-					return null;
-				return throwNotAssignable(existing, request);
-			}
+		protected abstract B boxed();
 
-			@Override
-			public short failedShort(Class<?> existing) {
-				if (representsNothing(existing))
-					return 0;
-				return throwNotAssignable(existing, short.class);
-			}
-		},
-		/**
-		 * If the request fails, throw
-		 */
-		STRICT {
-			@Override
-			public boolean failedBoolean(Class<?> existing) {
-				return throwNotAssignable(existing, boolean.class);
-			}
+		protected abstract Class<B> getBoxedClass();
 
-			@Override
-			public byte failedByte(Class<?> existing) {
-				return throwNotAssignable(existing, byte.class);
-			}
+		@Override
+		public BooleanSupplier asBool() {
+			return null;
+		}
 
-			@Override
-			public char failedChar(Class<?> existing) {
-				return throwNotAssignable(existing, char.class);
-			}
+		@Override
+		public CharSupplier asChar() {
+			return null;
+		}
 
-			@Override
-			public double failedDouble(Class<?> existing) {
-				return throwNotAssignable(existing, double.class);
-			}
+		@Override
+		public ByteSupplier asByte() {
+			return null;
+		}
 
-			@Override
-			public float failedFloat(Class<?> existing) {
-				return throwNotAssignable(existing, float.class);
-			}
+		@Override
+		public ShortSupplier asShort() {
+			return null;
+		}
 
-			@Override
-			public int failedInt(Class<?> existing) {
-				return throwNotAssignable(existing, int.class);
-			}
+		@Override
+		public IntSupplier asInt() {
+			return null;
+		}
 
-			@Override
-			public long failedLong(Class<?> existing) {
-				return throwNotAssignable(existing, long.class);
-			}
+		@Override
+		public LongSupplier asLong() {
+			return null;
+		}
 
-			@Override
-			public <F> F failedObject(Class<?> existing, Class<F> request) {
-				return throwNotAssignable(existing, request);
-			}
+		@Override
+		public FloatSupplier asFloat() {
+			return null;
+		}
 
-			@Override
-			public short failedShort(Class<?> existing) {
-				return throwNotAssignable(existing, short.class);
+		@Override
+		public DoubleSupplier asDouble() {
+			return null;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public <T> Supplier<T> asObject(Class<T> clazz) {
+			if (clazz.isPrimitive()) {
+				return asBoxedPrimitive(clazz);
 			}
+			// 5.2
+			// A boxing conversion, optionally followed by a widening reference conversion
+			if (clazz.isAssignableFrom(boxedClazz)) {
+				return () -> (T) boxed();
+			}
+			// TODO: maybe extend the cases of 5.2 to
+			// A widening primitive conversion, then a boxing conversion (no widening reference conversion)
+			return null;
+		}
+
+		@Override
+		public Throwable checkError() {
+			return null;
+		}
+	}
+
+	private static class BooleanWrapper extends PrimitiveWrapper<Boolean> {
+		private final boolean bool;
+
+		public BooleanWrapper(boolean bool) {
+			this.bool = bool;
+		}
+
+		@Override
+		public BooleanSupplier asBool() {
+			return () -> bool;
+		}
+
+		@Override
+		protected Boolean boxed() {
+			return Boolean.valueOf(bool);
+		}
+
+		@Override
+		protected Class<Boolean> getBoxedClass() {
+			return Boolean.class;
+		}
+
+		@Override
+		public Class<?> getWrappedClass() {
+			return boolean.class;
+		}
+	}
+
+	private static class CharWrapper extends PrimitiveWrapper<Character> {
+		private final char ch;
+
+		public CharWrapper(char ch) {
+			this.ch = ch;
+		}
+
+		@Override
+		protected Character boxed() {
+			return Character.valueOf(ch);
+		}
+
+		@Override
+		protected Class<Character> getBoxedClass() {
+			return Character.class;
+		}
+
+		@Override
+		public Class<?> getWrappedClass() {
+			return char.class;
+		}
+	}
+
+	private static class ByteWrapper extends PrimitiveWrapper<Byte> {
+		private final byte b;
+
+		public ByteWrapper(byte b) {
+			this.b = b;
+		}
+
+		@Override
+		public ByteSupplier asByte() {
+			return () -> this.b;
+		}
+
+		@Override
+		public ShortSupplier asShort() {
+			return () -> this.b;
+		}
+
+		@Override
+		public IntSupplier asInt() {
+			return () -> this.b;
+		}
+
+		@Override
+		public LongSupplier asLong() {
+			return () -> this.b;
+		}
+
+		@Override
+		public FloatSupplier asFloat() {
+			return () -> this.b;
+		}
+
+		@Override
+		public DoubleSupplier asDouble() {
+			return () -> this.b;
+		}
+
+		@Override
+		protected Byte boxed() {
+			return Byte.valueOf(b);
+		}
+
+		@Override
+		protected Class<Byte> getBoxedClass() {
+			return Byte.class;
+		}
+
+		@Override
+		public Class<?> getWrappedClass() {
+			return byte.class;
+		}
+	}
+
+	private static class ShortWrapper extends PrimitiveWrapper<Short> {
+		private final short sh;
+
+		public ShortWrapper(short sh) {
+			this.sh = sh;
+		}
+
+		@Override
+		public ShortSupplier asShort() {
+			return () -> this.sh;
+		}
+
+		@Override
+		public IntSupplier asInt() {
+			return () -> this.sh;
+		}
+
+		@Override
+		public LongSupplier asLong() {
+			return () -> this.sh;
+		}
+
+		@Override
+		public FloatSupplier asFloat() {
+			return () -> this.sh;
+		}
+
+		@Override
+		public DoubleSupplier asDouble() {
+			return () -> this.sh;
+		}
+
+		@Override
+		protected Short boxed() {
+			return Short.valueOf(sh);
+		}
+
+		@Override
+		protected Class<Short> getBoxedClass() {
+			return Short.class;
+		}
+
+		@Override
+		public Class<?> getWrappedClass() {
+			return short.class;
+		}
+	}
+
+	private static class IntWrapper extends PrimitiveWrapper<Integer> {
+		private final int i;
+
+		public IntWrapper(int i) {
+			this.i = i;
+		}
+
+		@Override
+		public IntSupplier asInt() {
+			return () -> this.i;
+		}
+
+		@Override
+		public LongSupplier asLong() {
+			return () -> this.i;
+		}
+
+		@Override
+		public FloatSupplier asFloat() {
+			return () -> this.i;
+		}
+
+		@Override
+		public DoubleSupplier asDouble() {
+			return () -> this.i;
+		}
+
+		@Override
+		protected Integer boxed() {
+			return Integer.valueOf(i);
+		}
+
+		@Override
+		protected Class<Integer> getBoxedClass() {
+			return Integer.class;
+		}
+
+		@Override
+		public Class<?> getWrappedClass() {
+			return int.class;
+		}
+	}
+
+	private static class LongWrapper extends PrimitiveWrapper<Long> {
+		private final long l;
+
+		public LongWrapper(long l) {
+			this.l = l;
+		}
+
+		@Override
+		public LongSupplier asLong() {
+			return () -> this.l;
+		}
+
+		@Override
+		public FloatSupplier asFloat() {
+			return () -> this.l;
+		}
+
+		@Override
+		public DoubleSupplier asDouble() {
+			return () -> this.l;
+		}
+
+		@Override
+		protected Long boxed() {
+			return Long.valueOf(l);
+		}
+
+		@Override
+		protected Class<Long> getBoxedClass() {
+			return Long.class;
+		}
+
+		@Override
+		public Class<?> getWrappedClass() {
+			return void.class;
+		}
+	}
+
+	private static class FloatWrapper extends PrimitiveWrapper<Float> {
+		private float f;
+
+		public FloatWrapper(float f) {
+			this.f = f;
+		}
+
+		@Override
+		public FloatSupplier asFloat() {
+			return () -> this.f;
+		}
+
+		@Override
+		public DoubleSupplier asDouble() {
+			return () -> this.f;
+		}
+
+		@Override
+		protected Float boxed() {
+			return Float.valueOf(f);
+		}
+
+		@Override
+		protected Class<Float> getBoxedClass() {
+			return Float.class;
+		}
+
+		@Override
+		public Class<?> getWrappedClass() {
+			return float.class;
+		}
+	}
+
+	private static class DoubleWrapper extends PrimitiveWrapper<Double> {
+		private final double d;
+
+		public DoubleWrapper(double d) {
+			this.d = d;
+		}
+
+		@Override
+		public DoubleSupplier asDouble() {
+			return () -> this.d;
+		}
+
+		@Override
+		protected Double boxed() {
+			return Double.valueOf(d);
+		}
+
+		@Override
+		protected Class<Double> getBoxedClass() {
+			return Double.class;
+		}
+
+		@Override
+		public Class<?> getWrappedClass() {
+			return double.class;
+		}
+	}
+
+	private static class VoidWrapper extends PrimitiveWrapper<Void> {
+		@Override
+		public <T> Supplier<T> asObject(Class<T> clazz) {
+			return null;
+		}
+
+		@Override
+		protected Void boxed() {
+			return null;
+		}
+
+		@Override
+		protected Class<Void> getBoxedClass() {
+			return Void.class;
+		}
+
+		@Override
+		public Class<?> getWrappedClass() {
+			return EMPTY_CLASS;
+		}
+	}
+
+	private static final Wrapper VOID_WRAPPER = new VoidWrapper();
+
+	private static class ThrowableWrapper extends VoidWrapper {
+		private final Throwable caught;
+
+		public ThrowableWrapper(Throwable thr) {
+			this.caught = thr;
+		}
+
+		@Override
+		public Throwable checkError() {
+			return this.caught;
+		}
+	}
+
+	private static class ObjectWrapper extends BasicWrapper {
+		private final Object obj;
+		private final Class<?> clazz;
+		private BooleanSupplier boolS;
+		private CharSupplier charS;
+		private ByteSupplier byteS;
+		private ShortSupplier shortS;
+		private IntSupplier intS;
+		private LongSupplier longS;
+		private FloatSupplier floatS;
+		private DoubleSupplier doubleS;
+
+		public ObjectWrapper(Object nonNull) {
+			this(nonNull, nonNull.getClass());
+		}
+
+		public ObjectWrapper(Class<?> of, int overload) {
+			this(null, of);
+		}
+
+		private ObjectWrapper(Object obj, Class<?> clazz) {
+			this.obj = obj;
+			this.clazz = Objects.requireNonNull(clazz);
+			updateSuppliers();
+		}
+
+		@SuppressWarnings("unchecked")
+		private <T> T retrieveUnsafe() {
+			return (T) obj;
+		}
+
+		private void updateSuppliers() {
+			// 5.2 Allow unboxing, optionally followed by widening primitive conversion
+			if (Boolean.class.isAssignableFrom(clazz)) {
+				this.boolS = () -> this.<Boolean>retrieveUnsafe().booleanValue();
+			} else if (Character.class.isAssignableFrom(clazz)) {
+				this.charS = () -> this.<Character>retrieveUnsafe().charValue();
+			} else if (Byte.class.isAssignableFrom(clazz)) {
+				this.byteS = () -> this.<Byte>retrieveUnsafe().byteValue();
+				this.shortS = () -> this.<Byte>retrieveUnsafe().shortValue();
+				this.intS = () -> this.<Byte>retrieveUnsafe().intValue();
+				this.longS = () -> this.<Byte>retrieveUnsafe().longValue();
+				this.floatS = () -> this.<Byte>retrieveUnsafe().floatValue();
+				this.doubleS = () -> this.<Byte>retrieveUnsafe().doubleValue();
+			} else if (Short.class.isAssignableFrom(clazz)) {
+				this.shortS = () -> this.<Short>retrieveUnsafe().shortValue();
+				this.intS = () -> this.<Short>retrieveUnsafe().intValue();
+				this.longS = () -> this.<Short>retrieveUnsafe().longValue();
+				this.floatS = () -> this.<Short>retrieveUnsafe().floatValue();
+				this.doubleS = () -> this.<Short>retrieveUnsafe().doubleValue();
+			} else if (Integer.class.isAssignableFrom(clazz)) {
+				this.intS = () -> this.<Integer>retrieveUnsafe().intValue();
+				this.longS = () -> this.<Integer>retrieveUnsafe().longValue();
+				this.floatS = () -> this.<Integer>retrieveUnsafe().floatValue();
+				this.doubleS = () -> this.<Integer>retrieveUnsafe().doubleValue();
+			} else if (Long.class.isAssignableFrom(clazz)) {
+				this.longS = () -> this.<Long>retrieveUnsafe().longValue();
+				this.floatS = () -> this.<Long>retrieveUnsafe().floatValue();
+				this.doubleS = () -> this.<Long>retrieveUnsafe().longValue();
+			} else if (Float.class.isAssignableFrom(clazz)) {
+				this.floatS = () -> this.<Float>retrieveUnsafe().floatValue();
+				this.doubleS = () -> this.<Float>retrieveUnsafe().doubleValue();
+			} else if (Double.class.isAssignableFrom(clazz)) {
+				this.doubleS = () -> this.<Double>retrieveUnsafe().doubleValue();
+			}
+		}
+
+		@Override
+		public BooleanSupplier asBool() {
+			return boolS;
+		}
+
+		@Override
+		public CharSupplier asChar() {
+			return charS;
+		}
+
+		@Override
+		public ByteSupplier asByte() {
+			return byteS;
+		}
+
+		@Override
+		public ShortSupplier asShort() {
+			return shortS;
+		}
+
+		@Override
+		public IntSupplier asInt() {
+			return intS;
+		}
+
+		@Override
+		public LongSupplier asLong() {
+			return longS;
+		}
+
+		@Override
+		public FloatSupplier asFloat() {
+			return floatS;
+		}
+
+		@Override
+		public DoubleSupplier asDouble() {
+			return doubleS;
+		}
+
+		@Override
+		public <T> Supplier<T> asObject(Class<T> clazz) {
+			if (clazz.isPrimitive()) {
+				return asBoxedPrimitive(clazz);
+			}
+			if (clazz.isAssignableFrom(this.clazz)) {
+				return () -> this.retrieveUnsafe();
+			}
+			return null;
+		}
+
+		@Override
+		public Throwable checkError() {
+			return null;
+		}
+
+		@Override
+		public Class<?> getWrappedClass() {
+			return clazz;
 		}
 	}
 
@@ -237,9 +690,8 @@ public final class Holder implements IValueHolder {
 	}
 
 	/**
-	 * Constructs a Holder of the given class. The class can't denote a primitve
-	 * type such as int.class. The object given has to be an instance of the
-	 * class given. The Holder returned may be a cached one.
+	 * Constructs a Holder of the given class. The class can't denote a primitve type such as int.class. The object
+	 * given has to be an instance of the class given. The Holder returned may be a cached one.
 	 *
 	 * @param object
 	 *            the object to hold, possibly null
@@ -252,6 +704,14 @@ public final class Holder implements IValueHolder {
 		return ret;
 	}
 
+	/**
+	 * Like {@link #valueOf(Object, Class)} but doesn't enforce type boundaries on the class. Nevertheless, an
+	 * instanceof check is performed.
+	 *
+	 * @param object
+	 * @param clazz
+	 * @return
+	 */
 	public static <F> Holder valueOfUnsafe(F object, Class<?> clazz) {
 		Holder ret = new Holder(object, clazz);
 		return ret;
@@ -261,507 +721,240 @@ public final class Holder implements IValueHolder {
 		return new Holder(failedTag, cause);
 	}
 
-	private final Object value;
-	// Sad, that Java has no union
-	private final boolean boolValue;
-	private final byte bValue;
-	private final char cValue;
-	private final short sValue;
-	private final int iValue;
-	private final long lValue;
-	private final float fValue;
-	private final double dValue;
-
-	private final Class<?> clazz;
-	/**
-	 * If the Holder is empty, it may have a cause to why it is.
-	 */
-	private final Throwable cause;
+	private final Wrapper wrap;
 
 	/**
 	 * Any empty Any
 	 */
 	private Holder() {
-		this.value = null;
-		this.cause = null;
-		this.clazz = void.class;
-		this.boolValue = false;
-		this.bValue = 0;
-		this.cValue = 0;
-		this.dValue = 0;
-		this.fValue = 0;
-		this.iValue = 0;
-		this.lValue = 0;
-		this.sValue = 0;
+		this.wrap = VOID_WRAPPER;
+	}
+
+	private Holder(boolean bool) {
+		this(new BooleanWrapper(bool));
+	}
+
+	private Holder(byte b) {
+		this(new ByteWrapper(b));
+	}
+
+	private Holder(char c) {
+		this(new CharWrapper(c));
+	}
+
+	private Holder(short s) {
+		this(new ShortWrapper(s));
+	}
+
+	private Holder(int i) {
+		this(new IntWrapper(i));
+	}
+
+	private Holder(long l) {
+		this(new LongWrapper(l));
+	}
+
+	private Holder(float f) {
+		this(new FloatWrapper(f));
+	}
+
+	private Holder(double d) {
+		this(new DoubleWrapper(d));
 	}
 
 	/**
 	 * An empty Any that is empty for a reason
-	 * 
+	 *
 	 * @param tag
 	 *            ignored tag for overload
 	 * @param cause
 	 *            the cause why this {@link Holder} is empty
 	 */
 	private Holder(FailedComputation tag, Throwable cause) {
-		this.cause = Objects.requireNonNull(cause);
-		this.value = null;
-		this.clazz = void.class;
-		this.boolValue = false;
-		this.bValue = 0;
-		this.cValue = 0;
-		this.dValue = 0;
-		this.fValue = 0;
-		this.iValue = 0;
-		this.lValue = 0;
-		this.sValue = 0;
-	}
-
-	private Holder(boolean bool) {
-		this.value = null;
-		this.cause = null;
-		this.clazz = boolean.class;
-		this.boolValue = bool;
-		this.bValue = 0;
-		this.cValue = 0;
-		this.dValue = 0;
-		this.fValue = 0;
-		this.iValue = 0;
-		this.lValue = 0;
-		this.sValue = 0;
-	}
-
-	private Holder(byte b) {
-		this.value = null;
-		this.cause = null;
-		this.clazz = byte.class;
-		this.boolValue = false;
-		this.bValue = b;
-		this.cValue = 0;
-		this.dValue = 0;
-		this.fValue = 0;
-		this.iValue = 0;
-		this.lValue = 0;
-		this.sValue = 0;
-	}
-
-	private Holder(char c) {
-		this.value = null;
-		this.cause = null;
-		this.clazz = char.class;
-		this.boolValue = false;
-		this.bValue = 0;
-		this.cValue = c;
-		this.dValue = 0;
-		this.fValue = 0;
-		this.iValue = 0;
-		this.lValue = 0;
-		this.sValue = 0;
-	}
-
-	private Holder(short s) {
-		this.value = null;
-		this.cause = null;
-		this.clazz = short.class;
-		this.boolValue = false;
-		this.bValue = 0;
-		this.cValue = 0;
-		this.dValue = 0;
-		this.fValue = 0;
-		this.iValue = 0;
-		this.lValue = 0;
-		this.sValue = s;
-	}
-
-	private Holder(int i) {
-		this.value = null;
-		this.cause = null;
-		this.clazz = int.class;
-		this.boolValue = false;
-		this.bValue = 0;
-		this.cValue = 0;
-		this.dValue = 0;
-		this.fValue = 0;
-		this.iValue = i;
-		this.lValue = 0;
-		this.sValue = 0;
-	}
-
-	private Holder(long l) {
-		this.value = null;
-		this.cause = null;
-		this.clazz = long.class;
-		this.boolValue = false;
-		this.bValue = 0;
-		this.cValue = 0;
-		this.dValue = 0;
-		this.fValue = 0;
-		this.iValue = 0;
-		this.lValue = l;
-		this.sValue = 0;
-	}
-
-	private Holder(float f) {
-		this.value = null;
-		this.cause = null;
-		this.clazz = float.class;
-		this.boolValue = false;
-		this.bValue = 0;
-		this.cValue = 0;
-		this.dValue = 0;
-		this.fValue = f;
-		this.iValue = 0;
-		this.lValue = 0;
-		this.sValue = 0;
-	}
-
-	public Holder(double d) {
-		this.value = null;
-		this.cause = null;
-		this.clazz = double.class;
-		this.boolValue = false;
-		this.bValue = 0;
-		this.cValue = 0;
-		this.dValue = d;
-		this.fValue = 0;
-		this.iValue = 0;
-		this.lValue = 0;
-		this.sValue = 0;
+		this(new ThrowableWrapper(cause));
 	}
 
 	/**
-	 * Initializes the Any with an Object. If the value is <code>null</code>,
-	 * this does the same as {@link #Holder()}. If you want to enforce a type
-	 * with the value, use {@link #Holder(Object, Class)}.
+	 * Initializes the Any with an Object. If the value is <code>null</code>, this does the same as {@link #Holder()}.
+	 * If you want to enforce a type with the value, use {@link #Holder(Object, Class)}.
 	 *
 	 * @param value
 	 *            the value to assign.
 	 * @see #valueOf(Object, Class)
 	 */
 	private Holder(Object value) {
-		this.value = value;
-		this.cause = null;
-		this.clazz = value == null ? void.class : value.getClass();
-		this.boolValue = false;
-		this.bValue = 0;
-		this.cValue = 0;
-		this.dValue = 0;
-		this.fValue = 0;
-		this.iValue = 0;
-		this.lValue = 0;
-		this.sValue = 0;
+		this.wrap = value == null ? VOID_WRAPPER : new ObjectWrapper(value);
 	}
 
 	private <F> Holder(F value, Class<?> clazz) {
-		Objects.requireNonNull(clazz);
-		this.cause = null;
-		this.value = clazz.cast(value);
-		this.clazz = clazz;
-		this.boolValue = false;
-		this.bValue = 0;
-		this.cValue = 0;
-		this.dValue = 0;
-		this.fValue = 0;
-		this.iValue = 0;
-		this.lValue = 0;
-		this.sValue = 0;
+		this.wrap = value == null ? new ObjectWrapper(clazz, 0) : new ObjectWrapper(clazz.cast(value));
+	}
+
+	private Holder(Wrapper wrap) {
+		this.wrap = wrap;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof Any))
+		if (!(obj instanceof Any)) {
 			return false;
+		}
 		Holder o = (Holder) obj;
 		// return this.contained.equals(other.contained);
-		if (!this.isValid() || !o.isValid())
+		if (!this.isValid() || !o.isValid()) {
 			return false;
+		}
 		Object thisBoxed = this.boxed();
 		Object otherBoxed = o.boxed();
 		return thisBoxed == null ? otherBoxed == null : thisBoxed.equals(otherBoxed);
 	}
 
 	public Object boxed() {
-		checkError();
-		if (!isEngaged())
-			return null;
-		if (boolean.class.isAssignableFrom(clazz)) {
-			return Boolean.valueOf(boolValue);
-		} else if (byte.class.isAssignableFrom(clazz)) {
-			return Byte.valueOf(bValue);
-		} else if (char.class.isAssignableFrom(clazz)) {
-			return Character.valueOf(cValue);
-		} else if (short.class.isAssignableFrom(clazz)) {
-			return Short.valueOf(sValue);
-		} else if (int.class.isAssignableFrom(clazz)) {
-			return Integer.valueOf(iValue);
-		} else if (long.class.isAssignableFrom(clazz)) {
-			return Long.valueOf(lValue);
-		} else if (float.class.isAssignableFrom(clazz)) {
-			return Float.valueOf(fValue);
-		} else if (double.class.isAssignableFrom(clazz)) {
-			return Double.valueOf(dValue);
-		}
-		return this.value;
+		return getAs(Object.class);
 	}
 
 	/**
 	 * Check if an error is stored, if yes, throw, if no, return
 	 */
-	private void checkError() {
-		if (this.isValid())
+	private void throwIfError() {
+		Throwable th = this.wrap.checkError();
+		if (th == null) {
 			return;
-		throw new IllegalStateException(this.cause.toString(), this.cause);
+		}
+		throw new IllegalStateException(th.toString(), th);
 	}
 
-	@Override
-	public FailPolicy getDefaultPolicy() {
-		return DefaultPolicies.STRICT;
+	private ClassCastException failedConversion(Class<?> to) {
+		return new ClassCastException("Can' convert from " + wrap.getWrappedClass() + " to " + to);
 	}
 
-	@Override
-	public boolean asBool(FailPolicy onFail) {
-		checkError();
-		if (Boolean.class.isAssignableFrom(clazz))
-			return ((Boolean) this.value).booleanValue();
-		if (boolean.class.isAssignableFrom(clazz))
-			return this.boolValue;
-		return onFail.failedBoolean(clazz);
+	public boolean asBool() {
+		throwIfError();
+		BooleanSupplier supply = this.wrap.asBool();
+		if (supply == null) {
+			throw failedConversion(boolean.class);
+		}
+		return supply.getAsBoolean();
 	}
 
-	@Override
-	public byte asByte(FailPolicy onFail) {
-		checkError();
-		if (byte.class.isAssignableFrom(clazz))
-			return this.bValue;
-		if (Byte.class.isAssignableFrom(clazz))
-			return ((Number) this.value).byteValue();
-		return onFail.failedByte(clazz);
+	public byte asByte() {
+		throwIfError();
+		ByteSupplier supply = this.wrap.asByte();
+		if (supply == null) {
+			throw failedConversion(byte.class);
+		}
+		return supply.getAsByte();
 	}
 
-	@Override
-	public char asChar(FailPolicy onFail) {
-		checkError();
-		if (char.class.isAssignableFrom(clazz))
-			return this.cValue;
-		if (Character.class.isAssignableFrom(clazz))
-			return ((Character) this.value).charValue();
-		return onFail.failedChar(clazz);
+	public char asChar() {
+		throwIfError();
+		CharSupplier supply = this.wrap.asChar();
+		if (supply == null) {
+			throw failedConversion(char.class);
+		}
+		return supply.getAsChar();
 	}
 
-	@Override
-	public short asShort(FailPolicy onFail) {
-		checkError();
-		if (short.class.isAssignableFrom(clazz))
-			return this.sValue;
-		if (byte.class.isAssignableFrom(clazz))
-			return this.bValue;
-		if (Number.class.isAssignableFrom(clazz))
-			return ((Number) this.value).shortValue();
-		return onFail.failedShort(clazz);
+	public short asShort() {
+		throwIfError();
+		ShortSupplier supply = this.wrap.asShort();
+		if (supply == null) {
+			throw failedConversion(short.class);
+		}
+		return supply.getAsShort();
 	}
 
-	@Override
-	public int asInt(FailPolicy onFail) {
-		checkError();
-		if (int.class.isAssignableFrom(clazz))
-			return this.iValue;
-		if (byte.class.isAssignableFrom(clazz))
-			return this.bValue;
-		if (char.class.isAssignableFrom(clazz))
-			return this.cValue;
-		if (short.class.isAssignableFrom(clazz))
-			return this.sValue;
-		if (Number.class.isAssignableFrom(clazz))
-			return ((Number) this.value).intValue();
-		return onFail.failedInt(clazz);
+	public int asInt() {
+		throwIfError();
+		IntSupplier supply = this.wrap.asInt();
+		if (supply == null) {
+			throw failedConversion(int.class);
+		}
+		return supply.getAsInt();
 	}
 
-	@Override
-	public long asLong(FailPolicy onFail) {
-		checkError();
-		if (long.class.isAssignableFrom(clazz))
-			return this.lValue;
-		if (byte.class.isAssignableFrom(clazz))
-			return this.bValue;
-		if (char.class.isAssignableFrom(clazz))
-			return this.cValue;
-		if (short.class.isAssignableFrom(clazz))
-			return this.sValue;
-		if (int.class.isAssignableFrom(clazz))
-			return this.iValue;
-		if (Number.class.isAssignableFrom(clazz))
-			return ((Number) this.value).longValue();
-		return onFail.failedLong(clazz);
+	public long asLong() {
+		throwIfError();
+		LongSupplier supply = this.wrap.asLong();
+		if (supply == null) {
+			throw failedConversion(long.class);
+		}
+		return supply.getAsLong();
 	}
 
-	@Override
-	public float asFloat(FailPolicy onFail) {
-		checkError();
-		if (float.class.isAssignableFrom(clazz))
-			return this.fValue;
-		if (byte.class.isAssignableFrom(clazz))
-			return this.bValue;
-		if (char.class.isAssignableFrom(clazz))
-			return this.cValue;
-		if (short.class.isAssignableFrom(clazz))
-			return this.sValue;
-		if (int.class.isAssignableFrom(clazz))
-			return this.iValue;
-		if (long.class.isAssignableFrom(clazz))
-			return this.lValue;
-		if (Number.class.isAssignableFrom(clazz))
-			return ((Number) this.value).floatValue();
-		return onFail.failedFloat(clazz);
+	public float asFloat() {
+		throwIfError();
+		FloatSupplier supply = this.wrap.asFloat();
+		if (supply == null) {
+			throw failedConversion(float.class);
+		}
+		return supply.getAsFloat();
 	}
 
-	@Override
-	public double asDouble(FailPolicy onFail) {
-		checkError();
-		if (double.class.isAssignableFrom(clazz))
-			return this.dValue;
-		if (byte.class.isAssignableFrom(clazz))
-			return this.bValue;
-		if (char.class.isAssignableFrom(clazz))
-			return this.cValue;
-		if (short.class.isAssignableFrom(clazz))
-			return this.sValue;
-		if (int.class.isAssignableFrom(clazz))
-			return this.iValue;
-		if (long.class.isAssignableFrom(clazz))
-			return this.lValue;
-		if (float.class.isAssignableFrom(clazz))
-			return this.fValue;
-		if (Number.class.isAssignableFrom(clazz))
-			return ((Number) this.value).doubleValue();
-		return onFail.failedDouble(clazz);
+	public double asDouble() {
+		throwIfError();
+		DoubleSupplier supply = this.wrap.asDouble();
+		if (supply == null) {
+			throw failedConversion(double.class);
+		}
+		return supply.getAsDouble();
 	}
 
 	/**
-	 * Returns the object stored in this any if it could be assigned to an
-	 * object of the given class in a simple expression
-	 * <code>F object = getAs<F>(F.class)</code>. This includes auto-boxing. For
-	 * example, when this class holds an int, it is possible to say
-	 * getAs(Integer.class) because <code>Integer a = 5;</code> is a legal
+	 * Returns the object stored in this any if it could be assigned to an object of the given class in a simple
+	 * expression <code>F object = getAs<F>(F.class)</code>. This includes auto-boxing. For example, when this class
+	 * holds an int, it is possible to say getAs(Integer.class) because <code>Integer a = 5;</code> is a legal
 	 * expression.
 	 *
 	 * @param fClazz
-	 *            the class to cast to. It is legal to give primitive classes -
-	 *            although that won't get you far because the value is boxed and
-	 *            unboxed anyway because with type erasure this method returns
-	 *            an Object
+	 *            the class to cast to. It is legal to give primitive classes - although that won't get you far because
+	 *            the value is boxed and unboxed anyway because with type erasure this method returns an Object
 	 * @return
 	 * @throws Throwable
 	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public <F> F getAs(Class<F> fClazz, FailPolicy onFail) {
-		// Unboxing: the given type is primitive
-		checkError();
-		if (fClazz.isAssignableFrom(boolean.class)) {
-			return (F) Boolean.valueOf(asBool(onFail));
+	public <F> F getAs(Class<F> fClazz) {
+		throwIfError();
+		Supplier<F> supply = this.wrap.asObject(fClazz);
+		if (supply == null) {
+			throw failedConversion(fClazz);
 		}
-		if (fClazz.isAssignableFrom(char.class)) {
-			return (F) Character.valueOf(asChar(onFail));
-		}
-		if (fClazz.isAssignableFrom(byte.class)) {
-			return (F) Byte.valueOf(asByte(onFail));
-		}
-		if (fClazz.isAssignableFrom(short.class)) {
-			return (F) Short.valueOf(asShort(onFail));
-		}
-		if (fClazz.isAssignableFrom(int.class)) {
-			return (F) Integer.valueOf(asInt(onFail));
-		}
-		if (fClazz.isAssignableFrom(long.class)) {
-			return (F) Long.valueOf(asLong(onFail));
-		}
-		if (fClazz.isAssignableFrom(float.class)) {
-			return (F) Float.valueOf(asFloat(onFail));
-		}
-		if (fClazz.isAssignableFrom(double.class)) {
-			return (F) Double.valueOf(asDouble(onFail));
-		}
-		// Boxing: The stored type is primitive, the given is not
-		if (clazz.isAssignableFrom(boolean.class)) {
-			if (fClazz.isAssignableFrom(Boolean.class))
-				return (F) Boolean.valueOf(this.boolValue);
-		} else if (clazz.isAssignableFrom(char.class)) {
-			if (fClazz.isAssignableFrom(Character.class))
-				return (F) Character.valueOf(this.cValue);
-			if (fClazz.isAssignableFrom(Integer.class))
-				return (F) Integer.valueOf(this.cValue);
-			if (fClazz.isAssignableFrom(Long.class))
-				return (F) Long.valueOf(this.cValue);
-			if (fClazz.isAssignableFrom(Float.class))
-				return (F) Float.valueOf(this.cValue);
-			if (fClazz.isAssignableFrom(Double.class))
-				return (F) Double.valueOf(this.cValue);
-		} else if (clazz.isAssignableFrom(byte.class)) {
-			if (fClazz.isAssignableFrom(Byte.class))
-				return (F) Byte.valueOf(this.bValue);
-			if (fClazz.isAssignableFrom(Short.class))
-				return (F) Short.valueOf(this.bValue);
-			if (fClazz.isAssignableFrom(Integer.class))
-				return (F) Integer.valueOf(this.bValue);
-			if (fClazz.isAssignableFrom(Long.class))
-				return (F) Long.valueOf(this.bValue);
-			if (fClazz.isAssignableFrom(Float.class))
-				return (F) Float.valueOf(this.bValue);
-			if (fClazz.isAssignableFrom(Double.class))
-				return (F) Double.valueOf(this.bValue);
-		} else if (clazz.isAssignableFrom(short.class)) {
-			if (fClazz.isAssignableFrom(Short.class))
-				return (F) Short.valueOf(this.sValue);
-			if (fClazz.isAssignableFrom(Integer.class))
-				return (F) Integer.valueOf(this.sValue);
-			if (fClazz.isAssignableFrom(Long.class))
-				return (F) Long.valueOf(this.sValue);
-			if (fClazz.isAssignableFrom(Float.class))
-				return (F) Float.valueOf(this.sValue);
-			if (fClazz.isAssignableFrom(Double.class))
-				return (F) Double.valueOf(this.sValue);
-		} else if (clazz.isAssignableFrom(int.class)) {
-			if (fClazz.isAssignableFrom(Integer.class))
-				return (F) Integer.valueOf(this.iValue);
-			if (fClazz.isAssignableFrom(Long.class))
-				return (F) Long.valueOf(this.iValue);
-			if (fClazz.isAssignableFrom(Float.class))
-				return (F) Float.valueOf(this.iValue);
-			if (fClazz.isAssignableFrom(Double.class))
-				return (F) Double.valueOf(this.iValue);
-		} else if (clazz.isAssignableFrom(long.class)) {
-			if (fClazz.isAssignableFrom(Long.class))
-				return (F) Long.valueOf(this.lValue);
-			if (fClazz.isAssignableFrom(Float.class))
-				return (F) Float.valueOf(this.lValue);
-			if (fClazz.isAssignableFrom(Double.class))
-				return (F) Double.valueOf(this.lValue);
-		} else if (clazz.isAssignableFrom(float.class)) {
-			if (fClazz.isAssignableFrom(Float.class))
-				return (F) Float.valueOf(this.fValue);
-			if (fClazz.isAssignableFrom(Double.class))
-				return (F) Double.valueOf(this.fValue);
-		} else if (clazz.isAssignableFrom(double.class)) {
-			if (fClazz.isAssignableFrom(Double.class))
-				return (F) Double.valueOf(this.dValue);
-		}
-		if (fClazz.isAssignableFrom(clazz))
-			return (F) this.value;
-		return onFail.failedObject(clazz, fClazz);
+		return supply.get();
 	}
 
 	/**
+	 * This Holder is said to be "valid" when it doesn't hold an error.
+	 *
+	 * @return
+	 */
+	public boolean isValid() {
+		return this.wrap.checkError() == null;
+	}
+
+	/**
+	 * This Holder is said to be "engaged" when it isn't empty and doesn't hold an error.
 	 *
 	 * @return
 	 */
 	public boolean isEngaged() {
-		return !representsNothing(this.clazz);
+		return !EMPTY_CLASS.isAssignableFrom(wrap.getClass());
+	}
+
+	/**
+	 * Returns true if this holder's value can be converted to the class clazz. <b>This does not mean that no exceptions
+	 * may be thrown during conversion</b>. For example, if this holder holds null of type {@link Integer}, this would
+	 * return <code>true</code> but during execution an {@link NullPointerException} will be thrown.
+	 * 
+	 * @param clazz
+	 * @return
+	 */
+	public boolean holdsClass(Class<?> clazz) {
+		return this.wrap.asObject(clazz) != null;
 	}
 
 	@Override
 	public Class<?> getType() {
-		checkError();
-		return this.clazz;
+		throwIfError();
+		return this.wrap.getWrappedClass();
 	}
 
 	/**
@@ -790,27 +983,66 @@ public final class Holder implements IValueHolder {
 		return true;
 	}
 
-	/**
-	 * This Holder is said to be "valid" when it is either engaged or the cause
-	 * is <code>null</code>.
-	 * 
-	 * @return
-	 */
-	public boolean isValid() {
-		return this.isEngaged() || this.cause == null;
-	}
-
 	public Throwable getFailCause() {
-		if (isValid())
-			return null;
-		return this.cause;
+		if (!isValid()) {
+			return this.wrap.checkError();
+		}
+		return null;
 	}
 
 	@Override
 	public String toString() {
-		if (!isValid())
-			return "{error: " + this.cause.toString() + "}";
+		if (!isValid()) {
+			return "{error: " + this.wrap.checkError().toString() + "}";
+		}
 		Object hold = boxed();
 		return hold == null ? "void" : hold.toString();
+	}
+
+	/**
+	 * If this Holder represents an object that is convertible to classT, then apply the object to func. If this Holder
+	 * represents an object that is not convertible to classT, return a Holder that represents the correct
+	 * {@link ClassCastException}. If this Holder represents an exception, return a Holder that represents that
+	 * exception.
+	 *
+	 * @param classT
+	 * @param classR
+	 * @param func
+	 * @return
+	 */
+	public <T, R> Holder ifValidMap(Class<T> classT, Class<R> classR, Function<T, R> func) {
+		return ifValidFlatMap(classT, func.andThen(r -> Holder.valueOf(r, classR)));
+	}
+
+	/**
+	 * Flat maps the function application. If the function returns null, an empty Holder is returned instead.
+	 *
+	 * @param classT
+	 * @param func
+	 * @return
+	 */
+	public <T> Holder ifValidFlatMap(Class<T> classT, Function<T, Holder> func) {
+		if (!this.isValid()) {
+			return this;
+		}
+		Supplier<T> supp = this.wrap.asObject(classT);
+		if (supp == null) {
+			return Holder.failedComputation(failedConversion(classT));
+		}
+		Holder ret = func.apply(supp.get());
+		return ret == null ? Holder.empty() : ret;
+	}
+
+	/**
+	 * If this Holder represents an exception, return one that holds that exception as value, else return an empty
+	 * Holder.
+	 *
+	 * @return
+	 */
+	public Holder exceptionAsValue() {
+		if (!isValid()) {
+			return Holder.valueOf(this.wrap.checkError());
+		}
+		return Holder.empty();
 	}
 }

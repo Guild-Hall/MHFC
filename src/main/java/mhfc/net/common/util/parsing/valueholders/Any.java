@@ -1,9 +1,6 @@
 package mhfc.net.common.util.parsing.valueholders;
 
-import java.util.Objects;
-
 import mhfc.net.common.util.parsing.Holder;
-import mhfc.net.common.util.parsing.Holder.DefaultPolicies;
 import mhfc.net.common.util.parsing.IValueHolder;
 
 /**
@@ -13,13 +10,11 @@ import mhfc.net.common.util.parsing.IValueHolder;
  *
  */
 public final class Any implements IValueHolder {
-	private static class FromHolderTag {
-	}
+	private static class FromHolderTag {}
 
 	public static final FromHolderTag snapshot_tag = new FromHolderTag();
 
 	private Holder holder;
-	private FailPolicy onFail = DefaultPolicies.STRICT;
 
 	public Any() {
 		this.disengage();
@@ -67,10 +62,6 @@ public final class Any implements IValueHolder {
 
 	public Any(IValueHolder holder, FromHolderTag ignored) {
 		this.assign(holder, ignored);
-	}
-
-	public void setFailPolicy(FailPolicy newPolicy) {
-		this.onFail = Objects.requireNonNull(newPolicy);
 	}
 
 	public boolean isEngaged() {
@@ -142,10 +133,5 @@ public final class Any implements IValueHolder {
 	@Override
 	public Class<?> getType() {
 		return this.holder.getType();
-	}
-
-	@Override
-	public FailPolicy getDefaultPolicy() {
-		return this.onFail;
 	}
 }
