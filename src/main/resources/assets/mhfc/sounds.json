@@ -69,7 +69,7 @@
     "rathalos.flap": {"category": "hostile", "sounds": ["mob/rathalos/flap1", "mob/rathalos/flap2", "mob/rathalos/flap3", "mob/rathalos/flap4", "mob/rathalos/flap5", "mob/rathalos/flap6"]},
     "rathalos.death": {"category": "hostile", "sounds": ["mob/rathalos/death"]},
     
-    "tigrex.idle": {"category": "hostile", "sounds": ["mob/tigrex/idle1", "mob/tigrex/idle2", "mob/tigrex/idle3"]},
+    "tigrex.idle": {"category": "hostile", "sounds": ["mob/tigrex/idle1", "mob/tigrex/idle2"]},
     "tigrex.bite": {"category": "hostile", "sounds": ["mob/tigrex/bite"]},
     "tigrex.charge": {"category": "hostile", "sounds": ["mob/tigrex/charge"]},
     "tigrex.leap": {"category": "hostile", "sounds": ["mob/tigrex/leap"]},
