@@ -7,14 +7,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
-import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import mhfc.net.common.helper.MHFCWeaponClassingHelper;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.Cooldown;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -29,6 +27,7 @@ public class BowClass extends Item {
 	protected int attackdelay, rarity, meta, getcooldown;
 	public boolean rest, start, half, full = false;
 	public int usingItem = 72000;
+	protected double defaultArrowDamage;
 
 	@SideOnly(Side.CLIENT)
 	public IIcon[] IconArray;
@@ -46,6 +45,10 @@ public class BowClass extends Item {
 		firetype = fire;
 	}
 
+	protected double setArrowDamage() {
+		return defaultArrowDamage;
+	}
+
 	@Deprecated
 	// will rework soon
 	public void getWeaponDescription(String title) {
@@ -58,15 +61,19 @@ public class BowClass extends Item {
 		meta = metaData;
 	}
 
-	public void getWeaponDescription(String second, int rareity) {
+	public void getWeaponDescription(String second, int rareity, double damage) {
 		des2 = second;
 		rarity = rareity;
+		defaultArrowDamage = damage;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer,
-			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
+	public void addInformation(
+			ItemStack par1ItemStack,
+			EntityPlayer par2EntityPlayer,
+			@SuppressWarnings("rawtypes") List par3List,
+			boolean par4) {
 		par3List.add(ColorSystem.gold + des1);
 		par3List.add(ColorSystem.dark_green + des2);
 		par3List.add(ColorSystem.yellow + "Rarity: " + rarity);
@@ -96,8 +103,7 @@ public class BowClass extends Item {
 	}
 
 	/**
-	 * Return the enchantability factor of the item, most of the time is based
-	 * on material.
+	 * Return the enchantability factor of the item, most of the time is based on material.
 	 */
 	@Override
 	public int getItemEnchantability() {
@@ -110,8 +116,7 @@ public class BowClass extends Item {
 	}
 
 	/**
-	 * returns the action that specifies what animation to play when the items
-	 * is being used
+	 * returns the action that specifies what animation to play when the items is being used
 	 */
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
@@ -137,8 +142,7 @@ public class BowClass extends Item {
 	}
 
 	/**
-	 * Called whenever this item is equipped and the right mouse button is
-	 * pressed. Args: itemStack, world, entityPlayer
+	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
 	 */
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer player) {
@@ -161,7 +165,7 @@ public class BowClass extends Item {
 				return;
 			}
 
-			EntityWyverniaArrow entityarrow = new EntityWyverniaArrow(par2World, player, f * 2.0F);
+			EntityArrow entityarrow = new EntityArrow(par2World, player, f * 2.0F);
 			boolean crit = new Random().nextInt(10) == 0 ? true : false;
 
 			entityarrow.setIsCritical(crit);
@@ -174,8 +178,7 @@ public class BowClass extends Item {
 				f = 1.0F;
 			}
 
-			entityarrow.setDamage(entityarrow.getDamage() + (flag ? 8D : 2D));
-			
+			entityarrow.setDamage(entityarrow.getDamage() + setArrowDamage());
 
 			if (flag) {
 				entityarrow.canBePickedUp = 2;
@@ -186,12 +189,13 @@ public class BowClass extends Item {
 				par2World.spawnEntityInWorld(entityarrow);
 			}
 			stack.damageItem(1, player);
-			par2World.playSoundAtEntity(player, "random.bow", 1.0F,
+			par2World.playSoundAtEntity(
+					player,
+					"random.bow",
+					1.0F,
 					(1.0F / ((itemRand.nextFloat() * 0.4F) + 1.2F)) + (f * 0.5F));
 		}
 	}
-	
-	
 
 	@Override
 	public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {

@@ -4,9 +4,8 @@ import mhfc.net.common.util.lib.MHFCReference;
 
 public class BHuntersProud extends BowClass {
 
-	
 	public BHuntersProud() {
 		setUnlocalizedName(MHFCReference.weapon_bow_huntersproud_name);
-		getWeaponDescription("Ice Element", 3);
+		getWeaponDescription("Ice Element", 3, 11);
 	}
 }
