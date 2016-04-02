@@ -9,6 +9,19 @@
     "barroth.roar": {"category": "hostile", "sounds": ["mob/barroth/roar"]},
     "barroth.tailwhip": {"category": "hostile", "sounds": ["mob/barroth/tailwhip"]},
     
+    "brachydios.idle": {"category": "hostile", "sounds": ["mob/brachydios/idle"]},
+    "brachydios.slimerefill": {"category": "hostile", "sounds": ["mob/brachydios/slimerefill"]},
+    "brachydios.groundpunch": {"category": "hostile", "sounds": ["mob/brachydios/groundpunch"]},
+    "brachydios.roar": {"category": "hostile", "sounds": ["mob/brachydios/roar"]},
+    "brachydios.leap": {"category": "hostile", "sounds": ["mob/brachydios/leap"]},
+    "brachydios.groundsmash": {"category": "hostile", "sounds": ["mob/brachydios/groundsmash"]},
+    "brachydios.hornsmash": {"category": "hostile", "sounds": ["mob/brachydios/hornsmash"]},
+    "brachydios.punchturn": {"category": "hostile", "sounds": ["mob/brachydios/punchturn"]},
+    "brachydios.punchscrape": {"category": "hostile", "sounds": ["mob/brachydios/punchscrape"]},
+    "brachydios.tailwhip": {"category": "hostile", "sounds": ["mob/brachydios/tailwhip"]},
+    "brachydios.step": {"category": "hostile", "sounds": ["mob/brachydios/step"]},
+    "brachydios.death": {"category": "hostile", "sounds": ["mob/brachydios/death"]},
+    
     "delex.hurt": {"category": "hostile", "sounds": ["mob/delex/hurt"]},
     
     "deviljho.idle": {"category": "hostile", "sounds": ["mob/deviljho/idle"]},
@@ -19,6 +32,7 @@
     "deviljho.rockthrow": {"category": "hostile", "sounds": ["mob/deviljho/rockthrow"]},
     "deviljho.leap": {"category": "hostile", "sounds": ["mob/deviljho/leap"]},
     "deviljho.stomp": {"category": "hostile", "sounds": ["mob/deviljho/stomp"]},
+    "deviljho.tailwhip": {"category": "hostile", "sounds": ["mob/deviljho/tailwhip"]},
     "deviljho.step": {"category": "hostile", "sounds": ["mob/deviljho/step1", "mob/deviljho/step2","mob/deviljho/step3","mob/deviljho/step4"]},
     "deviljho.death": {"category": "hostile", "sounds": ["mob/deviljho/death"]},
     
@@ -72,7 +86,8 @@
     "tigrex.idle": {"category": "hostile", "sounds": ["mob/tigrex/idle1", "mob/tigrex/idle2"]},
     "tigrex.bite": {"category": "hostile", "sounds": ["mob/tigrex/bite"]},
     "tigrex.charge": {"category": "hostile", "sounds": ["mob/tigrex/charge"]},
-    "tigrex.leap": {"category": "hostile", "sounds": ["mob/tigrex/leap"]},
+    "tigrex.leapforward": {"category": "hostile", "sounds": ["mob/tigrex/leapforward"]},
+    "tigrex.leapback": {"category": "hostile", "sounds": ["mob/tigrex/leapback"]},
     "tigrex.roar": {"category": "hostile", "sounds": ["mob/tigrex/roar"]},
     "tigrex.rockthrow": {"category": "hostile", "sounds": ["mob/tigrex/rockthrow"]},
     "tigrex.clawswipe": {"category": "hostile", "sounds": ["mob/tigrex/clawswipe"]},
