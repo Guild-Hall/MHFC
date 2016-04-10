@@ -39,6 +39,7 @@
     "giaprey.idle": {"category": "hostile", "sounds": ["mob/giaprey/idle1", "mob/giaprey/idle2", "mob/giaprey/idle3"]},
     "giaprey.bite": {"category": "hostile", "sounds": ["mob/giaprey/bite"]},
     "giaprey.leap": {"category": "hostile", "sounds": ["mob/giaprey/leap"]},
+    "giaprey.roar": {"category": "hostile", "sounds": ["mob/giaprey/roar"]},
     "giaprey.icespit": {"category": "hostile", "sounds": ["mob/giaprey/icespit"]},
     "giaprey.hurt": {"category": "hostile", "sounds": ["mob/giaprey/hurt"]},
     "giaprey.death": {"category": "hostile", "sounds": ["mob/giaprey/death"]},
