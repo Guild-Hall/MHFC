@@ -47,6 +47,7 @@ public abstract class ActionAdapter<T extends EntityCreature> implements IExecut
 		dmgHelper.reset();
 		frameAdvancer.reset();
 		FMLCommonHandler.instance().bus().post(new ActionSelectionEvent(this, getEntity()));
+		target = entity.getAttackTarget();
 		beginExecution();
 	}
 
@@ -77,16 +78,13 @@ public abstract class ActionAdapter<T extends EntityCreature> implements IExecut
 
 	}
 
-	
 	@Override
 	public abstract float getWeight();
-	
+
 	/**
 	 * This must be overridden by the subclass to specify the behavior during execution
 	 */
 	protected abstract void update();
-
-
 
 	/**
 	 * Gets the entity this attack is bounded to (executed on).

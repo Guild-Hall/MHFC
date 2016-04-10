@@ -17,6 +17,7 @@ import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IActionRecorder;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaBackOff;
+import mhfc.net.common.ai.entity.nargacuga.NargacugaCharge;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaPounce;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaPounce.JumpBehaviour;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaRoar;
@@ -72,6 +73,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		NargacugaBackOff backOff = new NargacugaBackOff();
 		// NargacugaPounce pounceFour = NargacugaPounce.createNargaPounce(
 		// NargaJumpBehaviour.FOUR_JUMPS);
+		NargacugaCharge charge = new NargacugaCharge();
 
 		List<IExecutableAction<? super EntityNargacuga>> prowlerFollow = new ArrayList<IExecutableAction<? super EntityNargacuga>>();
 		prowlerFollow.add(pounceTwo);
@@ -87,6 +89,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		attackManager.allowAllStrongActions(pounceThree);
 		attackManager.allowAllStrongActions(pounceTwo);
 		attackManager.allowAllStrongActions(tailWhip);
+		attackManager.registerAllowingAllActions(charge);
 		return attackManager.build(this);
 	}
 

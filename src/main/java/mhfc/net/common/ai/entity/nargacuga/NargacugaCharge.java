@@ -14,15 +14,20 @@ import net.minecraft.util.Vec3;
 public class NargacugaCharge extends AIAnimatedAction<EntityNargacuga> {
 
 	private static final String ANIMATION = "mhfc:models/Nargacuga/Charge.mcanm";
-	private static final int ANIMATION_LENGTH = 80;
-	private static final float MAX_ANGLE = 40;
+	private static final int ANIMATION_LENGTH = 70;
+	private static final float MAX_ANGLE = 20;
 	private static final float MIN_DISTANCE = 10;
-	private static final float MAX_DISTANCE = 40;
-	private static final float WEIGHT = 0;
-	private static final int LOOP_START = 0;
-	private static final int LOOP_END = 0;
+	private static final float MAX_DISTANCE = 100;
+	private static final float WEIGHT = 5;
+	private static final int RUN_START = 30;
+	private static final int LOOP_START = 46;
+	private static final int LOOP_END = 58;
+
+	private static final float TURN_SPEED = 1;
+	private static final float RUSH_SPEED = 1.7f;
 
 	private SwitchLoopAdvancer frameAdvancer;
+	boolean isRushing;
 	private static final ISelectionPredicate<EntityNargacuga> selectionPredicate;
 
 	static {
@@ -39,13 +44,32 @@ public class NargacugaCharge extends AIAnimatedAction<EntityNargacuga> {
 	}
 
 	@Override
+	protected void beginExecution() {
+		isRushing = true;
+		super.beginExecution();
+	}
+
+	@Override
 	protected void update() {
 		EntityNargacuga nargacuga = getEntity();
 		EntityLivingBase target = nargacuga.getAttackTarget();
 		Vec3 distanceVec = WorldHelper.getVectorToTarget(nargacuga, target);
+		int frame = getCurrentFrame();
 		if (distanceVec.lengthVector() < MIN_DISTANCE) {
 			frameAdvancer.setLoopActive(false);
+			isRushing = false;
 		}
+		if (frame < RUN_START || frame > LOOP_END)
+			return;
+		float speed = RUSH_SPEED;
+		if (frame < LOOP_START) {
+			speed = (frame - RUN_START) / (LOOP_START - RUN_START);
+		} else if (!isRushing) {
+			speed = 0.1f;
+		}
+		nargacuga.getTurnHelper().updateTurnSpeed(TURN_SPEED);
+		nargacuga.getTurnHelper().updateTargetPoint(target);
+		nargacuga.moveForward(speed, true);
 	}
 
 	@Override
