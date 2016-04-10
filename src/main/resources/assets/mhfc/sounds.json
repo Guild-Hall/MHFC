@@ -40,7 +40,6 @@
     "giaprey.bite": {"category": "hostile", "sounds": ["mob/giaprey/bite"]},
     "giaprey.leap": {"category": "hostile", "sounds": ["mob/giaprey/leap"]},
     "giaprey.icespit": {"category": "hostile", "sounds": ["mob/giaprey/icespit"]},
-    "deviljho.roar": {"category": "hostile", "sounds": ["mob/deviljho/roar"]},
     "giaprey.hurt": {"category": "hostile", "sounds": ["mob/giaprey/hurt"]},
     "giaprey.death": {"category": "hostile", "sounds": ["mob/giaprey/death"]},
     
@@ -94,5 +93,5 @@
     "tigrex.tailwhip": {"category": "hostile", "sounds": ["mob/tigrex/tailwhip"]},
     "tigrex.spin": {"category": "hostile", "sounds": ["mob/tigrex/spin"]},
     "tigrex.step": {"category": "hostile", "sounds": ["mob/tigrex/step"]},
-    "tigrex.death": {"category": "hostile", "sounds": ["mob/tigrex/death"]},
+    "tigrex.death": {"category": "hostile", "sounds": ["mob/tigrex/death"]}
 }
