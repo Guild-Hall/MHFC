@@ -30,7 +30,7 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public boolean isClassSnapshot() {
+		public boolean isClassFinal() {
 			return true;
 		}
 	}
@@ -61,7 +61,7 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public boolean isClassSnapshot() {
+		public boolean isClassFinal() {
 			return true;
 		}
 	}
@@ -92,7 +92,7 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public boolean isClassSnapshot() {
+		public boolean isClassFinal() {
 			return true;
 		}
 	}
@@ -123,7 +123,7 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public boolean isClassSnapshot() {
+		public boolean isClassFinal() {
 			return true;
 		}
 	}
@@ -154,7 +154,7 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public boolean isClassSnapshot() {
+		public boolean isClassFinal() {
 			return true;
 		}
 	}
@@ -185,7 +185,7 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public boolean isClassSnapshot() {
+		public boolean isClassFinal() {
 			return true;
 		}
 	}
@@ -216,7 +216,7 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public boolean isClassSnapshot() {
+		public boolean isClassFinal() {
 			return true;
 		}
 	}
@@ -247,7 +247,7 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public boolean isClassSnapshot() {
+		public boolean isClassFinal() {
 			return true;
 		}
 	}

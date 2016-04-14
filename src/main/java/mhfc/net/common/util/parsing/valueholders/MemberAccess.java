@@ -165,7 +165,7 @@ public class MemberAccess implements IValueHolder {
 		 * @param memberName
 		 */
 		public BoundMemberAccess(IValueHolder object, String memberName) {
-			if (!object.isClassSnapshot()) {
+			if (!object.isClassFinal()) {
 				throw new IllegalArgumentException("objects class must be snapshot");
 			}
 			this.origin = object;
@@ -185,13 +185,13 @@ public class MemberAccess implements IValueHolder {
 		}
 
 		@Override
-		public boolean isClassSnapshot() {
+		public boolean isClassFinal() {
 			return true;
 		}
 	}
 
 	public static IValueHolder makeMemberAccess(IValueHolder holder, String memberName) {
-		if (holder.isClassSnapshot()) {
+		if (holder.isClassFinal()) {
 			return new BoundMemberAccess(holder, memberName);
 		}
 		return new MemberAccess(holder, memberName);

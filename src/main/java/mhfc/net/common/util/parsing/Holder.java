@@ -958,12 +958,7 @@ public final class Holder implements IValueHolder {
 	}
 
 	@Override
-	public boolean isSnapshot() {
-		return true;
-	}
-
-	@Override
-	public boolean isClassSnapshot() {
+	public boolean isClassFinal() {
 		return true;
 	}
 

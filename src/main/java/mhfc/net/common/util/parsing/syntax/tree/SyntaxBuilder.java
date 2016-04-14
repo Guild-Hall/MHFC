@@ -138,6 +138,7 @@ public class SyntaxBuilder extends UnarySyntaxBuilder {
 	}
 
 	public AST newParseTree() {
+		validate();
 		return new AST(this);
 	}
 

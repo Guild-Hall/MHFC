@@ -15,11 +15,12 @@ public interface IValueHolder {
 	 */
 	Holder snapshot();
 
-	default boolean isSnapshot() {
-		return false;
-	}
-
-	default boolean isClassSnapshot() {
+	/**
+	 * Returns <code>true</code> if successive calls to {@link #getType()} would always return the same class.
+	 * 
+	 * @return
+	 */
+	default boolean isClassFinal() {
 		return false;
 	}
 
