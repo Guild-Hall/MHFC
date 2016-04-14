@@ -110,7 +110,7 @@ public final class Any implements IValueHolder {
 	}
 
 	public void assign(Object o) {
-		this.setHolder(Holder.valueOfIfPresent(o));
+		this.setHolder(Holder.valueOrEmpty(o));
 	}
 
 	public <F> void assign(F o, Class<F> clazz) {

@@ -2,13 +2,12 @@ package mhfc.net.common.util.parsing.syntax.literals;
 
 import java.util.Formatter;
 
-import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
 
-public class ConstantLiteral implements IExpression {
-	private Holder value;
+public class HolderLiteral implements IExpression {
+	private IValueHolder value;
 
-	public ConstantLiteral(Holder value) {
+	public HolderLiteral(IValueHolder value) {
 		this.value = value;
 	}
 

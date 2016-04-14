@@ -59,7 +59,7 @@ public class AST extends UnaryAST {
 	}
 
 	private int toRemappedOP(boolean isPrefix, int realID) {
-		return (realID & 0x7FFFFFFF) & (isPrefix ? 0x80000000 : 0);
+		return (realID & 0x7FFFFFFF) | (isPrefix ? 0x80000000 : 0);
 	}
 
 	private boolean isRemappedPrefixOP(int remapped) {

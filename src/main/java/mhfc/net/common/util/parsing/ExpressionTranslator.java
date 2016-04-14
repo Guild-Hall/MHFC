@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 import mhfc.net.common.util.CompositeException;
 import mhfc.net.common.util.parsing.syntax.IBasicSequence;
-import mhfc.net.common.util.parsing.syntax.literals.ConstantLiteral;
+import mhfc.net.common.util.parsing.syntax.literals.HolderLiteral;
 import mhfc.net.common.util.parsing.syntax.literals.FunctionCallLiteral;
 import mhfc.net.common.util.parsing.syntax.literals.IExpression;
 import mhfc.net.common.util.parsing.syntax.literals.IdentifierLiteral;
@@ -127,6 +127,59 @@ public class ExpressionTranslator {
 		public void pushOnto(AST ast) { /* ignore */ }
 	}
 
+	private static class Comment implements IBasicSequence {
+		private static enum State {
+			BEFORE,
+			FIRST_STAR,
+			DURING,
+			SECOND_STAR,
+			CLOSED;
+		}
+
+		private State state = State.BEFORE;
+
+		@Override
+		public SiftResult accepting(int cp) {
+			switch (state) {
+			case BEFORE:
+				state = State.FIRST_STAR;
+				return cp == '/' ? SiftResult.ACCEPTED : SiftResult.REJCECTED;
+			case FIRST_STAR:
+				state = State.DURING;
+				return cp == '*' ? SiftResult.ACCEPTED : SiftResult.REJCECTED;
+			case DURING:
+				if (cp == '*') {
+					state = State.SECOND_STAR;
+				}
+				return SiftResult.ACCEPTED;
+			case SECOND_STAR:
+				if (cp == '/') {
+					state = State.CLOSED;
+				} else if (cp != '*') {
+					state = State.DURING;
+				}
+				return SiftResult.ACCEPTED;
+			case CLOSED:
+				return SiftResult.FINISHED;
+			default:
+				throw new IllegalStateException("unreachable");
+			}
+		}
+
+		@Override
+		public void reset() {
+			state = State.BEFORE;
+		}
+
+		@Override
+		public SiftResult endOfStream() {
+			return state == State.CLOSED ? SiftResult.FINISHED : SiftResult.REJCECTED;
+		}
+
+		@Override
+		public void pushOnto(AST ast) { /* ignore */ }
+	}
+
 	private static class StringConstant implements IBasicSequence {
 		private static enum State {
 			BEGIN,
@@ -222,11 +275,11 @@ public class ExpressionTranslator {
 		public void pushOnto(AST ast) {
 			Holder value;
 			if (this.errors.size() == 0) {
-				value = Holder.valueOfIfPresent(this.string.toString());
+				value = Holder.valueOrEmpty(this.string.toString());
 			} else {
 				value = Holder.failedComputation(new CompositeException(this.errors));
 			}
-			ast.pushValue(VAL_EXPRESSION_ID, new ConstantLiteral(value));
+			ast.pushValue(VAL_EXPRESSION_ID, new HolderLiteral(value));
 		}
 	}
 
@@ -241,10 +294,6 @@ public class ExpressionTranslator {
 		private int length;
 		private State state;
 		private StringBuilder string = new StringBuilder();
-
-		public IntegerConstant() {
-			reset();
-		}
 
 		@Override
 		public SiftResult accepting(int cp) {
@@ -319,7 +368,7 @@ public class ExpressionTranslator {
 			} catch (NumberFormatException nfe) {
 				value = Holder.failedComputation(nfe);
 			}
-			ast.pushValue(VAL_EXPRESSION_ID, new ConstantLiteral(value));
+			ast.pushValue(VAL_EXPRESSION_ID, new HolderLiteral(value));
 		}
 
 	}
@@ -371,24 +420,20 @@ public class ExpressionTranslator {
 		sequences.add(makeBinaryOperator('|', OP_FUNCTIONCALL_ID, FunctionOperator::new));
 		sequences.add(makeBinaryOperator(':', OP_ARGUMENTCONTINUE_ID, ArgumentContinuationOperator::new));
 
-		sequences.add(this.new Identifier());
+		sequences.add(new Identifier());
 		sequences.add(new StringConstant());
 		sequences.add(new IntegerConstant());
-		sequences.add(new IntegerConstant());
+		sequences.add(new Comment());
 
 	}
 
-	public IValueHolder parse(String expression) {
+	public IValueHolder parse(String expression) throws SyntaxErrorException {
 		// Replace all comments
-		String noComment = commentPattern.matcher(expression).replaceAll(" ");
-		try {
-			return parseCleaned(noComment);
-		} catch (SyntaxErrorException see) {
-			return Holder.failedComputation(see);
-		}
+		// String noComment = commentPattern.matcher(expression).replaceAll(" ");
+		return parseCleaned(expression);
 	}
 
-	private IValueHolder parseCleaned(String cleanExpression) {
+	private IValueHolder parseCleaned(String cleanExpression) throws SyntaxErrorException {
 		// Cleaned as in: does only contain spaces as whitespace, doesn't
 		// contain any comments and only one sequential whitespace.
 		// So we can reset

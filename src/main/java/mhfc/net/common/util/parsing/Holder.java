@@ -675,13 +675,17 @@ public final class Holder implements IValueHolder {
 		return new Holder(d);
 	}
 
+	public static Holder valueOf(Object nonNull) {
+		return new Holder(nonNull);
+	}
+
 	/**
 	 * Constructs a Holder of the object if the object is not null, else an empty Holder.
 	 *
 	 * @param o
 	 * @return
 	 */
-	public static Holder valueOfIfPresent(Object o) {
+	public static Holder valueOrEmpty(Object o) {
 		return o == null ? empty() : new Holder(o);
 	}
 
@@ -810,7 +814,7 @@ public final class Holder implements IValueHolder {
 	}
 
 	private ClassCastException failedConversion(Class<?> to) {
-		return new ClassCastException("Can' convert from " + wrap.getWrappedClass() + " to " + to);
+		return new ClassCastException("Can't convert from " + wrap.getWrappedClass() + " to " + to);
 	}
 
 	public boolean asBool() {
@@ -1026,7 +1030,7 @@ public final class Holder implements IValueHolder {
 	 */
 	public Holder exceptionAsValue() {
 		if (!isValid()) {
-			return Holder.valueOfIfPresent(this.wrap.checkError());
+			return Holder.valueOrEmpty(this.wrap.checkError());
 		}
 		return Holder.empty();
 	}

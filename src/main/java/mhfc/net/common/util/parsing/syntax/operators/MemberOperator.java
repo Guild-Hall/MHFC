@@ -1,6 +1,7 @@
 package mhfc.net.common.util.parsing.syntax.operators;
 
-import mhfc.net.common.util.parsing.IValueHolder;
+import mhfc.net.common.util.parsing.syntax.literals.HolderLiteral;
+import mhfc.net.common.util.parsing.syntax.literals.IExpression;
 import mhfc.net.common.util.parsing.syntax.literals.IdentifierLiteral;
 import mhfc.net.common.util.parsing.valueholders.MemberAccess;
 
@@ -10,11 +11,11 @@ import mhfc.net.common.util.parsing.valueholders.MemberAccess;
  * @author WorldSEnder
  *
  */
-public class MemberOperator implements IBinaryOperator<IValueHolder, IdentifierLiteral, IValueHolder> {
+public class MemberOperator implements IBinaryOperator<IExpression, IdentifierLiteral, IExpression> {
 
 	@Override
-	public IValueHolder with(IValueHolder valueV, IdentifierLiteral name) {
-		return MemberAccess.makeMemberAccess(valueV, name.getLiteral());
+	public IExpression with(IExpression valueV, IdentifierLiteral name) {
+		return new HolderLiteral(MemberAccess.makeMemberAccess(valueV.asValue(), name.getLiteral()));
 	}
 
 }

@@ -41,7 +41,7 @@ public class SyntaxBuilder extends UnarySyntaxBuilder {
 		}
 
 		public boolean isDominantPrefix() {
-			return type == PublicOpType.UNARY_PREFIX || type == PublicOpType.BINARY;
+			return type == PublicOpType.UNARY_PREFIX;
 		}
 
 		public int getDominantID() {
@@ -84,12 +84,7 @@ public class SyntaxBuilder extends UnarySyntaxBuilder {
 			boolean isPrefix,
 			int valueID,
 			int resultID) {
-		int internal = registerOperator(
-				classOP,
-				isPrefix,
-				valueID,
-				isPrefix ? ElementType.PREFIX_OP : ElementType.POSTFIX_OP,
-				resultID).operatorID;
+		int internal = registerOperator(classOP, isPrefix, valueID, ElementType.VALUE, resultID).operatorID;
 		int external = remapPublicIDs.size();
 		remapPublicIDs.add(new OperatorRemap(isPrefix, external, internal, classOP));
 		return external;
@@ -114,9 +109,9 @@ public class SyntaxBuilder extends UnarySyntaxBuilder {
 				ElementType.PREFIX_OP,
 				intermediate.operatorID);
 		declarePrecedence(intermediate.operatorID, initial.operatorID, isLeftAssociative);
-		int external = remapPublicIDs.size();
-		remapPublicIDs.add(new OperatorRemap(external, intermediate.operatorID, initial.operatorID, classOP));
-		return external;
+		int externalID = remapPublicIDs.size();
+		remapPublicIDs.add(new OperatorRemap(externalID, intermediate.operatorID, initial.operatorID, classOP));
+		return externalID;
 	}
 
 	/**
@@ -147,6 +142,16 @@ public class SyntaxBuilder extends UnarySyntaxBuilder {
 	}
 
 	public void validate() {
-		// TODO Auto-generated method stub
+		List<SyntaxBuilder.OperatorRegistration> preOpReg = getPrefixOps();
+		List<SyntaxBuilder.OperatorRegistration> postOpReg = getPostfixOps();
+
+		for (UnarySyntaxBuilder.OperatorRegistration preOp : preOpReg) {
+			for (int i = 0; i < postOpReg.size(); i++) {
+				boolean preOpAfter = preOp.comesAfterOtherFixity.get(i);
+				if (preOpAfter == postOpReg.get(i).comesAfterOtherFixity.get(preOp.operatorID)) {
+					throw new IllegalStateException("Some operators are not ordered: " + preOp.operatorID + " " + i);
+				}
+			}
+		}
 	}
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
 
-import mhfc.net.common.util.parsing.syntax.ITerminalElement;
 import mhfc.net.common.util.parsing.syntax.operators.IOperator;
 import net.minecraft.command.SyntaxErrorException;
 
@@ -65,7 +64,7 @@ public class UnaryAST {
 
 		@Override
 		public String toString() {
-			return "Value[" + valueType + "]{" + Objects.toString(value) + "}";
+			return "Value[" + valueType + "]";
 		}
 	}
 
@@ -100,7 +99,7 @@ public class UnaryAST {
 
 		@Override
 		public String toString() {
-			return (isPrefix ? "Prefix" : "Postfix") + "[" + opType + "]{" + Objects.toString(op) + "}";
+			return (isPrefix ? "Prefix" : "Postfix") + "Operator[" + opType + "]";
 		}
 	}
 
@@ -206,11 +205,6 @@ public class UnaryAST {
 			}
 			getRightMostNode().addOpenPrefixOps(stack);
 		}
-
-		@Override
-		public String toString() {
-			return "Intermediate{" + opNode + "}{" + valueNode + "}";
-		}
 	}
 
 	/**
@@ -230,8 +224,13 @@ public class UnaryAST {
 		}
 
 		@Override
-		public ITerminalElement getVal() {
-			return (ITerminalElement) compute();
+		public Object getVal() {
+			return compute();
+		}
+
+		@Override
+		public String toString() {
+			return "ValueIntermediate[" + resultType + "]" + "{" + getOperator() + "}(" + getValue() + ")";
 		}
 	}
 
@@ -262,6 +261,12 @@ public class UnaryAST {
 		public IOperator<?, ?> getOp() {
 			return (IOperator<?, ?>) compute();
 		}
+
+		@Override
+		public String toString() {
+			return (isPrefix ? "Prefix" : "Postfix") + "Intermediate[" + opType + "]" + "{" + getOperator() + "}("
+					+ getValue() + ")";
+		}
 	}
 
 	private class Tree {
@@ -287,6 +292,9 @@ public class UnaryAST {
 			depthFirstDisputableValues = new Stack<>();
 			depthFirstOpenPostfixOps = new Stack<>();
 			depthFirstOpenPrefixOps = new Stack<>();
+			reparseDisputableValues();
+			reparsePostfixOps();
+			reparsePrefixOps();
 		}
 
 		private void reparseDisputableValues() {
@@ -301,7 +309,7 @@ public class UnaryAST {
 
 		private void reparsePrefixOps() {
 			this.depthFirstOpenPrefixOps.clear();
-			this.topNode.addOpenPostfixOps(depthFirstOpenPrefixOps);
+			this.topNode.addOpenPrefixOps(depthFirstOpenPrefixOps);
 		}
 
 		private boolean tryApplyTreeTo(IntermediateNode target) {
@@ -316,6 +324,9 @@ public class UnaryAST {
 		}
 
 		private boolean tryOvertakeValueNode(IntermediateNode disputable) {
+			if (depthFirstOpenPostfixOps.isEmpty()) {
+				return false;
+			}
 			IntermediateNode openOP = depthFirstOpenPostfixOps.peek();
 			if (!accepts(openOP, disputable.getValue())) {
 				return false;
@@ -330,7 +341,7 @@ public class UnaryAST {
 			return true;
 		}
 
-		private boolean tryApplyFrom(Tree other) {
+		private boolean tryOvertakeWholeTree(Tree other) {
 			IntermediateNode openOP = depthFirstOpenPostfixOps.peek();
 			if (!accepts(openOP, other.topNodeAsVal)) {
 				return false;
@@ -360,6 +371,7 @@ public class UnaryAST {
 				if (tryApplyTreeTo(openOP)) {
 					left.reparseDisputableValues();
 					left.reparsePrefixOps();
+					return true;
 				}
 			}
 			for (Iterator<IntermediateNode> nodeIt = left.depthFirstDisputableValues.iterator(); nodeIt.hasNext();) {
@@ -375,7 +387,7 @@ public class UnaryAST {
 				nodeIt.remove();
 			}
 			// Try to swallow left's top node
-			if (tryApplyFrom(left)) {
+			if (tryOvertakeWholeTree(left)) {
 				this.reparseDisputableValues();
 				this.reparsePostfixOps();
 				this.reparsePrefixOps();
@@ -386,7 +398,8 @@ public class UnaryAST {
 
 		@Override
 		public String toString() {
-			return "Tree { top: " + this.topNode + "}";
+			return "Tree { top: " + this.topNode + ", open: " + this.depthFirstOpenPrefixOps + "|"
+					+ depthFirstOpenPostfixOps + "}";
 		}
 	}
 
@@ -438,29 +451,29 @@ public class UnaryAST {
 		partialTrees = new Stack<>();
 	}
 
-	private NodeFunction makeNodeGenerator(SyntaxBuilder.OperatorRegistration postOp) {
-		switch (postOp.resultType) {
+	private NodeFunction makeNodeGenerator(SyntaxBuilder.OperatorRegistration operator) {
+		switch (operator.resultType) {
 		case VALUE:
 			return new NodeFunction() {
 				@Override
 				public <T extends Node & IOperatorNode> ValueIntermediate make(T op) {
-					return new ValueIntermediate(op, postOp.resultID);
+					return new ValueIntermediate(op, operator.resultID);
 				}
 			};
 		case PREFIX_OP:
 			return new NodeFunction() {
 				@Override
 				public <T extends Node & IOperatorNode> ValueIntermediate make(T op) {
-					return prefixOpTreeBuilder[postOp.resultID]
-							.make(new OperatorIntermediate(op, true, postOp.resultID));
+					return prefixOpTreeBuilder[operator.resultID]
+							.make(new OperatorIntermediate(op, true, operator.resultID));
 				}
 			};
 		case POSTFIX_OP:
 			return new NodeFunction() {
 				@Override
 				public <T extends Node & IOperatorNode> ValueIntermediate make(T op) {
-					return postfixOPTreeBuilder[postOp.resultID]
-							.make(new OperatorIntermediate(op, false, postOp.resultID));
+					return postfixOPTreeBuilder[operator.resultID]
+							.make(new OperatorIntermediate(op, false, operator.resultID));
 				}
 			};
 		}
@@ -497,7 +510,7 @@ public class UnaryAST {
 
 	private void remergeTrees() {
 		boolean somethingHappened = true;
-		while (somethingHappened && partialTrees.size() > 2) {
+		while (somethingHappened && partialTrees.size() >= 2) {
 			Tree one = partialTrees.pop();
 			Tree two = partialTrees.pop();
 			somethingHappened = one.mergeInto(two);

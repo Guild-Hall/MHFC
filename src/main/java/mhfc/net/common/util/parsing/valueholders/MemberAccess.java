@@ -116,7 +116,7 @@ public class MemberAccess implements IValueHolder {
 				}
 				// Java compiler, ty
 				// Holder.valueOf(fieldC.cast(fieldValue), fieldC);
-				return fieldValue == null ? Holder.typedNull(fieldC) : Holder.valueOfIfPresent(fieldValue);
+				return fieldValue == null ? Holder.typedNull(fieldC) : Holder.valueOrEmpty(fieldValue);
 			} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
 				return Holder.failedComputation(
 						new IllegalArgumentException(
