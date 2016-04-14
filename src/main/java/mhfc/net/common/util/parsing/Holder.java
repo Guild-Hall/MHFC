@@ -8,6 +8,10 @@ import java.util.function.IntSupplier;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 
+import mhfc.net.common.util.function.ByteSupplier;
+import mhfc.net.common.util.function.CharSupplier;
+import mhfc.net.common.util.function.FloatSupplier;
+import mhfc.net.common.util.function.ShortSupplier;
 import mhfc.net.common.util.parsing.valueholders.Any;
 
 /**
@@ -16,29 +20,12 @@ import mhfc.net.common.util.parsing.valueholders.Any;
  * @author WorldSEnder
  */
 public final class Holder implements IValueHolder {
-	private static class FailedComputation {}
+	private static class FailedComputationTag {}
 
-	private static FailedComputation failedTag = new FailedComputation();
+	private static class ClassTag {}
 
-	@FunctionalInterface
-	private static interface ByteSupplier {
-		byte getAsByte();
-	}
-
-	@FunctionalInterface
-	private static interface CharSupplier {
-		char getAsChar();
-	}
-
-	@FunctionalInterface
-	private static interface ShortSupplier {
-		short getAsShort();
-	}
-
-	@FunctionalInterface
-	private static interface FloatSupplier {
-		float getAsFloat();
-	}
+	private static FailedComputationTag failedTag = new FailedComputationTag();
+	private static ClassTag classTag = new ClassTag();
 
 	private static interface Wrapper {
 		/**
@@ -531,12 +518,15 @@ public final class Holder implements IValueHolder {
 			this(nonNull, nonNull.getClass());
 		}
 
-		public ObjectWrapper(Class<?> of, int overload) {
+		public ObjectWrapper(Class<?> of, ClassTag overload) {
 			this(null, of);
+			if (of.isPrimitive()) {
+				throw new IllegalArgumentException("of can't be primitive for null-values");
+			}
 		}
 
 		private ObjectWrapper(Object obj, Class<?> clazz) {
-			this.obj = obj;
+			this.obj = clazz.cast(obj);
 			this.clazz = Objects.requireNonNull(clazz);
 			updateSuppliers();
 		}
@@ -685,40 +675,35 @@ public final class Holder implements IValueHolder {
 		return new Holder(d);
 	}
 
-	public static Holder valueOf(Object o) {
+	/**
+	 * Constructs a Holder of the object if the object is not null, else an empty Holder.
+	 *
+	 * @param o
+	 * @return
+	 */
+	public static Holder valueOfIfPresent(Object o) {
 		return o == null ? empty() : new Holder(o);
 	}
 
+	public static Holder typedNull(Class<?> clazz) {
+		return new Holder(clazz, classTag);
+	}
+
 	/**
-	 * Constructs a Holder of the given class. The class can't denote a primitve type such as int.class. The object
-	 * given has to be an instance of the class given. The Holder returned may be a cached one.
+	 * Constructs a Holder of the value, or if null, one for the given class.
 	 *
 	 * @param object
 	 *            the object to hold, possibly null
 	 * @param clazz
-	 *            the exact class to hold
+	 *            the exact class to hold if object is null
 	 * @return an engaged Holder that holds an object of the given Class.
 	 */
-	public static <F> Holder valueOf(F object, Class<F> clazz) {
-		Holder ret = new Holder(object, clazz);
-		return ret;
-	}
-
-	/**
-	 * Like {@link #valueOf(Object, Class)} but doesn't enforce type boundaries on the class. Nevertheless, an
-	 * instanceof check is performed.
-	 *
-	 * @param object
-	 * @param clazz
-	 * @return
-	 */
-	public static <F> Holder valueOfUnsafe(F object, Class<?> clazz) {
-		Holder ret = new Holder(object, clazz);
-		return ret;
+	public static <F> Holder valueOf(F object, Class<? super F> clazz) {
+		return object == null ? new Holder(object) : new Holder(clazz, classTag);
 	}
 
 	public static Holder failedComputation(Throwable cause) {
-		return new Holder(failedTag, cause);
+		return new Holder(cause, failedTag);
 	}
 
 	private final Wrapper wrap;
@@ -770,7 +755,7 @@ public final class Holder implements IValueHolder {
 	 * @param cause
 	 *            the cause why this {@link Holder} is empty
 	 */
-	private Holder(FailedComputation tag, Throwable cause) {
+	private Holder(Throwable cause, FailedComputationTag tag) {
 		this(new ThrowableWrapper(cause));
 	}
 
@@ -786,8 +771,8 @@ public final class Holder implements IValueHolder {
 		this.wrap = value == null ? VOID_WRAPPER : new ObjectWrapper(value);
 	}
 
-	private <F> Holder(F value, Class<?> clazz) {
-		this.wrap = value == null ? new ObjectWrapper(clazz, 0) : new ObjectWrapper(clazz.cast(value));
+	private <F> Holder(Class<?> clazz, ClassTag tag) {
+		this.wrap = new ObjectWrapper(clazz, tag);
 	}
 
 	private Holder(Wrapper wrap) {
@@ -943,7 +928,7 @@ public final class Holder implements IValueHolder {
 	 * Returns true if this holder's value can be converted to the class clazz. <b>This does not mean that no exceptions
 	 * may be thrown during conversion</b>. For example, if this holder holds null of type {@link Integer}, this would
 	 * return <code>true</code> but during execution an {@link NullPointerException} will be thrown.
-	 * 
+	 *
 	 * @param clazz
 	 * @return
 	 */
@@ -974,11 +959,6 @@ public final class Holder implements IValueHolder {
 	}
 
 	@Override
-	public Holder snapshotClass() {
-		return this;
-	}
-
-	@Override
 	public boolean isClassSnapshot() {
 		return true;
 	}
@@ -990,6 +970,11 @@ public final class Holder implements IValueHolder {
 		return null;
 	}
 
+	/**
+	 * "{error: &lt;errorstring&gt;}" if this holds an error.<br>
+	 * "void" if this is empty.<br>
+	 * otherwise the (boxed) held object.toString()<br>
+	 */
 	@Override
 	public String toString() {
 		if (!isValid()) {
@@ -1041,7 +1026,7 @@ public final class Holder implements IValueHolder {
 	 */
 	public Holder exceptionAsValue() {
 		if (!isValid()) {
-			return Holder.valueOf(this.wrap.checkError());
+			return Holder.valueOfIfPresent(this.wrap.checkError());
 		}
 		return Holder.empty();
 	}

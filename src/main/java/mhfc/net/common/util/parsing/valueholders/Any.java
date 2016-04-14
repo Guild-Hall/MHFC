@@ -110,7 +110,7 @@ public final class Any implements IValueHolder {
 	}
 
 	public void assign(Object o) {
-		this.setHolder(Holder.valueOf(o));
+		this.setHolder(Holder.valueOfIfPresent(o));
 	}
 
 	public <F> void assign(F o, Class<F> clazz) {
@@ -123,11 +123,6 @@ public final class Any implements IValueHolder {
 
 	private void setHolder(Holder newHolder) {
 		this.holder = newHolder;
-	}
-
-	@Override
-	public Holder snapshotClass() {
-		return this.holder;
 	}
 
 	@Override

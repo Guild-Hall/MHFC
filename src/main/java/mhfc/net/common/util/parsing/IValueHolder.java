@@ -2,8 +2,6 @@ package mhfc.net.common.util.parsing;
 
 import com.google.common.collect.ComputationException;
 
-import mhfc.net.common.util.parsing.valueholders.MemberAccess;
-
 public interface IValueHolder {
 
 	public static final Class<?> EMPTY_CLASS = void.class;
@@ -20,20 +18,6 @@ public interface IValueHolder {
 	default boolean isSnapshot() {
 		return false;
 	}
-
-	/**
-	 * Makes this {@link IValueHolder} independant of other {@link IValueHolder} s. <br>
-	 * <b>Requirements:</b> The returned value shall return the same class for every future invocation on the returned
-	 * value of {@link #getType()}. Different stored values are allowed, though.<br>
-	 * If {@link #isClassSnapshot()} would return <code>true</code>, then <code>this</code> should be returned.<br>
-	 * Clarification: The value returned may still be dependable on the time when the next {@link #snapshot()} is
-	 * invoked for the resulting value computation. For example a {@link MemberAccess} chooses to snapshot the
-	 * {@link IValueHolder} the member is being accessed on but does not retrieve the actual value of the field until
-	 * {@link #snapshot()} is invoked.<br>
-	 *
-	 * @return
-	 */
-	IValueHolder snapshotClass();
 
 	default boolean isClassSnapshot() {
 		return false;

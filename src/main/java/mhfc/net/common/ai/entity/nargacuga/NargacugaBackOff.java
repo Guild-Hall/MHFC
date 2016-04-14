@@ -76,7 +76,7 @@ public class NargacugaBackOff extends AIGeneralJumpAttack<EntityNargacuga> {
 
 	@Override
 	public float getForwardVelocity(EntityNargacuga entity) {
-		return jumpProvider.getForwardVelocity(entity);
+		return jumpProvider.getInitialUpVelocity(entity);
 	}
 
 	@Override

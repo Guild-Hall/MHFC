@@ -8,8 +8,8 @@ import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
 
 /**
- * Represents a member of an {@link IValueHolder}. This is dynamically
- * determined based on the currently present origin in the origin.<br>
+ * Represents a member of an {@link IValueHolder}. This is dynamically determined based on the currently present origin
+ * in the origin.<br>
  * The name of the field on the other hand is <b>not</b> dynamic.
  *
  * @author WorldSEnder
@@ -46,7 +46,7 @@ public class MemberAccess implements IValueHolder {
 			this.parent = null;
 			this.fieldName = Objects.requireNonNull(name);
 			this.declaringClass = Objects.requireNonNull(notFoundIn);
-			this.fieldC = Holder.EMPTY_CLASS;
+			this.fieldC = IValueHolder.EMPTY_CLASS;
 			this.isArrayLength = false;
 			this.fieldNotFound = new IllegalArgumentException(
 					String.format("Couldn't find the field %s.%s", this.declaringClass.getName(), this.fieldName));
@@ -64,15 +64,21 @@ public class MemberAccess implements IValueHolder {
 				return Holder
 						.failedComputation(
 								new IllegalArgumentException(
-										String.format("Instance for field %s.%s could not be computed",
-												this.declaringClass.getName(), this.fieldName),
+										String.format(
+												"Instance for field %s.%s could not be computed",
+												this.declaringClass.getName(),
+												this.fieldName),
 										instance.getFailCause()));
 			}
 			assert (!declaringClass.isPrimitive());
 			Object inst = instance.getAs(this.declaringClass);
 			if (inst == null) {
-				return Holder.failedComputation(new IllegalArgumentException(String.format(
-						"Can't access field %s.%s on null instance", this.declaringClass.getName(), this.fieldName)));
+				return Holder.failedComputation(
+						new IllegalArgumentException(
+								String.format(
+										"Can't access field %s.%s on null instance",
+										this.declaringClass.getName(),
+										this.fieldName)));
 			}
 			if (this.isArrayLength) {
 				return Holder.valueOf(Array.getLength(inst));
@@ -84,7 +90,8 @@ public class MemberAccess implements IValueHolder {
 					return Holder.empty();
 				}
 				if (boolean.class.isAssignableFrom(fieldC)) {
-					return Holder.valueOf(((Boolean) fieldValue).booleanValue());
+					Boolean boxed = (Boolean) fieldValue;
+					return Holder.valueOf(boxed.booleanValue());
 				}
 				if (char.class.isAssignableFrom(fieldC)) {
 					return Holder.valueOf(((Character) fieldValue).charValue());
@@ -107,12 +114,18 @@ public class MemberAccess implements IValueHolder {
 				if (double.class.isAssignableFrom(fieldC)) {
 					return Holder.valueOf(((Double) fieldValue).doubleValue());
 				}
-				// FIXME: does this lead to wrong classes on non-null values?
-				return Holder.valueOfUnsafe(fieldValue, fieldC);
+				// Java compiler, ty
+				// Holder.valueOf(fieldC.cast(fieldValue), fieldC);
+				return fieldValue == null ? Holder.typedNull(fieldC) : Holder.valueOfIfPresent(fieldValue);
 			} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
 				return Holder.failedComputation(
-						new IllegalArgumentException(String.format("Accessing the field %s.%s failed on %s",
-								this.declaringClass.getName(), this.fieldName, inst), e));
+						new IllegalArgumentException(
+								String.format(
+										"Accessing the field %s.%s failed on %s",
+										this.declaringClass.getName(),
+										this.fieldName,
+										inst),
+								e));
 			}
 		}
 	}
@@ -134,9 +147,8 @@ public class MemberAccess implements IValueHolder {
 	}
 
 	/**
-	 * Represents a member of a snapshotted {@link IValueHolder}. The current
-	 * value of the member is determined at the time {@link #snapshot()} and
-	 * therelike is called, but the origin's Class is snapshot.
+	 * Represents a member of a snapshotted {@link IValueHolder}. The current value of the member is determined at the
+	 * time {@link #snapshot()} and therelike is called, but the origin's Class is snapshot.
 	 *
 	 * @author WorldSEnder
 	 *
@@ -153,7 +165,10 @@ public class MemberAccess implements IValueHolder {
 		 * @param memberName
 		 */
 		public BoundMemberAccess(IValueHolder object, String memberName) {
-			this.origin = Objects.requireNonNull(object.snapshotClass());
+			if (!object.isClassSnapshot()) {
+				throw new IllegalArgumentException("objects class must be snapshot");
+			}
+			this.origin = object;
 			this.originC = this.origin.getType();
 			this.field = resolveField(originC, memberName);
 			this.fieldC = field.getType();
@@ -170,19 +185,15 @@ public class MemberAccess implements IValueHolder {
 		}
 
 		@Override
-		public BoundMemberAccess snapshotClass() {
-			return this;
-		}
-
-		@Override
 		public boolean isClassSnapshot() {
 			return true;
 		}
 	}
 
 	public static IValueHolder makeMemberAccess(IValueHolder holder, String memberName) {
-		if (holder.isClassSnapshot())
+		if (holder.isClassSnapshot()) {
 			return new BoundMemberAccess(holder, memberName);
+		}
 		return new MemberAccess(holder, memberName);
 	}
 
@@ -192,11 +203,6 @@ public class MemberAccess implements IValueHolder {
 	private MemberAccess(IValueHolder object, String memberName) {
 		this.origin = object;
 		this.name = memberName;
-	}
-
-	@Override
-	public BoundMemberAccess snapshotClass() {
-		return new BoundMemberAccess(origin, name);
 	}
 
 	@Override

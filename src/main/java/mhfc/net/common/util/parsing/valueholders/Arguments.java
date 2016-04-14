@@ -1,4 +1,4 @@
-package mhfc.net.common.util.parsing.expressions;
+package mhfc.net.common.util.parsing.valueholders;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -37,12 +37,10 @@ public class Arguments implements Iterable<IValueHolder> {
 		}
 
 		/**
-		 * Returns the next object from the contained iterator if that has a
-		 * next one. Else the object from the contained {@link Supplier} is
-		 * returned.<br>
-		 * Thus this method can even return objects when the iterator is
-		 * finished.
-		 * 
+		 * Returns the next object from the contained iterator if that has a next one. Else the object from the
+		 * contained {@link Supplier} is returned.<br>
+		 * Thus this method can even return objects when the iterator is finished.
+		 *
 		 * @return
 		 */
 		public E permissiveNext() {
@@ -50,14 +48,12 @@ public class Arguments implements Iterable<IValueHolder> {
 		}
 
 		/**
-		 * Makes this iterator usable in an infinite iteration. The iterator
-		 * returned will always have a next element which is either the next
-		 * element from the contained {@link Iterator} or the element from the
+		 * Makes this iterator usable in an infinite iteration. The iterator returned will always have a next element
+		 * which is either the next element from the contained {@link Iterator} or the element from the
 		 * {@link Supplier}.<br>
-		 * Keep in mind that this will not tie this iterator. Items that are
-		 * iterated over by the returned iterator will not be available in this
-		 * iterator anymore.
-		 * 
+		 * Keep in mind that this will not tie this iterator. Items that are iterated over by the returned iterator will
+		 * not be available in this iterator anymore.
+		 *
 		 * @return
 		 */
 		public Iterator<E> iteratePermissive() {
@@ -72,12 +68,13 @@ public class Arguments implements Iterable<IValueHolder> {
 	}
 
 	/**
-	 * Returns a {@link PermissiveIterator} that will return
-	 * {@link Noop#instance} when it runs out of regular arguments.
+	 * Returns a {@link PermissiveIterator} that will return {@link Noop#instance} when it runs out of regular
+	 * arguments.
 	 */
 	@Override
 	public PermissiveIterator<IValueHolder> iterator() {
-		return new PermissiveIterator<IValueHolder>(Arrays.stream(args).iterator(),
+		return new PermissiveIterator<IValueHolder>(
+				Arrays.stream(args).iterator(),
 				Holder.failedComputation(new IllegalStateException("No more arguments")));
 	}
 

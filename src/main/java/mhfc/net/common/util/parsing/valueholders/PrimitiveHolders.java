@@ -30,11 +30,6 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public BooleanHolder snapshotClass() {
-			return this;
-		}
-
-		@Override
 		public boolean isClassSnapshot() {
 			return true;
 		}
@@ -63,11 +58,6 @@ public class PrimitiveHolders {
 		@Override
 		public Holder snapshot() {
 			return Holder.valueOf(val);
-		}
-
-		@Override
-		public CharacterHolder snapshotClass() {
-			return this;
 		}
 
 		@Override
@@ -102,11 +92,6 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public ByteHolder snapshotClass() {
-			return this;
-		}
-
-		@Override
 		public boolean isClassSnapshot() {
 			return true;
 		}
@@ -135,11 +120,6 @@ public class PrimitiveHolders {
 		@Override
 		public Holder snapshot() {
 			return Holder.valueOf(val);
-		}
-
-		@Override
-		public ShortHolder snapshotClass() {
-			return this;
 		}
 
 		@Override
@@ -174,11 +154,6 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public IntegerHolder snapshotClass() {
-			return this;
-		}
-
-		@Override
 		public boolean isClassSnapshot() {
 			return true;
 		}
@@ -207,11 +182,6 @@ public class PrimitiveHolders {
 		@Override
 		public Holder snapshot() {
 			return Holder.valueOf(val);
-		}
-
-		@Override
-		public LongHolder snapshotClass() {
-			return this;
 		}
 
 		@Override
@@ -246,11 +216,6 @@ public class PrimitiveHolders {
 		}
 
 		@Override
-		public FloatHolder snapshotClass() {
-			return this;
-		}
-
-		@Override
 		public boolean isClassSnapshot() {
 			return true;
 		}
@@ -279,11 +244,6 @@ public class PrimitiveHolders {
 		@Override
 		public Holder snapshot() {
 			return Holder.valueOf(val);
-		}
-
-		@Override
-		public DoubleHolder snapshotClass() {
-			return this;
 		}
 
 		@Override
