@@ -133,4 +133,10 @@ public class AngularMCTest {
 		IValueHolder holder = translator.parse("testVar | structVar.mutate : (testVar | callable)");
 		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(TEST_VALUE * 2 * TEST_VALUE));
 	}
+
+	@Test
+	public void context() {
+		IValueHolder holder = translator.parse("$.testVar");
+		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(TEST_VALUE));
+	}
 }

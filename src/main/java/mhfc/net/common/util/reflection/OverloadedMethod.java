@@ -53,7 +53,7 @@ public class OverloadedMethod {
 	 *             if multiple ambiguous methods remain.
 	 */
 	public Optional<Method> disambiguate(Class<?>... argClasses) {
-		// https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.12.1
+		// https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.12.2.1
 		// TODO: fix, not findFirst, also doesn't find varargs methods correctly
 		return allMethods.stream().filter(m -> matches(m.getParameterTypes(), argClasses)).findFirst();
 	}

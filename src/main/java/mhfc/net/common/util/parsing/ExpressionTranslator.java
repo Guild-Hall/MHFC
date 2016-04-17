@@ -479,13 +479,13 @@ public class ExpressionTranslator {
 		sequences.add(makeBinaryOperator('|', OP_FUNCTIONCALL_ID, FunctionOperator::new));
 		sequences.add(makeBinaryOperator(':', OP_ARGUMENTCONTINUE_ID, ArgumentContinuationOperator::new));
 
+		sequences.add(new ContextSymbol());
 		sequences.add(new Identifier());
 		sequences.add(new StringConstant());
 		sequences.add(new IntegerConstant());
 		sequences.add(new Comment());
 		sequences.add(new OpeningBracket());
 		sequences.add(new ClosingBracket());
-		sequences.add(new ContextSymbol());
 	}
 
 	public IValueHolder parse(String expression) throws SyntaxErrorException {
