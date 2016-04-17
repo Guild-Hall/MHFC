@@ -13,7 +13,7 @@ public class FunctionOperator implements IBinaryOperator<IExpression, IExpressio
 
 	@Override
 	public FunctionCallLiteral with(IExpression valueV, IExpression valueW) {
-		return new FunctionCallLiteral(valueV, valueW);
+		return new FunctionCallLiteral(valueW, valueV);
 	}
 
 }

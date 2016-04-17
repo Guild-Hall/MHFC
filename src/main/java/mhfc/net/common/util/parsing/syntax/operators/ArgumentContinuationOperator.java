@@ -11,13 +11,15 @@ import mhfc.net.common.util.parsing.syntax.literals.IExpression;
  * @author WorldSEnder
  *
  */
-public class ArgumentContinuationOperator implements IBinaryOperator<FunctionCallLiteral, IExpression, FunctionCallLiteral> {
+public class ArgumentContinuationOperator
+		implements
+		IBinaryOperator<FunctionCallLiteral, IExpression, FunctionCallLiteral> {
 
 	@Override
 	public FunctionCallLiteral with(FunctionCallLiteral call, IExpression valueW) {
 		List<IExpression> args = call.getArgs();
 		args.add(valueW);
-		return new FunctionCallLiteral(call, args);
+		return new FunctionCallLiteral(call.getCallee(), args);
 	}
 
 }

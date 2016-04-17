@@ -66,7 +66,7 @@ public class ClassSafeHolder<V> implements IValueHolder {
 	}
 
 	@Override
-	public boolean isClassFinal() {
+	public boolean isTypeFinal() {
 		return true;
 	}
 }

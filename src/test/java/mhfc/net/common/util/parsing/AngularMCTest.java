@@ -7,6 +7,9 @@ import org.junit.Test;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 
+import mhfc.net.common.util.parsing.syntax.special.ISpecialCallable;
+import mhfc.net.common.util.parsing.syntax.special.ISpecialMember;
+import mhfc.net.common.util.parsing.valueholders.Arguments;
 import net.minecraft.command.SyntaxErrorException;
 
 public class AngularMCTest {
@@ -14,7 +17,7 @@ public class AngularMCTest {
 	private Context ctx;
 	private ExpressionTranslator translator;
 
-	public class TestStruct {
+	public class TestStruct implements ISpecialMember {
 		public int property = TEST_VALUE;
 
 		public int mutate(int in) {
@@ -24,29 +27,42 @@ public class AngularMCTest {
 		public int mutate(int one, int two) {
 			return one * two;
 		}
+
+		@Override
+		public Holder __getattr__(String name) {
+			if (name.equals("x")) {
+				return Holder.valueOf(42);
+			}
+			return Holder.empty();
+		}
+	}
+
+	public class Callable implements ISpecialCallable {
+		@Override
+		public Holder __call__(Arguments args) {
+			return Holder.valueOf(args.getArgument(0).snapshot().asInt() * 2);
+		}
 	}
 
 	@Before
 	public void setUp() throws Exception {
 		ctx = new Context();
 		translator = ctx.getTranslator();
-		// FIXME: don't use 3
-		ctx.putVar("callable", Holder.valueOf(3));
+		ctx.putVar("callable", Holder.valueOf(new Callable()));
 		ctx.putVar("testVar", Holder.valueOf(TEST_VALUE));
-		// FIXME: Make a struct
 		ctx.putVar("structVar", Holder.valueOf(new TestStruct()));
 	}
 
 	@Test
 	public void simpleExpr() {
 		IValueHolder holder = translator.parse("100").snapshot();
-		assertThat(holder.snapshot().asInt(), equalTo(100));
+		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(100));
 	}
 
 	@Test
 	public void simpleWithComment() {
 		IValueHolder holder = translator.parse("100 /* a comment * / **/").snapshot();
-		assertThat(holder.snapshot().asInt(), equalTo(100));
+		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(100));
 	}
 
 	@Test(expected = SyntaxErrorException.class)
@@ -59,39 +75,50 @@ public class AngularMCTest {
 		translator.parse("3 ++ 5");
 	}
 
+	@Test(expected = SyntaxErrorException.class)
+	public void unrecognizedSymbol() {
+		translator.parse("3 | 4 ? 5");
+	}
+
 	@Test
 	public void contextVar() {
 		IValueHolder holder = translator.parse("testVar");
-		assertThat(holder.snapshot().asInt(), equalTo(TEST_VALUE));
+		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(TEST_VALUE));
 	}
 
 	@Test
 	public void memberAccess() {
 		IValueHolder holder = translator.parse("structVar.property");
-		assertThat(holder.snapshot().asInt(), equalTo(TEST_VALUE));
+		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(TEST_VALUE));
 	}
 
 	@Test
 	public void call() {
 		IValueHolder holder = translator.parse("testVar | callable");
-		assertThat(holder.snapshot().asInt(), equalTo(2 * TEST_VALUE));
+		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(2 * TEST_VALUE));
 	}
 
 	@Test
 	public void multipleArguments() {
 		IValueHolder holder = translator.parse("testVar | structVar.mutate : testVar");
-		assertThat(holder.snapshot().asInt(), equalTo(TEST_VALUE * TEST_VALUE));
+		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(TEST_VALUE * TEST_VALUE));
 	}
 
 	@Test
 	public void chainedCalls() {
 		IValueHolder holder = translator.parse("testVar | structVar.mutate : testVar | structVar.mutate : testVar");
-		assertThat(holder.snapshot().asInt(), equalTo(TEST_VALUE * TEST_VALUE * TEST_VALUE));
+		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(TEST_VALUE * TEST_VALUE * TEST_VALUE));
 	}
 
 	@Test
 	public void memberCall() {
 		IValueHolder holder = translator.parse("testVar | structVar.mutate");
-		assertThat(holder.snapshot().asInt(), equalTo(2 * TEST_VALUE));
+		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(2 * TEST_VALUE));
+	}
+
+	@Test
+	public void getattribute() {
+		IValueHolder holder = translator.parse("structVar.x");
+		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(TEST_VALUE));
 	}
 }

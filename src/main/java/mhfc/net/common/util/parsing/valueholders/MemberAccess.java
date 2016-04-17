@@ -2,10 +2,25 @@ package mhfc.net.common.util.parsing.valueholders;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
+import mhfc.net.common.util.reflection.FieldHelper;
+import mhfc.net.common.util.reflection.MethodHelper;
+import mhfc.net.common.util.reflection.OverloadedMethod;
+import scala.actors.threadpool.Arrays;
 
 /**
  * Represents a member of an {@link IValueHolder}. This is dynamically determined based on the currently present origin
@@ -15,135 +30,244 @@ import mhfc.net.common.util.parsing.IValueHolder;
  * @author WorldSEnder
  */
 public class MemberAccess implements IValueHolder {
-	private static class FieldProxy {
-		private final Field parent;
-		private final Class<?> declaringClass;
-		private final String fieldName;
-		private final Class<?> fieldC;
-		private final boolean isArrayLength; // Special case....
-		private final Throwable fieldNotFound;
+	private static interface IFieldAccess {
+		boolean isTypeFinal();
 
-		public FieldProxy() {
-			this.parent = null;
-			this.fieldName = "length";
-			this.declaringClass = Object.class; // Best guess for an array
-			this.fieldC = int.class;
-			this.isArrayLength = true;
-			this.fieldNotFound = null;
-			;
-		}
+		Class<?> getType();
 
-		public FieldProxy(Field f) {
-			this.parent = Objects.requireNonNull(f);
-			this.fieldName = f.getName();
-			this.declaringClass = f.getDeclaringClass();
-			this.fieldC = f.getType();
-			this.isArrayLength = false;
-			this.fieldNotFound = null;
-		}
+		Holder get(Object instance);
+	}
 
-		public FieldProxy(Class<?> notFoundIn, String name) {
-			this.parent = null;
-			this.fieldName = Objects.requireNonNull(name);
-			this.declaringClass = Objects.requireNonNull(notFoundIn);
-			this.fieldC = IValueHolder.EMPTY_CLASS;
-			this.isArrayLength = false;
-			this.fieldNotFound = new IllegalArgumentException(
-					String.format("Couldn't find the field %s.%s", this.declaringClass.getName(), this.fieldName));
-		}
+	private static class FieldArrayLength implements IFieldAccess {
 
+		@Override
 		public Class<?> getType() {
-			return this.fieldC;
+			return int.class;
 		}
 
-		public Holder get(Holder instance) {
-			if (!this.isArrayLength && this.parent == null) {
-				return Holder.failedComputation(this.fieldNotFound);
-			}
-			if (!instance.isValid()) {
-				return Holder
-						.failedComputation(
-								new IllegalArgumentException(
-										String.format(
-												"Instance for field %s.%s could not be computed",
-												this.declaringClass.getName(),
-												this.fieldName),
-										instance.getFailCause()));
-			}
-			assert (!declaringClass.isPrimitive());
-			Object inst = instance.getAs(this.declaringClass);
-			if (inst == null) {
-				return Holder.failedComputation(
-						new IllegalArgumentException(
-								String.format(
-										"Can't access field %s.%s on null instance",
-										this.declaringClass.getName(),
-										this.fieldName)));
-			}
-			if (this.isArrayLength) {
-				return Holder.valueOf(Array.getLength(inst));
-			}
-			try {
-				this.parent.setAccessible(true);
-				Object fieldValue = this.parent.get(inst);
-				if (void.class.isAssignableFrom(fieldC)) {
-					return Holder.empty();
-				}
-				if (boolean.class.isAssignableFrom(fieldC)) {
-					Boolean boxed = (Boolean) fieldValue;
-					return Holder.valueOf(boxed.booleanValue());
-				}
-				if (char.class.isAssignableFrom(fieldC)) {
-					return Holder.valueOf(((Character) fieldValue).charValue());
-				}
-				if (byte.class.isAssignableFrom(fieldC)) {
-					return Holder.valueOf(((Byte) fieldValue).byteValue());
-				}
-				if (short.class.isAssignableFrom(fieldC)) {
-					return Holder.valueOf(((Short) fieldValue).shortValue());
-				}
-				if (int.class.isAssignableFrom(fieldC)) {
-					return Holder.valueOf(((Integer) fieldValue).intValue());
-				}
-				if (long.class.isAssignableFrom(fieldC)) {
-					return Holder.valueOf(((Long) fieldValue).longValue());
-				}
-				if (float.class.isAssignableFrom(fieldC)) {
-					return Holder.valueOf(((Float) fieldValue).floatValue());
-				}
-				if (double.class.isAssignableFrom(fieldC)) {
-					return Holder.valueOf(((Double) fieldValue).doubleValue());
-				}
-				// Java compiler, ty
-				// Holder.valueOf(fieldC.cast(fieldValue), fieldC);
-				return fieldValue == null ? Holder.typedNull(fieldC) : Holder.valueOrEmpty(fieldValue);
-			} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
-				return Holder.failedComputation(
-						new IllegalArgumentException(
-								String.format(
-										"Accessing the field %s.%s failed on %s",
-										this.declaringClass.getName(),
-										this.fieldName,
-										inst),
-								e));
-			}
+		@Override
+		public Holder get(Object instance) {
+			Objects.requireNonNull(instance);
+			return Holder.valueOf(Array.getLength(instance));
+		}
+
+		@Override
+		public boolean isTypeFinal() {
+			return true;
+		}
+
+	}
+
+	private static class FieldArrayClone<T> implements IFieldAccess {
+		private final Class<? extends T[]> arrayClazz;
+
+		public FieldArrayClone(Class<? extends T[]> arrayClazz) {
+			assert arrayClazz.isArray();
+			this.arrayClazz = arrayClazz;
+		}
+
+		@Override
+		public Class<?> getType() {
+			return arrayClazz;
+		}
+
+		@Override
+		public Holder get(Object instance) {
+			T[] arr = arrayClazz.cast(instance);
+			return Holder.valueOf(Arrays.copyOf(arr, arr.length));
+		}
+
+		@SuppressWarnings("unchecked")
+		public static IFieldAccess forClass(Class<?> arrClass) {
+			assert arrClass.isArray();
+			@SuppressWarnings("rawtypes")
+			FieldArrayClone c = new FieldArrayClone(arrClass);
+			return c;
+		}
+
+		@Override
+		public boolean isTypeFinal() {
+			return true;
 		}
 	}
 
-	private static final FieldProxy arrayLengthProxy = new FieldProxy();
+	private static class FieldProxy<T> implements IFieldAccess {
 
-	private static FieldProxy resolveField(Class<?> originC2, String memberName) {
-		// TODO: use a cache to speedup performance
-		if (originC2.isArray() && memberName.equals("length")) {
-			return arrayLengthProxy;
+		private final Field field;
+		private final Class<?> fieldType;
+
+		private final Function<Object, Holder> rawToHolder;
+
+		public FieldProxy(Field f) {
+			this.field = Objects.requireNonNull(f);
+			this.fieldType = f.getType();
+			this.rawToHolder = Holder.makeUnboxer(fieldType);
 		}
-		try {
-			return new FieldProxy(originC2.getField(memberName));
-		} catch (NoSuchFieldException e) {
-			return new FieldProxy(originC2, memberName);
-		} catch (SecurityException e) {
-			return new FieldProxy(originC2, memberName);
+
+		@Override
+		public Class<?> getType() {
+			return this.fieldType;
 		}
+
+		@Override
+		public Holder get(Object instance) {
+			return Holder.catching(IllegalAccessException.class, () -> {
+				Object fieldValue = this.field.get(instance);
+				return rawToHolder.apply(fieldValue);
+			});
+		}
+
+		@Override
+		public boolean isTypeFinal() {
+			return true;
+		}
+	}
+
+	private static class FieldNotFound implements IFieldAccess {
+		private final Class<?> clazz;
+		private final String member;
+
+		public FieldNotFound(Class<?> clazz, String member) {
+			this.clazz = clazz;
+			this.member = member;
+		}
+
+		@Override
+		public Holder get(Object instance) {
+			return Holder.failedComputation(new NoSuchFieldException(clazz.getName() + "." + member + " not found"));
+		}
+
+		@Override
+		public Class<?> getType() {
+			return IValueHolder.EMPTY_CLASS;
+		}
+
+		@Override
+		public boolean isTypeFinal() {
+			return true;
+		}
+	}
+
+	private static class MethodProxy implements IFieldAccess {
+		private final OverloadedMethod method;
+
+		public MethodProxy(OverloadedMethod methods) {
+			this.method = methods;
+		}
+
+		@Override
+		public Holder get(Object instance) {
+			return Holder.valueOf(new MemberMethodProxy(method, instance));
+		}
+
+		@Override
+		public Class<?> getType() {
+			return MemberMethodProxy.class;
+		}
+
+		@Override
+		public boolean isTypeFinal() {
+			return true;
+		}
+	}
+
+	private static class SpecialAccessProxy implements IFieldAccess {
+		private final Method getattr;
+		private final String name;
+		private final Supplier<RuntimeException> error;
+
+		public SpecialAccessProxy(Method getter, String memberName) {
+			if (!getter.getReturnType().equals(Holder.class)) {
+				error = () -> new IllegalArgumentException("__getattr__ must return Holder");
+			} else {
+				error = null;
+			}
+			this.getattr = getter;
+			this.name = memberName;
+		}
+
+		@Override
+		public Class<?> getType() {
+			return IValueHolder.EMPTY_CLASS;
+		}
+
+		@Override
+		public Holder get(Object instance) {
+			if (error != null) {
+				return Holder.failedComputation(error.get());
+			}
+			try {
+				return Holder.class.cast(getattr.invoke(instance, name));
+			} catch (InvocationTargetException | IllegalAccessException ite) {
+				throw new RuntimeException(ite);
+			}
+		}
+
+		@Override
+		public boolean isTypeFinal() {
+			return error != null;
+		}
+	}
+
+	private static final IFieldAccess arrayLengthProxy = new FieldArrayLength();
+
+	private static Table<Class<?>, String, IFieldAccess> fieldCache;
+	private static LoadingCache<Class<?>, Boolean> proxyCache;
+
+	static {
+		fieldCache = HashBasedTable.create();
+		proxyCache = CacheBuilder.newBuilder().maximumSize(1000)
+				.removalListener(n -> fieldCache.rowKeySet().remove(n.getKey()))
+				.build(new CacheLoader<Class<?>, Boolean>() {
+					@Override
+					public Boolean load(Class<?> key) {
+						return Boolean.TRUE;
+					}
+				});
+	}
+
+	private static IFieldAccess resolveField(Class<?> clazz, String member) {
+		if (clazz.isPrimitive()) {
+			return new FieldNotFound(clazz, member);
+		}
+		proxyCache.getUnchecked(clazz); // Touch the cache for this class
+		IFieldAccess field = fieldCache.get(clazz, member);
+		if (field == null) {
+			field = computeFieldAccess(clazz, member);
+			fieldCache.put(clazz, member, field);
+		}
+		return field;
+	}
+
+	private static IFieldAccess computeFieldAccess(Class<?> clazz, String member) {
+		if (clazz.isArray()) {
+			if (member.equals("length")) {
+				return arrayLengthProxy;
+			}
+			if (member.equals("clone")) {
+				return FieldArrayClone.forClass(clazz);
+			}
+		}
+		Optional<Field> f = FieldHelper.findMatching(clazz, member);
+		if (f.isPresent()) {
+			return new FieldProxy<>(f.get());
+		}
+		Optional<OverloadedMethod> m = MethodHelper.findMatching(clazz, member);
+		if (m.isPresent()) {
+			return new MethodProxy(m.get());
+		}
+		Optional<OverloadedMethod> getattr = MethodHelper.findMatching(clazz, "__getattr__");
+		Optional<Method> specialgetter = getattr.flatMap(o -> o.disambiguate(String.class));
+		if (specialgetter.isPresent()) {
+			return new SpecialAccessProxy(specialgetter.get(), member);
+		}
+		return new FieldNotFound(clazz, member);
+	}
+
+	private static Holder accessField(IFieldAccess field, Holder instance) {
+		return instance.ifValid(inst -> {
+			return field.get(inst.boxed());
+		});
 	}
 
 	/**
@@ -156,8 +280,7 @@ public class MemberAccess implements IValueHolder {
 	public static class BoundMemberAccess implements IValueHolder {
 		private final IValueHolder origin;
 		private final Class<?> originC;
-		private final FieldProxy field;
-		private final Class<?> fieldC;
+		private final IFieldAccess field;
 
 		/**
 		 *
@@ -165,33 +288,33 @@ public class MemberAccess implements IValueHolder {
 		 * @param memberName
 		 */
 		public BoundMemberAccess(IValueHolder object, String memberName) {
-			if (!object.isClassFinal()) {
-				throw new IllegalArgumentException("objects class must be snapshot");
+			if (!object.isTypeFinal()) {
+				throw new IllegalArgumentException("object's class must be final");
 			}
 			this.origin = object;
 			this.originC = this.origin.getType();
 			this.field = resolveField(originC, memberName);
-			this.fieldC = field.getType();
 		}
 
 		@Override
 		public Holder snapshot() {
-			return this.field.get(this.origin.snapshot());
+			return accessField(field, origin.snapshot());
+		}
+
+		@Override
+		public boolean isTypeFinal() {
+			return field.isTypeFinal();
 		}
 
 		@Override
 		public Class<?> getType() {
-			return fieldC;
+			return field.getType();
 		}
 
-		@Override
-		public boolean isClassFinal() {
-			return true;
-		}
 	}
 
 	public static IValueHolder makeMemberAccess(IValueHolder holder, String memberName) {
-		if (holder.isClassFinal()) {
+		if (holder.isTypeFinal()) {
 			return new BoundMemberAccess(holder, memberName);
 		}
 		return new MemberAccess(holder, memberName);
@@ -207,15 +330,14 @@ public class MemberAccess implements IValueHolder {
 
 	@Override
 	public Holder snapshot() {
-		Holder instance = this.origin.snapshot();
-		FieldProxy field = resolveField(instance.getType(), this.name);
-		return field.get(instance);
+		Holder holder = this.origin.snapshot();
+		return accessField(resolveField(holder.getType(), this.name), holder);
 	}
 
 	@Override
 	public Class<?> getType() {
 		Class<?> instanceC = this.origin.getType();
-		FieldProxy field = resolveField(instanceC, this.name);
+		IFieldAccess field = resolveField(instanceC, this.name);
 		return field.getType();
 	}
 }

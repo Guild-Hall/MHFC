@@ -9,7 +9,9 @@ public interface IValueHolder {
 	/**
 	 * Snapshot the current state of this {@link IValueHolder} into an immutable {@link Holder}. If the computation
 	 * fails at any point or something else unforseeably happens it is appropriate to throw a
-	 * {@link ComputationException}.
+	 * {@link ComputationException}.<br>
+	 * Note that, if you want to catch exceptions thrown by the computations, consider using
+	 * {@link Holder#snapshotSafely(IValueHolder)}.
 	 *
 	 * @return the Holder this {@link IValueHolder} represents at the time of invokation, never <code>null</code>
 	 */
@@ -17,10 +19,10 @@ public interface IValueHolder {
 
 	/**
 	 * Returns <code>true</code> if successive calls to {@link #getType()} would always return the same class.
-	 * 
+	 *
 	 * @return
 	 */
-	default boolean isClassFinal() {
+	default boolean isTypeFinal() {
 		return false;
 	}
 

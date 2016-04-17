@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Supplier;
-import java.util.regex.Pattern;
 
 import mhfc.net.common.util.CompositeException;
 import mhfc.net.common.util.parsing.syntax.IBasicSequence;
-import mhfc.net.common.util.parsing.syntax.literals.HolderLiteral;
 import mhfc.net.common.util.parsing.syntax.literals.FunctionCallLiteral;
+import mhfc.net.common.util.parsing.syntax.literals.HolderLiteral;
 import mhfc.net.common.util.parsing.syntax.literals.IExpression;
 import mhfc.net.common.util.parsing.syntax.literals.IdentifierLiteral;
 import mhfc.net.common.util.parsing.syntax.operators.ArgumentContinuationOperator;
@@ -22,8 +21,6 @@ import mhfc.net.common.util.parsing.syntax.tree.SyntaxBuilder;
 import net.minecraft.command.SyntaxErrorException;
 
 public class ExpressionTranslator {
-	private static final Pattern commentPattern = Pattern.compile("/\\*.*?\\*/");
-
 	private static final SyntaxBuilder TREE_BUILDER = new SyntaxBuilder();
 	private static final int VAL_EXPRESSION_ID;
 	private static final int VAL_IDENTIFIER_ID;
@@ -79,7 +76,7 @@ public class ExpressionTranslator {
 				sb.appendCodePoint(cp);
 				return SiftResult.ACCEPTED;
 			}
-			return SiftResult.FINISHED;
+			return SiftResult.PAST_END;
 		}
 
 		@Override
@@ -89,7 +86,7 @@ public class ExpressionTranslator {
 
 		@Override
 		public SiftResult endOfStream() {
-			return this.sb.length() == 0 ? SiftResult.REJCECTED : SiftResult.FINISHED;
+			return this.sb.length() == 0 ? SiftResult.REJCECTED : SiftResult.PAST_END;
 		}
 
 		@Override
@@ -99,28 +96,21 @@ public class ExpressionTranslator {
 	}
 
 	private class Whitespace implements IBasicSequence {
-		private int length = 0;
 
 		@Override
 		public SiftResult accepting(int cp) {
-			length++;
 			if (Character.isWhitespace(cp)) {
-				return SiftResult.ACCEPTED;
-			}
-			if (length > 1) {
 				return SiftResult.FINISHED;
 			}
 			return SiftResult.REJCECTED;
 		}
 
 		@Override
-		public void reset() {
-			length = 0;
-		}
+		public void reset() {}
 
 		@Override
 		public SiftResult endOfStream() {
-			return SiftResult.FINISHED;
+			return SiftResult.PAST_END;
 		}
 
 		@Override
@@ -132,8 +122,7 @@ public class ExpressionTranslator {
 			BEFORE,
 			FIRST_STAR,
 			DURING,
-			SECOND_STAR,
-			CLOSED;
+			SECOND_STAR;
 		}
 
 		private State state = State.BEFORE;
@@ -154,13 +143,12 @@ public class ExpressionTranslator {
 				return SiftResult.ACCEPTED;
 			case SECOND_STAR:
 				if (cp == '/') {
-					state = State.CLOSED;
-				} else if (cp != '*') {
+					return SiftResult.FINISHED;
+				}
+				if (cp != '*') {
 					state = State.DURING;
 				}
 				return SiftResult.ACCEPTED;
-			case CLOSED:
-				return SiftResult.FINISHED;
 			default:
 				throw new IllegalStateException("unreachable");
 			}
@@ -173,7 +161,7 @@ public class ExpressionTranslator {
 
 		@Override
 		public SiftResult endOfStream() {
-			return state == State.CLOSED ? SiftResult.FINISHED : SiftResult.REJCECTED;
+			return SiftResult.REJCECTED;
 		}
 
 		@Override
@@ -183,8 +171,7 @@ public class ExpressionTranslator {
 	private static class StringConstant implements IBasicSequence {
 		private static enum State {
 			BEGIN,
-			ACTIVE,
-			ENDED;
+			ACTIVE;
 		}
 
 		private StringBuilder string = new StringBuilder();
@@ -195,9 +182,6 @@ public class ExpressionTranslator {
 
 		@Override
 		public SiftResult accepting(int cp) {
-			if (state == State.ENDED) {
-				return SiftResult.FINISHED;
-			}
 			if (state == State.BEGIN) {
 				if (cp == '\"') {
 					this.state = State.ACTIVE;
@@ -207,12 +191,11 @@ public class ExpressionTranslator {
 				return SiftResult.REJCECTED;
 			}
 			if (!escaped) {
+				if (cp == '\"') {
+					return SiftResult.FINISHED;
+				}
 				if (cp == '\\') {
 					escaped = true;
-					return SiftResult.ACCEPTED;
-				}
-				if (cp == '\"') {
-					this.state = State.ENDED;
 					return SiftResult.ACCEPTED;
 				}
 				string.appendCodePoint(cp);
@@ -268,7 +251,7 @@ public class ExpressionTranslator {
 
 		@Override
 		public SiftResult endOfStream() {
-			return state == State.ENDED ? SiftResult.REJCECTED : SiftResult.FINISHED;
+			return SiftResult.REJCECTED;
 		}
 
 		@Override
@@ -329,7 +312,7 @@ public class ExpressionTranslator {
 					// Literal 0, followed...
 					string.appendCodePoint('0');
 					base = 10;
-					return SiftResult.FINISHED;
+					return SiftResult.PAST_END;
 				}
 			}
 			if (state != State.NUMBER) {
@@ -341,14 +324,14 @@ public class ExpressionTranslator {
 				return SiftResult.ACCEPTED;
 			}
 			if (length > 0) {
-				return SiftResult.FINISHED;
+				return SiftResult.PAST_END;
 			}
 			return SiftResult.REJCECTED;
 		}
 
 		@Override
 		public SiftResult endOfStream() {
-			return length > 0 ? SiftResult.FINISHED : SiftResult.REJCECTED;
+			return length > 0 ? SiftResult.PAST_END : SiftResult.REJCECTED;
 		}
 
 		@Override
@@ -375,12 +358,9 @@ public class ExpressionTranslator {
 
 	private IBasicSequence makeBinaryOperator(int matchingChar, int ID, Supplier<IBinaryOperator<?, ?, ?>> opSupplier) {
 		return new IBasicSequence() {
-			private boolean matched;
 
 			@Override
-			public void reset() {
-				matched = false;
-			}
+			public void reset() {}
 
 			@Override
 			public void pushOnto(AST ast) throws SyntaxErrorException {
@@ -389,20 +369,13 @@ public class ExpressionTranslator {
 
 			@Override
 			public SiftResult endOfStream() {
-				if (matched) {
-					return SiftResult.FINISHED;
-				}
 				return SiftResult.REJCECTED;
 			}
 
 			@Override
 			public SiftResult accepting(int cp) {
-				if (matched) {
-					return SiftResult.FINISHED;
-				}
 				if (matchingChar == cp) {
-					matched = true;
-					return SiftResult.ACCEPTED;
+					return SiftResult.FINISHED;
 				}
 				return SiftResult.REJCECTED;
 			}
@@ -449,8 +422,9 @@ public class ExpressionTranslator {
 			if (!expressionBuf.hasRemaining()) {
 				switch (currentSequence.endOfStream()) {
 				case ACCEPTED:
-					throw new SyntaxErrorException("Can't accept end-of-stream, only FINISHED or REJECTED");
 				case FINISHED:
+					throw new SyntaxErrorException("Can't accept end-of-stream, only PAST_END or REJECTED");
+				case PAST_END:
 					currentSequence.pushOnto(parseTree);
 					break parse_loop;
 				case REJCECTED:
@@ -466,14 +440,18 @@ public class ExpressionTranslator {
 			switch (currentSequence.accepting(cp)) {
 			case ACCEPTED:
 				break;
-			case FINISHED:
-				// Rewind by 1, and push the syntax stack
+			case PAST_END:
+				// Rewind by 1
 				expressionBuf.position(expressionBuf.position() - 1);
+				/* no break */
+			case FINISHED:
+				// Push the syntax stack
 				expressionBuf.mark();
 				currentSequence.pushOnto(parseTree);
 				basicSequences = sequences.iterator();
 				currentSequence = nextSequenceOrSyntaxError(basicSequences, expressionBuf);
 				break;
+
 			case REJCECTED:
 			default:
 				// Reset to the mark, try next sequence

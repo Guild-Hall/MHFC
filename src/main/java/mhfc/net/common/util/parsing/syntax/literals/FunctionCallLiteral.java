@@ -23,6 +23,10 @@ public class FunctionCallLiteral implements IExpression {
 		this.arguments = expressions;
 	}
 
+	public IExpression getCallee() {
+		return callee;
+	}
+
 	public List<IExpression> getArgs() {
 		return arguments;
 	}
@@ -30,6 +34,7 @@ public class FunctionCallLiteral implements IExpression {
 	@Override
 	public void prettyPrint(Formatter formatter) {
 		callee.prettyPrint(formatter);
+		formatter.format("(");
 		for (Iterator<IExpression> argIt = arguments.iterator(); argIt.hasNext();) {
 			IExpression arg = argIt.next();
 			arg.prettyPrint(formatter);
@@ -37,11 +42,14 @@ public class FunctionCallLiteral implements IExpression {
 				formatter.format(", ");
 			}
 		}
+		formatter.format(")");
 	}
 
 	@Override
 	public IValueHolder asValue() {
-		return FunctionCall.makeFunctionCall(callee.asValue(), arguments.stream().map(IExpression::asValue).iterator());
+		return FunctionCall.makeFunctionCall(
+				callee.asValue(),
+				arguments.stream().map(IExpression::asValue).toArray(IValueHolder[]::new));
 	}
 
 }

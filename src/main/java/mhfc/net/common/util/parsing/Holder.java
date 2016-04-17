@@ -8,6 +8,8 @@ import java.util.function.IntSupplier;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 
+import mhfc.net.common.util.ExceptionLessFunctions;
+import mhfc.net.common.util.ExceptionLessFunctions.ThrowingSupplier;
 import mhfc.net.common.util.function.ByteSupplier;
 import mhfc.net.common.util.function.CharSupplier;
 import mhfc.net.common.util.function.FloatSupplier;
@@ -62,35 +64,35 @@ public final class Holder implements IValueHolder {
 			if (!clazz.isPrimitive()) {
 				throw new IllegalArgumentException("clazz must be primitive");
 			}
-			if (boolean.class.isAssignableFrom(clazz)) {
+			if (boolean.class.equals(clazz)) {
 				BooleanSupplier supp = asBool();
 				return supp == null ? null : () -> (T) Boolean.valueOf(supp.getAsBoolean());
 			}
-			if (char.class.isAssignableFrom(clazz)) {
+			if (char.class.equals(clazz)) {
 				CharSupplier supp = asChar();
 				return supp == null ? null : () -> (T) Character.valueOf(supp.getAsChar());
 			}
-			if (byte.class.isAssignableFrom(clazz)) {
+			if (byte.class.equals(clazz)) {
 				ByteSupplier supp = asByte();
 				return supp == null ? null : () -> (T) Byte.valueOf(supp.getAsByte());
 			}
-			if (short.class.isAssignableFrom(clazz)) {
+			if (short.class.equals(clazz)) {
 				ShortSupplier supp = asShort();
 				return supp == null ? null : () -> (T) Short.valueOf(supp.getAsShort());
 			}
-			if (int.class.isAssignableFrom(clazz)) {
+			if (int.class.equals(clazz)) {
 				IntSupplier supp = asInt();
 				return supp == null ? null : () -> (T) Integer.valueOf(supp.getAsInt());
 			}
-			if (long.class.isAssignableFrom(clazz)) {
+			if (long.class.equals(clazz)) {
 				LongSupplier supp = asLong();
 				return supp == null ? null : () -> (T) Long.valueOf(supp.getAsLong());
 			}
-			if (float.class.isAssignableFrom(clazz)) {
+			if (float.class.equals(clazz)) {
 				FloatSupplier supp = asFloat();
 				return supp == null ? null : () -> (T) Float.valueOf(supp.getAsFloat());
 			}
-			if (double.class.isAssignableFrom(clazz)) {
+			if (double.class.equals(clazz)) {
 				DoubleSupplier supp = asDouble();
 				return supp == null ? null : () -> (T) Double.valueOf(supp.getAsDouble());
 			}
@@ -689,6 +691,47 @@ public final class Holder implements IValueHolder {
 		return o == null ? empty() : new Holder(o);
 	}
 
+	/**
+	 * If clazz represents a primitive class, unboxes o, otherwise wraps o into a Holder. Note that o shall always
+	 * represent the boxed form of clazz, but may be null if clazz is not primitve.<br>
+	 * If unboxing fails, returns a Holder with the conversion exception.<br>
+	 * This is primarily aimed at the unboxing of value retrieved by reflection, in which case you can write
+	 * #makeUnboxer(fieldType).apply(fieldValue) to retrieve the correct Holder wrapping the field.
+	 *
+	 * @param clazz
+	 * @return
+	 */
+	public static <T> Function<Object, Holder> makeUnboxer(Class<T> clazz) {
+		if (void.class.isAssignableFrom(clazz)) {
+			return t -> Holder.empty();
+		}
+		if (boolean.class.isAssignableFrom(clazz)) {
+			return t -> Holder.valueOf(Boolean.class.cast(t).booleanValue());
+		}
+		if (char.class.isAssignableFrom(clazz)) {
+			return t -> Holder.valueOf(Character.class.cast(t).charValue());
+		}
+		if (byte.class.isAssignableFrom(clazz)) {
+			return t -> Holder.valueOf(Byte.class.cast(t).byteValue());
+		}
+		if (short.class.isAssignableFrom(clazz)) {
+			return t -> Holder.valueOf(Short.class.cast(t).shortValue());
+		}
+		if (int.class.isAssignableFrom(clazz)) {
+			return t -> Holder.valueOf(Integer.class.cast(t).intValue());
+		}
+		if (long.class.isAssignableFrom(clazz)) {
+			return t -> Holder.valueOf(Long.class.cast(t).longValue());
+		}
+		if (float.class.isAssignableFrom(clazz)) {
+			return t -> Holder.valueOf(Float.class.cast(t).floatValue());
+		}
+		if (double.class.isAssignableFrom(clazz)) {
+			return t -> Holder.valueOf(Double.class.cast(t).doubleValue());
+		}
+		return t -> Holder.valueOf(clazz.cast(t), clazz);
+	}
+
 	public static Holder typedNull(Class<?> clazz) {
 		return new Holder(clazz, classTag);
 	}
@@ -706,8 +749,55 @@ public final class Holder implements IValueHolder {
 		return object == null ? new Holder(object) : new Holder(clazz, classTag);
 	}
 
+	/**
+	 * Executes the supplier, if it throws an exception of type excClazz, it is caught and returned in a Holder, else
+	 * the computed Holder is returned.<br>
+	 * Usage:
+	 *
+	 * <pre>
+	 * <code>
+	 * return Holder.catching(NullPointerException.class, () -> {
+	 *     return possiblyNull.compute();
+	 * });
+	 * </code>
+	 * </pre>
+	 *
+	 * Keep in mind that all exceptions <b>but E</b> are still thrown.
+	 *
+	 * @param excClazz
+	 * @param supplier
+	 * @return
+	 */
+	public static <E extends Throwable> Holder catching(Class<E> excClazz, ThrowingSupplier<Holder, E> supplier) {
+		try {
+			return supplier.get();
+		} catch (Throwable thr) {
+			Objects.requireNonNull(excClazz);
+			if (excClazz.isInstance(thr)) {
+				return Holder.failedComputation(thr);
+			}
+			return ExceptionLessFunctions.throwUnchecked(thr);
+		}
+	}
+
+	/**
+	 * The same as {@link #catching(Class, ThrowingSupplier)} but for supplier that only throw
+	 * {@link RuntimeException}s. Most of the time, instead of using this directly, try
+	 * {@link #snapshotSafely(IValueHolder)}.
+	 *
+	 * @param supplier
+	 * @return
+	 */
+	public static Holder catching(Supplier<Holder> supplier) {
+		return Holder.catching(RuntimeException.class, supplier::get);
+	}
+
 	public static Holder failedComputation(Throwable cause) {
 		return new Holder(cause, failedTag);
+	}
+
+	public static Holder snapshotSafely(IValueHolder holder) {
+		return Holder.catching(holder::snapshot);
 	}
 
 	private final Wrapper wrap;
@@ -958,7 +1048,7 @@ public final class Holder implements IValueHolder {
 	}
 
 	@Override
-	public boolean isClassFinal() {
+	public boolean isTypeFinal() {
 		return true;
 	}
 
@@ -984,18 +1074,16 @@ public final class Holder implements IValueHolder {
 	}
 
 	/**
-	 * If this Holder represents an object that is convertible to classT, then apply the object to func. If this Holder
-	 * represents an object that is not convertible to classT, return a Holder that represents the correct
-	 * {@link ClassCastException}. If this Holder represents an exception, return a Holder that represents that
-	 * exception.
+	 * If this holds an exception, return this, otherwise call the function with this and return the result.
 	 *
-	 * @param classT
-	 * @param classR
-	 * @param func
+	 * @param supplier
 	 * @return
 	 */
-	public <T, R> Holder ifValidMap(Class<T> classT, Class<R> classR, Function<T, R> func) {
-		return ifValidFlatMap(classT, func.andThen(r -> Holder.valueOf(r, classR)));
+	public Holder ifValid(Function<Holder, Holder> mapping) {
+		if (!this.isValid()) {
+			return this;
+		}
+		return mapping.apply(this);
 	}
 
 	/**
@@ -1005,7 +1093,7 @@ public final class Holder implements IValueHolder {
 	 * @param func
 	 * @return
 	 */
-	public <T> Holder ifValidFlatMap(Class<T> classT, Function<T, Holder> func) {
+	public <T> Holder ifValidMap(Class<T> classT, Function<T, Holder> func) {
 		if (!this.isValid()) {
 			return this;
 		}
@@ -1018,15 +1106,42 @@ public final class Holder implements IValueHolder {
 	}
 
 	/**
+	 * Utility method to supply a back-up if normal calculations should fail.<br>
+	 * If {@link #isValid()}, return this, otherwise return {@link Supplier#get()} of the supplier given.
+	 *
+	 * @param supplier
+	 * @return
+	 * @see {@link #ifNotEngaged(Supplier)}: uses {@link #isEngaged()} to determine validity of itself
+	 */
+	public Holder ifInvalid(Supplier<Holder> supplier) {
+		if (this.isValid()) {
+			return this;
+		}
+		return supplier.get();
+	}
+
+	/**
+	 * Utility method to supply a back-up if normal calculations returns no result.<br>
+	 * If {@link #isEngaged()}, return this, otherwise return {@link Supplier#get()} of the supplier given.
+	 *
+	 * @param supplier
+	 * @return
+	 * @see {@link #ifInvalid(Supplier)}: uses {@link #isValid()} to determine validity of itself
+	 */
+	public Holder ifNotEngaged(Supplier<Holder> supplier) {
+		if (this.isEngaged()) {
+			return this;
+		}
+		return supplier.get();
+	}
+
+	/**
 	 * If this Holder represents an exception, return one that holds that exception as value, else return an empty
 	 * Holder.
 	 *
 	 * @return
 	 */
 	public Holder exceptionAsValue() {
-		if (!isValid()) {
-			return Holder.valueOrEmpty(this.wrap.checkError());
-		}
-		return Holder.empty();
+		return Holder.valueOrEmpty(this.wrap.checkError());
 	}
 }

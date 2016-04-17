@@ -67,15 +67,34 @@ public class Arguments implements Iterable<IValueHolder> {
 		this.args = mhfc.net.common.util.Objects.requireNonNullDeep(expressions);
 	}
 
+	public int getArgCount() {
+		return args.length;
+	}
+
+	/**
+	 * permissive, if out of range, will return
+	 *
+	 * @param index
+	 * @return
+	 */
+	public IValueHolder getArgument(int index) {
+		if (index >= args.length) {
+			return getOutOfRange();
+		}
+		return args[index];
+	}
+
+	private Holder getOutOfRange() {
+		return Holder.failedComputation(new IllegalStateException("No more arguments"));
+	}
+
 	/**
 	 * Returns a {@link PermissiveIterator} that will return {@link Noop#instance} when it runs out of regular
 	 * arguments.
 	 */
 	@Override
 	public PermissiveIterator<IValueHolder> iterator() {
-		return new PermissiveIterator<IValueHolder>(
-				Arrays.stream(args).iterator(),
-				Holder.failedComputation(new IllegalStateException("No more arguments")));
+		return new PermissiveIterator<IValueHolder>(Arrays.stream(args).iterator(), this::getOutOfRange);
 	}
 
 }

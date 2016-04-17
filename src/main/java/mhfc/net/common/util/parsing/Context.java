@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import mhfc.net.common.util.parsing.syntax.special.ContextWrapper;
+
 public class Context {
 	private static <T> boolean put(Map<String, ? super T> map, String key, T item) {
 		Objects.requireNonNull(key);
@@ -19,6 +21,7 @@ public class Context {
 	}
 
 	private Map<String, IValueHolder> map = new HashMap<>();
+	private ContextWrapper wrapper = new ContextWrapper(this);
 	private ExpressionTranslator translator;
 	private Object lock = new Object();
 
@@ -68,5 +71,9 @@ public class Context {
 			}
 		}
 		return translator;
+	}
+
+	public ContextWrapper getWrapper() {
+		return wrapper;
 	}
 }
