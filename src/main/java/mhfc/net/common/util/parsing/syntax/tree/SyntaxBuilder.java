@@ -141,18 +141,4 @@ public class SyntaxBuilder extends UnarySyntaxBuilder {
 		validate();
 		return new AST(this);
 	}
-
-	public void validate() {
-		List<SyntaxBuilder.OperatorRegistration> preOpReg = getPrefixOps();
-		List<SyntaxBuilder.OperatorRegistration> postOpReg = getPostfixOps();
-
-		for (UnarySyntaxBuilder.OperatorRegistration preOp : preOpReg) {
-			for (int i = 0; i < postOpReg.size(); i++) {
-				boolean preOpAfter = preOp.comesAfterOtherFixity.get(i);
-				if (preOpAfter == postOpReg.get(i).comesAfterOtherFixity.get(preOp.operatorID)) {
-					throw new IllegalStateException("Some operators are not ordered: " + preOp.operatorID + " " + i);
-				}
-			}
-		}
-	}
 }

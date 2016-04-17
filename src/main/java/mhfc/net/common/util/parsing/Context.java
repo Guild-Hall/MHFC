@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import mhfc.net.common.util.parsing.syntax.special.ContextWrapper;
+import mhfc.net.common.util.parsing.valueholders.ValueHolders;
 
 public class Context {
 	private static <T> boolean put(Map<String, ? super T> map, String key, T item) {
@@ -33,7 +34,8 @@ public class Context {
 	 */
 	public IValueHolder getVar(String key) {
 		if (!map.containsKey(key)) {
-			return Holder.failedComputation(new IllegalArgumentException("No value named " + key));
+			return ValueHolders
+					.throwing(() -> new IllegalArgumentException("No value named " + key + " in " + Context.this));
 		}
 		return map.get(key);
 	}

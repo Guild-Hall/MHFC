@@ -11,6 +11,7 @@ import com.google.common.cache.LoadingCache;
 
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
+import mhfc.net.common.util.parsing.exceptions.MethodNotFoundException;
 import mhfc.net.common.util.reflection.MethodHelper;
 import mhfc.net.common.util.reflection.OverloadedMethod;
 
@@ -51,7 +52,7 @@ public class FunctionCall implements IValueHolder {
 		@Override
 		public Holder call(Object instance, Arguments args) {
 			if (error != null) {
-				return Holder.failedComputation(error.get());
+				throw error.get();
 			}
 			try {
 				return Holder.class.cast(method.invoke(instance, args));
@@ -70,7 +71,7 @@ public class FunctionCall implements IValueHolder {
 
 		@Override
 		public Holder call(Object instance, Arguments args) {
-			return Holder.failedComputation(new NoSuchMethodException(clazz.getName() + ".__call__ hasn't been found"));
+			throw new MethodNotFoundException(clazz.getName() + ".__call__ hasn't been found");
 		}
 
 		@Override

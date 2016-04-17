@@ -1099,7 +1099,7 @@ public final class Holder implements IValueHolder {
 		}
 		Supplier<T> supp = this.wrap.asObject(classT);
 		if (supp == null) {
-			return Holder.failedComputation(failedConversion(classT));
+			throw failedConversion(classT);
 		}
 		Holder ret = func.apply(supp.get());
 		return ret == null ? Holder.empty() : ret;

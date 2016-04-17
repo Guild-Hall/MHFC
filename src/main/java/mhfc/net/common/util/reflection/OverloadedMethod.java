@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 import mhfc.net.common.util.parsing.Holder;
+import mhfc.net.common.util.parsing.exceptions.MethodNotFoundException;
 import mhfc.net.common.util.parsing.valueholders.Arguments;
 import scala.actors.threadpool.Arrays;
 
@@ -66,9 +67,8 @@ public class OverloadedMethod {
 
 		Optional<Method> method = this.disambiguate(types);
 		if (!method.isPresent()) {
-			return Holder.failedComputation(
-					new IllegalArgumentException(
-							"Illegal overload for method " + this + " and classes " + Arrays.toString(types)));
+			throw new MethodNotFoundException(
+					"No overload for method " + this + " and arg-classes " + Arrays.toString(types));
 		}
 		Method m = method.get();
 		Object[] args = new Object[argCount];

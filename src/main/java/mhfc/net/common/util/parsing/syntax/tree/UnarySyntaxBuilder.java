@@ -183,4 +183,22 @@ public class UnarySyntaxBuilder {
 		}
 	}
 
+	public void validate() {
+		List<SyntaxBuilder.OperatorRegistration> preOpReg = getPrefixOps();
+		List<SyntaxBuilder.OperatorRegistration> postOpReg = getPostfixOps();
+
+		for (UnarySyntaxBuilder.OperatorRegistration preOp : preOpReg) {
+			for (int i = 0; i < postOpReg.size(); i++) {
+				OperatorRegistration postOp = postOpReg.get(i);
+				if (!preOp.acceptedValues.intersects(postOp.acceptedValues)) {
+					continue;
+				}
+				boolean preOpAfter = preOp.comesAfterOtherFixity.get(i);
+				if (preOpAfter == postOp.comesAfterOtherFixity.get(preOp.operatorID)) {
+					throw new IllegalStateException("Some operators are not ordered: " + preOp.operatorID + " " + i);
+				}
+			}
+		}
+	}
+
 }

@@ -17,6 +17,7 @@ import com.google.common.collect.Table;
 
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
+import mhfc.net.common.util.parsing.exceptions.FieldNotFoundException;
 import mhfc.net.common.util.reflection.FieldHelper;
 import mhfc.net.common.util.reflection.MethodHelper;
 import mhfc.net.common.util.reflection.OverloadedMethod;
@@ -134,7 +135,7 @@ public class MemberAccess implements IValueHolder {
 
 		@Override
 		public Holder get(Object instance) {
-			return Holder.failedComputation(new NoSuchFieldException(clazz.getName() + "." + member + " not found"));
+			throw new FieldNotFoundException(clazz.getName() + "." + member + " not found");
 		}
 
 		@Override
@@ -194,7 +195,7 @@ public class MemberAccess implements IValueHolder {
 		@Override
 		public Holder get(Object instance) {
 			if (error != null) {
-				return Holder.failedComputation(error.get());
+				throw error.get();
 			}
 			try {
 				return Holder.class.cast(getattr.invoke(instance, name));

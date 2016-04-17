@@ -85,7 +85,7 @@ public class Arguments implements Iterable<IValueHolder> {
 	}
 
 	private Holder getOutOfRange() {
-		return Holder.failedComputation(new IllegalStateException("No more arguments"));
+		return Holder.empty();
 	}
 
 	/**

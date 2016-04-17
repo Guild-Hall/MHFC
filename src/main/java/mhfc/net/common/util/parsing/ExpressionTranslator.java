@@ -18,6 +18,7 @@ import mhfc.net.common.util.parsing.syntax.operators.IBinaryOperator;
 import mhfc.net.common.util.parsing.syntax.operators.MemberOperator;
 import mhfc.net.common.util.parsing.syntax.tree.AST;
 import mhfc.net.common.util.parsing.syntax.tree.SyntaxBuilder;
+import mhfc.net.common.util.parsing.valueholders.ValueHolders;
 import net.minecraft.command.SyntaxErrorException;
 
 public class ExpressionTranslator {
@@ -256,11 +257,11 @@ public class ExpressionTranslator {
 
 		@Override
 		public void pushOnto(AST ast) {
-			Holder value;
+			IValueHolder value;
 			if (this.errors.size() == 0) {
 				value = Holder.valueOrEmpty(this.string.toString());
 			} else {
-				value = Holder.failedComputation(new CompositeException(this.errors));
+				value = ValueHolders.throwing(() -> new CompositeException(this.errors));
 			}
 			ast.pushValue(VAL_EXPRESSION_ID, new HolderLiteral(value));
 		}
@@ -344,12 +345,12 @@ public class ExpressionTranslator {
 
 		@Override
 		public void pushOnto(AST ast) {
-			Holder value;
+			IValueHolder value;
 			try {
 				int val = Integer.parseInt(string.toString(), base);
 				value = Holder.valueOf(val);
 			} catch (NumberFormatException nfe) {
-				value = Holder.failedComputation(nfe);
+				value = ValueHolders.throwing(() -> nfe);
 			}
 			ast.pushValue(VAL_EXPRESSION_ID, new HolderLiteral(value));
 		}
