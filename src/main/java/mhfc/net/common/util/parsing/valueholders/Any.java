@@ -125,7 +125,6 @@ public final class Any implements IValueHolder {
 		this.holder = newHolder;
 	}
 
-	@Override
 	public Class<?> getType() {
 		return this.holder.getType();
 	}

@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 
+import mhfc.net.common.util.parsing.proxies.StaticAccess;
 import mhfc.net.common.util.parsing.syntax.special.ISpecialCallable;
 import mhfc.net.common.util.parsing.syntax.special.ISpecialMember;
 import mhfc.net.common.util.parsing.valueholders.Arguments;
@@ -51,6 +52,7 @@ public class AngularMCTest {
 		ctx.putVar("callable", Holder.valueOf(new Callable()));
 		ctx.putVar("testVar", Holder.valueOf(TEST_VALUE));
 		ctx.putVar("structVar", Holder.valueOf(new TestStruct()));
+		ctx.putVar("Math", Holder.valueOf(new StaticAccess(Math.class)));
 	}
 
 	@Test
@@ -138,5 +140,11 @@ public class AngularMCTest {
 	public void context() {
 		IValueHolder holder = translator.parse("$.testVar");
 		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(TEST_VALUE));
+	}
+
+	@Test
+	public void staticAccess() {
+		IValueHolder holder = translator.parse("12 | Math.max : 10");
+		assertThat(Holder.snapshotSafely(holder).asDouble(), equalTo(12d));
 	}
 }

@@ -18,6 +18,7 @@ import com.google.common.collect.Table;
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
 import mhfc.net.common.util.parsing.exceptions.FieldNotFoundException;
+import mhfc.net.common.util.parsing.proxies.MemberMethodProxy;
 import mhfc.net.common.util.reflection.FieldHelper;
 import mhfc.net.common.util.reflection.MethodHelper;
 import mhfc.net.common.util.reflection.OverloadedMethod;
@@ -32,31 +33,15 @@ import scala.actors.threadpool.Arrays;
  */
 public class MemberAccess implements IValueHolder {
 	private static interface IFieldAccess {
-		boolean isTypeFinal();
-
-		Class<?> getType();
-
 		Holder get(Object instance);
 	}
 
 	private static class FieldArrayLength implements IFieldAccess {
-
-		@Override
-		public Class<?> getType() {
-			return int.class;
-		}
-
 		@Override
 		public Holder get(Object instance) {
 			Objects.requireNonNull(instance);
 			return Holder.valueOf(Array.getLength(instance));
 		}
-
-		@Override
-		public boolean isTypeFinal() {
-			return true;
-		}
-
 	}
 
 	private static class FieldArrayClone<T> implements IFieldAccess {
@@ -65,11 +50,6 @@ public class MemberAccess implements IValueHolder {
 		public FieldArrayClone(Class<? extends T[]> arrayClazz) {
 			assert arrayClazz.isArray();
 			this.arrayClazz = arrayClazz;
-		}
-
-		@Override
-		public Class<?> getType() {
-			return arrayClazz;
 		}
 
 		@Override
@@ -84,11 +64,6 @@ public class MemberAccess implements IValueHolder {
 			@SuppressWarnings("rawtypes")
 			FieldArrayClone c = new FieldArrayClone(arrClass);
 			return c;
-		}
-
-		@Override
-		public boolean isTypeFinal() {
-			return true;
 		}
 	}
 
@@ -106,21 +81,11 @@ public class MemberAccess implements IValueHolder {
 		}
 
 		@Override
-		public Class<?> getType() {
-			return this.fieldType;
-		}
-
-		@Override
 		public Holder get(Object instance) {
 			return Holder.catching(IllegalAccessException.class, () -> {
 				Object fieldValue = this.field.get(instance);
 				return rawToHolder.apply(fieldValue);
 			});
-		}
-
-		@Override
-		public boolean isTypeFinal() {
-			return true;
 		}
 	}
 
@@ -137,16 +102,6 @@ public class MemberAccess implements IValueHolder {
 		public Holder get(Object instance) {
 			throw new FieldNotFoundException(clazz.getName() + "." + member + " not found");
 		}
-
-		@Override
-		public Class<?> getType() {
-			return IValueHolder.EMPTY_CLASS;
-		}
-
-		@Override
-		public boolean isTypeFinal() {
-			return true;
-		}
 	}
 
 	private static class MethodProxy implements IFieldAccess {
@@ -159,16 +114,6 @@ public class MemberAccess implements IValueHolder {
 		@Override
 		public Holder get(Object instance) {
 			return Holder.valueOf(new MemberMethodProxy(method, instance));
-		}
-
-		@Override
-		public Class<?> getType() {
-			return MemberMethodProxy.class;
-		}
-
-		@Override
-		public boolean isTypeFinal() {
-			return true;
 		}
 	}
 
@@ -188,11 +133,6 @@ public class MemberAccess implements IValueHolder {
 		}
 
 		@Override
-		public Class<?> getType() {
-			return IValueHolder.EMPTY_CLASS;
-		}
-
-		@Override
 		public Holder get(Object instance) {
 			if (error != null) {
 				throw error.get();
@@ -202,11 +142,6 @@ public class MemberAccess implements IValueHolder {
 			} catch (InvocationTargetException | IllegalAccessException ite) {
 				throw new RuntimeException(ite);
 			}
-		}
-
-		@Override
-		public boolean isTypeFinal() {
-			return error != null;
 		}
 	}
 
@@ -271,53 +206,7 @@ public class MemberAccess implements IValueHolder {
 		});
 	}
 
-	/**
-	 * Represents a member of a snapshotted {@link IValueHolder}. The current value of the member is determined at the
-	 * time {@link #snapshot()} and therelike is called, but the origin's Class is snapshot.
-	 *
-	 * @author WorldSEnder
-	 *
-	 */
-	public static class BoundMemberAccess implements IValueHolder {
-		private final IValueHolder origin;
-		private final Class<?> originC;
-		private final IFieldAccess field;
-
-		/**
-		 *
-		 * @param object
-		 * @param memberName
-		 */
-		public BoundMemberAccess(IValueHolder object, String memberName) {
-			if (!object.isTypeFinal()) {
-				throw new IllegalArgumentException("object's class must be final");
-			}
-			this.origin = object;
-			this.originC = this.origin.getType();
-			this.field = resolveField(originC, memberName);
-		}
-
-		@Override
-		public Holder snapshot() {
-			return accessField(field, origin.snapshot());
-		}
-
-		@Override
-		public boolean isTypeFinal() {
-			return field.isTypeFinal();
-		}
-
-		@Override
-		public Class<?> getType() {
-			return field.getType();
-		}
-
-	}
-
 	public static IValueHolder makeMemberAccess(IValueHolder holder, String memberName) {
-		if (holder.isTypeFinal()) {
-			return new BoundMemberAccess(holder, memberName);
-		}
 		return new MemberAccess(holder, memberName);
 	}
 
@@ -335,10 +224,4 @@ public class MemberAccess implements IValueHolder {
 		return accessField(resolveField(holder.getType(), this.name), holder);
 	}
 
-	@Override
-	public Class<?> getType() {
-		Class<?> instanceC = this.origin.getType();
-		IFieldAccess field = resolveField(instanceC, this.name);
-		return field.getType();
-	}
 }

@@ -56,17 +56,7 @@ public class ClassSafeHolder<V> implements IValueHolder {
 	}
 
 	@Override
-	public Class<?> getType() {
-		return this.clazz;
-	}
-
-	@Override
 	public Holder snapshot() {
 		return Holder.valueOf(this.value, this.clazz);
-	}
-
-	@Override
-	public boolean isTypeFinal() {
-		return true;
 	}
 }

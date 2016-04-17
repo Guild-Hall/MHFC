@@ -1,9 +1,10 @@
-package mhfc.net.common.util.parsing.syntax.special;
+package mhfc.net.common.util.parsing.proxies;
 
 import java.util.Objects;
 
 import mhfc.net.common.util.parsing.Context;
 import mhfc.net.common.util.parsing.Holder;
+import mhfc.net.common.util.parsing.syntax.special.ISpecialMember;
 
 public class ContextWrapper implements ISpecialMember {
 	private final Context reference;

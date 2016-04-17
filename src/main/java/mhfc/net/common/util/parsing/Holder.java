@@ -1030,7 +1030,6 @@ public final class Holder implements IValueHolder {
 		return this.wrap.asObject(clazz) != null;
 	}
 
-	@Override
 	public Class<?> getType() {
 		throwIfError();
 		return this.wrap.getWrappedClass();
@@ -1045,11 +1044,6 @@ public final class Holder implements IValueHolder {
 	@Override
 	public Holder snapshot() {
 		return this;
-	}
-
-	@Override
-	public boolean isTypeFinal() {
-		return true;
 	}
 
 	public Throwable getFailCause() {

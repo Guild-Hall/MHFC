@@ -25,9 +25,4 @@ public class ContextVariable implements IValueHolder {
 	public Holder snapshot() {
 		return get().snapshot();
 	}
-
-	@Override
-	public Class<?> getType() {
-		return get().getType();
-	}
 }

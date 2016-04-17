@@ -109,35 +109,6 @@ public class FunctionCall implements IValueHolder {
 		return new NoCallFound(clazz);
 	}
 
-	private static class BoundFunctionCall implements IValueHolder {
-		private ICall resolvedCall;
-		private IValueHolder holder;
-		private Arguments args;
-
-		public BoundFunctionCall(IValueHolder holder, Arguments args) {
-			assert holder.isTypeFinal();
-			this.resolvedCall = resolveCall(holder.getType());
-			this.holder = holder;
-			this.args = args;
-		}
-
-		@Override
-		public Class<?> getType() {
-			return resolvedCall.getType();
-		}
-
-		@Override
-		public boolean isTypeFinal() {
-			return resolvedCall.isTypeFinal();
-		}
-
-		@Override
-		public Holder snapshot() {
-			Holder instance = holder.snapshot();
-			return resolvedCall.call(instance.boxed(), args);
-		}
-	}
-
 	private IValueHolder holder;
 	private Arguments args;
 
@@ -152,16 +123,8 @@ public class FunctionCall implements IValueHolder {
 		return resolveCall(instance.getType()).call(instance.boxed(), args);
 	}
 
-	@Override
-	public Class<?> getType() {
-		return IValueHolder.EMPTY_CLASS;
-	}
-
 	public static IValueHolder makeFunctionCall(IValueHolder callee, IValueHolder... arguments) {
 		Arguments args = new Arguments(arguments);
-		if (callee.isTypeFinal()) {
-			return new BoundFunctionCall(callee, args);
-		}
 		return new FunctionCall(callee, args);
 	}
 }

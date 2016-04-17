@@ -343,6 +343,9 @@ public class UnaryAST {
 		}
 
 		private boolean tryOvertakeWholeTree(Tree other) {
+			if (depthFirstOpenPostfixOps.empty()) {
+				return false;
+			}
 			IntermediateNode openOP = depthFirstOpenPostfixOps.peek();
 			if (!accepts(openOP, other.topNodeAsVal)) {
 				return false;
@@ -392,7 +395,7 @@ public class UnaryAST {
 				this.reparsePrefixOps();
 				return true;
 			}
-			throw new SyntaxErrorException("Impossible sequence encountered");
+			throw new SyntaxErrorException("Impossible sequence encountered " + left + " " + this);
 		}
 
 		@Override

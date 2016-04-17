@@ -1,6 +1,7 @@
-package mhfc.net.common.util.parsing.valueholders;
+package mhfc.net.common.util.parsing.proxies;
 
 import mhfc.net.common.util.parsing.Holder;
+import mhfc.net.common.util.parsing.valueholders.Arguments;
 import mhfc.net.common.util.reflection.OverloadedMethod;
 
 public class MemberMethodProxy {

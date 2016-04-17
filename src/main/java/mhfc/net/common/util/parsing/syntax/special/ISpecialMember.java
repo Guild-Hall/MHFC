@@ -12,8 +12,8 @@ public interface ISpecialMember {
 	/**
 	 * Retrieves the value of the member name
 	 *
-	 * @param name
+	 * @param member
 	 * @return
 	 */
-	Holder __getattr__(String name);
+	Holder __getattr__(String member);
 }
