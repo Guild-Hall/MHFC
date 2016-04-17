@@ -2,6 +2,7 @@ package mhfc.net.common.util.parsing.proxies;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Objects;
 import java.util.Optional;
 
 import mhfc.net.common.util.parsing.Holder;
@@ -15,7 +16,7 @@ public class StaticAccess implements ISpecialMember {
 	private Class<?> clazz;
 
 	public StaticAccess(Class<?> clazz) {
-		this.clazz = clazz;
+		this.clazz = Objects.requireNonNull(clazz);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import mhfc.net.common.util.parsing.proxies.ContextWrapper;
+import mhfc.net.common.util.parsing.proxies.StaticAccess;
 import mhfc.net.common.util.parsing.valueholders.ValueHolders;
 
 public class Context {
@@ -63,6 +64,18 @@ public class Context {
 		return put(map, key, any);
 	}
 
+	/**
+	 * Puts a class into the context, which static methods and members can be access.
+	 *
+	 * @param key
+	 * @param clazz
+	 * @return if it was successfully placed into the context
+	 * @see #putVar(String, IValueHolder)
+	 */
+	public boolean putClass(String key, Class<?> clazz) {
+		return put(map, key, Holder.valueOf(new StaticAccess(clazz)));
+	}
+
 	public ExpressionTranslator getTranslator() {
 		if (translator == null) {
 			synchronized (lock) {
@@ -75,6 +88,11 @@ public class Context {
 		return translator;
 	}
 
+	/**
+	 * The wrapper that is being accessed in the parsded expressions.
+	 *
+	 * @return
+	 */
 	public ContextWrapper getWrapper() {
 		return wrapper;
 	}
