@@ -68,6 +68,14 @@ public class SyntaxBuilder extends UnarySyntaxBuilder {
 		return Collections.unmodifiableList(remapPublicIDs);
 	}
 
+	public <O extends IOperator<?, ?>> int registerUnaryOperator(
+			Class<O> classOP,
+			boolean isPrefix,
+			int valueID,
+			int resultID) {
+		return registerUnaryOperator(classOP, isPrefix, valueID, ElementType.VALUE, resultID);
+	}
+
 	/**
 	 * Registers a unary operator. Note that no checks regarding the types of R and V is done.
 	 *
@@ -83,8 +91,13 @@ public class SyntaxBuilder extends UnarySyntaxBuilder {
 			Class<O> classOP,
 			boolean isPrefix,
 			int valueID,
+			ElementType type,
 			int resultID) {
-		int internal = registerOperator(classOP, isPrefix, valueID, ElementType.VALUE, resultID).operatorID;
+		if (type != ElementType.VALUE) {
+			OperatorRemap remap = remapPublicIDs.get(resultID);
+			resultID = remap.getDominantID();
+		}
+		int internal = registerOperator(classOP, isPrefix, valueID, type, resultID).operatorID;
 		int external = remapPublicIDs.size();
 		remapPublicIDs.add(new OperatorRemap(isPrefix, external, internal, classOP));
 		return external;

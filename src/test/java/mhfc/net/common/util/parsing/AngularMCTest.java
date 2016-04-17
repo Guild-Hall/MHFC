@@ -121,4 +121,10 @@ public class AngularMCTest {
 		IValueHolder holder = translator.parse("structVar.x");
 		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(TEST_VALUE));
 	}
+
+	@Test
+	public void brackets() {
+		IValueHolder holder = translator.parse("(testVar | ");
+		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(TEST_VALUE));
+	}
 }

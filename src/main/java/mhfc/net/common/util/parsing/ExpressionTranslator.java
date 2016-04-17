@@ -4,6 +4,7 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 import mhfc.net.common.util.CompositeException;
@@ -15,26 +16,53 @@ import mhfc.net.common.util.parsing.syntax.literals.IdentifierLiteral;
 import mhfc.net.common.util.parsing.syntax.operators.ArgumentContinuationOperator;
 import mhfc.net.common.util.parsing.syntax.operators.FunctionOperator;
 import mhfc.net.common.util.parsing.syntax.operators.IBinaryOperator;
+import mhfc.net.common.util.parsing.syntax.operators.IOperator;
 import mhfc.net.common.util.parsing.syntax.operators.MemberOperator;
 import mhfc.net.common.util.parsing.syntax.tree.AST;
 import mhfc.net.common.util.parsing.syntax.tree.SyntaxBuilder;
+import mhfc.net.common.util.parsing.syntax.tree.UnarySyntaxBuilder.ElementType;
 import mhfc.net.common.util.parsing.valueholders.ValueHolders;
 import net.minecraft.command.SyntaxErrorException;
 
 public class ExpressionTranslator {
+	private static class BracketOp implements IOperator<Void, IExpression> {
+		private IExpression expression;
+
+		public BracketOp(IExpression exp) {
+			this.expression = Objects.requireNonNull(exp);
+		}
+
+		@Override
+		public IExpression with(Void value) {
+			return expression;
+		}
+	}
+
+	private static class OpeningBracketOp implements IOperator<IExpression, BracketOp> {
+		@Override
+		public BracketOp with(IExpression value) {
+			return new BracketOp(value);
+		}
+	}
+
 	private static final SyntaxBuilder TREE_BUILDER = new SyntaxBuilder();
 	private static final int VAL_EXPRESSION_ID;
 	private static final int VAL_IDENTIFIER_ID;
 	private static final int VAL_FUNCTIONCALL_ID;
+	private static final int VAL_CLOSING_BRACKET_ID;
 
 	private static final int OP_MEMBERACCESS_ID;
 	private static final int OP_FUNCTIONCALL_ID;
 	private static final int OP_ARGUMENTCONTINUE_ID;
+	private static final int OP_OPENING_BRACKET_ID;
+	private static final int OP_BRACKET_ID;
 
 	static {
 		VAL_EXPRESSION_ID = TREE_BUILDER.registerTerminal(IExpression.class);
 		VAL_IDENTIFIER_ID = TREE_BUILDER.registerTerminal(IdentifierLiteral.class, VAL_EXPRESSION_ID);
 		VAL_FUNCTIONCALL_ID = TREE_BUILDER.registerTerminal(FunctionCallLiteral.class, VAL_EXPRESSION_ID);
+
+		VAL_CLOSING_BRACKET_ID = TREE_BUILDER.registerTerminal(Void.class);
 
 		OP_MEMBERACCESS_ID = TREE_BUILDER.registerBinaryOperator(
 				MemberOperator.class,
@@ -54,12 +82,53 @@ public class ExpressionTranslator {
 				VAL_EXPRESSION_ID,
 				VAL_FUNCTIONCALL_ID,
 				true);
+		OP_BRACKET_ID = TREE_BUILDER.registerUnaryOperator(
+				BracketOp.class,
+				true,
+				VAL_CLOSING_BRACKET_ID,
+				ElementType.VALUE,
+				VAL_EXPRESSION_ID);
+		OP_OPENING_BRACKET_ID = TREE_BUILDER.registerUnaryOperator(
+				OpeningBracketOp.class,
+				true,
+				VAL_EXPRESSION_ID,
+				ElementType.PREFIX_OP,
+				OP_BRACKET_ID);
+
 		TREE_BUILDER.declarePrecedence(OP_MEMBERACCESS_ID, OP_FUNCTIONCALL_ID);
 		TREE_BUILDER.declarePrecedence(OP_ARGUMENTCONTINUE_ID, OP_FUNCTIONCALL_ID);
 		TREE_BUILDER.declarePrecedence(OP_MEMBERACCESS_ID, OP_ARGUMENTCONTINUE_ID);
 
+		TREE_BUILDER.declarePrecedence(OP_FUNCTIONCALL_ID, OP_OPENING_BRACKET_ID);
+		TREE_BUILDER.declarePrecedence(OP_ARGUMENTCONTINUE_ID, OP_OPENING_BRACKET_ID);
+		TREE_BUILDER.declarePrecedence(OP_MEMBERACCESS_ID, OP_OPENING_BRACKET_ID);
+
 		TREE_BUILDER.validate();
 	}
+
+	private static abstract class OneSymbolSequence implements IBasicSequence {
+		private final int codepoint;
+
+		public OneSymbolSequence(int codepoint) {
+			this.codepoint = codepoint;
+		}
+
+		@Override
+		public void reset() {}
+
+		@Override
+		public SiftResult endOfStream() {
+			return SiftResult.REJCECTED;
+		}
+
+		@Override
+		public SiftResult accepting(int cp) {
+			if (codepoint == cp) {
+				return SiftResult.FINISHED;
+			}
+			return SiftResult.REJCECTED;
+		}
+	};
 
 	private class Identifier implements IBasicSequence {
 		private StringBuilder sb = new StringBuilder();
@@ -358,29 +427,45 @@ public class ExpressionTranslator {
 	}
 
 	private IBasicSequence makeBinaryOperator(int matchingChar, int ID, Supplier<IBinaryOperator<?, ?, ?>> opSupplier) {
-		return new IBasicSequence() {
-
-			@Override
-			public void reset() {}
-
+		return new OneSymbolSequence(matchingChar) {
 			@Override
 			public void pushOnto(AST ast) throws SyntaxErrorException {
 				ast.pushBinaryOperator(ID, opSupplier.get());
 			}
-
-			@Override
-			public SiftResult endOfStream() {
-				return SiftResult.REJCECTED;
-			}
-
-			@Override
-			public SiftResult accepting(int cp) {
-				if (matchingChar == cp) {
-					return SiftResult.FINISHED;
-				}
-				return SiftResult.REJCECTED;
-			}
 		};
+	}
+
+	private static class OpeningBracket extends OneSymbolSequence {
+		public OpeningBracket() {
+			super('(');
+		}
+
+		@Override
+		public void pushOnto(AST ast) throws SyntaxErrorException {
+			ast.pushUnaryOperator(OP_OPENING_BRACKET_ID, new OpeningBracketOp());
+		}
+	}
+
+	private static class ClosingBracket extends OneSymbolSequence {
+		public ClosingBracket() {
+			super(')');
+		}
+
+		@Override
+		public void pushOnto(AST ast) throws SyntaxErrorException {
+			ast.pushValue(VAL_CLOSING_BRACKET_ID, null);
+		}
+	}
+
+	private class ContextSymbol extends OneSymbolSequence {
+		public ContextSymbol() {
+			super('$');
+		}
+
+		@Override
+		public void pushOnto(AST ast) throws SyntaxErrorException {
+			ast.pushValue(VAL_EXPRESSION_ID, new HolderLiteral(Holder.valueOf(context.getWrapper())));
+		}
 	}
 
 	private final List<IBasicSequence> sequences = new ArrayList<>();
@@ -398,7 +483,9 @@ public class ExpressionTranslator {
 		sequences.add(new StringConstant());
 		sequences.add(new IntegerConstant());
 		sequences.add(new Comment());
-
+		sequences.add(new OpeningBracket());
+		sequences.add(new ClosingBracket());
+		sequences.add(new ContextSymbol());
 	}
 
 	public IValueHolder parse(String expression) throws SyntaxErrorException {

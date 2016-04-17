@@ -64,7 +64,7 @@ public class UnaryAST {
 
 		@Override
 		public String toString() {
-			return "Value[" + valueType + "]";
+			return Objects.toString(value);
 		}
 	}
 
@@ -99,7 +99,7 @@ public class UnaryAST {
 
 		@Override
 		public String toString() {
-			return (isPrefix ? "Prefix" : "Postfix") + "Operator[" + opType + "]";
+			return Objects.toString(op);
 		}
 	}
 
@@ -146,6 +146,9 @@ public class UnaryAST {
 		}
 
 		public Object compute() {
+			if (this.valueNode == null) {
+				throw new IllegalStateException("Unfinished tree");
+			}
 			return compute(this.opNodeAsOp.getOp(), this.valueNodeAsVal.getVal());
 		}
 
@@ -230,7 +233,7 @@ public class UnaryAST {
 
 		@Override
 		public String toString() {
-			return "ValueIntermediate[" + resultType + "]" + "{" + getOperator() + "}(" + getValue() + ")";
+			return getOperator() + "(" + getValue() + ")";
 		}
 	}
 
@@ -264,8 +267,7 @@ public class UnaryAST {
 
 		@Override
 		public String toString() {
-			return (isPrefix ? "Prefix" : "Postfix") + "Intermediate[" + opType + "]" + "{" + getOperator() + "}("
-					+ getValue() + ")";
+			return getOperator() + "(" + getValue() + ")";
 		}
 	}
 
@@ -432,9 +434,6 @@ public class UnaryAST {
 		for (UnarySyntaxBuilder.OperatorRegistration preOp : preOpReg) {
 			for (int i = 0; i < postOpReg.size(); i++) {
 				boolean preOpAfter = preOp.comesAfterOtherFixity.get(i);
-				if (preOpAfter == postOpReg.get(i).comesAfterOtherFixity.get(preOp.operatorID)) {
-					throw new IllegalArgumentException("Some operators are not ordered: " + preOp.operatorID + " " + i);
-				}
 				isPrefixFixityHigher[preOp.operatorID][i] = !preOpAfter;
 			}
 			for (int i = 0; i < valueReg.size(); i++) {
@@ -484,7 +483,12 @@ public class UnaryAST {
 		if (partialTrees.size() != 1) {
 			throw new SyntaxErrorException("Not exactly a single tree remaining: " + partialTrees);
 		}
-		return partialTrees.peek().topNodeAsVal.getVal();
+		try {
+			Tree tree = partialTrees.peek();
+			return tree.topNodeAsVal.getVal();
+		} catch (IllegalStateException ise) {
+			throw new SyntaxErrorException("Unfinished operator" + partialTrees);
+		}
 	}
 
 	/**
@@ -496,7 +500,6 @@ public class UnaryAST {
 	 */
 	protected void pushValue(int valueId, Object val) throws SyntaxErrorException {
 		// valueClasses[valueId].cast(val);
-		Objects.requireNonNull(val);
 		partialTrees.push(new Tree(valueId, val));
 		remergeTrees();
 	}
