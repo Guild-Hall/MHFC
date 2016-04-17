@@ -123,8 +123,14 @@ public class AngularMCTest {
 	}
 
 	@Test
-	public void brackets() {
-		IValueHolder holder = translator.parse("(testVar | ");
-		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(TEST_VALUE));
+	public void bracketsEasy() {
+		IValueHolder holder = translator.parse("(testVar | structVar.mutate)");
+		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(2 * TEST_VALUE));
+	}
+
+	@Test
+	public void bracketsMedium() {
+		IValueHolder holder = translator.parse("testVar | structVar.mutate : (testVar | callable)");
+		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(TEST_VALUE * 2 * TEST_VALUE));
 	}
 }

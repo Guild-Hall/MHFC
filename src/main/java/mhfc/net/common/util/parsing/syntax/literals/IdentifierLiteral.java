@@ -29,4 +29,9 @@ public class IdentifierLiteral implements IExpression {
 		formatter.format("%s", name);
 	}
 
+	@Override
+	public String toString() {
+		return "\"" + name + "\"";
+	}
+
 }

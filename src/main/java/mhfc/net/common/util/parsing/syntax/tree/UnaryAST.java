@@ -1,6 +1,5 @@
 package mhfc.net.common.util.parsing.syntax.tree;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
@@ -178,7 +177,7 @@ public class UnaryAST {
 		@Override
 		public boolean addDisputableNodes(Stack<IntermediateNode> stack) {
 			if (getValue() == null) {
-				if (!isPrefix()) {
+				if (isPrefix()) {
 					getOperatorNode().addDisputableNodes(stack);
 				}
 				// Cancel when an incomplete op is encountered
@@ -376,8 +375,8 @@ public class UnaryAST {
 					return true;
 				}
 			}
-			for (Iterator<IntermediateNode> nodeIt = left.depthFirstDisputableValues.iterator(); nodeIt.hasNext();) {
-				IntermediateNode node = nodeIt.next();
+			while (!left.depthFirstDisputableValues.empty()) {
+				IntermediateNode node = left.depthFirstDisputableValues.pop();
 				if (tryOvertakeValueNode(node)) {
 					left.reparseDisputableValues();
 					left.reparsePrefixOps();
@@ -385,8 +384,6 @@ public class UnaryAST {
 					this.reparsePostfixOps();
 					return true;
 				}
-				// All other free values are being "swallowed", because there is a right and a left operator
-				nodeIt.remove();
 			}
 			// Try to swallow left's top node
 			if (tryOvertakeWholeTree(left)) {
@@ -401,7 +398,7 @@ public class UnaryAST {
 		@Override
 		public String toString() {
 			return "Tree { top: " + this.topNode + ", open: " + this.depthFirstOpenPrefixOps + "|"
-					+ depthFirstOpenPostfixOps + "}";
+					+ depthFirstOpenPostfixOps + ", disputable: " + this.depthFirstDisputableValues + "}";
 		}
 	}
 
