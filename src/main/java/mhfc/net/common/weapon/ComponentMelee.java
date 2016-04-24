@@ -187,9 +187,9 @@ public class ComponentMelee {
 		// var5 is block rate
 		// var6 is fencing
 		// lastvar is comborate
-		GREATSWORD(0, 1F, 7F, 1F, 1.5F, 0.5F, 1, 2, 1, 4), //
-		HAMMER(0, 1F, 10, 1F, 1F, 0.9F, 1, 2, 1, 8), //
-		HUNTINGHORN(0, 0.5F, 4, 1F, 1.5F, 0.6F, 1, 2, 1, 4), //
+		GREATSWORD(0, 1F, 6F, 1F, 1.5F, 0.5F, 1, 2, 1, 4), //
+		HAMMER(0, 1F, 10, 2F, 1F, 0.9F, 1, 2, 1, 8), //
+		HUNTINGHORN(0, 0.5F, 3, 1F, 1.5F, 0.6F, 1, 2, 1, 4), //
 		LONGSWORD(0, 1F, 0F, 1F, 1.2F, 0F, 1, 2, 1, -6), // Finally Damage has been tweak.
 		NONE(0, 0F, 1, 0F, 1F, 0.4F, 0, 0, 1, 0);
 
