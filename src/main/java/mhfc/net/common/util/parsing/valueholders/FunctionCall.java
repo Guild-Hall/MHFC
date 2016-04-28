@@ -70,7 +70,9 @@ public class FunctionCall implements IValueHolder {
 
 		@Override
 		public Holder call(Object instance, Arguments args) {
-			throw new MethodNotFoundException(clazz.getName() + ".__call__ hasn't been found");
+			throw new MethodNotFoundException(
+					instance + " not callable: method 'Holder " + clazz.getName()
+							+ ".__call__(Arguments)' hasn't been found");
 		}
 
 		@Override

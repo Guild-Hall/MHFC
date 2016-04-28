@@ -97,7 +97,9 @@ public class MemberAccess implements IValueHolder {
 
 		@Override
 		public Holder get(Object instance) {
-			throw new FieldNotFoundException(clazz.getName() + "." + member + " not found");
+			throw new FieldNotFoundException(
+					"Can't get " + instance + "." + member + ": neither field '" + clazz.getName() + "." + member
+							+ "' nor special method 'Holder " + clazz.getName() + ".__getattr__(String)' found");
 		}
 	}
 

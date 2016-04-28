@@ -122,6 +122,9 @@ public class OverloadedMethod {
 				this.allCurrentBest.add(candidate);
 				return this;
 			}
+			if (bestStrategy == MethodApplicability.NOT_APPLICABLE) {
+				return this;
+			}
 			Comparation<MethodInfo> candidateComp = Comparation.comparing(candidate);
 			boolean isMostSpecific = true;
 			boolean isLeastSpecific = true;
@@ -151,11 +154,11 @@ public class OverloadedMethod {
 
 		private MethodApplicability determineApplicability(MethodInfo info) {
 			// TODO: §15.12.2.2-4 Determine applicability
-			return MethodApplicability.VARARG;
+			return MethodApplicability.NOT_APPLICABLE;
 		}
 
 		public Optional<MethodHandle> getCurrent() {
-			if (allCurrentBest.isEmpty()) {
+			if (allCurrentBest.isEmpty() || bestStrategy == MethodApplicability.NOT_APPLICABLE) {
 				return Optional.empty();
 			}
 			if (allCurrentBest.size() == 1) {
@@ -199,8 +202,10 @@ public class OverloadedMethod {
 	 * @param instance
 	 */
 	public OverloadedMethod bindTo(Object instance) {
-		return new OverloadedMethod(
-				allMethods.stream().map(i -> i.method.bindTo(instance)).collect(Collectors.toList()));
+		return new OverloadedMethod(allMethods.stream() //
+				.filter(i -> i.method.type().parameterType(0).isInstance(instance)) //
+				.map(i -> i.method.bindTo(instance)) //
+				.collect(Collectors.toList()));
 	}
 
 	public Holder call(Arguments arguments) {
