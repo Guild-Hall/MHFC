@@ -1,7 +1,6 @@
 package mhfc.net.common.util.parsing;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.lang.invoke.MethodHandle;
 import java.util.Optional;
 
 import org.hamcrest.core.IsEqual;
@@ -17,30 +16,39 @@ public class ReflectionTest {
 		public String member = "Found";
 
 		public String method(String argument) {
-			return "Found String";
+			return argument;
 		}
 
 		public int method(float argument) {
-			return 42;
+			return (int) argument;
 		}
 	}
 
 	@Test
 	public void findMember() {
-		Optional<Field> f = FieldHelper.findMatching(TestClass.class, "member");
-		Assert.assertTrue(f.isPresent());
-		Assert.assertThat(f.get().getType(), IsEqual.equalTo(String.class));
+		Optional<MethodHandle> f = FieldHelper.find(TestClass.class, "member");
+		Assert.assertTrue(f.toString(), f.isPresent());
+		Assert.assertThat(f.get().type().returnType(), IsEqual.equalTo(String.class));
 	}
 
 	@Test
 	public void findMethod() {
-		Optional<OverloadedMethod> methods = MethodHelper.findMatching(TestClass.class, "method");
-		Assert.assertTrue(methods.isPresent());
+		Optional<OverloadedMethod> methods = MethodHelper.find(TestClass.class, "method");
+		Assert.assertTrue(methods.toString(), methods.isPresent());
+	}
+
+	@Test
+	public void disambiguate() throws Throwable {
+		TestClass instance = new TestClass();
+		Optional<OverloadedMethod> methods = MethodHelper.find(TestClass.class, "method");
 		OverloadedMethod ms = methods.get();
 
-		Optional<Method> method = ms.disambiguate(String.class);
-		Assert.assertTrue(method.isPresent());
-		Method m = method.get();
-		Assert.assertThat(m.getReturnType(), IsEqual.equalTo(String.class));
+		Optional<MethodHandle> method = ms.disambiguate(String.class);
+		Assert.assertTrue(methods.toString(), method.isPresent());
+		Assert.assertThat(method.get().invokeWithArguments(instance, "test"), IsEqual.equalTo("test"));
+
+		method = ms.disambiguate(float.class);
+		Assert.assertTrue(methods.toString(), method.isPresent());
+		Assert.assertThat(method.get().invokeWithArguments(instance, 1.1f), IsEqual.equalTo(1));
 	}
 }

@@ -1,7 +1,6 @@
 package mhfc.net.common.util.parsing.proxies;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import java.lang.invoke.MethodHandle;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -21,17 +20,16 @@ public class StaticAccess implements ISpecialMember {
 
 	@Override
 	public Holder __getattr__(String member) {
-		Optional<Field> f = FieldHelper.findMatching(clazz, member);
+		Optional<MethodHandle> f = FieldHelper.findStatic(clazz, member);
 		if (f.isPresent()) {
-			Field field = f.get();
-			Class<?> fieldClazz = field.getType();
-			return Holder.catching(IllegalAccessException.class, () -> {
-				Object fieldValue = field.get(null);
+			MethodHandle field = f.get();
+			Class<?> fieldClazz = field.type().returnType();
+			return Holder.catching(Throwable.class, () -> {
+				Object fieldValue = field.invoke();
 				return Holder.makeUnboxer(fieldClazz).apply(fieldValue);
 			});
 		}
-		Optional<OverloadedMethod> methods = MethodHelper
-				.findMatching(clazz, member, m -> Modifier.isStatic(m.getModifiers()));
+		Optional<OverloadedMethod> methods = MethodHelper.findStatic(clazz, member);
 		if (methods.isPresent()) {
 			return Holder.valueOf(new MemberMethodProxy(methods.get(), null));
 		}

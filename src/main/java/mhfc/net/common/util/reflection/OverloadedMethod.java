@@ -1,15 +1,22 @@
 package mhfc.net.common.util.reflection;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import mhfc.net.common.util.Comparation;
+import mhfc.net.common.util.Comparation.ComparationResult;
 import mhfc.net.common.util.parsing.Holder;
+import mhfc.net.common.util.parsing.exceptions.AmbiguousCallException;
 import mhfc.net.common.util.parsing.exceptions.MethodNotFoundException;
 import mhfc.net.common.util.parsing.valueholders.Arguments;
-import scala.actors.threadpool.Arrays;
 
 /**
  * Represents a set of methods that are found by {@link MethodHelper}.
@@ -18,44 +25,178 @@ import scala.actors.threadpool.Arrays;
  *
  */
 public class OverloadedMethod {
-	private static boolean isConvertible(Class<?> parameter, Class<?> arg) {
-		// FIXME: just not true...
-		return true;
+	/**
+	 * Helper struct to determine applicability
+	 */
+	private static class MethodInfo implements Comparable<MethodInfo> {
+		public final MethodHandle method;
+		public final Class<?>[] argTypes;
+		public final boolean isVarArgs;
+
+		public MethodInfo(MethodHandle method) {
+			this.method = Objects.requireNonNull(method);
+			this.argTypes = method.type().parameterArray();
+			this.isVarArgs = method.isVarargsCollector();
+		}
+
+		@Override
+		public int compareTo(MethodInfo o) {
+			// TODO: §15.12.2.5 Determine most specific method
+			return 0;
+		}
+
+		@Override
+		public String toString() {
+			return method.toString();
+		}
 	}
 
-	private static boolean matches(Class<?>[] parameter, Class<?>[] args) {
-		if (parameter.length != args.length) {
-			return false;
+	private static class Disambiguator {
+		private static enum MethodApplicability implements Comparable<MethodApplicability> {
+			/**
+			 * §15.12.2.2 without permitting boxing or unboxing conversion, or the use of variable arity method
+			 * invocation
+			 */
+			SUBTYPING,
+			/**
+			 * §15.12.2.3 allowing boxing and unboxing, but still precludes the use of variable arity method invocation
+			 */
+			METHOD_INVOKATION_CONVERSION,
+			/**
+			 * §15.12.2.4 combined with variable arity methods, boxing, and unboxing
+			 */
+			VARARG,
+			/**
+			 * None of the above
+			 */
+			NOT_APPLICABLE;
 		}
-		for (int i = 0; i < parameter.length; i++) {
-			Class<?> paramClass = parameter[i];
-			Class<?> argClass = args[i];
-			if (!isConvertible(paramClass, argClass)) {
-				return false;
+
+		private MethodApplicability bestStrategy;
+		// A list of all currently applicable methods, ambiguous if more than one.
+		private List<MethodInfo> allCurrentBest;
+		// The classes of expressions used as to call
+		private final Class<?>[] expressionClasses;
+
+		public Disambiguator(Class<?>... args) {
+			this.expressionClasses = mhfc.net.common.util.Objects.requireNonNullDeep(args);
+			this.bestStrategy = MethodApplicability.NOT_APPLICABLE;
+			this.allCurrentBest = new ArrayList<>();
+		}
+
+		public Disambiguator considerAll(Iterable<MethodInfo> methods) {
+			methods.forEach(this::consider);
+			return this;
+		}
+
+		public Disambiguator consider(MethodInfo candidate) {
+			// §15.12.2
+			MethodApplicability applicability = determineApplicability(candidate);
+			ComparationResult apResult = Comparation.comparing(bestStrategy).to(applicability);
+			if (apResult.favorsRight()) {
+				return this;
+			}
+			if (apResult.favorsLeft()) {
+				this.bestStrategy = applicability;
+				this.allCurrentBest.clear();
+				this.allCurrentBest.add(candidate);
+				return this;
+			}
+			Comparation<MethodInfo> candidateComp = Comparation.comparing(candidate);
+			boolean isMostSpecific = true;
+			boolean isLeastSpecific = true;
+			for (MethodInfo info : allCurrentBest) {
+				ComparationResult specifityResult = candidateComp.to(info);
+				if (specifityResult.favorsRight()) {
+					isMostSpecific = false;
+				} else if (specifityResult.meansEquals()) {
+					isMostSpecific = false;
+					isLeastSpecific = false;
+				} else {
+					isLeastSpecific = false;
+				}
+			}
+			if (isMostSpecific) {
+				this.allCurrentBest.clear();
+				this.allCurrentBest.add(candidate);
+				return this;
+			}
+			if (isLeastSpecific) {
+				return this;
+			}
+			// Ambiguous
+			allCurrentBest.add(candidate);
+			return this;
+		}
+
+		private MethodApplicability determineApplicability(MethodInfo info) {
+			// TODO: §15.12.2.2-4 Determine applicability
+			return MethodApplicability.VARARG;
+		}
+
+		public Optional<MethodHandle> getCurrent() {
+			if (allCurrentBest.isEmpty()) {
+				return Optional.empty();
+			}
+			if (allCurrentBest.size() == 1) {
+				return Optional.of(allCurrentBest.get(0).method);
+			}
+			MethodHandle handle = new AmbiguityThrower(allCurrentBest).getMethodHandle();
+			return Optional.of(handle);
+		}
+
+		private static class AmbiguityThrower {
+			private static final MethodHandles.Lookup lookup = MethodHandles.lookup();
+			private static final MethodHandle throwingHandle;
+
+			static {
+				try {
+					throwingHandle = lookup.findVirtual(
+							AmbiguityThrower.class,
+							"throwIt",
+							MethodType.methodType(void.class, Object[].class));
+				} catch (NoSuchMethodException | IllegalAccessException e) {
+					throw new RuntimeException(e);
+				}
+			}
+
+			private List<MethodInfo> methods;
+
+			public AmbiguityThrower(List<MethodInfo> methods) {
+				this.methods = new ArrayList<>(methods);
+			}
+
+			@SuppressWarnings("unused")
+			private void throwIt(Object... objs) {
+				throw new AmbiguousCallException("Possiblities: " + methods.toString());
+			}
+
+			public MethodHandle getMethodHandle() {
+				MethodHandle ret = throwingHandle.bindTo(this).asVarargsCollector(Object[].class);
+				assert ret.isVarargsCollector();
+				return ret;
 			}
 		}
-		return true;
 	}
 
-	private List<Method> allMethods;
+	private List<MethodInfo> allMethods;
 
-	public OverloadedMethod(List<Method> methods) {
-		this.allMethods = methods;
+	public OverloadedMethod(List<MethodHandle> methods) {
+		this.allMethods = methods.stream().map(MethodInfo::new).collect(Collectors.toList());
 	}
 
 	/**
-	 * Restrict this set of methods to only methods that will get called if the arguments are of the classes argClasses.
-	 * Use void.class to specify a yet unused argument.
+	 * Restrict this set of methods to only methods that will get called if the arguments are of the classes
+	 * expressionClasses. Use void.class to specify a yet unused argument.
 	 *
-	 * @param argClasses
-	 * @return
+	 * @param expressionClasses
+	 * @return empty: no method matches, filled: one most specific method or ambiguous call
 	 * @throws IllegalArgumentException
 	 *             if multiple ambiguous methods remain.
 	 */
-	public Optional<Method> disambiguate(Class<?>... argClasses) {
-		// https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.12.2.1
-		// TODO: fix, not findFirst, also doesn't find varargs methods correctly
-		return allMethods.stream().filter(m -> matches(m.getParameterTypes(), argClasses)).findFirst();
+	public Optional<MethodHandle> disambiguate(Class<?>... argClasses) {
+		Optional<MethodHandle> handle = new Disambiguator(argClasses).considerAll(allMethods).getCurrent();
+		return handle;
 	}
 
 	public Holder call(Object instance, Arguments arguments) {
@@ -65,33 +206,26 @@ public class OverloadedMethod {
 		IntStream.range(0, argCount).forEach(i -> snapshots[i] = arguments.getArgument(i).snapshot());
 		IntStream.range(0, argCount).forEach(i -> types[i] = snapshots[i].getType());
 
-		Optional<Method> method = this.disambiguate(types);
+		Optional<MethodHandle> method = this.disambiguate(types);
 		if (!method.isPresent()) {
 			throw new MethodNotFoundException(
 					"No overload for method " + this + " and arg-classes " + Arrays.toString(types));
 		}
-		Method m = method.get();
+		MethodHandle m = method.get();
 		Object[] args = new Object[argCount];
 		IntStream.range(0, argCount).forEach(i -> args[i] = snapshots[i].boxed());
+		Object ret;
 		try {
-			Object ret;
-			if (m.isVarArgs()) {
-				int normalArgsCount = m.getParameterCount() - 1;
-				int varArgsCount = argCount - normalArgsCount;
-				Object[] allArgs = new Object[normalArgsCount + 1];
-				Object[] varArgs = new Object[varArgsCount];
-				System.arraycopy(args, 0, allArgs, 0, normalArgsCount);
-				System.arraycopy(args, normalArgsCount, varArgs, 0, varArgsCount);
-				allArgs[normalArgsCount] = varArgs;
-				ret = m.invoke(instance, allArgs);
-			} else {
-				ret = m.invoke(instance, args);
-			}
-			Class<?> clazz = m.getReturnType();
+			ret = m.invokeWithArguments(args);
+			Class<?> clazz = m.type().returnType();
 			return Holder.makeUnboxer(clazz).apply(ret);
-		} catch (IllegalAccessException | InvocationTargetException iae) {
-			return Holder.failedComputation(iae);
+		} catch (Throwable e) {
+			return Holder.failedComputation(e);
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "OverloadedMethod" + this.allMethods;
+	}
 }

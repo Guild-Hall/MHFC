@@ -1,9 +1,7 @@
 package mhfc.net.common.util.parsing.valueholders;
 
+import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
@@ -68,22 +66,21 @@ public class MemberAccess implements IValueHolder {
 	}
 
 	private static class FieldProxy<T> implements IFieldAccess {
-
-		private final Field field;
+		private final MethodHandle field;
 		private final Class<?> fieldType;
 
 		private final Function<Object, Holder> rawToHolder;
 
-		public FieldProxy(Field f) {
+		public FieldProxy(MethodHandle f) {
 			this.field = Objects.requireNonNull(f);
-			this.fieldType = f.getType();
+			this.fieldType = f.type().returnType();
 			this.rawToHolder = Holder.makeUnboxer(fieldType);
 		}
 
 		@Override
 		public Holder get(Object instance) {
-			return Holder.catching(IllegalAccessException.class, () -> {
-				Object fieldValue = this.field.get(instance);
+			return Holder.catching(Throwable.class, () -> {
+				Object fieldValue = this.field.invokeWithArguments(instance);
 				return rawToHolder.apply(fieldValue);
 			});
 		}
@@ -118,12 +115,12 @@ public class MemberAccess implements IValueHolder {
 	}
 
 	private static class SpecialAccessProxy implements IFieldAccess {
-		private final Method getattr;
+		private final MethodHandle getattr;
 		private final String name;
 		private final Supplier<RuntimeException> error;
 
-		public SpecialAccessProxy(Method getter, String memberName) {
-			if (!getter.getReturnType().equals(Holder.class)) {
+		public SpecialAccessProxy(MethodHandle getter, String memberName) {
+			if (!getter.type().returnType().equals(Holder.class)) {
 				error = () -> new IllegalArgumentException("__getattr__ must return Holder");
 			} else {
 				error = null;
@@ -138,9 +135,9 @@ public class MemberAccess implements IValueHolder {
 				throw error.get();
 			}
 			try {
-				return Holder.class.cast(getattr.invoke(instance, name));
-			} catch (InvocationTargetException | IllegalAccessException ite) {
-				throw new RuntimeException(ite);
+				return Holder.class.cast(getattr.invokeWithArguments(instance, name));
+			} catch (Throwable thr) {
+				return Holder.failedComputation(thr);
 			}
 		}
 	}
@@ -184,16 +181,16 @@ public class MemberAccess implements IValueHolder {
 				return FieldArrayClone.forClass(clazz);
 			}
 		}
-		Optional<Field> f = FieldHelper.findMatching(clazz, member);
+		Optional<MethodHandle> f = FieldHelper.find(clazz, member);
 		if (f.isPresent()) {
 			return new FieldProxy<>(f.get());
 		}
-		Optional<OverloadedMethod> m = MethodHelper.findMatching(clazz, member);
+		Optional<OverloadedMethod> m = MethodHelper.find(clazz, member);
 		if (m.isPresent()) {
 			return new MethodProxy(m.get());
 		}
-		Optional<OverloadedMethod> getattr = MethodHelper.findMatching(clazz, "__getattr__");
-		Optional<Method> specialgetter = getattr.flatMap(o -> o.disambiguate(String.class));
+		Optional<OverloadedMethod> getattr = MethodHelper.find(clazz, "__getattr__");
+		Optional<MethodHandle> specialgetter = getattr.flatMap(o -> o.disambiguate(String.class));
 		if (specialgetter.isPresent()) {
 			return new SpecialAccessProxy(specialgetter.get(), member);
 		}

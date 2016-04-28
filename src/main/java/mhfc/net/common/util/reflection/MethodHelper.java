@@ -1,7 +1,7 @@
 package mhfc.net.common.util.reflection;
 
+import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,20 +17,30 @@ public class MethodHelper {
 	 *            the name to search for.
 	 * @return an empty Optional if no method with that name is found
 	 */
-	public static Optional<OverloadedMethod> findMatching(Class<?> clazz, String name) {
-		return findMatching(clazz, name, m -> !Modifier.isStatic(m.getModifiers()));
+	public static Optional<OverloadedMethod> find(Class<?> clazz, String name) {
+		return findMatching(clazz, name, f -> !ReflectionHelper.isStatic(f));
+	}
+
+	public static Optional<OverloadedMethod> findStatic(Class<?> clazz, String name) {
+		return findMatching(clazz, name, ReflectionHelper::isStatic);
 	}
 
 	public static Optional<OverloadedMethod> findMatching(Class<?> clazz, String name, Predicate<Method> predicate) {
 		Method[] methods = clazz.getMethods();
-		List<Method> foundMethods = new ArrayList<>();
+		List<MethodHandle> foundMethods = new ArrayList<>();
 		boolean anyWithName = false;
 		for (Method m : methods) {
-			if (m.getName().equals(name)) {
-				anyWithName = true;
-				if (predicate.test(m)) {
-					foundMethods.add(m);
-				}
+			if (!m.getName().equals(name)) {
+				continue;
+			}
+			anyWithName = true;
+			if (!predicate.test(m)) {
+				continue;
+			}
+			try {
+				foundMethods.add(ReflectionHelper.LOOKUP.unreflect(m));
+			} catch (IllegalAccessException e) {
+				continue;
 			}
 		}
 		return anyWithName ? Optional.of(new OverloadedMethod(foundMethods)) : Optional.empty();

@@ -1,7 +1,6 @@
 package mhfc.net.common.util.parsing.valueholders;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.invoke.MethodHandle;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -25,13 +24,13 @@ public class FunctionCall implements IValueHolder {
 	}
 
 	private static class MethodProxy implements ICall {
-		private final Method method;
+		private final MethodHandle method;
 		private final Supplier<RuntimeException> error;
 
-		public MethodProxy(Method method) {
-			assert method.getParameterTypes().length == 1;
-			assert method.getParameterTypes()[0].isAssignableFrom(Arguments.class);
-			if (!Holder.class.isAssignableFrom(method.getReturnType())) {
+		public MethodProxy(MethodHandle method) {
+			assert method.type().parameterArray().length == 2;
+			assert method.type().parameterArray()[1].isAssignableFrom(Arguments.class);
+			if (!Holder.class.isAssignableFrom(method.type().returnType())) {
 				error = () -> new IllegalArgumentException("__call__ must return Holder");
 			} else {
 				error = null;
@@ -55,9 +54,9 @@ public class FunctionCall implements IValueHolder {
 				throw error.get();
 			}
 			try {
-				return Holder.class.cast(method.invoke(instance, args));
-			} catch (InvocationTargetException | IllegalAccessException ite) {
-				throw new RuntimeException(ite);
+				return Holder.class.cast(method.invokeWithArguments(instance, args));
+			} catch (Throwable e) {
+				return Holder.failedComputation(e);
 			}
 		}
 	}
@@ -101,8 +100,8 @@ public class FunctionCall implements IValueHolder {
 	}
 
 	private static ICall computeCall(Class<?> clazz) {
-		Optional<OverloadedMethod> specialMethod = MethodHelper.findMatching(clazz, "__call__");
-		Optional<Method> call = specialMethod.flatMap(s -> s.disambiguate(Arguments.class));
+		Optional<OverloadedMethod> specialMethod = MethodHelper.find(clazz, "__call__");
+		Optional<MethodHandle> call = specialMethod.flatMap(s -> s.disambiguate(Arguments.class));
 		if (call.isPresent()) {
 			return new MethodProxy(call.get());
 		}
