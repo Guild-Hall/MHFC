@@ -110,7 +110,7 @@ public class MemberAccess implements IValueHolder {
 
 		@Override
 		public Holder get(Object instance) {
-			return Holder.valueOf(new MemberMethodProxy(method, instance));
+			return Holder.valueOf(new MemberMethodProxy(method.bindTo(instance)));
 		}
 	}
 

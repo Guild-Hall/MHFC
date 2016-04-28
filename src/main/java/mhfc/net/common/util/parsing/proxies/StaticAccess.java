@@ -31,7 +31,7 @@ public class StaticAccess implements ISpecialMember {
 		}
 		Optional<OverloadedMethod> methods = MethodHelper.findStatic(clazz, member);
 		if (methods.isPresent()) {
-			return Holder.valueOf(new MemberMethodProxy(methods.get(), null));
+			return Holder.valueOf(new MemberMethodProxy(methods.get()));
 		}
 		throw new MethodNotFoundException("static" + clazz.getName() + "." + member + " not found");
 	}

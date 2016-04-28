@@ -72,6 +72,26 @@ public class OverloadedMethod {
 			NOT_APPLICABLE;
 		}
 
+		private static final MethodHandles.Lookup lookup = MethodHandles.lookup();
+		private static final MethodHandle throwingHandle;
+
+		static {
+			try {
+				throwingHandle = lookup.findStatic(
+						Disambiguator.class,
+						"throwAmbiguousCall",
+						MethodType.methodType(void.class, Class[].class, List.class, Object[].class));
+			} catch (NoSuchMethodException | IllegalAccessException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		@SuppressWarnings("unused")
+		private static void throwAmbiguousCall(Class<?>[] expressions, List<MethodInfo> methods, Object... objs) {
+			throw new AmbiguousCallException(
+					"Arguments: " + Arrays.toString(expressions) + " Possiblities: " + methods.toString());
+		}
+
 		private MethodApplicability bestStrategy;
 		// A list of all currently applicable methods, ambiguous if more than one.
 		private List<MethodInfo> allCurrentBest;
@@ -141,41 +161,15 @@ public class OverloadedMethod {
 			if (allCurrentBest.size() == 1) {
 				return Optional.of(allCurrentBest.get(0).method);
 			}
-			MethodHandle handle = new AmbiguityThrower(allCurrentBest).getMethodHandle();
+			MethodHandle handle = getAmbiguityHandle();
 			return Optional.of(handle);
 		}
 
-		private static class AmbiguityThrower {
-			private static final MethodHandles.Lookup lookup = MethodHandles.lookup();
-			private static final MethodHandle throwingHandle;
-
-			static {
-				try {
-					throwingHandle = lookup.findVirtual(
-							AmbiguityThrower.class,
-							"throwIt",
-							MethodType.methodType(void.class, Object[].class));
-				} catch (NoSuchMethodException | IllegalAccessException e) {
-					throw new RuntimeException(e);
-				}
-			}
-
-			private List<MethodInfo> methods;
-
-			public AmbiguityThrower(List<MethodInfo> methods) {
-				this.methods = new ArrayList<>(methods);
-			}
-
-			@SuppressWarnings("unused")
-			private void throwIt(Object... objs) {
-				throw new AmbiguousCallException("Possiblities: " + methods.toString());
-			}
-
-			public MethodHandle getMethodHandle() {
-				MethodHandle ret = throwingHandle.bindTo(this).asVarargsCollector(Object[].class);
-				assert ret.isVarargsCollector();
-				return ret;
-			}
+		public MethodHandle getAmbiguityHandle() {
+			MethodHandle ret = throwingHandle.bindTo(expressionClasses).bindTo(new ArrayList<>(allCurrentBest))
+					.asVarargsCollector(Object[].class);
+			assert ret.isVarargsCollector();
+			return ret;
 		}
 	}
 
@@ -199,12 +193,24 @@ public class OverloadedMethod {
 		return handle;
 	}
 
-	public Holder call(Object instance, Arguments arguments) {
+	/**
+	 * Binds this overloadedMethod to an argument (normally the instance this is called on).
+	 *
+	 * @param instance
+	 */
+	public OverloadedMethod bindTo(Object instance) {
+		return new OverloadedMethod(
+				allMethods.stream().map(i -> i.method.bindTo(instance)).collect(Collectors.toList()));
+	}
+
+	public Holder call(Arguments arguments) {
 		int argCount = arguments.getArgCount();
 		Holder[] snapshots = new Holder[argCount];
 		Class<?>[] types = new Class<?>[argCount];
-		IntStream.range(0, argCount).forEach(i -> snapshots[i] = arguments.getArgument(i).snapshot());
-		IntStream.range(0, argCount).forEach(i -> types[i] = snapshots[i].getType());
+		IntStream.range(0, argCount).forEach(i -> {
+			snapshots[i] = arguments.getArgument(i).snapshot();
+			types[i] = snapshots[i].getType();
+		});
 
 		Optional<MethodHandle> method = this.disambiguate(types);
 		if (!method.isPresent()) {
