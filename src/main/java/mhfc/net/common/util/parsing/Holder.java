@@ -774,7 +774,7 @@ public final class Holder implements IValueHolder {
 		} catch (Throwable thr) {
 			Objects.requireNonNull(excClazz);
 			if (excClazz.isInstance(thr)) {
-				return Holder.failedComputation(thr);
+				return Holder.catching(thr);
 			}
 			return ExceptionLessFunctions.throwUnchecked(thr);
 		}
@@ -792,7 +792,7 @@ public final class Holder implements IValueHolder {
 		return Holder.catching(RuntimeException.class, supplier::get);
 	}
 
-	public static Holder failedComputation(Throwable cause) {
+	public static Holder catching(Throwable cause) {
 		return new Holder(cause, failedTag);
 	}
 

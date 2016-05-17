@@ -75,7 +75,7 @@ public class OverloadedMethod {
 			Class<?> clazz = m.type().returnType();
 			return Holder.makeUnboxer(clazz).apply(ret);
 		} catch (Throwable e) {
-			return Holder.failedComputation(e);
+			return Holder.catching(e);
 		}
 	}
 

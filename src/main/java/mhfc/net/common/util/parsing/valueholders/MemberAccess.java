@@ -139,7 +139,7 @@ public class MemberAccess implements IValueHolder {
 			try {
 				return Holder.class.cast(getattr.invokeWithArguments(instance, name));
 			} catch (Throwable thr) {
-				return Holder.failedComputation(thr);
+				return Holder.catching(thr);
 			}
 		}
 	}

@@ -106,15 +106,26 @@ public class ExpressionTranslator {
 		TREE_BUILDER.validate();
 	}
 
-	private static abstract class OneSymbolSequence implements IBasicSequence {
-		private final int codepoint;
+	private static abstract class StringSequence implements IBasicSequence {
+		private final int[] codepoints;
+		private int currentPoint;
 
-		public OneSymbolSequence(int codepoint) {
-			this.codepoint = codepoint;
+		public StringSequence(int codepoint) {
+			this.codepoints = new int[] { codepoint };
+		}
+
+		public StringSequence(String string) {
+			if (Objects.requireNonNull(string).isEmpty()) {
+				throw new IllegalArgumentException("string must not be empty");
+			}
+			this.codepoints = string.codePoints().toArray();
+			assert this.codepoints.length > 0;
 		}
 
 		@Override
-		public void reset() {}
+		public void reset() {
+			currentPoint = 0;
+		}
 
 		@Override
 		public SiftResult endOfStream() {
@@ -123,10 +134,11 @@ public class ExpressionTranslator {
 
 		@Override
 		public SiftResult accepting(int cp) {
-			if (codepoint == cp) {
-				return SiftResult.FINISHED;
+			if (codepoints[currentPoint] != cp) {
+				return SiftResult.REJCECTED;
 			}
-			return SiftResult.REJCECTED;
+			currentPoint++;
+			return currentPoint == codepoints.length ? SiftResult.FINISHED : SiftResult.ACCEPTED;
 		}
 	};
 
@@ -427,7 +439,7 @@ public class ExpressionTranslator {
 	}
 
 	private IBasicSequence makeBinaryOperator(int matchingChar, int ID, Supplier<IBinaryOperator<?, ?, ?>> opSupplier) {
-		return new OneSymbolSequence(matchingChar) {
+		return new StringSequence(matchingChar) {
 			@Override
 			public void pushOnto(AST ast) throws SyntaxErrorException {
 				ast.pushBinaryOperator(ID, opSupplier.get());
@@ -435,7 +447,16 @@ public class ExpressionTranslator {
 		};
 	}
 
-	private static class OpeningBracket extends OneSymbolSequence {
+	private IBasicSequence makeBinaryOperator(String matching, int ID, Supplier<IBinaryOperator<?, ?, ?>> opSupplier) {
+		return new StringSequence(matching) {
+			@Override
+			public void pushOnto(AST ast) throws SyntaxErrorException {
+				ast.pushBinaryOperator(ID, opSupplier.get());
+			}
+		};
+	}
+
+	private static class OpeningBracket extends StringSequence {
 		public OpeningBracket() {
 			super('(');
 		}
@@ -446,7 +467,7 @@ public class ExpressionTranslator {
 		}
 	}
 
-	private static class ClosingBracket extends OneSymbolSequence {
+	private static class ClosingBracket extends StringSequence {
 		public ClosingBracket() {
 			super(')');
 		}
@@ -457,7 +478,7 @@ public class ExpressionTranslator {
 		}
 	}
 
-	private class ContextSymbol extends OneSymbolSequence {
+	private class ContextSymbol extends StringSequence {
 		public ContextSymbol() {
 			super('$');
 		}

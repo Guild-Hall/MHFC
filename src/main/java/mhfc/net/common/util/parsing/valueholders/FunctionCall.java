@@ -56,7 +56,7 @@ public class FunctionCall implements IValueHolder {
 			try {
 				return Holder.class.cast(method.invokeWithArguments(instance, args));
 			} catch (Throwable e) {
-				return Holder.failedComputation(e);
+				return Holder.catching(e);
 			}
 		}
 	}
