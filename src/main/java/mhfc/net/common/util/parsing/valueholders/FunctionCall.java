@@ -103,7 +103,7 @@ public class FunctionCall implements IValueHolder {
 
 	private static ICall computeCall(Class<?> clazz) {
 		Optional<OverloadedMethod> specialMethod = MethodHelper.find(clazz, "__call__");
-		Optional<MethodHandle> call = specialMethod.flatMap(s -> s.disambiguate(Arguments.class));
+		Optional<MethodHandle> call = specialMethod.flatMap(s -> s.disambiguate(clazz, Arguments.class));
 		if (call.isPresent()) {
 			return new MethodProxy(call.get());
 		}

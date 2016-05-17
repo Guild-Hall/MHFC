@@ -192,7 +192,7 @@ public class MemberAccess implements IValueHolder {
 			return new MethodProxy(m.get());
 		}
 		Optional<OverloadedMethod> getattr = MethodHelper.find(clazz, "__getattr__");
-		Optional<MethodHandle> specialgetter = getattr.flatMap(o -> o.disambiguate(String.class));
+		Optional<MethodHandle> specialgetter = getattr.flatMap(o -> o.disambiguate(clazz, String.class));
 		if (specialgetter.isPresent()) {
 			return new SpecialAccessProxy(specialgetter.get(), member);
 		}

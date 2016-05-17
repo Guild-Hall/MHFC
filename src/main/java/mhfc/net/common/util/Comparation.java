@@ -18,34 +18,52 @@ public final class Comparation<T> {
 	}
 
 	public static class ComparationResult {
-		private final int wrapped;
+		private static enum Result {
+			LEFT(true, false, false),
+			EQUAL(false, true, false),
+			RIGHT(false, false, true);
+
+			private final boolean left, eq, right;
+
+			private Result(boolean left, boolean eq, boolean right) {
+				this.eq = eq;
+				this.left = left;
+				this.right = right;
+			}
+
+			public static Result forCmp(int result) {
+				return result < 0 ? RIGHT : result == 0 ? EQUAL : LEFT;
+			}
+		}
+
+		private final Result wrapped;
 
 		public ComparationResult(int actual) {
-			this.wrapped = actual;
+			this.wrapped = Result.forCmp(actual);
 		}
 
 		public boolean favorsLeft() {
-			return wrapped > 0;
+			return wrapped.left;
 		}
 
 		public boolean favorsLeftOrEq() {
-			return wrapped >= 0;
+			return !wrapped.right;
 		}
 
 		public boolean favorsRight() {
-			return wrapped < 0;
+			return wrapped.right;
 		}
 
 		public boolean favorsRightOrEq() {
-			return wrapped <= 0;
+			return !wrapped.left;
 		}
 
 		public boolean meansEquals() {
-			return wrapped == 0;
+			return wrapped.eq;
 		}
 
 		public boolean meansNotEquals() {
-			return wrapped != 0;
+			return !wrapped.eq;
 		}
 	}
 
