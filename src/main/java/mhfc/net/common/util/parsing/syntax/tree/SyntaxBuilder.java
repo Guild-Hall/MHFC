@@ -150,8 +150,13 @@ public class SyntaxBuilder extends UnarySyntaxBuilder {
 		}
 	}
 
+	@Override
+	public SyntaxBuilder validate() {
+		super.validate();
+		return this;
+	}
+
 	public AST newParseTree() {
-		validate();
 		return new AST(this);
 	}
 }

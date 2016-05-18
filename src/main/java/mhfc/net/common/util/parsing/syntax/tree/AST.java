@@ -15,7 +15,7 @@ public class AST extends UnaryAST {
 	private Class<?>[] publicClasses;
 
 	/* package */ AST(SyntaxBuilder builder) {
-		super(builder);
+		super(builder.validate());
 		List<SyntaxBuilder.ValueRegistration> valueReg = builder.getValues();
 		List<SyntaxBuilder.OperatorRemap> publicRemap = builder.getRemapPublicIDs();
 

@@ -422,6 +422,7 @@ public class UnaryAST {
 	private Stack<Tree> partialTrees;
 
 	/* package */ UnaryAST(UnarySyntaxBuilder builder) {
+		builder.validate();
 		List<SyntaxBuilder.OperatorRegistration> preOpReg = builder.getPrefixOps();
 		List<SyntaxBuilder.OperatorRegistration> postOpReg = builder.getPostfixOps();
 		List<SyntaxBuilder.ValueRegistration> valueReg = builder.getValues();

@@ -346,8 +346,20 @@ public class Operators {
 		return new HolderLiteral(constant);
 	}
 
+	private static IOperator<IExpression, IExpression> makeUnaryProxy(String name) {
+		return r -> new FunctionCallLiteral(makeMethodProxy(name), r);
+	}
+
 	private static IBinaryOperator<IExpression, IExpression, IExpression> makeBinaryProxy(String name) {
 		return (l, r) -> new FunctionCallLiteral(makeMethodProxy(name), l, r);
+	}
+
+	public static IOperator<IExpression, IExpression> makeBitwiseComplementOp() {
+		return makeUnaryProxy("bitwiseComplement");
+	}
+
+	public static IOperator<IExpression, IExpression> makeLogicalComplementOp() {
+		return makeUnaryProxy("logicalComplement");
 	}
 
 	public static IBinaryOperator<IExpression, IExpression, IExpression> makeMultiplyOp() {

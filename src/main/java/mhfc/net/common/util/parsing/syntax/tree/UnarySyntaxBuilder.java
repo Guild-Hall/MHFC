@@ -94,15 +94,33 @@ public class UnarySyntaxBuilder {
 
 		public void addAfter(int otherID) {
 			OperatorRegistration other = otherRegistry().get(otherID);
-			if (other.comesAfterOtherFixity.get(this.operatorID)) {
-				throw new IllegalArgumentException("circular precedence");
-			}
+
 			comesAfterOtherFixity.set(otherID);
-			for (int idx : BitSetIterator.asIndexIterable(comesBeforeOtherFixity)) {
-				otherRegistry().get(idx).comesAfterSameFixity.set(otherID);
-			}
+			comesAfterOtherFixity.or(other.comesAfterSameFixity);
+			comesAfterSameFixity.or(other.comesAfterOtherFixity);
 			for (int idx : BitSetIterator.asIndexIterable(comesBeforeSameFixity)) {
 				sameRegistry().get(idx).comesAfterOtherFixity.set(otherID);
+				sameRegistry().get(idx).comesAfterOtherFixity.or(other.comesAfterSameFixity);
+				sameRegistry().get(idx).comesAfterSameFixity.or(other.comesAfterOtherFixity);
+			}
+			for (int idx : BitSetIterator.asIndexIterable(comesBeforeOtherFixity)) {
+				otherRegistry().get(idx).comesAfterSameFixity.set(otherID);
+				otherRegistry().get(idx).comesAfterSameFixity.or(other.comesAfterSameFixity);
+				otherRegistry().get(idx).comesAfterOtherFixity.or(other.comesAfterOtherFixity);
+			}
+
+			other.comesBeforeOtherFixity.set(operatorID);
+			other.comesBeforeOtherFixity.or(comesBeforeSameFixity);
+			other.comesBeforeSameFixity.or(comesBeforeOtherFixity);
+			for (int idx : BitSetIterator.asIndexIterable(other.comesAfterSameFixity)) {
+				otherRegistry().get(idx).comesBeforeOtherFixity.set(operatorID);
+				otherRegistry().get(idx).comesBeforeOtherFixity.or(comesBeforeSameFixity);
+				otherRegistry().get(idx).comesBeforeSameFixity.or(comesBeforeOtherFixity);
+			}
+			for (int idx : BitSetIterator.asIndexIterable(other.comesAfterOtherFixity)) {
+				sameRegistry().get(idx).comesBeforeSameFixity.set(operatorID);
+				sameRegistry().get(idx).comesBeforeSameFixity.or(comesBeforeSameFixity);
+				sameRegistry().get(idx).comesBeforeOtherFixity.or(comesBeforeOtherFixity);
 			}
 		}
 	}
@@ -111,11 +129,20 @@ public class UnarySyntaxBuilder {
 
 	private List<OperatorRegistration> prefixOps;
 	private List<OperatorRegistration> postfixOps;
+	private boolean validated;
 
 	public UnarySyntaxBuilder() {
 		values = new ArrayList<>();
 		prefixOps = new ArrayList<>();
 		postfixOps = new ArrayList<>();
+		validated = false;
+	}
+
+	/**
+	 * When something changes and has to be revalidated
+	 */
+	protected void invalidate() {
+		validated = false;
 	}
 
 	/* package */ List<ValueRegistration> getValues() {
@@ -137,6 +164,7 @@ public class UnarySyntaxBuilder {
 	 * @return the id to use in {@link AST#pushValue(int, ITerminalElement)}.
 	 */
 	public int registerTerminal(Class<?> clazz) {
+		invalidate();
 		int nextID = values.size();
 		values.add(new ValueRegistration(clazz, nextID, -1));
 		return nextID;
@@ -151,6 +179,7 @@ public class UnarySyntaxBuilder {
 	 * @return
 	 */
 	public int registerTerminal(Class<?> clazz, int parentID) {
+		invalidate();
 		int nextID = values.size();
 		values.add(new ValueRegistration(clazz, nextID, parentID));
 		return nextID;
@@ -162,6 +191,7 @@ public class UnarySyntaxBuilder {
 			int valueID,
 			ElementType resultType,
 			int resultID) {
+		invalidate();
 		List<OperatorRegistration> opReg = isPrefix ? prefixOps : postfixOps;
 		int nextID = opReg.size();
 		OperatorRegistration reg = new OperatorRegistration(classOP, nextID, isPrefix, valueID, resultType, resultID);
@@ -176,6 +206,7 @@ public class UnarySyntaxBuilder {
 	 * @param opId2
 	 */
 	protected void declarePrecedence(int prefix, int postfix, boolean forPre) {
+		invalidate();
 		if (forPre) {
 			postfixOps.get(postfix).addAfter(prefix);
 		} else {
@@ -183,22 +214,42 @@ public class UnarySyntaxBuilder {
 		}
 	}
 
-	public void validate() {
+	protected void revalidate() {
 		List<SyntaxBuilder.OperatorRegistration> preOpReg = getPrefixOps();
 		List<SyntaxBuilder.OperatorRegistration> postOpReg = getPostfixOps();
 
+		for (UnarySyntaxBuilder.OperatorRegistration opReg : preOpReg) {
+			if (opReg.comesAfterSameFixity.get(opReg.operatorID) || opReg.comesBeforeSameFixity.get(opReg.operatorID)) {
+				throw new IllegalStateException("Circular precedence");
+			}
+		}
+		for (UnarySyntaxBuilder.OperatorRegistration opReg : postOpReg) {
+			if (opReg.comesAfterSameFixity.get(opReg.operatorID) || opReg.comesBeforeSameFixity.get(opReg.operatorID)) {
+				throw new IllegalStateException("Circular precedence");
+			}
+		}
 		for (UnarySyntaxBuilder.OperatorRegistration preOp : preOpReg) {
-			for (int i = 0; i < postOpReg.size(); i++) {
-				OperatorRegistration postOp = postOpReg.get(i);
+			for (UnarySyntaxBuilder.OperatorRegistration postOp : postOpReg) {
 				if (!preOp.acceptedValues.intersects(postOp.acceptedValues)) {
 					continue;
 				}
-				boolean preOpAfter = preOp.comesAfterOtherFixity.get(i);
-				if (preOpAfter == postOp.comesAfterOtherFixity.get(preOp.operatorID)) {
-					throw new IllegalStateException("Some operators are not ordered: " + preOp.operatorID + " " + i);
+				boolean preOpAfter = preOp.comesAfterOtherFixity.get(postOp.operatorID);
+				boolean postOpAfter = postOp.comesAfterOtherFixity.get(preOp.operatorID);
+				if (preOpAfter == postOpAfter) {
+					throw new IllegalStateException(
+							"Some operators are not ordered: " + preOp.operatorID + " " + postOp.operatorID);
 				}
 			}
 		}
+	}
+
+	public UnarySyntaxBuilder validate() {
+		if (validated) {
+			return this;
+		}
+		revalidate();
+		validated = true;
+		return this;
 	}
 
 }
