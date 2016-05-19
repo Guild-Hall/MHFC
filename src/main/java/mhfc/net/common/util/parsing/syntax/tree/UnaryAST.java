@@ -185,7 +185,7 @@ public class UnaryAST {
 			}
 			// Traverse down the right path
 			boolean childrenResult = getRightMostNode().addDisputableNodes(stack);
-			if (!childrenResult) {
+			if (!childrenResult && isPrefix()) {
 				// Add to the bottom of the stack
 				stack.add(0, this);
 			}
@@ -410,14 +410,17 @@ public class UnaryAST {
 	}
 
 	// map prefix_id, postfix_id -> boolean, true if prefix has higher fixity
-	private boolean[][] isPrefixFixityHigher;
+	// final
+	private final boolean[][] isPrefixFixityHigher;
 	// map prefix_id, value_id -> boolean, true if applicable
-	private boolean[][] isPrefixApplicable;
+	// final
+	private final boolean[][] isPrefixApplicable;
 	// map postfix_id, value_id -> boolean, true if applicable
-	private boolean[][] isPostfixApplicable;
+	// final
+	private final boolean[][] isPostfixApplicable;
 	// map prefix_id -> Supplier
-	private NodeFunction[] prefixOpTreeBuilder;
-	private NodeFunction[] postfixOPTreeBuilder;
+	private final NodeFunction[] prefixOpTreeBuilder;
+	private final NodeFunction[] postfixOPTreeBuilder;
 
 	private Stack<Tree> partialTrees;
 
@@ -449,6 +452,20 @@ public class UnaryAST {
 			postfixOPTreeBuilder[postOp.operatorID] = makeNodeGenerator(postOp);
 		}
 		partialTrees = new Stack<>();
+	}
+
+	/**
+	 * Clones the parse structure, but *not* the current state of the AST, i.e. all operators and precedence
+	 *
+	 * @param structure
+	 */
+	protected UnaryAST(UnaryAST structure) {
+		this.isPrefixFixityHigher = structure.isPrefixFixityHigher;
+		this.isPrefixApplicable = structure.isPrefixApplicable;
+		this.isPostfixApplicable = structure.isPostfixApplicable;
+		this.prefixOpTreeBuilder = structure.prefixOpTreeBuilder;
+		this.postfixOPTreeBuilder = structure.postfixOPTreeBuilder;
+		this.partialTrees = new Stack<>();
 	}
 
 	private NodeFunction makeNodeGenerator(SyntaxBuilder.OperatorRegistration operator) {
@@ -536,7 +553,8 @@ public class UnaryAST {
 
 	private boolean isPrefixPrefered(IntermediateNode prefixOP, IntermediateNode postfixOP) {
 		if (!prefixOP.isPrefix() || postfixOP.isPrefix()) {
-			throw new IllegalArgumentException("Messed up!");
+			throw new IllegalArgumentException(
+					"Messed up! Two operators of the same type are fighting for a value" + prefixOP + postfixOP);
 		}
 		return isPrefixFixityHigher[prefixOP.getOperator().getOpType()][postfixOP.getOperator().getOpType()];
 	}

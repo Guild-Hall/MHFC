@@ -51,6 +51,8 @@ public class AngularMCTest {
 		translator = ctx.getTranslator();
 		ctx.putVar("callable", Holder.valueOf(new Callable()));
 		ctx.putVar("testVar", Holder.valueOf(TEST_VALUE));
+		ctx.putVar("true", Holder.valueOf(true));
+		ctx.putVar("false", Holder.valueOf(false));
 		ctx.putVar("structVar", Holder.valueOf(new TestStruct()));
 		ctx.putVar("Math", Holder.valueOf(new StaticAccess(Math.class)));
 	}
@@ -79,7 +81,7 @@ public class AngularMCTest {
 
 	@Test(expected = SyntaxErrorException.class)
 	public void unrecognizedSymbol() {
-		translator.parse("3 | 4 ? 5");
+		translator.parse("3 | 4 ° 5");
 	}
 
 	@Test
@@ -146,5 +148,37 @@ public class AngularMCTest {
 	public void staticAccess() {
 		IValueHolder holder = translator.parse("12 | Math.max : 10");
 		assertThat(Holder.snapshotSafely(holder).asDouble(), equalTo(12d));
+	}
+
+	@Test
+	public void simpleAdd() {
+		IValueHolder holder = translator.parse("testVar + testVar");
+		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(TEST_VALUE + TEST_VALUE));
+	}
+
+	@Test
+	public void moreOperators() {
+		IValueHolder holder = translator.parse("(testVar / testVar + testVar * testVar) % testVar");
+		assertThat(
+				Holder.snapshotSafely(holder).asInt(),
+				equalTo((TEST_VALUE / TEST_VALUE + TEST_VALUE * TEST_VALUE) % TEST_VALUE));
+	}
+
+	@Test
+	public void complementOperator() {
+		IValueHolder holder = translator.parse("~testVar");
+		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(~TEST_VALUE));
+	}
+
+	@Test
+	public void negateOperators() {
+		IValueHolder holder = translator.parse("!true");
+		assertThat(Holder.snapshotSafely(holder).asBool(), equalTo(false));
+	}
+
+	@Test
+	public void comparison() {
+		IValueHolder holder = translator.parse("testVar < testVar + 1");
+		assertThat(Holder.snapshotSafely(holder).asBool(), equalTo(true));
 	}
 }

@@ -18,6 +18,7 @@ import mhfc.net.common.util.parsing.syntax.operators.FunctionOperator;
 import mhfc.net.common.util.parsing.syntax.operators.IBinaryOperator;
 import mhfc.net.common.util.parsing.syntax.operators.IOperator;
 import mhfc.net.common.util.parsing.syntax.operators.MemberOperator;
+import mhfc.net.common.util.parsing.syntax.operators.Operators;
 import mhfc.net.common.util.parsing.syntax.tree.AST;
 import mhfc.net.common.util.parsing.syntax.tree.SyntaxBuilder;
 import mhfc.net.common.util.parsing.syntax.tree.UnarySyntaxBuilder.ElementType;
@@ -45,7 +46,7 @@ public class ExpressionTranslator {
 		}
 	}
 
-	private static final SyntaxBuilder TREE_BUILDER = new SyntaxBuilder();
+	private static final Supplier<AST> TREE_BUILDER;
 	private static final int VAL_EXPRESSION_ID;
 	private static final int VAL_IDENTIFIER_ID;
 	private static final int VAL_FUNCTIONCALL_ID;
@@ -54,54 +55,247 @@ public class ExpressionTranslator {
 	private static final int OP_MEMBERACCESS_ID;
 	private static final int OP_FUNCTIONCALL_ID;
 	private static final int OP_ARGUMENTCONTINUE_ID;
+
 	private static final int OP_OPENING_BRACKET_ID;
 	private static final int OP_BRACKET_ID;
 
+	private static final int OP_COMPLEMENT_ID;
+	private static final int OP_NOT_ID;
+
+	private static final int OP_MUL_ID;
+	private static final int OP_DIV_ID;
+	private static final int OP_MOD_ID;
+
+	private static final int OP_ADD_ID;
+	private static final int OP_SUB_ID;
+
+	private static final int OP_LSHIFT_ID;
+	private static final int OP_RSHIFT_ID;
+	private static final int OP_URSHIFT_ID;
+
+	private static final int OP_LESS_ID;
+	private static final int OP_LESSEQ_ID;
+	private static final int OP_GREATER_ID;
+	private static final int OP_GREATEREQ_ID;
+
+	private static final int OP_EQUAL_ID;
+	private static final int OP_UNEQUAL_ID;
+
+	private static final int OP_BITAND_ID;
+	private static final int OP_BITOR_ID;
+	private static final int OP_BITXOR_ID;
+
+	private static final int OP_LOGICALAND_ID;
+	private static final int OP_LOGICALOR_ID;
+
 	static {
-		VAL_EXPRESSION_ID = TREE_BUILDER.registerTerminal(IExpression.class);
-		VAL_IDENTIFIER_ID = TREE_BUILDER.registerTerminal(IdentifierLiteral.class, VAL_EXPRESSION_ID);
-		VAL_FUNCTIONCALL_ID = TREE_BUILDER.registerTerminal(FunctionCallLiteral.class, VAL_EXPRESSION_ID);
+		SyntaxBuilder SYNTAX_BUILDER = new SyntaxBuilder();
+		VAL_EXPRESSION_ID = SYNTAX_BUILDER.registerTerminal(IExpression.class);
+		VAL_IDENTIFIER_ID = SYNTAX_BUILDER.registerTerminal(IdentifierLiteral.class, VAL_EXPRESSION_ID);
+		VAL_FUNCTIONCALL_ID = SYNTAX_BUILDER.registerTerminal(FunctionCallLiteral.class, VAL_EXPRESSION_ID);
 
-		VAL_CLOSING_BRACKET_ID = TREE_BUILDER.registerTerminal(Void.class);
+		VAL_CLOSING_BRACKET_ID = SYNTAX_BUILDER.registerTerminal(Void.class);
 
-		OP_MEMBERACCESS_ID = TREE_BUILDER.registerBinaryOperator(
+		OP_MEMBERACCESS_ID = SYNTAX_BUILDER.registerBinaryOperator(
 				MemberOperator.class,
 				VAL_EXPRESSION_ID,
 				VAL_IDENTIFIER_ID,
 				VAL_EXPRESSION_ID,
 				true);
-		OP_FUNCTIONCALL_ID = TREE_BUILDER.registerBinaryOperator(
+		OP_FUNCTIONCALL_ID = SYNTAX_BUILDER.registerBinaryOperator(
 				FunctionOperator.class,
 				VAL_EXPRESSION_ID,
 				VAL_EXPRESSION_ID,
 				VAL_FUNCTIONCALL_ID,
 				true);
-		OP_ARGUMENTCONTINUE_ID = TREE_BUILDER.registerBinaryOperator(
+		OP_ARGUMENTCONTINUE_ID = SYNTAX_BUILDER.registerBinaryOperator(
 				ArgumentContinuationOperator.class,
 				VAL_FUNCTIONCALL_ID,
 				VAL_EXPRESSION_ID,
 				VAL_FUNCTIONCALL_ID,
 				true);
-		OP_BRACKET_ID = TREE_BUILDER.registerUnaryOperator(
+		OP_BRACKET_ID = SYNTAX_BUILDER.registerUnaryOperator(
 				BracketOp.class,
 				true,
 				VAL_CLOSING_BRACKET_ID,
 				ElementType.VALUE,
 				VAL_EXPRESSION_ID);
-		OP_OPENING_BRACKET_ID = TREE_BUILDER.registerUnaryOperator(
+		OP_OPENING_BRACKET_ID = SYNTAX_BUILDER.registerUnaryOperator(
 				OpeningBracketOp.class,
 				true,
 				VAL_EXPRESSION_ID,
 				ElementType.PREFIX_OP,
 				OP_BRACKET_ID);
+		OP_COMPLEMENT_ID = SYNTAX_BUILDER
+				.registerUnaryOperator(IOperator.class, true, VAL_EXPRESSION_ID, ElementType.VALUE, VAL_EXPRESSION_ID);
+		OP_NOT_ID = SYNTAX_BUILDER
+				.registerUnaryOperator(IOperator.class, true, VAL_EXPRESSION_ID, ElementType.VALUE, VAL_EXPRESSION_ID);
+		OP_MUL_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_DIV_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_MOD_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_ADD_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_SUB_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_LSHIFT_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_RSHIFT_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_URSHIFT_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_LESS_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_LESSEQ_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_GREATER_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_GREATEREQ_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_EQUAL_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_UNEQUAL_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_BITAND_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_BITOR_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_BITXOR_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_LOGICALAND_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
+		OP_LOGICALOR_ID = SYNTAX_BUILDER.registerBinaryOperator(
+				IBinaryOperator.class,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				VAL_EXPRESSION_ID,
+				true);
 
-		TREE_BUILDER.declarePrecedence(OP_MEMBERACCESS_ID, OP_FUNCTIONCALL_ID);
-		TREE_BUILDER.declarePrecedence(OP_ARGUMENTCONTINUE_ID, OP_FUNCTIONCALL_ID);
-		TREE_BUILDER.declarePrecedence(OP_MEMBERACCESS_ID, OP_ARGUMENTCONTINUE_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_MEMBERACCESS_ID, OP_ARGUMENTCONTINUE_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_ARGUMENTCONTINUE_ID, OP_FUNCTIONCALL_ID);
 
-		TREE_BUILDER.declarePrecedence(OP_FUNCTIONCALL_ID, OP_OPENING_BRACKET_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_FUNCTIONCALL_ID, OP_COMPLEMENT_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_FUNCTIONCALL_ID, OP_NOT_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_FUNCTIONCALL_ID, OP_MUL_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_FUNCTIONCALL_ID, OP_DIV_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_FUNCTIONCALL_ID, OP_MOD_ID);
 
-		TREE_BUILDER.validate();
+		SYNTAX_BUILDER.declarePrecedence(OP_COMPLEMENT_ID, OP_MUL_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_NOT_ID, OP_MUL_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_COMPLEMENT_ID, OP_DIV_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_NOT_ID, OP_DIV_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_COMPLEMENT_ID, OP_MOD_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_NOT_ID, OP_MOD_ID);
+
+		SYNTAX_BUILDER.declareSamePrecedence(OP_MUL_ID, OP_DIV_ID, true);
+		SYNTAX_BUILDER.declareSamePrecedence(OP_MUL_ID, OP_MOD_ID, true);
+		SYNTAX_BUILDER.declareSamePrecedence(OP_DIV_ID, OP_MOD_ID, true);
+
+		SYNTAX_BUILDER.declarePrecedence(OP_MUL_ID, OP_ADD_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_DIV_ID, OP_ADD_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_MOD_ID, OP_ADD_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_MUL_ID, OP_SUB_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_DIV_ID, OP_SUB_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_MOD_ID, OP_SUB_ID);
+
+		SYNTAX_BUILDER.declareSamePrecedence(OP_ADD_ID, OP_SUB_ID, true);
+
+		SYNTAX_BUILDER.declarePrecedence(OP_ADD_ID, OP_LSHIFT_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_SUB_ID, OP_LSHIFT_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_LSHIFT_ID, OP_RSHIFT_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_RSHIFT_ID, OP_URSHIFT_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_URSHIFT_ID, OP_LESS_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_LESS_ID, OP_LESSEQ_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_LESSEQ_ID, OP_GREATER_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_GREATER_ID, OP_GREATEREQ_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_GREATEREQ_ID, OP_EQUAL_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_EQUAL_ID, OP_UNEQUAL_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_UNEQUAL_ID, OP_BITAND_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_BITAND_ID, OP_BITXOR_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_BITXOR_ID, OP_BITOR_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_BITOR_ID, OP_LOGICALAND_ID);
+		SYNTAX_BUILDER.declarePrecedence(OP_LOGICALAND_ID, OP_LOGICALOR_ID);
+
+		SYNTAX_BUILDER.declarePrecedence(OP_LOGICALOR_ID, OP_OPENING_BRACKET_ID);
+
+		SYNTAX_BUILDER.validate();
+		AST mold = SYNTAX_BUILDER.newParseTree();
+
+		TREE_BUILDER = mold::makeFreshTree;
 	}
 
 	private static abstract class StringSequence implements IBasicSequence {
@@ -436,6 +630,15 @@ public class ExpressionTranslator {
 
 	}
 
+	private IBasicSequence makeUnaryOperator(int matchingChar, int ID, Supplier<IOperator<?, ?>> opSupplier) {
+		return new StringSequence(matchingChar) {
+			@Override
+			public void pushOnto(AST ast) throws SyntaxErrorException {
+				ast.pushUnaryOperator(ID, opSupplier.get());
+			}
+		};
+	}
+
 	private IBasicSequence makeBinaryOperator(int matchingChar, int ID, Supplier<IBinaryOperator<?, ?, ?>> opSupplier) {
 		return new StringSequence(matchingChar) {
 			@Override
@@ -493,18 +696,47 @@ public class ExpressionTranslator {
 	public ExpressionTranslator(Context context) {
 		this.context = context;
 		sequences.add(new Whitespace());
+		sequences.add(new Comment());
 
 		sequences.add(makeBinaryOperator('.', OP_MEMBERACCESS_ID, MemberOperator::new));
 		sequences.add(makeBinaryOperator('|', OP_FUNCTIONCALL_ID, FunctionOperator::new));
 		sequences.add(makeBinaryOperator(':', OP_ARGUMENTCONTINUE_ID, ArgumentContinuationOperator::new));
 
+		sequences.add(makeBinaryOperator("==", OP_EQUAL_ID, Operators::makeEqualOp));
+		sequences.add(makeBinaryOperator("!=", OP_UNEQUAL_ID, Operators::makeNotEqualOp));
+
+		sequences.add(makeBinaryOperator("&&", OP_LOGICALAND_ID, Operators::makeConditionalAndOp));
+		sequences.add(makeBinaryOperator("||", OP_LOGICALOR_ID, Operators::makeConditionalOrOp));
+
+		sequences.add(makeBinaryOperator('*', OP_MUL_ID, Operators::makeMultiplyOp));
+		sequences.add(makeBinaryOperator('/', OP_DIV_ID, Operators::makeDivideOp));
+		sequences.add(makeBinaryOperator('%', OP_MOD_ID, Operators::makeModuloOp));
+
+		sequences.add(makeBinaryOperator("<<", OP_LSHIFT_ID, Operators::makeLeftShiftOp));
+		sequences.add(makeBinaryOperator(">>", OP_RSHIFT_ID, Operators::makeRightShiftOp));
+		sequences.add(makeBinaryOperator(">>>", OP_URSHIFT_ID, Operators::makeUnsignedRightShiftOp));
+
+		sequences.add(makeBinaryOperator("<=", OP_LESSEQ_ID, Operators::makeLessOrEqOp));
+		sequences.add(makeBinaryOperator(">=", OP_GREATEREQ_ID, Operators::makeGreaterOrEqualOp));
+		sequences.add(makeBinaryOperator("<", OP_LESS_ID, Operators::makeLessThanOp));
+		sequences.add(makeBinaryOperator(">", OP_GREATER_ID, Operators::makeGreaterThanOp));
+
+		sequences.add(makeUnaryOperator('!', OP_NOT_ID, Operators::makeLogicalComplementOp));
+		sequences.add(makeUnaryOperator('~', OP_COMPLEMENT_ID, Operators::makeBitwiseComplementOp));
+
+		sequences.add(makeBinaryOperator('+', OP_ADD_ID, Operators::makeAddOp));
+		sequences.add(makeBinaryOperator('-', OP_SUB_ID, Operators::makeMinusOp));
+
+		sequences.add(makeBinaryOperator('&', OP_BITAND_ID, Operators::makeAndOp));
+		sequences.add(makeBinaryOperator('^', OP_BITXOR_ID, Operators::makeXorOp));
+		sequences.add(makeBinaryOperator('|', OP_BITOR_ID, Operators::makeOrOp));
+
 		sequences.add(new ContextSymbol());
+		sequences.add(new OpeningBracket());
+		sequences.add(new ClosingBracket());
 		sequences.add(new Identifier());
 		sequences.add(new StringConstant());
 		sequences.add(new IntegerConstant());
-		sequences.add(new Comment());
-		sequences.add(new OpeningBracket());
-		sequences.add(new ClosingBracket());
 	}
 
 	public IValueHolder parse(String expression) throws SyntaxErrorException {
@@ -517,7 +749,7 @@ public class ExpressionTranslator {
 		// Cleaned as in: does only contain spaces as whitespace, doesn't
 		// contain any comments and only one sequential whitespace.
 		// So we can reset
-		AST parseTree = TREE_BUILDER.newParseTree();
+		AST parseTree = TREE_BUILDER.get();
 
 		IntBuffer expressionBuf = IntBuffer.wrap(cleanExpression.codePoints().toArray());
 		expressionBuf.mark();

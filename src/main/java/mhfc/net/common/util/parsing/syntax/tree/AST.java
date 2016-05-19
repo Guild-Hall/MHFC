@@ -9,10 +9,10 @@ import mhfc.net.common.util.parsing.syntax.operators.IOperator;
 
 public class AST extends UnaryAST {
 	// map userOp_id -> opid, highest bit = isPrefix
-	private int[] publicIDToRealOpID;
+	private final int[] publicIDToRealOpID;
 	// map value_id -> Class of value, for type safety
-	private Class<?>[] valueClasses;
-	private Class<?>[] publicClasses;
+	private final Class<?>[] valueClasses;
+	private final Class<?>[] publicClasses;
 
 	/* package */ AST(SyntaxBuilder builder) {
 		super(builder.validate());
@@ -29,6 +29,13 @@ public class AST extends UnaryAST {
 			publicIDToRealOpID[remap.publicID] = toRemappedOP(remap.isDominantPrefix(), remap.getDominantID());
 			publicClasses[remap.publicID] = remap.clazz;
 		}
+	}
+
+	protected AST(AST structure) {
+		super(structure);
+		this.publicIDToRealOpID = structure.publicIDToRealOpID;
+		this.valueClasses = structure.valueClasses;
+		this.publicClasses = structure.publicClasses;
 	}
 
 	@Override
@@ -68,5 +75,16 @@ public class AST extends UnaryAST {
 
 	private int fromRemappedOP(int remapped) {
 		return (remapped & 0x7FFFFFFF);
+	}
+
+	/**
+	 * Returns a new, fresh AST (with no values or operators pushed) but with the same syntax as this AST.<br>
+	 * This is so that you can dispose of the {@link SyntaxBuilder} after finishing building it and still make fresh
+	 * syntax trees.
+	 *
+	 * @return
+	 */
+	public AST makeFreshTree() {
+		return new AST(this);
 	}
 }

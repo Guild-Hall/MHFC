@@ -150,6 +150,30 @@ public class SyntaxBuilder extends UnarySyntaxBuilder {
 		}
 	}
 
+	/**
+	 * Declares precedence of binary operators in cases of e.g. "5 + 6 - 4". leftToRight means this evaluates as
+	 * "(5 + 6) - 4", leftToRight false means this is evaluated as "5 + (6 - 4)"
+	 *
+	 * @param binaryOpID1
+	 * @param binaryOpID2
+	 * @param leftToRight
+	 */
+	public void declareSamePrecedence(int binaryOpID1, int binaryOpID2, boolean leftToRight) {
+		OperatorRemap op1 = remapPublicIDs.get(binaryOpID1);
+		OperatorRemap op2 = remapPublicIDs.get(binaryOpID2);
+
+		int prefix1 = op1.getPrefixID();
+		int prefix2 = op2.getPrefixID();
+
+		int postfix1 = op1.getPostfixID();
+		int postfix2 = op2.getPostfixID();
+		if (prefix1 == -1 || postfix2 == -1 || prefix2 == -1 || postfix1 == -1) {
+			throw new IllegalArgumentException("Both ops must be binary operators");
+		}
+		declarePrecedence(prefix1, postfix2, leftToRight);
+		declarePrecedence(prefix2, postfix1, leftToRight);
+	}
+
 	@Override
 	public SyntaxBuilder validate() {
 		super.validate();
