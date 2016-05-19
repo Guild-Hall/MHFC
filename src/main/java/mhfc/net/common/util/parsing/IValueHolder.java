@@ -11,9 +11,9 @@ public interface IValueHolder {
 	 * fails at any point or something else unforseeably happens it is appropriate to throw a
 	 * {@link ComputationException}.<br>
 	 * Note that, if you want to catch exceptions thrown by the computations, consider using
-	 * {@link Holder#snapshotSafely(IValueHolder)}.
+	 * {@link Holder#snapshotSafely(IValueHolder)}.<br>
 	 *
 	 * @return the Holder this {@link IValueHolder} represents at the time of invokation, never <code>null</code>
 	 */
-	Holder snapshot();
+	Holder snapshot() throws Throwable;
 }

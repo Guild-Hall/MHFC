@@ -13,6 +13,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
+import mhfc.net.common.util.ExceptionLessFunctions;
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
 import mhfc.net.common.util.parsing.exceptions.FieldNotFoundException;
@@ -31,7 +32,7 @@ import scala.actors.threadpool.Arrays;
  */
 public class MemberAccess implements IValueHolder {
 	private static interface IFieldAccess {
-		Holder get(Object instance);
+		Holder get(Object instance) throws Throwable;
 	}
 
 	private static class FieldArrayLength implements IFieldAccess {
@@ -132,15 +133,11 @@ public class MemberAccess implements IValueHolder {
 		}
 
 		@Override
-		public Holder get(Object instance) {
+		public Holder get(Object instance) throws Throwable {
 			if (error != null) {
 				throw error.get();
 			}
-			try {
-				return Holder.class.cast(getattr.invokeWithArguments(instance, name));
-			} catch (Throwable thr) {
-				return Holder.catching(thr);
-			}
+			return Holder.class.cast(getattr.invokeWithArguments(instance, name));
 		}
 	}
 
@@ -199,10 +196,10 @@ public class MemberAccess implements IValueHolder {
 		return new FieldNotFound(clazz, member);
 	}
 
-	private static Holder accessField(IFieldAccess field, Holder instance) {
-		return instance.ifValid(inst -> {
+	private static Holder accessField(IFieldAccess field, Holder instance) throws Throwable {
+		return instance.ifValid(ExceptionLessFunctions.uncheckedFunction(inst -> {
 			return field.get(inst.boxed());
-		});
+		}));
 	}
 
 	public static IValueHolder makeMemberAccess(IValueHolder holder, String memberName) {
@@ -218,7 +215,7 @@ public class MemberAccess implements IValueHolder {
 	}
 
 	@Override
-	public Holder snapshot() {
+	public Holder snapshot() throws Throwable {
 		Holder holder = this.origin.snapshot();
 		return accessField(resolveField(holder.getType(), this.name), holder);
 	}

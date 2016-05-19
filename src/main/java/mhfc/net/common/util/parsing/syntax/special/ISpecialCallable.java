@@ -12,9 +12,9 @@ import mhfc.net.common.util.parsing.valueholders.Arguments;
 public interface ISpecialCallable {
 	/**
 	 * Invokes this object with the arguments args.
-	 * 
+	 *
 	 * @param args
 	 * @return
 	 */
-	Holder __call__(Arguments args);
+	Holder __call__(Arguments args) throws Throwable;
 }

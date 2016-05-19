@@ -19,15 +19,13 @@ public class StaticAccess implements ISpecialMember {
 	}
 
 	@Override
-	public Holder __getattr__(String member) {
+	public Holder __getattr__(String member) throws Throwable {
 		Optional<MethodHandle> f = FieldHelper.findStatic(clazz, member);
 		if (f.isPresent()) {
 			MethodHandle field = f.get();
 			Class<?> fieldClazz = field.type().returnType();
-			return Holder.catching(Throwable.class, () -> {
-				Object fieldValue = field.invoke();
-				return Holder.makeUnboxer(fieldClazz).apply(fieldValue);
-			});
+			Object fieldValue = field.invoke();
+			return Holder.makeUnboxer(fieldClazz).apply(fieldValue);
 		}
 		Optional<OverloadedMethod> methods = MethodHelper.findStatic(clazz, member);
 		if (methods.isPresent()) {

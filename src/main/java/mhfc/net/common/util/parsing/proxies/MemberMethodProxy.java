@@ -11,7 +11,7 @@ public class MemberMethodProxy {
 		this.methods = methodSet;
 	}
 
-	public Holder __call__(Arguments arguments) {
+	public Holder __call__(Arguments arguments) throws Throwable {
 		return methods.call(arguments);
 	}
 }

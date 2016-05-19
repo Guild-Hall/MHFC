@@ -768,7 +768,9 @@ public final class Holder implements IValueHolder {
 	 * @param supplier
 	 * @return
 	 */
-	public static <E extends Throwable> Holder catching(Class<E> excClazz, ThrowingSupplier<Holder, E> supplier) {
+	public static <E extends Throwable> Holder catching(
+			Class<? extends E> excClazz,
+			ThrowingSupplier<Holder, E> supplier) {
 		try {
 			return supplier.get();
 		} catch (Throwable thr) {
@@ -788,7 +790,7 @@ public final class Holder implements IValueHolder {
 	 * @param supplier
 	 * @return
 	 */
-	public static Holder catching(Supplier<Holder> supplier) {
+	public static <E extends Throwable> Holder catching(ThrowingSupplier<Holder, E> supplier) {
 		return Holder.catching(RuntimeException.class, supplier::get);
 	}
 
@@ -797,7 +799,7 @@ public final class Holder implements IValueHolder {
 	}
 
 	public static Holder snapshotSafely(IValueHolder holder) {
-		return Holder.catching(holder::snapshot);
+		return Holder.catching(Throwable.class, holder::snapshot);
 	}
 
 	private final Wrapper wrap;

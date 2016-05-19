@@ -22,7 +22,7 @@ public class ContextVariable implements IValueHolder {
 	}
 
 	@Override
-	public Holder snapshot() {
+	public Holder snapshot() throws Throwable {
 		return get().snapshot();
 	}
 }

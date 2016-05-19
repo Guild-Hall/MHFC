@@ -60,7 +60,7 @@ public final class Any implements IValueHolder {
 		this.assign(o, clazz);
 	}
 
-	public Any(IValueHolder holder, FromHolderTag ignored) {
+	public Any(Holder holder, FromHolderTag ignored) {
 		this.assign(holder, ignored);
 	}
 
@@ -117,8 +117,8 @@ public final class Any implements IValueHolder {
 		this.setHolder(Holder.valueOf(o, clazz));
 	}
 
-	public void assign(IValueHolder holder, FromHolderTag ignored) {
-		this.setHolder(holder.snapshot());
+	public void assign(Holder holder, FromHolderTag ignored) {
+		this.setHolder(holder);
 	}
 
 	private void setHolder(Holder newHolder) {

@@ -14,7 +14,7 @@ public class ContextWrapper implements ISpecialMember {
 	}
 
 	@Override
-	public Holder __getattr__(String name) {
+	public Holder __getattr__(String name) throws Throwable {
 		return reference.getVar(name).snapshot();
 	}
 }

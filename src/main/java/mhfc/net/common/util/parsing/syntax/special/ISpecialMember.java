@@ -15,5 +15,5 @@ public interface ISpecialMember {
 	 * @param member
 	 * @return
 	 */
-	Holder __getattr__(String member);
+	Holder __getattr__(String member) throws Throwable;
 }

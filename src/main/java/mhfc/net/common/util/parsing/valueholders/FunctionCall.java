@@ -20,7 +20,7 @@ public class FunctionCall implements IValueHolder {
 
 		Class<?> getType();
 
-		Holder call(Object instance, Arguments args);
+		Holder call(Object instance, Arguments args) throws Throwable;
 	}
 
 	private static class MethodProxy implements ICall {
@@ -49,15 +49,11 @@ public class FunctionCall implements IValueHolder {
 		}
 
 		@Override
-		public Holder call(Object instance, Arguments args) {
+		public Holder call(Object instance, Arguments args) throws Throwable {
 			if (error != null) {
 				throw error.get();
 			}
-			try {
-				return Holder.class.cast(method.invokeWithArguments(instance, args));
-			} catch (Throwable e) {
-				return Holder.catching(e);
-			}
+			return Holder.class.cast(method.invokeWithArguments(instance, args));
 		}
 	}
 
@@ -119,7 +115,7 @@ public class FunctionCall implements IValueHolder {
 	}
 
 	@Override
-	public Holder snapshot() {
+	public Holder snapshot() throws Throwable {
 		Holder instance = holder.snapshot();
 		return resolveCall(instance.getType()).call(instance.boxed(), args);
 	}

@@ -40,7 +40,7 @@ public class AngularMCTest {
 
 	public class Callable implements ISpecialCallable {
 		@Override
-		public Holder __call__(Arguments args) {
+		public Holder __call__(Arguments args) throws Throwable {
 			return Holder.valueOf(args.getArgument(0).snapshot().asInt() * 2);
 		}
 	}
@@ -59,13 +59,13 @@ public class AngularMCTest {
 
 	@Test
 	public void simpleExpr() {
-		IValueHolder holder = translator.parse("100").snapshot();
+		IValueHolder holder = translator.parse("100");
 		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(100));
 	}
 
 	@Test
 	public void simpleWithComment() {
-		IValueHolder holder = translator.parse("100 /* a comment * / **/").snapshot();
+		IValueHolder holder = translator.parse("100 /* a comment * / **/");
 		assertThat(Holder.snapshotSafely(holder).asInt(), equalTo(100));
 	}
 

@@ -52,14 +52,14 @@ public class OverloadedMethod {
 				.collect(Collectors.toList()));
 	}
 
-	public Holder call(Arguments arguments) {
+	public Holder call(Arguments arguments) throws Throwable {
 		int argCount = arguments.getArgCount();
 		Holder[] snapshots = new Holder[argCount];
 		Class<?>[] types = new Class<?>[argCount];
-		IntStream.range(0, argCount).forEach(i -> {
+		for (int i = 0; i < argCount; i++) {
 			snapshots[i] = arguments.getArgument(i).snapshot();
 			types[i] = snapshots[i].getType();
-		});
+		}
 
 		Optional<MethodHandle> method = this.disambiguate(types);
 		if (!method.isPresent()) {
@@ -69,14 +69,9 @@ public class OverloadedMethod {
 		MethodHandle m = method.get();
 		Object[] args = new Object[argCount];
 		IntStream.range(0, argCount).forEach(i -> args[i] = snapshots[i].boxed());
-		Object ret;
-		try {
-			ret = m.invokeWithArguments(args);
-			Class<?> clazz = m.type().returnType();
-			return Holder.makeUnboxer(clazz).apply(ret);
-		} catch (Throwable e) {
-			return Holder.catching(e);
-		}
+		Object ret = m.invokeWithArguments(args);
+		Class<?> clazz = m.type().returnType();
+		return Holder.makeUnboxer(clazz).apply(ret);
 	}
 
 	@Override
