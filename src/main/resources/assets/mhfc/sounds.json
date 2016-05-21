@@ -26,7 +26,6 @@
     
     "deviljho.idle": {"category": "hostile", "sounds": ["mob/deviljho/idle"]},
     "deviljho.bite": {"category": "hostile", "sounds": ["mob/deviljho/bite"]},
-    "deviljho.charge": {"category": "hostile", "sounds": ["mob/deviljho/charge"]},
     "deviljho.dragonbreath": {"category": "hostile", "sounds": ["mob/deviljho/dragonbreath"]},
     "deviljho.roar": {"category": "hostile", "sounds": ["mob/deviljho/roar"]},
     "deviljho.rockthrow": {"category": "hostile", "sounds": ["mob/deviljho/rockthrow"]},
