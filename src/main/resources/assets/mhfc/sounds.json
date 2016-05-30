@@ -25,7 +25,8 @@
     "delex.hurt": {"category": "hostile", "sounds": ["mob/delex/hurt"]},
     
     "deviljho.idle": {"category": "hostile", "sounds": ["mob/deviljho/idle"]},
-    "deviljho.bite": {"category": "hostile", "sounds": ["mob/deviljho/bite"]},
+    "deviljho.bitea": {"category": "hostile", "sounds": ["mob/deviljho/bitea"]},
+    "deviljho.biteb": {"category": "hostile", "sounds": ["mob/deviljho/biteb"]},
     "deviljho.dragonbreath": {"category": "hostile", "sounds": ["mob/deviljho/dragonbreath"]},
     "deviljho.roar": {"category": "hostile", "sounds": ["mob/deviljho/roar"]},
     "deviljho.rockthrow": {"category": "hostile", "sounds": ["mob/deviljho/rockthrow"]},
