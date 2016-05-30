@@ -11,6 +11,7 @@ import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
  *
  */
 public class DeviljhoBiteB extends DeviljhoBiteA {
+	private static final String ANIMATION = "mhfc:models/Deviljho/bite.mcanm";
 	private static final int LAST_FRAME = 40;
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(44f, 50F, 9999999f);
 
