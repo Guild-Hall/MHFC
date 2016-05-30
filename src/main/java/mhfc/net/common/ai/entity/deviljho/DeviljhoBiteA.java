@@ -50,7 +50,7 @@ public class DeviljhoBiteA extends ActionAdapter<EntityDeviljho> {
 		target = entity.getAttackTarget();
 		
 		if (this.getCurrentFrame() == 25) {
-			getEntity().playSound("mhfc:deviljho.bitea", 1.0F, 1.0F);
+			getEntity().playSound("mhfc:deviljho.biteb", 1.0F, 1.0F);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			EntityDeviljho e = getEntity();
