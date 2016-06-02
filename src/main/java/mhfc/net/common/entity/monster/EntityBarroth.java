@@ -2,7 +2,7 @@ package mhfc.net.common.entity.monster;
 
 import org.lwjgl.opengl.GL11;
 
-import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
+import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.barroth.BarrothIdle;
@@ -54,7 +54,6 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
 		GL11.glScaled(4, 4.2, 4);
 		return super.preRenderCallback(scale, sub);
-
 	}
 
 	@Override

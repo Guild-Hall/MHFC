@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
+import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
@@ -104,7 +104,6 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
 		GL11.glScaled(2.3, 2.3, 2.3);
 		return super.preRenderCallback(scale, sub);
-
 	}
 
 	@Override

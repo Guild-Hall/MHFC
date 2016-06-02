@@ -1,7 +1,11 @@
 package mhfc.net.client.core.registry;
 
+import com.github.worldsender.mcanm.client.ClientLoader;
+import com.github.worldsender.mcanm.client.mcanmmodel.IModel;
 import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
 import com.github.worldsender.mcanm.client.renderer.entity.RenderAnimatedModel;
+import com.github.worldsender.mcanm.common.CommonLoader;
+import com.github.worldsender.mcanm.common.skeleton.ISkeleton;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import mhfc.net.client.render.projectile.RenderBlockProjectile;
@@ -71,7 +75,8 @@ public class MHFCEntityRenderRegistry {
 			Class<T> entityClass,
 			ResourceLocation resLoc,
 			float shadow) {
-		RenderingRegistry
-				.registerEntityRenderingHandler(entityClass, RenderAnimatedModel.fromResLocation(resLoc, shadow));
+		ISkeleton skeleton = CommonLoader.loadLegacySkeleton(resLoc);
+		IModel model = ClientLoader.loadModel(resLoc, skeleton);
+		RenderingRegistry.registerEntityRenderingHandler(entityClass, RenderAnimatedModel.fromModel(model, shadow));
 	}
 }

@@ -2,7 +2,7 @@ package mhfc.net.common.entity.monster;
 
 import org.lwjgl.opengl.GL11;
 
-import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
+import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
@@ -46,7 +46,6 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
 		GL11.glScaled(5.1, 5.1, 5.1);
 		return super.preRenderCallback(scale, sub);
-
 	}
 
 	@Override

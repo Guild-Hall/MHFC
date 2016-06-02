@@ -8,11 +8,14 @@ public abstract class AIAnimatedAction<EntityT extends EntityCreature> extends A
 		implements
 		IAnimatedActionProvider<EntityT> {
 
+	public AIAnimatedAction() {
+		setAnimation(getAnimationLocation());
+		setLastFrame(getAnimationLength());
+	}
+
 	@Override
 	protected void beginExecution() {
 		super.beginExecution();
-		setAnimation(getAnimationLocation());
-		setLastFrame(getAnimationLength());
 	}
 
 	@Override

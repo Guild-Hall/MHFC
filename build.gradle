@@ -15,6 +15,13 @@ buildscript {
     }
 }
 
+allprojects {
+    repositories { 
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+}
+
 apply plugin: 'forge'
 apply from: 'build.properties'
 

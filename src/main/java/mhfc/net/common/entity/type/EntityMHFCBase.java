@@ -2,9 +2,10 @@ package mhfc.net.common.entity.type;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Random;
 
-import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
+import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
 
 import mhfc.net.common.ai.IActionManager;
@@ -86,9 +87,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		return 10;
 	}
 
+	@Override
 	protected void onDeathUpdate() {
-		if (!hasDied)
+		if (!hasDied) {
 			onDeath();
+		}
 		hasDied = true;
 		deathTime++;
 		if (deathTime == deathLingerTime) {
@@ -218,8 +221,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			double correctedOffY = currOffY;
 			double correctedOffZ = currOffZ;
 			EntityMHFCPart[] parts = this.getParts();
-			if (parts == null)
+			if (parts == null) {
 				parts = new EntityMHFCPart[0];
+			}
 
 			@SuppressWarnings("unchecked")
 			List<AxisAlignedBB> bbsInWay = this.worldObj
@@ -343,8 +347,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		this.posY += offY;
 		this.posZ += offZ;
 		EntityMHFCPart[] parts = this.getParts();
-		if (parts == null)
+		if (parts == null) {
 			return;
+		}
 		for (EntityMHFCPart part : parts) {
 			part.offsetEntity(offX, offY, offZ);
 		}
@@ -372,8 +377,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	public void onUpdate() {
 		super.onUpdate();
 		setFrame(this.attackManager.getCurrentFrame());
-		if (this.attackManager.continueExecuting())
+		if (this.attackManager.continueExecuting()) {
 			this.attackManager.updateTask();
+		}
 	}
 
 	@Override
@@ -404,10 +410,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	@Override
 	public RenderPassInformation preRenderCallback(float subFrame, RenderPassInformation passInfo) {
-		return passInfo.setAnimation(attackManager.getCurrentAnimation()).setFrame(getCurrentFrame() + subFrame // ^
-																												// See
-																												// #getCurrentFrame()+
-		);
+		return passInfo.setAnimation(Optional.ofNullable(attackManager.getCurrentAnimation()))
+				.setFrame(getCurrentFrame() + subFrame);
 	}
 
 	@Override
@@ -417,8 +421,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	@Override
 	public void onAttackStart(IExecutableAction<? super YC> newAttack) {
-		if (newAttack != null)
+		if (newAttack != null) {
 			setFrame(0);
+		}
 	}
 
 	@Override
@@ -463,7 +468,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			this.motionY = 0;
 			this.isAirBorne = true;
 		}
-		setVelocity(forwardVector.xCoord, forwardVector.yCoord, forwardVector.zCoord);
+		addVelocity(forwardVector.xCoord, forwardVector.yCoord, forwardVector.zCoord);
 		setPositionAndUpdate(posX, posY, posZ);
 	}
 }

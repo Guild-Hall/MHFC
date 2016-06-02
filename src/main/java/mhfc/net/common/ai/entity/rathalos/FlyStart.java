@@ -9,12 +9,13 @@ public class FlyStart extends ActionAdapter<EntityRathalos> {
 	public static final int LAST_FRAME = 55;
 	public static final float WEIGHT = 3.0f;
 
-	public FlyStart() {}
+	public FlyStart() {
+		setAnimation(ANIMATION);
+		setLastFrame(LAST_FRAME);
+	}
 
 	@Override
 	public void beginExecution() {
-		setAnimation(ANIMATION);
-		setLastFrame(LAST_FRAME);
 		EntityRathalos entity = getEntity();
 		entity.setStance(EntityRathalos.Stances.FLYING);
 	}
@@ -22,14 +23,16 @@ public class FlyStart extends ActionAdapter<EntityRathalos> {
 	@Override
 	public void update() {
 		EntityRathalos entity = getEntity();
-		if (getCurrentFrame() < 20)
+		if (getCurrentFrame() < 20) {
 			entity.moveEntity(0, 1f, 0);
+		}
 	}
 
 	@Override
 	public float getWeight() {
-		if (getEntity().getStance() != EntityRathalos.Stances.GROUND)
+		if (getEntity().getStance() != EntityRathalos.Stances.GROUND) {
 			return DONT_SELECT;
+		}
 		return WEIGHT;
 	}
 

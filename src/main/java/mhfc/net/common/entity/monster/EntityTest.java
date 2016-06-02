@@ -1,20 +1,21 @@
 package mhfc.net.common.entity.monster;
 
+import java.util.Optional;
+
+import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
+import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
+import com.github.worldsender.mcanm.common.CommonLoader;
+import com.github.worldsender.mcanm.common.animation.IAnimation;
+
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
-import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
-import com.github.worldsender.mcanm.client.model.util.AnimationLoader;
-import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
-
 // This is a really simple test Entity
 public class EntityTest extends EntityLiving implements IAnimatedObject {
 	// Load the animation from the stored file
-	private static IAnimation snap = AnimationLoader
-			.loadAnimation(new ResourceLocation(
-					"mhfc:models/Rathalos/testanim.mhanm"));
+	private static IAnimation snap = CommonLoader
+			.loadAnimation(new ResourceLocation("mhfc:models/Rathalos/testanim.mhanm"));
 
 	public EntityTest(World world) {
 		super(world);
@@ -22,8 +23,7 @@ public class EntityTest extends EntityLiving implements IAnimatedObject {
 	}
 
 	@Override
-	public RenderPassInformation preRenderCallback(float subFrame,
-			RenderPassInformation info) {
-		return info.setAnimation(snap).setFrame(this.ticksExisted % 90);
+	public RenderPassInformation preRenderCallback(float subFrame, RenderPassInformation info) {
+		return info.setAnimation(Optional.of(snap)).setFrame(this.ticksExisted % 90);
 	}
 }

@@ -2,7 +2,7 @@ package mhfc.net.common.entity.monster;
 
 import org.lwjgl.opengl.GL11;
 
-import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
+import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoBiteA;
@@ -75,7 +75,6 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
 		GL11.glScaled(3.7, 3.7, 3.7);
 		return super.preRenderCallback(scale, sub);
-
 	}
 
 	@Override

@@ -143,7 +143,9 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 	private int framesRunning;
 	private int runCycles;
 
-	public TigrexRun() {}
+	public TigrexRun() {
+		setAnimation("mhfc:models/Tigrex/run.mcanm");
+	}
 
 	@Override
 	public float getWeight() {
@@ -160,7 +162,6 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 
 	@Override
 	public void beginExecution() {
-		setAnimation("mhfc:models/Tigrex/run.mcanm");
 		EntityTigrex tig = getEntity();
 		target = tig.getAttackTarget();
 		tig.playSound("mhfc:tigrex.charge", 1.0F, 1.0F);

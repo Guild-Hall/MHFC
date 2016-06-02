@@ -2,14 +2,16 @@ package mhfc.net.common.entity.monster;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Queue;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.vector.Matrix4f;
+import javax.vecmath.Matrix4f;
 
-import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
-import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation.BoneTransformation;
-import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
+import org.lwjgl.opengl.GL11;
+
+import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
+import com.github.worldsender.mcanm.common.animation.IAnimation;
+import com.github.worldsender.mcanm.common.animation.IAnimation.BoneTransformation;
 import com.google.common.collect.EvictingQueue;
 import com.google.common.collect.Queues;
 
@@ -120,12 +122,11 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		if (animation == null) {
 			return Vec3.createVectorHelper(0, 0, 0);
 		}
-		BoneTransformation boneTrans = animation.getCurrentTransformation(name, frame);
-		// FIXME find out why the bones give null pointers and fix thise
-		if (boneTrans == null) {
+		Optional<BoneTransformation> boneTrans = animation.getCurrentTransformation(name, frame);
+		if (!boneTrans.isPresent()) {
 			return Vec3.createVectorHelper(0, 0, 0);
 		}
-		Matrix4f transform = boneTrans.asMatrix();
+		Matrix4f transform = boneTrans.get().getMatrix();
 		Vec3 relativePosition = Vec3.createVectorHelper(transform.m03, transform.m13, transform.m23);
 		return relativePosition;
 	}

@@ -2,7 +2,7 @@ package mhfc.net.common.ai.manager;
 
 import java.util.Objects;
 
-import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
+import com.github.worldsender.mcanm.common.animation.IAnimation;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.IActionManager;
@@ -52,6 +52,7 @@ public abstract class ActionManagerAdapter<EntType extends EntityLiving & IManag
 	/**
 	 * Return <code>true</code> to continue executing
 	 */
+	@Override
 	public boolean continueExecuting() {
 		if (this.activeAttack == null) {
 			IExecutableAction<? super EntType> nextAttack = chooseAttack();
@@ -84,6 +85,7 @@ public abstract class ActionManagerAdapter<EntType extends EntityLiving & IManag
 	 *
 	 * @see EntityAITasks#tickRate
 	 */
+	@Override
 	public void updateTask() {
 		activeAttack.updateAction();
 	}

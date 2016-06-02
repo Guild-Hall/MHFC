@@ -23,6 +23,8 @@ public class TigrexGroundHurl extends ActionAdapter<EntityTigrex> {
 
 	public TigrexGroundHurl() {
 		weightFactor = 1;
+		setAnimation("mhfc:models/Tigrex/dirtthrow.mcanm");
+		setLastFrame(LAST_FRAME);
 	}
 
 	@Override
@@ -46,8 +48,6 @@ public class TigrexGroundHurl extends ActionAdapter<EntityTigrex> {
 
 	@Override
 	public void beginExecution() {
-		setAnimation("mhfc:models/Tigrex/dirtthrow.mcanm");
-		setLastFrame(LAST_FRAME);
 		thrown = false;
 		weightFactor *= 3;
 	}

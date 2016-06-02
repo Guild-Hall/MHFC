@@ -3,8 +3,8 @@ package mhfc.net.common.ai;
 import java.util.Objects;
 import java.util.Random;
 
-import com.github.worldsender.mcanm.client.model.mcanmmodel.animation.IAnimation;
-import com.github.worldsender.mcanm.client.model.util.AnimationLoader;
+import com.github.worldsender.mcanm.common.CommonLoader;
+import com.github.worldsender.mcanm.common.animation.IAnimation;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import mhfc.net.common.ai.general.AIUtils.DamageCalculatorHelper;
@@ -101,8 +101,9 @@ public abstract class ActionAdapter<T extends EntityCreature> implements IExecut
 	 * @return a random
 	 */
 	protected Random rng() {
-		if (entity == null || entity.worldObj == null)
+		if (entity == null || entity.worldObj == null) {
 			return rand;
+		}
 		return entity.worldObj.rand;
 	}
 
@@ -120,13 +121,11 @@ public abstract class ActionAdapter<T extends EntityCreature> implements IExecut
 	}
 
 	protected void setAnimation(ResourceLocation resLoc) {
-		if (isEffectiveClient())
-			this.animation = AnimationLoader.loadAnimation(resLoc);
+		setAnimation(CommonLoader.loadAnimation(resLoc));
 	}
 
 	protected void setAnimation(String resLoc) {
-		if (isEffectiveClient())
-			this.animation = AnimationLoader.loadAnimation(resLoc);
+		setAnimation(new ResourceLocation(resLoc));
 	}
 
 	protected void setLastFrame(int lastFrame) {
