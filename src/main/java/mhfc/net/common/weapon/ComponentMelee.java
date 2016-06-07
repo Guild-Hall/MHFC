@@ -38,8 +38,8 @@ public class ComponentMelee {
 		weapon = null;
 	}
 
-	public final void setItem(iWeaponCluster itemweapon) {
-		item = (Item) itemweapon;
+	public final <T extends Item & iWeaponCluster> void setItem(T itemweapon) {
+		item = itemweapon;
 		weapon = itemweapon;
 		onSetItem();
 	}

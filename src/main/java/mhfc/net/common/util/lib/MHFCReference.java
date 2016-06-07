@@ -104,7 +104,7 @@ public class MHFCReference {
 	public static final String armor_greatjaggi_chest_name = "l.mhf_chest";
 	public static final String armor_greatjaggi_legs_name = "l.mhf_leg";
 	public static final String armor_greatjaggi_boots_name = "l.mhf_boots";
-	
+
 	public static final String armor_barroth_tex1 = "mhfc:textures/armor/barroth_layer_1.png";
 	public static final String armor_barroth_tex2 = "mhfc:textures/armor/barroth_layer_2.png";
 	public static final String armor_barroth_helm_name = "m.mhf_helm";
@@ -187,7 +187,7 @@ public class MHFCReference {
 	public static final String block_cradle_tex = "mhfc:rockcradle";
 	public static final String block_tacren_name = "rocktacren";
 	public static final String block_tacren_tex = "mhfc:rocktacren";
-	
+
 	public static final String block_quicksand_name = "quicksand";
 	public static final String block_quicksand_tex = "mhfc:mudquicksand";
 
@@ -256,7 +256,6 @@ public class MHFCReference {
 	public static final String item_arrow0_icon = "mhfc:arrow0";
 	public static final String item_arrow0_name = "arrow0";
 
-	
 	public static final String item_armorsphere_basename = "armorsphere";
 	public static final String item_armorsphere0_name = "normal";
 	public static final String item_armorsphere0_icon = "mhfc:armorsphere0";
@@ -412,8 +411,7 @@ public class MHFCReference {
 	public static final String item_wyverniaclay_name = "wyverniaclay";
 	public static final String item_wyverniadust_icon = "mhfc:wyverniadust";
 	public static final String item_wyverniadust_name = "wyverniadust";
-	
-	
+
 	// If something persist or crash and pointed at this line of codes. probably
 	// you have a wrong input of directory @Heltrato
 	public static final String modelLoc = "mhfc:models/";
@@ -435,18 +433,21 @@ public class MHFCReference {
 	public static final String mob_giaprey_model = modelLoc + "Giaprey/Giaprey.mcmd";
 	public static final String mob_ukanlos_name = "ukanlos";
 	public static final String mob_ukanlos_model = modelLoc + "Ukanlos/Ukanlos.mcmd";
-	
+
+	// WARNING: YOU HAVE TO GENERATE A NEW UUID FOR EVERY POTION
+	// go to https://www.uuidgenerator.net/ to do so
 	public static final String particle_kirinsfx_tex = "mhfc:textures/particle/kirinSFX.png";
 	public static final String potion_attackup_name = "potion.attackuplow";
 	public static final String potion_attackup_uuid = "6a80c830-745d-4edd-8a17-e580f813bf20";
 	public static final String potion_longsworddamageup_name = "potion.longswordattackup";
-	public static final String potion_longsworddamageup_uuid = "6a80c830-745d-4edd-8a17-e580f813bf20";
+	public static final String potion_longsworddamageup_uuid = "e6f4502b-1242-4024-bc5e-e89f47fcda76";
 	public static final String potion_kirinbless_name = "potion.kirinbless";
 	public static final String potion_kirinbless_tex = "mhfc:textures/potion/mhfcpotion.png";
-	public static final String potion_kirinbless_uuid = "6a80c830-745d-4edd-8a17-e580f813bf20";
+	public static final String potion_kirinbless_uuid = "97bd1ec2-4a75-43cc-b81b-e281503c2ffe";
 	public static final String potion_paralyze_name = "potion.paralyze";
 	public static final String potion_paralyze_tex = "mhfc:textures/potion/mhfcpotion.png";
-	public static final String potion_paralyze_uuid = "6a80c830-745d-4edd-8a17-e580f813bf20";
+	public static final String potion_paralyze_uuid = "07c8c0a3-5bd7-4ca3-a984-bb9bdacf4496";
+
 	public static final String tile_akuracrystal_tex = "mhfc:textures/tile/akuracrystal.png";
 	public static final String tile_armorstand_id = "Armor Stand";
 	public static final String tile_armorstand_tex = "mhfc:textures/tile/armorstand.png";
@@ -467,7 +468,6 @@ public class MHFCReference {
 	public static final String weapon_bow_huntersstout_tex = "mhfc:textures/weapons/(B)huntersstout.png";
 	public static final String weapon_bow_huntersproud_name = "c.bow";
 	public static final String weapon_bow_huntersproud_tex = "mhfc:textures/weapons/(B)huntersproud.png";
-
 
 	public static final String weapon_gs_default_icon = "mhfc:greatsword";
 	public static final String weapon_gs_bone_icon = "mhfc:greatsword";
@@ -580,9 +580,7 @@ public class MHFCReference {
 	public static final String weapon_bgh_rath_name = "bowgun_3";
 	public static final String weapon_bgh_rath_icon = "mhfc:bow";
 	public static final String weapon_bgh_rath_tex = "mhfc:textures/weapons/(BGH)rath.png";
-	
-	
-	
+
 	public static final String projectile_wyverniaarrow_name = "Wyvernia Arrow";
 	public static final String projectile_wyverniaarrow_tex = "mhfc:textures/projectile/wyverniaarrow.png";
 	public static final String projectile_wyverniabullet_name = "Wyvernia Bullet";
@@ -598,8 +596,7 @@ public class MHFCReference {
 	public static final int potion_paralyze_iconindex = 1;
 	public static final int potion_kirinbless_iconindex = 2;
 	public static final int potion_attackuplow_iconindex = 3;
-	
-	
+
 	public static final String mob_questGiver_name = "questGiver";
 	public static final String unlocalized_tag_fee = "mhfc.quests.visual.tag.fee";
 	public static final String unlocalized_tag_reward = "mfhc.quests.visual.tag.reward";
