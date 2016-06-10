@@ -3,6 +3,7 @@ package mhfc.net.common.entity.projectile;
 import java.util.List;
 
 import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.helper.MHFCDamageHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.entity.Entity;
@@ -47,13 +48,13 @@ public class EntityBreathe extends EntityThrowable {
 		for (Entity entity : list) {
 			if (getDistanceSqToEntity(entity) <= 6.25D) {
 				if (flameable && entity instanceof EntityPlayer)
-					entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 90);
+					entity.attackEntityFrom(MHFCDamageHelper.fireelement, 115);
 				entity.setFire(5);
 				if (entity instanceof EntityMHFCBase) {
-					entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 300);
+					entity.attackEntityFrom(MHFCDamageHelper.fireelement, 335);
 
 				} else {
-					entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 9999999f);
+					entity.attackEntityFrom(MHFCDamageHelper.fireelement, 9999999);
 				}
 
 			}

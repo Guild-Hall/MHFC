@@ -26,7 +26,6 @@ public class DeviljhoFrontalBreathe extends AIAnimatedAction<EntityDeviljho> {
 	@Override
 	protected void update() {
 		EntityDeviljho set_ENTITY = this.getEntity();
-		EntityLivingBase set_TARGET = set_ENTITY.getAttackTarget();
 		getEntity().playSound("mhfc:deviljho.dragonbreath", 1.0F, 1.0F);
 		if (this.getCurrentFrame() == 40) {
 			if (set_ENTITY.getAttackTarget() == null) {
@@ -39,10 +38,6 @@ public class DeviljhoFrontalBreathe extends AIAnimatedAction<EntityDeviljho> {
 			}
 		}
 
-	}
-
-	private boolean isMoveForwardFrame(int frame) {
-		return (frame > 20 && frame < 30);
 	}
 
 	@Override
