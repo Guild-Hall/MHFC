@@ -46,6 +46,7 @@ public class BlockWyverniaOreBlock extends Block {
 		public Block getBaseItem() {
 			return MHFCBlockRegistry.mhfcblockoreblocks;
 		}
+
 	}
 
 	private final SubTypedItem<Block, WyverniaOreBlockSubType> blockTrait;

@@ -378,7 +378,7 @@ public class MHFCReference {
 	public static final String item_lumberbar_name = "lumberbar";
 	public static final String item_mhfcspawnegg_icon = "mhfc:mhfegg";
 	public static final String item_mhfcspawnegg_name = "mhfcegg";
-	public static final String item_mhfcspawnegg_overlay_icon = "mhfc:mhfegg_overlay";
+	public static final String item_mhfcspawnegg_overlay_icon = "mhfc:tools/horn_overlay";
 	public static final String item_moldediron_icon = "mhfc:moldediron";
 	public static final String item_moldediron_name = "moldediron";
 
@@ -579,13 +579,15 @@ public class MHFCReference {
 
 	public static final String base_gear_fauld = "mhfc:gear/fauld";
 	public static final String base_gear_head = "mhfc:gear/head";
+	public static final String base_gear_body = "mhfc:gear/body";
 	public static final String base_gear_knife = "mhfc:gear/knife";
 	public static final String base_gear_leg = "mhfc:gear/leg";
 	public static final String base_gear_phial_empty = "mhfc:gear/phial_empty";
 	public static final String base_gear_phial_full = "mhfc:gear/phial_full";
+	public static final String base_gear_bullet = "mhfc:gear/shell";
 
-	public static final String base_misc_armorgem = "mhfc:misc/armorgem";
-	public static final String base_misc_armorsphere = "mhfc:misc/armorsphere";
+	public static final String base_misc_armorgem = "mhfc:misc/armor_gem";
+	public static final String base_misc_armorsphere = "mhfc:misc/armor_sphere";
 	public static final String base_misc_bait = "mhfc:misc/bait";
 	public static final String base_misc_berry = "mhfc:misc/berry";
 	public static final String base_misc_bug = "mhfc:misc/bug";
@@ -595,33 +597,34 @@ public class MHFCReference {
 	public static final String base_misc_husk = "mhfc:misc/husk";
 	public static final String base_misc_meat = "mhfc:misc/meat";
 	public static final String base_misc_mystery = "mhfc:misc/mystery";
+	public static final String base_misc_ore = "mhfc:misc/ore";
 	public static final String base_misc_shroom = "mhfc:misc/shroom";
 	public static final String base_misc_smoke = "mhfc:misc/smoke";
 	public static final String base_misc_token = "mhfc:misc/token";
 	public static final String base_misc_vine = "mhfc:misc/vine";
 
-	public static final String base_item_bone = "mhfc:monster/item_bone";
-	public static final String base_item_carapace = "mhfc:monster/item_carapace";
-	public static final String base_item_gem = "mhfc:monster/item_gem";
-	public static final String base_item_mantle = "mhfc:monster/item_mantle";
-	public static final String base_item_ore = "mhfc:monster/item_ore";
-	public static final String base_item_part = "mhfc:monster/item_part";
-	public static final String base_item_pelt = "mhfc:monster/item_pelt";
-	public static final String base_item_sac = "mhfc:monster/item_sac";
-	public static final String base_item_scale = "mhfc:monster/item_scale";
-	public static final String base_item_sharp = "mhfc:monster/item_sharp";
-	public static final String base_item_webbing = "mhfc:monster/item_webbing";
 
-	public static final String base_tool_barrel = "mhfc:tools/tool_barrel";
-	public static final String base_tool_book = "mhfc:tools/tool_book";
-	public static final String base_tool_boomerang = "mhfc:tools/tool_boomerang";
-	public static final String base_tool_horn = "mhfc:tools/tool_horn";
-	public static final String base_tool_kit = "mhfc:tools/tool_kit";
-	public static final String base_tool_map = "mhfc:tools/tool_map";
-	public static final String base_tool_net = "mhfc:tools/tool_net";
-	public static final String base_tool_pick = "mhfc:tools/tool_pick";
-	public static final String base_tool_potion = "mhfc:tools/tool_potion";
-	public static final String base_tool_trap = "mhfc:tools/tool_trap";
-	public static final String base_tool_whestone = "mhfc:tools/tool_whestone";
+	public static final String base_monster_bone = "mhfc:monster/bone";
+	public static final String base_monster_carapace = "mhfc:monster/carapace";
+	public static final String base_monster_gem = "mhfc:monster/gem";
+	public static final String base_monster_mantle = "mhfc:monster/mantle";
+	public static final String base_monster_part = "mhfc:monster/part";
+	public static final String base_monster_pelt = "mhfc:monster/pelt";
+	public static final String base_monster_sac = "mhfc:monster/sac";
+	public static final String base_monster_scale = "mhfc:monster/scale";
+	public static final String base_monster_sharp = "mhfc:monster/sharp";
+	public static final String base_monster_webbing = "mhfc:monster/webbing";
+
+	public static final String base_tool_barrel = "mhfc:tools/barrel";
+	public static final String base_tool_book = "mhfc:tools/book";
+	public static final String base_tool_boomerang = "mhfc:tools/boomerang";
+	public static final String base_tool_horn = "mhfc:tools/horn";
+	public static final String base_tool_kit = "mhfc:tools/kit";
+	public static final String base_tool_map = "mhfc:tools/map";
+	public static final String base_tool_net = "mhfc:tools/net";
+	public static final String base_tool_pick = "mhfc:tools/pick";
+	public static final String base_tool_potion = "mhfc:tools/potion";
+	public static final String base_tool_trap = "mhfc:tools/trap";
+	public static final String base_tool_whestone = "mhfc:tools/whestone";
 
 }

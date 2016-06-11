@@ -4,6 +4,7 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.SubTypedItem;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -18,9 +19,9 @@ import net.minecraft.world.World;
 
 public class ItemNutrients extends ItemFood {
 	public static enum NutrientsSubType implements SubTypedItem.SubTypeEnum<Item> {
-		NORMAL(MHFCReference.item_normalnutrients_name, MHFCReference.item_normalnutrients_icon, 2, 50,
+		NORMAL(MHFCReference.item_normalnutrients_name, ItemColor.LIBLUE, 2, 50,
 				new PotionEffect(21, 12000, 1, true)), //
-				MEGA(MHFCReference.item_meganutrient_name, MHFCReference.item_meganutrient_icon, 3, 70,
+				MEGA(MHFCReference.item_meganutrient_name, ItemColor.BLUE, 3, 70,
 						new PotionEffect(21, 12000, 3, true));
 
 		public final String name;
@@ -29,18 +30,20 @@ public class ItemNutrients extends ItemFood {
 		public final float saturation;
 		public final boolean isDogsFood = true;
 		public final PotionEffect potion;
+		public final ItemColor color;
 
-		private NutrientsSubType(String name, String texture, int healAmount, float modifier) {
-			this(name, texture, healAmount, modifier, null);
+		private NutrientsSubType(String name, ItemColor color, int healAmount, float modifier) {
+			this(name, color, healAmount, modifier, null);
 		}
 
-		private NutrientsSubType(String name, String texture, int healAmount, float modifier, PotionEffect effect) {
+		private NutrientsSubType(String name, ItemColor color, int healAmount, float modifier, PotionEffect effect) {
 			this.name = name;
-			this.texture = texture;
+			this.texture = MHFCReference.base_tool_potion;
 			this.healAmount = healAmount;
 			this.saturation = modifier;
 			// this.isDogsFood = isDogsFood;
 			this.potion = effect;
+			this.color = color;
 		}
 
 		@Override
@@ -56,6 +59,11 @@ public class ItemNutrients extends ItemFood {
 		@Override
 		public Item getBaseItem() {
 			return MHFCItemRegistry.mhfcfoodnutrients;
+		}
+
+		@Override
+		public ItemColor getColor() {
+			return color;
 		}
 	}
 
@@ -132,6 +140,11 @@ public class ItemNutrients extends ItemFood {
 		player.removePotionEffect(subType.potion.getPotionID());
 		player.addPotionEffect(new PotionEffect(subType.potion));
 		player.setHealth(health);
+	}
+
+	@Override
+	public int getColorFromItemStack(ItemStack stack, int renderLayer) {
+		return itemPerk.getSubType(stack).getColor().getRGB();
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.SubTypedItem;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -15,22 +16,24 @@ import net.minecraft.util.IIcon;
 
 public class ItemKirin extends Item {
 	public static enum KirinSubType implements SubTypedItem.SubTypeEnum<Item> {
-		MANE(MHFCReference.item_kirin0_name, MHFCReference.item_kirin0_icon), //
-		GEM(MHFCReference.item_kirin1_name, MHFCReference.item_kirin1_icon), //
+		MANE(MHFCReference.item_kirin0_name, MHFCReference.base_monster_pelt, ItemColor.GRAY), //
+		GEM(MHFCReference.item_kirin1_name, MHFCReference.base_monster_gem, ItemColor.WHITE), //
 		THUNDERTAIL(MHFCReference.item_kirin2_name,
-				MHFCReference.item_kirin2_icon), //
+				MHFCReference.base_monster_part, ItemColor.WHITE), //
 		LIGHTCRYSTAL(MHFCReference.item_kirin3_name,
-				MHFCReference.item_kirin3_icon), //
+				MHFCReference.base_misc_ore, ItemColor.GRAY), //
 		PURECRYSTAL(MHFCReference.item_kirin4_name,
-				MHFCReference.item_kirin4_icon), // , //
+				MHFCReference.base_misc_ore, ItemColor.WHITE), // , //
 		PLATINUMMANE(MHFCReference.item_kirin5_name,
-				MHFCReference.item_kirin5_icon);
+				MHFCReference.base_monster_pelt, ItemColor.WHITE);
 
 		public final String name;
 		public final String texture;
-		private KirinSubType(String name, String texture) {
+		public final ItemColor color;
+		private KirinSubType(String name, String texture, ItemColor color) {
 			this.name = name;
 			this.texture = texture;
+			this.color = color;
 		}
 		@Override
 		public String getName() {
@@ -43,6 +46,10 @@ public class ItemKirin extends Item {
 		@Override
 		public Item getBaseItem() {
 			return MHFCItemRegistry.mhfcitemkirin;
+		}
+		@Override
+		public ItemColor getColor() {
+			return this.color;
 		}
 	}
 
@@ -91,6 +98,10 @@ public class ItemKirin extends Item {
 				list.add("Drop by Kirin");
 				break;
 		}
+	}
+	@Override
+	public int getColorFromItemStack(ItemStack stack, int renderLayer) {
+		return itemPerk.getSubType(stack).getColor().getRGB();
 	}
 
 }

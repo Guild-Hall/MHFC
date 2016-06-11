@@ -4,7 +4,8 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
-import mhfc.net.common.item.materials.ItemRathalos.RathalosSubType;
+import mhfc.net.common.item.ItemColor;
+import mhfc.net.common.item.ItemRecolorable;
 import mhfc.net.common.util.SubTypedItem;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -14,20 +15,22 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class ItemBullet extends Item {
+public class ItemBullet extends ItemRecolorable {
 	public static enum BulletSubType implements SubTypedItem.SubTypeEnum<Item>{
-		NORMALS		(MHFCReference.item_bulletnormal_name,MHFCReference.item_bulletnormal_icon), //
-		PIERCES 	(MHFCReference.item_bulletpierce_name,MHFCReference.item_bulletpierce_icon), //
-		CRAGS  		(MHFCReference.item_bulletcrag_name,MHFCReference.item_bulletcrag_icon), //
-		FLAMES      (MHFCReference.item_bulletflame_name,MHFCReference.item_bulletflame_icon); //
-		
-		
+		NORMALS		(MHFCReference.item_bulletnormal_name, ItemColor.WHITE), //
+		PIERCES 	(MHFCReference.item_bulletpierce_name, ItemColor.WHITE), //
+		CRAGS  		(MHFCReference.item_bulletcrag_name,   ItemColor.WHITE), //
+		FLAMES      (MHFCReference.item_bulletflame_name,  ItemColor.RED); //
+
+
 		public final String name;
 		public final String texture;
-		
-		private BulletSubType(String name, String texture) {
+		public final ItemColor color;
+
+		private BulletSubType(String name, ItemColor color) {
 			this.name = name;
-			this.texture = texture;
+			this.texture = MHFCReference.base_gear_bullet;
+			this.color = color;
 		}
 
 		@Override
@@ -44,9 +47,14 @@ public class ItemBullet extends Item {
 		public Item getBaseItem() {
 			return MHFCItemRegistry.mhfcitembullet;
 		}
+
+		@Override
+		public ItemColor getColor() {
+			return color;
+		}
 	}
 	private final SubTypedItem<Item, BulletSubType> itemPerk;
-	
+
 	public ItemBullet() {
 		itemPerk = new SubTypedItem<>(BulletSubType.class);
 		setHasSubtypes(true);
@@ -91,6 +99,9 @@ public class ItemBullet extends Item {
 				break;
 		}
 	}
-	
 
+	@Override
+	public int getColorFromItemStack(ItemStack stack, int renderLayer) {
+		return itemPerk.getSubType(stack).getColor().getRGB();
+	}
 }

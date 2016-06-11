@@ -4,6 +4,7 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.SubTypedItem;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -19,9 +20,9 @@ import net.minecraft.world.World;
 
 public class ItemMeats extends ItemFood {
 	public static enum MeatSubType implements SubTypedItem.SubTypeEnum<Item> {
-		RAW(MHFCReference.item_rawmeat_name, MHFCReference.item_rawmeat_icon, 2, 40), //
-		COOKED(MHFCReference.item_cookedmeat_name, MHFCReference.item_cookedmeat_icon, 3, 100), //
-		BOOST(MHFCReference.item_boostmeat_name, MHFCReference.item_boostmeat_icon, 3, 100) {
+		RAW(MHFCReference.item_rawmeat_name, ItemColor.RED, 2, 40), //
+		COOKED(MHFCReference.item_cookedmeat_name, ItemColor.ORANGE, 3, 100), //
+		BOOST(MHFCReference.item_boostmeat_name, ItemColor.YELLOW, 3, 100) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -29,7 +30,7 @@ public class ItemMeats extends ItemFood {
 				}
 			}
 		}, //
-		PROTECTION(MHFCReference.item_protectionmeat_name, MHFCReference.item_protectionmeat_icon, 4, 125) {
+		PROTECTION(MHFCReference.item_protectionmeat_name, ItemColor.CYAN, 4, 125) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -37,7 +38,7 @@ public class ItemMeats extends ItemFood {
 				}
 			}
 		}, //
-		POISON(MHFCReference.item_poisonmeat_name, MHFCReference.item_poisonmeat_icon, 3, 50) {
+		POISON(MHFCReference.item_poisonmeat_name, ItemColor.PURPLE, 3, 50) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -45,7 +46,7 @@ public class ItemMeats extends ItemFood {
 				}
 			}
 		}, //
-		SLOW(MHFCReference.item_slowmeat_name, MHFCReference.item_slowmeat_icon, 3, 100) {
+		SLOW(MHFCReference.item_slowmeat_name, ItemColor.GRAY, 3, 100) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -53,7 +54,7 @@ public class ItemMeats extends ItemFood {
 				}
 			}
 		}, //
-		HUNGER(MHFCReference.item_hungermeat_name, MHFCReference.item_hungermeat_icon, 2, 30) {
+		HUNGER(MHFCReference.item_hungermeat_name, ItemColor.LIME, 2, 30) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -61,7 +62,7 @@ public class ItemMeats extends ItemFood {
 				}
 			}
 		}, //
-		FIRE(MHFCReference.item_firemeat_name, MHFCReference.item_firemeat_icon, 4, 150) {
+		FIRE(MHFCReference.item_firemeat_name, ItemColor.RED, 4, 150) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -75,12 +76,14 @@ public class ItemMeats extends ItemFood {
 		public final int healAmount;
 		public final float saturation;
 		public final boolean isDogsFood = true;
+		public final ItemColor color;
 
-		private MeatSubType(String name, String texture, int healAmount, float modifier) {
+		private MeatSubType(String name, ItemColor color, int healAmount, float modifier) {
 			this.name = name;
-			this.texture = texture;
+			this.texture = MHFCReference.base_misc_meat;
 			this.healAmount = healAmount;
 			this.saturation = modifier;
+			this.color = color;
 			// this.isDogsFood = isDogsFood;
 		}
 
@@ -101,6 +104,10 @@ public class ItemMeats extends ItemFood {
 
 		public void onFoodEaten(ItemStack itemStack, World serverWorld, EntityPlayer player) {
 			return; // No potion effect
+		}
+
+		public ItemColor getColor() {
+			return this.color;
 		}
 	}
 
@@ -157,6 +164,11 @@ public class ItemMeats extends ItemFood {
 		if (world.isRemote)
 			return;
 		itemPerk.getSubType(itemStack).onFoodEaten(itemStack, world, player);
+	}
+
+	@Override
+	public int getColorFromItemStack(ItemStack stack, int renderLayer) {
+		return itemPerk.getSubType(stack).getColor().getRGB();
 	}
 
 }

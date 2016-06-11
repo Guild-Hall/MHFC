@@ -5,6 +5,7 @@ import java.util.List;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.block.environment.BlockWyverniaDecor;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
+import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.SubTypedItem;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;

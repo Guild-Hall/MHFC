@@ -2,12 +2,13 @@ package mhfc.net.common.item.armor;
 
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.helper.MHFCArmorMaterialHelper;
 import mhfc.net.common.helper.MHFCArmorModelHelper;
-import mhfc.net.common.system.ColorSystem;
-import mhfc.net.common.system.DonatorSystem;
+import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -17,10 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BarrothArmor extends ItemArmor {
 	private static final String[] names = {
@@ -39,6 +37,7 @@ public class BarrothArmor extends ItemArmor {
 		super(MHFCArmorMaterialHelper.ArmorBarroth, 4, type);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setUnlocalizedName(names[type]);
+		//rarity = ItemRarity.R02;
 	}
 
 	@Override
@@ -124,11 +123,11 @@ public class BarrothArmor extends ItemArmor {
 		ItemStack boots = player.getCurrentArmor(0);
 		ItemStack legs = player.getCurrentArmor(1);
 		ItemStack chest = player.getCurrentArmor(2);
-		if( chest != null && legs != null && boots != null && 
+		if( chest != null && legs != null && boots != null &&
 				 chest.getItem() == MHFCItemRegistry.armor_dragoon_chest &&
 				 boots.getItem() == MHFCItemRegistry.armor_dragoon_boots &&
 				 legs.getItem() == MHFCItemRegistry.armor_dragoon_legs){
-			
+
 		}
 	}
 

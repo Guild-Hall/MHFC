@@ -19,12 +19,12 @@ public class ItemDeviljho extends ItemRecolorable {
 	public static enum DeviljhoSubType
 			implements
 				SubTypedItem.SubTypeEnum<Item> {
-		SCALE (MHFCReference.item_deviljho0_name, MHFCReference.base_item_scale, ItemColor.GREEN), //
-		FANG  (MHFCReference.item_deviljho1_name , MHFCReference.base_item_sharp, ItemColor.GREEN), //
-		HIDE  (MHFCReference.item_deviljho2_name , MHFCReference.base_item_pelt, ItemColor.GREEN), //
-		TALON (MHFCReference.item_deviljho3_name, MHFCReference.base_item_sharp, ItemColor.GREEN), //
-		SCALP (MHFCReference.item_deviljho4_name, MHFCReference.base_item_part, ItemColor.GREEN),
-		TAIL  (MHFCReference.item_deviljho5_name , MHFCReference.base_item_part, ItemColor.GREEN)		;
+		SCALE (MHFCReference.item_deviljho0_name, MHFCReference.base_monster_scale, ItemColor.GREEN), //
+		FANG  (MHFCReference.item_deviljho1_name , MHFCReference.base_monster_sharp, ItemColor.GREEN), //
+		HIDE  (MHFCReference.item_deviljho2_name , MHFCReference.base_monster_pelt, ItemColor.GREEN), //
+		TALON (MHFCReference.item_deviljho3_name, MHFCReference.base_monster_sharp, ItemColor.GREEN), //
+		SCALP (MHFCReference.item_deviljho4_name, MHFCReference.base_monster_part, ItemColor.GREEN),
+		TAIL  (MHFCReference.item_deviljho5_name , MHFCReference.base_monster_part, ItemColor.GREEN)		;
 
 
 		public final String name;
@@ -47,7 +47,7 @@ public class ItemDeviljho extends ItemRecolorable {
 		public Item getBaseItem() {
 			return MHFCItemRegistry.mhfcitemdeviljho;
 		}
-		//@Override
+		@Override
 		public ItemColor getColor() {
 			return this.color;
 		}

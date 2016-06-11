@@ -4,6 +4,7 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.SubTypedItem;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -15,19 +16,21 @@ import net.minecraft.util.IIcon;
 
 public class ItemTigrex extends Item {
 	public static enum TigrexSubType implements SubTypedItem.SubTypeEnum<Item> {
-		SCALE(MHFCReference.item_tigrex0_name, MHFCReference.item_tigrex0_icon), //
-		SHELL(MHFCReference.item_tigrex1_name, MHFCReference.item_tigrex1_icon), //
-		CLAW(MHFCReference.item_tigrex2_name, MHFCReference.item_tigrex2_icon), //
-		FANG(MHFCReference.item_tigrex3_name, MHFCReference.item_tigrex3_icon), //
+		SCALE(MHFCReference.item_tigrex0_name, MHFCReference.base_monster_scale, ItemColor.YELLOW), //
+		SHELL(MHFCReference.item_tigrex1_name, MHFCReference.base_monster_carapace, ItemColor.YELLOW), //
+		CLAW(MHFCReference.item_tigrex2_name, MHFCReference.base_monster_sharp, ItemColor.YELLOW), //
+		FANG(MHFCReference.item_tigrex3_name, MHFCReference.base_monster_sharp, ItemColor.YELLOW), //
 		SKULLSHELL(MHFCReference.item_tigrex4_name,
-				MHFCReference.item_tigrex4_icon), // , //
-		TAIL(MHFCReference.item_tigrex5_name, MHFCReference.item_tigrex5_icon);
+				MHFCReference.base_monster_bone, ItemColor.YELLOW), // , //
+		TAIL(MHFCReference.item_tigrex5_name, MHFCReference.base_monster_part, ItemColor.YELLOW);
 
 		public final String name;
 		public final String texture;
-		private TigrexSubType(String name, String texture) {
+		public final ItemColor color;
+		private TigrexSubType(String name, String texture, ItemColor color) {
 			this.name = name;
 			this.texture = texture;
+			this.color = color;
 		}
 		@Override
 		public String getName() {
@@ -40,6 +43,11 @@ public class ItemTigrex extends Item {
 		@Override
 		public Item getBaseItem() {
 			return MHFCItemRegistry.mhfcitemtigrex;
+		}
+
+		@Override
+		public ItemColor getColor() {
+			return color;
 		}
 	}
 
@@ -88,5 +96,8 @@ public class ItemTigrex extends Item {
 				list.add("Drop by Tigrex");
 		}
 	}
-
+	@Override
+	public int getColorFromItemStack(ItemStack stack, int renderLayer) {
+		return itemPerk.getSubType(stack).getColor().getRGB();
+	}
 }

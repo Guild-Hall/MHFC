@@ -34,7 +34,7 @@ public class ItemSpawner extends Item {
 
 	public ItemSpawner() {
 		super();
-		setTextureName(MHFCReference.item_mhfcspawnegg_icon);
+		setTextureName(MHFCReference.base_tool_horn);
 		setUnlocalizedName(MHFCReference.item_mhfcspawnegg_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHasSubtypes(true);
@@ -100,7 +100,7 @@ public class ItemSpawner extends Item {
 		return true;
 	}
 
-	
+
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {

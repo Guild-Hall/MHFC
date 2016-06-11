@@ -57,12 +57,9 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 		 */
 		public int ordinal();
 
-//		/**
-//		 * Gets the color associated with this subitem.
-//		 *
-//		 * @return
-//		 */
-//		public ItemColor getColor();
+		public default ItemColor getColor() {
+			return ItemColor.WHITE;
+		}
 	}
 
 	/**

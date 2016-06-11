@@ -1,7 +1,11 @@
 package mhfc.net.common.item.armor;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.helper.MHFCArmorModelHelper;
+import mhfc.net.common.item.ItemRarity;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,8 +13,6 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ISpecialArmor;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ArmorMHFC extends ItemArmor implements ISpecialArmor {
 	/**
@@ -21,6 +23,15 @@ public class ArmorMHFC extends ItemArmor implements ISpecialArmor {
 	 */
 	public static int modelID;
 	public static int armorHeart;
+
+	protected static final String[] baseIcons = {
+		MHFCReference.base_gear_head,
+		MHFCReference.base_gear_body,
+		MHFCReference.base_gear_fauld,
+		MHFCReference.base_gear_leg
+	};
+
+	protected ItemRarity rarity;
 
 	public ArmorMHFC(ArmorMaterial armor, int renderIndex, int armorType) {
 		super(armor, renderIndex, armorType);
@@ -79,8 +90,8 @@ public class ArmorMHFC extends ItemArmor implements ISpecialArmor {
 			DamageSource source, int damage, int slot) {
 
 	}
-	
-	public void displayInstancesStack(EntityLivingBase entity, int stack, int entID, DamageSource source) 
+
+	public void displayInstancesStack(EntityLivingBase entity, int stack, int entID, DamageSource source)
 	{
 		//WIP for armors.. display in the description how much the armor can absords lethal damage from mobs..
 		// SPECIFIC DAMAGE CALCULATIONS NOT JUST DIAMOND BASIS.

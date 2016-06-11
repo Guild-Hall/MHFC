@@ -4,6 +4,7 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.SubTypedItem;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -17,15 +18,17 @@ public class ItemArmorSphere extends Item {
 			implements
 				SubTypedItem.SubTypeEnum<Item> {
 		NORMAL(MHFCReference.item_armorsphere0_name,
-				MHFCReference.item_armorsphere0_icon), //
+				ItemColor.BLUE), //
 		PLUS(MHFCReference.item_armorsphere1_name,
-				MHFCReference.item_armorsphere1_icon);
+				ItemColor.LIME);
 
 		public final String name;
 		public final String texture;
-		private ArmorSphereSubType(String name, String texture) {
+		public final ItemColor color;
+		private ArmorSphereSubType(String name, ItemColor color) {
 			this.name = name;
-			this.texture = texture;
+			this.texture = MHFCReference.base_misc_armorsphere;
+			this.color = color;
 		}
 		@Override
 		public String getName() {
@@ -38,6 +41,9 @@ public class ItemArmorSphere extends Item {
 		@Override
 		public Item getBaseItem() {
 			return MHFCItemRegistry.mhfcitemarmorsphere;
+		}
+		public ItemColor getColor() {
+			return this.color;
 		}
 	}
 
@@ -73,4 +79,8 @@ public class ItemArmorSphere extends Item {
 		itemPerk.getSubItems(base, list);
 	}
 
+	@Override
+	public int getColorFromItemStack(ItemStack stack, int renderLayer) {
+		return itemPerk.getSubType(stack).getColor().getRGB();
+	}
 }
