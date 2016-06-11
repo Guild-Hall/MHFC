@@ -1,6 +1,14 @@
 package mhfc.net.common.core.registry;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import cpw.mods.fml.common.registry.GameRegistry;
+import mhfc.net.common.entity.monster.EnumEntityBigMonster;
+import mhfc.net.common.item.ItemColor;
+import mhfc.net.common.item.ItemRecolorable;
+import mhfc.net.common.item.ItemRecolorableFactory;
+import mhfc.net.common.item.ItemRecolorableType;
 import mhfc.net.common.item.armor.BarrothArmor;
 import mhfc.net.common.item.armor.DragoonArmor;
 import mhfc.net.common.item.armor.KirinArmor;
@@ -76,6 +84,8 @@ public class MHFCItemRegistry {
 	// Weapons
 
 	public static int serverIDchecker;
+
+	public static final ItemRecolorableFactory mhfc_recolorable_item_factory = ItemRecolorableFactory.INSTANCE;
 
 	public static final Item weapon_gs_bone;
 	public static final Item weapon_gs_tigrex;
@@ -170,6 +180,7 @@ public class MHFCItemRegistry {
 
 	// Materials
 
+	public static final Map<ItemRecolorableType, ItemRecolorable> mhfc_recolorable_item_map = new HashMap<ItemRecolorableType, ItemRecolorable>();
 	public static final Item mhfcitemtigrex;
 	public static final Item mhfcitemkirin;
 	public static final Item mhfcitemremobra;
@@ -210,7 +221,7 @@ public class MHFCItemRegistry {
 
 		/**
 		 * @author Heltrato: "Please sort the weapon by there Rarity.. Thanks"
-		 * 
+		 *
 		 */
 
 		// Armor
@@ -333,12 +344,26 @@ public class MHFCItemRegistry {
 		mhfcfoodnutrients = registerItem(new ItemNutrients());
 
 		MHFCItemFrontierSpawner = registerItem(new ItemSpawner());
+
+
+		//Register all items in the ItemRecolorableRegistry here!!
+
+		mhfc_recolorable_item_factory
+			.create(ItemRecolorableType.I_SCALE, EnumEntityBigMonster.GREAT_JAGGI, ItemColor.PURPLE) //Jaggi Scale
+			.create(ItemRecolorableType.I_GEM,   EnumEntityBigMonster.NONE, ItemColor.PINK);         //Paintball
+
+		for(ItemRecolorableType type : ItemRecolorableType.values()) {
+			mhfc_recolorable_item_map.put(type, registerItem(new ItemRecolorable(type)));
+		}
+
+		mhfc_recolorable_item_factory.generateReport("test_en_US.lang");
+
 	}
 
 	public static void init() {
 	}
 
-	private static Item registerItem(Item item) {
+	private static <T extends Item> T registerItem(T item) {
 		GameRegistry.registerItem(item, item.getUnlocalizedName());
 		return item;
 	}

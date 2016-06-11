@@ -1,7 +1,11 @@
 package mhfc.net.common.util.lib;
 
+import java.util.EnumMap;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.ModMetadata;
+import mhfc.net.common.item.ItemRecolorableType;
+import net.minecraft.util.IIcon;
 
 public class MHFCReference {
 	public static final String main_config_file = "config/MHFC.cfg";
@@ -576,4 +580,11 @@ public class MHFCReference {
 	public static final String questLocation = "mhfc:quests/quests.json";
 	public static final String goalLocation = "mhfc:quests/goals.json";
 	public static final String groupLocation = "mhfc:quests/groups.json";
+
+	public static final String tokenized_path_monster = "mhfc:monster/%s";
+	public static final String tokenized_path_misc    = "mhfc:misc/%s";
+	public static final String tokenized_path_gear    = "mhfc:gear/%s";
+	public static final String tokenized_path_tools   = "mhfc:tools/%s";
+	public static final String tokenized_path_weapons = "mhfc:weapons/%s";
+
 }
