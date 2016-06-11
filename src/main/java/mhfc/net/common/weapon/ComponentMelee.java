@@ -6,7 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.common.util.Attributes;
 import mhfc.net.common.util.Utilities;
-import mhfc.net.common.weapon.melee.iWeaponReach;
+import mhfc.net.common.weapon.melee.IWeaponReach;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -28,7 +28,7 @@ public class ComponentMelee {
 	public float blockDamage;
 	public float fencerate;
 	public Item item;
-	protected iWeaponCluster weapon;
+	protected IWeaponCluster weapon;
 
 	public ComponentMelee(WeaponSpecs meleespecs, Item.ToolMaterial toolmaterial) {
 		weaponSpecs = meleespecs;
@@ -38,7 +38,7 @@ public class ComponentMelee {
 		weapon = null;
 	}
 
-	public final <T extends Item & iWeaponCluster> void setItem(T itemweapon) {
+	public final <T extends Item & IWeaponCluster> void setItem(T itemweapon) {
 		item = itemweapon;
 		weapon = itemweapon;
 		onSetItem();
@@ -123,7 +123,7 @@ public class ComponentMelee {
 		return weaponMaterial == null ? 1 : weaponMaterial.getEnchantability();
 	}
 
-	public void addItemAttributeModifiers(Multimap<String, AttributeModifier> multimap) {
+	public void addItemAttributeModifiers(Multimap<String, AttributeModifier> multimap, ItemStack itemStack) {
 		float dmg = getEntityDamage();
 		if (dmg > 0F || weaponSpecs.damageMult > 0F) {
 			multimap.put(
@@ -138,18 +138,17 @@ public class ComponentMelee {
 						weaponSpecs.getKnockBack(weaponMaterial) - 0.6F + 1 * 12F,
 						0));
 		multimap.put(
-				Attributes.ATTACK_SPEED.getAttributeUnlocalizedName(),
+				Attributes.ATTACK_COOLDOWN.getAttributeUnlocalizedName(),
 				new AttributeModifier(weapon.getUUID(), "Weapon attack speed modifier", weaponSpecs.comboRate * -4, 0));
-		if (this instanceof iWeaponReach) {
-			try {
-				multimap.put(
-						Attributes.WEAPON_REACH.getAttributeUnlocalizedName(),
-						new AttributeModifier(
-								weapon.getUUID(),
-								"Weapon reach modifier",
-								((iWeaponReach) this).getExtendedReach(null, null, null) - 3F,
-								0));
-			} catch (NullPointerException e) {}
+		if (item instanceof IWeaponReach) {
+			IWeaponReach reachComponent = (IWeaponReach) item;
+			multimap.put(
+					Attributes.WEAPON_REACH.getAttributeUnlocalizedName(),
+					new AttributeModifier(
+							weapon.getUUID(),
+							"Weapon reach modifier",
+							reachComponent.getExtendedReach(itemStack),
+							0));
 		}
 	}
 

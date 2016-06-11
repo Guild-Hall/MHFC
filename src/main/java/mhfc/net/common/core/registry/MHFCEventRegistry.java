@@ -35,17 +35,15 @@ public class MHFCEventRegistry {
 		NetworkRegistry.INSTANCE.registerGuiHandler(mod, MHFCGuiHandler.instance);
 	}
 
-	private static void registerNetworkEventHandlers() {
-	}
+	private static void registerNetworkEventHandlers() {}
 
 	private static void registerWorldEventHandlers() {
 		FMLCommonHandler.instance().bus().register(ConnectionEventHandler.instance);
 		FMLCommonHandler.instance().bus().register(CombatEventHandler.instance);
-		
+		MinecraftForge.EVENT_BUS.register(CombatEventHandler.instance);
 	}
 
-	private static void registerEntityEventHandlers() {
-	}
+	private static void registerEntityEventHandlers() {}
 
 	private static void registerPotionEventHandlers() {
 		MinecraftForge.EVENT_BUS.register(PitfallEvent.instance);
