@@ -4,32 +4,36 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.item.ItemColor;
+import mhfc.net.common.item.ItemRecolorable;
+import mhfc.net.common.util.SubTypedItem;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class ItemDeviljho extends Item {
+public class ItemDeviljho extends ItemRecolorable {
 	public static enum DeviljhoSubType
 			implements
 				SubTypedItem.SubTypeEnum<Item> {
-		SCALE (MHFCReference.item_deviljho0_name, MHFCReference.item_deviljho0_icon), //
-		FANG  (MHFCReference.item_deviljho1_name , MHFCReference.item_deviljho1_icon), //
-		HIDE  (MHFCReference.item_deviljho2_name , MHFCReference.item_deviljho2_icon), //
-		TALON (MHFCReference.item_deviljho3_name, MHFCReference.item_deviljho3_icon), //
-		SCALP (MHFCReference.item_deviljho4_name, MHFCReference.item_deviljho4_icon),
-		TAIL  (MHFCReference.item_deviljho5_name , MHFCReference.item_deviljho5_icon)		;
-		
+		SCALE (MHFCReference.item_deviljho0_name, MHFCReference.base_item_scale, ItemColor.GREEN), //
+		FANG  (MHFCReference.item_deviljho1_name , MHFCReference.base_item_sharp, ItemColor.GREEN), //
+		HIDE  (MHFCReference.item_deviljho2_name , MHFCReference.base_item_pelt, ItemColor.GREEN), //
+		TALON (MHFCReference.item_deviljho3_name, MHFCReference.base_item_sharp, ItemColor.GREEN), //
+		SCALP (MHFCReference.item_deviljho4_name, MHFCReference.base_item_part, ItemColor.GREEN),
+		TAIL  (MHFCReference.item_deviljho5_name , MHFCReference.base_item_part, ItemColor.GREEN)		;
+
 
 		public final String name;
 		public final String texture;
-		private DeviljhoSubType(String name, String texture) {
+		public final ItemColor color;
+		private DeviljhoSubType(String name, String texture, ItemColor color) {
 			this.name = name;
 			this.texture = texture;
+			this.color = color;
 		}
 		@Override
 		public String getName() {
@@ -42,6 +46,10 @@ public class ItemDeviljho extends Item {
 		@Override
 		public Item getBaseItem() {
 			return MHFCItemRegistry.mhfcitemdeviljho;
+		}
+		//@Override
+		public ItemColor getColor() {
+			return this.color;
 		}
 	}
 
@@ -90,5 +98,10 @@ public class ItemDeviljho extends Item {
 				par3List.add("Drop by Deviljho");
 				break;
 		}
+	}
+
+	@Override
+	public int getColorFromItemStack(ItemStack stack, int renderLayer) {
+		return itemPerk.getSubType(stack).getColor().getRGB();
 	}
 }

@@ -2,18 +2,13 @@ package mhfc.net.common.item;
 
 import java.util.List;
 
-import org.apache.logging.log4j.Level;
-
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
-import mhfc.net.common.entity.monster.EnumEntityBigMonster;
-import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import mhfc.net.common.util.SubTypedItem;
 
 /**
  * A little bit of info about these.
@@ -21,9 +16,9 @@ import net.minecraft.util.IIcon;
  * I've structured the metadata of these items such that we really only need one
  * for each possible item icon. It works as follows:
  *
- * Metadata: 0xMMNC
+ * Metadata: 0xIINC
  *
- * MM: 0x00-0x7F. Monster identifier.
+ * II: 0x00-0x7F. Icon identifier. Currently goes as high as 58.
  *  N: 0x0 - 0xF. Nonce used to differentiate items of otherwise identical attributes.
  *  			  e.g., Rathian Scale vs. Rathian Plate.
  *  C: 0x0 - 0xF. Item color. This is used by the method below, getColorFromItemStack.
@@ -49,72 +44,25 @@ import net.minecraft.util.IIcon;
  *
  * @param <T>
  */
-public class ItemRecolorable extends Item{
+public abstract class ItemRecolorable extends Item{
 
-	private final ItemRecolorableFactory registry = ItemRecolorableFactory.INSTANCE;
-
-	protected ItemRecolorableType type;
-
-	protected IIcon icon;
-
-	public ItemRecolorable(ItemRecolorableType type) {
+	public ItemRecolorable() {
 		super();
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(64);
-		this.setUnlocalizedName(type.getUnlocalizedName());
-		this.type = type;
 		this.setCreativeTab(MHFCMain.mhfctabs);
-		this.setTextureName(type.getQualifiedName());
-	}
-
-	@Override
-	public String getUnlocalizedName(ItemStack stack) {
-		return String.format("%s_%d", this.getUnlocalizedName(), stack.getItemDamage());
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getColorFromItemStack(ItemStack stack, int renderLayer) {
-		return ItemColor.byMetadata(stack.getItemDamage()).getColor();
-	}
+	public abstract int getColorFromItemStack(ItemStack stack, int renderLayer);
 
 	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
 		return false;
 	}
 
-	/**
-	 * Returns the metadata for the given values.
-	 * @param boss   Boss ID. Eventually, this parameter will be changed to an MHFCBase.
-	 * @param nonce  A nonce. If you are registering two otherwise identical items, change this value.
-	 * @param color  The desired color of the item.
-	 * @return metadata The calculated metadata, as described above. Range of [0, 32768]
-	 */
-	public static int getMetadataForValues(EnumEntityBigMonster boss, int nonce, ItemColor color) {
-		int metadata  = boss == null
-					  ? 127      << 8
-					  : boss.ID  << 8
-				 	  | nonce    << 4
-				 	  | color.getMetadata();
-
-		if(metadata < 0) {
-			metadata = 0;
-			FMLLog.log(Level.WARN, "[%s] Warning: Metadata generated was negative. Parameters were: Boss: %s Nonce: %d Color: %s", MHFCReference.main_modid, boss, nonce, color);
-		}
-
-		if(metadata > 0x7FFF) {
-			metadata = 0x7FFF;
-			FMLLog.log(Level.WARN, "[%s] Warning: Metadata generated was too high. Parameters were: Boss: %s Nonce: %d Color: %s", MHFCReference.main_modid, boss, nonce, color);
-		}
-
-		return metadata;
-	}
-
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void getSubItems(Item item, CreativeTabs tab, List list) {
-		for(int i : registry.getAllMetadataForType(type)){
-			list.add(new ItemStack(item, 1, i));
-		}
-	}
+	public abstract void getSubItems(Item item, CreativeTabs tab, List list);
 }

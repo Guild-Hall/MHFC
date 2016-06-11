@@ -1,11 +1,7 @@
 package mhfc.net.common.util.lib;
 
-import java.util.EnumMap;
-
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.ModMetadata;
-import mhfc.net.common.item.ItemRecolorableType;
-import net.minecraft.util.IIcon;
 
 public class MHFCReference {
 	public static final String main_config_file = "config/MHFC.cfg";
@@ -581,10 +577,51 @@ public class MHFCReference {
 	public static final String goalLocation = "mhfc:quests/goals.json";
 	public static final String groupLocation = "mhfc:quests/groups.json";
 
-	public static final String tokenized_path_monster = "mhfc:monster/%s";
-	public static final String tokenized_path_misc    = "mhfc:misc/%s";
-	public static final String tokenized_path_gear    = "mhfc:gear/%s";
-	public static final String tokenized_path_tools   = "mhfc:tools/%s";
-	public static final String tokenized_path_weapons = "mhfc:weapons/%s";
+	public static final String base_gear_fauld = "mhfc:gear/fauld";
+	public static final String base_gear_head = "mhfc:gear/head";
+	public static final String base_gear_knife = "mhfc:gear/knife";
+	public static final String base_gear_leg = "mhfc:gear/leg";
+	public static final String base_gear_phial_empty = "mhfc:gear/phial_empty";
+	public static final String base_gear_phial_full = "mhfc:gear/phial_full";
+
+	public static final String base_misc_armorgem = "mhfc:misc/armorgem";
+	public static final String base_misc_armorsphere = "mhfc:misc/armorsphere";
+	public static final String base_misc_bait = "mhfc:misc/bait";
+	public static final String base_misc_berry = "mhfc:misc/berry";
+	public static final String base_misc_bug = "mhfc:misc/bug";
+	public static final String base_misc_cert = "mhfc:misc/cert";
+	public static final String base_misc_dung = "mhfc:misc/dung";
+	public static final String base_misc_fish = "mhfc:misc/fish";
+	public static final String base_misc_husk = "mhfc:misc/husk";
+	public static final String base_misc_meat = "mhfc:misc/meat";
+	public static final String base_misc_mystery = "mhfc:misc/mystery";
+	public static final String base_misc_shroom = "mhfc:misc/shroom";
+	public static final String base_misc_smoke = "mhfc:misc/smoke";
+	public static final String base_misc_token = "mhfc:misc/token";
+	public static final String base_misc_vine = "mhfc:misc/vine";
+
+	public static final String base_item_bone = "mhfc:monster/item_bone";
+	public static final String base_item_carapace = "mhfc:monster/item_carapace";
+	public static final String base_item_gem = "mhfc:monster/item_gem";
+	public static final String base_item_mantle = "mhfc:monster/item_mantle";
+	public static final String base_item_ore = "mhfc:monster/item_ore";
+	public static final String base_item_part = "mhfc:monster/item_part";
+	public static final String base_item_pelt = "mhfc:monster/item_pelt";
+	public static final String base_item_sac = "mhfc:monster/item_sac";
+	public static final String base_item_scale = "mhfc:monster/item_scale";
+	public static final String base_item_sharp = "mhfc:monster/item_sharp";
+	public static final String base_item_webbing = "mhfc:monster/item_webbing";
+
+	public static final String base_tool_barrel = "mhfc:tools/tool_barrel";
+	public static final String base_tool_book = "mhfc:tools/tool_book";
+	public static final String base_tool_boomerang = "mhfc:tools/tool_boomerang";
+	public static final String base_tool_horn = "mhfc:tools/tool_horn";
+	public static final String base_tool_kit = "mhfc:tools/tool_kit";
+	public static final String base_tool_map = "mhfc:tools/tool_map";
+	public static final String base_tool_net = "mhfc:tools/tool_net";
+	public static final String base_tool_pick = "mhfc:tools/tool_pick";
+	public static final String base_tool_potion = "mhfc:tools/tool_potion";
+	public static final String base_tool_trap = "mhfc:tools/tool_trap";
+	public static final String base_tool_whestone = "mhfc:tools/tool_whestone";
 
 }

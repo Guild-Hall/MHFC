@@ -3,6 +3,7 @@ package mhfc.net.common.item;
 import org.apache.logging.log4j.Level;
 
 import cpw.mods.fml.common.FMLLog;
+import mhfc.net.MHFCMain;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.item.ItemDye;
 
@@ -51,7 +52,7 @@ public enum ItemColor {
 	 * 0x000000 (0) to 0xFFFFFF (16,777,215)
 	 * @return the color
 	 */
-	public int getColor() {
+	public int getRGB() {
 		return color;
 	}
 
@@ -69,7 +70,7 @@ public enum ItemColor {
 				return iColor;
 		}
 
-		FMLLog.log(Level.ERROR, "[%s] ERROR: Unable to find color for metadata %x! Defaulting to WHITE.", MHFCReference.main_modid, metadata);
+		MHFCMain.logger.log(Level.ERROR, "[%s] ERROR: Unable to find color for metadata %x! Defaulting to WHITE.", MHFCReference.main_modid, metadata);
 		return ItemColor.WHITE;
 	}
 }
