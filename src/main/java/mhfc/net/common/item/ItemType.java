@@ -1,10 +1,17 @@
 package mhfc.net.common.item;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.common.collect.ImmutableList;
+
 import mhfc.net.common.weapon.melee.greatsword.GreatswordClass;
 import mhfc.net.common.weapon.melee.hammer.HammerClass;
 import mhfc.net.common.weapon.melee.huntinghorn.HuntingHornClass;
 import mhfc.net.common.weapon.melee.longsword.LongswordClass;
 import mhfc.net.common.weapon.range.bow.BowClass;
+import mhfc.net.common.weapon.range.bowgun.heavy.HeavyBowgun;
+import mhfc.net.common.weapon.range.bowgun.light.LightBowgun;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -13,8 +20,7 @@ public enum ItemType {
 	ARMOR_HEAD(GeneralType.ARMOR) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			return (item instanceof ItemArmor)
-				&& ((ItemArmor) item).armorType == 0;
+			return (item instanceof ItemArmor) && ((ItemArmor) item).armorType == 0;
 		}
 
 		@Override
@@ -25,8 +31,7 @@ public enum ItemType {
 	ARMOR_BODY(GeneralType.ARMOR) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			return (item instanceof ItemArmor)
-				&& ((ItemArmor) item).armorType == 1;
+			return (item instanceof ItemArmor) && ((ItemArmor) item).armorType == 1;
 		}
 
 		@Override
@@ -37,8 +42,7 @@ public enum ItemType {
 	ARMOR_PANTS(GeneralType.ARMOR) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			return (item instanceof ItemArmor)
-				&& ((ItemArmor) item).armorType == 2;
+			return (item instanceof ItemArmor) && ((ItemArmor) item).armorType == 2;
 		}
 
 		@Override
@@ -49,8 +53,7 @@ public enum ItemType {
 	ARMOR_BOOTS(GeneralType.ARMOR) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			return (item instanceof ItemArmor)
-				&& ((ItemArmor) item).armorType == 3;
+			return (item instanceof ItemArmor) && ((ItemArmor) item).armorType == 3;
 		}
 
 		@Override
@@ -153,7 +156,6 @@ public enum ItemType {
 	WEAPON_BOW(GeneralType.WEAPON) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			// TODO Auto-generated method stub
 			return (item instanceof BowClass);
 		}
 
@@ -165,8 +167,7 @@ public enum ItemType {
 	WEAPON_SMALL_BOWGUN(GeneralType.WEAPON) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			// TODO Auto-generated method stub
-			return false;
+			return (item instanceof LightBowgun);
 		}
 
 		@Override
@@ -177,8 +178,7 @@ public enum ItemType {
 	WEAPON_BIG_BOWGUN(GeneralType.WEAPON) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			// TODO Auto-generated method stub
-			return false;
+			return (item instanceof HeavyBowgun);
 		}
 
 		@Override
@@ -204,27 +204,44 @@ public enum ItemType {
 		NONE;
 	}
 
-	public final static ItemType[] weaponTypes = {WEAPON_GREAT_SWORD,
-			WEAPON_LONG_SWORD, WEAPON_SWORD_AND_SHIELD, WEAPON_DOUBLE_SWORD,
-			WEAPON_HAMMER, WEAPON_HUNTING_HORN, WEAPON_LANCE, WEAPON_GUNLANCE,
-			WEAPON_BIG_BOWGUN, WEAPON_SMALL_BOWGUN, WEAPON_BOW};
+	public final static List<ItemType> weaponTypes;
 
-	public final static ItemType[] armorTypes = {ARMOR_HEAD, ARMOR_BODY,
-			ARMOR_PANTS, ARMOR_BOOTS};
+	public final static List<ItemType> armorTypes;
+
+	public final static List<ItemType> allTypes = ImmutableList.copyOf(ItemType.values());
+
+	static {
+		List<ItemType> weapons = new ArrayList<>();
+		List<ItemType> armors = new ArrayList<>();
+		for (ItemType type : allTypes) {
+			switch (type.generalType) {
+			case ARMOR:
+				armors.add(type);
+				break;
+			case WEAPON:
+				weapons.add(type);
+			default:
+				break;
+			}
+		}
+		weaponTypes = ImmutableList.copyOf(weapons);
+		armorTypes = ImmutableList.copyOf(armors);
+	}
 
 	public static ItemType getTypeOf(ItemStack stack) {
-		if (stack == null)
+		if (stack == null) {
 			return NO_OTHER;
+		}
 		Item item = stack.getItem();
 		return getTypeOf(item);
 
 	}
 
 	public static ItemType getTypeOf(Item item) {
-		ItemType[] types = ItemType.values();
-		for (int i = 0; i < types.length; i++) {
-			if (types[i].isTypeOf(item))
-				return types[i];
+		for (ItemType type : allTypes) {
+			if (type.isTypeOf(item)) {
+				return type;
+			}
 		}
 		return NO_OTHER;
 	}
@@ -240,24 +257,24 @@ public enum ItemType {
 	}
 
 	/**
-	 * Returns the ordinal of the enum in the subgroup of weapon types. If the
-	 * enum is not a weapon type, -1 is returned
-	 * 
+	 * Returns the ordinal of the enum in the subgroup of weapon types. If the enum is not a weapon type, -1 is returned
+	 *
 	 */
 	public int getWeaponOrdinal() {
-		if (generalType == GeneralType.WEAPON)
+		if (generalType == GeneralType.WEAPON) {
 			return ordinal() - WEAPON_BIG_BOWGUN.ordinal();
+		}
 		return -1;
 	}
 
 	/**
-	 * Returns the ordinal of the enum in the subgroup of armor types. If the
-	 * enum is not an armor type, -1 is returned
-	 * 
+	 * Returns the ordinal of the enum in the subgroup of armor types. If the enum is not an armor type, -1 is returned
+	 *
 	 */
 	public int getArmorOrdinal() {
-		if (generalType == GeneralType.ARMOR)
+		if (generalType == GeneralType.ARMOR) {
 			return ordinal() - ARMOR_BODY.ordinal();
+		}
 		return -1;
 	}
 

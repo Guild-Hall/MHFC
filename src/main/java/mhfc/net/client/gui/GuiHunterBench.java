@@ -1,8 +1,12 @@
 package mhfc.net.client.gui;
 
-import static net.minecraftforge.client.IItemRenderer.ItemRenderType.*;
+import static net.minecraftforge.client.IItemRenderer.ItemRenderType.ENTITY;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.lwjgl.opengl.GL11;
 
@@ -102,26 +106,20 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public void drawTab(int posX, int posY, int mousePosX, int mousePosY,
-			float partialTick) {
+		public void drawTab(int posX, int posY, int mousePosX, int mousePosY, float partialTick) {
 
 			GL11.glColor4f(1f, 1f, 1f, 1f);
-			mc.getTextureManager().bindTexture(
-				MHFCRegQuestVisual.QUEST_HUNTERBENCH_BACKGROUND);
-			MHFCGuiUtil.drawTexturedBoxFromBorder(posX, posY, zLevel, xSize,
-				ySize, 0, 0, 1f, 1f);
+			mc.getTextureManager().bindTexture(MHFCRegQuestVisual.QUEST_HUNTERBENCH_BACKGROUND);
+			MHFCGuiUtil.drawTexturedBoxFromBorder(posX, posY, zLevel, xSize, ySize, 0, 0, 1f, 1f);
 
 			updateListPositions();
 			for (ClickableGuiList<?> list : clickableLists) {
-				list.draw(posX, posY, mousePosX - list.posX, mousePosY
-					- list.posY);
+				list.draw(posX, posY, mousePosX - list.posX, mousePosY - list.posY);
 			}
-			fontRendererObj.drawSplitString("Inventory", posX + 6, posY + 12,
-				500, 0x404040);
+			fontRendererObj.drawSplitString("Inventory", posX + 6, posY + 12, 500, 0x404040);
 
 			GuiHunterBench.this.startCrafting.visible = !bench.isWorking();
-			GuiHunterBench.this.startCrafting.enabled = bench
-				.canBeginCrafting();
+			GuiHunterBench.this.startCrafting.enabled = bench.canBeginCrafting();
 			drawItemModelAndHeat(bench, modelRotX, modelRotY);
 		};
 
@@ -132,14 +130,13 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			mouseLastX = relativeX;
 			mouseLastY = relativeY;
 			mouseClickButton = button;
-			if (isInModelWindow(mouseClickX, mouseClickY)
-				&& mouseClickButton == 1) {
+			if (isInModelWindow(mouseClickX, mouseClickY) && mouseClickButton == 1) {
 				resetModelRot();
 			}
 			for (ClickableGuiList<?> list : clickableLists) {
-				if (list.handleClick(relativeX - list.posX, relativeY
-					- list.posY, button))
+				if (list.handleClick(relativeX - list.posX, relativeY - list.posY, button)) {
 					listUpdated(list);
+				}
 			}
 			return true;
 		}
@@ -149,18 +146,15 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			modelRotY = 20f;
 		}
 
-		protected void listUpdated(ClickableGuiList<?> list) {
-		}
+		protected void listUpdated(ClickableGuiList<?> list) {}
 
-		protected void updateListPositions() {
-		}
+		protected void updateListPositions() {}
 
 		@Override
 		public boolean containsSlot(Slot slot) {
-			if (slot.inventory == tileEntity
-				|| (slot.inventory instanceof InventoryPlayer
-					&& slot.slotNumber > 51))
+			if (slot.inventory == tileEntity || (slot.inventory instanceof InventoryPlayer && slot.slotNumber > 51)) {
 				return true;
+			}
 			return false;
 		}
 
@@ -170,8 +164,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public void onClose() {
-		}
+		public void onClose() {}
 
 		@Override
 		public void onOpen() {
@@ -193,10 +186,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public void handleMovementMouseDown(int mouseX, int mouseY, int button,
-			long timeDiff) {
-			if (isInModelWindow(mouseClickX, mouseClickY)
-				&& mouseClickButton == 0) {
+		public void handleMovementMouseDown(int mouseX, int mouseY, int button, long timeDiff) {
+			if (isInModelWindow(mouseClickX, mouseClickY) && mouseClickButton == 0) {
 				modelRotX += (mouseX - mouseLastX);
 				modelRotY += (mouseY - mouseLastY);
 				if (Math.abs(modelRotY) > maxRotation) {
@@ -204,8 +195,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				}
 			}
 			for (ClickableGuiList<?> list : clickableLists) {
-				list.handleMovementMouseDown(mouseX - list.posX, mouseY
-					- list.posY, button, timeDiff);
+				list.handleMovementMouseDown(mouseX - list.posX, mouseY - list.posY, button, timeDiff);
 			}
 			mouseLastX = mouseX;
 			mouseLastY = mouseY;
@@ -214,21 +204,20 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	}
 
 	/**
-	 * A tab that displays recipes on one recipe type, filtered by their output
-	 * type. The user can select the output type in a list.
+	 * A tab that displays recipes on one recipe type, filtered by their output type. The user can select the output
+	 * type in a list.
 	 */
 	protected abstract class FilteredRecipeTab extends BenchEntityTab {
 
 		protected RecipeType recipeType;
-		protected ItemType[] itemTypes;
+		protected List<ItemType> itemTypes;
 
 		protected Map<ItemType, Integer> indicesOfTypes;
 		protected Map<EquipmentRecipe, Integer> indicesOfRecipes;
 		protected ClickableGuiList<TypeItem> typeList;
 		protected ClickableGuiList<RecipeItem> recipeList;
 
-		public FilteredRecipeTab(TileHunterBench bench, RecipeType recipeType,
-			ItemType[] itemTypes) {
+		public FilteredRecipeTab(TileHunterBench bench, RecipeType recipeType, List<ItemType> itemTypes) {
 			super(bench);
 
 			this.recipeType = recipeType;
@@ -250,24 +239,20 @@ public class GuiHunterBench extends MHFCTabbedGui {
 					RecipeType rectype = recipe.getRecipeType();
 					ItemType itemtype = recipe.getOutputType();
 					Integer selectedIndex = indicesOfTypes.get(itemtype);
-					typeList.setSelected(selectedIndex == null
-						? -1
-						: selectedIndex.intValue());
+					typeList.setSelected(selectedIndex == null ? -1 : selectedIndex.intValue());
 					listUpdated(typeList);
 					if (rectype == recipeType) {
 						Integer indexOfRecipe = indicesOfRecipes.get(recipe);
-						recipeList.setSelected(indexOfRecipe == null
-							? -1
-							: indexOfRecipe.intValue());
+						recipeList.setSelected(indexOfRecipe == null ? -1 : indexOfRecipe.intValue());
 					}
 				}
 			}
 		}
 
 		private void initializeTypeList() {
-			for (int i = 0; i < itemTypes.length; i++) {
-				indicesOfTypes.put(itemTypes[i], typeList.size());
-				typeList.add(new TypeItem(itemTypes[i]));
+			for (ItemType type : itemTypes) {
+				indicesOfTypes.put(type, typeList.size());
+				typeList.add(new TypeItem(type));
 			}
 		}
 
@@ -285,9 +270,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		protected ItemType getSelectedType() {
 			TypeItem selectedItem = typeList.getSelectedItem();
-			return selectedItem == null
-				? ItemType.NO_OTHER
-				: selectedItem.getType();
+			return selectedItem == null ? ItemType.NO_OTHER : selectedItem.getType();
 		}
 
 		@Override
@@ -297,8 +280,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		protected void fillRecipeList(ItemType typeOfSelection) {
-			Set<EquipmentRecipe> correspondingRecipes = MHFCEquipementRecipeRegistry
-				.getRecipesForType(recipeType);
+			Set<EquipmentRecipe> correspondingRecipes = MHFCEquipementRecipeRegistry.getRecipesForType(recipeType);
 			if (correspondingRecipes == null) {
 				return;
 			}
@@ -326,7 +308,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 	protected class CraftUpgradeTab extends FilteredRecipeTab {
 		public CraftUpgradeTab(TileHunterBench bench) {
-			super(bench, RecipeType.UPGRADE, ItemType.values());
+			super(bench, RecipeType.UPGRADE, ItemType.allTypes);
 			typeList.setItemWidth(20);
 		}
 	}
@@ -337,15 +319,17 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		private int baseX = 0, baseY = 0;
 
 		@Override
-		public void drawTab(int posX, int posY, int mousePosX, int mousePosY,
-			float partialTick) {
+		public void drawTab(int posX, int posY, int mousePosX, int mousePosY, float partialTick) {
 			startCrafting.visible = false;
 			GL11.glPushMatrix();
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
-			drawRect(guiLeft + 10, guiTop + 10, guiLeft + xSize - 10, guiTop
-				+ ySize - 10, 0xFF101010);
-			drawCenteredString(fontRendererObj, "Not yet implemented", guiLeft
-				+ xSize / 2 + baseX, guiTop + ySize / 2 + baseY, 0xaaaaaa);
+			drawRect(guiLeft + 10, guiTop + 10, guiLeft + xSize - 10, guiTop + ySize - 10, 0xFF101010);
+			drawCenteredString(
+					fontRendererObj,
+					"Not yet implemented",
+					guiLeft + xSize / 2 + baseX,
+					guiTop + ySize / 2 + baseY,
+					0xaaaaaa);
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
 			GL11.glPopMatrix();
 		}
@@ -367,20 +351,16 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
-		public void updateTab(int pX, int pY) {
-		}
+		public void updateTab(int pX, int pY) {}
 
 		@Override
-		public void onClose() {
-		}
+		public void onClose() {}
 
 		@Override
-		public void onOpen() {
-		}
+		public void onOpen() {}
 
 		@Override
-		public void handleMovementMouseDown(int mouseX, int mouseY, int button,
-			long timeDiff) {
+		public void handleMovementMouseDown(int mouseX, int mouseY, int button, long timeDiff) {
 			if (button == 0) {
 				baseX += mouseX - this.mouseX;
 				baseY += mouseY - this.mouseY;
@@ -410,13 +390,16 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	public final GuiButton startCrafting;
 	public final TileHunterBench tileEntity;
 
-	private static final String[] TAB_NAMES = new String[]{"Armor", "Weapons",
-			"Upgrade", "Weapon tree"};
+	private static final String[] TAB_NAMES = new String[] { "Armor", "Weapons", "Upgrade", "Weapon tree" };
 
-	public GuiHunterBench(InventoryPlayer par1InventoryPlayer, World par2World,
-		TileHunterBench tileEntity, int x, int y, int z) {
-		super(new ContainerHunterBench(par1InventoryPlayer, par2World,
-			tileEntity, x, y, z), TAB_NAMES.length);
+	public GuiHunterBench(
+			InventoryPlayer par1InventoryPlayer,
+			World par2World,
+			TileHunterBench tileEntity,
+			int x,
+			int y,
+			int z) {
+		super(new ContainerHunterBench(par1InventoryPlayer, par2World, tileEntity, x, y, z), TAB_NAMES.length);
 		this.tileEntity = tileEntity;
 		this.xSize = 374;
 		this.ySize = 220;
@@ -431,8 +414,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		this.tabList.add(new CraftUpgradeTab(tileEntity));
 		this.tabList.add(new WeaponTreeTab());
 
-		startCrafting = new GuiButton(0, guiLeft + 228 + (xSize - 228 - 60) / 2,
-			guiTop + 166, 40, 20, "Craft") {
+		startCrafting = new GuiButton(0, guiLeft + 228 + (xSize - 228 - 60) / 2, guiTop + 166, 40, 20, "Craft") {
 			@Override
 			public void mouseReleased(int p_146118_1_, int p_146118_2_) {
 				GuiHunterBench.this.tileEntity.beginCrafting();
@@ -450,53 +432,56 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		EquipmentRecipe recipe = tileEntity.getRecipe();
 		if (recipe != null) {
 			switch (recipe.getRecipeType()) {
-				case ARMOR :
-					type = 0;
-					break;
-				case WEAPON :
-					type = 1;
-					break;
-				case UPGRADE :
-					type = 2;
-				default :
-					type = 0;
+			case ARMOR:
+				type = 0;
+				break;
+			case WEAPON:
+				type = 1;
+				break;
+			case UPGRADE:
+				type = 2;
+			default:
+				type = 0;
 			}
 		}
 		setTab(type);
 	}
 
-	private void drawItemModelAndHeat(TileHunterBench bench, float modelRotX,
-		float modelRotY) {
+	private void drawItemModelAndHeat(TileHunterBench bench, float modelRotX, float modelRotY) {
 		if (bench != null) {
-			ItemStack itemToRender = bench.getStackInSlot(
-				TileHunterBench.resultSlot);
+			ItemStack itemToRender = bench.getStackInSlot(TileHunterBench.resultSlot);
 			ItemType itemType = ItemType.getTypeOf(itemToRender);
 
 			int rectX = guiLeft + modelRectRelX, rectY = guiTop + modelRectRelY;
 			int scale = MHFCGuiUtil.guiScaleFactor(mc);
 
-			drawItemModel(itemToRender, rectX, rectY, modelRectW, modelRectH,
-				scale, itemType, modelRotX, modelRotY);
+			drawItemModel(itemToRender, rectX, rectY, modelRectW, modelRectH, scale, itemType, modelRotX, modelRotY);
 			drawBenchOverlay(bench, rectX, rectY, modelRectW);
 		}
 	}
 
 	private boolean isInModelWindow(int mouseClickRelX, int mouseClickRelY) {
 		return (mouseClickRelX >= modelRectRelX //
-			&& mouseClickRelX <= modelRectRelX + modelRectW)
-			&& (mouseClickRelY >= modelRectRelY //
-				&& mouseClickRelY <= modelRectRelY + modelRectH);
+				&& mouseClickRelX <= modelRectRelX + modelRectW)
+				&& (mouseClickRelY >= modelRectRelY //
+						&& mouseClickRelY <= modelRectRelY + modelRectH);
 	}
 
-	private void drawItemModel(ItemStack itemToRender, int rectX, int rectY,
-		int rectW, int rectH, int guiScale, ItemType itemType, float modelRotX,
-		float modelRotY) {
+	private void drawItemModel(
+			ItemStack itemToRender,
+			int rectX,
+			int rectY,
+			int rectW,
+			int rectH,
+			int guiScale,
+			ItemType itemType,
+			float modelRotX,
+			float modelRotY) {
 		modelRotX /= 2;
 		modelRotY /= 4;
 		GL11.glPushMatrix();
 		drawRect(rectX, rectY, rectX + rectW + 1, rectY + rectH, 0xFF000000);
-		GL11.glScissor(rectX * guiScale, mc.displayHeight - rectY * guiScale,
-			rectW * guiScale, rectH * guiScale);
+		GL11.glScissor(rectX * guiScale, mc.displayHeight - rectY * guiScale, rectW * guiScale, rectH * guiScale);
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		GL11.glClearDepth(1.0f);
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
@@ -508,35 +493,31 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 				GL11.glTranslatef(rectX + rectW / 2, rectY + rectH / 2, 40F);
 				switch (itemType) {
-					case ARMOR_HEAD :
-						GL11.glTranslatef(3f, 15f, 0F);
-						break;
-					case ARMOR_BODY :
-						GL11.glTranslatef(3f, -15f, 0F);
-						break;
-					case ARMOR_PANTS :
-						GL11.glTranslatef(3f, -35f, 0F);
-						break;
-					case ARMOR_BOOTS :
-						GL11.glTranslatef(3f, -55f, 0F);
-						break;
-					default :
-						break;
+				case ARMOR_HEAD:
+					GL11.glTranslatef(3f, 15f, 0F);
+					break;
+				case ARMOR_BODY:
+					GL11.glTranslatef(3f, -15f, 0F);
+					break;
+				case ARMOR_PANTS:
+					GL11.glTranslatef(3f, -35f, 0F);
+					break;
+				case ARMOR_BOOTS:
+					GL11.glTranslatef(3f, -55f, 0F);
+					break;
+				default:
+					break;
 				}
 				GL11.glRotatef(modelRotX, 0.0f, 1.0f, 0.0f);
 				GL11.glRotatef(-modelRotY, 1.0f, 0.0f, 0.0f);
 				float sc = rectH / 2;
 				GL11.glScalef(sc, sc, -sc);
-				int armorType = ((net.minecraft.item.ItemArmor) itemToRender
-					.getItem()).armorType;
-				ResourceLocation loc = RenderBiped.getArmorResource(
-					mc.thePlayer, itemToRender, armorType, null);
+				int armorType = ((net.minecraft.item.ItemArmor) itemToRender.getItem()).armorType;
+				ResourceLocation loc = RenderBiped.getArmorResource(mc.thePlayer, itemToRender, armorType, null);
 				mc.getTextureManager().bindTexture(loc);
-				ModelBiped model = ForgeHooksClient.getArmorModel(mc.thePlayer,
-					itemToRender, armorType, null);
+				ModelBiped model = ForgeHooksClient.getArmorModel(mc.thePlayer, itemToRender, armorType, null);
 
-				if (model == null) {
-				} else {
+				if (model == null) {} else {
 					model.render(mc.thePlayer, 0, 0, 0, 0, 0, 0.06125f);
 					GL11.glFrontFace(GL11.GL_CW);
 					model.render(mc.thePlayer, 0, 0, 0, 0, 0, 0.06125f);
@@ -547,22 +528,19 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				GL11.glTranslatef(rectX + rectW / 2, rectY + rectH / 2, 40F);
 				GL11.glTranslatef(3f, -15f, 0F);
 				GL11.glRotatef(90F, 1.0f, 0.0f, 0.0f);
-				modelRotY = Math.min(Math.abs(modelRotY), 30f) * Math.signum(
-					modelRotY);
+				modelRotY = Math.min(Math.abs(modelRotY), 30f) * Math.signum(modelRotY);
 				GL11.glRotatef(modelRotX, 0.0f, 0.0f, -1.0f);
 				GL11.glRotatef(modelRotY, 0.0f, -1.0f, 0.0f);
 				float sc = rectH / 8;
 				GL11.glScalef(sc, -sc, sc);
 
-				IItemRenderer customRenderer = MinecraftForgeClient
-					.getItemRenderer(itemToRender, ENTITY);
-				if (customRenderer == null) {
-				} else {
-					customRenderer.renderItem(ItemRenderType.ENTITY,
-						itemToRender, null, Minecraft.getMinecraft().thePlayer);
+				IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(itemToRender, ENTITY);
+				if (customRenderer == null) {} else {
+					customRenderer
+							.renderItem(ItemRenderType.ENTITY, itemToRender, null, Minecraft.getMinecraft().thePlayer);
 					GL11.glFrontFace(GL11.GL_CW);
-					customRenderer.renderItem(ItemRenderType.ENTITY,
-						itemToRender, null, Minecraft.getMinecraft().thePlayer);
+					customRenderer
+							.renderItem(ItemRenderType.ENTITY, itemToRender, null, Minecraft.getMinecraft().thePlayer);
 					GL11.glFrontFace(GL11.GL_CCW);
 				}
 			}
@@ -570,8 +548,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		GL11.glPopMatrix();
 	}
 
-	private void drawBenchOverlay(TileHunterBench bench, int rectX, int rectY,
-		int rectW) {
+	private void drawBenchOverlay(TileHunterBench bench, int rectX, int rectY, int rectW) {
 		// Draw the background required heat indicator
 		final int burnHeight = 96;
 		final int completeWidth = 34;
@@ -583,15 +560,21 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		// Draw the foreground current heat indicator
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		mc.getTextureManager().bindTexture(
-			MHFCRegQuestVisual.HUNTER_BENCH_BURN_BACK);
+		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.HUNTER_BENCH_BURN_BACK);
 		heat = Math.min(bench.getHeatStrength(), maxHeat);
 		burnTexVDiff = (float) (heat) / maxHeat;
 		burnTexV = 1.0f - burnTexVDiff;
 		burnTexHeight = (int) (burnTexVDiff * burnHeight);
 		burnTexY = rectY + burnHeight - burnTexHeight;
-		MHFCGuiUtil.drawTexturedRectangle(rectX + rectW + 4, burnTexY, 10,
-			burnTexHeight, 0.0f, burnTexV, 1.0f, burnTexVDiff);
+		MHFCGuiUtil.drawTexturedRectangle(
+				rectX + rectW + 4,
+				burnTexY,
+				10,
+				burnTexHeight,
+				0.0f,
+				burnTexV,
+				1.0f,
+				burnTexVDiff);
 
 		if (bench.getRecipe() != null) {
 			GL11.glLineWidth(1f);
@@ -612,29 +595,22 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 		// Draw heat target
-		mc.getTextureManager().bindTexture(
-			MHFCRegQuestVisual.HUNTER_BENCH_BURN_TARGET);
-		heat = Math.min(TileHunterBench.getItemHeat(bench.getStackInSlot(
-			TileHunterBench.fuelSlot)), maxHeat);
+		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.HUNTER_BENCH_BURN_TARGET);
+		heat = Math.min(TileHunterBench.getItemHeat(bench.getStackInSlot(TileHunterBench.fuelSlot)), maxHeat);
 		if (heat > 0) {
 			burnTexVDiff = (float) (heat) / maxHeat;
 			burnTexHeight = (int) (burnTexVDiff * burnHeight);
 			burnTexY = rectY + burnHeight - burnTexHeight;
-			MHFCGuiUtil.drawTexturedBoxFromBorder(rectX + rectW + 4, burnTexY
-				- 1, this.zLevel, 10, 3, 0);
+			MHFCGuiUtil.drawTexturedBoxFromBorder(rectX + rectW + 4, burnTexY - 1, this.zLevel, 10, 3, 0);
 		}
 
 		// Draw front layer, the border
-		mc.getTextureManager().bindTexture(
-			MHFCRegQuestVisual.HUNTER_BENCH_BURN_FRONT);
-		MHFCGuiUtil.drawTexturedBoxFromBorder(rectX + rectW + 4, rectY - 1,
-			this.zLevel, 10, burnHeight + 1, 0);
+		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.HUNTER_BENCH_BURN_FRONT);
+		MHFCGuiUtil.drawTexturedBoxFromBorder(rectX + rectW + 4, rectY - 1, this.zLevel, 10, burnHeight + 1, 0);
 
 		// draw the heat length indicator
-		mc.getTextureManager().bindTexture(
-			MHFCRegQuestVisual.HUNTER_BENCH_FUEL_DURATION);
-		float remaining = bench.getHeatLength() / (float) bench
-			.getHeatLengthOriginal();
+		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.HUNTER_BENCH_FUEL_DURATION);
+		float remaining = bench.getHeatLength() / (float) bench.getHeatLengthOriginal();
 		if (Float.isInfinite(remaining)) {
 			remaining = 0;
 		}
@@ -642,27 +618,28 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		remaining = remain / 17f;
 		Tessellator t = Tessellator.instance;
 		t.startDrawingQuads();
-		t.addVertexWithUV(guiLeft + 353, guiTop + 159 - remain, this.zLevel, 0f,
-			14f / 17 - remaining);
-		t.addVertexWithUV(guiLeft + 353, guiTop + 159, this.zLevel, 0f, 14f
-			/ 17);
-		t.addVertexWithUV(guiLeft + 370, guiTop + 159, this.zLevel, 1f, 14f
-			/ 17);
-		t.addVertexWithUV(guiLeft + 370, guiTop + 159 - remain, this.zLevel, 1f,
-			14f / 17 - remaining);
+		t.addVertexWithUV(guiLeft + 353, guiTop + 159 - remain, this.zLevel, 0f, 14f / 17 - remaining);
+		t.addVertexWithUV(guiLeft + 353, guiTop + 159, this.zLevel, 0f, 14f / 17);
+		t.addVertexWithUV(guiLeft + 370, guiTop + 159, this.zLevel, 1f, 14f / 17);
+		t.addVertexWithUV(guiLeft + 370, guiTop + 159 - remain, this.zLevel, 1f, 14f / 17 - remaining);
 		t.draw();
 
 		// draw the completition gauge
 		if (bench.getRecipe() != null) {
-			float completition = bench.getItemSmeltDuration() / (float) bench
-				.getRecipe().getDuration();
+			float completition = bench.getItemSmeltDuration() / (float) bench.getRecipe().getDuration();
 			int complete = (int) (completition * completeWidth);
 			completition = complete / (float) completeWidth;
-			mc.getTextureManager().bindTexture(
-				MHFCRegQuestVisual.HUNTER_BENCH_COMPLETE);
-			MHFCGuiUtil.drawTexturedBoxFromBorder(guiLeft + 298, guiTop + 145,
-				this.zLevel, (int) (completition * completeWidth), 17, 0, 0,
-				completition, 1f);
+			mc.getTextureManager().bindTexture(MHFCRegQuestVisual.HUNTER_BENCH_COMPLETE);
+			MHFCGuiUtil.drawTexturedBoxFromBorder(
+					guiLeft + 298,
+					guiTop + 145,
+					this.zLevel,
+					(int) (completition * completeWidth),
+					17,
+					0,
+					0,
+					completition,
+					1f);
 		}
 	}
 
@@ -683,12 +660,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	@Override
 	protected void drawTabBackgroundLayer() {
 		GL11.glColor4f(1f, 1f, 1f, 1f);
-		this.mc.getTextureManager().bindTexture(
-			MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
+		this.mc.getTextureManager().bindTexture(MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
 		int posX = guiLeft;
 		int posY = guiTop;
-		MHFCGuiUtil.drawTexturedBoxFromBorder(posX, posY, this.zLevel,
-			this.xSize, this.ySize, 0, 0, 1f, 1f);
+		MHFCGuiUtil.drawTexturedBoxFromBorder(posX, posY, this.zLevel, this.xSize, this.ySize, 0, 0, 1f, 1f);
 	}
 
 	@Override
