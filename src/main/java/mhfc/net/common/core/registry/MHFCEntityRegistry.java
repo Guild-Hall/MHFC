@@ -9,7 +9,10 @@ import mhfc.net.common.core.MHFCMobList;
 import mhfc.net.common.entity.monster.EntityBarroth;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
+import mhfc.net.common.entity.monster.EntityNargacuga;
+import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.entity.monster.EntityTigrex;
+import mhfc.net.common.entity.particle.EntityPaintParticleEmitter;
 import mhfc.net.common.entity.projectile.EntityBullet;
 import mhfc.net.common.entity.projectile.EntityFlashBomb;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
@@ -28,10 +31,10 @@ public class MHFCEntityRegistry {
 	// public static final int popoID;
 	public static final int tigrexID;
 	// public static final int kirinID;
-//	public static final int rathalosID;
+	//public static final int rathalosID;
 	public static final int greatjaggiID;
-	public static int deviljhoID;
-	public static int nargacugaID;
+	public static final int deviljhoID;
+	//public static final int nargacugaID;
 	public static final int barrothID;
 
 	public static final int questGiverID;
@@ -40,6 +43,8 @@ public class MHFCEntityRegistry {
 	public static final int rathalosFireballID;
 	public static final int bulletID;
 	public static final int flashbombID;
+
+	public static final int paintemitterID;
 
 	static {
 		MHFCMain.checkPreInitialized();
@@ -75,6 +80,8 @@ public class MHFCEntityRegistry {
 			MHFCReference.entity_rathalosFireball_name);
 		flashbombID = getProjectileID(EntityFlashBomb.class,
 			MHFCReference.entity_flashbomb_name, EntityFlashBomb.FALL_OFF_END);
+
+		paintemitterID = getMobID(EntityPaintParticleEmitter.class, MHFCReference.mob_paint_emitter_name);
 	}
 
 	public static void init() {

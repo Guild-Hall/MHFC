@@ -1,10 +1,6 @@
 package mhfc.net.common.core.registry;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import cpw.mods.fml.common.registry.GameRegistry;
-import mhfc.net.common.item.ItemRecolorable;
 import mhfc.net.common.item.armor.BarrothArmor;
 import mhfc.net.common.item.armor.DragoonArmor;
 import mhfc.net.common.item.armor.KirinArmor;
@@ -40,6 +36,7 @@ import mhfc.net.common.item.materials.ItemWoodRig;
 import mhfc.net.common.item.materials.ItemWyvernCoin;
 import mhfc.net.common.item.materials.ItemWyverniaClay;
 import mhfc.net.common.item.materials.ItemWyverniaDust;
+import mhfc.net.common.item.tools.ItemPaintball;
 import mhfc.net.common.weapon.melee.greatsword.GSBone;
 import mhfc.net.common.weapon.melee.greatsword.GSDeadlySerpentBlade;
 import mhfc.net.common.weapon.melee.greatsword.GSDeviljhobroadsword;
@@ -192,6 +189,7 @@ public class MHFCItemRegistry {
 	public static final Item MHFCItemBombMaterial;
 	public static final Item MHFCItemGaguaEgg;
 	public static final Item MHFCItemWyvernCoin;
+	public static final Item MHFCItemPaintball;
 
 	public static final Item mhfcitemingot;
 	public static final Item mhfcitembase;
@@ -335,6 +333,8 @@ public class MHFCItemRegistry {
 		mhfcitemkirinbuff = registerItem(new ItemKirinBuff());
 		mhfcfoodmeat = registerItem(new ItemMeats());
 		mhfcfoodnutrients = registerItem(new ItemNutrients());
+
+		MHFCItemPaintball = registerItem(new ItemPaintball());
 
 		MHFCItemFrontierSpawner = registerItem(new ItemSpawner());
 

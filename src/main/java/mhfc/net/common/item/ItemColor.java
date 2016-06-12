@@ -73,4 +73,22 @@ public enum ItemColor {
 		MHFCMain.logger.log(Level.ERROR, "[%s] ERROR: Unable to find color for metadata %x! Defaulting to WHITE.", MHFCReference.main_modid, metadata);
 		return ItemColor.WHITE;
 	}
+
+	/**
+	 * Returns a float array of the color.
+	 * Index 0: R
+	 * Index 1: G
+	 * Index 2: B
+	 * @return
+	 */
+	public float[] getFloats() {
+		float[] result = new float[3];
+		int color = this.getRGB();
+		result[0] = ((float)(color >> 16 & 0xFF)/255.0F);
+		result[1] = ((float)(color >> 8  & 0xFF)/255.0F);
+		result[2] = ((float)(color       & 0xFF)/255.0F);
+
+
+		return result;
+	}
 }

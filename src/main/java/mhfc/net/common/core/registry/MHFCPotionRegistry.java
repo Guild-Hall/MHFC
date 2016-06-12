@@ -1,13 +1,15 @@
 package mhfc.net.common.core.registry;
 
+import org.apache.logging.log4j.Level;
+
 import mhfc.net.MHFCMain;
 import mhfc.net.common.helper.MHFCReflectionHelper;
+import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.potion.PotionAttackUpLow;
 import mhfc.net.common.potion.PotionKirinBless;
+import mhfc.net.common.potion.PotionPainted;
 import mhfc.net.common.potion.PotionParalyze;
 import net.minecraft.potion.Potion;
-
-import org.apache.logging.log4j.Level;
 
 public class MHFCPotionRegistry {
 	private static final int MAXPOTIONS = 8; // REMEMBER TO INCREASE THIS
@@ -17,6 +19,7 @@ public class MHFCPotionRegistry {
 	public static final Potion shock;
 	public static final Potion kirin_blessing;
 	public static final Potion attack_up_low;
+	public static final Potion painted;
 
 	static {
 		MHFCMain.checkPreInitialized();
@@ -26,6 +29,8 @@ public class MHFCPotionRegistry {
 		kirin_blessing = new PotionKirinBless(getNextID(), false, 591932);
 		attack_up_low = new PotionAttackUpLow(getNextID(), false,
 				493491);
+		painted = new PotionPainted(getNextID(), true, ItemColor.PINK.getRGB(), true);
+		MHFCMain.logger.log(Level.INFO, "Potion Painted: "+painted.id);
 	}
 
 	public static void init() {}

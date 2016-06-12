@@ -229,7 +229,7 @@ public class MHFCReference {
 	public static final String entity_rathalosfireball_tex = "mhfc:textures/projectile/rathalosfireball.png";
 	public static final String entity_tigrexBlock_name = "TigrexBlock";
 	public static final String entity_bullet_name = "Bullet";
-	public static final String entity_flashbomb_name = "Flashbomb";
+	public static final String entity_flashbomb_name = "Flash bomb";
 	public static final String gui_board_tex = "mhfc:textures/gui/MHFCBackground.png";
 	public static final String gui_hunterbench_back_tex = "mhfc:textures/gui/MHFCCraftStation.png";
 	public static final String gui_hunterbench_burn_back_tex = "mhfc:textures/gui/OvenHeat.png";
@@ -626,5 +626,11 @@ public class MHFCReference {
 	public static final String base_tool_potion = "mhfc:tools/potion";
 	public static final String base_tool_trap = "mhfc:tools/trap";
 	public static final String base_tool_whestone = "mhfc:tools/whestone";
+
+
+	public static final String item_paintball_basename = "paintball";
+	public static final String entity_paintball_name = "Paintball";
+	public static final int max_duration_particle_emitter_in_ticks = 1200;
+	public static final String mob_paint_emitter_name = "paintemitter";
 
 }
