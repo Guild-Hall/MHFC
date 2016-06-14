@@ -2,6 +2,8 @@ package mhfc.net.common.item.armor;
 
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
@@ -21,21 +23,13 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class KirinSArmor extends ItemArmor {
-	private static final String[] names = {
-			MHFCReference.armor_kirinS_helm_name,
-			MHFCReference.armor_kirinS_chest_name,
-			MHFCReference.armor_kirinS_legs_name,
-			MHFCReference.armor_kirinS_boots_name};
+	private static final String[] names = { MHFCReference.armor_kirinS_helm_name, MHFCReference.armor_kirinS_chest_name,
+			MHFCReference.armor_kirinS_legs_name, MHFCReference.armor_kirinS_boots_name };
 
-	private static final String[] icons = {
-			MHFCReference.armor_kirinS_helm_icon,
-			MHFCReference.armor_kirinS_chest_icon,
-			MHFCReference.armor_kirinS_legs_icon,
-			MHFCReference.armor_kirinS_boots_icon};
+	private static final String[] icons = { MHFCReference.armor_kirinS_helm_icon, MHFCReference.armor_kirinS_chest_icon,
+			MHFCReference.armor_kirinS_legs_icon, MHFCReference.armor_kirinS_boots_icon };
 
 	public KirinSArmor(int type) {
 		super(MHFCArmorMaterialHelper.ArmorKirinS, 4, type);
@@ -50,10 +44,7 @@ public class KirinSArmor extends ItemArmor {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public void addInformation(ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
+	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
 		par3List.add("All Resistance H");
 		par3List.add("Thunder + 40");
 		par3List.add("Aura");
@@ -68,29 +59,31 @@ public class KirinSArmor extends ItemArmor {
 			par3List.add("\u00a79Kirin S Class Boots");
 		}
 	}
+
 	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
-			String type) {
-		if (!(entity instanceof EntityPlayer))
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
+		if (!(entity instanceof EntityPlayer)) {
 			return MHFCReference.armor_null_tex;
+		}
 
 		EntityPlayer player = (EntityPlayer) entity;
-		if (!DonatorSystem.checkKirinS(player))
+		if (!DonatorSystem.checkKirinS(player)) {
 			return MHFCReference.armor_null_tex;
+		}
 		if (stack.getItem() == MHFCItemRegistry.armor_kirinS_helm
 				|| stack.getItem() == MHFCItemRegistry.armor_kirinS_chest
 				|| stack.getItem() == MHFCItemRegistry.armor_kirinS_boots) {
 			return MHFCReference.armor_kirinS_tex1;
 		}
-		if (stack.getItem() == MHFCItemRegistry.armor_kirinS_legs)
+		if (stack.getItem() == MHFCItemRegistry.armor_kirinS_legs) {
 			return MHFCReference.armor_kirinS_tex2;
+		}
 		return MHFCReference.armor_null_tex;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ModelBiped getArmorModel(EntityLivingBase entityLiving,
-			ItemStack itemStack, int armorSlot) {
+	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
 
 		ModelBiped armorModel = null;
 
@@ -103,14 +96,11 @@ public class KirinSArmor extends ItemArmor {
 			if (armorModel != null) {
 				armorModel.bipedHead.showModel = armorSlot == 0;
 				armorModel.bipedHeadwear.showModel = armorSlot == 0;
-				armorModel.bipedBody.showModel = armorSlot == 1
-						|| armorSlot == 2;
+				armorModel.bipedBody.showModel = armorSlot == 1 || armorSlot == 2;
 				armorModel.bipedRightArm.showModel = armorSlot == 1;
 				armorModel.bipedLeftArm.showModel = armorSlot == 1;
-				armorModel.bipedRightLeg.showModel = armorSlot == 2
-						|| armorSlot == 3;
-				armorModel.bipedLeftLeg.showModel = armorSlot == 2
-						|| armorSlot == 3;
+				armorModel.bipedRightLeg.showModel = armorSlot == 2 || armorSlot == 3;
+				armorModel.bipedLeftLeg.showModel = armorSlot == 2 || armorSlot == 3;
 
 				armorModel.isSneak = entityLiving.isSneaking();
 				armorModel.isRiding = entityLiving.isRiding();
@@ -134,30 +124,33 @@ public class KirinSArmor extends ItemArmor {
 		}
 		return armorModel;
 	}
-	
+
 	@Override
-	 public void onArmorTick(World world, EntityPlayer player, ItemStack armor) {
-	  // The player needs to wear all armor pieces, so when we check on the helmet it's enough
-	  if(this.armorType != 0)
-	   return;
-	  ItemStack boots = player.getCurrentArmor(0);
-	  ItemStack legs = player.getCurrentArmor(1);
-	  ItemStack chest = player.getCurrentArmor(2);
-	  
-	  if( chest != null && legs != null && boots != null && 
-	    chest.getItem() == MHFCItemRegistry.armor_kirinS_chest &&
-	    boots.getItem() == MHFCItemRegistry.armor_kirinS_boots &&
-	    legs.getItem() == MHFCItemRegistry.armor_kirinS_legs){
-		  if (!DonatorSystem.checkKirinS(player))
+	public void onArmorTick(World world, EntityPlayer player, ItemStack armor) {
+		// The player needs to wear all armor pieces, so when we check on the helmet it's enough
+		if (this.armorType != 0) {
+			return;
+		}
+		ItemStack boots = player.getCurrentArmor(0);
+		ItemStack legs = player.getCurrentArmor(1);
+		ItemStack chest = player.getCurrentArmor(2);
+
+		if (chest != null && legs != null && boots != null && chest.getItem() == MHFCItemRegistry.armor_kirinS_chest
+				&& boots.getItem() == MHFCItemRegistry.armor_kirinS_boots
+				&& legs.getItem() == MHFCItemRegistry.armor_kirinS_legs) {
+			if (!DonatorSystem.checkKirinS(player)) {
 				return;
-		  else{
-			player.addPotionEffect(new PotionEffect(
-					MHFCPotionRegistry.kirin_blessing.id, 15, 1));
-			world.spawnParticle("cloud", player.posX + Item.itemRand.nextFloat()
-					* 2.0F - 1.0D, player.posY + Item.itemRand.nextFloat() * 3.0F
-					+ 1.0D, player.posZ + Item.itemRand.nextFloat() * 2.0F - 1.0D,
-					0.0D, 0.0D, 0.0D);}
-	 }
+			} else {
+				player.addPotionEffect(new PotionEffect(MHFCPotionRegistry.kirin_blessing.id, 15, 1));
+				world.spawnParticle(
+						"cloud",
+						player.posX + Item.itemRand.nextFloat() * 2.0F - 1.0D,
+						player.posY + Item.itemRand.nextFloat() * 3.0F + 1.0D,
+						player.posZ + Item.itemRand.nextFloat() * 2.0F - 1.0D,
+						0.0D,
+						0.0D,
+						0.0D);
+			}
+		}
 	}
 }
-

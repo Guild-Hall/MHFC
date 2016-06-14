@@ -3,6 +3,8 @@ package mhfc.net.common.item.materials;
 import java.util.Iterator;
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.MHFCMobList;
 import mhfc.net.common.core.MHFCMobList.MHFCEggInfo;
@@ -25,8 +27,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSpawner extends Item {
 	@SideOnly(Side.CLIENT)
@@ -43,13 +43,11 @@ public class ItemSpawner extends Item {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack par1ItemStack) {
-		String s = (StatCollector.translateToLocal(this.getUnlocalizedName()
-				+ ".name")).trim();
+		String s = (StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
 		String s1 = MHFCMobList.getStringFromID(par1ItemStack.getItemDamage());
 
 		if (s1 != null) {
-			s = s + " "
-					+ StatCollector.translateToLocal("entity." + s1 + ".name");
+			s = s + " " + StatCollector.translateToLocal("entity." + s1 + ".name");
 		}
 
 		return s;
@@ -58,17 +56,24 @@ public class ItemSpawner extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack par1ItemStack, int par2) {
-		MHFCEggInfo entityegginfo = MHFCMobList.registeredEggs().get(
-				Integer.valueOf(par1ItemStack.getItemDamage()));
-		return entityegginfo != null ? (par2 == 0
-				? entityegginfo.primaryColor
-				: entityegginfo.secondaryColor) : 16777215;
+		MHFCEggInfo entityegginfo = MHFCMobList.registeredEggs().get(Integer.valueOf(par1ItemStack.getItemDamage()));
+		return entityegginfo != null
+				? (par2 == 0 ? entityegginfo.primaryColor : entityegginfo.secondaryColor)
+				: 16777215;
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer, World par3World, int par4, int par5,
-			int par6, int par7, float par8, float par9, float par10) {
+	public boolean onItemUse(
+			ItemStack par1ItemStack,
+			EntityPlayer par2EntityPlayer,
+			World par3World,
+			int par4,
+			int par5,
+			int par6,
+			int par7,
+			float par8,
+			float par9,
+			float par10) {
 		if (par3World.isRemote) {
 			return true;
 		}
@@ -82,14 +87,11 @@ public class ItemSpawner extends Item {
 			d0 = 0.5D;
 		}
 
-		Entity entity = spawnCreature(par3World, par1ItemStack.getItemDamage(),
-				par4 + 0.5D, par5 + d0, par6 + 0.5D);
+		Entity entity = spawnCreature(par3World, par1ItemStack.getItemDamage(), par4 + 0.5D, par5 + d0, par6 + 0.5D);
 
 		if (entity != null) {
-			if (entity instanceof EntityLivingBase
-					&& par1ItemStack.hasDisplayName()) {
-				((EntityLiving) entity).setCustomNameTag(par1ItemStack
-						.getDisplayName());
+			if (entity instanceof EntityLivingBase && par1ItemStack.hasDisplayName()) {
+				((EntityLiving) entity).setCustomNameTag(par1ItemStack.getDisplayName());
 			}
 
 			if (!par2EntityPlayer.capabilities.isCreativeMode) {
@@ -100,16 +102,13 @@ public class ItemSpawner extends Item {
 		return true;
 	}
 
-
 	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
-			EntityPlayer par3EntityPlayer) {
+	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
 		if (par2World.isRemote) {
 			return par1ItemStack;
 		}
 		MovingObjectPosition movingobjectposition = this
-				.getMovingObjectPositionFromPlayer(par2World, par3EntityPlayer,
-						true);
+				.getMovingObjectPositionFromPlayer(par2World, par3EntityPlayer, true);
 
 		if (movingobjectposition == null) {
 			return par1ItemStack;
@@ -123,20 +122,16 @@ public class ItemSpawner extends Item {
 				return par1ItemStack;
 			}
 
-			if (!par3EntityPlayer.canPlayerEdit(i, j, k,
-					movingobjectposition.sideHit, par1ItemStack)) {
+			if (!par3EntityPlayer.canPlayerEdit(i, j, k, movingobjectposition.sideHit, par1ItemStack)) {
 				return par1ItemStack;
 			}
 
 			if (par2World.getBlock(i, j, k) instanceof BlockLiquid) {
-				Entity entity = spawnCreature(par2World,
-						par1ItemStack.getItemDamage(), i, j, k);
+				Entity entity = spawnCreature(par2World, par1ItemStack.getItemDamage(), i, j, k);
 
 				if (entity != null) {
-					if (entity instanceof EntityLivingBase
-							&& par1ItemStack.hasDisplayName()) {
-						((EntityLiving) entity).setCustomNameTag(par1ItemStack
-								.getDisplayName());
+					if (entity instanceof EntityLivingBase && par1ItemStack.hasDisplayName()) {
+						((EntityLiving) entity).setCustomNameTag(par1ItemStack.getDisplayName());
 					}
 
 					if (!par3EntityPlayer.capabilities.isCreativeMode) {
@@ -149,8 +144,7 @@ public class ItemSpawner extends Item {
 		return par1ItemStack;
 	}
 
-	public static Entity spawnCreature(World par0World, int par1, double par2,
-			double par4, double par6) {
+	public static Entity spawnCreature(World par0World, int par1, double par2, double par4, double par6) {
 		if (!MHFCMobList.registeredEggs().containsKey(Integer.valueOf(par1))) {
 			return null;
 		}
@@ -161,9 +155,12 @@ public class ItemSpawner extends Item {
 
 			if (entity != null && entity instanceof EntityLivingBase) {
 				EntityLiving entityliving = (EntityLiving) entity;
-				entity.setLocationAndAngles(par2, par4, par6,
-						MathHelper.wrapAngleTo180_float(par0World.rand
-								.nextFloat() * 360.0F), 0.0F);
+				entity.setLocationAndAngles(
+						par2,
+						par4,
+						par6,
+						MathHelper.wrapAngleTo180_float(par0World.rand.nextFloat() * 360.0F),
+						0.0F);
 				entityliving.rotationYawHead = entityliving.rotationYaw;
 				entityliving.renderYawOffset = entityliving.rotationYaw;
 				entityliving.onSpawnWithEgg((IEntityLivingData) null);
@@ -184,17 +181,13 @@ public class ItemSpawner extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamageForRenderPass(int par1, int par2) {
-		return par2 > 0 ? this.theIcon : super.getIconFromDamageForRenderPass(
-				par1, par2);
+		return par2 > 0 ? this.theIcon : super.getIconFromDamageForRenderPass(par1, par2);
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item base, CreativeTabs par2CreativeTabs,
-			@SuppressWarnings("rawtypes") List list) {
-		Iterator<MHFCEggInfo> iterator = MHFCMobList.registeredEggs().values()
-				.iterator();
+	public void getSubItems(Item base, CreativeTabs par2CreativeTabs, List list) {
+		Iterator<MHFCEggInfo> iterator = MHFCMobList.registeredEggs().values().iterator();
 
 		while (iterator.hasNext()) {
 			MHFCEggInfo entityegginfo = iterator.next();
@@ -206,7 +199,6 @@ public class ItemSpawner extends Item {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister par1IconRegister) {
 		super.registerIcons(par1IconRegister);
-		this.theIcon = par1IconRegister
-				.registerIcon(MHFCReference.item_mhfcspawnegg_overlay_icon);
+		this.theIcon = par1IconRegister.registerIcon(MHFCReference.item_mhfcspawnegg_overlay_icon);
 	}
 }

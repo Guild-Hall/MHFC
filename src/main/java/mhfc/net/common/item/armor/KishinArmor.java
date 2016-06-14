@@ -2,6 +2,8 @@ package mhfc.net.common.item.armor;
 
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.helper.MHFCArmorMaterialHelper;
@@ -16,21 +18,15 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class KishinArmor extends ItemArmor {
-	private static final String[] names = {
-			MHFCReference.armor_tigrexb_helm_name,
-			MHFCReference.armor_tigrexb_chest_name,
-			MHFCReference.armor_tigrexb_legs_name,
-			MHFCReference.armor_tigrexb_boots_name};
+	private static final String[] names = { MHFCReference.armor_tigrexb_helm_name,
+			MHFCReference.armor_tigrexb_chest_name, MHFCReference.armor_tigrexb_legs_name,
+			MHFCReference.armor_tigrexb_boots_name };
 
-	private static final String[] icons = {
-			MHFCReference.armor_tigrexb_helm_icon,
-			MHFCReference.armor_tigrexb_chest_icon,
-			MHFCReference.armor_tigrexb_legs_icon,
-			MHFCReference.armor_tigrexb_boots_icon};
+	private static final String[] icons = { MHFCReference.armor_tigrexb_helm_icon,
+			MHFCReference.armor_tigrexb_chest_icon, MHFCReference.armor_tigrexb_legs_icon,
+			MHFCReference.armor_tigrexb_boots_icon };
 
 	public KishinArmor(int type) {
 		super(MHFCArmorMaterialHelper.ArmorTigrexB, 4, type);
@@ -45,8 +41,7 @@ public class KishinArmor extends ItemArmor {
 	}
 
 	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
-			String type) {
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
 		if (stack.getItem() == MHFCItemRegistry.armor_tigrexB_helm
 				|| stack.getItem() == MHFCItemRegistry.armor_tigrexB_chest
 				|| stack.getItem() == MHFCItemRegistry.armor_tigrexB_boots) {
@@ -59,10 +54,7 @@ public class KishinArmor extends ItemArmor {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public void addInformation(ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
+	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
 		par3List.add("Attack Up (S)");
 		if (this.armorType == 0) {
 			par3List.add("\u00a79Tigrex X Class Helmet");
@@ -77,8 +69,7 @@ public class KishinArmor extends ItemArmor {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ModelBiped getArmorModel(EntityLivingBase entityLiving,
-			ItemStack itemStack, int armorSlot) {
+	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
 
 		ModelBiped armorModel = null;
 
@@ -91,14 +82,11 @@ public class KishinArmor extends ItemArmor {
 			if (armorModel != null) {
 				armorModel.bipedHead.showModel = armorSlot == 0;
 				armorModel.bipedHeadwear.showModel = armorSlot == 0;
-				armorModel.bipedBody.showModel = armorSlot == 1
-						|| armorSlot == 2;
+				armorModel.bipedBody.showModel = armorSlot == 1 || armorSlot == 2;
 				armorModel.bipedRightArm.showModel = armorSlot == 1;
 				armorModel.bipedLeftArm.showModel = armorSlot == 1;
-				armorModel.bipedRightLeg.showModel = armorSlot == 2
-						|| armorSlot == 3;
-				armorModel.bipedLeftLeg.showModel = armorSlot == 2
-						|| armorSlot == 3;
+				armorModel.bipedRightLeg.showModel = armorSlot == 2 || armorSlot == 3;
+				armorModel.bipedLeftLeg.showModel = armorSlot == 2 || armorSlot == 3;
 
 				armorModel.isSneak = entityLiving.isSneaking();
 				armorModel.isRiding = entityLiving.isRiding();
@@ -124,13 +112,13 @@ public class KishinArmor extends ItemArmor {
 	}
 
 	@Override
-	public void onArmorTick(World world, EntityPlayer player,
-			ItemStack itemstack) {
-		if (this.armorType != 0)
+	public void onArmorTick(World world, EntityPlayer player, ItemStack itemstack) {
+		if (this.armorType != 0) {
 			return;
-		ItemStack boots = player.getCurrentArmor(0);
-		ItemStack legs = player.getCurrentArmor(1);
-		ItemStack chest = player.getCurrentArmor(2);
+		}
+		//ItemStack boots = player.getCurrentArmor(0);
+		//ItemStack legs = player.getCurrentArmor(1);
+		//ItemStack chest = player.getCurrentArmor(2);
 	}
 
 }

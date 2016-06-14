@@ -2,6 +2,8 @@ package mhfc.net.common.item.armor;
 
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.helper.MHFCArmorMaterialHelper;
@@ -16,19 +18,13 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class KirinArmor extends ItemArmor {
-	private static final String[] names = {MHFCReference.armor_kirin_helm_name,
-			MHFCReference.armor_kirin_chest_name,
-			MHFCReference.armor_kirin_legs_name,
-			MHFCReference.armor_kirin_boots_name};
+	private static final String[] names = { MHFCReference.armor_kirin_helm_name, MHFCReference.armor_kirin_chest_name,
+			MHFCReference.armor_kirin_legs_name, MHFCReference.armor_kirin_boots_name };
 
-	private static final String[] icons = {MHFCReference.armor_kirin_helm_icon,
-			MHFCReference.armor_kirin_chest_icon,
-			MHFCReference.armor_kirin_legs_icon,
-			MHFCReference.armor_kirin_boots_icon};
+	private static final String[] icons = { MHFCReference.armor_kirin_helm_icon, MHFCReference.armor_kirin_chest_icon,
+			MHFCReference.armor_kirin_legs_icon, MHFCReference.armor_kirin_boots_icon };
 
 	public KirinArmor(int type) {
 		super(MHFCArmorMaterialHelper.ArmorKirin, 4, type);
@@ -42,18 +38,14 @@ public class KirinArmor extends ItemArmor {
 		this.itemIcon = iconRegister.registerIcon(icons[this.armorType]);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public void addInformation(ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
+	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
 		par3List.add("Elemental Resistance L");
 		par3List.add("Thunder + 15");
 	}
 
 	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
-			String type) {
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
 		if (stack.getItem() == MHFCItemRegistry.armor_kirin_helm
 				|| stack.getItem() == MHFCItemRegistry.armor_kirin_chest
 				|| stack.getItem() == MHFCItemRegistry.armor_kirin_boots) {
@@ -67,8 +59,7 @@ public class KirinArmor extends ItemArmor {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ModelBiped getArmorModel(EntityLivingBase entityLiving,
-			ItemStack itemStack, int armorSlot) {
+	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
 
 		ModelBiped armorModel = null;
 
@@ -81,14 +72,11 @@ public class KirinArmor extends ItemArmor {
 			if (armorModel != null) {
 				armorModel.bipedHead.showModel = armorSlot == 0;
 				armorModel.bipedHeadwear.showModel = armorSlot == 0;
-				armorModel.bipedBody.showModel = armorSlot == 1
-						|| armorSlot == 2;
+				armorModel.bipedBody.showModel = armorSlot == 1 || armorSlot == 2;
 				armorModel.bipedRightArm.showModel = armorSlot == 1;
 				armorModel.bipedLeftArm.showModel = armorSlot == 1;
-				armorModel.bipedRightLeg.showModel = armorSlot == 2
-						|| armorSlot == 3;
-				armorModel.bipedLeftLeg.showModel = armorSlot == 2
-						|| armorSlot == 3;
+				armorModel.bipedRightLeg.showModel = armorSlot == 2 || armorSlot == 3;
+				armorModel.bipedLeftLeg.showModel = armorSlot == 2 || armorSlot == 3;
 
 				armorModel.isSneak = entityLiving.isSneaking();
 				armorModel.isRiding = entityLiving.isRiding();
@@ -112,6 +100,7 @@ public class KirinArmor extends ItemArmor {
 		}
 		return armorModel;
 	}
+
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack armor) {
 		ItemStack boots = player.getCurrentArmor(0);

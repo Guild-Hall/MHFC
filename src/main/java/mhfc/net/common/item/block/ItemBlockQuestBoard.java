@@ -14,11 +14,9 @@ public class ItemBlockQuestBoard extends ItemBlock {
 		maxStackSize = 1;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public void addInformation(ItemStack p_77624_1_, EntityPlayer p_77624_2_,
-			@SuppressWarnings("rawtypes") List p_77624_3_, boolean p_77624_4_) {
-		p_77624_3_.add("All running quests at your hands");
+	public void addInformation(ItemStack stack, EntityPlayer player, List infos, boolean advanced) {
+		infos.add("All running quests at your hands");
 	}
 
 }

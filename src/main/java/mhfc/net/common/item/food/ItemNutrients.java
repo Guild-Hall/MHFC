@@ -19,10 +19,8 @@ import net.minecraft.world.World;
 
 public class ItemNutrients extends ItemFood {
 	public static enum NutrientsSubType implements SubTypedItem.SubTypeEnum<Item> {
-		NORMAL(MHFCReference.item_normalnutrients_name, ItemColor.LIBLUE, 2, 50,
-				new PotionEffect(21, 12000, 1, true)), //
-				MEGA(MHFCReference.item_meganutrient_name, ItemColor.BLUE, 3, 70,
-						new PotionEffect(21, 12000, 3, true));
+		NORMAL(MHFCReference.item_normalnutrients_name, ItemColor.LIBLUE, 2, 50, new PotionEffect(21, 12000, 1, true)), //
+		MEGA(MHFCReference.item_meganutrient_name, ItemColor.BLUE, 3, 70, new PotionEffect(21, 12000, 3, true));
 
 		public final String name;
 		public final String texture;
@@ -93,9 +91,8 @@ public class ItemNutrients extends ItemFood {
 		itemPerk.registerIcons(iconRegister);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public void getSubItems(Item base, CreativeTabs tab, @SuppressWarnings("rawtypes") List list) {
+	public void getSubItems(Item base, CreativeTabs tab, List list) {
 		itemPerk.getSubItems(base, list);
 	}
 
@@ -115,10 +112,8 @@ public class ItemNutrients extends ItemFood {
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public void addInformation(ItemStack itemStack, EntityPlayer player, @SuppressWarnings("rawtypes") List par3List,
-			boolean par4) {
+	public void addInformation(ItemStack itemStack, EntityPlayer player, List par3List, boolean par4) {
 		NutrientsSubType subType = itemPerk.getSubType(itemStack);
 		switch (subType) {
 		case NORMAL:

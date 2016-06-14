@@ -8,7 +8,6 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.helper.MHFCArmorMaterialHelper;
 import mhfc.net.common.helper.MHFCArmorModelHelper;
-import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -21,17 +20,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class BarrothArmor extends ItemArmor {
-	private static final String[] names = {
-			MHFCReference.armor_barroth_helm_name,
-			MHFCReference.armor_barroth_chest_name,
-			MHFCReference.armor_barroth_legs_name,
-			MHFCReference.armor_barroth_boots_name};
+	private static final String[] names = { MHFCReference.armor_barroth_helm_name,
+			MHFCReference.armor_barroth_chest_name, MHFCReference.armor_barroth_legs_name,
+			MHFCReference.armor_barroth_boots_name };
 
-	private static final String[] icons = {
-			MHFCReference.armor_barroth_helm_icon,
-			MHFCReference.armor_barroth_chest_icon,
-			MHFCReference.armor_barroth_legs_icon,
-			MHFCReference.armor_barroth_boots_icon};
+	private static final String[] icons = { MHFCReference.armor_barroth_helm_icon,
+			MHFCReference.armor_barroth_chest_icon, MHFCReference.armor_barroth_legs_icon,
+			MHFCReference.armor_barroth_boots_icon };
 
 	public BarrothArmor(int type) {
 		super(MHFCArmorMaterialHelper.ArmorBarroth, 4, type);
@@ -46,16 +41,11 @@ public class BarrothArmor extends ItemArmor {
 		this.itemIcon = iconRegister.registerIcon(icons[this.armorType]);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public void addInformation(ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
-	}
+	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {}
 
 	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
-			String type) {
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
 		if (stack.getItem() == MHFCItemRegistry.armor_barroth_helm
 				|| stack.getItem() == MHFCItemRegistry.armor_barroth_chest
 				|| stack.getItem() == MHFCItemRegistry.armor_barroth_boots) {
@@ -69,21 +59,22 @@ public class BarrothArmor extends ItemArmor {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ModelBiped getArmorModel(EntityLivingBase entityLiving,
-			ItemStack itemStack, int armorSlot) {
+	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
 
 		ModelBiped armorModel = null;
 
-		if (itemStack == null || !(itemStack.getItem() instanceof ItemArmor))
+		if (itemStack == null || !(itemStack.getItem() instanceof ItemArmor)) {
 			return null;
+		}
 
 		int type = ((ItemArmor) itemStack.getItem()).armorType;
 
 		if (type == 1 || type == 3 || type == 0) {
 			armorModel = MHFCArmorModelHelper.barroth;
 		}
-		if (armorModel == null)
+		if (armorModel == null) {
 			return null;
+		}
 		armorModel.bipedHead.showModel = armorSlot == 0;
 		armorModel.bipedHeadwear.showModel = armorSlot == 0;
 		armorModel.bipedBody.showModel = armorSlot == 1 || armorSlot == 2;
@@ -100,8 +91,7 @@ public class BarrothArmor extends ItemArmor {
 		ItemStack held_item = entityLiving.getEquipmentInSlot(0);
 		if (held_item != null) {
 			armorModel.heldItemRight = 1;
-			if (entityLiving instanceof EntityPlayer
-					&& ((EntityPlayer) entityLiving).getItemInUseCount() > 0) {
+			if (entityLiving instanceof EntityPlayer && ((EntityPlayer) entityLiving).getItemInUseCount() > 0) {
 				EnumAction enumaction = held_item.getItemUseAction();
 				if (enumaction == EnumAction.bow) {
 					armorModel.aimedBow = true;
@@ -112,24 +102,22 @@ public class BarrothArmor extends ItemArmor {
 		}
 		return armorModel;
 	}
+
 	@Override
-	public void onArmorTick(World world, EntityPlayer player,
-			ItemStack itemStack) {
+	public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
 		// The player needs to wear all armor pieces, so when we check on the
 		// helmet it's enough
-		float h = player.getHealth();
-		if (this.armorType != 0)
+		if (this.armorType != 0) {
 			return;
+		}
 		ItemStack boots = player.getCurrentArmor(0);
 		ItemStack legs = player.getCurrentArmor(1);
 		ItemStack chest = player.getCurrentArmor(2);
-		if( chest != null && legs != null && boots != null &&
-				 chest.getItem() == MHFCItemRegistry.armor_dragoon_chest &&
-				 boots.getItem() == MHFCItemRegistry.armor_dragoon_boots &&
-				 legs.getItem() == MHFCItemRegistry.armor_dragoon_legs){
+		if (chest != null && legs != null && boots != null && chest.getItem() == MHFCItemRegistry.armor_dragoon_chest
+				&& boots.getItem() == MHFCItemRegistry.armor_dragoon_boots
+				&& legs.getItem() == MHFCItemRegistry.armor_dragoon_legs) {
 
 		}
 	}
-
 
 }

@@ -106,6 +106,7 @@ public class ItemMeats extends ItemFood {
 			return; // No potion effect
 		}
 
+		@Override
 		public ItemColor getColor() {
 			return this.color;
 		}
@@ -137,9 +138,8 @@ public class ItemMeats extends ItemFood {
 		itemPerk.registerIcons(iconRegister);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public void getSubItems(Item base, CreativeTabs tab, @SuppressWarnings("rawtypes") List list) {
+	public void getSubItems(Item base, CreativeTabs tab, List list) {
 		itemPerk.getSubItems(base, list);
 	}
 
@@ -161,8 +161,9 @@ public class ItemMeats extends ItemFood {
 
 	@Override
 	protected void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
-		if (world.isRemote)
+		if (world.isRemote) {
 			return;
+		}
 		itemPerk.getSubType(itemStack).onFoodEaten(itemStack, world, player);
 	}
 

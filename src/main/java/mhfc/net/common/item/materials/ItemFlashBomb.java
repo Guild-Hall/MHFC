@@ -1,14 +1,10 @@
 package mhfc.net.common.item.materials;
 
-import java.util.List;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.entity.projectile.EntityFlashBomb;
 import mhfc.net.common.item.ItemColor;
-import mhfc.net.common.item.ItemRecolorable;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,16 +20,14 @@ public class ItemFlashBomb extends Item {
 
 	@Override
 	public void registerIcons(IIconRegister par1IconRegister) {
-		this.itemIcon = par1IconRegister
-				.registerIcon(MHFCReference.base_monster_gem);
+		this.itemIcon = par1IconRegister.registerIcon(MHFCReference.base_monster_gem);
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStack, World world,
-		EntityPlayer player) {
-		if (world.isRemote)
+	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+		if (world.isRemote) {
 			return itemStack;
-		else {
+		} else {
 			EntityFlashBomb bomb = new EntityFlashBomb(world, player);
 			world.spawnEntityInWorld(bomb);
 
