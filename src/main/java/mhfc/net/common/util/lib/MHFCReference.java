@@ -420,12 +420,16 @@ public class MHFCReference {
 	// If something persist or crash and pointed at this line of codes. probably
 	// you have a wrong input of directory @Heltrato
 	public static final String modelLoc = "mhfc:models/";
+	public static final String textureLoc = "mhfc:textures/models/";
 	public static final String mob_tigrex_name = "tigrex";
 	public static final String mob_tigrex_model = modelLoc + "Tigrex/Tigrex.mcmd";
 	public static final String mob_rathalos_name = "rathalos";
 	public static final String mob_rathalos_model = modelLoc + "Rathalos/Rathalos.mcmd";
 	public static final String mob_greatjaggi_name = "greatjaggi";
-	public static final String mob_greatjaggi_model = modelLoc + "GreatJaggi/GreatJaggi.mcmd";
+	public static final String mob_greatjaggi_dir = modelLoc + "GreatJaggi/";
+	public static final String mob_greatjaggi_textureDir = textureLoc + "GreatJaggi/";
+	public static final String mob_greatjaggi_model = mob_greatjaggi_dir + "GreatJaggi.mcmd";
+	public static final String mob_greatjaggi_skeleton = mob_greatjaggi_dir + "Armature.mcskl";
 	public static final String mob_deviljho_name = "deviljho";
 	public static final String mob_deviljho_model = modelLoc + "Deviljho/Deviljho.mcmd";
 	public static final String mob_barroth_name = "barroth";
