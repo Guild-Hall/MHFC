@@ -428,7 +428,7 @@ public class MHFCReference {
 	public static final String mob_greatjaggi_name = "greatjaggi";
 	public static final String mob_greatjaggi_dir = modelLoc + "GreatJaggi/";
 	public static final String mob_greatjaggi_textureDir = textureLoc + "GreatJaggi/";
-	public static final String mob_greatjaggi_model = mob_greatjaggi_dir + "GreatJaggi.mcmd";
+	public static final String mob_greatjaggi_model = mob_greatjaggi_dir + "Great Jaggi.mcmd";
 	public static final String mob_greatjaggi_skeleton = mob_greatjaggi_dir + "Armature.mcskl";
 	public static final String mob_deviljho_name = "deviljho";
 	public static final String mob_deviljho_model = modelLoc + "Deviljho/Deviljho.mcmd";

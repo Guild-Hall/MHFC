@@ -9,7 +9,7 @@ import net.minecraft.entity.EntityLivingBase;
 
 public class GJaggiRoar extends AIGeneralRoar<EntityGreatJaggi> {
 
-	private static final String ANIMATION = "mhfc:models/GreatJaggi/GreatJaggiRoar.mcanm";
+	private static final String ANIMATION = "mhfc:models/GreatJaggi/roar.mcanm";
 	private static final int LAST_FRAME = 64;
 	private static final String ROAR_SOUND = "mhfc:greatjaggi.roar";
 
