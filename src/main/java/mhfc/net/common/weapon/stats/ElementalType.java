@@ -1,16 +1,51 @@
 package mhfc.net.common.weapon.stats;
 
 import java.util.Objects;
+import java.util.Random;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 
-public enum ElementalType implements ICombatEffect {
-	Fire(new DamageSource("mhfc.fireelement").setDamageBypassesArmor()),
-	Water(new DamageSource("mhfc.waterelement").setDamageBypassesArmor()),
-	Thunder(new DamageSource("mhfc.thunderelement").setDamageBypassesArmor()),
-	Dragon(new DamageSource("mhfc.dragonelement").setDamageBypassesArmor()),
-	Ice(new DamageSource("mhfc.iceelement").setDamageBypassesArmor());
+public enum ElementalType implements ICombatEffectType {
+	Fire(new DamageSource("mhfc.fireelement").setDamageBypassesArmor()) {
+		@Override
+		public void onEntitySwing(EntityLivingBase entity, ItemStack stack, Random rand) {
+			double velX = rand.nextGaussian(), velY = rand.nextGaussian(), velZ = rand.nextGaussian();
+			double posX = entity.posX, posY = entity.posY, posZ = entity.posZ;
+			entity.worldObj.spawnParticle("lava", posX, posY, posZ, velX, velY, velZ);
+		}
+
+		@Override
+		public String getUnlocalizedName() {
+			return "fire";
+		}
+	},
+	Water(new DamageSource("mhfc.waterelement").setDamageBypassesArmor()) {
+		@Override
+		public String getUnlocalizedName() {
+			return "water";
+		}
+	},
+	Thunder(new DamageSource("mhfc.thunderelement").setDamageBypassesArmor()) {
+		@Override
+		public String getUnlocalizedName() {
+			return "thunder";
+		}
+	},
+	Dragon(new DamageSource("mhfc.dragonelement").setDamageBypassesArmor()) {
+		@Override
+		public String getUnlocalizedName() {
+			return "dragon";
+		}
+	},
+	Ice(new DamageSource("mhfc.iceelement").setDamageBypassesArmor()) {
+		@Override
+		public String getUnlocalizedName() {
+			return "ice";
+		}
+	};
 
 	public final DamageSource damageSource;
 

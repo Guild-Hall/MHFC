@@ -5,13 +5,13 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 
-import mhfc.net.common.weapon.melee.greatsword.GreatswordClass;
-import mhfc.net.common.weapon.melee.hammer.HammerClass;
-import mhfc.net.common.weapon.melee.huntinghorn.HuntingHornClass;
-import mhfc.net.common.weapon.melee.longsword.LongswordClass;
-import mhfc.net.common.weapon.range.bow.BowClass;
-import mhfc.net.common.weapon.range.bowgun.heavy.HeavyBowgun;
-import mhfc.net.common.weapon.range.bowgun.light.LightBowgun;
+import mhfc.net.common.weapon.melee.greatsword.ItemGreatsword;
+import mhfc.net.common.weapon.melee.hammer.ItemHammer;
+import mhfc.net.common.weapon.melee.huntinghorn.ItemHuntingHorn;
+import mhfc.net.common.weapon.melee.longsword.ItemLongsword;
+import mhfc.net.common.weapon.range.bow.ItemBow;
+import mhfc.net.common.weapon.range.bowgun.heavy.ItemHeavyBowgun;
+import mhfc.net.common.weapon.range.bowgun.light.ItemLightBowgun;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -64,7 +64,7 @@ public enum ItemType {
 	WEAPON_GREAT_SWORD(GeneralType.WEAPON) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			return (item instanceof GreatswordClass);
+			return (item instanceof ItemGreatsword);
 		}
 
 		@Override
@@ -75,7 +75,7 @@ public enum ItemType {
 	WEAPON_LONG_SWORD(GeneralType.WEAPON) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			return (item instanceof LongswordClass);
+			return (item instanceof ItemLongsword);
 		}
 
 		@Override
@@ -86,7 +86,7 @@ public enum ItemType {
 	WEAPON_HAMMER(GeneralType.WEAPON) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			return (item instanceof HammerClass);
+			return (item instanceof ItemHammer);
 		}
 
 		@Override
@@ -97,7 +97,7 @@ public enum ItemType {
 	WEAPON_HUNTING_HORN(GeneralType.WEAPON) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			return (item instanceof HuntingHornClass);
+			return (item instanceof ItemHuntingHorn);
 		}
 
 		@Override
@@ -156,7 +156,7 @@ public enum ItemType {
 	WEAPON_BOW(GeneralType.WEAPON) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			return (item instanceof BowClass);
+			return (item instanceof ItemBow);
 		}
 
 		@Override
@@ -167,7 +167,7 @@ public enum ItemType {
 	WEAPON_SMALL_BOWGUN(GeneralType.WEAPON) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			return (item instanceof LightBowgun);
+			return (item instanceof ItemLightBowgun);
 		}
 
 		@Override
@@ -178,7 +178,7 @@ public enum ItemType {
 	WEAPON_BIG_BOWGUN(GeneralType.WEAPON) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			return (item instanceof HeavyBowgun);
+			return (item instanceof ItemHeavyBowgun);
 		}
 
 		@Override

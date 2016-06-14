@@ -38,13 +38,16 @@ public class Sharpness {
 
 		/**
 		 * Builds the sharpness
-		 * 
+		 *
 		 * @return
 		 */
 		public Sharpness build() {
 			return new Sharpness(this);
 		}
 	}
+
+	public static final Sharpness DEFAULT_SHARPNESS = new SharpnessBuilder().setLength(SharpnessLevel.Orange, 20)
+			.build();
 
 	private NavigableMap<Integer, SharpnessLevel> sharpnessEntries;
 

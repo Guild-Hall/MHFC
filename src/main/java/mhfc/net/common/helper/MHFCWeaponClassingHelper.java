@@ -1,10 +1,10 @@
 package mhfc.net.common.helper;
 
-
 public class MHFCWeaponClassingHelper {
 
+	// FIXME: move to Reference
 	//Weapon Class
-	
+
 	public static String bowname = "Bow Class";
 	public static String chargeaxename = "Charge Axe Class";
 	public static String dualswordname = "Dual Sword Class";
@@ -22,10 +22,9 @@ public class MHFCWeaponClassingHelper {
 	public static String swordshieldname = "Sword & Shield Class";
 	public static String switchaxename = "Switch Axe Class";
 	public static String tonfaclass = "Tonfa Class";
-	
-	
+
 	// Elements
-	
+
 	public static String noelementname = "No Element";
 	public static String poisonname = "Poison Element";
 	public static String firename = "Fire Element";

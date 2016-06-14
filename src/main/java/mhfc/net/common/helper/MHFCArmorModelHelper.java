@@ -16,13 +16,6 @@ import mhfc.net.client.model.armor.community.Model_ST_1_Bionic;
 
 public class MHFCArmorModelHelper {
 
-	/**
-	 * Param: this is where the switches for armor models are located. DN: int
-	 * (id) <-- case.
-	 *
-	 *
-	 */
-
 	public static final ModelTigrexArmor tigrex = new ModelTigrexArmor(1.0F);
 	public static final ModelKirinArmor kirin = new ModelKirinArmor(1.0F);
 	public static final ModelKirinSArmor kirinS = new ModelKirinSArmor(1.0F);
@@ -34,7 +27,7 @@ public class MHFCArmorModelHelper {
 	public static final ModelKishinArmor tigrexb = new ModelKishinArmor(1.0F);
 	public static final ModelNibelsnarfArmor nibelsnarf = new ModelNibelsnarfArmor(1.0F);
 	public static final ModelBarrothArmor barroth = new ModelBarrothArmor(1.0F);
-	
+
 	public static final ModelGreatJaggiArmor jaggi = new ModelGreatJaggiArmor(1.0F);
 
 	// Community
