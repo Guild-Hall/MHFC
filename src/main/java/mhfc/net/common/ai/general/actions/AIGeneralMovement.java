@@ -26,6 +26,7 @@ public abstract class AIGeneralMovement<EntityT extends EntityMHFCBase<? super E
 			actor.moveForward(getMoveSpeed(), true);
 		}
 	}
+	
 
 	@Override
 	public boolean shouldContinue() {

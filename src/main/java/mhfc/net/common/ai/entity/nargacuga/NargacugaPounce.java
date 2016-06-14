@@ -15,6 +15,7 @@ import net.minecraft.entity.Entity;
 
 public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> {
 
+	
 	public static enum JumpBehaviour {
 		TwoJumps(NargaJumpBehaviour.TWO_JUMPS),
 		ThreeJump(NargaJumpBehaviour.THREE_JUMPS);
@@ -32,7 +33,7 @@ public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> 
 	}
 
 	private NargaJumpBehaviour behaviour;
-	private IAnimationProvider animation;
+	private IAnimationProvider animation = new IAnimationProvider.AnimationAdapter("mhfc:models/Nargacuga/Pounce.mcanm", 5);
 	private ISelectionPredicate<EntityNargacuga> select;
 	private IWeightProvider<EntityNargacuga> weight;
 	private IJumpTimingProvider<EntityNargacuga> timing;

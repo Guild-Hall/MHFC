@@ -51,7 +51,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		attackManager.registerAction(new DeviljhoTailWhip());
 		attackManager.registerAction(new DeviljhoJump());
 		attackManager.registerAction(new DeviljhoFrontalBreathe());
-		attackManager.registerAction(new DeviljhoDeath());
+//		attackManager.registerAction(new DeviljhoDeath());
 		attackManager.registerAction(new DeviljhoWander());
 		return attackManager.build(this);
 	}
@@ -66,7 +66,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		super.applyEntityAttributes();
 		getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(26839D, 25000D, 50000D));
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(20D, 25000D, 50000D));
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.32D);
 	}

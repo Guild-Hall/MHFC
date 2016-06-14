@@ -15,7 +15,7 @@ public class DeviljhoDeath extends ActionAdapter<EntityDeviljho> {
 	@Override
 	public float getWeight() {
 		EntityDeviljho entity = this.getEntity();
-		if (entity.getMaxHealth() > 0) {
+		if (entity.getMaxHealth() > 0 && entity.deathTime ==0) {
 			return DONT_SELECT;
 		}
 		return 5;
@@ -23,16 +23,16 @@ public class DeviljhoDeath extends ActionAdapter<EntityDeviljho> {
 
 	@Override
 	protected void beginExecution() {
-		EntityDeviljho entity = this.getEntity();
-		entity.deathTime++;
-		if (entity.deathTime > 50) {
-			entity.setDead();
-		}
+		
 	}
 
 	@Override
 	protected void update() {
-
+		EntityDeviljho entity = this.getEntity();
+		entity.deathTime++;
+		if (entity.deathTime > 25) {
+			entity.setDead();
+		}
 	}
 
 }

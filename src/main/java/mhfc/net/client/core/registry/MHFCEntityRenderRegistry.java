@@ -41,6 +41,7 @@ public class MHFCEntityRenderRegistry {
 		renderBlockEntities();
 	}
 
+
 	private static void renderMonster() {
 		registerAnimatedRenderer(EntityDelex.class, MHFCReference.mob_delex_model, 1.0F);
 		registerAnimatedRenderer(EntityTigrex.class, MHFCReference.mob_tigrex_model, 1.0F);
@@ -75,7 +76,7 @@ public class MHFCEntityRenderRegistry {
 			Class<T> entityClass,
 			ResourceLocation resLoc,
 			float shadow) {
-		ISkeleton skeleton = CommonLoader.loadLegacySkeleton(resLoc);
+		ISkeleton skeleton = CommonLoader.loadSkeleton(resLoc);
 		IModel model = ClientLoader.loadModel(resLoc, skeleton);
 		RenderingRegistry.registerEntityRenderingHandler(entityClass, RenderAnimatedModel.fromModel(model, shadow));
 	}

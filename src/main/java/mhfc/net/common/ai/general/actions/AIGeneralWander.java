@@ -9,6 +9,7 @@ import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IMovementProvider;
 import mhfc.net.common.ai.general.provider.simple.IPathProvider;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
@@ -32,6 +33,7 @@ public abstract class AIGeneralWander<EntityT extends EntityMHFCBase<? super Ent
 				throw new IllegalArgumentException("The wander distance must not be negative");
 			this.wanderDistance = maxWanderDistance;
 		}
+		
 
 		private Random random = new Random(0);
 		private int wanderDistance;
