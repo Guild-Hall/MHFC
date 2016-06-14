@@ -3,7 +3,6 @@ package mhfc.net.common.ai.general.provider.simple;
 public interface IAnimationProvider {
 
 	public String getAnimationLocation();
-	public IAnimationProvider animation = new IAnimationProvider.AnimationAdapter("", 5);
 	public int getAnimationLength();
 
 	static class AnimationAdapter implements IAnimationProvider {
