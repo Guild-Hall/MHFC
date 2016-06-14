@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
-import cpw.mods.fml.relauncher.CoreModManager;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class ReflectionSystem

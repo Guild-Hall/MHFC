@@ -36,6 +36,7 @@ public class DeviljhoStomp extends AIAnimatedAction<EntityDeviljho> {
 		EntityDeviljho entity = this.getEntity();
 		if (!entity.onGround || thrown || this.getCurrentFrame() < 26)
 			return;
+		@SuppressWarnings("unchecked")
 		List<Entity> list = entity.worldObj
 				.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(6.0D, 1.0D, 6.0D));
 		Random random = new Random();

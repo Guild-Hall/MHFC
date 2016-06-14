@@ -5,13 +5,12 @@ import mhfc.net.common.helper.MHFCWeaponClassingHelper;
 import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.weapon.ComponentMelee;
 import mhfc.net.common.weapon.ComponentMelee.WeaponSpecs;
-import mhfc.net.common.weapon.melee.WeaponMelee;
 import mhfc.net.common.weapon.melee.IWeaponReach;
+import mhfc.net.common.weapon.melee.WeaponMelee;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 

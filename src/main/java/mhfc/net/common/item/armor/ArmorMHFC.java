@@ -1,16 +1,12 @@
 package mhfc.net.common.item.armor;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.helper.MHFCArmorModelHelper;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ISpecialArmor;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ArmorMHFC extends ItemArmor implements ISpecialArmor {
 	/**

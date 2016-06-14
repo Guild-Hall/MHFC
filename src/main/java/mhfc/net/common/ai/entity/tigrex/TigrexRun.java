@@ -141,6 +141,7 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 	private PastEntityEnum hasPassed;
 	private Vec3 runStartPoint;
 	private int framesRunning;
+	@SuppressWarnings("unused")
 	private int runCycles;
 
 	public TigrexRun() {

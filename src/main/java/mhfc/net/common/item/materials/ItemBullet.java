@@ -4,7 +4,6 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
-import mhfc.net.common.item.materials.ItemRathalos.RathalosSubType;
 import mhfc.net.common.util.SubTypedItem;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;

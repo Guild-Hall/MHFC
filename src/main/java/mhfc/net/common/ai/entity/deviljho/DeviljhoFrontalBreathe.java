@@ -6,7 +6,6 @@ import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.projectile.EntityBreathe;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 
 public class DeviljhoFrontalBreathe extends AIAnimatedAction<EntityDeviljho> {
 

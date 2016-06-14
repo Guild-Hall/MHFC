@@ -43,7 +43,9 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 	private static class PlayerAttributes {
 		public EntityPlayerMP player;
 		public boolean vote;
+		@SuppressWarnings("unused")
 		public boolean restoreInventory;
+		@SuppressWarnings("unused")
 		public boolean reward;
 		public IExplorationManager previousManager;
 

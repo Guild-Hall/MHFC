@@ -122,6 +122,7 @@ public class MHFCRegQuestVisual {
 	private static QuestDescriptionRegistryData clientDataObject = new QuestDescriptionRegistryData();
 
 	private static boolean hasPlayerQuest = false;
+	@SuppressWarnings("unused")
 	private static String playerQuestIdentifier;
 	private static QuestRunningInformation playersVisual;
 

@@ -53,6 +53,7 @@ public class MHFCWorldData extends WorldSavedData {
 			if (type == null) {// and warn about invalid area
 				MHFCMain.logger.error("Invalid area was found in save data of the hunting world!");
 				IExtendedConfiguration config = AreaTypePlayfield.PLAYFIELD_TYPE.configForLoading();
+				@SuppressWarnings("unused")
 				AreaConfiguration areaConfig = AreaConfiguration.newConfigForLoading(config);
 				// TODO maybe clear the world data at this position
 				continue;

@@ -40,6 +40,7 @@ public class EntityRathalosFireball extends EntityThrowable {
 	}
 
 	protected void onImpact(MovingObjectPosition var1) {
+		@SuppressWarnings("rawtypes")
 		List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(4.5D, 3.0D, 4.5D));
 		list.remove(getThrower());
 		for (int i = 0; i < list.size(); i++) {

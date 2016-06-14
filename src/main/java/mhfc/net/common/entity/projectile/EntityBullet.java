@@ -9,11 +9,17 @@ import net.minecraft.world.World;
 
 public class EntityBullet extends EntityThrowable {
 	protected float damage;
+	@SuppressWarnings("unused")
 	private short xTile;
+	@SuppressWarnings("unused")
 	private short yTile;
+	@SuppressWarnings("unused")
 	private short zTile;
+	@SuppressWarnings("unused")
 	private Block inTile;
+	@SuppressWarnings("unused")
 	private String throwerName;
+	@SuppressWarnings("unused")
 	private EntityLivingBase thrower;
 
 	public EntityBullet(World par1World) {

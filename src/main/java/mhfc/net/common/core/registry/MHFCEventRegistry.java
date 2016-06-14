@@ -12,6 +12,7 @@ import mhfc.net.common.eventhandler.player.ConnectionEventHandler;
 import mhfc.net.common.eventhandler.player.MHFCCapeEventHandler;
 import net.minecraftforge.common.MinecraftForge;
 
+@SuppressWarnings("deprecation")
 public class MHFCEventRegistry {
 	private static MHFCMain mod;
 

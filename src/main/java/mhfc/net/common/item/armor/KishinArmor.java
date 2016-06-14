@@ -125,8 +125,11 @@ public class KishinArmor extends ItemArmor {
 			ItemStack itemstack) {
 		if (this.armorType != 0)
 			return;
+		@SuppressWarnings("unused")
 		ItemStack boots = player.getCurrentArmor(0);
+		@SuppressWarnings("unused")
 		ItemStack legs = player.getCurrentArmor(1);
+		@SuppressWarnings("unused")
 		ItemStack chest = player.getCurrentArmor(2);
 	}
 

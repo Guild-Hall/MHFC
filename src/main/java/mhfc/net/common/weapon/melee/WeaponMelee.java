@@ -3,6 +3,11 @@ package mhfc.net.common.weapon.melee;
 import java.util.List;
 import java.util.UUID;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.helper.MHFCWeaponClassingHelper;
 import mhfc.net.common.system.ColorSystem;
@@ -18,16 +23,8 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /*For future basing of every Weapon Class of MHFC .
  * Will remove extending the ItemSword soon to make it more stable.

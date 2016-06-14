@@ -47,7 +47,6 @@ public class BowgunClass extends Item {
 		firetype = fire;
 	}
 
-	@Deprecated
 	// will rework soon
 	public void getWeaponDescription(String title) {
 		des1 = title;

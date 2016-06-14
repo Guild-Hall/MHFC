@@ -1,7 +1,5 @@
 package mhfc.net.common.util;
 
-import java.util.UUID;
-
 import net.minecraft.entity.ai.attributes.BaseAttribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 

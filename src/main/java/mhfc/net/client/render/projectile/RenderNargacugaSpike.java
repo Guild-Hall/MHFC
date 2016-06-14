@@ -12,6 +12,7 @@ public class RenderNargacugaSpike extends Render {
 
 	@Override
 	public void doRender(Entity entity, double positionX, double positionY, double positionZ, float yaw, float pitch) {
+		@SuppressWarnings("unused")
 		NargacugaSpike nargaSpike = (NargacugaSpike) entity;
 		// FIXME implement rendering of Nargacuga spike
 	}

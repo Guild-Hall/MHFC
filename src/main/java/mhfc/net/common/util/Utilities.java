@@ -27,8 +27,8 @@ import net.minecraft.world.WorldServer;
 public class Utilities {
 	private static Random rand = new Random();
 	
-	public final static float mhfc_vanilla_size_x = 0.5F;
-	public final static float mhfc_vanilla_size_y = 0.5F;
+	public final float mhfc_vanilla_size_x = 0.5F;
+	public final float mhfc_vanilla_size_y = 0.5F;
 	
 	public void addWeaponElementFX(EntityLivingBase entityLiving, ItemStack stack) {
 		
@@ -40,6 +40,7 @@ public class Utilities {
 	 * @param living
 	 */
 	public static void removeAttackers(EntityLiving living) {
+		@SuppressWarnings("unchecked")
 		List<EntityLiving> list = living.worldObj
 				.getEntitiesWithinAABB(EntityLiving.class, living.boundingBox.expand(16.0D, 10.0D, 16.0D));
 		for (EntityLiving attacker : list) {
@@ -51,7 +52,7 @@ public class Utilities {
 	}
 
 	public static void chargeMobToEntity(
-			EntityMHFCBase chargingEntity,
+			@SuppressWarnings("rawtypes") EntityMHFCBase chargingEntity,
 			Entity target,
 			float distance,
 			float moveSpeed,

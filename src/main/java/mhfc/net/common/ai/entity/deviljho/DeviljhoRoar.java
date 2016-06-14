@@ -11,7 +11,6 @@ public class DeviljhoRoar extends AIGeneralRoar<EntityDeviljho> {
 
 	private static final String ANIMATION = "mhfc:models/Deviljho/DeviljhoRoar.mcanm";
 	private static final int LAST_FRAME = 70;
-	private static final float WEIGHT = 2f;
 	private static final String ROAR_SOUND = "mhfc:deviljho.roar";
 
 	private static final IWeightProvider<EntityDeviljho> weight;

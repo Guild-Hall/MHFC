@@ -7,7 +7,6 @@ import mhfc.net.common.weapon.ComponentMelee.WeaponSpecs;
 import mhfc.net.common.weapon.melee.WeaponMelee;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;

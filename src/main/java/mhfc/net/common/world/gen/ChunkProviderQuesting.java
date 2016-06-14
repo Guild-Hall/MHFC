@@ -20,6 +20,7 @@ public class ChunkProviderQuesting extends ChunkProviderFlat {
 	@Override
 	public Chunk provideChunk(int x, int z) {
 		Chunk ret = new Chunk(world, x, z);
+		@SuppressWarnings("unused")
 		BiomeGenBase[] biomes = world.getWorldChunkManager().loadBlockGeneratorData(null, x * 16, z * 16, 16, 16);
 		byte[] ids = ret.getBiomeArray();
 

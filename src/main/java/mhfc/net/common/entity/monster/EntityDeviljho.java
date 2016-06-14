@@ -7,7 +7,6 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoBiteA;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoBiteB;
-import mhfc.net.common.ai.entity.deviljho.DeviljhoDeath;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoFrontalBreathe;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoIdle;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoJump;

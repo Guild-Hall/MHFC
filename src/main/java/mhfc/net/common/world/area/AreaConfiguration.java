@@ -12,6 +12,7 @@ public final class AreaConfiguration implements ISavableToNBT {
 	private int chunkSizeZ;
 	private CornerPosition lowerChunkPos;
 	private IExtendedConfiguration extendedConfig;
+	@SuppressWarnings("unused")
 	private boolean isLoaded;
 
 	private AreaConfiguration(IExtendedConfiguration config) {
