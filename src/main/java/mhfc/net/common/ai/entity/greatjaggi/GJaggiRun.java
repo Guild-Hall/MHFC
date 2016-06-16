@@ -172,6 +172,7 @@ public class GJaggiRun extends ActionAdapter<EntityGreatJaggi> {
 
 		EntityGreatJaggi entity = getEntity();
 		target = entity.getAttackTarget();
+		entity.playSound("mhfc:greatjaggi.run", 1.0F, 1.0F);
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;
 		runCycles = 0;
