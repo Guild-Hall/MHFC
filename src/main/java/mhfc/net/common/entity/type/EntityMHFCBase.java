@@ -93,17 +93,55 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			onDeath();
 			hasDied = true;
 		}
+		spawnDeadParticles();
 		deathTicks++;
-		if (deathTicks == AIGeneralDeath.deathLingeringTicks) {
-			 double d2 = rand.nextGaussian() * 0.02D;
-             double d0 = rand.nextGaussian() * 0.02D;
-             double d1 = rand.nextGaussian() * 0.02D;
-             worldObj.spawnParticle("explode", posX + (double) (rand.nextFloat() * width * 2.0F) - (double) width, posY + (double) (rand.nextFloat() * height), posZ + (double) (rand.nextFloat() * width * 2.0F) - (double) width, d2, d0, d1);
-			this.setDead();
+		if (deathTicks >= AIGeneralDeath.deathLingeringTicks) {
+			onDespawn();
+			setDead();
+		}
+	}
+
+	protected void spawnDeadParticles() {
+		float timed = (float) deathTicks / AIGeneralDeath.deathLingeringTicks;
+		timed = Math.max(0, timed - 0.1f) / 0.9f;
+		int particleCount = (int) (20 * Math.pow(timed, 4));
+		for (int i = 0; i < particleCount; i++) {
+			double randX = rand.nextDouble(), randZ = rand.nextDouble(), randY = rand.nextDouble();
+			randX = randX * (boundingBox.maxX - boundingBox.minX) + boundingBox.minX;
+			randZ = randZ * (boundingBox.maxZ - boundingBox.minZ) + boundingBox.minZ;
+			randY = Math.pow(randY, 3) * (boundingBox.maxY - boundingBox.minY) + boundingBox.minY;
+			double velX = this.rand.nextGaussian() * 0.01D;
+			double velY = Math.abs(this.rand.nextGaussian() * 0.7D);
+			double velZ = this.rand.nextGaussian() * 0.01D;
+			worldObj.spawnParticle("depthsuspend", randX, randY, randZ, velX, velY, velZ);
+		}
+	}
+
+	protected void onDespawn() {
+		boolean killedByPlayer = true;
+		int specialLuck = 100;
+		if (!worldObj.isRemote) {
+			dropFewItems(killedByPlayer, specialLuck);
+		}
+		for (int i = 0; i < 20; i++) {
+			double randX = rand.nextDouble(), randZ = rand.nextDouble(), randY = rand.nextGaussian();
+			randX = randX * (boundingBox.maxX - boundingBox.minX) + boundingBox.minX;
+			randZ = randZ * (boundingBox.maxZ - boundingBox.minZ) + boundingBox.minZ;
+			randY += posY;
+			double velX = this.rand.nextGaussian() * 0.01D;
+			double velY = Math.abs(this.rand.nextGaussian() * 0.2D);
+			double velZ = this.rand.nextGaussian() * 0.01D;
+			worldObj.spawnParticle("cloud", randX, randY, randZ, velX, velY, velZ);
 		}
 	}
 
 	protected void onDeath() {}
+
+	@Override
+	protected boolean func_146066_aG() {
+		// Don't do normal drops
+		return false;
+	}
 
 	@Override
 	protected void entityInit() {
@@ -423,6 +461,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		if (newAttack != null) {
 			setFrame(0);
 		}
+	}
+
+	@Override
+	public String getDeathSound() {
+		return super.getDeathSound();
 	}
 
 	@Override

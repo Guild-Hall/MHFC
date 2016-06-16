@@ -8,7 +8,7 @@ public class TigrexDying extends AIGeneralDeath<EntityTigrex> {
 	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/dying.mcanm";
 
 	public TigrexDying() {
-		super(ANIMATION_LOCATION, 100, "mhfc:tigrex.death");
+		super(ANIMATION_LOCATION);
 	}
 
 }

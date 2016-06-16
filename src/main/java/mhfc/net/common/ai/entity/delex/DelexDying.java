@@ -8,7 +8,7 @@ public class DelexDying extends AIGeneralDeath<EntityDelex> {
 	private static final String ANIMATION_LOCATION = "mhfc:models/Delex/DelexHurt.mcanm";
 
 	public DelexDying() {
-		super(ANIMATION_LOCATION, 50, "mhfc:delex.hurt"); //no death sound atm.
+		super(ANIMATION_LOCATION);
 	}
 
 }

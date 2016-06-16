@@ -126,7 +126,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	}
 
 	@Override
-	protected String getDeathSound() {
+	public String getDeathSound() {
 		return null;
 	}
 

@@ -8,7 +8,7 @@ public class DeviljhoDying extends AIGeneralDeath<EntityDeviljho> {
 	private static final String ANIMATION_LOCATION = "mhfc:models/Deviljho/DeviljhoDeath.mcanm";
 
 	public DeviljhoDying() {
-		super(ANIMATION_LOCATION, 45, "mhfc:deviljho.death");
+		super(ANIMATION_LOCATION);
 	}
 
 }

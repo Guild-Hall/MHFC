@@ -5,12 +5,10 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
-import mhfc.net.common.ai.entity.deviljho.DeviljhoDying;
 import mhfc.net.common.ai.entity.lagiacrus.LagiacrusBite;
 import mhfc.net.common.ai.entity.lagiacrus.LagiacrusDying;
 import mhfc.net.common.ai.entity.lagiacrus.LagiacrusRoar;
 import mhfc.net.common.ai.entity.lagiacrus.LagiacrusWander;
-import mhfc.net.common.ai.entity.tigrex.TigrexDying;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -22,7 +20,7 @@ import net.minecraft.world.World;
 public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 
 	private LagiacrusDying deathAI;
-	
+
 	public EntityLagiacrus(World world) {
 		super(world);
 		this.height = 12f;
@@ -39,7 +37,7 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 		actionManager.registerAction(deathAI = new LagiacrusDying());
 		return actionManager.build(this);
 	}
-	
+
 	@Override
 	protected void onDeath() {
 		getActionManager().switchToAction(deathAI);
@@ -61,6 +59,7 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.32D);
 	}
 
+	@Override
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
 		GL11.glScaled(5.1, 5.1, 5.1);
 		return super.preRenderCallback(scale, sub);
