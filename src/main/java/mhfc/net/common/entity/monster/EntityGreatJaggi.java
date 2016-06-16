@@ -29,7 +29,7 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 	@Override
 	public IActionManager<EntityGreatJaggi> constructActionManager() {
 		ActionManagerBuilder<EntityGreatJaggi> actionManager = new ActionManagerBuilder<>();
-	//	actionManager.registerAction(new GJaggiIdle());
+		actionManager.registerAction(new GJaggiIdle());
 		actionManager.registerAction(new GJaggiRoar());
 		return actionManager.build(this);
 	}
