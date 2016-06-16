@@ -1,6 +1,7 @@
 package mhfc.net.common.item;
 
-import javafx.scene.paint.Color;
+import org.lwjgl.util.Color;
+
 import mhfc.net.MHFCMain;
 
 /**
@@ -79,6 +80,6 @@ public enum ItemColor {
 	 */
 	public Color getColor() {
 		int color = this.getRGB();
-		return Color.rgb(color >> 16 & 0xFF, color >> 8 & 0xFF, color & 0xFF);
+		return new Color(color >> 16 & 0xFF, color >> 8 & 0xFF, color & 0xFF);
 	}
 }

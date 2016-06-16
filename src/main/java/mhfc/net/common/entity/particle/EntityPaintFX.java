@@ -1,10 +1,11 @@
 package mhfc.net.common.entity.particle;
 
+import org.lwjgl.util.Color;
+
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import javafx.scene.paint.Color;
 import mhfc.net.common.item.ItemColor;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.world.World;
@@ -34,9 +35,8 @@ public class EntityPaintFX extends EntityFX implements IEntityAdditionalSpawnDat
 		Color floatColor = color.getColor();
 		//Note: This says set RBG color, but the order is actually RGB.
 		//Typo on MC's end.
-		setRBGColorF((float) floatColor.getRed(), (float) floatColor.getGreen(), (float) floatColor.getBlue());
+		setRBGColorF(floatColor.getRed(), floatColor.getGreen(), floatColor.getBlue());
 		setAlphaF(0.8F);
-
 	}
 
 	@Override
