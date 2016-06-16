@@ -15,6 +15,9 @@ public class BarrothIdle extends ActionAdapter<EntityBarroth> {
 	@Override
 	public float getWeight() {
 		EntityBarroth entity = this.getEntity();
+		if (entity.isDead) {
+			return DONT_SELECT;
+		}
 		target = entity.getAttackTarget();
 		// if (target == null)
 		// return DONT_SELECT;

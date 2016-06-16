@@ -7,7 +7,7 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoBiteA;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoBiteB;
-import mhfc.net.common.ai.entity.deviljho.DeviljhoDeath;
+import mhfc.net.common.ai.entity.deviljho.DeviljhoDying;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoFrontalBreathe;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoIdle;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoJump;
@@ -31,6 +31,8 @@ import net.minecraft.world.World;
 
 public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 
+	private DeviljhoDying deathAction;
+
 	public EntityDeviljho(World WORLD) {
 		super(WORLD);
 		setSize(7.6F, 6F);
@@ -41,6 +43,8 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	@Override
 	public IActionManager<EntityDeviljho> constructActionManager() {
 		ActionManagerBuilder<EntityDeviljho> attackManager = new ActionManagerBuilder<>();
+		attackManager.registerAction(deathAction = new DeviljhoDying());
+		attackManager.registerAction(new DeviljhoIdle());
 		attackManager.registerAction(new DeviljhoIdle());
 		attackManager.registerAction(new DeviljhoBiteA());
 		attackManager.registerAction(new DeviljhoBiteB());
@@ -51,9 +55,13 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		attackManager.registerAction(new DeviljhoTailWhip());
 		attackManager.registerAction(new DeviljhoJump());
 		attackManager.registerAction(new DeviljhoFrontalBreathe());
-		attackManager.registerAction(new DeviljhoDeath());
 		attackManager.registerAction(new DeviljhoWander());
 		return attackManager.build(this);
+	}
+
+	@Override
+	protected void onDeath() {
+		getActionManager().switchToAction(deathAction);
 	}
 
 	@Override

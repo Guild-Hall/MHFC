@@ -1,7 +1,9 @@
 package mhfc.net.common.ai.general.actions;
 
 import mhfc.net.common.ai.ActionAdapter;
+import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.provider.composite.IAnimatedActionProvider;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 
 public abstract class AIAnimatedAction<EntityT extends EntityCreature> extends ActionAdapter<EntityT>
@@ -17,6 +19,12 @@ public abstract class AIAnimatedAction<EntityT extends EntityCreature> extends A
 	protected void beginExecution() {
 		super.beginExecution();
 	}
+
+	@Override // Redeclared to make it clear
+	public abstract float getWeight(EntityT entity, Entity target);
+
+	@Override // Redeclared to make it clear
+	public abstract boolean shouldSelectAttack(IExecutableAction<? super EntityT> attack, EntityT actor, Entity target);
 
 	@Override
 	public float getWeight() {

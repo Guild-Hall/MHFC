@@ -1,15 +1,12 @@
 package mhfc.net.common.ai.general.actions;
 
+import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 
-public abstract class AIGeneralDeath<EntityT extends EntityMHFCBase<? super EntityT>> extends AIAnimatedAction<EntityT> {
-	
-	/**
-	 * TODO: Trying to create a general AI Death for the monsters;
-	 * */
-	protected EntityT deathActor;
+public abstract class AIGeneralDeath<EntityT extends EntityMHFCBase<? super EntityT>> extends ActionAdapter<EntityT> {
 
-	public AIGeneralDeath() {
+	public AIGeneralDeath(String dyingLocation) {
+		setAnimation(dyingLocation);
 	}
 
 	@Override
@@ -17,8 +14,22 @@ public abstract class AIGeneralDeath<EntityT extends EntityMHFCBase<? super Enti
 		super.beginExecution();
 	}
 
-
 	@Override
 	protected void update() {} // do nothing, we idle, remember?
 
+	@Override
+	public boolean shouldContinue() {
+		return true; // Indefinitely, we are dead
+	}
+
+	@Override
+	public boolean forceSelection() {
+		EntityT entity = getEntity();
+		return entity == null ? false : entity.isDead;
+	}
+
+	@Override
+	public float getWeight() {
+		return 0; // but is being forced ya know
+	}
 }

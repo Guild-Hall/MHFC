@@ -16,8 +16,8 @@ import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.world.World;
 
 public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
@@ -29,7 +29,7 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 		super(world);
 
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityCow.class, 0, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityAnimal.class, 0, true));
 	}
 
 	@Override

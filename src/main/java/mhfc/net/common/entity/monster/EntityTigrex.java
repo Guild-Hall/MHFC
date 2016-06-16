@@ -10,6 +10,7 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.tigrex.TigrexBite;
+import mhfc.net.common.ai.entity.tigrex.TigrexDying;
 import mhfc.net.common.ai.entity.tigrex.TigrexGroundHurl;
 import mhfc.net.common.ai.entity.tigrex.TigrexIdle;
 import mhfc.net.common.ai.entity.tigrex.TigrexJump;
@@ -32,8 +33,9 @@ import net.minecraft.world.World;
 
 public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
-	public int deathTick;
 	public int rageLevel;
+
+	private TigrexDying dyingAttack;
 
 	public EntityTigrex(World par1World) {
 		super(par1World);
@@ -48,8 +50,14 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	}
 
 	@Override
+	protected void onDeath() {
+		getActionManager().switchToAction(dyingAttack);
+	}
+
+	@Override
 	public IActionManager<EntityTigrex> constructActionManager() {
 		FollowUpManagerBuilder<EntityTigrex> manager = new FollowUpManagerBuilder<>();
+		manager.registerAllowingAllActions(dyingAttack = new TigrexDying());
 		manager.registerAllowingAllActions(new TurnAttack(110, 180, 5f, 12f, 20));
 		manager.registerAllowingAllActions(new TigrexJump());
 		manager.registerAllowingAllActions(new TigrexRun());

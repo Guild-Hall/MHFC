@@ -52,13 +52,15 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	protected boolean hasDied;
 	// Time (in ticks) that this mob stays in the world, defaults to around a minute
-	protected int deathLingerTime;
+	protected int deathLingerTicks;
+	// @see deathTime. DeathTime has the random by-effect of rotating corpses...
+	protected int deathTicks;
 
 	public EntityMHFCBase(World world) {
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
 		attackManager = Objects.requireNonNull(constructActionManager());
-		deathLingerTime = 60;
+		deathLingerTicks = 30 * 20;
 		hasDied = false;
 	}
 
@@ -91,14 +93,14 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	protected void onDeathUpdate() {
 		if (!hasDied) {
 			onDeath();
+			hasDied = true;
 		}
-		hasDied = true;
-		deathTime++;
-		if (deathTime == deathLingerTime) {
+		deathTicks++;
+		if (deathTicks == deathLingerTicks) {
 			this.setDead();
 		}
 	}
-	
+
 	protected void onDeath() {}
 
 	@Override
@@ -225,7 +227,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 				parts = new EntityMHFCPart[0];
 			}
 
-			@SuppressWarnings("unchecked")
 			List<AxisAlignedBB> bbsInWay = this.worldObj
 					.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(currOffX, currOffY, currOffZ));
 			// Calculates the smallest possible offset in Y direction
@@ -239,7 +240,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 				currOffZ = bb.calculateZOffset(this.boundingBox, currOffZ);
 			}
 			for (EntityMHFCPart part : parts) {
-				@SuppressWarnings("unchecked")
 				List<AxisAlignedBB> bbsInWayPart = this.worldObj
 						.getCollidingBoundingBoxes(this, part.boundingBox.addCoord(currOffX, currOffY, currOffZ));
 				// Calculates the smallest possible offset in Y direction
@@ -266,7 +266,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 				currOffY = this.stepHeight;
 				currOffZ = correctedOffZ;
 
-				@SuppressWarnings("unchecked")
 				List<AxisAlignedBB> bbsInStepup = this.worldObj.getCollidingBoundingBoxes(
 						this,
 						this.boundingBox.addCoord(correctedOffX, currOffY, correctedOffZ));
@@ -281,7 +280,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 					currOffZ = bb.calculateZOffset(this.boundingBox, currOffZ);
 				}
 				for (EntityMHFCPart part : parts) {
-					@SuppressWarnings("unchecked")
 					List<AxisAlignedBB> bbsInStepupPart = this.worldObj
 							.getCollidingBoundingBoxes(this, part.boundingBox.addCoord(currOffX, currOffY, currOffZ));
 					for (AxisAlignedBB bb : bbsInStepupPart) {
@@ -302,7 +300,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 							groundOffY);
 				}
 				for (EntityMHFCPart part : parts) {
-					@SuppressWarnings("unchecked")
 					List<AxisAlignedBB> bbsInStepDown = this.worldObj
 							.getCollidingBoundingBoxes(this, part.boundingBox.addCoord(currOffX, currOffY, currOffZ));
 					// Calculates the smallest possible offset in Y direction

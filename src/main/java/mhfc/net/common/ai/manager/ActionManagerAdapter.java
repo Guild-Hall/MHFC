@@ -73,11 +73,8 @@ public abstract class ActionManagerAdapter<EntType extends EntityLiving & IManag
 	 */
 	protected boolean executeNextAttack() {
 		IExecutableAction<? super EntType> nextAttack = chooseAttack();
-		if (nextAttack == null) {
-			return false;
-		}
 		swapAttacks(this.activeAttack, nextAttack);
-		return true;
+		return nextAttack != null;
 	}
 
 	/**
