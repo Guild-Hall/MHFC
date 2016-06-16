@@ -236,7 +236,6 @@ public class MHFCReference {
 	public static final String block_exploreArea_name = "exploreArea";
 	public static final String block_exploreArea_tex = "mhfc:wyverniasand";
 
-	public static final String damagesource_shatter_name = "shatter";
 	public static final String entity_rathalosFireball_name = "Fireball";
 	public static final String entity_rathalosfireball_tex = "mhfc:textures/projectile/rathalosfireball.png";
 	public static final String entity_tigrexBlock_name = "TigrexBlock";
