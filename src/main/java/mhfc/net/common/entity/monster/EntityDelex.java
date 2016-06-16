@@ -5,7 +5,9 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
+import mhfc.net.common.ai.entity.delex.DelexDying;
 import mhfc.net.common.ai.entity.delex.DelexIdle;
+import mhfc.net.common.ai.entity.lagiacrus.LagiacrusDying;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -16,6 +18,9 @@ import net.minecraft.world.World;
 
 public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 
+	private DelexDying deathAI;
+	
+	
 	public EntityDelex(World world) {
 		super(world);
 		this.height = 1f;
@@ -27,7 +32,13 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 	public IActionManager<EntityDelex> constructActionManager() {
 		ActionManagerBuilder<EntityDelex> actionManager = new ActionManagerBuilder<>();
 		actionManager.registerAction(new DelexIdle());
+		actionManager.registerAction(deathAI = new DelexDying());
 		return actionManager.build(this);
+	}
+	
+	@Override
+	protected void onDeath() {
+		getActionManager().switchToAction(deathAI);
 	}
 
 	@Override
@@ -40,7 +51,8 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 		super.applyEntityAttributes();
 		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(416D, 800D, 1200D));
+		//default hp 416D
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(20D, 800D, 1200D));
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.32D);
 	}

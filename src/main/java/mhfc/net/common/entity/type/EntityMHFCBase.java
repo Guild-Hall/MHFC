@@ -13,6 +13,7 @@ import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IManagedActions;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.TargetTurnHelper;
+import mhfc.net.common.ai.general.actions.AIGeneralDeath;
 import mhfc.net.common.ai.manager.AIActionManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -51,8 +52,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	private IActionManager<? extends YC> attackManager;
 
 	protected boolean hasDied;
-	// Time (in ticks) that this mob stays in the world, defaults to around a minute
-	protected int deathLingerTicks;
 	// @see deathTime. DeathTime has the random by-effect of rotating corpses...
 	protected int deathTicks;
 
@@ -60,7 +59,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
 		attackManager = Objects.requireNonNull(constructActionManager());
-		deathLingerTicks = 30 * 20;
 		hasDied = false;
 	}
 
@@ -96,7 +94,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			hasDied = true;
 		}
 		deathTicks++;
-		if (deathTicks == deathLingerTicks) {
+		if (deathTicks == AIGeneralDeath.deathLingeringTicks) {
+			 double d2 = rand.nextGaussian() * 0.02D;
+             double d0 = rand.nextGaussian() * 0.02D;
+             double d1 = rand.nextGaussian() * 0.02D;
+             worldObj.spawnParticle("explode", posX + (double) (rand.nextFloat() * width * 2.0F) - (double) width, posY + (double) (rand.nextFloat() * height), posZ + (double) (rand.nextFloat() * width * 2.0F) - (double) width, d2, d0, d1);
 			this.setDead();
 		}
 	}

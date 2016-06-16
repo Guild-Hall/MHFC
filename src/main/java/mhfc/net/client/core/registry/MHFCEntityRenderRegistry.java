@@ -43,9 +43,9 @@ public class MHFCEntityRenderRegistry {
 	}
 
 	private static void renderMonster() {
-		registerAnimatedRenderer(EntityDelex.class, MHFCReference.mob_delex_model, 1.0F);
 		registerAnimatedRenderer(EntityTigrex.class, MHFCReference.mob_tigrex_model, 1.0F);
 		registerAnimatedRenderer(EntityRathalos.class, MHFCReference.mob_rathalos_model, 1.0F);
+		registerAnimatedRenderer(EntityDelex.class,MHFCReference.mob_delex_textureDir,MHFCReference.mob_delex_model,	MHFCReference.mob_delex_skeleton,	1.0F);
 		registerAnimatedRenderer(EntityGreatJaggi.class,MHFCReference.mob_greatjaggi_textureDir,MHFCReference.mob_greatjaggi_model,	MHFCReference.mob_greatjaggi_skeleton,	1.0F);
 		registerAnimatedRenderer(EntityLagiacrus.class,MHFCReference.mob_lagiacrus_textureDir,MHFCReference.mob_lagiacrus_model,	MHFCReference.mob_lagiacrus_skeleton,	1.0F);
 		registerAnimatedRenderer(EntityDeviljho.class, MHFCReference.mob_deviljho_model, 1.0F);

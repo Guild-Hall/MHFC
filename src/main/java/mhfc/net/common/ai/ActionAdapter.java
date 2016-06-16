@@ -15,7 +15,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 
 public abstract class ActionAdapter<T extends EntityCreature> implements IExecutableAction<T> {
-	private static final Random rand = new Random();
+	protected static final Random rand = new Random();
 
 	private IAnimation animation;
 	private int framesPassed;

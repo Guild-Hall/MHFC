@@ -57,12 +57,12 @@ public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> 
 
 	@Override
 	public String getAnimationLocation() {
-		return animation.getAnimationLocation();
+		return "mhfc:models/Nargacuga/Pounce.mcanm";
 	}
 
 	@Override
 	public int getAnimationLength() {
-		return animation.getAnimationLength();
+		return 68;
 	}
 
 	@Override

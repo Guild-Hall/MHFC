@@ -434,14 +434,18 @@ public class MHFCReference {
 	public static final String mob_lagiacrus_textureDir = textureLoc + "Lagiacrus/";
 	public static final String mob_lagiacrus_model = mob_lagiacrus_dir + "Lagiacrus.mcmd";
 	public static final String mob_lagiacrus_skeleton = mob_lagiacrus_dir + "Armature.mcskl";
+	public static final String mob_delex_name = "delex";
+	public static final String mob_delex_dir = modelLoc + "Delex/";
+	public static final String mob_delex_textureDir = textureLoc + "Delex/";
+	public static final String mob_delex_model = mob_delex_dir + "PDelex.mcmd";
+	public static final String mob_delex_skeleton = mob_delex_dir + "Armature.mcskl";
 	public static final String mob_deviljho_name = "deviljho";
 	public static final String mob_deviljho_model = modelLoc + "Deviljho/Deviljho.mcmd";
 	public static final String mob_barroth_name = "barroth";
 	public static final String mob_barroth_model = modelLoc + "Barroth/Barroth.mcmd";
 	public static final String mob_nargacuga_name = "nargacuga";
 	public static final String mob_nargacuga_model = modelLoc + "Nargacuga/Nargacuga.mcmd";
-	public static final String mob_delex_name = "delex";
-	public static final String mob_delex_model = modelLoc + "Delex/PDelex.mcmd";
+
 	public static final String mob_giaprey_name = "giaprey";
 	public static final String mob_giaprey_model = modelLoc + "Giaprey/Giaprey.mcmd";
 	public static final String mob_ukanlos_name = "ukanlos";
