@@ -16,7 +16,7 @@ import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.passive.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.world.World;
 
