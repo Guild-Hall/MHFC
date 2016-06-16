@@ -23,7 +23,7 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 	
 	public EntityDelex(World world) {
 		super(world);
-		this.height = 1f;
+		this.height = 2f;
 		this.width = 2f;
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 	}
