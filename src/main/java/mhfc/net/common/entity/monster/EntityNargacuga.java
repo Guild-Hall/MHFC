@@ -24,6 +24,7 @@ import mhfc.net.common.ai.entity.nargacuga.NargacugaPounce;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaPounce.JumpBehaviour;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaRoar;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaTailWhip;
+import mhfc.net.common.ai.entity.nargacuga.NargacugaWander;
 import mhfc.net.common.ai.entity.nargacuga.ProwlerStance;
 import mhfc.net.common.ai.entity.nargacuga.TailSlam;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
@@ -82,12 +83,12 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		prowlerFollow.add(pounceThree);
 		prowlerFollow.add(tailWhip);
 		// prowlerFollow.add(pounceFour);
-
+		attackManager.registerAction(new NargacugaWander());
 		attackManager.registerAllowingAllActions(tailSlam);
 		attackManager.registerAllowingAllActions(roar);
 		attackManager.registerActionWithFollowUps(prowler, prowlerFollow);
 		attackManager.registerAllowingAllActions(backOff);
-
+		
 		attackManager.allowAllStrongActions(pounceThree);
 		attackManager.allowAllStrongActions(pounceTwo);
 		attackManager.allowAllStrongActions(tailWhip);

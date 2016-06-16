@@ -21,7 +21,7 @@ public abstract class AIGeneralWander<EntityT extends EntityMHFCBase<? super Ent
 
 	public static class RandomWanderProvider<EntityT extends EntityLiving> implements IPathProvider<EntityT> {
 
-		public static final int DEFAULT_WANDER_DISTANCE = 20;
+		public static int DEFAULT_WANDER_DISTANCE = 20;
 
 		public RandomWanderProvider() {
 			this(DEFAULT_WANDER_DISTANCE);
