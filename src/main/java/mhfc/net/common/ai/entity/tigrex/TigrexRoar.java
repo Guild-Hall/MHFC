@@ -12,7 +12,7 @@ import net.minecraft.util.Vec3;
 
 public class TigrexRoar extends AIGeneralRoar<EntityTigrex> {
 
-	private static final String ANIMATION = "mhfc:models/Tigrex/jump.mcanm";
+	private static final String ANIMATION = "mhfc:models/Tigrex/rawr.mcanm";
 	private static final int LAST_FRAME = 70;
 
 	private static final IWeightProvider<EntityTigrex> weight;
