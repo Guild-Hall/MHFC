@@ -47,12 +47,12 @@ public class MHFCEntityRenderRegistry {
 		registerAnimatedRenderer(EntityTigrex.class, MHFCReference.mob_tigrex_model, 1.0F);
 		registerAnimatedRenderer(EntityRathalos.class, MHFCReference.mob_rathalos_model, 1.0F);
 		registerAnimatedRenderer(EntityGreatJaggi.class,MHFCReference.mob_greatjaggi_textureDir,MHFCReference.mob_greatjaggi_model,	MHFCReference.mob_greatjaggi_skeleton,	1.0F);
+		registerAnimatedRenderer(EntityLagiacrus.class,MHFCReference.mob_lagiacrus_textureDir,MHFCReference.mob_lagiacrus_model,	MHFCReference.mob_lagiacrus_skeleton,	1.0F);
 		registerAnimatedRenderer(EntityDeviljho.class, MHFCReference.mob_deviljho_model, 1.0F);
 		registerAnimatedRenderer(EntityBarroth.class, MHFCReference.mob_barroth_model, 1.0F);
 		registerAnimatedRenderer(EntityNargacuga.class, MHFCReference.mob_nargacuga_model, 1.0F);
 		registerAnimatedRenderer(EntityGiaprey.class, MHFCReference.mob_giaprey_model, 1.0F);
 		registerAnimatedRenderer(EntityUkanlos.class, MHFCReference.mob_ukanlos_model, 1.0F);
-		registerAnimatedRenderer(EntityLagiacrus.class, MHFCReference.mob_lagiacrus_model, 1.0F);
 
 	}
 

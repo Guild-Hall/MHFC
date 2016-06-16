@@ -5,8 +5,12 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
+import mhfc.net.common.ai.entity.greatjaggi.GJaggiBite;
 import mhfc.net.common.ai.entity.greatjaggi.GJaggiIdle;
 import mhfc.net.common.ai.entity.greatjaggi.GJaggiRoar;
+import mhfc.net.common.ai.entity.greatjaggi.GJaggiRun;
+import mhfc.net.common.ai.entity.greatjaggi.GJaggiWander;
+import mhfc.net.common.ai.entity.greatjaggi.GJaggiWhip;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -29,8 +33,12 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 	@Override
 	public IActionManager<EntityGreatJaggi> constructActionManager() {
 		ActionManagerBuilder<EntityGreatJaggi> actionManager = new ActionManagerBuilder<>();
+		actionManager.registerAction(new GJaggiBite());
 		actionManager.registerAction(new GJaggiIdle());
 		actionManager.registerAction(new GJaggiRoar());
+		actionManager.registerAction(new GJaggiRun());
+		actionManager.registerAction(new GJaggiWhip());
+		actionManager.registerAction(new GJaggiWander());
 		return actionManager.build(this);
 	}
 

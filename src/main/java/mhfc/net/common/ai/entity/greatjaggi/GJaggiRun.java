@@ -1,26 +1,26 @@
-package mhfc.net.common.ai.entity.deviljho;
+package mhfc.net.common.ai.entity.greatjaggi;
 
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
-import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.entity.monster.EntityGreatJaggi;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Vec3;
 
-public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
-	private static final int MOVEMENT_START = 5;
-	private static final int MOVEMENT_FINISH = 40;
-	private static final int AI_END = 40;
-	private static final float TURN_RATE_INITIAL = 20.5f;
-	private static final float TURN_RATE_DURING_RUN = 1.05f;
-	private static final float MAX_RUN_DISTANCE = 20f;
-	private static final int MAX_RUN_FRAMES = 200;
+public class GJaggiRun extends ActionAdapter<EntityGreatJaggi> {
+	private static final int MOVEMENT_START_LOOP = 10;
+	private static final int MOVEMENT_FINISH_LOOP = 33;
+	private static final int AI_END = 85;
+	private static final float TURN_RATE_INITIAL = 8.5f;
+	private static final float TURN_RATE_DURING_RUN = 2.05f;
+	private static final float MAX_RUN_DISTANCE = 30f;
+	private static final int MAX_RUN_FRAMES = 85;
 
-	private static final double RUN_SPEED = 0.6;
-	private static final double STOP_SPEED = 0.4;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(47f, 50f, 9999999f);
-	private static final double MAX_DIST = 3f;
+	private static final double RUN_SPEED = 0.25D;
+	private static final double STOP_SPEED = 0.3D;
+	private static final double REQUIRED_TARGET_MAX_DIST = 3f;
+	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(35f, 50f, 9999999f);
 
 	private static enum PastEntityEnum {
 		NOT_PASSED,
@@ -33,24 +33,24 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 		START(false) {
 
 			@Override
-			public void onPhaseStart(DeviljhoMovetoTarget attk) {
-				EntityDeviljho monster = attk.getEntity();
+			public void onPhaseStart(GJaggiRun attk) {
+				EntityGreatJaggi monster = attk.getEntity();
 				monster.motionX = monster.motionY = monster.motionZ = 0f;
 				monster.getTurnHelper().updateTurnSpeed(TURN_RATE_INITIAL);
 				attk.getEntity().getTurnHelper().updateTargetPoint(attk.target);
 			}
 
 			@Override
-			public void update(DeviljhoMovetoTarget attk) {
+			public void update(GJaggiRun attk) {
 				attk.getEntity().getTurnHelper().forceUpdate();
 			}
 
 			@Override
-			public AttackPhase next(DeviljhoMovetoTarget attk) {
+			public AttackPhase next(GJaggiRun attk) {
 				if (attk.target == null) {
 					return STOPPED;
 				}
-				if (attk.getCurrentFrame() < MOVEMENT_START) {
+				if (attk.getCurrentFrame() < MOVEMENT_START_LOOP) {
 					return START;
 				}
 				return RUNNING;
@@ -58,21 +58,21 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 		},
 		RUNNING(true) {
 			@Override
-			public void onPhaseStart(DeviljhoMovetoTarget attk) {
+			public void onPhaseStart(GJaggiRun attk) {
 				attk.getEntity().getTurnHelper().updateTurnSpeed(TURN_RATE_DURING_RUN);
 				attk.framesRunning = 0;
 			}
 
 			@Override
-			public void update(DeviljhoMovetoTarget attk) {
-				EntityDeviljho monster = attk.getEntity();
-				Vec3 mobPos = Vec3.createVectorHelper(monster.posX, monster.posY, monster.posZ);
-				Vec3 vecToTarget = mobPos.subtract(WorldHelper.getEntityPositionVector(attk.target));
+			public void update(GJaggiRun attk) {
+				EntityGreatJaggi monster = attk.getEntity();
+				Vec3 entityPos = Vec3.createVectorHelper(monster.posX, monster.posY, monster.posZ);
+				Vec3 vecToTarget = entityPos.subtract(WorldHelper.getEntityPositionVector(attk.target));
 				monster.getTurnHelper().updateTargetPoint(attk.target);
 				monster.moveForward(RUN_SPEED, true);
 				Vec3 look = monster.getLookVec();
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
-				boolean ranLongEnough = attk.runStartPoint.subtract(mobPos).lengthVector() > MAX_RUN_DISTANCE
+				boolean ranLongEnough = attk.runStartPoint.subtract(entityPos).lengthVector() > MAX_RUN_DISTANCE
 						|| attk.framesRunning > MAX_RUN_FRAMES;
 				if ((tarBeh || ranLongEnough) && attk.hasPassed == PastEntityEnum.NOT_PASSED) {
 					attk.hasPassed = PastEntityEnum.PASSED;
@@ -80,7 +80,7 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 			}
 
 			@Override
-			public AttackPhase next(DeviljhoMovetoTarget attk) {
+			public AttackPhase next(GJaggiRun attk) {
 				if (attk.hasPassed == PastEntityEnum.LOOP_FINISHED) {
 					return STOPPING;
 				}
@@ -88,26 +88,26 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 			}
 
 			@Override
-			public int nextFrame(DeviljhoMovetoTarget attk, int curr) {
+			public int nextFrame(GJaggiRun attk, int curr) {
 				attk.framesRunning++;
-				int looping = MOVEMENT_FINISH - MOVEMENT_START;
-				if (attk.hasPassed == PastEntityEnum.PASSED && (curr + 1 >= MOVEMENT_FINISH)) {
+				int looping = MOVEMENT_FINISH_LOOP - MOVEMENT_START_LOOP;
+				if (attk.hasPassed == PastEntityEnum.PASSED && (curr + 1 >= MOVEMENT_FINISH_LOOP)) {
 					attk.hasPassed = PastEntityEnum.LOOP_FINISHED;
 				}
-				return MOVEMENT_START + (curr + 1 - MOVEMENT_START) % looping;
+				return MOVEMENT_START_LOOP + (curr + 1 - MOVEMENT_START_LOOP) % looping;
 			}
 		},
 
 		STOPPING(true) {
 
 			@Override
-			public void update(DeviljhoMovetoTarget attk) {
-				EntityDeviljho e = attk.getEntity();
+			public void update(GJaggiRun attk) {
+				EntityGreatJaggi e = attk.getEntity();
 				e.moveForward(STOP_SPEED, false);
 			}
 
 			@Override
-			public AttackPhase next(DeviljhoMovetoTarget attk) {
+			public AttackPhase next(GJaggiRun attk) {
 				if (AI_END < attk.getCurrentFrame()) {
 					return STOPPED;
 				}
@@ -116,7 +116,7 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 		},
 		STOPPED(false) {
 			@Override
-			public void onPhaseStart(DeviljhoMovetoTarget attk) {
+			public void onPhaseStart(GJaggiRun attk) {
 				Entity entity = attk.getEntity();
 				entity.motionX = entity.motionY = entity.motionZ = 0f;
 			}
@@ -127,15 +127,15 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 			this.isDamaging = isDamaging;
 		}
 
-		public void onPhaseStart(DeviljhoMovetoTarget attk) {}
+		public void onPhaseStart(GJaggiRun attk) {}
 
-		public void update(DeviljhoMovetoTarget attk) {}
+		public void update(GJaggiRun attk) {}
 
-		public AttackPhase next(DeviljhoMovetoTarget attk) {
+		public AttackPhase next(GJaggiRun attk) {
 			return this;
 		}
 
-		public int nextFrame(DeviljhoMovetoTarget attk, int curr) {
+		public int nextFrame(GJaggiRun attk, int curr) {
 			return ++curr;
 		}
 	}
@@ -147,13 +147,13 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 	@SuppressWarnings("unused")
 	private int runCycles;
 
-	public DeviljhoMovetoTarget() {
-		setAnimation("mhfc:models/Deviljho/DeviljhoWalk.mcanm");
+	public GJaggiRun() {
+		setAnimation("mhfc:models/GreatJaggi/GreatJaggiRun.mcanm");
 	}
 
 	@Override
 	public float getWeight() {
-		EntityDeviljho monster = this.getEntity();
+		EntityGreatJaggi monster = this.getEntity();
 		target = monster.getAttackTarget();
 		if (target == null) {
 			return DONT_SELECT;
@@ -161,25 +161,25 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 
 		Vec3 toTarget = WorldHelper.getVectorToTarget(monster, target);
 		double dist = toTarget.lengthVector();
-		if (dist < MAX_DIST) {
+		if (dist < REQUIRED_TARGET_MAX_DIST) {
 			return DONT_SELECT;
 		}
-		return (float) Math.log(dist / 5f + 1); // More likely the further away
+		return (float) Math.log(dist / 5f + 1); 
 	}
 
 	@Override
 	public void beginExecution() {
 
-		EntityDeviljho mob = getEntity();
-		target = mob.getAttackTarget();
-		mob.playSound("mhfc:deviljho.roar", 1.0F, 1.0F);
+		EntityGreatJaggi entity = getEntity();
+		target = entity.getAttackTarget();
+		entity.playSound("mhfc:greatjaggi.roar", 1.0F, 1.0F);
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;
 		runCycles = 0;
 		framesRunning = 0;
 
 		currentPhase.onPhaseStart(this);
-		runStartPoint = Vec3.createVectorHelper(mob.posX, mob.posY, mob.posZ);
+		runStartPoint = Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
 	}
 
 	@Override
@@ -196,24 +196,22 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 	}
 
 	@Override
-	public boolean shouldContinue() { // To determine if to cancel
+	public boolean shouldContinue() { 
 		return this.currentPhase != AttackPhase.STOPPED;
 	}
 
 	@Override
-	public void finishExecution() { // When finished
+	public void finishExecution() { 
 	}
 
 	@Override
-	public byte mutexBits() { // Well known mutex bits
+	public byte mutexBits() { 
 		return 1;
 	}
 
 	@Override
-	public int setToNextFrame(int frame) { // For the animation
-		return super.setToNextFrame(currentPhase.nextFrame(this, frame)); // Notify
-																			// the
-																			// adapter
+	public int setToNextFrame(int frame) { 
+		return super.setToNextFrame(currentPhase.nextFrame(this, frame)); 
 	}
 
 }

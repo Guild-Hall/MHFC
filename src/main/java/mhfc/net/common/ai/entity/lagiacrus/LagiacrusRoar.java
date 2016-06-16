@@ -1,21 +1,21 @@
-package mhfc.net.common.ai.entity.greatjaggi;
+package mhfc.net.common.ai.entity.lagiacrus;
 
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.actions.AIGeneralRoar;
 import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
-import mhfc.net.common.entity.monster.EntityGreatJaggi;
+import mhfc.net.common.entity.monster.EntityLagiacrus;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 
-public class GJaggiRoar extends AIGeneralRoar<EntityGreatJaggi> {
+public class LagiacrusRoar extends AIGeneralRoar<EntityLagiacrus> {
 
-	private static final String ANIMATION = "mhfc:models/GreatJaggi/roar.mcanm";
-	private static final int LAST_FRAME = 64;
-	private static final String ROAR_SOUND = "mhfc:greatjaggi.roar";
+	private static final String ANIMATION = "mhfc:models/Lagiacrus/LagiacrusRoar.mcanm";
+	private static final int LAST_FRAME = 95;
+	private static final String ROAR_SOUND = "mhfc:lagiacrus.roar";
 
-	private static final IWeightProvider<EntityGreatJaggi> weight;
+	private static final IWeightProvider<EntityLagiacrus> weight;
 
-	public GJaggiRoar() {}
+	public LagiacrusRoar() {}
 
 	static {
 		weight = new IWeightProvider.RandomWeightAdapter<>(1F);
@@ -24,7 +24,7 @@ public class GJaggiRoar extends AIGeneralRoar<EntityGreatJaggi> {
 	@Override
 	public void update() {
 		super.update();
-		EntityGreatJaggi entity = this.getEntity();
+		EntityLagiacrus entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (this.getCurrentFrame() >= 18 && this.getCurrentFrame() <= 22) {
 			entity.getTurnHelper().updateTargetPoint(target);
@@ -49,14 +49,14 @@ public class GJaggiRoar extends AIGeneralRoar<EntityGreatJaggi> {
 
 	@Override
 	public boolean shouldSelectAttack(
-			IExecutableAction<? super EntityGreatJaggi> attack,
-			EntityGreatJaggi actor,
+			IExecutableAction<? super EntityLagiacrus> attack,
+			EntityLagiacrus actor,
 			Entity target) {
 		return true;
 	}
 
 	@Override
-	public float getWeight(EntityGreatJaggi entity, Entity target) {
+	public float getWeight(EntityLagiacrus entity, Entity target) {
 		return weight.getWeight(entity, target);
 	}
 

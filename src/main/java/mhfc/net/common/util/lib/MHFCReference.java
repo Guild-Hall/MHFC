@@ -429,6 +429,11 @@ public class MHFCReference {
 	public static final String mob_greatjaggi_textureDir = textureLoc + "GreatJaggi/";
 	public static final String mob_greatjaggi_model = mob_greatjaggi_dir + "GreatJaggi.mcmd";
 	public static final String mob_greatjaggi_skeleton = mob_greatjaggi_dir + "Armature.mcskl";
+	public static final String mob_lagiacrus_name = "lagiacrus";
+	public static final String mob_lagiacrus_dir = modelLoc + "Lagiacrus/";
+	public static final String mob_lagiacrus_textureDir = textureLoc + "Lagiacrus/";
+	public static final String mob_lagiacrus_model = mob_lagiacrus_dir + "Lagiacrus.mcmd";
+	public static final String mob_lagiacrus_skeleton = mob_lagiacrus_dir + "Armature.mcskl";
 	public static final String mob_deviljho_name = "deviljho";
 	public static final String mob_deviljho_model = modelLoc + "Deviljho/Deviljho.mcmd";
 	public static final String mob_barroth_name = "barroth";
@@ -441,8 +446,6 @@ public class MHFCReference {
 	public static final String mob_giaprey_model = modelLoc + "Giaprey/Giaprey.mcmd";
 	public static final String mob_ukanlos_name = "ukanlos";
 	public static final String mob_ukanlos_model = modelLoc + "Ukanlos/Ukanlos.mcmd";
-	public static final String mob_lagiacrus_name = "lagiacrus";
-	public static final String mob_lagiacrus_model = modelLoc + "Lagiacrus/Lagiacrus.mcmd";
 
 	public static final String particle_kirinsfx_tex = "mhfc:textures/particle/kirinSFX.png";
 	public static final String potion_attackup_name = "potion.attackuplow";
