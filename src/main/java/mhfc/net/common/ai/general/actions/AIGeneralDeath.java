@@ -9,9 +9,8 @@ public abstract class AIGeneralDeath<EntityT extends EntityMHFCBase<? super Enti
 	protected String deathsoundlocation;
 
 	public AIGeneralDeath(String dyingLocation) {
-		setAnimation(dyingLocation);
+	
 	}
-
 	@Override
 	public void beginExecution() {
 		super.beginExecution();

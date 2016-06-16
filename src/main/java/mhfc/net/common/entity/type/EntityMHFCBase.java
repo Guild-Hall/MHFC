@@ -132,7 +132,14 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			double velY = Math.abs(this.rand.nextGaussian() * 0.2D);
 			double velZ = this.rand.nextGaussian() * 0.01D;
 			worldObj.spawnParticle("cloud", randX, randY, randZ, velX, velY, velZ);
+		if (deathTicks == AIGeneralDeath.deathLingeringTicks) {
+			 double d2 = rand.nextGaussian() * 0.02D;
+             double d0 = rand.nextGaussian() * 0.02D;
+             double d1 = rand.nextGaussian() * 0.02D;
+             worldObj.spawnParticle("explode", posX + (double) (rand.nextFloat() * width * 2.0F) - (double) width, posY + (double) (rand.nextFloat() * height), posZ + (double) (rand.nextFloat() * width * 2.0F) - (double) width, d2, d0, d1);
+			this.setDead();
 		}
+}
 	}
 
 	protected void onDeath() {}

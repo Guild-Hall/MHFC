@@ -17,6 +17,7 @@ import mhfc.net.common.ai.entity.deviljho.DeviljhoRoar;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoStomp;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoTailWhip;
 import mhfc.net.common.ai.entity.deviljho.DeviljhoWander;
+import mhfc.net.common.ai.general.actions.AIGeneralDeath;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;

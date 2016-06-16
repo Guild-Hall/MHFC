@@ -449,7 +449,6 @@ public class MHFCReference {
 	public static final String mob_barroth_name = "barroth";
 	public static final String mob_barroth_model = modelLoc + "Barroth/Barroth.mcmd";
 
-
 	public static final String mob_giaprey_name = "giaprey";
 	public static final String mob_giaprey_model = modelLoc + "Giaprey/Giaprey.mcmd";
 	public static final String mob_ukanlos_name = "ukanlos";
