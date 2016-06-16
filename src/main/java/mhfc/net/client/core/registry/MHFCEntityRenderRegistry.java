@@ -46,6 +46,8 @@ public class MHFCEntityRenderRegistry {
 	}
 
 	private static void renderMonster() {
+		registerAnimatedRenderer(EntityTigrex.class, MHFCReference.mob_tigrex_model, 1.0F);
+		registerAnimatedRenderer(EntityRathalos.class, MHFCReference.mob_rathalos_model, 1.0F);
 		registerAnimatedRenderer(
 				EntityDelex.class,
 				MHFCReference.mob_delex_textureDir,

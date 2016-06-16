@@ -35,8 +35,6 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	public int rageLevel;
 
-	private TigrexDying dyingAttack;
-
 	public EntityTigrex(World par1World) {
 		super(par1World);
 		height = 3.4f;
@@ -50,14 +48,9 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	}
 
 	@Override
-	protected void onDeath() {
-		getActionManager().switchToAction(dyingAttack);
-	}
-
-	@Override
 	public IActionManager<EntityTigrex> constructActionManager() {
 		FollowUpManagerBuilder<EntityTigrex> manager = new FollowUpManagerBuilder<>();
-		manager.registerAllowingAllActions(dyingAttack = new TigrexDying());
+		manager.registerAllowingAllActions(setDeathAction(new TigrexDying()));
 		manager.registerAllowingAllActions(new TurnAttack(110, 180, 5f, 12f, 20));
 		manager.registerAllowingAllActions(new TigrexJump());
 		manager.registerAllowingAllActions(new TigrexRun());

@@ -50,6 +50,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	protected static final int DATA_FRAME = 12;
 	private final TargetTurnHelper turnHelper;
 	private IActionManager<? extends YC> attackManager;
+	private IExecutableAction<? super YC> deathAction;
 
 	protected boolean hasDied;
 	// @see deathTime. DeathTime has the random by-effect of rotating corpses...
@@ -60,6 +61,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		turnHelper = new TargetTurnHelper(this);
 		attackManager = Objects.requireNonNull(constructActionManager());
 		hasDied = false;
+	}
+
+	protected <A extends IExecutableAction<? super YC>> A setDeathAction(A action) {
+		this.deathAction = action;
+		return action;
 	}
 
 	public abstract IActionManager<YC> constructActionManager();
@@ -95,7 +101,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		}
 		spawnDeadParticles();
 		deathTicks++;
-		if (deathTicks >= AIGeneralDeath.deathLingeringTicks) {
+		if (deathTicks >= AIGeneralDeath.deathLingeringTicks || deathAction == null) {
 			onDespawn();
 			setDead();
 		}
@@ -132,17 +138,14 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			double velY = Math.abs(this.rand.nextGaussian() * 0.2D);
 			double velZ = this.rand.nextGaussian() * 0.01D;
 			worldObj.spawnParticle("cloud", randX, randY, randZ, velX, velY, velZ);
-		if (deathTicks == AIGeneralDeath.deathLingeringTicks) {
-			 double d2 = rand.nextGaussian() * 0.02D;
-             double d0 = rand.nextGaussian() * 0.02D;
-             double d1 = rand.nextGaussian() * 0.02D;
-             worldObj.spawnParticle("explode", posX + (double) (rand.nextFloat() * width * 2.0F) - (double) width, posY + (double) (rand.nextFloat() * height), posZ + (double) (rand.nextFloat() * width * 2.0F) - (double) width, d2, d0, d1);
-			this.setDead();
 		}
-}
 	}
 
-	protected void onDeath() {}
+	protected void onDeath() {
+		if (deathAction != null) {
+			getActionManager().switchToAction(deathAction);
+		}
+	}
 
 	@Override
 	protected boolean func_146066_aG() {

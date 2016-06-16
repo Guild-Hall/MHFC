@@ -32,8 +32,6 @@ import net.minecraft.world.World;
 
 public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 
-	private DeviljhoDying deathAction;
-
 	public EntityDeviljho(World WORLD) {
 		super(WORLD);
 		setSize(7.6F, 6F);
@@ -44,7 +42,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	@Override
 	public IActionManager<EntityDeviljho> constructActionManager() {
 		ActionManagerBuilder<EntityDeviljho> attackManager = new ActionManagerBuilder<>();
-		attackManager.registerAction(deathAction = new DeviljhoDying());
+		attackManager.registerAction(setDeathAction(new DeviljhoDying()));
 		attackManager.registerAction(new DeviljhoIdle());
 		attackManager.registerAction(new DeviljhoIdle());
 		attackManager.registerAction(new DeviljhoBiteA());
@@ -58,11 +56,6 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		attackManager.registerAction(new DeviljhoFrontalBreathe());
 		attackManager.registerAction(new DeviljhoWander());
 		return attackManager.build(this);
-	}
-
-	@Override
-	protected void onDeath() {
-		getActionManager().switchToAction(deathAction);
 	}
 
 	@Override

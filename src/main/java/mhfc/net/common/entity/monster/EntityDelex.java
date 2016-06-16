@@ -7,7 +7,6 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.delex.DelexDying;
 import mhfc.net.common.ai.entity.delex.DelexIdle;
-import mhfc.net.common.ai.entity.lagiacrus.LagiacrusDying;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -18,7 +17,6 @@ import net.minecraft.world.World;
 
 public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 
-	private DelexDying deathAI;
 	public EntityDelex(World world) {
 		super(world);
 		this.height = 2f;
@@ -30,12 +28,8 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 	public IActionManager<EntityDelex> constructActionManager() {
 		ActionManagerBuilder<EntityDelex> actionManager = new ActionManagerBuilder<>();
 		actionManager.registerAction(new DelexIdle());
-		actionManager.registerAction(deathAI = new DelexDying());
+		actionManager.registerAction(setDeathAction(new DelexDying()));
 		return actionManager.build(this);
-	}
-	@Override
-	protected void onDeath() {
-		getActionManager().switchToAction(deathAI);
 	}
 
 	@Override
