@@ -58,7 +58,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
 		attackManager = Objects.requireNonNull(constructActionManager());
-		deathLingerTime = 40;
+		deathLingerTime = 60;
 		hasDied = false;
 	}
 
@@ -98,7 +98,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			this.setDead();
 		}
 	}
-
+	
 	protected void onDeath() {}
 
 	@Override
