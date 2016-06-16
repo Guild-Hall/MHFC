@@ -8,7 +8,7 @@ public class LagiacrusDying extends AIGeneralDeath<EntityLagiacrus> {
 	private static final String ANIMATION_LOCATION = "mhfc:models/Lagiacrus/LagiacrusHurt.mcanm";
 
 	public LagiacrusDying() {
-		super(ANIMATION_LOCATION, 100, "mhfc:lagaicrus.discharge"); //no death sound atm.
+		super(ANIMATION_LOCATION, 100, "mhfc:lagiacrus.death"); 
 	}
 
 }

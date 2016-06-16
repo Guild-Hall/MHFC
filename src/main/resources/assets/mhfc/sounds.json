@@ -56,6 +56,7 @@
     "lagiacrus.discharge": {"category": "hostile", "sounds": ["mob/lagiacrus/discharge"]},
     "lagiacrus.lightningball": {"category": "hostile", "sounds": ["mob/lagiacrus/lightningball"]},
     "lagiacrus.roar": {"category": "hostile", "sounds": ["mob/lagiacrus/roar"]},
+    "lagiacrus.death": {"category": "hostile", "sounds": ["mob/lagiacrus/death"]},
     
     "narga.idle": {"category": "hostile", "sounds": ["mob/nargacuga/idle1", "mob/nargacuga/idle2"]},
     "narga.bite": {"category": "hostile", "sounds": ["mob/nargacuga/bite"]},
