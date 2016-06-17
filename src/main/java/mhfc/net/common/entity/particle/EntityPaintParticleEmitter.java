@@ -22,10 +22,9 @@ public class EntityPaintParticleEmitter extends EntityParticleEmitter {
 		this.maxLife = duration.ticks;
 		this.victim = affected;
 
-
 		double x, y, z;
 
-		if(this.victim == null) {
+		if (this.victim == null) {
 			x = 0;
 			y = 0;
 			z = 0;
@@ -41,16 +40,13 @@ public class EntityPaintParticleEmitter extends EntityParticleEmitter {
 
 	@Override
 	public void onUpdate() {
-		if(this.ticksExisted > 0 && this.ticksExisted % 5 == 0) {
-			EntityPaintFX particle =
-					new EntityPaintFX(worldObj,
-					color,
-					this.posX, this.posY, this.posZ);
+		if (this.ticksExisted > 0 && this.ticksExisted % 5 == 0 && worldObj.isRemote) {
+			EntityPaintFX particle = new EntityPaintFX(worldObj, color, this.posX, this.posY, this.posZ);
 
 			MHFCParticleHelper.spawnParticleFromEntity(particle);
 		}
 
-		if(this.ticksExisted > maxLife || this.teleportDirection > ABSOLUTE_MAX) {
+		if (this.ticksExisted > maxLife || this.teleportDirection > ABSOLUTE_MAX) {
 			this.setDead();
 		}
 	}
