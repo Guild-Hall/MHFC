@@ -1,18 +1,18 @@
 package mhfc.net.common.weapon.melee.longsword;
 
+import java.util.UUID;
 import java.util.function.Consumer;
 
-import mhfc.net.common.core.registry.MHFCPotionRegistry;
+import com.google.common.collect.Multimap;
+
 import mhfc.net.common.util.NBTUtils;
 import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.longsword.LongswordWeaponStats.LongswordWeaponStatsBuilder;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.world.World;
 
 public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 	public static ItemLongsword build(Consumer<LongswordWeaponStatsBuilder> config) {
@@ -57,12 +57,16 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World world, Entity holder, int slot, boolean isHold) {
-		if (holder instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) holder;
-			if (isAffinityTriggered(stack)) {
-				player.addPotionEffect(new PotionEffect(MHFCPotionRegistry.longswordattackup.id, 30));
-			}
+	public Multimap<String, AttributeModifier> getAttributeModifiers(ItemStack stack) {
+		Multimap<String, AttributeModifier> attributes = super.getAttributeModifiers(stack);
+		if (isAffinityTriggered(stack)) {
+			AttributeModifier attackModifier = new AttributeModifier(
+					UUID.fromString(MHFCReference.potion_longsworddamageup_uuid),
+					"Affinity",
+					1.2,
+					1);
+			attributes.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), attackModifier);
 		}
+		return attributes;
 	}
 }
