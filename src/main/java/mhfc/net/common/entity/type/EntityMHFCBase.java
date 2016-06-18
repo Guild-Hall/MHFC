@@ -51,6 +51,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	private final TargetTurnHelper turnHelper;
 	private IActionManager<? extends YC> attackManager;
 	private IExecutableAction<? super YC> deathAction;
+	
+	public boolean FREEZE; // trying to implement this to disable all AI's for the monster temporality.
 
 	protected boolean hasDied;
 	// @see deathTime. DeathTime has the random by-effect of rotating corpses...
@@ -67,7 +69,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		this.deathAction = action;
 		return action;
 	}
-
+	
 	public abstract IActionManager<YC> constructActionManager();
 
 	/**
@@ -412,6 +414,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	@Override
 	protected boolean isAIEnabled() {
+		if(!FREEZE) {
+			return false;
+		}
 		return true;
 	}
 
