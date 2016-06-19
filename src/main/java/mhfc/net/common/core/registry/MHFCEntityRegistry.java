@@ -15,6 +15,7 @@ import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.particle.EntityPaintParticleEmitter;
 import mhfc.net.common.entity.projectile.EntityBullet;
 import mhfc.net.common.entity.projectile.EntityFlashBomb;
+import mhfc.net.common.entity.projectile.EntityPaintball;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityTigrexBlock;
 import mhfc.net.common.entity.quests.EntityQuestGiver;
@@ -43,6 +44,7 @@ public class MHFCEntityRegistry {
 	public static final int rathalosFireballID;
 	public static final int bulletID;
 	public static final int flashbombID;
+	public static final int paintballID;
 
 	public static final int paintemitterID;
 
@@ -80,6 +82,8 @@ public class MHFCEntityRegistry {
 			MHFCReference.entity_rathalosFireball_name);
 		flashbombID = getProjectileID(EntityFlashBomb.class,
 			MHFCReference.entity_flashbomb_name, EntityFlashBomb.FALL_OFF_END);
+
+		paintballID = getProjectileID(EntityPaintball.class, MHFCReference.entity_paintball_name);
 
 		paintemitterID = getMobID(EntityPaintParticleEmitter.class, MHFCReference.mob_paint_emitter_name);
 	}

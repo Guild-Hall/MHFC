@@ -32,10 +32,13 @@ public class EntityPaintFX extends EntityFX implements IEntityAdditionalSpawnDat
 		this.particleScale = 2.0F;
 		this.color = color;
 
-		Color floatColor = color.getColor();
+		if(color == null)
+			this.color = ItemColor.WHITE;
+
+		Color floatColor = this.color.getColor();
 		//Note: This says set RBG color, but the order is actually RGB.
 		//Typo on MC's end.
-		setRBGColorF(floatColor.getRed(), floatColor.getGreen(), floatColor.getBlue());
+		setRBGColorF(floatColor.getRed() / 255.0F, floatColor.getGreen() / 255.0F, floatColor.getBlue() / 255.0F);
 		setAlphaF(0.8F);
 	}
 

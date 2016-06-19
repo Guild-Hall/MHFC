@@ -24,11 +24,11 @@ public class PotionPainted extends Potion {
 	}
 
 	/**
-	 * Effect spawns a particle emitter 3 times a second.
+	 * Effect spawns a particle emitter 4 times a second.
 	 */
 	@Override
 	public boolean isReady(int duration, int amplifier) {
-		return duration % 20 == 0;
+		return duration % 5 == 0;
 	}
 
 	/**
