@@ -254,6 +254,8 @@ entity.lagiacrus.name=§2Lagiacrus
 entity.mhfc.lagiacrus.name=§2Lagiacrus
 entity.ukanlos.name=§3Ukanlos
 entity.mhfc.ukanlos.name=§3Ukanlos
+entity.kirin.name=§3Kirin
+entity.mhfc.kirin.name=§3Kirin
 
 potion.kirinbless=Spark of Kirin
 potion.paralyze=Paralyze

@@ -23,6 +23,7 @@ import mhfc.net.common.entity.monster.EntityDelex;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.monster.EntityGiaprey;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
+import mhfc.net.common.entity.monster.EntityKirin;
 import mhfc.net.common.entity.monster.EntityLagiacrus;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 import mhfc.net.common.entity.monster.EntityRathalos;
@@ -78,8 +79,13 @@ public class MHFCEntityRenderRegistry {
 				MHFCReference.mob_deviljho_model,
 				MHFCReference.mob_deviljho_skeleton,
 				1.0F);
-		
-		
+		registerAnimatedRenderer(
+				EntityKirin.class,
+				MHFCReference.mob_kirin_textureDir,
+				MHFCReference.mob_kirin_model,
+				MHFCReference.mob_kirin_skeleton,
+				1.0F);
+				
 		registerAnimatedRenderer(EntityBarroth.class, MHFCReference.mob_barroth_model, 1.0F);
 		registerAnimatedRenderer(EntityGiaprey.class, MHFCReference.mob_giaprey_model, 1.0F);
 		registerAnimatedRenderer(EntityUkanlos.class, MHFCReference.mob_ukanlos_model, 1.0F);

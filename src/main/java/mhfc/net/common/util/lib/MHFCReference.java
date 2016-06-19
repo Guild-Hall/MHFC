@@ -466,6 +466,13 @@ public class MHFCReference {
 	public static final String mob_deviljho_model = mob_deviljho_dir + "Deviljho.mcmd";
 	public static final String mob_deviljho_skeleton = mob_deviljho_dir + "Armature.mcskl";
 	
+	// Kirin
+	public static final String mob_kirin_name = "kirin";
+	public static final String mob_kirin_dir = modelLoc + "Kirin/";
+	public static final String mob_kirin_textureDir = textureLoc + "Kirin/";
+	public static final String mob_kirin_model = mob_kirin_dir + "Kirin.mcmd";
+	public static final String mob_kirin_skeleton = mob_kirin_dir + "Armature.mcskl";
+	
 	// Barroth
 	public static final String mob_barroth_name = "barroth";
 	public static final String mob_barroth_model = modelLoc + "Barroth/Barroth.mcmd";

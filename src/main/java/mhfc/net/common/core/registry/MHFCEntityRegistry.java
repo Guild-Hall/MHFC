@@ -11,6 +11,7 @@ import mhfc.net.common.entity.monster.EntityDelex;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.monster.EntityGiaprey;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
+import mhfc.net.common.entity.monster.EntityKirin;
 import mhfc.net.common.entity.monster.EntityLagiacrus;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 import mhfc.net.common.entity.monster.EntityRathalos;
@@ -44,6 +45,7 @@ public class MHFCEntityRegistry {
 	public static final int giapreyID;
 	public static final int lagiacrusID;
 	public static final int ukanlosID;
+	public static final int kirinID;
 
 	public static final int questGiverID;
 
@@ -62,7 +64,7 @@ public class MHFCEntityRegistry {
 
 		// popoID = getMobID(EntityPopo.class, MHFCReference.mob_popo_name,
 		// 0xf8248234, 0x193192);
-		// kirinID = getMobID(EntityKirin.class, MHFCReference.mob_kirin_name, 0xfff85814, 0xff851f15);
+		kirinID = getMobID(EntityKirin.class, MHFCReference.mob_kirin_name, 0xfff85814, 0xff851f15);
 		tigrexID = getMobID(EntityTigrex.class, MHFCReference.mob_tigrex_name, 0xfff432e3, 0x1020394f);
 		rathalosID = getMobID(EntityRathalos.class, MHFCReference.mob_rathalos_name, 0xff749819, 0xf838818);
 		nargacugaID = getMobID(EntityNargacuga.class, MHFCReference.mob_nargacuga_name, 0xf351631, 0x516f13f);
