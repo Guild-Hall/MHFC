@@ -20,6 +20,7 @@ import mhfc.net.common.ai.IActionRecorder;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaBackOff;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaCharge;
+import mhfc.net.common.ai.entity.nargacuga.NargacugaIdle;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaPounce;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaPounce.JumpBehaviour;
 import mhfc.net.common.ai.entity.nargacuga.NargacugaRoar;
@@ -84,6 +85,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		prowlerFollow.add(tailWhip);
 		// prowlerFollow.add(pounceFour);
 		attackManager.registerAction(new NargacugaWander());
+		attackManager.registerAction(new NargacugaIdle());
 		attackManager.registerAllowingAllActions(tailSlam);
 		attackManager.registerAllowingAllActions(roar);
 		attackManager.registerActionWithFollowUps(prowler, prowlerFollow);
@@ -178,6 +180,11 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	@Override
 	public boolean isEnraged() {
 		return enraged;
+	}
+	
+	@Override
+	protected String getLivingSound() {
+		return "mhfc:nargacuga.idle";
 	}
 
 	@Override

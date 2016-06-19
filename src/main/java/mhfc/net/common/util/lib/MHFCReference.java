@@ -418,39 +418,63 @@ public class MHFCReference {
 
 	// If something persist or crash and pointed at this line of codes. probably
 	// you have a wrong input of directory @Heltrato
+	
+	// Resource General Location
 	public static final String modelLoc = "mhfc:models/";
 	public static final String textureLoc = "mhfc:textures/models/";
+	
+	// Tigrex
 	public static final String mob_tigrex_name = "tigrex";
 	public static final String mob_tigrex_model = modelLoc + "Tigrex/Tigrex.mcmd";
+	
+	// Rathalos
 	public static final String mob_rathalos_name = "rathalos";
 	public static final String mob_rathalos_model = modelLoc + "Rathalos/Rathalos.mcmd";
+	
+	// Great Jaggi
 	public static final String mob_greatjaggi_name = "greatjaggi";
 	public static final String mob_greatjaggi_dir = modelLoc + "GreatJaggi/";
 	public static final String mob_greatjaggi_textureDir = textureLoc + "GreatJaggi/";
 	public static final String mob_greatjaggi_model = mob_greatjaggi_dir + "GreatJaggi.mcmd";
 	public static final String mob_greatjaggi_skeleton = mob_greatjaggi_dir + "Armature.mcskl";
+	
+	// Lagiacrus
 	public static final String mob_lagiacrus_name = "lagiacrus";
 	public static final String mob_lagiacrus_dir = modelLoc + "Lagiacrus/";
 	public static final String mob_lagiacrus_textureDir = textureLoc + "Lagiacrus/";
 	public static final String mob_lagiacrus_model = mob_lagiacrus_dir + "Lagiacrus.mcmd";
 	public static final String mob_lagiacrus_skeleton = mob_lagiacrus_dir + "Armature.mcskl";
+	
+	// Delex
 	public static final String mob_delex_name = "delex";
 	public static final String mob_delex_dir = modelLoc + "Delex/";
 	public static final String mob_delex_textureDir = textureLoc + "Delex/";
 	public static final String mob_delex_model = mob_delex_dir + "PDelex.mcmd";
 	public static final String mob_delex_skeleton = mob_delex_dir + "Armature.mcskl";
+
+	// Nargacuga 
 	public static final String mob_nargacuga_name = "nargacuga";
 	public static final String mob_nargacuga_dir = modelLoc + "Nargacuga/";
 	public static final String mob_nargacuga_textureDir = textureLoc + "Nargacuga/";
 	public static final String mob_nargacuga_model = mob_nargacuga_dir + "Nargacuga.mcmd";
 	public static final String mob_nargacuga_skeleton = mob_nargacuga_dir + "Armature.mcskl";
+	
+	// Deviljho
 	public static final String mob_deviljho_name = "deviljho";
-	public static final String mob_deviljho_model = modelLoc + "Deviljho/Deviljho.mcmd";
+	public static final String mob_deviljho_dir = modelLoc + "Deviljho/";
+	public static final String mob_deviljho_textureDir = textureLoc + "Deviljho/";
+	public static final String mob_deviljho_model = mob_deviljho_dir + "Deviljho.mcmd";
+	public static final String mob_deviljho_skeleton = mob_deviljho_dir + "Armature.mcskl";
+	
+	// Barroth
 	public static final String mob_barroth_name = "barroth";
 	public static final String mob_barroth_model = modelLoc + "Barroth/Barroth.mcmd";
-
+	
+	// Giaprey
 	public static final String mob_giaprey_name = "giaprey";
 	public static final String mob_giaprey_model = modelLoc + "Giaprey/Giaprey.mcmd";
+	
+	// Ukanlos
 	public static final String mob_ukanlos_name = "ukanlos";
 	public static final String mob_ukanlos_model = modelLoc + "Ukanlos/Ukanlos.mcmd";
 

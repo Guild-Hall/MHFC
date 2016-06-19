@@ -127,6 +127,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	protected void onDespawn() {
 		boolean killedByPlayer = true;
+		FREEZE = true;
 		int specialLuck = 100;
 		if (!worldObj.isRemote) {
 			dropFewItems(killedByPlayer, specialLuck);

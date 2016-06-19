@@ -10,11 +10,11 @@ public class NargacugaWander extends AIGeneralWander<EntityNargacuga> {
 
 	private static final String ANIMATION = "mhfc:models/Nargacuga/Wander.mcanm";
 	private static final int LAST_FRAME = 70;
-	private static final float WEIGHT = 3F;
+	private static final float WEIGHT = 15F;
 
 	private static final IMoveParameterProvider parameterProvider = new IMoveParameterProvider.MoveParameterAdapter(
 			3f,
-			0.5f);
+			0.6f);
 
 	public NargacugaWander() {
 		super(parameterProvider);

@@ -5,7 +5,7 @@ import mhfc.net.common.entity.type.EntityMHFCBase;
 
 public abstract class AIGeneralDeath<EntityT extends EntityMHFCBase<? super EntityT>> extends ActionAdapter<EntityT> {
 
-	public static final int deathLingeringTicks = 30 * 30;
+	public static final int deathLingeringTicks = 30 * 15;
 	protected String deathsoundlocation;
 
 	public AIGeneralDeath(String dyingLocation) {
