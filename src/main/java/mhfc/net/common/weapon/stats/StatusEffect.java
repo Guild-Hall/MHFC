@@ -46,6 +46,17 @@ public enum StatusEffect implements ICombatEffectType {
 		public String getUnlocalizedName() {
 			return "knockout";
 		}
+	},
+	Blastblight {
+		@Override
+		public void applyTo(Entity target, float damageAmount) {
+			// TODO: apply blastblight
+		}
+
+		@Override
+		public String getUnlocalizedName() {
+			return "blastblight";
+		}
 	};
 
 }

@@ -4,7 +4,6 @@ import org.apache.logging.log4j.Level;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.helper.MHFCReflectionHelper;
-import mhfc.net.common.potion.PotionAttackUpLow;
 import mhfc.net.common.potion.PotionKirinBless;
 import mhfc.net.common.potion.PotionParalyze;
 import net.minecraft.potion.Potion;
@@ -16,7 +15,6 @@ public class MHFCPotionRegistry {
 
 	public static final Potion stun;
 	public static final Potion kirin_blessing;
-	public static final Potion attack_up_low;
 
 	static {
 		MHFCMain.checkPreInitialized();
@@ -24,7 +22,6 @@ public class MHFCPotionRegistry {
 
 		stun = new PotionParalyze(getNextID(), true, 999999);
 		kirin_blessing = new PotionKirinBless(getNextID(), false, 0000000);
-		attack_up_low = new PotionAttackUpLow(getNextID(), false, 4059188);
 	}
 
 	public static void init() {}

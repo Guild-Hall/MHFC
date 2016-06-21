@@ -6,10 +6,10 @@ import java.util.Optional;
 
 import com.google.common.base.Preconditions;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.common.util.Trie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 
 public class HHSongRegistry {
 	public static final int SONG_LENGTH_CAP = 4;
@@ -17,7 +17,7 @@ public class HHSongRegistry {
 	private static final ISong attackUpSmall = new ISong() {
 		@Override
 		public void onPlayed(EntityPlayer player, ItemStack stack, HuntingHornWeaponStats itemStats) {
-			MHFCMain.logger.debug("Played attackUpSmall");
+			player.addPotionEffect(new PotionEffect(1, 10));
 		}
 
 		@Override

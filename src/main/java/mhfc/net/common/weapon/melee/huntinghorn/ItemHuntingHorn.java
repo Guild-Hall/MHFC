@@ -8,8 +8,10 @@ import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.huntinghorn.HuntingHornWeaponStats.HuntingHornWeaponStatsBuilder;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.World;
 
 public class ItemHuntingHorn extends ItemWeaponMelee<HuntingHornWeaponStats> {
 	public static ItemHuntingHorn build(Consumer<HuntingHornWeaponStatsBuilder> config) {
@@ -29,9 +31,36 @@ public class ItemHuntingHorn extends ItemWeaponMelee<HuntingHornWeaponStats> {
 	}
 
 	@Override
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+		ItemStack newstack = super.onItemRightClick(stack, world, player);
+		stats.toggleNote(stack);
+		return newstack;
+	}
+
+	@Override
+	public void onUsingTick(ItemStack stack, EntityPlayer player, int useCounter) {
+		super.onUsingTick(stack, player, useCounter);
+	}
+
+	@Override
+	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack) {
+		boolean cancel = super.onEntitySwing(entityLiving, stack);
+		if (cancel) {
+			return true;
+		}
+		if (entityLiving instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) entityLiving;
+			Note current = stats.getCurrentNote(stack);
+			stats.onNotePlayed(stack, player, current);
+		}
+		return false;
+	}
+
+	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase player) {
+		boolean superResult = super.hitEntity(stack, target, player);
 		if (!isOffCooldown(stack)) {
-			return false;
+			return superResult;
 		}
 		target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.stun.id, 10, 5));
 		triggerCooldown(stack);

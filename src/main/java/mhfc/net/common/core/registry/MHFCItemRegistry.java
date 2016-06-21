@@ -50,6 +50,7 @@ import mhfc.net.common.weapon.melee.hammer.HammerWeaponStats.HammerWeaponStatsBu
 import mhfc.net.common.weapon.melee.hammer.ItemHammer;
 import mhfc.net.common.weapon.melee.huntinghorn.HuntingHornWeaponStats.HuntingHornWeaponStatsBuilder;
 import mhfc.net.common.weapon.melee.huntinghorn.ItemHuntingHorn;
+import mhfc.net.common.weapon.melee.huntinghorn.Note;
 import mhfc.net.common.weapon.melee.longsword.ItemLongsword;
 import mhfc.net.common.weapon.melee.longsword.LongswordWeaponStats.LongswordWeaponStatsBuilder;
 import mhfc.net.common.weapon.range.bow.BowWeaponStats.BowWeaponStatsBuilder;
@@ -373,29 +374,41 @@ public class MHFCItemRegistry {
 						.addCombatEffect(ElementalType.Thunder, 10));
 
 		weapon_hh_ivoryhorn = registerHuntingHorn(
-				b -> b.setAttack(5).setRarity(1).setName(MHFCReference.weapon_hh_ivoryhorn_name));
+				b -> b.setAttack(5).setRarity(1).setName(MHFCReference.weapon_hh_ivoryhorn_name)
+						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_metalbagpipe = registerHuntingHorn(
-				b -> b.setAttack(8).setRarity(2).setName(MHFCReference.weapon_hh_metalbagpipe_name));
+				b -> b.setAttack(8).setRarity(2).setName(MHFCReference.weapon_hh_metalbagpipe_name)
+						.setNotes(Note.White, Note.Green, Note.Red));
 		weapon_hh_greatbagpipe = registerHuntingHorn(
-				b -> b.setAttack(12).setRarity(2).setName(MHFCReference.weapon_hh_greatbagpipe_name));
+				b -> b.setAttack(12).setRarity(2).setName(MHFCReference.weapon_hh_greatbagpipe_name)
+						.setNotes(Note.White, Note.Green, Note.Red));
 		weapon_hh_wardrums = registerHuntingHorn(
-				b -> b.setAttack(14).setRarity(2).setName(MHFCReference.weapon_hh_wardrums_name));
+				b -> b.setAttack(14).setRarity(2).setName(MHFCReference.weapon_hh_wardrums_name)
+						.setNotes(Note.White, Note.Yellow, Note.Red));
 		weapon_hh_wardrumsplus = registerHuntingHorn(
-				b -> b.setAttack(18).setRarity(2).setName(MHFCReference.weapon_hh_wardrumsplus_name));
+				b -> b.setAttack(18).setRarity(2).setName(MHFCReference.weapon_hh_wardrumsplus_name)
+						.setNotes(Note.White, Note.Yellow, Note.Red));
 		weapon_hh_heavybagpipe = registerHuntingHorn(
-				b -> b.setAttack(16).setRarity(3).setName(MHFCReference.weapon_hh_heavybagpipe_name));
+				b -> b.setAttack(16).setRarity(3).setName(MHFCReference.weapon_hh_heavybagpipe_name)
+						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_heavybagpipeplus = registerHuntingHorn(
-				b -> b.setAttack(19).setRarity(3).setName(MHFCReference.weapon_hh_heavybagpipeplus_name));
+				b -> b.setAttack(19).setRarity(3).setName(MHFCReference.weapon_hh_heavybagpipeplus_name)
+						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_tigrex = registerHuntingHorn(
-				b -> b.setAttack(32).setRarity(4).setName(MHFCReference.weapon_hh_tigrex_name));
+				b -> b.setAttack(32).setRarity(5).setName(MHFCReference.weapon_hh_tigrex_name)
+						.setNotes(Note.Purple, Note.Blue, Note.Red));
 		weapon_hh_mogwarddrums = registerHuntingHorn(
-				b -> b.setAttack(35).setRarity(5).setName(MHFCReference.weapon_hh_mogwarddrums_name));
+				b -> b.setAttack(35).setRarity(5).setName(MHFCReference.weapon_hh_mogwarddrums_name)
+						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_elitebagpipe = registerHuntingHorn(
-				b -> b.setAttack(25).setRarity(6).setName(MHFCReference.weapon_hh_elitebagpipe_name));
+				b -> b.setAttack(25).setRarity(6).setName(MHFCReference.weapon_hh_elitebagpipe_name)
+						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_darkthorntrumpet = registerHuntingHorn(
-				b -> b.setAttack(71).setRarity(9).setName(MHFCReference.weapon_hh_darkthorntrumpet_name));
+				b -> b.setAttack(71).setRarity(9).setName(MHFCReference.weapon_hh_darkthorntrumpet_name)
+						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_blackcasket = registerHuntingHorn(
-				b -> b.setAttack(84).setRarity(10).setName(MHFCReference.weapon_hh_blackcasket_name));
+				b -> b.setAttack(84).setRarity(10).setName(MHFCReference.weapon_hh_blackcasket_name)
+						.setNotes(Note.White, Note.Blue, Note.Red));
 
 		// Range weapons
 
