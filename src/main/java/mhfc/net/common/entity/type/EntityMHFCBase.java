@@ -127,7 +127,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	protected void onDespawn() {
 		boolean killedByPlayer = true;
-		FREEZE = true;
 		int specialLuck = 100;
 		if (!worldObj.isRemote) {
 			dropFewItems(killedByPlayer, specialLuck);
@@ -162,20 +161,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		this.dataWatcher.addObject(DATA_FRAME, Integer.valueOf(-1));
 	}
 
-	/**
-	 * Drops the given item stack as entity in the world of this entity. Utility method
-	 *
-	 * @param stack
-	 *            the stack to drop
-	 */
 	public void dropItemRand(ItemStack stack) {
 		Random rand = worldObj.rand;
-		EntityItem entityItem = new EntityItem(
-				this.worldObj,
-				posX + rand.nextInt(10) - 5,
-				posY + 1.0D,
-				posZ + rand.nextInt(10) - 5,
-				stack);
+		EntityItem entityItem = new EntityItem(this.worldObj,posX + rand.nextInt(10) - 5,posY + 1.0D,posZ + rand.nextInt(10) - 5,stack);
 		worldObj.spawnEntityInWorld(entityItem);
 	}
 
@@ -415,9 +403,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	@Override
 	protected boolean isAIEnabled() {
-		if(!FREEZE) {
-			return false;
-		}
 		return true;
 	}
 

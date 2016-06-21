@@ -38,7 +38,10 @@ public class DeviljhoJump extends AIGeneralJumpAttack<EntityDeviljho> {
 		set_COUNTIME = new IJumpTimingProvider.JumpTimingAdapter<EntityDeviljho>(set_JUMPFRAME, set_TURNRATE, 0);
 	}
 
-	public DeviljhoJump() {}
+	public DeviljhoJump() {
+		upwardVelocityCap = 35f;
+		
+	}
 
 	@Override
 	public String getAnimationLocation() {
