@@ -1,6 +1,7 @@
 package mhfc.net.common.ai.entity.deviljho;
 
 import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.entity.AIGameplayComposition;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
@@ -41,6 +42,12 @@ public class DeviljhoJump extends AIGeneralJumpAttack<EntityDeviljho> {
 	public DeviljhoJump() {
 		upwardVelocityCap = 35f;
 		
+	}
+	
+	@Override
+	public void update() { 
+		EntityDeviljho entity = this.getEntity();
+		AIGameplayComposition.AIStompCrackGameplay(entity, 200);
 	}
 
 	@Override

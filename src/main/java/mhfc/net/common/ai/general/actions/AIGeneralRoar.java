@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import mhfc.net.common.ai.entity.AIGameplayComposition;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.provider.composite.IRoarProvider;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -26,6 +27,16 @@ public abstract class AIGeneralRoar<EntityT extends EntityMHFCBase<? super Entit
 		affectedEntities.clear();
 		getEntity().playSound(getRoarSoundLocation(), 1.0F, 1.0F);
 	}
+	
+	@Override
+	public float getWeight() {
+		EntityT entity = this.getEntity();
+		target = entity.getAttackTarget();
+		if (target == null) {
+			return DONT_SELECT;
+		}
+		return getWeight(entity, target);
+	}
 
 	@Override
 	protected void update() {
@@ -39,7 +50,7 @@ public abstract class AIGeneralRoar<EntityT extends EntityMHFCBase<? super Entit
 			if (!affectedEntities.contains(affectedEntity) && affectedEntity instanceof EntityLivingBase) {
 				EntityLivingBase entityLiving = (EntityLivingBase) affectedEntity;
 				if (shouldStun(entityLiving)) {
-					AIUtils.stun(entityLiving);
+					AIGameplayComposition.AIRoarEffectGameplay(entityLiving);
 				}
 				affectedEntities.add(entityLiving);
 			}

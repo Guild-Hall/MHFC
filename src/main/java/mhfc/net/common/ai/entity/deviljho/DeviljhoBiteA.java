@@ -20,7 +20,7 @@ public class DeviljhoBiteA extends ActionAdapter<EntityDeviljho> {
 	private static final int LAST_FRAME = 35;
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(72f, 50F,9999999f);
 
-	private static final double MAX_DIST = 8f;
+	private static final double MAX_DIST = 5f;
 	private static final float WEIGHT = 5;
 
 	public DeviljhoBiteA() {

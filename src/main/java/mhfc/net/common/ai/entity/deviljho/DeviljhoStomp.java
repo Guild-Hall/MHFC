@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.entity.AIGameplayComposition;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIAnimatedAction;
@@ -39,26 +40,7 @@ public class DeviljhoStomp extends AIAnimatedAction<EntityDeviljho> {
 		@SuppressWarnings("unchecked")
 		List<Entity> list = entity.worldObj
 				.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(6.0D, 1.0D, 6.0D));
-		Random random = new Random();
-		int a = MathHelper.floor_double(entity.posX);
-		int b = MathHelper.floor_double(entity.posY);
-		int c = MathHelper.floor_double(entity.posZ);
-		Block block = entity.worldObj.getBlock(a, b - 1, c);
-		if (block != Blocks.air) {
-			block = Blocks.dirt;
-		}
-		for (int x = 0; x < 100; x++) {
-			for (int z = 0; z < 100; z++) {
-				entity.worldObj.spawnParticle(
-						"blockcrack_" + Block.getIdFromBlock(block) + "_0",
-						entity.posX - 5.0D + x,
-						entity.posY + 0.5D,
-						entity.posZ - 5.0D + z,
-						random.nextGaussian(),
-						random.nextGaussian(),
-						random.nextGaussian());
-			}
-		}
+		AIGameplayComposition.AIStompCrackGameplay(entity, 100);
 		for (Entity entity1 : list) {
 			if (!(entity1 instanceof EntityLivingBase)) {
 				continue;

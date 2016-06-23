@@ -219,12 +219,7 @@ public class AIUtils {
 		return new DefDamageCalculator(player, wyvern, rest);
 	}
 
-	public static void stun(EntityLivingBase target) {
-		if (target instanceof EntityPlayer && ((EntityPlayer) target).capabilities.isCreativeMode)
-			return;
-		target.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 80, 10));
-		target.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 80, 10));
-	}
+	
 
 	/**
 	 * Gives the yaw of a vector
