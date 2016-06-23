@@ -107,6 +107,10 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item {
 		return true;
 	}
 
+	public W getWeaponStats() {
+		return stats;
+	}
+
 	@Override
 	public int getItemEnchantability() {
 		return 0;

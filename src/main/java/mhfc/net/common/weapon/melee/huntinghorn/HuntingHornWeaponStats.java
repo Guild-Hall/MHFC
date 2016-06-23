@@ -74,11 +74,13 @@ public class HuntingHornWeaponStats extends MeleeWeaponStats {
 		Objects.requireNonNull(note);
 		int[] notes = NBTUtils.getNBTChecked(stack).getIntArray(NBT_NOTEHISTORY);
 		if (notes.length >= HHSongRegistry.SONG_LENGTH_CAP) {
-			System.arraycopy(notes, 1, notes, 0, HHSongRegistry.SONG_LENGTH_CAP - 1);
-			notes[HHSongRegistry.SONG_LENGTH_CAP - 1] = note.ordinal();
+			System.arraycopy(notes, 0, notes, 1, HHSongRegistry.SONG_LENGTH_CAP - 1);
+			notes[0] = note.ordinal();
 		} else {
-			notes = Arrays.copyOf(notes, notes.length + 1);
-			notes[notes.length - 1] = note.ordinal();
+			int[] newNotes = new int[notes.length + 1];
+			System.arraycopy(notes, 0, newNotes, 1, notes.length);
+			notes = newNotes;
+			notes[0] = note.ordinal();
 			NBTUtils.getNBTChecked(stack).setIntArray(NBT_NOTEHISTORY, notes);
 		}
 	}
