@@ -12,6 +12,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import mhfc.net.client.render.entity.RenderNargacuga;
 import mhfc.net.client.render.projectile.RenderBlockProjectile;
 import mhfc.net.client.render.projectile.RenderBreathe;
 import mhfc.net.client.render.projectile.RenderBullet;
@@ -36,6 +37,7 @@ import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import mhfc.net.common.entity.projectile.NargacugaSpike;
 import mhfc.net.common.util.lib.MHFCReference;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
@@ -67,12 +69,7 @@ public class MHFCEntityRenderRegistry {
 				MHFCReference.mob_lagiacrus_model,
 				MHFCReference.mob_lagiacrus_skeleton,
 				1.0F);
-		registerAnimatedRenderer(
-				EntityNargacuga.class,
-				MHFCReference.mob_nargacuga_textureDir,
-				MHFCReference.mob_nargacuga_model,
-				MHFCReference.mob_nargacuga_skeleton,
-				1.0F);
+		registerRender(EntityNargacuga.class, new RenderNargacuga());
 		registerAnimatedRenderer(
 				EntityDeviljho.class,
 				MHFCReference.mob_deviljho_textureDir,
@@ -85,7 +82,7 @@ public class MHFCEntityRenderRegistry {
 				MHFCReference.mob_kirin_model,
 				MHFCReference.mob_kirin_skeleton,
 				1.0F);
-				
+
 		registerAnimatedRenderer(EntityBarroth.class, MHFCReference.mob_barroth_model, 1.0F);
 		registerAnimatedRenderer(EntityGiaprey.class, MHFCReference.mob_giaprey_model, 1.0F);
 		registerAnimatedRenderer(EntityUkanlos.class, MHFCReference.mob_ukanlos_model, 1.0F);
@@ -146,10 +143,16 @@ public class MHFCEntityRenderRegistry {
 			float shadow) {
 		ISkeleton skeleton = CommonLoader.loadSkeleton(sklLoc);
 		IModel model = ClientLoader.loadModel(modelLoc, skeleton);
-		RenderingRegistry.registerEntityRenderingHandler(entityClass, getRender(textureDir, model, shadow));
+		IEntityAnimator animator = getAnimator(textureDir);
+		RenderAnimatedModel animatedModel = RenderAnimatedModel.fromModel(animator, model, shadow);
+		RenderingRegistry.registerEntityRenderingHandler(entityClass, animatedModel);
 	}
 
-	private static RenderAnimatedModel getRender(String textureDir, IModel model, float shadow) {
+	private static void registerRender(Class<? extends Entity> clazz, Render render) {
+		RenderingRegistry.registerEntityRenderingHandler(clazz, render);
+	}
+
+	public static IEntityAnimator getAnimator(String textureDir) {
 		LoadingCache<String, ResourceLocation> cachedResourceLoc = CacheBuilder.newBuilder().maximumSize(100)
 				.build(new CacheLoader<String, ResourceLocation>() {
 					@Override
@@ -161,6 +164,6 @@ public class MHFCEntityRenderRegistry {
 			return IAnimatedObject.class.cast(entity).preRenderCallback(partialTick, buffer)
 					.setTextureTransform(cachedResourceLoc::getUnchecked);
 		};
-		return RenderAnimatedModel.fromModel(animator, model, shadow);
+		return animator;
 	}
 }

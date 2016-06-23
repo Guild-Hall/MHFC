@@ -13,7 +13,6 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import com.github.worldsender.mcanm.common.animation.IAnimation;
 import com.github.worldsender.mcanm.common.animation.IAnimation.BoneTransformation;
 import com.google.common.collect.EvictingQueue;
-import com.google.common.collect.Queues;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IActionRecorder;
@@ -59,8 +58,8 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 
 		recorder = new RecorderAdapter<>(100);
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
-		eyesPositionsRight = Queues.synchronizedQueue(EvictingQueue.<Vec3>create(EYES_RECORD_LENGTH));
-		eyesPositionsLeft = Queues.synchronizedQueue(EvictingQueue.<Vec3>create(EYES_RECORD_LENGTH));
+		eyesPositionsRight = EvictingQueue.create(EYES_RECORD_LENGTH);
+		eyesPositionsLeft = EvictingQueue.create(EYES_RECORD_LENGTH);
 		ticksSinceEyesSaved = 0;
 		enraged = false;
 	}
@@ -79,7 +78,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		// NargaJumpBehaviour.FOUR_JUMPS);
 		NargacugaCharge charge = new NargacugaCharge();
 
-		List<IExecutableAction<? super EntityNargacuga>> prowlerFollow = new ArrayList<IExecutableAction<? super EntityNargacuga>>();
+		List<IExecutableAction<? super EntityNargacuga>> prowlerFollow = new ArrayList<>();
 		prowlerFollow.add(pounceTwo);
 		prowlerFollow.add(pounceThree);
 		prowlerFollow.add(tailWhip);
@@ -90,7 +89,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		attackManager.registerAllowingAllActions(roar);
 		attackManager.registerActionWithFollowUps(prowler, prowlerFollow);
 		attackManager.registerAllowingAllActions(backOff);
-		
+
 		attackManager.allowAllStrongActions(pounceThree);
 		attackManager.allowAllStrongActions(pounceTwo);
 		attackManager.allowAllStrongActions(tailWhip);
@@ -135,13 +134,11 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	}
 
 	private Vec3 getPositionLeftEye() {
-		Vec3 relativePosition = getRelativePositionOfBone("Eye.L");
-		return relativePosition.addVector(posX, posY, posZ);
+		return getRelativePositionOfBone("Eye.L").addVector(posX, posY, posZ);
 	}
 
 	private Vec3 getPositionRightEye() {
-		Vec3 relativePosition = getRelativePositionOfBone("Eye.R");
-		return relativePosition.addVector(posX, posY, posZ);
+		return getRelativePositionOfBone("Eye.R").addVector(posX, posY, posZ);
 	}
 
 	public Queue<Vec3> getEyesPositionsRight() {
@@ -181,7 +178,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	public boolean isEnraged() {
 		return enraged;
 	}
-	
+
 	@Override
 	protected String getLivingSound() {
 		return "mhfc:nargacuga.idle";
