@@ -9,6 +9,7 @@ import mhfc.net.common.core.MHFCMobList;
 import mhfc.net.common.entity.monster.EntityBarroth;
 import mhfc.net.common.entity.monster.EntityDelex;
 import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.entity.monster.EntityGagua;
 import mhfc.net.common.entity.monster.EntityGiaprey;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
 import mhfc.net.common.entity.monster.EntityKirin;
@@ -46,6 +47,7 @@ public class MHFCEntityRegistry {
 	public static final int lagiacrusID;
 	public static final int ukanlosID;
 	public static final int kirinID;
+	public static final int gaguaID;
 
 	public static final int questGiverID;
 
@@ -75,7 +77,7 @@ public class MHFCEntityRegistry {
 		delexID = getMobID(EntityDelex.class, MHFCReference.mob_delex_name, 0x6f33333, 0x654321);
 		giapreyID = getMobID(EntityGiaprey.class, MHFCReference.mob_giaprey_name, 0x6f41512, 0x654321);
 		lagiacrusID = getMobID(EntityLagiacrus.class, MHFCReference.mob_lagiacrus_name, 0x6fff512, 0x6ff14f1);
-
+		gaguaID = getMobID(EntityGagua.class, MHFCReference.mob_gagua_name, 0x319292, 0x2187ff20);
 		questGiverID = getMobID(EntityQuestGiver.class, MHFCReference.mob_questGiver_name);
 
 		projectileBlockID = getProjectileID(EntityProjectileBlock.class, MHFCReference.entity_tigrexBlock_name);

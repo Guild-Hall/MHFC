@@ -7,6 +7,7 @@ import java.util.Random;
 
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
+import com.github.worldsender.mcanm.common.CommonLoader;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
@@ -14,7 +15,6 @@ import mhfc.net.common.ai.IManagedActions;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.TargetTurnHelper;
 import mhfc.net.common.ai.general.actions.AIGeneralDeath;
-import mhfc.net.common.ai.general.provider.simple.IAnimationProvider;
 import mhfc.net.common.ai.manager.AIActionManager;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import net.minecraft.entity.Entity;
@@ -27,6 +27,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -62,6 +63,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	protected boolean hasDied;
 	// @see deathTime. DeathTime has the random by-effect of rotating corpses...
 	protected int deathTicks;
+	
+	public ResourceLocation defaultAnimation;
 
 	public EntityMHFCBase(World world) {
 		super(world);
@@ -75,9 +78,21 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		return action;
 	}
 	
-	// Gonna work on this, this will serve as the breathing animation.. 
-	protected IAnimationProvider setDefaultAnimationState ( IAnimationProvider animationLocation) {
-		return animationLocation;
+	
+	@Override
+	public void onUpdate() {
+		super.onUpdate();
+		if(this.getCurrentFrame() < 0 && attackManager.getCurrentAnimation() == null){
+			CommonLoader.loadAnimation(defaultAnimation);
+		}
+		setFrame(this.attackManager.getCurrentFrame());
+		if (this.attackManager.continueExecuting()) {
+			this.attackManager.updateTask();
+		}
+		
+		if(this.isPotionActive(MHFCPotionRegistry.stun.id)){
+			getActionManager().switchToAction(stunAction);
+		}
 	}
 	
 	public abstract IActionManager<YC> constructActionManager();
@@ -421,18 +436,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		this.attackManager = newManager;
 	}
 
-	@Override
-	public void onUpdate() {
-		super.onUpdate();
-		setFrame(this.attackManager.getCurrentFrame());
-		if (this.attackManager.continueExecuting()) {
-			this.attackManager.updateTask();
-		}
-		
-		if(this.isPotionActive(MHFCPotionRegistry.stun.id)){
-			getActionManager().switchToAction(stunAction);
-		}
-	}
+	
 
 	@Override
 	protected void updateAITick() {

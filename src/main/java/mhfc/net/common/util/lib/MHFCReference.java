@@ -476,6 +476,14 @@ public class MHFCReference {
 	public static final String mob_kirin_model = mob_kirin_dir + "Kirin.mcmd";
 	public static final String mob_kirin_skeleton = mob_kirin_dir + "Armature.mcskl";
 	
+	//Gagua
+	public static final String mob_gagua_name = "gagua";
+	public static final String mob_gagua_dir = modelLoc + "Gagua/";
+	public static final String mob_gagua_textureDir = textureLoc + "Gagua/";
+	public static final String mob_gagua_model = mob_gagua_dir + "Gagua.mcmd";
+	public static final String mob_gagua_skeleton = mob_gagua_dir + "Armature.mcskl";
+			
+	
 	// Barroth
 	public static final String mob_barroth_name = "barroth";
 	public static final String mob_barroth_model = modelLoc + "Barroth/Barroth.mcmd";

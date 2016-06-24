@@ -22,6 +22,7 @@ import mhfc.net.client.render.projectile.RenderWyverniaArrow;
 import mhfc.net.common.entity.monster.EntityBarroth;
 import mhfc.net.common.entity.monster.EntityDelex;
 import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.entity.monster.EntityGagua;
 import mhfc.net.common.entity.monster.EntityGiaprey;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
 import mhfc.net.common.entity.monster.EntityKirin;
@@ -49,45 +50,56 @@ public class MHFCEntityRenderRegistry {
 	}
 
 	private static void renderMonster() {
-		registerAnimatedRenderer(EntityRathalos.class, MHFCReference.mob_rathalos_model, 1.0F);
-		registerAnimatedRenderer(
+		//AdvanceRender
+		advanceRenderer(EntityNargacuga.class, new RenderNargacuga());
+		
+		//BasicRender
+		basicRenderer(
 				EntityTigrex.class,
 				MHFCReference.mob_tigrex_textureDir,
 				MHFCReference.mob_tigrex_model,
 				MHFCReference.mob_tigrex_skeleton,
 				1.0F);
-		registerAnimatedRenderer(
+		basicRenderer(
 				EntityDelex.class,
 				MHFCReference.mob_delex_textureDir,
 				MHFCReference.mob_delex_model,
 				MHFCReference.mob_delex_skeleton,
 				1.0F);
-		registerAnimatedRenderer(
+		basicRenderer(
 				EntityGreatJaggi.class,
 				MHFCReference.mob_greatjaggi_textureDir,
 				MHFCReference.mob_greatjaggi_model,
 				MHFCReference.mob_greatjaggi_skeleton,
 				1.0F);
-		registerAnimatedRenderer(
+		basicRenderer(
 				EntityLagiacrus.class,
 				MHFCReference.mob_lagiacrus_textureDir,
 				MHFCReference.mob_lagiacrus_model,
 				MHFCReference.mob_lagiacrus_skeleton,
 				1.0F);
-		registerRender(EntityNargacuga.class, new RenderNargacuga());
-		registerAnimatedRenderer(
+		
+		basicRenderer(
 				EntityDeviljho.class,
 				MHFCReference.mob_deviljho_textureDir,
 				MHFCReference.mob_deviljho_model,
 				MHFCReference.mob_deviljho_skeleton,
 				1.0F);
-		registerAnimatedRenderer(
+		basicRenderer(
 				EntityKirin.class,
 				MHFCReference.mob_kirin_textureDir,
 				MHFCReference.mob_kirin_model,
 				MHFCReference.mob_kirin_skeleton,
 				1.0F);
-
+		basicRenderer(
+				EntityGagua.class,
+				MHFCReference.mob_gagua_textureDir,
+				MHFCReference.mob_gagua_model,
+				MHFCReference.mob_gagua_skeleton,
+				1.0F);
+		
+		
+		registerAnimatedRenderer(EntityRathalos.class, MHFCReference.mob_rathalos_model, 1.0F);
 		registerAnimatedRenderer(EntityBarroth.class, MHFCReference.mob_barroth_model, 1.0F);
 		registerAnimatedRenderer(EntityGiaprey.class, MHFCReference.mob_giaprey_model, 1.0F);
 		registerAnimatedRenderer(EntityUkanlos.class, MHFCReference.mob_ukanlos_model, 1.0F);
@@ -126,7 +138,7 @@ public class MHFCEntityRenderRegistry {
 		return RenderAnimatedModel.fromModel(model, shadow);
 	}
 
-	private static <T extends Entity & IAnimatedObject> void registerAnimatedRenderer(
+	private static <T extends Entity & IAnimatedObject> void basicRenderer(
 			Class<T> entityClass,
 			String textureDir,
 			String modelResource,
@@ -153,7 +165,7 @@ public class MHFCEntityRenderRegistry {
 		RenderingRegistry.registerEntityRenderingHandler(entityClass, animatedModel);
 	}
 
-	private static void registerRender(Class<? extends Entity> clazz, Render render) {
+	private static void advanceRenderer(Class<? extends Entity> clazz, Render render) {
 		RenderingRegistry.registerEntityRenderingHandler(clazz, render);
 	}
 
