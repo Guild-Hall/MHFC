@@ -53,9 +53,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	protected static final int DATA_FRAME = 12;
 	private final TargetTurnHelper turnHelper;
 	private IActionManager<? extends YC> attackManager;
+	
+	
+	
 	private IExecutableAction<? super YC> deathAction;
-	
-	
+	private IExecutableAction<? super YC> inWaterAction;
 	private IExecutableAction<? super YC> stunAction;
 	
 	public boolean FREEZE; // trying to implement this to disable all AI's for the monster temporality.
@@ -64,7 +66,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	// @see deathTime. DeathTime has the random by-effect of rotating corpses...
 	protected int deathTicks;
 	
-	public ResourceLocation defaultAnimation;
 
 	public EntityMHFCBase(World world) {
 		super(world);
@@ -82,9 +83,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		if(this.getCurrentFrame() < 0 && attackManager.getCurrentAnimation() == null){
-			CommonLoader.loadAnimation(defaultAnimation);
-		}
 		setFrame(this.attackManager.getCurrentFrame());
 		if (this.attackManager.continueExecuting()) {
 			this.attackManager.updateTask();
@@ -93,6 +91,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		if(this.isPotionActive(MHFCPotionRegistry.stun.id)){
 			getActionManager().switchToAction(stunAction);
 		}
+		
 	}
 	
 	public abstract IActionManager<YC> constructActionManager();

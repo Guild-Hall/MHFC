@@ -5,8 +5,8 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
-import mhfc.net.common.ai.entity.delex.DelexDying;
-import mhfc.net.common.ai.entity.delex.DelexIdle;
+import mhfc.net.common.ai.entity.nonboss.delex.DelexDying;
+import mhfc.net.common.ai.entity.nonboss.delex.DelexIdle;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;

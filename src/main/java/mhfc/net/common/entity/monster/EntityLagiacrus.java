@@ -5,10 +5,10 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
-import mhfc.net.common.ai.entity.lagiacrus.LagiacrusBite;
-import mhfc.net.common.ai.entity.lagiacrus.LagiacrusDying;
-import mhfc.net.common.ai.entity.lagiacrus.LagiacrusRoar;
-import mhfc.net.common.ai.entity.lagiacrus.LagiacrusWander;
+import mhfc.net.common.ai.entity.boss.lagiacrus.LagiacrusBite;
+import mhfc.net.common.ai.entity.boss.lagiacrus.LagiacrusDying;
+import mhfc.net.common.ai.entity.boss.lagiacrus.LagiacrusRoar;
+import mhfc.net.common.ai.entity.boss.lagiacrus.LagiacrusWander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;

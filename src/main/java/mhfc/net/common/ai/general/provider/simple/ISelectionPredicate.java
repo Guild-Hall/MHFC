@@ -6,7 +6,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.IActionRecorder;
 import mhfc.net.common.ai.IExecutableAction;
-import mhfc.net.common.ai.entity.rathalos.FireballAttack;
+import mhfc.net.common.ai.entity.boss.rathalos.FireballAttack;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.eventhandler.ai.ActionSelectionEvent;

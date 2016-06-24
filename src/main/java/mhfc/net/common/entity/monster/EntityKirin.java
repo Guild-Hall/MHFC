@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
-import mhfc.net.common.ai.entity.kirin.KirinIdle;
+import mhfc.net.common.ai.entity.boss.kirin.KirinIdle;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;

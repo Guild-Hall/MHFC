@@ -5,12 +5,12 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
-import mhfc.net.common.ai.entity.greatjaggi.GJaggiBite;
-import mhfc.net.common.ai.entity.greatjaggi.GJaggiIdle;
-import mhfc.net.common.ai.entity.greatjaggi.GJaggiRoar;
-import mhfc.net.common.ai.entity.greatjaggi.GJaggiRun;
-import mhfc.net.common.ai.entity.greatjaggi.GJaggiWander;
-import mhfc.net.common.ai.entity.greatjaggi.GJaggiWhip;
+import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiBite;
+import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiIdle;
+import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiRoar;
+import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiRun;
+import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiWander;
+import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiWhip;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
