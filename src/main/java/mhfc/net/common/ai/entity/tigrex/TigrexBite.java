@@ -51,7 +51,7 @@ public class TigrexBite extends ActionAdapter<EntityTigrex> {
 	@Override
 	public void update() {
 		if (this.getCurrentFrame() == 23) {
-			getEntity().playSound("mhfc:tigrex.bite", 1.0F, 1.0F);
+			getEntity().playSound("mhfc:tigrex.bite", 2.0F, 1.0F);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			EntityTigrex tig = getEntity();

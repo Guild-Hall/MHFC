@@ -14,7 +14,9 @@ import mhfc.net.common.ai.IManagedActions;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.TargetTurnHelper;
 import mhfc.net.common.ai.general.actions.AIGeneralDeath;
+import mhfc.net.common.ai.general.provider.simple.IAnimationProvider;
 import mhfc.net.common.ai.manager.AIActionManager;
+import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityMultiPart;
@@ -52,6 +54,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	private IActionManager<? extends YC> attackManager;
 	private IExecutableAction<? super YC> deathAction;
 	
+	
+	private IExecutableAction<? super YC> stunAction;
+	
 	public boolean FREEZE; // trying to implement this to disable all AI's for the monster temporality.
 
 	protected boolean hasDied;
@@ -68,6 +73,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	protected <A extends IExecutableAction<? super YC>> A setDeathAction(A action) {
 		this.deathAction = action;
 		return action;
+	}
+	
+	// Gonna work on this, this will serve as the breathing animation.. 
+	protected IAnimationProvider setDefaultAnimationState ( IAnimationProvider animationLocation) {
+		return animationLocation;
 	}
 	
 	public abstract IActionManager<YC> constructActionManager();
@@ -92,7 +102,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	@Override
 	public int getTotalArmorValue() {
-		return 25;
+		return 17;
 	}
 
 	@Override
@@ -417,6 +427,10 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		setFrame(this.attackManager.getCurrentFrame());
 		if (this.attackManager.continueExecuting()) {
 			this.attackManager.updateTask();
+		}
+		
+		if(this.isPotionActive(MHFCPotionRegistry.stun.id)){
+			getActionManager().switchToAction(stunAction);
 		}
 	}
 

@@ -10,7 +10,7 @@ public class TigrexWander extends AIGeneralWander<EntityTigrex> {
 
 	private static final String ANIMATION = "mhfc:models/Tigrex/walk.mcanm";
 	private static final int ANIMATION_LENGTH = 90;
-	private static final float WEIGHT = 3;
+	private static final float WEIGHT = 1;
 	private static final float TURN_SPEED = 4f;
 	private static final float MOVE_SPEED = 0.2f;
 	private static final IMoveParameterProvider parameterProvider;

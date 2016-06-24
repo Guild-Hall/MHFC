@@ -165,7 +165,7 @@ public class TigrexRun extends ActionAdapter<EntityTigrex> {
 	public void beginExecution() {
 		EntityTigrex tig = getEntity();
 		target = tig.getAttackTarget();
-		tig.playSound("mhfc:tigrex.charge", 1.0F, 1.0F);
+		tig.playSound("mhfc:tigrex.charge", 2.0F, 1.0F);
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;
 		runCycles = 0;

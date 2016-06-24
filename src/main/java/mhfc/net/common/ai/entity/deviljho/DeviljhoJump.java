@@ -44,10 +44,16 @@ public class DeviljhoJump extends AIGeneralJumpAttack<EntityDeviljho> {
 		
 	}
 	
+	
+	private boolean thrown = false;
+	
 	@Override
 	public void update() { 
 		EntityDeviljho entity = this.getEntity();
+		if (!entity.onGround || thrown || this.getCurrentFrame() < 30)
+			return;
 		AIGameplayComposition.AIStompCrackGameplay(entity, 200);
+		thrown = true;
 	}
 
 	@Override

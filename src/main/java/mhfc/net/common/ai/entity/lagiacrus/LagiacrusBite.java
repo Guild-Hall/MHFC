@@ -46,7 +46,7 @@ public class LagiacrusBite extends ActionAdapter <EntityLagiacrus> {
 	@Override
 	public void update() {
 		if (this.getCurrentFrame() == 38) {
-			getEntity().playSound("mhfc:lagacirus.bite", 1.0F, 1.0F);
+			getEntity().playSound("mhfc:lagacirus.bite", 2.0F, 1.0F);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			EntityLagiacrus entity = getEntity();

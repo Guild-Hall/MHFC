@@ -425,7 +425,10 @@ public class MHFCReference {
 	
 	// Tigrex
 	public static final String mob_tigrex_name = "tigrex";
-	public static final String mob_tigrex_model = modelLoc + "Tigrex/Tigrex.mcmd";
+	public static final String mob_tigrex_dir = modelLoc + "Tigrex/";
+	public static final String mob_tigrex_textureDir = textureLoc + "Tigrex/";
+	public static final String mob_tigrex_model = mob_tigrex_dir + "Tigrex.mcmd";
+	public static final String mob_tigrex_skeleton = mob_tigrex_dir + "Armature.mcskl";
 	
 	// Rathalos
 	public static final String mob_rathalos_name = "rathalos";
