@@ -587,6 +587,8 @@ public class MHFCReference {
 	public static final String projectile_wyverniabullet_tex = "mhfc:textures/projectile/bullet0.png";
 
 	public static final String gui_questgiver_back_tex = "mhfc:texture/gui/questgiver.png";
+	public static final String gui_huntinghorn_stave = "mhfc:texture/gui/notesheet.png";
+	public static final String gui_huntinghorn_note = "mhfc:texture/gui/notes.png";
 
 	public static final int gui_hunterbench_id = 1;
 	public static final int gui_questgiver_id = 2;
