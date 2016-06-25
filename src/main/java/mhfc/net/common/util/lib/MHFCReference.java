@@ -432,7 +432,10 @@ public class MHFCReference {
 	
 	// Rathalos
 	public static final String mob_rathalos_name = "rathalos";
-	public static final String mob_rathalos_model = modelLoc + "Rathalos/Rathalos.mcmd";
+	public static final String mob_rathalos_dir = modelLoc + "Rathalos/";
+	public static final String mob_rathalos_textureDir = textureLoc + "rathalos.pngNewtexture.png";
+	public static final String mob_rathalos_model = mob_rathalos_dir + "Rathalos.mcmd";
+	public static final String mob_rathalos_skeleton = mob_rathalos_dir + "Armature.mcskl";
 	
 	// Great Jaggi
 	public static final String mob_greatjaggi_name = "greatjaggi";
