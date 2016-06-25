@@ -183,7 +183,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 
 	@Override
 	protected String getLivingSound() {
-		return "mhfc:nargacuga.idle";
+		return "mhfc:narga.idle";
 	}
 
 	@Override
