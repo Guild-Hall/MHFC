@@ -489,7 +489,10 @@ public class MHFCReference {
 	
 	// Barroth
 	public static final String mob_barroth_name = "barroth";
-	public static final String mob_barroth_model = modelLoc + "Barroth/Barroth.mcmd";
+	public static final String mob_barroth_dir = modelLoc + "Barroth/";
+	public static final String mob_barroth_textureDir = textureLoc + "Barroth/";
+	public static final String mob_barroth_model = mob_barroth_dir + "Barroth.mcmd";
+	public static final String mob_barroth_skeleton = mob_barroth_dir + "Armature.mcskl";
 	
 	// Giaprey
 	public static final String mob_giaprey_name = "giaprey";

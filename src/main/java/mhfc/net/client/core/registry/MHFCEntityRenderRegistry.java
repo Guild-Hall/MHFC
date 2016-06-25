@@ -103,9 +103,14 @@ public class MHFCEntityRenderRegistry {
 				MHFCReference.mob_rathalos_model,
 				MHFCReference.mob_rathalos_skeleton,
 				1.0F);
+		basicRenderer(
+				EntityBarroth.class,
+				MHFCReference.mob_barroth_textureDir,
+				MHFCReference.mob_barroth_model,
+				MHFCReference.mob_barroth_skeleton,
+				1.0F);
 		
 		
-		registerAnimatedRenderer(EntityBarroth.class, MHFCReference.mob_barroth_model, 1.0F);
 		registerAnimatedRenderer(EntityGiaprey.class, MHFCReference.mob_giaprey_model, 1.0F);
 		registerAnimatedRenderer(EntityUkanlos.class, MHFCReference.mob_ukanlos_model, 1.0F);
 

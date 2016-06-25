@@ -1,4 +1,4 @@
-package mhfc.net.common.ai.entity.boss.deviljho;
+package mhfc.net.common.ai.entity.boss.barroth;
 
 import java.util.List;
 
@@ -8,18 +8,18 @@ import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIAnimatedAction;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
-import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.entity.monster.EntityBarroth;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 
-public class DeviljhoStomp extends AIAnimatedAction<EntityDeviljho> {
-	private static final String ANIMATION = "mhfc:models/Deviljho/DeviljhoStomp.mcanm";
-	private static final int LAST_FRAME = 55;
+public class BarrothStomp extends AIAnimatedAction<EntityBarroth> {
+	private static final String ANIMATION = "mhfc:models/Barroth/BarrothStomp.mcanm";
+	private static final int LAST_FRAME = 85;
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(60f, 50F, 9999999f);
 	private static final double MAX_DIST = 9f;
-	private static final float WEIGHT = 7;
+	private static final float WEIGHT = 5;
 
-	private static final ISelectionPredicate<EntityDeviljho> selectionProvider;
+	private static final ISelectionPredicate<EntityBarroth> selectionProvider;
 
 	static {
 		selectionProvider = new ISelectionPredicate.DistanceAdapter<>(0, MAX_DIST);
@@ -27,39 +27,35 @@ public class DeviljhoStomp extends AIAnimatedAction<EntityDeviljho> {
 
 	private boolean thrown = false;
 
-	public DeviljhoStomp() {}
+	public BarrothStomp() {}
 
 	private void updateStomp() {
-		EntityDeviljho entity = this.getEntity();
-		if (!entity.onGround || thrown || this.getCurrentFrame() < 26)
+		EntityBarroth entity = this.getEntity();
+		if (!entity.onGround || thrown || this.getCurrentFrame() < 30)
 			return;
 		@SuppressWarnings("unchecked")
 		List<Entity> list = entity.worldObj
-				.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(6.0D, 1.0D, 6.0D));
-		AIGameplayComposition.AIStompCrackGameplay(entity, 100);
+				.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(8.0D, 1.0D, 8.0D));
+		AIGameplayComposition.AIStompCrackGameplay(entity, 150);
 		for (Entity entity1 : list) {
 			if (!(entity1 instanceof EntityLivingBase)) {
 				continue;
 			}
 			EntityLivingBase living = (EntityLivingBase) entity;
 			damageCalc.accept(living);
-			entity1.addVelocity(-0.2, 0.2, 0);
+			entity1.addVelocity(-0.2, 0.8D, 0);
 		}
-		entity.playSound("mhfc:deviljho.stomp", 1.0F, 1.0F);
+//		entity.playSound("mhfc:deviljho.stomp", 1.0F, 1.0F);
 		thrown = true;
 	}
 
 	@Override
 	protected void update() {
-		EntityDeviljho entity = this.getEntity();
+		EntityBarroth entity = this.getEntity();
 		target = entity.getAttackTarget();
 
 		updateStomp();
 
-		if (isMoveForwardFrame(getCurrentFrame())) {
-			EntityDeviljho e = getEntity();
-			e.moveForward(1, false);
-		}
 
 	}
 
@@ -69,9 +65,6 @@ public class DeviljhoStomp extends AIAnimatedAction<EntityDeviljho> {
 		thrown = false;
 	}
 
-	private boolean isMoveForwardFrame(int frame) {
-		return (frame > 20 && frame < 30);
-	}
 
 	@Override
 	public String getAnimationLocation() {
@@ -85,14 +78,14 @@ public class DeviljhoStomp extends AIAnimatedAction<EntityDeviljho> {
 
 	@Override
 	public boolean shouldSelectAttack(
-			IExecutableAction<? super EntityDeviljho> attack,
-			EntityDeviljho actor,
+			IExecutableAction<? super EntityBarroth> attack,
+			EntityBarroth actor,
 			Entity target) {
 		return selectionProvider.shouldSelectAttack(attack, actor, target);
 	}
 
 	@Override
-	public float getWeight(EntityDeviljho entity, Entity target) {
+	public float getWeight(EntityBarroth entity, Entity target) {
 		return WEIGHT;
 	}
 

@@ -5,8 +5,11 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
+import mhfc.net.common.ai.entity.boss.barroth.BarrothDeath;
 import mhfc.net.common.ai.entity.boss.barroth.BarrothIdle;
+import mhfc.net.common.ai.entity.boss.barroth.BarrothRam;
 import mhfc.net.common.ai.entity.boss.barroth.BarrothRoar;
+import mhfc.net.common.ai.entity.boss.barroth.BarrothStomp;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -30,6 +33,9 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	@Override
 	public IActionManager<EntityBarroth> constructActionManager() {
 		ActionManagerBuilder<EntityBarroth> actionManager = new ActionManagerBuilder<>();
+		actionManager.registerAction(setDeathAction(new BarrothDeath()));
+		actionManager.registerAction(new BarrothStomp());
+		actionManager.registerAction(new BarrothRam());
 		actionManager.registerAction(new BarrothIdle());
 		actionManager.registerAction(new BarrothRoar());
 		return actionManager.build(this);
@@ -40,7 +46,8 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 		super.applyEntityAttributes();
 		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(6272D, 10000D, 20000D));
+		//default 8112
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(20D, 10000D, 20000D));
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
 	}
