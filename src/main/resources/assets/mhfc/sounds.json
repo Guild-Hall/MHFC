@@ -54,6 +54,7 @@
     "greatjaggi.call": {"category": "hostile", "sounds": ["mob/greatjaggi/call"]},
     "greatjaggi.roar": {"category": "hostile", "sounds": ["mob/greatjaggi/roar"]},
     "greatjaggi.tailwhip": {"category": "hostile", "sounds": ["mob/greatjaggi/tailwhip"]},
+    "greatjaggi.death": {"category": "hostile", "sounds": ["mob/greatjaggi/death"]},
     
     "lagiacrus.idle": {"category": "hostile", "sounds": ["mob/lagiacrus/idle1", "mob/lagiacrus/idle2", "mob/lagiacrus/idle3"]},
     "lagiacrus.charge": {"category": "hostile", "sounds": ["mob/lagiacrus/charge"]},
