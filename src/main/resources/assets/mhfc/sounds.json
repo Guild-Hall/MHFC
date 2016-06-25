@@ -36,6 +36,11 @@
     "deviljho.step": {"category": "hostile", "sounds": ["mob/deviljho/step1", "mob/deviljho/step2","mob/deviljho/step3","mob/deviljho/step4"]},
     "deviljho.death": {"category": "hostile", "sounds": ["mob/deviljho/death"]},
     
+    "gagua.idle": {"category": "hostile", "sounds": ["mob/gargwa/idle"]},
+    "gagua.hurt": {"category": "hostile", "sounds": ["mob/gargwa/hurt"]},
+    "gagua.panic": {"category": "hostile", "sounds": ["mob/gargwa/panic"]},
+    "gagua.death": {"category": "hostile", "sounds": ["mob/gargwa/death"]},
+    
     "giaprey.idle": {"category": "hostile", "sounds": ["mob/giaprey/idle1", "mob/giaprey/idle2", "mob/giaprey/idle3"]},
     "giaprey.bite": {"category": "hostile", "sounds": ["mob/giaprey/bite"]},
     "giaprey.leap": {"category": "hostile", "sounds": ["mob/giaprey/leap"]},
