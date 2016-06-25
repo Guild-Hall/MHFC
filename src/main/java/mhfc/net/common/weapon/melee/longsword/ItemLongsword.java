@@ -9,10 +9,13 @@ import mhfc.net.common.util.NBTUtils;
 import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.longsword.LongswordWeaponStats.LongswordWeaponStatsBuilder;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 	public static ItemLongsword build(Consumer<LongswordWeaponStatsBuilder> config) {
@@ -21,9 +24,10 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 		return new ItemLongsword(builder.build());
 	}
 
-	protected static final String NBT_AFFINITY = "mhfc:affinity";
-	protected static final float MAX_AFFINITY = 250f;
-	protected static final float TRIGGER_AFFINITY = 100f;
+	protected static final String NBT_SPIRIT = "mhfc:affinity";
+	protected static final float MAX_SPIRIT = 250f;
+	protected static final float TRIGGER_SPIRIT = 100f;
+	protected static final float SPIRIT_DECREASE = 1f;
 
 	public ItemLongsword(LongswordWeaponStats stats) {
 		super(stats);
@@ -31,18 +35,40 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 	}
 
 	protected float getAffinity(ItemStack stack) {
-		return NBTUtils.getNBTChecked(stack).getFloat(NBT_AFFINITY);
+		return NBTUtils.getNBTChecked(stack).getFloat(NBT_SPIRIT);
 	}
 
-	protected float affectAffinity(ItemStack stack, float change) {
+	protected float changeSpirit(ItemStack stack, float change) {
 		float current = getAffinity(stack);
-		current = Math.min(Math.max(current + change, 0f), MAX_AFFINITY);
-		NBTUtils.getNBTChecked(stack).setFloat(NBT_AFFINITY, current);
+		current = Math.min(Math.max(current + change, 0f), MAX_SPIRIT);
+		NBTUtils.getNBTChecked(stack).setFloat(NBT_SPIRIT, current);
 		return current;
 	}
 
-	protected boolean isAffinityTriggered(ItemStack stack) {
-		return getAffinity(stack) > TRIGGER_AFFINITY;
+	public boolean isAffinityTriggered(ItemStack stack) {
+		return getAffinity(stack) > TRIGGER_SPIRIT;
+	}
+
+	@Override
+	public void onUpdate(ItemStack stack, World world, Entity holder, int slot, boolean isHoldItem) {
+		super.onUpdate(stack, world, holder, slot, isHoldItem);
+		changeSpirit(stack, SPIRIT_DECREASE);
+	}
+
+	@Override
+	public boolean onEntityItemUpdate(EntityItem entityItem) {
+		changeSpirit(entityItem.getEntityItem(), SPIRIT_DECREASE);
+		return super.onEntityItemUpdate(entityItem);
+	}
+
+	/**
+	 * Gets the current affinity as a float in [0..1]
+	 *
+	 * @param stack
+	 * @return
+	 */
+	public float getSpiritPercentage(ItemStack stack) {
+		return Math.min(TRIGGER_SPIRIT, getAffinity(stack)) / TRIGGER_SPIRIT;
 	}
 
 	@Override
@@ -52,7 +78,7 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 
 	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase holder, EntityLivingBase hit) {
-		affectAffinity(stack, 30);
+		changeSpirit(stack, 30);
 		return true;
 	}
 

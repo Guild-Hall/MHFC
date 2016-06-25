@@ -1,5 +1,9 @@
 package mhfc.net.client.gui.hud;
 
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glColor3f;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 
@@ -12,6 +16,7 @@ import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.weapon.melee.huntinghorn.HuntingHornWeaponStats;
 import mhfc.net.common.weapon.melee.huntinghorn.ItemHuntingHorn;
 import mhfc.net.common.weapon.melee.huntinghorn.Note;
+import mhfc.net.common.weapon.melee.longsword.ItemLongsword;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.item.Item;
@@ -34,6 +39,9 @@ public class WeaponOverlay {
 		Item item = stack.getItem();
 		if (item instanceof ItemHuntingHorn) {
 			renderHuntingHornOverlay(thePlayer, stack);
+		}
+		if (item instanceof ItemLongsword) {
+			renderLongswordOverlay(thePlayer, stack);
 		}
 	}
 
@@ -61,5 +69,19 @@ public class WeaponOverlay {
 		}
 
 		glPopMatrix();
+	}
+
+	private void renderLongswordOverlay(EntityClientPlayerMP thePlayer, ItemStack stack) {
+		ItemLongsword item = ItemLongsword.class.cast(stack.getItem());
+		float spirit = item.getSpiritPercentage(stack);
+
+		float resizeX = 1f, resizeY = 1f, offsetX = 4, offsetY = 4, fullLength = 128;
+
+		offsetX *= resizeX;
+		offsetY *= resizeY;
+		glDisable(GL_TEXTURE_2D);
+		glColor3f(spirit - 1.f < -1e-9 ? 0.7f : 1f, 0.1f, 0.1f);
+		MHFCGuiUtil.drawTexturedRectangle(offsetX, offsetY, fullLength * spirit * resizeX, 3 * resizeY, 0, 0, 1, 1);
+		glEnable(GL_TEXTURE_2D);
 	}
 }
