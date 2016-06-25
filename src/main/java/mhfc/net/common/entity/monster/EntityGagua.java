@@ -24,13 +24,9 @@ public class EntityGagua extends EntityMHFCBase<EntityGagua> {
 		super(world);
 		this.height = 2f;
 		this.width = 2f;
-		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
+//		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 	}
 	
-	@Override
-	public void onUpdate() {
-		super.onUpdate();
-	}
 
 	@Override
 	public IActionManager<EntityGagua> constructActionManager() {

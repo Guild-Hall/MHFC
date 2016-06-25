@@ -6,9 +6,9 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiBite;
+import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiDeath;
 import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiIdle;
 import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiRoar;
-import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiRun;
 import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiWander;
 import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiWhip;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
@@ -16,7 +16,6 @@ import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
@@ -29,7 +28,6 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 		super(world);
 
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityAnimal.class, 0, true));
 	}
 
 	@Override
@@ -38,9 +36,11 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 		actionManager.registerAction(new GJaggiBite());
 		actionManager.registerAction(new GJaggiIdle());
 		actionManager.registerAction(new GJaggiRoar());
-		actionManager.registerAction(new GJaggiRun());
+//		actionManager.registerAction(new GJaggiRun());
 		actionManager.registerAction(new GJaggiWhip());
 		actionManager.registerAction(new GJaggiWander());
+		
+		actionManager.registerAction(setDeathAction(new GJaggiDeath()));
 		return actionManager.build(this);
 	}
 
@@ -54,6 +54,7 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 		super.applyEntityAttributes();
 		getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.0D);
+		// default 2653
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(2653D, 5200D, 10400D));
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.4D);

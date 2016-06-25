@@ -68,7 +68,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		super.applyEntityAttributes();
 		getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(20D, 25000D, 50000D));
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(26133D, 25000D, 50000D));
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.32D);
 	}

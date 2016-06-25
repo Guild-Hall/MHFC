@@ -19,14 +19,15 @@ import mhfc.net.common.ai.IActionRecorder;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.boss.nargacuga.NargacugaBackOff;
 import mhfc.net.common.ai.entity.boss.nargacuga.NargacugaCharge;
+import mhfc.net.common.ai.entity.boss.nargacuga.NargacugaDeath;
 import mhfc.net.common.ai.entity.boss.nargacuga.NargacugaIdle;
 import mhfc.net.common.ai.entity.boss.nargacuga.NargacugaPounce;
+import mhfc.net.common.ai.entity.boss.nargacuga.NargacugaPounce.JumpBehaviour;
 import mhfc.net.common.ai.entity.boss.nargacuga.NargacugaRoar;
 import mhfc.net.common.ai.entity.boss.nargacuga.NargacugaTailWhip;
 import mhfc.net.common.ai.entity.boss.nargacuga.NargacugaWander;
 import mhfc.net.common.ai.entity.boss.nargacuga.ProwlerStance;
 import mhfc.net.common.ai.entity.boss.nargacuga.TailSlam;
-import mhfc.net.common.ai.entity.boss.nargacuga.NargacugaPounce.JumpBehaviour;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -89,7 +90,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		attackManager.registerAllowingAllActions(roar);
 		attackManager.registerActionWithFollowUps(prowler, prowlerFollow);
 		attackManager.registerAllowingAllActions(backOff);
-
+		attackManager.registerAction(setDeathAction(new NargacugaDeath()));
 		attackManager.allowAllStrongActions(pounceThree);
 		attackManager.allowAllStrongActions(pounceTwo);
 		attackManager.allowAllStrongActions(tailWhip);
@@ -102,7 +103,8 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		super.applyEntityAttributes();
 		getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(9869D, 11000D, 22000D));
+		//default is 10721D
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(10721D, 11000D, 22000D));
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.43D);
 	}
