@@ -1,4 +1,4 @@
-package mhfc.net.client.render;
+package mhfc.net.client.util;
 
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.EntityLivingBase;

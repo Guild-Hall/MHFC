@@ -1,8 +1,8 @@
 package mhfc.net.common.quests;
 
+import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.QuestDescription;
-import mhfc.net.common.util.gui.MHFCGuiUtil;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.StatCollector;

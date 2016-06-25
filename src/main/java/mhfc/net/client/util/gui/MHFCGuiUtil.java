@@ -1,4 +1,6 @@
-package mhfc.net.common.util.gui;
+package mhfc.net.client.util.gui;
+
+import static org.lwjgl.opengl.GL11.glColor4f;
 
 import mhfc.net.MHFCMain;
 import net.minecraft.client.Minecraft;
@@ -17,14 +19,16 @@ public class MHFCGuiUtil {
 	private static ScaledResolution s;
 
 	public static int realScreenWidth(Minecraft mc) {
-		if (mc == null)
+		if (mc == null) {
 			throw new IllegalArgumentException("Gui utils may only be accessed with valid minecraft");
+		}
 		return mc.displayWidth;
 	}
 
 	public static int realScreenHeight(Minecraft mc) {
-		if (mc == null)
+		if (mc == null) {
 			throw new IllegalArgumentException("Gui utils may only be accessed with valid minecraft");
+		}
 		return mc.displayHeight;
 	}
 
@@ -44,22 +48,25 @@ public class MHFCGuiUtil {
 	}
 
 	private static void refreshScaled(Minecraft mc) {
-		if (mc == null)
+		if (mc == null) {
 			throw new IllegalArgumentException("Gui utils may only be accessed with valid minecraft");
+		}
 		s = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 	}
 
 	/**
-	 * Draws a string onto the screen at the desired position. If width is > 0,
-	 * then the draw split string method is used instead. The amount if vertical
-	 * space occupied by the draw is calculated and returned. If one attempts to
-	 * draw a null String or with a null renderer, a warning is printed
-	 * (including a stack trace) and 0 is returned.
+	 * Draws a string onto the screen at the desired position. If width is > 0, then the draw split string method is
+	 * used instead. The amount if vertical space occupied by the draw is calculated and returned. If one attempts to
+	 * draw a null String or with a null renderer, a warning is printed (including a stack trace) and 0 is returned.
 	 *
-	 * @return The drawn height of the string. Always line height for valid
-	 *         parameters and width==0
+	 * @return The drawn height of the string. Always line height for valid parameters and width==0
 	 */
-	public static int drawTextAndReturnHeight(FontRenderer fRend, String string, int posX, int posY, int width,
+	public static int drawTextAndReturnHeight(
+			FontRenderer fRend,
+			String string,
+			int posX,
+			int posY,
+			int width,
 			int colour) {
 		if (fRend == null || string == null) {
 			MHFCMain.logger.warn(fRend == null ? "Null renderer used as argument" : "Render request for a null string");
@@ -81,19 +88,24 @@ public class MHFCGuiUtil {
 	}
 
 	/**
-	 * Considers if the draw width would cause Minecraft to crash using the
-	 * given string. This can happen when the first character can't even fit
-	 * into the width.
+	 * Considers if the draw width would cause Minecraft to crash using the given string. This can happen when the first
+	 * character can't even fit into the width.
 	 *
-	 * @return If the font renderer will crash the game with this string and
-	 *         this width
+	 * @return If the font renderer will crash the game with this string and this width
 	 */
 	public static boolean isDrawWidthTooSmall(FontRenderer fRend, int width, String string) {
 		return !string.isEmpty() && width < fRend.getStringWidth(string.substring(0, 1));
 	}
 
-	public static void drawTexturedRectangle(double xMin, double yMin, double width, double height, float u, float v,
-			float uWidth, float vHeight) {
+	public static void drawTexturedRectangle(
+			double xMin,
+			double yMin,
+			double width,
+			double height,
+			float u,
+			float v,
+			float uWidth,
+			float vHeight) {
 		Tessellator t = Tessellator.instance;
 		t.startDrawingQuads();
 		t.addVertexWithUV(xMin, yMin, zLevel, u, v);
@@ -111,23 +123,51 @@ public class MHFCGuiUtil {
 		drawTexturedBoxFromBorder(x, y, zLevel, width, height, Math.min(Math.min(15, width / 2), height / 2));
 	}
 
-	public static void drawTexturedBoxFromBorder(float x, float y, float zLevel, float width, float height,
+	public static void drawTexturedBoxFromBorder(
+			float x,
+			float y,
+			float zLevel,
+			float width,
+			float height,
 			float borderSize) {
 		drawTexturedBoxFromBorder(x, y, zLevel, width, height, borderSize, borderSize / 256f);
 	}
 
-	public static void drawTexturedBoxFromBorder(float x, float y, float zLevel, float width, float height,
-			float borderSize, float borderUV) {
+	public static void drawTexturedBoxFromBorder(
+			float x,
+			float y,
+			float zLevel,
+			float width,
+			float height,
+			float borderSize,
+			float borderUV) {
 		drawTexturedBoxFromBorder(x, y, zLevel, width, height, borderSize, borderUV, 1, 1);
 	}
 
-	public static void drawTexturedBoxFromBorder(float x, float y, float zLevel, float width, float height,
-			float borderSize, float borderUV, float maxU, float maxV) {
+	public static void drawTexturedBoxFromBorder(
+			float x,
+			float y,
+			float zLevel,
+			float width,
+			float height,
+			float borderSize,
+			float borderUV,
+			float maxU,
+			float maxV) {
 		drawTexturedBoxFromBorder(x, y, zLevel, width, height, borderSize, borderUV, borderUV, maxU, maxV);
 	}
 
-	public static void drawTexturedBoxFromBorder(float x, float y, float zLevel, float width, float height,
-			float borderSize, float borderU, float borderV, float maxU, float maxV) {
+	public static void drawTexturedBoxFromBorder(
+			float x,
+			float y,
+			float zLevel,
+			float width,
+			float height,
+			float borderSize,
+			float borderU,
+			float borderV,
+			float maxU,
+			float maxV) {
 		Tessellator tess = Tessellator.instance;
 		tess.startDrawingQuads();
 		tess.addVertexWithUV(x, y, zLevel, 0, 0);
@@ -193,6 +233,16 @@ public class MHFCGuiUtil {
 		tess.addVertexWithUV(x + width - borderSize, y + borderSize, zLevel, maxU - borderU, borderV);
 		tess.draw();
 
+	}
+
+	public static void setColor(int colorRGB) {
+		setColor(colorRGB, 1.0f);
+	}
+
+	public static void setColor(int colorRGB, float alpha) {
+		float r = ((colorRGB >> 16) & 0xFF) / 255.f, g = ((colorRGB >> 8) & 0xFF) / 255.f,
+				b = (colorRGB & 0xFF) / 255.f;
+		glColor4f(r, g, b, alpha);
 	}
 
 }

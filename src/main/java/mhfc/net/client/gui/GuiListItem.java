@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import mhfc.net.client.quests.MHFCRegQuestVisual;
-import mhfc.net.common.util.gui.MHFCGuiUtil;
+import mhfc.net.client.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 

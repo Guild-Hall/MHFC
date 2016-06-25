@@ -488,6 +488,8 @@ public class MHFCReference {
 	public static final String weapon_gs_deadlyserpentblade_name = "greatsword_6";
 	public static final String weapon_gs_deadlyserpentblade_tex = "mhfc:textures/weapons/(GS)deadlyserpentblade.png";
 
+	public static final String weapon_hh_notesound = "mhfc:huntinghorn-play";
+
 	public static final String weapon_hh_default_icon = "mhfc:huntinghorn";
 	public static final String weapon_hh_metalbagpipe_name = "huntinghorn_1";
 	public static final String weapon_hh_metalbagpipe_tex = "mhfc:textures/weapons/(HH)metalbagpipe.png";
@@ -586,9 +588,9 @@ public class MHFCReference {
 	public static final String projectile_wyverniabullet_name = "Wyvernia Bullet";
 	public static final String projectile_wyverniabullet_tex = "mhfc:textures/projectile/bullet0.png";
 
-	public static final String gui_questgiver_back_tex = "mhfc:texture/gui/questgiver.png";
-	public static final String gui_huntinghorn_stave = "mhfc:texture/gui/notesheet.png";
-	public static final String gui_huntinghorn_note = "mhfc:texture/gui/notes.png";
+	public static final String gui_questgiver_back_tex = "mhfc:textures/gui/questgiver.png";
+	public static final String gui_huntinghorn_stave = "mhfc:textures/gui/notesheet.png";
+	public static final String gui_huntinghorn_note = "mhfc:textures/gui/notes.png";
 
 	public static final int gui_hunterbench_id = 1;
 	public static final int gui_questgiver_id = 2;

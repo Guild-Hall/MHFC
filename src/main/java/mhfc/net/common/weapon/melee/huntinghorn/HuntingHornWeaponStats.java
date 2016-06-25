@@ -8,7 +8,6 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import com.google.common.base.Preconditions;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.common.util.NBTUtils;
 import mhfc.net.common.weapon.melee.MeleeWeaponStats;
 import net.minecraft.entity.player.EntityPlayer;
@@ -86,13 +85,12 @@ public class HuntingHornWeaponStats extends MeleeWeaponStats {
 	}
 
 	private void playSong(ItemStack stack, EntityPlayer player, ISong song) {
-		MHFCMain.logger.debug("played a song:" + song);
 		song.onPlayed(player, stack, this);
 	}
 
 	public void onNotePlayed(ItemStack stack, EntityPlayer player, Note note) {
-		MHFCMain.logger.debug("played a note:" + note);
 		pushNote(stack, note);
+		note.playSound(stack, player);
 		List<Note> history = getNoteHistory(stack);
 		HHSongRegistry.getSong(history).ifPresent(s -> this.playSong(stack, player, s));
 	}
