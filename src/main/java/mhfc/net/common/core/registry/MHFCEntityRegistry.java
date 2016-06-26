@@ -38,9 +38,7 @@ public class MHFCEntityRegistry {
 	public static final int nargacugaID;
 	public static final int barrothID;
 	public static final int delexID;
-	
 	public static final int lagiacrusID;
-
 	public static final int gargwaID;
 	
 	
