@@ -58,7 +58,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		public void onStanceEnd() {}
 
 	}
-	
+
 	@Override
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
 		GL11.glScaled(2, 2, 2);
@@ -80,13 +80,13 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		ActionManagerBuilder<EntityRathalos> stancedAttackManager = new ActionManagerBuilder<>();
 		stancedAttackManager.registerAction(new RathalosIdle());
 		stancedAttackManager.registerAction(new RathalosWander());
-//	//	stancedAttackManager.registerAction(new RathalosBiteLeft());
-	//	stancedAttackManager.registerAction(new ChargeAttack());
-	//	stancedAttackManager.registerAction(new FireballAttack());
-	//	stancedAttackManager.registerAction(new FlyStart());
-	//	stancedAttackManager.registerAction(new JumpFireball());
-	//	stancedAttackManager.registerAction(new TailSpin());
-	//	stancedAttackManager.registerAction(new FlyLand());
+		stancedAttackManager.registerAction(new RathalosBiteLeft());
+		//	stancedAttackManager.registerAction(new ChargeAttack());
+		//	stancedAttackManager.registerAction(new FireballAttack());
+		//	stancedAttackManager.registerAction(new FlyStart());
+		//	stancedAttackManager.registerAction(new JumpFireball());
+		//	stancedAttackManager.registerAction(new TailSpin());
+		//	stancedAttackManager.registerAction(new FlyLand());
 		stancedAttackManager.registerAction(setDeathAction(new RathalosDeath()));
 		return stancedAttackManager.build(this);
 	}
@@ -156,7 +156,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	public Stances getStance() {
 		return this.stance;
 	}
-	
+
 	@Override
 	protected String getLivingSound() {
 		return "mhfc:rathalos.idle";

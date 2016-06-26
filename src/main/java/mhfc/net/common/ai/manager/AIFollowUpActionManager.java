@@ -1,7 +1,6 @@
 package mhfc.net.common.ai.manager;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -10,7 +9,7 @@ import com.mojang.realmsclient.util.Pair;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IManagedActions;
 import mhfc.net.common.ai.general.WeightedPick;
-import mhfc.net.common.network.message.MessageAIAction;
+import mhfc.net.common.ai.manager.AIFollowUpActionManager.DataObject;
 import mhfc.net.common.util.MapGraph;
 import net.minecraft.entity.EntityLiving;
 
@@ -19,35 +18,39 @@ import net.minecraft.entity.EntityLiving;
  */
 public class AIFollowUpActionManager<EntType extends EntityLiving & IManagedActions<EntType>>
 		extends
-		ActionManagerAdapter<EntType> {
+		ActionManagerAdapter<EntType, DataObject<EntType>> {
 
-	public static class DataObject<EntType extends EntityLiving & IManagedActions<EntType>> {
+	public static class DataObject<EType extends EntityLiving & IManagedActions<EType>>
+			implements
+			IAIAttackCollection<EType> {
 
-		protected final MapGraph<IExecutableAction<? super EntType>, FollowUpChooser<EntType>> graph;
+		protected final MapGraph<IExecutableAction<? super EType>, FollowUpChooser<EType>> graph;
 
-		public DataObject(MapGraph<IExecutableAction<? super EntType>, FollowUpChooser<EntType>> graph) {
+		public DataObject(MapGraph<IExecutableAction<? super EType>, FollowUpChooser<EType>> graph) {
 			this.graph = graph;
 		}
 
-		public Set<IExecutableAction<? super EntType>> getNodes() {
+		public Set<IExecutableAction<? super EType>> getNodes() {
 			return graph.getNodes();
 		}
 
-		public FollowUpChooser<EntType> getValue(
-				Pair<IExecutableAction<? super EntType>, IExecutableAction<? super EntType>> key) {
+		public FollowUpChooser<EType> getValue(
+				Pair<IExecutableAction<? super EType>, IExecutableAction<? super EType>> key) {
 			return graph.getValue(key);
 		}
 
-		public Set<Pair<IExecutableAction<? super EntType>, FollowUpChooser<EntType>>> getOutbound(
-				IExecutableAction<? super EntType> n) {
+		public Set<Pair<IExecutableAction<? super EType>, FollowUpChooser<EType>>> getOutbound(
+				IExecutableAction<? super EType> n) {
 			return graph.getOutbound(n);
 		}
 
-		public int indexOf(IExecutableAction<? super EntType> n) {
+		@Override
+		public int getIndexOf(IExecutableAction<? super EType> n) {
 			return graph.indexOf(n);
 		}
 
-		public IExecutableAction<? super EntType> get(int index) {
+		@Override
+		public IExecutableAction<? super EType> getAction(int index) {
 			return graph.get(index);
 		}
 
@@ -77,12 +80,9 @@ public class AIFollowUpActionManager<EntType extends EntityLiving & IManagedActi
 
 	}
 
-	protected final DataObject<EntType> dataObject;
-
 	public AIFollowUpActionManager(EntType entity, DataObject<EntType> dataObject) {
-		super(entity);
-		this.dataObject = Objects.requireNonNull(dataObject);
-		this.dataObject.getNodes().stream().forEach((a) -> {
+		super(entity, dataObject);
+		this.attackCollection.getNodes().stream().forEach((a) -> {
 			if (a != null) {
 				a.rebind(entity);
 			}
@@ -90,7 +90,7 @@ public class AIFollowUpActionManager<EntType extends EntityLiving & IManagedActi
 	}
 
 	protected List<IExecutableAction<? super EntType>> getFollowUpList(IExecutableAction<? super EntType> action) {
-		Set<Pair<IExecutableAction<? super EntType>, FollowUpChooser<EntType>>> followUps = dataObject
+		Set<Pair<IExecutableAction<? super EntType>, FollowUpChooser<EntType>>> followUps = attackCollection
 				.getOutbound(action);
 		return followUps.stream().filter((pair) -> pair.second().shouldChoose(this.entity)).map(Pair::first)
 				.collect(Collectors.toList());
@@ -100,24 +100,6 @@ public class AIFollowUpActionManager<EntType extends EntityLiving & IManagedActi
 	public IExecutableAction<? super EntType> chooseAttack() {
 		List<IExecutableAction<? super EntType>> followUps = getFollowUpList(activeAttack);
 		return WeightedPick.pickRandom(followUps);
-	}
-
-	@Override
-	public void switchToAction(IExecutableAction<? super EntType> action) {
-		if (dataObject.indexOf(action) < 0)
-			throw new IllegalArgumentException("Can only switch to registered attacks");
-		switchAction(action);
-	}
-
-	@Override
-	protected MessageAIAction<EntType> sendUpdate() {
-		return new MessageAIAction<>(entity, dataObject.indexOf(activeAttack));
-	}
-
-	@Override
-	public void receiveUpdate(MessageAIAction<EntType> message) {
-		IExecutableAction<? super EntType> action = dataObject.get(message.getAttackIndex());
-		switchAction(action);
 	}
 
 }

@@ -7,19 +7,19 @@ import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.Vec3;
 
-public class RathalosBiteLeft extends ActionAdapter <EntityRathalos> {
-	
+public class RathalosBiteLeft extends ActionAdapter<EntityRathalos> {
+
 	private static int ANIM_FRAME = 40;
-	
+
 	private static IDamageCalculator DAMAGE = AIUtils.defaultDamageCalc(95F, 125F, 99999999F);
-	
+
 	private static double TARGET_DISTANCE = 5F;
-	
+
 	private static double AIM_ANGLE = 0.155;
-	
+
 	private static float WEIGHT = 2F;
-	
-	public RathalosBiteLeft()	 {
+
+	public RathalosBiteLeft() {
 		setAnimation("mhfc:models/Rathalos/RathalosBiteLeft.mcanm");
 		setLastFrame(ANIM_FRAME);
 	}
@@ -37,9 +37,9 @@ public class RathalosBiteLeft extends ActionAdapter <EntityRathalos> {
 			return DONT_SELECT;
 		}
 		if (LOOK_TARGET.normalize().dotProduct(entity.getLookVec()) < AIM_ANGLE) {
-				return DONT_SELECT;
+			return DONT_SELECT;
 		}
-			return WEIGHT;
+		return WEIGHT;
 	}
 
 	@Override
@@ -49,6 +49,5 @@ public class RathalosBiteLeft extends ActionAdapter <EntityRathalos> {
 		}
 		AIUtils.damageCollidingEntities(getEntity(), DAMAGE);
 	}
-	
 
 }

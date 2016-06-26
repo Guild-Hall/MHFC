@@ -13,18 +13,18 @@ import mhfc.net.common.network.message.MessageAIAction;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAITasks;
 
-public abstract class ActionManagerAdapter<EntType extends EntityLiving & IManagedActions<EntType>>
+public abstract class ActionManagerAdapter<EntType extends EntityLiving & IManagedActions<EntType>, C extends IAIAttackCollection<EntType>>
 		implements
 		IActionManager<EntType> {
 
 	protected IExecutableAction<? super EntType> activeAttack = null;
 	protected EntType entity;
+	protected C attackCollection;
 
-	public ActionManagerAdapter(EntType entity) {
+	public ActionManagerAdapter(EntType entity, C collection) {
 		this.entity = Objects.requireNonNull(entity);
+		this.attackCollection = Objects.requireNonNull(collection);
 	}
-
-	protected abstract MessageAIAction<EntType> sendUpdate();
 
 	protected void switchAction(IExecutableAction<? super EntType> newAttack) {
 		swapAttacks(activeAttack, newAttack);
@@ -95,5 +95,24 @@ public abstract class ActionManagerAdapter<EntType extends EntityLiving & IManag
 	@Override
 	public int getCurrentFrame() {
 		return activeAttack == null ? -1 : activeAttack.getCurrentFrame();
+	}
+
+	protected MessageAIAction<EntType> sendUpdate() {
+		return new MessageAIAction<>(this.entity, this.attackCollection.getIndexOf(activeAttack));
+	}
+
+	@Override
+	public void switchToAction(IExecutableAction<? super EntType> attack) {
+		if (attackCollection.getIndexOf(attack) < 0) {
+			throw new IllegalArgumentException("Only registered actions may be switched to");
+		}
+		switchAction(attack);
+	}
+
+	@Override
+	public void receiveUpdate(MessageAIAction<EntType> message) {
+		int index = message.getAttackIndex();
+		IExecutableAction<? super EntType> action = index == -1 ? null : attackCollection.getAction(index);
+		switchAction(action);
 	}
 }
