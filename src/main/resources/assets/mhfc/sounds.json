@@ -8,6 +8,7 @@
     "barroth.ram": {"category": "hostile", "sounds": ["mob/barroth/ram"]},
     "barroth.roar": {"category": "hostile", "sounds": ["mob/barroth/roar"]},
     "barroth.tailwhip": {"category": "hostile", "sounds": ["mob/barroth/tailwhip"]},
+    "barroth.death": {"category": "hostile", "sounds": ["mob/barroth/death"]},
     
     "brachydios.idle": {"category": "hostile", "sounds": ["mob/brachydios/idle"]},
     "brachydios.slimerefill": {"category": "hostile", "sounds": ["mob/brachydios/slimerefill"]},
