@@ -63,7 +63,7 @@ public class BarrothStomp extends AIAnimatedAction<EntityBarroth> {
 	public void beginExecution() {
 		super.beginExecution();
 		EntityBarroth entity = getEntity();
-		entity.playSound("mhfc:barroth.mudshake", 2.0F, 1.0F);
+		entity.playSound("mhfc:barroth.headsmash", 2.0F, 1.0F);
 		thrown = false;
 	}
 
