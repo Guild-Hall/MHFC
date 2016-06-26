@@ -3,12 +3,14 @@ package mhfc.net.common.ai.entity;
 import java.util.List;
 import java.util.Random;
 
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
@@ -60,8 +62,18 @@ public class AIGameplayComposition {
 		}
 	}
 	
-	public void AIChargeGameplay(Entity entity, boolean reached) {
+	public static void AIChargeGameplay(EntityCreature entity, double moveSpeed, boolean inWater) {
+		PathEntity pathentity = entity.worldObj.getPathEntityToEntity(entity, entity.getAttackTarget(), 16, false, false, inWater, true);
 		
+	}
+	
+	public static void AILaunchGameply(Entity entity, double x, double y, double z) {
+		List<Entity> collidingEnts = WorldHelper.collidingEntities(entity);
+		if (!entity.worldObj.isRemote) {
+			for (Entity collider : collidingEnts) {
+				collider.addVelocity(x, y, z);
+			}
+		}
 	}
 	
 	public static void AIRoarEffectGameplay(EntityLivingBase target) {

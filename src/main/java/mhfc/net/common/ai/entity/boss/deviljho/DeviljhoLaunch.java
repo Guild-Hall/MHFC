@@ -1,15 +1,13 @@
 package mhfc.net.common.ai.entity.boss.deviljho;
 
-import java.util.List;
-
 import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.entity.AIGameplayComposition;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIAnimatedAction;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
-import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Vec3;
 
@@ -45,12 +43,7 @@ public class DeviljhoLaunch extends AIAnimatedAction<EntityDeviljho> {
 			getEntity().playSound("mhfc:deviljho.rockthrow", 2.0F, 1.0F);
 
 			AIUtils.damageCollidingEntities(getEntity(), damageCalc);
-			List<Entity> collidingEnts = WorldHelper.collidingEntities(entity);
-			if (!entity.worldObj.isRemote) {
-				for (Entity collider : collidingEnts) {
-					collider.addVelocity(0, 1.4, 0);
-				}
-			}
+			AIGameplayComposition.AILaunchGameply(entity, 0, 1.4, 0);
 		}
 		if (this.getCurrentFrame() >= 35) {
 			Vec3 look = entity.getLookVec();

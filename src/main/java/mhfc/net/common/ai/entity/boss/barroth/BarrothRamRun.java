@@ -1,6 +1,7 @@
 package mhfc.net.common.ai.entity.boss.barroth;
 
 import mhfc.net.common.ai.ActionAdapter;
+import mhfc.net.common.ai.entity.AIGameplayComposition;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.entity.monster.EntityBarroth;
@@ -8,16 +9,15 @@ import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.Vec3;
 
 
-public class BarrothRam extends ActionAdapter<EntityBarroth> {
-	private static final int LAST_FRAME = 75;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(95f, 50F, 9999999f);
+public class BarrothRamRun extends ActionAdapter<EntityBarroth> {
+	private static final int LAST_FRAME = 130;
+	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(65f, 50F, 9999999f);
 
-	private static final double MAX_DIST = 5.5f;
-	private static final double MAX_ANGLE = 0.155; // This is cos(30)
-	private static final float WEIGHT = 15;
+	private static final double MAX_DIST = 20F;
+	private static final float WEIGHT = 4;
 
-	public BarrothRam() {
-		setAnimation("mhfc:models/Barroth/BarrothRam.mcanm");
+	public BarrothRamRun() {
+		setAnimation("mhfc:models/Barroth/BarrothRamRun.mcanm");
 		setLastFrame(LAST_FRAME);
 	}
 
@@ -36,24 +36,24 @@ public class BarrothRam extends ActionAdapter<EntityBarroth> {
 		if (dist > MAX_DIST) {
 			return DONT_SELECT;
 		}
-		if (toTarget.normalize().dotProduct(entity.getLookVec()) < MAX_ANGLE) {
-			return DONT_SELECT;
-		}
 		return WEIGHT;
 	}
 
 	@Override
 	public void update() {
 		EntityBarroth entity = getEntity();
-		
-		if (entity.getAttackTarget() != null && this.getCurrentFrame() == 20) {
-			entity.getAttackTarget().setVelocity(-0.8D, 1.8D, 0d);
-		//	getEntity().playSound("mhfc:entity.bite", 2.0F, 1.0F);
+		AIUtils.damageCollidingEntities(getEntity(), damageCalc);
+		if (this.getCurrentFrame() == 20) {
+			getEntity().playSound("mhfc:barroth.ram", 3.0F, 1.0F);
+			getEntity().getTurnHelper().updateTargetPoint(entity.getAttackTarget());
+			AIGameplayComposition.AIChargeGameplay(entity, 1.9F, false);
+		}
+		if(this.getCurrentFrame() == 85){
+			AIGameplayComposition.AILaunchGameply(entity, 1.0D, 1.5D, 1.0D);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			entity.moveForward(1, false);
 		}
-		AIUtils.damageCollidingEntities(getEntity(), damageCalc);
 	}
 
 	private boolean isMoveForwardFrame(int frame) {
