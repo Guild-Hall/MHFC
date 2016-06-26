@@ -30,6 +30,8 @@ public class WeaponOverlay {
 	private static final ResourceLocation staveLoc = new ResourceLocation(MHFCReference.gui_huntinghorn_stave);
 	private static final ResourceLocation noteLoc = new ResourceLocation(MHFCReference.gui_huntinghorn_note);
 
+	private static final ResourceLocation spiritGaugeLoc = new ResourceLocation(MHFCReference.gui_longsword_gauge);
+
 	public void render() {
 		EntityClientPlayerMP thePlayer = Minecraft.getMinecraft().thePlayer;
 		ItemStack stack = thePlayer.getHeldItem();
@@ -75,14 +77,19 @@ public class WeaponOverlay {
 		ItemLongsword item = ItemLongsword.class.cast(stack.getItem());
 		float spirit = item.getSpiritPercentage(stack);
 
-		float resizeX = 1f, resizeY = 1f, offsetX = 4, offsetY = 4, fullLength = 128;
+		float resizeX = 1.5f, resizeY = 1.5f, offsetX = 4, offsetY = 4, fullLength = 57;
+		float gaugeOffsetX = offsetX + 2, gaugeOffsetY = offsetY + 2, gaugeLength = (fullLength - 3) * spirit;
 
 		offsetX *= resizeX;
 		offsetY *= resizeY;
+		gaugeOffsetX *= resizeX;
+		gaugeOffsetY *= resizeY;
 
+		Minecraft.getMinecraft().renderEngine.bindTexture(spiritGaugeLoc);
+		MHFCGuiUtil.drawTexturedRectangle(offsetX, offsetY, fullLength * resizeX, 6 * resizeY, 0, 0, 1, 6 / 20f);
 		glDisable(GL_TEXTURE_2D);
 		glColor3f(spirit - 1.f < -1e-9 ? 0.7f : 1f, 0.1f, 0.1f);
-		MHFCGuiUtil.drawTexturedRectangle(offsetX, offsetY, fullLength * spirit * resizeX, 3 * resizeY, 0, 0, 1, 1);
+		MHFCGuiUtil.drawTexturedRectangle(gaugeOffsetX, gaugeOffsetY, gaugeLength * resizeX, 2 * resizeY, 0, 0, 1, 1);
 		glEnable(GL_TEXTURE_2D);
 	}
 }

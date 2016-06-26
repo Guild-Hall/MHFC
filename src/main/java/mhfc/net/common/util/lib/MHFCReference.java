@@ -591,6 +591,7 @@ public class MHFCReference {
 	public static final String gui_questgiver_back_tex = "mhfc:textures/gui/questgiver.png";
 	public static final String gui_huntinghorn_stave = "mhfc:textures/gui/notesheet.png";
 	public static final String gui_huntinghorn_note = "mhfc:textures/gui/notes.png";
+	public static final String gui_longsword_gauge = "mhfc:textures/gui/spiritgauge.png";
 
 	public static final int gui_hunterbench_id = 1;
 	public static final int gui_questgiver_id = 2;
