@@ -9,7 +9,6 @@ import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.helper.MHFCArmorMaterialHelper;
 import mhfc.net.common.helper.MHFCArmorModelHelper;
-import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.system.DonatorSystem;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
@@ -49,7 +48,6 @@ public class KirinSArmor extends ItemArmor {
 		par3List.add("All Resistance H");
 		par3List.add("Thunder + 40");
 		par3List.add("Aura");
-		par3List.add(ColorSystem.red + "Exclusive S Rank ");
 		if (this.armorType == 0) {
 			par3List.add("\u00a79Kirin S Class Helmet");
 		} else if (this.armorType == 1) {
@@ -123,6 +121,7 @@ public class KirinSArmor extends ItemArmor {
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack armor) {
 		// The player needs to wear all armor pieces, so when we check on the helmet it's enough
+
 		if (this.armorType != 0) {
 			return;
 		}

@@ -118,6 +118,7 @@ public class KishinArmor extends ItemArmor {
 		if (this.armorType != 0) {
 			return;
 		}
+		// TODO: add kishin armor effect
 		//ItemStack boots = player.getCurrentArmor(0);
 		//ItemStack legs = player.getCurrentArmor(1);
 		//ItemStack chest = player.getCurrentArmor(2);

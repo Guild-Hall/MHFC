@@ -1,12 +1,8 @@
 package mhfc.net.common.item.armor;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
-import mhfc.net.common.helper.MHFCArmorModelHelper;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.util.lib.MHFCReference;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
@@ -24,12 +20,8 @@ public class ArmorMHFC extends ItemArmor implements ISpecialArmor {
 	public static int modelID;
 	public static int armorHeart;
 
-	protected static final String[] baseIcons = {
-		MHFCReference.base_gear_head,
-		MHFCReference.base_gear_body,
-		MHFCReference.base_gear_fauld,
-		MHFCReference.base_gear_leg
-	};
+	protected static final String[] baseIcons = { MHFCReference.base_gear_head, MHFCReference.base_gear_body,
+			MHFCReference.base_gear_fauld, MHFCReference.base_gear_leg };
 
 	protected ItemRarity rarity;
 
@@ -38,10 +30,13 @@ public class ArmorMHFC extends ItemArmor implements ISpecialArmor {
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 
-
 	@Override
-	public ArmorProperties getProperties(EntityLivingBase player,
-			ItemStack armor, DamageSource source, double damage, int slot) {
+	public ArmorProperties getProperties(
+			EntityLivingBase player,
+			ItemStack armor,
+			DamageSource source,
+			double damage,
+			int slot) {
 		return null;
 	}
 
@@ -51,13 +46,11 @@ public class ArmorMHFC extends ItemArmor implements ISpecialArmor {
 	}
 
 	@Override
-	public void damageArmor(EntityLivingBase entity, ItemStack stack,
-			DamageSource source, int damage, int slot) {
+	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
 
 	}
 
-	public void displayInstancesStack(EntityLivingBase entity, int stack, int entID, DamageSource source)
-	{
+	public void displayInstancesStack(EntityLivingBase entity, int stack, int entID, DamageSource source) {
 		//WIP for armors.. display in the description how much the armor can absords lethal damage from mobs..
 		// SPECIFIC DAMAGE CALCULATIONS NOT JUST DIAMOND BASIS.
 		// still thinking of how to implement.. /Heltrato

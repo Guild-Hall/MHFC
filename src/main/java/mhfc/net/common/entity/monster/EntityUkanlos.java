@@ -2,9 +2,10 @@ package mhfc.net.common.entity.monster;
 
 import org.lwjgl.opengl.GL11;
 
-import com.github.worldsender.mcanm.client.model.mcanmmodel.data.RenderPassInformation;
+import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
-import mhfc.net.common.ai.AIActionManager;
+import mhfc.net.common.ai.IActionManager;
+import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -18,11 +19,14 @@ public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
 		super(world);
 		this.height = 9f;
 		this.width = 9f;
-		AIActionManager<EntityUkanlos> attackManager = getAIActionManager();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 	}
-	
-	
+
+	@Override
+	public IActionManager<EntityUkanlos> constructActionManager() {
+		ActionManagerBuilder<EntityUkanlos> manager = new ActionManagerBuilder<>();
+		return manager.build(this);
+	}
 
 	@Override
 	public EntityMHFCPart[] getParts() {
@@ -32,29 +36,21 @@ public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
-			.setBaseValue(1.3D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-			healthbaseHP(95000D, 140000D, 175000D));
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(
-			35D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(
-			0.32D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(95391D, 140000D, 175000D));
 	}
-	
-	 public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub){
-		 GL11.glScaled(5,5, 5);
-		 return super.preRenderCallback(scale, sub);
-		 
-	 }
-	 
-		@Override
-		public void entityInit() {
-			super.entityInit();
-			//if(this.isInWater())
-			dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-			dataWatcher.addObject(17, Byte.valueOf((byte) 0));
-		}
-	
+
+	@Override
+	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
+		GL11.glScaled(5, 5, 5);
+		return super.preRenderCallback(scale, sub);
+	}
+
+	@Override
+	public void entityInit() {
+		super.entityInit();
+		// if(this.isInWater())
+		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
+		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
+	}
+
 }

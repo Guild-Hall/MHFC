@@ -245,7 +245,8 @@ public class EntityWyverniaArrow extends EntityArrow implements IProjectile{
             }
 
             Entity entity = null;
-            List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
+            @SuppressWarnings("rawtypes")
+			List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
             double d0 = 0.0D;
             int i;
             float f1;

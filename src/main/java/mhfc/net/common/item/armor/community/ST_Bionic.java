@@ -17,7 +17,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -126,7 +125,6 @@ public class ST_Bionic extends ItemArmor {
 			ItemStack itemStack) {
 		// The player needs to wear all armor pieces, so when we check on the
 		// helmet it's enough
-		float h = player.getHealth();
 		if (this.armorType != 0)
 			return;
 		ItemStack boots = player.getCurrentArmor(0);

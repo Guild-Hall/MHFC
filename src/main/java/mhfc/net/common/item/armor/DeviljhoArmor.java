@@ -16,7 +16,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -58,7 +57,6 @@ public class DeviljhoArmor extends ItemArmor {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void addInformation(ItemStack par1ItemStack,
 		EntityPlayer par2EntityPlayer,
 		@SuppressWarnings("rawtypes") List par3List, boolean par4) {
@@ -118,7 +116,6 @@ public class DeviljhoArmor extends ItemArmor {
 		ItemStack boots = player.getCurrentArmor(0);
 		ItemStack legs = player.getCurrentArmor(1);
 		ItemStack chest = player.getCurrentArmor(2);
-		ItemStack food = player.getCurrentEquippedItem();
 		if (boots != null && legs != null && chest != null) {
 			if (boots.getItem() == MHFCItemRegistry.armor_vangis_boots && legs
 				.getItem() == MHFCItemRegistry.armor_vangis_legs && chest

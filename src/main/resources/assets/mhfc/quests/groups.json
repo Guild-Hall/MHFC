@@ -4,7 +4,7 @@
 	],
 	"groups":{
 		"TestGroup":[
-			"TestQuest", "New Quest"
+			"TestQuest", "NightTestQuest", "New Quest"
 		]
 	}
 }

@@ -1,7 +1,9 @@
 package mhfc.net.common.ai.general;
 
-import mhfc.net.MHFCMain;
+import java.util.Objects;
+
 import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Vec3;
 
@@ -13,7 +15,7 @@ public class TargetTurnHelper {
 	private boolean isUpdating;
 
 	public TargetTurnHelper(EntityMHFCBase<?> controlledEntity) {
-		this.entity = controlledEntity;
+		this.entity = Objects.requireNonNull(controlledEntity);
 	}
 
 	/**
@@ -41,8 +43,7 @@ public class TargetTurnHelper {
 		if (entity == null)
 			return;
 		isUpdating = true;
-		this.targetPoint = Vec3.createVectorHelper(entity.posX, entity.posY,
-				entity.posZ);
+		this.targetPoint = Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
 	}
 
 	/**
@@ -63,24 +64,20 @@ public class TargetTurnHelper {
 
 	/**
 	 * <b> Do not call this yourself. </b><br>
-	 * Performs the update and resets the update status to false. This means you
-	 * have to set something (target point, speed) or call
-	 * {@link TargetTurnHelper#forceUpdate()} each entity update. This then gets
-	 * called last from EntityMHFCBase in {@link EntityMHFCBase#updateAITick()},
-	 * so before the Minecraft default helpers are called.
+	 * Performs the update and resets the update status to false. This means you have to set something (target point,
+	 * speed) or call {@link TargetTurnHelper#forceUpdate()} each entity update. This then gets called last from
+	 * EntityMHFCBase in {@link EntityMHFCBase#updateAITick()}, so before the Minecraft default helpers are called.
 	 */
 	public void onUpdateTurn() {
 		if (!isUpdating)
 			return;
 		isUpdating = false;
-		if (targetPoint == null || entity == null) {
-			MHFCMain.logger.debug("No target despite updating");
+		if (targetPoint == null) {
 			return;
 		}
-		Vec3 vecToTarget = (Vec3.createVectorHelper(entity.posX, entity.posY,
-				entity.posZ)).subtract(targetPoint);
-		entity.rotationYaw = AIUtils.modifyYaw(entity.getLookVec(),
-				vecToTarget.normalize(), maxTurnSpeed);
+		Vec3 entityPos = WorldHelper.getEntityPositionVector(entity);
+		Vec3 vecToTarget = entityPos.subtract(targetPoint);
+		entity.rotationYaw = AIUtils.modifyYaw(entity.getLookVec(), vecToTarget.normalize(), maxTurnSpeed);
 		// CLEANUP Figure out a way to send the updates to the client cleanly
 		entity.addVelocity(10e-4, 0, 10e-4);
 	}

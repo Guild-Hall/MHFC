@@ -1,9 +1,6 @@
 package mhfc.net.common.util.parsing.valueholders;
 
-import java.util.Objects;
-
 import mhfc.net.common.util.parsing.Holder;
-import mhfc.net.common.util.parsing.Holder.DefaultPolicies;
 import mhfc.net.common.util.parsing.IValueHolder;
 
 /**
@@ -13,13 +10,11 @@ import mhfc.net.common.util.parsing.IValueHolder;
  *
  */
 public final class Any implements IValueHolder {
-	private static class FromHolderTag {
-	}
+	private static class FromHolderTag {}
 
 	public static final FromHolderTag snapshot_tag = new FromHolderTag();
 
 	private Holder holder;
-	private FailPolicy onFail = DefaultPolicies.STRICT;
 
 	public Any() {
 		this.disengage();
@@ -65,12 +60,8 @@ public final class Any implements IValueHolder {
 		this.assign(o, clazz);
 	}
 
-	public Any(IValueHolder holder, FromHolderTag ignored) {
+	public Any(Holder holder, FromHolderTag ignored) {
 		this.assign(holder, ignored);
-	}
-
-	public void setFailPolicy(FailPolicy newPolicy) {
-		this.onFail = Objects.requireNonNull(newPolicy);
 	}
 
 	public boolean isEngaged() {
@@ -119,33 +110,22 @@ public final class Any implements IValueHolder {
 	}
 
 	public void assign(Object o) {
-		this.setHolder(Holder.valueOf(o));
+		this.setHolder(Holder.valueOrEmpty(o));
 	}
 
 	public <F> void assign(F o, Class<F> clazz) {
 		this.setHolder(Holder.valueOf(o, clazz));
 	}
 
-	public void assign(IValueHolder holder, FromHolderTag ignored) {
-		this.setHolder(holder.snapshot());
+	public void assign(Holder holder, FromHolderTag ignored) {
+		this.setHolder(holder);
 	}
 
 	private void setHolder(Holder newHolder) {
 		this.holder = newHolder;
 	}
 
-	@Override
-	public Holder snapshotClass() {
-		return this.holder;
-	}
-
-	@Override
 	public Class<?> getType() {
 		return this.holder.getType();
-	}
-
-	@Override
-	public FailPolicy getDefaultPolicy() {
-		return this.onFail;
 	}
 }

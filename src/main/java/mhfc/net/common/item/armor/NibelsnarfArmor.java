@@ -6,8 +6,6 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.helper.MHFCArmorMaterialHelper;
 import mhfc.net.common.helper.MHFCArmorModelHelper;
-import mhfc.net.common.system.ColorSystem;
-import mhfc.net.common.system.DonatorSystem;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -17,7 +15,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -46,7 +43,6 @@ public class NibelsnarfArmor extends ItemArmor {
 		this.itemIcon = iconRegister.registerIcon(icons[this.armorType]);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer,
@@ -117,7 +113,6 @@ public class NibelsnarfArmor extends ItemArmor {
 			ItemStack itemStack) {
 		// The player needs to wear all armor pieces, so when we check on the
 		// helmet it's enough
-		float h = player.getHealth();
 		if (this.armorType != 0)
 			return;
 		ItemStack boots = player.getCurrentArmor(0);

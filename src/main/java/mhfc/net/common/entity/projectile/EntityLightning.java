@@ -11,6 +11,7 @@ public class EntityLightning extends EntityThrowable
 {
 	public EntityLiving el;
 	public long field_92057_e;
+	@SuppressWarnings("unused")
 	private int fire;
 
     public EntityLightning(World world)

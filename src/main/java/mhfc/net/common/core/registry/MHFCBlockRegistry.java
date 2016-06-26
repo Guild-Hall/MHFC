@@ -17,6 +17,8 @@ import mhfc.net.common.block.BlockWyverniaRock;
 import mhfc.net.common.block.BlockWyverniaSand;
 import mhfc.net.common.block.BlockWyverniaStone;
 import mhfc.net.common.block.BlockWyverniaWood;
+import mhfc.net.common.block.area.BlockExploreArea;
+import mhfc.net.common.block.area.BlockRespawn;
 import mhfc.net.common.block.container.BlockBBQSpit;
 import mhfc.net.common.block.container.BlockHunterBench;
 import mhfc.net.common.block.container.BlockStunTrap;
@@ -57,6 +59,8 @@ public class MHFCBlockRegistry {
 	public static final Block mhfcblockquicksand;
 	public static final Block mhfcblockwood;
 	public static final Block mhfcblockquestboard;
+	public static final Block mhfcblockrespawn;
+	public static final Block mhfcblockexplorearea;
 
 	static {
 		// Initialize Blocks
@@ -70,30 +74,21 @@ public class MHFCBlockRegistry {
 		mhfcblockclay = registerBlock(new BlockWyverniaClay());
 		mhfcblockdiskstone = registerBlock(new BlockDiscstone());
 		// Initialize Blocks with special items
-		mhfcblockhunterbench = registerBlockWithItem(new BlockHunterBench(),
-				ItemBlockBenchHunter.class);
-		mhfcblockstuntrap = registerBlockWithItem(new BlockStunTrap(),
-				ItemBlockStunTrap.class);
-		mhfcblockbbqspit = registerBlockWithItem(new BlockBBQSpit(),
-				ItemBlockBBQSpit.class);
-		mhfcblockoreblocks = registerBlockWithItem(new BlockWyverniaOreBlock(),
-				ItemBlockWyverniaOreBlock.class);
-		mhfcblockore = registerBlockWithItem(new BlockWyverniaOres(),
-				ItemBlockWyverniaOres.class);
-		mhfcblockflowers = registerBlockWithItem(new BlockWyverniaFlower(),
-				ItemBlockWyverniaFlower.class);
-		mhfcblockplanks = registerBlockWithItem(new BlockWyverniaPlank(),
-				ItemBlockWyverniaPlank.class);
-		mhfcblockrocks = registerBlockWithItem(new BlockWyverniaRock(),
-				ItemBlockWyverniaRock.class);
-		mhfcblockwood = registerBlockWithItem(new BlockWyverniaWood(),
-				ItemBlockWyverniaWood.class);
-		mhfcblockquestboard = registerBlockWithItem(new BlockQuestBoard(),
-				ItemBlockQuestBoard.class);
+		mhfcblockhunterbench = registerBlockWithItem(new BlockHunterBench(), ItemBlockBenchHunter.class);
+		mhfcblockstuntrap = registerBlockWithItem(new BlockStunTrap(), ItemBlockStunTrap.class);
+		mhfcblockbbqspit = registerBlockWithItem(new BlockBBQSpit(), ItemBlockBBQSpit.class);
+		mhfcblockoreblocks = registerBlockWithItem(new BlockWyverniaOreBlock(), ItemBlockWyverniaOreBlock.class);
+		mhfcblockore = registerBlockWithItem(new BlockWyverniaOres(), ItemBlockWyverniaOres.class);
+		mhfcblockflowers = registerBlockWithItem(new BlockWyverniaFlower(), ItemBlockWyverniaFlower.class);
+		mhfcblockplanks = registerBlockWithItem(new BlockWyverniaPlank(), ItemBlockWyverniaPlank.class);
+		mhfcblockrocks = registerBlockWithItem(new BlockWyverniaRock(), ItemBlockWyverniaRock.class);
+		mhfcblockwood = registerBlockWithItem(new BlockWyverniaWood(), ItemBlockWyverniaWood.class);
+		mhfcblockquestboard = registerBlockWithItem(new BlockQuestBoard(), ItemBlockQuestBoard.class);
+		mhfcblockrespawn = registerBlock(new BlockRespawn());
+		mhfcblockexplorearea = registerBlock(new BlockExploreArea());
 	}
 
-	public static void init() {
-	}
+	public static void init() {}
 
 	private static Block registerBlock(Block block) {
 		return registerBlock(block, block.getUnlocalizedName());
@@ -103,14 +98,11 @@ public class MHFCBlockRegistry {
 		return GameRegistry.registerBlock(block, name);
 	}
 
-	private static Block registerBlockWithItem(Block block,
-			Class<? extends ItemBlock> itemBlockClass) {
-		return registerBlockWithItem(block, itemBlockClass,
-				block.getUnlocalizedName());
+	private static Block registerBlockWithItem(Block block, Class<? extends ItemBlock> itemBlockClass) {
+		return registerBlockWithItem(block, itemBlockClass, block.getUnlocalizedName());
 	}
 
-	private static Block registerBlockWithItem(Block block,
-			Class<? extends ItemBlock> itemBlockClass, String name) {
+	private static Block registerBlockWithItem(Block block, Class<? extends ItemBlock> itemBlockClass, String name) {
 		return GameRegistry.registerBlock(block, itemBlockClass, name);
 	}
 

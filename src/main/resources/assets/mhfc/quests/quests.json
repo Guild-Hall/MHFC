@@ -10,10 +10,29 @@
 			} ,
 			reward : 5000,
 			fee : 200,
-			areaID : "TestArea",
+			areaID : "arena",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
 				name : "Test Hunting"
+			}
+		}
+	},
+	NightTestQuest : {
+		type : "default",
+		data : {
+			goal : {
+				type : "fork",
+				data : {
+					requisites : ["StandardDeath", "StandardTimer", "Test"]
+				}
+			} ,
+			reward : 5000,
+			fee : 200,
+			areaID : "playfield",
+			flair: "NIGHTTIME",
+			questType : "mhfc.quests.type.hunting",
+			visual : {
+				name : "Hunting during nighttime"
 			}
 		}
 	},
@@ -28,7 +47,7 @@
 			},
 			reward : 4000,
 			fee: 300,
-			areaID: "TestArea",
+			areaID: "arena",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
 				name : "Hunt Rathalos"

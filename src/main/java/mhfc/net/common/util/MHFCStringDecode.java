@@ -1,6 +1,10 @@
 package mhfc.net.common.util;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import mhfc.net.MHFCMain;
@@ -8,6 +12,7 @@ import mhfc.net.common.eventhandler.DelayedJob;
 import mhfc.net.common.eventhandler.MHFCJobHandler;
 import net.minecraft.util.StatCollector;
 
+@SuppressWarnings("deprecation")
 public class MHFCStringDecode {
 	public static class TimeTickDecoderFactory implements StringDecoderFactory {
 

@@ -1,10 +1,25 @@
 package mhfc.net.common.core;
 
-import mhfc.net.MHFCMain;
-import mhfc.net.common.core.registry.*;
-import mhfc.net.common.util.MHFCStringDecode;
-
 import org.apache.logging.log4j.Logger;
+
+import mhfc.net.MHFCMain;
+import mhfc.net.common.core.registry.MHFCBlockRegistry;
+import mhfc.net.common.core.registry.MHFCCraftingRegistry;
+import mhfc.net.common.core.registry.MHFCDimensionRegistry;
+import mhfc.net.common.core.registry.MHFCEntityRegistry;
+import mhfc.net.common.core.registry.MHFCEventRegistry;
+import mhfc.net.common.core.registry.MHFCExplorationRegistry;
+import mhfc.net.common.core.registry.MHFCHunterCraftingRegistry;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.core.registry.MHFCPacketRegistry;
+import mhfc.net.common.core.registry.MHFCPlayerPropertiesRegistry;
+import mhfc.net.common.core.registry.MHFCPotionRegistry;
+import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
+import mhfc.net.common.core.registry.MHFCQuestRegistry;
+import mhfc.net.common.core.registry.MHFCSmeltingRegistry;
+import mhfc.net.common.core.registry.MHFCTileRegistry;
+import mhfc.net.common.util.MHFCStringDecode;
+import mhfc.net.common.world.area.AreaRegistry;
 
 public class MHFCCommonRegistry {
 	private final static Logger logger;
@@ -15,18 +30,25 @@ public class MHFCCommonRegistry {
 	}
 
 	public static void init() {
-		addStringDecoders();
-		addBlocks();
-		addItems();
-		addRecipes();
-		addDimension();
-		addSmelting();
-		addTile();
-		addMonsters();
-		addPotion();
-		addEvent();
-		addPacket();
-		addQuests();
+		MHFCCommonRegistry.addPlayerProperties();
+		MHFCCommonRegistry.addStringDecoders();
+		MHFCCommonRegistry.addBlocks();
+		MHFCCommonRegistry.addItems();
+		MHFCCommonRegistry.addRecipes();
+		MHFCCommonRegistry.addDimension();
+		MHFCCommonRegistry.addSmelting();
+		MHFCCommonRegistry.addTile();
+		MHFCCommonRegistry.addMonsters();
+		MHFCCommonRegistry.addPotion();
+		MHFCCommonRegistry.addEvent();
+		MHFCCommonRegistry.addPacket();
+		MHFCCommonRegistry.addAreas();
+		MHFCCommonRegistry.addQuests();
+	}
+
+	private static void addPlayerProperties() {
+		MHFCPlayerPropertiesRegistry.init();
+		MHFCMain.logger.info("Custom player properties registered");
 	}
 
 	private static void addStringDecoders() {
@@ -41,52 +63,60 @@ public class MHFCCommonRegistry {
 
 	private static void addBlocks() {
 		MHFCBlockRegistry.init();
-		logger.info("Blocks registered");
+		MHFCCommonRegistry.logger.info("Blocks registered");
 	}
 
 	private static void addSmelting() {
 		MHFCSmeltingRegistry.init();
-		logger.info("Smelting registered");
+		MHFCCommonRegistry.logger.info("Smelting registered");
 	}
 
 	private static void addPacket() {
 		MHFCPacketRegistry.init();
-		logger.info("Packets registered");
+		MHFCCommonRegistry.logger.info("Packets registered");
 	}
 
 	private static void addItems() {
 		MHFCItemRegistry.init();
-		logger.info("Items registered");
+		MHFCCommonRegistry.logger.info("Items registered");
 	}
 
 	private static void addRecipes() {
 		MHFCCraftingRegistry.init();
 		MHFCHunterCraftingRegistry.init();
-		logger.info("Recipes registered");
+		MHFCCommonRegistry.logger.info("Recipes registered");
 	}
 
 	private static void addDimension() {
-		// MHFCDimensionRegistry.init();
-		// logger.info("Dimension registered");
+		MHFCDimensionRegistry.init();
+		MHFCCommonRegistry.logger.info("Dimension registered");
 	}
 
 	private static void addTile() {
 		MHFCTileRegistry.init();
-		logger.info("Tile Entities registered");
+		MHFCCommonRegistry.logger.info("Tile Entities registered");
 	}
 
 	private static void addPotion() {
 		MHFCPotionRegistry.init();
-		logger.info("Potions registered");
+		MHFCCommonRegistry.logger.info("Potions registered");
 	}
 
 	private static void addEvent() {
 		MHFCEventRegistry.init();
-		logger.info("Events registered");
+		MHFCCommonRegistry.logger.info("Events registered");
 	}
 
 	private static void addMonsters() {
 		MHFCEntityRegistry.init();
-		logger.info("Monsters registered");
+		MHFCCommonRegistry.logger.info("Monsters registered");
 	}
+
+	private static void addAreas() {
+		MHFCExplorationRegistry.init();
+		AreaRegistry.init();
+		MHFCExplorationRegistry.init();
+		MHFCCommonRegistry.logger.info("Areas and exploration registered");
+	}
+
 }

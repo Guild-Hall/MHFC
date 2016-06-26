@@ -3,6 +3,7 @@ package mhfc.net.common.quests.descriptions;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalDescription;
 import mhfc.net.common.quests.goals.HuntingQuestGoal;
+import net.minecraft.entity.Entity;
 
 public class HuntingGoalDescription extends GoalDescription {
 
@@ -10,15 +11,15 @@ public class HuntingGoalDescription extends GoalDescription {
 	public static final String ID_AMOUNT = "amount";
 
 	private int amount;
-	private Class<?> huntedClass;
+	private Class<? extends Entity> huntedClass;
 
-	public HuntingGoalDescription(Class<?> huntedClass, int amount) {
+	public HuntingGoalDescription(Class<? extends Entity> huntedClass, int amount) {
 		super(MHFCQuestBuildRegistry.GOAL_HUNTING_TYPE);
 		this.huntedClass = huntedClass;
 		this.amount = amount;
 	}
 
-	public Class<?> getHuntedClass() {
+	public Class<? extends Entity> getHuntedClass() {
 		return huntedClass;
 	}
 

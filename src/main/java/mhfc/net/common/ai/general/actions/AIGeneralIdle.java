@@ -1,48 +1,30 @@
 package mhfc.net.common.ai.general.actions;
 
-import java.util.Objects;
-
-import mhfc.net.common.ai.ActionAdapter;
-import mhfc.net.common.ai.general.provider.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.ISelectionPredicate;
-import mhfc.net.common.ai.general.provider.IWeightProvider;
+import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;
 
-public class AIGeneralIdle<EntityT extends EntityMHFCBase<? super EntityT>>
-	extends
-		ActionAdapter<EntityT> {
+public abstract class AIGeneralIdle<EntityT extends EntityMHFCBase<? super EntityT>> extends AIAnimatedAction<EntityT> {
 
-	protected IAnimationProvider animation;
-	protected IWeightProvider<EntityT> weight;
-	protected ISelectionPredicate<EntityT> selectOnIdle;
+	private ISelectionPredicate.SelectIdleAdapter<EntityT> selectIdleAdapter;
 
-	public AIGeneralIdle(IAnimationProvider animation,
-		IWeightProvider<EntityT> weight) {
-		this.animation = Objects.requireNonNull(animation);
-		this.weight = Objects.requireNonNull(weight);
-		selectOnIdle = new ISelectionPredicate.SelectIdleAdapter<>();
-		setAnimation(animation.getAnimationLocation());
-		setLastFrame(animation.getAnimationLength());
+	public AIGeneralIdle() {
+		selectIdleAdapter = new ISelectionPredicate.SelectIdleAdapter<EntityT>();
 	}
 
 	@Override
-	public void beginAction() {
+	public void beginExecution() {
+		super.beginExecution();
 		getEntity().playLivingSound();
 	}
 
 	@Override
-	public float getWeight() {
-		EntityT entity = getEntity();
-		Entity target = entity.getAttackTarget();
-		if (selectOnIdle.shouldSelectAttack(this, entity, target)) {
-			return weight.getWeight(entity, target);
-		}
-		return DONT_SELECT;
+	public boolean shouldSelectAttack(IExecutableAction<? super EntityT> attack, EntityT actor, Entity target) {
+		return selectIdleAdapter.shouldSelectAttack(attack, actor, target);
 	}
 
 	@Override
-	protected void update() {
-	} // do nothing, we idle, remember?
+	protected void update() {} // do nothing, we idle, remember?
 
 }

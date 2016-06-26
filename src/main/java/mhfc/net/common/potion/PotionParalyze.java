@@ -1,17 +1,15 @@
 package mhfc.net.common.potion;
 
+import java.util.Random;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-
-import java.util.Random;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class PotionParalyze extends Potion {
 	

@@ -88,7 +88,7 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 		if (isAffinityTriggered(stack)) {
 			AttributeModifier attackModifier = new AttributeModifier(
 					UUID.fromString(MHFCReference.potion_longsworddamageup_uuid),
-					"Affinity",
+					"Spirit Gauge",
 					1.2,
 					1);
 			attributes.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), attackModifier);

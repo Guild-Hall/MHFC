@@ -18,5 +18,5 @@ public interface IManagedActions<T extends EntityLiving & IManagedActions<T>> {
 
 	public void onAttackEnd(IExecutableAction<? super T> oldAttack);
 
-	public AIActionManager<T> getAttackManager();
+	public IActionManager<? extends T> getActionManager();
 }

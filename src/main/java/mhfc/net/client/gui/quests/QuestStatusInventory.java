@@ -1,7 +1,5 @@
 package mhfc.net.client.gui.quests;
 
-import static mhfc.net.client.util.gui.MHFCGuiUtil.*;
-
 import mhfc.net.client.container.ContainerQuestStatus;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
@@ -23,16 +21,13 @@ public class QuestStatusInventory extends GuiContainer {
 		displayPage = 0;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui() {
 		this.xSize = 200;
 		this.ySize = 188;
-		this.buttonList.add(new GuiButton(2, 0, 0, 100, 20,
-			"Inventory screen") {
+		this.buttonList.add(new GuiButton(2, 0, 0, 100, 20, "Inventory screen") {
 			@Override
-			public boolean mousePressed(Minecraft mc, int p_146116_2_,
-				int p_146116_3_) {
+			public boolean mousePressed(Minecraft mc, int p_146116_2_, int p_146116_3_) {
 				if (super.mousePressed(mc, p_146116_2_, p_146116_3_)) {
 					mc.displayGuiScreen(new GuiInventory(player));
 				}
@@ -45,8 +40,7 @@ public class QuestStatusInventory extends GuiContainer {
 	private boolean isMouseOverInfo(int positionX, int positionY) {
 		final int k = positionX;
 		final int l = positionY;
-		return (k > guiLeft && k < guiLeft + xSize && l > guiTop && l < guiTop
-			+ ySize);
+		return (k > guiLeft && k < guiLeft + xSize && l > guiTop && l < guiTop + ySize);
 	}
 
 	@Override
@@ -59,23 +53,26 @@ public class QuestStatusInventory extends GuiContainer {
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float p_146976_1_,
-		int mouseX, int mouseY) {
-		mc.getTextureManager().bindTexture(
-			MHFCRegQuestVisual.QUEST_STATUS_INVENTORY_BACKGROUND);
-		MHFCGuiUtil.drawTexturedBoxFromBorder(this.guiLeft, this.guiTop,
-			this.zLevel, this.xSize, this.ySize, 0, 0, 1f, 0.65f);
+	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int mouseX, int mouseY) {
+		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.QUEST_STATUS_INVENTORY_BACKGROUND);
+		MHFCGuiUtil.drawTexturedBoxFromBorder(
+				this.guiLeft,
+				this.guiTop,
+				this.zLevel,
+				this.xSize,
+				this.ySize,
+				0,
+				0,
+				1f,
+				0.65f);
 		IVisualInformation information = MHFCRegQuestVisual.getPlayerVisual();
 		if (information == null) {
 			String drawn = "No quest accepted";
 			int stringPosY = (ySize - mc.fontRenderer.FONT_HEIGHT) / 2,
-				stringPosX = (xSize - mc.fontRenderer.getStringWidth(drawn))
-					/ 2;
-			mc.fontRenderer.drawString(drawn, guiLeft + stringPosX, guiTop
-				+ stringPosY, COLOUR_TITLE);
+					stringPosX = (xSize - mc.fontRenderer.getStringWidth(drawn)) / 2;
+			mc.fontRenderer.drawString(drawn, guiLeft + stringPosX, guiTop + stringPosY, MHFCGuiUtil.COLOUR_TITLE);
 		} else {
-			information.drawInformation(guiLeft, guiTop, xSize, ySize,
-				displayPage, mc.fontRenderer);
+			information.drawInformation(guiLeft, guiTop, xSize, ySize, displayPage, mc.fontRenderer);
 		}
 	}
 

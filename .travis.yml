@@ -1,5 +1,9 @@
 language: java
 cache:
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
 directories:
 - $HOME/.gradle
 - .gradle

@@ -3,8 +3,6 @@ package mhfc.net.common.tile;
 import java.util.Random;
 
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileStunTrap extends TileEntity {

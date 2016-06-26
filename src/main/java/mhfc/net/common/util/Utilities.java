@@ -1,13 +1,17 @@
 package mhfc.net.common.util;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 
+import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.entity.projectile.EntityLightning;
-import mhfc.net.common.entity.type.EntityWyvernHostile;
+import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -16,29 +20,29 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
 public class Utilities {
 	private static Random rand = new Random();
 	
-	public final static float mhfc_vanilla_size_x = 0.5F;
-	public final static float mhfc_vanilla_size_y = 0.5F;
+	public static final float mhfc_vanilla_size_x = 0.5F;
+	public static final float mhfc_vanilla_size_y = 0.5F;
 	
 	public void addWeaponElementFX(EntityLivingBase entityLiving, ItemStack stack) {
 		
 	}
 	
 	/**
-	 * For all nearby entities that are attacking the EntityLiving, resets the
-	 * attack and revenge target
+	 * For all nearby entities that are attacking the EntityLiving, resets the attack and revenge target
 	 *
 	 * @param living
 	 */
 	public static void removeAttackers(EntityLiving living) {
 		@SuppressWarnings("unchecked")
-		List<EntityLiving> list = living.worldObj.getEntitiesWithinAABB(EntityLiving.class,
-				living.boundingBox.expand(16.0D, 10.0D, 16.0D));
+		List<EntityLiving> list = living.worldObj
+				.getEntitiesWithinAABB(EntityLiving.class, living.boundingBox.expand(16.0D, 10.0D, 16.0D));
 		for (EntityLiving attacker : list) {
 			if ((attacker != living) && (attacker.getAttackTarget() == living)) {
 				attacker.setAttackTarget(null);
@@ -47,16 +51,20 @@ public class Utilities {
 		}
 	}
 
-	public static void chargeMobToEntity(EntityWyvernHostile chargingEntity, Entity target, float distance,
-			float moveSpeed, boolean dependsonWater) {
-		PathEntity pathentity = chargingEntity.worldObj.getPathEntityToEntity(chargingEntity, target, 16, false, false,
-				dependsonWater, true);
+	public static void chargeMobToEntity(
+			@SuppressWarnings("rawtypes") EntityMHFCBase chargingEntity,
+			Entity target,
+			float distance,
+			float moveSpeed,
+			boolean dependsonWater) {
+		PathEntity pathentity = chargingEntity.worldObj
+				.getPathEntityToEntity(chargingEntity, target, 16, false, false, dependsonWater, true);
 		if ((pathentity != null) && (distance < 12.0F)) {
 			chargingEntity.setPathToEntity(pathentity);
-			chargingEntity.speed = moveSpeed;
+			//chargingEntity. = moveSpeed;
 		}
 		if ((target != null) && ((dependsonWater = true))) {
-			chargingEntity.speed = moveSpeed / 2D;
+			//chargingEntity.speed = moveSpeed / 2D;
 		}
 	}
 
@@ -79,9 +87,8 @@ public class Utilities {
 	}
 
 	/*
-	 * TODO nullDamage is chance that all incoming singe target (projectiles ,
-	 * not aoe) has a 1 in 5 chance to be block and will be feature on update on
-	 * lance. - `Heltrato
+	 * TODO nullDamage is chance that all incoming singe target (projectiles , not aoe) has a 1 in 5 chance to be block
+	 * and will be feature on update on lance. - `Heltrato
 	 */
 	public static float nullifyDamage(DamageSource source, float damage) {
 		if (rand.nextInt(5) == 0 && source.isProjectile()) {
@@ -124,8 +131,17 @@ public class Utilities {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <T, R> T[] mapAll(Function<? super R, T> func, R[] holders, IntFunction<T[]> arrNew) {
-		return (T[]) Arrays.stream(holders).sequential().map(func).toArray(arrNew);
+		return Arrays.stream(holders).sequential().map(func).toArray(arrNew);
 	}
+
+	public static BufferedInputStream inputStream(ResourceLocation location) throws IOException {
+		String pathToRes = "/assets/" + location.getResourceDomain() + "/" + location.getResourcePath();
+		InputStream instream = MHFCQuestBuildRegistry.class.getResourceAsStream(pathToRes);
+		if (instream == null) {
+			throw new IOException("File doesn't exist");
+		}
+		return new BufferedInputStream(instream);
+	}
+
 }

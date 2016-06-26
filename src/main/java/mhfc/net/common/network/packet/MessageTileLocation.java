@@ -1,13 +1,12 @@
 package mhfc.net.common.network.packet;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class MessageTileLocation implements IMessage {
 
-	public MessageTileLocation() {
-	}
+	public MessageTileLocation() {}
 
 	public MessageTileLocation(TileEntity entity) {
 		this.x = entity.xCoord;
@@ -51,5 +50,10 @@ public class MessageTileLocation implements IMessage {
 		buf.writeInt(y);
 		buf.writeInt(z);
 		buf.writeInt(worldID);
+	}
+
+	public TileEntity getTileEntity() {
+		return null;
+
 	}
 }

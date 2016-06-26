@@ -98,6 +98,7 @@ public class MHFCCapeEventHandler {
 	}
 
 	private class CloakThread implements Runnable {
+		@SuppressWarnings("unused")
 		AbstractClientPlayer abstractClientPlayer;
 		String cloakURL;
 

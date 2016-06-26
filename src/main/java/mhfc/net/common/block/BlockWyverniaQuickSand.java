@@ -5,12 +5,10 @@ import java.util.Random;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class BlockWyverniaQuickSand extends Block {

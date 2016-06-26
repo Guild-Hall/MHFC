@@ -12,6 +12,7 @@ public class SlotHunterBench extends Slot {
 
 	private EntityPlayer thePlayer;
 
+	@SuppressWarnings("unused")
 	private int amountCrafted;
 
 	public SlotHunterBench(EntityPlayer par1EntityPlayer,

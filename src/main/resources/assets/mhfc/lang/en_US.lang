@@ -1,3 +1,29 @@
+entity.tigrex.name=§2Tigrex
+entity.mhfc.tigrex.name=§2Tigrex
+entity.greatjaggi.name=§2Great Jaggi
+entity.mhfc.greatjaggi.name=§2Great Jaggi
+entity.deviljho.name=§2Deviljho
+entity.mhfc.deviljho.name=§2Deviljho
+entity.barroth.name=§2Barroth
+entity.mhfc.barroth.name=§2Barroth
+entity.nargacuga.name=§2Nargacuga
+entity.mhfc.nargacuga.name=§2Nargacuga
+entity.delex.name=§2Delex
+entity.mhfc.delex.name=§2Delex
+entity.gagua.name=§2Gargwa
+entity.mhfc.gagua.name=§2Gargwa
+entity.giaprey.name=§2Giaprey
+entity.mhfc.giaprey.name=§2Giaprey
+entity.lagiacrus.name=§2Lagiacrus
+entity.mhfc.lagiacrus.name=§2Lagiacrus
+entity.ukanlos.name=§3Ukanlos
+entity.mhfc.ukanlos.name=§3Ukanlos
+entity.kirin.name=§3Kirin
+entity.mhfc.kirin.name=§3Kirin
+entity.rathalos.name=§2Rathalos
+entity.mhfc.rathalos.name=§2Rathalos
+
+
 death.attack.mhfc.thunderelement=%1$s was killed by %2$s using a thunder element weapon.
 
 tile.losgable.name=Los Gable
@@ -252,23 +278,6 @@ item.longsword_13.name=Mirage Finsword
 item.longsword_14.name=Mirage Finsword+
 item.longsword_15.name=Phantom Mirage
 
-
-entity.tigrex.name=§2Tigrex
-entity.mhfc.tigrex.name=§2Tigrex
-entity.greatjaggi.name=§2Great Jaggi
-entity.mhfc.greatjaggi.name=§2Great Jaggiuu8
-entity.deviljho.name=§2Deviljho
-entity.mhfc.deviljho.name=§2Deviljho
-entity.barroth.name=§2Barroth
-entity.mhfc.barroth.name=§2Barroth
-entity.nargacuga.name=§2Nargacuga
-entity.mhfc.nargacuga.name=§2Nargacuga
-entity.delex.name=§2Delex
-entity.mhfc.delex.name=§2Delex
-entity.giaprey.name=§2Giaprey
-entity.mhfc.giaprey.name=§2Giaprey
-entity.ukanlos.name=§3Ukanlos
-entity.mhfc.ukanlos.name=§3Ukanlos
 
 potion.kirinbless=Spark of Kirin
 potion.paralyze=Paralyze

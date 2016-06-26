@@ -1,26 +1,30 @@
 package mhfc.net.common.world.area;
 
-import mhfc.net.common.world.controller.IWorldProxy;
+import net.minecraft.world.World;
 
 public interface IAreaType {
+
 	/**
-	 * Called to populate the world that is represented by the
-	 * {@link IWorldProxy}.<br>
-	 * 
-	 * This implies generating the terrain, spawning structures but not
-	 * necessarily spawning entities. On the contrary: The entities should not
-	 * be spawned until after the Area is being taken into use by a group of
-	 * hunters.<br>
-	 * Returns the {@link IArea} that is later being used to interact with the
-	 * generated instace of this {@link IAreaType}.
-	 * 
+	 * Called to populate the world<br>
+	 *
+	 * This implies generating the terrain, spawning structures but not necessarily spawning entities. On the contrary:
+	 * The entities should not be spawned until after the Area is being taken into use by a group of hunters.<br>
+	 * Returns the {@link IAreaPlan} that is later being used to actually generate the structures.
+	 *
 	 * @param world
-	 *            the part of the world that the future Area represents
-	 * @return the {@link IArea} controller.
+	 *            the world
+	 * @param configuration
+	 *            the configuration previously returned from {@link #configForNewArea()}
+	 * @return the {@link IAreaPlan} to construct the area.
 	 */
-	IArea populate(IWorldProxy world);
+	IAreaPlan populate(World world, AreaConfiguration configuration);
+
+	IArea provideForLoading(World world);
+
+	AreaConfiguration configForNewArea();
+
+	IExtendedConfiguration configForLoading();
 
 	@Override
 	int hashCode();
-
 }

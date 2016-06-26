@@ -4,8 +4,9 @@ import java.util.List;
 
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.monster.EntityTigrex;
-import mhfc.net.common.entity.type.EntityWyvernHostile;
+import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,23 +22,22 @@ public class EntityProjectileBlock extends EntityThrowable {
 		setSize(1.0F, 1.0F);
 	}
 
-	public EntityProjectileBlock(World par, EntityTigrex e) {
-		super(par, e);
-		this.posY -= e.getEyeHeight();
-		Vec3 look = e.getLookVec();
+	public EntityProjectileBlock(World world, EntityLivingBase living) {
+		super(world, living);
+		this.posY -= living.getEyeHeight();
+		Vec3 look = living.getLookVec();
 		this.posX += look.xCoord * 2;
 		this.posZ += look.zCoord * 2;
-		rotationYaw = e.rotationYaw;
+		rotationYaw = living.rotationYaw;
+	}
+
+	public EntityProjectileBlock(World par, EntityTigrex e) {
+		this(par, (EntityLivingBase) e);
 		setSize(1.0F, 1.0F);
 	}
-	
+
 	public EntityProjectileBlock(World par, EntityDeviljho e) {
-		super(par, e);
-		this.posY -= e.getEyeHeight();
-		Vec3 look = e.getLookVec();
-		this.posX += look.xCoord * 2;
-		this.posZ += look.zCoord * 2;
-		rotationYaw = e.rotationYaw;
+		this(par, (EntityLivingBase) e);
 		setSize(1.4F, 1.4F);
 	}
 
@@ -49,21 +49,18 @@ public class EntityProjectileBlock extends EntityThrowable {
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
 		@SuppressWarnings("unchecked")
-		List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(
-			this, this.boundingBox.expand(2.5D, 2.0D, 2.5D));
+		List<Entity> list = this.worldObj
+				.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(2.5D, 2.0D, 2.5D));
 		list.remove(getThrower());
 
 		for (Entity entity : list) {
 			if (getDistanceSqToEntity(entity) <= 6.25D) {
-				if (entity instanceof EntityPlayer
-					|| entity instanceof EntityWyvernHostile) {
-					entity.attackEntityFrom(DamageSource
-						.causeMobDamage(getThrower()), 100 + this.rand
-						.nextInt(17));
+				if (entity instanceof EntityPlayer || entity instanceof EntityMHFCBase) {
+					entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 100 + this.rand.nextInt(17));
 				} else {
-					entity.attackEntityFrom(DamageSource
-						.causeMobDamage(getThrower()), 9999999f + this.rand
-						.nextInt(102));
+					entity.attackEntityFrom(
+							DamageSource.causeMobDamage(getThrower()),
+							9999999f + this.rand.nextInt(102));
 				}
 			}
 		}
