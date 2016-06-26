@@ -8,7 +8,7 @@ import net.minecraft.entity.Entity;
 public class GargwaIdle extends AIGeneralIdle<EntityGargwa> {
 
 	private static String ANIMATION = "mhfc:models/Gagua/GaguaIdleOne.mcanm";
-	private static int LAST_FRAME;
+	private static int LAST_FRAME =80;
 
 	private static final IWeightProvider<EntityGargwa> WEIGHT_PROVIDER = new IWeightProvider.RandomWeightAdapter<>(1);
 	

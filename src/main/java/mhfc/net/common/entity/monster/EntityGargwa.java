@@ -8,14 +8,12 @@ import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.nonboss.gargwa.GargwaDeath;
 import mhfc.net.common.ai.entity.nonboss.gargwa.GargwaIdle;
 import mhfc.net.common.ai.entity.nonboss.gargwa.GargwaIdleLook;
-import mhfc.net.common.ai.entity.nonboss.gargwa.GargwaPeck;
 import mhfc.net.common.ai.entity.nonboss.gargwa.GargwaSleep;
 import mhfc.net.common.ai.entity.nonboss.gargwa.GargwaWander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.world.World;
 
 public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
@@ -63,6 +61,10 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 		// if(this.isInWater())
 		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
 		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
+	}
+	@Override
+	protected String getLivingSound() {
+		return "mhfc:gagua.idle";
 	}
 
 }

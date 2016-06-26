@@ -7,6 +7,7 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.boss.lagiacrus.LagiacrusBite;
 import mhfc.net.common.ai.entity.boss.lagiacrus.LagiacrusDying;
+import mhfc.net.common.ai.entity.boss.lagiacrus.LagiacrusIdle;
 import mhfc.net.common.ai.entity.boss.lagiacrus.LagiacrusRoar;
 import mhfc.net.common.ai.entity.boss.lagiacrus.LagiacrusWander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
@@ -32,6 +33,7 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 		actionManager.registerAction(new LagiacrusWander());
 		actionManager.registerAction(new LagiacrusRoar());
 		actionManager.registerAction(new LagiacrusBite());
+		actionManager.registerAction(new LagiacrusIdle());
 		actionManager.registerAction(setDeathAction(new LagiacrusDying()));
 		return actionManager.build(this);
 	}
@@ -45,7 +47,7 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		//default 13738
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(20D, 1000D, 1400D));
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(13738D, 1000D, 1400D));
 	}
 
 	@Override
@@ -60,6 +62,11 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 		// if(this.isInWater())
 		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
 		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
+	}
+	
+	@Override
+	protected String getLivingSound() {
+		return "mhfc:lagiacrus.idle";
 	}
 
 }

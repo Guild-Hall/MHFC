@@ -71,6 +71,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	public EntityRathalos(World world) {
 		super(world);
 		this.stance = Stances.GROUND;
+		this.setSize(5F, 5F);
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 	}
 

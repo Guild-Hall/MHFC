@@ -12,11 +12,13 @@ public abstract class AIGeneralMovement<EntityT extends EntityMHFCBase<? super E
 	protected void beginExecution() {
 		super.beginExecution();
 		initialize(getEntity());
+		getEntity().playLivingSound();
 	}
 
 	@Override
 	protected void update() {
 		EntityT actor = getEntity();
+		
 		if (hasWaypointReached()) {
 			onWaypointReached();
 		} else {
