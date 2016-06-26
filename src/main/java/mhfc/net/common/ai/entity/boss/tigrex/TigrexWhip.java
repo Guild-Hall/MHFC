@@ -31,6 +31,7 @@ public class TigrexWhip extends AIGeneralTailWhip<EntityTigrex> {
 	@Override
 	public void update(){
 		EntityTigrex entity = getEntity();
+		if(this.getCurrentFrame() == 12)
 		entity.playSound("tigrex.tailwhip", 2.0F, 1.0F);
 	}
 
