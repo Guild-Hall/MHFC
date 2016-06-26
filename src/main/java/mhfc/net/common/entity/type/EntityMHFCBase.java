@@ -89,7 +89,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		}
 		
 		if(this.isPotionActive(MHFCPotionRegistry.stun.id)){
-			getActionManager().switchToAction(stunAction);
+		//	getActionManager().switchToAction(stunAction);
 		}
 		
 	}
@@ -165,6 +165,17 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			double velZ = this.rand.nextGaussian() * 0.01D;
 			worldObj.spawnParticle("cloud", randX, randY, randZ, velX, velY, velZ);
 		}
+	}
+	
+	
+	@Override
+	protected void applyEntityAttributes(){
+		super.applyEntityAttributes();
+
+		getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
+		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
 	}
 
 	protected void onDeath() {

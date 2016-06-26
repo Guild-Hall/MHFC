@@ -31,7 +31,7 @@ public class BarrothStomp extends AIAnimatedAction<EntityBarroth> {
 
 	private void updateStomp() {
 		EntityBarroth entity = this.getEntity();
-		if (!entity.onGround || thrown || this.getCurrentFrame() < 30)
+		if (!entity.onGround || thrown || this.getCurrentFrame() < 19)
 			return;
 		@SuppressWarnings("unchecked")
 		List<Entity> list = entity.worldObj

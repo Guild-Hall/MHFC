@@ -36,11 +36,7 @@ public class EntityGiaprey extends EntityMHFCBase<EntityGiaprey> {
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(5500D, 1000D, 1400D));
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.32D);
 	}
 
 	@Override

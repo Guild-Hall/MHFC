@@ -52,12 +52,8 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.0D);
 		// default 2653
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(2653D, 5200D, 10400D));
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.4D);
 	}
 
 	@Override

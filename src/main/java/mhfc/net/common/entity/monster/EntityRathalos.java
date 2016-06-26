@@ -1,15 +1,16 @@
 package mhfc.net.common.entity.monster;
 
+import org.lwjgl.opengl.GL11;
+
+import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
+
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IStancedEntity;
-import mhfc.net.common.ai.entity.boss.rathalos.BiteAttack;
-import mhfc.net.common.ai.entity.boss.rathalos.ChargeAttack;
-import mhfc.net.common.ai.entity.boss.rathalos.FireballAttack;
-import mhfc.net.common.ai.entity.boss.rathalos.FlyLand;
-import mhfc.net.common.ai.entity.boss.rathalos.FlyStart;
-import mhfc.net.common.ai.entity.boss.rathalos.JumpFireball;
-import mhfc.net.common.ai.entity.boss.rathalos.TailSpin;
+import mhfc.net.common.ai.entity.boss.rathalos.RathalosBiteLeft;
+import mhfc.net.common.ai.entity.boss.rathalos.RathalosDeath;
+import mhfc.net.common.ai.entity.boss.rathalos.RathalosIdle;
+import mhfc.net.common.ai.entity.boss.rathalos.RathalosWander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -57,6 +58,12 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		public void onStanceEnd() {}
 
 	}
+	
+	@Override
+	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
+		GL11.glScaled(2, 2, 2);
+		return super.preRenderCallback(scale, sub);
+	}
 
 	private int confusedAttacks;
 	private Stances stance;
@@ -70,21 +77,23 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	@Override
 	public IActionManager<EntityRathalos> constructActionManager() {
 		ActionManagerBuilder<EntityRathalos> stancedAttackManager = new ActionManagerBuilder<>();
-		stancedAttackManager.registerAction(new BiteAttack());
-		stancedAttackManager.registerAction(new ChargeAttack());
-		stancedAttackManager.registerAction(new FireballAttack());
-		stancedAttackManager.registerAction(new FlyStart());
-		stancedAttackManager.registerAction(new JumpFireball());
-		stancedAttackManager.registerAction(new TailSpin());
-		stancedAttackManager.registerAction(new FlyLand());
+		stancedAttackManager.registerAction(new RathalosIdle());
+		stancedAttackManager.registerAction(new RathalosWander());
+//	//	stancedAttackManager.registerAction(new RathalosBiteLeft());
+	//	stancedAttackManager.registerAction(new ChargeAttack());
+	//	stancedAttackManager.registerAction(new FireballAttack());
+	//	stancedAttackManager.registerAction(new FlyStart());
+	//	stancedAttackManager.registerAction(new JumpFireball());
+	//	stancedAttackManager.registerAction(new TailSpin());
+	//	stancedAttackManager.registerAction(new FlyLand());
+		stancedAttackManager.registerAction(setDeathAction(new RathalosDeath()));
 		return stancedAttackManager.build(this);
 	}
 
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(50f);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(4500D, 9000D, 18000D));
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(6781D, 9000D, 18000D));
 	}
 
 	@Override
@@ -145,6 +154,11 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	@Override
 	public Stances getStance() {
 		return this.stance;
+	}
+	
+	@Override
+	protected String getLivingSound() {
+		return "mhfc:rathalos.idle";
 	}
 
 	@Override

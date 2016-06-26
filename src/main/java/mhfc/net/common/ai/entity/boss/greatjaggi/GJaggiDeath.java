@@ -8,7 +8,7 @@ public class GJaggiDeath extends AIGeneralDeath<EntityGreatJaggi> {
 	private static final String ANIMATION_LOCATION = "mhfc:models/GreatJaggi/GreatJaggiDeath.mcanm";
 
 	public GJaggiDeath() {
-		super(ANIMATION_LOCATION);
+		super(ANIMATION_LOCATION, "mhfc:greatjaggi.roar");
 	}
 
 }

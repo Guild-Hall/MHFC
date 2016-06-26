@@ -1,17 +1,17 @@
-package mhfc.net.common.ai.entity.nonboss.gagua;
+package mhfc.net.common.ai.entity.nonboss.gargwa;
 
 import mhfc.net.common.ai.general.actions.AIGeneralIdle;
 import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
-import mhfc.net.common.entity.monster.EntityGagua;
+import mhfc.net.common.entity.monster.EntityGargwa;
 import net.minecraft.entity.Entity;
 
-public class GaguaSleep extends AIGeneralIdle<EntityGagua> {
+public class GargwaSleep extends AIGeneralIdle<EntityGargwa> {
 
 	private static String ANIMATION = "mhfc:models/Gagua/GaguaSleep.mcanm";
 	private static int LAST_FRAME = 1250;
 
-	private static final IWeightProvider<EntityGagua> WEIGHT_PROVIDER = new IWeightProvider.RandomWeightAdapter<>(3);
-	public GaguaSleep() {
+	private static final IWeightProvider<EntityGargwa> WEIGHT_PROVIDER = new IWeightProvider.RandomWeightAdapter<>(3);
+	public GargwaSleep() {
 		
 	}
 
@@ -26,7 +26,7 @@ public class GaguaSleep extends AIGeneralIdle<EntityGagua> {
 	}
 
 	@Override
-	public float getWeight(EntityGagua entity, Entity target) {
+	public float getWeight(EntityGargwa entity, Entity target) {
 		if(!entity.worldObj.isDaytime() && entity.getAttackTarget() == null){
 			return WEIGHT_PROVIDER.getWeight(entity, target);
 		}

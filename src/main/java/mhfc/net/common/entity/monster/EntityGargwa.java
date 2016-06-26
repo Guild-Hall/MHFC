@@ -5,12 +5,12 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
-import mhfc.net.common.ai.entity.nonboss.gagua.GaguaDeath;
-import mhfc.net.common.ai.entity.nonboss.gagua.GaguaIdle;
-import mhfc.net.common.ai.entity.nonboss.gagua.GaguaIdleLook;
-import mhfc.net.common.ai.entity.nonboss.gagua.GaguaPeck;
-import mhfc.net.common.ai.entity.nonboss.gagua.GaguaSleep;
-import mhfc.net.common.ai.entity.nonboss.gagua.GaguaWander;
+import mhfc.net.common.ai.entity.nonboss.gargwa.GargwaDeath;
+import mhfc.net.common.ai.entity.nonboss.gargwa.GargwaIdle;
+import mhfc.net.common.ai.entity.nonboss.gargwa.GargwaIdleLook;
+import mhfc.net.common.ai.entity.nonboss.gargwa.GargwaPeck;
+import mhfc.net.common.ai.entity.nonboss.gargwa.GargwaSleep;
+import mhfc.net.common.ai.entity.nonboss.gargwa.GargwaWander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -18,9 +18,9 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.world.World;
 
-public class EntityGagua extends EntityMHFCBase<EntityGagua> {
+public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 
-	public EntityGagua(World world) {
+	public EntityGargwa(World world) {
 		super(world);
 		this.height = 2f;
 		this.width = 2f;
@@ -29,14 +29,14 @@ public class EntityGagua extends EntityMHFCBase<EntityGagua> {
 	
 
 	@Override
-	public IActionManager<EntityGagua> constructActionManager() {
-		ActionManagerBuilder<EntityGagua> actionManager = new ActionManagerBuilder<>();
+	public IActionManager<EntityGargwa> constructActionManager() {
+		ActionManagerBuilder<EntityGargwa> actionManager = new ActionManagerBuilder<>();
 	//	actionManager.registerAction(new GaguaPeck());
-		actionManager.registerAction(new GaguaIdle());
-		actionManager.registerAction(new GaguaIdleLook());
-		actionManager.registerAction(new GaguaSleep());
-		actionManager.registerAction(setDeathAction(new GaguaDeath()));
-		actionManager.registerAction(new GaguaWander());
+		actionManager.registerAction(new GargwaIdle());
+		actionManager.registerAction(new GargwaIdleLook());
+		actionManager.registerAction(new GargwaSleep());
+		actionManager.registerAction(setDeathAction(new GargwaDeath()));
+		actionManager.registerAction(new GargwaWander());
 		return actionManager.build(this);
 	}
 
@@ -48,11 +48,7 @@ public class EntityGagua extends EntityMHFCBase<EntityGagua> {
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(150D, 800D, 1200D));
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
 	}
 
 	@Override

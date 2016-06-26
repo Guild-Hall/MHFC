@@ -21,7 +21,7 @@ public abstract class AIGeneralWander<EntityT extends EntityMHFCBase<? super Ent
 
 	public static class RandomWanderProvider<EntityT extends EntityLiving> implements IPathProvider<EntityT> {
 
-		public static int DEFAULT_WANDER_DISTANCE = 30;
+		public static int DEFAULT_WANDER_DISTANCE = 20;
 
 		public RandomWanderProvider() {
 			this(DEFAULT_WANDER_DISTANCE);
@@ -89,7 +89,7 @@ public abstract class AIGeneralWander<EntityT extends EntityMHFCBase<? super Ent
 		selectIdleAdapter = new ISelectionPredicate.SelectIdleAdapter<EntityT>();
 		hasNoTargetAdapter = new IContinuationPredicate.HasNoTargetAdapter<EntityT>();
 		pathProvider = new RandomWanderProvider<EntityT>();
-		turnThenMoveAdapter = new IMovementProvider.TurnThenMoveAdapter<>(pathProvider, parameterProvider, 5f);
+		turnThenMoveAdapter = new IMovementProvider.TurnThenMoveAdapter<>(pathProvider, parameterProvider, 6f);
 	}
 
 	@Override

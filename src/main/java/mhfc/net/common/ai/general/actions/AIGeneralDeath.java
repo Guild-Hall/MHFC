@@ -8,17 +8,21 @@ public abstract class AIGeneralDeath<EntityT extends EntityMHFCBase<? super Enti
 	public static final int deathLingeringTicks = 30 * 15;
 	protected String deathsoundlocation;
 
-	public AIGeneralDeath(String dyingLocation) {
+	public AIGeneralDeath(String dyingLocation, String sound) {
 		setAnimation(dyingLocation);
+		deathsoundlocation = sound;
+		
 	}
 
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
+		getEntity().playSound(deathsoundlocation, 4.0F, 1.0F);
 	}
 
 	@Override
-	protected void update() {}
+	protected void update() {
+	}
 
 	@Override
 	public boolean shouldContinue() {

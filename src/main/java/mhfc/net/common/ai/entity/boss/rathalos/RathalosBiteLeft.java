@@ -1,33 +1,32 @@
-package mhfc.net.common.ai.entity.nonboss.gagua;
+package mhfc.net.common.ai.entity.boss.rathalos;
 
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
-import mhfc.net.common.entity.monster.EntityGagua;
-import mhfc.net.common.entity.monster.EntityLagiacrus;
+import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.Vec3;
 
-public class GaguaPeck extends ActionAdapter<EntityGagua>  {
-
-	private static int ANIM_FRAME = 30;
+public class RathalosBiteLeft extends ActionAdapter <EntityRathalos> {
 	
-	private static IDamageCalculator DAMAGE = AIUtils.defaultDamageCalc(15F, 125F, 99999999F);
+	private static int ANIM_FRAME = 40;
 	
-	private static double TARGET_DISTANCE = 5.2F;
+	private static IDamageCalculator DAMAGE = AIUtils.defaultDamageCalc(95F, 125F, 99999999F);
+	
+	private static double TARGET_DISTANCE = 5F;
 	
 	private static double AIM_ANGLE = 0.155;
 	
-	private static float WEIGHT = 4;
+	private static float WEIGHT = 2F;
 	
-	public GaguaPeck()	 {
-		setAnimation("mhfc:models/Gagua/GaguaPeck.mcanm");
+	public RathalosBiteLeft()	 {
+		setAnimation("mhfc:models/Rathalos/RathalosBiteLeft.mcanm");
 		setLastFrame(ANIM_FRAME);
 	}
 
 	@Override
 	public float getWeight() {
-		EntityGagua entity = this.getEntity();
+		EntityRathalos entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (target == null) {
 			return DONT_SELECT;
@@ -46,17 +45,10 @@ public class GaguaPeck extends ActionAdapter<EntityGagua>  {
 	@Override
 	public void update() {
 		if (this.getCurrentFrame() == 38) {
-		//	getEntity().playSound("mhfc:lagacirus.bite", 2.0F, 1.0F);
-		}
-		if (isMoveForwardFrame(getCurrentFrame())) {
-			EntityGagua entity = getEntity();
-			entity.moveForward(0.2, false);
+			getEntity().playSound("mhfc:rathalos.bite", 3.0F, 1.0F);
 		}
 		AIUtils.damageCollidingEntities(getEntity(), DAMAGE);
 	}
 	
-	private boolean isMoveForwardFrame(int frame) {
-		return (frame > 10 && frame < 25);
-	}
 
 }

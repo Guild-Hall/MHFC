@@ -44,12 +44,8 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
 		//default 8112
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(20D, 10000D, 20000D));
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
 	}
 
 	@Override

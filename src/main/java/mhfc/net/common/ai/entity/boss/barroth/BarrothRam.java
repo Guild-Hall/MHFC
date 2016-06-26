@@ -7,10 +7,7 @@ import mhfc.net.common.entity.monster.EntityBarroth;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.Vec3;
 
-/**
- * @author WorldSEnder
- *
- */
+
 public class BarrothRam extends ActionAdapter<EntityBarroth> {
 	private static final int LAST_FRAME = 75;
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(95f, 50F, 9999999f);

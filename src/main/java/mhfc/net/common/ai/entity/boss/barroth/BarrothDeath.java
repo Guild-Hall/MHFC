@@ -8,7 +8,7 @@ public class BarrothDeath extends AIGeneralDeath<EntityBarroth> {
 	private static final String ANIMATION_LOCATION = "mhfc:models/Barroth/BarrothDeath.mcanm";
 
 	public BarrothDeath() {
-		super(ANIMATION_LOCATION);
+		super(ANIMATION_LOCATION, "mhfc:barroth.headsmash");
 	}
 
 }

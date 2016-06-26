@@ -22,7 +22,7 @@ import mhfc.net.client.render.projectile.RenderWyverniaArrow;
 import mhfc.net.common.entity.monster.EntityBarroth;
 import mhfc.net.common.entity.monster.EntityDelex;
 import mhfc.net.common.entity.monster.EntityDeviljho;
-import mhfc.net.common.entity.monster.EntityGagua;
+import mhfc.net.common.entity.monster.EntityGargwa;
 import mhfc.net.common.entity.monster.EntityGiaprey;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
 import mhfc.net.common.entity.monster.EntityKirin;
@@ -92,7 +92,7 @@ public class MHFCEntityRenderRegistry {
 				MHFCReference.mob_kirin_skeleton,
 				1.0F);
 		basicRenderer(
-				EntityGagua.class,
+				EntityGargwa.class,
 				MHFCReference.mob_gagua_textureDir,
 				MHFCReference.mob_gagua_model,
 				MHFCReference.mob_gagua_skeleton,

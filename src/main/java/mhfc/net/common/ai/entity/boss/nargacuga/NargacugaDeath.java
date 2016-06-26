@@ -8,7 +8,7 @@ public class NargacugaDeath extends AIGeneralDeath<EntityNargacuga> {
 	private static final String ANIMATION_LOCATION = "mhfc:models/Nargacuga/NargaDeath.mcanm";
 
 	public NargacugaDeath() {
-		super(ANIMATION_LOCATION);
+		super(ANIMATION_LOCATION, "mhfc:narga.death");
 	}
 
 }

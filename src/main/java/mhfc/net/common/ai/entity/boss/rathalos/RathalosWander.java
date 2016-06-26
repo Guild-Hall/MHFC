@@ -1,24 +1,24 @@
-package mhfc.net.common.ai.entity.nonboss.gagua;
+package mhfc.net.common.ai.entity.boss.rathalos;
 
 import mhfc.net.common.ai.general.IFrameAdvancer;
 import mhfc.net.common.ai.general.actions.AIGeneralWander;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
-import mhfc.net.common.entity.monster.EntityGagua;
+import mhfc.net.common.entity.monster.EntityRathalos;
 import net.minecraft.entity.Entity;
 
-public class GaguaWander extends AIGeneralWander<EntityGagua> {
+public class RathalosWander extends AIGeneralWander<EntityRathalos> {
 
-	private static final String ANIMATION = "mhfc:models/Gagua/GaguaWalk.mcanm";
-	private static final int LAST_FRAME = 45;
-	private static final float WEIGHT = 1F;
+	private static final String ANIMATION = "mhfc:models/Rathalos/RathalosWalk.mcanm";
+	private static final int LAST_FRAME = 120;
+	private static final float WEIGHT = 0.5F;
 
 	private static final IMoveParameterProvider parameterProvider = new IMoveParameterProvider.MoveParameterAdapter(
-			1f,
-			0.3f);
+			3f,
+			0.35f);
 
-	public GaguaWander() {
+	public RathalosWander() {
 		super(parameterProvider);
-		setFrameAdvancer(new IFrameAdvancer.CountLoopAdvancer(0, 45, -1));
+		setFrameAdvancer(new IFrameAdvancer.CountLoopAdvancer(0, 120, -1));
 	}
 
 	@Override
@@ -37,11 +37,8 @@ public class GaguaWander extends AIGeneralWander<EntityGagua> {
 	}
 
 	@Override
-	public float getWeight(EntityGagua entity, Entity target) {
-		if(entity.worldObj.isDaytime()){
-			return WEIGHT;
-		}
-		return DONT_SELECT;
+	public float getWeight(EntityRathalos entity, Entity target) {
+		return WEIGHT;
 	}
 
 }
