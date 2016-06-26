@@ -36,6 +36,12 @@ public class DeviljhoTailWhip extends AIGeneralTailWhip<EntityDeviljho> {
 	public int getAnimationLength() {
 		return LAST_FRAME;
 	}
+	
+	@Override
+	public void update(){
+		EntityDeviljho entity = getEntity();
+		entity.playSound("mhfc:deviljho.tailwhip", 2.0F, 1.0F);
+	}
 
 	@Override
 	public boolean shouldSelectAttack(

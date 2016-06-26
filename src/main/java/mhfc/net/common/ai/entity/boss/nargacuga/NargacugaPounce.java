@@ -51,7 +51,10 @@ public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> 
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
+		EntityNargacuga entity = getEntity();
+		entity.playSound("narga.leapforward", 2.0F, 1.0F);
 		MHFCMain.logger.debug("Narga jump {}", this.behaviour);
+		
 		setToNextFrame(18);
 	}
 

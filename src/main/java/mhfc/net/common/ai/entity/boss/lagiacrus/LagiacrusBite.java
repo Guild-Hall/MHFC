@@ -13,7 +13,7 @@ public class LagiacrusBite extends ActionAdapter <EntityLagiacrus> {
 	
 	private static IDamageCalculator DAMAGE = AIUtils.defaultDamageCalc(95F, 125F, 99999999F);
 	
-	private static double TARGET_DISTANCE = 10.2F;
+	private static double TARGET_DISTANCE = 8.5F;
 	
 	private static double AIM_ANGLE = 0.155;
 	
@@ -44,7 +44,7 @@ public class LagiacrusBite extends ActionAdapter <EntityLagiacrus> {
 
 	@Override
 	public void update() {
-		if (this.getCurrentFrame() == 38) {
+		if (getEntity().getAttackTarget() != null && this.getCurrentFrame() == 38) {
 			getEntity().playSound("mhfc:lagiacrus.bite", 2.0F, 1.0F);
 			getEntity().getAttackTarget().addVelocity(0.9D, 0.3D, 0);
 		}

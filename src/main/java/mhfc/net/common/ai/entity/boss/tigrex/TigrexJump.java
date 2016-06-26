@@ -37,6 +37,12 @@ public class TigrexJump extends AIGeneralJumpAttack<EntityTigrex> {
 	public TigrexJump() {
 
 	}
+	
+	@Override
+	public void update(){
+		EntityTigrex entity = getEntity();
+		entity.playSound("tigrex.leapforward", 2.0F, 1.0F);
+	}
 
 	@Override
 	public String getAnimationLocation() {

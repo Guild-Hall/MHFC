@@ -46,7 +46,7 @@ public class BarrothRam extends ActionAdapter<EntityBarroth> {
 	public void update() {
 		EntityBarroth entity = getEntity();
 		
-		if (this.getCurrentFrame() == 20) {
+		if (entity.getAttackTarget() != null && this.getCurrentFrame() == 20) {
 			entity.getAttackTarget().setVelocity(-0.8D, 1.8D, 0d);
 		//	getEntity().playSound("mhfc:entity.bite", 2.0F, 1.0F);
 		}

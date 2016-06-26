@@ -68,6 +68,12 @@ public class NargacugaBackOff extends AIGeneralJumpAttack<EntityNargacuga> {
 	public IDamageCalculator getDamageCalculator() {
 		return calculator;
 	}
+	
+	@Override
+	public void update(){
+		EntityNargacuga entity = getEntity();
+		entity.playSound("mhfc:narga.leapback", 2.0F, 1.0F);
+	}
 
 	@Override
 	public float getInitialUpVelocity(EntityNargacuga entity) {

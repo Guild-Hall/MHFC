@@ -48,6 +48,8 @@ public class TigrexGroundHurl extends ActionAdapter<EntityTigrex> {
 
 	@Override
 	public void beginExecution() {
+		EntityTigrex entity = getEntity();
+		entity.playSound("mhfc:tigrex.rockthrow", 2.0F, 1.0F);
 		thrown = false;
 		weightFactor *= 3;
 	}

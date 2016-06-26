@@ -175,8 +175,8 @@ public class GJaggiRun extends ActionAdapter<EntityGreatJaggi> {
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;
 		runCycles = 0;
+		entity.playLivingSound();
 		framesRunning = 0;
-
 		currentPhase.onPhaseStart(this);
 		runStartPoint = Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
 	}

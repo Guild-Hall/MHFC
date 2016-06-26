@@ -26,6 +26,14 @@ public class GJaggiWhip extends AIGeneralTailWhip<EntityGreatJaggi> {
 	}
 
 	public GJaggiWhip() {}
+	
+	@Override
+	protected void update() {
+		EntityGreatJaggi entity = getEntity();
+		if(this.getCurrentFrame() == 10){
+			entity.playSound("greatjaggi.tailwhip", 2.0f, 1.0f);
+		}
+	}
 
 	@Override
 	public String getAnimationLocation() {

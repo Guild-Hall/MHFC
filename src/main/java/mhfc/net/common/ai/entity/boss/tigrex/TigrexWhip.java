@@ -26,6 +26,13 @@ public class TigrexWhip extends AIGeneralTailWhip<EntityTigrex> {
 	}
 
 	public TigrexWhip() {}
+	
+	
+	@Override
+	public void update(){
+		EntityTigrex entity = getEntity();
+		entity.playSound("tigrex.tailwhip", 2.0F, 1.0F);
+	}
 
 	@Override
 	public String getAnimationLocation() {

@@ -42,6 +42,8 @@ public class NargacugaCharge extends AIAnimatedAction<EntityNargacuga> {
 	protected void update() {
 		EntityNargacuga nargacuga = getEntity();
 		EntityLivingBase target = nargacuga.getAttackTarget();
+		if(this.getCurrentFrame() == 5)
+		nargacuga.playSound("narga.charge", 2.0F, 1.0F);
 		Vec3 distanceVec = WorldHelper.getVectorToTarget(nargacuga, target);
 		if (distanceVec.lengthVector() < MIN_DISTANCE) {
 			frameAdvancer.setLoopActive(false);
