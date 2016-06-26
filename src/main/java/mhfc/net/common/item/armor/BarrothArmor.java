@@ -24,15 +24,14 @@ public class BarrothArmor extends ItemArmor {
 			MHFCReference.armor_barroth_chest_name, MHFCReference.armor_barroth_legs_name,
 			MHFCReference.armor_barroth_boots_name };
 
-	private static final String[] icons = { MHFCReference.armor_barroth_helm_icon,
-			MHFCReference.armor_barroth_chest_icon, MHFCReference.armor_barroth_legs_icon,
-			MHFCReference.armor_barroth_boots_icon };
+	private static final String[] icons = { MHFCReference.armor_default_helm_icon,
+			MHFCReference.armor_default_chest_icon, MHFCReference.armor_default_legs_icon,
+			MHFCReference.armor_default_boots_icon };
 
 	public BarrothArmor(int type) {
 		super(MHFCArmorMaterialHelper.ArmorBarroth, 4, type);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setUnlocalizedName(names[type]);
-		//rarity = ItemRarity.R02;
 	}
 
 	@Override
@@ -40,9 +39,6 @@ public class BarrothArmor extends ItemArmor {
 	public void registerIcons(IIconRegister iconRegister) {
 		this.itemIcon = iconRegister.registerIcon(icons[this.armorType]);
 	}
-
-	@Override
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {}
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
@@ -56,6 +52,13 @@ public class BarrothArmor extends ItemArmor {
 		}
 		return null;
 	}
+
+	@Override
+	public void addInformation(
+			ItemStack par1ItemStack,
+			EntityPlayer par2EntityPlayer,
+			@SuppressWarnings("rawtypes") List par3List,
+			boolean par4) {}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -104,20 +107,18 @@ public class BarrothArmor extends ItemArmor {
 	}
 
 	@Override
-	public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
-		// The player needs to wear all armor pieces, so when we check on the
-		// helmet it's enough
+	public void onArmorTick(World world, EntityPlayer player, ItemStack itemstack) {
 		if (this.armorType != 0) {
 			return;
 		}
 		ItemStack boots = player.getCurrentArmor(0);
 		ItemStack legs = player.getCurrentArmor(1);
 		ItemStack chest = player.getCurrentArmor(2);
-		if (chest != null && legs != null && boots != null && chest.getItem() == MHFCItemRegistry.armor_dragoon_chest
-				&& boots.getItem() == MHFCItemRegistry.armor_dragoon_boots
-				&& legs.getItem() == MHFCItemRegistry.armor_dragoon_legs) {
-
+		ItemStack food = player.getCurrentEquippedItem();
+		if (boots != null && legs != null && chest != null) {
+			if (boots.getItem() == MHFCItemRegistry.armor_barroth_boots
+					&& legs.getItem() == MHFCItemRegistry.armor_barroth_legs
+					&& chest.getItem() == MHFCItemRegistry.armor_barroth_chest) {}
 		}
 	}
-
 }

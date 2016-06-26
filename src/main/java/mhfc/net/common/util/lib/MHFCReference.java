@@ -16,57 +16,42 @@ public class MHFCReference {
 	}
 
 	public static final String armor_null_tex = "mhfc:textures/armor/null.png";
-	public static final String armor_kirinS_boots_icon = "mhfc:mhf_3";
 	public static final String armor_kirinS_boots_name = "c.mhf_boots";
-	public static final String armor_kirinS_chest_icon = "mhfc:mhf_1";
 	public static final String armor_kirinS_chest_name = "c.mhf_chest";
-	public static final String armor_kirinS_helm_icon = "mhfc:mhf_0";
 	public static final String armor_kirinS_helm_name = "c.mhf_helm";
-	public static final String armor_kirinS_legs_icon = "mhfc:mhf_2";
 	public static final String armor_kirinS_legs_name = "c.mhf_leg";
 	public static final String armor_kirinS_tex1 = "mhfc:textures/armor/kirinS_layer_1.png";
 	public static final String armor_kirinS_tex2 = "mhfc:textures/armor/kirinS_layer_2.png";
-	public static final String armor_kirin_boots_icon = "mhfc:mhf_3";
+
 	public static final String armor_kirin_boots_name = "b.mhf_boots";
 	public static final String armor_kirin_buff_name = "kirinbuff";
-	public static final String armor_kirin_chest_icon = "mhfc:mhf_1";
 	public static final String armor_kirin_chest_name = "b.mhf_chest";
-	public static final String armor_kirin_helm_icon = "mhfc:mhf_0";
 	public static final String armor_kirin_helm_name = "b.mhf_helm";
-	public static final String armor_kirin_legs_icon = "mhfc:mhf_2";
 	public static final String armor_kirin_legs_name = "b.mhf_legs";
 	public static final String armor_kirin_tex1 = "mhfc:textures/armor/kirin_layer_1.png";
 	public static final String armor_kirin_tex2 = "mhfc:textures/armor/kirin_layer_2.png";
-	public static final String armor_tigrex_boots_icon = "mhfc:mhf_3";
+
 	public static final String armor_tigrex_boots_name = "a.mhf_boots";
-	public static final String armor_tigrex_chest_icon = "mhfc:mhf_1";
 	public static final String armor_tigrex_chest_name = "a.mhf_chest";
-	public static final String armor_tigrex_helm_icon = "mhfc:mhf_0";
 	public static final String armor_tigrex_helm_name = "a.mhf_helm";
-	public static final String armor_tigrex_legs_icon = "mhfc:mhf_2";
 	public static final String armor_tigrex_legs_name = "a.mhf_leg";
 	public static final String armor_tigrex_tex1 = "mhfc:textures/armor/tigrex_layer_1.png";
 	public static final String armor_tigrex_tex2 = "mhfc:textures/armor/tigrex_layer_2.png";
-	public static final String armor_yukumo_boots_icon = "mhfc:mhf_3";
+
 	public static final String armor_yukumo_boots_name = "d.mhf_boots";
-	public static final String armor_yukumo_chest_icon = "mhfc:mhf_1";
 	public static final String armor_yukumo_chest_name = "d.mhf_chest";
-	public static final String armor_yukumo_helm_icon = "mhfc:mhf_0";
 	public static final String armor_yukumo_helm_name = "d.mhf_helm";
-	public static final String armor_yukumo_legs_icon = "mhfc:mhf_2";
 	public static final String armor_yukumo_legs_name = "d.mhf_leg";
 	public static final String armor_yukumo_tex1 = "mhfc:textures/armor/yukumo_layer_1.png";
 	public static final String armor_yukumo_tex2 = "mhfc:textures/armor/yukumo_layer_2.png";
-	public static final String armor_rathalos_boots_icon = "mhfc:mhf_3";
+
 	public static final String armor_rathalos_boots_name = "e.mhf_boots";
-	public static final String armor_rathalos_chest_icon = "mhfc:mhf_1";
 	public static final String armor_rathalos_chest_name = "e.mhf_chest";
-	public static final String armor_rathalos_helm_icon = "mhfc:mhf_0";
 	public static final String armor_rathalos_helm_name = "e.mhf_helm";
-	public static final String armor_rathalos_legs_icon = "mhfc:mhf_2";
 	public static final String armor_rathalos_legs_name = "e.mhf_leg";
 	public static final String armor_rathalos_tex1 = "mhfc:textures/armor/rathalos_layer_1.png";
 	public static final String armor_rathalos_tex2 = "mhfc:textures/armor/rathalos_layer_2.png";
+
 	public static final String armor_default_boots_icon = "mhfc:mhf_3";
 	public static final String armor_default_boots_name = "f.mhf_boots";
 	public static final String armor_default_chest_icon = "mhfc:mhf_1";
@@ -77,36 +62,55 @@ public class MHFCReference {
 	public static final String armor_default_legs_name = "f.mhf_leg";
 	public static final String armor_dragoon_tex1 = "mhfc:textures/armor/dragoon_layer_1.png";
 	public static final String armor_dragoon_tex2 = "mhfc:textures/armor/dragoon_layer_2.png";
-	public static final String armor_velociprey_boots_icon = "mhfc:mhf_3";
+
 	public static final String armor_velociprey_boots_name = "g.mhf_boots";
-	public static final String armor_velociprey_chest_icon = "mhfc:mhf_1";
 	public static final String armor_velociprey_chest_name = "g.mhf_chest";
-	public static final String armor_velociprey_helm_icon = "mhfc:mhf_0";
 	public static final String armor_velociprey_helm_name = "g.mhf_helm";
-	public static final String armor_velociprey_legs_icon = "mhfc:mhf_2";
 	public static final String armor_velociprey_legs_name = "g.mhf_leg";
 	public static final String armor_velociprey_tex1 = "mhfc:textures/armor/velociprey_layer_1.png";
 	public static final String armor_velociprey_tex2 = "mhfc:textures/armor/velociprey_layer_2.png";
-	public static final String armor_tigrexb_boots_icon = "mhfc:mhf_3";
+
 	public static final String armor_tigrexb_boots_name = "h.mhf_boots";
-	public static final String armor_tigrexb_chest_icon = "mhfc:mhf_1";
 	public static final String armor_tigrexb_chest_name = "h.mhf_chest";
-	public static final String armor_tigrexb_helm_icon = "mhfc:mhf_0";
 	public static final String armor_tigrexb_helm_name = "h.mhf_helm";
-	public static final String armor_tigrexb_legs_icon = "mhfc:mhf_2";
 	public static final String armor_tigrexb_legs_name = "h.mhf_leg";
 	public static final String armor_tigrexb_tex1 = "mhfc:textures/armor/kishin_layer_1.png";
 	public static final String armor_tigrexb_tex2 = "mhfc:textures/armor/kishin_layer_2.png";
-	public static final String armor_barroth_boots_icon = "mhfc:mhf_3";
-	public static final String armor_barroth_boots_name = "i.mhf_boots";
-	public static final String armor_barroth_chest_icon = "mhfc:mhf_1";
-	public static final String armor_barroth_chest_name = "i.mhf_chest";
-	public static final String armor_barroth_helm_icon = "mhfc:mhf_0";
-	public static final String armor_barroth_helm_name = "i.mhf_helm";
-	public static final String armor_barroth_legs_icon = "mhfc:mhf_2";
-	public static final String armor_barroth_legs_name = "i.mhf_leg";
+
+	public static final String armor_nibelsnarf_boots_name = "i.mhf_boots";
+	public static final String armor_nibelsnarf_chest_name = "i.mhf_chest";
+	public static final String armor_nibelsnarf_helm_name = "i.mhf_helm";
+	public static final String armor_nibelsnarf_legs_name = "i.mhf_leg";
+	public static final String armor_nibelsnarf_tex1 = "mhfc:textures/armor/nibelsnarf_layer_1.png";
+	public static final String armor_nibelsnarf_tex2 = "mhfc:textures/armor/nibelsnarf_layer_2.png";
+
+	public static final String armor_bionic_tex1 = "mhfc:textures/armor/st_bionic_layer_1.png";
+	public static final String armor_bionic_tex2 = "mhfc:textures/armor/st_bionic_layer_2.png";
+	public static final String armor_bionic_helm_name = "j.mhf_helm";
+	public static final String armor_bionic_chest_name = "j.mhf_chest";
+	public static final String armor_bionic_legs_name = "j.mhf_leg";
+	public static final String armor_bionic_boots_name = "j.mhf_boots";
+
+	public static final String armor_deviljho_tex1 = "mhfc:textures/armor/deviljho_layer_1.png";
+	public static final String armor_deviljho_tex2 = "mhfc:textures/armor/deviljho_layer_2.png";
+	public static final String armor_deviljho_helm_name = "k.mhf_helm";
+	public static final String armor_deviljho_chest_name = "k.mhf_chest";
+	public static final String armor_deviljho_legs_name = "k.mhf_leg";
+	public static final String armor_deviljho_boots_name = "k.mhf_boots";
+
+	public static final String armor_greatjaggi_tex1 = "mhfc:textures/armor/greatjaggi_layer_1.png";
+	public static final String armor_greatjaggi_tex2 = "mhfc:textures/armor/greatjaggi_layer_2.png";
+	public static final String armor_greatjaggi_helm_name = "l.mhf_helm";
+	public static final String armor_greatjaggi_chest_name = "l.mhf_chest";
+	public static final String armor_greatjaggi_legs_name = "l.mhf_leg";
+	public static final String armor_greatjaggi_boots_name = "l.mhf_boots";
+
 	public static final String armor_barroth_tex1 = "mhfc:textures/armor/barroth_layer_1.png";
 	public static final String armor_barroth_tex2 = "mhfc:textures/armor/barroth_layer_2.png";
+	public static final String armor_barroth_helm_name = "m.mhf_helm";
+	public static final String armor_barroth_chest_name = "m.mhf_chest";
+	public static final String armor_barroth_legs_name = "m.mhf_leg";
+	public static final String armor_barroth_boots_name = "m.mhf_boots";
 
 	public static final String block_bbqspit_icon = "mhfc:armorstandblock";
 	public static final String block_bbqspit_name = "bbqspit";
@@ -184,6 +188,9 @@ public class MHFCReference {
 	public static final String block_tacren_name = "rocktacren";
 	public static final String block_tacren_tex = "mhfc:rocktacren";
 
+	public static final String block_quicksand_name = "quicksand";
+	public static final String block_quicksand_tex = "mhfc:mudquicksand";
+
 	public static final String block_wyvernialog_basename = "wyverniawood";
 	public static final String block_log_calfer_name = "logcalfer";
 	public static final String block_log_calfer_tex = "mhfc:logcalfer";
@@ -245,6 +252,9 @@ public class MHFCReference {
 	public static final String gui_tab_texture = "mhfc:textures/gui/TabbedGui.png";
 	public static final String gui_tab_name = "MHFC Tab";
 	public static final String gui_list_tex = "mhfc:textures/gui/GuiList.png";
+
+	public static final String item_arrow0_icon = "mhfc:arrow0";
+	public static final String item_arrow0_name = "arrow0";
 
 	public static final String item_armorsphere_basename = "armorsphere";
 	public static final String item_armorsphere0_name = "normal";
@@ -402,34 +412,42 @@ public class MHFCReference {
 	public static final String item_wyverniadust_icon = "mhfc:wyverniadust";
 	public static final String item_wyverniadust_name = "wyverniadust";
 
+	// If something persist or crash and pointed at this line of codes. probably
+	// you have a wrong input of directory @Heltrato
 	public static final String modelLoc = "mhfc:models/";
 	public static final String mob_tigrex_name = "tigrex";
-	public static final String mob_tigrex_model = modelLoc
-		+ "Tigrex/Tigrex.mcmd";
+	public static final String mob_tigrex_model = modelLoc + "Tigrex/Tigrex.mcmd";
 	public static final String mob_rathalos_name = "rathalos";
-	public static final String mob_rathalos_model = modelLoc
-		+ "Rathalos/Rathalos.mcmd";
+	public static final String mob_rathalos_model = modelLoc + "Rathalos/Rathalos.mcmd";
 	public static final String mob_greatjaggi_name = "greatjaggi";
-	public static final String mob_greatjaggi_model = modelLoc
-		+ "GreatJaggi/GreatJaggi.mcmd";
+	public static final String mob_greatjaggi_model = modelLoc + "GreatJaggi/GreatJaggi.mcmd";
 	public static final String mob_deviljho_name = "deviljho";
-	public static final String mob_deviljho_model = modelLoc
-		+ "Deviljho/Deviljho.mcmd";
+	public static final String mob_deviljho_model = modelLoc + "Deviljho/Deviljho.mcmd";
 	public static final String mob_barroth_name = "barroth";
-	public static final String mob_barroth_model = modelLoc
-		+ "Barroth/Barroth.mcmd";
+	public static final String mob_barroth_model = modelLoc + "Barroth/Barroth.mcmd";
 	public static final String mob_nargacuga_name = "nargacuga";
-	public static final String mob_nargacuga_model = modelLoc
-		+ "Nargacuga/Nargacuga.mcmd";
+	public static final String mob_nargacuga_model = modelLoc + "Nargacuga/Nargacuga.mcmd";
+	public static final String mob_delex_name = "delex";
+	public static final String mob_delex_model = modelLoc + "Delex/PDelex.mcmd";
+	public static final String mob_giaprey_name = "giaprey";
+	public static final String mob_giaprey_model = modelLoc + "Giaprey/Giaprey.mcmd";
+	public static final String mob_ukanlos_name = "ukanlos";
+	public static final String mob_ukanlos_model = modelLoc + "Ukanlos/Ukanlos.mcmd";
+
+	// WARNING: YOU HAVE TO GENERATE A NEW UUID FOR EVERY POTION
+	// go to https://www.uuidgenerator.net/ to do so
 	public static final String particle_kirinsfx_tex = "mhfc:textures/particle/kirinSFX.png";
 	public static final String potion_attackup_name = "potion.attackuplow";
 	public static final String potion_attackup_uuid = "6a80c830-745d-4edd-8a17-e580f813bf20";
+	public static final String potion_longsworddamageup_name = "potion.longswordattackup";
+	public static final String potion_longsworddamageup_uuid = "e6f4502b-1242-4024-bc5e-e89f47fcda76";
 	public static final String potion_kirinbless_name = "potion.kirinbless";
 	public static final String potion_kirinbless_tex = "mhfc:textures/potion/mhfcpotion.png";
-	public static final String potion_kirinbless_uuid = "6a80c830-745d-4edd-8a17-e580f813bf20";
+	public static final String potion_kirinbless_uuid = "97bd1ec2-4a75-43cc-b81b-e281503c2ffe";
 	public static final String potion_paralyze_name = "potion.paralyze";
 	public static final String potion_paralyze_tex = "mhfc:textures/potion/mhfcpotion.png";
-	public static final String potion_paralyze_uuid = "6a80c830-745d-4edd-8a17-e580f813bf20";
+	public static final String potion_paralyze_uuid = "07c8c0a3-5bd7-4ca3-a984-bb9bdacf4496";
+
 	public static final String tile_akuracrystal_tex = "mhfc:textures/tile/akuracrystal.png";
 	public static final String tile_armorstand_id = "Armor Stand";
 	public static final String tile_armorstand_tex = "mhfc:textures/tile/armorstand.png";
@@ -446,10 +464,10 @@ public class MHFCReference {
 
 	public static final String weapon_bow_hunters_name = "a.bow";
 	public static final String weapon_bow_hunters_tex = "mhfc:textures/weapons/(B)hunters.png";
-	public static final String weapon_bow_hunters_tex_rest = "mhfc:textures/weapons/bow/(B)hunters-rest.png";
-	public static final String weapon_bow_hunters_tex_start = "mhfc:textures/weapons/bow/(B)hunters-start.png";
-	public static final String weapon_bow_hunters_tex_half = "mhfc:textures/weapons/bow/(B)hunters-half.png";
-	public static final String weapon_bow_hunters_tex_full = "mhfc:textures/weapons/bow/(B)hunters-full.png";
+	public static final String weapon_bow_huntersstout_name = "b.bow";
+	public static final String weapon_bow_huntersstout_tex = "mhfc:textures/weapons/(B)huntersstout.png";
+	public static final String weapon_bow_huntersproud_name = "c.bow";
+	public static final String weapon_bow_huntersproud_tex = "mhfc:textures/weapons/(B)huntersproud.png";
 
 	public static final String weapon_gs_default_icon = "mhfc:greatsword";
 	public static final String weapon_gs_bone_icon = "mhfc:greatsword";
@@ -470,16 +488,33 @@ public class MHFCReference {
 	public static final String weapon_gs_deadlyserpentblade_name = "greatsword_6";
 	public static final String weapon_gs_deadlyserpentblade_tex = "mhfc:textures/weapons/(GS)deadlyserpentblade.png";
 
+	public static final String weapon_hh_notesound = "mhfc:huntinghorn-play";
+
 	public static final String weapon_hh_default_icon = "mhfc:huntinghorn";
-	public static final String weapon_hh_metalbagpipe_icon = "mhfc:huntinghorn";
 	public static final String weapon_hh_metalbagpipe_name = "huntinghorn_1";
 	public static final String weapon_hh_metalbagpipe_tex = "mhfc:textures/weapons/(HH)metalbagpipe.png";
-	public static final String weapon_hh_ivoryhorn_icon = "mhfc:huntinghorn";
 	public static final String weapon_hh_ivoryhorn_name = "huntinghorn_2";
 	public static final String weapon_hh_ivoryhorn_tex = "mhfc:textures/weapons/(HH)ivoryhorn.png";
-	public static final String weapon_hh_tigrex_icon = "mhfc:huntinghorn";
 	public static final String weapon_hh_tigrex_name = "huntinghorn_3";
 	public static final String weapon_hh_tigrex_tex = "mhfc:textures/weapons/(HH)tigrex.png";
+	public static final String weapon_hh_greatbagpipe_name = "huntinghorn_4";
+	public static final String weapon_hh_greatbagpipe_tex = "mhfc:textures/weapons/(HH)greatbagpipe.png";
+	public static final String weapon_hh_heavybagpipe_name = "huntinghorn_5";
+	public static final String weapon_hh_heavybagpipe_tex = "mhfc:textures/weapons/(HH)heavybagpipe.png";
+	public static final String weapon_hh_heavybagpipeplus_name = "huntinghorn_6";
+	public static final String weapon_hh_heavybagpipeplus_tex = "mhfc:textures/weapons/(HH)heavybagpipe.png";
+	public static final String weapon_hh_elitebagpipe_name = "huntinghorn_7";
+	public static final String weapon_hh_elitebagpipe_tex = "mhfc:textures/weapons/(HH)elitebagpipe.png";
+	public static final String weapon_hh_wardrums_name = "huntinghorn_8";
+	public static final String weapon_hh_wardrums_tex = "mhfc:textures/weapons/(HH)wardrums.png";
+	public static final String weapon_hh_wardrumsplus_name = "huntinghorn_9";
+	public static final String weapon_hh_wardrumsplus_tex = "mhfc:textures/weapons/(HH)wardrums.png";
+	public static final String weapon_hh_mogwarddrums_name = "huntinghorn_10";
+	public static final String weapon_hh_mogwarddrums_tex = "mhfc:textures/weapons/(HH)mogwarddrums.png";
+	public static final String weapon_hh_darkthorntrumpet_name = "huntinghorn_11";
+	public static final String weapon_hh_darkthorntrumpet_tex = "mhfc:textures/weapons/(HH)darkthorntrumpet.png";
+	public static final String weapon_hh_blackcasket_name = "huntinghorn_12";
+	public static final String weapon_hh_blackcasket_tex = "mhfc:textures/weapons/(HH)blackcasket.png";
 
 	public static final String weapon_hm_default_icon = "mhfc:hammer";
 	public static final String weapon_hm_kirin_icon = "mhfc:hammer";
@@ -548,7 +583,15 @@ public class MHFCReference {
 	public static final String weapon_bgh_rath_icon = "mhfc:bow";
 	public static final String weapon_bgh_rath_tex = "mhfc:textures/weapons/(BGH)rath.png";
 
-	public static final String gui_questgiver_back_tex = "mhfc:texture/gui/questgiver.png";
+	public static final String projectile_wyverniaarrow_name = "Wyvernia Arrow";
+	public static final String projectile_wyverniaarrow_tex = "mhfc:textures/projectile/wyverniaarrow.png";
+	public static final String projectile_wyverniabullet_name = "Wyvernia Bullet";
+	public static final String projectile_wyverniabullet_tex = "mhfc:textures/projectile/bullet0.png";
+
+	public static final String gui_questgiver_back_tex = "mhfc:textures/gui/questgiver.png";
+	public static final String gui_huntinghorn_stave = "mhfc:textures/gui/notesheet.png";
+	public static final String gui_huntinghorn_note = "mhfc:textures/gui/notes.png";
+	public static final String gui_longsword_gauge = "mhfc:textures/gui/spiritgauge.png";
 
 	public static final int gui_hunterbench_id = 1;
 	public static final int gui_questgiver_id = 2;

@@ -1,4 +1,5 @@
 {
+    "huntinghorn-play": {"category": "master", "sounds": ["weapons/huntinghorn2"]},
     "bowgun-shot": {"category": "master", "sounds": ["bowgun-shot1"]},
     "tigrex-say": {"category": "master", "sounds": ["tigrex-say1"]},
     "tigrex-roar": {"category": "master", "sounds": ["tigrex-roar1"]},

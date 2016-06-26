@@ -1,6 +1,5 @@
 package mhfc.net.common.entity.projectile;
 
-import mhfc.net.common.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +14,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import mhfc.net.client.util.gui.MHFCGuiUtil;
 
 public class EntityFlashBomb extends EntityThrowable {
 

@@ -13,7 +13,7 @@ public class ItemIngot extends AbstractSubTypedItem<IngotsSubType> {
 		CARBALITE(MHFCReference.item_ingot0_name, MHFCReference.item_ingot0_icon), //
 		DRAGONITE(MHFCReference.item_ingot1_name, MHFCReference.item_ingot1_icon), //
 		ELTALITE(MHFCReference.item_ingot2_name, MHFCReference.item_ingot2_icon), //
-		MACHALTIE(MHFCReference.item_ingot3_name, MHFCReference.item_ingot3_icon);
+		MACHALITE(MHFCReference.item_ingot3_name, MHFCReference.item_ingot3_icon);
 
 		public final String name;
 		public final String texture;

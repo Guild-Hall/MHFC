@@ -1,6 +1,6 @@
 package mhfc.net.client.gui.quests;
 
-import static mhfc.net.common.util.gui.MHFCGuiUtil.*;
+import static mhfc.net.client.util.gui.MHFCGuiUtil.*;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
@@ -8,8 +8,8 @@ import org.lwjgl.opengl.GL14;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mhfc.net.MHFCMain;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
+import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.quests.QuestRunningInformation;
-import mhfc.net.common.util.gui.MHFCGuiUtil;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;

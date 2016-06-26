@@ -14,6 +14,9 @@ import mhfc.net.common.ai.entity.rathalos.TailSpin;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.entity.type.IConfusable;
+import mhfc.net.common.item.materials.ItemDeviljho.DeviljhoSubType;
+import mhfc.net.common.item.materials.ItemRathalos.RathalosSubType;
+import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.world.World;
 
@@ -92,7 +95,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		super.applyEntityAttributes();
 
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(
-			healthbaseHP(6000D, 7800D, 8600D));
+			healthbaseHP(4500D, 9000D, 18000D));
 
 	}
 
@@ -137,5 +140,23 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		}
 
 		super.updateFallState(par1, par3);
+	}
+	
+	@Override
+	protected void dropFewItems(boolean par1, int par2) {
+		int var4;
+		for (var4 = 0; var4 < 13; ++var4) {
+			dropItemRand(SubTypedItem.fromSubItem(RathalosSubType.SHELL, 1));
+		}
+		for (var4 = 0; var4 < 8; ++var4) {
+			dropItemRand(SubTypedItem.fromSubItem(RathalosSubType.WEBBING, 1));
+			dropItemRand(SubTypedItem.fromSubItem(RathalosSubType.MARROW, 1));
+			
+		}
+		for (var4 = 0; var4 < 1; ++var4) {
+			dropItemRand(SubTypedItem.fromSubItem(RathalosSubType.WING, 1));
+			
+		}
+		dropItemRand(SubTypedItem.fromSubItem(RathalosSubType.PLATE, 1));
 	}
 }

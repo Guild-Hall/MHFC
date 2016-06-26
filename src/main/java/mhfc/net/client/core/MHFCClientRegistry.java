@@ -7,7 +7,9 @@ import mhfc.net.client.core.registry.MHFCRenderIDRegistry;
 import mhfc.net.client.core.registry.MHFCSoundRegistry;
 import mhfc.net.client.core.registry.MHFCTileRenderRegistry;
 import mhfc.net.client.core.registry.MHFCWeaponRenderRegistry;
+import mhfc.net.client.gui.hud.RenderEventListener;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
+import net.minecraftforge.common.MinecraftForge;
 
 public class MHFCClientRegistry {
 
@@ -19,6 +21,7 @@ public class MHFCClientRegistry {
 		addRenderers();
 		addSounds();
 		addQuestDisplay();
+
 	}
 
 	private static void addQuestDisplay() {
@@ -32,6 +35,7 @@ public class MHFCClientRegistry {
 		MHFCWeaponRenderRegistry.init();
 		MHFCItemRenderRegistry.init();
 		MHFCRenderIDRegistry.init();
+		MinecraftForge.EVENT_BUS.register(new RenderEventListener());
 		MHFCMain.logger.info("Renderers registerd");
 	}
 

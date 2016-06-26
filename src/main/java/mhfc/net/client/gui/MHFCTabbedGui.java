@@ -3,7 +3,7 @@ package mhfc.net.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import mhfc.net.common.util.gui.MHFCGuiUtil;
+import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;

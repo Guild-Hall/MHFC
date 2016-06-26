@@ -2,7 +2,7 @@ package mhfc.net.common.ai.entity.tigrex;
 
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.entity.monster.EntityTigrex;
-import mhfc.net.common.entity.projectile.EntityTigrexBlock;
+import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.Vec3;
 
@@ -66,7 +66,7 @@ public class TigrexGroundHurl extends ActionAdapter<EntityTigrex> {
 		Vec3 lookVec = tigrex.getLookVec();
 		Vec3 rightSide = lookVec.crossProduct(Vec3.createVectorHelper(0, 1, 0));
 		for (int i = 0; i < 3; i++) {
-			EntityTigrexBlock block = new EntityTigrexBlock(tigrex.worldObj,
+			EntityProjectileBlock block = new EntityProjectileBlock(tigrex.worldObj,
 				tigrex);
 			double xCo = look.xCoord;
 			double yCo = look.yCoord + THROW_HEIGHT;

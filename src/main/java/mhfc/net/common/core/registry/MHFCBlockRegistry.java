@@ -1,5 +1,6 @@
 package mhfc.net.common.core.registry;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import mhfc.net.common.block.BlockDiscstone;
 import mhfc.net.common.block.BlockIceCrystal;
 import mhfc.net.common.block.BlockLosGable;
@@ -11,6 +12,7 @@ import mhfc.net.common.block.BlockWyverniaGrass;
 import mhfc.net.common.block.BlockWyverniaOreBlock;
 import mhfc.net.common.block.BlockWyverniaOres;
 import mhfc.net.common.block.BlockWyverniaPlank;
+import mhfc.net.common.block.BlockWyverniaQuickSand;
 import mhfc.net.common.block.BlockWyverniaRock;
 import mhfc.net.common.block.BlockWyverniaSand;
 import mhfc.net.common.block.BlockWyverniaStone;
@@ -30,7 +32,6 @@ import mhfc.net.common.item.block.ItemBlockWyverniaRock;
 import mhfc.net.common.item.block.ItemBlockWyverniaWood;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class MHFCBlockRegistry {
 
@@ -53,6 +54,7 @@ public class MHFCBlockRegistry {
 	public static final Block mhfcblockbbqspit;
 	public static final Block mhfcblockplanks;
 	public static final Block mhfcblockrocks;
+	public static final Block mhfcblockquicksand;
 	public static final Block mhfcblockwood;
 	public static final Block mhfcblockquestboard;
 
@@ -64,6 +66,7 @@ public class MHFCBlockRegistry {
 		mhfcblockstone = registerBlock(new BlockWyverniaStone());
 		mhfcblockicecrystal = registerBlock(new BlockIceCrystal());
 		mhfcblocksand = registerBlock(new BlockWyverniaSand());
+		mhfcblockquicksand = registerBlock(new BlockWyverniaQuickSand());
 		mhfcblockclay = registerBlock(new BlockWyverniaClay());
 		mhfcblockdiskstone = registerBlock(new BlockDiscstone());
 		// Initialize Blocks with special items

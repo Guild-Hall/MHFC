@@ -55,6 +55,7 @@ minecraft {
     replace "@MODID@", project.modid
     replace "@MODNAME@", project.longname
     replaceIn "MHFCReference.java"
+    
 }
 
 processResources {
