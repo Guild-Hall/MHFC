@@ -50,7 +50,10 @@ public class DeviljhoJump extends AIGeneralJumpAttack<EntityDeviljho> {
 	@Override
 	public void update() { 
 		EntityDeviljho entity = this.getEntity();
+		if(this.getCurrentFrame() == 5){
+		
 		entity.playSound("mhfc:deviljho.leap", 2.0F, 1.0F);
+		}
 		if (!entity.onGround || thrown || this.getCurrentFrame() < 30)
 			return;
 		AIGameplayComposition.AIStompCrackGameplay(entity, 200);

@@ -72,6 +72,7 @@ public class NargacugaBackOff extends AIGeneralJumpAttack<EntityNargacuga> {
 	@Override
 	public void update(){
 		EntityNargacuga entity = getEntity();
+		if(this.getCurrentFrame() == 5)
 		entity.playSound("mhfc:narga.leapback", 2.0F, 1.0F);
 	}
 
