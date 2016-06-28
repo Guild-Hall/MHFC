@@ -44,7 +44,7 @@ public class BarrothRamRun extends ActionAdapter<EntityBarroth> {
 		EntityBarroth entity = getEntity();
 		AIUtils.damageCollidingEntities(getEntity(), damageCalc);
 		if (this.getCurrentFrame() == 20) {
-			getEntity().playSound("mhfc:barroth.ram", 3.0F, 1.0F);
+			getEntity().playSound("mhfc:barroth.charge", 3.0F, 1.0F);
 			getEntity().getTurnHelper().updateTargetPoint(entity.getAttackTarget());
 			AIGameplayComposition.AIChargeGameplay(entity, 1.9F, false);
 		}
