@@ -7,6 +7,8 @@ import java.util.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
+import mhfc.net.common.item.ItemRarity;
+
 /**
  * An immutable class describing the stats of a weapon. Melee and certain range classes extend this. The attributes here
  * could be boosted with abilities thus the getter methods most often take a player argument.
@@ -23,7 +25,7 @@ public class WeaponStats {
 		private List<CombatEffect> effects;
 		private int slots;
 		private int cooldownTicks;
-		private int rarity; // FIXME: when merged with Items, change this to the correct enum
+		private ItemRarity rarity; // FIXME: when merged with Items, change this to the correct enum
 		private String unlocalizedName;
 
 		public WeaponStatsBuilder() {
@@ -31,7 +33,7 @@ public class WeaponStats {
 			this.effects = new ArrayList<>();
 			this.slots = 0;
 			this.cooldownTicks = 0;
-			this.rarity = 1;
+			this.rarity = ItemRarity.R01;
 		}
 
 		protected abstract T getThis();
@@ -60,7 +62,11 @@ public class WeaponStats {
 		}
 
 		public T setRarity(int rarity) {
-			Preconditions.checkArgument(rarity >= 1 && rarity <= 10, "rarity must be between 1 and 10");
+			this.rarity = ItemRarity.fromInt(rarity);
+			return getThis();
+		}
+
+		public T setRarity(ItemRarity rarity) {
 			this.rarity = rarity;
 			return getThis();
 		}
@@ -89,7 +95,7 @@ public class WeaponStats {
 	private final List<CombatEffect> combatEffects;
 	private final int slotCount;
 	private final int cooldownTicks;
-	private final int rarity;
+	private final ItemRarity rarity;
 	private final String name;
 
 	public float getAttack() {
@@ -104,7 +110,7 @@ public class WeaponStats {
 		return this.cooldownTicks;
 	}
 
-	public int getRarity() {
+	public ItemRarity getRarity() {
 		return this.rarity;
 	}
 

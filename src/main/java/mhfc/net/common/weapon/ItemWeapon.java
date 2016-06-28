@@ -77,7 +77,7 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer holder, List infos, boolean advanced) {
 		infos.add(ColorSystem.gold + getWeaponClassUnlocalized());
-		infos.add(ColorSystem.yellow + "Rarity: " + stats.getRarity());
+		infos.add(ColorSystem.yellow + "Rarity: " + stats.getRarity().toString());
 		if (!advanced) {
 			return;
 		}
@@ -124,7 +124,6 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item {
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(ItemStack stack) {
 		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(stack);
-		// TODO: add stats
 		return multimap;
 	}
 }
