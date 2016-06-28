@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
-import mhfc.net.common.helper.MHFCWeaponClassingHelper;
+import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.weapon.ItemWeapon;
 import mhfc.net.common.weapon.range.bow.BowWeaponStats.BowWeaponStatsBuilder;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -38,7 +38,7 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 
 	@Override
 	public String getWeaponClassUnlocalized() {
-		return MHFCWeaponClassingHelper.bowname;
+		return MHFCReference.weapon_bow_name;
 	}
 
 	@Override

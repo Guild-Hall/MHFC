@@ -313,15 +313,32 @@ type.armor_head.name=Helmet
 type.armor_body.name=Chestplate
 type.armor_pants.name=Waist
 type.armor_boots.name=Boots
+
 type.weapon_great_sword.name=Greatsword
 type.weapon_long_sword.name=Longsword
 type.weapon_hammer.name=Hammer
 type.weapon_hunting_horn.name=HuntingHorn
-type.weapon_sword_shield.name=Sword+Shield
+type.weapon_sword_shield.name=Sword & Shield
 type.weapon_double_sword.name=Dual Sword
 type.weapon_lance.name=Lance
 type.weapon_gunlance.name=Gunlance
-type.weapon_small_bowgun.name=SmBowgun
-type.weapon_big_bowgun.name=LgBowgun
+type.weapon_small_bowgun.name=Light Bowgun
+type.weapon_medium_bowgun.name=Medium Bowgun
+type.weapon_big_bowgun.name=Heavy Bowgun
+type.weapon_dual_bowgun.name=Dual Bowgun
 type.weapon_bow.name=Bow
+type.weapon_chargeaxe.name=Charge Axe
+type.weapon_insectstaff.name=Insect Staff
 type.weapon_no_item.name=No Type
+
+type.effect.fire.name=Fire Element
+type.effect.thunder.name=Thunder Element
+type.effect.dragon.name=Dragon Element
+type.effect.water.name=Water Element
+type.effect.ice.name=Ice Element
+
+type.effect.poison.name=Poison Damage
+type.effect.sleep.name=Sleep Damage
+type.effect.paralysis.name=Paralysis Damage
+type.effect.knockout.name=KO Damage
+type.effect.blastblight.name=Blastblight

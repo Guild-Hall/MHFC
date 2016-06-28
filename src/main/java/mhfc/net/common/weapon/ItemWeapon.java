@@ -14,11 +14,13 @@ import mhfc.net.common.weapon.stats.CombatEffect;
 import mhfc.net.common.weapon.stats.WeaponStats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 /**
@@ -76,14 +78,16 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item {
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer holder, List infos, boolean advanced) {
-		infos.add(ColorSystem.gold + getWeaponClassUnlocalized());
+		infos.add(ColorSystem.gold + StatCollector.translateToLocal(getWeaponClassUnlocalized() + ".name"));
 		infos.add(ColorSystem.yellow + "Rarity: " + stats.getRarity().toString());
+		for (CombatEffect effect : stats.getCombatEffects()) {
+			String formattedAmount = String.format("%+.0f", effect.getAmount());
+			infos.add(
+					ColorSystem.light_purple + formattedAmount + " "
+							+ StatCollector.translateToLocal(effect.getType().getUnlocalizedName() + ".name"));
+		}
 		if (!advanced) {
 			return;
-		}
-		for (CombatEffect effect : stats.getCombatEffects()) {
-			String formattedAmount = String.format("%.2f", effect.getAmount());
-			infos.add(ColorSystem.light_purple + effect.getType().getUnlocalizedName() + " +" + formattedAmount);
 		}
 		addCooldownToInformation(stack, infos);
 	}
@@ -124,6 +128,9 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item {
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(ItemStack stack) {
 		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(stack);
+		multimap.put(
+				SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
+				new AttributeModifier(field_111210_e, "Weapon Attack", stats.getAttack(), 0));
 		return multimap;
 	}
 }

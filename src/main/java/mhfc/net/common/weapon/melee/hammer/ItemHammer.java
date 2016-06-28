@@ -3,7 +3,6 @@ package mhfc.net.common.weapon.melee.hammer;
 import java.util.function.Consumer;
 
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
-import mhfc.net.common.helper.MHFCWeaponClassingHelper;
 import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.hammer.HammerWeaponStats.HammerWeaponStatsBuilder;
@@ -22,9 +21,9 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 		return new ItemHammer(builder.build());
 	}
 
-	protected double motY = 0.2D;
-	protected int stunDur = 120;
-	protected int critDamageFlat = 20; // Hammer deals FLAT.
+	protected static final double motY = 0.2D;
+	protected static final int stunDur = 120;
+	protected static final int critDamageFlat = 20; // Hammer deals FLAT.
 
 	public ItemHammer(HammerWeaponStats stats) {
 		super(stats);
@@ -33,7 +32,7 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 
 	@Override
 	public String getWeaponClassUnlocalized() {
-		return MHFCWeaponClassingHelper.hammername;
+		return MHFCReference.weapon_hammer_name;
 	}
 
 	@Override

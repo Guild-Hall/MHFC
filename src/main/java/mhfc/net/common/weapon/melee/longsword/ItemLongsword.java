@@ -73,7 +73,7 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 
 	@Override
 	public String getWeaponClassUnlocalized() {
-		return "longsword";
+		return MHFCReference.weapon_longsword_name;
 	}
 
 	@Override

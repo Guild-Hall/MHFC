@@ -11,7 +11,7 @@ public enum StatusEffect implements ICombatEffectType {
 
 		@Override
 		public String getUnlocalizedName() {
-			return "poison";
+			return "type.effect.poison";
 		}
 	},
 	Sleep {
@@ -22,7 +22,7 @@ public enum StatusEffect implements ICombatEffectType {
 
 		@Override
 		public String getUnlocalizedName() {
-			return "sleep";
+			return "type.effect.sleep";
 		}
 	},
 	Paralysis {
@@ -33,7 +33,7 @@ public enum StatusEffect implements ICombatEffectType {
 
 		@Override
 		public String getUnlocalizedName() {
-			return "paralysis";
+			return "type.effect.paralysis";
 		}
 	},
 	Knockout {
@@ -44,7 +44,7 @@ public enum StatusEffect implements ICombatEffectType {
 
 		@Override
 		public String getUnlocalizedName() {
-			return "knockout";
+			return "type.effect.knockout";
 		}
 	},
 	Blastblight {
@@ -55,7 +55,7 @@ public enum StatusEffect implements ICombatEffectType {
 
 		@Override
 		public String getUnlocalizedName() {
-			return "blastblight";
+			return "type.effect.blastblight";
 		}
 	};
 

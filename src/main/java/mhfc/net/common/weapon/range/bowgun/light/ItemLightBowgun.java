@@ -2,11 +2,10 @@ package mhfc.net.common.weapon.range.bowgun.light;
 
 import java.util.function.Consumer;
 
-import mhfc.net.common.helper.MHFCWeaponClassingHelper;
 import mhfc.net.common.util.lib.MHFCReference;
-import mhfc.net.common.weapon.range.bowgun.ItemBowgun;
 import mhfc.net.common.weapon.range.bowgun.BowgunWeaponStats;
 import mhfc.net.common.weapon.range.bowgun.BowgunWeaponStats.BowgunWeaponStatsBuilder;
+import mhfc.net.common.weapon.range.bowgun.ItemBowgun;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -25,7 +24,7 @@ public class ItemLightBowgun extends ItemBowgun {
 
 	@Override
 	public String getWeaponClassUnlocalized() {
-		return MHFCWeaponClassingHelper.lbowgunname;
+		return MHFCReference.weapon_lightbowgun_name;
 	}
 
 	@Override

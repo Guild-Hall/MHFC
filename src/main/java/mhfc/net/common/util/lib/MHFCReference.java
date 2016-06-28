@@ -651,6 +651,22 @@ public class MHFCReference {
 	public static final String weapon_bgh_rath_icon = "mhfc:bow";
 	public static final String weapon_bgh_rath_tex = "mhfc:textures/weapons/(BGH)rath.png";
 
+	public static final String weapon_bow_name = "type.weapon_bow";
+	public static final String weapon_chargeaxe_name = "type.weapon_chargeaxe";
+	public static final String weapon_dualsword_name = "type.weapon_double_sword";
+	public static final String weapon_gunlance_name = "type.weapon_gunlance";
+	public static final String weapon_lance_name = "type.weapon_lance";
+	public static final String weapon_lightbowgun_name = "type.weapon_small_bowgun";
+	public static final String weapon_heavybowgun_name = "type.weapon_big_bowgun";
+	public static final String weapon_mediumbowgun_name = "type.weapon_medium_bowgun";
+	public static final String weapon_dualbowgun_name = "type.weapon_dual_bowgun";
+	public static final String weapon_greatsword_name = "type.weapon_great_sword";
+	public static final String weapon_hammer_name = "type.weapon_hammer";
+	public static final String weapon_huntinghorn_name = "type.weapon_hunting_horn";
+	public static final String weapon_insectstaff_name = "type.weapon_insectstaff";
+	public static final String weapon_longsword_name = "type.weapon_long_sword";
+	public static final String weapon_swordshield_name = "type.weapon_sword_shield";
+
 	public static final String projectile_wyverniaarrow_name = "Wyvernia Arrow";
 	public static final String projectile_wyverniaarrow_tex = "mhfc:textures/projectile/wyverniaarrow.png";
 	public static final String projectile_wyverniabullet_name = "Wyvernia Bullet";

@@ -19,31 +19,31 @@ public enum ElementalType implements ICombatEffectType {
 
 		@Override
 		public String getUnlocalizedName() {
-			return "fire";
+			return "type.effect.fire";
 		}
 	},
 	Water(new DamageSource("mhfc.waterelement").setDamageBypassesArmor()) {
 		@Override
 		public String getUnlocalizedName() {
-			return "water";
+			return "type.effect.water";
 		}
 	},
 	Thunder(new DamageSource("mhfc.thunderelement").setDamageBypassesArmor()) {
 		@Override
 		public String getUnlocalizedName() {
-			return "thunder";
+			return "type.effect.thunder";
 		}
 	},
 	Dragon(new DamageSource("mhfc.dragonelement").setDamageBypassesArmor()) {
 		@Override
 		public String getUnlocalizedName() {
-			return "dragon";
+			return "type.effect.dragon";
 		}
 	},
 	Ice(new DamageSource("mhfc.iceelement").setDamageBypassesArmor()) {
 		@Override
 		public String getUnlocalizedName() {
-			return "ice";
+			return "type.effect.ice";
 		}
 	};
 

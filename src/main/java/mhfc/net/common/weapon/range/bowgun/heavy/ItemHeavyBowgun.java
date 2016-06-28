@@ -2,7 +2,6 @@ package mhfc.net.common.weapon.range.bowgun.heavy;
 
 import java.util.function.Consumer;
 
-import mhfc.net.common.helper.MHFCWeaponClassingHelper;
 import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.weapon.range.bowgun.BowgunWeaponStats;
 import mhfc.net.common.weapon.range.bowgun.BowgunWeaponStats.BowgunWeaponStatsBuilder;
@@ -25,7 +24,7 @@ public class ItemHeavyBowgun extends ItemBowgun {
 
 	@Override
 	public String getWeaponClassUnlocalized() {
-		return MHFCWeaponClassingHelper.lbowgunname;
+		return MHFCReference.weapon_heavybowgun_name;
 	}
 
 	@Override
