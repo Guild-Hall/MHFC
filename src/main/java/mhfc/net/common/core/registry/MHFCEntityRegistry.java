@@ -88,7 +88,7 @@ public class MHFCEntityRegistry {
 		flashbombID = getProjectileID(
 				EntityFlashBomb.class,
 				MHFCReference.entity_flashbomb_name,
-				EntityFlashBomb.FALL_OFF_END);
+				(int) EntityFlashBomb.REACH);
 
 		paintballID = getProjectileID(EntityPaintball.class, MHFCReference.entity_paintball_name);
 

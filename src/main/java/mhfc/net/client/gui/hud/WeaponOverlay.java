@@ -25,14 +25,13 @@ import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
 public class WeaponOverlay {
-	public static final WeaponOverlay instance = new WeaponOverlay();
 
 	private static final ResourceLocation staveLoc = new ResourceLocation(MHFCReference.gui_huntinghorn_stave);
 	private static final ResourceLocation noteLoc = new ResourceLocation(MHFCReference.gui_huntinghorn_note);
 
 	private static final ResourceLocation spiritGaugeLoc = new ResourceLocation(MHFCReference.gui_longsword_gauge);
 
-	public void render() {
+	public static void render() {
 		EntityClientPlayerMP thePlayer = Minecraft.getMinecraft().thePlayer;
 		ItemStack stack = thePlayer.getHeldItem();
 		if (stack == null) {
@@ -47,7 +46,7 @@ public class WeaponOverlay {
 		}
 	}
 
-	private void renderHuntingHornOverlay(EntityClientPlayerMP thePlayer, ItemStack stack) {
+	private static void renderHuntingHornOverlay(EntityClientPlayerMP thePlayer, ItemStack stack) {
 		ItemHuntingHorn huntingHorn = ItemHuntingHorn.class.cast(stack.getItem());
 		HuntingHornWeaponStats stats = huntingHorn.getWeaponStats();
 
@@ -73,7 +72,7 @@ public class WeaponOverlay {
 		glPopMatrix();
 	}
 
-	private void renderLongswordOverlay(EntityClientPlayerMP thePlayer, ItemStack stack) {
+	private static void renderLongswordOverlay(EntityClientPlayerMP thePlayer, ItemStack stack) {
 		ItemLongsword item = ItemLongsword.class.cast(stack.getItem());
 		float spirit = item.getSpiritPercentage(stack);
 

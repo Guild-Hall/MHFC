@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Level;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.helper.MHFCReflectionHelper;
 import mhfc.net.common.item.ItemColor;
+import mhfc.net.common.potion.PotionFlashed;
 import mhfc.net.common.potion.PotionKirinBless;
 import mhfc.net.common.potion.PotionPainted;
 import mhfc.net.common.potion.PotionParalyze;
@@ -16,6 +17,7 @@ public class MHFCPotionRegistry {
 	private static int offset = 0;
 
 	public static final Potion stun;
+	public static final Potion flashed;
 	public static final Potion kirin_blessing;
 	public static final Potion painted;
 
@@ -26,6 +28,7 @@ public class MHFCPotionRegistry {
 		kirin_blessing = new PotionKirinBless(getNextID(), false, 591932);
 		painted = new PotionPainted(getNextID(), true, ItemColor.PINK.getRGB(), true);
 		stun = new PotionParalyze(getNextID(), true, 999999);
+		flashed = new PotionFlashed(getNextID());
 	}
 
 	public static void init() {}

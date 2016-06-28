@@ -12,6 +12,8 @@ public class RenderEventListener {
 			return;
 		}
 
-		WeaponOverlay.instance.render();
+		WeaponOverlay.render();
+
+		RenderEffects.displayFlashBomb();
 	}
 }
