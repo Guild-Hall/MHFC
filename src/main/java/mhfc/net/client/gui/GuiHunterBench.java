@@ -505,10 +505,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(itemToRender, ENTITY);
 				if (customRenderer == null) {} else {
 					customRenderer
-							.renderItem(ItemRenderType.ENTITY, itemToRender, null, Minecraft.getMinecraft().thePlayer);
+							.renderItem(ItemRenderType.EQUIPPED, itemToRender, null, Minecraft.getMinecraft().thePlayer);
 					GL11.glFrontFace(GL11.GL_CW);
 					customRenderer
-							.renderItem(ItemRenderType.ENTITY, itemToRender, null, Minecraft.getMinecraft().thePlayer);
+							.renderItem(ItemRenderType.EQUIPPED, itemToRender, null, Minecraft.getMinecraft().thePlayer);
 					GL11.glFrontFace(GL11.GL_CCW);
 				}
 			}

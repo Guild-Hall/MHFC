@@ -303,122 +303,122 @@ public class MHFCItemRegistry {
 		// Weapons
 		// FIXME: value tuning
 		weapon_gs_bone = registerGreatsword(
-				b -> b.setAttack(14).setRarity(1).setName(MHFCReference.weapon_gs_bone_name));
+				b -> b.setAttack(26).setRarity(1).setName(MHFCReference.weapon_gs_bone_name));
 		weapon_gs_deadlyserpentblade = registerGreatsword(
 				b -> b.setAttack(35).setRarity(3).setName(MHFCReference.weapon_gs_deadlyserpentblade_name)
 						.addCombatEffect(StatusEffect.Poison, 10));
 		weapon_gs_tigrex = registerGreatsword(
-				b -> b.setAttack(42).setRarity(4).setName(MHFCReference.weapon_gs_tigrex_name));
+				b -> b.setAttack(46).setRarity(4).setName(MHFCReference.weapon_gs_tigrex_name));
 		weapon_gs_rathalosfire = registerGreatsword(
-				b -> b.setAttack(51).setRarity(4).setName(MHFCReference.weapon_gs_rathalos_name)
+				b -> b.setAttack(58).setRarity(4).setName(MHFCReference.weapon_gs_rathalos_name)
 						.addCombatEffect(ElementalType.Fire, 10));
 		weapon_gs_kirinthunders = registerGreatsword(
-				b -> b.setAttack(46).setRarity(4).setName(MHFCReference.weapon_gs_kirin_name));
+				b -> b.setAttack(61).setRarity(4).setName(MHFCReference.weapon_gs_kirin_name));
 		weapon_gs_berserkers = registerGreatsword(
-				b -> b.setAttack(70).setRarity(6).setName(MHFCReference.weapon_gs_deviljho_name));
+				b -> b.setAttack(88).setRarity(6).setName(MHFCReference.weapon_gs_deviljho_name));
 
 		weapon_ls_ironkatana = registerLongsword(
-				b -> b.setAttack(18).setRarity(1).setName(MHFCReference.weapon_ls_ironkatana_name));
+				b -> b.setAttack(23).setRarity(1).setName(MHFCReference.weapon_ls_ironkatana_name));
 		weapon_ls_ironkatanagrace = registerLongsword(
-				b -> b.setAttack(23).setRarity(2).setName(MHFCReference.weapon_ls_ikgrace_name));
+				b -> b.setAttack(26).setRarity(2).setName(MHFCReference.weapon_ls_ikgrace_name));
 		weapon_ls_ironkatanagospel = registerLongsword(
-				b -> b.setAttack(26).setRarity(2).setName(MHFCReference.weapon_ls_ikgospel_name));
+				b -> b.setAttack(29).setRarity(2).setName(MHFCReference.weapon_ls_ikgospel_name));
 		weapon_ls_darkvipern = registerLongsword(
-				b -> b.setAttack(16).setRarity(2).setName(MHFCReference.weapon_ls_darkvipern_name)
+				b -> b.setAttack(21 ).setRarity(2).setName(MHFCReference.weapon_ls_darkvipern_name)
 						.addCombatEffect(StatusEffect.Poison, 10));
 		weapon_ls_eagercleaver = registerLongsword(
-				b -> b.setAttack(32).setRarity(3).setName(MHFCReference.weapon_ls_eagercleaver_name)
+				b -> b.setAttack(40).setRarity(3).setName(MHFCReference.weapon_ls_eagercleaver_name)
 						.addCombatEffect(ElementalType.Thunder, 10));
 		weapon_ls_devilslicer = registerLongsword(
-				b -> b.setAttack(37).setRarity(4).setName(MHFCReference.weapon_ls_devilslicer_name)
+				b -> b.setAttack(46).setRarity(4).setName(MHFCReference.weapon_ls_devilslicer_name)
 						.addCombatEffect(ElementalType.Thunder, 10));
 		weapon_ls_saber = registerLongsword(
-				b -> b.setAttack(31).setRarity(5).setName(MHFCReference.weapon_ls_saber_name)
+				b -> b.setAttack(30).setRarity(5).setName(MHFCReference.weapon_ls_saber_name)
 						.addCombatEffect(ElementalType.Fire, 10));
 		weapon_ls_miragefinsword = registerLongsword(
-				b -> b.setAttack(33).setRarity(6).setName(MHFCReference.weapon_ls_miragefinsword_name));
+				b -> b.setAttack(51).setRarity(6).setName(MHFCReference.weapon_ls_miragefinsword_name));
 		weapon_ls_miragefinswordplus = registerLongsword(
-				b -> b.setAttack(41).setRarity(6).setName(MHFCReference.weapon_ls_miragefinswordplus_name));
+				b -> b.setAttack(58).setRarity(6).setName(MHFCReference.weapon_ls_miragefinswordplus_name));
 		weapon_ls_liondancesaber = registerLongsword(
-				b -> b.setAttack(34).setRarity(7).setName(MHFCReference.weapon_ls_liondancesaber_name)
+				b -> b.setAttack(49).setRarity(7).setName(MHFCReference.weapon_ls_liondancesaber_name)
 						.addCombatEffect(ElementalType.Fire, 10));
 		weapon_ls_truedevilslicer = registerLongsword(
-				b -> b.setAttack(49).setRarity(7).setName(MHFCReference.weapon_ls_truedevilslicer_name)
+				b -> b.setAttack(60).setRarity(7).setName(MHFCReference.weapon_ls_truedevilslicer_name)
 						.addCombatEffect(ElementalType.Thunder, 10));
 		weapon_ls_phantommirage = registerLongsword(
-				b -> b.setAttack(50).setRarity(7).setName(MHFCReference.weapon_ls_phantommirage_name));
+				b -> b.setAttack(71).setRarity(7).setName(MHFCReference.weapon_ls_phantommirage_name));
 		weapon_ls_lionkingsaber = registerLongsword(
-				b -> b.setAttack(39).setRarity(8).setName(MHFCReference.weapon_ls_lionkingsaber_name)
+				b -> b.setAttack(61).setRarity(8).setName(MHFCReference.weapon_ls_lionkingsaber_name)
 						.addCombatEffect(ElementalType.Fire, 10));
 		weapon_ls_lionkaisersaber = registerLongsword(
-				b -> b.setAttack(47).setRarity(8).setName(MHFCReference.weapon_ls_lionkaisersaber_name)
+				b -> b.setAttack(82).setRarity(8).setName(MHFCReference.weapon_ls_lionkaisersaber_name)
 						.addCombatEffect(ElementalType.Fire, 10));
 		weapon_ls_lionsroarsaber = registerLongsword(
-				b -> b.setAttack(59).setRarity(9).setName(MHFCReference.weapon_ls_lionsroarsaber_name)
+				b -> b.setAttack(90).setRarity(9).setName(MHFCReference.weapon_ls_lionsroarsaber_name)
 						.addCombatEffect(ElementalType.Fire, 10));
 
 		weapon_hm_warhammer = registerHammer(
-				b -> b.setAttack(11).setRarity(1).setName(MHFCReference.weapon_hm_war_name));
+				b -> b.setAttack(20).setRarity(1).setName(MHFCReference.weapon_hm_war_name));
 		weapon_hm_warhammerplus = registerHammer(
-				b -> b.setAttack(16).setRarity(1).setName(MHFCReference.weapon_hm_warplus_name));
+				b -> b.setAttack(24).setRarity(1).setName(MHFCReference.weapon_hm_warplus_name));
 		weapon_hm_warslammer = registerHammer(
-				b -> b.setAttack(22).setRarity(2).setName(MHFCReference.weapon_hm_warslammer_name));
+				b -> b.setAttack(30).setRarity(2).setName(MHFCReference.weapon_hm_warslammer_name));
 		weapon_hm_tigrex = registerHammer(
-				b -> b.setAttack(44).setRarity(3).setName(MHFCReference.weapon_hm_tigrex_name));
+				b -> b.setAttack(47).setRarity(3).setName(MHFCReference.weapon_hm_tigrex_name));
 		weapon_hm_rathalos = registerHammer(
-				b -> b.setAttack(60).setRarity(4).setName(MHFCReference.weapon_hm_rathalos_name)
+				b -> b.setAttack(42).setRarity(4).setName(MHFCReference.weapon_hm_rathalos_name)
 						.addCombatEffect(ElementalType.Fire, 10));
 		weapon_hm_devilsdue = registerHammer(
-				b -> b.setAttack(86).setRarity(7).setName(MHFCReference.weapon_hm_deviljho_name)
+				b -> b.setAttack(80).setRarity(7).setName(MHFCReference.weapon_hm_deviljho_name)
 						.addCombatEffect(ElementalType.Dragon, 10));
 		weapon_hm_kirinspark = registerHammer(
-				b -> b.setAttack(63).setRarity(8).setName(MHFCReference.weapon_hm_kirin_name)
+				b -> b.setAttack(89).setRarity(8).setName(MHFCReference.weapon_hm_kirin_name)
 						.addCombatEffect(ElementalType.Thunder, 10));
 
 		weapon_hh_ivoryhorn = registerHuntingHorn(
-				b -> b.setAttack(5).setRarity(1).setName(MHFCReference.weapon_hh_ivoryhorn_name)
+				b -> b.setAttack(21).setRarity(1).setName(MHFCReference.weapon_hh_ivoryhorn_name)
 						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_metalbagpipe = registerHuntingHorn(
-				b -> b.setAttack(8).setRarity(2).setName(MHFCReference.weapon_hh_metalbagpipe_name)
+				b -> b.setAttack(26).setRarity(2).setName(MHFCReference.weapon_hh_metalbagpipe_name)
 						.setNotes(Note.White, Note.Green, Note.Red));
 		weapon_hh_greatbagpipe = registerHuntingHorn(
-				b -> b.setAttack(12).setRarity(2).setName(MHFCReference.weapon_hh_greatbagpipe_name)
+				b -> b.setAttack(35).setRarity(2).setName(MHFCReference.weapon_hh_greatbagpipe_name)
 						.setNotes(Note.White, Note.Green, Note.Red));
 		weapon_hh_wardrums = registerHuntingHorn(
-				b -> b.setAttack(14).setRarity(2).setName(MHFCReference.weapon_hh_wardrums_name)
+				b -> b.setAttack(25).setRarity(2).setName(MHFCReference.weapon_hh_wardrums_name)
 						.setNotes(Note.White, Note.Yellow, Note.Red));
 		weapon_hh_wardrumsplus = registerHuntingHorn(
-				b -> b.setAttack(18).setRarity(2).setName(MHFCReference.weapon_hh_wardrumsplus_name)
+				b -> b.setAttack(31).setRarity(2).setName(MHFCReference.weapon_hh_wardrumsplus_name)
 						.setNotes(Note.White, Note.Yellow, Note.Red));
 		weapon_hh_heavybagpipe = registerHuntingHorn(
-				b -> b.setAttack(16).setRarity(3).setName(MHFCReference.weapon_hh_heavybagpipe_name)
+				b -> b.setAttack(42).setRarity(3).setName(MHFCReference.weapon_hh_heavybagpipe_name)
 						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_heavybagpipeplus = registerHuntingHorn(
-				b -> b.setAttack(19).setRarity(3).setName(MHFCReference.weapon_hh_heavybagpipeplus_name)
+				b -> b.setAttack(47).setRarity(3).setName(MHFCReference.weapon_hh_heavybagpipeplus_name)
 						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_tigrex = registerHuntingHorn(
-				b -> b.setAttack(32).setRarity(5).setName(MHFCReference.weapon_hh_tigrex_name)
+				b -> b.setAttack(55).setRarity(5).setName(MHFCReference.weapon_hh_tigrex_name)
 						.setNotes(Note.Purple, Note.Blue, Note.Red));
 		weapon_hh_mogwarddrums = registerHuntingHorn(
-				b -> b.setAttack(35).setRarity(5).setName(MHFCReference.weapon_hh_mogwarddrums_name)
+				b -> b.setAttack(72).setRarity(5).setName(MHFCReference.weapon_hh_mogwarddrums_name)
 						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_elitebagpipe = registerHuntingHorn(
-				b -> b.setAttack(25).setRarity(6).setName(MHFCReference.weapon_hh_elitebagpipe_name)
+				b -> b.setAttack(60).setRarity(6).setName(MHFCReference.weapon_hh_elitebagpipe_name)
 						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_darkthorntrumpet = registerHuntingHorn(
-				b -> b.setAttack(71).setRarity(9).setName(MHFCReference.weapon_hh_darkthorntrumpet_name)
+				b -> b.setAttack(84).setRarity(9).setName(MHFCReference.weapon_hh_darkthorntrumpet_name)
 						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_blackcasket = registerHuntingHorn(
-				b -> b.setAttack(84).setRarity(10).setName(MHFCReference.weapon_hh_blackcasket_name)
+				b -> b.setAttack(91).setRarity(10).setName(MHFCReference.weapon_hh_blackcasket_name)
 						.setNotes(Note.White, Note.Blue, Note.Red));
 
 		// Range weapons
 
 		weapon_b_hunters = registerBow(b -> b.setAttack(8).setRarity(1).setName(MHFCReference.weapon_bow_hunters_name));
 		weapon_b_huntersstout = registerBow(
-				b -> b.setAttack(15).setRarity(2).setName(MHFCReference.weapon_bow_huntersstout_name));
+				b -> b.setAttack(25).setRarity(2).setName(MHFCReference.weapon_bow_huntersstout_name));
 		weapon_b_huntersproud = registerBow(
-				b -> b.setAttack(15).setRarity(3).setName(MHFCReference.weapon_bow_huntersproud_name)
+				b -> b.setAttack(30).setRarity(3).setName(MHFCReference.weapon_bow_huntersproud_name)
 						.addCombatEffect(ElementalType.Ice, 3));
 
 		weapon_bgl_barrel = registerLightBowgun(
