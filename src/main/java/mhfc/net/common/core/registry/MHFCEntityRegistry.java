@@ -112,7 +112,7 @@ public class MHFCEntityRegistry {
 			return -1;
 		}
 		int monsterID = getMobID();
-		EntityRegistry.registerModEntity(clazz, name, monsterID, mod, 64, 3, true);
+		EntityRegistry.registerModEntity(clazz, name, monsterID, mod, 64, 1, true);
 		registeredMobs.add(clazz);
 		MHFCMobList.addMapping(clazz, name, monsterID);
 		return monsterID;
@@ -123,7 +123,7 @@ public class MHFCEntityRegistry {
 			return -1;
 		}
 		int monsterID = getMobID();
-		EntityRegistry.registerModEntity(clazz, name, monsterID, mod, 64, 3, true);
+		EntityRegistry.registerModEntity(clazz, name, monsterID, mod, 64, 1, true);
 		registeredMobs.add(clazz);
 		MHFCMobList.addMapping(clazz, name, monsterID, foreground, background);
 		return monsterID;

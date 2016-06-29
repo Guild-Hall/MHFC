@@ -31,6 +31,7 @@ public abstract class RenderWeapon<T extends ModelBase> implements IItemRenderer
 		Minecraft.getMinecraft().renderEngine.bindTexture(modelTexture);
 		GL11.glPushMatrix();
 
+		preScale();
 		// @see ItemRenderType
 		Entity entity = null;
 		switch (type) {
@@ -75,9 +76,8 @@ public abstract class RenderWeapon<T extends ModelBase> implements IItemRenderer
 
 	public abstract void preInventory(RenderBlocks render);
 
-	public void preScale() {
-		float sc = scale;
-		GL11.glScalef(sc, sc, sc);
+	protected void preScale() {
+		GL11.glScalef(scale, scale, scale);
 	}
 
 	@Override

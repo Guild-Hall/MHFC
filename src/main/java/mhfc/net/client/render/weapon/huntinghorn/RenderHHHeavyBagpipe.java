@@ -3,13 +3,11 @@ package mhfc.net.client.render.weapon.huntinghorn;
 import org.lwjgl.opengl.GL11;
 
 import mhfc.net.client.model.weapon.huntinghorn.ModelHHHeavyBagpipe;
-import mhfc.net.client.render.weapon.RenderWeapon;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 
-public class RenderHHHeavyBagpipe extends RenderWeapon<ModelHHHeavyBagpipe> {
+public class RenderHHHeavyBagpipe extends RenderHuntingHorn<ModelHHHeavyBagpipe> {
 
 	public RenderHHHeavyBagpipe() {
 		super(new ModelHHHeavyBagpipe(), MHFCReference.weapon_hh_heavybagpipe_tex, 1.7f);
@@ -17,39 +15,23 @@ public class RenderHHHeavyBagpipe extends RenderWeapon<ModelHHHeavyBagpipe> {
 
 	@Override
 	public void preEquipped(RenderBlocks render, EntityLivingBase entityLiving) {
-		GL11.glScalef(scale, scale, scale);
-		GL11.glRotatef(0F, 1.0f, 0.0f, 0.0f);
-		GL11.glRotatef(-5F, 0.0f, 1.0f, 0.0f);
-		GL11.glRotatef(-120F, 0.0f, 0.0f, 1.0f);
-		GL11.glTranslatef(-0.35F, 0F, -0.05F);
+		super.preEquipped(render, entityLiving);
+		GL11.glTranslatef(0.4f, -0.45f, -0.05f);
+		GL11.glRotatef(180f, 0, 1f, 0);
 	}
 
 	@Override
 	public void preFirstPerson(RenderBlocks render, EntityLivingBase entityLiving) {
-		float scale = 1.4f;
-		GL11.glScalef(scale, scale, scale);
-		GL11.glRotatef(180F, 1.0f, 0.0f, 0.0f);
-		GL11.glRotatef(-10F, 0.0f, 1.0f, 0.0f);
-		GL11.glRotatef(330, 0.0f, 0.0f, 1.0f);
-		GL11.glTranslatef(0.35F,-0.45F, -0.1F);
-	}
-
-
-	@Override
-	public void preEntityItem(RenderBlocks render, EntityItem entityItem) {
-		float scale = 3F;
-		GL11.glScalef(scale, scale, scale);
-		GL11.glRotatef(90F, 1.0f, 0.0f, 0.0f);
-		GL11.glRotatef(0F, 0.0f, 1.0f, 0.0f);
-		GL11.glRotatef(90F, 0.0f, 0.0f, 1.0f);
-		GL11.glTranslatef(-0.2F, -0.3F, 0F);
+		super.preFirstPerson(render, entityLiving);
+		GL11.glTranslatef(0.35F, -0.45F, -0.1F);
+		GL11.glRotatef(180, 0, 1, 0);
 	}
 
 	@Override
 	public void preInventory(RenderBlocks render) {
-		GL11.glRotatef(200F, 1.0f, 0.0f, 0.0f);
-		GL11.glRotatef(-80F, 0.0f, 1.0f, 0.0f);
-		GL11.glTranslatef(0F, -0.1F, -0.0F);
+		super.preInventory(render);
+		GL11.glTranslatef(0F, -0.3F, -0.0F);
+		GL11.glRotatef(180, 0, 1, 0);
 	}
 
 }
