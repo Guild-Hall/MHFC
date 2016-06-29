@@ -20,7 +20,7 @@ public class RenderHHGreatBagpipe extends RenderWeapon<ModelHHGreatBagpipe> {
 		GL11.glRotatef(0F, 1.0f, 0.0f, 0.0f);
 		GL11.glRotatef(-5F, 0.0f, 1.0f, 0.0f);
 		GL11.glRotatef(-120F, 0.0f, 0.0f, 1.0f);
-		GL11.glTranslatef(-0.35F,  0.1F, -0.05F);
+		GL11.glTranslatef(-0.35F,  0F, -0.05F);
 	}
 	@Override
 	public void preFirstPerson(RenderBlocks render, EntityLivingBase entityLiving) {
