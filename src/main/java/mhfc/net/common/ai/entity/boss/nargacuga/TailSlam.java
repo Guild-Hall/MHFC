@@ -58,7 +58,7 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 	public void update() {
 		EntityNargacuga nargacuga = getEntity();
 		if(this.getCurrentFrame() == 10){
-			nargacuga.playSound("mhfc:narga.tailslam", 2.0F, 1.0F);
+			nargacuga.playSound("mhfc:narga.tailjump", 2.0F, 1.0F);
 		}
 		
 		if (nargacuga.worldObj.isRemote)
