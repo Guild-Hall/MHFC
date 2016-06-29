@@ -6,7 +6,7 @@ import mhfc.net.common.util.lib.MHFCReference;
 public class RenderBHunters extends RenderBow<ModelBHunters> {
 
 	public RenderBHunters() {
-		super(new ModelBHunters(), MHFCReference.weapon_bow_hunters_tex, 1.2f);
+		super(new ModelBHunters(), MHFCReference.weapon_bow_hunters_tex, 0.8f);
 	}
 
 }

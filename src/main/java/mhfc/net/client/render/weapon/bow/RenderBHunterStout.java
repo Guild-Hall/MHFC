@@ -6,7 +6,7 @@ import mhfc.net.common.util.lib.MHFCReference;
 public class RenderBHunterStout extends RenderBow<ModelBHuntersStout> {
 
 	public RenderBHunterStout() {
-		super(new ModelBHuntersStout(), MHFCReference.weapon_bow_huntersstout_tex, 1.2f);
+		super(new ModelBHuntersStout(), MHFCReference.weapon_bow_huntersstout_tex, 0.8f);
 	}
 
 }

@@ -42,7 +42,7 @@ public class TigrexJump extends AIGeneralJumpAttack<EntityTigrex> {
 	public void update(){
 		EntityTigrex entity = getEntity();
 		if(this.getCurrentFrame() == 10)
-		entity.playSound("tigrex.leapforward", 2.0F, 1.0F);
+		entity.playSound("mhfc:tigrex.leapforward", 2.0F, 1.0F);
 	}
 
 	@Override

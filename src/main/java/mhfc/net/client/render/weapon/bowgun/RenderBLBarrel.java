@@ -17,21 +17,21 @@ public class RenderBLBarrel extends RenderWeapon<ModelBLBarrel> {
 
 	@Override
 	public void preEquipped(RenderBlocks render, EntityLivingBase entityLiving) {
-		GL11.glScalef(scale, scale, scale);
 		GL11.glRotatef(180F, 1.0f, 0.0f, 0.0f);
-		GL11.glRotatef(180F, 0.0f, 1.0f, 0.0f);
-		GL11.glRotatef(90F, 0.0f, 0.0f, 1.0f);
-		GL11.glTranslatef(-0.1F, 0.2F, -0.2F);
+		GL11.glRotatef(-10F, 0.0f, 1.0f, 0.0f);
+		GL11.glRotatef(330, 0.0f, 0.0f, 1.0f);
+		GL11.glTranslatef(0.7F,-0.0F, -0.45F);
+		GL11.glScalef(scale, scale, scale);
 	}
 
 	@Override
 	public void preFirstPerson(RenderBlocks render, EntityLivingBase entityLiving) {
-		float scale = 1.4f;
+		float scale = 2.5f;
 		GL11.glScalef(scale, scale, scale);
-		GL11.glRotatef(0F, 1.0f, 0.0f, 0.0f);
-		GL11.glRotatef(-5F, 0.0f, 1.0f, 0.0f);
-		GL11.glRotatef(-150F, 0.0f, 0.0f, 1.0f);
-		GL11.glTranslatef(0.05F, -0.6F, -0.8F);
+		GL11.glRotatef(180F, 1.0f, 0.0f, 0.0f);
+		GL11.glRotatef(-10F, 0.0f, 1.0f, 0.0f);
+		GL11.glRotatef(330, 0.0f, 0.0f, 1.0f);
+		GL11.glTranslatef(0.35F,-0.0F, -0F);
 	}
 
 	@Override
