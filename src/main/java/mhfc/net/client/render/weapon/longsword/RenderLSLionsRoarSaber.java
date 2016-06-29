@@ -18,10 +18,10 @@ public class RenderLSLionsRoarSaber extends RenderWeapon<ModelLSSaber> {
 	@Override
 	public void preEquipped(RenderBlocks render, EntityLivingBase entityLiving) {
 		GL11.glScalef(scale, scale, scale);
-		GL11.glRotatef(0F, 1.0f, 0.0f, 0.0f);
-		GL11.glRotatef(-5F, 0.0f, 1.0f, 0.0f);
-		GL11.glRotatef(-120F, 0.0f, 0.0f, 1.0f);
-		GL11.glTranslatef(-0.5F, -0.4F, 0.0F);
+		GL11.glRotatef(180F, 1.0f, 0.0f, 0.0f);
+		GL11.glRotatef(-10F, 0.0f, 1.0f, 0.0f);
+		GL11.glRotatef(330, 0.0f, 0.0f, 1.0f);
+		GL11.glTranslatef(0.45F,-0.65F,-0.1F);
 	}
 
 	@Override
