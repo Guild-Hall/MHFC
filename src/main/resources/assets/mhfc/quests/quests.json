@@ -1,5 +1,5 @@
 {
-	TestQuest : {
+	Quest1 : {
 		type : "default",
 		data : {
 			goal : {
@@ -13,11 +13,11 @@
 			areaID : "arena",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
-				name : "Test Hunting"
+				name : "Hunt Nargacuga"
 			}
 		}
 	},
-	NightTestQuest : {
+	NightQuest1 : {
 		type : "default",
 		data : {
 			goal : {
@@ -32,11 +32,11 @@
 			flair: "NIGHTTIME",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
-				name : "Hunting during nighttime"
+				name : "Hunting Tigrex at Night"
 			}
 		}
 	},
-	"New Quest": {
+	Quest2: {
 		type : "default",
 		data : {
 			goal :{

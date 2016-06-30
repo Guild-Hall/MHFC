@@ -1,10 +1,10 @@
 {
 	"groupDisplayOrder":[
-		"TestGroup"
+		"Low Rank Hunting Quest"
 	],
 	"groups":{
-		"TestGroup":[
-			"TestQuest", "NightTestQuest", "New Quest"
+		"Low Rank Hunting Quest":[
+			"Quest1", "NightQuest1", "Quest2"
 		]
 	}
 }
