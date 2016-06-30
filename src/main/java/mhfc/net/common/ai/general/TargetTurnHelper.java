@@ -22,8 +22,9 @@ public class TargetTurnHelper {
 	 * Sets the target point for turns to the position given by the vector
 	 */
 	public void updateTargetPoint(Vec3 vector) {
-		if (vector == null)
+		if (vector == null) {
 			return;
+		}
 		isUpdating = true;
 		this.targetPoint = vector.addVector(0, 0, 0);
 	}
@@ -40,8 +41,9 @@ public class TargetTurnHelper {
 	 * Sets the entity as a target for turning
 	 */
 	public void updateTargetPoint(Entity entity) {
-		if (entity == null)
+		if (entity == null) {
 			return;
+		}
 		isUpdating = true;
 		this.targetPoint = Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
 	}
@@ -69,15 +71,17 @@ public class TargetTurnHelper {
 	 * EntityMHFCBase in {@link EntityMHFCBase#updateAITick()}, so before the Minecraft default helpers are called.
 	 */
 	public void onUpdateTurn() {
-		if (!isUpdating)
+		if (!isUpdating) {
 			return;
+		}
 		isUpdating = false;
 		if (targetPoint == null) {
 			return;
 		}
 		Vec3 entityPos = WorldHelper.getEntityPositionVector(entity);
 		Vec3 vecToTarget = entityPos.subtract(targetPoint);
-		entity.rotationYaw = AIUtils.modifyYaw(entity.getLookVec(), vecToTarget.normalize(), maxTurnSpeed);
+		float newYaw = AIUtils.modifyYaw(entity.getLookVec(), vecToTarget.normalize(), maxTurnSpeed);
+		entity.rotationYaw = newYaw;
 		// CLEANUP Figure out a way to send the updates to the client cleanly
 		entity.addVelocity(10e-4, 0, 10e-4);
 	}
