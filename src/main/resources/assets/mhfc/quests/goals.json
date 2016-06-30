@@ -1,16 +1,17 @@
 {
-	NargacugaHunt : {
-		type : "hunting",
-		data : {
-			target: "mhfc.nargacuga",
-			amount: 1
-		}
-	},
 	TigrexHunt : {
 		type : "hunting",
 		data : {
 			target: "mhfc.tigrex",
 			amount: 1
+		}
+	},
+
+	Test : {
+		type : "hunting",
+		data : {
+			target: "Pig",
+			amount: 3
 		}
 	},
 	StandardTimer : {
