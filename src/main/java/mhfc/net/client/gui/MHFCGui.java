@@ -92,7 +92,7 @@ public abstract class MHFCGui extends GuiScreen implements IMHFCGuiItem {
 			item.initializeContext(mc);
 			Vector2f pos = screenComponents.get(item);
 			GL11.glPushMatrix();
-			GL11.glTranslated(pos.x, 0, pos.y);
+			GL11.glTranslated(pos.x, pos.y, 0);
 			item.draw(mouseX - pos.x, mouseY - pos.y, partialTick);
 			GL11.glPopMatrix();
 		}

@@ -39,10 +39,11 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 
 	public GuiQuestNew(Collection<String> groupIDs, EntityPlayer accessor) {
 		// groupIDsDisplayed = new ArrayList<String>(groupIDs);
-		questIdentifiers = new ArrayList<String>();
-		groupList = new ClickableGuiList<ClickableGuiList.GuiListStringItem>(width, height);
-		for (String groupID : groupIDs)
+		questIdentifiers = new ArrayList<>();
+		groupList = new ClickableGuiList<>(width, height);
+		for (String groupID : groupIDs) {
 			groupList.add(new GuiListStringItem(groupID));
+		}
 		addScreenComponent(groupList, new Vector2f(questsX, yBorder + 10));
 		newQuest = new GuiButton(0, 25, 10, 60, 20, "Take Quest") {
 			@Override
@@ -94,7 +95,6 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 		super.onGuiClosed();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui() {
 		buttonList.add(newQuest);
@@ -150,7 +150,7 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 			newQuest.enabled = true;
 			// TODO set start enabled based on can join
 			FontRenderer fontRenderer = mc.fontRenderer;
-			if (info != null)
+			if (info != null) {
 				info.drawInformation(
 						questsX + questsW,
 						yBorder,
@@ -158,6 +158,7 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 						ySize - 30,
 						page,
 						fontRenderer);
+			}
 		} else {
 			newQuest.enabled = false;
 		}
@@ -167,18 +168,12 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 	public boolean handleClick(float mouseX, float mouseY, int mouseButton) {
 		boolean clickHandled = false;
 		clickHandled |= super.handleClick(mouseX, mouseY, mouseButton);
-		if (questIdentifiers.size() > 0 && !MHFCRegQuestVisual.hasPlayerQuest() // Is
-																				// an
-																				// info
-																				// displayed
-				&& mouseX > 80 && mouseX < 300 // x check
-				&& mouseY > 0 && mouseY < ySize - 30) {
-			if (!clickHandled) {
-				clickHandled = true;
-				int add = mouseButton == 0 ? 1 : mouseButton == 1 ? -1 : 0;
-				page += add;
-				page = (page + 3) % 3;
-			}
+		boolean shouldDisplayInfo = questIdentifiers.size() > 0 && !MHFCRegQuestVisual.hasPlayerQuest();
+		if (shouldDisplayInfo && !clickHandled && mouseX > 80 && mouseX < 300 && mouseY > 0 && mouseY < ySize - 30) {
+			clickHandled = true;
+			int add = mouseButton == 0 ? 1 : mouseButton == 1 ? -1 : 0;
+			page += add;
+			page = (page + 3) % 3;
 		}
 		return clickHandled;
 	}
