@@ -5,7 +5,7 @@
 			goal : {
 				type : "fork",
 				data : {
-					requisites : ["StandardDeath", "StandardTimer", "Test"]
+					requisites : ["StandardDeath", "StandardTimer", "NargacugaHunt"]
 				}
 			} ,
 			reward : 5000,
@@ -23,7 +23,7 @@
 			goal : {
 				type : "fork",
 				data : {
-					requisites : ["StandardDeath", "StandardTimer", "Test"]
+					requisites : ["StandardDeath", "StandardTimer", "TigrexHunt"]
 				}
 			} ,
 			reward : 5000,
@@ -42,7 +42,7 @@
 			goal :{
 				type : "fork",
 				data : {
-					requisites : ["StandardFail", "AnotherTest"]
+					requisites : ["StandardTimer","StandardFail", "DeviljhoHunt"]
 				}
 			},
 			reward : 4000,
@@ -50,7 +50,7 @@
 			areaID: "arena",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
-				name : "Hunt Rathalos"
+				name : "Hunt Deviljho"
 			}
 		}
 	}
