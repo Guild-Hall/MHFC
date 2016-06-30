@@ -51,7 +51,7 @@ public class ST_Bionic extends ItemArmor {
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer,
 			@SuppressWarnings("rawtypes") List par3List, boolean par4) {
-		par3List.add(ColorSystem.ENUMRED + "Designed from Sean Tang" + "[ " + ColorSystem.ENUMGOLD
+		par3List.add(ColorSystem.ENUMRED + "(DONATORS EXCLUSIVE) Designed from Sean Tang" + "[ " + ColorSystem.ENUMGOLD
 				+ " ST - 1 'Bionic'   " + ColorSystem.ENUMRED + "]");
 	}
 
@@ -62,7 +62,7 @@ public class ST_Bionic extends ItemArmor {
 			return MHFCReference.armor_null_tex;
 
 		EntityPlayer player = (EntityPlayer) entity;
-		if (!DonatorSystem.checkDragoon(player))
+		if (!DonatorSystem.checkbioNic(player))
 			return MHFCReference.armor_null_tex;
 
 		if (stack.getItem() == MHFCItemRegistry.armor_bionic_helm

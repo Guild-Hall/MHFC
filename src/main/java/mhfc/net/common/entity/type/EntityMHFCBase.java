@@ -7,7 +7,6 @@ import java.util.Random;
 
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
-import com.github.worldsender.mcanm.common.CommonLoader;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
@@ -27,7 +26,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -71,6 +69,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
 		attackManager = Objects.requireNonNull(constructActionManager());
+		ignoreFrustumCheck = true;
 		hasDied = false;
 	}
 
