@@ -58,7 +58,7 @@ public interface IMovementProvider<EntityT extends EntityLiving>
 		public float getMoveSpeed() {
 			Vec3 waypoint = getCurrentWaypoint();
 			Vec3 targetDir = WorldHelper.getEntityPositionVector(actor).subtract(waypoint).normalize();
-			if (targetDir.xCoord == 0 && targetDir.yCoord == 0) {
+			if (targetDir.xCoord == 0 && targetDir.zCoord == 0) {
 				return 0f;
 			}
 			float angle = AIUtils.getViewingAngle(actor, getCurrentWaypoint());

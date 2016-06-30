@@ -29,7 +29,7 @@ public class ChunkManagerQuesting extends WorldChunkManager {
 	}
 
 	@Override
-	public ChunkPosition findBiomePosition(int x, int z, int range, @SuppressWarnings("rawtypes") List biomes, Random rand) {
+	public ChunkPosition findBiomePosition(int x, int z, int range, List biomes, Random rand) {
 		ChunkPosition ret = super.findBiomePosition(x, z, range, biomes, rand);
 		if (x == 0 && z == 0 && !world.getWorldInfo().isInitialized() && ret == null) {
 			ret = new ChunkPosition(0, 0, 0);

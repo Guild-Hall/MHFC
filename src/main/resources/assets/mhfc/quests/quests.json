@@ -5,7 +5,7 @@
 			goal : {
 				type : "fork",
 				data : {
-					requisites : ["StandardDeath", "StandardTimer", "Test"]
+					requisites : ["StandardDeath", "StandardTimer", "NargacugaHunt"]
 				}
 			} ,
 			reward : 5000,
@@ -13,7 +13,7 @@
 			areaID : "arena",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
-				name : "Hunt Pigs"
+				name : "Hunt Nargacuga"
 			}
 		}
 	},

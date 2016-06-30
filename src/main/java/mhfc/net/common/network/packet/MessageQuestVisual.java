@@ -3,6 +3,7 @@ package mhfc.net.common.network.packet;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.Objects;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
@@ -22,13 +23,11 @@ public class MessageQuestVisual implements IMessage {
 	private String messageIdentifier;
 	private IVisualInformation information;
 
-	public MessageQuestVisual() {
-	}
+	public MessageQuestVisual() {}
 
-	public MessageQuestVisual(VisualType messageType, String identifier,
-		IVisualInformation information) {
-		this.messageType = messageType;
-		this.messageIdentifier = identifier;
+	public MessageQuestVisual(VisualType messageType, String identifier, IVisualInformation information) {
+		this.messageType = Objects.requireNonNull(messageType);
+		this.messageIdentifier = Objects.requireNonNull(identifier);
 		this.information = information;
 	}
 
@@ -39,8 +38,7 @@ public class MessageQuestVisual implements IMessage {
 			OutputStreamWriter writer = new OutputStreamWriter(out);
 			out.writeInt(messageType.ordinal());
 			out.writeUTF(messageIdentifier);
-			BuilderJsonToQuests.gsonInstance.toJson(information,
-				IVisualInformation.class, writer);
+			BuilderJsonToQuests.gsonInstance.toJson(information, IVisualInformation.class, writer);
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -55,8 +53,7 @@ public class MessageQuestVisual implements IMessage {
 			InputStreamReader reader = new InputStreamReader(in);
 			messageType = VisualType.values()[in.readInt()];
 			messageIdentifier = in.readUTF();
-			information = BuilderJsonToQuests.gsonInstance.fromJson(reader,
-				IVisualInformation.class);
+			information = BuilderJsonToQuests.gsonInstance.fromJson(reader, IVisualInformation.class);
 			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();

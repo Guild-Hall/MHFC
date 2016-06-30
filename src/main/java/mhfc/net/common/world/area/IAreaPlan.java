@@ -4,8 +4,8 @@ import com.sk89q.worldedit.function.operation.Operation;
 
 public interface IAreaPlan {
 	/**
-	 * Returns the {@link IArea}. Calling this before the {@link Operation} returned by {@link #getFirstOperation()} and
-	 * all followup operations are complete may cause an {@link IllegalStateException}.
+	 * Returns the {@link IArea}. Calling this before the {@link Operation} returned before {@link #getFirstOperation()}
+	 * and all followup operations are complete may cause an {@link IllegalStateException}.
 	 *
 	 * @return the {@link IArea} of this area.
 	 */

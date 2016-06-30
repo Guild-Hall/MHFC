@@ -2,7 +2,6 @@ package mhfc.net.common.entity.monster;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Queue;
 
 import javax.vecmath.Matrix4f;
@@ -122,11 +121,9 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		if (animation == null) {
 			return Vec3.createVectorHelper(0, 0, 0);
 		}
-		Optional<BoneTransformation> boneTrans = animation.getCurrentTransformation(name, frame);
-		if (!boneTrans.isPresent()) {
-			return Vec3.createVectorHelper(0, 0, 0);
-		}
-		Matrix4f transform = boneTrans.get().getMatrix();
+		BoneTransformation boneTransform = new BoneTransformation();
+		animation.storeCurrentTransformation(name, frame, boneTransform);
+		Matrix4f transform = boneTransform.getMatrix();
 		Vec3 relativePosition = Vec3.createVectorHelper(transform.m03, transform.m13, transform.m23);
 		return relativePosition;
 	}
