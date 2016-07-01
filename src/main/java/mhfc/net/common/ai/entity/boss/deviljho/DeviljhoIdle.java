@@ -8,7 +8,7 @@ public class DeviljhoIdle extends AIGeneralIdle<EntityDeviljho> {
 
 	private static final int LAST_FRAME = 100;
 	public static final String ANIMATION = "mhfc:models/Deviljho/DeviljhoIdle.mcanm";
-	public static final float WEIGHT = 3;
+	public static final float WEIGHT = 6;
 
 	public DeviljhoIdle() {}
 

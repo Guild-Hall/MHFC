@@ -10,7 +10,7 @@ public class DeviljhoWander extends AIGeneralWander<EntityDeviljho> {
 
 	private static final String ANIMATION = "mhfc:models/Deviljho/DeviljhoWalk.mcanm";
 	private static final int LAST_FRAME = 55;
-	private static final float WEIGHT = 1F;
+	private static final float WEIGHT = 0.5F;
 
 	private static final IMoveParameterProvider parameterProvider = new IMoveParameterProvider.MoveParameterAdapter(
 			3f,

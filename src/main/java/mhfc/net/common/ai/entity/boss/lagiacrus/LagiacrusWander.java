@@ -10,7 +10,7 @@ public class LagiacrusWander extends AIGeneralWander<EntityLagiacrus> {
 
 	private static final String ANIMATION = "mhfc:models/Lagiacrus/LagiacrusWalk.mcanm";
 	private static final int LAST_FRAME = 100;
-	private static final float WEIGHT = 1F;
+	private static final float WEIGHT = 0.5F;
 
 	private static final IMoveParameterProvider parameterProvider = new IMoveParameterProvider.MoveParameterAdapter(
 			3f,

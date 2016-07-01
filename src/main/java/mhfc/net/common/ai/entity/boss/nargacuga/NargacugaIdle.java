@@ -10,7 +10,7 @@ public class NargacugaIdle extends AIGeneralIdle<EntityNargacuga> {
 	private static final String ANIMATION = "mhfc:models/Nargacuga/NargacugaIdle.mcanm";
 	private static final int LAST_FRAME = 140;
 
-	private static final IWeightProvider<EntityNargacuga> WEIGHT_PROVIDER = new IWeightProvider.RandomWeightAdapter<>(3);
+	private static final IWeightProvider<EntityNargacuga> WEIGHT_PROVIDER = new IWeightProvider.RandomWeightAdapter<>(6);
 
 	public NargacugaIdle() {}
 

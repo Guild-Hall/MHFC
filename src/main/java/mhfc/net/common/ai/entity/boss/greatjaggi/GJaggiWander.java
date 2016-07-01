@@ -10,7 +10,7 @@ public class GJaggiWander extends AIGeneralWander<EntityGreatJaggi> {
 
 	private static final String ANIMATION = "mhfc:models/GreatJaggi/GreatJaggiRun.mcanm";
 	private static final int LAST_FRAME = 55;
-	private static final float WEIGHT = 3F;
+	private static final float WEIGHT = 0.5F;
 
 	private static final IMoveParameterProvider parameterProvider = new IMoveParameterProvider.MoveParameterAdapter(
 			3f,

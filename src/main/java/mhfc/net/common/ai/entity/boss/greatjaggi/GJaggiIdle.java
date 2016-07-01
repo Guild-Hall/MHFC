@@ -8,7 +8,7 @@ public class GJaggiIdle extends AIGeneralIdle<EntityGreatJaggi>  {
 	
 	private static int ANIM_FRAME = 64;
 	public static String ANIM_LOC = "mhfc:models/GreatJaggi/GreatJaggiIdle.mcanm";
-	public static final float ANIM_WEIGHT = 3;
+	public static final float ANIM_WEIGHT = 6;
 
 	@Override
 	public String getAnimationLocation() {

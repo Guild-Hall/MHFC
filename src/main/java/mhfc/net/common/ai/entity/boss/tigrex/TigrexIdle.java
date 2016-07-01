@@ -12,7 +12,7 @@ public class TigrexIdle extends AIGeneralIdle<EntityTigrex> {
 	private static final IAnimationProvider ANIM_PROVIDER = new IAnimationProvider.AnimationAdapter(
 			"mhfc:models/Tigrex/idle.mcanm",
 			LAST_FRAME);
-	private static final IWeightProvider<EntityTigrex> WEIGHT_PROVIDER = new IWeightProvider.RandomWeightAdapter<>(3);
+	private static final IWeightProvider<EntityTigrex> WEIGHT_PROVIDER = new IWeightProvider.RandomWeightAdapter<>(6);
 
 	public TigrexIdle() {}
 

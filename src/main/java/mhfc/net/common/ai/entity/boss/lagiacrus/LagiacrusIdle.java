@@ -8,7 +8,7 @@ import net.minecraft.entity.Entity;
 public class LagiacrusIdle extends AIGeneralIdle<EntityLagiacrus> {
 
 	private static String ANIMATION = "mhfc:models/Lagiacrus/LagiacrusIdle.mcanm";
-	private static int LAST_FRAME = 70;
+	private static int LAST_FRAME = 6;
 
 	private static final IWeightProvider<EntityLagiacrus> WEIGHT_PROVIDER = new IWeightProvider.RandomWeightAdapter<>(1);
 	

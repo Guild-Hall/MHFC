@@ -26,7 +26,7 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 
 	public EntityGreatJaggi(World world) {
 		super(world);
-
+		setSize(2F,2F);
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 	}
 

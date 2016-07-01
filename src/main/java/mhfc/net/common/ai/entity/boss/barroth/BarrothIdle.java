@@ -21,7 +21,7 @@ public class BarrothIdle extends ActionAdapter<EntityBarroth> {
 		target = entity.getAttackTarget();
 		// if (target == null)
 		// return DONT_SELECT;
-		return rng().nextFloat() * 3;
+		return rng().nextFloat() * 6;
 	}
 
 	@Override
