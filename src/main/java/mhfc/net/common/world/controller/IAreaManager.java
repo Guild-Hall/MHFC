@@ -1,6 +1,7 @@
 package mhfc.net.common.world.controller;
 
-import mhfc.net.common.util.StagedFuture;
+import java.util.concurrent.CompletionStage;
+
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IAreaType;
@@ -17,5 +18,5 @@ public interface IAreaManager {
 	 * @return an {@link IActiveArea} with an empty area that can be used for e.g. questing
 	 * @throws Exception
 	 */
-	StagedFuture<IActiveArea> getUnusedInstance(IAreaType type);
+	CompletionStage<IActiveArea> getUnusedInstance(IAreaType type);
 }

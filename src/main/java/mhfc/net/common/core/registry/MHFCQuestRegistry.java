@@ -53,7 +53,7 @@ public class MHFCQuestRegistry {
 	public static class RunningSubscriptionHandler
 			implements
 			IMessageHandler<MessageQuestRunningSubscription, IMessage> {
-		private static Set<EntityPlayerMP> subscribers = new HashSet<EntityPlayerMP>();
+		private static Set<EntityPlayerMP> subscribers = new HashSet<>();
 
 		public RunningSubscriptionHandler() {}
 
@@ -101,12 +101,15 @@ public class MHFCQuestRegistry {
 			NetHandlerPlayServer playerNetHandler = (NetHandlerPlayServer) logOut.handler;
 			EntityPlayerMP player = playerNetHandler.playerEntity;
 			GeneralQuest q = playerQuest.get(player);
-			if (q == null)
+			if (q == null) {
 				return;
-			q.quitPlayer((EntityPlayerMP) player);
+			}
+			q.quitPlayer(player);
 			RunningSubscriptionHandler.subscribers.remove(player);
 		}
 	}
+
+	private static int questIDCounter = 0;
 
 	public static void onPlayerInteraction(EntityPlayerMP player, MessageMHFCInteraction message) {
 		GeneralQuest quest;
@@ -114,7 +117,7 @@ public class MHFCQuestRegistry {
 		case NEW_QUEST:
 			quest = getQuestForPlayer(player);
 			if (quest == null) {
-				String registerFor = message.getOptions()[0] + "@" + player.getDisplayName();
+				String registerFor = message.getOptions()[0] + "@" + player.getDisplayName() + "@" + questIDCounter++;
 				GeneralQuest newQuest = QuestFactory.constructQuest(
 						MHFCQuestBuildRegistry.getQuestDescription(message.getOptions()[0]),
 						player,
@@ -175,10 +178,11 @@ public class MHFCQuestRegistry {
 			break;
 		case MOD_RELOAD:
 			for (GeneralQuest genQ : questsRunning) {
-				RunningSubscriptionHandler.sendToAll(new MessageQuestVisual(
-						VisualType.RUNNING_QUEST,
-						getIdentifierForQuest(genQ),
-						genQ.getRunningInformation()));
+				RunningSubscriptionHandler.sendToAll(
+						new MessageQuestVisual(
+								VisualType.RUNNING_QUEST,
+								getIdentifierForQuest(genQ),
+								genQ.getRunningInformation()));
 			}
 			break;
 		default:
@@ -190,9 +194,9 @@ public class MHFCQuestRegistry {
 		PacketPipeline.networkPipe.sendTo(new MessageQuestVisual(VisualType.PERSONAL_QUEST, "", null), player);
 	}
 
-	protected static Map<EntityPlayer, GeneralQuest> playerQuest = new HashMap<EntityPlayer, GeneralQuest>();
-	protected static List<GeneralQuest> questsRunning = new ArrayList<GeneralQuest>();
-	protected static KeyToInstanceRegistryData<String, GeneralQuest> runningQuestRegistry = new KeyToInstanceRegistryData<String, GeneralQuest>();
+	protected static Map<EntityPlayer, GeneralQuest> playerQuest = new HashMap<>();
+	protected static List<GeneralQuest> questsRunning = new ArrayList<>();
+	protected static KeyToInstanceRegistryData<String, GeneralQuest> runningQuestRegistry = new KeyToInstanceRegistryData<>();
 
 	public static void init() {
 		FMLCommonHandler.instance().bus().register(new PlayerConnectionHandler());
@@ -228,10 +232,11 @@ public class MHFCQuestRegistry {
 	 *
 	 */
 	public static void setQuestForPlayer(EntityPlayer player, GeneralQuest generalQuest) {
-		if (generalQuest == null)
+		if (generalQuest == null) {
 			playerQuest.remove(player);
-		else
+		} else {
 			playerQuest.put(player, generalQuest);
+		}
 	}
 
 	/**
@@ -240,8 +245,9 @@ public class MHFCQuestRegistry {
 	public static boolean regRunningQuest(GeneralQuest generalQuest, String identifier) {
 		questsRunning.add(generalQuest);
 		MHFCMain.logger.debug(questsRunning.size() + " quests are running at the moment.");
-		if (!runningQuestRegistry.offerMapping(identifier, generalQuest))
+		if (!runningQuestRegistry.offerMapping(identifier, generalQuest)) {
 			return false;
+		}
 		MessageQuestVisual message = new MessageQuestVisual(
 				VisualType.RUNNING_QUEST,
 				identifier,
@@ -270,8 +276,9 @@ public class MHFCQuestRegistry {
 	 */
 	public static void questUpdated(GeneralQuest q) {
 		String identifier = runningQuestRegistry.getKey(q);
-		if (q == null || identifier == null)
+		if (q == null || identifier == null) {
 			return;
+		}
 		MessageQuestVisual message = new MessageQuestVisual(
 				VisualType.RUNNING_QUEST,
 				identifier,

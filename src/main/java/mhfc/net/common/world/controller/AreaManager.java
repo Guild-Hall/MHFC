@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 import com.sk89q.worldedit.function.operation.Operation;
 
@@ -15,7 +16,6 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.eventhandler.MHFCTickHandler;
 import mhfc.net.common.eventhandler.TickPhase;
 import mhfc.net.common.util.Operations;
-import mhfc.net.common.util.StagedFuture;
 import mhfc.net.common.world.MHFCWorldData;
 import mhfc.net.common.world.MHFCWorldData.AreaInformation;
 import mhfc.net.common.world.area.ActiveAreaAdapter;
@@ -84,32 +84,41 @@ public class AreaManager implements IAreaManager {
 	}
 
 	@Override
-	public StagedFuture<IActiveArea> getUnusedInstance(IAreaType type) {
+	public CompletionStage<IActiveArea> getUnusedInstance(IAreaType type) {
 		Optional<IArea> chosen = nonactiveAreas.computeIfAbsent(type, (k) -> new ArrayList<>()).stream()
 				.filter(a -> !a.isUnusable()).findFirst();
 		if (chosen.isPresent()) {
 			Active active = new Active(chosen.get(), type, this);
 			nonactiveAreas.get(type).remove(active.getArea());
-			return StagedFuture.wrap(CompletableFuture.completedFuture(active));
+			return CompletableFuture.completedFuture(active);
 		}
-		CompletableFuture<IActiveArea> area = new CompletableFuture<>();
 		AreaConfiguration config = newArea(type);
 		CornerPosition position = config.getPosition();
 
 		final IAreaPlan plan = type.populate(world, config);
-		final ChunkCoordIntPair chunk = new ChunkCoordIntPair(position.posX, position.posY);
-		ForgeChunkManager.forceChunk(loadingTicket, chunk);
-		final Operation op = Operations.timingOperation(plan.getFirstOperation(), 20);
-		MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_PRE, Operations.withCallback(op, () -> {
-			area.complete(new Active(plan.getFinishedArea(), type, this));
-			ForgeChunkManager.unforceChunk(loadingTicket, chunk);
-			MHFCMain.logger.debug("Area of type {} completed", type);
-		} , () -> {
-			area.cancel(true);
-			ForgeChunkManager.unforceChunk(loadingTicket, chunk);
-			MHFCMain.logger.debug("Area of type {} cancelled", type);
-		}));
-		return StagedFuture.wrap(area);
+		final ChunkCoordIntPair chunkPos = new ChunkCoordIntPair(position.posX, position.posY);
+		ForgeChunkManager.forceChunk(loadingTicket, chunkPos);
+		final CompletableFuture<IActiveArea> areaFuture = new CompletableFuture<>();
+		final Operation operation = Operations
+				.withCallback(Operations.timingOperation(plan.getFirstOperation(), 20), o -> {
+					areaFuture.complete(new Active(plan.getFinishedArea(), type, this));
+					ForgeChunkManager.unforceChunk(loadingTicket, chunkPos);
+					MHFCMain.logger.debug("Area of type {} completed", type);
+				}, o -> {
+					areaFuture.cancel(true);
+					ForgeChunkManager.unforceChunk(loadingTicket, chunkPos);
+					MHFCMain.logger.debug("Area of type {} cancelled", type);
+				});
+
+		areaFuture.whenComplete((a, ex) -> {
+			if (ex != null) {
+				operation.cancel();
+			}
+		});
+
+		MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_PRE, operation);
+
+		return areaFuture;
 	}
 
 	private AreaConfiguration newArea(IAreaType type) {

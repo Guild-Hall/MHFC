@@ -4,11 +4,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletionStage;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.quests.world.GlobalAreaManager;
 import mhfc.net.common.quests.world.QuestFlair;
-import mhfc.net.common.util.StagedFuture;
 import mhfc.net.common.util.world.WorldHelper;
 import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.AreaRegistry;
@@ -28,7 +28,7 @@ import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 
 public class CommandTpHunterDimension implements ICommand {
-	private Map<EntityPlayerMP, Vec3> teleportPoints = new HashMap<EntityPlayerMP, Vec3>();
+	private Map<EntityPlayerMP, Vec3> teleportPoints = new HashMap<>();
 
 	private class BackTeleporter extends Teleporter {
 
@@ -90,8 +90,9 @@ public class CommandTpHunterDimension implements ICommand {
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
-		if (!canCommandSenderUseCommand(sender))
+		if (!canCommandSenderUseCommand(sender)) {
 			return;
+		}
 
 		EntityPlayerMP player = (EntityPlayerMP) sender;
 		// players = args.length > 0 ? PlayerSelector.matchPlayers(sender, args[0]) : players;
@@ -110,10 +111,10 @@ public class CommandTpHunterDimension implements ICommand {
 				MHFCMain.logger.debug("No area type found for " + areaName);
 				return;
 			}
-			StagedFuture<IActiveArea> futureArea = GlobalAreaManager.instance
+			CompletionStage<IActiveArea> futureArea = GlobalAreaManager.instance
 					.getUnusedInstance(areaType, QuestFlair.DAYTIME);
 			sender.addChatMessage(new ChatComponentText("You will be teleported when the area is finished"));
-			futureArea.asCompletionStage().thenAccept((a) -> {
+			futureArea.thenAccept((a) -> {
 				try (IActiveArea active = a) {
 					MHFCMain.logger.info("Teleporting");
 					teleportPoints.put(player, WorldHelper.getEntityPositionVector(player));

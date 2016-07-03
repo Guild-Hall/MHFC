@@ -1,5 +1,7 @@
 package mhfc.net.common.util;
 
+import java.util.function.Consumer;
+
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.RunContext;
@@ -12,25 +14,34 @@ public class Operations {
 	 * @param runnable
 	 * @return
 	 */
-	public static Operation withCallback(final Operation op, final Runnable onCompletion, final Runnable onCancel) {
+	public static Operation withCallback(
+			final Operation op,
+			final Consumer<Operation> onCompletion,
+			final Consumer<Operation> onCancel) {
 		return new Operation() {
 			private Operation current = op;
 			private boolean isCancelled = false;
 
 			@Override
 			public Operation resume(RunContext run) throws WorldEditException {
-				current = current.resume(run);
-				if (current == null && !isCancelled) {
-					onCompletion.run();
+				if (isCancelled) {
+					return null;
 				}
-				return current == null ? null : this;
+				current = current.resume(run);
+				if (current == null) {
+					onCompletion.accept(this);
+					return null;
+				}
+				return this;
 			}
 
 			@Override
 			public void cancel() {
-				current.cancel();
-				onCancel.run();
-				isCancelled = true;
+				if (!isCancelled) {
+					isCancelled = true;
+					current.cancel();
+					onCancel.accept(this);
+				}
 			}
 		};
 	}

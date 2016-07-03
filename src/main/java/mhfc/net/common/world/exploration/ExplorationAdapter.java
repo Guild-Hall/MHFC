@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.CompletionStage;
 import java.util.function.Consumer;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.quests.world.GlobalAreaManager;
 import mhfc.net.common.quests.world.QuestFlair;
-import mhfc.net.common.util.StagedFuture;
 import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
@@ -27,7 +27,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 	protected Map<EntityPlayerMP, IActiveArea> playerToArea;
 	private Map<IAreaType, List<IActiveArea>> areaInstances;
 	private Map<IActiveArea, Set<EntityPlayerMP>> inhabitants;
-	protected Map<EntityPlayerMP, StagedFuture<IActiveArea>> waitingOnTeleport;
+	protected Map<EntityPlayerMP, CompletionStage<IActiveArea>> waitingOnTeleport;
 
 	public ExplorationAdapter() {
 		playerSet = new HashSet<>();
@@ -50,6 +50,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 
 	protected abstract void transferIntoInstance(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback);
 
+	@Override
 	public void transferPlayerInto(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback) {
 		if (waitingOnTeleport.containsKey(player)) {
 			playerAlreadyTeleporting(player, type, callback);
@@ -60,8 +61,8 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 
 	protected void playerAlreadyTeleporting(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback) {
 		Objects.requireNonNull(player);
-		StagedFuture<IActiveArea> waitingFor = waitingOnTeleport.get(player);
-		waitingFor.asFuture().cancel(true);
+		CompletionStage<IActiveArea> waitingFor = waitingOnTeleport.get(player);
+		waitingFor.toCompletableFuture().cancel(true);
 		waitingOnTeleport.remove(player);
 		transferPlayerInto(player, type, callback);
 	}
@@ -70,9 +71,10 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		player.addChatMessage(new ChatComponentText("Teleporting to instance when the area is ready"));
 		Objects.requireNonNull(player);
 		Objects.requireNonNull(type);
-		StagedFuture<IActiveArea> unusedInstance = GlobalAreaManager.getInstance()
+		CompletionStage<IActiveArea> unusedInstance = GlobalAreaManager.getInstance()
 				.getUnusedInstance(type, getFlairFor(type));
-		unusedInstance.asCompletionStage().handle((area, ex) -> {
+		waitingOnTeleport.put(player, unusedInstance);
+		unusedInstance.handle((area, ex) -> {
 			try {
 				if (area != null) {
 					addInstance(area);
@@ -99,12 +101,13 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		IActiveArea currentInstance = getActiveAreaOf(player);
 		Set<EntityPlayerMP> inhabitantSet = getInhabitants(currentInstance);
 		inhabitantSet.remove(player);
-		StagedFuture<IActiveArea> stagedFuture = waitingOnTeleport.get(player);
+		CompletionStage<IActiveArea> stagedFuture = waitingOnTeleport.get(player);
 		if (stagedFuture != null) {
-			stagedFuture.asFuture().cancel(true);
+			stagedFuture.toCompletableFuture().cancel(true);
 		}
-		if (currentInstance == null)
+		if (currentInstance == null) {
 			return;
+		}
 		if (inhabitantSet.isEmpty()) {
 			removeInstance(currentInstance);
 		}

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
 import mhfc.net.MHFCMain;
@@ -87,12 +88,12 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 			int maxPartySize,
 			int reward,
 			int fee,
-			StagedFuture<IActiveArea> area,
+			CompletionStage<IActiveArea> activeArea,
 			QuestDescription originalDescription) {
 		super(MHFCQuestBuildRegistry.QUEST_RUNNING);
 		this.playerAttributes = new HashMap<>();
 		this.questGoal = Objects.requireNonNull(goal);
-		area.asCompletionStage().thenAccept(this::onAreaFinished);
+		activeArea.thenAccept(this::onAreaFinished);
 		goal.setSocket(this);
 
 		this.reward = reward;

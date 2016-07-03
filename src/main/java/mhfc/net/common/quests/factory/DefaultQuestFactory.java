@@ -9,6 +9,8 @@ import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_QU
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_REWARD;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_VISUAL;
 
+import java.util.concurrent.CompletionStage;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -28,7 +30,6 @@ import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.world.GlobalAreaManager;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.util.MHFCJsonUtils;
-import mhfc.net.common.util.StagedFuture;
 import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
@@ -44,7 +45,7 @@ public class DefaultQuestFactory implements IQuestFactory {
 		}
 		IAreaType areaType = qd.getAreaType();
 
-		StagedFuture<IActiveArea> activeArea = GlobalAreaManager.getInstance()
+		CompletionStage<IActiveArea> activeArea = GlobalAreaManager.getInstance()
 				.getUnusedInstance(areaType, qd.getQuestFlair());
 		if (activeArea == null) {
 			return null;
