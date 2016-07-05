@@ -13,7 +13,7 @@ public class DeviljhoMovetoTarget extends ActionAdapter<EntityDeviljho> {
 	private static final int MOVEMENT_FINISH = 40;
 	private static final int AI_END = 40;
 	private static final float TURN_RATE_INITIAL = 20.5f;
-	private static final float TURN_RATE_DURING_RUN = 1.05f;
+	private static final float TURN_RATE_DURING_RUN = 20.05f;
 	private static final float MAX_RUN_DISTANCE = 20f;
 	private static final int MAX_RUN_FRAMES = 200;
 

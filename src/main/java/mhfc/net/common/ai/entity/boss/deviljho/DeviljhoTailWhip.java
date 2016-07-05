@@ -40,6 +40,7 @@ public class DeviljhoTailWhip extends AIGeneralTailWhip<EntityDeviljho> {
 	@Override
 	public void update(){
 		EntityDeviljho entity = getEntity();
+		if(this.getCurrentFrame() == 5)
 		entity.playSound("mhfc:deviljho.tailwhip", 2.0F, 1.0F);
 	}
 
