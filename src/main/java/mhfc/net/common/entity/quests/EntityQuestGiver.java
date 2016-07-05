@@ -31,7 +31,7 @@ public class EntityQuestGiver extends EntityVillager {
 
 	@Override
 	public boolean interact(EntityPlayer player) {
-		player.openGui(MHFCMain.instance, MHFCReference.gui_questgiver_id, this.worldObj, subID, 0, 0);
+		player.openGui(MHFCMain.instance(), MHFCReference.gui_questgiver_id, this.worldObj, subID, 0, 0);
 		return true;
 	}
 

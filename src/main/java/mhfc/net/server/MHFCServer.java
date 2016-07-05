@@ -11,7 +11,7 @@ import mhfc.net.server.core.MHFCServerRegistry;
  */
 public class MHFCServer extends ProxyBase {
 	@Override
-	public void register() {
+	public void staticInit() {
 		MHFCCommonRegistry.init();
 		MHFCServerRegistry.init();
 	}

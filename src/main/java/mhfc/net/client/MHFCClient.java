@@ -11,7 +11,7 @@ import net.minecraft.client.Minecraft;
 
 public class MHFCClient extends ProxyBase {
 	@Override
-	public void register() {
+	public void staticInit() {
 		MHFCCommonRegistry.init();
 		MHFCClientRegistry.init();
 	}

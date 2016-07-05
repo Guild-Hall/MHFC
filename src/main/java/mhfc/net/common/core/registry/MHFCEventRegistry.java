@@ -18,7 +18,7 @@ public class MHFCEventRegistry {
 
 	static {
 		MHFCMain.checkPreInitialized();
-		mod = MHFCMain.instance;
+		mod = MHFCMain.instance();
 	}
 
 	public static void init() {

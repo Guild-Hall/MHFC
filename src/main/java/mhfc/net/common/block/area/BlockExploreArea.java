@@ -55,7 +55,7 @@ public class BlockExploreArea extends Block implements ITileEntityProvider {
 			float var8,
 			float var9) {
 		if (player.capabilities.isCreativeMode) {
-			player.openGui(MHFCMain.instance, MHFCReference.gui_changearea_id, world, x, y, z);
+			player.openGui(MHFCMain.instance(), MHFCReference.gui_changearea_id, world, x, y, z);
 			return true;
 		}
 		return false;

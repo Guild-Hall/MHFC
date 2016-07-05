@@ -1,18 +1,21 @@
 package mhfc.net;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.sk89q.worldedit.forge.ForgeWorldEdit;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLConstructionEvent;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppedEvent;
+import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import mhfc.net.client.MHFCClient;
 import mhfc.net.common.configuration.MHFCConfig;
 import mhfc.net.common.core.command.CommandExplore;
 import mhfc.net.common.core.command.CommandMHFC;
@@ -20,6 +23,12 @@ import mhfc.net.common.core.command.CommandTpHunterDimension;
 import mhfc.net.common.system.UpdateSystem;
 import mhfc.net.common.tab.MHFCTab;
 import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.services.IPhaseAccess;
+import mhfc.net.common.util.services.IPhaseKey;
+import mhfc.net.common.util.services.IServiceAccess;
+import mhfc.net.common.util.services.IServiceHandle;
+import mhfc.net.common.util.services.IServicePhaseHandle;
+import mhfc.net.common.util.services.Services;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
@@ -34,61 +43,151 @@ import net.minecraftforge.event.world.WorldEvent;
 
 @Mod(modid = MHFCReference.main_modid)
 public class MHFCMain {
+	private static IPhaseAccess<FMLConstructionEvent, Void> constructedPhaseAccess = Services.instance.registerPhase();
+	public static final IPhaseKey<FMLConstructionEvent, Void> constructedPhase = constructedPhaseAccess;
+	private static IPhaseAccess<FMLPreInitializationEvent, Void> preInitPhaseAccess = Services.instance.registerPhase();
+	public static final IPhaseKey<FMLPreInitializationEvent, Void> preInitPhase = preInitPhaseAccess;
+	private static IPhaseAccess<FMLInitializationEvent, Void> initPhaseAccess = Services.instance.registerPhase();
+	public static final IPhaseKey<FMLInitializationEvent, Void> initPhase = initPhaseAccess;
+	private static IPhaseAccess<FMLPostInitializationEvent, Void> postInitPhaseAccess = Services.instance
+			.registerPhase();
+	public static final IPhaseKey<FMLPostInitializationEvent, Void> postInitPhase = postInitPhaseAccess;
+
+	private static IPhaseAccess<FMLServerStartingEvent, FMLServerStoppedEvent> serverRunningPhaseAccess = Services.instance
+			.registerPhase();
+	/**
+	 * Active while the a logical server is running
+	 */
+	public static final IPhaseKey<FMLServerStartingEvent, FMLServerStoppedEvent> serverRunningPhase = serverRunningPhaseAccess;
+	private static IPhaseAccess<FMLServerStartedEvent, FMLServerStoppingEvent> serverActivePhaseAccess = Services.instance
+			.registerPhase();
+	/**
+	 * Active while the a logical server is running and loaded
+	 */
+	public static final IPhaseKey<FMLServerStartedEvent, FMLServerStoppingEvent> serverActivePhase = serverActivePhaseAccess;
+
+	private static <A, Z> IServicePhaseHandle<Object, A, Z> getSPHandleFor(String phase) {
+		return new IServicePhaseHandle<Object, A, Z>() {
+			@Override
+			public void onPhaseStart(Object service, A startupContext) {
+				logger.debug("Entering phase " + phase);
+			}
+
+			@Override
+			public void onPhaseEnd(Object service, Z shutdownContext) {
+				logger.debug("Exiting phase " + phase);
+			}
+		};
+	}
+
+	static {
+		IServiceAccess<Object> sentinel = Services.instance
+				.registerService(IServiceHandle.<Object>noInit(), Object::new);
+		sentinel.addTo(constructedPhase, getSPHandleFor("\"constructed\""));
+		sentinel.addTo(preInitPhase, getSPHandleFor("\"pre-initialized\""));
+		sentinel.addTo(initPhase, getSPHandleFor("\"initialized\""));
+		sentinel.addTo(postInitPhase, getSPHandleFor("\"post-initialized\""));
+		sentinel.addTo(serverRunningPhase, getSPHandleFor("\"server running\""));
+		sentinel.addTo(serverActivePhase, getSPHandleFor("\"server active\""));
+	}
 
 	@SidedProxy(clientSide = "mhfc.net.client.MHFCClient", serverSide = "mhfc.net.server.MHFCServer")
-	public static ProxyBase proxy;
+	protected static ProxyBase proxy = null;
+
+	public static ProxyBase getSidedProxy() {
+		return proxy;
+	}
 
 	@Mod.Instance(MHFCReference.main_modid)
-	public static MHFCMain instance;
+	protected static MHFCMain instance;
+
+	public static MHFCMain instance() {
+		return instance;
+	}
 
 	@Mod.Instance("worldedit")
-	public static ForgeWorldEdit worldedit;
+	protected static ForgeWorldEdit worldedit;
 
 	public static ForgeWorldEdit getWorldedit() {
 		return worldedit;
 	}
 
-	public static Logger logger;
-	public static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID());
-	public static MHFCConfig config;
+	public final static Logger logger = LogManager.getLogger(MHFCReference.main_modid);
+	public final static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID());
+	private static MHFCConfig config;
+
+	public static MHFCConfig config() {
+		return config;
+	}
 
 	private boolean isPreInitialized = false;
 
+	private void staticInit() {
+		// TODO: this.proxy.staticInit();
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+			postInitPhaseAccess.exitPhase(null);
+			initPhaseAccess.exitPhase(null);
+			preInitPhaseAccess.exitPhase(null);
+			constructedPhaseAccess.exitPhase(null);
+		}));
+	}
+
 	@Mod.EventHandler
-	public void preInit(FMLPreInitializationEvent pre) {
+	protected void onCreation(FMLConstructionEvent event) {
+		staticInit();
+		constructedPhaseAccess.enterPhase(event);
+	}
+
+	@Mod.EventHandler
+	protected void onPreInit(FMLPreInitializationEvent event) {
 		// MHFCConfig.init(pre);
-		MHFCMain.logger = pre.getModLog();
-		MHFCMain.config = new MHFCConfig(pre);
-		MHFCMain.config.init();
+		MHFCMain.config = new MHFCConfig(event);
+		MHFCMain.config().init();
 		UpdateSystem.init();
 		MHFCMain.logger.info("Starting MHFC v" + MHFCReference.getMetadata().version);
 		MHFCMain.logger.info("Copyright (c) Guild Hall 2015");
 		isPreInitialized = true;
 		MinecraftForge.EVENT_BUS.register(this);
+		preInitPhaseAccess.enterPhase(event);
 	}
 
 	@Mod.EventHandler
-	public void load(FMLInitializationEvent event) {
-		MHFCMain.proxy.register();
+	protected void onInit(FMLInitializationEvent event) {
+		initPhaseAccess.enterPhase(event);
+		MHFCMain.getSidedProxy().staticInit();
 	}
 
 	@Mod.EventHandler
-	public void postInit(FMLPostInitializationEvent e) {}
+	protected void onPostInit(FMLPostInitializationEvent event) {
+		postInitPhaseAccess.enterPhase(event);
+	}
 
 	@Mod.EventHandler
-	public void serverLoad(FMLServerStartingEvent event) {
+	protected void onServerStarting(FMLServerStartingEvent event) {
 		event.registerServerCommand(new CommandMHFC());
 		event.registerServerCommand(new CommandTpHunterDimension());
 		event.registerServerCommand(new CommandExplore());
+		serverRunningPhaseAccess.enterPhase(event);
 	}
 
 	@Mod.EventHandler
-	public static void onServerStart(FMLServerStartedEvent sse) {
-		UpdateSystem.onServerStart(sse);
+	protected void onServerStarted(FMLServerStartedEvent event) {
+		UpdateSystem.onServerStart(event);
+		serverActivePhaseAccess.enterPhase(event);
+	}
+
+	@Mod.EventHandler
+	protected void onServerStopping(FMLServerStoppingEvent event) {
+		serverActivePhaseAccess.exitPhase(event);
+	}
+
+	@Mod.EventHandler
+	protected void onServerStopped(FMLServerStoppedEvent event) {
+		serverRunningPhaseAccess.exitPhase(event);
 	}
 
 	public static boolean isPreInitiliazed() {
-		return MHFCMain.instance == null ? false : MHFCMain.instance.isPreInitialized;
+		return MHFCMain.instance() == null ? false : MHFCMain.instance().isPreInitialized;
 	}
 
 	public static void checkPreInitialized() {
@@ -98,7 +197,7 @@ public class MHFCMain {
 	}
 
 	@SubscribeEvent
-	public void onWorldLoad(WorldEvent.Load event) {
+	protected void onWorldLoad(WorldEvent.Load event) {
 		// Load a 3x3 around spawn to make sure that it populates and calls our hooks.
 		if (!event.world.isRemote && event.world instanceof WorldServer) {
 			WorldServer world = (WorldServer) event.world;
@@ -110,9 +209,5 @@ public class MHFCMain {
 				}
 			}
 		}
-	}
-
-	public static boolean isClientSide() {
-		return MHFCMain.proxy instanceof MHFCClient;
 	}
 }

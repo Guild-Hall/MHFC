@@ -80,7 +80,7 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 				setPickupMode(EntityProjectile.PICKUP_CREATIVE);
 			} else {
 				setPickupMode(
-						MHFCMain.config.isAllCanPickup() ? EntityProjectile.PICKUP_ALL : EntityProjectile.PICKUP_OWNER);
+						MHFCMain.config().isAllCanPickup() ? EntityProjectile.PICKUP_ALL : EntityProjectile.PICKUP_OWNER);
 			}
 		} else {
 			setPickupMode(EntityProjectile.NO_PICKUP);

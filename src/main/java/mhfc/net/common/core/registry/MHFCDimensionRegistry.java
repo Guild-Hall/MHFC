@@ -23,14 +23,14 @@ public class MHFCDimensionRegistry {
 
 	static {
 		MHFCMain.checkPreInitialized();
-		MHFCDimensionRegistry.mod = MHFCMain.instance;
+		MHFCDimensionRegistry.mod = MHFCMain.instance();
 		MHFCDimensionRegistry.mod.getClass();
 		worldIDToFlair = new HashMap<>(QuestFlair.values().length);
 		flairToWorldID = new EnumMap<>(QuestFlair.class);
 	}
 
 	public static void init() {
-		int dimHandlerId = MHFCMain.config.getDimensionHandlerID();
+		int dimHandlerId = MHFCMain.config().getDimensionHandlerID();
 		DimensionManager.registerProviderType(dimHandlerId, WorldProviderQuesting.class, false);
 
 		for (QuestFlair flair : QuestFlair.values()) {

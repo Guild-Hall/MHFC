@@ -58,7 +58,7 @@ public class MHFCEntityRegistry {
 
 	static {
 		MHFCMain.checkPreInitialized();
-		mod = MHFCMain.instance;
+		mod = MHFCMain.instance();
 		registeredMobs = new ArrayList<>();
 		registeredProjectiles = new ArrayList<>();
 
