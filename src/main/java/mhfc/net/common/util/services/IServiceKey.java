@@ -10,6 +10,11 @@ package mhfc.net.common.util.services;
  *            the type of the service this key is used for.
  */
 public interface IServiceKey<T> {
+	/**
+	 * @return the {@link IServiceProvider} that this key is from
+	 */
+	IServiceProvider getServiceProvider();
+
 	@Override
 	boolean equals(Object obj);
 

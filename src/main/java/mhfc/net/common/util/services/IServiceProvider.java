@@ -17,6 +17,15 @@ public interface IServiceProvider {
 	<T> T getServiceFor(IServiceKey<T> serviceKey);
 
 	/**
+	 * Determines if a given phase is currently active
+	 *
+	 * @param phase
+	 *            the phase to poll
+	 * @return true if the phase is currently active
+	 */
+	public boolean isActive(IPhaseKey<?, ?> phase);
+
+	/**
 	 * Registers a service. The service
 	 * <p>
 	 * Note that the service used here should <b>not be accessible</b> publicly. Instead provide a wrapper method to
@@ -25,8 +34,10 @@ public interface IServiceProvider {
 	 * <pre>
 	 * <code>
 	 *class ExampleService {
-	 *    private static final ExampleService service = new ExampleService();
-	 *    private static final IServiceAccess<ExampleService> access = Services.registerService(service, ...);
+	 *    private static final IServiceAccess<ExampleService> access = Services.registerService(...);
+	 *    static {
+	 *        //... configure the service with access
+	 *    }
 	 *
 	 *    public IServiceKey<ExampleService> getServiceKey() {
 	 *        return (IServiceKey<Void, Void>) access;
@@ -34,14 +45,10 @@ public interface IServiceProvider {
 	 *}</code>
 	 * </pre>
 	 *
-	 * @param service
 	 * @param serviceBootstrap
 	 * @param service
 	 */
-	<T> IServiceAccess<T> registerService(
-			IServiceID<T> service,
-			IServiceHandle<T> serviceBootstrap,
-			Supplier<T> serviceSupplier);
+	<T> IServiceAccess<T> registerService(IServiceHandle<T> serviceBootstrap, Supplier<T> serviceSupplier);
 
 	/**
 	 * Retrieves a {@link IPhaseKey} that can be used to register services for the service phase given.
@@ -52,8 +59,10 @@ public interface IServiceProvider {
 	 * <pre>
 	 * <code>
 	 *class ExamplePhase {
-	 *    private static final ExamplePhase phase = new ExamplePhase();
-	 *    private static final IPhaseAccess<Void, Void> access = Services.registerPhase(phase);
+	 *    private static final IPhaseAccess<Void, Void> access = Services.registerPhase();
+	 *    static {
+	 *        //... configure the phase with access
+	 *    }
 	 *
 	 *    public IPhaseKey<Void, Void> getServiceRegistry() {
 	 *        return (IPhaseKey<Void, Void>) access;
@@ -64,5 +73,5 @@ public interface IServiceProvider {
 	 * @param servicePhase
 	 * @return a registry that can be used to enter the phase and register services for it
 	 */
-	<A, Z> IPhaseAccess<A, Z> registerPhase(IPhaseID<A, Z> servicePhase);
+	<A, Z> IPhaseAccess<A, Z> registerPhase();
 }

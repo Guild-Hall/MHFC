@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.NotImplementedException;
@@ -23,6 +24,71 @@ public class Services implements IServiceProvider {
 		NOT_INITIALIZED,
 		BOOTSTRAPPED,
 		ACTIVE;
+	}
+
+	/**
+	 * Marker interface that identifies and authenticates the user to manipulate the properties of the represented
+	 * phase. Normally you want to generate one with {@link PrivateID#generatePhaseID()}. Should be kept private as it
+	 * allows the holder to start and stop the phase.
+	 *
+	 * @author WorldSEnder
+	 *
+	 * @param <A>
+	 *            the type of context when the phase starts
+	 * @param <Z>
+	 *            the type of context when the phase stops
+	 */
+	private static interface IPhaseID<A, Z> {
+		@Override
+		int hashCode();
+
+		@Override
+		boolean equals(Object obj);
+	}
+
+	/**
+	 * Marker interface that identifies and authenticates the user to manipulate the properties of the represented
+	 * service. Normally you want to generate one with {@link PrivateID#generateServiceID()}. Should be kept private as
+	 * it allows the holder to enable/disable a service and register it for phases.
+	 *
+	 * @author WorldSEnder
+	 *
+	 * @param <T>
+	 *            the type of service offered.
+	 */
+	private static interface IServiceID<T> {
+		@Override
+		int hashCode();
+
+		@Override
+		boolean equals(Object obj);
+	}
+
+	@SuppressWarnings("rawtypes")
+	private static class ID implements IServiceID, IPhaseID {
+		private static final AtomicInteger COUNTER = new AtomicInteger(0);
+
+		private final int id = COUNTER.getAndIncrement();
+
+		@Override
+		public boolean equals(Object obj) {
+			return obj instanceof ID && ((ID) obj).id == id;
+		}
+
+		@Override
+		public int hashCode() {
+			return Integer.hashCode(id);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private static <T> IServiceID<T> nextServiceID() {
+		return new ID();
+	}
+
+	@SuppressWarnings("unchecked")
+	private static <A, Z> IPhaseID<A, Z> nextPhaseID() {
+		return new ID();
 	}
 
 	public static Services instance = new Services();
@@ -131,7 +197,8 @@ public class Services implements IServiceProvider {
 			return service;
 		}
 
-		protected Services getServiceProvider() {
+		@Override
+		public Services getServiceProvider() {
 			return Services.this;
 		}
 	}
@@ -182,7 +249,8 @@ public class Services implements IServiceProvider {
 			return phaseID;
 		}
 
-		protected Services getServiceProvider() {
+		@Override
+		public Services getServiceProvider() {
 			return Services.this;
 		}
 
@@ -237,12 +305,14 @@ public class Services implements IServiceProvider {
 		return service.getService();
 	}
 
+	public boolean isActive(IPhaseKey<?, ?> phase) {
+		return isActive(tryUpcastPhase(phase));
+	}
+
 	@Override
-	public <T> IServiceAccess<T> registerService(
-			IServiceID<T> serviceID,
-			IServiceHandle<T> serviceBootstrap,
-			Supplier<T> serviceSupplier) {
-		Preconditions.checkArgument(!hasService(serviceID), "Service already registered");
+	public <T> IServiceAccess<T> registerService(IServiceHandle<T> serviceBootstrap, Supplier<T> serviceSupplier) {
+		IServiceID<T> serviceID = nextServiceID();
+		assert !hasService(serviceID);
 
 		ServiceEntry<T> entry = new ServiceEntry<>(serviceID, serviceSupplier, serviceBootstrap);
 		addService(serviceID, entry);
@@ -250,8 +320,9 @@ public class Services implements IServiceProvider {
 	}
 
 	@Override
-	public <A, Z> IPhaseAccess<A, Z> registerPhase(IPhaseID<A, Z> phaseID) {
-		Preconditions.checkArgument(!hasPhase(phaseID), "Service already registered");
+	public <A, Z> IPhaseAccess<A, Z> registerPhase() {
+		IPhaseID<A, Z> phaseID = nextPhaseID();
+		assert !hasPhase(phaseID);
 
 		PhaseEntry<A, Z> entry = new PhaseEntry<>(phaseID);
 		addPhase(phaseID, entry);
