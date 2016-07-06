@@ -133,8 +133,8 @@ public class UpdateSystem {
 		default: // Should not happen?
 			console.addChatMessage(
 					new ChatComponentText(
-							ColorSystem.ENUMRED + "MHFC: Unknown UpdateStatus, pls report with a logfile."
-									+ " Version info: " + info.version));
+							ColorSystem.ENUMGOLD + "MHFC: There is no current Update System Atm please wait for the patch.."
+									+ " Version Info: " + info.version));
 		}
 	}
 }
