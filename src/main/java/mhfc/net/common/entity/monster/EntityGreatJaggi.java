@@ -9,6 +9,7 @@ import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiBite;
 import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiDeath;
 import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiIdle;
 import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiRoar;
+import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiRun;
 import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiWander;
 import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiWhip;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
@@ -36,7 +37,7 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 		actionManager.registerAction(new GJaggiBite());
 		actionManager.registerAction(new GJaggiIdle());
 		actionManager.registerAction(new GJaggiRoar());
-//		actionManager.registerAction(new GJaggiRun());
+		actionManager.registerAction(new GJaggiRun());
 		actionManager.registerAction(new GJaggiWhip());
 		actionManager.registerAction(new GJaggiWander());
 		

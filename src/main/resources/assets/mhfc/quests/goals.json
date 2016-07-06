@@ -6,6 +6,20 @@
 			amount: 1
 		}
 	},
+	BarrothHunt : {
+		type : "hunting",
+		data : {
+			target: "mhfc.barroth",
+			amount: 1
+		}
+	},
+		DualGreatJaggiHunt : {
+		type : "hunting",
+		data : {
+			target: "mhfc.greatjaggi",
+			amount: 2
+		}
+	},
 	NargacugaHunt : {
 		type : "hunting",
 		data : {

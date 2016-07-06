@@ -11,6 +11,7 @@ import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.DamageSource;
 
 public class DeviljhoStomp extends AIAnimatedAction<EntityDeviljho> {
 	private static final String ANIMATION = "mhfc:models/Deviljho/DeviljhoStomp.mcanm";
@@ -43,7 +44,7 @@ public class DeviljhoStomp extends AIAnimatedAction<EntityDeviljho> {
 			}
 			EntityLivingBase living = (EntityLivingBase) entity;
 			damageCalc.accept(living);
-			AIUtils.damageCollidingEntities(living, 95);
+			entity1.attackEntityFrom(DamageSource.causeMobDamage(entity), 60f);
 			entity1.addVelocity(-0.2, 0.2, 0);
 		}
 		entity.playSound("mhfc:deviljho.stomp", 1.0F, 1.0F);
@@ -54,7 +55,6 @@ public class DeviljhoStomp extends AIAnimatedAction<EntityDeviljho> {
 	protected void update() {
 		EntityDeviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
-
 		updateStomp();
 
 		if (isMoveForwardFrame(getCurrentFrame())) {

@@ -11,6 +11,7 @@ import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.entity.monster.EntityBarroth;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.DamageSource;
 
 public class BarrothStomp extends AIAnimatedAction<EntityBarroth> {
 	private static final String ANIMATION = "mhfc:models/Barroth/BarrothStomp.mcanm";
@@ -31,6 +32,8 @@ public class BarrothStomp extends AIAnimatedAction<EntityBarroth> {
 
 	private void updateStomp() {
 		EntityBarroth entity = this.getEntity();
+		entity.getTurnHelper().updateTargetPoint(target);
+		entity.getTurnHelper().updateTurnSpeed(30.0f);
 		if (!entity.onGround || thrown || this.getCurrentFrame() < 19)
 			return;
 		@SuppressWarnings("unchecked")
@@ -43,7 +46,8 @@ public class BarrothStomp extends AIAnimatedAction<EntityBarroth> {
 			}
 			EntityLivingBase living = (EntityLivingBase) entity;
 			damageCalc.accept(living);
-			entity1.addVelocity(-0.2, 0.8D, 0);
+			entity1.attackEntityFrom(DamageSource.causeMobDamage(entity), 30f);
+			entity1.addVelocity(0.6D, 0.5D, 0);
 		}
 //		entity.playSound("mhfc:deviljho.stomp", 1.0F, 1.0F);
 		thrown = true;
@@ -53,7 +57,6 @@ public class BarrothStomp extends AIAnimatedAction<EntityBarroth> {
 	protected void update() {
 		EntityBarroth entity = this.getEntity();
 		target = entity.getAttackTarget();
-
 		updateStomp();
 
 

@@ -62,9 +62,9 @@ public class AIGameplayComposition {
 		}
 	}
 	
-	public static void AIChargeGameplay(EntityCreature entity, double moveSpeed, boolean inWater) {
-		PathEntity pathentity = entity.worldObj.getPathEntityToEntity(entity, entity.getAttackTarget(), 16, false, false, inWater, true);
-		
+	public static void AIChargeGameplay(EntityCreature entity, EntityLivingBase entityLivingBase, double moveSpeed, boolean inWater) {
+		PathEntity pathentity = entityLivingBase.worldObj.getPathEntityToEntity(entityLivingBase, entityLivingBase, 30F, false, false, inWater, true);
+		entity.setPathToEntity(pathentity);
 	}
 	
 	public static void AILaunchGameply(Entity entity, double x, double y, double z) {

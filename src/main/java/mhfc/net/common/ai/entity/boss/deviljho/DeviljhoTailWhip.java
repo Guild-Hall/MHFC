@@ -11,9 +11,9 @@ import net.minecraft.entity.Entity;
 public class DeviljhoTailWhip extends AIGeneralTailWhip<EntityDeviljho> {
 
 	private static final String ANIMATION = "mhfc:models/Deviljho/tailswipe.mcanm";
-	private static final double MAX_DISTANCE = 12F;
-	private static final double MIN_DIST = 0f;
-	private static final float MIN_RIGHT_ANGLE = 5f;
+	private static final double MAX_DISTANCE = 15F;
+	private static final double MIN_DIST = 2f;
+	private static final float MIN_RIGHT_ANGLE = 10f;
 	private static final int LAST_FRAME = 55; // CLEANUP exact value here please
 	private static final float WEIGHT = 5F;
 

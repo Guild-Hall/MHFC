@@ -11,6 +11,7 @@ import mhfc.net.common.ai.entity.boss.barroth.BarrothRam;
 import mhfc.net.common.ai.entity.boss.barroth.BarrothRamRun;
 import mhfc.net.common.ai.entity.boss.barroth.BarrothRoar;
 import mhfc.net.common.ai.entity.boss.barroth.BarrothStomp;
+import mhfc.net.common.ai.entity.boss.barroth.BarrothWander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -35,6 +36,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	public IActionManager<EntityBarroth> constructActionManager() {
 		ActionManagerBuilder<EntityBarroth> actionManager = new ActionManagerBuilder<>();
 		actionManager.registerAction(setDeathAction(new BarrothDeath()));
+		actionManager.registerAction(new BarrothWander());
 		actionManager.registerAction(new BarrothStomp());
 		actionManager.registerAction(new BarrothRamRun());
 		actionManager.registerAction(new BarrothRam());

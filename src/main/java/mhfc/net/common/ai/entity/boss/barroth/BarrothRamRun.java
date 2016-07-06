@@ -22,7 +22,8 @@ public class BarrothRamRun extends ActionAdapter<EntityBarroth> {
 	}
 
 	@Override
-	protected void beginExecution() {}
+	protected void beginExecution() {
+	}
 
 	@Override
 	public float getWeight() {
@@ -43,20 +44,21 @@ public class BarrothRamRun extends ActionAdapter<EntityBarroth> {
 	public void update() {
 		EntityBarroth entity = getEntity();
 		AIUtils.damageCollidingEntities(getEntity(), damageCalc);
+		entity.getTurnHelper().updateTargetPoint(target);
+		entity.getTurnHelper().updateTurnSpeed(30.0f);
 		if (this.getCurrentFrame() == 20) {
 			getEntity().playSound("mhfc:barroth.charge", 3.0F, 1.0F);
-			getEntity().getTurnHelper().updateTargetPoint(entity.getAttackTarget());
-			AIGameplayComposition.AIChargeGameplay(entity, 1.9F, false);
+			
 		}
-		if(this.getCurrentFrame() == 85){
+		if(this.getCurrentFrame() > 85){
 			AIGameplayComposition.AILaunchGameply(entity, 1.0D, 1.5D, 1.0D);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
-			entity.moveForward(1, false);
+			entity.moveForward(0.8, true);
 		}
 	}
 
 	private boolean isMoveForwardFrame(int frame) {
-		return (frame > 20 && frame < 30);
+		return (frame > 20 && frame < 80);
 	}
 }
