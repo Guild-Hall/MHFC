@@ -21,10 +21,6 @@ public class VillagePokeType extends AreaTypeSchematic {
 			super(world, config);
 		}
 
-		public VillagePokeArea(World world) {
-			super(world);
-		}
-
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
 			double posX = 10;
@@ -49,8 +45,8 @@ public class VillagePokeType extends AreaTypeSchematic {
 	}
 
 	@Override
-	public IArea provideForLoading(World world) {
-		return new VillagePokeArea(world);
+	public IArea provideForLoading(World world, AreaConfiguration config) {
+		return new VillagePokeArea(world, config);
 	}
 
 	@Override

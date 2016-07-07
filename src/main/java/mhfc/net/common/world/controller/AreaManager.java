@@ -22,7 +22,6 @@ import mhfc.net.common.world.area.ActiveAreaAdapter;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IArea;
-import mhfc.net.common.world.area.IAreaPlan;
 import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
@@ -72,8 +71,7 @@ public class AreaManager implements IAreaManager {
 		this.saveData = Objects.requireNonNull(saveData);
 		Collection<AreaInformation> loadedAreas = this.saveData.getAllSpawnedAreas();
 		for (AreaInformation info : loadedAreas) {
-			IArea loadingArea = info.type.provideForLoading(world);
-			loadingArea.loadFromConfig(info.config);
+			IArea loadingArea = info.type.provideForLoading(world, info.config);
 			this.nonactiveAreas.computeIfAbsent(info.type, (k) -> new ArrayList<>()).add(loadingArea);
 		}
 		loadingTicket = ForgeChunkManager.requestTicket(MHFCMain.class, world, Type.NORMAL);
@@ -95,20 +93,19 @@ public class AreaManager implements IAreaManager {
 		AreaConfiguration config = newArea(type);
 		CornerPosition position = config.getPosition();
 
-		final IAreaPlan plan = type.populate(world, config);
+		final Operation plan = type.populate(world, config);
 		final ChunkCoordIntPair chunkPos = new ChunkCoordIntPair(position.posX, position.posY);
 		ForgeChunkManager.forceChunk(loadingTicket, chunkPos);
 		final CompletableFuture<IActiveArea> areaFuture = new CompletableFuture<>();
-		final Operation operation = Operations
-				.withCallback(Operations.timingOperation(plan.getFirstOperation(), 20), o -> {
-					areaFuture.complete(new Active(plan.getFinishedArea(), type, this));
-					ForgeChunkManager.unforceChunk(loadingTicket, chunkPos);
-					MHFCMain.logger.debug("Area of type {} completed", type);
-				}, o -> {
-					areaFuture.cancel(true);
-					ForgeChunkManager.unforceChunk(loadingTicket, chunkPos);
-					MHFCMain.logger.debug("Area of type {} cancelled", type);
-				});
+		final Operation operation = Operations.withCallback(Operations.timingOperation(plan, 20), o -> {
+			areaFuture.complete(new Active(type.provideForLoading(world, config), type, this));
+			ForgeChunkManager.unforceChunk(loadingTicket, chunkPos);
+			MHFCMain.logger.debug("Area of type {} completed", type);
+		}, o -> {
+			areaFuture.cancel(true);
+			ForgeChunkManager.unforceChunk(loadingTicket, chunkPos);
+			MHFCMain.logger.debug("Area of type {} cancelled", type);
+		});
 
 		areaFuture.whenComplete((a, ex) -> {
 			if (ex != null) {
@@ -122,11 +119,6 @@ public class AreaManager implements IAreaManager {
 	}
 
 	private AreaConfiguration newArea(IAreaType type) {
-		AreaConfiguration config = type.configForNewArea();
-		CornerPosition position = saveData.newArea(type, config);
-
-		config.setPosition(position);
-
-		return config;
+		return saveData.newArea(type, type.configForNewArea());
 	}
 }

@@ -17,10 +17,8 @@ import com.sk89q.worldedit.world.registry.WorldData;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.util.Utilities;
 import mhfc.net.common.world.area.AreaConfiguration;
-import mhfc.net.common.world.area.AreaPlanAdapter;
 import mhfc.net.common.world.area.DisplacedView;
 import mhfc.net.common.world.area.IArea;
-import mhfc.net.common.world.area.IAreaPlan;
 import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.area.IExtendedConfiguration;
 import mhfc.net.common.worldedit.RegionSplittingOperation;
@@ -56,7 +54,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 	}
 
 	@Override
-	public final IAreaPlan populate(World world, AreaConfiguration configuration) {
+	public final Operation populate(World world, AreaConfiguration configuration) {
 		DisplacedView view = new DisplacedView(configuration.getPosition(), configuration, world);
 		WorldDisplacedView displacedWorld = new WorldDisplacedView(view);
 
@@ -70,11 +68,11 @@ public abstract class AreaTypeSchematic implements IAreaType {
 					region,
 					displacedWorld,
 					region.getMinimumPoint().subtract(absoluteMinimum));
-		} , DIM_SIZE);
+		}, DIM_SIZE);
 		Operation commit = displacedWorld.commit();
 		Operation chain = commit == null ? copyOp : new DelegateOperation(commit, copyOp);
 
-		return new AreaPlanAdapter(areaToPopulate(world, configuration), chain);
+		return chain;
 	}
 
 	@Override

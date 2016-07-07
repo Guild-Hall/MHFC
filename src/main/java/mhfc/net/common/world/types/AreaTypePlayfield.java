@@ -8,9 +8,7 @@ import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.SpawnControllerAdapter;
 import mhfc.net.common.world.area.AreaAdapter;
 import mhfc.net.common.world.area.AreaConfiguration;
-import mhfc.net.common.world.area.AreaPlanAdapter;
 import mhfc.net.common.world.area.IArea;
-import mhfc.net.common.world.area.IAreaPlan;
 import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.area.IExtendedConfiguration;
 import mhfc.net.common.world.controller.CornerPosition;
@@ -40,10 +38,6 @@ public class AreaTypePlayfield implements IAreaType {
 						.getHeightValue(spawnX % 16, spawnZ % 16);
 				return new SpawnInformation(entity, 6, height, 6);
 			}
-		}
-
-		public AreaPlayfield(World world) {
-			super(world);
 		}
 
 		public AreaPlayfield(World world, AreaConfiguration config) {
@@ -89,10 +83,10 @@ public class AreaTypePlayfield implements IAreaType {
 	private int chunkSizeX, chunkSizeY;
 
 	@Override
-	public IAreaPlan populate(World world, AreaConfiguration configuration) {
+	public Operation populate(World world, AreaConfiguration configuration) {
 		int chunksX = configuration.getChunkSizeX();
 		int chunksZ = configuration.getChunkSizeZ();
-		return new AreaPlanAdapter(new AreaPlayfield(world, configuration), new Operation() {
+		return new Operation() {
 			@Override
 			public Operation resume(RunContext run) {
 				for (int i = 0; i < 16 * chunksX; i++) {
@@ -107,12 +101,12 @@ public class AreaTypePlayfield implements IAreaType {
 
 			@Override
 			public void cancel() {}
-		});
+		};
 	}
 
 	@Override
-	public IArea provideForLoading(World world) {
-		return new AreaPlayfield(world);
+	public IArea provideForLoading(World world, AreaConfiguration configuration) {
+		return new AreaPlayfield(world, configuration);
 	}
 
 	@Override

@@ -86,12 +86,13 @@ public class MHFCWorldData extends WorldSavedData {
 		nbtTag.setTag("placer", placerTag);
 	}
 
-	public CornerPosition newArea(IAreaType type, AreaConfiguration config) {
+	public AreaConfiguration newArea(IAreaType type, AreaConfiguration config) {
 		CornerPosition pos = rectanglePlacer.addRectangle(config.getChunkSizeX() + 2, config.getChunkSizeZ() + 2);
 		CornerPosition actual = new CornerPosition(pos.posX + 1, pos.posY + 1);
 		spawnedAreas.add(new AreaInformation(type, config));
 		this.markDirty();
-		return actual;
+		config.setPosition(actual);
+		return config;
 	}
 
 	public Collection<AreaInformation> getAllSpawnedAreas() {

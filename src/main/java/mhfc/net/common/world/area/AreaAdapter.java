@@ -26,17 +26,6 @@ public abstract class AreaAdapter implements IArea {
 	protected IQuestAreaSpawnController spawnController;
 
 	/**
-	 * Constructs but does not initialize the area
-	 */
-	public AreaAdapter(World world) {
-		this.world = Objects.requireNonNull(world);
-		this.config = null;
-		this.worldView = null;
-		this.spawnController = null;
-		this.state = State.RAW;
-	}
-
-	/**
 	 * Constructs and initializes the area
 	 */
 	public AreaAdapter(World world, AreaConfiguration config) {
@@ -51,17 +40,6 @@ public abstract class AreaAdapter implements IArea {
 
 	protected CornerPosition getChunkPosition() {
 		return this.config.getPosition();
-	}
-
-	/**
-	 * Initializes the area
-	 */
-	@Override
-	public void loadFromConfig(AreaConfiguration config) {
-		this.config = Objects.requireNonNull(config);
-		this.worldView = new DisplacedView(config.getPosition(), config, world);
-		this.spawnController = initializeSpawnController();
-		this.state = State.INITIALIZED;
 	}
 
 	protected boolean isAccessLegal() {
@@ -106,23 +84,26 @@ public abstract class AreaAdapter implements IArea {
 	}
 
 	private boolean isInArea(BlockEvent event) {
-		if (event.world != world)
+		if (event.world != world) {
 			return false;
+		}
 		return isInArea(event.x, event.z);
 	}
 
 	@SubscribeEvent
 	public void onBlockBreakEvent(BreakEvent event) {
-		if (!isInArea(event))
+		if (!isInArea(event)) {
 			return;
+		}
 		event.setCanceled(true);
 	}
 
 	@SubscribeEvent
 	public void onBlockPlaceEvent(PlaceEvent event) {
 		// FIXME allow the placement of the bbq item or stasis traps for example but revert them on leaving the area
-		if (!isInArea(event))
+		if (!isInArea(event)) {
 			return;
+		}
 		event.setCanceled(true);
 	}
 

@@ -1,5 +1,7 @@
 package mhfc.net.common.world.area;
 
+import com.sk89q.worldedit.function.operation.Operation;
+
 import net.minecraft.world.World;
 
 public interface IAreaType {
@@ -15,11 +17,23 @@ public interface IAreaType {
 	 *            the world
 	 * @param configuration
 	 *            the configuration previously returned from {@link #configForNewArea()}
-	 * @return the {@link IAreaPlan} to construct the area.
+	 * @return the {@link Operation} to construct the area.
 	 */
-	IAreaPlan populate(World world, AreaConfiguration configuration);
+	Operation populate(World world, AreaConfiguration configuration);
 
-	IArea provideForLoading(World world);
+	/**
+	 * Called to load an area
+	 * <p>
+	 * The configuration given is the one read from NBT.
+	 *
+	 * @param world
+	 *            the world to load in
+	 * @param configuration
+	 *            the config to load
+	 * @return
+	 * @see #configForLoading()
+	 */
+	IArea provideForLoading(World world, AreaConfiguration configuration);
 
 	AreaConfiguration configForNewArea();
 

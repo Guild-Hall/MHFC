@@ -20,10 +20,6 @@ public class TestAreaType extends AreaTypeSchematic {
 			super(world, config);
 		}
 
-		public Area(World world) {
-			super(world);
-		}
-
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
 			double posX = 3;
@@ -55,8 +51,8 @@ public class TestAreaType extends AreaTypeSchematic {
 	}
 
 	@Override
-	public IArea provideForLoading(World world) {
-		return new Area(world);
+	public IArea provideForLoading(World world, AreaConfiguration config) {
+		return new Area(world, config);
 	}
 
 	@Override

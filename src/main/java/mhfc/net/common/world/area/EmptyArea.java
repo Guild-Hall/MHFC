@@ -21,10 +21,6 @@ public abstract class EmptyArea extends AreaAdapter {
 		}
 	}
 
-	public EmptyArea(World world) {
-		super(world);
-	}
-
 	public EmptyArea(World world, AreaConfiguration config) {
 		super(world, config);
 	}

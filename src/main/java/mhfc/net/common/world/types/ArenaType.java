@@ -21,10 +21,6 @@ public class ArenaType extends AreaTypeSchematic {
 			super(world, config);
 		}
 
-		public Area(World world) {
-			super(world);
-		}
-
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
 			double posX = 54;
@@ -60,8 +56,8 @@ public class ArenaType extends AreaTypeSchematic {
 	}
 
 	@Override
-	public IArea provideForLoading(World world) {
-		return new Area(world);
+	public IArea provideForLoading(World world, AreaConfiguration configuration) {
+		return new Area(world, configuration);
 	}
 
 	@Override

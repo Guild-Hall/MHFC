@@ -20,8 +20,6 @@ public interface IArea extends IQuestArea {
 
 	default void onDismiss() {}
 
-	void loadFromConfig(AreaConfiguration config);
-
 	IWorldView getWorldView();
 
 	// probably unreliable, not needed for now
