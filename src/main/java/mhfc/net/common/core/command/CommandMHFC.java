@@ -46,7 +46,7 @@ public class CommandMHFC implements ICommand {
 	public void processCommand(ICommandSender sender, String[] parameters) {
 		if (sender instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP) sender;
-			MHFCMain.logger.debug("Look vec: {} yaw: {}", player.getLookVec(), player.rotationYaw);
+			MHFCMain.logger().debug("Look vec: {} yaw: {}", player.getLookVec(), player.rotationYaw);
 			Interaction action;
 			if (parameters.length == 0)
 				return;

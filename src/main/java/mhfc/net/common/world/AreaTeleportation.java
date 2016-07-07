@@ -35,7 +35,7 @@ public class AreaTeleportation {
 				double p_77185_4_,
 				double p_77185_6_,
 				float p_77185_8_) {
-			MHFCMain.logger.debug("Teleporting {} to overworld to {} {} {}", entity, posX, posY, posZ);
+			MHFCMain.logger().debug("Teleporting {} to overworld to {} {} {}", entity, posX, posY, posZ);
 			moveEntityTo(entity, posX, posY, posZ);
 		}
 
@@ -72,7 +72,7 @@ public class AreaTeleportation {
 				double p_77185_6_,
 				float p_77185_8_) {
 			if (player instanceof EntityPlayerMP) {
-				MHFCMain.logger.debug("Teleporting {} to area {}", player, area);
+				MHFCMain.logger().debug("Teleporting {} to area {}", player, area);
 				area.teleportToSpawn((EntityPlayerMP) player);
 			}
 		}

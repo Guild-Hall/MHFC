@@ -94,7 +94,7 @@ public class MHFCRegQuestVisual {
 		int numberQuests = dataObject.getFullQuestDescriptionMap().size();
 		int numberGroups = dataObject.getGroupsInOrder().size();
 		String output = String.format("Loaded %d quests in %d groups.", numberQuests, numberGroups);
-		MHFCMain.logger.debug(output);
+		MHFCMain.logger().debug(output);
 	}
 
 	public static final ResourceLocation QUEST_STATUS_INVENTORY_BACKGROUND = new ResourceLocation(

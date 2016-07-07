@@ -80,10 +80,10 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 					addInstance(area);
 					transferIntoInstance(player, area);
 				} else {
-					MHFCMain.logger.debug("Canceled teleport to area due to cancellation of area");
+					MHFCMain.logger().debug("Canceled teleport to area due to cancellation of area");
 				}
 			} catch (Exception exception) {
-				MHFCMain.logger.error("Error during transfer into {}, releasing player from exploration manager", area);
+				MHFCMain.logger().error("Error during transfer into {}, releasing player from exploration manager", area);
 				MHFCExplorationRegistry.releasePlayer(player);
 				if (area != null) {
 					removeInstance(area);
@@ -125,7 +125,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 
 	protected void addInstance(IActiveArea activeArea) {
 		Objects.requireNonNull(activeArea);
-		MHFCMain.logger.debug(
+		MHFCMain.logger().debug(
 				"Adding active area instance {} of type {} to exploration manager",
 				activeArea,
 				activeArea.getType());
@@ -135,7 +135,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 
 	protected void removeInstance(IActiveArea activeArea) {
 		Objects.requireNonNull(activeArea);
-		MHFCMain.logger.debug(
+		MHFCMain.logger().debug(
 				"Removing active area instance {} of type {} from exploration manager",
 				activeArea,
 				activeArea.getType());

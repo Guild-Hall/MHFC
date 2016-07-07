@@ -42,7 +42,7 @@ public abstract class ActionManagerAdapter<EntType extends EntityLiving & IManag
 		if (newAttack != null) {
 			newAttack.beginAction();
 		}
-		MHFCMain.logger.debug("Manager for entity {} switched to attack {}", this.entity, this.activeAttack);
+		MHFCMain.logger().debug("Manager for entity {} switched to attack {}", this.entity, this.activeAttack);
 
 		if (!this.entity.worldObj.isRemote) {
 			PacketPipeline.networkPipe.sendToAll(sendUpdate());

@@ -71,7 +71,7 @@ public class WeightedPick {
 	 */
 	public static <T extends WeightedItem> T pickRandom(Collection<T> list) {
 		if (list == null) {
-			MHFCMain.logger.debug("List supplied to random pick null. Is some IAttackManager invalid?");
+			MHFCMain.logger().debug("List supplied to random pick null. Is some IAttackManager invalid?");
 			return null;
 		}
 		WeightedItem[] items = itemcache.get();

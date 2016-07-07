@@ -35,7 +35,7 @@ public class MHFCGuiHandler implements IGuiHandler {
 			if (tE instanceof TileHunterBench) {
 				return new GuiHunterBench(player.inventory, world, (TileHunterBench) tE, x, y, z);
 			} else {
-				MHFCMain.logger.debug(
+				MHFCMain.logger().debug(
 						"Tried to open hunter bench gui for block at {} {} {} which does not have a hunter bench tile entity",
 						x,
 						y,
@@ -54,7 +54,7 @@ public class MHFCGuiHandler implements IGuiHandler {
 				TileExploreArea changeEntity = (TileExploreArea) tE;
 				return new GuiBlockExploreArea(changeEntity);
 			} else {
-				MHFCMain.logger.debug(
+				MHFCMain.logger().debug(
 						"Tried to open change area gui for block at {} {} {} which does not have a change area tile entity",
 						x,
 						y,

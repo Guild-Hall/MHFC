@@ -47,7 +47,7 @@ public class RenderPaintball extends RenderSnowball {
             GL11.glDisable(GL12.GL_RESCALE_NORMAL);
             GL11.glPopMatrix();
         } else {
-        	MHFCMain.logger.log(Level.INFO, "Unable to render Paintball.");
+        	MHFCMain.logger().log(Level.INFO, "Unable to render Paintball.");
         }
     }
 

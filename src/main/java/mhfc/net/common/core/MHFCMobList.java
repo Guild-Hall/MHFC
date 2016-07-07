@@ -30,7 +30,7 @@ public class MHFCMobList {
 
 	static {
 		MHFCMain.checkPreInitialized();
-		logger = MHFCMain.logger;
+		logger = MHFCMain.logger();
 	}
 
 	public static void addMapping(Class<? extends Entity> clazz, String name,

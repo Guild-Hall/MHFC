@@ -76,7 +76,7 @@ public class MHFCQuestBuildRegistry {
 		dataObject = new QuestDescriptionRegistryData();
 		MHFCQuestBuildRegistry.loadQuestsFromFiles();
 		FMLCommonHandler.instance().bus().register(new PlayerConnectionHandler());
-		MHFCMain.logger.info("Quest loaded");
+		MHFCMain.logger().info("Quest loaded");
 	}
 
 	private static void loadQuestsFromFiles() {
@@ -89,7 +89,7 @@ public class MHFCQuestBuildRegistry {
 		int numberQuests = dataObject.getFullQuestDescriptionMap().size();
 		int numberGroups = dataObject.getGroupsInOrder().size();
 		String output = String.format("Loaded %d quests in %d groups.", numberQuests, numberGroups);
-		MHFCMain.logger.info(output);
+		MHFCMain.logger().info(output);
 	}
 
 	@SubscribeEvent
@@ -103,7 +103,7 @@ public class MHFCQuestBuildRegistry {
 			EntityPlayerMP player = (EntityPlayerMP) it.next();
 			PacketPipeline.networkPipe.sendTo(new MessageQuestInit(dataObject), player);
 		}
-		MHFCMain.logger.info("Quests reloaded");
+		MHFCMain.logger().info("Quests reloaded");
 	}
 
 	public static GoalDescription getGoalDescription(String id) {

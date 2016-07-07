@@ -100,11 +100,11 @@ public class AreaManager implements IAreaManager {
 		final Operation operation = Operations.withCallback(Operations.timingOperation(plan, 20), o -> {
 			areaFuture.complete(new Active(type.provideForLoading(world, config), type, this));
 			ForgeChunkManager.unforceChunk(loadingTicket, chunkPos);
-			MHFCMain.logger.debug("Area of type {} completed", type);
+			MHFCMain.logger().debug("Area of type {} completed", type);
 		}, o -> {
 			areaFuture.cancel(true);
 			ForgeChunkManager.unforceChunk(loadingTicket, chunkPos);
-			MHFCMain.logger.debug("Area of type {} cancelled", type);
+			MHFCMain.logger().debug("Area of type {} cancelled", type);
 		});
 
 		areaFuture.whenComplete((a, ex) -> {

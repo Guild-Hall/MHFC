@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.sk89q.worldedit.forge.ForgeWorldEdit;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLConstructionEvent;
@@ -20,6 +21,7 @@ import mhfc.net.common.configuration.MHFCConfig;
 import mhfc.net.common.core.command.CommandExplore;
 import mhfc.net.common.core.command.CommandMHFC;
 import mhfc.net.common.core.command.CommandTpHunterDimension;
+import mhfc.net.common.network.NetworkTracker;
 import mhfc.net.common.system.UpdateSystem;
 import mhfc.net.common.tab.MHFCTab;
 import mhfc.net.common.util.lib.MHFCReference;
@@ -70,12 +72,12 @@ public class MHFCMain {
 		return new IServicePhaseHandle<Object, A, Z>() {
 			@Override
 			public void onPhaseStart(Object service, A startupContext) {
-				logger.debug("Entering phase " + phase);
+				logger().debug("Entering phase " + phase);
 			}
 
 			@Override
 			public void onPhaseEnd(Object service, Z shutdownContext) {
-				logger.debug("Exiting phase " + phase);
+				logger().debug("Exiting phase " + phase);
 			}
 		};
 	}
@@ -112,15 +114,19 @@ public class MHFCMain {
 		return worldedit;
 	}
 
-	public final static Logger logger = LogManager.getLogger(MHFCReference.main_modid);
 	public final static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID());
-	private static MHFCConfig config;
+	private final Logger logger = LogManager.getLogger(MHFCReference.main_modid);
 
-	public static MHFCConfig config() {
-		return config;
+	public static Logger logger() {
+		return instance.logger;
 	}
 
-	private boolean isPreInitialized = false;
+	private MHFCConfig config;
+	private NetworkTracker connectionTracker = new NetworkTracker();
+
+	public static MHFCConfig config() {
+		return instance.config;
+	}
 
 	private void staticInit() {
 		// TODO: this.proxy.staticInit();
@@ -136,18 +142,18 @@ public class MHFCMain {
 	protected void onCreation(FMLConstructionEvent event) {
 		staticInit();
 		constructedPhaseAccess.enterPhase(event);
+		MinecraftForge.EVENT_BUS.register(this);
+		FMLCommonHandler.instance().bus().register(connectionTracker);
 	}
 
 	@Mod.EventHandler
 	protected void onPreInit(FMLPreInitializationEvent event) {
 		// MHFCConfig.init(pre);
-		MHFCMain.config = new MHFCConfig(event);
+		config = new MHFCConfig(event);
 		MHFCMain.config().init();
 		UpdateSystem.init();
-		MHFCMain.logger.info("Starting MHFC v" + MHFCReference.getMetadata().version);
-		MHFCMain.logger.info("Copyright (c) Guild Hall 2015");
-		isPreInitialized = true;
-		MinecraftForge.EVENT_BUS.register(this);
+		MHFCMain.logger().info("Starting MHFC v" + MHFCReference.getMetadata().version);
+		MHFCMain.logger().info("Copyright (c) Guild Hall 2015");
 		preInitPhaseAccess.enterPhase(event);
 	}
 
@@ -187,7 +193,7 @@ public class MHFCMain {
 	}
 
 	public static boolean isPreInitiliazed() {
-		return MHFCMain.instance() == null ? false : MHFCMain.instance().isPreInitialized;
+		return Services.instance.isActive(preInitPhase);
 	}
 
 	public static void checkPreInitialized() {

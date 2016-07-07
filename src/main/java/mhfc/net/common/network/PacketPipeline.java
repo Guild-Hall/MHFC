@@ -22,7 +22,7 @@ public class PacketPipeline {
 			Class<? extends IMessageHandler<REQ, ANS>> messageHandler,
 			Class<REQ> requestMessageType, Side side) {
 		if (discriminator > 255) {
-			throw MHFCMain.logger.throwing(new IllegalStateException(
+			throw MHFCMain.logger().throwing(new IllegalStateException(
 					"Tried to register more than 256 message types"));
 		}
 		networkPipe.registerMessage(messageHandler, requestMessageType,

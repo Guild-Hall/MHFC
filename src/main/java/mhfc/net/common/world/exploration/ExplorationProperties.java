@@ -21,7 +21,7 @@ public final class ExplorationProperties implements IExtendedEntityProperties {
 	public void saveNBTData(NBTTagCompound compound) {
 		String managerName = MHFCExplorationRegistry.getExplorationManagerName(getManager());
 		if (managerName == null) {
-			MHFCMain.logger.warn(
+			MHFCMain.logger().warn(
 					"The exploration manager {} did not have a public name, this will default on load",
 					getManager());
 			managerName = "";
@@ -30,7 +30,7 @@ public final class ExplorationProperties implements IExtendedEntityProperties {
 		String areaTypeName = AreaRegistry.instance.getName(getAreaType());
 		if (areaTypeName == null) {
 			if (manager != OverworldManager.instance) {
-				MHFCMain.logger.warn(
+				MHFCMain.logger().warn(
 						"The area type {} did not have a public name, this will default on load",
 						getAreaType());
 			}
@@ -45,7 +45,7 @@ public final class ExplorationProperties implements IExtendedEntityProperties {
 		String areaTypeName = compound.getString(KEY_AREA_TYPE);
 		IExplorationManager manager = MHFCExplorationRegistry.getExplorationManagerByName(managerName);
 		if (manager == null) {
-			MHFCMain.logger.debug("Defaulted exploration manager for key {}", managerName);
+			MHFCMain.logger().debug("Defaulted exploration manager for key {}", managerName);
 			manager = OverworldManager.instance;
 		}
 		setManager(manager);

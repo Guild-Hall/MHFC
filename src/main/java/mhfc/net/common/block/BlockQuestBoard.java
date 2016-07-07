@@ -187,7 +187,7 @@ public class BlockQuestBoard extends BlockContainer {
 		double tZ = (targetZ - hitVector.zCoord) / dZ;
 		double t = tX;
 		if (!(tX > 0 && tY >= 0 && tZ >= 0))
-			MHFCMain.logger.debug("Noooo");
+			MHFCMain.logger().debug("Noooo");
 		int side = lookVector.xCoord > 0 ? 4 : 5;
 		if (!Double.isNaN(tY) && tY < t) {
 			side = lookVector.yCoord > 0 ? 0 : 1;

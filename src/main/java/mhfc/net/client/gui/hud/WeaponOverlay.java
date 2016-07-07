@@ -89,6 +89,7 @@ public class WeaponOverlay {
 		glDisable(GL_TEXTURE_2D);
 		glColor3f(spirit - 1.f < -1e-9 ? 0.7f : 1f, 0.1f, 0.1f);
 		MHFCGuiUtil.drawTexturedRectangle(gaugeOffsetX, gaugeOffsetY, gaugeLength * resizeX, 2 * resizeY, 0, 0, 1, 1);
+		glColor3f(1.f, 1.f, 1.f);
 		glEnable(GL_TEXTURE_2D);
 	}
 }

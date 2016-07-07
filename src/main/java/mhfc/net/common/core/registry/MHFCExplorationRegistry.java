@@ -70,7 +70,7 @@ public class MHFCExplorationRegistry {
 		Objects.requireNonNull(manager);
 		Objects.requireNonNull(player);
 		IExplorationManager current = getExplorationManagerFor(player);
-		MHFCMain.logger.debug("Moving player from exploration manager {} to {}", current, manager);
+		MHFCMain.logger().debug("Moving player from exploration manager {} to {}", current, manager);
 		if (current == manager)
 			return false;
 		current.onPlayerRemove(player);

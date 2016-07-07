@@ -82,7 +82,7 @@ public class DefaultQuestFactory implements IQuestFactory {
 			type = QuestDescription.QuestType.Killing;
 			break;
 		default:
-			MHFCMain.logger.error(
+			MHFCMain.logger().error(
 					"[MHFC] Type {} was not recognized, for allowed keys see documentation of MHFCQuestBuildRegistry. Falling back to hunting.",
 					typeString);
 			type = QuestDescription.QuestType.Hunting;
@@ -91,7 +91,7 @@ public class DefaultQuestFactory implements IQuestFactory {
 		try {
 			flair = QuestFlair.valueOf(flairString);
 		} catch (IllegalArgumentException iae) {
-			MHFCMain.logger.error(
+			MHFCMain.logger().error(
 					"[MHFC] Flair {} was not recognized, for allowed values see documentation of MHFCQuestBuildRegistry. Falling back to DAYTIME.",
 					typeString);
 		}

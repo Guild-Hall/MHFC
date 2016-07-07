@@ -35,12 +35,12 @@ public class MHFCExploration extends ExplorationAdapter {
 		Optional<IActiveArea> eligibleArea = getAreasOfType(type).stream().filter((inst) -> !isInstanceFull(inst))
 				.findAny();
 		if (eligibleArea.isPresent()) {
-			MHFCMain.logger.debug("Transfering player into existing instance");
+			MHFCMain.logger().debug("Transfering player into existing instance");
 			IActiveArea area = eligibleArea.get();
 			transferIntoInstance(player, area);
 			callback.accept(area);
 		} else {
-			MHFCMain.logger.debug("Transfering player into new instance");
+			MHFCMain.logger().debug("Transfering player into new instance");
 			transferIntoNewInstance(player, type, callback);
 		}
 	}

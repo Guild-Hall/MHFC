@@ -26,7 +26,7 @@ public class MHFCCommonRegistry {
 
 	static {
 		MHFCMain.checkPreInitialized();
-		logger = MHFCMain.logger;
+		logger = MHFCMain.logger();
 	}
 
 	public static void init() {
@@ -48,7 +48,7 @@ public class MHFCCommonRegistry {
 
 	private static void addPlayerProperties() {
 		MHFCPlayerPropertiesRegistry.init();
-		MHFCMain.logger.info("Custom player properties registered");
+		MHFCMain.logger().info("Custom player properties registered");
 	}
 
 	private static void addStringDecoders() {
@@ -58,7 +58,7 @@ public class MHFCCommonRegistry {
 	private static void addQuests() {
 		MHFCQuestRegistry.init();
 		MHFCQuestBuildRegistry.init();
-		MHFCMain.logger.info("Quest Server registered");
+		MHFCMain.logger().info("Quest Server registered");
 	}
 
 	private static void addBlocks() {

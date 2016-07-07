@@ -56,7 +56,7 @@ public class MessageExploreTileUpdate extends MessageTileLocation {
 			try {
 				flair = QuestFlair.valueOf(flairStr);
 			} catch (IllegalArgumentException x) {
-				MHFCMain.logger.error(
+				MHFCMain.logger().error(
 						"Invalid flair {} in update packet for explore tile {} {} {} in world {}",
 						flairStr,
 						x,
@@ -75,7 +75,7 @@ public class MessageExploreTileUpdate extends MessageTileLocation {
 		if (tileEntity instanceof TileExploreArea) {
 			return (TileExploreArea) tileEntity;
 		} else {
-			MHFCMain.logger.error("Received invalid update for explore tile at {} {} {} in world {}", x, y, z, worldID);
+			MHFCMain.logger().error("Received invalid update for explore tile at {} {} {} in world {}", x, y, z, worldID);
 			return null;
 		}
 	}

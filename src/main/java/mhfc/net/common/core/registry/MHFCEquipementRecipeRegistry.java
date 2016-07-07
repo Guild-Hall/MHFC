@@ -95,7 +95,7 @@ public class MHFCEquipementRecipeRegistry {
 		}
 		TileEntity bench = world.getTileEntity(message.getX(), message.getY(), message.getZ());
 		if (!(bench instanceof TileHunterBench)) {
-			MHFCMain.logger.error("No tile entity for a block hunter bench found");
+			MHFCMain.logger().error("No tile entity for a block hunter bench found");
 			return null;
 		}
 		return (TileHunterBench) bench;
@@ -108,7 +108,7 @@ public class MHFCEquipementRecipeRegistry {
 			return null;
 		TileEntity bench = clientW.getTileEntity(message.getX(), message.getY(), message.getZ());
 		if (!(bench instanceof TileHunterBench)) {
-			MHFCMain.logger.error("No tile entity for a block hunter bench found");
+			MHFCMain.logger().error("No tile entity for a block hunter bench found");
 			return null;
 		}
 		return (TileHunterBench) bench;

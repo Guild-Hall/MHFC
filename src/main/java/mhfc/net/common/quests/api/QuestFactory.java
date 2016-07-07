@@ -108,7 +108,7 @@ public class QuestFactory {
 		Objects.requireNonNull(gd, "Goal description was null");
 		QuestGoal goal = gd.build();
 		if (goal == null)
-			MHFCMain.logger.warn("Constructed goal returned as null");
+			MHFCMain.logger().warn("Constructed goal returned as null");
 		return goal;
 	}
 

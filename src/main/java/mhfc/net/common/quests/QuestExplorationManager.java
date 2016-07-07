@@ -33,12 +33,12 @@ public class QuestExplorationManager extends ExplorationAdapter {
 	protected void transferIntoInstance(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback) {
 		Optional<IActiveArea> activeAreaOption = getAreasOfType(type).stream().findFirst();
 		if (activeAreaOption.isPresent()) {
-			MHFCMain.logger.debug("Transfering player into existing quest area instance");
+			MHFCMain.logger().debug("Transfering player into existing quest area instance");
 			IActiveArea area = activeAreaOption.get();
 			transferIntoInstance(player, area);
 			callback.accept(area);
 		} else {
-			MHFCMain.logger.debug("Transfering player into new quest area instance");
+			MHFCMain.logger().debug("Transfering player into new quest area instance");
 			transferIntoNewInstance(player, type, callback);
 		}
 	}

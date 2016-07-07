@@ -37,13 +37,13 @@ public final class PlayerProperties implements IExtendedEntityProperties {
 			HandlePropertiesV1 loadDirector = new HandlePropertiesV1(this);
 			loadDirector.load(compound);
 		} else if (saveVersion == 0) {
-			MHFCMain.logger.debug("No mhfc properties found for player, creating new ones");
+			MHFCMain.logger().debug("No mhfc properties found for player, creating new ones");
 			CreateNewProperties creator = new CreateNewProperties(this);
 			creator.construct();
 		} else if (saveVersion < SaveFormatVersion && saveVersion > 0) {
-			MHFCMain.logger.debug("Old mhfc properties found, converting");
+			MHFCMain.logger().debug("Old mhfc properties found, converting");
 		} else {
-			MHFCMain.logger.error("Read player data of unknown version. Falling back to default data");
+			MHFCMain.logger().error("Read player data of unknown version. Falling back to default data");
 			CreateNewProperties creator = new CreateNewProperties(this);
 			creator.construct();
 		}

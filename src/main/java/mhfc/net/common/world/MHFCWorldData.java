@@ -51,7 +51,7 @@ public class MHFCWorldData extends WorldSavedData {
 			NBTTagCompound dataTag = confTag.getCompoundTag("data");
 			IAreaType type = AreaRegistry.instance.getType(typeS);
 			if (type == null) {// and warn about invalid area
-				MHFCMain.logger.error("Invalid area was found in save data of the hunting world!");
+				MHFCMain.logger().error("Invalid area was found in save data of the hunting world!");
 				IExtendedConfiguration config = AreaTypePlayfield.PLAYFIELD_TYPE.configForLoading();
 				@SuppressWarnings("unused")
 				AreaConfiguration areaConfig = AreaConfiguration.newConfigForLoading(config);

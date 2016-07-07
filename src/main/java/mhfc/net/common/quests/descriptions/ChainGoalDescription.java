@@ -57,7 +57,7 @@ public class ChainGoalDescription extends GoalDescription {
 		trueGoalNull |= dep1 == null;
 
 		if (trueGoalNull) {
-			MHFCMain.logger.warn(
+			MHFCMain.logger().warn(
 				"A chain goal used an invalid description as its goal. Using the successor goal instead of the chain goal");
 			return dep2;
 		}

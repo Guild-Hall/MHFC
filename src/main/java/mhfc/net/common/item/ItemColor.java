@@ -70,7 +70,7 @@ public enum ItemColor {
 			}
 		}
 
-		MHFCMain.logger.error("Unable to find color for metadata %x! Defaulting to WHITE.", metadata);
+		MHFCMain.logger().error("Unable to find color for metadata %x! Defaulting to WHITE.", metadata);
 		return ItemColor.WHITE;
 	}
 

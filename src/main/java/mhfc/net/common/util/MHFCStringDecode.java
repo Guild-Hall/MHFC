@@ -204,7 +204,7 @@ public class MHFCStringDecode {
 		@Override
 		public String stringValue() {
 			if (stringValue == null)
-				MHFCMain.logger.debug(
+				MHFCMain.logger().debug(
 					"String of dynamic string %s ended up as null", this
 						.toString());
 			return stringValue;

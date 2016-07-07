@@ -47,6 +47,6 @@ public class MHFCPotionRegistry {
 		if (offset < MAXPOTIONS) {
 			return originalSize + offset++;
 		}
-		throw MHFCMain.logger.throwing(Level.DEBUG, new IllegalStateException("Trying to register too many potions"));
+		throw MHFCMain.logger().throwing(Level.DEBUG, new IllegalStateException("Trying to register too many potions"));
 	}
 }

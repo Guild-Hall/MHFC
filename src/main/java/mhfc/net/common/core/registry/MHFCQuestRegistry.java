@@ -244,7 +244,7 @@ public class MHFCQuestRegistry {
 	 */
 	public static boolean regRunningQuest(GeneralQuest generalQuest, String identifier) {
 		questsRunning.add(generalQuest);
-		MHFCMain.logger.debug(questsRunning.size() + " quests are running at the moment.");
+		MHFCMain.logger().debug(questsRunning.size() + " quests are running at the moment.");
 		if (!runningQuestRegistry.offerMapping(identifier, generalQuest)) {
 			return false;
 		}

@@ -33,7 +33,7 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 		@Override
 		public boolean shouldSelectAttack(IExecutableAction<? super EntityT> attack, EntityT actor, Entity target) {
 			if (actor instanceof EntityRathalos && attack instanceof FireballAttack) {
-				MHFCMain.logger.debug(
+				MHFCMain.logger().debug(
 						"Distance adapter: {} Angle: {}",
 						distanceAdapter.shouldSelectAttack(attack, actor, target),
 						angleAdapter.shouldSelectAttack(attack, actor, target));

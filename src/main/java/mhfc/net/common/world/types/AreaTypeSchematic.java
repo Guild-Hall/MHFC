@@ -40,7 +40,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 		try (BufferedInputStream instream = Utilities.inputStream(schematicLocation)) {
 			areaInformation = AreaTypeSchematic.format.getReader(instream).read(AreaTypeSchematic.forgeData);
 		} catch (IOException e) {
-			MHFCMain.logger.error(
+			MHFCMain.logger().error(
 					"Unable to load schematic {}. The area type will be blank instead",
 					schematicLocation.getResourcePath());
 			areaInformation = new BlockArrayClipboard(new CuboidRegion(Vector.ZERO, Vector.ZERO));
@@ -58,7 +58,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 		DisplacedView view = new DisplacedView(configuration.getPosition(), configuration, world);
 		WorldDisplacedView displacedWorld = new WorldDisplacedView(view);
 
-		MHFCMain.logger.debug(
+		MHFCMain.logger().debug(
 				"Starting to copy {} blocks in chunks of {}",
 				clipboardRegion.getArea(),
 				DIM_SIZE * DIM_SIZE * DIM_SIZE);

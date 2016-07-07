@@ -108,7 +108,7 @@ public class CommandTpHunterDimension implements ICommand {
 			IAreaType areaType = AreaRegistry.instance.getType(areaName);
 			if (areaType == null) {
 				sender.addChatMessage(new ChatComponentText("Could not find requested target area type."));
-				MHFCMain.logger.debug("No area type found for " + areaName);
+				MHFCMain.logger().debug("No area type found for " + areaName);
 				return;
 			}
 			CompletionStage<IActiveArea> futureArea = GlobalAreaManager.instance
@@ -116,13 +116,13 @@ public class CommandTpHunterDimension implements ICommand {
 			sender.addChatMessage(new ChatComponentText("You will be teleported when the area is finished"));
 			futureArea.thenAccept((a) -> {
 				try (IActiveArea active = a) {
-					MHFCMain.logger.info("Teleporting");
+					MHFCMain.logger().info("Teleporting");
 					teleportPoints.put(player, WorldHelper.getEntityPositionVector(player));
 					AreaTeleportation.movePlayerToArea(player, active.getArea());
 				}
 			});
 		}
-		MHFCMain.logger.debug("Teleported to/from dimension " + questWorldID);
+		MHFCMain.logger().debug("Teleported to/from dimension " + questWorldID);
 	}
 
 	@Override

@@ -55,7 +55,7 @@ public class MHFCTickHandler {
 					registerOperation(phase, followUp, context);
 				}
 			} catch (WorldEditException e) {
-				MHFCMain.logger.error("Exception when handling an operation", e);
+				MHFCMain.logger().error("Exception when handling an operation", e);
 			}
 		});
 	}

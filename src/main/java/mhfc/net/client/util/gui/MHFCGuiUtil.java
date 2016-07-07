@@ -69,7 +69,7 @@ public class MHFCGuiUtil {
 			int width,
 			int colour) {
 		if (fRend == null || string == null) {
-			MHFCMain.logger.warn(fRend == null ? "Null renderer used as argument" : "Render request for a null string");
+			MHFCMain.logger().warn(fRend == null ? "Null renderer used as argument" : "Render request for a null string");
 			Thread.dumpStack();
 			return 0;
 		}
@@ -77,7 +77,7 @@ public class MHFCGuiUtil {
 		if (width <= 0) {
 			fRend.drawString(string, posX, posY, colour);
 		} else if (isDrawWidthTooSmall(fRend, width, string)) {
-			MHFCMain.logger.info(WIDTH_WARNING);
+			MHFCMain.logger().info(WIDTH_WARNING);
 			Thread.dumpStack();
 			lines = 0;
 		} else {

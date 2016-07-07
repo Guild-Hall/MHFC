@@ -38,7 +38,7 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 	 */
 	public void addRequisite(QuestGoal goal) {
 		if (goal == null) {
-			MHFCMain.logger
+			MHFCMain.logger()
 				.warn("ForkQuestGoal: Ignored requisite, a null goal is not valid");
 			return;
 		}
@@ -52,7 +52,7 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 	 */
 	public void addOptional(QuestGoal goal) {
 		if (goal == null) {
-			MHFCMain.logger
+			MHFCMain.logger()
 				.warn("ForkQuestGoal: Ignored optional, a null goal is not valid");
 			return;
 		}

@@ -199,7 +199,7 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 			removePlayer(player);
 		}
 		MHFCQuestRegistry.deregRunningQuest(this);
-		MHFCMain.logger.info("Quest {} ended", this.visualInformation.getName());
+		MHFCMain.logger().info("Quest {} ended", this.visualInformation.getName());
 	}
 
 	protected void updatePlayers() {
@@ -364,7 +364,7 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 	@Override
 	public void close() {
 		if (closed) {
-			MHFCMain.logger.debug("Tried to close already closed instance of quest {}", visualInformation.getName());
+			MHFCMain.logger().debug("Tried to close already closed instance of quest {}", visualInformation.getName());
 			return;
 		}
 		visualInformation.cleanUp();

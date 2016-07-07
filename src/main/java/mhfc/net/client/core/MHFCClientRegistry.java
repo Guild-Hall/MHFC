@@ -26,7 +26,7 @@ public class MHFCClientRegistry {
 
 	private static void addQuestDisplay() {
 		MHFCRegQuestVisual.init();
-		MHFCMain.logger.info("Quest Client registered");
+		MHFCMain.logger().info("Quest Client registered");
 	}
 
 	private static void addRenderers() {
@@ -36,12 +36,12 @@ public class MHFCClientRegistry {
 		MHFCItemRenderRegistry.init();
 		MHFCRenderIDRegistry.init();
 		MinecraftForge.EVENT_BUS.register(new RenderEventListener());
-		MHFCMain.logger.info("Renderers registerd");
+		MHFCMain.logger().info("Renderers registerd");
 	}
 
 	private static void addSounds() {
 		MHFCSoundRegistry.init();
-		MHFCMain.logger.info("Sounds registerd");
+		MHFCMain.logger().info("Sounds registerd");
 	}
 
 }
