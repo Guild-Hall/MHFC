@@ -45,10 +45,13 @@ public interface IServiceProvider {
 	 *}</code>
 	 * </pre>
 	 *
+	 * @param name
+	 *            a human readable name
 	 * @param serviceBootstrap
 	 * @param service
+	 * @return a registry that can be used to startup the service and declare auto-startup phases
 	 */
-	<T> IServiceAccess<T> registerService(IServiceHandle<T> serviceBootstrap, Supplier<T> serviceSupplier);
+	<T> IServiceAccess<T> registerService(String name, IServiceHandle<T> serviceBootstrap, Supplier<T> serviceSupplier);
 
 	/**
 	 * Retrieves a {@link IPhaseKey} that can be used to register services for the service phase given.
@@ -70,8 +73,9 @@ public interface IServiceProvider {
 	 *}</code>
 	 * </pre>
 	 *
-	 * @param servicePhase
+	 * @param name
+	 *            A human readable name
 	 * @return a registry that can be used to enter the phase and register services for it
 	 */
-	<A, Z> IPhaseAccess<A, Z> registerPhase();
+	<A, Z> IPhaseAccess<A, Z> registerPhase(String name);
 }

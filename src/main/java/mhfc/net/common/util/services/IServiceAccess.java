@@ -19,8 +19,9 @@ public interface IServiceAccess<T> extends IServiceKey<T> {
 	 *
 	 * @param phase
 	 *            the phase to register for
+	 * @return this
 	 * @param phaseBootstrapper
 	 *            the handler that is used to start and stop the phase
 	 */
-	<A, Z> void addTo(IPhaseKey<A, Z> phase, IServicePhaseHandle<T, A, Z> phaseBootstrapper);
+	<A, Z> IServiceAccess<T> addTo(IPhaseKey<A, Z> phase, IServicePhaseHandle<T, A, Z> phaseBootstrapper);
 }

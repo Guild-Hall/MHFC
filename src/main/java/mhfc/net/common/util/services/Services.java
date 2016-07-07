@@ -8,8 +8,6 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
-import org.apache.commons.lang3.NotImplementedException;
-
 import com.google.common.base.Preconditions;
 
 /**
@@ -69,6 +67,11 @@ public class Services implements IServiceProvider {
 		private static final AtomicInteger COUNTER = new AtomicInteger(0);
 
 		private final int id = COUNTER.getAndIncrement();
+		private final String name;
+
+		public ID(String name) {
+			this.name = name;
+		}
 
 		@Override
 		public boolean equals(Object obj) {
@@ -79,16 +82,21 @@ public class Services implements IServiceProvider {
 		public int hashCode() {
 			return Integer.hashCode(id);
 		}
+
+		@Override
+		public String toString() {
+			return Objects.toString(name) + "[" + id + "]";
+		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private static <T> IServiceID<T> nextServiceID() {
-		return new ID();
+	private static <T> IServiceID<T> nextServiceID(String name) {
+		return new ID(name);
 	}
 
 	@SuppressWarnings("unchecked")
-	private static <A, Z> IPhaseID<A, Z> nextPhaseID() {
-		return new ID();
+	private static <A, Z> IPhaseID<A, Z> nextPhaseID(String name) {
+		return new ID(name);
 	}
 
 	public static Services instance = new Services();
@@ -171,8 +179,9 @@ public class Services implements IServiceProvider {
 		}
 
 		@Override
-		public <A, Z> void addTo(IPhaseKey<A, Z> phase, IServicePhaseHandle<T, A, Z> phaseBootstrapper) {
+		public <A, Z> IServiceAccess<T> addTo(IPhaseKey<A, Z> phase, IServicePhaseHandle<T, A, Z> phaseBootstrapper) {
 			Services.this.registerServiceForPhase(getID(), tryUpcastPhase(phase), phaseBootstrapper);
+			return this;
 		}
 
 		protected void beforePhase(IPhaseID<?, ?> phase) {
@@ -237,12 +246,24 @@ public class Services implements IServiceProvider {
 			}
 		}
 
-		private IPhaseID<A, Z> phaseID;
-		private Set<ServicePhaseEntry<?>> dependantServices;
+		private final IPhaseID<A, Z> phaseID;
+		private final Set<ServicePhaseEntry<?>> dependantServices;
+		private final Set<PhaseEntry<?, ?>> required;
+		private final Set<PhaseEntry<?, ?>> requiredFor;
+
+		private A defaultStartupContext;
+		private Z defaultShutdownContext;
+		private boolean hasDefaultStartupContext, hasDefaultShutdownContext;
 
 		protected PhaseEntry(IPhaseID<A, Z> phase) {
 			this.phaseID = Objects.requireNonNull(phase);
 			this.dependantServices = new HashSet<>();
+			this.required = new HashSet<>();
+			this.requiredFor = new HashSet<>();
+		}
+
+		private boolean isActive() {
+			return Services.this.isActive(phaseID);
 		}
 
 		protected IPhaseID<A, Z> getID() {
@@ -254,19 +275,66 @@ public class Services implements IServiceProvider {
 			return Services.this;
 		}
 
+		protected void addRequirement(PhaseEntry<?, ?> phase) {
+			assert phase != null;
+			assert !isActive();
+
+			required.add(phase);
+		}
+
+		protected void addRequiredFor(PhaseEntry<?, ?> phase) {
+			assert phase != null;
+			assert !isActive();
+
+			requiredFor.add(phase);
+
+		}
+
+		private void tryStartService() {
+			if (isActive()) {
+				return; // Checks for double-dependancies in requirements
+			}
+			Preconditions.checkState(
+					hasDefaultStartupContext,
+					"Can't start phase " + phaseID + " without default startup context");
+			Services.this.enterPhase(phaseID, defaultStartupContext);
+		}
+
 		protected void enterServices(A context) {
+			for (PhaseEntry<?, ?> phase : required) {
+				phase.tryStartService();
+			}
+			// Check after to catch cyclic requirements. Which we don't want to deal with
+			Preconditions.checkState(!isActive(), "Already in phase " + phaseID);
 			for (ServicePhaseEntry<?> service : dependantServices) {
 				service.enter(context);
 			}
 		}
 
+		private void tryExitService() {
+			if (!Services.this.isActive(phaseID)) {
+				return; // Checks for double-dependancies in requirements
+			}
+			Preconditions.checkState(
+					hasDefaultShutdownContext,
+					"Can't exit phase " + phaseID + " without default shutdown context");
+			Services.this.exitPhase(phaseID, defaultShutdownContext);
+		}
+
 		protected void exitServices(Z context) {
+			for (PhaseEntry<?, ?> phase : requiredFor) {
+				phase.tryExitService();
+			}
+			// Check after to catch cyclic requirements. Which we don't want to deal with
+			Preconditions.checkState(isActive(), "Currently not in phase " + phaseID);
 			for (ServicePhaseEntry<?> service : dependantServices) {
 				service.exit(context);
 			}
 		}
 
 		protected <T> void addService(ServiceEntry<T> service, IServicePhaseHandle<T, A, Z> phaseHandler) {
+			Preconditions.checkArgument(!isActive(), "Can't register for an active phase");
+
 			ServicePhaseEntry<T> phaseEntry = new ServicePhaseEntry<>(service, phaseHandler);
 			Preconditions.checkArgument(
 					!dependantServices.contains(phaseEntry),
@@ -285,8 +353,37 @@ public class Services implements IServiceProvider {
 		}
 
 		@Override
-		public void declareParent(IPhaseKey<?, ?> other) throws IllegalArgumentException {
+		public IPhaseAccess<A, Z> declareParent(IPhaseKey<?, ?> other) throws IllegalArgumentException {
 			Services.this.declareParent(getID(), tryUpcastPhase(other));
+			return this;
+		}
+
+		@Override
+		public IPhaseAccess<A, Z> setDefaultStartupContext(A context) {
+			this.defaultStartupContext = context;
+			this.hasDefaultStartupContext = true;
+			return this;
+		}
+
+		@Override
+		public IPhaseAccess<A, Z> clearDefaultStartupContext() {
+			this.defaultStartupContext = null; // Clear to free mem
+			this.hasDefaultStartupContext = false;
+			return this;
+		}
+
+		@Override
+		public IPhaseAccess<A, Z> setDefaultShutdownContext(Z context) {
+			this.defaultShutdownContext = context;
+			this.hasDefaultShutdownContext = true;
+			return this;
+		}
+
+		@Override
+		public IPhaseAccess<A, Z> clearDefaultShutdownContext() {
+			this.defaultShutdownContext = null;
+			this.hasDefaultShutdownContext = false;
+			return this;
 		}
 
 	}
@@ -305,13 +402,17 @@ public class Services implements IServiceProvider {
 		return service.getService();
 	}
 
+	@Override
 	public boolean isActive(IPhaseKey<?, ?> phase) {
 		return isActive(tryUpcastPhase(phase));
 	}
 
 	@Override
-	public <T> IServiceAccess<T> registerService(IServiceHandle<T> serviceBootstrap, Supplier<T> serviceSupplier) {
-		IServiceID<T> serviceID = nextServiceID();
+	public <T> IServiceAccess<T> registerService(
+			String name,
+			IServiceHandle<T> serviceBootstrap,
+			Supplier<T> serviceSupplier) {
+		IServiceID<T> serviceID = nextServiceID(name);
 		assert !hasService(serviceID);
 
 		ServiceEntry<T> entry = new ServiceEntry<>(serviceID, serviceSupplier, serviceBootstrap);
@@ -320,8 +421,8 @@ public class Services implements IServiceProvider {
 	}
 
 	@Override
-	public <A, Z> IPhaseAccess<A, Z> registerPhase() {
-		IPhaseID<A, Z> phaseID = nextPhaseID();
+	public <A, Z> IPhaseAccess<A, Z> registerPhase(String name) {
+		IPhaseID<A, Z> phaseID = nextPhaseID(name);
 		assert !hasPhase(phaseID);
 
 		PhaseEntry<A, Z> entry = new PhaseEntry<>(phaseID);
@@ -391,7 +492,6 @@ public class Services implements IServiceProvider {
 			IServicePhaseHandle<T, A, Z> phaseBootstrapper) {
 		assert hasService(service);
 		assert hasPhase(phase);
-		Preconditions.checkArgument(!isActive(phase), "Can't register for an active phase");
 
 		getPhase(phase).addService(getService(service), phaseBootstrapper);
 	}
@@ -399,25 +499,29 @@ public class Services implements IServiceProvider {
 	// --- Phase actions
 
 	private <A> void enterPhase(IPhaseID<A, ?> phase, A context) {
-		Preconditions.checkState(!isActive(phase), "Already in phase " + phase);
+		getPhase(phase).enterServices(context);
 
 		activePhases.add(phase);
 		assert isActive(phase);
-
-		getPhase(phase).enterServices(context);
 	}
 
 	private <Z> void exitPhase(IPhaseID<?, Z> phase, Z context) {
-		Preconditions.checkState(isActive(phase), "Currently not in phase " + phase);
+		getPhase(phase).exitServices(context);
 
 		activePhases.remove(phase);
 		assert !isActive(phase);
-
-		getPhase(phase).exitServices(context);
 	}
 
 	private void declareParent(IPhaseID<?, ?> phase, IPhaseID<?, ?> parent) {
-		// TODO: implement an ordering of phases
-		throw new NotImplementedException("Currently unavailable");
+		PhaseEntry<?, ?> dependant = getPhase(phase);
+		PhaseEntry<?, ?> dependancy = getPhase(parent);
+
+		Preconditions.checkState(!isActive(phase), "Phase " + phase + " can't be active while declaring a requirement");
+		Preconditions.checkState(
+				!isActive(parent),
+				"Phase " + parent + " can't be active while being declaring a requirement");
+
+		dependant.addRequirement(getPhase(parent));
+		dependancy.addRequiredFor(getPhase(phase));
 	}
 }

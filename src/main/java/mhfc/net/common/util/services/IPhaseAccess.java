@@ -12,6 +12,25 @@ package mhfc.net.common.util.services;
  *            the type of shutdown context
  */
 public interface IPhaseAccess<A, Z> extends IPhaseKey<A, Z> {
+	/**
+	 * Sets a default startup context that is used to start this service. This is being used when a phase that requires
+	 * this phase to be active, is being started.
+	 * <p>
+	 * If no startup context is set, trying to start this phase because it is required will fail.
+	 * <p>
+	 * Null is permitted.
+	 *
+	 * @param context
+	 *            the context to use by default
+	 * @return this
+	 */
+	IPhaseAccess<A, Z> setDefaultStartupContext(A context);
+
+	IPhaseAccess<A, Z> clearDefaultStartupContext();
+
+	IPhaseAccess<A, Z> setDefaultShutdownContext(Z context);
+
+	IPhaseAccess<A, Z> clearDefaultShutdownContext();
 
 	/**
 	 * Signals that this phase starts. All services that have been registered will be bootstrapped.
@@ -41,8 +60,9 @@ public interface IPhaseAccess<A, Z> extends IPhaseKey<A, Z> {
 	 *
 	 * @param other
 	 *            the registry of the parent phase. Must come from the same ServiceProvider.
+	 * @return this
 	 * @throws IllegalArgumentException
 	 */
-	void declareParent(IPhaseKey<?, ?> other) throws IllegalArgumentException;
+	IPhaseAccess<A, Z> declareParent(IPhaseKey<?, ?> other) throws IllegalArgumentException;
 
 }

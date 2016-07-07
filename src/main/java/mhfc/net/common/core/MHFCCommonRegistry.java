@@ -22,12 +22,7 @@ import mhfc.net.common.util.MHFCStringDecode;
 import mhfc.net.common.world.area.AreaRegistry;
 
 public class MHFCCommonRegistry {
-	private final static Logger logger;
-
-	static {
-		MHFCMain.checkPreInitialized();
-		logger = MHFCMain.logger();
-	}
+	private final static Logger logger = MHFCMain.logger();
 
 	public static void init() {
 		MHFCCommonRegistry.addPlayerProperties();
@@ -44,6 +39,10 @@ public class MHFCCommonRegistry {
 		MHFCCommonRegistry.addPacket();
 		MHFCCommonRegistry.addAreas();
 		MHFCCommonRegistry.addQuests();
+	}
+
+	public static void staticInit() {
+		// TODO Auto-generated method stub
 	}
 
 	private static void addPlayerProperties() {

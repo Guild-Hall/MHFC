@@ -24,6 +24,10 @@ public class MHFCClientRegistry {
 
 	}
 
+	public static void staticInit() {
+		// TODO Auto-generated method stub
+	}
+
 	private static void addQuestDisplay() {
 		MHFCRegQuestVisual.init();
 		MHFCMain.logger().info("Quest Client registered");

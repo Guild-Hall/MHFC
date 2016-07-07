@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -116,8 +115,8 @@ public class MHFCRegQuestVisual {
 			MHFCReference.gui_hunterbench_fuel_tex);
 	public static final ResourceLocation CLICKABLE_LIST = new ResourceLocation(MHFCReference.gui_list_tex);
 
-	private static Set<String> runningQuestIDs = new HashSet<String>();
-	private static Map<String, IVisualInformation> identifierToVisualInformationMap = new HashMap<String, IVisualInformation>();
+	private static Set<String> runningQuestIDs = new HashSet<>();
+	private static Map<String, IVisualInformation> identifierToVisualInformationMap = new HashMap<>();
 
 	private static QuestDescriptionRegistryData clientDataObject = new QuestDescriptionRegistryData();
 
@@ -126,16 +125,14 @@ public class MHFCRegQuestVisual {
 	private static String playerQuestIdentifier;
 	private static QuestRunningInformation playersVisual;
 
-	@SideOnly(Side.CLIENT)
 	private static QuestStatusDisplay display;
 
-	@SideOnly(Side.CLIENT)
 	private static GuiQuestJoin questBoard = new GuiQuestJoin(Minecraft.getMinecraft().thePlayer);
 
 	public static GuiQuestGiver getScreen(int i, EntityPlayer playerEntity) {
 		// ignore i for now
 
-		List<String> list = new ArrayList<String>(MHFCQuestBuildRegistry.getGroupList());
+		List<String> list = new ArrayList<>(MHFCQuestBuildRegistry.getGroupList());
 		GuiQuestNew newQuest = new GuiQuestNew(list, playerEntity);
 		return new GuiQuestGiver(playerEntity, newQuest);
 	}
@@ -175,7 +172,6 @@ public class MHFCRegQuestVisual {
 
 	public static void init() {
 		display = new QuestStatusDisplay();
-		FMLCommonHandler.instance().bus().register(new QuestClientInitHandler());
 		MinecraftForge.EVENT_BUS.register(display);
 	}
 

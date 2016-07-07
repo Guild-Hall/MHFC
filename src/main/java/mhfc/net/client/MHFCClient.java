@@ -11,9 +11,15 @@ import net.minecraft.client.Minecraft;
 
 public class MHFCClient extends ProxyBase {
 	@Override
-	public void staticInit() {
+	public void initialize() {
 		MHFCCommonRegistry.init();
 		MHFCClientRegistry.init();
+	}
+
+	@Override
+	public void staticInit() {
+		MHFCCommonRegistry.staticInit();
+		MHFCClientRegistry.staticInit();
 	}
 
 	/**
@@ -21,16 +27,20 @@ public class MHFCClient extends ProxyBase {
 	 */
 	@Override
 	public void spawnParticle(EnumParticleType type, EntityParticleEmitter emitter) {
-		switch(type) {
-		case PAINT: spawnPaintParticle(emitter); break;
-		default: return;
+		switch (type) {
+		case PAINT:
+			spawnPaintParticle(emitter);
+			break;
+		default:
+			return;
 		}
 	}
 
 	protected void spawnPaintParticle(EntityParticleEmitter emitter) {
-		if(!(emitter instanceof EntityPaintParticleEmitter) || emitter == null)
+		if (!(emitter instanceof EntityPaintParticleEmitter) || emitter == null) {
 			return;
-		EntityPaintParticleEmitter paintEmitter = (EntityPaintParticleEmitter)emitter;
+		}
+		EntityPaintParticleEmitter paintEmitter = (EntityPaintParticleEmitter) emitter;
 		EntityPaintFX particle = new EntityPaintFX(
 				paintEmitter.worldObj,
 				paintEmitter.color,

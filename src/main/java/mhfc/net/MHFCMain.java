@@ -45,24 +45,35 @@ import net.minecraftforge.event.world.WorldEvent;
 
 @Mod(modid = MHFCReference.main_modid)
 public class MHFCMain {
-	private static IPhaseAccess<FMLConstructionEvent, Void> constructedPhaseAccess = Services.instance.registerPhase();
+	private static IPhaseAccess<FMLConstructionEvent, Void> constructedPhaseAccess = Services.instance
+			.<FMLConstructionEvent, Void>registerPhase("mod constructed").setDefaultShutdownContext(null);
 	public static final IPhaseKey<FMLConstructionEvent, Void> constructedPhase = constructedPhaseAccess;
-	private static IPhaseAccess<FMLPreInitializationEvent, Void> preInitPhaseAccess = Services.instance.registerPhase();
+
+	private static IPhaseAccess<FMLPreInitializationEvent, Void> preInitPhaseAccess = Services.instance
+			.<FMLPreInitializationEvent, Void>registerPhase("mod pre initialized").setDefaultShutdownContext(null)
+			.declareParent(constructedPhase);
 	public static final IPhaseKey<FMLPreInitializationEvent, Void> preInitPhase = preInitPhaseAccess;
-	private static IPhaseAccess<FMLInitializationEvent, Void> initPhaseAccess = Services.instance.registerPhase();
+
+	private static IPhaseAccess<FMLInitializationEvent, Void> initPhaseAccess = Services.instance
+			.<FMLInitializationEvent, Void>registerPhase("mod initialized").setDefaultShutdownContext(null)
+			.declareParent(preInitPhase);
 	public static final IPhaseKey<FMLInitializationEvent, Void> initPhase = initPhaseAccess;
+
 	private static IPhaseAccess<FMLPostInitializationEvent, Void> postInitPhaseAccess = Services.instance
-			.registerPhase();
+			.<FMLPostInitializationEvent, Void>registerPhase("mod post initialized").setDefaultShutdownContext(null)
+			.declareParent(initPhase);
 	public static final IPhaseKey<FMLPostInitializationEvent, Void> postInitPhase = postInitPhaseAccess;
 
 	private static IPhaseAccess<FMLServerStartingEvent, FMLServerStoppedEvent> serverRunningPhaseAccess = Services.instance
-			.registerPhase();
+			.<FMLServerStartingEvent, FMLServerStoppedEvent>registerPhase("server running")
+			.declareParent(postInitPhase);
 	/**
 	 * Active while the a logical server is running
 	 */
 	public static final IPhaseKey<FMLServerStartingEvent, FMLServerStoppedEvent> serverRunningPhase = serverRunningPhaseAccess;
 	private static IPhaseAccess<FMLServerStartedEvent, FMLServerStoppingEvent> serverActivePhaseAccess = Services.instance
-			.registerPhase();
+			.<FMLServerStartedEvent, FMLServerStoppingEvent>registerPhase("server active")
+			.declareParent(serverRunningPhase);
 	/**
 	 * Active while the a logical server is running and loaded
 	 */
@@ -84,7 +95,7 @@ public class MHFCMain {
 
 	static {
 		IServiceAccess<Object> sentinel = Services.instance
-				.registerService(IServiceHandle.<Object>noInit(), Object::new);
+				.registerService("sentinel", IServiceHandle.<Object>noInit(), Object::new);
 		sentinel.addTo(constructedPhase, getSPHandleFor("\"constructed\""));
 		sentinel.addTo(preInitPhase, getSPHandleFor("\"pre-initialized\""));
 		sentinel.addTo(initPhase, getSPHandleFor("\"initialized\""));
@@ -115,10 +126,10 @@ public class MHFCMain {
 	}
 
 	public final static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID());
-	private final Logger logger = LogManager.getLogger(MHFCReference.main_modid);
+	private final static Logger logger = LogManager.getLogger(MHFCReference.main_modid);
 
 	public static Logger logger() {
-		return instance.logger;
+		return logger;
 	}
 
 	private MHFCConfig config;
@@ -129,21 +140,18 @@ public class MHFCMain {
 	}
 
 	private void staticInit() {
-		// TODO: this.proxy.staticInit();
+		MHFCMain.getSidedProxy().staticInit();
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-			postInitPhaseAccess.exitPhase(null);
-			initPhaseAccess.exitPhase(null);
-			preInitPhaseAccess.exitPhase(null);
 			constructedPhaseAccess.exitPhase(null);
 		}));
 	}
 
 	@Mod.EventHandler
 	protected void onCreation(FMLConstructionEvent event) {
+		FMLCommonHandler.instance().bus().register(connectionTracker);
+		MinecraftForge.EVENT_BUS.register(this);
 		staticInit();
 		constructedPhaseAccess.enterPhase(event);
-		MinecraftForge.EVENT_BUS.register(this);
-		FMLCommonHandler.instance().bus().register(connectionTracker);
 	}
 
 	@Mod.EventHandler
@@ -160,7 +168,7 @@ public class MHFCMain {
 	@Mod.EventHandler
 	protected void onInit(FMLInitializationEvent event) {
 		initPhaseAccess.enterPhase(event);
-		MHFCMain.getSidedProxy().staticInit();
+		MHFCMain.getSidedProxy().initialize();
 	}
 
 	@Mod.EventHandler
