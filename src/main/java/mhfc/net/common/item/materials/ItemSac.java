@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 
 public class ItemSac extends AbstractSubTypedItem<SacSubType> {
 	public static enum SacSubType implements SubTypedItem.SubTypeEnum<Item> {
-		FIRE(MHFCReference.item_sac0_name, MHFCReference.item_sac0_icon, ItemColor.RED);
+		FIRE(MHFCReference.item_sac0_name, MHFCReference.base_monster_sac, ItemColor.RED);
 
 		public final String name;
 		public final String texture;
