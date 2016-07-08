@@ -11,7 +11,6 @@ import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
 import mhfc.net.common.entity.monster.EntityLagiacrus;
 import mhfc.net.common.entity.monster.EntityNargacuga;
-import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.particle.EntityPaintParticleEmitter;
 import mhfc.net.common.entity.projectile.EntityBreathe;
@@ -28,45 +27,46 @@ import net.minecraft.entity.Entity;
 
 public class MHFCEntityRegistry {
 	private static int entityID = 0;
-	private static final MHFCMain mod;
 	private static final List<Class<? extends Entity>> registeredMobs;
 	private static final List<Class<? extends Entity>> registeredProjectiles;
 
-	public static final int tigrexID;
+	public static int tigrexID;
 	//public static final int kirinID;
 	//public static final int rathalosID;
-	public static final int greatjaggiID;
-	public static final int deviljhoID;
-	public static final int nargacugaID;
-	public static final int barrothID;
+	public static int greatjaggiID;
+	public static int deviljhoID;
+	public static int nargacugaID;
+	public static int barrothID;
 	//public static final int delexID;
 	//public static final int giapreyID;
 	//public static final int ukanlosID;
-	public static final int lagiacrusID;
+	public static int lagiacrusID;
 	//public static final int gargwaID;
 
-	public static final int questGiverID;
+	public static int questGiverID;
 
-	public static final int projectileBlockID;
-	public static final int rathalosFireballID;
-	public static final int breatheID;
-	public static final int bulletID;
-	public static final int flashbombID;
-	public static final int paintballID;
-	public static final int paintemitterID;
-	public static final int arrowID;
+	public static int projectileBlockID;
+	public static int rathalosFireballID;
+	public static int breatheID;
+	public static int bulletID;
+	public static int flashbombID;
+	public static int paintballID;
+	public static int paintemitterID;
+	public static int arrowID;
 
 	static {
-		MHFCMain.checkPreInitialized();
-		mod = MHFCMain.instance();
 		registeredMobs = new ArrayList<>();
 		registeredProjectiles = new ArrayList<>();
+
+	}
+
+	public static void init() {
 
 		// popoID = getMobID(EntityPopo.class, MHFCReference.mob_popo_name,
 		// 0xf8248234, 0x193192);
 		tigrexID = getMobID(EntityTigrex.class, MHFCReference.mob_tigrex_name, ItemColor.YELLOW, ItemColor.LIBLUE);
 		//kirinID = getMobID(EntityKirin.class, MHFCReference.mob_kirin_name, 0xfff85814, 0xff851f15);
-	//  rathalosID = getMobID(EntityRathalos.class,	MHFCReference.mob_rathalos_name, 0xff749819, 0xf838818);
+		//  rathalosID = getMobID(EntityRathalos.class,	MHFCReference.mob_rathalos_name, 0xff749819, 0xf838818);
 		greatjaggiID = getMobID(
 				EntityGreatJaggi.class,
 				MHFCReference.mob_greatjaggi_name,
@@ -98,8 +98,6 @@ public class MHFCEntityRegistry {
 		breatheID = getProjectileID(EntityBreathe.class, MHFCReference.projectile_wyverniaarrow_name);
 	}
 
-	public static void init() {}
-
 	/**
 	 * returns a new (unique) mob id for the clazz provided. If the entity clazz is already registered this simply
 	 * returns <code>-1</code>.
@@ -113,7 +111,7 @@ public class MHFCEntityRegistry {
 			return -1;
 		}
 		int monsterID = getMobID();
-		EntityRegistry.registerModEntity(clazz, name, monsterID, mod, 64, 1, true);
+		EntityRegistry.registerModEntity(clazz, name, monsterID, MHFCMain.instance(), 64, 1, true);
 		registeredMobs.add(clazz);
 		MHFCMobList.addMapping(clazz, name, monsterID);
 		return monsterID;
@@ -124,7 +122,7 @@ public class MHFCEntityRegistry {
 			return -1;
 		}
 		int monsterID = getMobID();
-		EntityRegistry.registerModEntity(clazz, name, monsterID, mod, 64, 1, true);
+		EntityRegistry.registerModEntity(clazz, name, monsterID, MHFCMain.instance(), 64, 1, true);
 		registeredMobs.add(clazz);
 		MHFCMobList.addMapping(clazz, name, monsterID, foreground, background);
 		return monsterID;
@@ -143,7 +141,7 @@ public class MHFCEntityRegistry {
 			return -1;
 		}
 		int projectileID = getProjID();
-		EntityRegistry.registerModEntity(clazz, name, projectileID, mod, 64, 10, true);
+		EntityRegistry.registerModEntity(clazz, name, projectileID, MHFCMain.instance(), 64, 10, true);
 		registeredProjectiles.add(clazz);
 		return projectileID;
 	}
@@ -153,7 +151,7 @@ public class MHFCEntityRegistry {
 			return -1;
 		}
 		int projectileID = getProjID();
-		EntityRegistry.registerModEntity(clazz, name, projectileID, mod, customTrackingRange, 10, true);
+		EntityRegistry.registerModEntity(clazz, name, projectileID, MHFCMain.instance(), customTrackingRange, 10, true);
 		registeredProjectiles.add(clazz);
 		return projectileID;
 	}

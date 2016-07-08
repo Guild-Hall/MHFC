@@ -13,16 +13,15 @@ import net.minecraft.potion.Potion;
 
 public class MHFCPotionRegistry {
 	private static final int MAXPOTIONS = 8; // REMEMBER TO INCREASE THIS
-	private static final int originalSize;
+	private static int originalSize;
 	private static int offset = 0;
 
-	public static final Potion stun;
-	public static final Potion flashed;
-	public static final Potion kirin_blessing;
-	public static final Potion painted;
+	public static Potion stun;
+	public static Potion flashed;
+	public static Potion kirin_blessing;
+	public static Potion painted;
 
-	static {
-		MHFCMain.checkPreInitialized();
+	public static void init() {
 		originalSize = extendPotionsArray(MAXPOTIONS);
 
 		kirin_blessing = new PotionKirinBless(getNextID(), false, 591932);
@@ -30,8 +29,6 @@ public class MHFCPotionRegistry {
 		stun = new PotionParalyze(getNextID(), true, 999999);
 		flashed = new PotionFlashed(getNextID());
 	}
-
-	public static void init() {}
 
 	private static int extendPotionsArray(int size) {
 		int oldSize = Potion.potionTypes.length;

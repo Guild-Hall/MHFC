@@ -14,12 +14,6 @@ import net.minecraftforge.common.MinecraftForge;
 
 @SuppressWarnings("deprecation")
 public class MHFCEventRegistry {
-	private static MHFCMain mod;
-
-	static {
-		MHFCMain.checkPreInitialized();
-		mod = MHFCMain.instance();
-	}
 
 	public static void init() {
 		registerGuiHandler();
@@ -33,7 +27,7 @@ public class MHFCEventRegistry {
 	}
 
 	private static void registerGuiHandler() {
-		NetworkRegistry.INSTANCE.registerGuiHandler(mod, MHFCGuiHandler.instance);
+		NetworkRegistry.INSTANCE.registerGuiHandler(MHFCMain.instance(), MHFCGuiHandler.instance);
 	}
 
 	private static void registerNetworkEventHandlers() {}

@@ -6,6 +6,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Logger;
+
+import cpw.mods.fml.common.FMLLog;
 import mhfc.net.MHFCMain;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,13 +17,8 @@ import net.minecraft.stats.StatBase;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.Logger;
-
-import cpw.mods.fml.common.FMLLog;
-
 public class MHFCMobList {
-	private static final Logger logger;
+	private static final Logger logger = MHFCMain.logger();;
 	private static Map<String, Class<? extends Entity>> stringToClassMapping = new HashMap<>();
 	private static Map<Class<? extends Entity>, String> classToStringMapping = new HashMap<>();
 	private static Map<Integer, Class<? extends Entity>> IDtoClassMapping = new HashMap<>();
@@ -28,13 +27,7 @@ public class MHFCMobList {
 
 	private static Map<Integer, MHFCEggInfo> entityEggs = new LinkedHashMap<>();
 
-	static {
-		MHFCMain.checkPreInitialized();
-		logger = MHFCMain.logger();
-	}
-
-	public static void addMapping(Class<? extends Entity> clazz, String name,
-			int id) {
+	public static void addMapping(Class<? extends Entity> clazz, String name, int id) {
 		stringToClassMapping.put(name, clazz);
 		classToStringMapping.put(clazz, name);
 		IDtoClassMapping.put(Integer.valueOf(id), clazz);
@@ -42,21 +35,23 @@ public class MHFCMobList {
 		stringToIDMapping.put(name, Integer.valueOf(id));
 	}
 
-	public static void addMapping(Class<? extends Entity> clazz, String name,
-			int id, int foregroundcolor, int backgroundcolor) {
+	public static void addMapping(
+			Class<? extends Entity> clazz,
+			String name,
+			int id,
+			int foregroundcolor,
+			int backgroundcolor) {
 		addMapping(clazz, name, id);
-		entityEggs.put(Integer.valueOf(id), new MHFCEggInfo(id,
-				foregroundcolor, backgroundcolor));
+		entityEggs.put(Integer.valueOf(id), new MHFCEggInfo(id, foregroundcolor, backgroundcolor));
 	}
 
-	private static Entity createEntityByClass(Class<? extends Entity> oclass,
-			World world) {
-		if (oclass == null)
+	private static Entity createEntityByClass(Class<? extends Entity> oclass, World world) {
+		if (oclass == null) {
 			return null;
+		}
 		Entity entity = null;
 		try {
-			entity = oclass.getConstructor(new Class[]{World.class})
-					.newInstance(new Object[]{world});
+			entity = oclass.getConstructor(new Class[] { World.class }).newInstance(new Object[] { world });
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
@@ -72,8 +67,7 @@ public class MHFCMobList {
 	}
 
 	public static Entity createEntityFromNBT(NBTTagCompound nbtTag, World world) {
-		Class<? extends Entity> oclass = stringToClassMapping.get(nbtTag
-				.getString("id"));
+		Class<? extends Entity> oclass = stringToClassMapping.get(nbtTag.getString("id"));
 
 		Entity entity = createEntityByClass(oclass, world);
 		if (entity == null) {
@@ -87,7 +81,8 @@ public class MHFCMobList {
 					Level.ERROR,
 					e,
 					"An Entity %s(%s) has thrown an exception during loading, its state cannot be restored. Report this to the mod author",
-					nbtTag.getString("id"), oclass.getName());
+					nbtTag.getString("id"),
+					oclass.getName());
 			entity = null;
 		}
 
@@ -104,8 +99,7 @@ public class MHFCMobList {
 
 	public static int getEntityID(Entity entity) {
 		Class<? extends Entity> oclass = entity.getClass();
-		return classToIDMapping.containsKey(oclass) ? classToIDMapping.get(
-				oclass).intValue() : -1;
+		return classToIDMapping.containsKey(oclass) ? classToIDMapping.get(oclass).intValue() : -1;
 	}
 
 	public static String getEntityString(Entity entity) {
@@ -160,17 +154,25 @@ public class MHFCMobList {
 
 	public static StatBase getKills(MHFCMobList.MHFCEggInfo eggInfo) {
 		String s = MHFCMobList.getStringFromID(eggInfo.spawnedID);
-		return s == null ? null : (new StatBase("stat.killEntity." + s,
-				new ChatComponentTranslation("stat.entityKill",
-						new Object[]{new ChatComponentTranslation("entity." + s
-								+ ".name", new Object[0])}))).registerStat();
+		return s == null
+				? null
+				: (new StatBase(
+						"stat.killEntity." + s,
+						new ChatComponentTranslation(
+								"stat.entityKill",
+								new Object[] { new ChatComponentTranslation("entity." + s + ".name", new Object[0]) })))
+										.registerStat();
 	}
 
 	public static StatBase getKilledBy(MHFCMobList.MHFCEggInfo eggInfo) {
 		String s = MHFCMobList.getStringFromID(eggInfo.spawnedID);
-		return s == null ? null : (new StatBase("stat.entityKilledBy." + s,
-				new ChatComponentTranslation("stat.entityKilledBy",
-						new Object[]{new ChatComponentTranslation("entity." + s
-								+ ".name", new Object[0])}))).registerStat();
+		return s == null
+				? null
+				: (new StatBase(
+						"stat.entityKilledBy." + s,
+						new ChatComponentTranslation(
+								"stat.entityKilledBy",
+								new Object[] { new ChatComponentTranslation("entity." + s + ".name", new Object[0]) })))
+										.registerStat();
 	}
 }

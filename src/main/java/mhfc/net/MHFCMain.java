@@ -204,12 +204,6 @@ public class MHFCMain {
 		return Services.instance.isActive(preInitPhase);
 	}
 
-	public static void checkPreInitialized() {
-		if (!MHFCMain.isPreInitiliazed()) {
-			throw new IllegalStateException("Initializing too early");
-		}
-	}
-
 	@SubscribeEvent
 	protected void onWorldLoad(WorldEvent.Load event) {
 		// Load a 3x3 around spawn to make sure that it populates and calls our hooks.

@@ -13,10 +13,6 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class MHFCClientRegistry {
 
-	static {
-		MHFCMain.checkPreInitialized();
-	}
-
 	public static void init() {
 		addRenderers();
 		addSounds();

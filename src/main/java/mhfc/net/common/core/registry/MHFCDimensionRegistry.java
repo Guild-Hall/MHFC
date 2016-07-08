@@ -14,17 +14,12 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 
 public class MHFCDimensionRegistry {
-	private static MHFCMain mod;
-
 	private static Map<Integer, QuestFlair> worldIDToFlair;
 	private static Map<QuestFlair, Integer> flairToWorldID;
 
 	private MHFCDimensionRegistry() {}
 
 	static {
-		MHFCMain.checkPreInitialized();
-		MHFCDimensionRegistry.mod = MHFCMain.instance();
-		MHFCDimensionRegistry.mod.getClass();
 		worldIDToFlair = new HashMap<>(QuestFlair.values().length);
 		flairToWorldID = new EnumMap<>(QuestFlair.class);
 	}
