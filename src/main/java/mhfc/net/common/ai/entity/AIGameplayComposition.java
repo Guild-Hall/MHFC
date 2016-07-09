@@ -76,12 +76,19 @@ public class AIGameplayComposition {
 		}
 	}
 	
-	public static void AICameraShakeEffect(EntityCreature disEntity, Entity entity, float distance, float intensity) {
+	// Final Stuff
+	static boolean shake = false;
+	static float shakeIntensity;
+	public static void AICameraShakeEffect(EntityCreature disEntity, Entity entity,  float intensity) {
+//		List<Entity> collidingEnts = disEntity.worldObj.getEntitiesWithinAABBExcludingEntity(p_72839_1_, p_72839_2_);
 		if(disEntity.worldObj.isRemote){
-			
-		}
-		
-	}
+			shake = (shake == false) ?  true : false;
+			shakeIntensity = (shake)? intensity: -intensity;
+			if(entity instanceof EntityPlayer){
+				entity.setAngles(0, intensity);
+				}
+			}
+		}	
 	
 	public static void AIRoarEffectGameplay(EntityLivingBase target) {
 		if (target instanceof EntityPlayer && ((EntityPlayer) target).capabilities.isCreativeMode)

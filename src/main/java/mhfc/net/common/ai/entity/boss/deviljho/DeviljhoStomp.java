@@ -37,6 +37,7 @@ public class DeviljhoStomp extends AIAnimatedAction<EntityDeviljho> {
 		@SuppressWarnings("unchecked")
 		List<Entity> list = entity.worldObj
 				.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(6.0D, 1.0D, 6.0D));
+		AIGameplayComposition.AICameraShakeEffect(entity, entity.getAttackTarget(), 40);
 		AIGameplayComposition.AIStompCrackGameplay(entity, 100);
 		for (Entity entity1 : list) {
 			if (!(entity1 instanceof EntityLivingBase)) {
