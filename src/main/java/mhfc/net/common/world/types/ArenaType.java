@@ -1,7 +1,5 @@
 package mhfc.net.common.world.types;
 
-import java.io.IOException;
-
 import mhfc.net.common.quests.world.SpawnControllerAdapter.SpawnInformation;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
 import mhfc.net.common.world.area.AreaConfiguration;
@@ -15,6 +13,8 @@ import net.minecraft.world.World;
 public class ArenaType extends AreaTypeSchematic {
 
 	public static final ResourceLocation schematicLocation = new ResourceLocation("mhfc:schematics/Arena.schematic");
+
+	public static final ArenaType INSTANCE = new ArenaType();
 
 	private static class Area extends EmptyArea {
 		public Area(World world, AreaConfiguration config) {
@@ -38,21 +38,10 @@ public class ArenaType extends AreaTypeSchematic {
 		public SpawnInformation constructDefaultSpawnInformation(Spawnable entity) {
 			return new SpawnInformation(entity, 50, 54.5, 62);
 		}
-
 	}
 
-	private ArenaType() throws IOException {
+	private ArenaType() {
 		super(ArenaType.schematicLocation);
-	}
-
-	public static ArenaType INSTANCE;
-
-	static {
-		try {
-			ArenaType.INSTANCE = new ArenaType();
-		} catch (IOException e) {
-			throw new RuntimeException("Could not load test area", e);
-		}
 	}
 
 	@Override
@@ -63,11 +52,6 @@ public class ArenaType extends AreaTypeSchematic {
 	@Override
 	public IExtendedConfiguration configForLoading() {
 		return IExtendedConfiguration.EMPTY;
-	}
-
-	@Override
-	protected IArea areaToPopulate(World world, AreaConfiguration configuration) {
-		return new Area(world, configuration);
 	}
 
 }

@@ -84,6 +84,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 				IExtendedConfiguration.EMPTY);
 	}
 
-	protected abstract IArea areaToPopulate(World world, AreaConfiguration configuration);
+	@Override
+	public abstract IArea provideForLoading(World world, AreaConfiguration configuration);
 
 }

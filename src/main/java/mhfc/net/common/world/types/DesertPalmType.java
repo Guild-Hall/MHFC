@@ -1,7 +1,5 @@
 package mhfc.net.common.world.types;
 
-import java.io.IOException;
-
 import mhfc.net.common.quests.world.SpawnControllerAdapter.SpawnInformation;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
 import mhfc.net.common.world.area.AreaConfiguration;
@@ -14,7 +12,9 @@ import net.minecraft.world.World;
 
 public class DesertPalmType extends AreaTypeSchematic {
 
-	public static final ResourceLocation schematicLocation = new ResourceLocation("mhfc:schematics/map_desertpalm_1_vanilla.schematic");
+	public static final ResourceLocation schematicLocation = new ResourceLocation(
+			"mhfc:schematics/map_desertpalm_1_vanilla.schematic");
+	public static final DesertPalmType INSTANCE = new DesertPalmType();
 
 	private static class Area extends EmptyArea {
 		public Area(World world, AreaConfiguration config) {
@@ -41,18 +41,8 @@ public class DesertPalmType extends AreaTypeSchematic {
 
 	}
 
-	private DesertPalmType() throws IOException {
+	private DesertPalmType() {
 		super(DesertPalmType.schematicLocation);
-	}
-
-	public static DesertPalmType INSTANCE;
-
-	static {
-		try {
-			DesertPalmType.INSTANCE = new DesertPalmType();
-		} catch (IOException e) {
-			throw new RuntimeException("Could not load test area", e);
-		}
 	}
 
 	@Override
@@ -63,11 +53,6 @@ public class DesertPalmType extends AreaTypeSchematic {
 	@Override
 	public IExtendedConfiguration configForLoading() {
 		return IExtendedConfiguration.EMPTY;
-	}
-
-	@Override
-	protected IArea areaToPopulate(World world, AreaConfiguration configuration) {
-		return new Area(world, configuration);
 	}
 
 }

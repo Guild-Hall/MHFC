@@ -14,8 +14,9 @@ public class TestAreaType extends AreaTypeSchematic {
 
 	public static final ResourceLocation schematicLocation = new ResourceLocation("mhfc:schematics/Test.schematic");
 
-	private static class Area extends EmptyArea {
+	public static final TestAreaType INSTANCE = new TestAreaType();
 
+	private static class Area extends EmptyArea {
 		public Area(World world, AreaConfiguration config) {
 			super(world, config);
 		}
@@ -37,13 +38,6 @@ public class TestAreaType extends AreaTypeSchematic {
 		public SpawnInformation constructDefaultSpawnInformation(Spawnable entity) {
 			return new SpawnInformation(entity, 10, 9, 10);
 		}
-
-	}
-
-	public static TestAreaType INSTANCE;
-
-	static {
-		TestAreaType.INSTANCE = new TestAreaType();
 	}
 
 	private TestAreaType() {
@@ -58,11 +52,6 @@ public class TestAreaType extends AreaTypeSchematic {
 	@Override
 	public IExtendedConfiguration configForLoading() {
 		return IExtendedConfiguration.EMPTY;
-	}
-
-	@Override
-	protected IArea areaToPopulate(World world, AreaConfiguration configuration) {
-		return new Area(world, configuration);
 	}
 
 }

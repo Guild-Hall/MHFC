@@ -40,7 +40,7 @@ public class VillagePokeType extends AreaTypeSchematic {
 		}
 	}
 
-	public VillagePokeType() {
+	private VillagePokeType() {
 		super(schematicLocation);
 	}
 
@@ -52,11 +52,6 @@ public class VillagePokeType extends AreaTypeSchematic {
 	@Override
 	public IExtendedConfiguration configForLoading() {
 		return IExtendedConfiguration.EMPTY;
-	}
-
-	@Override
-	protected IArea areaToPopulate(World world, AreaConfiguration configuration) {
-		return new VillagePokeArea(world, configuration);
 	}
 
 }
