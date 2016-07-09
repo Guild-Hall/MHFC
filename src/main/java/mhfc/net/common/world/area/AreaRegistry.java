@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import mhfc.net.common.world.types.AreaTypePlayfield;
 import mhfc.net.common.world.types.ArenaType;
+import mhfc.net.common.world.types.DesertPalmType;
 import mhfc.net.common.world.types.TestAreaType;
 import mhfc.net.common.world.types.VillagePokeType;
 
@@ -17,6 +18,7 @@ public class AreaRegistry {
 	public static final String NAME_PLAYFIELD_BIG = "playfield_big";
 	public static final String NAME_TEST_SCHEMATIC = "test_schematic";
 	public static final String NAME_ARENA = "arena";
+	public static final String NAME_DESERTPALM = "Desert Palm";
 	public static final String NAME_VILLAGE_POKE = "village_poke";
 
 	public static void init() {
@@ -26,6 +28,7 @@ public class AreaRegistry {
 		AreaRegistry.register(NAME_TEST_SCHEMATIC, TestAreaType.INSTANCE);
 		AreaRegistry.register(NAME_ARENA, ArenaType.INSTANCE);
 		AreaRegistry.register(NAME_VILLAGE_POKE, VillagePokeType.INSTANCE);
+		AreaRegistry.register(NAME_DESERTPALM, DesertPalmType.INSTANCE);
 	}
 
 	private Map<String, IAreaType> stringToType = new HashMap<>();

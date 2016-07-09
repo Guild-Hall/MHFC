@@ -32,7 +32,8 @@
 			flair: "NIGHTTIME",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
-				name : "Hunting Tigrex at Night"
+				name : "Hunting Tigrex at Night",
+				longDescription: "There is a sighting that the Tigrex roams and kills many of the poeple at night. Go there and find the truth so this case can be solved."
 			}
 		}
 	},
@@ -66,7 +67,7 @@
 			} ,
 			reward : 5000,
 			fee : 200,
-			areaID : "arena",
+			areaID : "Desert Palm",
 			flair: "NIGHTTIME",
 			questType : "mhfc.quests.type.hunting",
 			visual : {

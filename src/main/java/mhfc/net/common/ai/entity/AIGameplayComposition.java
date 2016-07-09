@@ -76,6 +76,13 @@ public class AIGameplayComposition {
 		}
 	}
 	
+	public static void AICameraShakeEffect(EntityCreature disEntity, Entity entity, float distance, float intensity) {
+		if(disEntity.worldObj.isRemote){
+			
+		}
+		
+	}
+	
 	public static void AIRoarEffectGameplay(EntityLivingBase target) {
 		if (target instanceof EntityPlayer && ((EntityPlayer) target).capabilities.isCreativeMode)
 			return;
