@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import com.google.common.base.Preconditions;
@@ -121,7 +123,11 @@ public class Services implements IServiceProvider {
 		return getInstance().getServiceFor(serviceKey);
 	}
 
-	private class ServiceEntry<T> implements IServiceAccess<T> {
+	private interface IServiceRetrieval<T> extends IServiceKey<T> {
+		T retrieveService();
+	}
+
+	private class ServiceEntry<T> implements IServiceAccess<T>, IServiceRetrieval<T> {
 		private final IServiceID<T> serviceID;
 		private T service = null;
 		private final Supplier<T> bootstrap;
@@ -202,13 +208,51 @@ public class Services implements IServiceProvider {
 		}
 
 		protected T getService() {
-			assert state == LifeCycle.ACTIVE;
+			assert getState() == LifeCycle.ACTIVE;
+
 			return service;
+		}
+
+		@Override
+		public T retrieveService() {
+			Preconditions.checkState(this.getState() == LifeCycle.ACTIVE, "Service not active");
+
+			return getService();
 		}
 
 		@Override
 		public Services getServiceProvider() {
 			return Services.this;
+		}
+
+		@Override
+		public <U> ServiceIndirection<U, T> withIndirection(Function<T, U> remap) {
+			return new ServiceIndirection<>(this, remap);
+		}
+	}
+
+	private class ServiceIndirection<T, O> implements IServiceRetrieval<T> {
+		private IServiceRetrieval<O> parent;
+		private Function<O, T> remap;
+
+		public ServiceIndirection(IServiceRetrieval<O> parent, Function<O, T> remapper) {
+			this.parent = Objects.requireNonNull(parent);
+			this.remap = Objects.requireNonNull(remapper);
+		}
+
+		@Override
+		public T retrieveService() {
+			return remap.apply(parent.retrieveService());
+		}
+
+		@Override
+		public IServiceProvider getServiceProvider() {
+			return Services.this;
+		}
+
+		@Override
+		public <U> ServiceIndirection<U, T> withIndirection(Function<T, U> remap) {
+			return new ServiceIndirection<>(this, remap);
 		}
 	}
 
@@ -250,6 +294,8 @@ public class Services implements IServiceProvider {
 		private final Set<ServicePhaseEntry<?>> dependantServices;
 		private final Set<PhaseEntry<?, ?>> required;
 		private final Set<PhaseEntry<?, ?>> requiredFor;
+		private final Set<Consumer<A>> entryCallbacks;
+		private final Set<Consumer<Z>> exitCallbacks;
 
 		private A defaultStartupContext;
 		private Z defaultShutdownContext;
@@ -260,6 +306,8 @@ public class Services implements IServiceProvider {
 			this.dependantServices = new HashSet<>();
 			this.required = new HashSet<>();
 			this.requiredFor = new HashSet<>();
+			this.entryCallbacks = new HashSet<>();
+			this.exitCallbacks = new HashSet<>();
 		}
 
 		private boolean isActive() {
@@ -290,7 +338,7 @@ public class Services implements IServiceProvider {
 
 		}
 
-		private void tryStartService() {
+		private void tryStartPhase() {
 			if (isActive()) {
 				return; // Checks for double-dependancies in requirements
 			}
@@ -302,16 +350,19 @@ public class Services implements IServiceProvider {
 
 		protected void enterServices(A context) {
 			for (PhaseEntry<?, ?> phase : required) {
-				phase.tryStartService();
+				phase.tryStartPhase();
 			}
 			// Check after to catch cyclic requirements. Which we don't want to deal with
 			Preconditions.checkState(!isActive(), "Already in phase " + phaseID);
 			for (ServicePhaseEntry<?> service : dependantServices) {
 				service.enter(context);
 			}
+			for (Consumer<A> callback : entryCallbacks) {
+				callback.accept(context);
+			}
 		}
 
-		private void tryExitService() {
+		private void tryExitPhase() {
 			if (!Services.this.isActive(phaseID)) {
 				return; // Checks for double-dependancies in requirements
 			}
@@ -323,12 +374,15 @@ public class Services implements IServiceProvider {
 
 		protected void exitServices(Z context) {
 			for (PhaseEntry<?, ?> phase : requiredFor) {
-				phase.tryExitService();
+				phase.tryExitPhase();
 			}
 			// Check after to catch cyclic requirements. Which we don't want to deal with
 			Preconditions.checkState(isActive(), "Currently not in phase " + phaseID);
 			for (ServicePhaseEntry<?> service : dependantServices) {
 				service.exit(context);
+			}
+			for (Consumer<Z> callback : exitCallbacks) {
+				callback.accept(context);
 			}
 		}
 
@@ -386,6 +440,25 @@ public class Services implements IServiceProvider {
 			return this;
 		}
 
+		@Override
+		public void registerEntryCallback(Consumer<A> onEntry) {
+			entryCallbacks.add(Objects.requireNonNull(onEntry));
+		}
+
+		@Override
+		public void unregisterEntryCallback(Consumer<A> onEntry) {
+			entryCallbacks.remove(onEntry);
+		}
+
+		@Override
+		public void registerExitCallback(Consumer<Z> onExit) {
+			exitCallbacks.add(Objects.requireNonNull(onExit));
+		}
+
+		@Override
+		public void unregisterExitCallback(Consumer<Z> onExit) {
+			exitCallbacks.remove(onExit);
+		}
 	}
 
 	private Map<IServiceID<?>, ServiceEntry<?>> services = new HashMap<>();
@@ -394,12 +467,9 @@ public class Services implements IServiceProvider {
 
 	@Override
 	public <T> T getServiceFor(IServiceKey<T> serviceKey) {
-		IServiceID<T> serviceID = tryUpcastService(serviceKey);
-		ServiceEntry<T> service = getService(serviceID);
+		IServiceRetrieval<T> serviceID = tryUpcastService(serviceKey);
 
-		Preconditions.checkState(service.getState() == LifeCycle.ACTIVE, "Service not active");
-
-		return service.getService();
+		return serviceID.retrieveService();
 	}
 
 	@Override
@@ -432,13 +502,11 @@ public class Services implements IServiceProvider {
 
 	// --- Helper methods
 
-	private <T> IServiceID<T> tryUpcastService(IServiceKey<T> key) {
-		Preconditions.checkArgument(key instanceof ServiceEntry, "not a service key from this service provider");
-		ServiceEntry<T> entry = ServiceEntry.class.cast(key);
+	private <T> IServiceRetrieval<T> tryUpcastService(IServiceKey<T> key) {
+		Preconditions.checkArgument(key instanceof IServiceRetrieval, "not a service key from this service provider");
+		IServiceRetrieval<T> entry = IServiceRetrieval.class.cast(key);
 		Preconditions.checkArgument(entry.getServiceProvider() == this, "not a service key from this service provider");
-		IServiceID<T> id = entry.getID();
-		assert hasService(id);
-		return id;
+		return entry;
 	}
 
 	private <A, Z> IPhaseID<A, Z> tryUpcastPhase(IPhaseKey<A, Z> key) {

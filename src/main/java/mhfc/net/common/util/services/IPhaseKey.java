@@ -1,5 +1,7 @@
 package mhfc.net.common.util.services;
 
+import java.util.function.Consumer;
+
 /**
  * Is the public interface of the key for a phase.
  * <p>
@@ -17,9 +19,18 @@ public interface IPhaseKey<A, Z> {
 	 */
 	IServiceProvider getServiceProvider();
 
-	@Override
-	int hashCode();
+	/**
+	 * Registers an entry callback. Registered consumers will be called when the phase enters in unspecified order.
+	 *
+	 *
+	 * @param onEntry
+	 *            the callback
+	 */
+	void registerEntryCallback(Consumer<A> onEntry);
 
-	@Override
-	boolean equals(Object obj);
+	void unregisterEntryCallback(Consumer<A> onEntry);
+
+	void registerExitCallback(Consumer<Z> onExit);
+
+	void unregisterExitCallback(Consumer<Z> onExit);
 }

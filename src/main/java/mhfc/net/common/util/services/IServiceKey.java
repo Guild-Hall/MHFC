@@ -1,5 +1,7 @@
 package mhfc.net.common.util.services;
 
+import java.util.function.Function;
+
 /**
  * Is the public interface of the key for a service.
  * <p>
@@ -15,9 +17,12 @@ public interface IServiceKey<T> {
 	 */
 	IServiceProvider getServiceProvider();
 
-	@Override
-	boolean equals(Object obj);
-
-	@Override
-	int hashCode();
+	/**
+	 * Represents a service key that, instead of retrieving this key's service, first applies it to the function given.
+	 *
+	 * @param remap
+	 *            the remapper from T to O. Not null
+	 * @return A new service key to retrieve the remapped service.
+	 */
+	<O> IServiceKey<O> withIndirection(Function<T, O> remap);
 }
