@@ -1,5 +1,6 @@
 package mhfc.net.client;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.ProxyBase;
 import mhfc.net.client.core.MHFCClientRegistry;
 import mhfc.net.common.core.MHFCCommonRegistry;
@@ -10,7 +11,6 @@ import mhfc.net.common.entity.type.EntityParticleEmitter;
 import net.minecraft.client.Minecraft;
 
 public class MHFCClient extends ProxyBase {
-	@Override
 	public void initialize() {
 		MHFCCommonRegistry.init();
 		MHFCClientRegistry.init();
@@ -20,6 +20,8 @@ public class MHFCClient extends ProxyBase {
 	public void staticInit() {
 		MHFCCommonRegistry.staticInit();
 		MHFCClientRegistry.staticInit();
+
+		MHFCMain.initPhase.registerEntryCallback(e -> initialize());
 	}
 
 	/**

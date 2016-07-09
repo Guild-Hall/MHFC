@@ -2,6 +2,8 @@ package mhfc.net.common.block;
 
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.util.SubTypedItem;
@@ -12,21 +14,14 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockWyverniaPlank extends Block {
-	public static enum WyverniaPlankSubType
-			implements
-				SubTypedItem.SubTypeEnum<Block> {
+	public static enum WyverniaPlankSubType implements SubTypedItem.SubTypeEnum<Block> {
 		CALFER(MHFCReference.block_calfer_name, MHFCReference.block_calfer_tex), //
-		DIREWOOD(MHFCReference.block_direwood_name,
-				MHFCReference.block_direwood_tex), //
-		GRAND_IFOLIA(MHFCReference.block_grandifolia_name,
-				MHFCReference.block_grandifolia_tex), //
+		DIREWOOD(MHFCReference.block_direwood_name, MHFCReference.block_direwood_tex), //
+		GRAND_IFOLIA(MHFCReference.block_grandifolia_name, MHFCReference.block_grandifolia_tex), //
 		MAVEN(MHFCReference.block_maven_name, MHFCReference.block_maven_tex), //
-		NEGUNDO(MHFCReference.block_negundo_name,
-				MHFCReference.block_negundo_tex), //
+		NEGUNDO(MHFCReference.block_negundo_name, MHFCReference.block_negundo_tex), //
 		PALMER(MHFCReference.block_palmer_name, MHFCReference.block_palmer_tex), //
 		RADEL(MHFCReference.block_radel_name, MHFCReference.block_radel_tex), //
 		SANDY(MHFCReference.block_sandy_name, MHFCReference.block_sandy_tex), //
@@ -34,21 +29,25 @@ public class BlockWyverniaPlank extends Block {
 
 		public final String name;
 		public final String texture;
+
 		private WyverniaPlankSubType(String name, String tex) {
 			this.name = name;
 			this.texture = tex;
 		}
+
 		@Override
 		public String getName() {
 			return name;
 		}
+
 		@Override
 		public String getTexPath() {
 			return texture;
 		}
+
 		@Override
 		public Block getBaseItem() {
-			return MHFCBlockRegistry.mhfcblockplanks;
+			return MHFCBlockRegistry.getRegistry().mhfcblockplanks;
 		}
 	}
 
@@ -67,10 +66,8 @@ public class BlockWyverniaPlank extends Block {
 		blockTrait.registerIcons(registry);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public void getSubBlocks(Item item, CreativeTabs tab,
-			@SuppressWarnings("rawtypes") List list) {
+	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
 		blockTrait.getSubItems(item, list);
 	}
 

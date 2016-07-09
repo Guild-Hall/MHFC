@@ -19,8 +19,8 @@ public class WyverniaBiomeBase extends BiomeGenBase {
 		worldGeneratorBigTree = null;
 		enableRain = depends;
 		temperature = getTemp;
-		topBlock = MHFCBlockRegistry.mhfcblockgrass;
-		fillerBlock = MHFCBlockRegistry.mhfcblockdirt;
+		topBlock = MHFCBlockRegistry.getRegistry().mhfcblockgrass;
+		fillerBlock = MHFCBlockRegistry.getRegistry().mhfcblockdirt;
 		spawnThisBiome(this);
 	}
 
@@ -31,10 +31,11 @@ public class WyverniaBiomeBase extends BiomeGenBase {
 
 	// TODO this is just a test method for generating for quest.
 	public static void spawnThisBiome(BiomeGenBase base) {
-		if (questActive)
+		if (questActive) {
 			BiomeManager.addSpawnBiome(base);
-		else
+		} else {
 			BiomeManager.removeSpawnBiome(base);
+		}
 	}
 
 }

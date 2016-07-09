@@ -27,22 +27,21 @@ public class MHFCCommonRegistry {
 	public static void init() {
 		MHFCCommonRegistry.addPlayerProperties();
 		MHFCCommonRegistry.addStringDecoders();
-		MHFCCommonRegistry.addBlocks();
 		MHFCCommonRegistry.addItems();
 		MHFCCommonRegistry.addRecipes();
 		MHFCCommonRegistry.addDimension();
 		MHFCCommonRegistry.addSmelting();
 		MHFCCommonRegistry.addTile();
-		MHFCCommonRegistry.addMonsters();
 		MHFCCommonRegistry.addPotion();
-		MHFCCommonRegistry.addEvent();
 		MHFCCommonRegistry.addPacket();
 		MHFCCommonRegistry.addAreas();
 		MHFCCommonRegistry.addQuests();
 	}
 
 	public static void staticInit() {
-		// TODO Auto-generated method stub
+		MHFCCommonRegistry.addBlocks();
+		MHFCCommonRegistry.addEvent();
+		MHFCCommonRegistry.addMonsters();
 	}
 
 	private static void addPlayerProperties() {
@@ -61,7 +60,7 @@ public class MHFCCommonRegistry {
 	}
 
 	private static void addBlocks() {
-		MHFCBlockRegistry.init();
+		MHFCBlockRegistry.staticInit();
 		MHFCCommonRegistry.logger.info("Blocks registered");
 	}
 
@@ -107,7 +106,7 @@ public class MHFCCommonRegistry {
 	}
 
 	private static void addMonsters() {
-		MHFCEntityRegistry.init();
+		MHFCEntityRegistry.staticInit();
 		MHFCCommonRegistry.logger.info("Monsters registered");
 	}
 

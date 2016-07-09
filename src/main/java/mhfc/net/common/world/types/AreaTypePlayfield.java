@@ -93,7 +93,7 @@ public class AreaTypePlayfield implements IAreaType {
 					for (int j = 0; j < 16 * chunksZ; j++) {
 						int x = configuration.getPosition().posX * 16 + i;
 						int z = configuration.getPosition().posY * 16 + j;
-						world.setBlock(x, 64, z, MHFCBlockRegistry.mhfcblockdirt);
+						world.setBlock(x, 64, z, MHFCBlockRegistry.getRegistry().mhfcblockdirt);
 					}
 				}
 				return null;

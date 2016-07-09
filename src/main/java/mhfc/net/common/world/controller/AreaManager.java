@@ -74,7 +74,13 @@ public class AreaManager implements IAreaManager {
 			IArea loadingArea = info.type.provideForLoading(world, info.config);
 			this.nonactiveAreas.computeIfAbsent(info.type, (k) -> new ArrayList<>()).add(loadingArea);
 		}
-		loadingTicket = ForgeChunkManager.requestTicket(MHFCMain.class, world, Type.NORMAL);
+	}
+
+	private Ticket getLoadingTicket() {
+		if (loadingTicket == null) {
+			loadingTicket = ForgeChunkManager.requestTicket(MHFCMain.instance(), world, Type.NORMAL);
+		}
+		return loadingTicket;
 	}
 
 	private void dismiss(IActiveArea active) {
@@ -95,15 +101,15 @@ public class AreaManager implements IAreaManager {
 
 		final Operation plan = type.populate(world, config);
 		final ChunkCoordIntPair chunkPos = new ChunkCoordIntPair(position.posX, position.posY);
-		ForgeChunkManager.forceChunk(loadingTicket, chunkPos);
+		ForgeChunkManager.forceChunk(getLoadingTicket(), chunkPos);
 		final CompletableFuture<IActiveArea> areaFuture = new CompletableFuture<>();
 		final Operation operation = Operations.withCallback(Operations.timingOperation(plan, 20), o -> {
 			areaFuture.complete(new Active(type.provideForLoading(world, config), type, this));
-			ForgeChunkManager.unforceChunk(loadingTicket, chunkPos);
+			ForgeChunkManager.unforceChunk(getLoadingTicket(), chunkPos);
 			MHFCMain.logger().debug("Area of type {} completed", type);
 		}, o -> {
 			areaFuture.cancel(true);
-			ForgeChunkManager.unforceChunk(loadingTicket, chunkPos);
+			ForgeChunkManager.unforceChunk(getLoadingTicket(), chunkPos);
 			MHFCMain.logger().debug("Area of type {} cancelled", type);
 		});
 

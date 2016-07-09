@@ -2,6 +2,8 @@ package mhfc.net.common.block;
 
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.util.lib.MHFCReference;
@@ -10,8 +12,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockWyverniaGrass extends Block {
 
@@ -30,9 +30,7 @@ public class BlockWyverniaGrass extends Block {
 
 	@Override
 	public IIcon getIcon(int side, int meta) {
-		return side == 1 ? iconGrassTop : (meta == 0
-				? iconGrassSide
-				: blockIcon);
+		return side == 1 ? iconGrassTop : (meta == 0 ? iconGrassSide : blockIcon);
 	}
 
 	@Override
@@ -52,10 +50,11 @@ public class BlockWyverniaGrass extends Block {
 	public void updateTick(World par1, int par2, int par3, int par4, Random rand) {
 		if (!par1.isRemote) {
 			if (par1.getBlockLightValue(par2, par3 + 1, par4) < 4
-					&& par1.getBlockLightOpacity(par2, par3 + 1, par4) > 2)
+					&& par1.getBlockLightOpacity(par2, par3 + 1, par4) > 2) {
 				;
+			}
 			{
-				par1.setBlock(par2, par3, par4, MHFCBlockRegistry.mhfcblockdirt);
+				par1.setBlock(par2, par3, par4, MHFCBlockRegistry.getRegistry().mhfcblockdirt);
 
 			}
 		} else if (par1.getBlockLightValue(par2, par3 + 1, par4) >= 9) {
@@ -65,10 +64,10 @@ public class BlockWyverniaGrass extends Block {
 				int k1 = par4 + rand.nextInt(3) - 1;
 				// Block l1 = par1.getBlock(i1, j1 + 1, k1);
 
-				if (par1.getBlock(i1, j1, k1) == MHFCBlockRegistry.mhfcblockdirt
+				if (par1.getBlock(i1, j1, k1) == MHFCBlockRegistry.getRegistry().mhfcblockdirt
 						&& par1.getBlockLightValue(i1, j1 + 1, k1) >= 4
 						&& par1.getBlockLightOpacity(i1, j1 + 1, k1) <= 2) {
-					par1.setBlock(i1, j1, k1, MHFCBlockRegistry.mhfcblockgrass);
+					par1.setBlock(i1, j1, k1, MHFCBlockRegistry.getRegistry().mhfcblockgrass);
 				}
 
 			}

@@ -11,17 +11,13 @@ import net.minecraftforge.client.MinecraftForgeClient;
 
 public class MHFCItemRenderRegistry {
 	public static void init() {
-		registerBlockRenderer(MHFCBlockRegistry.mhfcblockhunterbench,
-				new RenderItemHunterBench());
-		registerBlockRenderer(MHFCBlockRegistry.mhfcblockstuntrap,
-				new RenderItemStunTrap());
-		registerBlockRenderer(MHFCBlockRegistry.mhfcblockbbqspit,
-				new RenderItemBBQSpit());
+		registerBlockRenderer(MHFCBlockRegistry.getRegistry().mhfcblockhunterbench, new RenderItemHunterBench());
+		registerBlockRenderer(MHFCBlockRegistry.getRegistry().mhfcblockstuntrap, new RenderItemStunTrap());
+		registerBlockRenderer(MHFCBlockRegistry.getRegistry().mhfcblockbbqspit, new RenderItemBBQSpit());
 	}
 
 	private static void registerBlockRenderer(Block block, IItemRenderer renderer) {
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(block),
-				renderer);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(block), renderer);
 	}
 
 }

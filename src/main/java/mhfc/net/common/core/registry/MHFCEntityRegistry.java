@@ -23,45 +23,45 @@ import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import mhfc.net.common.entity.quests.EntityQuestGiver;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.services.IServiceKey;
+import mhfc.net.common.util.services.Services;
 import net.minecraft.entity.Entity;
 
 public class MHFCEntityRegistry {
-	private static int entityID = 0;
-	private static final List<Class<? extends Entity>> registeredMobs;
-	private static final List<Class<? extends Entity>> registeredProjectiles;
+	public static void staticInit() {}
 
-	public static int tigrexID;
-	//public static final int kirinID;
-	//public static final int rathalosID;
-	public static int greatjaggiID;
-	public static int deviljhoID;
-	public static int nargacugaID;
-	public static int barrothID;
-	//public static final int delexID;
-	//public static final int giapreyID;
-	//public static final int ukanlosID;
-	public static int lagiacrusID;
-	//public static final int gargwaID;
+	private static final IServiceKey<MHFCEntityRegistry> serviceAccess = RegistryWrapper
+			.registerService("entity registry", MHFCEntityRegistry::new, MHFCMain.initPhase);
 
-	public static int questGiverID;
+	private int entityID = 0;
+	private final List<Class<? extends Entity>> registeredMobs = new ArrayList<>();
+	private final List<Class<? extends Entity>> registeredProjectiles = new ArrayList<>();
 
-	public static int projectileBlockID;
-	public static int rathalosFireballID;
-	public static int breatheID;
-	public static int bulletID;
-	public static int flashbombID;
-	public static int paintballID;
-	public static int paintemitterID;
-	public static int arrowID;
+	public final int tigrexID;
+	//public final int kirinID;
+	//public final int rathalosID;
+	public final int greatjaggiID;
+	public final int deviljhoID;
+	public final int nargacugaID;
+	public final int barrothID;
+	//public final int delexID;
+	//public final int giapreyID;
+	//public final int ukanlosID;
+	public final int lagiacrusID;
+	//public final int gargwaID;
 
-	static {
-		registeredMobs = new ArrayList<>();
-		registeredProjectiles = new ArrayList<>();
+	public final int questGiverID;
 
-	}
+	public final int projectileBlockID;
+	public final int rathalosFireballID;
+	public final int breatheID;
+	public final int bulletID;
+	public final int flashbombID;
+	public final int paintballID;
+	public final int paintemitterID;
+	public final int arrowID;
 
-	public static void init() {
-
+	protected MHFCEntityRegistry() {
 		// popoID = getMobID(EntityPopo.class, MHFCReference.mob_popo_name,
 		// 0xf8248234, 0x193192);
 		tigrexID = getMobID(EntityTigrex.class, MHFCReference.mob_tigrex_name, ItemColor.YELLOW, ItemColor.LIBLUE);
@@ -106,7 +106,7 @@ public class MHFCEntityRegistry {
 	 * @param name
 	 * @return
 	 */
-	private static int getMobID(Class<? extends Entity> clazz, String name) {
+	private int getMobID(Class<? extends Entity> clazz, String name) {
 		if (isRegistered(clazz)) {
 			return -1;
 		}
@@ -117,7 +117,7 @@ public class MHFCEntityRegistry {
 		return monsterID;
 	}
 
-	private static int getMobID(Class<? extends Entity> clazz, String name, int foreground, int background) {
+	private int getMobID(Class<? extends Entity> clazz, String name, int foreground, int background) {
 		if (isRegistered(clazz)) {
 			return -1;
 		}
@@ -128,15 +128,11 @@ public class MHFCEntityRegistry {
 		return monsterID;
 	}
 
-	private static int getMobID(
-			Class<? extends Entity> clazz,
-			String name,
-			ItemColor foreground,
-			ItemColor background) {
+	private int getMobID(Class<? extends Entity> clazz, String name, ItemColor foreground, ItemColor background) {
 		return getMobID(clazz, name, foreground.getRGB(), background.getRGB());
 	}
 
-	private static int getProjectileID(Class<? extends Entity> clazz, String name) {
+	private int getProjectileID(Class<? extends Entity> clazz, String name) {
 		if (isRegistered(clazz)) {
 			return -1;
 		}
@@ -146,7 +142,7 @@ public class MHFCEntityRegistry {
 		return projectileID;
 	}
 
-	private static int getProjectileID(Class<? extends Entity> clazz, String name, int customTrackingRange) {
+	private int getProjectileID(Class<? extends Entity> clazz, String name, int customTrackingRange) {
 		if (isRegistered(clazz)) {
 			return -1;
 		}
@@ -156,16 +152,19 @@ public class MHFCEntityRegistry {
 		return projectileID;
 	}
 
-	private static int getMobID() {
+	private int getMobID() {
 		return entityID++;
 	}
 
-	private static int getProjID() {
+	private int getProjID() {
 		return entityID++;
 	}
 
-	private static boolean isRegistered(Class<?> clazz) {
+	private boolean isRegistered(Class<?> clazz) {
 		return registeredMobs.contains(clazz) || registeredProjectiles.contains(clazz);
 	}
 
+	public static MHFCEntityRegistry getRegistry() {
+		return Services.getService(serviceAccess);
+	}
 }

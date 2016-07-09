@@ -1,5 +1,7 @@
 package mhfc.net;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,7 +34,10 @@ import mhfc.net.common.util.services.IServiceHandle;
 import mhfc.net.common.util.services.IServicePhaseHandle;
 import mhfc.net.common.util.services.Services;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
 
@@ -140,6 +145,7 @@ public class MHFCMain {
 	}
 
 	private void staticInit() {
+		ForgeChunkManager.setForcedChunkLoadingCallback(this, this::chunkLoadingCallback);
 		MHFCMain.getSidedProxy().staticInit();
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 			constructedPhaseAccess.exitPhase(null);
@@ -168,7 +174,6 @@ public class MHFCMain {
 	@Mod.EventHandler
 	protected void onInit(FMLInitializationEvent event) {
 		initPhaseAccess.enterPhase(event);
-		MHFCMain.getSidedProxy().initialize();
 	}
 
 	@Mod.EventHandler
@@ -217,5 +222,10 @@ public class MHFCMain {
 				}
 			}
 		}
+	}
+
+	private void chunkLoadingCallback(List<Ticket> tickets, World world) {
+		// No-op
+		logger.debug("" + tickets + " " + world);
 	}
 }

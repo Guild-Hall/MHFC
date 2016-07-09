@@ -305,7 +305,7 @@ public class DirectorEquipmentRecipes {
 		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_hm_warhammer));
 		builder.addIngredient(Item.getItemById(265), 7, 0);// 265 is iron
 															// ingot
-		builder.addIngredient(Item.getItemFromBlock(MHFCBlockRegistry.mhfcblockdiskstone), 2, 0);
+		builder.addIngredient(Item.getItemFromBlock(MHFCBlockRegistry.getRegistry().mhfcblockdiskstone), 2, 0);
 		builder.setRequiredHeat(100).setDuration(200);
 		builder.addIngredient(MHFCItemRegistry.mhfcitemsteelbar, 4, 0);
 		recipe_hm_war = builder.build();
