@@ -32,18 +32,18 @@ public class DeviljhoStomp extends AIAnimatedAction<EntityDeviljho> {
 
 	private void updateStomp() {
 		EntityDeviljho entity = this.getEntity();
-		if (!entity.onGround || thrown || this.getCurrentFrame() < 26)
+		if (!entity.onGround || thrown || this.getCurrentFrame() < 26) {
 			return;
-		@SuppressWarnings("unchecked")
+		}
 		List<Entity> list = entity.worldObj
 				.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(6.0D, 1.0D, 6.0D));
-		AIGameplayComposition.AICameraShakeEffect(entity, entity.getAttackTarget(), 40);
-		AIGameplayComposition.AIStompCrackGameplay(entity, 100);
+		AIGameplayComposition.cameraShake(entity, entity.getAttackTarget(), 40);
+		AIGameplayComposition.stompCracks(entity, 100);
 		for (Entity entity1 : list) {
 			if (!(entity1 instanceof EntityLivingBase)) {
 				continue;
 			}
-			EntityLivingBase living = (EntityLivingBase) entity;
+			EntityLivingBase living = entity;
 			damageCalc.accept(living);
 			entity1.attackEntityFrom(DamageSource.causeMobDamage(entity), 60f);
 			entity1.addVelocity(-0.2, 0.2, 0);

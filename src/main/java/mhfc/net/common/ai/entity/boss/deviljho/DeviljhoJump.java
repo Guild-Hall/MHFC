@@ -56,7 +56,7 @@ public class DeviljhoJump extends AIGeneralJumpAttack<EntityDeviljho> {
 		}
 		if (!entity.onGround || thrown || this.getCurrentFrame() < 30)
 			return;
-		AIGameplayComposition.AIStompCrackGameplay(entity, 200);
+		AIGameplayComposition.stompCracks(entity, 200);
 		thrown = true;
 	}
 

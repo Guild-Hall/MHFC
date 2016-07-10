@@ -36,13 +36,12 @@ public class WorldHelper {
 	 */
 	public static List<Entity> collidingEntities(Entity entity, IEntitySelector filter) {
 		World world = entity.worldObj;
-		@SuppressWarnings("unchecked")
 		List<Entity> collidingEntities = world.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox);
 		Entity[] subEntities = entity.getParts();
-		if (subEntities == null)
+		if (subEntities == null) {
 			return collidingEntities;
+		}
 		for (Entity subE : subEntities) {
-			@SuppressWarnings("unchecked")
 			List<Entity> collidingEntitiesSub = world.getEntitiesWithinAABBExcludingEntity(entity, subE.boundingBox);
 			for (Entity collidingE : collidingEntitiesSub) {
 				if (!collidingEntities.contains(collidingE)) {

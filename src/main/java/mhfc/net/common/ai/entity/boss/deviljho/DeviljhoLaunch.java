@@ -43,7 +43,7 @@ public class DeviljhoLaunch extends AIAnimatedAction<EntityDeviljho> {
 			getEntity().playSound("mhfc:deviljho.rockthrow", 2.0F, 1.0F);
 
 			AIUtils.damageCollidingEntities(getEntity(), damageCalc);
-			AIGameplayComposition.AILaunchGameply(entity, 0, 1.4, 0);
+			AIGameplayComposition.launch(entity, 0, 1.4, 0);
 		}
 		if (this.getCurrentFrame() >= 35) {
 			Vec3 look = entity.getLookVec();

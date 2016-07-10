@@ -51,7 +51,7 @@ public class BarrothRamRun extends ActionAdapter<EntityBarroth> {
 			
 		}
 		if(this.getCurrentFrame() > 85){
-			AIGameplayComposition.AILaunchGameply(entity, 1.0D, 1.5D, 1.0D);
+			AIGameplayComposition.launch(entity, 1.0D, 1.5D, 1.0D);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			entity.moveForward(0.8, true);

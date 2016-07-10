@@ -16,31 +16,30 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
 
 public class AIGameplayComposition {
-	
-	/** 
-	 *  So I have an idea that this will be the place where all AI methods well technically common 
-	 *  graphics materials like for example : The Stomp Particles from Deviljho AI will be placed.
-	 *  
-	 *  This will be the class that where all common gameplay of the AI will be placed. Example 
-	 *  
-	 *  The Stomp Effect from Deviljho stomp. of course other monsters would use that too. so aside 
-	 *  from adding some updates in the General AI's which may not be final and can cause conflicts 
-	 *  soon this will be a place for this methods to avoid bad casualties...
-	 *  
-	 *  
-	 *  If you have Suggestions just post issue
-	 *  
-	 *  @author Heltrato
-	 *  
-	 *  TODO: Add all the basic variations
-	 * 
-	 * 
-	 * 
+
+	/**
+	 * So I have an idea that this will be the place where all AI methods well technically common graphics materials
+	 * like for example : The Stomp Particles from Deviljho AI will be placed.
+	 *
+	 * This will be the class that where all common gameplay of the AI will be placed. Example
+	 *
+	 * The Stomp Effect from Deviljho stomp. of course other monsters would use that too. so aside from adding some
+	 * updates in the General AI's which may not be final and can cause conflicts soon this will be a place for this
+	 * methods to avoid bad casualties...
+	 *
+	 *
+	 * If you have Suggestions just post issue
+	 *
+	 * @author Heltrato
+	 *
+	 *         TODO: Add all the basic variations
+	 *
+	 *
+	 *
 	 **/
-	
-	
-	public static void AIStompCrackGameplay(Entity entity, int incrementLength)  {
-		Random random = new Random();
+
+	public static void stompCracks(Entity entity, int incrementLength) {
+		Random random = entity.worldObj.rand;
 		int a = MathHelper.floor_double(entity.posX);
 		int b = MathHelper.floor_double(entity.posY);
 		int c = MathHelper.floor_double(entity.posZ);
@@ -61,13 +60,14 @@ public class AIGameplayComposition {
 			}
 		}
 	}
-	
-	public static void AIChargeGameplay(EntityCreature entity, EntityLivingBase entityLivingBase, double moveSpeed, boolean inWater) {
-		PathEntity pathentity = entityLivingBase.worldObj.getPathEntityToEntity(entityLivingBase, entityLivingBase, 30F, false, false, inWater, true);
-		entity.setPathToEntity(pathentity);
+
+	public static void charge(EntityCreature attacker, EntityLivingBase target, double moveSpeed, boolean inWater) {
+		PathEntity pathentity = target.worldObj
+				.getPathEntityToEntity(attacker, target, 30F, false, false, inWater, true);
+		attacker.setPathToEntity(pathentity);
 	}
-	
-	public static void AILaunchGameply(Entity entity, double x, double y, double z) {
+
+	public static void launch(Entity entity, double x, double y, double z) {
 		List<Entity> collidingEnts = WorldHelper.collidingEntities(entity);
 		if (!entity.worldObj.isRemote) {
 			for (Entity collider : collidingEnts) {
@@ -75,24 +75,18 @@ public class AIGameplayComposition {
 			}
 		}
 	}
-	
-	// Final Stuff
-	static boolean shake = false;
-	static float shakeIntensity;
-	public static void AICameraShakeEffect(EntityCreature disEntity, Entity entity,  float intensity) {
-//		List<Entity> collidingEnts = disEntity.worldObj.getEntitiesWithinAABBExcludingEntity(p_72839_1_, p_72839_2_);
-		if(disEntity.worldObj.isRemote){
-			shake = (shake == false) ?  true : false;
-			shakeIntensity = (shake)? intensity: -intensity;
-			if(entity instanceof EntityPlayer){
-				entity.setAngles(0, intensity);
-				}
-			}
-		}	
-	
-	public static void AIRoarEffectGameplay(EntityLivingBase target) {
-		if (target instanceof EntityPlayer && ((EntityPlayer) target).capabilities.isCreativeMode)
+
+	public static void cameraShake(EntityCreature disEntity, Entity entity, float intensity) {
+		if (disEntity.worldObj.isRemote && entity instanceof EntityPlayer) {
+			float modifiedPitch = ((disEntity.ticksExisted % 4) / 2f - 1) * intensity;
+			entity.setAngles(0, modifiedPitch);
+		}
+	}
+
+	public static void roarEffect(EntityLivingBase target) {
+		if (target instanceof EntityPlayer && ((EntityPlayer) target).capabilities.isCreativeMode) {
 			return;
+		}
 		target.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 80, 10));
 		target.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 80, 10));
 	}

@@ -50,7 +50,7 @@ public abstract class AIGeneralRoar<EntityT extends EntityMHFCBase<? super Entit
 			if (!affectedEntities.contains(affectedEntity) && affectedEntity instanceof EntityLivingBase) {
 				EntityLivingBase entityLiving = (EntityLivingBase) affectedEntity;
 				if (shouldStun(entityLiving)) {
-					AIGameplayComposition.AIRoarEffectGameplay(entityLiving);
+					AIGameplayComposition.roarEffect(entityLiving);
 				}
 				affectedEntities.add(entityLiving);
 			}
