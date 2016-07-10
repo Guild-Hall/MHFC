@@ -2,29 +2,65 @@ package mhfc.net.common.eventhandler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class DoubleBufferRunnableRegistry {
-	private Object guard = new Object();
+	private Object runGuard = new Object();
 
-	private List<Runnable> current = new ArrayList<>();
-	private List<Runnable> other = new ArrayList<>();
+	private static class RunEntry implements Runnable {
+		private Runnable run;
+		private Runnable cancel;
 
-	public void register(Runnable r) {
-		synchronized (guard) {
-			current.add(r);
+		public RunEntry(Runnable run, Runnable cancel) {
+			this.run = run;
+			this.cancel = cancel;
+		}
+
+		@Override
+		public void run() {
+			this.run.run();
+		}
+
+		public void cancel() {
+			if (this.cancel == null) {
+				return;
+			}
+			this.cancel.run();
+		}
+	}
+
+	private List<RunEntry> current = new ArrayList<>();
+	private List<RunEntry> other = new ArrayList<>();
+
+	public void register(Runnable r, Runnable cancel) {
+		Objects.requireNonNull(r);
+		synchronized (runGuard) {
+			current.add(new RunEntry(r, cancel));
 		}
 	}
 
 	public void runAll() {
-		List<Runnable> toRun;
-		synchronized (guard) {
-			toRun = current;
+		synchronized (runGuard) {
+			List<RunEntry> toRun = current;
 			current = other;
 			current.clear();
 			other = toRun;
+			for (RunEntry r : toRun) {
+				r.run();
+			}
 		}
-		for (Runnable r : toRun) {
-			r.run();
+	}
+
+	public void cancelNext() {
+		synchronized (runGuard) {
+			for (RunEntry r : current) {
+				r.cancel();
+			}
+			current.clear();
+			for (RunEntry r : other) {
+				r.cancel();
+			}
+			other.clear();
 		}
 	}
 }

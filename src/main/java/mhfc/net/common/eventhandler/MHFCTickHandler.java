@@ -16,6 +16,37 @@ import mhfc.net.MHFCMain;
 public class MHFCTickHandler {
 	public static final MHFCTickHandler instance = new MHFCTickHandler();
 
+	private static class OperationWrapper implements Runnable {
+		private Operation op;
+		private RunContext context;
+		private DoubleBufferRunnableRegistry registry;
+		private Runnable cancel;
+
+		public OperationWrapper(Operation op, DoubleBufferRunnableRegistry registry) {
+			this.op = Objects.requireNonNull(op);
+			this.context = new RunContext();
+			this.registry = Objects.requireNonNull(registry);
+			this.cancel = this::cancelOp;
+		}
+
+		protected void cancelOp() {
+			this.op.cancel();
+		}
+
+		@Override
+		public void run() {
+			try {
+				this.op = op.resume(context);
+			} catch (WorldEditException e) {
+				MHFCMain.logger().error("Exception when handling an operation", e);
+				return;
+			}
+			if (this.op != null) {
+				registry.register(this, cancel);
+			}
+		}
+	}
+
 	private Map<TickPhase, DoubleBufferRunnableRegistry> jobQueue = new EnumMap<>(TickPhase.class);
 
 	private DoubleBufferRunnableRegistry getQueueFor(TickPhase phase) {
@@ -23,9 +54,8 @@ public class MHFCTickHandler {
 		return jobQueue.computeIfAbsent(phase, p -> new DoubleBufferRunnableRegistry());
 	}
 
-	public void registerRunnable(TickPhase phase, Runnable run) {
-		Objects.requireNonNull(run);
-		getQueueFor(phase).register(run);
+	public void registerRunnable(TickPhase phase, Runnable run, Runnable cancel) {
+		getQueueFor(phase).register(run, cancel);
 	}
 
 	public void registerOperation(TickPhase phase, final Operation op) {
@@ -48,20 +78,13 @@ public class MHFCTickHandler {
 		if (op == null) {
 			return;
 		}
-		registerRunnable(phase, () -> {
-			try {
-				Operation followUp = op.resume(context);
-				if (followUp != null) {
-					registerOperation(phase, followUp, context);
-				}
-			} catch (WorldEditException e) {
-				MHFCMain.logger().error("Exception when handling an operation", e);
-			}
-		});
+		DoubleBufferRunnableRegistry queue = getQueueFor(phase);
+		OperationWrapper runnable = new OperationWrapper(op, queue);
+		queue.register(runnable, runnable.cancel);
 	}
 
 	public Executor poolFor(final TickPhase phase) {
-		return command -> registerRunnable(phase, command);
+		return command -> registerRunnable(phase, command, null);
 	}
 
 	@SubscribeEvent
