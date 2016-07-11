@@ -329,7 +329,7 @@ type.weapon_dual_bowgun.name=Dual Bowgun
 type.weapon_bow.name=Bow
 type.weapon_chargeaxe.name=Charge Axe
 type.weapon_insectstaff.name=Insect Staff
-type.weapon_no_item.name=No Type
+type.no_item.name=Uncategorized
 
 type.effect.fire.name=Fire Element
 type.effect.thunder.name=Thunder Element

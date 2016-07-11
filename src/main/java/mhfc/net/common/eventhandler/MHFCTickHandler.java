@@ -38,7 +38,9 @@ public class MHFCTickHandler {
 		}
 
 		protected void cancelOp() {
-			this.op.cancel();
+			if (op != null) {
+				this.op.cancel();
+			}
 		}
 
 		@Override

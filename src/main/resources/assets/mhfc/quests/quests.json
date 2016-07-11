@@ -67,7 +67,7 @@
 			} ,
 			reward : 5000,
 			fee : 200,
-			areaID : "Desert Palm",
+			areaID : "desert",
 			flair: "NIGHTTIME",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
