@@ -99,7 +99,7 @@ public class ItemMeats extends ItemFood {
 
 		@Override
 		public Item getBaseItem() {
-			return MHFCItemRegistry.mhfcfoodmeat;
+			return MHFCItemRegistry.getRegistry().meat;
 		}
 
 		public void onFoodEaten(ItemStack itemStack, World serverWorld, EntityPlayer player) {

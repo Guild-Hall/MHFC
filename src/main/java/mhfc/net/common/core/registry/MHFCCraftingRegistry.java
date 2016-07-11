@@ -10,13 +10,14 @@ public class MHFCCraftingRegistry {
 	public static void init() {
 		GameRegistry.addRecipe(
 				new ItemStack(MHFCBlockRegistry.getRegistry().mhfcblocklosgable, 1),
-				new Object[] { "XXX", "X X", "XXX", Character.valueOf('X'), MHFCItemRegistry.MHFCItemWyverniaDust });
+				new Object[] { "XXX", "X X", "XXX", Character.valueOf('X'),
+						MHFCItemRegistry.getRegistry().wyverniaDust });
 		GameRegistry.addRecipe(
 				new ItemStack(MHFCBlockRegistry.getRegistry().mhfcblockhunterbench, 1),
 				new Object[] { "XAX", "SXS", "ASA", Character.valueOf('X'), Blocks.crafting_table,
 						Character.valueOf('A'), Blocks.iron_block, Character.valueOf('S'), Items.brick });
 		GameRegistry.addRecipe(
-				new ItemStack(MHFCItemRegistry.MHFCItemBombMaterial, 1),
+				new ItemStack(MHFCItemRegistry.getRegistry().bombMaterial, 1),
 				new Object[] { "XXX", "XAX", "XXX", Character.valueOf('X'), Items.leather, Character.valueOf('A'),
 						Items.gunpowder });
 	}

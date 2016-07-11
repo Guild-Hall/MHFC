@@ -15,6 +15,10 @@ import net.minecraftforge.common.MinecraftForge;
 @SuppressWarnings("deprecation")
 public class MHFCEventRegistry {
 
+	public static void staticInit() {
+		MHFCTickHandler.staticInit();
+	}
+
 	public static void init() {
 		registerGuiHandler();
 		registerNetworkEventHandlers();

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -119,12 +120,12 @@ public class Services implements IServiceProvider {
 	 * @return
 	 * @see #getServiceFor(IServiceKey)
 	 */
-	public static <T> T getService(IServiceKey<T> serviceKey) {
+	public static <T> Optional<T> getService(IServiceKey<T> serviceKey) {
 		return getInstance().getServiceFor(serviceKey);
 	}
 
 	private interface IServiceRetrieval<T> extends IServiceKey<T> {
-		T retrieveService();
+		Optional<T> retrieveService();
 	}
 
 	private class ServiceEntry<T> implements IServiceAccess<T>, IServiceRetrieval<T> {
@@ -207,17 +208,19 @@ public class Services implements IServiceProvider {
 			}
 		}
 
-		protected T getService() {
+		protected T getServiceDirect() {
 			assert getState() == LifeCycle.ACTIVE;
 
 			return service;
 		}
 
 		@Override
-		public T retrieveService() {
-			Preconditions.checkState(this.getState() == LifeCycle.ACTIVE, "Service not active");
+		public Optional<T> retrieveService() {
+			if (this.getState() != LifeCycle.ACTIVE) {
+				return Optional.empty();
+			}
 
-			return getService();
+			return Optional.of(getServiceDirect());
 		}
 
 		@Override
@@ -241,8 +244,8 @@ public class Services implements IServiceProvider {
 		}
 
 		@Override
-		public T retrieveService() {
-			return remap.apply(parent.retrieveService());
+		public Optional<T> retrieveService() {
+			return parent.retrieveService().map(remap);
 		}
 
 		@Override
@@ -268,11 +271,11 @@ public class Services implements IServiceProvider {
 
 			protected void enter(A context) {
 				service.beforePhase(PhaseEntry.this.getID());
-				phaseHandler.onPhaseStart(service.getService(), context);
+				phaseHandler.onPhaseStart(service.getServiceDirect(), context);
 			}
 
 			protected void exit(Z context) {
-				phaseHandler.onPhaseEnd(service.getService(), context);
+				phaseHandler.onPhaseEnd(service.getServiceDirect(), context);
 				service.afterPhase(PhaseEntry.this.getID());
 			}
 
@@ -466,7 +469,7 @@ public class Services implements IServiceProvider {
 	private Set<IPhaseID<?, ?>> activePhases = new HashSet<>();
 
 	@Override
-	public <T> T getServiceFor(IServiceKey<T> serviceKey) {
+	public <T> Optional<T> getServiceFor(IServiceKey<T> serviceKey) {
 		IServiceRetrieval<T> serviceID = tryUpcastService(serviceKey);
 
 		return serviceID.retrieveService();

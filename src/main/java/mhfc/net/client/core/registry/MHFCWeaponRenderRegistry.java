@@ -50,104 +50,62 @@ import net.minecraftforge.client.MinecraftForgeClient;
 public class MHFCWeaponRenderRegistry {
 	public static void init() {
 
-		registerItemRenderer(MHFCItemRegistry.weapon_gs_bone,
-				new RenderGSBone());
-		registerItemRenderer(MHFCItemRegistry.weapon_gs_tigrex,
-				new RenderGSTigrex());
-		registerItemRenderer(MHFCItemRegistry.weapon_gs_kirinthunders,
-				new RenderGSKirinThunderSword());
-		registerItemRenderer(MHFCItemRegistry.weapon_gs_berserkers,
-				new RenderGSDeviljhobroadsword());
-		registerItemRenderer(MHFCItemRegistry.weapon_gs_rathalosfire,
-				new RenderGSRathalosFiresword());
-		registerItemRenderer(MHFCItemRegistry.weapon_gs_deadlyserpentblade,
-				new RenderGSDeadlySerpentblade());
+		MHFCItemRegistry itemRegistry = MHFCItemRegistry.getRegistry();
 
-		registerItemRenderer(MHFCItemRegistry.weapon_hm_tigrex,
-				new RenderHTigrex());
-		registerItemRenderer(MHFCItemRegistry.weapon_hm_kirinspark,
-				new RenderHKirinSpark());
-		registerItemRenderer(MHFCItemRegistry.weapon_hm_warhammer,
-				new RenderHWar());
-		registerItemRenderer(MHFCItemRegistry.weapon_hm_warhammerplus,
-				new RenderHWar());
-		registerItemRenderer(MHFCItemRegistry.weapon_hm_warslammer,
-				new RenderHWarSlammer());
-		registerItemRenderer(MHFCItemRegistry.weapon_hm_devilsdue,
-				new RenderHDeviljho());
-		registerItemRenderer(MHFCItemRegistry.weapon_hm_rathalos,
-				new RenderHRathalos());
+		registerItemRenderer(itemRegistry.weapon_gs_bone, new RenderGSBone());
+		registerItemRenderer(itemRegistry.weapon_gs_tigrex, new RenderGSTigrex());
+		registerItemRenderer(itemRegistry.weapon_gs_kirinthunders, new RenderGSKirinThunderSword());
+		registerItemRenderer(itemRegistry.weapon_gs_berserkers, new RenderGSDeviljhobroadsword());
+		registerItemRenderer(itemRegistry.weapon_gs_rathalosfire, new RenderGSRathalosFiresword());
+		registerItemRenderer(itemRegistry.weapon_gs_deadlyserpentblade, new RenderGSDeadlySerpentblade());
 
-		registerItemRenderer(MHFCItemRegistry.weapon_ls_ironkatana,
-				new RenderLSIronKatana());
-		registerItemRenderer(MHFCItemRegistry.weapon_ls_darkvipern,
-				new RenderLSDarkVipern());
-		registerItemRenderer(MHFCItemRegistry.weapon_ls_ironkatanagrace,
-				new RenderLSIKGrace());
-		registerItemRenderer(MHFCItemRegistry.weapon_ls_ironkatanagospel,
-				new RenderLSIKGospel());
-		registerItemRenderer(MHFCItemRegistry.weapon_ls_eagercleaver,
-				new RenderLSEagerCleaver());
-		registerItemRenderer(MHFCItemRegistry.weapon_ls_devilslicer,
-				new RenderLSDevilSlicer());
-		registerItemRenderer(MHFCItemRegistry.weapon_ls_truedevilslicer,
-				new RenderLSTrueDevilSlicer());
-		registerItemRenderer(MHFCItemRegistry.weapon_ls_saber, 
-				new RenderLSSaber());
-		registerItemRenderer(MHFCItemRegistry.weapon_ls_liondancesaber, 
-				new RenderLSLionDanceSaber());
-		registerItemRenderer(MHFCItemRegistry.weapon_ls_lionkingsaber, 
-				new RenderLSLionKingSaber());
-		registerItemRenderer(MHFCItemRegistry.weapon_ls_lionkaisersaber, 
-				new RenderLSLionKaiserSaber());
-		registerItemRenderer(MHFCItemRegistry.weapon_ls_lionsroarsaber, 
-				new RenderLSLionsRoarSaber());
-		registerItemRenderer(MHFCItemRegistry.weapon_ls_miragefinsword, 
-				new RenderLSMirageFinsword());
-		registerItemRenderer(MHFCItemRegistry.weapon_ls_miragefinswordplus, 
-				new RenderLSMirageFinswordplus());
-		registerItemRenderer(MHFCItemRegistry.weapon_ls_phantommirage, 
-				new RenderLSPhantomMirage());
+		registerItemRenderer(itemRegistry.weapon_hm_tigrex, new RenderHTigrex());
+		registerItemRenderer(itemRegistry.weapon_hm_kirinspark, new RenderHKirinSpark());
+		registerItemRenderer(itemRegistry.weapon_hm_warhammer, new RenderHWar());
+		registerItemRenderer(itemRegistry.weapon_hm_warhammerplus, new RenderHWar());
+		registerItemRenderer(itemRegistry.weapon_hm_warslammer, new RenderHWarSlammer());
+		registerItemRenderer(itemRegistry.weapon_hm_devilsdue, new RenderHDeviljho());
+		registerItemRenderer(itemRegistry.weapon_hm_rathalos, new RenderHRathalos());
 
-		registerItemRenderer(MHFCItemRegistry.weapon_hh_metalbagpipe,
-				new RenderHHMetalBagpipe());
-		registerItemRenderer(MHFCItemRegistry.weapon_hh_ivoryhorn,
-				new RenderHHIvoryHorn());
-		registerItemRenderer(MHFCItemRegistry.weapon_hh_tigrex,
-				new RenderHHTigrex());
-		registerItemRenderer(MHFCItemRegistry.weapon_hh_greatbagpipe,
-				new RenderHHGreatBagpipe());
-		registerItemRenderer(MHFCItemRegistry.weapon_hh_heavybagpipe,
-				new RenderHHHeavyBagpipe());
-		registerItemRenderer(MHFCItemRegistry.weapon_hh_heavybagpipeplus,
-				new RenderHHHeavyBagpipe());
-		registerItemRenderer(MHFCItemRegistry.weapon_hh_elitebagpipe,
-				new RenderHHEliteBagpipe());
-		registerItemRenderer(MHFCItemRegistry.weapon_hh_wardrums,
-				new RenderHHWarDrums());
-		registerItemRenderer(MHFCItemRegistry.weapon_hh_wardrumsplus,
-				new RenderHHWarDrums());
-		registerItemRenderer(MHFCItemRegistry.weapon_hh_mogwarddrums,
-				new RenderHHMogwardDrums());
-		registerItemRenderer(MHFCItemRegistry.weapon_hh_darkthorntrumpet,
-				new RenderHHDarkThornTrumpet());
-		registerItemRenderer(MHFCItemRegistry.weapon_hh_blackcasket,
-				new RenderHHBlackCasket());
+		registerItemRenderer(itemRegistry.weapon_ls_ironkatana, new RenderLSIronKatana());
+		registerItemRenderer(itemRegistry.weapon_ls_darkvipern, new RenderLSDarkVipern());
+		registerItemRenderer(itemRegistry.weapon_ls_ironkatanagrace, new RenderLSIKGrace());
+		registerItemRenderer(itemRegistry.weapon_ls_ironkatanagospel, new RenderLSIKGospel());
+		registerItemRenderer(itemRegistry.weapon_ls_eagercleaver, new RenderLSEagerCleaver());
+		registerItemRenderer(itemRegistry.weapon_ls_devilslicer, new RenderLSDevilSlicer());
+		registerItemRenderer(itemRegistry.weapon_ls_truedevilslicer, new RenderLSTrueDevilSlicer());
+		registerItemRenderer(itemRegistry.weapon_ls_saber, new RenderLSSaber());
+		registerItemRenderer(itemRegistry.weapon_ls_liondancesaber, new RenderLSLionDanceSaber());
+		registerItemRenderer(itemRegistry.weapon_ls_lionkingsaber, new RenderLSLionKingSaber());
+		registerItemRenderer(itemRegistry.weapon_ls_lionkaisersaber, new RenderLSLionKaiserSaber());
+		registerItemRenderer(itemRegistry.weapon_ls_lionsroarsaber, new RenderLSLionsRoarSaber());
+		registerItemRenderer(itemRegistry.weapon_ls_miragefinsword, new RenderLSMirageFinsword());
+		registerItemRenderer(itemRegistry.weapon_ls_miragefinswordplus, new RenderLSMirageFinswordplus());
+		registerItemRenderer(itemRegistry.weapon_ls_phantommirage, new RenderLSPhantomMirage());
 
-		registerItemRenderer(MHFCItemRegistry.weapon_b_hunters,
-				new RenderBHunters());
-		
-		registerItemRenderer(MHFCItemRegistry.weapon_b_huntersstout,
-				new RenderBHunterStout());
-		registerItemRenderer(MHFCItemRegistry.weapon_b_huntersproud,
-				new RenderBHuntersProud());
+		registerItemRenderer(itemRegistry.weapon_hh_metalbagpipe, new RenderHHMetalBagpipe());
+		registerItemRenderer(itemRegistry.weapon_hh_ivoryhorn, new RenderHHIvoryHorn());
+		registerItemRenderer(itemRegistry.weapon_hh_tigrex, new RenderHHTigrex());
+		registerItemRenderer(itemRegistry.weapon_hh_greatbagpipe, new RenderHHGreatBagpipe());
+		registerItemRenderer(itemRegistry.weapon_hh_heavybagpipe, new RenderHHHeavyBagpipe());
+		registerItemRenderer(itemRegistry.weapon_hh_heavybagpipeplus, new RenderHHHeavyBagpipe());
+		registerItemRenderer(itemRegistry.weapon_hh_elitebagpipe, new RenderHHEliteBagpipe());
+		registerItemRenderer(itemRegistry.weapon_hh_wardrums, new RenderHHWarDrums());
+		registerItemRenderer(itemRegistry.weapon_hh_wardrumsplus, new RenderHHWarDrums());
+		registerItemRenderer(itemRegistry.weapon_hh_mogwarddrums, new RenderHHMogwardDrums());
+		registerItemRenderer(itemRegistry.weapon_hh_darkthorntrumpet, new RenderHHDarkThornTrumpet());
+		registerItemRenderer(itemRegistry.weapon_hh_blackcasket, new RenderHHBlackCasket());
 
-		registerItemRenderer(MHFCItemRegistry.weapon_bgl_barrel,
-				new RenderBLBarrel());
-		
-		registerItemRenderer(MHFCItemRegistry.weapon_bgh_rath,
-				new RenderBHRath());
+		registerItemRenderer(itemRegistry.weapon_b_hunters, new RenderBHunters());
+
+		registerItemRenderer(itemRegistry.weapon_b_huntersstout, new RenderBHunterStout());
+		registerItemRenderer(itemRegistry.weapon_b_huntersproud, new RenderBHuntersProud());
+
+		registerItemRenderer(itemRegistry.weapon_bgl_barrel, new RenderBLBarrel());
+
+		registerItemRenderer(itemRegistry.weapon_bgh_rath, new RenderBHRath());
 	}
+
 	private static void registerItemRenderer(Item item, IItemRenderer renderer) {
 		MinecraftForgeClient.registerItemRenderer(item, renderer);
 	}

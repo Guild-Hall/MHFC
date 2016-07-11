@@ -16,7 +16,7 @@ public abstract class AIGeneralStunned<EntityT extends EntityMHFCBase<? super En
 
 	@Override
 	public boolean shouldSelectAttack(IExecutableAction<? super EntityT> attack, EntityT actor, Entity target) {
-		return actor.isPotionActive(MHFCPotionRegistry.stun.id);
+		return actor.isPotionActive(MHFCPotionRegistry.getRegistry().stun);
 	}
 
 }

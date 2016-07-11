@@ -42,12 +42,12 @@ public class KishinArmor extends ItemArmor {
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
-		if (stack.getItem() == MHFCItemRegistry.armor_tigrexB_helm
-				|| stack.getItem() == MHFCItemRegistry.armor_tigrexB_chest
-				|| stack.getItem() == MHFCItemRegistry.armor_tigrexB_boots) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_tigrexB_helm
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_tigrexB_chest
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_tigrexB_boots) {
 			return MHFCReference.armor_tigrexb_tex1;
 		}
-		if (stack.getItem() == MHFCItemRegistry.armor_tigrexB_legs) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_tigrexB_legs) {
 			return MHFCReference.armor_tigrexb_tex2;
 		}
 		return null;

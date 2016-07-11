@@ -18,24 +18,25 @@ public class MHFCHunterCraftingRegistry {
 		// x.addShapedRecipe(new ItemStack(z.mhfcitemkirinhelm, 1), new Object[]
 		// {} );
 		MHFCCraftingManager man = MHFCCraftingManager.getInstance();
+		MHFCItemRegistry itemRegistry = MHFCItemRegistry.getRegistry();
 
 		man.addShapedRecipe(
-				new ItemStack(MHFCItemRegistry.weapon_hm_tigrex, 1),
+				new ItemStack(itemRegistry.weapon_hm_tigrex, 1),
 				new Object[] { "XXX", "XTX", "TXT", " S ", " S ", 'X', SubTypedItem.fromSubItem(TigrexSubType.SHELL, 1),
 						'T', SubTypedItem.fromSubItem(TigrexSubType.SCALE, 1), 'S', Items.stick });
 		man.addShapedRecipe(
-				new ItemStack(MHFCItemRegistry.weapon_gs_bone, 1),
+				new ItemStack(itemRegistry.weapon_gs_bone, 1),
 				new Object[] { " X ", "TXT", "TXT", " S ", " S ", 'X', Items.iron_ingot, 'T', Items.bone, 'S',
 						Items.stick });
 		man.addShapedRecipe(
-				new ItemStack(MHFCItemRegistry.MHFCItemTrapTool, 1),
-				new Object[] { "   ", "   ", "XXX", "XXA", "AXA", 'X', MHFCItemRegistry.MHFCItemBombMaterial, 'A',
+				new ItemStack(itemRegistry.trapTool, 1),
+				new Object[] { "   ", "   ", "XXX", "XXA", "AXA", 'X', itemRegistry.bombMaterial, 'A',
 						Items.gunpowder });
 		// Blocks
 		man.addShapedRecipe(
 				new ItemStack(MHFCBlockRegistry.getRegistry().mhfcblockstuntrap, 1),
-				new Object[] { "ADX", "DXF", "XXA", "FXD", "XXX", 'X', MHFCItemRegistry.MHFCItemTrapTool, 'A',
-						Items.redstone, 'D', Items.iron_ingot, 'F', MHFCItemRegistry.MHFCItemBombMaterial });
+				new Object[] { "ADX", "DXF", "XXA", "FXD", "XXX", 'X', itemRegistry.trapTool, 'A',
+						Items.redstone, 'D', Items.iron_ingot, 'F', itemRegistry.bombMaterial });
 
 	}
 

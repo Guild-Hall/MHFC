@@ -17,24 +17,22 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
-import mhfc.net.MHFCMain;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraftforge.client.event.RenderPlayerEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 
 public class MHFCCapeEventHandler {
-	private static final Graphics TEST_GRAPHICS = new BufferedImage(128, 128,
-			BufferedImage.TYPE_INT_RGB).getGraphics();
+	private static final Graphics TEST_GRAPHICS = new BufferedImage(128, 128, BufferedImage.TYPE_INT_RGB).getGraphics();
 	private static final int timeout = 5000;
 	private static final String serverLocation = "https://gist.githubusercontent.com/Heltrato/"
 			+ "e3f86194c43424abb8c4/raw/donorcapes";
 
 	public static final MHFCCapeEventHandler instance = new MHFCCapeEventHandler();
 
-	private Map<String, String> cloaks = new HashMap<String, String>();
-	private List<AbstractClientPlayer> capePlayers = new ArrayList<AbstractClientPlayer>();
+	private Map<String, String> cloaks = new HashMap<>();
+	private List<AbstractClientPlayer> capePlayers = new ArrayList<>();
 
 	private MHFCCapeEventHandler() {
 		buildCloakURLDatabase();
@@ -43,16 +41,17 @@ public class MHFCCapeEventHandler {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onPreRenderSpecials(RenderPlayerEvent.Specials.Pre event) {
-		if (!MHFCMain.isPreInitiliazed()
-				|| !(event.entityPlayer instanceof AbstractClientPlayer))
+		if (!(event.entityPlayer instanceof AbstractClientPlayer)) {
 			return;
+		}
 		AbstractClientPlayer abstractClientPlayer = (AbstractClientPlayer) event.entityPlayer;
 
 		if (!capePlayers.contains(abstractClientPlayer)) {
 			String cloakURL = cloaks.get(event.entityPlayer.getDisplayName());
 
-			if (cloakURL == null)
+			if (cloakURL == null) {
 				return;
+			}
 
 			capePlayers.add(abstractClientPlayer);
 
@@ -81,9 +80,7 @@ public class MHFCCapeEventHandler {
 						new Thread(new CloakPreload(link)).start();
 						cloaks.put(nick, link);
 					} else {
-						System.err
-								.println("[MHFC] [capes.txt] Syntax error on line "
-										+ linetracker + ": " + str);
+						System.err.println("[MHFC] [capes.txt] Syntax error on line " + linetracker + ": " + str);
 					}
 				}
 				linetracker++;
@@ -112,8 +109,10 @@ public class MHFCCapeEventHandler {
 		public void run() {
 			try {
 				Image cape = new ImageIcon(new URL(cloakURL)).getImage();
-				BufferedImage bo = new BufferedImage(cape.getWidth(null),
-						cape.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+				BufferedImage bo = new BufferedImage(
+						cape.getWidth(null),
+						cape.getHeight(null),
+						BufferedImage.TYPE_INT_ARGB);
 				bo.getGraphics().drawImage(cape, 0, 0, null);
 				// FIXME: load the capes, check if that is "legal":
 				// @see
@@ -143,9 +142,7 @@ public class MHFCCapeEventHandler {
 		@Override
 		public void run() {
 			try {
-				TEST_GRAPHICS
-						.drawImage(new ImageIcon(new URL(cloakURL)).getImage(),
-								0, 0, null);
+				TEST_GRAPHICS.drawImage(new ImageIcon(new URL(cloakURL)).getImage(), 0, 0, null);
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			}

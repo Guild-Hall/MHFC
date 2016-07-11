@@ -61,12 +61,12 @@ public class KirinSArmor extends ItemArmor {
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
-		if (stack.getItem() == MHFCItemRegistry.armor_kirinS_helm
-				|| stack.getItem() == MHFCItemRegistry.armor_kirinS_chest
-				|| stack.getItem() == MHFCItemRegistry.armor_kirinS_boots) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_kirinS_helm
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_kirinS_chest
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_kirinS_boots) {
 			return MHFCReference.armor_kirinS_tex1;
 		}
-		if (stack.getItem() == MHFCItemRegistry.armor_kirinS_legs) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_kirinS_legs) {
 			return MHFCReference.armor_kirinS_tex2;
 		}
 		return MHFCReference.armor_null_tex;
@@ -129,13 +129,14 @@ public class KirinSArmor extends ItemArmor {
 		ItemStack legs = player.getCurrentArmor(1);
 		ItemStack chest = player.getCurrentArmor(2);
 
-		if (chest != null && legs != null && boots != null && chest.getItem() == MHFCItemRegistry.armor_kirinS_chest
-				&& boots.getItem() == MHFCItemRegistry.armor_kirinS_boots
-				&& legs.getItem() == MHFCItemRegistry.armor_kirinS_legs) {
+		if (chest != null && legs != null && boots != null
+				&& chest.getItem() == MHFCItemRegistry.getRegistry().armor_kirinS_chest
+				&& boots.getItem() == MHFCItemRegistry.getRegistry().armor_kirinS_boots
+				&& legs.getItem() == MHFCItemRegistry.getRegistry().armor_kirinS_legs) {
 			if (!DonatorSystem.checkKirinS(player)) {
 				return;
 			} else {
-				player.addPotionEffect(new PotionEffect(MHFCPotionRegistry.kirin_blessing.id, 15, 1));
+				player.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().kirin_blessing.id, 15, 1));
 				world.spawnParticle(
 						"cloud",
 						player.posX + Item.itemRand.nextFloat() * 2.0F - 1.0D,

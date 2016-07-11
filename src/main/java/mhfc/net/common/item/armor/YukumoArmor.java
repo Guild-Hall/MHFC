@@ -45,12 +45,12 @@ public class YukumoArmor extends ItemArmor {
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
-		if (stack.getItem() == MHFCItemRegistry.armor_yukumo_helm
-				|| stack.getItem() == MHFCItemRegistry.armor_yukumo_chest
-				|| stack.getItem() == MHFCItemRegistry.armor_yukumo_boots) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_yukumo_helm
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_yukumo_chest
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_yukumo_boots) {
 			return MHFCReference.armor_yukumo_tex1;
 		}
-		if (stack.getItem() == MHFCItemRegistry.armor_yukumo_legs) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_yukumo_legs) {
 			return MHFCReference.armor_yukumo_tex2;
 		}
 		return null;

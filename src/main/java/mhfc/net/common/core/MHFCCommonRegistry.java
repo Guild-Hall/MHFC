@@ -25,23 +25,26 @@ public class MHFCCommonRegistry {
 	private final static Logger logger = MHFCMain.logger();
 
 	public static void init() {
+		MHFCCommonRegistry.addEvent();
 		MHFCCommonRegistry.addPlayerProperties();
 		MHFCCommonRegistry.addStringDecoders();
-		MHFCCommonRegistry.addItems();
 		MHFCCommonRegistry.addRecipes();
 		MHFCCommonRegistry.addDimension();
 		MHFCCommonRegistry.addSmelting();
 		MHFCCommonRegistry.addTile();
-		MHFCCommonRegistry.addPotion();
 		MHFCCommonRegistry.addPacket();
 		MHFCCommonRegistry.addAreas();
 		MHFCCommonRegistry.addQuests();
 	}
 
 	public static void staticInit() {
+		MHFCCommonRegistry.addPotion();
 		MHFCCommonRegistry.addBlocks();
-		MHFCCommonRegistry.addEvent();
 		MHFCCommonRegistry.addMonsters();
+		MHFCCommonRegistry.addItems();
+		MHFCEventRegistry.staticInit();
+
+		MHFCMain.initPhase.registerEntryCallback(e -> init());
 	}
 
 	private static void addPlayerProperties() {
@@ -61,7 +64,6 @@ public class MHFCCommonRegistry {
 
 	private static void addBlocks() {
 		MHFCBlockRegistry.staticInit();
-		MHFCCommonRegistry.logger.info("Blocks registered");
 	}
 
 	private static void addSmelting() {
@@ -75,8 +77,7 @@ public class MHFCCommonRegistry {
 	}
 
 	private static void addItems() {
-		MHFCItemRegistry.init();
-		MHFCCommonRegistry.logger.info("Items registered");
+		MHFCItemRegistry.staticInit();
 	}
 
 	private static void addRecipes() {
@@ -96,8 +97,7 @@ public class MHFCCommonRegistry {
 	}
 
 	private static void addPotion() {
-		MHFCPotionRegistry.init();
-		MHFCCommonRegistry.logger.info("Potions registered");
+		MHFCPotionRegistry.staticInit();
 	}
 
 	private static void addEvent() {
@@ -107,7 +107,6 @@ public class MHFCCommonRegistry {
 
 	private static void addMonsters() {
 		MHFCEntityRegistry.staticInit();
-		MHFCCommonRegistry.logger.info("Monsters registered");
 	}
 
 	private static void addAreas() {

@@ -25,7 +25,7 @@ public class RenderEffects {
 
 	public static void displayFlashBomb() {
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		PotionEffect flashPotion = player.getActivePotionEffect(MHFCPotionRegistry.flashed);
+		PotionEffect flashPotion = player.getActivePotionEffect(MHFCPotionRegistry.getRegistry().flashed);
 		if (flashPotion == null) {
 			return;
 		}

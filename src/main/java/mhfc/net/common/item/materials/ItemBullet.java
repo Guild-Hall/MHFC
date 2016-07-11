@@ -42,7 +42,7 @@ public class ItemBullet extends AbstractSubTypedItem<BulletSubType> {
 
 		@Override
 		public Item getBaseItem() {
-			return MHFCItemRegistry.mhfcitembullet;
+			return MHFCItemRegistry.getRegistry().bowgunBullet;
 		}
 
 		@Override

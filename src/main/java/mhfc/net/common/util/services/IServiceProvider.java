@@ -1,5 +1,6 @@
 package mhfc.net.common.util.services;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public interface IServiceProvider {
@@ -8,13 +9,11 @@ public interface IServiceProvider {
 	 *
 	 * @param serviceKey
 	 *            the key of the service to retrieve.
-	 * @return the service
+	 * @return the service if it is running
 	 * @throws IllegalArgumentException
 	 *             if no service for the specified key was registered
-	 * @throws IllegalStateException
-	 *             if no service for the specified key is currently running
 	 */
-	<T> T getServiceFor(IServiceKey<T> serviceKey);
+	<T> Optional<T> getServiceFor(IServiceKey<T> serviceKey);
 
 	/**
 	 * Determines if a given phase is currently active

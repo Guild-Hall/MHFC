@@ -34,7 +34,6 @@ import mhfc.net.common.item.block.ItemBlockWyverniaPlank;
 import mhfc.net.common.item.block.ItemBlockWyverniaRock;
 import mhfc.net.common.item.block.ItemBlockWyverniaWood;
 import mhfc.net.common.util.services.IServiceKey;
-import mhfc.net.common.util.services.Services;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 
@@ -69,7 +68,7 @@ public class MHFCBlockRegistry {
 	public final Block mhfcblockrespawn;
 	public final Block mhfcblockexplorearea;
 
-	protected MHFCBlockRegistry() {
+	private MHFCBlockRegistry() {
 		// Initialize Blocks
 		mhfcblocklosgable = registerBlock(new BlockLosGable());
 		mhfcblockdirt = registerBlock(new BlockWyverniaDirt());
@@ -93,6 +92,8 @@ public class MHFCBlockRegistry {
 		mhfcblockquestboard = registerBlockWithItem(new BlockQuestBoard(), ItemBlockQuestBoard.class);
 		mhfcblockrespawn = registerBlock(new BlockRespawn());
 		mhfcblockexplorearea = registerBlock(new BlockExploreArea());
+
+		MHFCMain.logger().info("Blocks registered");
 	}
 
 	private Block registerBlock(Block block) {
@@ -112,6 +113,6 @@ public class MHFCBlockRegistry {
 	}
 
 	public static MHFCBlockRegistry getRegistry() {
-		return Services.getService(serviceAccess);
+		return serviceAccess.getService();
 	}
 }

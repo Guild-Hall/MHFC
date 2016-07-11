@@ -38,7 +38,7 @@ public class ItemIngot extends AbstractSubTypedItem<IngotsSubType> {
 
 		@Override
 		public Item getBaseItem() {
-			return MHFCItemRegistry.mhfcitemingot;
+			return MHFCItemRegistry.getRegistry().ingot;
 		}
 
 		@Override

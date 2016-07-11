@@ -42,12 +42,12 @@ public class TigrexArmor extends ItemArmor {
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
-		if (stack.getItem() == MHFCItemRegistry.armor_tigrex_helm
-				|| stack.getItem() == MHFCItemRegistry.armor_tigrex_chest
-				|| stack.getItem() == MHFCItemRegistry.armor_tigrex_boots) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_tigrex_helm
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_tigrex_chest
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_tigrex_boots) {
 			return MHFCReference.armor_tigrex_tex1;
 		}
-		if (stack.getItem() == MHFCItemRegistry.armor_tigrex_legs) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_tigrex_legs) {
 			return MHFCReference.armor_tigrex_tex2;
 		}
 		return null;
@@ -116,9 +116,9 @@ public class TigrexArmor extends ItemArmor {
 		ItemStack chest = player.getCurrentArmor(2);
 		ItemStack food = player.getCurrentEquippedItem();
 		if (boots != null && legs != null && chest != null) {
-			if (boots.getItem() == MHFCItemRegistry.armor_tigrex_boots
-					&& legs.getItem() == MHFCItemRegistry.armor_tigrex_legs
-					&& chest.getItem() == MHFCItemRegistry.armor_tigrex_chest) {
+			if (boots.getItem() == MHFCItemRegistry.getRegistry().armor_tigrex_boots
+					&& legs.getItem() == MHFCItemRegistry.getRegistry().armor_tigrex_legs
+					&& chest.getItem() == MHFCItemRegistry.getRegistry().armor_tigrex_chest) {
 				if (food != null && food.getItem() instanceof ItemFood) {
 					int i = food.getItem().getMaxItemUseDuration(food);
 					int j = 16;

@@ -42,7 +42,7 @@ public class ItemRemobra extends AbstractSubTypedItem<RemobraSubType> {
 
 		@Override
 		public Item getBaseItem() {
-			return MHFCItemRegistry.mhfcitemremobra;
+			return MHFCItemRegistry.getRegistry().remobradrops;
 		}
 
 		@Override

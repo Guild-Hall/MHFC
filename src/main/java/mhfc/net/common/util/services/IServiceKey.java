@@ -25,4 +25,8 @@ public interface IServiceKey<T> {
 	 * @return A new service key to retrieve the remapped service.
 	 */
 	<O> IServiceKey<O> withIndirection(Function<T, O> remap);
+
+	default T getService() {
+		return getServiceProvider().getServiceFor(this).get();
+	}
 }

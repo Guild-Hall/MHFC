@@ -43,7 +43,7 @@ public class ItemRathalos extends AbstractSubTypedItem<RathalosSubType> {
 
 		@Override
 		public Item getBaseItem() {
-			return MHFCItemRegistry.mhfcitemrathalos;
+			return MHFCItemRegistry.getRegistry().rathalosdrops;
 		}
 
 		@Override

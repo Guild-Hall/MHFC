@@ -51,19 +51,16 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	protected static final int DATA_FRAME = 12;
 	private final TargetTurnHelper turnHelper;
 	private IActionManager<? extends YC> attackManager;
-	
-	
-	
+
 	private IExecutableAction<? super YC> deathAction;
 	private IExecutableAction<? super YC> inWaterAction;
 	private IExecutableAction<? super YC> stunAction;
-	
+
 	public boolean FREEZE; // trying to implement this to disable all AI's for the monster temporality.
 
 	protected boolean hasDied;
 	// @see deathTime. DeathTime has the random by-effect of rotating corpses...
 	protected int deathTicks;
-	
 
 	public EntityMHFCBase(World world) {
 		super(world);
@@ -77,8 +74,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		this.deathAction = action;
 		return action;
 	}
-	
-	
+
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
@@ -86,13 +82,13 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		if (this.attackManager.continueExecuting()) {
 			this.attackManager.updateTask();
 		}
-		
-		if(this.isPotionActive(MHFCPotionRegistry.stun.id)){
-		//	getActionManager().switchToAction(stunAction);
+
+		if (this.isPotionActive(MHFCPotionRegistry.getRegistry().stun)) {
+			//	getActionManager().switchToAction(stunAction);
 		}
-		
+
 	}
-	
+
 	public abstract IActionManager<YC> constructActionManager();
 
 	/**
@@ -165,10 +161,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			worldObj.spawnParticle("cloud", randX, randY, randZ, velX, velY, velZ);
 		}
 	}
-	
-	
+
 	@Override
-	protected void applyEntityAttributes(){
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
 		getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
@@ -197,7 +192,12 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	public void dropItemRand(ItemStack stack) {
 		Random rand = worldObj.rand;
-		EntityItem entityItem = new EntityItem(this.worldObj,posX + rand.nextInt(10) - 5,posY + 1.0D,posZ + rand.nextInt(10) - 5,stack);
+		EntityItem entityItem = new EntityItem(
+				this.worldObj,
+				posX + rand.nextInt(10) - 5,
+				posY + 1.0D,
+				posZ + rand.nextInt(10) - 5,
+				stack);
 		worldObj.spawnEntityInWorld(entityItem);
 	}
 
@@ -444,8 +444,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		Objects.requireNonNull(newManager);
 		this.attackManager = newManager;
 	}
-
-	
 
 	@Override
 	protected void updateAITick() {

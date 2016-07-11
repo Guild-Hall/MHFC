@@ -6,15 +6,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.event.entity.living.LivingEvent;
 
 public class ParalyzeEvent {
-	
-	 @SubscribeEvent
-	 public void onLivingUpdate(LivingEvent.LivingUpdateEvent event)
-	 {
-		 EntityLivingBase entity = event.entityLiving;
-		 if (entity.getActivePotionEffect(MHFCPotionRegistry.stun) != null) {
-			 for (int i = 0; i < 15; i++) {
-				 
-			 }
-		 }
-	 }
+
+	@SubscribeEvent
+	public void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
+		EntityLivingBase entity = event.entityLiving;
+		if (entity.getActivePotionEffect(MHFCPotionRegistry.getRegistry().stun) != null) {
+			for (int i = 0; i < 15; i++) {
+
+			}
+		}
+	}
 }

@@ -102,7 +102,7 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		super.onPlayerStoppedUsing(stack, world, player, itemInUseCount);
 		int ticksUsed = getMaxItemUseDuration(stack) - itemInUseCount;
 		boolean isCreative = (player.capabilities.isCreativeMode);
-		if (!player.inventory.hasItem(MHFCItemRegistry.mhfcitemarrow) && !isCreative) {
+		if (!player.inventory.hasItem(MHFCItemRegistry.getRegistry().arrow) && !isCreative) {
 			return;
 		}
 
@@ -130,7 +130,7 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		if (isCreative) {
 			entityarrow.canBePickedUp = 2;
 		} else {
-			player.inventory.consumeInventoryItem(MHFCItemRegistry.mhfcitemarrow);
+			player.inventory.consumeInventoryItem(MHFCItemRegistry.getRegistry().arrow);
 		}
 		if (!world.isRemote) {
 			world.spawnEntityInWorld(entityarrow);

@@ -1,11 +1,11 @@
 package mhfc.net.common.tab;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class MHFCTab extends CreativeTabs {
 
@@ -17,7 +17,7 @@ public class MHFCTab extends CreativeTabs {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Item getTabIconItem() {
-		return (MHFCItemRegistry.weapon_hm_kirinspark);
+		return MHFCItemRegistry.getRegistry().weapon_hm_kirinspark;
 	}
 
 	@Override

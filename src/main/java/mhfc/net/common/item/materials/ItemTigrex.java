@@ -44,7 +44,7 @@ public class ItemTigrex extends AbstractSubTypedItem<TigrexSubType> {
 
 		@Override
 		public Item getBaseItem() {
-			return MHFCItemRegistry.mhfcitemtigrex;
+			return MHFCItemRegistry.getRegistry().tigrexdrops;
 		}
 
 		@Override

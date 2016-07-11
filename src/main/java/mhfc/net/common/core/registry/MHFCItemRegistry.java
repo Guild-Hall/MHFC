@@ -3,6 +3,7 @@ package mhfc.net.common.core.registry;
 import java.util.function.Consumer;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import mhfc.net.MHFCMain;
 import mhfc.net.common.item.armor.BarrothArmor;
 import mhfc.net.common.item.armor.DeviljhoArmor;
 import mhfc.net.common.item.armor.DragoonArmor;
@@ -45,6 +46,7 @@ import mhfc.net.common.item.materials.ItemWyverniaClay;
 import mhfc.net.common.item.materials.ItemWyverniaDust;
 import mhfc.net.common.item.tools.ItemPaintball;
 import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.services.IServiceKey;
 import mhfc.net.common.weapon.melee.greatsword.GreatswordWeaponStats.GreatswordWeaponStatsBuilder;
 import mhfc.net.common.weapon.melee.greatsword.ItemGreatsword;
 import mhfc.net.common.weapon.melee.hammer.HammerWeaponStats.HammerWeaponStatsBuilder;
@@ -64,184 +66,185 @@ import mhfc.net.common.weapon.stats.StatusEffect;
 import net.minecraft.item.Item;
 
 public class MHFCItemRegistry {
+	public static void staticInit() {}
+
+	private static final IServiceKey<MHFCItemRegistry> serviceAccess = RegistryWrapper
+			.registerService("item registry", MHFCItemRegistry::new, MHFCMain.initPhase);
 
 	/**
 	 * Please Arrange The Weapons by its RARITY refer to the weapon package ~@Heltrato
 	 */
 	// Weapons
 
-	public static int serverIDchecker;
+	public final Item weapon_gs_bone;
+	public final Item weapon_gs_tigrex;
+	public final Item weapon_gs_kirinthunders;
+	public final Item weapon_gs_berserkers;
+	public final Item weapon_gs_rathalosfire;
+	public final Item weapon_gs_deadlyserpentblade;
 
-	public static final Item weapon_gs_bone;
-	public static final Item weapon_gs_tigrex;
-	public static final Item weapon_gs_kirinthunders;
-	public static final Item weapon_gs_berserkers;
-	public static final Item weapon_gs_rathalosfire;
-	public static final Item weapon_gs_deadlyserpentblade;
+	public final Item weapon_hm_tigrex;
+	public final Item weapon_hm_kirinspark;
+	public final Item weapon_hm_warhammer;
+	public final Item weapon_hm_warhammerplus;
+	public final Item weapon_hm_warslammer;
+	public final Item weapon_hm_devilsdue;
+	public final Item weapon_hm_rathalos;
 
-	public static final Item weapon_hm_tigrex;
-	public static final Item weapon_hm_kirinspark;
-	public static final Item weapon_hm_warhammer;
-	public static final Item weapon_hm_warhammerplus;
-	public static final Item weapon_hm_warslammer;
-	public static final Item weapon_hm_devilsdue;
-	public static final Item weapon_hm_rathalos;
+	public final Item weapon_ls_ironkatana;
+	public final Item weapon_ls_ironkatanagrace;
+	public final Item weapon_ls_ironkatanagospel;
+	public final Item weapon_ls_eagercleaver;
+	public final Item weapon_ls_devilslicer;
+	public final Item weapon_ls_truedevilslicer;
+	public final Item weapon_ls_darkvipern;
+	public final Item weapon_ls_saber;
+	public final Item weapon_ls_liondancesaber;
+	public final Item weapon_ls_lionkingsaber;
+	public final Item weapon_ls_lionkaisersaber;
+	public final Item weapon_ls_lionsroarsaber;
+	public final Item weapon_ls_miragefinsword;
+	public final Item weapon_ls_miragefinswordplus;
+	public final Item weapon_ls_phantommirage;
 
-	public static final Item weapon_ls_ironkatana;
-	public static final Item weapon_ls_ironkatanagrace;
-	public static final Item weapon_ls_ironkatanagospel;
-	public static final Item weapon_ls_eagercleaver;
-	public static final Item weapon_ls_devilslicer;
-	public static final Item weapon_ls_truedevilslicer;
-	public static final Item weapon_ls_darkvipern;
-	public static final Item weapon_ls_saber;
-	public static final Item weapon_ls_liondancesaber;
-	public static final Item weapon_ls_lionkingsaber;
-	public static final Item weapon_ls_lionkaisersaber;
-	public static final Item weapon_ls_lionsroarsaber;
-	public static final Item weapon_ls_miragefinsword;
-	public static final Item weapon_ls_miragefinswordplus;
-	public static final Item weapon_ls_phantommirage;
+	public final Item weapon_hh_metalbagpipe;
+	public final Item weapon_hh_ivoryhorn;
+	public final Item weapon_hh_tigrex;
+	public final Item weapon_hh_greatbagpipe;
+	public final Item weapon_hh_heavybagpipe;
+	public final Item weapon_hh_heavybagpipeplus;
+	public final Item weapon_hh_elitebagpipe;
+	public final Item weapon_hh_wardrums;
+	public final Item weapon_hh_wardrumsplus;
+	public final Item weapon_hh_mogwarddrums;
+	public final Item weapon_hh_blackcasket;
+	public final Item weapon_hh_darkthorntrumpet;
 
-	public static final Item weapon_hh_metalbagpipe;
-	public static final Item weapon_hh_ivoryhorn;
-	public static final Item weapon_hh_tigrex;
-	public static final Item weapon_hh_greatbagpipe;
-	public static final Item weapon_hh_heavybagpipe;
-	public static final Item weapon_hh_heavybagpipeplus;
-	public static final Item weapon_hh_elitebagpipe;
-	public static final Item weapon_hh_wardrums;
-	public static final Item weapon_hh_wardrumsplus;
-	public static final Item weapon_hh_mogwarddrums;
-	public static final Item weapon_hh_blackcasket;
-	public static final Item weapon_hh_darkthorntrumpet;
+	public final Item weapon_bgl_barrel;
+	public final Item weapon_bgh_rath;
 
-	public static final Item weapon_bgl_barrel;
-	public static final Item weapon_bgh_rath;
-
-	public static final Item weapon_b_hunters;
-	public static final Item weapon_b_huntersstout;
-	public static final Item weapon_b_huntersproud;
+	public final Item weapon_b_hunters;
+	public final Item weapon_b_huntersstout;
+	public final Item weapon_b_huntersproud;
 
 	// Armors
-	public static final Item armor_tigrex_helm;
-	public static final Item armor_tigrex_chest;
-	public static final Item armor_tigrex_legs;
-	public static final Item armor_tigrex_boots;
+	public final Item armor_tigrex_helm;
+	public final Item armor_tigrex_chest;
+	public final Item armor_tigrex_legs;
+	public final Item armor_tigrex_boots;
 
-	public static final Item armor_kirin_helm;
-	public static final Item armor_kirin_chest;
-	public static final Item armor_kirin_legs;
-	public static final Item armor_kirin_boots;
+	public final Item armor_kirin_helm;
+	public final Item armor_kirin_chest;
+	public final Item armor_kirin_legs;
+	public final Item armor_kirin_boots;
 
-	public static final Item armor_kirinS_helm;
-	public static final Item armor_kirinS_chest;
-	public static final Item armor_kirinS_legs;
-	public static final Item armor_kirinS_boots;
+	public final Item armor_kirinS_helm;
+	public final Item armor_kirinS_chest;
+	public final Item armor_kirinS_legs;
+	public final Item armor_kirinS_boots;
 
-	public static final Item armor_yukumo_helm;
-	public static final Item armor_yukumo_chest;
-	public static final Item armor_yukumo_legs;
-	public static final Item armor_yukumo_boots;
+	public final Item armor_yukumo_helm;
+	public final Item armor_yukumo_chest;
+	public final Item armor_yukumo_legs;
+	public final Item armor_yukumo_boots;
 
-	public static final Item armor_rathalos_helm;
-	public static final Item armor_rathalos_chest;
-	public static final Item armor_rathalos_legs;
-	public static final Item armor_rathalos_boots;
+	public final Item armor_rathalos_helm;
+	public final Item armor_rathalos_chest;
+	public final Item armor_rathalos_legs;
+	public final Item armor_rathalos_boots;
 
-	public static final Item armor_dragoon_helm;
-	public static final Item armor_dragoon_chest;
-	public static final Item armor_dragoon_legs;
-	public static final Item armor_dragoon_boots;
+	public final Item armor_dragoon_helm;
+	public final Item armor_dragoon_chest;
+	public final Item armor_dragoon_legs;
+	public final Item armor_dragoon_boots;
 
-	public static final Item armor_velociprey_helm;
-	public static final Item armor_velociprey_chest;
-	public static final Item armor_velociprey_legs;
-	public static final Item armor_velociprey_boots;
+	public final Item armor_velociprey_helm;
+	public final Item armor_velociprey_chest;
+	public final Item armor_velociprey_legs;
+	public final Item armor_velociprey_boots;
 
-	public static final Item armor_nibelsnarf_helm;
-	public static final Item armor_nibelsnarf_chest;
-	public static final Item armor_nibelsnarf_legs;
-	public static final Item armor_nibelsnarf_boots;
+	public final Item armor_nibelsnarf_helm;
+	public final Item armor_nibelsnarf_chest;
+	public final Item armor_nibelsnarf_legs;
+	public final Item armor_nibelsnarf_boots;
 
-	// public static final Item armor_deviljho_helm;
-	// public static final Item armor_deviljho_chest;
-	// public static final Item armor_deviljho_legs;
-	// public static final Item armor_deviljho_boots;
+	// public  final Item armor_deviljho_helm;
+	// public  final Item armor_deviljho_chest;
+	// public  final Item armor_deviljho_legs;
+	// public  final Item armor_deviljho_boots;
 
-	public static final Item armor_tigrexB_helm;
-	public static final Item armor_tigrexB_chest;
-	public static final Item armor_tigrexB_legs;
-	public static final Item armor_tigrexB_boots;
+	public final Item armor_tigrexB_helm;
+	public final Item armor_tigrexB_chest;
+	public final Item armor_tigrexB_legs;
+	public final Item armor_tigrexB_boots;
 
-	public static final Item armor_bionic_helm;
-	public static final Item armor_bionic_chest;
-	public static final Item armor_bionic_legs;
-	public static final Item armor_bionic_boots;
+	public final Item armor_bionic_helm;
+	public final Item armor_bionic_chest;
+	public final Item armor_bionic_legs;
+	public final Item armor_bionic_boots;
 
-	public static final Item armor_vangis_helm;
-	public static final Item armor_vangis_chest;
-	public static final Item armor_vangis_legs;
-	public static final Item armor_vangis_boots;
+	public final Item armor_vangis_helm;
+	public final Item armor_vangis_chest;
+	public final Item armor_vangis_legs;
+	public final Item armor_vangis_boots;
 
-	public static final Item armor_jaggi_helm;
-	public static final Item armor_jaggi_chest;
-	public static final Item armor_jaggi_legs;
-	public static final Item armor_jaggi_boots;
+	public final Item armor_jaggi_helm;
+	public final Item armor_jaggi_chest;
+	public final Item armor_jaggi_legs;
+	public final Item armor_jaggi_boots;
 
-	public static final Item armor_barroth_helm;
-	public static final Item armor_barroth_chest;
-	public static final Item armor_barroth_legs;
-	public static final Item armor_barroth_boots;
+	public final Item armor_barroth_helm;
+	public final Item armor_barroth_chest;
+	public final Item armor_barroth_legs;
+	public final Item armor_barroth_boots;
 
 	// Materials
 
-	public static final Item mhfcitemtigrex;
-	public static final Item mhfcitemkirin;
-	public static final Item mhfcitemremobra;
-	// public static final Item mhfcitemlightcrystal;
-	// public static final Item mhfcitempurecrystal;
-	public static final Item mhfcitemrathalos;
-	public static final Item mhfcitemdeviljho;
-	public static final Item mhfcitembullet;
+	public final Item tigrexdrops;
+	public final Item kirindrops;
+	public final Item remobradrops;
+	// public  final Item mhfcitemlightcrystal;
+	// public  final Item mhfcitempurecrystal;
+	public final Item rathalosdrops;
+	public final Item deviljhodrops;
+	public final Item bowgunBullet;
 
-	public static final Item mhfcitemwoodrig;
-	public static final Item mhfcitemlumberbar;
-	public static final Item mhfcitemsteelbar;
-	public static final Item MHFCItemWyverniaDust;
-	public static final Item MHFCItemTrapTool;
-	public static final Item MHFCItemFlashBomb;
-	public static final Item MHFCItemBombMaterial;
-	public static final Item MHFCItemGaguaEgg;
-	public static final Item MHFCItemWyvernCoin;
-	public static final Item MHFCItemPaintball;
-	public static final Item mhfcitemarrow;
+	public final Item woodrig;
+	public final Item lumberbar;
+	public final Item steelbar;
+	public final Item wyverniaDust;
+	public final Item trapTool;
+	public final Item flashBomb;
+	public final Item bombMaterial;
+	public final Item gaguaEgg;
+	public final Item wyvernCoin;
+	public final Item paintball;
+	public final Item arrow;
 
-	public static final Item mhfcitemingot;
-	public static final Item mhfcitembase;
-	public static final Item mhfcitemarmorsphere;
-	public static final Item mhfcitemsac;
+	public final Item ingot;
+	public final Item base;
+	public final Item armorsphere;
+	public final Item itemsac;
 
-	public static final Item mhfcitemmoldediron;
-	public static final Item mhfcitemfirestone;
-	public static final Item mhfcitemwyverniaclay;
+	public final Item moldedIron;
+	public final Item firestone;
+	public final Item wyverniaClay;
 
 	// Foods
-	public static final Item mhfcitemkirinbuff;
-	public static final Item mhfcfoodmeat;
-	public static final Item mhfcfoodnutrients;
+	public final Item kirinbuff;
+	public final Item meat;
+	public final Item nutrients;
 
 	// Spawners.(They must be Last)
-	public static final Item MHFCItemFrontierSpawner;
+	public final Item MHFCItemFrontierSpawner;
 
-	static {
-
+	private MHFCItemRegistry() {
 		/*
 		 * @author Heltrato: "Please sort the weapon by there Rarity.. Thanks"
 		 *
 		 */
 
-		mhfcitemarrow = registerItem(new ItemWyverniaArrow());
+		arrow = registerItem(new ItemWyverniaArrow());
 
 		// Armor
 		armor_yukumo_helm = registerItem(new YukumoArmor(0));
@@ -324,7 +327,7 @@ public class MHFCItemRegistry {
 		weapon_ls_ironkatanagospel = registerLongsword(
 				b -> b.setAttack(29).setRarity(2).setName(MHFCReference.weapon_ls_ikgospel_name));
 		weapon_ls_darkvipern = registerLongsword(
-				b -> b.setAttack(21 ).setRarity(2).setName(MHFCReference.weapon_ls_darkvipern_name)
+				b -> b.setAttack(21).setRarity(2).setName(MHFCReference.weapon_ls_darkvipern_name)
 						.addCombatEffect(StatusEffect.Poison, 10));
 		weapon_ls_eagercleaver = registerLongsword(
 				b -> b.setAttack(40).setRarity(3).setName(MHFCReference.weapon_ls_eagercleaver_name)
@@ -427,48 +430,46 @@ public class MHFCItemRegistry {
 		weapon_bgh_rath = registerHeavyBowgun(
 				b -> b.setAttack(40).setRarity(1).setName(MHFCReference.weapon_bgl_spartacusfire_name));
 		// Items... drops
-		MHFCItemWyverniaDust = registerItem(new ItemWyverniaDust());
+		wyverniaDust = registerItem(new ItemWyverniaDust());
 
-		mhfcitemmoldediron = registerItem(new ItemMoldedIron());
-		mhfcitemwoodrig = registerItem(new ItemWoodRig());
-		mhfcitemlumberbar = registerItem(new ItemLumberBar());
-		mhfcitemsteelbar = registerItem(new ItemSteelBar());
-		MHFCItemTrapTool = registerItem(new ItemTrapTool());
-		MHFCItemBombMaterial = registerItem(new ItemBombMaterial());
-		MHFCItemFlashBomb = registerItem(new ItemFlashBomb());
-		MHFCItemGaguaEgg = registerItem(new ItemGaguaEgg());
-		MHFCItemWyvernCoin = registerItem(new ItemWyvernCoin());
+		moldedIron = registerItem(new ItemMoldedIron());
+		woodrig = registerItem(new ItemWoodRig());
+		lumberbar = registerItem(new ItemLumberBar());
+		steelbar = registerItem(new ItemSteelBar());
+		trapTool = registerItem(new ItemTrapTool());
+		bombMaterial = registerItem(new ItemBombMaterial());
+		flashBomb = registerItem(new ItemFlashBomb());
+		gaguaEgg = registerItem(new ItemGaguaEgg());
+		wyvernCoin = registerItem(new ItemWyvernCoin());
 
-		mhfcitemingot = registerItem(new ItemIngot());
-		mhfcitembase = registerItem(new ItemBase());
+		ingot = registerItem(new ItemIngot());
+		base = registerItem(new ItemBase());
 
-		mhfcitemkirin = registerItem(new ItemKirin());
-		mhfcitemtigrex = registerItem(new ItemTigrex());
-		mhfcitemrathalos = registerItem(new ItemRathalos());
-		mhfcitemdeviljho = registerItem(new ItemDeviljho());
-		mhfcitemremobra = registerItem(new ItemRemobra());
+		kirindrops = registerItem(new ItemKirin());
+		tigrexdrops = registerItem(new ItemTigrex());
+		rathalosdrops = registerItem(new ItemRathalos());
+		deviljhodrops = registerItem(new ItemDeviljho());
+		remobradrops = registerItem(new ItemRemobra());
 
-		mhfcitembullet = registerItem(new ItemBullet());
-		mhfcitemsac = registerItem(new ItemSac());
-		mhfcitemfirestone = registerItem(new ItemFirestone());
-		mhfcitemarmorsphere = registerItem(new ItemArmorSphere());
-		mhfcitemwyverniaclay = registerItem(new ItemWyverniaClay());
+		bowgunBullet = registerItem(new ItemBullet());
+		itemsac = registerItem(new ItemSac());
+		firestone = registerItem(new ItemFirestone());
+		armorsphere = registerItem(new ItemArmorSphere());
+		wyverniaClay = registerItem(new ItemWyverniaClay());
 		// mhfcitembullet0 = new ItemBullet(0);
 		// mhfcitembullet1 = new ItemBullet(1);
 		// mhfcitembullet2 = new ItemBullet(2);
 		// mhfcitembullet3 = new ItemBullet(3);
 		// Foods
-		mhfcitemkirinbuff = registerItem(new ItemKirinBuff());
-		mhfcfoodmeat = registerItem(new ItemMeats());
-		mhfcfoodnutrients = registerItem(new ItemNutrients());
+		kirinbuff = registerItem(new ItemKirinBuff());
+		meat = registerItem(new ItemMeats());
+		nutrients = registerItem(new ItemNutrients());
 
-		MHFCItemPaintball = registerItem(new ItemPaintball());
+		paintball = registerItem(new ItemPaintball());
 
 		MHFCItemFrontierSpawner = registerItem(new ItemSpawner());
-
+		MHFCMain.logger().info("Items registered");
 	}
-
-	public static void init() {}
 
 	private static ItemGreatsword registerGreatsword(Consumer<GreatswordWeaponStatsBuilder> config) {
 		return registerItem(ItemGreatsword.build(config));
@@ -501,6 +502,10 @@ public class MHFCItemRegistry {
 	private static <T extends Item> T registerItem(T item) {
 		GameRegistry.registerItem(item, item.getUnlocalizedName());
 		return item;
+	}
+
+	public static MHFCItemRegistry getRegistry() {
+		return serviceAccess.getService();
 	}
 
 }

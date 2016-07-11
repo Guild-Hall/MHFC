@@ -61,7 +61,7 @@ public class ItemHuntingHorn extends ItemWeaponMelee<HuntingHornWeaponStats> {
 		if (!isOffCooldown(stack)) {
 			return superResult;
 		}
-		target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.stun.id, 10, 5));
+		target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().stun.id, 10, 5));
 		triggerCooldown(stack);
 		return true;
 	}

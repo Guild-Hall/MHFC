@@ -33,7 +33,7 @@ public class ItemBase extends AbstractSubTypedItem<BaseSubType> {
 
 		@Override
 		public Item getBaseItem() {
-			return MHFCItemRegistry.mhfcitembase;
+			return MHFCItemRegistry.getRegistry().base;
 		}
 	}
 

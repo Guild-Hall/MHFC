@@ -45,12 +45,12 @@ public class VelocipreyArmor extends ItemArmor {
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
-		if (stack.getItem() == MHFCItemRegistry.armor_velociprey_helm
-				|| stack.getItem() == MHFCItemRegistry.armor_velociprey_chest
-				|| stack.getItem() == MHFCItemRegistry.armor_velociprey_boots) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_velociprey_helm
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_velociprey_chest
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_velociprey_boots) {
 			return MHFCReference.armor_velociprey_tex1;
 		}
-		if (stack.getItem() == MHFCItemRegistry.armor_velociprey_legs) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_velociprey_legs) {
 			return MHFCReference.armor_velociprey_tex2;
 		}
 		return null;
@@ -110,10 +110,10 @@ public class VelocipreyArmor extends ItemArmor {
 		ItemStack helmet = player.getCurrentArmor(3);
 
 		if (helmet != null && boots != null && legs != null && chest != null && helmet != null) {
-			if (boots.getItem() == MHFCItemRegistry.armor_velociprey_boots
-					&& legs.getItem() == MHFCItemRegistry.armor_velociprey_legs
-					&& chest.getItem() == MHFCItemRegistry.armor_velociprey_chest
-					&& helmet.getItem() == MHFCItemRegistry.armor_velociprey_helm) {}
+			if (boots.getItem() == MHFCItemRegistry.getRegistry().armor_velociprey_boots
+					&& legs.getItem() == MHFCItemRegistry.getRegistry().armor_velociprey_legs
+					&& chest.getItem() == MHFCItemRegistry.getRegistry().armor_velociprey_chest
+					&& helmet.getItem() == MHFCItemRegistry.getRegistry().armor_velociprey_helm) {}
 		}
 	}
 

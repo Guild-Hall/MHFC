@@ -44,7 +44,7 @@ public class ItemKirin extends AbstractSubTypedItem<KirinSubType> {
 
 		@Override
 		public Item getBaseItem() {
-			return MHFCItemRegistry.mhfcitemkirin;
+			return MHFCItemRegistry.getRegistry().kirindrops;
 		}
 
 		@Override

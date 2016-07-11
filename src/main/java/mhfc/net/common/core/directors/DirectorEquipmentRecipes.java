@@ -115,8 +115,9 @@ public class DirectorEquipmentRecipes {
 	public DirectorEquipmentRecipes() {
 
 		BuilderEquipmentRecipe builder = new BuilderEquipmentRecipe();
+		MHFCItemRegistry itemRegistry = MHFCItemRegistry.getRegistry();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_tigrex_helm));
+		builder.setProduct(new ItemStack(itemRegistry.armor_tigrex_helm));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.SKULLSHELL, 3));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.SCALE, 3));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.SHELL, 2));
@@ -124,14 +125,14 @@ public class DirectorEquipmentRecipes {
 		builder.setRequiredHeat(200).setDuration(400);
 		recipe_tigrex_helm = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_tigrex_chest));
+		builder.setProduct(new ItemStack(itemRegistry.armor_tigrex_chest));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.FANG, 2));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.CLAW, 3));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.SHELL, 3));
 		builder.setRequiredHeat(200).setDuration(600);
 		recipe_tigrex_chest = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_tigrex_legs));
+		builder.setProduct(new ItemStack(itemRegistry.armor_tigrex_legs));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.CLAW, 3));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.SCALE, 2));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.FANG, 2));
@@ -139,7 +140,7 @@ public class DirectorEquipmentRecipes {
 		builder.setRequiredHeat(200).setDuration(400);
 		recipe_tigrex_legs = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_tigrex_boots));
+		builder.setProduct(new ItemStack(itemRegistry.armor_tigrex_boots));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.FANG, 3));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.SCALE, 3));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.SHELL, 2));
@@ -147,29 +148,29 @@ public class DirectorEquipmentRecipes {
 		builder.setRequiredHeat(200).setDuration(300);
 		recipe_tigrex_boots = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_yukumo_helm));
-		builder.addIngredient(MHFCItemRegistry.mhfcitemlumberbar, 2, 0);
+		builder.setProduct(new ItemStack(itemRegistry.armor_yukumo_helm));
+		builder.addIngredient(itemRegistry.lumberbar, 2, 0);
 		builder.addIngredient(Item.getItemById(265), 11, 0);
 		builder.setRequiredHeat(100).setDuration(300);
 		recipe_yukumo_helm = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_yukumo_chest));
-		builder.addIngredient(MHFCItemRegistry.mhfcitemlumberbar, 10, 0);
+		builder.setProduct(new ItemStack(itemRegistry.armor_yukumo_chest));
+		builder.addIngredient(itemRegistry.lumberbar, 10, 0);
 		builder.addIngredient(Item.getItemById(265), 15, 0);
 		builder.setRequiredHeat(100).setDuration(300);
 		recipe_yukumo_chest = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_yukumo_legs));
-		builder.addIngredient(MHFCItemRegistry.mhfcitemlumberbar, 10, 0);
+		builder.setProduct(new ItemStack(itemRegistry.armor_yukumo_legs));
+		builder.addIngredient(itemRegistry.lumberbar, 10, 0);
 		builder.setRequiredHeat(100).setDuration(300);
 		recipe_yukumo_legs = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_yukumo_boots));
-		builder.addIngredient(MHFCItemRegistry.mhfcitemlumberbar, 4, 0);
+		builder.setProduct(new ItemStack(itemRegistry.armor_yukumo_boots));
+		builder.addIngredient(itemRegistry.lumberbar, 4, 0);
 		builder.setRequiredHeat(100).setDuration(300);
 		recipe_yukumo_boots = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_vangis_helm));
+		builder.setProduct(new ItemStack(itemRegistry.armor_vangis_helm));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemDeviljho.DeviljhoSubType.FANG, 3));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemDeviljho.DeviljhoSubType.HIDE, 5));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemDeviljho.DeviljhoSubType.SCALP, 5));
@@ -177,7 +178,7 @@ public class DirectorEquipmentRecipes {
 		builder.setRequiredHeat(200).setDuration(1500);
 		recipe_vangis_helm = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_vangis_chest));
+		builder.setProduct(new ItemStack(itemRegistry.armor_vangis_chest));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemDeviljho.DeviljhoSubType.FANG, 5));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemDeviljho.DeviljhoSubType.HIDE, 2));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemRathalos.RathalosSubType.WEBBING, 8));
@@ -185,7 +186,7 @@ public class DirectorEquipmentRecipes {
 		builder.setRequiredHeat(200).setDuration(1500);
 		recipe_vangis_chest = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_vangis_legs));
+		builder.setProduct(new ItemStack(itemRegistry.armor_vangis_legs));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemDeviljho.DeviljhoSubType.SCALE, 12));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemDeviljho.DeviljhoSubType.TAIL, 1)); // Will be replaced by Gem
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemDeviljho.DeviljhoSubType.SCALP, 4)); // Will be replaced by Rath Medul
@@ -193,7 +194,7 @@ public class DirectorEquipmentRecipes {
 		builder.setRequiredHeat(200).setDuration(1500);
 		recipe_vangis_legs = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_vangis_boots));
+		builder.setProduct(new ItemStack(itemRegistry.armor_vangis_boots));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemDeviljho.DeviljhoSubType.SCALE, 3));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemDeviljho.DeviljhoSubType.TALON, 5));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemDeviljho.DeviljhoSubType.TAIL, 1)); //gem
@@ -201,15 +202,15 @@ public class DirectorEquipmentRecipes {
 		builder.setRequiredHeat(200).setDuration(1500);
 		recipe_vangis_boots = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_rathalos_helm));
+		builder.setProduct(new ItemStack(itemRegistry.armor_rathalos_helm));
 		builder.addIngredient(SubTypedItem.fromSubItem(RathalosSubType.SHELL, 3));
 		builder.addIngredient(SubTypedItem.fromSubItem(RathalosSubType.PLATE, 4)); // will be replaced by scale
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemIngot.IngotsSubType.DRAGONITE, 4));
-		builder.addIngredient(MHFCItemRegistry.mhfcitemfirestone, 4, 0);
+		builder.addIngredient(itemRegistry.firestone, 4, 0);
 		builder.setRequiredHeat(200).setDuration(1100);
 		recipe_rathalos_helm = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_rathalos_chest));
+		builder.setProduct(new ItemStack(itemRegistry.armor_rathalos_chest));
 		builder.addIngredient(SubTypedItem.fromSubItem(RathalosSubType.SHELL, 4));
 		builder.addIngredient(SubTypedItem.fromSubItem(RathalosSubType.PLATE, 4)); // will be replaced by scale
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemIngot.IngotsSubType.DRAGONITE, 3));
@@ -217,7 +218,7 @@ public class DirectorEquipmentRecipes {
 		builder.setRequiredHeat(200).setDuration(1100);
 		recipe_rathalos_chest = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_rathalos_legs));
+		builder.setProduct(new ItemStack(itemRegistry.armor_rathalos_legs));
 		builder.addIngredient(SubTypedItem.fromSubItem(RathalosSubType.WEBBING, 4));
 		builder.addIngredient(SubTypedItem.fromSubItem(RathalosSubType.WING, 1)); // will be replaced by TAIL
 		builder.addIngredient(SubTypedItem.fromSubItem(RathalosSubType.SHELL, 4));
@@ -225,7 +226,7 @@ public class DirectorEquipmentRecipes {
 		builder.setRequiredHeat(200).setDuration(1100);
 		recipe_rathalos_legs = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_rathalos_boots));
+		builder.setProduct(new ItemStack(itemRegistry.armor_rathalos_boots));
 		builder.addIngredient(SubTypedItem.fromSubItem(RathalosSubType.PLATE, 4)); // will be replaced by scale
 		builder.addIngredient(SubTypedItem.fromSubItem(RathalosSubType.WEBBING, 3));
 		builder.addIngredient(SubTypedItem.fromSubItem(RathalosSubType.MARROW, 1));
@@ -233,7 +234,7 @@ public class DirectorEquipmentRecipes {
 		builder.setRequiredHeat(200).setDuration(1100);
 		recipe_rathalos_boots = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.armor_kirin_helm));
+		builder.setProduct(new ItemStack(itemRegistry.armor_kirin_helm));
 		for (int a = 0; a < 2; a++) {
 			builder.addIngredient(SubTypedItem.fromSubItem(ItemKirin.KirinSubType.MANE, 4));
 		}
@@ -248,26 +249,26 @@ public class DirectorEquipmentRecipes {
 
 		// GreatSword
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_gs_bone));
+		builder.setProduct(new ItemStack(itemRegistry.weapon_gs_bone));
 		builder.addIngredient(Item.getItemById(352), 6, 0);
-		builder.addIngredient(MHFCItemRegistry.mhfcitemlumberbar, 4, 0);
-		builder.addIngredient(MHFCItemRegistry.mhfcitemmoldediron, 2, 0);
+		builder.addIngredient(itemRegistry.lumberbar, 4, 0);
+		builder.addIngredient(itemRegistry.moldedIron, 2, 0);
 		builder.setRequiredHeat(100).setDuration(300);
 		recipe_gs_bone = builder.build();
 
 		// dont mind//
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_gs_rathalosfire));
+		builder.setProduct(new ItemStack(itemRegistry.weapon_gs_rathalosfire));
 		builder.addIngredient(SubTypedItem.fromSubItem(RathalosSubType.WING, 2));
 		builder.addIngredient(SubTypedItem.fromSubItem(SacSubType.FIRE, 2));
 		builder.addIngredient(SubTypedItem.fromSubItem(RathalosSubType.MARROW, 5));
-		builder.addIngredient(MHFCItemRegistry.mhfcitemfirestone, 3, 0);
+		builder.addIngredient(itemRegistry.firestone, 3, 0);
 		builder.setRequiredHeat(300).setDuration(900);
 		recipe_gs_redwing = builder.build();
 
 		//
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_gs_kirinthunders));
+		builder.setProduct(new ItemStack(itemRegistry.weapon_gs_kirinthunders));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemKirin.KirinSubType.MANE, 7));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemIngot.IngotsSubType.CARBALITE, 5));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemKirin.KirinSubType.LIGHTCRYSTAL, 4));
@@ -277,7 +278,7 @@ public class DirectorEquipmentRecipes {
 
 		//
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_gs_tigrex));
+		builder.setProduct(new ItemStack(itemRegistry.weapon_gs_tigrex));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.SCALE, 6));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.FANG, 7));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.SHELL, 3));
@@ -289,7 +290,7 @@ public class DirectorEquipmentRecipes {
 
 		//
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_gs_berserkers));
+		builder.setProduct(new ItemStack(itemRegistry.weapon_gs_berserkers));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemDeviljho.DeviljhoSubType.FANG, 7));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemDeviljho.DeviljhoSubType.SCALE, 7));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemDeviljho.DeviljhoSubType.TALON, 5));
@@ -302,55 +303,55 @@ public class DirectorEquipmentRecipes {
 
 		// Hammer Class
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_hm_warhammer));
+		builder.setProduct(new ItemStack(itemRegistry.weapon_hm_warhammer));
 		builder.addIngredient(Item.getItemById(265), 7, 0);// 265 is iron
 															// ingot
 		builder.addIngredient(Item.getItemFromBlock(MHFCBlockRegistry.getRegistry().mhfcblockdiskstone), 2, 0);
 		builder.setRequiredHeat(100).setDuration(200);
-		builder.addIngredient(MHFCItemRegistry.mhfcitemsteelbar, 4, 0);
+		builder.addIngredient(itemRegistry.steelbar, 4, 0);
 		recipe_hm_war = builder.build();
 
 		//
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_hm_warhammerplus));
-		builder.addIngredient(MHFCItemRegistry.weapon_hm_warhammer, 1, 0);
-		builder.addIngredient(MHFCItemRegistry.mhfcitemsteelbar, 2, 0);
-		builder.addIngredient(MHFCItemRegistry.mhfcitemmoldediron, 1, 0);
+		builder.setProduct(new ItemStack(itemRegistry.weapon_hm_warhammerplus));
+		builder.addIngredient(itemRegistry.weapon_hm_warhammer, 1, 0);
+		builder.addIngredient(itemRegistry.steelbar, 2, 0);
+		builder.addIngredient(itemRegistry.moldedIron, 1, 0);
 		builder.addIngredient(Item.getItemById(265), 5, 0);// 265 is iron
 		builder.setRequiredHeat(100).setDuration(250);
 		recipe_hm_warplus = builder.build();
 
 		//
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_hm_warslammer));
-		builder.addIngredient(MHFCItemRegistry.weapon_hm_warhammerplus, 1, 0);
-		builder.addIngredient(MHFCItemRegistry.mhfcitemsteelbar, 7, 0);
-		builder.addIngredient(MHFCItemRegistry.mhfcitemmoldediron, 3, 0);
+		builder.setProduct(new ItemStack(itemRegistry.weapon_hm_warslammer));
+		builder.addIngredient(itemRegistry.weapon_hm_warhammerplus, 1, 0);
+		builder.addIngredient(itemRegistry.steelbar, 7, 0);
+		builder.addIngredient(itemRegistry.moldedIron, 3, 0);
 		builder.setRequiredHeat(150).setDuration(300);
 		recipe_hm_warslammer = builder.build();
 
 		//
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_hm_rathalos));
+		builder.setProduct(new ItemStack(itemRegistry.weapon_hm_rathalos));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemRathalos.RathalosSubType.SHELL, 8));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemRathalos.RathalosSubType.MARROW, 2));
-		builder.addIngredient(MHFCItemRegistry.mhfcitemfirestone, 1, 0);
+		builder.addIngredient(itemRegistry.firestone, 1, 0);
 		builder.setRequiredHeat(300).setDuration(500);
 		recipe_hm_rathalos = builder.build();
 
 		//
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_hm_tigrex));
+		builder.setProduct(new ItemStack(itemRegistry.weapon_hm_tigrex));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.CLAW, 3));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.SCALE, 5));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.SHELL, 5));
-		builder.addIngredient(MHFCItemRegistry.MHFCItemWyvernCoin, 10, 0);
+		builder.addIngredient(itemRegistry.wyvernCoin, 10, 0);
 		builder.setRequiredHeat(400).setDuration(700);
 		recipe_hm_tigrex = builder.build();
 
 		//
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_hm_kirinspark));
+		builder.setProduct(new ItemStack(itemRegistry.weapon_hm_kirinspark));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemKirin.KirinSubType.MANE, 10));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemKirin.KirinSubType.PLATINUMMANE, 6));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemKirin.KirinSubType.LIGHTCRYSTAL, 5));
@@ -363,7 +364,7 @@ public class DirectorEquipmentRecipes {
 
 		//
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_hm_devilsdue));
+		builder.setProduct(new ItemStack(itemRegistry.weapon_hm_devilsdue));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemDeviljho.DeviljhoSubType.FANG, 10));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemDeviljho.DeviljhoSubType.SCALE, 4));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemDeviljho.DeviljhoSubType.SCALP, 6));
@@ -374,15 +375,15 @@ public class DirectorEquipmentRecipes {
 		//
 		// Longsword class
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_ls_ironkatana));
-		builder.addIngredient(MHFCItemRegistry.mhfcitemsteelbar, 7, 0);
-		builder.addIngredient(MHFCItemRegistry.mhfcitemlumberbar, 2, 0);
+		builder.setProduct(new ItemStack(itemRegistry.weapon_ls_ironkatana));
+		builder.addIngredient(itemRegistry.steelbar, 7, 0);
+		builder.addIngredient(itemRegistry.lumberbar, 2, 0);
 		builder.setRequiredHeat(150).setDuration(600);
 		recipe_ls_ironkatana = builder.build();
 
 		//
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_ls_darkvipern));
+		builder.setProduct(new ItemStack(itemRegistry.weapon_ls_darkvipern));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemRemobra.RemobraSubType.SKIN, 6));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemRemobra.RemobraSubType.STRIPE, 6));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemRemobra.RemobraSubType.WING, 2));
@@ -392,20 +393,20 @@ public class DirectorEquipmentRecipes {
 		//
 		// Hunting Horn Class
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_hh_ivoryhorn));
+		builder.setProduct(new ItemStack(itemRegistry.weapon_hh_ivoryhorn));
 		builder.setRequiredHeat(100).setDuration(250);
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemIngot.IngotsSubType.MACHALITE, 3));
-		builder.addIngredient(MHFCItemRegistry.mhfcitemlumberbar, 1, 0);
+		builder.addIngredient(itemRegistry.lumberbar, 1, 0);
 		builder.addIngredient(Item.getItemById(352), 6, 0);
 		recipe_hh_ivoryhorn = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_hh_metalbagpipe));
+		builder.setProduct(new ItemStack(itemRegistry.weapon_hh_metalbagpipe));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemIngot.IngotsSubType.MACHALITE, 3));
-		builder.addIngredient(MHFCItemRegistry.mhfcitemmoldediron, 2, 0);
+		builder.addIngredient(itemRegistry.moldedIron, 2, 0);
 		builder.setRequiredHeat(200).setDuration(400);
 		recipe_hh_metalbagpipe = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_hh_tigrex));
+		builder.setProduct(new ItemStack(itemRegistry.weapon_hh_tigrex));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.SHELL, 5));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemTigrex.TigrexSubType.FANG, 7));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemIngot.IngotsSubType.DRAGONITE, 10));
@@ -414,15 +415,15 @@ public class DirectorEquipmentRecipes {
 
 		//Bow Class
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_b_hunters));
-		builder.addIngredient(MHFCItemRegistry.mhfcitemlumberbar, 15, 0);
+		builder.setProduct(new ItemStack(itemRegistry.weapon_b_hunters));
+		builder.addIngredient(itemRegistry.lumberbar, 15, 0);
 		builder.addIngredient(Item.getItemById(265), 12, 0);
 		builder.addIngredient(Item.getItemById(352), 12, 0);
 		builder.setRequiredHeat(350).setDuration(600);
 		recipe_b_hunters = builder.build();
 
-		builder.setProduct(new ItemStack(MHFCItemRegistry.weapon_b_huntersstout));
-		builder.addIngredient(MHFCItemRegistry.mhfcitemlumberbar, 5, 0);
+		builder.setProduct(new ItemStack(itemRegistry.weapon_b_huntersstout));
+		builder.addIngredient(itemRegistry.lumberbar, 5, 0);
 		builder.addIngredient(Item.getItemById(265), 15, 0);
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemIngot.IngotsSubType.MACHALITE, 15));
 		builder.setRequiredHeat(350).setDuration(600);

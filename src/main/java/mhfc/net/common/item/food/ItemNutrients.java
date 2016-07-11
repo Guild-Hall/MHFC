@@ -56,7 +56,7 @@ public class ItemNutrients extends ItemFood {
 
 		@Override
 		public Item getBaseItem() {
-			return MHFCItemRegistry.mhfcfoodnutrients;
+			return MHFCItemRegistry.getRegistry().nutrients;
 		}
 
 		@Override

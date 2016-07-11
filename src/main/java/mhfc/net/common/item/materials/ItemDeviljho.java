@@ -44,7 +44,7 @@ public class ItemDeviljho extends AbstractSubTypedItem<DeviljhoSubType> {
 
 		@Override
 		public Item getBaseItem() {
-			return MHFCItemRegistry.mhfcitemdeviljho;
+			return MHFCItemRegistry.getRegistry().deviljhodrops;
 		}
 
 		@Override

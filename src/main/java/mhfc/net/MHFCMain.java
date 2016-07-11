@@ -138,14 +138,13 @@ public class MHFCMain {
 	}
 
 	private MHFCConfig config;
-	private NetworkTracker connectionTracker = new NetworkTracker();
+	private NetworkTracker connectionTracker = NetworkTracker.instance;
 
 	public static MHFCConfig config() {
 		return instance.config;
 	}
 
 	private void staticInit() {
-		ForgeChunkManager.setForcedChunkLoadingCallback(this, this::chunkLoadingCallback);
 		MHFCMain.getSidedProxy().staticInit();
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 			constructedPhaseAccess.exitPhase(null);
@@ -154,14 +153,15 @@ public class MHFCMain {
 
 	@Mod.EventHandler
 	protected void onCreation(FMLConstructionEvent event) {
-		FMLCommonHandler.instance().bus().register(connectionTracker);
-		MinecraftForge.EVENT_BUS.register(this);
 		staticInit();
 		constructedPhaseAccess.enterPhase(event);
 	}
 
 	@Mod.EventHandler
 	protected void onPreInit(FMLPreInitializationEvent event) {
+		FMLCommonHandler.instance().bus().register(connectionTracker);
+		MinecraftForge.EVENT_BUS.register(this);
+		ForgeChunkManager.setForcedChunkLoadingCallback(this, this::chunkLoadingCallback);
 		// MHFCConfig.init(pre);
 		config = new MHFCConfig(event);
 		MHFCMain.config().init();
@@ -203,10 +203,6 @@ public class MHFCMain {
 	@Mod.EventHandler
 	protected void onServerStopped(FMLServerStoppedEvent event) {
 		serverRunningPhaseAccess.exitPhase(event);
-	}
-
-	public static boolean isPreInitiliazed() {
-		return Services.instance.isActive(preInitPhase);
 	}
 
 	@SubscribeEvent

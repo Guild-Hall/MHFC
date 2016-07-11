@@ -47,12 +47,12 @@ public class KirinArmor extends ItemArmor {
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
-		if (stack.getItem() == MHFCItemRegistry.armor_kirin_helm
-				|| stack.getItem() == MHFCItemRegistry.armor_kirin_chest
-				|| stack.getItem() == MHFCItemRegistry.armor_kirin_boots) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_kirin_helm
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_kirin_chest
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_kirin_boots) {
 			return MHFCReference.armor_kirin_tex1;
 		}
-		if (stack.getItem() == MHFCItemRegistry.armor_kirin_legs) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_kirin_legs) {
 			return MHFCReference.armor_kirin_tex2;
 		}
 		return null;
@@ -112,10 +112,10 @@ public class KirinArmor extends ItemArmor {
 		ItemStack helmet = player.getCurrentArmor(3);
 
 		if (boots != null && legs != null && chest != null && helmet != null) {
-			if (boots.getItem() == MHFCItemRegistry.armor_kirin_boots
-					&& legs.getItem() == MHFCItemRegistry.armor_kirin_legs
-					&& chest.getItem() == MHFCItemRegistry.armor_kirin_chest
-					&& helmet.getItem() == MHFCItemRegistry.armor_kirin_helm) {}
+			if (boots.getItem() == MHFCItemRegistry.getRegistry().armor_kirin_boots
+					&& legs.getItem() == MHFCItemRegistry.getRegistry().armor_kirin_legs
+					&& chest.getItem() == MHFCItemRegistry.getRegistry().armor_kirin_chest
+					&& helmet.getItem() == MHFCItemRegistry.getRegistry().armor_kirin_helm) {}
 		}
 	}
 

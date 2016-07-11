@@ -12,9 +12,17 @@ import com.sk89q.worldedit.function.operation.RunContext;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import mhfc.net.MHFCMain;
+import mhfc.net.common.network.NetworkTracker;
+import mhfc.net.common.util.services.IServiceAccess;
+import mhfc.net.common.util.services.IServiceHandle;
+import mhfc.net.common.util.services.IServiceKey;
+import mhfc.net.common.util.services.IServicePhaseHandle;
+import mhfc.net.common.util.services.Services;
 
 public class MHFCTickHandler {
 	public static final MHFCTickHandler instance = new MHFCTickHandler();
+
+	public static void staticInit() {}
 
 	private static class OperationWrapper implements Runnable {
 		private Operation op;
@@ -47,14 +55,40 @@ public class MHFCTickHandler {
 		}
 	}
 
-	private Map<TickPhase, DoubleBufferRunnableRegistry> jobQueue = new EnumMap<>(TickPhase.class);
+	private static Map<TickPhase, IServiceKey<DoubleBufferRunnableRegistry>> jobQueue = new EnumMap<>(TickPhase.class);
+
+	static {
+		for (TickPhase phase : TickPhase.values()) {
+			boolean isServerTick = phase == TickPhase.SERVER_POST || phase == TickPhase.SERVER_PRE;
+			boolean isClientTick = phase == TickPhase.CLIENT_POST || phase == TickPhase.CLIENT_PRE;
+			IServiceAccess<DoubleBufferRunnableRegistry> phaseHandler = Services.instance
+					.registerService("tick " + phase, new IServiceHandle<DoubleBufferRunnableRegistry>() {
+						@Override
+						public void startup(DoubleBufferRunnableRegistry instance) {}
+
+						@Override
+						public void shutdown(DoubleBufferRunnableRegistry instance) {
+							instance.cancel();
+						}
+					}, DoubleBufferRunnableRegistry::new);
+			if (isServerTick) {
+				phaseHandler.addTo(MHFCMain.serverActivePhase, IServicePhaseHandle.noInit());
+			} else if (isClientTick) {
+				phaseHandler.addTo(NetworkTracker.clientConnectedPhase, IServicePhaseHandle.noInit());
+			} else {
+				phaseHandler.addTo(MHFCMain.preInitPhase, IServicePhaseHandle.noInit());
+			}
+			jobQueue.put(phase, phaseHandler);
+		}
+	}
 
 	private DoubleBufferRunnableRegistry getQueueFor(TickPhase phase) {
-		phase = Objects.requireNonNull(phase);
-		return jobQueue.computeIfAbsent(phase, p -> new DoubleBufferRunnableRegistry());
+		assert phase != null;
+		return jobQueue.get(phase).getService();
 	}
 
 	public void registerRunnable(TickPhase phase, Runnable run, Runnable cancel) {
+		Objects.requireNonNull(phase);
 		getQueueFor(phase).register(run, cancel);
 	}
 
@@ -75,6 +109,7 @@ public class MHFCTickHandler {
 	 *            the context to feed to the operation
 	 */
 	public void registerOperation(TickPhase phase, final Operation op, final RunContext context) {
+		Objects.requireNonNull(phase);
 		if (op == null) {
 			return;
 		}
@@ -109,6 +144,7 @@ public class MHFCTickHandler {
 
 	private void onTick(TickEvent event) {
 		TickPhase phase = TickPhase.forEvent(event);
-		getQueueFor(phase).runAll();
+		IServiceKey<DoubleBufferRunnableRegistry> key = jobQueue.get(phase);
+		key.getServiceProvider().getServiceFor(key).ifPresent(DoubleBufferRunnableRegistry::runAll);
 	}
 }

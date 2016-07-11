@@ -6,15 +6,28 @@ import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServer
 import cpw.mods.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ServerDisconnectionFromClientEvent;
 import mhfc.net.MHFCMain;
+import mhfc.net.common.util.services.IPhaseAccess;
+import mhfc.net.common.util.services.IPhaseKey;
+import mhfc.net.common.util.services.Services;
 
 public class NetworkTracker {
+	private static IPhaseAccess<ClientConnectedToServerEvent, ClientDisconnectionFromServerEvent> clientConnectedAccess = Services.instance
+			.<ClientConnectedToServerEvent, ClientDisconnectionFromServerEvent>registerPhase("client connected");
+	public static final IPhaseKey<ClientConnectedToServerEvent, ClientDisconnectionFromServerEvent> clientConnectedPhase = clientConnectedAccess;
+
+	public static final NetworkTracker instance = new NetworkTracker();
+
+	private NetworkTracker() {}
+
 	@SubscribeEvent
 	public void onClientServerConnection(ClientConnectedToServerEvent event) {
 		MHFCMain.logger().debug("Client connected to server " + event.manager.getSocketAddress().toString());
+		clientConnectedAccess.enterPhase(event);
 	}
 
 	@SubscribeEvent
 	public void onClientServerDisconnection(ClientDisconnectionFromServerEvent event) {
+		clientConnectedAccess.exitPhase(event);
 		MHFCMain.logger().debug("Client disconnected from server " + event.manager.getSocketAddress().toString());
 	}
 

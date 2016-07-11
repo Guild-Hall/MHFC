@@ -62,12 +62,12 @@ public class DragoonArmor extends ItemArmor {
 			return MHFCReference.armor_null_tex;
 		}
 
-		if (stack.getItem() == MHFCItemRegistry.armor_dragoon_helm
-				|| stack.getItem() == MHFCItemRegistry.armor_dragoon_chest
-				|| stack.getItem() == MHFCItemRegistry.armor_dragoon_boots) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_dragoon_helm
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_dragoon_chest
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_dragoon_boots) {
 			return MHFCReference.armor_dragoon_tex1;
 		}
-		if (stack.getItem() == MHFCItemRegistry.armor_dragoon_legs) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_dragoon_legs) {
 			return MHFCReference.armor_dragoon_tex2;
 		}
 		return MHFCReference.armor_null_tex;
@@ -131,9 +131,10 @@ public class DragoonArmor extends ItemArmor {
 		ItemStack boots = player.getCurrentArmor(0);
 		ItemStack legs = player.getCurrentArmor(1);
 		ItemStack chest = player.getCurrentArmor(2);
-		if (chest != null && legs != null && boots != null && chest.getItem() == MHFCItemRegistry.armor_dragoon_chest
-				&& boots.getItem() == MHFCItemRegistry.armor_dragoon_boots
-				&& legs.getItem() == MHFCItemRegistry.armor_dragoon_legs) {
+		if (chest != null && legs != null && boots != null
+				&& chest.getItem() == MHFCItemRegistry.getRegistry().armor_dragoon_chest
+				&& boots.getItem() == MHFCItemRegistry.getRegistry().armor_dragoon_boots
+				&& legs.getItem() == MHFCItemRegistry.getRegistry().armor_dragoon_legs) {
 			if (!DonatorSystem.checkDragoon(player)) {
 				return;
 			} else {

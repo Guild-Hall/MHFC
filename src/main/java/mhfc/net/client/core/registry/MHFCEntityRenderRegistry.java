@@ -174,7 +174,8 @@ public class MHFCEntityRenderRegistry {
 		IModel model = ClientLoader.loadModel(modelLoc, skeleton);
 		IEntityAnimator animator = getAnimator(textureDir);
 		RenderAnimatedModel animatedModel = RenderAnimatedModel.fromModel(animator, model, shadow);
-		RenderingRegistry.registerEntityRenderingHandler(entityClass, animatedModel);
+
+		advanceRenderer(entityClass, animatedModel);
 	}
 
 	private static void advanceRenderer(Class<? extends Entity> clazz, Render render) {

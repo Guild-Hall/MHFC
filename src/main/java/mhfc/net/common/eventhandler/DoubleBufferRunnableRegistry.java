@@ -51,7 +51,7 @@ public class DoubleBufferRunnableRegistry {
 		}
 	}
 
-	public void cancelNext() {
+	public void cancel() {
 		synchronized (runGuard) {
 			for (RunEntry r : current) {
 				r.cancel();

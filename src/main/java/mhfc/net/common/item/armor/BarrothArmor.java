@@ -42,12 +42,12 @@ public class BarrothArmor extends ItemArmor {
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
-		if (stack.getItem() == MHFCItemRegistry.armor_barroth_helm
-				|| stack.getItem() == MHFCItemRegistry.armor_barroth_chest
-				|| stack.getItem() == MHFCItemRegistry.armor_barroth_boots) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_barroth_helm
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_barroth_chest
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_barroth_boots) {
 			return MHFCReference.armor_barroth_tex1;
 		}
-		if (stack.getItem() == MHFCItemRegistry.armor_barroth_legs) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_barroth_legs) {
 			return MHFCReference.armor_barroth_tex2;
 		}
 		return null;
@@ -112,9 +112,9 @@ public class BarrothArmor extends ItemArmor {
 		ItemStack chest = player.getCurrentArmor(2);
 		ItemStack food = player.getCurrentEquippedItem();
 		if (boots != null && legs != null && chest != null) {
-			if (boots.getItem() == MHFCItemRegistry.armor_barroth_boots
-					&& legs.getItem() == MHFCItemRegistry.armor_barroth_legs
-					&& chest.getItem() == MHFCItemRegistry.armor_barroth_chest) {}
+			if (boots.getItem() == MHFCItemRegistry.getRegistry().armor_barroth_boots
+					&& legs.getItem() == MHFCItemRegistry.getRegistry().armor_barroth_legs
+					&& chest.getItem() == MHFCItemRegistry.getRegistry().armor_barroth_chest) {}
 		}
 	}
 }

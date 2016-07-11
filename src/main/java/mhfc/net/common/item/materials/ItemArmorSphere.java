@@ -36,7 +36,7 @@ public class ItemArmorSphere extends AbstractSubTypedItem<ArmorSphereSubType> {
 
 		@Override
 		public Item getBaseItem() {
-			return MHFCItemRegistry.mhfcitemarmorsphere;
+			return MHFCItemRegistry.getRegistry().armorsphere;
 		}
 
 		@Override

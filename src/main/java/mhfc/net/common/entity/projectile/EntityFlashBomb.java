@@ -76,7 +76,7 @@ public class EntityFlashBomb extends EntityThrowable {
 			int effectStrength = (int) (toTargetVec.lengthVector() * -dot);
 			if (effectStrength > 0) {
 				living.addPotionEffect(
-						new PotionEffect(MHFCPotionRegistry.flashed.id, EXPLOSION_TICKS, effectStrength));
+						new PotionEffect(MHFCPotionRegistry.getRegistry().flashed.id, EXPLOSION_TICKS, effectStrength));
 			}
 		}
 	}

@@ -41,12 +41,12 @@ public class RathalosArmor extends ItemArmor {
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
-		if (stack.getItem() == MHFCItemRegistry.armor_rathalos_helm
-				|| stack.getItem() == MHFCItemRegistry.armor_rathalos_chest
-				|| stack.getItem() == MHFCItemRegistry.armor_rathalos_boots) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_rathalos_helm
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_rathalos_chest
+				|| stack.getItem() == MHFCItemRegistry.getRegistry().armor_rathalos_boots) {
 			return MHFCReference.armor_rathalos_tex1;
 		}
-		if (stack.getItem() == MHFCItemRegistry.armor_rathalos_legs) {
+		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_rathalos_legs) {
 			return MHFCReference.armor_rathalos_tex2;
 		}
 		return null;

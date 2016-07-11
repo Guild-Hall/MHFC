@@ -52,7 +52,7 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 		if (!isOffCooldown(stack)) {
 			return false;
 		}
-		target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.stun.id, stunDur, 5));
+		target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().stun.id, stunDur, 5));
 		triggerCooldown(stack);
 		return true;
 	}

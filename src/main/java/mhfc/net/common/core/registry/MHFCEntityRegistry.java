@@ -24,7 +24,6 @@ import mhfc.net.common.entity.quests.EntityQuestGiver;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.util.services.IServiceKey;
-import mhfc.net.common.util.services.Services;
 import net.minecraft.entity.Entity;
 
 public class MHFCEntityRegistry {
@@ -96,6 +95,8 @@ public class MHFCEntityRegistry {
 		paintemitterID = getMobID(EntityPaintParticleEmitter.class, MHFCReference.mob_paint_emitter_name);
 		arrowID = getProjectileID(EntityWyverniaArrow.class, MHFCReference.projectile_wyverniaarrow_name);
 		breatheID = getProjectileID(EntityBreathe.class, MHFCReference.projectile_wyverniaarrow_name);
+
+		MHFCMain.logger().info("Monsters registered");
 	}
 
 	/**
@@ -165,6 +166,6 @@ public class MHFCEntityRegistry {
 	}
 
 	public static MHFCEntityRegistry getRegistry() {
-		return Services.getService(serviceAccess);
+		return serviceAccess.getService();
 	}
 }

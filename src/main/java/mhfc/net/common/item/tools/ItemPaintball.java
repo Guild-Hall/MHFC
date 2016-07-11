@@ -55,7 +55,7 @@ public class ItemPaintball extends AbstractSubTypedItem<PaintballType> {
 
 		@Override
 		public Item getBaseItem() {
-			return MHFCItemRegistry.MHFCItemPaintball;
+			return MHFCItemRegistry.getRegistry().paintball;
 		}
 
 		@Override
@@ -73,15 +73,15 @@ public class ItemPaintball extends AbstractSubTypedItem<PaintballType> {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World worldIn, EntityPlayer player) {
-		if (!player.capabilities.isCreativeMode)
+		if (!player.capabilities.isCreativeMode) {
 			--stack.stackSize;
+		}
 
 		worldIn.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-		if(!worldIn.isRemote) {
+		if (!worldIn.isRemote) {
 			worldIn.spawnEntityInWorld(
-				new EntityPaintball(worldIn, ItemColor.byMetadata(stack.getItemDamage()), player)
-			);
+					new EntityPaintball(worldIn, ItemColor.byMetadata(stack.getItemDamage()), player));
 		}
 		return stack;
 	}

@@ -13,6 +13,16 @@ package mhfc.net.common.util.services;
  *            the type of shutdown context
  */
 public interface IServicePhaseHandle<T, A, Z> {
+	public static <T, A, Z> IServicePhaseHandle<T, A, Z> noInit() {
+		return new IServicePhaseHandle<T, A, Z>() {
+			@Override
+			public void onPhaseStart(T service, A startupContext) {}
+
+			@Override
+			public void onPhaseEnd(T service, Z shutdownContext) {}
+		};
+	}
+
 	/**
 	 * Called when the service enters a phase it was registered for.
 	 * <p>

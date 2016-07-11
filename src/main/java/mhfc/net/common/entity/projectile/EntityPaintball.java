@@ -45,19 +45,17 @@ public class EntityPaintball extends EntityThrowable implements IEntityAdditiona
 
 	@Override
 	protected void onImpact(MovingObjectPosition pos) {
-		if(pos.entityHit != null && pos.entityHit instanceof EntityLivingBase) {
-			EntityLivingBase entityLivingHit = (EntityLivingBase)pos.entityHit;
+		if (pos.entityHit != null && pos.entityHit instanceof EntityLivingBase) {
+			EntityLivingBase entityLivingHit = (EntityLivingBase) pos.entityHit;
 
 			entityLivingHit.addPotionEffect(
-					new PotionEffect(MHFCPotionRegistry.painted.id,
-						2400,
-						this.color.getMetadata(),
-						true
-					));
+					new PotionEffect(
+							MHFCPotionRegistry.getRegistry().painted.id,
+							2400,
+							this.color.getMetadata(),
+							true));
 			entityLivingHit.attackEntityFrom(DamageSource.causeMobDamage(this.getThrower()), 1);
 		}
 	}
-
-
 
 }

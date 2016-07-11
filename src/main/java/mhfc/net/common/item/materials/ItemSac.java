@@ -39,7 +39,7 @@ public class ItemSac extends AbstractSubTypedItem<SacSubType> {
 
 		@Override
 		public Item getBaseItem() {
-			return MHFCItemRegistry.mhfcitemsac;
+			return MHFCItemRegistry.getRegistry().itemsac;
 		}
 
 		@Override

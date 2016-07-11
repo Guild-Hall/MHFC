@@ -3,8 +3,6 @@ package mhfc.net.client.core;
 import mhfc.net.MHFCMain;
 import mhfc.net.client.core.registry.MHFCEntityRenderRegistry;
 import mhfc.net.client.core.registry.MHFCItemRenderRegistry;
-import mhfc.net.client.core.registry.MHFCRenderIDRegistry;
-import mhfc.net.client.core.registry.MHFCSoundRegistry;
 import mhfc.net.client.core.registry.MHFCTileRenderRegistry;
 import mhfc.net.client.core.registry.MHFCWeaponRenderRegistry;
 import mhfc.net.client.gui.hud.RenderEventListener;
@@ -15,13 +13,11 @@ public class MHFCClientRegistry {
 
 	public static void init() {
 		addRenderers();
-		addSounds();
 		addQuestDisplay();
-
 	}
 
 	public static void staticInit() {
-		// TODO Auto-generated method stub
+		MHFCMain.initPhase.registerEntryCallback(e -> init());
 	}
 
 	private static void addQuestDisplay() {
@@ -34,14 +30,7 @@ public class MHFCClientRegistry {
 		MHFCEntityRenderRegistry.init();
 		MHFCWeaponRenderRegistry.init();
 		MHFCItemRenderRegistry.init();
-		MHFCRenderIDRegistry.init();
 		MinecraftForge.EVENT_BUS.register(new RenderEventListener());
 		MHFCMain.logger().info("Renderers registerd");
 	}
-
-	private static void addSounds() {
-		MHFCSoundRegistry.init();
-		MHFCMain.logger().info("Sounds registerd");
-	}
-
 }
