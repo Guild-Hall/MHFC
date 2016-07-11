@@ -38,7 +38,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 
 	/**
 	 * Constructs a list with fixed list item height.
-	 * 
+	 *
 	 * @param posX
 	 *            The X-Position of the list
 	 * @param posY
@@ -58,7 +58,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 
 	/**
 	 * Constructs a list that automatically adjusts the height of its items depending on their count
-	 * 
+	 *
 	 * @param posX
 	 *            The X-position in the parent frame
 	 * @param posY
@@ -112,12 +112,14 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	}
 
 	protected void draw(int baseX, int baseY, int mouseX, int mouseY) {
-		if (!visible)
+		if (!visible) {
 			return;
+		}
 		int posX = baseX;
 		int posY = baseY;
-		if (recalculateItemHeightOnDraw)
+		if (recalculateItemHeightOnDraw) {
 			recalculateItemHeight();
+		}
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
 
@@ -131,9 +133,8 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	protected void drawListSlider(int posX, int posY, int mouseX, int mouseY) {
 		float alpha = getSliderAlpha(mouseX, mouseY);
 		if (alpha > 0f && !isEmpty()) {
-			float extendedHeight = itemHeight * size();
-			float sliderHeight = height * height / extendedHeight;
-			float sliderPosY = scrollAmount * height / extendedHeight;
+			float sliderHeight = getSliderHeight();
+			float sliderPosY = getSliderVerticalDisplacement();
 			GL11.glColor4f(1, 1, 1, alpha);
 			mc.getTextureManager().bindTexture(MHFCRegQuestVisual.CLICKABLE_LIST);
 			MHFCGuiUtil.drawTexturedRectangle(
@@ -209,8 +210,9 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 		GL11.glColor4f(1, 1, 1, 1);
 		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.CLICKABLE_LIST);
 		float texheight = height;
-		if (drawSmallestBounds)
+		if (drawSmallestBounds) {
 			texheight = Math.min(size() * itemHeight, texheight);
+		}
 		MHFCGuiUtil.drawTexturedRectangle(posX, posY, width, texheight, 0, 0, 0.5f, 1.0f);
 		if (selected >= 0) {
 			float selectionYMin = selected * itemHeight - scrollAmount;
@@ -237,16 +239,14 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	}
 
 	protected void drawListItems(int posX, int posY, int mouseX, int mouseY) {
-		for (int i = (int) (scrollAmount / itemHeight); i < this.size(); i++) {
+		int startIndex = (int) (scrollAmount / itemHeight + 0.5f);
+		for (int i = startIndex; i < this.size(); i++) {
 			GuiListItem item = this.get(i);
-			item.draw(
-					posX,
-					posY - (int) (scrollAmount - i * itemHeight),
-					width,
-					(int) itemHeight,
-					mc,
-					i == selected,
-					alignment);
+			int itemPosY = posY - (int) (scrollAmount - i * itemHeight);
+			item.draw(posX, itemPosY, width, (int) itemHeight, mc, i == selected, alignment);
+			if (i - startIndex >= (int) (height / itemHeight)) {
+				break;
+			}
 		}
 	}
 
@@ -259,8 +259,9 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 
 	@Override
 	public boolean handleClick(float relativeX, float relativeY, int button) {
-		if (!visible || relativeX < 0 || relativeX >= width || relativeY < 0 || relativeY >= height)
+		if (!visible || relativeX < 0 || relativeX >= width || relativeY < 0 || relativeY >= height) {
 			return false;
+		}
 		if (isMouseOnSlider(relativeX, relativeY)) {
 			mouseClickX = relativeX;
 			mouseClickY = relativeY;
@@ -268,8 +269,9 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 			mouseClickMoveY = mouseClickY;
 		} else {
 			int selec = (int) ((relativeY + scrollAmount) / itemHeight);
-			if (selec >= size())
+			if (selec >= size()) {
 				return false;
+			}
 			setSelected(selec);
 		}
 		return true;
@@ -278,7 +280,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	@Override
 	public void handleMovementMouseDown(float mouseX, float mouseY, int button, long timeDiff) {
 		if (isMouseOnSlider(mouseClickX, mouseClickY)) {
-			scrollAmount += (mouseY - mouseClickMoveY) / (float) height * getFullHeight();
+			scrollAmount += (mouseY - mouseClickMoveY) / height * getFullHeight();
 			scrollAmount = Math.min(scrollAmount, getFullHeight() - height);
 			scrollAmount = Math.max(scrollAmount, 0f);
 			isSliderDragged = true;
@@ -297,7 +299,7 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 
 	/**
 	 * Returns which item id is selected or -1 if none
-	 * 
+	 *
 	 */
 	public int getSelected() {
 		return selected;
@@ -309,8 +311,9 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	 */
 	@Override
 	public void add(int index, Item element) {
-		if (index <= selected)
+		if (index <= selected) {
 			selected++;
+		}
 		super.add(index, element);
 	}
 
@@ -320,10 +323,12 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	@Override
 	public boolean remove(Object o) {
 		int index = indexOf(o);
-		if (index < selected)
+		if (index < selected) {
 			selected--;
-		if (index == selected)
+		}
+		if (index == selected) {
 			selected = -1;
+		}
 		return super.remove(o);
 	}
 
@@ -334,10 +339,12 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 	 */
 	@Override
 	public Item remove(int index) {
-		if (index < selected)
+		if (index < selected) {
 			selected--;
-		if (index == selected)
+		}
+		if (index == selected) {
 			selected = -1;
+		}
 		return super.remove(index);
 	}
 
