@@ -61,7 +61,11 @@ public interface IMovementProvider<EntityT extends EntityLiving>
 			if (targetDir.xCoord == 0 && targetDir.zCoord == 0) {
 				return 0f;
 			}
-			float angle = AIUtils.getViewingAngle(actor, getCurrentWaypoint());
+			Vec3 lookVec = actor.getLookVec();
+			if (lookVec.xCoord == 0 && lookVec.zCoord == 0) {
+				return 0f;
+			}
+			float angle = AIUtils.getViewingAngle(actor, waypoint);
 			if (Math.abs(angle) <= maxAngle) {
 				return moveParameterProvider.getMoveSpeed();
 			} else {

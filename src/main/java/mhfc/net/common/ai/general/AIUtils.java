@@ -12,8 +12,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
@@ -54,8 +52,9 @@ public class AIUtils {
 
 		@Override
 		public float accept(Entity e) {
-			if (shouldDamage(e))
+			if (shouldDamage(e)) {
 				return damage(e);
+			}
 			return 0f;
 		}
 	}
@@ -66,7 +65,7 @@ public class AIUtils {
 	 */
 	public static class MemoryDamageCalculator extends DecisiveDamageCalculator {
 
-		private final Set<Entity> damagedEntities = new HashSet<Entity>();
+		private final Set<Entity> damagedEntities = new HashSet<>();
 		private IDamageCalculator forward;
 
 		public MemoryDamageCalculator(IDamageCalculator otherCalculator) {
@@ -135,10 +134,11 @@ public class AIUtils {
 
 		public void setDamageCalculator(IDamageCalculator dmg) {
 			calculator = dmg;
-			if (calculator == null)
+			if (calculator == null) {
 				type = Type.NONE;
-			else
+			} else {
 				type = Type.UNKNOWN;
+			}
 		}
 
 		public void setDefaultDamageCalculator(float player, float wyvern, float rest) {
@@ -166,13 +166,16 @@ public class AIUtils {
 		 * Resets the damage calculator if it is of memory type. Does nothing if not.
 		 */
 		public void reset() {
-			if (calculator == null)
+			if (calculator == null) {
 				return;
-			if (type == Type.MEMORY)
+			}
+			if (type == Type.MEMORY) {
 				((MemoryDamageCalculator) calculator).reset();
+			}
 			if (type == Type.UNKNOWN) {
-				if (calculator instanceof MemoryDamageCalculator)
+				if (calculator instanceof MemoryDamageCalculator) {
 					((MemoryDamageCalculator) calculator).reset();
+				}
 			}
 		}
 
@@ -188,12 +191,7 @@ public class AIUtils {
 	 *            the entity to check collision against
 	 */
 	public static void damageCollidingEntities(EntityLivingBase ai, final float damage) {
-		damageCollidingEntities(ai, new IDamageCalculator() {
-			@Override
-			public float accept(Entity e) {
-				return damage;
-			}
-		});
+		damageCollidingEntities(ai, e -> damage);
 	}
 
 	/**
@@ -219,18 +217,18 @@ public class AIUtils {
 		return new DefDamageCalculator(player, wyvern, rest);
 	}
 
-	
-
 	/**
 	 * Gives the yaw of a vector
 	 */
 	public static float lookVecToYaw(Vec3 vec) {
 		Objects.requireNonNull(vec);
-		if (vec.lengthVector() == 0)
+		if (vec.lengthVector() == 0) {
 			throw new IllegalArgumentException("The vector may not have zero length");
+		}
 		vec = vec.normalize();
-		if (vec.xCoord == 0 && vec.zCoord == 0)
+		if (vec.xCoord == 0 && vec.zCoord == 0) {
 			throw new IllegalArgumentException("A vector point straight up does not have a yaw");
+		}
 		double pitch_rad = Math.asin(vec.yCoord);
 		double cos_pitch = Math.cos(pitch_rad);
 		double adjusted_z = vec.zCoord / cos_pitch;
@@ -243,7 +241,7 @@ public class AIUtils {
 
 	/**
 	 * Returns the yaw that gives the direction of the target but with a maximum absolute value of max
-	 * 
+	 *
 	 * @param look
 	 *            A normalized look vector
 	 * @param target
@@ -269,12 +267,13 @@ public class AIUtils {
 	 */
 	public static float normalizeAngle(float yaw) {
 		yaw = yaw % 360;
-		if (yaw > 180)
+		if (yaw > 180) {
 			return yaw - 360;
-		else if (yaw < -180)
+		} else if (yaw < -180) {
 			return yaw + 360;
-		else
+		} else {
 			return yaw;
+		}
 	}
 
 	/**
@@ -316,7 +315,7 @@ public class AIUtils {
 		int minZ = (int) Math.floor(bounds.minZ), //
 				maxZ = (int) Math.ceil(bounds.maxZ);
 
-		List<AxisAlignedBB> list = new ArrayList<AxisAlignedBB>();
+		List<AxisAlignedBB> list = new ArrayList<>();
 
 		for (int xC = minX; xC <= maxX; xC++) {
 			for (int yC = minY; yC <= maxY; yC++) {
