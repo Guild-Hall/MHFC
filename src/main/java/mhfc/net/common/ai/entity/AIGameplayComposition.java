@@ -75,6 +75,10 @@ public class AIGameplayComposition {
 			}
 		}
 	}
+	
+	public static void sleepRegeneration(EntityCreature entity, float amount){
+		entity.heal(amount);
+	}
 
 	public static void cameraShake(EntityCreature disEntity, Entity entity, float intensity) {
 		if (disEntity.worldObj.isRemote && entity instanceof EntityPlayer) {
