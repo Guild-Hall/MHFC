@@ -3,7 +3,6 @@ package mhfc.net.common.ai.general.provider.simple;
 import java.util.Objects;
 
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.Vec3;
 
@@ -57,14 +56,6 @@ public interface IMovementProvider<EntityT extends EntityLiving>
 		@Override
 		public float getMoveSpeed() {
 			Vec3 waypoint = getCurrentWaypoint();
-			Vec3 targetDir = WorldHelper.getEntityPositionVector(actor).subtract(waypoint).normalize();
-			if (targetDir.xCoord == 0 && targetDir.zCoord == 0) {
-				return 0f;
-			}
-			Vec3 lookVec = actor.getLookVec();
-			if (lookVec.xCoord == 0 && lookVec.zCoord == 0) {
-				return 0f;
-			}
 			float angle = AIUtils.getViewingAngle(actor, waypoint);
 			if (Math.abs(angle) <= maxAngle) {
 				return moveParameterProvider.getMoveSpeed();

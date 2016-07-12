@@ -81,7 +81,9 @@ public class TargetTurnHelper {
 		Vec3 entityPos = WorldHelper.getEntityPositionVector(entity);
 		Vec3 vecToTarget = entityPos.subtract(targetPoint);
 		float newYaw = AIUtils.modifyYaw(entity.getLookVec(), vecToTarget.normalize(), maxTurnSpeed);
-		entity.rotationYaw = newYaw;
+		if (!Float.isNaN(newYaw)) {
+			entity.rotationYaw = newYaw;
+		}
 		// CLEANUP Figure out a way to send the updates to the client cleanly
 		entity.addVelocity(10e-4, 0, 10e-4);
 	}
