@@ -346,18 +346,18 @@ public class MHFCItemRegistry {
 				b -> b.setAttack(49).setRarity(7).setName(MHFCReference.weapon_ls_liondancesaber_name)
 						.addCombatEffect(ElementalType.Fire, 10));
 		weapon_ls_truedevilslicer = registerLongsword(
-				b -> b.setAttack(60).setRarity(7).setName(MHFCReference.weapon_ls_truedevilslicer_name)
+				b -> b.setAttack(57).setRarity(7).setName(MHFCReference.weapon_ls_truedevilslicer_name)
 						.addCombatEffect(ElementalType.Thunder, 10));
 		weapon_ls_phantommirage = registerLongsword(
-				b -> b.setAttack(71).setRarity(7).setName(MHFCReference.weapon_ls_phantommirage_name));
+				b -> b.setAttack(67).setRarity(7).setName(MHFCReference.weapon_ls_phantommirage_name));
 		weapon_ls_lionkingsaber = registerLongsword(
-				b -> b.setAttack(61).setRarity(8).setName(MHFCReference.weapon_ls_lionkingsaber_name)
+				b -> b.setAttack(65).setRarity(8).setName(MHFCReference.weapon_ls_lionkingsaber_name)
 						.addCombatEffect(ElementalType.Fire, 10));
 		weapon_ls_lionkaisersaber = registerLongsword(
-				b -> b.setAttack(82).setRarity(8).setName(MHFCReference.weapon_ls_lionkaisersaber_name)
+				b -> b.setAttack(74).setRarity(8).setName(MHFCReference.weapon_ls_lionkaisersaber_name)
 						.addCombatEffect(ElementalType.Fire, 10));
 		weapon_ls_lionsroarsaber = registerLongsword(
-				b -> b.setAttack(90).setRarity(9).setName(MHFCReference.weapon_ls_lionsroarsaber_name)
+				b -> b.setAttack(81).setRarity(9).setName(MHFCReference.weapon_ls_lionsroarsaber_name)
 						.addCombatEffect(ElementalType.Fire, 10));
 
 		weapon_hm_warhammer = registerHammer(

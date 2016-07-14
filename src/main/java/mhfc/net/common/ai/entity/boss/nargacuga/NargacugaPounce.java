@@ -26,7 +26,7 @@ public final class NargacugaPounce extends AIGeneralJumpAttack<EntityNargacuga> 
 		NargaJumpBehaviour internal;
 	}
 
-	private static final IDamageCalculator dmgCalculator = AIUtils.defaultDamageCalc(93, 300, 5000);
+	private static final IDamageCalculator dmgCalculator = AIUtils.defaultDamageCalc(112, 300, 5000);
 
 	public static NargacugaPounce createNargaPounce(JumpBehaviour jumpBehaviour) {
 		return new NargacugaPounce(jumpBehaviour.internal);

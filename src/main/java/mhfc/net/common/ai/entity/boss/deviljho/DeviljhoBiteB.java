@@ -15,7 +15,7 @@ public class DeviljhoBiteB extends DeviljhoBiteA {
 	private static final String ANIMATION = "mhfc:models/Deviljho/bite.mcanm";
 	private static final int LAST_FRAME = 40;
 	@SuppressWarnings("unused")
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(44f, 50F, 9999999f);
+	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(120f, 50F, 9999999f);
 
 	@SuppressWarnings("unused")
 	private static final double MAX_DIST = 5f;

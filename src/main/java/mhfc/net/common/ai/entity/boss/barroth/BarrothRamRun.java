@@ -11,9 +11,9 @@ import net.minecraft.util.Vec3;
 
 public class BarrothRamRun extends ActionAdapter<EntityBarroth> {
 	private static final int LAST_FRAME = 130;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(65f, 50F, 9999999f);
+	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(115f, 50F, 9999999f);
 
-	private static final double MAX_DIST = 20F;
+	private static final double MAX_DIST = 40F;
 	private static final float WEIGHT = 4;
 
 	public BarrothRamRun() {
@@ -23,6 +23,8 @@ public class BarrothRamRun extends ActionAdapter<EntityBarroth> {
 
 	@Override
 	protected void beginExecution() {
+		EntityBarroth entity = getEntity();
+		entity.getTurnHelper().updateTurnSpeed(14.17f);
 	}
 
 	@Override
@@ -45,16 +47,18 @@ public class BarrothRamRun extends ActionAdapter<EntityBarroth> {
 		EntityBarroth entity = getEntity();
 		AIUtils.damageCollidingEntities(getEntity(), damageCalc);
 		entity.getTurnHelper().updateTargetPoint(target);
-		entity.getTurnHelper().updateTurnSpeed(30.0f);
+		
 		if (this.getCurrentFrame() == 20) {
 			getEntity().playSound("mhfc:barroth.charge", 3.0F, 1.0F);
+			entity.getTurnHelper().updateTurnSpeed(0.37f);
+			//ON run
 			
 		}
 		if(this.getCurrentFrame() > 85){
 			AIGameplayComposition.launch(entity, 1.0D, 1.5D, 1.0D);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
-			entity.moveForward(0.8, true);
+			entity.moveForward(0.96, true);
 		}
 	}
 

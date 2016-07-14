@@ -109,9 +109,10 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		dropItemRand(new ItemStack(item, count, 0));
 	}
 
+	// Armor has been increase by 3% from 17
 	@Override
 	public int getTotalArmorValue() {
-		return 17;
+		return 22;
 	}
 
 	@Override
@@ -166,9 +167,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
-		getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(128d);
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35D);
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(60D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
 	}
 

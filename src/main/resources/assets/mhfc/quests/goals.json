@@ -13,6 +13,13 @@
 			amount: 1
 		}
 	},
+	LagiacrusHunt : {
+		type : "hunting",
+		data : {
+			target: "mhfc.lagiacrus",
+			amount: 1
+		}
+	},
 		DualGreatJaggiHunt : {
 		type : "hunting",
 		data : {

@@ -11,7 +11,7 @@ public class LagiacrusBite extends ActionAdapter <EntityLagiacrus> {
 	
 	private static int ANIM_FRAME = 60;
 	
-	private static IDamageCalculator DAMAGE = AIUtils.defaultDamageCalc(95F, 125F, 99999999F);
+	private static IDamageCalculator DAMAGE = AIUtils.defaultDamageCalc(105F, 125F, 99999999F);
 	
 	private static double TARGET_DISTANCE = 8.5F;
 	

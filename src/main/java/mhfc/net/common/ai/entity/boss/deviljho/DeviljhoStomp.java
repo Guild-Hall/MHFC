@@ -46,7 +46,7 @@ public class DeviljhoStomp extends AIAnimatedAction<EntityDeviljho> {
 			EntityLivingBase living = entity;
 			damageCalc.accept(living);
 			entity1.attackEntityFrom(DamageSource.causeMobDamage(entity), 60f);
-			entity1.addVelocity(-0.2, 0.2, 0);
+			entity1.addVelocity(-0.2, 0.6, 0);
 		}
 		entity.playSound("mhfc:deviljho.stomp", 1.0F, 1.0F);
 		thrown = true;

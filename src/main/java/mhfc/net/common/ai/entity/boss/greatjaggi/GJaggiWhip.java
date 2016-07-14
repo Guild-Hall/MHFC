@@ -21,7 +21,7 @@ public class GJaggiWhip extends AIGeneralTailWhip<EntityGreatJaggi> {
 	private static final ISelectionPredicate<EntityGreatJaggi> select;
 
 	static {
-		damageCalculator = AIUtils.defaultDamageCalc(65, 50, 9999999f);
+		damageCalculator = AIUtils.defaultDamageCalc(85, 50, 9999999f);
 		select = new ISelectionPredicate.SelectionAdapter<>(MIN_RIGHT_ANGLE, 180, MIN_DIST, MAX_DISTANCE);
 	}
 

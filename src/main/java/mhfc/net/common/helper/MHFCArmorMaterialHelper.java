@@ -22,8 +22,8 @@ public class MHFCArmorMaterialHelper {
 	public static final ArmorMaterial ArmorBarroth = EnumHelper.addArmorMaterial        ("barroth", durA, new int[] {4, 8, 6, 5}, enchant);
 	public static final ArmorMaterial ArmorTigrex = EnumHelper.addArmorMaterial         ("tigrex", durA, new int[]  {4, 8, 8, 3}, enchant);
 	public static final ArmorMaterial ArmorKirin = EnumHelper.addArmorMaterial          ("kirin", durA, new int[]   {4, 8, 7, 4},enchant);
-	public static final ArmorMaterial ArmorLagiacrus = EnumHelper.addArmorMaterial      ("lagia", durA, new int[]   {4, 9, 6, 5},enchant);
-	public static final ArmorMaterial ArmorDeviljho = EnumHelper.addArmorMaterial       ("deviljho", durB, new int[] {5, 9, 7, 7}, enchant);
+	public static final ArmorMaterial ArmorLagiacrus = EnumHelper.addArmorMaterial      ("lagia", durA, new int[]   {4, 9, 5, 4},enchant);
+	public static final ArmorMaterial ArmorDeviljho = EnumHelper.addArmorMaterial       ("deviljho", durB, new int[] {5, 8, 7, 7}, enchant);
 	
 	
 
@@ -31,8 +31,8 @@ public class MHFCArmorMaterialHelper {
 	public static final ArmorMaterial ArmorDragoon = EnumHelper.addArmorMaterial        ("dragoon", durB, new int[]{4, 7, 4, 2}, enchant);
 
 	// S Rank Armors
-	public static final ArmorMaterial ArmorKirinS = EnumHelper.addArmorMaterial         ("kirinS", durC, new int[]{3, 15, 6, 4}, enchant);
-	public static final ArmorMaterial ArmorTigrexB = EnumHelper.addArmorMaterial        ("kishin", durC, new int[]{3, 16, 6, 3}, enchant);
+	public static final ArmorMaterial ArmorKirinS = EnumHelper.addArmorMaterial         ("kirinS", durC, new int[]{3, 13, 4, 3}, enchant);
+	public static final ArmorMaterial ArmorTigrexB = EnumHelper.addArmorMaterial        ("kishin", durC, new int[]{3, 11, 5, 4}, enchant);
 	
 	
 	//Community 

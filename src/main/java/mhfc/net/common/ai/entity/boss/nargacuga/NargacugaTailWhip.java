@@ -21,7 +21,7 @@ public class NargacugaTailWhip extends AIGeneralTailWhip<EntityNargacuga> {
 	private static final ISelectionPredicate<EntityNargacuga> predicate;
 
 	static {
-		calculator = AIUtils.defaultDamageCalc(81, 500, 3333333);
+		calculator = AIUtils.defaultDamageCalc(100, 500, 3333333);
 		predicate = new ISelectionPredicate.SelectionAdapter<>(MIN_ANGLE, MAX_ANGLE, 0, MAX_DISTANCE);
 	}
 

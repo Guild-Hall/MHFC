@@ -12,7 +12,7 @@ public class TigrexWhip extends AIGeneralTailWhip<EntityTigrex> {
 
 	private static final String ANIMATION = "mhfc:models/Tigrex/tailswipe.mcanm";
 	private static final int LAST_FRAME = 70; // CLEANUP exact value here please
-	private static final double MAX_DISTANCE = 7F;
+	private static final double MAX_DISTANCE = 12F;
 	private static final double MIN_DIST = 0f;
 	private static final float MIN_RIGHT_ANGLE = 10f;
 	private static final float WEIGHT = 5;
@@ -21,7 +21,7 @@ public class TigrexWhip extends AIGeneralTailWhip<EntityTigrex> {
 	private static final ISelectionPredicate<EntityTigrex> pred;
 
 	static {
-		damageCalc = AIUtils.defaultDamageCalc(94, 92, 9999999f);
+		damageCalc = AIUtils.defaultDamageCalc(102, 156, 9999999f);
 		pred = new ISelectionPredicate.SelectionAdapter<>(MIN_RIGHT_ANGLE, 180, MIN_DIST, MAX_DISTANCE);
 	}
 

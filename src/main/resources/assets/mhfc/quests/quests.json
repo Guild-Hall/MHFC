@@ -67,11 +67,29 @@
 			} ,
 			reward : 5000,
 			fee : 200,
-			areaID : "desert",
+			areaID : "arena",
 			flair: "NIGHTTIME",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
 				name : "Defeat Barroth"
+			}
+		}
+	},
+	Quest5 : {
+		type : "default",
+		data : {
+			goal : {
+				type : "fork",
+				data : {
+					requisites : ["StandardDeath", "StandardTimer", "LagiacrusHunt"]
+				}
+			} ,
+			reward : 5000,
+			fee : 200,
+			areaID : "arena",
+			questType : "mhfc.quests.type.hunting",
+			visual : {
+				name : "Defeat Lagiacrus"
 			}
 		}
 	},

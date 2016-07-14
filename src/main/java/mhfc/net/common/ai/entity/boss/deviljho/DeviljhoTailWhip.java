@@ -11,7 +11,7 @@ import net.minecraft.entity.Entity;
 public class DeviljhoTailWhip extends AIGeneralTailWhip<EntityDeviljho> {
 
 	private static final String ANIMATION = "mhfc:models/Deviljho/tailswipe.mcanm";
-	private static final double MAX_DISTANCE = 15F;
+	private static final double MAX_DISTANCE = 18F;
 	private static final double MIN_DIST = 2f;
 	private static final float MIN_RIGHT_ANGLE = 10f;
 	private static final int LAST_FRAME = 55; // CLEANUP exact value here please
@@ -21,7 +21,7 @@ public class DeviljhoTailWhip extends AIGeneralTailWhip<EntityDeviljho> {
 	private static final ISelectionPredicate<EntityDeviljho> select;
 
 	static {
-		damageCalculator = AIUtils.defaultDamageCalc(85, 50, 9999999f);
+		damageCalculator = AIUtils.defaultDamageCalc(145, 50, 9999999f);
 		select = new ISelectionPredicate.SelectionAdapter<>(MIN_RIGHT_ANGLE, 180, MIN_DIST, MAX_DISTANCE);
 	}
 

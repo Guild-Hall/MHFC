@@ -14,7 +14,7 @@ public class LagiacrusWander extends AIGeneralWander<EntityLagiacrus> {
 
 	private static final IMoveParameterProvider parameterProvider = new IMoveParameterProvider.MoveParameterAdapter(
 			3f,
-			0.4f);
+			0.52f);
 
 	public LagiacrusWander() {
 		super(parameterProvider);

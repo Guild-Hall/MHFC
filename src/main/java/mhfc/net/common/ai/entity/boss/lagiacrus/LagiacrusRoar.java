@@ -34,7 +34,7 @@ public class LagiacrusRoar extends AIGeneralRoar<EntityLagiacrus> {
 
 	@Override
 	public boolean shouldStun(EntityLivingBase actor) {
-		return false;
+		return true;
 	}
 
 	@Override

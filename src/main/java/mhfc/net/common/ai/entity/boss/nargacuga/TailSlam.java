@@ -32,7 +32,7 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 
 	static {
 		select = new ISelectionPredicate.SelectionAdapter<>(-MAX_ANGLE, MAX_ANGLE, 0, MAX_DISTANCE);
-		damageCalculator = AIUtils.defaultDamageCalc(170, 1000, 888880);
+		damageCalculator = AIUtils.defaultDamageCalc(280, 1000, 888880);
 		jumpParams = new IJumpParamterProvider.ConstantAirTimeAdapter<>(
 				JUMP_TIME,
 				new ITargetResolver<EntityNargacuga>() {

@@ -47,7 +47,7 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		//default 13738
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(13738D, 1000D, 1400D));
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(24738D, 1000D, 1400D));
 	}
 
 	@Override

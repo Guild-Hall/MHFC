@@ -12,7 +12,7 @@ public class GJaggiBite extends ActionAdapter <EntityGreatJaggi> {
 	
 	private static int ANIM_FRAME = 33;
 	
-	private static IDamageCalculator DAMAGE = AIUtils.defaultDamageCalc(75F, 125F, 99999999F);
+	private static IDamageCalculator DAMAGE = AIUtils.defaultDamageCalc(95F, 125F, 99999999F);
 	
 	private static double TARGET_DISTANCE = 4.2F;
 	
