@@ -6,6 +6,7 @@ import java.util.Formatter;
 import java.util.Iterator;
 import java.util.List;
 
+import mhfc.net.common.util.parsing.Context;
 import mhfc.net.common.util.parsing.IValueHolder;
 import mhfc.net.common.util.parsing.valueholders.FunctionCall;
 
@@ -46,10 +47,10 @@ public class FunctionCallLiteral implements IExpression {
 	}
 
 	@Override
-	public IValueHolder asValue() {
+	public IValueHolder asValue(Context ctx) {
 		return FunctionCall.makeFunctionCall(
-				callee.asValue(),
-				arguments.stream().map(IExpression::asValue).toArray(IValueHolder[]::new));
+				callee.asValue(ctx),
+				arguments.stream().map(e -> e.asValue(ctx)).toArray(IValueHolder[]::new));
 	}
 
 }

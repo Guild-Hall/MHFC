@@ -1,24 +1,37 @@
 package mhfc.net.common.util.parsing.syntax.literals;
 
 import java.util.Formatter;
+import java.util.Objects;
+import java.util.function.Function;
 
+import mhfc.net.common.util.parsing.Context;
 import mhfc.net.common.util.parsing.IValueHolder;
 
 public class HolderLiteral implements IExpression {
-	private IValueHolder value;
+	private String descriptor;
+	private Function<Context, IValueHolder> valueIndirect;
 
 	public HolderLiteral(IValueHolder value) {
-		this.value = value;
+		this(c -> value, value.toString());
+	}
+
+	public HolderLiteral(Function<Context, IValueHolder> fromContext) {
+		this(fromContext, "<indirect value>");
+	}
+
+	public HolderLiteral(Function<Context, IValueHolder> fromContext, String descriptor) {
+		valueIndirect = Objects.requireNonNull(fromContext);
+		this.descriptor = descriptor;
 	}
 
 	@Override
 	public void prettyPrint(Formatter formatter) {
-		formatter.format("%s", value.toString());
+		formatter.format("%s", descriptor);
 	}
 
 	@Override
-	public IValueHolder asValue() {
-		return value;
+	public IValueHolder asValue(Context ctx) {
+		return valueIndirect.apply(ctx);
 	}
 
 }

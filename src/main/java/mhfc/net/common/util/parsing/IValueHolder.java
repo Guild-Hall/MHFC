@@ -2,6 +2,7 @@ package mhfc.net.common.util.parsing;
 
 import com.google.common.collect.ComputationException;
 
+@FunctionalInterface
 public interface IValueHolder {
 
 	public static final Class<?> EMPTY_CLASS = void.class;

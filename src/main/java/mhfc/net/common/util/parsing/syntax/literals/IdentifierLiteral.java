@@ -7,16 +7,14 @@ import mhfc.net.common.util.parsing.IValueHolder;
 import mhfc.net.common.util.parsing.valueholders.ContextVariable;
 
 public class IdentifierLiteral implements IExpression {
-	private Context context;
 	private String name;
 
-	public IdentifierLiteral(Context context, String name) {
-		this.context = context;
+	public IdentifierLiteral(String name) {
 		this.name = name;
 	}
 
 	@Override
-	public IValueHolder asValue() {
+	public IValueHolder asValue(Context context) {
 		return new ContextVariable(context, name);
 	}
 

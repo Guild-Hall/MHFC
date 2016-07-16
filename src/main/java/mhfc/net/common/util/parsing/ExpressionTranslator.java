@@ -334,7 +334,7 @@ public class ExpressionTranslator {
 		}
 	};
 
-	private class Identifier implements IBasicSequence {
+	private static class Identifier implements IBasicSequence {
 		private StringBuilder sb = new StringBuilder();
 
 		@Override
@@ -365,11 +365,11 @@ public class ExpressionTranslator {
 
 		@Override
 		public void pushOnto(AST ast) {
-			ast.pushValue(VAL_IDENTIFIER_ID, new IdentifierLiteral(context, sb.toString()));
+			ast.pushValue(VAL_IDENTIFIER_ID, new IdentifierLiteral(sb.toString()));
 		}
 	}
 
-	private class Whitespace implements IBasicSequence {
+	private static class Whitespace implements IBasicSequence {
 
 		@Override
 		public SiftResult accepting(int cp) {
@@ -630,7 +630,7 @@ public class ExpressionTranslator {
 
 	}
 
-	private IBasicSequence makeUnaryOperator(int matchingChar, int ID, Supplier<IOperator<?, ?>> opSupplier) {
+	private static IBasicSequence makeUnaryOperator(int matchingChar, int ID, Supplier<IOperator<?, ?>> opSupplier) {
 		return new StringSequence(matchingChar) {
 			@Override
 			public void pushOnto(AST ast) throws SyntaxErrorException {
@@ -639,7 +639,10 @@ public class ExpressionTranslator {
 		};
 	}
 
-	private IBasicSequence makeBinaryOperator(int matchingChar, int ID, Supplier<IBinaryOperator<?, ?, ?>> opSupplier) {
+	private static IBasicSequence makeBinaryOperator(
+			int matchingChar,
+			int ID,
+			Supplier<IBinaryOperator<?, ?, ?>> opSupplier) {
 		return new StringSequence(matchingChar) {
 			@Override
 			public void pushOnto(AST ast) throws SyntaxErrorException {
@@ -648,7 +651,10 @@ public class ExpressionTranslator {
 		};
 	}
 
-	private IBasicSequence makeBinaryOperator(String matching, int ID, Supplier<IBinaryOperator<?, ?, ?>> opSupplier) {
+	private static IBasicSequence makeBinaryOperator(
+			String matching,
+			int ID,
+			Supplier<IBinaryOperator<?, ?, ?>> opSupplier) {
 		return new StringSequence(matching) {
 			@Override
 			public void pushOnto(AST ast) throws SyntaxErrorException {
@@ -679,14 +685,14 @@ public class ExpressionTranslator {
 		}
 	}
 
-	private class ContextSymbol extends StringSequence {
+	private static class ContextSymbol extends StringSequence {
 		public ContextSymbol() {
 			super('$');
 		}
 
 		@Override
 		public void pushOnto(AST ast) throws SyntaxErrorException {
-			ast.pushValue(VAL_EXPRESSION_ID, new HolderLiteral(Holder.valueOf(context.getWrapper())));
+			ast.pushValue(VAL_EXPRESSION_ID, new HolderLiteral(c -> Holder.valueOf(c.getWrapper()), "<context>"));
 		}
 	}
 
@@ -799,7 +805,7 @@ public class ExpressionTranslator {
 				break;
 			}
 		}
-		return ((IExpression) parseTree.getOverallValue()).asValue();
+		return IExpression.class.cast(parseTree.getOverallValue()).asValue(context);
 	}
 
 	private IBasicSequence nextSequenceOrSyntaxError(Iterator<IBasicSequence> sequences, IntBuffer stream) {
