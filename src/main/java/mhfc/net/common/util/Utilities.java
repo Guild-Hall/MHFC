@@ -67,13 +67,8 @@ public class Utilities {
 			//chargingEntity.speed = moveSpeed / 2D;
 		}
 	}
-
-	/**
-	 * Counts the number of players in a world // FIXME: actually useful?
-	 *
-	 * @param worldObj
-	 * @return
-	 */
+	
+	// YES THIS IS usefull for 1.9
 	public static int countPlayers(WorldServer worldObj) {
 		return worldObj.playerEntities.size();
 	}
@@ -86,16 +81,7 @@ public class Utilities {
 		}
 	}
 
-	/*
-	 * TODO nullDamage is chance that all incoming singe target (projectiles , not aoe) has a 1 in 5 chance to be block
-	 * and will be feature on update on lance. - `Heltrato
-	 */
-	public static float nullifyDamage(DamageSource source, float damage) {
-		if (rand.nextInt(5) == 0 && source.isProjectile()) {
-			return 0;
-		}
-		return damage;
-	}
+
 
 	public static void knockBack(EntityLivingBase attacker, EntityLivingBase entity, float knockback) {
 

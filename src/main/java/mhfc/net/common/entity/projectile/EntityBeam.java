@@ -11,26 +11,38 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class EntityLaserBeam extends Entity {
+public class EntityBeam extends Entity {
 	
-	private final double radius = 20;
-	public EntityLivingBase caster;
+	private final double beamRadius = 20;
+	public EntityLivingBase beamCaster;
 	public double endPosX, endPosY, endPosZ;
 	public double collidePosX, collidePosY, collidePosZ;
 	
 	public boolean on = true;
 	public int blockSide = -1;
+	public int appear = 60;
 
-	public EntityLaserBeam(World worldObj) {
+	public EntityBeam(World worldObj) {
 		super(worldObj);
 		setSize(0.1F,0.1F);
 		ignoreFrustumCheck = true;
 		
 	}
 	
-	public EntityLaserBeam(World worldObj, EntityLivingBase caster, double x, double y, double z, float yaw, float pitch, int duration) {
+	@Override
+	public void onUpdate() {
+		super.onUpdate();
+		if(ticksExisted == 1 && worldObj.isRemote){
+			beamCaster = (EntityLivingBase) worldObj.getEntityByID(getCasterID());
+		}
+		if(!on && appear == 0){
+			this.setDead();
+		}
+	}
+	
+	public EntityBeam(World worldObj, EntityLivingBase caster, double x, double y, double z, float yaw, float pitch, int duration) {
 		this(worldObj);
-		this.caster = caster;
+		this.beamCaster = caster;
 		
 		
 		
@@ -97,9 +109,9 @@ public class EntityLaserBeam extends Entity {
     }
     
     private void calculateEndPos() {
-        endPosX = posX + radius * Math.cos(getYaw()) * Math.cos(getPitch());
-        endPosZ = posZ + radius * Math.sin(getYaw()) * Math.cos(getPitch());
-        endPosY = posY + radius * Math.sin(getPitch());
+        endPosX = posX + beamRadius * Math.cos(getYaw()) * Math.cos(getPitch());
+        endPosZ = posZ + beamRadius * Math.sin(getYaw()) * Math.cos(getPitch());
+        endPosY = posY + beamRadius * Math.sin(getPitch());
     }
     
     @Override
@@ -118,9 +130,9 @@ public class EntityLaserBeam extends Entity {
     }
 
     private void updateWithPlayer() {
-        this.setYaw((float) ((caster.rotationYawHead + 90) * Math.PI / 180));
-        this.setPitch((float) (-caster.rotationPitch * Math.PI / 180));
-        this.setPosition(caster.posX, caster.posY + 1.2f, caster.posZ);
+        this.setYaw((float) ((beamCaster.rotationYawHead + 90) * Math.PI / 180));
+        this.setPitch((float) (-beamCaster.rotationPitch * Math.PI / 180));
+        this.setPosition(beamCaster.posX, beamCaster.posY + 1.2f, beamCaster.posZ);
     }
     
     public TargetHit raytraceEntities(World world, Vec3 from, Vec3 to, boolean stopOnLiquid, boolean ignoreBlockWithoutBoundingBox, boolean returnLastUncollidableBlock) {
@@ -139,7 +151,7 @@ public class EntityLaserBeam extends Entity {
         }
         List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(Math.min(posX, collidePosX), Math.min(posY, collidePosY), Math.min(posZ, collidePosZ), Math.max(posX, collidePosX), Math.max(posY, collidePosY), Math.max(posZ, collidePosZ)).expand(1, 1, 1));
         for (EntityLivingBase entity : entities) {
-            if (entity == caster) {
+            if (entity == beamCaster) {
                 continue;
             }
             float pad = entity.getCollisionBorderSize() + 0.5f;
