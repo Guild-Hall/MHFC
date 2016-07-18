@@ -1,4 +1,4 @@
-package mhfc.net.client.gui.quests;
+package mhfc.net.client.gui.hud;
 
 import static mhfc.net.client.util.gui.MHFCGuiUtil.COLOUR_TEXT;
 
@@ -32,7 +32,8 @@ public class QuestStatusDisplay extends Gui {
 				@Override
 				public boolean mousePressed(Minecraft mc, int p_146116_2_, int p_146116_3_) {
 					if (super.mousePressed(mc, p_146116_2_, p_146116_3_)) {
-						mc.thePlayer.openGui(MHFCMain.instance(), MHFCReference.gui_queststatus_id, mc.theWorld, 0, 0, 0);
+						mc.thePlayer
+								.openGui(MHFCMain.instance(), MHFCReference.gui_queststatus_id, mc.theWorld, 0, 0, 0);
 						return true;
 					}
 					return false;

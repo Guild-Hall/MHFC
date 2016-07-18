@@ -1,9 +1,9 @@
 package mhfc.net.common.quests.descriptions;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.quests.IVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation;
 import mhfc.net.common.quests.api.GoalReference;
+import mhfc.net.common.quests.api.IVisualInformation;
 import mhfc.net.common.quests.api.QuestDescription;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.IAreaType;

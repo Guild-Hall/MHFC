@@ -4,6 +4,7 @@ import java.util.List;
 
 import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
+import mhfc.net.common.quests.api.IVisualInformation;
 import mhfc.net.common.util.MHFCStringDecode.CompositeString;
 import mhfc.net.common.util.MHFCStringDecode.StringElement;
 import mhfc.net.common.util.lib.MHFCReference;
@@ -54,8 +55,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 		updateFromQuest(quest);
 	}
 
-	public QuestRunningInformation(IVisualInformation information,
-		String shortStatus, String longStatus) {
+	public QuestRunningInformation(IVisualInformation information, String shortStatus, String longStatus) {
 		super(information);
 		this.shortStatus = shortStatus;
 		this.longStatus = longStatus;
@@ -63,8 +63,9 @@ public class QuestRunningInformation extends QuestVisualInformation {
 	}
 
 	protected void remove(List<StringElement> elements) {
-		if (elements == null)
+		if (elements == null) {
 			return;
+		}
 		for (StringElement e : elements) {
 			e.remove();
 		}
@@ -81,8 +82,7 @@ public class QuestRunningInformation extends QuestVisualInformation {
 		timeLimitInS = q.updateVisual(InformationType.TimeLimit, timeLimitInS);
 		reward = q.updateVisual(InformationType.Reward, reward);
 		fee = q.updateVisual(InformationType.Fee, fee);
-		maxPartySize = q.updateVisual(InformationType.MaxPartySize,
-			maxPartySize);
+		maxPartySize = q.updateVisual(InformationType.MaxPartySize, maxPartySize);
 		shortStatus = q.updateVisual(InformationType.ShortStatus, shortStatus);
 		longStatus = q.updateVisual(InformationType.LongStatus, longStatus);
 		breakAll();
@@ -210,67 +210,87 @@ public class QuestRunningInformation extends QuestVisualInformation {
 	}
 
 	@Override
-	public void drawInformation(int positionX, int positionY, int width,
-		int height, int page, FontRenderer fontRenderer) {
+	public void drawInformation(
+			int positionX,
+			int positionY,
+			int width,
+			int height,
+			int page,
+			FontRenderer fontRenderer) {
 		page = page % 3;
 		width = Math.max(width, 20);
 		int currentY = drawHead(positionX, positionY, width, fontRenderer);
 		switch (page) {
-			case 0 :
-				currentY = drawBaseInformation(positionX, currentY, width,
-					fontRenderer);
-				String TAG_STATUS = StatCollector.translateToLocal(
-					MHFCReference.unlocalized_tag_status_long);
-				currentY += MHFCGuiUtil.drawTextAndReturnHeight(fontRenderer,
-					TAG_STATUS, positionX + 5, currentY, 0, COLOUR_HEADER);
+		case 0:
+			currentY = drawBaseInformation(positionX, currentY, width, fontRenderer);
+			String TAG_STATUS = StatCollector.translateToLocal(MHFCReference.unlocalized_tag_status_long);
+			currentY += MHFCGuiUtil
+					.drawTextAndReturnHeight(fontRenderer, TAG_STATUS, positionX + 5, currentY, 0, COLOUR_HEADER);
+			currentY += LINE_SEPERATION;
+			String draw = getLongStatus();
+			for (String line : draw.split("\n")) {
+				currentY += MHFCGuiUtil.drawTextAndReturnHeight(
+						fontRenderer,
+						line,
+						positionX + width / 8,
+						currentY,
+						7 * width / 8 - BORDER,
+						COLOUR_TEXT);
 				currentY += LINE_SEPERATION;
-				String draw = getLongStatus();
-				for (String line : draw.split("\n")) {
-					currentY += MHFCGuiUtil.drawTextAndReturnHeight(
-						fontRenderer, line, positionX + width / 8, currentY, 7
-							* width / 8 - BORDER, COLOUR_TEXT);
-					currentY += LINE_SEPERATION;
-				}
-				break;
-			case 1 :
-				drawAimsFails(positionX, positionY, width, height, currentY,
-					fontRenderer);
-				break;
-			case 2 :
-				drawClientDescription(positionX, currentY, width, fontRenderer);
-				break;
+			}
+			break;
+		case 1:
+			drawAimsFails(positionX, positionY, width, height, currentY, fontRenderer);
+			break;
+		case 2:
+			drawClientDescription(positionX, currentY, width, fontRenderer);
+			break;
 		}
 		String draw = (page + 1) + "/3";
-		fontRenderer.drawString(draw, positionX + width - fontRenderer
-			.getStringWidth(draw) - BORDER, positionY + height
-				- fontRenderer.FONT_HEIGHT - BORDER, COLOUR_TEXT);
+		fontRenderer.drawString(
+				draw,
+				positionX + width - fontRenderer.getStringWidth(draw) - BORDER,
+				positionY + height - fontRenderer.FONT_HEIGHT - BORDER,
+				COLOUR_TEXT);
 	}
 
 	public void cleanUp() {
-		if (nameElements != null)
+		if (nameElements != null) {
 			nameElements.remove();
-		if (descriptionElements != null)
+		}
+		if (descriptionElements != null) {
 			descriptionElements.remove();
-		if (clientElements != null)
+		}
+		if (clientElements != null) {
 			clientElements.remove();
-		if (aimsElements != null)
+		}
+		if (aimsElements != null) {
 			aimsElements.remove();
-		if (failsElements != null)
+		}
+		if (failsElements != null) {
 			failsElements.remove();
-		if (areaNameIdElements != null)
+		}
+		if (areaNameIdElements != null) {
 			areaNameIdElements.remove();
-		if (timeLimitInSElements != null)
+		}
+		if (timeLimitInSElements != null) {
 			timeLimitInSElements.remove();
-		if (rewardElements != null)
+		}
+		if (rewardElements != null) {
 			rewardElements.remove();
-		if (feeElements != null)
+		}
+		if (feeElements != null) {
 			feeElements.remove();
-		if (maxPartySizeElements != null)
+		}
+		if (maxPartySizeElements != null) {
 			maxPartySizeElements.remove();
-		if (shortStatusElements != null)
+		}
+		if (shortStatusElements != null) {
 			shortStatusElements.remove();
-		if (longStatusElements != null)
+		}
+		if (longStatusElements != null) {
 			longStatusElements.remove();
+		}
 	}
 
 	@Override

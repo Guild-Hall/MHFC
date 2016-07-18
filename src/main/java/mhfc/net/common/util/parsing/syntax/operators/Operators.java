@@ -4,6 +4,7 @@ import java.util.Formatter;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
 
+import mhfc.net.common.util.parsing.Context;
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
 import mhfc.net.common.util.parsing.proxies.MemberMethodProxy;
@@ -463,9 +464,9 @@ public class Operators {
 		}
 
 		@Override
-		public IValueHolder asValue() {
-			IValueHolder leftHolder = left.asValue();
-			IValueHolder rightHolder = right.asValue();
+		public IValueHolder asValue(Context ctx) {
+			IValueHolder leftHolder = left.asValue(ctx);
+			IValueHolder rightHolder = right.asValue(ctx);
 			return () -> {
 				switch (op.compute(leftHolder.snapshot().asBool())) {
 				case RESULT_FALSE:

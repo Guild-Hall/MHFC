@@ -23,10 +23,10 @@ import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.network.serialization.GoalSerializer;
 import mhfc.net.common.network.serialization.QuestSerializer;
 import mhfc.net.common.network.serialization.QuestVisualSerializer;
-import mhfc.net.common.quests.IVisualInformation;
 import mhfc.net.common.quests.api.GoalDescription;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.GoalReference.GoalRefSerializer;
+import mhfc.net.common.quests.api.IVisualInformation;
 import mhfc.net.common.quests.api.QuestDescription;
 
 public class BuilderJsonToQuests {
@@ -34,7 +34,7 @@ public class BuilderJsonToQuests {
 	public static final ParameterizedType typeOfMapGoal = new ParameterizedType() {
 		@Override
 		public Type[] getActualTypeArguments() {
-			return new Type[]{String.class, GoalDescription.class};
+			return new Type[] { String.class, GoalDescription.class };
 		}
 
 		@Override
@@ -50,7 +50,7 @@ public class BuilderJsonToQuests {
 	public static final ParameterizedType typeOfMapQuest = new ParameterizedType() {
 		@Override
 		public Type[] getActualTypeArguments() {
-			return new Type[]{String.class, QuestDescription.class};
+			return new Type[] { String.class, QuestDescription.class };
 		}
 
 		@Override
@@ -67,22 +67,22 @@ public class BuilderJsonToQuests {
 	public static final ParameterizedType typeOfGroupMap = new ParameterizedType() {
 		@Override
 		public Type[] getActualTypeArguments() {
-			return new Type[]{String.class, new ParameterizedType() {
-						@Override
-						public Type getRawType() {
-							return List.class;
-						}
+			return new Type[] { String.class, new ParameterizedType() {
+				@Override
+				public Type getRawType() {
+					return List.class;
+				}
 
-						@Override
-						public Type getOwnerType() {
-							return null;
-						}
+				@Override
+				public Type getOwnerType() {
+					return null;
+				}
 
-						@Override
-						public Type[] getActualTypeArguments() {
-							return new Type[]{String.class};
-						}
-					}};
+				@Override
+				public Type[] getActualTypeArguments() {
+					return new Type[] { String.class };
+				}
+			} };
 		}
 
 		@Override
@@ -99,7 +99,7 @@ public class BuilderJsonToQuests {
 	public static final ParameterizedType typeOfGroupList = new ParameterizedType() {
 		@Override
 		public Type[] getActualTypeArguments() {
-			return new Type[]{String.class};
+			return new Type[] { String.class };
 		}
 
 		@Override
@@ -124,14 +124,10 @@ public class BuilderJsonToQuests {
 
 	static {
 		GsonBuilder builder = (new GsonBuilder());
-		builder.registerTypeAdapter(GoalDescription.class,
-			new GoalSerializer());
-		builder.registerTypeAdapter(QuestDescription.class,
-			new QuestSerializer());
-		builder.registerTypeAdapter(GoalReference.class,
-			new GoalRefSerializer());
-		builder.registerTypeAdapter(IVisualInformation.class,
-			new QuestVisualSerializer());
+		builder.registerTypeAdapter(GoalDescription.class, new GoalSerializer());
+		builder.registerTypeAdapter(QuestDescription.class, new QuestSerializer());
+		builder.registerTypeAdapter(GoalReference.class, new GoalRefSerializer());
+		builder.registerTypeAdapter(IVisualInformation.class, new QuestVisualSerializer());
 		builder.serializeNulls();
 		gsonInstance = builder.create();
 	}
@@ -153,20 +149,21 @@ public class BuilderJsonToQuests {
 	public void generateGoals(JsonReader jsonReader) {
 		@SuppressWarnings("unchecked")
 		Map<String, GoalDescription> map = (Map<String, GoalDescription>) gsonInstance
-			.fromJson(jsonReader, typeOfMapGoal);
+				.fromJson(jsonReader, typeOfMapGoal);
 		generateGoals(map);
 	}
 
 	public void generateGoals(JsonObject jsonInstance) {
 		@SuppressWarnings("unchecked")
 		Map<String, GoalDescription> map = (Map<String, GoalDescription>) gsonInstance
-			.fromJson(jsonInstance, typeOfMapGoal);
+				.fromJson(jsonInstance, typeOfMapGoal);
 		generateGoals(map);
 	}
 
 	private void generateGoals(Map<String, GoalDescription> map) {
-		if (map == null)
+		if (map == null) {
 			return;
+		}
 		dataObject.fillGoalDescriptions(map);
 	}
 
@@ -175,41 +172,40 @@ public class BuilderJsonToQuests {
 			jsonReader.setLenient(true);
 			generateGroupMapping(jsonReader);
 		} catch (IOException e) {
-			throw new IOException("Error while loading quest groups from json",
-				e);
+			throw new IOException("Error while loading quest groups from json", e);
 		}
 	}
 
 	public void generateGroupMapping(JsonReader reader) {
-		GroupMappingType groupMapping = gsonInstance.fromJson(reader,
-			GroupMappingType.class);
+		GroupMappingType groupMapping = gsonInstance.fromJson(reader, GroupMappingType.class);
 		generateGroupMapping(groupMapping);
 	}
 
 	public void generateGroupMapping(JsonObject jsonObject) {
-		GroupMappingType groupMapping = gsonInstance.fromJson(jsonObject,
-			GroupMappingType.class);
+		GroupMappingType groupMapping = gsonInstance.fromJson(jsonObject, GroupMappingType.class);
 		generateGroupMapping(groupMapping);
 	}
 
 	private void generateGroupMapping(GroupMappingType groupMapping) {
-		if (groupMapping == null)
+		if (groupMapping == null) {
 			return;
+		}
 		List<String> orderedGroups = groupMapping.orderedGroups;
 		Map<String, List<String>> map = groupMapping.mapping;
 		if (!orderedGroups.containsAll(map.keySet())) {
 			MHFCMain.logger().warn(
-				"Detected quest groups which were not included in the ordering. These will appear last in an undefined order. Maybe you are missing the attribute "
-					+ MHFCQuestBuildRegistry.KEY_ORDERED_GROUPS);
+					"Detected quest groups which were not included in the ordering. These will appear last in an undefined order. Maybe you are missing the attribute "
+							+ MHFCQuestBuildRegistry.KEY_ORDERED_GROUPS);
 		}
 		if (!map.keySet().containsAll(orderedGroups)) {
 			MHFCMain.logger().warn(
-				"Detected ordering for quest groups without quests. These will appear empty. Maybe you are missing the attribute "
-					+ MHFCQuestBuildRegistry.KEY_GROUP_MAPPING);
+					"Detected ordering for quest groups without quests. These will appear empty. Maybe you are missing the attribute "
+							+ MHFCQuestBuildRegistry.KEY_GROUP_MAPPING);
 		}
 		QuestGroupData groupData = new QuestGroupData();
-		for (String key : map.keySet())
+		for (String key : map.keySet()) {
 			groupData.addQuestsToGroup(key, map.get(key));
+		}
 		groupData.orderGroups(orderedGroups);
 
 		dataObject.addGroups(groupData);
@@ -219,48 +215,42 @@ public class BuilderJsonToQuests {
 		try (JsonReader jsonReader = new JsonReader(reader)) {
 			generateQuests(jsonReader);
 		} catch (IOException e) {
-			throw new IOException(
-				"Error while loading quest descriptions from json", e);
+			throw new IOException("Error while loading quest descriptions from json", e);
 		}
 	}
 
 	public void generateQuests(JsonReader reader) {
-		Map<String, QuestDescription> map = gsonInstance.fromJson(reader,
-			typeOfMapQuest);
+		Map<String, QuestDescription> map = gsonInstance.fromJson(reader, typeOfMapQuest);
 		generateQuests(map);
 	}
 
 	public void generateQuests(JsonObject jsonObject) {
-		Map<String, QuestDescription> map = gsonInstance.fromJson(jsonObject,
-			typeOfMapQuest);
+		Map<String, QuestDescription> map = gsonInstance.fromJson(jsonObject, typeOfMapQuest);
 		generateQuests(map);
 	}
 
 	private void generateQuests(Map<String, QuestDescription> map) {
-		if (map == null)
+		if (map == null) {
 			return;
-		if (map.containsKey(""))
-			throw new java.util.InputMismatchException(
-				"[MHFC] Quest identifier can not be an empty string");
+		}
+		if (map.containsKey("")) {
+			throw new java.util.InputMismatchException("[MHFC] Quest identifier can not be an empty string");
+		}
 		dataObject.fillQuestDescriptions(map);
 	}
 
 	public JsonElement getGoalsAsJson() {
-		return gsonInstance.toJsonTree(dataObject.getFullGoalDescriptionMap(),
-			typeOfMapGoal);
+		return gsonInstance.toJsonTree(dataObject.getFullGoalDescriptionMap(), typeOfMapGoal);
 	}
 
 	public JsonElement getQuestsAsJson() {
-		return gsonInstance.toJsonTree(dataObject.getFullQuestDescriptionMap(),
-			typeOfMapQuest);
+		return gsonInstance.toJsonTree(dataObject.getFullQuestDescriptionMap(), typeOfMapQuest);
 	}
 
 	public JsonElement getGroupsAsJson() {
 		JsonObject holder = new JsonObject();
-		JsonElement groupsInOrder = gsonInstance.toJsonTree(dataObject
-			.getGroupsInOrder(), typeOfGroupList);
-		JsonElement groupMap = gsonInstance.toJsonTree(dataObject
-			.getFullGroupMap(), typeOfGroupMap);
+		JsonElement groupsInOrder = gsonInstance.toJsonTree(dataObject.getGroupsInOrder(), typeOfGroupList);
+		JsonElement groupMap = gsonInstance.toJsonTree(dataObject.getFullGroupMap(), typeOfGroupMap);
 		holder.add(MHFCQuestBuildRegistry.KEY_ORDERED_GROUPS, groupsInOrder);
 		holder.add(MHFCQuestBuildRegistry.KEY_GROUP_MAPPING, groupMap);
 		return holder;

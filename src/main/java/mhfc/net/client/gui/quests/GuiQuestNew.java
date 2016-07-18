@@ -17,7 +17,7 @@ import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageMHFCInteraction;
 import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
-import mhfc.net.common.quests.IVisualInformation;
+import mhfc.net.common.quests.api.IVisualInformation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;

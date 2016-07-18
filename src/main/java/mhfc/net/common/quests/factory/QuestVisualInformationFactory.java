@@ -5,8 +5,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 
-import mhfc.net.common.quests.IVisualInformation;
 import mhfc.net.common.quests.QuestVisualInformation;
+import mhfc.net.common.quests.api.IVisualInformation;
 import mhfc.net.common.quests.api.IVisualInformationFactory;
 import mhfc.net.common.quests.api.QuestDescription;
 import mhfc.net.common.util.MHFCJsonUtils;

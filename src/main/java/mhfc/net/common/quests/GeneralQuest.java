@@ -17,6 +17,7 @@ import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.network.packet.MessageQuestVisual.VisualType;
 import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.api.GoalReference;
+import mhfc.net.common.quests.api.IVisualInformation;
 import mhfc.net.common.quests.api.QuestDescription;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;

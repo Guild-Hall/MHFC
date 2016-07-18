@@ -10,7 +10,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 import mhfc.net.common.core.builders.BuilderJsonToQuests;
-import mhfc.net.common.quests.IVisualInformation;
+import mhfc.net.common.quests.api.IVisualInformation;
 
 public class MessageQuestVisual implements IMessage {
 

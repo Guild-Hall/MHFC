@@ -1,7 +1,6 @@
 package mhfc.net.common.quests.api;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.quests.IVisualInformation;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.IAreaType;
 

@@ -1,4 +1,4 @@
-package mhfc.net.common.quests;
+package mhfc.net.common.quests.api;
 
 import net.minecraft.client.gui.FontRenderer;
 
@@ -28,10 +28,14 @@ public interface IVisualInformation {
 
 	String getMaxPartySize();
 
-	void drawInformation(int positionX, int positionY, int width, int height,
-		FontRenderer fontRenderer, int renderFrame);
+	void drawInformation(
+			int positionX,
+			int positionY,
+			int width,
+			int height,
+			FontRenderer fontRenderer,
+			int renderFrame);
 
-	void drawInformation(int positionX, int positionY, int width, int height,
-		int page, FontRenderer fontRenderer);
+	void drawInformation(int positionX, int positionY, int width, int height, int page, FontRenderer fontRenderer);
 
 }
