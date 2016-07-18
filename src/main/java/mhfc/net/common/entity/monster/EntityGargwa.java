@@ -46,7 +46,7 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(150D, 800D, 1200D));
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(300D, 800D, 1200D));
 	}
 
 	@Override

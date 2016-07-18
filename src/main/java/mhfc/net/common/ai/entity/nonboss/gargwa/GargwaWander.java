@@ -14,7 +14,7 @@ public class GargwaWander extends AIGeneralWander<EntityGargwa> {
 
 	private static final IMoveParameterProvider parameterProvider = new IMoveParameterProvider.MoveParameterAdapter(
 			1f,
-			0.3f);
+			0.4f);
 
 	public GargwaWander() {
 		super(parameterProvider);

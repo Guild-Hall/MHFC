@@ -13,7 +13,6 @@ public class GargwaIdle extends AIGeneralIdle<EntityGargwa> {
 	private static final IWeightProvider<EntityGargwa> WEIGHT_PROVIDER = new IWeightProvider.RandomWeightAdapter<>(1);
 	
 	public GargwaIdle() {
-		
 	}
 
 	@Override
