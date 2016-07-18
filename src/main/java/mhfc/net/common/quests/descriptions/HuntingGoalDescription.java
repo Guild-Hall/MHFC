@@ -1,11 +1,11 @@
 package mhfc.net.common.quests.descriptions;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.quests.api.GoalDescription;
+import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.goals.HuntingQuestGoal;
 import net.minecraft.entity.Entity;
 
-public class HuntingGoalDescription extends GoalDescription {
+public class HuntingGoalDescription extends GoalDefinition {
 
 	public static final String ID_HUNTED_TYPE = "target";
 	public static final String ID_AMOUNT = "amount";

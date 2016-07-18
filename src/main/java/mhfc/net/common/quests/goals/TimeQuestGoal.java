@@ -8,10 +8,10 @@ import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.RunContext;
 
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import mhfc.net.client.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.eventhandler.DelayedJob;
 import mhfc.net.common.eventhandler.MHFCTickHandler;
 import mhfc.net.common.eventhandler.TickPhase;
-import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
 
@@ -69,7 +69,6 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 
 	protected boolean isFailed = false;
 	protected boolean active;
-	protected long timeOfLastUpdate;
 	protected Timer timer;
 
 	public TimeQuestGoal(QuestGoalSocket socket, int initialTime) {
@@ -102,7 +101,6 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 	@Override
 	public void setActive(boolean newActive) {
 		if (newActive) {
-			timeOfLastUpdate = System.currentTimeMillis();
 			active = true;
 			notifyOfStatus(isFulfilled(), isFailed());
 		} else {

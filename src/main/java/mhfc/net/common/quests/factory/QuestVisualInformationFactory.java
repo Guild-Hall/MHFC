@@ -5,12 +5,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 
-import mhfc.net.common.quests.IVisualInformation;
-import mhfc.net.common.quests.QuestVisualInformation;
+import mhfc.net.common.quests.api.IVisualInformation;
 import mhfc.net.common.quests.api.IVisualInformationFactory;
-import mhfc.net.common.quests.api.QuestDescription;
+import mhfc.net.common.quests.api.QuestDefinition;
+import mhfc.net.common.quests.api.VisualDefinition;
 import mhfc.net.common.util.MHFCJsonUtils;
-import mhfc.net.common.world.area.AreaRegistry;
 
 public class QuestVisualInformationFactory implements IVisualInformationFactory {
 
@@ -26,11 +25,11 @@ public class QuestVisualInformationFactory implements IVisualInformationFactory 
 	public static final String KEY_TIME_LIMIT = "timeLimit";
 	public static final String KEY_TYPE = "questType";
 
-	private QuestDescription quest;
+	private QuestDefinition quest;
 
 	public QuestVisualInformationFactory() {}
 
-	public QuestVisualInformationFactory(QuestDescription quest) {
+	public QuestVisualInformationFactory(QuestDefinition quest) {
 		this.quest = quest;
 	}
 
@@ -44,8 +43,7 @@ public class QuestVisualInformationFactory implements IVisualInformationFactory 
 				.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_CLIENT, getDefaultClient());
 		String aims = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_AIMS, getDefaultAims());
 		String fails = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_FAILS, getDefaultFails());
-		String areaName = MHFCJsonUtils
-				.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_AREA_ID, getDefaultAreaName());
+		String areaName = jsonObject.get(KEY_AREA_ID).getAsString();
 		String timeLimit = MHFCJsonUtils
 				.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_TIME_LIMIT, getDefaultTimeLimit());
 		String reward = MHFCJsonUtils
@@ -54,7 +52,7 @@ public class QuestVisualInformationFactory implements IVisualInformationFactory 
 		String maxPartySize = MHFCJsonUtils
 				.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_MAX_PARTY_SIZE, getDefaultPartySize());
 		String type = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_TYPE, getDefaultQuestType());
-		return new QuestVisualInformation(
+		return new VisualDefinition(
 				name,
 				description,
 				client,
@@ -105,11 +103,6 @@ public class QuestVisualInformationFactory implements IVisualInformationFactory 
 		return "Died three times or time has run out!";
 	}
 
-	private String getDefaultAreaName() {
-		// FIXME when areas are implemented, this needs a fix
-		return quest == null ? "Unknown" : AreaRegistry.instance.getName(quest.getAreaType());
-	}
-
 	private String getDefaultTimeLimit() {
 		return "As fast as possible";
 	}
@@ -119,7 +112,7 @@ public class QuestVisualInformationFactory implements IVisualInformationFactory 
 	}
 
 	private String getDefaultFee() {
-		return quest == null ? "Unknown" : quest.getFee() + "z";
+		return quest == null ? "For free!" : quest.getFee() + "z";
 	}
 
 	private String getDefaultPartySize() {

@@ -4,7 +4,7 @@ import static mhfc.net.common.quests.descriptions.HuntingGoalDescription.*;
 
 import com.google.gson.*;
 
-import mhfc.net.common.quests.api.GoalDescription;
+import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.descriptions.HuntingGoalDescription;
 import net.minecraft.entity.Entity;
@@ -13,7 +13,7 @@ import net.minecraft.util.JsonUtils;
 
 public class HuntingGoalFactory implements IGoalFactory {
 	@Override
-	public GoalDescription buildGoalDescription(JsonElement jsonE, JsonDeserializationContext context) {
+	public GoalDefinition buildGoalDescription(JsonElement jsonE, JsonDeserializationContext context) {
 		JsonObject json = jsonE.getAsJsonObject();
 		if (!json.has(ID_HUNTED_TYPE) || !json.has(ID_AMOUNT))
 			throw new JsonParseException(
@@ -31,7 +31,7 @@ public class HuntingGoalFactory implements IGoalFactory {
 	}
 
 	@Override
-	public JsonObject serialize(GoalDescription description, JsonSerializationContext context) {
+	public JsonObject serialize(GoalDefinition description, JsonSerializationContext context) {
 		HuntingGoalDescription huntingGoal = (HuntingGoalDescription) description;
 		JsonObject holder = new JsonObject();
 		String huntedName = (String) EntityList.classToStringMapping.get(huntingGoal.getHuntedClass());

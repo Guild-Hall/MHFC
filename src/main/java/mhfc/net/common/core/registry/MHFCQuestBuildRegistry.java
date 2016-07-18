@@ -14,8 +14,8 @@ import mhfc.net.common.core.registry.MHFCQuestRegistry.RunningSubscriptionHandle
 import mhfc.net.common.eventhandler.MHFCInteractionHandler.MHFCInteractionModReloadEvent;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestInit;
-import mhfc.net.common.quests.api.GoalDescription;
-import mhfc.net.common.quests.api.QuestDescription;
+import mhfc.net.common.quests.api.GoalDefinition;
+import mhfc.net.common.quests.api.QuestDefinition;
 import mhfc.net.common.quests.api.QuestFactory;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.world.QuestFlair;
@@ -23,7 +23,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 
 /**
  * The registry for quests and quest goals. It will read some source files on init, these war written in the json
- * format. The name for the primary variable of {@link GoalDescription} is "type", see {@link QuestFactory} for further
+ * format. The name for the primary variable of {@link GoalDefinition} is "type", see {@link QuestFactory} for further
  * information.<br>
  * For {@link DefaultQuestDescription} the names are as following: "goal", "name", "reward", "fee", "areaID",
  * "description", "maxPartySize", "timeLimit", "type", "client", "aims", "fails", only the ones until areaID are
@@ -97,20 +97,20 @@ public class MHFCQuestBuildRegistry {
 		dataObject.clearData();
 		MHFCQuestBuildRegistry.loadQuestsFromFiles();
 
-		Iterator<?> it = FMLCommonHandler.instance().getMinecraftServerInstance()
+		Iterator<EntityPlayerMP> it = FMLCommonHandler.instance().getMinecraftServerInstance()
 				.getConfigurationManager().playerEntityList.iterator();
 		while (it.hasNext()) {
-			EntityPlayerMP player = (EntityPlayerMP) it.next();
+			EntityPlayerMP player = it.next();
 			PacketPipeline.networkPipe.sendTo(new MessageQuestInit(dataObject), player);
 		}
 		MHFCMain.logger().info("Quests reloaded");
 	}
 
-	public static GoalDescription getGoalDescription(String id) {
+	public static GoalDefinition getGoalDescription(String id) {
 		return dataObject.getGoalDescription(id);
 	}
 
-	public static QuestDescription getQuestDescription(String id) {
+	public static QuestDefinition getQuestDescription(String id) {
 		return dataObject.getQuestDescription(id);
 	}
 

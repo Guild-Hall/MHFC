@@ -10,7 +10,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 import mhfc.net.common.core.builders.BuilderJsonToQuests;
-import mhfc.net.common.quests.IVisualInformation;
+import mhfc.net.common.quests.api.IVisualInformation;
 
 public class MessageQuestVisual implements IMessage {
 
@@ -54,7 +54,6 @@ public class MessageQuestVisual implements IMessage {
 			messageType = VisualType.values()[in.readInt()];
 			messageIdentifier = in.readUTF();
 			information = BuilderJsonToQuests.gsonInstance.fromJson(reader, IVisualInformation.class);
-			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

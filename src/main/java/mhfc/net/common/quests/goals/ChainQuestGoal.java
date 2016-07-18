@@ -1,16 +1,17 @@
 package mhfc.net.common.quests.goals;
 
 import java.util.EnumSet;
+import java.util.Objects;
 
-import mhfc.net.common.quests.QuestRunningInformation.InformationType;
+import mhfc.net.client.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.QuestStatus;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
 
 /**
  *
- * This is the super type for quest goals that do depend on multiple others
- * where you have to fulfill them in a specific order.
+ * This is the super type for quest goals that do depend on multiple others where you have to fulfill them in a specific
+ * order.
  */
 
 public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
@@ -20,9 +21,8 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 	private boolean finalFailed;
 
 	/**
-	 * Creates a new quest chain with a goal that has to be completed now and a
-	 * quest chain that is next. The current goal should not be null otherwise
-	 * an {@link IllegalArgumentException} is thrown.
+	 * Creates a new quest chain with a goal that has to be completed now and a quest chain that is next. The current
+	 * goal should not be null otherwise an {@link IllegalArgumentException} is thrown.
 	 *
 	 * @param socket
 	 *            See {@link QuestGoal}
@@ -31,17 +31,13 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 	 * @param next
 	 *            The next chain element, null if the chain is over
 	 */
-	public ChainQuestGoal(QuestGoalSocket socket, QuestGoal thisGoal,
-		QuestGoal next) {
+	public ChainQuestGoal(QuestGoalSocket socket, QuestGoal thisGoal, QuestGoal next) {
 		super(socket);
-		if (thisGoal == null)
-			throw new IllegalArgumentException(
-				"ChainQuestGoal: The goal of this step may not be null");
+		Objects.requireNonNull(thisGoal, "The goal of this step may not be null");
+		Objects.requireNonNull(next, "The following goal may not be null");
 		thisGoal.setSocket(this);
 		this.thisGoal = thisGoal;
 		this.next = next;
-		if (next != null)
-			next.setSocket(this);
 		finalFailed = false;
 	}
 
@@ -49,30 +45,27 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 		this(null, thisGoal, next);
 	}
 
-	public ChainQuestGoal(QuestGoal thisGoal) {
-		this(null, thisGoal, null);
-	}
-
 	@Override
 	public boolean isFulfilled() {
-		if (thisGoal == null)
+		if (thisGoal == null) {
 			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean isFailed() {
-		if (thisGoal == null)
+		if (thisGoal == null) {
 			return finalFailed;
+		}
 		return thisGoal.isFailed();
 	}
 
 	@Override
-	public void questGoalStatusNotification(QuestGoal caller,
-		EnumSet<QuestStatus> newStatus) {
+	public void questGoalStatusNotification(QuestGoal caller, EnumSet<QuestStatus> newStatus) {
 		if (caller == thisGoal) {
 			if (newStatus.contains(QuestStatus.Fulfilled)) {
-				onFulfilled(newStatus.contains(QuestStatus.Failed));
+				advanceGoal(newStatus.contains(QuestStatus.Failed));
 			}
 			if (newStatus.contains(QuestStatus.Failed)) {
 				onFailed(newStatus.contains(QuestStatus.Fulfilled));
@@ -86,20 +79,21 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 
 	@Override
 	public void questGoalFinalize() {
-		if (thisGoal != null)
+		if (thisGoal != null) {
 			thisGoal.questGoalFinalize();
-		if (next != null)
+		}
+		if (next != null) {
 			next.questGoalFinalize();
+		}
 	}
 
 	/**
-	 * This gets called whenever this QuestGoal has notified us that it is
-	 * finished.
+	 * This gets called whenever this QuestGoal has notified us that it is finished.
 	 */
-	protected void onFulfilled(boolean newFailed) {
+	protected void advanceGoal(boolean newFailed) {
 		thisGoal = next;
 		if (thisGoal == null) {
-			notifyOfStatus(EnumSet.<QuestStatus> of(QuestStatus.Fulfilled));
+			notifyOfStatus(EnumSet.<QuestStatus>of(QuestStatus.Fulfilled));
 			return;
 		}
 		thisGoal.setSocket(this);
@@ -120,13 +114,13 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 	}
 
 	/**
-	 * This gets called whenever this QuestGoal has notified us that it is
-	 * failed.
+	 * This gets called whenever this QuestGoal has notified us that it is failed.
 	 */
 	protected void onFailed(boolean newFulfilled) {
-		EnumSet<QuestStatus> e = EnumSet.<QuestStatus> of(QuestStatus.Failed);
-		if (newFulfilled)
+		EnumSet<QuestStatus> e = EnumSet.<QuestStatus>of(QuestStatus.Failed);
+		if (newFulfilled) {
 			e.add(QuestStatus.Fulfilled);
+		}
 		notifyOfStatus(e);
 	}
 
@@ -135,13 +129,11 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 	}
 
 	/**
-	 * This gets called whenever some {@link QuestGoal} has notified us that is
-	 * not the next goal.
+	 * This gets called whenever some {@link QuestGoal} has notified us that is not the next goal.
 	 */
-	protected void onUnknownStatusNotification(QuestGoal caller,
-		EnumSet<QuestStatus> newStatus) {
+	protected void onUnknownStatusNotification(QuestGoal caller, EnumSet<QuestStatus> newStatus) {
 		throw new IllegalArgumentException(
-			"ChainQuestGoal: A QuestGoal that is not our next goal should not notify us");
+				"ChainQuestGoal: A QuestGoal that is not our next goal should not notify us");
 	}
 
 	public QuestGoal getNext() {
@@ -156,18 +148,21 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 	public void reset() {
 		thisGoal.reset();
 		next.reset();
-		EnumSet<QuestStatus> e = EnumSet.<QuestStatus> of(QuestStatus.Failed);
-		if (isFulfilled())
+		EnumSet<QuestStatus> e = EnumSet.<QuestStatus>of(QuestStatus.Failed);
+		if (isFulfilled()) {
 			e.add(QuestStatus.Fulfilled);
-		if (isFailed())
+		}
+		if (isFailed()) {
 			e.add(QuestStatus.Failed);
+		}
 		notifyOfStatus(e);
 	}
 
 	@Override
 	public void setActive(boolean newActive) {
-		if (thisGoal != null)
+		if (thisGoal != null) {
 			thisGoal.setActive(newActive);
+		}
 	}
 
 	@Override

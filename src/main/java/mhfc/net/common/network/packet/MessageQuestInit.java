@@ -1,6 +1,9 @@
 package mhfc.net.common.network.packet;
 
 import java.io.IOException;
+import java.util.Objects;
+
+import com.google.common.base.Throwables;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
@@ -12,24 +15,24 @@ import mhfc.net.common.core.directors.DirectorUploadQuests;
 
 public class MessageQuestInit implements IMessage {
 
-	protected QuestDescriptionRegistryData data;
+	protected QuestDescriptionRegistryData data; // Used by upload
+	protected DirectorDownloadQuests downloader; // Used by download
 
 	public MessageQuestInit() {
 		data = new QuestDescriptionRegistryData();
 	}
 
 	public MessageQuestInit(QuestDescriptionRegistryData dataObject) {
-		this.data = dataObject;
+		this.data = Objects.requireNonNull(dataObject);
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		buf.retain();
 		try (ByteBufInputStream in = new ByteBufInputStream(buf);) {
-			DirectorDownloadQuests downloader = new DirectorDownloadQuests(in);
-			downloader.construct(data);
+			downloader = new DirectorDownloadQuests(in);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Throwables.propagate(e);
 		}
 		buf.release();
 	}
@@ -46,7 +49,7 @@ public class MessageQuestInit implements IMessage {
 		buf.release();
 	}
 
-	public QuestDescriptionRegistryData getQuestDescriptionData() {
-		return data;
+	public void initialize(QuestDescriptionRegistryData data) {
+		downloader.construct(data);
 	}
 }

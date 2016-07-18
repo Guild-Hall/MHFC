@@ -4,14 +4,8 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;
 
-import mhfc.net.common.quests.GeneralQuest;
-
 public interface IQuestFactory {
-	public GeneralQuest buildQuest(QuestDescription questDesc);
+	public QuestDefinition buildQuestDescription(JsonElement json, JsonDeserializationContext context);
 
-	public QuestDescription buildQuestDescription(JsonElement json,
-		JsonDeserializationContext context);
-
-	public JsonElement serialize(QuestDescription description,
-		JsonSerializationContext context);
+	public JsonElement serialize(QuestDefinition description, JsonSerializationContext context);
 }

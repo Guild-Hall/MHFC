@@ -1,100 +1,34 @@
 package mhfc.net.client.quests;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
+import mhfc.net.client.gui.hud.QuestStatusDisplay;
 import mhfc.net.client.gui.quests.GuiQuestBoard;
-import mhfc.net.client.gui.quests.GuiQuestGiver;
-import mhfc.net.client.gui.quests.GuiQuestJoin;
-import mhfc.net.client.gui.quests.GuiQuestNew;
-import mhfc.net.client.gui.quests.QuestStatusDisplay;
 import mhfc.net.common.core.data.QuestDescriptionRegistryData;
-import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
+import mhfc.net.common.network.NetworkTracker;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestInit;
-import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.network.packet.MessageRequestQuestVisual;
-import mhfc.net.common.quests.IVisualInformation;
-import mhfc.net.common.quests.QuestRunningInformation;
-import mhfc.net.common.quests.QuestVisualInformation;
-import mhfc.net.common.quests.api.QuestDescription;
+import mhfc.net.common.quests.api.IVisualInformation;
+import mhfc.net.common.quests.api.QuestDefinition;
+import mhfc.net.common.quests.api.VisualDefinition;
 import mhfc.net.common.util.lib.MHFCReference;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
+import mhfc.net.common.util.services.IServiceAccess;
+import mhfc.net.common.util.services.IServiceHandle;
+import mhfc.net.common.util.services.IServicePhaseHandle;
+import mhfc.net.common.util.services.Services;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 
 @SideOnly(Side.CLIENT)
 public class MHFCRegQuestVisual {
-	public static class QuestScreenVisualHandler implements IMessageHandler<MessageQuestVisual, IMessage> {
-
-		@Override
-		public IMessage onMessage(MessageQuestVisual message, MessageContext ctx) {
-			IVisualInformation visual = getInformationFromMessage(message);
-			switch (message.getMessageType()) {
-			case PERSONAL_QUEST:
-				setPlayerVisual((QuestRunningInformation) visual, message);
-				break;
-			case RUNNING_QUEST:
-				modifyRunningQuestList(visual, message);
-				break;
-			}
-			return null;
-		}
-	}
-
-	public static class QuestClientInitHandler implements IMessageHandler<MessageQuestInit, IMessage> {
-		@Override
-		public IMessage onMessage(MessageQuestInit message, MessageContext ctx) {
-			clientDataObject = message.getQuestDescriptionData();
-			MHFCRegQuestVisual.logStats(clientDataObject);
-			return null;
-		}
-	}
-
-	private static IVisualInformation getInformationFromMessage(MessageQuestVisual message) {
-		return message.getInformation();
-	}
-
-	private static void setPlayerVisual(QuestRunningInformation visual, MessageQuestVisual message) {
-		hasPlayerQuest = (visual != null);
-		if (playersVisual != null) {
-			playersVisual.cleanUp();
-		}
-		playerQuestIdentifier = message.getMessageIdentifier();
-		playersVisual = visual;
-	}
-
-	private static void modifyRunningQuestList(IVisualInformation visual, MessageQuestVisual message) {
-		boolean clear = visual == null;
-		String identifier = message.getMessageIdentifier();
-		if (clear) {
-			identifierToVisualInformationMap.remove(identifier);
-			runningQuestIDs.remove(identifier);
-			questBoard.removeQuest(identifier);
-		} else {
-			identifierToVisualInformationMap.put(identifier, visual);
-			runningQuestIDs.add(identifier);
-			questBoard.addQuest(identifier, visual);
-		}
-	}
-
-	private static void logStats(QuestDescriptionRegistryData dataObject) {
-		int numberQuests = dataObject.getFullQuestDescriptionMap().size();
-		int numberGroups = dataObject.getGroupsInOrder().size();
-		String output = String.format("Loaded %d quests in %d groups.", numberQuests, numberGroups);
-		MHFCMain.logger().debug(output);
-	}
+	public static void staticInit() {}
 
 	public static final ResourceLocation QUEST_STATUS_INVENTORY_BACKGROUND = new ResourceLocation(
 			MHFCReference.gui_status_inventory_tex);
@@ -115,34 +49,40 @@ public class MHFCRegQuestVisual {
 			MHFCReference.gui_hunterbench_fuel_tex);
 	public static final ResourceLocation CLICKABLE_LIST = new ResourceLocation(MHFCReference.gui_list_tex);
 
-	private static Set<String> runningQuestIDs = new HashSet<>();
-	private static Map<String, IVisualInformation> identifierToVisualInformationMap = new HashMap<>();
+	private static final IServiceAccess<MHFCRegQuestVisual> serviceAccess = Services.instance
+			.registerService("quest visuals", new IServiceHandle<MHFCRegQuestVisual>() {
+				@Override
+				public void startup(MHFCRegQuestVisual instance) {
+					instance.initialize();
+				};
 
-	private static QuestDescriptionRegistryData clientDataObject = new QuestDescriptionRegistryData();
+				@Override
+				public void shutdown(MHFCRegQuestVisual instance) {
+					instance.shutdown();
+				};
+			}, MHFCRegQuestVisual::new);
+	static {
+		serviceAccess.addTo(NetworkTracker.clientConnectedPhase, IServicePhaseHandle.noInit());
+	}
 
-	private static boolean hasPlayerQuest = false;
-	@SuppressWarnings("unused")
-	private static String playerQuestIdentifier;
-	private static QuestRunningInformation playersVisual;
+	public static MHFCRegQuestVisual getService() {
+		return serviceAccess.getService();
+	}
 
-	private static QuestStatusDisplay display;
+	public static void setPlayerVisual(IVisualInformation visual) {
+		getService().setVisual(visual);
+	}
 
-	private static GuiQuestJoin questBoard = new GuiQuestJoin(Minecraft.getMinecraft().thePlayer);
-
-	public static GuiQuestGiver getScreen(int i, EntityPlayer playerEntity) {
-		// ignore i for now
-
-		List<String> list = new ArrayList<>(MHFCQuestBuildRegistry.getGroupList());
-		GuiQuestNew newQuest = new GuiQuestNew(list, playerEntity);
-		return new GuiQuestGiver(playerEntity, newQuest);
+	public static void modifyRunningQuestList(String identifier, IVisualInformation visual) {
+		getService().modRunningQuestList(identifier, visual);
 	}
 
 	public static Set<String> getIdentifierList(String groupId) {
-		return clientDataObject.getQuestIdentifiersFor(groupId);
+		return getService().getQuestIdentifiers(groupId);
 	}
 
 	public static Set<String> getRunningQuestIDs() {
-		return runningQuestIDs;
+		return getService().runningQuestIDs;
 	}
 
 	/**
@@ -153,33 +93,92 @@ public class MHFCRegQuestVisual {
 	 *         representing loading.
 	 */
 	public static IVisualInformation getVisualInformation(String identifier) {
-		QuestDescription staticDescription = clientDataObject.getQuestDescription(identifier);
+		MHFCRegQuestVisual service = getService();
+		QuestDefinition staticDescription = service.clientDataObject.getQuestDescription(identifier);
 		if (staticDescription != null) {
 			return staticDescription.getVisualInformation();
 		}
 		PacketPipeline.networkPipe.sendToServer(new MessageRequestQuestVisual(identifier));
-		identifierToVisualInformationMap.put(identifier, QuestVisualInformation.LOADING_REPLACEMENT);
-		return QuestVisualInformation.LOADING_REPLACEMENT;
+		service.identifierToVisualInformationMap.put(identifier, VisualDefinition.LOADING_REPLACEMENT);
+		return VisualDefinition.LOADING_REPLACEMENT;
 	}
 
 	public static IVisualInformation getQuestVisualInformation(String identifier) {
-		return identifierToVisualInformationMap.get(identifier);
+		return getService().identifierToVisualInformationMap.get(identifier);
 	}
 
 	public static boolean hasPlayerQuest() {
-		return hasPlayerQuest;
+		return getService().hasPlayerQuest;
 	}
 
-	public static void init() {
-		display = new QuestStatusDisplay();
+	public static IVisualInformation getPlayerVisual() {
+		return getService().playersVisual;
+	}
+
+	private Set<String> runningQuestIDs = new HashSet<>();
+	private Map<String, IVisualInformation> identifierToVisualInformationMap = new HashMap<>();
+
+	private QuestDescriptionRegistryData clientDataObject = new QuestDescriptionRegistryData();
+
+	private boolean hasPlayerQuest = false;
+	private IRunningInformation playersVisual;
+
+	private QuestStatusDisplay display = new QuestStatusDisplay();
+
+	public void onInitializationMessage(MessageQuestInit message) {
+		reset();
+		message.initialize(clientDataObject);
+	}
+
+	public void setVisual(IVisualInformation newVisual) {
+		if (playersVisual != null) {
+			playersVisual.cleanUp();
+		}
+		hasPlayerQuest = (newVisual != null);
+		playersVisual = newVisual;
+	}
+
+	public void modRunningQuestList(String identifier, IVisualInformation visual) {
+		boolean clear = visual == null;
+		if (clear) {
+			identifierToVisualInformationMap.remove(identifier);
+			runningQuestIDs.remove(identifier);
+			GuiQuestBoard.questBoard.addQuest(identifier, visual);
+		} else {
+			identifierToVisualInformationMap.put(identifier, visual);
+			runningQuestIDs.add(identifier);
+			GuiQuestBoard.questBoard.removeQuest(identifier);
+		}
+	}
+
+	public Set<String> getQuestIdentifiers(String group) {
+		return clientDataObject.getQuestIdentifiersFor(group);
+	}
+
+	protected void logStats() {
+		QuestDescriptionRegistryData dataObject = clientDataObject;
+		int numberQuests = dataObject.getFullQuestDescriptionMap().size();
+		int numberGroups = dataObject.getGroupsInOrder().size();
+		String output = String.format("Loaded %d quests in %d groups.", numberQuests, numberGroups);
+		MHFCMain.logger().debug(output);
+	}
+
+	private void initialize() {
+		reset();
 		MinecraftForge.EVENT_BUS.register(display);
 	}
 
-	public static QuestRunningInformation getPlayerVisual() {
-		return playersVisual;
+	private void shutdown() {
+		reset();
+		MinecraftForge.EVENT_BUS.unregister(display);
 	}
 
-	public static GuiQuestBoard getQuestBoard(EntityPlayer player) {
-		return new GuiQuestBoard(questBoard, player);
+	private void reset() {
+		this.runningQuestIDs.clear();
+		this.identifierToVisualInformationMap.clear();
+		this.clientDataObject.clearData();
+		this.hasPlayerQuest = false;
+		this.setVisual(null);
 	}
+
 }

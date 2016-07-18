@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import mhfc.net.common.quests.api.GoalDescription;
-import mhfc.net.common.quests.api.QuestDescription;
+import mhfc.net.common.quests.api.GoalDefinition;
+import mhfc.net.common.quests.api.QuestDefinition;
 
 public class QuestDescriptionRegistryData {
 
@@ -20,8 +20,8 @@ public class QuestDescriptionRegistryData {
 	}
 
 	public static class QuestGroupData {
-		private final Map<String, Set<String>> groupMapping = new HashMap<String, Set<String>>();
-		private final LinkedHashSet<String> groupIDs = new LinkedHashSet<String>();
+		private final Map<String, Set<String>> groupMapping = new HashMap<>();
+		private final LinkedHashSet<String> groupIDs = new LinkedHashSet<>();
 
 		public Map<String, Set<String>> getGroupMapping() {
 			return groupMapping;
@@ -32,8 +32,9 @@ public class QuestDescriptionRegistryData {
 		}
 
 		private void ensureGroupID(String groupID) {
-			if (groupIDs.contains(groupID))
+			if (groupIDs.contains(groupID)) {
 				return;
+			}
 			groupIDs.add(groupID);
 			groupMapping.put(groupID, new HashSet<String>());
 		}
@@ -70,7 +71,7 @@ public class QuestDescriptionRegistryData {
 		 * created empty.
 		 */
 		public void orderGroups(Iterable<String> groupIDsInOrder) {
-			LinkedHashSet<String> tempOrdering = new LinkedHashSet<String>();
+			LinkedHashSet<String> tempOrdering = new LinkedHashSet<>();
 			for (String groupID : groupIDsInOrder) {
 				ensureGroupID(groupID);
 				tempOrdering.add(groupID);
@@ -81,23 +82,23 @@ public class QuestDescriptionRegistryData {
 		}
 	}
 
-	private final HashMap<String, QuestDescription> questDescriptions = new HashMap<String, QuestDescription>();
-	private final HashMap<String, GoalDescription> goalDescriptions = new HashMap<String, GoalDescription>();
+	private final HashMap<String, QuestDefinition> questDescriptions = new HashMap<>();
+	private final HashMap<String, GoalDefinition> goalDescriptions = new HashMap<>();
 	private final QuestGroupData groupData = new QuestGroupData();
 
-	public void fillQuestDescriptions(Map<String, QuestDescription> mapData) {
+	public void fillQuestDescriptions(Map<String, QuestDefinition> mapData) {
 		questDescriptions.putAll(mapData);
 	}
 
-	public void putQuestDescription(String identifier, QuestDescription questDescription) {
+	public void putQuestDescription(String identifier, QuestDefinition questDescription) {
 		questDescriptions.put(identifier, questDescription);
 	}
 
-	public void fillGoalDescriptions(Map<String, GoalDescription> mapData) {
+	public void fillGoalDescriptions(Map<String, GoalDefinition> mapData) {
 		goalDescriptions.putAll(mapData);
 	}
 
-	public void putGoalDescription(String identifier, GoalDescription questDescription) {
+	public void putGoalDescription(String identifier, GoalDefinition questDescription) {
 		goalDescriptions.put(identifier, questDescription);
 	}
 
@@ -109,21 +110,21 @@ public class QuestDescriptionRegistryData {
 		groupData.addQuestsToGroup(groupID, quests);
 	}
 
-	public QuestDescription getQuestDescription(String id) {
-		QuestDescription qd = questDescriptions.get(id);
+	public QuestDefinition getQuestDescription(String id) {
+		QuestDefinition qd = questDescriptions.get(id);
 		return qd;
 	}
 
-	public GoalDescription getGoalDescription(String id) {
-		GoalDescription qd = goalDescriptions.get(id);
+	public GoalDefinition getGoalDescription(String id) {
+		GoalDefinition qd = goalDescriptions.get(id);
 		return qd;
 	}
 
-	public Map<String, QuestDescription> getFullQuestDescriptionMap() {
+	public Map<String, QuestDefinition> getFullQuestDescriptionMap() {
 		return Collections.unmodifiableMap(questDescriptions);
 	}
 
-	public Map<String, GoalDescription> getFullGoalDescriptionMap() {
+	public Map<String, GoalDefinition> getFullGoalDescriptionMap() {
 		return Collections.unmodifiableMap(goalDescriptions);
 	}
 
@@ -141,9 +142,9 @@ public class QuestDescriptionRegistryData {
 	public Set<String> getQuestIdentifiersFor(String group) {
 		Set<String> identifiers = groupData.groupMapping.get(group);
 		if (identifiers == null) {
-			return new HashSet<>();
+			return Collections.emptySet();
 		}
-		return new HashSet<String>(identifiers);
+		return new HashSet<>(identifiers);
 	}
 
 	public void clearData() {

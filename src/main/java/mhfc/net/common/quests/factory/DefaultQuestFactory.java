@@ -9,8 +9,6 @@ import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_QU
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_REWARD;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_VISUAL;
 
-import java.util.concurrent.CompletionStage;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -18,41 +16,20 @@ import com.google.gson.JsonSerializationContext;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.quests.GeneralQuest;
-import mhfc.net.common.quests.IVisualInformation;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.IQuestFactory;
+import mhfc.net.common.quests.api.IVisualInformation;
 import mhfc.net.common.quests.api.IVisualInformationFactory;
-import mhfc.net.common.quests.api.QuestDescription;
+import mhfc.net.common.quests.api.QuestDefinition;
 import mhfc.net.common.quests.api.QuestFactory;
-import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
-import mhfc.net.common.quests.world.GlobalAreaManager;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.util.MHFCJsonUtils;
 import mhfc.net.common.world.area.AreaRegistry;
-import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.util.JsonUtils;
 
 public class DefaultQuestFactory implements IQuestFactory {
-
-	@Override
-	public GeneralQuest buildQuest(QuestDescription qd) {
-		QuestGoal goal = QuestFactory.constructGoal(qd.getGoalReference().getReferredDescription());
-		if (goal == null) {
-			return null;
-		}
-		IAreaType areaType = qd.getAreaType();
-
-		CompletionStage<IActiveArea> activeArea = GlobalAreaManager.getInstance()
-				.getUnusedInstance(areaType, qd.getQuestFlair());
-		if (activeArea == null) {
-			return null;
-		}
-
-		return new GeneralQuest(goal, qd.getMaxPartySize(), qd.getReward(), qd.getFee(), activeArea, qd);
-	}
 
 	@Override
 	public DefaultQuestDescription buildQuestDescription(JsonElement json, JsonDeserializationContext context) {
@@ -67,25 +44,25 @@ public class DefaultQuestFactory implements IQuestFactory {
 		}
 		String typeString = JsonUtils.getJsonObjectStringFieldValue(jsonAsObject, KEY_QUEST_TYPE);
 		String flairString = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonAsObject, KEY_FLAIR, "DAYTIME");
-		QuestDescription.QuestType type = QuestDescription.QuestType.Hunting;
+		QuestDefinition.QuestType type = QuestDefinition.QuestType.Hunting;
 		switch (typeString) {
 		case MHFCQuestBuildRegistry.QUEST_TYPE_HUNTING:
-			type = QuestDescription.QuestType.Hunting;
+			type = QuestDefinition.QuestType.Hunting;
 			break;
 		case MHFCQuestBuildRegistry.QUEST_TYPE_EPIC_HUNTING:
-			type = QuestDescription.QuestType.EpicHunting;
+			type = QuestDefinition.QuestType.EpicHunting;
 			break;
 		case MHFCQuestBuildRegistry.QUEST_TYPE_GATHERING:
-			type = QuestDescription.QuestType.Gathering;
+			type = QuestDefinition.QuestType.Gathering;
 			break;
 		case MHFCQuestBuildRegistry.QUEST_TYPE_KILLING:
-			type = QuestDescription.QuestType.Killing;
+			type = QuestDefinition.QuestType.Killing;
 			break;
 		default:
 			MHFCMain.logger().error(
 					"[MHFC] Type {} was not recognized, for allowed keys see documentation of MHFCQuestBuildRegistry. Falling back to hunting.",
 					typeString);
-			type = QuestDescription.QuestType.Hunting;
+			type = QuestDefinition.QuestType.Hunting;
 		}
 		QuestFlair flair = QuestFlair.DAYTIME;
 		try {
@@ -115,7 +92,7 @@ public class DefaultQuestFactory implements IQuestFactory {
 	}
 
 	@Override
-	public JsonObject serialize(QuestDescription description, JsonSerializationContext context) {
+	public JsonObject serialize(QuestDefinition description, JsonSerializationContext context) {
 		DefaultQuestDescription questDesc = (DefaultQuestDescription) description;
 		IVisualInformation visual = questDesc.getVisualInformation();
 

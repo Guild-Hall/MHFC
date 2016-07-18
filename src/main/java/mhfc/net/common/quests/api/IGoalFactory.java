@@ -5,9 +5,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;
 
 public interface IGoalFactory {
-	public GoalDescription buildGoalDescription(JsonElement jsonElement,
+	public GoalDefinition buildGoalDescription(JsonElement jsonElement,
 		JsonDeserializationContext context);
 
-	public JsonElement serialize(GoalDescription description,
+	public JsonElement serialize(GoalDefinition description,
 		JsonSerializationContext context);
 }

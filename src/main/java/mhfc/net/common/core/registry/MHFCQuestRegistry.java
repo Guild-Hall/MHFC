@@ -24,10 +24,10 @@ import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.network.packet.MessageQuestVisual.VisualType;
 import mhfc.net.common.network.packet.MessageRequestQuestVisual;
 import mhfc.net.common.quests.GeneralQuest;
-import mhfc.net.common.quests.IVisualInformation;
-import mhfc.net.common.quests.QuestVisualInformation;
-import mhfc.net.common.quests.api.QuestDescription;
+import mhfc.net.common.quests.api.IVisualInformation;
+import mhfc.net.common.quests.api.QuestDefinition;
 import mhfc.net.common.quests.api.QuestFactory;
+import mhfc.net.common.quests.api.VisualDefinition;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
@@ -42,9 +42,9 @@ public class MHFCQuestRegistry {
 		@Override
 		public MessageQuestVisual onMessage(MessageRequestQuestVisual message, MessageContext ctx) {
 			String identifier = message.getIdentifier();
-			QuestDescription description = MHFCQuestBuildRegistry.getQuestDescription(identifier);
+			QuestDefinition description = MHFCQuestBuildRegistry.getQuestDescription(identifier);
 			IVisualInformation info = (description == null
-					? QuestVisualInformation.IDENTIFIER_ERROR
+					? VisualDefinition.IDENTIFIER_ERROR
 					: description.getVisualInformation());
 			return new MessageQuestVisual(VisualType.RUNNING_QUEST, identifier, info);
 		}
@@ -116,31 +116,31 @@ public class MHFCQuestRegistry {
 		switch (message.getInteraction()) {
 		case NEW_QUEST:
 			quest = getQuestForPlayer(player);
-			if (quest == null) {
-				String registerFor = message.getOptions()[0] + "@" + player.getDisplayName() + "@" + questIDCounter++;
-				GeneralQuest newQuest = QuestFactory.constructQuest(
-						MHFCQuestBuildRegistry.getQuestDescription(message.getOptions()[0]),
-						player,
-						registerFor);
-				if (newQuest == null) {
-					player.addChatMessage(new ChatComponentText("Quest not found"));
-					return;
-				} else {
-					PacketPipeline.networkPipe.sendTo(
-							new MessageQuestVisual(
-									VisualType.PERSONAL_QUEST,
-									registerFor,
-									newQuest.getVisualInformation()),
-							player);
-				}
-			} else {
+			if (quest != null) {
 				player.addChatMessage(
 						new ChatComponentText("You already are on quest " + getIdentifierForQuest(quest)));
 				String id = getIdentifierForQuest(quest);
 				PacketPipeline.networkPipe.sendTo(
 						new MessageQuestVisual(VisualType.PERSONAL_QUEST, id, quest.getRunningInformation()),
 						player);
+				return;
 			}
+			String registerFor = message.getOptions()[0] + "@" + player.getDisplayName() + "@" + questIDCounter++;
+			QuestDefinition questDescription = MHFCQuestBuildRegistry.getQuestDescription(message.getOptions()[0]);
+			GeneralQuest newQuest = QuestFactory.constructQuest(questDescription);
+			if (newQuest == null) {
+				player.addChatMessage(new ChatComponentText("Quest not found"));
+				return;
+			}
+			if (!newQuest.canJoin(player)) {
+				newQuest.close();
+				return;
+			}
+			MHFCQuestRegistry.regRunningQuest(quest, registerFor);
+			newQuest.joinPlayer(player);
+			PacketPipeline.networkPipe.sendTo(
+					new MessageQuestVisual(VisualType.PERSONAL_QUEST, registerFor, newQuest.getVisualInformation()),
+					player);
 			break;
 		case ACCEPT_QUEST:
 			quest = getRunningQuest(message.getOptions()[0]);

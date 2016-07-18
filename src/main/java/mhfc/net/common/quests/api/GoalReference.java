@@ -29,7 +29,7 @@ public class GoalReference {
 				if (src.description == null)
 					return JsonNull.INSTANCE;
 				return context.serialize(src.description,
-					GoalDescription.class);
+					GoalDefinition.class);
 			}
 		}
 
@@ -44,14 +44,14 @@ public class GoalReference {
 	public static GoalReference constructFromJson(JsonElement element,
 		JsonDeserializationContext context) {
 		if (element == null || element.isJsonNull())
-			return new GoalReference((GoalDescription) null);
+			return new GoalReference((GoalDefinition) null);
 		if (element.isJsonPrimitive() && element.getAsJsonPrimitive()
 			.isString()) {
 			return new GoalReference(JsonUtils.getJsonElementStringValue(
 				element, "Goal Reference"));
 		} else if (element.isJsonObject()) {
-			GoalDescription desc = context.<GoalDescription> deserialize(
-				element, GoalDescription.class);
+			GoalDefinition desc = context.<GoalDefinition> deserialize(
+				element, GoalDefinition.class);
 			return new GoalReference(desc);
 		}
 		throw new JsonParseException(
@@ -60,7 +60,7 @@ public class GoalReference {
 
 	boolean referByString;
 	String id;
-	GoalDescription description;
+	GoalDefinition description;
 
 	/**
 	 * This class represents a reference to a quest goal, either through the id
@@ -73,7 +73,7 @@ public class GoalReference {
 		description = null;
 	}
 
-	public GoalReference(GoalDescription description) {
+	public GoalReference(GoalDefinition description) {
 		this.description = description;
 		referByString = false;
 		id = null;
@@ -82,7 +82,7 @@ public class GoalReference {
 	/**
 	 * Gets the actual description that is referred to by this object.
 	 */
-	public GoalDescription getReferredDescription() {
+	public GoalDefinition getReferredDescription() {
 		if (referByString)
 			return MHFCQuestBuildRegistry.getGoalDescription(id);
 		else

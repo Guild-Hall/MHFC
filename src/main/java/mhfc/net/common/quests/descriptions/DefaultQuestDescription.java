@@ -1,17 +1,24 @@
 package mhfc.net.common.quests.descriptions;
 
+import java.util.concurrent.CompletionStage;
+
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.quests.IVisualInformation;
-import mhfc.net.common.quests.QuestVisualInformation;
+import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.api.GoalReference;
-import mhfc.net.common.quests.api.QuestDescription;
+import mhfc.net.common.quests.api.IVisualInformation;
+import mhfc.net.common.quests.api.QuestDefinition;
+import mhfc.net.common.quests.api.QuestFactory;
+import mhfc.net.common.quests.api.QuestGoal;
+import mhfc.net.common.quests.api.VisualDefinition;
+import mhfc.net.common.quests.world.GlobalAreaManager;
 import mhfc.net.common.quests.world.QuestFlair;
+import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
 
 /**
  * Used by the QuestFactory as well as to display quests.
  */
-public class DefaultQuestDescription extends QuestDescription {
+public class DefaultQuestDescription extends QuestDefinition {
 
 	public static final String KEY_MAX_PARTY_SIZE = "maxPartySize";
 	public static final String KEY_QUEST_TYPE = "questType";
@@ -36,7 +43,7 @@ public class DefaultQuestDescription extends QuestDescription {
 
 	public DefaultQuestDescription(
 			GoalReference goalDescID,
-			QuestDescription.QuestType type,
+			QuestDefinition.QuestType type,
 			IAreaType areaId,
 			QuestFlair flair,
 			int reward,
@@ -50,7 +57,7 @@ public class DefaultQuestDescription extends QuestDescription {
 		this.reward = reward;
 		this.fee = fee;
 		this.maxPartySize = maxPartySize;
-		this.visual = QuestVisualInformation.UNKNOWN;
+		this.visual = VisualDefinition.UNKNOWN;
 	}
 
 	public void setVisualInformation(IVisualInformation visualInformation) {
@@ -95,6 +102,23 @@ public class DefaultQuestDescription extends QuestDescription {
 	@Override
 	public QuestFlair getQuestFlair() {
 		return questFlair;
+	}
+
+	@Override
+	public GeneralQuest build() {
+		QuestGoal goal = QuestFactory.constructGoal(getGoalReference().getReferredDescription());
+		if (goal == null) {
+			return null;
+		}
+		IAreaType areaType = getAreaType();
+
+		CompletionStage<IActiveArea> activeArea = GlobalAreaManager.getInstance()
+				.getUnusedInstance(areaType, getQuestFlair());
+		if (activeArea == null) {
+			return null;
+		}
+
+		return new GeneralQuest(goal, getMaxPartySize(), getReward(), getFee(), activeArea, this);
 	}
 
 }

@@ -15,7 +15,7 @@ public class MemberOperator implements IBinaryOperator<IExpression, IdentifierLi
 
 	@Override
 	public IExpression with(IExpression valueV, IdentifierLiteral name) {
-		return new HolderLiteral(MemberAccess.makeMemberAccess(valueV.asValue(), name.getLiteral()));
+		return new HolderLiteral(c -> MemberAccess.makeMemberAccess(valueV.asValue(c), name.getLiteral()));
 	}
 
 }

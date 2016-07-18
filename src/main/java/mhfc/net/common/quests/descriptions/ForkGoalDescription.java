@@ -7,12 +7,12 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.quests.api.GoalDescription;
+import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.QuestFactory;
 import mhfc.net.common.quests.goals.ForkQuestGoal;
 
-public class ForkGoalDescription extends GoalDescription {
+public class ForkGoalDescription extends GoalDefinition {
 
 	public static final String ID_REQUIRED = "requisites";
 	public static final String ID_OPTIONAL = "optional";
@@ -46,8 +46,8 @@ public class ForkGoalDescription extends GoalDescription {
 
 	@Override
 	public ForkQuestGoal build() {
-		Stream<GoalDescription> required = getRequired().stream().map(GoalReference::getReferredDescription);
-		Stream<GoalDescription> optional = getOptional().stream().map(GoalReference::getReferredDescription);
+		Stream<GoalDefinition> required = getRequired().stream().map(GoalReference::getReferredDescription);
+		Stream<GoalDefinition> optional = getOptional().stream().map(GoalReference::getReferredDescription);
 		ForkQuestGoal fork = new ForkQuestGoal(null);
 
 		required.map(QuestFactory::constructGoal).filter(Objects::nonNull).forEach(fork::addRequisite);

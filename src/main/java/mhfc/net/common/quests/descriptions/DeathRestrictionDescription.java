@@ -1,10 +1,10 @@
 package mhfc.net.common.quests.descriptions;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.quests.api.GoalDescription;
+import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.goals.DeathRestrictionQuestGoal;
 
-public class DeathRestrictionDescription extends GoalDescription {
+public class DeathRestrictionDescription extends GoalDefinition {
 
 	public static final String ID_LIVES = "lives";
 

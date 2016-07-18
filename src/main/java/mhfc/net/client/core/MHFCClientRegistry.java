@@ -13,15 +13,15 @@ public class MHFCClientRegistry {
 
 	public static void init() {
 		addRenderers();
-		addQuestDisplay();
 	}
 
 	public static void staticInit() {
+		addQuestDisplay();
 		MHFCMain.initPhase.registerEntryCallback(e -> init());
 	}
 
 	private static void addQuestDisplay() {
-		MHFCRegQuestVisual.init();
+		MHFCRegQuestVisual.staticInit();
 		MHFCMain.logger().info("Quest Client registered");
 	}
 

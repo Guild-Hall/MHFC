@@ -1,6 +1,6 @@
 package mhfc.net.common.quests.api;
 
-public abstract class GoalDescription {
+public abstract class GoalDefinition {
 	public static final String ID_TYPE = "type";
 
 	protected String goalType;
@@ -8,11 +8,11 @@ public abstract class GoalDescription {
 	/**
 	 * Construct a goal of the given type identificator. In the json file, every
 	 * goal description has to have at least the following content:<br>
-	 * {@value GoalDescription#goalType} : {@linkplain String} <br>
+	 * {@value GoalDefinition#goalType} : {@linkplain String} <br>
 	 * More specific types may have additional requirements. See the child
 	 * classes for more details on their format.
 	 */
-	public GoalDescription(String type) {
+	public GoalDefinition(String type) {
 		this.goalType = type;
 	}
 

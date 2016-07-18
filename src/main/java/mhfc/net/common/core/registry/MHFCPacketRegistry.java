@@ -1,8 +1,8 @@
 package mhfc.net.common.core.registry;
 
 import cpw.mods.fml.relauncher.Side;
-import mhfc.net.client.quests.MHFCRegQuestVisual.QuestClientInitHandler;
-import mhfc.net.client.quests.MHFCRegQuestVisual.QuestScreenVisualHandler;
+import mhfc.net.client.quests.QuestClientInitHandler;
+import mhfc.net.client.quests.QuestScreenVisualHandler;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.BeginCraftingHandler;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.BenchRefreshHandler;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.CancelRecipeHandler;

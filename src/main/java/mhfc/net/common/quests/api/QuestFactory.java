@@ -6,7 +6,6 @@ import java.util.Objects;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.factory.ChainGoalFactory;
 import mhfc.net.common.quests.factory.DeathRestrictionGoalFactory;
@@ -16,23 +15,12 @@ import mhfc.net.common.quests.factory.HuntingGoalFactory;
 import mhfc.net.common.quests.factory.QuestRunningInformationFactory;
 import mhfc.net.common.quests.factory.QuestVisualInformationFactory;
 import mhfc.net.common.quests.factory.TimeGoalFactory;
-import net.minecraft.entity.player.EntityPlayerMP;
 
 public class QuestFactory {
 
-	public static QuestDescription getQuestDescription(String id) {
-		QuestDescription qd = MHFCQuestBuildRegistry.getQuestDescription(id);
-		return qd;
-	}
-
-	public static GoalDescription getGoalDescription(String id) {
-		GoalDescription gd = MHFCQuestBuildRegistry.getGoalDescription(id);
-		return gd;
-	}
-
-	private static Map<String, IQuestFactory> questFactoryMap = new HashMap<String, IQuestFactory>();
-	private static Map<String, IGoalFactory> goalFactoryMap = new HashMap<String, IGoalFactory>();
-	private static Map<String, IVisualInformationFactory> visualFactoryMap = new HashMap<String, IVisualInformationFactory>();
+	private static Map<String, IQuestFactory> questFactoryMap = new HashMap<>();
+	private static Map<String, IGoalFactory> goalFactoryMap = new HashMap<>();
+	private static Map<String, IVisualInformationFactory> visualFactoryMap = new HashMap<>();
 
 	static {
 		insertQuestFactory(MHFCQuestBuildRegistry.QUEST_DEFAULT, new DefaultQuestFactory());
@@ -51,51 +39,36 @@ public class QuestFactory {
 		insertQuestVisualFactory(MHFCQuestBuildRegistry.VISUAL_RUNNING, new QuestRunningInformationFactory());
 	}
 
-	public static boolean insertQuestFactory(String str, IQuestFactory fact) {
-		if (questFactoryMap.containsKey(str))
+	public static boolean insertQuestFactory(String type, IQuestFactory factory) {
+		if (questFactoryMap.containsKey(type)) {
 			return false;
-		questFactoryMap.put(str, fact);
+		}
+		questFactoryMap.put(type, factory);
 		return true;
 	}
 
-	public static boolean insertGoalFactory(String str, IGoalFactory fact) {
-		if (goalFactoryMap.containsKey(str))
+	public static boolean insertGoalFactory(String type, IGoalFactory factory) {
+		if (goalFactoryMap.containsKey(type)) {
 			return false;
-		goalFactoryMap.put(str, fact);
+		}
+		goalFactoryMap.put(type, factory);
 		return true;
 	}
 
-	public static boolean insertQuestVisualFactory(String str, IVisualInformationFactory fact) {
-		if (visualFactoryMap.containsKey(str))
+	public static boolean insertQuestVisualFactory(String type, IVisualInformationFactory factory) {
+		if (visualFactoryMap.containsKey(type)) {
 			return false;
-		visualFactoryMap.put(str, fact);
+		}
+		visualFactoryMap.put(type, factory);
 		return true;
 	}
 
 	/**
-	 * Constructs a quest based on the description object and a player to join the quest. If it is somehow invalid then
-	 * null is returned.
+	 * Constructs a quest based on the description object.
 	 */
-	public static GeneralQuest constructQuest(QuestDescription qd, EntityPlayerMP initiator, String assignedID) {
-		if (qd == null || !questFactoryMap.containsKey(qd.getType()))
-			return null;
-		IQuestFactory factory = getQuestFactory(qd.getType());
-		if (factory == null)
-			return null;
-		GeneralQuest quest = factory.buildQuest(qd);
-		if (quest == null)
-			return null;
-		if (!quest.canJoin(initiator)) {
-			quest.close();
-			return null;
-		}
-		MHFCQuestRegistry.regRunningQuest(quest, assignedID);
-		quest.joinPlayer(initiator);
-		return quest;
-	}
-
-	public static IQuestFactory getQuestFactory(String type) {
-		return questFactoryMap.get(type);
+	public static GeneralQuest constructQuest(QuestDefinition qd) {
+		Objects.requireNonNull(qd, "Quest description was null");
+		return qd.build();
 	}
 
 	/**
@@ -104,12 +77,17 @@ public class QuestFactory {
 	 * hunting: Needs to have exactly two arguments in its argument array, both of type string and the latter one
 	 * representing an Integer.
 	 */
-	public static QuestGoal constructGoal(GoalDescription gd) {
+	public static QuestGoal constructGoal(GoalDefinition gd) {
 		Objects.requireNonNull(gd, "Goal description was null");
 		QuestGoal goal = gd.build();
-		if (goal == null)
+		if (goal == null) {
 			MHFCMain.logger().warn("Constructed goal returned as null");
+		}
 		return goal;
+	}
+
+	public static IQuestFactory getQuestFactory(String type) {
+		return questFactoryMap.get(type);
 	}
 
 	public static IGoalFactory getGoalFactory(String type) {

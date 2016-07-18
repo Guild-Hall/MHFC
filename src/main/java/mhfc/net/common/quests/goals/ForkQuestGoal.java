@@ -5,9 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.quests.QuestRunningInformation.InformationType;
+import mhfc.net.client.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.QuestStatus;
-import mhfc.net.common.quests.api.GoalDescription;
+import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
 
@@ -17,9 +17,9 @@ import mhfc.net.common.quests.api.QuestGoalSocket;
  * should be possible. If this is not the case use {@link ChainQuestGoal}
  * instead. The additions to the goal format are as following:<br>
  * {@value ForkQuestDescription#ID_REQUIRED} : ({@linkplain String}|
- * {@linkplain GoalDescription})[]<br>
+ * {@linkplain GoalDefinition})[]<br>
  * [{@value ForkQuestDesciption#ID_OPTIONAL} : ({@linkplain String}|
- * {@linkplain GoalDescription})[]]
+ * {@linkplain GoalDefinition})[]]
  */
 
 public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {

@@ -1,27 +1,29 @@
 package mhfc.net.common.quests;
 
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.client.quests.QuestRunningInformation;
+import mhfc.net.client.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
-import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.network.packet.MessageQuestVisual.VisualType;
-import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.api.GoalReference;
-import mhfc.net.common.quests.api.QuestDescription;
+import mhfc.net.common.quests.api.IQuestInformation;
+import mhfc.net.common.quests.api.IVisualInformation;
+import mhfc.net.common.quests.api.QuestDefinition;
+import mhfc.net.common.quests.api.QuestDefinition.QuestType;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.QuestFlair;
+import mhfc.net.common.util.PlayerMap;
 import mhfc.net.common.util.StagedFuture;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
@@ -30,7 +32,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 
-public class GeneralQuest extends QuestDescription implements QuestGoalSocket, AutoCloseable {
+public class GeneralQuest implements IQuestInformation, QuestGoalSocket, AutoCloseable {
 
 	public static final String KEY_TYPE_RUNNING = "running";
 
@@ -41,7 +43,7 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 		resigned;
 	}
 
-	private static class PlayerAttributes {
+	private static class QuestingPlayerState {
 		public EntityPlayerMP player;
 		public boolean vote;
 		@SuppressWarnings("unused")
@@ -50,7 +52,7 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 		public boolean reward;
 		public IExplorationManager previousManager;
 
-		public PlayerAttributes(EntityPlayerMP p, boolean vote, boolean restoreInventory, boolean reward) {
+		public QuestingPlayerState(EntityPlayerMP p, boolean vote, boolean restoreInventory, boolean reward) {
 			this.player = p;
 			this.restoreInventory = restoreInventory;
 			this.vote = vote;
@@ -59,14 +61,14 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 		}
 	}
 
-	private static PlayerAttributes newAttribute(EntityPlayerMP player) {
-		return new PlayerAttributes(player, false, true, false);
+	private static QuestingPlayerState newAttribute(EntityPlayerMP player) {
+		return new QuestingPlayerState(player, false, true, false);
 	}
 
-	private QuestDescription originalDescription;
+	private QuestDefinition originalDescription;
 	private QuestRunningInformation visualInformation;
 
-	private Map<Integer, PlayerAttributes> playerAttributes;
+	private PlayerMap<QuestingPlayerState> playerAttributes;
 	private int maxPlayerCount;
 
 	protected QuestState state;
@@ -89,9 +91,8 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 			int reward,
 			int fee,
 			CompletionStage<IActiveArea> activeArea,
-			QuestDescription originalDescription) {
-		super(MHFCQuestBuildRegistry.QUEST_RUNNING);
-		this.playerAttributes = new HashMap<>();
+			QuestDefinition originalDescription) {
+		this.playerAttributes = new PlayerMap<>();
 		this.questGoal = Objects.requireNonNull(goal);
 		activeArea.thenAccept(this::onAreaFinished);
 		goal.setSocket(this);
@@ -162,7 +163,7 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 	}
 
 	protected void onSuccess() {
-		for (PlayerAttributes attribute : playerAttributes.values()) {
+		for (QuestingPlayerState attribute : playerAttributes.values()) {
 			attribute.reward = true;
 			attribute.player.addExperienceLevel(10);
 			attribute.player.addChatMessage(new ChatComponentText("You have successfully completed a quest"));
@@ -186,7 +187,7 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 	}
 
 	private void resetVotes() {
-		for (PlayerAttributes attribute : playerAttributes.values()) {
+		for (QuestingPlayerState attribute : playerAttributes.values()) {
 			attribute.vote = false;
 		}
 	}
@@ -204,7 +205,7 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 
 	protected void updatePlayers() {
 		visualInformation.updateFromQuest(this);
-		for (PlayerAttributes attribute : playerAttributes.values()) {
+		for (QuestingPlayerState attribute : playerAttributes.values()) {
 			EntityPlayerMP p = attribute.player;
 			String id = MHFCQuestRegistry.getIdentifierForQuest(this);
 			PacketPipeline.networkPipe
@@ -216,11 +217,10 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 
 	public boolean canJoin(EntityPlayer player) {
 		// TODO add more evaluation and/or move to another class?
-		if (state == QuestState.pending && playerCount() < maxPlayerCount
-				&& MHFCQuestRegistry.getQuestForPlayer(player) == null) {
-			return true;
-		}
-		return false;
+		boolean isPending = state == QuestState.pending;
+		boolean notFull = playerCount() < maxPlayerCount;
+		boolean playerHasNoQuest = MHFCQuestRegistry.getQuestForPlayer(player) == null;
+		return isPending && notFull && playerHasNoQuest;
 	}
 
 	private int playerCount() {
@@ -238,13 +238,13 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 	}
 
 	private void addPlayer(EntityPlayerMP player) {
-		playerAttributes.put(player.getEntityId(), GeneralQuest.newAttribute(player));
+		playerAttributes.putPlayer(player, GeneralQuest.newAttribute(player));
 		MHFCQuestRegistry.setQuestForPlayer(player, this);
 		updatePlayers();
 	}
 
 	private boolean removePlayer(EntityPlayerMP player) {
-		PlayerAttributes att = playerAttributes.remove(player.getEntityId());
+		QuestingPlayerState att = playerAttributes.remove(player.getEntityId());
 		if (att != null) {
 			PacketPipeline.networkPipe.sendTo(new MessageQuestVisual(VisualType.PERSONAL_QUEST, "", null), att.player);
 			MHFCQuestRegistry.setQuestForPlayer(att.player, null);
@@ -283,27 +283,24 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 		return questingArea.getArea().getSpawnController();
 	}
 
-	public QuestDescription getOriginalDescription() {
+	public QuestDefinition getOriginalDescription() {
 		return originalDescription;
 	}
 
-	public String updateVisual(InformationType t, String current) {
-		if (t == InformationType.MaxPartySize) {
+	public String updateVisual(InformationType t) {
+		if (t == InformationType.PartySize) {
 			return playerCount() + "/" + maxPlayerCount + " {unlocalized:Players}";
 		}
 		String mod = questGoal.modify(t, "");
-		if (mod.equals("")) {
-			return current;
-		}
 		return mod;
 	}
 
-	private PlayerAttributes getPlayerAttributes(EntityPlayerMP player) {
+	private QuestingPlayerState getPlayerAttributes(EntityPlayerMP player) {
 		return playerAttributes.get(player.getEntityId());
 	}
 
 	public void voteStart(EntityPlayerMP player) {
-		PlayerAttributes attributes = getPlayerAttributes(player);
+		QuestingPlayerState attributes = getPlayerAttributes(player);
 		attributes.vote = true;
 		tryStart();
 	}
@@ -313,7 +310,7 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 	}
 
 	public void voteEnd(EntityPlayerMP player) {
-		PlayerAttributes attributes = getPlayerAttributes(player);
+		QuestingPlayerState attributes = getPlayerAttributes(player);
 		attributes.vote = true;
 
 		boolean end = allVotes();
@@ -384,7 +381,7 @@ public class GeneralQuest extends QuestDescription implements QuestGoalSocket, A
 	 * Searches for the player with a matching entity id and updates all references
 	 */
 	public boolean updatePlayerEntity(EntityPlayerMP player) {
-		return playerAttributes.computeIfPresent(player.getEntityId(), (k, a) -> {
+		return playerAttributes.computeIfPresent(PlayerMap.playerToKey(player), (k, a) -> {
 			a.player = player;
 			return a;
 		}) != null;

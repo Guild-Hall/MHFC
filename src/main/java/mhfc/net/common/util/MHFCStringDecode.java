@@ -12,25 +12,20 @@ import mhfc.net.common.eventhandler.DelayedJob;
 import mhfc.net.common.eventhandler.MHFCJobHandler;
 import net.minecraft.util.StatCollector;
 
-@SuppressWarnings("deprecation")
 public class MHFCStringDecode {
 	public static class TimeTickDecoderFactory implements StringDecoderFactory {
 
 		@Override
-		public StringDecoder getStringDecoder(DynamicString dynString,
-			String key) {
+		public StringDecoder getStringDecoder(DynamicString dynString, String key) {
 			return new TimeTickDecoder();
 		}
 
 	}
 
-	public static class LocalizationDecoderFactory
-		implements
-			StringDecoderFactory {
+	public static class LocalizationDecoderFactory implements StringDecoderFactory {
 
 		@Override
-		public StringDecoder getStringDecoder(DynamicString dynString,
-			String key) {
+		public StringDecoder getStringDecoder(DynamicString dynString, String key) {
 			return new LocalizationDecoder();
 		}
 
@@ -54,13 +49,13 @@ public class MHFCStringDecode {
 
 		@Override
 		public String getDecoded(String key, String value) {
-			if (value == null)
+			if (value == null) {
 				return null;
+			}
 			long delta = Long.parseLong(value) - ticksPassed;
 			delta /= MHFCJobHandler.ticksPerSecond;
 			String ret = "" + (delta >= 3600 ? delta / 3600 + "h " : "")
-				+ (delta >= 60 ? (delta % 3600) / 60 + "min " : "")
-				+ (delta >= 0 ? delta % 60 : delta) + "s";
+					+ (delta >= 60 ? (delta % 3600) / 60 + "min " : "") + (delta >= 0 ? delta % 60 : delta) + "s";
 			ticksPassed += getUpdateDelay();
 			return ret;
 		}
@@ -81,8 +76,9 @@ public class MHFCStringDecode {
 
 		@Override
 		public String getDecoded(String key, String value) {
-			if (value == null)
+			if (value == null) {
 				return null;
+			}
 			return StatCollector.translateToLocal(value);
 		}
 
@@ -99,7 +95,7 @@ public class MHFCStringDecode {
 		protected List<StringElement> parts;
 
 		public CompositeString(String toBreak) {
-			parts = new LinkedList<StringElement>();
+			parts = new LinkedList<>();
 			parts.addAll(breakApart(toBreak));
 			for (StringElement s : parts) {
 				if (s instanceof CompositeString) {
@@ -119,8 +115,9 @@ public class MHFCStringDecode {
 
 		@Override
 		public void remove() {
-			for (StringElement e : parts)
+			for (StringElement e : parts) {
 				e.remove();
+			}
 		}
 
 		public void childUpdated(CompositeString dynamicString) {
@@ -143,13 +140,10 @@ public class MHFCStringDecode {
 		}
 
 		@Override
-		public void remove() {
-		}
+		public void remove() {}
 	}
 
-	public static class DynamicString extends CompositeString
-		implements
-			DelayedJob {
+	public static class DynamicString extends CompositeString implements DelayedJob {
 
 		protected Map<String, StringDecoder> personalDecoderMap;
 		protected String stringValue;
@@ -157,14 +151,15 @@ public class MHFCStringDecode {
 
 		public DynamicString(String str) {
 			super(str);
-			personalDecoderMap = new HashMap<String, StringDecoder>();
+			personalDecoderMap = new HashMap<>();
 			executeJob(Phase.START);
 		}
 
 		@Override
 		public void executeJob(Phase tickPhase) {
-			if (tickPhase != Phase.START)
+			if (tickPhase != Phase.START) {
 				return;
+			}
 			String superValue = super.stringValue();
 			String[] split = superValue.split(":", 2);
 			if (split.length == 1) {
@@ -174,10 +169,12 @@ public class MHFCStringDecode {
 				stringValue = findReplacement(superValue);
 				delay = personalDecoderMap.get(split[0]).getUpdateDelay();
 			}
-			if (this.delay >= 0)
+			if (this.delay >= 0) {
 				MHFCJobHandler.instance().insert(this, getInitialDelay());
-			if (parent != null)
+			}
+			if (parent != null) {
 				parent.childUpdated(this);
+			}
 		}
 
 		public int getInitialDelay() {
@@ -187,26 +184,25 @@ public class MHFCStringDecode {
 		protected String findReplacement(String descriptor) {
 			String split[] = descriptor.split(":", 2);
 			String identifier = split[0];
-			if (split.length == 1)
+			if (split.length == 1) {
 				return identifier;
-			if (!personalDecoderMap.containsKey(identifier))
-				personalDecoderMap.put(identifier, MHFCStringDecode
-					.getNewDecoderFor(this, identifier));
+			}
+			if (!personalDecoderMap.containsKey(identifier)) {
+				personalDecoderMap.put(identifier, MHFCStringDecode.getNewDecoderFor(this, identifier));
+			}
 			StringDecoder decoder = personalDecoderMap.get(identifier);
-			if (decoder == null)
+			if (decoder == null) {
 				return "No decoder for " + identifier;
+			}
 			String replacement = decoder.getDecoded(identifier, split[1]);
-			return replacement == null
-				? "unknown Descriptor " + descriptor
-				: replacement;
+			return replacement == null ? "unknown Descriptor " + descriptor : replacement;
 		}
 
 		@Override
 		public String stringValue() {
-			if (stringValue == null)
-				MHFCMain.logger().debug(
-					"String of dynamic string %s ended up as null", this
-						.toString());
+			if (stringValue == null) {
+				MHFCMain.logger().debug("String of dynamic string %s ended up as null", this.toString());
+			}
 			return stringValue;
 		}
 
@@ -226,18 +222,17 @@ public class MHFCStringDecode {
 	private static Map<String, StringDecoderFactory> stringDecoderMap;
 
 	static {
-		stringDecoderMap = new HashMap<String, StringDecoderFactory>();
+		stringDecoderMap = new HashMap<>();
 		registerDecoder("time", new TimeTickDecoderFactory());
 		registerDecoder("unlocalized", new LocalizationDecoderFactory());
 	}
 
-	public static void init() {
-	}
+	public static void init() {}
 
-	public static boolean registerDecoder(String key,
-		StringDecoderFactory decoder) {
-		if (stringDecoderMap.containsKey(key))
+	public static boolean registerDecoder(String key, StringDecoderFactory decoder) {
+		if (stringDecoderMap.containsKey(key)) {
 			return false;
+		}
 		stringDecoderMap.put(key, decoder);
 		return true;
 	}
@@ -249,12 +244,14 @@ public class MHFCStringDecode {
 	 * @return If something was removed
 	 */
 	public static boolean removeDecoder(StringDecoderFactory decoder) {
-		if (!stringDecoderMap.containsValue(decoder))
+		if (!stringDecoderMap.containsValue(decoder)) {
 			return false;
-		List<String> toRemove = new LinkedList<String>();
+		}
+		List<String> toRemove = new LinkedList<>();
 		for (String s : stringDecoderMap.keySet()) {
-			if (stringDecoderMap.get(s) == null)
+			if (stringDecoderMap.get(s) == null) {
 				toRemove.add(s);
+			}
 		}
 		for (String s : toRemove) {
 			stringDecoderMap.remove(s);
@@ -276,18 +273,18 @@ public class MHFCStringDecode {
 		return false;
 	}
 
-	public static StringDecoder getNewDecoderFor(DynamicString dynString,
-		String key) {
+	public static StringDecoder getNewDecoderFor(DynamicString dynString, String key) {
 		return stringDecoderMap.get(key).getStringDecoder(dynString, key);
 	}
 
 	private static List<StringElement> breakApart(String str) {
-		List<StringElement> list = new ArrayList<StringElement>(20);
-		if (str == null)
+		List<StringElement> list = new ArrayList<>(20);
+		if (str == null) {
 			return list;
+		}
 		boolean dynamic = true;
 		String firstSplit[] = str.split("\\{");
-		List<String> secondSplit = new ArrayList<String>();
+		List<String> secondSplit = new ArrayList<>();
 		// "foo{{st}other}bar{irr}" turns to foo {st}other bar irr
 		// Algorithm?
 		for (String part : firstSplit) {
@@ -297,8 +294,9 @@ public class MHFCStringDecode {
 		}
 		for (String part : secondSplit) {
 			dynamic = !dynamic;
-			if (part.equals(""))
+			if (part.equals("")) {
 				continue;
+			}
 			if (dynamic) {
 				CompositeString s = getCompositeFor(part);
 				list.add(s);

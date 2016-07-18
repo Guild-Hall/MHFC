@@ -2,10 +2,10 @@ package mhfc.net.common.quests.goals;
 
 import java.util.stream.Stream;
 
+import mhfc.net.client.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.eventhandler.quests.LivingDeathEventHandler;
 import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
 import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
-import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
