@@ -13,6 +13,7 @@ import mhfc.net.common.ai.entity.boss.rathalos.RathalosBiteRight;
 import mhfc.net.common.ai.entity.boss.rathalos.RathalosDeath;
 import mhfc.net.common.ai.entity.boss.rathalos.RathalosIdle;
 import mhfc.net.common.ai.entity.boss.rathalos.RathalosWander;
+import mhfc.net.common.ai.entity.boss.rathalos.RathalosTailSwipeRight;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -84,6 +85,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		stancedAttackManager.registerAction(new RathalosWander());
 		stancedAttackManager.registerAction(new RathalosBiteLeft());
 		stancedAttackManager.registerAction(new RathalosBiteRight());
+		stancedAttackManager.registerAction(new RathalosTailSwipeRight());
 		stancedAttackManager.registerAction(new ChargeAttack());
 		//	stancedAttackManager.registerAction(new FireballAttack());
 		//	stancedAttackManager.registerAction(new FlyStart());
