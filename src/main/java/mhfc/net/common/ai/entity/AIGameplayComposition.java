@@ -82,13 +82,11 @@ public class AIGameplayComposition {
 	public static void sleepRegeneration(EntityCreature entity, float amount){
 		entity.heal(amount);
 	}
+	
+	static boolean camShake = false;
+	static float CamShakeIntensity;
 
-	public static void cameraShake(EntityCreature disEntity, Entity entity, float intensity) {
-		if (disEntity.worldObj.isRemote && entity instanceof EntityPlayer) {
-			float modifiedPitch = ((disEntity.ticksExisted % 4) / 2f - 1) * intensity;
-			entity.setAngles(0, modifiedPitch);
-		}
-	}
+
 
 	public static void roarEffect(EntityLivingBase target) {
 		if (target instanceof EntityPlayer && ((EntityPlayer) target).capabilities.isCreativeMode) {

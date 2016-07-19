@@ -31,22 +31,26 @@ public class DeviljhoStomp extends AIAnimatedAction<EntityDeviljho> {
 	public DeviljhoStomp() {}
 
 	private void updateStomp() {
+		boolean CamShake = false;
+		float CamShakeIntensity;
 		EntityDeviljho entity = this.getEntity();
 		if (!entity.onGround || thrown || this.getCurrentFrame() < 26) {
 			return;
 		}
-		List<Entity> list = entity.worldObj
-				.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(6.0D, 1.0D, 6.0D));
-		AIGameplayComposition.cameraShake(entity, entity.getAttackTarget(), 40);
+		List<Entity> list = entity.worldObj.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(10.0D, 1.0D, 10.0D));
 		AIGameplayComposition.stompCracks(entity, 100);
 		for (Entity entity1 : list) {
 			if (!(entity1 instanceof EntityLivingBase)) {
 				continue;
 			}
+			float Intenstity = 40;
+			CamShake = (CamShake == false) ? true : false;
+			CamShakeIntensity = (CamShake) ? Intenstity : -Intenstity;
+			entity1.setAngles(0, 40);
 			EntityLivingBase living = entity;
 			damageCalc.accept(living);
 			entity1.attackEntityFrom(DamageSource.causeMobDamage(entity), 60f);
-			entity1.addVelocity(-0.2, 0.6, 0);
+			entity1.addVelocity(0.2, 0.3, 0);
 		}
 		entity.playSound("mhfc:deviljho.stomp", 1.0F, 1.0F);
 		thrown = true;

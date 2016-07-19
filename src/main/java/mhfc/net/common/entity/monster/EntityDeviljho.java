@@ -1,5 +1,7 @@
 package mhfc.net.common.entity.monster;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
@@ -23,6 +25,7 @@ import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.item.materials.ItemDeviljho.DeviljhoSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -103,4 +106,8 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		dropItemRand(SubTypedItem.fromSubItem(DeviljhoSubType.TALON, 1));
 		dropItemRand(SubTypedItem.fromSubItem(DeviljhoSubType.TAIL, 1));
 	}
+	
+	boolean CamShake = false;
+	float CamShakeIntensity;
+
 }
