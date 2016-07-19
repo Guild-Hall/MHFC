@@ -11,6 +11,7 @@ import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
 import mhfc.net.common.entity.monster.EntityLagiacrus;
 import mhfc.net.common.entity.monster.EntityNargacuga;
+import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.particle.EntityPaintParticleEmitter;
 import mhfc.net.common.entity.projectile.EntityBreathe;
@@ -38,7 +39,7 @@ public class MHFCEntityRegistry {
 
 	public final int tigrexID;
 	//public final int kirinID;
-	//public final int rathalosID;
+	public final int rathalosID;
 	public final int greatjaggiID;
 	public final int deviljhoID;
 	public final int nargacugaID;
@@ -65,12 +66,8 @@ public class MHFCEntityRegistry {
 		// 0xf8248234, 0x193192);
 		tigrexID = getMobID(EntityTigrex.class, MHFCReference.mob_tigrex_name, ItemColor.YELLOW, ItemColor.LIBLUE);
 		//kirinID = getMobID(EntityKirin.class, MHFCReference.mob_kirin_name, 0xfff85814, 0xff851f15);
-		//  rathalosID = getMobID(EntityRathalos.class,	MHFCReference.mob_rathalos_name, 0xff749819, 0xf838818);
-		greatjaggiID = getMobID(
-				EntityGreatJaggi.class,
-				MHFCReference.mob_greatjaggi_name,
-				ItemColor.PURPLE,
-				ItemColor.PINK);
+		rathalosID = getMobID(EntityRathalos.class,	MHFCReference.mob_rathalos_name, 0xff749819, 0xf838818);
+		greatjaggiID = getMobID(EntityGreatJaggi.class,	MHFCReference.mob_greatjaggi_name,ItemColor.PURPLE,ItemColor.PINK);
 		deviljhoID = getMobID(EntityDeviljho.class, MHFCReference.mob_deviljho_name, ItemColor.GREEN, ItemColor.SILVER);
 		nargacugaID = getMobID(EntityNargacuga.class, MHFCReference.mob_nargacuga_name, 0xf351631, 0x516f13f);
 		barrothID = getMobID(EntityBarroth.class, MHFCReference.mob_barroth_name, ItemColor.ORANGE, ItemColor.GRAY);

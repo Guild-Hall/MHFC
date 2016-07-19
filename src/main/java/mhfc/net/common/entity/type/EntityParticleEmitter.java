@@ -1,11 +1,8 @@
 package mhfc.net.common.entity.type;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
-import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.lib.MHFCReference;
-import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 

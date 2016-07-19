@@ -7,7 +7,7 @@ import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.Vec3;
 
-public class RathalosBiteLeft extends ActionAdapter<EntityRathalos> {
+public class RathalosBiteRight extends ActionAdapter<EntityRathalos> {
 
 	private static int ANIM_FRAME = 50;
 
@@ -19,8 +19,8 @@ public class RathalosBiteLeft extends ActionAdapter<EntityRathalos> {
 
 	private static float WEIGHT = 2F;
 
-	public RathalosBiteLeft() {
-		setAnimation("mhfc:models/Rathalos/RathalosBiteLeft.mcanm");
+	public RathalosBiteRight() {
+		setAnimation("mhfc:models/Rathalos/RathalosBiteRight.mcanm");
 		setLastFrame(ANIM_FRAME);
 	}
 
@@ -36,7 +36,7 @@ public class RathalosBiteLeft extends ActionAdapter<EntityRathalos> {
 		if (distance > TARGET_DISTANCE) {
 			return DONT_SELECT;
 		}
-		if (LOOK_TARGET.normalize().dotProduct(entity.getLookVec()) < AIM_ANGLE) {
+		if (LOOK_TARGET.normalize().dotProduct(entity.getLookVec()) < -AIM_ANGLE) {
 			return DONT_SELECT;
 		}
 		return WEIGHT;

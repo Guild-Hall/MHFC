@@ -36,7 +36,7 @@ public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(95391D, 140000D, 175000D));
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(95391D));
 	}
 
 	@Override

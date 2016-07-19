@@ -101,7 +101,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		//default is 10721D
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(19721D, 11000D, 22000D));
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(19721D));
 	}
 
 	@Override

@@ -77,6 +77,7 @@ public class AIGameplayComposition {
 	}
 	
 	
+	
 	public static void sleepRegeneration(EntityCreature entity, float amount){
 		entity.heal(amount);
 	}

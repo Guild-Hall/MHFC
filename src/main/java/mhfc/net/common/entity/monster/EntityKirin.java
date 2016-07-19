@@ -39,7 +39,7 @@ public class EntityKirin extends EntityMHFCBase<EntityKirin> {
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		//default 13738
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(20D, 1000D, 1400D));
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(20D));
 	}
 
 	@Override

@@ -16,6 +16,10 @@ public abstract class AIGeneralIdle<EntityT extends EntityMHFCBase<? super Entit
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
+		if(target != null){
+			getEntity().getTurnHelper().updateTargetPoint(target);
+		}
+		getEntity().getTurnHelper().updateTurnSpeed(2.0F);
 		getEntity().playLivingSound();
 	}
 

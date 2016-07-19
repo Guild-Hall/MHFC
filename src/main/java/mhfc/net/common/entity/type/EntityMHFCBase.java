@@ -74,6 +74,16 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		this.deathAction = action;
 		return action;
 	}
+	
+	protected <A extends IExecutableAction<? super YC>> A setInWaterAction(A action){
+		inWaterAction = action;
+		return action;
+	}
+	
+	protected <A extends IExecutableAction<? super YC>> A setStunAction(A action){
+		stunAction = action;
+		return action;
+	}
 
 	@Override
 	public void onUpdate() {
@@ -84,7 +94,10 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		}
 
 		if (this.isPotionActive(MHFCPotionRegistry.getRegistry().stun)) {
-			//	getActionManager().switchToAction(stunAction);
+			getActionManager().switchToAction(stunAction);
+		}
+		if (this.isInWater()){
+			getActionManager().switchToAction(inWaterAction);
 		}
 
 	}
@@ -171,7 +184,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(60D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
 	}
-
+	
 	protected void onDeath() {
 		if (deathAction != null) {
 			getActionManager().switchToAction(deathAction);
@@ -201,9 +214,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		worldObj.spawnEntityInWorld(entityItem);
 	}
 
-	public double healthbaseHP(double lowRankHealthPoints, double highRankHealthPoints, double GRankHealthPoints) {
-		// FIXME: we can do that better
-		return lowRankHealthPoints;
+	public double healthbaseHP(double defaultHP) {
+		// This will be a quest data base.
+		return defaultHP;
 	}
 
 	// FIXME: will update location, rotation set algs in 1.8, bc huge changes

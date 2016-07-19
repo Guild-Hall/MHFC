@@ -7,7 +7,9 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IStancedEntity;
+import mhfc.net.common.ai.entity.boss.rathalos.ChargeAttack;
 import mhfc.net.common.ai.entity.boss.rathalos.RathalosBiteLeft;
+import mhfc.net.common.ai.entity.boss.rathalos.RathalosBiteRight;
 import mhfc.net.common.ai.entity.boss.rathalos.RathalosDeath;
 import mhfc.net.common.ai.entity.boss.rathalos.RathalosIdle;
 import mhfc.net.common.ai.entity.boss.rathalos.RathalosWander;
@@ -81,7 +83,8 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		stancedAttackManager.registerAction(new RathalosIdle());
 		stancedAttackManager.registerAction(new RathalosWander());
 		stancedAttackManager.registerAction(new RathalosBiteLeft());
-		//	stancedAttackManager.registerAction(new ChargeAttack());
+		stancedAttackManager.registerAction(new RathalosBiteRight());
+		stancedAttackManager.registerAction(new ChargeAttack());
 		//	stancedAttackManager.registerAction(new FireballAttack());
 		//	stancedAttackManager.registerAction(new FlyStart());
 		//	stancedAttackManager.registerAction(new JumpFireball());
@@ -94,7 +97,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(15081D, 9000D, 18000D));
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(15081D));
 	}
 
 	@Override
