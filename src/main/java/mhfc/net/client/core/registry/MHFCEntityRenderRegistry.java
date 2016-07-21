@@ -13,6 +13,7 @@ import com.google.common.cache.LoadingCache;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import mhfc.net.client.render.entity.RenderNargacuga;
+import mhfc.net.client.render.projectile.RenderBeam;
 import mhfc.net.client.render.projectile.RenderBlockProjectile;
 import mhfc.net.client.render.projectile.RenderBreathe;
 import mhfc.net.client.render.projectile.RenderBullet;
@@ -32,6 +33,7 @@ import mhfc.net.common.entity.monster.EntityNargacuga;
 import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.monster.EntityUkanlos;
+import mhfc.net.common.entity.projectile.EntityBeam;
 import mhfc.net.common.entity.projectile.EntityBreathe;
 import mhfc.net.common.entity.projectile.EntityBullet;
 import mhfc.net.common.entity.projectile.EntityPaintball;
@@ -118,6 +120,7 @@ public class MHFCEntityRenderRegistry {
 	}
 
 	private static void renderBlockEntities() {
+		RenderingRegistry.registerEntityRenderingHandler(EntityBeam.class, new RenderBeam());
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileBlock.class, new RenderBlockProjectile());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRathalosFireball.class, new RenderRathalosFireball());
 		RenderingRegistry.registerEntityRenderingHandler(EntityPaintball.class, new RenderPaintball());

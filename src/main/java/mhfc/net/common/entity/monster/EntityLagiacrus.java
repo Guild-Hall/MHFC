@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
+import mhfc.net.common.ai.entity.boss.lagiacrus.LagiacrusBeam;
 import mhfc.net.common.ai.entity.boss.lagiacrus.LagiacrusBite;
 import mhfc.net.common.ai.entity.boss.lagiacrus.LagiacrusDying;
 import mhfc.net.common.ai.entity.boss.lagiacrus.LagiacrusIdle;
@@ -30,8 +31,9 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 	@Override
 	public IActionManager<EntityLagiacrus> constructActionManager() {
 		ActionManagerBuilder<EntityLagiacrus> actionManager = new ActionManagerBuilder<>();
+		actionManager.registerAction(new LagiacrusBeam());
 		actionManager.registerAction(new LagiacrusWander());
-		actionManager.registerAction(new LagiacrusRoar());
+		//actionManager.registerAction(new LagiacrusRoar());
 		actionManager.registerAction(new LagiacrusBite());
 		actionManager.registerAction(new LagiacrusIdle());
 		actionManager.registerAction(setDeathAction(new LagiacrusDying()));
