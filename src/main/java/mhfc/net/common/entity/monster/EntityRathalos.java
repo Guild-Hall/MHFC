@@ -99,7 +99,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(15081D));
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(14981D));
 	}
 
 	@Override

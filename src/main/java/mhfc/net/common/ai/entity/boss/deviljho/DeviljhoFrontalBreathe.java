@@ -11,7 +11,7 @@ public class DeviljhoFrontalBreathe extends AIAnimatedAction<EntityDeviljho> {
 
 	private static final String SET_Animation = "mhfc:models/Deviljho/DeviljhoFrontalBreathe.mcanm";
 	private static final int Set_Frame = 80;
-	private static final double Set_MaxDistance = 6f;
+	private static final double Set_MaxDistance = 15f;
 	private static final float Set_Weight = 6F;
 
 	private static ISelectionPredicate<EntityDeviljho> selectionProvider;

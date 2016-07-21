@@ -10,4 +10,6 @@ public class Attributes {
 	public static final BaseAttribute ATTACK_COOLDOWN 		= new RangedAttribute("mhfc.attackCooldown", 10d, 0D, Double.MAX_VALUE).setShouldWatch(true);
 	public static final BaseAttribute RELOAD_TIME 			= new RangedAttribute("mhfc.reloadTime", 20d, 0D, Double.MAX_VALUE).setShouldWatch(true);
 	public static final BaseAttribute WEAPON_REACH 			= new RangedAttribute("mhfc.reach", 3d, 0D, Double.MAX_VALUE).setShouldWatch(true);
+	
+	
 }
