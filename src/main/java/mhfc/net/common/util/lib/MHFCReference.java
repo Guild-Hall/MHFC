@@ -14,6 +14,7 @@ public class MHFCReference {
 	public static ModMetadata getMetadata() {
 		return main_metadata;
 	}
+	
 
 	public static final String armor_null_tex = "mhfc:textures/armor/null.png";
 	public static final String armor_kirinS_boots_name = "c.mhf_boots";
