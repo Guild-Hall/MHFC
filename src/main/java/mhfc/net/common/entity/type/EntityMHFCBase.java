@@ -552,4 +552,13 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		addVelocity(forwardVector.xCoord, forwardVector.yCoord, forwardVector.zCoord);
 		setPositionAndUpdate(posX, posY, posZ);
 	}
+	
+	public String stunSound;
+	protected String setStunnedSound(String sound){
+		return stunSound = sound;
+	}
+	
+	public void playStunnedSound(){
+		this.playSound(stunSound, 2.0F, 1.0F);
+	}
 }

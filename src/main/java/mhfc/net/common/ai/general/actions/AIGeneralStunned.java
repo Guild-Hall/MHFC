@@ -8,7 +8,13 @@ import net.minecraft.entity.Entity;
 public abstract class AIGeneralStunned<EntityT extends EntityMHFCBase<? super EntityT>>
 		extends
 		AIAnimatedAction<EntityT> {
-
+	
+	
+	@Override
+	public void beginExecution(){
+		getEntity().playStunnedSound();
+	}
+	
 	@Override
 	protected void update() {
 
