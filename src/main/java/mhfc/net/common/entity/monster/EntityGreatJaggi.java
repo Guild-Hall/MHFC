@@ -5,13 +5,13 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
-import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiBite;
-import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiDeath;
-import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiIdle;
-import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiRoar;
-import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiRun;
-import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiWander;
-import mhfc.net.common.ai.entity.boss.greatjaggi.GJaggiWhip;
+import mhfc.net.common.ai.entity.boss.greatjaggi.Bite;
+import mhfc.net.common.ai.entity.boss.greatjaggi.Death;
+import mhfc.net.common.ai.entity.boss.greatjaggi.Idle;
+import mhfc.net.common.ai.entity.boss.greatjaggi.Roar;
+import mhfc.net.common.ai.entity.boss.greatjaggi.Run;
+import mhfc.net.common.ai.entity.boss.greatjaggi.Wander;
+import mhfc.net.common.ai.entity.boss.greatjaggi.Whip;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -34,14 +34,14 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 	@Override
 	public IActionManager<EntityGreatJaggi> constructActionManager() {
 		ActionManagerBuilder<EntityGreatJaggi> actionManager = new ActionManagerBuilder<>();
-		actionManager.registerAction(new GJaggiBite());
-		actionManager.registerAction(new GJaggiIdle());
-		actionManager.registerAction(new GJaggiRoar());
-		actionManager.registerAction(new GJaggiRun());
-		actionManager.registerAction(new GJaggiWhip());
-		actionManager.registerAction(new GJaggiWander());
+		actionManager.registerAction(new Bite());
+		actionManager.registerAction(new Idle());
+		actionManager.registerAction(new Roar());
+		actionManager.registerAction(new Run());
+		actionManager.registerAction(new Whip());
+		actionManager.registerAction(new Wander());
 		
-		actionManager.registerAction(setDeathAction(new GJaggiDeath()));
+		actionManager.registerAction(setDeathAction(new Death()));
 		return actionManager.build(this);
 	}
 

@@ -5,8 +5,8 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
-import mhfc.net.common.ai.entity.nonboss.delex.DelexDying;
-import mhfc.net.common.ai.entity.nonboss.delex.DelexIdle;
+import mhfc.net.common.ai.entity.nonboss.delex.Death;
+import mhfc.net.common.ai.entity.nonboss.delex.Idle;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -27,8 +27,8 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 	@Override
 	public IActionManager<EntityDelex> constructActionManager() {
 		ActionManagerBuilder<EntityDelex> actionManager = new ActionManagerBuilder<>();
-		actionManager.registerAction(new DelexIdle());
-		actionManager.registerAction(setDeathAction(new DelexDying()));
+		actionManager.registerAction(new Idle());
+		actionManager.registerAction(setDeathAction(new Death()));
 		return actionManager.build(this);
 	}
 

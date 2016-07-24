@@ -6,7 +6,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.IActionRecorder;
 import mhfc.net.common.ai.IExecutableAction;
-import mhfc.net.common.ai.entity.boss.rathalos.FireballAttack;
+import mhfc.net.common.ai.entity.boss.rathalos.Fireball;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.eventhandler.ai.ActionSelectionEvent;
@@ -32,7 +32,7 @@ public interface ISelectionPredicate<EntityT extends EntityLiving> {
 
 		@Override
 		public boolean shouldSelectAttack(IExecutableAction<? super EntityT> attack, EntityT actor, Entity target) {
-			if (actor instanceof EntityRathalos && attack instanceof FireballAttack) {
+			if (actor instanceof EntityRathalos && attack instanceof Fireball) {
 				MHFCMain.logger().debug(
 						"Distance adapter: {} Angle: {}",
 						distanceAdapter.shouldSelectAttack(attack, actor, target),

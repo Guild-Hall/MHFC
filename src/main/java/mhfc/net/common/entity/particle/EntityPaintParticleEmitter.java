@@ -6,7 +6,6 @@ import mhfc.net.common.entity.type.EntityParticleEmitter;
 import mhfc.net.common.item.ItemColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class EntityPaintParticleEmitter extends EntityParticleEmitter {

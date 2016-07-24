@@ -7,13 +7,13 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IStancedEntity;
-import mhfc.net.common.ai.entity.boss.rathalos.ChargeAttack;
-import mhfc.net.common.ai.entity.boss.rathalos.RathalosBiteLeft;
-import mhfc.net.common.ai.entity.boss.rathalos.RathalosBiteRight;
-import mhfc.net.common.ai.entity.boss.rathalos.RathalosDeath;
-import mhfc.net.common.ai.entity.boss.rathalos.RathalosIdle;
-import mhfc.net.common.ai.entity.boss.rathalos.RathalosWander;
-import mhfc.net.common.ai.entity.boss.rathalos.RathalosTailSwipeRight;
+import mhfc.net.common.ai.entity.boss.rathalos.Charge;
+import mhfc.net.common.ai.entity.boss.rathalos.BiteLeft;
+import mhfc.net.common.ai.entity.boss.rathalos.BiteRight;
+import mhfc.net.common.ai.entity.boss.rathalos.Death;
+import mhfc.net.common.ai.entity.boss.rathalos.Idle;
+import mhfc.net.common.ai.entity.boss.rathalos.Wander;
+import mhfc.net.common.ai.entity.boss.rathalos.TailWhip;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -81,18 +81,18 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	@Override
 	public IActionManager<EntityRathalos> constructActionManager() {
 		ActionManagerBuilder<EntityRathalos> stancedAttackManager = new ActionManagerBuilder<>();
-		stancedAttackManager.registerAction(new RathalosIdle());
-		stancedAttackManager.registerAction(new RathalosWander());
-		stancedAttackManager.registerAction(new RathalosBiteLeft());
-		stancedAttackManager.registerAction(new RathalosBiteRight());
-		stancedAttackManager.registerAction(new RathalosTailSwipeRight());
-		stancedAttackManager.registerAction(new ChargeAttack());
+		stancedAttackManager.registerAction(new Idle());
+		stancedAttackManager.registerAction(new Wander());
+		stancedAttackManager.registerAction(new BiteLeft());
+		stancedAttackManager.registerAction(new BiteRight());
+		stancedAttackManager.registerAction(new TailWhip());
+		stancedAttackManager.registerAction(new Charge());
 		//	stancedAttackManager.registerAction(new FireballAttack());
 		//	stancedAttackManager.registerAction(new FlyStart());
 		//	stancedAttackManager.registerAction(new JumpFireball());
 		//	stancedAttackManager.registerAction(new TailSpin());
 		//	stancedAttackManager.registerAction(new FlyLand());
-		stancedAttackManager.registerAction(setDeathAction(new RathalosDeath()));
+		stancedAttackManager.registerAction(setDeathAction(new Death()));
 		return stancedAttackManager.build(this);
 	}
 

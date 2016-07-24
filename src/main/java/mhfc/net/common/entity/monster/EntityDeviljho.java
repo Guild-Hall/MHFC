@@ -7,18 +7,18 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
-import mhfc.net.common.ai.entity.boss.deviljho.DeviljhoBiteA;
-import mhfc.net.common.ai.entity.boss.deviljho.DeviljhoBiteB;
-import mhfc.net.common.ai.entity.boss.deviljho.DeviljhoDying;
-import mhfc.net.common.ai.entity.boss.deviljho.DeviljhoFrontalBreathe;
-import mhfc.net.common.ai.entity.boss.deviljho.DeviljhoIdle;
-import mhfc.net.common.ai.entity.boss.deviljho.DeviljhoJump;
-import mhfc.net.common.ai.entity.boss.deviljho.DeviljhoLaunch;
-import mhfc.net.common.ai.entity.boss.deviljho.DeviljhoMovetoTarget;
-import mhfc.net.common.ai.entity.boss.deviljho.DeviljhoRoar;
-import mhfc.net.common.ai.entity.boss.deviljho.DeviljhoStomp;
-import mhfc.net.common.ai.entity.boss.deviljho.DeviljhoTailWhip;
-import mhfc.net.common.ai.entity.boss.deviljho.DeviljhoWander;
+import mhfc.net.common.ai.entity.boss.deviljho.Bite1;
+import mhfc.net.common.ai.entity.boss.deviljho.Bite2;
+import mhfc.net.common.ai.entity.boss.deviljho.Death;
+import mhfc.net.common.ai.entity.boss.deviljho.FrontalBreathe;
+import mhfc.net.common.ai.entity.boss.deviljho.Idle;
+import mhfc.net.common.ai.entity.boss.deviljho.Jump;
+import mhfc.net.common.ai.entity.boss.deviljho.Launch;
+import mhfc.net.common.ai.entity.boss.deviljho.MoveToTarget;
+import mhfc.net.common.ai.entity.boss.deviljho.Roar;
+import mhfc.net.common.ai.entity.boss.deviljho.Stomp;
+import mhfc.net.common.ai.entity.boss.deviljho.TailWhip;
+import mhfc.net.common.ai.entity.boss.deviljho.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -45,19 +45,19 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	@Override
 	public IActionManager<EntityDeviljho> constructActionManager() {
 		ActionManagerBuilder<EntityDeviljho> attackManager = new ActionManagerBuilder<>();
-		attackManager.registerAction(setDeathAction(new DeviljhoDying()));
-		attackManager.registerAction(new DeviljhoIdle());
-		attackManager.registerAction(new DeviljhoIdle());
-		attackManager.registerAction(new DeviljhoBiteA());
-		attackManager.registerAction(new DeviljhoBiteB());
-		attackManager.registerAction(new DeviljhoLaunch());
-		attackManager.registerAction(new DeviljhoMovetoTarget());
-		attackManager.registerAction(new DeviljhoRoar());
-		attackManager.registerAction(new DeviljhoStomp());
-		attackManager.registerAction(new DeviljhoTailWhip());
-		attackManager.registerAction(new DeviljhoJump());
-		attackManager.registerAction(new DeviljhoFrontalBreathe());
-		attackManager.registerAction(new DeviljhoWander());
+		attackManager.registerAction(setDeathAction(new Death()));
+		attackManager.registerAction(new Idle());
+		attackManager.registerAction(new Idle());
+		attackManager.registerAction(new Bite1());
+		attackManager.registerAction(new Bite2());
+		attackManager.registerAction(new Launch());
+		attackManager.registerAction(new MoveToTarget());
+		attackManager.registerAction(new Roar());
+		attackManager.registerAction(new Stomp());
+		attackManager.registerAction(new TailWhip());
+		attackManager.registerAction(new Jump());
+		attackManager.registerAction(new FrontalBreathe());
+		attackManager.registerAction(new Wander());
 		return attackManager.build(this);
 	}
 

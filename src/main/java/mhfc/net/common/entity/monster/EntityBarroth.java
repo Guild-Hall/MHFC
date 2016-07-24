@@ -5,13 +5,13 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
-import mhfc.net.common.ai.entity.boss.barroth.BarrothDeath;
-import mhfc.net.common.ai.entity.boss.barroth.BarrothIdle;
-import mhfc.net.common.ai.entity.boss.barroth.BarrothRam;
-import mhfc.net.common.ai.entity.boss.barroth.BarrothRamRun;
-import mhfc.net.common.ai.entity.boss.barroth.BarrothRoar;
-import mhfc.net.common.ai.entity.boss.barroth.BarrothStomp;
-import mhfc.net.common.ai.entity.boss.barroth.BarrothWander;
+import mhfc.net.common.ai.entity.boss.barroth.Death;
+import mhfc.net.common.ai.entity.boss.barroth.Idle;
+import mhfc.net.common.ai.entity.boss.barroth.Ram;
+import mhfc.net.common.ai.entity.boss.barroth.RamRun;
+import mhfc.net.common.ai.entity.boss.barroth.Roar;
+import mhfc.net.common.ai.entity.boss.barroth.Stomp;
+import mhfc.net.common.ai.entity.boss.barroth.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
@@ -35,13 +35,13 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	@Override
 	public IActionManager<EntityBarroth> constructActionManager() {
 		ActionManagerBuilder<EntityBarroth> actionManager = new ActionManagerBuilder<>();
-		actionManager.registerAction(setDeathAction(new BarrothDeath()));
-		actionManager.registerAction(new BarrothWander());
-		actionManager.registerAction(new BarrothStomp());
-		actionManager.registerAction(new BarrothRamRun());
-		actionManager.registerAction(new BarrothRam());
-		actionManager.registerAction(new BarrothIdle());
-		actionManager.registerAction(new BarrothRoar());
+		actionManager.registerAction(setDeathAction(new Death()));
+		actionManager.registerAction(new Wander());
+		actionManager.registerAction(new Stomp());
+		actionManager.registerAction(new RamRun());
+		actionManager.registerAction(new Ram());
+		actionManager.registerAction(new Idle());
+		actionManager.registerAction(new Roar());
 		return actionManager.build(this);
 	}
 

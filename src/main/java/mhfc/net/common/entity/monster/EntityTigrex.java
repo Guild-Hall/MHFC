@@ -9,15 +9,17 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
-import mhfc.net.common.ai.entity.boss.tigrex.TigrexBite;
-import mhfc.net.common.ai.entity.boss.tigrex.TigrexDying;
-import mhfc.net.common.ai.entity.boss.tigrex.TigrexGroundHurl;
-import mhfc.net.common.ai.entity.boss.tigrex.TigrexIdle;
-import mhfc.net.common.ai.entity.boss.tigrex.TigrexJump;
-import mhfc.net.common.ai.entity.boss.tigrex.TigrexRoar;
-import mhfc.net.common.ai.entity.boss.tigrex.TigrexRun;
-import mhfc.net.common.ai.entity.boss.tigrex.TigrexWander;
-import mhfc.net.common.ai.entity.boss.tigrex.TigrexWhip;
+import mhfc.net.common.ai.entity.boss.tigrex.Bite;
+import mhfc.net.common.ai.entity.boss.tigrex.Death;
+import mhfc.net.common.ai.entity.boss.tigrex.GroundHurl;
+import mhfc.net.common.ai.entity.boss.tigrex.Idle1;
+import mhfc.net.common.ai.entity.boss.tigrex.Idle2;
+import mhfc.net.common.ai.entity.boss.tigrex.Idle3;
+import mhfc.net.common.ai.entity.boss.tigrex.Jump;
+import mhfc.net.common.ai.entity.boss.tigrex.Roar;
+import mhfc.net.common.ai.entity.boss.tigrex.Run;
+import mhfc.net.common.ai.entity.boss.tigrex.Wander;
+import mhfc.net.common.ai.entity.boss.tigrex.Whip;
 import mhfc.net.common.ai.general.TurnAttack;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -50,20 +52,22 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	@Override
 	public IActionManager<EntityTigrex> constructActionManager() {
 		FollowUpManagerBuilder<EntityTigrex> manager = new FollowUpManagerBuilder<>();
-		manager.registerAllowingAllActions(setDeathAction(new TigrexDying()));
+		manager.registerAllowingAllActions(setDeathAction(new Death()));
 		manager.registerAllowingAllActions(new TurnAttack(110, 180, 5f, 12f, 20));
-		manager.registerAllowingAllActions(new TigrexJump());
-		manager.registerAllowingAllActions(new TigrexRun());
-		manager.registerAllowingAllActions(new TigrexGroundHurl());
-		manager.registerAllowingAllActions(new TigrexBite());
-		TigrexRoar tigrexRoar = new TigrexRoar();
+		manager.registerAllowingAllActions(new Jump());
+		manager.registerAllowingAllActions(new Run());
+		manager.registerAllowingAllActions(new GroundHurl());
+		manager.registerAllowingAllActions(new Bite());
+		Roar tigrexRoar = new Roar();
 		manager.registerAllowingAllActions(tigrexRoar);
-		manager.registerAllowingAllActions(new TigrexIdle());
+		manager.registerAllowingAllActions(new Idle1());
+		manager.registerAllowingAllActions(new Idle2());
+		manager.registerAllowingAllActions(new Idle3());
 		// Register roar to be the only allowed initial move on sight of an enemy
 		List<IExecutableAction<? super EntityTigrex>> allowedFirstSight = new ArrayList<>();
 		allowedFirstSight.add(tigrexRoar);
-		manager.registerActionWithFollowUps(new TigrexWander(), allowedFirstSight);
-		manager.registerAllowingAllActions(new TigrexWhip());
+		manager.registerActionWithFollowUps(new Wander(), allowedFirstSight);
+		manager.registerAllowingAllActions(new Whip());
 		return manager.build(this);
 	}
 
