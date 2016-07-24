@@ -39,7 +39,7 @@ public class Sweep extends ActionAdapter<EntityLagiacrus> {
 	protected void beginExecution() {
 		EntityLagiacrus entity = this.getEntity();
 		entity.getTurnHelper().updateTurnSpeed(14.17f);
-		getEntity().playSound("mhfc:lagiacrus.charge", 3.0F, 1.0F);
+		getEntity().playSound("mhfc:lagiacrus.sweep", 3.0F, 1.0F);
 	}
 
 	@Override
