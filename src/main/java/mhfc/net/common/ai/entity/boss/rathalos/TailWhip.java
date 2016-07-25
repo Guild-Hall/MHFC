@@ -34,7 +34,7 @@ public class TailWhip extends AIGeneralTailWhip<EntityRathalos> {
 	public void update(){
 		EntityRathalos entity = getEntity();
 		if(this.getCurrentFrame() == 12)
-		entity.playSound("rathalos.tailwhip", 2.0F, 1.0F);
+		entity.playSound("mhfc:rathalos.tailwhip", 2.0F, 1.0F);
 		
 		if(this.getCurrentFrame() == 20){
 			if(entity.getRNG().nextInt() == 1){
