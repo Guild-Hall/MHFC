@@ -6,8 +6,8 @@ public class ModCalendar {
 
 	public static boolean isHalloween() {
 		Calendar calendar = Calendar.getInstance();
-			if(		(calendar.get(Calendar.DAY_OF_MONTH) == 31 && calendar.get(Calendar.MONTH) == calendar.OCTOBER)
-					||	(calendar.get(Calendar.DAY_OF_MONTH) == 1 && calendar.get(Calendar.MONTH) == calendar.NOVEMBER)
+			if(		(calendar.get(Calendar.DAY_OF_MONTH) == 31 && calendar.get(Calendar.MONTH) == Calendar.OCTOBER)
+					||	(calendar.get(Calendar.DAY_OF_MONTH) == 1 && calendar.get(Calendar.MONTH) == Calendar.NOVEMBER)
 		)	
 			return true;
 		return false;
