@@ -74,6 +74,10 @@ public class ArmorMHFC extends ItemArmor implements ISpecialArmor {
 	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
 
 	}
+	
+	public void addArmorEffectAttribute(){
+		
+	}
 
 
 }
