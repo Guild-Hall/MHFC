@@ -9,6 +9,7 @@ import java.util.Set;
 import com.google.common.base.Preconditions;
 
 import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.helper.MHFCDamageHelper;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -208,11 +209,18 @@ public class AIUtils {
 	 */
 	public static void damageCollidingEntities(EntityLivingBase ai, IDamageCalculator damageCalc) {
 		List<Entity> collidingEntities = WorldHelper.collidingEntities(ai);
+		
 		for (Entity trgt : collidingEntities) {
 			float damage = damageCalc.accept(trgt);
+			if(trgt instanceof EntityPlayer || trgt instanceof EntityMHFCBase){
+			
 			trgt.attackEntityFrom(DamageSource.causeMobDamage(ai), damage);
 		}
-
+			else{
+				trgt.attackEntityFrom(MHFCDamageHelper.anti	, damage);
+			}
+		}
+			
 	}
 
 	public static IDamageCalculator defaultDamageCalc(final float player, final float wyvern, final float rest) {

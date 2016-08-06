@@ -9,6 +9,8 @@ public class MHFCDamageHelper {
 
 	public static DamageSource groundpound = new DamageSource("groundpound").setDamageBypassesArmor();
 	public static DamageSource aerial = new DamageSource("aerial").setProjectile();
+	//ANTI OTHER MODS.
+	public static DamageSource anti = new DamageSource("anti").setDamageBypassesArmor().setDamageIsAbsolute();
 
 	public static DamageSource causeWyverniaArrow(EntityWyverniaArrow arrow, Entity ent) {
 		return (new EntityDamageSourceIndirect("arrow", arrow, ent)).setProjectile();
