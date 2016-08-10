@@ -18,6 +18,7 @@ import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.core.registry.MHFCSmeltingRegistry;
 import mhfc.net.common.core.registry.MHFCTileRegistry;
+import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.util.MHFCStringDecode;
 import mhfc.net.common.world.area.AreaRegistry;
 
@@ -46,6 +47,7 @@ public class MHFCCommonRegistry {
 
 		MHFCMain.initPhase.registerEntryCallback(e -> init());
 	}
+	
 
 	private static void addPlayerProperties() {
 		MHFCPlayerPropertiesRegistry.init();

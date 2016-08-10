@@ -55,6 +55,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	private IExecutableAction<? super YC> deathAction;
 	private IExecutableAction<? super YC> inWaterAction;
 	private IExecutableAction<? super YC> stunAction;
+	
+	public int set_Armor_Value = 22;
 
 	public boolean FREEZE; // trying to implement this to disable all AI's for the monster temporality.
 
@@ -121,12 +123,20 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	public void dropItemRand(Item item, int count) {
 		dropItemRand(new ItemStack(item, count, 0));
 	}
+	
+	
+	
+	protected void specificArmorValue(int value){
+		value = set_Armor_Value;
+	}
 
 	// Armor has been increase by 3% from 17
 	@Override
 	public int getTotalArmorValue() {
-		return 22;
+		return set_Armor_Value;
 	}
+	
+	
 
 	@Override
 	protected void onDeathUpdate() {

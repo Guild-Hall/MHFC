@@ -50,12 +50,12 @@ public class Charge extends ActionAdapter<EntityRathalos> {
 		
 		if (this.getCurrentFrame() == 20) {
 			getEntity().playSound("mhfc:rathalos.charge", 3.0F, 1.0F);
-			entity.getTurnHelper().updateTurnSpeed(0.37f);
+			entity.getTurnHelper().updateTurnSpeed(0.24f);
 			//ON run
 			
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
-			entity.moveForward(0.93, true);
+			entity.moveForward(0.73, true);
 		}
 	}
 

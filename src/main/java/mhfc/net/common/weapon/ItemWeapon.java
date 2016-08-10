@@ -13,7 +13,6 @@ import mhfc.net.common.util.NBTUtils;
 import mhfc.net.common.weapon.stats.CombatEffect;
 import mhfc.net.common.weapon.stats.WeaponStats;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -21,7 +20,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
@@ -77,6 +75,7 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item {
 
 	public abstract String getWeaponClassUnlocalized();
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer holder, List infos, boolean advanced) {
 		infos.add(ColorSystem.gold + StatCollector.translateToLocal(getWeaponClassUnlocalized() + ".name"));
@@ -128,6 +127,7 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item {
 
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(ItemStack stack) {
+		@SuppressWarnings("unchecked")
 		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(stack);
 		multimap.put(
 				SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
