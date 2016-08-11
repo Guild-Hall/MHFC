@@ -79,7 +79,7 @@ public class EntityBreathe extends EntityThrowable {
 					0,
 					0,
 					0); // Flame particle constructor
-			particle.setRBGColorF(0.0F, 0.1F, 0.6F); // Sets the color.
+			particle.setRBGColorF(0.3F, 0.1F, 0.6F); // Sets the color.
 
 			Minecraft.getMinecraft().effectRenderer.addEffect(particle);
 		}
