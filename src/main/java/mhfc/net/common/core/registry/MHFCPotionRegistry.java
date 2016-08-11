@@ -25,7 +25,7 @@ public class MHFCPotionRegistry {
 	private int originalSize;
 	private int offset = 0;
 
-	public final Potion stun;
+	public static Potion stun;
 	public final Potion flashed;
 	public final Potion kirin_blessing;
 	public final Potion painted;

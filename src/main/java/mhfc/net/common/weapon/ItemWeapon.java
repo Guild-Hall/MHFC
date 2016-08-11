@@ -20,6 +20,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
@@ -31,6 +32,7 @@ import net.minecraft.world.World;
  */
 public abstract class ItemWeapon<W extends WeaponStats> extends Item {
 	protected static final String COOLDOWN_NBT = "mhfc:cooldown";
+
 	protected final W stats;
 
 	public ItemWeapon(W stats) {
@@ -75,7 +77,6 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item {
 
 	public abstract String getWeaponClassUnlocalized();
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer holder, List infos, boolean advanced) {
 		infos.add(ColorSystem.gold + StatCollector.translateToLocal(getWeaponClassUnlocalized() + ".name"));
@@ -127,7 +128,6 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item {
 
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(ItemStack stack) {
-		@SuppressWarnings("unchecked")
 		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(stack);
 		multimap.put(
 				SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),

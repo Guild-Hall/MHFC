@@ -1,7 +1,6 @@
 package mhfc.net.common.ai.entity.boss.rathalos;
 
 import mhfc.net.common.ai.ActionAdapter;
-import mhfc.net.common.ai.entity.AIGameplayComposition;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.entity.monster.EntityRathalos;
@@ -9,14 +8,14 @@ import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.Vec3;
 
 
-public class Charge extends ActionAdapter<EntityRathalos> {
+public class Rush extends ActionAdapter<EntityRathalos> {
 	private static final int LAST_FRAME = 60;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(115f, 50F, 9999999f);
-	private static final double MAX_DIST = 40F;
+	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(100f, 50F, 9999999f);
+	private static final double MAX_DIST = 20F;
 	private static final float WEIGHT = 4;
 	
 
-	public Charge() {
+	public Rush() {
 		setAnimation("mhfc:models/Rathalos/RathalosRush.mcanm");
 		setLastFrame(LAST_FRAME);
 	}
@@ -36,7 +35,7 @@ public class Charge extends ActionAdapter<EntityRathalos> {
 		}
 		Vec3 toTarget = WorldHelper.getVectorToTarget(entity, target);
 		double dist = toTarget.lengthVector();
-		if (dist > MAX_DIST) {
+		if (dist < MAX_DIST) {
 			return DONT_SELECT;
 		}
 		return WEIGHT;

@@ -7,7 +7,7 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IStancedEntity;
-import mhfc.net.common.ai.entity.boss.rathalos.Charge;
+import mhfc.net.common.ai.entity.boss.rathalos.Rush;
 import mhfc.net.common.ai.entity.boss.rathalos.BiteLeft;
 import mhfc.net.common.ai.entity.boss.rathalos.BiteRight;
 import mhfc.net.common.ai.entity.boss.rathalos.Death;
@@ -86,8 +86,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		stancedAttackManager.registerAction(new BiteLeft());
 		stancedAttackManager.registerAction(new BiteRight());
 		stancedAttackManager.registerAction(new TailWhip());
-		stancedAttackManager.registerAction(new Charge());
-		//	stancedAttackManager.registerAction(new FireballAttack());
+		stancedAttackManager.registerAction(new Rush());
 		stancedAttackManager.registerAction(setDeathAction(new Death()));
 		return stancedAttackManager.build(this);
 	}
