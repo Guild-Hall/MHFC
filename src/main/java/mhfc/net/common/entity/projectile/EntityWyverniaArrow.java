@@ -4,7 +4,7 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import mhfc.net.common.helper.MHFCDamageHelper;
+import mhfc.net.common.helper.DamageHelper;
 import mhfc.net.common.util.Utilities;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -308,11 +308,11 @@ public class EntityWyverniaArrow extends EntityArrow implements IProjectile{
 
                     if (shootingEntity == null)
                     {
-                        damagesource = MHFCDamageHelper.causeWyverniaArrow(this, this);
+                        damagesource = DamageHelper.causeWyverniaArrow(this, this);
                     }
                     else
                     {
-                        damagesource = MHFCDamageHelper.causeWyverniaArrow(this, shootingEntity);
+                        damagesource = DamageHelper.causeWyverniaArrow(this, shootingEntity);
                     }
 
                     if (isBurning() && !(movingobjectposition.entityHit instanceof EntityEnderman))

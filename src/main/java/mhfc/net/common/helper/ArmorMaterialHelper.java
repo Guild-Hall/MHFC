@@ -3,7 +3,7 @@ package mhfc.net.common.helper;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
 
-public class MHFCArmorMaterialHelper {
+public class ArmorMaterialHelper {
 	
 	
 	

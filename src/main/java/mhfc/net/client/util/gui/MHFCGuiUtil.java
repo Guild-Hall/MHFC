@@ -107,6 +107,7 @@ public class MHFCGuiUtil {
 			float uWidth,
 			float vHeight) {
 		Tessellator t = Tessellator.instance;
+		
 		t.startDrawingQuads();
 		t.addVertexWithUV(xMin, yMin, zLevel, u, v);
 		t.addVertexWithUV(xMin, yMin + height, zLevel, u, v + vHeight);

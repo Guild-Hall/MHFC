@@ -14,7 +14,7 @@ import mhfc.net.client.model.armor.ModelVelocipreyArmor;
 import mhfc.net.client.model.armor.ModelYukumoArmor;
 import mhfc.net.client.model.armor.community.Model_ST_1_Bionic;
 
-public class MHFCArmorModelHelper {
+public class ArmorModelHelper {
 
 	public static final ModelTigrexArmor tigrex = new ModelTigrexArmor(1.0F);
 	public static final ModelKirinArmor kirin = new ModelKirinArmor(1.0F);

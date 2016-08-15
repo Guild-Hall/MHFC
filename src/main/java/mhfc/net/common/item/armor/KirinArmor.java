@@ -6,8 +6,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
-import mhfc.net.common.helper.MHFCArmorMaterialHelper;
-import mhfc.net.common.helper.MHFCArmorModelHelper;
+import mhfc.net.common.helper.ArmorMaterialHelper;
+import mhfc.net.common.helper.ArmorModelHelper;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -28,7 +28,7 @@ public class KirinArmor extends ItemArmor {
 			MHFCReference.armor_default_boots_icon };
 
 	public KirinArmor(int type) {
-		super(MHFCArmorMaterialHelper.ArmorKirin, 4, type);
+		super(ArmorMaterialHelper.ArmorKirin, 4, type);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setUnlocalizedName(names[type]);
 	}
@@ -71,7 +71,7 @@ public class KirinArmor extends ItemArmor {
 		int type = ((ItemArmor) itemStack.getItem()).armorType;
 
 		if (type == 1 || type == 3 || type == 0) {
-			armorModel = MHFCArmorModelHelper.kirin;
+			armorModel = ArmorModelHelper.kirin;
 		}
 		if (armorModel == null) {
 			return null;

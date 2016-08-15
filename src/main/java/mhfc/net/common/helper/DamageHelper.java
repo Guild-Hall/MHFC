@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 
-public class MHFCDamageHelper {
+public class DamageHelper {
 
 	public static DamageSource groundpound = new DamageSource("groundpound").setDamageBypassesArmor();
 	public static DamageSource aerial = new DamageSource("aerial").setProjectile();
