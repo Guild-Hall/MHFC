@@ -3,6 +3,8 @@ package mhfc.net.client.quests;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import cpw.mods.fml.relauncher.Side;
@@ -69,7 +71,7 @@ public class MHFCRegQuestVisual {
 		return serviceAccess.getService();
 	}
 
-	public static void setPlayerVisual(IVisualInformation visual) {
+	public static void setPlayerVisual(Optional<IRunningInformation> visual) {
 		getService().setVisual(visual);
 	}
 
@@ -108,10 +110,10 @@ public class MHFCRegQuestVisual {
 	}
 
 	public static boolean hasPlayerQuest() {
-		return getService().hasPlayerQuest;
+		return getPlayerVisual().isPresent();
 	}
 
-	public static IVisualInformation getPlayerVisual() {
+	public static Optional<IRunningInformation> getPlayerVisual() {
 		return getService().playersVisual;
 	}
 
@@ -120,8 +122,7 @@ public class MHFCRegQuestVisual {
 
 	private QuestDescriptionRegistryData clientDataObject = new QuestDescriptionRegistryData();
 
-	private boolean hasPlayerQuest = false;
-	private IRunningInformation playersVisual;
+	private Optional<IRunningInformation> playersVisual;
 
 	private QuestStatusDisplay display = new QuestStatusDisplay();
 
@@ -130,11 +131,9 @@ public class MHFCRegQuestVisual {
 		message.initialize(clientDataObject);
 	}
 
-	public void setVisual(IVisualInformation newVisual) {
-		if (playersVisual != null) {
-			playersVisual.cleanUp();
-		}
-		hasPlayerQuest = (newVisual != null);
+	public void setVisual(Optional<IRunningInformation> newVisual) {
+		Objects.requireNonNull(newVisual);
+		playersVisual.ifPresent(IRunningInformation::cleanUp);
 		playersVisual = newVisual;
 	}
 
@@ -177,8 +176,7 @@ public class MHFCRegQuestVisual {
 		this.runningQuestIDs.clear();
 		this.identifierToVisualInformationMap.clear();
 		this.clientDataObject.clearData();
-		this.hasPlayerQuest = false;
-		this.setVisual(null);
+		this.setVisual(Optional.empty());
 	}
 
 }

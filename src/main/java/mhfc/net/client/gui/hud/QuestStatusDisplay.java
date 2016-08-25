@@ -2,6 +2,8 @@ package mhfc.net.client.gui.hud;
 
 import static mhfc.net.client.util.gui.MHFCGuiUtil.COLOUR_TEXT;
 
+import java.util.Optional;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
 
@@ -9,9 +11,9 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
+import mhfc.net.client.quests.IRunningInformation;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
-import mhfc.net.common.quests.api.IVisualInformation;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -46,10 +48,11 @@ public class QuestStatusDisplay {
 
 	@SubscribeEvent
 	public void onDraw(RenderGameOverlayEvent.Post overlayEvent) {
-		IVisualInformation information = MHFCRegQuestVisual.getPlayerVisual();
-		if (overlayEvent.type != ElementType.FOOD || information == null) {
+		Optional<IRunningInformation> playerInformation = MHFCRegQuestVisual.getPlayerVisual();
+		if (overlayEvent.type != ElementType.FOOD || !playerInformation.isPresent()) {
 			return;
 		}
+		IRunningInformation activeInformation = playerInformation.get();
 
 		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.QUEST_STATUS_ONSCREEN_BACKGROUND);
 
@@ -66,7 +69,7 @@ public class QuestStatusDisplay {
 		mc.fontRenderer.drawString(localizedStat, posX + 5, posY + 5, 0x804040);
 		int lineHeight = mc.fontRenderer.FONT_HEIGHT + 2;
 		mc.fontRenderer.drawSplitString(
-				information.getShortStatus(),
+				activeInformation.getShortStatus().stringValue(),
 				posX + 5,
 				posY + lineHeight + 5,
 				width - 10,

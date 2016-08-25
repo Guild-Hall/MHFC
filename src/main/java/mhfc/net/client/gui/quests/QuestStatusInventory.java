@@ -65,7 +65,7 @@ public class QuestStatusInventory extends GuiContainer {
 				0,
 				1f,
 				0.65f);
-		IVisualInformation information = MHFCRegQuestVisual.getPlayerVisual();
+		IVisualInformation information = MHFCRegQuestVisual.getPlayerVisual().get();
 		if (information == null) {
 			String drawn = "No quest accepted";
 			int stringPosY = (ySize - mc.fontRenderer.FONT_HEIGHT) / 2,
