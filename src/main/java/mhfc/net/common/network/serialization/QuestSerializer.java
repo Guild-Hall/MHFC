@@ -13,7 +13,7 @@ import com.google.gson.JsonSerializer;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.IQuestFactory;
 import mhfc.net.common.quests.api.QuestDefinition;
-import mhfc.net.common.quests.api.QuestFactory;
+import mhfc.net.common.quests.api.QuestFactories;
 import mhfc.net.common.util.MHFCJsonUtils;
 import net.minecraft.util.JsonUtils;
 
@@ -28,7 +28,7 @@ public class QuestSerializer implements JsonDeserializer<QuestDefinition>, JsonS
 		}
 		String type = MHFCJsonUtils
 				.getJsonObjectStringFieldValueOrDefault(jsonAsObject, MHFCQuestBuildRegistry.KEY_TYPE, "default");
-		IQuestFactory qFactory = QuestFactory.getQuestFactory(type);
+		IQuestFactory qFactory = QuestFactories.getQuestFactory(type);
 		JsonElement dataObject = jsonAsObject.get(MHFCQuestBuildRegistry.KEY_DATA);
 		return qFactory.buildQuestDescription(dataObject, context);
 	}
@@ -36,7 +36,7 @@ public class QuestSerializer implements JsonDeserializer<QuestDefinition>, JsonS
 	@Override
 	public JsonElement serialize(QuestDefinition src, Type typeOfSrc, JsonSerializationContext context) {
 		String type = src.getSerializerType();
-		IQuestFactory qFactory = QuestFactory.getQuestFactory(type);
+		IQuestFactory qFactory = QuestFactories.getQuestFactory(type);
 		JsonObject holder = new JsonObject();
 		holder.add(MHFCQuestBuildRegistry.KEY_DATA, qFactory.serialize(src, context));
 		holder.addProperty(MHFCQuestBuildRegistry.KEY_TYPE, type);

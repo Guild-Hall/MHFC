@@ -5,18 +5,18 @@ import java.util.concurrent.CompletionStage;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.api.GoalReference;
-import mhfc.net.common.quests.api.IVisualInformation;
+import mhfc.net.common.quests.api.IVisualDefinition;
 import mhfc.net.common.quests.api.QuestDefinition;
-import mhfc.net.common.quests.api.QuestFactory;
+import mhfc.net.common.quests.api.QuestFactories;
 import mhfc.net.common.quests.api.QuestGoal;
-import mhfc.net.common.quests.api.VisualDefinition;
+import mhfc.net.common.quests.api.DefaultQuestVisualDefinition;
 import mhfc.net.common.quests.world.GlobalAreaManager;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
 
 /**
- * Used by the QuestFactory as well as to display quests.
+ * Used by the QuestFactories as well as to display quests.
  */
 public class DefaultQuestDescription extends QuestDefinition {
 
@@ -31,7 +31,7 @@ public class DefaultQuestDescription extends QuestDefinition {
 	public static final String KEY_VISUAL = "visual";
 
 	protected GoalReference goalReference;
-	protected IVisualInformation visual;
+	protected IVisualDefinition visual;
 	protected QuestType questType;
 
 	protected IAreaType areaType;
@@ -57,10 +57,10 @@ public class DefaultQuestDescription extends QuestDefinition {
 		this.reward = reward;
 		this.fee = fee;
 		this.maxPartySize = maxPartySize;
-		this.visual = VisualDefinition.UNKNOWN;
+		this.visual = DefaultQuestVisualDefinition.UNKNOWN;
 	}
 
-	public void setVisualInformation(IVisualInformation visualInformation) {
+	public void setVisualInformation(IVisualDefinition visualInformation) {
 		this.visual = visualInformation;
 	}
 
@@ -90,7 +90,7 @@ public class DefaultQuestDescription extends QuestDefinition {
 	}
 
 	@Override
-	public IVisualInformation getVisualInformation() {
+	public IVisualDefinition getVisualInformation() {
 		return visual;
 	}
 
@@ -106,7 +106,7 @@ public class DefaultQuestDescription extends QuestDefinition {
 
 	@Override
 	public GeneralQuest build() {
-		QuestGoal goal = QuestFactory.constructGoal(getGoalReference().getReferredDescription());
+		QuestGoal goal = QuestFactories.constructGoal(getGoalReference().getReferredDescription());
 		if (goal == null) {
 			return null;
 		}

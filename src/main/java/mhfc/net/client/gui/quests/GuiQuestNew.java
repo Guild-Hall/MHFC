@@ -17,7 +17,7 @@ import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageMHFCInteraction;
 import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
-import mhfc.net.common.quests.api.IVisualInformation;
+import mhfc.net.common.quests.api.IVisualDefinition;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -146,7 +146,7 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 		fontRendererObj.drawString("Take a quest: ", 8, yBorder, MHFCGuiUtil.COLOUR_TEXT);
 		super.draw(mousePosX, mousePosY, partialTick);
 		if (!(questIdentifiers == null || selectedIdentifier < 0 || selectedIdentifier >= questIdentifiers.size())) {
-			IVisualInformation info = MHFCRegQuestVisual.getVisualInformation(questIdentifiers.get(selectedIdentifier));
+			IVisualDefinition info = MHFCRegQuestVisual.getVisualInformation(questIdentifiers.get(selectedIdentifier));
 			newQuest.enabled = true;
 			// TODO set start enabled based on can join
 			FontRenderer fontRenderer = mc.fontRenderer;

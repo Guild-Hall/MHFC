@@ -17,16 +17,16 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.core.data.QuestDescriptionRegistryData;
-import mhfc.net.common.core.data.QuestDescriptionRegistryData.QuestGroupData;
+import mhfc.net.common.core.data.QuestDescriptionRegistry;
+import mhfc.net.common.core.data.QuestDescriptionRegistry.QuestGroupData;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.network.serialization.GoalSerializer;
 import mhfc.net.common.network.serialization.QuestSerializer;
 import mhfc.net.common.network.serialization.QuestVisualSerializer;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.GoalReference;
-import mhfc.net.common.quests.api.IVisualInformation;
 import mhfc.net.common.quests.api.GoalReference.GoalRefSerializer;
+import mhfc.net.common.quests.api.IVisualDefinition;
 import mhfc.net.common.quests.api.QuestDefinition;
 
 public class BuilderJsonToQuests {
@@ -124,63 +124,56 @@ public class BuilderJsonToQuests {
 			.registerTypeAdapter(GoalDefinition.class, new GoalSerializer())
 			.registerTypeAdapter(QuestDefinition.class, new QuestSerializer())
 			.registerTypeAdapter(GoalReference.class, new GoalRefSerializer())
-			.registerTypeAdapter(IVisualInformation.class, new QuestVisualSerializer()).serializeNulls().create();
+			.registerTypeAdapter(IVisualDefinition.class, new QuestVisualSerializer()).serializeNulls().create();
 
-	private QuestDescriptionRegistryData dataObject;
+	private QuestDescriptionRegistry dataObject;
 
-	public BuilderJsonToQuests(QuestDescriptionRegistryData dataObject) {
+	public BuilderJsonToQuests(QuestDescriptionRegistry dataObject) {
 		this.dataObject = dataObject;
 	}
 
-	public void generateGoals(BufferedReader reader) throws IOException {
-		try (JsonReader jsonReader = new JsonReader(reader)) {
-			generateGoals(jsonReader);
-		} catch (IOException e) {
-			throw new IOException("Error while loading goals from json", e);
-		}
+	public void acceptGoalsFrom(BufferedReader reader) throws IOException {
+		acceptGoalsFrom(new JsonReader(reader));
 	}
 
-	public void generateGoals(JsonReader jsonReader) {
+	public void acceptGoalsFrom(JsonReader jsonReader) {
 		@SuppressWarnings("unchecked")
 		Map<String, GoalDefinition> map = (Map<String, GoalDefinition>) gsonInstance
 				.fromJson(jsonReader, typeOfMapGoal);
-		generateGoals(map);
+		acceptGoals(map);
 	}
 
-	public void generateGoals(JsonObject jsonInstance) {
+	public void acceptGoals(JsonObject jsonInstance) {
 		@SuppressWarnings("unchecked")
 		Map<String, GoalDefinition> map = (Map<String, GoalDefinition>) gsonInstance
 				.fromJson(jsonInstance, typeOfMapGoal);
-		generateGoals(map);
+		acceptGoals(map);
 	}
 
-	private void generateGoals(Map<String, GoalDefinition> map) {
+	private void acceptGoals(Map<String, GoalDefinition> map) {
 		if (map == null) {
 			return;
 		}
 		dataObject.fillGoalDescriptions(map);
 	}
 
-	public void generateGroupMapping(BufferedReader reader) throws IOException {
-		try (JsonReader jsonReader = new JsonReader(reader)) {
-			jsonReader.setLenient(true);
-			generateGroupMapping(jsonReader);
-		} catch (IOException e) {
-			throw new IOException("Error while loading quest groups from json", e);
-		}
+	public void acceptGroupMappingFrom(BufferedReader reader) {
+		JsonReader jsonReader = new JsonReader(reader);
+		jsonReader.setLenient(true);
+		acceptGroupMappingFrom(jsonReader);
 	}
 
-	public void generateGroupMapping(JsonReader reader) {
+	public void acceptGroupMappingFrom(JsonReader reader) {
 		GroupMappingType groupMapping = gsonInstance.fromJson(reader, GroupMappingType.class);
-		generateGroupMapping(groupMapping);
+		acceptGroupMapping(groupMapping);
 	}
 
-	public void generateGroupMapping(JsonObject jsonObject) {
+	public void acceptGroupMapping(JsonObject jsonObject) {
 		GroupMappingType groupMapping = gsonInstance.fromJson(jsonObject, GroupMappingType.class);
-		generateGroupMapping(groupMapping);
+		acceptGroupMapping(groupMapping);
 	}
 
-	private void generateGroupMapping(GroupMappingType groupMapping) {
+	private void acceptGroupMapping(GroupMappingType groupMapping) {
 		if (groupMapping == null) {
 			return;
 		}
@@ -205,25 +198,21 @@ public class BuilderJsonToQuests {
 		dataObject.addGroups(groupData);
 	}
 
-	public void generateQuests(BufferedReader reader) throws IOException {
-		try (JsonReader jsonReader = new JsonReader(reader)) {
-			generateQuests(jsonReader);
-		} catch (IOException e) {
-			throw new IOException("Error while loading quest descriptions from json", e);
-		}
+	public void acceptQuestsFrom(BufferedReader reader) throws IOException {
+		acceptQuestsFrom(new JsonReader(reader));
 	}
 
-	public void generateQuests(JsonReader reader) {
+	public void acceptQuestsFrom(JsonReader reader) {
 		Map<String, QuestDefinition> map = gsonInstance.fromJson(reader, typeOfMapQuest);
-		generateQuests(map);
+		acceptQuests(map);
 	}
 
-	public void generateQuests(JsonObject jsonObject) {
+	public void acceptQuests(JsonObject jsonObject) {
 		Map<String, QuestDefinition> map = gsonInstance.fromJson(jsonObject, typeOfMapQuest);
-		generateQuests(map);
+		acceptQuests(map);
 	}
 
-	private void generateQuests(Map<String, QuestDefinition> map) {
+	private void acceptQuests(Map<String, QuestDefinition> map) {
 		if (map == null) {
 			return;
 		}
@@ -233,15 +222,15 @@ public class BuilderJsonToQuests {
 		dataObject.fillQuestDescriptions(map);
 	}
 
-	public JsonElement getGoalsAsJson() {
+	public JsonElement retrieveGoalsAsJson() {
 		return gsonInstance.toJsonTree(dataObject.getFullGoalDescriptionMap(), typeOfMapGoal);
 	}
 
-	public JsonElement getQuestsAsJson() {
+	public JsonElement retrieveQuestsAsJson() {
 		return gsonInstance.toJsonTree(dataObject.getFullQuestDescriptionMap(), typeOfMapQuest);
 	}
 
-	public JsonElement getGroupsAsJson() {
+	public JsonElement retrieveGroupsAsJson() {
 		JsonObject holder = new JsonObject();
 		JsonElement groupsInOrder = gsonInstance.toJsonTree(dataObject.getGroupsInOrder(), typeOfGroupList);
 		JsonElement groupMap = gsonInstance.toJsonTree(dataObject.getFullGroupMap(), typeOfGroupMap);

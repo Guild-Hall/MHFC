@@ -13,10 +13,10 @@ import java.util.Set;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.QuestDefinition;
 
-public class QuestDescriptionRegistryData {
+public class QuestDescriptionRegistry {
 
 	public static interface IQuestDescriptionDirector {
-		public void construct(QuestDescriptionRegistryData data);
+		public void construct(QuestDescriptionRegistry data);
 	}
 
 	public static class QuestGroupData {

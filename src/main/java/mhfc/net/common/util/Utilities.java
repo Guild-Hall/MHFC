@@ -121,7 +121,7 @@ public class Utilities {
 		return Arrays.stream(holders).sequential().map(func).toArray(arrNew);
 	}
 
-	public static BufferedInputStream inputStream(ResourceLocation location) throws IOException {
+	public static BufferedInputStream openEmbeddedResource(ResourceLocation location) throws IOException {
 		String pathToRes = "/assets/" + location.getResourceDomain() + "/" + location.getResourcePath();
 		InputStream instream = MHFCQuestBuildRegistry.class.getResourceAsStream(pathToRes);
 		if (instream == null) {

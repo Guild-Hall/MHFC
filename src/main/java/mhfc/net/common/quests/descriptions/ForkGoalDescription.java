@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.GoalReference;
-import mhfc.net.common.quests.api.QuestFactory;
+import mhfc.net.common.quests.api.QuestFactories;
 import mhfc.net.common.quests.goals.ForkQuestGoal;
 
 public class ForkGoalDescription extends GoalDefinition {
@@ -50,9 +50,9 @@ public class ForkGoalDescription extends GoalDefinition {
 		Stream<GoalDefinition> optional = getOptional().stream().map(GoalReference::getReferredDescription);
 		ForkQuestGoal fork = new ForkQuestGoal(null);
 
-		required.map(QuestFactory::constructGoal).filter(Objects::nonNull).forEach(fork::addRequisite);
+		required.map(QuestFactories::constructGoal).filter(Objects::nonNull).forEach(fork::addRequisite);
 
-		optional.map(QuestFactory::constructGoal).filter(Objects::nonNull).forEach(fork::addOptional);
+		optional.map(QuestFactories::constructGoal).filter(Objects::nonNull).forEach(fork::addOptional);
 
 		return fork;
 	}

@@ -5,7 +5,7 @@ import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.IAreaType;
 
 public interface IQuestInformation {
-	public IVisualInformation getVisualInformation();
+	public IVisualDefinition getVisualInformation();
 
 	public int getMaxPartySize();
 

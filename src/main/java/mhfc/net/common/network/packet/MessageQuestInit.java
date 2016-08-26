@@ -9,20 +9,20 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
-import mhfc.net.common.core.data.QuestDescriptionRegistryData;
+import mhfc.net.common.core.data.QuestDescriptionRegistry;
 import mhfc.net.common.core.directors.DirectorDownloadQuests;
 import mhfc.net.common.core.directors.DirectorUploadQuests;
 
 public class MessageQuestInit implements IMessage {
 
-	protected QuestDescriptionRegistryData data; // Used by upload
+	protected QuestDescriptionRegistry data; // Used by upload
 	protected DirectorDownloadQuests downloader; // Used by download
 
 	public MessageQuestInit() {
-		data = new QuestDescriptionRegistryData();
+		data = new QuestDescriptionRegistry();
 	}
 
-	public MessageQuestInit(QuestDescriptionRegistryData dataObject) {
+	public MessageQuestInit(QuestDescriptionRegistry dataObject) {
 		this.data = Objects.requireNonNull(dataObject);
 	}
 
@@ -49,7 +49,7 @@ public class MessageQuestInit implements IMessage {
 		buf.release();
 	}
 
-	public void initialize(QuestDescriptionRegistryData data) {
+	public void initialize(QuestDescriptionRegistry data) {
 		downloader.construct(data);
 	}
 }

@@ -11,7 +11,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
-import mhfc.net.client.quests.IRunningInformation;
+import mhfc.net.client.quests.IRunningQuestInformation;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.util.lib.MHFCReference;
@@ -48,11 +48,11 @@ public class QuestStatusDisplay {
 
 	@SubscribeEvent
 	public void onDraw(RenderGameOverlayEvent.Post overlayEvent) {
-		Optional<IRunningInformation> playerInformation = MHFCRegQuestVisual.getPlayerVisual();
+		Optional<IRunningQuestInformation> playerInformation = MHFCRegQuestVisual.getPlayerVisual();
 		if (overlayEvent.type != ElementType.FOOD || !playerInformation.isPresent()) {
 			return;
 		}
-		IRunningInformation activeInformation = playerInformation.get();
+		IRunningQuestInformation activeInformation = playerInformation.get();
 
 		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.QUEST_STATUS_ONSCREEN_BACKGROUND);
 

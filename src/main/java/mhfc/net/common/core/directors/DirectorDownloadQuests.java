@@ -8,8 +8,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import mhfc.net.common.core.builders.BuilderJsonToQuests;
-import mhfc.net.common.core.data.QuestDescriptionRegistryData;
-import mhfc.net.common.core.data.QuestDescriptionRegistryData.IQuestDescriptionDirector;
+import mhfc.net.common.core.data.QuestDescriptionRegistry;
+import mhfc.net.common.core.data.QuestDescriptionRegistry.IQuestDescriptionDirector;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import net.minecraft.util.JsonUtils;
 
@@ -36,10 +36,10 @@ public class DirectorDownloadQuests implements IQuestDescriptionDirector {
 	}
 
 	@Override
-	public void construct(QuestDescriptionRegistryData data) {
-		BuilderJsonToQuests builder = new BuilderJsonToQuests(data);
-		builder.generateQuests(questDescriptions);
-		builder.generateGoals(goalDescriptions);
-		builder.generateGroupMapping(groups);
+	public void construct(QuestDescriptionRegistry registry) {
+		BuilderJsonToQuests builder = new BuilderJsonToQuests(registry);
+		builder.acceptQuests(questDescriptions);
+		builder.acceptGoals(goalDescriptions);
+		builder.acceptGroupMapping(groups);
 	}
 }

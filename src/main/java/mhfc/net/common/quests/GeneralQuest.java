@@ -16,7 +16,7 @@ import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.network.packet.MessageQuestVisual.VisualType;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.IQuestInformation;
-import mhfc.net.common.quests.api.IVisualInformation;
+import mhfc.net.common.quests.api.IVisualDefinition;
 import mhfc.net.common.quests.api.QuestDefinition;
 import mhfc.net.common.quests.api.QuestDefinition.QuestType;
 import mhfc.net.common.quests.api.QuestGoal;
@@ -325,7 +325,7 @@ public class GeneralQuest implements IQuestInformation, QuestGoalSocket, AutoClo
 	}
 
 	@Override
-	public IVisualInformation getVisualInformation() {
+	public IVisualDefinition getVisualInformation() {
 		return getRunningInformation();
 	}
 

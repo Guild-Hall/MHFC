@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import com.google.common.base.Preconditions;
+
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.GeneralQuest;
@@ -12,15 +14,13 @@ import mhfc.net.common.quests.factory.DeathRestrictionGoalFactory;
 import mhfc.net.common.quests.factory.DefaultQuestFactory;
 import mhfc.net.common.quests.factory.ForkGoalFactory;
 import mhfc.net.common.quests.factory.HuntingGoalFactory;
-import mhfc.net.common.quests.factory.QuestRunningInformationFactory;
-import mhfc.net.common.quests.factory.QuestVisualInformationFactory;
 import mhfc.net.common.quests.factory.TimeGoalFactory;
 
-public class QuestFactory {
+public class QuestFactories {
 
 	private static Map<String, IQuestFactory> questFactoryMap = new HashMap<>();
 	private static Map<String, IGoalFactory> goalFactoryMap = new HashMap<>();
-	private static Map<String, IVisualInformationFactory> visualFactoryMap = new HashMap<>();
+	private static Map<String, IVisualInformationFactory<?>> visualFactoryMap = new HashMap<>();
 
 	static {
 		insertQuestFactory(MHFCQuestBuildRegistry.QUEST_DEFAULT, new DefaultQuestFactory());
@@ -35,32 +35,24 @@ public class QuestFactory {
 		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_CHAIN_TYPE, new ChainGoalFactory());
 		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_FORK_TYPE, new ForkGoalFactory());
 
-		insertQuestVisualFactory(MHFCQuestBuildRegistry.VISUAL_DEFAULT, new QuestVisualInformationFactory());
-		insertQuestVisualFactory(MHFCQuestBuildRegistry.VISUAL_RUNNING, new QuestRunningInformationFactory());
+		insertQuestVisualFactory(
+				MHFCQuestBuildRegistry.VISUAL_DEFAULT,
+				new DefaultQuestVisualDefinition.QuestVisualInformationFactory());
 	}
 
-	public static boolean insertQuestFactory(String type, IQuestFactory factory) {
-		if (questFactoryMap.containsKey(type)) {
-			return false;
-		}
+	public static void insertQuestFactory(String type, IQuestFactory factory) {
+		Preconditions.checkArgument(questFactoryMap.containsKey(type), "duplicate factory type " + type);
 		questFactoryMap.put(type, factory);
-		return true;
 	}
 
-	public static boolean insertGoalFactory(String type, IGoalFactory factory) {
-		if (goalFactoryMap.containsKey(type)) {
-			return false;
-		}
+	public static void insertGoalFactory(String type, IGoalFactory factory) {
+		Preconditions.checkArgument(goalFactoryMap.containsKey(type), "duplicate goal factory type " + type);
 		goalFactoryMap.put(type, factory);
-		return true;
 	}
 
-	public static boolean insertQuestVisualFactory(String type, IVisualInformationFactory factory) {
-		if (visualFactoryMap.containsKey(type)) {
-			return false;
-		}
+	public static void insertQuestVisualFactory(String type, IVisualInformationFactory<?> factory) {
+		Preconditions.checkArgument(visualFactoryMap.containsKey(type), "duplicate visual factory type " + type);
 		visualFactoryMap.put(type, factory);
-		return true;
 	}
 
 	/**
@@ -94,7 +86,7 @@ public class QuestFactory {
 		return goalFactoryMap.get(type);
 	}
 
-	public static IVisualInformationFactory getQuestVisualInformationFactory(String type) {
+	public static IVisualInformationFactory<?> getQuestVisualInformationFactory(String type) {
 		return visualFactoryMap.get(type);
 	}
 }

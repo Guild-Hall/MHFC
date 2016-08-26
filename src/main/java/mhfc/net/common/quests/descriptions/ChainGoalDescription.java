@@ -4,7 +4,7 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.GoalReference;
-import mhfc.net.common.quests.api.QuestFactory;
+import mhfc.net.common.quests.api.QuestFactories;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.goals.ChainQuestGoal;
 
@@ -44,14 +44,14 @@ public class ChainGoalDescription extends GoalDefinition {
 		if (sucG == null) {
 			dep2 = null;
 		} else {
-			dep2 = QuestFactory.constructGoal(sucG);
+			dep2 = QuestFactories.constructGoal(sucG);
 		}
 		boolean trueGoalNull = false;
 		if (truG == null) {
 			trueGoalNull = true;
 			dep1 = null;
 		} else {
-			dep1 = QuestFactory.constructGoal(truG);
+			dep1 = QuestFactories.constructGoal(truG);
 		}
 		trueGoalNull |= dep1 == null;
 

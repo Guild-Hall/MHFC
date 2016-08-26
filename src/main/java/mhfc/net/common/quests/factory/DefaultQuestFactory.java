@@ -16,12 +16,13 @@ import com.google.gson.JsonSerializationContext;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
+import mhfc.net.common.quests.api.DefaultQuestVisualDefinition.QuestVisualInformationFactory;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.IQuestFactory;
-import mhfc.net.common.quests.api.IVisualInformation;
+import mhfc.net.common.quests.api.IVisualDefinition;
 import mhfc.net.common.quests.api.IVisualInformationFactory;
 import mhfc.net.common.quests.api.QuestDefinition;
-import mhfc.net.common.quests.api.QuestFactory;
+import mhfc.net.common.quests.api.QuestFactories;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.util.MHFCJsonUtils;
@@ -84,9 +85,9 @@ public class DefaultQuestFactory implements IQuestFactory {
 				reward,
 				fee,
 				maxPartySize);
-		IVisualInformationFactory defaultFactory = new QuestVisualInformationFactory(description);
+		IVisualInformationFactory<?> defaultFactory = new QuestVisualInformationFactory(description);
 		JsonElement visualInformation = jsonAsObject.get(KEY_VISUAL);
-		IVisualInformation visual = defaultFactory.buildInformation(visualInformation, context);
+		IVisualDefinition visual = defaultFactory.buildInformation(visualInformation, context);
 		description.setVisualInformation(visual);
 		return description;
 	}
@@ -94,7 +95,7 @@ public class DefaultQuestFactory implements IQuestFactory {
 	@Override
 	public JsonObject serialize(QuestDefinition description, JsonSerializationContext context) {
 		DefaultQuestDescription questDesc = (DefaultQuestDescription) description;
-		IVisualInformation visual = questDesc.getVisualInformation();
+		IVisualDefinition visual = questDesc.getVisualInformation();
 
 		JsonObject holder = new JsonObject();
 		holder.addProperty(KEY_MAX_PARTY_SIZE, questDesc.getMaxPartySize());
@@ -106,7 +107,7 @@ public class DefaultQuestFactory implements IQuestFactory {
 		holder.addProperty(KEY_REWARD, questDesc.getReward());
 		JsonElement jsonGoalReference = context.serialize(questDesc.getGoalReference(), GoalReference.class);
 		holder.add(KEY_GOAL, jsonGoalReference);
-		IVisualInformationFactory visualFactory = QuestFactory
+		IVisualInformationFactory visualFactory = QuestFactories
 				.getQuestVisualInformationFactory(visual.getSerializerType());
 		JsonElement jsonVisual = visualFactory.serialize(visual, context);
 		holder.add(KEY_VISUAL, jsonVisual);

@@ -24,10 +24,10 @@ import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.network.packet.MessageQuestVisual.VisualType;
 import mhfc.net.common.network.packet.MessageRequestQuestVisual;
 import mhfc.net.common.quests.GeneralQuest;
-import mhfc.net.common.quests.api.IVisualInformation;
+import mhfc.net.common.quests.api.IVisualDefinition;
 import mhfc.net.common.quests.api.QuestDefinition;
-import mhfc.net.common.quests.api.QuestFactory;
-import mhfc.net.common.quests.api.VisualDefinition;
+import mhfc.net.common.quests.api.QuestFactories;
+import mhfc.net.common.quests.api.DefaultQuestVisualDefinition;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
@@ -43,8 +43,8 @@ public class MHFCQuestRegistry {
 		public MessageQuestVisual onMessage(MessageRequestQuestVisual message, MessageContext ctx) {
 			String identifier = message.getIdentifier();
 			QuestDefinition description = MHFCQuestBuildRegistry.getQuestDescription(identifier);
-			IVisualInformation info = (description == null
-					? VisualDefinition.IDENTIFIER_ERROR
+			IVisualDefinition info = (description == null
+					? DefaultQuestVisualDefinition.IDENTIFIER_ERROR
 					: description.getVisualInformation());
 			return new MessageQuestVisual(VisualType.RUNNING_QUEST, identifier, info);
 		}
@@ -127,7 +127,7 @@ public class MHFCQuestRegistry {
 			}
 			String registerFor = message.getOptions()[0] + "@" + player.getDisplayName() + "@" + questIDCounter++;
 			QuestDefinition questDescription = MHFCQuestBuildRegistry.getQuestDescription(message.getOptions()[0]);
-			GeneralQuest newQuest = QuestFactory.constructQuest(questDescription);
+			GeneralQuest newQuest = QuestFactories.constructQuest(questDescription);
 			if (newQuest == null) {
 				player.addChatMessage(new ChatComponentText("Quest not found"));
 				return;

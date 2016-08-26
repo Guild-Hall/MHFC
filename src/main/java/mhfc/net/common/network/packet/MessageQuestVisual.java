@@ -10,7 +10,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 import mhfc.net.common.core.builders.BuilderJsonToQuests;
-import mhfc.net.common.quests.api.IVisualInformation;
+import mhfc.net.common.quests.api.IVisualDefinition;
 
 public class MessageQuestVisual implements IMessage {
 
@@ -21,11 +21,11 @@ public class MessageQuestVisual implements IMessage {
 
 	private VisualType messageType;
 	private String messageIdentifier;
-	private IVisualInformation information;
+	private IVisualDefinition information;
 
 	public MessageQuestVisual() {}
 
-	public MessageQuestVisual(VisualType messageType, String identifier, IVisualInformation information) {
+	public MessageQuestVisual(VisualType messageType, String identifier, IVisualDefinition information) {
 		this.messageType = Objects.requireNonNull(messageType);
 		this.messageIdentifier = Objects.requireNonNull(identifier);
 		this.information = information;
@@ -38,7 +38,7 @@ public class MessageQuestVisual implements IMessage {
 			OutputStreamWriter writer = new OutputStreamWriter(out);
 			out.writeInt(messageType.ordinal());
 			out.writeUTF(messageIdentifier);
-			BuilderJsonToQuests.gsonInstance.toJson(information, IVisualInformation.class, writer);
+			BuilderJsonToQuests.gsonInstance.toJson(information, IVisualDefinition.class, writer);
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -53,7 +53,7 @@ public class MessageQuestVisual implements IMessage {
 			InputStreamReader reader = new InputStreamReader(in);
 			messageType = VisualType.values()[in.readInt()];
 			messageIdentifier = in.readUTF();
-			information = BuilderJsonToQuests.gsonInstance.fromJson(reader, IVisualInformation.class);
+			information = BuilderJsonToQuests.gsonInstance.fromJson(reader, IVisualDefinition.class);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -68,7 +68,7 @@ public class MessageQuestVisual implements IMessage {
 		return messageIdentifier;
 	}
 
-	public IVisualInformation getInformation() {
+	public IVisualDefinition getInformation() {
 		return information;
 	}
 

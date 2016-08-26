@@ -15,7 +15,7 @@ import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageMHFCInteraction;
 import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
-import mhfc.net.common.quests.api.IVisualInformation;
+import mhfc.net.common.quests.api.IVisualDefinition;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
@@ -110,11 +110,11 @@ public class GuiQuestJoin extends MHFCGui implements IMHFCTab {
 		super.onGuiClosed();
 	}
 
-	public void addQuest(String id, IVisualInformation info) {
+	public void addQuest(String id, IVisualDefinition info) {
 		if (mapToListItems.containsKey(id)) {
 			return;
 		}
-		GuiListStringItem item = new GuiListStringItem(info.getName());
+		GuiListStringItem item = new GuiListStringItem(info.getDisplayName());
 		mapToListItems.put(id, item);
 		mapToIdentifiers.put(item, id);
 		runningQuestList.add(item);
@@ -145,7 +145,7 @@ public class GuiQuestJoin extends MHFCGui implements IMHFCTab {
 		GuiListStringItem item = runningQuestList.getSelectedItem();
 		if (item != null) {
 			String id = mapToIdentifiers.get(item);
-			IVisualInformation info = MHFCRegQuestVisual.getQuestVisualInformation(id);
+			IVisualDefinition info = MHFCRegQuestVisual.getQuestVisualInformation(id);
 			if (info != null) {
 				info.drawInformation(
 						runningW + runningX,

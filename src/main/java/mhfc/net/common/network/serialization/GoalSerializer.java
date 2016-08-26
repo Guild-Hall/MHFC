@@ -7,7 +7,7 @@ import com.google.gson.*;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.IGoalFactory;
-import mhfc.net.common.quests.api.QuestFactory;
+import mhfc.net.common.quests.api.QuestFactories;
 import mhfc.net.common.util.MHFCJsonUtils;
 import net.minecraft.util.JsonUtils;
 
@@ -32,7 +32,7 @@ public class GoalSerializer
 		}
 		String type = JsonUtils.getJsonObjectStringFieldValue(jsonAsObject,
 			"type");
-		IGoalFactory gFactory = QuestFactory.getGoalFactory(type);
+		IGoalFactory gFactory = QuestFactories.getGoalFactory(type);
 		return gFactory.buildGoalDescription(jsonAsObject.get(
 			MHFCQuestBuildRegistry.KEY_DATA), context);
 	}
@@ -43,7 +43,7 @@ public class GoalSerializer
 		JsonObject descriptionAsJson = new JsonObject();
 		String type = src.getGoalType();
 		descriptionAsJson.addProperty(MHFCQuestBuildRegistry.KEY_TYPE, type);
-		IGoalFactory gFactory = QuestFactory.getGoalFactory(type);
+		IGoalFactory gFactory = QuestFactories.getGoalFactory(type);
 		JsonElement data = gFactory.serialize(src, context);
 		descriptionAsJson.add(MHFCQuestBuildRegistry.KEY_DATA, data);
 		return descriptionAsJson;

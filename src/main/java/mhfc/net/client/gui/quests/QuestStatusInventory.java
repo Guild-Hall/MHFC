@@ -3,7 +3,7 @@ package mhfc.net.client.gui.quests;
 import mhfc.net.client.container.ContainerQuestStatus;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
-import mhfc.net.common.quests.api.IVisualInformation;
+import mhfc.net.common.quests.api.IVisualDefinition;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -65,7 +65,7 @@ public class QuestStatusInventory extends GuiContainer {
 				0,
 				1f,
 				0.65f);
-		IVisualInformation information = MHFCRegQuestVisual.getPlayerVisual().get();
+		IVisualDefinition information = MHFCRegQuestVisual.getPlayerVisual().get();
 		if (information == null) {
 			String drawn = "No quest accepted";
 			int stringPosY = (ySize - mc.fontRenderer.FONT_HEIGHT) / 2,
