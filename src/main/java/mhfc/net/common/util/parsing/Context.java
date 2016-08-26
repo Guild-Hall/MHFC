@@ -9,12 +9,17 @@ import mhfc.net.common.util.parsing.proxies.StaticAccess;
 import mhfc.net.common.util.parsing.valueholders.ValueHolders;
 
 public class Context {
-	private static <T> boolean put(Map<String, ? super T> map, String key, T item) {
-		Objects.requireNonNull(key);
-		Objects.requireNonNull(item);
+	public static String checkKeySyntax(String key) {
 		if (key.isEmpty()) {
 			throw new IllegalArgumentException("Key can't be the empty string");
 		}
+		return key;
+	}
+
+	private static <T> boolean put(Map<String, ? super T> map, String key, T item) {
+		Objects.requireNonNull(key);
+		Objects.requireNonNull(item);
+		key = checkKeySyntax(key);
 		if (key.startsWith("_") && map.containsKey(key)) {
 			return false;
 		}

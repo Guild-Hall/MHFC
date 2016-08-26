@@ -8,12 +8,9 @@ import java.util.stream.Collectors;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.client.quests.QuestRunningInformation;
-import mhfc.net.client.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.packet.MessageQuestVisual;
-import mhfc.net.common.network.packet.MessageQuestVisual.VisualType;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.IQuestInformation;
 import mhfc.net.common.quests.api.IVisualDefinition;
@@ -285,14 +282,6 @@ public class GeneralQuest implements IQuestInformation, QuestGoalSocket, AutoClo
 
 	public QuestDefinition getOriginalDescription() {
 		return originalDescription;
-	}
-
-	public String updateVisual(InformationType t) {
-		if (t == InformationType.PartySize) {
-			return playerCount() + "/" + maxPlayerCount + " {unlocalized:Players}";
-		}
-		String mod = questGoal.modify(t, "");
-		return mod;
 	}
 
 	private QuestingPlayerState getPlayerAttributes(EntityPlayerMP player) {
