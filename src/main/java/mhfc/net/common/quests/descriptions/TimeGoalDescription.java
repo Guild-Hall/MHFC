@@ -3,6 +3,7 @@ package mhfc.net.common.quests.descriptions;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.goals.TimeQuestGoal;
+import mhfc.net.common.quests.properties.GroupProperty;
 
 public class TimeGoalDescription extends GoalDefinition {
 
@@ -20,7 +21,7 @@ public class TimeGoalDescription extends GoalDefinition {
 	}
 
 	@Override
-	public TimeQuestGoal build() {
-		return new TimeQuestGoal(getTime());
+	public TimeQuestGoal build(GroupProperty properties) {
+		return new TimeQuestGoal(properties, getTime());
 	}
 }

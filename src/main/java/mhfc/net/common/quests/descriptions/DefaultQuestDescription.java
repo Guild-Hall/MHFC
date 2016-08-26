@@ -4,12 +4,13 @@ import java.util.concurrent.CompletionStage;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.GeneralQuest;
+import mhfc.net.common.quests.api.DefaultQuestVisualDefinition;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.IVisualDefinition;
 import mhfc.net.common.quests.api.QuestDefinition;
 import mhfc.net.common.quests.api.QuestFactories;
 import mhfc.net.common.quests.api.QuestGoal;
-import mhfc.net.common.quests.api.DefaultQuestVisualDefinition;
+import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.world.GlobalAreaManager;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.IActiveArea;
@@ -106,7 +107,8 @@ public class DefaultQuestDescription extends QuestDefinition {
 
 	@Override
 	public GeneralQuest build() {
-		QuestGoal goal = QuestFactories.constructGoal(getGoalReference().getReferredDescription());
+		GroupProperty goalProperties = GroupProperty.makeRootProperty();
+		QuestGoal goal = QuestFactories.constructGoal(getGoalReference().getReferredDescription(), goalProperties);
 		if (goal == null) {
 			return null;
 		}
@@ -118,7 +120,7 @@ public class DefaultQuestDescription extends QuestDefinition {
 			return null;
 		}
 
-		return new GeneralQuest(goal, getMaxPartySize(), getReward(), getFee(), activeArea, this);
+		return new GeneralQuest(goal, goalProperties, getMaxPartySize(), getReward(), getFee(), activeArea, this);
 	}
 
 }

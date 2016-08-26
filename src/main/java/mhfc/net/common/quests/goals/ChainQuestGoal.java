@@ -3,7 +3,6 @@ package mhfc.net.common.quests.goals;
 import java.util.EnumSet;
 import java.util.Objects;
 
-import mhfc.net.client.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.QuestStatus;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
@@ -163,11 +162,6 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 		if (thisGoal != null) {
 			thisGoal.setActive(newActive);
 		}
-	}
-
-	@Override
-	public String modify(InformationType type, String current) {
-		return thisGoal.modify(type, current);
 	}
 
 }

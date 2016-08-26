@@ -49,6 +49,11 @@ public class ImmutableProperty<E> extends Property {
 		if (!pollDirty()) {
 			return signalNoUpdates();
 		}
+		return dumpAll();
+	}
+
+	@Override
+	public NBTBase dumpAll() {
 		return dumpFunction.apply(value);
 	}
 

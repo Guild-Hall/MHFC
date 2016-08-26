@@ -18,6 +18,7 @@ import mhfc.net.common.quests.api.QuestDefinition;
 import mhfc.net.common.quests.api.QuestDefinition.QuestType;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
+import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.util.PlayerMap;
@@ -70,6 +71,7 @@ public class GeneralQuest implements IQuestInformation, QuestGoalSocket, AutoClo
 
 	protected QuestState state;
 	protected QuestGoal questGoal;
+	protected GroupProperty rootGoalProperties;
 
 	/**
 	 * Not set before the {@link StagedFuture} from that the area is retrieved from is complete.
@@ -84,13 +86,17 @@ public class GeneralQuest implements IQuestInformation, QuestGoalSocket, AutoClo
 
 	public GeneralQuest(
 			QuestGoal goal,
+			GroupProperty goalProperties,
 			int maxPartySize,
 			int reward,
 			int fee,
 			CompletionStage<IActiveArea> activeArea,
 			QuestDefinition originalDescription) {
 		this.playerAttributes = new PlayerMap<>();
+
 		this.questGoal = Objects.requireNonNull(goal);
+		this.rootGoalProperties = Objects.requireNonNull(goalProperties);
+
 		activeArea.thenAccept(this::onAreaFinished);
 		goal.setSocket(this);
 

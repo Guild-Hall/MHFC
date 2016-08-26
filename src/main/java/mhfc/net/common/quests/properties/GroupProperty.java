@@ -45,6 +45,17 @@ public class GroupProperty extends Property {
 	}
 
 	@Override
+	public NBTBase dumpAll() {
+		NBTTagCompound updateTag = new NBTTagCompound();
+		for (Entry<String, Property> mapping : subProperties.entrySet()) {
+			NBTBase elementUpdate = mapping.getValue().dumpAll();
+			String name = mapping.getKey();
+			updateTag.setTag(name, elementUpdate);
+		}
+		return updateTag;
+	}
+
+	@Override
 	public void updateFrom(NBTBase nbt) {
 		NBTTagCompound tag = NBTType.TAG_COMPOUND.assureTagType(nbt);
 		for (Entry<String, Property> mapping : subProperties.entrySet()) {

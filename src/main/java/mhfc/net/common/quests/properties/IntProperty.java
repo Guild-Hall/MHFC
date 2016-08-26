@@ -23,11 +23,24 @@ public class IntProperty extends Property {
 		setDirty();
 	}
 
+	public void inc() {
+		set(get() + 1);
+	}
+
+	public void decr() {
+		set(get() - 1);
+	}
+
 	@Override
 	public NBTBase dumpUpdates() {
 		if (!pollDirty()) {
 			return signalNoUpdates();
 		}
+		return dumpAll();
+	}
+
+	@Override
+	public NBTBase dumpAll() {
 		return new NBTTagInt(value);
 	}
 

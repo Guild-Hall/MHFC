@@ -3,6 +3,7 @@ package mhfc.net.common.quests.descriptions;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.goals.HuntingQuestGoal;
+import mhfc.net.common.quests.properties.GroupProperty;
 import net.minecraft.entity.Entity;
 
 public class HuntingGoalDescription extends GoalDefinition {
@@ -28,7 +29,7 @@ public class HuntingGoalDescription extends GoalDefinition {
 	}
 
 	@Override
-	public HuntingQuestGoal build() {
-		return new HuntingQuestGoal(null, getHuntedClass(), getAmount());
+	public HuntingQuestGoal build(GroupProperty properties) {
+		return new HuntingQuestGoal(null, getHuntedClass(), properties, getAmount());
 	}
 }

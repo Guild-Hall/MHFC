@@ -76,5 +76,7 @@ public abstract class Property implements IValueHolder {
 	 */
 	public abstract NBTBase dumpUpdates();
 
+	public abstract NBTBase dumpAll();
+
 	public abstract void updateFrom(NBTBase nbtTag);
 }

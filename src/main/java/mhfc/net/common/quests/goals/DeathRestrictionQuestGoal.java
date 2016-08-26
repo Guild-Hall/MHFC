@@ -2,32 +2,36 @@ package mhfc.net.common.quests.goals;
 
 import java.util.Collection;
 
-import mhfc.net.client.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.eventhandler.quests.LivingDeathEventHandler;
 import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
 import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.api.QuestGoal;
+import mhfc.net.common.quests.properties.GroupProperty;
+import mhfc.net.common.quests.properties.IntProperty;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 public class DeathRestrictionQuestGoal extends QuestGoal implements NotifyableQuestGoal<LivingDeathEvent> {
 
-	protected int maxDeaths;
-	protected int currentDeaths;
+	protected IntProperty maxDeaths;
+	protected IntProperty currentDeaths;
 	protected QuestGoalEventHandler<LivingDeathEvent> handler;
 
 	/**
 	 * A new death count restriction is created with a maximum amount of deaths from players in the overlaying quest. If
 	 * there is no quest above then all players are taken in account.
 	 *
+	 * @param propertyGroup
+	 *            the property group to derive properties from
+	 *
 	 * @param maxDeaths
 	 *            How often players are allowed to die, inclusive
 	 */
-	public DeathRestrictionQuestGoal(int maxDeaths) {
-		this.maxDeaths = maxDeaths;
-		currentDeaths = 0;
+	public DeathRestrictionQuestGoal(GroupProperty propertyGroup, int maxDeaths) {
+		this.maxDeaths = propertyGroup.newMember("maxDeaths", IntProperty.construct(maxDeaths));
+		this.currentDeaths = propertyGroup.newMember("currDeaths", IntProperty.construct(0));
 		handler = new LivingDeathEventHandler(this);
 		handler.setActive(false);
 		MinecraftForge.EVENT_BUS.register(handler);
@@ -35,17 +39,17 @@ public class DeathRestrictionQuestGoal extends QuestGoal implements NotifyableQu
 
 	@Override
 	public boolean isFulfilled() {
-		return maxDeaths >= currentDeaths;
+		return maxDeaths.get() >= currentDeaths.get();
 	}
 
 	@Override
 	public boolean isFailed() {
-		return maxDeaths < currentDeaths;
+		return maxDeaths.get() < currentDeaths.get();
 	}
 
 	@Override
 	public void reset() {
-		currentDeaths = 0;
+		currentDeaths.set(0);
 	}
 
 	@Override
@@ -64,19 +68,9 @@ public class DeathRestrictionQuestGoal extends QuestGoal implements NotifyableQu
 		if (quest != null) {
 			Collection<EntityPlayerMP> players = quest.getPlayers();
 			if (players != null && players.contains(event.entityLiving)) {
-				++currentDeaths;
+				currentDeaths.inc();
 			}
 		}
 		notifyOfStatus(isFulfilled(), isFailed());
-	}
-
-	@Override
-	public String modify(InformationType type, String current) {
-		if (type == InformationType.LongStatus) {
-			current += (current.equals("") ? "" : "\n") + (maxDeaths - currentDeaths) + " respawns left";
-		} else if (type == InformationType.ShortStatus) {
-			current += (current.equals("") ? "" : "\n") + (maxDeaths - currentDeaths) + " respawns";
-		}
-		return current;
 	}
 }

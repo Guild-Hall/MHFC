@@ -3,6 +3,7 @@ package mhfc.net.common.quests.descriptions;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.goals.DeathRestrictionQuestGoal;
+import mhfc.net.common.quests.properties.GroupProperty;
 
 public class DeathRestrictionDescription extends GoalDefinition {
 
@@ -20,7 +21,7 @@ public class DeathRestrictionDescription extends GoalDefinition {
 	}
 
 	@Override
-	public DeathRestrictionQuestGoal build() {
-		return new DeathRestrictionQuestGoal(getAllowedDeaths());
+	public DeathRestrictionQuestGoal build(GroupProperty propertyGroup) {
+		return new DeathRestrictionQuestGoal(propertyGroup, getAllowedDeaths());
 	}
 }

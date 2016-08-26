@@ -1,16 +1,15 @@
 package mhfc.net.common.quests.api;
 
-public abstract class GoalDefinition {
-	public static final String ID_TYPE = "type";
+import mhfc.net.common.quests.properties.GroupProperty;
 
+public abstract class GoalDefinition {
 	protected String goalType;
 
 	/**
-	 * Construct a goal of the given type identificator. In the json file, every
-	 * goal description has to have at least the following content:<br>
+	 * Construct a goal of the given type identificator. In the json file, every goal description has to have at least
+	 * the following content:<br>
 	 * {@value GoalDefinition#goalType} : {@linkplain String} <br>
-	 * More specific types may have additional requirements. See the child
-	 * classes for more details on their format.
+	 * More specific types may have additional requirements. See the child classes for more details on their format.
 	 */
 	public GoalDefinition(String type) {
 		this.goalType = type;
@@ -20,5 +19,5 @@ public abstract class GoalDefinition {
 		return goalType;
 	}
 
-	public abstract QuestGoal build();
+	public abstract QuestGoal build(GroupProperty goalProperties);
 }

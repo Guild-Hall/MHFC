@@ -29,6 +29,11 @@ public class BooleanProperty extends Property {
 		if (!pollDirty()) {
 			return signalNoUpdates();
 		}
+		return dumpAll();
+	}
+
+	@Override
+	public NBTBase dumpAll() {
 		return new NBTTagByte((byte) (value ? 1 : 0));
 	}
 

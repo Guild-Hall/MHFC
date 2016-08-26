@@ -7,6 +7,7 @@ import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.QuestFactories;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.goals.ChainQuestGoal;
+import mhfc.net.common.quests.properties.GroupProperty;
 
 /**
  * Format for a goal description:<br>
@@ -36,36 +37,35 @@ public class ChainGoalDescription extends GoalDefinition {
 	}
 
 	@Override
-	public QuestGoal build() {
+	public QuestGoal build(GroupProperty properties) {
 		GoalDefinition truG = getTrueGoal().getReferredDescription(),
 				sucG = getSuccessorGoal().getReferredDescription();
 
-		QuestGoal dep1, dep2;
-		if (sucG == null) {
-			dep2 = null;
-		} else {
-			dep2 = QuestFactories.constructGoal(sucG);
-		}
-		boolean trueGoalNull = false;
+		QuestGoal firstDependency, secondDependency;
 		if (truG == null) {
-			trueGoalNull = true;
-			dep1 = null;
+			firstDependency = null;
 		} else {
-			dep1 = QuestFactories.constructGoal(truG);
+			firstDependency = QuestFactories.constructGoal(sucG, properties.newMember("fg", GroupProperty.construct()));
 		}
-		trueGoalNull |= dep1 == null;
+		if (sucG == null) {
+			secondDependency = null;
+		} else {
+			secondDependency = QuestFactories
+					.constructGoal(sucG, properties.newMember("sg", GroupProperty.construct()));
+		}
 
-		if (trueGoalNull) {
+		if (firstDependency == null) {
 			MHFCMain.logger().warn(
 					"A chain goal used an invalid description as its goal. Using the successor goal instead of the chain goal");
-			return dep2;
+			return secondDependency;
+		}
+		if (secondDependency == null) {
+			return firstDependency;
 		}
 
-		ChainQuestGoal goal = new ChainQuestGoal(dep1, dep2);
-		dep1.setSocket(goal);
-		if (dep2 != null) {
-			dep2.setSocket(goal);
-		}
+		ChainQuestGoal goal = new ChainQuestGoal(firstDependency, secondDependency);
+		firstDependency.setSocket(goal);
+		secondDependency.setSocket(goal);
 		return goal;
 	}
 

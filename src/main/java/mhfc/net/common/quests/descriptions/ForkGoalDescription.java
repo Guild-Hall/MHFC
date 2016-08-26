@@ -3,14 +3,14 @@ package mhfc.net.common.quests.descriptions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.QuestFactories;
+import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.goals.ForkQuestGoal;
+import mhfc.net.common.quests.properties.GroupProperty;
 
 public class ForkGoalDescription extends GoalDefinition {
 
@@ -27,7 +27,7 @@ public class ForkGoalDescription extends GoalDefinition {
 	}
 
 	public List<GoalReference> getRequired() {
-		List<GoalReference> list = new ArrayList<GoalReference>();
+		List<GoalReference> list = new ArrayList<>();
 		if (required == null) {
 			return list;
 		}
@@ -36,7 +36,7 @@ public class ForkGoalDescription extends GoalDefinition {
 	}
 
 	public List<GoalReference> getOptional() {
-		List<GoalReference> list = new ArrayList<GoalReference>();
+		List<GoalReference> list = new ArrayList<>();
 		if (optional == null) {
 			return list;
 		}
@@ -45,15 +45,30 @@ public class ForkGoalDescription extends GoalDefinition {
 	}
 
 	@Override
-	public ForkQuestGoal build() {
-		Stream<GoalDefinition> required = getRequired().stream().map(GoalReference::getReferredDescription);
-		Stream<GoalDefinition> optional = getOptional().stream().map(GoalReference::getReferredDescription);
+	public ForkQuestGoal build(GroupProperty properties) {
 		ForkQuestGoal fork = new ForkQuestGoal(null);
 
-		required.map(QuestFactories::constructGoal).filter(Objects::nonNull).forEach(fork::addRequisite);
+		int r = 0;
+		for (GoalReference req : getRequired()) {
+			QuestGoal constructGoal = QuestFactories.constructGoal(
+					req.getReferredDescription(),
+					properties.newMember("R" + r++, GroupProperty.construct()));
+			if (constructGoal == null) {
+				continue;
+			}
+			fork.addRequisite(constructGoal);
+		}
 
-		optional.map(QuestFactories::constructGoal).filter(Objects::nonNull).forEach(fork::addOptional);
-
+		r = 0;
+		for (GoalReference opt : getOptional()) {
+			QuestGoal constructGoal = QuestFactories.constructGoal(
+					opt.getReferredDescription(),
+					properties.newMember("O" + r++, GroupProperty.construct()));
+			if (constructGoal == null) {
+				continue;
+			}
+			fork.addOptional(constructGoal);
+		}
 		return fork;
 	}
 

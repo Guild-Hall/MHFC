@@ -2,12 +2,13 @@ package mhfc.net.common.quests.goals;
 
 import java.util.stream.Stream;
 
-import mhfc.net.client.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.eventhandler.quests.LivingDeathEventHandler;
 import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
 import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
+import mhfc.net.common.quests.properties.GroupProperty;
+import mhfc.net.common.quests.properties.IntProperty;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
 import mhfc.net.common.util.LazyQueue;
 import net.minecraft.entity.Entity;
@@ -18,13 +19,21 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<LivingDeathEvent> {
 
-	LazyQueue<Spawnable> infSpawns;
+	private LazyQueue<Spawnable> infSpawns;
+	private IntProperty goalNumber;
+	private IntProperty currentNumber;
+	private Class<? extends Entity> goalClass;
+	private QuestGoalEventHandler<LivingDeathEvent> goalHandler;
 
-	public HuntingQuestGoal(QuestGoalSocket socket, Class<? extends Entity> goalClass, int goalNumber) {
+	public HuntingQuestGoal(
+			QuestGoalSocket socket,
+			Class<? extends Entity> goalClass,
+			GroupProperty properties,
+			int goalNumber) {
 		super(socket);
 		this.goalClass = goalClass;
-		this.goalNumber = goalNumber;
-		this.currentNumber = 0;
+		this.goalNumber = properties.newMember("goal", IntProperty.construct(goalNumber));
+		this.currentNumber = properties.newMember("current", IntProperty.construct(0));
 		goalHandler = new LivingDeathEventHandler(this);
 		MinecraftForge.EVENT_BUS.register(goalHandler);
 		String goalMob = (String) EntityList.classToStringMapping.get(goalClass);
@@ -33,14 +42,9 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 		infSpawns = new LazyQueue<>(generator.iterator());
 	}
 
-	private int goalNumber;
-	private int currentNumber;
-	private Class<? extends Entity> goalClass;
-	private QuestGoalEventHandler<LivingDeathEvent> goalHandler;
-
 	@Override
 	public boolean isFulfilled() {
-		return currentNumber >= goalNumber;
+		return currentNumber.get() >= goalNumber.get();
 	}
 
 	@Override
@@ -50,7 +54,7 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 
 	@Override
 	public void reset() {
-		currentNumber = 0;
+		currentNumber.set(0);
 	}
 
 	@Override
@@ -67,7 +71,7 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 				shouldcount &= getQuest().getPlayers().contains(damageSource);
 				shouldcount &= getQuest().getSpawnController().getControlledEntities().contains(event.entity);
 				if (shouldcount) {
-					++currentNumber;
+					currentNumber.inc();
 				}
 			}
 			notifyOfStatus(isFulfilled(), isFailed());
@@ -79,22 +83,10 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 		goalHandler.setActive(newActive);
 		if (newActive) {
 			getQuest().getSpawnController().enqueueSpawns(infSpawns);
-			getQuest().getSpawnController().setGenerationMaximum(goalClass, goalNumber);
+			getQuest().getSpawnController().setGenerationMaximum(goalClass, goalNumber.get());
 		} else {
 			getQuest().getSpawnController().dequeueSpawns(infSpawns);
 		}
-	}
-
-	@Override
-	public String modify(InformationType type, String current) {
-		if (type == InformationType.LongStatus) {
-			current += (current.equals("") ? "" : "\n") + "Hunted " + currentNumber + " of " + goalNumber + " "
-					+ EntityList.classToStringMapping.get(goalClass);
-		} else if (type == InformationType.ShortStatus) {
-			current += (current.equals("") ? "" : "\n") + currentNumber + "/" + goalNumber + " "
-					+ EntityList.classToStringMapping.get(goalClass);
-		}
-		return current;
 	}
 
 }

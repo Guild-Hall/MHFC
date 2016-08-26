@@ -5,21 +5,17 @@ import java.util.LinkedList;
 import java.util.List;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.client.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.QuestStatus;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
 
 /**
- * This is the super type for quest goals that do depend on multiple others but
- * in no specific order. The order should not make a difference and any order
- * should be possible. If this is not the case use {@link ChainQuestGoal}
- * instead. The additions to the goal format are as following:<br>
- * {@value ForkQuestDescription#ID_REQUIRED} : ({@linkplain String}|
- * {@linkplain GoalDefinition})[]<br>
- * [{@value ForkQuestDesciption#ID_OPTIONAL} : ({@linkplain String}|
- * {@linkplain GoalDefinition})[]]
+ * This is the super type for quest goals that do depend on multiple others but in no specific order. The order should
+ * not make a difference and any order should be possible. If this is not the case use {@link ChainQuestGoal} instead.
+ * The additions to the goal format are as following:<br>
+ * {@value ForkQuestDescription#ID_REQUIRED} : ({@linkplain String}| {@linkplain GoalDefinition})[]<br>
+ * [{@value ForkQuestDesciption#ID_OPTIONAL} : ({@linkplain String}| {@linkplain GoalDefinition})[]]
  */
 
 public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
@@ -29,8 +25,8 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 
 	public ForkQuestGoal(QuestGoalSocket parent) {
 		super(parent);
-		requisites = new LinkedList<QuestGoal>();
-		optional = new LinkedList<QuestGoal>();
+		requisites = new LinkedList<>();
+		optional = new LinkedList<>();
 	}
 
 	/**
@@ -38,8 +34,7 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 	 */
 	public void addRequisite(QuestGoal goal) {
 		if (goal == null) {
-			MHFCMain.logger()
-				.warn("ForkQuestGoal: Ignored requisite, a null goal is not valid");
+			MHFCMain.logger().warn("ForkQuestGoal: Ignored requisite, a null goal is not valid");
 			return;
 		}
 		requisites.add(goal);
@@ -52,8 +47,7 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 	 */
 	public void addOptional(QuestGoal goal) {
 		if (goal == null) {
-			MHFCMain.logger()
-				.warn("ForkQuestGoal: Ignored optional, a null goal is not valid");
+			MHFCMain.logger().warn("ForkQuestGoal: Ignored optional, a null goal is not valid");
 			return;
 		}
 		goal.setSocket(this);
@@ -79,8 +73,7 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 	}
 
 	@Override
-	public void questGoalStatusNotification(QuestGoal goal,
-		EnumSet<QuestStatus> newStatus) {
+	public void questGoalStatusNotification(QuestGoal goal, EnumSet<QuestStatus> newStatus) {
 		notifyOfStatus(isFulfilled(), isFailed());
 	}
 
@@ -113,21 +106,5 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 		for (QuestGoal g : optional) {
 			g.setActive(newActive);
 		}
-	}
-
-	@Override
-	public String modify(InformationType type, String current) {
-		for (QuestGoal g : requisites) {
-			current = g.modify(type, current);
-		}
-		if (type == InformationType.LongStatus) {
-			if (optional.size() > 0)
-				current += "\n---------------";
-			for (QuestGoal g : optional) {
-				current = g.modify(type, current);
-			}
-		}
-		return current;
-
 	}
 }

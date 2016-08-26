@@ -15,6 +15,7 @@ import mhfc.net.common.quests.factory.DefaultQuestFactory;
 import mhfc.net.common.quests.factory.ForkGoalFactory;
 import mhfc.net.common.quests.factory.HuntingGoalFactory;
 import mhfc.net.common.quests.factory.TimeGoalFactory;
+import mhfc.net.common.quests.properties.GroupProperty;
 
 public class QuestFactories {
 
@@ -69,9 +70,9 @@ public class QuestFactories {
 	 * hunting: Needs to have exactly two arguments in its argument array, both of type string and the latter one
 	 * representing an Integer.
 	 */
-	public static QuestGoal constructGoal(GoalDefinition gd) {
+	public static QuestGoal constructGoal(GoalDefinition gd, GroupProperty rootProperties) {
 		Objects.requireNonNull(gd, "Goal description was null");
-		QuestGoal goal = gd.build();
+		QuestGoal goal = gd.build(rootProperties);
 		if (goal == null) {
 			MHFCMain.logger().warn("Constructed goal returned as null");
 		}
