@@ -202,17 +202,21 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	}
 
 	protected void updatePlayers() {
+		MessageMissionUpdate update = MessageMissionUpdate.createUpdate(missionID, rootGoalProperties);
+		if (update == null) {
+			return;
+		}
 		for (QuestingPlayerState attribute : playerAttributes.values()) {
 			EntityPlayerMP player = attribute.player;
-			PacketPipeline.networkPipe.sendTo(MessageMissionUpdate.createUpdate(missionID, rootGoalProperties), player);
+			PacketPipeline.networkPipe.sendTo(update, player);
 		}
-		MHFCQuestRegistry.questUpdated(this);
+		// MHFCQuestRegistry.questUpdated(update);
 	}
 
 	protected void updatePlayerInitial(EntityPlayerMP player) {
 		// TODO: add player to the quest
-		PacketPipeline.networkPipe.sendTo(createFullUpdateMessage(), player);
 		PacketPipeline.networkPipe.sendTo(MessageMissionStatus.joining(missionID), player);
+		PacketPipeline.networkPipe.sendTo(createFullUpdateMessage(), player);
 	}
 
 	public boolean canJoin(EntityPlayer player) {
@@ -245,7 +249,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	}
 
 	private boolean removePlayer(EntityPlayerMP player) {
-		QuestingPlayerState att = playerAttributes.remove(player.getEntityId());
+		QuestingPlayerState att = playerAttributes.removePlayer(player);
 		if (att != null) {
 			PacketPipeline.networkPipe.sendTo(MessageMissionStatus.departing(missionID), att.player);
 			MHFCQuestRegistry.setQuestForPlayer(att.player, null);
@@ -289,7 +293,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	}
 
 	private QuestingPlayerState getPlayerAttributes(EntityPlayerMP player) {
-		return playerAttributes.get(player.getEntityId());
+		return playerAttributes.getPlayer(player);
 	}
 
 	public void voteStart(EntityPlayerMP player) {

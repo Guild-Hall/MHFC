@@ -20,6 +20,8 @@ public class MessageMissionStatus implements IMessage {
 	private String missionID;
 	private Status statusType;
 
+	public MessageMissionStatus() {}
+
 	private MessageMissionStatus(String questID, String missionID, Status type) {
 		this.questID = questID;
 		this.missionID = Objects.requireNonNull(missionID);

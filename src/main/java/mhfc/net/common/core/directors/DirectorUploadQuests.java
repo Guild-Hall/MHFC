@@ -1,7 +1,7 @@
 package mhfc.net.common.core.directors;
 
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.IOException;
+import java.io.StringWriter;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -13,15 +13,11 @@ import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 
 public class DirectorUploadQuests {
 
-	private OutputStream outStream;
+	public static String construct(QuestDescriptionRegistry data) throws IOException {
+		StringWriter output = new StringWriter();
 
-	public DirectorUploadQuests(OutputStream out) {
-		outStream = out;
-	}
-
-	public void construct(QuestDescriptionRegistry data) {
-		JsonWriter jsonWriter = new JsonWriter(new OutputStreamWriter(outStream));
-		jsonWriter.setIndent("");
+		JsonWriter jsonWrite = new JsonWriter(output);
+		jsonWrite.setIndent("");
 		JsonObject holderObject = new JsonObject();
 		BuilderJsonToQuests builder = new BuilderJsonToQuests(data);
 
@@ -31,7 +27,10 @@ public class DirectorUploadQuests {
 		holderObject.add(MHFCQuestBuildRegistry.KEY_GOAL_DESCRIPTION, goalDescriptions);
 		holderObject.add(MHFCQuestBuildRegistry.KEY_QUEST_DESCRIPTION, questDescriptions);
 		holderObject.add(MHFCQuestBuildRegistry.KEY_GROUPS, groups);
-		BuilderJsonToQuests.gsonInstance.toJson(holderObject, jsonWriter);
+		BuilderJsonToQuests.gsonInstance.toJson(holderObject, jsonWrite);
+		jsonWrite.flush();
+
+		return output.toString();
 	}
 
 }

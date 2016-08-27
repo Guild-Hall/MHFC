@@ -28,7 +28,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	public static class QuestVisualInformationFactory {
 
 		public static final String KEY_NAME = "name";
-		public static final String KEY_DESCRIPTION = "description";
+		public static final String KEY_DESCRIPTION = "longDescription";
 		public static final String KEY_CLIENT = "client";
 		public static final String KEY_AIMS = "aims";
 		public static final String KEY_FAILS = "fails";
@@ -64,7 +64,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			String aims = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_AIMS, getDefaultAims());
 			String fails = MHFCJsonUtils
 					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_FAILS, getDefaultFails());
-			String areaName = jsonObject.get(KEY_AREA_ID).getAsString();
+			String areaName = quest.getAreaType().getUnlocalizedName();
 			String timeLimit = MHFCJsonUtils
 					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_TIME_LIMIT, getDefaultTimeLimit());
 			String reward = MHFCJsonUtils

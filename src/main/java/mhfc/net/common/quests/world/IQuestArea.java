@@ -8,6 +8,4 @@ public interface IQuestArea {
 
 	public void teleportToSpawn(EntityPlayer player);
 
-	public String getUnlocalizedDisplayName();
-
 }

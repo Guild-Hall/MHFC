@@ -2,6 +2,7 @@ package mhfc.net.common.world.types;
 
 import mhfc.net.common.quests.world.SpawnControllerAdapter.SpawnInformation;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
+import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.EmptyArea;
 import mhfc.net.common.world.area.IArea;
@@ -30,11 +31,6 @@ public class VillagePokeType extends AreaTypeSchematic {
 		}
 
 		@Override
-		public String getUnlocalizedDisplayName() {
-			return "area.village_poke.name";
-		}
-
-		@Override
 		public SpawnInformation constructDefaultSpawnInformation(Spawnable entity) {
 			return new SpawnInformation(entity, 10, 100, 10);
 		}
@@ -42,6 +38,11 @@ public class VillagePokeType extends AreaTypeSchematic {
 
 	private VillagePokeType() {
 		super(schematicLocation);
+	}
+
+	@Override
+	public String getUnlocalizedName() {
+		return MHFCReference.area_pokevillage_name;
 	}
 
 	@Override

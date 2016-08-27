@@ -5,10 +5,9 @@ import java.util.Objects;
 
 import com.google.common.base.Throwables;
 
+import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufInputStream;
-import io.netty.buffer.ByteBufOutputStream;
 import mhfc.net.common.core.data.QuestDescriptionRegistry;
 import mhfc.net.common.core.directors.DirectorDownloadQuests;
 import mhfc.net.common.core.directors.DirectorUploadQuests;
@@ -28,25 +27,18 @@ public class MessageQuestInit implements IMessage {
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		buf.retain();
-		try (ByteBufInputStream in = new ByteBufInputStream(buf);) {
-			downloader = new DirectorDownloadQuests(in);
-		} catch (IOException e) {
-			Throwables.propagate(e);
-		}
-		buf.release();
+		String json = ByteBufUtils.readUTF8String(buf);
+		downloader = new DirectorDownloadQuests(json);
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.retain();
-		try (ByteBufOutputStream out = new ByteBufOutputStream(buf);) {
-			DirectorUploadQuests uploader = new DirectorUploadQuests(out);
-			uploader.construct(data);
+		try {
+			String json = DirectorUploadQuests.construct(data);
+			ByteBufUtils.writeUTF8String(buf, json);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Throwables.propagate(e);
 		}
-		buf.release();
 	}
 
 	public void initialize(QuestDescriptionRegistry data) {

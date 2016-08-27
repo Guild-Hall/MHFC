@@ -1,7 +1,6 @@
 package mhfc.net.common.core.directors;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.StringReader;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -20,9 +19,9 @@ public class DirectorDownloadQuests implements IQuestDescriptionDirector {
 
 	JsonObject questDescriptions, goalDescriptions, groups;
 
-	public DirectorDownloadQuests(InputStream bufferStream) {
+	public DirectorDownloadQuests(String inputJson) {
 		JsonParser parser = new JsonParser();
-		InputStreamReader reader = new InputStreamReader(bufferStream);
+		StringReader reader = new StringReader(inputJson);
 		JsonObject jsonRepresentation = JsonUtils
 				.getJsonElementAsJsonObject(parser.parse(reader), "quest description data");
 		JsonElement jsonQuestDescription = jsonRepresentation.get(MHFCQuestBuildRegistry.KEY_QUEST_DESCRIPTION);

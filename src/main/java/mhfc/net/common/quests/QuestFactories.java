@@ -41,12 +41,12 @@ public class QuestFactories {
 	}
 
 	public static void insertQuestFactory(String type, IQuestFactory factory) {
-		Preconditions.checkArgument(questFactoryMap.containsKey(type), "duplicate factory type " + type);
+		Preconditions.checkArgument(!questFactoryMap.containsKey(type), "duplicate factory type " + type);
 		questFactoryMap.put(type, factory);
 	}
 
 	public static void insertGoalFactory(String type, IGoalFactory factory) {
-		Preconditions.checkArgument(goalFactoryMap.containsKey(type), "duplicate goal factory type " + type);
+		Preconditions.checkArgument(!goalFactoryMap.containsKey(type), "duplicate goal factory type " + type);
 		goalFactoryMap.put(type, factory);
 	}
 

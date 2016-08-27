@@ -118,7 +118,7 @@ public class MHFCRegQuestVisual {
 	private Map<String, IMissionInformation> missionVisuals = new HashMap<>();
 
 	private QuestDescriptionRegistry clientDataObject = new QuestDescriptionRegistry();
-	private Optional<IMissionInformation> playerVisual;
+	private Optional<IMissionInformation> playerVisual = Optional.empty();
 	private QuestStatusDisplay display = new QuestStatusDisplay();
 
 	public MHFCRegQuestVisual() {}
@@ -174,7 +174,7 @@ public class MHFCRegQuestVisual {
 		QuestDescriptionRegistry dataObject = clientDataObject;
 		int numberQuests = dataObject.getFullQuestDescriptionMap().size();
 		int numberGroups = dataObject.getGroupsInOrder().size();
-		String output = String.format("Loaded %d quests in %d groups.", numberQuests, numberGroups);
+		String output = String.format("Client loaded %d quests in %d groups.", numberQuests, numberGroups);
 		MHFCMain.logger().debug(output);
 	}
 

@@ -87,7 +87,7 @@ public class MHFCQuestBuildRegistry {
 	private static void logStats(QuestDescriptionRegistry dataObject) {
 		int numberQuests = dataObject.getFullQuestDescriptionMap().size();
 		int numberGroups = dataObject.getGroupsInOrder().size();
-		String output = String.format("Loaded %d quests in %d groups.", numberQuests, numberGroups);
+		String output = String.format("Server loaded %d quests in %d groups.", numberQuests, numberGroups);
 		MHFCMain.logger().info(output);
 	}
 
