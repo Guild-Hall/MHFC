@@ -23,5 +23,6 @@ public class QuestStatusHandler implements IMessageHandler<MessageMissionStatus,
 		default:
 			MHFCMain.logger().warn("Ingoring invalid mission status update");
 		}
+		return null;
 	}
 }

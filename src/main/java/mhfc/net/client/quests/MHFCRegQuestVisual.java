@@ -114,6 +114,26 @@ public class MHFCRegQuestVisual {
 		return getService().playersVisual;
 	}
 
+	public static void startNewMission(String questID, String missionID) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public static void joinMission(String missionID) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public static void departMission(String missionID) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public static void endMission(String missionID) {
+		// TODO Auto-generated method stub
+
+	}
+
 	private Set<String> missionIDs = new HashSet<>();
 	private Map<String, IMissionInformation> identifierToVisualInformationMap = new HashMap<>();
 
@@ -125,7 +145,7 @@ public class MHFCRegQuestVisual {
 
 	/**
 	 * (Re-)initializes the registry with the quest received in the init message.
-	 * 
+	 *
 	 * @param message
 	 */
 	public void onInitializationMessage(MessageQuestInit message) {
