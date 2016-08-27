@@ -1,7 +1,5 @@
 package mhfc.net.common.quests.api;
 
-import mhfc.net.common.quests.properties.GroupProperty;
-
 public abstract class GoalDefinition {
 	protected String goalType;
 
@@ -19,5 +17,5 @@ public abstract class GoalDefinition {
 		return goalType;
 	}
 
-	public abstract QuestGoal build(GroupProperty goalProperties);
+	public abstract IGoalFactory newFactory();
 }

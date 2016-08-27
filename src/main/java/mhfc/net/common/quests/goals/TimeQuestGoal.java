@@ -3,6 +3,8 @@
  */
 package mhfc.net.common.quests.goals;
 
+import java.util.Objects;
+
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.RunContext;
@@ -12,10 +14,7 @@ import mhfc.net.common.eventhandler.DelayedJob;
 import mhfc.net.common.eventhandler.MHFCTickHandler;
 import mhfc.net.common.eventhandler.TickPhase;
 import mhfc.net.common.quests.api.QuestGoal;
-import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.properties.IntProperty;
-import mhfc.net.common.util.stringview.DynamicString;
-import mhfc.net.common.util.stringview.Viewable;
 
 /**
  *
@@ -26,12 +25,12 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 		private IntProperty tickTime;
 		private boolean isCancelled;
 
-		public Timer(GroupProperty properties, int ticks) {
+		public Timer(IntProperty timer, int ticks) {
 			if (ticks < 0) {
 				throw new IllegalArgumentException("ticks must be greater than 0");
 			}
 			this.initialTickTime = ticks;
-			this.tickTime = properties.newMember("ticks", IntProperty.construct(ticks));
+			this.tickTime = Objects.requireNonNull(timer);
 			isCancelled = false;
 		}
 
@@ -65,22 +64,16 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 		public int getRemaining() {
 			return tickTime.get();
 		}
-
-		public int getDuration() {
-			return initialTickTime;
-		}
 	}
 
 	protected boolean isFailed = false;
 	protected boolean active;
 	protected Timer timer;
-	private DynamicString goalSummary;
 
-	public TimeQuestGoal(GroupProperty properties, int initialTime) {
+	public TimeQuestGoal(IntProperty timer, int initialTime) {
 		super(null);
 		active = false;
-		this.timer = new Timer(properties, initialTime);
-		goalSummary = new DynamicString().append("{{ticks}} remaining", properties);
+		this.timer = new Timer(timer, initialTime);
 		MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_POST, this.timer);
 	}
 
@@ -123,10 +116,5 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 	public void questGoalFinalize() {
 		setActive(false);
 		timer.cancel();
-	}
-
-	@Override
-	public Viewable getStatus() {
-		return goalSummary;
 	}
 }

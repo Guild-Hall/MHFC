@@ -11,10 +11,10 @@ import java.util.Set;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ServerDisconnectionFromClientEvent;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -32,7 +32,6 @@ import mhfc.net.common.quests.api.QuestDefinition;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.util.ChatComponentText;
 
 public class MHFCQuestRegistry {
@@ -98,9 +97,8 @@ public class MHFCQuestRegistry {
 	public static class QuestEventHandler {
 
 		@SubscribeEvent
-		public void onPlayerJoin(ServerConnectionFromClientEvent logIn) {
-			NetHandlerPlayServer playerNetHandler = (NetHandlerPlayServer) logIn.handler;
-			EntityPlayerMP player = playerNetHandler.playerEntity;
+		public void onPlayerJoin(PlayerLoggedInEvent logIn) {
+			EntityPlayerMP player = EntityPlayerMP.class.cast(logIn.player);
 			RunningSubscriptionHandler.subscribers.add(player);
 			for (Entry<String, Mission> mission : getRegistry().runningQuestRegistry.getFrozenDataMap().entrySet()) {
 				String missionID = mission.getKey();
@@ -110,9 +108,8 @@ public class MHFCQuestRegistry {
 		}
 
 		@SubscribeEvent
-		public void onPlayerLeave(ServerDisconnectionFromClientEvent logOut) {
-			NetHandlerPlayServer playerNetHandler = (NetHandlerPlayServer) logOut.handler;
-			EntityPlayerMP player = playerNetHandler.playerEntity;
+		public void onPlayerLeave(PlayerLoggedOutEvent logOut) {
+			EntityPlayerMP player = EntityPlayerMP.class.cast(logOut.player);
 			Mission quest = getRegistry().getQuestForPlayer(player);
 			if (quest == null) {
 				return;

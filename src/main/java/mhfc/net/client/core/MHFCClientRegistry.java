@@ -31,6 +31,6 @@ public class MHFCClientRegistry {
 		MHFCWeaponRenderRegistry.init();
 		MHFCItemRenderRegistry.init();
 		MinecraftForge.EVENT_BUS.register(new RenderEventListener());
-		MHFCMain.logger().info("Renderers registerd");
+		MHFCMain.logger().info("Renderers registered");
 	}
 }

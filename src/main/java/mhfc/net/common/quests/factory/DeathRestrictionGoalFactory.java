@@ -5,10 +5,10 @@ import static mhfc.net.common.quests.descriptions.DeathRestrictionDescription.*;
 import com.google.gson.*;
 
 import mhfc.net.common.quests.api.GoalDefinition;
-import mhfc.net.common.quests.api.IGoalFactory;
+import mhfc.net.common.quests.api.IGoalDefinitionFactory;
 import mhfc.net.common.quests.descriptions.DeathRestrictionDescription;
 
-public class DeathRestrictionGoalFactory implements IGoalFactory {
+public class DeathRestrictionGoalFactory implements IGoalDefinitionFactory {
 
 	@Override
 	public GoalDefinition buildGoalDescription(JsonElement jsonE,

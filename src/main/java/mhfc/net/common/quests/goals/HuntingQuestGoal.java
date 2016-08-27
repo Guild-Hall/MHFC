@@ -1,5 +1,6 @@
 package mhfc.net.common.quests.goals;
 
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import mhfc.net.common.eventhandler.quests.LivingDeathEventHandler;
@@ -7,12 +8,9 @@ import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
 import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
-import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.properties.IntProperty;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
 import mhfc.net.common.util.LazyQueue;
-import mhfc.net.common.util.stringview.DynamicString;
-import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,21 +24,20 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 	private IntProperty currentNumber;
 	private Class<? extends Entity> goalClass;
 	private QuestGoalEventHandler<LivingDeathEvent> goalHandler;
-	private DynamicString goalSummary;
 
 	public HuntingQuestGoal(
 			QuestGoalSocket socket,
 			Class<? extends Entity> goalClass,
-			GroupProperty properties,
-			int goalNumber) {
+			IntProperty goalNumber,
+			IntProperty currentNumber) {
 		super(socket);
-		this.goalClass = goalClass;
-		this.goalNumber = properties.newMember("goal", IntProperty.construct(goalNumber));
-		this.currentNumber = properties.newMember("current", IntProperty.construct(0));
+		this.goalClass = Objects.requireNonNull(goalClass);
+		this.goalNumber = Objects.requireNonNull(goalNumber);
+		this.currentNumber = Objects.requireNonNull(currentNumber);
+
 		goalHandler = new LivingDeathEventHandler(this);
 		MinecraftForge.EVENT_BUS.register(goalHandler);
 		String goalMob = (String) EntityList.classToStringMapping.get(goalClass);
-		goalSummary = new DynamicString().append("{{current}}/{{goal}} ", properties).appendStatic(goalMob);
 		Spawnable creation = (world) -> EntityList.createEntityByName(goalMob, world);
 		Stream<Spawnable> generator = Stream.generate(() -> creation);
 		infSpawns = new LazyQueue<>(generator.iterator());
@@ -91,10 +88,5 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 		} else {
 			getMission().getSpawnController().dequeueSpawns(infSpawns);
 		}
-	}
-
-	@Override
-	public Viewable getStatus() {
-		return goalSummary;
 	}
 }

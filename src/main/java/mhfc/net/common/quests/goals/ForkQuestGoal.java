@@ -9,8 +9,6 @@ import mhfc.net.common.quests.QuestStatus;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
-import mhfc.net.common.util.stringview.JoiningView;
-import mhfc.net.common.util.stringview.Viewable;
 
 /**
  * This is the super type for quest goals that do depend on multiple others but in no specific order. The order should
@@ -24,17 +22,11 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 
 	protected List<QuestGoal> requisites;
 	protected List<QuestGoal> optional;
-	private JoiningView requisitesSummary;
-	private JoiningView optionalSummary;
-	private JoiningView goalSummary;
 
 	public ForkQuestGoal(QuestGoalSocket parent) {
 		super(parent);
 		requisites = new LinkedList<>();
 		optional = new LinkedList<>();
-		requisitesSummary = JoiningView.on("\n");
-		optionalSummary = JoiningView.on("\n");
-		goalSummary = JoiningView.on("\n").append(requisitesSummary).append(optionalSummary);
 	}
 
 	/**
@@ -46,7 +38,6 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 			return;
 		}
 		requisites.add(goal);
-		requisitesSummary.append(goal.getStatus());
 		goal.setSocket(this);
 		notifyOfStatus(isFulfilled(), isFailed());
 	}
@@ -115,10 +106,5 @@ public class ForkQuestGoal extends QuestGoal implements QuestGoalSocket {
 		for (QuestGoal g : optional) {
 			g.setActive(newActive);
 		}
-	}
-
-	@Override
-	public Viewable getStatus() {
-		return goalSummary;
 	}
 }

@@ -19,7 +19,7 @@ import mhfc.net.client.quests.DefaultQuestVisualDefinition;
 import mhfc.net.client.quests.DefaultQuestVisualDefinition.QuestVisualInformationFactory;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalReference;
-import mhfc.net.common.quests.api.IQuestFactory;
+import mhfc.net.common.quests.api.IQuestDefinitionFactory;
 import mhfc.net.common.quests.api.QuestDefinition;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription.QuestType;
@@ -29,7 +29,7 @@ import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.util.JsonUtils;
 
-public class DefaultQuestFactory implements IQuestFactory {
+public class DefaultQuestFactory implements IQuestDefinitionFactory {
 
 	@Override
 	public DefaultQuestDescription buildQuestDescription(JsonElement json, JsonDeserializationContext context) {

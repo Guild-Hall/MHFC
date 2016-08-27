@@ -5,10 +5,10 @@ import static mhfc.net.common.quests.descriptions.TimeGoalDescription.*;
 import com.google.gson.*;
 
 import mhfc.net.common.quests.api.GoalDefinition;
-import mhfc.net.common.quests.api.IGoalFactory;
+import mhfc.net.common.quests.api.IGoalDefinitionFactory;
 import mhfc.net.common.quests.descriptions.TimeGoalDescription;
 
-public class TimeGoalFactory implements IGoalFactory {
+public class TimeGoalFactory implements IGoalDefinitionFactory {
 	@Override
 	public GoalDefinition buildGoalDescription(JsonElement jsonE,
 		JsonDeserializationContext context) {

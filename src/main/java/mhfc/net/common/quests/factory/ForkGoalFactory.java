@@ -6,10 +6,10 @@ import com.google.gson.*;
 
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.GoalReference;
-import mhfc.net.common.quests.api.IGoalFactory;
+import mhfc.net.common.quests.api.IGoalDefinitionFactory;
 import mhfc.net.common.quests.descriptions.ForkGoalDescription;
 
-public class ForkGoalFactory implements IGoalFactory {
+public class ForkGoalFactory implements IGoalDefinitionFactory {
 	@Override
 	public GoalDefinition buildGoalDescription(JsonElement jsonE,
 		JsonDeserializationContext context) {

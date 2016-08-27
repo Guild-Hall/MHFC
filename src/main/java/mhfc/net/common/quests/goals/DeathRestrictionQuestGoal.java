@@ -1,15 +1,14 @@
 package mhfc.net.common.quests.goals;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import mhfc.net.common.eventhandler.quests.LivingDeathEventHandler;
 import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
 import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
 import mhfc.net.common.quests.Mission;
 import mhfc.net.common.quests.api.QuestGoal;
-import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.properties.IntProperty;
-import mhfc.net.common.util.stringview.DynamicString;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -19,7 +18,6 @@ public class DeathRestrictionQuestGoal extends QuestGoal implements NotifyableQu
 	protected IntProperty maxDeaths;
 	protected IntProperty currentDeaths;
 	protected QuestGoalEventHandler<LivingDeathEvent> handler;
-	private DynamicString goalSummary;
 
 	/**
 	 * A new death count restriction is created with a maximum amount of deaths from players in the overlaying quest. If
@@ -31,10 +29,9 @@ public class DeathRestrictionQuestGoal extends QuestGoal implements NotifyableQu
 	 * @param maxDeaths
 	 *            How often players are allowed to die, inclusive
 	 */
-	public DeathRestrictionQuestGoal(GroupProperty propertyGroup, int maxDeaths) {
-		this.maxDeaths = propertyGroup.newMember("maxDeaths", IntProperty.construct(maxDeaths));
-		this.currentDeaths = propertyGroup.newMember("currDeaths", IntProperty.construct(0));
-		goalSummary = new DynamicString().append("+{{maxDeaths - currDeaths}} lives remaining", propertyGroup);
+	public DeathRestrictionQuestGoal(IntProperty maxDeaths, IntProperty currentDeaths) {
+		this.maxDeaths = Objects.requireNonNull(maxDeaths);
+		this.currentDeaths = Objects.requireNonNull(currentDeaths);
 		handler = new LivingDeathEventHandler(this);
 		handler.setActive(false);
 		MinecraftForge.EVENT_BUS.register(handler);
@@ -75,10 +72,5 @@ public class DeathRestrictionQuestGoal extends QuestGoal implements NotifyableQu
 			}
 		}
 		notifyOfStatus(isFulfilled(), isFailed());
-	}
-
-	@Override
-	public DynamicString getStatus() {
-		return goalSummary;
 	}
 }

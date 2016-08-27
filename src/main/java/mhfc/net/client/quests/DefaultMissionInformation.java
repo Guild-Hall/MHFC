@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.quests.api.IVisualDefinition;
-import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.client.gui.FontRenderer;
@@ -13,18 +12,16 @@ import net.minecraft.nbt.NBTBase;
 public class DefaultMissionInformation implements IMissionInformation {
 
 	private GroupProperty goalProperties;
-	private QuestGoal rootGoal;
 	private DefaultQuestVisualDefinition originalDef;
 	private Viewable goalSummary;
 	private StringBuilder viewBuffer;
 
 	public DefaultMissionInformation(
 			GroupProperty propertyRoot,
-			QuestGoal rootGoal,
+			Viewable rootGoalStatus,
 			DefaultQuestVisualDefinition defaultQuestVisualDefinition) {
 		this.goalProperties = Objects.requireNonNull(propertyRoot);
-		this.rootGoal = Objects.requireNonNull(rootGoal);
-		goalSummary = this.rootGoal.getStatus();
+		goalSummary = rootGoalStatus;
 		viewBuffer = new StringBuilder();
 		this.originalDef = Objects.requireNonNull(defaultQuestVisualDefinition);
 	}
@@ -61,10 +58,5 @@ public class DefaultMissionInformation implements IMissionInformation {
 	public String shortStatus() {
 		// TODO Auto-generated method stub
 		return "WIP - short status";
-	}
-
-	@Override
-	public void cleanUp() {
-		rootGoal.questGoalFinalize();
 	}
 }

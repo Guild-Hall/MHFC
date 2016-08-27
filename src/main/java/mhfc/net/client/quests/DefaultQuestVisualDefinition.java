@@ -9,12 +9,12 @@ import com.google.gson.JsonSerializationContext;
 import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.quests.api.IVisualDefinition;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
-import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription.QuestType;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.util.MHFCJsonUtils;
 import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.StatCollector;
 
@@ -237,8 +237,8 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	@Override
 	public IMissionInformation build() {
 		GroupProperty propertyRoot = GroupProperty.makeRootProperty();
-		QuestGoal rootGoal = quest.buildGoal(propertyRoot);
-		return new DefaultMissionInformation(propertyRoot, rootGoal, this);
+		Viewable rootGoalStatus = quest.buildGoalVisuals(propertyRoot);
+		return new DefaultMissionInformation(propertyRoot, rootGoalStatus, this);
 	}
 
 	@Override

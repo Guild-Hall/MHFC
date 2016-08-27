@@ -2,15 +2,18 @@ package mhfc.net.common.quests.descriptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.quests.QuestFactories;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.GoalReference;
+import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.goals.ForkQuestGoal;
 import mhfc.net.common.quests.properties.GroupProperty;
+import mhfc.net.common.util.stringview.JoiningView;
+import mhfc.net.common.util.stringview.Viewable;
 
 public class ForkGoalDescription extends GoalDefinition {
 
@@ -27,49 +30,65 @@ public class ForkGoalDescription extends GoalDefinition {
 	}
 
 	public List<GoalReference> getRequired() {
-		List<GoalReference> list = new ArrayList<>();
 		if (required == null) {
-			return list;
+			return Collections.emptyList();
 		}
-		list.addAll(Arrays.asList(required));
-		return list;
+		return Arrays.asList(required);
 	}
 
 	public List<GoalReference> getOptional() {
-		List<GoalReference> list = new ArrayList<>();
 		if (optional == null) {
-			return list;
+			return Collections.emptyList();
 		}
-		list.addAll(Arrays.asList(optional));
-		return list;
+		return Arrays.asList(optional);
 	}
 
 	@Override
-	public ForkQuestGoal build(GroupProperty properties) {
-		ForkQuestGoal fork = new ForkQuestGoal(null);
+	public IGoalFactory newFactory() {
+		return new IGoalFactory() {
+			private List<IGoalFactory> requiredFactories = new ArrayList<>(getRequired().size());
+			private List<IGoalFactory> optionalFactories = new ArrayList<>(getOptional().size());
 
-		int r = 0;
-		for (GoalReference req : getRequired()) {
-			QuestGoal constructGoal = QuestFactories.constructGoal(
-					req.getReferredDescription(),
-					properties.newMember("R" + r++, GroupProperty.construct()));
-			if (constructGoal == null) {
-				continue;
+			@Override
+			public IGoalFactory bindAttributes(GroupProperty goalProperties) {
+				int i = 0;
+				for (GoalReference req : getRequired()) {
+					GroupProperty reqProps = goalProperties.newMember("R" + i++, GroupProperty.construct());
+					requiredFactories.add(req.getReferredDescription().newFactory().bindAttributes(reqProps));
+				}
+				i = 0;
+				for (GoalReference opt : getOptional()) {
+					GroupProperty reqProps = goalProperties.newMember("O" + i++, GroupProperty.construct());
+					optionalFactories.add(opt.getReferredDescription().newFactory().bindAttributes(reqProps));
+				}
+				return this;
 			}
-			fork.addRequisite(constructGoal);
-		}
 
-		r = 0;
-		for (GoalReference opt : getOptional()) {
-			QuestGoal constructGoal = QuestFactories.constructGoal(
-					opt.getReferredDescription(),
-					properties.newMember("O" + r++, GroupProperty.construct()));
-			if (constructGoal == null) {
-				continue;
+			@Override
+			public Viewable buildVisual() {
+				JoiningView requisitesSummary = JoiningView.on("\n");
+				JoiningView optionalSummary = JoiningView.on("\n");
+				for (IGoalFactory reqFactory : requiredFactories) {
+					requisitesSummary.append(reqFactory.buildVisual());
+				}
+				for (IGoalFactory optFactory : optionalFactories) {
+					optionalSummary.append(optFactory.buildVisual());
+				}
+				JoiningView goalSummary = JoiningView.on("\n").append(requisitesSummary).append(optionalSummary);
+				return goalSummary;
 			}
-			fork.addOptional(constructGoal);
-		}
-		return fork;
+
+			@Override
+			public QuestGoal build() {
+				ForkQuestGoal fork = new ForkQuestGoal(null);
+				for (IGoalFactory reqFactory : requiredFactories) {
+					fork.addRequisite(reqFactory.build());
+				}
+				for (IGoalFactory optFactory : optionalFactories) {
+					fork.addRequisite(optFactory.build());
+				}
+				return fork;
+			}
+		};
 	}
-
 }

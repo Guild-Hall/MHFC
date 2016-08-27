@@ -22,6 +22,7 @@ public class NetworkTracker {
 	@SubscribeEvent
 	public void onClientServerConnection(ClientConnectedToServerEvent event) {
 		MHFCMain.logger().debug("Client connected to server " + event.manager.getSocketAddress().toString());
+		MHFCMain.logger().debug("Entering client connected phase ");
 		clientConnectedAccess.enterPhase(event);
 	}
 

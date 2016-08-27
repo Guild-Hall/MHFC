@@ -16,14 +16,12 @@ import mhfc.net.client.gui.quests.GuiQuestBoard;
 import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.quests.api.IVisualDefinition;
 import mhfc.net.common.core.data.QuestDescriptionRegistry;
+import mhfc.net.common.core.registry.RegistryWrapper;
 import mhfc.net.common.network.NetworkTracker;
 import mhfc.net.common.network.message.quest.MessageQuestInit;
 import mhfc.net.common.quests.api.QuestDefinition;
 import mhfc.net.common.util.lib.MHFCReference;
-import mhfc.net.common.util.services.IServiceAccess;
-import mhfc.net.common.util.services.IServiceHandle;
-import mhfc.net.common.util.services.IServicePhaseHandle;
-import mhfc.net.common.util.services.Services;
+import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -34,21 +32,11 @@ public class MHFCRegQuestVisual {
 	public static final ResourceLocation QUEST_BOARD_BACKGROUND = new ResourceLocation(MHFCReference.gui_board_tex);
 	public static final ResourceLocation CLICKABLE_LIST = new ResourceLocation(MHFCReference.gui_list_tex);
 
-	private static final IServiceAccess<MHFCRegQuestVisual> serviceAccess = Services.instance
-			.registerService("quest visuals", new IServiceHandle<MHFCRegQuestVisual>() {
-				@Override
-				public void startup(MHFCRegQuestVisual instance) {
-					instance.initialize();
-				};
-
-				@Override
-				public void shutdown(MHFCRegQuestVisual instance) {
-					instance.shutdown();
-				};
-			}, MHFCRegQuestVisual::new);
-	static {
-		serviceAccess.addTo(NetworkTracker.clientConnectedPhase, IServicePhaseHandle.noInit());
-	}
+	private static final IServiceKey<MHFCRegQuestVisual> serviceAccess = RegistryWrapper.registerService(
+			"quest visuals",
+			MHFCRegQuestVisual::new,
+			MHFCRegQuestVisual::shutdown,
+			NetworkTracker.clientConnectedPhase);
 
 	public static MHFCRegQuestVisual getService() {
 		return serviceAccess.getService();
@@ -121,7 +109,9 @@ public class MHFCRegQuestVisual {
 	private Optional<IMissionInformation> playerVisual = Optional.empty();
 	private QuestStatusDisplay display = new QuestStatusDisplay();
 
-	public MHFCRegQuestVisual() {}
+	public MHFCRegQuestVisual() {
+		initialize();
+	}
 
 	/**
 	 * (Re-)initializes the registry with the quest received in the init message.
