@@ -68,11 +68,11 @@ public abstract class QuestGoal {
 
 	}
 
-	public Mission getQuest() {
+	public Mission getMission() {
 		if (socket == null) {
 			return null;
 		}
-		return socket.getQuest();
+		return socket.getMission();
 	}
 
 	/**

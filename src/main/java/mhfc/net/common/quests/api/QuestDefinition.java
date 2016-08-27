@@ -16,5 +16,5 @@ public abstract class QuestDefinition implements IQuestDefinition {
 	}
 
 	@Override
-	public abstract Mission build();
+	public abstract Mission build(String missionID);
 }

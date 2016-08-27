@@ -116,7 +116,7 @@ public class DefaultQuestDescription extends QuestDefinition {
 	}
 
 	@Override
-	public Mission build() {
+	public Mission build(String missionID) {
 		GroupProperty goalProperties = GroupProperty.makeRootProperty();
 		QuestGoal goal = QuestFactories.constructGoal(getGoalReference().getReferredDescription(), goalProperties);
 		if (goal == null) {
@@ -130,7 +130,7 @@ public class DefaultQuestDescription extends QuestDefinition {
 			return null;
 		}
 
-		return new Mission(goal, goalProperties, getMaxPartySize(), getReward(), getFee(), activeArea, this);
+		return new Mission(missionID, goal, goalProperties, getMaxPartySize(), getReward(), getFee(), activeArea, this);
 	}
 
 }

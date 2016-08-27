@@ -11,5 +11,5 @@ public interface IQuestDefinition {
 
 	QuestFlair getQuestFlair();
 
-	Mission build();
+	Mission build(String missionID);
 }

@@ -11,6 +11,7 @@ import mhfc.net.client.quests.QuestRunningInformation;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.network.PacketPipeline;
+import mhfc.net.common.network.message.quest.MessageMissionStatus;
 import mhfc.net.common.network.message.quest.MessageMissionUpdate;
 import mhfc.net.common.quests.api.QuestDefinition;
 import mhfc.net.common.quests.api.QuestGoal;
@@ -60,6 +61,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		return new QuestingPlayerState(player, false, true, false);
 	}
 
+	private final String missionID;
 	private QuestDefinition originalDescription;
 	private QuestRunningInformation visualInformation;
 
@@ -82,6 +84,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	private boolean closed;
 
 	public Mission(
+			String missionID,
 			QuestGoal goal,
 			GroupProperty goalProperties,
 			int maxPartySize,
@@ -89,6 +92,8 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 			int fee,
 			CompletionStage<IActiveArea> activeArea,
 			QuestDefinition originalDescription) {
+		this.missionID = Objects.requireNonNull(missionID);
+
 		this.playerAttributes = new PlayerMap<>();
 
 		this.questGoal = Objects.requireNonNull(goal);
@@ -196,7 +201,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		for (EntityPlayerMP player : getPlayers()) {
 			removePlayer(player);
 		}
-		MHFCQuestRegistry.deregRunningQuest(this);
+		MHFCQuestRegistry.endMission(this);
 		MHFCMain.logger().info("Quest {} ended", this.visualInformation.getName());
 	}
 
@@ -204,8 +209,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		visualInformation.updateFromQuest(this);
 		for (QuestingPlayerState attribute : playerAttributes.values()) {
 			EntityPlayerMP player = attribute.player;
-			String id = MHFCQuestRegistry.getIdentifierForQuest(this);
-			PacketPipeline.networkPipe.sendTo(MessageMissionUpdate.createUpdate(id, rootGoalProperties), player);
+			PacketPipeline.networkPipe.sendTo(MessageMissionUpdate.createUpdate(missionID, rootGoalProperties), player);
 		}
 		MHFCQuestRegistry.questUpdated(this);
 	}
@@ -213,6 +217,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	protected void updatePlayerInitial(EntityPlayerMP player) {
 		// TODO: add player to the quest
 		PacketPipeline.networkPipe.sendTo(createFullUpdateMessage(), player);
+		PacketPipeline.networkPipe.sendTo(MessageMissionStatus.joining(missionID), player);
 	}
 
 	public boolean canJoin(EntityPlayer player) {
@@ -233,7 +238,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	}
 
 	@Override
-	public Mission getQuest() {
+	public Mission getMission() {
 		return this;
 	}
 
@@ -247,7 +252,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	private boolean removePlayer(EntityPlayerMP player) {
 		QuestingPlayerState att = playerAttributes.remove(player.getEntityId());
 		if (att != null) {
-			PacketPipeline.networkPipe.sendTo(new MessageQuestVisual(VisualType.PERSONAL_QUEST, "", null), att.player);
+			PacketPipeline.networkPipe.sendTo(MessageMissionStatus.departing(missionID), att.player);
 			MHFCQuestRegistry.setQuestForPlayer(att.player, null);
 			MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
 			MHFCExplorationRegistry.respawnPlayer(player);
@@ -368,8 +373,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	 * @return
 	 */
 	public MessageMissionUpdate createFullUpdateMessage() {
-		String id = MHFCQuestRegistry.getIdentifierForQuest(this);
-		return MessageMissionUpdate.createFullDump(id, rootGoalProperties);
+		return MessageMissionUpdate.createFullDump(missionID, rootGoalProperties);
 	}
 
 }

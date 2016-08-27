@@ -3,6 +3,7 @@ package mhfc.net.common.core.registry;
 import cpw.mods.fml.relauncher.Side;
 import mhfc.net.client.quests.QuestClientInitHandler;
 import mhfc.net.client.quests.QuestScreenVisualHandler;
+import mhfc.net.client.quests.QuestStatusHandler;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.BeginCraftingHandler;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.BenchRefreshHandler;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.CancelRecipeHandler;
@@ -22,6 +23,7 @@ import mhfc.net.common.network.message.bench.MessageCancelRecipe;
 import mhfc.net.common.network.message.bench.MessageCraftingUpdate;
 import mhfc.net.common.network.message.bench.MessageSetRecipe;
 import mhfc.net.common.network.message.quest.MessageMHFCInteraction;
+import mhfc.net.common.network.message.quest.MessageMissionStatus;
 import mhfc.net.common.network.message.quest.MessageMissionUpdate;
 import mhfc.net.common.network.message.quest.MessageQuestInit;
 import mhfc.net.common.network.message.quest.MessageQuestRunningSubscription;
@@ -49,6 +51,7 @@ public class MHFCPacketRegistry {
 
 		PacketPipeline.registerPacket(QuestClientInitHandler.class, MessageQuestInit.class, Side.CLIENT);
 		PacketPipeline.registerPacket(QuestScreenVisualHandler.class, MessageMissionUpdate.class, Side.CLIENT);
+		PacketPipeline.registerPacket(QuestStatusHandler.class, MessageMissionStatus.class, Side.CLIENT);
 
 		PacketPipeline.registerPacket(UpdateRequestHandler.class, MessageExploreTileUpdate.class, Side.SERVER);
 	}

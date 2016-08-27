@@ -37,5 +37,5 @@ public interface QuestGoalSocket {
 	 *
 	 * @return
 	 */
-	public Mission getQuest();
+	public Mission getMission();
 }

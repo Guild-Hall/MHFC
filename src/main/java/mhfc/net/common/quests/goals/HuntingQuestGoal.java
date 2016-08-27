@@ -66,10 +66,10 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 	public void notifyOfEvent(LivingDeathEvent event) {
 		if (goalClass.isAssignableFrom(event.entityLiving.getClass())) {
 			Entity damageSource = event.source.getEntity();
-			if ((damageSource instanceof EntityPlayer) && getQuest() != null) {
+			if ((damageSource instanceof EntityPlayer) && getMission() != null) {
 				boolean shouldcount = true;
-				shouldcount &= getQuest().getPlayers().contains(damageSource);
-				shouldcount &= getQuest().getSpawnController().getControlledEntities().contains(event.entity);
+				shouldcount &= getMission().getPlayers().contains(damageSource);
+				shouldcount &= getMission().getSpawnController().getControlledEntities().contains(event.entity);
 				if (shouldcount) {
 					currentNumber.inc();
 				}
@@ -82,10 +82,10 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 	public void setActive(boolean newActive) {
 		goalHandler.setActive(newActive);
 		if (newActive) {
-			getQuest().getSpawnController().enqueueSpawns(infSpawns);
-			getQuest().getSpawnController().setGenerationMaximum(goalClass, goalNumber.get());
+			getMission().getSpawnController().enqueueSpawns(infSpawns);
+			getMission().getSpawnController().setGenerationMaximum(goalClass, goalNumber.get());
 		} else {
-			getQuest().getSpawnController().dequeueSpawns(infSpawns);
+			getMission().getSpawnController().dequeueSpawns(infSpawns);
 		}
 	}
 

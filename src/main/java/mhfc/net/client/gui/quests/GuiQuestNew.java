@@ -146,7 +146,7 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 		fontRendererObj.drawString("Take a quest: ", 8, yBorder, MHFCGuiUtil.COLOUR_TEXT);
 		super.draw(mousePosX, mousePosY, partialTick);
 		if (!(questIdentifiers == null || selectedIdentifier < 0 || selectedIdentifier >= questIdentifiers.size())) {
-			IVisualDefinition info = MHFCRegQuestVisual.getVisualInformation(questIdentifiers.get(selectedIdentifier));
+			IVisualDefinition info = MHFCRegQuestVisual.getQuestInformation(questIdentifiers.get(selectedIdentifier));
 			newQuest.enabled = true;
 			// TODO set start enabled based on can join
 			FontRenderer fontRenderer = mc.fontRenderer;
@@ -195,8 +195,8 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 			GuiListStringItem item = groupList.getSelectedItem();
 			String selectedList = item == null ? "" : item.getInitializationString();
 			questIdentifiers.clear();
-			Set<String> newIdentifiers = MHFCRegQuestVisual.getIdentifierList(selectedList);
-			questIdentifiers.addAll(newIdentifiers);
+			Set<String> newQuestIDs = MHFCRegQuestVisual.getAvailableQuestIDs(selectedList);
+			questIdentifiers.addAll(newQuestIDs);
 		}
 	}
 }

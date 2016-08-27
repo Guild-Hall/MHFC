@@ -1,5 +1,6 @@
 package mhfc.net.client.quests;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -69,42 +70,40 @@ public class MHFCRegQuestVisual {
 		return serviceAccess.getService();
 	}
 
-	public static void setPlayerVisual(Optional<IMissionInformation> visual) {
-		getService().setVisual(visual);
-	}
-
-	public static void modifyRunningQuestList(String identifier, IMissionInformation visual) {
-		getService().modMissionList(identifier, visual);
-	}
-
-	public static Set<String> getIdentifierList(String groupId) {
+	public static Set<String> getAvailableQuestIDs(String groupId) {
 		return getService().getQuestIdentifiers(groupId);
 	}
 
-	public static Set<String> getRunningQuestIDs() {
-		return getService().missionIDs;
+	public static Set<String> getRunningMissionIDs() {
+		return Collections.unmodifiableSet(getService().getMissionIdentifiers());
 	}
 
 	/**
 	 *
-	 * @param identifier
+	 * @param questID
 	 *            of the quest in which you are interested
 	 * @return Either the visual representation of the requested quest or a replacement <br>
 	 *         representing loading.
 	 */
-	public static IVisualDefinition getVisualInformation(String identifier) {
+	public static IVisualDefinition getQuestInformation(String questID) {
 		MHFCRegQuestVisual service = getService();
-		QuestDefinition staticDescription = service.clientDataObject.getQuestDescription(identifier);
+		QuestDefinition staticDescription = service.clientDataObject.getQuestDescription(questID);
 		if (staticDescription != null) {
 			return staticDescription.getVisualInformation();
 		}
-
-		service.identifierToVisualInformationMap.put(identifier, DefaultQuestVisualDefinition.IDENTIFIER_ERROR);
 		return DefaultQuestVisualDefinition.IDENTIFIER_ERROR;
 	}
 
-	public static IMissionInformation getMissionInformation(String identifier) {
-		return getService().identifierToVisualInformationMap.get(identifier);
+	/**
+	 * Gets the dynamic information for a running mission. If the mission is unavailable, it is lazily initialized with
+	 * a loading replacement, and a refresh is polled from the server.
+	 *
+	 * @param missionID
+	 *            the mission you are interested in.
+	 * @return
+	 */
+	public static IMissionInformation getMissionInformation(String missionID) {
+		return getService().identifierToVisualInformationMap.get(missionID);
 	}
 
 	public static boolean hasPlayerQuest() {
@@ -119,23 +118,38 @@ public class MHFCRegQuestVisual {
 	private Map<String, IMissionInformation> identifierToVisualInformationMap = new HashMap<>();
 
 	private QuestDescriptionRegistry clientDataObject = new QuestDescriptionRegistry();
-
 	private Optional<IMissionInformation> playersVisual;
-
 	private QuestStatusDisplay display = new QuestStatusDisplay();
 
+	public MHFCRegQuestVisual() {}
+
+	/**
+	 * (Re-)initializes the registry with the quest received in the init message.
+	 * 
+	 * @param message
+	 */
 	public void onInitializationMessage(MessageQuestInit message) {
 		reset();
 		message.initialize(clientDataObject);
 	}
 
-	public void setVisual(Optional<IMissionInformation> newVisual) {
-		Objects.requireNonNull(newVisual);
-		playersVisual.ifPresent(IMissionInformation::cleanUp);
-		playersVisual = newVisual;
+	public Set<String> getQuestIdentifiers(String group) {
+		return Collections.unmodifiableSet(clientDataObject.getQuestIdentifiersFor(group));
 	}
 
-	public void modMissionList(String identifier, IMissionInformation visual) {
+	public Set<String> getMissionIdentifiers() {
+		return Collections.unmodifiableSet(missionIDs);
+	}
+
+	protected void logStats() {
+		QuestDescriptionRegistry dataObject = clientDataObject;
+		int numberQuests = dataObject.getFullQuestDescriptionMap().size();
+		int numberGroups = dataObject.getGroupsInOrder().size();
+		String output = String.format("Loaded %d quests in %d groups.", numberQuests, numberGroups);
+		MHFCMain.logger().debug(output);
+	}
+
+	private void modMissionList(String identifier, IMissionInformation visual) {
 		boolean clear = visual == null;
 		if (clear) {
 			identifierToVisualInformationMap.remove(identifier);
@@ -148,16 +162,10 @@ public class MHFCRegQuestVisual {
 		}
 	}
 
-	public Set<String> getQuestIdentifiers(String group) {
-		return clientDataObject.getQuestIdentifiersFor(group);
-	}
-
-	protected void logStats() {
-		QuestDescriptionRegistry dataObject = clientDataObject;
-		int numberQuests = dataObject.getFullQuestDescriptionMap().size();
-		int numberGroups = dataObject.getGroupsInOrder().size();
-		String output = String.format("Loaded %d quests in %d groups.", numberQuests, numberGroups);
-		MHFCMain.logger().debug(output);
+	private void setVisual(Optional<IMissionInformation> newVisual) {
+		Objects.requireNonNull(newVisual);
+		playersVisual.ifPresent(IMissionInformation::cleanUp);
+		playersVisual = newVisual;
 	}
 
 	private void initialize() {
