@@ -34,7 +34,7 @@ public class DeathRestrictionQuestGoal extends QuestGoal implements NotifyableQu
 	public DeathRestrictionQuestGoal(GroupProperty propertyGroup, int maxDeaths) {
 		this.maxDeaths = propertyGroup.newMember("maxDeaths", IntProperty.construct(maxDeaths));
 		this.currentDeaths = propertyGroup.newMember("currDeaths", IntProperty.construct(0));
-		goalSummary = new DynamicString().append("{{currDeaths}}/{{maxDeaths}}", propertyGroup);
+		goalSummary = new DynamicString().append("{{currDeaths}}/{{maxDeaths}} deaths", propertyGroup);
 		handler = new LivingDeathEventHandler(this);
 		handler.setActive(false);
 		MinecraftForge.EVENT_BUS.register(handler);

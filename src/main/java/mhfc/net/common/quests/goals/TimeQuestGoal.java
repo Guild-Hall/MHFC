@@ -80,7 +80,7 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 		super(null);
 		active = false;
 		this.timer = new Timer(properties, initialTime);
-		goalSummary = new DynamicString().append("{{time}} remaining", properties);
+		goalSummary = new DynamicString().append("{{ticks}} remaining", properties);
 		MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_POST, this.timer);
 	}
 

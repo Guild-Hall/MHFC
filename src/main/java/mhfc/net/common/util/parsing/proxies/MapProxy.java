@@ -15,7 +15,7 @@ public class MapProxy implements ISpecialMember {
 	 *            no defensive copy is made.
 	 */
 	public MapProxy(Map<String, ? extends IValueHolder> mapReference) {
-		this.map = Objects.requireNonNull(map);
+		this.map = Objects.requireNonNull(mapReference);
 	}
 
 	/**

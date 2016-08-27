@@ -8,6 +8,7 @@ import java.util.function.IntSupplier;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.util.ExceptionLessFunctions;
 import mhfc.net.common.util.ExceptionLessFunctions.ThrowingSupplier;
 import mhfc.net.common.util.function.ByteSupplier;
@@ -774,6 +775,7 @@ public final class Holder implements IValueHolder {
 		try {
 			return supplier.get();
 		} catch (Throwable thr) {
+			MHFCMain.logger().catching(thr);
 			Objects.requireNonNull(excClazz);
 			if (excClazz.isInstance(thr)) {
 				return Holder.catching(thr);
@@ -894,6 +896,10 @@ public final class Holder implements IValueHolder {
 		return getAs(Object.class);
 	}
 
+	public Object boxedOrNull() {
+		return getAs(Object.class, null);
+	}
+
 	/**
 	 * Check if an error is stored, if yes, throw, if no, return
 	 */
@@ -1002,6 +1008,15 @@ public final class Holder implements IValueHolder {
 		return supply.get();
 	}
 
+	public <F> F getAs(Class<F> fClazz, F otherwise) {
+		throwIfError();
+		Supplier<F> supply = this.wrap.asObject(fClazz);
+		if (supply == null) {
+			return otherwise;
+		}
+		return supply.get();
+	}
+
 	/**
 	 * This Holder is said to be "valid" when it doesn't hold an error.
 	 *
@@ -1065,7 +1080,7 @@ public final class Holder implements IValueHolder {
 		if (!isValid()) {
 			return "{error: " + this.wrap.checkError().toString() + "}";
 		}
-		Object hold = boxed();
+		Object hold = boxedOrNull();
 		return hold == null ? "void" : hold.toString();
 	}
 
