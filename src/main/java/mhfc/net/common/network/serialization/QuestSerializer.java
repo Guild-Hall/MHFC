@@ -11,9 +11,9 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
+import mhfc.net.common.quests.QuestFactories;
 import mhfc.net.common.quests.api.IQuestFactory;
 import mhfc.net.common.quests.api.QuestDefinition;
-import mhfc.net.common.quests.api.QuestFactories;
 import mhfc.net.common.util.MHFCJsonUtils;
 import net.minecraft.util.JsonUtils;
 

@@ -12,14 +12,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.client.gui.hud.QuestStatusDisplay;
 import mhfc.net.client.gui.quests.GuiQuestBoard;
+import mhfc.net.client.quests.api.IMissionInformation;
+import mhfc.net.client.quests.api.IVisualDefinition;
 import mhfc.net.common.core.data.QuestDescriptionRegistry;
 import mhfc.net.common.network.NetworkTracker;
-import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestInit;
-import mhfc.net.common.network.packet.MessageRequestQuestVisual;
-import mhfc.net.common.quests.api.IVisualDefinition;
 import mhfc.net.common.quests.api.QuestDefinition;
-import mhfc.net.common.quests.api.DefaultQuestVisualDefinition;
 import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.util.services.IServiceAccess;
 import mhfc.net.common.util.services.IServiceHandle;
@@ -71,12 +69,12 @@ public class MHFCRegQuestVisual {
 		return serviceAccess.getService();
 	}
 
-	public static void setPlayerVisual(Optional<IRunningQuestInformation> visual) {
+	public static void setPlayerVisual(Optional<IMissionInformation> visual) {
 		getService().setVisual(visual);
 	}
 
-	public static void modifyRunningQuestList(String identifier, IVisualDefinition visual) {
-		getService().modRunningQuestList(identifier, visual);
+	public static void modifyRunningQuestList(String identifier, IMissionInformation visual) {
+		getService().modMissionList(identifier, visual);
 	}
 
 	public static Set<String> getIdentifierList(String groupId) {
@@ -84,7 +82,7 @@ public class MHFCRegQuestVisual {
 	}
 
 	public static Set<String> getRunningQuestIDs() {
-		return getService().runningQuestIDs;
+		return getService().missionIDs;
 	}
 
 	/**
@@ -100,12 +98,12 @@ public class MHFCRegQuestVisual {
 		if (staticDescription != null) {
 			return staticDescription.getVisualInformation();
 		}
-		PacketPipeline.networkPipe.sendToServer(new MessageRequestQuestVisual(identifier));
-		service.identifierToVisualInformationMap.put(identifier, DefaultQuestVisualDefinition.LOADING_REPLACEMENT);
-		return DefaultQuestVisualDefinition.LOADING_REPLACEMENT;
+
+		service.identifierToVisualInformationMap.put(identifier, DefaultQuestVisualDefinition.IDENTIFIER_ERROR);
+		return DefaultQuestVisualDefinition.IDENTIFIER_ERROR;
 	}
 
-	public static IVisualDefinition getQuestVisualInformation(String identifier) {
+	public static IMissionInformation getMissionInformation(String identifier) {
 		return getService().identifierToVisualInformationMap.get(identifier);
 	}
 
@@ -113,16 +111,16 @@ public class MHFCRegQuestVisual {
 		return getPlayerVisual().isPresent();
 	}
 
-	public static Optional<IRunningQuestInformation> getPlayerVisual() {
+	public static Optional<IMissionInformation> getPlayerVisual() {
 		return getService().playersVisual;
 	}
 
-	private Set<String> runningQuestIDs = new HashSet<>();
-	private Map<String, IVisualDefinition> identifierToVisualInformationMap = new HashMap<>();
+	private Set<String> missionIDs = new HashSet<>();
+	private Map<String, IMissionInformation> identifierToVisualInformationMap = new HashMap<>();
 
 	private QuestDescriptionRegistry clientDataObject = new QuestDescriptionRegistry();
 
-	private Optional<IRunningQuestInformation> playersVisual;
+	private Optional<IMissionInformation> playersVisual;
 
 	private QuestStatusDisplay display = new QuestStatusDisplay();
 
@@ -131,21 +129,21 @@ public class MHFCRegQuestVisual {
 		message.initialize(clientDataObject);
 	}
 
-	public void setVisual(Optional<IRunningQuestInformation> newVisual) {
+	public void setVisual(Optional<IMissionInformation> newVisual) {
 		Objects.requireNonNull(newVisual);
-		playersVisual.ifPresent(IRunningQuestInformation::cleanUp);
+		playersVisual.ifPresent(IMissionInformation::cleanUp);
 		playersVisual = newVisual;
 	}
 
-	public void modRunningQuestList(String identifier, IVisualDefinition visual) {
+	public void modMissionList(String identifier, IMissionInformation visual) {
 		boolean clear = visual == null;
 		if (clear) {
 			identifierToVisualInformationMap.remove(identifier);
-			runningQuestIDs.remove(identifier);
+			missionIDs.remove(identifier);
 			GuiQuestBoard.questBoard.addQuest(identifier, visual);
 		} else {
 			identifierToVisualInformationMap.put(identifier, visual);
-			runningQuestIDs.add(identifier);
+			missionIDs.add(identifier);
 			GuiQuestBoard.questBoard.removeQuest(identifier);
 		}
 	}
@@ -173,7 +171,7 @@ public class MHFCRegQuestVisual {
 	}
 
 	private void reset() {
-		this.runningQuestIDs.clear();
+		this.missionIDs.clear();
 		this.identifierToVisualInformationMap.clear();
 		this.clientDataObject.clearData();
 		this.setVisual(Optional.empty());

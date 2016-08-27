@@ -22,11 +22,9 @@ import mhfc.net.common.core.data.QuestDescriptionRegistry.QuestGroupData;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.network.serialization.GoalSerializer;
 import mhfc.net.common.network.serialization.QuestSerializer;
-import mhfc.net.common.network.serialization.QuestVisualSerializer;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.GoalReference.GoalRefSerializer;
-import mhfc.net.common.quests.api.IVisualDefinition;
 import mhfc.net.common.quests.api.QuestDefinition;
 
 public class BuilderJsonToQuests {
@@ -123,8 +121,7 @@ public class BuilderJsonToQuests {
 	public final static Gson gsonInstance = new GsonBuilder()
 			.registerTypeAdapter(GoalDefinition.class, new GoalSerializer())
 			.registerTypeAdapter(QuestDefinition.class, new QuestSerializer())
-			.registerTypeAdapter(GoalReference.class, new GoalRefSerializer())
-			.registerTypeAdapter(IVisualDefinition.class, new QuestVisualSerializer()).serializeNulls().create();
+			.registerTypeAdapter(GoalReference.class, new GoalRefSerializer()).serializeNulls().create();
 
 	private QuestDescriptionRegistry dataObject;
 

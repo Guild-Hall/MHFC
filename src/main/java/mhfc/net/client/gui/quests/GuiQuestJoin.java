@@ -11,11 +11,12 @@ import mhfc.net.client.gui.IMHFCGuiItem;
 import mhfc.net.client.gui.IMHFCTab;
 import mhfc.net.client.gui.MHFCGui;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
+import mhfc.net.client.quests.api.IMissionInformation;
+import mhfc.net.client.quests.api.IVisualDefinition;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageMHFCInteraction;
 import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
-import mhfc.net.common.quests.api.IVisualDefinition;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
@@ -110,11 +111,11 @@ public class GuiQuestJoin extends MHFCGui implements IMHFCTab {
 		super.onGuiClosed();
 	}
 
-	public void addQuest(String id, IVisualDefinition info) {
+	public void addQuest(String id, IMissionInformation info) {
 		if (mapToListItems.containsKey(id)) {
 			return;
 		}
-		GuiListStringItem item = new GuiListStringItem(info.getDisplayName());
+		GuiListStringItem item = new GuiListStringItem(info.getOriginalDefinition().getDisplayName());
 		mapToListItems.put(id, item);
 		mapToIdentifiers.put(item, id);
 		runningQuestList.add(item);
@@ -143,19 +144,25 @@ public class GuiQuestJoin extends MHFCGui implements IMHFCTab {
 		fontRendererObj.drawString("Currently running:", 9, yBorder, MHFCGuiUtil.COLOUR_TEXT);
 		runningQuestList.setVisible(true);
 		GuiListStringItem item = runningQuestList.getSelectedItem();
-		if (item != null) {
-			String id = mapToIdentifiers.get(item);
-			IVisualDefinition info = MHFCRegQuestVisual.getQuestVisualInformation(id);
-			if (info != null) {
-				info.drawInformation(
-						runningW + runningX,
-						yBorder,
-						xSize - runningW - 2 * runningX,
-						ySize - 2 * yBorder,
-						page,
-						fontRendererObj);
-			}
+		if (item == null) {
+			return;
 		}
+		String id = mapToIdentifiers.get(item);
+		IMissionInformation missionInfo = MHFCRegQuestVisual.getMissionInformation(id);
+		if (missionInfo == null) {
+			return;
+		}
+		IVisualDefinition staticInfo = missionInfo.getOriginalDefinition();
+		if (staticInfo == null) {
+			return;
+		}
+		staticInfo.drawInformation(
+				runningW + runningX,
+				yBorder,
+				xSize - runningW - 2 * runningX,
+				ySize - 2 * yBorder,
+				page,
+				fontRendererObj);
 	}
 
 	@Override

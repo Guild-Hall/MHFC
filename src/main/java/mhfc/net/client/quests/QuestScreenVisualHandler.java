@@ -1,25 +1,14 @@
 package mhfc.net.client.quests;
 
-import java.util.Optional;
-
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import mhfc.net.common.network.packet.MessageQuestVisual;
-import mhfc.net.common.quests.api.IVisualDefinition;
+import mhfc.net.common.network.packet.MessageMissionUpdate;
 
-public class QuestScreenVisualHandler implements IMessageHandler<MessageQuestVisual, IMessage> {
+public class QuestScreenVisualHandler implements IMessageHandler<MessageMissionUpdate, IMessage> {
 	@Override
-	public IMessage onMessage(MessageQuestVisual message, MessageContext ctx) {
-		IVisualDefinition visual = message.getInformation();
-		switch (message.getMessageType()) {
-		case PERSONAL_QUEST:
-			MHFCRegQuestVisual.setPlayerVisual(Optional.of(visual));
-			break;
-		case RUNNING_QUEST:
-			modifyRunningQuestList(visual, message);
-			break;
-		}
+	public IMessage onMessage(MessageMissionUpdate message, MessageContext ctx) {
+		MHFCRegQuestVisual.getMissionInformation(message.getMissionId()).updateProperties(message.getUpdateData());
 		return null;
 	}
 }

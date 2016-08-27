@@ -1,13 +1,15 @@
-package mhfc.net.common.quests.api;
+package mhfc.net.client.quests;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 
-import mhfc.net.client.quests.IRunningQuestInformation;
+import mhfc.net.client.quests.api.IMissionInformation;
+import mhfc.net.client.quests.api.IVisualDefinition;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
-import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
+import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
+import mhfc.net.common.quests.descriptions.DefaultQuestDescription.QuestType;
 import mhfc.net.common.util.MHFCJsonUtils;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.gui.FontRenderer;
@@ -20,9 +22,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	public static final int COLOUR_TEXT = MHFCGuiUtil.COLOUR_TEXT;
 	public static final int COLOUR_TITLE = MHFCGuiUtil.COLOUR_TITLE;
 
-	public static class QuestVisualInformationFactory
-			implements
-			IVisualInformationFactory<DefaultQuestVisualDefinition> {
+	public static class QuestVisualInformationFactory {
 
 		public static final String KEY_NAME = "name";
 		public static final String KEY_DESCRIPTION = "description";
@@ -36,15 +36,14 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		public static final String KEY_TIME_LIMIT = "timeLimit";
 		public static final String KEY_TYPE = "questType";
 
-		private QuestDefinition quest;
+		private DefaultQuestDescription quest;
 
 		public QuestVisualInformationFactory() {}
 
-		public QuestVisualInformationFactory(QuestDefinition quest) {
+		public QuestVisualInformationFactory(DefaultQuestDescription quest) {
 			this.quest = quest;
 		}
 
-		@Override
 		public DefaultQuestVisualDefinition buildInformation(JsonElement json, JsonDeserializationContext context) {
 			JsonObject jsonObject = json.getAsJsonObject();
 			String name = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_NAME, getDefaultName());
@@ -79,7 +78,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 					type);
 		}
 
-		@Override
 		public JsonElement serialize(DefaultQuestVisualDefinition information, JsonSerializationContext context) {
 			JsonObject holder = new JsonObject();
 			holder.addProperty(KEY_NAME, information.name);
@@ -148,8 +146,8 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			"A quest",
 			"None",
 			"---",
-			QuestDefinition.QuestType.EpicHunting.getAsString());
-	public static final IVisualDefinition IDENTIFIER_ERROR = new DefaultQuestVisualDefinition(
+			QuestType.EpicHunting.getAsString());
+	public static final DefaultQuestVisualDefinition IDENTIFIER_ERROR = new DefaultQuestVisualDefinition(
 			"Identifier invalid",
 			"Please contact the server operator so he can give information to the mod team",
 			"MHFC mod team",
@@ -160,8 +158,8 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			"A better experience",
 			"A few seconds of your time",
 			"Hopefully one",
-			QuestDefinition.QuestType.Gathering.getAsString());
-	public static final IVisualDefinition UNKNOWN = new DefaultQuestVisualDefinition(
+			QuestType.Gathering.getAsString());
+	public static final DefaultQuestVisualDefinition UNKNOWN = new DefaultQuestVisualDefinition(
 			"Unknown quest",
 			"Creating visual failed. The quest exists though",
 			"Hunter's guild",
@@ -219,12 +217,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	}
 
 	@Override
-	public String getSerializerType() {
-		return MHFCQuestBuildRegistry.VISUAL_DEFAULT;
-	}
-
-	@Override
-	public IRunningQuestInformation newInstance() {
+	public IMissionInformation build() {
 		// TODO Auto-generated method stub
 		return null;
 	}

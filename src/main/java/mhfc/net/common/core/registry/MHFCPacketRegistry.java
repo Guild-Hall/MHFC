@@ -22,10 +22,10 @@ import mhfc.net.common.network.message.bench.MessageCancelRecipe;
 import mhfc.net.common.network.message.bench.MessageCraftingUpdate;
 import mhfc.net.common.network.message.bench.MessageSetRecipe;
 import mhfc.net.common.network.packet.MessageMHFCInteraction;
+import mhfc.net.common.network.packet.MessageMissionUpdate;
 import mhfc.net.common.network.packet.MessageQuestInit;
 import mhfc.net.common.network.packet.MessageQuestRunningSubscription;
-import mhfc.net.common.network.packet.MessageQuestVisual;
-import mhfc.net.common.network.packet.MessageRequestQuestVisual;
+import mhfc.net.common.network.packet.MessageRequestMissionUpdate;
 import mhfc.net.common.network.packet.MessageTileUpdate;
 import mhfc.net.common.tile.TileExploreArea.UpdateRequestHandler;
 
@@ -41,13 +41,14 @@ public class MHFCPacketRegistry {
 		PacketPipeline.registerPacket(BenchRefreshHandler.class, MessageBenchRefreshRequest.class, Side.SERVER);
 		PacketPipeline.registerPacket(CraftingUpdateHandler.class, MessageCraftingUpdate.class, Side.CLIENT);
 
-		PacketPipeline.registerPacket(RegistryRequestVisualHandler.class, MessageRequestQuestVisual.class, Side.SERVER);
+		PacketPipeline
+				.registerPacket(RegistryRequestVisualHandler.class, MessageRequestMissionUpdate.class, Side.SERVER);
 		PacketPipeline.registerPacket(MHFCInteractionHandler.class, MessageMHFCInteraction.class, Side.SERVER);
 		PacketPipeline
 				.registerPacket(RunningSubscriptionHandler.class, MessageQuestRunningSubscription.class, Side.SERVER);
 
 		PacketPipeline.registerPacket(QuestClientInitHandler.class, MessageQuestInit.class, Side.CLIENT);
-		PacketPipeline.registerPacket(QuestScreenVisualHandler.class, MessageQuestVisual.class, Side.CLIENT);
+		PacketPipeline.registerPacket(QuestScreenVisualHandler.class, MessageMissionUpdate.class, Side.CLIENT);
 
 		PacketPipeline.registerPacket(UpdateRequestHandler.class, MessageExploreTileUpdate.class, Side.SERVER);
 	}

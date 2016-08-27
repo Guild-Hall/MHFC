@@ -1,6 +1,5 @@
-package mhfc.net.common.quests.api;
+package mhfc.net.client.quests.api;
 
-import mhfc.net.client.quests.IRunningQuestInformation;
 import net.minecraft.client.gui.FontRenderer;
 
 public interface IVisualDefinition {
@@ -11,18 +10,16 @@ public interface IVisualDefinition {
 	 */
 	String getDisplayName();
 
-	String getSerializerType();
-
 	/**
-	 * Generates a new IRunningQuestInformation. Only called on the client when the player enters a quest.
+	 * Generates a new IMissionInformation. Only called on the client when the player enters a quest.
 	 *
 	 * @return
 	 */
-	IRunningQuestInformation newInstance();
+	IMissionInformation build();
 
 	/**
 	 * Draws the visual definition when it should be displayed to the client, e.g. on the quest board.
-	 * 
+	 *
 	 * @param positionX
 	 * @param positionY
 	 * @param width

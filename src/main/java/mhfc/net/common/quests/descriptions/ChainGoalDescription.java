@@ -2,9 +2,9 @@ package mhfc.net.common.quests.descriptions;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
+import mhfc.net.common.quests.QuestFactories;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.GoalReference;
-import mhfc.net.common.quests.api.QuestFactories;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.goals.ChainQuestGoal;
 import mhfc.net.common.quests.properties.GroupProperty;

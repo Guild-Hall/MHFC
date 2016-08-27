@@ -26,7 +26,7 @@ public class GroupProperty extends Property {
 	}
 
 	@Override
-	public NBTBase dumpUpdates() {
+	public NBTTagCompound dumpUpdates() {
 		if (!pollDirty()) {
 			return signalNoUpdates();
 		}
@@ -45,7 +45,7 @@ public class GroupProperty extends Property {
 	}
 
 	@Override
-	public NBTBase dumpAll() {
+	public NBTTagCompound dumpAll() {
 		NBTTagCompound updateTag = new NBTTagCompound();
 		for (Entry<String, Property> mapping : subProperties.entrySet()) {
 			NBTBase elementUpdate = mapping.getValue().dumpAll();

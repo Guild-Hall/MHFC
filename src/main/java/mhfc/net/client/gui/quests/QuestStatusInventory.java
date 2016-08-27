@@ -2,8 +2,8 @@ package mhfc.net.client.gui.quests;
 
 import mhfc.net.client.container.ContainerQuestStatus;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
+import mhfc.net.client.quests.api.IVisualDefinition;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
-import mhfc.net.common.quests.api.IVisualDefinition;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;

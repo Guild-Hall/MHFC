@@ -14,9 +14,9 @@ import mhfc.net.common.core.registry.MHFCQuestRegistry.RunningSubscriptionHandle
 import mhfc.net.common.eventhandler.MHFCInteractionHandler.MHFCInteractionModReloadEvent;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageQuestInit;
+import mhfc.net.common.quests.QuestFactories;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.QuestDefinition;
-import mhfc.net.common.quests.api.QuestFactories;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.world.QuestFlair;
 import net.minecraft.entity.player.EntityPlayerMP;

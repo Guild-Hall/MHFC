@@ -2,11 +2,12 @@ package mhfc.net.client.quests;
 
 import java.util.List;
 
+import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.util.MHFCStringDecode.CompositeString;
 import mhfc.net.common.util.MHFCStringDecode.StringElement;
 
-public class QuestRunningInformation implements IRunningQuestInformation {
+public class QuestRunningInformation implements IMissionInformation {
 	/**
 	 * Dynamic informations of a quest.
 	 *

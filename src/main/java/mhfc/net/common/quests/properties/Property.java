@@ -2,13 +2,10 @@ package mhfc.net.common.quests.properties;
 
 import mhfc.net.common.util.parsing.IValueHolder;
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagEnd;
 
 public abstract class Property implements IValueHolder {
-	private static final NBTBase noUpdate = new NBTTagEnd();
-
 	public static boolean signalsNoUpdates(NBTBase nbtTag) {
-		return NBTType.TAG_END.checkTag(nbtTag);
+		return nbtTag == null;
 	}
 
 	private boolean isDirty;
@@ -64,8 +61,8 @@ public abstract class Property implements IValueHolder {
 		return setDirty;
 	}
 
-	protected NBTBase signalNoUpdates() {
-		return noUpdate;
+	protected <E extends NBTBase> E signalNoUpdates() {
+		return null;
 	}
 
 	/**

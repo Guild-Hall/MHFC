@@ -5,9 +5,9 @@ import java.lang.reflect.Type;
 import com.google.gson.*;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
+import mhfc.net.common.quests.QuestFactories;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.IGoalFactory;
-import mhfc.net.common.quests.api.QuestFactories;
 import mhfc.net.common.util.MHFCJsonUtils;
 import net.minecraft.util.JsonUtils;
 

@@ -15,15 +15,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.client.quests.DefaultQuestVisualDefinition;
+import mhfc.net.client.quests.DefaultQuestVisualDefinition.QuestVisualInformationFactory;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.quests.api.DefaultQuestVisualDefinition.QuestVisualInformationFactory;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.IQuestFactory;
-import mhfc.net.common.quests.api.IVisualDefinition;
-import mhfc.net.common.quests.api.IVisualInformationFactory;
 import mhfc.net.common.quests.api.QuestDefinition;
-import mhfc.net.common.quests.api.QuestFactories;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
+import mhfc.net.common.quests.descriptions.DefaultQuestDescription.QuestType;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.util.MHFCJsonUtils;
 import mhfc.net.common.world.area.AreaRegistry;
@@ -45,25 +44,25 @@ public class DefaultQuestFactory implements IQuestFactory {
 		}
 		String typeString = JsonUtils.getJsonObjectStringFieldValue(jsonAsObject, KEY_QUEST_TYPE);
 		String flairString = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonAsObject, KEY_FLAIR, "DAYTIME");
-		QuestDefinition.QuestType type = QuestDefinition.QuestType.Hunting;
+		QuestType type = QuestType.Hunting;
 		switch (typeString) {
 		case MHFCQuestBuildRegistry.QUEST_TYPE_HUNTING:
-			type = QuestDefinition.QuestType.Hunting;
+			type = QuestType.Hunting;
 			break;
 		case MHFCQuestBuildRegistry.QUEST_TYPE_EPIC_HUNTING:
-			type = QuestDefinition.QuestType.EpicHunting;
+			type = QuestType.EpicHunting;
 			break;
 		case MHFCQuestBuildRegistry.QUEST_TYPE_GATHERING:
-			type = QuestDefinition.QuestType.Gathering;
+			type = QuestType.Gathering;
 			break;
 		case MHFCQuestBuildRegistry.QUEST_TYPE_KILLING:
-			type = QuestDefinition.QuestType.Killing;
+			type = QuestType.Killing;
 			break;
 		default:
 			MHFCMain.logger().error(
 					"[MHFC] Type {} was not recognized, for allowed keys see documentation of MHFCQuestBuildRegistry. Falling back to hunting.",
 					typeString);
-			type = QuestDefinition.QuestType.Hunting;
+			type = QuestType.Hunting;
 		}
 		QuestFlair flair = QuestFlair.DAYTIME;
 		try {
@@ -85,17 +84,17 @@ public class DefaultQuestFactory implements IQuestFactory {
 				reward,
 				fee,
 				maxPartySize);
-		IVisualInformationFactory<?> defaultFactory = new QuestVisualInformationFactory(description);
+		QuestVisualInformationFactory defaultFactory = new QuestVisualInformationFactory(description);
 		JsonElement visualInformation = jsonAsObject.get(KEY_VISUAL);
-		IVisualDefinition visual = defaultFactory.buildInformation(visualInformation, context);
+		DefaultQuestVisualDefinition visual = defaultFactory.buildInformation(visualInformation, context);
 		description.setVisualInformation(visual);
 		return description;
 	}
 
 	@Override
 	public JsonObject serialize(QuestDefinition description, JsonSerializationContext context) {
-		DefaultQuestDescription questDesc = (DefaultQuestDescription) description;
-		IVisualDefinition visual = questDesc.getVisualInformation();
+		DefaultQuestDescription questDesc = DefaultQuestDescription.class.cast(description);
+		DefaultQuestVisualDefinition visual = questDesc.getVisualInformation();
 
 		JsonObject holder = new JsonObject();
 		holder.addProperty(KEY_MAX_PARTY_SIZE, questDesc.getMaxPartySize());
@@ -107,8 +106,7 @@ public class DefaultQuestFactory implements IQuestFactory {
 		holder.addProperty(KEY_REWARD, questDesc.getReward());
 		JsonElement jsonGoalReference = context.serialize(questDesc.getGoalReference(), GoalReference.class);
 		holder.add(KEY_GOAL, jsonGoalReference);
-		IVisualInformationFactory visualFactory = QuestFactories
-				.getQuestVisualInformationFactory(visual.getSerializerType());
+		QuestVisualInformationFactory visualFactory = new QuestVisualInformationFactory(questDesc);
 		JsonElement jsonVisual = visualFactory.serialize(visual, context);
 		holder.add(KEY_VISUAL, jsonVisual);
 

@@ -11,11 +11,8 @@ import mhfc.net.client.quests.QuestRunningInformation;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.quests.api.GoalReference;
-import mhfc.net.common.quests.api.IQuestInformation;
-import mhfc.net.common.quests.api.IVisualDefinition;
+import mhfc.net.common.network.packet.MessageMissionUpdate;
 import mhfc.net.common.quests.api.QuestDefinition;
-import mhfc.net.common.quests.api.QuestDefinition.QuestType;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
 import mhfc.net.common.quests.properties.GroupProperty;
@@ -30,7 +27,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 
-public class GeneralQuest implements IQuestInformation, QuestGoalSocket, AutoCloseable {
+public class GeneralQuest implements QuestGoalSocket, AutoCloseable {
 
 	public static final String KEY_TYPE_RUNNING = "running";
 
@@ -119,12 +116,10 @@ public class GeneralQuest implements IQuestInformation, QuestGoalSocket, AutoClo
 		return questGoal;
 	}
 
-	@Override
 	public int getReward() {
 		return reward;
 	}
 
-	@Override
 	public int getFee() {
 		return fee;
 	}
@@ -146,8 +141,7 @@ public class GeneralQuest implements IQuestInformation, QuestGoalSocket, AutoClo
 	}
 
 	protected boolean canStart() {
-		boolean start = allVotes();
-		return start && this.questingArea != null;
+		return allVotes() && this.questingArea != null;
 	}
 
 	private void tryStart() {
@@ -209,13 +203,15 @@ public class GeneralQuest implements IQuestInformation, QuestGoalSocket, AutoClo
 	protected void updatePlayers() {
 		visualInformation.updateFromQuest(this);
 		for (QuestingPlayerState attribute : playerAttributes.values()) {
-			EntityPlayerMP p = attribute.player;
+			EntityPlayerMP player = attribute.player;
 			String id = MHFCQuestRegistry.getIdentifierForQuest(this);
-			PacketPipeline.networkPipe
-					.sendTo(new MessageQuestVisual(VisualType.PERSONAL_QUEST, id, visualInformation), p);
-
+			PacketPipeline.networkPipe.sendTo(MessageMissionUpdate.createUpdate(id, rootGoalProperties), player);
 		}
 		MHFCQuestRegistry.questUpdated(this);
+	}
+
+	protected void updatePlayerInitial(EntityPlayerMP player) {
+		PacketPipeline.networkPipe.sendTo(createFullUpdateMessage(), player);
 	}
 
 	public boolean canJoin(EntityPlayer player) {
@@ -243,6 +239,7 @@ public class GeneralQuest implements IQuestInformation, QuestGoalSocket, AutoClo
 	private void addPlayer(EntityPlayerMP player) {
 		playerAttributes.putPlayer(player, GeneralQuest.newAttribute(player));
 		MHFCQuestRegistry.setQuestForPlayer(player, this);
+		updatePlayerInitial(player);
 		updatePlayers();
 	}
 
@@ -319,17 +316,10 @@ public class GeneralQuest implements IQuestInformation, QuestGoalSocket, AutoClo
 		return visualInformation;
 	}
 
-	@Override
-	public IVisualDefinition getVisualInformation() {
-		return getRunningInformation();
-	}
-
-	@Override
 	public int getMaxPartySize() {
 		return maxPlayerCount;
 	}
 
-	@Override
 	public IAreaType getAreaType() {
 		return questingArea.getType();
 	}
@@ -338,17 +328,6 @@ public class GeneralQuest implements IQuestInformation, QuestGoalSocket, AutoClo
 		return questingArea;
 	}
 
-	@Override
-	public GoalReference getGoalReference() {
-		return originalDescription.getGoalReference();
-	}
-
-	@Override
-	public QuestType getQuestType() {
-		return originalDescription.getQuestType();
-	}
-
-	@Override
 	public QuestFlair getQuestFlair() {
 		return originalDescription.getQuestFlair();
 	}
@@ -380,6 +359,16 @@ public class GeneralQuest implements IQuestInformation, QuestGoalSocket, AutoClo
 			a.player = player;
 			return a;
 		}) != null;
+	}
+
+	/**
+	 * Creates a packet suitable to initialize the properties of a mission based on the current state.
+	 *
+	 * @return
+	 */
+	public MessageMissionUpdate createFullUpdateMessage() {
+		String id = MHFCQuestRegistry.getIdentifierForQuest(this);
+		return MessageMissionUpdate.createFullDump(id, rootGoalProperties);
 	}
 
 }

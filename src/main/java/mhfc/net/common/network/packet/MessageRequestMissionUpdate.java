@@ -8,15 +8,15 @@ import java.io.IOException;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
-public class MessageRequestQuestVisual implements IMessage {
+public class MessageRequestMissionUpdate implements IMessage {
 
 	protected String identifier;
 
-	public MessageRequestQuestVisual() {
+	public MessageRequestMissionUpdate() {
 
 	}
 
-	public MessageRequestQuestVisual(String identifier) {
+	public MessageRequestMissionUpdate(String identifier) {
 		this.identifier = identifier;
 	}
 

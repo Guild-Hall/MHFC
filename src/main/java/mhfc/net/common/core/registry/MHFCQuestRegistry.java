@@ -19,15 +19,14 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.core.data.KeyToInstanceRegistryData;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.packet.MessageMHFCInteraction;
+import mhfc.net.common.network.packet.MessageMissionUpdate;
 import mhfc.net.common.network.packet.MessageQuestRunningSubscription;
 import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.network.packet.MessageQuestVisual.VisualType;
-import mhfc.net.common.network.packet.MessageRequestQuestVisual;
+import mhfc.net.common.network.packet.MessageRequestMissionUpdate;
 import mhfc.net.common.quests.GeneralQuest;
-import mhfc.net.common.quests.api.IVisualDefinition;
+import mhfc.net.common.quests.QuestFactories;
 import mhfc.net.common.quests.api.QuestDefinition;
-import mhfc.net.common.quests.api.QuestFactories;
-import mhfc.net.common.quests.api.DefaultQuestVisualDefinition;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
@@ -37,16 +36,16 @@ public class MHFCQuestRegistry {
 
 	public static class RegistryRequestVisualHandler
 			implements
-			IMessageHandler<MessageRequestQuestVisual, MessageQuestVisual> {
+			IMessageHandler<MessageRequestMissionUpdate, MessageMissionUpdate> {
 
 		@Override
-		public MessageQuestVisual onMessage(MessageRequestQuestVisual message, MessageContext ctx) {
+		public MessageMissionUpdate onMessage(MessageRequestMissionUpdate message, MessageContext ctx) {
 			String identifier = message.getIdentifier();
-			QuestDefinition description = MHFCQuestBuildRegistry.getQuestDescription(identifier);
-			IVisualDefinition info = (description == null
-					? DefaultQuestVisualDefinition.IDENTIFIER_ERROR
-					: description.getVisualInformation());
-			return new MessageQuestVisual(VisualType.RUNNING_QUEST, identifier, info);
+			GeneralQuest runningQuest = MHFCQuestRegistry.getRunningQuest(identifier);
+			if (runningQuest == null) {
+				return null;
+			}
+			return runningQuest.createFullUpdateMessage();
 		}
 	}
 
@@ -61,8 +60,10 @@ public class MHFCQuestRegistry {
 		public IMessage onMessage(MessageQuestRunningSubscription message, MessageContext ctx) {
 			EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 			if (message.isSubscribed()) {
-				subscribers.add(player);
-				sendAllTo(player);
+				boolean newSubscription = subscribers.add(player);
+				if (newSubscription) {
+					sendAllTo(player);
+				}
 			} else {
 				subscribers.remove(player);
 			}
@@ -71,16 +72,12 @@ public class MHFCQuestRegistry {
 
 		public static void sendAllTo(EntityPlayerMP player) {
 			for (GeneralQuest q : questsRunning) {
-				String identifier = runningQuestRegistry.getKey(q);
-				MessageQuestVisual messageSent = new MessageQuestVisual(
-						VisualType.RUNNING_QUEST,
-						identifier,
-						q.getRunningInformation());
-				PacketPipeline.networkPipe.sendTo(messageSent, player);
+				MessageMissionUpdate missionUpdate = q.createFullUpdateMessage();
+				PacketPipeline.networkPipe.sendTo(missionUpdate, player);
 			}
 		}
 
-		public static void sendToAll(MessageQuestVisual visual) {
+		public static void sendToAll(MessageMissionUpdate visual) {
 			Iterator<EntityPlayerMP> iter = subscribers.iterator();
 			while (iter.hasNext()) {
 				PacketPipeline.networkPipe.sendTo(visual, iter.next());

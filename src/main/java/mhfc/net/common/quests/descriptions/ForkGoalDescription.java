@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
+import mhfc.net.common.quests.QuestFactories;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.GoalReference;
-import mhfc.net.common.quests.api.QuestFactories;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.goals.ForkQuestGoal;
 import mhfc.net.common.quests.properties.GroupProperty;
