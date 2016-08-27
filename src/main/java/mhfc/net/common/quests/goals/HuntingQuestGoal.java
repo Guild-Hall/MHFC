@@ -11,6 +11,8 @@ import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.properties.IntProperty;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
 import mhfc.net.common.util.LazyQueue;
+import mhfc.net.common.util.stringview.DynamicString;
+import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,6 +26,7 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 	private IntProperty currentNumber;
 	private Class<? extends Entity> goalClass;
 	private QuestGoalEventHandler<LivingDeathEvent> goalHandler;
+	private DynamicString goalSummary;
 
 	public HuntingQuestGoal(
 			QuestGoalSocket socket,
@@ -37,6 +40,7 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 		goalHandler = new LivingDeathEventHandler(this);
 		MinecraftForge.EVENT_BUS.register(goalHandler);
 		String goalMob = (String) EntityList.classToStringMapping.get(goalClass);
+		goalSummary = new DynamicString().append("{{current}}/{{goal}} ", properties).appendStatic(goalMob);
 		Spawnable creation = (world) -> EntityList.createEntityByName(goalMob, world);
 		Stream<Spawnable> generator = Stream.generate(() -> creation);
 		infSpawns = new LazyQueue<>(generator.iterator());
@@ -89,4 +93,8 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 		}
 	}
 
+	@Override
+	public Viewable getStatus() {
+		return goalSummary;
+	}
 }

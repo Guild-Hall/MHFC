@@ -6,6 +6,7 @@ import java.util.Objects;
 import mhfc.net.common.quests.QuestStatus;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
+import mhfc.net.common.util.stringview.DynamicString;
 
 /**
  *
@@ -18,6 +19,7 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 	protected QuestGoal thisGoal;
 	protected QuestGoal next;
 	private boolean finalFailed;
+	private DynamicString goalSummary;
 
 	/**
 	 * Creates a new quest chain with a goal that has to be completed now and a quest chain that is next. The current
@@ -34,6 +36,7 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 		super(socket);
 		Objects.requireNonNull(thisGoal, "The goal of this step may not be null");
 		Objects.requireNonNull(next, "The following goal may not be null");
+		goalSummary = new DynamicString().append(thisGoal.getStatus()).appendStatic("\n").append(next.getStatus());
 		thisGoal.setSocket(this);
 		this.thisGoal = thisGoal;
 		this.next = next;
@@ -162,6 +165,11 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 		if (thisGoal != null) {
 			thisGoal.setActive(newActive);
 		}
+	}
+
+	@Override
+	public DynamicString getStatus() {
+		return goalSummary;
 	}
 
 }

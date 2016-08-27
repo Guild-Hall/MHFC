@@ -5,6 +5,7 @@ import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
 import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
+import mhfc.net.common.util.stringview.DynamicString;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,6 +19,7 @@ public class EntityQuestGoal extends QuestGoal implements NotifyableQuestGoal<Li
 	private boolean died;
 	private NBTTagCompound nbt;
 	private QuestGoalEventHandler<LivingDeathEvent> eventHandler;
+	private DynamicString goalSummary;
 
 	/**
 	 * Constructs an {@link EntityQuestGoal} with the given entity. If it is null, an {@link IllegalArgumentException}
@@ -28,6 +30,7 @@ public class EntityQuestGoal extends QuestGoal implements NotifyableQuestGoal<Li
 		if (entity == null) {
 			throw new IllegalArgumentException("The goal of an EntityQuestGoal can not be null");
 		}
+		goalSummary = new DynamicString().appendStatic("Hunt the " + entity.getClass());
 		this.entity = entity;
 		died = !entity.isEntityAlive();
 		eventHandler = new LivingDeathEventHandler(this);
@@ -71,5 +74,10 @@ public class EntityQuestGoal extends QuestGoal implements NotifyableQuestGoal<Li
 			died = true;
 			notifyOfStatus(true, false);
 		}
+	}
+
+	@Override
+	public DynamicString getStatus() {
+		return goalSummary;
 	}
 }

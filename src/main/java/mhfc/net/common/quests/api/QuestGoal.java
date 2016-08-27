@@ -6,6 +6,8 @@ import mhfc.net.common.quests.Mission;
 import mhfc.net.common.quests.QuestStatus;
 import mhfc.net.common.quests.goals.ChainQuestGoal;
 import mhfc.net.common.quests.goals.ForkQuestGoal;
+import mhfc.net.common.util.parsing.IValueHolder;
+import mhfc.net.common.util.stringview.Viewable;
 
 /**
  * QuestGoal helps making the programming for quests easier since it offers several methods that make it possible to
@@ -59,6 +61,13 @@ public abstract class QuestGoal {
 	 * notifyOfStatus()
 	 */
 	public abstract void setActive(boolean newActive);
+
+	/**
+	 * Called once to get a {@link IValueHolder} that is used to display the status of this
+	 *
+	 * @return
+	 */
+	public abstract Viewable getStatus();
 
 	/**
 	 * This method should be called by the socket when it wants to remove it from its socketed quests. It does not have

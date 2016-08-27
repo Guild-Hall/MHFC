@@ -14,6 +14,8 @@ import mhfc.net.common.eventhandler.TickPhase;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.properties.IntProperty;
+import mhfc.net.common.util.stringview.DynamicString;
+import mhfc.net.common.util.stringview.Viewable;
 
 /**
  *
@@ -72,11 +74,13 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 	protected boolean isFailed = false;
 	protected boolean active;
 	protected Timer timer;
+	private DynamicString goalSummary;
 
 	public TimeQuestGoal(GroupProperty properties, int initialTime) {
 		super(null);
 		active = false;
 		this.timer = new Timer(properties, initialTime);
+		goalSummary = new DynamicString().append("{{time}} remaining", properties);
 		MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_POST, this.timer);
 	}
 
@@ -119,5 +123,10 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 	public void questGoalFinalize() {
 		setActive(false);
 		timer.cancel();
+	}
+
+	@Override
+	public Viewable getStatus() {
+		return goalSummary;
 	}
 }
