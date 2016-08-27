@@ -103,7 +103,7 @@ public class MHFCRegQuestVisual {
 	 * @return
 	 */
 	public static IMissionInformation getMissionInformation(String missionID) {
-		return getService().identifierToVisualInformationMap.get(missionID);
+		return getService().missionVisuals.get(missionID);
 	}
 
 	public static boolean hasPlayerQuest() {
@@ -111,34 +111,30 @@ public class MHFCRegQuestVisual {
 	}
 
 	public static Optional<IMissionInformation> getPlayerVisual() {
-		return getService().playersVisual;
+		return getService().playerVisual;
 	}
 
 	public static void startNewMission(String questID, String missionID) {
-		// TODO Auto-generated method stub
-
+		getService().createMission(questID, missionID);
 	}
 
 	public static void joinMission(String missionID) {
-		// TODO Auto-generated method stub
-
+		getService().setPlayerMission(missionID);
 	}
 
 	public static void departMission(String missionID) {
-		// TODO Auto-generated method stub
-
+		getService().unsetPlayerMission(missionID);
 	}
 
 	public static void endMission(String missionID) {
-		// TODO Auto-generated method stub
-
+		getService().destroyMission(missionID);
 	}
 
 	private Set<String> missionIDs = new HashSet<>();
-	private Map<String, IMissionInformation> identifierToVisualInformationMap = new HashMap<>();
+	private Map<String, IMissionInformation> missionVisuals = new HashMap<>();
 
 	private QuestDescriptionRegistry clientDataObject = new QuestDescriptionRegistry();
-	private Optional<IMissionInformation> playersVisual;
+	private Optional<IMissionInformation> playerVisual;
 	private QuestStatusDisplay display = new QuestStatusDisplay();
 
 	public MHFCRegQuestVisual() {}
@@ -161,6 +157,35 @@ public class MHFCRegQuestVisual {
 		return Collections.unmodifiableSet(missionIDs);
 	}
 
+	public void createMission(String questID, String missionID) {
+		if (missionIDs.contains(missionID)) {
+			return;
+		}
+		IMissionInformation info = clientDataObject.getQuestDescription(questID).getVisualInformation().build();
+		missionIDs.add(missionID);
+		missionVisuals.put(missionID, info);
+		GuiQuestBoard.questBoard.addQuest(missionID, info);
+	}
+
+	public void destroyMission(String missionID) {
+		if (!missionIDs.contains(missionID)) {
+			return;
+		}
+		missionIDs.remove(missionID);
+		missionVisuals.remove(missionID);
+		GuiQuestBoard.questBoard.removeQuest(missionID);
+	}
+
+	public void setPlayerMission(String missionID) {
+		IMissionInformation info = missionVisuals.get(missionID);
+		setVisual(Optional.ofNullable(info));
+	}
+
+	public void unsetPlayerMission(String missionID) {
+		// TODO: maybe check that the active mission actually has the missionID?
+		setVisual(Optional.empty());
+	}
+
 	protected void logStats() {
 		QuestDescriptionRegistry dataObject = clientDataObject;
 		int numberQuests = dataObject.getFullQuestDescriptionMap().size();
@@ -169,23 +194,10 @@ public class MHFCRegQuestVisual {
 		MHFCMain.logger().debug(output);
 	}
 
-	private void modMissionList(String identifier, IMissionInformation visual) {
-		boolean clear = visual == null;
-		if (clear) {
-			identifierToVisualInformationMap.remove(identifier);
-			missionIDs.remove(identifier);
-			GuiQuestBoard.questBoard.addQuest(identifier, visual);
-		} else {
-			identifierToVisualInformationMap.put(identifier, visual);
-			missionIDs.add(identifier);
-			GuiQuestBoard.questBoard.removeQuest(identifier);
-		}
-	}
-
 	private void setVisual(Optional<IMissionInformation> newVisual) {
 		Objects.requireNonNull(newVisual);
-		playersVisual.ifPresent(IMissionInformation::cleanUp);
-		playersVisual = newVisual;
+		playerVisual.ifPresent(IMissionInformation::cleanUp);
+		playerVisual = newVisual;
 	}
 
 	private void initialize() {
@@ -200,7 +212,7 @@ public class MHFCRegQuestVisual {
 
 	private void reset() {
 		this.missionIDs.clear();
-		this.identifierToVisualInformationMap.clear();
+		this.missionVisuals.clear();
 		this.clientDataObject.clearData();
 		this.setVisual(Optional.empty());
 	}
