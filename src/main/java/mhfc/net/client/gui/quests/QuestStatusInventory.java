@@ -73,7 +73,8 @@ public class QuestStatusInventory extends GuiContainer {
 					stringPosX = (xSize - mc.fontRenderer.getStringWidth(drawn)) / 2;
 			mc.fontRenderer.drawString(drawn, guiLeft + stringPosX, guiTop + stringPosY, MHFCGuiUtil.COLOUR_TITLE);
 		} else {
-			information.drawInformation(guiLeft, guiTop, xSize, ySize, displayPage, mc.fontRenderer);
+			int pageCount = information.getPageCount();
+			information.drawInformation(guiLeft, guiTop, xSize, ySize, displayPage % pageCount, mc.fontRenderer);
 		}
 	}
 

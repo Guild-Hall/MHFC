@@ -10,7 +10,7 @@ import net.minecraft.nbt.NBTBase;
  * @author WorldSEnder
  *
  */
-public interface IMissionInformation {
+public interface IMissionInformation extends IPagedView {
 
 	/**
 	 * Updates the mission's date from the nbt. The nbt was generated from {@link Property#dumpUpdates()} on the server
@@ -20,19 +20,6 @@ public interface IMissionInformation {
 	 *            the tag to read in.
 	 */
 	void updateProperties(NBTBase nbtTag);
-
-	/**
-	 * Draws the mission's information, reflecting the current state of the its properties.
-	 *
-	 * @param positionX
-	 * @param positionY
-	 * @param width
-	 * @param height
-	 * @param page
-	 * @param fontRenderer
-	 * @see IVisualDefinition#drawInformation(int, int, int, int, int, FontRenderer)
-	 */
-	void drawInformation(int positionX, int positionY, int width, int height, int page, FontRenderer fontRenderer);
 
 	/**
 	 * Gets the original quest definition of this mission information. Used to display the static quest description on
@@ -47,4 +34,18 @@ public interface IMissionInformation {
 	}
 
 	String shortStatus();
+
+	/**
+	 * Draws the mission's information, reflecting the current state of the its properties.
+	 *
+	 * @param positionX
+	 * @param positionY
+	 * @param width
+	 * @param height
+	 * @param page
+	 * @param fontRenderer
+	 * @see IVisualDefinition#drawInformation(int, int, int, int, int, FontRenderer)
+	 */
+	@Override
+	void drawInformation(int positionX, int positionY, int width, int height, int page, FontRenderer fontRenderer);
 }

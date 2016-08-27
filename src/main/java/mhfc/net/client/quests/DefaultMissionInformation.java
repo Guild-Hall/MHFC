@@ -47,6 +47,11 @@ public class DefaultMissionInformation implements IMissionInformation {
 	}
 
 	@Override
+	public int getPageCount() {
+		return 1;
+	}
+
+	@Override
 	public String shortStatus() {
 		// TODO Auto-generated method stub
 		return "WIP - short status";

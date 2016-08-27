@@ -156,12 +156,13 @@ public class GuiQuestJoin extends MHFCGui implements IMHFCTab {
 		if (staticInfo == null) {
 			return;
 		}
+		int pageCount = staticInfo.getPageCount();
 		staticInfo.drawInformation(
 				runningW + runningX,
 				yBorder,
 				xSize - runningW - 2 * runningX,
 				ySize - 2 * yBorder,
-				page,
+				page % pageCount,
 				fontRendererObj);
 	}
 
@@ -175,7 +176,6 @@ public class GuiQuestJoin extends MHFCGui implements IMHFCTab {
 			if (!clickHandled) {
 				int add = button == 0 ? 1 : button == 1 ? -1 : 0;
 				page += add;
-				page = (page + 3) % 3;
 			}
 		}
 		return clickHandled;

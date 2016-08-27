@@ -242,6 +242,11 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	}
 
 	@Override
+	public int getPageCount() {
+		return 3;
+	}
+
+	@Override
 	public void drawInformation(
 			int positionX,
 			int positionY,

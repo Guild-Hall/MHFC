@@ -151,12 +151,13 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 			// TODO set start enabled based on can join
 			FontRenderer fontRenderer = mc.fontRenderer;
 			if (info != null) {
+				int pageCount = info.getPageCount();
 				info.drawInformation(
 						questsX + questsW,
 						yBorder,
 						xSize - 2 * questsX - questsW,
 						ySize - 30,
-						page,
+						page % pageCount,
 						fontRenderer);
 			}
 		} else {

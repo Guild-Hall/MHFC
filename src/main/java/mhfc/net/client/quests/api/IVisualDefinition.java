@@ -2,7 +2,7 @@ package mhfc.net.client.quests.api;
 
 import net.minecraft.client.gui.FontRenderer;
 
-public interface IVisualDefinition {
+public interface IVisualDefinition extends IPagedView {
 	/**
 	 * Determines the title to show to the client for this visual.
 	 *
@@ -27,5 +27,6 @@ public interface IVisualDefinition {
 	 * @param page
 	 * @param fontRendererObj
 	 */
+	@Override
 	void drawInformation(int positionX, int positionY, int width, int height, int page, FontRenderer fontRendererObj);
 }
