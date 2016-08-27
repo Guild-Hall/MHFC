@@ -2,7 +2,7 @@ package mhfc.net.common.quests.api;
 
 import java.util.EnumSet;
 
-import mhfc.net.common.quests.GeneralQuest;
+import mhfc.net.common.quests.Mission;
 import mhfc.net.common.quests.QuestStatus;
 
 /**
@@ -37,5 +37,5 @@ public interface QuestGoalSocket {
 	 *
 	 * @return
 	 */
-	public GeneralQuest getQuest();
+	public Mission getQuest();
 }

@@ -27,7 +27,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 
-public class GeneralQuest implements QuestGoalSocket, AutoCloseable {
+public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	public static final String KEY_TYPE_RUNNING = "running";
 
@@ -81,7 +81,7 @@ public class GeneralQuest implements QuestGoalSocket, AutoCloseable {
 
 	private boolean closed;
 
-	public GeneralQuest(
+	public Mission(
 			QuestGoal goal,
 			GroupProperty goalProperties,
 			int maxPartySize,
@@ -211,6 +211,7 @@ public class GeneralQuest implements QuestGoalSocket, AutoCloseable {
 	}
 
 	protected void updatePlayerInitial(EntityPlayerMP player) {
+		// TODO: add player to the quest
 		PacketPipeline.networkPipe.sendTo(createFullUpdateMessage(), player);
 	}
 
@@ -232,12 +233,12 @@ public class GeneralQuest implements QuestGoalSocket, AutoCloseable {
 	}
 
 	@Override
-	public GeneralQuest getQuest() {
+	public Mission getQuest() {
 		return this;
 	}
 
 	private void addPlayer(EntityPlayerMP player) {
-		playerAttributes.putPlayer(player, GeneralQuest.newAttribute(player));
+		playerAttributes.putPlayer(player, Mission.newAttribute(player));
 		MHFCQuestRegistry.setQuestForPlayer(player, this);
 		updatePlayerInitial(player);
 		updatePlayers();

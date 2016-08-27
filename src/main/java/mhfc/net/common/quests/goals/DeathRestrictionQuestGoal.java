@@ -5,7 +5,7 @@ import java.util.Collection;
 import mhfc.net.common.eventhandler.quests.LivingDeathEventHandler;
 import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
 import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
-import mhfc.net.common.quests.GeneralQuest;
+import mhfc.net.common.quests.Mission;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.properties.IntProperty;
@@ -64,7 +64,7 @@ public class DeathRestrictionQuestGoal extends QuestGoal implements NotifyableQu
 
 	@Override
 	public void notifyOfEvent(LivingDeathEvent event) {
-		GeneralQuest quest = getQuest();
+		Mission quest = getQuest();
 		if (quest != null) {
 			Collection<EntityPlayerMP> players = quest.getPlayers();
 			if (players != null && players.contains(event.entityLiving)) {

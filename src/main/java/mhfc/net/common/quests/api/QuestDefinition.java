@@ -1,6 +1,6 @@
 package mhfc.net.common.quests.api;
 
-import mhfc.net.common.quests.GeneralQuest;
+import mhfc.net.common.quests.Mission;
 
 public abstract class QuestDefinition implements IQuestDefinition {
 
@@ -16,5 +16,5 @@ public abstract class QuestDefinition implements IQuestDefinition {
 	}
 
 	@Override
-	public abstract GeneralQuest build();
+	public abstract Mission build();
 }

@@ -1,7 +1,7 @@
 package mhfc.net.common.quests.api;
 
 import mhfc.net.client.quests.api.IVisualDefinition;
-import mhfc.net.common.quests.GeneralQuest;
+import mhfc.net.common.quests.Mission;
 import mhfc.net.common.quests.world.QuestFlair;
 
 public interface IQuestDefinition {
@@ -11,5 +11,5 @@ public interface IQuestDefinition {
 
 	QuestFlair getQuestFlair();
 
-	GeneralQuest build();
+	Mission build();
 }

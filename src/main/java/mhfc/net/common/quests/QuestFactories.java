@@ -53,7 +53,7 @@ public class QuestFactories {
 	/**
 	 * Constructs a quest based on the description object.
 	 */
-	public static GeneralQuest constructQuest(QuestDefinition qd) {
+	public static Mission constructQuest(QuestDefinition qd) {
 		Objects.requireNonNull(qd, "Quest description was null");
 		return qd.build();
 	}

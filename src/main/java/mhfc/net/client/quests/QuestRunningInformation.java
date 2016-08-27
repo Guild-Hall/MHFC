@@ -3,7 +3,7 @@ package mhfc.net.client.quests;
 import java.util.List;
 
 import mhfc.net.client.quests.api.IMissionInformation;
-import mhfc.net.common.quests.GeneralQuest;
+import mhfc.net.common.quests.Mission;
 import mhfc.net.common.util.MHFCStringDecode.CompositeString;
 import mhfc.net.common.util.MHFCStringDecode.StringElement;
 
@@ -24,7 +24,7 @@ public class QuestRunningInformation implements IMissionInformation {
 	protected CompositeString shortStatusElements;
 	protected CompositeString longStatusElements;
 
-	public QuestRunningInformation(GeneralQuest quest) {
+	public QuestRunningInformation(Mission quest) {
 		updateFromQuest(quest);
 	}
 
@@ -37,7 +37,7 @@ public class QuestRunningInformation implements IMissionInformation {
 		}
 	}
 
-	public void updateFromQuest(GeneralQuest q) {
+	public void updateFromQuest(Mission q) {
 		cleanUp();
 		shortStatus = q.updateVisual(InformationType.ShortStatus, shortStatus);
 		longStatus = q.updateVisual(InformationType.LongStatus, longStatus);

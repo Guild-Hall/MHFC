@@ -4,7 +4,7 @@ import java.util.concurrent.CompletionStage;
 
 import mhfc.net.client.quests.DefaultQuestVisualDefinition;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.quests.GeneralQuest;
+import mhfc.net.common.quests.Mission;
 import mhfc.net.common.quests.QuestFactories;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.QuestDefinition;
@@ -116,7 +116,7 @@ public class DefaultQuestDescription extends QuestDefinition {
 	}
 
 	@Override
-	public GeneralQuest build() {
+	public Mission build() {
 		GroupProperty goalProperties = GroupProperty.makeRootProperty();
 		QuestGoal goal = QuestFactories.constructGoal(getGoalReference().getReferredDescription(), goalProperties);
 		if (goal == null) {
@@ -130,7 +130,7 @@ public class DefaultQuestDescription extends QuestDefinition {
 			return null;
 		}
 
-		return new GeneralQuest(goal, goalProperties, getMaxPartySize(), getReward(), getFee(), activeArea, this);
+		return new Mission(goal, goalProperties, getMaxPartySize(), getReward(), getFee(), activeArea, this);
 	}
 
 }

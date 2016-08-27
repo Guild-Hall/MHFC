@@ -24,7 +24,7 @@ import mhfc.net.common.network.message.quest.MessageQuestRunningSubscription;
 import mhfc.net.common.network.message.quest.MessageRequestMissionUpdate;
 import mhfc.net.common.network.packet.MessageQuestVisual;
 import mhfc.net.common.network.packet.MessageQuestVisual.VisualType;
-import mhfc.net.common.quests.GeneralQuest;
+import mhfc.net.common.quests.Mission;
 import mhfc.net.common.quests.QuestFactories;
 import mhfc.net.common.quests.api.QuestDefinition;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,7 +41,7 @@ public class MHFCQuestRegistry {
 		@Override
 		public MessageMissionUpdate onMessage(MessageRequestMissionUpdate message, MessageContext ctx) {
 			String identifier = message.getIdentifier();
-			GeneralQuest runningQuest = MHFCQuestRegistry.getRunningQuest(identifier);
+			Mission runningQuest = MHFCQuestRegistry.getRunningQuest(identifier);
 			if (runningQuest == null) {
 				return null;
 			}
@@ -71,7 +71,7 @@ public class MHFCQuestRegistry {
 		}
 
 		public static void sendAllTo(EntityPlayerMP player) {
-			for (GeneralQuest q : questsRunning) {
+			for (Mission q : questsRunning) {
 				MessageMissionUpdate missionUpdate = q.createFullUpdateMessage();
 				PacketPipeline.networkPipe.sendTo(missionUpdate, player);
 			}
@@ -97,7 +97,7 @@ public class MHFCQuestRegistry {
 		public void onPlayerLeave(ServerDisconnectionFromClientEvent logOut) {
 			NetHandlerPlayServer playerNetHandler = (NetHandlerPlayServer) logOut.handler;
 			EntityPlayerMP player = playerNetHandler.playerEntity;
-			GeneralQuest q = playerQuest.get(player);
+			Mission q = playerQuest.get(player);
 			if (q == null) {
 				return;
 			}
@@ -109,7 +109,7 @@ public class MHFCQuestRegistry {
 	private static int questIDCounter = 0;
 
 	public static void onPlayerInteraction(EntityPlayerMP player, MessageMHFCInteraction message) {
-		GeneralQuest quest;
+		Mission quest;
 		switch (message.getInteraction()) {
 		case NEW_QUEST:
 			quest = getQuestForPlayer(player);
@@ -124,7 +124,7 @@ public class MHFCQuestRegistry {
 			}
 			String registerFor = message.getOptions()[0] + "@" + player.getDisplayName() + "@" + questIDCounter++;
 			QuestDefinition questDescription = MHFCQuestBuildRegistry.getQuestDescription(message.getOptions()[0]);
-			GeneralQuest newQuest = QuestFactories.constructQuest(questDescription);
+			Mission newQuest = QuestFactories.constructQuest(questDescription);
 			if (newQuest == null) {
 				player.addChatMessage(new ChatComponentText("Quest not found"));
 				return;
@@ -174,7 +174,7 @@ public class MHFCQuestRegistry {
 			}
 			break;
 		case MOD_RELOAD:
-			for (GeneralQuest genQ : questsRunning) {
+			for (Mission genQ : questsRunning) {
 				RunningSubscriptionHandler.sendToAll(
 						new MessageQuestVisual(
 								VisualType.RUNNING_QUEST,
@@ -191,36 +191,36 @@ public class MHFCQuestRegistry {
 		PacketPipeline.networkPipe.sendTo(new MessageQuestVisual(VisualType.PERSONAL_QUEST, "", null), player);
 	}
 
-	protected static Map<EntityPlayer, GeneralQuest> playerQuest = new HashMap<>();
-	protected static List<GeneralQuest> questsRunning = new ArrayList<>();
-	protected static KeyToInstanceRegistryData<String, GeneralQuest> runningQuestRegistry = new KeyToInstanceRegistryData<>();
+	protected static Map<EntityPlayer, Mission> playerQuest = new HashMap<>();
+	protected static List<Mission> questsRunning = new ArrayList<>();
+	protected static KeyToInstanceRegistryData<String, Mission> runningQuestRegistry = new KeyToInstanceRegistryData<>();
 
 	public static void init() {
 		FMLCommonHandler.instance().bus().register(new PlayerConnectionHandler());
 	}
 
-	public static GeneralQuest getRunningQuest(String string) {
+	public static Mission getRunningQuest(String string) {
 		return runningQuestRegistry.getData(string);
 	}
 
 	/**
 	 * Get the quest on which a player is on. If the player is on no quest then null is returned.
 	 */
-	public static GeneralQuest getQuestForPlayer(EntityPlayer player) {
+	public static Mission getQuestForPlayer(EntityPlayer player) {
 		return playerQuest.get(player);
 	}
 
 	/**
 	 * Returns all quests that are running at the moment.
 	 */
-	public static List<GeneralQuest> getRunningQuests() {
+	public static List<Mission> getRunningQuests() {
 		return questsRunning;
 	}
 
 	/**
 	 * Returns the identifier for a quest
 	 */
-	public static String getIdentifierForQuest(GeneralQuest quest) {
+	public static String getIdentifierForQuest(Mission quest) {
 		return runningQuestRegistry.getKey(quest);
 	}
 
@@ -228,7 +228,7 @@ public class MHFCQuestRegistry {
 	 * Sets the quest for a player, use null to remove the entry
 	 *
 	 */
-	public static void setQuestForPlayer(EntityPlayer player, GeneralQuest generalQuest) {
+	public static void setQuestForPlayer(EntityPlayer player, Mission generalQuest) {
 		if (generalQuest == null) {
 			playerQuest.remove(player);
 		} else {
@@ -239,7 +239,7 @@ public class MHFCQuestRegistry {
 	/**
 	 * Should be called when a new quest was started
 	 */
-	public static boolean regRunningQuest(GeneralQuest generalQuest, String identifier) {
+	public static boolean regRunningQuest(Mission generalQuest, String identifier) {
 		questsRunning.add(generalQuest);
 		MHFCMain.logger().debug(questsRunning.size() + " quests are running at the moment.");
 		if (!runningQuestRegistry.offerMapping(identifier, generalQuest)) {
@@ -257,7 +257,7 @@ public class MHFCQuestRegistry {
 	 * Should be called when a quest is no longer running and was terminated. Might also be called to ensure client
 	 * sync. Returns true if the quest was registered.
 	 */
-	public static boolean deregRunningQuest(GeneralQuest generalQuest) {
+	public static boolean deregRunningQuest(Mission generalQuest) {
 		boolean wasRunning = questsRunning.remove(generalQuest);
 		if (wasRunning) {
 			String key = runningQuestRegistry.removeKey(generalQuest);
@@ -271,7 +271,7 @@ public class MHFCQuestRegistry {
 	/*
 	 * Should be called when major changes to a quest were made that require resending the information to all clients
 	 */
-	public static void questUpdated(GeneralQuest q) {
+	public static void questUpdated(Mission q) {
 		String identifier = runningQuestRegistry.getKey(q);
 		if (q == null || identifier == null) {
 			return;
