@@ -1,5 +1,7 @@
 package mhfc.net.client.gui.quests;
 
+import java.util.Optional;
+
 import mhfc.net.client.container.ContainerQuestStatus;
 import mhfc.net.client.gui.hud.QuestStatusDisplay;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
@@ -66,13 +68,14 @@ public class QuestStatusInventory extends GuiContainer {
 				0,
 				1f,
 				0.65f);
-		IMissionInformation information = MHFCRegQuestVisual.getPlayerVisual().get();
-		if (information == null) {
+		Optional<IMissionInformation> optionalInfo = MHFCRegQuestVisual.getPlayerVisual();
+		if (!optionalInfo.isPresent()) {
 			String drawn = "No quest accepted";
 			int stringPosY = (ySize - mc.fontRenderer.FONT_HEIGHT) / 2,
 					stringPosX = (xSize - mc.fontRenderer.getStringWidth(drawn)) / 2;
 			mc.fontRenderer.drawString(drawn, guiLeft + stringPosX, guiTop + stringPosY, MHFCGuiUtil.COLOUR_TITLE);
 		} else {
+			IMissionInformation information = optionalInfo.get();
 			int pageCount = information.getPageCount();
 			information.drawInformation(guiLeft, guiTop, xSize, ySize, displayPage % pageCount, mc.fontRenderer);
 		}
