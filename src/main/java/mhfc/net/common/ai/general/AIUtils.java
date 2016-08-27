@@ -336,7 +336,7 @@ public class AIUtils {
 		if (Float.isNaN(yaw)) {
 			return yaw;
 		}
-		float tarYaw = lookVecToYaw(toTarget.normalize());
+		float tarYaw = lookVecToYawUnsafe(toTarget.normalize());
 		if (Float.isNaN(tarYaw)) {
 			return tarYaw;
 		}
