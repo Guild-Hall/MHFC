@@ -5,6 +5,7 @@ import java.util.Objects;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
+import mhfc.net.MHFCMain;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.properties.Property;
 import net.minecraft.nbt.NBTTagCompound;
@@ -58,6 +59,7 @@ public class MessageMissionUpdate implements IMessage {
 		if (Property.signalsNoUpdates(updates)) {
 			return null;
 		}
+		MHFCMain.logger().debug("Created update {}", updates);
 		return new MessageMissionUpdate(id, updates);
 	}
 

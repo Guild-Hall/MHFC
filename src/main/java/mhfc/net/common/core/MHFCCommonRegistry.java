@@ -40,6 +40,7 @@ public class MHFCCommonRegistry {
 		MHFCCommonRegistry.addBlocks();
 		MHFCCommonRegistry.addMonsters();
 		MHFCCommonRegistry.addItems();
+		MHFCQuestRegistry.staticInit();
 		MHFCEventRegistry.staticInit();
 
 		MHFCMain.initPhase.registerEntryCallback(e -> init());
@@ -51,7 +52,6 @@ public class MHFCCommonRegistry {
 	}
 
 	private static void addQuests() {
-		MHFCQuestRegistry.init();
 		MHFCQuestBuildRegistry.init();
 		MHFCMain.logger().info("Quest Server registered");
 	}
