@@ -18,11 +18,11 @@ import net.minecraft.nbt.NBTTagCompound;
 public class GroupProperty extends Property {
 
 	private Map<String, Property> subProperties = new HashMap<>();
-	private Lazy<MapProxy> propertyProxy;
+	private Lazy<Holder> propertyProxy;
 
 	private GroupProperty(Runnable setDirtyParent) {
 		super(setDirtyParent);
-		propertyProxy = new Lazy<>(() -> new MapProxy(subProperties));
+		propertyProxy = new Lazy<>(() -> Holder.valueOf(new MapProxy(subProperties)));
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class GroupProperty extends Property {
 
 	@Override
 	public Holder snapshot() throws Throwable {
-		return Holder.valueOf(propertyProxy.get());
+		return propertyProxy.get();
 	}
 
 	/**

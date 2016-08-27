@@ -16,7 +16,7 @@ import net.minecraft.command.SyntaxErrorException;
 public class AngularMCTest {
 	private static final int TEST_VALUE = 42;
 	private Context ctx;
-	private ExpressionTranslator translator;
+	private BoundExpressionTranslator translator;
 
 	public class TestStruct implements ISpecialMember {
 		public int property = TEST_VALUE;
