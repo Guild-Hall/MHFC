@@ -109,6 +109,10 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		this.closed = false;
 	}
 
+	public void updateCheck() {
+		updatePlayers();
+	}
+
 	public QuestState getState() {
 		return state;
 	}

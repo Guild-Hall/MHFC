@@ -8,7 +8,6 @@ import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.RunContext;
 
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import mhfc.net.MHFCMain;
 import mhfc.net.common.eventhandler.DelayedJob;
 import mhfc.net.common.eventhandler.MHFCTickHandler;
 import mhfc.net.common.eventhandler.TickPhase;
@@ -47,7 +46,6 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 
 		@Override
 		public Operation resume(RunContext run) throws WorldEditException {
-			MHFCMain.logger().debug("Ticking");
 			if (isCancelled) {
 				return null;
 			}

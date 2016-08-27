@@ -11,6 +11,8 @@ import java.util.Set;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ServerDisconnectionFromClientEvent;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -93,7 +95,7 @@ public class MHFCQuestRegistry {
 		}
 	}
 
-	public static class PlayerConnectionHandler {
+	public static class QuestEventHandler {
 
 		@SubscribeEvent
 		public void onPlayerJoin(ServerConnectionFromClientEvent logIn) {
@@ -117,6 +119,16 @@ public class MHFCQuestRegistry {
 			}
 			quest.quitPlayer(player);
 			RunningSubscriptionHandler.subscribers.remove(player);
+		}
+
+		@SubscribeEvent
+		public void onServerTick(TickEvent.ServerTickEvent ticking) {
+			if (ticking.phase != Phase.START) {
+				return;
+			}
+			for (Mission mission : getRegistry().questsRunning) {
+				mission.updateCheck();
+			}
 		}
 	}
 
@@ -227,10 +239,10 @@ public class MHFCQuestRegistry {
 	protected KeyToInstanceRegistryData<String, Mission> runningQuestRegistry = new KeyToInstanceRegistryData<>();
 	protected Map<String, String> missionIDtoQuestID = new HashMap<>();
 
-	private PlayerConnectionHandler connectionHandler;
+	private QuestEventHandler connectionHandler;
 
 	private MHFCQuestRegistry() {
-		FMLCommonHandler.instance().bus().register(connectionHandler = new PlayerConnectionHandler());
+		FMLCommonHandler.instance().bus().register(connectionHandler = new QuestEventHandler());
 	}
 
 	private void shutdown() {
