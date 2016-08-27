@@ -1,6 +1,7 @@
 package mhfc.net.client.gui.quests;
 
 import mhfc.net.client.container.ContainerQuestStatus;
+import mhfc.net.client.gui.hud.QuestStatusDisplay;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
@@ -54,7 +55,7 @@ public class QuestStatusInventory extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int mouseX, int mouseY) {
-		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.QUEST_STATUS_INVENTORY_BACKGROUND);
+		mc.getTextureManager().bindTexture(QuestStatusDisplay.QUEST_STATUS_INVENTORY_BACKGROUND);
 		MHFCGuiUtil.drawTexturedBoxFromBorder(
 				this.guiLeft,
 				this.guiTop,

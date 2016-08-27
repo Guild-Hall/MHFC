@@ -18,6 +18,7 @@ import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -27,6 +28,10 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 public class QuestStatusDisplay {
 
 	private static final Minecraft mc = Minecraft.getMinecraft();
+	public static final ResourceLocation QUEST_STATUS_INVENTORY_BACKGROUND = new ResourceLocation(
+	MHFCReference.gui_status_inventory_tex);
+	public static final ResourceLocation QUEST_STATUS_ONSCREEN_BACKGROUND = new ResourceLocation(
+	MHFCReference.gui_status_onscreen_tex);
 
 	@SuppressWarnings("unchecked")
 	@SubscribeEvent
@@ -54,7 +59,7 @@ public class QuestStatusDisplay {
 		}
 		IMissionInformation activeInformation = playerInformation.get();
 
-		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.QUEST_STATUS_ONSCREEN_BACKGROUND);
+		mc.getTextureManager().bindTexture(QuestStatusDisplay.QUEST_STATUS_ONSCREEN_BACKGROUND);
 
 		GL11.glEnable(GL11.GL_BLEND);
 		int width = 85;

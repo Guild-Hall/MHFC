@@ -21,6 +21,7 @@ import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe.RecipeType;
 import mhfc.net.common.item.ItemType;
 import mhfc.net.common.item.ItemType.GeneralType;
 import mhfc.net.common.tile.TileHunterBench;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.model.ModelBiped;
@@ -38,6 +39,18 @@ import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 public class GuiHunterBench extends MHFCTabbedGui {
+	public static final ResourceLocation BURN_BACKGROUND = new ResourceLocation(
+			MHFCReference.gui_hunterbench_burn_back_tex);
+	public static final ResourceLocation BURN_FOREGROUND = new ResourceLocation(
+			MHFCReference.gui_hunterbench_burn_front_tex);
+	public static final ResourceLocation BURN_TARGET = new ResourceLocation(
+			MHFCReference.gui_hunterbench_burn_target_tex);
+	public static final ResourceLocation BACKGROUND = new ResourceLocation(
+			MHFCReference.gui_hunterbench_back_tex);
+	public static final ResourceLocation HUNTER_BENCH_COMPLETE = new ResourceLocation(
+			MHFCReference.gui_hunterbench_complete_tex);
+	public static final ResourceLocation FUEL_DURATION_MARKER = new ResourceLocation(
+			MHFCReference.gui_hunterbench_fuel_tex);
 
 	static final int maxHeat = 500;
 	static final int modelRectRelX = 228;
@@ -104,7 +117,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		@Override
 		public void draw(double mousePosX, double mousePosY, float partialTick) {
 			GL11.glColor4f(1f, 1f, 1f, 1f);
-			mc.getTextureManager().bindTexture(MHFCRegQuestVisual.QUEST_HUNTERBENCH_BACKGROUND);
+			mc.getTextureManager().bindTexture(BACKGROUND);
 			MHFCGuiUtil.drawTexturedBoxFromBorder(0, 0, zLevel, xSize, ySize, 0, 0, 1f, 1f);
 
 			// updateListPositions();
@@ -504,11 +517,17 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 				IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(itemToRender, ENTITY);
 				if (customRenderer == null) {} else {
-					customRenderer
-							.renderItem(ItemRenderType.EQUIPPED, itemToRender, null, Minecraft.getMinecraft().thePlayer);
+					customRenderer.renderItem(
+							ItemRenderType.EQUIPPED,
+							itemToRender,
+							null,
+							Minecraft.getMinecraft().thePlayer);
 					GL11.glFrontFace(GL11.GL_CW);
-					customRenderer
-							.renderItem(ItemRenderType.EQUIPPED, itemToRender, null, Minecraft.getMinecraft().thePlayer);
+					customRenderer.renderItem(
+							ItemRenderType.EQUIPPED,
+							itemToRender,
+							null,
+							Minecraft.getMinecraft().thePlayer);
 					GL11.glFrontFace(GL11.GL_CCW);
 				}
 			}
@@ -528,7 +547,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		// Draw the foreground current heat indicator
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.HUNTER_BENCH_BURN_BACK);
+		mc.getTextureManager().bindTexture(BURN_BACKGROUND);
 		heat = Math.min(bench.getHeatStrength(), maxHeat);
 		burnTexVDiff = (float) (heat) / maxHeat;
 		burnTexV = 1.0f - burnTexVDiff;
@@ -563,7 +582,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 		// Draw heat target
-		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.HUNTER_BENCH_BURN_TARGET);
+		mc.getTextureManager().bindTexture(BURN_TARGET);
 		heat = Math.min(TileHunterBench.getItemHeat(bench.getStackInSlot(TileHunterBench.fuelSlot)), maxHeat);
 		if (heat > 0) {
 			burnTexVDiff = (float) (heat) / maxHeat;
@@ -573,11 +592,11 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		// Draw front layer, the border
-		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.HUNTER_BENCH_BURN_FRONT);
+		mc.getTextureManager().bindTexture(BURN_FOREGROUND);
 		MHFCGuiUtil.drawTexturedBoxFromBorder(rectX + rectW + 4, rectY - 1, this.zLevel, 10, burnHeight + 1, 0);
 
 		// draw the heat length indicator
-		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.HUNTER_BENCH_FUEL_DURATION);
+		mc.getTextureManager().bindTexture(FUEL_DURATION_MARKER);
 		float remaining = bench.getHeatLength() / (float) bench.getHeatLengthOriginal();
 		if (Float.isInfinite(remaining)) {
 			remaining = 0;
@@ -597,7 +616,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			float completition = bench.getItemSmeltDuration() / (float) bench.getRecipe().getDuration();
 			int complete = (int) (completition * completeWidth);
 			completition = complete / (float) completeWidth;
-			mc.getTextureManager().bindTexture(MHFCRegQuestVisual.HUNTER_BENCH_COMPLETE);
+			mc.getTextureManager().bindTexture(HUNTER_BENCH_COMPLETE);
 			MHFCGuiUtil.drawTexturedBoxFromBorder(
 					298,
 					145,

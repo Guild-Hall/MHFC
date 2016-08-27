@@ -31,23 +31,7 @@ import net.minecraftforge.common.MinecraftForge;
 public class MHFCRegQuestVisual {
 	public static void staticInit() {}
 
-	public static final ResourceLocation QUEST_STATUS_INVENTORY_BACKGROUND = new ResourceLocation(
-			MHFCReference.gui_status_inventory_tex);
-	public static final ResourceLocation QUEST_STATUS_ONSCREEN_BACKGROUND = new ResourceLocation(
-			MHFCReference.gui_status_onscreen_tex);
 	public static final ResourceLocation QUEST_BOARD_BACKGROUND = new ResourceLocation(MHFCReference.gui_board_tex);
-	public static final ResourceLocation HUNTER_BENCH_BURN_BACK = new ResourceLocation(
-			MHFCReference.gui_hunterbench_burn_back_tex);
-	public static final ResourceLocation HUNTER_BENCH_BURN_FRONT = new ResourceLocation(
-			MHFCReference.gui_hunterbench_burn_front_tex);
-	public static final ResourceLocation HUNTER_BENCH_BURN_TARGET = new ResourceLocation(
-			MHFCReference.gui_hunterbench_burn_target_tex);
-	public static final ResourceLocation QUEST_HUNTERBENCH_BACKGROUND = new ResourceLocation(
-			MHFCReference.gui_hunterbench_back_tex);
-	public static final ResourceLocation HUNTER_BENCH_COMPLETE = new ResourceLocation(
-			MHFCReference.gui_hunterbench_complete_tex);
-	public static final ResourceLocation HUNTER_BENCH_FUEL_DURATION = new ResourceLocation(
-			MHFCReference.gui_hunterbench_fuel_tex);
 	public static final ResourceLocation CLICKABLE_LIST = new ResourceLocation(MHFCReference.gui_list_tex);
 
 	private static final IServiceAccess<MHFCRegQuestVisual> serviceAccess = Services.instance
