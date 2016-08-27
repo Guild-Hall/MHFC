@@ -88,7 +88,12 @@ public class MHFCQuestRegistry {
 		@SubscribeEvent
 		public void onPlayerJoin(ServerConnectionFromClientEvent logIn) {
 			NetHandlerPlayServer playerNetHandler = (NetHandlerPlayServer) logIn.handler;
-			RunningSubscriptionHandler.subscribers.add(playerNetHandler.playerEntity);
+			EntityPlayerMP player = playerNetHandler.playerEntity;
+			RunningSubscriptionHandler.subscribers.add(player);
+			/*for (Entry<String, Mission> mission : runningQuestRegistry.getFrozenDataMap().entrySet()) {
+
+				PacketPipeline.networkPipe.sendTo(MessageMissionStatus.creation(null, mission.getKey()), player);
+			}*/
 		}
 
 		@SubscribeEvent

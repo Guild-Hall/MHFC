@@ -18,7 +18,6 @@ import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.core.registry.MHFCSmeltingRegistry;
 import mhfc.net.common.core.registry.MHFCTileRegistry;
-import mhfc.net.common.util.MHFCStringDecode;
 import mhfc.net.common.world.area.AreaRegistry;
 
 public class MHFCCommonRegistry {
@@ -27,7 +26,6 @@ public class MHFCCommonRegistry {
 	public static void init() {
 		MHFCCommonRegistry.addEvent();
 		MHFCCommonRegistry.addPlayerProperties();
-		MHFCCommonRegistry.addStringDecoders();
 		MHFCCommonRegistry.addRecipes();
 		MHFCCommonRegistry.addDimension();
 		MHFCCommonRegistry.addSmelting();
@@ -50,10 +48,6 @@ public class MHFCCommonRegistry {
 	private static void addPlayerProperties() {
 		MHFCPlayerPropertiesRegistry.init();
 		MHFCMain.logger().info("Custom player properties registered");
-	}
-
-	private static void addStringDecoders() {
-		MHFCStringDecode.init();
 	}
 
 	private static void addQuests() {
