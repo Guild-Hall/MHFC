@@ -1,7 +1,6 @@
 package mhfc.net.client.quests.api;
 
 import mhfc.net.common.quests.properties.Property;
-import mhfc.net.common.util.MHFCStringDecode.CompositeString;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.nbt.NBTBase;
 
@@ -12,8 +11,6 @@ import net.minecraft.nbt.NBTBase;
  *
  */
 public interface IMissionInformation {
-
-	CompositeString getShortStatus();
 
 	/**
 	 * Updates the mission's date from the nbt. The nbt was generated from {@link Property#dumpUpdates()} on the server
@@ -48,4 +45,6 @@ public interface IMissionInformation {
 	default void cleanUp() {
 		// Called before the client disposes this information
 	}
+
+	String shortStatus();
 }

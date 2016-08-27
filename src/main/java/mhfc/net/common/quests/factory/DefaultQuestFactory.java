@@ -76,6 +76,8 @@ public class DefaultQuestFactory implements IQuestFactory {
 		int fee = JsonUtils.getJsonObjectIntegerFieldValue(jsonAsObject, KEY_FEE);
 		int maxPartySize = MHFCJsonUtils.getJsonObjectIntegerFieldValueOrDefault(jsonAsObject, KEY_MAX_PARTY_SIZE, 4);
 
+		QuestVisualInformationFactory factory = new QuestVisualInformationFactory()
+				.decodingFrom(jsonAsObject.get(KEY_VISUAL), context);
 		DefaultQuestDescription description = new DefaultQuestDescription(
 				goal,
 				type,
@@ -83,11 +85,8 @@ public class DefaultQuestFactory implements IQuestFactory {
 				flair,
 				reward,
 				fee,
-				maxPartySize);
-		QuestVisualInformationFactory defaultFactory = new QuestVisualInformationFactory(description);
-		JsonElement visualInformation = jsonAsObject.get(KEY_VISUAL);
-		DefaultQuestVisualDefinition visual = defaultFactory.buildInformation(visualInformation, context);
-		description.setVisualInformation(visual);
+				maxPartySize,
+				factory::forQuest);
 		return description;
 	}
 

@@ -7,7 +7,6 @@ import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.client.quests.QuestRunningInformation;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.network.PacketPipeline;
@@ -63,7 +62,6 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	private final String missionID;
 	private QuestDefinition originalDescription;
-	private QuestRunningInformation visualInformation;
 
 	private PlayerMap<QuestingPlayerState> playerAttributes;
 	private int maxPlayerCount;
@@ -107,8 +105,6 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		this.state = QuestState.pending;
 		this.originalDescription = originalDescription;
 		this.maxPlayerCount = maxPartySize;
-
-		this.visualInformation = new QuestRunningInformation(this);
 
 		this.closed = false;
 	}
@@ -202,11 +198,10 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 			removePlayer(player);
 		}
 		MHFCQuestRegistry.endMission(this);
-		MHFCMain.logger().info("Quest {} ended", this.visualInformation.getName());
+		MHFCMain.logger().info("Mission {} ended", getMission());
 	}
 
 	protected void updatePlayers() {
-		visualInformation.updateFromQuest(this);
 		for (QuestingPlayerState attribute : playerAttributes.values()) {
 			EntityPlayerMP player = attribute.player;
 			PacketPipeline.networkPipe.sendTo(MessageMissionUpdate.createUpdate(missionID, rootGoalProperties), player);
@@ -318,10 +313,6 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		}
 	}
 
-	public QuestRunningInformation getRunningInformation() {
-		return visualInformation;
-	}
-
 	public int getMaxPartySize() {
 		return maxPlayerCount;
 	}
@@ -341,10 +332,9 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	@Override
 	public void close() {
 		if (closed) {
-			MHFCMain.logger().debug("Tried to close already closed instance of quest {}", visualInformation.getName());
+			MHFCMain.logger().debug("Tried to close already closed instance of mission {}", missionID);
 			return;
 		}
-		visualInformation.cleanUp();
 		questGoal.questGoalFinalize();
 		questingArea.close();
 		closed = true;

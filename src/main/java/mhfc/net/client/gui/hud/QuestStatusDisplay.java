@@ -29,9 +29,9 @@ public class QuestStatusDisplay {
 
 	private static final Minecraft mc = Minecraft.getMinecraft();
 	public static final ResourceLocation QUEST_STATUS_INVENTORY_BACKGROUND = new ResourceLocation(
-	MHFCReference.gui_status_inventory_tex);
+			MHFCReference.gui_status_inventory_tex);
 	public static final ResourceLocation QUEST_STATUS_ONSCREEN_BACKGROUND = new ResourceLocation(
-	MHFCReference.gui_status_onscreen_tex);
+			MHFCReference.gui_status_onscreen_tex);
 
 	@SuppressWarnings("unchecked")
 	@SubscribeEvent
@@ -74,7 +74,7 @@ public class QuestStatusDisplay {
 		mc.fontRenderer.drawString(localizedStat, posX + 5, posY + 5, 0x804040);
 		int lineHeight = mc.fontRenderer.FONT_HEIGHT + 2;
 		mc.fontRenderer.drawSplitString(
-				activeInformation.getShortStatus().stringValue(),
+				activeInformation.shortStatus(),
 				posX + 5,
 				posY + lineHeight + 5,
 				width - 10,

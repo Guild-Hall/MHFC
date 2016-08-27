@@ -1,6 +1,8 @@
 package mhfc.net.common.quests.descriptions;
 
+import java.util.Objects;
 import java.util.concurrent.CompletionStage;
+import java.util.function.Function;
 
 import mhfc.net.client.quests.DefaultQuestVisualDefinition;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
@@ -14,11 +16,21 @@ import mhfc.net.common.quests.world.GlobalAreaManager;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
+import mhfc.net.common.world.types.ArenaType;
 
 /**
  * Used by the QuestFactories as well as to display quests.
  */
 public class DefaultQuestDescription extends QuestDefinition {
+	public static final DefaultQuestDescription UNKNOWN_DESCRIPTION = new DefaultQuestDescription(
+			null,
+			QuestType.Gathering,
+			ArenaType.INSTANCE,
+			QuestFlair.DAYTIME,
+			0,
+			0,
+			0,
+			q -> DefaultQuestVisualDefinition.UNKNOWN);
 
 	public enum QuestType {
 		Hunting(MHFCQuestBuildRegistry.QUEST_TYPE_HUNTING),
@@ -65,7 +77,8 @@ public class DefaultQuestDescription extends QuestDefinition {
 			QuestFlair flair,
 			int reward,
 			int fee,
-			int maxPartySize) {
+			int maxPartySize,
+			Function<DefaultQuestDescription, DefaultQuestVisualDefinition> visual) {
 		super(MHFCQuestBuildRegistry.QUEST_DEFAULT);
 		this.goalReference = goalDescID;
 		this.questType = type;
@@ -74,11 +87,7 @@ public class DefaultQuestDescription extends QuestDefinition {
 		this.reward = reward;
 		this.fee = fee;
 		this.maxPartySize = maxPartySize;
-		this.visual = DefaultQuestVisualDefinition.UNKNOWN;
-	}
-
-	public void setVisualInformation(DefaultQuestVisualDefinition visualInformation) {
-		this.visual = visualInformation;
+		this.visual = Objects.requireNonNull(visual.apply(this));
 	}
 
 	public GoalReference getGoalReference() {
@@ -115,10 +124,14 @@ public class DefaultQuestDescription extends QuestDefinition {
 		return questFlair;
 	}
 
+	public QuestGoal buildGoal(GroupProperty propertyRoot) {
+		return QuestFactories.constructGoal(getGoalReference().getReferredDescription(), propertyRoot);
+	}
+
 	@Override
 	public Mission build(String missionID) {
-		GroupProperty goalProperties = GroupProperty.makeRootProperty();
-		QuestGoal goal = QuestFactories.constructGoal(getGoalReference().getReferredDescription(), goalProperties);
+		GroupProperty rootProperties = GroupProperty.makeRootProperty();
+		QuestGoal goal = buildGoal(rootProperties);
 		if (goal == null) {
 			return null;
 		}
@@ -130,7 +143,7 @@ public class DefaultQuestDescription extends QuestDefinition {
 			return null;
 		}
 
-		return new Mission(missionID, goal, goalProperties, getMaxPartySize(), getReward(), getFee(), activeArea, this);
+		return new Mission(missionID, goal, rootProperties, getMaxPartySize(), getReward(), getFee(), activeArea, this);
 	}
 
 }

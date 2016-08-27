@@ -1,5 +1,6 @@
 package mhfc.net.client.quests;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -8,8 +9,10 @@ import com.google.gson.JsonSerializationContext;
 import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.quests.api.IVisualDefinition;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
+import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription.QuestType;
+import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.util.MHFCJsonUtils;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.gui.FontRenderer;
@@ -37,6 +40,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		public static final String KEY_TYPE = "questType";
 
 		private DefaultQuestDescription quest;
+		private JsonObject jsonObject;
 
 		public QuestVisualInformationFactory() {}
 
@@ -44,8 +48,14 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			this.quest = quest;
 		}
 
-		public DefaultQuestVisualDefinition buildInformation(JsonElement json, JsonDeserializationContext context) {
-			JsonObject jsonObject = json.getAsJsonObject();
+		public QuestVisualInformationFactory decodingFrom(JsonElement json, JsonDeserializationContext context) {
+			this.jsonObject = json.getAsJsonObject();
+			return this;
+		}
+
+		public DefaultQuestVisualDefinition forQuest(DefaultQuestDescription quest) {
+			Preconditions.checkState(jsonObject != null, "must set the json to decode first");
+			this.quest = quest;
 			String name = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_NAME, getDefaultName());
 			String description = MHFCJsonUtils
 					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_DESCRIPTION, getDefaultDescription());
@@ -65,6 +75,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			String type = MHFCJsonUtils
 					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_TYPE, getDefaultQuestType());
 			return new DefaultQuestVisualDefinition(
+					quest,
 					name,
 					description,
 					client,
@@ -136,6 +147,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	}
 
 	public static final DefaultQuestVisualDefinition LOADING_REPLACEMENT = new DefaultQuestVisualDefinition(
+			DefaultQuestDescription.UNKNOWN_DESCRIPTION,
 			"Loading...",
 			"Waiting for server response",
 			"Guild hunter",
@@ -148,6 +160,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			"---",
 			QuestType.EpicHunting.getAsString());
 	public static final DefaultQuestVisualDefinition IDENTIFIER_ERROR = new DefaultQuestVisualDefinition(
+			DefaultQuestDescription.UNKNOWN_DESCRIPTION,
 			"Identifier invalid",
 			"Please contact the server operator so he can give information to the mod team",
 			"MHFC mod team",
@@ -160,6 +173,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			"Hopefully one",
 			QuestType.Gathering.getAsString());
 	public static final DefaultQuestVisualDefinition UNKNOWN = new DefaultQuestVisualDefinition(
+			DefaultQuestDescription.UNKNOWN_DESCRIPTION,
 			"Unknown quest",
 			"Creating visual failed. The quest exists though",
 			"Hunter's guild",
@@ -171,6 +185,8 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			"What did you pay?",
 			"A few friends",
 			"Unknown quest");
+
+	protected DefaultQuestDescription quest;
 
 	protected String name;
 	protected String description;
@@ -187,6 +203,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	protected String maxPartySize;
 
 	public DefaultQuestVisualDefinition(
+			DefaultQuestDescription quest,
 			String name,
 			String description,
 			String client,
@@ -198,6 +215,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			String fee,
 			String maxPartySize,
 			String type) {
+		this.quest = quest;
 		this.name = name;
 		this.typeString = type;
 		this.timeLimitInS = timeLimitInS;
@@ -218,8 +236,9 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 
 	@Override
 	public IMissionInformation build() {
-		// TODO Auto-generated method stub
-		return null;
+		GroupProperty propertyRoot = GroupProperty.makeRootProperty();
+		QuestGoal rootGoal = quest.buildGoal(propertyRoot);
+		return new DefaultMissionInformation(propertyRoot, rootGoal, this);
 	}
 
 	@Override
