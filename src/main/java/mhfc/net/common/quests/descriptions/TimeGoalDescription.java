@@ -32,18 +32,26 @@ public class TimeGoalDescription extends GoalDefinition {
 			private GroupProperty baseProperties;
 
 			@Override
+			public boolean areAttributesBound() {
+				return timer != null && baseProperties != null;
+			}
+
+			@Override
 			public IGoalFactory bindAttributes(GroupProperty goalProperties) {
 				timer = goalProperties.newMember("ticks", IntProperty.construct(getTime()));
+				baseProperties = goalProperties;
 				return this;
 			}
 
 			@Override
 			public Viewable buildVisual() {
+				checkAttributesBound();
 				return new DynamicString().append("{{ticks}} remaining", baseProperties);
 			}
 
 			@Override
 			public QuestGoal build() {
+				checkAttributesBound();
 				return new TimeQuestGoal(timer, getTime());
 			}
 		};

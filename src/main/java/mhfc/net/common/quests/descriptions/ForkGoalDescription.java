@@ -50,6 +50,11 @@ public class ForkGoalDescription extends GoalDefinition {
 			private List<IGoalFactory> optionalFactories = new ArrayList<>(getOptional().size());
 
 			@Override
+			public boolean areAttributesBound() {
+				return true;
+			}
+
+			@Override
 			public IGoalFactory bindAttributes(GroupProperty goalProperties) {
 				int i = 0;
 				for (GoalReference req : getRequired()) {

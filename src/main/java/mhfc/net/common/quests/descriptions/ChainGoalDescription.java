@@ -45,6 +45,11 @@ public class ChainGoalDescription extends GoalDefinition {
 			private IGoalFactory secondFactory = getSuccessorGoal().getReferredDescription().newFactory();
 
 			@Override
+			public boolean areAttributesBound() {
+				return true;
+			}
+
+			@Override
 			public IGoalFactory bindAttributes(GroupProperty goalProperties) {
 				firstFactory.bindAttributes(goalProperties.newMember("fg", GroupProperty.construct()));
 				secondFactory.bindAttributes(goalProperties.newMember("sg", GroupProperty.construct()));

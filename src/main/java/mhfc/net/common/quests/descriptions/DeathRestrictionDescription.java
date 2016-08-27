@@ -33,6 +33,11 @@ public class DeathRestrictionDescription extends GoalDefinition {
 			protected GroupProperty baseGroup;
 
 			@Override
+			public boolean areAttributesBound() {
+				return maxDeaths != null && currentDeaths != null && baseGroup != null;
+			}
+
+			@Override
 			public IGoalFactory bindAttributes(GroupProperty goalProperties) {
 				maxDeaths = goalProperties.newMember("maxDeaths", IntProperty.construct(allowedDeaths));
 				currentDeaths = goalProperties.newMember("currDeaths", IntProperty.construct(0));
@@ -42,11 +47,13 @@ public class DeathRestrictionDescription extends GoalDefinition {
 
 			@Override
 			public Viewable buildVisual() {
+				checkAttributesBound();
 				return new DynamicString().append("+{{maxDeaths - currDeaths}} lives remaining", baseGroup);
 			}
 
 			@Override
 			public QuestGoal build() {
+				checkAttributesBound();
 				return new DeathRestrictionQuestGoal(maxDeaths, currentDeaths);
 			}
 		};

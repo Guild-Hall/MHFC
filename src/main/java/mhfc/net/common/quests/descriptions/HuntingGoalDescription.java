@@ -15,7 +15,7 @@ import net.minecraft.entity.EntityList;
 public class HuntingGoalDescription extends GoalDefinition {
 
 	public static final String ID_HUNTED_TYPE = "target";
-	public static final String ID_AMOUNT = "goalAmount";
+	public static final String ID_AMOUNT = "amount";
 
 	private int amount;
 	private Class<? extends Entity> huntedClass;
@@ -42,6 +42,11 @@ public class HuntingGoalDescription extends GoalDefinition {
 			private GroupProperty baseProps;
 
 			@Override
+			public boolean areAttributesBound() {
+				return goalAmount != null && current != null && baseProps != null;
+			}
+
+			@Override
 			public IGoalFactory bindAttributes(GroupProperty goalProperties) {
 				goalAmount = goalProperties.newMember("goal", IntProperty.construct(getAmount()));
 				current = goalProperties.newMember("current", IntProperty.construct(0));
@@ -51,12 +56,14 @@ public class HuntingGoalDescription extends GoalDefinition {
 
 			@Override
 			public Viewable buildVisual() {
+				checkAttributesBound();
 				String goalMob = (String) EntityList.classToStringMapping.get(getHuntedClass());
 				return new DynamicString().append("{{current}}/{{goal}} ", baseProps).appendStatic(goalMob);
 			}
 
 			@Override
 			public QuestGoal build() {
+				checkAttributesBound();
 				return new HuntingQuestGoal(null, getHuntedClass(), goalAmount, current);
 			}
 		};

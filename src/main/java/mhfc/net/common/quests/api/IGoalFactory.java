@@ -1,5 +1,7 @@
 package mhfc.net.common.quests.api;
 
+import com.google.common.base.Preconditions;
+
 import mhfc.net.client.quests.api.IActiveGoalInformation;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.util.stringview.Viewable;
@@ -18,4 +20,10 @@ public interface IGoalFactory {
 	public abstract Viewable buildVisual();
 
 	public abstract QuestGoal build();
+
+	boolean areAttributesBound();
+
+	default void checkAttributesBound() {
+		Preconditions.checkState(areAttributesBound(), "bindAttributes first");
+	}
 }
