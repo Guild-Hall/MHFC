@@ -1,4 +1,4 @@
-package mhfc.net.common.network.packet;
+package mhfc.net.common.network.message.quest;
 
 import io.netty.buffer.ByteBuf;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

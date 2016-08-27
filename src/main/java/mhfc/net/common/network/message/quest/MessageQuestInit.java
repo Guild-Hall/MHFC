@@ -1,4 +1,4 @@
-package mhfc.net.common.network.packet;
+package mhfc.net.common.network.message.quest;
 
 import java.io.IOException;
 import java.util.Objects;

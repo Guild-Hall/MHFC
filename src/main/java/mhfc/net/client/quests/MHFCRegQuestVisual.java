@@ -16,7 +16,7 @@ import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.quests.api.IVisualDefinition;
 import mhfc.net.common.core.data.QuestDescriptionRegistry;
 import mhfc.net.common.network.NetworkTracker;
-import mhfc.net.common.network.packet.MessageQuestInit;
+import mhfc.net.common.network.message.quest.MessageQuestInit;
 import mhfc.net.common.quests.api.QuestDefinition;
 import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.util.services.IServiceAccess;

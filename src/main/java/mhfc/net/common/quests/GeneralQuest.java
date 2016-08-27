@@ -11,7 +11,7 @@ import mhfc.net.client.quests.QuestRunningInformation;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.packet.MessageMissionUpdate;
+import mhfc.net.common.network.message.quest.MessageMissionUpdate;
 import mhfc.net.common.quests.api.QuestDefinition;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;

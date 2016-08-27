@@ -3,7 +3,7 @@ package mhfc.net.client.quests;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import mhfc.net.common.network.packet.MessageQuestInit;
+import mhfc.net.common.network.message.quest.MessageQuestInit;
 
 public class QuestClientInitHandler implements IMessageHandler<MessageQuestInit, IMessage> {
 	@Override

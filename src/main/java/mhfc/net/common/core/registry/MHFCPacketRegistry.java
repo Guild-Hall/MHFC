@@ -21,11 +21,11 @@ import mhfc.net.common.network.message.bench.MessageBenchRefreshRequest;
 import mhfc.net.common.network.message.bench.MessageCancelRecipe;
 import mhfc.net.common.network.message.bench.MessageCraftingUpdate;
 import mhfc.net.common.network.message.bench.MessageSetRecipe;
-import mhfc.net.common.network.packet.MessageMHFCInteraction;
-import mhfc.net.common.network.packet.MessageMissionUpdate;
-import mhfc.net.common.network.packet.MessageQuestInit;
-import mhfc.net.common.network.packet.MessageQuestRunningSubscription;
-import mhfc.net.common.network.packet.MessageRequestMissionUpdate;
+import mhfc.net.common.network.message.quest.MessageMHFCInteraction;
+import mhfc.net.common.network.message.quest.MessageMissionUpdate;
+import mhfc.net.common.network.message.quest.MessageQuestInit;
+import mhfc.net.common.network.message.quest.MessageQuestRunningSubscription;
+import mhfc.net.common.network.message.quest.MessageRequestMissionUpdate;
 import mhfc.net.common.network.packet.MessageTileUpdate;
 import mhfc.net.common.tile.TileExploreArea.UpdateRequestHandler;
 

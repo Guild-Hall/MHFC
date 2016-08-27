@@ -13,7 +13,7 @@ import mhfc.net.common.core.directors.DirectorLoadQuestsFromLocal;
 import mhfc.net.common.core.registry.MHFCQuestRegistry.RunningSubscriptionHandler;
 import mhfc.net.common.eventhandler.MHFCInteractionHandler.MHFCInteractionModReloadEvent;
 import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.packet.MessageQuestInit;
+import mhfc.net.common.network.message.quest.MessageQuestInit;
 import mhfc.net.common.quests.QuestFactories;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.QuestDefinition;

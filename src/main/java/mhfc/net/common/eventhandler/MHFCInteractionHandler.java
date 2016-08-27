@@ -7,8 +7,8 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
-import mhfc.net.common.network.packet.MessageMHFCInteraction;
-import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
+import mhfc.net.common.network.message.quest.MessageMHFCInteraction;
+import mhfc.net.common.network.message.quest.MessageMHFCInteraction.Interaction;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 public class MHFCInteractionHandler

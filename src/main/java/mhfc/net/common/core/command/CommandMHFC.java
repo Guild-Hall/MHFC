@@ -6,8 +6,8 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.eventhandler.MHFCInteractionHandler;
-import mhfc.net.common.network.packet.MessageMHFCInteraction;
-import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
+import mhfc.net.common.network.message.quest.MessageMHFCInteraction;
+import mhfc.net.common.network.message.quest.MessageMHFCInteraction.Interaction;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
