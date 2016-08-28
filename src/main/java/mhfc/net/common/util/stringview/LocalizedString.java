@@ -16,4 +16,9 @@ public class LocalizedString implements Viewable {
 		builder.append(StatCollector.translateToLocal(toLocalize));
 	}
 
+	@Override
+	public String toString() {
+		return "[[" + toLocalize + "]]";
+	}
+
 }

@@ -3,20 +3,20 @@ package mhfc.net.common.util.stringview;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class JoiningView implements Viewable {
+public class JoinedView implements Viewable {
 	private ArrayList<Viewable> parts;
 	private String seperator;
 
-	private JoiningView(String on, ArrayList<Viewable> list) {
+	private JoinedView(String on, ArrayList<Viewable> list) {
 		this.parts = list; // No defensive copy
 		this.seperator = Objects.requireNonNull(on);
 	}
 
 	@Override
-	public JoiningView append(Viewable view) {
+	public JoinedView concat(Viewable view) {
 		ArrayList<Viewable> newParts = new ArrayList<>(parts);
 		newParts.add(Objects.requireNonNull(view));
-		return new JoiningView(seperator, newParts);
+		return new JoinedView(seperator, newParts);
 	}
 
 	@Override
@@ -31,7 +31,16 @@ public class JoiningView implements Viewable {
 		}
 	};
 
-	public static JoiningView on(String seperator) {
-		return new JoiningView(seperator, new ArrayList<>());
+	public static JoinedView on(String seperator) {
+		return new JoinedView(seperator, new ArrayList<>());
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		for (Viewable view : parts) {
+			builder.append(view.toString());
+		}
+		return builder.toString();
 	}
 }

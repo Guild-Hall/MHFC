@@ -58,4 +58,9 @@ public class BooleanProperty extends Property {
 		return r -> new BooleanProperty(r, initialValue);
 	}
 
+	@Override
+	public String toString() {
+		return Boolean.toString(value);
+	}
+
 }

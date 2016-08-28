@@ -124,4 +124,9 @@ public class FunctionCall implements IValueHolder {
 		Arguments args = new Arguments(arguments);
 		return new FunctionCall(callee, args);
 	}
+
+	@Override
+	public String toString() {
+		return holder.toString() + "(" + args.toString() + ")";
+	}
 }

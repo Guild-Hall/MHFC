@@ -16,11 +16,11 @@ import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.util.stringview.Viewable;
+import mhfc.net.common.util.stringview.Viewables;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -54,6 +54,9 @@ public class QuestStatusDisplay {
 		}
 	}
 
+	private static Viewable shortStatusHeader = Viewables
+			.parse("§c§n[[" + MHFCReference.unlocalized_tag_status_short + "]]§r\n", null);
+
 	@SubscribeEvent
 	public void onDraw(RenderGameOverlayEvent.Post overlayEvent) {
 		Optional<IMissionInformation> playerInformation = MHFCRegQuestVisual.getPlayerVisual();
@@ -73,11 +76,10 @@ public class QuestStatusDisplay {
 		MHFCGuiUtil.drawTexturedBoxFromBorder(posX, posY, 0, width, height, 40, 30f / 256, 248f / 256, 166f / 256);
 		GL11.glDisable(GL11.GL_BLEND);
 
-		String localizedStat = StatCollector.translateToLocal(MHFCReference.unlocalized_tag_status_short);
-		mc.fontRenderer.drawString(localizedStat, posX + 5, posY + 5, 0x804040);
 		int lineHeight = mc.fontRenderer.FONT_HEIGHT + 2;
 
-		Viewable shortStatus = activeInformation.getShortStatus();
+		Viewable shortMissionStatus = activeInformation.getShortStatus();
+		Viewable shortStatus = shortStatusHeader.concat(shortMissionStatus);
 		MHFCGuiUtil.drawViewable(
 				shortStatus,
 				buffer,
@@ -86,7 +88,7 @@ public class QuestStatusDisplay {
 				width - 10,
 				height,
 				posX + 5,
-				posY + lineHeight + 5,
+				posY + 5,
 				lineHeight,
 				COLOUR_TEXT,
 				mc.fontRenderer);

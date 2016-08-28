@@ -28,4 +28,9 @@ public class StringProperty extends ImmutableProperty<String> {
 	public static Function<Runnable, StringProperty> construct(String initialValue) {
 		return r -> new StringProperty(r, initialValue);
 	}
+
+	@Override
+	public String toString() {
+		return "\"" + get() + "\"";
+	}
 }

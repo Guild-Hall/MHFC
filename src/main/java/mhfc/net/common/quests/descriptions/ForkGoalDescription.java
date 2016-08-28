@@ -12,7 +12,7 @@ import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.goals.ForkQuestGoal;
 import mhfc.net.common.quests.properties.GroupProperty;
-import mhfc.net.common.util.stringview.JoiningView;
+import mhfc.net.common.util.stringview.JoinedView;
 import mhfc.net.common.util.stringview.Viewable;
 
 public class ForkGoalDescription extends GoalDefinition {
@@ -82,24 +82,24 @@ public class ForkGoalDescription extends GoalDefinition {
 
 			@Override
 			public Viewable buildVisual() {
-				JoiningView requisitesSummary = JoiningView.on("\n");
-				JoiningView optionalSummary = JoiningView.on("\n");
+				JoinedView requisitesSummary = JoinedView.on("\n");
+				JoinedView optionalSummary = JoinedView.on("\n");
 				for (IGoalFactory reqFactory : requiredFactories) {
-					requisitesSummary.append(reqFactory.buildVisual());
+					requisitesSummary = requisitesSummary.concat(reqFactory.buildVisual());
 				}
 				for (IGoalFactory optFactory : optionalFactories) {
-					optionalSummary.append(optFactory.buildVisual());
+					optionalSummary = optionalSummary.concat(optFactory.buildVisual());
 				}
-				JoiningView goalSummary = JoiningView.on("\n").append(requisitesSummary).append(optionalSummary);
+				JoinedView goalSummary = JoinedView.on("\n").concat(requisitesSummary).concat(optionalSummary);
 				return goalSummary;
 			}
 
 			@Override
 			public Viewable buildShortStatus() {
-				JoiningView requisitesSummary = JoiningView.on("\n");
+				JoinedView requisitesSummary = JoinedView.on("\n");
 				int maxGoals = 3;
 				for (IGoalFactory reqFactory : requiredFactories) {
-					requisitesSummary.append(reqFactory.buildShortStatus());
+					requisitesSummary = requisitesSummary.concat(reqFactory.buildShortStatus());
 					if (--maxGoals == 0) {
 						break;
 					}

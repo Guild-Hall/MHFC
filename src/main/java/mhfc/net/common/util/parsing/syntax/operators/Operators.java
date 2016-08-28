@@ -466,18 +466,26 @@ public class Operators {
 		public IValueHolder asValue(IValueHolder ctx) {
 			IValueHolder leftHolder = left.asValue(ctx);
 			IValueHolder rightHolder = right.asValue(ctx);
-			return () -> {
-				switch (op.compute(leftHolder.snapshot().asBool())) {
-				case RESULT_FALSE:
-					return Holder.FALSE;
-				case RESULT_TRUE:
-					return Holder.TRUE;
-				case RESULT_IS_SECOND:
-					return Holder.valueOf(rightHolder.snapshot().asBool());
-				case RESULT_IS_NOT_SECOND:
-					return Holder.valueOf(!rightHolder.snapshot().asBool());
-				default:
-					throw new IllegalStateException("Error, enum value is likely null");
+			return new IValueHolder() {
+				@Override
+				public Holder snapshot() throws Throwable {
+					switch (op.compute(leftHolder.snapshot().asBool())) {
+					case RESULT_FALSE:
+						return Holder.FALSE;
+					case RESULT_TRUE:
+						return Holder.TRUE;
+					case RESULT_IS_SECOND:
+						return Holder.valueOf(rightHolder.snapshot().asBool());
+					case RESULT_IS_NOT_SECOND:
+						return Holder.valueOf(!rightHolder.snapshot().asBool());
+					default:
+						throw new IllegalStateException("Error, enum value is likely null");
+					}
+				}
+
+				@Override
+				public String toString() {
+					return leftHolder.toString() + op.toString() + rightHolder;
 				}
 			};
 		}

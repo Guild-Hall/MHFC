@@ -143,4 +143,9 @@ public class GroupProperty extends Property {
 	public static GroupProperty makeRootProperty() {
 		return new GroupProperty(null);
 	}
+
+	@Override
+	public String toString() {
+		return this.subProperties.toString();
+	}
 }

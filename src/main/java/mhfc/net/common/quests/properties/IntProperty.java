@@ -64,4 +64,9 @@ public class IntProperty extends Property {
 	public static Function<Runnable, IntProperty> construct(int initialValue) {
 		return r -> new IntProperty(r, initialValue);
 	}
+
+	@Override
+	public String toString() {
+		return Integer.toString(value);
+	}
 }

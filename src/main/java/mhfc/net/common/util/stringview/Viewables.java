@@ -5,13 +5,13 @@ import mhfc.net.common.util.parsing.IValueHolder;
 public class Viewables {
 	public static Viewable parse(String toParse, IValueHolder context) {
 		int staticContentStartIndex = 0;
-		Viewable view = JoiningView.on(toParse);
+		Viewable view = JoinedView.on("");
 
 		while (staticContentStartIndex < toParse.length()) {
 			int startLocalized = toParse.indexOf("[[", staticContentStartIndex);
 			int startDynamic = toParse.indexOf("{{", staticContentStartIndex);
 			if (startDynamic == -1 && startLocalized == -1) {
-				view = view.append(new StaticString(toParse.substring(staticContentStartIndex)));
+				view = view.concat(new StaticString(toParse.substring(staticContentStartIndex)));
 				break;
 			}
 			boolean specialIsDynamic = startLocalized == -1 || startDynamic != -1 && startDynamic < startLocalized;
@@ -24,11 +24,11 @@ public class Viewables {
 			}
 
 			String precedingStaticPart = toParse.substring(staticContentStartIndex, specialStartIndex);
-			view = view.append(new StaticString(precedingStaticPart));
+			view = view.concat(new StaticString(precedingStaticPart));
 
 			String specialPart = toParse.substring(specialStartIndex + 2, specialEndIndex);
 			Viewable specialView = specialIsDynamic ? parseDynamic(specialPart, context) : parseLocalized(specialPart);
-			view = view.append(specialView);
+			view = view.concat(specialView);
 
 			staticContentStartIndex = specialEndIndex + 2;
 		}

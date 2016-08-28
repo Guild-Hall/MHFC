@@ -13,4 +13,9 @@ public class StaticString implements Viewable {
 	public void appendTo(StringBuilder builder) {
 		builder.append(content);
 	}
+
+	@Override
+	public String toString() {
+		return content;
+	}
 }

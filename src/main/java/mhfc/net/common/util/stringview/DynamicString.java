@@ -23,4 +23,9 @@ public class DynamicString implements Viewable {
 		String append = Holder.snapshotSafely(value).toString();
 		builder.append(append);
 	}
+
+	@Override
+	public String toString() {
+		return "{{" + value + "}}";
+	}
 }

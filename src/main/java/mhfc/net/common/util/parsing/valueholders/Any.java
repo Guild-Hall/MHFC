@@ -128,4 +128,9 @@ public final class Any implements IValueHolder {
 	public Class<?> getType() {
 		return this.holder.getType();
 	}
+
+	@Override
+	public String toString() {
+		return this.holder.toString();
+	}
 }

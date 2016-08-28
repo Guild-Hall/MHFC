@@ -67,7 +67,7 @@ public class ChainGoalDescription extends GoalDefinition {
 			public Viewable buildVisual() {
 				Viewable thisGoal = firstFactory.buildVisual();
 				Viewable next = secondFactory.buildVisual();
-				return thisGoal.appendStatic("\n").append(next);
+				return thisGoal.appendStatic("\n").concat(next);
 			}
 
 			@Override
