@@ -1,5 +1,8 @@
 package mhfc.net.common.quests.descriptions;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.IGoalFactory;
@@ -46,7 +49,8 @@ public class TimeGoalDescription extends GoalDefinition {
 			@Override
 			public Viewable buildVisual() {
 				checkAttributesBound();
-				return new DynamicString().append("{{ticks}} remaining", baseProperties);
+				baseProperties.newVisualSupplementMethod("ticksToTime", TimeGoalDescription.class, "ticksToTime");
+				return new DynamicString().append("{{ticks | ticksToTime}} remaining", baseProperties);
 			}
 
 			@Override
@@ -55,5 +59,29 @@ public class TimeGoalDescription extends GoalDefinition {
 				return new TimeQuestGoal(timer, getTime());
 			}
 		};
+	}
+
+	private static NumberFormat format = new DecimalFormat("00");
+
+	public static String ticksToTime(int ticksLeft) {
+		int seconds = (ticksLeft + 19) / 20;
+		int minutes = seconds / 60;
+		seconds = seconds % 60;
+		int hours = minutes / 60;
+		minutes = minutes % 60;
+
+		StringBuilder value = new StringBuilder();
+		boolean hasPreceding = false;
+		if (hours != 0) {
+			value.append(format.format(hours));
+			value.append(':');
+			hasPreceding = true;
+		}
+		if (minutes != 0 || hasPreceding) {
+			value.append(format.format(minutes));
+			value.append(':');
+		}
+		value.append(format.format(seconds));
+		return value.toString();
 	}
 }

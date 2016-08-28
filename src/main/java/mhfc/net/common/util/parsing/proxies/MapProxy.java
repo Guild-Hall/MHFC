@@ -1,21 +1,22 @@
 package mhfc.net.common.util.parsing.proxies;
 
 import java.util.Map;
-import java.util.Objects;
 
+import mhfc.net.common.util.Objects;
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
 import mhfc.net.common.util.parsing.syntax.special.ISpecialMember;
 
 public class MapProxy implements ISpecialMember {
-	private Map<String, ? extends IValueHolder> map;
+	private Map<String, ? extends IValueHolder>[] maps;
 
 	/**
 	 * @param mapReference
 	 *            no defensive copy is made.
 	 */
-	public MapProxy(Map<String, ? extends IValueHolder> mapReference) {
-		this.map = Objects.requireNonNull(mapReference);
+	@SafeVarargs
+	public MapProxy(Map<String, ? extends IValueHolder>... mapReferences) {
+		this.maps = Objects.requireNonNullDeep(mapReferences);
 	}
 
 	/**
@@ -24,11 +25,14 @@ public class MapProxy implements ISpecialMember {
 	 */
 	@Override
 	public Holder __getattr__(String member) throws Throwable {
-		IValueHolder holder = map.get(member);
-		if (holder == null) {
-			return Holder.empty();
+		for (Map<String, ? extends IValueHolder> map : maps) {
+			IValueHolder holder = map.get(member);
+			if (holder == null) {
+				continue;
+			}
+			return holder.snapshot();
 		}
-		return holder.snapshot();
+		return Holder.empty();
 	}
 
 }

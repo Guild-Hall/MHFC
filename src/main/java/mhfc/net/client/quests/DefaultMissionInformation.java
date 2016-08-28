@@ -46,7 +46,8 @@ public class DefaultMissionInformation implements IMissionInformation {
 			FontRenderer fontRenderer) {
 		viewBuffer.setLength(0);
 		goalSummary.appendTo(viewBuffer);
-		fontRenderer.drawString(viewBuffer.toString(), 10, 20, 0xFFFFFF);
+		String display = viewBuffer.toString();
+		fontRenderer.drawString(display, 10, 20, 0xFFFFFF);
 	}
 
 	@Override

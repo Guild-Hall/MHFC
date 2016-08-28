@@ -34,7 +34,8 @@ public class DynamicString implements Viewable {
 
 		@Override
 		public void appendTo(StringBuilder builder) {
-			builder.append(Holder.snapshotSafely(value).toString());
+			String append = Holder.snapshotSafely(value).toString();
+			builder.append(append);
 		}
 	}
 

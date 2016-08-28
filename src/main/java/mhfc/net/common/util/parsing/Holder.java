@@ -747,7 +747,7 @@ public final class Holder implements IValueHolder {
 	 * @return an engaged Holder that holds an object of the given Class.
 	 */
 	public static <F> Holder valueOf(F object, Class<? super F> clazz) {
-		return object == null ? new Holder(object) : new Holder(clazz, classTag);
+		return object == null ? new Holder(clazz, classTag) : new Holder(object);
 	}
 
 	/**

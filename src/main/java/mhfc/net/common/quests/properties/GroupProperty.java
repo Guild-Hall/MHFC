@@ -11,18 +11,22 @@ import com.google.common.base.Preconditions;
 import mhfc.net.common.util.Lazy;
 import mhfc.net.common.util.parsing.Context;
 import mhfc.net.common.util.parsing.Holder;
+import mhfc.net.common.util.parsing.IValueHolder;
 import mhfc.net.common.util.parsing.proxies.MapProxy;
+import mhfc.net.common.util.parsing.proxies.MemberMethodProxy;
+import mhfc.net.common.util.reflection.MethodHelper;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class GroupProperty extends Property {
 
 	private Map<String, Property> subProperties = new HashMap<>();
+	private Map<String, IValueHolder> supplementVisuals = new HashMap<>();
 	private Lazy<Holder> propertyProxy;
 
 	private GroupProperty(Runnable setDirtyParent) {
 		super(setDirtyParent);
-		propertyProxy = new Lazy<>(() -> Holder.valueOf(new MapProxy(subProperties)));
+		propertyProxy = new Lazy<>(() -> Holder.valueOf(new MapProxy(subProperties, supplementVisuals)));
 	}
 
 	@Override
@@ -93,6 +97,36 @@ public class GroupProperty extends Property {
 		P prop = Objects.requireNonNull(constructor.apply(getDirtyPropagator()));
 		subProperties.put(name, prop);
 		return prop;
+	}
+
+	/**
+	 * Registers a visual-only entry in the group-properties. This is important to be able to introduce display
+	 * functions and/or constants into the parsing context.<br>
+	 * As they are visual-only, it will not be checked whether a name already exists, or if a member of the same name
+	 * exists. When a member of the same name exists, the context refers to the member rather than the value holder.<br>
+	 *
+	 * @param notShared
+	 *            a value holder that will not be synced between client and server
+	 * @see MemberMethodProxy to register functions as variables
+	 */
+	public void newVisualSupplement(String name, IValueHolder notShared) {
+		Objects.requireNonNull(name);
+		Objects.requireNonNull(notShared);
+		supplementVisuals.put(name, notShared);
+	}
+
+	/**
+	 * Searches clazz for a static method "methodName" and introduces the method into the context under the name of
+	 * "alias". It is an error if that method is not public or can not be found.
+	 *
+	 * @param alias
+	 * @param clazz
+	 * @param methodName
+	 */
+	public void newVisualSupplementMethod(String alias, Class<?> clazz, String methodName) {
+		newVisualSupplement(
+				alias,
+				Holder.valueOf(new MemberMethodProxy(MethodHelper.findStatic(clazz, methodName).get())));
 	}
 
 	/**

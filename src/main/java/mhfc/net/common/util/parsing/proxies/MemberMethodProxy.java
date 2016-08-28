@@ -12,6 +12,7 @@ public class MemberMethodProxy {
 	}
 
 	public Holder __call__(Arguments arguments) throws Throwable {
-		return methods.call(arguments);
+		Holder result = methods.call(arguments);
+		return result;
 	}
 }
