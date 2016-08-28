@@ -77,9 +77,9 @@ public class QuestStatusDisplay {
 		mc.fontRenderer.drawString(localizedStat, posX + 5, posY + 5, 0x804040);
 		int lineHeight = mc.fontRenderer.FONT_HEIGHT + 2;
 
-		Viewable shotStatus = activeInformation.getShortStatus();
+		Viewable shortStatus = activeInformation.getShortStatus();
 		MHFCGuiUtil.drawViewable(
-				shotStatus,
+				shortStatus,
 				buffer,
 				0,
 				0,
