@@ -47,9 +47,14 @@ public class TimeGoalDescription extends GoalDefinition {
 			}
 
 			@Override
+			public IGoalFactory bindVisualSupplements() {
+				baseProperties.newVisualSupplementMethod("ticksToTime", TimeGoalDescription.class, "ticksToTime");
+				return this;
+			}
+
+			@Override
 			public Viewable buildVisual() {
 				checkAttributesBound();
-				baseProperties.newVisualSupplementMethod("ticksToTime", TimeGoalDescription.class, "ticksToTime");
 				return new DynamicString().append("{{ticks | ticksToTime}} remaining", baseProperties);
 			}
 
@@ -71,16 +76,12 @@ public class TimeGoalDescription extends GoalDefinition {
 		minutes = minutes % 60;
 
 		StringBuilder value = new StringBuilder();
-		boolean hasPreceding = false;
 		if (hours != 0) {
 			value.append(format.format(hours));
 			value.append(':');
-			hasPreceding = true;
 		}
-		if (minutes != 0 || hasPreceding) {
-			value.append(format.format(minutes));
-			value.append(':');
-		}
+		value.append(format.format(minutes));
+		value.append(':');
 		value.append(format.format(seconds));
 		return value.toString();
 	}

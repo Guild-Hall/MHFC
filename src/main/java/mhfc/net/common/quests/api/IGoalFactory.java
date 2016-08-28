@@ -17,6 +17,16 @@ public interface IGoalFactory {
 
 	public abstract IGoalFactory bindAttributes(GroupProperty goalProperties);
 
+	/**
+	 * Offers a chance to bind visual supplements to the (saved) GroupProperty that was given in
+	 * {@link #bindAttributes(GroupProperty)}.
+	 * 
+	 * @return this
+	 */
+	default IGoalFactory bindVisualSupplements() {
+		return this;
+	}
+
 	public abstract Viewable buildVisual();
 
 	public abstract QuestGoal build();

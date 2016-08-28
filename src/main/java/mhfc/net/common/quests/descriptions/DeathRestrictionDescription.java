@@ -48,7 +48,7 @@ public class DeathRestrictionDescription extends GoalDefinition {
 			@Override
 			public Viewable buildVisual() {
 				checkAttributesBound();
-				return new DynamicString().append("+{{maxDeaths - currDeaths}} lives remaining", baseGroup);
+				return new DynamicString().append("+{{maxDeaths - currDeaths}} lives left", baseGroup);
 			}
 
 			@Override

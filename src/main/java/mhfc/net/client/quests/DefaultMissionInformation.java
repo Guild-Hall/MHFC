@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.quests.api.IVisualDefinition;
+import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.client.gui.FontRenderer;
@@ -44,10 +45,19 @@ public class DefaultMissionInformation implements IMissionInformation {
 			int height,
 			int page,
 			FontRenderer fontRenderer) {
-		viewBuffer.setLength(0);
-		goalSummary.appendTo(viewBuffer);
-		String display = viewBuffer.toString();
-		fontRenderer.drawString(display, 10, 20, 0xFFFFFF);
+		int margin = 5;
+		MHFCGuiUtil.drawViewable(
+				goalSummary,
+				viewBuffer,
+				page,
+				0,
+				width - margin * 2,
+				height - margin * 2,
+				positionX + margin,
+				positionY + margin,
+				12,
+				0x222222,
+				fontRenderer);
 	}
 
 	@Override

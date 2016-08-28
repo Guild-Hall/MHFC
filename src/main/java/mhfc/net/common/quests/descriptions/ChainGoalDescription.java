@@ -58,6 +58,13 @@ public class ChainGoalDescription extends GoalDefinition {
 			}
 
 			@Override
+			public IGoalFactory bindVisualSupplements() {
+				firstFactory = firstFactory.bindVisualSupplements();
+				secondFactory = secondFactory.bindVisualSupplements();
+				return this;
+			}
+
+			@Override
 			public Viewable buildVisual() {
 				Viewable thisGoal = firstFactory.buildVisual();
 				Viewable next = secondFactory.buildVisual();

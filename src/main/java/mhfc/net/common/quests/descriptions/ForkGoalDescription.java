@@ -70,6 +70,17 @@ public class ForkGoalDescription extends GoalDefinition {
 			}
 
 			@Override
+			public IGoalFactory bindVisualSupplements() {
+				for (IGoalFactory reqFactory : requiredFactories) {
+					reqFactory.bindVisualSupplements();
+				}
+				for (IGoalFactory optFactory : optionalFactories) {
+					optFactory.bindVisualSupplements();
+				}
+				return this;
+			}
+
+			@Override
 			public Viewable buildVisual() {
 				JoiningView requisitesSummary = JoiningView.on("\n");
 				JoiningView optionalSummary = JoiningView.on("\n");

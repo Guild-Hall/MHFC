@@ -79,7 +79,7 @@ public class QuestFactories {
 	 * returned.
 	 */
 	public static Viewable constructGoalVisuals(GoalDefinition gd, GroupProperty rootProperties) {
-		Viewable goal = constructAndRegisterAttribs(gd, rootProperties).buildVisual();
+		Viewable goal = constructAndRegisterAttribs(gd, rootProperties).bindVisualSupplements().buildVisual();
 		if (goal == null) {
 			MHFCMain.logger().warn("Constructed goal returned as null");
 		}
