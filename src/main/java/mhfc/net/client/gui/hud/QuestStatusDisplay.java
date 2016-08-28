@@ -55,7 +55,7 @@ public class QuestStatusDisplay {
 	}
 
 	private static Viewable shortStatusHeader = Viewables
-			.parse("§c§n[[" + MHFCReference.unlocalized_tag_status_short + "]]§r\n", null);
+			.parse("§4§n[[" + MHFCReference.unlocalized_tag_status_short + "]]§r\n\n", null);
 
 	@SubscribeEvent
 	public void onDraw(RenderGameOverlayEvent.Post overlayEvent) {

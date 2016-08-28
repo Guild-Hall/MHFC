@@ -15,4 +15,9 @@ public class MemberMethodProxy {
 		Holder result = methods.call(arguments);
 		return result;
 	}
+
+	@Override
+	public String toString() {
+		return methods.toString();
+	}
 }

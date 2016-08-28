@@ -2,6 +2,7 @@ package mhfc.net.client.util.gui;
 
 import static org.lwjgl.opengl.GL11.glColor4f;
 
+import java.util.List;
 import java.util.Objects;
 
 import com.google.common.base.Preconditions;
@@ -157,24 +158,18 @@ public class MHFCGuiUtil {
 			int lineHeight,
 			int color,
 			FontRenderer fRend) {
-		int spaceWidth = fRend.getCharWidth(' ');
-		String[] words = paragraph.split("\\s");
-		int relPosX = 0;
-		for (String word : words) {
-			int wordWidth = fRend.getStringWidth(word);
-			if (relPosX + wordWidth > width) {
-				// Word longer than rest of line
-				if (relPosX != 0) {
-					relPosY += lineHeight;
-					relPosX = 0;
-				}
-				// Else only word on the line, we gotta bite the apple
+		List<String> lines = fRend.listFormattedStringToWidth(paragraph, width);
+		int lineSize = lines.size();
+		for (int i = 0; i < lineSize; i++, relPosY += lineHeight) {
+			String line = lines.get(i);
+			if (relPosY + lineHeight > height) {
+				break;
 			}
-			if (relPosY >= 0 && relPosY + lineHeight < height) {
-				fRend.drawString(word, posX + relPosX, posY + relPosY, color);
+			if (relPosY >= 0) {
+				fRend.drawString(line, posX, posY + relPosY, color);
 			}
-			relPosX += wordWidth + spaceWidth;
 		}
+		relPosY -= lineHeight;
 		return relPosY;
 	}
 

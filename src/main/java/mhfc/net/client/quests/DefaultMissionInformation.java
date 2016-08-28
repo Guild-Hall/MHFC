@@ -21,9 +21,9 @@ public class DefaultMissionInformation implements IMissionInformation {
 			Viewable goalShortSummary,
 			DefaultQuestVisualDefinition defaultQuestVisualDefinition) {
 		this.goalProperties = Objects.requireNonNull(propertyRoot);
-		goalSummary = rootGoalStatus;
+		this.goalSummary = rootGoalStatus;
 		this.originalDef = Objects.requireNonNull(defaultQuestVisualDefinition);
-		shortStatus = Objects.requireNonNull(goalShortSummary);
+		this.shortStatus = Objects.requireNonNull(goalShortSummary);
 	}
 
 	@Override
