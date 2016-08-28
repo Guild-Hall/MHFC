@@ -21,7 +21,6 @@ import mhfc.net.common.quests.factory.ForkGoalFactory;
 import mhfc.net.common.quests.factory.HuntingGoalFactory;
 import mhfc.net.common.quests.factory.TimeGoalFactory;
 import mhfc.net.common.quests.properties.GroupProperty;
-import mhfc.net.common.util.stringview.Viewable;
 
 public class QuestFactories {
 
@@ -78,12 +77,8 @@ public class QuestFactories {
 	 * Constructs the visual of a quest goal based on the description object. If it is somehow invalid then null is
 	 * returned.
 	 */
-	public static Viewable constructGoalVisuals(GoalDefinition gd, GroupProperty rootProperties) {
-		Viewable goal = constructAndRegisterAttribs(gd, rootProperties).bindVisualSupplements().buildVisual();
-		if (goal == null) {
-			MHFCMain.logger().warn("Constructed goal returned as null");
-		}
-		return goal;
+	public static IGoalFactory constructGoalVisualsFactory(GoalDefinition gd, GroupProperty rootProperties) {
+		return constructAndRegisterAttribs(gd, rootProperties).bindVisualSupplements();
 	}
 
 	private static IGoalFactory constructAndRegisterAttribs(GoalDefinition gd, GroupProperty rootProps) {

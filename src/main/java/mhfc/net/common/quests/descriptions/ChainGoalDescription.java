@@ -72,6 +72,11 @@ public class ChainGoalDescription extends GoalDefinition {
 			}
 
 			@Override
+			public Viewable buildShortStatus() {
+				return firstFactory.buildShortStatus();
+			}
+
+			@Override
 			public QuestGoal build() {
 				QuestGoal firstDependency = firstFactory.build();
 				QuestGoal secondDependency = secondFactory.build();

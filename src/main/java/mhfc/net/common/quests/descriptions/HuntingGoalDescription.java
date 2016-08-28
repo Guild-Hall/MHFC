@@ -58,7 +58,16 @@ public class HuntingGoalDescription extends GoalDefinition {
 			public Viewable buildVisual() {
 				checkAttributesBound();
 				String goalMob = (String) EntityList.classToStringMapping.get(getHuntedClass());
-				return new DynamicString().append("{{current}}/{{goal}} " + goalMob + " slain", baseProps);
+				goalMob = "entity." + goalMob + ".name";
+				return new DynamicString().append(goalMob + "s slain: {{current}}/{{goal}}", baseProps);
+			}
+
+			@Override
+			public Viewable buildShortStatus() {
+				checkAttributesBound();
+				String goalMob = (String) EntityList.classToStringMapping.get(getHuntedClass());
+				goalMob = "entity." + goalMob + ".name";
+				return new DynamicString().append("{{current}}/{{goal}} " + goalMob, baseProps);
 			}
 
 			@Override

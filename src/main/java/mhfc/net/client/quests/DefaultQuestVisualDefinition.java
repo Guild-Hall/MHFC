@@ -9,6 +9,7 @@ import com.google.gson.JsonSerializationContext;
 import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.quests.api.IVisualDefinition;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
+import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription.QuestType;
 import mhfc.net.common.quests.properties.GroupProperty;
@@ -237,8 +238,10 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	@Override
 	public IMissionInformation build() {
 		GroupProperty propertyRoot = GroupProperty.makeRootProperty();
-		Viewable rootGoalStatus = quest.buildGoalVisuals(propertyRoot);
-		return new DefaultMissionInformation(propertyRoot, rootGoalStatus, this);
+		IGoalFactory factory = quest.bindGoalVisuals(propertyRoot);
+		Viewable rootGoalStatus = factory.buildVisual();
+		Viewable rootShortStatus = factory.buildShortStatus();
+		return new DefaultMissionInformation(propertyRoot, rootGoalStatus, rootShortStatus, this);
 	}
 
 	@Override

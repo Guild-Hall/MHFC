@@ -7,6 +7,7 @@ import mhfc.net.client.gui.hud.QuestStatusDisplay;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
+import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -15,6 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class QuestStatusInventory extends GuiContainer {
 
+	private final StringBuilder viewBuffer = new StringBuilder();
 	private int displayPage;
 	private EntityPlayer player;
 
@@ -77,7 +79,20 @@ public class QuestStatusInventory extends GuiContainer {
 		} else {
 			IMissionInformation information = optionalInfo.get();
 			int pageCount = information.getPageCount();
-			information.drawInformation(guiLeft, guiTop, xSize, ySize, displayPage % pageCount, mc.fontRenderer);
+			int margin = 5;
+			Viewable infoSummary = information.getView();
+			MHFCGuiUtil.drawViewable(
+					infoSummary,
+					viewBuffer,
+					displayPage % pageCount,
+					0,
+					xSize - margin * 2,
+					ySize - margin * 2,
+					guiLeft + margin,
+					guiTop + margin,
+					mc.fontRenderer.FONT_HEIGHT + 2,
+					MHFCGuiUtil.COLOUR_TEXT,
+					mc.fontRenderer);
 		}
 	}
 

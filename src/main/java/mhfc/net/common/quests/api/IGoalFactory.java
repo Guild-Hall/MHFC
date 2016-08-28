@@ -20,7 +20,7 @@ public interface IGoalFactory {
 	/**
 	 * Offers a chance to bind visual supplements to the (saved) GroupProperty that was given in
 	 * {@link #bindAttributes(GroupProperty)}.
-	 * 
+	 *
 	 * @return this
 	 */
 	default IGoalFactory bindVisualSupplements() {
@@ -28,6 +28,8 @@ public interface IGoalFactory {
 	}
 
 	public abstract Viewable buildVisual();
+
+	public abstract Viewable buildShortStatus();
 
 	public abstract QuestGoal build();
 

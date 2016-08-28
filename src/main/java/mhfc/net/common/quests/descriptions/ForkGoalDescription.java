@@ -95,6 +95,19 @@ public class ForkGoalDescription extends GoalDefinition {
 			}
 
 			@Override
+			public Viewable buildShortStatus() {
+				JoiningView requisitesSummary = JoiningView.on("\n");
+				int maxGoals = 3;
+				for (IGoalFactory reqFactory : requiredFactories) {
+					requisitesSummary.append(reqFactory.buildShortStatus());
+					if (--maxGoals == 0) {
+						break;
+					}
+				}
+				return requisitesSummary;
+			}
+
+			@Override
 			public QuestGoal build() {
 				ForkQuestGoal fork = new ForkQuestGoal(null);
 				for (IGoalFactory reqFactory : requiredFactories) {

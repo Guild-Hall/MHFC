@@ -52,6 +52,12 @@ public class DeathRestrictionDescription extends GoalDefinition {
 			}
 
 			@Override
+			public Viewable buildShortStatus() {
+				checkAttributesBound();
+				return new DynamicString().append("+{{maxDeaths - currDeaths}} lives", baseGroup);
+			}
+
+			@Override
 			public QuestGoal build() {
 				checkAttributesBound();
 				return new DeathRestrictionQuestGoal(maxDeaths, currentDeaths);

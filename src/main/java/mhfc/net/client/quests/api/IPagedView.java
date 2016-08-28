@@ -1,9 +1,9 @@
 package mhfc.net.client.quests.api;
 
-import net.minecraft.client.gui.FontRenderer;
+import mhfc.net.common.util.stringview.Viewable;
 
 public interface IPagedView {
-	void drawInformation(int positionX, int positionY, int width, int height, int page, FontRenderer fontRenderer);
+	Viewable getView();
 
 	int getPageCount();
 }

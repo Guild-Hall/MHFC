@@ -19,7 +19,6 @@ import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.message.quest.MessageMHFCInteraction;
 import mhfc.net.common.network.message.quest.MessageMHFCInteraction.Interaction;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -36,6 +35,7 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 	private int selectedIdentifier;
 	private int xSize, ySize;
 	private int page = 0;
+	private StringBuilder viewBuffer = new StringBuilder();
 
 	public GuiQuestNew(Collection<String> groupIDs, EntityPlayer accessor) {
 		// groupIDsDisplayed = new ArrayList<String>(groupIDs);
@@ -145,23 +145,24 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 		// TODO unlocalize
 		fontRendererObj.drawString("Take a quest: ", 8, yBorder, MHFCGuiUtil.COLOUR_TEXT);
 		super.draw(mousePosX, mousePosY, partialTick);
-		if (!(questIdentifiers == null || selectedIdentifier < 0 || selectedIdentifier >= questIdentifiers.size())) {
-			IVisualDefinition info = MHFCRegQuestVisual.getQuestInformation(questIdentifiers.get(selectedIdentifier));
+		if (questIdentifiers == null || selectedIdentifier < 0 || selectedIdentifier >= questIdentifiers.size()) {
+			newQuest.enabled = false;
+		} else {
+			String selectedQuestID = questIdentifiers.get(selectedIdentifier);
+			IVisualDefinition visualInfo = MHFCRegQuestVisual.getQuestInformation(selectedQuestID);
 			newQuest.enabled = true;
 			// TODO set start enabled based on can join
-			FontRenderer fontRenderer = mc.fontRenderer;
-			if (info != null) {
-				int pageCount = info.getPageCount();
-				info.drawInformation(
-						questsX + questsW,
-						yBorder,
-						xSize - 2 * questsX - questsW,
-						ySize - 30,
-						page % pageCount,
-						fontRenderer);
+			if (visualInfo == null) {
+				return;
 			}
-		} else {
-			newQuest.enabled = false;
+			int pageCount = visualInfo.getPageCount();
+			visualInfo.drawInformation(
+					questsX + questsW,
+					yBorder,
+					xSize - 2 * questsX - questsW,
+					ySize - 30,
+					page % pageCount,
+					fontRendererObj);
 		}
 	}
 

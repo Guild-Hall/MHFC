@@ -55,7 +55,13 @@ public class TimeGoalDescription extends GoalDefinition {
 			@Override
 			public Viewable buildVisual() {
 				checkAttributesBound();
-				return new DynamicString().append("{{ticks | ticksToTime}} remaining", baseProperties);
+				return new DynamicString().append("Time remaining: {{ticks | ticksToTime}}", baseProperties);
+			}
+
+			@Override
+			public Viewable buildShortStatus() {
+				checkAttributesBound();
+				return new DynamicString().append("Timelimit: {{ticks | ticksToTime}}", baseProperties);
 			}
 
 			@Override

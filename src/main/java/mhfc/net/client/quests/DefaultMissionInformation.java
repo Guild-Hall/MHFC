@@ -4,10 +4,8 @@ import java.util.Objects;
 
 import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.quests.api.IVisualDefinition;
-import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.util.stringview.Viewable;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.nbt.NBTBase;
 
 public class DefaultMissionInformation implements IMissionInformation {
@@ -15,16 +13,17 @@ public class DefaultMissionInformation implements IMissionInformation {
 	private GroupProperty goalProperties;
 	private DefaultQuestVisualDefinition originalDef;
 	private Viewable goalSummary;
-	private StringBuilder viewBuffer;
+	private Viewable shortStatus;
 
 	public DefaultMissionInformation(
 			GroupProperty propertyRoot,
 			Viewable rootGoalStatus,
+			Viewable goalShortSummary,
 			DefaultQuestVisualDefinition defaultQuestVisualDefinition) {
 		this.goalProperties = Objects.requireNonNull(propertyRoot);
 		goalSummary = rootGoalStatus;
-		viewBuffer = new StringBuilder();
 		this.originalDef = Objects.requireNonNull(defaultQuestVisualDefinition);
+		shortStatus = Objects.requireNonNull(goalShortSummary);
 	}
 
 	@Override
@@ -38,26 +37,8 @@ public class DefaultMissionInformation implements IMissionInformation {
 	}
 
 	@Override
-	public void drawInformation(
-			int positionX,
-			int positionY,
-			int width,
-			int height,
-			int page,
-			FontRenderer fontRenderer) {
-		int margin = 5;
-		MHFCGuiUtil.drawViewable(
-				goalSummary,
-				viewBuffer,
-				page,
-				0,
-				width - margin * 2,
-				height - margin * 2,
-				positionX + margin,
-				positionY + margin,
-				12,
-				0x222222,
-				fontRenderer);
+	public Viewable getView() {
+		return goalSummary;
 	}
 
 	@Override
@@ -66,8 +47,7 @@ public class DefaultMissionInformation implements IMissionInformation {
 	}
 
 	@Override
-	public String shortStatus() {
-		// TODO Auto-generated method stub
-		return "WIP - short status";
+	public Viewable getShortStatus() {
+		return shortStatus;
 	}
 }

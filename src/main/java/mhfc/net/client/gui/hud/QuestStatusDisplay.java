@@ -15,6 +15,7 @@ import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiInventory;
@@ -32,6 +33,8 @@ public class QuestStatusDisplay {
 			MHFCReference.gui_status_inventory_tex);
 	public static final ResourceLocation QUEST_STATUS_ONSCREEN_BACKGROUND = new ResourceLocation(
 			MHFCReference.gui_status_onscreen_tex);
+
+	private static final StringBuilder buffer = new StringBuilder();
 
 	@SuppressWarnings("unchecked")
 	@SubscribeEvent
@@ -73,12 +76,20 @@ public class QuestStatusDisplay {
 		String localizedStat = StatCollector.translateToLocal(MHFCReference.unlocalized_tag_status_short);
 		mc.fontRenderer.drawString(localizedStat, posX + 5, posY + 5, 0x804040);
 		int lineHeight = mc.fontRenderer.FONT_HEIGHT + 2;
-		mc.fontRenderer.drawSplitString(
-				activeInformation.shortStatus(),
+
+		Viewable shotStatus = activeInformation.getShortStatus();
+		MHFCGuiUtil.drawViewable(
+				shotStatus,
+				buffer,
+				0,
+				0,
+				width - 10,
+				height,
 				posX + 5,
 				posY + lineHeight + 5,
-				width - 10,
-				COLOUR_TEXT);
+				lineHeight,
+				COLOUR_TEXT,
+				mc.fontRenderer);
 	}
 
 }

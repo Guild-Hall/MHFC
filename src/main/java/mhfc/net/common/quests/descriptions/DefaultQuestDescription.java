@@ -9,12 +9,12 @@ import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.Mission;
 import mhfc.net.common.quests.QuestFactories;
 import mhfc.net.common.quests.api.GoalReference;
+import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.api.QuestDefinition;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.world.GlobalAreaManager;
 import mhfc.net.common.quests.world.QuestFlair;
-import mhfc.net.common.util.stringview.Viewable;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.types.ArenaType;
@@ -129,8 +129,8 @@ public class DefaultQuestDescription extends QuestDefinition {
 		return QuestFactories.constructGoal(getGoalReference().getReferredDescription(), propertyRoot);
 	}
 
-	public Viewable buildGoalVisuals(GroupProperty propertyRoot) {
-		return QuestFactories.constructGoalVisuals(getGoalReference().getReferredDescription(), propertyRoot);
+	public IGoalFactory bindGoalVisuals(GroupProperty propertyRoot) {
+		return QuestFactories.constructGoalVisualsFactory(getGoalReference().getReferredDescription(), propertyRoot);
 	}
 
 	@Override

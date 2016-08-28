@@ -26,6 +26,8 @@ public class GuiQuestJoin extends MHFCGui implements IMHFCTab {
 
 	private static final int buttonHeight = 20;
 	private static final int yBorder = 15;
+
+	private final StringBuilder viewBuffer = new StringBuilder();
 	private int runningW = 70, runningX = 15;
 	private ClickableGuiList<GuiListStringItem> runningQuestList;
 	private Map<String, GuiListStringItem> mapToListItems;

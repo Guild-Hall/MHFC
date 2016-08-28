@@ -1,7 +1,7 @@
 package mhfc.net.client.quests.api;
 
 import mhfc.net.common.quests.properties.Property;
-import net.minecraft.client.gui.FontRenderer;
+import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.nbt.NBTBase;
 
 /**
@@ -33,19 +33,13 @@ public interface IMissionInformation extends IPagedView {
 		// Called before the client disposes this information
 	}
 
-	String shortStatus();
+	Viewable getShortStatus();
 
 	/**
 	 * Draws the mission's information, reflecting the current state of the its properties.
 	 *
-	 * @param positionX
-	 * @param positionY
-	 * @param width
-	 * @param height
-	 * @param page
-	 * @param fontRenderer
-	 * @see IVisualDefinition#drawInformation(int, int, int, int, int, FontRenderer)
+	 * @see IVisualDefinition#getView()
 	 */
 	@Override
-	void drawInformation(int positionX, int positionY, int width, int height, int page, FontRenderer fontRenderer);
+	Viewable getView();
 }
