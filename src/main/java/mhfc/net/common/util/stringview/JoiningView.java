@@ -12,6 +12,7 @@ public class JoiningView implements Viewable {
 		this.seperator = Objects.requireNonNull(on);
 	}
 
+	@Override
 	public JoiningView append(Viewable view) {
 		this.parts.add(Objects.requireNonNull(view));
 		return this;

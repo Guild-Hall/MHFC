@@ -10,8 +10,8 @@ import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.goals.TimeQuestGoal;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.properties.IntProperty;
-import mhfc.net.common.util.stringview.DynamicString;
 import mhfc.net.common.util.stringview.Viewable;
+import mhfc.net.common.util.stringview.Viewables;
 
 public class TimeGoalDescription extends GoalDefinition {
 
@@ -55,13 +55,13 @@ public class TimeGoalDescription extends GoalDefinition {
 			@Override
 			public Viewable buildVisual() {
 				checkAttributesBound();
-				return new DynamicString().append("Time remaining: {{ticks | ticksToTime}}", baseProperties);
+				return Viewables.parse("Time remaining: {{ticks | ticksToTime}}", baseProperties);
 			}
 
 			@Override
 			public Viewable buildShortStatus() {
 				checkAttributesBound();
-				return new DynamicString().append("Timelimit: {{ticks | ticksToTime}}", baseProperties);
+				return Viewables.parse("Timelimit: {{ticks | ticksToTime}}", baseProperties);
 			}
 
 			@Override

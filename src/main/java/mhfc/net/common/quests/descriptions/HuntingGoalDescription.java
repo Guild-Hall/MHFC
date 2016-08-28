@@ -7,8 +7,8 @@ import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.goals.HuntingQuestGoal;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.properties.IntProperty;
-import mhfc.net.common.util.stringview.DynamicString;
 import mhfc.net.common.util.stringview.Viewable;
+import mhfc.net.common.util.stringview.Viewables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 
@@ -59,7 +59,7 @@ public class HuntingGoalDescription extends GoalDefinition {
 				checkAttributesBound();
 				String goalMob = (String) EntityList.classToStringMapping.get(getHuntedClass());
 				goalMob = "entity." + goalMob + ".name";
-				return new DynamicString().append(goalMob + "s slain: {{current}}/{{goal}}", baseProps);
+				return Viewables.parse("[[" + goalMob + "]]s slain: {{current}}/{{goal}}", baseProps);
 			}
 
 			@Override
@@ -67,7 +67,7 @@ public class HuntingGoalDescription extends GoalDefinition {
 				checkAttributesBound();
 				String goalMob = (String) EntityList.classToStringMapping.get(getHuntedClass());
 				goalMob = "entity." + goalMob + ".name";
-				return new DynamicString().append("{{current}}/{{goal}} " + goalMob, baseProps);
+				return Viewables.parse("{{current}}/{{goal}} [[" + goalMob + "]]s", baseProps);
 			}
 
 			@Override

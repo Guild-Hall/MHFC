@@ -8,7 +8,6 @@ import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.goals.ChainQuestGoal;
 import mhfc.net.common.quests.properties.GroupProperty;
-import mhfc.net.common.util.stringview.DynamicString;
 import mhfc.net.common.util.stringview.Viewable;
 
 /**
@@ -68,7 +67,7 @@ public class ChainGoalDescription extends GoalDefinition {
 			public Viewable buildVisual() {
 				Viewable thisGoal = firstFactory.buildVisual();
 				Viewable next = secondFactory.buildVisual();
-				return new DynamicString().append(thisGoal).appendStatic("\n").append(next);
+				return thisGoal.appendStatic("\n").append(next);
 			}
 
 			@Override

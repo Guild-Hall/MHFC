@@ -7,8 +7,8 @@ import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.goals.DeathRestrictionQuestGoal;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.properties.IntProperty;
-import mhfc.net.common.util.stringview.DynamicString;
 import mhfc.net.common.util.stringview.Viewable;
+import mhfc.net.common.util.stringview.Viewables;
 
 public class DeathRestrictionDescription extends GoalDefinition {
 
@@ -48,13 +48,13 @@ public class DeathRestrictionDescription extends GoalDefinition {
 			@Override
 			public Viewable buildVisual() {
 				checkAttributesBound();
-				return new DynamicString().append("+{{maxDeaths - currDeaths}} lives left", baseGroup);
+				return Viewables.parse("+{{maxDeaths - currDeaths}} lives left", baseGroup);
 			}
 
 			@Override
 			public Viewable buildShortStatus() {
 				checkAttributesBound();
-				return new DynamicString().append("+{{maxDeaths - currDeaths}} lives", baseGroup);
+				return Viewables.parse("+{{maxDeaths - currDeaths}} lives", baseGroup);
 			}
 
 			@Override
