@@ -2,11 +2,14 @@ package mhfc.net.client.util.gui;
 
 import static org.lwjgl.opengl.GL11.glColor4f;
 
+import java.util.Objects;
+
 import mhfc.net.MHFCMain;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.StatCollector;
 
 public class MHFCGuiUtil {
 
@@ -54,6 +57,17 @@ public class MHFCGuiUtil {
 		s = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 	}
 
+	public static int drawTextLocalizedAndReturnHeight(
+			FontRenderer fRend,
+			String string,
+			int posX,
+			int posY,
+			int width,
+			int colour) {
+		String localized = StatCollector.translateToLocal(string);
+		return drawTextAndReturnHeight(fRend, localized, posX, posY, width, colour);
+	}
+
 	/**
 	 * Draws a string onto the screen at the desired position. If width is > 0, then the draw split string method is
 	 * used instead. The amount if vertical space occupied by the draw is calculated and returned. If one attempts to
@@ -68,11 +82,8 @@ public class MHFCGuiUtil {
 			int posY,
 			int width,
 			int colour) {
-		if (fRend == null || string == null) {
-			MHFCMain.logger().warn(fRend == null ? "Null renderer used as argument" : "Render request for a null string");
-			Thread.dumpStack();
-			return 0;
-		}
+		Objects.requireNonNull(fRend);
+		Objects.requireNonNull(string);
 		int lines = 1;
 		if (width <= 0) {
 			fRend.drawString(string, posX, posY, colour);

@@ -5,19 +5,19 @@ import java.lang.reflect.Type;
 import com.google.gson.*;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.quests.api.GoalDescription;
-import mhfc.net.common.quests.api.IGoalFactory;
-import mhfc.net.common.quests.api.QuestFactory;
+import mhfc.net.common.quests.QuestFactories;
+import mhfc.net.common.quests.api.GoalDefinition;
+import mhfc.net.common.quests.api.IGoalDefinitionFactory;
 import mhfc.net.common.util.MHFCJsonUtils;
 import net.minecraft.util.JsonUtils;
 
 public class GoalSerializer
 	implements
-		JsonDeserializer<GoalDescription>,
-		JsonSerializer<GoalDescription> {
+		JsonDeserializer<GoalDefinition>,
+		JsonSerializer<GoalDefinition> {
 
 	@Override
-	public GoalDescription deserialize(JsonElement json, Type typeOfT,
+	public GoalDefinition deserialize(JsonElement json, Type typeOfT,
 		JsonDeserializationContext context) throws JsonParseException {
 		JsonObject jsonAsObject = JsonUtils.getJsonElementAsJsonObject(json,
 			"goal");
@@ -32,18 +32,18 @@ public class GoalSerializer
 		}
 		String type = JsonUtils.getJsonObjectStringFieldValue(jsonAsObject,
 			"type");
-		IGoalFactory gFactory = QuestFactory.getGoalFactory(type);
+		IGoalDefinitionFactory gFactory = QuestFactories.getGoalFactory(type);
 		return gFactory.buildGoalDescription(jsonAsObject.get(
 			MHFCQuestBuildRegistry.KEY_DATA), context);
 	}
 
 	@Override
-	public JsonElement serialize(GoalDescription src, Type typeOfSrc,
+	public JsonElement serialize(GoalDefinition src, Type typeOfSrc,
 		JsonSerializationContext context) {
 		JsonObject descriptionAsJson = new JsonObject();
 		String type = src.getGoalType();
 		descriptionAsJson.addProperty(MHFCQuestBuildRegistry.KEY_TYPE, type);
-		IGoalFactory gFactory = QuestFactory.getGoalFactory(type);
+		IGoalDefinitionFactory gFactory = QuestFactories.getGoalFactory(type);
 		JsonElement data = gFactory.serialize(src, context);
 		descriptionAsJson.add(MHFCQuestBuildRegistry.KEY_DATA, data);
 		return descriptionAsJson;

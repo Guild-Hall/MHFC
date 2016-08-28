@@ -39,6 +39,8 @@ public interface IAreaType {
 
 	IExtendedConfiguration configForLoading();
 
+	String getUnlocalizedName();
+
 	@Override
 	int hashCode();
 }

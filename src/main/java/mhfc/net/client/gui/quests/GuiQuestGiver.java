@@ -1,7 +1,10 @@
 package mhfc.net.client.gui.quests;
 
+import java.util.List;
+
 import mhfc.net.client.gui.MHFCTabbedGui;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
+import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -41,10 +44,14 @@ public class GuiQuestGiver extends MHFCTabbedGui {
 
 	@Override
 	protected void drawTabBackgroundLayer() {
-		if (MHFCRegQuestVisual.hasPlayerQuest())
-			setTab(1);
-		else
-			setTab(0);
+		setTab(MHFCRegQuestVisual.hasPlayerQuest() ? 1 : 0);
+	}
 
+	public static GuiQuestGiver getScreen(int i, EntityPlayer playerEntity) {
+		// ignore i for now
+
+		List<String> list = MHFCQuestBuildRegistry.getGroupList();
+		GuiQuestNew newQuest = new GuiQuestNew(list, playerEntity);
+		return new GuiQuestGiver(playerEntity, newQuest);
 	}
 }

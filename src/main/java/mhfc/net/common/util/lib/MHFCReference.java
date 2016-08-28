@@ -16,6 +16,12 @@ public class MHFCReference {
 	}
 	
 
+	public static final String area_playfield_name = "mhfc.area.playfield.name";
+	public static final String area_arena_name = "mhfc.area.arena.name";
+	public static final String area_desertpalm_name = "mhfc.area.desertpalm.name";
+	public static final String area_test_name = "mhfc.area.test.name";
+	public static final String area_pokevillage_name = "mhfc.area.village_poke.name";
+
 	public static final String armor_null_tex = "mhfc:textures/armor/null.png";
 	public static final String armor_kirinS_boots_name = "c.mhf_boots";
 	public static final String armor_kirinS_chest_name = "c.mhf_chest";

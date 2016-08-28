@@ -1,9 +1,12 @@
 package mhfc.net.client.gui.quests;
 
+import java.util.Optional;
+
 import mhfc.net.client.container.ContainerQuestStatus;
+import mhfc.net.client.gui.hud.QuestStatusDisplay;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
+import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
-import mhfc.net.common.quests.api.IVisualInformation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -54,7 +57,7 @@ public class QuestStatusInventory extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int mouseX, int mouseY) {
-		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.QUEST_STATUS_INVENTORY_BACKGROUND);
+		mc.getTextureManager().bindTexture(QuestStatusDisplay.QUEST_STATUS_INVENTORY_BACKGROUND);
 		MHFCGuiUtil.drawTexturedBoxFromBorder(
 				this.guiLeft,
 				this.guiTop,
@@ -65,14 +68,16 @@ public class QuestStatusInventory extends GuiContainer {
 				0,
 				1f,
 				0.65f);
-		IVisualInformation information = MHFCRegQuestVisual.getPlayerVisual();
-		if (information == null) {
+		Optional<IMissionInformation> optionalInfo = MHFCRegQuestVisual.getPlayerVisual();
+		if (!optionalInfo.isPresent()) {
 			String drawn = "No quest accepted";
 			int stringPosY = (ySize - mc.fontRenderer.FONT_HEIGHT) / 2,
 					stringPosX = (xSize - mc.fontRenderer.getStringWidth(drawn)) / 2;
 			mc.fontRenderer.drawString(drawn, guiLeft + stringPosX, guiTop + stringPosY, MHFCGuiUtil.COLOUR_TITLE);
 		} else {
-			information.drawInformation(guiLeft, guiTop, xSize, ySize, displayPage, mc.fontRenderer);
+			IMissionInformation information = optionalInfo.get();
+			int pageCount = information.getPageCount();
+			information.drawInformation(guiLeft, guiTop, xSize, ySize, displayPage % pageCount, mc.fontRenderer);
 		}
 	}
 

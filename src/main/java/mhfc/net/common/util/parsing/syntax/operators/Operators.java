@@ -4,7 +4,6 @@ import java.util.Formatter;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
 
-import mhfc.net.common.util.parsing.Context;
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
 import mhfc.net.common.util.parsing.proxies.MemberMethodProxy;
@@ -464,7 +463,7 @@ public class Operators {
 		}
 
 		@Override
-		public IValueHolder asValue(Context ctx) {
+		public IValueHolder asValue(IValueHolder ctx) {
 			IValueHolder leftHolder = left.asValue(ctx);
 			IValueHolder rightHolder = right.asValue(ctx);
 			return () -> {

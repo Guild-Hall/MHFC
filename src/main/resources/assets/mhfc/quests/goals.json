@@ -20,7 +20,7 @@
 			amount: 1
 		}
 	},
-		DualGreatJaggiHunt : {
+	DualGreatJaggiHunt : {
 		type : "hunting",
 		data : {
 			target: "mhfc.greatjaggi",

@@ -13,11 +13,11 @@ import mhfc.net.client.gui.IMHFCGuiItem;
 import mhfc.net.client.gui.IMHFCTab;
 import mhfc.net.client.gui.MHFCGui;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
+import mhfc.net.client.quests.api.IVisualDefinition;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.packet.MessageMHFCInteraction;
-import mhfc.net.common.network.packet.MessageMHFCInteraction.Interaction;
-import mhfc.net.common.quests.api.IVisualInformation;
+import mhfc.net.common.network.message.quest.MessageMHFCInteraction;
+import mhfc.net.common.network.message.quest.MessageMHFCInteraction.Interaction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -146,17 +146,18 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 		fontRendererObj.drawString("Take a quest: ", 8, yBorder, MHFCGuiUtil.COLOUR_TEXT);
 		super.draw(mousePosX, mousePosY, partialTick);
 		if (!(questIdentifiers == null || selectedIdentifier < 0 || selectedIdentifier >= questIdentifiers.size())) {
-			IVisualInformation info = MHFCRegQuestVisual.getVisualInformation(questIdentifiers.get(selectedIdentifier));
+			IVisualDefinition info = MHFCRegQuestVisual.getQuestInformation(questIdentifiers.get(selectedIdentifier));
 			newQuest.enabled = true;
 			// TODO set start enabled based on can join
 			FontRenderer fontRenderer = mc.fontRenderer;
 			if (info != null) {
+				int pageCount = info.getPageCount();
 				info.drawInformation(
 						questsX + questsW,
 						yBorder,
 						xSize - 2 * questsX - questsW,
 						ySize - 30,
-						page,
+						page % pageCount,
 						fontRenderer);
 			}
 		} else {
@@ -195,8 +196,8 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 			GuiListStringItem item = groupList.getSelectedItem();
 			String selectedList = item == null ? "" : item.getInitializationString();
 			questIdentifiers.clear();
-			Set<String> newIdentifiers = MHFCRegQuestVisual.getIdentifierList(selectedList);
-			questIdentifiers.addAll(newIdentifiers);
+			Set<String> newQuestIDs = MHFCRegQuestVisual.getAvailableQuestIDs(selectedList);
+			questIdentifiers.addAll(newQuestIDs);
 		}
 	}
 }

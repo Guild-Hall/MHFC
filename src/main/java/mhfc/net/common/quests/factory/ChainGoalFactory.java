@@ -4,14 +4,14 @@ import static mhfc.net.common.quests.descriptions.ChainGoalDescription.*;
 
 import com.google.gson.*;
 
-import mhfc.net.common.quests.api.GoalDescription;
+import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.GoalReference;
-import mhfc.net.common.quests.api.IGoalFactory;
+import mhfc.net.common.quests.api.IGoalDefinitionFactory;
 import mhfc.net.common.quests.descriptions.ChainGoalDescription;
 
-public class ChainGoalFactory implements IGoalFactory {
+public class ChainGoalFactory implements IGoalDefinitionFactory {
 	@Override
-	public GoalDescription buildGoalDescription(JsonElement jsonE,
+	public GoalDefinition buildGoalDescription(JsonElement jsonE,
 		JsonDeserializationContext context) {
 		JsonObject json = jsonE.getAsJsonObject();
 		if (!json.has(ID_GOAL))
@@ -25,7 +25,7 @@ public class ChainGoalFactory implements IGoalFactory {
 	}
 
 	@Override
-	public JsonObject serialize(GoalDescription description,
+	public JsonObject serialize(GoalDefinition description,
 		JsonSerializationContext context) {
 		ChainGoalDescription chainGoal = (ChainGoalDescription) description;
 		JsonObject jsonObject = new JsonObject();

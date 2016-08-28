@@ -13,15 +13,15 @@ public class MHFCClientRegistry {
 
 	public static void init() {
 		addRenderers();
-		addQuestDisplay();
 	}
 
 	public static void staticInit() {
+		addQuestDisplay();
 		MHFCMain.initPhase.registerEntryCallback(e -> init());
 	}
 
 	private static void addQuestDisplay() {
-		MHFCRegQuestVisual.init();
+		MHFCRegQuestVisual.staticInit();
 		MHFCMain.logger().info("Quest Client registered");
 	}
 
@@ -31,6 +31,6 @@ public class MHFCClientRegistry {
 		MHFCWeaponRenderRegistry.init();
 		MHFCItemRenderRegistry.init();
 		MinecraftForge.EVENT_BUS.register(new RenderEventListener());
-		MHFCMain.logger().info("Renderers registerd");
+		MHFCMain.logger().info("Renderers registered");
 	}
 }

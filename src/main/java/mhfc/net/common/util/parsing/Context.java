@@ -9,12 +9,17 @@ import mhfc.net.common.util.parsing.proxies.StaticAccess;
 import mhfc.net.common.util.parsing.valueholders.ValueHolders;
 
 public class Context {
-	private static <T> boolean put(Map<String, ? super T> map, String key, T item) {
-		Objects.requireNonNull(key);
-		Objects.requireNonNull(item);
+	public static String checkKeySyntax(String key) {
 		if (key.isEmpty()) {
 			throw new IllegalArgumentException("Key can't be the empty string");
 		}
+		return key;
+	}
+
+	private static <T> boolean put(Map<String, ? super T> map, String key, T item) {
+		Objects.requireNonNull(key);
+		Objects.requireNonNull(item);
+		key = checkKeySyntax(key);
 		if (key.startsWith("_") && map.containsKey(key)) {
 			return false;
 		}
@@ -24,7 +29,7 @@ public class Context {
 
 	private Map<String, IValueHolder> map = new HashMap<>();
 	private ContextWrapper wrapper = new ContextWrapper(this);
-	private ExpressionTranslator translator;
+	private BoundExpressionTranslator translator;
 	private Object lock = new Object();
 
 	/**
@@ -76,12 +81,12 @@ public class Context {
 		return put(map, key, Holder.valueOf(new StaticAccess(clazz)));
 	}
 
-	public ExpressionTranslator getTranslator() {
+	public BoundExpressionTranslator getTranslator() {
 		if (translator == null) {
 			synchronized (lock) {
 				// Double-tap for performance
 				if (translator == null) {
-					translator = new ExpressionTranslator(this);
+					translator = new BoundExpressionTranslator(this);
 				}
 			}
 		}

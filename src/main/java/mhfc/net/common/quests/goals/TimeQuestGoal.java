@@ -3,6 +3,8 @@
  */
 package mhfc.net.common.quests.goals;
 
+import java.util.Objects;
+
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.RunContext;
@@ -11,28 +13,29 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import mhfc.net.common.eventhandler.DelayedJob;
 import mhfc.net.common.eventhandler.MHFCTickHandler;
 import mhfc.net.common.eventhandler.TickPhase;
-import mhfc.net.common.quests.QuestRunningInformation.InformationType;
 import mhfc.net.common.quests.api.QuestGoal;
-import mhfc.net.common.quests.api.QuestGoalSocket;
+import mhfc.net.common.quests.properties.IntProperty;
 
 /**
  *
  */
 public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 	private class Timer implements Operation {
-		private int tickTime, initialTickTime;
+		private int initialTickTime;
+		private IntProperty tickTime;
 		private boolean isCancelled;
 
-		public Timer(int ticks) {
+		public Timer(IntProperty timer, int ticks) {
 			if (ticks < 0) {
 				throw new IllegalArgumentException("ticks must be greater than 0");
 			}
-			this.initialTickTime = this.tickTime = ticks;
+			this.initialTickTime = ticks;
+			this.tickTime = Objects.requireNonNull(timer);
 			isCancelled = false;
 		}
 
 		public void reset() {
-			tickTime = initialTickTime;
+			tickTime.set(initialTickTime);
 		}
 
 		@Override
@@ -48,39 +51,30 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 			if (!TimeQuestGoal.this.active) {
 				return this;
 			}
-			tickTime--;
-			if (tickTime > 0) {
+			tickTime.decr();
+			if (getRemaining() > 0) {
 				return this;
 			}
-			tickTime = 0; // Possible underflow from cancelling etc...
+			tickTime.set(0); // Possible underflow from cancelling etc...
 			TimeQuestGoal.this.isFailed = true;
 			TimeQuestGoal.this.notifyOfStatus(isFulfilled(), isFailed());
 			return null;
 		}
 
 		public int getRemaining() {
-			return tickTime;
-		}
-
-		public int getDuration() {
-			return initialTickTime;
+			return tickTime.get();
 		}
 	}
 
 	protected boolean isFailed = false;
 	protected boolean active;
-	protected long timeOfLastUpdate;
 	protected Timer timer;
 
-	public TimeQuestGoal(QuestGoalSocket socket, int initialTime) {
-		super(socket);
+	public TimeQuestGoal(IntProperty timer, int initialTime) {
+		super(null);
 		active = false;
-		this.timer = new Timer(initialTime);
+		this.timer = new Timer(timer, initialTime);
 		MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_POST, this.timer);
-	}
-
-	public TimeQuestGoal(int initialTime) {
-		this(null, initialTime);
 	}
 
 	@Override
@@ -102,7 +96,6 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 	@Override
 	public void setActive(boolean newActive) {
 		if (newActive) {
-			timeOfLastUpdate = System.currentTimeMillis();
 			active = true;
 			notifyOfStatus(isFulfilled(), isFailed());
 		} else {
@@ -123,38 +116,5 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 	public void questGoalFinalize() {
 		setActive(false);
 		timer.cancel();
-	}
-
-	@Override
-	public String modify(InformationType type, String current) {
-		// TODO Externalize and unlocalize these strings
-		int ticksToFail = Math.max(0, timer.getRemaining());
-		int totalTime = timer.getDuration();
-		switch (type) {
-		case TimeLimit:
-			current += (current.endsWith("\n") || current.matches("\\s*") ? "" : "\n");
-			if (active) {
-				current += "{time:" + ticksToFail + "}/ " + "{time:" + totalTime + "}";
-			} else {
-				current += "{time:" + totalTime + "}";
-			}
-			break;
-		case LongStatus:
-			current += (current.endsWith("\n") || current.matches("\\s*") ? "" : "\n");
-			current += "Finish within " + (active ? "{time:" + ticksToFail + "} of " : "") + "a " + "{time:" + totalTime
-					+ "}" + " Time Limit";
-			break;
-		case ShortStatus:
-			current += (current.endsWith("\n") || current.matches("\\s*") ? "" : "\n");
-			if (active) {
-				current += "{time:" + ticksToFail + "} remaining";
-			} else {
-				current += "{time:" + totalTime + "}" + "limit";
-			}
-			break;
-		default:
-			break;
-		}
-		return current;
 	}
 }

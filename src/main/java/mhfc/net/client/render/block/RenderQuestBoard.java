@@ -49,7 +49,7 @@ public class RenderQuestBoard extends TileEntitySpecialRenderer {
 		bindTexture(new ResourceLocation(MHFCReference.tile_questboard_tex));
 		GL11.glPushMatrix();
 
-		int runnings = MHFCRegQuestVisual.getRunningQuestIDs().size();
+		int runnings = MHFCRegQuestVisual.getRunningMissionIDs().size();
 		model.renderModel((int) (Math.log1p(runnings) / Math.log(1.5)));
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();

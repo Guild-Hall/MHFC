@@ -1,22 +1,19 @@
-package mhfc.net.common.network.packet;
-
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufInputStream;
-import io.netty.buffer.ByteBufOutputStream;
+package mhfc.net.common.network.message.quest;
 
 import java.io.IOException;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufInputStream;
+import io.netty.buffer.ByteBufOutputStream;
 
-public class MessageRequestQuestVisual implements IMessage {
+public class MessageRequestMissionUpdate implements IMessage {
 
 	protected String identifier;
 
-	public MessageRequestQuestVisual() {
+	public MessageRequestMissionUpdate() {}
 
-	}
-
-	public MessageRequestQuestVisual(String identifier) {
+	public MessageRequestMissionUpdate(String identifier) {
 		this.identifier = identifier;
 	}
 
