@@ -1,14 +1,14 @@
 package mhfc.net.client.gui.hud;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class RenderEventListener {
 
 	@SubscribeEvent
 	public void eventHandler(RenderGameOverlayEvent.Post event) {
-		if (event.type != ElementType.CROSSHAIRS) {
+		if (event.getType() != ElementType.CROSSHAIRS) {
 			return;
 		}
 

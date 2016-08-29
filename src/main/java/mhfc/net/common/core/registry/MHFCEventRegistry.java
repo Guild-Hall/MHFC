@@ -1,7 +1,5 @@
 package mhfc.net.common.core.registry;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.eventhandler.MHFCGuiHandler;
 import mhfc.net.common.eventhandler.MHFCJobHandler;
@@ -11,6 +9,8 @@ import mhfc.net.common.eventhandler.player.CombatEventHandler;
 import mhfc.net.common.eventhandler.player.ConnectionEventHandler;
 import mhfc.net.common.eventhandler.player.MHFCCapeEventHandler;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 @SuppressWarnings("deprecation")
 public class MHFCEventRegistry {

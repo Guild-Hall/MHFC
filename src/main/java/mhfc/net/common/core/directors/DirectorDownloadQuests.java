@@ -22,16 +22,13 @@ public class DirectorDownloadQuests implements IQuestDescriptionDirector {
 	public DirectorDownloadQuests(String inputJson) {
 		JsonParser parser = new JsonParser();
 		StringReader reader = new StringReader(inputJson);
-		JsonObject jsonRepresentation = JsonUtils
-				.getJsonElementAsJsonObject(parser.parse(reader), "quest description data");
+		JsonObject jsonRepresentation = JsonUtils.getJsonObject(parser.parse(reader), "quest description data");
 		JsonElement jsonQuestDescription = jsonRepresentation.get(MHFCQuestBuildRegistry.KEY_QUEST_DESCRIPTION);
 		JsonElement jsonGoalDescription = jsonRepresentation.get(MHFCQuestBuildRegistry.KEY_GOAL_DESCRIPTION);
 		JsonElement jsonGroups = jsonRepresentation.get(MHFCQuestBuildRegistry.KEY_GROUPS);
-		questDescriptions = JsonUtils
-				.getJsonElementAsJsonObject(jsonQuestDescription, MHFCQuestBuildRegistry.KEY_QUEST_DESCRIPTION);
-		goalDescriptions = JsonUtils
-				.getJsonElementAsJsonObject(jsonGoalDescription, MHFCQuestBuildRegistry.KEY_GOAL_DESCRIPTION);
-		groups = JsonUtils.getJsonElementAsJsonObject(jsonGroups, MHFCQuestBuildRegistry.KEY_GROUPS);
+		questDescriptions = JsonUtils.getJsonObject(jsonQuestDescription, MHFCQuestBuildRegistry.KEY_QUEST_DESCRIPTION);
+		goalDescriptions = JsonUtils.getJsonObject(jsonGoalDescription, MHFCQuestBuildRegistry.KEY_GOAL_DESCRIPTION);
+		groups = JsonUtils.getJsonObject(jsonGroups, MHFCQuestBuildRegistry.KEY_GROUPS);
 	}
 
 	@Override

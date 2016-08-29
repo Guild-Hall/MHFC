@@ -87,78 +87,89 @@ public class DisplacedView implements IWorldView {
 
 	@Override
 	public boolean isAirBlock(int x, int y, int z) {
-		if (!isInBoundary(x, y, z))
+		if (!isInBoundary(x, y, z)) {
 			return true;
+		}
 		return worldObj.isAirBlock(x + addX, y, z + addZ);
 	}
 
 	@Override
 	public boolean blockExists(int x, int y, int z) {
-		if (!isInBoundary(x, y, z))
+		if (!isInBoundary(x, y, z)) {
 			return false;
+		}
 		return worldObj.blockExists(x + addX, y, z + addZ);
 	}
 
 	@Override
 	public Chunk getChunkFromBlockCoords(int x, int z) {
-		if (!isInBoundary(x, 0, z))
+		if (!isInBoundary(x, 0, z)) {
 			return null;
+		}
 		return worldObj.getChunkFromBlockCoords(x + addX, z + addZ);
 	}
 
 	@Override
 	public Block getTopBlock(int x, int z) {
-		if (!isInBoundary(x, 0, z))
-			return Blocks.air;
+		if (!isInBoundary(x, 0, z)) {
+			return Blocks.AIR;
+		}
 		return worldObj.getTopBlock(x + addX, z + addZ);
 	}
 
 	@Override
 	public int getTopSolidOrLiquidBlock(int x, int z) {
-		if (!isInBoundary(x, 0, z))
+		if (!isInBoundary(x, 0, z)) {
 			return -1;
+		}
 		return worldObj.getTopSolidOrLiquidBlock(x + addX, z + addZ);
 	}
 
 	@Override
 	public Block getBlock(int x, int y, int z) {
-		if (!isInBoundary(x, y, z))
-			return Blocks.air;
+		if (!isInBoundary(x, y, z)) {
+			return Blocks.AIR;
+		}
 		return worldObj.getBlock(x + addX, y, z + addZ);
 	}
 
 	@Override
 	public int getBlockMetadata(int x, int y, int z) {
-		if (!isInBoundary(x, y, z))
+		if (!isInBoundary(x, y, z)) {
 			return 0;
+		}
 		return worldObj.getBlockMetadata(x + addX, y, z + addZ);
 	}
 
 	@Override
 	public boolean setBlockToAir(int x, int y, int z) {
-		if (!isInBoundary(x, y, z))
+		if (!isInBoundary(x, y, z)) {
 			return false;
+		}
 		return worldObj.setBlockToAir(x + addX, y, z + addZ);
 	}
 
 	@Override
 	public boolean setBlock(int x, int y, int z, Block block) {
-		if (!isInBoundary(x, y, z))
+		if (!isInBoundary(x, y, z)) {
 			return false;
+		}
 		return worldObj.setBlock(x + addX, y, z + addZ, block);
 	}
 
 	@Override
 	public boolean setBlock(int x, int y, int z, Block block, int metadata, int flags) {
-		if (!isInBoundary(x, y, z))
+		if (!isInBoundary(x, y, z)) {
 			return false;
+		}
 		return worldObj.setBlock(x + addX, y, z + addZ, block, metadata, flags);
 	}
 
 	@Override
 	public void playSoundEffect(double x, double y, double z, String soundName, float p_72908_8_, float p_72908_9_) {
-		if (!isInBoundary(x, y, z))
+		if (!isInBoundary(x, y, z)) {
 			return;
+		}
 		worldObj.playSoundEffect(x + addX, y, z + addZ, soundName, p_72908_8_, p_72908_9_);
 	}
 
@@ -171,8 +182,9 @@ public class DisplacedView implements IWorldView {
 			float volume,
 			float p_72980_9_,
 			boolean p_72980_10_) {
-		if (!isInBoundary(x, y, z))
+		if (!isInBoundary(x, y, z)) {
 			return;
+		}
 		worldObj.playSound(x + addX, y, z + addZ, soundName, volume, p_72980_9_, p_72980_10_);
 	}
 
@@ -185,8 +197,9 @@ public class DisplacedView implements IWorldView {
 			double velX,
 			double velY,
 			double velZ) {
-		if (!isInBoundary(x, y, z))
+		if (!isInBoundary(x, y, z)) {
 			return;
+		}
 		worldObj.spawnParticle(particleName, x + addX, y, z + addZ, velX, velY, velZ);
 	}
 
@@ -217,22 +230,25 @@ public class DisplacedView implements IWorldView {
 
 	@Override
 	public TileEntity getTileEntity(int x, int y, int z) {
-		if (!isInBoundary(x, y, z))
+		if (!isInBoundary(x, y, z)) {
 			return null;
+		}
 		return worldObj.getTileEntity(x + addX, y, z + addZ);
 	}
 
 	@Override
 	public void setTileEntity(int x, int y, int z, TileEntity tileEntity) {
-		if (!isInBoundary(x, y, z))
+		if (!isInBoundary(x, y, z)) {
 			return;
+		}
 		worldObj.setTileEntity(x + addX, y, z + addZ, tileEntity);
 	}
 
 	@Override
 	public void removeTileEntity(int x, int y, int z) {
-		if (!isInBoundary(x, y, z))
+		if (!isInBoundary(x, y, z)) {
 			return;
+		}
 		worldObj.removeTileEntity(x + addX, y, z + addZ);
 	}
 
@@ -247,15 +263,17 @@ public class DisplacedView implements IWorldView {
 
 	@Override
 	public int getBlockPowerInput(int x, int y, int z) {
-		if (!isInBoundary(x, y, z))
+		if (!isInBoundary(x, y, z)) {
 			return 0;
+		}
 		return worldObj.getBlockPowerInput(x + addX, y, z + addZ);
 	}
 
 	@Override
 	public boolean canMineBlock(EntityPlayer player, int x, int y, int z) {
-		if (!isInBoundary(x, y, z))
+		if (!isInBoundary(x, y, z)) {
 			return false;
+		}
 		return worldObj.canMineBlock(player, x + addX, y, z + addZ);
 	}
 
@@ -269,8 +287,9 @@ public class DisplacedView implements IWorldView {
 
 	@Override
 	public boolean isSideSolid(int x, int y, int z, ForgeDirection side) {
-		if (!isInBoundary(x, y, z))
+		if (!isInBoundary(x, y, z)) {
 			return false;
+		}
 		return worldObj.isSideSolid(x + addX, y, z + addZ, side);
 	}
 
@@ -287,8 +306,9 @@ public class DisplacedView implements IWorldView {
 		} else {
 			entity.setLocationAndAngles(x + addX, y, z + addZ, 0, 0);
 		}
-		if (!worldObj.spawnEntityInWorld(entity))
+		if (!worldObj.spawnEntityInWorld(entity)) {
 			return false;
+		}
 		return true;
 	}
 
@@ -297,6 +317,7 @@ public class DisplacedView implements IWorldView {
 		return worldObj;
 	}
 
+	@Override
 	public void moveEntityTo(Entity entity, double posX, double posY, double posZ) {
 		posX += addX;
 		posZ += addZ;

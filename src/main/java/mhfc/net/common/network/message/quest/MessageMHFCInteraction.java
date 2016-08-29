@@ -2,10 +2,10 @@ package mhfc.net.common.network.message.quest;
 
 import java.io.IOException;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
 public class MessageMHFCInteraction implements IMessage {
 
@@ -14,10 +14,10 @@ public class MessageMHFCInteraction implements IMessage {
 		ACCEPT_QUEST, // Used to accept a quest that is waiting for its start
 		START_QUEST, // Used to set status to ready (pre-quest to reset end vote
 		END_QUEST, // Used to set status to not ready (pre-quest) or to vote for
-					// resigning
+		// resigning
 		FORFEIT_QUEST, // Used to instantly resign from a quest as a single person
 		MOD_RELOAD, // Used by any play OR THE COMMAND BLOCK to reload all
-					// quests
+		// quests
 		INVALID; //
 	}
 

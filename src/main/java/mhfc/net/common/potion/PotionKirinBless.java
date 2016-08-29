@@ -6,18 +6,21 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PotionKirinBless extends Potion {
-	private static final ResourceLocation texture = new ResourceLocation(
-			MHFCReference.potion_kirinbless_tex);
-	public PotionKirinBless(int par1, boolean par2, int par3) {
-		super(par1, par2, par3);
+	private static final ResourceLocation texture = new ResourceLocation(MHFCReference.potion_kirinbless_tex);
+
+	public PotionKirinBless() {
+		super(false, 591932);
 		setPotionName(MHFCReference.potion_kirinbless_name);
 		setIconIndex(1, 0);
-		func_111184_a(SharedMonsterAttributes.attackDamage,
-				MHFCReference.potion_kirinbless_uuid, 1.1D, 1);
+		registerPotionAttributeModifier(
+				SharedMonsterAttributes.ATTACK_DAMAGE,
+				MHFCReference.potion_kirinbless_uuid,
+				1.1D,
+				1);
 	}
 
 	@Override

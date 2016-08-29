@@ -4,9 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.data.QuestDescriptionRegistry;
 import mhfc.net.common.core.directors.DirectorLoadQuestsFromLocal;
@@ -20,6 +17,10 @@ import mhfc.net.common.quests.api.QuestDefinition;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.world.QuestFlair;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 /**
  * The registry for quests and quest goals. It will read some source files on init, these war written in the json
@@ -74,7 +75,7 @@ public class MHFCQuestBuildRegistry {
 	public static void init() {
 		dataObject = new QuestDescriptionRegistry();
 		MHFCQuestBuildRegistry.loadQuestsFromFiles();
-		FMLCommonHandler.instance().bus().register(new PlayerConnectionHandler());
+		MinecraftForge.EVENT_BUS.register(new PlayerConnectionHandler());
 		MHFCMain.logger().info("Quest loaded");
 	}
 
@@ -96,8 +97,8 @@ public class MHFCQuestBuildRegistry {
 		dataObject.clearData();
 		MHFCQuestBuildRegistry.loadQuestsFromFiles();
 
-		Iterator<EntityPlayerMP> it = FMLCommonHandler.instance().getMinecraftServerInstance()
-				.getConfigurationManager().playerEntityList.iterator();
+		Iterator<EntityPlayerMP> it = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
+				.getPlayerList().iterator();
 		while (it.hasNext()) {
 			EntityPlayerMP player = it.next();
 			PacketPipeline.networkPipe.sendTo(new MessageQuestInit(dataObject), player);

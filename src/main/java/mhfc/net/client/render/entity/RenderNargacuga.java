@@ -20,7 +20,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 
-public class RenderNargacuga extends RenderAnimatedModel {
+public class RenderNargacuga extends RenderAnimatedModel<EntityNargacuga> {
 	private static final String TEXTURE_DIR = MHFCReference.mob_nargacuga_textureDir;
 	private static final ResourceLocation MODEL_LOC = new ResourceLocation(MHFCReference.mob_nargacuga_model);
 	private static final ResourceLocation SKELETON_LOC = new ResourceLocation(MHFCReference.mob_nargacuga_skeleton);

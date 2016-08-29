@@ -13,7 +13,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.EnumParticleTypes;
 
 public class AIGameplayComposition {
 
@@ -40,23 +40,21 @@ public class AIGameplayComposition {
 
 	public static void stompCracks(Entity entity, int incrementLength) {
 		Random random = entity.worldObj.rand;
-		int a = MathHelper.floor_double(entity.posX);
-		int b = MathHelper.floor_double(entity.posY);
-		int c = MathHelper.floor_double(entity.posZ);
-		Block block = entity.worldObj.getBlock(a, b - 1, c);
-		if (block != Blocks.air) {
-			block = Blocks.dirt;
+		Block block = entity.worldObj.getBlockState(entity.getPosition().down()).getBlock();
+		if (block != Blocks.AIR) {
+			block = Blocks.DIRT;
 		}
 		for (int x = 0; x < incrementLength; x++) {
 			for (int z = 0; z < incrementLength; z++) {
 				entity.worldObj.spawnParticle(
-						"blockcrack_" + Block.getIdFromBlock(block) + "_0",
+						EnumParticleTypes.BLOCK_CRACK,
 						entity.posX - 5.0D + x,
 						entity.posY + 0.5D,
 						entity.posZ - 5.0D + z,
 						random.nextGaussian(),
 						random.nextGaussian(),
-						random.nextGaussian());
+						random.nextGaussian(),
+						Block.getIdFromBlock(block));
 			}
 		}
 	}
@@ -75,18 +73,13 @@ public class AIGameplayComposition {
 			}
 		}
 	}
-	
-	
-	
-	
-	public static void sleepRegeneration(EntityCreature entity, float amount){
+
+	public static void sleepRegeneration(EntityCreature entity, float amount) {
 		entity.heal(amount);
 	}
-	
+
 	static boolean camShake = false;
 	static float CamShakeIntensity;
-
-
 
 	public static void roarEffect(EntityLivingBase target) {
 		if (target instanceof EntityPlayer && ((EntityPlayer) target).capabilities.isCreativeMode) {

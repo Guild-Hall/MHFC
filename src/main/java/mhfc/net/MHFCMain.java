@@ -7,18 +7,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.sk89q.worldedit.forge.ForgeWorldEdit;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLConstructionEvent;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartedEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.event.FMLServerStoppedEvent;
-import cpw.mods.fml.common.event.FMLServerStoppingEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mhfc.net.common.configuration.MHFCConfig;
 import mhfc.net.common.core.command.CommandExplore;
 import mhfc.net.common.core.command.CommandMHFC;
@@ -40,6 +28,17 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLConstructionEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  *
@@ -159,7 +158,7 @@ public class MHFCMain {
 
 	@Mod.EventHandler
 	protected void onPreInit(FMLPreInitializationEvent event) {
-		FMLCommonHandler.instance().bus().register(connectionTracker);
+		MinecraftForge.EVENT_BUS.register(connectionTracker);
 		MinecraftForge.EVENT_BUS.register(this);
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, this::chunkLoadingCallback);
 		// MHFCConfig.init(pre);
@@ -186,12 +185,12 @@ public class MHFCMain {
 		event.registerServerCommand(new CommandMHFC());
 		event.registerServerCommand(new CommandTpHunterDimension());
 		event.registerServerCommand(new CommandExplore());
+		UpdateSystem.onServerStarting(event);
 		serverRunningPhaseAccess.enterPhase(event);
 	}
 
 	@Mod.EventHandler
 	protected void onServerStarted(FMLServerStartedEvent event) {
-		UpdateSystem.onServerStart(event);
 		serverActivePhaseAccess.enterPhase(event);
 	}
 
@@ -208,13 +207,13 @@ public class MHFCMain {
 	@SubscribeEvent
 	protected void onWorldLoad(WorldEvent.Load event) {
 		// Load a 3x3 around spawn to make sure that it populates and calls our hooks.
-		if (!event.world.isRemote && event.world instanceof WorldServer) {
-			WorldServer world = (WorldServer) event.world;
-			int spawnX = (int) (event.world.getWorldInfo().getSpawnX() / world.provider.getMovementFactor() / 16);
-			int spawnZ = (int) (event.world.getWorldInfo().getSpawnZ() / world.provider.getMovementFactor() / 16);
+		if (!event.getWorld().isRemote && event.getWorld() instanceof WorldServer) {
+			WorldServer world = (WorldServer) event.getWorld();
+			int spawnX = (int) (world.getWorldInfo().getSpawnX() / world.provider.getMovementFactor() / 16);
+			int spawnZ = (int) (world.getWorldInfo().getSpawnZ() / world.provider.getMovementFactor() / 16);
 			for (int x = -1; x <= 1; x++) {
 				for (int z = -1; z <= 1; z++) {
-					world.theChunkProviderServer.loadChunk(spawnX + x, spawnZ + z);
+					world.getChunkProvider().loadChunk(spawnX + x, spawnZ + z);
 				}
 			}
 		}

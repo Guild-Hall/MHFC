@@ -1,22 +1,22 @@
 package mhfc.net.client.render.block;
 
-import mhfc.net.client.model.block.ModelHunterBench;
-import mhfc.net.common.util.lib.MHFCReference;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 
-public class RenderHunterBench extends TileEntitySpecialRenderer {
+import mhfc.net.client.model.block.ModelHunterBench;
+import mhfc.net.common.tile.TileHunterBench;
+import mhfc.net.common.util.lib.MHFCReference;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.util.ResourceLocation;
+
+public class RenderHunterBench extends TileEntitySpecialRenderer<TileHunterBench> {
 	private ModelHunterBench model;
+
 	public RenderHunterBench() {
 		model = new ModelHunterBench();
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
-			double z, float f) {
+	public void renderTileEntityAt(TileHunterBench tileentity, double x, double y, double z, float f, int destruction) {
 		GL11.glPushMatrix();
 		// Tessellator tessellator = Tessellator.instance;
 		GL11.glTranslatef((float) x + 0.5F, (float) y - -0.7F, (float) z + 0.5F);
@@ -26,7 +26,6 @@ public class RenderHunterBench extends TileEntitySpecialRenderer {
 		model.renderModel(0.0325F);
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
-
 	}
 
 }

@@ -22,7 +22,7 @@ public class QuestSerializer implements JsonDeserializer<QuestDefinition>, JsonS
 	@Override
 	public QuestDefinition deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
 			throws JsonParseException {
-		JsonObject jsonAsObject = JsonUtils.getJsonElementAsJsonObject(json, "quest");
+		JsonObject jsonAsObject = JsonUtils.getJsonObject(json, "quest");
 		if (!MHFCJsonUtils.objectFieldTypeIsString(jsonAsObject, MHFCQuestBuildRegistry.KEY_TYPE)) {
 			throw new JsonParseException("Quest has no valid type, was " + jsonAsObject.toString());
 		}

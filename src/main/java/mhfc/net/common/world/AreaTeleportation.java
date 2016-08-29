@@ -10,7 +10,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 
@@ -103,7 +103,7 @@ public class AreaTeleportation {
 	 * Moves a player to an area and teleports him to the dimension if necessary. If area is null, returns the player to
 	 * the overwold instead.
 	 */
-	public static void movePlayerToArea(EntityPlayerMP player, IArea area) {
+	public static void movePlayerToArea(MinecraftServer server, EntityPlayerMP player, IArea area) {
 		assignAreaForEntity(player, area);
 		if (area == null) {
 			movePlayerToOverworld(player);
@@ -137,14 +137,14 @@ public class AreaTeleportation {
 		return entityToArea.get(entity);
 	}
 
-	public static void movePlayerToOverworld(EntityPlayerMP player) {
-		ChunkCoordinates spawnPoint = MinecraftServer.getServer().worldServerForDimension(0).getSpawnPoint();
-		movePlayerToOverworld(player, spawnPoint.posX, spawnPoint.posY, spawnPoint.posZ);
+	public static void movePlayerToOverworld(MinecraftServer server, EntityPlayerMP player) {
+		BlockPos spawnPoint = server.worldServerForDimension(0).getSpawnPoint();
+		movePlayerToOverworld(server, player, spawnPoint);
 	}
 
-	public static void movePlayerToOverworld(EntityPlayerMP player, double posX, double posY, double posZ) {
+	public static void movePlayerToOverworld(MinecraftServer server, EntityPlayerMP player, BlockPos pos) {
 		assignAreaForEntity(player, null);
-		OverworldTeleporter tp = new OverworldTeleporter(posX, posY, posZ);
+		OverworldTeleporter tp = new OverworldTeleporter(pos);
 		if (player.dimension == 0) {
 			tp.placeInPortal(player, 0, 0, 0, 0);
 		} else {

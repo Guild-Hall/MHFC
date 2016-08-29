@@ -11,7 +11,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import mhfc.net.client.render.entity.RenderNargacuga;
 import mhfc.net.client.render.projectile.RenderBeam;
 import mhfc.net.client.render.projectile.RenderBlockProjectile;
@@ -42,20 +41,21 @@ import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import mhfc.net.common.entity.projectile.NargacugaSpike;
 import mhfc.net.common.util.lib.MHFCReference;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class MHFCEntityRenderRegistry {
 
-	public static void init() {
+	public static void preInit() {
 		renderMonster();
 		renderBlockEntities();
 	}
 
 	private static void renderMonster() {
 		//AdvanceRender
-		advanceRenderer(EntityNargacuga.class, new RenderNargacuga());
+		advanceRenderer(EntityNargacuga.class, t -> new RenderNargacuga());
 
 		//BasicRender
 		basicRenderer(
@@ -131,7 +131,7 @@ public class MHFCEntityRenderRegistry {
 	}
 
 	@Deprecated
-	private static <T extends Entity & IAnimatedObject> void registerAnimatedRenderer(
+	private static <T extends EntityLiving & IAnimatedObject> void registerAnimatedRenderer(
 			Class<T> entityClass,
 			String resource,
 			float shadow) {
@@ -139,7 +139,7 @@ public class MHFCEntityRenderRegistry {
 	}
 
 	@Deprecated
-	private static <T extends Entity & IAnimatedObject> void registerAnimatedRenderer(
+	private static <T extends EntityLiving & IAnimatedObject> void registerAnimatedRenderer(
 			Class<T> entityClass,
 			ResourceLocation modelLoc,
 			float shadow) {
@@ -149,11 +149,11 @@ public class MHFCEntityRenderRegistry {
 	}
 
 	@Deprecated
-	private static RenderAnimatedModel getRender(IModel model, float shadow) {
+	private static <T extends EntityLiving & IAnimatedObject> IRenderFactory<T> getRender(IModel model, float shadow) {
 		return RenderAnimatedModel.fromModel(model, shadow);
 	}
 
-	private static <T extends Entity & IAnimatedObject> void basicRenderer(
+	private static <T extends EntityLiving & IAnimatedObject> void basicRenderer(
 			Class<T> entityClass,
 			String textureDir,
 			String modelResource,
@@ -167,7 +167,7 @@ public class MHFCEntityRenderRegistry {
 				shadow);
 	}
 
-	private static <T extends Entity & IAnimatedObject> void registerAnimatedRenderer(
+	private static <T extends EntityLiving & IAnimatedObject> void registerAnimatedRenderer(
 			Class<T> entityClass,
 			String textureDir,
 			ResourceLocation modelLoc,
@@ -175,17 +175,19 @@ public class MHFCEntityRenderRegistry {
 			float shadow) {
 		ISkeleton skeleton = CommonLoader.loadSkeleton(sklLoc);
 		IModel model = ClientLoader.loadModel(modelLoc, skeleton);
-		IEntityAnimator animator = getAnimator(textureDir);
-		RenderAnimatedModel animatedModel = RenderAnimatedModel.fromModel(animator, model, shadow);
+		IEntityAnimator<T> animator = getAnimator(textureDir);
+		IRenderFactory<T> animatedModel = RenderAnimatedModel.fromModel(animator, model, shadow);
 
 		advanceRenderer(entityClass, animatedModel);
 	}
 
-	private static void advanceRenderer(Class<? extends Entity> clazz, Render render) {
+	private static <T extends EntityLiving & IAnimatedObject> void advanceRenderer(
+			Class<T> clazz,
+			IRenderFactory<T> render) {
 		RenderingRegistry.registerEntityRenderingHandler(clazz, render);
 	}
 
-	public static IEntityAnimator getAnimator(String textureDir) {
+	public static <T extends EntityLiving> IEntityAnimator<T> getAnimator(String textureDir) {
 		LoadingCache<String, ResourceLocation> cachedResourceLoc = CacheBuilder.newBuilder().maximumSize(100)
 				.build(new CacheLoader<String, ResourceLocation>() {
 					@Override
@@ -193,7 +195,7 @@ public class MHFCEntityRenderRegistry {
 						return new ResourceLocation(textureDir + key + ".png");
 					}
 				});
-		IEntityAnimator animator = (entity, buffer, partialTick, _1, _2, _3, _4, _5) -> {
+		IEntityAnimator<T> animator = (entity, buffer, partialTick, _1, _2, _3, _4, _5) -> {
 			return IAnimatedObject.class.cast(entity).preRenderCallback(partialTick, buffer)
 					.setTextureTransform(cachedResourceLoc::getUnchecked);
 		};

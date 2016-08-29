@@ -1,12 +1,12 @@
 package mhfc.net.common.core.registry;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mhfc.net.common.core.data.PlayerProperties;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class MHFCPlayerPropertiesRegistry {
 
@@ -21,8 +21,9 @@ public class MHFCPlayerPropertiesRegistry {
 
 		@SubscribeEvent
 		public void onClonePlayer(PlayerEvent.Clone cloning) {
-			if (!isValidPlayerEntity(cloning.entityPlayer))
+			if (!isValidPlayerEntity(cloning.entityPlayer)) {
 				return;
+			}
 			if (cloning.wasDeath) {
 				EntityPlayer original = cloning.original;
 				EntityPlayer target = cloning.entityPlayer;
@@ -34,8 +35,9 @@ public class MHFCPlayerPropertiesRegistry {
 
 		@SubscribeEvent
 		public void onCreatePlayerEntity(EntityConstructing constructing) {
-			if (!isValidPlayerEntity(constructing.entity))
+			if (!isValidPlayerEntity(constructing.entity)) {
 				return;
+			}
 			EntityPlayer player = (EntityPlayer) constructing.entity;
 			player.registerExtendedProperties(propertyKey, new PlayerProperties());
 		}

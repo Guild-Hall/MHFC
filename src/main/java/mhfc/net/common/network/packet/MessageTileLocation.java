@@ -1,35 +1,36 @@
 package mhfc.net.common.network.packet;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
-public class MessageTileLocation implements IMessage {
+public abstract class MessageTileLocation implements IMessage {
 
 	public MessageTileLocation() {}
 
 	public MessageTileLocation(TileEntity entity) {
-		this.x = entity.xCoord;
-		this.y = entity.yCoord;
-		this.z = entity.zCoord;
-		this.worldID = entity.getWorldObj().provider.dimensionId;
+		this.pos = entity.getPos();
+		this.worldID = entity.getWorld().provider.getDimension();
 	}
 
-	protected int x;
-	protected int y;
-	protected int z;
+	protected BlockPos pos;
 	protected int worldID;
 
+	public BlockPos getPos() {
+		return pos;
+	}
+
 	public int getX() {
-		return x;
+		return pos.getX();
 	}
 
 	public int getY() {
-		return y;
+		return pos.getY();
 	}
 
 	public int getZ() {
-		return z;
+		return pos.getZ();
 	}
 
 	public int getDimensionID() {
@@ -38,22 +39,19 @@ public class MessageTileLocation implements IMessage {
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		x = buf.readInt();
-		y = buf.readInt();
-		z = buf.readInt();
+		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		worldID = buf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(x);
-		buf.writeInt(y);
-		buf.writeInt(z);
+		buf.writeInt(pos.getX());
+		buf.writeInt(pos.getY());
+		buf.writeInt(pos.getZ());
 		buf.writeInt(worldID);
 	}
 
 	public TileEntity getTileEntity() {
 		return null;
-
 	}
 }

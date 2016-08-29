@@ -8,18 +8,14 @@ import mhfc.net.common.tile.TileBBQSpit;
 import mhfc.net.common.tile.TileHunterBench;
 import mhfc.net.common.tile.TileQuestBoard;
 import mhfc.net.common.tile.TileStunTrap;
-import cpw.mods.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 public class MHFCTileRenderRegistry {
 
 	public static void init() {
-		ClientRegistry.bindTileEntitySpecialRenderer(TileHunterBench.class,
-				new RenderHunterBench());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileStunTrap.class,
-				new RenderStunTrap());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileBBQSpit.class,
-				new RenderBBQSpit());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileQuestBoard.class,
-				new RenderQuestBoard());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileHunterBench.class, new RenderHunterBench());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileStunTrap.class, new RenderStunTrap());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileBBQSpit.class, new RenderBBQSpit());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileQuestBoard.class, new RenderQuestBoard());
 	}
 }

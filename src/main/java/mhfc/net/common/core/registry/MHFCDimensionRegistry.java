@@ -10,6 +10,7 @@ import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.WorldProviderQuesting;
 import mhfc.net.common.world.gen.ChunkManagerQuesting;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 
@@ -26,13 +27,14 @@ public class MHFCDimensionRegistry {
 
 	public static void init() {
 		int dimHandlerId = MHFCMain.config().getDimensionHandlerID();
-		DimensionManager.registerProviderType(dimHandlerId, WorldProviderQuesting.class, false);
+		DimensionType dimType = DimensionType
+				.register("MHFC questing", "_mhfc", dimHandlerId, WorldProviderQuesting.class, false);
 
 		for (QuestFlair flair : QuestFlair.values()) {
 			Integer worldID = DimensionManager.getNextFreeDimId();
 			worldIDToFlair.put(worldID, flair);
 			flairToWorldID.put(flair, worldID);
-			DimensionManager.registerDimension(worldID, dimHandlerId);
+			DimensionManager.registerDimension(worldID, dimType);
 		}
 	}
 

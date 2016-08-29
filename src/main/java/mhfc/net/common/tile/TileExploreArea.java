@@ -1,8 +1,5 @@
 package mhfc.net.common.tile;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.network.message.MessageExploreTileUpdate;
 import mhfc.net.common.network.packet.MessageTileUpdate;
@@ -11,9 +8,11 @@ import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class TileExploreArea extends TileEntity {
 
@@ -25,11 +24,12 @@ public class TileExploreArea extends TileEntity {
 		@Override
 		public IMessage onMessage(MessageExploreTileUpdate message, MessageContext ctx) {
 			TileExploreArea tile = message.getTileEntity();
-			if (tile == null)
+			if (tile == null) {
 				return null;
+			}
 			tile.targetArea = message.getTargetArea();
 			tile.flair = message.getFlair();
-			tile.worldObj.markBlockForUpdate(tile.xCoord, tile.yCoord, tile.zCoord);
+			tile.worldObj.markChunkDirty(tile.getPos(), tile);
 			return new MessageTileUpdate(tile);
 		}
 
@@ -71,22 +71,23 @@ public class TileExploreArea extends TileEntity {
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
-		readFromNBT(pkt.func_148857_g());
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+		readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound answerNbt = new NBTTagCompound();
 		this.writeToNBT(answerNbt);
-		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, answerNbt);
+		return new SPacketUpdateTileEntity(getPos(), 1, answerNbt);
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+		nbt = super.writeToNBT(nbt);
 		nbt.setString(KEY_TARGET, targetArea);
 		nbt.setString(KEY_FLAIR, flair.name());
+		return nbt;
 	}
 
 	@Override

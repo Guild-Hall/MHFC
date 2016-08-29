@@ -8,7 +8,7 @@ import mhfc.net.common.tile.TileQuestBoard;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,11 +16,11 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockQuestBoard extends BlockContainer {
@@ -30,20 +30,19 @@ public class BlockQuestBoard extends BlockContainer {
 	public static int rotationMask = 0x3;
 
 	public BlockQuestBoard() {
-		super(Material.wood);
-		setBlockName(MHFCReference.block_questBoard_name);
+		super(Material.WOOD);
 		setHardness(3.0f);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 
 	@Override
-	public boolean isOpaqueCube() {
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	public int getRenderType() {
-		return -1;
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		return EnumBlockRenderType.MODEL;
 	}
 
 	@Override
@@ -52,27 +51,28 @@ public class BlockQuestBoard extends BlockContainer {
 	}
 
 	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-
-	@Override
-	public boolean onBlockActivated(World var1, int var2, int var3, int var4,
-			EntityPlayer player, int var6, float var7, float var8, float var9) {
+	public boolean onBlockActivated(
+			World world,
+			BlockPos pos,
+			IBlockState state,
+			EntityPlayer player,
+			EnumHand hand,
+			ItemStack heldItem,
+			EnumFacing side,
+			float hitX,
+			float hitY,
+			float hitZ) {
 		if (!player.isSneaking()) {
-			player.openGui(MHFCMain.instance(), MHFCReference.gui_questboard_id,
-					var1, var2, var3, var4);
+			player.openGui(
+					MHFCMain.instance(),
+					MHFCReference.gui_questboard_id,
+					world,
+					pos.getX(),
+					pos.getY(),
+					pos.getZ());
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister) {
-		// TODO this looks actually pretty awesome for the questing board, but
-		// maybe get a dedicated one
-		blockIcon = par1IconRegister
-				.registerIcon(MHFCReference.block_hunterbench_icon);
 	}
 
 	@Override
@@ -81,60 +81,71 @@ public class BlockQuestBoard extends BlockContainer {
 	}
 
 	@Override
-	public Item getItemDropped(int p_149650_1_, Random random, int p_149650_3_) {
-		switch (random.nextInt(3)) {
-			case 0 :
-				return Items.apple;
-			case 1 :
-				return Items.bed;
-			case 2 :
-				return Items.beef;
-			default :
-				return null;
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+		switch (rand.nextInt(3)) {
+		case 0:
+			return Items.APPLE;
+		case 1:
+			return Items.BED;
+		case 2:
+			return Items.BEEF;
+		default:
+			return null;
 		}
 	}
 
 	@Override
-	public int onBlockPlaced(World world, int x, int y, int z, int side,
-			float hitX, float hitY, float hitZ, int meta) {
+	public IBlockState onBlockPlaced(
+			World worldIn,
+			BlockPos pos,
+			EnumFacing facing,
+			float hitX,
+			float hitY,
+			float hitZ,
+			int meta,
+			EntityLivingBase placer) {
+		// TODO Auto-generated method stub
+		return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
+	}
+
+	@Override
+	public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int meta) {
 		if (side > 1) {
-			if (side == 2) // face pointing north hit
+			if (side == 2) {
 				return 0x6;
-			if (side == 3) // south
+			}
+			if (side == 3) {
 				return 0x4;
-			if (side == 4) // west
+			}
+			if (side == 4) {
 				return 0x5;
-			if (side == 5) // east
+			}
+			if (side == 5) {
 				return 0x7;
+			}
 		} else {
 			meta = 0;
-			if (side == 0)
+			if (side == 0) {
 				meta += upMask;
+			}
 			return meta;
 		}
 		return side;
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z,
-			EntityLivingBase entity, ItemStack stack) {
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
 
 		if (!world.isRemote) {
-			Vec3 vecPos = Vec3.createVectorHelper(entity.posX, entity.posY
-					+ entity.getEyeHeight(), entity.posZ);
-			float f1 = MathHelper.cos(-entity.rotationYaw * 0.017453292F
-					- (float) Math.PI);
-			float f2 = MathHelper.sin(-entity.rotationYaw * 0.017453292F
-					- (float) Math.PI);
+			Vec3 vecPos = Vec3.createVectorHelper(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
+			float f1 = MathHelper.cos(-entity.rotationYaw * 0.017453292F - (float) Math.PI);
+			float f2 = MathHelper.sin(-entity.rotationYaw * 0.017453292F - (float) Math.PI);
 			float f3 = -MathHelper.cos(-entity.rotationPitch * 0.017453292F);
 			float f4 = MathHelper.sin(-entity.rotationPitch * 0.017453292F);
-			Vec3 look = Vec3.createVectorHelper(f2 * f3 * 160, f4 * 160, f1
-					* f3 * 160);
+			Vec3 look = Vec3.createVectorHelper(f2 * f3 * 160, f4 * 160, f1 * f3 * 160);
 			Vec3 blockVec = Vec3.createVectorHelper(x, y, z);
-			Vec3 lookAim = look.addVector(vecPos.xCoord, vecPos.yCoord,
-					vecPos.zCoord);
-			MovingObjectPosition movPos = world.func_147447_a(vecPos, lookAim,
-					false, false, true);
+			Vec3 lookAim = look.addVector(vecPos.xCoord, vecPos.yCoord, vecPos.zCoord);
+			MovingObjectPosition movPos = world.func_147447_a(vecPos, lookAim, false, false, true);
 			// booleans are: entity must hold boat, require collision box to
 			// collide, return non-blocks
 			int side = getOppositeSide(blockVec.subtract(movPos.hitVec), look);
@@ -142,26 +153,31 @@ public class BlockQuestBoard extends BlockContainer {
 			double hitX = look.xCoord;
 			double hitZ = look.zCoord;
 			if (side > 1) {
-				if (side == 2) // face pointing north hit
+				if (side == 2) {
 					meta = 0x6;
-				if (side == 3) // south
+				}
+				if (side == 3) {
 					meta = 0x4;
-				if (side == 4) // west
+				}
+				if (side == 4) {
 					meta = 0x5;
-				if (side == 5) // east
+				}
+				if (side == 5) {
 					meta = 0x7;
+				}
 			} else {
-				float cosAng = (float) (hitZ / (Math.sqrt(hitX * hitX + hitZ
-						* hitZ)));
+				float cosAng = (float) (hitZ / (Math.sqrt(hitX * hitX + hitZ * hitZ)));
 				float angle = (float) (Math.acos(cosAng) / Math.PI * 180);
-				if (hitX > 0)
+				if (hitX > 0) {
 					angle = 360 - angle;
+				}
 				angle += 45;
 				angle %= 360;
 				int metaData = (int) (angle / 90);
 				metaData &= rotationMask;
-				if (side == 0)
+				if (side == 0) {
 					metaData += upMask;
+				}
 				meta = metaData;
 			}
 			world.setBlockMetadataWithNotify(x, y, z, meta, 3);
@@ -170,9 +186,8 @@ public class BlockQuestBoard extends BlockContainer {
 	}
 
 	/**
-	 * This method returns the side of the next block which would be hit if the
-	 * look vector was to be traced through the block, starting at the hit
-	 * vector (which is relative to the block).
+	 * This method returns the side of the next block which would be hit if the look vector was to be traced through the
+	 * block, starting at the hit vector (which is relative to the block).
 	 *
 	 */
 	private int getOppositeSide(Vec3 hitVector, Vec3 lookVector) {
@@ -186,8 +201,9 @@ public class BlockQuestBoard extends BlockContainer {
 		double tY = (targetY - hitVector.yCoord) / dY;
 		double tZ = (targetZ - hitVector.zCoord) / dZ;
 		double t = tX;
-		if (!(tX > 0 && tY >= 0 && tZ >= 0))
+		if (!(tX > 0 && tY >= 0 && tZ >= 0)) {
 			MHFCMain.logger().debug("Noooo");
+		}
 		int side = lookVector.xCoord > 0 ? 4 : 5;
 		if (!Double.isNaN(tY) && tY < t) {
 			side = lookVector.yCoord > 0 ? 0 : 1;
@@ -200,11 +216,9 @@ public class BlockQuestBoard extends BlockContainer {
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x,
-			int y, int z) {
-		int meta = blockAccess.getBlockMetadata(x, y, z);
-		boolean boxUpFlag = ((meta & upMask) == upMask)
-				| ((meta & offsetMask) == offsetMask);
+	public void addBlockBoundsByState(IBlockState blockState, List<AxisAlignedBB> bounds) {
+		int meta = blockState.a;
+		boolean boxUpFlag = ((meta & upMask) == upMask) | ((meta & offsetMask) == offsetMask);
 		float maxY = !boxUpFlag ? 0.70f : 1.0f;
 		float minY = !boxUpFlag ? 0 : 0.3f;
 		float minX, maxX, minZ, maxZ;
@@ -242,19 +256,16 @@ public class BlockQuestBoard extends BlockContainer {
 				maxZ = 0.625f;
 			}
 		}
-		this.setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
 	}
 
 	@Override
-	public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_,
-			int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_,
-			@SuppressWarnings("rawtypes") List p_149743_6_, Entity p_149743_7_) {
-		// CLEANUP remove this as the state does not change during lifetime of
-		// this block
-		this.setBlockBoundsBasedOnState(p_149743_1_, p_149743_2_, p_149743_3_,
-				p_149743_4_);
-		super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_,
-				p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
+	public void addCollisionBoxToList(
+			IBlockState state,
+			World worldIn,
+			BlockPos pos,
+			AxisAlignedBB entityBox,
+			List<AxisAlignedBB> collidingBoxes,
+			Entity entityIn) {
+		this.addBlockBoundsByState(state, collidingBoxes);
 	}
-
 }

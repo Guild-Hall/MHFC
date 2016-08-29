@@ -1,10 +1,10 @@
 package mhfc.net.common.network.packet;
 
-import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import mhfc.net.common.tile.TileMHFCUpdateStream;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class MessageTileUpdate extends MessageTileLocation {
 

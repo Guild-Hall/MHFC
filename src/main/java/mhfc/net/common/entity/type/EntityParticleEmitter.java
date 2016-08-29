@@ -1,21 +1,23 @@
 package mhfc.net.common.entity.type;
 
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
-public abstract class EntityParticleEmitter extends Entity implements IEntityAdditionalSpawnData{
+public abstract class EntityParticleEmitter extends Entity implements IEntityAdditionalSpawnData {
 
-	protected static final AxisAlignedBB boundingBox = AxisAlignedBB.getBoundingBox(0,0,0,0,0,0);
+	protected static final AxisAlignedBB boundingBox = new AxisAlignedBB(0, 0, 0, 0, 0, 0);
 
 	public static enum DurationType {
-		SHORT(30),        //1.5 seconds
-		MEDIUM(200),      //10 seconds
-		LONG(600),         //30 seconds
-		VERY_LONG(1200);  //1 minute
+		SHORT(30), //1.5 seconds
+		MEDIUM(200), //10 seconds
+		LONG(600), //30 seconds
+		VERY_LONG(1200); //1 minute
 		public final int ticks;
+
 		private DurationType(int ticks) {
 			this.ticks = ticks;
 		}
@@ -30,12 +32,12 @@ public abstract class EntityParticleEmitter extends Entity implements IEntityAdd
 	}
 
 	@Override
-	public boolean isEntityInvulnerable() {
+	public boolean isEntityInvulnerable(DamageSource source) {
 		return true;
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox() {
+	public AxisAlignedBB getEntityBoundingBox() {
 		return boundingBox;
 	}
 

@@ -1,7 +1,7 @@
 package mhfc.net.common.util.lib;
 
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.ModMetadata;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ModMetadata;
 
 public class MHFCReference {
 	public static final String main_config_file = "config/MHFC.cfg";
@@ -14,7 +14,6 @@ public class MHFCReference {
 	public static ModMetadata getMetadata() {
 		return main_metadata;
 	}
-	
 
 	public static final String area_playfield_name = "mhfc.area.playfield.name";
 	public static final String area_arena_name = "mhfc.area.arena.name";

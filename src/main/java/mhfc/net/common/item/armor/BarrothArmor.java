@@ -2,8 +2,6 @@ package mhfc.net.common.item.armor;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.helper.ArmorMaterialHelper;
@@ -14,10 +12,13 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BarrothArmor extends ItemArmor {
 	private static final String[] names = { MHFCReference.armor_barroth_helm_name,
@@ -28,10 +29,10 @@ public class BarrothArmor extends ItemArmor {
 			MHFCReference.armor_default_chest_icon, MHFCReference.armor_default_legs_icon,
 			MHFCReference.armor_default_boots_icon };
 
-	public BarrothArmor(int type) {
+	public BarrothArmor(EntityEquipmentSlot type) {
 		super(ArmorMaterialHelper.ArmorBarroth, 4, type);
 		setCreativeTab(MHFCMain.mhfctabs);
-		setUnlocalizedName(names[type]);
+		setUnlocalizedName(names[type.getIndex()]);
 	}
 
 	@Override

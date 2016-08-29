@@ -1,9 +1,9 @@
 package mhfc.net.client.quests;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import mhfc.net.common.network.message.quest.MessageQuestInit;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class QuestClientInitHandler implements IMessageHandler<MessageQuestInit, IMessage> {
 	@Override

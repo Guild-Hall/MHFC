@@ -1,6 +1,5 @@
 package mhfc.net.common.core.registry;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.block.BlockDiscstone;
 import mhfc.net.common.block.BlockIceCrystal;
@@ -35,7 +34,7 @@ import mhfc.net.common.item.block.ItemBlockWyverniaRock;
 import mhfc.net.common.item.block.ItemBlockWyverniaWood;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class MHFCBlockRegistry {
 	public static void staticInit() {}
@@ -101,15 +100,7 @@ public class MHFCBlockRegistry {
 	}
 
 	private Block registerBlock(Block block, String name) {
-		return GameRegistry.registerBlock(block, name);
-	}
-
-	private Block registerBlockWithItem(Block block, Class<? extends ItemBlock> itemBlockClass) {
-		return registerBlockWithItem(block, itemBlockClass, block.getUnlocalizedName());
-	}
-
-	private Block registerBlockWithItem(Block block, Class<? extends ItemBlock> itemBlockClass, String name) {
-		return GameRegistry.registerBlock(block, itemBlockClass, name);
+		return GameRegistry.register(block.setRegistryName(name));
 	}
 
 	public static MHFCBlockRegistry getRegistry() {

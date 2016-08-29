@@ -3,7 +3,6 @@ package mhfc.net.common.core.registry;
 import java.util.ArrayList;
 import java.util.List;
 
-import cpw.mods.fml.common.registry.EntityRegistry;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.MHFCMobList;
 import mhfc.net.common.entity.monster.EntityBarroth;
@@ -26,6 +25,7 @@ import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.entity.Entity;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 public class MHFCEntityRegistry {
 	public static void staticInit() {}
@@ -66,8 +66,12 @@ public class MHFCEntityRegistry {
 		// 0xf8248234, 0x193192);
 		tigrexID = getMobID(EntityTigrex.class, MHFCReference.mob_tigrex_name, ItemColor.YELLOW, ItemColor.LIBLUE);
 		//kirinID = getMobID(EntityKirin.class, MHFCReference.mob_kirin_name, 0xfff85814, 0xff851f15);
-		rathalosID = getMobID(EntityRathalos.class,	MHFCReference.mob_rathalos_name, 0xff749819, 0xf838818);
-		greatjaggiID = getMobID(EntityGreatJaggi.class,	MHFCReference.mob_greatjaggi_name,ItemColor.PURPLE,ItemColor.PINK);
+		rathalosID = getMobID(EntityRathalos.class, MHFCReference.mob_rathalos_name, 0xff749819, 0xf838818);
+		greatjaggiID = getMobID(
+				EntityGreatJaggi.class,
+				MHFCReference.mob_greatjaggi_name,
+				ItemColor.PURPLE,
+				ItemColor.PINK);
 		deviljhoID = getMobID(EntityDeviljho.class, MHFCReference.mob_deviljho_name, ItemColor.GREEN, ItemColor.SILVER);
 		nargacugaID = getMobID(EntityNargacuga.class, MHFCReference.mob_nargacuga_name, 0xf351631, 0x516f13f);
 		barrothID = getMobID(EntityBarroth.class, MHFCReference.mob_barroth_name, ItemColor.ORANGE, ItemColor.GRAY);

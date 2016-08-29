@@ -6,7 +6,6 @@ import mhfc.net.client.render.item.RenderItemStunTrap;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 public class MHFCItemRenderRegistry {

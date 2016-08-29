@@ -1,9 +1,5 @@
 package mhfc.net.common.core.registry;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.common.registry.GameRegistry;
 import mhfc.net.common.network.packet.MessageTileUpdate;
 import mhfc.net.common.tile.TileBBQSpit;
 import mhfc.net.common.tile.TileExploreArea;
@@ -13,6 +9,10 @@ import mhfc.net.common.tile.TileQuestBoard;
 import mhfc.net.common.tile.TileStunTrap;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class MHFCTileRegistry {
 
@@ -21,8 +21,9 @@ public class MHFCTileRegistry {
 		@Override
 		public IMessage onMessage(MessageTileUpdate message, MessageContext ctx) {
 			TileEntity tile = message.getTileEntity();
-			if (tile == null)
+			if (tile == null) {
 				return null;
+			}
 			if (tile instanceof TileMHFCUpdateStream) {
 				((TileMHFCUpdateStream) tile).readCustomUpdate(message.getNBTTag());
 			} else {

@@ -1,15 +1,15 @@
 package mhfc.net.common.eventhandler;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.Cancelable;
-import cpw.mods.fml.common.eventhandler.Event;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.network.message.quest.MessageMHFCInteraction;
 import mhfc.net.common.network.message.quest.MessageMHFCInteraction.Interaction;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.Cancelable;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class MHFCInteractionHandler implements IMessageHandler<MessageMHFCInteraction, IMessage> {
 
@@ -72,25 +72,25 @@ public class MHFCInteractionHandler implements IMessageHandler<MessageMHFCIntera
 	public static void onInteraction(EntityPlayerMP player, MessageMHFCInteraction message) {
 		switch (message.getInteraction()) {
 		case NEW_QUEST:
-			FMLCommonHandler.instance().bus().post(new MHFCInteractionNewQuestEvent(player, message));
+			MinecraftForge.EVENT_BUS.post(new MHFCInteractionNewQuestEvent(player, message));
 			break;
 		case ACCEPT_QUEST:
-			FMLCommonHandler.instance().bus().post(new MHFCInteractionAcceptQuestEvent(player, message));
+			MinecraftForge.EVENT_BUS.post(new MHFCInteractionAcceptQuestEvent(player, message));
 			break;
 		case START_QUEST:
-			FMLCommonHandler.instance().bus().post(new MHFCInteractionStartQuestEvent(player, message));
+			MinecraftForge.EVENT_BUS.post(new MHFCInteractionStartQuestEvent(player, message));
 			break;
 		case END_QUEST:
-			FMLCommonHandler.instance().bus().post(new MHFCInteractionEndQuestEvent(player, message));
+			MinecraftForge.EVENT_BUS.post(new MHFCInteractionEndQuestEvent(player, message));
 			break;
 		case FORFEIT_QUEST:
-			FMLCommonHandler.instance().bus().post(new MHFCInteractionForfeitQuestEvent(player, message));
+			MinecraftForge.EVENT_BUS.post(new MHFCInteractionForfeitQuestEvent(player, message));
 			break;
 		case MOD_RELOAD:
-			FMLCommonHandler.instance().bus().post(new MHFCInteractionModReloadEvent(player, message));
+			MinecraftForge.EVENT_BUS.post(new MHFCInteractionModReloadEvent(player, message));
 			break;
 		default:
-			FMLCommonHandler.instance().bus().post(new MHFCInteractionEvent(player, message, Interaction.INVALID));
+			MinecraftForge.EVENT_BUS.post(new MHFCInteractionEvent(player, message, Interaction.INVALID));
 			break;
 		}
 		MHFCQuestRegistry.getRegistry().onPlayerInteraction(player, message);

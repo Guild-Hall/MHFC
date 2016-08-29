@@ -9,8 +9,6 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.weapon.melee.huntinghorn.HuntingHornWeaponStats;
@@ -18,10 +16,12 @@ import mhfc.net.common.weapon.melee.huntinghorn.ItemHuntingHorn;
 import mhfc.net.common.weapon.melee.huntinghorn.Note;
 import mhfc.net.common.weapon.melee.longsword.ItemLongsword;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class WeaponOverlay {
@@ -32,7 +32,7 @@ public class WeaponOverlay {
 	private static final ResourceLocation spiritGaugeLoc = new ResourceLocation(MHFCReference.gui_longsword_gauge);
 
 	public static void render() {
-		EntityClientPlayerMP thePlayer = Minecraft.getMinecraft().thePlayer;
+		EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
 		ItemStack stack = thePlayer.getHeldItem();
 		if (stack == null) {
 			return;
@@ -46,7 +46,7 @@ public class WeaponOverlay {
 		}
 	}
 
-	private static void renderHuntingHornOverlay(EntityClientPlayerMP thePlayer, ItemStack stack) {
+	private static void renderHuntingHornOverlay(EntityPlayerSP thePlayer, ItemStack stack) {
 		ItemHuntingHorn huntingHorn = ItemHuntingHorn.class.cast(stack.getItem());
 		HuntingHornWeaponStats stats = huntingHorn.getWeaponStats();
 
@@ -72,7 +72,7 @@ public class WeaponOverlay {
 		glPopMatrix();
 	}
 
-	private static void renderLongswordOverlay(EntityClientPlayerMP thePlayer, ItemStack stack) {
+	private static void renderLongswordOverlay(EntityPlayerSP thePlayer, ItemStack stack) {
 		ItemLongsword item = ItemLongsword.class.cast(stack.getItem());
 		float spirit = item.getSpiritPercentage(stack);
 

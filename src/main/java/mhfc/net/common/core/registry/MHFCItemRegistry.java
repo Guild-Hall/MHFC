@@ -2,7 +2,6 @@ package mhfc.net.common.core.registry;
 
 import java.util.function.Consumer;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.item.armor.BarrothArmor;
 import mhfc.net.common.item.armor.DeviljhoArmor;
@@ -64,6 +63,7 @@ import mhfc.net.common.weapon.range.bowgun.light.ItemLightBowgun;
 import mhfc.net.common.weapon.stats.ElementalType;
 import mhfc.net.common.weapon.stats.StatusEffect;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class MHFCItemRegistry {
 	public static void staticInit() {}

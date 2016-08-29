@@ -5,10 +5,6 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.data.KeyToInstanceRegistryData;
 import mhfc.net.common.world.area.IActiveArea;
@@ -19,6 +15,10 @@ import mhfc.net.common.world.exploration.MHFCExploration;
 import mhfc.net.common.world.exploration.OverworldManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 
 public class MHFCExplorationRegistry {
 
@@ -30,8 +30,9 @@ public class MHFCExplorationRegistry {
 	public static class RespawnListener {
 		@SubscribeEvent
 		public void onInitialSpawn(PlayerLoggedInEvent loggedIn) {
-			if (loggedIn.player.worldObj.isRemote)
+			if (loggedIn.player.worldObj.isRemote) {
 				return;
+			}
 			EntityPlayerMP player = (EntityPlayerMP) loggedIn.player;
 			IExplorationManager manager = getExplorationManagerFor(player);
 			manager.onPlayerAdded(player);
@@ -40,8 +41,9 @@ public class MHFCExplorationRegistry {
 
 		@SubscribeEvent
 		public void onRespawn(PlayerRespawnEvent spawn) {
-			if (spawn.player.worldObj.isRemote)
+			if (spawn.player.worldObj.isRemote) {
 				return;
+			}
 			EntityPlayerMP player = (EntityPlayerMP) spawn.player;
 			getExplorationManagerFor(player).respawn(player);
 		}
@@ -49,7 +51,7 @@ public class MHFCExplorationRegistry {
 
 	public static void init() {
 		RespawnListener listener = new RespawnListener();
-		FMLCommonHandler.instance().bus().register(listener);
+		MinecraftForge.EVENT_BUS.register(listener);
 		registerExplorationManager(NAME_OVERWORLD, OverworldManager.instance);
 		registerExplorationManager(NAME_MHFC_EXPLORATION, MHFCExploration.instance);
 	}
@@ -71,8 +73,9 @@ public class MHFCExplorationRegistry {
 		Objects.requireNonNull(player);
 		IExplorationManager current = getExplorationManagerFor(player);
 		MHFCMain.logger().debug("Moving player from exploration manager {} to {}", current, manager);
-		if (current == manager)
+		if (current == manager) {
 			return false;
+		}
 		current.onPlayerRemove(player);
 		getExplorationProperties(player).setManager(manager);
 		manager.onPlayerAdded(player);

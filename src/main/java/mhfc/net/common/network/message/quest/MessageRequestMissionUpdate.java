@@ -2,10 +2,10 @@ package mhfc.net.common.network.message.quest;
 
 import java.io.IOException;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
 public class MessageRequestMissionUpdate implements IMessage {
 

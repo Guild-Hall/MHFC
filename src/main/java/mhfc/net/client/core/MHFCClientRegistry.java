@@ -11,6 +11,11 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class MHFCClientRegistry {
 
+	public static void preInit() {
+		MHFCEntityRenderRegistry.preInit();
+		MinecraftForge.EVENT_BUS.register(new RenderEventListener());
+	}
+
 	public static void init() {
 		addRenderers();
 	}
@@ -27,10 +32,7 @@ public class MHFCClientRegistry {
 
 	private static void addRenderers() {
 		MHFCTileRenderRegistry.init();
-		MHFCEntityRenderRegistry.init();
 		MHFCWeaponRenderRegistry.init();
 		MHFCItemRenderRegistry.init();
-		MinecraftForge.EVENT_BUS.register(new RenderEventListener());
-		MHFCMain.logger().info("Renderers registered");
 	}
 }
