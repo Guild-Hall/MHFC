@@ -2,91 +2,109 @@ package mhfc.net.common.quests.api;
 
 import java.lang.reflect.Type;
 
-import com.google.gson.*;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import net.minecraft.util.JsonUtils;
 
-public class GoalReference {
+public abstract class GoalReference {
 
-	public static class GoalRefSerializer
-		implements
-			JsonDeserializer<GoalReference>,
-			JsonSerializer<GoalReference> {
-
+	public static class GoalRefSerializer implements JsonDeserializer<GoalReference>, JsonSerializer<GoalReference> {
 		@Override
-		public GoalReference deserialize(JsonElement json, Type typeOfT,
-			JsonDeserializationContext context) throws JsonParseException {
+		public GoalReference deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+				throws JsonParseException {
 			return constructFromJson(json, context);
 		}
 
 		@Override
-		public JsonElement serialize(GoalReference src, Type typeOfSrc,
-			JsonSerializationContext context) {
-			if (src.referByString) {
-				return new JsonPrimitive(src.id);
-			} else {
-				if (src.description == null)
-					return JsonNull.INSTANCE;
-				return context.serialize(src.description,
-					GoalDescription.class);
-			}
+		public JsonElement serialize(GoalReference src, Type typeOfSrc, JsonSerializationContext context) {
+			return src.serialize(typeOfSrc, context);
+		}
+	}
+
+	private static class ReferenceByID extends GoalReference {
+		private String id;
+
+		public ReferenceByID(String id) {
+			this.id = id;
 		}
 
+		@Override
+		public GoalDefinition getReferredDescription() {
+			return MHFCQuestBuildRegistry.getGoalDescription(id);
+		}
+
+		@Override
+		protected JsonElement serialize(Type typeOfSrc, JsonSerializationContext context) {
+			return new JsonPrimitive(id);
+		}
+	}
+
+	private static class DirectReference extends GoalReference {
+		private GoalDefinition description;
+
+		public DirectReference(GoalDefinition description) {
+			this.description = description;
+		}
+
+		@Override
+		public GoalDefinition getReferredDescription() {
+			return description;
+		}
+
+		@Override
+		protected JsonElement serialize(Type typeOfSrc, JsonSerializationContext context) {
+			if (description == null) {
+				return JsonNull.INSTANCE;
+			}
+			return context.serialize(description, GoalDefinition.class);
+		}
 	}
 
 	/**
-	 * Constructs a GoalReference from the json stream and raises an exception
-	 * if there is none. Also constructs any nested goals.
-	 * 
+	 * Constructs a GoalReference from the json stream and raises an exception if there is none. Also constructs any
+	 * nested goals.
+	 *
 	 * @return A GoalReference for the json, not null
 	 */
-	public static GoalReference constructFromJson(JsonElement element,
-		JsonDeserializationContext context) {
-		if (element == null || element.isJsonNull())
-			return new GoalReference((GoalDescription) null);
-		if (element.isJsonPrimitive() && element.getAsJsonPrimitive()
-			.isString()) {
-			return new GoalReference(JsonUtils.getJsonElementStringValue(
-				element, "Goal Reference"));
-		} else if (element.isJsonObject()) {
-			GoalDescription desc = context.<GoalDescription> deserialize(
-				element, GoalDescription.class);
-			return new GoalReference(desc);
+	public static GoalReference constructFromJson(JsonElement element, JsonDeserializationContext context) {
+		if (element == null || element.isJsonNull()) {
+			return referTo((GoalDefinition) null);
 		}
-		throw new JsonParseException(
-			"Required a reference on a goal but found something else");
+		if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
+			return referTo(JsonUtils.getJsonElementStringValue(element, "Goal Reference"));
+		} else if (element.isJsonObject()) {
+			GoalDefinition desc = context.deserialize(element, GoalDefinition.class);
+			return referTo(desc);
+		}
+		throw new JsonParseException("Required a reference on a goal but found something else");
 	}
-
-	boolean referByString;
-	String id;
-	GoalDescription description;
 
 	/**
-	 * This class represents a reference to a quest goal, either through the id
-	 * corresponding to it or a direct object reference.
+	 * This class represents a reference to a quest goal, either through the id corresponding to it or a direct object
+	 * reference.
 	 */
-
-	public GoalReference(String id) {
-		this.id = id;
-		referByString = true;
-		description = null;
-	}
-
-	public GoalReference(GoalDescription description) {
-		this.description = description;
-		referByString = false;
-		id = null;
-	}
 
 	/**
 	 * Gets the actual description that is referred to by this object.
 	 */
-	public GoalDescription getReferredDescription() {
-		if (referByString)
-			return MHFCQuestBuildRegistry.getGoalDescription(id);
-		else
-			return description;
+	public abstract GoalDefinition getReferredDescription();
+
+	protected abstract JsonElement serialize(Type typeOfSrc, JsonSerializationContext context);
+
+	public static GoalReference referTo(String id) {
+		return new ReferenceByID(id);
+	}
+
+	public static GoalReference referTo(GoalDefinition definition) {
+		return new DirectReference(definition);
 	}
 
 }

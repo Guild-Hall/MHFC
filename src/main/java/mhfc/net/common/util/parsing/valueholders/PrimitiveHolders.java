@@ -27,6 +27,11 @@ public class PrimitiveHolders {
 		public Holder snapshot() {
 			return Holder.valueOf(val);
 		}
+
+		@Override
+		public String toString() {
+			return Boolean.toString(val);
+		}
 	}
 
 	public static class CharacterHolder implements IValueHolder {
@@ -51,6 +56,11 @@ public class PrimitiveHolders {
 		@Override
 		public Holder snapshot() {
 			return Holder.valueOf(val);
+		}
+
+		@Override
+		public String toString() {
+			return Character.toString(val);
 		}
 	}
 
@@ -77,6 +87,11 @@ public class PrimitiveHolders {
 		public Holder snapshot() {
 			return Holder.valueOf(val);
 		}
+
+		@Override
+		public String toString() {
+			return Byte.toString(val);
+		}
 	}
 
 	public static class ShortHolder implements IValueHolder {
@@ -101,6 +116,11 @@ public class PrimitiveHolders {
 		@Override
 		public Holder snapshot() {
 			return Holder.valueOf(val);
+		}
+
+		@Override
+		public String toString() {
+			return Short.toString(val);
 		}
 	}
 
@@ -127,6 +147,11 @@ public class PrimitiveHolders {
 		public Holder snapshot() {
 			return Holder.valueOf(val);
 		}
+
+		@Override
+		public String toString() {
+			return Integer.toString(val);
+		}
 	}
 
 	public static class LongHolder implements IValueHolder {
@@ -151,6 +176,11 @@ public class PrimitiveHolders {
 		@Override
 		public Holder snapshot() {
 			return Holder.valueOf(val);
+		}
+
+		@Override
+		public String toString() {
+			return Long.toString(val);
 		}
 	}
 
@@ -177,6 +207,11 @@ public class PrimitiveHolders {
 		public Holder snapshot() {
 			return Holder.valueOf(val);
 		}
+
+		@Override
+		public String toString() {
+			return Float.toString(val);
+		}
 	}
 
 	public static class DoubleHolder implements IValueHolder {
@@ -201,6 +236,11 @@ public class PrimitiveHolders {
 		@Override
 		public Holder snapshot() {
 			return Holder.valueOf(val);
+		}
+
+		@Override
+		public String toString() {
+			return Double.toString(val);
 		}
 	}
 }

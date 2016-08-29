@@ -6,6 +6,7 @@ import com.sk89q.worldedit.function.operation.RunContext;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.SpawnControllerAdapter;
+import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.world.area.AreaAdapter;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.IArea;
@@ -54,11 +55,6 @@ public class AreaTypePlayfield implements IAreaType {
 		}
 
 		@Override
-		public String getUnlocalizedDisplayName() {
-			return "area.arena.name";
-		}
-
-		@Override
 		protected IQuestAreaSpawnController initializeSpawnController() {
 			PlayfieldSpawnController playfieldSpawnController = new PlayfieldSpawnController();
 			playfieldSpawnController.setAreaInstance(this);
@@ -73,6 +69,11 @@ public class AreaTypePlayfield implements IAreaType {
 
 	private AreaTypePlayfield() {
 		this(1, 1);
+	}
+
+	@Override
+	public String getUnlocalizedName() {
+		return MHFCReference.area_playfield_name;
 	}
 
 	public AreaTypePlayfield(int chunkSizeX, int chunkSizeY) {

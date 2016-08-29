@@ -1,9 +1,15 @@
 package mhfc.net.client.gui.quests;
 
+import java.util.Optional;
+
 import mhfc.net.client.container.ContainerQuestStatus;
+import mhfc.net.client.gui.hud.QuestStatusDisplay;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
+import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
-import mhfc.net.common.quests.api.IVisualInformation;
+import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.stringview.Viewable;
+import mhfc.net.common.util.stringview.Viewables;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -12,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class QuestStatusInventory extends GuiContainer {
 
+	private final StringBuilder viewBuffer = new StringBuilder();
 	private int displayPage;
 	private EntityPlayer player;
 
@@ -52,9 +59,12 @@ public class QuestStatusInventory extends GuiContainer {
 		}
 	}
 
+	private static final Viewable statusHeader = Viewables
+			.parse("§4§n[[" + MHFCReference.unlocalized_tag_status_long + "]]§r\n\n", null);
+
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int mouseX, int mouseY) {
-		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.QUEST_STATUS_INVENTORY_BACKGROUND);
+		mc.getTextureManager().bindTexture(QuestStatusDisplay.QUEST_STATUS_INVENTORY_BACKGROUND);
 		MHFCGuiUtil.drawTexturedBoxFromBorder(
 				this.guiLeft,
 				this.guiTop,
@@ -65,15 +75,30 @@ public class QuestStatusInventory extends GuiContainer {
 				0,
 				1f,
 				0.65f);
-		IVisualInformation information = MHFCRegQuestVisual.getPlayerVisual();
-		if (information == null) {
+		Optional<IMissionInformation> optionalInfo = MHFCRegQuestVisual.getPlayerVisual();
+		if (!optionalInfo.isPresent()) {
 			String drawn = "No quest accepted";
 			int stringPosY = (ySize - mc.fontRenderer.FONT_HEIGHT) / 2,
 					stringPosX = (xSize - mc.fontRenderer.getStringWidth(drawn)) / 2;
 			mc.fontRenderer.drawString(drawn, guiLeft + stringPosX, guiTop + stringPosY, MHFCGuiUtil.COLOUR_TITLE);
-		} else {
-			information.drawInformation(guiLeft, guiTop, xSize, ySize, displayPage, mc.fontRenderer);
+			return;
 		}
+		IMissionInformation information = optionalInfo.get();
+		int pageCount = information.getPageCount();
+		int margin = 5;
+		Viewable infoSummary = statusHeader.concat(information.getView());
+		MHFCGuiUtil.drawViewable(
+				infoSummary,
+				viewBuffer,
+				displayPage % pageCount,
+				0,
+				xSize - margin * 2,
+				ySize - margin * 2,
+				guiLeft + margin,
+				guiTop + margin,
+				mc.fontRenderer.FONT_HEIGHT + 2,
+				MHFCGuiUtil.COLOUR_TEXT,
+				mc.fontRenderer);
 	}
 
 }

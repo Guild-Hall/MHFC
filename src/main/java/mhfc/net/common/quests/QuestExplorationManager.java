@@ -16,9 +16,9 @@ public class QuestExplorationManager extends ExplorationAdapter {
 
 	QuestFlair flair;
 	IActiveArea initialInstance;
-	GeneralQuest quest;
+	Mission quest;
 
-	public QuestExplorationManager(QuestFlair flair, IActiveArea initialInstance, GeneralQuest quest) {
+	public QuestExplorationManager(QuestFlair flair, IActiveArea initialInstance, Mission quest) {
 		this.flair = Objects.requireNonNull(flair);
 		this.initialInstance = Objects.requireNonNull(initialInstance);
 		this.quest = quest;

@@ -37,7 +37,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 	protected CuboidRegion clipboardRegion;
 
 	public AreaTypeSchematic(ResourceLocation schematicLocation) {
-		try (BufferedInputStream instream = Utilities.inputStream(schematicLocation)) {
+		try (BufferedInputStream instream = Utilities.openEmbeddedResource(schematicLocation)) {
 			areaInformation = AreaTypeSchematic.format.getReader(instream).read(AreaTypeSchematic.forgeData);
 		} catch (IOException e) {
 			MHFCMain.logger().error(

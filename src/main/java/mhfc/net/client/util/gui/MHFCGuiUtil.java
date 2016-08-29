@@ -2,11 +2,18 @@ package mhfc.net.client.util.gui;
 
 import static org.lwjgl.opengl.GL11.glColor4f;
 
+import java.util.List;
+import java.util.Objects;
+
+import com.google.common.base.Preconditions;
+
 import mhfc.net.MHFCMain;
+import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.StatCollector;
 
 public class MHFCGuiUtil {
 
@@ -55,6 +62,129 @@ public class MHFCGuiUtil {
 	}
 
 	/**
+	 * Draws the content of the view according to the following rules:<br>
+	 * A '\n' character represents a line break. A '\f' represents a page break.<br>
+	 * page decides which page to render. When page refers to an illegal page, nothing is rendered.<br>
+	 * scrolledHeight refers to the portion of text that is skipped by rendering. Every line break will add one
+	 * lineheight of height to the text. Every line that is not fully in view will not be rendered.<br>
+	 * width refers to the maximal width of the rendered text. A linebreak is inserted before a word if the line would
+	 * be longer than width if it were rendered.<br>
+	 * height sets the height of text that is being render after scrolledHeight has been skipped.<br>
+	 * color is the color of the text to render with.
+	 *
+	 * @param view
+	 *            the view to render
+	 * @param buffer
+	 *            the buffer to use to store strings (to keep memory profile small)
+	 * @param pageNbr
+	 *            the page to render, see 'page break'
+	 * @param scrolledHeight
+	 *            the skipped height, that is not rendered
+	 * @param width
+	 *            the width to render the page with
+	 * @param height
+	 *            the height to render
+	 * @param lineHeight
+	 *            the height of one line
+	 * @param posX
+	 *            the pos to render at
+	 * @param posY
+	 *            the pos to render at
+	 * @param color
+	 *            the color to render the text with
+	 * @param fRend
+	 *            the font renderer to render with
+	 */
+	public static void drawViewable(
+			Viewable view,
+			StringBuilder buffer,
+			int pageNbr,
+			int scrolledHeight,
+			int width,
+			int height,
+			int posX,
+			int posY,
+			int lineHeight,
+			int color,
+			FontRenderer fRend) {
+		Preconditions.checkArgument(width >= 0, "width must be positive");
+		Preconditions.checkArgument(height >= 0, "height must be positive");
+		if (pageNbr < 0) {
+			return;
+		}
+		buffer.setLength(0);
+		view.appendTo(buffer);
+		String rawContent = buffer.toString();
+
+		String[] pages = rawContent.split("\f");
+		if (pageNbr >= pages.length) {
+			return;
+		}
+		String pageContent = pages[pageNbr];
+		String[] paragraphs = pageContent.split("\n");
+		int relPosY = -scrolledHeight;
+		for (String pgrh : paragraphs) {
+			relPosY = renderParagraph(pgrh, width, height, posX, posY, relPosY, lineHeight, color, fRend);
+			relPosY += lineHeight; // Line break after paragraph
+			if (relPosY + lineHeight > height) {
+				// Shortcurcuit, we are beyond the rendered area
+				return;
+			}
+		}
+	}
+
+	/**
+	 * Renders a paragraph
+	 *
+	 * @param paragraph
+	 *            the content of the paragraph
+	 * @param width
+	 * @param height
+	 * @param posX
+	 * @param posY
+	 * @param relPosY
+	 * @param lineHeight
+	 * @param color
+	 * @param fRend
+	 * @return the new relPosY
+	 */
+	private static int renderParagraph(
+			String paragraph,
+			int width,
+			int height,
+			int posX,
+			int posY,
+			int relPosY,
+			int lineHeight,
+			int color,
+			FontRenderer fRend) {
+		List<String> lines = fRend.listFormattedStringToWidth(paragraph, width);
+		int lineSize = lines.size();
+		for (int i = 0; i < lineSize; i++, relPosY += lineHeight) {
+			String line = lines.get(i);
+			if (relPosY + lineHeight > height) {
+				break;
+			}
+			if (relPosY >= 0) {
+				fRend.drawString(line, posX, posY + relPosY, color);
+			}
+		}
+		relPosY -= lineHeight;
+		return relPosY;
+	}
+
+	public static int drawTextLocalizedAndReturnHeight(
+			FontRenderer fRend,
+			String string,
+			int posX,
+			int posY,
+			int width,
+			int colour) {
+		String localized = StatCollector.translateToLocal(string);
+		return drawTextAndReturnHeight(fRend, localized, posX, posY, width, colour);
+	}
+
+	/**
 	 * Draws a string onto the screen at the desired position. If width is > 0, then the draw split string method is
 	 * used instead. The amount if vertical space occupied by the draw is calculated and returned. If one attempts to
 	 * draw a null String or with a null renderer, a warning is printed (including a stack trace) and 0 is returned.
@@ -68,11 +198,8 @@ public class MHFCGuiUtil {
 			int posY,
 			int width,
 			int colour) {
-		if (fRend == null || string == null) {
-			MHFCMain.logger().warn(fRend == null ? "Null renderer used as argument" : "Render request for a null string");
-			Thread.dumpStack();
-			return 0;
-		}
+		Objects.requireNonNull(fRend);
+		Objects.requireNonNull(string);
 		int lines = 1;
 		if (width <= 0) {
 			fRend.drawString(string, posX, posY, colour);
@@ -107,7 +234,7 @@ public class MHFCGuiUtil {
 			float uWidth,
 			float vHeight) {
 		Tessellator t = Tessellator.instance;
-		
+
 		t.startDrawingQuads();
 		t.addVertexWithUV(xMin, yMin, zLevel, u, v);
 		t.addVertexWithUV(xMin, yMin + height, zLevel, u, v + vHeight);

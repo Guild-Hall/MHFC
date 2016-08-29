@@ -59,4 +59,9 @@ public class ClassSafeHolder<V> implements IValueHolder {
 	public Holder snapshot() {
 		return Holder.valueOf(this.value, this.clazz);
 	}
+
+	@Override
+	public String toString() {
+		return Objects.toString(value);
+	}
 }

@@ -294,7 +294,7 @@ mhfc.quests.visual.tag.description=Quest Details
 mhfc.quests.visual.tag.monsters=Main Monsters
 mhfc.quests.visual.tag.requisites=Requisites
 mhfc.quests.visual.tag.statuslong=Quest Status
-mhfc.quests.visual.tag.statusshort=Short Status
+mhfc.quests.visual.tag.statusshort=Quest Status
 
 mhfc.quests.type.hunting=Hunting Quest
 mhfc.quests.type.gathering=Gathering Quest

@@ -56,6 +56,14 @@ public class PlayerMap<T> extends HashMap<UUID, T> {
 		return put(profileToKey(key), value);
 	}
 
+	public T removePlayer(EntityPlayer key) {
+		return remove(playerToKey(key));
+	}
+
+	public T removeProfile(GameProfile key) {
+		return remove(profileToKey(key));
+	}
+
 	public void putAllPlayers(Map<? extends EntityPlayer, ? extends T> m) {
 		for (Map.Entry<? extends EntityPlayer, ? extends T> e : m.entrySet()) {
 			putPlayer(e.getKey(), e.getValue());

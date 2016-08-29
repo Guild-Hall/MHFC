@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 
 public class GuiQuestBoard extends MHFCTabbedGui {
+	public static final GuiQuestJoin questBoard = new GuiQuestJoin(Minecraft.getMinecraft().thePlayer);
 
 	private GuiQuestJoin join;
 	private GuiQuestManagement questMg;
@@ -42,10 +43,14 @@ public class GuiQuestBoard extends MHFCTabbedGui {
 
 	@Override
 	protected void drawTabBackgroundLayer() {
-		if (MHFCRegQuestVisual.hasPlayerQuest())
+		if (MHFCRegQuestVisual.hasPlayerQuest()) {
 			setTab(1);
-		else
+		} else {
 			setTab(0);
+		}
 	}
 
+	public static GuiQuestBoard getQuestBoard(EntityPlayer player) {
+		return new GuiQuestBoard(questBoard, player);
+	}
 }

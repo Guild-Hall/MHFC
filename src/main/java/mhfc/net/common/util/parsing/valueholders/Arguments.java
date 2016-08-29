@@ -97,4 +97,9 @@ public class Arguments implements Iterable<IValueHolder> {
 		return new PermissiveIterator<IValueHolder>(Arrays.stream(args).iterator(), this::getOutOfRange);
 	}
 
+	@Override
+	public String toString() {
+		return this.args.toString();
+	}
+
 }

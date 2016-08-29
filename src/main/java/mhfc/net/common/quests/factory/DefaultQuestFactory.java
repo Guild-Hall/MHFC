@@ -9,50 +9,27 @@ import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_QU
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_REWARD;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_VISUAL;
 
-import java.util.concurrent.CompletionStage;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.client.quests.DefaultQuestVisualDefinition;
+import mhfc.net.client.quests.DefaultQuestVisualDefinition.QuestVisualInformationFactory;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.quests.GeneralQuest;
 import mhfc.net.common.quests.api.GoalReference;
-import mhfc.net.common.quests.api.IQuestFactory;
-import mhfc.net.common.quests.api.IVisualInformation;
-import mhfc.net.common.quests.api.IVisualInformationFactory;
-import mhfc.net.common.quests.api.QuestDescription;
-import mhfc.net.common.quests.api.QuestFactory;
-import mhfc.net.common.quests.api.QuestGoal;
+import mhfc.net.common.quests.api.IQuestDefinitionFactory;
+import mhfc.net.common.quests.api.QuestDefinition;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
-import mhfc.net.common.quests.world.GlobalAreaManager;
+import mhfc.net.common.quests.descriptions.DefaultQuestDescription.QuestType;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.util.MHFCJsonUtils;
 import mhfc.net.common.world.area.AreaRegistry;
-import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.util.JsonUtils;
 
-public class DefaultQuestFactory implements IQuestFactory {
-
-	@Override
-	public GeneralQuest buildQuest(QuestDescription qd) {
-		QuestGoal goal = QuestFactory.constructGoal(qd.getGoalReference().getReferredDescription());
-		if (goal == null) {
-			return null;
-		}
-		IAreaType areaType = qd.getAreaType();
-
-		CompletionStage<IActiveArea> activeArea = GlobalAreaManager.getInstance()
-				.getUnusedInstance(areaType, qd.getQuestFlair());
-		if (activeArea == null) {
-			return null;
-		}
-
-		return new GeneralQuest(goal, qd.getMaxPartySize(), qd.getReward(), qd.getFee(), activeArea, qd);
-	}
+public class DefaultQuestFactory implements IQuestDefinitionFactory {
 
 	@Override
 	public DefaultQuestDescription buildQuestDescription(JsonElement json, JsonDeserializationContext context) {
@@ -67,25 +44,25 @@ public class DefaultQuestFactory implements IQuestFactory {
 		}
 		String typeString = JsonUtils.getJsonObjectStringFieldValue(jsonAsObject, KEY_QUEST_TYPE);
 		String flairString = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonAsObject, KEY_FLAIR, "DAYTIME");
-		QuestDescription.QuestType type = QuestDescription.QuestType.Hunting;
+		QuestType type = QuestType.Hunting;
 		switch (typeString) {
 		case MHFCQuestBuildRegistry.QUEST_TYPE_HUNTING:
-			type = QuestDescription.QuestType.Hunting;
+			type = QuestType.Hunting;
 			break;
 		case MHFCQuestBuildRegistry.QUEST_TYPE_EPIC_HUNTING:
-			type = QuestDescription.QuestType.EpicHunting;
+			type = QuestType.EpicHunting;
 			break;
 		case MHFCQuestBuildRegistry.QUEST_TYPE_GATHERING:
-			type = QuestDescription.QuestType.Gathering;
+			type = QuestType.Gathering;
 			break;
 		case MHFCQuestBuildRegistry.QUEST_TYPE_KILLING:
-			type = QuestDescription.QuestType.Killing;
+			type = QuestType.Killing;
 			break;
 		default:
 			MHFCMain.logger().error(
 					"[MHFC] Type {} was not recognized, for allowed keys see documentation of MHFCQuestBuildRegistry. Falling back to hunting.",
 					typeString);
-			type = QuestDescription.QuestType.Hunting;
+			type = QuestType.Hunting;
 		}
 		QuestFlair flair = QuestFlair.DAYTIME;
 		try {
@@ -99,6 +76,8 @@ public class DefaultQuestFactory implements IQuestFactory {
 		int fee = JsonUtils.getJsonObjectIntegerFieldValue(jsonAsObject, KEY_FEE);
 		int maxPartySize = MHFCJsonUtils.getJsonObjectIntegerFieldValueOrDefault(jsonAsObject, KEY_MAX_PARTY_SIZE, 4);
 
+		QuestVisualInformationFactory factory = new QuestVisualInformationFactory()
+				.decodingFrom(jsonAsObject.get(KEY_VISUAL), context);
 		DefaultQuestDescription description = new DefaultQuestDescription(
 				goal,
 				type,
@@ -106,18 +85,15 @@ public class DefaultQuestFactory implements IQuestFactory {
 				flair,
 				reward,
 				fee,
-				maxPartySize);
-		IVisualInformationFactory defaultFactory = new QuestVisualInformationFactory(description);
-		JsonElement visualInformation = jsonAsObject.get(KEY_VISUAL);
-		IVisualInformation visual = defaultFactory.buildInformation(visualInformation, context);
-		description.setVisualInformation(visual);
+				maxPartySize,
+				factory::forQuest);
 		return description;
 	}
 
 	@Override
-	public JsonObject serialize(QuestDescription description, JsonSerializationContext context) {
-		DefaultQuestDescription questDesc = (DefaultQuestDescription) description;
-		IVisualInformation visual = questDesc.getVisualInformation();
+	public JsonObject serialize(QuestDefinition description, JsonSerializationContext context) {
+		DefaultQuestDescription questDesc = DefaultQuestDescription.class.cast(description);
+		DefaultQuestVisualDefinition visual = questDesc.getVisualInformation();
 
 		JsonObject holder = new JsonObject();
 		holder.addProperty(KEY_MAX_PARTY_SIZE, questDesc.getMaxPartySize());
@@ -129,8 +105,7 @@ public class DefaultQuestFactory implements IQuestFactory {
 		holder.addProperty(KEY_REWARD, questDesc.getReward());
 		JsonElement jsonGoalReference = context.serialize(questDesc.getGoalReference(), GoalReference.class);
 		holder.add(KEY_GOAL, jsonGoalReference);
-		IVisualInformationFactory visualFactory = QuestFactory
-				.getQuestVisualInformationFactory(visual.getSerializerType());
+		QuestVisualInformationFactory visualFactory = new QuestVisualInformationFactory(questDesc);
 		JsonElement jsonVisual = visualFactory.serialize(visual, context);
 		holder.add(KEY_VISUAL, jsonVisual);
 

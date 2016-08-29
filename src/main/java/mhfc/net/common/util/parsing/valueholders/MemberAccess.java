@@ -220,4 +220,9 @@ public class MemberAccess implements IValueHolder {
 		return accessField(resolveField(holder.getType(), this.name), holder);
 	}
 
+	@Override
+	public String toString() {
+		return origin.toString() + "." + name;
+	}
+
 }

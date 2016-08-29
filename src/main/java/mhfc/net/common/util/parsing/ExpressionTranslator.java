@@ -692,15 +692,13 @@ public class ExpressionTranslator {
 
 		@Override
 		public void pushOnto(AST ast) throws SyntaxErrorException {
-			ast.pushValue(VAL_EXPRESSION_ID, new HolderLiteral(c -> Holder.valueOf(c.getWrapper()), "<context>"));
+			ast.pushValue(VAL_EXPRESSION_ID, new HolderLiteral(c -> c, "<context>"));
 		}
 	}
 
 	private final List<IBasicSequence> sequences = new ArrayList<>();
-	private final Context context;
 
-	public ExpressionTranslator(Context context) {
-		this.context = context;
+	public ExpressionTranslator() {
 		sequences.add(new Whitespace());
 		sequences.add(new Comment());
 
@@ -745,13 +743,13 @@ public class ExpressionTranslator {
 		sequences.add(new IntegerConstant());
 	}
 
-	public IValueHolder parse(String expression) throws SyntaxErrorException {
+	public IValueHolder parse(String expression, IValueHolder contextValue) throws SyntaxErrorException {
 		// Replace all comments
 		// String noComment = commentPattern.matcher(expression).replaceAll(" ");
-		return parseCleaned(expression);
+		return parseCleaned(expression, contextValue);
 	}
 
-	private IValueHolder parseCleaned(String cleanExpression) throws SyntaxErrorException {
+	private IValueHolder parseCleaned(String cleanExpression, IValueHolder contextValue) throws SyntaxErrorException {
 		// Cleaned as in: does only contain spaces as whitespace, doesn't
 		// contain any comments and only one sequential whitespace.
 		// So we can reset
@@ -805,7 +803,7 @@ public class ExpressionTranslator {
 				break;
 			}
 		}
-		return IExpression.class.cast(parseTree.getOverallValue()).asValue(context);
+		return IExpression.class.cast(parseTree.getOverallValue()).asValue(contextValue);
 	}
 
 	private IBasicSequence nextSequenceOrSyntaxError(Iterator<IBasicSequence> sequences, IntBuffer stream) {

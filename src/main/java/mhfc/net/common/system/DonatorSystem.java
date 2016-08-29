@@ -21,7 +21,7 @@ public class DonatorSystem {
 			return playerInList(player.getDisplayName(), kirinSdonor);
 		}
 	};
-	
+
 	private static final Privilege bionic = new Privilege() {
 		@Override
 		public void load() {}
@@ -31,31 +31,38 @@ public class DonatorSystem {
 			return playerInList(player.getDisplayName(), Stbionicdonor);
 		}
 	};
-	private static final String[] dragoondonor = {"Danmar", "Heltrato"};
-	private static String[] kirinSdonor = {"requillias", "PCAwesomeness","Schmidmix", "Heltrato"};
-	private static String[] Stbionicdonor = {"TheDemoPikachu", "PCAwesomeness", "Heltrato"};
-	
+	// FIXME: replace with Player UUIDs
+	private static final String[] dragoondonor = { "Danmar", "Heltrato" };
+	private static String[] kirinSdonor = { "requillias", "PCAwesomeness", "Schmidmix", "Heltrato" };
+	private static String[] Stbionicdonor = { "TheDemoPikachu", "PCAwesomeness", "Heltrato" };
+
 	private static boolean playerInList(String name, String[] array) {
-		for (int i = 0; i < array.length; i++)
-			if (array[i].equals(name))
+		for (String element : array) {
+			if (element.equals(name)) {
 				return true;
+			}
+		}
 		return false;
 	}
 
 	public static boolean checkDragoon(EntityPlayer player) {
-		if (player == null)
+		if (player == null) {
 			return false;
+		}
 		return dragoon.hasPrivilege(player);
 	}
 
 	public static boolean checkKirinS(EntityPlayer player) {
-		if (player == null)
+		if (player == null) {
 			return false;
+		}
 		return kirinS.hasPrivilege(player);
 	}
+
 	public static boolean checkbioNic(EntityPlayer player) {
-		if (player == null)
+		if (player == null) {
 			return false;
+		}
 		return bionic.hasPrivilege(player);
 	}
 }

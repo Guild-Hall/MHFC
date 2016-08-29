@@ -1,14 +1,13 @@
-package mhfc.net.common.network.packet;
+package mhfc.net.common.network.message.quest;
 
-import io.netty.buffer.ByteBuf;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import io.netty.buffer.ByteBuf;
 
 public class MessageQuestRunningSubscription implements IMessage {
 
 	private boolean hasSubscribed;
 
-	public MessageQuestRunningSubscription() {
-	}
+	public MessageQuestRunningSubscription() {}
 
 	public MessageQuestRunningSubscription(boolean newSubscribed) {
 		this.hasSubscribed = newSubscribed;
