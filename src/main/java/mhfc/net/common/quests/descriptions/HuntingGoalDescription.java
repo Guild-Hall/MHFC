@@ -59,7 +59,7 @@ public class HuntingGoalDescription extends GoalDefinition {
 				checkAttributesBound();
 				String goalMob = (String) EntityList.classToStringMapping.get(getHuntedClass());
 				goalMob = "entity." + goalMob + ".name";
-				return Viewables.parse("[[" + goalMob + "]]s slain: {{current}}/{{goal}}", baseProps);
+				return Viewables.parse("[[" + goalMob + "]]s§r slain: {{current}}/{{goal}}", baseProps);
 			}
 
 			@Override
