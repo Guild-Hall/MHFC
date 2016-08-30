@@ -36,7 +36,7 @@ public class EntityGiaprey extends EntityMHFCBase<EntityGiaprey> {
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(5500D));
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(5500D));
 	}
 
 	@Override

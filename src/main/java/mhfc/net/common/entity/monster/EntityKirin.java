@@ -12,6 +12,7 @@ import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
 public class EntityKirin extends EntityMHFCBase<EntityKirin> {
@@ -39,7 +40,7 @@ public class EntityKirin extends EntityMHFCBase<EntityKirin> {
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		//default 13738
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(20D));
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(20D));
 	}
 
 	@Override
@@ -49,11 +50,11 @@ public class EntityKirin extends EntityMHFCBase<EntityKirin> {
 	}
 
 	@Override
-	protected String getLivingSound() {
+	protected SoundEvent getAmbientSound() {
 
 		return "mhfc:kirin.idle";
 	}
-	
+
 	@Override
 	public void entityInit() {
 		super.entityInit();

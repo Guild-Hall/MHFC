@@ -37,7 +37,7 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 
 		goalHandler = new LivingDeathEventHandler(this);
 		MinecraftForge.EVENT_BUS.register(goalHandler);
-		String goalMob = (String) EntityList.classToStringMapping.get(goalClass);
+		String goalMob = EntityList.CLASS_TO_NAME.get(goalClass);
 		Spawnable creation = (world) -> EntityList.createEntityByName(goalMob, world);
 		Stream<Spawnable> generator = Stream.generate(() -> creation);
 		infSpawns = new LazyQueue<>(generator.iterator());
@@ -65,12 +65,12 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 
 	@Override
 	public void notifyOfEvent(LivingDeathEvent event) {
-		if (goalClass.isAssignableFrom(event.entityLiving.getClass())) {
-			Entity damageSource = event.source.getEntity();
+		if (goalClass.isAssignableFrom(event.getEntityLiving().getClass())) {
+			Entity damageSource = event.getSource().getEntity();
 			if ((damageSource instanceof EntityPlayer) && getMission() != null) {
 				boolean shouldcount = true;
 				shouldcount &= getMission().getPlayers().contains(damageSource);
-				shouldcount &= getMission().getSpawnController().getControlledEntities().contains(event.entity);
+				shouldcount &= getMission().getSpawnController().getControlledEntities().contains(event.getEntity());
 				if (shouldcount) {
 					currentNumber.inc();
 				}

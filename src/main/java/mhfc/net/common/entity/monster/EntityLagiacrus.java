@@ -17,6 +17,7 @@ import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
 public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
@@ -49,7 +50,7 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		//default 13738
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(25100D));
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(25100D));
 	}
 
 	@Override
@@ -65,9 +66,9 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
 		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
 	}
-	
+
 	@Override
-	protected String getLivingSound() {
+	protected SoundEvent getAmbientSound() {
 		return "mhfc:lagiacrus.idle";
 	}
 

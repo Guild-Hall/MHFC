@@ -79,7 +79,7 @@ public abstract class GoalReference {
 			return referTo((GoalDefinition) null);
 		}
 		if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
-			return referTo(JsonUtils.getJsonElementStringValue(element, "Goal Reference"));
+			return referTo(JsonUtils.getString(element, "Goal Reference"));
 		} else if (element.isJsonObject()) {
 			GoalDefinition desc = context.deserialize(element, GoalDefinition.class);
 			return referTo(desc);

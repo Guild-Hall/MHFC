@@ -9,12 +9,11 @@ import java.util.Set;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 
-import cpw.mods.fml.common.FMLLog;
 import mhfc.net.MHFCMain;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatBase;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 public class MHFCMobList {
@@ -77,9 +76,8 @@ public class MHFCMobList {
 		try {
 			entity.readFromNBT(nbtTag);
 		} catch (Exception e) {
-			FMLLog.log(
+			MHFCMain.logger().log(
 					Level.ERROR,
-					e,
 					"An Entity %s(%s) has thrown an exception during loading, its state cannot be restored. Report this to the mod author",
 					nbtTag.getString("id"),
 					oclass.getName());
@@ -158,9 +156,9 @@ public class MHFCMobList {
 				? null
 				: (new StatBase(
 						"stat.killEntity." + s,
-						new ChatComponentTranslation(
+						new TextComponentTranslation(
 								"stat.entityKill",
-								new Object[] { new ChatComponentTranslation("entity." + s + ".name", new Object[0]) })))
+								new Object[] { new TextComponentTranslation("entity." + s + ".name", new Object[0]) })))
 										.registerStat();
 	}
 
@@ -170,9 +168,9 @@ public class MHFCMobList {
 				? null
 				: (new StatBase(
 						"stat.entityKilledBy." + s,
-						new ChatComponentTranslation(
+						new TextComponentTranslation(
 								"stat.entityKilledBy",
-								new Object[] { new ChatComponentTranslation("entity." + s + ".name", new Object[0]) })))
+								new Object[] { new TextComponentTranslation("entity." + s + ".name", new Object[0]) })))
 										.registerStat();
 	}
 }

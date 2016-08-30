@@ -9,7 +9,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
@@ -106,15 +105,15 @@ public class AreaTeleportation {
 	public static void movePlayerToArea(MinecraftServer server, EntityPlayerMP player, IArea area) {
 		assignAreaForEntity(player, area);
 		if (area == null) {
-			movePlayerToOverworld(player);
+			movePlayerToOverworld(server, player);
 			return;
 		}
-		int areaDimensionId = area.getWorldView().getWorldObject().provider.dimensionId;
+		int areaDimensionId = area.getWorldView().getWorldObject().provider.getDimension();
 		AreaTeleporter areaTeleporter = new AreaTeleporter(area);
 		if (player.dimension == areaDimensionId) {
 			areaTeleporter.placeInPortal(player, 0, 0, 0, 0);
 		} else {
-			ServerConfigurationManager mg = MinecraftServer.getServer().getConfigurationManager();
+			ServerConfigurationManager mg = server.getConfigurationManager();
 			mg.transferPlayerToDimension(player, areaDimensionId, areaTeleporter);
 		}
 	}
@@ -144,17 +143,17 @@ public class AreaTeleportation {
 
 	public static void movePlayerToOverworld(MinecraftServer server, EntityPlayerMP player, BlockPos pos) {
 		assignAreaForEntity(player, null);
-		OverworldTeleporter tp = new OverworldTeleporter(pos);
+		OverworldTeleporter tp = new OverworldTeleporter(server, pos);
 		if (player.dimension == 0) {
 			tp.placeInPortal(player, 0, 0, 0, 0);
 		} else {
-			ServerConfigurationManager mg = MinecraftServer.getServer().getConfigurationManager();
+			ServerConfigurationManager mg = server.getConfigurationManager();
 			mg.transferPlayerToDimension(player, 0, tp);
 		}
 	}
 
 	private static WorldServer getWorldServer(IArea area) {
-		int dim = area.getWorldView().getWorldObject().provider.dimensionId;
+		int dim = area.getWorldView().getWorldObject().provider.getDimension();
 		return MinecraftServer.getServer().worldServerForDimension(dim);
 	}
 

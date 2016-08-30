@@ -24,8 +24,7 @@ public class MHFCShapedRecipes implements IRecipe {
 	public final Item recipeOutputItemID;
 	private boolean field_92101_f;
 
-	public MHFCShapedRecipes(int par1, int par2,
-			ItemStack[] par3ArrayOfItemStack, ItemStack par4ItemStack) {
+	public MHFCShapedRecipes(int par1, int par2, ItemStack[] par3ArrayOfItemStack, ItemStack par4ItemStack) {
 		this.recipeOutputItemID = par4ItemStack.getItem();
 		this.recipeWidth = par1;
 		this.recipeHeight = par2;
@@ -42,8 +41,7 @@ public class MHFCShapedRecipes implements IRecipe {
 	 * Used to check if a recipe matches current crafting inventory
 	 */
 	@Override
-	public boolean matches(InventoryCrafting par1InventoryCrafting,
-			World par2World) {
+	public boolean matches(InventoryCrafting par1InventoryCrafting, World par2World) {
 		for (int i = 0; i <= 3 - this.recipeWidth; ++i) {
 			for (int j = 0; j <= 5 - this.recipeHeight; ++j) {
 				if (this.checkMatch(par1InventoryCrafting, i, j, true)) {
@@ -62,30 +60,25 @@ public class MHFCShapedRecipes implements IRecipe {
 	/**
 	 * Checks if the region of a crafting inventory is match for the recipe.
 	 */
-	private boolean checkMatch(InventoryCrafting par1InventoryCrafting,
-			int par2, int par3, boolean par4) {
+	private boolean checkMatch(InventoryCrafting par1InventoryCrafting, int par2, int par3, boolean par4) {
 		for (int k = 0; k < 3; ++k) {
 			for (int l = 0; l < 5; ++l) {
 				int i1 = k - par2;
 				int j1 = l - par3;
 				ItemStack itemstack = null;
 
-				if (i1 >= 0 && j1 >= 0 && i1 < this.recipeWidth
-						&& j1 < this.recipeHeight) {
+				if (i1 >= 0 && j1 >= 0 && i1 < this.recipeWidth && j1 < this.recipeHeight) {
 					if (par4) {
-						itemstack = this.recipeItems[this.recipeWidth - i1 - 1
-								+ j1 * this.recipeWidth];
+						itemstack = this.recipeItems[this.recipeWidth - i1 - 1 + j1 * this.recipeWidth];
 					} else {
 						itemstack = this.recipeItems[i1 + j1 * this.recipeWidth];
 					}
 				}
 
-				ItemStack itemstack1 = par1InventoryCrafting
-						.getStackInRowAndColumn(k, l);
+				ItemStack itemstack1 = par1InventoryCrafting.getStackInRowAndColumn(k, l);
 
 				if (itemstack1 != null || itemstack != null) {
-					if (itemstack1 == null && itemstack != null
-							|| itemstack1 != null && itemstack == null) {
+					if (itemstack1 == null && itemstack != null || itemstack1 != null && itemstack == null) {
 						return false;
 					}
 
@@ -93,9 +86,7 @@ public class MHFCShapedRecipes implements IRecipe {
 						return false;
 					}
 
-					if (itemstack.getItemDamage() != 32767
-							&& itemstack.getItemDamage() != itemstack1
-									.getItemDamage()) {
+					if (itemstack.getItemDamage() != 32767 && itemstack.getItemDamage() != itemstack1.getItemDamage()) {
 						return false;
 					}
 				}
@@ -117,9 +108,7 @@ public class MHFCShapedRecipes implements IRecipe {
 				ItemStack itemstack1 = par1InventoryCrafting.getStackInSlot(i);
 
 				if (itemstack1 != null && itemstack1.hasTagCompound()) {
-					itemstack
-							.setTagCompound((NBTTagCompound) itemstack1.stackTagCompound
-									.copy());
+					itemstack.setTagCompound((NBTTagCompound) itemstack1.getTagCompound().copy());
 				}
 			}
 		}

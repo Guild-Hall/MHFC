@@ -5,7 +5,6 @@ import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.gen.ChunkManagerQuesting;
 import mhfc.net.common.world.gen.ChunkProviderQuesting;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.IChunkProvider;
 

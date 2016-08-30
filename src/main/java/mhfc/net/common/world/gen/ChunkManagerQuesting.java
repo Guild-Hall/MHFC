@@ -6,9 +6,7 @@ import java.util.Random;
 import mhfc.net.common.world.MHFCWorldData;
 import mhfc.net.common.world.controller.AreaManager;
 import mhfc.net.common.world.controller.IAreaManager;
-import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.WorldChunkManager;
 
 public class ChunkManagerQuesting extends WorldChunkManager {
 	private World world;

@@ -24,9 +24,11 @@ import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -55,7 +57,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	private IExecutableAction<? super YC> deathAction;
 	private IExecutableAction<? super YC> inWaterAction;
 	private IExecutableAction<? super YC> stunAction;
-	
+
 	public int set_Armor_Value = 22;
 
 	public boolean FREEZE; // trying to implement this to disable all AI's for the monster temporality.
@@ -76,13 +78,13 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		this.deathAction = action;
 		return action;
 	}
-	
-	protected <A extends IExecutableAction<? super YC>> A setInWaterAction(A action){
+
+	protected <A extends IExecutableAction<? super YC>> A setInWaterAction(A action) {
 		inWaterAction = action;
 		return action;
 	}
-	
-	protected <A extends IExecutableAction<? super YC>> A setStunAction(A action){
+
+	protected <A extends IExecutableAction<? super YC>> A setStunAction(A action) {
 		stunAction = action;
 		return action;
 	}
@@ -98,7 +100,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		if (this.isPotionActive(MHFCPotionRegistry.getRegistry().stun)) {
 			getActionManager().switchToAction(stunAction);
 		}
-		if (this.isInWater()){
+		if (this.isInWater()) {
 			getActionManager().switchToAction(inWaterAction);
 		}
 
@@ -123,10 +125,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	public void dropItemRand(Item item, int count) {
 		dropItemRand(new ItemStack(item, count, 0));
 	}
-	
-	
-	
-	protected void specificArmorValue(int value){
+
+	protected void specificArmorValue(int value) {
 		value = set_Armor_Value;
 	}
 
@@ -135,8 +135,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	public int getTotalArmorValue() {
 		return set_Armor_Value;
 	}
-	
-	
 
 	@Override
 	protected void onDeathUpdate() {
@@ -182,7 +180,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			double velX = this.rand.nextGaussian() * 0.01D;
 			double velY = Math.abs(this.rand.nextGaussian() * 0.2D);
 			double velZ = this.rand.nextGaussian() * 0.01D;
-			worldObj.spawnParticle("cloud", randX, randY, randZ, velX, velY, velZ);
+			worldObj.spawnParticle(EnumParticleTypes.CLOUD, randX, randY, randZ, velX, velY, velZ);
 		}
 	}
 
@@ -190,11 +188,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.3D);
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(60D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
+		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.3D);
+		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(60D);
+		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
 	}
-	
+
 	protected void onDeath() {
 		if (deathAction != null) {
 			getActionManager().switchToAction(deathAction);
@@ -450,17 +448,14 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		}
 	}
 
-	/**
-	 * Unknown purpose, worldObj is public
-	 */
 	@Override
-	public World func_82194_d() {
+	public World getWorld() {
 		return this.worldObj;
 	}
 
 	@Override
-	protected boolean isAIEnabled() {
-		return true;
+	public boolean isAIDisabled() {
+		return false;
 	}
 
 	protected void setAIActionManager(AIActionManager<YC> newManager) {
@@ -469,8 +464,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	}
 
 	@Override
-	protected void updateAITick() {
-		super.updateAITick();
+	protected void updateAITasks() {
+		super.updateAITasks();
 		turnHelper.onUpdateTurn();
 	}
 
@@ -513,7 +508,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	}
 
 	@Override
-	public String getDeathSound() {
+	protected SoundEvent getDeathSound() {
 		return super.getDeathSound();
 	}
 
@@ -533,12 +528,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	 *            The speed multiplier to be used
 	 */
 	public void moveForward(double movementSpeed, boolean makeStep) {
-		Vec3 view = getLookVec();
+		Vec3d view = getLookVec();
 
 		float effectiveSpeed = (float) (movementSpeed
-				* getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
-		Vec3 forwardVector = Vec3
-				.createVectorHelper(view.xCoord * effectiveSpeed, motionY, view.zCoord * effectiveSpeed);
+				* getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
+		Vec3d forwardVector = new Vec3d(view.xCoord * effectiveSpeed, motionY, view.zCoord * effectiveSpeed);
 		boolean jump = false;
 		if (makeStep) {
 			// copy the bounding box
@@ -562,13 +556,14 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		addVelocity(forwardVector.xCoord, forwardVector.yCoord, forwardVector.zCoord);
 		setPositionAndUpdate(posX, posY, posZ);
 	}
-	
+
 	public String stunSound;
-	protected String setStunnedSound(String sound){
+
+	protected String setStunnedSound(String sound) {
 		return stunSound = sound;
 	}
-	
-	public void playStunnedSound(){
+
+	public void playStunnedSound() {
 		this.playSound(stunSound, 2.0F, 1.0F);
 	}
 }

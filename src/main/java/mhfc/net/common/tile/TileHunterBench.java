@@ -1,12 +1,14 @@
 package mhfc.net.common.tile;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe.RecipeType;
 import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.message.bench.*;
+import mhfc.net.common.network.message.bench.MessageBeginCrafting;
+import mhfc.net.common.network.message.bench.MessageBenchRefreshRequest;
+import mhfc.net.common.network.message.bench.MessageCancelRecipe;
+import mhfc.net.common.network.message.bench.MessageCraftingUpdate;
+import mhfc.net.common.network.message.bench.MessageSetRecipe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -15,11 +17,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileHunterBench extends TileEntity
-	implements
-		IInventory,
-		TileMHFCUpdateStream {
+public class TileHunterBench extends TileEntity implements IInventory, TileMHFCUpdateStream {
 
 	public static final int outputSlot = 2;
 	public static final int fuelSlot = 0;
@@ -77,17 +80,18 @@ public class TileHunterBench extends TileEntity
 		if (heatLength > 0) {
 			--heatLength;
 			heatStrength = getNewHeat(heatStrength, heatFromItem);
-			if (TileHunterBench.this.workingMHFCBench && recipe != null
-				&& heatStrength >= recipe.getRequiredHeat())
+			if (TileHunterBench.this.workingMHFCBench && recipe != null && heatStrength >= recipe.getRequiredHeat()) {
 				++itemSmeltDuration;
+			}
 		} else {
 			if (fuelStack != null && TileHunterBench.this.workingMHFCBench) {
 				heatLength = TileEntityFurnace.getItemBurnTime(fuelStack);
 				heatLengthInit = heatLength;
 				heatFromItem = getItemHeat(fuelStack);
 				decrStackSize(fuelSlot, 1);
-				if (!worldObj.isRemote)
+				if (!worldObj.isRemote) {
 					sendUpdateCraft();
+				}
 			} else {
 				heatStrength = getNewHeat(heatStrength, 0);
 			}
@@ -109,9 +113,8 @@ public class TileHunterBench extends TileEntity
 	}
 
 	/**
-	 * Forces the client to end the crafting and put the stack into the output
-	 * slot. Unused
-	 * 
+	 * Forces the client to end the crafting and put the stack into the output slot. Unused
+	 *
 	 * @param stack
 	 */
 	@SideOnly(Side.CLIENT)
@@ -153,10 +156,12 @@ public class TileHunterBench extends TileEntity
 	}
 
 	public static int getItemHeat(ItemStack itemStack) {
-		if (itemStack == null)
+		if (itemStack == null) {
 			return 0;
-		if (itemStack.getItem() == Item.getItemById(327))
+		}
+		if (itemStack.getItem() == Item.getItemById(327)) {
 			return 1000;
+		}
 		return 200;
 	}
 
@@ -169,45 +174,51 @@ public class TileHunterBench extends TileEntity
 
 	@Override
 	public ItemStack getStackInSlot(int i) {
-		if (i < 0 || i >= getSizeInventory())
+		if (i < 0 || i >= getSizeInventory()) {
 			return null;
-		else if (i >= recipeStacks.length + 3)
+		} else if (i >= recipeStacks.length + 3) {
 			return inputStacks[i - 3 - recipeStacks.length];
-		else if (i >= 3)
+		} else if (i >= 3) {
 			return recipeStacks[i - 3];
-		else if (i == outputSlot)
+		} else if (i == outputSlot) {
 			return outputStack;
-		else if (i == resultSlot)
+		} else if (i == resultSlot) {
 			return resultStack;
-		else
+		} else {
 			return fuelStack;
+		}
 	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
 		markDirty();
-		if (j <= 0)
+		if (j <= 0) {
 			return null;
+		}
 		if (i > recipeStacks.length + 2) {
 			ItemStack stack = inputStacks[i - recipeStacks.length - 3];
-			if (stack == null)
+			if (stack == null) {
 				return null;
+			}
 			cancelRecipe();
-			if (j > stack.stackSize)
+			if (j > stack.stackSize) {
 				j = stack.stackSize;
+			}
 			if (j == stack.stackSize) {
 				inputStacks[i - recipeStacks.length - 3] = null;
 				return stack;
 			}
 			return stack.splitStack(j);
 		}
-		if (i > 2)
+		if (i > 2) {
 			return null; // You cant get anything from the recipe slots
-		else if (i == outputSlot) {
-			if (outputStack == null)
+		} else if (i == outputSlot) {
+			if (outputStack == null) {
 				return null;
-			if (j > outputStack.stackSize)
+			}
+			if (j > outputStack.stackSize) {
 				j = outputStack.stackSize;
+			}
 			if (j == outputStack.stackSize) {
 				ItemStack fuel = outputStack;
 				outputStack = null;
@@ -217,10 +228,12 @@ public class TileHunterBench extends TileEntity
 		} else if (i == resultSlot) {
 			return null;
 		} else {
-			if (fuelStack == null)
+			if (fuelStack == null) {
 				return null;
-			if (j > fuelStack.stackSize)
+			}
+			if (j > fuelStack.stackSize) {
 				j = fuelStack.stackSize;
+			}
 			if (j == fuelStack.stackSize) {
 				ItemStack fuel = fuelStack;
 				fuelStack = null;
@@ -234,8 +247,9 @@ public class TileHunterBench extends TileEntity
 	 * Resets all working progress but leaves the recipe set
 	 */
 	public void cancelRecipe() {
-		if (worldObj.isRemote)
+		if (worldObj.isRemote) {
 			sendCancelRecipe();
+		}
 		TileHunterBench.this.workingMHFCBench = false;
 		itemSmeltDuration = 0;
 	}
@@ -247,18 +261,20 @@ public class TileHunterBench extends TileEntity
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
-		if (i < 0 || i >= getSizeInventory())
+		if (i < 0 || i >= getSizeInventory()) {
 			return;
-		if (i >= recipeStacks.length + 3)
+		}
+		if (i >= recipeStacks.length + 3) {
 			inputStacks[i - recipeStacks.length - 3] = itemstack;
-		else if (i >= 3)
+		} else if (i >= 3) {
 			recipeStacks[i - 3] = itemstack;
-		else if (i == outputSlot) {
+		} else if (i == outputSlot) {
 			outputStack = itemstack;
 		} else if (i == resultSlot) {
 			resultStack = itemstack;
-		} else if (i == fuelSlot)
+		} else if (i == fuelSlot) {
 			fuelStack = itemstack;
+		}
 	}
 
 	public boolean isInvNameLocalized() {
@@ -272,19 +288,18 @@ public class TileHunterBench extends TileEntity
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		return getDistanceFrom(entityplayer.posX, entityplayer.posY,
-			entityplayer.posZ) <= 64.0f;
+		return getDistanceFrom(entityplayer.posX, entityplayer.posY, entityplayer.posZ) <= 64.0f;
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
 		return (i == fuelSlot && TileEntityFurnace.isItemFuel(itemstack))
-			|| (i > recipeStacks.length + 2 && i < recipeStacks.length * 2 + 3);
+				|| (i > recipeStacks.length + 2 && i < recipeStacks.length * 2 + 3);
 	}
 
 	@Override
-	public String getInventoryName() {
-		return "container.hunterbench";
+	public ITextComponent getDisplayName() {
+		return new TextComponentTranslation("container.hunterbench");
 	}
 
 	@Override
@@ -293,12 +308,10 @@ public class TileHunterBench extends TileEntity
 	}
 
 	@Override
-	public void openInventory() {
-	}
+	public void openInventory() {}
 
 	@Override
-	public void closeInventory() {
-	}
+	public void closeInventory() {}
 
 	public boolean beginCrafting() {
 		if (worldObj.isRemote) {
@@ -319,8 +332,7 @@ public class TileHunterBench extends TileEntity
 
 	@SideOnly(Side.CLIENT)
 	private void sendSetRecipe(EquipmentRecipe recipeToSend) {
-		PacketPipeline.networkPipe.sendToServer(new MessageSetRecipe(this,
-			recipeToSend));
+		PacketPipeline.networkPipe.sendToServer(new MessageSetRecipe(this, recipeToSend));
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -331,8 +343,7 @@ public class TileHunterBench extends TileEntity
 	@Override
 	public void refreshState() {
 		if (worldObj.isRemote) {
-			PacketPipeline.networkPipe.sendToServer(
-				new MessageBenchRefreshRequest(this));
+			PacketPipeline.networkPipe.sendToServer(new MessageBenchRefreshRequest(this));
 		}
 	}
 
@@ -346,8 +357,9 @@ public class TileHunterBench extends TileEntity
 
 	protected boolean matchesInputOutput() {
 		for (int i = 0; i < inputStacks.length; i++) {
-			if (!ItemStack.areItemStacksEqual(inputStacks[i], recipeStacks[i]))
+			if (!ItemStack.areItemStacksEqual(inputStacks[i], recipeStacks[i])) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -381,15 +393,15 @@ public class TileHunterBench extends TileEntity
 		for (int a = 0; a < items.tagCount(); a++) {
 			NBTTagCompound stack = items.getCompoundTagAt(a);
 			byte id = stack.getByte("Slot");
-			if (id >= 0 && id < getSizeInventory())
-				setInventorySlotContents(id, ItemStack.loadItemStackFromNBT(
-					stack));
+			if (id >= 0 && id < getSizeInventory()) {
+				setInventorySlotContents(id, ItemStack.loadItemStackFromNBT(stack));
+			}
 		}
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbtTag) {
-		super.writeToNBT(nbtTag);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbtTag) {
+		nbtTag = super.writeToNBT(nbtTag);
 		storeCustomUpdate(nbtTag);
 
 		NBTTagList itemsStored = new NBTTagList();
@@ -403,6 +415,7 @@ public class TileHunterBench extends TileEntity
 			}
 		}
 		nbtTag.setTag("Items", itemsStored);
+		return nbtTag;
 	}
 
 	public EquipmentRecipe getRecipe() {
@@ -426,9 +439,7 @@ public class TileHunterBench extends TileEntity
 		nbtTag.setInteger(heatLengthInitID, heatLengthInit);
 		nbtTag.setInteger(itemSmeltDurationID, itemSmeltDuration);
 		nbtTag.setBoolean(workingID, TileHunterBench.this.workingMHFCBench);
-		RecipeType type = recipe != null
-			? recipe.getRecipeType()
-			: RecipeType.MHFC;
+		RecipeType type = recipe != null ? recipe.getRecipeType() : RecipeType.MHFC;
 		int recipeID = MHFCEquipementRecipeRegistry.getIDFor(recipe);
 		nbtTag.setInteger(recipeTypeID, type.ordinal());
 		nbtTag.setInteger(recipeIDID, recipeID);

@@ -10,8 +10,9 @@ import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
+import com.github.worldsender.mcanm.common.exceptions.ModelFormatException;
+
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.client.model.ModelFormatException;
 
 /**
  * {@link IOInterface} implementations for {@link NBTTagCompound} as raw data type.

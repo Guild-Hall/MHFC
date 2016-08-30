@@ -12,7 +12,7 @@ public abstract class ItemBowgun extends ItemWeapon<BowgunWeaponStats> {
 
 	@Override
 	public EnumAction getItemUseAction(ItemStack stack) {
-		return EnumAction.bow;
+		return EnumAction.BOW;
 	}
 
 	// TODO: add some combat interactions

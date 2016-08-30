@@ -11,7 +11,7 @@ public class StringProperty extends ImmutableProperty<String> {
 	}
 
 	private static String load(String s, NBTBase nbt) {
-		return NBTType.TAG_STRING.assureTagType(nbt).func_150285_a_();
+		return NBTType.TAG_STRING.assureTagType(nbt).getString();
 	}
 
 	private StringProperty(Runnable parentSetDirty, String initialValue) {

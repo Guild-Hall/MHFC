@@ -4,9 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IWorldAccess;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * A custom interface for various methods of a world which do not affect global state or could also be viewed with a
@@ -136,7 +134,7 @@ public interface IWorld {
 
 	/**
 	 * Adds a single TileEntity to the world.
-	 * 
+	 *
 	 * @param entity
 	 *            The TileEntity to be added.
 	 */

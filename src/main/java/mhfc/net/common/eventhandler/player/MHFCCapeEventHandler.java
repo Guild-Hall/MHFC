@@ -17,11 +17,11 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MHFCCapeEventHandler {
 	private static final Graphics TEST_GRAPHICS = new BufferedImage(128, 128, BufferedImage.TYPE_INT_RGB).getGraphics();
@@ -41,13 +41,13 @@ public class MHFCCapeEventHandler {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onPreRenderSpecials(RenderPlayerEvent.Specials.Pre event) {
-		if (!(event.entityPlayer instanceof AbstractClientPlayer)) {
+		if (!(event.getEntityPlayer() instanceof AbstractClientPlayer)) {
 			return;
 		}
 		AbstractClientPlayer abstractClientPlayer = (AbstractClientPlayer) event.entityPlayer;
 
 		if (!capePlayers.contains(abstractClientPlayer)) {
-			String cloakURL = cloaks.get(event.entityPlayer.getDisplayName());
+			String cloakURL = cloaks.get(event.getEntityPlayer().getDisplayName());
 
 			if (cloakURL == null) {
 				return;
@@ -56,7 +56,7 @@ public class MHFCCapeEventHandler {
 			capePlayers.add(abstractClientPlayer);
 
 			new Thread(new CloakThread(abstractClientPlayer, cloakURL)).start();
-			event.renderCape = true;
+			event.setRenderCape(true);
 		}
 	}
 

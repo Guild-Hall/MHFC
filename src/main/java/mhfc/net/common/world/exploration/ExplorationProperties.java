@@ -7,7 +7,6 @@ import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IExtendedEntityProperties;
 
 public final class ExplorationProperties implements IExtendedEntityProperties {
 
@@ -30,9 +29,8 @@ public final class ExplorationProperties implements IExtendedEntityProperties {
 		String areaTypeName = AreaRegistry.instance.getName(getAreaType());
 		if (areaTypeName == null) {
 			if (manager != OverworldManager.instance) {
-				MHFCMain.logger().warn(
-						"The area type {} did not have a public name, this will default on load",
-						getAreaType());
+				MHFCMain.logger()
+						.warn("The area type {} did not have a public name, this will default on load", getAreaType());
 			}
 			areaTypeName = "";
 		}

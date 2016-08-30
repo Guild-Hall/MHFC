@@ -26,15 +26,12 @@ public class MHFCCraftingManager {
 	}
 
 	public MHFCCraftingManager() {
-
-		recipes = new LinkedHashSet<IRecipe>();
-
+		recipes = new LinkedHashSet<>();
 	}
 
 	// TODO: beautify this, is an akward method to add recipes
 	// TODO rework this, pls, separation of concerns
-	public ItemStack findMatchingRecipe(
-			InventoryCrafting par1InventoryCrafting, World par2World) {
+	public ItemStack findMatchingRecipe(InventoryCrafting par1InventoryCrafting, World par2World) {
 		int var3 = 0;
 		ItemStack var4 = null;
 		ItemStack var5 = null;
@@ -56,12 +53,11 @@ public class MHFCCraftingManager {
 			}
 		}
 
-		if (var3 == 2 && var4.getItem() == var5.getItem()
-				&& var4.stackSize == 1 && var5.stackSize == 1
+		if (var3 == 2 && var4.getItem() == var5.getItem() && var4.stackSize == 1 && var5.stackSize == 1
 				&& var5.getItem().isRepairable()) {
 			Item var11 = var5.getItem();
-			int var13 = var11.getMaxDamage() - var4.getItemDamageForDisplay();
-			int var8 = var11.getMaxDamage() - var5.getItemDamageForDisplay();
+			int var13 = var11.getMaxDamage() - var4.getItemDamage();
+			int var8 = var11.getMaxDamage() - var5.getItemDamage();
 			int var9 = var13 + var8 + var11.getMaxDamage() * 5 / 100;
 			int var10 = var11.getMaxDamage() - var9;
 
@@ -85,8 +81,7 @@ public class MHFCCraftingManager {
 		return this.recipes;
 	}
 
-	public MHFCShapedRecipes addShapedRecipe(ItemStack par1ItemStack,
-			Object... par2ArrayOfObj) {
+	public MHFCShapedRecipes addShapedRecipe(ItemStack par1ItemStack, Object... par2ArrayOfObj) {
 
 		// TODO this should be moved into an constructor of shaped recipe
 		String var3 = "";
@@ -97,8 +92,7 @@ public class MHFCCraftingManager {
 		if (par2ArrayOfObj[var4] instanceof String[]) {
 			String[] var7 = ((String[]) par2ArrayOfObj[var4++]);
 
-			for (int var8 = 0; var8 < var7.length; ++var8) {
-				String var9 = var7[var8];
+			for (String var9 : var7) {
 				++var6;
 				var5 = var9.length();
 				var3 = var3 + var9;
@@ -112,7 +106,7 @@ public class MHFCCraftingManager {
 			}
 		}
 
-		HashMap<Character, ItemStack> var12 = new HashMap<Character, ItemStack>();
+		HashMap<Character, ItemStack> var12 = new HashMap<>();
 
 		for (; var4 < par2ArrayOfObj.length; var4 += 2) {
 			Character var13 = (Character) par2ArrayOfObj[var4];
@@ -141,15 +135,13 @@ public class MHFCCraftingManager {
 			}
 		}
 
-		MHFCShapedRecipes var17 = new MHFCShapedRecipes(var5, var6, var15,
-				par1ItemStack);
+		MHFCShapedRecipes var17 = new MHFCShapedRecipes(var5, var6, var15, par1ItemStack);
 		this.recipes.add(var17);
 		return var17;
 	}
 
-	public void addShapelessRecipe(ItemStack par1ItemStack,
-			ItemStack... recipeStacks) {
-		List<ItemStack> var3 = new ArrayList<ItemStack>();
+	public void addShapelessRecipe(ItemStack par1ItemStack, ItemStack... recipeStacks) {
+		List<ItemStack> var3 = new ArrayList<>();
 		var3.addAll(Arrays.asList(recipeStacks));
 		this.recipes.add(new MHFCShapelessRecipe(par1ItemStack, var3));
 	}

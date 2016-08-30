@@ -22,19 +22,22 @@ import mhfc.net.common.ai.entity.boss.nargacuga.Death;
 import mhfc.net.common.ai.entity.boss.nargacuga.Idle;
 import mhfc.net.common.ai.entity.boss.nargacuga.Pounce;
 import mhfc.net.common.ai.entity.boss.nargacuga.Pounce.JumpBehaviour;
+import mhfc.net.common.ai.entity.boss.nargacuga.ProwlerStance;
 import mhfc.net.common.ai.entity.boss.nargacuga.Roar;
+import mhfc.net.common.ai.entity.boss.nargacuga.TailSlam;
 import mhfc.net.common.ai.entity.boss.nargacuga.TailWhip;
 import mhfc.net.common.ai.entity.boss.nargacuga.Wander;
-import mhfc.net.common.ai.entity.boss.nargacuga.ProwlerStance;
-import mhfc.net.common.ai.entity.boss.nargacuga.TailSlam;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.entity.type.IEnragable;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
@@ -47,8 +50,8 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	public static final int EYES_RECORD_FREQUENCY = 10;
 
 	private IActionRecorder.RecorderAdapter<EntityNargacuga> recorder;
-	private Queue<Vec3> eyesPositionsRight;
-	private Queue<Vec3> eyesPositionsLeft;
+	private Queue<Vec3d> eyesPositionsRight;
+	private Queue<Vec3d> eyesPositionsLeft;
 	private int ticksSinceEyesSaved;
 	private boolean enraged;
 
@@ -101,7 +104,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		//default is 10721D
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(19721D));
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(19721D));
 	}
 
 	@Override
@@ -115,32 +118,32 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		return super.preRenderCallback(scale, sub);
 	}
 
-	private Vec3 getRelativePositionOfBone(String name) {
+	private Vec3d getRelativePositionOfBone(String name) {
 		int frame = getCurrentFrame();
 		IAnimation animation = getActionManager().getCurrentAnimation();
 		if (animation == null) {
-			return Vec3.createVectorHelper(0, 0, 0);
+			return new Vec3d(0, 0, 0);
 		}
 		BoneTransformation boneTransform = new BoneTransformation();
 		animation.storeCurrentTransformation(name, frame, boneTransform);
 		Matrix4f transform = boneTransform.getMatrix();
-		Vec3 relativePosition = Vec3.createVectorHelper(transform.m03, transform.m13, transform.m23);
+		Vec3d relativePosition = new Vec3d(transform.m03, transform.m13, transform.m23);
 		return relativePosition;
 	}
 
-	private Vec3 getPositionLeftEye() {
+	private Vec3d getPositionLeftEye() {
 		return getRelativePositionOfBone("Eye.L").addVector(posX, posY, posZ);
 	}
 
-	private Vec3 getPositionRightEye() {
+	private Vec3d getPositionRightEye() {
 		return getRelativePositionOfBone("Eye.R").addVector(posX, posY, posZ);
 	}
 
-	public Queue<Vec3> getEyesPositionsRight() {
+	public Queue<Vec3d> getEyesPositionsRight() {
 		return eyesPositionsRight;
 	}
 
-	public Queue<Vec3> getEyesPositionsLeft() {
+	public Queue<Vec3d> getEyesPositionsLeft() {
 		return eyesPositionsLeft;
 	}
 
@@ -175,15 +178,14 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	}
 
 	@Override
-	protected String getLivingSound() {
+	protected SoundEvent getAmbientSound() {
 		return "mhfc:narga.idle";
 	}
 
 	@Override
-	protected void updateFallState(double distance, boolean p_70064_3_) {
-		distance = 0;
+	protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos) {
+		y = 0;
 		this.fallDistance = 0;
-		super.updateFallState(distance, p_70064_3_);
+		super.updateFallState(y, onGroundIn, state, pos);
 	}
-
 }

@@ -9,8 +9,6 @@ import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.RunContext;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.network.NetworkTracker;
 import mhfc.net.common.util.services.IServiceAccess;
@@ -18,6 +16,8 @@ import mhfc.net.common.util.services.IServiceHandle;
 import mhfc.net.common.util.services.IServiceKey;
 import mhfc.net.common.util.services.IServicePhaseHandle;
 import mhfc.net.common.util.services.Services;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class MHFCTickHandler {
 	public static final MHFCTickHandler instance = new MHFCTickHandler();

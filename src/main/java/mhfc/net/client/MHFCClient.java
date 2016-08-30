@@ -3,7 +3,7 @@ package mhfc.net.client;
 import mhfc.net.ProxyBase;
 import mhfc.net.client.core.MHFCClientRegistry;
 import mhfc.net.common.core.MHFCCommonRegistry;
-import mhfc.net.common.entity.particle.EntityPaintFX;
+import mhfc.net.common.entity.particle.ParticlePaint;
 import mhfc.net.common.entity.particle.EntityPaintParticleEmitter;
 import mhfc.net.common.entity.particle.EnumParticleType;
 import mhfc.net.common.entity.type.EntityParticleEmitter;
@@ -35,7 +35,7 @@ public class MHFCClient extends ProxyBase {
 			return;
 		}
 		EntityPaintParticleEmitter paintEmitter = (EntityPaintParticleEmitter) emitter;
-		EntityPaintFX particle = new EntityPaintFX(
+		ParticlePaint particle = new ParticlePaint(
 				paintEmitter.worldObj,
 				paintEmitter.color,
 				paintEmitter.posX,

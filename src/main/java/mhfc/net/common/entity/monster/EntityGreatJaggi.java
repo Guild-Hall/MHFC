@@ -27,7 +27,7 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 
 	public EntityGreatJaggi(World world) {
 		super(world);
-		setSize(2F,2F);
+		setSize(2F, 2F);
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 	}
 
@@ -40,7 +40,7 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 		actionManager.registerAction(new Run());
 		actionManager.registerAction(new Whip());
 		actionManager.registerAction(new Wander());
-		
+
 		actionManager.registerAction(setDeathAction(new Death()));
 		return actionManager.build(this);
 	}
@@ -54,7 +54,7 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		// default 2653
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(8553D));
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(8553D));
 	}
 
 	@Override

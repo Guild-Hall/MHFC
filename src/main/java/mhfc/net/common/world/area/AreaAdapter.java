@@ -2,7 +2,6 @@ package mhfc.net.common.world.area;
 
 import java.util.Objects;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.world.controller.CornerPosition;
 import net.minecraft.world.World;
@@ -10,6 +9,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public abstract class AreaAdapter implements IArea {
 
@@ -84,10 +84,10 @@ public abstract class AreaAdapter implements IArea {
 	}
 
 	private boolean isInArea(BlockEvent event) {
-		if (event.world != world) {
+		if (event.getWorld() != world) {
 			return false;
 		}
-		return isInArea(event.x, event.z);
+		return isInArea(event.getPos().getX(), event.getPos().getZ());
 	}
 
 	@SubscribeEvent

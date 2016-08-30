@@ -3,19 +3,17 @@ package mhfc.net.common.weapon.range.bow;
 import java.util.Random;
 import java.util.function.Consumer;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.weapon.ItemWeapon;
 import mhfc.net.common.weapon.range.bow.BowWeaponStats.BowWeaponStatsBuilder;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	public static ItemBow build(Consumer<BowWeaponStatsBuilder> config) {
@@ -66,7 +64,7 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	 */
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
-		return EnumAction.bow;
+		return EnumAction.BOW;
 	}
 
 	/**

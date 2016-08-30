@@ -18,6 +18,7 @@ import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
 public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
@@ -49,7 +50,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		//default 8112
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(14655D));
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(14655D));
 	}
 
 	@Override
@@ -64,8 +65,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	}
 
 	@Override
-	protected String getLivingSound() {
-
+	protected SoundEvent getAmbientSound() {
 		return "mhfc:barroth.idle";
 	}
 

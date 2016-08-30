@@ -7,8 +7,8 @@ import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.greatsword.GreatswordWeaponStats.GreatswordWeaponStatsBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
@@ -38,7 +38,7 @@ public class ItemGreatsword extends ItemWeaponMelee<GreatswordWeaponStats> {
 		if (holder instanceof EntityPlayer) {
 			EntityPlayer entity = (EntityPlayer) holder;
 			entity.moveEntityWithHeading(entity.moveStrafing * -0.4f, entity.moveForward * -0.4f);
-			entity.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 2, 3));
+			entity.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 2, 3));
 		}
 	}
 

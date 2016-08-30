@@ -5,7 +5,12 @@ import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class EntityQuestGiver extends EntityVillager {
@@ -15,7 +20,7 @@ public class EntityQuestGiver extends EntityVillager {
 	public EntityQuestGiver(World world) {
 		super(world, 0);
 		this.tasks.taskEntries.clear();
-		this.boundingBox.setBounds(0, 0, 0, 1.0f, 1.0f, 1.0f);
+		this.setEntityBoundingBox(new AxisAlignedBB(0, 0, 0, 1.0f, 1.0f, 1.0f));
 	}
 
 	@Override
@@ -26,23 +31,25 @@ public class EntityQuestGiver extends EntityVillager {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(10.0f);
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0f);
 	}
 
 	@Override
-	public boolean interact(EntityPlayer player) {
+	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand) {
 		player.openGui(MHFCMain.instance(), MHFCReference.gui_questgiver_id, this.worldObj, subID, 0, 0);
-		return true;
+		return EnumActionResult.SUCCESS;
 	}
 
 	@Override
 	protected void damageEntity(DamageSource source, float p_70665_2_) {
 		// This should avoid taking any damage if the player is not in creative mode
-		if (!(source.getEntity() instanceof EntityPlayer))
+		if (!(source.getEntity() instanceof EntityPlayer)) {
 			return;
+		}
 		EntityPlayer player = (EntityPlayer) source.getEntity();
-		if (!player.capabilities.isCreativeMode)
+		if (!player.capabilities.isCreativeMode) {
 			return;
+		}
 		super.damageEntity(source, p_70665_2_);
 	}
 

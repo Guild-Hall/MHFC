@@ -46,7 +46,7 @@ public class IntProperty extends Property {
 
 	@Override
 	public void updateFrom(NBTBase nbtTag) {
-		value = NBTType.TAG_INT.assureTagType(nbtTag).func_150287_d();
+		value = NBTType.TAG_INT.assureTagType(nbtTag).getInt();
 	}
 
 	@Override

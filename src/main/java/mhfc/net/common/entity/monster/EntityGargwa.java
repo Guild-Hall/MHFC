@@ -14,6 +14,7 @@ import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
 public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
@@ -22,14 +23,13 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 		super(world);
 		this.height = 2f;
 		this.width = 2f;
-//		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
+		//		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 	}
-	
 
 	@Override
 	public IActionManager<EntityGargwa> constructActionManager() {
 		ActionManagerBuilder<EntityGargwa> actionManager = new ActionManagerBuilder<>();
-	//	actionManager.registerAction(new GaguaPeck());
+		//	actionManager.registerAction(new GaguaPeck());
 		actionManager.registerAction(new Idle1());
 		actionManager.registerAction(new Idle2());
 		actionManager.registerAction(new Sleep());
@@ -46,7 +46,7 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(300D));
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(300D));
 	}
 
 	@Override
@@ -62,8 +62,9 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
 		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
 	}
+
 	@Override
-	protected String getLivingSound() {
+	protected SoundEvent getAmbientSound() {
 		return "mhfc:gagua.idle";
 	}
 

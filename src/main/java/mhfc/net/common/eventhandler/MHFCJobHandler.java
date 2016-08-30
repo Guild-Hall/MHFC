@@ -8,12 +8,12 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.atomic.AtomicLong;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
 
 @Deprecated
 public class MHFCJobHandler {
@@ -52,8 +52,8 @@ public class MHFCJobHandler {
 	}
 
 	private BlockingQueue<JobEntry> jobQueue = new PriorityBlockingQueue<>(20);
-	private Collection<DelayedJob> thisTick = new Vector<DelayedJob>();
-	private Collection<DelayedJob> listOfRemoves = new HashSet<DelayedJob>();
+	private Collection<DelayedJob> thisTick = new Vector<>();
+	private Collection<DelayedJob> listOfRemoves = new HashSet<>();
 	private volatile AtomicLong now = new AtomicLong(0);
 	// See http://stackoverflow.com/q/11167566/
 	private Object lock = new Object();

@@ -19,7 +19,7 @@ import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
 
 public abstract class ExplorationAdapter implements IExplorationManager {
 
@@ -68,7 +68,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 	}
 
 	protected void transferIntoNewInstance(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback) {
-		player.addChatMessage(new ChatComponentText("Teleporting to instance when the area is ready"));
+		player.addChatMessage(new TextComponentString("Teleporting to instance when the area is ready"));
 		Objects.requireNonNull(player);
 		Objects.requireNonNull(type);
 		CompletionStage<IActiveArea> unusedInstance = GlobalAreaManager.getInstance()
@@ -83,7 +83,8 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 					MHFCMain.logger().debug("Canceled teleport to area due to cancellation of area");
 				}
 			} catch (Exception exception) {
-				MHFCMain.logger().error("Error during transfer into {}, releasing player from exploration manager", area);
+				MHFCMain.logger()
+						.error("Error during transfer into {}, releasing player from exploration manager", area);
 				MHFCExplorationRegistry.releasePlayer(player);
 				if (area != null) {
 					removeInstance(area);

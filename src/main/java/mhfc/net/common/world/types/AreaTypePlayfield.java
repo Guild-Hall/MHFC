@@ -14,6 +14,7 @@ import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.area.IExtendedConfiguration;
 import mhfc.net.common.world.controller.CornerPosition;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class AreaTypePlayfield implements IAreaType {
@@ -94,7 +95,9 @@ public class AreaTypePlayfield implements IAreaType {
 					for (int j = 0; j < 16 * chunksZ; j++) {
 						int x = configuration.getPosition().posX * 16 + i;
 						int z = configuration.getPosition().posY * 16 + j;
-						world.setBlock(x, 64, z, MHFCBlockRegistry.getRegistry().mhfcblockdirt);
+						world.setBlockState(
+								new BlockPos(x, 64, z),
+								MHFCBlockRegistry.getRegistry().mhfcblockdirt.getDefaultState());
 					}
 				}
 				return null;

@@ -33,16 +33,16 @@ public class DefaultQuestFactory implements IQuestDefinitionFactory {
 
 	@Override
 	public DefaultQuestDescription buildQuestDescription(JsonElement json, JsonDeserializationContext context) {
-		JsonObject jsonAsObject = JsonUtils.getJsonElementAsJsonObject(json, "quest");
+		JsonObject jsonAsObject = JsonUtils.getJsonObject(json, "quest");
 		MHFCJsonUtils.requireFields(jsonAsObject, KEY_GOAL, KEY_REWARD, KEY_FEE, KEY_AREA_ID, KEY_QUEST_TYPE);
 
 		GoalReference goal = context.deserialize(jsonAsObject.get(KEY_GOAL), GoalReference.class);
-		String areaId = JsonUtils.getJsonObjectStringFieldValue(jsonAsObject, KEY_AREA_ID);
+		String areaId = JsonUtils.getString(jsonAsObject, KEY_AREA_ID);
 		IAreaType areaType = AreaRegistry.instance.getType(areaId);
 		if (areaType == null) {
 			throw new NullPointerException("Key " + areaId + " is not a registered area type");
 		}
-		String typeString = JsonUtils.getJsonObjectStringFieldValue(jsonAsObject, KEY_QUEST_TYPE);
+		String typeString = JsonUtils.getString(jsonAsObject, KEY_QUEST_TYPE);
 		String flairString = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonAsObject, KEY_FLAIR, "DAYTIME");
 		QuestType type = QuestType.Hunting;
 		switch (typeString) {
@@ -72,8 +72,8 @@ public class DefaultQuestFactory implements IQuestDefinitionFactory {
 					"[MHFC] Flair {} was not recognized, for allowed values see documentation of MHFCQuestBuildRegistry. Falling back to DAYTIME.",
 					typeString);
 		}
-		int reward = JsonUtils.getJsonObjectIntegerFieldValue(jsonAsObject, KEY_REWARD);
-		int fee = JsonUtils.getJsonObjectIntegerFieldValue(jsonAsObject, KEY_FEE);
+		int reward = JsonUtils.getInt(jsonAsObject, KEY_REWARD);
+		int fee = JsonUtils.getInt(jsonAsObject, KEY_FEE);
 		int maxPartySize = MHFCJsonUtils.getJsonObjectIntegerFieldValueOrDefault(jsonAsObject, KEY_MAX_PARTY_SIZE, 4);
 
 		QuestVisualInformationFactory factory = new QuestVisualInformationFactory()

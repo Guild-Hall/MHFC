@@ -2,23 +2,23 @@ package mhfc.net.common.entity.particle;
 
 import org.lwjgl.util.Color;
 
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import mhfc.net.common.item.ItemColor;
-import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class EntityPaintFX extends EntityFX implements IEntityAdditionalSpawnData {
+public class ParticlePaint extends Particle implements IEntityAdditionalSpawnData {
 
 	private static final int texMin = 160;
 	private static final int texMax = 167;
 
 	private ItemColor color;
 
-	public EntityPaintFX(World worldIn, ItemColor color, double posXIn, double posYIn, double posZIn) {
+	public ParticlePaint(World worldIn, ItemColor color, double posXIn, double posYIn, double posZIn) {
 		super(
 				worldIn,
 				posXIn,
@@ -32,8 +32,9 @@ public class EntityPaintFX extends EntityFX implements IEntityAdditionalSpawnDat
 		this.particleScale = 2.0F;
 		this.color = color;
 
-		if(color == null)
+		if (color == null) {
 			this.color = ItemColor.WHITE;
+		}
 
 		Color floatColor = this.color.getColor();
 		//Note: This says set RBG color, but the order is actually RGB.

@@ -9,8 +9,8 @@ import mhfc.net.common.weapon.melee.hammer.HammerWeaponStats.HammerWeaponStatsBu
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
@@ -43,7 +43,7 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 		}
 		if (holder instanceof EntityPlayer) {
 			EntityPlayer entity = (EntityPlayer) holder;
-			entity.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 100, 3));
+			entity.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 100, 3));
 		}
 	}
 
@@ -52,7 +52,7 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 		if (!isOffCooldown(stack)) {
 			return false;
 		}
-		target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().stun.id, stunDur, 5));
+		target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().stun, stunDur, 5));
 		triggerCooldown(stack);
 		return true;
 	}

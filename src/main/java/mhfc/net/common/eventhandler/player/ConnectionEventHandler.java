@@ -1,15 +1,14 @@
 package mhfc.net.common.eventhandler.player;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import mhfc.net.common.system.UpdateSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.network.play.server.S02PacketChat;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.network.play.server.SPacketChat;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 
 public class ConnectionEventHandler {
 
@@ -35,18 +34,18 @@ public class ConnectionEventHandler {
 			}
 
 			@Override
-			public IChatComponent func_145748_c_() {
-				return new ChatComponentText(getCommandSenderName());
+			public ITextComponent getDisplayName() {
+				return new TextComponentString(getCommandSenderName());
 			}
 
 			@Override
-			public boolean canCommandSenderUseCommand(int a, String b) {
+			public boolean canCommandSenderUseCommand(int commandLevel, String command) {
 				throw new UnsupportedOperationException("No player at this point");
 			}
 
 			@Override
-			public void addChatMessage(IChatComponent chat) {
-				cctse.handler.handleChat(new S02PacketChat(chat));
+			public void addChatMessage(ITextComponent chat) {
+				cctse.getHandler().handleChat(new SPacketChat(chat));
 			}
 		});
 	}

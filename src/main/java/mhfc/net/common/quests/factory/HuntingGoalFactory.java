@@ -24,9 +24,8 @@ public class HuntingGoalFactory implements IGoalDefinitionFactory {
 			throw new JsonParseException(
 					"A hunting goal needs a " + ID_HUNTED_TYPE + " and a " + ID_AMOUNT + " attribute");
 		}
-		String mobID = JsonUtils.getJsonElementStringValue(json.get(ID_HUNTED_TYPE), ID_HUNTED_TYPE);
-		@SuppressWarnings("unchecked")
-		Class<? extends Entity> goalClass = (Class<? extends Entity>) EntityList.stringToClassMapping.get(mobID);
+		String mobID = JsonUtils.getString(json.get(ID_HUNTED_TYPE), ID_HUNTED_TYPE);
+		Class<? extends Entity> goalClass = EntityList.NAME_TO_CLASS.get(mobID);
 		if (goalClass == null) {
 			throw new JsonParseException("The mob identifier " + mobID + " could not be resolved");
 		}
@@ -41,7 +40,7 @@ public class HuntingGoalFactory implements IGoalDefinitionFactory {
 	public JsonObject serialize(GoalDefinition description, JsonSerializationContext context) {
 		HuntingGoalDescription huntingGoal = (HuntingGoalDescription) description;
 		JsonObject holder = new JsonObject();
-		String huntedName = (String) EntityList.classToStringMapping.get(huntingGoal.getHuntedClass());
+		String huntedName = EntityList.CLASS_TO_NAME.get(huntingGoal.getHuntedClass());
 		holder.addProperty(ID_HUNTED_TYPE, huntedName);
 		holder.addProperty(ID_AMOUNT, huntingGoal.getAmount());
 		return holder;

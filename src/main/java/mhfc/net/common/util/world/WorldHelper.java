@@ -2,9 +2,8 @@ package mhfc.net.common.util.world;
 
 import java.util.List;
 
-import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -61,16 +60,15 @@ public class WorldHelper {
 	 *            the entity to which the vector points to
 	 * @return the vector between them
 	 */
-	public static Vec3 getVectorToTarget(Entity entity, Entity target) {
-		// TODO: ?use entity.getPosition() on CLIENT-side?
-		Vec3 pos = getEntityPositionVector(entity);
-		Vec3 entityToTarget = getEntityPositionVector(target);
+	public static Vec3d getVectorToTarget(Entity entity, Entity target) {
+		Vec3d pos = getEntityPositionVector(entity);
+		Vec3d entityToTarget = getEntityPositionVector(target);
 		entityToTarget = pos.subtract(entityToTarget);
 		return entityToTarget;
 	}
 
-	public static Vec3 getEntityPositionVector(Entity entity) {
-		return Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
+	public static Vec3d getEntityPositionVector(Entity entity) {
+		return entity.getPositionVector();
 	}
 
 }

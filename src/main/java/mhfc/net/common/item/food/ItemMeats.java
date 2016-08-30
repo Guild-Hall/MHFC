@@ -10,10 +10,10 @@ import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -26,7 +26,7 @@ public class ItemMeats extends ItemFood {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
-					player.addPotionEffect(new PotionEffect(Potion.jump.id, 250, 3));
+					player.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 250, 3));
 				}
 			}
 		}, //
@@ -34,7 +34,7 @@ public class ItemMeats extends ItemFood {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
-					player.addPotionEffect(new PotionEffect(Potion.resistance.id, 250, 3));
+					player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 250, 3));
 				}
 			}
 		}, //
@@ -42,7 +42,7 @@ public class ItemMeats extends ItemFood {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
-					player.addPotionEffect(new PotionEffect(Potion.poison.id, 180, 2));
+					player.addPotionEffect(new PotionEffect(MobEffects.POISON, 180, 2));
 				}
 			}
 		}, //
@@ -50,7 +50,7 @@ public class ItemMeats extends ItemFood {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
-					player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 400, 2));
+					player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 400, 2));
 				}
 			}
 		}, //
@@ -58,7 +58,7 @@ public class ItemMeats extends ItemFood {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
-					player.addPotionEffect(new PotionEffect(Potion.hunger.id, 400, 2));
+					player.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 400, 2));
 				}
 			}
 		}, //
@@ -66,7 +66,7 @@ public class ItemMeats extends ItemFood {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
-					player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 600, 2));
+					player.addPotionEffect(new PotionEffect(MobEffects.INSTANT_DAMAGE, 600, 2));
 				}
 			}
 		};

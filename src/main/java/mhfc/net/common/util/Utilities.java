@@ -17,23 +17,21 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.pathfinding.PathEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
 public class Utilities {
 	private static Random rand = new Random();
-	
+
 	public static final float mhfc_vanilla_size_x = 0.5F;
 	public static final float mhfc_vanilla_size_y = 0.5F;
-	
+
 	public void addWeaponElementFX(EntityLivingBase entityLiving, ItemStack stack) {
-		
+
 	}
-	
+
 	/**
 	 * For all nearby entities that are attacking the EntityLiving, resets the attack and revenge target
 	 *
@@ -67,7 +65,7 @@ public class Utilities {
 			//chargingEntity.speed = moveSpeed / 2D;
 		}
 	}
-	
+
 	// YES THIS IS usefull for 1.9
 	public static int countPlayers(WorldServer worldObj) {
 		return worldObj.playerEntities.size();
@@ -81,11 +79,9 @@ public class Utilities {
 		}
 	}
 
-
-
 	public static void knockBack(EntityLivingBase attacker, EntityLivingBase entity, float knockback) {
 
-		int knockBackModifier = EnchantmentHelper.getKnockbackModifier(attacker, entity);
+		int knockBackModifier = EnchantmentHelper.getKnockbackModifier(attacker);
 		if (attacker.isSprinting()) {
 			knockBackModifier++;
 		}

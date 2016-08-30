@@ -66,7 +66,7 @@ public class MHFCWorldData extends WorldSavedData {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbtTag) {
+	public NBTTagCompound writeToNBT(NBTTagCompound nbtTag) {
 		NBTTagList list = new NBTTagList();
 		for (AreaInformation conf : spawnedAreas) {
 			String typeS = AreaRegistry.instance.getName(conf.type);
@@ -84,6 +84,7 @@ public class MHFCWorldData extends WorldSavedData {
 		this.rectanglePlacer.saveTo(placerTag);
 		nbtTag.setTag("spawnedAreas", list);
 		nbtTag.setTag("placer", placerTag);
+		return nbtTag;
 	}
 
 	public AreaConfiguration newArea(IAreaType type, AreaConfiguration config) {

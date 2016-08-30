@@ -31,6 +31,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
 public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
@@ -74,7 +75,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(20432D));
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(20432D));
 	}
 
 	@Override
@@ -108,18 +109,18 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	}
 
 	@Override
-	protected String getLivingSound() {
+	protected SoundEvent getAmbientSound() {
 		return "mhfc:tigrex.idle";
 	}
 
 	@Override
-	protected String getHurtSound() {
-		return null;
+	protected SoundEvent getHurtSound() {
+		return "mhfc:tigrex.hurt";
 	}
 
 	@Override
-	public String getDeathSound() {
-		return null;
+	public SoundEvent getDeathSound() {
+		return "mhfc:tigrex.death";
 	}
 
 	@Override

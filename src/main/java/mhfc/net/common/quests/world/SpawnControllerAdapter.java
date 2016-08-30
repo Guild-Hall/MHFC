@@ -20,8 +20,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.IWorldAccess;
 import net.minecraft.world.World;
 
 public abstract class SpawnControllerAdapter implements IQuestAreaSpawnController {
@@ -123,8 +121,9 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		public void onEntityCreate(Entity entity) {
 			Vec3 pos = Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
 			pos = SpawnControllerAdapter.this.worldView.convertToLocal(pos);
-			if (!inArea(pos.xCoord, pos.yCoord, pos.zCoord))
+			if (!inArea(pos.xCoord, pos.yCoord, pos.zCoord)) {
 				return;
+			}
 			SpawnControllerAdapter.this.controlEntity(entity);
 		}
 
@@ -202,8 +201,9 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 	@Override
 	public void defaultSpawnsEnabled(boolean defaultSpawnsEnabled) {
-		if (defaultSpawnsEnabled)
+		if (defaultSpawnsEnabled) {
 			enqueDefaultSpawns();
+		}
 	}
 
 	protected abstract void enqueDefaultSpawns();
@@ -225,6 +225,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		spawnEntity(constructDefaultSpawnInformation(entity));
 	}
 
+	@Override
 	public void spawnEntity(Spawnable entity, double x, double y, double z) {
 		spawnEntity(new SpawnInformation(entity, x, y, z));
 	}
@@ -234,6 +235,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		spawnQueues.add(qu);
 	}
 
+	@Override
 	public void dequeueSpawns(Queue<Spawnable> qu) {
 		spawnQueues.remove(qu);
 	}
@@ -245,10 +247,10 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 	@Override
 	public void setGenerationMaximum(String entityID, int maxAmount) {
-		@SuppressWarnings("unchecked")
-		Class<? extends Entity> clazz = (Class<? extends Entity>) EntityList.stringToClassMapping.get(entityID);
-		if (clazz == null)
+		Class<? extends Entity> clazz = EntityList.NAME_TO_CLASS.get(entityID);
+		if (clazz == null) {
 			return;
+		}
 		setGenerationMaximum(clazz, maxAmount);
 	}
 
@@ -263,16 +265,17 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		return allEntities.stream().filter((e) -> despawnEntity(e)).collect(Collectors.counting()).intValue();
 	}
 
+	@Override
 	public Set<Entity> getControlledEntities() {
 		return Collections.unmodifiableSet(this.managedEntities);
 	}
 
 	@Override
 	public int clearAreaOf(String entityClassID) {
-		@SuppressWarnings("unchecked") // This cast should be safe, EntityList does it itself
-		Class<? extends Entity> clazz = (Class<? extends Entity>) EntityList.stringToClassMapping.get(entityClassID);
-		if (clazz == null)
+		Class<? extends Entity> clazz = EntityList.NAME_TO_CLASS.get(entityClassID);
+		if (clazz == null) {
 			return 0;
+		}
 		List<Entity> allEntities = new ArrayList<>(managedEntities);
 
 		return allEntities.stream().filter((e) -> clazz.isInstance(e)).filter((e) -> despawnEntity(e))
@@ -295,7 +298,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 	/**
 	 * Directly despawns the entity (if it is managed) and removes it from this manager.
-	 * 
+	 *
 	 * @param entity
 	 * @return
 	 */
@@ -308,8 +311,9 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	 * This method should be called by all methods spawning an entity
 	 */
 	protected boolean controlEntity(Entity entity) {
-		if (!managedEntities.add(entity))
+		if (!managedEntities.add(entity)) {
 			return false;
+		}
 
 		Class<? extends Entity> clazz = entity.getClass();
 		Integer count = aliveCount.getOrDefault(clazz, new Integer(0));
@@ -322,8 +326,9 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	 * and maps, not the actual world.
 	 */
 	protected boolean releaseEntity(Entity entity) {
-		if (!managedEntities.remove(entity))
+		if (!managedEntities.remove(entity)) {
 			return false;
+		}
 
 		Class<? extends Entity> clazz = entity.getClass();
 		Integer count = aliveCount.get(clazz);
@@ -337,17 +342,20 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		while (it.hasNext()) {
 			Queue<Spawnable> spawnQ = it.next();
 			Spawnable firstEnt = spawnQ.peek();
-			if (firstEnt == null)
+			if (firstEnt == null) {
 				it.remove();
-			if (spawnIfFreeSlots(firstEnt))
+			}
+			if (spawnIfFreeSlots(firstEnt)) {
 				spawnQ.poll();
+			}
 		}
 	}
 
 	private boolean spawnIfFreeSlots(Spawnable firstEnt) {
 		Entity entity = firstEnt.apply(worldView.getWorldObject());
-		if (aliveCount.getOrDefault(entity.getClass(), 0) >= spawnMaximum.getOrDefault(entity.getClass(), 0))
+		if (aliveCount.getOrDefault(entity.getClass(), 0) >= spawnMaximum.getOrDefault(entity.getClass(), 0)) {
 			return false;
+		}
 		spawnEntity((world) -> entity);
 		return true;
 	}

@@ -16,7 +16,7 @@ public class OverworldManager extends ExplorationAdapter {
 	private OverworldManager() {}
 
 	private void transferPlayerToOverworld(EntityPlayerMP player) {
-		if (player.worldObj.provider.dimensionId == 0) {
+		if (player.getEntityWorld().provider.getDimension() == 0) {
 			return;
 		}
 		AreaTeleportation.movePlayerToOverworld(player);
