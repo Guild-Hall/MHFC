@@ -15,9 +15,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 
 public class AIUtils {
 	/**
@@ -234,7 +235,7 @@ public class AIUtils {
 	 * @return
 	 * @see #lookVecToYawUnsafe(Vec3)
 	 */
-	public static float lookVecToYaw(Vec3 vec) {
+	public static float lookVecToYaw(Vec3d vec) {
 		float unsafeResult = lookVecToYawUnsafe(vec);
 		if (Float.isNaN(unsafeResult)) {
 			throw new IllegalArgumentException("The vector may not have zero length");
@@ -247,7 +248,7 @@ public class AIUtils {
 	 *
 	 * @see #lookVecToYaw(Vec3)
 	 */
-	public static float lookVecToYawUnsafe(Vec3 vec) {
+	public static float lookVecToYawUnsafe(Vec3d vec) {
 		Objects.requireNonNull(vec);
 		if (vec.lengthVector() == 0) {
 			return Float.NaN;
@@ -278,7 +279,7 @@ public class AIUtils {
 	 * @return Float.NaN if look doesn't represent a vector with yaw, the current yaw if target can't be turned to
 	 *         (maybe right above), else the new yaw.
 	 */
-	public static float modifyYaw(Vec3 look, Vec3 target, float maxAbsoluteChange) {
+	public static float modifyYaw(Vec3d look, Vec3d target, float maxAbsoluteChange) {
 		Preconditions.checkArgument(maxAbsoluteChange >= 0, "max change must be greater than 0");
 
 		float yaw = lookVecToYaw(look);
@@ -313,7 +314,7 @@ public class AIUtils {
 	 * Determines if the length of the direction vector lies between the arguments. Both sides of the range are
 	 * inclusive.
 	 */
-	public static boolean isInDistance(Vec3 direction, double minDistance, double maxDistance) {
+	public static boolean isInDistance(Vec3d direction, double minDistance, double maxDistance) {
 		double distance = direction.lengthVector();
 		return distance >= minDistance && distance <= maxDistance;
 	}
@@ -323,13 +324,13 @@ public class AIUtils {
 	 * the actor, positive ones the right.
 	 */
 	public static float getViewingAngle(EntityLiving actor, Entity target) {
-		Vec3 targetVector = WorldHelper.getVectorToTarget(actor, target);
+		Vec3d targetVector = WorldHelper.getVectorToTarget(actor, target);
 		return getViewing(actor, targetVector);
 	}
 
-	public static float getViewingAngle(EntityLiving actor, Vec3 point) {
-		Vec3 pos = WorldHelper.getEntityPositionVector(actor);
-		Vec3 targetVector = pos.subtract(point);
+	public static float getViewingAngle(EntityLiving actor, Vec3d point) {
+		Vec3d pos = WorldHelper.getEntityPositionVector(actor);
+		Vec3d targetVector = pos.subtract(point);
 		return getViewing(actor, targetVector);
 	}
 
@@ -338,8 +339,8 @@ public class AIUtils {
 	 * @param toTarget
 	 * @return the yaw the target is viewed at, or NaN if no such yaw exists.
 	 */
-	private static float getViewing(EntityLiving actor, Vec3 toTarget) {
-		Vec3 lookVector = actor.getLookVec();
+	private static float getViewing(EntityLiving actor, Vec3d toTarget) {
+		Vec3d lookVector = actor.getLookVec();
 		float yaw = lookVecToYawUnsafe(lookVector);
 		if (Float.isNaN(yaw)) {
 			return yaw;
@@ -351,6 +352,7 @@ public class AIUtils {
 		return normalizeAngle(tarYaw - yaw);
 	}
 
+	@SuppressWarnings("deprecation")
 	public static List<AxisAlignedBB> gatherOverlappingBounds(AxisAlignedBB bounds, Entity entity) {
 
 		int minX = (int) Math.floor(bounds.minX), //
@@ -365,8 +367,8 @@ public class AIUtils {
 		for (int xC = minX; xC <= maxX; xC++) {
 			for (int yC = minY; yC <= maxY; yC++) {
 				for (int zC = minZ; zC <= maxZ; zC++) {
-					entity.worldObj.getBlock(xC, yC, zC)
-							.addCollisionBoxesToList(entity.worldObj, xC, yC, zC, bounds, list, entity);
+					BlockPos dizBlock = new BlockPos(xC,yC,zC);
+					entity.worldObj.getBlockState(dizBlock).getBlock().addCollisionBoxToList(entity.worldObj.getBlockState(dizBlock), entity.worldObj, dizBlock, bounds, list, entity);
 				}
 			}
 		}
