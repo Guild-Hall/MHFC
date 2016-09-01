@@ -5,21 +5,21 @@ import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.entity.monster.EntityLagiacrus;
 import mhfc.net.common.util.world.WorldHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public class Sweep extends ActionAdapter<EntityLagiacrus> {
-	
+
 	private static final String set_Animation = "mhfc:models/Lagiacrus/LagiacrusSweep.mcanm";
 	private static final int set_Frame = 90;
 	private static final double set_MaxDistance = 40f;
 	private static final float set_Weight = 8F;
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(115f, 50F, 9999999f);
-	
-	public Sweep()   {
+
+	public Sweep() {
 		this.setAnimation(set_Animation);
 		this.setLastFrame(set_Frame);
 	}
-	
+
 	@Override
 	public float getWeight() {
 		EntityLagiacrus entity = this.getEntity();
@@ -27,7 +27,7 @@ public class Sweep extends ActionAdapter<EntityLagiacrus> {
 		if (target == null) {
 			return DONT_SELECT;
 		}
-		Vec3 toTarget = WorldHelper.getVectorToTarget(entity, target);
+		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
 		double dist = toTarget.lengthVector();
 		if (dist > set_MaxDistance) {
 			return DONT_SELECT;
@@ -54,11 +54,9 @@ public class Sweep extends ActionAdapter<EntityLagiacrus> {
 			entity.moveForward(0.96, true);
 		}
 	}
-	
+
 	private boolean isMoveForwardFrame(int frame) {
 		return (frame > 20 && frame < 80);
 	}
-
-
 
 }

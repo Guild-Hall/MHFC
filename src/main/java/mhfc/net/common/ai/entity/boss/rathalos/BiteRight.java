@@ -5,7 +5,7 @@ import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.util.world.WorldHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public class BiteRight extends ActionAdapter<EntityRathalos> {
 
@@ -31,7 +31,7 @@ public class BiteRight extends ActionAdapter<EntityRathalos> {
 		if (target == null) {
 			return DONT_SELECT;
 		}
-		Vec3 LOOK_TARGET = WorldHelper.getVectorToTarget(entity, target);
+		Vec3d LOOK_TARGET = WorldHelper.getVectorToTarget(entity, target);
 		double distance = LOOK_TARGET.lengthVector();
 		if (distance > TARGET_DISTANCE) {
 			return DONT_SELECT;

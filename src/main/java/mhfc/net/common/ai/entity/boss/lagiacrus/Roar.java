@@ -6,12 +6,13 @@ import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
 import mhfc.net.common.entity.monster.EntityLagiacrus;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.SoundEvent;
 
 public class Roar extends AIGeneralRoar<EntityLagiacrus> {
 
 	private static final String ANIMATION = "mhfc:models/Lagiacrus/LagiacrusRoar.mcanm";
 	private static final int LAST_FRAME = 95;
-	private static final String ROAR_SOUND = "mhfc:lagiacrus.roar";
+	private static final SoundEvent ROAR_SOUND = "mhfc:lagiacrus.roar";
 
 	private static final IWeightProvider<EntityLagiacrus> weight;
 
@@ -61,7 +62,7 @@ public class Roar extends AIGeneralRoar<EntityLagiacrus> {
 	}
 
 	@Override
-	public String getRoarSoundLocation() {
+	public SoundEvent getRoarSoundLocation() {
 		return ROAR_SOUND;
 	}
 }

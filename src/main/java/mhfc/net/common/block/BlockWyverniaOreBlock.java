@@ -13,6 +13,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
 public class BlockWyverniaOreBlock extends Block {
@@ -61,7 +62,7 @@ public class BlockWyverniaOreBlock extends Block {
 	}
 
 	@Override
-	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
+	public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
 		blockTrait.getSubItems(item, list);
 	}
 

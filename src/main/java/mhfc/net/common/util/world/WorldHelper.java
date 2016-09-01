@@ -68,6 +68,7 @@ public class WorldHelper {
 	}
 
 	public static Vec3d getEntityPositionVector(Entity entity) {
+		//FIXME: can deprecate that and just use entity.getPositionVector directly now
 		return entity.getPositionVector();
 	}
 

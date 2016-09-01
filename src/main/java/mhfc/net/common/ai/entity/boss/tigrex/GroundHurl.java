@@ -4,7 +4,7 @@ import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import mhfc.net.common.util.world.WorldHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public class GroundHurl extends ActionAdapter<EntityTigrex> {
 	private static final float MIN_DIST = 3f;
@@ -34,7 +34,7 @@ public class GroundHurl extends ActionAdapter<EntityTigrex> {
 		if (target == null) {
 			return DONT_SELECT;
 		}
-		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
+		Vec3d toTarget = WorldHelper.getVectorToTarget(tigrex, target);
 		if (toTarget.normalize().dotProduct(tigrex.getLookVec()) < MAX_ANGLE) {
 			return DONT_SELECT;
 		}
@@ -71,9 +71,9 @@ public class GroundHurl extends ActionAdapter<EntityTigrex> {
 		if (tigrex.worldObj.isRemote) {
 			return;
 		}
-		Vec3 look = tigrex.getLookVec();
-		Vec3 lookVec = tigrex.getLookVec();
-		Vec3 rightSide = lookVec.crossProduct(Vec3.createVectorHelper(0, 1, 0));
+		Vec3d look = tigrex.getLookVec();
+		Vec3d lookVec = tigrex.getLookVec();
+		Vec3d rightSide = lookVec.crossProduct(new Vec3d(0, 1, 0));
 		for (int i = 0; i < 3; i++) {
 			EntityProjectileBlock block = new EntityProjectileBlock(tigrex.worldObj, tigrex);
 			double xCo = look.xCoord;

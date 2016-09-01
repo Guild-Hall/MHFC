@@ -4,23 +4,22 @@ import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
-import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.util.world.WorldHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
-public class Bite extends ActionAdapter <EntityGreatJaggi> {
-	
+public class Bite extends ActionAdapter<EntityGreatJaggi> {
+
 	private static int ANIM_FRAME = 33;
-	
+
 	private static IDamageCalculator DAMAGE = AIUtils.defaultDamageCalc(95F, 125F, 99999999F);
-	
+
 	private static double TARGET_DISTANCE = 4.2F;
-	
+
 	private static double AIM_ANGLE = 0.155;
-	
+
 	private static float WEIGHT = 15;
-	
-	public Bite()	 {
+
+	public Bite() {
 		setAnimation("mhfc:models/GreatJaggi/GreatJaggiBite.mcanm");
 		setLastFrame(ANIM_FRAME);
 	}
@@ -32,15 +31,15 @@ public class Bite extends ActionAdapter <EntityGreatJaggi> {
 		if (target == null) {
 			return DONT_SELECT;
 		}
-		Vec3 LOOK_TARGET = WorldHelper.getVectorToTarget(entity, target);
+		Vec3d LOOK_TARGET = WorldHelper.getVectorToTarget(entity, target);
 		double distance = LOOK_TARGET.lengthVector();
 		if (distance > TARGET_DISTANCE) {
 			return DONT_SELECT;
 		}
 		if (LOOK_TARGET.normalize().dotProduct(entity.getLookVec()) < AIM_ANGLE) {
-				return DONT_SELECT;
+			return DONT_SELECT;
 		}
-			return WEIGHT;
+		return WEIGHT;
 	}
 
 	@Override
@@ -54,7 +53,7 @@ public class Bite extends ActionAdapter <EntityGreatJaggi> {
 		}
 		AIUtils.damageCollidingEntities(getEntity(), DAMAGE);
 	}
-	
+
 	private boolean isMoveForwardFrame(int frame) {
 		return (frame > 10 && frame < 25);
 	}

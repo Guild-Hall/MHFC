@@ -37,7 +37,8 @@ public class Stomp extends AIAnimatedAction<EntityDeviljho> {
 		if (!entity.onGround || thrown || this.getCurrentFrame() < 26) {
 			return;
 		}
-		List<Entity> list = entity.worldObj.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(10.0D, 1.0D, 10.0D));
+		List<Entity> list = entity.worldObj
+				.getEntitiesWithinAABBExcludingEntity(entity, entity.getEntityBoundingBox().expand(10.0D, 1.0D, 10.0D));
 		AIGameplayComposition.stompCracks(entity, 100);
 		for (Entity entity1 : list) {
 			if (!(entity1 instanceof EntityLivingBase)) {

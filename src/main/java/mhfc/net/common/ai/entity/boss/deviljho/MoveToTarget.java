@@ -6,7 +6,7 @@ import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public class MoveToTarget extends ActionAdapter<EntityDeviljho> {
 	private static final int MOVEMENT_START = 5;
@@ -66,11 +66,11 @@ public class MoveToTarget extends ActionAdapter<EntityDeviljho> {
 			@Override
 			public void update(MoveToTarget attk) {
 				EntityDeviljho monster = attk.getEntity();
-				Vec3 mobPos = Vec3.createVectorHelper(monster.posX, monster.posY, monster.posZ);
-				Vec3 vecToTarget = mobPos.subtract(WorldHelper.getEntityPositionVector(attk.target));
+				Vec3d mobPos = monster.getPositionVector();
+				Vec3d vecToTarget = mobPos.subtract(WorldHelper.getEntityPositionVector(attk.target));
 				monster.getTurnHelper().updateTargetPoint(attk.target);
 				monster.moveForward(RUN_SPEED, true);
-				Vec3 look = monster.getLookVec();
+				Vec3d look = monster.getLookVec();
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
 				boolean ranLongEnough = attk.runStartPoint.subtract(mobPos).lengthVector() > MAX_RUN_DISTANCE
 						|| attk.framesRunning > MAX_RUN_FRAMES;
@@ -142,7 +142,7 @@ public class MoveToTarget extends ActionAdapter<EntityDeviljho> {
 
 	private AttackPhase currentPhase;
 	private PastEntityEnum hasPassed;
-	private Vec3 runStartPoint;
+	private Vec3d runStartPoint;
 	private int framesRunning;
 	@SuppressWarnings("unused")
 	private int runCycles;
@@ -159,7 +159,7 @@ public class MoveToTarget extends ActionAdapter<EntityDeviljho> {
 			return DONT_SELECT;
 		}
 
-		Vec3 toTarget = WorldHelper.getVectorToTarget(monster, target);
+		Vec3d toTarget = WorldHelper.getVectorToTarget(monster, target);
 		double dist = toTarget.lengthVector();
 		if (dist < MAX_DIST) {
 			return DONT_SELECT;
@@ -179,7 +179,7 @@ public class MoveToTarget extends ActionAdapter<EntityDeviljho> {
 		framesRunning = 0;
 
 		currentPhase.onPhaseStart(this);
-		runStartPoint = Vec3.createVectorHelper(mob.posX, mob.posY, mob.posZ);
+		runStartPoint = mob.getPositionVector();
 	}
 
 	@Override

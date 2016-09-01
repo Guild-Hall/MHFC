@@ -6,7 +6,7 @@ import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public class Run extends ActionAdapter<EntityGreatJaggi> {
 	private static final int MOVEMENT_START_LOOP = 10;
@@ -66,11 +66,11 @@ public class Run extends ActionAdapter<EntityGreatJaggi> {
 			@Override
 			public void update(Run attk) {
 				EntityGreatJaggi monster = attk.getEntity();
-				Vec3 entityPos = Vec3.createVectorHelper(monster.posX, monster.posY, monster.posZ);
-				Vec3 vecToTarget = entityPos.subtract(WorldHelper.getEntityPositionVector(attk.target));
+				Vec3d entityPos = monster.getPositionVector();
+				Vec3d vecToTarget = entityPos.subtract(WorldHelper.getEntityPositionVector(attk.target));
 				monster.getTurnHelper().updateTargetPoint(attk.target);
 				monster.moveForward(RUN_SPEED, true);
-				Vec3 look = monster.getLookVec();
+				Vec3d look = monster.getLookVec();
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
 				boolean ranLongEnough = attk.runStartPoint.subtract(entityPos).lengthVector() > MAX_RUN_DISTANCE
 						|| attk.framesRunning > MAX_RUN_FRAMES;
@@ -142,7 +142,7 @@ public class Run extends ActionAdapter<EntityGreatJaggi> {
 
 	private AttackPhase currentPhase;
 	private PastEntityEnum hasPassed;
-	private Vec3 runStartPoint;
+	private Vec3d runStartPoint;
 	private int framesRunning;
 	@SuppressWarnings("unused")
 	private int runCycles;
@@ -159,12 +159,12 @@ public class Run extends ActionAdapter<EntityGreatJaggi> {
 			return DONT_SELECT;
 		}
 
-		Vec3 toTarget = WorldHelper.getVectorToTarget(monster, target);
+		Vec3d toTarget = WorldHelper.getVectorToTarget(monster, target);
 		double dist = toTarget.lengthVector();
 		if (dist < REQUIRED_TARGET_MAX_DIST) {
 			return DONT_SELECT;
 		}
-		return (float) Math.log(dist / 5f + 1); 
+		return (float) Math.log(dist / 5f + 1);
 	}
 
 	@Override
@@ -178,7 +178,7 @@ public class Run extends ActionAdapter<EntityGreatJaggi> {
 		entity.playLivingSound();
 		framesRunning = 0;
 		currentPhase.onPhaseStart(this);
-		runStartPoint = Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
+		runStartPoint = entity.getPositionVector();
 	}
 
 	@Override
@@ -195,22 +195,21 @@ public class Run extends ActionAdapter<EntityGreatJaggi> {
 	}
 
 	@Override
-	public boolean shouldContinue() { 
+	public boolean shouldContinue() {
 		return this.currentPhase != AttackPhase.STOPPED;
 	}
 
 	@Override
-	public void finishExecution() { 
-	}
+	public void finishExecution() {}
 
 	@Override
-	public byte mutexBits() { 
+	public byte mutexBits() {
 		return 1;
 	}
 
 	@Override
-	public int setToNextFrame(int frame) { 
-		return super.setToNextFrame(currentPhase.nextFrame(this, frame)); 
+	public int setToNextFrame(int frame) {
+		return super.setToNextFrame(currentPhase.nextFrame(this, frame));
 	}
 
 }

@@ -10,8 +10,8 @@ import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.pathfinding.PathEntity;
-import net.minecraft.potion.Potion;
+import net.minecraft.init.MobEffects;
+import net.minecraft.pathfinding.Path;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
 
@@ -60,9 +60,11 @@ public class AIGameplayComposition {
 	}
 
 	public static void charge(EntityCreature attacker, EntityLivingBase target, double moveSpeed, boolean inWater) {
-		PathEntity pathentity = target.worldObj
-				.getPathEntityToEntity(attacker, target, 30F, false, false, inWater, true);
-		attacker.setPathToEntity(pathentity);
+		Path pathentity = attacker.getNavigator().getPathToEntityLiving(target);
+		if (pathentity == null) {
+			return;
+		}
+		attacker.getNavigator().setPath(pathentity, moveSpeed);
 	}
 
 	public static void launch(Entity entity, double x, double y, double z) {
@@ -85,8 +87,8 @@ public class AIGameplayComposition {
 		if (target instanceof EntityPlayer && ((EntityPlayer) target).capabilities.isCreativeMode) {
 			return;
 		}
-		target.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 80, 10));
-		target.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 80, 10));
+		target.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 80, 10));
+		target.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 80, 10));
 	}
 
 }

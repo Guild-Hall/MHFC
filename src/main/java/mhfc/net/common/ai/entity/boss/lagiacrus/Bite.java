@@ -5,21 +5,21 @@ import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.entity.monster.EntityLagiacrus;
 import mhfc.net.common.util.world.WorldHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
-public class Bite extends ActionAdapter <EntityLagiacrus> {
-	
+public class Bite extends ActionAdapter<EntityLagiacrus> {
+
 	private static int ANIM_FRAME = 60;
-	
+
 	private static IDamageCalculator DAMAGE = AIUtils.defaultDamageCalc(105F, 125F, 99999999F);
-	
+
 	private static double TARGET_DISTANCE = 8.5F;
-	
+
 	private static double AIM_ANGLE = 0.155;
-	
+
 	private static float WEIGHT = 15;
-	
-	public Bite()	 {
+
+	public Bite() {
 		setAnimation("mhfc:models/Lagiacrus/LagiacrusBite.mcanm");
 		setLastFrame(ANIM_FRAME);
 	}
@@ -31,15 +31,15 @@ public class Bite extends ActionAdapter <EntityLagiacrus> {
 		if (target == null) {
 			return DONT_SELECT;
 		}
-		Vec3 LOOK_TARGET = WorldHelper.getVectorToTarget(entity, target);
+		Vec3d LOOK_TARGET = WorldHelper.getVectorToTarget(entity, target);
 		double distance = LOOK_TARGET.lengthVector();
 		if (distance > TARGET_DISTANCE) {
 			return DONT_SELECT;
 		}
 		if (LOOK_TARGET.normalize().dotProduct(entity.getLookVec()) < AIM_ANGLE) {
-				return DONT_SELECT;
+			return DONT_SELECT;
 		}
-			return WEIGHT;
+		return WEIGHT;
 	}
 
 	@Override
@@ -51,12 +51,12 @@ public class Bite extends ActionAdapter <EntityLagiacrus> {
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			EntityLagiacrus entity = getEntity();
 			entity.moveForward(0.2, false);
-			
+
 		}
 		AIUtils.damageCollidingEntities(getEntity(), DAMAGE);
-		
+
 	}
-	
+
 	private boolean isMoveForwardFrame(int frame) {
 		return (frame > 10 && frame < 25);
 	}

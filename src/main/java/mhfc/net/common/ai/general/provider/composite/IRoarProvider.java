@@ -8,6 +8,7 @@ import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.SoundEvent;
 
 public interface IRoarProvider<EntityT extends EntityMHFCBase<? super EntityT>>
 		extends
@@ -55,7 +56,7 @@ public interface IRoarProvider<EntityT extends EntityMHFCBase<? super EntityT>>
 		}
 
 		@Override
-		public String getRoarSoundLocation() {
+		public SoundEvent getRoarSoundLocation() {
 			return roarSoundProvider.getRoarSoundLocation();
 		}
 

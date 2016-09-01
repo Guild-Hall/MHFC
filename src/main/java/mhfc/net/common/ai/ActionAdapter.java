@@ -12,7 +12,7 @@ import mhfc.net.common.eventhandler.ai.ActionSelectionEvent;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.common.MinecraftForge;
 
 public abstract class ActionAdapter<T extends EntityCreature> implements IExecutableAction<T> {
 	protected static final Random rand = new Random();
@@ -46,7 +46,7 @@ public abstract class ActionAdapter<T extends EntityCreature> implements IExecut
 		recentFrame = -1;
 		dmgHelper.reset();
 		frameAdvancer.reset();
-		FMLCommonHandler.instance().bus().post(new ActionSelectionEvent(this, getEntity()));
+		MinecraftForge.EVENT_BUS.post(new ActionSelectionEvent(this, getEntity()));
 		target = entity.getAttackTarget();
 		beginExecution();
 	}

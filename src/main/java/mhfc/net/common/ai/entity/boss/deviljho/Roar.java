@@ -6,12 +6,13 @@ import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.SoundEvent;
 
 public class Roar extends AIGeneralRoar<EntityDeviljho> {
 
 	private static final String ANIMATION = "mhfc:models/Deviljho/DeviljhoRoar.mcanm";
 	private static final int LAST_FRAME = 70;
-	private static final String ROAR_SOUND = "mhfc:deviljho.roar";
+	private static final SoundEvent ROAR_SOUND = "mhfc:deviljho.roar";
 
 	private static final IWeightProvider<EntityDeviljho> weight;
 
@@ -61,7 +62,7 @@ public class Roar extends AIGeneralRoar<EntityDeviljho> {
 	}
 
 	@Override
-	public String getRoarSoundLocation() {
+	public SoundEvent getRoarSoundLocation() {
 		return ROAR_SOUND;
 	}
 }

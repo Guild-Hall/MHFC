@@ -9,7 +9,7 @@ import mhfc.net.common.entity.monster.EntityNargacuga;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public class Charge extends AIAnimatedAction<EntityNargacuga> {
 
@@ -42,9 +42,10 @@ public class Charge extends AIAnimatedAction<EntityNargacuga> {
 	protected void update() {
 		EntityNargacuga nargacuga = getEntity();
 		EntityLivingBase target = nargacuga.getAttackTarget();
-		if(this.getCurrentFrame() == 5)
-		nargacuga.playSound("narga.charge", 2.0F, 1.0F);
-		Vec3 distanceVec = WorldHelper.getVectorToTarget(nargacuga, target);
+		if (this.getCurrentFrame() == 5) {
+			nargacuga.playSound("narga.charge", 2.0F, 1.0F);
+		}
+		Vec3d distanceVec = WorldHelper.getVectorToTarget(nargacuga, target);
 		if (distanceVec.lengthVector() < MIN_DISTANCE) {
 			frameAdvancer.setLoopActive(false);
 		}

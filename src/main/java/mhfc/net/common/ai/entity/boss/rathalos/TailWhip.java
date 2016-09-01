@@ -7,7 +7,7 @@ import mhfc.net.common.ai.general.actions.AIGeneralTailWhip;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.entity.monster.EntityRathalos;
 import net.minecraft.entity.Entity;
-import net.minecraft.potion.Potion;
+import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 
 public class TailWhip extends AIGeneralTailWhip<EntityRathalos> {
@@ -28,17 +28,17 @@ public class TailWhip extends AIGeneralTailWhip<EntityRathalos> {
 	}
 
 	public TailWhip() {}
-	
-	
+
 	@Override
-	public void update(){
+	public void update() {
 		EntityRathalos entity = getEntity();
-		if(this.getCurrentFrame() == 12)
-		entity.playSound("mhfc:rathalos.tailwhip", 2.0F, 1.0F);
-		
-		if(this.getCurrentFrame() == 20){
-			if(entity.getRNG().nextInt() == 1){
-				target.addPotionEffect(new PotionEffect(Potion.poison.id, 60, 5));
+		if (this.getCurrentFrame() == 12) {
+			entity.playSound("mhfc:rathalos.tailwhip", 2.0F, 1.0F);
+		}
+
+		if (this.getCurrentFrame() == 20) {
+			if (entity.getRNG().nextInt() == 1) {
+				target.addPotionEffect(new PotionEffect(MobEffects.POISON, 60, 5));
 			}
 		}
 	}

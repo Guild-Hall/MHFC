@@ -6,7 +6,7 @@ import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public class Run extends ActionAdapter<EntityTigrex> {
 	private static final int runningStarts = 21;
@@ -65,11 +65,11 @@ public class Run extends ActionAdapter<EntityTigrex> {
 			@Override
 			public void update(Run attk) {
 				EntityTigrex tigrex = attk.getEntity();
-				Vec3 tigPos = WorldHelper.getEntityPositionVector(tigrex);
-				Vec3 vecToTarget = tigPos.subtract(WorldHelper.getEntityPositionVector(attk.target));
+				Vec3d tigPos = WorldHelper.getEntityPositionVector(tigrex);
+				Vec3d vecToTarget = tigPos.subtract(WorldHelper.getEntityPositionVector(attk.target));
 				tigrex.getTurnHelper().updateTargetPoint(attk.target);
 				tigrex.moveForward(RUN_SPEED, true);
-				Vec3 look = tigrex.getLookVec();
+				Vec3d look = tigrex.getLookVec();
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
 				boolean ranLongEnough = attk.runStartPoint.subtract(tigPos).lengthVector() > MAX_RUN_DISTANCE
 						|| attk.framesRunning > MAX_RUN_FRAMES;
@@ -139,7 +139,7 @@ public class Run extends ActionAdapter<EntityTigrex> {
 
 	private AttackPhase currentPhase;
 	private PastEntityEnum hasPassed;
-	private Vec3 runStartPoint;
+	private Vec3d runStartPoint;
 	private int framesRunning;
 	@SuppressWarnings("unused")
 	private int runCycles;
@@ -155,7 +155,7 @@ public class Run extends ActionAdapter<EntityTigrex> {
 		if (target == null) {
 			return DONT_SELECT;
 		}
-		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
+		Vec3d toTarget = WorldHelper.getVectorToTarget(tigrex, target);
 		double dist = toTarget.lengthVector();
 		return (float) Math.log(dist / 5f + 1); // More likely the
 												// further away
@@ -172,7 +172,7 @@ public class Run extends ActionAdapter<EntityTigrex> {
 		framesRunning = 0;
 
 		currentPhase.onPhaseStart(this);
-		runStartPoint = Vec3.createVectorHelper(tig.posX, tig.posY, tig.posZ);
+		runStartPoint = tig.getPositionVector();
 	}
 
 	@Override
@@ -204,8 +204,6 @@ public class Run extends ActionAdapter<EntityTigrex> {
 
 	@Override
 	public int setToNextFrame(int frame) { // For the animation
-		return super.setToNextFrame(currentPhase.nextFrame(this, frame)); // Notify
-																			// the
-																			// adapter
+		return super.setToNextFrame(currentPhase.nextFrame(this, frame));
 	}
 }

@@ -6,12 +6,13 @@ import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
 import mhfc.net.common.entity.monster.EntityBarroth;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.SoundEvent;
 
 public class Roar extends AIGeneralRoar<EntityBarroth> {
 
 	private static final String ANIMATION = "mhfc:models/Barroth/BarrothRoar.mcanm";
 	private static final int LAST_FRAME = 105;
-	private static final String ROAR_SOUND = "mhfc:barroth.roar";
+	private static final SoundEvent ROAR_SOUND = "mhfc:barroth.roar";
 
 	private static final IWeightProvider<EntityBarroth> weight;
 
@@ -61,7 +62,7 @@ public class Roar extends AIGeneralRoar<EntityBarroth> {
 	}
 
 	@Override
-	public String getRoarSoundLocation() {
+	public SoundEvent getRoarSoundLocation() {
 		return ROAR_SOUND;
 	}
 }

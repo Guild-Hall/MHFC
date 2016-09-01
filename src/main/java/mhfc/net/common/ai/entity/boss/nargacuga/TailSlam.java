@@ -6,12 +6,11 @@ import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
 import mhfc.net.common.ai.general.actions.IJumpTimingProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpParamterProvider;
-import mhfc.net.common.ai.general.provider.simple.IJumpParamterProvider.ConstantAirTimeAdapter.ITargetResolver;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 
@@ -35,13 +34,8 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 		damageCalculator = AIUtils.defaultDamageCalc(280, 1000, 888880);
 		jumpParams = new IJumpParamterProvider.ConstantAirTimeAdapter<>(
 				JUMP_TIME,
-				new ITargetResolver<EntityNargacuga>() {
-					@Override
-					public Vec3 getJumpTarget(EntityNargacuga entity) {
-						return entity.getLookVec().addVector(entity.posX, entity.posY, entity.posZ);
-					}
-				});
-		timing = new IJumpTimingProvider.JumpTimingAdapter<EntityNargacuga>(JUMP_FRAME, 0, 0);
+				entity -> entity.getLookVec().addVector(entity.posX, entity.posY, entity.posZ));
+		timing = new IJumpTimingProvider.JumpTimingAdapter<>(JUMP_FRAME, 0, 0);
 	}
 
 	public TailSlam() {}
@@ -57,17 +51,18 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 	@Override
 	public void update() {
 		EntityNargacuga nargacuga = getEntity();
-		if(this.getCurrentFrame() == 10){
+		if (this.getCurrentFrame() == 10) {
 			nargacuga.playSound("mhfc:narga.tailjump", 2.0F, 1.0F);
 		}
-		
-		if (nargacuga.worldObj.isRemote)
+
+		if (nargacuga.worldObj.isRemote) {
 			return;
+		}
 		if (getCurrentFrame() == SPIKE_FRAME) {
-			Vec3 up = Vec3.createVectorHelper(0, 1, 0);
-			Vec3 look = nargacuga.getLookVec();
-			Vec3 left = look.crossProduct(up).normalize();
-			Vec3 relUp = left.crossProduct(look);
+			Vec3d up = new Vec3d(0, 1, 0);
+			Vec3d look = nargacuga.getLookVec();
+			Vec3d left = look.crossProduct(up).normalize();
+			Vec3d relUp = left.crossProduct(look);
 			final int spikeClusters = 4;
 			final int spikesPerCluster = 6;
 			final float offsetScaleBack = 6;

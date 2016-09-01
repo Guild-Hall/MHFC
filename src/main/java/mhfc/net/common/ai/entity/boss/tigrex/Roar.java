@@ -8,7 +8,8 @@ import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.Vec3d;
 
 public class Roar extends AIGeneralRoar<EntityTigrex> {
 
@@ -23,7 +24,7 @@ public class Roar extends AIGeneralRoar<EntityTigrex> {
 		roar = new IRoarSoundProvider.RoarSoundAdapter("mhfc:tigrex.roar");
 	}
 
-	protected Vec3 targetPoint;
+	protected Vec3d targetPoint;
 
 	public Roar() {}
 
@@ -75,7 +76,7 @@ public class Roar extends AIGeneralRoar<EntityTigrex> {
 	}
 
 	@Override
-	public String getRoarSoundLocation() {
+	public SoundEvent getRoarSoundLocation() {
 		return roar.getRoarSoundLocation();
 	}
 }

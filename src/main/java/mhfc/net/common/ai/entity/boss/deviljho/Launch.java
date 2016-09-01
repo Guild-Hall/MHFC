@@ -9,7 +9,7 @@ import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public class Launch extends AIAnimatedAction<EntityDeviljho> {
 	private static final String ANIMATION = "mhfc:models/Deviljho/DeviljhoLaunch.mcanm";
@@ -46,10 +46,10 @@ public class Launch extends AIAnimatedAction<EntityDeviljho> {
 			AIGameplayComposition.launch(entity, 0, 1.4, 0);
 		}
 		if (this.getCurrentFrame() >= 35) {
-			Vec3 look = entity.getLookVec();
-			Vec3 vec_look_var = entity.getLookVec();
+			Vec3d look = entity.getLookVec();
+			Vec3d vec_look_var = entity.getLookVec();
 			// to the right and upward.
-			Vec3 vec_positive_axis = vec_look_var.crossProduct(Vec3.createVectorHelper(0, 1, 0));
+			Vec3d vec_positive_axis = vec_look_var.crossProduct(new Vec3d(0, 1, 0));
 
 			for (int i = 0; i < 5; i++) {
 				EntityProjectileBlock block = new EntityProjectileBlock(entity.worldObj, entity);
