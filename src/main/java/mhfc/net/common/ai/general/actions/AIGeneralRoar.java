@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import mhfc.net.common.ai.entity.AIGameplayComposition;
-import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.provider.composite.IRoarProvider;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;
@@ -18,16 +17,16 @@ public abstract class AIGeneralRoar<EntityT extends EntityMHFCBase<? super Entit
 	private Collection<EntityLivingBase> affectedEntities;
 
 	public AIGeneralRoar() {
-		affectedEntities = new HashSet<EntityLivingBase>();
+		affectedEntities = new HashSet<>();
 	}
 
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
 		affectedEntities.clear();
-		//getEntity().playSound(getRoarSoundLocation(), 2.0F, 1.0F);
+		getEntity().playSound(getRoarSoundLocation(), 2.0F, 1.0F);
 	}
-	
+
 	@Override
 	public float getWeight() {
 		EntityT entity = this.getEntity();
@@ -41,10 +40,9 @@ public abstract class AIGeneralRoar<EntityT extends EntityMHFCBase<? super Entit
 	@Override
 	protected void update() {
 		EntityT roaringEntity = getEntity();
-		@SuppressWarnings("unchecked")
 		List<Entity> list = roaringEntity.worldObj.getEntitiesWithinAABBExcludingEntity(
 				roaringEntity,
-				roaringEntity.getEntityBoundingBox().expand(4.0D, 3.0D, 4.0D));
+				roaringEntity.getCollisionBoundingBox().expand(4.0D, 3.0D, 4.0D));
 
 		for (Entity affectedEntity : list) {
 			if (!affectedEntities.contains(affectedEntity) && affectedEntity instanceof EntityLivingBase) {

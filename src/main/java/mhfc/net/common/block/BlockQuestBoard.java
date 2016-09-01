@@ -21,6 +21,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class BlockQuestBoard extends BlockContainer {
@@ -96,7 +99,7 @@ public class BlockQuestBoard extends BlockContainer {
 
 	@Override
 	public IBlockState onBlockPlaced(
-			World worldIn,
+			World world,
 			BlockPos pos,
 			EnumFacing facing,
 			float hitX,
@@ -104,85 +107,49 @@ public class BlockQuestBoard extends BlockContainer {
 			float hitZ,
 			int meta,
 			EntityLivingBase placer) {
-		// TODO Auto-generated method stub
-		return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
-	}
 
-	@Override
-	public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int meta) {
+		if (world.isRemote) {
+			super.onBlockPlacedBy(world, x, y, z, entity, stack);
+		}
+		Vec3d vecPos = new Vec3d(placer.posX, placer.posY + placer.getEyeHeight(), placer.posZ);
+		float f1 = MathHelper.cos(-placer.rotationYaw * 0.017453292F - (float) Math.PI);
+		float f2 = MathHelper.sin(-placer.rotationYaw * 0.017453292F - (float) Math.PI);
+		float f3 = -MathHelper.cos(-placer.rotationPitch * 0.017453292F);
+		float f4 = MathHelper.sin(-placer.rotationPitch * 0.017453292F);
+		Vec3d look = new Vec3d(f2 * f3 * 160, f4 * 160, f1 * f3 * 160);
+		Vec3d blockVec = new Vec3d(pos);
+		Vec3d lookAim = look.addVector(vecPos.xCoord, vecPos.yCoord, vecPos.zCoord);
+		RayTraceResult movPos = world.rayTraceBlocks(vecPos, lookAim, false, false, true);
+		int side = getOppositeSide(blockVec.subtract(movPos.hitVec), look);
 		if (side > 1) {
 			if (side == 2) {
-				return 0x6;
+				meta = 0x6;
 			}
 			if (side == 3) {
-				return 0x4;
+				meta = 0x4;
 			}
 			if (side == 4) {
-				return 0x5;
+				meta = 0x5;
 			}
 			if (side == 5) {
-				return 0x7;
+				meta = 0x7;
 			}
 		} else {
-			meta = 0;
+			float cosAng = (float) (hitZ / (Math.sqrt(hitX * hitX + hitZ * hitZ)));
+			float angle = (float) (Math.acos(cosAng) / Math.PI * 180);
+			if (hitX > 0) {
+				angle = 360 - angle;
+			}
+			angle += 45;
+			angle %= 360;
+			int metaData = (int) (angle / 90);
+			metaData &= rotationMask;
 			if (side == 0) {
-				meta += upMask;
+				metaData += upMask;
 			}
-			return meta;
+			meta = metaData;
 		}
-		return side;
-	}
-
-	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
-
-		if (!world.isRemote) {
-			Vec3 vecPos = Vec3.createVectorHelper(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
-			float f1 = MathHelper.cos(-entity.rotationYaw * 0.017453292F - (float) Math.PI);
-			float f2 = MathHelper.sin(-entity.rotationYaw * 0.017453292F - (float) Math.PI);
-			float f3 = -MathHelper.cos(-entity.rotationPitch * 0.017453292F);
-			float f4 = MathHelper.sin(-entity.rotationPitch * 0.017453292F);
-			Vec3 look = Vec3.createVectorHelper(f2 * f3 * 160, f4 * 160, f1 * f3 * 160);
-			Vec3 blockVec = Vec3.createVectorHelper(x, y, z);
-			Vec3 lookAim = look.addVector(vecPos.xCoord, vecPos.yCoord, vecPos.zCoord);
-			MovingObjectPosition movPos = world.func_147447_a(vecPos, lookAim, false, false, true);
-			// booleans are: entity must hold boat, require collision box to
-			// collide, return non-blocks
-			int side = getOppositeSide(blockVec.subtract(movPos.hitVec), look);
-			int meta = world.getBlockMetadata(x, y, z);
-			double hitX = look.xCoord;
-			double hitZ = look.zCoord;
-			if (side > 1) {
-				if (side == 2) {
-					meta = 0x6;
-				}
-				if (side == 3) {
-					meta = 0x4;
-				}
-				if (side == 4) {
-					meta = 0x5;
-				}
-				if (side == 5) {
-					meta = 0x7;
-				}
-			} else {
-				float cosAng = (float) (hitZ / (Math.sqrt(hitX * hitX + hitZ * hitZ)));
-				float angle = (float) (Math.acos(cosAng) / Math.PI * 180);
-				if (hitX > 0) {
-					angle = 360 - angle;
-				}
-				angle += 45;
-				angle %= 360;
-				int metaData = (int) (angle / 90);
-				metaData &= rotationMask;
-				if (side == 0) {
-					metaData += upMask;
-				}
-				meta = metaData;
-			}
-			world.setBlockMetadataWithNotify(x, y, z, meta, 3);
-		}
-		super.onBlockPlacedBy(world, x, y, z, entity, stack);
+		return 3;
 	}
 
 	/**
@@ -190,7 +157,7 @@ public class BlockQuestBoard extends BlockContainer {
 	 * block, starting at the hit vector (which is relative to the block).
 	 *
 	 */
-	private int getOppositeSide(Vec3 hitVector, Vec3 lookVector) {
+	private int getOppositeSide(Vec3d hitVector, Vec3d lookVector) {
 		double dX = Math.signum(lookVector.xCoord);
 		double dY = lookVector.yCoord / lookVector.xCoord * dX;
 		double dZ = lookVector.zCoord / lookVector.xCoord * dX;
@@ -217,7 +184,7 @@ public class BlockQuestBoard extends BlockContainer {
 
 	@Override
 	public void addBlockBoundsByState(IBlockState blockState, List<AxisAlignedBB> bounds) {
-		int meta = blockState.a;
+		int meta = blockState.getBlock().getMetaFromState(blockState);
 		boolean boxUpFlag = ((meta & upMask) == upMask) | ((meta & offsetMask) == offsetMask);
 		float maxY = !boxUpFlag ? 0.70f : 1.0f;
 		float minY = !boxUpFlag ? 0 : 0.3f;

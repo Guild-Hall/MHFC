@@ -34,22 +34,23 @@ public class Stomp extends AIAnimatedAction<EntityBarroth> {
 		EntityBarroth entity = this.getEntity();
 		entity.getTurnHelper().updateTargetPoint(target);
 		entity.getTurnHelper().updateTurnSpeed(30.0f);
-		if (!entity.onGround || thrown || this.getCurrentFrame() < 19)
+		if (!entity.onGround || thrown || this.getCurrentFrame() < 19) {
 			return;
-		@SuppressWarnings("unchecked")
-		List<Entity> list = entity.worldObj
-				.getEntitiesWithinAABBExcludingEntity(entity, entity.getEntityBoundingBox().expand(8.0D, 1.0D, 8.0D));
+		}
+		List<Entity> list = entity.worldObj.getEntitiesWithinAABBExcludingEntity(
+				entity,
+				entity.getCollisionBoundingBox().expand(8.0D, 1.0D, 8.0D));
 		AIGameplayComposition.stompCracks(entity, 150);
 		for (Entity entity1 : list) {
 			if (!(entity1 instanceof EntityLivingBase)) {
 				continue;
 			}
-			EntityLivingBase living = (EntityLivingBase) entity;
+			EntityLivingBase living = entity;
 			damageCalc.accept(living);
 			entity1.attackEntityFrom(DamageSource.causeMobDamage(entity), 30f);
 			entity1.addVelocity(0.6D, 0.5D, 0);
 		}
-//		entity.playSound("mhfc:deviljho.stomp", 1.0F, 1.0F);
+		//		entity.playSound("mhfc:deviljho.stomp", 1.0F, 1.0F);
 		thrown = true;
 	}
 
@@ -58,7 +59,6 @@ public class Stomp extends AIAnimatedAction<EntityBarroth> {
 		EntityBarroth entity = this.getEntity();
 		target = entity.getAttackTarget();
 		updateStomp();
-
 
 	}
 
@@ -69,7 +69,6 @@ public class Stomp extends AIAnimatedAction<EntityBarroth> {
 		entity.playSound("mhfc:barroth.headsmash", 2.0F, 1.0F);
 		thrown = false;
 	}
-
 
 	@Override
 	public String getAnimationLocation() {

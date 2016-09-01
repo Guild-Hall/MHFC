@@ -1,17 +1,19 @@
 package mhfc.net.common.ai.general.provider.simple;
 
+import net.minecraft.util.SoundEvent;
+
 public interface IRoarSoundProvider {
-	public String getRoarSoundLocation();
+	public SoundEvent getRoarSoundLocation();
 
 	public static class RoarSoundAdapter implements IRoarSoundProvider {
-		private String soundLocation;
+		private SoundEvent soundLocation;
 
-		public RoarSoundAdapter(String soundLocation) {
+		public RoarSoundAdapter(SoundEvent soundLocation) {
 			this.soundLocation = soundLocation;
 		}
 
 		@Override
-		public String getRoarSoundLocation() {
+		public SoundEvent getRoarSoundLocation() {
 			return soundLocation;
 		}
 

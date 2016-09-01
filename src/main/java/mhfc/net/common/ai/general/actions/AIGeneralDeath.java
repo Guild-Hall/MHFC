@@ -2,27 +2,26 @@ package mhfc.net.common.ai.general.actions;
 
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.entity.type.EntityMHFCBase;
+import net.minecraft.util.SoundEvent;
 
 public abstract class AIGeneralDeath<EntityT extends EntityMHFCBase<? super EntityT>> extends ActionAdapter<EntityT> {
 
 	public static final int deathLingeringTicks = 30 * 15;
-	protected String deathsoundlocation;
+	protected SoundEvent deathsoundlocation;
 
-	public AIGeneralDeath(String dyingLocation, String sound) {
+	public AIGeneralDeath(String dyingLocation, SoundEvent sound) {
 		setAnimation(dyingLocation);
 		deathsoundlocation = sound;
-		
 	}
 
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
-		//getEntity().playSound(deathsoundlocation, 4.0F, 1.0F);
+		getEntity().playSound(deathsoundlocation, 4.0F, 1.0F);
 	}
 
 	@Override
-	protected void update() {
-	}
+	protected void update() {}
 
 	@Override
 	public boolean shouldContinue() {

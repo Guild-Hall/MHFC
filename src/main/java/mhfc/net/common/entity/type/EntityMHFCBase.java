@@ -24,6 +24,9 @@ import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundEvent;
@@ -47,16 +50,16 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		IEntityMultiPart,
 		IAnimatedObject,
 		IManagedActions<YC> {
-	/**
-	 * {@link #getDataWatcher()}
-	 */
-	protected static final int DATA_FRAME = 12;
+	private static final DataParameter<Integer> ANIM_FRAME = EntityDataManager
+			.<Integer>createKey(EntityMHFCBase.class, DataSerializers.VARINT);
 	private final TargetTurnHelper turnHelper;
 	private IActionManager<? extends YC> attackManager;
 
 	private IExecutableAction<? super YC> deathAction;
 	private IExecutableAction<? super YC> inWaterAction;
 	private IExecutableAction<? super YC> stunAction;
+
+	private SoundEvent stunSound;
 
 	public int set_Armor_Value = 22;
 
@@ -156,9 +159,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		int particleCount = (int) (20 * Math.pow(timed, 4));
 		for (int i = 0; i < particleCount; i++) {
 			double randX = rand.nextDouble(), randZ = rand.nextDouble(), randY = rand.nextDouble();
-			randX = randX * (this.getEntityBoundingBox().maxX - getEntityBoundingBox().minX) + getEntityBoundingBox().minX;
+			randX = randX * (this.getEntityBoundingBox().maxX - getEntityBoundingBox().minX)
+					+ getEntityBoundingBox().minX;
 			randZ = randZ * (getEntityBoundingBox().maxZ - getEntityBoundingBox().minZ) + getEntityBoundingBox().minZ;
-			randY = Math.pow(randY, 3) * (getEntityBoundingBox().maxY - getEntityBoundingBox().minY) + getEntityBoundingBox().minY;
+			randY = Math.pow(randY, 3) * (getEntityBoundingBox().maxY - getEntityBoundingBox().minY)
+					+ getEntityBoundingBox().minY;
 			double velX = this.rand.nextGaussian() * 0.01D;
 			double velY = Math.abs(this.rand.nextGaussian() * 0.7D);
 			double velZ = this.rand.nextGaussian() * 0.01D;
@@ -208,7 +213,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		this.dataWatcher.addObject(DATA_FRAME, Integer.valueOf(-1));
+		this.dataManager.register(ANIM_FRAME, Integer.valueOf(-1));
 	}
 
 	public void dropItemRand(ItemStack stack) {
@@ -226,59 +231,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		// This will be a quest data base.
 		return defaultHP;
 	}
-
-	// FIXME: will update location, rotation set algs in 1.8, bc huge changes
-	// inc
-	/**
-	 * Sets the location AND angles of this entity. Custom implementation because we need to be notified when the angles
-	 * of the entity change.<br>
-	 * This is only called once per update-tick
-	 */
-
-	// @Override
-	// public void setLocationAndAngles(double posX, double posY, double posZ,
-	// float yaw, float pitch) {
-	// super.setLocationAndAngles(posX, posY, posZ, yaw, pitch);
-	// this.setRotation(yaw, pitch);
-	// super.setPosition(posX, posY, posZ);
-	// this.setRotation(yaw, pitch);
-	// }
-	/**
-	 * This is a custom implementation of the movement algorithm. It just moves the bounding box by the difference
-	 * between the current and next position. No height or width, just offset the whole box.
-	 */
-	// @Override
-	// public void setPosition(double newPosX, double newPosY, double newPosZ) {
-	// hm, somehow keep the BB the same size
-	// this.posX = newPosX;
-	// this.posY = newPosY;
-	// this.posZ = newPosZ;
-	// double diffX = newPosX - this.posX;
-	// double diffY = newPosY - this.posY;
-	// double diffZ = newPosZ - this.posZ;
-	// this.boundingBox.offset(diffX, diffY, diffZ);
-	// this.offsetEntity(diffX, diffY, diffZ);
-	// }
-	// @Override
-	// protected void setRotation(float newYaw, float newPitch) {
-	// float diffYawDeg = newYaw - this.rotationYaw;
-	// double diffYawRad = diffYawDeg / 180D;
-	// this.rotationYaw = newYaw % 360.0F;
-	// this.rotationPitch = newPitch % 360.0F;
-	// EntityMHFCPart[] parts = this.getParts();
-	// if (parts == null)
-	// return;
-	// for (EntityMHFCPart part : parts) {
-	// double offXPart = part.posX - this.posX;
-	// double offZPart = part.posZ - this.posZ;
-	// part.posX = this.posX
-	// + (Math.cos(diffYawRad) * offXPart - Math.sin(diffYawRad)
-	// * offZPart);
-	// part.posY = this.posY
-	// + (Math.sin(diffYawRad) * offXPart + Math.cos(diffYawRad)
-	// * offZPart);
-	// }
-	// }
 
 	@Override
 	protected boolean canDespawn() {
@@ -298,6 +250,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	 */
 	@Override
 	public void moveEntity(double currOffX, double currOffY, double currOffZ) {
+		// FIXME: most likely incorrect
 		if (this.noClip) {
 			this.offsetEntity(currOffX, currOffY, currOffZ);
 		} else {
@@ -323,36 +276,38 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 				parts = new EntityMHFCPart[0];
 			}
 
+			AxisAlignedBB ourBoundingBox = this.getEntityBoundingBox();
 			List<AxisAlignedBB> bbsInWay = this.worldObj
-					.getCollisionBoxes(this, this.getEntityBoundingBox().addCoord(currOffX, currOffY, currOffZ));
+					.getCollisionBoxes(this, ourBoundingBox.addCoord(currOffX, currOffY, currOffZ));
 			// Calculates the smallest possible offset in Y direction
 			for (AxisAlignedBB bb : bbsInWay) {
-				currOffY = bb.calculateYOffset(this.getEntityBoundingBox(), currOffY);
+				currOffY = bb.calculateYOffset(ourBoundingBox, currOffY);
 			}
 			for (AxisAlignedBB bb : bbsInWay) {
-				currOffX = bb.calculateXOffset(this.getEntityBoundingBox(), currOffX);
+				currOffX = bb.calculateXOffset(ourBoundingBox, currOffX);
 			}
 			for (AxisAlignedBB bb : bbsInWay) {
-				currOffZ = bb.calculateZOffset(this.getEntityBoundingBox(), currOffZ);
+				currOffZ = bb.calculateZOffset(ourBoundingBox, currOffZ);
 			}
 			for (EntityMHFCPart part : parts) {
+				AxisAlignedBB partBoundingBox = part.getEntityBoundingBox();
 				List<AxisAlignedBB> bbsInWayPart = this.worldObj
-						.getCollisionBoxes(this, part.getEntityBoundingBox().addCoord(currOffX, currOffY, currOffZ));
+						.getCollisionBoxes(this, partBoundingBox.addCoord(currOffX, currOffY, currOffZ));
 				// Calculates the smallest possible offset in Y direction
 				for (AxisAlignedBB bb : bbsInWayPart) {
-					currOffY = bb.calculateYOffset(part.getEntityBoundingBox(), currOffY);
+					currOffY = bb.calculateYOffset(partBoundingBox, currOffY);
 				}
 				for (AxisAlignedBB bb : bbsInWayPart) {
-					currOffX = bb.calculateXOffset(part.getEntityBoundingBox(), currOffX);
+					currOffX = bb.calculateXOffset(partBoundingBox, currOffX);
 				}
 				for (AxisAlignedBB bb : bbsInWayPart) {
-					currOffZ = bb.calculateZOffset(part.getEntityBoundingBox(), currOffZ);
+					currOffZ = bb.calculateZOffset(partBoundingBox, currOffZ);
 				}
 			}
 			/** If we will are or will land on something */
 			boolean landed = this.onGround || (correctedOffY != currOffY && correctedOffY < 0.0D);
 
-			if (this.stepHeight > 0.0F && landed && (this.ySize < 0.125F)
+			if (this.stepHeight > 0.0F && landed && (this.height < 0.125F)
 					&& (correctedOffX != currOffX || correctedOffZ != currOffZ)) {
 				double nostepOffX = currOffX;
 				double nostepOffY = currOffY;
@@ -362,45 +317,44 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 				currOffY = this.stepHeight;
 				currOffZ = correctedOffZ;
 
-				List<AxisAlignedBB> bbsInStepup = this.worldObj.getCollisionBoxes(
-						this,
-						this.getEntityBoundingBox().addCoord(correctedOffX, currOffY, correctedOffZ));
+				List<AxisAlignedBB> bbsInStepup = this.worldObj
+						.getCollisionBoxes(this, ourBoundingBox.addCoord(correctedOffX, currOffY, correctedOffZ));
 
 				for (AxisAlignedBB bb : bbsInStepup) {
-					currOffY = bb.calculateYOffset(this.getEntityBoundingBox(), currOffY);
+					currOffY = bb.calculateYOffset(ourBoundingBox, currOffY);
 				}
 				for (AxisAlignedBB bb : bbsInStepup) {
-					currOffX = bb.calculateXOffset(this.getEntityBoundingBox(), currOffX);
+					currOffX = bb.calculateXOffset(ourBoundingBox, currOffX);
 				}
 				for (AxisAlignedBB bb : bbsInStepup) {
-					currOffZ = bb.calculateZOffset(this.getEntityBoundingBox(), currOffZ);
+					currOffZ = bb.calculateZOffset(ourBoundingBox, currOffZ);
 				}
 				for (EntityMHFCPart part : parts) {
+					AxisAlignedBB partBoundingBox = part.getEntityBoundingBox();
 					List<AxisAlignedBB> bbsInStepupPart = this.worldObj
-							.getCollisionBoxes(this, part.getEntityBoundingBox().addCoord(currOffX, currOffY, currOffZ));
+							.getCollisionBoxes(this, partBoundingBox.addCoord(currOffX, currOffY, currOffZ));
 					for (AxisAlignedBB bb : bbsInStepupPart) {
-						currOffY = bb.calculateYOffset(part.getEntityBoundingBox(), currOffY);
+						currOffY = bb.calculateYOffset(partBoundingBox, currOffY);
 					}
 					for (AxisAlignedBB bb : bbsInStepupPart) {
-						currOffX = bb.calculateXOffset(part.getEntityBoundingBox(), currOffX);
+						currOffX = bb.calculateXOffset(partBoundingBox, currOffX);
 					}
 					for (AxisAlignedBB bb : bbsInStepupPart) {
-						currOffZ = bb.calculateZOffset(part.getEntityBoundingBox(), currOffZ);
+						currOffZ = bb.calculateZOffset(partBoundingBox, currOffZ);
 					}
 				}
 
-				double groundOffY = (-this.stepHeight);
+				double groundOffY = -this.stepHeight;
 				for (AxisAlignedBB bb : bbsInStepup) {
-					groundOffY = bb.calculateYOffset(
-							this.getEntityBoundingBox().offset(currOffX, currOffY, currOffZ),
-							groundOffY);
+					groundOffY = bb.calculateYOffset(ourBoundingBox.offset(currOffX, currOffY, currOffZ), groundOffY);
 				}
 				for (EntityMHFCPart part : parts) {
+					AxisAlignedBB partBoundingBox = part.getEntityBoundingBox();
 					List<AxisAlignedBB> bbsInStepDown = this.worldObj
-							.getCollisionBoxes(this, part.getEntityBoundingBox().addCoord(currOffX, currOffY, currOffZ));
+							.getCollisionBoxes(this, partBoundingBox.addCoord(currOffX, currOffY, currOffZ));
 					// Calculates the smallest possible offset in Y direction
 					for (AxisAlignedBB bb : bbsInStepDown) {
-						currOffY = bb.calculateYOffset(part.getEntityBoundingBox(), currOffY);
+						currOffY = bb.calculateYOffset(partBoundingBox, currOffY);
 					}
 				}
 				currOffY += groundOffY;
@@ -417,14 +371,13 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			double originalX = this.posX;
 			double originalY = this.posY;
 			double originalZ = this.posZ;
-			AxisAlignedBB originalBB = this.getEntityBoundingBox().copy();
 			// Handle things like fire, movesounds, etc
 			super.moveEntity(originalOffX, originalOffY, originalOffZ);
 			// Pop the state
 			this.posX = originalX;
 			this.posY = originalY;
 			this.posZ = originalZ;
-			this.getEntityBoundingBox().setMaxY(originalBB);
+			setEntityBoundingBox(ourBoundingBox);
 			// Apply our offset
 			this.offsetEntity(currOffX, currOffY, currOffZ);
 		}
@@ -434,7 +387,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	 * Convenience function, no checks, just offset
 	 */
 	private void offsetEntity(double offX, double offY, double offZ) {
-		this.getEntityBoundingBox().offset(offX, offY, offZ);
+		setEntityBoundingBox(this.getEntityBoundingBox().offset(offX, offY, offZ));
 
 		this.posX += offX;
 		this.posY += offY;
@@ -469,8 +422,12 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		turnHelper.onUpdateTurn();
 	}
 
+	public int getCurrentFrame() {
+		return this.dataManager.get(ANIM_FRAME).intValue();
+	}
+
 	public void setFrame(int newframe) {
-		this.dataWatcher.updateObject(DATA_FRAME, Integer.valueOf(newframe));
+		this.dataManager.set(ANIM_FRAME, Integer.valueOf(newframe));
 	}
 
 	@Override
@@ -482,11 +439,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	@Override
 	public IActionManager<? extends YC> getActionManager() {
 		return attackManager;
-	}
-
-	protected int getCurrentFrame() {
-		// CLEANUP: send only keyframes to reduce server load, assume advanced
-		return this.dataWatcher.getWatchableObjectInt(DATA_FRAME);
 	}
 
 	@Override
@@ -536,12 +488,12 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		boolean jump = false;
 		if (makeStep) {
 			// copy the bounding box
-			AxisAlignedBB bounds = getEntityBoundingBox().getOffsetBoundingBox(0, 0, 0);
+			AxisAlignedBB bounds = getEntityBoundingBox();
 
-			bounds.offset(forwardVector.xCoord, 0, forwardVector.zCoord);
+			bounds = bounds.offset(forwardVector.xCoord, 0, forwardVector.zCoord);
 			List<?> normalPathCollision = AIUtils.gatherOverlappingBounds(bounds, this);
 
-			bounds.offset(0, stepHeight, 0);
+			bounds = bounds.offset(0, stepHeight, 0);
 			List<?> jumpPathCollision = AIUtils.gatherOverlappingBounds(bounds, this);
 
 			if (!normalPathCollision.isEmpty() && jumpPathCollision.isEmpty()) {
@@ -557,13 +509,14 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		setPositionAndUpdate(posX, posY, posZ);
 	}
 
-	public String stunSound;
-
-	protected String setStunnedSound(String sound) {
-		return stunSound = sound;
+	protected void setStunnedSound(SoundEvent sound) {
+		stunSound = Objects.requireNonNull(sound);
 	}
 
 	public void playStunnedSound() {
+		if (stunSound == null) {
+			return;
+		}
 		this.playSound(stunSound, 2.0F, 1.0F);
 	}
 }
