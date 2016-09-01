@@ -13,7 +13,7 @@ import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public abstract class AIGeneralWander<EntityT extends EntityMHFCBase<? super EntityT>>
 		extends
@@ -38,8 +38,8 @@ public abstract class AIGeneralWander<EntityT extends EntityMHFCBase<? super Ent
 		private int wanderDistance;
 
 		protected EntityT actor;
-		protected Vec3 startingPosition;
-		protected Vec3 waypoint;
+		protected Vec3d startingPosition;
+		protected Vec3d waypoint;
 		protected float acceptedDistance;
 
 		@Override
@@ -50,13 +50,13 @@ public abstract class AIGeneralWander<EntityT extends EntityMHFCBase<? super Ent
 		}
 
 		@Override
-		public Vec3 getCurrentWaypoint() {
+		public Vec3d getCurrentWaypoint() {
 			return waypoint;
 		}
 
 		@Override
 		public boolean hasWaypointReached() {
-			Vec3 position = WorldHelper.getEntityPositionVector(actor);
+			Vec3d position = WorldHelper.getEntityPositionVector(actor);
 			if (waypoint.subtract(position).lengthVector() < acceptedDistance) {
 				return true;
 			} else {
@@ -71,12 +71,12 @@ public abstract class AIGeneralWander<EntityT extends EntityMHFCBase<? super Ent
 			waypoint = generateNewRandomPoint();
 		}
 
-		private Vec3 generateNewRandomPoint() {
+		private Vec3d generateNewRandomPoint() {
 			int randomAddX = random.nextInt(wanderDistance) - wanderDistance / 2;
 			int randomAddZ = random.nextInt(wanderDistance) - wanderDistance / 2;
 			int randomX = (int) (startingPosition.xCoord + randomAddX);
 			int randomZ = (int) (startingPosition.zCoord + randomAddZ);
-			return Vec3.createVectorHelper(randomX, startingPosition.yCoord, randomZ);
+			return new Vec3d(randomX, startingPosition.yCoord, randomZ);
 		}
 	}
 
@@ -108,7 +108,7 @@ public abstract class AIGeneralWander<EntityT extends EntityMHFCBase<? super Ent
 	}
 
 	@Override
-	public Vec3 getCurrentWaypoint() {
+	public Vec3d getCurrentWaypoint() {
 		return turnThenMoveAdapter.getCurrentWaypoint();
 	}
 

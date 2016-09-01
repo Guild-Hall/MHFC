@@ -24,7 +24,7 @@ public class EntityMHFCPart extends EntityDragonPart {
 	 * @return
 	 */
 	protected final void offsetEntity(double offX, double offY, double offZ) {
-		this.boundingBox.offset(offX, offY, offZ);
+		this.getEntityBoundingBox().offset(offX, offY, offZ);
 		this.posX += offX;
 		this.posY += offY;
 		this.posZ += offZ;

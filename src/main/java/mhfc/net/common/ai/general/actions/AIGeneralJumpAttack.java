@@ -2,7 +2,7 @@ package mhfc.net.common.ai.general.actions;
 
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.entity.type.EntityMHFCBase;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public abstract class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super EntityT>>
 		extends
@@ -18,15 +18,15 @@ public abstract class AIGeneralJumpAttack<EntityT extends EntityMHFCBase<? super
 		getEntity().getTurnHelper().updateTurnSpeed(getTurnRate(getEntity(), 0));
 	}
 
-	protected Vec3 getJumpVector(Vec3 lookVector) {
-		return Vec3.createVectorHelper(lookVector.xCoord, 0, lookVector.zCoord);
+	protected Vec3d getJumpVector(Vec3d lookVector) {
+		return new Vec3d(lookVector.xCoord, 0, lookVector.zCoord);
 	}
 
 	@Override
 	public void update() {
 
 		EntityT entity = getEntity();
-		Vec3 forward = getJumpVector(entity).normalize();
+		Vec3d forward = getJumpVector(entity).normalize();
 		int frame = getCurrentFrame();
 		float turnRate = getTurnRate(entity, frame);
 		if (turnRate > 0) {

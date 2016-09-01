@@ -6,7 +6,7 @@ import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.entity.monster.EntityBarroth;
 import mhfc.net.common.util.world.WorldHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 
 public class RamRun extends ActionAdapter<EntityBarroth> {
@@ -33,7 +33,7 @@ public class RamRun extends ActionAdapter<EntityBarroth> {
 		if (target == null) {
 			return DONT_SELECT;
 		}
-		Vec3 toTarget = WorldHelper.getVectorToTarget(entity, target);
+		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
 		double dist = toTarget.lengthVector();
 		if (dist > MAX_DIST) {
 			return DONT_SELECT;

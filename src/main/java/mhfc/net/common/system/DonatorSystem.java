@@ -1,6 +1,7 @@
 package mhfc.net.common.system;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.ITextComponent;
 
 public class DonatorSystem {
 	private static final Privilege dragoon = new Privilege() {
@@ -36,9 +37,9 @@ public class DonatorSystem {
 	private static String[] kirinSdonor = { "requillias", "PCAwesomeness", "Schmidmix", "Heltrato" };
 	private static String[] Stbionicdonor = { "TheDemoPikachu", "PCAwesomeness", "Heltrato" };
 
-	private static boolean playerInList(String name, String[] array) {
+	private static boolean playerInList(ITextComponent iTextComponent, String[] array) {
 		for (String element : array) {
-			if (element.equals(name)) {
+			if (element.equals(iTextComponent)) {
 				return true;
 			}
 		}

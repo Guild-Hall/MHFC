@@ -156,13 +156,13 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		int particleCount = (int) (20 * Math.pow(timed, 4));
 		for (int i = 0; i < particleCount; i++) {
 			double randX = rand.nextDouble(), randZ = rand.nextDouble(), randY = rand.nextDouble();
-			randX = randX * (boundingBox.maxX - boundingBox.minX) + boundingBox.minX;
-			randZ = randZ * (boundingBox.maxZ - boundingBox.minZ) + boundingBox.minZ;
-			randY = Math.pow(randY, 3) * (boundingBox.maxY - boundingBox.minY) + boundingBox.minY;
+			randX = randX * (this.getEntityBoundingBox().maxX - getEntityBoundingBox().minX) + getEntityBoundingBox().minX;
+			randZ = randZ * (getEntityBoundingBox().maxZ - getEntityBoundingBox().minZ) + getEntityBoundingBox().minZ;
+			randY = Math.pow(randY, 3) * (getEntityBoundingBox().maxY - getEntityBoundingBox().minY) + getEntityBoundingBox().minY;
 			double velX = this.rand.nextGaussian() * 0.01D;
 			double velY = Math.abs(this.rand.nextGaussian() * 0.7D);
 			double velZ = this.rand.nextGaussian() * 0.01D;
-			worldObj.spawnParticle("depthsuspend", randX, randY, randZ, velX, velY, velZ);
+			worldObj.spawnParticle(EnumParticleTypes.SUSPENDED_DEPTH, randX, randY, randZ, velX, velY, velZ);
 		}
 	}
 
@@ -174,8 +174,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		}
 		for (int i = 0; i < 20; i++) {
 			double randX = rand.nextDouble(), randZ = rand.nextDouble(), randY = rand.nextGaussian();
-			randX = randX * (boundingBox.maxX - boundingBox.minX) + boundingBox.minX;
-			randZ = randZ * (boundingBox.maxZ - boundingBox.minZ) + boundingBox.minZ;
+			randX = randX * (getEntityBoundingBox().maxX - getEntityBoundingBox().minX) + getEntityBoundingBox().minX;
+			randZ = randZ * (getEntityBoundingBox().maxZ - getEntityBoundingBox().minZ) + getEntityBoundingBox().minZ;
 			randY += posY;
 			double velX = this.rand.nextGaussian() * 0.01D;
 			double velY = Math.abs(this.rand.nextGaussian() * 0.2D);
@@ -324,29 +324,29 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			}
 
 			List<AxisAlignedBB> bbsInWay = this.worldObj
-					.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(currOffX, currOffY, currOffZ));
+					.getCollisionBoxes(this, this.getEntityBoundingBox().addCoord(currOffX, currOffY, currOffZ));
 			// Calculates the smallest possible offset in Y direction
 			for (AxisAlignedBB bb : bbsInWay) {
-				currOffY = bb.calculateYOffset(this.boundingBox, currOffY);
+				currOffY = bb.calculateYOffset(this.getEntityBoundingBox(), currOffY);
 			}
 			for (AxisAlignedBB bb : bbsInWay) {
-				currOffX = bb.calculateXOffset(this.boundingBox, currOffX);
+				currOffX = bb.calculateXOffset(this.getEntityBoundingBox(), currOffX);
 			}
 			for (AxisAlignedBB bb : bbsInWay) {
-				currOffZ = bb.calculateZOffset(this.boundingBox, currOffZ);
+				currOffZ = bb.calculateZOffset(this.getEntityBoundingBox(), currOffZ);
 			}
 			for (EntityMHFCPart part : parts) {
 				List<AxisAlignedBB> bbsInWayPart = this.worldObj
-						.getCollidingBoundingBoxes(this, part.boundingBox.addCoord(currOffX, currOffY, currOffZ));
+						.getCollisionBoxes(this, part.getEntityBoundingBox().addCoord(currOffX, currOffY, currOffZ));
 				// Calculates the smallest possible offset in Y direction
 				for (AxisAlignedBB bb : bbsInWayPart) {
-					currOffY = bb.calculateYOffset(part.boundingBox, currOffY);
+					currOffY = bb.calculateYOffset(part.getEntityBoundingBox(), currOffY);
 				}
 				for (AxisAlignedBB bb : bbsInWayPart) {
-					currOffX = bb.calculateXOffset(part.boundingBox, currOffX);
+					currOffX = bb.calculateXOffset(part.getEntityBoundingBox(), currOffX);
 				}
 				for (AxisAlignedBB bb : bbsInWayPart) {
-					currOffZ = bb.calculateZOffset(part.boundingBox, currOffZ);
+					currOffZ = bb.calculateZOffset(part.getEntityBoundingBox(), currOffZ);
 				}
 			}
 			/** If we will are or will land on something */
@@ -362,45 +362,45 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 				currOffY = this.stepHeight;
 				currOffZ = correctedOffZ;
 
-				List<AxisAlignedBB> bbsInStepup = this.worldObj.getCollidingBoundingBoxes(
+				List<AxisAlignedBB> bbsInStepup = this.worldObj.getCollisionBoxes(
 						this,
-						this.boundingBox.addCoord(correctedOffX, currOffY, correctedOffZ));
+						this.getEntityBoundingBox().addCoord(correctedOffX, currOffY, correctedOffZ));
 
 				for (AxisAlignedBB bb : bbsInStepup) {
-					currOffY = bb.calculateYOffset(this.boundingBox, currOffY);
+					currOffY = bb.calculateYOffset(this.getEntityBoundingBox(), currOffY);
 				}
 				for (AxisAlignedBB bb : bbsInStepup) {
-					currOffX = bb.calculateXOffset(this.boundingBox, currOffX);
+					currOffX = bb.calculateXOffset(this.getEntityBoundingBox(), currOffX);
 				}
 				for (AxisAlignedBB bb : bbsInStepup) {
-					currOffZ = bb.calculateZOffset(this.boundingBox, currOffZ);
+					currOffZ = bb.calculateZOffset(this.getEntityBoundingBox(), currOffZ);
 				}
 				for (EntityMHFCPart part : parts) {
 					List<AxisAlignedBB> bbsInStepupPart = this.worldObj
-							.getCollidingBoundingBoxes(this, part.boundingBox.addCoord(currOffX, currOffY, currOffZ));
+							.getCollisionBoxes(this, part.getEntityBoundingBox().addCoord(currOffX, currOffY, currOffZ));
 					for (AxisAlignedBB bb : bbsInStepupPart) {
-						currOffY = bb.calculateYOffset(part.boundingBox, currOffY);
+						currOffY = bb.calculateYOffset(part.getEntityBoundingBox(), currOffY);
 					}
 					for (AxisAlignedBB bb : bbsInStepupPart) {
-						currOffX = bb.calculateXOffset(part.boundingBox, currOffX);
+						currOffX = bb.calculateXOffset(part.getEntityBoundingBox(), currOffX);
 					}
 					for (AxisAlignedBB bb : bbsInStepupPart) {
-						currOffZ = bb.calculateZOffset(part.boundingBox, currOffZ);
+						currOffZ = bb.calculateZOffset(part.getEntityBoundingBox(), currOffZ);
 					}
 				}
 
 				double groundOffY = (-this.stepHeight);
 				for (AxisAlignedBB bb : bbsInStepup) {
 					groundOffY = bb.calculateYOffset(
-							this.boundingBox.getOffsetBoundingBox(currOffX, currOffY, currOffZ),
+							this.getEntityBoundingBox().offset(currOffX, currOffY, currOffZ),
 							groundOffY);
 				}
 				for (EntityMHFCPart part : parts) {
 					List<AxisAlignedBB> bbsInStepDown = this.worldObj
-							.getCollidingBoundingBoxes(this, part.boundingBox.addCoord(currOffX, currOffY, currOffZ));
+							.getCollisionBoxes(this, part.getEntityBoundingBox().addCoord(currOffX, currOffY, currOffZ));
 					// Calculates the smallest possible offset in Y direction
 					for (AxisAlignedBB bb : bbsInStepDown) {
-						currOffY = bb.calculateYOffset(part.boundingBox, currOffY);
+						currOffY = bb.calculateYOffset(part.getEntityBoundingBox(), currOffY);
 					}
 				}
 				currOffY += groundOffY;
@@ -417,14 +417,14 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			double originalX = this.posX;
 			double originalY = this.posY;
 			double originalZ = this.posZ;
-			AxisAlignedBB originalBB = this.boundingBox.copy();
+			AxisAlignedBB originalBB = this.getEntityBoundingBox().copy();
 			// Handle things like fire, movesounds, etc
 			super.moveEntity(originalOffX, originalOffY, originalOffZ);
 			// Pop the state
 			this.posX = originalX;
 			this.posY = originalY;
 			this.posZ = originalZ;
-			this.boundingBox.setBB(originalBB);
+			this.getEntityBoundingBox().setMaxY(originalBB);
 			// Apply our offset
 			this.offsetEntity(currOffX, currOffY, currOffZ);
 		}
@@ -434,7 +434,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	 * Convenience function, no checks, just offset
 	 */
 	private void offsetEntity(double offX, double offY, double offZ) {
-		this.boundingBox.offset(offX, offY, offZ);
+		this.getEntityBoundingBox().offset(offX, offY, offZ);
 
 		this.posX += offX;
 		this.posY += offY;
@@ -536,7 +536,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		boolean jump = false;
 		if (makeStep) {
 			// copy the bounding box
-			AxisAlignedBB bounds = boundingBox.getOffsetBoundingBox(0, 0, 0);
+			AxisAlignedBB bounds = getEntityBoundingBox().getOffsetBoundingBox(0, 0, 0);
 
 			bounds.offset(forwardVector.xCoord, 0, forwardVector.zCoord);
 			List<?> normalPathCollision = AIUtils.gatherOverlappingBounds(bounds, this);

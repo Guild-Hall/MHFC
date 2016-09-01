@@ -4,6 +4,7 @@ import mhfc.net.common.util.Attributes;
 import mhfc.net.common.weapon.melee.PerceptionHelper;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -38,7 +39,7 @@ public class CombatEventHandler {
 
 		IAttributeInstance attribute = e.player.getEntityAttribute(Attributes.WEAPON_REACH);
 		double reach = attribute.getAttributeValue();
-		MovingObjectPosition mov = PerceptionHelper.getMouseOver(0, (float) reach);
+		RayTraceResult mov = PerceptionHelper.getMouseOver(0, (float) reach);
 
 		if (mov != null && mov.entityHit != null && mov.entityHit != e.player && mov.entityHit.hurtResistantTime == 0) {
 			FMLClientHandler.instance().getClient().playerController.attackEntity(e.player, mov.entityHit);

@@ -6,13 +6,13 @@ import java.util.Random;
 import com.github.worldsender.mcanm.common.CommonLoader;
 import com.github.worldsender.mcanm.common.animation.IAnimation;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import mhfc.net.common.ai.general.AIUtils.DamageCalculatorHelper;
 import mhfc.net.common.ai.general.IFrameAdvancer;
 import mhfc.net.common.eventhandler.ai.ActionSelectionEvent;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public abstract class ActionAdapter<T extends EntityCreature> implements IExecutableAction<T> {
 	protected static final Random rand = new Random();

@@ -17,7 +17,7 @@ public abstract class AIGeneralDeath<EntityT extends EntityMHFCBase<? super Enti
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
-		getEntity().playSound(deathsoundlocation, 4.0F, 1.0F);
+		//getEntity().playSound(deathsoundlocation, 4.0F, 1.0F);
 	}
 
 	@Override

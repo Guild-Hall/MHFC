@@ -38,7 +38,7 @@ public class Stomp extends AIAnimatedAction<EntityBarroth> {
 			return;
 		@SuppressWarnings("unchecked")
 		List<Entity> list = entity.worldObj
-				.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(8.0D, 1.0D, 8.0D));
+				.getEntitiesWithinAABBExcludingEntity(entity, entity.getEntityBoundingBox().expand(8.0D, 1.0D, 8.0D));
 		AIGameplayComposition.stompCracks(entity, 150);
 		for (Entity entity1 : list) {
 			if (!(entity1 instanceof EntityLivingBase)) {

@@ -2,7 +2,7 @@ package mhfc.net.common.ai.general.actions;
 
 import mhfc.net.common.ai.general.provider.composite.MovementActionProvider;
 import mhfc.net.common.entity.type.EntityMHFCBase;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public abstract class AIGeneralMovement<EntityT extends EntityMHFCBase<? super EntityT>>
 		extends
@@ -22,7 +22,7 @@ public abstract class AIGeneralMovement<EntityT extends EntityMHFCBase<? super E
 		if (hasWaypointReached()) {
 			onWaypointReached();
 		} else {
-			Vec3 checkPoint = getCurrentWaypoint();
+			Vec3d checkPoint = getCurrentWaypoint();
 			actor.getTurnHelper().updateTurnSpeed(getTurnRate());
 			actor.getTurnHelper().updateTargetPoint(checkPoint);
 			actor.moveForward(getMoveSpeed(), true);

@@ -7,7 +7,7 @@ import java.util.Objects;
 
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public interface IPathProvider<EntityT extends EntityLiving> {
 
@@ -16,7 +16,7 @@ public interface IPathProvider<EntityT extends EntityLiving> {
 	 */
 	public void initialize(EntityT actor);
 
-	public Vec3 getCurrentWaypoint();
+	public Vec3d getCurrentWaypoint();
 
 	public boolean hasWaypointReached();
 
@@ -27,11 +27,11 @@ public interface IPathProvider<EntityT extends EntityLiving> {
 		public static final double DEFAULT_MAX_DISTANCE = 0.25f;
 
 		private EntityT actor;
-		protected List<Vec3> path;
+		protected List<Vec3d> path;
 		protected int currentIndex;
 		protected double maxDistance;
 
-		public PathListAdapter(List<Vec3> path, double allowedDistance) {
+		public PathListAdapter(List<Vec3d> path, double allowedDistance) {
 			Objects.requireNonNull(path);
 			this.path = new ArrayList<>(path.size());
 			this.path.addAll(path);
@@ -39,18 +39,18 @@ public interface IPathProvider<EntityT extends EntityLiving> {
 			this.maxDistance = allowedDistance;
 		}
 
-		public PathListAdapter(List<Vec3> path) {
+		public PathListAdapter(List<Vec3d> path) {
 			this(path, DEFAULT_MAX_DISTANCE);
 		}
 
-		public PathListAdapter(Vec3 nodes[], double allowedDistance) {
+		public PathListAdapter(Vec3d nodes[], double allowedDistance) {
 			Objects.requireNonNull(nodes);
 			path = Arrays.asList(nodes);
 			this.currentIndex = 0;
 			this.maxDistance = allowedDistance;
 		}
 
-		public PathListAdapter(Vec3 nodes[]) {
+		public PathListAdapter(Vec3d nodes[]) {
 			this(nodes, DEFAULT_MAX_DISTANCE);
 		}
 
@@ -61,7 +61,7 @@ public interface IPathProvider<EntityT extends EntityLiving> {
 		}
 
 		@Override
-		public Vec3 getCurrentWaypoint() {
+		public Vec3d getCurrentWaypoint() {
 			if (currentIndex < path.size())
 				return path.get(currentIndex);
 			else
@@ -70,7 +70,7 @@ public interface IPathProvider<EntityT extends EntityLiving> {
 
 		@Override
 		public boolean hasWaypointReached() {
-			Vec3 position = WorldHelper.getEntityPositionVector(actor);
+			Vec3d position = WorldHelper.getEntityPositionVector(actor);
 			return position.subtract(getCurrentWaypoint()).lengthVector() < maxDistance;
 		}
 
@@ -83,19 +83,19 @@ public interface IPathProvider<EntityT extends EntityLiving> {
 
 	public static class PathCircleAdapter<EntityT extends EntityLiving> extends PathListAdapter<EntityT> {
 
-		public PathCircleAdapter(List<Vec3> path, double allowedDistance) {
+		public PathCircleAdapter(List<Vec3d> path, double allowedDistance) {
 			super(path, allowedDistance);
 		}
 
-		public PathCircleAdapter(List<Vec3> path) {
+		public PathCircleAdapter(List<Vec3d> path) {
 			super(path);
 		}
 
-		public PathCircleAdapter(Vec3[] nodes, double allowedDistance) {
+		public PathCircleAdapter(Vec3d[] nodes, double allowedDistance) {
 			super(nodes, allowedDistance);
 		}
 
-		public PathCircleAdapter(Vec3[] nodes) {
+		public PathCircleAdapter(Vec3d[] nodes) {
 			super(nodes);
 		}
 

@@ -5,12 +5,12 @@ import java.util.Objects;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public class TargetTurnHelper {
 
 	private EntityMHFCBase<?> entity;
-	private Vec3 targetPoint;
+	private Vec3d targetPoint;
 	private float maxTurnSpeed;
 	private boolean isUpdating;
 
@@ -21,12 +21,12 @@ public class TargetTurnHelper {
 	/**
 	 * Sets the target point for turns to the position given by the vector
 	 */
-	public void updateTargetPoint(Vec3 vector) {
+	public void updateTargetPoint(Vec3d vector) {
 		if (vector == null) {
 			return;
 		}
 		isUpdating = true;
-		this.targetPoint = vector.addVector(0, 0, 0);
+		this.targetPoint = vector;
 	}
 
 	/**
@@ -34,7 +34,7 @@ public class TargetTurnHelper {
 	 */
 	public void updateTargetPoint(double x, double y, double z) {
 		isUpdating = true;
-		this.targetPoint = Vec3.createVectorHelper(x, y, z);
+		this.targetPoint = new Vec3d(x, y, z);
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class TargetTurnHelper {
 			return;
 		}
 		isUpdating = true;
-		this.targetPoint = Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
+		this.targetPoint = new Vec3d(entity.posX, entity.posY, entity.posZ);
 	}
 
 	/**
@@ -78,8 +78,8 @@ public class TargetTurnHelper {
 		if (targetPoint == null) {
 			return;
 		}
-		Vec3 entityPos = WorldHelper.getEntityPositionVector(entity);
-		Vec3 vecToTarget = entityPos.subtract(targetPoint);
+		Vec3d entityPos = WorldHelper.getEntityPositionVector(entity);
+		Vec3d vecToTarget = entityPos.subtract(targetPoint);
 		float newYaw = AIUtils.modifyYaw(entity.getLookVec(), vecToTarget.normalize(), maxTurnSpeed);
 		if (!Float.isNaN(newYaw)) {
 			entity.rotationYaw = newYaw;

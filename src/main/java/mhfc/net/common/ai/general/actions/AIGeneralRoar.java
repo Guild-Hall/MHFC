@@ -25,7 +25,7 @@ public abstract class AIGeneralRoar<EntityT extends EntityMHFCBase<? super Entit
 	public void beginExecution() {
 		super.beginExecution();
 		affectedEntities.clear();
-		getEntity().playSound(getRoarSoundLocation(), 2.0F, 1.0F);
+		//getEntity().playSound(getRoarSoundLocation(), 2.0F, 1.0F);
 	}
 	
 	@Override
@@ -44,7 +44,7 @@ public abstract class AIGeneralRoar<EntityT extends EntityMHFCBase<? super Entit
 		@SuppressWarnings("unchecked")
 		List<Entity> list = roaringEntity.worldObj.getEntitiesWithinAABBExcludingEntity(
 				roaringEntity,
-				roaringEntity.boundingBox.expand(4.0D, 3.0D, 4.0D));
+				roaringEntity.getEntityBoundingBox().expand(4.0D, 3.0D, 4.0D));
 
 		for (Entity affectedEntity : list) {
 			if (!affectedEntities.contains(affectedEntity) && affectedEntity instanceof EntityLivingBase) {

@@ -4,7 +4,7 @@ import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public class TurnAttack extends ActionAdapter<EntityMHFCBase<?>> {
 
@@ -20,7 +20,7 @@ public class TurnAttack extends ActionAdapter<EntityMHFCBase<?>> {
 		this.setLastFrame(turnTime);
 	}
 
-	protected boolean isValidTarget(Vec3 toTarget, Vec3 look) {
+	protected boolean isValidTarget(Vec3d toTarget, Vec3d look) {
 		toTarget = toTarget.normalize();
 		double dot = toTarget.dotProduct(look);
 		return dot < minAngleCos && dot > maxAngleCos;
@@ -32,8 +32,8 @@ public class TurnAttack extends ActionAdapter<EntityMHFCBase<?>> {
 		EntityLivingBase target = entity.getAttackTarget();
 		if (target == null)
 			return DONT_SELECT;
-		Vec3 vec = WorldHelper.getVectorToTarget(entity, target);
-		Vec3 look = entity.getLookVec();
+		Vec3d vec = WorldHelper.getVectorToTarget(entity, target);
+		Vec3d look = entity.getLookVec();
 		return isValidTarget(vec, look) ? weight : DONT_SELECT;
 	}
 

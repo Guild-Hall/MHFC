@@ -6,13 +6,13 @@ import java.util.Objects;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 
-	public default Vec3 getJumpVector(EntityT entity) {
-		Vec3 lookVector = entity.getLookVec();
-		return Vec3.createVectorHelper(lookVector.xCoord, 0, lookVector.zCoord);
+	public default Vec3d getJumpVector(EntityT entity) {
+		Vec3d lookVector = entity.getLookVec();
+		return new Vec3d(lookVector.xCoord, 0, lookVector.zCoord);
 	}
 
 	/**
@@ -35,7 +35,7 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 	public static class ConstantAirTimeAdapter<EntityT extends EntityLiving> implements IJumpParamterProvider<EntityT> {
 
 		public static interface ITargetResolver<EntityT extends EntityLiving> {
-			Vec3 getJumpTarget(EntityT entity);
+			Vec3d getJumpTarget(EntityT entity);
 		}
 
 		public static final float GRAVITATIONAL_C_LIVING = 0.08f; // blocks per
@@ -55,15 +55,15 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 
 		@Override
 		public float getInitialUpVelocity(EntityT entity) {
-			Vec3 target = Objects.requireNonNull(targetResolver.getJumpTarget(entity));
+			Vec3d target = Objects.requireNonNull(targetResolver.getJumpTarget(entity));
 			float velocity = (float) (target.yCoord - entity.posY) / airTime + GRAVITATIONAL_C_LIVING * airTime / 2;
 			return velocity;
 		}
 
 		@Override
 		public float getForwardVelocity(EntityT entity) {
-			Vec3 target = Objects.requireNonNull(targetResolver.getJumpTarget(entity));
-			Vec3 position = WorldHelper.getEntityPositionVector(entity);
+			Vec3d target = Objects.requireNonNull(targetResolver.getJumpTarget(entity));
+			Vec3d position = WorldHelper.getEntityPositionVector(entity);
 			float distance = (float) position.distanceTo(target);
 			// CLEANUP why does a multiplication with 3 work so well here??
 			// It should be v = s/t just straight up, not v = s/t*3.....
@@ -86,20 +86,20 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 
 		private static class ConstPointResolver<EntityT extends EntityLiving> implements ITargetResolver<EntityT> {
 
-			private Vec3 targetPoint;
+			private Vec3d targetPoint;
 
-			public ConstPointResolver(Vec3 target) {
+			public ConstPointResolver(Vec3d target) {
 				this.targetPoint = target;
 			}
 
 			@Override
-			public Vec3 getJumpTarget(EntityT entity) {
+			public Vec3d getJumpTarget(EntityT entity) {
 				return this.targetPoint;
 			}
 
 		}
 
-		public AttackPointAdapter(float jumpTimeInTicks, Vec3 targetPoint) {
+		public AttackPointAdapter(float jumpTimeInTicks, Vec3d targetPoint) {
 			super(jumpTimeInTicks, new ConstPointResolver<EntityT>(targetPoint));
 		}
 
@@ -114,9 +114,9 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 		public AttackTargetAdapter(float jumpTimeInTicks) {
 			super(jumpTimeInTicks, new ITargetResolver<EntityT>() {
 				@Override
-				public Vec3 getJumpTarget(EntityLiving entity) {
+				public Vec3d getJumpTarget(EntityLiving entity) {
 					EntityLivingBase attackTarget = entity.getAttackTarget();
-					Vec3 target;
+					Vec3d target;
 					if (attackTarget != null) {
 						target = WorldHelper.getEntityPositionVector(attackTarget);
 					} else {

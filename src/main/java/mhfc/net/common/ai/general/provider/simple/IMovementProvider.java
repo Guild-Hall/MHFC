@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import mhfc.net.common.ai.general.AIUtils;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public interface IMovementProvider<EntityT extends EntityLiving>
 		extends
@@ -34,7 +34,7 @@ public interface IMovementProvider<EntityT extends EntityLiving>
 		}
 
 		@Override
-		public Vec3 getCurrentWaypoint() {
+		public Vec3d getCurrentWaypoint() {
 			return underlyingPathProvider.getCurrentWaypoint();
 		}
 
@@ -55,7 +55,7 @@ public interface IMovementProvider<EntityT extends EntityLiving>
 
 		@Override
 		public float getMoveSpeed() {
-			Vec3 waypoint = getCurrentWaypoint();
+			Vec3d waypoint = getCurrentWaypoint();
 			float angle = AIUtils.getViewingAngle(actor, waypoint);
 			if (Math.abs(angle) <= maxAngle) {
 				return moveParameterProvider.getMoveSpeed();

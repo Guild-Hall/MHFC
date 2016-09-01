@@ -10,7 +10,7 @@ import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public interface MovementActionProvider<EntityT extends EntityMHFCBase<? super EntityT>>
 		extends
@@ -81,7 +81,7 @@ public interface MovementActionProvider<EntityT extends EntityMHFCBase<? super E
 		}
 
 		@Override
-		public Vec3 getCurrentWaypoint() {
+		public Vec3d getCurrentWaypoint() {
 			return movementProvider.getCurrentWaypoint();
 		}
 
