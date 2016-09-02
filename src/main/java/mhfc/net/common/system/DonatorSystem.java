@@ -4,32 +4,32 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.ITextComponent;
 
 public class DonatorSystem {
-	private static final Privilege dragoon = new Privilege() {
+	public static final Privilege dragoon = new Privilege() {
 		@Override
 		public void load() {}
 
 		@Override
 		public boolean hasPrivilege(EntityPlayer player) {
-			return playerInList(player.getDisplayName(), dragoondonor);
+			return player != null && playerInList(player.getDisplayName(), dragoondonor);
 		}
 	};
-	private static final Privilege kirinS = new Privilege() {
+	public static final Privilege kirinS = new Privilege() {
 		@Override
 		public void load() {}
 
 		@Override
 		public boolean hasPrivilege(EntityPlayer player) {
-			return playerInList(player.getDisplayName(), kirinSdonor);
+			return player != null && playerInList(player.getDisplayName(), kirinSdonor);
 		}
 	};
 
-	private static final Privilege bionic = new Privilege() {
+	public static final Privilege bionic = new Privilege() {
 		@Override
 		public void load() {}
 
 		@Override
 		public boolean hasPrivilege(EntityPlayer player) {
-			return playerInList(player.getDisplayName(), Stbionicdonor);
+			return player != null && playerInList(player.getDisplayName(), Stbionicdonor);
 		}
 	};
 	// FIXME: replace with Player UUIDs
@@ -46,24 +46,10 @@ public class DonatorSystem {
 		return false;
 	}
 
-	public static boolean checkDragoon(EntityPlayer player) {
-		if (player == null) {
-			return false;
-		}
-		return dragoon.hasPrivilege(player);
-	}
-
 	public static boolean checkKirinS(EntityPlayer player) {
 		if (player == null) {
 			return false;
 		}
 		return kirinS.hasPrivilege(player);
-	}
-
-	public static boolean checkbioNic(EntityPlayer player) {
-		if (player == null) {
-			return false;
-		}
-		return bionic.hasPrivilege(player);
 	}
 }

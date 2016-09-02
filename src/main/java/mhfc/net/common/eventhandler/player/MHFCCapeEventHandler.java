@@ -40,7 +40,7 @@ public class MHFCCapeEventHandler {
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
-	public void onPreRenderSpecials(RenderPlayerEvent.Specials.Pre event) {
+	public void onPreRenderSpecials(RenderPlayerEvent.Pre event) {
 		if (!(event.getEntityPlayer() instanceof AbstractClientPlayer)) {
 			return;
 		}
@@ -56,7 +56,7 @@ public class MHFCCapeEventHandler {
 			capePlayers.add(abstractClientPlayer);
 
 			new Thread(new CloakThread(abstractClientPlayer, cloakURL)).start();
-			event.setRenderCape(true);
+			//FIXME: event.getRenderer().addLayer(/* Layer */);
 		}
 	}
 
