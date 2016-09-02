@@ -1,5 +1,6 @@
 package mhfc.net.common.core.registry;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.block.BlockDiscstone;
 import mhfc.net.common.block.BlockIceCrystal;
 import mhfc.net.common.block.BlockLosGable;
@@ -31,38 +32,42 @@ import mhfc.net.common.item.block.ItemBlockWyverniaOres;
 import mhfc.net.common.item.block.ItemBlockWyverniaPlank;
 import mhfc.net.common.item.block.ItemBlockWyverniaRock;
 import mhfc.net.common.item.block.ItemBlockWyverniaWood;
+import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class MHFCBlockRegistry {
+	public static void staticInit() {}
+
+	private static final IServiceKey<MHFCBlockRegistry> serviceAccess = RegistryWrapper
+			.registerService("block registry", MHFCBlockRegistry::new, MHFCMain.initPhase);
 
 	// private static Item item;
 	// private static ItemBlockIngot ingot;
-	public static final Block mhfcblockoreblocks;
-	public static final Block mhfcblockore;
+	public final Block mhfcblockoreblocks;
+	public final Block mhfcblockore;
 
-	public static final Block mhfcblocklosgable;
-	public static final Block mhfcblockhunterbench;
-	public static final Block mhfcblockstuntrap;
-	public static final Block mhfcblockdirt;
-	public static final Block mhfcblockgrass;
-	public static final Block mhfcblockstone;
-	public static final Block mhfcblockdiskstone;
-	public static final Block mhfcblockicecrystal;
-	public static final Block mhfcblockclay;
-	public static final Block mhfcblocksand;
-	public static final Block mhfcblockflowers;
-	public static final Block mhfcblockbbqspit;
-	public static final Block mhfcblockplanks;
-	public static final Block mhfcblockrocks;
-	public static final Block mhfcblockquicksand;
-	public static final Block mhfcblockwood;
-	public static final Block mhfcblockquestboard;
-	public static final Block mhfcblockrespawn;
-	public static final Block mhfcblockexplorearea;
+	public final Block mhfcblocklosgable;
+	public final Block mhfcblockhunterbench;
+	public final Block mhfcblockstuntrap;
+	public final Block mhfcblockdirt;
+	public final Block mhfcblockgrass;
+	public final Block mhfcblockstone;
+	public final Block mhfcblockdiskstone;
+	public final Block mhfcblockicecrystal;
+	public final Block mhfcblockclay;
+	public final Block mhfcblocksand;
+	public final Block mhfcblockflowers;
+	public final Block mhfcblockbbqspit;
+	public final Block mhfcblockplanks;
+	public final Block mhfcblockrocks;
+	public final Block mhfcblockquicksand;
+	public final Block mhfcblockwood;
+	public final Block mhfcblockquestboard;
+	public final Block mhfcblockrespawn;
+	public final Block mhfcblockexplorearea;
 
-	static {
+	private MHFCBlockRegistry() {
 		// Initialize Blocks
 		mhfcblocklosgable = registerBlock(new BlockLosGable());
 		mhfcblockdirt = registerBlock(new BlockWyverniaDirt());
@@ -86,24 +91,19 @@ public class MHFCBlockRegistry {
 		mhfcblockquestboard = registerBlockWithItem(new BlockQuestBoard(), ItemBlockQuestBoard.class);
 		mhfcblockrespawn = registerBlock(new BlockRespawn());
 		mhfcblockexplorearea = registerBlock(new BlockExploreArea());
+
+		MHFCMain.logger().info("Blocks registered");
 	}
 
-	public static void init() {}
-
-	private static Block registerBlock(Block block) {
+	private Block registerBlock(Block block) {
 		return registerBlock(block, block.getUnlocalizedName());
 	}
 
-	private static Block registerBlock(Block block, String name) {
-		return GameRegistry.registerBlock(block, name);
+	private Block registerBlock(Block block, String name) {
+		return GameRegistry.register(block.setRegistryName(name));
 	}
 
-	private static Block registerBlockWithItem(Block block, Class<? extends ItemBlock> itemBlockClass) {
-		return registerBlockWithItem(block, itemBlockClass, block.getUnlocalizedName());
+	public static MHFCBlockRegistry getRegistry() {
+		return serviceAccess.getService();
 	}
-
-	private static Block registerBlockWithItem(Block block, Class<? extends ItemBlock> itemBlockClass, String name) {
-		return GameRegistry.registerBlock(block, itemBlockClass, name);
-	}
-
 }

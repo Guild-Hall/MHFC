@@ -34,19 +34,14 @@ public class CommandTpHunterDimension extends CommandBase {
 		@Override
 		public void placeInPortal(Entity entity, float rotationYaw) {
 			BlockPos worldSpawn = entity.worldObj.getSpawnPoint();
-			BlockPos spawnAt = teleportPoints.getOrDefault(entity, worldSpawn);
+			BlockPos.MutableBlockPos spawnAt = new BlockPos.MutableBlockPos(
+					teleportPoints.getOrDefault(entity, worldSpawn));
 
 			entity.moveToBlockPosAndAngles(spawnAt, rotationYaw, 0.0F);
-			AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
-					entity.posX,
-					entity.posY,
-					entity.posZ,
-					entity.posX + 1,
-					entity.posY + entity.height,
-					entity.posZ + 1);
+			AxisAlignedBB bb = entity.getEntityBoundingBox();
 			if (entity.worldObj.checkBlockCollision(bb)) {
-				spawnAt.yCoord = entity.worldObj.getTopSolidOrLiquidBlock((int) spawnAt.xCoord, (int) spawnAt.zCoord);
-				entity.setLocationAndAngles(spawnAt.xCoord, spawnAt.yCoord, spawnAt.zCoord, rotationYaw, 0.0F);
+				spawnAt.setY(entity.worldObj.getTopSolidOrLiquidBlock(spawnAt).getY());
+				entity.setPositionAndRotation(spawnAt.getX(), spawnAt.getY(), spawnAt.getZ(), rotationYaw, 0.0F);
 			}
 			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
 		}

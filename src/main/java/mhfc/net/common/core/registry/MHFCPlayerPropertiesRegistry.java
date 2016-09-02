@@ -21,12 +21,12 @@ public class MHFCPlayerPropertiesRegistry {
 
 		@SubscribeEvent
 		public void onClonePlayer(PlayerEvent.Clone cloning) {
-			if (!isValidPlayerEntity(cloning.entityPlayer)) {
+			if (!isValidPlayerEntity(cloning.getEntityPlayer())) {
 				return;
 			}
-			if (cloning.wasDeath) {
-				EntityPlayer original = cloning.original;
-				EntityPlayer target = cloning.entityPlayer;
+			if (cloning.isWasDeath()) {
+				EntityPlayer original = cloning.getOriginal();
+				EntityPlayer target = cloning.getEntityPlayer();
 				PlayerProperties originalProperties = MHFCPlayerPropertiesRegistry.getPlayerProperties(original);
 				PlayerProperties targetProperties = MHFCPlayerPropertiesRegistry.getPlayerProperties(target);
 				targetProperties.cloneProperties(originalProperties);
@@ -35,10 +35,10 @@ public class MHFCPlayerPropertiesRegistry {
 
 		@SubscribeEvent
 		public void onCreatePlayerEntity(EntityConstructing constructing) {
-			if (!isValidPlayerEntity(constructing.entity)) {
+			if (!isValidPlayerEntity(constructing.getEntity())) {
 				return;
 			}
-			EntityPlayer player = (EntityPlayer) constructing.entity;
+			EntityPlayer player = (EntityPlayer) constructing.getEntity();
 			player.registerExtendedProperties(propertyKey, new PlayerProperties());
 		}
 	}

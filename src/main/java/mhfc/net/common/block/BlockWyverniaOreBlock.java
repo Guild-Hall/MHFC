@@ -50,7 +50,7 @@ public class BlockWyverniaOreBlock extends Block {
 	private final SubTypedItem<Block, WyverniaOreBlockSubType> blockTrait;
 
 	public BlockWyverniaOreBlock() {
-		super(Material.rock);
+		super(Material.ROCK);
 		blockTrait = new SubTypedItem<>(WyverniaOreBlockSubType.class);
 		setBlockName(MHFCReference.block_oreblock_basename);
 		setCreativeTab(MHFCMain.mhfctabs);

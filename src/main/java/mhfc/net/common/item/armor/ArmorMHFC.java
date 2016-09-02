@@ -53,55 +53,48 @@ public class ArmorMHFC extends ItemArmor implements ISpecialArmor {
 	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
 
 	}
-	
-	public static void pleaseWork(ItemStack itemstack, ItemStack itemstack1, EntityPlayer clientPlayer, ModelBiped modelplayer){
+
+	public static void pleaseWork(
+			ItemStack itemstack,
+			ItemStack itemstack1,
+			EntityPlayer clientPlayer,
+			ModelBiped modelplayer) {
 		ModelBiped.ArmPose modelbiped$armpose = ModelBiped.ArmPose.EMPTY;
 		ModelBiped.ArmPose modelbiped$armpose1 = ModelBiped.ArmPose.EMPTY;
-	if (itemstack != null)
-	{
-		modelbiped$armpose = ModelBiped.ArmPose.ITEM;
+		if (itemstack != null) {
+			modelbiped$armpose = ModelBiped.ArmPose.ITEM;
 
-		if (clientPlayer.getItemInUseCount() > 0)
-		{
-			EnumAction enumaction = itemstack.getItemUseAction();
+			if (clientPlayer.getItemInUseCount() > 0) {
+				EnumAction enumaction = itemstack.getItemUseAction();
 
-			if (enumaction == EnumAction.BLOCK)
-			{
-				modelbiped$armpose = ModelBiped.ArmPose.BLOCK;
-			}
-			else if (enumaction == EnumAction.BOW)
-			{
-				modelbiped$armpose = ModelBiped.ArmPose.BOW_AND_ARROW;
+				if (enumaction == EnumAction.BLOCK) {
+					modelbiped$armpose = ModelBiped.ArmPose.BLOCK;
+				} else if (enumaction == EnumAction.BOW) {
+					modelbiped$armpose = ModelBiped.ArmPose.BOW_AND_ARROW;
+				}
 			}
 		}
-	}
 
-	if (itemstack1 != null)
-	{
-		modelbiped$armpose1 = ModelBiped.ArmPose.ITEM;
+		if (itemstack1 != null) {
+			modelbiped$armpose1 = ModelBiped.ArmPose.ITEM;
 
-		if (clientPlayer.getItemInUseCount() > 0)
-		{
-			EnumAction enumaction1 = itemstack1.getItemUseAction();
+			if (clientPlayer.getItemInUseCount() > 0) {
+				EnumAction enumaction1 = itemstack1.getItemUseAction();
 
-			if (enumaction1 == EnumAction.BLOCK)
-			{
-				modelbiped$armpose1 = ModelBiped.ArmPose.BLOCK;
+				if (enumaction1 == EnumAction.BLOCK) {
+					modelbiped$armpose1 = ModelBiped.ArmPose.BLOCK;
+				}
 			}
 		}
-	}
 
-	if (clientPlayer.getPrimaryHand() == EnumHandSide.RIGHT)
-	{
-		modelplayer.rightArmPose = modelbiped$armpose;
-		modelplayer.leftArmPose = modelbiped$armpose1;
+		if (clientPlayer.getPrimaryHand() == EnumHandSide.RIGHT) {
+			modelplayer.rightArmPose = modelbiped$armpose;
+			modelplayer.leftArmPose = modelbiped$armpose1;
+		} else {
+			modelplayer.rightArmPose = modelbiped$armpose1;
+			modelplayer.leftArmPose = modelbiped$armpose;
+		}
 	}
-	else
-	{
-		modelplayer.rightArmPose = modelbiped$armpose1;
-		modelplayer.leftArmPose = modelbiped$armpose;
-	}
-}
 
 	public void displayInstancesStack(EntityLivingBase entity, int stack, int entID, DamageSource source) {
 		//WIP for armors.. display in the description how much the armor can absords lethal damage from mobs..
