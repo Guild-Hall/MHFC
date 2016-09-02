@@ -12,6 +12,7 @@ import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ContainerHunterBench extends Container {
@@ -109,10 +110,9 @@ public class ContainerHunterBench extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
-		return this.worldObj
-				.getBlock(this.posX, this.posY, this.posZ) != MHFCBlockRegistry.getRegistry().mhfcblockhunterbench
-						? false
-						: par1EntityPlayer.getDistanceSq(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D) <= 64.0D;
+		return this.worldObj.getBlockState(new BlockPos(this.posX, this.posY, this.posZ)).getBlock() != MHFCBlockRegistry.mhfcblockhunterbench
+				? false
+				: par1EntityPlayer.getDistanceSq(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D) <= 64.0D;
 	}
 
 	@Override
@@ -121,10 +121,10 @@ public class ContainerHunterBench extends Container {
 
 		if (!this.worldObj.isRemote) {
 			for (int i = 0; i < 15; ++i) {
-				ItemStack itemstack = this.craftMatrix.getStackInSlotOnClosing(i);
+				ItemStack itemstack = this.craftMatrix.getStackInSlot(i);
 
 				if (itemstack != null) {
-					par1EntityPlayer.dropPlayerItemWithRandomChoice(itemstack, false);
+					par1EntityPlayer.dropItem(itemstack, false);
 				}
 			}
 		}
@@ -174,7 +174,7 @@ public class ContainerHunterBench extends Container {
 	}
 
 	@Override
-	public boolean func_94530_a(ItemStack par1ItemStack, Slot par2Slot) {
-		return par2Slot.inventory != this.craftResult && super.func_94530_a(par1ItemStack, par2Slot);
+	public boolean canMergeSlot(ItemStack par1ItemStack, Slot par2Slot) {
+		return par2Slot.inventory != this.craftResult && super.canMergeSlot(par1ItemStack, par2Slot);
 	}
 }

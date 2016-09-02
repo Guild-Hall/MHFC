@@ -26,28 +26,16 @@ public class AbstractSubTypedItem<T extends Enum<T> & SubTypeEnum<Item>> extends
 		return false;
 	}
 
-	@Override
-	public IIcon getIconFromDamage(int meta) {
-		return itemPerk.getIcons()[meta];
-	}
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack) {
 		return super.getUnlocalizedName(itemStack) + "." + itemPerk.getSubType(itemStack).getName();
 	}
 
-	@Override
-	public void registerIcons(IIconRegister iconRegister) {
-		itemPerk.registerIcons(iconRegister);
-	}
 
 	@Override
 	public void getSubItems(Item base, CreativeTabs tab, List list) {
 		itemPerk.getSubItems(base, list);
 	}
 
-	@Override
-	public int getColorFromItemStack(ItemStack stack, int renderLayer) {
-		return itemPerk.getSubType(stack).getColor().getRGB();
-	}
 }

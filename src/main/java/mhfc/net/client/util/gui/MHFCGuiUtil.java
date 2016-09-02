@@ -2,18 +2,13 @@ package mhfc.net.client.util.gui;
 
 import static org.lwjgl.opengl.GL11.glColor4f;
 
-import java.util.List;
-import java.util.Objects;
-
-import com.google.common.base.Preconditions;
-
 import mhfc.net.MHFCMain;
-import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.StatCollector;
+import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 
 public class MHFCGuiUtil {
 
@@ -58,130 +53,10 @@ public class MHFCGuiUtil {
 		if (mc == null) {
 			throw new IllegalArgumentException("Gui utils may only be accessed with valid minecraft");
 		}
-		s = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-	}
-
-	/**
-	 * Draws the content of the view according to the following rules:<br>
-	 * A '\n' character represents a line break. A '\f' represents a page break.<br>
-	 * page decides which page to render. When page refers to an illegal page, nothing is rendered.<br>
-	 * scrolledHeight refers to the portion of text that is skipped by rendering. Every line break will add one
-	 * lineheight of height to the text. Every line that is not fully in view will not be rendered.<br>
-	 * width refers to the maximal width of the rendered text. A linebreak is inserted before a word if the line would
-	 * be longer than width if it were rendered.<br>
-	 * height sets the height of text that is being render after scrolledHeight has been skipped.<br>
-	 * color is the color of the text to render with.
-	 *
-	 * @param view
-	 *            the view to render
-	 * @param buffer
-	 *            the buffer to use to store strings (to keep memory profile small)
-	 * @param pageNbr
-	 *            the page to render, see 'page break'
-	 * @param scrolledHeight
-	 *            the skipped height, that is not rendered
-	 * @param width
-	 *            the width to render the page with
-	 * @param height
-	 *            the height to render
-	 * @param lineHeight
-	 *            the height of one line
-	 * @param posX
-	 *            the pos to render at
-	 * @param posY
-	 *            the pos to render at
-	 * @param color
-	 *            the color to render the text with
-	 * @param fRend
-	 *            the font renderer to render with
-	 */
-	public static void drawViewable(
-			Viewable view,
-			StringBuilder buffer,
-			int pageNbr,
-			int scrolledHeight,
-			int width,
-			int height,
-			int posX,
-			int posY,
-			int lineHeight,
-			int color,
-			FontRenderer fRend) {
-		Preconditions.checkArgument(width >= 0, "width must be positive");
-		Preconditions.checkArgument(height >= 0, "height must be positive");
-		if (pageNbr < 0) {
-			return;
-		}
-		buffer.setLength(0);
-		view.appendTo(buffer);
-		String rawContent = buffer.toString();
-
-		String[] pages = rawContent.split("\f");
-		if (pageNbr >= pages.length) {
-			return;
-		}
-		String pageContent = pages[pageNbr];
-		String[] paragraphs = pageContent.split("\n");
-		int relPosY = -scrolledHeight;
-		for (String pgrh : paragraphs) {
-			relPosY = renderParagraph(pgrh, width, height, posX, posY, relPosY, lineHeight, color, fRend);
-			relPosY += lineHeight; // Line break after paragraph
-			if (relPosY + lineHeight > height) {
-				// Shortcurcuit, we are beyond the rendered area
-				return;
-			}
-		}
-	}
-
-	/**
-	 * Renders a paragraph
-	 *
-	 * @param paragraph
-	 *            the content of the paragraph
-	 * @param width
-	 * @param height
-	 * @param posX
-	 * @param posY
-	 * @param relPosY
-	 * @param lineHeight
-	 * @param color
-	 * @param fRend
-	 * @return the new relPosY
-	 */
-	private static int renderParagraph(
-			String paragraph,
-			int width,
-			int height,
-			int posX,
-			int posY,
-			int relPosY,
-			int lineHeight,
-			int color,
-			FontRenderer fRend) {
-		List<String> lines = fRend.listFormattedStringToWidth(paragraph, width);
-		int lineSize = lines.size();
-		for (int i = 0; i < lineSize; i++, relPosY += lineHeight) {
-			String line = lines.get(i);
-			if (relPosY + lineHeight > height) {
-				break;
-			}
-			if (relPosY >= 0) {
-				fRend.drawString(line, posX, posY + relPosY, color);
-			}
-		}
-		relPosY -= lineHeight;
-		return relPosY;
-	}
-
-	public static int drawTextLocalizedAndReturnHeight(
-			FontRenderer fRend,
-			String string,
-			int posX,
-			int posY,
-			int width,
-			int colour) {
-		String localized = StatCollector.translateToLocal(string);
-		return drawTextAndReturnHeight(fRend, localized, posX, posY, width, colour);
+		s = new ScaledResolution(mc);
+		// Not sure if this will work but i read some help that i must add this lel.
+		double scaleW = mc.displayWidth;
+		double scaleH = mc.displayHeight;
 	}
 
 	/**
@@ -198,8 +73,11 @@ public class MHFCGuiUtil {
 			int posY,
 			int width,
 			int colour) {
-		Objects.requireNonNull(fRend);
-		Objects.requireNonNull(string);
+		if (fRend == null || string == null) {
+			MHFCMain.logger().warn(fRend == null ? "Null renderer used as argument" : "Render request for a null string");
+			Thread.dumpStack();
+			return 0;
+		}
 		int lines = 1;
 		if (width <= 0) {
 			fRend.drawString(string, posX, posY, colour);
@@ -233,13 +111,13 @@ public class MHFCGuiUtil {
 			float v,
 			float uWidth,
 			float vHeight) {
-		Tessellator t = Tessellator.instance;
-
-		t.startDrawingQuads();
-		t.addVertexWithUV(xMin, yMin, zLevel, u, v);
-		t.addVertexWithUV(xMin, yMin + height, zLevel, u, v + vHeight);
-		t.addVertexWithUV(xMin + width, yMin + height, zLevel, u + uWidth, v + vHeight);
-		t.addVertexWithUV(xMin + width, yMin, zLevel, u + uWidth, v);
+		Tessellator t = Tessellator.getInstance();
+		VertexBuffer buffer = t.getBuffer();
+		buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+		buffer.pos(xMin, yMin, zLevel).tex(u, v).endVertex();;
+		buffer.pos(xMin, yMin + height, zLevel).tex( u, v + vHeight).endVertex();;
+		buffer.pos(xMin + width, yMin + height, zLevel).tex(u + uWidth, v + vHeight).endVertex();;
+		buffer.pos(xMin + width, yMin, zLevel).tex(u + uWidth, v).endVertex();;
 		t.draw();
 	}
 
@@ -296,69 +174,69 @@ public class MHFCGuiUtil {
 			float borderV,
 			float maxU,
 			float maxV) {
-		Tessellator tess = Tessellator.instance;
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x, y, zLevel, 0, 0);
-		tess.addVertexWithUV(x, y + borderSize, zLevel, 0, borderV);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, borderU, borderV);
-		tess.addVertexWithUV(x + borderSize, y, zLevel, borderU, 0);
+		Tessellator tess = Tessellator.getInstance();
+		VertexBuffer buff = tess.getBuffer();
+		buff.begin(7, DefaultVertexFormats.POSITION_TEX);
+		buff.pos(x, y + borderSize, zLevel).tex(0, 0);
+		buff.pos(x + borderSize, y + borderSize, zLevel);
+		buff.pos(x + borderSize, y, zLevel);
 		tess.draw();
-		tess.startDrawingQuads();
-		tess.addTranslation(width - borderSize, 0, 0);
-		tess.addVertexWithUV(x, y, zLevel, maxU - borderU, 0);
-		tess.addVertexWithUV(x, y + borderSize, zLevel, maxU - borderU, borderV);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, maxU, borderV);
-		tess.addVertexWithUV(x + borderSize, y, zLevel, maxU, 0);
+		buff.begin(7, DefaultVertexFormats.POSITION_TEX);
+		buff.setTranslation(width - borderSize, 0, 0);
+		buff.pos(x, y, zLevel);
+		buff.pos(x, y + borderSize, zLevel);
+		buff.pos(x + borderSize, y + borderSize, zLevel);
+		buff.pos(x + borderSize, y, zLevel);
 		tess.draw();
-		tess.startDrawingQuads();
-		tess.addTranslation(0, height - borderSize, 0);
-		tess.addVertexWithUV(x, y, zLevel, maxU - borderU, maxV - borderV);
-		tess.addVertexWithUV(x, y + borderSize, zLevel, maxU - borderU, maxV);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, maxU, maxV);
-		tess.addVertexWithUV(x + borderSize, y, zLevel, maxU, maxV - borderV);
+		buff.begin(7, DefaultVertexFormats.POSITION_TEX);
+		buff.setTranslation(0, height - borderSize, 0);
+		buff.pos(x, y, zLevel);
+		buff.pos(x, y + borderSize, zLevel);
+		buff.pos(x + borderSize, y + borderSize, zLevel);
+		buff.pos(x + borderSize, y, zLevel);
 		tess.draw();
-		tess.startDrawingQuads();
-		tess.addTranslation(-width + borderSize, 0, 0);
-		tess.addVertexWithUV(x, y, zLevel, 0, maxV - borderV);
-		tess.addVertexWithUV(x, y + borderSize, zLevel, 0, maxV);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, borderU, maxV);
-		tess.addVertexWithUV(x + borderSize, y, zLevel, borderU, maxV - borderV);
+		buff.begin(7, DefaultVertexFormats.POSITION_TEX);
+		buff.setTranslation(-width + borderSize, 0, 0);
+		buff.pos(x, y, zLevel);
+		buff.pos(x, y + borderSize, zLevel);
+		buff.pos(x + borderSize, y + borderSize, zLevel);
+		buff.pos(x + borderSize, y, zLevel);
 		tess.draw();
-		tess.addTranslation(0, -height + borderSize, 0);
+		buff.setTranslation(0, -height + borderSize, 0);
 
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x, y + borderSize, zLevel, 0, borderV);
-		tess.addVertexWithUV(x, y + height - borderSize, zLevel, 0, maxV - borderV);
-		tess.addVertexWithUV(x + borderSize, y + height - borderSize, zLevel, borderU, maxV - borderV);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, borderU, borderV);
-		tess.draw();
-
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x + width - borderSize, y + borderSize, zLevel, maxU - borderU, borderV);
-		tess.addVertexWithUV(x + width - borderSize, y + height - borderSize, zLevel, maxU - borderU, maxV - borderV);
-		tess.addVertexWithUV(x + width, y + height - borderSize, zLevel, maxU, maxV - borderV);
-		tess.addVertexWithUV(x + width, y + borderSize, zLevel, maxU, borderV);
+		buff.begin(7, DefaultVertexFormats.POSITION_TEX);
+		buff.pos(x, y + borderSize, zLevel);
+		buff.pos(x, y + height - borderSize, zLevel);
+		buff.pos(x + borderSize, y + height - borderSize, zLevel);
+		buff.pos(x + borderSize, y + borderSize, zLevel);
 		tess.draw();
 
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x + borderSize, y, zLevel, borderU, 0);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, borderU, borderV);
-		tess.addVertexWithUV(x + width - borderSize, y + borderSize, zLevel, maxU - borderU, borderV);
-		tess.addVertexWithUV(x + width - borderSize, y, zLevel, maxU - borderU, 0);
+		buff.begin(7, DefaultVertexFormats.POSITION_TEX);
+		buff.pos(x + width - borderSize, y + borderSize, zLevel);
+		buff.pos(x + width - borderSize, y + height - borderSize, zLevel);
+		buff.pos(x + width, y + height - borderSize, zLevel);
+		buff.pos(x + width, y + borderSize, zLevel);
 		tess.draw();
 
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x + borderSize, y + height - borderSize, zLevel, borderU, maxV - borderV);
-		tess.addVertexWithUV(x + borderSize, y + height, zLevel, borderU, maxV);
-		tess.addVertexWithUV(x + width - borderSize, y + height, zLevel, maxU - borderU, maxV);
-		tess.addVertexWithUV(x + width - borderSize, y + height - borderSize, zLevel, maxU - borderU, maxV - borderV);
+		buff.begin(7, DefaultVertexFormats.POSITION_TEX);
+		buff.pos(x + borderSize, y, zLevel);
+		buff.pos(x + borderSize, y + borderSize, zLevel);
+		buff.pos(x + width - borderSize, y + borderSize, zLevel);
+		buff.pos(x + width - borderSize, y, zLevel);
 		tess.draw();
 
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, borderU, borderV);
-		tess.addVertexWithUV(x + borderSize, y + height - borderSize, zLevel, borderU, maxV - borderV);
-		tess.addVertexWithUV(x + width - borderSize, y + height - borderSize, zLevel, maxU - borderU, maxV - borderV);
-		tess.addVertexWithUV(x + width - borderSize, y + borderSize, zLevel, maxU - borderU, borderV);
+		buff.begin(7, DefaultVertexFormats.POSITION_TEX);
+		buff.pos(x + borderSize, y + height - borderSize, zLevel);
+		buff.pos(x + borderSize, y + height, zLevel);
+		buff.pos(x + width - borderSize, y + height, zLevel);
+		buff.pos(x + width - borderSize, y + height - borderSize, zLevel);
+		tess.draw();
+
+		buff.begin(7, DefaultVertexFormats.POSITION_TEX);
+		buff.pos(x + borderSize, y + borderSize, zLevel);
+		buff.pos(x + borderSize, y + height - borderSize, zLevel);
+		buff.pos(x + width - borderSize, y + height - borderSize, zLevel);
+		buff.pos(x + width - borderSize, y + borderSize, zLevel);
 		tess.draw();
 
 	}

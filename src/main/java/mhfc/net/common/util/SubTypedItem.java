@@ -82,8 +82,6 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 
 	private final Class<T> clazzToken;
 	private final T[] values;
-	@SideOnly(Side.CLIENT)
-	private IIcon[] textures;
 	private TexturePathModificator modifier;
 
 	public SubTypedItem(Class<T> enumClazz) {
@@ -97,18 +95,6 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 		this.modifier = modifier == null ? SubTypedItem.PASSTHROUGH : modifier;
 	}
 
-	@SideOnly(Side.CLIENT)
-	public IIcon[] getIcons() {
-		return textures;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister regIcon) {
-		textures = new IIcon[values.length];
-		for (int i = 0; i < values.length; i++) {
-			textures[i] = regIcon.registerIcon(modifier.modify(values[i].getTexPath()));
-		}
-	}
 
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item block, List<ItemStack> list) {

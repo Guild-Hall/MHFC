@@ -46,9 +46,9 @@ public abstract class ItemRecolorable extends Item {
 		this.setCreativeTab(MHFCMain.mhfctabs);
 	}
 
-	@Override
+	/*@Override
 	@SideOnly(Side.CLIENT)
-	public abstract int getColorFromItemStack(ItemStack stack, int renderLayer);
+	public abstract int getColorFromItemStack(ItemStack stack, int renderLayer);*/
 
 	@Override
 	public abstract void getSubItems(Item item, CreativeTabs tab, List list);
