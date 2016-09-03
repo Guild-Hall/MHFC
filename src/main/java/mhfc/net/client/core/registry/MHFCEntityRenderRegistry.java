@@ -55,7 +55,7 @@ public class MHFCEntityRenderRegistry {
 
 	private static void renderMonster() {
 		//AdvanceRender
-		advanceRenderer(EntityNargacuga.class, t -> new RenderNargacuga());
+		advanceRenderer(EntityNargacuga.class, manager -> new RenderNargacuga(manager));
 
 		//BasicRender
 		basicRenderer(

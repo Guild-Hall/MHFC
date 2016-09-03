@@ -1,6 +1,7 @@
 package mhfc.net.client.gui;
 
 import static net.minecraftforge.client.IItemRenderer.ItemRenderType.ENTITY;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +27,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderBiped;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -45,8 +48,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			MHFCReference.gui_hunterbench_burn_front_tex);
 	public static final ResourceLocation BURN_TARGET = new ResourceLocation(
 			MHFCReference.gui_hunterbench_burn_target_tex);
-	public static final ResourceLocation BACKGROUND = new ResourceLocation(
-			MHFCReference.gui_hunterbench_back_tex);
+	public static final ResourceLocation BACKGROUND = new ResourceLocation(MHFCReference.gui_hunterbench_back_tex);
 	public static final ResourceLocation HUNTER_BENCH_COMPLETE = new ResourceLocation(
 			MHFCReference.gui_hunterbench_complete_tex);
 	public static final ResourceLocation FUEL_DURATION_MARKER = new ResourceLocation(
@@ -603,12 +605,14 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 		int remain = (int) Math.ceil(remaining * 14);
 		remaining = remain / 17f;
-		Tessellator t = Tessellator.instance;
-		t.startDrawingQuads();
-		t.addVertexWithUV(353, 159 - remain, this.zLevel, 0f, 14f / 17 - remaining);
-		t.addVertexWithUV(353, 159, this.zLevel, 0f, 14f / 17);
-		t.addVertexWithUV(370, 159, this.zLevel, 1f, 14f / 17);
-		t.addVertexWithUV(370, 159 - remain, this.zLevel, 1f, 14f / 17 - remaining);
+
+		Tessellator t = Tessellator.getInstance();
+		VertexBuffer buffer = t.getBuffer();
+		buffer.begin(GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		buffer.pos(353, 159 - remain, this.zLevel).tex(0f, 14f / 17 - remaining).endVertex();
+		buffer.pos(353, 159, this.zLevel).tex(0f, 14f / 17).endVertex();
+		buffer.pos(370, 159, this.zLevel).tex(1f, 14f / 17).endVertex();
+		buffer.pos(370, 159 - remain, this.zLevel).tex(1f, 14f / 17 - remaining).endVertex();
 		t.draw();
 
 		// draw the completition gauge

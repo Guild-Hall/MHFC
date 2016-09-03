@@ -17,7 +17,7 @@ import mhfc.net.common.util.MHFCJsonUtils;
 import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.util.StatCollector;
+import net.minecraft.client.resources.I18n;
 
 public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	public static final int BORDER = 5;
@@ -257,8 +257,8 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			int height,
 			int page,
 			FontRenderer fontRenderer) {
-		String TAG_MONSTERS = StatCollector.translateToLocal(MHFCReference.unlocalized_tag_monsters),
-				TAG_REQUISITES = StatCollector.translateToLocal(MHFCReference.unlocalized_tag_requisites);
+		String TAG_MONSTERS = I18n.format(MHFCReference.unlocalized_tag_monsters),
+				TAG_REQUISITES = I18n.format(MHFCReference.unlocalized_tag_requisites);
 		int lineHeight = fontRenderer.FONT_HEIGHT + 2;
 		String draw;
 		page = page % 3;
@@ -312,7 +312,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 
 	protected void drawClientDescription(int positionX, int currentY, int width, FontRenderer fontRenderer) {
 		width = Math.max(width, 20);
-		String TAG_CLIENT = StatCollector.translateToLocal(MHFCReference.unlocalized_tag_client);
+		String TAG_CLIENT = I18n.format(MHFCReference.unlocalized_tag_client);
 		fontRenderer.drawString(TAG_CLIENT, positionX + BORDER, currentY, COLOUR_HEADER);
 		int offsetX = (BORDER + fontRenderer.getStringWidth(TAG_CLIENT) + BORDER);
 		int drawWidth = width - offsetX - BORDER;
@@ -348,7 +348,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	}
 
 	private String getClientLocalized() {
-		return StatCollector.translateToLocal(client);
+		return I18n.format(client);
 	}
 
 	protected void drawAimsFails(
@@ -417,18 +417,18 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	}
 
 	private String getTypeLocalized() {
-		return StatCollector.translateToLocal(this.typeString);
+		return I18n.format(this.typeString);
 	}
 
 	private String getNameLocalized() {
-		return StatCollector.translateToLocal(name);
+		return I18n.format(name);
 	}
 
 	protected int drawBaseInformation(int positionX, int positionY, int width, FontRenderer fontRenderer) {
-		String TAG_FEE = StatCollector.translateToLocal(MHFCReference.unlocalized_tag_fee), //
-				TAG_REWARD = StatCollector.translateToLocal(MHFCReference.unlocalized_tag_reward), //
-				TAG_TIME = StatCollector.translateToLocal(MHFCReference.unlocalized_tag_time), //
-				TAG_AREA = StatCollector.translateToLocal(MHFCReference.unlocalized_tag_area);
+		String TAG_FEE = I18n.format(MHFCReference.unlocalized_tag_fee), //
+				TAG_REWARD = I18n.format(MHFCReference.unlocalized_tag_reward), //
+				TAG_TIME = I18n.format(MHFCReference.unlocalized_tag_time), //
+				TAG_AREA = I18n.format(MHFCReference.unlocalized_tag_area);
 		fontRenderer.drawString(TAG_REWARD, positionX + BORDER, positionY, COLOUR_HEADER);
 		positionY += MHFCGuiUtil.drawTextLocalizedAndReturnHeight(
 				fontRenderer,

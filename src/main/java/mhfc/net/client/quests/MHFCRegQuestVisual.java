@@ -8,8 +8,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.client.gui.hud.QuestStatusDisplay;
 import mhfc.net.client.gui.quests.GuiQuestBoard;
@@ -24,6 +22,8 @@ import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class MHFCRegQuestVisual {

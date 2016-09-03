@@ -16,6 +16,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.I18n;
 
 public class MHFCGuiUtil {
 
@@ -173,6 +174,17 @@ public class MHFCGuiUtil {
 		}
 		relPosY -= lineHeight;
 		return relPosY;
+	}
+
+	public static int drawTextLocalizedAndReturnHeight(
+			FontRenderer fRend,
+			String string,
+			int posX,
+			int posY,
+			int width,
+			int colour) {
+		String localized = I18n.format(string);
+		return drawTextAndReturnHeight(fRend, localized, posX, posY, width, colour);
 	}
 
 	/**

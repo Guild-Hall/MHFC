@@ -2,6 +2,8 @@ package mhfc.net.common.util.world;
 
 import java.util.List;
 
+import com.google.common.base.Predicate;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -31,17 +33,18 @@ public class WorldHelper {
 	 *            the entity to collide with
 	 * @param filter
 	 *            the filter to apply, <code>null</code> means no filtering
-	 * @return all collidig entities that are not filtered
+	 * @return all colliding entities that are not filtered
 	 */
-	public static List<Entity> collidingEntities(Entity entity, IEntitySelector filter) {
+	public static List<Entity> collidingEntities(Entity entity, Predicate<? super Entity> filter) {
 		World world = entity.worldObj;
-		List<Entity> collidingEntities = world.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox);
+		List<Entity> collidingEntities = world.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox, filter);
 		Entity[] subEntities = entity.getParts();
 		if (subEntities == null) {
 			return collidingEntities;
 		}
 		for (Entity subE : subEntities) {
-			List<Entity> collidingEntitiesSub = world.getEntitiesWithinAABBExcludingEntity(entity, subE.boundingBox);
+			List<Entity> collidingEntitiesSub = world
+					.getEntitiesWithinAABBExcludingEntity(entity, subE.boundingBox, filter);
 			for (Entity collidingE : collidingEntitiesSub) {
 				if (!collidingEntities.contains(collidingE)) {
 					collidingEntities.add(collidingE);
