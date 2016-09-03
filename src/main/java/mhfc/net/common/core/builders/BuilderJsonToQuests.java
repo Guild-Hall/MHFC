@@ -178,12 +178,12 @@ public class BuilderJsonToQuests {
 		Map<String, List<String>> map = groupMapping.mapping;
 		if (!orderedGroups.containsAll(map.keySet())) {
 			MHFCMain.logger().warn(
-					"Detected quest groups which were not included in the ordering. These will appear last in an undefined order. Maybe you are missing the attribute "
+					"Detected quest groups which were not included in the ordering, they will not be displayed. Maybe you are missing the attribute "
 							+ MHFCQuestBuildRegistry.KEY_ORDERED_GROUPS);
 		}
 		if (!map.keySet().containsAll(orderedGroups)) {
 			MHFCMain.logger().warn(
-					"Detected ordering for quest groups without quests. These will appear empty. Maybe you are missing the attribute "
+					"Detected ordering for undefined quest groups, ignoring them. Maybe you are missing the attribute "
 							+ MHFCQuestBuildRegistry.KEY_GROUP_MAPPING);
 		}
 		QuestGroupData groupData = new QuestGroupData();

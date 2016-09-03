@@ -71,14 +71,17 @@ public class QuestDescriptionRegistry {
 		 * created empty.
 		 */
 		public void orderGroups(Iterable<String> groupIDsInOrder) {
-			LinkedHashSet<String> tempOrdering = new LinkedHashSet<>();
-			for (String groupID : groupIDsInOrder) {
-				ensureGroupID(groupID);
-				tempOrdering.add(groupID);
-			}
-			tempOrdering.addAll(groupIDs);
+			LinkedHashSet<String> oldOrder = new LinkedHashSet<>(groupIDs);
+			Map<String, Set<String>> oldMapping = new HashMap<>(groupMapping);
+			groupMapping.clear();
 			groupIDs.clear();
-			groupIDs.addAll(tempOrdering);
+			for (String groupID : groupIDsInOrder) {
+				if (!oldOrder.contains(groupID)) {
+					continue;
+				}
+				assert oldMapping.containsKey(groupID);
+				addQuestsToGroup(groupID, oldMapping.get(groupID));
+			}
 		}
 	}
 
