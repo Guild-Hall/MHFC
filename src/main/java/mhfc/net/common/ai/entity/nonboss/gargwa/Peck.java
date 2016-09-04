@@ -3,6 +3,7 @@ package mhfc.net.common.ai.entity.nonboss.gargwa;
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityGargwa;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
@@ -45,7 +46,7 @@ public class Peck extends ActionAdapter<EntityGargwa> {
 	@Override
 	public void update() {
 		if (this.getCurrentFrame() == 38) {
-			getEntity().playSound("mhfc:lagacirus.bite", 2.0F, 1.0F);
+			getEntity().playSound(MHFCSoundRegistry.getRegistry().gargwaBite, 2.0F, 1.0F);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			EntityGargwa entity = getEntity();

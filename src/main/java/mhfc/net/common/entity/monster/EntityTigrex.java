@@ -22,6 +22,7 @@ import mhfc.net.common.ai.entity.boss.tigrex.Wander;
 import mhfc.net.common.ai.entity.boss.tigrex.Whip;
 import mhfc.net.common.ai.general.TurnAttack;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.item.materials.ItemTigrex.TigrexSubType;
@@ -110,17 +111,17 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return "mhfc:tigrex.idle";
+		return MHFCSoundRegistry.getRegistry().tigrexIdle;
 	}
 
 	@Override
 	protected SoundEvent getHurtSound() {
-		return "mhfc:tigrex.hurt";
+		return MHFCSoundRegistry.getRegistry().tigrexHurt;
 	}
 
 	@Override
 	public SoundEvent getDeathSound() {
-		return "mhfc:tigrex.death";
+		return MHFCSoundRegistry.getRegistry().tigrexDeath;
 	}
 
 	@Override
@@ -131,6 +132,6 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	@Override
 	protected void func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_) {
-		this.playSound("mhfc:tigrex.step", 2.0F, 1.0F);
+		this.playSound(MHFCSoundRegistry.getRegistry().tigrexStep, 2.0F, 1.0F);
 	}
 }

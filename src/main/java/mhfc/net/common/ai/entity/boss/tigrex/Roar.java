@@ -4,6 +4,7 @@ import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.actions.AIGeneralRoar;
 import mhfc.net.common.ai.general.provider.simple.IRoarSoundProvider;
 import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
@@ -21,7 +22,7 @@ public class Roar extends AIGeneralRoar<EntityTigrex> {
 
 	static {
 		weight = new IWeightProvider.RandomWeightAdapter<>(1F);
-		roar = new IRoarSoundProvider.RoarSoundAdapter("mhfc:tigrex.roar");
+		roar = new IRoarSoundProvider.RoarSoundAdapter(MHFCSoundRegistry.getRegistry().tigrexRoar);
 	}
 
 	protected Vec3d targetPoint;

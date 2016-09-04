@@ -13,6 +13,7 @@ import mhfc.net.common.ai.entity.boss.barroth.Roar;
 import mhfc.net.common.ai.entity.boss.barroth.Stomp;
 import mhfc.net.common.ai.entity.boss.barroth.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -66,7 +67,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return "mhfc:barroth.idle";
+		return MHFCSoundRegistry.getRegistry().barrothIdle;
 	}
 
 	@Override

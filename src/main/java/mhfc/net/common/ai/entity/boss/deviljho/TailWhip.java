@@ -5,6 +5,7 @@ import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIGeneralTailWhip;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import net.minecraft.entity.Entity;
 
@@ -36,12 +37,13 @@ public class TailWhip extends AIGeneralTailWhip<EntityDeviljho> {
 	public int getAnimationLength() {
 		return LAST_FRAME;
 	}
-	
+
 	@Override
-	public void update(){
+	public void update() {
 		EntityDeviljho entity = getEntity();
-		if(this.getCurrentFrame() == 5)
-		entity.playSound("mhfc:deviljho.tailwhip", 2.0F, 1.0F);
+		if (this.getCurrentFrame() == 5) {
+			entity.playSound(MHFCSoundRegistry.getRegistry().deviljhoTailWhip, 2.0F, 1.0F);
+		}
 	}
 
 	@Override

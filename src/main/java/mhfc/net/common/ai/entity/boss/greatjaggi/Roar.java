@@ -3,6 +3,7 @@ package mhfc.net.common.ai.entity.boss.greatjaggi;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.actions.AIGeneralRoar;
 import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,7 +13,6 @@ public class Roar extends AIGeneralRoar<EntityGreatJaggi> {
 
 	private static final String ANIMATION = "mhfc:models/GreatJaggi/roar.mcanm";
 	private static final int LAST_FRAME = 64;
-	private static final SoundEvent ROAR_SOUND = "mhfc:greatjaggi.roar";
 
 	private static final IWeightProvider<EntityGreatJaggi> weight;
 
@@ -63,6 +63,6 @@ public class Roar extends AIGeneralRoar<EntityGreatJaggi> {
 
 	@Override
 	public SoundEvent getRoarSoundLocation() {
-		return ROAR_SOUND;
+		return MHFCSoundRegistry.getRegistry().greatJaggiRoar;
 	}
 }

@@ -5,6 +5,7 @@ import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIGeneralTailWhip;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityRathalos;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.MobEffects;
@@ -33,7 +34,7 @@ public class TailWhip extends AIGeneralTailWhip<EntityRathalos> {
 	public void update() {
 		EntityRathalos entity = getEntity();
 		if (this.getCurrentFrame() == 12) {
-			entity.playSound("mhfc:rathalos.tailwhip", 2.0F, 1.0F);
+			entity.playSound(MHFCSoundRegistry.getRegistry().rathalosTailWhip, 2.0F, 1.0F);
 		}
 
 		if (this.getCurrentFrame() == 20) {

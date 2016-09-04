@@ -3,6 +3,7 @@ package mhfc.net.common.ai.entity.boss.tigrex;
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
@@ -165,7 +166,7 @@ public class Run extends ActionAdapter<EntityTigrex> {
 	public void beginExecution() {
 		EntityTigrex tig = getEntity();
 		target = tig.getAttackTarget();
-		tig.playSound("mhfc:tigrex.charge", 2.0F, 1.0F);
+		tig.playSound(MHFCSoundRegistry.getRegistry().tigrexCharge, 2.0F, 1.0F);
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;
 		runCycles = 0;

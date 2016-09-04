@@ -11,6 +11,7 @@ import mhfc.net.common.ai.entity.nonboss.gargwa.Idle2;
 import mhfc.net.common.ai.entity.nonboss.gargwa.Sleep;
 import mhfc.net.common.ai.entity.nonboss.gargwa.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -65,7 +66,7 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return "mhfc:gagua.idle";
+		return MHFCSoundRegistry.getRegistry().gargwaIdle;
 	}
 
 }

@@ -8,8 +8,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class EntityFlashBomb extends EntityThrowable {
@@ -43,7 +43,7 @@ public class EntityFlashBomb extends EntityThrowable {
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition var1) {
+	protected void onImpact(RayTraceResult traceResult) {
 		explode();
 	}
 
@@ -64,19 +64,19 @@ public class EntityFlashBomb extends EntityThrowable {
 		setDead();
 		List<Entity> entites = this.worldObj.getEntitiesWithinAABBExcludingEntity(
 				this,
-				this.boundingBox.expand(FALL_OFF_END, FALL_OFF_END, FALL_OFF_END));
+				this.getCollisionBoundingBox().expand(FALL_OFF_END, FALL_OFF_END, FALL_OFF_END));
 		for (Entity e : entites) {
 			if (!(e instanceof EntityLivingBase)) {
 				continue;
 			}
 			EntityLivingBase living = (EntityLivingBase) e;
-			Vec3 lookVec = living.getLookVec();
-			Vec3 toTargetVec = WorldHelper.getVectorToTarget(this, living);
+			Vec3d lookVec = living.getLookVec();
+			Vec3d toTargetVec = WorldHelper.getVectorToTarget(this, living);
 			double dot = lookVec == null ? -1 : lookVec.normalize().dotProduct(toTargetVec.normalize());
 			int effectStrength = (int) (toTargetVec.lengthVector() * -dot);
 			if (effectStrength > 0) {
 				living.addPotionEffect(
-						new PotionEffect(MHFCPotionRegistry.getRegistry().flashed.id, EXPLOSION_TICKS, effectStrength));
+						new PotionEffect(MHFCPotionRegistry.getRegistry().flashed, EXPLOSION_TICKS, effectStrength));
 			}
 		}
 	}

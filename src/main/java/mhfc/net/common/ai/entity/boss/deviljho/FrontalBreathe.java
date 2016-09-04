@@ -3,6 +3,7 @@ package mhfc.net.common.ai.entity.boss.deviljho;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.actions.AIAnimatedAction;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.projectile.EntityBreathe;
 import net.minecraft.entity.Entity;
@@ -25,8 +26,9 @@ public class FrontalBreathe extends AIAnimatedAction<EntityDeviljho> {
 	@Override
 	protected void update() {
 		EntityDeviljho set_ENTITY = this.getEntity();
-		if(this.getCurrentFrame() == 18)
-			set_ENTITY.playSound("mhfc:deviljho.dragonbreath", 2.0F, 1.0F);
+		if (this.getCurrentFrame() == 18) {
+			set_ENTITY.playSound(MHFCSoundRegistry.getRegistry().deviljhoDragonBreath, 2.0F, 1.0F);
+		}
 		if (this.getCurrentFrame() == 40) {
 			if (set_ENTITY.getAttackTarget() == null) {
 				return;

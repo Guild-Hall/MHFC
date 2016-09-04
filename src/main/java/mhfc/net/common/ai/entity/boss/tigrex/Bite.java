@@ -6,6 +6,7 @@ package mhfc.net.common.ai.entity.boss.tigrex;
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
@@ -51,7 +52,7 @@ public class Bite extends ActionAdapter<EntityTigrex> {
 	@Override
 	public void update() {
 		if (this.getCurrentFrame() == 23) {
-			getEntity().playSound("mhfc:tigrex.bite", 2.0F, 1.0F);
+			getEntity().playSound(MHFCSoundRegistry.getRegistry().tigrexBite, 2.0F, 1.0F);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			EntityTigrex tig = getEntity();

@@ -3,6 +3,7 @@ package mhfc.net.common.ai.entity.boss.deviljho;
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
@@ -144,7 +145,6 @@ public class MoveToTarget extends ActionAdapter<EntityDeviljho> {
 	private PastEntityEnum hasPassed;
 	private Vec3d runStartPoint;
 	private int framesRunning;
-	@SuppressWarnings("unused")
 	private int runCycles;
 
 	public MoveToTarget() {
@@ -172,7 +172,7 @@ public class MoveToTarget extends ActionAdapter<EntityDeviljho> {
 
 		EntityDeviljho mob = getEntity();
 		target = mob.getAttackTarget();
-		mob.playSound("mhfc:deviljho.roar", 1.0F, 1.0F);
+		mob.playSound(MHFCSoundRegistry.getRegistry().deviljhoRoar, 1.0F, 1.0F);
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;
 		runCycles = 0;

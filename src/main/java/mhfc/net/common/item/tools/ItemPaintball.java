@@ -9,8 +9,13 @@ import mhfc.net.common.item.tools.ItemPaintball.PaintballType;
 import mhfc.net.common.util.SubTypedItem;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
 public class ItemPaintball extends AbstractSubTypedItem<PaintballType> {
@@ -72,17 +77,27 @@ public class ItemPaintball extends AbstractSubTypedItem<PaintballType> {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		if (!playerIn.capabilities.isCreativeMode)
+	public ActionResult<ItemStack> onItemRightClick(
+			ItemStack itemStackIn,
+			World worldIn,
+			EntityPlayer playerIn,
+			EnumHand hand) {
+		if (!playerIn.capabilities.isCreativeMode) {
 			--itemStackIn.stackSize;
-
-		worldIn.playSound(playerIn, null, null, null, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-
-		if(!worldIn.isRemote) {
-			worldIn.spawnEntityInWorld(
-				new EntityPaintball(worldIn, ItemColor.byMetadata(itemStackIn.getItemDamage()), playerIn)
-			);
 		}
-		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+
+		worldIn.playSound(
+				playerIn,
+				playerIn.getPosition(),
+				SoundEvents.ENTITY_ARROW_SHOOT,
+				SoundCategory.NEUTRAL,
+				0.5F,
+				0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+
+		if (!worldIn.isRemote) {
+			worldIn.spawnEntityInWorld(
+					new EntityPaintball(worldIn, ItemColor.byMetadata(itemStackIn.getItemDamage()), playerIn));
+		}
+		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
 	}
 }

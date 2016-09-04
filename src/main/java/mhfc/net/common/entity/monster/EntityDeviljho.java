@@ -18,6 +18,7 @@ import mhfc.net.common.ai.entity.boss.deviljho.Stomp;
 import mhfc.net.common.ai.entity.boss.deviljho.TailWhip;
 import mhfc.net.common.ai.entity.boss.deviljho.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.item.materials.ItemDeviljho.DeviljhoSubType;
@@ -78,12 +79,12 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return "mhfc:deviljho.idle";
+		return MHFCSoundRegistry.getRegistry().deviljhoIdle;
 	}
 
 	@Override
 	protected void func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_) {
-		this.playSound("mhfc:deviljho.step", 1.0F, 1.0F);
+		this.playSound(MHFCSoundRegistry.getRegistry().deviljhoStep, 1.0F, 1.0F);
 	}
 
 	@Override

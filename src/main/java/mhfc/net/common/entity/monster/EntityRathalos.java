@@ -15,6 +15,7 @@ import mhfc.net.common.ai.entity.boss.rathalos.Rush;
 import mhfc.net.common.ai.entity.boss.rathalos.TailWhip;
 import mhfc.net.common.ai.entity.boss.rathalos.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.entity.type.IConfusable;
@@ -162,7 +163,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return "mhfc:rathalos.idle";
+		return MHFCSoundRegistry.getRegistry().rathalosIdle;
 	}
 
 	@Override

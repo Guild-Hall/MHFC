@@ -110,9 +110,10 @@ public class ContainerHunterBench extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
-		return this.worldObj.getBlockState(new BlockPos(this.posX, this.posY, this.posZ)).getBlock() != MHFCBlockRegistry.mhfcblockhunterbench
-				? false
-				: par1EntityPlayer.getDistanceSq(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D) <= 64.0D;
+		return this.worldObj.getBlockState(new BlockPos(this.posX, this.posY, this.posZ))
+				.getBlock() != MHFCBlockRegistry.getRegistry().mhfcblockhunterbench
+						? false
+						: par1EntityPlayer.getDistanceSq(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D) <= 64.0D;
 	}
 
 	@Override
@@ -133,7 +134,7 @@ public class ContainerHunterBench extends Container {
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
 		ItemStack var3 = null;
-		Slot var4 = (Slot) this.inventorySlots.get(par2);
+		Slot var4 = this.inventorySlots.get(par2);
 
 		if (var4 != null && var4.getHasStack()) {
 			ItemStack var5 = var4.getStack();

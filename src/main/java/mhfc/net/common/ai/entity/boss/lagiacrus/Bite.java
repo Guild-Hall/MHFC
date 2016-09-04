@@ -3,6 +3,7 @@ package mhfc.net.common.ai.entity.boss.lagiacrus;
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityLagiacrus;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
@@ -45,13 +46,12 @@ public class Bite extends ActionAdapter<EntityLagiacrus> {
 	@Override
 	public void update() {
 		if (getEntity().getAttackTarget() != null && this.getCurrentFrame() == 38) {
-			getEntity().playSound("mhfc:lagiacrus.bite", 2.0F, 1.0F);
+			getEntity().playSound(MHFCSoundRegistry.getRegistry().lagiacrusBite, 2.0F, 1.0F);
 			getEntity().getAttackTarget().addVelocity(0.9D, 0.3D, 0.9D);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			EntityLagiacrus entity = getEntity();
 			entity.moveForward(0.2, false);
-
 		}
 		AIUtils.damageCollidingEntities(getEntity(), DAMAGE);
 

@@ -2,9 +2,6 @@ package mhfc.net.common.entity.projectile;
 
 import java.util.List;
 
-import cpw.mods.fml.common.registry.IThrowableEntity;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -16,12 +13,16 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.server.S2BPacketChangeGameState;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.network.play.server.SPacketChangeGameState;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.IThrowableEntity;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class EntityProjectile extends EntityArrow implements IThrowableEntity {
 	public static final int NO_PICKUP = 0, PICKUP_ALL = 1, PICKUP_CREATIVE = 2, PICKUP_OWNER = 3;
@@ -50,7 +51,6 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 		inGround = false;
 		arrowShake = 0;
 		ticksInAir = 0;
-		yOffset = 0F;
 		pickupMode = EntityProjectile.NO_PICKUP;
 
 		extraDamage = 0;
@@ -80,7 +80,9 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 				setPickupMode(EntityProjectile.PICKUP_CREATIVE);
 			} else {
 				setPickupMode(
-						MHFCMain.config().isAllCanPickup() ? EntityProjectile.PICKUP_ALL : EntityProjectile.PICKUP_OWNER);
+						MHFCMain.config().isAllCanPickup()
+								? EntityProjectile.PICKUP_ALL
+								: EntityProjectile.PICKUP_OWNER);
 			}
 		} else {
 			setPickupMode(EntityProjectile.NO_PICKUP);
@@ -175,13 +177,13 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 
 		ticksInAir++;
 
-		Vec3 vec3d = Vec3.createVectorHelper(posX, posY, posZ);
-		Vec3 vec3d1 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
-		MovingObjectPosition movingobjectposition = worldObj.func_147447_a(vec3d, vec3d1, false, true, false);
-		vec3d = Vec3.createVectorHelper(posX, posY, posZ);
-		vec3d1 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
+		Vec3d vec3d = new Vec3d(posX, posY, posZ);
+		Vec3d vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
+		RayTraceResult movingobjectposition = worldObj.func_147447_a(vec3d, vec3d1, false, true, false);
+		vec3d = new Vec3d(posX, posY, posZ);
+		vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
 		if (movingobjectposition != null) {
-			vec3d1 = Vec3.createVectorHelper(
+			vec3d1 = new Vec3d(
 					movingobjectposition.hitVec.xCoord,
 					movingobjectposition.hitVec.yCoord,
 					movingobjectposition.hitVec.zCoord);
@@ -200,7 +202,7 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 			}
 			float f4 = 0.3F;
 			AxisAlignedBB axisalignedbb1 = entity1.boundingBox.expand(f4, f4, f4);
-			MovingObjectPosition movingobjectposition1 = axisalignedbb1.calculateIntercept(vec3d, vec3d1);
+			RayTraceResult movingobjectposition1 = axisalignedbb1.calculateIntercept(vec3d, vec3d1);
 			if (movingobjectposition1 == null) {
 				continue;
 			}
@@ -212,7 +214,7 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 		}
 
 		if (entity != null) {
-			movingobjectposition = new MovingObjectPosition(entity);
+			movingobjectposition = new RayTraceResult(entity);
 		}
 
 		if (movingobjectposition != null) {
@@ -226,7 +228,7 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 		if (getIsCritical()) {
 			for (int i1 = 0; i1 < 2; i1++) {
 				worldObj.spawnParticle(
-						"crit",
+						EnumParticleTypes.CRIT,
 						posX + (motionX * i1) / 4D,
 						posY + (motionY * i1) / 4D,
 						posZ + (motionZ * i1) / 4D,
@@ -259,7 +261,7 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 			for (int i1 = 0; i1 < 4; i1++) {
 				float f6 = 0.25F;
 				worldObj.spawnParticle(
-						"bubble",
+						EnumParticleTypes.WATER_BUBBLE,
 						posX - motionX * f6,
 						posY - motionY * f6,
 						posZ - motionZ * f6,
@@ -301,12 +303,12 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 			}
 			if (shootingEntity instanceof EntityPlayerMP && shootingEntity != entity
 					&& entity instanceof EntityPlayer) {
-				((EntityPlayerMP) shootingEntity).playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(6, 0));
+				((EntityPlayerMP) shootingEntity).interactionManager.sendPacket(new SPacketChangeGameState(6, 0));
 			}
 		}
 	}
 
-	public void onGroundHit(MovingObjectPosition mop) {
+	public void onGroundHit(RayTraceResult mop) {
 		xTile = mop.blockX;
 		yTile = mop.blockY;
 		zTile = mop.blockZ;

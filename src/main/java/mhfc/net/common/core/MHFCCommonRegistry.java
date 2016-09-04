@@ -17,6 +17,7 @@ import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.core.registry.MHFCSmeltingRegistry;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.core.registry.MHFCTileRegistry;
 import mhfc.net.common.world.area.AreaRegistry;
 
@@ -36,12 +37,13 @@ public class MHFCCommonRegistry {
 	}
 
 	public static void staticInit() {
-		MHFCCommonRegistry.addPotion();
-		MHFCCommonRegistry.addBlocks();
-		MHFCCommonRegistry.addMonsters();
-		MHFCCommonRegistry.addItems();
+		MHFCPotionRegistry.staticInit();
+		MHFCBlockRegistry.staticInit();
+		MHFCEntityRegistry.staticInit();
+		MHFCItemRegistry.staticInit();
 		MHFCQuestRegistry.staticInit();
 		MHFCEventRegistry.staticInit();
+		MHFCSoundRegistry.staticInit();
 
 		MHFCMain.initPhase.registerEntryCallback(e -> init());
 	}
@@ -56,10 +58,6 @@ public class MHFCCommonRegistry {
 		MHFCMain.logger().info("Quest Server registered");
 	}
 
-	private static void addBlocks() {
-		MHFCBlockRegistry.staticInit();
-	}
-
 	private static void addSmelting() {
 		MHFCSmeltingRegistry.init();
 		MHFCCommonRegistry.logger.info("Smelting registered");
@@ -68,10 +66,6 @@ public class MHFCCommonRegistry {
 	private static void addPacket() {
 		MHFCPacketRegistry.init();
 		MHFCCommonRegistry.logger.info("Packets registered");
-	}
-
-	private static void addItems() {
-		MHFCItemRegistry.staticInit();
 	}
 
 	private static void addRecipes() {
@@ -90,17 +84,9 @@ public class MHFCCommonRegistry {
 		MHFCCommonRegistry.logger.info("Tile Entities registered");
 	}
 
-	private static void addPotion() {
-		MHFCPotionRegistry.staticInit();
-	}
-
 	private static void addEvent() {
 		MHFCEventRegistry.init();
 		MHFCCommonRegistry.logger.info("Events registered");
-	}
-
-	private static void addMonsters() {
-		MHFCEntityRegistry.staticInit();
 	}
 
 	private static void addAreas() {

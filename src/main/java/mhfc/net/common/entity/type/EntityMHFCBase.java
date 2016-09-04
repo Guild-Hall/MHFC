@@ -59,9 +59,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	private IExecutableAction<? super YC> inWaterAction;
 	private IExecutableAction<? super YC> stunAction;
 
-	private SoundEvent stunSound;
-
-	public int set_Armor_Value = 22;
+	private int armorValue = 22;
 
 	public boolean FREEZE; // trying to implement this to disable all AI's for the monster temporality.
 
@@ -130,13 +128,13 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	}
 
 	protected void specificArmorValue(int value) {
-		value = set_Armor_Value;
+		value = armorValue;
 	}
 
 	// Armor has been increase by 3% from 17
 	@Override
 	public int getTotalArmorValue() {
-		return set_Armor_Value;
+		return armorValue;
 	}
 
 	@Override
@@ -509,11 +507,12 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		setPositionAndUpdate(posX, posY, posZ);
 	}
 
-	protected void setStunnedSound(SoundEvent sound) {
-		stunSound = Objects.requireNonNull(sound);
+	protected SoundEvent getStunnedSound() {
+		return null;
 	}
 
 	public void playStunnedSound() {
+		SoundEvent stunSound = getStunnedSound();
 		if (stunSound == null) {
 			return;
 		}

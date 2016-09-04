@@ -8,6 +8,7 @@ import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIAnimatedAction;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -53,7 +54,7 @@ public class Stomp extends AIAnimatedAction<EntityDeviljho> {
 			entity1.attackEntityFrom(DamageSource.causeMobDamage(entity), 60f);
 			entity1.addVelocity(0.2, 0.3, 0);
 		}
-		entity.playSound("mhfc:deviljho.stomp", 1.0F, 1.0F);
+		entity.playSound(MHFCSoundRegistry.getRegistry().deviljhoStomp, 1.0F, 1.0F);
 		thrown = true;
 	}
 

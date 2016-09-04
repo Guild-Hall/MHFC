@@ -3,6 +3,7 @@ package mhfc.net.common.ai.entity.boss.nargacuga;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.actions.AIGeneralRoar;
 import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,7 +13,6 @@ public class Roar extends AIGeneralRoar<EntityNargacuga> {
 
 	private static final String ANIMATION = "mhfc:models/Nargacuga/Roar.mcanm";
 	private static final int LAST_FRAME = 71;
-	private static final SoundEvent ROAR_SOUND = "mhfc:narga.roar";
 
 	private static final IWeightProvider<EntityNargacuga> weight;
 
@@ -62,6 +62,6 @@ public class Roar extends AIGeneralRoar<EntityNargacuga> {
 
 	@Override
 	public SoundEvent getRoarSoundLocation() {
-		return ROAR_SOUND;
+		return MHFCSoundRegistry.getRegistry().nargacugaRoar;
 	}
 }

@@ -4,10 +4,10 @@ import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.entity.AIGameplayComposition;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityBarroth;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
-
 
 public class RamRun extends ActionAdapter<EntityBarroth> {
 	private static final int LAST_FRAME = 130;
@@ -46,14 +46,14 @@ public class RamRun extends ActionAdapter<EntityBarroth> {
 		EntityBarroth entity = getEntity();
 		AIUtils.damageCollidingEntities(getEntity(), damageCalc);
 		entity.getTurnHelper().updateTargetPoint(target);
-		
+
 		if (this.getCurrentFrame() == 20) {
-			getEntity().playSound("mhfc:barroth.charge", 3.0F, 1.0F);
+			getEntity().playSound(MHFCSoundRegistry.getRegistry().barrothCharge, 3.0F, 1.0F);
 			entity.getTurnHelper().updateTurnSpeed(0.37f);
 			//ON run
-			
+
 		}
-		if(this.getCurrentFrame() > 85){
+		if (this.getCurrentFrame() > 85) {
 			AIGameplayComposition.launch(entity, 1.0D, 1.5D, 1.0D);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {

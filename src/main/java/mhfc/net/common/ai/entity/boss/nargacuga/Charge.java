@@ -5,6 +5,7 @@ import mhfc.net.common.ai.general.IFrameAdvancer;
 import mhfc.net.common.ai.general.IFrameAdvancer.SwitchLoopAdvancer;
 import mhfc.net.common.ai.general.actions.AIAnimatedAction;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
@@ -23,15 +24,11 @@ public class Charge extends AIAnimatedAction<EntityNargacuga> {
 	private static final int LOOP_END = 0;
 
 	private SwitchLoopAdvancer frameAdvancer;
-	private static final ISelectionPredicate<EntityNargacuga> selectionPredicate;
-
-	static {
-		selectionPredicate = new ISelectionPredicate.SelectionAdapter<>(
-				-MAX_ANGLE,
-				MAX_ANGLE,
-				MIN_DISTANCE,
-				MAX_DISTANCE);
-	}
+	private static final ISelectionPredicate<EntityNargacuga> selectionPredicate = new ISelectionPredicate.SelectionAdapter<>(
+			-MAX_ANGLE,
+			MAX_ANGLE,
+			MIN_DISTANCE,
+			MAX_DISTANCE);
 
 	public Charge() {
 		this.frameAdvancer = new IFrameAdvancer.SwitchLoopAdvancer(LOOP_START, LOOP_END);
@@ -43,7 +40,7 @@ public class Charge extends AIAnimatedAction<EntityNargacuga> {
 		EntityNargacuga nargacuga = getEntity();
 		EntityLivingBase target = nargacuga.getAttackTarget();
 		if (this.getCurrentFrame() == 5) {
-			nargacuga.playSound("narga.charge", 2.0F, 1.0F);
+			nargacuga.playSound(MHFCSoundRegistry.getRegistry().nargacugaCharge, 2.0F, 1.0F);
 		}
 		Vec3d distanceVec = WorldHelper.getVectorToTarget(nargacuga, target);
 		if (distanceVec.lengthVector() < MIN_DISTANCE) {

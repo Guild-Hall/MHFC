@@ -10,12 +10,12 @@ import mhfc.net.common.ai.general.provider.simple.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpParamterProvider;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 import net.minecraft.entity.Entity;
 
 public final class Pounce extends AIGeneralJumpAttack<EntityNargacuga> {
 
-	
 	public static enum JumpBehaviour {
 		TwoJumps(BehaviourJump.TWO_JUMPS),
 		ThreeJump(BehaviourJump.THREE_JUMPS);
@@ -33,7 +33,9 @@ public final class Pounce extends AIGeneralJumpAttack<EntityNargacuga> {
 	}
 
 	private BehaviourJump behaviour;
-	private IAnimationProvider animation = new IAnimationProvider.AnimationAdapter("mhfc:models/Nargacuga/Pounce.mcanm", 5);
+	private IAnimationProvider animation = new IAnimationProvider.AnimationAdapter(
+			"mhfc:models/Nargacuga/Pounce.mcanm",
+			5);
 	private ISelectionPredicate<EntityNargacuga> select;
 	private IWeightProvider<EntityNargacuga> weight;
 	private IJumpTimingProvider<EntityNargacuga> timing;
@@ -52,15 +54,15 @@ public final class Pounce extends AIGeneralJumpAttack<EntityNargacuga> {
 	public void beginExecution() {
 		super.beginExecution();
 		EntityNargacuga entity = getEntity();
-		entity.playSound("narga.leapforward", 2.0F, 1.0F);
+		entity.playSound(MHFCSoundRegistry.getRegistry().nargacugaPounce, 2.0F, 1.0F);
 		MHFCMain.logger().debug("Narga jump {}", this.behaviour);
-		
+
 		setToNextFrame(18);
 	}
 
 	@Override
 	public String getAnimationLocation() {
-		return "mhfc:models/Nargacuga/Pounce.mcanm";
+		return animation.getAnimationLocation();
 	}
 
 	@Override

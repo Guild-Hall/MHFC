@@ -6,6 +6,7 @@ import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIAnimatedAction;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import net.minecraft.entity.Entity;
@@ -40,7 +41,7 @@ public class Launch extends AIAnimatedAction<EntityDeviljho> {
 			if (entity.getAttackTarget() == null) {
 				return;
 			}
-			getEntity().playSound("mhfc:deviljho.rockthrow", 2.0F, 1.0F);
+			getEntity().playSound(MHFCSoundRegistry.getRegistry().deviljhoRockThrow, 2.0F, 1.0F);
 
 			AIUtils.damageCollidingEntities(getEntity(), damageCalc);
 			AIGameplayComposition.launch(entity, 0, 1.4, 0);

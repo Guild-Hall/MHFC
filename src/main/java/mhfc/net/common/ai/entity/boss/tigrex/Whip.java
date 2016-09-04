@@ -5,6 +5,7 @@ import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIGeneralTailWhip;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import net.minecraft.entity.Entity;
 
@@ -26,13 +27,13 @@ public class Whip extends AIGeneralTailWhip<EntityTigrex> {
 	}
 
 	public Whip() {}
-	
-	
+
 	@Override
-	public void update(){
+	public void update() {
 		EntityTigrex entity = getEntity();
-		if(this.getCurrentFrame() == 12)
-		entity.playSound("tigrex.tailwhip", 2.0F, 1.0F);
+		if (this.getCurrentFrame() == 12) {
+			entity.playSound(MHFCSoundRegistry.getRegistry().tigrexTailWhip, 2.0F, 1.0F);
+		}
 	}
 
 	@Override

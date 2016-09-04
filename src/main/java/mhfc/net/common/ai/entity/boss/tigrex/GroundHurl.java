@@ -1,6 +1,7 @@
 package mhfc.net.common.ai.entity.boss.tigrex;
 
 import mhfc.net.common.ai.ActionAdapter;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import mhfc.net.common.util.world.WorldHelper;
@@ -49,7 +50,7 @@ public class GroundHurl extends ActionAdapter<EntityTigrex> {
 	@Override
 	public void beginExecution() {
 		EntityTigrex entity = getEntity();
-		entity.playSound("mhfc:tigrex.rockthrow", 2.0F, 1.0F);
+		entity.playSound(MHFCSoundRegistry.getRegistry().tigrexRockThrow, 2.0F, 1.0F);
 		thrown = false;
 		weightFactor *= 3;
 	}

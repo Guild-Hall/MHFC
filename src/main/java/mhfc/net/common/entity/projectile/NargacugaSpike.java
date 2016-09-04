@@ -4,7 +4,7 @@ import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class NargacugaSpike extends EntityThrowable {
@@ -35,14 +35,17 @@ public class NargacugaSpike extends EntityThrowable {
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition impact) {
+	protected void onImpact(RayTraceResult impact) {
 		setDead();
-		if (this.worldObj.isRemote)
+		if (this.worldObj.isRemote) {
 			return;
-		if (impact.entityHit == null)
+		}
+		if (impact.entityHit == null) {
 			return;
-		if (!(impact.entityHit instanceof EntityLivingBase))
+		}
+		if (!(impact.entityHit instanceof EntityLivingBase)) {
 			return;
+		}
 		damageHelper.accept(impact.entityHit);
 	}
 

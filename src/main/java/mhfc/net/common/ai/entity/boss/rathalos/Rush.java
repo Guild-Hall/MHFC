@@ -3,6 +3,7 @@ package mhfc.net.common.ai.entity.boss.rathalos;
 import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
@@ -46,7 +47,7 @@ public class Rush extends ActionAdapter<EntityRathalos> {
 		entity.getTurnHelper().updateTargetPoint(target);
 
 		if (this.getCurrentFrame() == 20) {
-			getEntity().playSound("mhfc:rathalos.charge", 3.0F, 1.0F);
+			getEntity().playSound(MHFCSoundRegistry.getRegistry().rathalosCharge, 3.0F, 1.0F);
 			entity.getTurnHelper().updateTurnSpeed(0.24f);
 			//ON run
 

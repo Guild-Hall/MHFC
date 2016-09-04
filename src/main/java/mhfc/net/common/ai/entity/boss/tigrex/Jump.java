@@ -7,6 +7,7 @@ import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
 import mhfc.net.common.ai.general.actions.IJumpTimingProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpParamterProvider;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import net.minecraft.entity.Entity;
 
@@ -31,18 +32,19 @@ public class Jump extends AIGeneralJumpAttack<EntityTigrex> {
 	static {
 		pred = new ISelectionPredicate.SelectionAdapter<>(-MAX_ANGLE, MAX_ANGLE, MIN_DIST, MAX_DIST);
 		params = new IJumpParamterProvider.AttackTargetAdapter<>(JUMP_TIME);
-		timing = new IJumpTimingProvider.JumpTimingAdapter<EntityTigrex>(JUMP_FRAME, TURN_RATE, 0);
+		timing = new IJumpTimingProvider.JumpTimingAdapter<>(JUMP_FRAME, TURN_RATE, 0);
 	}
 
 	public Jump() {
 
 	}
-	
+
 	@Override
-	public void update(){
+	public void update() {
 		EntityTigrex entity = getEntity();
-		if(this.getCurrentFrame() == 10)
-		entity.playSound("mhfc:tigrex.leapforward", 2.0F, 1.0F);
+		if (this.getCurrentFrame() == 10) {
+			entity.playSound(MHFCSoundRegistry.getRegistry().tigrexLeap, 2.0F, 1.0F);
+		}
 	}
 
 	@Override

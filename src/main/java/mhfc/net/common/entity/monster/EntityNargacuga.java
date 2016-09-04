@@ -28,6 +28,7 @@ import mhfc.net.common.ai.entity.boss.nargacuga.TailSlam;
 import mhfc.net.common.ai.entity.boss.nargacuga.TailWhip;
 import mhfc.net.common.ai.entity.boss.nargacuga.Wander;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.entity.type.IEnragable;
@@ -179,7 +180,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return "mhfc:narga.idle";
+		return MHFCSoundRegistry.getRegistry().nargacugaIdle;
 	}
 
 	@Override

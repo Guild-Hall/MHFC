@@ -7,6 +7,7 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.boss.kirin.Idle;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -51,8 +52,7 @@ public class EntityKirin extends EntityMHFCBase<EntityKirin> {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-
-		return "mhfc:kirin.idle";
+		return MHFCSoundRegistry.getRegistry().kirinIdle;
 	}
 
 	@Override

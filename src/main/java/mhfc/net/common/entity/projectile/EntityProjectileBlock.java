@@ -11,8 +11,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class EntityProjectileBlock extends EntityThrowable {
@@ -25,7 +25,7 @@ public class EntityProjectileBlock extends EntityThrowable {
 	public EntityProjectileBlock(World world, EntityLivingBase living) {
 		super(world, living);
 		this.posY -= living.getEyeHeight();
-		Vec3 look = living.getLookVec();
+		Vec3d look = living.getLookVec();
 		this.posX += look.xCoord * 2;
 		this.posZ += look.zCoord * 2;
 		rotationYaw = living.rotationYaw;
@@ -47,8 +47,7 @@ public class EntityProjectileBlock extends EntityThrowable {
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition mop) {
-		@SuppressWarnings("unchecked")
+	protected void onImpact(RayTraceResult mop) {
 		List<Entity> list = this.worldObj
 				.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(2.5D, 2.0D, 2.5D));
 		list.remove(getThrower());

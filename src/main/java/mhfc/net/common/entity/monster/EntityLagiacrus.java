@@ -12,6 +12,7 @@ import mhfc.net.common.ai.entity.boss.lagiacrus.Roar;
 import mhfc.net.common.ai.entity.boss.lagiacrus.Sweep;
 import mhfc.net.common.ai.entity.boss.lagiacrus.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -69,7 +70,7 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return "mhfc:lagiacrus.idle";
+		return MHFCSoundRegistry.getRegistry().lagiacrusIdle;
 	}
 
 }

@@ -7,6 +7,7 @@ import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
 import mhfc.net.common.ai.general.actions.IJumpTimingProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpParamterProvider;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 import net.minecraft.entity.Entity;
 
@@ -36,7 +37,7 @@ public class BackOff extends AIGeneralJumpAttack<EntityNargacuga> {
 				return BACK_OFF_SPEED;
 			}
 		};
-		jumpTiming = new IJumpTimingProvider.JumpTimingAdapter<EntityNargacuga>(JUMP_FRAME, TURN_RATE, TURN_RATE_AIR);
+		jumpTiming = new IJumpTimingProvider.JumpTimingAdapter<>(JUMP_FRAME, TURN_RATE, TURN_RATE_AIR);
 	}
 
 	public BackOff() {}
@@ -68,12 +69,13 @@ public class BackOff extends AIGeneralJumpAttack<EntityNargacuga> {
 	public IDamageCalculator getDamageCalculator() {
 		return calculator;
 	}
-	
+
 	@Override
-	public void update(){
+	public void update() {
 		EntityNargacuga entity = getEntity();
-		if(this.getCurrentFrame() == 5)
-		entity.playSound("mhfc:narga.leapback", 2.0F, 1.0F);
+		if (this.getCurrentFrame() == 5) {
+			entity.playSound(MHFCSoundRegistry.getRegistry().nargacugaBackOff, 2.0F, 1.0F);
+		}
 	}
 
 	@Override

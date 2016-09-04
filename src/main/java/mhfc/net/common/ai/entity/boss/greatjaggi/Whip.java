@@ -5,6 +5,7 @@ import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.actions.AIGeneralTailWhip;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
 import net.minecraft.entity.Entity;
 
@@ -14,7 +15,7 @@ public class Whip extends AIGeneralTailWhip<EntityGreatJaggi> {
 	private static final double MAX_DISTANCE = 16F;
 	private static final double MIN_DIST = 0f;
 	private static final float MIN_RIGHT_ANGLE = 5f;
-	private static final int LAST_FRAME = 35; 
+	private static final int LAST_FRAME = 35;
 	private static final float WEIGHT = 5F;
 
 	private static final IDamageCalculator damageCalculator;
@@ -26,12 +27,12 @@ public class Whip extends AIGeneralTailWhip<EntityGreatJaggi> {
 	}
 
 	public Whip() {}
-	
+
 	@Override
 	protected void update() {
 		EntityGreatJaggi entity = getEntity();
-		if(this.getCurrentFrame() == 10){
-			entity.playSound("greatjaggi.tailwhip", 2.0f, 1.0f);
+		if (this.getCurrentFrame() == 10) {
+			entity.playSound(MHFCSoundRegistry.getRegistry().greatJaggiTailWhip, 2.0f, 1.0f);
 		}
 	}
 
