@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 import mhfc.net.common.util.CompositeException;
+import mhfc.net.common.util.parsing.exceptions.SyntaxErrorException;
 import mhfc.net.common.util.parsing.syntax.IBasicSequence;
 import mhfc.net.common.util.parsing.syntax.literals.FunctionCallLiteral;
 import mhfc.net.common.util.parsing.syntax.literals.HolderLiteral;
@@ -23,7 +24,6 @@ import mhfc.net.common.util.parsing.syntax.tree.AST;
 import mhfc.net.common.util.parsing.syntax.tree.SyntaxBuilder;
 import mhfc.net.common.util.parsing.syntax.tree.UnarySyntaxBuilder.ElementType;
 import mhfc.net.common.util.parsing.valueholders.ValueHolders;
-import net.minecraft.command.SyntaxErrorException;
 
 public class ExpressionTranslator {
 	private static class BracketOp implements IOperator<Void, IExpression> {

@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
 
+import mhfc.net.common.util.parsing.exceptions.SyntaxErrorException;
 import mhfc.net.common.util.parsing.syntax.operators.IOperator;
-import net.minecraft.command.SyntaxErrorException;
 
 public class UnaryAST {
 	private static abstract class Node {
