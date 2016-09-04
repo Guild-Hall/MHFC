@@ -38,7 +38,7 @@ public abstract class GuiListItem {
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 
 		int innerStringWidth = width - 5;
-		FontRenderer fRend = m.fontRenderer;
+		FontRenderer fRend = m.fontRendererObj;
 		String representation = getRepresentationString().trim();
 		List<String> lineWrapped = fRend.listFormattedStringToWidth(representation, innerStringWidth);
 		int stringLength = 0;

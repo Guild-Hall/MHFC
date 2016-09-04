@@ -1,5 +1,6 @@
 package mhfc.net.client.gui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -195,15 +196,20 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 				setTab(i);
 			}
 		}
-		super.mouseClicked(mouseX, mouseY, mouseButton);
+		try {
+			super.mouseClicked(mouseX, mouseY, mouseButton);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (tabIndex >= 0 && tabIndex < tabs.size()) {
 			tabs.get(tabIndex).tab.handleClick(mouseX - tabX, mouseY - tabY, mouseButton);
 		}
 	}
 
 	@Override
-	protected void mouseMovedOrUp(int mouseX, int mouseY, int id) {
-		super.mouseMovedOrUp(mouseX, mouseY, id);
+	protected void mouseReleased(int mouseX, int mouseY, int id) {
+		super.mouseReleased(mouseX, mouseY, id);
 		if (tabIndex >= 0 && tabIndex < tabs.size()) {
 			IMHFCTab tab = tabs.get(tabIndex).tab;
 			if (id < 0) {

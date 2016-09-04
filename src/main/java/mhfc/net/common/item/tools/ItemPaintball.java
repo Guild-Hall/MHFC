@@ -72,17 +72,17 @@ public class ItemPaintball extends AbstractSubTypedItem<PaintballType> {
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World worldIn, EntityPlayer player) {
-		if (!player.capabilities.isCreativeMode) {
-			--stack.stackSize;
-		}
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		if (!playerIn.capabilities.isCreativeMode)
+			--itemStackIn.stackSize;
 
-		worldIn.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+		worldIn.playSound(playerIn, null, null, null, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-		if (!worldIn.isRemote) {
+		if(!worldIn.isRemote) {
 			worldIn.spawnEntityInWorld(
-					new EntityPaintball(worldIn, ItemColor.byMetadata(stack.getItemDamage()), player));
+				new EntityPaintball(worldIn, ItemColor.byMetadata(itemStackIn.getItemDamage()), playerIn)
+			);
 		}
-		return stack;
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
 	}
 }

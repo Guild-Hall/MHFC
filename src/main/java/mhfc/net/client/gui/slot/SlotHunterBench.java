@@ -62,7 +62,7 @@ public class SlotHunterBench extends Slot {
 							&& var5.getItemDamage() > var5.getMaxDamage()) {
 						MinecraftForge.EVENT_BUS
 								.post(new PlayerDestroyItemEvent(thePlayer,
-										var5));
+										var5, EnumHand.MAIN_HAND));
 						var5 = null;
 					}
 

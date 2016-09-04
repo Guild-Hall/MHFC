@@ -78,4 +78,10 @@ public class MHFCShapelessRecipe implements IRecipe {
 	public int getRecipeSize() {
 		return this.recipeItems.size();
 	}
+
+	@Override
+	public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -128,4 +128,10 @@ public class MHFCShapedRecipes implements IRecipe {
 		this.field_92101_f = true;
 		return this;
 	}
+
+	@Override
+	public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

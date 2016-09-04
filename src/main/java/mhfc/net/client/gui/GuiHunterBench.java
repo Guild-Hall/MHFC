@@ -1,6 +1,5 @@
 package mhfc.net.client.gui;
 
-import static net.minecraftforge.client.IItemRenderer.ItemRenderType.ENTITY;
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 
 import java.util.HashMap;
@@ -34,11 +33,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 public class GuiHunterBench extends MHFCTabbedGui {
