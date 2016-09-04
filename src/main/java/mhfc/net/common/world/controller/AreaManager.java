@@ -23,6 +23,7 @@ import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IAreaType;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -99,7 +100,7 @@ public class AreaManager implements IAreaManager {
 		CornerPosition position = config.getPosition();
 
 		final Operation plan = type.populate(world, config);
-		final ChunkCoordIntPair chunkPos = new ChunkCoordIntPair(position.posX, position.posY);
+		final ChunkPos chunkPos = new ChunkPos(position.posX, position.posY);
 		ForgeChunkManager.forceChunk(getLoadingTicket(), chunkPos);
 		final CompletableFuture<IActiveArea> areaFuture = new CompletableFuture<>();
 		final Operation operation = Operations.withCallback(Operations.timingOperation(plan, 20), o -> {

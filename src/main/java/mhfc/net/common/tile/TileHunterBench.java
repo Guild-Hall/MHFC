@@ -17,12 +17,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileHunterBench extends TileEntity implements IInventory, TileMHFCUpdateStream {
+public class TileHunterBench extends TileEntity implements ITickable, IInventory, TileMHFCUpdateStream {
 
 	public static final int outputSlot = 2;
 	public static final int fuelSlot = 0;
@@ -76,7 +77,7 @@ public class TileHunterBench extends TileEntity implements IInventory, TileMHFCU
 	}
 
 	@Override
-	public void updateEntity() {
+	public void update() {
 		if (heatLength > 0) {
 			--heatLength;
 			heatStrength = getNewHeat(heatStrength, heatFromItem);
@@ -288,7 +289,7 @@ public class TileHunterBench extends TileEntity implements IInventory, TileMHFCU
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		return getDistanceFrom(entityplayer.posX, entityplayer.posY, entityplayer.posZ) <= 64.0f;
+		return getDistanceSq(entityplayer.posX, entityplayer.posY, entityplayer.posZ) <= 64.0f;
 	}
 
 	@Override

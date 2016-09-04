@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.concurrent.CompletionStage;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.quests.world.GlobalAreaManager;
+import mhfc.net.common.core.registry.MHFCDimensionRegistry;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.AreaRegistry;
@@ -76,8 +76,8 @@ public class CommandTpHunterDimension extends CommandBase {
 
 		EntityPlayerMP player = (EntityPlayerMP) sender;
 		// players = args.length > 0 ? PlayerSelector.matchPlayers(sender, args[0]) : players;
-		int questWorldID = GlobalAreaManager.instance.getWorldIDFor(QuestFlair.DAYTIME);
-		WorldServer worldServer = GlobalAreaManager.instance.getServerFor(QuestFlair.DAYTIME);
+		int questWorldID = MHFCDimensionRegistry.getWorldIDFor(QuestFlair.DAYTIME);
+		WorldServer worldServer = MHFCDimensionRegistry.getServerFor(QuestFlair.DAYTIME);
 
 		if (player.dimension == questWorldID) {
 			Teleporter tpOverworld = new BackTeleporter(worldServer);
@@ -90,7 +90,7 @@ public class CommandTpHunterDimension extends CommandBase {
 				MHFCMain.logger().debug("No area type found for " + areaName);
 				return;
 			}
-			CompletionStage<IActiveArea> futureArea = GlobalAreaManager.instance
+			CompletionStage<IActiveArea> futureArea = MHFCDimensionRegistry
 					.getUnusedInstance(areaType, QuestFlair.DAYTIME);
 			sender.addChatMessage(new TextComponentString("You will be teleported when the area is finished"));
 			futureArea.thenAccept((a) -> {

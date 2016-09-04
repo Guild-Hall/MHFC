@@ -10,12 +10,15 @@ import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.area.IExtendedConfiguration;
+import mhfc.net.common.world.controller.AreaManager;
 import mhfc.net.common.world.controller.CornerPosition;
+import mhfc.net.common.world.controller.IAreaManager;
 import mhfc.net.common.world.controller.IRectanglePlacer;
 import mhfc.net.common.world.controller.SimpleRectanglePlacer;
 import mhfc.net.common.world.types.AreaTypePlayfield;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.minecraftforge.common.util.Constants.NBT;
 
@@ -32,10 +35,12 @@ public class MHFCWorldData extends WorldSavedData {
 
 	private Collection<AreaInformation> spawnedAreas = new HashSet<>();
 	private IRectanglePlacer rectanglePlacer;
+	private IAreaManager areaManager;
 
-	public MHFCWorldData(String nbtPropName) {
+	public MHFCWorldData(World world, String nbtPropName) {
 		super(nbtPropName);
 		rectanglePlacer = new SimpleRectanglePlacer();
+		areaManager = new AreaManager(world, this);
 		this.markDirty();
 	}
 
@@ -98,6 +103,15 @@ public class MHFCWorldData extends WorldSavedData {
 
 	public Collection<AreaInformation> getAllSpawnedAreas() {
 		return Collections.unmodifiableCollection(this.spawnedAreas);
+	}
+
+	public static IAreaManager retrieveManagerForWorld(World world) {
+		MHFCWorldData data = (MHFCWorldData) world.getPerWorldStorage().getOrLoadData(MHFCWorldData.class, "mhfcareas");
+		if (data == null) {
+			data = new MHFCWorldData(world, "mhfcareas");
+			world.getPerWorldStorage().setData("mhfcareas", data);
+		}
+		return data.areaManager;
 	}
 
 }

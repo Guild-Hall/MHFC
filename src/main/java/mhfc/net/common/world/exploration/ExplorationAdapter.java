@@ -12,8 +12,8 @@ import java.util.concurrent.CompletionStage;
 import java.util.function.Consumer;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.core.registry.MHFCDimensionRegistry;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
-import mhfc.net.common.quests.world.GlobalAreaManager;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.IActiveArea;
@@ -71,7 +71,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		player.addChatMessage(new TextComponentString("Teleporting to instance when the area is ready"));
 		Objects.requireNonNull(player);
 		Objects.requireNonNull(type);
-		CompletionStage<IActiveArea> unusedInstance = GlobalAreaManager.getInstance()
+		CompletionStage<IActiveArea> unusedInstance = MHFCDimensionRegistry
 				.getUnusedInstance(type, getFlairFor(type));
 		waitingOnTeleport.put(player, unusedInstance);
 		unusedInstance.handle((area, ex) -> {
