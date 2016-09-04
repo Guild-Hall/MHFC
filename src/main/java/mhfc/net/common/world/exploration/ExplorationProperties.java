@@ -2,13 +2,18 @@ package mhfc.net.common.world.exploration;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
+import mhfc.net.common.quests.properties.NBTType;
 import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IAreaType;
-import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
 
-public final class ExplorationProperties implements IExtendedEntityProperties {
+public final class ExplorationProperties {
+
+	@CapabilityInject(ExplorationProperties.class)
+	public static final Capability<ExplorationProperties> EXPLORATION_CAPABILITY = null;
 
 	public static final String KEY_MANAGER = "manager";
 	public static final String KEY_AREA_TYPE = "areaType";
@@ -16,8 +21,7 @@ public final class ExplorationProperties implements IExtendedEntityProperties {
 	private IExplorationManager manager = OverworldManager.instance;
 	private IAreaType areaType = null;
 
-	@Override
-	public void saveNBTData(NBTTagCompound compound) {
+	public NBTBase saveNBTData(NBTTagCompound compound) {
 		String managerName = MHFCExplorationRegistry.getExplorationManagerName(getManager());
 		if (managerName == null) {
 			MHFCMain.logger().warn(
@@ -35,10 +39,11 @@ public final class ExplorationProperties implements IExtendedEntityProperties {
 			areaTypeName = "";
 		}
 		compound.setString(KEY_AREA_TYPE, areaTypeName);
+		return compound;
 	}
 
-	@Override
-	public void loadNBTData(NBTTagCompound compound) {
+	public void loadNBTData(NBTBase tag) {
+		NBTTagCompound compound = NBTType.TAG_COMPOUND.assureTagType(tag);
 		String managerName = compound.getString(KEY_MANAGER);
 		String areaTypeName = compound.getString(KEY_AREA_TYPE);
 		IExplorationManager manager = MHFCExplorationRegistry.getExplorationManagerByName(managerName);
@@ -49,9 +54,6 @@ public final class ExplorationProperties implements IExtendedEntityProperties {
 		setManager(manager);
 		setAreaType(AreaRegistry.instance.getType(areaTypeName));
 	}
-
-	@Override
-	public void init(Entity entity, World world) {}
 
 	public IAreaType getAreaType() {
 		return areaType;

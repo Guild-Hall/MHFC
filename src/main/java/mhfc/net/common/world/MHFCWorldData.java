@@ -106,6 +106,7 @@ public class MHFCWorldData extends WorldSavedData {
 	}
 
 	public static IAreaManager retrieveManagerForWorld(World world) {
+		//FIXME (1.10): implement as Capability in 1.10.2
 		MHFCWorldData data = (MHFCWorldData) world.getPerWorldStorage().getOrLoadData(MHFCWorldData.class, "mhfcareas");
 		if (data == null) {
 			data = new MHFCWorldData(world, "mhfcareas");
