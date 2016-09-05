@@ -27,7 +27,6 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 
 	public ItemHammer(HammerWeaponStats stats) {
 		super(stats);
-		setTextureName(MHFCReference.weapon_hm_default_icon);
 	}
 
 	@Override

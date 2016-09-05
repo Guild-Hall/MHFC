@@ -2,6 +2,7 @@ package mhfc.net.common.util.services;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -294,11 +295,11 @@ public class Services implements IServiceProvider {
 		}
 
 		private final IPhaseID<A, Z> phaseID;
-		private final Set<ServicePhaseEntry<?>> dependantServices;
+		private final LinkedHashSet<ServicePhaseEntry<?>> dependantServices;
 		private final Set<PhaseEntry<?, ?>> required;
 		private final Set<PhaseEntry<?, ?>> requiredFor;
-		private final Set<Consumer<A>> entryCallbacks;
-		private final Set<Consumer<Z>> exitCallbacks;
+		private final LinkedHashSet<Consumer<A>> entryCallbacks;
+		private final LinkedHashSet<Consumer<Z>> exitCallbacks;
 
 		private A defaultStartupContext;
 		private Z defaultShutdownContext;
@@ -306,11 +307,11 @@ public class Services implements IServiceProvider {
 
 		protected PhaseEntry(IPhaseID<A, Z> phase) {
 			this.phaseID = Objects.requireNonNull(phase);
-			this.dependantServices = new HashSet<>();
+			this.dependantServices = new LinkedHashSet<>();
 			this.required = new HashSet<>();
 			this.requiredFor = new HashSet<>();
-			this.entryCallbacks = new HashSet<>();
-			this.exitCallbacks = new HashSet<>();
+			this.entryCallbacks = new LinkedHashSet<>();
+			this.exitCallbacks = new LinkedHashSet<>();
 		}
 
 		private boolean isActive() {

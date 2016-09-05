@@ -10,6 +10,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 public class ItemHuntingHorn extends ItemWeaponMelee<HuntingHornWeaponStats> {
@@ -29,14 +32,14 @@ public class ItemHuntingHorn extends ItemWeaponMelee<HuntingHornWeaponStats> {
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		ItemStack newstack = super.onItemRightClick(stack, world, player);
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+		ActionResult<ItemStack> newstack = super.onItemRightClick(stack, world, player, hand);
 		stats.toggleNote(stack);
-		return newstack;
+		return ActionResult.newResult(EnumActionResult.SUCCESS, newstack.getResult());
 	}
 
 	@Override
-	public void onUsingTick(ItemStack stack, EntityPlayer player, int useCounter) {
+	public void onUsingTick(ItemStack stack, EntityLivingBase player, int useCounter) {
 		super.onUsingTick(stack, player, useCounter);
 	}
 
@@ -60,7 +63,7 @@ public class ItemHuntingHorn extends ItemWeaponMelee<HuntingHornWeaponStats> {
 		if (!isOffCooldown(stack)) {
 			return superResult;
 		}
-		target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.stun.id, 10, 5));
+		target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().stun, 10, 5));
 		triggerCooldown(stack);
 		return true;
 	}

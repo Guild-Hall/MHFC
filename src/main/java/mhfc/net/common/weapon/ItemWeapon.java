@@ -39,7 +39,7 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item {
 		this.stats = Objects.requireNonNull(stats);
 		setFull3D();
 		setCreativeTab(MHFCMain.mhfctabs);
-		setUnlocalizedName(stats.getUnlocalizedName());
+		stats.getUnlocalizedName().ifPresent(this::setUnlocalizedName);
 		setMaxStackSize(1);
 	}
 

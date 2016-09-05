@@ -1,8 +1,11 @@
 package mhfc.net.common.weapon.melee.huntinghorn;
 
-import mhfc.net.common.util.lib.MHFCReference;
+import java.util.function.Supplier;
+
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundEvent;
 
 public enum Note {
 	White(0xFFFFFF, 1.f),
@@ -15,16 +18,16 @@ public enum Note {
 	Orange(0xFFFF55, 4 / 5f);
 
 	public final int colorRGB;
-	private final String sound;
+	private final Supplier<SoundEvent> sound;
 	private final float pitch;
 
 	private Note(int color, float pitch) {
 		this.colorRGB = color;
-		this.sound = MHFCReference.weapon_hh_notesound;
+		this.sound = () -> MHFCSoundRegistry.getRegistry().huntingHornPlayNote;
 		this.pitch = pitch;
 	}
 
 	public void playSound(ItemStack stack, EntityPlayer player) {
-		player.playSound(sound, 1, pitch);
+		player.playSound(sound.get(), 1, pitch);
 	}
 }

@@ -34,6 +34,8 @@ import mhfc.net.common.item.block.ItemBlockWyverniaRock;
 import mhfc.net.common.item.block.ItemBlockWyverniaWood;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class MHFCBlockRegistry {
@@ -79,6 +81,7 @@ public class MHFCBlockRegistry {
 		mhfcblockclay = registerBlock(new BlockWyverniaClay());
 		mhfcblockdiskstone = registerBlock(new BlockDiscstone());
 		// Initialize Blocks with special items
+		// FIXME: move the items to the ItemRegistry
 		mhfcblockhunterbench = registerBlockWithItem(new BlockHunterBench(), ItemBlockBenchHunter.class);
 		mhfcblockstuntrap = registerBlockWithItem(new BlockStunTrap(), ItemBlockStunTrap.class);
 		mhfcblockbbqspit = registerBlockWithItem(new BlockBBQSpit(), ItemBlockBBQSpit.class);
@@ -95,11 +98,12 @@ public class MHFCBlockRegistry {
 		MHFCMain.logger().info("Blocks registered");
 	}
 
-	private Block registerBlock(Block block) {
-		return registerBlock(block, block.getUnlocalizedName());
+	private Block registerBlock(String name, Block block) {
+		return registerBlock(name, block, new ItemBlock(block));
 	}
 
-	private Block registerBlock(Block block, String name) {
+	private Block registerBlock(String name, Block block, Item item) {
+		GameRegistry.register(item.setRegistryName(name));
 		return GameRegistry.register(block.setRegistryName(name));
 	}
 

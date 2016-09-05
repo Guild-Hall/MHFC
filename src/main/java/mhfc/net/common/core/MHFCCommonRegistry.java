@@ -38,12 +38,14 @@ public class MHFCCommonRegistry {
 
 	public static void staticInit() {
 		MHFCPotionRegistry.staticInit();
-		MHFCBlockRegistry.staticInit();
 		MHFCEntityRegistry.staticInit();
-		MHFCItemRegistry.staticInit();
 		MHFCQuestRegistry.staticInit();
 		MHFCEventRegistry.staticInit();
 		MHFCSoundRegistry.staticInit();
+
+		// BLOCKS BEFORE ITEMS!!
+		MHFCBlockRegistry.staticInit();
+		MHFCItemRegistry.staticInit();
 
 		MHFCMain.initPhase.registerEntryCallback(e -> init());
 	}

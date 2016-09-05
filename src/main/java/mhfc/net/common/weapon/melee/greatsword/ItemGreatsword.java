@@ -21,7 +21,6 @@ public class ItemGreatsword extends ItemWeaponMelee<GreatswordWeaponStats> {
 
 	public ItemGreatsword(GreatswordWeaponStats stats) {
 		super(stats);
-		setTextureName(MHFCReference.weapon_gs_default_icon);
 	}
 
 	@Override

@@ -32,7 +32,6 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 
 	public ItemLongsword(LongswordWeaponStats stats) {
 		super(stats);
-		setTextureName(MHFCReference.weapon_ls_default_icon);
 	}
 
 	protected float getAffinity(ItemStack stack) {

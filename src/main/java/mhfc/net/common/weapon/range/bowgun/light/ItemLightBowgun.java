@@ -19,7 +19,6 @@ public class ItemLightBowgun extends ItemBowgun {
 
 	public ItemLightBowgun(BowgunWeaponStats stats) {
 		super(stats);
-		setTextureName(MHFCReference.weapon_bgl_barrel_icon);
 	}
 
 	@Override

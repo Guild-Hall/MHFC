@@ -12,8 +12,6 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	public static ItemBow build(Consumer<BowWeaponStatsBuilder> config) {
@@ -24,9 +22,6 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 
 	public static final String[] ItemNameArray = new String[] { "bow", "bow1", "bow2", "bow3" };
 	protected double defaultArrowDamage;
-
-	@SideOnly(Side.CLIENT)
-	public IIcon[] IconArray;
 
 	public ItemBow(BowWeaponStats stats) {
 		super(stats);
@@ -52,11 +47,6 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 			return IconArray[1];
 		}
 		return IconArray[0];
-	}
-
-	@Override
-	public IIcon getIconFromDamage(int par1) {
-		return this.IconArray[0];
 	}
 
 	/**
@@ -141,16 +131,4 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
 		player.setItemInUse(stack, count);
 	}
-
-	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
-		this.IconArray = new IIcon[ItemNameArray.length];
-
-		for (int i = 0; i < this.IconArray.length; ++i) {
-			String prefix = "mhfc:";
-			this.IconArray[i] = par1IconRegister.registerIcon(prefix + ItemNameArray[i]);
-		}
-		this.itemIcon = this.IconArray[0];
-	}
-
 }

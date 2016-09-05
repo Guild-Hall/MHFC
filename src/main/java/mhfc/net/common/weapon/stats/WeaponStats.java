@@ -2,7 +2,7 @@ package mhfc.net.common.weapon.stats;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -26,7 +26,7 @@ public class WeaponStats {
 		private int slots;
 		private int cooldownTicks;
 		private ItemRarity rarity; // FIXME: when merged with Items, change this to the correct enum
-		private String unlocalizedName;
+		private Optional<String> unlocalizedName;
 
 		public WeaponStatsBuilder() {
 			this.attackBase = 0;
@@ -72,15 +72,21 @@ public class WeaponStats {
 		}
 
 		public T setName(String unlocalizedName) {
-			this.unlocalizedName = Objects.requireNonNull(unlocalizedName);
+			this.unlocalizedName = Optional.of(unlocalizedName);
 			return getThis();
 		}
 
 		public WeaponStats build() {
-			Preconditions.checkState(unlocalizedName != null, "must set a unlocalized name for this item");
 			return new WeaponStats(this);
 		}
 	}
+
+	private final float attackBase;
+	private final List<CombatEffect> combatEffects;
+	private final int slotCount;
+	private final int cooldownTicks;
+	private final ItemRarity rarity;
+	private final Optional<String> name;
 
 	protected WeaponStats(WeaponStatsBuilder<?> builder) {
 		this.attackBase = builder.attackBase;
@@ -90,13 +96,6 @@ public class WeaponStats {
 		this.rarity = builder.rarity;
 		this.name = builder.unlocalizedName;
 	}
-
-	private final float attackBase;
-	private final List<CombatEffect> combatEffects;
-	private final int slotCount;
-	private final int cooldownTicks;
-	private final ItemRarity rarity;
-	private final String name;
 
 	public float getAttack() {
 		return attackBase;
@@ -118,7 +117,7 @@ public class WeaponStats {
 		return combatEffects;
 	}
 
-	public String getUnlocalizedName() {
+	public Optional<String> getUnlocalizedName() {
 		return name;
 	}
 }
