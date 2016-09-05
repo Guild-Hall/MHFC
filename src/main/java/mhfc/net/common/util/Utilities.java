@@ -17,6 +17,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.pathfinding.Path;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -40,7 +41,7 @@ public class Utilities {
 	public static void removeAttackers(EntityLiving living) {
 		@SuppressWarnings("unchecked")
 		List<EntityLiving> list = living.worldObj
-				.getEntitiesWithinAABB(EntityLiving.class, living.boundingBox.expand(16.0D, 10.0D, 16.0D));
+				.getEntitiesWithinAABB(EntityLiving.class, living.getEntityBoundingBox().expand(16.0D, 10.0D, 16.0D));
 		for (EntityLiving attacker : list) {
 			if ((attacker != living) && (attacker.getAttackTarget() == living)) {
 				attacker.setAttackTarget(null);
@@ -49,22 +50,6 @@ public class Utilities {
 		}
 	}
 
-	public static void chargeMobToEntity(
-			@SuppressWarnings("rawtypes") EntityMHFCBase chargingEntity,
-			Entity target,
-			float distance,
-			float moveSpeed,
-			boolean dependsonWater) {
-		PathEntity pathentity = chargingEntity.worldObj
-				.getPathEntityToEntity(chargingEntity, target, 16, false, false, dependsonWater, true);
-		if ((pathentity != null) && (distance < 12.0F)) {
-			chargingEntity.setPathToEntity(pathentity);
-			//chargingEntity. = moveSpeed;
-		}
-		if ((target != null) && ((dependsonWater = true))) {
-			//chargingEntity.speed = moveSpeed / 2D;
-		}
-	}
 
 	// YES THIS IS usefull for 1.9
 	public static int countPlayers(WorldServer worldObj) {

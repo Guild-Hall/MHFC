@@ -1,5 +1,7 @@
 package mhfc.net.client.gui.block;
 
+import java.io.IOException;
+
 import javax.vecmath.Vector2f;
 
 import mhfc.net.client.gui.ClickableGuiList;
@@ -44,7 +46,8 @@ public class GuiBlockExploreArea extends MHFCGui {
 	@Override
 	public void initGui() {
 		super.initGui();
-		targetAreaText = new GuiTextField(this.fontRendererObj, width / 6, height / 4, 2 * width / 3, 20);
+		// not sure with mouseClickButton
+		targetAreaText = new GuiTextField(mouseClickButton, this.fontRendererObj, width / 6, height / 4, 2 * width / 3, 20);
 		targetFlairList = new ClickableGuiList<>(2 * width / 3, 60, 15);
 		for (QuestFlair f : QuestFlair.values()) {
 			targetFlairList.add(new QuestFlairItem(f));
@@ -83,7 +86,12 @@ public class GuiBlockExploreArea extends MHFCGui {
 
 	@Override
 	protected void keyTyped(char keyCode, int modifiers) {
-		super.keyTyped(keyCode, modifiers);
+		try {
+			super.keyTyped(keyCode, modifiers);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		targetAreaText.textboxKeyTyped(keyCode, modifiers);
 		saveButton.enabled = getQuestFlair() != null;
 	}

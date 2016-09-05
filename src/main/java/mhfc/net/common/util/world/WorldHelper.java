@@ -37,14 +37,14 @@ public class WorldHelper {
 	 */
 	public static List<Entity> collidingEntities(Entity entity, Predicate<? super Entity> filter) {
 		World world = entity.worldObj;
-		List<Entity> collidingEntities = world.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox, filter);
+		List<Entity> collidingEntities = world.getEntitiesWithinAABBExcludingEntity(entity, entity.getEntityBoundingBox());
 		Entity[] subEntities = entity.getParts();
 		if (subEntities == null) {
 			return collidingEntities;
 		}
 		for (Entity subE : subEntities) {
 			List<Entity> collidingEntitiesSub = world
-					.getEntitiesWithinAABBExcludingEntity(entity, subE.boundingBox, filter);
+					.getEntitiesWithinAABBExcludingEntity(entity, subE.getEntityBoundingBox());
 			for (Entity collidingE : collidingEntitiesSub) {
 				if (!collidingEntities.contains(collidingE)) {
 					collidingEntities.add(collidingE);

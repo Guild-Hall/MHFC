@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 
 public enum ElementalType implements ICombatEffectType {
 	Fire(new DamageSource("mhfc.fireelement").setDamageBypassesArmor()) {
@@ -14,7 +15,7 @@ public enum ElementalType implements ICombatEffectType {
 		public void onEntitySwing(EntityLivingBase entity, ItemStack stack, Random rand) {
 			double velX = rand.nextGaussian(), velY = rand.nextGaussian(), velZ = rand.nextGaussian();
 			double posX = entity.posX, posY = entity.posY, posZ = entity.posZ;
-			entity.worldObj.spawnParticle("lava", posX, posY, posZ, velX, velY, velZ);
+			entity.worldObj.spawnParticle(EnumParticleTypes.LAVA, posX, posY, posZ, velX, velY, velZ);
 		}
 
 		@Override
