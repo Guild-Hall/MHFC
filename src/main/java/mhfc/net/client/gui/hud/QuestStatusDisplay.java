@@ -11,6 +11,7 @@ import mhfc.net.MHFCMain;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
+import mhfc.net.common.core.registry.MHFCContainerRegistry;
 import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.util.stringview.Viewable;
 import mhfc.net.common.util.stringview.Viewables;
@@ -44,7 +45,7 @@ public class QuestStatusDisplay {
 				public boolean mousePressed(Minecraft mc, int p_146116_2_, int p_146116_3_) {
 					if (super.mousePressed(mc, p_146116_2_, p_146116_3_)) {
 						mc.thePlayer
-								.openGui(MHFCMain.instance(), MHFCReference.gui_queststatus_id, mc.theWorld, 0, 0, 0);
+								.openGui(MHFCMain.instance(), MHFCContainerRegistry.gui_queststatus_id, mc.theWorld, 0, 0, 0);
 						return true;
 					}
 					return false;

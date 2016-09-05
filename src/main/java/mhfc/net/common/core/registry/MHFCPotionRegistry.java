@@ -21,6 +21,14 @@ public class MHFCPotionRegistry {
 	public final Potion kirin_blessing;
 	public final Potion painted;
 
+	public static final String potion_paralyze_uuid = "07c8c0a3-5bd7-4ca3-a984-bb9bdacf4496";
+
+	public static final String potion_kirinbless_uuid = "97bd1ec2-4a75-43cc-b81b-e281503c2ffe";
+
+	public static final String potion_longsworddamageup_uuid = "e6f4502b-1242-4024-bc5e-e89f47fcda76";
+
+	public static final String potion_attackup_uuid = "6a80c830-745d-4edd-8a17-e580f813bf20";
+
 	private MHFCPotionRegistry() {
 		kirin_blessing = registerPotion("kirin_blessing", new PotionKirinBless());
 		painted = registerPotion("painted", new PotionPainted(ItemColor.PINK.getRGB(), true));

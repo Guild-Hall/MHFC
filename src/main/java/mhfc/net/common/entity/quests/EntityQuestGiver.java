@@ -1,7 +1,7 @@
 package mhfc.net.common.entity.quests;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.core.registry.MHFCContainerRegistry;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,7 +36,7 @@ public class EntityQuestGiver extends EntityVillager {
 
 	@Override
 	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand) {
-		player.openGui(MHFCMain.instance(), MHFCReference.gui_questgiver_id, this.worldObj, subID, 0, 0);
+		player.openGui(MHFCMain.instance(), MHFCContainerRegistry.gui_questgiver_id, this.worldObj, subID, 0, 0);
 		return EnumActionResult.SUCCESS;
 	}
 

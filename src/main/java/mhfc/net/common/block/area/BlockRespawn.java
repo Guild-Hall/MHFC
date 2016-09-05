@@ -15,8 +15,7 @@ public class BlockRespawn extends Block {
 	public BlockRespawn() {
 		super(Material.WEB);
 		setCreativeTab(MHFCMain.mhfctabs);
-		setBlockName(MHFCReference.block_respawn_name);
-		setBlockTextureName(MHFCReference.block_respawn_tex);
+		setUnlocalizedName(MHFCReference.block_respawn_name);
 		setBlockUnbreakable();
 	}
 
@@ -30,8 +29,9 @@ public class BlockRespawn extends Block {
 
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
-		if (world.isRemote)
+		if (world.isRemote) {
 			return;
+		}
 		if (!(entity instanceof EntityPlayerMP)) {
 			return;
 		}

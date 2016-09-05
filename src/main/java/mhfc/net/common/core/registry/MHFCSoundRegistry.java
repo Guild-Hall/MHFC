@@ -1,7 +1,6 @@
 package mhfc.net.common.core.registry;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -145,7 +144,7 @@ public class MHFCSoundRegistry {
 		tigrexRockThrow = registerSoundEvent("mhfc:tigrex.rockthrow");
 		tigrexTailWhip = registerSoundEvent("mhfc:tigrex.tailwhip");
 
-		huntingHornPlayNote = registerSoundEvent(MHFCReference.weapon_hh_notesound);
+		huntingHornPlayNote = registerSoundEvent("mhfc:huntinghorn.play");
 	}
 
 	private SoundEvent registerSoundEvent(String nameAndLocation) {

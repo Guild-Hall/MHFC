@@ -1,5 +1,6 @@
 package mhfc.net.common.potion;
 
+import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,7 +19,7 @@ public class PotionKirinBless extends Potion {
 		setIconIndex(1, 0);
 		registerPotionAttributeModifier(
 				SharedMonsterAttributes.ATTACK_DAMAGE,
-				MHFCReference.potion_kirinbless_uuid,
+				MHFCPotionRegistry.potion_kirinbless_uuid,
 				1.1D,
 				1);
 	}

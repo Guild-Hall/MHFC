@@ -7,9 +7,9 @@ import mhfc.net.client.gui.block.GuiBlockExploreArea;
 import mhfc.net.client.gui.quests.GuiQuestBoard;
 import mhfc.net.client.gui.quests.GuiQuestGiver;
 import mhfc.net.client.gui.quests.QuestStatusInventory;
+import mhfc.net.common.core.registry.MHFCContainerRegistry;
 import mhfc.net.common.tile.TileExploreArea;
 import mhfc.net.common.tile.TileHunterBench;
-import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -21,7 +21,7 @@ public class MHFCGuiHandler implements IGuiHandler {
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		if (ID == MHFCReference.gui_hunterbench_id) {
+		if (ID == MHFCContainerRegistry.gui_hunterbench_id) {
 			TileEntity tE = world.getTileEntity(new BlockPos(x, y, z));
 			if (tE instanceof TileHunterBench) {
 				return new ContainerHunterBench(player.inventory, world, (TileHunterBench) tE, x, y, z);
@@ -33,7 +33,7 @@ public class MHFCGuiHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		switch (ID) {
-		case MHFCReference.gui_hunterbench_id:
+		case MHFCContainerRegistry.gui_hunterbench_id:
 			TileEntity tE = world.getTileEntity(new BlockPos(x, y, z));
 			if (tE instanceof TileHunterBench) {
 				return new GuiHunterBench(player.inventory, world, (TileHunterBench) tE, x, y, z);
@@ -45,13 +45,13 @@ public class MHFCGuiHandler implements IGuiHandler {
 						z);
 			}
 			break;
-		case MHFCReference.gui_questgiver_id:
+		case MHFCContainerRegistry.gui_questgiver_id:
 			return GuiQuestGiver.getScreen(x, player);
-		case MHFCReference.gui_questboard_id:
+		case MHFCContainerRegistry.gui_questboard_id:
 			return GuiQuestBoard.getQuestBoard(player);
-		case MHFCReference.gui_queststatus_id:
+		case MHFCContainerRegistry.gui_queststatus_id:
 			return new QuestStatusInventory(player);
-		case MHFCReference.gui_changearea_id:
+		case MHFCContainerRegistry.gui_changearea_id:
 			return getChangeAreaGui(world, x, y, z);
 		}
 		return null;

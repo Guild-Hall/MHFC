@@ -8,6 +8,7 @@ import mhfc.net.common.util.SubTypedItem.SubTypeEnum;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -25,12 +26,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  *            The enum-type used to enumerate all subtypes
  */
 public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
-	public static interface SubTypeEnum<I> {
+	public static interface SubTypeEnum<I> extends IStringSerializable {
 		/**
 		 * The name of this sub item.
 		 *
 		 * @return
 		 */
+		@Override
 		public String getName();
 
 		/**
@@ -94,7 +96,6 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 		this.values = clazzToken.getEnumConstants();
 		this.modifier = modifier == null ? SubTypedItem.PASSTHROUGH : modifier;
 	}
-
 
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item block, List<ItemStack> list) {

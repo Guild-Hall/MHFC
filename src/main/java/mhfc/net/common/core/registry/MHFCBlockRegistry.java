@@ -1,5 +1,7 @@
 package mhfc.net.common.core.registry;
 
+import java.util.function.Function;
+
 import mhfc.net.MHFCMain;
 import mhfc.net.common.block.BlockDiscstone;
 import mhfc.net.common.block.BlockIceCrystal;
@@ -70,41 +72,58 @@ public class MHFCBlockRegistry {
 	public final Block mhfcblockexplorearea;
 
 	private MHFCBlockRegistry() {
-		// Initialize Blocks
-		mhfcblocklosgable = registerBlock(new BlockLosGable());
-		mhfcblockdirt = registerBlock(new BlockWyverniaDirt());
-		mhfcblockgrass = registerBlock(new BlockWyverniaGrass());
-		mhfcblockstone = registerBlock(new BlockWyverniaStone());
-		mhfcblockicecrystal = registerBlock(new BlockIceCrystal());
-		mhfcblocksand = registerBlock(new BlockWyverniaSand());
-		mhfcblockquicksand = registerBlock(new BlockWyverniaQuickSand());
-		mhfcblockclay = registerBlock(new BlockWyverniaClay());
-		mhfcblockdiskstone = registerBlock(new BlockDiscstone());
-		// Initialize Blocks with special items
-		// FIXME: move the items to the ItemRegistry
-		mhfcblockhunterbench = registerBlockWithItem(new BlockHunterBench(), ItemBlockBenchHunter.class);
-		mhfcblockstuntrap = registerBlockWithItem(new BlockStunTrap(), ItemBlockStunTrap.class);
-		mhfcblockbbqspit = registerBlockWithItem(new BlockBBQSpit(), ItemBlockBBQSpit.class);
-		mhfcblockoreblocks = registerBlockWithItem(new BlockWyverniaOreBlock(), ItemBlockWyverniaOreBlock.class);
-		mhfcblockore = registerBlockWithItem(new BlockWyverniaOres(), ItemBlockWyverniaOres.class);
-		mhfcblockflowers = registerBlockWithItem(new BlockWyverniaFlower(), ItemBlockWyverniaFlower.class);
-		mhfcblockplanks = registerBlockWithItem(new BlockWyverniaPlank(), ItemBlockWyverniaPlank.class);
-		mhfcblockrocks = registerBlockWithItem(new BlockWyverniaRock(), ItemBlockWyverniaRock.class);
-		mhfcblockwood = registerBlockWithItem(new BlockWyverniaWood(), ItemBlockWyverniaWood.class);
-		mhfcblockquestboard = registerBlockWithItem(new BlockQuestBoard(), ItemBlockQuestBoard.class);
-		mhfcblockrespawn = registerBlock(new BlockRespawn());
-		mhfcblockexplorearea = registerBlock(new BlockExploreArea());
+		mhfcblockdirt = registerBlock("dirt_wyvernian", new BlockWyverniaDirt());
+		mhfcblockgrass = registerBlock("grass_wyvernian", new BlockWyverniaGrass());
+		mhfcblockstone = registerBlock("stone_wyvernian", new BlockWyverniaStone());
+		mhfcblocksand = registerBlock("sand_wyvernian", new BlockWyverniaSand());
+		mhfcblockclay = registerBlock("clay_wyvernian", new BlockWyverniaClay());
+		mhfcblockwood = registerBlockWithItem("wood_wyvernian", new BlockWyverniaWood(), ItemBlockWyverniaWood::new);
+		mhfcblockplanks = registerBlockWithItem(
+				"plank_wyvernian",
+				new BlockWyverniaPlank(),
+				ItemBlockWyverniaPlank::new);
+		mhfcblockflowers = registerBlockWithItem(
+				"flower_wyvernian",
+				new BlockWyverniaFlower(),
+				ItemBlockWyverniaFlower::new);
+		mhfcblockrocks = registerBlockWithItem("rock_wyvernian", new BlockWyverniaRock(), ItemBlockWyverniaRock::new);
+
+		mhfcblocklosgable = registerBlock("los_gable", new BlockLosGable());
+		mhfcblockicecrystal = registerBlock("icecrystal", new BlockIceCrystal());
+		mhfcblockquicksand = registerBlock("quicksand", new BlockWyverniaQuickSand());
+		mhfcblockdiskstone = registerBlock("diskstone", new BlockDiscstone());
+
+		mhfcblockhunterbench = registerBlockWithItem("hunterbench", new BlockHunterBench(), ItemBlockBenchHunter::new);
+		mhfcblockstuntrap = registerBlockWithItem("trap_stun", new BlockStunTrap(), ItemBlockStunTrap::new);
+		mhfcblockbbqspit = registerBlockWithItem("bbq_spit", new BlockBBQSpit(), ItemBlockBBQSpit::new);
+		mhfcblockoreblocks = registerBlockWithItem(
+				"ore_block",
+				new BlockWyverniaOreBlock(),
+				ItemBlockWyverniaOreBlock::new);
+		mhfcblockore = registerBlockWithItem("ore", new BlockWyverniaOres(), ItemBlockWyverniaOres::new);
+		mhfcblockquestboard = registerBlockWithItem("questboard", new BlockQuestBoard(), ItemBlockQuestBoard::new);
+		mhfcblockrespawn = registerBlock("respawn_marker", new BlockRespawn());
+		mhfcblockexplorearea = registerBlock("eploration_teleporter", new BlockExploreArea());
 
 		MHFCMain.logger().info("Blocks registered");
 	}
 
-	private Block registerBlock(String name, Block block) {
-		return registerBlock(name, block, new ItemBlock(block));
+	private <T extends Block> T registerBlock(String registryName, T block) {
+		return registerBlockWithItem(registryName, block, new ItemBlock(block));
 	}
 
-	private Block registerBlock(String name, Block block, Item item) {
-		GameRegistry.register(item.setRegistryName(name));
-		return GameRegistry.register(block.setRegistryName(name));
+	private <T extends Block> T registerBlockWithItem(
+			String blockRegistry,
+			T block,
+			Function<? super T, ? extends Item> item) {
+		return registerBlockWithItem(blockRegistry, block, item.apply(block));
+	}
+
+	private <T extends Block> T registerBlockWithItem(String blockRegistry, T block, Item item) {
+		item.setRegistryName(blockRegistry);
+		block.setRegistryName(blockRegistry);
+		GameRegistry.register(item);
+		return GameRegistry.register(block);
 	}
 
 	public static MHFCBlockRegistry getRegistry() {

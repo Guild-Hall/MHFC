@@ -87,7 +87,7 @@ public class WeaponStats {
 	private final int slotCount;
 	private final int cooldownTicks;
 	private final ItemRarity rarity;
-	private final Optional<String> name;
+	private final String name;
 
 	protected WeaponStats(WeaponStatsBuilder<?> builder) {
 		this.attackBase = builder.attackBase;
@@ -95,7 +95,7 @@ public class WeaponStats {
 		this.slotCount = builder.slots;
 		this.cooldownTicks = builder.cooldownTicks;
 		this.rarity = builder.rarity;
-		this.name = builder.unlocalizedName;
+		this.name = builder.unlocalizedName.get();
 	}
 
 	public float getAttack() {
@@ -118,7 +118,7 @@ public class WeaponStats {
 		return combatEffects;
 	}
 
-	public Optional<String> getUnlocalizedName() {
+	public String getUnlocalizedName() {
 		return name;
 	}
 }

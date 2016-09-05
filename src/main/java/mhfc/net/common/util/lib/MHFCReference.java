@@ -3,6 +3,15 @@ package mhfc.net.common.util.lib;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ModMetadata;
 
+/**
+ * This class contains everything that needs to be refered to outside the code. This includes localizations, filenames,
+ * config keys.<br>
+ * If something does not need to be synched with resources, it should be put into the most specific registry class in
+ * the .core.registry packet.
+ *
+ * @author WorldSEnder
+ *
+ */
 public class MHFCReference {
 	public static final String main_config_file = "config/MHFC.cfg";
 	public static final String main_config_mobCategory = "MHFC Mobs";
@@ -511,15 +520,11 @@ public class MHFCReference {
 	// go to https://www.uuidgenerator.net/ to do so
 	public static final String particle_kirinsfx_tex = "mhfc:textures/particle/kirinSFX.png";
 	public static final String potion_attackup_name = "potion.attackuplow";
-	public static final String potion_attackup_uuid = "6a80c830-745d-4edd-8a17-e580f813bf20";
 	public static final String potion_longsworddamageup_name = "potion.longswordattackup";
-	public static final String potion_longsworddamageup_uuid = "e6f4502b-1242-4024-bc5e-e89f47fcda76";
 	public static final String potion_kirinbless_name = "potion.kirinbless";
 	public static final String potion_kirinbless_tex = "mhfc:textures/potion/mhfcpotion.png";
-	public static final String potion_kirinbless_uuid = "97bd1ec2-4a75-43cc-b81b-e281503c2ffe";
 	public static final String potion_paralyze_name = "potion.paralyze";
 	public static final String potion_paralyze_tex = "mhfc:textures/potion/mhfcpotion.png";
-	public static final String potion_paralyze_uuid = "07c8c0a3-5bd7-4ca3-a984-bb9bdacf4496";
 
 	public static final String tile_akuracrystal_tex = "mhfc:textures/tile/akuracrystal.png";
 	public static final String tile_armorstand_id = "Armor Stand";
@@ -561,8 +566,6 @@ public class MHFCReference {
 	public static final String weapon_gs_rathalos_tex = "mhfc:textures/weapons/(GS)rathalosfiresword.png";
 	public static final String weapon_gs_deadlyserpentblade_name = "greatsword_6";
 	public static final String weapon_gs_deadlyserpentblade_tex = "mhfc:textures/weapons/(GS)deadlyserpentblade.png";
-
-	public static final String weapon_hh_notesound = "mhfc:huntinghorn.play";
 
 	public static final String weapon_hh_default_icon = "mhfc:huntinghorn";
 	public static final String weapon_hh_metalbagpipe_name = "huntinghorn_1";
@@ -687,12 +690,6 @@ public class MHFCReference {
 	public static final String gui_huntinghorn_note = "mhfc:textures/gui/notes.png";
 	public static final String gui_longsword_gauge = "mhfc:textures/gui/spiritgauge.png";
 
-	public static final int gui_hunterbench_id = 1;
-	public static final int gui_questgiver_id = 2;
-	public static final int gui_questboard_id = 3;
-	public static final int gui_queststatus_id = 4;
-	public static final int gui_changearea_id = 5;
-
 	public static final int potion_paralyze_iconindex = 1;
 	public static final int potion_kirinbless_iconindex = 2;
 	public static final int potion_attackuplow_iconindex = 3;
@@ -714,55 +711,6 @@ public class MHFCReference {
 	public static final String questLocation = "mhfc:quests/quests.json";
 	public static final String goalLocation = "mhfc:quests/goals.json";
 	public static final String groupLocation = "mhfc:quests/groups.json";
-
-	public static final String base_gear_fauld = "mhfc:gear/fauld";
-	public static final String base_gear_head = "mhfc:gear/head";
-	public static final String base_gear_body = "mhfc:gear/body";
-	public static final String base_gear_knife = "mhfc:gear/knife";
-	public static final String base_gear_leg = "mhfc:gear/leg";
-	public static final String base_gear_phial_empty = "mhfc:gear/phial_empty";
-	public static final String base_gear_phial_full = "mhfc:gear/phial_full";
-	public static final String base_gear_bullet = "mhfc:gear/shell";
-
-	public static final String base_misc_armorgem = "mhfc:misc/armor_gem";
-	public static final String base_misc_armorsphere = "mhfc:misc/armor_sphere";
-	public static final String base_misc_bait = "mhfc:misc/bait";
-	public static final String base_misc_berry = "mhfc:misc/berry";
-	public static final String base_misc_bug = "mhfc:misc/bug";
-	public static final String base_misc_cert = "mhfc:misc/cert";
-	public static final String base_misc_dung = "mhfc:misc/dung";
-	public static final String base_misc_fish = "mhfc:misc/fish";
-	public static final String base_misc_husk = "mhfc:misc/husk";
-	public static final String base_misc_meat = "mhfc:misc/meat";
-	public static final String base_misc_mystery = "mhfc:misc/mystery";
-	public static final String base_misc_ore = "mhfc:misc/ore";
-	public static final String base_misc_shroom = "mhfc:misc/shroom";
-	public static final String base_misc_smoke = "mhfc:misc/smoke";
-	public static final String base_misc_token = "mhfc:misc/token";
-	public static final String base_misc_vine = "mhfc:misc/vine";
-
-	public static final String base_monster_bone = "mhfc:monster/bone";
-	public static final String base_monster_carapace = "mhfc:monster/carapace";
-	public static final String base_monster_gem = "mhfc:monster/gem";
-	public static final String base_monster_mantle = "mhfc:monster/mantle";
-	public static final String base_monster_part = "mhfc:monster/part";
-	public static final String base_monster_pelt = "mhfc:monster/pelt";
-	public static final String base_monster_sac = "mhfc:monster/sac";
-	public static final String base_monster_scale = "mhfc:monster/scale";
-	public static final String base_monster_sharp = "mhfc:monster/sharp";
-	public static final String base_monster_webbing = "mhfc:monster/webbing";
-
-	public static final String base_tool_barrel = "mhfc:tools/barrel";
-	public static final String base_tool_book = "mhfc:tools/book";
-	public static final String base_tool_boomerang = "mhfc:tools/boomerang";
-	public static final String base_tool_horn = "mhfc:tools/horn";
-	public static final String base_tool_kit = "mhfc:tools/kit";
-	public static final String base_tool_map = "mhfc:tools/map";
-	public static final String base_tool_net = "mhfc:tools/net";
-	public static final String base_tool_pick = "mhfc:tools/pick";
-	public static final String base_tool_potion = "mhfc:tools/potion";
-	public static final String base_tool_trap = "mhfc:tools/trap";
-	public static final String base_tool_whestone = "mhfc:tools/whestone";
 
 	public static final String item_paintball_basename = "paintball";
 	public static final String entity_paintball_name = "Paintball";

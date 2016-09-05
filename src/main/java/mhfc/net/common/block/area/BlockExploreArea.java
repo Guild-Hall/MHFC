@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.core.registry.MHFCContainerRegistry;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.tile.TileExploreArea;
 import mhfc.net.common.util.lib.MHFCReference;
@@ -55,7 +56,7 @@ public class BlockExploreArea extends Block implements ITileEntityProvider {
 			float var8,
 			float var9) {
 		if (player.capabilities.isCreativeMode) {
-			player.openGui(MHFCMain.instance(), MHFCReference.gui_changearea_id, world, x, y, z);
+			player.openGui(MHFCMain.instance(), MHFCContainerRegistry.gui_changearea_id, world, x, y, z);
 			return true;
 		}
 		return false;

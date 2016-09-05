@@ -2,6 +2,7 @@ package mhfc.net.common.potion;
 
 import java.util.Random;
 
+import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
@@ -22,7 +23,7 @@ public class PotionParalyze extends Potion {
 		random = new Random();
 		registerPotionAttributeModifier(
 				SharedMonsterAttributes.MOVEMENT_SPEED,
-				MHFCReference.potion_paralyze_uuid,
+				MHFCPotionRegistry.potion_paralyze_uuid,
 				-1D,
 				1);
 	}

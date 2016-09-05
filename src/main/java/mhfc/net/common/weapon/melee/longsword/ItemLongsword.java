@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 
 import com.google.common.collect.Multimap;
 
+import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.util.NBTUtils;
 import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
@@ -87,7 +88,7 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 		Multimap<String, AttributeModifier> attributes = super.getAttributeModifiers(slot, stack);
 		if (isAffinityTriggered(stack)) {
 			AttributeModifier attackModifier = new AttributeModifier(
-					UUID.fromString(MHFCReference.potion_longsworddamageup_uuid),
+					UUID.fromString(MHFCPotionRegistry.potion_longsworddamageup_uuid),
 					"Spirit Gauge",
 					1.2,
 					1);

@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Random;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.core.registry.MHFCContainerRegistry;
 import mhfc.net.common.tile.TileQuestBoard;
-import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -68,7 +68,7 @@ public class BlockQuestBoard extends BlockContainer {
 		if (!player.isSneaking()) {
 			player.openGui(
 					MHFCMain.instance(),
-					MHFCReference.gui_questboard_id,
+					MHFCContainerRegistry.gui_questboard_id,
 					world,
 					pos.getX(),
 					pos.getY(),
