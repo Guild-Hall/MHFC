@@ -34,6 +34,7 @@ public class WeaponStats {
 			this.slots = 0;
 			this.cooldownTicks = 0;
 			this.rarity = ItemRarity.R01;
+			this.unlocalizedName = Optional.empty();
 		}
 
 		protected abstract T getThis();
