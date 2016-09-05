@@ -7,6 +7,7 @@ import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 
 public class BlockWyverniaClay extends Block {
@@ -19,7 +20,7 @@ public class BlockWyverniaClay extends Block {
 	}
 
 	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return MHFCItemRegistry.getRegistry().wyverniaClay;
 	}
 

@@ -12,11 +12,16 @@ import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockExploreArea extends Block implements ITileEntityProvider {
@@ -46,27 +51,34 @@ public class BlockExploreArea extends Block implements ITileEntityProvider {
 	@Override
 	public boolean onBlockActivated(
 			World world,
-			int x,
-			int y,
-			int z,
+			BlockPos pos,
+			IBlockState state,
 			EntityPlayer player,
-			int var6,
-			float var7,
-			float var8,
-			float var9) {
-		if (player.capabilities.isCreativeMode) {
-			player.openGui(MHFCMain.instance(), MHFCContainerRegistry.gui_changearea_id, world, x, y, z);
-			return true;
+			EnumHand hand,
+			ItemStack heldItem,
+			EnumFacing side,
+			float hitX,
+			float hitY,
+			float hitZ) {
+		if (!player.capabilities.isCreativeMode) {
+			return false;
 		}
-		return false;
+		player.openGui(
+				MHFCMain.instance(),
+				MHFCContainerRegistry.gui_changearea_id,
+				world,
+				pos.getX(),
+				pos.getY(),
+				pos.getZ());
+		return true;
 	}
 
 	@Override
-	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+	public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
 		if (world.isRemote) {
 			return;
 		}
-		TileEntity tile = world.getTileEntity(x, y, z);
+		TileEntity tile = world.getTileEntity(pos);
 		if (!(tile instanceof TileExploreArea)) {
 			return;
 		}

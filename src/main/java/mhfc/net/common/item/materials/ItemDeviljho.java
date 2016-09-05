@@ -15,10 +15,10 @@ import net.minecraft.item.ItemStack;
 
 public class ItemDeviljho extends AbstractSubTypedItem<DeviljhoSubType> {
 	public static enum DeviljhoSubType implements SubTypedItem.SubTypeEnum<Item> {
-		SCALE(MHFCReference.item_deviljho0_name, ItemColor.GREEN), //
-		FANG(MHFCReference.item_deviljho1_name, ItemColor.GREEN), //
-		HIDE(MHFCReference.item_deviljho2_name, ItemColor.GREEN), //
-		TALON(MHFCReference.item_deviljho3_name, ItemColor.GREEN), //
+		SCALE(MHFCReference.item_deviljho0_name, ItemColor.GREEN),
+		FANG(MHFCReference.item_deviljho1_name, ItemColor.GREEN),
+		HIDE(MHFCReference.item_deviljho2_name, ItemColor.GREEN),
+		TALON(MHFCReference.item_deviljho3_name, ItemColor.GREEN),
 		SCALP(MHFCReference.item_deviljho4_name, ItemColor.GREEN),
 		TAIL(MHFCReference.item_deviljho5_name, ItemColor.GREEN);
 

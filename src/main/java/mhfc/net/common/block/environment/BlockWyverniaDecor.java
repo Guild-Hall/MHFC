@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -16,14 +15,6 @@ import net.minecraft.world.World;
 public abstract class BlockWyverniaDecor extends BlockBush {
 	public BlockWyverniaDecor(Material material) {
 		super(material);
-	}
-
-	public boolean isValidPosition(World world, BlockPos position, int metadata) {
-		if (world.getBlockState(position.down()).getBlock() == Blocks.AIR) {
-			return false;
-		}
-
-		return canPlaceBlockAt(world, position);
 	}
 
 	@Override

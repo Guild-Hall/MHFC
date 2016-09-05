@@ -5,8 +5,11 @@ import java.util.Random;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockWyverniaGrass extends Block {
@@ -24,30 +27,38 @@ public class BlockWyverniaGrass extends Block {
 	}
 
 	@Override
-	public void updateTick(World par1, int par2, int par3, int par4, Random rand) {
-		if (!par1.isRemote) {
-			if (par1.getBlockLightValue(par2, par3 + 1, par4) < 4
-					&& par1.getBlockLightOpacity(par2, par3 + 1, par4) > 2) {
-				;
-			}
-			{
-				par1.setBlock(par2, par3, par4, MHFCBlockRegistry.getRegistry().mhfcblockdirt);
-
-			}
-		} else if (par1.getBlockLightValue(par2, par3 + 1, par4) >= 9) {
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+		if (world.isRemote) {
+			return;
+		}
+		int upperLightValue = world.getLight(pos.up());
+		if (!isUpgradeEligable(world, pos)) {
+			// Degrade
+			world.setBlockState(pos, MHFCBlockRegistry.getRegistry().mhfcblockdirt.getDefaultState());
+		} else if (upperLightValue >= 9) {
 			for (int l = 0; l < 4; ++l) {
-				int i1 = par2 + rand.nextInt(3) - 1;
-				int j1 = par3 + rand.nextInt(5) - 3;
-				int k1 = par4 + rand.nextInt(3) - 1;
-				// Block l1 = par1.getBlock(i1, j1 + 1, k1);
-
-				if (par1.getBlock(i1, j1, k1) == MHFCBlockRegistry.getRegistry().mhfcblockdirt
-						&& par1.getBlockLightValue(i1, j1 + 1, k1) >= 4
-						&& par1.getBlockLightOpacity(i1, j1 + 1, k1) <= 2) {
-					par1.setBlock(i1, j1, k1, MHFCBlockRegistry.getRegistry().mhfcblockgrass);
-				}
-
+				tryUpgradeRandomNearDirt(world, pos, rand);
 			}
 		}
 	}
+
+	private boolean isUpgradeEligable(World world, BlockPos position) {
+		int upperLightValue = world.getLight(position.up());
+		int upperLightOpacity = world.getBlockLightOpacity(position.up());
+		return upperLightValue >= 4 && upperLightOpacity <= 2;
+	}
+
+	private void tryUpgradeRandomNearDirt(World world, BlockPos basePosition, Random rand) {
+		BlockPos position = WorldHelper.randomProximity(RANDOM, basePosition, 3, 1);
+		IBlockState state = world.getBlockState(position);
+		if (state.getBlock() != MHFCBlockRegistry.getRegistry().mhfcblockdirt) {
+			return;
+		}
+		if (!isUpgradeEligable(world, position)) {
+			return;
+		}
+
+		world.setBlockState(position, this.getDefaultState());
+	}
+
 }

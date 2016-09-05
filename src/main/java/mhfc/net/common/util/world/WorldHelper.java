@@ -1,10 +1,13 @@
 package mhfc.net.common.util.world;
 
 import java.util.List;
+import java.util.Random;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -75,6 +78,31 @@ public class WorldHelper {
 	public static Vec3d getEntityPositionVector(Entity entity) {
 		//FIXME: can deprecate that and just use entity.getPositionVector directly now
 		return entity.getPositionVector();
+	}
+
+	/**
+	 * Generates a random block position that has a maximal horizontal & vertical distance to the origin
+	 *
+	 * @param rand
+	 * @param origin
+	 * @param horizontal
+	 * @param vertical
+	 * @return a random block position in the range
+	 *
+	 *         <pre>
+	 * [origin - (horizontal, vertical, horizontal), origin + (horizontal, vertical, horizontal)]
+	 *         </pre>
+	 */
+	public static BlockPos randomProximity(Random rand, BlockPos origin, int horizontal, int vertical) {
+		// Simulates random brownian motion
+		BlockPos.MutableBlockPos output = new BlockPos.MutableBlockPos(origin);
+		output.add(randomOffset(rand, horizontal), randomOffset(rand, vertical), randomOffset(rand, horizontal));
+		return output;
+	}
+
+	private static int randomOffset(Random rand, int maxDistance) {
+		Preconditions.checkArgument(maxDistance >= 0);
+		return rand.nextInt(maxDistance * 2 + 1) - maxDistance;
 	}
 
 }

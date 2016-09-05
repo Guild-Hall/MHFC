@@ -8,6 +8,13 @@ import com.mojang.authlib.GameProfile;
 
 import net.minecraft.entity.player.EntityPlayer;
 
+/**
+ * A map specialized to hold {@link EntityPlayer}s by identifying the actual player, not the entity.
+ *
+ * @author WorldSEnder
+ *
+ * @param <T>
+ */
 public class PlayerMap<T> extends HashMap<UUID, T> {
 	/**
 	 *

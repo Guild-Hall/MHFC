@@ -52,6 +52,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 
 	@Override
 	public void transferPlayerInto(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback) {
+		// FIXME: shouldn't this return CompletionStage<IActiveArea>?
 		if (waitingOnTeleport.containsKey(player)) {
 			playerAlreadyTeleporting(player, type, callback);
 		} else {
@@ -71,8 +72,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		player.addChatMessage(new TextComponentString("Teleporting to instance when the area is ready"));
 		Objects.requireNonNull(player);
 		Objects.requireNonNull(type);
-		CompletionStage<IActiveArea> unusedInstance = MHFCDimensionRegistry
-				.getUnusedInstance(type, getFlairFor(type));
+		CompletionStage<IActiveArea> unusedInstance = MHFCDimensionRegistry.getUnusedInstance(type, getFlairFor(type));
 		waitingOnTeleport.put(player, unusedInstance);
 		unusedInstance.handle((area, ex) -> {
 			try {
