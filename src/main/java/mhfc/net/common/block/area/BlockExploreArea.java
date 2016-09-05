@@ -15,7 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class BlockExploreArea extends Block implements ITileEntityProvider {
@@ -23,7 +23,7 @@ public class BlockExploreArea extends Block implements ITileEntityProvider {
 	private static Set<EntityPlayerMP> teleportingPlayers = new HashSet<>();
 
 	public BlockExploreArea() {
-		super(Material.plants);
+		super(Material.PLANTS);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setBlockName(MHFCReference.block_exploreArea_name);
 		setBlockTextureName(MHFCReference.block_exploreArea_tex);

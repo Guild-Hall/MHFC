@@ -21,7 +21,7 @@ public class BlockIngots extends Block {
 	private IIcon[] textures;
 
 	public BlockIngots() {
-		super(Material.rock);
+		super(Material.ROCK);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHardness(0f + getHardness());
 		setHarvestLevel("pickaxe", 3);

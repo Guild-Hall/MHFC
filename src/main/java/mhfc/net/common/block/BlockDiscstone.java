@@ -10,7 +10,7 @@ import net.minecraft.block.material.Material;
 public class BlockDiscstone extends Block {
 
 	public BlockDiscstone() {
-		super(Material.rock);
+		super(Material.ROCK);
 		setBlockName(MHFCReference.block_discstone_name);
 		setBlockTextureName(MHFCReference.block_discstone_tex);
 		setHardness(1.3F);

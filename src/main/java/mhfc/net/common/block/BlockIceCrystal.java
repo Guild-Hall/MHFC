@@ -10,7 +10,7 @@ import net.minecraft.block.material.Material;
 public class BlockIceCrystal extends Block {
 
 	public BlockIceCrystal() {
-		super(Material.rock);
+		super(Material.ROCK);
 		setBlockName(MHFCReference.block_icecrystal_name);
 		setBlockTextureName(MHFCReference.block_icecrystal_tex);
 		setCreativeTab(MHFCMain.mhfctabs);

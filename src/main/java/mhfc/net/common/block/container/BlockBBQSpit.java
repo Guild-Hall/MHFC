@@ -5,14 +5,13 @@ import mhfc.net.common.tile.TileBBQSpit;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class BlockBBQSpit extends BlockContainer {
 
 	public BlockBBQSpit() {
-		super(Material.iron);
+		super(Material.IRON);
 		setBlockName(MHFCReference.block_bbqspit_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}

@@ -7,13 +7,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class BlockRespawn extends Block {
 
 	public BlockRespawn() {
-		super(Material.web);
+		super(Material.WEB);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setBlockName(MHFCReference.block_respawn_name);
 		setBlockTextureName(MHFCReference.block_respawn_tex);
