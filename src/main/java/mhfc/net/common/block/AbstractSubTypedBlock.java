@@ -13,7 +13,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class AbstractSubTypedBlock<T extends Enum<T> & SubTypeEnum<Block>> extends Block {
+public class AbstractSubTypedBlock<T extends Enum<T> & SubTypeEnum<Block>> extends Block implements ISubTypedBlock<T> {
 
 	protected final SubTypedItem<Block, T> blockTrait;
 	protected final PropertyEnum<T> subtypeProperty;
@@ -24,6 +24,15 @@ public class AbstractSubTypedBlock<T extends Enum<T> & SubTypeEnum<Block>> exten
 		subtypeProperty = PropertyEnum.create("variant", subtypeEnumClazz);
 	}
 
+	/**
+	 *
+	 * @return the (immutable) block trait of this sub-typed block
+	 */
+	@Override
+	public SubTypedItem<Block, T> getBlockTrait() {
+		return blockTrait;
+	}
+
 	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, subtypeProperty);
@@ -31,17 +40,17 @@ public class AbstractSubTypedBlock<T extends Enum<T> & SubTypeEnum<Block>> exten
 
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
-		blockTrait.getSubItems(item, list);
+		getBlockTrait().getSubItems(item, list);
 	}
 
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(subtypeProperty, blockTrait.getSubType(meta));
+		return this.getDefaultState().withProperty(subtypeProperty, getBlockTrait().getSubType(meta));
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return blockTrait.getMeta(state.getValue(subtypeProperty));
+		return getBlockTrait().getMeta(state.getValue(subtypeProperty));
 	}
 
 	@Override

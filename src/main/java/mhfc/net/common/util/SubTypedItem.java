@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * A util interface to describes blocks and items that store part of their actual "value" in the meta-information of
- * each Block/ItemStack.
+ * each Block/Item.
  *
  *
  * @author WorldSEnder
@@ -36,7 +36,7 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 		public String getName();
 
 		/**
-		 * Gets the base item of this sub-item
+		 * Gets the base item of this sub-item. This <b>must</b> be the same for all values
 		 *
 		 * @return
 		 */

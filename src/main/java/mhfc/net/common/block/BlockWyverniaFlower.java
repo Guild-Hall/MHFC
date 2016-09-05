@@ -3,6 +3,7 @@ package mhfc.net.common.block;
 import java.util.List;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.block.BlockWyverniaFlower.WyverniaFlowerSubType;
 import mhfc.net.common.block.environment.BlockWyverniaDecor;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.util.SubTypedItem;
@@ -19,7 +20,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockWyverniaFlower extends BlockWyverniaDecor {
+public class BlockWyverniaFlower extends BlockWyverniaDecor implements ISubTypedBlock<WyverniaFlowerSubType> {
 	public static enum WyverniaFlowerSubType implements SubTypedItem.SubTypeEnum<Block> {
 		CARNCASE(MHFCReference.block_carncase_name, MHFCReference.block_carncase_tex), //
 		FELRON(MHFCReference.block_felron_name, MHFCReference.block_felron_tex), //
@@ -58,6 +59,11 @@ public class BlockWyverniaFlower extends BlockWyverniaDecor {
 		setTickRandomly(true);
 		float f = 0.2F;
 		this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 3.0F, 0.5F + f);
+	}
+
+	@Override
+	public SubTypedItem<Block, WyverniaFlowerSubType> getBlockTrait() {
+		return blockTrait;
 	}
 
 	@Override

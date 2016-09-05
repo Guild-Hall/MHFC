@@ -11,11 +11,11 @@ public class ItemBlockQuestBoard extends ItemBlock {
 
 	public ItemBlockQuestBoard(Block block) {
 		super(block);
-		maxStackSize = 1;
+		setMaxStackSize(1);
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List infos, boolean advanced) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List<String> infos, boolean advanced) {
 		infos.add("All running quests at your hands");
 	}
 

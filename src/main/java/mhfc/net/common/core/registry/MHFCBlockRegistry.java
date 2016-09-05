@@ -28,12 +28,7 @@ import mhfc.net.common.item.block.ItemBlockBBQSpit;
 import mhfc.net.common.item.block.ItemBlockBenchHunter;
 import mhfc.net.common.item.block.ItemBlockQuestBoard;
 import mhfc.net.common.item.block.ItemBlockStunTrap;
-import mhfc.net.common.item.block.ItemBlockWyverniaFlower;
-import mhfc.net.common.item.block.ItemBlockWyverniaOreBlock;
-import mhfc.net.common.item.block.ItemBlockWyverniaOres;
-import mhfc.net.common.item.block.ItemBlockWyverniaPlank;
-import mhfc.net.common.item.block.ItemBlockWyverniaRock;
-import mhfc.net.common.item.block.ItemBlockWyverniaWood;
+import mhfc.net.common.item.block.ItemSubtypedBlock;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -77,16 +72,30 @@ public class MHFCBlockRegistry {
 		mhfcblockstone = registerBlock("stone_wyvernian", new BlockWyverniaStone());
 		mhfcblocksand = registerBlock("sand_wyvernian", new BlockWyverniaSand());
 		mhfcblockclay = registerBlock("clay_wyvernian", new BlockWyverniaClay());
-		mhfcblockwood = registerBlockWithItem("wood_wyvernian", new BlockWyverniaWood(), ItemBlockWyverniaWood::new);
+		mhfcblockwood = registerBlockWithItem(
+				"wood_wyvernian",
+				new BlockWyverniaWood(),
+				b -> ItemSubtypedBlock.createFor(b));
 		mhfcblockplanks = registerBlockWithItem(
 				"plank_wyvernian",
 				new BlockWyverniaPlank(),
-				ItemBlockWyverniaPlank::new);
+				b -> ItemSubtypedBlock.createFor(b));
 		mhfcblockflowers = registerBlockWithItem(
 				"flower_wyvernian",
 				new BlockWyverniaFlower(),
-				ItemBlockWyverniaFlower::new);
-		mhfcblockrocks = registerBlockWithItem("rock_wyvernian", new BlockWyverniaRock(), ItemBlockWyverniaRock::new);
+				b -> ItemSubtypedBlock.createFor(b).setFull3D().setMaxStackSize(4));
+		mhfcblockrocks = registerBlockWithItem(
+				"rock_wyvernian",
+				new BlockWyverniaRock(),
+				b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(20));
+		mhfcblockore = registerBlockWithItem(
+				"ore",
+				new BlockWyverniaOres(),
+				b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(12));
+		mhfcblockoreblocks = registerBlockWithItem(
+				"ore_block",
+				new BlockWyverniaOreBlock(),
+				b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(16));
 
 		mhfcblocklosgable = registerBlock("los_gable", new BlockLosGable());
 		mhfcblockicecrystal = registerBlock("icecrystal", new BlockIceCrystal());
@@ -96,11 +105,6 @@ public class MHFCBlockRegistry {
 		mhfcblockhunterbench = registerBlockWithItem("hunterbench", new BlockHunterBench(), ItemBlockBenchHunter::new);
 		mhfcblockstuntrap = registerBlockWithItem("trap_stun", new BlockStunTrap(), ItemBlockStunTrap::new);
 		mhfcblockbbqspit = registerBlockWithItem("bbq_spit", new BlockBBQSpit(), ItemBlockBBQSpit::new);
-		mhfcblockoreblocks = registerBlockWithItem(
-				"ore_block",
-				new BlockWyverniaOreBlock(),
-				ItemBlockWyverniaOreBlock::new);
-		mhfcblockore = registerBlockWithItem("ore", new BlockWyverniaOres(), ItemBlockWyverniaOres::new);
 		mhfcblockquestboard = registerBlockWithItem("questboard", new BlockQuestBoard(), ItemBlockQuestBoard::new);
 		mhfcblockrespawn = registerBlock("respawn_marker", new BlockRespawn());
 		mhfcblockexplorearea = registerBlock("eploration_teleporter", new BlockExploreArea());

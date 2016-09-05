@@ -11,12 +11,15 @@ public class ItemBlockBenchHunter extends ItemBlock {
 
 	public ItemBlockBenchHunter(Block getBlock) {
 		super(getBlock);
-		maxStackSize = 1;
-
+		setMaxStackSize(1);
 	}
 
 	@Override
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+	public void addInformation(
+			ItemStack par1ItemStack,
+			EntityPlayer par2EntityPlayer,
+			List<String> par3List,
+			boolean par4) {
 		par3List.add("Intended for crafting uses for Monster Hunter");
 	}
 

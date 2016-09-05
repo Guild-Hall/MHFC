@@ -10,9 +10,8 @@ import net.minecraft.block.material.Material;
 public class BlockLosGable extends Block {
 
 	public BlockLosGable() {
-		super(Material.rock);
-		setBlockName(MHFCReference.block_losgable_name);
-		setBlockTextureName(MHFCReference.block_losgable_tex);
+		super(Material.ROCK);
+		setUnlocalizedName(MHFCReference.block_losgable_name);
 		setHardness(1.5F);
 		setResistance(1.0F);
 		setCreativeTab(MHFCMain.mhfctabs);
