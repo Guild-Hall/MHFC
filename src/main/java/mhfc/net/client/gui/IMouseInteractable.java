@@ -1,11 +1,13 @@
 package mhfc.net.client.gui;
 
+import java.io.IOException;
+
 public interface IMouseInteractable {
 
 	/**
 	 * Handle a click by the mouse from a specified button at a specified position and returns if it was handled
 	 */
-	public boolean handleClick(float f, float g, int button);
+	public boolean handleClick(float f, float g, int button) throws IOException;
 
 	/**
 	 * Called when the mouse is moved inside the tab with a mouse button down

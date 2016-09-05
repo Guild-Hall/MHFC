@@ -185,7 +185,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		int diff = tabHeight + tabSplit;
 		int realWidth = 0;
 		for (int i = 0; i < tabs.size(); i++) {
@@ -196,12 +196,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 				setTab(i);
 			}
 		}
-		try {
-			super.mouseClicked(mouseX, mouseY, mouseButton);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		super.mouseClicked(mouseX, mouseY, mouseButton);
 		if (tabIndex >= 0 && tabIndex < tabs.size()) {
 			tabs.get(tabIndex).tab.handleClick(mouseX - tabX, mouseY - tabY, mouseButton);
 		}

@@ -2,6 +2,7 @@ package mhfc.net.client.gui;
 
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,9 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -70,7 +73,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		@Override
 		public String getRepresentationString() {
 			String str = type.getNameString();
-			return StatCollector.translateToLocal(str);
+			return I18n.format(str);
 		}
 
 	}
@@ -129,7 +132,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		};
 
 		@Override
-		public boolean handleClick(float relativeX, float relativeY, int button) {
+		public boolean handleClick(float relativeX, float relativeY, int button) throws IOException {
 			if (isInModelWindow(mouseClickX, mouseClickY) && mouseClickButton == 1) {
 				resetModelRot();
 			}
@@ -491,7 +494,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				GL11.glRotatef(-modelRotY, 1.0f, 0.0f, 0.0f);
 				float sc = rectH / 2;
 				GL11.glScalef(sc, sc, -sc);
-				int armorType = ((net.minecraft.item.ItemArmor) itemToRender.getItem()).armorType;
+				EntityEquipmentSlot armorType = ((net.minecraft.item.ItemArmor) itemToRender.getItem()).armorType;
 				ResourceLocation loc = RenderBiped.getArmorResource(mc.thePlayer, itemToRender, armorType, null);
 				mc.getTextureManager().bindTexture(loc);
 				ModelBiped model = ForgeHooksClient.getArmorModel(mc.thePlayer, itemToRender, armorType, null);

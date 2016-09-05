@@ -37,14 +37,15 @@ public class WorldHelper {
 	 */
 	public static List<Entity> collidingEntities(Entity entity, Predicate<? super Entity> filter) {
 		World world = entity.worldObj;
-		List<Entity> collidingEntities = world.getEntitiesWithinAABBExcludingEntity(entity, entity.getEntityBoundingBox());
+		List<Entity> collidingEntities = world
+				.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox(), filter);
 		Entity[] subEntities = entity.getParts();
 		if (subEntities == null) {
 			return collidingEntities;
 		}
 		for (Entity subE : subEntities) {
 			List<Entity> collidingEntitiesSub = world
-					.getEntitiesWithinAABBExcludingEntity(entity, subE.getEntityBoundingBox());
+					.getEntitiesInAABBexcluding(entity, subE.getEntityBoundingBox(), filter);
 			for (Entity collidingE : collidingEntitiesSub) {
 				if (!collidingEntities.contains(collidingE)) {
 					collidingEntities.add(collidingE);
@@ -70,6 +71,7 @@ public class WorldHelper {
 		return entityToTarget;
 	}
 
+	@Deprecated
 	public static Vec3d getEntityPositionVector(Entity entity) {
 		//FIXME: can deprecate that and just use entity.getPositionVector directly now
 		return entity.getPositionVector();

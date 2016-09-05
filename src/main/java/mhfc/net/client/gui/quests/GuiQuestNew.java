@@ -1,5 +1,6 @@
 package mhfc.net.client.gui.quests;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -35,7 +36,6 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 	private int selectedIdentifier;
 	private int xSize, ySize;
 	private int page = 0;
-	private StringBuilder viewBuffer = new StringBuilder();
 
 	public GuiQuestNew(Collection<String> groupIDs, EntityPlayer accessor) {
 		// groupIDsDisplayed = new ArrayList<String>(groupIDs);
@@ -167,17 +167,19 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 	}
 
 	@Override
-	public boolean handleClick(float mouseX, float mouseY, int mouseButton) {
-		boolean clickHandled = false;
-		clickHandled |= super.handleClick(mouseX, mouseY, mouseButton);
-		boolean shouldDisplayInfo = questIdentifiers.size() > 0 && !MHFCRegQuestVisual.hasPlayerQuest();
-		if (shouldDisplayInfo && !clickHandled && mouseX > 80 && mouseX < 300 && mouseY > 0 && mouseY < ySize - 30) {
-			clickHandled = true;
-			int add = mouseButton == 0 ? 1 : mouseButton == 1 ? -1 : 0;
-			page += add;
-			page = (page + 3) % 3;
+	public boolean handleClick(float mouseX, float mouseY, int mouseButton) throws IOException {
+		if (super.handleClick(mouseX, mouseY, mouseButton)) {
+			return true;
 		}
-		return clickHandled;
+		boolean shouldDisplayInfo = questIdentifiers.size() > 0 && !MHFCRegQuestVisual.hasPlayerQuest();
+		boolean clickInArea = mouseX > 80 && mouseX < 300 && mouseY > 0 && mouseY < ySize - 30;
+		if (!shouldDisplayInfo || !clickInArea) {
+			return false;
+		}
+		int add = mouseButton == 0 ? 1 : mouseButton == 1 ? -1 : 0;
+		page += add;
+		page = (page + 3) % 3;
+		return true;
 	}
 
 	@Override

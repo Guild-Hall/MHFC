@@ -11,15 +11,10 @@ import java.util.function.IntFunction;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.entity.projectile.EntityLightning;
-import mhfc.net.common.entity.type.EntityMHFCBase;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.pathfinding.Path;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
@@ -39,7 +34,6 @@ public class Utilities {
 	 * @param living
 	 */
 	public static void removeAttackers(EntityLiving living) {
-		@SuppressWarnings("unchecked")
 		List<EntityLiving> list = living.worldObj
 				.getEntitiesWithinAABB(EntityLiving.class, living.getEntityBoundingBox().expand(16.0D, 10.0D, 16.0D));
 		for (EntityLiving attacker : list) {
@@ -50,8 +44,7 @@ public class Utilities {
 		}
 	}
 
-
-	// YES THIS IS usefull for 1.9
+	// YES THIS IS useful for 1.9
 	public static int countPlayers(WorldServer worldObj) {
 		return worldObj.playerEntities.size();
 	}
@@ -61,40 +54,6 @@ public class Utilities {
 			EntityLightning l = new EntityLightning(world);
 			l.setPosition(Lx, Ly, Lz);
 			world.spawnEntityInWorld(l);
-		}
-	}
-
-	public static void knockBack(EntityLivingBase attacker, EntityLivingBase entity, float knockback) {
-
-		int knockBackModifier = EnchantmentHelper.getKnockbackModifier(attacker);
-		if (attacker.isSprinting()) {
-			knockBackModifier++;
-		}
-		// float f2 = 1F / 0.4F;
-
-		// attackEntityFrom part
-		double dx = attacker.posX - entity.posX;
-		double dz = attacker.posZ - entity.posZ;
-
-		for (; dx * dx + dz * dz < 1E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
-			dx = (Math.random() - Math.random()) * 0.01D;
-		}
-
-		entity.attackedAtYaw = (float) ((Math.atan2(dz, dx) * 180D) / Math.PI) - entity.rotationYaw;
-
-		// knockBack part
-		float f = MathHelper.sqrt_double(dx * dx + dz * dz);
-		entity.motionX -= (dx / f) * knockback;
-		entity.motionY += knockback;
-		entity.motionZ -= (dz / f) * knockback;
-		if (entity.motionY > 0.4D) {
-			entity.motionY = 0.4D;
-		}
-
-		if (knockBackModifier > 0) {
-			dx = -Math.sin(Math.toRadians(attacker.rotationYaw)) * knockBackModifier * 0.5F;
-			dz = Math.cos(Math.toRadians(attacker.rotationYaw)) * knockBackModifier * 0.5F;
-			entity.addVelocity(dx, 0.1D, dz);
 		}
 	}
 

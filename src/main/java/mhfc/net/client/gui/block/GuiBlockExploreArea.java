@@ -42,12 +42,17 @@ public class GuiBlockExploreArea extends MHFCGui {
 		tileEntity = tE;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui() {
 		super.initGui();
 		// not sure with mouseClickButton
-		targetAreaText = new GuiTextField(mouseClickButton, this.fontRendererObj, width / 6, height / 4, 2 * width / 3, 20);
+		targetAreaText = new GuiTextField(
+				mouseClickButton,
+				this.fontRendererObj,
+				width / 6,
+				height / 4,
+				2 * width / 3,
+				20);
 		targetFlairList = new ClickableGuiList<>(2 * width / 3, 60, 15);
 		for (QuestFlair f : QuestFlair.values()) {
 			targetFlairList.add(new QuestFlairItem(f));
@@ -85,19 +90,14 @@ public class GuiBlockExploreArea extends MHFCGui {
 	}
 
 	@Override
-	protected void keyTyped(char keyCode, int modifiers) {
-		try {
-			super.keyTyped(keyCode, modifiers);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	protected void keyTyped(char keyCode, int modifiers) throws IOException {
+		super.keyTyped(keyCode, modifiers);
 		targetAreaText.textboxKeyTyped(keyCode, modifiers);
 		saveButton.enabled = getQuestFlair() != null;
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int button) {
+	protected void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
 		super.mouseClicked(mouseX, mouseY, button);
 		targetAreaText.mouseClicked(mouseX, mouseY, button);
 	}

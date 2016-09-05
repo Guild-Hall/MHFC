@@ -33,7 +33,7 @@ public class WeaponOverlay {
 
 	public static void render() {
 		EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-		ItemStack stack = thePlayer.getHeldItem();
+		ItemStack stack = thePlayer.getHeldItemMainhand();
 		if (stack == null) {
 			return;
 		}

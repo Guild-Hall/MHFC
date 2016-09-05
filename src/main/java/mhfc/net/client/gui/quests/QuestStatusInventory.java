@@ -1,5 +1,6 @@
 package mhfc.net.client.gui.quests;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import mhfc.net.client.container.ContainerQuestStatus;
@@ -11,6 +12,7 @@ import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.util.stringview.Viewable;
 import mhfc.net.common.util.stringview.Viewables;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
@@ -51,7 +53,7 @@ public class QuestStatusInventory extends GuiContainer {
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int button) {
+	protected void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
 		if (isMouseOverInfo(mouseX, mouseY)) {
 			displayPage += button == 0 ? 1 : -1;
 		} else {
@@ -64,6 +66,8 @@ public class QuestStatusInventory extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int mouseX, int mouseY) {
+		FontRenderer fontRendererObj = mc.fontRendererObj;
+
 		mc.getTextureManager().bindTexture(QuestStatusDisplay.QUEST_STATUS_INVENTORY_BACKGROUND);
 		MHFCGuiUtil.drawTexturedBoxFromBorder(
 				this.guiLeft,
@@ -75,14 +79,16 @@ public class QuestStatusInventory extends GuiContainer {
 				0,
 				1f,
 				0.65f);
+
 		Optional<IMissionInformation> optionalInfo = MHFCRegQuestVisual.getPlayerVisual();
 		if (!optionalInfo.isPresent()) {
 			String drawn = "No quest accepted";
-			int stringPosY = (ySize - mc.fontRenderer.FONT_HEIGHT) / 2,
-					stringPosX = (xSize - mc.fontRenderer.getStringWidth(drawn)) / 2;
-			mc.fontRenderer.drawString(drawn, guiLeft + stringPosX, guiTop + stringPosY, MHFCGuiUtil.COLOUR_TITLE);
+			int stringPosY = (ySize - fontRendererObj.FONT_HEIGHT) / 2,
+					stringPosX = (xSize - fontRendererObj.getStringWidth(drawn)) / 2;
+			fontRendererObj.drawString(drawn, guiLeft + stringPosX, guiTop + stringPosY, MHFCGuiUtil.COLOUR_TITLE);
 			return;
 		}
+
 		IMissionInformation information = optionalInfo.get();
 		int pageCount = information.getPageCount();
 		int margin = 5;
@@ -96,9 +102,9 @@ public class QuestStatusInventory extends GuiContainer {
 				ySize - margin * 2,
 				guiLeft + margin,
 				guiTop + margin,
-				mc.fontRenderer.FONT_HEIGHT + 2,
+				fontRendererObj.FONT_HEIGHT + 2,
 				MHFCGuiUtil.COLOUR_TEXT,
-				mc.fontRenderer);
+				fontRendererObj);
 	}
 
 }

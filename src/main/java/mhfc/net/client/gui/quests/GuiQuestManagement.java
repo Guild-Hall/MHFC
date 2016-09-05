@@ -73,7 +73,6 @@ public class GuiQuestManagement extends MHFCGui implements IMHFCTab {
 		};
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui() {
 		buttonList.add(cancelQuest);
@@ -99,8 +98,9 @@ public class GuiQuestManagement extends MHFCGui implements IMHFCTab {
 
 	@Override
 	public boolean containsSlot(Slot slot) {
-		if (slot.inventory instanceof InventoryPlayer)
+		if (slot.inventory instanceof InventoryPlayer) {
 			return true;
+		}
 		return chestSlots == null ? false : chestSlots.contains(slot);
 	}
 

@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 
@@ -15,9 +16,13 @@ public class SlotHunterBench extends Slot {
 	@SuppressWarnings("unused")
 	private int amountCrafted;
 
-	public SlotHunterBench(EntityPlayer par1EntityPlayer,
-			IInventory par2IInventory, IInventory par3IInventory, int par4,
-			int par5, int par6) {
+	public SlotHunterBench(
+			EntityPlayer par1EntityPlayer,
+			IInventory par2IInventory,
+			IInventory par3IInventory,
+			int par4,
+			int par5,
+			int par6) {
 		super(par3IInventory, par4, par5, par6);
 		this.thePlayer = par1EntityPlayer;
 		this.craftMatrix = par2IInventory;
@@ -44,8 +49,7 @@ public class SlotHunterBench extends Slot {
 	}
 
 	@Override
-	public void onPickupFromSlot(EntityPlayer par1EntityPlayer,
-			ItemStack par2ItemStack) {
+	public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack) {
 		ItemCraftedEvent(par1EntityPlayer, par2ItemStack, craftMatrix);
 		this.onCrafting(par2ItemStack);
 
@@ -58,24 +62,17 @@ public class SlotHunterBench extends Slot {
 				if (var4.getItem().hasContainerItem(var4)) {
 					ItemStack var5 = var4.getItem().getContainerItem(var4);
 
-					if (var5.isItemStackDamageable()
-							&& var5.getItemDamage() > var5.getMaxDamage()) {
-						MinecraftForge.EVENT_BUS
-								.post(new PlayerDestroyItemEvent(thePlayer,
-										var5, EnumHand.MAIN_HAND));
+					if (var5.isItemStackDamageable() && var5.getItemDamage() > var5.getMaxDamage()) {
+						MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(thePlayer, var5, EnumHand.MAIN_HAND));
 						var5 = null;
 					}
 
-					if (var5 != null
-							&& (!var4.getItem()
-									.doesContainerItemLeaveCraftingGrid(var4) || !this.thePlayer.inventory
-									.addItemStackToInventory(var5))) {
+					if (var5 != null && (!var4.getItem().doesContainerItemLeaveCraftingGrid(var4)
+							|| !this.thePlayer.inventory.addItemStackToInventory(var5))) {
 						if (this.craftMatrix.getStackInSlot(var3) == null) {
-							this.craftMatrix.setInventorySlotContents(var3,
-									var5);
+							this.craftMatrix.setInventorySlotContents(var3, var5);
 						} else {
-							this.thePlayer.dropPlayerItemWithRandomChoice(var5,
-									false);
+							this.thePlayer.dropItem(var5, false);
 						}
 					}
 				}
@@ -83,8 +80,7 @@ public class SlotHunterBench extends Slot {
 		}
 	}
 
-	private void ItemCraftedEvent(EntityPlayer par1EntityPlayer,
-			ItemStack par2ItemStack, IInventory craftMatrix2) {
+	private void ItemCraftedEvent(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack, IInventory craftMatrix2) {
 
 	}
 }

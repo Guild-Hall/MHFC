@@ -42,7 +42,7 @@ public abstract class MHFCGui extends GuiScreen implements IMHFCGuiItem {
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int button) {
+	protected void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
 		handleClick(mouseX, mouseY, button);
 	}
 
@@ -66,19 +66,14 @@ public abstract class MHFCGui extends GuiScreen implements IMHFCGuiItem {
 	}
 
 	@Override
-	public boolean handleClick(float relativeX, float relativeY, int button) {
+	public boolean handleClick(float relativeX, float relativeY, int button) throws IOException {
 		mouseClickX = relativeX;
 		mouseClickY = relativeY;
 		mouseLastX = relativeX;
 		mouseLastY = relativeY;
 		mouseClickButton = button;
 		clickHandled = false;
-		try {
-			super.mouseClicked((int) relativeX, (int) relativeY, button);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		super.mouseClicked((int) relativeX, (int) relativeY, button);
 		for (IMHFCGuiItem item : screenComponents.keySet()) {
 			Vector2f pos = screenComponents.get(item);
 			if (item.handleClick(relativeX - pos.x, relativeY - pos.y, button)) {
