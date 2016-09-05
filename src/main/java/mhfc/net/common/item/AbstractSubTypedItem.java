@@ -26,15 +26,13 @@ public class AbstractSubTypedItem<T extends Enum<T> & SubTypeEnum<Item>> extends
 		return false;
 	}
 
-
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack) {
 		return super.getUnlocalizedName(itemStack) + "." + itemPerk.getSubType(itemStack).getName();
 	}
 
-
 	@Override
-	public void getSubItems(Item base, CreativeTabs tab, List list) {
+	public void getSubItems(Item base, CreativeTabs tab, List<ItemStack> list) {
 		itemPerk.getSubItems(base, list);
 	}
 

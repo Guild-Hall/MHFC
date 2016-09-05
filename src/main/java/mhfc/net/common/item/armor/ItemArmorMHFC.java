@@ -46,9 +46,6 @@ public abstract class ItemArmorMHFC extends ItemArmor {
 		return map;
 	}
 
-	protected static final String[] baseIcons = { MHFCReference.base_gear_head, MHFCReference.base_gear_body,
-			MHFCReference.base_gear_fauld, MHFCReference.base_gear_leg };
-
 	protected final ItemRarity rarity;
 	private final Map<EntityEquipmentSlot, String> slotToTex;
 	private final Map<EntityEquipmentSlot, ModelBiped> slotToModel;

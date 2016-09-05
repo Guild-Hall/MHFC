@@ -10,9 +10,8 @@ import net.minecraft.block.material.Material;
 public class BlockWyverniaStone extends Block {
 
 	public BlockWyverniaStone() {
-		super(Material.rock);
-		setBlockName(MHFCReference.block_wyverianstone_name);
-		setBlockTextureName(MHFCReference.block_wyverianstone_tex);
+		super(Material.ROCK);
+		setUnlocalizedName(MHFCReference.block_wyverianstone_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

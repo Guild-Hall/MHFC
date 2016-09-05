@@ -12,7 +12,7 @@ public class BlockBBQSpit extends BlockContainer {
 
 	public BlockBBQSpit() {
 		super(Material.IRON);
-		setBlockName(MHFCReference.block_bbqspit_name);
+		setUnlocalizedName(MHFCReference.block_bbqspit_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 
@@ -34,12 +34,6 @@ public class BlockBBQSpit extends BlockContainer {
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
-	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister) {
-		blockIcon = par1IconRegister
-				.registerIcon(MHFCReference.block_bbqspit_icon);
 	}
 
 }

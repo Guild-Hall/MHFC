@@ -36,13 +36,6 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 		public String getName();
 
 		/**
-		 * The texture to be used for this subitem.
-		 *
-		 * @return
-		 */
-		public String getTexPath();
-
-		/**
 		 * Gets the base item of this sub-item
 		 *
 		 * @return
@@ -72,8 +65,6 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 		public String modify(String texPath);
 	}
 
-	private static TexturePathModificator PASSTHROUGH = texPath -> texPath;
-
 	public static ItemStack fromSubBlock(SubTypeEnum<Block> subBlock, int size) {
 		return new ItemStack(subBlock.getBaseItem(), size, subBlock.ordinal());
 	}
@@ -84,17 +75,11 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 
 	private final Class<T> clazzToken;
 	private final T[] values;
-	private TexturePathModificator modifier;
 
 	public SubTypedItem(Class<T> enumClazz) {
-		this(enumClazz, null);
-	}
-
-	public SubTypedItem(Class<T> enumClazz, TexturePathModificator modifier) {
 		this.clazzToken = Objects.requireNonNull(enumClazz);
 		// Cache the value, getEnumConstants() doesn't and can not safely
 		this.values = clazzToken.getEnumConstants();
-		this.modifier = modifier == null ? SubTypedItem.PASSTHROUGH : modifier;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -105,8 +90,16 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 		}
 	}
 
+	public int getMeta(T subType) {
+		return subType.ordinal();
+	}
+
 	public T getSubType(ItemStack stack) {
-		int clumpedMeta = MathHelper.clamp_int(stack.getItemDamage(), 0, values.length);
+		return getSubType(stack.getItemDamage());
+	}
+
+	public T getSubType(int meta) {
+		int clumpedMeta = MathHelper.clamp_int(meta, 0, values.length - 1);
 		return values[clumpedMeta];
 	}
 }

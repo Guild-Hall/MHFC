@@ -13,8 +13,7 @@ public class BlockWyverniaClay extends Block {
 
 	public BlockWyverniaClay() {
 		super(Material.CLAY);
-		setBlockName(MHFCReference.block_wyverianclay_name);
-		setBlockTextureName(MHFCReference.block_wyverianclay_tex);
+		setUnlocalizedName(MHFCReference.block_wyverianclay_name);
 		setHardness(0.9f);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}

@@ -10,9 +10,8 @@ import net.minecraft.block.material.Material;
 public class BlockWyverniaDirt extends Block {
 
 	public BlockWyverniaDirt() {
-		super(Material.ground);
-		setBlockName(MHFCReference.block_wyveriandirt_name);
-		setBlockTextureName(MHFCReference.block_wyveriandirt_tex);
+		super(Material.GROUND);
+		setUnlocalizedName(MHFCReference.block_wyveriandirt_name);
 		setHardness(0.8F);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}

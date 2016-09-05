@@ -21,23 +21,16 @@ public class ItemBullet extends AbstractSubTypedItem<BulletSubType> {
 		FLAMES(MHFCReference.item_bulletflame_name, ItemColor.RED); //
 
 		public final String name;
-		public final String texture;
 		public final ItemColor color;
 
 		private BulletSubType(String name, ItemColor color) {
 			this.name = name;
-			this.texture = MHFCReference.base_gear_bullet;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
 			return this.name;
-		}
-
-		@Override
-		public String getTexPath() {
-			return this.texture;
 		}
 
 		@Override
@@ -58,7 +51,11 @@ public class ItemBullet extends AbstractSubTypedItem<BulletSubType> {
 	}
 
 	@Override
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+	public void addInformation(
+			ItemStack par1ItemStack,
+			EntityPlayer par2EntityPlayer,
+			List<String> par3List,
+			boolean par4) {
 		switch (itemPerk.getSubType(par1ItemStack)) {
 		case FLAMES:
 			par3List.add("Bullet use for Bowguns");

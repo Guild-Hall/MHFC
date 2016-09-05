@@ -22,12 +22,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockStunTrap extends BlockContainer {
 
-	// private ItemBlockWyverniaDefault block;
-	// private TileStunTrap trap;
 	public BlockStunTrap() {
-		super(Material.rock);
+		super(Material.ROCK);
 		setBlockBounds(1F / 16F * 5F, 0, 1F / 16F * 5F, 1F - 1F / 16F * 5F, 1F - 1F / 16F * 12F, 1F - 1F / 16F * 5F);
-		setBlockName(MHFCReference.block_stuntrap_name);
+		setUnlocalizedName(MHFCReference.block_stuntrap_name);
 		setHardness(0.8F);
 		disableStats();
 		setCreativeTab(MHFCMain.mhfctabs);
@@ -55,7 +53,10 @@ public class BlockStunTrap extends BlockContainer {
 	}
 
 	@Override
-	public boolean onBlockActivated(World par1World,int par2,int par3,
+	public boolean onBlockActivated(
+			World par1World,
+			int par2,
+			int par3,
 			int par4,
 			EntityPlayer par5EntityPlayer,
 			int par6,
@@ -92,11 +93,6 @@ public class BlockStunTrap extends BlockContainer {
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
-	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister) {
-		blockIcon = par1IconRegister.registerIcon(MHFCReference.block_stuntrap_icon);
 	}
 
 	@Override

@@ -2,48 +2,25 @@ package mhfc.net.common.block;
 
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class BlockWyverniaGrass extends Block {
 
-	@SideOnly(Side.CLIENT)
-	private IIcon iconGrassTop;
-	@SideOnly(Side.CLIENT)
-	private IIcon iconGrassSide;
-
 	public BlockWyverniaGrass() {
-		super(Material.grass);
-		setBlockName(MHFCReference.block_wyveriangrass_name);
-		setBlockTextureName(MHFCReference.block_wyveriangrass_tex);
+		super(Material.GRASS);
+		setUnlocalizedName(MHFCReference.block_wyveriangrass_name);
 		setHardness(0.8F);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 
 	@Override
-	public IIcon getIcon(int side, int meta) {
-		return side == 1 ? iconGrassTop : (meta == 0 ? iconGrassSide : blockIcon);
-	}
-
-	@Override
 	public int quantityDropped(Random random) {
 		return 1;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister icon) {
-		blockIcon = icon.registerIcon(getTextureName());
-		iconGrassTop = icon.registerIcon(getTextureName() + "_top");
-		iconGrassSide = icon.registerIcon(getTextureName() + "_side");
 	}
 
 	@Override

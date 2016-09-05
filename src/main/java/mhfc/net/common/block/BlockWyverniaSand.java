@@ -10,8 +10,7 @@ public class BlockWyverniaSand extends BlockFalling {
 
 	public BlockWyverniaSand() {
 		super();
-		setBlockName(MHFCReference.block_wyveriansand_name);
-		setBlockTextureName(MHFCReference.block_wyveriansand_tex);
+		setUnlocalizedName(MHFCReference.block_wyveriansand_name);
 		setHardness(1.3F);
 		setResistance(2.0F);
 		setCreativeTab(MHFCMain.mhfctabs);

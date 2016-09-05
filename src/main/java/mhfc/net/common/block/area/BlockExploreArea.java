@@ -26,8 +26,7 @@ public class BlockExploreArea extends Block implements ITileEntityProvider {
 	public BlockExploreArea() {
 		super(Material.PLANTS);
 		setCreativeTab(MHFCMain.mhfctabs);
-		setBlockName(MHFCReference.block_exploreArea_name);
-		setBlockTextureName(MHFCReference.block_exploreArea_tex);
+		setUnlocalizedName(MHFCReference.block_exploreArea_name);
 		setBlockUnbreakable();
 	}
 
@@ -64,13 +63,16 @@ public class BlockExploreArea extends Block implements ITileEntityProvider {
 
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
-		if (world.isRemote)
+		if (world.isRemote) {
 			return;
+		}
 		TileEntity tile = world.getTileEntity(x, y, z);
-		if (!(tile instanceof TileExploreArea))
+		if (!(tile instanceof TileExploreArea)) {
 			return;
-		if (!(entity instanceof EntityPlayerMP))
+		}
+		if (!(entity instanceof EntityPlayerMP)) {
 			return;
+		}
 		TileExploreArea tileChangeArea = (TileExploreArea) tile;
 		EntityPlayerMP player = (EntityPlayerMP) entity;
 		if (teleportingPlayers.contains(player)) {
