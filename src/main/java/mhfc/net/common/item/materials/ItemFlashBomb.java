@@ -4,7 +4,6 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.entity.projectile.EntityFlashBomb;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.lib.MHFCReference;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,11 +15,6 @@ public class ItemFlashBomb extends Item {
 		setUnlocalizedName(MHFCReference.item_flashbomb_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(2);
-	}
-
-	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
-		this.itemIcon = par1IconRegister.registerIcon(MHFCReference.base_monster_gem);
 	}
 
 	@Override

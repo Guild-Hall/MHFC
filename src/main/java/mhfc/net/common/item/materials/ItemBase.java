@@ -10,25 +10,18 @@ import net.minecraft.item.Item;
 
 public class ItemBase extends AbstractSubTypedItem<BaseSubType> {
 	public static enum BaseSubType implements SubTypedItem.SubTypeEnum<Item> {
-		ANUMIUM(MHFCReference.item_base0_name, MHFCReference.item_base0_icon), //
-		MEGANUM(MHFCReference.item_base1_name, MHFCReference.item_base1_icon);
+		ANUMIUM(MHFCReference.item_base0_name),
+		MEGANUM(MHFCReference.item_base1_name);
 
 		public final String name;
-		public final String texture;
 
-		private BaseSubType(String name, String texture) {
+		private BaseSubType(String name) {
 			this.name = name;
-			this.texture = texture;
 		}
 
 		@Override
 		public String getName() {
 			return this.name;
-		}
-
-		@Override
-		public String getTexPath() {
-			return this.texture;
 		}
 
 		@Override

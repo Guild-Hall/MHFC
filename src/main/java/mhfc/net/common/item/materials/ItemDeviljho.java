@@ -15,31 +15,24 @@ import net.minecraft.item.ItemStack;
 
 public class ItemDeviljho extends AbstractSubTypedItem<DeviljhoSubType> {
 	public static enum DeviljhoSubType implements SubTypedItem.SubTypeEnum<Item> {
-		SCALE(MHFCReference.item_deviljho0_name, MHFCReference.base_monster_scale, ItemColor.GREEN), //
-		FANG(MHFCReference.item_deviljho1_name, MHFCReference.base_monster_sharp, ItemColor.GREEN), //
-		HIDE(MHFCReference.item_deviljho2_name, MHFCReference.base_monster_pelt, ItemColor.GREEN), //
-		TALON(MHFCReference.item_deviljho3_name, MHFCReference.base_monster_sharp, ItemColor.GREEN), //
-		SCALP(MHFCReference.item_deviljho4_name, MHFCReference.base_monster_part, ItemColor.GREEN),
-		TAIL(MHFCReference.item_deviljho5_name, MHFCReference.base_monster_part, ItemColor.GREEN);
+		SCALE(MHFCReference.item_deviljho0_name, ItemColor.GREEN), //
+		FANG(MHFCReference.item_deviljho1_name, ItemColor.GREEN), //
+		HIDE(MHFCReference.item_deviljho2_name, ItemColor.GREEN), //
+		TALON(MHFCReference.item_deviljho3_name, ItemColor.GREEN), //
+		SCALP(MHFCReference.item_deviljho4_name, ItemColor.GREEN),
+		TAIL(MHFCReference.item_deviljho5_name, ItemColor.GREEN);
 
 		public final String name;
-		public final String texture;
 		public final ItemColor color;
 
-		private DeviljhoSubType(String name, String texture, ItemColor color) {
+		private DeviljhoSubType(String name, ItemColor color) {
 			this.name = name;
-			this.texture = texture;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
 			return this.name;
-		}
-
-		@Override
-		public String getTexPath() {
-			return this.texture;
 		}
 
 		@Override
@@ -60,7 +53,11 @@ public class ItemDeviljho extends AbstractSubTypedItem<DeviljhoSubType> {
 	}
 
 	@Override
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+	public void addInformation(
+			ItemStack par1ItemStack,
+			EntityPlayer par2EntityPlayer,
+			List<String> par3List,
+			boolean par4) {
 		switch (itemPerk.getSubType(par1ItemStack)) {
 		case SCALP:
 			par3List.add("Rare Drop by Deviljho");
@@ -69,5 +66,10 @@ public class ItemDeviljho extends AbstractSubTypedItem<DeviljhoSubType> {
 			par3List.add("Drop by Deviljho");
 			break;
 		}
+	}
+
+	@Override
+	public int getColorFromItemStack(ItemStack stack, int renderLayer) {
+		return itemPerk.getSubType(stack).getColor().getRGB();
 	}
 }

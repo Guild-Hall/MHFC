@@ -15,31 +15,24 @@ import net.minecraft.item.ItemStack;
 
 public class ItemTigrex extends AbstractSubTypedItem<TigrexSubType> {
 	public static enum TigrexSubType implements SubTypedItem.SubTypeEnum<Item> {
-		SCALE(MHFCReference.item_tigrex0_name, MHFCReference.base_monster_scale, ItemColor.YELLOW), //
-		SHELL(MHFCReference.item_tigrex1_name, MHFCReference.base_monster_carapace, ItemColor.YELLOW), //
-		CLAW(MHFCReference.item_tigrex2_name, MHFCReference.base_monster_sharp, ItemColor.YELLOW), //
-		FANG(MHFCReference.item_tigrex3_name, MHFCReference.base_monster_sharp, ItemColor.YELLOW), //
-		SKULLSHELL(MHFCReference.item_tigrex4_name, MHFCReference.base_monster_bone, ItemColor.YELLOW), // , //
-		TAIL(MHFCReference.item_tigrex5_name, MHFCReference.base_monster_part, ItemColor.YELLOW);
+		SCALE(MHFCReference.item_tigrex0_name, ItemColor.YELLOW),
+		SHELL(MHFCReference.item_tigrex1_name, ItemColor.YELLOW),
+		CLAW(MHFCReference.item_tigrex2_name, ItemColor.YELLOW),
+		FANG(MHFCReference.item_tigrex3_name, ItemColor.YELLOW),
+		SKULLSHELL(MHFCReference.item_tigrex4_name, ItemColor.YELLOW),
+		TAIL(MHFCReference.item_tigrex5_name, ItemColor.YELLOW);
 
 		public final String name;
-		public final String texture;
 		public final ItemColor color;
 
-		private TigrexSubType(String name, String texture, ItemColor color) {
+		private TigrexSubType(String name, ItemColor color) {
 			this.name = name;
-			this.texture = texture;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
 			return this.name;
-		}
-
-		@Override
-		public String getTexPath() {
-			return this.texture;
 		}
 
 		@Override
@@ -60,7 +53,7 @@ public class ItemTigrex extends AbstractSubTypedItem<TigrexSubType> {
 	}
 
 	@Override
-	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
+	public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> list, boolean par4) {
 		switch (itemPerk.getSubType(itemStack)) {
 		case SKULLSHELL:
 		case TAIL:

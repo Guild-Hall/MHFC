@@ -15,26 +15,19 @@ import net.minecraft.item.ItemStack;
 
 public class ItemSac extends AbstractSubTypedItem<SacSubType> {
 	public static enum SacSubType implements SubTypedItem.SubTypeEnum<Item> {
-		FIRE(MHFCReference.item_sac0_name, MHFCReference.base_monster_sac, ItemColor.RED);
+		FIRE(MHFCReference.item_sac0_name, ItemColor.RED);
 
 		public final String name;
-		public final String texture;
 		public final ItemColor color;
 
-		private SacSubType(String name, String texture, ItemColor color) {
+		private SacSubType(String name, ItemColor color) {
 			this.name = name;
-			this.texture = texture;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
 			return this.name;
-		}
-
-		@Override
-		public String getTexPath() {
-			return this.texture;
 		}
 
 		@Override
@@ -55,7 +48,11 @@ public class ItemSac extends AbstractSubTypedItem<SacSubType> {
 	}
 
 	@Override
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+	public void addInformation(
+			ItemStack par1ItemStack,
+			EntityPlayer par2EntityPlayer,
+			List<String> par3List,
+			boolean par4) {
 		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 	}
 }

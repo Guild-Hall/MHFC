@@ -39,23 +39,16 @@ public class ItemPaintball extends AbstractSubTypedItem<PaintballType> {
 		WHITE("white", ItemColor.WHITE);
 
 		public final String name;
-		public final String texture;
 		public final ItemColor color;
 
 		private PaintballType(String name, ItemColor color) {
 			this.name = name;
-			this.texture = MHFCReference.base_monster_gem;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
 			return name;
-		}
-
-		@Override
-		public String getTexPath() {
-			return texture;
 		}
 
 		@Override

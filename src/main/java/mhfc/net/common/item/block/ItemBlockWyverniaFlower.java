@@ -4,9 +4,8 @@ import mhfc.net.common.block.BlockWyverniaFlower.WyverniaFlowerSubType;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockWyverniaFlower extends ItemBlock {
 
@@ -25,8 +24,7 @@ public class ItemBlockWyverniaFlower extends ItemBlock {
 			i = 0;
 		}
 
-		return super.getUnlocalizedName() + "."
-				+ WyverniaFlowerSubType.values()[i].name;
+		return super.getUnlocalizedName() + "." + WyverniaFlowerSubType.values()[i].name;
 	}
 
 	@Override
@@ -38,12 +36,6 @@ public class ItemBlockWyverniaFlower extends ItemBlock {
 	@SideOnly(Side.CLIENT)
 	public boolean isFull3D() {
 		return true;
-	}
-
-	@Override
-	public IIcon getIconFromDamage(int meta) {
-		// TODO: block getIcon()
-		return field_150939_a.getIcon(0, meta);
 	}
 
 }

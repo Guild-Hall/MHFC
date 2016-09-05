@@ -11,27 +11,20 @@ import net.minecraft.item.Item;
 
 public class ItemArmorSphere extends AbstractSubTypedItem<ArmorSphereSubType> {
 	public static enum ArmorSphereSubType implements SubTypedItem.SubTypeEnum<Item> {
-		NORMAL(MHFCReference.item_armorsphere0_name, ItemColor.BLUE), //
+		NORMAL(MHFCReference.item_armorsphere0_name, ItemColor.BLUE),
 		PLUS(MHFCReference.item_armorsphere1_name, ItemColor.LIME);
 
 		public final String name;
-		public final String texture;
 		public final ItemColor color;
 
 		private ArmorSphereSubType(String name, ItemColor color) {
 			this.name = name;
-			this.texture = MHFCReference.base_misc_armorsphere;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
 			return this.name;
-		}
-
-		@Override
-		public String getTexPath() {
-			return this.texture;
 		}
 
 		@Override

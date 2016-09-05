@@ -15,29 +15,22 @@ import net.minecraft.item.ItemStack;
 
 public class ItemRemobra extends AbstractSubTypedItem<RemobraSubType> {
 	public static enum RemobraSubType implements SubTypedItem.SubTypeEnum<Item> {
-		SKIN(MHFCReference.item_remobra0_name, MHFCReference.base_monster_pelt, ItemColor.GRAY), //
-		STRIPE(MHFCReference.item_remobra1_name, MHFCReference.base_monster_pelt, ItemColor.GRAY), //
-		SKULL(MHFCReference.item_remobra2_name, MHFCReference.base_monster_part, ItemColor.GRAY), //
-		WING(MHFCReference.item_remobra3_name, MHFCReference.base_monster_part, ItemColor.GRAY),;//
+		SKIN(MHFCReference.item_remobra0_name, ItemColor.GRAY), //
+		STRIPE(MHFCReference.item_remobra1_name, ItemColor.GRAY), //
+		SKULL(MHFCReference.item_remobra2_name, ItemColor.GRAY), //
+		WING(MHFCReference.item_remobra3_name, ItemColor.GRAY),;//
 
 		public final String name;
-		public final String texture;
 		public final ItemColor color;
 
-		private RemobraSubType(String name, String texture, ItemColor color) {
+		private RemobraSubType(String name, ItemColor color) {
 			this.name = name;
-			this.texture = texture;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
 			return this.name;
-		}
-
-		@Override
-		public String getTexPath() {
-			return this.texture;
 		}
 
 		@Override
@@ -58,7 +51,11 @@ public class ItemRemobra extends AbstractSubTypedItem<RemobraSubType> {
 	}
 
 	@Override
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+	public void addInformation(
+			ItemStack par1ItemStack,
+			EntityPlayer par2EntityPlayer,
+			List<String> par3List,
+			boolean par4) {
 		switch (itemPerk.getSubType(par1ItemStack)) {
 		case WING:
 			par3List.add("Rare Drop by Remobra");

@@ -15,31 +15,24 @@ import net.minecraft.item.ItemStack;
 
 public class ItemKirin extends AbstractSubTypedItem<KirinSubType> {
 	public static enum KirinSubType implements SubTypedItem.SubTypeEnum<Item> {
-		MANE(MHFCReference.item_kirin0_name, MHFCReference.base_monster_pelt, ItemColor.GRAY), //
-		GEM(MHFCReference.item_kirin1_name, MHFCReference.base_monster_gem, ItemColor.WHITE), //
-		THUNDERTAIL(MHFCReference.item_kirin2_name, MHFCReference.base_monster_part, ItemColor.WHITE), //
-		LIGHTCRYSTAL(MHFCReference.item_kirin3_name, MHFCReference.base_misc_ore, ItemColor.GRAY), //
-		PURECRYSTAL(MHFCReference.item_kirin4_name, MHFCReference.base_misc_ore, ItemColor.WHITE), // , //
-		PLATINUMMANE(MHFCReference.item_kirin5_name, MHFCReference.base_monster_pelt, ItemColor.WHITE);
+		MANE(MHFCReference.item_kirin0_name, ItemColor.GRAY),
+		GEM(MHFCReference.item_kirin1_name, ItemColor.WHITE),
+		THUNDERTAIL(MHFCReference.item_kirin2_name, ItemColor.WHITE),
+		LIGHTCRYSTAL(MHFCReference.item_kirin3_name, ItemColor.GRAY),
+		PURECRYSTAL(MHFCReference.item_kirin4_name, ItemColor.WHITE),
+		PLATINUMMANE(MHFCReference.item_kirin5_name, ItemColor.WHITE);
 
 		public final String name;
-		public final String texture;
 		public final ItemColor color;
 
-		private KirinSubType(String name, String texture, ItemColor color) {
+		private KirinSubType(String name, ItemColor color) {
 			this.name = name;
-			this.texture = texture;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
 			return this.name;
-		}
-
-		@Override
-		public String getTexPath() {
-			return this.texture;
 		}
 
 		@Override
@@ -60,7 +53,7 @@ public class ItemKirin extends AbstractSubTypedItem<KirinSubType> {
 	}
 
 	@Override
-	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
+	public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> list, boolean par4) {
 		switch (itemPerk.getSubType(itemStack)) {
 		case PURECRYSTAL:
 		case PLATINUMMANE:

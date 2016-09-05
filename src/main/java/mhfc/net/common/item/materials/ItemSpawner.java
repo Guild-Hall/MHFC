@@ -3,15 +3,13 @@ package mhfc.net.common.item.materials;
 import java.util.Iterator;
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.MHFCMobList;
 import mhfc.net.common.core.MHFCMobList.MHFCEggInfo;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -20,21 +18,14 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Facing;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemSpawner extends Item {
-	@SideOnly(Side.CLIENT)
-	private IIcon theIcon;
 
 	public ItemSpawner() {
 		super();
-		setTextureName(MHFCReference.base_tool_horn);
 		setUnlocalizedName(MHFCReference.item_mhfcspawnegg_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHasSubtypes(true);
@@ -43,11 +34,11 @@ public class ItemSpawner extends Item {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack par1ItemStack) {
-		String s = (StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
+		String s = (I18n.format(this.getUnlocalizedName() + ".name")).trim();
 		String s1 = MHFCMobList.getStringFromID(par1ItemStack.getItemDamage());
 
 		if (s1 != null) {
-			s = s + " " + StatCollector.translateToLocal("entity." + s1 + ".name");
+			s = s + " " + I18n.format("entity." + s1 + ".name");
 		}
 
 		return s;
@@ -180,25 +171,12 @@ public class ItemSpawner extends Item {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamageForRenderPass(int par1, int par2) {
-		return par2 > 0 ? this.theIcon : super.getIconFromDamageForRenderPass(par1, par2);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item base, CreativeTabs par2CreativeTabs, List list) {
+	public void getSubItems(Item base, CreativeTabs par2CreativeTabs, List<ItemStack> list) {
 		Iterator<MHFCEggInfo> iterator = MHFCMobList.registeredEggs().values().iterator();
 
 		while (iterator.hasNext()) {
 			MHFCEggInfo entityegginfo = iterator.next();
 			list.add(new ItemStack(base, 1, entityegginfo.spawnedID));
 		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister) {
-		super.registerIcons(par1IconRegister);
-		this.theIcon = par1IconRegister.registerIcon(MHFCReference.item_mhfcspawnegg_overlay_icon);
 	}
 }

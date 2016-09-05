@@ -11,29 +11,22 @@ import net.minecraft.item.Item;
 
 public class ItemIngot extends AbstractSubTypedItem<IngotsSubType> {
 	public static enum IngotsSubType implements SubTypedItem.SubTypeEnum<Item> {
-		CARBALITE(MHFCReference.item_ingot0_name, ItemColor.PURPLE), //
-		DRAGONITE(MHFCReference.item_ingot1_name, ItemColor.GREEN), //
-		ELTALITE(MHFCReference.item_ingot2_name, ItemColor.RED), //
+		CARBALITE(MHFCReference.item_ingot0_name, ItemColor.PURPLE),
+		DRAGONITE(MHFCReference.item_ingot1_name, ItemColor.GREEN),
+		ELTALITE(MHFCReference.item_ingot2_name, ItemColor.RED),
 		MACHALITE(MHFCReference.item_ingot3_name, ItemColor.CYAN);
 
 		public final String name;
-		public final String texture;
 		public final ItemColor color;
 
 		private IngotsSubType(String name, ItemColor color) {
 			this.name = name;
-			this.texture = MHFCReference.base_misc_ore;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
 			return this.name;
-		}
-
-		@Override
-		public String getTexPath() {
-			return this.texture;
 		}
 
 		@Override
