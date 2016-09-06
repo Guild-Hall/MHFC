@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
 
 public class ItemBow extends ItemWeapon<BowWeaponStats> {
@@ -34,20 +35,6 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		return MHFCReference.weapon_bow_name;
 	}
 
-	@Override
-	public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining) {
-		if (stack != usingItem) {
-			return IconArray[0];
-		}
-		if (useRemaining > 21) {
-			return IconArray[3];
-		} else if (useRemaining > 14) {
-			return IconArray[2];
-		} else if (useRemaining > 7) {
-			return IconArray[1];
-		}
-		return IconArray[0];
-	}
 
 	/**
 	 * returns the action that specifies what animation to play when the items is being used
@@ -79,7 +66,7 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
 	 */
 	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer player) {
+	public ActionResult onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer player) {
 		player.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
 
 		return par1ItemStack;

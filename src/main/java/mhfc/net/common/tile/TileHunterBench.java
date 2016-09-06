@@ -256,11 +256,6 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		return null;
-	}
-
-	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
 		if (i < 0 || i >= getSizeInventory()) {
 			return;
@@ -303,16 +298,6 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		return new TextComponentTranslation("container.hunterbench");
 	}
 
-	@Override
-	public boolean hasCustomInventoryName() {
-		return false;
-	}
-
-	@Override
-	public void openInventory() {}
-
-	@Override
-	public void closeInventory() {}
 
 	public boolean beginCrafting() {
 		if (worldObj.isRemote) {
@@ -458,6 +443,60 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		int recId = nbtTag.getInteger(recipeIDID);
 		RecipeType recType = RecipeType.values()[irecType];
 		setRecipe(MHFCEquipementRecipeRegistry.getRecipeFor(recId, recType));
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomName() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ItemStack removeStackFromSlot(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void openInventory(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
