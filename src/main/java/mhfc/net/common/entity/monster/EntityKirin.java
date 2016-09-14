@@ -22,7 +22,7 @@ public class EntityKirin extends EntityMHFCBase<EntityKirin> {
 		super(world);
 		this.height = 3F;
 		this.width = 3F;
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 	}
 
 	@Override
@@ -53,14 +53,6 @@ public class EntityKirin extends EntityMHFCBase<EntityKirin> {
 	@Override
 	protected SoundEvent getAmbientSound() {
 		return MHFCSoundRegistry.getRegistry().kirinIdle;
-	}
-
-	@Override
-	public void entityInit() {
-		super.entityInit();
-		// if(this.isInWater())
-		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
 	}
 
 }

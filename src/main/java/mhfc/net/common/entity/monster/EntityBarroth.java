@@ -27,11 +27,11 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	public int deathTick;
 	public int rageLevel;
 
-	public EntityBarroth(World WORLD) {
-		super(WORLD);
+	public EntityBarroth(World world) {
+		super(world);
 		this.height = 4f;
 		this.width = 5f;
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 	}
 
 	@Override
@@ -68,14 +68,6 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	@Override
 	protected SoundEvent getAmbientSound() {
 		return MHFCSoundRegistry.getRegistry().barrothIdle;
-	}
-
-	@Override
-	public void entityInit() {
-		super.entityInit();
-		// if(this.isInWater())
-		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
 	}
 
 }

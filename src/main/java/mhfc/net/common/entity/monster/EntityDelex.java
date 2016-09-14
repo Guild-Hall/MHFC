@@ -21,7 +21,7 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 		super(world);
 		this.height = 2f;
 		this.width = 2f;
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 	}
 
 	@Override
@@ -53,9 +53,6 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 	@Override
 	public void entityInit() {
 		super.entityInit();
-		// if(this.isInWater())
-		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
 	}
 
 }

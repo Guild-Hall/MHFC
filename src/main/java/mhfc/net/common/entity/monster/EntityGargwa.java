@@ -24,7 +24,6 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 		super(world);
 		this.height = 2f;
 		this.width = 2f;
-		//		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 	}
 
 	@Override
@@ -54,14 +53,6 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
 		GL11.glScaled(1.6, 1.6, 1.6);
 		return super.preRenderCallback(scale, sub);
-	}
-
-	@Override
-	public void entityInit() {
-		super.entityInit();
-		// if(this.isInWater())
-		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
 	}
 
 	@Override

@@ -33,6 +33,7 @@ import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
@@ -48,7 +49,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		// TODO enable this when Popos are a thing again
 		// targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
 		// EntityPopo.class, 0, true));
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 	}
 
 	@Override
@@ -77,13 +78,6 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(20432D));
-	}
-
-	@Override
-	public void entityInit() {
-		super.entityInit();
-		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
 	}
 
 	@Override
@@ -120,7 +114,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	}
 
 	@Override
-	public SoundEvent getDeathSound() {
+	protected SoundEvent getDeathSound() {
 		return MHFCSoundRegistry.getRegistry().tigrexDeath;
 	}
 
@@ -131,7 +125,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	}
 
 	@Override
-	protected void func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_) {
+	protected void playStepSound(BlockPos pos, Block blockIn) {
 		this.playSound(MHFCSoundRegistry.getRegistry().tigrexStep, 2.0F, 1.0F);
 	}
 }

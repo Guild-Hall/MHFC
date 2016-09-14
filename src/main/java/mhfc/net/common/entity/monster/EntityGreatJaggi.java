@@ -21,14 +21,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
-
-	public int deathTick;
+	// TODO: implement rage
 	public int rageLevel;
 
 	public EntityGreatJaggi(World world) {
 		super(world);
 		setSize(2F, 2F);
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 	}
 
 	@Override

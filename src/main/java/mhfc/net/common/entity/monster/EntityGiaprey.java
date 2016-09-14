@@ -19,7 +19,7 @@ public class EntityGiaprey extends EntityMHFCBase<EntityGiaprey> {
 		super(world);
 		this.height = 1f;
 		this.width = 2f;
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 	}
 
 	@Override
@@ -43,14 +43,6 @@ public class EntityGiaprey extends EntityMHFCBase<EntityGiaprey> {
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
 		GL11.glScaled(0.8, 0.8, 0.8);
 		return super.preRenderCallback(scale, sub);
-	}
-
-	@Override
-	public void entityInit() {
-		super.entityInit();
-		// if(this.isInWater())
-		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
 	}
 
 }

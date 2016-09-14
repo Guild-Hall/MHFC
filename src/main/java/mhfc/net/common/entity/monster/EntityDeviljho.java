@@ -29,14 +29,15 @@ import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 
-	public EntityDeviljho(World WORLD) {
-		super(WORLD);
+	public EntityDeviljho(World world) {
+		super(world);
 		setSize(7.6F, 6F);
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		stepHeight = 2.0F;
 	}
@@ -83,7 +84,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	}
 
 	@Override
-	protected void func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_) {
+	protected void playStepSound(BlockPos pos, Block blockIn) {
 		this.playSound(MHFCSoundRegistry.getRegistry().deviljhoStep, 1.0F, 1.0F);
 	}
 

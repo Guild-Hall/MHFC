@@ -27,7 +27,7 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 		super(world);
 		this.height = 12f;
 		this.width = 12f;
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 	}
 
 	@Override
@@ -58,14 +58,6 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
 		GL11.glScaled(5.1, 5.1, 5.1);
 		return super.preRenderCallback(scale, sub);
-	}
-
-	@Override
-	public void entityInit() {
-		super.entityInit();
-		// if(this.isInWater())
-		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
 	}
 
 	@Override
