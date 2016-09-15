@@ -6,7 +6,9 @@ import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
@@ -14,14 +16,17 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class EntityProjectileBlock extends EntityThrowable {
+	private final EntityFallingBlock proxy;
 
 	public EntityProjectileBlock(World par) {
 		super(par);
 		setSize(1.0F, 1.0F);
+		proxy = createProxy();
 	}
 
 	public EntityProjectileBlock(World world, EntityLivingBase living) {
 		super(world, living);
+		proxy = createProxy();
 		this.posY -= living.getEyeHeight();
 		Vec3d look = living.getLookVec();
 		this.posX += look.xCoord * 2;
@@ -37,6 +42,14 @@ public class EntityProjectileBlock extends EntityThrowable {
 	public EntityProjectileBlock(World par, EntityDeviljho e) {
 		this(par, (EntityLivingBase) e);
 		setSize(1.4F, 1.4F);
+	}
+
+	private EntityFallingBlock createProxy() {
+		return new EntityFallingBlock(worldObj, posX, posY, posZ, Blocks.DIRT.getDefaultState());
+	}
+
+	public EntityFallingBlock getProxy() {
+		return proxy;
 	}
 
 	@Override
