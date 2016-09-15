@@ -7,17 +7,23 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.core.MHFCMobList;
 import mhfc.net.common.core.MHFCMobList.MHFCEggInfo;
 import mhfc.net.common.util.lib.MHFCReference;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -53,120 +59,87 @@ public class ItemSpawner extends Item {
 				: 16777215;
 	}
 
-	@Override
-	public boolean onItemUse(
-			ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			World par3World,
-			int par4,
-			int par5,
-			int par6,
-			int par7,
-			float par8,
-			float par9,
-			float par10) {
-		if (par3World.isRemote) {
-			return true;
-		}
-		Block block = par3World.getBlock(par4, par5, par6);
-		par4 += Facing.offsetsXForSide[par7];
-		par5 += Facing.offsetsYForSide[par7];
-		par6 += Facing.offsetsZForSide[par7];
-		double d0 = 0.0D;
+	private static Entity spawnCreature(World world, ItemStack stack, BlockPos pos) {
+		int meta = stack.getItemDamage();
 
-		if (par7 == 1 && block.getRenderType() == 11) {
-			d0 = 0.5D;
-		}
-
-		Entity entity = spawnCreature(par3World, par1ItemStack.getItemDamage(), par4 + 0.5D, par5 + d0, par6 + 0.5D);
-
-		if (entity != null) {
-			if (entity instanceof EntityLivingBase && par1ItemStack.hasDisplayName()) {
-				((EntityLiving) entity).setCustomNameTag(par1ItemStack.getDisplayName());
-			}
-
-			if (!par2EntityPlayer.capabilities.isCreativeMode) {
-				--par1ItemStack.stackSize;
-			}
-		}
-
-		return true;
-	}
-
-	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
-		if (par2World.isRemote) {
-			return par1ItemStack;
-		}
-		MovingObjectPosition movingobjectposition = this
-				.getMovingObjectPositionFromPlayer(par2World, par3EntityPlayer, true);
-
-		if (movingobjectposition == null) {
-			return par1ItemStack;
-		}
-		if (movingobjectposition.typeOfHit == MovingObjectType.BLOCK) {
-			int i = movingobjectposition.blockX;
-			int j = movingobjectposition.blockY;
-			int k = movingobjectposition.blockZ;
-
-			if (!par2World.canMineBlock(par3EntityPlayer, i, j, k)) {
-				return par1ItemStack;
-			}
-
-			if (!par3EntityPlayer.canPlayerEdit(i, j, k, movingobjectposition.sideHit, par1ItemStack)) {
-				return par1ItemStack;
-			}
-
-			if (par2World.getBlock(i, j, k) instanceof BlockLiquid) {
-				Entity entity = spawnCreature(par2World, par1ItemStack.getItemDamage(), i, j, k);
-
-				if (entity != null) {
-					if (entity instanceof EntityLivingBase && par1ItemStack.hasDisplayName()) {
-						((EntityLiving) entity).setCustomNameTag(par1ItemStack.getDisplayName());
-					}
-
-					if (!par3EntityPlayer.capabilities.isCreativeMode) {
-						--par1ItemStack.stackSize;
-					}
-				}
-			}
-		}
-
-		return par1ItemStack;
-	}
-
-	public static Entity spawnCreature(World par0World, int par1, double par2, double par4, double par6) {
-		if (!MHFCMobList.registeredEggs().containsKey(Integer.valueOf(par1))) {
+		String entityID = MHFCMobList.getStringFromID(meta);
+		if (entityID == null) {
 			return null;
 		}
-		Entity entity = null;
-
-		for (int j = 0; j < 1; ++j) {
-			entity = MHFCMobList.createEntityByID(par1, par0World);
-
-			if (entity != null && entity instanceof EntityLivingBase) {
-				EntityLiving entityliving = (EntityLiving) entity;
-				entity.setLocationAndAngles(
-						par2,
-						par4,
-						par6,
-						MathHelper.wrapAngleTo180_float(par0World.rand.nextFloat() * 360.0F),
-						0.0F);
-				entityliving.rotationYawHead = entityliving.rotationYaw;
-				entityliving.renderYawOffset = entityliving.rotationYaw;
-				entityliving.onSpawnWithEgg((IEntityLivingData) null);
-				par0World.spawnEntityInWorld(entity);
-				entityliving.playLivingSound();
-			}
+		EntityLiving entity = EntityLiving.class.cast(EntityList.createEntityByIDFromName(entityID, world));
+		if (entity == null) {
+			return null;
 		}
+
+		double x = pos.getX() + 0.5D, y = pos.getY(), z = pos.getZ() + 0.5D;
+		entity.setLocationAndAngles(x, y, z, MathHelper.wrapDegrees(world.rand.nextFloat() * 360.0F), 0.0F);
+		entity.rotationYawHead = entity.rotationYaw;
+		entity.renderYawOffset = entity.rotationYaw;
+		entity.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(entity)), null);
+		if (stack.hasDisplayName()) {
+			entity.setCustomNameTag(stack.getDisplayName());
+		}
+
+		world.spawnEntityInWorld(entity);
+		entity.playLivingSound();
 
 		return entity;
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses() {
-		return true;
+	public EnumActionResult onItemUse(
+			ItemStack stack,
+			EntityPlayer player,
+			World world,
+			BlockPos pos,
+			EnumHand hand,
+			EnumFacing facing,
+			float hitX,
+			float hitY,
+			float hitZ) {
+		if (world.isRemote) {
+			return EnumActionResult.SUCCESS;
+		}
+		if (!player.canPlayerEdit(pos.offset(facing), facing, stack)) {
+			return EnumActionResult.FAIL;
+		}
+		Entity entity = spawnCreature(world, stack, pos);
+
+		if (entity != null) {
+
+			if (!player.capabilities.isCreativeMode) {
+				--stack.stackSize;
+			}
+		}
+		return EnumActionResult.SUCCESS;
+	}
+
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+		if (world.isRemote) {
+			return new ActionResult<>(EnumActionResult.PASS, stack);
+		}
+		RayTraceResult rayTraceResult = rayTrace(world, player, true);
+
+		if (rayTraceResult == null || rayTraceResult.typeOfHit == Type.BLOCK) {
+			return new ActionResult<>(EnumActionResult.PASS, stack);
+		}
+
+		BlockPos hitBlockPos = rayTraceResult.getBlockPos();
+		if (!(world.getBlockState(hitBlockPos).getBlock() instanceof BlockLiquid)) {
+			return new ActionResult<>(EnumActionResult.PASS, stack);
+		}
+		if (!world.isBlockModifiable(player, hitBlockPos)
+				|| !player.canPlayerEdit(hitBlockPos, rayTraceResult.sideHit, stack)) {
+			return new ActionResult<>(EnumActionResult.FAIL, stack);
+		}
+
+		Entity entity = spawnCreature(world, stack, hitBlockPos);
+
+		if (entity != null && player.capabilities.isCreativeMode) {
+			--stack.stackSize;
+		}
+		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import mhfc.net.common.tile.TileBBQSpit;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -22,17 +23,7 @@ public class BlockBBQSpit extends BlockContainer {
 	}
 
 	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 

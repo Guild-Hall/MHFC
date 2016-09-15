@@ -5,9 +5,10 @@ import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockRespawn extends Block {
@@ -19,16 +20,8 @@ public class BlockRespawn extends Block {
 		setBlockUnbreakable();
 	}
 
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(
-			World p_149668_1_,
-			int p_149668_2_,
-			int p_149668_3_,
-			int p_149668_4_) {
-		return null;
-	}
-
 	@Override
-	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+	public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
 		if (world.isRemote) {
 			return;
 		}

@@ -6,9 +6,13 @@ import mhfc.net.common.tile.TileHunterBench;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockHunterBench extends BlockContainer {
@@ -26,38 +30,30 @@ public class BlockHunterBench extends BlockContainer {
 	}
 
 	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l) {
-		return false;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
 	public boolean onBlockActivated(
-			World var1,
-			int var2,
-			int var3,
-			int var4,
+			World worldIn,
+			BlockPos pos,
+			IBlockState state,
 			EntityPlayer player,
-			int var6,
-			float var7,
-			float var8,
-			float var9) {
+			EnumHand hand,
+			ItemStack heldItem,
+			EnumFacing side,
+			float hitX,
+			float hitY,
+			float hitZ) {
 		if (!player.isSneaking()) {
-			player.openGui(MHFCMain.instance(), MHFCContainerRegistry.gui_hunterbench_id, var1, var2, var3, var4);
+			player.openGui(
+					MHFCMain.instance(),
+					MHFCContainerRegistry.gui_hunterbench_id,
+					worldIn,
+					pos.getX(),
+					pos.getY(),
+					pos.getZ());
 			return true;
 		}
 		return false;

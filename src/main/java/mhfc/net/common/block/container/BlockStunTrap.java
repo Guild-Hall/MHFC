@@ -7,44 +7,38 @@ import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.tile.TileStunTrap;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.BlockContainer;
-import net.minecraft.block.BlockFence;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
+// FIXME: fix the stun trap, currently logic is in the block that should be in the tile and other way around
 public class BlockStunTrap extends BlockContainer {
+	private AxisAlignedBB BOUNDS = new AxisAlignedBB(
+			1F / 16F * 5F,
+			0,
+			1F / 16F * 5F,
+			1F - 1F / 16F * 5F,
+			1F - 1F / 16F * 12F,
+			1F - 1F / 16F * 5F);
 
 	public BlockStunTrap() {
 		super(Material.ROCK);
-		setBlockBounds(1F / 16F * 5F, 0, 1F / 16F * 5F, 1F - 1F / 16F * 5F, 1F - 1F / 16F * 12F, 1F - 1F / 16F * 5F);
 		setUnlocalizedName(MHFCReference.block_stuntrap_name);
 		setHardness(0.8F);
 		disableStats();
 		setCreativeTab(MHFCMain.mhfctabs);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-		float f1 = x + 0.5F;
-		float f2 = y + 1.1F;
-		float f3 = z + 0.5F;
-		float f4 = random.nextFloat() * 0.6F - 0.3F;
-		float f5 = random.nextFloat() * -0.6F - -0.3F;
-		world.spawnParticle("largesmoke", f1 + f4, f2, (double) f3 + f5, 0D, 0D, 0D);
-	}
-
-	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
-		return null;
 	}
 
 	@Override
@@ -53,68 +47,54 @@ public class BlockStunTrap extends BlockContainer {
 	}
 
 	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return BOUNDS;
+	}
+
+	@Override
+	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
+		float f1 = pos.getX() + 0.5F;
+		float f2 = pos.getY() + 1.1F;
+		float f3 = pos.getZ() + 0.5F;
+		float f4 = random.nextFloat() * 0.6F - 0.3F;
+		float f5 = random.nextFloat() * -0.6F - -0.3F;
+		world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, f1 + f4, f2, (double) f3 + f5, 0D, 0D, 0D);
+	}
+
+	@Override
 	public boolean onBlockActivated(
-			World par1World,
-			int par2,
-			int par3,
-			int par4,
-			EntityPlayer par5EntityPlayer,
-			int par6,
-			float par7,
-			float par8,
-			float par9) {
-		int metadata = par1World.getBlockMetadata(par2, par3, par4);
-		if (metadata == 1) {
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, 0, 3);
+			World world,
+			BlockPos pos,
+			IBlockState state,
+			EntityPlayer player,
+			EnumHand hand,
+			ItemStack heldItem,
+			EnumFacing side,
+			float hitX,
+			float hitY,
+			float hitZ) {
+		if (state == stateActive) {
+			world.setBlockState(pos, stateInactive, 3);
 			return true;
 		}
 		return false;
 	}
 
-	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5) {
-		boolean flag = false;
-
-		if (!World.doesBlockHaveSolidTopSurface(par1World, par2, par3 - 1, par4)
-				&& !BlockFence.func_149825_a(par1World.getBlock(par2, par3 - 1, par4))) {
-			flag = true;
-		}
-
-		if (flag) {
-			this.dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
-			par1World.setBlockToAir(par2, par3, par4);
-		}
-	}
-
 	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-
-	@Override
-	public void onEntityCollidedWithBlock(World world, int i, int j, int k, Entity entity) {
-		if ((entity instanceof EntityPlayer) || !(entity instanceof EntityLiving)) {
+	public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
+		if (!(entity instanceof EntityLivingBase) || (entity instanceof EntityPlayer)) {
 			return;
 		}
-
-		world.setBlockToAir(i, j, k);
 		EntityLivingBase entityliving = (EntityLivingBase) entity;
-		world.setBlockMetadataWithNotify(i, j, k, 1, 3);
-		// TileStunTrap tileentitystuntrap = (TileStunTrap)
-		// world.getTileEntity(i,
-		// j, k);
-		entityliving.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().stun.id, 500, 10));
-		return;
+		entityliving.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().stun, 500, 10));
 
+		world.setBlockState(pos, stateActive);
+		return;
 	}
 
 }

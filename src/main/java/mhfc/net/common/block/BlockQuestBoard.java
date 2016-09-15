@@ -109,7 +109,7 @@ public class BlockQuestBoard extends BlockContainer {
 			EntityLivingBase placer) {
 
 		if (world.isRemote) {
-			super.onBlockPlacedBy(world, x, y, z, entity, stack);
+			super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
 		}
 		Vec3d vecPos = new Vec3d(placer.posX, placer.posY + placer.getEyeHeight(), placer.posZ);
 		float f1 = MathHelper.cos(-placer.rotationYaw * 0.017453292F - (float) Math.PI);
@@ -149,7 +149,7 @@ public class BlockQuestBoard extends BlockContainer {
 			}
 			meta = metaData;
 		}
-		return 3;
+		return meta;
 	}
 
 	/**
@@ -182,7 +182,6 @@ public class BlockQuestBoard extends BlockContainer {
 		return side;
 	}
 
-	@Override
 	public void addBlockBoundsByState(IBlockState blockState, List<AxisAlignedBB> bounds) {
 		int meta = blockState.getBlock().getMetaFromState(blockState);
 		boolean boxUpFlag = ((meta & upMask) == upMask) | ((meta & offsetMask) == offsetMask);
