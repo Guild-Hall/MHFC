@@ -21,9 +21,6 @@ import net.minecraft.world.WorldServer;
 public class Utilities {
 	private static Random rand = new Random();
 
-	public static final float mhfc_vanilla_size_x = 0.5F;
-	public static final float mhfc_vanilla_size_y = 0.5F;
-
 	public void addWeaponElementFX(EntityLivingBase entityLiving, ItemStack stack) {
 
 	}
