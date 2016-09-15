@@ -1,6 +1,7 @@
 package mhfc.net.common.item.food;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.item.IItemColored;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.init.MobEffects;
@@ -8,7 +9,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 
-public class ItemKirinBuff extends ItemFood {
+public class ItemKirinBuff extends ItemFood implements IItemColored {
 	private static final int healAmount = 6;
 	private static final int saturation = 100;
 	private static final boolean isDogsFood = false;

@@ -5,6 +5,7 @@ import java.util.List;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.item.AbstractSubTypedItem;
+import mhfc.net.common.item.IItemColored;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.item.materials.ItemDeviljho.DeviljhoSubType;
 import mhfc.net.common.util.SubTypedItem;
@@ -13,7 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ItemDeviljho extends AbstractSubTypedItem<DeviljhoSubType> {
+public class ItemDeviljho extends AbstractSubTypedItem<DeviljhoSubType> implements IItemColored {
 	public static enum DeviljhoSubType implements SubTypedItem.SubTypeEnum<Item> {
 		SCALE(MHFCReference.item_deviljho0_name, ItemColor.GREEN),
 		FANG(MHFCReference.item_deviljho1_name, ItemColor.GREEN),
@@ -66,10 +67,5 @@ public class ItemDeviljho extends AbstractSubTypedItem<DeviljhoSubType> {
 			par3List.add("Drop by Deviljho");
 			break;
 		}
-	}
-
-	@Override
-	public int getColorFromItemStack(ItemStack stack, int renderLayer) {
-		return itemPerk.getSubType(stack).getColor().getRGB();
 	}
 }

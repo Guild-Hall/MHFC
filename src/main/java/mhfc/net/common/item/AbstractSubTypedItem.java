@@ -8,7 +8,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class AbstractSubTypedItem<T extends Enum<T> & SubTypeEnum<Item>> extends Item {
+public class AbstractSubTypedItem<T extends Enum<T> & SubTypeEnum<Item>> extends Item implements IItemColored {
 
 	protected final SubTypedItem<Item, T> itemPerk;
 
@@ -34,6 +34,11 @@ public class AbstractSubTypedItem<T extends Enum<T> & SubTypeEnum<Item>> extends
 	@Override
 	public void getSubItems(Item base, CreativeTabs tab, List<ItemStack> list) {
 		itemPerk.getSubItems(base, list);
+	}
+
+	@Override
+	public int getColorFromItemStack(ItemStack stack, int texIndex) {
+		return itemPerk.getSubType(stack).getColor().getRGB();
 	}
 
 }

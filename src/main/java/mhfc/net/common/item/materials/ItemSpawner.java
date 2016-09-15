@@ -6,6 +6,7 @@ import java.util.List;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.MHFCMobList;
 import mhfc.net.common.core.MHFCMobList.MHFCEggInfo;
+import mhfc.net.common.item.IItemColored;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.client.resources.I18n;
@@ -28,7 +29,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemSpawner extends Item {
+public class ItemSpawner extends Item implements IItemColored {
 
 	public ItemSpawner() {
 		super();

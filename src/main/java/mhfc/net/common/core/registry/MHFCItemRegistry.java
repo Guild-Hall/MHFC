@@ -77,56 +77,57 @@ public class MHFCItemRegistry {
 	 */
 	// Weapons
 
-	public final Item weapon_gs_bone;
-	public final Item weapon_gs_tigrex;
-	public final Item weapon_gs_kirinthunders;
-	public final Item weapon_gs_berserkers;
-	public final Item weapon_gs_rathalosfire;
-	public final Item weapon_gs_deadlyserpentblade;
+	public final ItemGreatsword weapon_gs_bone;
+	public final ItemGreatsword weapon_gs_tigrex;
+	public final ItemGreatsword weapon_gs_kirinthunders;
+	public final ItemGreatsword weapon_gs_berserkers;
+	public final ItemGreatsword weapon_gs_rathalosfire;
+	public final ItemGreatsword weapon_gs_deadlyserpentblade;
 
-	public final Item weapon_hm_tigrex;
-	public final Item weapon_hm_kirinspark;
-	public final Item weapon_hm_warhammer;
-	public final Item weapon_hm_warhammerplus;
-	public final Item weapon_hm_warslammer;
-	public final Item weapon_hm_devilsdue;
-	public final Item weapon_hm_rathalos;
+	public final ItemHammer weapon_hm_tigrex;
+	public final ItemHammer weapon_hm_kirinspark;
+	public final ItemHammer weapon_hm_warhammer;
+	public final ItemHammer weapon_hm_warhammerplus;
+	public final ItemHammer weapon_hm_warslammer;
+	public final ItemHammer weapon_hm_devilsdue;
+	public final ItemHammer weapon_hm_rathalos;
 
-	public final Item weapon_ls_ironkatana;
-	public final Item weapon_ls_ironkatanagrace;
-	public final Item weapon_ls_ironkatanagospel;
-	public final Item weapon_ls_eagercleaver;
-	public final Item weapon_ls_devilslicer;
-	public final Item weapon_ls_truedevilslicer;
-	public final Item weapon_ls_darkvipern;
-	public final Item weapon_ls_saber;
-	public final Item weapon_ls_liondancesaber;
-	public final Item weapon_ls_lionkingsaber;
-	public final Item weapon_ls_lionkaisersaber;
-	public final Item weapon_ls_lionsroarsaber;
-	public final Item weapon_ls_miragefinsword;
-	public final Item weapon_ls_miragefinswordplus;
-	public final Item weapon_ls_phantommirage;
+	public final ItemLongsword weapon_ls_ironkatana;
+	public final ItemLongsword weapon_ls_ironkatanagrace;
+	public final ItemLongsword weapon_ls_ironkatanagospel;
+	public final ItemLongsword weapon_ls_eagercleaver;
+	public final ItemLongsword weapon_ls_devilslicer;
+	public final ItemLongsword weapon_ls_truedevilslicer;
+	public final ItemLongsword weapon_ls_darkvipern;
+	public final ItemLongsword weapon_ls_saber;
+	public final ItemLongsword weapon_ls_liondancesaber;
+	public final ItemLongsword weapon_ls_lionkingsaber;
+	public final ItemLongsword weapon_ls_lionkaisersaber;
+	public final ItemLongsword weapon_ls_lionsroarsaber;
+	public final ItemLongsword weapon_ls_miragefinsword;
+	public final ItemLongsword weapon_ls_miragefinswordplus;
+	public final ItemLongsword weapon_ls_phantommirage;
 
-	public final Item weapon_hh_metalbagpipe;
-	public final Item weapon_hh_ivoryhorn;
-	public final Item weapon_hh_tigrex;
-	public final Item weapon_hh_greatbagpipe;
-	public final Item weapon_hh_heavybagpipe;
-	public final Item weapon_hh_heavybagpipeplus;
-	public final Item weapon_hh_elitebagpipe;
-	public final Item weapon_hh_wardrums;
-	public final Item weapon_hh_wardrumsplus;
-	public final Item weapon_hh_mogwarddrums;
-	public final Item weapon_hh_blackcasket;
-	public final Item weapon_hh_darkthorntrumpet;
+	public final ItemHuntingHorn weapon_hh_metalbagpipe;
+	public final ItemHuntingHorn weapon_hh_ivoryhorn;
+	public final ItemHuntingHorn weapon_hh_tigrex;
+	public final ItemHuntingHorn weapon_hh_greatbagpipe;
+	public final ItemHuntingHorn weapon_hh_heavybagpipe;
+	public final ItemHuntingHorn weapon_hh_heavybagpipeplus;
+	public final ItemHuntingHorn weapon_hh_elitebagpipe;
+	public final ItemHuntingHorn weapon_hh_wardrums;
+	public final ItemHuntingHorn weapon_hh_wardrumsplus;
+	public final ItemHuntingHorn weapon_hh_mogwarddrums;
+	public final ItemHuntingHorn weapon_hh_blackcasket;
+	public final ItemHuntingHorn weapon_hh_darkthorntrumpet;
 
-	public final Item weapon_bgl_barrel;
-	public final Item weapon_bgh_rath;
+	public final ItemLightBowgun weapon_bgl_barrel;
 
-	public final Item weapon_b_hunters;
-	public final Item weapon_b_huntersstout;
-	public final Item weapon_b_huntersproud;
+	public final ItemHeavyBowgun weapon_bgh_rath;
+
+	public final ItemBow weapon_b_hunters;
+	public final ItemBow weapon_b_huntersstout;
+	public final ItemBow weapon_b_huntersproud;
 
 	// Armors
 	public final Item armor_tigrex_helm;
@@ -201,24 +202,24 @@ public class MHFCItemRegistry {
 
 	// Materials
 
-	public final Item tigrexdrops;
-	public final Item kirindrops;
-	public final Item remobradrops;
+	public final ItemTigrex tigrexdrops;
+	public final ItemKirin kirindrops;
+	public final ItemRemobra remobradrops;
 	// public  final Item mhfcitemlightcrystal;
 	// public  final Item mhfcitempurecrystal;
-	public final Item rathalosdrops;
-	public final Item deviljhodrops;
-	public final Item bowgunBullet;
+	public final ItemRathalos rathalosdrops;
+	public final ItemDeviljho deviljhodrops;
+	public final ItemBullet bowgunBullet;
 
 	public final Item woodrig;
 	public final Item lumberbar;
 	public final Item steelbar;
 	public final Item wyverniaDust;
 	public final Item trapTool;
-	public final Item flashBomb;
+	public final ItemFlashBomb flashBomb;
 	public final Item bombMaterial;
 	public final Item gaguaEgg;
-	public final Item wyvernCoin;
+	public final ItemWyvernCoin wyvernCoin;
 	public final Item paintball;
 	public final Item arrow;
 
@@ -228,16 +229,16 @@ public class MHFCItemRegistry {
 	public final Item itemsac;
 
 	public final Item moldedIron;
-	public final Item firestone;
+	public final ItemFirestone firestone;
 	public final Item wyverniaClay;
 
 	// Foods
-	public final Item kirinbuff;
-	public final Item meat;
-	public final Item nutrients;
+	public final ItemKirinBuff kirinbuff;
+	public final ItemMeats meat;
+	public final ItemNutrients nutrients;
 
 	// Spawners.(They must be Last)
-	public final Item MHFCItemFrontierSpawner;
+	public final ItemSpawner MHFCItemFrontierSpawner;
 
 	private MHFCItemRegistry() {
 		/*

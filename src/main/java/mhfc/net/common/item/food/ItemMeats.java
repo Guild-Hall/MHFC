@@ -4,6 +4,7 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.item.IItemColored;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.SubTypedItem;
 import mhfc.net.common.util.lib.MHFCReference;
@@ -16,7 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class ItemMeats extends ItemFood {
+public class ItemMeats extends ItemFood implements IItemColored {
 	public static enum MeatSubType implements SubTypedItem.SubTypeEnum<Item> {
 		RAW(MHFCReference.item_rawmeat_name, ItemColor.RED, 2, 40),
 		COOKED(MHFCReference.item_cookedmeat_name, ItemColor.ORANGE, 3, 100),
