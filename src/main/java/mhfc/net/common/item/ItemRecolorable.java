@@ -6,8 +6,6 @@ import mhfc.net.MHFCMain;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * A little bit of info about these. Items in Minecraft can hold four bytes of metadata, from -32,768 to 32,767 I've
@@ -51,5 +49,5 @@ public abstract class ItemRecolorable extends Item {
 	public abstract int getColorFromItemStack(ItemStack stack, int renderLayer);*/
 
 	@Override
-	public abstract void getSubItems(Item item, CreativeTabs tab, List list);
+	public abstract void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list);
 }
