@@ -40,31 +40,30 @@ public class EntityRathalosFireball extends EntityThrowable {
 	}
 
 	@Override
-	protected void onImpact(RayTraceResult var1) {
+	protected void onImpact(RayTraceResult result) {
 		List<Entity> list = this.worldObj
-				.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(4.5D, 3.0D, 4.5D));
+				.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(4.5D, 3.0D, 4.5D));
 		list.remove(getThrower());
-		for (int i = 0; i < list.size(); i++) {
-			Entity entity = list.get(i);
-			if (!worldObj.isRemote) {
-				if (var1.entityHit != null) {
-					this.worldObj.newExplosion(
-							(Entity) null,
-							this.posX,
-							this.posY,
-							this.posZ,
-							this.radius,
-							true,
-							this.worldObj.getGameRules().getBoolean("mobGriefing"));
-					if (entity instanceof EntityPlayer) {
-						entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 4 + this.rand.nextInt(14));
-					} else {
-						entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 29 + this.rand.nextInt(121));
-					}
-				}
+		for (Entity entity : list) {
+			if (entity instanceof EntityPlayer) {
+				entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 4 + this.rand.nextInt(14));
+			} else {
+				entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 29 + this.rand.nextInt(121));
 			}
+			if (worldObj.isRemote || result.entityHit == null) {
+				continue;
+			}
+			this.worldObj.newExplosion(
+					(Entity) null,
+					this.posX,
+					this.posY,
+					this.posZ,
+					this.radius,
+					true,
+					this.worldObj.getGameRules().getBoolean("mobGriefing"));
 
 		}
+
 	}
 
 	@Override

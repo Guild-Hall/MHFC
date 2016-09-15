@@ -3,7 +3,8 @@ package mhfc.net.common.entity.particle;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -38,20 +39,20 @@ public class ParticleKirinSparks extends Particle {
 		this.field_70569_a = this.particleScale;
 		this.particleMaxAge = (int) (8.0D / (Math.random() * 0.8D + 0.3D));
 		this.particleMaxAge = (int) (this.particleMaxAge * f);
-		this.noClip = false;
 	}
 
 	@Override
 	public void renderParticle(
-			Tessellator par1Tessellator,
-			float par2,
-			float par3,
-			float par4,
-			float par5,
-			float par6,
-			float par7) {
+			VertexBuffer worldRenderer,
+			Entity viewEntity,
+			float partialTicks,
+			float rotX,
+			float rotZ,
+			float rotYZ,
+			float rotXY,
+			float rotXZ) {
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
-		float f6 = (this.particleAge + par2) / this.particleMaxAge * 32.0F;
+		float f6 = (this.particleAge + partialTicks) / this.particleMaxAge * 32.0F;
 
 		if (f6 < 0.0F) {
 			f6 = 0.0F;
@@ -62,7 +63,7 @@ public class ParticleKirinSparks extends Particle {
 		}
 
 		this.particleScale = this.field_70569_a * f6;
-		super.renderParticle(par1Tessellator, par2, par3, par4, par5, par6, par7);
+		super.renderParticle(worldRenderer, viewEntity, partialTicks, rotX, rotZ, rotYZ, rotXY, rotXZ);
 	}
 
 	/**
@@ -70,30 +71,17 @@ public class ParticleKirinSparks extends Particle {
 	 */
 	@Override
 	public void onUpdate() {
-		this.prevPosX = this.posX;
-		this.prevPosY = this.posY;
-		this.prevPosZ = this.posZ;
-
-		if (this.particleAge++ >= this.particleMaxAge) {
-			this.setExpired();
-		}
-
+		this.motionY -= 0.04D * this.particleGravity;
 		this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
-		this.moveEntity(this.motionX, this.motionY, this.motionZ);
-		this.motionX *= 0.9599999785423279D;
-		this.motionY *= 0.9599999785423279D;
-		this.motionZ *= 0.9599999785423279D;
-		EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 2.0D);
 
-		if (entityplayer != null && this.posY > entityplayer.boundingBox.minY) {
-			this.posY += (entityplayer.boundingBox.minY - this.posY) * 0.2D;
+		super.onUpdate();
+
+		EntityPlayer entityplayer = this.worldObj.getClosestPlayer(posX, posY, posZ, 2.0D, false);
+		// TODO: wtf is that logic right here?
+		if (entityplayer != null && this.posY > entityplayer.getEntityBoundingBox().minY) {
+			this.posY += (entityplayer.getEntityBoundingBox().minY - this.posY) * 0.2D;
 			this.motionY += (entityplayer.motionY - this.motionY) * 0.2D;
 			this.setPosition(this.posX, this.posY, this.posZ);
-		}
-
-		if (this.onGround) {
-			this.motionX *= 0.699999988079071D;
-			this.motionZ *= 0.699999988079071D;
 		}
 	}
 }

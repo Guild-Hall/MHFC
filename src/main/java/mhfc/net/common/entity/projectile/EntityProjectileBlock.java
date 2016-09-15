@@ -4,10 +4,8 @@ import java.util.List;
 
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.monster.EntityTigrex;
-import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
@@ -49,19 +47,14 @@ public class EntityProjectileBlock extends EntityThrowable {
 	@Override
 	protected void onImpact(RayTraceResult mop) {
 		List<Entity> list = this.worldObj
-				.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(2.5D, 2.0D, 2.5D));
+				.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().expand(2.5D, 2.0D, 2.5D));
 		list.remove(getThrower());
 
 		for (Entity entity : list) {
-			if (getDistanceSqToEntity(entity) <= 6.25D) {
-				if (entity instanceof EntityPlayer || entity instanceof EntityMHFCBase) {
-					entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 100 + this.rand.nextInt(17));
-				} else {
-					entity.attackEntityFrom(
-							DamageSource.causeMobDamage(getThrower()),
-							9999999f + this.rand.nextInt(102));
-				}
+			if (getDistanceSqToEntity(entity) > 6.25D) {
+				continue;
 			}
+			entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 100 + this.rand.nextInt(17));
 		}
 	}
 

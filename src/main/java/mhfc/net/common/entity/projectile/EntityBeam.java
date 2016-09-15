@@ -6,11 +6,18 @@ import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class EntityBeam extends Entity {
+	private static final DataParameter<Float> YAW = EntityDataManager
+			.<Float>createKey(EntityBeam.class, DataSerializers.FLOAT);
+	private static final DataParameter<Float> PITCH = EntityDataManager
+			.<Float>createKey(EntityBeam.class, DataSerializers.FLOAT);
 
 	private final double beamRadius = 20;
 	public EntityLivingBase beamCaster;
@@ -55,8 +62,8 @@ public class EntityBeam extends Entity {
 
 	@Override
 	protected void entityInit() {
-		dataWatcher.addObject(2, 0f);
-		dataWatcher.addObject(3, 0f);
+		this.dataManager.register(YAW, 0f);
+		this.dataManager.register(PITCH, 0f);
 		dataWatcher.addObject(4, 0);
 		dataWatcher.addObject(5, (byte) 0);
 		dataWatcher.addObject(6, 0);
@@ -150,7 +157,7 @@ public class EntityBeam extends Entity {
 		TargetHit result = new TargetHit();
 		result.setBlockHit(
 				world.func_147447_a(
-						Vec3.createVectorHelper(from.xCoord, from.yCoord, from.zCoord),
+						new Vec3d(from.xCoord, from.yCoord, from.zCoord),
 						to,
 						stopOnLiquid,
 						ignoreBlockWithoutBoundingBox,

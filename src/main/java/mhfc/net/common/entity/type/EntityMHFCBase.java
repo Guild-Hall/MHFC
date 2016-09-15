@@ -203,7 +203,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	}
 
 	@Override
-	protected boolean func_146066_aG() {
+	protected boolean canDropLoot() {
 		// Don't do normal drops
 		return false;
 	}
