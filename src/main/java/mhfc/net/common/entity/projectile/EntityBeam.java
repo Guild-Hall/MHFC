@@ -15,9 +15,11 @@ import net.minecraft.world.World;
 
 public class EntityBeam extends Entity {
 	private static final DataParameter<Float> YAW = EntityDataManager
-			.<Float>createKey(EntityBeam.class, DataSerializers.FLOAT);
+			.createKey(EntityBeam.class, DataSerializers.FLOAT);
 	private static final DataParameter<Float> PITCH = EntityDataManager
-			.<Float>createKey(EntityBeam.class, DataSerializers.FLOAT);
+			.createKey(EntityBeam.class, DataSerializers.FLOAT);
+	private static final DataParameter<Integer> DURATION = EntityDataManager
+			.createKey(EntityBeam.class, DataSerializers.VARINT);
 
 	private final double beamRadius = 20;
 	public EntityLivingBase beamCaster;
@@ -32,7 +34,6 @@ public class EntityBeam extends Entity {
 		super(worldObj);
 		setSize(0.1F, 0.1F);
 		ignoreFrustumCheck = true;
-
 	}
 
 	@Override
@@ -57,41 +58,55 @@ public class EntityBeam extends Entity {
 			int duration) {
 		this(worldObj);
 		this.beamCaster = caster;
+	}
 
+	@Override
+	public boolean canBeCollidedWith() {
+		return false;
+	}
+
+	@Override
+	public boolean canBePushed() {
+		return false;
+	}
+
+	@Override
+	public boolean isInRangeToRenderDist(double distance) {
+		return distance < 1024;
 	}
 
 	@Override
 	protected void entityInit() {
 		this.dataManager.register(YAW, 0f);
 		this.dataManager.register(PITCH, 0f);
-		dataWatcher.addObject(4, 0);
+		this.dataManager.register(DURATION, 0);
 		dataWatcher.addObject(5, (byte) 0);
 		dataWatcher.addObject(6, 0);
 
 	}
 
 	public double getYaw() {
-		return dataWatcher.getWatchableObjectFloat(2);
+		return this.dataManager.get(YAW);
 	}
 
 	public void setYaw(float yaw) {
-		dataWatcher.updateObject(2, yaw);
+		this.dataManager.set(YAW, yaw);
 	}
 
 	public double getPitch() {
-		return dataWatcher.getWatchableObjectFloat(3);
+		return this.dataManager.get(PITCH);
 	}
 
 	public void setPitch(float pitch) {
-		dataWatcher.updateObject(3, pitch);
+		this.dataManager.set(PITCH, pitch);
 	}
 
-	public double getDuration() {
-		return dataWatcher.getWatchableObjectInt(4);
+	public int getDuration() {
+		return this.dataManager.get(DURATION);
 	}
 
 	public void setDuration(int duration) {
-		dataWatcher.updateObject(4, duration);
+		this.dataManager.set(DURATION, duration);
 	}
 
 	public boolean getHasPlayer() {
@@ -124,21 +139,6 @@ public class EntityBeam extends Entity {
 		endPosX = posX + beamRadius * Math.cos(getYaw()) * Math.cos(getPitch());
 		endPosZ = posZ + beamRadius * Math.sin(getYaw()) * Math.cos(getPitch());
 		endPosY = posY + beamRadius * Math.sin(getPitch());
-	}
-
-	@Override
-	public boolean canBeCollidedWith() {
-		return false;
-	}
-
-	@Override
-	public boolean canBePushed() {
-		return false;
-	}
-
-	@Override
-	public boolean isInRangeToRenderDist(double distance) {
-		return distance < 1024;
 	}
 
 	private void updateWithPlayer() {

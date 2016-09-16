@@ -8,6 +8,9 @@ import mhfc.net.common.weapon.range.bowgun.BowgunWeaponStats.BowgunWeaponStatsBu
 import mhfc.net.common.weapon.range.bowgun.ItemBowgun;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 public class ItemLightBowgun extends ItemBowgun {
@@ -27,24 +30,7 @@ public class ItemLightBowgun extends ItemBowgun {
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack iStack, World world, EntityPlayer player) {
-		return iStack;
-		/*
-		if (Cooldown.canUse(iStack, getcooldown)) {
-			if (player.capabilities.isCreativeMode) {
-				if (!world.isRemote) {
-					world.playSoundAtEntity(player, "mhfc:bowgun-shot", 1.0F, 1.0F);
-				}
-				EntityThrowable entity = new EntityBullet(world, player, getDamage);
-				entity.posX += (this.rand.nextDouble() - this.rand.nextDouble()) / 2;
-				entity.posY += (this.rand.nextDouble() - this.rand.nextDouble()) / 2;
-				entity.posZ += (this.rand.nextDouble() - this.rand.nextDouble()) / 2;
-				if (!world.isRemote) {
-					world.spawnEntityInWorld(entity);
-				}
-			}
-		}
-		return iStack;*/
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+		return new ActionResult<>(EnumActionResult.PASS, stack);
 	}
-
 }

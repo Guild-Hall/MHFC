@@ -1,13 +1,17 @@
 package mhfc.net.client.render.projectile;
 
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import mhfc.net.common.util.lib.MHFCReference;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -24,67 +28,61 @@ public class RenderWyverniaArrow extends Render<EntityWyverniaArrow> {
 	@Override
 	public void doRender(EntityWyverniaArrow entity, double posX, double posY, double posZ, float yaw, float subTick) {
 		this.bindEntityTexture(entity);
-		GL11.glPushMatrix();
-		GL11.glTranslatef((float) posX, (float) posY, (float) posZ);
-		GL11.glRotatef(
-				entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * subTick - 90.0F,
-				0.0F,
-				1.0F,
-				0.0F);
-		GL11.glRotatef(
-				entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * subTick,
-				0.0F,
-				0.0F,
-				1.0F);
+		float yawAngle = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * subTick - 90.0F;
+		float pitchAngle = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * subTick;
+		float scale = 0.05625F;
 		Tessellator tessellator = Tessellator.getInstance();
-		byte b0 = 0;
-		float f2 = 0.0F;
-		float f3 = 0.5F;
-		float f4 = (0 + b0 * 10) / 32.0F;
-		float f5 = (5 + b0 * 10) / 32.0F;
-		float f6 = 0.0F;
-		float f7 = 0.15625F;
-		float f8 = (5 + b0 * 10) / 32.0F;
-		float f9 = (10 + b0 * 10) / 32.0F;
-		float f10 = 0.05625F;
-		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		float f11 = entity.arrowShake - subTick;
+		VertexBuffer buffer = tessellator.getBuffer();
 
-		if (f11 > 0.0F) {
-			float f12 = -MathHelper.sin(f11 * 3.0F) * f11;
-			GL11.glRotatef(f12, 0.0F, 0.0F, 1.0F);
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(posX, posY, posZ);
+		GlStateManager.rotate(yawAngle, 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotate(pitchAngle, 0.0F, 0.0F, 1.0F);
+		float shakeIntensity = entity.arrowShake - subTick;
+		if (shakeIntensity > 0.0F) {
+			float f12 = -MathHelper.sin(shakeIntensity * 3.0F) * shakeIntensity;
+			GlStateManager.rotate(f12, 0.0F, 0.0F, 1.0F);
 		}
 
-		GL11.glRotatef(45.0F, 1.0F, 0.0F, 0.0F);
-		GL11.glScalef(f10, f10, f10);
-		GL11.glTranslatef(-4.0F, 0.0F, 0.0F);
-		GL11.glNormal3f(f10, 0.0F, 0.0F);
-		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(-7.0D, -2.0D, -2.0D, (double) f6, (double) f8);
-		tessellator.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) f7, (double) f8);
-		tessellator.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) f7, (double) f9);
-		tessellator.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) f6, (double) f9);
-		tessellator.draw();
-		GL11.glNormal3f(-f10, 0.0F, 0.0F);
-		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) f6, (double) f8);
-		tessellator.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) f7, (double) f8);
-		tessellator.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) f7, (double) f9);
-		tessellator.addVertexWithUV(-7.0D, -2.0D, -2.0D, (double) f6, (double) f9);
+		float f6 = 0 / 32.0F;
+		float f7 = 5 / 32.0F;
+		float f8 = 5 / 32.0F;
+		float f9 = 10 / 32.0F;
+
+		GlStateManager.rotate(45.0F, 1.0F, 0.0F, 0.0F);
+		GlStateManager.scale(scale, scale, scale);
+		GlStateManager.translate(-4.0F, 0.0F, 0.0F);
+		buffer.begin(GL_QUADS, DefaultVertexFormats.POSITION_TEX_NORMAL);
+		buffer.pos(-7.0D, -2.0D, -2.0D).tex(f6, f8).endVertex();
+		buffer.pos(-7.0D, -2.0D, 2.0D).tex(f7, f8).endVertex();
+		buffer.pos(-7.0D, 2.0D, 2.0D).tex(f7, f9).endVertex();
+		buffer.pos(-7.0D, 2.0D, -2.0D).tex(f6, f9).endVertex();
+		buffer.putNormal(1f, 0, 0);
 		tessellator.draw();
 
+		buffer.begin(GL_QUADS, DefaultVertexFormats.POSITION_TEX_NORMAL);
+		buffer.pos(-7.0D, 2.0D, -2.0D).tex(f6, f8).endVertex();
+		buffer.pos(-7.0D, 2.0D, 2.0D).tex(f7, f8).endVertex();
+		buffer.pos(-7.0D, -2.0D, 2.0D).tex(f7, f9).endVertex();
+		buffer.pos(-7.0D, -2.0D, -2.0D).tex(f6, f9).endVertex();
+		buffer.putNormal(-1f, 0, 0);
+		tessellator.draw();
+
+		float f2 = 0 / 32.0F;
+		float f3 = 16 / 32.0F;
+		float f4 = 0 / 32.0F;
+		float f5 = 5 / 32.0F;
 		for (int i = 0; i < 4; ++i) {
-			GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
-			GL11.glNormal3f(0.0F, 0.0F, f10);
-			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(-8.0D, -2.0D, 0.0D, (double) f2, (double) f4);
-			tessellator.addVertexWithUV(8.0D, -2.0D, 0.0D, (double) f3, (double) f4);
-			tessellator.addVertexWithUV(8.0D, 2.0D, 0.0D, (double) f3, (double) f5);
-			tessellator.addVertexWithUV(-8.0D, 2.0D, 0.0D, (double) f2, (double) f5);
+			GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
+			buffer.begin(GL_QUADS, DefaultVertexFormats.POSITION_TEX_NORMAL);
+			buffer.pos(-8.0D, -2.0D, 0.0D).tex(f2, f4).endVertex();
+			buffer.pos(8.0D, -2.0D, 0.0D).tex(f3, f4).endVertex();
+			buffer.pos(8.0D, 2.0D, 0.0D).tex(f3, f5).endVertex();
+			buffer.pos(-8.0D, 2.0D, 0.0D).tex(f2, f5).endVertex();
+			buffer.putNormal(0, 0, 1f);
 			tessellator.draw();
 		}
 
-		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 		GL11.glPopMatrix();
 	}
 
