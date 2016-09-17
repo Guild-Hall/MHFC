@@ -13,7 +13,8 @@ import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
@@ -34,13 +35,13 @@ public class RenderBeam extends Render<EntityBeam> {
 	@Override
 	public void doRender(EntityBeam entity, double x, double y, double z, float yaw, float delta) {
 
-		boolean sightClear = entity.beamCaster instanceof EntityPlayer
-				&& Minecraft.getMinecraft().thePlayer == entity.beamCaster
+		EntityLivingBase beamCaster = entity.getCaster();
+		boolean sightClear = Minecraft.getMinecraft().thePlayer == beamCaster
 				&& Minecraft.getMinecraft().gameSettings.thirdPersonView == 0;
 		double length = Math.sqrt(
 				Math.pow(entity.collidePosX - entity.posX, 2) + Math.pow(entity.collidePosY - entity.posY, 2)
 						+ Math.pow(entity.collidePosZ - entity.posZ, 2));
-		int frame = MathHelper.floor_double((entity.appear - 1 + delta) * 2);
+		int frame = MathHelper.floor_double((entity.getDuration() - 1 + delta) * 2);
 		if (frame < 0) {
 			frame = 6;
 		}
@@ -72,7 +73,7 @@ public class RenderBeam extends Render<EntityBeam> {
 				entity.collidePosX - entity.posX,
 				entity.collidePosY - entity.posY,
 				entity.collidePosZ - entity.posZ);
-		renderEnd(frame, -1);
+		renderEnd(frame, null);
 		GlStateManager.colorMask(true, true, true, true);
 
 		revertGL();
@@ -117,107 +118,113 @@ public class RenderBeam extends Render<EntityBeam> {
 		if (sightClear) {
 			return;
 		}
-		GL11.glRotatef(-renderManager.playerViewY, 0, 1, 0);
-		GL11.glRotatef(renderManager.playerViewX, 1, 0, 0);
+		GlStateManager.rotate(-renderManager.playerViewY, 0, 1, 0);
+		GlStateManager.rotate(renderManager.playerViewX, 1, 0, 0);
 
 		drawBeamCap(frame, 240);
 
-		GL11.glRotatef(renderManager.playerViewX, -1, 0, 0);
-		GL11.glRotatef(-renderManager.playerViewY, 0, -1, 0);
+		GlStateManager.rotate(-renderManager.playerViewX, 1, 0, 0);
+		GlStateManager.rotate(renderManager.playerViewY, 0, 1, 0);
 	}
 
-	private void renderEnd(int frame, int side) {
-		GL11.glRotatef(-renderManager.playerViewY, 0, 1, 0);
-		GL11.glRotatef(renderManager.playerViewX, 1, 0, 0);
+	private void renderEnd(int frame, EnumFacing blockSide) {
+		GlStateManager.rotate(-renderManager.playerViewY, 0, 1, 0);
+		GlStateManager.rotate(renderManager.playerViewX, 1, 0, 0);
 
 		drawBeamCap(frame, -450);
 
-		GL11.glRotatef(renderManager.playerViewX, -1, 0, 0);
-		GL11.glRotatef(-renderManager.playerViewY, 0, -1, 0);
+		GlStateManager.rotate(-renderManager.playerViewX, 1, 0, 0);
+		GlStateManager.rotate(renderManager.playerViewY, 0, 1, 0);
 
-		if (side == -1) {
-			return;
-		}
-		if (side == 5) {
-			GL11.glRotatef(270, 0, 1, 0);
-			GL11.glTranslatef(0, 0, -0.01f);
+		switch (blockSide) {
+		case DOWN:
+			GlStateManager.rotate(-90, 1, 0, 0);
+			GlStateManager.translate(0, 0, -0.01f);
 			drawBeamCap(frame, 240);
-			GL11.glTranslatef(0, 0, 0.01f);
-			GL11.glRotatef(-270, 0, 1, 0);
-		} else if (side == 4) {
-			GL11.glRotatef(90, 0, 1, 0);
-			GL11.glTranslatef(0, 0, -0.01f);
+			GlStateManager.translate(0, 0, 0.01f);
+			GlStateManager.rotate(90, 1, 0, 0);
+			break;
+		case UP:
+			GlStateManager.rotate(90, 1, 0, 0);
+			GlStateManager.translate(0, 0, -0.01f);
 			drawBeamCap(frame, 240);
-			GL11.glTranslatef(0, 0, 0.01f);
-			GL11.glRotatef(-90, 0, 1, 0);
-		} else if (side == 3) {
-			GL11.glRotatef(180, 0, 1, 0);
-			GL11.glTranslatef(0, 0, -0.01f);
+			GlStateManager.translate(0, 0, 0.01f);
+			GlStateManager.rotate(-90, 1, 0, 0);
+			break;
+		case NORTH:
+			GlStateManager.translate(0, 0, -0.01f);
 			drawBeamCap(frame, 240);
-			GL11.glTranslatef(0, 0, 0.01f);
-			GL11.glRotatef(-180, 0, 1, 0);
-		} else if (side == 2) {
-			GL11.glTranslatef(0, 0, -0.01f);
+			GlStateManager.translate(0, 0, 0.01f);
+			break;
+		case SOUTH:
+			GlStateManager.rotate(180, 0, 1, 0);
+			GlStateManager.translate(0, 0, -0.01f);
 			drawBeamCap(frame, 240);
-			GL11.glTranslatef(0, 0, 0.01f);
-		} else if (side == 0) {
-			GL11.glRotatef(-90, 1, 0, 0);
-			GL11.glTranslatef(0, 0, -0.01f);
+			GlStateManager.translate(0, 0, 0.01f);
+			GlStateManager.rotate(-180, 0, 1, 0);
+			break;
+		case EAST:
+			GlStateManager.rotate(270, 0, 1, 0);
+			GlStateManager.translate(0, 0, -0.01f);
 			drawBeamCap(frame, 240);
-			GL11.glTranslatef(0, 0, 0.01f);
-			GL11.glRotatef(90, 1, 0, 0);
-		} else if (side == 1) {
-			GL11.glRotatef(90, 1, 0, 0);
-			GL11.glTranslatef(0, 0, -0.01f);
+			GlStateManager.translate(0, 0, 0.01f);
+			GlStateManager.rotate(-270, 0, 1, 0);
+			break;
+		case WEST:
+			GlStateManager.rotate(90, 0, 1, 0);
+			GlStateManager.translate(0, 0, -0.01f);
 			drawBeamCap(frame, 240);
-			GL11.glTranslatef(0, 0, 0.01f);
-			GL11.glRotatef(-90, 1, 0, 0);
+			GlStateManager.translate(0, 0, 0.01f);
+			GlStateManager.rotate(-90, 0, 1, 0);
+			break;
+		default:
+			break;
 		}
 	}
 
 	private void renderBeam(boolean sightClear, double length, double yaw, double pitch, int frame) {
-		GL11.glRotatef(-90, 0, 0, 1);
-		GL11.glRotatef((float) yaw, 1, 0, 0);
-		GL11.glRotatef((float) pitch, 0, 0, 1);
+		GlStateManager.rotate(-90, 0, 0, 1);
+		GlStateManager.rotate((float) yaw, 1, 0, 0);
+		GlStateManager.rotate((float) pitch, 0, 0, 1);
 
 		if (sightClear) {
-			GL11.glRotatef(90, 0, 1, 0);
+			GlStateManager.rotate(90, 0, 1, 0);
 		} else {
-			GL11.glRotatef(renderManager.playerViewX, 0, 1, 0);
+			GlStateManager.rotate(renderManager.playerViewX, 0, 1, 0);
 		}
 		drawBeamSide(frame, 80, length);
 		if (sightClear) {
-			GL11.glRotatef(-90, 0, 1, 0);
+			GlStateManager.rotate(-90, 0, 1, 0);
 		} else {
-			GL11.glRotatef(-renderManager.playerViewX, 0, 1, 0);
+			GlStateManager.rotate(-renderManager.playerViewX, 0, 1, 0);
 		}
 
 		if (!sightClear) {
-			GL11.glRotatef(-renderManager.playerViewX, 0, 1, 0);
-			GL11.glRotatef(180, 0, 1, 0);
+			GlStateManager.rotate(-renderManager.playerViewX, 0, 1, 0);
+			GlStateManager.rotate(180, 0, 1, 0);
 			drawBeamSide(frame, 240, length);
-			GL11.glRotatef(-180, 0, 1, 0);
-			GL11.glRotatef(renderManager.playerViewX, 0, 1, 0);
+			GlStateManager.rotate(-180, 0, 1, 0);
+			GlStateManager.rotate(renderManager.playerViewX, 0, 1, 0);
 		}
 
-		GL11.glRotatef((float) -pitch, 0, 0, 1);
-		GL11.glRotatef((float) -yaw, 1, 0, 0);
-		GL11.glRotatef(90, 0, 0, 1);
+		GlStateManager.rotate((float) -pitch, 0, 0, 1);
+		GlStateManager.rotate((float) -yaw, 1, 0, 0);
+		GlStateManager.rotate(90, 0, 0, 1);
 	}
 
 	private void setupGL() {
-		GL11.glPushMatrix();
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glAlphaFunc(GL11.GL_GREATER, 0);
+		GlStateManager.pushMatrix();
+		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GlStateManager.enableBlend();
+		GlStateManager.disableLighting();
+		GlStateManager.alphaFunc(GL11.GL_GREATER, 0);
 	}
 
 	private void revertGL() {
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
-		GL11.glPopMatrix();
+		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
+		GlStateManager.enableLighting();
+		GlStateManager.disableBlend();
+		GlStateManager.popMatrix();
 	}
 
 	@Override
