@@ -13,12 +13,16 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityArrow.PickupStatus;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	public static ItemBow build(Consumer<BowWeaponStatsBuilder> config) {
@@ -32,6 +36,27 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 
 	public ItemBow(BowWeaponStats stats) {
 		super(stats);
+		addPropertyOverride(new ResourceLocation("pull"), new IItemPropertyGetter() {
+			@Override
+			@SideOnly(Side.CLIENT)
+			public float apply(ItemStack stack, World world, EntityLivingBase entity) {
+				if (entity == null || stack == null) {
+					return 0.0F;
+				}
+				ItemStack itemstack = entity.getActiveItemStack();
+				if (itemstack != stack) {
+					return 0.0F;
+				}
+				return (stack.getMaxItemUseDuration() - entity.getItemInUseCount()) / 20.0F;
+			}
+		});
+		this.addPropertyOverride(new ResourceLocation("pulling"), new IItemPropertyGetter() {
+			@Override
+			@SideOnly(Side.CLIENT)
+			public float apply(ItemStack stack, World world, EntityLivingBase entity) {
+				return entity == null || !entity.isHandActive() || entity.getActiveItemStack() != stack ? 0.0F : 1.0F;
+			}
+		});
 		this.maxStackSize = 1;
 		this.setMaxDamage(1000);
 	}
