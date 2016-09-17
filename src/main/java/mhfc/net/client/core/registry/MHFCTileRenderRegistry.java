@@ -18,4 +18,5 @@ public class MHFCTileRenderRegistry {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileBBQSpit.class, new RenderBBQSpit());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileQuestBoard.class, new RenderQuestBoard());
 	}
+
 }

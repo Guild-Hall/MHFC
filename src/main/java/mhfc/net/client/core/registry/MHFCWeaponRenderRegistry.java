@@ -1,8 +1,5 @@
 package mhfc.net.client.core.registry;
 
-import mhfc.net.client.render.weapon.bow.RenderBHunterStout;
-import mhfc.net.client.render.weapon.bow.RenderBHunters;
-import mhfc.net.client.render.weapon.bow.RenderBHuntersProud;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -57,10 +54,10 @@ public class MHFCWeaponRenderRegistry {
 		registerItemRenderer(itemRegistry.weapon_hh_darkthorntrumpet);
 		registerItemRenderer(itemRegistry.weapon_hh_blackcasket);
 
-		registerItemRenderer(itemRegistry.weapon_b_hunters, new RenderBHunters());
+		registerItemRenderer(itemRegistry.weapon_b_hunters);
 
-		registerItemRenderer(itemRegistry.weapon_b_huntersstout, new RenderBHunterStout());
-		registerItemRenderer(itemRegistry.weapon_b_huntersproud, new RenderBHuntersProud());
+		registerItemRenderer(itemRegistry.weapon_b_huntersstout);
+		registerItemRenderer(itemRegistry.weapon_b_huntersproud);
 
 		registerItemRenderer(itemRegistry.weapon_bgl_barrel);
 

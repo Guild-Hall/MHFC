@@ -41,8 +41,10 @@ import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import mhfc.net.common.entity.projectile.NargacugaSpike;
 import mhfc.net.common.util.lib.MHFCReference;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
@@ -120,10 +122,12 @@ public class MHFCEntityRenderRegistry {
 	}
 
 	private static void renderBlockEntities() {
+		RenderItem itemRender = FMLClientHandler.instance().getClient().getRenderItem();
 		RenderingRegistry.registerEntityRenderingHandler(EntityBeam.class, RenderBeam::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileBlock.class, RenderBlockProjectile::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityRathalosFireball.class, RenderRathalosFireball::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityPaintball.class, RenderPaintball::new);
+		RenderingRegistry
+				.registerEntityRenderingHandler(EntityPaintball.class, m -> new RenderPaintball(m, itemRender));
 		RenderingRegistry.registerEntityRenderingHandler(EntityWyverniaArrow.class, RenderWyverniaArrow::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, RenderBullet::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBreathe.class, RenderBreathe::new);

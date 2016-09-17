@@ -1,28 +1,15 @@
 package mhfc.net.client.core.registry;
 
-import mhfc.net.client.render.item.RenderItemBBQSpit;
-import mhfc.net.client.render.item.RenderItemHunterBench;
-import mhfc.net.client.render.item.RenderItemStunTrap;
-import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.item.IItemColored;
-import net.minecraft.block.Block;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class MHFCItemRenderRegistry {
 	public static void init() {
 		registerItemColors();
-		registerBlockRenderer(MHFCBlockRegistry.getRegistry().mhfcblockhunterbench, new RenderItemHunterBench());
-		registerBlockRenderer(MHFCBlockRegistry.getRegistry().mhfcblockstuntrap, new RenderItemStunTrap());
-		registerBlockRenderer(MHFCBlockRegistry.getRegistry().mhfcblockbbqspit, new RenderItemBBQSpit());
-	}
-
-	private static void registerBlockRenderer(Block block, IItemRenderer renderer) {
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(block), renderer);
 	}
 
 	private static void registerItemColors() {
