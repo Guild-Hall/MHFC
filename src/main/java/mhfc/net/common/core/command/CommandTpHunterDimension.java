@@ -77,11 +77,9 @@ public class CommandTpHunterDimension extends CommandBase {
 		EntityPlayerMP player = (EntityPlayerMP) sender;
 		// players = args.length > 0 ? PlayerSelector.matchPlayers(sender, args[0]) : players;
 		int questWorldID = MHFCDimensionRegistry.getWorldIDFor(QuestFlair.DAYTIME);
-		WorldServer worldServer = MHFCDimensionRegistry.getServerFor(QuestFlair.DAYTIME);
 
 		if (player.dimension == questWorldID) {
-			Teleporter tpOverworld = new BackTeleporter(worldServer);
-			server.getPlayerList().transferPlayerToDimension(player, 0, tpOverworld);
+			AreaTeleportation.movePlayerToOverworld(server, player);
 		} else {
 			String areaName = args.length > 0 ? args[0] : AreaRegistry.NAME_PLAYFIELD;
 			IAreaType areaType = AreaRegistry.instance.getType(areaName);
@@ -97,7 +95,7 @@ public class CommandTpHunterDimension extends CommandBase {
 				try (IActiveArea active = a) {
 					MHFCMain.logger().info("Teleporting");
 					teleportPoints.put(player, player.getPosition());
-					AreaTeleportation.movePlayerToArea(server, player, active.getArea());
+					AreaTeleportation.movePlayerToArea(player, active.getArea());
 				}
 			});
 		}

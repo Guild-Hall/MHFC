@@ -13,10 +13,10 @@ import mhfc.net.common.world.WorldProviderQuesting;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.controller.IAreaManager;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class MHFCDimensionRegistry {
 	private static Map<Integer, QuestFlair> worldIDToFlair;
@@ -57,7 +57,7 @@ public class MHFCDimensionRegistry {
 
 	public static WorldServer getServerFor(QuestFlair flair) {
 		int id = getQuestingDimensionID(flair);
-		return MinecraftServer.getServer().worldServerForDimension(id);
+		return FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(id);
 	}
 
 	public static IAreaManager getAreaManager(QuestFlair flair) {
