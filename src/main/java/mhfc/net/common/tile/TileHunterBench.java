@@ -9,6 +9,7 @@ import mhfc.net.common.network.message.bench.MessageBenchRefreshRequest;
 import mhfc.net.common.network.message.bench.MessageCancelRecipe;
 import mhfc.net.common.network.message.bench.MessageCraftingUpdate;
 import mhfc.net.common.network.message.bench.MessageSetRecipe;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -174,6 +175,79 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	}
 
 	@Override
+	public ItemStack decrStackSize(int slot, int count) {
+		markDirty();
+		if (count <= 0) {
+			return null;
+		}
+		// FIXME: can do that better...
+		if (slot > recipeStacks.length + 2) {
+			ItemStack stack = inputStacks[slot - recipeStacks.length - 3];
+			if (stack == null) {
+				return null;
+			}
+			cancelRecipe();
+			if (count > stack.stackSize) {
+				count = stack.stackSize;
+			}
+			if (count == stack.stackSize) {
+				inputStacks[slot - recipeStacks.length - 3] = null;
+				return stack;
+			}
+			return stack.splitStack(count);
+		}
+		if (slot > 2) {
+			return null; // You cant get anything from the recipe slots
+		} else if (slot == outputSlot) {
+			if (outputStack == null) {
+				return null;
+			}
+			if (count > outputStack.stackSize) {
+				count = outputStack.stackSize;
+			}
+			if (count == outputStack.stackSize) {
+				ItemStack fuel = outputStack;
+				outputStack = null;
+				return fuel;
+			}
+			return outputStack.splitStack(count);
+		} else if (slot == resultSlot) {
+			return null;
+		} else {
+			if (fuelStack == null) {
+				return null;
+			}
+			if (count > fuelStack.stackSize) {
+				count = fuelStack.stackSize;
+			}
+			if (count == fuelStack.stackSize) {
+				ItemStack fuel = fuelStack;
+				fuelStack = null;
+				return fuel;
+			}
+			return fuelStack.splitStack(count);
+		}
+	}
+
+	/**
+	 * Resets all working progress but leaves the recipe set
+	 */
+	public void cancelRecipe() {
+		if (worldObj.isRemote) {
+			sendCancelRecipe();
+		}
+		TileHunterBench.this.workingMHFCBench = false;
+		itemSmeltDuration = 0;
+	}
+
+	@Override
+	public ItemStack removeStackFromSlot(int index) {
+		ItemStack stack = getStackInSlot(index);
+		setInventorySlotContents(index, null);
+		return stack;
+	}
+
+	@Override
 	public ItemStack getStackInSlot(int i) {
 		if (i < 0 || i >= getSizeInventory()) {
 			return null;
@@ -188,71 +262,6 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		} else {
 			return fuelStack;
 		}
-	}
-
-	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		markDirty();
-		if (j <= 0) {
-			return null;
-		}
-		if (i > recipeStacks.length + 2) {
-			ItemStack stack = inputStacks[i - recipeStacks.length - 3];
-			if (stack == null) {
-				return null;
-			}
-			cancelRecipe();
-			if (j > stack.stackSize) {
-				j = stack.stackSize;
-			}
-			if (j == stack.stackSize) {
-				inputStacks[i - recipeStacks.length - 3] = null;
-				return stack;
-			}
-			return stack.splitStack(j);
-		}
-		if (i > 2) {
-			return null; // You cant get anything from the recipe slots
-		} else if (i == outputSlot) {
-			if (outputStack == null) {
-				return null;
-			}
-			if (j > outputStack.stackSize) {
-				j = outputStack.stackSize;
-			}
-			if (j == outputStack.stackSize) {
-				ItemStack fuel = outputStack;
-				outputStack = null;
-				return fuel;
-			}
-			return outputStack.splitStack(j);
-		} else if (i == resultSlot) {
-			return null;
-		} else {
-			if (fuelStack == null) {
-				return null;
-			}
-			if (j > fuelStack.stackSize) {
-				j = fuelStack.stackSize;
-			}
-			if (j == fuelStack.stackSize) {
-				ItemStack fuel = fuelStack;
-				fuelStack = null;
-				return fuel;
-			}
-			return fuelStack.splitStack(j);
-		}
-	}
-
-	/**
-	 * Resets all working progress but leaves the recipe set
-	 */
-	public void cancelRecipe() {
-		if (worldObj.isRemote) {
-			sendCancelRecipe();
-		}
-		TileHunterBench.this.workingMHFCBench = false;
-		itemSmeltDuration = 0;
 	}
 
 	@Override
@@ -271,6 +280,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		} else if (i == fuelSlot) {
 			fuelStack = itemstack;
 		}
+		markDirty();
 	}
 
 	public boolean isInvNameLocalized() {
@@ -295,18 +305,15 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 
 	@Override
 	public ITextComponent getDisplayName() {
-		return new TextComponentTranslation("container.hunterbench");
+		return new TextComponentTranslation(getName());
 	}
-
 
 	public boolean beginCrafting() {
 		if (worldObj.isRemote) {
 			sendBeginCraft();
 		}
-		if (recipe != null) {
-			if (canBeginCrafting()) {
-				TileHunterBench.this.workingMHFCBench = true;
-			}
+		if (canBeginCrafting()) {
+			TileHunterBench.this.workingMHFCBench = true;
 		}
 		return TileHunterBench.this.workingMHFCBench;
 	}
@@ -338,7 +345,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	}
 
 	public boolean canBeginCrafting() {
-		return matchesInputOutput() && (outputStack == null);
+		return (recipe != null) && matchesInputOutput() && (outputStack == null);
 	}
 
 	protected boolean matchesInputOutput() {
@@ -447,56 +454,40 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "container" + MHFCReference.block_hunterbench_name;
 	}
 
 	@Override
 	public boolean hasCustomName() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public ItemStack removeStackFromSlot(int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public void openInventory(EntityPlayer player) {}
 
 	@Override
-	public void openInventory(EntityPlayer player) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void closeInventory(EntityPlayer player) {}
 
 	@Override
-	public void closeInventory(EntityPlayer player) {
-		// TODO Auto-generated method stub
-		
+	public void clear() {
+		for (int i = 0; i < getSizeInventory(); ++i) {
+			removeStackFromSlot(i);
+		}
 	}
 
 	@Override
 	public int getField(int id) {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new IllegalArgumentException("No such field: " + id);
 	}
 
 	@Override
 	public void setField(int id, int value) {
-		// TODO Auto-generated method stub
-		
+		throw new IllegalArgumentException("No such field: " + id);
 	}
 
 	@Override
 	public int getFieldCount() {
-		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	public void clear() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
