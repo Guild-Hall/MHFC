@@ -16,10 +16,17 @@ import java.util.stream.Collectors;
 import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IWorldView;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.IWorldEventListener;
 import net.minecraft.world.World;
 
 public abstract class SpawnControllerAdapter implements IQuestAreaSpawnController {
@@ -71,55 +78,55 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 	}
 
-	protected class WorldAccessor implements IWorldAccess {
+	protected class WorldAccessor implements IWorldEventListener {
 
 		@Override
-		public void markBlockForUpdate(int p_147586_1_, int p_147586_2_, int p_147586_3_) {}
+		public void notifyLightSet(BlockPos pos) {}
 
 		@Override
-		public void markBlockForRenderUpdate(int p_147588_1_, int p_147588_2_, int p_147588_3_) {}
+		public void notifyBlockUpdate(World world, BlockPos pos, IBlockState old, IBlockState now, int flags) {}
 
 		@Override
-		public void markBlockRangeForRenderUpdate(
-				int p_147585_1_,
-				int p_147585_2_,
-				int p_147585_3_,
-				int p_147585_4_,
-				int p_147585_5_,
-				int p_147585_6_) {}
+		public void markBlockRangeForRenderUpdate(int x1, int y1, int z1, int x2, int y2, int z2) {}
 
 		@Override
-		public void playSound(
-				String p_72704_1_,
-				double p_72704_2_,
-				double p_72704_4_,
-				double p_72704_6_,
-				float p_72704_8_,
-				float p_72704_9_) {}
+		public void broadcastSound(int soundID, BlockPos pos, int data) {}
 
 		@Override
-		public void playSoundToNearExcept(
-				EntityPlayer p_85102_1_,
-				String p_85102_2_,
-				double p_85102_3_,
-				double p_85102_5_,
-				double p_85102_7_,
-				float p_85102_9_,
-				float p_85102_10_) {}
+		public void playRecord(SoundEvent soundIn, BlockPos pos) {}
+
+		@Override
+		public void playSoundToAllNearExcept(
+				EntityPlayer player,
+				SoundEvent sound,
+				SoundCategory category,
+				double x,
+				double y,
+				double z,
+				float volume,
+				float pitch) {}
+
+		@Override
+		public void playEvent(EntityPlayer player, int type, BlockPos blockPosIn, int data) {}
+
+		@Override
+		public void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress) {}
 
 		@Override
 		public void spawnParticle(
-				String p_72708_1_,
-				double p_72708_2_,
-				double p_72708_4_,
-				double p_72708_6_,
-				double p_72708_8_,
-				double p_72708_10_,
-				double p_72708_12_) {}
+				int particleID,
+				boolean ignoreRange,
+				double xCoord,
+				double yCoord,
+				double zCoord,
+				double xSpeed,
+				double ySpeed,
+				double zSpeed,
+				int... parameters) {}
 
 		@Override
-		public void onEntityCreate(Entity entity) {
-			Vec3 pos = Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
+		public void onEntityAdded(Entity entity) {
+			Vec3d pos = entity.getPositionVector();
 			pos = SpawnControllerAdapter.this.worldView.convertToLocal(pos);
 			if (!inArea(pos.xCoord, pos.yCoord, pos.zCoord)) {
 				return;
@@ -128,49 +135,20 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		}
 
 		@Override
-		public void onEntityDestroy(Entity entity) {
+		public void onEntityRemoved(Entity entity) {
 			SpawnControllerAdapter.this.releaseEntity(entity);
 		}
-
-		@Override
-		public void playRecord(String p_72702_1_, int p_72702_2_, int p_72702_3_, int p_72702_4_) {}
-
-		@Override
-		public void broadcastSound(int p_82746_1_, int p_82746_2_, int p_82746_3_, int p_82746_4_, int p_82746_5_) {}
-
-		@Override
-		public void playAuxSFX(
-				EntityPlayer p_72706_1_,
-				int p_72706_2_,
-				int p_72706_3_,
-				int p_72706_4_,
-				int p_72706_5_,
-				int p_72706_6_) {}
-
-		@Override
-		public void destroyBlockPartially(
-				int p_147587_1_,
-				int p_147587_2_,
-				int p_147587_3_,
-				int p_147587_4_,
-				int p_147587_5_) {}
-
-		@Override
-		public void onStaticEntitiesChanged() {}
-
 	}
 
-	protected class TickerEntity extends TileEntity {
+	protected class TickerEntity extends TileEntity implements ITickable {
 		public TickerEntity() {
 			super();
-			xCoord = 0;
-			yCoord = 0;
-			zCoord = 0;
+			pos = new BlockPos(0, 0, 0);
 			tileEntityInvalid = false;
 		}
 
 		@Override
-		public void updateEntity() {
+		public void update() {
 			SpawnControllerAdapter.this.runSpawnCycle();
 		}
 	}
