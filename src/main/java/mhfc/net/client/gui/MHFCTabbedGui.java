@@ -48,7 +48,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 	}
 
 	protected void addTab(IMHFCTab tab, String name, int index) {
-		tabs.add(new TabAttribute(tab, name));
+		tabs.add(index, new TabAttribute(tab, name));
 	}
 
 	@Override
@@ -171,7 +171,6 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 			tabIndex = index;
 			tabs.get(tabIndex).tab.onOpen();
 		}
-		@SuppressWarnings("unchecked")
 		List<Slot> slots = inventorySlots.inventorySlots;
 		for (Slot slot : slots) {
 			if (index >= 0 && index < tabs.size() && tabs.get(tabIndex).tab.containsSlot(slot)) {

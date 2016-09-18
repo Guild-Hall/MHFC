@@ -28,7 +28,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.entity.RenderBiped;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -38,7 +38,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class GuiHunterBench extends MHFCTabbedGui {
 	public static final ResourceLocation BURN_BACKGROUND = new ResourceLocation(
@@ -410,23 +410,23 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	 * Selects a tab based on the currently selected recipe
 	 */
 	protected void selectTab() {
-		int type = 2;
+		int tab = 2;
 		EquipmentRecipe recipe = tileEntity.getRecipe();
 		if (recipe != null) {
 			switch (recipe.getRecipeType()) {
 			case ARMOR:
-				type = 0;
+				tab = 0;
 				break;
 			case WEAPON:
-				type = 1;
+				tab = 1;
 				break;
 			case UPGRADE:
-				type = 2;
+				tab = 2;
 			default:
-				type = 0;
+				tab = 0;
 			}
 		}
-		setTab(type);
+		setTab(tab);
 	}
 
 	private void drawItemModelAndHeat(TileHunterBench bench, float modelRotX, float modelRotY) {
@@ -443,10 +443,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	}
 
 	private boolean isInModelWindow(double mouseClickX, double mouseClickY) {
-		return (mouseClickX >= modelRectRelX //
-				&& mouseClickX <= modelRectRelX + modelRectW)
-				&& (mouseClickY >= modelRectRelY //
-						&& mouseClickY <= modelRectRelY + modelRectH);
+		return mouseClickX >= modelRectRelX //
+				&& mouseClickX <= (modelRectRelX + modelRectW) //
+				&& mouseClickY >= modelRectRelY //
+				&& mouseClickY <= (modelRectRelY + modelRectH);
 	}
 
 	private void drawItemModel(
@@ -459,10 +459,13 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			ItemType itemType,
 			float modelRotX,
 			float modelRotY) {
+		// TODO: maybe use and armor stand internally to render the items at
 		modelRotX /= 2;
 		modelRotY /= 4;
+
 		GL11.glPushMatrix();
 		drawRect(rectX, rectY, rectX + rectW + 1, rectY + rectH, 0xFF000000);
+
 		GL11.glScissor(rectX * guiScale, mc.displayHeight - rectY * guiScale, rectW * guiScale, rectH * guiScale);
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		GL11.glClearDepth(1.0f);
@@ -472,68 +475,87 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		if (itemToRender != null) {
 			if (itemType.getGeneralType() == GeneralType.ARMOR) {
-				GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-				GL11.glTranslatef(rectX + rectW / 2, rectY + rectH / 2, 40F);
-				switch (itemType) {
-				case ARMOR_HEAD:
-					GL11.glTranslatef(3f, 15f, 0F);
-					break;
-				case ARMOR_BODY:
-					GL11.glTranslatef(3f, -15f, 0F);
-					break;
-				case ARMOR_PANTS:
-					GL11.glTranslatef(3f, -35f, 0F);
-					break;
-				case ARMOR_BOOTS:
-					GL11.glTranslatef(3f, -55f, 0F);
-					break;
-				default:
-					break;
-				}
-				GL11.glRotatef(modelRotX, 0.0f, 1.0f, 0.0f);
-				GL11.glRotatef(-modelRotY, 1.0f, 0.0f, 0.0f);
-				float sc = rectH / 2;
-				GL11.glScalef(sc, sc, -sc);
-				EntityEquipmentSlot armorType = ((net.minecraft.item.ItemArmor) itemToRender.getItem()).armorType;
-				ResourceLocation loc = RenderBiped.getArmorResource(mc.thePlayer, itemToRender, armorType, null);
-				mc.getTextureManager().bindTexture(loc);
-				ModelBiped model = ForgeHooksClient.getArmorModel(mc.thePlayer, itemToRender, armorType, null);
-
-				if (model == null) {} else {
-					model.render(mc.thePlayer, 0, 0, 0, 0, 0, 0.06125f);
-					GL11.glFrontFace(GL11.GL_CW);
-					model.render(mc.thePlayer, 0, 0, 0, 0, 0, 0.06125f);
-					GL11.glFrontFace(GL11.GL_CCW);
-				}
+				renderArmor(itemToRender, rectX, rectY, rectW, rectH, itemType, modelRotX, modelRotY);
 			} else if (itemType.getGeneralType() == GeneralType.WEAPON) {
-				GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-				GL11.glTranslatef(rectX + rectW / 2, rectY + rectH / 2, 40F);
-				GL11.glTranslatef(3f, -15f, 0F);
-				GL11.glRotatef(90F, 1.0f, 0.0f, 0.0f);
-				modelRotY = Math.min(Math.abs(modelRotY), 30f) * Math.signum(modelRotY);
-				GL11.glRotatef(modelRotX, 0.0f, 0.0f, -1.0f);
-				GL11.glRotatef(modelRotY, 0.0f, -1.0f, 0.0f);
-				float sc = rectH / 8;
-				GL11.glScalef(sc, -sc, sc);
-
-				IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(itemToRender, ENTITY);
-				if (customRenderer == null) {} else {
-					customRenderer.renderItem(
-							ItemRenderType.EQUIPPED,
-							itemToRender,
-							null,
-							Minecraft.getMinecraft().thePlayer);
-					GL11.glFrontFace(GL11.GL_CW);
-					customRenderer.renderItem(
-							ItemRenderType.EQUIPPED,
-							itemToRender,
-							null,
-							Minecraft.getMinecraft().thePlayer);
-					GL11.glFrontFace(GL11.GL_CCW);
-				}
+				renderWeapon(itemToRender, rectX, rectY, rectW, rectH, modelRotX, modelRotY);
+			} else {
+				// TODO: render else...
 			}
 		}
+
 		GL11.glPopMatrix();
+	}
+
+	private void renderWeapon(
+			ItemStack itemToRender,
+			int rectX,
+			int rectY,
+			int rectW,
+			int rectH,
+			float modelRotX,
+			float modelRotY) {
+		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		GL11.glTranslatef(rectX + rectW / 2, rectY + rectH / 2, 40F);
+		GL11.glTranslatef(3f, -15f, 0F);
+		GL11.glRotatef(90F, 1.0f, 0.0f, 0.0f);
+		modelRotY = Math.min(Math.abs(modelRotY), 30f) * Math.signum(modelRotY);
+		GL11.glRotatef(modelRotX, 0.0f, 0.0f, -1.0f);
+		GL11.glRotatef(modelRotY, 0.0f, -1.0f, 0.0f);
+		float sc = rectH / 8;
+		GL11.glScalef(sc, -sc, sc);
+
+		Minecraft mc = FMLClientHandler.instance().getClient();
+		// false == isLeftHand
+		mc.getItemRenderer().renderItemSide(mc.thePlayer, itemToRender, TransformType.THIRD_PERSON_RIGHT_HAND, false);
+		GL11.glFrontFace(GL11.GL_CW);
+		mc.getItemRenderer().renderItemSide(mc.thePlayer, itemToRender, TransformType.THIRD_PERSON_RIGHT_HAND, false);
+		GL11.glFrontFace(GL11.GL_CCW);
+	}
+
+	private void renderArmor(
+			ItemStack itemToRender,
+			int rectX,
+			int rectY,
+			int rectW,
+			int rectH,
+			ItemType itemType,
+			float modelRotX,
+			float modelRotY) {
+		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		GL11.glTranslatef(rectX + rectW / 2, rectY + rectH / 2, 40F);
+		switch (itemType) {
+		case ARMOR_HEAD:
+			GL11.glTranslatef(3f, 15f, 0F);
+			break;
+		case ARMOR_BODY:
+			GL11.glTranslatef(3f, -15f, 0F);
+			break;
+		case ARMOR_PANTS:
+			GL11.glTranslatef(3f, -35f, 0F);
+			break;
+		case ARMOR_BOOTS:
+			GL11.glTranslatef(3f, -55f, 0F);
+			break;
+		default:
+			break;
+		}
+		GL11.glRotatef(modelRotX, 0.0f, 1.0f, 0.0f);
+		GL11.glRotatef(-modelRotY, 1.0f, 0.0f, 0.0f);
+		float sc = rectH / 2;
+		GL11.glScalef(sc, sc, -sc);
+		EntityEquipmentSlot armorType = ((net.minecraft.item.ItemArmor) itemToRender.getItem()).armorType;
+
+		String texture = ForgeHooksClient.getArmorTexture(mc.thePlayer, itemToRender, "missingno", armorType, null);
+		ModelBiped model = ForgeHooksClient.getArmorModel(mc.thePlayer, itemToRender, armorType, null);
+		// FIXME: cache?
+		mc.getTextureManager().bindTexture(new ResourceLocation(texture));
+
+		if (model != null) {
+			model.render(mc.thePlayer, 0, 0, 0, 0, 0, 0.06125f);
+			GL11.glFrontFace(GL11.GL_CW);
+			model.render(mc.thePlayer, 0, 0, 0, 0, 0, 0.06125f);
+			GL11.glFrontFace(GL11.GL_CCW);
+		}
 	}
 
 	private void drawBenchOverlay(TileHunterBench bench, int rectX, int rectY, int rectW) {
