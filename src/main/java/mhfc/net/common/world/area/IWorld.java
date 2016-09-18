@@ -1,9 +1,15 @@
 package mhfc.net.common.world.area;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorldEventListener;
 import net.minecraft.world.chunk.Chunk;
 
 /**
@@ -27,70 +33,72 @@ public interface IWorld {
 	 */
 	boolean isRaining();
 
-	void markBlockForUpdate(int x, int y, int z);
-
 	/**
 	 * Returns true if the block at the specified coordinates is empty
 	 */
-	boolean isAirBlock(int x, int y, int z);
+	boolean isAirBlock(BlockPos pos);
 
 	/**
 	 * Returns whether a block exists at world coordinates x, y, z
 	 */
-	boolean blockExists(int x, int y, int z);
+	boolean blockExists(BlockPos pos);
 
 	/**
 	 * Returns a chunk looked up by block coordinates. Args: x, z
 	 */
-	Chunk getChunkFromBlockCoords(int x, int z);
+	Chunk getChunkFromBlockCoords(BlockPos pos);
 
-	Block getTopBlock(int x, int z);
+	IBlockState getTopBlock(BlockPos pos);
 
 	/**
 	 * Finds the highest block on the x, z coordinate that is solid and returns its y coord. Args x, z
 	 */
-	int getTopSolidOrLiquidBlock(int x, int z);
+	BlockPos getTopSolidOrLiquidBlock(BlockPos pos);
 
-	Block getBlock(int x, int y, int z);
-
-	/**
-	 * Returns the block metadata at coords x,y,z
-	 */
-	int getBlockMetadata(int x, int y, int z);
+	IBlockState getBlockState(BlockPos pos);
 
 	/**
 	 * Sets a block to 0 and notifies relevant systems with the block change Args: x, y, z
 	 */
-	boolean setBlockToAir(int x, int y, int z);
+	boolean setBlockToAir(BlockPos pos);
 
 	/**
 	 * Sets a block by a coordinate
 	 */
-	boolean setBlock(int x, int y, int z, Block block);
+	boolean setBlockState(BlockPos pos, IBlockState block);
 
 	/**
 	 * Sets the block ID and metadata at a given location. Args: X, Y, Z, new block ID, new metadata, flags. Flag 1 will
 	 * cause a block update. Flag 2 will send the change to clients (you almost always want this). Flag 4 prevents the
 	 * block from being re-rendered, if this is a client world. Flags can be added together.
 	 */
-	boolean setBlock(int x, int y, int z, Block block, int metadata, int flags);
+	boolean setBlockState(BlockPos pos, IBlockState block, int flags);
 
 	/**
-	 * Play a sound effect. Many many parameters for this function. Not sure what they do, but a classic call is :
-	 * (double)i + 0.5D, (double)j + 0.5D, (double)k + 0.5D, 'random.door_open', 1.0F, world.rand.nextFloat() * 0.1F +
-	 * 0.9F with i,j,k position of the block.
+	 *
 	 */
-	void playSoundEffect(double x, double y, double z, String soundName, float p_72908_8_, float p_72908_9_);
-
-	/**
-	 * par8 is loudness, all pars passed to minecraftInstance.sndManager.playSound
-	 */
-	void playSound(double x, double y, double z, String soundName, float volume, float p_72980_9_, boolean p_72980_10_);
+	void playSound(
+			double x,
+			double y,
+			double z,
+			SoundEvent sound,
+			SoundCategory category,
+			float volume,
+			float pitch,
+			boolean honorDistance);
 
 	/**
 	 * Spawns a particle. Args particleName, x, y, z, velX, velY, velZ
 	 */
-	void spawnParticle(String particleName, double x, double y, double z, double velX, double velY, double velZ);
+	void spawnParticle(
+			EnumParticleTypes particle,
+			double x,
+			double y,
+			double z,
+			double velX,
+			double velY,
+			double velZ,
+			int... params);
 
 	void onEntityAdded(Entity entity);
 
@@ -104,18 +112,18 @@ public interface IWorld {
 	/**
 	 * Adds a IWorldAccess to the list of worldAccesses
 	 */
-	void addWorldAccess(IWorldAccess worldAccess);
+	void addWorldAccess(IWorldEventListener worldAccess);
 
 	/**
 	 * Removes a worldAccess from the worldAccesses object
 	 */
-	void removeWorldAccess(IWorldAccess worldAccess);
+	void removeWorldAccess(IWorldEventListener worldAccess);
 
-	TileEntity getTileEntity(int x, int y, int z);
+	TileEntity getTileEntity(BlockPos pos);
 
-	void setTileEntity(int x, int y, int z, TileEntity tileEntity);
+	void setTileEntity(BlockPos pos, TileEntity tileEntity);
 
-	void removeTileEntity(int x, int y, int z);
+	void removeTileEntity(BlockPos pos);
 
 	/**
 	 * Counts how many entities of an entity class exist in the world. Args: entityClass
@@ -125,12 +133,12 @@ public interface IWorld {
 	/**
 	 * Returns the highest redstone signal strength powering the given block. Args: X, Y, Z.
 	 */
-	int getBlockPowerInput(int x, int y, int z);
+	int getBlockPowerInput(BlockPos position, EnumFacing face);
 
 	/**
 	 * Called when checking if a certain block can be mined or not. The 'spawn safe zone' check is located here.
 	 */
-	boolean canMineBlock(EntityPlayer player, int x, int y, int z);
+	boolean canMineBlock(EntityPlayer player, BlockPos pos);
 
 	/**
 	 * Adds a single TileEntity to the world.
@@ -153,7 +161,7 @@ public interface IWorld {
 	 *            The Side in question
 	 * @return True if the side is solid
 	 */
-	boolean isSideSolid(int x, int y, int z, ForgeDirection side);
+	boolean isSideSolid(BlockPos pos, EnumFacing side);
 
 	boolean spawnEntityAt(Entity entity, double x, double y, double z);
 

@@ -1,6 +1,6 @@
 package mhfc.net.common.world.area;
 
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -21,8 +21,8 @@ public interface IWorldView extends IWorld {
 	 */
 	public World getWorldObject();
 
-	public Vec3 convertToLocal(Vec3 pos);
+	public Vec3d convertToLocal(Vec3d pos);
 
-	public Vec3 convertToGlobal(Vec3 local);
+	public Vec3d convertToGlobal(Vec3d local);
 
 }

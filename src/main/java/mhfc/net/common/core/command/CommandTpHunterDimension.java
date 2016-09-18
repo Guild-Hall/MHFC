@@ -25,6 +25,7 @@ import net.minecraft.world.WorldServer;
 public class CommandTpHunterDimension extends CommandBase {
 	private Map<EntityPlayerMP, BlockPos> teleportPoints = new HashMap<>();
 
+	// FIXME: use or delete back teleporter
 	private class BackTeleporter extends Teleporter {
 
 		public BackTeleporter(WorldServer server) {
