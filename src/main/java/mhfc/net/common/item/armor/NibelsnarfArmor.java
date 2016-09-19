@@ -18,7 +18,7 @@ public class NibelsnarfArmor extends ItemArmorMHFC {
 				type,
 				makeDefaultSlotToTex(MHFCReference.armor_nibelsnarf_tex1, MHFCReference.armor_nibelsnarf_tex2),
 				makeDefaultSlotToModel(ArmorModelHelper.nibelsnarf));
-		setUnlocalizedName(names[type.getIndex()]);
+		setUnlocalizedName(names[4 - type.getIndex()]);
 	}
 
 }

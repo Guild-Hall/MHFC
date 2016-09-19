@@ -23,7 +23,7 @@ public class KishinArmor extends ItemArmorMHFC {
 				type,
 				makeDefaultSlotToTex(MHFCReference.armor_tigrexb_tex1, MHFCReference.armor_tigrexb_tex2),
 				makeDefaultSlotToModel(ArmorModelHelper.tigrexb));
-		setUnlocalizedName(names[type.getIndex()]);
+		setUnlocalizedName(names[4 - type.getIndex()]);
 	}
 
 	@Override

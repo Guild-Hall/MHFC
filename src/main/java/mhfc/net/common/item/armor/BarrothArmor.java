@@ -18,6 +18,6 @@ public class BarrothArmor extends ItemArmorMHFC {
 				type,
 				makeDefaultSlotToTex(MHFCReference.armor_barroth_tex1, MHFCReference.armor_barroth_tex2),
 				makeDefaultSlotToModel(ArmorModelHelper.barroth));
-		setUnlocalizedName(names[type.getIndex()]);
+		setUnlocalizedName(names[4 - type.getIndex()]);
 	}
 }

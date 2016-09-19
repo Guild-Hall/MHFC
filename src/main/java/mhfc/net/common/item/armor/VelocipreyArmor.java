@@ -18,7 +18,7 @@ public class VelocipreyArmor extends ItemArmorMHFC {
 				type,
 				makeDefaultSlotToTex(MHFCReference.armor_velociprey_tex1, MHFCReference.armor_velociprey_tex2),
 				makeDefaultSlotToModel(ArmorModelHelper.velociprey));
-		setUnlocalizedName(names[type.getIndex()]);
+		setUnlocalizedName(names[4 - type.getIndex()]);
 	}
 
 }

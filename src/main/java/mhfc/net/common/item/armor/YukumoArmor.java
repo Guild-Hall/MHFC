@@ -21,7 +21,7 @@ public class YukumoArmor extends ItemArmorMHFC {
 				type,
 				makeDefaultSlotToTex(MHFCReference.armor_yukumo_tex1, MHFCReference.armor_yukumo_tex2),
 				makeDefaultSlotToModel(ArmorModelHelper.yukumo));
-		setUnlocalizedName(names[type.getIndex()]);
+		setUnlocalizedName(names[4 - type.getIndex()]);
 	}
 
 	@Override
