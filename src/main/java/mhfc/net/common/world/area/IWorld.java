@@ -165,6 +165,13 @@ public interface IWorld {
 
 	boolean spawnEntityAt(Entity entity, double x, double y, double z);
 
+	default void spawnEntityAt(Entity entity, BlockPos position) {
+		spawnEntityAt(entity, position.getX(), position.getY(), position.getZ());
+	}
+
 	void moveEntityTo(Entity entity, double x, double y, double z);
 
+	default void moveEntityTo(Entity entity, BlockPos position) {
+		moveEntityTo(entity, position.getX(), position.getY(), position.getZ());
+	}
 }

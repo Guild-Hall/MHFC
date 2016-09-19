@@ -9,6 +9,7 @@ import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IExtendedConfiguration;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class DesertPalmType extends AreaTypeSchematic {
@@ -24,10 +25,9 @@ public class DesertPalmType extends AreaTypeSchematic {
 
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
-			double posX = 64;
-			double posZ = 14;
-			double posY = worldView.getTopSolidOrLiquidBlock((int) posX, (int) posZ) + 1;
-			worldView.moveEntityTo(player, posX, posY, posZ);
+			BlockPos position = new BlockPos(64, 0, 14);
+			position = worldView.getTopSolidOrLiquidBlock(position).up();
+			worldView.moveEntityTo(player, position);
 		}
 
 		@Override

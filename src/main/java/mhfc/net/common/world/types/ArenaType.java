@@ -9,6 +9,7 @@ import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IExtendedConfiguration;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ArenaType extends AreaTypeSchematic {
@@ -24,10 +25,9 @@ public class ArenaType extends AreaTypeSchematic {
 
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
-			double posX = 54;
-			double posZ = 11;
-			double posY = worldView.getTopSolidOrLiquidBlock((int) posX, (int) posZ) + 1;
-			worldView.moveEntityTo(player, posX, posY, posZ);
+			BlockPos position = new BlockPos(54, 0, 11);
+			position = worldView.getTopSolidOrLiquidBlock(position).up();
+			worldView.moveEntityTo(player, position);
 		}
 
 		@Override
