@@ -1,11 +1,13 @@
 package mhfc.net.common.util;
 
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Objects;
 
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.SubTypedItem.SubTypeEnum;
 import net.minecraft.block.Block;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
@@ -73,13 +75,27 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 		return new ItemStack(subItem.getBaseItem(), size, subItem.ordinal());
 	}
 
+	private static <T extends Enum<T> & IStringSerializable> T[] getValues(PropertyEnum<T> property) {
+		@SuppressWarnings("unchecked")
+		T[] array = (T[]) Array.newInstance(property.getValueClass(), 0);
+		property.getAllowedValues().toArray(array);
+		return array;
+	}
+
 	private final Class<T> clazzToken;
 	private final T[] values;
 
 	public SubTypedItem(Class<T> enumClazz) {
+		this(enumClazz, enumClazz.getEnumConstants());
+	}
+
+	public SubTypedItem(PropertyEnum<T> property) {
+		this(property.getValueClass(), getValues(property));
+	}
+
+	private SubTypedItem(Class<T> enumClazz, T[] values) {
 		this.clazzToken = Objects.requireNonNull(enumClazz);
-		// Cache the value, getEnumConstants() doesn't and can not safely
-		this.values = clazzToken.getEnumConstants();
+		this.values = values;
 	}
 
 	@SideOnly(Side.CLIENT)

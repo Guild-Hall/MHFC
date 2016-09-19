@@ -7,6 +7,8 @@ import mhfc.net.common.util.SubTypedItem;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockStateContainer;
 
 public class BlockWyverniaOres extends AbstractSubTypedBlock<WyverniaOreSubType> {
 	public static enum WyverniaOreSubType implements SubTypedItem.SubTypeEnum<Block> {
@@ -35,10 +37,17 @@ public class BlockWyverniaOres extends AbstractSubTypedBlock<WyverniaOreSubType>
 		}
 	}
 
+	public static final PropertyEnum<WyverniaOreSubType> PROPERTY = create(WyverniaOreSubType.class);
+
 	public BlockWyverniaOres() {
-		super(WyverniaOreSubType.class, Material.ROCK);
+		super(PROPERTY, Material.ROCK);
 		setUnlocalizedName(MHFCReference.block_ores_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
+	}
+
+	@Override
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, PROPERTY);
 	}
 
 }

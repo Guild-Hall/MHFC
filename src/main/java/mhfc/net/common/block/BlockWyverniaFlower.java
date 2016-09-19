@@ -55,13 +55,12 @@ public class BlockWyverniaFlower extends BlockWyverniaDecor implements ISubTyped
 		FLOWER_BOUNDS = new AxisAlignedBB(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 3.0F, 0.5F + f);
 	}
 
-	protected final SubTypedItem<Block, WyverniaFlowerSubType> blockTrait;
-	protected final PropertyEnum<WyverniaFlowerSubType> subtypeProperty;
+	protected static final PropertyEnum<WyverniaFlowerSubType> subtypeProperty = PropertyEnum
+			.create("variant", WyverniaFlowerSubType.class);
+	protected static final SubTypedItem<Block, WyverniaFlowerSubType> blockTrait = new SubTypedItem<>(subtypeProperty);
 
 	public BlockWyverniaFlower() {
 		super(Material.PLANTS);
-		blockTrait = new SubTypedItem<>(WyverniaFlowerSubType.class);
-		subtypeProperty = PropertyEnum.create("variant", WyverniaFlowerSubType.class);
 		setUnlocalizedName(MHFCReference.block_wyverniaflower_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHardness(0.0f);

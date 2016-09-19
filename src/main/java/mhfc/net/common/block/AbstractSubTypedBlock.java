@@ -1,6 +1,7 @@
 package mhfc.net.common.block;
 
 import java.util.List;
+import java.util.Objects;
 
 import mhfc.net.common.util.SubTypedItem;
 import mhfc.net.common.util.SubTypedItem.SubTypeEnum;
@@ -12,16 +13,23 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IStringSerializable;
 
-public class AbstractSubTypedBlock<T extends Enum<T> & SubTypeEnum<Block>> extends Block implements ISubTypedBlock<T> {
+public abstract class AbstractSubTypedBlock<T extends Enum<T> & SubTypeEnum<Block>> extends Block
+		implements
+		ISubTypedBlock<T> {
+
+	protected static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(Class<T> enumClazz) {
+		return PropertyEnum.create("variant", enumClazz);
+	}
 
 	protected final SubTypedItem<Block, T> blockTrait;
 	protected final PropertyEnum<T> subtypeProperty;
 
-	public AbstractSubTypedBlock(Class<T> subtypeEnumClazz, Material blockMaterial) {
+	public AbstractSubTypedBlock(PropertyEnum<T> subtypeProperty, Material blockMaterial) {
 		super(blockMaterial);
-		blockTrait = new SubTypedItem<>(subtypeEnumClazz);
-		subtypeProperty = PropertyEnum.create("variant", subtypeEnumClazz);
+		this.blockTrait = new SubTypedItem<>(subtypeProperty);
+		this.subtypeProperty = Objects.requireNonNull(subtypeProperty);
 	}
 
 	/**
@@ -33,10 +41,12 @@ public class AbstractSubTypedBlock<T extends Enum<T> & SubTypeEnum<Block>> exten
 		return blockTrait;
 	}
 
+	/**
+	 * This *needs* to be new BlockStateContainer(this, subtypeProperty) with the same property as given in the
+	 * constructor to work correctly.
+	 */
 	@Override
-	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, subtypeProperty);
-	}
+	protected abstract BlockStateContainer createBlockState();
 
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
