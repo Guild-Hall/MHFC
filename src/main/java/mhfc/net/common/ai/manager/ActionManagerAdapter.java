@@ -103,8 +103,8 @@ public abstract class ActionManagerAdapter<EntType extends EntityLiving & IManag
 
 	@Override
 	public void switchToAction(IExecutableAction<? super EntType> attack) {
-		if (attackCollection.getIndexOf(attack) < 0) {
-			throw new IllegalArgumentException("Only registered actions may be switched to");
+		if (attack != null && attackCollection.getIndexOf(attack) < 0) {
+			throw new IllegalArgumentException(attack + " is not a registered attack");
 		}
 		switchAction(attack);
 	}

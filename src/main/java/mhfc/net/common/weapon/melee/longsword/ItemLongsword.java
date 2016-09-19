@@ -86,6 +86,9 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
 		Multimap<String, AttributeModifier> attributes = super.getAttributeModifiers(slot, stack);
+		if (slot != EntityEquipmentSlot.MAINHAND) {
+			return attributes;
+		}
 		if (isAffinityTriggered(stack)) {
 			AttributeModifier attackModifier = new AttributeModifier(
 					UUID.fromString(MHFCPotionRegistry.potion_longsworddamageup_uuid),

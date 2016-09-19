@@ -23,6 +23,9 @@ public abstract class ItemWeaponMelee<W extends MeleeWeaponStats> extends ItemWe
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
 		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot, stack);
+		if (slot != EntityEquipmentSlot.MAINHAND) {
+			return multimap;
+		}
 		return multimap;
 	}
 }
