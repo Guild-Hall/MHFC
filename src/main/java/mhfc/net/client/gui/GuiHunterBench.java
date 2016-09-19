@@ -39,7 +39,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class GuiHunterBench extends MHFCTabbedGui {
 	public static final ResourceLocation BURN_BACKGROUND = new ResourceLocation(
 			MHFCReference.gui_hunterbench_burn_back_tex);
@@ -71,6 +74,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 
 		@Override
+		@SideOnly(Side.CLIENT)
 		public String getRepresentationString() {
 			String str = type.getNameString();
 			return I18n.format(str);

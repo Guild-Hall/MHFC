@@ -40,6 +40,7 @@ public class ItemSpawner extends Item implements IItemColored {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack par1ItemStack) {
 		String s = (I18n.format(this.getUnlocalizedName() + ".name")).trim();
 		String s1 = MHFCMobList.getStringFromID(par1ItemStack.getItemDamage());

@@ -9,9 +9,12 @@ import mhfc.net.common.item.armor.ItemExclusiveArmor;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.system.DonatorSystem;
 import mhfc.net.common.util.lib.MHFCReference;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  *
@@ -28,9 +31,14 @@ public class ST_BionicArmor extends ItemExclusiveArmor {
 				ArmorMaterialHelper.ArmorST_1_Bionic,
 				ItemRarity.R04,
 				type,
-				makeDefaultSlotToTex(MHFCReference.armor_bionic_tex1, MHFCReference.armor_bionic_tex2),
-				makeDefaultSlotToModel(ArmorModelHelper.bionic));
+				makeDefaultSlotToTex(MHFCReference.armor_bionic_tex1, MHFCReference.armor_bionic_tex2));
 		setUnlocalizedName(names[3 - type.getIndex()]);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
+		return ArmorModelHelper.bionic;
 	}
 
 	@Override

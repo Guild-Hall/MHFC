@@ -7,9 +7,12 @@ import mhfc.net.common.helper.ArmorModelHelper;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.lib.MHFCReference;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class KishinArmor extends ItemArmorMHFC {
 	private static final String[] names = { MHFCReference.armor_tigrexb_helm_name,
@@ -21,9 +24,14 @@ public class KishinArmor extends ItemArmorMHFC {
 				ArmorMaterialHelper.ArmorTigrexB,
 				ItemRarity.R04,
 				type,
-				makeDefaultSlotToTex(MHFCReference.armor_tigrexb_tex1, MHFCReference.armor_tigrexb_tex2),
-				makeDefaultSlotToModel(ArmorModelHelper.tigrexb));
+				makeDefaultSlotToTex(MHFCReference.armor_tigrexb_tex1, MHFCReference.armor_tigrexb_tex2));
 		setUnlocalizedName(names[3 - type.getIndex()]);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
+		return ArmorModelHelper.tigrexb;
 	}
 
 	@Override

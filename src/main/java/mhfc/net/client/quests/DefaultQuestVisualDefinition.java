@@ -18,6 +18,8 @@ import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	public static final int BORDER = 5;
@@ -250,6 +252,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void drawInformation(
 			int positionX,
 			int positionY,
@@ -310,6 +313,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 
 	}
 
+	@SideOnly(Side.CLIENT)
 	protected void drawClientDescription(int positionX, int currentY, int width, FontRenderer fontRenderer) {
 		width = Math.max(width, 20);
 		String TAG_CLIENT = I18n.format(MHFCReference.unlocalized_tag_client);
@@ -347,6 +351,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 				COLOUR_TEXT);
 	}
 
+	@SideOnly(Side.CLIENT)
 	private String getClientLocalized() {
 		return I18n.format(client);
 	}
@@ -416,14 +421,17 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		return positionY;
 	}
 
+	@SideOnly(Side.CLIENT)
 	private String getTypeLocalized() {
 		return I18n.format(this.typeString);
 	}
 
+	@SideOnly(Side.CLIENT)
 	private String getNameLocalized() {
 		return I18n.format(name);
 	}
 
+	@SideOnly(Side.CLIENT)
 	protected int drawBaseInformation(int positionX, int positionY, int width, FontRenderer fontRenderer) {
 		String TAG_FEE = I18n.format(MHFCReference.unlocalized_tag_fee), //
 				TAG_REWARD = I18n.format(MHFCReference.unlocalized_tag_reward), //

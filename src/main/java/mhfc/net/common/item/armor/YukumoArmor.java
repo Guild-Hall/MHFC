@@ -6,9 +6,12 @@ import mhfc.net.common.helper.ArmorMaterialHelper;
 import mhfc.net.common.helper.ArmorModelHelper;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.util.lib.MHFCReference;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class YukumoArmor extends ItemArmorMHFC {
 	private static final String[] names = { MHFCReference.armor_yukumo_helm_name, MHFCReference.armor_yukumo_chest_name,
@@ -19,9 +22,14 @@ public class YukumoArmor extends ItemArmorMHFC {
 				ArmorMaterialHelper.ArmorYukumo,
 				ItemRarity.R04,
 				type,
-				makeDefaultSlotToTex(MHFCReference.armor_yukumo_tex1, MHFCReference.armor_yukumo_tex2),
-				makeDefaultSlotToModel(ArmorModelHelper.yukumo));
+				makeDefaultSlotToTex(MHFCReference.armor_yukumo_tex1, MHFCReference.armor_yukumo_tex2));
 		setUnlocalizedName(names[3 - type.getIndex()]);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
+		return ArmorModelHelper.yukumo;
 	}
 
 	@Override

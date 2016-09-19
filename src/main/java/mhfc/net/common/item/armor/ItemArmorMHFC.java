@@ -35,20 +35,8 @@ public abstract class ItemArmorMHFC extends ItemArmor {
 		return map;
 	}
 
-	public static EnumMap<EntityEquipmentSlot, ModelBiped> makeDefaultSlotToModel(ModelBiped baseModel) {
-		EnumMap<EntityEquipmentSlot, ModelBiped> map = new EnumMap<>(EntityEquipmentSlot.class);
-
-		map.put(EntityEquipmentSlot.CHEST, baseModel);
-		map.put(EntityEquipmentSlot.HEAD, baseModel);
-		map.put(EntityEquipmentSlot.FEET, baseModel);
-		map.put(EntityEquipmentSlot.LEGS, baseModel);
-
-		return map;
-	}
-
 	protected final ItemRarity rarity;
 	private final Map<EntityEquipmentSlot, String> slotToTex;
-	private final Map<EntityEquipmentSlot, ModelBiped> slotToModel;
 
 	/**
 	 *
@@ -58,20 +46,15 @@ public abstract class ItemArmorMHFC extends ItemArmor {
 	 * @param slotToTexture
 	 *            if <code>null</code>, sub classes _must_ implement
 	 *            {@link #getArmorTexture(ItemStack, Entity, EntityEquipmentSlot, String)}
-	 * @param slotToModel
-	 *            if <code>null</code>, sub classes _must_ implement
-	 *            {@link #getArmorModel(EntityLivingBase, ItemStack, EntityEquipmentSlot, ModelBiped)}
 	 */
 	public ItemArmorMHFC(
 			ArmorMaterial armor,
 			ItemRarity rarity,
 			EntityEquipmentSlot armorType,
-			@Nullable Map<EntityEquipmentSlot, String> slotToTexture,
-			@Nullable Map<EntityEquipmentSlot, ModelBiped> slotToModel) {
+			@Nullable Map<EntityEquipmentSlot, String> slotToTexture) {
 		super(armor, 4, armorType);
 		this.rarity = Objects.requireNonNull(rarity);
 		this.slotToTex = slotToTexture;
-		this.slotToModel = slotToModel;
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 
@@ -86,6 +69,9 @@ public abstract class ItemArmorMHFC extends ItemArmor {
 		return slotToTex.getOrDefault(slot, MHFCReference.armor_null_tex);
 	}
 
+	@SideOnly(Side.CLIENT)
+	protected abstract ModelBiped getBipedModel(EntityEquipmentSlot armorSlot);
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public ModelBiped getArmorModel(
@@ -98,7 +84,7 @@ public abstract class ItemArmorMHFC extends ItemArmor {
 			return null;
 		}
 
-		ModelBiped armorModel = slotToModel.get(armorSlot);
+		ModelBiped armorModel = getBipedModel(armorSlot);
 		if (armorModel == null) {
 			return null;
 		}

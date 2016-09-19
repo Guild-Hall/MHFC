@@ -6,11 +6,14 @@ import mhfc.net.common.helper.ArmorMaterialHelper;
 import mhfc.net.common.helper.ArmorModelHelper;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.util.lib.MHFCReference;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TigrexArmor extends ItemArmorMHFC {
 	private static final String[] names = { MHFCReference.armor_tigrex_helm_name, MHFCReference.armor_tigrex_chest_name,
@@ -21,9 +24,14 @@ public class TigrexArmor extends ItemArmorMHFC {
 				ArmorMaterialHelper.ArmorTigrex,
 				ItemRarity.R04,
 				type,
-				makeDefaultSlotToTex(MHFCReference.armor_tigrex_tex1, MHFCReference.armor_tigrex_tex2),
-				makeDefaultSlotToModel(ArmorModelHelper.tigrex));
+				makeDefaultSlotToTex(MHFCReference.armor_tigrex_tex1, MHFCReference.armor_tigrex_tex2));
 		setUnlocalizedName(names[3 - type.getIndex()]);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
+		return ArmorModelHelper.tigrex;
 	}
 
 	@Override

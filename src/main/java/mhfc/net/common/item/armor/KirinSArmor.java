@@ -8,6 +8,7 @@ import mhfc.net.common.helper.ArmorModelHelper;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.system.DonatorSystem;
 import mhfc.net.common.util.lib.MHFCReference;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -15,6 +16,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class KirinSArmor extends ItemExclusiveArmor {
 	private static final String[] names = { MHFCReference.armor_kirinS_helm_name, MHFCReference.armor_kirinS_chest_name,
@@ -26,9 +29,14 @@ public class KirinSArmor extends ItemExclusiveArmor {
 				ArmorMaterialHelper.ArmorKirinS,
 				ItemRarity.R04,
 				type,
-				makeDefaultSlotToTex(MHFCReference.armor_kirinS_tex1, MHFCReference.armor_kirinS_tex2),
-				makeDefaultSlotToModel(ArmorModelHelper.kirinS));
+				makeDefaultSlotToTex(MHFCReference.armor_kirinS_tex1, MHFCReference.armor_kirinS_tex2));
 		setUnlocalizedName(names[3 - type.getIndex()]);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
+		return ArmorModelHelper.kirinS;
 	}
 
 	@Override

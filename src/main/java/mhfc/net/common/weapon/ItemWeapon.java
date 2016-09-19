@@ -78,6 +78,7 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item {
 	public abstract String getWeaponClassUnlocalized();
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer holder, List<String> infos, boolean advanced) {
 		infos.add(ColorSystem.gold + I18n.format(getWeaponClassUnlocalized() + ".name"));
 		infos.add(ColorSystem.yellow + "Rarity: " + stats.getRarity().toString());

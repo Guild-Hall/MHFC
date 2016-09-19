@@ -13,7 +13,10 @@ import mhfc.net.client.model.armor.ModelTigrexArmor;
 import mhfc.net.client.model.armor.ModelVelocipreyArmor;
 import mhfc.net.client.model.armor.ModelYukumoArmor;
 import mhfc.net.client.model.armor.community.Model_ST_1_Bionic;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class ArmorModelHelper {
 
 	public static final ModelTigrexArmor tigrex = new ModelTigrexArmor(1.0F);

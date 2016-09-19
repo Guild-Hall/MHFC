@@ -6,13 +6,12 @@ import java.util.Objects;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.system.Privilege;
 import mhfc.net.common.util.lib.MHFCReference;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
-public class ItemExclusiveArmor extends ItemArmorMHFC {
+public abstract class ItemExclusiveArmor extends ItemArmorMHFC {
 	private final Privilege requiredPrivilege;
 
 	public ItemExclusiveArmor(
@@ -20,10 +19,8 @@ public class ItemExclusiveArmor extends ItemArmorMHFC {
 			ArmorMaterial armor,
 			ItemRarity rarity,
 			EntityEquipmentSlot armorType,
-			Map<EntityEquipmentSlot, String> slotToTexture,
-			Map<EntityEquipmentSlot, ModelBiped> slotToModel) {
-
-		super(armor, rarity, armorType, slotToTexture, slotToModel);
+			Map<EntityEquipmentSlot, String> slotToTexture) {
+		super(armor, rarity, armorType, slotToTexture);
 		this.requiredPrivilege = Objects.requireNonNull(requirement);
 	}
 
