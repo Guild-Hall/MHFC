@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Objects;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.SubTypedItem.SubTypeEnum;
 import net.minecraft.block.Block;
@@ -82,6 +83,7 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 		return array;
 	}
 
+	private boolean warningDisplay = false;
 	private final Class<T> clazzToken;
 	private final T[] values;
 
@@ -116,6 +118,9 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 
 	public T getSubType(int meta) {
 		if (values.length == 0) {
+			if (!warningDisplay) {
+				MHFCMain.logger().debug("SubTypedItem with zero entries: " + clazzToken);
+			}
 			return null;
 		}
 		int clumpedMeta = MathHelper.clamp_int(meta, 0, values.length - 1);

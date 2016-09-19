@@ -47,7 +47,7 @@ public class MHFCCapeEventHandler {
 		AbstractClientPlayer abstractClientPlayer = (AbstractClientPlayer) event.getEntityPlayer();
 
 		if (!capePlayers.contains(abstractClientPlayer)) {
-			String cloakURL = cloaks.get(event.getEntityPlayer().getDisplayName());
+			String cloakURL = cloaks.get(event.getEntityPlayer().getName());
 
 			if (cloakURL == null) {
 				return;

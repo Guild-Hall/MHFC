@@ -115,7 +115,7 @@ public class MHFCEntityRegistry {
 		int monsterID = getMobID();
 		EntityRegistry.registerModEntity(clazz, name, monsterID, MHFCMain.instance(), 64, 1, true);
 		registeredMobs.add(clazz);
-		MHFCMobList.addMapping(clazz, name, monsterID);
+		MHFCMobList.addMapping(clazz, "mhfc." + name, monsterID);
 		return monsterID;
 	}
 
