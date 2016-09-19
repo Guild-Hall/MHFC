@@ -19,7 +19,7 @@ public class OverworldManager extends ExplorationAdapter {
 		if (player.getEntityWorld().provider.getDimension() == 0) {
 			return;
 		}
-		AreaTeleportation.movePlayerToOverworld(player);
+		AreaTeleportation.movePlayerToOverworld(player.getEntityWorld().getMinecraftServer(), player);
 	}
 
 	@Override
