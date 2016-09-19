@@ -9,6 +9,7 @@ import mhfc.net.common.tile.TileQuestBoard;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -41,6 +42,11 @@ public class BlockQuestBoard extends BlockContainer {
 		super(Material.WOOD);
 		setHardness(3.0f);
 		setCreativeTab(MHFCMain.mhfctabs);
+	}
+
+	@Override
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, UP_MASK, OFFSET_MASK, ROT_LOW_MASK, ROT_HIGH_MASK);
 	}
 
 	@Override
