@@ -7,11 +7,11 @@ import org.junit.Test;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 
+import mhfc.net.common.util.parsing.exceptions.SyntaxErrorException;
 import mhfc.net.common.util.parsing.proxies.StaticAccess;
 import mhfc.net.common.util.parsing.syntax.special.ISpecialCallable;
 import mhfc.net.common.util.parsing.syntax.special.ISpecialMember;
 import mhfc.net.common.util.parsing.valueholders.Arguments;
-import net.minecraft.command.SyntaxErrorException;
 
 public class AngularMCTest {
 	private static final int TEST_VALUE = 42;
