@@ -90,7 +90,7 @@ def getShortVersion() {
 }
 
 def getVersion() {
-	return getShortVersion() + "-" + getArtifactID()
+	return getShortVersion() + getArtifactID() + "+${minecraft.version}"
 }
 
 def getArtifactID() {
@@ -110,6 +110,6 @@ def getArtifactID() {
         }
         branch = stdout.toString().trim()
     }
-	return "${branch == 'master' ? '' : branch + '-'}${minecraft.version}"
+	return branch == 'master' ? '' : '-' + branch.replaceAll('[^0-9A-Za-z-]', '-')
 }
 
