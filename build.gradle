@@ -110,6 +110,6 @@ def getArtifactID() {
         }
         branch = stdout.toString().trim()
     }
-	return branch == 'master' ? '' : '-' + branch.replaceAll('[^0-9A-Za-z-]', '-')
+	return branch == 'master' ? '' : '-' + branch.replaceAll('[^0-9A-Za-z-\\.]', '-')
 }
 
