@@ -1,5 +1,6 @@
 package mhfc.net.common.util;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 import com.sk89q.worldedit.WorldEditException;
@@ -36,6 +37,11 @@ public class Operations {
 			}
 
 			@Override
+			public void addStatusMessages(List<String> messages) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
 			public void cancel() {
 				if (!isCancelled) {
 					isCancelled = true;
@@ -52,6 +58,11 @@ public class Operations {
 			public Operation resume(RunContext run) {
 				runnable.run();
 				return null;
+			}
+
+			@Override
+			public void addStatusMessages(List<String> messages) {
+				// TODO Auto-generated method stub
 			}
 
 			@Override
@@ -77,6 +88,11 @@ public class Operations {
 			}
 
 			@Override
+			public void addStatusMessages(List<String> messages) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
 			public void cancel() {
 				this.current.cancel();
 			}
@@ -89,6 +105,11 @@ public class Operations {
 			@Override
 			public Operation resume(RunContext run) throws WorldEditException {
 				return null;
+			}
+
+			@Override
+			public void addStatusMessages(List<String> messages) {
+				// TODO Auto-generated method stub
 			}
 
 			@Override
@@ -113,6 +134,11 @@ public class Operations {
 					}
 				}
 				return current == null ? null : this;
+			}
+
+			@Override
+			public void addStatusMessages(List<String> messages) {
+				// TODO Auto-generated method stub
 			}
 
 			@Override

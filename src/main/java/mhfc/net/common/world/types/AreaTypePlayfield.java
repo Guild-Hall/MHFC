@@ -1,5 +1,7 @@
 package mhfc.net.common.world.types;
 
+import java.util.List;
+
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.RunContext;
 
@@ -101,6 +103,11 @@ public class AreaTypePlayfield implements IAreaType {
 					}
 				}
 				return null;
+			}
+
+			@Override
+			public void addStatusMessages(List<String> messages) {
+				// TODO Auto-generated method stub
 			}
 
 			@Override

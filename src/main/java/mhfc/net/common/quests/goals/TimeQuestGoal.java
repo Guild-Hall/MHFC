@@ -3,6 +3,7 @@
  */
 package mhfc.net.common.quests.goals;
 
+import java.util.List;
 import java.util.Objects;
 
 import com.sk89q.worldedit.WorldEditException;
@@ -41,6 +42,11 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 		@Override
 		public void cancel() {
 			isCancelled = true;
+		}
+
+		@Override
+		public void addStatusMessages(List<String> messages) {
+			// TODO Auto-generated method stub
 		}
 
 		@Override

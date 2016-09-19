@@ -1,6 +1,7 @@
 package mhfc.net.common.worldedit;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.function.Function;
 
@@ -43,6 +44,11 @@ public class RegionSplittingOperation implements Operation {
 			return new DelegateOperation(this, op.value);
 		}
 		return this;
+	}
+
+	@Override
+	public void addStatusMessages(List<String> messages) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
