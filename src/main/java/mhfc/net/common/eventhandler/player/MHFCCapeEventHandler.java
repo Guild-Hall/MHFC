@@ -35,7 +35,7 @@ public class MHFCCapeEventHandler {
 	private List<AbstractClientPlayer> capePlayers = new ArrayList<>();
 
 	private MHFCCapeEventHandler() {
-		buildCloakURLDatabase();
+		new Thread(this::buildCloakURLDatabase, "mhfcCloakDatabase");
 	}
 
 	@SubscribeEvent

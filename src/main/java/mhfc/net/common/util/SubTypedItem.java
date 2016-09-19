@@ -78,7 +78,7 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 	private static <T extends Enum<T> & IStringSerializable> T[] getValues(PropertyEnum<T> property) {
 		@SuppressWarnings("unchecked")
 		T[] array = (T[]) Array.newInstance(property.getValueClass(), 0);
-		property.getAllowedValues().toArray(array);
+		array = property.getAllowedValues().toArray(array);
 		return array;
 	}
 
@@ -95,7 +95,7 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 
 	private SubTypedItem(Class<T> enumClazz, T[] values) {
 		this.clazzToken = Objects.requireNonNull(enumClazz);
-		this.values = values;
+		this.values = mhfc.net.common.util.Objects.requireNonNullDeep(values);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -115,6 +115,9 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 	}
 
 	public T getSubType(int meta) {
+		if (values.length == 0) {
+			return null;
+		}
 		int clumpedMeta = MathHelper.clamp_int(meta, 0, values.length - 1);
 		return values[clumpedMeta];
 	}
