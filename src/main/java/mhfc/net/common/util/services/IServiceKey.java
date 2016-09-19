@@ -27,6 +27,7 @@ public interface IServiceKey<T> {
 	<O> IServiceKey<O> withIndirection(Function<T, O> remap);
 
 	default T getService() {
-		return getServiceProvider().getServiceFor(this).get();
+		return getServiceProvider().getServiceFor(this)
+				.orElseThrow(() -> new IllegalStateException("Service not active"));
 	}
 }

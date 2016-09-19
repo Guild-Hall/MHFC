@@ -70,7 +70,7 @@ public class MHFCItemRegistry {
 	public static void staticInit() {}
 
 	private static final IServiceKey<MHFCItemRegistry> serviceAccess = RegistryWrapper
-			.registerService("item registry", MHFCItemRegistry::new, MHFCMain.initPhase);
+			.registerService("item registry", MHFCItemRegistry::new, MHFCMain.preInitPhase);
 
 	/**
 	 * Please Arrange The Weapons by its RARITY refer to the weapon package ~@Heltrato

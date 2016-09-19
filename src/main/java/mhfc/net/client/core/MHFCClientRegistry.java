@@ -23,6 +23,7 @@ public class MHFCClientRegistry {
 	public static void staticInit() {
 		addQuestDisplay();
 
+		MHFCMain.preInitPhase.registerEntryCallback(e -> preInit());
 		MHFCMain.initPhase.registerEntryCallback(e -> init());
 	}
 

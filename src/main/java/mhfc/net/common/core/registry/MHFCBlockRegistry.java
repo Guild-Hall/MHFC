@@ -39,7 +39,7 @@ public class MHFCBlockRegistry {
 	public static void staticInit() {}
 
 	private static final IServiceKey<MHFCBlockRegistry> serviceAccess = RegistryWrapper
-			.registerService("block registry", MHFCBlockRegistry::new, MHFCMain.initPhase);
+			.registerService("block registry", MHFCBlockRegistry::new, MHFCMain.preInitPhase);
 
 	// private static Item item;
 	// private static ItemBlockIngot ingot;

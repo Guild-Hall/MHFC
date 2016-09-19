@@ -25,15 +25,15 @@ public class MHFCCommonRegistry {
 	private final static Logger logger = MHFCMain.logger();
 
 	public static void init() {
-		MHFCCommonRegistry.addEvent();
-		MHFCCommonRegistry.addPlayerProperties();
-		MHFCCommonRegistry.addRecipes();
-		MHFCCommonRegistry.addDimension();
-		MHFCCommonRegistry.addSmelting();
-		MHFCCommonRegistry.addTile();
-		MHFCCommonRegistry.addPacket();
-		MHFCCommonRegistry.addAreas();
-		MHFCCommonRegistry.addQuests();
+		addEvent();
+		addPlayerProperties();
+		addRecipes();
+		addDimension();
+		addSmelting();
+		addTile();
+		addPacket();
+		addAreas();
+		addQuests();
 	}
 
 	public static void staticInit() {
