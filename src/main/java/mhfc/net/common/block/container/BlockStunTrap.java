@@ -46,6 +46,16 @@ public class BlockStunTrap extends BlockContainer {
 	}
 
 	@Override
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(ACTIVE) ? 0 : 1;
+	}
+
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return getDefaultState().withProperty(ACTIVE, meta != 0);
+	}
+
+	@Override
 	public TileEntity createNewTileEntity(World world, int var1) {
 		return new TileStunTrap();
 	}
