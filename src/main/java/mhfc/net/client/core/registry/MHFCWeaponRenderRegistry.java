@@ -55,7 +55,6 @@ public class MHFCWeaponRenderRegistry {
 		registerItemRenderer(itemRegistry.weapon_hh_blackcasket);
 
 		registerItemRenderer(itemRegistry.weapon_b_hunters);
-
 		registerItemRenderer(itemRegistry.weapon_b_huntersstout);
 		registerItemRenderer(itemRegistry.weapon_b_huntersproud);
 
