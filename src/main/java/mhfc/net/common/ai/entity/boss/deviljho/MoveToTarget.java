@@ -68,7 +68,7 @@ public class MoveToTarget extends ActionAdapter<EntityDeviljho> {
 			public void update(MoveToTarget attk) {
 				EntityDeviljho monster = attk.getEntity();
 				Vec3d mobPos = monster.getPositionVector();
-				Vec3d vecToTarget = mobPos.subtract(WorldHelper.getEntityPositionVector(attk.target));
+				Vec3d vecToTarget = mobPos.subtract(attk.target.getPositionVector());
 				monster.getTurnHelper().updateTargetPoint(attk.target);
 				monster.moveForward(RUN_SPEED, true);
 				Vec3d look = monster.getLookVec();

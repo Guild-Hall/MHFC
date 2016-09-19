@@ -3,7 +3,6 @@ package mhfc.net.common.ai.general.provider.simple;
 import java.security.InvalidParameterException;
 import java.util.Objects;
 
-import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.Vec3d;
@@ -27,7 +26,7 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 
 	/**
 	 * Tries to jump as exactly as possible onto the target coordinate
-	 * 
+	 *
 	 * @author Katora
 	 *
 	 * @param <EntityT>
@@ -45,8 +44,9 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 		private ITargetResolver<EntityT> targetResolver;
 
 		public ConstantAirTimeAdapter(float jumpAirTimeInTicks, ITargetResolver<EntityT> targetResolver) {
-			if (jumpAirTimeInTicks <= 0)
+			if (jumpAirTimeInTicks <= 0) {
 				throw new InvalidParameterException("Jump time must be bigger than zero");
+			}
 			this.airTime = jumpAirTimeInTicks;
 			this.targetResolver = Objects.requireNonNull(targetResolver);
 			this.maxSpeed = 100;
@@ -63,7 +63,7 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 		@Override
 		public float getForwardVelocity(EntityT entity) {
 			Vec3d target = Objects.requireNonNull(targetResolver.getJumpTarget(entity));
-			Vec3d position = WorldHelper.getEntityPositionVector(entity);
+			Vec3d position = entity.getPositionVector();
 			float distance = (float) position.distanceTo(target);
 			// CLEANUP why does a multiplication with 3 work so well here??
 			// It should be v = s/t just straight up, not v = s/t*3.....
@@ -74,8 +74,9 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 		}
 
 		public void setSpeedInterval(float newMinSpeed, float newMaxSpeed) {
-			if (newMaxSpeed < newMinSpeed)
+			if (newMaxSpeed < newMinSpeed) {
 				throw new InvalidParameterException("Min speed can not be bigger than max speed");
+			}
 			this.minSpeed = newMinSpeed;
 			this.maxSpeed = newMaxSpeed;
 		}
@@ -112,18 +113,15 @@ public interface IJumpParamterProvider<EntityT extends EntityLivingBase> {
 	public static class AttackTargetAdapter<EntityT extends EntityLiving> extends ConstantAirTimeAdapter<EntityT> {
 
 		public AttackTargetAdapter(float jumpTimeInTicks) {
-			super(jumpTimeInTicks, new ITargetResolver<EntityT>() {
-				@Override
-				public Vec3d getJumpTarget(EntityLiving entity) {
-					EntityLivingBase attackTarget = entity.getAttackTarget();
-					Vec3d target;
-					if (attackTarget != null) {
-						target = WorldHelper.getEntityPositionVector(attackTarget);
-					} else {
-						target = WorldHelper.getEntityPositionVector(entity);
-					}
-					return target;
+			super(jumpTimeInTicks, entity -> {
+				EntityLivingBase attackTarget = entity.getAttackTarget();
+				Vec3d target;
+				if (attackTarget != null) {
+					target = attackTarget.getPositionVector();
+				} else {
+					target = entity.getPositionVector();
 				}
+				return target;
 			});
 		}
 	}

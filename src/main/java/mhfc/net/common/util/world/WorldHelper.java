@@ -68,16 +68,10 @@ public class WorldHelper {
 	 * @return the vector between them
 	 */
 	public static Vec3d getVectorToTarget(Entity entity, Entity target) {
-		Vec3d pos = getEntityPositionVector(entity);
-		Vec3d entityToTarget = getEntityPositionVector(target);
+		Vec3d pos = entity.getPositionVector();
+		Vec3d entityToTarget = target.getPositionVector();
 		entityToTarget = pos.subtract(entityToTarget);
 		return entityToTarget;
-	}
-
-	@Deprecated
-	public static Vec3d getEntityPositionVector(Entity entity) {
-		//FIXME: can deprecate that and just use entity.getPositionVector directly now
-		return entity.getPositionVector();
 	}
 
 	/**

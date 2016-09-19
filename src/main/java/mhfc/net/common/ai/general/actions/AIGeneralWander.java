@@ -10,7 +10,6 @@ import mhfc.net.common.ai.general.provider.simple.IMovementProvider;
 import mhfc.net.common.ai.general.provider.simple.IPathProvider;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
 import mhfc.net.common.entity.type.EntityMHFCBase;
-import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.Vec3d;
@@ -28,11 +27,11 @@ public abstract class AIGeneralWander<EntityT extends EntityMHFCBase<? super Ent
 		}
 
 		public RandomWanderProvider(int maxWanderDistance) {
-			if (maxWanderDistance < 0)
+			if (maxWanderDistance < 0) {
 				throw new IllegalArgumentException("The wander distance must not be negative");
+			}
 			this.wanderDistance = maxWanderDistance;
 		}
-		
 
 		private Random random = new Random(0);
 		private int wanderDistance;
@@ -45,7 +44,7 @@ public abstract class AIGeneralWander<EntityT extends EntityMHFCBase<? super Ent
 		@Override
 		public void initialize(EntityT actor) {
 			this.actor = Objects.requireNonNull(actor);
-			startingPosition = WorldHelper.getEntityPositionVector(actor);
+			startingPosition = actor.getPositionVector();
 			onWaypointReached();
 		}
 
@@ -56,7 +55,7 @@ public abstract class AIGeneralWander<EntityT extends EntityMHFCBase<? super Ent
 
 		@Override
 		public boolean hasWaypointReached() {
-			Vec3d position = WorldHelper.getEntityPositionVector(actor);
+			Vec3d position = actor.getPositionVector();
 			if (waypoint.subtract(position).lengthVector() < acceptedDistance) {
 				return true;
 			} else {
@@ -86,9 +85,9 @@ public abstract class AIGeneralWander<EntityT extends EntityMHFCBase<? super Ent
 	private IMovementProvider.TurnThenMoveAdapter<EntityT> turnThenMoveAdapter;
 
 	public AIGeneralWander(IMoveParameterProvider parameterProvider) {
-		selectIdleAdapter = new ISelectionPredicate.SelectIdleAdapter<EntityT>();
-		hasNoTargetAdapter = new IContinuationPredicate.HasNoTargetAdapter<EntityT>();
-		pathProvider = new RandomWanderProvider<EntityT>();
+		selectIdleAdapter = new ISelectionPredicate.SelectIdleAdapter<>();
+		hasNoTargetAdapter = new IContinuationPredicate.HasNoTargetAdapter<>();
+		pathProvider = new RandomWanderProvider<>();
 		turnThenMoveAdapter = new IMovementProvider.TurnThenMoveAdapter<>(pathProvider, parameterProvider, 6f);
 	}
 

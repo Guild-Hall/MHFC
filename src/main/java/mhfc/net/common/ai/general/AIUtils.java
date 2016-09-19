@@ -210,18 +210,17 @@ public class AIUtils {
 	 */
 	public static void damageCollidingEntities(EntityLivingBase ai, IDamageCalculator damageCalc) {
 		List<Entity> collidingEntities = WorldHelper.collidingEntities(ai);
-		
+
 		for (Entity trgt : collidingEntities) {
 			float damage = damageCalc.accept(trgt);
-			if(trgt instanceof EntityPlayer || trgt instanceof EntityMHFCBase){
-			
-			trgt.attackEntityFrom(DamageSource.causeMobDamage(ai), damage);
-		}
-			else{
-				trgt.attackEntityFrom(DamageHelper.anti	, damage);
+			if (trgt instanceof EntityPlayer || trgt instanceof EntityMHFCBase) {
+
+				trgt.attackEntityFrom(DamageSource.causeMobDamage(ai), damage);
+			} else {
+				trgt.attackEntityFrom(DamageHelper.anti, damage);
 			}
 		}
-			
+
 	}
 
 	public static IDamageCalculator defaultDamageCalc(final float player, final float wyvern, final float rest) {
@@ -329,7 +328,7 @@ public class AIUtils {
 	}
 
 	public static float getViewingAngle(EntityLiving actor, Vec3d point) {
-		Vec3d pos = WorldHelper.getEntityPositionVector(actor);
+		Vec3d pos = actor.getPositionVector();
 		Vec3d targetVector = pos.subtract(point);
 		return getViewing(actor, targetVector);
 	}
@@ -367,8 +366,14 @@ public class AIUtils {
 		for (int xC = minX; xC <= maxX; xC++) {
 			for (int yC = minY; yC <= maxY; yC++) {
 				for (int zC = minZ; zC <= maxZ; zC++) {
-					BlockPos dizBlock = new BlockPos(xC,yC,zC);
-					entity.worldObj.getBlockState(dizBlock).getBlock().addCollisionBoxToList(entity.worldObj.getBlockState(dizBlock), entity.worldObj, dizBlock, bounds, list, entity);
+					BlockPos dizBlock = new BlockPos(xC, yC, zC);
+					entity.worldObj.getBlockState(dizBlock).getBlock().addCollisionBoxToList(
+							entity.worldObj.getBlockState(dizBlock),
+							entity.worldObj,
+							dizBlock,
+							bounds,
+							list,
+							entity);
 				}
 			}
 		}

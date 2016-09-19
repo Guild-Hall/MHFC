@@ -66,8 +66,8 @@ public class Run extends ActionAdapter<EntityTigrex> {
 			@Override
 			public void update(Run attk) {
 				EntityTigrex tigrex = attk.getEntity();
-				Vec3d tigPos = WorldHelper.getEntityPositionVector(tigrex);
-				Vec3d vecToTarget = tigPos.subtract(WorldHelper.getEntityPositionVector(attk.target));
+				Vec3d tigPos = tigrex.getPositionVector();
+				Vec3d vecToTarget = tigPos.subtract(attk.target.getPositionVector());
 				tigrex.getTurnHelper().updateTargetPoint(attk.target);
 				tigrex.moveForward(RUN_SPEED, true);
 				Vec3d look = tigrex.getLookVec();

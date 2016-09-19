@@ -3,7 +3,6 @@ package mhfc.net.common.ai.general;
 import java.util.Objects;
 
 import mhfc.net.common.entity.type.EntityMHFCBase;
-import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
@@ -78,7 +77,7 @@ public class TargetTurnHelper {
 		if (targetPoint == null) {
 			return;
 		}
-		Vec3d entityPos = WorldHelper.getEntityPositionVector(entity);
+		Vec3d entityPos = entity.getPositionVector();
 		Vec3d vecToTarget = entityPos.subtract(targetPoint);
 		float newYaw = AIUtils.modifyYaw(entity.getLookVec(), vecToTarget.normalize(), maxTurnSpeed);
 		if (!Float.isNaN(newYaw)) {

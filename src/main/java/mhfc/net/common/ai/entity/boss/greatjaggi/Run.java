@@ -67,7 +67,7 @@ public class Run extends ActionAdapter<EntityGreatJaggi> {
 			public void update(Run attk) {
 				EntityGreatJaggi monster = attk.getEntity();
 				Vec3d entityPos = monster.getPositionVector();
-				Vec3d vecToTarget = entityPos.subtract(WorldHelper.getEntityPositionVector(attk.target));
+				Vec3d vecToTarget = entityPos.subtract(attk.target.getPositionVector());
 				monster.getTurnHelper().updateTargetPoint(attk.target);
 				monster.moveForward(RUN_SPEED, true);
 				Vec3d look = monster.getLookVec();
