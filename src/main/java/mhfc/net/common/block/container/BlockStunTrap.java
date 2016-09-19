@@ -8,6 +8,8 @@ import mhfc.net.common.tile.TileStunTrap;
 import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -25,7 +27,9 @@ import net.minecraft.world.World;
 
 // FIXME: fix the stun trap, currently logic is in the block that should be in the tile and other way around
 public class BlockStunTrap extends BlockContainer {
-	private AxisAlignedBB BOUNDS = new AxisAlignedBB(
+	public static final PropertyBool ACTIVE = PropertyBool.create("active");
+
+	private static final AxisAlignedBB BOUNDS = new AxisAlignedBB(
 			1F / 16F * 5F,
 			0,
 			1F / 16F * 5F,
@@ -44,6 +48,11 @@ public class BlockStunTrap extends BlockContainer {
 	@Override
 	public TileEntity createNewTileEntity(World world, int var1) {
 		return new TileStunTrap();
+	}
+
+	@Override
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, ACTIVE);
 	}
 
 	@Override
@@ -73,8 +82,8 @@ public class BlockStunTrap extends BlockContainer {
 			float hitX,
 			float hitY,
 			float hitZ) {
-		if (state == stateActive) {
-			world.setBlockState(pos, stateInactive, 3);
+		if (state.getValue(ACTIVE)) {
+			world.setBlockState(pos, state.withProperty(ACTIVE, false), 3);
 			return true;
 		}
 		return false;
@@ -93,7 +102,7 @@ public class BlockStunTrap extends BlockContainer {
 		EntityLivingBase entityliving = (EntityLivingBase) entity;
 		entityliving.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().stun, 500, 10));
 
-		world.setBlockState(pos, stateActive);
+		world.setBlockState(pos, state.withProperty(ACTIVE, true));
 		return;
 	}
 
