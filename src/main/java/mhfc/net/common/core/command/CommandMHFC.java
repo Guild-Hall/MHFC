@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.eventhandler.MHFCInteractionHandler;
+import mhfc.net.common.network.handler.MHFCInteractionHandler;
 import mhfc.net.common.network.message.quest.MessageMHFCInteraction;
 import mhfc.net.common.network.message.quest.MessageMHFCInteraction.Interaction;
 import net.minecraft.command.CommandBase;

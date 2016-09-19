@@ -1,8 +1,8 @@
 package mhfc.net.common.core.registry;
 
-import mhfc.net.client.quests.QuestClientInitHandler;
-import mhfc.net.client.quests.QuestScreenVisualHandler;
-import mhfc.net.client.quests.QuestStatusHandler;
+import mhfc.net.client.network.handler.QuestClientInitHandler;
+import mhfc.net.client.network.handler.QuestScreenVisualHandler;
+import mhfc.net.client.network.handler.QuestStatusHandler;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.BeginCraftingHandler;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.BenchRefreshHandler;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.CancelRecipeHandler;
@@ -10,11 +10,11 @@ import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.CraftingUpdate
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.SetRecipeHandler;
 import mhfc.net.common.core.registry.MHFCQuestRegistry.RegistryRequestVisualHandler;
 import mhfc.net.common.core.registry.MHFCQuestRegistry.RunningSubscriptionHandler;
-import mhfc.net.common.core.registry.MHFCTileRegistry.TileUpdateHandler;
-import mhfc.net.common.eventhandler.MHFCInteractionHandler;
 import mhfc.net.common.network.PacketPipeline;
+import mhfc.net.common.network.handler.MHFCInteractionHandler;
+import mhfc.net.common.network.handler.MessageAttackHandler;
+import mhfc.net.common.network.handler.TileUpdateHandler;
 import mhfc.net.common.network.message.MessageAIAction;
-import mhfc.net.common.network.message.MessageAttackHandler;
 import mhfc.net.common.network.message.MessageExploreTileUpdate;
 import mhfc.net.common.network.message.bench.MessageBeginCrafting;
 import mhfc.net.common.network.message.bench.MessageBenchRefreshRequest;
@@ -35,8 +35,8 @@ public class MHFCPacketRegistry {
 
 	public static void init() {
 		PacketPipeline.registerPacket(MessageAttackHandler.class, MessageAIAction.class, Side.CLIENT);
-
 		PacketPipeline.registerPacket(TileUpdateHandler.class, MessageTileUpdate.class, Side.CLIENT);
+
 		PacketPipeline.registerPacket(BeginCraftingHandler.class, MessageBeginCrafting.class, Side.SERVER);
 		PacketPipeline.registerPacket(SetRecipeHandler.class, MessageSetRecipe.class, Side.SERVER);
 		PacketPipeline.registerPacket(CancelRecipeHandler.class, MessageCancelRecipe.class, Side.SERVER);

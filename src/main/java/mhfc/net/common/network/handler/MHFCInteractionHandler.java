@@ -1,4 +1,4 @@
-package mhfc.net.common.eventhandler;
+package mhfc.net.common.network.handler;
 
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.network.message.quest.MessageMHFCInteraction;
@@ -8,10 +8,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class MHFCInteractionHandler implements IMessageHandler<MessageMHFCInteraction, IMessage> {
+public class MHFCInteractionHandler extends ThreadSafeMessageHandler<MessageMHFCInteraction, IMessage> {
 
 	@Cancelable
 	public static class MHFCInteractionEvent extends Event {
@@ -63,10 +62,9 @@ public class MHFCInteractionHandler implements IMessageHandler<MessageMHFCIntera
 	}
 
 	@Override
-	public IMessage onMessage(MessageMHFCInteraction message, MessageContext ctx) {
+	public void handle(MessageMHFCInteraction message, MessageContext ctx) {
 		EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 		onInteraction(player, message);
-		return null;
 	}
 
 	public static void onInteraction(EntityPlayerMP player, MessageMHFCInteraction message) {

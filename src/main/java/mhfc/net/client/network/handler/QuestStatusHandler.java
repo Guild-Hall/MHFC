@@ -1,6 +1,7 @@
-package mhfc.net.client.quests;
+package mhfc.net.client.network.handler;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.network.message.quest.MessageMissionStatus;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;

@@ -160,7 +160,7 @@ public class MHFCRegQuestVisual {
 		setVisual(Optional.empty());
 	}
 
-	protected void logStats() {
+	public void logStats() {
 		QuestDescriptionRegistry dataObject = clientDataObject;
 		int numberQuests = dataObject.getFullQuestDescriptionMap().size();
 		int numberGroups = dataObject.getGroupsInOrder().size();

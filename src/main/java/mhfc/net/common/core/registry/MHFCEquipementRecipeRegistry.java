@@ -28,6 +28,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MHFCEquipementRecipeRegistry {
 
+	// FIXME: make them threadsafe
 	public static class BenchRefreshHandler
 			implements
 			IMessageHandler<MessageBenchRefreshRequest, MessageCraftingUpdate> {
@@ -79,7 +80,6 @@ public class MHFCEquipementRecipeRegistry {
 			}
 			return null;
 		}
-
 	}
 
 	public static TileHunterBench getHunterBenchServer(MessageTileLocation message) {
