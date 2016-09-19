@@ -301,62 +301,64 @@ public class MHFCGuiUtil {
 			float maxV) {
 		Tessellator tess = Tessellator.getInstance();
 		VertexBuffer buff = tess.getBuffer();
+
 		buff.begin(GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		// Left-upper corner
 		buff.pos(x, y, zLevel).tex(0, 0).endVertex();
 		buff.pos(x, y + borderSize, zLevel).tex(0, borderV).endVertex();
 		buff.pos(x + borderSize, y + borderSize, zLevel).tex(borderU, borderV).endVertex();
 		buff.pos(x + borderSize, y, zLevel).tex(borderU, 0).endVertex();
-
+		// Right-upper corner
 		buff.setTranslation(width - borderSize, 0, 0);
 		buff.pos(x, y, zLevel).tex(maxU - borderU, 0).endVertex();
 		buff.pos(x, y + borderSize, zLevel).tex(maxU - borderU, borderV).endVertex();
 		buff.pos(x + borderSize, y + borderSize, zLevel).tex(maxU, borderV).endVertex();
 		buff.pos(x + borderSize, y, zLevel).tex(maxU, 0).endVertex();
-
+		// Left-lower corner
 		buff.setTranslation(0, height - borderSize, 0);
-		buff.pos(x, y, zLevel).tex(maxU - borderU, maxV - borderV).endVertex();
-		buff.pos(x, y + borderSize, zLevel).tex(maxU - borderU, maxV).endVertex();
-		buff.pos(x + borderSize, y + borderSize, zLevel).tex(maxU, maxV).endVertex();
-		buff.pos(x + borderSize, y, zLevel).tex(maxU, maxV - borderV).endVertex();
-
-		buff.setTranslation(-width + borderSize, 0, 0);
 		buff.pos(x, y, zLevel).tex(0, maxV - borderV).endVertex();
 		buff.pos(x, y + borderSize, zLevel).tex(0, maxV).endVertex();
 		buff.pos(x + borderSize, y + borderSize, zLevel).tex(borderU, maxV).endVertex();
 		buff.pos(x + borderSize, y, zLevel).tex(borderU, maxV - borderV).endVertex();
-
-		buff.setTranslation(0, -height + borderSize, 0);
+		// Right-lower corner
+		buff.setTranslation(width - borderSize, height - borderSize, 0);
+		buff.pos(x, y, zLevel).tex(maxU - borderU, maxV - borderV).endVertex();
+		buff.pos(x, y + borderSize, zLevel).tex(maxU - borderU, maxV).endVertex();
+		buff.pos(x + borderSize, y + borderSize, zLevel).tex(maxU, maxV).endVertex();
+		buff.pos(x + borderSize, y, zLevel).tex(maxU, maxV - borderV).endVertex();
+		// Left side
+		buff.setTranslation(0, 0, 0);
 		buff.pos(x, y + borderSize, zLevel).tex(0, borderV).endVertex();
 		buff.pos(x, y + height - borderSize, zLevel).tex(0, maxV - borderV).endVertex();
 		buff.pos(x + borderSize, y + height - borderSize, zLevel).tex(borderU, maxV - borderV).endVertex();
 		buff.pos(x + borderSize, y + borderSize, zLevel).tex(borderU, borderV).endVertex();
-
-		buff.pos(x + width - borderSize, y + borderSize, zLevel).tex(maxU - borderU, borderV).endVertex();
-		buff.pos(x + width - borderSize, y + height - borderSize, zLevel).tex(maxU - borderU, maxV - borderV)
-				.endVertex();
-		buff.pos(x + width, y + height - borderSize, zLevel).tex(maxU, maxV - borderV).endVertex();
-		buff.pos(x + width, y + borderSize, zLevel).tex(maxU, borderV).endVertex();
-
+		// Right side
+		buff.setTranslation(width, 0, 0);
+		buff.pos(x - borderSize, y + borderSize, zLevel).tex(maxU - borderU, borderV).endVertex();
+		buff.pos(x - borderSize, y + height - borderSize, zLevel).tex(maxU - borderU, maxV - borderV).endVertex();
+		buff.pos(x, y + height - borderSize, zLevel).tex(maxU, maxV - borderV).endVertex();
+		buff.pos(x, y + borderSize, zLevel).tex(maxU, borderV).endVertex();
+		// Upper side
+		buff.setTranslation(0, 0, 0);
 		buff.pos(x + borderSize, y, zLevel).tex(borderU, 0).endVertex();
 		buff.pos(x + borderSize, y + borderSize, zLevel).tex(borderU, borderV).endVertex();
 		buff.pos(x + width - borderSize, y + borderSize, zLevel).tex(maxU - borderU, borderV).endVertex();
 		buff.pos(x + width - borderSize, y, zLevel).tex(maxU - borderU, 0).endVertex();
-		tess.draw();
-
-		buff.begin(GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-		buff.pos(x + borderSize, y + height - borderSize, zLevel).tex(borderU, maxV - borderV).endVertex();
-		buff.pos(x + borderSize, y + height, zLevel).tex(borderU, maxV).endVertex();
-		buff.pos(x + width - borderSize, y + height, zLevel).tex(maxU - borderU, maxV).endVertex();
-		buff.pos(x + width - borderSize, y + height - borderSize, zLevel).tex(maxU - borderU, maxV - borderV)
-				.endVertex();
-
+		// Lower side
+		buff.setTranslation(0, height, 0);
+		buff.pos(x + borderSize, y - borderSize, zLevel).tex(borderU, maxV - borderV).endVertex();
+		buff.pos(x + borderSize, y, zLevel).tex(borderU, maxV).endVertex();
+		buff.pos(x + width - borderSize, y, zLevel).tex(maxU - borderU, maxV).endVertex();
+		buff.pos(x + width - borderSize, y - borderSize, zLevel).tex(maxU - borderU, maxV - borderV).endVertex();
+		// Middle
+		buff.setTranslation(0, 0, 0);
 		buff.pos(x + borderSize, y + borderSize, zLevel).tex(borderU, borderV).endVertex();
 		buff.pos(x + borderSize, y + height - borderSize, zLevel).tex(borderU, maxV - borderV).endVertex();
 		buff.pos(x + width - borderSize, y + height - borderSize, zLevel).tex(maxU - borderU, maxV - borderV)
 				.endVertex();
 		buff.pos(x + width - borderSize, y + borderSize, zLevel).tex(maxU - borderU, borderV).endVertex();
 		tess.draw();
-
+		buff.setTranslation(0, 0, 0);
 	}
 
 	public static void setColor(int colorRGB) {
