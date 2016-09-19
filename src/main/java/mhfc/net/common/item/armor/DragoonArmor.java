@@ -28,7 +28,7 @@ public class DragoonArmor extends ItemExclusiveArmor {
 				type,
 				makeDefaultSlotToTex(MHFCReference.armor_dragoon_tex1, MHFCReference.armor_dragoon_tex2),
 				makeDefaultSlotToModel(ArmorModelHelper.dragoon));
-		setUnlocalizedName(names[4 - type.getIndex()]);
+		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override

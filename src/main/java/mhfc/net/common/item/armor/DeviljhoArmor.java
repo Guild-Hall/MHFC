@@ -18,6 +18,6 @@ public class DeviljhoArmor extends ItemArmorMHFC {
 				type,
 				makeDefaultSlotToTex(MHFCReference.armor_deviljho_tex1, MHFCReference.armor_deviljho_tex2),
 				makeDefaultSlotToModel(ArmorModelHelper.deviljho));
-		setUnlocalizedName(names[4 - type.getIndex()]);
+		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 }

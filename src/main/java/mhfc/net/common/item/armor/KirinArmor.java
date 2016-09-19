@@ -21,7 +21,7 @@ public class KirinArmor extends ItemArmorMHFC {
 				type,
 				makeDefaultSlotToTex(MHFCReference.armor_kirin_tex1, MHFCReference.armor_kirin_tex2),
 				makeDefaultSlotToModel(ArmorModelHelper.kirin));
-		setUnlocalizedName(names[4 - type.getIndex()]);
+		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override

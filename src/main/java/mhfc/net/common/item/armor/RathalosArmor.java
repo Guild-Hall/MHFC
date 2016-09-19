@@ -22,7 +22,7 @@ public class RathalosArmor extends ItemArmorMHFC {
 				type,
 				makeDefaultSlotToTex(MHFCReference.armor_rathalos_tex1, MHFCReference.armor_rathalos_tex2),
 				makeDefaultSlotToModel(ArmorModelHelper.rathalos));
-		setUnlocalizedName(names[4 - type.getIndex()]);
+		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override

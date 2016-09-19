@@ -30,7 +30,7 @@ public class ST_BionicArmor extends ItemExclusiveArmor {
 				type,
 				makeDefaultSlotToTex(MHFCReference.armor_bionic_tex1, MHFCReference.armor_bionic_tex2),
 				makeDefaultSlotToModel(ArmorModelHelper.bionic));
-		setUnlocalizedName(names[4 - type.getIndex()]);
+		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override

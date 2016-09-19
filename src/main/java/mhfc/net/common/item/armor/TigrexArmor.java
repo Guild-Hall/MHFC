@@ -23,7 +23,7 @@ public class TigrexArmor extends ItemArmorMHFC {
 				type,
 				makeDefaultSlotToTex(MHFCReference.armor_tigrex_tex1, MHFCReference.armor_tigrex_tex2),
 				makeDefaultSlotToModel(ArmorModelHelper.tigrex));
-		setUnlocalizedName(names[4 - type.getIndex()]);
+		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override

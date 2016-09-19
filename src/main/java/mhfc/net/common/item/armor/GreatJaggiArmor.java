@@ -18,6 +18,6 @@ public class GreatJaggiArmor extends ItemArmorMHFC {
 				type,
 				makeDefaultSlotToTex(MHFCReference.armor_greatjaggi_tex1, MHFCReference.armor_greatjaggi_tex2),
 				makeDefaultSlotToModel(ArmorModelHelper.jaggi));
-		setUnlocalizedName(names[4 - type.getIndex()]);
+		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 }
