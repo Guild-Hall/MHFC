@@ -42,7 +42,7 @@ public abstract class AIGeneralRoar<EntityT extends EntityMHFCBase<? super Entit
 		EntityT roaringEntity = getEntity();
 		List<Entity> list = roaringEntity.worldObj.getEntitiesWithinAABBExcludingEntity(
 				roaringEntity,
-				roaringEntity.getCollisionBoundingBox().expand(4.0D, 3.0D, 4.0D));
+				roaringEntity.getEntityBoundingBox().expand(4.0D, 3.0D, 4.0D));
 
 		for (Entity affectedEntity : list) {
 			if (!affectedEntities.contains(affectedEntity) && affectedEntity instanceof EntityLivingBase) {

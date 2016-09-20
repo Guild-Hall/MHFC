@@ -8,6 +8,7 @@ import java.util.Random;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IManagedActions;
@@ -441,6 +442,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	@Override
 	public RenderPassInformation preRenderCallback(float subFrame, RenderPassInformation passInfo) {
+		if (subFrame < 0 || subFrame > 1) {
+			MHFCMain.logger().error("Wrong subframe " + subFrame);
+		}
 		return passInfo.setAnimation(Optional.ofNullable(attackManager.getCurrentAnimation()))
 				.setFrame(getCurrentFrame() + subFrame);
 	}

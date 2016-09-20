@@ -98,9 +98,10 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	}
 
 	@Override
-	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
+	public RenderPassInformation preRenderCallback(float subFrame, RenderPassInformation sub) {
+		//GL11.glTranslatef(0, 2.0f, 0);
 		GL11.glScaled(2.3, 2.3, 2.3);
-		return super.preRenderCallback(scale, sub);
+		return super.preRenderCallback(subFrame, sub);
 	}
 
 	@Override
