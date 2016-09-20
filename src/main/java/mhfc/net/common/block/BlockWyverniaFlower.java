@@ -23,19 +23,17 @@ import net.minecraft.world.IBlockAccess;
 
 public class BlockWyverniaFlower extends BlockWyverniaDecor implements ISubTypedBlock<WyverniaFlowerSubType> {
 	public static enum WyverniaFlowerSubType implements SubTypedItem.SubTypeEnum<Block> {
-		CARNCASE(ResourceInterface.block_carncase_name, ResourceInterface.block_carncase_tex),
-		FELRON(ResourceInterface.block_felron_name, ResourceInterface.block_felron_tex),
-		ORCTAL(ResourceInterface.block_orctal_name, ResourceInterface.block_orctal_tex),
-		PENO(ResourceInterface.block_peno_name, ResourceInterface.block_peno_tex),
-		SHRINE(ResourceInterface.block_shrine_name, ResourceInterface.block_shrine_tex),
-		SPINDEL(ResourceInterface.block_spindel_name, ResourceInterface.block_spindel_tex);
+		CARNCASE(ResourceInterface.block_carncase_name),
+		FELRON(ResourceInterface.block_felron_name),
+		ORCTAL(ResourceInterface.block_orctal_name),
+		PENO(ResourceInterface.block_peno_name),
+		SHRINE(ResourceInterface.block_shrine_name),
+		SPINDEL(ResourceInterface.block_spindel_name);
 
 		public final String name;
-		public final String texture;
 
-		private WyverniaFlowerSubType(String name, String tex) {
+		private WyverniaFlowerSubType(String name) {
 			this.name = name;
-			this.texture = tex;
 		}
 
 		@Override
