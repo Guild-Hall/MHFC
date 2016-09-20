@@ -108,25 +108,13 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	}
 
-	public abstract IActionManager<YC> constructActionManager();
+	protected abstract IActionManager<YC> constructActionManager();
 
 	/**
 	 * Specialize the return type to a {@link EntityMHFCPart}
 	 */
 	@Override
 	public abstract EntityMHFCPart[] getParts();
-
-	/**
-	 * Drops the given item near this entity in the world. Utility method
-	 *
-	 * @param item
-	 *            the item to drop
-	 * @param count
-	 *            the stack size
-	 */
-	public void dropItemRand(Item item, int count) {
-		dropItemRand(new ItemStack(item, count, 0));
-	}
 
 	protected void specificArmorValue(int value) {
 		value = armorValue;
@@ -215,7 +203,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		this.dataManager.register(ANIM_FRAME, Integer.valueOf(-1));
 	}
 
-	public void dropItemRand(ItemStack stack) {
+	protected void dropItemRand(ItemStack stack) {
 		Random rand = worldObj.rand;
 		EntityItem entityItem = new EntityItem(
 				this.worldObj,
@@ -224,6 +212,18 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 				posZ + rand.nextInt(10) - 5,
 				stack);
 		worldObj.spawnEntityInWorld(entityItem);
+	}
+
+	/**
+	 * Drops the given item near this entity in the world. Utility method
+	 *
+	 * @param item
+	 *            the item to drop
+	 * @param count
+	 *            the stack size
+	 */
+	protected void dropItemRand(Item item, int count) {
+		dropItemRand(new ItemStack(item, count, 0));
 	}
 
 	public double healthbaseHP(double defaultHP) {

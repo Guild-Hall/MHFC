@@ -25,7 +25,7 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 	}
 
 	@Override
-	public IActionManager<EntityDelex> constructActionManager() {
+	protected IActionManager<EntityDelex> constructActionManager() {
 		ActionManagerBuilder<EntityDelex> actionManager = new ActionManagerBuilder<>();
 		actionManager.registerAction(new Idle());
 		actionManager.registerAction(setDeathAction(new Death()));
@@ -38,7 +38,7 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 	}
 
 	@Override
-	public void applyEntityAttributes() {
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		//default hp 416D
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(180D));
@@ -51,7 +51,7 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 	}
 
 	@Override
-	public void entityInit() {
+	protected void entityInit() {
 		super.entityInit();
 	}
 

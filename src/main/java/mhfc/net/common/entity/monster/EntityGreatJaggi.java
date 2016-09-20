@@ -31,7 +31,7 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 	}
 
 	@Override
-	public IActionManager<EntityGreatJaggi> constructActionManager() {
+	protected IActionManager<EntityGreatJaggi> constructActionManager() {
 		ActionManagerBuilder<EntityGreatJaggi> actionManager = new ActionManagerBuilder<>();
 		actionManager.registerAction(new Bite());
 		actionManager.registerAction(new Idle());
@@ -50,7 +50,7 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 	}
 
 	@Override
-	public void applyEntityAttributes() {
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		// default 2653
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(8553D));

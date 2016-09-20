@@ -69,7 +69,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	}
 
 	@Override
-	public IActionManager<EntityNargacuga> constructActionManager() {
+	protected IActionManager<EntityNargacuga> constructActionManager() {
 		FollowUpManagerBuilder<EntityNargacuga> attackManager = new FollowUpManagerBuilder<>();
 		TailSlam tailSlam = new TailSlam();
 		Roar roar = new Roar();
@@ -102,7 +102,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	}
 
 	@Override
-	public void applyEntityAttributes() {
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		//default is 10721D
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(19721D));

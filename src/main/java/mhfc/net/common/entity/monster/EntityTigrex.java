@@ -53,7 +53,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	}
 
 	@Override
-	public IActionManager<EntityTigrex> constructActionManager() {
+	protected IActionManager<EntityTigrex> constructActionManager() {
 		FollowUpManagerBuilder<EntityTigrex> manager = new FollowUpManagerBuilder<>();
 		manager.registerAllowingAllActions(setDeathAction(new Death()));
 		manager.registerAllowingAllActions(new TurnAttack(110, 180, 5f, 12f, 20));
@@ -75,7 +75,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	}
 
 	@Override
-	public void applyEntityAttributes() {
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(20432D));
 	}

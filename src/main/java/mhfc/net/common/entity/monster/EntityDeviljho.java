@@ -43,7 +43,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	}
 
 	@Override
-	public IActionManager<EntityDeviljho> constructActionManager() {
+	protected IActionManager<EntityDeviljho> constructActionManager() {
 		ActionManagerBuilder<EntityDeviljho> attackManager = new ActionManagerBuilder<>();
 		attackManager.registerAction(setDeathAction(new Death()));
 		attackManager.registerAction(new Idle());
@@ -67,7 +67,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	}
 
 	@Override
-	public void applyEntityAttributes() {
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(42253D));
 	}
@@ -106,8 +106,5 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		dropItemRand(SubTypedItem.fromSubItem(DeviljhoSubType.TALON, 1));
 		dropItemRand(SubTypedItem.fromSubItem(DeviljhoSubType.TAIL, 1));
 	}
-
-	boolean CamShake = false;
-	float CamShakeIntensity;
 
 }

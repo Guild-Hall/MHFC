@@ -23,7 +23,7 @@ public class EntityGiaprey extends EntityMHFCBase<EntityGiaprey> {
 	}
 
 	@Override
-	public IActionManager<EntityGiaprey> constructActionManager() {
+	protected IActionManager<EntityGiaprey> constructActionManager() {
 		ActionManagerBuilder<EntityGiaprey> actionManager = new ActionManagerBuilder<>();
 		return actionManager.build(this);
 	}
@@ -34,7 +34,7 @@ public class EntityGiaprey extends EntityMHFCBase<EntityGiaprey> {
 	}
 
 	@Override
-	public void applyEntityAttributes() {
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(5500D));
 	}

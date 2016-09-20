@@ -23,7 +23,7 @@ public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
 	}
 
 	@Override
-	public IActionManager<EntityUkanlos> constructActionManager() {
+	protected IActionManager<EntityUkanlos> constructActionManager() {
 		ActionManagerBuilder<EntityUkanlos> manager = new ActionManagerBuilder<>();
 		return manager.build(this);
 	}
@@ -34,7 +34,7 @@ public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
 	}
 
 	@Override
-	public void applyEntityAttributes() {
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(95391D));
 	}

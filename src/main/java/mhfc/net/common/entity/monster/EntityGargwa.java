@@ -27,7 +27,7 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 	}
 
 	@Override
-	public IActionManager<EntityGargwa> constructActionManager() {
+	protected IActionManager<EntityGargwa> constructActionManager() {
 		ActionManagerBuilder<EntityGargwa> actionManager = new ActionManagerBuilder<>();
 		//	actionManager.registerAction(new GaguaPeck());
 		actionManager.registerAction(new Idle1());
@@ -44,7 +44,7 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 	}
 
 	@Override
-	public void applyEntityAttributes() {
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(300D));
 	}

@@ -26,7 +26,7 @@ public class EntityKirin extends EntityMHFCBase<EntityKirin> {
 	}
 
 	@Override
-	public IActionManager<EntityKirin> constructActionManager() {
+	protected IActionManager<EntityKirin> constructActionManager() {
 		ActionManagerBuilder<EntityKirin> actionManager = new ActionManagerBuilder<>();
 		actionManager.registerAction(new Idle());
 		return actionManager.build(this);
@@ -38,7 +38,7 @@ public class EntityKirin extends EntityMHFCBase<EntityKirin> {
 	}
 
 	@Override
-	public void applyEntityAttributes() {
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		//default 13738
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(20D));

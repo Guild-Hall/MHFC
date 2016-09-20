@@ -35,7 +35,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	}
 
 	@Override
-	public IActionManager<EntityBarroth> constructActionManager() {
+	protected IActionManager<EntityBarroth> constructActionManager() {
 		ActionManagerBuilder<EntityBarroth> actionManager = new ActionManagerBuilder<>();
 		actionManager.registerAction(setDeathAction(new Death()));
 		actionManager.registerAction(new Wander());
@@ -48,7 +48,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	}
 
 	@Override
-	public void applyEntityAttributes() {
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		//default 8112
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(14655D));

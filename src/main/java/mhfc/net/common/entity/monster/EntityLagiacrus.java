@@ -31,7 +31,7 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 	}
 
 	@Override
-	public IActionManager<EntityLagiacrus> constructActionManager() {
+	protected IActionManager<EntityLagiacrus> constructActionManager() {
 		ActionManagerBuilder<EntityLagiacrus> actionManager = new ActionManagerBuilder<>();
 		actionManager.registerAction(new Wander());
 		actionManager.registerAction(new Sweep());
@@ -48,7 +48,7 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 	}
 
 	@Override
-	public void applyEntityAttributes() {
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		//default 13738
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(25100D));

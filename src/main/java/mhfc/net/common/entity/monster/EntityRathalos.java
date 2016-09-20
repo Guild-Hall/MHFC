@@ -83,7 +83,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	}
 
 	@Override
-	public IActionManager<EntityRathalos> constructActionManager() {
+	protected IActionManager<EntityRathalos> constructActionManager() {
 		ActionManagerBuilder<EntityRathalos> stancedAttackManager = new ActionManagerBuilder<>();
 		stancedAttackManager.registerAction(new Idle());
 		stancedAttackManager.registerAction(new Wander());
