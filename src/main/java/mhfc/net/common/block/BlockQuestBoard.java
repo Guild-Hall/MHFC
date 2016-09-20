@@ -6,6 +6,7 @@ import java.util.Random;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCContainerRegistry;
 import mhfc.net.common.tile.TileQuestBoard;
+import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -41,6 +42,7 @@ public class BlockQuestBoard extends BlockContainer {
 	public BlockQuestBoard() {
 		super(Material.WOOD);
 		setHardness(3.0f);
+		setUnlocalizedName(MHFCReference.block_questBoard_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 
