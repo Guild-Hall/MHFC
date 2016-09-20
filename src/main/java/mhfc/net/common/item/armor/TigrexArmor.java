@@ -20,11 +20,7 @@ public class TigrexArmor extends ItemArmorMHFC {
 			MHFCReference.armor_tigrex_legs_name, MHFCReference.armor_tigrex_boots_name };
 
 	public TigrexArmor(EntityEquipmentSlot type) {
-		super(
-				ArmorMaterialHelper.ArmorTigrex,
-				ItemRarity.R04,
-				type,
-				makeDefaultSlotToTex(MHFCReference.armor_tigrex_tex1, MHFCReference.armor_tigrex_tex2));
+		super(ArmorMaterialHelper.ArmorTigrex, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 

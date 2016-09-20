@@ -18,6 +18,14 @@ public abstract class ItemExclusiveArmor extends ItemArmorMHFC {
 			Privilege requirement,
 			ArmorMaterial armor,
 			ItemRarity rarity,
+			EntityEquipmentSlot armorType) {
+		this(requirement, armor, rarity, armorType, null);
+	}
+
+	public ItemExclusiveArmor(
+			Privilege requirement,
+			ArmorMaterial armor,
+			ItemRarity rarity,
 			EntityEquipmentSlot armorType,
 			Map<EntityEquipmentSlot, String> slotToTexture) {
 		super(armor, rarity, armorType, slotToTexture);

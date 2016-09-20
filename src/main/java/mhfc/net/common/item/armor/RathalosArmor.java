@@ -19,11 +19,7 @@ public class RathalosArmor extends ItemArmorMHFC {
 			MHFCReference.armor_rathalos_boots_name };
 
 	public RathalosArmor(EntityEquipmentSlot type) {
-		super(
-				ArmorMaterialHelper.ArmorRathalos,
-				ItemRarity.R04,
-				type,
-				makeDefaultSlotToTex(MHFCReference.armor_rathalos_tex1, MHFCReference.armor_rathalos_tex2));
+		super(ArmorMaterialHelper.ArmorRathalos, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 

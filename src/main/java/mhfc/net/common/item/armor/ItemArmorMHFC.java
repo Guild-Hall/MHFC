@@ -38,6 +38,10 @@ public abstract class ItemArmorMHFC extends ItemArmor {
 	protected final ItemRarity rarity;
 	private final Map<EntityEquipmentSlot, String> slotToTex;
 
+	public ItemArmorMHFC(ArmorMaterial armor, ItemRarity rarity, EntityEquipmentSlot armorType) {
+		this(armor, rarity, armorType, null);
+	}
+
 	/**
 	 *
 	 * @param armor
@@ -66,6 +70,9 @@ public abstract class ItemArmorMHFC extends ItemArmor {
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
+		if (slotToTex == null) {
+			return super.getArmorTexture(stack, entity, slot, type);
+		}
 		return slotToTex.getOrDefault(slot, MHFCReference.armor_null_tex);
 	}
 

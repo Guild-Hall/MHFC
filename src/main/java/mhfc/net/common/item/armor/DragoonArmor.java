@@ -19,17 +19,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class DragoonArmor extends ItemExclusiveArmor {
-	private static final String[] names = { MHFCReference.armor_default_helm_name,
-			MHFCReference.armor_default_chest_name, MHFCReference.armor_default_legs_name,
-			MHFCReference.armor_default_boots_name };
+	private static final String[] names = { MHFCReference.armor_dragoon_helm_name,
+			MHFCReference.armor_dragoon_chest_name, MHFCReference.armor_dragoon_legs_name,
+			MHFCReference.armor_dragoon_boots_name };
 
 	public DragoonArmor(EntityEquipmentSlot type) {
-		super(
-				DonatorSystem.dragoon,
-				ArmorMaterialHelper.ArmorDragoon,
-				ItemRarity.R04,
-				type,
-				makeDefaultSlotToTex(MHFCReference.armor_dragoon_tex1, MHFCReference.armor_dragoon_tex2));
+		super(DonatorSystem.dragoon, ArmorMaterialHelper.ArmorDragoon, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 

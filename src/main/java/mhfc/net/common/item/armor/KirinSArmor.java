@@ -24,12 +24,7 @@ public class KirinSArmor extends ItemExclusiveArmor {
 			MHFCReference.armor_kirinS_legs_name, MHFCReference.armor_kirinS_boots_name };
 
 	public KirinSArmor(EntityEquipmentSlot type) {
-		super(
-				DonatorSystem.kirinS,
-				ArmorMaterialHelper.ArmorKirinS,
-				ItemRarity.R04,
-				type,
-				makeDefaultSlotToTex(MHFCReference.armor_kirinS_tex1, MHFCReference.armor_kirinS_tex2));
+		super(DonatorSystem.kirinS, ArmorMaterialHelper.ArmorKirinS, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 

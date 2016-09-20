@@ -15,11 +15,7 @@ public class NibelsnarfArmor extends ItemArmorMHFC {
 			MHFCReference.armor_nibelsnarf_boots_name };
 
 	public NibelsnarfArmor(EntityEquipmentSlot type) {
-		super(
-				ArmorMaterialHelper.ArmorBarroth,
-				ItemRarity.R04,
-				type,
-				makeDefaultSlotToTex(MHFCReference.armor_nibelsnarf_tex1, MHFCReference.armor_nibelsnarf_tex2));
+		super(ArmorMaterialHelper.ArmorBarroth, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 

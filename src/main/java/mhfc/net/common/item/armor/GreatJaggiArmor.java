@@ -15,11 +15,7 @@ public class GreatJaggiArmor extends ItemArmorMHFC {
 			MHFCReference.armor_greatjaggi_boots_name };
 
 	public GreatJaggiArmor(EntityEquipmentSlot type) {
-		super(
-				ArmorMaterialHelper.ArmorGreatJaggi,
-				ItemRarity.R04,
-				type,
-				makeDefaultSlotToTex(MHFCReference.armor_greatjaggi_tex1, MHFCReference.armor_greatjaggi_tex2));
+		super(ArmorMaterialHelper.ArmorGreatJaggi, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 

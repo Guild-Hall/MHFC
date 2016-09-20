@@ -15,11 +15,7 @@ public class BarrothArmor extends ItemArmorMHFC {
 			MHFCReference.armor_barroth_boots_name };
 
 	public BarrothArmor(EntityEquipmentSlot type) {
-		super(
-				ArmorMaterialHelper.ArmorBarroth,
-				ItemRarity.R04,
-				type,
-				makeDefaultSlotToTex(MHFCReference.armor_barroth_tex1, MHFCReference.armor_barroth_tex2));
+		super(ArmorMaterialHelper.ArmorBarroth, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 

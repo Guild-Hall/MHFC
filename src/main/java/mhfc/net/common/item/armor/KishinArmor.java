@@ -20,11 +20,7 @@ public class KishinArmor extends ItemArmorMHFC {
 			MHFCReference.armor_tigrexb_boots_name };
 
 	public KishinArmor(EntityEquipmentSlot type) {
-		super(
-				ArmorMaterialHelper.ArmorTigrexB,
-				ItemRarity.R04,
-				type,
-				makeDefaultSlotToTex(MHFCReference.armor_tigrexb_tex1, MHFCReference.armor_tigrexb_tex2));
+		super(ArmorMaterialHelper.ArmorTigrexB, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 

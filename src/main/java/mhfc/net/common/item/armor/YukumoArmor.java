@@ -18,11 +18,7 @@ public class YukumoArmor extends ItemArmorMHFC {
 			MHFCReference.armor_yukumo_legs_name, MHFCReference.armor_yukumo_boots_name };
 
 	public YukumoArmor(EntityEquipmentSlot type) {
-		super(
-				ArmorMaterialHelper.ArmorYukumo,
-				ItemRarity.R04,
-				type,
-				makeDefaultSlotToTex(MHFCReference.armor_yukumo_tex1, MHFCReference.armor_yukumo_tex2));
+		super(ArmorMaterialHelper.ArmorYukumo, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 

@@ -15,11 +15,7 @@ public class VelocipreyArmor extends ItemArmorMHFC {
 			MHFCReference.armor_velociprey_boots_name };
 
 	public VelocipreyArmor(EntityEquipmentSlot type) {
-		super(
-				ArmorMaterialHelper.ArmorVelociprey,
-				ItemRarity.R04,
-				type,
-				makeDefaultSlotToTex(MHFCReference.armor_velociprey_tex1, MHFCReference.armor_velociprey_tex2));
+		super(ArmorMaterialHelper.ArmorVelociprey, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 

@@ -15,11 +15,7 @@ public class DeviljhoArmor extends ItemArmorMHFC {
 			MHFCReference.armor_deviljho_boots_name };
 
 	public DeviljhoArmor(EntityEquipmentSlot type) {
-		super(
-				ArmorMaterialHelper.ArmorBarroth,
-				ItemRarity.R04,
-				type,
-				makeDefaultSlotToTex(MHFCReference.armor_deviljho_tex1, MHFCReference.armor_deviljho_tex2));
+		super(ArmorMaterialHelper.ArmorBarroth, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 

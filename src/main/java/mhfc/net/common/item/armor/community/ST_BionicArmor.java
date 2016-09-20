@@ -26,12 +26,7 @@ public class ST_BionicArmor extends ItemExclusiveArmor {
 			MHFCReference.armor_bionic_legs_name, MHFCReference.armor_bionic_boots_name };
 
 	public ST_BionicArmor(EntityEquipmentSlot type) {
-		super(
-				DonatorSystem.bionic,
-				ArmorMaterialHelper.ArmorST_1_Bionic,
-				ItemRarity.R04,
-				type,
-				makeDefaultSlotToTex(MHFCReference.armor_bionic_tex1, MHFCReference.armor_bionic_tex2));
+		super(DonatorSystem.bionic, ArmorMaterialHelper.ArmorST_1_Bionic, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
