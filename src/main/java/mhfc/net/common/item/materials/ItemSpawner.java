@@ -105,13 +105,10 @@ public class ItemSpawner extends Item implements IItemColored {
 		if (!player.canPlayerEdit(pos.offset(facing), facing, stack)) {
 			return EnumActionResult.FAIL;
 		}
-		Entity entity = spawnCreature(world, stack, pos);
+		Entity entity = spawnCreature(world, stack, pos.up());
 
-		if (entity != null) {
-
-			if (!player.capabilities.isCreativeMode) {
-				--stack.stackSize;
-			}
+		if (entity != null && !player.capabilities.isCreativeMode) {
+			--stack.stackSize;
 		}
 		return EnumActionResult.SUCCESS;
 	}
