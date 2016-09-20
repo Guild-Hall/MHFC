@@ -246,64 +246,64 @@ public class MHFCItemRegistry {
 		 *
 		 */
 
-		arrow = registerItem(new ItemWyverniaArrow());
-
 		// Armor
-		armor_yukumo_helm = registerItem(new YukumoArmor(EntityEquipmentSlot.HEAD));
-		armor_velociprey_helm = registerItem(new VelocipreyArmor(EntityEquipmentSlot.HEAD));
-		armor_jaggi_helm = registerItem(new GreatJaggiArmor(EntityEquipmentSlot.HEAD));
-		armor_rathalos_helm = registerItem(new RathalosArmor(EntityEquipmentSlot.HEAD));
-		armor_nibelsnarf_helm = registerItem(new NibelsnarfArmor(EntityEquipmentSlot.HEAD));
-		armor_barroth_helm = registerItem(new BarrothArmor(EntityEquipmentSlot.HEAD));
-		armor_tigrex_helm = registerItem(new TigrexArmor(EntityEquipmentSlot.HEAD));
-		armor_kirin_helm = registerItem(new KirinArmor(EntityEquipmentSlot.HEAD));
-		armor_vangis_helm = registerItem(new DeviljhoArmor(EntityEquipmentSlot.HEAD));
-		armor_tigrexB_helm = registerItem(new KishinArmor(EntityEquipmentSlot.HEAD));
-		armor_dragoon_helm = registerItem(new DragoonArmor(EntityEquipmentSlot.HEAD));
-		armor_kirinS_helm = registerItem(new KirinSArmor(EntityEquipmentSlot.HEAD));
-		armor_bionic_helm = registerItem(new ST_BionicArmor(EntityEquipmentSlot.HEAD));
+		armor_yukumo_helm = registerItem("arm_yukumo_helmet", new YukumoArmor(EntityEquipmentSlot.HEAD));
+		armor_velociprey_helm = registerItem("arm_veloci_helmet", new VelocipreyArmor(EntityEquipmentSlot.HEAD));
+		armor_jaggi_helm = registerItem("arm_great_jaggi_helmet", new GreatJaggiArmor(EntityEquipmentSlot.HEAD));
+		armor_rathalos_helm = registerItem("arm_rathalos_helmet", new RathalosArmor(EntityEquipmentSlot.HEAD));
+		armor_nibelsnarf_helm = registerItem("arm_nibelsnarf_helmet", new NibelsnarfArmor(EntityEquipmentSlot.HEAD));
+		armor_barroth_helm = registerItem("arm_barroth_helmet", new BarrothArmor(EntityEquipmentSlot.HEAD));
+		armor_tigrex_helm = registerItem("arm_tigrex_helmet", new TigrexArmor(EntityEquipmentSlot.HEAD));
+		armor_kirin_helm = registerItem("arm_kirin_helmet", new KirinArmor(EntityEquipmentSlot.HEAD));
+		armor_vangis_helm = registerItem("arm_deviljho_helmet", new DeviljhoArmor(EntityEquipmentSlot.HEAD));
+		armor_tigrexB_helm = registerItem("arm_tigrex_plus_helmet", new KishinArmor(EntityEquipmentSlot.HEAD));
+		armor_dragoon_helm = registerItem("arm_dragoon_helmet", new DragoonArmor(EntityEquipmentSlot.HEAD));
+		armor_kirinS_helm = registerItem("arm_kirin_s_helmet", new KirinSArmor(EntityEquipmentSlot.HEAD));
+		armor_bionic_helm = registerItem("arm_bionic_helmet", new ST_BionicArmor(EntityEquipmentSlot.HEAD));
 
-		armor_yukumo_chest = registerItem(new YukumoArmor(EntityEquipmentSlot.CHEST));
-		armor_velociprey_chest = registerItem(new VelocipreyArmor(EntityEquipmentSlot.CHEST));
-		armor_jaggi_chest = registerItem(new GreatJaggiArmor(EntityEquipmentSlot.CHEST));
-		armor_rathalos_chest = registerItem(new RathalosArmor(EntityEquipmentSlot.CHEST));
-		armor_nibelsnarf_chest = registerItem(new NibelsnarfArmor(EntityEquipmentSlot.CHEST));
-		armor_barroth_chest = registerItem(new BarrothArmor(EntityEquipmentSlot.CHEST));
-		armor_tigrex_chest = registerItem(new TigrexArmor(EntityEquipmentSlot.CHEST));
-		armor_kirin_chest = registerItem(new KirinArmor(EntityEquipmentSlot.CHEST));
-		armor_vangis_chest = registerItem(new DeviljhoArmor(EntityEquipmentSlot.CHEST));
-		armor_tigrexB_chest = registerItem(new KishinArmor(EntityEquipmentSlot.CHEST));
-		armor_dragoon_chest = registerItem(new DragoonArmor(EntityEquipmentSlot.CHEST));
-		armor_kirinS_chest = registerItem(new KirinSArmor(EntityEquipmentSlot.CHEST));
-		armor_bionic_chest = registerItem(new ST_BionicArmor(EntityEquipmentSlot.CHEST));
+		armor_yukumo_chest = registerItem("arm_yukumo_chestplate", new YukumoArmor(EntityEquipmentSlot.CHEST));
+		armor_velociprey_chest = registerItem("arm_veloci_chestplate", new VelocipreyArmor(EntityEquipmentSlot.CHEST));
+		armor_jaggi_chest = registerItem("arm_great_jaggi_chestplate", new GreatJaggiArmor(EntityEquipmentSlot.CHEST));
+		armor_rathalos_chest = registerItem("arm_rathalos_chestplate", new RathalosArmor(EntityEquipmentSlot.CHEST));
+		armor_nibelsnarf_chest = registerItem(
+				"arm_nibelsnarf_chestplate",
+				new NibelsnarfArmor(EntityEquipmentSlot.CHEST));
+		armor_barroth_chest = registerItem("arm_barroth_chestplate", new BarrothArmor(EntityEquipmentSlot.CHEST));
+		armor_tigrex_chest = registerItem("arm_tigrex_chestplate", new TigrexArmor(EntityEquipmentSlot.CHEST));
+		armor_kirin_chest = registerItem("arm_kirin_chestplate", new KirinArmor(EntityEquipmentSlot.CHEST));
+		armor_vangis_chest = registerItem("arm_deviljho_chestplate", new DeviljhoArmor(EntityEquipmentSlot.CHEST));
+		armor_tigrexB_chest = registerItem("arm_tigrex_plus_chestplate", new KishinArmor(EntityEquipmentSlot.CHEST));
+		armor_dragoon_chest = registerItem("arm_dragoon_chestplate", new DragoonArmor(EntityEquipmentSlot.CHEST));
+		armor_kirinS_chest = registerItem("arm_kirin_s_chestplate", new KirinSArmor(EntityEquipmentSlot.CHEST));
+		armor_bionic_chest = registerItem("arm_bionic_chestplate", new ST_BionicArmor(EntityEquipmentSlot.CHEST));
 
-		armor_yukumo_legs = registerItem(new YukumoArmor(EntityEquipmentSlot.LEGS));
-		armor_velociprey_legs = registerItem(new VelocipreyArmor(EntityEquipmentSlot.LEGS));
-		armor_jaggi_legs = registerItem(new GreatJaggiArmor(EntityEquipmentSlot.LEGS));
-		armor_rathalos_legs = registerItem(new RathalosArmor(EntityEquipmentSlot.LEGS));
-		armor_nibelsnarf_legs = registerItem(new NibelsnarfArmor(EntityEquipmentSlot.LEGS));
-		armor_barroth_legs = registerItem(new BarrothArmor(EntityEquipmentSlot.LEGS));
-		armor_tigrex_legs = registerItem(new TigrexArmor(EntityEquipmentSlot.LEGS));
-		armor_kirin_legs = registerItem(new KirinArmor(EntityEquipmentSlot.LEGS));
-		armor_vangis_legs = registerItem(new DeviljhoArmor(EntityEquipmentSlot.LEGS));
-		armor_tigrexB_legs = registerItem(new KishinArmor(EntityEquipmentSlot.LEGS));
-		armor_dragoon_legs = registerItem(new DragoonArmor(EntityEquipmentSlot.LEGS));
-		armor_kirinS_legs = registerItem(new KirinSArmor(EntityEquipmentSlot.LEGS));
-		armor_bionic_legs = registerItem(new ST_BionicArmor(EntityEquipmentSlot.LEGS));
+		armor_yukumo_legs = registerItem("arm_yukumo_leggings", new YukumoArmor(EntityEquipmentSlot.LEGS));
+		armor_velociprey_legs = registerItem("arm_veloci_leggings", new VelocipreyArmor(EntityEquipmentSlot.LEGS));
+		armor_jaggi_legs = registerItem("arm_great_jaggi_leggings", new GreatJaggiArmor(EntityEquipmentSlot.LEGS));
+		armor_rathalos_legs = registerItem("arm_rathalos_leggings", new RathalosArmor(EntityEquipmentSlot.LEGS));
+		armor_nibelsnarf_legs = registerItem("arm_nibelsnarf_leggings", new NibelsnarfArmor(EntityEquipmentSlot.LEGS));
+		armor_barroth_legs = registerItem("arm_barroth_leggings", new BarrothArmor(EntityEquipmentSlot.LEGS));
+		armor_tigrex_legs = registerItem("arm_tigrex_leggings", new TigrexArmor(EntityEquipmentSlot.LEGS));
+		armor_kirin_legs = registerItem("arm_kirin_leggings", new KirinArmor(EntityEquipmentSlot.LEGS));
+		armor_vangis_legs = registerItem("arm_deviljho_leggings", new DeviljhoArmor(EntityEquipmentSlot.LEGS));
+		armor_tigrexB_legs = registerItem("arm_tigrex_plus_leggings", new KishinArmor(EntityEquipmentSlot.LEGS));
+		armor_dragoon_legs = registerItem("arm_dragoon_leggings", new DragoonArmor(EntityEquipmentSlot.LEGS));
+		armor_kirinS_legs = registerItem("arm_kirin_s_leggings", new KirinSArmor(EntityEquipmentSlot.LEGS));
+		armor_bionic_legs = registerItem("arm_bionic_leggings", new ST_BionicArmor(EntityEquipmentSlot.LEGS));
 
-		armor_yukumo_boots = registerItem(new YukumoArmor(EntityEquipmentSlot.FEET));
-		armor_velociprey_boots = registerItem(new VelocipreyArmor(EntityEquipmentSlot.FEET));
-		armor_jaggi_boots = registerItem(new GreatJaggiArmor(EntityEquipmentSlot.FEET));
-		armor_rathalos_boots = registerItem(new RathalosArmor(EntityEquipmentSlot.FEET));
-		armor_nibelsnarf_boots = registerItem(new NibelsnarfArmor(EntityEquipmentSlot.FEET));
-		armor_barroth_boots = registerItem(new BarrothArmor(EntityEquipmentSlot.FEET));
-		armor_tigrex_boots = registerItem(new TigrexArmor(EntityEquipmentSlot.FEET));
-		armor_kirin_boots = registerItem(new KirinArmor(EntityEquipmentSlot.FEET));
-		armor_vangis_boots = registerItem(new DeviljhoArmor(EntityEquipmentSlot.FEET));
-		armor_tigrexB_boots = registerItem(new KishinArmor(EntityEquipmentSlot.FEET));
-		armor_dragoon_boots = registerItem(new DragoonArmor(EntityEquipmentSlot.FEET));
-		armor_kirinS_boots = registerItem(new KirinSArmor(EntityEquipmentSlot.FEET));
-		armor_bionic_boots = registerItem(new ST_BionicArmor(EntityEquipmentSlot.FEET));
+		armor_yukumo_boots = registerItem("arm_yukumo_boots", new YukumoArmor(EntityEquipmentSlot.FEET));
+		armor_velociprey_boots = registerItem("arm_veloci_boots", new VelocipreyArmor(EntityEquipmentSlot.FEET));
+		armor_jaggi_boots = registerItem("arm_great_jaggi_boots", new GreatJaggiArmor(EntityEquipmentSlot.FEET));
+		armor_rathalos_boots = registerItem("arm_rathalos_boots", new RathalosArmor(EntityEquipmentSlot.FEET));
+		armor_nibelsnarf_boots = registerItem("arm_nibelsnarf_boots", new NibelsnarfArmor(EntityEquipmentSlot.FEET));
+		armor_barroth_boots = registerItem("arm_barroth_boots", new BarrothArmor(EntityEquipmentSlot.FEET));
+		armor_tigrex_boots = registerItem("arm_tigrex_boots", new TigrexArmor(EntityEquipmentSlot.FEET));
+		armor_kirin_boots = registerItem("arm_kirin_boots", new KirinArmor(EntityEquipmentSlot.FEET));
+		armor_vangis_boots = registerItem("arm_deviljho_boots", new DeviljhoArmor(EntityEquipmentSlot.FEET));
+		armor_tigrexB_boots = registerItem("arm_tigrex_plus_boots", new KishinArmor(EntityEquipmentSlot.FEET));
+		armor_dragoon_boots = registerItem("arm_dragoon_boots", new DragoonArmor(EntityEquipmentSlot.FEET));
+		armor_kirinS_boots = registerItem("arm_kirin_s_boots", new KirinSArmor(EntityEquipmentSlot.FEET));
+		armor_bionic_boots = registerItem("arm_bionic_boots", new ST_BionicArmor(EntityEquipmentSlot.FEET));
 
 		// Weapons
 		// FIXME: value tuning
@@ -477,45 +477,47 @@ public class MHFCItemRegistry {
 		weapon_bgh_rath = registerHeavyBowgun(
 				"bgh_spartacus",
 				b -> b.setName(MHFCReference.weapon_bgl_spartacusfire_name).setAttack(40).setRarity(1));
+
+		arrow = registerItem("arrow", new ItemWyverniaArrow());
 		// Items... drops
-		wyverniaDust = registerItem(new ItemWyverniaDust());
+		wyverniaDust = registerItem("dust", new ItemWyverniaDust());
 
-		moldedIron = registerItem(new ItemMoldedIron());
-		woodrig = registerItem(new ItemWoodRig());
-		lumberbar = registerItem(new ItemLumberBar());
-		steelbar = registerItem(new ItemSteelBar());
-		trapTool = registerItem(new ItemTrapTool());
-		bombMaterial = registerItem(new ItemBombMaterial());
-		flashBomb = registerItem(new ItemFlashBomb());
-		gaguaEgg = registerItem(new ItemGaguaEgg());
-		wyvernCoin = registerItem(new ItemWyvernCoin());
+		moldedIron = registerItem("iron_molded", new ItemMoldedIron());
+		woodrig = registerItem("woodrig", new ItemWoodRig());
+		lumberbar = registerItem("lumberbar", new ItemLumberBar());
+		steelbar = registerItem("steel_bar", new ItemSteelBar());
+		trapTool = registerItem("traptool", new ItemTrapTool());
+		bombMaterial = registerItem("bomb_material", new ItemBombMaterial());
+		flashBomb = registerItem("bomb_flash", new ItemFlashBomb());
+		gaguaEgg = registerItem("egg_gagua", new ItemGaguaEgg());
+		wyvernCoin = registerItem("coin", new ItemWyvernCoin());
 
-		ingot = registerItem(new ItemIngot());
-		base = registerItem(new ItemBase());
+		ingot = registerItem("ingot", new ItemIngot());
+		base = registerItem("base", new ItemBase());
 
-		kirindrops = registerItem(new ItemKirin());
-		tigrexdrops = registerItem(new ItemTigrex());
-		rathalosdrops = registerItem(new ItemRathalos());
-		deviljhodrops = registerItem(new ItemDeviljho());
-		remobradrops = registerItem(new ItemRemobra());
+		kirindrops = registerItem("drop_kirin", new ItemKirin());
+		tigrexdrops = registerItem("drop_tigrex", new ItemTigrex());
+		rathalosdrops = registerItem("drop_rathalos", new ItemRathalos());
+		deviljhodrops = registerItem("drop_deviljho", new ItemDeviljho());
+		remobradrops = registerItem("drop_remobra", new ItemRemobra());
 
-		bowgunBullet = registerItem(new ItemBullet());
-		itemsac = registerItem(new ItemSac());
-		firestone = registerItem(new ItemFirestone());
-		armorsphere = registerItem(new ItemArmorSphere());
-		wyverniaClay = registerItem(new ItemWyverniaClay());
+		bowgunBullet = registerItem("bullet", new ItemBullet());
+		itemsac = registerItem("sac", new ItemSac());
+		firestone = registerItem("firestone", new ItemFirestone());
+		armorsphere = registerItem("armorsphere", new ItemArmorSphere());
+		wyverniaClay = registerItem("clay", new ItemWyverniaClay());
 		// mhfcitembullet0 = new ItemBullet(0);
 		// mhfcitembullet1 = new ItemBullet(1);
 		// mhfcitembullet2 = new ItemBullet(2);
 		// mhfcitembullet3 = new ItemBullet(3);
 		// Foods
-		kirinbuff = registerItem(new ItemKirinBuff());
-		meat = registerItem(new ItemMeats());
-		nutrients = registerItem(new ItemNutrients());
+		kirinbuff = registerItem("kirinbuff", new ItemKirinBuff());
+		meat = registerItem("meat", new ItemMeats());
+		nutrients = registerItem("nutrients", new ItemNutrients());
 
-		paintball = registerItem(new ItemPaintball());
+		paintball = registerItem("paintball", new ItemPaintball());
 
-		MHFCItemFrontierSpawner = registerItem(new ItemSpawner());
+		MHFCItemFrontierSpawner = registerItem("spawner", new ItemSpawner());
 		MHFCMain.logger().info("Items registered");
 	}
 
@@ -545,11 +547,6 @@ public class MHFCItemRegistry {
 
 	private static ItemHeavyBowgun registerHeavyBowgun(String name, Consumer<BowgunWeaponStatsBuilder> config) {
 		return registerItem(name, ItemHeavyBowgun.build(config));
-	}
-
-	@Deprecated
-	private static <T extends Item> T registerItem(T item) {
-		return registerItem(item.getUnlocalizedName(), item);
 	}
 
 	/**
