@@ -3,9 +3,9 @@ package mhfc.net.common.item.armor;
 import java.util.Map;
 import java.util.Objects;
 
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.system.Privilege;
-import mhfc.net.common.util.Libraries;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -35,7 +35,7 @@ public abstract class ItemExclusiveArmor extends ItemArmorMHFC {
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
 		if (!(entity instanceof EntityPlayer && checkPrivilege((EntityPlayer) entity))) {
-			return Libraries.armor_null_tex;
+			return ResourceInterface.armor_null_tex;
 		}
 
 		return super.getArmorTexture(stack, entity, slot, type);

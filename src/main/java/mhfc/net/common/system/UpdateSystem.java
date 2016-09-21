@@ -12,7 +12,7 @@ import java.util.concurrent.RunnableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import mhfc.net.common.util.Libraries;
+import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -49,7 +49,7 @@ public class UpdateSystem {
 		/* Noop, used as static-init */}
 
 	private static UpdateInfo pollUpdate() {
-		String current = Libraries.getMetadata().version;
+		String current = ResourceInterface.getMetadata().version;
 		try (BufferedReader versionFile = new BufferedReader(new InputStreamReader(new URL(urlString).openStream()))) {
 			String newVersionStr = versionFile.readLine();
 			Matcher match = Pattern.compile("version\\s*=\\s*\\\"(.*?)\\\"").matcher(newVersionStr);

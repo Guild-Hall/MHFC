@@ -4,10 +4,10 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.AbstractSubTypedItem;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.item.materials.ItemSac.SacSubType;
-import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 
 public class ItemSac extends AbstractSubTypedItem<SacSubType> {
 	public static enum SacSubType implements SubTypedItem.SubTypeEnum<Item> {
-		FIRE(Libraries.item_sac0_name, ItemColor.RED);
+		FIRE(ResourceInterface.item_sac0_name, ItemColor.RED);
 
 		public final String name;
 		public final ItemColor color;
@@ -43,7 +43,7 @@ public class ItemSac extends AbstractSubTypedItem<SacSubType> {
 
 	public ItemSac() {
 		super(SacSubType.class);
-		setUnlocalizedName(Libraries.item_sac_basename);
+		setUnlocalizedName(ResourceInterface.item_sac_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

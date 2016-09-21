@@ -1,8 +1,8 @@
 package mhfc.net.common.block.container;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.tile.TileBBQSpit;
-import mhfc.net.common.util.Libraries;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -13,7 +13,7 @@ public class BlockBBQSpit extends BlockContainer {
 
 	public BlockBBQSpit() {
 		super(Material.IRON);
-		setUnlocalizedName(Libraries.block_bbqspit_name);
+		setUnlocalizedName(ResourceInterface.block_bbqspit_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

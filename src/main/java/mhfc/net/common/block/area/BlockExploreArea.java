@@ -6,8 +6,8 @@ import java.util.Set;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCContainerRegistry;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.tile.TileExploreArea;
-import mhfc.net.common.util.Libraries;
 import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -31,7 +31,7 @@ public class BlockExploreArea extends Block implements ITileEntityProvider {
 	public BlockExploreArea() {
 		super(Material.PLANTS);
 		setCreativeTab(MHFCMain.mhfctabs);
-		setUnlocalizedName(Libraries.block_exploreArea_name);
+		setUnlocalizedName(ResourceInterface.block_exploreArea_name);
 		setBlockUnbreakable();
 	}
 

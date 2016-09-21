@@ -1,4 +1,4 @@
-package mhfc.net.common.util.reception;
+package mhfc.net.common.index;
 
 import mhfc.net.client.model.armor.ModelBarrothArmor;
 import mhfc.net.client.model.armor.ModelDeviljhoArmor;
@@ -17,7 +17,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ArmorModelReception {
+public class ArmorModels {
 
 	public static final ModelTigrexArmor tigrex = new ModelTigrexArmor(1.0F);
 	public static final ModelKirinArmor kirin = new ModelKirinArmor(1.0F);

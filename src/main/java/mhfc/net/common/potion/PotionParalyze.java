@@ -3,7 +3,7 @@ package mhfc.net.common.potion;
 import java.util.Random;
 
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
-import mhfc.net.common.util.Libraries;
+import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -18,7 +18,7 @@ public class PotionParalyze extends Potion {
 
 	public PotionParalyze() {
 		super(true, 999999);
-		setPotionName(Libraries.potion_paralyze_name);
+		setPotionName(ResourceInterface.potion_paralyze_name);
 		setIconIndex(1, 0);
 		random = new Random();
 		registerPotionAttributeModifier(
@@ -31,8 +31,8 @@ public class PotionParalyze extends Potion {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getStatusIconIndex() {
-		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(Libraries.potion_paralyze_tex));
-		return Libraries.potion_paralyze_iconindex;
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(ResourceInterface.potion_paralyze_tex));
+		return ResourceInterface.potion_paralyze_iconindex;
 	}
 
 	@Override

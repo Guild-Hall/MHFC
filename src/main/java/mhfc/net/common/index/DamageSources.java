@@ -1,11 +1,11 @@
-package mhfc.net.common.util.reception;
+package mhfc.net.common.index;
 
 import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 
-public class DamageReception {
+public class DamageSources {
 
 	public static DamageSource groundpound = new DamageSource("groundpound").setDamageBypassesArmor();
 	public static DamageSource aerial = new DamageSource("aerial").setProjectile();

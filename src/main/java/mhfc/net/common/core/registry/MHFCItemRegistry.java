@@ -3,6 +3,7 @@ package mhfc.net.common.core.registry;
 import java.util.function.Consumer;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.armor.BarrothArmor;
 import mhfc.net.common.item.armor.DeviljhoArmor;
 import mhfc.net.common.item.armor.DragoonArmor;
@@ -44,7 +45,6 @@ import mhfc.net.common.item.materials.ItemWyverniaArrow;
 import mhfc.net.common.item.materials.ItemWyverniaClay;
 import mhfc.net.common.item.materials.ItemWyverniaDust;
 import mhfc.net.common.item.tools.ItemPaintball;
-import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.services.IServiceKey;
 import mhfc.net.common.weapon.melee.greatsword.GreatswordWeaponStats.GreatswordWeaponStatsBuilder;
 import mhfc.net.common.weapon.melee.greatsword.ItemGreatsword;
@@ -309,174 +309,174 @@ public class MHFCItemRegistry {
 		// FIXME: value tuning
 		weapon_gs_bone = registerGreatsword(
 				"gs_bone",
-				b -> b.setName(Libraries.weapon_gs_bone_name).setAttack(26).setRarity(1));
+				b -> b.setName(ResourceInterface.weapon_gs_bone_name).setAttack(26).setRarity(1));
 		weapon_gs_deadlyserpentblade = registerGreatsword(
 				"gs_deadly_serpent",
-				b -> b.setName(Libraries.weapon_gs_deadlyserpentblade_name).setAttack(35).setRarity(3)
+				b -> b.setName(ResourceInterface.weapon_gs_deadlyserpentblade_name).setAttack(35).setRarity(3)
 						.addCombatEffect(StatusEffect.Poison, 10));
 		weapon_gs_tigrex = registerGreatsword(
 				"gs_tigrex",
-				b -> b.setName(Libraries.weapon_gs_tigrex_name).setAttack(46).setRarity(4));
+				b -> b.setName(ResourceInterface.weapon_gs_tigrex_name).setAttack(46).setRarity(4));
 		weapon_gs_rathalosfire = registerGreatsword(
 				"gs_rathalos",
-				b -> b.setName(Libraries.weapon_gs_rathalos_name).setAttack(58).setRarity(4)
+				b -> b.setName(ResourceInterface.weapon_gs_rathalos_name).setAttack(58).setRarity(4)
 						.addCombatEffect(ElementalType.Fire, 10));
 		weapon_gs_kirinthunders = registerGreatsword(
 				"gs_kirin",
-				b -> b.setName(Libraries.weapon_gs_kirin_name).setAttack(61).setRarity(4));
+				b -> b.setName(ResourceInterface.weapon_gs_kirin_name).setAttack(61).setRarity(4));
 		weapon_gs_berserkers = registerGreatsword(
 				"gs_berserker",
-				b -> b.setName(Libraries.weapon_gs_deviljho_name).setAttack(88).setRarity(6));
+				b -> b.setName(ResourceInterface.weapon_gs_deviljho_name).setAttack(88).setRarity(6));
 
 		weapon_ls_ironkatana = registerLongsword(
 				"ls_iron",
-				b -> b.setName(Libraries.weapon_ls_ironkatana_name).setAttack(23).setRarity(1));
+				b -> b.setName(ResourceInterface.weapon_ls_ironkatana_name).setAttack(23).setRarity(1));
 		weapon_ls_ironkatanagrace = registerLongsword(
 				"ls_iron_grace",
-				b -> b.setName(Libraries.weapon_ls_ikgrace_name).setAttack(26).setRarity(2));
+				b -> b.setName(ResourceInterface.weapon_ls_ikgrace_name).setAttack(26).setRarity(2));
 		weapon_ls_ironkatanagospel = registerLongsword(
 				"ls_iron_gospel",
-				b -> b.setName(Libraries.weapon_ls_ikgospel_name).setAttack(29).setRarity(2));
+				b -> b.setName(ResourceInterface.weapon_ls_ikgospel_name).setAttack(29).setRarity(2));
 		weapon_ls_darkvipern = registerLongsword(
 				"ls_darkviper",
-				b -> b.setName(Libraries.weapon_ls_darkvipern_name).setAttack(21).setRarity(2)
+				b -> b.setName(ResourceInterface.weapon_ls_darkvipern_name).setAttack(21).setRarity(2)
 						.addCombatEffect(StatusEffect.Poison, 10));
 		weapon_ls_eagercleaver = registerLongsword(
 				"ls_eagercleaver",
-				b -> b.setName(Libraries.weapon_ls_eagercleaver_name).setAttack(40).setRarity(3)
+				b -> b.setName(ResourceInterface.weapon_ls_eagercleaver_name).setAttack(40).setRarity(3)
 						.addCombatEffect(ElementalType.Thunder, 10));
 		weapon_ls_devilslicer = registerLongsword(
 				"ls_devilslicer",
-				b -> b.setName(Libraries.weapon_ls_devilslicer_name).setAttack(46).setRarity(4)
+				b -> b.setName(ResourceInterface.weapon_ls_devilslicer_name).setAttack(46).setRarity(4)
 						.addCombatEffect(ElementalType.Thunder, 10));
 		weapon_ls_saber = registerLongsword(
 				"ls_saber",
-				b -> b.setName(Libraries.weapon_ls_saber_name).setAttack(30).setRarity(5)
+				b -> b.setName(ResourceInterface.weapon_ls_saber_name).setAttack(30).setRarity(5)
 						.addCombatEffect(ElementalType.Fire, 10));
 		weapon_ls_miragefinsword = registerLongsword(
 				"ls_mirage",
-				b -> b.setName(Libraries.weapon_ls_miragefinsword_name).setAttack(51).setRarity(6));
+				b -> b.setName(ResourceInterface.weapon_ls_miragefinsword_name).setAttack(51).setRarity(6));
 		weapon_ls_miragefinswordplus = registerLongsword(
 				"ls_mirage_plus",
-				b -> b.setName(Libraries.weapon_ls_miragefinswordplus_name).setAttack(58).setRarity(6));
+				b -> b.setName(ResourceInterface.weapon_ls_miragefinswordplus_name).setAttack(58).setRarity(6));
 		weapon_ls_liondancesaber = registerLongsword(
 				"ls_lion_dance",
-				b -> b.setName(Libraries.weapon_ls_liondancesaber_name).setAttack(49).setRarity(7)
+				b -> b.setName(ResourceInterface.weapon_ls_liondancesaber_name).setAttack(49).setRarity(7)
 						.addCombatEffect(ElementalType.Fire, 10));
 		weapon_ls_truedevilslicer = registerLongsword(
 				"ls_devilslider_true",
-				b -> b.setName(Libraries.weapon_ls_truedevilslicer_name).setAttack(57).setRarity(7)
+				b -> b.setName(ResourceInterface.weapon_ls_truedevilslicer_name).setAttack(57).setRarity(7)
 						.addCombatEffect(ElementalType.Thunder, 10));
 		weapon_ls_phantommirage = registerLongsword(
 				"ls_mirage_phantom",
-				b -> b.setName(Libraries.weapon_ls_phantommirage_name).setAttack(67).setRarity(7));
+				b -> b.setName(ResourceInterface.weapon_ls_phantommirage_name).setAttack(67).setRarity(7));
 		weapon_ls_lionkingsaber = registerLongsword(
 				"ls_lion_king",
-				b -> b.setName(Libraries.weapon_ls_lionkingsaber_name).setAttack(65).setRarity(8)
+				b -> b.setName(ResourceInterface.weapon_ls_lionkingsaber_name).setAttack(65).setRarity(8)
 						.addCombatEffect(ElementalType.Fire, 10));
 		weapon_ls_lionkaisersaber = registerLongsword(
 				"ls_lion_kaiser",
-				b -> b.setName(Libraries.weapon_ls_lionkaisersaber_name).setAttack(74).setRarity(8)
+				b -> b.setName(ResourceInterface.weapon_ls_lionkaisersaber_name).setAttack(74).setRarity(8)
 						.addCombatEffect(ElementalType.Fire, 10));
 		weapon_ls_lionsroarsaber = registerLongsword(
 				"ls_lion_roar",
-				b -> b.setName(Libraries.weapon_ls_lionsroarsaber_name).setAttack(81).setRarity(9)
+				b -> b.setName(ResourceInterface.weapon_ls_lionsroarsaber_name).setAttack(81).setRarity(9)
 						.addCombatEffect(ElementalType.Fire, 10));
 
 		weapon_hm_warhammer = registerHammer(
 				"hm_war",
-				b -> b.setName(Libraries.weapon_hm_war_name).setAttack(20).setRarity(1));
+				b -> b.setName(ResourceInterface.weapon_hm_war_name).setAttack(20).setRarity(1));
 		weapon_hm_warhammerplus = registerHammer(
 				"hm_war_plus",
-				b -> b.setName(Libraries.weapon_hm_warplus_name).setAttack(24).setRarity(1));
+				b -> b.setName(ResourceInterface.weapon_hm_warplus_name).setAttack(24).setRarity(1));
 		weapon_hm_warslammer = registerHammer(
 				"hm_war_slammer",
-				b -> b.setName(Libraries.weapon_hm_warslammer_name).setAttack(30).setRarity(2));
+				b -> b.setName(ResourceInterface.weapon_hm_warslammer_name).setAttack(30).setRarity(2));
 		weapon_hm_tigrex = registerHammer(
 				"hm_tigrex",
-				b -> b.setName(Libraries.weapon_hm_tigrex_name).setAttack(47).setRarity(3));
+				b -> b.setName(ResourceInterface.weapon_hm_tigrex_name).setAttack(47).setRarity(3));
 		weapon_hm_rathalos = registerHammer(
 				"hm_rathalos",
-				b -> b.setName(Libraries.weapon_hm_rathalos_name).setAttack(42).setRarity(4)
+				b -> b.setName(ResourceInterface.weapon_hm_rathalos_name).setAttack(42).setRarity(4)
 						.addCombatEffect(ElementalType.Fire, 10));
 		weapon_hm_devilsdue = registerHammer(
 				"hm_devil",
-				b -> b.setName(Libraries.weapon_hm_deviljho_name).setAttack(80).setRarity(7)
+				b -> b.setName(ResourceInterface.weapon_hm_deviljho_name).setAttack(80).setRarity(7)
 						.addCombatEffect(ElementalType.Dragon, 10));
 		weapon_hm_kirinspark = registerHammer(
 				"hm_kirin_spark",
-				b -> b.setName(Libraries.weapon_hm_kirin_name).setAttack(89).setRarity(8)
+				b -> b.setName(ResourceInterface.weapon_hm_kirin_name).setAttack(89).setRarity(8)
 						.addCombatEffect(ElementalType.Thunder, 10));
 
 		weapon_hh_ivoryhorn = registerHuntingHorn(
 				"hh_ivory",
-				b -> b.setName(Libraries.weapon_hh_ivoryhorn_name).setAttack(21).setRarity(1)
+				b -> b.setName(ResourceInterface.weapon_hh_ivoryhorn_name).setAttack(21).setRarity(1)
 						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_metalbagpipe = registerHuntingHorn(
 				"hh_bagpipe",
-				b -> b.setName(Libraries.weapon_hh_metalbagpipe_name).setAttack(26).setRarity(2)
+				b -> b.setName(ResourceInterface.weapon_hh_metalbagpipe_name).setAttack(26).setRarity(2)
 						.setNotes(Note.White, Note.Green, Note.Red));
 		weapon_hh_greatbagpipe = registerHuntingHorn(
 				"hh_bagpipe_great",
-				b -> b.setName(Libraries.weapon_hh_greatbagpipe_name).setAttack(35).setRarity(2)
+				b -> b.setName(ResourceInterface.weapon_hh_greatbagpipe_name).setAttack(35).setRarity(2)
 						.setNotes(Note.White, Note.Green, Note.Red));
 		weapon_hh_wardrums = registerHuntingHorn(
 				"hh_wardrums",
-				b -> b.setName(Libraries.weapon_hh_wardrums_name).setAttack(25).setRarity(2)
+				b -> b.setName(ResourceInterface.weapon_hh_wardrums_name).setAttack(25).setRarity(2)
 						.setNotes(Note.White, Note.Yellow, Note.Red));
 		weapon_hh_wardrumsplus = registerHuntingHorn(
 				"hh_wardrums_plus",
-				b -> b.setName(Libraries.weapon_hh_wardrumsplus_name).setAttack(31).setRarity(2)
+				b -> b.setName(ResourceInterface.weapon_hh_wardrumsplus_name).setAttack(31).setRarity(2)
 						.setNotes(Note.White, Note.Yellow, Note.Red));
 		weapon_hh_heavybagpipe = registerHuntingHorn(
 				"hh_bagpipe_heavy",
-				b -> b.setName(Libraries.weapon_hh_heavybagpipe_name).setAttack(42).setRarity(3)
+				b -> b.setName(ResourceInterface.weapon_hh_heavybagpipe_name).setAttack(42).setRarity(3)
 						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_heavybagpipeplus = registerHuntingHorn(
 				"hh_bagpipe_heavy_plus",
-				b -> b.setName(Libraries.weapon_hh_heavybagpipeplus_name).setAttack(47).setRarity(3)
+				b -> b.setName(ResourceInterface.weapon_hh_heavybagpipeplus_name).setAttack(47).setRarity(3)
 						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_tigrex = registerHuntingHorn(
 				"hh_tigrex",
-				b -> b.setName(Libraries.weapon_hh_tigrex_name).setAttack(55).setRarity(5)
+				b -> b.setName(ResourceInterface.weapon_hh_tigrex_name).setAttack(55).setRarity(5)
 						.setNotes(Note.Purple, Note.Blue, Note.Red));
 		weapon_hh_mogwarddrums = registerHuntingHorn(
 				"hh_wardrums_bongo",
-				b -> b.setName(Libraries.weapon_hh_mogwarddrums_name).setAttack(72).setRarity(5)
+				b -> b.setName(ResourceInterface.weapon_hh_mogwarddrums_name).setAttack(72).setRarity(5)
 						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_elitebagpipe = registerHuntingHorn(
 				"hh_bigpipe_elite",
-				b -> b.setName(Libraries.weapon_hh_elitebagpipe_name).setAttack(60).setRarity(6)
+				b -> b.setName(ResourceInterface.weapon_hh_elitebagpipe_name).setAttack(60).setRarity(6)
 						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_darkthorntrumpet = registerHuntingHorn(
 				"hh_darkthorn",
-				b -> b.setName(Libraries.weapon_hh_darkthorntrumpet_name).setAttack(84).setRarity(9)
+				b -> b.setName(ResourceInterface.weapon_hh_darkthorntrumpet_name).setAttack(84).setRarity(9)
 						.setNotes(Note.White, Note.Blue, Note.Red));
 		weapon_hh_blackcasket = registerHuntingHorn(
 				"hh_black_casket",
-				b -> b.setName(Libraries.weapon_hh_blackcasket_name).setAttack(91).setRarity(10)
+				b -> b.setName(ResourceInterface.weapon_hh_blackcasket_name).setAttack(91).setRarity(10)
 						.setNotes(Note.White, Note.Blue, Note.Red));
 
 		// Range weapons
 
 		weapon_b_hunters = registerBow(
 				"b_hunter",
-				b -> b.setName(Libraries.weapon_bow_hunters_name).setAttack(8).setRarity(1));
+				b -> b.setName(ResourceInterface.weapon_bow_hunters_name).setAttack(8).setRarity(1));
 		weapon_b_huntersstout = registerBow(
 				"b_hunter_stout",
-				b -> b.setName(Libraries.weapon_bow_huntersstout_name).setAttack(25).setRarity(2));
+				b -> b.setName(ResourceInterface.weapon_bow_huntersstout_name).setAttack(25).setRarity(2));
 		weapon_b_huntersproud = registerBow(
 				"b_hunter_proud",
-				b -> b.setName(Libraries.weapon_bow_huntersproud_name).setAttack(30).setRarity(3)
+				b -> b.setName(ResourceInterface.weapon_bow_huntersproud_name).setAttack(30).setRarity(3)
 						.addCombatEffect(ElementalType.Ice, 3));
 
 		weapon_bgl_barrel = registerLightBowgun(
 				"bgl_barrel",
-				b -> b.setName(Libraries.weapon_bgl_barrel_name).setAttack(12).setRarity(1));
+				b -> b.setName(ResourceInterface.weapon_bgl_barrel_name).setAttack(12).setRarity(1));
 
 		weapon_bgh_rath = registerHeavyBowgun(
 				"bgh_spartacus",
-				b -> b.setName(Libraries.weapon_bgl_spartacusfire_name).setAttack(40).setRarity(1));
+				b -> b.setName(ResourceInterface.weapon_bgl_spartacusfire_name).setAttack(40).setRarity(1));
 
 		arrow = registerItem("arrow", new ItemWyverniaArrow());
 		// Items... drops

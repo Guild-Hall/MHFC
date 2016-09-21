@@ -3,7 +3,7 @@ package mhfc.net.common.block;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.block.BlockWyverniaPlank.WyverniaPlankSubType;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
-import mhfc.net.common.util.Libraries;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -12,15 +12,15 @@ import net.minecraft.block.state.BlockStateContainer;
 
 public class BlockWyverniaPlank extends AbstractSubTypedBlock<WyverniaPlankSubType> {
 	public static enum WyverniaPlankSubType implements SubTypedItem.SubTypeEnum<Block> {
-		CALFER(Libraries.block_calfer_name),
-		DIREWOOD(Libraries.block_direwood_name),
-		GRAND_IFOLIA(Libraries.block_grandifolia_name),
-		MAVEN(Libraries.block_maven_name),
-		NEGUNDO(Libraries.block_negundo_name),
-		PALMER(Libraries.block_palmer_name),
-		RADEL(Libraries.block_radel_name),
-		SANDY(Libraries.block_sandy_name),
-		TILIA(Libraries.block_tilia_name);
+		CALFER(ResourceInterface.block_calfer_name),
+		DIREWOOD(ResourceInterface.block_direwood_name),
+		GRAND_IFOLIA(ResourceInterface.block_grandifolia_name),
+		MAVEN(ResourceInterface.block_maven_name),
+		NEGUNDO(ResourceInterface.block_negundo_name),
+		PALMER(ResourceInterface.block_palmer_name),
+		RADEL(ResourceInterface.block_radel_name),
+		SANDY(ResourceInterface.block_sandy_name),
+		TILIA(ResourceInterface.block_tilia_name);
 
 		public final String name;
 
@@ -43,7 +43,7 @@ public class BlockWyverniaPlank extends AbstractSubTypedBlock<WyverniaPlankSubTy
 
 	public BlockWyverniaPlank() {
 		super(PROPERTY, Material.WOOD);
-		setUnlocalizedName(Libraries.block_wyverniaplank_basename);
+		setUnlocalizedName(ResourceInterface.block_wyverniaplank_basename);
 		setHardness(0.6f);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}

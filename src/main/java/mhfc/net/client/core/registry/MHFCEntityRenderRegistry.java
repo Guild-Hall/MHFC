@@ -40,7 +40,7 @@ import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import mhfc.net.common.entity.projectile.NargacugaSpike;
-import mhfc.net.common.util.Libraries;
+import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
@@ -62,62 +62,62 @@ public class MHFCEntityRenderRegistry {
 		//BasicRender
 		basicRenderer(
 				EntityTigrex.class,
-				Libraries.mob_tigrex_textureDir,
-				Libraries.mob_tigrex_model,
-				Libraries.mob_tigrex_skeleton,
+				ResourceInterface.mob_tigrex_textureDir,
+				ResourceInterface.mob_tigrex_model,
+				ResourceInterface.mob_tigrex_skeleton,
 				1.0F);
 		basicRenderer(
 				EntityDelex.class,
-				Libraries.mob_delex_textureDir,
-				Libraries.mob_delex_model,
-				Libraries.mob_delex_skeleton,
+				ResourceInterface.mob_delex_textureDir,
+				ResourceInterface.mob_delex_model,
+				ResourceInterface.mob_delex_skeleton,
 				1.0F);
 		basicRenderer(
 				EntityGreatJaggi.class,
-				Libraries.mob_greatjaggi_textureDir,
-				Libraries.mob_greatjaggi_model,
-				Libraries.mob_greatjaggi_skeleton,
+				ResourceInterface.mob_greatjaggi_textureDir,
+				ResourceInterface.mob_greatjaggi_model,
+				ResourceInterface.mob_greatjaggi_skeleton,
 				1.0F);
 		basicRenderer(
 				EntityLagiacrus.class,
-				Libraries.mob_lagiacrus_textureDir,
-				Libraries.mob_lagiacrus_model,
-				Libraries.mob_lagiacrus_skeleton,
+				ResourceInterface.mob_lagiacrus_textureDir,
+				ResourceInterface.mob_lagiacrus_model,
+				ResourceInterface.mob_lagiacrus_skeleton,
 				1.0F);
 
 		basicRenderer(
 				EntityDeviljho.class,
-				Libraries.mob_deviljho_textureDir,
-				Libraries.mob_deviljho_model,
-				Libraries.mob_deviljho_skeleton,
+				ResourceInterface.mob_deviljho_textureDir,
+				ResourceInterface.mob_deviljho_model,
+				ResourceInterface.mob_deviljho_skeleton,
 				1.0F);
 		basicRenderer(
 				EntityKirin.class,
-				Libraries.mob_kirin_textureDir,
-				Libraries.mob_kirin_model,
-				Libraries.mob_kirin_skeleton,
+				ResourceInterface.mob_kirin_textureDir,
+				ResourceInterface.mob_kirin_model,
+				ResourceInterface.mob_kirin_skeleton,
 				1.0F);
 		basicRenderer(
 				EntityGargwa.class,
-				Libraries.mob_gagua_textureDir,
-				Libraries.mob_gagua_model,
-				Libraries.mob_gagua_skeleton,
+				ResourceInterface.mob_gagua_textureDir,
+				ResourceInterface.mob_gagua_model,
+				ResourceInterface.mob_gagua_skeleton,
 				1.0F);
 		basicRenderer(
 				EntityRathalos.class,
-				Libraries.mob_rathalos_textureDir,
-				Libraries.mob_rathalos_model,
-				Libraries.mob_rathalos_skeleton,
+				ResourceInterface.mob_rathalos_textureDir,
+				ResourceInterface.mob_rathalos_model,
+				ResourceInterface.mob_rathalos_skeleton,
 				1.0F);
 		basicRenderer(
 				EntityBarroth.class,
-				Libraries.mob_barroth_textureDir,
-				Libraries.mob_barroth_model,
-				Libraries.mob_barroth_skeleton,
+				ResourceInterface.mob_barroth_textureDir,
+				ResourceInterface.mob_barroth_model,
+				ResourceInterface.mob_barroth_skeleton,
 				1.0F);
 
-		registerAnimatedRenderer(EntityGiaprey.class, Libraries.mob_giaprey_model, 1.0F);
-		registerAnimatedRenderer(EntityUkanlos.class, Libraries.mob_ukanlos_model, 1.0F);
+		registerAnimatedRenderer(EntityGiaprey.class, ResourceInterface.mob_giaprey_model, 1.0F);
+		registerAnimatedRenderer(EntityUkanlos.class, ResourceInterface.mob_ukanlos_model, 1.0F);
 
 	}
 

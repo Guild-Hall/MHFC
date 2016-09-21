@@ -1,6 +1,6 @@
 package mhfc.net.common.entity.particle;
 
-import mhfc.net.common.util.Libraries;
+import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ParticleKirinSparks extends Particle {
-	private static final ResourceLocation texture = new ResourceLocation(Libraries.particle_kirinsfx_tex);
+	private static final ResourceLocation texture = new ResourceLocation(ResourceInterface.particle_kirinsfx_tex);
 	float field_70569_a;
 
 	public ParticleKirinSparks(

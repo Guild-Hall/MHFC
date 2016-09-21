@@ -9,12 +9,12 @@ import com.google.gson.JsonSerializationContext;
 import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.quests.api.IVisualDefinition;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription.QuestType;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.util.MHFCJsonUtils;
-import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
@@ -260,8 +260,8 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			int height,
 			int page,
 			FontRenderer fontRenderer) {
-		String TAG_MONSTERS = I18n.format(Libraries.unlocalized_tag_monsters),
-				TAG_REQUISITES = I18n.format(Libraries.unlocalized_tag_requisites);
+		String TAG_MONSTERS = I18n.format(ResourceInterface.unlocalized_tag_monsters),
+				TAG_REQUISITES = I18n.format(ResourceInterface.unlocalized_tag_requisites);
 		int lineHeight = fontRenderer.FONT_HEIGHT + 2;
 		String draw;
 		page = page % 3;
@@ -316,7 +316,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	@SideOnly(Side.CLIENT)
 	protected void drawClientDescription(int positionX, int currentY, int width, FontRenderer fontRenderer) {
 		width = Math.max(width, 20);
-		String TAG_CLIENT = I18n.format(Libraries.unlocalized_tag_client);
+		String TAG_CLIENT = I18n.format(ResourceInterface.unlocalized_tag_client);
 		fontRenderer.drawString(TAG_CLIENT, positionX + BORDER, currentY, COLOUR_HEADER);
 		int offsetX = (BORDER + fontRenderer.getStringWidth(TAG_CLIENT) + BORDER);
 		int drawWidth = width - offsetX - BORDER;
@@ -336,7 +336,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		currentY += LINE_SEPERATION;
 		currentY += MHFCGuiUtil.drawTextLocalizedAndReturnHeight(
 				fontRenderer,
-				Libraries.unlocalized_tag_description,
+				ResourceInterface.unlocalized_tag_description,
 				positionX + BORDER,
 				currentY,
 				0,
@@ -365,7 +365,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			FontRenderer fontRenderer) {
 		currentY += MHFCGuiUtil.drawTextLocalizedAndReturnHeight(
 				fontRenderer,
-				Libraries.unlocalized_tag_aims,
+				ResourceInterface.unlocalized_tag_aims,
 				positionX + BORDER,
 				currentY,
 				0,
@@ -382,7 +382,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		currentY = Math.max(currentY, positionY + height / 2);
 		currentY += MHFCGuiUtil.drawTextLocalizedAndReturnHeight(
 				fontRenderer,
-				Libraries.unlocalized_tag_fails,
+				ResourceInterface.unlocalized_tag_fails,
 				positionX + BORDER,
 				currentY,
 				0,
@@ -433,10 +433,10 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 
 	@SideOnly(Side.CLIENT)
 	protected int drawBaseInformation(int positionX, int positionY, int width, FontRenderer fontRenderer) {
-		String TAG_FEE = I18n.format(Libraries.unlocalized_tag_fee), //
-				TAG_REWARD = I18n.format(Libraries.unlocalized_tag_reward), //
-				TAG_TIME = I18n.format(Libraries.unlocalized_tag_time), //
-				TAG_AREA = I18n.format(Libraries.unlocalized_tag_area);
+		String TAG_FEE = I18n.format(ResourceInterface.unlocalized_tag_fee), //
+				TAG_REWARD = I18n.format(ResourceInterface.unlocalized_tag_reward), //
+				TAG_TIME = I18n.format(ResourceInterface.unlocalized_tag_time), //
+				TAG_AREA = I18n.format(ResourceInterface.unlocalized_tag_area);
 		fontRenderer.drawString(TAG_REWARD, positionX + BORDER, positionY, COLOUR_HEADER);
 		positionY += MHFCGuiUtil.drawTextLocalizedAndReturnHeight(
 				fontRenderer,

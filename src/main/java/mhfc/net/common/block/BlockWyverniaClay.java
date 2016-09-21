@@ -4,7 +4,7 @@ import java.util.Random;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
-import mhfc.net.common.util.Libraries;
+import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -14,7 +14,7 @@ public class BlockWyverniaClay extends Block {
 
 	public BlockWyverniaClay() {
 		super(Material.CLAY);
-		setUnlocalizedName(Libraries.block_wyverianclay_name);
+		setUnlocalizedName(ResourceInterface.block_wyverianclay_name);
 		setHardness(0.9f);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}

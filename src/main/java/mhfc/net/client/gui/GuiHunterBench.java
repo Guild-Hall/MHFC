@@ -19,10 +19,10 @@ import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe.RecipeType;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.ItemType;
 import mhfc.net.common.item.ItemType.GeneralType;
 import mhfc.net.common.tile.TileHunterBench;
-import mhfc.net.common.util.Libraries;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.model.ModelBiped;
@@ -45,16 +45,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiHunterBench extends MHFCTabbedGui {
 	public static final ResourceLocation BURN_BACKGROUND = new ResourceLocation(
-			Libraries.gui_hunterbench_burn_back_tex);
+			ResourceInterface.gui_hunterbench_burn_back_tex);
 	public static final ResourceLocation BURN_FOREGROUND = new ResourceLocation(
-			Libraries.gui_hunterbench_burn_front_tex);
+			ResourceInterface.gui_hunterbench_burn_front_tex);
 	public static final ResourceLocation BURN_TARGET = new ResourceLocation(
-			Libraries.gui_hunterbench_burn_target_tex);
-	public static final ResourceLocation BACKGROUND = new ResourceLocation(Libraries.gui_hunterbench_back_tex);
+			ResourceInterface.gui_hunterbench_burn_target_tex);
+	public static final ResourceLocation BACKGROUND = new ResourceLocation(ResourceInterface.gui_hunterbench_back_tex);
 	public static final ResourceLocation HUNTER_BENCH_COMPLETE = new ResourceLocation(
-			Libraries.gui_hunterbench_complete_tex);
+			ResourceInterface.gui_hunterbench_complete_tex);
 	public static final ResourceLocation FUEL_DURATION_MARKER = new ResourceLocation(
-			Libraries.gui_hunterbench_fuel_tex);
+			ResourceInterface.gui_hunterbench_fuel_tex);
 
 	static final int maxHeat = 500;
 	static final int modelRectRelX = 228;

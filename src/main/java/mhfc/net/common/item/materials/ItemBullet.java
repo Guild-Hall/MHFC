@@ -4,10 +4,10 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.AbstractSubTypedItem;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.item.materials.ItemBullet.BulletSubType;
-import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -15,10 +15,10 @@ import net.minecraft.item.ItemStack;
 
 public class ItemBullet extends AbstractSubTypedItem<BulletSubType> {
 	public static enum BulletSubType implements SubTypedItem.SubTypeEnum<Item> {
-		NORMALS(Libraries.item_bulletnormal_name, ItemColor.WHITE), //
-		PIERCES(Libraries.item_bulletpierce_name, ItemColor.WHITE), //
-		CRAGS(Libraries.item_bulletcrag_name, ItemColor.WHITE), //
-		FLAMES(Libraries.item_bulletflame_name, ItemColor.RED); //
+		NORMALS(ResourceInterface.item_bulletnormal_name, ItemColor.WHITE), //
+		PIERCES(ResourceInterface.item_bulletpierce_name, ItemColor.WHITE), //
+		CRAGS(ResourceInterface.item_bulletcrag_name, ItemColor.WHITE), //
+		FLAMES(ResourceInterface.item_bulletflame_name, ItemColor.RED); //
 
 		public final String name;
 		public final ItemColor color;
@@ -46,7 +46,7 @@ public class ItemBullet extends AbstractSubTypedItem<BulletSubType> {
 
 	public ItemBullet() {
 		super(BulletSubType.class);
-		setUnlocalizedName(Libraries.item_bullet_basename);
+		setUnlocalizedName(ResourceInterface.item_bullet_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

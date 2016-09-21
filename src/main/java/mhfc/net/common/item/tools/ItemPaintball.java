@@ -3,10 +3,10 @@ package mhfc.net.common.item.tools;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.entity.projectile.EntityPaintball;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.AbstractSubTypedItem;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.item.tools.ItemPaintball.PaintballType;
-import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -64,7 +64,7 @@ public class ItemPaintball extends AbstractSubTypedItem<PaintballType> {
 
 	public ItemPaintball() {
 		super(PaintballType.class);
-		setUnlocalizedName(Libraries.item_paintball_basename);
+		setUnlocalizedName(ResourceInterface.item_paintball_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(64);
 	}

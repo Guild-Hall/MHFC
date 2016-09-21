@@ -8,7 +8,7 @@ import mhfc.net.client.gui.hud.QuestStatusDisplay;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
-import mhfc.net.common.util.Libraries;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.stringview.Viewable;
 import mhfc.net.common.util.stringview.Viewables;
 import net.minecraft.client.Minecraft;
@@ -62,7 +62,7 @@ public class QuestStatusInventory extends GuiContainer {
 	}
 
 	private static final Viewable statusHeader = Viewables
-			.parse("§4§n[[" + Libraries.unlocalized_tag_status_long + "]]§r\n\n", null);
+			.parse("§4§n[[" + ResourceInterface.unlocalized_tag_status_long + "]]§r\n\n", null);
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int mouseX, int mouseY) {

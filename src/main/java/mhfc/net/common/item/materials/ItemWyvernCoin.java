@@ -1,9 +1,9 @@
 package mhfc.net.common.item.materials;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.IItemColored;
 import mhfc.net.common.item.ItemColor;
-import mhfc.net.common.util.Libraries;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -11,7 +11,7 @@ public class ItemWyvernCoin extends Item implements IItemColored {
 
 	public ItemWyvernCoin() {
 		super();
-		setUnlocalizedName(Libraries.item_wyverncoin_name);
+		setUnlocalizedName(ResourceInterface.item_wyverncoin_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 		maxStackSize = 5;
 	}

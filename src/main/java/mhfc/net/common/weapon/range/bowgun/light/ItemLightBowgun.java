@@ -2,7 +2,7 @@ package mhfc.net.common.weapon.range.bowgun.light;
 
 import java.util.function.Consumer;
 
-import mhfc.net.common.util.Libraries;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.weapon.range.bowgun.BowgunWeaponStats;
 import mhfc.net.common.weapon.range.bowgun.BowgunWeaponStats.BowgunWeaponStatsBuilder;
 import mhfc.net.common.weapon.range.bowgun.ItemBowgun;
@@ -26,7 +26,7 @@ public class ItemLightBowgun extends ItemBowgun {
 
 	@Override
 	public String getWeaponClassUnlocalized() {
-		return Libraries.weapon_lightbowgun_name;
+		return ResourceInterface.weapon_lightbowgun_name;
 	}
 
 	@Override

@@ -4,10 +4,10 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.AbstractSubTypedItem;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.item.materials.ItemRemobra.RemobraSubType;
-import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -15,10 +15,10 @@ import net.minecraft.item.ItemStack;
 
 public class ItemRemobra extends AbstractSubTypedItem<RemobraSubType> {
 	public static enum RemobraSubType implements SubTypedItem.SubTypeEnum<Item> {
-		SKIN(Libraries.item_remobra0_name, ItemColor.GRAY), //
-		STRIPE(Libraries.item_remobra1_name, ItemColor.GRAY), //
-		SKULL(Libraries.item_remobra2_name, ItemColor.GRAY), //
-		WING(Libraries.item_remobra3_name, ItemColor.GRAY),;//
+		SKIN(ResourceInterface.item_remobra0_name, ItemColor.GRAY), //
+		STRIPE(ResourceInterface.item_remobra1_name, ItemColor.GRAY), //
+		SKULL(ResourceInterface.item_remobra2_name, ItemColor.GRAY), //
+		WING(ResourceInterface.item_remobra3_name, ItemColor.GRAY),;//
 
 		public final String name;
 		public final ItemColor color;
@@ -46,7 +46,7 @@ public class ItemRemobra extends AbstractSubTypedItem<RemobraSubType> {
 
 	public ItemRemobra() {
 		super(RemobraSubType.class);
-		setUnlocalizedName(Libraries.item_remobra_basename);
+		setUnlocalizedName(ResourceInterface.item_remobra_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

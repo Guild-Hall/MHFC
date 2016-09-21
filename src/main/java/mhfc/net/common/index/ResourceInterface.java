@@ -1,4 +1,4 @@
-package mhfc.net.common.util;
+package mhfc.net.common.index;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ModMetadata;
@@ -12,12 +12,12 @@ import net.minecraftforge.fml.common.ModMetadata;
  * @author WorldSEnder
  *
  */
-public class Libraries {
+public class ResourceInterface {
 	public static final String main_config_file = "config/MHFC.cfg";
 	public static final String main_config_mobCategory = "MHFC Mobs";
 	public static final String main_config_mobs_summonTigrex_key = "SummonTigrex";
 	public static final String main_modid = "mhfc";
-	@Mod.Metadata(Libraries.main_modid)
+	@Mod.Metadata(ResourceInterface.main_modid)
 	private static ModMetadata main_metadata = null;
 
 	public static ModMetadata getMetadata() {

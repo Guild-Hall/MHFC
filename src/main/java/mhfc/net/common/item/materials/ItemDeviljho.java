@@ -4,11 +4,11 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.AbstractSubTypedItem;
 import mhfc.net.common.item.IItemColored;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.item.materials.ItemDeviljho.DeviljhoSubType;
-import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -16,12 +16,12 @@ import net.minecraft.item.ItemStack;
 
 public class ItemDeviljho extends AbstractSubTypedItem<DeviljhoSubType> implements IItemColored {
 	public static enum DeviljhoSubType implements SubTypedItem.SubTypeEnum<Item> {
-		SCALE(Libraries.item_deviljho0_name, ItemColor.GREEN),
-		FANG(Libraries.item_deviljho1_name, ItemColor.GREEN),
-		HIDE(Libraries.item_deviljho2_name, ItemColor.GREEN),
-		TALON(Libraries.item_deviljho3_name, ItemColor.GREEN),
-		SCALP(Libraries.item_deviljho4_name, ItemColor.GREEN),
-		TAIL(Libraries.item_deviljho5_name, ItemColor.GREEN);
+		SCALE(ResourceInterface.item_deviljho0_name, ItemColor.GREEN),
+		FANG(ResourceInterface.item_deviljho1_name, ItemColor.GREEN),
+		HIDE(ResourceInterface.item_deviljho2_name, ItemColor.GREEN),
+		TALON(ResourceInterface.item_deviljho3_name, ItemColor.GREEN),
+		SCALP(ResourceInterface.item_deviljho4_name, ItemColor.GREEN),
+		TAIL(ResourceInterface.item_deviljho5_name, ItemColor.GREEN);
 
 		public final String name;
 		public final ItemColor color;
@@ -49,7 +49,7 @@ public class ItemDeviljho extends AbstractSubTypedItem<DeviljhoSubType> implemen
 
 	public ItemDeviljho() {
 		super(DeviljhoSubType.class);
-		setUnlocalizedName(Libraries.item_deviljho_basename);
+		setUnlocalizedName(ResourceInterface.item_deviljho_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

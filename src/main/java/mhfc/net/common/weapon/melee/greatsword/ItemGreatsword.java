@@ -2,7 +2,7 @@ package mhfc.net.common.weapon.melee.greatsword;
 
 import java.util.function.Consumer;
 
-import mhfc.net.common.util.Libraries;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.greatsword.GreatswordWeaponStats.GreatswordWeaponStatsBuilder;
 import net.minecraft.entity.Entity;
@@ -25,7 +25,7 @@ public class ItemGreatsword extends ItemWeaponMelee<GreatswordWeaponStats> {
 
 	@Override
 	public String getWeaponClassUnlocalized() {
-		return Libraries.weapon_greatsword_name;
+		return ResourceInterface.weapon_greatsword_name;
 	}
 
 	@Override

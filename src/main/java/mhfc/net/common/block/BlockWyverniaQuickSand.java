@@ -3,7 +3,7 @@ package mhfc.net.common.block;
 import java.util.Random;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.util.Libraries;
+import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -18,7 +18,7 @@ public class BlockWyverniaQuickSand extends Block {
 
 	public BlockWyverniaQuickSand() {
 		super(Material.SAND);
-		setUnlocalizedName(Libraries.block_quicksand_name);
+		setUnlocalizedName(ResourceInterface.block_quicksand_name);
 		setHardness(1.3F);
 		setResistance(2.0F);
 		setCreativeTab(MHFCMain.mhfctabs);

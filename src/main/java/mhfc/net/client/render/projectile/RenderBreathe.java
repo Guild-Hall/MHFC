@@ -3,7 +3,7 @@ package mhfc.net.client.render.projectile;
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 
 import mhfc.net.common.entity.projectile.EntityBreathe;
-import mhfc.net.common.util.Libraries;
+import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderBreathe extends Render<EntityBreathe> {
-	private static final ResourceLocation TEXTURES = new ResourceLocation(Libraries.projectile_breathe_tex);
+	private static final ResourceLocation TEXTURES = new ResourceLocation(ResourceInterface.projectile_breathe_tex);
 
 	public RenderBreathe(RenderManager manager) {
 		super(manager);

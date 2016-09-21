@@ -11,10 +11,10 @@ import mhfc.net.common.configuration.MHFCConfig;
 import mhfc.net.common.core.command.CommandExplore;
 import mhfc.net.common.core.command.CommandMHFC;
 import mhfc.net.common.core.command.CommandTpHunterDimension;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.network.NetworkTracker;
 import mhfc.net.common.system.UpdateSystem;
 import mhfc.net.common.tab.MHFCTab;
-import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.services.IPhaseAccess;
 import mhfc.net.common.util.services.IPhaseKey;
 import mhfc.net.common.util.services.IServiceAccess;
@@ -47,7 +47,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  *          -craft-extreme-mob-hunting-adventure-15000-downloads/) Visit www.mhfrontiercraft.blogspot.com for more info.
  */
 
-@Mod(modid = Libraries.main_modid)
+@Mod(modid = ResourceInterface.main_modid)
 public class MHFCMain {
 	private static IPhaseAccess<FMLConstructionEvent, Void> constructedPhaseAccess = Services.instance
 			.<FMLConstructionEvent, Void>registerPhase("mod constructed").setDefaultShutdownContext(null);
@@ -115,7 +115,7 @@ public class MHFCMain {
 		return proxy;
 	}
 
-	@Mod.Instance(Libraries.main_modid)
+	@Mod.Instance(ResourceInterface.main_modid)
 	protected static MHFCMain instance;
 
 	public static MHFCMain instance() {
@@ -130,7 +130,7 @@ public class MHFCMain {
 	}
 
 	public final static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID());
-	private final static Logger logger = LogManager.getLogger(Libraries.main_modid);
+	private final static Logger logger = LogManager.getLogger(ResourceInterface.main_modid);
 
 	public static Logger logger() {
 		return logger;
@@ -165,7 +165,7 @@ public class MHFCMain {
 		config = new MHFCConfig(event);
 		MHFCMain.config().init();
 		UpdateSystem.init();
-		MHFCMain.logger().info("Starting MHFC v" + Libraries.getMetadata().version);
+		MHFCMain.logger().info("Starting MHFC v" + ResourceInterface.getMetadata().version);
 		MHFCMain.logger().info("Copyright (c) Guild Hall 2015");
 		preInitPhaseAccess.enterPhase(event);
 	}

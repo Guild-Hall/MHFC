@@ -21,8 +21,8 @@ import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import mhfc.net.common.entity.quests.EntityQuestGiver;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.ItemColor;
-import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -64,38 +64,38 @@ public class MHFCEntityRegistry {
 	protected MHFCEntityRegistry() {
 		// popoID = getMobID(EntityPopo.class, MHFCReference.mob_popo_name,
 		// 0xf8248234, 0x193192);
-		tigrexID = getMobID(EntityTigrex.class, Libraries.mob_tigrex_name, ItemColor.YELLOW, ItemColor.LIBLUE);
+		tigrexID = getMobID(EntityTigrex.class, ResourceInterface.mob_tigrex_name, ItemColor.YELLOW, ItemColor.LIBLUE);
 		//kirinID = getMobID(EntityKirin.class, MHFCReference.mob_kirin_name, 0xfff85814, 0xff851f15);
-		rathalosID = getMobID(EntityRathalos.class, Libraries.mob_rathalos_name, 0xff749819, 0xf838818);
+		rathalosID = getMobID(EntityRathalos.class, ResourceInterface.mob_rathalos_name, 0xff749819, 0xf838818);
 		greatjaggiID = getMobID(
 				EntityGreatJaggi.class,
-				Libraries.mob_greatjaggi_name,
+				ResourceInterface.mob_greatjaggi_name,
 				ItemColor.PURPLE,
 				ItemColor.PINK);
-		deviljhoID = getMobID(EntityDeviljho.class, Libraries.mob_deviljho_name, ItemColor.GREEN, ItemColor.SILVER);
-		nargacugaID = getMobID(EntityNargacuga.class, Libraries.mob_nargacuga_name, 0xf351631, 0x516f13f);
-		barrothID = getMobID(EntityBarroth.class, Libraries.mob_barroth_name, ItemColor.ORANGE, ItemColor.GRAY);
+		deviljhoID = getMobID(EntityDeviljho.class, ResourceInterface.mob_deviljho_name, ItemColor.GREEN, ItemColor.SILVER);
+		nargacugaID = getMobID(EntityNargacuga.class, ResourceInterface.mob_nargacuga_name, 0xf351631, 0x516f13f);
+		barrothID = getMobID(EntityBarroth.class, ResourceInterface.mob_barroth_name, ItemColor.ORANGE, ItemColor.GRAY);
 		//delexID = getMobID(EntityDelex.class, MHFCReference.mob_delex_name, 0x6f33333, 0x654321);
 		//giapreyID = getMobID(EntityGiaprey.class, MHFCReference.mob_giaprey_name, 0x6f41512, 0x654321);
 		//ukanlosID = getMobID(EntityUkanlos.class, MHFCReference.mob_ukanlos_name, 0x33333333, 0x654321);
-		lagiacrusID = getMobID(EntityLagiacrus.class, Libraries.mob_lagiacrus_name, 0x6fff512, 0x6ff14f1);
+		lagiacrusID = getMobID(EntityLagiacrus.class, ResourceInterface.mob_lagiacrus_name, 0x6fff512, 0x6ff14f1);
 		//gargwaID = getMobID(EntityGargwa.class, MHFCReference.mob_gagua_name, 0x319292, 0x2187ff20);
 
-		questGiverID = getMobID(EntityQuestGiver.class, Libraries.mob_questGiver_name);
+		questGiverID = getMobID(EntityQuestGiver.class, ResourceInterface.mob_questGiver_name);
 
-		projectileBlockID = getProjectileID(EntityProjectileBlock.class, Libraries.entity_tigrexBlock_name);
-		bulletID = getProjectileID(EntityBullet.class, Libraries.entity_bullet_name);
-		rathalosFireballID = getProjectileID(EntityRathalosFireball.class, Libraries.entity_rathalosFireball_name);
+		projectileBlockID = getProjectileID(EntityProjectileBlock.class, ResourceInterface.entity_tigrexBlock_name);
+		bulletID = getProjectileID(EntityBullet.class, ResourceInterface.entity_bullet_name);
+		rathalosFireballID = getProjectileID(EntityRathalosFireball.class, ResourceInterface.entity_rathalosFireball_name);
 		flashbombID = getProjectileID(
 				EntityFlashBomb.class,
-				Libraries.entity_flashbomb_name,
+				ResourceInterface.entity_flashbomb_name,
 				(int) EntityFlashBomb.REACH);
 
-		paintballID = getProjectileID(EntityPaintball.class, Libraries.entity_paintball_name);
+		paintballID = getProjectileID(EntityPaintball.class, ResourceInterface.entity_paintball_name);
 
-		paintemitterID = getMobID(EntityPaintParticleEmitter.class, Libraries.mob_paint_emitter_name);
-		arrowID = getProjectileID(EntityWyverniaArrow.class, Libraries.projectile_wyverniaarrow_name);
-		breatheID = getProjectileID(EntityBreathe.class, Libraries.projectile_wyverniaarrow_name);
+		paintemitterID = getMobID(EntityPaintParticleEmitter.class, ResourceInterface.mob_paint_emitter_name);
+		arrowID = getProjectileID(EntityWyverniaArrow.class, ResourceInterface.projectile_wyverniaarrow_name);
+		breatheID = getProjectileID(EntityBreathe.class, ResourceInterface.projectile_wyverniaarrow_name);
 
 		MHFCMain.logger().info("Monsters registered");
 	}

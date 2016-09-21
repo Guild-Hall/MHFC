@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL11.GL_QUADS;
 import org.lwjgl.opengl.GL11;
 
 import mhfc.net.common.entity.projectile.EntityBeam;
-import mhfc.net.common.util.Libraries;
+import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -21,7 +21,7 @@ import net.minecraft.util.math.MathHelper;
 public class RenderBeam extends Render<EntityBeam> {
 
 	private static final ResourceLocation TEXTURE = new ResourceLocation(
-			Libraries.main_modid,
+			ResourceInterface.main_modid,
 			"textures/projectile/beam.png");
 	private static final double beamTextureWidth = 256;
 	private static final double beamTextureHeight = 32;

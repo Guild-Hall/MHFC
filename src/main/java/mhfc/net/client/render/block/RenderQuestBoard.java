@@ -5,8 +5,8 @@ import org.lwjgl.opengl.GL11;
 import mhfc.net.client.model.block.ModelQuestBoard;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.block.BlockQuestBoard;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.tile.TileQuestBoard;
-import mhfc.net.common.util.Libraries;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
 
@@ -43,7 +43,7 @@ public class RenderQuestBoard extends TileEntitySpecialRenderer<TileQuestBoard> 
 		}
 		GL11.glScalef(1.75f, 1.75f, 1.75f);
 		// Tessellator tessellator = Tessellator.instance;
-		bindTexture(new ResourceLocation(Libraries.tile_questboard_tex));
+		bindTexture(new ResourceLocation(ResourceInterface.tile_questboard_tex));
 		GL11.glPushMatrix();
 
 		int runnings = MHFCRegQuestVisual.getRunningMissionIDs().size();

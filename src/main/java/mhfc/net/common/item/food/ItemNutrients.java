@@ -4,9 +4,9 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.IItemColored;
 import mhfc.net.common.item.ItemColor;
-import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,11 +19,11 @@ import net.minecraft.world.World;
 
 public class ItemNutrients extends ItemFood implements IItemColored {
 	public static enum NutrientsSubType implements SubTypedItem.SubTypeEnum<Item> {
-		NORMAL(Libraries.item_normalnutrients_name, ItemColor.LIBLUE, 2, 50, new PotionEffect(
+		NORMAL(ResourceInterface.item_normalnutrients_name, ItemColor.LIBLUE, 2, 50, new PotionEffect(
 				MobEffects.HEALTH_BOOST,
 				12000,
 				1)),
-		MEGA(Libraries.item_meganutrient_name, ItemColor.BLUE, 3, 70, new PotionEffect(
+		MEGA(ResourceInterface.item_meganutrient_name, ItemColor.BLUE, 3, 70, new PotionEffect(
 				MobEffects.HEALTH_BOOST,
 				12000,
 				3));
@@ -69,7 +69,7 @@ public class ItemNutrients extends ItemFood implements IItemColored {
 	public ItemNutrients() {
 		super(0, 0, true);
 		itemPerk = new SubTypedItem<>(NutrientsSubType.class);
-		setUnlocalizedName(Libraries.item_nutrients_basename);
+		setUnlocalizedName(ResourceInterface.item_nutrients_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(1);
 		setHasSubtypes(true);

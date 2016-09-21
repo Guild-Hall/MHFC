@@ -3,7 +3,7 @@ package mhfc.net.common.block;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.block.BlockWyverniaRock.WyverniaRockSubType;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
-import mhfc.net.common.util.Libraries;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -12,9 +12,9 @@ import net.minecraft.block.state.BlockStateContainer;
 
 public class BlockWyverniaRock extends AbstractSubTypedBlock<WyverniaRockSubType> {
 	public static enum WyverniaRockSubType implements SubTypedItem.SubTypeEnum<Block> {
-		AUVEL(Libraries.block_auvel_name),
-		CRADLE(Libraries.block_cradle_name),
-		TACREN(Libraries.block_tacren_name);
+		AUVEL(ResourceInterface.block_auvel_name),
+		CRADLE(ResourceInterface.block_cradle_name),
+		TACREN(ResourceInterface.block_tacren_name);
 
 		public final String name;
 
@@ -37,7 +37,7 @@ public class BlockWyverniaRock extends AbstractSubTypedBlock<WyverniaRockSubType
 
 	public BlockWyverniaRock() {
 		super(PROPERTY, Material.ROCK);
-		setUnlocalizedName(Libraries.block_wyverniarock_basename);
+		setUnlocalizedName(ResourceInterface.block_wyverniarock_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHardness(1.1f);
 	}
