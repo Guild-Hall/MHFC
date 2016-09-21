@@ -5,16 +5,16 @@ import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.item.AbstractSubTypedItem;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.item.materials.ItemIngot.IngotsSubType;
+import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.SubTypedItem;
-import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.item.Item;
 
 public class ItemIngot extends AbstractSubTypedItem<IngotsSubType> {
 	public static enum IngotsSubType implements SubTypedItem.SubTypeEnum<Item> {
-		CARBALITE(MHFCReference.item_ingot0_name, ItemColor.PURPLE),
-		DRAGONITE(MHFCReference.item_ingot1_name, ItemColor.GREEN),
-		ELTALITE(MHFCReference.item_ingot2_name, ItemColor.RED),
-		MACHALITE(MHFCReference.item_ingot3_name, ItemColor.CYAN);
+		CARBALITE(Libraries.item_ingot0_name, ItemColor.PURPLE),
+		DRAGONITE(Libraries.item_ingot1_name, ItemColor.GREEN),
+		ELTALITE(Libraries.item_ingot2_name, ItemColor.RED),
+		MACHALITE(Libraries.item_ingot3_name, ItemColor.CYAN);
 
 		public final String name;
 		public final ItemColor color;
@@ -42,7 +42,7 @@ public class ItemIngot extends AbstractSubTypedItem<IngotsSubType> {
 
 	public ItemIngot() {
 		super(IngotsSubType.class);
-		setUnlocalizedName(MHFCReference.item_ingot_basename);
+		setUnlocalizedName(Libraries.item_ingot_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 }

@@ -5,7 +5,7 @@ import java.util.Random;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.tile.TileStunTrap;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -39,7 +39,7 @@ public class BlockStunTrap extends BlockContainer {
 
 	public BlockStunTrap() {
 		super(Material.ROCK);
-		setUnlocalizedName(MHFCReference.block_stuntrap_name);
+		setUnlocalizedName(Libraries.block_stuntrap_name);
 		setHardness(0.8F);
 		disableStats();
 		setCreativeTab(MHFCMain.mhfctabs);

@@ -36,10 +36,6 @@ public class Operations {
 				return this;
 			}
 
-			@Override
-			public void addStatusMessages(List<String> messages) {
-				// TODO Auto-generated method stub
-			}
 
 			@Override
 			public void cancel() {
@@ -48,6 +44,13 @@ public class Operations {
 					current.cancel();
 					onCancel.accept(this);
 				}
+			}
+
+
+			@Override
+			public void addStatusMessages(List<String> messages) {
+				// TODO Auto-generated method stub
+				
 			}
 		};
 	}
@@ -60,13 +63,16 @@ public class Operations {
 				return null;
 			}
 
-			@Override
-			public void addStatusMessages(List<String> messages) {
-				// TODO Auto-generated method stub
-			}
 
 			@Override
 			public void cancel() {}
+
+
+			@Override
+			public void addStatusMessages(List<String> messages) {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 	}
 
@@ -87,7 +93,6 @@ public class Operations {
 				return current == null ? null : this;
 			}
 
-			@Override
 			public void addStatusMessages(List<String> messages) {
 				// TODO Auto-generated method stub
 			}
@@ -107,7 +112,6 @@ public class Operations {
 				return null;
 			}
 
-			@Override
 			public void addStatusMessages(List<String> messages) {
 				// TODO Auto-generated method stub
 			}
@@ -136,13 +140,16 @@ public class Operations {
 				return current == null ? null : this;
 			}
 
-			@Override
-			public void addStatusMessages(List<String> messages) {
-				// TODO Auto-generated method stub
-			}
 
 			@Override
 			public void cancel() {}
+
+
+			@Override
+			public void addStatusMessages(List<String> messages) {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 	}
 }

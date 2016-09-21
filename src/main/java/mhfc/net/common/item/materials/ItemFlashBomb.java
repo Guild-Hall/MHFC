@@ -4,7 +4,7 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.entity.projectile.EntityFlashBomb;
 import mhfc.net.common.item.IItemColored;
 import mhfc.net.common.item.ItemColor;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 public class ItemFlashBomb extends Item implements IItemColored {
 
 	public ItemFlashBomb() {
-		setUnlocalizedName(MHFCReference.item_flashbomb_name);
+		setUnlocalizedName(Libraries.item_flashbomb_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(2);
 	}

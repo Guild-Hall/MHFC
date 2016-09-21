@@ -44,10 +44,6 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 			isCancelled = true;
 		}
 
-		@Override
-		public void addStatusMessages(List<String> messages) {
-			// TODO Auto-generated method stub
-		}
 
 		@Override
 		public Operation resume(RunContext run) throws WorldEditException {
@@ -69,6 +65,12 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 
 		public int getRemaining() {
 			return tickTime.get();
+		}
+
+		@Override
+		public void addStatusMessages(List<String> messages) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 

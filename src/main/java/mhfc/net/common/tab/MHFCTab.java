@@ -1,7 +1,7 @@
 package mhfc.net.common.tab;
 
 import mhfc.net.common.core.registry.MHFCItemRegistry;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.relauncher.Side;
@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class MHFCTab extends CreativeTabs {
 
 	public MHFCTab(int par) {
-		super(par, MHFCReference.gui_tab_name);
+		super(par, Libraries.gui_tab_name);
 		this.setBackgroundImageName("mhfc.png");
 	}
 
@@ -22,7 +22,7 @@ public class MHFCTab extends CreativeTabs {
 
 	@Override
 	public String getTranslatedTabLabel() {
-		return MHFCReference.gui_tab_name;
+		return Libraries.gui_tab_name;
 		// The main_name of the tab ingame
 	}
 

@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.function.Consumer;
 
 import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import mhfc.net.common.weapon.ItemWeapon;
 import mhfc.net.common.weapon.range.bow.BowWeaponStats.BowWeaponStatsBuilder;
 import net.minecraft.entity.EntityLivingBase;
@@ -63,7 +63,7 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 
 	@Override
 	public String getWeaponClassUnlocalized() {
-		return MHFCReference.weapon_bow_name;
+		return Libraries.weapon_bow_name;
 	}
 
 	/**

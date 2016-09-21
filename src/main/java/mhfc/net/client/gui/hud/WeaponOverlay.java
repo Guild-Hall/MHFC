@@ -10,7 +10,7 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 import java.util.List;
 
 import mhfc.net.client.util.gui.MHFCGuiUtil;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import mhfc.net.common.weapon.melee.huntinghorn.HuntingHornWeaponStats;
 import mhfc.net.common.weapon.melee.huntinghorn.ItemHuntingHorn;
 import mhfc.net.common.weapon.melee.huntinghorn.Note;
@@ -26,10 +26,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class WeaponOverlay {
 
-	private static final ResourceLocation staveLoc = new ResourceLocation(MHFCReference.gui_huntinghorn_stave);
-	private static final ResourceLocation noteLoc = new ResourceLocation(MHFCReference.gui_huntinghorn_note);
+	private static final ResourceLocation staveLoc = new ResourceLocation(Libraries.gui_huntinghorn_stave);
+	private static final ResourceLocation noteLoc = new ResourceLocation(Libraries.gui_huntinghorn_note);
 
-	private static final ResourceLocation spiritGaugeLoc = new ResourceLocation(MHFCReference.gui_longsword_gauge);
+	private static final ResourceLocation spiritGaugeLoc = new ResourceLocation(Libraries.gui_longsword_gauge);
 
 	public static void render() {
 		EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;

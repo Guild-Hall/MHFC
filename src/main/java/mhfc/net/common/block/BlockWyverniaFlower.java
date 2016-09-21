@@ -6,8 +6,8 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.block.BlockWyverniaFlower.WyverniaFlowerSubType;
 import mhfc.net.common.block.environment.BlockWyverniaDecor;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
+import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.SubTypedItem;
-import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -23,12 +23,12 @@ import net.minecraft.world.IBlockAccess;
 
 public class BlockWyverniaFlower extends BlockWyverniaDecor implements ISubTypedBlock<WyverniaFlowerSubType> {
 	public static enum WyverniaFlowerSubType implements SubTypedItem.SubTypeEnum<Block> {
-		CARNCASE(MHFCReference.block_carncase_name, MHFCReference.block_carncase_tex),
-		FELRON(MHFCReference.block_felron_name, MHFCReference.block_felron_tex),
-		ORCTAL(MHFCReference.block_orctal_name, MHFCReference.block_orctal_tex),
-		PENO(MHFCReference.block_peno_name, MHFCReference.block_peno_tex),
-		SHRINE(MHFCReference.block_shrine_name, MHFCReference.block_shrine_tex),
-		SPINDEL(MHFCReference.block_spindel_name, MHFCReference.block_spindel_tex);
+		CARNCASE(Libraries.block_carncase_name, Libraries.block_carncase_tex),
+		FELRON(Libraries.block_felron_name, Libraries.block_felron_tex),
+		ORCTAL(Libraries.block_orctal_name, Libraries.block_orctal_tex),
+		PENO(Libraries.block_peno_name, Libraries.block_peno_tex),
+		SHRINE(Libraries.block_shrine_name, Libraries.block_shrine_tex),
+		SPINDEL(Libraries.block_spindel_name, Libraries.block_spindel_tex);
 
 		public final String name;
 		public final String texture;
@@ -61,7 +61,7 @@ public class BlockWyverniaFlower extends BlockWyverniaDecor implements ISubTyped
 
 	public BlockWyverniaFlower() {
 		super(Material.PLANTS);
-		setUnlocalizedName(MHFCReference.block_wyverniaflower_basename);
+		setUnlocalizedName(Libraries.block_wyverniaflower_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHardness(0.0f);
 		setTickRandomly(true);

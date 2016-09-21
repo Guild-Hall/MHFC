@@ -4,7 +4,7 @@ import java.util.Random;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -16,7 +16,7 @@ public class BlockWyverniaGrass extends Block {
 
 	public BlockWyverniaGrass() {
 		super(Material.GRASS);
-		setUnlocalizedName(MHFCReference.block_wyveriangrass_name);
+		setUnlocalizedName(Libraries.block_wyveriangrass_name);
 		setHardness(0.8F);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}

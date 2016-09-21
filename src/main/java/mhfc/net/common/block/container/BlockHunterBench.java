@@ -3,7 +3,7 @@ package mhfc.net.common.block.container;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCContainerRegistry;
 import mhfc.net.common.tile.TileHunterBench;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -19,7 +19,7 @@ public class BlockHunterBench extends BlockContainer {
 
 	public BlockHunterBench() {
 		super(Material.ROCK);
-		setUnlocalizedName(MHFCReference.block_hunterbench_name);
+		setUnlocalizedName(Libraries.block_hunterbench_name);
 		setHardness(1.2F);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}

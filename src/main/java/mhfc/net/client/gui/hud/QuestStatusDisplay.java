@@ -12,7 +12,7 @@ import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.core.registry.MHFCContainerRegistry;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.stringview.Viewable;
 import mhfc.net.common.util.stringview.Viewables;
 import net.minecraft.client.Minecraft;
@@ -31,9 +31,9 @@ public class QuestStatusDisplay {
 
 	private static final Minecraft mc = Minecraft.getMinecraft();
 	public static final ResourceLocation QUEST_STATUS_INVENTORY_BACKGROUND = new ResourceLocation(
-			MHFCReference.gui_status_inventory_tex);
+			Libraries.gui_status_inventory_tex);
 	public static final ResourceLocation QUEST_STATUS_ONSCREEN_BACKGROUND = new ResourceLocation(
-			MHFCReference.gui_status_onscreen_tex);
+			Libraries.gui_status_onscreen_tex);
 
 	private static final StringBuilder buffer = new StringBuilder();
 
@@ -55,7 +55,7 @@ public class QuestStatusDisplay {
 	}
 
 	private static Viewable shortStatusHeader = Viewables
-			.parse("§4§n[[" + MHFCReference.unlocalized_tag_status_short + "]]§r\n\n", null);
+			.parse("§4§n[[" + Libraries.unlocalized_tag_status_short + "]]§r\n\n", null);
 
 	@SubscribeEvent
 	public void onDraw(RenderGameOverlayEvent.Post overlayEvent) {

@@ -9,7 +9,7 @@ import mhfc.net.common.network.message.bench.MessageBenchRefreshRequest;
 import mhfc.net.common.network.message.bench.MessageCancelRecipe;
 import mhfc.net.common.network.message.bench.MessageCraftingUpdate;
 import mhfc.net.common.network.message.bench.MessageSetRecipe;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -454,7 +454,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 
 	@Override
 	public String getName() {
-		return "container" + MHFCReference.block_hunterbench_name;
+		return "container" + Libraries.block_hunterbench_name;
 	}
 
 	@Override

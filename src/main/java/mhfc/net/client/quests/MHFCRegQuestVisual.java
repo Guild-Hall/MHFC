@@ -18,7 +18,7 @@ import mhfc.net.common.core.registry.RegistryWrapper;
 import mhfc.net.common.network.NetworkTracker;
 import mhfc.net.common.network.message.quest.MessageQuestInit;
 import mhfc.net.common.quests.api.QuestDefinition;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -29,8 +29,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class MHFCRegQuestVisual {
 	public static void staticInit() {}
 
-	public static final ResourceLocation QUEST_BOARD_BACKGROUND = new ResourceLocation(MHFCReference.gui_board_tex);
-	public static final ResourceLocation CLICKABLE_LIST = new ResourceLocation(MHFCReference.gui_list_tex);
+	public static final ResourceLocation QUEST_BOARD_BACKGROUND = new ResourceLocation(Libraries.gui_board_tex);
+	public static final ResourceLocation CLICKABLE_LIST = new ResourceLocation(Libraries.gui_list_tex);
 
 	private static final IServiceKey<MHFCRegQuestVisual> serviceAccess = RegistryWrapper.registerService(
 			"quest visuals",

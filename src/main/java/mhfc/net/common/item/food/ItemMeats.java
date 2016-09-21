@@ -6,8 +6,8 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.item.IItemColored;
 import mhfc.net.common.item.ItemColor;
+import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.SubTypedItem;
-import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -19,9 +19,9 @@ import net.minecraft.world.World;
 
 public class ItemMeats extends ItemFood implements IItemColored {
 	public static enum MeatSubType implements SubTypedItem.SubTypeEnum<Item> {
-		RAW(MHFCReference.item_rawmeat_name, ItemColor.RED, 2, 40),
-		COOKED(MHFCReference.item_cookedmeat_name, ItemColor.ORANGE, 3, 100),
-		BOOST(MHFCReference.item_boostmeat_name, ItemColor.YELLOW, 3, 100) {
+		RAW(Libraries.item_rawmeat_name, ItemColor.RED, 2, 40),
+		COOKED(Libraries.item_cookedmeat_name, ItemColor.ORANGE, 3, 100),
+		BOOST(Libraries.item_boostmeat_name, ItemColor.YELLOW, 3, 100) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -29,7 +29,7 @@ public class ItemMeats extends ItemFood implements IItemColored {
 				}
 			}
 		},
-		PROTECTION(MHFCReference.item_protectionmeat_name, ItemColor.CYAN, 4, 125) {
+		PROTECTION(Libraries.item_protectionmeat_name, ItemColor.CYAN, 4, 125) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -37,7 +37,7 @@ public class ItemMeats extends ItemFood implements IItemColored {
 				}
 			}
 		},
-		POISON(MHFCReference.item_poisonmeat_name, ItemColor.PURPLE, 3, 50) {
+		POISON(Libraries.item_poisonmeat_name, ItemColor.PURPLE, 3, 50) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -45,7 +45,7 @@ public class ItemMeats extends ItemFood implements IItemColored {
 				}
 			}
 		},
-		SLOW(MHFCReference.item_slowmeat_name, ItemColor.GRAY, 3, 100) {
+		SLOW(Libraries.item_slowmeat_name, ItemColor.GRAY, 3, 100) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -53,7 +53,7 @@ public class ItemMeats extends ItemFood implements IItemColored {
 				}
 			}
 		},
-		HUNGER(MHFCReference.item_hungermeat_name, ItemColor.LIME, 2, 30) {
+		HUNGER(Libraries.item_hungermeat_name, ItemColor.LIME, 2, 30) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -61,7 +61,7 @@ public class ItemMeats extends ItemFood implements IItemColored {
 				}
 			}
 		},
-		FIRE(MHFCReference.item_firemeat_name, ItemColor.RED, 4, 150) {
+		FIRE(Libraries.item_firemeat_name, ItemColor.RED, 4, 150) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -109,7 +109,7 @@ public class ItemMeats extends ItemFood implements IItemColored {
 	public ItemMeats() {
 		super(0, 0, true);
 		itemPerk = new SubTypedItem<>(MeatSubType.class);
-		setUnlocalizedName(MHFCReference.item_meat_basename);
+		setUnlocalizedName(Libraries.item_meat_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(1);
 		setHasSubtypes(true);

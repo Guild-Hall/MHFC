@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL11.GL_QUADS;
 import org.lwjgl.opengl.GL11;
 
 import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -19,7 +19,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderWyverniaArrow extends Render<EntityWyverniaArrow> {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(MHFCReference.projectile_wyverniaarrow_tex);
+	private static final ResourceLocation TEXTURE = new ResourceLocation(Libraries.projectile_wyverniaarrow_tex);
 
 	public RenderWyverniaArrow(RenderManager manager) {
 		super(manager);

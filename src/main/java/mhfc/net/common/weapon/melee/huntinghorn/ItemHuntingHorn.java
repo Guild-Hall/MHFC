@@ -3,7 +3,7 @@ package mhfc.net.common.weapon.melee.huntinghorn;
 import java.util.function.Consumer;
 
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.huntinghorn.HuntingHornWeaponStats.HuntingHornWeaponStatsBuilder;
 import net.minecraft.entity.EntityLivingBase;
@@ -28,7 +28,7 @@ public class ItemHuntingHorn extends ItemWeaponMelee<HuntingHornWeaponStats> {
 
 	@Override
 	public String getWeaponClassUnlocalized() {
-		return MHFCReference.weapon_huntinghorn_name;
+		return Libraries.weapon_huntinghorn_name;
 	}
 
 	@Override

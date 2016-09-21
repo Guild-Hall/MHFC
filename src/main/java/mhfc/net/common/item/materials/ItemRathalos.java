@@ -7,19 +7,19 @@ import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.item.AbstractSubTypedItem;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.item.materials.ItemRathalos.RathalosSubType;
+import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.SubTypedItem;
-import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ItemRathalos extends AbstractSubTypedItem<RathalosSubType> {
 	public static enum RathalosSubType implements SubTypedItem.SubTypeEnum<Item> {
-		SHELL(MHFCReference.item_rathalos0_name, ItemColor.RED), //
-		WEBBING(MHFCReference.item_rathalos1_name, ItemColor.RED), //
-		MARROW(MHFCReference.item_rathalos2_name, ItemColor.RED), //
-		WING(MHFCReference.item_rathalos3_name, ItemColor.RED), //
-		PLATE(MHFCReference.item_rathalos4_name, ItemColor.RED);
+		SHELL(Libraries.item_rathalos0_name, ItemColor.RED), //
+		WEBBING(Libraries.item_rathalos1_name, ItemColor.RED), //
+		MARROW(Libraries.item_rathalos2_name, ItemColor.RED), //
+		WING(Libraries.item_rathalos3_name, ItemColor.RED), //
+		PLATE(Libraries.item_rathalos4_name, ItemColor.RED);
 
 		public final String name;
 		public final ItemColor color;
@@ -47,7 +47,7 @@ public class ItemRathalos extends AbstractSubTypedItem<RathalosSubType> {
 
 	public ItemRathalos() {
 		super(RathalosSubType.class);
-		setUnlocalizedName(MHFCReference.item_rathalos_basename);
+		setUnlocalizedName(Libraries.item_rathalos_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

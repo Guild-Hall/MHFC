@@ -3,7 +3,7 @@ package mhfc.net.client.render.projectile;
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 
 import mhfc.net.common.entity.projectile.EntityBullet;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderBullet extends Render<EntityBullet> {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(MHFCReference.projectile_wyverniabullet_tex);
+	private static final ResourceLocation TEXTURE = new ResourceLocation(Libraries.projectile_wyverniabullet_tex);
 
 	public RenderBullet(RenderManager manager) {
 		super(manager);

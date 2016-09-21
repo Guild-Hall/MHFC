@@ -1,6 +1,6 @@
 package mhfc.net.common.entity.type;
 
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -24,7 +24,7 @@ public abstract class EntityParticleEmitter extends Entity implements IEntityAdd
 	}
 
 	public int maxLife;
-	public static final int ABSOLUTE_MAX = MHFCReference.max_duration_particle_emitter_in_ticks;
+	public static final int ABSOLUTE_MAX = Libraries.max_duration_particle_emitter_in_ticks;
 
 	public EntityParticleEmitter(World worldIn) {
 		super(worldIn);

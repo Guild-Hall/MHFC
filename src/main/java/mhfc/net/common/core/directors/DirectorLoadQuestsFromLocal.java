@@ -9,8 +9,8 @@ import com.google.gson.JsonIOException;
 import mhfc.net.common.core.builders.BuilderJsonToQuests;
 import mhfc.net.common.core.data.QuestDescriptionRegistry;
 import mhfc.net.common.core.data.QuestDescriptionRegistry.IQuestDescriptionDirector;
+import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.Utilities;
-import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -32,30 +32,30 @@ public class DirectorLoadQuestsFromLocal implements IQuestDescriptionDirector {
 	}
 
 	private void generateGroupMapping(BuilderJsonToQuests builderFromJson) {
-		ResourceLocation location = new ResourceLocation(MHFCReference.groupLocation);
+		ResourceLocation location = new ResourceLocation(Libraries.groupLocation);
 		try (BufferedReader reader = openReader(location)) {
 			builderFromJson.acceptGroupMappingFrom(reader);
 		} catch (IOException ioe) {
-			throw new JsonIOException("Couldn't read from groupLocation " + MHFCReference.questLocation, ioe);
+			throw new JsonIOException("Couldn't read from groupLocation " + Libraries.questLocation, ioe);
 		}
 
 	}
 
 	private void generateGoals(BuilderJsonToQuests builderFromJson) {
-		ResourceLocation location = new ResourceLocation(MHFCReference.goalLocation);
+		ResourceLocation location = new ResourceLocation(Libraries.goalLocation);
 		try (BufferedReader reader = openReader(location)) {
 			builderFromJson.acceptGoalsFrom(reader);
 		} catch (IOException ioe) {
-			throw new JsonIOException("Couldn't read from goalLocation " + MHFCReference.questLocation, ioe);
+			throw new JsonIOException("Couldn't read from goalLocation " + Libraries.questLocation, ioe);
 		}
 	}
 
 	private void generateQuests(BuilderJsonToQuests builderFromJson) {
-		ResourceLocation location = new ResourceLocation(MHFCReference.questLocation);
+		ResourceLocation location = new ResourceLocation(Libraries.questLocation);
 		try (BufferedReader reader = openReader(location)) {
 			builderFromJson.acceptQuestsFrom(reader);
 		} catch (IOException ioe) {
-			throw new JsonIOException("Couldn't read from questLocation " + MHFCReference.questLocation, ioe);
+			throw new JsonIOException("Couldn't read from questLocation " + Libraries.questLocation, ioe);
 		}
 	}
 

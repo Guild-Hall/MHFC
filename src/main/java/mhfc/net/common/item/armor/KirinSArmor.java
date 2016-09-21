@@ -3,11 +3,11 @@ package mhfc.net.common.item.armor;
 import java.util.List;
 
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
-import mhfc.net.common.helper.ArmorMaterialHelper;
-import mhfc.net.common.helper.ArmorModelHelper;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.system.DonatorSystem;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
+import mhfc.net.common.util.reception.ArmorMaterialReception;
+import mhfc.net.common.util.reception.ArmorModelReception;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -20,18 +20,18 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class KirinSArmor extends ItemExclusiveArmor {
-	private static final String[] names = { MHFCReference.armor_kirinS_helm_name, MHFCReference.armor_kirinS_chest_name,
-			MHFCReference.armor_kirinS_legs_name, MHFCReference.armor_kirinS_boots_name };
+	private static final String[] names = { Libraries.armor_kirinS_helm_name, Libraries.armor_kirinS_chest_name,
+			Libraries.armor_kirinS_legs_name, Libraries.armor_kirinS_boots_name };
 
 	public KirinSArmor(EntityEquipmentSlot type) {
-		super(DonatorSystem.kirinS, ArmorMaterialHelper.ArmorKirinS, ItemRarity.R04, type);
+		super(DonatorSystem.kirinS, ArmorMaterialReception.ArmorKirinS, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
-		return ArmorModelHelper.kirinS;
+		return ArmorModelReception.kirinS;
 	}
 
 	@Override

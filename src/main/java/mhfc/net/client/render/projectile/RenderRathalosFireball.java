@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL12;
 
 import mhfc.net.client.model.projectile.ModelRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderRathalosFireball extends Render<EntityRathalosFireball> {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(MHFCReference.entity_rathalosfireball_tex);
+	private static final ResourceLocation TEXTURE = new ResourceLocation(Libraries.entity_rathalosfireball_tex);
 
 	private ModelRathalosFireball model;
 

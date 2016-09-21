@@ -2,7 +2,7 @@ package mhfc.net.common.world.types;
 
 import mhfc.net.common.quests.world.SpawnControllerAdapter.SpawnInformation;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.EmptyArea;
 import mhfc.net.common.world.area.IArea;
@@ -43,7 +43,7 @@ public class DesertPalmType extends AreaTypeSchematic {
 
 	@Override
 	public String getUnlocalizedName() {
-		return MHFCReference.area_desertpalm_name;
+		return Libraries.area_desertpalm_name;
 	}
 
 	@Override

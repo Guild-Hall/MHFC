@@ -5,14 +5,14 @@ import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.item.AbstractSubTypedItem;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.item.materials.ItemArmorSphere.ArmorSphereSubType;
+import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.SubTypedItem;
-import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.item.Item;
 
 public class ItemArmorSphere extends AbstractSubTypedItem<ArmorSphereSubType> {
 	public static enum ArmorSphereSubType implements SubTypedItem.SubTypeEnum<Item> {
-		NORMAL(MHFCReference.item_armorsphere0_name, ItemColor.BLUE),
-		PLUS(MHFCReference.item_armorsphere1_name, ItemColor.LIME);
+		NORMAL(Libraries.item_armorsphere0_name, ItemColor.BLUE),
+		PLUS(Libraries.item_armorsphere1_name, ItemColor.LIME);
 
 		public final String name;
 		public final ItemColor color;
@@ -40,7 +40,7 @@ public class ItemArmorSphere extends AbstractSubTypedItem<ArmorSphereSubType> {
 
 	public ItemArmorSphere() {
 		super(ArmorSphereSubType.class);
-		setUnlocalizedName(MHFCReference.item_armorsphere_basename);
+		setUnlocalizedName(Libraries.item_armorsphere_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(16);
 	}

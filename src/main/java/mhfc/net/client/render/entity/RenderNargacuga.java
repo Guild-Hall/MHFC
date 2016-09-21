@@ -14,15 +14,15 @@ import com.github.worldsender.mcanm.common.CommonLoader;
 
 import mhfc.net.client.core.registry.MHFCEntityRenderRegistry;
 import mhfc.net.common.entity.monster.EntityNargacuga;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 
 public class RenderNargacuga extends RenderAnimatedModel<EntityNargacuga> {
-	private static final String TEXTURE_DIR = MHFCReference.mob_nargacuga_textureDir;
-	private static final ResourceLocation MODEL_LOC = new ResourceLocation(MHFCReference.mob_nargacuga_model);
-	private static final ResourceLocation SKELETON_LOC = new ResourceLocation(MHFCReference.mob_nargacuga_skeleton);
+	private static final String TEXTURE_DIR = Libraries.mob_nargacuga_textureDir;
+	private static final ResourceLocation MODEL_LOC = new ResourceLocation(Libraries.mob_nargacuga_model);
+	private static final ResourceLocation SKELETON_LOC = new ResourceLocation(Libraries.mob_nargacuga_skeleton);
 	private static final float SHADOW_SIZE = 1.0F;
 
 	public RenderNargacuga(RenderManager manager) {

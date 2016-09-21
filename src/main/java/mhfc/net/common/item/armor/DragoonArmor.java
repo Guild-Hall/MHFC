@@ -2,12 +2,12 @@ package mhfc.net.common.item.armor;
 
 import java.util.List;
 
-import mhfc.net.common.helper.ArmorMaterialHelper;
-import mhfc.net.common.helper.ArmorModelHelper;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.system.DonatorSystem;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
+import mhfc.net.common.util.reception.ArmorMaterialReception;
+import mhfc.net.common.util.reception.ArmorModelReception;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -19,19 +19,19 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class DragoonArmor extends ItemExclusiveArmor {
-	private static final String[] names = { MHFCReference.armor_dragoon_helm_name,
-			MHFCReference.armor_dragoon_chest_name, MHFCReference.armor_dragoon_legs_name,
-			MHFCReference.armor_dragoon_boots_name };
+	private static final String[] names = { Libraries.armor_dragoon_helm_name,
+			Libraries.armor_dragoon_chest_name, Libraries.armor_dragoon_legs_name,
+			Libraries.armor_dragoon_boots_name };
 
 	public DragoonArmor(EntityEquipmentSlot type) {
-		super(DonatorSystem.dragoon, ArmorMaterialHelper.ArmorDragoon, ItemRarity.R04, type);
+		super(DonatorSystem.dragoon, ArmorMaterialReception.ArmorDragoon, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
-		return ArmorModelHelper.dragoon;
+		return ArmorModelReception.dragoon;
 	}
 
 	@Override

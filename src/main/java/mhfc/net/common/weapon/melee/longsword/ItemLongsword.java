@@ -6,8 +6,8 @@ import java.util.function.Consumer;
 import com.google.common.collect.Multimap;
 
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
+import mhfc.net.common.util.Libraries;
 import mhfc.net.common.util.NBTUtils;
-import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.longsword.LongswordWeaponStats.LongswordWeaponStatsBuilder;
 import net.minecraft.entity.Entity;
@@ -74,7 +74,7 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 
 	@Override
 	public String getWeaponClassUnlocalized() {
-		return MHFCReference.weapon_longsword_name;
+		return Libraries.weapon_longsword_name;
 	}
 
 	@Override

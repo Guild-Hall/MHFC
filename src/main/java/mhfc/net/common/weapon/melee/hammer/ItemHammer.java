@@ -3,7 +3,7 @@ package mhfc.net.common.weapon.melee.hammer;
 import java.util.function.Consumer;
 
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.hammer.HammerWeaponStats.HammerWeaponStatsBuilder;
 import net.minecraft.entity.Entity;
@@ -31,7 +31,7 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 
 	@Override
 	public String getWeaponClassUnlocalized() {
-		return MHFCReference.weapon_hammer_name;
+		return Libraries.weapon_hammer_name;
 	}
 
 	@Override

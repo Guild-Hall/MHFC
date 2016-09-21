@@ -3,7 +3,7 @@ package mhfc.net.common.item.materials;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.item.IItemColored;
 import mhfc.net.common.item.ItemColor;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
@@ -20,7 +20,7 @@ public class ItemFirestone extends Item implements IItemColored {
 
 	public ItemFirestone() {
 		maxStackSize = 12;
-		setUnlocalizedName(MHFCReference.item_firestone_name);
+		setUnlocalizedName(Libraries.item_firestone_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

@@ -2,11 +2,11 @@ package mhfc.net.common.item.armor;
 
 import java.util.List;
 
-import mhfc.net.common.helper.ArmorMaterialHelper;
-import mhfc.net.common.helper.ArmorModelHelper;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.system.ColorSystem;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
+import mhfc.net.common.util.reception.ArmorMaterialReception;
+import mhfc.net.common.util.reception.ArmorModelReception;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -15,19 +15,19 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class KishinArmor extends ItemArmorMHFC {
-	private static final String[] names = { MHFCReference.armor_tigrexb_helm_name,
-			MHFCReference.armor_tigrexb_chest_name, MHFCReference.armor_tigrexb_legs_name,
-			MHFCReference.armor_tigrexb_boots_name };
+	private static final String[] names = { Libraries.armor_tigrexb_helm_name,
+			Libraries.armor_tigrexb_chest_name, Libraries.armor_tigrexb_legs_name,
+			Libraries.armor_tigrexb_boots_name };
 
 	public KishinArmor(EntityEquipmentSlot type) {
-		super(ArmorMaterialHelper.ArmorTigrexB, ItemRarity.R04, type);
+		super(ArmorMaterialReception.ArmorTigrexB, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
-		return ArmorModelHelper.tigrexb;
+		return ArmorModelReception.tigrexb;
 	}
 
 	@Override

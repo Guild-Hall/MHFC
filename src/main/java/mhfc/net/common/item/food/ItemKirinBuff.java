@@ -3,7 +3,7 @@ package mhfc.net.common.item.food;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.item.IItemColored;
 import mhfc.net.common.item.ItemColor;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -16,7 +16,7 @@ public class ItemKirinBuff extends ItemFood implements IItemColored {
 
 	public ItemKirinBuff() {
 		super(healAmount, saturation, isDogsFood);
-		setUnlocalizedName(MHFCReference.armor_kirin_buff_name);
+		setUnlocalizedName(Libraries.armor_kirin_buff_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 15, 4), 1f);
 	}

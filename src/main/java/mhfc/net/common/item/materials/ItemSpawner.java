@@ -7,7 +7,7 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.core.MHFCMobList;
 import mhfc.net.common.core.MHFCMobList.MHFCEggInfo;
 import mhfc.net.common.item.IItemColored;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
@@ -33,7 +33,7 @@ public class ItemSpawner extends Item implements IItemColored {
 
 	public ItemSpawner() {
 		super();
-		setUnlocalizedName(MHFCReference.item_mhfcspawnegg_name);
+		setUnlocalizedName(Libraries.item_mhfcspawnegg_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHasSubtypes(true);
 		setMaxStackSize(1);

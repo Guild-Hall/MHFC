@@ -1,14 +1,14 @@
 package mhfc.net.common.item.materials;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import net.minecraft.item.Item;
 
 public class ItemTrapTool extends Item {
 
 	public ItemTrapTool() {
 		super();
-		setUnlocalizedName(MHFCReference.item_traptool_name);
+		setUnlocalizedName(Libraries.item_traptool_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

@@ -9,7 +9,7 @@ import java.util.Set;
 import com.google.common.base.Preconditions;
 
 import mhfc.net.common.entity.type.EntityMHFCBase;
-import mhfc.net.common.helper.DamageHelper;
+import mhfc.net.common.util.reception.DamageReception;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -217,7 +217,7 @@ public class AIUtils {
 
 				trgt.attackEntityFrom(DamageSource.causeMobDamage(ai), damage);
 			} else {
-				trgt.attackEntityFrom(DamageHelper.anti, damage);
+				trgt.attackEntityFrom(DamageReception.anti, damage);
 			}
 		}
 

@@ -7,7 +7,7 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import mhfc.net.client.util.gui.MHFCGuiUtil;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -87,7 +87,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 		}
 		int colorOfTabName = 0x404040;
 		GL11.glColor4f(1f, 1f, 1f, 1f);
-		mc.getTextureManager().bindTexture(new ResourceLocation(MHFCReference.gui_tab_texture));
+		mc.getTextureManager().bindTexture(new ResourceLocation(Libraries.gui_tab_texture));
 		MHFCGuiUtil.drawTexturedBoxFromBorder(
 				posX - realWidth,
 				posY + tabIndex * diff,
@@ -131,7 +131,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 			}
 			int colorOfTabName = 0x808080;
 			GL11.glColor4f(1f, 1f, 1f, 1f);
-			mc.getTextureManager().bindTexture(new ResourceLocation(MHFCReference.gui_tab_texture));
+			mc.getTextureManager().bindTexture(new ResourceLocation(Libraries.gui_tab_texture));
 			MHFCGuiUtil.drawTexturedBoxFromBorder(
 					posX - realWidth,
 					posY + i * diff,

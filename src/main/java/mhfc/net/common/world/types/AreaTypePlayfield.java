@@ -8,7 +8,7 @@ import com.sk89q.worldedit.function.operation.RunContext;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.SpawnControllerAdapter;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import mhfc.net.common.world.area.AreaAdapter;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.IArea;
@@ -76,7 +76,7 @@ public class AreaTypePlayfield implements IAreaType {
 
 	@Override
 	public String getUnlocalizedName() {
-		return MHFCReference.area_playfield_name;
+		return Libraries.area_playfield_name;
 	}
 
 	public AreaTypePlayfield(int chunkSizeX, int chunkSizeY) {
@@ -105,13 +105,16 @@ public class AreaTypePlayfield implements IAreaType {
 				return null;
 			}
 
-			@Override
-			public void addStatusMessages(List<String> messages) {
-				// TODO Auto-generated method stub
-			}
 
 			@Override
 			public void cancel() {}
+
+
+			@Override
+			public void addStatusMessages(List<String> messages) {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 	}
 

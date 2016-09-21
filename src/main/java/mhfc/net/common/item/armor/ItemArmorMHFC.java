@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.item.ItemRarity;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.util.Libraries;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelBiped.ArmPose;
 import net.minecraft.entity.Entity;
@@ -73,7 +73,7 @@ public abstract class ItemArmorMHFC extends ItemArmor {
 		if (slotToTex == null) {
 			return super.getArmorTexture(stack, entity, slot, type);
 		}
-		return slotToTex.getOrDefault(slot, MHFCReference.armor_null_tex);
+		return slotToTex.getOrDefault(slot, Libraries.armor_null_tex);
 	}
 
 	@SideOnly(Side.CLIENT)
