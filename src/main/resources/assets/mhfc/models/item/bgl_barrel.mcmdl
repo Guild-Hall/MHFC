@@ -1,0 +1,7 @@
+{
+    version: 1,
+    mesh: "mhfc:models/item/ModelBLBarrel.mcmd",
+    textures: {
+        "#weapontex": "mhfc:weapons/(BL)barrel"
+    }
+}

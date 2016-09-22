@@ -1,0 +1,7 @@
+{
+    version: 1,
+    mesh: "mhfc:models/item/ModelRathBowgun.mcmd",
+    textures: {
+        "#weapontex": "mhfc:weapons/(BGL)spartacusfire"
+    }
+}

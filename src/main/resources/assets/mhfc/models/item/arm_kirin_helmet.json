@@ -1,0 +1,6 @@
+{
+    "parent": "mhfc:item/generated_tinted",
+    "textures": {
+        "layer0": "mhfc:items/gear/head"
+    }
+}

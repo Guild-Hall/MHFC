@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "active=true": { "model": "trap_stun" }
+        "active=false": { "model": "trap_stun" }
+    }
+}

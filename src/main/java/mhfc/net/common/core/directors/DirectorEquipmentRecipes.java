@@ -385,7 +385,6 @@ public class DirectorEquipmentRecipes {
 
 		builder.setProduct(new ItemStack(itemRegistry.weapon_ls_darkvipern));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemRemobra.RemobraSubType.SKIN, 6));
-		builder.addIngredient(SubTypedItem.fromSubItem(ItemRemobra.RemobraSubType.STRIPE, 6));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemRemobra.RemobraSubType.WING, 2));
 		builder.setRequiredHeat(500).setDuration(750);
 		recipe_ls_darkvipern = builder.build();

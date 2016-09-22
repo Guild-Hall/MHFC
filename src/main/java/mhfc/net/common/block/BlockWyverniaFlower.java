@@ -21,23 +21,33 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockWyverniaFlower extends BlockWyverniaDecor implements ISubTypedBlock<WyverniaFlowerSubType> {
+public class BlockWyverniaFlower extends BlockWyverniaDecor
+		implements
+		ISubTypedBlock<WyverniaFlowerSubType>,
+		IBlockVarianted {
 	public static enum WyverniaFlowerSubType implements SubTypedItem.SubTypeEnum<Block> {
-		CARNCASE(ResourceInterface.block_carncase_name),
-		FELRON(ResourceInterface.block_felron_name),
-		ORCTAL(ResourceInterface.block_orctal_name),
-		PENO(ResourceInterface.block_peno_name),
-		SHRINE(ResourceInterface.block_shrine_name),
-		SPINDEL(ResourceInterface.block_spindel_name);
+		CARNCASE("carncase", ResourceInterface.block_carncase_name),
+		FELRON("felron", ResourceInterface.block_felron_name),
+		ORCTAL("orctal", ResourceInterface.block_orctal_name),
+		PENO("peno", ResourceInterface.block_peno_name),
+		SHRINE("shrine", ResourceInterface.block_shrine_name),
+		SPINDEL("spindel", ResourceInterface.block_spindel_name);
 
+		public final String registryName;
 		public final String name;
 
-		private WyverniaFlowerSubType(String name) {
+		private WyverniaFlowerSubType(String registryName, String name) {
+			this.registryName = registryName;
 			this.name = name;
 		}
 
 		@Override
 		public String getName() {
+			return registryName;
+		}
+
+		@Override
+		public String getUnlocalizedName() {
 			return name;
 		}
 
@@ -63,6 +73,11 @@ public class BlockWyverniaFlower extends BlockWyverniaDecor implements ISubTyped
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHardness(0.0f);
 		setTickRandomly(true);
+	}
+
+	@Override
+	public String getVariantName(IBlockState state) {
+		return state.getValue(subtypeProperty).getName();
 	}
 
 	@Override

@@ -7,10 +7,12 @@ import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
 import com.github.worldsender.mcanm.client.renderer.entity.RenderAnimatedModel;
 import com.github.worldsender.mcanm.common.CommonLoader;
 import com.github.worldsender.mcanm.common.skeleton.ISkeleton;
+import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.client.render.entity.RenderNargacuga;
 import mhfc.net.client.render.projectile.RenderBeam;
 import mhfc.net.client.render.projectile.RenderBlockProjectile;
@@ -41,16 +43,21 @@ import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import mhfc.net.common.entity.projectile.NargacugaSpike;
 import mhfc.net.common.index.ResourceInterface;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class MHFCEntityRenderRegistry {
+	public static void staticInit() {}
 
-	public static void preInit() {
+	static {
+		MHFCMain.preInitPhase.registerEntryCallback(e -> preInit());
+	}
+
+	private static void preInit() {
 		renderMonster();
 		renderBlockEntities();
 	}
@@ -122,12 +129,16 @@ public class MHFCEntityRenderRegistry {
 	}
 
 	private static void renderBlockEntities() {
-		RenderItem itemRender = FMLClientHandler.instance().getClient().getRenderItem();
+
 		RenderingRegistry.registerEntityRenderingHandler(EntityBeam.class, RenderBeam::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileBlock.class, RenderBlockProjectile::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityRathalosFireball.class, RenderRathalosFireball::new);
-		RenderingRegistry
-				.registerEntityRenderingHandler(EntityPaintball.class, m -> new RenderPaintball(m, itemRender));
+		RenderingRegistry.registerEntityRenderingHandler(EntityPaintball.class, m -> {
+			RenderItem itemRender = Minecraft.getMinecraft().getRenderItem();
+			// late insertion
+			Preconditions.checkState(itemRender != null, "where is my item render...");
+			return new RenderPaintball(m, itemRender);
+		});
 		RenderingRegistry.registerEntityRenderingHandler(EntityWyverniaArrow.class, RenderWyverniaArrow::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, RenderBullet::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBreathe.class, RenderBreathe::new);

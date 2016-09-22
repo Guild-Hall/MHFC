@@ -8,8 +8,10 @@ import mhfc.net.common.core.registry.MHFCContainerRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.tile.TileQuestBoard;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -22,6 +24,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -30,10 +33,37 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class BlockQuestBoard extends BlockContainer {
-	public static final PropertyBool UP_MASK = PropertyBool.create("upmask");
-	public static final PropertyBool OFFSET_MASK = PropertyBool.create("offmask");
-	public static final PropertyBool ROT_LOW_MASK = PropertyBool.create("rotlmask");
-	public static final PropertyBool ROT_HIGH_MASK = PropertyBool.create("rothmask");
+	public static enum EnumPlacing implements IStringSerializable {
+		// The block faces forward, but is not offset
+		FORWARD("centered"),
+		// The block face forward, but is offset
+		FORWARD_OFFSET("front"),
+		// The block faces upwards
+		UPWARDS("up"),;
+		private static final EnumPlacing[] VALUES = values();
+
+		private final String name;
+
+		private EnumPlacing(String name) {
+			this.name = name;
+		}
+
+		public int getIndex() {
+			return this.ordinal();
+		}
+
+		@Override
+		public String getName() {
+			return this.name;
+		}
+
+		public static EnumPlacing getPlacing(int i) {
+			return VALUES[i];
+		}
+	}
+
+	public static final PropertyEnum<EnumPlacing> PLACING = PropertyEnum.create("placing", EnumPlacing.class);
+	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
 	public static int upMask = 0x8;
 	public static int offsetMask = 0x4;
@@ -48,7 +78,7 @@ public class BlockQuestBoard extends BlockContainer {
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, UP_MASK, OFFSET_MASK, ROT_LOW_MASK, ROT_HIGH_MASK);
+		return new BlockStateContainer(this, PLACING, FACING);
 	}
 
 	@Override
@@ -113,37 +143,21 @@ public class BlockQuestBoard extends BlockContainer {
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int meta = 0;
-		if (state.getValue(UP_MASK)) {
-			meta &= 0x8;
-		}
-		if (state.getValue(OFFSET_MASK)) {
-			meta &= 0x4;
-		}
-		if (state.getValue(ROT_HIGH_MASK)) {
-			meta &= 0x2;
-		}
-		if (state.getValue(ROT_LOW_MASK)) {
-			meta &= 0x1;
-		}
+		meta &= state.getValue(PLACING).getIndex() << 2;
+		meta &= state.getValue(FACING).getHorizontalIndex();
 		return meta;
 	}
 
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		IBlockState state = getDefaultState();
-		if ((meta & 0x8) != 0) {
-			state.withProperty(UP_MASK, true);
-		}
-		if ((meta & 0x4) != 0) {
-			state.withProperty(OFFSET_MASK, true);
-		}
-		if ((meta & 0x2) != 0) {
-			state.withProperty(ROT_HIGH_MASK, true);
-		}
-		if ((meta & 0x1) != 0) {
-			state.withProperty(ROT_LOW_MASK, true);
-		}
+		state.withProperty(PLACING, EnumPlacing.getPlacing((meta >> 2) % 0x3));
+		state.withProperty(FACING, EnumFacing.getHorizontal(meta & 0x3));
 		return state;
+	}
+
+	private boolean isHorizontal(EnumFacing facing) {
+		return facing.getHorizontalIndex() >= 0;
 	}
 
 	@Override
@@ -161,42 +175,28 @@ public class BlockQuestBoard extends BlockContainer {
 		}
 		EnumFacing side = getPlacedSide(world, pos, placer);
 		IBlockState state = getDefaultState();
-		if (side == EnumFacing.NORTH) {
-			return state.withProperty(OFFSET_MASK, true).withProperty(ROT_HIGH_MASK, true);
-		}
-		if (side == EnumFacing.SOUTH) {
-			return state.withProperty(OFFSET_MASK, true);
-		}
-		if (side == EnumFacing.WEST) {
-			return state.withProperty(OFFSET_MASK, true).withProperty(ROT_LOW_MASK, true);
-		}
-		if (side == EnumFacing.EAST) {
-			return state.withProperty(OFFSET_MASK, true).withProperty(ROT_HIGH_MASK, true)
-					.withProperty(ROT_LOW_MASK, true);
+		if (isHorizontal(side)) {
+			return state.withProperty(PLACING, EnumPlacing.FORWARD_OFFSET).withProperty(FACING, side);
 		}
 
 		if (side == EnumFacing.UP) {
-			state = state.withProperty(UP_MASK, true);
+			state = state.withProperty(PLACING, EnumPlacing.UPWARDS);
 		}
-		int angleAsRotation = (int) (calculateAngleHit(hitX, hitZ) / 90);
-		if ((angleAsRotation & 0x2) != 1) {
-			state = state.withProperty(ROT_HIGH_MASK, true);
-		}
-		if ((angleAsRotation & 0x1) != 0) {
-			state = state.withProperty(ROT_LOW_MASK, true);
-		}
+		EnumFacing rotatedFacing = calculateHorizontalFacing(hitX, hitZ);
+		state.withProperty(FACING, rotatedFacing);
 		return state;
 	}
 
-	private float calculateAngleHit(float hitX, float hitZ) {
+	private EnumFacing calculateHorizontalFacing(float hitX, float hitZ) {
 		float cosAng = (float) (hitZ / (Math.sqrt(hitX * hitX + hitZ * hitZ)));
 		float angle = (float) (Math.acos(cosAng) / Math.PI * 180);
 		if (hitX > 0) {
 			angle = 360 - angle;
 		}
 		angle += 45;
-		angle %= 360;
-		return angle;
+		int idx = (int) angle;
+		idx = (idx % 360) / 90;
+		return EnumFacing.getHorizontal(idx);
 	}
 
 	private EnumFacing getPlacedSide(World world, BlockPos pos, EntityLivingBase placer) {

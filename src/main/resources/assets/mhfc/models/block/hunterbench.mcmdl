@@ -1,0 +1,7 @@
+{
+    version: 1,
+    mesh: "mhfc:models/block/hunterbench.mcmd",
+    textures: {
+        "#bench": "mhfc:tile/huntertable"
+    }
+}

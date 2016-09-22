@@ -15,23 +15,30 @@ import net.minecraft.item.ItemStack;
 
 public class ItemKirin extends AbstractSubTypedItem<KirinSubType> {
 	public static enum KirinSubType implements SubTypedItem.SubTypeEnum<Item> {
-		MANE(ResourceInterface.item_kirin0_name, ItemColor.GRAY),
-		GEM(ResourceInterface.item_kirin1_name, ItemColor.WHITE),
-		THUNDERTAIL(ResourceInterface.item_kirin2_name, ItemColor.WHITE),
-		LIGHTCRYSTAL(ResourceInterface.item_kirin3_name, ItemColor.GRAY),
-		PURECRYSTAL(ResourceInterface.item_kirin4_name, ItemColor.WHITE),
-		PLATINUMMANE(ResourceInterface.item_kirin5_name, ItemColor.WHITE);
+		MANE("mane", ResourceInterface.item_kirin0_name, ItemColor.GRAY),
+		GEM("gem", ResourceInterface.item_kirin1_name, ItemColor.WHITE),
+		THUNDERTAIL("thundertail", ResourceInterface.item_kirin2_name, ItemColor.WHITE),
+		LIGHTCRYSTAL("crystal_light", ResourceInterface.item_kirin3_name, ItemColor.GRAY),
+		PURECRYSTAL("crystal_pure", ResourceInterface.item_kirin4_name, ItemColor.WHITE),
+		PLATINUMMANE("platinummane", ResourceInterface.item_kirin5_name, ItemColor.WHITE);
 
+		public final String registryName;
 		public final String name;
 		public final ItemColor color;
 
-		private KirinSubType(String name, ItemColor color) {
+		private KirinSubType(String registryName, String name, ItemColor color) {
+			this.registryName = registryName;
 			this.name = name;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
+			return this.registryName;
+		}
+
+		@Override
+		public String getUnlocalizedName() {
 			return this.name;
 		}
 

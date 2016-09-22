@@ -1,0 +1,17 @@
+{
+    "variants": {
+        "facing=east,placing=up": { "model": "mhfc:quest_board_upwards.mcmdl" },
+        "facing=west,placing=up": { "model": "mhfc:quest_board_upwards.mcmdl", "y": 180, "uvlock": true },
+        "facing=north,placing=up": { "model": "mhfc:quest_board_upwards.mcmdl", "y": 90, "uvlock": true },
+        "facing=south,placing=up": { "model": "mhfc:quest_board_upwards.mcmdl", "y": 270, "uvlock": true },
+        "facing=east,placing=centered": { "model": "mhfc:quest_board_centered.mcmdl" },
+        "facing=west,placing=centered": { "model": "mhfc:quest_board_centered.mcmdl", "y": 180, "uvlock": true },
+        "facing=north,placing=centered": { "model": "mhfc:quest_board_centered.mcmdl", "y": 90, "uvlock": true },
+        "facing=south,placing=centered": { "model": "mhfc:quest_board_centered.mcmdl", "y": 270, "uvlock": true },
+        "facing=east,placing=front": { "model": "mhfc:quest_board.mcmdl" },
+        "facing=west,placing=front": { "model": "mhfc:quest_board.mcmdl", "y": 180, "uvlock": true },
+        "facing=north,placing=front": { "model": "mhfc:quest_board.mcmdl", "y": 90, "uvlock": true },
+        "facing=south,placing=front": { "model": "mhfc:quest_board.mcmdl", "y": 270, "uvlock": true }
+    }
+    
+}

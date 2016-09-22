@@ -12,25 +12,32 @@ import net.minecraft.block.state.BlockStateContainer;
 
 public class BlockWyverniaPlank extends AbstractSubTypedBlock<WyverniaPlankSubType> {
 	public static enum WyverniaPlankSubType implements SubTypedItem.SubTypeEnum<Block> {
-		CALFER(ResourceInterface.block_calfer_name),
-		DIREWOOD(ResourceInterface.block_direwood_name),
-		GRAND_IFOLIA(ResourceInterface.block_grandifolia_name),
-		MAVEN(ResourceInterface.block_maven_name),
-		NEGUNDO(ResourceInterface.block_negundo_name),
-		PALMER(ResourceInterface.block_palmer_name),
-		RADEL(ResourceInterface.block_radel_name),
-		SANDY(ResourceInterface.block_sandy_name),
-		TILIA(ResourceInterface.block_tilia_name);
+		CALFER("calfer", ResourceInterface.block_calfer_name),
+		DIREWOOD("direwood", ResourceInterface.block_direwood_name),
+		GRAND_IFOLIA("ifolia", ResourceInterface.block_grandifolia_name),
+		MAVEN("maven", ResourceInterface.block_maven_name),
+		NEGUNDO("negundo", ResourceInterface.block_negundo_name),
+		PALMER("palmer", ResourceInterface.block_palmer_name),
+		RADEL("radel", ResourceInterface.block_radel_name),
+		SANDY("sandy", ResourceInterface.block_sandy_name),
+		TILIA("tilia", ResourceInterface.block_tilia_name);
 
-		public final String name;
+		public final String registryName;
+		public final String unlocalizedName;
 
-		private WyverniaPlankSubType(String name) {
-			this.name = name;
+		private WyverniaPlankSubType(String name, String unlocalized) {
+			this.registryName = name;
+			this.unlocalizedName = unlocalized;
 		}
 
 		@Override
 		public String getName() {
-			return name;
+			return registryName;
+		}
+
+		@Override
+		public String getUnlocalizedName() {
+			return unlocalizedName;
 		}
 
 		@Override

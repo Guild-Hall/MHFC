@@ -17,7 +17,8 @@ import net.minecraft.util.IStringSerializable;
 
 public abstract class AbstractSubTypedBlock<T extends Enum<T> & SubTypeEnum<Block>> extends Block
 		implements
-		ISubTypedBlock<T> {
+		ISubTypedBlock<T>,
+		IBlockVarianted {
 
 	protected static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(Class<T> enumClazz) {
 		return PropertyEnum.create("variant", enumClazz);
@@ -30,6 +31,11 @@ public abstract class AbstractSubTypedBlock<T extends Enum<T> & SubTypeEnum<Bloc
 		super(blockMaterial);
 		this.blockTrait = new SubTypedItem<>(subtypeProperty);
 		this.subtypeProperty = Objects.requireNonNull(subtypeProperty);
+	}
+
+	@Override
+	public String getVariantName(IBlockState state) {
+		return state.getValue(subtypeProperty).getName();
 	}
 
 	/**

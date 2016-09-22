@@ -1,0 +1,7 @@
+{
+    version: 1,
+    mesh: "mhfc:models/item/ModelBHuntersProud_idle.mcmd",
+    textures: {
+        "#weapontex": "mhfc:weapons/(B)huntersproud"
+    }
+}

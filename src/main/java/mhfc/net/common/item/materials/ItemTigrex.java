@@ -15,23 +15,30 @@ import net.minecraft.item.ItemStack;
 
 public class ItemTigrex extends AbstractSubTypedItem<TigrexSubType> {
 	public static enum TigrexSubType implements SubTypedItem.SubTypeEnum<Item> {
-		SCALE(ResourceInterface.item_tigrex0_name, ItemColor.YELLOW),
-		SHELL(ResourceInterface.item_tigrex1_name, ItemColor.YELLOW),
-		CLAW(ResourceInterface.item_tigrex2_name, ItemColor.YELLOW),
-		FANG(ResourceInterface.item_tigrex3_name, ItemColor.YELLOW),
-		SKULLSHELL(ResourceInterface.item_tigrex4_name, ItemColor.YELLOW),
-		TAIL(ResourceInterface.item_tigrex5_name, ItemColor.YELLOW);
+		SCALE("scale", ResourceInterface.item_tigrex0_name, ItemColor.YELLOW),
+		SHELL("shell", ResourceInterface.item_tigrex1_name, ItemColor.YELLOW),
+		CLAW("claw", ResourceInterface.item_tigrex2_name, ItemColor.YELLOW),
+		FANG("fang", ResourceInterface.item_tigrex3_name, ItemColor.YELLOW),
+		SKULLSHELL("skullshell", ResourceInterface.item_tigrex4_name, ItemColor.YELLOW),
+		TAIL("tail", ResourceInterface.item_tigrex5_name, ItemColor.YELLOW);
 
+		public final String registryName;
 		public final String name;
 		public final ItemColor color;
 
-		private TigrexSubType(String name, ItemColor color) {
+		private TigrexSubType(String registryName, String name, ItemColor color) {
+			this.registryName = registryName;
 			this.name = name;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
+			return this.registryName;
+		}
+
+		@Override
+		public String getUnlocalizedName() {
 			return this.name;
 		}
 

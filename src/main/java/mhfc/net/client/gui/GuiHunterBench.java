@@ -29,6 +29,7 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
+import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -55,6 +56,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			ResourceInterface.gui_hunterbench_complete_tex);
 	public static final ResourceLocation FUEL_DURATION_MARKER = new ResourceLocation(
 			ResourceInterface.gui_hunterbench_fuel_tex);
+
+	private static LayerBipedArmor armorLayerProxy = new LayerBipedArmor(null);
 
 	static final int maxHeat = 500;
 	static final int modelRectRelX = 228;
@@ -549,10 +552,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		GL11.glScalef(sc, sc, -sc);
 		EntityEquipmentSlot armorType = ((net.minecraft.item.ItemArmor) itemToRender.getItem()).armorType;
 
-		String texture = ForgeHooksClient.getArmorTexture(mc.thePlayer, itemToRender, "missingno", armorType, null);
-		ModelBiped model = ForgeHooksClient.getArmorModel(mc.thePlayer, itemToRender, armorType, null);
-		// FIXME: cache?
-		mc.getTextureManager().bindTexture(new ResourceLocation(texture));
+		ResourceLocation texture = armorLayerProxy.getArmorResource(mc.thePlayer, itemToRender, armorType, null);
+		ModelBiped model = armorLayerProxy.getModelFromSlot(armorType);
+		model = ForgeHooksClient.getArmorModel(mc.thePlayer, itemToRender, armorType, model);
+		mc.getTextureManager().bindTexture(texture);
 
 		if (model != null) {
 			model.render(mc.thePlayer, 0, 0, 0, 0, 0, 0.06125f);

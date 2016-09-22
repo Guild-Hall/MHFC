@@ -15,22 +15,29 @@ import net.minecraft.item.ItemStack;
 
 public class ItemRathalos extends AbstractSubTypedItem<RathalosSubType> {
 	public static enum RathalosSubType implements SubTypedItem.SubTypeEnum<Item> {
-		SHELL(ResourceInterface.item_rathalos0_name, ItemColor.RED), //
-		WEBBING(ResourceInterface.item_rathalos1_name, ItemColor.RED), //
-		MARROW(ResourceInterface.item_rathalos2_name, ItemColor.RED), //
-		WING(ResourceInterface.item_rathalos3_name, ItemColor.RED), //
-		PLATE(ResourceInterface.item_rathalos4_name, ItemColor.RED);
+		SHELL("shell", ResourceInterface.item_rathalos0_name, ItemColor.RED), //
+		WEBBING("webbing", ResourceInterface.item_rathalos1_name, ItemColor.RED), //
+		MARROW("marrow", ResourceInterface.item_rathalos2_name, ItemColor.RED), //
+		WING("wing", ResourceInterface.item_rathalos3_name, ItemColor.RED), //
+		PLATE("plate", ResourceInterface.item_rathalos4_name, ItemColor.RED);
 
+		public final String registryName;
 		public final String name;
 		public final ItemColor color;
 
-		private RathalosSubType(String name, ItemColor color) {
+		private RathalosSubType(String registryName, String name, ItemColor color) {
+			this.registryName = registryName;
 			this.name = name;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
+			return this.registryName;
+		}
+
+		@Override
+		public String getUnlocalizedName() {
 			return this.name;
 		}
 

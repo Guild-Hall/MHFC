@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "normal": [
+            { "model": "mhfc:grass" },
+            { "model": "mhfc:grass", "y": 90 },
+            { "model": "mhfc:grass", "y": 180 },
+            { "model": "mhfc:grass", "y": 270 }
+        ]
+    }
+}

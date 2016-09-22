@@ -45,4 +45,5 @@ public class ItemIngot extends AbstractSubTypedItem<IngotsSubType> {
 		setUnlocalizedName(ResourceInterface.item_ingot_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
+
 }

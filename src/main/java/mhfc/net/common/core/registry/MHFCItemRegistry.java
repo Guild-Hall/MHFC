@@ -1,5 +1,9 @@
 package mhfc.net.common.core.registry;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Consumer;
 
 import mhfc.net.MHFCMain;
@@ -239,6 +243,9 @@ public class MHFCItemRegistry {
 
 	// Spawners.(They must be Last)
 	public final ItemSpawner MHFCItemFrontierSpawner;
+
+	private final List<Item> everyItems = new ArrayList<>();
+	public final Collection<Item> allItems = Collections.unmodifiableList(everyItems);
 
 	private MHFCItemRegistry() {
 		/*
@@ -521,31 +528,31 @@ public class MHFCItemRegistry {
 		MHFCMain.logger().info("Items registered");
 	}
 
-	private static ItemGreatsword registerGreatsword(String name, Consumer<GreatswordWeaponStatsBuilder> config) {
+	private ItemGreatsword registerGreatsword(String name, Consumer<GreatswordWeaponStatsBuilder> config) {
 		return registerItem(name, ItemGreatsword.build(config));
 	}
 
-	private static ItemLongsword registerLongsword(String name, Consumer<LongswordWeaponStatsBuilder> config) {
+	private ItemLongsword registerLongsword(String name, Consumer<LongswordWeaponStatsBuilder> config) {
 		return registerItem(name, ItemLongsword.build(config));
 	}
 
-	private static ItemHammer registerHammer(String name, Consumer<HammerWeaponStatsBuilder> config) {
+	private ItemHammer registerHammer(String name, Consumer<HammerWeaponStatsBuilder> config) {
 		return registerItem(name, ItemHammer.build(config));
 	}
 
-	private static ItemHuntingHorn registerHuntingHorn(String name, Consumer<HuntingHornWeaponStatsBuilder> config) {
+	private ItemHuntingHorn registerHuntingHorn(String name, Consumer<HuntingHornWeaponStatsBuilder> config) {
 		return registerItem(name, ItemHuntingHorn.build(config));
 	}
 
-	private static ItemBow registerBow(String name, Consumer<BowWeaponStatsBuilder> config) {
+	private ItemBow registerBow(String name, Consumer<BowWeaponStatsBuilder> config) {
 		return registerItem(name, ItemBow.build(config));
 	}
 
-	private static ItemLightBowgun registerLightBowgun(String name, Consumer<BowgunWeaponStatsBuilder> config) {
+	private ItemLightBowgun registerLightBowgun(String name, Consumer<BowgunWeaponStatsBuilder> config) {
 		return registerItem(name, ItemLightBowgun.build(config));
 	}
 
-	private static ItemHeavyBowgun registerHeavyBowgun(String name, Consumer<BowgunWeaponStatsBuilder> config) {
+	private ItemHeavyBowgun registerHeavyBowgun(String name, Consumer<BowgunWeaponStatsBuilder> config) {
 		return registerItem(name, ItemHeavyBowgun.build(config));
 	}
 
@@ -557,9 +564,12 @@ public class MHFCItemRegistry {
 	 * @param item
 	 * @return
 	 */
-	private static <T extends Item> T registerItem(String registryName, T item) {
+	private <T extends Item> T registerItem(String registryName, T item) {
 		item.setRegistryName(registryName);
-		return GameRegistry.register(item);
+		item = GameRegistry.register(item);
+		MHFCMain.logger().debug("Registered " + item + " with id " + item.getRegistryName());
+		everyItems.add(item);
+		return item;
 	}
 
 	public static MHFCItemRegistry getRegistry() {

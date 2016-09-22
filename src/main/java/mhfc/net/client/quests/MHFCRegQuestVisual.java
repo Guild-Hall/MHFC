@@ -111,6 +111,7 @@ public class MHFCRegQuestVisual {
 
 	public MHFCRegQuestVisual() {
 		initialize();
+		MHFCMain.logger().debug("Quest Client initialized");
 	}
 
 	/**

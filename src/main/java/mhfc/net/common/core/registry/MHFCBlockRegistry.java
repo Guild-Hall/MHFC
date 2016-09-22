@@ -1,6 +1,12 @@
 package mhfc.net.common.core.registry;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Function;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.block.BlockDiscstone;
@@ -66,26 +72,28 @@ public class MHFCBlockRegistry {
 	public final Block mhfcblockrespawn;
 	public final Block mhfcblockexplorearea;
 
+	private final List<Pair<Block, Item>> everyBlockWithItem = new ArrayList<>();
+	private final List<Block> everyBlock = new ArrayList<>();
+	private final List<Item> everyItem = new ArrayList<>();
+
+	public final Collection<Pair<Block, Item>> allBlocksWithItem = Collections.unmodifiableList(everyBlockWithItem);
+	public final Collection<Block> allBlocks = Collections.unmodifiableList(everyBlock);
+	public final Collection<Item> allItems = Collections.unmodifiableList(everyItem);
+
 	private MHFCBlockRegistry() {
-		mhfcblockdirt = registerBlock("dirt_wyvernian", new BlockWyverniaDirt());
-		mhfcblockgrass = registerBlock("grass_wyvernian", new BlockWyverniaGrass());
-		mhfcblockstone = registerBlock("stone_wyvernian", new BlockWyverniaStone());
-		mhfcblocksand = registerBlock("sand_wyvernian", new BlockWyverniaSand());
-		mhfcblockclay = registerBlock("clay_wyvernian", new BlockWyverniaClay());
-		mhfcblockwood = registerBlockWithItem(
-				"wood_wyvernian",
-				new BlockWyverniaWood(),
-				b -> ItemSubtypedBlock.createFor(b));
-		mhfcblockplanks = registerBlockWithItem(
-				"plank_wyvernian",
-				new BlockWyverniaPlank(),
-				b -> ItemSubtypedBlock.createFor(b));
+		mhfcblockdirt = registerBlock("dirt", new BlockWyverniaDirt());
+		mhfcblockgrass = registerBlock("grass", new BlockWyverniaGrass());
+		mhfcblockstone = registerBlock("stone", new BlockWyverniaStone());
+		mhfcblocksand = registerBlock("sand", new BlockWyverniaSand());
+		mhfcblockclay = registerBlock("clay_block", new BlockWyverniaClay());
+		mhfcblockwood = registerBlockWithItem("log", new BlockWyverniaWood(), b -> ItemSubtypedBlock.createFor(b));
+		mhfcblockplanks = registerBlockWithItem("plank", new BlockWyverniaPlank(), b -> ItemSubtypedBlock.createFor(b));
 		mhfcblockflowers = registerBlockWithItem(
-				"flower_wyvernian",
+				"flower",
 				new BlockWyverniaFlower(),
 				b -> ItemSubtypedBlock.createFor(b).setFull3D().setMaxStackSize(4));
 		mhfcblockrocks = registerBlockWithItem(
-				"rock_wyvernian",
+				"rock",
 				new BlockWyverniaRock(),
 				b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(20));
 		mhfcblockore = registerBlockWithItem(
@@ -124,8 +132,13 @@ public class MHFCBlockRegistry {
 	}
 
 	private <T extends Block> T registerBlockWithItem(String blockRegistry, T block, Item item) {
-		item.setRegistryName(blockRegistry);
 		block.setRegistryName(blockRegistry);
+		item.setRegistryName(blockRegistry);
+		MHFCMain.logger().debug(
+				"Registered " + block + " with id " + block.getRegistryName() + " and item " + item.getRegistryName());
+		everyBlock.add(block);
+		everyItem.add(item);
+		everyBlockWithItem.add(Pair.of(block, item));
 		GameRegistry.register(item);
 		return GameRegistry.register(block);
 	}

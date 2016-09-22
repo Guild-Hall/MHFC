@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_column",
+    "textures": {
+        "end": "mhfc:blocks/logmaventop",
+        "side": "mhfc:blocks/logmavenside"
+    }
+}

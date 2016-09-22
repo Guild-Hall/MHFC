@@ -12,19 +12,26 @@ import net.minecraft.block.state.BlockStateContainer;
 
 public class BlockWyverniaRock extends AbstractSubTypedBlock<WyverniaRockSubType> {
 	public static enum WyverniaRockSubType implements SubTypedItem.SubTypeEnum<Block> {
-		AUVEL(ResourceInterface.block_auvel_name),
-		CRADLE(ResourceInterface.block_cradle_name),
-		TACREN(ResourceInterface.block_tacren_name);
+		AUVEL("auvel", ResourceInterface.block_auvel_name),
+		CRADLE("cradle", ResourceInterface.block_cradle_name),
+		TACREN("tacren", ResourceInterface.block_tacren_name);
 
-		public final String name;
+		public final String registryName;
+		public final String unlocalizedName;
 
-		private WyverniaRockSubType(String name) {
-			this.name = name;
+		private WyverniaRockSubType(String name, String unlocalized) {
+			this.registryName = name;
+			this.unlocalizedName = unlocalized;
 		}
 
 		@Override
 		public String getName() {
-			return name;
+			return registryName;
+		}
+
+		@Override
+		public String getUnlocalizedName() {
+			return unlocalizedName;
 		}
 
 		@Override

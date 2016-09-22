@@ -15,21 +15,27 @@ import net.minecraft.item.ItemStack;
 
 public class ItemRemobra extends AbstractSubTypedItem<RemobraSubType> {
 	public static enum RemobraSubType implements SubTypedItem.SubTypeEnum<Item> {
-		SKIN(ResourceInterface.item_remobra0_name, ItemColor.GRAY), //
-		STRIPE(ResourceInterface.item_remobra1_name, ItemColor.GRAY), //
-		SKULL(ResourceInterface.item_remobra2_name, ItemColor.GRAY), //
-		WING(ResourceInterface.item_remobra3_name, ItemColor.GRAY),;//
+		SKIN("skin", ResourceInterface.item_remobra0_name, ItemColor.GRAY), //
+		SKULL("skull", ResourceInterface.item_remobra1_name, ItemColor.GRAY), //
+		WING("wing", ResourceInterface.item_remobra2_name, ItemColor.GRAY),;//
 
+		public final String registryName;
 		public final String name;
 		public final ItemColor color;
 
-		private RemobraSubType(String name, ItemColor color) {
+		private RemobraSubType(String registryName, String name, ItemColor color) {
+			this.registryName = registryName;
 			this.name = name;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
+			return this.registryName;
+		}
+
+		@Override
+		public String getUnlocalizedName() {
 			return this.name;
 		}
 

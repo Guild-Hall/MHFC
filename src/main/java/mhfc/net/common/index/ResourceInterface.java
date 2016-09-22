@@ -230,9 +230,8 @@ public class ResourceInterface {
 
 	public static final String item_remobra_basename = "remobra";
 	public static final String item_remobra0_name = "skin";
-	public static final String item_remobra1_name = "stripe";
-	public static final String item_remobra2_name = "skull";
-	public static final String item_remobra3_name = "wing";
+	public static final String item_remobra1_name = "skull";
+	public static final String item_remobra2_name = "wing";
 
 	public static final String item_deviljho_basename = "deviljho";
 	public static final String item_deviljho0_name = "scale";

@@ -12,23 +12,30 @@ import net.minecraft.block.state.BlockStateContainer;
 
 public class BlockWyverniaOres extends AbstractSubTypedBlock<WyverniaOreSubType> {
 	public static enum WyverniaOreSubType implements SubTypedItem.SubTypeEnum<Block> {
-		ARMOR_SPHERE_ORE(ResourceInterface.block_orearmorsphere_name),
-		ARMOR_SPHERE_PLUS_ORE(ResourceInterface.block_orearmorsphereplus_name),
-		CARBALITE_ORE(ResourceInterface.block_orecarbalite_name),
-		DRAGONITE_ORE(ResourceInterface.block_oredragonite_name),
-		ELTALITE_ORE(ResourceInterface.block_oreeltalite_name),
-		MACHALITE_ORE(ResourceInterface.block_oremachalite_name),
-		FURUKURAITO_ORE(ResourceInterface.block_orefurukuraito_name);
+		ARMOR_SPHERE_ORE("armor_sphere", ResourceInterface.block_orearmorsphere_name),
+		ARMOR_SPHERE_PLUS_ORE("armor_sphere_plus", ResourceInterface.block_orearmorsphereplus_name),
+		CARBALITE_ORE("carbalite", ResourceInterface.block_orecarbalite_name),
+		DRAGONITE_ORE("dragonite", ResourceInterface.block_oredragonite_name),
+		ELTALITE_ORE("eltalite", ResourceInterface.block_oreeltalite_name),
+		MACHALITE_ORE("machalite", ResourceInterface.block_oremachalite_name),
+		FURUKURAITO_ORE("furukaito", ResourceInterface.block_orefurukuraito_name);
 
-		public final String name;
+		public final String registryName;
+		public final String unlocalizedName;
 
-		private WyverniaOreSubType(String name) {
-			this.name = name;
+		private WyverniaOreSubType(String name, String unlocalized) {
+			this.registryName = name;
+			this.unlocalizedName = unlocalized;
 		}
 
 		@Override
 		public String getName() {
-			return name;
+			return registryName;
+		}
+
+		@Override
+		public String getUnlocalizedName() {
+			return unlocalizedName;
 		}
 
 		@Override

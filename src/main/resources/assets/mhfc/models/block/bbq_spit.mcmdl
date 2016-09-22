@@ -1,0 +1,7 @@
+{
+    version: 1,
+    mesh: "mhfc:models/block/bbq_spit.mcmd",
+    textures: {
+        "#bbq": "mhfc:tile/bbqspit"
+    }
+}

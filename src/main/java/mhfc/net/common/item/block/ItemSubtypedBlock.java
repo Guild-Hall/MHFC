@@ -1,15 +1,17 @@
 package mhfc.net.common.item.block;
 
+import java.util.List;
 import java.util.Objects;
 
 import mhfc.net.common.block.ISubTypedBlock;
+import mhfc.net.common.item.IItemVarianted;
 import mhfc.net.common.util.SubTypedItem;
 import mhfc.net.common.util.SubTypedItem.SubTypeEnum;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-public class ItemSubtypedBlock<T extends Enum<T> & SubTypeEnum<Block>> extends ItemBlock {
+public class ItemSubtypedBlock<T extends Enum<T> & SubTypeEnum<Block>> extends ItemBlock implements IItemVarianted {
 
 	protected final SubTypedItem<Block, T> blockPerk;
 
@@ -23,8 +25,13 @@ public class ItemSubtypedBlock<T extends Enum<T> & SubTypeEnum<Block>> extends I
 	}
 
 	@Override
+	public List<String> getVariantNames() {
+		return blockPerk.getVariants();
+	}
+
+	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return super.getUnlocalizedName() + "." + blockPerk.getSubType(stack).getName();
+		return super.getUnlocalizedName() + "." + blockPerk.getSubType(stack).getUnlocalizedName();
 	}
 
 	@Override

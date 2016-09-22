@@ -18,7 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHandSide;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -110,14 +110,14 @@ public abstract class ItemArmorMHFC extends ItemArmor {
 		armorModel.isRiding = entityLiving.isRiding();
 		armorModel.isChild = entityLiving.isChild();
 
-		armorModel.leftArmPose = getPoseForItemStack(EnumHandSide.LEFT, entityLiving);
-		armorModel.rightArmPose = getPoseForItemStack(EnumHandSide.RIGHT, entityLiving);
+		armorModel.leftArmPose = getPoseForItemStack(entityLiving.getActiveHand(), entityLiving);
+		armorModel.rightArmPose = getPoseForItemStack(entityLiving.getActiveHand(), entityLiving);
 
 		return armorModel;
 	}
 
-	private ModelBiped.ArmPose getPoseForItemStack(EnumHandSide enumHandSide, EntityLivingBase living) {
-		ItemStack stackInHand = living.getPrimaryHand() == enumHandSide
+	private ModelBiped.ArmPose getPoseForItemStack(EnumHand activeHand, EntityLivingBase living) {
+		ItemStack stackInHand = activeHand == EnumHand.MAIN_HAND
 				? living.getHeldItemMainhand()
 				: living.getHeldItemOffhand();
 		int useTicks = living.getItemInUseCount();

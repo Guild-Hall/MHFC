@@ -15,22 +15,29 @@ import net.minecraft.item.ItemStack;
 
 public class ItemBullet extends AbstractSubTypedItem<BulletSubType> {
 	public static enum BulletSubType implements SubTypedItem.SubTypeEnum<Item> {
-		NORMALS(ResourceInterface.item_bulletnormal_name, ItemColor.WHITE), //
-		PIERCES(ResourceInterface.item_bulletpierce_name, ItemColor.WHITE), //
-		CRAGS(ResourceInterface.item_bulletcrag_name, ItemColor.WHITE), //
-		FLAMES(ResourceInterface.item_bulletflame_name, ItemColor.RED); //
+		NORMALS("normalS", ResourceInterface.item_bulletnormal_name, ItemColor.WHITE), //
+		PIERCES("piercingS", ResourceInterface.item_bulletpierce_name, ItemColor.WHITE), //
+		CRAGS("cragS", ResourceInterface.item_bulletcrag_name, ItemColor.WHITE), //
+		FLAMES("flamingS", ResourceInterface.item_bulletflame_name, ItemColor.RED); //
 
+		public final String registryName;
 		public final String name;
 		public final ItemColor color;
 
-		private BulletSubType(String name, ItemColor color) {
+		private BulletSubType(String registryName, String name, ItemColor color) {
+			this.registryName = registryName;
 			this.name = name;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
-			return this.name;
+			return this.registryName;
+		}
+
+		@Override
+		public String getUnlocalizedName() {
+			return name;
 		}
 
 		@Override

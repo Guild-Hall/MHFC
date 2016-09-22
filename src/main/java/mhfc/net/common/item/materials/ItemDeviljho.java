@@ -16,23 +16,30 @@ import net.minecraft.item.ItemStack;
 
 public class ItemDeviljho extends AbstractSubTypedItem<DeviljhoSubType> implements IItemColored {
 	public static enum DeviljhoSubType implements SubTypedItem.SubTypeEnum<Item> {
-		SCALE(ResourceInterface.item_deviljho0_name, ItemColor.GREEN),
-		FANG(ResourceInterface.item_deviljho1_name, ItemColor.GREEN),
-		HIDE(ResourceInterface.item_deviljho2_name, ItemColor.GREEN),
-		TALON(ResourceInterface.item_deviljho3_name, ItemColor.GREEN),
-		SCALP(ResourceInterface.item_deviljho4_name, ItemColor.GREEN),
-		TAIL(ResourceInterface.item_deviljho5_name, ItemColor.GREEN);
+		SCALE("scale", ResourceInterface.item_deviljho0_name, ItemColor.GREEN),
+		FANG("fang", ResourceInterface.item_deviljho1_name, ItemColor.GREEN),
+		HIDE("hide", ResourceInterface.item_deviljho2_name, ItemColor.GREEN),
+		TALON("talon", ResourceInterface.item_deviljho3_name, ItemColor.GREEN),
+		SCALP("scalp", ResourceInterface.item_deviljho4_name, ItemColor.GREEN),
+		TAIL("tail", ResourceInterface.item_deviljho5_name, ItemColor.GREEN);
 
+		public final String registryName;
 		public final String name;
 		public final ItemColor color;
 
-		private DeviljhoSubType(String name, ItemColor color) {
+		private DeviljhoSubType(String registryName, String name, ItemColor color) {
+			this.registryName = registryName;
 			this.name = name;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
+			return this.registryName;
+		}
+
+		@Override
+		public String getUnlocalizedName() {
 			return this.name;
 		}
 

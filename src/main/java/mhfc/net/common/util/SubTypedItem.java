@@ -1,6 +1,7 @@
 package mhfc.net.common.util;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,12 +32,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 	public static interface SubTypeEnum<I> extends IStringSerializable {
 		/**
-		 * The name of this sub item.
+		 * The name of this sub item. SHOULD NEVER BE CHANGED OVER VERSIONS
 		 *
 		 * @return
 		 */
 		@Override
 		public String getName();
+
+		default String getUnlocalizedName() {
+			return getName();
+		}
 
 		/**
 		 * Gets the base item of this sub-item. This <b>must</b> be the same for all values
@@ -125,5 +130,13 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 		}
 		int clumpedMeta = MathHelper.clamp_int(meta, 0, values.length - 1);
 		return values[clumpedMeta];
+	}
+
+	public List<String> getVariants() {
+		List<String> list = new ArrayList<>(values.length);
+		for (T subType : values) {
+			list.add(subType.getName());
+		}
+		return list;
 	}
 }

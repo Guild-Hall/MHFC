@@ -1,0 +1,10 @@
+{
+    "parent": "block/grass",
+    "textures": {
+        "particle": "mhfc:blocks/wyverniadirt",
+        "bottom": "mhfc:blocks/wyverniadirt",
+        "top": "mhfc:blocks/wyverniadirt_top",
+        "side": "mhfc:blocks/wyverniadirt_side",
+        "overlay": "blocks/grass_side_overlay"
+    }
+}

@@ -12,20 +12,27 @@ import net.minecraft.block.state.BlockStateContainer;
 
 public class BlockWyverniaOreBlock extends AbstractSubTypedBlock<WyverniaOreBlockSubType> {
 	public static enum WyverniaOreBlockSubType implements SubTypedItem.SubTypeEnum<Block> {
-		MACHALITE(ResourceInterface.block_machalite_name),
-		CARBALITE(ResourceInterface.block_carbalite_name),
-		ELTALITE(ResourceInterface.block_eltalite_name),
-		DRAGONITE(ResourceInterface.block_dragonite_name);
+		MACHALITE("machalite", ResourceInterface.block_machalite_name),
+		CARBALITE("carbalite", ResourceInterface.block_carbalite_name),
+		ELTALITE("eltalite", ResourceInterface.block_eltalite_name),
+		DRAGONITE("dragonite", ResourceInterface.block_dragonite_name);
 
-		public final String name;
+		public final String registryName;
+		public final String unlocalizedName;
 
-		private WyverniaOreBlockSubType(String name) {
-			this.name = name;
+		private WyverniaOreBlockSubType(String name, String unlocalized) {
+			this.registryName = name;
+			this.unlocalizedName = unlocalized;
 		}
 
 		@Override
 		public String getName() {
-			return name;
+			return registryName;
+		}
+
+		@Override
+		public String getUnlocalizedName() {
+			return unlocalizedName;
 		}
 
 		@Override

@@ -6,10 +6,12 @@ import java.util.Objects;
 import com.google.common.collect.Multimap;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.item.IItemSimpleModel;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.NBTUtils;
 import mhfc.net.common.weapon.stats.CombatEffect;
 import mhfc.net.common.weapon.stats.WeaponStats;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,6 +22,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -30,10 +33,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author WorldSEnder
  *
  */
-public abstract class ItemWeapon<W extends WeaponStats> extends Item {
+public abstract class ItemWeapon<W extends WeaponStats> extends Item implements IItemSimpleModel {
 	protected static final String COOLDOWN_NBT = "mhfc:cooldown";
 
 	protected final W stats;
+	private ModelResourceLocation resLocCache;
 
 	public ItemWeapon(W stats) {
 		this.stats = Objects.requireNonNull(stats);
@@ -41,6 +45,17 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item {
 		setCreativeTab(MHFCMain.mhfctabs);
 		setUnlocalizedName(stats.getUnlocalizedName());
 		setMaxStackSize(1);
+	}
+
+	@Override
+	public ModelResourceLocation getModel() {
+		if (resLocCache == null) {
+			ResourceLocation resLoc = getRegistryName();
+			String name = resLoc.getResourcePath();
+			resLocCache = new ModelResourceLocation(
+					resLoc.getResourceDomain() + ":models/item/" + name + ".mcmdl#inventory");
+		}
+		return resLocCache;
 	}
 
 	protected boolean isOffCooldown(ItemStack stack) {
