@@ -120,7 +120,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	}
 
 	private Vec3d getRelativePositionOfBone(String name) {
-		int frame = getCurrentFrame();
+		int frame = getFrame();
 		IAnimation animation = getActionManager().getCurrentAnimation();
 		if (animation == null) {
 			return new Vec3d(0, 0, 0);

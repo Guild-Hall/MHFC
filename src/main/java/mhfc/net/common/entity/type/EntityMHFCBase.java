@@ -7,6 +7,7 @@ import java.util.Random;
 
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
+import com.github.worldsender.mcanm.common.animation.IAnimation;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.IActionManager;
@@ -61,6 +62,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	private IExecutableAction<? super YC> stunAction;
 
 	private int armorValue = 22;
+	// Only of importance on the server. On the server, ANIM_FRAME is not the actual animation frame,
+	// but the last frame we sent to the client. If the animation is set to a frame other than
+	// ANIM_FRAME + ticksSinceFrameShared, we update ANIM_FRAME, otherwise, we believe that the
+	// client is able to the frame up-to-date himself
+	private int ticksSinceFrameShared = 0;
 
 	public boolean FREEZE; // trying to implement this to disable all AI's for the monster temporality.
 
@@ -94,9 +100,18 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		setFrame(this.attackManager.getCurrentFrame());
 		if (this.attackManager.continueExecuting()) {
 			this.attackManager.updateTask();
+		}
+		if (this.worldObj.isRemote) {
+			int frame = getFrame();
+			if (frame >= 0) {
+				setFrame(frame + 1);
+			}
+		} else {
+			ticksSinceFrameShared++;
+			int nextFrame = this.attackManager.getCurrentFrame();
+			setFrame(nextFrame);
 		}
 
 		if (this.isPotionActive(MHFCPotionRegistry.getRegistry().stun)) {
@@ -421,12 +436,22 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		turnHelper.onUpdateTurn();
 	}
 
-	public int getCurrentFrame() {
-		return this.dataManager.get(ANIM_FRAME).intValue();
+	protected int getFrame() {
+		return this.dataManager.get(ANIM_FRAME);
 	}
 
-	public void setFrame(int newframe) {
-		this.dataManager.set(ANIM_FRAME, Integer.valueOf(newframe));
+	protected void setFrame(int newframe) {
+		if (!this.worldObj.isRemote) {
+			int lasteSentFrame = getFrame();
+			boolean isUpdatedNeeded = this.ticksExisted % 100 == 0
+					|| (lasteSentFrame >= 0 && newframe >= 0 && newframe != lasteSentFrame + ticksSinceFrameShared);
+			if (isUpdatedNeeded) {
+				this.dataManager.set(ANIM_FRAME, newframe);
+				ticksSinceFrameShared = 0;
+			}
+		} else {
+			this.dataManager.set(ANIM_FRAME, newframe);
+		}
 	}
 
 	@Override
@@ -445,8 +470,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		if (subFrame < 0 || subFrame > 1) {
 			MHFCMain.logger().error("Wrong subframe " + subFrame);
 		}
-		return passInfo.setAnimation(Optional.ofNullable(attackManager.getCurrentAnimation()))
-				.setFrame(getCurrentFrame() + subFrame);
+		float frame = getFrame() + subFrame;
+		Optional<IAnimation> animation = Optional.ofNullable(attackManager.getCurrentAnimation());
+		return passInfo.setAnimation(animation).setFrame(frame);
 	}
 
 	@Override
