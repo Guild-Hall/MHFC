@@ -99,7 +99,7 @@ public class MHFCBlockRegistry {
 				new BlockWyverniaOres(),
 				b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(12));
 		mhfcblockoreblocks = registerBlockWithItem(
-				"ore_block",
+				"block",
 				new BlockWyverniaOreBlock(),
 				b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(16));
 
