@@ -437,12 +437,16 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	}
 
 	protected int getFrame() {
+		return getLastSharedFrame() + ticksSinceFrameShared;
+	}
+
+	private int getLastSharedFrame() {
 		return this.dataManager.get(ANIM_FRAME);
 	}
 
 	protected void setFrame(int newframe) {
 		if (!this.worldObj.isRemote) {
-			int lasteSentFrame = getFrame();
+			int lasteSentFrame = getLastSharedFrame();
 			boolean isUpdatedNeeded = this.ticksExisted % 100 == 0
 					|| (lasteSentFrame >= 0 && newframe >= 0 && newframe != lasteSentFrame + ticksSinceFrameShared);
 			if (isUpdatedNeeded) {

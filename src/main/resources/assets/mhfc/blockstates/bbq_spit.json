@@ -1,6 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "bbq_spit.mcmdl" }
+        "normal": { "model": "mhfc:bbq_spit.mcmdl" }
     }
-    
 }

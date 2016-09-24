@@ -1,0 +1,7 @@
+{
+    version: 1,
+    mesh: "mhfc:models/item/ModelGSBone.mcmd",
+    textures: {
+        "#weapontex": "mhfc:weapons/(GS)bone"
+    }
+}

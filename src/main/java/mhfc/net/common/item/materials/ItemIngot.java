@@ -11,21 +11,28 @@ import net.minecraft.item.Item;
 
 public class ItemIngot extends AbstractSubTypedItem<IngotsSubType> {
 	public static enum IngotsSubType implements SubTypedItem.SubTypeEnum<Item> {
-		CARBALITE(ResourceInterface.item_ingot0_name, ItemColor.PURPLE),
-		DRAGONITE(ResourceInterface.item_ingot1_name, ItemColor.GREEN),
-		ELTALITE(ResourceInterface.item_ingot2_name, ItemColor.RED),
-		MACHALITE(ResourceInterface.item_ingot3_name, ItemColor.CYAN);
+		CARBALITE("carbalite", ResourceInterface.item_ingot0_name, ItemColor.PURPLE),
+		DRAGONITE("dragonite", ResourceInterface.item_ingot1_name, ItemColor.GREEN),
+		ELTALITE("eltalite", ResourceInterface.item_ingot2_name, ItemColor.RED),
+		MACHALITE("machalite", ResourceInterface.item_ingot3_name, ItemColor.CYAN);
 
+		public final String registryName;
 		public final String name;
 		public final ItemColor color;
 
-		private IngotsSubType(String name, ItemColor color) {
+		private IngotsSubType(String registryName, String name, ItemColor color) {
+			this.registryName = registryName;
 			this.name = name;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
+			return this.registryName;
+		}
+
+		@Override
+		public String getUnlocalizedName() {
 			return this.name;
 		}
 

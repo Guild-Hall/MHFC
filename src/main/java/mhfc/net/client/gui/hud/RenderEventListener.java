@@ -8,7 +8,7 @@ public class RenderEventListener {
 
 	@SubscribeEvent
 	public void eventHandler(RenderGameOverlayEvent.Post event) {
-		if (event.getType() != ElementType.CROSSHAIRS) {
+		if (event.getType() != ElementType.HOTBAR) {
 			return;
 		}
 

@@ -1,0 +1,7 @@
+{
+    version: 1,
+    mesh: "mhfc:models/item/ModelGSKirinThunderSword.mcmd",
+    textures: {
+        "#weapontex": "mhfc:weapons/(GS)kirin"
+    }
+}

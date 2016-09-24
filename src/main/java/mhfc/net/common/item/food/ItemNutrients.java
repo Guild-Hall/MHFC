@@ -6,6 +6,7 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.IItemColored;
+import mhfc.net.common.item.IItemVarianted;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.creativetab.CreativeTabs;
@@ -17,17 +18,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class ItemNutrients extends ItemFood implements IItemColored {
+public class ItemNutrients extends ItemFood implements IItemColored, IItemVarianted {
 	public static enum NutrientsSubType implements SubTypedItem.SubTypeEnum<Item> {
-		NORMAL(ResourceInterface.item_normalnutrients_name, ItemColor.LIBLUE, 2, 50, new PotionEffect(
+		NORMAL("normal", ResourceInterface.item_normalnutrients_name, ItemColor.LIBLUE, 2, 50, new PotionEffect(
 				MobEffects.HEALTH_BOOST,
 				12000,
 				1)),
-		MEGA(ResourceInterface.item_meganutrient_name, ItemColor.BLUE, 3, 70, new PotionEffect(
+		MEGA("mega", ResourceInterface.item_meganutrient_name, ItemColor.BLUE, 3, 70, new PotionEffect(
 				MobEffects.HEALTH_BOOST,
 				12000,
 				3));
 
+		public final String registryName;
 		public final String name;
 		public final int healAmount;
 		public final float saturation;
@@ -35,11 +37,18 @@ public class ItemNutrients extends ItemFood implements IItemColored {
 		public final PotionEffect potion;
 		public final ItemColor color;
 
-		private NutrientsSubType(String name, ItemColor color, int healAmount, float modifier) {
-			this(name, color, healAmount, modifier, null);
+		private NutrientsSubType(String registryName, String name, ItemColor color, int healAmount, float modifier) {
+			this(registryName, name, color, healAmount, modifier, null);
 		}
 
-		private NutrientsSubType(String name, ItemColor color, int healAmount, float modifier, PotionEffect effect) {
+		private NutrientsSubType(
+				String registryName,
+				String name,
+				ItemColor color,
+				int healAmount,
+				float modifier,
+				PotionEffect effect) {
+			this.registryName = registryName;
 			this.name = name;
 			this.healAmount = healAmount;
 			this.saturation = modifier;
@@ -50,6 +59,11 @@ public class ItemNutrients extends ItemFood implements IItemColored {
 
 		@Override
 		public String getName() {
+			return this.registryName;
+		}
+
+		@Override
+		public String getUnlocalizedName() {
 			return this.name;
 		}
 
@@ -93,6 +107,11 @@ public class ItemNutrients extends ItemFood implements IItemColored {
 	@Override
 	public float getSaturationModifier(ItemStack stack) {
 		return itemPerk.getSubType(stack).saturation;
+	}
+
+	@Override
+	public List<String> getVariantNames() {
+		return itemPerk.getVariants();
 	}
 
 	@Override

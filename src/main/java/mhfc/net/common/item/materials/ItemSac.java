@@ -15,18 +15,25 @@ import net.minecraft.item.ItemStack;
 
 public class ItemSac extends AbstractSubTypedItem<SacSubType> {
 	public static enum SacSubType implements SubTypedItem.SubTypeEnum<Item> {
-		FIRE(ResourceInterface.item_sac0_name, ItemColor.RED);
+		FIRE("fire", ResourceInterface.item_sac0_name, ItemColor.RED);
 
+		public final String registryName;
 		public final String name;
 		public final ItemColor color;
 
-		private SacSubType(String name, ItemColor color) {
+		private SacSubType(String registryName, String name, ItemColor color) {
+			this.registryName = registryName;
 			this.name = name;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
+			return this.registryName;
+		}
+
+		@Override
+		public String getUnlocalizedName() {
 			return this.name;
 		}
 

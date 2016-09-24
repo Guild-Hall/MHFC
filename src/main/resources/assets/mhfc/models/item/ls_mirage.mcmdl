@@ -1,0 +1,7 @@
+{
+    version: 1,
+    mesh: "mhfc:models/item/ModelLSMirageFinsword.mcmd",
+    textures: {
+        "#weapontex": "mhfc:weapons/(LS)miragefinsword"
+    }
+}

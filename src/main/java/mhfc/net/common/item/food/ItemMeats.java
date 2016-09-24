@@ -6,6 +6,7 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.IItemColored;
+import mhfc.net.common.item.IItemVarianted;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.creativetab.CreativeTabs;
@@ -17,11 +18,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class ItemMeats extends ItemFood implements IItemColored {
+public class ItemMeats extends ItemFood implements IItemColored, IItemVarianted {
 	public static enum MeatSubType implements SubTypedItem.SubTypeEnum<Item> {
-		RAW(ResourceInterface.item_rawmeat_name, ItemColor.RED, 2, 40),
-		COOKED(ResourceInterface.item_cookedmeat_name, ItemColor.ORANGE, 3, 100),
-		BOOST(ResourceInterface.item_boostmeat_name, ItemColor.YELLOW, 3, 100) {
+		RAW("raw", ResourceInterface.item_rawmeat_name, ItemColor.RED, 2, 40),
+		COOKED("cooked", ResourceInterface.item_cookedmeat_name, ItemColor.ORANGE, 3, 100),
+		BOOST("boost", ResourceInterface.item_boostmeat_name, ItemColor.YELLOW, 3, 100) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -29,7 +30,7 @@ public class ItemMeats extends ItemFood implements IItemColored {
 				}
 			}
 		},
-		PROTECTION(ResourceInterface.item_protectionmeat_name, ItemColor.CYAN, 4, 125) {
+		PROTECTION("protection", ResourceInterface.item_protectionmeat_name, ItemColor.CYAN, 4, 125) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -37,7 +38,7 @@ public class ItemMeats extends ItemFood implements IItemColored {
 				}
 			}
 		},
-		POISON(ResourceInterface.item_poisonmeat_name, ItemColor.PURPLE, 3, 50) {
+		POISON("poison", ResourceInterface.item_poisonmeat_name, ItemColor.PURPLE, 3, 50) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -45,7 +46,7 @@ public class ItemMeats extends ItemFood implements IItemColored {
 				}
 			}
 		},
-		SLOW(ResourceInterface.item_slowmeat_name, ItemColor.GRAY, 3, 100) {
+		SLOW("slow", ResourceInterface.item_slowmeat_name, ItemColor.GRAY, 3, 100) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -53,7 +54,7 @@ public class ItemMeats extends ItemFood implements IItemColored {
 				}
 			}
 		},
-		HUNGER(ResourceInterface.item_hungermeat_name, ItemColor.LIME, 2, 30) {
+		HUNGER("hunger", ResourceInterface.item_hungermeat_name, ItemColor.LIME, 2, 30) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -61,7 +62,7 @@ public class ItemMeats extends ItemFood implements IItemColored {
 				}
 			}
 		},
-		FIRE(ResourceInterface.item_firemeat_name, ItemColor.RED, 4, 150) {
+		FIRE("fire", ResourceInterface.item_firemeat_name, ItemColor.RED, 4, 150) {
 			@Override
 			public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer player) {
 				if (world.rand.nextFloat() < 0.1f) {
@@ -70,13 +71,15 @@ public class ItemMeats extends ItemFood implements IItemColored {
 			}
 		};
 
+		public final String registryName;
 		public final String name;
 		public final int healAmount;
 		public final float saturation;
 		public final boolean isDogsFood = true;
 		public final ItemColor color;
 
-		private MeatSubType(String name, ItemColor color, int healAmount, float modifier) {
+		private MeatSubType(String registryName, String name, ItemColor color, int healAmount, float modifier) {
+			this.registryName = registryName;
 			this.name = name;
 			this.healAmount = healAmount;
 			this.saturation = modifier;
@@ -86,6 +89,11 @@ public class ItemMeats extends ItemFood implements IItemColored {
 
 		@Override
 		public String getName() {
+			return this.registryName;
+		}
+
+		@Override
+		public String getUnlocalizedName() {
 			return this.name;
 		}
 
@@ -133,6 +141,11 @@ public class ItemMeats extends ItemFood implements IItemColored {
 	@Override
 	public float getSaturationModifier(ItemStack stack) {
 		return itemPerk.getSubType(stack).saturation;
+	}
+
+	@Override
+	public List<String> getVariantNames() {
+		return itemPerk.getVariants();
 	}
 
 	@Override

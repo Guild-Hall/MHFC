@@ -11,19 +11,26 @@ import net.minecraft.item.Item;
 
 public class ItemArmorSphere extends AbstractSubTypedItem<ArmorSphereSubType> {
 	public static enum ArmorSphereSubType implements SubTypedItem.SubTypeEnum<Item> {
-		NORMAL(ResourceInterface.item_armorsphere0_name, ItemColor.BLUE),
-		PLUS(ResourceInterface.item_armorsphere1_name, ItemColor.LIME);
+		NORMAL("normal", ResourceInterface.item_armorsphere0_name, ItemColor.BLUE),
+		PLUS("plus", ResourceInterface.item_armorsphere1_name, ItemColor.LIME);
 
+		public final String registryName;
 		public final String name;
 		public final ItemColor color;
 
-		private ArmorSphereSubType(String name, ItemColor color) {
+		private ArmorSphereSubType(String registryName, String name, ItemColor color) {
+			this.registryName = registryName;
 			this.name = name;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
+			return this.registryName;
+		}
+
+		@Override
+		public String getUnlocalizedName() {
 			return this.name;
 		}
 

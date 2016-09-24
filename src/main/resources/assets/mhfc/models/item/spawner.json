@@ -1,0 +1,7 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "mhfc:items/mhfegg",
+        "layer1": "mhfc:items/mhfegg_overlay"
+    }
+}

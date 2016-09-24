@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "hunterbench.mcmdl" }
+        "normal": { "model": "mhfc:hunterbench.mcmdl" }
     }
 }

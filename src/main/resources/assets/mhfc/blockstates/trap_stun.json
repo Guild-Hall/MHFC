@@ -1,6 +1,6 @@
 {
     "variants": {
-        "active=true": { "model": "trap_stun" }
-        "active=false": { "model": "trap_stun" }
+        "active=true": { "model": "mhfc:trap_stun" },
+        "active=false": { "model": "mhfc:trap_stun" }
     }
 }

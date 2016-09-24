@@ -85,11 +85,17 @@ public class MHFCItemRenderRegistry {
 
 	private static void handleItemsPreInit(Collection<Item> items) {
 		for (Item item : items) {
+			boolean special = false;
 			if (item instanceof IItemVarianted) {
+				special = true;
 				registerVariantItem(item);
 			}
 			if (item instanceof IItemCustomModel) {
+				special = true;
 				registerWithCustomModel(item);
+			}
+			if (!special) {
+				registerItem(item);
 			}
 		}
 	}
@@ -118,6 +124,7 @@ public class MHFCItemRenderRegistry {
 		if (allModels == null || allModels.isEmpty()) {
 			return;
 		}
+		MHFCMain.logger().info("Remapping {} to {}", item.getRegistryName(), allModels);
 		ModelBakery.registerItemVariants(item, allModels.toArray(new ModelResourceLocation[0]));
 		ModelLoader.setCustomMeshDefinition(item, ITEM_MESHER);
 	}
@@ -128,7 +135,7 @@ public class MHFCItemRenderRegistry {
 		if (variantNames == null || variantNames.isEmpty()) {
 			return;
 		}
-		MHFCMain.logger().debug("Registering " + item + " for variants " + variantNames);
+		MHFCMain.logger().info("Registering {} for variants {} ", item.getRegistryName(), variantNames);
 		ResourceLocation itemRegistryName = item.getRegistryName();
 		String domain = itemRegistryName.getResourceDomain();
 		String path = itemRegistryName.getResourcePath();
@@ -140,6 +147,20 @@ public class MHFCItemRenderRegistry {
 					"inventory");
 			ModelLoader.setCustomModelResourceLocation(item, variantMeta, variantModelLocation);
 		}
+	}
+
+	private static void registerItem(Item item) {
+		ModelResourceLocation modelLocation = new ModelResourceLocation(item.getRegistryName(), "inventory");
+		ModelLoader.setCustomMeshDefinition(item, new ItemMeshDefinition() {
+			@SuppressWarnings("unused")
+			private static final int NO_LAMBDA = 0; // Can't use lambdas with obfuscated classes...
+
+			@Override
+			public ModelResourceLocation getModelLocation(ItemStack stack) {
+				assert stack.getItem() == item;
+				return modelLocation;
+			}
+		});
 	}
 
 	private static final IItemColor ITEM_COLORED_COLOR = new IItemColor() {

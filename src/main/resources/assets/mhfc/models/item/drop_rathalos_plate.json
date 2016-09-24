@@ -1,5 +1,5 @@
 {
-    "parent": "mhfc:item/generated_tinted",
+    "parent": "item/generated",
     "textures": {
         "layer0": "mhfc:items/monster/scale"
     }

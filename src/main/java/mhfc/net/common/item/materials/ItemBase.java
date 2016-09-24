@@ -10,17 +10,24 @@ import net.minecraft.item.Item;
 
 public class ItemBase extends AbstractSubTypedItem<BaseSubType> {
 	public static enum BaseSubType implements SubTypedItem.SubTypeEnum<Item> {
-		ANUMIUM(ResourceInterface.item_base0_name),
-		MEGANUM(ResourceInterface.item_base1_name);
+		ANUMIUM("anumium", ResourceInterface.item_base0_name),
+		MEGANUM("meganum", ResourceInterface.item_base1_name);
 
+		public final String registryName;
 		public final String name;
 
-		private BaseSubType(String name) {
+		private BaseSubType(String registryName, String name) {
+			this.registryName = registryName;
 			this.name = name;
 		}
 
 		@Override
 		public String getName() {
+			return this.registryName;
+		}
+
+		@Override
+		public String getUnlocalizedName() {
 			return this.name;
 		}
 
