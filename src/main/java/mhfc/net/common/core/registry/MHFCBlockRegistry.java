@@ -11,7 +11,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.block.BlockDiscstone;
 import mhfc.net.common.block.BlockIceCrystal;
-import mhfc.net.common.block.BlockLosGable;
 import mhfc.net.common.block.BlockQuestBoard;
 import mhfc.net.common.block.BlockWyverniaClay;
 import mhfc.net.common.block.BlockWyverniaDirt;
@@ -52,7 +51,6 @@ public class MHFCBlockRegistry {
 	public final Block mhfcblockoreblocks;
 	public final Block mhfcblockore;
 
-	public final Block mhfcblocklosgable;
 	public final Block mhfcblockhunterbench;
 	public final Block mhfcblockstuntrap;
 	public final Block mhfcblockdirt;
@@ -105,7 +103,6 @@ public class MHFCBlockRegistry {
 				new BlockWyverniaOreBlock(),
 				b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(16));
 
-		mhfcblocklosgable = registerBlock("los_gable", new BlockLosGable());
 		mhfcblockicecrystal = registerBlock("icecrystal", new BlockIceCrystal());
 		mhfcblockquicksand = registerBlock("quicksand", new BlockWyverniaQuickSand());
 		mhfcblockdiskstone = registerBlock("diskstone", new BlockDiscstone());

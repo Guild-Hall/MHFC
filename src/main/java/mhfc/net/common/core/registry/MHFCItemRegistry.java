@@ -47,7 +47,6 @@ import mhfc.net.common.item.materials.ItemWoodRig;
 import mhfc.net.common.item.materials.ItemWyvernCoin;
 import mhfc.net.common.item.materials.ItemWyverniaArrow;
 import mhfc.net.common.item.materials.ItemWyverniaClay;
-import mhfc.net.common.item.materials.ItemWyverniaDust;
 import mhfc.net.common.item.tools.ItemPaintball;
 import mhfc.net.common.util.services.IServiceKey;
 import mhfc.net.common.weapon.melee.greatsword.GreatswordWeaponStats.GreatswordWeaponStatsBuilder;
@@ -218,7 +217,6 @@ public class MHFCItemRegistry {
 	public final Item woodrig;
 	public final Item lumberbar;
 	public final Item steelbar;
-	public final Item wyverniaDust;
 	public final Item trapTool;
 	public final ItemFlashBomb flashBomb;
 	public final Item bombMaterial;
@@ -487,7 +485,6 @@ public class MHFCItemRegistry {
 
 		arrow = registerItem("arrow", new ItemWyverniaArrow());
 		// Items... drops
-		wyverniaDust = registerItem("dust", new ItemWyverniaDust());
 
 		moldedIron = registerItem("iron_molded", new ItemMoldedIron());
 		woodrig = registerItem("woodrig", new ItemWoodRig());
