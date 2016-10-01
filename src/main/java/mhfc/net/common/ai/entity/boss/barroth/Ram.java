@@ -7,7 +7,6 @@ import mhfc.net.common.entity.monster.EntityBarroth;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
-
 public class Ram extends ActionAdapter<EntityBarroth> {
 	private static final int LAST_FRAME = 75;
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(95f, 50F, 9999999f);
@@ -45,10 +44,10 @@ public class Ram extends ActionAdapter<EntityBarroth> {
 	@Override
 	public void update() {
 		EntityBarroth entity = getEntity();
-		
+
 		if (entity.getAttackTarget() != null && this.getCurrentFrame() == 20) {
-			entity.getAttackTarget().setVelocity(-0.8D, 1.8D, 0d);
-		//	getEntity().playSound("mhfc:entity.bite", 2.0F, 1.0F);
+			entity.getAttackTarget().addVelocity(-0.8, 1.8, 0);
+			//	getEntity().playSound("mhfc:entity.bite", 2.0F, 1.0F);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			entity.moveForward(1, false);
