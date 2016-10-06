@@ -3,5 +3,8 @@
     mesh: "mhfc:models/item/ModelLSSaber.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(LS)saber"
+    },
+    transforms: {
+        "GUI": { "scale": 0.6142, "rotation": [{"x": 40}, {"y": 30}], "translate": [{"x":40},{"y":30}] }
     }
 }
