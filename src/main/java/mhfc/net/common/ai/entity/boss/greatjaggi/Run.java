@@ -1,17 +1,25 @@
 package mhfc.net.common.ai.entity.boss.greatjaggi;
 
-import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
+import mhfc.net.common.ai.general.actions.DamagingAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
+import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
+import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
+import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
-public class Run extends ActionAdapter<EntityGreatJaggi> {
+public class Run extends DamagingAction<EntityGreatJaggi> implements IHasAttackProvider {
 	private static final int MOVEMENT_START_LOOP = 10;
 	private static final int MOVEMENT_FINISH_LOOP = 33;
 	private static final int AI_END = 85;
+	private static final String ANIMATION_LOCATION = "mhfc:models/GreatJaggi/GreatJaggiRun.mcanm";
 	private static final float TURN_RATE_INITIAL = 8.5f;
 	private static final float TURN_RATE_DURING_RUN = 2.05f;
 	private static final float MAX_RUN_DISTANCE = 30f;
@@ -20,7 +28,7 @@ public class Run extends ActionAdapter<EntityGreatJaggi> {
 	private static final double RUN_SPEED = 0.25D;
 	private static final double STOP_SPEED = 0.3D;
 	private static final double REQUIRED_TARGET_MAX_DIST = 3f;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(35f, 50f, 9999999f);
+	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(35f, 50f, 9999999f);
 
 	private static enum PastEntityEnum {
 		NOT_PASSED,
@@ -146,13 +154,16 @@ public class Run extends ActionAdapter<EntityGreatJaggi> {
 	private int framesRunning;
 	@SuppressWarnings("unused")
 	private int runCycles;
-
-	public Run() {
-		setAnimation("mhfc:models/GreatJaggi/GreatJaggiRun.mcanm");
+	private final IAttackProvider ATTACK;
+	{
+		final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, 0);
+		ATTACK = new AttackAdapter(ANIMATION, new DamageAdapter(DAMAGE_CALC));
 	}
 
+	public Run() {}
+
 	@Override
-	public float getWeight() {
+	public float computeSelectionWeight() {
 		EntityGreatJaggi monster = this.getEntity();
 		target = monster.getAttackTarget();
 		if (target == null) {
@@ -169,7 +180,7 @@ public class Run extends ActionAdapter<EntityGreatJaggi> {
 
 	@Override
 	public void beginExecution() {
-
+		super.beginExecution();
 		EntityGreatJaggi entity = getEntity();
 		target = entity.getAttackTarget();
 		currentPhase = AttackPhase.START;
@@ -182,10 +193,10 @@ public class Run extends ActionAdapter<EntityGreatJaggi> {
 	}
 
 	@Override
-	public void update() {
+	public void onUpdate() {
 		currentPhase.update(this);
 		if (currentPhase.isDamaging) {
-			AIUtils.damageCollidingEntities(getEntity(), damageCalc);
+			damageCollidingEntities();
 		}
 		AttackPhase nextPhase = currentPhase.next(this);
 		if (currentPhase != nextPhase) {
@@ -195,8 +206,13 @@ public class Run extends ActionAdapter<EntityGreatJaggi> {
 	}
 
 	@Override
-	public boolean shouldContinue() {
-		return this.currentPhase != AttackPhase.STOPPED;
+	public IAttackProvider getAttackProvider() {
+		return ATTACK;
+	}
+
+	@Override
+	public IContinuationPredicate provideContinuationPredicate() {
+		return () -> this.currentPhase != AttackPhase.STOPPED;
 	}
 
 	@Override
@@ -208,8 +224,8 @@ public class Run extends ActionAdapter<EntityGreatJaggi> {
 	}
 
 	@Override
-	public int setToNextFrame(int frame) {
-		return super.setToNextFrame(currentPhase.nextFrame(this, frame));
+	public int forceNextFrame(int frame) {
+		return super.forceNextFrame(currentPhase.nextFrame(this, frame));
 	}
 
 }

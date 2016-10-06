@@ -1,19 +1,23 @@
 package mhfc.net.common.ai.entity.boss.deviljho;
 
-import mhfc.net.common.ai.general.actions.AIGeneralIdle;
+import mhfc.net.common.ai.general.actions.IdleAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.monster.EntityDeviljho;
-import net.minecraft.entity.Entity;
 
-public class Idle extends AIGeneralIdle<EntityDeviljho> {
+public class Idle extends IdleAction<EntityDeviljho> implements IHasAnimationProvider {
 
 	private static final int LAST_FRAME = 100;
-	public static final String ANIMATION = "mhfc:models/Deviljho/DeviljhoIdle.mcanm";
+	private static final String ANIMATION_LOCATION = "mhfc:models/Deviljho/DeviljhoIdle.mcanm";
 	public static final float WEIGHT = 6;
+
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 
 	public Idle() {}
 
 	@Override
-	public void update() {
+	public void onUpdate() {
 		EntityDeviljho entity = this.getEntity();
 		if (this.getCurrentFrame() == 50) {
 			entity.playLivingSound();
@@ -22,17 +26,12 @@ public class Idle extends AIGeneralIdle<EntityDeviljho> {
 	}
 
 	@Override
-	public String getAnimationLocation() {
-		return ANIMATION;
-	}
-
-	@Override
-	public int getAnimationLength() {
-		return LAST_FRAME;
-	}
-
-	@Override
-	public float getWeight(EntityDeviljho entity, Entity target) {
+	protected float computeIdleWeight() {
 		return WEIGHT;
+	}
+
+	@Override
+	public IAnimationProvider getAnimProvider() {
+		return ANIMATION;
 	}
 }

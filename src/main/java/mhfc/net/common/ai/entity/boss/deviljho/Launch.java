@@ -1,38 +1,65 @@
 package mhfc.net.common.ai.entity.boss.deviljho;
 
-import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.AIGameplayComposition;
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
-import mhfc.net.common.ai.general.actions.AIAnimatedAction;
-import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.ai.general.SelectionUtils;
+import mhfc.net.common.ai.general.actions.DamagingAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
+import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
+import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
+import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
-public class Launch extends AIAnimatedAction<EntityDeviljho> {
-	private static final String ANIMATION = "mhfc:models/Deviljho/DeviljhoLaunch.mcanm";
+public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttackProvider {
+	private static final String ANIMATION_LOCATION = "mhfc:models/Deviljho/DeviljhoLaunch.mcanm";
 	private static final int LAST_FRAME = 50;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(92f, 62f, 8888f);
-	private static final double MAX_DIST = 6f;
+	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(92f, 62f, 8888f);
+
 	private static final float WEIGHT = 7F;
 	private static final double HEIGHT_BLOCK = 0.50D;
+	private static final double MAX_DIST = 6f;
 	private static final double SPLIT_MULTIPLIER = 0.535;
 
-	private static ISelectionPredicate<EntityDeviljho> selectionProvider;
-
-	static {
-		selectionProvider = new ISelectionPredicate.DistanceAdapter<>(0, MAX_DIST);
+	private final IAttackProvider ATTACK;
+	{
+		IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
+		IDamageProvider DAMAGE = new DamageAdapter(DAMAGE_CALC);
+		ATTACK = new AttackAdapter(ANIMATION, DAMAGE);
 	}
 
 	private boolean thrown;
 
 	public Launch() {}
 
+	private boolean shouldSelect() {
+		return SelectionUtils.isInDistance(0, MAX_DIST, getEntity(), target);
+	}
+
 	@Override
-	public void update() {
+	protected float computeSelectionWeight() {
+		return shouldSelect() ? WEIGHT : DONT_SELECT;
+	}
+
+	@Override
+	protected void beginExecution() {
+		super.beginExecution();
+		thrown = false;
+	}
+
+	@Override
+	public IAttackProvider getAttackProvider() {
+		return ATTACK;
+	}
+
+	@Override
+	public void onUpdate() {
 		if (thrown) {
 			return;
 		}
@@ -42,8 +69,7 @@ public class Launch extends AIAnimatedAction<EntityDeviljho> {
 				return;
 			}
 			getEntity().playSound(MHFCSoundRegistry.getRegistry().deviljhoRockThrow, 2.0F, 1.0F);
-
-			AIUtils.damageCollidingEntities(getEntity(), damageCalc);
+			damageCollidingEntities();
 			AIGameplayComposition.launch(entity, 0, 1.4, 0);
 		}
 		if (this.getCurrentFrame() >= 35) {
@@ -83,37 +109,7 @@ public class Launch extends AIAnimatedAction<EntityDeviljho> {
 		}
 	}
 
-	@Override
-	protected void beginExecution() {
-		super.beginExecution();
-		thrown = false;
-	}
-
 	private boolean isMoveForwardFrame(int frame) {
 		return (frame > 20 && frame < 30);
 	}
-
-	@Override
-	public String getAnimationLocation() {
-		return ANIMATION;
-	}
-
-	@Override
-	public int getAnimationLength() {
-		return LAST_FRAME;
-	}
-
-	@Override
-	public boolean shouldSelectAttack(
-			IExecutableAction<? super EntityDeviljho> attack,
-			EntityDeviljho actor,
-			Entity target) {
-		return selectionProvider.shouldSelectAttack(attack, actor, target);
-	}
-
-	@Override
-	public float getWeight(EntityDeviljho entity, Entity target) {
-		return WEIGHT;
-	}
-
 }

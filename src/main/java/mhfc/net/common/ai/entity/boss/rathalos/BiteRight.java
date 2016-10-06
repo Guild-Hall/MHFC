@@ -1,54 +1,34 @@
 package mhfc.net.common.ai.entity.boss.rathalos;
 
-import mhfc.net.common.ai.ActionAdapter;
-import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
-import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityRathalos;
-import mhfc.net.common.util.world.WorldHelper;
-import net.minecraft.util.math.Vec3d;
+import com.github.worldsender.mcanm.common.animation.IAnimation;
 
-public class BiteRight extends ActionAdapter<EntityRathalos> {
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
+import mhfc.net.common.ai.general.provider.simple.IFrameAdvancer;
 
-	private static int ANIM_FRAME = 50;
+public class BiteRight extends BiteLeft {
 
-	private static IDamageCalculator DAMAGE = AIUtils.defaultDamageCalc(95F, 125F, 99999999F);
+	private static final int ANIM_FRAME = 50;
+	private static final String ANIMATION_LOCATION = "mhfc:models/Rathalos/RathalosBiteRight.mcanm";
 
-	private static double TARGET_DISTANCE = 5F;
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, ANIM_FRAME);
 
-	private static double AIM_ANGLE = 0.155;
+	public BiteRight() {}
 
-	private static float WEIGHT = 2F;
-
-	public BiteRight() {
-		setAnimation("mhfc:models/Rathalos/RathalosBiteRight.mcanm");
-		setLastFrame(ANIM_FRAME);
+	@Override
+	public IAnimation provideAnimation() {
+		return ANIMATION.getAnimation();
 	}
 
 	@Override
-	public float getWeight() {
-		EntityRathalos entity = this.getEntity();
-		target = entity.getAttackTarget();
-		if (target == null) {
-			return DONT_SELECT;
-		}
-		Vec3d LOOK_TARGET = WorldHelper.getVectorToTarget(entity, target);
-		double distance = LOOK_TARGET.lengthVector();
-		if (distance > TARGET_DISTANCE) {
-			return DONT_SELECT;
-		}
-		if (LOOK_TARGET.normalize().dotProduct(entity.getLookVec()) < -AIM_ANGLE) {
-			return DONT_SELECT;
-		}
-		return WEIGHT;
+	public IContinuationPredicate provideContinuationPredicate() {
+		return ANIMATION;
 	}
 
 	@Override
-	public void update() {
-		if (this.getCurrentFrame() == 38) {
-			getEntity().playSound(MHFCSoundRegistry.getRegistry().rathalosBite, 3.0F, 1.0F);
-		}
-		AIUtils.damageCollidingEntities(getEntity(), DAMAGE);
+	public IFrameAdvancer provideFrameAdvancer() {
+		return ANIMATION;
 	}
 
 }

@@ -1,15 +1,20 @@
 package mhfc.net.common.ai.entity.boss.deviljho;
 
-import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
+import mhfc.net.common.ai.general.actions.AnimatedAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
+import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
+import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
-public class MoveToTarget extends ActionAdapter<EntityDeviljho> {
+public class MoveToTarget extends AnimatedAction<EntityDeviljho> implements IHasAnimationProvider {
+	private static final String ANIMATION_LOCATION = "mhfc:models/Deviljho/DeviljhoWalk.mcanm";
 	private static final int MOVEMENT_START = 5;
 	private static final int MOVEMENT_FINISH = 40;
 	private static final int AI_END = 40;
@@ -147,12 +152,12 @@ public class MoveToTarget extends ActionAdapter<EntityDeviljho> {
 	private int framesRunning;
 	private int runCycles;
 
-	public MoveToTarget() {
-		setAnimation("mhfc:models/Deviljho/DeviljhoWalk.mcanm");
-	}
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, AI_END);
+
+	public MoveToTarget() {}
 
 	@Override
-	public float getWeight() {
+	public float computeSelectionWeight() {
 		EntityDeviljho monster = this.getEntity();
 		target = monster.getAttackTarget();
 		if (target == null) {
@@ -168,8 +173,17 @@ public class MoveToTarget extends ActionAdapter<EntityDeviljho> {
 	}
 
 	@Override
-	public void beginExecution() {
+	public IAnimationProvider getAnimProvider() {
+		return ANIMATION;
+	}
 
+	@Override
+	public IContinuationPredicate provideContinuationPredicate() {
+		return () -> this.currentPhase != AttackPhase.STOPPED;
+	}
+
+	@Override
+	public void beginExecution() {
 		EntityDeviljho mob = getEntity();
 		target = mob.getAttackTarget();
 		mob.playSound(MHFCSoundRegistry.getRegistry().deviljhoRoar, 1.0F, 1.0F);
@@ -183,7 +197,7 @@ public class MoveToTarget extends ActionAdapter<EntityDeviljho> {
 	}
 
 	@Override
-	public void update() {
+	public void onUpdate() {
 		currentPhase.update(this);
 		if (currentPhase.isDamaging) {
 			AIUtils.damageCollidingEntities(getEntity(), damageCalc);
@@ -196,11 +210,6 @@ public class MoveToTarget extends ActionAdapter<EntityDeviljho> {
 	}
 
 	@Override
-	public boolean shouldContinue() { // To determine if to cancel
-		return this.currentPhase != AttackPhase.STOPPED;
-	}
-
-	@Override
 	public void finishExecution() { // When finished
 	}
 
@@ -210,10 +219,8 @@ public class MoveToTarget extends ActionAdapter<EntityDeviljho> {
 	}
 
 	@Override
-	public int setToNextFrame(int frame) { // For the animation
-		return super.setToNextFrame(currentPhase.nextFrame(this, frame)); // Notify
-																			// the
-																			// adapter
+	public int forceNextFrame(int frame) { // For the animation
+		return super.forceNextFrame(currentPhase.nextFrame(this, frame));
 	}
 
 }

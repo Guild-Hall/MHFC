@@ -5,8 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
-import mhfc.net.common.ai.entity.boss.deviljho.Bite1;
-import mhfc.net.common.ai.entity.boss.deviljho.Bite2;
+import mhfc.net.common.ai.entity.boss.deviljho.Bite;
 import mhfc.net.common.ai.entity.boss.deviljho.Death;
 import mhfc.net.common.ai.entity.boss.deviljho.FrontalBreathe;
 import mhfc.net.common.ai.entity.boss.deviljho.Idle;
@@ -48,8 +47,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		attackManager.registerAction(setDeathAction(new Death()));
 		attackManager.registerAction(new Idle());
 		attackManager.registerAction(new Idle());
-		attackManager.registerAction(new Bite1());
-		attackManager.registerAction(new Bite2());
+		attackManager.registerAction(new Bite());
 		attackManager.registerAction(new Launch());
 		attackManager.registerAction(new MoveToTarget());
 		attackManager.registerAction(new Roar());

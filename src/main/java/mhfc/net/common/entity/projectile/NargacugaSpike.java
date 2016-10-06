@@ -1,7 +1,7 @@
 package mhfc.net.common.entity.projectile;
 
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
+import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.math.RayTraceResult;

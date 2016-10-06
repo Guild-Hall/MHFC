@@ -1,51 +1,37 @@
 package mhfc.net.common.ai.entity.boss.nargacuga;
 
-import mhfc.net.common.ai.IExecutableAction;
-import mhfc.net.common.ai.general.actions.AIAnimatedAction;
-import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.ai.general.SelectionUtils;
+import mhfc.net.common.ai.general.actions.AnimatedAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.monster.EntityNargacuga;
-import net.minecraft.entity.Entity;
 
-public class ProwlerStance extends AIAnimatedAction<EntityNargacuga> {
+public class ProwlerStance extends AnimatedAction<EntityNargacuga> implements IHasAnimationProvider {
 
 	private static final String ANIMATION_LOCATION = "mhfc:models/Nargacuga/Pounce.mcanm";
 	private static final int ANIMATION_LENGTH = 18;
+
 	private static final float MAX_ANGLE = 40;
 	private static final float MAX_DISTANCE = 40;
 	private static final float WEIGHT = 15;
 
-	private static final ISelectionPredicate<EntityNargacuga> select;
-
-	static {
-		select = new ISelectionPredicate.SelectionAdapter<>(-MAX_ANGLE, MAX_ANGLE, 0, MAX_DISTANCE);
-	}
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, ANIMATION_LENGTH);
 
 	public ProwlerStance() {}
 
-	@Override
-	protected void update() {}
-
-	@Override
-	public String getAnimationLocation() {
-		return ANIMATION_LOCATION;
+	private boolean shouldSelect() {
+		return SelectionUtils.isInDistance(0, MAX_DISTANCE, getEntity(), target)
+				&& SelectionUtils.isInViewAngle(-MAX_ANGLE, MAX_ANGLE, getEntity(), target);
 	}
 
 	@Override
-	public int getAnimationLength() {
-		return ANIMATION_LENGTH;
+	protected float computeSelectionWeight() {
+		return shouldSelect() ? WEIGHT : DONT_SELECT;
 	}
 
 	@Override
-	public boolean shouldSelectAttack(
-			IExecutableAction<? super EntityNargacuga> attack,
-			EntityNargacuga actor,
-			Entity target) {
-		return select.shouldSelectAttack(attack, actor, target);
+	public IAnimationProvider getAnimProvider() {
+		return ANIMATION;
 	}
-
-	@Override
-	public float getWeight(EntityNargacuga entity, Entity target) {
-		return WEIGHT;
-	}
-
 }

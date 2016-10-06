@@ -1,45 +1,64 @@
 package mhfc.net.common.ai.entity.boss.nargacuga;
 
-import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
-import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
-import mhfc.net.common.ai.general.actions.IJumpTimingProvider;
-import mhfc.net.common.ai.general.provider.simple.IJumpParamterProvider;
-import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.ai.general.SelectionUtils;
+import mhfc.net.common.ai.general.actions.JumpAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.adapters.ConstantAirTimeAdapter;
+import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
+import mhfc.net.common.ai.general.provider.adapters.JumpAdapter;
+import mhfc.net.common.ai.general.provider.adapters.JumpTimingAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.composite.IJumpProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasJumpProvider;
+import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
+import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
+import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
-public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
+public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpProvider<EntityNargacuga> {
 
-	private static final String ANIMATION = "mhfc:models/Nargacuga/TailSlam.mcanm";
 	private static final int ANIM_LENGTH = 100;
+	private static final String ANIMATION = "mhfc:models/Nargacuga/TailSlam.mcanm";
 	private static final int MAX_ANGLE = 20;
 	private static final float MAX_DISTANCE = 6;
-	private static final float WEIGHT = 8000;
 	private static final int JUMP_FRAME = 19;
 	private static final int JUMP_TIME = 12;
 	private static final int SPIKE_FRAME = 50;
 	private static final float SPEED = 1.f;
 
-	private static final ISelectionPredicate<EntityNargacuga> select;
-	private static final IDamageCalculator damageCalculator;
-	private static final IJumpTimingProvider<EntityNargacuga> timing;
-	private static final IJumpParamterProvider<EntityNargacuga> jumpParams;
+	private static final float WEIGHT = 8000;
 
-	static {
-		select = new ISelectionPredicate.SelectionAdapter<>(-MAX_ANGLE, MAX_ANGLE, 0, MAX_DISTANCE);
-		damageCalculator = AIUtils.defaultDamageCalc(280, 1000, 888880);
-		jumpParams = new IJumpParamterProvider.ConstantAirTimeAdapter<>(
+	private final IJumpProvider<EntityNargacuga> JUMP;
+	{
+		final IAnimationProvider animation = new AnimationAdapter(this, ANIMATION, ANIM_LENGTH);
+		final IDamageCalculator damageCalculator = AIUtils.defaultDamageCalc(280, 1000, 888880);
+		final IJumpParameterProvider<EntityNargacuga> jumpParams = new ConstantAirTimeAdapter<>(
 				JUMP_TIME,
 				entity -> entity.getLookVec().addVector(entity.posX, entity.posY, entity.posZ));
-		timing = new IJumpTimingProvider.JumpTimingAdapter<>(JUMP_FRAME, 0, 0);
+		final IJumpTimingProvider<EntityNargacuga> timing = new JumpTimingAdapter<>(JUMP_FRAME, 0, 0);
+		JUMP = new JumpAdapter<>(animation, new DamageAdapter(damageCalculator), jumpParams, timing);
 	}
 
 	public TailSlam() {}
+
+	private boolean shouldSelect() {
+		return SelectionUtils.isInDistance(0, MAX_DISTANCE, getEntity(), target)
+				&& SelectionUtils.isInViewAngle(-MAX_ANGLE, MAX_ANGLE, getEntity(), target);
+	}
+
+	@Override
+	protected float computeSelectionWeight() {
+		return shouldSelect() ? WEIGHT : DONT_SELECT;
+	}
+
+	@Override
+	public IJumpProvider<EntityNargacuga> getJumpProvider() {
+		return JUMP;
+	}
 
 	@Override
 	protected void finishExecution() {
@@ -50,7 +69,7 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 	}
 
 	@Override
-	public void update() {
+	public void onUpdate() {
 		EntityNargacuga nargacuga = getEntity();
 		if (this.getCurrentFrame() == 10) {
 			nargacuga.playSound(MHFCSoundRegistry.getRegistry().nargacugaTailSlam, 2.0F, 1.0F);
@@ -88,58 +107,5 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 				nargacuga.worldObj.spawnEntityInWorld(spikeEntity);
 			}
 		}
-	}
-
-	@Override
-	public String getAnimationLocation() {
-		return ANIMATION;
-	}
-
-	@Override
-	public int getAnimationLength() {
-		return ANIM_LENGTH;
-	}
-
-	@Override
-	public boolean shouldSelectAttack(
-			IExecutableAction<? super EntityNargacuga> attack,
-			EntityNargacuga actor,
-			Entity target) {
-		return select.shouldSelectAttack(attack, actor, target);
-	}
-
-	@Override
-	public float getWeight(EntityNargacuga entity, Entity target) {
-		return WEIGHT;
-	}
-
-	@Override
-	public IDamageCalculator getDamageCalculator() {
-		return damageCalculator;
-	}
-
-	@Override
-	public float getInitialUpVelocity(EntityNargacuga entity) {
-		return jumpParams.getInitialUpVelocity(entity);
-	}
-
-	@Override
-	public float getForwardVelocity(EntityNargacuga entity) {
-		return jumpParams.getForwardVelocity(entity);
-	}
-
-	@Override
-	public boolean isJumpFrame(EntityNargacuga entity, int frame) {
-		return timing.isJumpFrame(entity, frame);
-	}
-
-	@Override
-	public boolean isDamageFrame(EntityNargacuga entity, int frame) {
-		return timing.isDamageFrame(entity, frame);
-	}
-
-	@Override
-	public float getTurnRate(EntityNargacuga entity, int frame) {
-		return timing.getTurnRate(entity, frame);
 	}
 }

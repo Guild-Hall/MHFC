@@ -21,7 +21,6 @@ import mhfc.net.common.ai.entity.boss.nargacuga.Charge;
 import mhfc.net.common.ai.entity.boss.nargacuga.Death;
 import mhfc.net.common.ai.entity.boss.nargacuga.Idle;
 import mhfc.net.common.ai.entity.boss.nargacuga.Pounce;
-import mhfc.net.common.ai.entity.boss.nargacuga.Pounce.JumpBehaviour;
 import mhfc.net.common.ai.entity.boss.nargacuga.ProwlerStance;
 import mhfc.net.common.ai.entity.boss.nargacuga.Roar;
 import mhfc.net.common.ai.entity.boss.nargacuga.TailSlam;
@@ -74,8 +73,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		TailSlam tailSlam = new TailSlam();
 		Roar roar = new Roar();
 		ProwlerStance prowler = new ProwlerStance();
-		Pounce pounceTwo = Pounce.createNargaPounce(JumpBehaviour.TwoJumps);
-		Pounce pounceThree = Pounce.createNargaPounce(JumpBehaviour.ThreeJump);
+		Pounce pounce = new Pounce();
 		TailWhip tailWhip = new TailWhip();
 		BackOff backOff = new BackOff();
 		// NargacugaPounce pounceFour = NargacugaPounce.createNargaPounce(
@@ -83,8 +81,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		Charge charge = new Charge();
 
 		List<IExecutableAction<? super EntityNargacuga>> prowlerFollow = new ArrayList<>();
-		prowlerFollow.add(pounceTwo);
-		prowlerFollow.add(pounceThree);
+		prowlerFollow.add(pounce);
 		prowlerFollow.add(tailWhip);
 		// prowlerFollow.add(pounceFour);
 		attackManager.registerAction(new Wander());
@@ -94,8 +91,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		attackManager.registerActionWithFollowUps(prowler, prowlerFollow);
 		attackManager.registerAllowingAllActions(backOff);
 		attackManager.registerAction(setDeathAction(new Death()));
-		attackManager.allowAllStrongActions(pounceThree);
-		attackManager.allowAllStrongActions(pounceTwo);
+		attackManager.allowAllStrongActions(pounce);
 		attackManager.allowAllStrongActions(tailWhip);
 		attackManager.registerAllowingAllActions(charge);
 		return attackManager.build(this);

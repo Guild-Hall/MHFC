@@ -1,35 +1,35 @@
 package mhfc.net.common.ai.entity.boss.barroth;
 
-import mhfc.net.common.ai.ActionAdapter;
+import mhfc.net.common.ai.general.WeightUtils;
+import mhfc.net.common.ai.general.actions.IdleAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.monster.EntityBarroth;
 
-public class Idle extends ActionAdapter<EntityBarroth> {
+public class Idle extends IdleAction<EntityBarroth> implements IHasAnimationProvider {
 
+	private static final String ANIMATION_LOCATION = "mhfc:models/Barroth/BarrothIdle.mcanm";
 	private static final int LAST_FRAME = 60;
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 
-	public Idle() {
-		setLastFrame(LAST_FRAME);
-		setAnimation("mhfc:models/Barroth/BarrothIdle.mcanm");
+	public Idle() {}
+
+	@Override
+	protected float computeIdleWeight() {
+		return WeightUtils.random(rng(), 6f);
 	}
 
 	@Override
-	public float getWeight() {
-		EntityBarroth entity = this.getEntity();
-		if (entity.isDead) {
-			return DONT_SELECT;
-		}
-		target = entity.getAttackTarget();
-		// if (target == null)
-		// return DONT_SELECT;
-		return rng().nextFloat() * 6;
+	public IAnimationProvider getAnimProvider() {
+		return ANIMATION;
 	}
 
 	@Override
-	public void update() {
+	public void onUpdate() {
 		EntityBarroth entity = this.getEntity();
 		if (this.getCurrentFrame() == 50) {
 			entity.playLivingSound();
 		}
-		// just a copy from roar the update method. nothing else
 	}
 }

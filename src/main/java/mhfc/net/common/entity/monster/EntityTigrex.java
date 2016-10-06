@@ -12,15 +12,12 @@ import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.boss.tigrex.Bite;
 import mhfc.net.common.ai.entity.boss.tigrex.Death;
 import mhfc.net.common.ai.entity.boss.tigrex.GroundHurl;
-import mhfc.net.common.ai.entity.boss.tigrex.Idle1;
-import mhfc.net.common.ai.entity.boss.tigrex.Idle2;
-import mhfc.net.common.ai.entity.boss.tigrex.Idle3;
+import mhfc.net.common.ai.entity.boss.tigrex.Idle;
 import mhfc.net.common.ai.entity.boss.tigrex.Jump;
 import mhfc.net.common.ai.entity.boss.tigrex.Roar;
 import mhfc.net.common.ai.entity.boss.tigrex.Run;
 import mhfc.net.common.ai.entity.boss.tigrex.Wander;
 import mhfc.net.common.ai.entity.boss.tigrex.Whip;
-import mhfc.net.common.ai.general.TurnAttack;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -56,16 +53,13 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	protected IActionManager<EntityTigrex> constructActionManager() {
 		FollowUpManagerBuilder<EntityTigrex> manager = new FollowUpManagerBuilder<>();
 		manager.registerAllowingAllActions(setDeathAction(new Death()));
-		manager.registerAllowingAllActions(new TurnAttack(110, 180, 5f, 12f, 20));
 		manager.registerAllowingAllActions(new Jump());
 		manager.registerAllowingAllActions(new Run());
 		manager.registerAllowingAllActions(new GroundHurl());
 		manager.registerAllowingAllActions(new Bite());
 		Roar tigrexRoar = new Roar();
 		manager.registerAllowingAllActions(tigrexRoar);
-		manager.registerAllowingAllActions(new Idle1());
-		manager.registerAllowingAllActions(new Idle2());
-		manager.registerAllowingAllActions(new Idle3());
+		manager.registerAllowingAllActions(new Idle());
 		// Register roar to be the only allowed initial move on sight of an enemy
 		List<IExecutableAction<? super EntityTigrex>> allowedFirstSight = new ArrayList<>();
 		allowedFirstSight.add(tigrexRoar);

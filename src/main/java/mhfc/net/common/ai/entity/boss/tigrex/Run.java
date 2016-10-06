@@ -1,18 +1,26 @@
 package mhfc.net.common.ai.entity.boss.tigrex;
 
-import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
+import mhfc.net.common.ai.general.actions.DamagingAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
+import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
+import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
+import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
-public class Run extends ActionAdapter<EntityTigrex> {
+public class Run extends DamagingAction<EntityTigrex> implements IHasAttackProvider {
 	private static final int runningStarts = 21;
 	private static final int runningEnds = 60;
 	private static final int attackEnd = 75;
+	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/run.mcanm";
 	private static final float TURN_RATE_INITIAL = 10.5f;
 	private static final float TURN_RATE_DURING_RUN = 0.17f;
 	private static final float MAX_RUN_DISTANCE = 40f;
@@ -20,7 +28,7 @@ public class Run extends ActionAdapter<EntityTigrex> {
 
 	private static final double RUN_SPEED = 1.7;
 	private static final double STOP_SPEED = 0.7;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(120f, 50F, 99999F);
+	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(120f, 50F, 99999F);
 
 	private static enum PastEntityEnum {
 		NOT_PASSED,
@@ -144,13 +152,16 @@ public class Run extends ActionAdapter<EntityTigrex> {
 	private int framesRunning;
 	@SuppressWarnings("unused")
 	private int runCycles;
-
-	public Run() {
-		setAnimation("mhfc:models/Tigrex/run.mcanm");
+	private final IAttackProvider ATTACK;
+	{
+		final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, 0);
+		ATTACK = new AttackAdapter(ANIMATION, new DamageAdapter(DAMAGE_CALC));
 	}
 
+	public Run() {}
+
 	@Override
-	public float getWeight() {
+	public float computeSelectionWeight() {
 		EntityTigrex tigrex = this.getEntity();
 		target = tigrex.getAttackTarget();
 		if (target == null) {
@@ -158,12 +169,12 @@ public class Run extends ActionAdapter<EntityTigrex> {
 		}
 		Vec3d toTarget = WorldHelper.getVectorToTarget(tigrex, target);
 		double dist = toTarget.lengthVector();
-		return (float) Math.log(dist / 5f + 1); // More likely the
-												// further away
+		return (float) Math.log(dist / 5f + 1);
 	}
 
 	@Override
 	public void beginExecution() {
+		super.beginExecution();
 		EntityTigrex tig = getEntity();
 		target = tig.getAttackTarget();
 		tig.playSound(MHFCSoundRegistry.getRegistry().tigrexCharge, 2.0F, 1.0F);
@@ -177,21 +188,26 @@ public class Run extends ActionAdapter<EntityTigrex> {
 	}
 
 	@Override
-	public void update() {
+	public IAttackProvider getAttackProvider() {
+		return ATTACK;
+	}
+
+	@Override
+	public IContinuationPredicate provideContinuationPredicate() {
+		return () -> this.currentPhase != AttackPhase.STOPPED;
+	}
+
+	@Override
+	public void onUpdate() {
 		currentPhase.update(this);
 		if (currentPhase.isDamaging) {
-			AIUtils.damageCollidingEntities(getEntity(), damageCalc);
+			damageCollidingEntities();
 		}
 		AttackPhase nextPhase = currentPhase.next(this);
 		if (currentPhase != nextPhase) {
 			nextPhase.onPhaseStart(this);
 			currentPhase = nextPhase;
 		}
-	}
-
-	@Override
-	public boolean shouldContinue() { // To determine if to cancel
-		return this.currentPhase != AttackPhase.STOPPED;
 	}
 
 	@Override
@@ -204,7 +220,7 @@ public class Run extends ActionAdapter<EntityTigrex> {
 	}
 
 	@Override
-	public int setToNextFrame(int frame) { // For the animation
-		return super.setToNextFrame(currentPhase.nextFrame(this, frame));
+	public int forceNextFrame(int frame) { // For the animation
+		return super.forceNextFrame(currentPhase.nextFrame(this, frame));
 	}
 }

@@ -1,15 +1,20 @@
 package mhfc.net.common.ai.entity.boss.tigrex;
 
-import mhfc.net.common.ai.ActionAdapter;
+import mhfc.net.common.ai.general.SelectionUtils;
+import mhfc.net.common.ai.general.actions.AnimatedAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class GroundHurl extends ActionAdapter<EntityTigrex> {
-	private static final float MIN_DIST = 3f;
+public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnimationProvider {
 	private static final int LAST_FRAME = 60;
+	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/dirtthrow.mcanm";
+
 	private static final int THROW_FRAME = 21;
 	private static final int TURN_FRAMES = 14;
 
@@ -17,28 +22,29 @@ public class GroundHurl extends ActionAdapter<EntityTigrex> {
 	private static final double THROW_HEIGHT = 0.35;
 	private static final float TURN_RATE = 4;
 
-	private static final double MAX_ANGLE = 0.155;
+	private static final float MIN_DIST = 3f;
+	private static final float MAX_DIST = 40f;
+	private static final float MAX_ANGLE = 0.155f;
 
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 	private boolean thrown;
 	private int weightFactor;
 
 	public GroundHurl() {
 		weightFactor = 1;
-		setAnimation("mhfc:models/Tigrex/dirtthrow.mcanm");
-		setLastFrame(LAST_FRAME);
+	}
+
+	private boolean shouldSelect() {
+		return SelectionUtils.isInDistance(MIN_DIST, MAX_DIST, getEntity(), target)
+				&& SelectionUtils.isInViewAngle(-MAX_ANGLE, MAX_ANGLE, getEntity(), target);
 	}
 
 	@Override
-	public float getWeight() {
-		EntityTigrex tigrex = this.getEntity();
-		target = tigrex.getAttackTarget();
-		if (target == null) {
+	protected float computeSelectionWeight() {
+		if (!shouldSelect()) {
 			return DONT_SELECT;
 		}
-		Vec3d toTarget = WorldHelper.getVectorToTarget(tigrex, target);
-		if (toTarget.normalize().dotProduct(tigrex.getLookVec()) < MAX_ANGLE) {
-			return DONT_SELECT;
-		}
+		Vec3d toTarget = WorldHelper.getVectorToTarget(getEntity(), target);
 		double dist = toTarget.lengthVector();
 		int weight = weightFactor;
 		if (weightFactor > 1) {
@@ -48,7 +54,13 @@ public class GroundHurl extends ActionAdapter<EntityTigrex> {
 	}
 
 	@Override
-	public void beginExecution() {
+	public IAnimationProvider getAnimProvider() {
+		return ANIMATION;
+	}
+
+	@Override
+	protected void beginExecution() {
+		super.beginExecution();
 		EntityTigrex entity = getEntity();
 		entity.playSound(MHFCSoundRegistry.getRegistry().tigrexRockThrow, 2.0F, 1.0F);
 		thrown = false;
@@ -56,8 +68,9 @@ public class GroundHurl extends ActionAdapter<EntityTigrex> {
 	}
 
 	@Override
-	public void update() {
+	protected void onUpdate() {
 		if (thrown) {
+			super.onUpdate();
 			return;
 		}
 		EntityTigrex tigrex = getEntity();

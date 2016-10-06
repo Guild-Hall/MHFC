@@ -1,22 +1,46 @@
 package mhfc.net.common.ai.entity.boss.rathalos;
 
-import mhfc.net.common.ai.ActionAdapter;
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
+import mhfc.net.common.ai.general.SelectionUtils;
+import mhfc.net.common.ai.general.actions.DamagingAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
+import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
+import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityRathalos;
-import mhfc.net.common.util.world.WorldHelper;
-import net.minecraft.util.math.Vec3d;
 
-public class Rush extends ActionAdapter<EntityRathalos> {
+public class Rush extends DamagingAction<EntityRathalos> implements IHasAttackProvider {
 	private static final int LAST_FRAME = 60;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(100f, 50F, 9999999f);
+	private static final String ANIMATION_LOCATION = "mhfc:models/Rathalos/RathalosRush.mcanm";
+
+	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(100f, 50F, 9999999f);
 	private static final double MAX_DIST = 20F;
 	private static final float WEIGHT = 4;
 
-	public Rush() {
-		setAnimation("mhfc:models/Rathalos/RathalosRush.mcanm");
-		setLastFrame(LAST_FRAME);
+	private final IAttackProvider ATTACK;
+	{
+		final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
+		ATTACK = new AttackAdapter(ANIMATION, new DamageAdapter(DAMAGE_CALC));
+	}
+
+	public Rush() {}
+
+	private boolean shouldSelect() {
+		return SelectionUtils.isInDistance(0, MAX_DIST, getEntity(), target);
+	}
+
+	@Override
+	protected float computeSelectionWeight() {
+		return shouldSelect() ? WEIGHT : DONT_SELECT;
+	}
+
+	@Override
+	public IAttackProvider getAttackProvider() {
+		return ATTACK;
 	}
 
 	@Override
@@ -26,24 +50,9 @@ public class Rush extends ActionAdapter<EntityRathalos> {
 	}
 
 	@Override
-	public float getWeight() {
-		EntityRathalos entity = this.getEntity();
-		target = entity.getAttackTarget();
-		if (target == null) {
-			return DONT_SELECT;
-		}
-		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
-		double dist = toTarget.lengthVector();
-		if (dist < MAX_DIST) {
-			return DONT_SELECT;
-		}
-		return WEIGHT;
-	}
-
-	@Override
-	public void update() {
+	public void onUpdate() {
 		EntityRathalos entity = getEntity();
-		AIUtils.damageCollidingEntities(getEntity(), damageCalc);
+		damageCollidingEntities();
 		entity.getTurnHelper().updateTargetPoint(target);
 
 		if (this.getCurrentFrame() == 20) {

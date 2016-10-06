@@ -1,38 +1,36 @@
 package mhfc.net.common.ai.entity.boss.greatjaggi;
 
-import mhfc.net.common.ai.general.actions.AIGeneralIdle;
+import mhfc.net.common.ai.general.actions.IdleAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
-import net.minecraft.entity.Entity;
 
-public class Idle extends AIGeneralIdle<EntityGreatJaggi>  {
-	
-	private static int ANIM_FRAME = 64;
-	public static String ANIM_LOC = "mhfc:models/GreatJaggi/GreatJaggiIdle.mcanm";
+public class Idle extends IdleAction<EntityGreatJaggi> implements IHasAnimationProvider {
+
+	private static final String ANIM_LOC = "mhfc:models/GreatJaggi/GreatJaggiIdle.mcanm";
+	private static final int ANIM_FRAME = 64;
+
 	public static final float ANIM_WEIGHT = 6;
 
-	@Override
-	public String getAnimationLocation() {
-		return ANIM_LOC;
-	}
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIM_LOC, ANIM_FRAME);
 
 	@Override
-	public int getAnimationLength() {
-		return ANIM_FRAME;
-	}
-
-	@Override
-	public float getWeight(EntityGreatJaggi entity, Entity target) {
+	protected float computeIdleWeight() {
 		return ANIM_WEIGHT;
 	}
-	
+
 	@Override
-	public void update() {
+	public IAnimationProvider getAnimProvider() {
+		return ANIMATION;
+	}
+
+	@Override
+	public void onUpdate() {
 		EntityGreatJaggi entity = this.getEntity();
-		if(getCurrentFrame() == 30){
+		if (getCurrentFrame() == 30) {
 			entity.playLivingSound();
 		}
 	}
-	
-	
 
 }

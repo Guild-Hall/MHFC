@@ -15,7 +15,7 @@ import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IManagedActions;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.TargetTurnHelper;
-import mhfc.net.common.ai.general.actions.AIGeneralDeath;
+import mhfc.net.common.ai.general.actions.DeathAction;
 import mhfc.net.common.ai.manager.AIActionManager;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import net.minecraft.entity.Entity;
@@ -149,14 +149,14 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		}
 		spawnDeadParticles();
 		deathTicks++;
-		if (deathTicks >= AIGeneralDeath.deathLingeringTicks || deathAction == null) {
+		if (deathTicks >= DeathAction.deathLingeringTicks || deathAction == null) {
 			onDespawn();
 			setDead();
 		}
 	}
 
 	protected void spawnDeadParticles() {
-		float timed = (float) deathTicks / AIGeneralDeath.deathLingeringTicks;
+		float timed = (float) deathTicks / DeathAction.deathLingeringTicks;
 		timed = Math.max(0, timed - 0.1f) / 0.9f;
 		int particleCount = (int) (20 * Math.pow(timed, 4));
 		for (int i = 0; i < particleCount; i++) {

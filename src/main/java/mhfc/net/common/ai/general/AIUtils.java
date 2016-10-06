@@ -1,13 +1,14 @@
 package mhfc.net.common.ai.general;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import com.google.common.base.Preconditions;
 
+import mhfc.net.common.ai.general.provider.adapters.DefaultDamageCalculator;
+import mhfc.net.common.ai.general.provider.adapters.MemoryDamageCalculator;
+import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.index.DamageSources;
 import mhfc.net.common.util.world.WorldHelper;
@@ -31,95 +32,6 @@ public class AIUtils {
 	 * <code>rad*DEG2RAD == deg</code>
 	 */
 	public static final double DEG2RAD = Math.PI / 180d;
-
-	public static interface IDamageCalculator {
-		/**
-		 * Given an entity e calculates the damage done to it.
-		 *
-		 * @param e
-		 * @return
-		 */
-		public float accept(Entity e);
-	}
-
-	public static abstract class DecisiveDamageCalculator implements IDamageCalculator {
-
-		/**
-		 * Decides whether the given Entity should be damaged
-		 */
-		public abstract boolean shouldDamage(Entity e);
-
-		/**
-		 * Returns the damage that should be dealt to the entity e.
-		 */
-		public abstract float damage(Entity e);
-
-		@Override
-		public float accept(Entity e) {
-			if (shouldDamage(e)) {
-				return damage(e);
-			}
-			return 0f;
-		}
-	}
-
-	/**
-	 * This special damage calculator remembers which entities were damaged by it and only damages entities once until
-	 * it is reset.
-	 */
-	public static class MemoryDamageCalculator extends DecisiveDamageCalculator {
-
-		private final Set<Entity> damagedEntities = new HashSet<>();
-		private IDamageCalculator forward;
-
-		public MemoryDamageCalculator(IDamageCalculator otherCalculator) {
-			forward = Objects.requireNonNull(otherCalculator);
-		}
-
-		@Override
-		public boolean shouldDamage(Entity e) {
-			return !damagedEntities.contains(e);
-		}
-
-		@Override
-		public float damage(Entity e) {
-			damagedEntities.add(e);
-			return forward.accept(e);
-		}
-
-		public void reset() {
-			damagedEntities.clear();
-		}
-
-	}
-
-	/**
-	 * A default implementation for {@link IDamageCalculator}. It decides
-	 *
-	 * @author WorldSEnder
-	 *
-	 */
-	private static class DefDamageCalculator implements IDamageCalculator {
-		private float player;
-		private float wyvern;
-		private float rest;
-
-		public DefDamageCalculator(float player, float wyvern, float rest) {
-			this.player = player;
-			this.wyvern = wyvern;
-			this.rest = rest;
-		}
-
-		@Override
-		public float accept(Entity trgt) {
-			if (trgt instanceof EntityPlayer) {
-				return player;
-			} else if (trgt instanceof EntityMHFCBase) {
-				return wyvern;
-			}
-			return rest;
-		}
-	}
 
 	public static class DamageCalculatorHelper {
 		private enum Type {
@@ -212,19 +124,22 @@ public class AIUtils {
 		List<Entity> collidingEntities = WorldHelper.collidingEntities(ai);
 
 		for (Entity trgt : collidingEntities) {
-			float damage = damageCalc.accept(trgt);
-			if (trgt instanceof EntityPlayer || trgt instanceof EntityMHFCBase) {
-
-				trgt.attackEntityFrom(DamageSource.causeMobDamage(ai), damage);
-			} else {
-				trgt.attackEntityFrom(DamageSources.anti, damage);
-			}
+			damageEntitiesFromAI(ai, trgt, damageCalc);
 		}
 
 	}
 
+	public static void damageEntitiesFromAI(EntityLivingBase ai, Entity target, IDamageCalculator damageCalc) {
+		float damage = damageCalc.accept(target);
+		if (target instanceof EntityPlayer || target instanceof EntityMHFCBase) {
+			target.attackEntityFrom(DamageSource.causeMobDamage(ai), damage);
+		} else {
+			target.attackEntityFrom(DamageSources.anti, damage);
+		}
+	}
+
 	public static IDamageCalculator defaultDamageCalc(final float player, final float wyvern, final float rest) {
-		return new DefDamageCalculator(player, wyvern, rest);
+		return new DefaultDamageCalculator(player, wyvern, rest);
 	}
 
 	/**

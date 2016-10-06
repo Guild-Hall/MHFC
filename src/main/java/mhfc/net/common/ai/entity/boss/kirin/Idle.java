@@ -1,35 +1,35 @@
 package mhfc.net.common.ai.entity.boss.kirin;
 
-import mhfc.net.common.ai.ActionAdapter;
+import mhfc.net.common.ai.general.WeightUtils;
+import mhfc.net.common.ai.general.actions.IdleAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.monster.EntityKirin;
 
-public class Idle extends ActionAdapter<EntityKirin> {
+public class Idle extends IdleAction<EntityKirin> implements IHasAnimationProvider {
 
 	private static final int LAST_FRAME = 160;
+	private static final String ANIMATION_LOCATION = "mhfc:models/Kirin/KirinIdle.mcanm";
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 
-	public Idle() {
-		setLastFrame(LAST_FRAME);
-		setAnimation("mhfc:models/Kirin/KirinIdle.mcanm");
+	public Idle() {}
+
+	@Override
+	protected float computeIdleWeight() {
+		return WeightUtils.random(rng(), 3);
 	}
 
 	@Override
-	public float getWeight() {
-		EntityKirin entity = this.getEntity();
-		if (entity.isDead) {
-			return DONT_SELECT;
-		}
-		target = entity.getAttackTarget();
-		// if (target == null)
-		// return DONT_SELECT;
-		return rng().nextFloat() * 3;
+	public IAnimationProvider getAnimProvider() {
+		return ANIMATION;
 	}
 
 	@Override
-	public void update() {
+	public void onUpdate() {
 		EntityKirin entity = this.getEntity();
 		if (this.getCurrentFrame() == 10) {
 			entity.playLivingSound();
 		}
-		// just a copy from roar the update method. nothing else
 	}
 }

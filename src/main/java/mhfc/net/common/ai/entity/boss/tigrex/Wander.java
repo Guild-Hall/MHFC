@@ -1,47 +1,45 @@
 package mhfc.net.common.ai.entity.boss.tigrex;
 
-import mhfc.net.common.ai.general.IFrameAdvancer;
-import mhfc.net.common.ai.general.actions.AIGeneralWander;
+import mhfc.net.common.ai.general.actions.WanderAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.adapters.CountLoopAdvancer;
+import mhfc.net.common.ai.general.provider.adapters.MoveParameterAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
 import mhfc.net.common.entity.monster.EntityTigrex;
-import net.minecraft.entity.Entity;
 
-public class Wander extends AIGeneralWander<EntityTigrex> {
+public class Wander extends WanderAction<EntityTigrex> implements IHasAnimationProvider {
 
-	private static final String ANIMATION = "mhfc:models/Tigrex/walk.mcanm";
 	private static final int ANIMATION_LENGTH = 90;
-	private static final float WEIGHT = 0.5F;
+	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/walk.mcanm";
+
 	private static final float TURN_SPEED = 4f;
 	private static final float MOVE_SPEED = 0.2f;
-	private static final IMoveParameterProvider parameterProvider;
+	private static final IMoveParameterProvider MOVEMENT_PARAMS = new MoveParameterAdapter(TURN_SPEED, MOVE_SPEED);
 
-	static {
-		parameterProvider = new IMoveParameterProvider.MoveParameterAdapter(TURN_SPEED, MOVE_SPEED);
-	}
+	private static final float WEIGHT = 0.5F;
+
+	private final IAnimationProvider ANIMATION;
 
 	public Wander() {
-		super(parameterProvider);
-		setFrameAdvancer(new IFrameAdvancer.CountLoopAdvancer(10, ANIMATION_LENGTH, -1));
+		ANIMATION = AnimationAdapter.builder().setAnimation(ANIMATION_LOCATION).setAnimationLength(ANIMATION_LENGTH)
+				.setFrameAdvancer(new CountLoopAdvancer(10, ANIMATION_LENGTH, -1)).build(this);
 	}
 
 	@Override
-	protected void beginExecution() {
-		super.beginExecution();
+	protected float computeWanderWeight() {
+		return WEIGHT;
 	}
 
 	@Override
-	public String getAnimationLocation() {
+	public IAnimationProvider getAnimProvider() {
 		return ANIMATION;
 	}
 
 	@Override
-	public int getAnimationLength() {
-		return ANIMATION_LENGTH;
-	}
-
-	@Override
-	public float getWeight(EntityTigrex entity, Entity target) {
-		return WEIGHT;
+	public IMoveParameterProvider provideMoveParameters() {
+		return MOVEMENT_PARAMS;
 	}
 
 }

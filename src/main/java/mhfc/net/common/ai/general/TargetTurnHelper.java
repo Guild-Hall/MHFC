@@ -83,7 +83,7 @@ public class TargetTurnHelper {
 		if (!Float.isNaN(newYaw)) {
 			entity.rotationYaw = newYaw;
 		}
-		// CLEANUP Figure out a way to send the updates to the client cleanly
+		// FIXME Figure out a way to send the updates to the client cleanly
 		entity.addVelocity(10e-4, 0, 10e-4);
 	}
 

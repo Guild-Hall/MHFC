@@ -1,36 +1,36 @@
 package mhfc.net.common.ai.entity.boss.rathalos;
 
-import mhfc.net.common.ai.ActionAdapter;
+import mhfc.net.common.ai.general.SelectionUtils;
+import mhfc.net.common.ai.general.actions.AnimatedAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.monster.EntityRathalos;
 
-public class Fireball extends ActionAdapter<EntityRathalos> {
-	
-	
-	private static final String SET_Animation = "mhfc:models/Rathalos/RathalosFireBlast.mcanm";
-	private static final int Set_Frame = 60;
-	private static final double Set_MaxDistance = 15f;
-	private static final float Set_Weight = 6F;
-	
-	
-	public Fireball(){
-		this.setAnimation(SET_Animation);
-		this.setLastFrame(Set_Frame);
-	}
-	
-	
-	@Override
-	public float getWeight() {
-		return 0;
+public class Fireball extends AnimatedAction<EntityRathalos> implements IHasAnimationProvider {
+
+	private static final int LAST_FRAME = 60;
+	private static final String ANIMATION_LOCATION = "mhfc:models/Rathalos/RathalosFireBlast.mcanm";
+
+	private static final double MAX_DISTANCE = 15f;
+	private static final float WEIGHT = 6F;
+
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
+
+	public Fireball() {}
+
+	private boolean shouldSelect() {
+		return SelectionUtils.isInDistance(0, MAX_DISTANCE, getEntity(), target);
 	}
 
 	@Override
-	protected void update() {
+	protected float computeSelectionWeight() {
+		return shouldSelect() ? WEIGHT : DONT_SELECT;
 	}
-	
-	
+
 	@Override
-	public void beginExecution() {
-		
+	public IAnimationProvider getAnimProvider() {
+		return ANIMATION;
 	}
 
 }
