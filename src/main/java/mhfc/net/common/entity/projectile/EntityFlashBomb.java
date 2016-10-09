@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -62,9 +63,14 @@ public class EntityFlashBomb extends EntityThrowable {
 		}
 		exploded = true;
 		setDead();
-		List<Entity> entites = this.worldObj.getEntitiesWithinAABBExcludingEntity(
-				this,
-				this.getCollisionBoundingBox().expand(FALL_OFF_END, FALL_OFF_END, FALL_OFF_END));
+		AxisAlignedBB explosionRange = new AxisAlignedBB(
+				posX - FALL_OFF_END,
+				posY - FALL_OFF_END,
+				posZ - FALL_OFF_END,
+				posX + FALL_OFF_END,
+				posY + FALL_OFF_END,
+				posZ + FALL_OFF_END);
+		List<Entity> entites = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, explosionRange);
 		for (Entity e : entites) {
 			if (!(e instanceof EntityLivingBase)) {
 				continue;
