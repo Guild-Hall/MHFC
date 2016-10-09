@@ -1,6 +1,10 @@
 package mhfc.net.client.gui.hud;
 
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glColor3f;
 import static org.lwjgl.opengl.GL11.glDisable;
 import static org.lwjgl.opengl.GL11.glEnable;
@@ -55,6 +59,9 @@ public class WeaponOverlay {
 		float resizeX = 1f, resizeY = 1f, offsetX = 4, offsetY = 4;
 
 		glPushMatrix();
+		MHFCGuiUtil.setColor(0xFFFFFF, 1F);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		Minecraft.getMinecraft().renderEngine.bindTexture(staveLoc);
 
 		MHFCGuiUtil
@@ -69,6 +76,8 @@ public class WeaponOverlay {
 			MHFCGuiUtil.drawTexturedRectangle(posX * resizeX, posY * resizeY, 14 * resizeX, 14 * resizeY, 0, 0, .5f, 1);
 		}
 
+		glColor3f(1.f, 1.f, 1.f);
+		glDisable(GL_BLEND);
 		glPopMatrix();
 	}
 
