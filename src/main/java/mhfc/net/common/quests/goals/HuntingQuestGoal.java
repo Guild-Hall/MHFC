@@ -38,7 +38,7 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 		goalHandler = new LivingDeathEventHandler(this);
 		MinecraftForge.EVENT_BUS.register(goalHandler);
 		String goalMob = EntityList.CLASS_TO_NAME.get(goalClass);
-		Spawnable creation = (world) -> EntityList.createEntityByName(goalMob, world);
+		Spawnable creation = (world) -> EntityList.createEntityByIDFromName(goalMob, world);
 		Stream<Spawnable> generator = Stream.generate(() -> creation);
 		infSpawns = new LazyQueue<>(generator.iterator());
 	}

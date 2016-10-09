@@ -69,11 +69,6 @@ public class AreaManager implements IAreaManager {
 	public AreaManager(World world, MHFCWorldData saveData) {
 		this.world = Objects.requireNonNull(world);
 		this.saveData = Objects.requireNonNull(saveData);
-		Collection<AreaInformation> loadedAreas = this.saveData.getAllSpawnedAreas();
-		for (AreaInformation info : loadedAreas) {
-			IArea loadingArea = info.type.provideForLoading(world, info.config);
-			this.nonactiveAreas.computeIfAbsent(info.type, (k) -> new ArrayList<>()).add(loadingArea);
-		}
 	}
 
 	private Ticket getLoadingTicket() {
@@ -85,6 +80,15 @@ public class AreaManager implements IAreaManager {
 
 	private void dismiss(IActiveArea active) {
 		this.nonactiveAreas.get(active.getType()).add(active.getArea());
+	}
+
+	@Override
+	public void onLoaded() {
+		Collection<AreaInformation> loadedAreas = this.saveData.getAllSpawnedAreas();
+		for (AreaInformation info : loadedAreas) {
+			IArea loadingArea = info.type.provideForLoading(world, info.config);
+			this.nonactiveAreas.computeIfAbsent(info.type, (k) -> new ArrayList<>()).add(loadingArea);
+		}
 	}
 
 	@Override

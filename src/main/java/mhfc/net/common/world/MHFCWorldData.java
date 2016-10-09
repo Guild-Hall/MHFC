@@ -33,9 +33,16 @@ public class MHFCWorldData extends WorldSavedData {
 		}
 	}
 
+	// Because MC doesn't hand the world over to the constructor when loading, we do
+	private static ThreadLocal<World> WORLD_CONTEXT = new ThreadLocal<>();
+
 	private Collection<AreaInformation> spawnedAreas = new HashSet<>();
 	private IRectanglePlacer rectanglePlacer;
 	private IAreaManager areaManager;
+
+	public MHFCWorldData(String nbtPropName) {
+		this(WORLD_CONTEXT.get(), nbtPropName);
+	}
 
 	public MHFCWorldData(World world, String nbtPropName) {
 		super(nbtPropName);
@@ -68,6 +75,7 @@ public class MHFCWorldData extends WorldSavedData {
 			areaConfig.readFrom(dataTag);
 			spawnedAreas.add(new AreaInformation(type, areaConfig));
 		}
+		areaManager.onLoaded();
 	}
 
 	@Override
@@ -107,6 +115,7 @@ public class MHFCWorldData extends WorldSavedData {
 
 	public static IAreaManager retrieveManagerForWorld(World world) {
 		//FIXME (1.10): implement as Capability in 1.10.2
+		WORLD_CONTEXT.set(world);
 		MHFCWorldData data = (MHFCWorldData) world.getPerWorldStorage().getOrLoadData(MHFCWorldData.class, "mhfcareas");
 		if (data == null) {
 			data = new MHFCWorldData(world, "mhfcareas");

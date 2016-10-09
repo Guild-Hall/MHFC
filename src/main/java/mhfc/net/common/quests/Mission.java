@@ -344,7 +344,10 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 			return;
 		}
 		questGoal.questGoalFinalize();
-		questingArea.close();
+		if (questingArea != null) {
+			// Could be closed before area is finished
+			questingArea.close();
+		}
 		closed = true;
 	}
 

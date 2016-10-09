@@ -331,6 +331,9 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 	private boolean spawnIfFreeSlots(Spawnable firstEnt) {
 		Entity entity = firstEnt.apply(worldView.getWorldObject());
+		if (entity == null) {
+			return false;
+		}
 		if (aliveCount.getOrDefault(entity.getClass(), 0) >= spawnMaximum.getOrDefault(entity.getClass(), 0)) {
 			return false;
 		}

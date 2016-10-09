@@ -75,11 +75,9 @@ public class AreaTeleportation {
 	private static Map<Entity, IArea> entityToArea = new HashMap<>();
 
 	private static void changePlayerDimension(EntityPlayerMP player, int dimension, Teleporter tp) {
-		// FIXME: see http://www.minecraftforge.net/forum/index.php?topic=42229
 		if (player.dimension != dimension) {
-			player.changeDimension(dimension);
+			player.mcServer.getPlayerList().transferPlayerToDimension(player, dimension, tp);
 		}
-		tp.placeInPortal(player, 0);
 	}
 
 	/**

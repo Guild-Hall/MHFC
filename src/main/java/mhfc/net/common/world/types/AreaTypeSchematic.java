@@ -30,7 +30,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 
 	private static WorldData forgeData = LegacyWorldData.getInstance();
 	private static ClipboardFormat format = ClipboardFormat.SCHEMATIC;
-	private static int DIM_SIZE = 16;
+	private static int DIM_SIZE = 8;
 
 	protected Clipboard areaInformation;
 	protected Vector absoluteMinimum;
