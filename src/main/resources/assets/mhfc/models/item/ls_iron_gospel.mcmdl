@@ -3,5 +3,8 @@
     mesh: "mhfc:models/item/ModelLSIKGrace.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(LS)IKGospel"
+    },
+    transforms: {
+        GUI: { rotation: [{z: -45}], translation: [1, 0.3, 0] }
     }
 }

@@ -3,5 +3,8 @@
     mesh: "mhfc:models/block/quest_board.mcmd",
     textures: {
         "#board": "mhfc:tile/questboard"
+    },
+    transforms: {
+        GUI: { scale: 0.8, translation: [0.4, -0.25, 0.4] }
     }
 }

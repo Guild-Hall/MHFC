@@ -3,5 +3,8 @@
     mesh: "mhfc:models/item/ModelGSKirinThunderSword.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(GS)kirin"
+    },
+    transforms: {
+        GUI: { rotation: [{z: -45}], translation: [0.8, 0.1, 0] }
     }
 }

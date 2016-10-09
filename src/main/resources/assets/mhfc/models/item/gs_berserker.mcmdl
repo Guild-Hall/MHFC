@@ -3,5 +3,8 @@
     mesh: "mhfc:models/item/ModelGSDeviljhobroadsword.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(GS)deviljhobroadsword"
+    },
+    transforms: {
+        GUI: { rotation: [{z: -45}], translation: [1, 0.3, 0] }
     }
 }

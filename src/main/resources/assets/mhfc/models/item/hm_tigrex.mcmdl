@@ -3,5 +3,8 @@
     mesh: "mhfc:models/item/ModelHTigrex.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(H)tigrex"
+    },
+    transforms: {
+        GUI: { rotation: [{z: -45}], translation: [1, 0.3, 0] }
     }
 }

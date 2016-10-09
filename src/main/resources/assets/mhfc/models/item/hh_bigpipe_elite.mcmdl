@@ -3,5 +3,8 @@
     mesh: "mhfc:models/item/ModelHHEliteBagpipe.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(HH)elitebagpipe"
+    },
+    transforms: {
+        GUI: { rotation: [{z: -45}], translation: [1, 0.3, 0] }
     }
 }

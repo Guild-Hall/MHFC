@@ -5,6 +5,6 @@
         "#weapontex": "mhfc:weapons/(LS)liondancesaber"
     },
     transforms: {
-        "GUI": { "scale": 0.4142, "rotation": [{"x": 30}, {"y": 45}] }
+        GUI: { rotation: [{z: -45}], translation: [1, 0.3, 0] }
     }
 }
