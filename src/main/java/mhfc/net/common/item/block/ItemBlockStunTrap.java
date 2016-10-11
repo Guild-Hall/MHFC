@@ -2,12 +2,14 @@ package mhfc.net.common.item.block;
 
 import java.util.List;
 
+import mhfc.net.common.item.IItemColored;
+import mhfc.net.common.item.ItemColor;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-public class ItemBlockStunTrap extends ItemBlock {
+public class ItemBlockStunTrap extends ItemBlock implements IItemColored {
 
 	public ItemBlockStunTrap(Block getBlock) {
 		super(getBlock);
@@ -22,6 +24,11 @@ public class ItemBlockStunTrap extends ItemBlock {
 			boolean par4) {
 		par3List.add("A tool that temporarily renders a");
 		par3List.add("monster immobile and unable to attack.");
+	}
+
+	@Override
+	public int getColorFromItemStack(ItemStack stack, int texIndex) {
+		return ItemColor.GREEN.getRGB();
 	}
 
 }

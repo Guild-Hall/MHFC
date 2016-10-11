@@ -30,7 +30,6 @@ public class BlockExploreArea extends Block implements ITileEntityProvider {
 
 	public BlockExploreArea() {
 		super(Material.PLANTS);
-		setCreativeTab(MHFCMain.mhfctabs);
 		setUnlocalizedName(ResourceInterface.block_exploreArea_name);
 		setBlockUnbreakable();
 	}

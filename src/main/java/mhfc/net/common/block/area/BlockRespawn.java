@@ -1,6 +1,5 @@
 package mhfc.net.common.block.area;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.block.Block;
@@ -15,7 +14,6 @@ public class BlockRespawn extends Block {
 
 	public BlockRespawn() {
 		super(Material.WEB);
-		setCreativeTab(MHFCMain.mhfctabs);
 		setUnlocalizedName(ResourceInterface.block_respawn_name);
 		setBlockUnbreakable();
 	}

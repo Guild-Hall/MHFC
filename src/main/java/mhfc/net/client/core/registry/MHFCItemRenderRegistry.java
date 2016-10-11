@@ -173,7 +173,7 @@ public class MHFCItemRenderRegistry {
 		}
 	};
 
-	private static <T extends Item> void registerColoredItem(T item) {
+	private static void registerColoredItem(Item item) {
 		FMLClientHandler.instance().getClient().getItemColors().registerItemColorHandler(ITEM_COLORED_COLOR, item);
 	}
 

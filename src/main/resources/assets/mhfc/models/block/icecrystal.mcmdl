@@ -1,0 +1,10 @@
+{
+    version: 1,
+    mesh: "mhfc:models/block/ModelAkuraCrystal.mcmd",
+    textures: {
+        "#crystal": "mhfc:tile/akuracrystal"
+    },
+    transforms: {
+        GUI: { scale: 0.8, translation: [0.4, -0.25, 0.4] }
+    }
+}
