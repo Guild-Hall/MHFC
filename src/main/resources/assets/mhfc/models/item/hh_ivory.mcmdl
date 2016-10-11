@@ -5,6 +5,6 @@
         "#weapontex": "mhfc:weapons/(HH)ivoryhorn"
     },
     transforms: {
-        GUI: { rotation: [{z: -45}], translation: [1, 0.3, 0] }
+        GUI: { rotation: [{z: -45}, {y: 70}], translation: [0.5, -0.5, 0] }
     }
 }
