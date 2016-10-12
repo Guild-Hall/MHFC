@@ -3,5 +3,8 @@
     mesh: "mhfc:models/item/ModelBHunters_idle.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(B)hunters"
+    },
+    transforms: {
+        GUI: { rotation: [{z: -45}, {y: 70}], translation: [0.3, 0, 0], scale: 0.5 }
     }
 }

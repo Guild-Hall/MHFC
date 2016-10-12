@@ -3,5 +3,8 @@
     mesh: "mhfc:models/item/ModelBLBarrel.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(BL)barrel"
+    },
+    transforms: {
+        GUI: { rotation: [{z: -45}, {y: 70}], translation: [1, 0, 0] }
     }
 }
