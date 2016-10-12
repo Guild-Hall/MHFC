@@ -121,6 +121,7 @@ public class ItemMeats extends ItemFood implements IItemColored, IItemVarianted 
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(1);
 		setHasSubtypes(true);
+		setAlwaysEdible();
 	}
 
 	@Override

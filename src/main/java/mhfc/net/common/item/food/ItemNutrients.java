@@ -87,6 +87,7 @@ public class ItemNutrients extends ItemFood implements IItemColored, IItemVarian
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(1);
 		setHasSubtypes(true);
+		setAlwaysEdible();
 	}
 
 	@Override
