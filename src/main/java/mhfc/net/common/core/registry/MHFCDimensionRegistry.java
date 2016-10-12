@@ -13,10 +13,14 @@ import mhfc.net.common.world.WorldProviderQuesting;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.controller.IAreaManager;
+import mhfc.net.common.world.village.QuestGiverHut;
+import mhfc.net.common.world.village.VillageCreationHandler;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.registry.VillagerRegistry;
 
 public class MHFCDimensionRegistry {
 	private static Map<Integer, QuestFlair> worldIDToFlair;
@@ -41,6 +45,8 @@ public class MHFCDimensionRegistry {
 			flairToWorldID.put(flair, worldID);
 			DimensionManager.registerDimension(worldID, questingType);
 		}
+		VillagerRegistry.instance().registerVillageCreationHandler(new VillageCreationHandler());
+		MapGenStructureIO.registerStructureComponent(QuestGiverHut.class, "mhfc.questGiverHut");
 	}
 
 	public static DimensionType getDimensionType() {
