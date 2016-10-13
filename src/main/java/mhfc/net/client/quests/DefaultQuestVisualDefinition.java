@@ -467,7 +467,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		fontRenderer.drawString(TAG_AREA, positionX + BORDER, positionY, COLOUR_HEADER);
 		positionY += MHFCGuiUtil.drawTextLocalizedAndReturnHeight(
 				fontRenderer,
-				areaNameId,
+				I18n.format(areaNameId),
 				positionX + width / 2,
 				positionY,
 				width / 2 - BORDER,

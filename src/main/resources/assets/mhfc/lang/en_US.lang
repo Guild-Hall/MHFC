@@ -301,6 +301,12 @@ mhfc.quests.type.gathering=Gathering Quest
 mhfc.quests.type.epichunting=Epic Hunting Quest
 mhfc.quests.type.killing=Slaying Quest
 
+mhfc.area.playfield.name=Playfield
+mhfc.area.arena.name=Arena
+mhfc.area.desertpalm.name=Desert
+mhfc.area.test.name=Devtest area
+mhfc.area.village_poke.name=Pokèvillage
+
 container.hunterbench=Hunter's Forging Bench
 
 attribute.name.mhfc.ignoreArmour=Sharpness
