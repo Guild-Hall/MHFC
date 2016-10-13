@@ -31,6 +31,7 @@ import mhfc.net.common.block.container.BlockHunterBench;
 import mhfc.net.common.block.container.BlockStunTrap;
 import mhfc.net.common.item.block.ItemBlockBBQSpit;
 import mhfc.net.common.item.block.ItemBlockBenchHunter;
+import mhfc.net.common.item.block.ItemBlockIceCrystal;
 import mhfc.net.common.item.block.ItemBlockQuestBoard;
 import mhfc.net.common.item.block.ItemBlockStunTrap;
 import mhfc.net.common.item.block.ItemSubtypedBlock;
@@ -103,10 +104,10 @@ public class MHFCBlockRegistry {
 				new BlockWyverniaOreBlock(),
 				b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(16));
 
-		mhfcblockicecrystal = registerBlock("icecrystal", new BlockIceCrystal());
 		mhfcblockquicksand = registerBlock("quicksand", new BlockWyverniaQuickSand());
 		mhfcblockdiskstone = registerBlock("diskstone", new BlockDiscstone());
 
+		mhfcblockicecrystal = registerBlockWithItem("icecrystal", new BlockIceCrystal(), ItemBlockIceCrystal::new);
 		mhfcblockhunterbench = registerBlockWithItem("hunterbench", new BlockHunterBench(), ItemBlockBenchHunter::new);
 		mhfcblockstuntrap = registerBlockWithItem("trap_stun", new BlockStunTrap(), ItemBlockStunTrap::new);
 		mhfcblockbbqspit = registerBlockWithItem("bbq_spit", new BlockBBQSpit(), ItemBlockBBQSpit::new);

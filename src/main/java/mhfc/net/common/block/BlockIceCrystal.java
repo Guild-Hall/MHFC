@@ -6,6 +6,7 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 
 public class BlockIceCrystal extends Block {
 
@@ -18,5 +19,10 @@ public class BlockIceCrystal extends Block {
 	@Override
 	public int quantityDropped(Random random) {
 		return 1;
+	}
+
+	@Override
+	public boolean isFullBlock(IBlockState state) {
+		return false;
 	}
 }
