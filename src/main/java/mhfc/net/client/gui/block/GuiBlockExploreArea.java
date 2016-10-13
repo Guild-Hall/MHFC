@@ -85,6 +85,8 @@ public class GuiBlockExploreArea extends MHFCGui {
 		if (button.id == 0 && button.enabled) {
 			PacketPipeline.networkPipe
 					.sendToServer(new MessageExploreTileUpdate(tileEntity, getTargetArea(), getQuestFlair()));
+			tileEntity.setTargetArea(getTargetArea());
+			tileEntity.setFlair(getQuestFlair().name());
 			mc.displayGuiScreen(null);
 		}
 	}

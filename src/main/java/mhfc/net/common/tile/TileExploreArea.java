@@ -65,7 +65,7 @@ public class TileExploreArea extends TileEntity {
 			flair = QuestFlair.valueOf(newFlair);
 		} catch (IllegalArgumentException iae) {
 			MHFCMain.logger().error(
-					"[MHFC] Flair " + newFlair
+					"Flair " + newFlair
 							+ " was not recognized, for allowed values see documentation of MHFCQuestBuildRegistry. Falling back to DAYTIME.");
 		}
 	}
