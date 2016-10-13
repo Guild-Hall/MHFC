@@ -9,9 +9,8 @@ import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.tile.TileExploreArea;
 import mhfc.net.common.world.area.IAreaType;
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockBarrier;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,22 +23,18 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockExploreArea extends Block implements ITileEntityProvider {
+public class BlockExploreArea extends BlockBarrier implements ITileEntityProvider {
 
 	private static Set<EntityPlayerMP> teleportingPlayers = new HashSet<>();
 
 	public BlockExploreArea() {
-		super(Material.PLANTS);
 		setUnlocalizedName(ResourceInterface.block_exploreArea_name);
 		setBlockUnbreakable();
 	}
 
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(
-			World p_149668_1_,
-			int p_149668_2_,
-			int p_149668_3_,
-			int p_149668_4_) {
-		return null;
+	@Override
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+		return NULL_AABB;
 	}
 
 	@Override

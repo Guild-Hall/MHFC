@@ -113,7 +113,7 @@ public class MHFCBlockRegistry {
 		mhfcblockbbqspit = registerBlockWithItem("bbq_spit", new BlockBBQSpit(), ItemBlockBBQSpit::new);
 		mhfcblockquestboard = registerBlockWithItem("questboard", new BlockQuestBoard(), ItemBlockQuestBoard::new);
 		mhfcblockrespawn = registerBlock("respawn_marker", new BlockRespawn());
-		mhfcblockexplorearea = registerBlock("eploration_teleporter", new BlockExploreArea());
+		mhfcblockexplorearea = registerBlock("exploration_teleporter", new BlockExploreArea());
 
 		MHFCMain.logger().info("Blocks registered");
 	}

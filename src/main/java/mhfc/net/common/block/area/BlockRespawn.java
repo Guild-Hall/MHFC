@@ -2,20 +2,24 @@ package mhfc.net.common.block.area;
 
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.index.ResourceInterface;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.BlockBarrier;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockRespawn extends Block {
+public class BlockRespawn extends BlockBarrier {
 
 	public BlockRespawn() {
-		super(Material.WEB);
 		setUnlocalizedName(ResourceInterface.block_respawn_name);
 		setBlockUnbreakable();
+	}
+
+	@Override
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+		return NULL_AABB;
 	}
 
 	@Override
