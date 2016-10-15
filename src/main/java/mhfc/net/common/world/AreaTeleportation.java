@@ -6,7 +6,6 @@ import java.util.Map;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.world.area.IArea;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
@@ -129,11 +128,10 @@ public class AreaTeleportation {
 	}
 
 	public static void moveEntityTo(Entity entity, BlockPos pos) {
-		if (entity instanceof EntityLivingBase) {
-			EntityLivingBase entityLiving = (EntityLivingBase) entity;
-			entityLiving.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
-		}
-		entity.setPosition(pos.getX() + 0.5d, pos.getY(), pos.getZ() + 0.5d);
+		double x = pos.getX();
+		double y = pos.getY();
+		double z = pos.getZ();
+		entity.setPositionAndUpdate(x + 0.5d, y, z + 0.5d);
 	}
 
 }

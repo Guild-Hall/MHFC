@@ -76,6 +76,10 @@ public class DisplacedView implements IWorldView {
 		return localPos.add(blockDeltaX, 0, blockDeltaZ);
 	}
 
+	private BlockPos globalToLocal(BlockPos globalPos) {
+		return globalPos.add(-blockDeltaX, 0, -blockDeltaZ);
+	}
+
 	@Override
 	public boolean isDaytime() {
 		return worldObj.isDaytime();
@@ -128,7 +132,7 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(position)) {
 			return new BlockPos(position.getX(), -1, position.getZ());
 		}
-		return worldObj.getTopSolidOrLiquidBlock(localToGlobal(position));
+		return globalToLocal(worldObj.getTopSolidOrLiquidBlock(localToGlobal(position)));
 	}
 
 	@Override
