@@ -1,7 +1,7 @@
 package mhfc.net.common.core.registry;
 
 import java.util.Objects;
-import java.util.function.Consumer;
+import java.util.concurrent.CompletionStage;
 
 import javax.annotation.Nonnull;
 
@@ -36,7 +36,7 @@ public class MHFCExplorationRegistry {
 			EntityPlayerMP player = (EntityPlayerMP) loggedIn.player;
 			IExplorationManager manager = getExplorationManagerFor(player);
 			manager.onPlayerAdded(player);
-			manager.initialAddPlayer(player);
+			manager.onPlayerJoined(player);
 		}
 
 		@SubscribeEvent
@@ -87,10 +87,11 @@ public class MHFCExplorationRegistry {
 		bindPlayer(OverworldManager.instance, player);
 	}
 
-	public static void transferPlayer(EntityPlayerMP player, IAreaType area, Consumer<IActiveArea> callback) {
+	public static CompletionStage<IActiveArea> transferPlayer(EntityPlayerMP player, IAreaType area) {
 		IExplorationManager manager = getExplorationManagerFor(player);
-		manager.transferPlayerInto(player, area, callback);
+		CompletionStage<IActiveArea> areaStage = manager.transferPlayerInto(player, area);
 		getExplorationProperties(player).setAreaType(area);
+		return areaStage;
 	}
 
 	@Nonnull

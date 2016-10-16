@@ -91,7 +91,7 @@ public class BlockExploreArea extends BlockBarrier implements ITileEntityProvide
 				"Teleporting " + player.getName() + " to area " + targetArea.getUnlocalizedName()
 						+ " flair ignored right now");
 		teleportingPlayers.add(player);
-		MHFCExplorationRegistry.transferPlayer(player, targetArea, (t) -> {
+		MHFCExplorationRegistry.transferPlayer(player, targetArea).whenComplete((t, e) -> {
 			teleportingPlayers.remove(player);
 		});
 	}

@@ -3,7 +3,8 @@ package mhfc.net.common.world.exploration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Consumer;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
@@ -31,17 +32,17 @@ public class MHFCExploration extends ExplorationAdapter {
 	}
 
 	@Override
-	protected void transferIntoInstance(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback) {
+	protected CompletionStage<IActiveArea> transferIntoInstance(EntityPlayerMP player, IAreaType type) {
 		Optional<IActiveArea> eligibleArea = getAreasOfType(type).stream().filter((inst) -> !isInstanceFull(inst))
 				.findAny();
 		if (eligibleArea.isPresent()) {
 			MHFCMain.logger().debug("Transfering player into existing instance");
 			IActiveArea area = eligibleArea.get();
 			transferIntoInstance(player, area);
-			callback.accept(area);
+			return CompletableFuture.completedFuture(area);
 		} else {
 			MHFCMain.logger().debug("Transfering player into new instance");
-			transferIntoNewInstance(player, type, callback);
+			return transferIntoNewInstance(player, type);
 		}
 	}
 
@@ -78,8 +79,8 @@ public class MHFCExploration extends ExplorationAdapter {
 	}
 
 	@Override
-	public void initialAddPlayer(EntityPlayerMP player) throws IllegalArgumentException {
-		super.initialAddPlayer(player);
+	public void onPlayerJoined(EntityPlayerMP player) throws IllegalArgumentException {
+		super.onPlayerJoined(player);
 		respawn(player);
 	}
 

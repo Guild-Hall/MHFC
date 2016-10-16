@@ -38,7 +38,7 @@ public class CommandExplore extends CommandBase {
 			if (areaType == null) {
 				sender.addChatMessage(new TextComponentString("Warning: the area type you choose did not exist"));
 			}
-			MHFCExplorationRegistry.transferPlayer(player, areaType, (t) -> {});
+			MHFCExplorationRegistry.transferPlayer(player, areaType);
 		} else {
 			sender.addChatMessage(new TextComponentString("Too many arguments for command mhfcexplore"));
 		}

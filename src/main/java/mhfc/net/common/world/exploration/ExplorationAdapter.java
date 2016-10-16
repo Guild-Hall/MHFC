@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletionStage;
-import java.util.function.Consumer;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCDimensionRegistry;
@@ -48,33 +47,32 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		return areaInstances.getOrDefault(type, new ArrayList<>());
 	}
 
-	protected abstract void transferIntoInstance(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback);
+	protected abstract CompletionStage<IActiveArea> transferIntoInstance(EntityPlayerMP player, IAreaType type);
 
 	@Override
-	public void transferPlayerInto(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback) {
-		// FIXME: shouldn't this return CompletionStage<IActiveArea>?
+	public CompletionStage<IActiveArea> transferPlayerInto(EntityPlayerMP player, IAreaType type) {
 		if (waitingOnTeleport.containsKey(player)) {
-			playerAlreadyTeleporting(player, type, callback);
+			return playerAlreadyTeleporting(player, type);
 		} else {
-			transferIntoInstance(player, type, callback);
+			return transferIntoInstance(player, type);
 		}
 	}
 
-	protected void playerAlreadyTeleporting(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback) {
+	protected CompletionStage<IActiveArea> playerAlreadyTeleporting(EntityPlayerMP player, IAreaType type) {
 		Objects.requireNonNull(player);
 		CompletionStage<IActiveArea> waitingFor = waitingOnTeleport.get(player);
 		waitingFor.toCompletableFuture().cancel(true);
 		waitingOnTeleport.remove(player);
-		transferPlayerInto(player, type, callback);
+		return transferPlayerInto(player, type);
 	}
 
-	protected void transferIntoNewInstance(EntityPlayerMP player, IAreaType type, Consumer<IActiveArea> callback) {
+	protected CompletionStage<IActiveArea> transferIntoNewInstance(EntityPlayerMP player, IAreaType type) {
 		player.addChatMessage(new TextComponentString("Teleporting to instance when the area is ready"));
 		Objects.requireNonNull(player);
 		Objects.requireNonNull(type);
 		CompletionStage<IActiveArea> unusedInstance = MHFCDimensionRegistry.getUnusedInstance(type, getFlairFor(type));
 		waitingOnTeleport.put(player, unusedInstance);
-		unusedInstance.handle((area, ex) -> {
+		unusedInstance.whenComplete((area, ex) -> {
 			try {
 				if (area != null) {
 					addInstance(area);
@@ -92,10 +90,9 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 				}
 			} finally {
 				waitingOnTeleport.remove(player);
-				callback.accept(area);
 			}
-			return area;
 		});
+		return unusedInstance;
 	}
 
 	protected void removePlayerFromInstance(EntityPlayerMP player) {
@@ -167,7 +164,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		Objects.requireNonNull(player);
 		throwOnIllegalPlayer(player);
 		if (!playerToArea.containsKey(player)) {
-			transferPlayerInto(player, initialAreaType(player), (t) -> {});
+			transferPlayerInto(player, initialAreaType(player));
 			return;
 		}
 		IActiveArea activeAreaOf = getActiveAreaOf(player);
@@ -194,7 +191,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 	}
 
 	@Override
-	public void initialAddPlayer(EntityPlayerMP player) throws IllegalArgumentException {
+	public void onPlayerJoined(EntityPlayerMP player) throws IllegalArgumentException {
 		throwOnIllegalPlayer(player);
 	}
 
