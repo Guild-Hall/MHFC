@@ -124,7 +124,7 @@ public class MHFCItemRenderRegistry {
 		if (allModels == null || allModels.isEmpty()) {
 			return;
 		}
-		MHFCMain.logger().info("Remapping {} to {}", item.getRegistryName(), allModels);
+		MHFCMain.logger().debug("Remapping {} to {}", item.getRegistryName(), allModels);
 		ModelBakery.registerItemVariants(item, allModels.toArray(new ModelResourceLocation[0]));
 		ModelLoader.setCustomMeshDefinition(item, ITEM_MESHER);
 	}
@@ -135,7 +135,7 @@ public class MHFCItemRenderRegistry {
 		if (variantNames == null || variantNames.isEmpty()) {
 			return;
 		}
-		MHFCMain.logger().info("Registering {} for variants {} ", item.getRegistryName(), variantNames);
+		MHFCMain.logger().debug("Registering {} for variants {} ", item.getRegistryName(), variantNames);
 		ResourceLocation itemRegistryName = item.getRegistryName();
 		String domain = itemRegistryName.getResourceDomain();
 		String path = itemRegistryName.getResourcePath();
