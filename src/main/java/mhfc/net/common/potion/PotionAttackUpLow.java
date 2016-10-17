@@ -14,7 +14,7 @@ public class PotionAttackUpLow extends Potion {
 		registerPotionAttributeModifier(
 				SharedMonsterAttributes.ATTACK_DAMAGE,
 				MHFCPotionRegistry.potion_attackup_uuid,
-				2D,
+				2.2D,
 				1);
 	}
 

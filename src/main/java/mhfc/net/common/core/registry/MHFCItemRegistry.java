@@ -318,7 +318,7 @@ public class MHFCItemRegistry {
 		weapon_gs_deadlyserpentblade = registerGreatsword(
 				"gs_deadly_serpent",
 				b -> b.setName(ResourceInterface.weapon_gs_deadlyserpentblade_name).setAttack(35).setRarity(3)
-						.addCombatEffect(StatusEffect.Poison, 10));
+						.addCombatEffect(StatusEffect.Poison, 11));
 		weapon_gs_tigrex = registerGreatsword(
 				"gs_tigrex",
 				b -> b.setName(ResourceInterface.weapon_gs_tigrex_name).setAttack(46).setRarity(4));
@@ -338,14 +338,14 @@ public class MHFCItemRegistry {
 				b -> b.setName(ResourceInterface.weapon_ls_ironkatana_name).setAttack(23).setRarity(1));
 		weapon_ls_ironkatanagrace = registerLongsword(
 				"ls_iron_grace",
-				b -> b.setName(ResourceInterface.weapon_ls_ikgrace_name).setAttack(26).setRarity(2));
+				b -> b.setName(ResourceInterface.weapon_ls_ikgrace_name).setAttack(25).setRarity(2));
 		weapon_ls_ironkatanagospel = registerLongsword(
 				"ls_iron_gospel",
-				b -> b.setName(ResourceInterface.weapon_ls_ikgospel_name).setAttack(29).setRarity(2));
+				b -> b.setName(ResourceInterface.weapon_ls_ikgospel_name).setAttack(27).setRarity(2));
 		weapon_ls_darkvipern = registerLongsword(
 				"ls_darkviper",
-				b -> b.setName(ResourceInterface.weapon_ls_darkvipern_name).setAttack(21).setRarity(2)
-						.addCombatEffect(StatusEffect.Poison, 10));
+				b -> b.setName(ResourceInterface.weapon_ls_darkvipern_name).setAttack(22).setRarity(2)
+						.addCombatEffect(StatusEffect.Poison, 12));
 		weapon_ls_eagercleaver = registerLongsword(
 				"ls_eagercleaver",
 				b -> b.setName(ResourceInterface.weapon_ls_eagercleaver_name).setAttack(40).setRarity(3)
@@ -356,11 +356,11 @@ public class MHFCItemRegistry {
 						.addCombatEffect(ElementalType.Thunder, 10));
 		weapon_ls_saber = registerLongsword(
 				"ls_saber",
-				b -> b.setName(ResourceInterface.weapon_ls_saber_name).setAttack(30).setRarity(5)
+				b -> b.setName(ResourceInterface.weapon_ls_saber_name).setAttack(33).setRarity(5)
 						.addCombatEffect(ElementalType.Fire, 10));
 		weapon_ls_miragefinsword = registerLongsword(
 				"ls_mirage",
-				b -> b.setName(ResourceInterface.weapon_ls_miragefinsword_name).setAttack(51).setRarity(6));
+				b -> b.setName(ResourceInterface.weapon_ls_miragefinsword_name).setAttack(56).setRarity(6));
 		weapon_ls_miragefinswordplus = registerLongsword(
 				"ls_mirage_plus",
 				b -> b.setName(ResourceInterface.weapon_ls_miragefinswordplus_name).setAttack(58).setRarity(6));
