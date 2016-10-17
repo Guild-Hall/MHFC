@@ -4,6 +4,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.ITextComponent;
 
 public class DonatorSystem {
+	
+	/**
+	 * Will rework on this, there must be a raw site .txt to utilize
+	 * */
 	public static final Privilege dragoon = new Privilege() {
 		@Override
 		public void load() {}
