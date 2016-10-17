@@ -86,7 +86,7 @@
     "rathalos.takeoff": {"category": "hostile", "sounds": ["mhfc:mob/rathalos/takeoff"]},
     "rathalos.roar": {"category": "hostile", "sounds": ["mhfc:mob/rathalos/roar"]},
     "rathalos.fireball": {"category": "hostile", "sounds": ["mhfc:mob/rathalos/fireball"]},
-    "rathalos.airfireball": {"category": "hostile", "sounds": ["mhfc:mob/rathalos/fireballjump"]},
+    "rathalos.airfireball": {"category": "hostile", "sounds": ["mhfc:mob/rathalos/airfireball"]},
     "rathalos.triplefireball": {"category": "hostile", "sounds": ["mhfc:mob/rathalos/triplefireball"]},
     "rathalos.clawswipe": {"category": "hostile", "sounds": ["mhfc:mob/rathalos/clawswipe"]},
     "rathalos.tailwhip": {"category": "hostile", "sounds": ["mhfc:mob/rathalos/tailwhip"]},

@@ -51,7 +51,7 @@ public class Peck extends DamagingAction<EntityGargwa> implements IHasAttackProv
 	@Override
 	public void onUpdate() {
 		if (this.getCurrentFrame() == 38) {
-			getEntity().playSound(MHFCSoundRegistry.getRegistry().gargwaBite, 2.0F, 1.0F);
+			getEntity().playSound(MHFCSoundRegistry.getRegistry().gargwaPanic, 2.0F, 1.0F);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			EntityGargwa entity = getEntity();

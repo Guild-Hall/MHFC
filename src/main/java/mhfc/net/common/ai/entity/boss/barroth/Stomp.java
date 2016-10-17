@@ -57,7 +57,7 @@ public class Stomp extends DamagingAction<EntityBarroth> implements IHasAttackPr
 			entity1.attackEntityFrom(DamageSource.causeMobDamage(entity), 30f);
 			entity1.addVelocity(0.6D, 0.5D, 0);
 		}
-		entity.playSound(MHFCSoundRegistry.getRegistry().barrothStomp, 1.0F, 1.0F);
+		entity.playSound(MHFCSoundRegistry.getRegistry().barrothRam, 1.0F, 1.0F);
 		thrown = true;
 	}
 

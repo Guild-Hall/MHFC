@@ -22,7 +22,7 @@ public class Death extends DeathAction<EntityDelex> implements IHasAnimationProv
 
 	@Override
 	public SoundEvent provideDeathSound() {
-		return MHFCSoundRegistry.getRegistry().delexDeath;
+		return MHFCSoundRegistry.getRegistry().delexHurt;
 	}
 
 }

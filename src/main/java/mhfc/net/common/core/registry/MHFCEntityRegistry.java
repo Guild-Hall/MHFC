@@ -7,6 +7,7 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.core.MHFCMobList;
 import mhfc.net.common.entity.monster.EntityBarroth;
 import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.entity.monster.EntityGargwa;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
 import mhfc.net.common.entity.monster.EntityLagiacrus;
 import mhfc.net.common.entity.monster.EntityNargacuga;
@@ -48,7 +49,7 @@ public class MHFCEntityRegistry {
 	//public final int giapreyID;
 	//public final int ukanlosID;
 	public final int lagiacrusID;
-	//public final int gargwaID;
+	public final int gargwaID;
 
 	public final int questGiverID;
 
@@ -79,7 +80,7 @@ public class MHFCEntityRegistry {
 		//giapreyID = getMobID(EntityGiaprey.class, MHFCReference.mob_giaprey_name, 0x6f41512, 0x654321);
 		//ukanlosID = getMobID(EntityUkanlos.class, MHFCReference.mob_ukanlos_name, 0x33333333, 0x654321);
 		lagiacrusID = getMobID(EntityLagiacrus.class, ResourceInterface.mob_lagiacrus_name, 0x6fff512, 0x6ff14f1);
-		//gargwaID = getMobID(EntityGargwa.class, MHFCReference.mob_gagua_name, 0x319292, 0x2187ff20);
+		gargwaID = getMobID(EntityGargwa.class, ResourceInterface.mob_gagua_name, 0x319292, 0x2187ff20);
 
 		questGiverID = getMobID(EntityQuestGiver.class, ResourceInterface.mob_questGiver_name);
 

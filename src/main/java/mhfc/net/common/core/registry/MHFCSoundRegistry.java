@@ -18,9 +18,9 @@ public class MHFCSoundRegistry {
 	public final SoundEvent barrothCharge;
 	public final SoundEvent barrothRoar;
 	public final SoundEvent barrothHeadsmash;
-	public final SoundEvent barrothStomp;
+	public final SoundEvent barrothRam;
 
-	public final SoundEvent delexDeath;
+	public final SoundEvent delexHurt;
 
 	public final SoundEvent deviljhoIdle;
 	public final SoundEvent deviljhoDeath;
@@ -41,7 +41,7 @@ public class MHFCSoundRegistry {
 
 	public final SoundEvent gargwaIdle;
 	public final SoundEvent gargwaDeath;
-	public final SoundEvent gargwaBite;
+	public final SoundEvent gargwaPanic;
 
 	public final SoundEvent kirinIdle;
 
@@ -65,7 +65,8 @@ public class MHFCSoundRegistry {
 	public final SoundEvent rathalosCharge;
 	public final SoundEvent rathalosBite;
 	public final SoundEvent rathalosTailWhip;
-
+	public final SoundEvent rathalosAirFireball;
+	
 	public final SoundEvent tigrexIdle;
 	public final SoundEvent tigrexStep;
 	public final SoundEvent tigrexDeath;
@@ -85,9 +86,9 @@ public class MHFCSoundRegistry {
 		barrothCharge = registerSoundEvent("mhfc:barroth.charge");
 		barrothRoar = registerSoundEvent("mhfc:barroth.roar");
 		barrothHeadsmash = registerSoundEvent("mhfc:barroth.headsmash");
-		barrothStomp = registerSoundEvent("mhfc:barroth.stomp");
+		barrothRam = registerSoundEvent("mhfc:barroth.ram");
 
-		delexDeath = registerSoundEvent("mhfc:delex.death");
+		delexHurt = registerSoundEvent("mhfc:delex.hurt");
 
 		deviljhoIdle = registerSoundEvent("mhfc:deviljho.idle");
 		deviljhoDeath = registerSoundEvent("mhfc:deviljho.death");
@@ -104,11 +105,11 @@ public class MHFCSoundRegistry {
 		greatJaggiDeath = registerSoundEvent("mhfc:greatjaggi.death");
 		greatJaggiRoar = registerSoundEvent("mhfc:greatjaggi.roar");
 		greatJaggiBite = registerSoundEvent("mhfc:greatjaggi.bite");
-		greatJaggiTailWhip = registerSoundEvent("greatjaggi.tailwhip");
+		greatJaggiTailWhip = registerSoundEvent("mhfc:greatjaggi.tailwhip");
 
 		gargwaIdle = registerSoundEvent("mhfc:gagua.idle");
 		gargwaDeath = registerSoundEvent("mhfc:gagua.death");
-		gargwaBite = registerSoundEvent("mhfc:gagua.bite");
+		gargwaPanic = registerSoundEvent("mhfc:gagua.panic");
 
 		kirinIdle = registerSoundEvent("mhfc:kirin.idle");
 
@@ -132,13 +133,14 @@ public class MHFCSoundRegistry {
 		rathalosCharge = registerSoundEvent("mhfc:rathalos.charge");
 		rathalosBite = registerSoundEvent("mhfc:rathalos.bite");
 		rathalosTailWhip = registerSoundEvent("mhfc:rathalos.tailwhip");
+		rathalosAirFireball = registerSoundEvent("mhfc:rathalos.airfireball");
 
 		tigrexIdle = registerSoundEvent("mhfc:tigrex.idle");
 		tigrexStep = registerSoundEvent("mhfc:tigrex.step");
 		tigrexDeath = registerSoundEvent("mhfc:tigrex.death");
 		tigrexRoar = registerSoundEvent("mhfc:tigrex.roar");
 		tigrexCharge = registerSoundEvent("mhfc:tigrex.charge");
-		tigrexHurt = registerSoundEvent("mhfc:tigrex.hurt");
+		tigrexHurt = registerSoundEvent("mhfc:tigrex.death");
 		tigrexBite = registerSoundEvent("mhfc:tigrex.bite");
 		tigrexLeap = registerSoundEvent("mhfc:tigrex.leapforward");
 		tigrexRockThrow = registerSoundEvent("mhfc:tigrex.rockthrow");
