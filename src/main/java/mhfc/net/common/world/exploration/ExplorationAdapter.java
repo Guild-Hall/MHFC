@@ -126,7 +126,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		MHFCMain.logger().debug(
 				"Adding active area instance {} of type {} to exploration manager",
 				activeArea,
-				activeArea.getType());
+				activeArea.getType().getUnlocalizedName());
 		inhabitants.put(activeArea, new HashSet<>());
 		getAreasOfType(activeArea.getType()).add(activeArea);
 	}

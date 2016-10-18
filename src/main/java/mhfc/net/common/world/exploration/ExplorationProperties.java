@@ -22,11 +22,12 @@ public final class ExplorationProperties {
 	private IAreaType areaType = null;
 
 	public NBTBase saveNBTData(NBTTagCompound compound) {
-		String managerName = MHFCExplorationRegistry.getExplorationManagerName(getManager());
+		IExplorationManager currentManager = getManager();
+		String managerName = MHFCExplorationRegistry.getExplorationManagerName(currentManager);
 		if (managerName == null) {
 			MHFCMain.logger().warn(
 					"The exploration manager {} did not have a public name, this will default on load",
-					getManager());
+					currentManager);
 			managerName = "";
 		}
 		compound.setString(KEY_MANAGER, managerName);
