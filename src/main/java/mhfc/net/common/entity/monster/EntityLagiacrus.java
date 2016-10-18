@@ -27,6 +27,11 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 		super(world);
 		this.height = 12f;
 		this.width = 12f;
+	}
+
+	@Override
+	protected void initEntityAI() {
+		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 	}
 

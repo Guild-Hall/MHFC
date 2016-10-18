@@ -42,6 +42,11 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		height = 3.4f;
 		width = 4.3f;
 		stepHeight = 1.5f;
+	}
+
+	@Override
+	protected void initEntityAI() {
+		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		// TODO enable this when Popos are a thing again
 		// targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,

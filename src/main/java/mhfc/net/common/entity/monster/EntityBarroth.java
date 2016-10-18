@@ -31,6 +31,11 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 		super(world);
 		this.height = 4f;
 		this.width = 5f;
+	}
+
+	@Override
+	protected void initEntityAI() {
+		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 	}
 

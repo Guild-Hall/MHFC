@@ -19,6 +19,11 @@ public class EntityGiaprey extends EntityMHFCBase<EntityGiaprey> {
 		super(world);
 		this.height = 1f;
 		this.width = 2f;
+	}
+
+	@Override
+	protected void initEntityAI() {
+		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 	}
 

@@ -22,6 +22,11 @@ public class EntityKirin extends EntityMHFCBase<EntityKirin> {
 		super(world);
 		this.height = 3F;
 		this.width = 3F;
+	}
+
+	@Override
+	protected void initEntityAI() {
+		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 	}
 

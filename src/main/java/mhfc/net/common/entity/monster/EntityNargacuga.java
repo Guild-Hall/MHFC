@@ -60,11 +60,16 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		setSize(4.6F, 4.4F);
 		stepHeight = 2.0F;
 		recorder = new RecorderAdapter<>(100);
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 		eyesPositionsRight = EvictingQueue.create(EYES_RECORD_LENGTH);
 		eyesPositionsLeft = EvictingQueue.create(EYES_RECORD_LENGTH);
 		ticksSinceEyesSaved = 0;
 		enraged = false;
+	}
+
+	@Override
+	protected void initEntityAI() {
+		super.initEntityAI();
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 	}
 
 	@Override

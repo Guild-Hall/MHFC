@@ -36,9 +36,14 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	public EntityDeviljho(World world) {
 		super(world);
 		setSize(7.6F, 6F);
+		stepHeight = 2.0F;
+	}
+
+	@Override
+	protected void initEntityAI() {
+		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-		stepHeight = 2.0F;
 	}
 
 	@Override

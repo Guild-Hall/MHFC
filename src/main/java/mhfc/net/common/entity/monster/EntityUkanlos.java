@@ -19,6 +19,11 @@ public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
 		super(world);
 		this.height = 9f;
 		this.width = 9f;
+	}
+
+	@Override
+	protected void initEntityAI() {
+		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 	}
 
