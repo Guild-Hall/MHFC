@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.github.worldsender.mcanm.common.animation.IAnimation;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.provider.requirements.INeedsAnimations;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
@@ -50,9 +51,13 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 
 	@Override
 	public final void updateAction() {
-		int currentFrame = getCurrentFrame();
-		int nextFrame = frameAdvancer.getFollowingFrame(currentFrame);
-		forceNextFrame(nextFrame);
+		if (frameAdvancer != null) {
+			int currentFrame = getCurrentFrame();
+			int nextFrame = frameAdvancer.getFollowingFrame(currentFrame);
+			forceNextFrame(nextFrame);
+		} else {
+			MHFCMain.logger().debug("#AnimatedAction: frameAdvancer is null on update");
+		}
 		framesPassed++;
 		onUpdate();
 	}
