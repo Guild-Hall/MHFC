@@ -2,14 +2,18 @@ package mhfc.net.common.weapon.melee.hammer;
 
 import java.util.function.Consumer;
 
+import com.google.common.collect.Multimap;
+
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.hammer.HammerWeaponStats.HammerWeaponStatsBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
@@ -41,8 +45,8 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 			return;
 		}
 		if (holder instanceof EntityPlayer) {
-			EntityPlayer entity = (EntityPlayer) holder;
-			entity.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 100, 3));
+			//EntityPlayer entity = (EntityPlayer) holder;
+			//entity.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 100, 3));
 		}
 	}
 
@@ -55,4 +59,17 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 		triggerCooldown(stack);
 		return true;
 	}
+	@Override
+	public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot)
+	{
+	        @SuppressWarnings("deprecation")
+			Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(equipmentSlot);
+	        if (equipmentSlot == EntityEquipmentSlot.MAINHAND)
+	        {
+	            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -1.3000000953674316D, 2));
+	        }
+
+	        return multimap;
+	    
+	    }
 }

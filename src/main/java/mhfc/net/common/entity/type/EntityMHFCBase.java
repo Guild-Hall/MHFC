@@ -498,6 +498,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	@Override
 	public boolean canBePushed() {
+		if(this.getAttackTarget() instanceof EntityMHFCBase){
+			return true;
+		}
 		return false;
 	}
 
