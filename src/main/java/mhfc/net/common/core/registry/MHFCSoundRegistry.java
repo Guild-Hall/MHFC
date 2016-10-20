@@ -72,7 +72,6 @@ public class MHFCSoundRegistry {
 	public final SoundEvent tigrexDeath;
 	public final SoundEvent tigrexCharge;
 	public final SoundEvent tigrexRoar;
-	public final SoundEvent tigrexHurt;
 	public final SoundEvent tigrexBite;
 	public final SoundEvent tigrexLeap;
 	public final SoundEvent tigrexRockThrow;
@@ -140,7 +139,6 @@ public class MHFCSoundRegistry {
 		tigrexDeath = registerSoundEvent("mhfc:tigrex.death");
 		tigrexRoar = registerSoundEvent("mhfc:tigrex.roar");
 		tigrexCharge = registerSoundEvent("mhfc:tigrex.charge");
-		tigrexHurt = registerSoundEvent("mhfc:tigrex.death");
 		tigrexBite = registerSoundEvent("mhfc:tigrex.bite");
 		tigrexLeap = registerSoundEvent("mhfc:tigrex.leapforward");
 		tigrexRockThrow = registerSoundEvent("mhfc:tigrex.rockthrow");

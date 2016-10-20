@@ -110,7 +110,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	@Override
 	protected SoundEvent getHurtSound() {
-		return MHFCSoundRegistry.getRegistry().tigrexHurt;
+		return MHFCSoundRegistry.getRegistry().tigrexIdle;
 	}
 
 	@Override
