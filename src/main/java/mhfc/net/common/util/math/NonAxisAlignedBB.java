@@ -103,6 +103,10 @@ public class NonAxisAlignedBB extends AxisAlignedBB {
 		return offset(pos.getX(), pos.getY(), pos.getZ());
 	}
 
+	public NonAxisAlignedBB offset(Vec3d offset) {
+		return offset(offset.xCoord, offset.yCoord, offset.zCoord);
+	}
+
 	@Override
 	public NonAxisAlignedBB offset(double x, double y, double z) {
 		if (x == 0 && y == 0 && z == 0) {
@@ -156,6 +160,13 @@ public class NonAxisAlignedBB extends AxisAlignedBB {
 
 	@Override
 	public AxisAlignedBB union(AxisAlignedBB other) {
-		return super.union(other);
+		throw new UnsupportedOperationException();
+	}
+
+	public static NonAxisAlignedBB wrapping(AxisAlignedBB bb) {
+		if (bb instanceof NonAxisAlignedBB) {
+			return (NonAxisAlignedBB) bb;
+		}
+		return new NonAxisAlignedBB(bb.minX, bb.minY, bb.minZ, bb.maxX, bb.maxY, bb.maxZ);
 	}
 }
