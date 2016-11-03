@@ -44,7 +44,7 @@ public class TargetTurnHelper {
 			return;
 		}
 		isUpdating = true;
-		this.targetPoint = new Vec3d(entity.posX, entity.posY, entity.posZ);
+		this.targetPoint = entity.getPositionVector();
 	}
 
 	/**
@@ -78,11 +78,8 @@ public class TargetTurnHelper {
 			return;
 		}
 		Vec3d entityPos = entity.getPositionVector();
-		Vec3d vecToTarget = entityPos.subtract(targetPoint);
-		float newYaw = AIUtils.modifyYaw(entity.getLookVec(), vecToTarget.normalize(), maxTurnSpeed);
-		if (!Float.isNaN(newYaw)) {
-			entity.rotationYaw = newYaw;
-		}
+		Vec3d vecToTarget = targetPoint.subtract(entityPos);
+		entity.rotationYaw = AIUtils.modifyYaw(entity, vecToTarget.normalize(), maxTurnSpeed);
 		// FIXME Figure out a way to send the updates to the client cleanly
 		entity.addVelocity(10e-4, 0, 10e-4);
 	}

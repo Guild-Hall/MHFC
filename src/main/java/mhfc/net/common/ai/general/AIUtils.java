@@ -184,8 +184,8 @@ public class AIUtils {
 	/**
 	 * Returns the yaw that gives the direction of the target but with a maximum absolute value of max
 	 *
-	 * @param look
-	 *            A normalized look vector
+	 * @param entity
+	 *            the entity to modify yaw of
 	 * @param target
 	 *            A normalized vector, the target for the look
 	 * @param maxAbsoluteChange
@@ -193,13 +193,13 @@ public class AIUtils {
 	 * @return Float.NaN if look doesn't represent a vector with yaw, the current yaw if target can't be turned to
 	 *         (maybe right above), else the new yaw.
 	 */
-	public static float modifyYaw(Vec3d look, Vec3d target, float maxAbsoluteChange) {
+	public static float modifyYaw(EntityLivingBase entity, Vec3d target, float maxAbsoluteChange) {
 		Preconditions.checkArgument(maxAbsoluteChange >= 0, "max change must be greater than 0");
 
-		float yaw = lookVecToYaw(look);
+		float yaw = entity.rotationYaw;
 		float tarYaw = lookVecToYaw(target);
 		if (Float.isNaN(yaw)) {
-			return Float.NaN;
+			return yaw;
 		} else if (Float.isNaN(tarYaw)) {
 			return yaw;
 		}
