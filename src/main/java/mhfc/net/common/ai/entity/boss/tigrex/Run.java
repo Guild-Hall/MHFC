@@ -45,12 +45,13 @@ public class Run extends DamagingAction<EntityTigrex> implements IHasAttackProvi
 				EntityTigrex tigrex = attk.getEntity();
 				tigrex.motionX = tigrex.motionY = tigrex.motionZ = 0f;
 				tigrex.getTurnHelper().updateTurnSpeed(TURN_RATE_INITIAL);
-				attk.getEntity().getTurnHelper().updateTargetPoint(attk.target);
+				tigrex.getTurnHelper().updateTargetPoint(attk.target);
 			}
 
 			@Override
 			public void update(Run attk) {
-				attk.getEntity().getTurnHelper().forceUpdate();
+				EntityTigrex tigrex = attk.getEntity();
+				tigrex.getTurnHelper().forceUpdate();
 			}
 
 			@Override
@@ -75,8 +76,9 @@ public class Run extends DamagingAction<EntityTigrex> implements IHasAttackProvi
 			public void update(Run attk) {
 				EntityTigrex tigrex = attk.getEntity();
 				Vec3d tigPos = tigrex.getPositionVector();
-				Vec3d vecToTarget = tigPos.subtract(attk.target.getPositionVector());
-				tigrex.getTurnHelper().updateTargetPoint(attk.target);
+				Vec3d trgtPos = attk.target.getPositionVector();
+				Vec3d vecToTarget = trgtPos.subtract(tigPos);
+				tigrex.getTurnHelper().updateTargetPoint(trgtPos);
 				tigrex.moveForward(RUN_SPEED, true);
 				Vec3d look = tigrex.getLookVec();
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;

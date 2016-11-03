@@ -502,7 +502,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	@Override
 	public boolean canBePushed() {
-		if(this.getAttackTarget() instanceof EntityMHFCBase){
+		if (this.getAttackTarget() instanceof EntityMHFCBase) {
 			return true;
 		}
 		return false;
@@ -577,6 +577,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	@Override
 	protected void setSize(float width, float height) {
 		super.setSize(width, height);
+		double halfWidth = width / 2;
+		setEntityBoundingBox(new NonAxisAlignedBB(-halfWidth, 0, -halfWidth, halfWidth, height, halfWidth));
 		this.baseBoundingBox = untransformNAABB(currentBoundingBox);
 	}
 
