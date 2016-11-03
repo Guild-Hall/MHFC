@@ -574,12 +574,16 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		this.currentBoundingBox = transformNAABB(this.baseBoundingBox);
 	}
 
+	private void updateBaseBoundingBox() {
+		this.baseBoundingBox = untransformNAABB(this.currentBoundingBox);
+	}
+
 	@Override
 	protected void setSize(float width, float height) {
 		super.setSize(width, height);
 		double halfWidth = width / 2;
 		setEntityBoundingBox(new NonAxisAlignedBB(-halfWidth, 0, -halfWidth, halfWidth, height, halfWidth));
-		this.baseBoundingBox = untransformNAABB(currentBoundingBox);
+		updateBaseBoundingBox();
 	}
 
 	private NonAxisAlignedBB untransformNAABB(NonAxisAlignedBB wrapped) {
