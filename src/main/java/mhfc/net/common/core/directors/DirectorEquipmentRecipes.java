@@ -53,7 +53,7 @@ public class DirectorEquipmentRecipes {
 	public final EquipmentRecipe recipe_hm_warslammer;
 	public final EquipmentRecipe recipe_hm_tigrex;
 	public final EquipmentRecipe recipe_hm_kirin;
-	public final EquipmentRecipe recipe_hm_rathalos;
+//	public final EquipmentRecipe recipe_hm_rathalos;
 	public final EquipmentRecipe recipe_hm_devilsdue;
 
 	public final EquipmentRecipe recipe_ls_ironkatana;
@@ -100,7 +100,7 @@ public class DirectorEquipmentRecipes {
 		dataObject.register(recipe_hm_warslammer);
 		dataObject.register(recipe_hm_tigrex);
 		dataObject.register(recipe_hm_kirin);
-		dataObject.register(recipe_hm_rathalos);
+	//	dataObject.register(recipe_hm_rathalos);
 		dataObject.register(recipe_hm_devilsdue);
 		dataObject.register(recipe_ls_ironkatana);
 		dataObject.register(recipe_ls_darkvipern);
@@ -332,12 +332,12 @@ public class DirectorEquipmentRecipes {
 
 		//
 
-		builder.setProduct(new ItemStack(itemRegistry.weapon_hm_rathalos));
+		/*builder.setProduct(new ItemStack(itemRegistry.weapon_hm_rathalos));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemRathalos.RathalosSubType.SHELL, 8));
 		builder.addIngredient(SubTypedItem.fromSubItem(ItemRathalos.RathalosSubType.MARROW, 2));
 		builder.addIngredient(itemRegistry.firestone, 1, 0);
 		builder.setRequiredHeat(300).setDuration(500);
-		recipe_hm_rathalos = builder.build();
+		recipe_hm_rathalos = builder.build();*/
 
 		//
 

@@ -93,7 +93,7 @@ public class MHFCItemRegistry {
 	public final ItemHammer weapon_hm_warhammerplus;
 	public final ItemHammer weapon_hm_warslammer;
 	public final ItemHammer weapon_hm_devilsdue;
-	public final ItemHammer weapon_hm_rathalos;
+	//public final ItemHammer weapon_hm_rathalos;
 
 	public final ItemLongsword weapon_ls_ironkatana;
 	public final ItemLongsword weapon_ls_ironkatanagrace;
@@ -400,10 +400,10 @@ public class MHFCItemRegistry {
 		weapon_hm_tigrex = registerHammer(
 				"hm_tigrex",
 				b -> b.setName(ResourceInterface.weapon_hm_tigrex_name).setAttack(47).setRarity(3));
-		weapon_hm_rathalos = registerHammer(
+		/*weapon_hm_rathalos = registerHammer(
 				"hm_rathalos",
 				b -> b.setName(ResourceInterface.weapon_hm_rathalos_name).setAttack(42).setRarity(4)
-						.addCombatEffect(ElementalType.Fire, 10));
+						.addCombatEffect(ElementalType.Fire, 10));*/
 		weapon_hm_devilsdue = registerHammer(
 				"hm_devil",
 				b -> b.setName(ResourceInterface.weapon_hm_deviljho_name).setAttack(80).setRarity(7)
