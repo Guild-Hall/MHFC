@@ -26,6 +26,7 @@ public abstract class WanderAction<T extends EntityMHFCBase<? super T>> extends 
 				throw new IllegalArgumentException("The wander distance must not be negative");
 			}
 			this.wanderDistance = maxWanderDistance;
+			initialize(actor);
 		}
 
 		private Random random = new Random(0);
@@ -36,7 +37,7 @@ public abstract class WanderAction<T extends EntityMHFCBase<? super T>> extends 
 		protected Vec3d waypoint;
 		protected float acceptedDistance;
 
-		public void initialize(T actor) {
+		private void initialize(T actor) {
 			this.actor = Objects.requireNonNull(actor);
 			startingPosition = actor.getPositionVector();
 			onWaypointReached();

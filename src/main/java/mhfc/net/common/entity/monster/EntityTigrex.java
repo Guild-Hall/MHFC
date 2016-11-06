@@ -39,8 +39,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	public EntityTigrex(World par1World) {
 		super(par1World);
-		height = 3.4f;
-		width = 4.3f;
+		setSize(4.3f, 3.4f);
 		stepHeight = 1.5f;
 	}
 
@@ -51,7 +50,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		// TODO enable this when Popos are a thing again
 		// targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
 		// EntityPopo.class, 0, true));
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
 	}
 
 	@Override
@@ -98,7 +97,6 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	@Override
 	public RenderPassInformation preRenderCallback(float subFrame, RenderPassInformation sub) {
-		//GL11.glTranslatef(0, 2.0f, 0);
 		GL11.glScaled(2.3, 2.3, 2.3);
 		return super.preRenderCallback(subFrame, sub);
 	}
