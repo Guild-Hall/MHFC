@@ -1,5 +1,8 @@
 package mhfc.net.common.core.registry;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -7,6 +10,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.core.data.WeaponData;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.armor.BarrothArmor;
 import mhfc.net.common.item.armor.DeviljhoArmor;
@@ -311,10 +315,9 @@ public class MHFCItemRegistry {
 		armor_bionic_boots = registerItem("arm_bionic_boots", new ST_BionicArmor(EntityEquipmentSlot.FEET));
 
 		// Weapons
+		WeaponData jsonWeaponData = readLocalWeaponData();
 		// FIXME: value tuning
-		weapon_gs_bone = registerGreatsword(
-				"gs_bone",
-				b -> b.setName(ResourceInterface.weapon_gs_bone_name).setAttack(26).setRarity(1));
+		weapon_gs_bone = registerItem("gs_bone", jsonWeaponData);
 		weapon_gs_deadlyserpentblade = registerGreatsword(
 				"gs_deadly_serpent",
 				b -> b.setName(ResourceInterface.weapon_gs_deadlyserpentblade_name).setAttack(35).setRarity(3)
@@ -525,6 +528,14 @@ public class MHFCItemRegistry {
 		MHFCMain.logger().info("Items registered");
 	}
 
+	private WeaponData readLocalWeaponData() {
+		try (Reader reader = new InputStreamReader(MHFCItemRegistry.class.getResourceAsStream("weapons.json"))) {
+			return WeaponData.GSON.fromJson(reader, WeaponData.class);
+		} catch (IOException e) {
+			throw new RuntimeException("Unexpected io error", e);
+		}
+	}
+
 	private ItemGreatsword registerGreatsword(String name, Consumer<GreatswordWeaponStatsBuilder> config) {
 		return registerItem(name, ItemGreatsword.build(config));
 	}
@@ -551,6 +562,10 @@ public class MHFCItemRegistry {
 
 	private ItemHeavyBowgun registerHeavyBowgun(String name, Consumer<BowgunWeaponStatsBuilder> config) {
 		return registerItem(name, ItemHeavyBowgun.build(config));
+	}
+
+	private <T extends Item> T registerItem(String registryName, WeaponData jsonWeaponData) {
+		return registerItem(registryName, jsonWeaponData.configureItem(registryName));
 	}
 
 	/**
