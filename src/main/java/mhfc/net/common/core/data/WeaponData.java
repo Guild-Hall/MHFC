@@ -2,10 +2,12 @@ package mhfc.net.common.core.data;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -115,30 +117,20 @@ public class WeaponData {
 		return configuration;
 	}
 
-	private static class Wrapper<T extends Enum<T> & ICombatEffectType> {
-		private Class<T> clazz;
-
-		public Wrapper(Class<T> clazz) {
-			this.clazz = clazz;
-		}
-
-		public ICombatEffectType resolveName(String name) {
-			return Enum.valueOf(clazz, name);
-		}
-	}
-
-	private static ICombatEffectType getFirstResolved(String name, Wrapper<?>... clazzes) {
-		for (Wrapper<?> clazz : clazzes) {
-			try {
-				return clazz.resolveName(name);
-			} catch (IllegalArgumentException e) {}
-		}
-		throw new IllegalArgumentException("No enum has a member " + name);
+	private static Map<String, ICombatEffectType> EFFECT_TYPES = new HashMap<>();
+	static {
+		Stream.concat(Stream.of(ElementalType.values()), Stream.of(StatusEffect.values())).forEach(e -> {
+			ICombatEffectType oldValue = EFFECT_TYPES.put(e.name().toLowerCase(Locale.ROOT), e);
+			if (oldValue != null) {
+				throw new IllegalArgumentException("duplicate name " + e.name());
+			}
+		});
 	}
 
 	private static ICombatEffectType getCombatEffect(String type) {
-		// FIXME: build a map or smth... srsly
-		return getFirstResolved(type, new Wrapper<>(ElementalType.class), new Wrapper<>(StatusEffect.class));
+		return EFFECT_TYPES.computeIfAbsent(type.toLowerCase(Locale.ROOT), t -> {
+			throw new IllegalArgumentException(type + " is not a valid combat effect");
+		});
 	}
 
 	private Map<String, Supplier<Item>> nameToRegistrator = new HashMap<>();
