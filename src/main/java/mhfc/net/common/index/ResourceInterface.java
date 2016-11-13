@@ -409,58 +409,7 @@ public class ResourceInterface {
 	public static final String tile_stuntrap_tex = "mhfc:textures/tile/stuntrap.png";
 	public static final String tile_exploreArea_id = "Explore Area";
 
-	public static final String weapon_bow_hunters_name = "a.bow";
-	public static final String weapon_bow_huntersstout_name = "b.bow";
-	public static final String weapon_bow_huntersproud_name = "c.bow";
-
-	public static final String weapon_gs_bone_name = "greatsword_1";
-	public static final String weapon_gs_kirin_name = "greatsword_3";
-	public static final String weapon_gs_tigrex_name = "greatsword_2";
-	public static final String weapon_gs_deviljho_name = "greatsword_4";
-	public static final String weapon_gs_rathalos_name = "greatsword_5";
-	public static final String weapon_gs_deadlyserpentblade_name = "greatsword_6";
-
-	public static final String weapon_hh_metalbagpipe_name = "huntinghorn_1";
-	public static final String weapon_hh_ivoryhorn_name = "huntinghorn_2";
-	public static final String weapon_hh_tigrex_name = "huntinghorn_3";
-	public static final String weapon_hh_greatbagpipe_name = "huntinghorn_4";
-	public static final String weapon_hh_heavybagpipe_name = "huntinghorn_5";
-	public static final String weapon_hh_heavybagpipeplus_name = "huntinghorn_6";
-	public static final String weapon_hh_elitebagpipe_name = "huntinghorn_7";
-	public static final String weapon_hh_wardrums_name = "huntinghorn_8";
-	public static final String weapon_hh_wardrumsplus_name = "huntinghorn_9";
-	public static final String weapon_hh_mogwarddrums_name = "huntinghorn_10";
-	public static final String weapon_hh_darkthorntrumpet_name = "huntinghorn_11";
-	public static final String weapon_hh_blackcasket_name = "huntinghorn_12";
-
-	public static final String weapon_hm_kirin_name = "hammer_2";
-	public static final String weapon_hm_tigrex_name = "hammer_1";
-	public static final String weapon_hm_war_name = "hammer_3";
-	public static final String weapon_hm_warplus_name = "hammer_4";
-	public static final String weapon_hm_warslammer_name = "hammer_5";
-	public static final String weapon_hm_deviljho_name = "hammer_6";
-	public static final String weapon_hm_rathalos_name = "hammer_7";
-
-	public static final String weapon_ls_ironkatana_name = "longsword_1";
-	public static final String weapon_ls_darkvipern_name = "longsword_2";
-	public static final String weapon_ls_ikgrace_name = "longsword_3";
-	public static final String weapon_ls_ikgospel_name = "longsword_4";
-	public static final String weapon_ls_eagercleaver_name = "longsword_5";
-	public static final String weapon_ls_devilslicer_name = "longsword_6";
-	public static final String weapon_ls_truedevilslicer_name = "longsword_7";
-	public static final String weapon_ls_saber_name = "longsword_8";
-	public static final String weapon_ls_liondancesaber_name = "longsword_9";
-	public static final String weapon_ls_lionkingsaber_name = "longsword_10";
-	public static final String weapon_ls_lionkaisersaber_name = "longsword_11";
-	public static final String weapon_ls_lionsroarsaber_name = "longsword_12";
-	public static final String weapon_ls_miragefinsword_name = "longsword_13";
-	public static final String weapon_ls_miragefinswordplus_name = "longsword_14";
-	public static final String weapon_ls_phantommirage_name = "longsword_15";
-
-	public static final String weapon_bgl_shooterbarrel_name = "bowgun_1";
-	public static final String weapon_bgl_barrel_name = "bowgun_1";
-	public static final String weapon_bgl_spartacusfire_name = "bowgun_2";
-	public static final String weapon_bgh_rath_name = "bowgun_3";
+	// Weapon names, see mhfc\net\common\core\registry\weapons.json
 
 	public static final String weapon_bow_name = "type.weapon_bow";
 	public static final String weapon_chargeaxe_name = "type.weapon_chargeaxe";
