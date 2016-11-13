@@ -4,5 +4,308 @@
 	"name": "greatsword_1",
 	"rarity": 1,
 	"attack": 26
+},
+"gs_deadly_serpent": {
+	"type": "gs",
+	"name": "greatsword_6",
+	"rarity": 3,
+	"attack": 35,
+	"modifiers": [["poison", 11]]
+},
+"gs_tigrex": {
+	"type": "gs",
+	"name": "greatsword_2",
+	"rarity": 4,
+	"attack": 46
+},
+"gs_rathalos": {
+	"type": "gs",
+	"name": "greatsword_5",
+	"rarity": 4,
+	"attack": 58,
+	"modifiers": [["fire", 10]]
+},
+"gs_kirin": {
+	"type": "gs",
+	"name": "greatsword_3",
+	"rarity": 4,
+	"attack": 61
+},
+"gs_berserker": {
+	"type": "gs",
+	"name": "greatsword_4",
+	"rarity": 6,
+	"attack": 88
+},
+
+
+"ls_iron": {
+	"type": "ls",
+	"name": "longsword_1",
+	"rarity": 1,
+	"attack": 23
+},
+"ls_iron_grace": {
+	"type": "ls",
+	"name": "longsword_3",
+	"rarity": 2,
+	"attack": 25
+},
+"ls_iron_gospel": {
+	"type": "ls",
+	"name": "longsword_4",
+	"rarity": 2,
+	"attack": 27
+},
+"ls_darkviper": {
+	"type": "ls",
+	"name": "longsword_2",
+	"rarity": 2,
+	"attack": 22,
+	"modifiers": [["poison", 12]]
+},
+"ls_eagercleaver": {
+	"type": "ls",
+	"name": "longsword_5",
+	"rarity": 3,
+	"attack": 40,
+	"modifiers": [["thunder", 10]]
+},
+"ls_devilslicer": {
+	"type": "ls",
+	"name": "longsword_6",
+	"rarity": 4,
+	"attack": 46,
+	"modifiers": [["thunder", 10]]
+},
+"ls_saber": {
+	"type": "ls",
+	"name": "longsword_8",
+	"rarity": 5,
+	"attack": 33,
+	"modifiers": [["fire", 10]]
+},
+"ls_mirage": {
+	"type": "ls",
+	"name": "longsword_13",
+	"rarity": 6,
+	"attack": 56
+},
+"ls_mirage_plus": {
+	"type": "ls",
+	"name": "longsword_14",
+	"rarity": 6,
+	"attack": 58
+},
+"ls_lion_dance": {
+	"type": "ls",
+	"name": "longsword_9",
+	"rarity": 7,
+	"attack": 49,
+	"modifiers": [["fire", 10]]
+},
+"ls_devilslider_true": {
+	"type": "ls",
+	"name": "longsword_7",
+	"rarity": 7,
+	"attack": 57,
+	"modifiers": [["thunder", 10]]
+},
+"ls_mirage_phantom": {
+	"type": "ls",
+	"name": "longsword_15",
+	"rarity": 7,
+	"attack": 67
+},
+"ls_lion_king": {
+	"type": "ls",
+	"name": "longsword_10",
+	"rarity": 8,
+	"attack": 65,
+	"modifiers": [["fire", 10]]
+},
+"ls_lion_kaiser": {
+	"type": "ls",
+	"name": "longsword_11",
+	"rarity": 8,
+	"attack": 74,
+	"modifiers": [["fire", 10]]
+},
+"ls_lion_roar": {
+	"type": "ls",
+	"name": "longsword_12",
+	"rarity": 9,
+	"attack": 81,
+	"modifiers": [["fire", 10]]
+},
+
+
+"hm_war": {
+	"type": "hm",
+	"name": "hammer_3",
+	"rarity": 1,
+	"attack": 20
+},
+"hm_war_plus": {
+	"type": "hm",
+	"name": "hammer_4",
+	"rarity": 1,
+	"attack": 24
+},
+"hm_war_slammer": {
+	"type": "hm",
+	"name": "hammer_5",
+	"rarity": 2,
+	"attack": 30
+},
+"hm_tigrex": {
+	"type": "hm",
+	"name": "hammer_1",
+	"rarity": 3,
+	"attack": 47
+},
+"hm_rathalos": {
+	"type": "hm",
+	"name": "hammer_7",
+	"rarity": 4,
+	"attack": 42,
+	"modifiers": [["fire", 10]]
+},
+"hm_devil": {
+	"type": "hm",
+	"name": "hammer_6",
+	"rarity": 7,
+	"attack": 80,
+	"modifiers": [["dragon", 10]]
+},
+"hm_kirin_spark": {
+	"type": "hm",
+	"name": "hammer_2",
+	"rarity": 8,
+	"attack": 89,
+	"modifiers": [["thunder", 10]]
+},
+
+
+"hh_ivory": {
+	"type": "hh",
+	"name": "huntinghorn_2",
+	"rarity": 1,
+	"attack": 21,
+	"notes": ["white", "blue", "red"]
+},
+"hh_bagpipe": {
+	"type": "hh",
+	"name": "huntinghorn_1",
+	"rarity": 2,
+	"attack": 26,
+	"notes": ["white", "green", "red"]
+},
+"hh_bagpipe_great": {
+	"type": "hh",
+	"name": "huntinghorn_4",
+	"rarity": 2,
+	"attack": 35,
+	"notes": ["white", "green", "red"]
+},
+"hh_wardrums": {
+	"type": "hh",
+	"name": "huntinghorn_8",
+	"rarity": 2,
+	"attack": 25,
+	"notes": ["white", "yellow", "red"]
+},
+"hh_wardrums_plus": {
+	"type": "hh",
+	"name": "huntinghorn_9",
+	"rarity": 2,
+	"attack": 31,
+	"notes": ["white", "yellow", "red"]
+},
+"hh_bagpipe_heavy": {
+	"type": "hh",
+	"name": "huntinghorn_5",
+	"rarity": 3,
+	"attack": 42,
+	"notes": ["white", "blue", "red"]
+},
+"hh_bagpipe_heavy_plus": {
+	"type": "hh",
+	"name": "huntinghorn_6",
+	"rarity": 3,
+	"attack": 47,
+	"notes": ["white", "blue", "red"]
+},
+"hh_tigrex": {
+	"type": "hh",
+	"name": "huntinghorn_3",
+	"rarity": 5,
+	"attack": 55,
+	"notes": ["purple", "blue", "red"]
+},
+"hh_wardrums_bongo": {
+	"type": "hh",
+	"name": "huntinghorn_10",
+	"rarity": 5,
+	"attack": 72,
+	"notes": ["white", "blue", "red"]
+},
+"hh_bigpipe_elite": {
+	"type": "hh",
+	"name": "huntinghorn_7",
+	"rarity": 6,
+	"attack": 60,
+	"notes": ["white", "blue", "red"]
+},
+"hh_darkthorn": {
+	"type": "hh",
+	"name": "huntinghorn_11",
+	"rarity": 9,
+	"attack": 84,
+	"notes": ["white", "blue", "red"]
+},
+"hh_black_casket": {
+	"type": "hh",
+	"name": "huntinghorn_12",
+	"rarity": 10,
+	"attack": 91,
+	"notes": ["white", "blue", "red"]
+},
+
+
+"b_hunter": {
+	"type": "b",
+	"name": "a.bow",
+	"rarity": 1,
+	"attack": 8
+},
+"b_hunter_stout": {
+	"type": "b",
+	"name": "b.bow",
+	"rarity": 2,
+	"attack": 25
+},
+"b_hunter_proud": {
+	"type": "b",
+	"name": "c.bow",
+	"rarity": 3,
+	"attack": 30,
+	"modifiers": [["ice", 3]]
+},
+
+
+"bgl_barrel": {
+	"type": "bgl",
+	"name": "bowgun_1",
+	"rarity": 1,
+	"attack": 12
+},
+
+
+"bgh_spartacus": {
+	"type": "bgh",
+	"name": "bowgun_2",
+	"rarity": 1,
+	"attack": 40
 }
 }
