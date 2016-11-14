@@ -9,6 +9,7 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
 import com.github.worldsender.mcanm.common.animation.IAnimation;
 
+import io.netty.buffer.ByteBuf;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
@@ -36,6 +37,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
 /**
  * This class should provide a good base to code off. As almost every entity in Monster Hunter is a multi- box Entity
@@ -52,7 +54,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		implements
 		IEntityMultiPart,
 		IAnimatedObject,
-		IManagedActions<YC> {
+		IManagedActions<YC>,
+		IEntityAdditionalSpawnData {
 	private static final DataParameter<Integer> ANIM_FRAME = EntityDataManager
 			.<Integer>createKey(EntityMHFCBase.class, DataSerializers.VARINT);
 	private final TargetTurnHelper turnHelper;
@@ -601,5 +604,23 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		double pitch = Math.toRadians(this.rotationPitch);
 		Vec3d offset = this.getPositionVector();
 		return baseBox.rotate(0, 1, 0, yaw).rotate(1, 0, 0, pitch).offset(offset);
+	}
+
+	@Override
+	public final void readSpawnData(ByteBuf additionalData) {
+		doReadSpawnData(additionalData);
+	}
+
+	@Override
+	public final void writeSpawnData(ByteBuf buffer) {
+		doWriteSpawnDate(buffer);
+	}
+
+	protected void doReadSpawnData(ByteBuf data) {
+
+	}
+
+	protected void doWriteSpawnDate(ByteBuf buffer) {
+
 	}
 }
