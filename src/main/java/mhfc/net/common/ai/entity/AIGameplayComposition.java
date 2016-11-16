@@ -82,6 +82,17 @@ public class AIGameplayComposition {
 
 	static boolean camShake = false;
 	static float CamShakeIntensity;
+	
+	public static void camShake(EntityLivingBase e, Entity target, float dist, float intensity) {
+		if(e.worldObj.isRemote){
+			List<EntityPlayer> player = target.worldObj.getEntitiesWithinAABB(EntityPlayer.class, target.getEntityBoundingBox().expand(dist, 4, dist));
+			camShake = (camShake == false)? true: false;
+			CamShakeIntensity = (camShake)? intensity: -intensity;
+			for (EntityPlayer players : player){
+				players.setAngles(0, CamShakeIntensity);
+			}
+		}
+	}
 
 	public static void roarEffect(EntityLivingBase target) {
 		if (target instanceof EntityPlayer && ((EntityPlayer) target).capabilities.isCreativeMode) {

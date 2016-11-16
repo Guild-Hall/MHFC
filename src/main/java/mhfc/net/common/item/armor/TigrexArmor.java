@@ -36,9 +36,7 @@ public class TigrexArmor extends ItemArmorMHFC {
 			EntityPlayer par2EntityPlayer,
 			List<String> par3List,
 			boolean par4) {
-		par3List.add("Quick Eating L");
-		par3List.add("+ 15 Fire");
-		par3List.add("- 10 Thunder");
+	//	par3List.add("Quick Eating L");
 	}
 
 	@Override

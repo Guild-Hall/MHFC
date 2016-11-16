@@ -18,6 +18,7 @@ import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider<EntityDeviljho> {
 
@@ -26,7 +27,7 @@ public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider
 	private static final int JUMPFRAME = 20;
 
 	private static final float TURNRATE = 14;
-	private static final float JUMPDURATION = 12f;
+	private static final float JUMPDURATION = 13.5f;
 
 	private static final IDamageCalculator DAMAGEBASE = AIUtils.defaultDamageCalc(105f, 2000f, 999999F);
 	private static final double DISTANCEMIN = 6F;
@@ -65,13 +66,17 @@ public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider
 	@Override
 	public void onUpdate() {
 		EntityDeviljho entity = this.getEntity();
+		target = entity.getAttackTarget();
 		if (this.getCurrentFrame() == 5) {
 			entity.playSound(MHFCSoundRegistry.getRegistry().deviljhoLeap, 2.0F, 1.0F);
 		}
-		if (!entity.onGround || thrown || this.getCurrentFrame() < 30) {
+		if (!entity.onGround || thrown || this.getCurrentFrame() < 302) {
 			return;
 		}
 		AIGameplayComposition.stompCracks(entity, 200);
+		if(target instanceof EntityPlayer){
+		AIGameplayComposition.camShake(entity, target, 10F, 40F);
+		}
 		thrown = true;
 	}
 }
