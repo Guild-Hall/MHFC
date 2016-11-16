@@ -26,7 +26,7 @@ public class Run extends DamagingAction<EntityTigrex> implements IHasAttackProvi
 	private static final float MAX_RUN_DISTANCE = 40f;
 	private static final int MAX_RUN_FRAMES = 200;
 
-	private static final double RUN_SPEED = 1.7;
+	private static final double RUN_SPEED = 1.4;
 	private static final double STOP_SPEED = 0.7;
 	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(120f, 50F, 99999F);
 

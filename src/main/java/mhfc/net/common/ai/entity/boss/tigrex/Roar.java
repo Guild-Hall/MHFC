@@ -23,7 +23,7 @@ public class Roar extends RoarAction<EntityTigrex> implements IHasAnimationProvi
 
 	@Override
 	protected float computeSelectionWeight() {
-		return 1f;
+		return 0.4f;
 	}
 
 	@Override
