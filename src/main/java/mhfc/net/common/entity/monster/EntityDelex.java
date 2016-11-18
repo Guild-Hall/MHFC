@@ -19,8 +19,7 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 
 	public EntityDelex(World world) {
 		super(world);
-		this.height = 2f;
-		this.width = 2f;
+		setSize(2f, 2f);
 	}
 
 	@Override

@@ -17,8 +17,7 @@ public class EntityGiaprey extends EntityMHFCBase<EntityGiaprey> {
 
 	public EntityGiaprey(World world) {
 		super(world);
-		this.height = 1f;
-		this.width = 2f;
+		setSize(2f, 1f);
 	}
 
 	@Override

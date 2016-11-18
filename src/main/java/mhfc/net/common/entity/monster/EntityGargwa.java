@@ -21,8 +21,7 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 
 	public EntityGargwa(World world) {
 		super(world);
-		this.height = 2f;
-		this.width = 2f;
+		setSize(2f, 2f);
 	}
 
 	@Override

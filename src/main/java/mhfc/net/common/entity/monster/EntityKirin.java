@@ -20,8 +20,7 @@ public class EntityKirin extends EntityMHFCBase<EntityKirin> {
 
 	public EntityKirin(World world) {
 		super(world);
-		this.height = 3F;
-		this.width = 3F;
+		setSize(3f, 3f);
 	}
 
 	@Override

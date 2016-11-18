@@ -17,8 +17,7 @@ public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
 
 	public EntityUkanlos(World world) {
 		super(world);
-		this.height = 9f;
-		this.width = 9f;
+		setSize(9f, 9f);
 	}
 
 	@Override

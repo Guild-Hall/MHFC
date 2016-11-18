@@ -29,8 +29,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 
 	public EntityBarroth(World world) {
 		super(world);
-		this.height = 4f;
-		this.width = 5f;
+		setSize(5f, 4f);
 	}
 
 	@Override
