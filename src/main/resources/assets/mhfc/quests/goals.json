@@ -6,49 +6,6 @@
 			amount: 1
 		}
 	},
-	BarrothHunt : {
-		type : "hunting",
-		data : {
-			target: "mhfc.barroth",
-			amount: 1
-		}
-	},
-	LagiacrusHunt : {
-		type : "hunting",
-		data : {
-			target: "mhfc.lagiacrus",
-			amount: 1
-		}
-	},
-	DualGreatJaggiHunt : {
-		type : "hunting",
-		data : {
-			target: "mhfc.greatjaggi",
-			amount: 2
-		}
-	},
-	NargacugaHunt : {
-		type : "hunting",
-		data : {
-			target: "mhfc.nargacuga",
-			amount: 1
-		}
-	},
-	DeviljhoHunt : {
-		"type" : "hunting",
-		data : {
-			target: "mhfc.deviljho",
-			amount: 1
-		}
-	},
-
-	Test : {
-		type : "hunting",
-		data : {
-			target: "Pig",
-			amount: 3
-		}
-	},
 	StandardTimer : {
 		type : "time",
 		data : {

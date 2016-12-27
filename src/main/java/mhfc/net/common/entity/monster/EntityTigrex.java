@@ -50,25 +50,30 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		// TODO enable this when Popos are a thing again
 		// targetTasks.addTask(1, new EntityAINearestAttackableTarget(this,
 		// EntityPopo.class, 0, true));
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
+		//targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
 	}
 
 	@Override
 	protected IActionManager<EntityTigrex> constructActionManager() {
 		FollowUpManagerBuilder<EntityTigrex> manager = new FollowUpManagerBuilder<>();
 		manager.registerAllowingAllActions(setDeathAction(new Death()));
-		manager.registerAllowingAllActions(new Jump());
-		manager.registerAllowingAllActions(new Run());
-		manager.registerAllowingAllActions(new GroundHurl());
-		manager.registerAllowingAllActions(new Bite());
+		//manager.registerAllowingAllActions(new Jump());
+		//manager.registerAllowingAllActions(new Run());
+		//manager.registerAllowingAllActions(new GroundHurl());
+		//manager.registerAllowingAllActions(new Bite());
 		//Roar tigrexRoar = new Roar();
 		//manager.registerAllowingAllActions(tigrexRoar);
-		manager.registerAllowingAllActions(new Idle());
+		//manager.registerAllowingAllActions(new Whip());
+		
+		// Living Actions 
+		
+		//manager.registerAllowingAllActions(new Idle());
+		manager.registerAllowingAllActions(new Wander());
 		// Register roar to be the only allowed initial move on sight of an enemy
 		List<IExecutableAction<? super EntityTigrex>> allowedFirstSight = new ArrayList<>();
 		//allowedFirstSight.add(tigrexRoar);
-		manager.registerActionWithFollowUps(new Wander(), allowedFirstSight);
-		manager.registerAllowingAllActions(new Whip());
+		
+		
 		return manager.build(this);
 	}
 

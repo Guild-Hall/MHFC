@@ -1,23 +1,5 @@
 {
-	Quest1 : {
-		type : "default",
-		data : {
-			goal : {
-				type : "fork",
-				data : {
-					requisites : ["StandardDeath", "StandardTimer", "NargacugaHunt"]
-				}
-			} ,
-			reward : 5000,
-			fee : 200,
-			areaID : "arena",
-			questType : "mhfc.quests.type.hunting",
-			visual : {
-				name : "Hunt Nargacuga"
-			}
-		}
-	},
-	NightQuest1 : {
+	AbsolutePower : {
 		type : "default",
 		data : {
 			goal : {
@@ -28,104 +10,10 @@
 			} ,
 			reward : 5000,
 			fee : 200,
-			areaID : "playfield",
-			flair: "NIGHTTIME",
-			questType : "mhfc.quests.type.hunting",
-			visual : {
-				name : "Hunting Tigrex at Night",
-				longDescription: "There is a sighting that the Tigrex roams and kills many of the poeple at night. Go there and find the truth so this case can be solved."
-			}
-		}
-	},
-	Quest3 : {
-		type : "default",
-		data : {
-			goal : {
-				type : "fork",
-				data : {
-					requisites : ["StandardDeath", "StandardTimer", "DualGreatJaggiHunt"]
-				}
-			} ,
-			reward : 5000,
-			fee : 200,
-			areaID : "arena",
-			flair: "NIGHTTIME",
-			questType : "mhfc.quests.type.hunting",
-			visual : {
-				name : "Hunting Dual Great Jaggi"
-			}
-		}
-	},
-	Quest4 : {
-		type : "default",
-		data : {
-			goal : {
-				type : "fork",
-				data : {
-					requisites : ["StandardDeath", "StandardTimer", "BarrothHunt"]
-				}
-			} ,
-			reward : 5000,
-			fee : 200,
-			areaID : "arena",
-			flair: "NIGHTTIME",
-			questType : "mhfc.quests.type.hunting",
-			visual : {
-				name : "Defeat Barroth"
-			}
-		}
-	},
-	Quest5 : {
-		type : "default",
-		data : {
-			goal : {
-				type : "fork",
-				data : {
-					requisites : ["StandardDeath", "StandardTimer", "LagiacrusHunt"]
-				}
-			} ,
-			reward : 5000,
-			fee : 200,
 			areaID : "arena",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
-				name : "Defeat Lagiacrus"
-			}
-		}
-	},
-	Quest2: {
-		type : "default",
-		data : {
-			goal :{
-				type : "fork",
-				data : {
-					requisites : ["StandardTimer","StandardFail", "DeviljhoHunt"]
-				}
-			},
-			reward : 4000,
-			fee: 300,
-			areaID: "arena",
-			questType : "mhfc.quests.type.hunting",
-			visual : {
-				name : "Hunt Deviljho"
-			}
-		}
-	},
-	TestQuest: {
-		type : "default",
-		data : {
-			goal : {
-				type : "fork",
-				data : {
-					requisites : ["StandardDeath", "StandardTimer", "Test"]
-				}
-			} ,
-			reward : 5000,
-			fee : 200,
-			areaID : "arena",
-			questType : "mhfc.quests.type.hunting",
-			visual : {
-				name : "Hunt three pigs"
+				name : "The Absolute Power"
 			}
 		}
 	}

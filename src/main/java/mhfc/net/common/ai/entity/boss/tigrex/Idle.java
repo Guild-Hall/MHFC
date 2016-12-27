@@ -14,9 +14,9 @@ import mhfc.net.common.entity.monster.EntityTigrex;
 public class Idle extends IdleAction<EntityTigrex> implements IHasAnimationProvider {
 
 	private enum Variant implements WeightedItem {
-		IDLE_1("mhfc:models/Tigrex/idle.mcanm", 160, 0.8F),
-		IDLE_2("mhfc:models/Tigrex/idle2.mcanm", 160, 0.7F),
-		IDLE_3("mhfc:models/Tigrex/idle3.mcanm", 160, 0.6F);
+		IDLE_1("mhfc:models/Tigrex/idle.mcanm", 160, 1.0F),
+		IDLE_2("mhfc:models/Tigrex/idle2.mcanm", 160, 0.75F),
+		IDLE_3("mhfc:models/Tigrex/idle3.mcanm", 160, 0.75F);
 		private float weight;
 		private String animLocation;
 		private int animLength;
@@ -43,7 +43,7 @@ public class Idle extends IdleAction<EntityTigrex> implements IHasAnimationProvi
 	}
 
 	private static final List<Variant> ALL_VARIANTS = Arrays.asList(Variant.values());
-	private static final float WEIGHT = 3;
+	private static final float WEIGHT = 2.5F;
 
 	private Variant variant;
 	private IAnimationProvider animation;

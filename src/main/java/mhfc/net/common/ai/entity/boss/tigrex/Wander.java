@@ -15,10 +15,10 @@ public class Wander extends WanderAction<EntityTigrex> implements IHasAnimationP
 	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/walk.mcanm";
 
 	private static final float TURN_SPEED = 4f;
-	private static final float MOVE_SPEED = 0.2f;
+	private static final float MOVE_SPEED = 0.4f;
 	private static final IMoveParameterProvider MOVEMENT_PARAMS = new MoveParameterAdapter(TURN_SPEED, MOVE_SPEED);
 
-	private static final float WEIGHT = 0.5F;
+	private static final float WEIGHT = 2.0F;
 
 	private final IAnimationProvider ANIMATION;
 
