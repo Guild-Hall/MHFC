@@ -54,7 +54,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		attackManager.registerAction(new Bite());
 		attackManager.registerAction(new Launch());
 		attackManager.registerAction(new MoveToTarget());
-		attackManager.registerAction(new Roar());
+		//attackManager.registerAction(new Roar());
 		attackManager.registerAction(new Stomp());
 		attackManager.registerAction(new TailWhip());
 		attackManager.registerAction(new Jump());
