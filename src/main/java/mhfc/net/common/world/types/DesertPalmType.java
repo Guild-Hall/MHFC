@@ -24,7 +24,7 @@ public class DesertPalmType extends AreaTypeSchematic {
 
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
-			double posX = 64;
+			double posX = 29;
 			double posZ = 14;
 			double posY = worldView.getTopSolidOrLiquidBlock((int) posX, (int) posZ) + 1;
 			worldView.moveEntityTo(player, posX, posY, posZ);

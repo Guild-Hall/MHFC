@@ -1,5 +1,5 @@
 {
-	Quest1 : {
+	Nargacuga : {
 		type : "default",
 		data : {
 			goal : {
@@ -13,31 +13,11 @@
 			areaID : "arena",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
-				name : "Hunt Nargacuga"
+				name : "Shadow Phantom"
 			}
 		}
 	},
-	NightQuest1 : {
-		type : "default",
-		data : {
-			goal : {
-				type : "fork",
-				data : {
-					requisites : ["StandardDeath", "StandardTimer", "TigrexHunt"]
-				}
-			} ,
-			reward : 5000,
-			fee : 200,
-			areaID : "playfield",
-			flair: "NIGHTTIME",
-			questType : "mhfc.quests.type.hunting",
-			visual : {
-				name : "Hunting Tigrex at Night",
-				longDescription: "There is a sighting that the Tigrex roams and kills many of the poeple at night. Go there and find the truth so this case can be solved."
-			}
-		}
-	},
-	Quest3 : {
+	DualGreatJaggi : {
 		type : "default",
 		data : {
 			goal : {
@@ -56,7 +36,7 @@
 			}
 		}
 	},
-	Quest4 : {
+	Barroth : {
 		type : "default",
 		data : {
 			goal : {
@@ -67,15 +47,15 @@
 			} ,
 			reward : 5000,
 			fee : 200,
-			areaID : "arena",
+			areaID : "desert",
 			flair: "NIGHTTIME",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
-				name : "Defeat Barroth"
+				name : "The Mud Beast"
 			}
 		}
 	},
-	Quest5 : {
+	Lagiacrus : {
 		type : "default",
 		data : {
 			goal : {
@@ -89,11 +69,11 @@
 			areaID : "arena",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
-				name : "Defeat Lagiacrus"
+				name : "Abyssal Specter"
 			}
 		}
 	},
-	Quest2: {
+	Deviljho: {
 		type : "default",
 		data : {
 			goal :{
@@ -107,7 +87,25 @@
 			areaID: "arena",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
-				name : "Hunt Deviljho"
+				name : "Deviljho"
+			}
+		}
+	},
+	Tigrex: {
+		type : "default",
+		data : {
+			goal :{
+				type : "fork",
+				data : {
+					requisites : ["StandardTimer","StandardFail", "TigrexHunt"]
+				}
+			},
+			reward : 4000,
+			fee: 300,
+			areaID: "arena",
+			questType : "mhfc.quests.type.hunting",
+			visual : {
+				name : "Absolute Power"
 			}
 		}
 	},
@@ -125,7 +123,7 @@
 			areaID : "arena",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
-				name : "Hunt three pigs"
+				name : "Beginner Tutorial"
 			}
 		}
 	}
