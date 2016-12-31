@@ -11,7 +11,7 @@ import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
-import mhfc.net.common.world.types.VillagePokeType;
+import mhfc.net.common.world.types.areas.VillagePokeType;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 public class MHFCExploration extends ExplorationAdapter {

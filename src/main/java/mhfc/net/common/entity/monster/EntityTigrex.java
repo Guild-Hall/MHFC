@@ -74,7 +74,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();// Default HP 20432D;
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(200D));
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(20432D));
 	}
 
 	@Override

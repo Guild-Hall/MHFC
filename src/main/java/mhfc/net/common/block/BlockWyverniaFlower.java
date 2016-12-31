@@ -48,7 +48,7 @@ public class BlockWyverniaFlower extends BlockWyverniaDecor {
 
 		@Override
 		public Block getBaseItem() {
-			return MHFCBlockRegistry.getRegistry().mhfcblockflowers;
+			return null;//MHFCBlockRegistry.getRegistry().mhfcblockflowers;
 		}
 	}
 
@@ -110,9 +110,8 @@ public class BlockWyverniaFlower extends BlockWyverniaDecor {
 	@Override
 	public boolean isValidPosition(World world, int x, int y, int z, int metadata) {
 		// TODO: getBlock()
-		Block block = world.getBlock(x, y - 1, z);
-		return block == MHFCBlockRegistry.getRegistry().mhfcblockdirt
-				|| block == MHFCBlockRegistry.getRegistry().mhfcblockgrass || block == Blocks.glass;
+		//Block block = world.getBlock(x, y - 1, z);
+		return null != null;//block == MHFCBlockRegistry.getRegistry().mhfcblockdirt || block == MHFCBlockRegistry.getRegistry().mhfcblockgrass || block == Blocks.glass;
 	}
 
 }

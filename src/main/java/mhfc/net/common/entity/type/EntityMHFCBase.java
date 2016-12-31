@@ -56,7 +56,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	private IExecutableAction<? super YC> inWaterAction;
 	private IExecutableAction<? super YC> stunAction;
 	
-	public int set_Armor_Value = 22;
+	public int set_Armor_Value = 19;
 
 	public boolean FREEZE; // trying to implement this to disable all AI's for the monster temporality.
 

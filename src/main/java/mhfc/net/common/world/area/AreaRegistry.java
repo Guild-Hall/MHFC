@@ -5,10 +5,10 @@ import java.util.Map;
 import java.util.Objects;
 
 import mhfc.net.common.world.types.AreaTypePlayfield;
-import mhfc.net.common.world.types.ArenaType;
-import mhfc.net.common.world.types.DesertPalmType;
-import mhfc.net.common.world.types.TestAreaType;
-import mhfc.net.common.world.types.VillagePokeType;
+import mhfc.net.common.world.types.areas.ArenaType;
+import mhfc.net.common.world.types.areas.DesertPalmType;
+import mhfc.net.common.world.types.areas.TestAreaType;
+import mhfc.net.common.world.types.areas.VillagePokeType;
 
 public class AreaRegistry {
 

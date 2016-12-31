@@ -17,7 +17,7 @@ import mhfc.net.common.quests.world.GlobalAreaManager;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
-import mhfc.net.common.world.types.ArenaType;
+import mhfc.net.common.world.types.areas.ArenaType;
 
 /**
  * Used by the QuestFactories as well as to display quests.

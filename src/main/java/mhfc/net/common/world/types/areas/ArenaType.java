@@ -1,4 +1,4 @@
-package mhfc.net.common.world.types;
+package mhfc.net.common.world.types.areas;
 
 import mhfc.net.common.quests.world.SpawnControllerAdapter.SpawnInformation;
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
@@ -7,15 +7,16 @@ import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.EmptyArea;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IExtendedConfiguration;
+import mhfc.net.common.world.types.AreaTypeSchematic;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class DesertPalmType extends AreaTypeSchematic {
+public class ArenaType extends AreaTypeSchematic {
 
-	public static final ResourceLocation schematicLocation = new ResourceLocation(
-			"mhfc:schematics/map_desertpalm_1_vanilla.schematic");
-	public static final DesertPalmType INSTANCE = new DesertPalmType();
+	public static final ResourceLocation schematicLocation = new ResourceLocation("mhfc:schematics/Arena.schematic");
+
+	public static final ArenaType INSTANCE = new ArenaType();
 
 	private static class Area extends EmptyArea {
 		public Area(World world, AreaConfiguration config) {
@@ -24,8 +25,8 @@ public class DesertPalmType extends AreaTypeSchematic {
 
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
-			double posX = 29;
-			double posZ = 14;
+			double posX = 54;
+			double posZ = 11;
 			double posY = worldView.getTopSolidOrLiquidBlock((int) posX, (int) posZ) + 1;
 			worldView.moveEntityTo(player, posX, posY, posZ);
 		}
@@ -34,16 +35,15 @@ public class DesertPalmType extends AreaTypeSchematic {
 		public SpawnInformation constructDefaultSpawnInformation(Spawnable entity) {
 			return new SpawnInformation(entity, 50, 54.5, 62);
 		}
-
 	}
 
-	private DesertPalmType() {
-		super(DesertPalmType.schematicLocation);
+	private ArenaType() {
+		super(ArenaType.schematicLocation);
 	}
 
 	@Override
 	public String getUnlocalizedName() {
-		return MHFCReference.area_desertpalm_name;
+		return MHFCReference.area_arena_name;
 	}
 
 	@Override
