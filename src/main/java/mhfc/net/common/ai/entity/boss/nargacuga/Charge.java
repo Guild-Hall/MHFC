@@ -1,7 +1,9 @@
 package mhfc.net.common.ai.entity.boss.nargacuga;
 
 import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.IFrameAdvancer;
+import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
 import mhfc.net.common.ai.general.IFrameAdvancer.SwitchLoopAdvancer;
 import mhfc.net.common.ai.general.actions.AIAnimatedAction;
 import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
@@ -16,11 +18,12 @@ public class Charge extends AIAnimatedAction<EntityNargacuga> {
 	private static final String ANIMATION = "mhfc:models/Nargacuga/Charge.mcanm";
 	private static final int ANIMATION_LENGTH = 80;
 	private static final float MAX_ANGLE = 40;
-	private static final float MIN_DISTANCE = 10;
-	private static final float MAX_DISTANCE = 40;
-	private static final float WEIGHT = 0;
-	private static final int LOOP_START = 0;
-	private static final int LOOP_END = 0;
+	private static final float MIN_DISTANCE = 0;
+	private static final float MAX_DISTANCE = 50;
+	private static final float WEIGHT = 25F;
+	private static final int LOOP_START = 21;
+	private static final int LOOP_END = 60;
+	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(280f, 50F, 99999F);
 
 	private SwitchLoopAdvancer frameAdvancer;
 	private static final ISelectionPredicate<EntityNargacuga> selectionPredicate;

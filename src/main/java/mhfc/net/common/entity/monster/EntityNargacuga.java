@@ -54,7 +54,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 
 	public EntityNargacuga(World world) {
 		super(world);
-		setSize(4.6F, 4.4F);
+		setSize(8.6F, 4.4F);
 		stepHeight = 2.0F;
 		recorder = new RecorderAdapter<>(100);
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));

@@ -7,7 +7,7 @@ import java.util.Objects;
 import mhfc.net.common.world.types.AreaTypePlayfield;
 import mhfc.net.common.world.types.areas.AreaGrassPlain;
 import mhfc.net.common.world.types.areas.ArenaType;
-import mhfc.net.common.world.types.areas.DesertPalmType;
+import mhfc.net.common.world.types.areas.AreaDesertPalm;
 import mhfc.net.common.world.types.areas.TestAreaType;
 import mhfc.net.common.world.types.areas.VillagePokeType;
 
@@ -30,7 +30,7 @@ public class AreaRegistry {
 		AreaRegistry.register(NAME_TEST_SCHEMATIC, TestAreaType.INSTANCE);
 		AreaRegistry.register(NAME_ARENA, ArenaType.INSTANCE);
 		AreaRegistry.register(NAME_VILLAGE_POKE, VillagePokeType.INSTANCE);
-		AreaRegistry.register(NAME_DESERTPALM, DesertPalmType.INSTANCE);
+		AreaRegistry.register(NAME_DESERTPALM, AreaDesertPalm.INSTANCE);
 		AreaRegistry.register(NAME_GRASSPLAIN, AreaGrassPlain.INSTANCE);
 	}
 

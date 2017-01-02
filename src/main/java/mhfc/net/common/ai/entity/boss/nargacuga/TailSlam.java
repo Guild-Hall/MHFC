@@ -18,12 +18,12 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 	private static final String ANIMATION = "mhfc:models/Nargacuga/TailSlam.mcanm";
 	private static final int ANIM_LENGTH = 100;
 	private static final int MAX_ANGLE = 20;
-	private static final float MAX_DISTANCE = 6;
-	private static final float WEIGHT = 8000;
+	private static final float MAX_DISTANCE = 8;
+	private static final float WEIGHT = 20;
 	private static final int JUMP_FRAME = 19;
 	private static final int JUMP_TIME = 12;
 	private static final int SPIKE_FRAME = 50;
-	private static final float SPEED = 1.f;
+	private static final float SPEED = 1.4f;
 
 	private static final ISelectionPredicate<EntityNargacuga> select;
 	private static final IDamageCalculator damageCalculator;
@@ -32,7 +32,7 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 
 	static {
 		select = new ISelectionPredicate.SelectionAdapter<>(-MAX_ANGLE, MAX_ANGLE, 0, MAX_DISTANCE);
-		damageCalculator = AIUtils.defaultDamageCalc(280, 1000, 888880);
+		damageCalculator = AIUtils.defaultDamageCalc(280, 500, 888880);
 		jumpParams = new IJumpParamterProvider.ConstantAirTimeAdapter<>(
 				JUMP_TIME,
 				new ITargetResolver<EntityNargacuga>() {
@@ -64,13 +64,14 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 		if (nargacuga.worldObj.isRemote)
 			return;
 		if (getCurrentFrame() == SPIKE_FRAME) {
+		
 			Vec3 up = Vec3.createVectorHelper(0, 1, 0);
 			Vec3 look = nargacuga.getLookVec();
 			Vec3 left = look.crossProduct(up).normalize();
 			Vec3 relUp = left.crossProduct(look);
-			final int spikeClusters = 4;
-			final int spikesPerCluster = 6;
-			final float offsetScaleBack = 6;
+			final int spikeClusters = 7;
+			final int spikesPerCluster = 9;
+			final float offsetScaleBack = 9;
 			for (int i = 0; i < spikeClusters * spikesPerCluster; i++) {
 				int cluster = i / spikesPerCluster;
 				int spike = i % spikesPerCluster;
@@ -92,6 +93,7 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 				nargacuga.worldObj.spawnEntityInWorld(spikeEntity);
 			}
 		}
+		AIUtils.damageCollidingEntities(getEntity(), damageCalculator);
 	}
 
 	@Override

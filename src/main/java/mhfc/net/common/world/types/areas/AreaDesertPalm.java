@@ -12,11 +12,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class DesertPalmType extends AreaTypeSchematic {
+public class AreaDesertPalm extends AreaTypeSchematic {
 
 	public static final ResourceLocation schematicLocation = new ResourceLocation(
 			"mhfc:schematics/map_desertpalm_1_vanilla.schematic");
-	public static final DesertPalmType INSTANCE = new DesertPalmType();
+	public static final AreaDesertPalm INSTANCE = new AreaDesertPalm();
 
 	private static class Area extends EmptyArea {
 		public Area(World world, AreaConfiguration config) {
@@ -38,8 +38,8 @@ public class DesertPalmType extends AreaTypeSchematic {
 
 	}
 
-	private DesertPalmType() {
-		super(DesertPalmType.schematicLocation);
+	private AreaDesertPalm() {
+		super(AreaDesertPalm.schematicLocation);
 	}
 
 	@Override

@@ -33,7 +33,7 @@ public class AreaGrassPlain extends AreaTypeSchematic {
 
 		@Override
 		public SpawnInformation constructDefaultSpawnInformation(Spawnable entity) {
-			return new SpawnInformation(entity, 50, 54.5, 62);
+			return new SpawnInformation(entity, 30, 34.5, 32);
 		}
 
 	}

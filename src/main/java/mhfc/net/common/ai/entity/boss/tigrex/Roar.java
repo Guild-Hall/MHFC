@@ -19,7 +19,7 @@ public class Roar extends AIGeneralRoar<EntityTigrex> {
 	private static final IRoarSoundProvider roar;
 
 	static {
-		weight = new IWeightProvider.RandomWeightAdapter<>(1F);
+		weight = new IWeightProvider.RandomWeightAdapter<>(0F);
 		roar = new IRoarSoundProvider.RoarSoundAdapter("mhfc:tigrex.roar");
 	}
 
