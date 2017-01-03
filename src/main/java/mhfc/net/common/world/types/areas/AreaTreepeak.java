@@ -12,11 +12,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class AreaGrassPlain extends AreaTypeSchematic {
+public class AreaTreepeak extends AreaTypeSchematic {
 
 	public static final ResourceLocation schematicLocation = new ResourceLocation(
-			"mhfc:schematics/Plains2.schematic");
-	public static final AreaGrassPlain INSTANCE = new AreaGrassPlain();
+			"mhfc:schematics/Newtreepeak.schematic");
+	public static final AreaTreepeak INSTANCE = new AreaTreepeak();
 
 	private static class Area extends EmptyArea {
 		public Area(World world, AreaConfiguration config) {
@@ -38,13 +38,13 @@ public class AreaGrassPlain extends AreaTypeSchematic {
 
 	}
 
-	private AreaGrassPlain() {
-		super(AreaGrassPlain.schematicLocation);
+	private AreaTreepeak() {
+		super(AreaTreepeak.schematicLocation);
 	}
 
 	@Override
 	public String getUnlocalizedName() {
-		return MHFCReference.area_grassplain_name;
+		return MHFCReference.area_treepeak_name;
 	}
 
 	@Override

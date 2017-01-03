@@ -22,7 +22,7 @@ public class Charge extends AIAnimatedAction<EntityNargacuga> {
 	private static final float MAX_DISTANCE = 50;
 	private static final float WEIGHT = 25F;
 	private static final int LOOP_START = 21;
-	private static final int LOOP_END = 60;
+	private static final int LOOP_END = 180;
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(280f, 50F, 99999F);
 
 	private SwitchLoopAdvancer frameAdvancer;
@@ -48,6 +48,7 @@ public class Charge extends AIAnimatedAction<EntityNargacuga> {
 		if(this.getCurrentFrame() == 5)
 		nargacuga.playSound("narga.charge", 2.0F, 1.0F);
 		Vec3 distanceVec = WorldHelper.getVectorToTarget(nargacuga, target);
+		nargacuga.moveForward(1.7, true);
 		if (distanceVec.lengthVector() < MIN_DISTANCE) {
 			frameAdvancer.setLoopActive(false);
 		}

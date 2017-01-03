@@ -20,7 +20,7 @@ public class BackOff extends AIGeneralJumpAttack<EntityNargacuga> {
 	private static final int JUMP_FRAME = 23;
 	private static final float TURN_RATE = 2.5f;
 	private static final float TURN_RATE_AIR = 1.5f;
-	private static final float BACK_OFF_SPEED = -1.7f;
+	private static final float BACK_OFF_SPEED = -8.5f;
 
 	private static final IDamageCalculator calculator;
 	private static final IJumpTimingProvider<EntityNargacuga> jumpTiming;
