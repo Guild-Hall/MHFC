@@ -102,7 +102,7 @@
 			},
 			reward : 4000,
 			fee: 300,
-			areaID: "arena",
+			areaID: "snowymountains",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
 				name : "Absolute Power"

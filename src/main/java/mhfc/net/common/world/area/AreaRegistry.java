@@ -8,6 +8,7 @@ import mhfc.net.common.world.types.AreaTypePlayfield;
 import mhfc.net.common.world.types.areas.AreaTreepeak;
 import mhfc.net.common.world.types.areas.ArenaType;
 import mhfc.net.common.world.types.areas.AreaDesertPalm;
+import mhfc.net.common.world.types.areas.AreaSnowyMountains;
 import mhfc.net.common.world.types.areas.TestAreaType;
 import mhfc.net.common.world.types.areas.VillagePokeType;
 
@@ -22,6 +23,7 @@ public class AreaRegistry {
 	public static final String NAME_DESERTPALM = "desert";
 	public static final String NAME_TREEPEAK = "treepeak";
 	public static final String NAME_VILLAGE_POKE = "village_poke";
+	public static final String NAME_SNOWYMOUNTAINS = "snowymountains";
 
 	public static void init() {
 		AreaRegistry.register(NAME_PLAYFIELD, AreaTypePlayfield.PLAYFIELD_TYPE);
@@ -32,6 +34,7 @@ public class AreaRegistry {
 		AreaRegistry.register(NAME_VILLAGE_POKE, VillagePokeType.INSTANCE);
 		AreaRegistry.register(NAME_DESERTPALM, AreaDesertPalm.INSTANCE);
 		AreaRegistry.register(NAME_TREEPEAK, AreaTreepeak.INSTANCE);
+		AreaRegistry.register(NAME_SNOWYMOUNTAINS, AreaSnowyMountains.INSTANCE);
 	}
 
 	private Map<String, IAreaType> stringToType = new HashMap<>();
