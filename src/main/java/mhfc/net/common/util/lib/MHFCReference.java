@@ -18,7 +18,7 @@ public class MHFCReference {
 
 	public static final String area_playfield_name = "mhfc.area.playfield.name";
 	public static final String area_arena_name = "mhfc.area.arena.name";
-	public static final String area_desertpalm_name = "mhfc.area.desertpalm.name";
+	public static final String area_desert_name = "mhfc.area.desert.name";
 	public static final String area_treepeak_name = "mhfc.area.treepeak.name";
 	public static final String area_snowymountains = "mhfc.area.snowymountains.name";
 	public static final String area_test_name = "mhfc.area.test.name";
