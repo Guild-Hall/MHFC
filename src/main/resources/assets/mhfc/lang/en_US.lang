@@ -1,3 +1,10 @@
+mhfc.area.playfield.name=Playfield
+mhfc.area.arena.name=Arena
+mhfc.area.desert.name=§6Desert
+mhfc.area.test.name=Devtest area
+mhfc.area.village_poke.name=Pok�village
+
+
 entity.tigrex.name=§2Tigrex
 entity.mhfc.tigrex.name=§2Tigrex
 entity.greatjaggi.name=§2Great Jaggi
@@ -301,11 +308,7 @@ mhfc.quests.type.gathering=Gathering Quest
 mhfc.quests.type.epichunting=Epic Hunting Quest
 mhfc.quests.type.killing=Slaying Quest
 
-mhfc.area.playfield.name=Playfield
-mhfc.area.arena.name=Arena
-mhfc.area.desertpalm.name=Desert
-mhfc.area.test.name=Devtest area
-mhfc.area.village_poke.name=Pok�village
+
 
 container.hunterbench=Hunter's Forging Bench
 

@@ -12,11 +12,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class DesertPalmType extends AreaTypeSchematic {
+public class AreaDesert extends AreaTypeSchematic {
 
 	public static final ResourceLocation schematicLocation = new ResourceLocation(
-			"mhfc:schematics/map_desertpalm_1_vanilla.schematic");
-	public static final DesertPalmType INSTANCE = new DesertPalmType();
+			"mhfc:schematics/Desert.schematic");
+	public static final AreaDesert INSTANCE = new AreaDesert();
 
 	private static class Area extends EmptyArea {
 		public Area(World world, AreaConfiguration config) {
@@ -37,13 +37,13 @@ public class DesertPalmType extends AreaTypeSchematic {
 
 	}
 
-	private DesertPalmType() {
-		super(DesertPalmType.schematicLocation);
+	private AreaDesert() {
+		super(AreaDesert.schematicLocation);
 	}
 
 	@Override
 	public String getUnlocalizedName() {
-		return ResourceInterface.area_desertpalm_name;
+		return ResourceInterface.area_desert_name;
 	}
 
 	@Override

@@ -10,7 +10,7 @@
 			} ,
 			reward : 5000,
 			fee : 200,
-			areaID : "arena",
+			areaID : "desert",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
 				name : "The Absolute Power"

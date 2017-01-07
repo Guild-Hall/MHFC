@@ -67,7 +67,7 @@ public class WorldProviderQuesting extends WorldProvider {
 		// ^ called too early in the constructor, where the perWorldStorage hasn't been loaded yet
 		// FIXME: read the MHFCSaveData
 		this.worldObj.getWorldInfo().setWorldTime(flair.worldTime);
-		this.worldObj.getWorldInfo().setRaining(true);
+		this.worldObj.getWorldInfo().setRaining(false);
 
 		this.worldObj.getGameRules().setOrCreateGameRule("doDaylightCycle", "false");
 		this.worldObj.getGameRules().setOrCreateGameRule("doMobSpawning", "false");
