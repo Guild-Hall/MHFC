@@ -25,15 +25,15 @@ public class AreaSnowyMountains extends AreaTypeSchematic {
 
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
-			double posX = 29;
-			double posZ = 14;
+			double posX = 71;
+			double posZ = 20;
 			double posY = worldView.getTopSolidOrLiquidBlock((int) posX, (int) posZ) + 1;
 			worldView.moveEntityTo(player, posX, posY, posZ);
 		}
 
 		@Override
 		public SpawnInformation constructDefaultSpawnInformation(Spawnable entity) {
-			return new SpawnInformation(entity, 30, 34.5, 32);
+			return new SpawnInformation(entity, 48, 24.5, 70);
 		}
 
 	}
