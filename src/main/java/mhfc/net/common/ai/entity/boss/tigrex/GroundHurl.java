@@ -22,8 +22,8 @@ public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnim
 	private static final double THROW_HEIGHT = 0.35;
 	private static final float TURN_RATE = 4;
 
-	private static final float MIN_DIST = 3f;
-	private static final float MAX_DIST = 40f;
+	private static final float MIN_DIST = 0f;
+	private static final float MAX_DIST = 2f;
 	private static final float MAX_ANGLE = 0.155f;
 
 	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
