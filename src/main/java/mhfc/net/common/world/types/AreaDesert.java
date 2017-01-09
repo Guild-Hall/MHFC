@@ -25,14 +25,14 @@ public class AreaDesert extends AreaTypeSchematic {
 
 		@Override
 		public void teleportToSpawn(EntityPlayer player) {
-			BlockPos position = new BlockPos(64, 0, 14);
+			BlockPos position = new BlockPos(98, 0, 85);
 			position = worldView.getTopSolidOrLiquidBlock(position).up();
 			worldView.moveEntityTo(player, position);
 		}
 
 		@Override
 		public SpawnInformation constructDefaultSpawnInformation(Spawnable entity) {
-			return new SpawnInformation(entity, 50, 54.5, 62);
+			return new SpawnInformation(entity, 54, 20.5, 40);
 		}
 
 	}
