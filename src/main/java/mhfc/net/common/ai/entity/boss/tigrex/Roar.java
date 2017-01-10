@@ -9,7 +9,6 @@ import mhfc.net.common.ai.general.provider.simple.IRoarProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.Vec3d;
 
 public class Roar extends RoarAction<EntityTigrex> implements IHasAnimationProvider {
@@ -22,10 +21,6 @@ public class Roar extends RoarAction<EntityTigrex> implements IHasAnimationProvi
 
 	public Roar() {}
 
-	@Override
-	protected float computeSelectionWeight() {
-		return 0.05f;
-	}
 
 	@Override
 	public IAnimationProvider getAnimProvider() {

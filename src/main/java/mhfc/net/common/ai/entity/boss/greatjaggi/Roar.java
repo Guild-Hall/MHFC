@@ -1,6 +1,5 @@
 package mhfc.net.common.ai.entity.boss.greatjaggi;
 
-import mhfc.net.common.ai.general.WeightUtils;
 import mhfc.net.common.ai.general.actions.RoarAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.RoarAdapter;
@@ -19,10 +18,6 @@ public class Roar extends RoarAction<EntityGreatJaggi> implements IHasAnimationP
 
 	public Roar() {}
 
-	@Override
-	protected float computeSelectionWeight() {
-		return WeightUtils.random(rng(), LAST_FRAME);
-	}
 
 	@Override
 	public IAnimationProvider getAnimProvider() {

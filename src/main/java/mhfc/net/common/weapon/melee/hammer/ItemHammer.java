@@ -26,7 +26,7 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 	}
 
 	protected static final double motY = 0.2D;
-	protected static final int stunDur = 120;
+	protected static final int stunDur = 140;
 	protected static final int critDamageFlat = 20; // Hammer deals FLAT.
 
 	public ItemHammer(HammerWeaponStats stats) {
@@ -45,8 +45,8 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 			return;
 		}
 		if (holder instanceof EntityPlayer) {
-			//EntityPlayer entity = (EntityPlayer) holder;
-			//entity.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 100, 3));
+			EntityPlayer entity = (EntityPlayer) holder;
+			entity.moveEntityWithHeading(entity.moveStrafing * -0.7F, entity.moveForward * -0.7F);
 		}
 	}
 

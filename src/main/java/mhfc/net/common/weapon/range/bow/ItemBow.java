@@ -11,9 +11,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityArrow.PickupStatus;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.IItemPropertyGetter;
+import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -156,4 +158,34 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 				volume,
 				pitch);
 	}
+	
+	
+	public static float getArrowVelocity(int charge)
+	{
+		float f = (float)charge / 30.0F;
+		f = (f * f + f * 2.0F) / 3.0F;
+
+		if (f > 1.0F)
+		{
+			f = 1.0F;
+		}
+
+		return f;
+	}
+	
+	
+	private void spawnArrow(EntityPlayer entityplayer, World worldIn, ItemStack stack, float power, float yaw){
+		ItemArrow itemarrow = (ItemArrow) Items.ARROW;
+		EntityArrow entityarrow = itemarrow.createArrow(worldIn, new ItemStack(Items.ARROW), entityplayer);
+		entityarrow.setAim(entityplayer, entityplayer.rotationPitch + yaw / 2f, entityplayer.rotationYaw, 0.0F, power * 3.0F, 0.3F);
+
+		if (power> 1.0F)
+			entityarrow.setIsCritical(true);
+		entityarrow.setDamage(entityarrow.getDamage() + (double)2 * 0.5D + 0.5D);
+		entityarrow.setKnockbackStrength(1);
+		stack.damageItem(1, entityplayer);
+		entityarrow.pickupStatus = EntityArrow.PickupStatus.CREATIVE_ONLY;
+		worldIn.spawnEntityInWorld(entityarrow);
+	}
+
 }

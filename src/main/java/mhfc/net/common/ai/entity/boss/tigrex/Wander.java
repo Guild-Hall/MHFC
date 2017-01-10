@@ -15,18 +15,16 @@ public class Wander extends WanderAction<EntityTigrex> implements IHasAnimationP
 	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/walk.mcanm";
 
 	private static final float TURN_SPEED = 4f;
-	private static final float MOVE_SPEED = 0.6f;
+	private static final float MOVE_SPEED = 0.4f;
 	private static final IMoveParameterProvider MOVEMENT_PARAMS = new MoveParameterAdapter(TURN_SPEED, MOVE_SPEED);
 
-	private static final float WEIGHT = 20.0F;
+	private static final float WEIGHT = 1F;
 
 	private final IAnimationProvider ANIMATION;
 
 	public Wander() {
-		ANIMATION = AnimationAdapter.builder().setAnimation(ANIMATION_LOCATION).setAnimationLength(ANIMATION_LENGTH)
-				.setFrameAdvancer(new CountLoopAdvancer(10, ANIMATION_LENGTH, -1)).build(this);
+		ANIMATION = AnimationAdapter.builder().setAnimation(ANIMATION_LOCATION).setAnimationLength(ANIMATION_LENGTH).setFrameAdvancer(new CountLoopAdvancer(10, ANIMATION_LENGTH, -1)).build(this);
 		
-		System.out.println("Wander is being active");
 	}
 
 	@Override

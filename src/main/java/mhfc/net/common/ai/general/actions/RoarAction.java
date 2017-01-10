@@ -29,6 +29,16 @@ public abstract class RoarAction<T extends EntityMHFCBase<? super T>> extends An
 		roarProvider = provideRoarBehaviour();
 		getEntity().playSound(roarProvider.getRoarSoundLocation(), 2.0F, 1.0F);
 	}
+	
+	@Override
+	public float computeSelectionWeight(){
+		if(getEntity().getAttackTarget() == null){
+			return DONT_SELECT;
+		}
+		return 0.5F;
+		
+	}
+	
 
 	@Override
 	protected void onUpdate() {

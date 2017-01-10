@@ -14,16 +14,11 @@ public class Roar extends RoarAction<EntityDeviljho> implements IHasAnimationPro
 	private static final String ANIMATION_LOCATION = "mhfc:models/Deviljho/DeviljhoRoar.mcanm";
 	private static final int LAST_FRAME = 70;
 
-	private static final float WEIGHT = 2F;
 
 	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 
 	public Roar() {}
 
-	@Override
-	protected float computeSelectionWeight() {
-		return WEIGHT;
-	}
 
 	@Override
 	public IAnimationProvider getAnimProvider() {

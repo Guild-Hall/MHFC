@@ -3,7 +3,6 @@ package mhfc.net.common.ai.general.actions;
 import java.util.Objects;
 import java.util.Random;
 
-import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.provider.adapters.HasNoTargetAdapter;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.ai.general.provider.simple.IPathProvider;
@@ -90,10 +89,10 @@ public abstract class WanderAction<T extends EntityMHFCBase<? super T>> extends 
 
 	@Override
 	protected float computeSelectionWeight() {
-		return shouldSelect() ? DONT_SELECT : computeWanderWeight();
+		if(getEntity().getAttackTarget() != null){
+			return DONT_SELECT;
+		}
+		return computeWanderWeight();
 	}
 
-	private boolean shouldSelect() {
-		return SelectionUtils.isIdle(getEntity());
-	}
 }

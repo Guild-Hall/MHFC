@@ -39,5 +39,7 @@ public abstract class MovementAction<T extends EntityMHFCBase<? super T>> extend
 			actor.moveForward(movementParameters.getMoveSpeed(), true);
 		}
 	}
+	
+	
 
 }

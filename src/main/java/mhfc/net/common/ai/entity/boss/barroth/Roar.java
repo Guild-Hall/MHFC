@@ -1,6 +1,5 @@
 package mhfc.net.common.ai.entity.boss.barroth;
 
-import mhfc.net.common.ai.general.WeightUtils;
 import mhfc.net.common.ai.general.actions.RoarAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.RoarAdapter;
@@ -40,8 +39,4 @@ public class Roar extends RoarAction<EntityBarroth> implements IHasAnimationProv
 		return new RoarAdapter(MHFCSoundRegistry.getRegistry().barrothRoar, true);
 	}
 
-	@Override
-	protected float computeSelectionWeight() {
-		return WeightUtils.random(rng(), 1F);
-	}
 }

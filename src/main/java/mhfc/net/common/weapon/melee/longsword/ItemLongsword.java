@@ -15,6 +15,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -28,8 +29,8 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 
 	protected static final String NBT_SPIRIT = "mhfc:affinity";
 	protected static final float MAX_SPIRIT = 250f;
-	protected static final float TRIGGER_SPIRIT = 100f;
-	protected static final float SPIRIT_DECREASE = -0.1f;
+	protected static final float TRIGGER_SPIRIT = 150f;
+	protected static final float SPIRIT_DECREASE = -0.2f;
 
 	public ItemLongsword(LongswordWeaponStats stats) {
 		super(stats);
@@ -54,6 +55,14 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 	public void onUpdate(ItemStack stack, World world, Entity holder, int slot, boolean isHoldItem) {
 		super.onUpdate(stack, world, holder, slot, isHoldItem);
 		changeSpirit(stack, SPIRIT_DECREASE);
+		if (!isHoldItem) {
+			return;
+		}
+		if (holder instanceof EntityPlayer) {
+			EntityPlayer entity = (EntityPlayer) holder;
+			entity.moveEntityWithHeading(entity.moveStrafing * -0.5f, entity.moveForward * -0.5f);
+			//if(stack instanceof) TODO: Add some High class GS that will never required strafing delay.
+		}
 	}
 
 	@Override
@@ -79,7 +88,7 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 
 	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase holder, EntityLivingBase hit) {
-		changeSpirit(stack, 30);
+		changeSpirit(stack, 25);
 		return true;
 	}
 

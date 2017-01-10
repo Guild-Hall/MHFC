@@ -1,6 +1,5 @@
 package mhfc.net.common.ai.entity.boss.nargacuga;
 
-import mhfc.net.common.ai.general.WeightUtils;
 import mhfc.net.common.ai.general.actions.RoarAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.RoarAdapter;
@@ -18,10 +17,6 @@ public class Roar extends RoarAction<EntityNargacuga> implements IHasAnimationPr
 
 	public Roar() {}
 
-	@Override
-	protected float computeSelectionWeight() {
-		return WeightUtils.random(rng(), 1);
-	}
 
 	@Override
 	public IAnimationProvider getAnimProvider() {
