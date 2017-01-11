@@ -12,9 +12,12 @@ import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.monster.EntityTigrex;
 
 public class Idle extends IdleAction<EntityTigrex> implements IHasAnimationProvider {
+	
+	protected boolean canBeUseWhileEngage; //TODO: Make default breathing idle use in fight
 
 	private enum Variant implements WeightedItem {
-		IDLE_1("mhfc:models/Tigrex/idle.mcanm", 160, 1.0F),
+		DEFAULT("mhfc:models/Tigrex/idle.mcanm", 60, 0.5F),
+		IDLE_1("mhfc:models/Tigrex/idle.mcanm", 160, 0.5F),
 		IDLE_2("mhfc:models/Tigrex/idle2.mcanm", 160, 0.75F),
 		IDLE_3("mhfc:models/Tigrex/idle3.mcanm", 160, 0.75F);
 		private float weight;
@@ -43,6 +46,7 @@ public class Idle extends IdleAction<EntityTigrex> implements IHasAnimationProvi
 	}
 
 	private static final List<Variant> ALL_VARIANTS = Arrays.asList(Variant.values());
+	private static final List<Variant> DEFAULT_VARIANT = Arrays.asList(Variant.DEFAULT);
 	private static final float WEIGHT = 2.5F;
 
 	private Variant variant;
@@ -58,7 +62,11 @@ public class Idle extends IdleAction<EntityTigrex> implements IHasAnimationProvi
 	@Override
 	protected void initializeExecutionRandomness() {
 		super.initializeExecutionRandomness();
+		if(getEntity().getAttackTarget() != null){
+		this.variant = WeightedPick.pickRandom(DEFAULT_VARIANT);
+		}else{
 		this.variant = WeightedPick.pickRandom(ALL_VARIANTS);
+		}
 		this.animation = variant.getAnimation(this);
 	}
 

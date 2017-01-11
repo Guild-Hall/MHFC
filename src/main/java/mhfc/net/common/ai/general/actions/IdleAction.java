@@ -1,6 +1,5 @@
 package mhfc.net.common.ai.general.actions;
 
-import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 
 public abstract class IdleAction<T extends EntityMHFCBase<?>> extends AnimatedAction<T> {
@@ -19,7 +18,7 @@ public abstract class IdleAction<T extends EntityMHFCBase<?>> extends AnimatedAc
 
 	@Override
 	protected float computeSelectionWeight() {
-		return SelectionUtils.isIdle(getEntity()) ? computeIdleWeight() : DONT_SELECT;
+		return computeIdleWeight();
 	}
 
 	protected abstract float computeIdleWeight();
