@@ -58,10 +58,10 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		//manager.registerAllowingAllActions(new Jump());
 		//manager.registerAllowingAllActions(new Run());
 		//manager.registerAllowingAllActions(new GroundHurl());
-		manager.registerAllowingAllActions(new Bite());
+		//manager.registerAllowingAllActions(new Bite());
 		//Roar tigrexRoar = new Roar();
 		//manager.registerAllowingAllActions(tigrexRoar);
-		//manager.registerAllowingAllActions(new Whip());
+		manager.registerAllowingAllActions(new Whip());
 		
 		// Living Actions 
 		

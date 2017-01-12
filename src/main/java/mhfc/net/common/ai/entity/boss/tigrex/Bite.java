@@ -26,11 +26,8 @@ public class Bite extends DamagingAction<EntityTigrex> implements IHasAttackProv
 	private static final int LAST_FRAME = 55;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/bite.mcanm";
 
-	private static final double MAX_DIST = 8F;
-	
-
+	private static final double MAX_DIST = 15F;
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(111f, 50F, 9999999f);
-
 	private static final float WEIGHT = 15;
 
 	private final IAttackProvider ATTACK;
