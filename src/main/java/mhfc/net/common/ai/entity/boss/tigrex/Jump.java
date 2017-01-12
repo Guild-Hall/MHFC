@@ -1,7 +1,6 @@
 package mhfc.net.common.ai.entity.boss.tigrex;
 
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.JumpAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackTargetAdapter;
@@ -16,6 +15,8 @@ import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityTigrex;
+import mhfc.net.common.util.world.WorldHelper;
+import net.minecraft.util.math.Vec3d;
 
 public class Jump extends JumpAction<EntityTigrex> implements IHasJumpProvider<EntityTigrex> {
 
@@ -26,10 +27,8 @@ public class Jump extends JumpAction<EntityTigrex> implements IHasJumpProvider<E
 	private static final float JUMP_TIME = 16f;
 
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(45f, 62f, 999999F);
-	private static final double MIN_DIST = 6f;
-	private static final double MAX_DIST = 60f;
-	private static final float MAX_ANGLE = 140f;
-	private static final float SELECTION_WEIGHT = 1f;
+	private static final double MAX_DIST = 25f;
+	private static final float SELECTION_WEIGHT = 9f;
 
 	private final IJumpProvider<EntityTigrex> JUMP;
 	{
@@ -41,20 +40,28 @@ public class Jump extends JumpAction<EntityTigrex> implements IHasJumpProvider<E
 
 	public Jump() {}
 
-	private boolean shouldSelect() {
-		return SelectionUtils.isInDistance(MIN_DIST, MAX_DIST, getEntity(), target)
-				&& SelectionUtils.isInViewAngle(-MAX_ANGLE, MAX_ANGLE, getEntity(), target);
-	}
 
 	@Override
 	protected float computeSelectionWeight() {
-		return shouldSelect() ? SELECTION_WEIGHT : DONT_SELECT;
+		EntityTigrex tigrex = this.getEntity();
+		target = tigrex.getAttackTarget();
+		if(getEntity().getAttackTarget() == null){
+			return DONT_SELECT;
+		}
+		Vec3d toTarget = WorldHelper.getVectorToTarget(getEntity(), target);
+		double dist = toTarget.lengthVector();
+		if (dist > MAX_DIST) {
+			return DONT_SELECT;
+		}
+		return SELECTION_WEIGHT;
 	}
 
 	@Override
 	public void onUpdate() {
 		EntityTigrex entity = getEntity();
+		damageCollidingEntities();
 		if (this.getCurrentFrame() == 10) {
+			damageCollidingEntities();
 			entity.playSound(MHFCSoundRegistry.getRegistry().tigrexLeap, 2.0F, 1.0F);
 		}
 	}

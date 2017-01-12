@@ -28,7 +28,7 @@ public class Bite extends DamagingAction<EntityTigrex> implements IHasAttackProv
 
 	private static final double MAX_DIST = 15F;
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(111f, 50F, 9999999f);
-	private static final float WEIGHT = 15;
+	private static final float WEIGHT = 3;
 
 	private final IAttackProvider ATTACK;
 	{

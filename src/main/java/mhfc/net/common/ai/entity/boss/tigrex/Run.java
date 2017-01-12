@@ -12,7 +12,6 @@ import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityTigrex;
-import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
@@ -169,9 +168,7 @@ public class Run extends DamagingAction<EntityTigrex> implements IHasAttackProvi
 		if (target == null) {
 			return DONT_SELECT;
 		}
-		Vec3d toTarget = WorldHelper.getVectorToTarget(tigrex, target);
-		double dist = toTarget.lengthVector();
-		return (float) Math.log(dist / 5f + 1);
+		return 7F;
 	}
 
 	@Override

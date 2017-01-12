@@ -35,7 +35,7 @@ public abstract class RoarAction<T extends EntityMHFCBase<? super T>> extends An
 		if(getEntity().getAttackTarget() == null){
 			return DONT_SELECT;
 		}
-		return 0.5F;
+		return 4.5F;
 		
 	}
 	

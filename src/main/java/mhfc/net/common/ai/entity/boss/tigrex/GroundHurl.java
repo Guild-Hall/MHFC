@@ -35,7 +35,7 @@ public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnim
 		if (target == null) {
 			return DONT_SELECT;
 		}
-		return 15f;
+		return 8f;
 	}
 
 	@Override

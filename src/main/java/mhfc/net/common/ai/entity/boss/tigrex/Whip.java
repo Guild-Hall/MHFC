@@ -21,7 +21,7 @@ public class Whip extends DamagingAction<EntityTigrex> implements IHasAttackProv
 
 	private static final double MAX_DISTANCE = 12F;
 
-	private static final float WEIGHT = 5;
+	private static final float WEIGHT = 6;
 
 	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(102, 156, 9999999f);
 
