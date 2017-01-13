@@ -43,7 +43,7 @@ public class MHFCEntityRegistry {
 	//public final int rathalosID;
 	//public final int greatjaggiID;
 	//public final int deviljhoID;
-	//public final int nargacugaID;
+	public final int nargacugaID;
 	//public final int barrothID;
 	//public final int delexID;
 	//public final int giapreyID;
@@ -70,7 +70,7 @@ public class MHFCEntityRegistry {
 		//rathalosID = getMobID(EntityRathalos.class, ResourceInterface.mob_rathalos_name, 0xff749819, 0xf838818);
 		//greatjaggiID = getMobID(EntityGreatJaggi.class,ResourceInterface.mob_greatjaggi_name,ItemColor.PURPLE,ItemColor.PINK);
 		//deviljhoID = getMobID(EntityDeviljho.class, ResourceInterface.mob_deviljho_name, ItemColor.GREEN, ItemColor.SILVER);
-		//nargacugaID = getMobID(EntityNargacuga.class, ResourceInterface.mob_nargacuga_name, 0xf351631, 0x516f13f);
+		nargacugaID = getMobID(EntityNargacuga.class, ResourceInterface.mob_nargacuga_name, 0xf351631, 0x516f13f);
 		//barrothID = getMobID(EntityBarroth.class, ResourceInterface.mob_barroth_name, ItemColor.ORANGE, ItemColor.GRAY);
 		//delexID = getMobID(EntityDelex.class, MHFCReference.mob_delex_name, 0x6f33333, 0x654321);
 		//giapreyID = getMobID(EntityGiaprey.class, MHFCReference.mob_giaprey_name, 0x6f41512, 0x654321);

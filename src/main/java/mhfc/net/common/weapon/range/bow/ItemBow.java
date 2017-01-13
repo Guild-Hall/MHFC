@@ -7,6 +7,7 @@ import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.weapon.ItemWeapon;
 import mhfc.net.common.weapon.range.bow.BowWeaponStats.BowWeaponStatsBuilder;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -186,6 +187,19 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		stack.damageItem(1, entityplayer);
 		entityarrow.pickupStatus = EntityArrow.PickupStatus.CREATIVE_ONLY;
 		worldIn.spawnEntityInWorld(entityarrow);
+	}
+	
+	@Override
+	public void onUpdate(ItemStack stack, World world, Entity holder, int slot, boolean isHoldItem) {
+		super.onUpdate(stack, world, holder, slot, isHoldItem);
+		if (!isHoldItem) {
+			return;
+		}
+		if (holder instanceof EntityPlayer) {
+			EntityPlayer entity = (EntityPlayer) holder;
+			entity.moveEntityWithHeading(entity.moveStrafing * -0.7f, entity.moveForward * -0.7f);
+			//if(stack instanceof) TODO: Add some High class GS that will never required strafing delay.
+		}
 	}
 
 }

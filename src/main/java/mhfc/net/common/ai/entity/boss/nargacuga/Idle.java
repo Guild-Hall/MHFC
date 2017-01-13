@@ -1,6 +1,5 @@
 package mhfc.net.common.ai.entity.boss.nargacuga;
 
-import mhfc.net.common.ai.general.WeightUtils;
 import mhfc.net.common.ai.general.actions.IdleAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
@@ -17,7 +16,7 @@ public class Idle extends IdleAction<EntityNargacuga> implements IHasAnimationPr
 
 	@Override
 	protected float computeIdleWeight() {
-		return WeightUtils.random(rng(), 6);
+		return 60F;
 	}
 
 	@Override

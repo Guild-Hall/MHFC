@@ -11,10 +11,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
 public class ItemGreatsword extends ItemWeaponMelee<GreatswordWeaponStats> {
@@ -41,7 +39,7 @@ public class ItemGreatsword extends ItemWeaponMelee<GreatswordWeaponStats> {
 		}
 		if (holder instanceof EntityPlayer) {
 			EntityPlayer entity = (EntityPlayer) holder;
-			entity.moveEntityWithHeading(entity.moveStrafing * -0.5f, entity.moveForward * -0.5f);
+			entity.moveEntityWithHeading(entity.moveStrafing * -0.7f, entity.moveForward * -0.7f);
 			//if(stack instanceof) TODO: Add some High class GS that will never required strafing delay.
 		}
 	

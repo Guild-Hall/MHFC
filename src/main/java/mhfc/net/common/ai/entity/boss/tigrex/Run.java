@@ -168,7 +168,7 @@ public class Run extends DamagingAction<EntityTigrex> implements IHasAttackProvi
 		if (target == null) {
 			return DONT_SELECT;
 		}
-		return 7F;
+		return 4F;
 	}
 
 	@Override
