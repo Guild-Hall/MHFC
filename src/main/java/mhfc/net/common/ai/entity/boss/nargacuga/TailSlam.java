@@ -1,7 +1,6 @@
 package mhfc.net.common.ai.entity.boss.nargacuga;
 
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.JumpAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.ConstantAirTimeAdapter;
@@ -17,20 +16,20 @@ import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
+import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
 public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpProvider<EntityNargacuga> {
 
 	private static final int ANIM_LENGTH = 100;
 	private static final String ANIMATION = "mhfc:models/Nargacuga/TailSlam.mcanm";
-	private static final int MAX_ANGLE = 20;
-	private static final float MAX_DISTANCE = 6;
+	private static final float MAX_DISTANCE = 15F;
 	private static final int JUMP_FRAME = 19;
 	private static final int JUMP_TIME = 12;
 	private static final int SPIKE_FRAME = 50;
 	private static final float SPEED = 1.f;
 
-	private static final float WEIGHT = 8000;
+	private static final float WEIGHT = 150F;
 
 	private final IJumpProvider<EntityNargacuga> JUMP;
 	{
@@ -45,14 +44,21 @@ public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpPro
 
 	public TailSlam() {}
 
-	private boolean shouldSelect() {
-		return SelectionUtils.isInDistance(0, MAX_DISTANCE, getEntity(), target)
-				&& SelectionUtils.isInViewAngle(-MAX_ANGLE, MAX_ANGLE, getEntity(), target);
-	}
 
 	@Override
 	protected float computeSelectionWeight() {
-		return shouldSelect() ? WEIGHT : DONT_SELECT;
+		EntityNargacuga e = this.getEntity();
+		target = e.getAttackTarget();
+		if (target == null) {
+			return DONT_SELECT;
+		}
+		Vec3d toTarget = WorldHelper.getVectorToTarget(e, target);
+		double dist = toTarget.lengthVector();
+		if (dist > MAX_DISTANCE) {
+			return DONT_SELECT;
+		}
+
+		return WEIGHT;
 	}
 
 	@Override
@@ -70,6 +76,7 @@ public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpPro
 
 	@Override
 	public void onUpdate() {
+		damageCollidingEntities();
 		EntityNargacuga nargacuga = getEntity();
 		if (this.getCurrentFrame() == 10) {
 			nargacuga.playSound(MHFCSoundRegistry.getRegistry().nargacugaTailSlam, 2.0F, 1.0F);
@@ -79,6 +86,7 @@ public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpPro
 			return;
 		}
 		if (getCurrentFrame() == SPIKE_FRAME) {
+			damageCollidingEntities();
 			Vec3d up = new Vec3d(0, 1, 0);
 			Vec3d look = nargacuga.getLookVec();
 			Vec3d left = look.crossProduct(up).normalize();

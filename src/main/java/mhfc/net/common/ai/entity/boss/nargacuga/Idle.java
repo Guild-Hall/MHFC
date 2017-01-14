@@ -16,7 +16,7 @@ public class Idle extends IdleAction<EntityNargacuga> implements IHasAnimationPr
 
 	@Override
 	protected float computeIdleWeight() {
-		return 60F;
+		return 5F;
 	}
 
 	@Override

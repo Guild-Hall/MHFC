@@ -17,7 +17,7 @@ import mhfc.net.common.ai.entity.boss.tigrex.Jump;
 import mhfc.net.common.ai.entity.boss.tigrex.Roar;
 import mhfc.net.common.ai.entity.boss.tigrex.Run;
 import mhfc.net.common.ai.entity.boss.tigrex.Wander;
-import mhfc.net.common.ai.entity.boss.tigrex.Whip;
+import mhfc.net.common.ai.entity.boss.tigrex.TailWhip;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -48,6 +48,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		// TODO enable this when Popos are a thing again
+		
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
 	}
 
@@ -61,7 +62,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		manager.registerAllowingAllActions(new Bite());
 		Roar tigrexRoar = new Roar();
 		manager.registerAllowingAllActions(tigrexRoar);
-		manager.registerAllowingAllActions(new Whip());
+		manager.registerAllowingAllActions(new TailWhip());
 		
 		// Living Actions 
 		

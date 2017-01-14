@@ -33,6 +33,7 @@ import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.entity.type.IEnragable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundEvent;
@@ -69,7 +70,8 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
+		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
 	}
 
 	@Override
@@ -86,19 +88,24 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		Charge charge = new Charge();
 
 		List<IExecutableAction<? super EntityNargacuga>> prowlerFollow = new ArrayList<>();
-		prowlerFollow.add(pounce);
-		prowlerFollow.add(tailWhip);
+		
+		//prowlerFollow.add(pounce);
+		//prowlerFollow.add(tailWhip);
 		// prowlerFollow.add(pounceFour);
-		attackManager.registerAction(new Wander());
-		attackManager.registerAction(new Idle());
-		attackManager.registerAllowingAllActions(tailSlam);
-		attackManager.registerAllowingAllActions(roar);
-		attackManager.registerActionWithFollowUps(prowler, prowlerFollow);
-		attackManager.registerAllowingAllActions(backOff);
-		attackManager.registerAction(setDeathAction(new Death()));
-		attackManager.allowAllStrongActions(pounce);
-		attackManager.allowAllStrongActions(tailWhip);
-		attackManager.registerAllowingAllActions(charge);
+		
+		//Working
+		//attackManager.registerAction(new Wander());
+		//attackManager.registerAction(new Idle());
+		//attackManager.registerAllowingAllActions(tailSlam);
+		attackManager.registerAllowingAllActions(tailWhip);
+		//On Progress
+		//attackManager.registerAllowingAllActions(roar);
+		//attackManager.registerActionWithFollowUps(prowler, prowlerFollow);
+		//attackManager.registerAllowingAllActions(backOff);
+		//attackManager.registerAction(setDeathAction(new Death()));
+		//attackManager.allowAllStrongActions(pounce);
+		
+		//attackManager.registerAllowingAllActions(charge);
 		return attackManager.build(this);
 	}
 

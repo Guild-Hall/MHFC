@@ -14,7 +14,7 @@ import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class Whip extends DamagingAction<EntityTigrex> implements IHasAttackProvider {
+public class TailWhip extends DamagingAction<EntityTigrex> implements IHasAttackProvider {
 
 	private static final int LAST_FRAME = 60;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/tailswipe.mcanm";
@@ -31,7 +31,7 @@ public class Whip extends DamagingAction<EntityTigrex> implements IHasAttackProv
 		ATTACK = new AttackAdapter(ANIMATION, new DamageAdapter(DAMAGE_CALC));
 	}
 
-	public Whip() {}
+	public TailWhip() {}
 
 	@Override
 	protected float computeSelectionWeight() {

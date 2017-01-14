@@ -59,6 +59,7 @@ public class MHFCSoundRegistry {
 	public final SoundEvent nargacugaCharge;
 	public final SoundEvent nargacugaPounce;
 	public final SoundEvent nargacugaTailSlam;
+	public final SoundEvent nargacugaTailWhip;
 
 	public final SoundEvent rathalosIdle;
 	public final SoundEvent rathalosDeath;
@@ -126,6 +127,7 @@ public class MHFCSoundRegistry {
 		nargacugaCharge = registerSoundEvent("mhfc:narga.charge");
 		nargacugaPounce = registerSoundEvent("mhfc:narga.leapforward");
 		nargacugaTailSlam = registerSoundEvent("mhfc:narga.tailjump");
+		nargacugaTailWhip = registerSoundEvent("mhfc:narga.tailwhip");
 
 		rathalosIdle = registerSoundEvent("mhfc:rathalos.idle");
 		rathalosDeath = registerSoundEvent("mhfc:rathalos.death");

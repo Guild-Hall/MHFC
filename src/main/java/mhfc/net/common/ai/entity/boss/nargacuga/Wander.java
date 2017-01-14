@@ -14,7 +14,7 @@ public class Wander extends WanderAction<EntityNargacuga> implements IHasAnimati
 	private static final int LAST_FRAME = 70;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Nargacuga/Wander.mcanm";
 
-	private static final float WEIGHT = 0.3F;
+	private static final float WEIGHT = 3F;
 
 	private static final IMoveParameterProvider MOVEMENT_PARAMS = new MoveParameterAdapter(3f, 0.6f);
 	private final IAnimationProvider ANIMATION;
