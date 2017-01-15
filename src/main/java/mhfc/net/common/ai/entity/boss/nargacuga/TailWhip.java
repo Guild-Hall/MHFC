@@ -19,7 +19,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class TailWhip extends DamagingAction<EntityNargacuga> implements IHasAttackProvider {
 
-	private static final int ANIMATION_LENGTH = 0;
+	private static final int ANIMATION_LENGTH = 60;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Nargacuga/TailSwipeRight.mcanm";
 
 	private static final float MIN_ANGLE = 0;
