@@ -77,35 +77,32 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	@Override
 	protected IActionManager<EntityNargacuga> constructActionManager() {
 		FollowUpManagerBuilder<EntityNargacuga> attackManager = new FollowUpManagerBuilder<>();
+		
+		
+		
 		TailSlam tailSlam = new TailSlam();
+		TailWhip tailWhip = new TailWhip();
 		Roar roar = new Roar();
 		ProwlerStance prowler = new ProwlerStance();
 		Pounce pounce = new Pounce();
-		TailWhip tailWhip = new TailWhip();
 		BackOff backOff = new BackOff();
-		// NargacugaPounce pounceFour = NargacugaPounce.createNargaPounce(
-		// NargaJumpBehaviour.FOUR_JUMPS);
 		Charge charge = new Charge();
 
 		List<IExecutableAction<? super EntityNargacuga>> prowlerFollow = new ArrayList<>();
 		
-		//prowlerFollow.add(pounce);
-		//prowlerFollow.add(tailWhip);
-		// prowlerFollow.add(pounceFour);
+		prowlerFollow.add(pounce);
+		prowlerFollow.add(tailWhip);
 		
-		//Working
-		//attackManager.registerAction(new Wander());
-		//attackManager.registerAction(new Idle());
-		//attackManager.registerAllowingAllActions(tailSlam);
+		attackManager.registerAction(new Wander());
+		attackManager.registerAction(new Idle());
+		attackManager.registerAllowingAllActions(tailSlam);
 		attackManager.registerAllowingAllActions(tailWhip);
-		//On Progress
-		//attackManager.registerAllowingAllActions(roar);
-		//attackManager.registerActionWithFollowUps(prowler, prowlerFollow);
-		//attackManager.registerAllowingAllActions(backOff);
-		//attackManager.registerAction(setDeathAction(new Death()));
-		//attackManager.allowAllStrongActions(pounce);
-		
-		//attackManager.registerAllowingAllActions(charge);
+		attackManager.registerActionWithFollowUps(prowler, prowlerFollow);
+		attackManager.allowAllStrongActions(pounce);
+		attackManager.registerAllowingAllActions(roar);
+		attackManager.registerAllowingAllActions(backOff);
+		attackManager.registerAction(setDeathAction(new Death()));
+		attackManager.registerAllowingAllActions(charge);
 		return attackManager.build(this);
 	}
 

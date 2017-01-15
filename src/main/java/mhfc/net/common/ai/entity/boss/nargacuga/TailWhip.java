@@ -61,9 +61,7 @@ public class TailWhip extends DamagingAction<EntityNargacuga> implements IHasAtt
 	@Override
 	public void onUpdate() {
 		EntityNargacuga entity = getEntity();
-		damageCollidingEntities();
 		if (this.getCurrentFrame() <= 10) {
-			damageCollidingEntities();
 			getEntity().getTurnHelper().updateTargetPoint(targetPoint);
 			getEntity().getTurnHelper().updateTurnSpeed(6.0f);
 		}
@@ -72,7 +70,7 @@ public class TailWhip extends DamagingAction<EntityNargacuga> implements IHasAtt
 			entity.playSound(MHFCSoundRegistry.getRegistry().nargacugaTailWhip, 2.0F, 1.0F);
 		}
 		
-		if (this.getCurrentFrame() == 25) {
+		if (this.getCurrentFrame() >= 20 && this.getCurrentFrame() <= 45) {
 			damageCollidingEntities();
 		}
 	}

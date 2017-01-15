@@ -56,9 +56,9 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	protected IActionManager<EntityTigrex> constructActionManager() {
 		FollowUpManagerBuilder<EntityTigrex> manager = new FollowUpManagerBuilder<>();
 		manager.registerAllowingAllActions(setDeathAction(new Death()));
-		manager.registerAllowingAllActions(new Jump());
+		
 		manager.registerAllowingAllActions(new Run());
-		manager.registerAllowingAllActions(new GroundHurl());
+		
 		manager.registerAllowingAllActions(new Bite());
 		Roar tigrexRoar = new Roar();
 		manager.registerAllowingAllActions(tigrexRoar);
@@ -68,6 +68,12 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		
 		manager.registerAllowingAllActions(new Idle());
 		manager.registerAllowingAllActions(new Wander());
+		
+		//To be fix
+		
+		// manager.registerAllowingAllActions(new GroundHurl());
+		// manager.registerAllowingAllActions(new Jump());
+		
 		//	 Register roar to be the only allowed initial move on sight of an enemy
 		List<IExecutableAction<? super EntityTigrex>> allowedFirstSight = new ArrayList<>();
 		allowedFirstSight.add(tigrexRoar);
