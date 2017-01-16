@@ -10,7 +10,7 @@ import net.minecraft.util.SoundEvent;
 
 public class Death extends DeathAction<EntityNargacuga> implements IHasAnimationProvider {
 
-	private static final String ANIMATION_LOCATION = "mhfc:models/Nargacuga/NargaDeath.mcanm";
+	private static final String ANIMATION_LOCATION = "mhfc:models/Nargacuga/NargaDeath.001.mcanm";
 	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, 0);
 
 	public Death() {}

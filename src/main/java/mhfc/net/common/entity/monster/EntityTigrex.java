@@ -67,12 +67,26 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		// Living Actions 
 		
 		manager.registerAllowingAllActions(new Idle());
-		manager.registerAllowingAllActions(new Wander());
+		// manager.registerAllowingAllActions(new Wander());
 		
 		//To be fix
 		
 		// manager.registerAllowingAllActions(new GroundHurl());
 		// manager.registerAllowingAllActions(new Jump());
+		
+		
+		/**
+		 * AI TO be added: 
+		 * 1. RunningRoar - ANIMATION DONE
+		 * 2. FatigueRun - ANIMATION DONE
+		 * 3. ClawAttack - ANIMATION DONE
+		 * 4. JumpAway - ANIMATION DONE
+		 * 5. RunningGroundHurl
+		 * 6. Double Spin
+		 * 7. Run to Jump -
+		 * 8. Sleeping.
+		 * 
+		 * **/
 		
 		//	 Register roar to be the only allowed initial move on sight of an enemy
 		List<IExecutableAction<? super EntityTigrex>> allowedFirstSight = new ArrayList<>();

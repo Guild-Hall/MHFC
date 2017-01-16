@@ -77,12 +77,15 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	private NonAxisAlignedBB baseBoundingBox;
 	private NonAxisAlignedBB currentBoundingBox;
+	
+	public int rageCounter;
 
 	public EntityMHFCBase(World world) {
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
 		attackManager = Objects.requireNonNull(constructActionManager());
 		ignoreFrustumCheck = true;
+		rageCounter = 0;
 		hasDied = false;
 	}
 

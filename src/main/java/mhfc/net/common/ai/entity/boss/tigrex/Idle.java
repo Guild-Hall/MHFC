@@ -16,10 +16,13 @@ public class Idle extends IdleAction<EntityTigrex> implements IHasAnimationProvi
 	protected boolean canBeUseWhileEngage; //TODO: Make default breathing idle use in fight
 
 	private enum Variant implements WeightedItem {
-		DEFAULT("mhfc:models/Tigrex/idle.mcanm", 60, 1F),
-		IDLE_1("mhfc:models/Tigrex/idle.mcanm", 160, 0.4F),
-		IDLE_2("mhfc:models/Tigrex/idle2.mcanm", 160, 0.75F),
-		IDLE_3("mhfc:models/Tigrex/idle3.mcanm", 160, 0.8F);
+		DEFAULT("mhfc:models/Tigrex/idle.mcanm" ,		  60, 5F),
+		IDLE_1 ("mhfc:models/Tigrex/idle.mcanm"	,		 160, 7F),
+		IDLE_2 ("mhfc:models/Tigrex/idle2.mcanm" , 		 160,9F),
+		IDLE_3 ("mhfc:models/Tigrex/idle3.mcanm" ,		 260,16F),
+		IDLE_4 ("mhfc:models/Tigrex/idle4.mcanm",		 200, 12F),
+		IDLE_5 ("mhfc:models/Tigrex/idle5.mcanm"  ,		 260, 20F);
+		
 		private float weight;
 		private String animLocation;
 		private int animLength;
