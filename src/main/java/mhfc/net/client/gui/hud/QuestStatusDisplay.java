@@ -44,8 +44,8 @@ public class QuestStatusDisplay {
 				@Override
 				public boolean mousePressed(Minecraft mc, int p_146116_2_, int p_146116_3_) {
 					if (super.mousePressed(mc, p_146116_2_, p_146116_3_)) {
-						mc.thePlayer
-								.openGui(MHFCMain.instance(), MHFCContainerRegistry.gui_queststatus_id, mc.theWorld, 0, 0, 0);
+						mc.player
+								.openGui(MHFCMain.instance(), MHFCContainerRegistry.gui_queststatus_id, mc.world, 0, 0, 0);
 						return true;
 					}
 					return false;

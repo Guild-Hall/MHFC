@@ -36,12 +36,12 @@ public class RenderBeam extends Render<EntityBeam> {
 	public void doRender(EntityBeam entity, double x, double y, double z, float yaw, float delta) {
 
 		EntityLivingBase beamCaster = entity.getCaster();
-		boolean sightClear = Minecraft.getMinecraft().thePlayer == beamCaster
+		boolean sightClear = Minecraft.getMinecraft().player == beamCaster
 				&& Minecraft.getMinecraft().gameSettings.thirdPersonView == 0;
 		double length = Math.sqrt(
 				Math.pow(entity.collidePosX - entity.posX, 2) + Math.pow(entity.collidePosY - entity.posY, 2)
 						+ Math.pow(entity.collidePosZ - entity.posZ, 2));
-		int frame = MathHelper.floor_double((entity.getDuration() - 1 + delta) * 2);
+		int frame = MathHelper.floor((entity.getDuration() - 1 + delta) * 2);
 		if (frame < 0) {
 			frame = 6;
 		}

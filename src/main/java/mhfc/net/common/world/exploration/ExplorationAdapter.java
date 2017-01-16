@@ -67,7 +67,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 	}
 
 	protected CompletionStage<IActiveArea> transferIntoNewInstance(EntityPlayerMP player, IAreaType type) {
-		player.addChatMessage(new TextComponentString("Teleporting to instance when the area is ready"));
+		player.sendMessage(new TextComponentString("Teleporting to instance when the area is ready"));
 		Objects.requireNonNull(player);
 		Objects.requireNonNull(type);
 		CompletionStage<IActiveArea> unusedInstance = MHFCDimensionRegistry.getUnusedInstance(type, getFlairFor(type));

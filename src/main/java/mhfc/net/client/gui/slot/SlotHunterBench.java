@@ -38,7 +38,7 @@ public class SlotHunterBench extends Slot {
 	}
 
 	@Override
-	public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
+	public ItemStack onTake(EntityPlayer player, ItemStack stack) {
 		ItemCraftedEvent(player, stack, craftMatrix);
 		this.onCrafting(stack);
 		// FIXME: what is this here? I don't see the use at all
@@ -62,6 +62,7 @@ public class SlotHunterBench extends Slot {
 				}
 			}
 		}
+		return stack;
 	}
 
 	private void ItemCraftedEvent(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack, IInventory craftMatrix2) {

@@ -99,7 +99,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 				8f / 128,
 				1f,
 				1f);
-		int nameHeight = fontRendererObj.splitStringWidth(activeAttribute.name, tabWidth - 2);
+		int nameHeight = fontRendererObj.getWordWrappedHeight(activeAttribute.name, tabWidth - 2);
 		fontRendererObj.drawSplitString(
 				activeAttribute.name,
 				posX - realWidth + 3,

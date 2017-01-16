@@ -31,11 +31,6 @@ public class ChunkProviderVoid implements IChunkGenerator {
 		return Collections.emptyList();
 	}
 
-	@Override
-	public BlockPos getStrongholdGen(World worldIn, String structureName, BlockPos position) {
-		// Get nearest stronghold, for ender eyes
-		return new BlockPos(0, 0, 0);
-	}
 
 	@Override
 	public void populate(int x, int z) {}
@@ -53,6 +48,12 @@ public class ChunkProviderVoid implements IChunkGenerator {
 		}
 		chunk.generateSkylightMap();
 		return chunk;
+	}
+
+	@Override
+	public BlockPos getStrongholdGen(World worldIn, String structureName, BlockPos position, boolean p_180513_4_) {
+		// TODO Auto-generated method stub
+		return new BlockPos(0, 0, 0);
 	}
 
 }

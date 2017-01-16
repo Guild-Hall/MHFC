@@ -28,14 +28,14 @@ public class WorldProviderQuesting extends WorldProvider {
 
 	@Override
 	public BlockPos getRandomizedSpawnPoint() {
-		BlockPos.MutableBlockPos spawn = new BlockPos.MutableBlockPos(worldObj.getSpawnPoint());
-		spawn.setY(worldObj.getTopSolidOrLiquidBlock(spawn).getY());
+		BlockPos.MutableBlockPos spawn = new BlockPos.MutableBlockPos(world.getSpawnPoint());
+		spawn.setY(world.getTopSolidOrLiquidBlock(spawn).getY());
 		return spawn;
 	}
 
 	@Override
 	public void setWorldTime(long time) {
-		if (!worldObj.isRemote) {
+		if (!world.isRemote) {
 			// Don't allow updates of world time by other means than accessing the world info
 			// Note that this does let through ticks, as long as the game rule "doDaylightCycle"
 			// is set to false, but will block commands like /time
@@ -46,7 +46,7 @@ public class WorldProviderQuesting extends WorldProvider {
 
 	@Override
 	public IChunkGenerator createChunkGenerator() {
-		return new ChunkProviderVoid(worldObj);
+		return new ChunkProviderVoid(world);
 	}
 
 	@Override
@@ -66,13 +66,13 @@ public class WorldProviderQuesting extends WorldProvider {
 		// As much as I'd like to move this to registerWorldChunkManager, I can't
 		// ^ called too early in the constructor, where the perWorldStorage hasn't been loaded yet
 		// FIXME: read the MHFCSaveData
-		this.worldObj.getWorldInfo().setWorldTime(flair.worldTime);
-		this.worldObj.getWorldInfo().setRaining(false);
+		this.world.getWorldInfo().setWorldTime(flair.worldTime);
+		this.world.getWorldInfo().setRaining(false);
 
-		this.worldObj.getGameRules().setOrCreateGameRule("doDaylightCycle", "false");
-		this.worldObj.getGameRules().setOrCreateGameRule("doMobSpawning", "false");
-		this.worldObj.getGameRules().setOrCreateGameRule("keepInventory", "true");
-		this.worldObj.getGameRules().setOrCreateGameRule("doFireTick", "false");
+		this.world.getGameRules().setOrCreateGameRule("doDaylightCycle", "false");
+		this.world.getGameRules().setOrCreateGameRule("doMobSpawning", "false");
+		this.world.getGameRules().setOrCreateGameRule("keepInventory", "true");
+		this.world.getGameRules().setOrCreateGameRule("doFireTick", "false");
 
 		super.calculateInitialWeather();
 	}

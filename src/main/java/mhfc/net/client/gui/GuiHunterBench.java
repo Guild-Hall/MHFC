@@ -513,9 +513,9 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		Minecraft mc = FMLClientHandler.instance().getClient();
 		// false == isLeftHand
-		mc.getItemRenderer().renderItemSide(mc.thePlayer, itemToRender, TransformType.THIRD_PERSON_RIGHT_HAND, false);
+		mc.getItemRenderer().renderItemSide(mc.player, itemToRender, TransformType.THIRD_PERSON_RIGHT_HAND, false);
 		GL11.glFrontFace(GL11.GL_CW);
-		mc.getItemRenderer().renderItemSide(mc.thePlayer, itemToRender, TransformType.THIRD_PERSON_RIGHT_HAND, false);
+		mc.getItemRenderer().renderItemSide(mc.player, itemToRender, TransformType.THIRD_PERSON_RIGHT_HAND, false);
 		GL11.glFrontFace(GL11.GL_CCW);
 	}
 
@@ -552,15 +552,15 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		GL11.glScalef(sc, sc, -sc);
 		EntityEquipmentSlot armorType = ((net.minecraft.item.ItemArmor) itemToRender.getItem()).armorType;
 
-		ResourceLocation texture = armorLayerProxy.getArmorResource(mc.thePlayer, itemToRender, armorType, null);
+		ResourceLocation texture = armorLayerProxy.getArmorResource(mc.player, itemToRender, armorType, null);
 		ModelBiped model = armorLayerProxy.getModelFromSlot(armorType);
-		model = ForgeHooksClient.getArmorModel(mc.thePlayer, itemToRender, armorType, model);
+		model = ForgeHooksClient.getArmorModel(mc.player, itemToRender, armorType, model);
 		mc.getTextureManager().bindTexture(texture);
 
 		if (model != null) {
-			model.render(mc.thePlayer, 0, 0, 0, 0, 0, 0.06125f);
+			model.render(mc.player, 0, 0, 0, 0, 0, 0.06125f);
 			GL11.glFrontFace(GL11.GL_CW);
-			model.render(mc.thePlayer, 0, 0, 0, 0, 0, 0.06125f);
+			model.render(mc.player, 0, 0, 0, 0, 0, 0.06125f);
 			GL11.glFrontFace(GL11.GL_CCW);
 		}
 	}

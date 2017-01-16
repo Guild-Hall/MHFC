@@ -158,17 +158,17 @@ public class ContainerHunterBench extends Container {
 				return null;
 			}
 
-			if (var5.stackSize == 0) {
+			if (var5.getMaxStackSize() == 0) {
 				var4.putStack((ItemStack) null);
 			} else {
 				var4.onSlotChanged();
 			}
 
-			if (var5.stackSize == var3.stackSize) {
+			if (var5.getMaxStackSize() == var3.getMaxStackSize()) {
 				return null;
 			}
 
-			var4.onPickupFromSlot(par1EntityPlayer, var5);
+			var4.onTake(par1EntityPlayer, var5);
 		}
 
 		return var3;

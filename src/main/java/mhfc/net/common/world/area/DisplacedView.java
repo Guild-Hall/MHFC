@@ -274,7 +274,7 @@ public class DisplacedView implements IWorldView {
 	@Override
 	public void addTileEntity(TileEntity entity) {
 		worldObj.addTileEntity(entity);
-		entity.setWorldObj(worldObj);
+		entity.setWorld(worldObj);
 		entity.setPos(localToGlobal(entity.getPos()));
 	}
 
@@ -293,13 +293,13 @@ public class DisplacedView implements IWorldView {
 
 	@Override
 	public boolean spawnEntityAt(Entity entity, double x, double y, double z) {
-		entity.worldObj = worldObj;
+		entity.world = worldObj;
 		if (entity instanceof EntityLivingBase) {
 			((EntityLivingBase) entity).setPositionAndUpdate(x + blockDeltaX, y, z + blockDeltaZ);
 		} else {
 			entity.setLocationAndAngles(x + blockDeltaX, y, z + blockDeltaZ, 0, 0);
 		}
-		if (!worldObj.spawnEntityInWorld(entity)) {
+		if (!worldObj.spawnEntity(entity)) {
 			return false;
 		}
 		return true;

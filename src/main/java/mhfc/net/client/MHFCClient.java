@@ -36,7 +36,7 @@ public class MHFCClient extends ProxyBase {
 		}
 		EntityPaintParticleEmitter paintEmitter = (EntityPaintParticleEmitter) emitter;
 		ParticlePaint particle = new ParticlePaint(
-				paintEmitter.worldObj,
+				paintEmitter.world,
 				paintEmitter.color,
 				paintEmitter.posX,
 				paintEmitter.posY,

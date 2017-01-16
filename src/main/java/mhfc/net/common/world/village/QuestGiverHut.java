@@ -56,7 +56,7 @@ public class QuestGiverHut extends StructureVillagePieces.Village {
 		double posZ = getZWithOffset(0, 0) + 0.5D;
 		worldIn.setBlockState(getBoundingBoxCenter(), Blocks.OBSIDIAN.getDefaultState());
 		questGiver.setLocationAndAngles(posX, posY, posZ, 0.0F, 0.0F);
-		worldIn.spawnEntityInWorld(questGiver);
+		worldIn.spawnEntity(questGiver);
 		return true;
 	}
 

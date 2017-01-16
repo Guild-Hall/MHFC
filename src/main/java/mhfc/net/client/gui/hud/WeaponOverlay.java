@@ -36,7 +36,7 @@ public class WeaponOverlay {
 	private static final ResourceLocation spiritGaugeLoc = new ResourceLocation(ResourceInterface.gui_longsword_gauge);
 
 	public static void render() {
-		EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
+		EntityPlayerSP thePlayer = Minecraft.getMinecraft().player;
 		ItemStack stack = thePlayer.getHeldItemMainhand();
 		if (stack == null) {
 			return;
