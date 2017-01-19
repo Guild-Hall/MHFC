@@ -15,12 +15,12 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockExploreArea extends BlockBarrier implements ITileEntityProvider {
@@ -33,7 +33,7 @@ public class BlockExploreArea extends BlockBarrier implements ITileEntityProvide
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
 		return NULL_AABB;
 	}
 
@@ -49,7 +49,6 @@ public class BlockExploreArea extends BlockBarrier implements ITileEntityProvide
 			IBlockState state,
 			EntityPlayer player,
 			EnumHand hand,
-			ItemStack heldItem,
 			EnumFacing side,
 			float hitX,
 			float hitY,

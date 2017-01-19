@@ -26,7 +26,6 @@ public class ItemFirestone extends Item implements IItemColored {
 
 	@Override
 	public EnumActionResult onItemUse(
-			ItemStack stack,
 			EntityPlayer player,
 			World world,
 			BlockPos pos,
@@ -36,6 +35,7 @@ public class ItemFirestone extends Item implements IItemColored {
 			float hitY,
 			float hitZ) {
 		pos = pos.offset(facing);
+		ItemStack stack = player.getHeldItem(hand);
 		if (!player.canPlayerEdit(pos, facing, stack)) {
 			return EnumActionResult.FAIL;
 		}

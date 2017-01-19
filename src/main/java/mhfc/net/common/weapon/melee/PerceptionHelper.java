@@ -26,7 +26,7 @@ public abstract class PerceptionHelper {
 		if (renderViewEntity == null) {
 			return null;
 		}
-		if (mc.theWorld == null) {
+		if (mc.world == null) {
 			return null;
 		}
 		double var2 = dist;
@@ -42,7 +42,7 @@ public abstract class PerceptionHelper {
 		Vec3d var8 = pos.addVector(lookvec.xCoord * var2, lookvec.yCoord * var2, lookvec.zCoord * var2);
 		Entity pointedEntity = null;
 		float var9 = 1.0F;
-		List<Entity> list = mc.theWorld.getEntitiesWithinAABBExcludingEntity(
+		List<Entity> list = mc.world.getEntitiesWithinAABBExcludingEntity(
 				renderViewEntity,
 				renderViewEntity.getEntityBoundingBox()
 						.addCoord(lookvec.xCoord * var2, lookvec.yCoord * var2, lookvec.zCoord * var2)

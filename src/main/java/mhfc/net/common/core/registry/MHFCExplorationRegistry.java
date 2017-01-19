@@ -30,7 +30,7 @@ public class MHFCExplorationRegistry {
 	public static class RespawnListener {
 		@SubscribeEvent
 		public void onInitialSpawn(PlayerLoggedInEvent loggedIn) {
-			if (loggedIn.player.worldObj.isRemote) {
+			if (loggedIn.player.world.isRemote) {
 				return;
 			}
 			EntityPlayerMP player = (EntityPlayerMP) loggedIn.player;
@@ -41,7 +41,7 @@ public class MHFCExplorationRegistry {
 
 		@SubscribeEvent
 		public void onRespawn(PlayerRespawnEvent spawn) {
-			if (spawn.player.worldObj.isRemote) {
+			if (spawn.player.world.isRemote) {
 				return;
 			}
 			EntityPlayerMP player = (EntityPlayerMP) spawn.player;

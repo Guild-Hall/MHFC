@@ -60,7 +60,7 @@ public class ConnectionEventHandler {
 			}
 
 			@Override
-			public boolean canCommandSenderUseCommand(int commandLevel, String command) {
+			public boolean canUseCommand(int commandLevel, String command) {
 				throw new UnsupportedOperationException("No player at this point");
 			}
 
@@ -75,7 +75,7 @@ public class ConnectionEventHandler {
 			}
 
 			@Override
-			public void addChatMessage(ITextComponent chat) {
+			public void sendMessage(ITextComponent chat) {
 				cctse.getHandler().handleChat(new SPacketChat(chat));
 			}
 		});

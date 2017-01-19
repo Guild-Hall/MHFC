@@ -20,7 +20,7 @@ public class MHFCPlayerPropertiesRegistry {
 
 	public static class PlayerLoadHandler {
 		private boolean isValidPlayerEntity(Entity entity) {
-			return entity instanceof EntityPlayer && !entity.worldObj.isRemote;
+			return entity instanceof EntityPlayer && !entity.world.isRemote;
 		}
 
 		@SubscribeEvent

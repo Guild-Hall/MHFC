@@ -91,8 +91,9 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		boolean flag = findAmmo(player) != null;
+		ItemStack stack = player.getHeldItem(hand);
 
 		if (!player.capabilities.isCreativeMode && !flag) {
 			return new ActionResult<>(EnumActionResult.FAIL, stack);
@@ -145,7 +146,7 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 			} else {
 				ammoStack.damageItem(1, player);
 			}
-			world.spawnEntityInWorld(entityarrow);
+			world.spawnEntity(entityarrow);
 		}
 		float volume = bowStrength;
 		float pitch = 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + bowStrength * 0.5F;
@@ -159,36 +160,39 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 				volume,
 				pitch);
 	}
-	
-	
-	public static float getArrowVelocity(int charge)
-	{
-		float f = (float)charge / 30.0F;
+
+	public static float getArrowVelocity(int charge) {
+		float f = charge / 30.0F;
 		f = (f * f + f * 2.0F) / 3.0F;
 
-		if (f > 1.0F)
-		{
+		if (f > 1.0F) {
 			f = 1.0F;
 		}
 
 		return f;
 	}
-	
-	
-	private void spawnArrow(EntityPlayer entityplayer, World worldIn, ItemStack stack, float power, float yaw){
+
+	private void spawnArrow(EntityPlayer entityplayer, World worldIn, ItemStack stack, float power, float yaw) {
 		ItemArrow itemarrow = (ItemArrow) Items.ARROW;
 		EntityArrow entityarrow = itemarrow.createArrow(worldIn, new ItemStack(Items.ARROW), entityplayer);
-		entityarrow.setAim(entityplayer, entityplayer.rotationPitch + yaw / 2f, entityplayer.rotationYaw, 0.0F, power * 3.0F, 0.3F);
+		entityarrow.setAim(
+				entityplayer,
+				entityplayer.rotationPitch + yaw / 2f,
+				entityplayer.rotationYaw,
+				0.0F,
+				power * 3.0F,
+				0.3F);
 
-		if (power> 1.0F)
+		if (power > 1.0F) {
 			entityarrow.setIsCritical(true);
-		entityarrow.setDamage(entityarrow.getDamage() + (double)2 * 0.5D + 0.5D);
+		}
+		entityarrow.setDamage(entityarrow.getDamage() + 2 * 0.5D + 0.5D);
 		entityarrow.setKnockbackStrength(1);
 		stack.damageItem(1, entityplayer);
 		entityarrow.pickupStatus = EntityArrow.PickupStatus.CREATIVE_ONLY;
-		worldIn.spawnEntityInWorld(entityarrow);
+		worldIn.spawnEntity(entityarrow);
 	}
-	
+
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity holder, int slot, boolean isHoldItem) {
 		super.onUpdate(stack, world, holder, slot, isHoldItem);

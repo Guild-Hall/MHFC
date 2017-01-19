@@ -29,7 +29,7 @@ public class TileExploreArea extends TileEntity {
 			}
 			tile.targetArea = message.getTargetArea();
 			tile.flair = message.getFlair();
-			tile.worldObj.markChunkDirty(tile.getPos(), tile);
+			tile.world.markChunkDirty(tile.getPos(), tile);
 			return new MessageTileUpdate(tile);
 		}
 

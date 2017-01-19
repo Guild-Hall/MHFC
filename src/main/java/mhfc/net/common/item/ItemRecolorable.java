@@ -1,11 +1,10 @@
 package mhfc.net.common.item;
 
-import java.util.List;
-
 import mhfc.net.MHFCMain;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 
 /**
  * A little bit of info about these. Items in Minecraft can hold four bytes of metadata, from -32,768 to 32,767 I've
@@ -49,5 +48,5 @@ public abstract class ItemRecolorable extends Item {
 	public abstract int getColorFromItemStack(ItemStack stack, int renderLayer);*/
 
 	@Override
-	public abstract void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list);
+	public abstract void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> list);
 }

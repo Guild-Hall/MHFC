@@ -5,7 +5,9 @@ import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.init.MobEffects;
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -37,10 +39,10 @@ public class PotionKirinBless extends Potion {
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase par1, int par2) {
-		par1.fireResistance = 2;
-		if (par1.getHealth() >= 3F) {
-			par1.heal(2F);
+	public void performEffect(EntityLivingBase entity, int amplifier) {
+		entity.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE));
+		if (entity.getHealth() >= 3F) {
+			entity.heal(2F);
 		}
 	}
 

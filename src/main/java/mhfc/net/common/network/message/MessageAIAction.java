@@ -49,17 +49,17 @@ public class MessageAIAction<T extends EntityLiving & IManagedActions<T>> implem
 	@SuppressWarnings("unchecked")
 	@SideOnly(Side.CLIENT)
 	public <U extends EntityLiving & IManagedActions<U>> IManagedActions<U> getEntity() {
-		return (IManagedActions<U>) Minecraft.getMinecraft().theWorld.getEntityByID(entityId);
+		return (IManagedActions<U>) Minecraft.getMinecraft().world.getEntityByID(entityId);
 	}
 
 	@SuppressWarnings("unchecked")
 	@SideOnly(Side.CLIENT)
 	public <U extends EntityLiving & IManagedActions<U>> U getEntityLiving() {
-		return (U) Minecraft.getMinecraft().theWorld.getEntityByID(entityId);
+		return (U) Minecraft.getMinecraft().world.getEntityByID(entityId);
 	}
 
 	public EntityLivingBase getTarget() {
-		return (EntityLivingBase) Minecraft.getMinecraft().theWorld.getEntityByID(targetId);
+		return (EntityLivingBase) Minecraft.getMinecraft().world.getEntityByID(targetId);
 	}
 
 	public int getAttackIndex() {

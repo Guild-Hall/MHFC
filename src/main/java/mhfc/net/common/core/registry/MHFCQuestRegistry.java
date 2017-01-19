@@ -162,7 +162,7 @@ public class MHFCQuestRegistry {
 		Mission quest = getQuestForPlayer(player);
 		if (quest != null) {
 			quest.quitPlayer(player);
-			player.addChatMessage(new TextComponentString("You have forfeited a quest"));
+			player.sendMessage(new TextComponentString("You have forfeited a quest"));
 		} else {
 			sendResetPlayerVisual(player);
 		}
@@ -172,7 +172,7 @@ public class MHFCQuestRegistry {
 		Mission quest = getQuestForPlayer(player);
 		if (quest != null) {
 			quest.voteEnd(player);
-			player.addChatMessage(new TextComponentString("You have voted for ending the quest"));
+			player.sendMessage(new TextComponentString("You have voted for ending the quest"));
 		} else {
 			sendResetPlayerVisual(player);
 		}
@@ -182,7 +182,7 @@ public class MHFCQuestRegistry {
 		Mission quest = getQuestForPlayer(player);
 		if (quest != null) {
 			quest.voteStart(player);
-			player.addChatMessage(new TextComponentString("You have voted for starting the quest"));
+			player.sendMessage(new TextComponentString("You have voted for starting the quest"));
 		}
 	}
 
@@ -190,29 +190,29 @@ public class MHFCQuestRegistry {
 		Mission quest = getRunningQuest(message.getOptions()[0]);
 		if (quest != null) {
 			quest.joinPlayer(player);
-			player.addChatMessage(new TextComponentString("You have accepted a quest"));
+			player.sendMessage(new TextComponentString("You have accepted a quest"));
 		} else {
-			player.addChatMessage(new TextComponentString("The quest you wanted to accept does not exist"));
+			player.sendMessage(new TextComponentString("The quest you wanted to accept does not exist"));
 		}
 	}
 
 	private void createNewQuest(EntityPlayerMP player, MessageMHFCInteraction message) {
 		Mission quest = getQuestForPlayer(player);
 		if (quest != null) {
-			player.addChatMessage(new TextComponentString("You already are on quest " + getIdentifierForQuest(quest)));
+			player.sendMessage(new TextComponentString("You already are on quest " + getIdentifierForQuest(quest)));
 			PacketPipeline.networkPipe.sendTo(quest.createFullUpdateMessage(), player);
 			return;
 		}
 		String questID = message.getOptions()[0];
 		QuestDefinition questDescription = MHFCQuestBuildRegistry.getQuestDescription(questID);
 		if (questDescription == null) {
-			player.addChatMessage(new TextComponentString("Quest with id[" + questID + "] not found"));
+			player.sendMessage(new TextComponentString("Quest with id[" + questID + "] not found"));
 			return;
 		}
 		String missionID = questID + "@" + player.getDisplayName() + "@" + questIDCounter++;
 		Mission newQuest = QuestFactories.constructQuest(questDescription, missionID);
 		if (newQuest == null) {
-			player.addChatMessage(new TextComponentString("Quest with id[" + questID + "] could not be constructed"));
+			player.sendMessage(new TextComponentString("Quest with id[" + questID + "] could not be constructed"));
 			return;
 		}
 		if (!newQuest.canJoin(player)) {

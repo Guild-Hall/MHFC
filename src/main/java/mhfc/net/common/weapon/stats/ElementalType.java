@@ -15,7 +15,7 @@ public enum ElementalType implements ICombatEffectType {
 		public void onEntitySwing(EntityLivingBase entity, ItemStack stack, Random rand) {
 			double velX = rand.nextGaussian(), velY = rand.nextGaussian(), velZ = rand.nextGaussian();
 			double posX = entity.posX, posY = entity.posY, posZ = entity.posZ;
-			entity.worldObj.spawnParticle(EnumParticleTypes.LAVA, posX, posY, posZ, velX, velY, velZ);
+			entity.world.spawnParticle(EnumParticleTypes.LAVA, posX, posY, posZ, velX, velY, velZ);
 		}
 
 		@Override

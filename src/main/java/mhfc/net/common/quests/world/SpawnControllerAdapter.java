@@ -22,6 +22,7 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -88,6 +89,19 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 		@Override
 		public void markBlockRangeForRenderUpdate(int x1, int y1, int z1, int x2, int y2, int z2) {}
+
+		@Override
+		public void spawnParticle(
+				int p_190570_1_,
+				boolean p_190570_2_,
+				boolean p_190570_3_,
+				double p_190570_4_,
+				double p_190570_6_,
+				double p_190570_8_,
+				double p_190570_10_,
+				double p_190570_12_,
+				double p_190570_14_,
+				int... p_190570_16_) {}
 
 		@Override
 		public void broadcastSound(int soundID, BlockPos pos, int data) {}
@@ -189,13 +203,13 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	protected abstract SpawnInformation constructDefaultSpawnInformation(Spawnable entity);
 
 	@Override
-	public void spawnEntity(String entityID) {
-		spawnEntity((world) -> EntityList.createEntityByName(entityID, world));
+	public void spawnEntity(ResourceLocation entityID) {
+		spawnEntity((world) -> EntityList.createEntityByIDFromName(entityID, world));
 	}
 
 	@Override
-	public void spawnEntity(String entityID, double x, double y, double z) {
-		spawnEntity(new SpawnInformation((world) -> EntityList.createEntityByName(entityID, world), x, y, z));
+	public void spawnEntity(ResourceLocation entityID, double x, double y, double z) {
+		spawnEntity(new SpawnInformation((world) -> EntityList.createEntityByIDFromName(entityID, world), x, y, z));
 	}
 
 	@Override
@@ -224,8 +238,8 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	}
 
 	@Override
-	public void setGenerationMaximum(String entityID, int maxAmount) {
-		Class<? extends Entity> clazz = EntityList.NAME_TO_CLASS.get(entityID);
+	public void setGenerationMaximum(ResourceLocation entityID, int maxAmount) {
+		Class<? extends Entity> clazz = EntityList.getClass(entityID);
 		if (clazz == null) {
 			return;
 		}
@@ -249,8 +263,8 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	}
 
 	@Override
-	public int clearAreaOf(String entityClassID) {
-		Class<? extends Entity> clazz = EntityList.NAME_TO_CLASS.get(entityClassID);
+	public int clearAreaOf(ResourceLocation entityClassID) {
+		Class<? extends Entity> clazz = EntityList.getClass(entityClassID);
 		if (clazz == null) {
 			return 0;
 		}

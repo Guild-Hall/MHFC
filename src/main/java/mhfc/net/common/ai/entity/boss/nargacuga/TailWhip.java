@@ -1,7 +1,6 @@
 package mhfc.net.common.ai.entity.boss.nargacuga;
 
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
@@ -13,7 +12,6 @@ import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityNargacuga;
-import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
@@ -57,7 +55,7 @@ public class TailWhip extends DamagingAction<EntityNargacuga> implements IHasAtt
 	public IAttackProvider getAttackProvider() {
 		return ATTACK;
 	}
-	
+
 	@Override
 	public void onUpdate() {
 		EntityNargacuga entity = getEntity();
@@ -65,11 +63,11 @@ public class TailWhip extends DamagingAction<EntityNargacuga> implements IHasAtt
 			getEntity().getTurnHelper().updateTargetPoint(targetPoint);
 			getEntity().getTurnHelper().updateTurnSpeed(6.0f);
 		}
-		
+
 		if (this.getCurrentFrame() == 12) {
 			entity.playSound(MHFCSoundRegistry.getRegistry().nargacugaTailWhip, 2.0F, 1.0F);
 		}
-		
+
 		if (this.getCurrentFrame() >= 20 && this.getCurrentFrame() <= 45) {
 			damageCollidingEntities();
 		}

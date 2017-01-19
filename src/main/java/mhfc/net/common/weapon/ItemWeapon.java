@@ -149,7 +149,7 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item implements 
 			return multimap;
 		}
 		multimap.put(
-				SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(),
+				SharedMonsterAttributes.ATTACK_DAMAGE.getName(),
 				new AttributeModifier(Item.ATTACK_DAMAGE_MODIFIER, "Weapon Attack", stats.getAttack(), 0));
 		return multimap;
 	}

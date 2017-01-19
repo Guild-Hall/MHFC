@@ -91,7 +91,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 				heatLengthInit = heatLength;
 				heatFromItem = getItemHeat(fuelStack);
 				decrStackSize(fuelSlot, 1);
-				if (!worldObj.isRemote) {
+				if (!world.isRemote) {
 					sendUpdateCraft();
 				}
 			} else {
@@ -104,7 +104,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	}
 
 	private void finishRecipe() {
-		if (worldObj.isRemote) {
+		if (world.isRemote) {
 			return;
 		}
 		inputStacks = new ItemStack[inputStacks.length];
@@ -132,7 +132,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	}
 
 	public void changeRecipe(EquipmentRecipe recipe) {
-		if (worldObj.isRemote) {
+		if (world.isRemote) {
 			sendSetRecipe(recipe);
 		}
 		if (recipe != this.recipe) {
@@ -187,10 +187,10 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 				return null;
 			}
 			cancelRecipe();
-			if (count > stack.stackSize) {
-				count = stack.stackSize;
+			if (count > stack.getCount()) {
+				count = stack.getCount();
 			}
-			if (count == stack.stackSize) {
+			if (count == stack.getCount()) {
 				inputStacks[slot - recipeStacks.length - 3] = null;
 				return stack;
 			}
@@ -202,10 +202,10 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 			if (outputStack == null) {
 				return null;
 			}
-			if (count > outputStack.stackSize) {
-				count = outputStack.stackSize;
+			if (count > outputStack.getCount()) {
+				count = outputStack.getCount();
 			}
-			if (count == outputStack.stackSize) {
+			if (count == outputStack.getCount()) {
 				ItemStack fuel = outputStack;
 				outputStack = null;
 				return fuel;
@@ -217,10 +217,10 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 			if (fuelStack == null) {
 				return null;
 			}
-			if (count > fuelStack.stackSize) {
-				count = fuelStack.stackSize;
+			if (count > fuelStack.getCount()) {
+				count = fuelStack.getCount();
 			}
-			if (count == fuelStack.stackSize) {
+			if (count == fuelStack.getCount()) {
 				ItemStack fuel = fuelStack;
 				fuelStack = null;
 				return fuel;
@@ -233,7 +233,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	 * Resets all working progress but leaves the recipe set
 	 */
 	public void cancelRecipe() {
-		if (worldObj.isRemote) {
+		if (world.isRemote) {
 			sendCancelRecipe();
 		}
 		TileHunterBench.this.workingMHFCBench = false;
@@ -288,12 +288,22 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	}
 
 	@Override
+	public boolean isEmpty() {
+		for (ItemStack stack : inputStacks) {
+			if (!stack.isEmpty()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
 	public int getInventoryStackLimit() {
 		return 64;
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
+	public boolean isUsableByPlayer(EntityPlayer entityplayer) {
 		return getDistanceSq(entityplayer.posX, entityplayer.posY, entityplayer.posZ) <= 64.0f;
 	}
 
@@ -309,7 +319,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	}
 
 	public boolean beginCrafting() {
-		if (worldObj.isRemote) {
+		if (world.isRemote) {
 			sendBeginCraft();
 		}
 		if (canBeginCrafting()) {
@@ -335,7 +345,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 
 	@Override
 	public void refreshState() {
-		if (worldObj.isRemote) {
+		if (world.isRemote) {
 			PacketPipeline.networkPipe.sendToServer(new MessageBenchRefreshRequest(this));
 		}
 	}
@@ -387,7 +397,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 			NBTTagCompound stack = items.getCompoundTagAt(a);
 			byte id = stack.getByte("Slot");
 			if (id >= 0 && id < getSizeInventory()) {
-				setInventorySlotContents(id, ItemStack.loadItemStackFromNBT(stack));
+				setInventorySlotContents(id, new ItemStack(stack));
 			}
 		}
 	}

@@ -70,7 +70,7 @@ public class EntityFlashBomb extends EntityThrowable {
 				posX + FALL_OFF_END,
 				posY + FALL_OFF_END,
 				posZ + FALL_OFF_END);
-		List<Entity> entites = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, explosionRange);
+		List<Entity> entites = this.world.getEntitiesWithinAABBExcludingEntity(this, explosionRange);
 		for (Entity e : entites) {
 			if (!(e instanceof EntityLivingBase)) {
 				continue;

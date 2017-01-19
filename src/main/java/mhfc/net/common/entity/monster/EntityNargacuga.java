@@ -77,9 +77,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	@Override
 	protected IActionManager<EntityNargacuga> constructActionManager() {
 		FollowUpManagerBuilder<EntityNargacuga> attackManager = new FollowUpManagerBuilder<>();
-		
-		
-		
+
 		TailSlam tailSlam = new TailSlam();
 		TailWhip tailWhip = new TailWhip();
 		Roar roar = new Roar();
@@ -89,10 +87,10 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		Charge charge = new Charge();
 
 		List<IExecutableAction<? super EntityNargacuga>> prowlerFollow = new ArrayList<>();
-		
+
 		prowlerFollow.add(pounce);
 		prowlerFollow.add(tailWhip);
-		
+
 		attackManager.registerAction(new Wander());
 		attackManager.registerAction(new Idle());
 		attackManager.registerAllowingAllActions(tailSlam);
@@ -156,7 +154,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		if (++ticksSinceEyesSaved >= EYES_RECORD_FREQUENCY && this.worldObj.isRemote) {
+		if (++ticksSinceEyesSaved >= EYES_RECORD_FREQUENCY && this.world.isRemote) {
 			ticksSinceEyesSaved = 0;
 			eyesPositionsLeft.add(getPositionLeftEye());
 			eyesPositionsRight.add(getPositionRightEye());

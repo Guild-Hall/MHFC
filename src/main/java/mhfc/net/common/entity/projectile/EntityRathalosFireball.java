@@ -41,7 +41,7 @@ public class EntityRathalosFireball extends EntityThrowable {
 
 	@Override
 	protected void onImpact(RayTraceResult result) {
-		List<Entity> list = this.worldObj
+		List<Entity> list = this.world
 				.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(4.5D, 3.0D, 4.5D));
 		list.remove(getThrower());
 		for (Entity entity : list) {
@@ -50,17 +50,17 @@ public class EntityRathalosFireball extends EntityThrowable {
 			} else {
 				entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 29 + this.rand.nextInt(121));
 			}
-			if (worldObj.isRemote || result.entityHit == null) {
+			if (world.isRemote || result.entityHit == null) {
 				continue;
 			}
-			this.worldObj.newExplosion(
+			this.world.newExplosion(
 					(Entity) null,
 					this.posX,
 					this.posY,
 					this.posZ,
 					this.radius,
 					true,
-					this.worldObj.getGameRules().getBoolean("mobGriefing"));
+					this.world.getGameRules().getBoolean("mobGriefing"));
 
 		}
 

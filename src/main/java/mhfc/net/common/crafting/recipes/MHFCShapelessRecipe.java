@@ -7,6 +7,7 @@ import java.util.List;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
 public class MHFCShapelessRecipe implements IRecipe {
@@ -16,10 +17,9 @@ public class MHFCShapelessRecipe implements IRecipe {
 	/** Is a List of ItemStack that composes the recipe. */
 	public final List<ItemStack> recipeItems;
 
-	public MHFCShapelessRecipe(ItemStack par1ItemStack,
-		List<ItemStack> par2List) {
+	public MHFCShapelessRecipe(ItemStack par1ItemStack, List<ItemStack> par2List) {
 		this.recipeOutput = par1ItemStack.copy();
-		this.recipeItems = new ArrayList<ItemStack>(par2List);
+		this.recipeItems = new ArrayList<>(par2List);
 	}
 
 	@Override
@@ -31,9 +31,8 @@ public class MHFCShapelessRecipe implements IRecipe {
 	 * Used to check if a recipe matches current crafting inventory
 	 */
 	@Override
-	public boolean matches(InventoryCrafting par1InventoryCrafting,
-		World par2World) {
-		List<ItemStack> arraylist = new ArrayList<ItemStack>(this.recipeItems);
+	public boolean matches(InventoryCrafting par1InventoryCrafting, World par2World) {
+		List<ItemStack> arraylist = new ArrayList<>(this.recipeItems);
 
 		for (int i = 0; i < par1InventoryCrafting.getSizeInventory(); ++i) {
 			ItemStack itemstack = par1InventoryCrafting.getStackInSlot(i);
@@ -45,8 +44,8 @@ public class MHFCShapelessRecipe implements IRecipe {
 				while (iterator.hasNext()) {
 					ItemStack itemstack1 = iterator.next();
 
-					if (itemstack1.getItemDamage() == 32767 || itemstack
-						.getItemDamage() == itemstack1.getItemDamage()) {
+					if (itemstack1.getItemDamage() == 32767
+							|| itemstack.getItemDamage() == itemstack1.getItemDamage()) {
 						flag = true;
 						arraylist.remove(itemstack1);
 						break;
@@ -66,8 +65,7 @@ public class MHFCShapelessRecipe implements IRecipe {
 	 * Returns an Item that is the result of this recipe
 	 */
 	@Override
-	public ItemStack getCraftingResult(
-		InventoryCrafting par1InventoryCrafting) {
+	public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting) {
 		return this.recipeOutput.copy();
 	}
 
@@ -80,7 +78,7 @@ public class MHFCShapelessRecipe implements IRecipe {
 	}
 
 	@Override
-	public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
 		// TODO Auto-generated method stub
 		return null;
 	}

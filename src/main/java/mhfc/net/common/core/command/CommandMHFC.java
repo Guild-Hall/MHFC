@@ -25,17 +25,17 @@ public class CommandMHFC extends CommandBase {
 	}
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "Mhfc";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender p_71518_1_) {
+	public String getUsage(ICommandSender p_71518_1_) {
 		return "/mhfc <action> [options]";
 	}
 
 	@Override
-	public List<String> getCommandAliases() {
+	public List<String> getAliases() {
 		return aliases;
 	}
 
@@ -79,7 +79,7 @@ public class CommandMHFC extends CommandBase {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(
+	public List<String> getTabCompletions(
 			MinecraftServer server,
 			ICommandSender sender,
 			String[] options,

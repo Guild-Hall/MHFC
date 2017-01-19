@@ -31,7 +31,7 @@ public class Utilities {
 	 * @param living
 	 */
 	public static void removeAttackers(EntityLiving living) {
-		List<EntityLiving> list = living.worldObj
+		List<EntityLiving> list = living.world
 				.getEntitiesWithinAABB(EntityLiving.class, living.getEntityBoundingBox().expand(16.0D, 10.0D, 16.0D));
 		for (EntityLiving attacker : list) {
 			if ((attacker != living) && (attacker.getAttackTarget() == living)) {
@@ -50,7 +50,7 @@ public class Utilities {
 		for (int i = 0; i < many; i++) {
 			EntityLightning l = new EntityLightning(world);
 			l.setPosition(Lx, Ly, Lz);
-			world.spawnEntityInWorld(l);
+			world.spawnEntity(l);
 		}
 	}
 

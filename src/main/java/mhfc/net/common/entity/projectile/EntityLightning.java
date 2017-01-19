@@ -31,7 +31,7 @@ public class EntityLightning extends EntityThrowable {
 	 */
 	@Override
 	protected void onImpact(RayTraceResult movingobjectposition) {
-		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+		world.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
 
 		if (movingobjectposition.entityHit != null) {
 			if (!movingobjectposition.entityHit
@@ -42,17 +42,17 @@ public class EntityLightning extends EntityThrowable {
 		for (int bolt = 0; bolt < 5; bolt++) {
 			;
 		}
-		if (!worldObj.isRemote) {
-			EntityLightningBolt entitylightningbolt = new EntityLightningBolt(worldObj, posX, posY, posZ, true);
+		if (!world.isRemote) {
+			EntityLightningBolt entitylightningbolt = new EntityLightningBolt(world, posX, posY, posZ, true);
 			entitylightningbolt.setLocationAndAngles(posX, posY, posZ, rotationYaw, 0.0F);
-			worldObj.addWeatherEffect(entitylightningbolt);
+			world.addWeatherEffect(entitylightningbolt);
 		}
 
 		for (int i = 0; i < 8; i++) {
-			worldObj.spawnParticle(EnumParticleTypes.SNOWBALL, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
+			world.spawnParticle(EnumParticleTypes.SNOWBALL, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
 		}
 
-		if (!worldObj.isRemote) {
+		if (!world.isRemote) {
 			setDead();
 		}
 	}

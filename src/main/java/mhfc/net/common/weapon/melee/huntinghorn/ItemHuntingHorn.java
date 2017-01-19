@@ -33,8 +33,9 @@ public class ItemHuntingHorn extends ItemWeaponMelee<HuntingHornWeaponStats> {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
-		ActionResult<ItemStack> newstack = super.onItemRightClick(stack, world, player, hand);
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ActionResult<ItemStack> newstack = super.onItemRightClick(world, player, hand);
+		ItemStack stack = player.getHeldItem(hand);
 		stats.toggleNote(stack);
 		return ActionResult.newResult(EnumActionResult.SUCCESS, newstack.getResult());
 	}
@@ -57,7 +58,7 @@ public class ItemHuntingHorn extends ItemWeaponMelee<HuntingHornWeaponStats> {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity holder, int slot, boolean isHoldItem) {
 		super.onUpdate(stack, world, holder, slot, isHoldItem);

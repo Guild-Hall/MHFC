@@ -98,7 +98,7 @@ public class MHFCQuestBuildRegistry {
 		MHFCQuestBuildRegistry.loadQuestsFromFiles();
 
 		Iterator<EntityPlayerMP> it = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
-				.getPlayerList().iterator();
+				.getPlayers().iterator();
 		while (it.hasNext()) {
 			EntityPlayerMP player = it.next();
 			PacketPipeline.networkPipe.sendTo(new MessageQuestInit(dataObject), player);

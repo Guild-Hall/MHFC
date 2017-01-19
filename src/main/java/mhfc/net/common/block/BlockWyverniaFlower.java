@@ -1,7 +1,5 @@
 package mhfc.net.common.block;
 
-import java.util.List;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.block.BlockWyverniaFlower.WyverniaFlowerSubType;
 import mhfc.net.common.block.environment.BlockWyverniaDecor;

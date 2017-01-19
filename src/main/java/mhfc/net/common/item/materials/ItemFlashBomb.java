@@ -22,16 +22,17 @@ public class ItemFlashBomb extends Item implements IItemColored {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		if (world.isRemote) {
 			return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 		}
 
 		EntityFlashBomb bomb = new EntityFlashBomb(world, player);
-		world.spawnEntityInWorld(bomb);
+		world.spawnEntity(bomb);
 
 		if (!player.capabilities.isCreativeMode) {
-			--stack.stackSize;
+			stack.setCount(stack.getCount() - 1);
 		}
 		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 	}

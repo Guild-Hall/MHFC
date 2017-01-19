@@ -86,7 +86,7 @@ public class UpdateSystem {
 	}
 
 	private static void notifyOfUpdate(ICommandSender console, UpdateInfo info) {
-		console.addChatMessage(new TextComponentString(makeUpdateNotification(console, info)));
+		console.sendMessage(new TextComponentString(makeUpdateNotification(console, info)));
 	}
 
 	private static String makeUpdateNotification(ICommandSender console, UpdateInfo info) {

@@ -76,7 +76,7 @@ public class ParticleKirinSparks extends Particle {
 
 		super.onUpdate();
 
-		EntityPlayer entityplayer = this.worldObj.getClosestPlayer(posX, posY, posZ, 2.0D, false);
+		EntityPlayer entityplayer = this.world.getClosestPlayer(posX, posY, posZ, 2.0D, false);
 		// TODO: wtf is that logic right here?
 		if (entityplayer != null && this.posY > entityplayer.getEntityBoundingBox().minY) {
 			this.posY += (entityplayer.getEntityBoundingBox().minY - this.posY) * 0.2D;

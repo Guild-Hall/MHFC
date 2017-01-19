@@ -11,12 +11,9 @@ import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.boss.tigrex.Bite;
 import mhfc.net.common.ai.entity.boss.tigrex.Death;
-import mhfc.net.common.ai.entity.boss.tigrex.GroundHurl;
 import mhfc.net.common.ai.entity.boss.tigrex.Idle;
-import mhfc.net.common.ai.entity.boss.tigrex.Jump;
 import mhfc.net.common.ai.entity.boss.tigrex.Roar;
 import mhfc.net.common.ai.entity.boss.tigrex.Run;
-import mhfc.net.common.ai.entity.boss.tigrex.Wander;
 import mhfc.net.common.ai.entity.boss.tigrex.TailWhip;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
@@ -48,7 +45,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		// TODO enable this when Popos are a thing again
-		
+
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
 	}
 
@@ -56,43 +53,34 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	protected IActionManager<EntityTigrex> constructActionManager() {
 		FollowUpManagerBuilder<EntityTigrex> manager = new FollowUpManagerBuilder<>();
 		manager.registerAllowingAllActions(setDeathAction(new Death()));
-		
+
 		manager.registerAllowingAllActions(new Run());
-		
+
 		manager.registerAllowingAllActions(new Bite());
 		Roar tigrexRoar = new Roar();
 		manager.registerAllowingAllActions(tigrexRoar);
 		manager.registerAllowingAllActions(new TailWhip());
-		
+
 		// Living Actions 
-		
+
 		manager.registerAllowingAllActions(new Idle());
 		// manager.registerAllowingAllActions(new Wander());
-		
+
 		//To be fix
-		
+
 		// manager.registerAllowingAllActions(new GroundHurl());
 		// manager.registerAllowingAllActions(new Jump());
-		
-		
+
 		/**
-		 * AI TO be added: 
-		 * 1. RunningRoar - ANIMATION DONE
-		 * 2. FatigueRun - ANIMATION DONE
-		 * 3. ClawAttack - ANIMATION DONE
-		 * 4. JumpAway - ANIMATION DONE
-		 * 5. RunningGroundHurl
-		 * 6. Double Spin
-		 * 7. Run to Jump -
-		 * 8. Sleeping.
+		 * AI TO be added: 1. RunningRoar - ANIMATION DONE 2. FatigueRun - ANIMATION DONE 3. ClawAttack - ANIMATION DONE
+		 * 4. JumpAway - ANIMATION DONE 5. RunningGroundHurl 6. Double Spin 7. Run to Jump - 8. Sleeping.
 		 * 
-		 * **/
-		
+		 **/
+
 		//	 Register roar to be the only allowed initial move on sight of an enemy
 		List<IExecutableAction<? super EntityTigrex>> allowedFirstSight = new ArrayList<>();
 		allowedFirstSight.add(tigrexRoar);
-		
-		
+
 		return manager.build(this);
 	}
 

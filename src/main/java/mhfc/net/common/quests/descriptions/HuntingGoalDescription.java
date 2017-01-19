@@ -11,6 +11,7 @@ import mhfc.net.common.util.stringview.Viewable;
 import mhfc.net.common.util.stringview.Viewables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
+import net.minecraft.util.ResourceLocation;
 
 public class HuntingGoalDescription extends GoalDefinition {
 
@@ -57,16 +58,16 @@ public class HuntingGoalDescription extends GoalDefinition {
 			@Override
 			public Viewable buildVisual() {
 				checkAttributesBound();
-				String goalMob = EntityList.CLASS_TO_NAME.get(getHuntedClass());
-				goalMob = "entity." + goalMob + ".name";
+				ResourceLocation huntedId = EntityList.getKey(huntedClass);
+				String goalMob = EntityList.getTranslationName(huntedId);
 				return Viewables.parse("[[" + goalMob + "]]s§r slain: {{current}}/{{goal}}", baseProps);
 			}
 
 			@Override
 			public Viewable buildShortStatus() {
 				checkAttributesBound();
-				String goalMob = EntityList.CLASS_TO_NAME.get(getHuntedClass());
-				goalMob = "entity." + goalMob + ".name";
+				ResourceLocation huntedId = EntityList.getKey(huntedClass);
+				String goalMob = EntityList.getTranslationName(huntedId);
 				return Viewables.parse("{{current}}/{{goal}} [[" + goalMob + "]]s", baseProps);
 			}
 

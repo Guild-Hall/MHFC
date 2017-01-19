@@ -39,7 +39,7 @@ public class PotionPainted extends Potion {
 		}
 
 		if (amplifier >= 0 && amplifier < 16) {
-			double rand = entity.worldObj.rand.nextDouble();
+			double rand = entity.world.rand.nextDouble();
 			DurationType duration;
 			if (rand < 0.01) {
 				duration = DurationType.VERY_LONG;
@@ -52,12 +52,12 @@ public class PotionPainted extends Potion {
 			}
 
 			EntityPaintParticleEmitter emitter = new EntityPaintParticleEmitter(
-					entity.worldObj,
+					entity.world,
 					duration,
 					ItemColor.byMetadata(amplifier),
 					entity);
 
-			entity.worldObj.spawnEntityInWorld(emitter);
+			entity.world.spawnEntity(emitter);
 		}
 	}
 }

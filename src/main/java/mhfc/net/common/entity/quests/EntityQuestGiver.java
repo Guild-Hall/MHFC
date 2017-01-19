@@ -5,7 +5,6 @@ import mhfc.net.common.core.registry.MHFCContainerRegistry;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
@@ -35,8 +34,11 @@ public class EntityQuestGiver extends EntityVillager {
 	}
 
 	@Override
-	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand) {
-		player.openGui(MHFCMain.instance(), MHFCContainerRegistry.gui_questgiver_id, this.worldObj, subID, 0, 0);
+	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand) {
+		if (hand != EnumHand.OFF_HAND) {
+			return EnumActionResult.PASS;
+		}
+		player.openGui(MHFCMain.instance(), MHFCContainerRegistry.gui_questgiver_id, this.world, subID, 0, 0);
 		return EnumActionResult.SUCCESS;
 	}
 

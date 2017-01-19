@@ -4,7 +4,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
 public class MHFCShapedRecipes implements IRecipe {
@@ -108,7 +108,7 @@ public class MHFCShapedRecipes implements IRecipe {
 				ItemStack itemstack1 = par1InventoryCrafting.getStackInSlot(i);
 
 				if (itemstack1 != null && itemstack1.hasTagCompound()) {
-					itemstack.setTagCompound((NBTTagCompound) itemstack1.getTagCompound().copy());
+					itemstack.setTagCompound(itemstack1.getTagCompound().copy());
 				}
 			}
 		}
@@ -130,7 +130,7 @@ public class MHFCShapedRecipes implements IRecipe {
 	}
 
 	@Override
-	public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
 		// TODO Auto-generated method stub
 		return null;
 	}

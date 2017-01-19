@@ -1,7 +1,6 @@
 package mhfc.net.common.item.materials;
 
 import java.util.Iterator;
-import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.MHFCMobList;
@@ -21,6 +20,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -43,10 +44,10 @@ public class ItemSpawner extends Item implements IItemColored {
 	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack par1ItemStack) {
 		String s = (I18n.format(this.getUnlocalizedName() + ".name")).trim();
-		String s1 = MHFCMobList.getStringFromID(par1ItemStack.getItemDamage());
+		ResourceLocation s1 = MHFCMobList.getStringFromID(par1ItemStack.getItemDamage());
 
 		if (s1 != null) {
-			s = s + " " + I18n.format("entity." + s1 + ".name");
+			s = s + " " + I18n.format(EntityList.getTranslationName(s1));
 		}
 
 		return s;
@@ -64,7 +65,7 @@ public class ItemSpawner extends Item implements IItemColored {
 	private static Entity spawnCreature(World world, ItemStack stack, BlockPos pos) {
 		int meta = stack.getItemDamage();
 
-		String entityID = MHFCMobList.getStringFromID(meta);
+		ResourceLocation entityID = MHFCMobList.getStringFromID(meta);
 		if (entityID == null) {
 			return null;
 		}
@@ -82,7 +83,7 @@ public class ItemSpawner extends Item implements IItemColored {
 			entity.setCustomNameTag(stack.getDisplayName());
 		}
 
-		world.spawnEntityInWorld(entity);
+		world.spawnEntity(entity);
 		entity.playLivingSound();
 
 		return entity;
@@ -90,7 +91,6 @@ public class ItemSpawner extends Item implements IItemColored {
 
 	@Override
 	public EnumActionResult onItemUse(
-			ItemStack stack,
 			EntityPlayer player,
 			World world,
 			BlockPos pos,
@@ -99,6 +99,7 @@ public class ItemSpawner extends Item implements IItemColored {
 			float hitX,
 			float hitY,
 			float hitZ) {
+		ItemStack stack = player.getHeldItem(hand);
 		if (world.isRemote) {
 			return EnumActionResult.SUCCESS;
 		}
@@ -108,13 +109,14 @@ public class ItemSpawner extends Item implements IItemColored {
 		Entity entity = spawnCreature(world, stack, pos.up());
 
 		if (entity != null && !player.capabilities.isCreativeMode) {
-			--stack.stackSize;
+			stack.setCount(stack.getCount() - 1);
 		}
 		return EnumActionResult.SUCCESS;
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		if (world.isRemote) {
 			return new ActionResult<>(EnumActionResult.PASS, stack);
 		}
@@ -136,14 +138,14 @@ public class ItemSpawner extends Item implements IItemColored {
 		Entity entity = spawnCreature(world, stack, hitBlockPos);
 
 		if (entity != null && player.capabilities.isCreativeMode) {
-			--stack.stackSize;
+			stack.setCount(stack.getCount() - 1);
 		}
 		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item base, CreativeTabs par2CreativeTabs, List<ItemStack> list) {
+	public void getSubItems(Item base, CreativeTabs par2CreativeTabs, NonNullList<ItemStack> list) {
 		Iterator<MHFCEggInfo> iterator = MHFCMobList.registeredEggs().values().iterator();
 
 		while (iterator.hasNext()) {

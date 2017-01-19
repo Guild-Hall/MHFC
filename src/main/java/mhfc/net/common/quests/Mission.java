@@ -158,7 +158,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	protected void onFail() {
 		for (EntityPlayerMP player : getPlayers()) {
-			player.addChatMessage(new TextComponentString("You have failed a quest"));
+			player.sendMessage(new TextComponentString("You have failed a quest"));
 		}
 		// TODO do special stuff for fail
 		onEnd();
@@ -168,7 +168,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		for (QuestingPlayerState attribute : playerAttributes.values()) {
 			attribute.reward = true;
 			attribute.player.addExperienceLevel(10);
-			attribute.player.addChatMessage(new TextComponentString("You have successfully completed a quest"));
+			attribute.player.sendMessage(new TextComponentString("You have successfully completed a quest"));
 		}
 		this.state = QuestState.finished;
 		// TODO reward the players for finishing the quest with dynamic rewards

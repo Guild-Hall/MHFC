@@ -12,7 +12,6 @@ import mhfc.net.common.ai.entity.boss.deviljho.Idle;
 import mhfc.net.common.ai.entity.boss.deviljho.Jump;
 import mhfc.net.common.ai.entity.boss.deviljho.Launch;
 import mhfc.net.common.ai.entity.boss.deviljho.MoveToTarget;
-import mhfc.net.common.ai.entity.boss.deviljho.Roar;
 import mhfc.net.common.ai.entity.boss.deviljho.Stomp;
 import mhfc.net.common.ai.entity.boss.deviljho.TailWhip;
 import mhfc.net.common.ai.entity.boss.deviljho.Wander;

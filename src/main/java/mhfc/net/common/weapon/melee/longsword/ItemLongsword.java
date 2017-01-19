@@ -104,7 +104,7 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 					"Spirit Gauge",
 					1.2,
 					1);
-			attributes.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), attackModifier);
+			attributes.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), attackModifier);
 		}
 		return attributes;
 	}

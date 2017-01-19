@@ -13,13 +13,13 @@ import net.minecraft.util.text.TextComponentString;
 public class CommandExplore extends CommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "mhfcexplore";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender p_71518_1_) {
-		return "/" + getCommandName() + " [area-name]";
+	public String getUsage(ICommandSender p_71518_1_) {
+		return "/" + getName() + " [area-name]";
 	}
 
 	@Override
@@ -36,11 +36,11 @@ public class CommandExplore extends CommandBase {
 			String targetAreaName = arguments[0];
 			IAreaType areaType = AreaRegistry.instance.getType(targetAreaName);
 			if (areaType == null) {
-				sender.addChatMessage(new TextComponentString("Warning: the area type you choose did not exist"));
+				sender.sendMessage(new TextComponentString("Warning: the area type you choose did not exist"));
 			}
 			MHFCExplorationRegistry.transferPlayer(player, areaType);
 		} else {
-			sender.addChatMessage(new TextComponentString("Too many arguments for command mhfcexplore"));
+			sender.sendMessage(new TextComponentString("Too many arguments for command mhfcexplore"));
 		}
 	}
 }

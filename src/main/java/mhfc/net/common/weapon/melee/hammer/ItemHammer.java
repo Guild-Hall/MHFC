@@ -59,17 +59,18 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 		triggerCooldown(stack);
 		return true;
 	}
-	@Override
-	public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot)
-	{
-	        @SuppressWarnings("deprecation")
-			Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(equipmentSlot);
-	        if (equipmentSlot == EntityEquipmentSlot.MAINHAND)
-	        {
-	            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -1.3000000953674316D, 2));
-	        }
 
-	        return multimap;
-	    
-	    }
+	@Override
+	public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot) {
+		@SuppressWarnings("deprecation")
+		Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(equipmentSlot);
+		if (equipmentSlot == EntityEquipmentSlot.MAINHAND) {
+			multimap.put(
+					SharedMonsterAttributes.ATTACK_SPEED.getName(),
+					new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -1.3000000953674316D, 2));
+		}
+
+		return multimap;
+
+	}
 }

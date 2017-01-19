@@ -39,7 +39,7 @@ public class WorldHelper {
 	 * @return all colliding entities that are not filtered
 	 */
 	public static List<Entity> collidingEntities(Entity entity, Predicate<? super Entity> filter) {
-		World world = entity.worldObj;
+		World world = entity.world;
 		List<Entity> collidingEntities = world
 				.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox(), filter);
 		Entity[] subEntities = entity.getParts();

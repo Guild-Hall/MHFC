@@ -38,7 +38,7 @@ public class EntityBreathe extends EntityThrowable {
 
 	@Override
 	protected void onImpact(RayTraceResult rayTrace) {
-		List<Entity> list = this.worldObj
+		List<Entity> list = this.world
 				.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(3.5D, 3.0D, 3.5D));
 		list.remove(getThrower());
 
@@ -61,7 +61,7 @@ public class EntityBreathe extends EntityThrowable {
 			double offsetX = Math.cos(semiRandomSeed) * 2;
 			double offsetY = Math.sin(semiRandomSeed) * 0.2;
 			double offsetZ = Math.sin(semiRandomSeed) * 2;
-			worldObj.spawnParticle(EnumParticleTypes.FLAME, posX + offsetX, posY + offsetY, posZ + offsetZ, 0, 0, 0);
+			world.spawnParticle(EnumParticleTypes.FLAME, posX + offsetX, posY + offsetY, posZ + offsetZ, 0, 0, 0);
 		}
 	}
 

@@ -26,7 +26,7 @@ public class CombatEventHandler {
 
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent e) {
-		if (!e.player.worldObj.isRemote) {
+		if (!e.player.world.isRemote) {
 			return;
 		}
 		if (e.phase != TickEvent.Phase.END) {

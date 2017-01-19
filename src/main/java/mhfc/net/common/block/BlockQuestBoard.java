@@ -19,7 +19,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -103,7 +102,6 @@ public class BlockQuestBoard extends BlockContainer {
 			IBlockState state,
 			EntityPlayer player,
 			EnumHand hand,
-			
 			EnumFacing side,
 			float hitX,
 			float hitY,
@@ -161,12 +159,20 @@ public class BlockQuestBoard extends BlockContainer {
 	}
 
 	@Override
-	 public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
-    {
-		if (worldIn.isRemote) {
-			super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
+	public IBlockState getStateForPlacement(
+			World world,
+			BlockPos pos,
+			EnumFacing facing,
+			float hitX,
+			float hitY,
+			float hitZ,
+			int meta,
+			EntityLivingBase placer,
+			EnumHand hand) {
+		if (world.isRemote) {
+			super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
 		}
-		EnumFacing side = getPlacedSide(worldIn, pos, placer);
+		EnumFacing side = getPlacedSide(world, pos, placer);
 		IBlockState state = getDefaultState();
 		if (isHorizontal(side)) {
 			return state.withProperty(PLACING, EnumPlacing.FORWARD_OFFSET).withProperty(FACING, side);

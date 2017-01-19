@@ -29,7 +29,7 @@ public class EntityBullet extends EntityThrowable {
 		if (result.entityHit != null) {
 			result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), damage);
 		}
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			this.setDead();
 		}
 	}

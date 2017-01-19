@@ -16,6 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
 public class ItemNutrients extends ItemFood implements IItemColored, IItemVarianted {
@@ -96,7 +97,7 @@ public class ItemNutrients extends ItemFood implements IItemColored, IItemVarian
 	}
 
 	@Override
-	public void getSubItems(Item base, CreativeTabs tab, List<ItemStack> list) {
+	public void getSubItems(Item base, CreativeTabs tab, NonNullList<ItemStack> list) {
 		itemPerk.getSubItems(base, list);
 	}
 

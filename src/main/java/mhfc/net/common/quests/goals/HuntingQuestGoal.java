@@ -14,6 +14,7 @@ import mhfc.net.common.util.LazyQueue;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
@@ -37,7 +38,7 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 
 		goalHandler = new LivingDeathEventHandler(this);
 		MinecraftForge.EVENT_BUS.register(goalHandler);
-		String goalMob = EntityList.CLASS_TO_NAME.get(goalClass);
+		ResourceLocation goalMob = EntityList.getKey(goalClass);
 		Spawnable creation = (world) -> EntityList.createEntityByIDFromName(goalMob, world);
 		Stream<Spawnable> generator = Stream.generate(() -> creation);
 		infSpawns = new LazyQueue<>(generator.iterator());

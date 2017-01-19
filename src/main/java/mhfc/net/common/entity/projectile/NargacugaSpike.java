@@ -37,7 +37,7 @@ public class NargacugaSpike extends EntityThrowable {
 	@Override
 	protected void onImpact(RayTraceResult impact) {
 		setDead();
-		if (this.worldObj.isRemote) {
+		if (this.world.isRemote) {
 			return;
 		}
 		if (impact.entityHit == null) {

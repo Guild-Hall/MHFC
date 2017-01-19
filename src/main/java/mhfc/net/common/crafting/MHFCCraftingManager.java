@@ -53,7 +53,7 @@ public class MHFCCraftingManager {
 			}
 		}
 
-		if (var3 == 2 && var4.getItem() == var5.getItem() && var4.stackSize == 1 && var5.stackSize == 1
+		if (var3 == 2 && var4.getItem() == var5.getItem() && var4.getCount() == 1 && var5.getCount() == 1
 				&& var5.getItem().isRepairable()) {
 			Item var11 = var5.getItem();
 			int var13 = var11.getMaxDamage() - var4.getItemDamage();

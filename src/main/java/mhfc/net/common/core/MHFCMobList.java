@@ -11,22 +11,24 @@ import org.apache.logging.log4j.Logger;
 
 import mhfc.net.MHFCMain;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatBase;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 public class MHFCMobList {
 	private static final Logger logger = MHFCMain.logger();;
-	private static Map<String, Class<? extends Entity>> stringToClassMapping = new HashMap<>();
-	private static Map<Class<? extends Entity>, String> classToStringMapping = new HashMap<>();
+	private static Map<ResourceLocation, Class<? extends Entity>> stringToClassMapping = new HashMap<>();
+	private static Map<Class<? extends Entity>, ResourceLocation> classToStringMapping = new HashMap<>();
 	private static Map<Integer, Class<? extends Entity>> IDtoClassMapping = new HashMap<>();
 	private static Map<Class<? extends Entity>, Integer> classToIDMapping = new HashMap<>();
-	private static Map<String, Integer> stringToIDMapping = new HashMap<>();
+	private static Map<ResourceLocation, Integer> stringToIDMapping = new HashMap<>();
 
 	private static Map<Integer, MHFCEggInfo> entityEggs = new LinkedHashMap<>();
 
-	public static void addMapping(Class<? extends Entity> clazz, String name, int id) {
+	public static void addMapping(Class<? extends Entity> clazz, ResourceLocation name, int id) {
 		stringToClassMapping.put(name, clazz);
 		classToStringMapping.put(clazz, name);
 		IDtoClassMapping.put(Integer.valueOf(id), clazz);
@@ -36,7 +38,7 @@ public class MHFCMobList {
 
 	public static void addMapping(
 			Class<? extends Entity> clazz,
-			String name,
+			ResourceLocation name,
 			int id,
 			int foregroundcolor,
 			int backgroundcolor) {
@@ -57,7 +59,7 @@ public class MHFCMobList {
 		return entity;
 	}
 
-	public static Entity createEntityByName(String name, World world) {
+	public static Entity createEntityByName(ResourceLocation name, World world) {
 		Entity entity = createEntityByClass(getClassFromName(name), world);
 		if (entity == null) {
 			logger.warn("Skipping Entity with id " + name);
@@ -100,11 +102,11 @@ public class MHFCMobList {
 		return classToIDMapping.containsKey(oclass) ? classToIDMapping.get(oclass).intValue() : -1;
 	}
 
-	public static String getEntityString(Entity entity) {
+	public static ResourceLocation getEntityString(Entity entity) {
 		return classToStringMapping.get(entity.getClass());
 	}
 
-	public static Class<? extends Entity> getClassFromName(String name) {
+	public static Class<? extends Entity> getClassFromName(ResourceLocation name) {
 		return stringToClassMapping.get(name);
 	}
 
@@ -112,12 +114,12 @@ public class MHFCMobList {
 		return IDtoClassMapping.get(Integer.valueOf(id));
 	}
 
-	public static String getStringFromID(int id) {
+	public static ResourceLocation getStringFromID(int id) {
 		Class<? extends Entity> oclass = getClassFromID(id);
 		return oclass != null ? classToStringMapping.get(oclass) : null;
 	}
 
-	public static Set<String> nameset() {
+	public static Set<ResourceLocation> nameset() {
 		return Collections.unmodifiableSet(stringToIDMapping.keySet());
 	}
 
@@ -151,26 +153,28 @@ public class MHFCMobList {
 	}
 
 	public static StatBase getKills(MHFCMobList.MHFCEggInfo eggInfo) {
-		String s = MHFCMobList.getStringFromID(eggInfo.spawnedID);
+		ResourceLocation s = MHFCMobList.getStringFromID(eggInfo.spawnedID);
 		return s == null
 				? null
 				: (new StatBase(
 						"stat.killEntity." + s,
 						new TextComponentTranslation(
 								"stat.entityKill",
-								new Object[] { new TextComponentTranslation("entity." + s + ".name", new Object[0]) })))
-										.registerStat();
+								new Object[] { new TextComponentTranslation(
+										EntityList.getTranslationName(s),
+										new Object[0]) }))).registerStat();
 	}
 
 	public static StatBase getKilledBy(MHFCMobList.MHFCEggInfo eggInfo) {
-		String s = MHFCMobList.getStringFromID(eggInfo.spawnedID);
+		ResourceLocation s = MHFCMobList.getStringFromID(eggInfo.spawnedID);
 		return s == null
 				? null
 				: (new StatBase(
 						"stat.entityKilledBy." + s,
 						new TextComponentTranslation(
 								"stat.entityKilledBy",
-								new Object[] { new TextComponentTranslation("entity." + s + ".name", new Object[0]) })))
-										.registerStat();
+								new Object[] { new TextComponentTranslation(
+										EntityList.getTranslationName(s),
+										new Object[0]) }))).registerStat();
 	}
 }

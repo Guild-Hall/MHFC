@@ -34,14 +34,14 @@ public class CommandTpHunterDimension extends CommandBase {
 
 		@Override
 		public void placeInPortal(Entity entity, float rotationYaw) {
-			BlockPos worldSpawn = entity.worldObj.getSpawnPoint();
+			BlockPos worldSpawn = entity.world.getSpawnPoint();
 			BlockPos.MutableBlockPos spawnAt = new BlockPos.MutableBlockPos(
 					teleportPoints.getOrDefault(entity, worldSpawn));
 
 			entity.moveToBlockPosAndAngles(spawnAt, rotationYaw, 0.0F);
 			AxisAlignedBB bb = entity.getEntityBoundingBox();
-			if (entity.worldObj.checkBlockCollision(bb)) {
-				spawnAt.setY(entity.worldObj.getTopSolidOrLiquidBlock(spawnAt).getY());
+			if (entity.world.checkBlockCollision(bb)) {
+				spawnAt.setY(entity.world.getTopSolidOrLiquidBlock(spawnAt).getY());
 				entity.setPositionAndRotation(spawnAt.getX(), spawnAt.getY(), spawnAt.getZ(), rotationYaw, 0.0F);
 			}
 			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
@@ -60,13 +60,13 @@ public class CommandTpHunterDimension extends CommandBase {
 	}
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "mhfctp";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender p_71518_1_) {
-		return "/" + getCommandName() + "[area-name]";
+	public String getUsage(ICommandSender p_71518_1_) {
+		return "/" + getName() + "[area-name]";
 	}
 
 	@Override
@@ -85,13 +85,13 @@ public class CommandTpHunterDimension extends CommandBase {
 			String areaName = args.length > 0 ? args[0] : AreaRegistry.NAME_PLAYFIELD;
 			IAreaType areaType = AreaRegistry.instance.getType(areaName);
 			if (areaType == null) {
-				sender.addChatMessage(new TextComponentString("Could not find requested target area type."));
+				sender.sendMessage(new TextComponentString("Could not find requested target area type."));
 				MHFCMain.logger().debug("No area type found for " + areaName);
 				return;
 			}
 			CompletionStage<IActiveArea> futureArea = MHFCDimensionRegistry
 					.getUnusedInstance(areaType, QuestFlair.DAYTIME);
-			sender.addChatMessage(new TextComponentString("You will be teleported when the area is finished"));
+			sender.sendMessage(new TextComponentString("You will be teleported when the area is finished"));
 			futureArea.thenAccept((a) -> {
 				try (IActiveArea active = a) {
 					MHFCMain.logger().info("Teleporting");

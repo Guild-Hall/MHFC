@@ -23,6 +23,7 @@ import mhfc.net.common.util.math.NonAxisAlignedBB;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityMultiPart;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityItem;
@@ -80,7 +81,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	private NonAxisAlignedBB baseBoundingBox;
 	private NonAxisAlignedBB currentBoundingBox;
-	
+
 	public int rageCounter;
 
 	public EntityMHFCBase(World world) {
@@ -114,7 +115,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		if (this.attackManager.continueExecuting()) {
 			this.attackManager.updateTask();
 		}
-		if (this.worldObj.isRemote) {
+		if (this.world.isRemote) {
 			int frame = getFrame();
 			if (frame >= 0) {
 				setFrame(frame + 1);
@@ -179,14 +180,14 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			double velX = this.rand.nextGaussian() * 0.01D;
 			double velY = Math.abs(this.rand.nextGaussian() * 0.7D);
 			double velZ = this.rand.nextGaussian() * 0.01D;
-			worldObj.spawnParticle(EnumParticleTypes.SUSPENDED_DEPTH, randX, randY, randZ, velX, velY, velZ);
+			world.spawnParticle(EnumParticleTypes.SUSPENDED_DEPTH, randX, randY, randZ, velX, velY, velZ);
 		}
 	}
 
 	protected void onDespawn() {
 		boolean killedByPlayer = true;
 		int specialLuck = 100;
-		if (!worldObj.isRemote) {
+		if (!world.isRemote) {
 			dropFewItems(killedByPlayer, specialLuck);
 		}
 		for (int i = 0; i < 20; i++) {
@@ -197,7 +198,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			double velX = this.rand.nextGaussian() * 0.01D;
 			double velY = Math.abs(this.rand.nextGaussian() * 0.2D);
 			double velZ = this.rand.nextGaussian() * 0.01D;
-			worldObj.spawnParticle(EnumParticleTypes.CLOUD, randX, randY, randZ, velX, velY, velZ);
+			world.spawnParticle(EnumParticleTypes.CLOUD, randX, randY, randZ, velX, velY, velZ);
 		}
 	}
 
@@ -229,14 +230,14 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	}
 
 	protected void dropItemRand(ItemStack stack) {
-		Random rand = worldObj.rand;
+		Random rand = world.rand;
 		EntityItem entityItem = new EntityItem(
-				this.worldObj,
+				this.world,
 				posX + rand.nextInt(10) - 5,
 				posY + 1.0D,
 				posZ + rand.nextInt(10) - 5,
 				stack);
-		worldObj.spawnEntityInWorld(entityItem);
+		world.spawnEntity(entityItem);
 	}
 
 	/**
@@ -263,7 +264,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	@Override
 	protected void kill() {
-		this.attackEntityFrom(DamageSource.outOfWorld, getMaxHealth());
+		this.attackEntityFrom(DamageSource.OUT_OF_WORLD, getMaxHealth());
 	}
 
 	/**
@@ -273,7 +274,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	 * respect entityParts)
 	 */
 	@Override
-	public void moveEntity(double currOffX, double currOffY, double currOffZ) {
+	public void move(MoverType mover, double currOffX, double currOffY, double currOffZ) {
 		// FIXME: most likely incorrect
 		if (this.noClip) {
 			this.offsetEntity(currOffX, currOffY, currOffZ);
@@ -301,7 +302,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			}
 
 			AxisAlignedBB ourBoundingBox = this.getEntityBoundingBox();
-			List<AxisAlignedBB> bbsInWay = this.worldObj
+			List<AxisAlignedBB> bbsInWay = this.world
 					.getCollisionBoxes(this, ourBoundingBox.addCoord(currOffX, currOffY, currOffZ));
 			// Calculates the smallest possible offset in Y direction
 			for (AxisAlignedBB bb : bbsInWay) {
@@ -315,7 +316,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			}
 			for (EntityMHFCPart part : parts) {
 				AxisAlignedBB partBoundingBox = part.getEntityBoundingBox();
-				List<AxisAlignedBB> bbsInWayPart = this.worldObj
+				List<AxisAlignedBB> bbsInWayPart = this.world
 						.getCollisionBoxes(this, partBoundingBox.addCoord(currOffX, currOffY, currOffZ));
 				// Calculates the smallest possible offset in Y direction
 				for (AxisAlignedBB bb : bbsInWayPart) {
@@ -341,7 +342,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 				currOffY = this.stepHeight;
 				currOffZ = correctedOffZ;
 
-				List<AxisAlignedBB> bbsInStepup = this.worldObj
+				List<AxisAlignedBB> bbsInStepup = this.world
 						.getCollisionBoxes(this, ourBoundingBox.addCoord(correctedOffX, currOffY, correctedOffZ));
 
 				for (AxisAlignedBB bb : bbsInStepup) {
@@ -355,7 +356,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 				}
 				for (EntityMHFCPart part : parts) {
 					AxisAlignedBB partBoundingBox = part.getEntityBoundingBox();
-					List<AxisAlignedBB> bbsInStepupPart = this.worldObj
+					List<AxisAlignedBB> bbsInStepupPart = this.world
 							.getCollisionBoxes(this, partBoundingBox.addCoord(currOffX, currOffY, currOffZ));
 					for (AxisAlignedBB bb : bbsInStepupPart) {
 						currOffY = bb.calculateYOffset(partBoundingBox, currOffY);
@@ -374,7 +375,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 				}
 				for (EntityMHFCPart part : parts) {
 					AxisAlignedBB partBoundingBox = part.getEntityBoundingBox();
-					List<AxisAlignedBB> bbsInStepDown = this.worldObj
+					List<AxisAlignedBB> bbsInStepDown = this.world
 							.getCollisionBoxes(this, partBoundingBox.addCoord(currOffX, currOffY, currOffZ));
 					// Calculates the smallest possible offset in Y direction
 					for (AxisAlignedBB bb : bbsInStepDown) {
@@ -396,7 +397,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			double originalY = this.posY;
 			double originalZ = this.posZ;
 			// Handle things like fire, movesounds, etc
-			super.moveEntity(originalOffX, originalOffY, originalOffZ);
+			super.move(mover, originalOffX, originalOffY, originalOffZ);
 			// Pop the state
 			this.posX = originalX;
 			this.posY = originalY;
@@ -427,7 +428,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	@Override
 	public World getWorld() {
-		return this.worldObj;
+		return this.world;
 	}
 
 	@Override
@@ -455,7 +456,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	}
 
 	protected void setFrame(int newframe) {
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			int lasteSentFrame = getLastSharedFrame();
 			boolean isUpdatedNeeded = this.ticksExisted % 100 == 0
 					|| (lasteSentFrame >= 0 && newframe >= 0 && newframe != lasteSentFrame + ticksSinceFrameShared);
@@ -546,7 +547,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			}
 		}
 		if (jump) {
-			this.moveEntity(0, stepHeight + 0.5, 0);
+			this.move(MoverType.SELF, 0, stepHeight + 0.5, 0);
 			this.motionY = 0;
 			this.isAirBorne = true;
 		}

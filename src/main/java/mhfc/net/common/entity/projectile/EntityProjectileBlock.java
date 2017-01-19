@@ -45,7 +45,7 @@ public class EntityProjectileBlock extends EntityThrowable {
 	}
 
 	private EntityFallingBlock createProxy() {
-		return new EntityFallingBlock(worldObj, posX, posY, posZ, Blocks.DIRT.getDefaultState());
+		return new EntityFallingBlock(world, posX, posY, posZ, Blocks.DIRT.getDefaultState());
 	}
 
 	public EntityFallingBlock getProxy() {
@@ -59,7 +59,7 @@ public class EntityProjectileBlock extends EntityThrowable {
 
 	@Override
 	protected void onImpact(RayTraceResult mop) {
-		List<Entity> list = this.worldObj
+		List<Entity> list = this.world
 				.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().expand(2.5D, 2.0D, 2.5D));
 		list.remove(getThrower());
 

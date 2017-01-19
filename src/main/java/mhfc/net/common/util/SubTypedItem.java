@@ -128,7 +128,7 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 			}
 			return null;
 		}
-		int clumpedMeta = MathHelper.clamp_int(meta, 0, values.length - 1);
+		int clumpedMeta = MathHelper.clamp(meta, 0, values.length - 1);
 		return values[clumpedMeta];
 	}
 

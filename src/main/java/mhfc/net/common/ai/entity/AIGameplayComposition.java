@@ -82,13 +82,14 @@ public class AIGameplayComposition {
 
 	static boolean camShake = false;
 	static float CamShakeIntensity;
-	
+
 	public static void camShake(EntityLivingBase e, Entity target, float dist, float intensity) {
-		if(e.world.isRemote){
-			List<EntityPlayer> player = target.world.getEntitiesWithinAABB(EntityPlayer.class, target.getEntityBoundingBox().expand(dist, 4, dist));
-			camShake = (camShake == false)? true: false;
-			CamShakeIntensity = (camShake)? intensity: -intensity;
-			for (EntityPlayer players : player){
+		if (e.world.isRemote) {
+			List<EntityPlayer> player = target.world
+					.getEntitiesWithinAABB(EntityPlayer.class, target.getEntityBoundingBox().expand(dist, 4, dist));
+			camShake = (camShake == false) ? true : false;
+			CamShakeIntensity = (camShake) ? intensity : -intensity;
+			for (EntityPlayer players : player) {
 				players.setAngles(0, CamShakeIntensity);
 			}
 		}
