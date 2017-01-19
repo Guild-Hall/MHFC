@@ -66,7 +66,7 @@ public class Stomp extends DamagingAction<EntityDeviljho> implements IHasAttackP
 		damageCollidingEntities();
 
 		AxisAlignedBB stompRange = actor.getEntityBoundingBox().expand(10.0D, 1.0D, 10.0D);
-		List<Entity> list = actor.worldObj.getEntitiesWithinAABBExcludingEntity(actor, stompRange);
+		List<Entity> list = actor.world.getEntitiesWithinAABBExcludingEntity(actor, stompRange);
 		for (Entity entity : list) {
 			if (!(entity instanceof EntityLivingBase)) {
 				continue;

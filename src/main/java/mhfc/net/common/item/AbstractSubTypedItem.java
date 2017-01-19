@@ -7,6 +7,7 @@ import mhfc.net.common.util.SubTypedItem.SubTypeEnum;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 
 public class AbstractSubTypedItem<T extends Enum<T> & SubTypeEnum<Item>> extends Item
 		implements
@@ -40,7 +41,7 @@ public class AbstractSubTypedItem<T extends Enum<T> & SubTypeEnum<Item>> extends
 	}
 
 	@Override
-	public void getSubItems(Item base, CreativeTabs tab, List<ItemStack> list) {
+	public void getSubItems(Item base, CreativeTabs tab, NonNullList<ItemStack> list) {
 		itemPerk.getSubItems(base, list);
 	}
 

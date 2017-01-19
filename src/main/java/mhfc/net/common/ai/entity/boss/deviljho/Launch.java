@@ -79,7 +79,7 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 			Vec3d vec_positive_axis = vec_look_var.crossProduct(new Vec3d(0, 1, 0));
 
 			for (int i = 0; i < 5; i++) {
-				EntityProjectileBlock block = new EntityProjectileBlock(entity.worldObj, entity);
+				EntityProjectileBlock block = new EntityProjectileBlock(entity.world, entity);
 				double xCo = look.xCoord;
 				double yCo = look.yCoord + HEIGHT_BLOCK;
 				double zCo = look.zCoord;
@@ -98,7 +98,7 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 				}
 
 				block.setThrowableHeading(xCo, yCo, zCo, 2f, 1.5f);
-				entity.worldObj.spawnEntityInWorld(block);
+				entity.world.spawnEntity(block);
 			}
 
 			thrown = true;

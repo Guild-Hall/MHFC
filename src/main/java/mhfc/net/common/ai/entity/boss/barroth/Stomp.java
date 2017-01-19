@@ -44,7 +44,7 @@ public class Stomp extends DamagingAction<EntityBarroth> implements IHasAttackPr
 		if (!entity.onGround || thrown || this.getCurrentFrame() < 19) {
 			return;
 		}
-		List<Entity> list = entity.worldObj.getEntitiesWithinAABBExcludingEntity(
+		List<Entity> list = entity.world.getEntitiesWithinAABBExcludingEntity(
 				entity,
 				entity.getCollisionBoundingBox().expand(8.0D, 1.0D, 8.0D));
 		AIGameplayComposition.stompCracks(entity, 150);

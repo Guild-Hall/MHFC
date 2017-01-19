@@ -39,14 +39,14 @@ public class AIGameplayComposition {
 	 **/
 
 	public static void stompCracks(Entity entity, int incrementLength) {
-		Random random = entity.worldObj.rand;
-		Block block = entity.worldObj.getBlockState(entity.getPosition().down()).getBlock();
+		Random random = entity.world.rand;
+		Block block = entity.world.getBlockState(entity.getPosition().down()).getBlock();
 		if (block != Blocks.AIR) {
 			block = Blocks.DIRT;
 		}
 		for (int x = 0; x < incrementLength; x++) {
 			for (int z = 0; z < incrementLength; z++) {
-				entity.worldObj.spawnParticle(
+				entity.world.spawnParticle(
 						EnumParticleTypes.BLOCK_CRACK,
 						entity.posX - 5.0D + x,
 						entity.posY + 0.5D,
@@ -69,7 +69,7 @@ public class AIGameplayComposition {
 
 	public static void launch(Entity entity, double x, double y, double z) {
 		List<Entity> collidingEnts = WorldHelper.collidingEntities(entity);
-		if (!entity.worldObj.isRemote) {
+		if (!entity.world.isRemote) {
 			for (Entity collider : collidingEnts) {
 				collider.addVelocity(x, y, z);
 			}
@@ -84,8 +84,8 @@ public class AIGameplayComposition {
 	static float CamShakeIntensity;
 	
 	public static void camShake(EntityLivingBase e, Entity target, float dist, float intensity) {
-		if(e.worldObj.isRemote){
-			List<EntityPlayer> player = target.worldObj.getEntitiesWithinAABB(EntityPlayer.class, target.getEntityBoundingBox().expand(dist, 4, dist));
+		if(e.world.isRemote){
+			List<EntityPlayer> player = target.world.getEntitiesWithinAABB(EntityPlayer.class, target.getEntityBoundingBox().expand(dist, 4, dist));
 			camShake = (camShake == false)? true: false;
 			CamShakeIntensity = (camShake)? intensity: -intensity;
 			for (EntityPlayer players : player){

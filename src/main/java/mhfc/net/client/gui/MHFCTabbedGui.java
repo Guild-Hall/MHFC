@@ -174,11 +174,11 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 		List<Slot> slots = inventorySlots.inventorySlots;
 		for (Slot slot : slots) {
 			if (index >= 0 && index < tabs.size() && tabs.get(tabIndex).tab.containsSlot(slot)) {
-				slot.xDisplayPosition = Math.abs(slot.xDisplayPosition + 200) - 200;
-				slot.yDisplayPosition = Math.abs(slot.yDisplayPosition + 200) - 200;
+				slot.xPos = Math.abs(slot.xPos + 200) - 200;
+				slot.yPos = Math.abs(slot.yPos + 200) - 200;
 			} else {
-				slot.xDisplayPosition = -Math.abs(slot.xDisplayPosition + 200) - 200;
-				slot.yDisplayPosition = -Math.abs(slot.yDisplayPosition + 200) - 200;
+				slot.xPos = -Math.abs(slot.xPos + 200) - 200;
+				slot.yPos = -Math.abs(slot.yPos + 200) - 200;
 			}
 		}
 	}

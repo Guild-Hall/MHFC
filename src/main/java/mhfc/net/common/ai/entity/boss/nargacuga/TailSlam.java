@@ -17,6 +17,7 @@ import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import mhfc.net.common.util.world.WorldHelper;
+import net.minecraft.entity.MoverType;
 import net.minecraft.util.math.Vec3d;
 
 public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpProvider<EntityNargacuga> {
@@ -82,7 +83,7 @@ public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpPro
 			nargacuga.playSound(MHFCSoundRegistry.getRegistry().nargacugaTailSlam, 2.0F, 1.0F);
 		}
 
-		if (nargacuga.worldObj.isRemote) {
+		if (nargacuga.world.isRemote) {
 			return;
 		}
 		if (getCurrentFrame() == SPIKE_FRAME) {
@@ -98,8 +99,8 @@ public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpPro
 				int cluster = i / spikesPerCluster;
 				int spike = i % spikesPerCluster;
 				// FIXME replace with narga spikes once they are done
-				EntityProjectileBlock spikeEntity = new EntityProjectileBlock(nargacuga.worldObj, nargacuga);
-				spikeEntity.moveEntity(
+				EntityProjectileBlock spikeEntity = new EntityProjectileBlock(nargacuga.world, nargacuga);
+				spikeEntity.move(MoverType.SELF,
 						offsetScaleBack * look.xCoord,
 						offsetScaleBack * look.yCoord - 2.5,
 						offsetScaleBack * look.zCoord);
@@ -112,7 +113,7 @@ public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpPro
 						weightLeft * left.zCoord + weightRelUp * relUp.zCoord + weightLook * look.zCoord,
 						SPEED,
 						0);
-				nargacuga.worldObj.spawnEntityInWorld(spikeEntity);
+				nargacuga.world.spawnEntity(spikeEntity);
 			}
 		}
 	}

@@ -1,6 +1,5 @@
 package mhfc.net.common.block;
 
-import java.util.List;
 import java.util.Objects;
 
 import mhfc.net.common.util.SubTypedItem;
@@ -14,6 +13,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.NonNullList;
 
 public abstract class AbstractSubTypedBlock<T extends Enum<T> & SubTypeEnum<Block>> extends Block
 		implements
@@ -55,7 +55,7 @@ public abstract class AbstractSubTypedBlock<T extends Enum<T> & SubTypeEnum<Bloc
 	protected abstract BlockStateContainer createBlockState();
 
 	@Override
-	public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
+	public void getSubBlocks(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
 		getBlockTrait().getSubItems(item, list);
 	}
 

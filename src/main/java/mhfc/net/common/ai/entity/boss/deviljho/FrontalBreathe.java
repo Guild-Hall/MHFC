@@ -38,8 +38,8 @@ public class FrontalBreathe extends AnimatedAction<EntityDeviljho> implements IH
 		}
 		if (this.getCurrentFrame() == 40 && entity.getAttackTarget() == null) {
 			for (int i = 0; i < 3; ++i) {
-				EntityBreathe set_Breathe = new EntityBreathe(entity.worldObj, entity, true);
-				entity.worldObj.spawnEntityInWorld(set_Breathe);
+				EntityBreathe set_Breathe = new EntityBreathe(entity.world, entity, true);
+				entity.world.spawnEntity(set_Breathe);
 			}
 		}
 	}

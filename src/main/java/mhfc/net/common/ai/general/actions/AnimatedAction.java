@@ -99,7 +99,7 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 	}
 
 	protected boolean isEffectiveClient() {
-		return this.entity != null && this.entity.worldObj.isRemote;
+		return this.entity != null && this.entity.world.isRemote;
 	}
 
 	/**
@@ -108,10 +108,10 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 	 * @return a random
 	 */
 	protected Random rng() {
-		if (entity == null || entity.worldObj == null) {
+		if (entity == null || entity.world == null) {
 			return rand;
 		}
-		return entity.worldObj.rand;
+		return entity.world.rand;
 	}
 
 	protected int forceNextFrame(int frame) {

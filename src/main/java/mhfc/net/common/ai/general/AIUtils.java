@@ -282,9 +282,9 @@ public class AIUtils {
 			for (int yC = minY; yC <= maxY; yC++) {
 				for (int zC = minZ; zC <= maxZ; zC++) {
 					BlockPos dizBlock = new BlockPos(xC, yC, zC);
-					entity.worldObj.getBlockState(dizBlock).getBlock().addCollisionBoxToList(
-							entity.worldObj.getBlockState(dizBlock),
-							entity.worldObj,
+					entity.world.getBlockState(dizBlock).getBlock().addCollisionBoxToList(
+							entity.world.getBlockState(dizBlock),
+							entity.world,
 							dizBlock,
 							bounds,
 							list,

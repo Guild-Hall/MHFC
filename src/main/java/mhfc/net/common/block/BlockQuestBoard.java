@@ -103,7 +103,7 @@ public class BlockQuestBoard extends BlockContainer {
 			IBlockState state,
 			EntityPlayer player,
 			EnumHand hand,
-			ItemStack heldItem,
+			
 			EnumFacing side,
 			float hitX,
 			float hitY,
@@ -161,19 +161,12 @@ public class BlockQuestBoard extends BlockContainer {
 	}
 
 	@Override
-	public IBlockState onBlockPlaced(
-			World world,
-			BlockPos pos,
-			EnumFacing facing,
-			float hitX,
-			float hitY,
-			float hitZ,
-			int meta,
-			EntityLivingBase placer) {
-		if (world.isRemote) {
-			super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
+	 public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+    {
+		if (worldIn.isRemote) {
+			super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
 		}
-		EnumFacing side = getPlacedSide(world, pos, placer);
+		EnumFacing side = getPlacedSide(worldIn, pos, placer);
 		IBlockState state = getDefaultState();
 		if (isHorizontal(side)) {
 			return state.withProperty(PLACING, EnumPlacing.FORWARD_OFFSET).withProperty(FACING, side);

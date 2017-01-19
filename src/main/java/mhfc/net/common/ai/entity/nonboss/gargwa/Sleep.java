@@ -15,7 +15,7 @@ public class Sleep extends IdleAction<EntityGargwa> implements IHasAnimationProv
 	public Sleep() {}
 
 	private boolean shouldSelect() {
-		return !getEntity().worldObj.isDaytime();
+		return !getEntity().world.isDaytime();
 	}
 
 	@Override

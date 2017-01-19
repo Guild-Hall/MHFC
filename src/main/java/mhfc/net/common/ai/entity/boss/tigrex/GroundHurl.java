@@ -66,14 +66,14 @@ public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnim
 			return;
 		}
 		thrown = true;
-		if (tigrex.worldObj.isRemote) {
+		if (tigrex.world.isRemote) {
 			return;
 		}
 		Vec3d look = tigrex.getLookVec();
 		Vec3d lookVec = tigrex.getLookVec();
 		Vec3d rightSide = lookVec.crossProduct(new Vec3d(0, 1, 0));
 		for (int i = 0; i < 3; i++) {
-			EntityProjectileBlock block = new EntityProjectileBlock(tigrex.worldObj, tigrex);
+			EntityProjectileBlock block = new EntityProjectileBlock(tigrex.world, tigrex);
 			double xCo = look.xCoord;
 			double yCo = look.yCoord + THROW_HEIGHT;
 			double zCo = look.zCoord;
@@ -85,7 +85,7 @@ public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnim
 				zCo -= rightSide.zCoord * SPLIT_MULTIPLIER;
 			}
 			block.setThrowableHeading(xCo, yCo, zCo, 1f, 1.5f);
-			tigrex.worldObj.spawnEntityInWorld(block);
+			tigrex.world.spawnEntity(block);
 		}
 	}
 

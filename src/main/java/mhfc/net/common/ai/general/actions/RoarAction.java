@@ -43,7 +43,7 @@ public abstract class RoarAction<T extends EntityMHFCBase<? super T>> extends An
 	@Override
 	protected void onUpdate() {
 		T roaringEntity = getEntity();
-		List<Entity> list = roaringEntity.worldObj.getEntitiesWithinAABBExcludingEntity(
+		List<Entity> list = roaringEntity.world.getEntitiesWithinAABBExcludingEntity(
 				roaringEntity,
 				roaringEntity.getEntityBoundingBox().expand(4.0D, 3.0D, 4.0D));
 
