@@ -90,7 +90,7 @@ public class AIGameplayComposition {
 			camShake = (camShake == false) ? true : false;
 			CamShakeIntensity = (camShake) ? intensity : -intensity;
 			for (EntityPlayer players : player) {
-				players.setAngles(0, CamShakeIntensity);
+			players.turn(0, CamShakeIntensity);
 			}
 		}
 	}

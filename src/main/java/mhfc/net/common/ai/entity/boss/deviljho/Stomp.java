@@ -72,7 +72,7 @@ public class Stomp extends DamagingAction<EntityDeviljho> implements IHasAttackP
 				continue;
 			}
 			// FIXME: camera shake for players?
-			entity.setAngles(0, 40);
+			entity.turn(0, 40);
 			entity.addVelocity(0.2, 0.3, 0);
 		}
 		AIGameplayComposition.stompCracks(actor, 100);

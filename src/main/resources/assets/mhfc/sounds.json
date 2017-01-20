@@ -76,7 +76,7 @@
     "narga.spikes": {"category": "hostile", "sounds": ["mhfc:mob/nargacuga/spikes"]},
     "narga.tailjump": {"category": "hostile", "sounds": ["mhfc:mob/nargacuga/tailjump"]},
     "narga.tailslam": {"category": "hostile", "sounds": ["mhfc:mob/nargacuga/tailslam"]},
-    "narga.tailsweep": {"category": "hostile", "sounds": ["mhfc:mob/nargacuga/tailsweep"]},
+    "narga.tailwhip": {"category": "hostile", "sounds": ["mhfc:mob/nargacuga/tailwhip"]},
     "narga.wingslash": {"category": "hostile", "sounds": ["mhfc:mob/nargacuga/wingslash"]},
     "narga.death": {"category": "hostile", "sounds": ["mhfc:mob/nargacuga/death"]},
     

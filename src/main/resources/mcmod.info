@@ -2,7 +2,7 @@
   "modListVersion": 2,
   "modList": [{
     "modid": "mhfc",
-    "name": "§6${longname}",
+    "name": "§6Monster Hunter Frontier Craft",
     "description": "Authored by Heltrato, Developed with WorldSEnder and the GuildHall. Explore the wonders of a new adventure as you gone to the dimension and a life of being a monster hunter. Here you will encounter primieval biomes , unstoppable creatures , gain strong weapons and armors , explore a blight world. Inspired from Capcom's popular game Monster Hunter Frontier",
     "version": "${version}",
     "mcversion": "${minecraft.version}",
@@ -13,7 +13,7 @@
     "logoFile": "MHFCLogo.png",
     "screenshots": [],
     "parent": "",
-    "requiredMods": ["worldedit@[6.1,7)", "mcanm@[2.5,3)", "Forge"],
+    "requiredMods": ["worldedit@[6.1,7)", "mcanm@[2.6,3)"],
     "dependencies": ["worldedit"],
     "useDependencyInformation": true
   }]
