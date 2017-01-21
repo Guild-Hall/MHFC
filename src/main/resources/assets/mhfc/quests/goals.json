@@ -2,7 +2,7 @@
 	TigrexHunt : {
 		type : "hunting",
 		data : {
-			target: "mhfc.tigrex",
+			target: "mhfc:tigrex",
 			amount: 1
 		}
 	},
