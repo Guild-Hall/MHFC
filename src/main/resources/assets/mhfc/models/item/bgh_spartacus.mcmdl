@@ -1,6 +1,6 @@
 {
     version: 1,
-    mesh: "mhfc:models/item/ModelRathBowgun.mcmd",
+    mesh: "mhfc:models/item/model_rath_bowgun.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(BGH)rath"
     },

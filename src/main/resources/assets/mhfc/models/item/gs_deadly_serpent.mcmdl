@@ -1,6 +1,6 @@
 {
     version: 1,
-    mesh: "mhfc:models/item/ModelGSDeadlySerpentBlade.mcmd",
+    mesh: "mhfc:models/item/model_gs_deadly_serpent_blade.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(GS)deadlyserpentblade"
     },

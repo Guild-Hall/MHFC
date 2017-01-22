@@ -1,6 +1,6 @@
 {
     version: 1,
-    mesh: "mhfc:models/item/ModelGSDeviljhobroadsword.mcmd",
+    mesh: "mhfc:models/item/model_gs_deviljho_broadsword.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(GS)deviljhobroadsword"
     },
