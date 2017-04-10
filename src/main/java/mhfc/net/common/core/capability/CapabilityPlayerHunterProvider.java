@@ -9,9 +9,12 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
 public class CapabilityPlayerHunterProvider implements ICapabilityProvider, ICapabilitySerializable<NBTBase> {
-	private PlayerProperties playerProperties = CapabilityPlayerHunter.HUNTER_CAPABILITY.getDefaultInstance();
+	private PlayerProperties playerProperties;
 
-	public CapabilityPlayerHunterProvider(EntityPlayer player) {}
+	public CapabilityPlayerHunterProvider(EntityPlayer player) {
+		this.playerProperties = CapabilityPlayerHunter.HUNTER_CAPABILITY.getDefaultInstance();
+		playerProperties.setPlayer(player);
+	}
 
 	@Override
 	public void deserializeNBT(NBTBase nbt) {

@@ -2,9 +2,9 @@ package mhfc.net.common.world.exploration;
 
 import java.util.concurrent.CompletionStage;
 
+import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
-import net.minecraft.entity.player.EntityPlayerMP;
 
 /**
  * An exploration manager uses a set of active areas that it manages in order to give player access to instances of
@@ -16,30 +16,29 @@ import net.minecraft.entity.player.EntityPlayerMP;
  */
 public interface IExplorationManager {
 
-	public CompletionStage<IActiveArea> transferPlayerInto(EntityPlayerMP player, IAreaType type);
+	public CompletionStage<IActiveArea> transferPlayerInto(IAreaType type, QuestFlair flair);
 
 	/**
 	 * Returns the enclosing instance for the player or null if the player is not in an active area
 	 */
-	public IActiveArea getActiveAreaOf(EntityPlayerMP player);
+	public IActiveArea getActiveAreaOf();
+
+	public IAreaType getTargetAreaOf();
 
 	/**
-	 * Respawn the player if it is managed by this exploration manager. If it is not, throws
-	 * {@link IllegalArgumentException}
-	 *
-	 * @throws IllegalArgumentException
+	 * Respawn the player managed by this exploration manager
 	 */
-	public void respawn(EntityPlayerMP player) throws IllegalArgumentException;
+	public void respawn();
 
 	/**
 	 * Handles the first spawn of a player into the map. Not the first spawn in this manager, just the very first spawn
-	 * of a player.
+	 * of a player (after joining the server).
 	 *
 	 */
-	public void onPlayerJoined(EntityPlayerMP player) throws IllegalArgumentException;
+	public void onPlayerJoined();
 
-	public void onPlayerRemove(EntityPlayerMP player);
+	public void onPlayerAdded();
 
-	public void onPlayerAdded(EntityPlayerMP player);
+	public void onPlayerRemove();
 
 }

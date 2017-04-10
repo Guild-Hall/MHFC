@@ -74,7 +74,6 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	 * Not set before the {@link StagedFuture} from that the area is retrieved from is complete.
 	 */
 	protected IActiveArea questingArea;
-	protected QuestExplorationManager explorationManager;
 
 	protected int reward;
 	protected int fee;
@@ -176,12 +175,16 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	}
 
 	protected void onStart() {
-		explorationManager = new QuestExplorationManager(getQuestFlair(), getQuestingArea(), this);
 		questGoal.setActive(true);
 		this.state = QuestState.running;
 		for (EntityPlayerMP player : getPlayers()) {
-			MHFCExplorationRegistry.bindPlayer(explorationManager, player);
-			explorationManager.respawn(player);
+			QuestExplorationManager manager = new QuestExplorationManager(
+					player,
+					getQuestFlair(),
+					getQuestingArea(),
+					this);
+			IExplorationManager explorationManager = MHFCExplorationRegistry.bindPlayer(manager, player);
+			explorationManager.respawn();
 			// AreaTeleportation.movePlayerToArea(player, questingArea.getArea());
 		}
 		updatePlayers();

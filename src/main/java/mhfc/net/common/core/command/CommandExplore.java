@@ -1,9 +1,9 @@
 package mhfc.net.common.core.command;
 
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
+import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IAreaType;
-import mhfc.net.common.world.exploration.OverworldManager;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -29,8 +29,7 @@ public class CommandExplore extends CommandBase {
 		}
 		EntityPlayerMP player = (EntityPlayerMP) sender;
 		if (arguments.length == 0) {
-			MHFCExplorationRegistry.releasePlayer(player);
-			OverworldManager.instance.respawn(player);
+			MHFCExplorationRegistry.releasePlayer(player).respawn();
 			return;
 		} else if (arguments.length == 1) {
 			String targetAreaName = arguments[0];
@@ -38,7 +37,7 @@ public class CommandExplore extends CommandBase {
 			if (areaType == null) {
 				sender.sendMessage(new TextComponentString("Warning: the area type you choose did not exist"));
 			}
-			MHFCExplorationRegistry.transferPlayer(player, areaType);
+			MHFCExplorationRegistry.transferPlayer(player, areaType, QuestFlair.DAYTIME);
 		} else {
 			sender.sendMessage(new TextComponentString("Too many arguments for command mhfcexplore"));
 		}

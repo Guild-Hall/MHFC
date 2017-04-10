@@ -1,6 +1,7 @@
 package mhfc.net.common.core.data;
 
 import mhfc.net.common.world.exploration.ExplorationProperties;
+import net.minecraft.entity.player.EntityPlayer;
 
 public final class PlayerProperties {
 	private ExplorationProperties exploration;
@@ -18,6 +19,10 @@ public final class PlayerProperties {
 	}
 
 	public void cloneProperties(PlayerProperties originalProperties) {
-		this.exploration.cloneProperties(originalProperties.exploration);
+		this.exploration.cloneFrom(originalProperties.exploration);
+	}
+
+	public void setPlayer(EntityPlayer player) {
+		this.exploration.setPlayer(player);
 	}
 }

@@ -1,12 +1,18 @@
 package mhfc.net.common.world.exploration;
 
+import java.util.Objects;
+import java.util.function.Function;
+
+import org.apache.commons.lang3.StringUtils;
+
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.quests.properties.NBTType;
-import mhfc.net.common.world.area.AreaRegistry;
-import mhfc.net.common.world.area.IAreaType;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 
@@ -16,65 +22,66 @@ public final class ExplorationProperties {
 	public static final Capability<ExplorationProperties> EXPLORATION_CAPABILITY = null;
 
 	public static final String KEY_MANAGER = "manager";
-	public static final String KEY_AREA_TYPE = "areaType";
+	public static final String KEY_AREA_TYPE = "targetAreaType";
 
-	private IExplorationManager manager = OverworldManager.instance;
-	private IAreaType areaType = null;
+	private IExplorationManager manager;
+	private EntityPlayer player;
 
 	public NBTBase saveNBTData(NBTTagCompound compound) {
 		IExplorationManager currentManager = getManager();
-		String managerName = MHFCExplorationRegistry.getExplorationManagerName(currentManager);
+		String managerName = MHFCExplorationRegistry.getExplorationManagerName(currentManager).toString();
 		if (managerName == null) {
 			MHFCMain.logger().warn(
 					"The exploration manager {} did not have a public name, this will default on load",
 					currentManager);
-			managerName = "";
+			managerName = StringUtils.EMPTY;
 		}
 		compound.setString(KEY_MANAGER, managerName);
-		String areaTypeName = AreaRegistry.instance.getName(getAreaType());
-		if (areaTypeName == null) {
-			if (manager != OverworldManager.instance) {
-				MHFCMain.logger()
-						.warn("The area type {} did not have a public name, this will default on load", getAreaType());
-			}
-			areaTypeName = "";
-		}
-		compound.setString(KEY_AREA_TYPE, areaTypeName);
+
 		return compound;
 	}
 
 	public void loadNBTData(NBTBase tag) {
 		NBTTagCompound compound = NBTType.TAG_COMPOUND.assureTagType(tag);
-		String managerName = compound.getString(KEY_MANAGER);
-		String areaTypeName = compound.getString(KEY_AREA_TYPE);
-		IExplorationManager manager = MHFCExplorationRegistry.getExplorationManagerByName(managerName);
-		if (manager == null) {
-			MHFCMain.logger().debug("Defaulted exploration manager for key {}", managerName);
-			manager = OverworldManager.instance;
+		ResourceLocation managerName = new ResourceLocation(compound.getString(KEY_MANAGER));
+		if (player instanceof EntityPlayerMP) {
+			Function<EntityPlayerMP, ? extends IExplorationManager> factory = MHFCExplorationRegistry
+					.getExplorationManagerByName(managerName);
+			if (factory == null) {
+				MHFCMain.logger().debug("Defaulted exploration manager for key {}", managerName);
+				factory = OverworldManager::new;
+			}
+			IExplorationManager manager = factory.apply((EntityPlayerMP) player);
+			setManager(manager);
 		}
-		setManager(manager);
-		setAreaType(AreaRegistry.instance.getType(areaTypeName));
-	}
-
-	public IAreaType getAreaType() {
-		return areaType;
-	}
-
-	public void setAreaType(IAreaType areaType) {
-		this.areaType = areaType;
 	}
 
 	public IExplorationManager getManager() {
 		return manager;
 	}
 
-	public void setManager(IExplorationManager manager) {
+	private void setManager(IExplorationManager manager) {
 		this.manager = manager;
 	}
 
-	public void cloneProperties(ExplorationProperties originalProperties) {
+	public IExplorationManager replaceManager(IExplorationManager manager) {
+		Objects.requireNonNull(manager);
+		IExplorationManager current = this.manager;
+		MHFCMain.logger().debug("Moving player from exploration manager {} to {}", current, manager);
+		if (current != manager) {
+			current.onPlayerRemove();
+			setManager(manager);
+			manager.onPlayerAdded();
+		}
+		return this.manager;
+	}
+
+	public void cloneFrom(ExplorationProperties originalProperties) {
 		this.manager = originalProperties.manager;
-		this.areaType = originalProperties.areaType;
+	}
+
+	public void setPlayer(EntityPlayer player) {
+		this.player = player;
 	}
 
 }

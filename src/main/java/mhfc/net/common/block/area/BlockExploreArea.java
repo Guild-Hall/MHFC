@@ -7,6 +7,7 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCContainerRegistry;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.index.ResourceInterface;
+import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.tile.TileExploreArea;
 import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.block.BlockBarrier;
@@ -85,13 +86,13 @@ public class BlockExploreArea extends BlockBarrier implements ITileEntityProvide
 			return;
 		}
 		IAreaType targetArea = tileChangeArea.getTargetArea();
+		QuestFlair flair = tileChangeArea.getFlair();
 		if (targetArea != null) {
-			// FIXME: this ignores the quest flair completely
 			MHFCMain.logger().debug(
 					"Teleporting " + player.getName() + " to area " + targetArea.getUnlocalizedName()
 							+ " flair ignored right now");
 			teleportingPlayers.add(player);
-			MHFCExplorationRegistry.transferPlayer(player, targetArea).whenComplete((t, e) -> {
+			MHFCExplorationRegistry.transferPlayer(player, targetArea, flair).whenComplete((t, e) -> {
 				teleportingPlayers.remove(player);
 			});
 		}
