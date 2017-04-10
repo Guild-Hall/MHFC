@@ -47,7 +47,7 @@ public class ItemSpawner extends Item implements IItemColored {
 		ResourceLocation s1 = MHFCMobList.getStringFromID(par1ItemStack.getItemDamage());
 
 		if (s1 != null) {
-			s = s + " " + I18n.format(EntityList.getTranslationName(s1));
+			s = s + " " + I18n.format("entity." + EntityList.getTranslationName(s1) + ".name");
 		}
 
 		return s;

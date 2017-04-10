@@ -85,14 +85,16 @@ public class BlockExploreArea extends BlockBarrier implements ITileEntityProvide
 			return;
 		}
 		IAreaType targetArea = tileChangeArea.getTargetArea();
-		// FIXME: this ignores the quest flair completely
-		MHFCMain.logger().debug(
-				"Teleporting " + player.getName() + " to area " + targetArea.getUnlocalizedName()
-						+ " flair ignored right now");
-		teleportingPlayers.add(player);
-		MHFCExplorationRegistry.transferPlayer(player, targetArea).whenComplete((t, e) -> {
-			teleportingPlayers.remove(player);
-		});
+		if (targetArea != null) {
+			// FIXME: this ignores the quest flair completely
+			MHFCMain.logger().debug(
+					"Teleporting " + player.getName() + " to area " + targetArea.getUnlocalizedName()
+							+ " flair ignored right now");
+			teleportingPlayers.add(player);
+			MHFCExplorationRegistry.transferPlayer(player, targetArea).whenComplete((t, e) -> {
+				teleportingPlayers.remove(player);
+			});
+		}
 	}
 
 }
