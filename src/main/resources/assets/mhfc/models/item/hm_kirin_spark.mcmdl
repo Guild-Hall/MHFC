@@ -1,6 +1,6 @@
 {
     version: 1,
-    mesh: "mhfc:models/item/ModelHKirinSpark.mcmd",
+    mesh: "mhfc:models/item/model_hm_kirin_spark.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(H)kirinspark"
     },

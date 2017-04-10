@@ -1,6 +1,6 @@
 {
     version: 1,
-    mesh: "mhfc:models/item/ModelHHMogwardDrums.mcmd",
+    mesh: "mhfc:models/item/model_hh_mogward_drums.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(HH)mogwarddrums"
     },

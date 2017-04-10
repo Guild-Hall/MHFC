@@ -1,6 +1,6 @@
 {
     version: 1,
-    mesh: "mhfc:models/item/ModelHWarSlammer.mcmd",
+    mesh: "mhfc:models/item/model_hm_war_slammer.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(H)warslammer"
     },

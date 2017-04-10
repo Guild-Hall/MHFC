@@ -1,6 +1,6 @@
 {
     version: 1,
-    mesh: "mhfc:models/item/ModelHHIvoryHorn.mcmd",
+    mesh: "mhfc:models/item/model_hh_ivory_horn.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(HH)ivoryhorn"
     },

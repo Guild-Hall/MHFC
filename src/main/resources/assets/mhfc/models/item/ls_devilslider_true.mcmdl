@@ -1,6 +1,6 @@
 {
     version: 1,
-    mesh: "mhfc:models/item/ModelLSEagerCleaver.mcmd",
+    mesh: "mhfc:models/item/model_ls_eager_cleaver.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(LS)truedevilslicer"
     },

@@ -1,6 +1,6 @@
 {
     version: 1,
-    mesh: "mhfc:models/item/ModelHRathalos.mcmd",
+    mesh: "mhfc:models/item/model_hm_rathalos.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(H)rathalos"
     },

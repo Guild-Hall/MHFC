@@ -1,6 +1,6 @@
 {
     version: 1,
-    mesh: "mhfc:models/item/ModelGSRathalosFiresword.mcmd",
+    mesh: "mhfc:models/item/model_gs_rathalos_fire_sword.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(GS)rathalosfiresword"
     },

@@ -1,6 +1,6 @@
 {
     version: 1,
-    mesh: "mhfc:models/item/ModelLSDarkVipern.mcmd",
+    mesh: "mhfc:models/item/model_ls_dark_vipern.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(LS)darkvipern"
     },

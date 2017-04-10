@@ -1,6 +1,6 @@
 {
     version: 1,
-    mesh: "mhfc:models/item/ModelHHWarDrums.mcmd",
+    mesh: "mhfc:models/item/model_hh_war_drums.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(HH)wardrums"
     },

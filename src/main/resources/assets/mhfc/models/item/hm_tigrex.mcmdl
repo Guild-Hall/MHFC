@@ -1,6 +1,6 @@
 {
     version: 1,
-    mesh: "mhfc:models/item/ModelHTigrex.mcmd",
+    mesh: "mhfc:models/item/model_hm_tigrex.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(H)tigrex"
     },

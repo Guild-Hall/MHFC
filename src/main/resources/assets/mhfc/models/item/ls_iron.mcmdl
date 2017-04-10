@@ -1,6 +1,6 @@
 {
     version: 1,
-    mesh: "mhfc:models/item/ModelLSIronKatana.mcmd",
+    mesh: "mhfc:models/item/model_ls_iron_katana.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(LS)ironkatana"
     },

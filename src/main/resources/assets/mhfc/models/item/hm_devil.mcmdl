@@ -1,6 +1,6 @@
 {
     version: 1,
-    mesh: "mhfc:models/item/ModelHDeviljho.mcmd",
+    mesh: "mhfc:models/item/model_hm_deviljho.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(H)deviljho"
     },

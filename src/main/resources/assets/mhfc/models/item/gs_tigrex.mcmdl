@@ -1,6 +1,6 @@
 {
     version: 1,
-    mesh: "mhfc:models/item/ModelGSTigrex.mcmd",
+    mesh: "mhfc:models/item/model_gs_tigrex.mcmd",
     textures: {
         "#weapontex": "mhfc:weapons/(GS)TigrexAgito"
     },
