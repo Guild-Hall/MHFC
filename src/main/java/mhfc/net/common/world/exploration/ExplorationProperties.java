@@ -69,9 +69,13 @@ public final class ExplorationProperties {
 		IExplorationManager current = this.manager;
 		MHFCMain.logger().debug("Moving player from exploration manager {} to {}", current, manager);
 		if (current != manager) {
-			current.onPlayerRemove();
+			if (current != null) {
+				current.onPlayerRemove();
+			}
 			setManager(manager);
-			manager.onPlayerAdded();
+			if (manager != null) {
+				manager.onPlayerAdded();
+			}
 		}
 		return this.manager;
 	}

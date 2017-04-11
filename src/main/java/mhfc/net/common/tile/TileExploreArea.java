@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class TileExploreArea extends TileEntity {
+public class TileExploreArea extends TileEntity implements TileMHFCUpdateStream {
 
 	private static final String KEY_TARGET = "targetArea";
 	private static final String KEY_FLAIR = "targetFlair";
@@ -80,6 +80,21 @@ public class TileExploreArea extends TileEntity {
 		NBTTagCompound answerNbt = new NBTTagCompound();
 		this.writeToNBT(answerNbt);
 		return new SPacketUpdateTileEntity(getPos(), 1, answerNbt);
+	}
+
+	@Override
+	public void refreshState() {
+
+	}
+
+	@Override
+	public void readCustomUpdate(NBTTagCompound nbt) {
+		readFromNBT(nbt);
+	}
+
+	@Override
+	public void storeCustomUpdate(NBTTagCompound nbt) {
+		writeToNBT(nbt);
 	}
 
 	@Override

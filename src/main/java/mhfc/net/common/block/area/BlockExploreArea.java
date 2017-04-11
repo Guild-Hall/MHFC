@@ -89,8 +89,8 @@ public class BlockExploreArea extends BlockBarrier implements ITileEntityProvide
 		QuestFlair flair = tileChangeArea.getFlair();
 		if (targetArea != null) {
 			MHFCMain.logger().debug(
-					"Teleporting " + player.getName() + " to area " + targetArea.getUnlocalizedName()
-							+ " flair ignored right now");
+					"Teleporting " + player.getName() + " to area " + targetArea.getUnlocalizedName() + " with flair "
+							+ flair);
 			teleportingPlayers.add(player);
 			MHFCExplorationRegistry.transferPlayer(player, targetArea, flair).whenComplete((t, e) -> {
 				teleportingPlayers.remove(player);
