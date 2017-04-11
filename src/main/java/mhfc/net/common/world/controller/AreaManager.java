@@ -100,7 +100,12 @@ public class AreaManager implements IAreaManager {
 			nonactiveAreas.get(type).remove(active.getArea());
 			return CompletableFuture.completedFuture(active);
 		}
-		AreaConfiguration config = newArea(type);
+		return createNewInstance(type);
+	}
+
+	private CompletionStage<IActiveArea> createNewInstance(IAreaType type) {
+		AreaInformation info = newArea(type);
+		AreaConfiguration config = info.config;
 		CornerPosition position = config.getPosition();
 
 		final Operation plan = type.populate(world, config);
@@ -109,10 +114,14 @@ public class AreaManager implements IAreaManager {
 		final CompletableFuture<IActiveArea> areaFuture = new CompletableFuture<>();
 		final Operation operation = Operations.withCallback(Operations.timingOperation(plan, 20), o -> {
 			areaFuture.complete(new Active(type.provideForLoading(world, config), type, this));
+
+			onAreaCompleted(info);
 			ForgeChunkManager.unforceChunk(getLoadingTicket(), chunkPos);
 			MHFCMain.logger().debug("Area of type {} completed", type);
 		}, o -> {
 			areaFuture.cancel(true);
+
+			onAreaCanceled(info);
 			ForgeChunkManager.unforceChunk(getLoadingTicket(), chunkPos);
 			MHFCMain.logger().debug("Area of type {} cancelled", type);
 		});
@@ -128,7 +137,15 @@ public class AreaManager implements IAreaManager {
 		return areaFuture;
 	}
 
-	private AreaConfiguration newArea(IAreaType type) {
+	private AreaInformation newArea(IAreaType type) {
 		return saveData.newArea(type, type.configForNewArea());
+	}
+
+	private void onAreaCompleted(AreaInformation info) {
+		saveData.onAreaFullyGenerated(info);
+	}
+
+	private void onAreaCanceled(AreaInformation info) {
+		saveData.onAreaCanceled(info);
 	}
 }

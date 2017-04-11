@@ -23,13 +23,32 @@ import net.minecraft.world.WorldSavedData;
 import net.minecraftforge.common.util.Constants.NBT;
 
 public class MHFCWorldData extends WorldSavedData {
+	private static enum AreaStatus {
+		NEW,
+		FULLY_GENERATED;
+	}
+
 	public static class AreaInformation {
 		public final IAreaType type;
 		public final AreaConfiguration config;
+		private AreaStatus status;
 
 		public AreaInformation(IAreaType type, AreaConfiguration config) {
+			this(type, config, AreaStatus.NEW);
+		}
+
+		private AreaInformation(IAreaType type, AreaConfiguration config, AreaStatus status) {
 			this.type = Objects.requireNonNull(type);
 			this.config = Objects.requireNonNull(config);
+			this.status = status;
+		}
+
+		private boolean shouldSafe() {
+			return status == AreaStatus.FULLY_GENERATED;
+		}
+
+		private void setFullyGenerated() {
+			this.status = AreaStatus.FULLY_GENERATED;
 		}
 	}
 
@@ -73,7 +92,7 @@ public class MHFCWorldData extends WorldSavedData {
 			IExtendedConfiguration config = type.configForLoading();
 			AreaConfiguration areaConfig = AreaConfiguration.newConfigForLoading(config);
 			areaConfig.readFrom(dataTag);
-			spawnedAreas.add(new AreaInformation(type, areaConfig));
+			spawnedAreas.add(new AreaInformation(type, areaConfig, AreaStatus.FULLY_GENERATED));
 		}
 		areaManager.onLoaded();
 	}
@@ -82,6 +101,9 @@ public class MHFCWorldData extends WorldSavedData {
 	public NBTTagCompound writeToNBT(NBTTagCompound nbtTag) {
 		NBTTagList list = new NBTTagList();
 		for (AreaInformation conf : spawnedAreas) {
+			if (!conf.shouldSafe()) {
+				continue;
+			}
 			String typeS = AreaRegistry.instance.getName(conf.type);
 			if (typeS == null) {
 				continue;
@@ -100,13 +122,18 @@ public class MHFCWorldData extends WorldSavedData {
 		return nbtTag;
 	}
 
-	public AreaConfiguration newArea(IAreaType type, AreaConfiguration config) {
+	public AreaInformation newArea(IAreaType type, AreaConfiguration config) {
 		CornerPosition pos = rectanglePlacer.addRectangle(config.getChunkSizeX() + 2, config.getChunkSizeZ() + 2);
 		CornerPosition actual = new CornerPosition(pos.posX + 1, pos.posY + 1);
-		spawnedAreas.add(new AreaInformation(type, config));
+		AreaInformation areaId = new AreaInformation(type, config);
+		spawnedAreas.add(areaId);
 		this.markDirty();
 		config.setPosition(actual);
-		return config;
+		return areaId;
+	}
+
+	public void onAreaFullyGenerated(AreaInformation areaId) {
+		areaId.setFullyGenerated();
 	}
 
 	public Collection<AreaInformation> getAllSpawnedAreas() {
@@ -122,6 +149,10 @@ public class MHFCWorldData extends WorldSavedData {
 			world.getPerWorldStorage().setData("mhfcareas", data);
 		}
 		return data.areaManager;
+	}
+
+	public void onAreaCanceled(AreaInformation info) {
+		spawnedAreas.remove(info);
 	}
 
 }

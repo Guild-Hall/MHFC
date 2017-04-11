@@ -51,11 +51,11 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 	protected abstract Map<IActiveArea, Set<EntityPlayerMP>> getInhabitants();
 
 	protected Set<EntityPlayerMP> getInhabitants(IActiveArea activeArea) {
-		return getInhabitants().putIfAbsent(activeArea, new HashSet<>());
+		return getInhabitants().computeIfAbsent(activeArea, p -> new HashSet<>());
 	}
 
 	protected List<IActiveArea> getAreasOfType(IAreaType type) {
-		return getManagedInstances().putIfAbsent(type, new ArrayList<>());
+		return getManagedInstances().computeIfAbsent(type, p -> new ArrayList<>());
 	}
 
 	protected CompletionStage<IActiveArea> transferIntoInstance(IAreaType type, QuestFlair flair) {
