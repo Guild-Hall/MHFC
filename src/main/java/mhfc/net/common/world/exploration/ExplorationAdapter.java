@@ -59,7 +59,8 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 	}
 
 	protected CompletionStage<IActiveArea> transferInto(IAreaType type, QuestFlair flair) {
-		Optional<IActiveArea> activeAreaOption = getAreasOfType(type).stream().findFirst();
+		Optional<IActiveArea> activeAreaOption = getAreasOfType(type).stream().filter(this::canTransferIntoArea)
+				.findFirst();
 		if (activeAreaOption.isPresent()) {
 			MHFCMain.logger().debug("Transfering player into existing quest area instance");
 			IActiveArea area = activeAreaOption.get();
@@ -69,6 +70,10 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 			MHFCMain.logger().debug("Transfering player into new quest area instance");
 			return transferIntoNewInstance(type, flair);
 		}
+	}
+
+	protected boolean canTransferIntoArea(IActiveArea area) {
+		return true;
 	}
 
 	@Override

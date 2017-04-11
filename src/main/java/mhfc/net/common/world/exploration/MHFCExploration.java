@@ -4,12 +4,8 @@ import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.AreaTeleportation;
@@ -45,23 +41,13 @@ public class MHFCExploration extends ExplorationAdapter {
 		return getInhabitants(instance).size() >= getMaximumPlayerCount(instance.getType());
 	}
 
-	@Override
-	protected CompletionStage<IActiveArea> transferInto(IAreaType type, QuestFlair flair) {
-		Optional<IActiveArea> eligibleArea = getAreasOfType(type).stream().filter((inst) -> !isInstanceFull(inst))
-				.findAny();
-		if (eligibleArea.isPresent()) {
-			MHFCMain.logger().debug("Transfering player into existing instance");
-			IActiveArea area = eligibleArea.get();
-			transferIntoExistingInstance(area, flair);
-			return CompletableFuture.completedFuture(area);
-		} else {
-			MHFCMain.logger().debug("Transfering player into new instance");
-			return transferIntoNewInstance(type, flair);
-		}
-	}
-
 	protected int getMaximumPlayerCount(IAreaType type) {
 		return Math.min(1, maximumAllowedPlayer.getOrDefault(type, 10));
+	}
+
+	@Override
+	protected boolean canTransferIntoArea(IActiveArea area) {
+		return !isInstanceFull(area);
 	}
 
 	@Override
