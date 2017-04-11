@@ -6,7 +6,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 import mhfc.net.MHFCMain;
-import mhfc.net.common.network.packet.MessageTileLocation;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.tile.TileExploreArea;
 import net.minecraft.tileentity.TileEntity;

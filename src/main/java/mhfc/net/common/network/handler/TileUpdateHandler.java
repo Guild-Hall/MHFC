@@ -1,6 +1,6 @@
 package mhfc.net.common.network.handler;
 
-import mhfc.net.common.network.packet.MessageTileUpdate;
+import mhfc.net.common.network.message.MessageTileUpdate;
 import mhfc.net.common.tile.TileMHFCUpdateStream;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;

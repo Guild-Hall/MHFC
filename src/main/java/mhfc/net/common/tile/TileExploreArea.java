@@ -2,7 +2,7 @@ package mhfc.net.common.tile;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.network.message.MessageExploreTileUpdate;
-import mhfc.net.common.network.packet.MessageTileUpdate;
+import mhfc.net.common.network.message.MessageTileUpdate;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IAreaType;

@@ -1,4 +1,4 @@
-package mhfc.net.common.network.packet;
+package mhfc.net.common.network.message;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;

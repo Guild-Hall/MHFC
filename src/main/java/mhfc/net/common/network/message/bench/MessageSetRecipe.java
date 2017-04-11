@@ -5,7 +5,7 @@ import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe.RecipeType;
 import mhfc.net.common.item.ItemType;
-import mhfc.net.common.network.packet.MessageTileLocation;
+import mhfc.net.common.network.message.MessageTileLocation;
 import mhfc.net.common.tile.TileHunterBench;
 
 public class MessageSetRecipe extends MessageTileLocation {

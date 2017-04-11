@@ -16,6 +16,7 @@ import mhfc.net.common.network.handler.MessageAttackHandler;
 import mhfc.net.common.network.handler.TileUpdateHandler;
 import mhfc.net.common.network.message.MessageAIAction;
 import mhfc.net.common.network.message.MessageExploreTileUpdate;
+import mhfc.net.common.network.message.MessageTileUpdate;
 import mhfc.net.common.network.message.bench.MessageBeginCrafting;
 import mhfc.net.common.network.message.bench.MessageBenchRefreshRequest;
 import mhfc.net.common.network.message.bench.MessageCancelRecipe;
@@ -27,7 +28,6 @@ import mhfc.net.common.network.message.quest.MessageMissionUpdate;
 import mhfc.net.common.network.message.quest.MessageQuestInit;
 import mhfc.net.common.network.message.quest.MessageQuestRunningSubscription;
 import mhfc.net.common.network.message.quest.MessageRequestMissionUpdate;
-import mhfc.net.common.network.packet.MessageTileUpdate;
 import mhfc.net.common.tile.TileExploreArea.UpdateRequestHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
