@@ -46,13 +46,13 @@ public class MHFCExploration extends ExplorationAdapter {
 	}
 
 	@Override
-	protected CompletionStage<IActiveArea> transferIntoInstance(IAreaType type, QuestFlair flair) {
+	protected CompletionStage<IActiveArea> transferInto(IAreaType type, QuestFlair flair) {
 		Optional<IActiveArea> eligibleArea = getAreasOfType(type).stream().filter((inst) -> !isInstanceFull(inst))
 				.findAny();
 		if (eligibleArea.isPresent()) {
 			MHFCMain.logger().debug("Transfering player into existing instance");
 			IActiveArea area = eligibleArea.get();
-			transferIntoInstance(area, flair);
+			transferIntoExistingInstance(area, flair);
 			return CompletableFuture.completedFuture(area);
 		} else {
 			MHFCMain.logger().debug("Transfering player into new instance");
@@ -65,8 +65,8 @@ public class MHFCExploration extends ExplorationAdapter {
 	}
 
 	@Override
-	protected void transferIntoInstance(IActiveArea area, QuestFlair flair) {
-		super.transferIntoInstance(area, flair);
+	protected void transferIntoExistingInstance(IActiveArea area, QuestFlair flair) {
+		super.transferIntoExistingInstance(area, flair);
 		LAST_VISITED_AREA.put(player, area.getType());
 		LAST_FLAIR.put(player, flair);
 	}

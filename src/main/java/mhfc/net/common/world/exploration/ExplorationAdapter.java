@@ -58,12 +58,12 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		return getManagedInstances().computeIfAbsent(type, p -> new ArrayList<>());
 	}
 
-	protected CompletionStage<IActiveArea> transferIntoInstance(IAreaType type, QuestFlair flair) {
+	protected CompletionStage<IActiveArea> transferInto(IAreaType type, QuestFlair flair) {
 		Optional<IActiveArea> activeAreaOption = getAreasOfType(type).stream().findFirst();
 		if (activeAreaOption.isPresent()) {
 			MHFCMain.logger().debug("Transfering player into existing quest area instance");
 			IActiveArea area = activeAreaOption.get();
-			transferIntoInstance(area, flair);
+			transferIntoExistingInstance(area, flair);
 			return CompletableFuture.completedFuture(area);
 		} else {
 			MHFCMain.logger().debug("Transfering player into new quest area instance");
@@ -75,18 +75,13 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 	public CompletionStage<IActiveArea> transferPlayerInto(IAreaType type, QuestFlair flair) {
 		targetArea = type;
 		if (futureArea != null) {
-			return transferTeleportingPlayer(type, flair);
-		} else {
-			return transferIntoInstance(type, flair);
+			Objects.requireNonNull(player);
+			CompletionStage<IActiveArea> waitingFor = futureArea;
+			waitingFor.toCompletableFuture().cancel(true);
+			futureArea = null;
 		}
-	}
 
-	protected CompletionStage<IActiveArea> transferTeleportingPlayer(IAreaType type, QuestFlair flair) {
-		Objects.requireNonNull(player);
-		CompletionStage<IActiveArea> waitingFor = futureArea;
-		waitingFor.toCompletableFuture().cancel(true);
-		futureArea = null;
-		return transferPlayerInto(type, flair);
+		return transferInto(type, flair);
 	}
 
 	protected CompletionStage<IActiveArea> transferIntoNewInstance(IAreaType type, QuestFlair flair) {
@@ -94,12 +89,11 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		Objects.requireNonNull(player);
 		Objects.requireNonNull(type);
 		CompletionStage<IActiveArea> unusedInstance = MHFCDimensionRegistry.getUnusedInstance(type, flair);
-		futureArea = unusedInstance;
-		unusedInstance.whenComplete((area, ex) -> {
+		futureArea = unusedInstance.whenComplete((area, ex) -> {
 			try {
 				if (area != null) {
 					addInstance(area);
-					transferIntoInstance(area, flair);
+					transferIntoExistingInstance(area, flair);
 				} else {
 					MHFCMain.logger().debug("Canceled teleport to area due to cancellation of area");
 				}
@@ -134,7 +128,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		}
 	}
 
-	protected void transferIntoInstance(IActiveArea area, QuestFlair flair) {
+	protected void transferIntoExistingInstance(IActiveArea area, QuestFlair flair) {
 		Objects.requireNonNull(area);
 		removePlayerFromInstance();
 		this.area = Optional.of(area);
