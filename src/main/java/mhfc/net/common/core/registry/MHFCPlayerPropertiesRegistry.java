@@ -1,6 +1,5 @@
 package mhfc.net.common.core.registry;
 
-import mhfc.net.common.core.capability.CapabilityPlayerHunter;
 import mhfc.net.common.core.capability.CapabilityPlayerHunterProvider;
 import mhfc.net.common.core.data.PlayerProperties;
 import net.minecraft.entity.Entity;
@@ -49,10 +48,10 @@ public class MHFCPlayerPropertiesRegistry {
 
 	public static void init() {
 		MinecraftForge.EVENT_BUS.register(playerLoadHandler);
-		CapabilityPlayerHunter.registerCapabilities(CapabilityManager.INSTANCE);
+		CapabilityPlayerHunterProvider.registerCapabilities(CapabilityManager.INSTANCE);
 	}
 
 	public static PlayerProperties getPlayerProperties(EntityPlayer player) {
-		return player.getCapability(CapabilityPlayerHunter.HUNTER_CAPABILITY, null);
+		return player.getCapability(CapabilityPlayerHunterProvider.HUNTER_CAPABILITY, null);
 	}
 }
