@@ -19,7 +19,7 @@ public class MHFCPlayerPropertiesRegistry {
 
 	public static class PlayerLoadHandler {
 		private boolean isValidPlayerEntity(Entity entity) {
-			return entity instanceof EntityPlayer && !entity.world.isRemote;
+			return entity instanceof EntityPlayer && !((EntityPlayer) entity).world.isRemote;
 		}
 
 		@SubscribeEvent
@@ -37,11 +37,12 @@ public class MHFCPlayerPropertiesRegistry {
 		}
 
 		@SubscribeEvent
-		public void onCreatePlayerEntity(AttachCapabilitiesEvent.Entity constructing) {
-			if (!isValidPlayerEntity(constructing.getEntity())) {
+		public void onCreatePlayerEntity(AttachCapabilitiesEvent<Entity> constructing) {
+			Entity attachTarget = constructing.getObject();
+			if (!isValidPlayerEntity(attachTarget)) {
 				return;
 			}
-			EntityPlayer player = (EntityPlayer) constructing.getEntity();
+			EntityPlayer player = (EntityPlayer) attachTarget;
 			constructing.addCapability(propertyKey, new CapabilityPlayerHunterProvider(player));
 		}
 	}
