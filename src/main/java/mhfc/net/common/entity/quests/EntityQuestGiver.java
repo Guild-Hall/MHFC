@@ -35,9 +35,6 @@ public class EntityQuestGiver extends EntityVillager {
 
 	@Override
 	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand) {
-		if (hand != EnumHand.OFF_HAND) {
-			return EnumActionResult.PASS;
-		}
 		player.openGui(MHFCMain.instance(), MHFCContainerRegistry.gui_questgiver_id, this.world, subID, 0, 0);
 		return EnumActionResult.SUCCESS;
 	}
