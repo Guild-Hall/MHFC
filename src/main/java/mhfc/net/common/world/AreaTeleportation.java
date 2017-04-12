@@ -76,6 +76,8 @@ public class AreaTeleportation {
 	private static void changePlayerDimension(EntityPlayerMP player, int dimension, Teleporter tp) {
 		if (player.dimension != dimension) {
 			player.mcServer.getPlayerList().transferPlayerToDimension(player, dimension, tp);
+		} else {
+			tp.placeInPortal(player, player.rotationYaw);
 		}
 	}
 
