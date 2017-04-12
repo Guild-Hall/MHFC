@@ -1,6 +1,7 @@
 package mhfc.net.common.core.registry;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -50,7 +51,7 @@ public class MHFCQuestRegistry {
 		@Override
 		public MessageMissionUpdate onMessage(MessageRequestMissionUpdate message, MessageContext ctx) {
 			String identifier = message.getIdentifier();
-			Mission runningQuest = getRegistry().getRunningQuest(identifier);
+			Mission runningQuest = getRegistry().getMission(identifier);
 			if (runningQuest == null) {
 				return null;
 			}
@@ -110,7 +111,7 @@ public class MHFCQuestRegistry {
 		@SubscribeEvent
 		public void onPlayerLeave(PlayerLoggedOutEvent logOut) {
 			EntityPlayerMP player = EntityPlayerMP.class.cast(logOut.player);
-			Mission quest = getRegistry().getQuestForPlayer(player);
+			Mission quest = getRegistry().getMissionForPlayer(player);
 			if (quest == null) {
 				return;
 			}
@@ -159,7 +160,7 @@ public class MHFCQuestRegistry {
 	}
 
 	private void forfeitQuest(EntityPlayerMP player) {
-		Mission quest = getQuestForPlayer(player);
+		Mission quest = getMissionForPlayer(player);
 		if (quest != null) {
 			quest.quitPlayer(player);
 			player.sendMessage(new TextComponentString("You have forfeited a quest"));
@@ -169,7 +170,7 @@ public class MHFCQuestRegistry {
 	}
 
 	private void voteEndQuest(EntityPlayerMP player) {
-		Mission quest = getQuestForPlayer(player);
+		Mission quest = getMissionForPlayer(player);
 		if (quest != null) {
 			quest.voteEnd(player);
 			player.sendMessage(new TextComponentString("You have voted for ending the quest"));
@@ -179,7 +180,7 @@ public class MHFCQuestRegistry {
 	}
 
 	private void voteStartQuest(EntityPlayerMP player) {
-		Mission quest = getQuestForPlayer(player);
+		Mission quest = getMissionForPlayer(player);
 		if (quest != null) {
 			quest.voteStart(player);
 			player.sendMessage(new TextComponentString("You have voted for starting the quest"));
@@ -187,7 +188,7 @@ public class MHFCQuestRegistry {
 	}
 
 	private void acceptQuest(EntityPlayerMP player, MessageMHFCInteraction message) {
-		Mission quest = getRunningQuest(message.getOptions()[0]);
+		Mission quest = getMission(message.getOptions()[0]);
 		if (quest != null) {
 			quest.joinPlayer(player);
 			player.sendMessage(new TextComponentString("You have accepted a quest"));
@@ -197,9 +198,9 @@ public class MHFCQuestRegistry {
 	}
 
 	private void createNewQuest(EntityPlayerMP player, MessageMHFCInteraction message) {
-		Mission quest = getQuestForPlayer(player);
+		Mission quest = getMissionForPlayer(player);
 		if (quest != null) {
-			player.sendMessage(new TextComponentString("You already are on quest " + getIdentifierForQuest(quest)));
+			player.sendMessage(new TextComponentString("You already are on quest " + getMissionID(quest)));
 			PacketPipeline.networkPipe.sendTo(quest.createFullUpdateMessage(), player);
 			return;
 		}
@@ -246,15 +247,16 @@ public class MHFCQuestRegistry {
 		MinecraftForge.EVENT_BUS.unregister(connectionHandler);
 	}
 
-	public Mission getRunningQuest(String string) {
+	public Mission getMission(String string) {
 		return runningQuestRegistry.getData(string);
 	}
 
 	/**
 	 * Get the quest on which a player is on. If the player is on no quest then null is returned.
 	 */
-	public Mission getQuestForPlayer(EntityPlayer player) {
-		return runningQuestRegistry.getData(playerQuest.get(player));
+	public Mission getMissionForPlayer(EntityPlayer player) {
+		String playerMissionID = getMissionIDForPlayer(player);
+		return getMission(playerMissionID);
 	}
 
 	/**
@@ -270,14 +272,14 @@ public class MHFCQuestRegistry {
 	/**
 	 * Returns all quests that are running at the moment.
 	 */
-	public List<Mission> getRunningQuests() {
-		return questsRunning;
+	public List<Mission> getAllMissions() {
+		return Collections.unmodifiableList(questsRunning);
 	}
 
 	/**
 	 * Returns the identifier for a quest
 	 */
-	public String getIdentifierForQuest(Mission quest) {
+	public String getMissionID(Mission quest) {
 		return runningQuestRegistry.getKey(quest);
 	}
 
@@ -285,7 +287,7 @@ public class MHFCQuestRegistry {
 	 * Sets the quest for a player, use null to remove the entry
 	 *
 	 */
-	public void setQuestForPlayer(EntityPlayer player, Mission generalQuest) {
+	public void setMissionForPlayer(EntityPlayer player, Mission generalQuest) {
 		if (generalQuest == null) {
 			playerQuest.remove(player);
 		} else {

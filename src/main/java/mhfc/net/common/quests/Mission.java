@@ -230,7 +230,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		// TODO add more evaluation and/or move to another class?
 		boolean isPending = state == QuestState.pending;
 		boolean notFull = playerCount() < maxPlayerCount;
-		boolean playerHasNoQuest = MHFCQuestRegistry.getRegistry().getQuestForPlayer(player) == null;
+		boolean playerHasNoQuest = MHFCQuestRegistry.getRegistry().getMissionForPlayer(player) == null;
 		return isPending && notFull && playerHasNoQuest;
 	}
 
@@ -250,7 +250,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	private void addPlayer(EntityPlayerMP player) {
 		playerAttributes.putPlayer(player, Mission.newAttribute(player));
-		MHFCQuestRegistry.getRegistry().setQuestForPlayer(player, this);
+		MHFCQuestRegistry.getRegistry().setMissionForPlayer(player, this);
 		updatePlayerInitial(player);
 		updatePlayers();
 	}
@@ -259,7 +259,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		QuestingPlayerState att = playerAttributes.removePlayer(player);
 		if (att != null) {
 			PacketPipeline.networkPipe.sendTo(MessageMissionStatus.departing(missionID), att.player);
-			MHFCQuestRegistry.getRegistry().setQuestForPlayer(att.player, null);
+			MHFCQuestRegistry.getRegistry().setMissionForPlayer(att.player, null);
 			MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
 			MHFCExplorationRegistry.respawnPlayer(player);
 			return true;
