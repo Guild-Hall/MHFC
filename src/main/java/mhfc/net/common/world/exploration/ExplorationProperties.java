@@ -29,7 +29,8 @@ public final class ExplorationProperties {
 
 	public NBTBase saveNBTData(NBTTagCompound compound) {
 		IExplorationManager currentManager = getManager();
-		String managerName = MHFCExplorationRegistry.getExplorationManagerName(currentManager).toString();
+		ResourceLocation managerId = MHFCExplorationRegistry.getExplorationManagerName(currentManager);
+		String managerName = managerId == null ? null : managerId.toString();
 		if (managerName == null) {
 			MHFCMain.logger().warn(
 					"The exploration manager {} did not have a public name, this will default on load",
