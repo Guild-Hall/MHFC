@@ -13,13 +13,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 
 public final class ExplorationProperties {
-
-	@CapabilityInject(ExplorationProperties.class)
-	public static final Capability<ExplorationProperties> EXPLORATION_CAPABILITY = null;
 
 	public static final String KEY_MANAGER = "manager";
 	public static final String KEY_AREA_TYPE = "targetAreaType";
@@ -30,13 +25,7 @@ public final class ExplorationProperties {
 	public NBTBase saveNBTData(NBTTagCompound compound) {
 		IExplorationManager currentManager = getManager();
 		ResourceLocation managerId = MHFCExplorationRegistry.getExplorationManagerName(currentManager);
-		String managerName = managerId == null ? null : managerId.toString();
-		if (managerName == null) {
-			MHFCMain.logger().warn(
-					"The exploration manager {} did not have a public name, this will default on load",
-					currentManager);
-			managerName = StringUtils.EMPTY;
-		}
+		String managerName = managerId == null ? StringUtils.EMPTY : managerId.toString();
 		compound.setString(KEY_MANAGER, managerName);
 
 		return compound;
