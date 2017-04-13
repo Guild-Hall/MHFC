@@ -1,5 +1,6 @@
 package mhfc.net.common.util.services;
 
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -24,7 +25,22 @@ public interface IServiceKey<T> {
 	 *            the remapper from T to O. Not null
 	 * @return A new service key to retrieve the remapped service.
 	 */
-	<O> IServiceKey<O> withIndirection(Function<T, O> remap);
+	default <O> IServiceKey<O> withIndirection(Function<T, O> remap) {
+		Objects.requireNonNull(remap);
+		final IServiceKey<T> original = this;
+
+		return new IServiceKey<O>() {
+			@Override
+			public IServiceProvider getServiceProvider() {
+				return original.getServiceProvider();
+			}
+
+			@Override
+			public O getService() {
+				return remap.apply(original.getService());
+			}
+		};
+	}
 
 	default T getService() {
 		return getServiceProvider().getServiceFor(this)

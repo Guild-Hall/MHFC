@@ -55,29 +55,29 @@ public class MHFCMain {
 
 	private static IPhaseAccess<FMLPreInitializationEvent, Void> preInitPhaseAccess = Services.instance
 			.<FMLPreInitializationEvent, Void>registerPhase("mod pre initialized").setDefaultShutdownContext(null)
-			.declareParent(constructedPhase);
+			.declareRequirement(constructedPhase);
 	public static final IPhaseKey<FMLPreInitializationEvent, Void> preInitPhase = preInitPhaseAccess;
 
 	private static IPhaseAccess<FMLInitializationEvent, Void> initPhaseAccess = Services.instance
 			.<FMLInitializationEvent, Void>registerPhase("mod initialized").setDefaultShutdownContext(null)
-			.declareParent(preInitPhase);
+			.declareRequirement(preInitPhase);
 	public static final IPhaseKey<FMLInitializationEvent, Void> initPhase = initPhaseAccess;
 
 	private static IPhaseAccess<FMLPostInitializationEvent, Void> postInitPhaseAccess = Services.instance
 			.<FMLPostInitializationEvent, Void>registerPhase("mod post initialized").setDefaultShutdownContext(null)
-			.declareParent(initPhase);
+			.declareRequirement(initPhase);
 	public static final IPhaseKey<FMLPostInitializationEvent, Void> postInitPhase = postInitPhaseAccess;
 
 	private static IPhaseAccess<FMLServerStartingEvent, FMLServerStoppedEvent> serverRunningPhaseAccess = Services.instance
 			.<FMLServerStartingEvent, FMLServerStoppedEvent>registerPhase("server running")
-			.declareParent(postInitPhase);
+			.declareRequirement(postInitPhase);
 	/**
 	 * Active while the a logical server is running
 	 */
 	public static final IPhaseKey<FMLServerStartingEvent, FMLServerStoppedEvent> serverRunningPhase = serverRunningPhaseAccess;
 	private static IPhaseAccess<FMLServerStartedEvent, FMLServerStoppingEvent> serverActivePhaseAccess = Services.instance
 			.<FMLServerStartedEvent, FMLServerStoppingEvent>registerPhase("server active")
-			.declareParent(serverRunningPhase);
+			.declareRequirement(serverRunningPhase);
 	/**
 	 * Active while the a logical server is running and loaded
 	 */
@@ -94,12 +94,17 @@ public class MHFCMain {
 			public void onPhaseEnd(Object service, Z shutdownContext) {
 				logger().debug("Exiting phase " + phase);
 			}
+
+			@Override
+			public void onPhaseEndExceptionally(Object service, Throwable cause) {
+				logger().debug("Exiting phase " + phase + " exceptionally");
+			}
 		};
 	}
 
 	static {
 		IServiceAccess<Object> sentinel = Services.instance
-				.registerService("sentinel", IServiceHandle.<Object>noInit(), Object::new);
+				.registerService("sentinel", IServiceHandle.noInit(Object::new));
 		sentinel.addTo(constructedPhase, getSPHandleFor("\"constructed\""));
 		sentinel.addTo(preInitPhase, getSPHandleFor("\"pre-initialized\""));
 		sentinel.addTo(initPhase, getSPHandleFor("\"initialized\""));

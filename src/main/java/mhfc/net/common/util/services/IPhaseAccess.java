@@ -53,16 +53,17 @@ public interface IPhaseAccess<A, Z> extends IPhaseKey<A, Z> {
 	void exitPhase(Z shutdownContext) throws IllegalStateException;
 
 	/**
-	 * Declares that other is a parent phase of this phase. This is used for sanity checks.
+	 * Declares that the other phase is required to be active for the whole duration of this phase. This is used for
+	 * sanity checks.
 	 * <p>
-	 * If a phase A has a parent phase B, this means that A has to start after B has been started and A has to end
-	 * before B ends.
+	 * I.e. If a phase A declares phase B as requirement, this means that A has to start after B has been started and A
+	 * has to end before B ends.
 	 *
 	 * @param other
 	 *            the registry of the parent phase. Must come from the same ServiceProvider.
 	 * @return this
 	 * @throws IllegalArgumentException
 	 */
-	IPhaseAccess<A, Z> declareParent(IPhaseKey<?, ?> other) throws IllegalArgumentException;
+	IPhaseAccess<A, Z> declareRequirement(IPhaseKey<?, ?> other) throws IllegalArgumentException;
 
 }

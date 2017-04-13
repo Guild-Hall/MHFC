@@ -20,6 +20,9 @@ public interface IServicePhaseHandle<T, A, Z> {
 
 			@Override
 			public void onPhaseEnd(T service, Z shutdownContext) {}
+
+			@Override
+			public void onPhaseEndExceptionally(T service, Throwable cause) {}
 		};
 	}
 
@@ -47,4 +50,13 @@ public interface IServicePhaseHandle<T, A, Z> {
 	 */
 	void onPhaseEnd(T service, Z shutdownContext);
 
+	/**
+	 * Called when the phase this was registered for exists exceptionally, i.e. doesn't offer a shutdown context
+	 *
+	 * @param service
+	 *            the service instance that is currently active.
+	 * @param cause
+	 *            the cause why the phase shutdown unexpectedly
+	 */
+	void onPhaseEndExceptionally(T service, Throwable cause);
 }

@@ -66,13 +66,18 @@ public class MHFCTickHandler {
 			IServiceAccess<DoubleBufferRunnableRegistry> phaseHandler = Services.instance
 					.registerService("tick " + phase, new IServiceHandle<DoubleBufferRunnableRegistry>() {
 						@Override
+						public DoubleBufferRunnableRegistry createInstance() {
+							return new DoubleBufferRunnableRegistry();
+						}
+
+						@Override
 						public void startup(DoubleBufferRunnableRegistry instance) {}
 
 						@Override
 						public void shutdown(DoubleBufferRunnableRegistry instance) {
 							instance.cancel();
 						}
-					}, DoubleBufferRunnableRegistry::new);
+					});
 			if (isServerTick) {
 				phaseHandler.addTo(MHFCMain.serverActivePhase, IServicePhaseHandle.noInit());
 			} else if (isClientTick) {

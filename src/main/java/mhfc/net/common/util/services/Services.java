@@ -9,10 +9,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+
+import org.apache.logging.log4j.Level;
 
 import com.google.common.base.Preconditions;
+
+import mhfc.net.MHFCMain;
 
 /**
  * This singleton class offers a way to retrieve Services during different phases of the game. This is kind of a sanity
@@ -132,20 +134,18 @@ public class Services implements IServiceProvider {
 	private class ServiceEntry<T> implements IServiceAccess<T>, IServiceRetrieval<T> {
 		private final IServiceID<T> serviceID;
 		private T service = null;
-		private final Supplier<T> bootstrap;
 		private LifeCycle state = LifeCycle.NOT_INITIALIZED;
 		private IServiceHandle<T> handle;
 		private Set<IPhaseID<?, ?>> activePhases = new HashSet<>();
 
-		protected ServiceEntry(IServiceID<T> serviceID, Supplier<T> bootstrap, IServiceHandle<T> handle) {
+		protected ServiceEntry(IServiceID<T> serviceID, IServiceHandle<T> handle) {
 			this.serviceID = Objects.requireNonNull(serviceID);
-			this.bootstrap = Objects.requireNonNull(bootstrap);
 			this.handle = Objects.requireNonNull(handle);
 		}
 
 		private void ensureBootstrapped() {
 			if (state == LifeCycle.NOT_INITIALIZED) {
-				service = Objects.requireNonNull(bootstrap.get());
+				service = Objects.requireNonNull(handle.createInstance());
 				state = LifeCycle.BOOTSTRAPPED;
 			}
 			assert service != null;
@@ -168,8 +168,7 @@ public class Services implements IServiceProvider {
 
 		private void maybeDispose() {
 			assert state == LifeCycle.BOOTSTRAPPED;
-			// service = null;
-			// state = LifeCycle.NOT_INITIALIZED;
+			// this implementation decides to never dispose of any services
 		}
 
 		private void startup() {
@@ -228,36 +227,6 @@ public class Services implements IServiceProvider {
 		public Services getServiceProvider() {
 			return Services.this;
 		}
-
-		@Override
-		public <U> ServiceIndirection<U, T> withIndirection(Function<T, U> remap) {
-			return new ServiceIndirection<>(this, remap);
-		}
-	}
-
-	private class ServiceIndirection<T, O> implements IServiceRetrieval<T> {
-		private IServiceRetrieval<O> parent;
-		private Function<O, T> remap;
-
-		public ServiceIndirection(IServiceRetrieval<O> parent, Function<O, T> remapper) {
-			this.parent = Objects.requireNonNull(parent);
-			this.remap = Objects.requireNonNull(remapper);
-		}
-
-		@Override
-		public Optional<T> retrieveService() {
-			return parent.retrieveService().map(remap);
-		}
-
-		@Override
-		public IServiceProvider getServiceProvider() {
-			return Services.this;
-		}
-
-		@Override
-		public <U> ServiceIndirection<U, T> withIndirection(Function<T, U> remap) {
-			return new ServiceIndirection<>(this, remap);
-		}
 	}
 
 	private class PhaseEntry<A, Z> implements IPhaseAccess<A, Z> {
@@ -277,6 +246,11 @@ public class Services implements IServiceProvider {
 
 			protected void exit(Z context) {
 				phaseHandler.onPhaseEnd(service.getServiceDirect(), context);
+				service.afterPhase(PhaseEntry.this.getID());
+			}
+
+			protected void exitExceptionally(Throwable cause) {
+				phaseHandler.onPhaseEndExceptionally(service.getServiceDirect(), cause);
 				service.afterPhase(PhaseEntry.this.getID());
 			}
 
@@ -366,19 +340,23 @@ public class Services implements IServiceProvider {
 			}
 		}
 
-		private void tryExitPhase() {
+		private void tryExitPhase(Throwable cause) {
 			if (!Services.this.isActive(phaseID)) {
 				return; // Checks for double-dependancies in requirements
 			}
-			Preconditions.checkState(
-					hasDefaultShutdownContext,
-					"Can't exit phase " + phaseID + " without default shutdown context");
-			Services.this.exitPhase(phaseID, defaultShutdownContext);
+			if (hasDefaultShutdownContext) {
+				Services.this.exitPhase(phaseID, defaultShutdownContext);
+			} else {
+				Throwable joinedCause = new IllegalStateException(
+						"Can't exit phase " + phaseID + " without default shutdown context",
+						cause);
+				Services.this.exitPhaseExceptionally(phaseID, joinedCause);
+			}
 		}
 
 		protected void exitServices(Z context) {
 			for (PhaseEntry<?, ?> phase : requiredFor) {
-				phase.tryExitPhase();
+				phase.tryExitPhase(null);
 			}
 			// Check after to catch cyclic requirements. Which we don't want to deal with
 			Preconditions.checkState(isActive(), "Currently not in phase " + phaseID);
@@ -387,6 +365,17 @@ public class Services implements IServiceProvider {
 			}
 			for (Consumer<Z> callback : exitCallbacks) {
 				callback.accept(context);
+			}
+		}
+
+		protected void exitServicesExceptionally(Throwable cause) {
+			for (PhaseEntry<?, ?> phase : requiredFor) {
+				phase.tryExitPhase(cause);
+			}
+			// Check after to catch cyclic requirements. Which we don't want to deal with
+			Preconditions.checkState(isActive(), "Currently not in phase " + phaseID);
+			for (ServicePhaseEntry<?> service : dependantServices) {
+				service.exitExceptionally(cause);
 			}
 		}
 
@@ -411,7 +400,7 @@ public class Services implements IServiceProvider {
 		}
 
 		@Override
-		public IPhaseAccess<A, Z> declareParent(IPhaseKey<?, ?> other) throws IllegalArgumentException {
+		public IPhaseAccess<A, Z> declareRequirement(IPhaseKey<?, ?> other) throws IllegalArgumentException {
 			Services.this.declareParent(getID(), tryUpcastPhase(other));
 			return this;
 		}
@@ -482,14 +471,11 @@ public class Services implements IServiceProvider {
 	}
 
 	@Override
-	public <T> IServiceAccess<T> registerService(
-			String name,
-			IServiceHandle<T> serviceBootstrap,
-			Supplier<T> serviceSupplier) {
+	public <T> IServiceAccess<T> registerService(String name, IServiceHandle<T> serviceBootstrap) {
 		IServiceID<T> serviceID = nextServiceID(name);
 		assert !hasService(serviceID);
 
-		ServiceEntry<T> entry = new ServiceEntry<>(serviceID, serviceSupplier, serviceBootstrap);
+		ServiceEntry<T> entry = new ServiceEntry<>(serviceID, serviceBootstrap);
 		addService(serviceID, entry);
 		return entry;
 	}
@@ -579,6 +565,14 @@ public class Services implements IServiceProvider {
 
 	private <Z> void exitPhase(IPhaseID<?, Z> phase, Z context) {
 		getPhase(phase).exitServices(context);
+
+		activePhases.remove(phase);
+		assert !isActive(phase);
+	}
+
+	private <Z> void exitPhaseExceptionally(IPhaseID<?, Z> phase, Throwable cause) {
+		MHFCMain.logger().catching(Level.DEBUG, cause);
+		getPhase(phase).exitServicesExceptionally(cause);
 
 		activePhases.remove(phase);
 		assert !isActive(phase);
