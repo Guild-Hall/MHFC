@@ -66,6 +66,7 @@ public class MHFCEntityRegistry {
 		//greatjaggiID = getMobID(EntityGreatJaggi.class,ResourceInterface.mob_greatjaggi_name,ItemColor.PURPLE,ItemColor.PINK);
 		//deviljhoID = getMobID(EntityDeviljho.class, ResourceInterface.mob_deviljho_name, ItemColor.GREEN, ItemColor.SILVER);
 		nargacugaID = getMobID(EntityNargacuga.class, ResourceInterface.mob_nargacuga_name, 0xf351631, 0x516f13f);
+		questGiverID = getMobID(EntityQuestGiver.class, ResourceInterface.mob_questGiver_name, ItemColor.RED, ItemColor.RED);
 		//barrothID = getMobID(EntityBarroth.class, ResourceInterface.mob_barroth_name, ItemColor.ORANGE, ItemColor.GRAY);
 		//delexID = getMobID(EntityDelex.class, MHFCReference.mob_delex_name, 0x6f33333, 0x654321);
 		//giapreyID = getMobID(EntityGiaprey.class, MHFCReference.mob_giaprey_name, 0x6f41512, 0x654321);
@@ -73,7 +74,7 @@ public class MHFCEntityRegistry {
 		//lagiacrusID = getMobID(EntityLagiacrus.class, ResourceInterface.mob_lagiacrus_name, 0x6fff512, 0x6ff14f1);
 		//gargwaID = getMobID(EntityGargwa.class, ResourceInterface.mob_gagua_name, 0x319292, 0x2187ff20);
 
-		questGiverID = getMobID(EntityQuestGiver.class, ResourceInterface.mob_questGiver_name);
+		
 
 		projectileBlockID = getProjectileID(EntityProjectileBlock.class, ResourceInterface.entity_tigrexBlock_name);
 		bulletID = getProjectileID(EntityBullet.class, ResourceInterface.entity_bullet_name);
