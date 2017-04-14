@@ -12,12 +12,12 @@ import com.sk89q.worldedit.blocks.BaseBlock;
 import com.sk89q.worldedit.blocks.BaseItemStack;
 import com.sk89q.worldedit.entity.BaseEntity;
 import com.sk89q.worldedit.entity.Entity;
-import com.sk89q.worldedit.forge.ForgeWorld;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.regions.RegionOperationException;
 import com.sk89q.worldedit.util.Location;
 import com.sk89q.worldedit.util.TreeGenerator.TreeType;
 import com.sk89q.worldedit.world.AbstractWorld;
+import com.sk89q.worldedit.world.World;
 import com.sk89q.worldedit.world.biome.BaseBiome;
 import com.sk89q.worldedit.world.registry.WorldData;
 
@@ -27,7 +27,7 @@ import mhfc.net.common.world.area.DisplacedView;
 public class WorldDisplacedView extends AbstractWorld {
 
 	protected DisplacedView worldView;
-	protected ForgeWorld forgeWorld;
+	protected World forgeWorld;
 	protected Vector add;
 	protected Vector2D chunkAdd;
 
@@ -45,7 +45,7 @@ public class WorldDisplacedView extends AbstractWorld {
 
 	@Override
 	public boolean setBlock(Vector position, BaseBlock block, boolean notifyAndLight) throws WorldEditException {
-		return forgeWorld.setBlock(position.add(add), block);
+		return forgeWorld.setBlock(position.add(add), block, notifyAndLight);
 	}
 
 	@Override

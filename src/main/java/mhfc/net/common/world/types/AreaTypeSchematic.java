@@ -7,6 +7,7 @@ import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
+import com.sk89q.worldedit.extent.world.FastModeExtent;
 import com.sk89q.worldedit.function.operation.DelegateOperation;
 import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operation;
@@ -55,8 +56,10 @@ public abstract class AreaTypeSchematic implements IAreaType {
 
 	@Override
 	public final Operation populate(World world, AreaConfiguration configuration) {
-		DisplacedView view = new DisplacedView(configuration.getPosition(), configuration, world);
-		WorldDisplacedView displacedWorld = new WorldDisplacedView(view);
+		final DisplacedView view = new DisplacedView(configuration.getPosition(), configuration, world);
+		final WorldDisplacedView displacedWorld = new WorldDisplacedView(view);
+		final FastModeExtent destination = new FastModeExtent(displacedWorld);
+		destination.setEnabled(true);
 
 		MHFCMain.logger().debug(
 				"Starting to copy {} blocks in chunks of {}",
@@ -66,7 +69,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 			return new ForwardExtentCopy(
 					areaInformation,
 					region,
-					displacedWorld,
+					destination,
 					region.getMinimumPoint().subtract(absoluteMinimum));
 		}, DIM_SIZE);
 		Operation commit = displacedWorld.commit();
