@@ -36,8 +36,9 @@ public class CommandExplore extends CommandBase {
 			IAreaType areaType = AreaRegistry.instance.getType(targetAreaName);
 			if (areaType == null) {
 				sender.sendMessage(new TextComponentString("Warning: the area type you choose did not exist"));
+			} else {
+				MHFCExplorationRegistry.transferPlayer(player, areaType, QuestFlair.DAYTIME);
 			}
-			MHFCExplorationRegistry.transferPlayer(player, areaType, QuestFlair.DAYTIME);
 		} else {
 			sender.sendMessage(new TextComponentString("Too many arguments for command mhfcexplore"));
 		}
