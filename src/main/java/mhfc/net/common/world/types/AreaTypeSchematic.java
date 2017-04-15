@@ -33,24 +33,24 @@ public abstract class AreaTypeSchematic implements IAreaType {
 	private static ClipboardFormat format = ClipboardFormat.SCHEMATIC;
 	private static int DIM_SIZE = 8;
 
-	protected Clipboard areaInformation;
+	protected Clipboard areaClipboard;
 	protected Vector absoluteMinimum;
 	protected CuboidRegion clipboardRegion;
 
 	public AreaTypeSchematic(ResourceLocation schematicLocation) {
 		try (BufferedInputStream instream = Utilities.openEmbeddedResource(schematicLocation)) {
-			areaInformation = AreaTypeSchematic.format.getReader(instream).read(AreaTypeSchematic.forgeData);
+			areaClipboard = AreaTypeSchematic.format.getReader(instream).read(AreaTypeSchematic.forgeData);
 		} catch (IOException e) {
 			MHFCMain.logger().error(
 					"Unable to load schematic {}. The area type will be blank instead",
 					schematicLocation.getResourcePath());
-			areaInformation = new BlockArrayClipboard(new CuboidRegion(Vector.ZERO, Vector.ZERO));
+			areaClipboard = new BlockArrayClipboard(new CuboidRegion(Vector.ZERO, Vector.ZERO));
 		}
 
-		Vector origin = areaInformation.getOrigin();
-		Vector clipLowerLeft = areaInformation.getMinimumPoint();
+		Vector origin = areaClipboard.getOrigin();
+		Vector clipLowerLeft = areaClipboard.getMinimumPoint();
 		absoluteMinimum = Vector.getMinimum(origin, clipLowerLeft);
-		clipboardRegion = new CuboidRegion(areaInformation.getMinimumPoint(), areaInformation.getMaximumPoint());
+		clipboardRegion = new CuboidRegion(areaClipboard.getMinimumPoint(), areaClipboard.getMaximumPoint());
 
 	}
 
@@ -67,7 +67,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 				DIM_SIZE * DIM_SIZE * DIM_SIZE);
 		Operation copyOp = new RegionSplittingOperation(clipboardRegion, region -> {
 			return new ForwardExtentCopy(
-					areaInformation,
+					areaClipboard,
 					region,
 					destination,
 					region.getMinimumPoint().subtract(absoluteMinimum));
@@ -80,7 +80,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 
 	@Override
 	public AreaConfiguration configForNewArea() {
-		Vector absoluteSize = areaInformation.getMaximumPoint().subtract(absoluteMinimum);
+		Vector absoluteSize = areaClipboard.getMaximumPoint().subtract(absoluteMinimum);
 		return new AreaConfiguration(
 				(absoluteSize.getBlockX() + 15) / 16,
 				(absoluteSize.getBlockZ() + 15) / 16,
