@@ -30,7 +30,7 @@ import net.minecraft.world.World;
 public abstract class AreaTypeSchematic implements IAreaType {
 
 	private static WorldData forgeData = LegacyWorldData.getInstance();
-	private static ClipboardFormat format = ClipboardFormat.SCHEMATIC;
+	// use the portable schematics here
 	private static int DIM_SIZE = 8;
 
 	protected Clipboard areaClipboard;
@@ -39,7 +39,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 
 	public AreaTypeSchematic(ResourceLocation schematicLocation) {
 		try (BufferedInputStream instream = Utilities.openEmbeddedResource(schematicLocation)) {
-			areaClipboard = AreaTypeSchematic.format.getReader(instream).read(AreaTypeSchematic.forgeData);
+			areaClipboard = ClipboardFormat.SCHEMATIC.getReader(instream).read(AreaTypeSchematic.forgeData);
 		} catch (IOException e) {
 			MHFCMain.logger().error(
 					"Unable to load schematic {}. The area type will be blank instead",

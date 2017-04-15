@@ -1,6 +1,6 @@
 package mhfc.net.common.world.area;
 
-import java.util.Objects;
+import java.lang.ref.WeakReference;
 import java.util.stream.Stream;
 
 import mhfc.net.common.world.AreaTeleportation;
@@ -26,14 +26,14 @@ public class DisplacedView implements IWorldView {
 	private int chunkDeltaX, chunkDeltaZ;
 	private int chunkDimensionX, chunkDimensionZ;
 	private int blockDeltaX, blockDeltaZ;
-	private World worldObj;
+	private WeakReference<World> worldRef;
 
 	public DisplacedView(CornerPosition chunkCorner, AreaConfiguration configuration, World world) {
 		chunkDeltaX = chunkCorner.posX;
 		chunkDeltaZ = chunkCorner.posY;
 		chunkDimensionX = configuration.getChunkSizeX();
 		chunkDimensionZ = configuration.getChunkSizeZ();
-		worldObj = Objects.requireNonNull(world);
+		worldRef = new WeakReference<>(world);
 
 		blockDeltaX = chunkDeltaX << 4;
 		blockDeltaZ = chunkDeltaZ << 4;
@@ -65,7 +65,7 @@ public class DisplacedView implements IWorldView {
 
 	private boolean isInBoundary(double x, double y, double z) {
 		return x >= 0 && y >= 0 && z >= 0 && x < chunkDimensionX * 16 && z < chunkDimensionZ * 16
-				&& y < worldObj.getActualHeight();
+				&& y < getWorldObject().getActualHeight();
 	}
 
 	private boolean isInBoundary(BlockPos localPos) {
@@ -82,17 +82,17 @@ public class DisplacedView implements IWorldView {
 
 	@Override
 	public boolean isDaytime() {
-		return worldObj.isDaytime();
+		return getWorldObject().isDaytime();
 	}
 
 	@Override
 	public boolean isThundering() {
-		return worldObj.isThundering();
+		return getWorldObject().isThundering();
 	}
 
 	@Override
 	public boolean isRaining() {
-		return worldObj.isRaining();
+		return getWorldObject().isRaining();
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(position)) {
 			return true;
 		}
-		return worldObj.isAirBlock(localToGlobal(position));
+		return getWorldObject().isAirBlock(localToGlobal(position));
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(position)) {
 			return false;
 		}
-		return worldObj.isBlockLoaded(position);
+		return getWorldObject().isBlockLoaded(position);
 	}
 
 	@Override
@@ -116,7 +116,7 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(position)) {
 			return null;
 		}
-		return worldObj.getChunkFromBlockCoords(localToGlobal(position));
+		return getWorldObject().getChunkFromBlockCoords(localToGlobal(position));
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(position)) {
 			return Blocks.AIR.getDefaultState();
 		}
-		return worldObj.getBlockState(worldObj.getHeight(localToGlobal(position)));
+		return getWorldObject().getBlockState(getWorldObject().getHeight(localToGlobal(position)));
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(position)) {
 			return new BlockPos(position.getX(), -1, position.getZ());
 		}
-		return globalToLocal(worldObj.getTopSolidOrLiquidBlock(localToGlobal(position)));
+		return globalToLocal(getWorldObject().getTopSolidOrLiquidBlock(localToGlobal(position)));
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(position)) {
 			return Blocks.AIR.getDefaultState();
 		}
-		return worldObj.getBlockState(localToGlobal(position));
+		return getWorldObject().getBlockState(localToGlobal(position));
 	}
 
 	@Override
@@ -148,7 +148,7 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(position)) {
 			return false;
 		}
-		return worldObj.setBlockToAir(localToGlobal(position));
+		return getWorldObject().setBlockToAir(localToGlobal(position));
 	}
 
 	@Override
@@ -156,7 +156,7 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(position)) {
 			return false;
 		}
-		return worldObj.setBlockState(localToGlobal(position), state);
+		return getWorldObject().setBlockState(localToGlobal(position), state);
 	}
 
 	@Override
@@ -164,7 +164,7 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(position)) {
 			return false;
 		}
-		return worldObj.setBlockState(localToGlobal(position), state, flags);
+		return getWorldObject().setBlockState(localToGlobal(position), state, flags);
 	}
 
 	@Override
@@ -180,7 +180,7 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(x, y, z)) {
 			return;
 		}
-		worldObj.playSound(x + blockDeltaX, y, z + blockDeltaZ, sound, category, volume, pitch, honorDistance);
+		getWorldObject().playSound(x + blockDeltaX, y, z + blockDeltaZ, sound, category, volume, pitch, honorDistance);
 	}
 
 	@Override
@@ -196,32 +196,32 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(x, y, z)) {
 			return;
 		}
-		worldObj.spawnParticle(particle, x + blockDeltaX, y, z + blockDeltaZ, velX, velY, velZ, params);
+		getWorldObject().spawnParticle(particle, x + blockDeltaX, y, z + blockDeltaZ, velX, velY, velZ, params);
 	}
 
 	@Override
 	public void onEntityAdded(Entity entity) {
-		worldObj.onEntityAdded(entity);
+		getWorldObject().onEntityAdded(entity);
 	}
 
 	@Override
 	public void onEntityRemoved(Entity entity) {
-		worldObj.onEntityRemoved(entity);
+		getWorldObject().onEntityRemoved(entity);
 	}
 
 	@Override
 	public void removeEntity(Entity entity) {
-		worldObj.removeEntity(entity);
+		getWorldObject().removeEntity(entity);
 	}
 
 	@Override
 	public void addWorldAccess(IWorldEventListener worldAccess) {
-		worldObj.addEventListener(worldAccess);
+		getWorldObject().addEventListener(worldAccess);
 	}
 
 	@Override
 	public void removeWorldAccess(IWorldEventListener worldAccess) {
-		worldObj.removeEventListener(worldAccess);
+		getWorldObject().removeEventListener(worldAccess);
 	}
 
 	@Override
@@ -229,7 +229,7 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(position)) {
 			return null;
 		}
-		return worldObj.getTileEntity(localToGlobal(position));
+		return getWorldObject().getTileEntity(localToGlobal(position));
 	}
 
 	@Override
@@ -237,7 +237,7 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(position)) {
 			return;
 		}
-		worldObj.setTileEntity(localToGlobal(position), tileEntity);
+		getWorldObject().setTileEntity(localToGlobal(position), tileEntity);
 	}
 
 	@Override
@@ -245,12 +245,12 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(position)) {
 			return;
 		}
-		worldObj.removeTileEntity(localToGlobal(position));
+		getWorldObject().removeTileEntity(localToGlobal(position));
 	}
 
 	@Override
 	public int countEntities(Class<? extends Entity> entityClass) {
-		Stream<Entity> entStream = worldObj.loadedEntityList.stream();
+		Stream<Entity> entStream = getWorldObject().loadedEntityList.stream();
 		return (int) entStream.filter(e -> entityClass.isAssignableFrom(e.getClass()))
 				.filter(e -> isInBoundary(e.posX - blockDeltaX, e.posY, e.posZ - blockDeltaZ)).count();
 	}
@@ -260,7 +260,7 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(position)) {
 			return 0;
 		}
-		return worldObj.getRedstonePower(localToGlobal(position), face);
+		return getWorldObject().getRedstonePower(localToGlobal(position), face);
 	}
 
 	@Override
@@ -268,13 +268,13 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(position)) {
 			return false;
 		}
-		return worldObj.canMineBlockBody(player, localToGlobal(position));
+		return getWorldObject().canMineBlockBody(player, localToGlobal(position));
 	}
 
 	@Override
 	public void addTileEntity(TileEntity entity) {
-		worldObj.addTileEntity(entity);
-		entity.setWorld(worldObj);
+		getWorldObject().addTileEntity(entity);
+		entity.setWorld(getWorldObject());
 		entity.setPos(localToGlobal(entity.getPos()));
 	}
 
@@ -283,7 +283,7 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(position)) {
 			return false;
 		}
-		return worldObj.isSideSolid(localToGlobal(position), side);
+		return getWorldObject().isSideSolid(localToGlobal(position), side);
 	}
 
 	@Override
@@ -293,13 +293,13 @@ public class DisplacedView implements IWorldView {
 
 	@Override
 	public boolean spawnEntityAt(Entity entity, double x, double y, double z) {
-		entity.world = worldObj;
+		entity.world = getWorldObject();
 		if (entity instanceof EntityLivingBase) {
 			((EntityLivingBase) entity).setPositionAndUpdate(x + blockDeltaX, y, z + blockDeltaZ);
 		} else {
 			entity.setLocationAndAngles(x + blockDeltaX, y, z + blockDeltaZ, 0, 0);
 		}
-		if (!worldObj.spawnEntity(entity)) {
+		if (!getWorldObject().spawnEntity(entity)) {
 			return false;
 		}
 		return true;
@@ -307,7 +307,7 @@ public class DisplacedView implements IWorldView {
 
 	@Override
 	public World getWorldObject() {
-		return worldObj;
+		return worldRef.get();
 	}
 
 	@Override
