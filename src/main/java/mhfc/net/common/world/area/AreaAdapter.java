@@ -1,5 +1,6 @@
 package mhfc.net.common.world.area;
 
+import java.lang.ref.WeakReference;
 import java.util.Objects;
 
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
@@ -19,7 +20,7 @@ public abstract class AreaAdapter implements IArea {
 		ACQUIRED;
 	}
 
-	protected final World world;
+	private final WeakReference<World> worldRef;
 	protected AreaConfiguration config;
 	protected IWorldView worldView;
 	protected State state;
@@ -29,11 +30,15 @@ public abstract class AreaAdapter implements IArea {
 	 * Constructs and initializes the area
 	 */
 	public AreaAdapter(World world, AreaConfiguration config) {
-		this.world = Objects.requireNonNull(world);
+		this.worldRef = new WeakReference<>(Objects.requireNonNull(world));
 		this.config = Objects.requireNonNull(config);
 		this.worldView = new DisplacedView(config.getPosition(), config, world);
 		this.spawnController = initializeSpawnController();
 		this.state = State.INITIALIZED;
+	}
+
+	protected World getWorld() {
+		return worldRef.get();
 	}
 
 	protected abstract IQuestAreaSpawnController initializeSpawnController();
@@ -84,7 +89,7 @@ public abstract class AreaAdapter implements IArea {
 	}
 
 	private boolean isInArea(BlockEvent event) {
-		if (event.getWorld() != world) {
+		if (event.getWorld() != getWorld()) {
 			return false;
 		}
 		return isInArea(event.getPos().getX(), event.getPos().getZ());

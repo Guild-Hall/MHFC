@@ -1,5 +1,6 @@
 package mhfc.net.common.world.controller;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -63,17 +64,21 @@ public class AreaManager implements IAreaManager {
 
 	protected Map<IAreaType, List<IArea>> nonactiveAreas = new HashMap<>();
 	private MHFCWorldData saveData;
-	protected final World world;
+	protected final WeakReference<World> worldRef;
 	protected Ticket loadingTicket;
 
 	public AreaManager(World world, MHFCWorldData saveData) {
-		this.world = Objects.requireNonNull(world);
+		this.worldRef = new WeakReference<>(Objects.requireNonNull(world));
 		this.saveData = Objects.requireNonNull(saveData);
+	}
+
+	private World getWorld() {
+		return worldRef.get();
 	}
 
 	private Ticket getLoadingTicket() {
 		if (loadingTicket == null) {
-			loadingTicket = ForgeChunkManager.requestTicket(MHFCMain.instance(), world, Type.NORMAL);
+			loadingTicket = ForgeChunkManager.requestTicket(MHFCMain.instance(), getWorld(), Type.NORMAL);
 		}
 		return loadingTicket;
 	}
@@ -86,7 +91,7 @@ public class AreaManager implements IAreaManager {
 	public void onLoaded() {
 		Collection<AreaInformation> loadedAreas = this.saveData.getAllSpawnedAreas();
 		for (AreaInformation info : loadedAreas) {
-			IArea loadingArea = info.type.provideForLoading(world, info.config);
+			IArea loadingArea = info.type.provideForLoading(getWorld(), info.config);
 			this.nonactiveAreas.computeIfAbsent(info.type, (k) -> new ArrayList<>()).add(loadingArea);
 		}
 	}
@@ -108,12 +113,12 @@ public class AreaManager implements IAreaManager {
 		AreaConfiguration config = info.config;
 		CornerPosition position = config.getPosition();
 
-		final Operation plan = type.populate(world, config);
+		final Operation plan = type.populate(getWorld(), config);
 		final ChunkPos chunkPos = new ChunkPos(position.posX, position.posY);
 		ForgeChunkManager.forceChunk(getLoadingTicket(), chunkPos);
 		final CompletableFuture<IActiveArea> areaFuture = new CompletableFuture<>();
 		final Operation operation = Operations.withCallback(Operations.timingOperation(plan, 20), o -> {
-			areaFuture.complete(new Active(type.provideForLoading(world, config), type, this));
+			areaFuture.complete(new Active(type.provideForLoading(getWorld(), config), type, this));
 
 			onAreaCompleted(info);
 			ForgeChunkManager.unforceChunk(getLoadingTicket(), chunkPos);

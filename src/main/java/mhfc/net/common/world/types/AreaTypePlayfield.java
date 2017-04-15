@@ -35,7 +35,7 @@ public class AreaTypePlayfield implements IAreaType {
 			protected SpawnInformation constructDefaultSpawnInformation(Spawnable entity) {
 				int spawnX = config.getChunkSizeX() * 8;
 				int spawnZ = config.getChunkSizeZ() * 8;
-				int height = world
+				int height = getWorld()
 						.getChunkFromChunkCoords(
 								getChunkPosition().posX + spawnX / 16,
 								getChunkPosition().posY + spawnZ / 16)
@@ -53,7 +53,7 @@ public class AreaTypePlayfield implements IAreaType {
 			CornerPosition chunkPos = getChunkPosition();
 			double posX = 8;
 			double posZ = 8;
-			double posY = world.getChunkFromChunkCoords(chunkPos.posX, chunkPos.posY).getHeightValue(8, 8);
+			double posY = getWorld().getChunkFromChunkCoords(chunkPos.posX, chunkPos.posY).getHeightValue(8, 8);
 			worldView.moveEntityTo(player, posX, posY, posZ);
 		}
 
@@ -105,15 +105,13 @@ public class AreaTypePlayfield implements IAreaType {
 				return null;
 			}
 
-
 			@Override
 			public void cancel() {}
-
 
 			@Override
 			public void addStatusMessages(List<String> messages) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		};
 	}
