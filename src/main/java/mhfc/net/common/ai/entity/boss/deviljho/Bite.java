@@ -23,14 +23,13 @@ import net.minecraft.util.math.Vec3d;
  *
  */
 public class Bite extends DamagingAction<EntityDeviljho> implements IHasAttackProvider {
-	
 
 	private static enum Variant {
 		BITE_1("mhfc:models/Deviljho/bite2.mcanm", 35) {
 			@Override
 			public void onUpdate(Bite attack) {
 				if (attack.getCurrentFrame() <= 10) {
-					attack.getEntity().getTurnHelper().updateTargetPoint(targetPoint);
+					attack.getEntity().getTurnHelper().updateTargetPoint(attack.targetPoint);
 					attack.getEntity().getTurnHelper().updateTurnSpeed(6.0f);
 				}
 				if (attack.getCurrentFrame() == 25) {
@@ -86,7 +85,6 @@ public class Bite extends DamagingAction<EntityDeviljho> implements IHasAttackPr
 	private IAttackProvider attackProvider;
 
 	public Bite() {}
-
 
 	@Override
 	protected float computeSelectionWeight() {

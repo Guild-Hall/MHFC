@@ -11,7 +11,7 @@ public abstract class DamagingAction<T extends EntityCreature> extends AnimatedA
 		implements
 		INeedsDamageCalculator {
 	private DamageCalculatorHelper dmgHelper;
-	protected static Vec3d targetPoint;
+	protected Vec3d targetPoint;
 
 	public DamagingAction() {
 		dmgHelper = new DamageCalculatorHelper();
