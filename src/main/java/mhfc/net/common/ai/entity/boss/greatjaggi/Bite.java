@@ -23,7 +23,6 @@ public class Bite extends DamagingAction<EntityGreatJaggi> implements IHasAttack
 	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(95F, 125F, 99999999F);
 
 	private static final double TARGET_DISTANCE = 4.2F;
-	private static final double AIM_ANGLE = 0.155;
 
 	private static final float WEIGHT = 15;
 
@@ -46,9 +45,6 @@ public class Bite extends DamagingAction<EntityGreatJaggi> implements IHasAttack
 		Vec3d LOOK_TARGET = WorldHelper.getVectorToTarget(entity, target);
 		double distance = LOOK_TARGET.lengthVector();
 		if (distance > TARGET_DISTANCE) {
-			return DONT_SELECT;
-		}
-		if (LOOK_TARGET.normalize().dotProduct(entity.getLookVec()) < AIM_ANGLE) {
 			return DONT_SELECT;
 		}
 		return WEIGHT;

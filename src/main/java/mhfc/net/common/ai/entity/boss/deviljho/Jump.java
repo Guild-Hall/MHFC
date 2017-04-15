@@ -1,6 +1,6 @@
 package mhfc.net.common.ai.entity.boss.deviljho;
 
-import mhfc.net.common.ai.entity.AIGameplayComposition;
+import mhfc.net.common.ai.entity.AIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.JumpAction;
@@ -18,7 +18,9 @@ import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.Vec3d;
 
 public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider<EntityDeviljho> {
 
@@ -48,14 +50,19 @@ public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider
 
 	public Jump() {}
 
-	private boolean shouldSelection() {
-		return SelectionUtils.isInDistance(DISTANCEMIN, DISTANCEMAX, getEntity(), target)
-				&& SelectionUtils.isInViewAngle(-ANGLE_DEGREES, ANGLE_DEGREES, getEntity(), target);
-	}
-
 	@Override
 	protected float computeSelectionWeight() {
-		return shouldSelection() ? WEIGHT : DONT_SELECT;
+		EntityDeviljho entity = this.getEntity();
+		target = entity.getAttackTarget();
+		if (target == null) {
+			return DONT_SELECT;
+		}
+		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
+		double dist = toTarget.lengthVector();
+		if (dist > DISTANCEMAX) {
+			return DONT_SELECT;
+		}
+		return WEIGHT;
 	}
 
 	@Override
@@ -73,9 +80,9 @@ public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider
 		if (!entity.onGround || thrown || this.getCurrentFrame() < 302) {
 			return;
 		}
-		AIGameplayComposition.stompCracks(entity, 200);
+		AIMethods.stompCracks(entity, 200);
 		if(target instanceof EntityPlayer){
-		AIGameplayComposition.camShake(entity, target, 10F, 40F);
+		AIMethods.camShake(entity, target, 10F, 40F);
 		}
 		thrown = true;
 	}

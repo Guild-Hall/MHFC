@@ -1,8 +1,7 @@
 package mhfc.net.common.ai.entity.boss.deviljho;
 
-import mhfc.net.common.ai.entity.AIGameplayComposition;
+import mhfc.net.common.ai.entity.AIMethods;
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
@@ -15,6 +14,7 @@ import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
+import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
 public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttackProvider {
@@ -38,13 +38,19 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 
 	public Launch() {}
 
-	private boolean shouldSelect() {
-		return SelectionUtils.isInDistance(0, MAX_DIST, getEntity(), target);
-	}
-
 	@Override
 	protected float computeSelectionWeight() {
-		return shouldSelect() ? WEIGHT : DONT_SELECT;
+		EntityDeviljho entity = this.getEntity();
+		target = entity.getAttackTarget();
+		if (target == null) {
+			return DONT_SELECT;
+		}
+		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
+		double dist = toTarget.lengthVector();
+		if (dist > MAX_DIST) {
+			return DONT_SELECT;
+		}
+		return WEIGHT;
 	}
 
 	@Override
@@ -70,7 +76,7 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 			}
 			getEntity().playSound(MHFCSoundRegistry.getRegistry().deviljhoRockThrow, 2.0F, 1.0F);
 			damageCollidingEntities();
-			AIGameplayComposition.launch(entity, 0, 1.4, 0);
+			AIMethods.launch(entity, 0, 1.4, 0);
 		}
 		if (this.getCurrentFrame() >= 35) {
 			Vec3d look = entity.getLookVec();

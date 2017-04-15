@@ -15,7 +15,7 @@ import net.minecraft.pathfinding.Path;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
 
-public class AIGameplayComposition {
+public class AIMethods {
 
 	/**
 	 * So I have an idea that this will be the place where all AI methods well technically common graphics materials

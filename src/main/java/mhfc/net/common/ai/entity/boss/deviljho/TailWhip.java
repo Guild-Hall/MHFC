@@ -13,6 +13,8 @@ import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.util.world.WorldHelper;
+import net.minecraft.util.math.Vec3d;
 
 public class TailWhip extends DamagingAction<EntityDeviljho> implements IHasAttackProvider {
 
@@ -34,16 +36,20 @@ public class TailWhip extends DamagingAction<EntityDeviljho> implements IHasAtta
 
 	public TailWhip() {}
 
-	private boolean shouldSelect() {
-		return SelectionUtils.isInDistance(MIN_DIST, MAX_DISTANCE, getEntity(), target)
-				&& SelectionUtils.isInViewAngle(MIN_RIGHT_ANGLE, 180, getEntity(), target);
-	}
-
 	@Override
 	protected float computeSelectionWeight() {
-		return shouldSelect() ? WEIGHT : DONT_SELECT;
+		EntityDeviljho entity = this.getEntity();
+		target = entity.getAttackTarget();
+		if (target == null) {
+			return DONT_SELECT;
+		}
+		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
+		double dist = toTarget.lengthVector();
+		if (dist > MAX_DISTANCE) {
+			return DONT_SELECT;
+		}
+		return WEIGHT;
 	}
-
 	@Override
 	public IAttackProvider getAttackProvider() {
 		return ATTACK;

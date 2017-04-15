@@ -8,6 +8,8 @@ import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.projectile.EntityBreathe;
+import mhfc.net.common.util.world.WorldHelper;
+import net.minecraft.util.math.Vec3d;
 
 public class FrontalBreathe extends AnimatedAction<EntityDeviljho> implements IHasAnimationProvider {
 
@@ -22,7 +24,17 @@ public class FrontalBreathe extends AnimatedAction<EntityDeviljho> implements IH
 
 	@Override
 	protected float computeSelectionWeight() {
-		return SelectionUtils.isInDistance(0, MAX_DISTANCE, getEntity(), target) ? WEIGHT : DONT_SELECT;
+		EntityDeviljho entity = this.getEntity();
+		target = entity.getAttackTarget();
+		if (target == null) {
+			return DONT_SELECT;
+		}
+		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
+		double dist = toTarget.lengthVector();
+		if (dist > MAX_DISTANCE) {
+			return DONT_SELECT;
+		}
+		return WEIGHT;
 	}
 
 	@Override

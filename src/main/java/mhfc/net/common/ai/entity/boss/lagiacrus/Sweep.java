@@ -1,7 +1,6 @@
 package mhfc.net.common.ai.entity.boss.lagiacrus;
 
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
@@ -13,6 +12,8 @@ import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityLagiacrus;
+import mhfc.net.common.util.world.WorldHelper;
+import net.minecraft.util.math.Vec3d;
 
 public class Sweep extends DamagingAction<EntityLagiacrus> implements IHasAttackProvider {
 
@@ -33,13 +34,19 @@ public class Sweep extends DamagingAction<EntityLagiacrus> implements IHasAttack
 
 	public Sweep() {}
 
-	private boolean shouldSelect() {
-		return SelectionUtils.isInDistance(0, MAXDISTANCE, getEntity(), target);
-	}
-
 	@Override
 	protected float computeSelectionWeight() {
-		return shouldSelect() ? WEIGHT : DONT_SELECT;
+		EntityLagiacrus entity = this.getEntity();
+		target = entity.getAttackTarget();
+		if (target == null) {
+			return DONT_SELECT;
+		}
+		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
+		double dist = toTarget.lengthVector();
+		if (dist > MAXDISTANCE) {
+			return DONT_SELECT;
+		}
+		return WEIGHT;
 	}
 
 	@Override

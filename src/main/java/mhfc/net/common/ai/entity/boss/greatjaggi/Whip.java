@@ -1,7 +1,6 @@
 package mhfc.net.common.ai.entity.boss.greatjaggi;
 
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
@@ -13,6 +12,8 @@ import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
+import mhfc.net.common.util.world.WorldHelper;
+import net.minecraft.util.math.Vec3d;
 
 public class Whip extends DamagingAction<EntityGreatJaggi> implements IHasAttackProvider {
 
@@ -20,9 +21,7 @@ public class Whip extends DamagingAction<EntityGreatJaggi> implements IHasAttack
 	private static final String ANIMATION_LOCATION = "mhfc:models/GreatJaggi/GreatJaggiTailWhip.mcanm";
 	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(85, 50, 9999999f);
 
-	private static final double MIN_DISTANCE = 0f;
 	private static final double MAX_DISTANCE = 16F;
-	private static final float MIN_RIGHT_ANGLE = 5f;
 
 	private static final float WEIGHT = 5F;
 
@@ -35,14 +34,19 @@ public class Whip extends DamagingAction<EntityGreatJaggi> implements IHasAttack
 
 	public Whip() {}
 
-	private boolean shouldSelect() {
-		return SelectionUtils.isInDistance(MIN_DISTANCE, MAX_DISTANCE, getEntity(), target)
-				&& SelectionUtils.isInViewAngle(MIN_RIGHT_ANGLE, 180f, getEntity(), target);
-	}
-
 	@Override
 	protected float computeSelectionWeight() {
-		return shouldSelect() ? WEIGHT : DONT_SELECT;
+		EntityGreatJaggi entity = this.getEntity();
+		target = entity.getAttackTarget();
+		if (target == null) {
+			return DONT_SELECT;
+		}
+		Vec3d LOOK_TARGET = WorldHelper.getVectorToTarget(entity, target);
+		double distance = LOOK_TARGET.lengthVector();
+		if (distance > MAX_DISTANCE) {
+			return DONT_SELECT;
+		}
+		return WEIGHT;
 	}
 
 	@Override

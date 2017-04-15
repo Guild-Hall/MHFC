@@ -2,7 +2,7 @@ package mhfc.net.common.ai.entity.boss.barroth;
 
 import java.util.List;
 
-import mhfc.net.common.ai.entity.AIGameplayComposition;
+import mhfc.net.common.ai.entity.AIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
@@ -47,7 +47,7 @@ public class Stomp extends DamagingAction<EntityBarroth> implements IHasAttackPr
 		List<Entity> list = entity.world.getEntitiesWithinAABBExcludingEntity(
 				entity,
 				entity.getCollisionBoundingBox().expand(8.0D, 1.0D, 8.0D));
-		AIGameplayComposition.stompCracks(entity, 150);
+		AIMethods.stompCracks(entity, 150);
 		for (Entity entity1 : list) {
 			if (!(entity1 instanceof EntityLivingBase)) {
 				continue;

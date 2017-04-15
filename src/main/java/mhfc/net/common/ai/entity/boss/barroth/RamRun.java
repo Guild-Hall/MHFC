@@ -1,6 +1,6 @@
 package mhfc.net.common.ai.entity.boss.barroth;
 
-import mhfc.net.common.ai.entity.AIGameplayComposition;
+import mhfc.net.common.ai.entity.AIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
@@ -71,7 +71,7 @@ public class RamRun extends DamagingAction<EntityBarroth> implements IHasAttackP
 
 		}
 		if (this.getCurrentFrame() > 85) {
-			AIGameplayComposition.launch(entity, 1.0D, 1.5D, 1.0D);
+			AIMethods.launch(entity, 1.0D, 1.5D, 1.0D);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			entity.moveForward(0.96, true);

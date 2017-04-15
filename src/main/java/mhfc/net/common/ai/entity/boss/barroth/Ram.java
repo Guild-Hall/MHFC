@@ -24,7 +24,6 @@ public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProv
 	}
 
 	private static final double MAX_DIST = 5.5f;
-	private static final double MAX_ANGLE = 0.155; // This is cos(30)
 	private static final float WEIGHT = 15;
 
 	public Ram() {}
@@ -39,9 +38,6 @@ public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProv
 		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
 		double dist = toTarget.lengthVector();
 		if (dist > MAX_DIST) {
-			return DONT_SELECT;
-		}
-		if (toTarget.normalize().dotProduct(entity.getLookVec()) < MAX_ANGLE) {
 			return DONT_SELECT;
 		}
 		return WEIGHT;

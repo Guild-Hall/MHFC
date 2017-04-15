@@ -13,7 +13,7 @@ import mhfc.net.common.ai.entity.boss.tigrex.Bite;
 import mhfc.net.common.ai.entity.boss.tigrex.Death;
 import mhfc.net.common.ai.entity.boss.tigrex.Idle;
 import mhfc.net.common.ai.entity.boss.tigrex.Roar;
-import mhfc.net.common.ai.entity.boss.tigrex.Run;
+import mhfc.net.common.ai.entity.boss.tigrex.Charge;
 import mhfc.net.common.ai.entity.boss.tigrex.TailWhip;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
@@ -54,7 +54,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		FollowUpManagerBuilder<EntityTigrex> manager = new FollowUpManagerBuilder<>();
 		manager.registerAllowingAllActions(setDeathAction(new Death()));
 
-		manager.registerAllowingAllActions(new Run());
+		manager.registerAllowingAllActions(new Charge());
 
 		manager.registerAllowingAllActions(new Bite());
 		Roar tigrexRoar = new Roar();

@@ -41,12 +41,12 @@ public class Bite extends DamagingAction<EntityTigrex> implements IHasAttackProv
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityTigrex tigrex = this.getEntity();
-		target = tigrex.getAttackTarget();
+		EntityTigrex entity = this.getEntity();
+		target = entity.getAttackTarget();
 		if (target == null) {
 			return DONT_SELECT;
 		}
-		Vec3d toTarget = WorldHelper.getVectorToTarget(tigrex, target);
+		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
 		double dist = toTarget.lengthVector();
 		if (dist > MAX_DIST) {
 			return DONT_SELECT;

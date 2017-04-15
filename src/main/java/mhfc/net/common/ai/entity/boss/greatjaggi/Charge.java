@@ -15,7 +15,7 @@ import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
-public class Run extends DamagingAction<EntityGreatJaggi> implements IHasAttackProvider {
+public class Charge extends DamagingAction<EntityGreatJaggi> implements IHasAttackProvider {
 	private static final int MOVEMENT_START_LOOP = 10;
 	private static final int MOVEMENT_FINISH_LOOP = 33;
 	private static final int AI_END = 85;
@@ -41,7 +41,7 @@ public class Run extends DamagingAction<EntityGreatJaggi> implements IHasAttackP
 		START(false) {
 
 			@Override
-			public void onPhaseStart(Run attk) {
+			public void onPhaseStart(Charge attk) {
 				EntityGreatJaggi monster = attk.getEntity();
 				monster.motionX = monster.motionY = monster.motionZ = 0f;
 				monster.getTurnHelper().updateTurnSpeed(TURN_RATE_INITIAL);
@@ -49,12 +49,12 @@ public class Run extends DamagingAction<EntityGreatJaggi> implements IHasAttackP
 			}
 
 			@Override
-			public void update(Run attk) {
+			public void update(Charge attk) {
 				attk.getEntity().getTurnHelper().forceUpdate();
 			}
 
 			@Override
-			public AttackPhase next(Run attk) {
+			public AttackPhase next(Charge attk) {
 				if (attk.target == null) {
 					return STOPPED;
 				}
@@ -66,13 +66,13 @@ public class Run extends DamagingAction<EntityGreatJaggi> implements IHasAttackP
 		},
 		RUNNING(true) {
 			@Override
-			public void onPhaseStart(Run attk) {
+			public void onPhaseStart(Charge attk) {
 				attk.getEntity().getTurnHelper().updateTurnSpeed(TURN_RATE_DURING_RUN);
 				attk.framesRunning = 0;
 			}
 
 			@Override
-			public void update(Run attk) {
+			public void update(Charge attk) {
 				EntityGreatJaggi monster = attk.getEntity();
 				Vec3d entityPos = monster.getPositionVector();
 				Vec3d vecToTarget = entityPos.subtract(attk.target.getPositionVector());
@@ -88,7 +88,7 @@ public class Run extends DamagingAction<EntityGreatJaggi> implements IHasAttackP
 			}
 
 			@Override
-			public AttackPhase next(Run attk) {
+			public AttackPhase next(Charge attk) {
 				if (attk.hasPassed == PastEntityEnum.LOOP_FINISHED) {
 					return STOPPING;
 				}
@@ -96,7 +96,7 @@ public class Run extends DamagingAction<EntityGreatJaggi> implements IHasAttackP
 			}
 
 			@Override
-			public int nextFrame(Run attk, int curr) {
+			public int nextFrame(Charge attk, int curr) {
 				attk.framesRunning++;
 				int looping = MOVEMENT_FINISH_LOOP - MOVEMENT_START_LOOP;
 				if (attk.hasPassed == PastEntityEnum.PASSED && (curr + 1 >= MOVEMENT_FINISH_LOOP)) {
@@ -109,13 +109,13 @@ public class Run extends DamagingAction<EntityGreatJaggi> implements IHasAttackP
 		STOPPING(true) {
 
 			@Override
-			public void update(Run attk) {
+			public void update(Charge attk) {
 				EntityGreatJaggi e = attk.getEntity();
 				e.moveForward(STOP_SPEED, false);
 			}
 
 			@Override
-			public AttackPhase next(Run attk) {
+			public AttackPhase next(Charge attk) {
 				if (AI_END < attk.getCurrentFrame()) {
 					return STOPPED;
 				}
@@ -124,7 +124,7 @@ public class Run extends DamagingAction<EntityGreatJaggi> implements IHasAttackP
 		},
 		STOPPED(false) {
 			@Override
-			public void onPhaseStart(Run attk) {
+			public void onPhaseStart(Charge attk) {
 				Entity entity = attk.getEntity();
 				entity.motionX = entity.motionY = entity.motionZ = 0f;
 			}
@@ -135,15 +135,15 @@ public class Run extends DamagingAction<EntityGreatJaggi> implements IHasAttackP
 			this.isDamaging = isDamaging;
 		}
 
-		public void onPhaseStart(Run attk) {}
+		public void onPhaseStart(Charge attk) {}
 
-		public void update(Run attk) {}
+		public void update(Charge attk) {}
 
-		public AttackPhase next(Run attk) {
+		public AttackPhase next(Charge attk) {
 			return this;
 		}
 
-		public int nextFrame(Run attk, int curr) {
+		public int nextFrame(Charge attk, int curr) {
 			return ++curr;
 		}
 	}
@@ -160,7 +160,7 @@ public class Run extends DamagingAction<EntityGreatJaggi> implements IHasAttackP
 		ATTACK = new AttackAdapter(ANIMATION, new DamageAdapter(DAMAGE_CALC));
 	}
 
-	public Run() {}
+	public Charge() {}
 
 	@Override
 	public float computeSelectionWeight() {

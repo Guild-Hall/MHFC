@@ -9,7 +9,7 @@ import mhfc.net.common.ai.entity.boss.greatjaggi.Bite;
 import mhfc.net.common.ai.entity.boss.greatjaggi.Death;
 import mhfc.net.common.ai.entity.boss.greatjaggi.Idle;
 import mhfc.net.common.ai.entity.boss.greatjaggi.Roar;
-import mhfc.net.common.ai.entity.boss.greatjaggi.Run;
+import mhfc.net.common.ai.entity.boss.greatjaggi.Charge;
 import mhfc.net.common.ai.entity.boss.greatjaggi.Wander;
 import mhfc.net.common.ai.entity.boss.greatjaggi.Whip;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
@@ -40,10 +40,10 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 		ActionManagerBuilder<EntityGreatJaggi> actionManager = new ActionManagerBuilder<>();
 		actionManager.registerAction(new Bite());
 		actionManager.registerAction(new Idle());
-		actionManager.registerAction(new Roar());
-		actionManager.registerAction(new Run());
+	//	actionManager.registerAction(new Roar());
+		actionManager.registerAction(new Charge());
 		actionManager.registerAction(new Whip());
-		actionManager.registerAction(new Wander());
+	//	actionManager.registerAction(new Wander());
 
 		actionManager.registerAction(setDeathAction(new Death()));
 		return actionManager.build(this);

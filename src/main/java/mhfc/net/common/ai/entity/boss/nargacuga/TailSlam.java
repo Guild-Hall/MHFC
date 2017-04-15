@@ -86,7 +86,8 @@ public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpPro
 		if (nargacuga.world.isRemote) {
 			return;
 		}
-		if (getCurrentFrame() == SPIKE_FRAME) {
+		//TODO
+		/*if (getCurrentFrame() == SPIKE_FRAME) {
 			damageCollidingEntities();
 			Vec3d up = new Vec3d(0, 1, 0);
 			Vec3d look = nargacuga.getLookVec();
@@ -115,6 +116,6 @@ public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpPro
 						0);
 				nargacuga.world.spawnEntity(spikeEntity);
 			}
-		}
+		}*/
 	}
 }
