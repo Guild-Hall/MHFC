@@ -3,10 +3,11 @@ package mhfc.net.common.world.area;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
+import mhfc.net.common.world.types.AreaDesert;
 import mhfc.net.common.world.types.AreaTypePlayfield;
 import mhfc.net.common.world.types.ArenaType;
-import mhfc.net.common.world.types.AreaDesert;
 import mhfc.net.common.world.types.TestAreaType;
 import mhfc.net.common.world.types.VillagePokeType;
 
@@ -62,6 +63,14 @@ public class AreaRegistry {
 
 	public IAreaType getType(String name) {
 		return stringToType.get(name);
+	}
+
+	public Set<String> getAllRegisteredTypeNames() {
+		return stringToType.keySet();
+	}
+
+	public static Set<String> getTypeNames() {
+		return AreaRegistry.instance.getAllRegisteredTypeNames();
 	}
 
 }
