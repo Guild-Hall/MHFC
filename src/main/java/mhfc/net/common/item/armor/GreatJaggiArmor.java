@@ -9,7 +9,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class GreatJaggiArmor extends ItemArmorMHFC {
+public class GreatJaggiArmor extends ArmorBase {
 	private static final String[] names = { ResourceInterface.armor_greatjaggi_helm_name,
 			ResourceInterface.armor_greatjaggi_chest_name, ResourceInterface.armor_greatjaggi_legs_name,
 			ResourceInterface.armor_greatjaggi_boots_name };

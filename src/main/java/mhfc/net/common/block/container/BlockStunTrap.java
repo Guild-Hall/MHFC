@@ -111,6 +111,7 @@ public class BlockStunTrap extends BlockContainer {
 		entityliving.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().stun, 500, 10));
 
 		world.setBlockState(pos, state.withProperty(ACTIVE, true));
+		world.setBlockToAir(pos);
 		return;
 	}
 

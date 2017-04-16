@@ -6,7 +6,7 @@ import mhfc.net.common.index.ArmorMaterials;
 import mhfc.net.common.index.ArmorModels;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.ItemRarity;
-import mhfc.net.common.item.armor.ItemExclusiveArmor;
+import mhfc.net.common.item.armor.ArmorExclusive;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.system.DonatorSystem;
 import net.minecraft.client.model.ModelBiped;
@@ -21,7 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author WorldSEnder, design by Sean Tang
  *
  */
-public class ST_BionicArmor extends ItemExclusiveArmor {
+public class ST_BionicArmor extends ArmorExclusive {
 	private static final String[] names = { ResourceInterface.armor_bionic_helm_name, ResourceInterface.armor_bionic_chest_name,
 			ResourceInterface.armor_bionic_legs_name, ResourceInterface.armor_bionic_boots_name };
 

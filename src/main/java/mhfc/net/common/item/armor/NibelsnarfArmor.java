@@ -9,7 +9,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class NibelsnarfArmor extends ItemArmorMHFC {
+public class NibelsnarfArmor extends ArmorBase {
 	private static final String[] names = { ResourceInterface.armor_nibelsnarf_helm_name,
 			ResourceInterface.armor_nibelsnarf_chest_name, ResourceInterface.armor_nibelsnarf_legs_name,
 			ResourceInterface.armor_nibelsnarf_boots_name };

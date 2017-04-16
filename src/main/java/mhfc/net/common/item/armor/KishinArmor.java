@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class KishinArmor extends ItemArmorMHFC {
+public class KishinArmor extends ArmorBase {
 	private static final String[] names = { ResourceInterface.armor_tigrexb_helm_name,
 			ResourceInterface.armor_tigrexb_chest_name, ResourceInterface.armor_tigrexb_legs_name,
 			ResourceInterface.armor_tigrexb_boots_name };

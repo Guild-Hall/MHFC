@@ -16,12 +16,12 @@ public class Idle extends IdleAction<EntityTigrex> implements IHasAnimationProvi
 	protected boolean canBeUseWhileEngage; //TODO: Make default breathing idle use in fight
 
 	private enum Variant implements WeightedItem {
-		DEFAULT("mhfc:models/Tigrex/idle.mcanm" ,		  60, 5F),
-		IDLE_1 ("mhfc:models/Tigrex/idle.mcanm"	,		 160, 7F),
-		IDLE_2 ("mhfc:models/Tigrex/idle2.mcanm" , 		 160,9F),
-		IDLE_3 ("mhfc:models/Tigrex/idle3.mcanm" ,		 260,16F),
-		IDLE_4 ("mhfc:models/Tigrex/idle4.mcanm",		 200, 12F),
-		IDLE_5 ("mhfc:models/Tigrex/idle5.mcanm"  ,		 260, 20F);
+		DEFAULT("mhfc:models/Tigrex/idle.mcanm" ,		  60, 1F),
+		IDLE_1 ("mhfc:models/Tigrex/idle.mcanm"	,		 160, 1F),
+		IDLE_2 ("mhfc:models/Tigrex/idle2.mcanm" , 		 160,1F),
+		IDLE_3 ("mhfc:models/Tigrex/idle3.mcanm" ,		 260,1F),
+		IDLE_4 ("mhfc:models/Tigrex/idle4.mcanm",		 200, 1F),
+		IDLE_5 ("mhfc:models/Tigrex/idle5.mcanm"  ,		 260, 1F);
 		
 		private float weight;
 		private String animLocation;
@@ -50,7 +50,7 @@ public class Idle extends IdleAction<EntityTigrex> implements IHasAnimationProvi
 
 	private static final List<Variant> ALL_VARIANTS = Arrays.asList(Variant.values());
 	private static final List<Variant> DEFAULT_VARIANT = Arrays.asList(Variant.DEFAULT);
-	private static final float WEIGHT = 2.5F;
+	private static final float WEIGHT = 1.0F;
 
 	private Variant variant;
 	private IAnimationProvider animation;

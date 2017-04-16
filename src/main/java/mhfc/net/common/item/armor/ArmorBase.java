@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ItemArmorMHFC extends ItemArmor {
+public abstract class ArmorBase extends ItemArmor {
 	public static EnumMap<EntityEquipmentSlot, String> makeDefaultSlotToTex(String upperTex, String lowerTex) {
 		EnumMap<EntityEquipmentSlot, String> map = new EnumMap<>(EntityEquipmentSlot.class);
 
@@ -38,7 +38,7 @@ public abstract class ItemArmorMHFC extends ItemArmor {
 	protected final ItemRarity rarity;
 	private final Map<EntityEquipmentSlot, String> slotToTex;
 
-	public ItemArmorMHFC(ArmorMaterial armor, ItemRarity rarity, EntityEquipmentSlot armorType) {
+	public ArmorBase(ArmorMaterial armor, ItemRarity rarity, EntityEquipmentSlot armorType) {
 		this(armor, rarity, armorType, null);
 	}
 
@@ -51,7 +51,7 @@ public abstract class ItemArmorMHFC extends ItemArmor {
 	 *            if <code>null</code>, sub classes _must_ implement
 	 *            {@link #getArmorTexture(ItemStack, Entity, EntityEquipmentSlot, String)}
 	 */
-	public ItemArmorMHFC(
+	public ArmorBase(
 			ArmorMaterial armor,
 			ItemRarity rarity,
 			EntityEquipmentSlot armorType,
@@ -98,20 +98,20 @@ public abstract class ItemArmorMHFC extends ItemArmor {
 
 		armorModel.bipedHead.showModel = armorSlot == EntityEquipmentSlot.HEAD;
 		armorModel.bipedHeadwear.showModel = armorSlot == EntityEquipmentSlot.HEAD;
-		armorModel.bipedBody.showModel = armorSlot == EntityEquipmentSlot.CHEST;
+		armorModel.bipedBody.showModel = (armorSlot == EntityEquipmentSlot.CHEST)|| (armorSlot == EntityEquipmentSlot.CHEST);
 		armorModel.bipedRightArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
 		armorModel.bipedLeftArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
-		armorModel.bipedRightLeg.showModel = armorSlot == EntityEquipmentSlot.LEGS
-				|| armorSlot == EntityEquipmentSlot.FEET;
-		armorModel.bipedLeftLeg.showModel = armorSlot == EntityEquipmentSlot.LEGS
-				|| armorSlot == EntityEquipmentSlot.FEET;
+		armorModel.bipedRightLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS)
+				|| (armorSlot == EntityEquipmentSlot.FEET);
+		armorModel.bipedLeftLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS)
+				|| (armorSlot == EntityEquipmentSlot.FEET);
 
-		armorModel.isSneak = entityLiving.isSneaking();
-		armorModel.isRiding = entityLiving.isRiding();
-		armorModel.isChild = entityLiving.isChild();
+		armorModel.isSneak = _default.isSneak;
+		armorModel.isRiding = _default.isRiding;
+		armorModel.isChild = _default.isChild;
 
-		armorModel.leftArmPose = getPoseForItemStack(entityLiving.getActiveHand(), entityLiving);
-		armorModel.rightArmPose = getPoseForItemStack(entityLiving.getActiveHand(), entityLiving);
+		armorModel.rightArmPose = _default.rightArmPose;
+		armorModel.leftArmPose = _default.leftArmPose;
 
 		return armorModel;
 	}

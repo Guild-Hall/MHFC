@@ -9,7 +9,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class VelocipreyArmor extends ItemArmorMHFC {
+public class VelocipreyArmor extends ArmorBase {
 	private static final String[] names = { ResourceInterface.armor_velociprey_helm_name,
 			ResourceInterface.armor_velociprey_chest_name, ResourceInterface.armor_velociprey_legs_name,
 			ResourceInterface.armor_velociprey_boots_name };

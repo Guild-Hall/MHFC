@@ -17,6 +17,8 @@ public abstract class RoarAction<T extends EntityMHFCBase<? super T>> extends An
 
 	private Collection<EntityLivingBase> affectedEntities;
 	private IRoarProvider roarProvider;
+	
+	//protected abstract boolean doesDealDamage();
 
 	public RoarAction() {
 		affectedEntities = new HashSet<>();
@@ -35,7 +37,7 @@ public abstract class RoarAction<T extends EntityMHFCBase<? super T>> extends An
 		if(getEntity().getAttackTarget() == null){
 			return DONT_SELECT;
 		}
-		return 4.5F;
+		return 2F;
 		
 	}
 	
@@ -57,6 +59,7 @@ public abstract class RoarAction<T extends EntityMHFCBase<? super T>> extends An
 				continue;
 			}
 			AIMethods.roarEffect(entityLiving);
+			//if (doesDealDamage());
 		}
 	}
 }

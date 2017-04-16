@@ -12,9 +12,12 @@ import net.minecraft.util.math.Vec3d;
 
 public abstract class WanderAction<T extends EntityMHFCBase<? super T>> extends MovementAction<T> {
 
+	
+	
+	//TODO Make monster rest after walking.
 	public static class RandomWanderProvider<T extends EntityLiving> implements IPathProvider {
 
-		public static int DEFAULT_WANDER_DISTANCE = 20;
+		public static int DEFAULT_WANDER_DISTANCE = 10;
 
 		public RandomWanderProvider(T actor) {
 			this(actor, DEFAULT_WANDER_DISTANCE);

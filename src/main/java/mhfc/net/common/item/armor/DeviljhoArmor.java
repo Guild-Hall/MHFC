@@ -9,7 +9,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class DeviljhoArmor extends ItemArmorMHFC {
+public class DeviljhoArmor extends ArmorBase {
 	private static final String[] names = { ResourceInterface.armor_deviljho_helm_name,
 			ResourceInterface.armor_deviljho_chest_name, ResourceInterface.armor_deviljho_legs_name,
 			ResourceInterface.armor_deviljho_boots_name };

@@ -11,10 +11,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
-public abstract class ItemExclusiveArmor extends ItemArmorMHFC {
+public abstract class ArmorExclusive extends ArmorBase {
 	private final Privilege requiredPrivilege;
 
-	public ItemExclusiveArmor(
+	public ArmorExclusive(
 			Privilege requirement,
 			ArmorMaterial armor,
 			ItemRarity rarity,
@@ -22,7 +22,7 @@ public abstract class ItemExclusiveArmor extends ItemArmorMHFC {
 		this(requirement, armor, rarity, armorType, null);
 	}
 
-	public ItemExclusiveArmor(
+	public ArmorExclusive(
 			Privilege requirement,
 			ArmorMaterial armor,
 			ItemRarity rarity,

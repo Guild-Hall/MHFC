@@ -1,15 +1,15 @@
 {
-	TigrexHunt : {
+	BarrothHunt : {
 		type : "hunting",
 		data : {
-			target: "mhfc:tigrex",
+			target: "mhfc:barroth",
 			amount: 1
 		}
 	},
 	StandardTimer : {
 		type : "time",
 		data : {
-			time : 6000
+			time : 60000
 		}
 	},
 	StandardDeath : {

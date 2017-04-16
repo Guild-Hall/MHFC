@@ -19,7 +19,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
 public class Utilities {
-	private static Random rand = new Random();
+	private static Random rand;
+	
+	public Utilities(){
+		rand = new Random();
+	}
 
 	public void addWeaponElementFX(EntityLivingBase entityLiving, ItemStack stack) {
 

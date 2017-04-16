@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TigrexArmor extends ItemArmorMHFC {
+public class TigrexArmor extends ArmorBase {
 	private static final String[] names = { ResourceInterface.armor_tigrex_helm_name, ResourceInterface.armor_tigrex_chest_name,
 			ResourceInterface.armor_tigrex_legs_name, ResourceInterface.armor_tigrex_boots_name };
 

@@ -19,9 +19,9 @@ public class TailWhip extends DamagingAction<EntityTigrex> implements IHasAttack
 	private static final int LAST_FRAME = 60;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/tailswipe.mcanm";
 
-	private static final double MAX_DISTANCE = 12F;
+	private static final double MAX_DISTANCE = 45F;
 
-	private static final float WEIGHT = 6;
+	private static final float WEIGHT = 5.5F;
 
 	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(102, 156, 9999999f);
 
@@ -46,6 +46,12 @@ public class TailWhip extends DamagingAction<EntityTigrex> implements IHasAttack
 			return DONT_SELECT;
 		}
 		return WEIGHT;
+	}
+	
+	@Override
+	protected void beginExecution() {
+		super.beginExecution();
+		damageCollidingEntities();
 	}
 
 	@Override

@@ -5,7 +5,7 @@
 			goal : {
 				type : "fork",
 				data : {
-					requisites : ["StandardDeath", "StandardTimer", "TigrexHunt"]
+					requisites : ["StandardDeath", "StandardTimer", "BarrothHunt"]
 				}
 			} ,
 			reward : 5000,
@@ -13,7 +13,7 @@
 			areaID : "desert",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
-				name : "The Absolute Power"
+				name : "Brute Wyvern"
 			}
 		}
 	}

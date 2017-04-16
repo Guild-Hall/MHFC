@@ -9,7 +9,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BarrothArmor extends ItemArmorMHFC {
+public class BarrothArmor extends ArmorBase {
 	private static final String[] names = { ResourceInterface.armor_barroth_helm_name,
 			ResourceInterface.armor_barroth_chest_name, ResourceInterface.armor_barroth_legs_name,
 			ResourceInterface.armor_barroth_boots_name };

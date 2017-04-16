@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class RathalosArmor extends ItemArmorMHFC {
+public class RathalosArmor extends ArmorBase {
 	private static final String[] names = { ResourceInterface.armor_rathalos_helm_name,
 			ResourceInterface.armor_rathalos_chest_name, ResourceInterface.armor_rathalos_legs_name,
 			ResourceInterface.armor_rathalos_boots_name };

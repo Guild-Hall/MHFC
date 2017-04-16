@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class DragoonArmor extends ItemExclusiveArmor {
+public class DragoonArmor extends ArmorExclusive {
 	private static final String[] names = { ResourceInterface.armor_dragoon_helm_name,
 			ResourceInterface.armor_dragoon_chest_name, ResourceInterface.armor_dragoon_legs_name,
 			ResourceInterface.armor_dragoon_boots_name };

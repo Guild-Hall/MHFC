@@ -15,8 +15,6 @@ import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityTigrex;
-import mhfc.net.common.util.world.WorldHelper;
-import net.minecraft.util.math.Vec3d;
 
 public class Jump extends JumpAction<EntityTigrex> implements IHasJumpProvider<EntityTigrex> {
 
@@ -27,8 +25,7 @@ public class Jump extends JumpAction<EntityTigrex> implements IHasJumpProvider<E
 	private static final float JUMP_TIME = 16f;
 
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(45f, 62f, 999999F);
-	private static final double MAX_DIST = 25f;
-	private static final float SELECTION_WEIGHT = 9f;
+	private static final float SELECTION_WEIGHT = 5f;
 
 	private final IJumpProvider<EntityTigrex> JUMP;
 	{
@@ -46,11 +43,6 @@ public class Jump extends JumpAction<EntityTigrex> implements IHasJumpProvider<E
 		EntityTigrex tigrex = this.getEntity();
 		target = tigrex.getAttackTarget();
 		if(getEntity().getAttackTarget() == null){
-			return DONT_SELECT;
-		}
-		Vec3d toTarget = WorldHelper.getVectorToTarget(getEntity(), target);
-		double dist = toTarget.lengthVector();
-		if (dist > MAX_DIST) {
 			return DONT_SELECT;
 		}
 		return SELECTION_WEIGHT;

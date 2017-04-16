@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class KirinArmor extends ItemArmorMHFC {
+public class KirinArmor extends ArmorBase {
 	private static final String[] names = { ResourceInterface.armor_kirin_helm_name, ResourceInterface.armor_kirin_chest_name,
 			ResourceInterface.armor_kirin_legs_name, ResourceInterface.armor_kirin_boots_name };
 
