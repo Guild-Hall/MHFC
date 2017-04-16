@@ -56,6 +56,7 @@ public class TailWhip extends DamagingAction<EntityTigrex> implements IHasAttack
 	@Override
 	public void onUpdate() {
 		EntityTigrex entity = getEntity();
+		damageCollidingEntities();
 		if (this.getCurrentFrame() <= 10) {
 			getEntity().getTurnHelper().updateTargetPoint(targetPoint);
 			getEntity().getTurnHelper().updateTurnSpeed(6.0f);

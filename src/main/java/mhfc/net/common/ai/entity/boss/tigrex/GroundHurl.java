@@ -7,6 +7,7 @@ import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
+import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
 public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnimationProvider {
@@ -30,12 +31,17 @@ public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnim
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityTigrex tigrex = this.getEntity();
-		target = tigrex.getAttackTarget();
+		EntityTigrex entity = this.getEntity();
+		target = entity.getAttackTarget();
 		if (target == null) {
 			return DONT_SELECT;
 		}
-		return 8f;
+		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
+		double dist = toTarget.lengthVector();
+		if (dist > 18.0F) {
+			return DONT_SELECT;
+		}
+		return 80F;
 	}
 
 	@Override
