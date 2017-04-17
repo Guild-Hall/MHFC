@@ -2,9 +2,9 @@ package mhfc.net.common.item.armor;
 
 import java.util.List;
 
-import mhfc.net.common.index.ArmorMaterials;
-import mhfc.net.common.index.ArmorModels;
 import mhfc.net.common.index.ResourceInterface;
+import mhfc.net.common.index.armor.Material;
+import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,14 +19,28 @@ public class RathalosArmor extends ArmorBase {
 			ResourceInterface.armor_rathalos_boots_name };
 
 	public RathalosArmor(EntityEquipmentSlot type) {
-		super(ArmorMaterials.ArmorRathalos, ItemRarity.R04, type);
+		super(Material.rathalos, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
-		return ArmorModels.rathalos;
+		switch (armorSlot) {
+		case HEAD:
+			return Model.rathalos;
+		case LEGS:
+			break;
+		case FEET:
+			return Model.rathalos;
+		case CHEST:
+			return Model.rathalos;
+		default:
+			break;
+			
+		}
+			
+		return null;
 	}
 
 	@Override

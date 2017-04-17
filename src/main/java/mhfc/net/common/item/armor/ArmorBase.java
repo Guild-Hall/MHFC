@@ -11,14 +11,12 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.ItemRarity;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelBiped.ArmPose;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -84,19 +82,30 @@ public abstract class ArmorBase extends ItemArmor {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ModelBiped getArmorModel(
-			EntityLivingBase entityLiving,
-			ItemStack itemStack,
-			EntityEquipmentSlot armorSlot,
-			ModelBiped _default) {
+	public ModelBiped getArmorModel(EntityLivingBase entityLiving,ItemStack itemStack,EntityEquipmentSlot armorSlot,ModelBiped _default) {
 
 		if (itemStack == null || !(itemStack.getItem() instanceof ItemArmor)) {
 			return null;
 		}
-
+		EntityEquipmentSlot type = ((ItemArmor) itemStack.getItem()).armorType;
 		ModelBiped armorModel = getBipedModel(armorSlot);
 		if (armorModel == null) {
 			return null;
+		}
+		
+		switch (type) {
+		case HEAD:
+			armorModel = getBipedModel(armorSlot);
+			break;
+		case CHEST:
+			armorModel = getBipedModel(armorSlot);
+			break;
+		case FEET:
+			armorModel = getBipedModel(armorSlot);
+			break;
+		case LEGS:
+			default:
+				break;
 		}
 
 		armorModel.bipedHead.showModel = armorSlot == EntityEquipmentSlot.HEAD;
@@ -119,7 +128,7 @@ public abstract class ArmorBase extends ItemArmor {
 		return armorModel;
 	}
 
-	private ModelBiped.ArmPose getPoseForItemStack(EnumHand activeHand, EntityLivingBase living) {
+	/*private ModelBiped.ArmPose getPoseForItemStack(EnumHand activeHand, EntityLivingBase living) {
 		ItemStack stackInHand = activeHand == EnumHand.MAIN_HAND
 				? living.getHeldItemMainhand()
 				: living.getHeldItemOffhand();
@@ -141,7 +150,7 @@ public abstract class ArmorBase extends ItemArmor {
 		}
 
 		return ArmPose.EMPTY;
-	}
+	}*/
 
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack armor) {

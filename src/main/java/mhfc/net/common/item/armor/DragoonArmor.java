@@ -2,9 +2,9 @@ package mhfc.net.common.item.armor;
 
 import java.util.List;
 
-import mhfc.net.common.index.ArmorMaterials;
-import mhfc.net.common.index.ArmorModels;
 import mhfc.net.common.index.ResourceInterface;
+import mhfc.net.common.index.armor.Material;
+import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.system.DonatorSystem;
@@ -24,14 +24,28 @@ public class DragoonArmor extends ArmorExclusive {
 			ResourceInterface.armor_dragoon_boots_name };
 
 	public DragoonArmor(EntityEquipmentSlot type) {
-		super(DonatorSystem.dragoon, ArmorMaterials.ArmorDragoon, ItemRarity.R04, type);
+		super(DonatorSystem.dragoon, Material.dragoon, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
-		return ArmorModels.dragoon;
+		switch (armorSlot) {
+		case HEAD:
+			return Model.dragoon;
+		case LEGS:
+			break;
+		case FEET:
+			return Model.dragoon;
+		case CHEST:
+			return Model.dragoon;
+		default:
+			break;
+			
+		}
+			
+		return null;
 	}
 
 	@Override

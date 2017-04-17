@@ -2,9 +2,9 @@ package mhfc.net.common.item.armor;
 
 import java.util.List;
 
-import mhfc.net.common.index.ArmorMaterials;
-import mhfc.net.common.index.ArmorModels;
 import mhfc.net.common.index.ResourceInterface;
+import mhfc.net.common.index.armor.Material;
+import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.system.ColorSystem;
 import net.minecraft.client.model.ModelBiped;
@@ -20,14 +20,28 @@ public class KishinArmor extends ArmorBase {
 			ResourceInterface.armor_tigrexb_boots_name };
 
 	public KishinArmor(EntityEquipmentSlot type) {
-		super(ArmorMaterials.ArmorTigrexB, ItemRarity.R04, type);
+		super(Material.kishin, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
-		return ArmorModels.tigrexb;
+		switch (armorSlot) {
+		case HEAD:
+			return Model.kishin;
+		case LEGS:
+			break;
+		case FEET:
+			return Model.kishin;
+		case CHEST:
+			return Model.kishin;
+		default:
+			break;
+			
+		}
+			
+		return null;
 	}
 
 	@Override

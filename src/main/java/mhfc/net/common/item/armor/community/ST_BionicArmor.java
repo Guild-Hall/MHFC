@@ -2,9 +2,9 @@ package mhfc.net.common.item.armor.community;
 
 import java.util.List;
 
-import mhfc.net.common.index.ArmorMaterials;
-import mhfc.net.common.index.ArmorModels;
 import mhfc.net.common.index.ResourceInterface;
+import mhfc.net.common.index.armor.Material;
+import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.item.armor.ArmorExclusive;
 import mhfc.net.common.system.ColorSystem;
@@ -26,14 +26,28 @@ public class ST_BionicArmor extends ArmorExclusive {
 			ResourceInterface.armor_bionic_legs_name, ResourceInterface.armor_bionic_boots_name };
 
 	public ST_BionicArmor(EntityEquipmentSlot type) {
-		super(DonatorSystem.bionic, ArmorMaterials.ArmorST_1_Bionic, ItemRarity.R04, type);
+		super(DonatorSystem.bionic, Material.bionic, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
-		return ArmorModels.bionic;
+		switch (armorSlot) {
+		case HEAD:
+			return Model.bionic;
+		case LEGS:
+			break;
+		case FEET:
+			return Model.bionic;
+		case CHEST:
+			return Model.bionic;
+		default:
+			break;
+			
+		}
+			
+		return null;
 	}
 
 	@Override

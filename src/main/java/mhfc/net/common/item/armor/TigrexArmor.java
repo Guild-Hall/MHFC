@@ -2,9 +2,9 @@ package mhfc.net.common.item.armor;
 
 import java.util.List;
 
-import mhfc.net.common.index.ArmorMaterials;
-import mhfc.net.common.index.ArmorModels;
 import mhfc.net.common.index.ResourceInterface;
+import mhfc.net.common.index.armor.Material;
+import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,16 +20,29 @@ public class TigrexArmor extends ArmorBase {
 			ResourceInterface.armor_tigrex_legs_name, ResourceInterface.armor_tigrex_boots_name };
 
 	public TigrexArmor(EntityEquipmentSlot type) {
-		super(ArmorMaterials.ArmorTigrex, ItemRarity.R04, type);
+		super(Material.tigrex, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
-		return ArmorModels.tigrex;
+		switch (armorSlot) {
+		case HEAD:
+			return Model.tigrex;
+		case LEGS:
+			break;
+		case FEET:
+			return Model.tigrex;
+		case CHEST:
+			return Model.tigrex;
+		default:
+			break;
+			
+		}
+			
+		return null;
 	}
-
 	@Override
 	public void addInformation(
 			ItemStack par1ItemStack,

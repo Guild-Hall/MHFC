@@ -11,7 +11,7 @@ import java.util.List;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.data.WeaponData;
 import mhfc.net.common.item.armor.BarrothArmor;
-import mhfc.net.common.item.armor.DeviljhoArmor;
+import mhfc.net.common.item.armor.VangisArmor;
 import mhfc.net.common.item.armor.DragoonArmor;
 import mhfc.net.common.item.armor.GreatJaggiArmor;
 import mhfc.net.common.item.armor.KirinArmor;
@@ -166,10 +166,6 @@ public class MHFCItemRegistry {
 	public final Item armor_nibelsnarf_legs;
 	public final Item armor_nibelsnarf_boots;
 
-	// public  final Item armor_deviljho_helm;
-	// public  final Item armor_deviljho_chest;
-	// public  final Item armor_deviljho_legs;
-	// public  final Item armor_deviljho_boots;
 
 	public final Item armor_tigrexB_helm;
 	public final Item armor_tigrexB_chest;
@@ -253,7 +249,7 @@ public class MHFCItemRegistry {
 		armor_barroth_helm = registerItem("arm_barroth_helmet", new BarrothArmor(EntityEquipmentSlot.HEAD));
 		armor_tigrex_helm = registerItem("arm_tigrex_helmet", new TigrexArmor(EntityEquipmentSlot.HEAD));
 		armor_kirin_helm = registerItem("arm_kirin_helmet", new KirinArmor(EntityEquipmentSlot.HEAD));
-		armor_vangis_helm = registerItem("arm_deviljho_helmet", new DeviljhoArmor(EntityEquipmentSlot.HEAD));
+		armor_vangis_helm = registerItem("arm_deviljho_helmet", new VangisArmor(EntityEquipmentSlot.HEAD));
 		armor_tigrexB_helm = registerItem("arm_tigrex_plus_helmet", new KishinArmor(EntityEquipmentSlot.HEAD));
 		armor_dragoon_helm = registerItem("arm_dragoon_helmet", new DragoonArmor(EntityEquipmentSlot.HEAD));
 		armor_kirinS_helm = registerItem("arm_kirin_s_helmet", new KirinSArmor(EntityEquipmentSlot.HEAD));
@@ -263,13 +259,11 @@ public class MHFCItemRegistry {
 		armor_velociprey_chest = registerItem("arm_veloci_chestplate", new VelocipreyArmor(EntityEquipmentSlot.CHEST));
 		armor_jaggi_chest = registerItem("arm_great_jaggi_chestplate", new GreatJaggiArmor(EntityEquipmentSlot.CHEST));
 		armor_rathalos_chest = registerItem("arm_rathalos_chestplate", new RathalosArmor(EntityEquipmentSlot.CHEST));
-		armor_nibelsnarf_chest = registerItem(
-				"arm_nibelsnarf_chestplate",
-				new NibelsnarfArmor(EntityEquipmentSlot.CHEST));
+		armor_nibelsnarf_chest = registerItem("arm_nibelsnarf_chestplate",new NibelsnarfArmor(EntityEquipmentSlot.CHEST));
 		armor_barroth_chest = registerItem("arm_barroth_chestplate", new BarrothArmor(EntityEquipmentSlot.CHEST));
 		armor_tigrex_chest = registerItem("arm_tigrex_chestplate", new TigrexArmor(EntityEquipmentSlot.CHEST));
 		armor_kirin_chest = registerItem("arm_kirin_chestplate", new KirinArmor(EntityEquipmentSlot.CHEST));
-		armor_vangis_chest = registerItem("arm_deviljho_chestplate", new DeviljhoArmor(EntityEquipmentSlot.CHEST));
+		armor_vangis_chest = registerItem("arm_deviljho_chestplate", new VangisArmor(EntityEquipmentSlot.CHEST));
 		armor_tigrexB_chest = registerItem("arm_tigrex_plus_chestplate", new KishinArmor(EntityEquipmentSlot.CHEST));
 		armor_dragoon_chest = registerItem("arm_dragoon_chestplate", new DragoonArmor(EntityEquipmentSlot.CHEST));
 		armor_kirinS_chest = registerItem("arm_kirin_s_chestplate", new KirinSArmor(EntityEquipmentSlot.CHEST));
@@ -283,7 +277,7 @@ public class MHFCItemRegistry {
 		armor_barroth_legs = registerItem("arm_barroth_leggings", new BarrothArmor(EntityEquipmentSlot.LEGS));
 		armor_tigrex_legs = registerItem("arm_tigrex_leggings", new TigrexArmor(EntityEquipmentSlot.LEGS));
 		armor_kirin_legs = registerItem("arm_kirin_leggings", new KirinArmor(EntityEquipmentSlot.LEGS));
-		armor_vangis_legs = registerItem("arm_deviljho_leggings", new DeviljhoArmor(EntityEquipmentSlot.LEGS));
+		armor_vangis_legs = registerItem("arm_deviljho_leggings", new VangisArmor(EntityEquipmentSlot.LEGS));
 		armor_tigrexB_legs = registerItem("arm_tigrex_plus_leggings", new KishinArmor(EntityEquipmentSlot.LEGS));
 		armor_dragoon_legs = registerItem("arm_dragoon_leggings", new DragoonArmor(EntityEquipmentSlot.LEGS));
 		armor_kirinS_legs = registerItem("arm_kirin_s_leggings", new KirinSArmor(EntityEquipmentSlot.LEGS));
@@ -297,7 +291,7 @@ public class MHFCItemRegistry {
 		armor_barroth_boots = registerItem("arm_barroth_boots", new BarrothArmor(EntityEquipmentSlot.FEET));
 		armor_tigrex_boots = registerItem("arm_tigrex_boots", new TigrexArmor(EntityEquipmentSlot.FEET));
 		armor_kirin_boots = registerItem("arm_kirin_boots", new KirinArmor(EntityEquipmentSlot.FEET));
-		armor_vangis_boots = registerItem("arm_deviljho_boots", new DeviljhoArmor(EntityEquipmentSlot.FEET));
+		armor_vangis_boots = registerItem("arm_deviljho_boots", new VangisArmor(EntityEquipmentSlot.FEET));
 		armor_tigrexB_boots = registerItem("arm_tigrex_plus_boots", new KishinArmor(EntityEquipmentSlot.FEET));
 		armor_dragoon_boots = registerItem("arm_dragoon_boots", new DragoonArmor(EntityEquipmentSlot.FEET));
 		armor_kirinS_boots = registerItem("arm_kirin_s_boots", new KirinSArmor(EntityEquipmentSlot.FEET));

@@ -1,4 +1,4 @@
-	package mhfc.net.common.index;
+	package mhfc.net.common.index.armor;
 
 import mhfc.net.client.model.armor.ModelBarrothArmor;
 import mhfc.net.client.model.armor.ModelDeviljhoArmor;
@@ -17,7 +17,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ArmorModels {
+public class Model {
 
 	public static final ModelTigrexArmor tigrex = new ModelTigrexArmor(1.0F);
 	public static final ModelKirinArmor kirin = new ModelKirinArmor(1.0F);
@@ -27,7 +27,7 @@ public class ArmorModels {
 	public static final ModelDeviljhoArmor deviljho = new ModelDeviljhoArmor(1.0F);
 	public static final ModelDragoonArmor dragoon = new ModelDragoonArmor(1.0F);
 	public static final ModelVelocipreyArmor velociprey = new ModelVelocipreyArmor(1.0F);
-	public static final ModelKishinArmor tigrexb = new ModelKishinArmor(1.0F);
+	public static final ModelKishinArmor kishin = new ModelKishinArmor(1.0F);
 	public static final ModelNibelsnarfArmor nibelsnarf = new ModelNibelsnarfArmor(1.0F);
 	public static final ModelBarrothArmor barroth = new ModelBarrothArmor(1.0F);
 

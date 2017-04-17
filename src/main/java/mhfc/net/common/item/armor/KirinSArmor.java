@@ -3,9 +3,9 @@ package mhfc.net.common.item.armor;
 import java.util.List;
 
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
-import mhfc.net.common.index.ArmorMaterials;
-import mhfc.net.common.index.ArmorModels;
 import mhfc.net.common.index.ResourceInterface;
+import mhfc.net.common.index.armor.Material;
+import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.system.DonatorSystem;
 import net.minecraft.client.model.ModelBiped;
@@ -24,14 +24,28 @@ public class KirinSArmor extends ArmorExclusive {
 			ResourceInterface.armor_kirinS_legs_name, ResourceInterface.armor_kirinS_boots_name };
 
 	public KirinSArmor(EntityEquipmentSlot type) {
-		super(DonatorSystem.kirinS, ArmorMaterials.ArmorKirinS, ItemRarity.R04, type);
+		super(DonatorSystem.kirinS, Material.kirinS, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
-		return ArmorModels.kirinS;
+		switch (armorSlot) {
+		case HEAD:
+			return Model.kirinS;
+		case LEGS:
+			break;
+		case FEET:
+			return Model.kirinS;
+		case CHEST:
+			return Model.kirinS;
+		default:
+			break;
+			
+		}
+			
+		return null;
 	}
 
 	@Override
