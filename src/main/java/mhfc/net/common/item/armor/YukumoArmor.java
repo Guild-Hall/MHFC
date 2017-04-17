@@ -25,21 +25,26 @@ public class YukumoArmor extends ArmorBase {
 	}
 	
 	
-	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
-	
-		if (stack.getItem() == MHFCItemRegistry.getRegistry().armor_yukumo_legs) {
-			return  "mhfc:yukumo_layer_2.png";
-		}
-		return null;
-
-	}
 	
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
-		return ArmorModels.yukumo;
+		switch (armorSlot) {
+		case HEAD:
+			return ArmorModels.yukumo;
+		case LEGS:
+			break;
+		case FEET:
+			return ArmorModels.yukumo;
+		case CHEST:
+			return ArmorModels.yukumo;
+		default:
+			break;
+			
+		}
+			
+		return null;
 	}
 
 	@Override

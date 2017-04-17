@@ -1,4 +1,4 @@
-package mhfc.net.common.index;
+	package mhfc.net.common.index;
 
 import mhfc.net.client.model.armor.ModelBarrothArmor;
 import mhfc.net.client.model.armor.ModelDeviljhoArmor;

@@ -14,10 +14,9 @@ public class GreatJaggiArmor extends ArmorBase {
 			ResourceInterface.armor_greatjaggi_chest_name, ResourceInterface.armor_greatjaggi_legs_name,
 			ResourceInterface.armor_greatjaggi_boots_name };
 
-	public GreatJaggiArmor(EntityEquipmentSlot type, int renderIndex) {
+	public GreatJaggiArmor(EntityEquipmentSlot type) {
 		super(ArmorMaterials.ArmorGreatJaggi, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
-		renderIndex = this.layerIndex;
 	}
 
 	@Override
