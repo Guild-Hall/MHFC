@@ -34,12 +34,15 @@ public abstract class ArmorBase extends ItemArmor {
 
 		return map;
 	}
+	
+	public int layerIndex;
 
 	protected final ItemRarity rarity;
 	private final Map<EntityEquipmentSlot, String> slotToTex;
 
 	public ArmorBase(ArmorMaterial armor, ItemRarity rarity, EntityEquipmentSlot armorType) {
 		this(armor, rarity, armorType, null);
+		this.layerIndex = this.renderIndex;
 	}
 
 	/**

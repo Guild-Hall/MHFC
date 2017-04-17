@@ -247,7 +247,7 @@ public class MHFCItemRegistry {
 		// Armor
 		armor_yukumo_helm = registerItem("arm_yukumo_helmet", new YukumoArmor(EntityEquipmentSlot.HEAD));
 		armor_velociprey_helm = registerItem("arm_veloci_helmet", new VelocipreyArmor(EntityEquipmentSlot.HEAD));
-		armor_jaggi_helm = registerItem("arm_great_jaggi_helmet", new GreatJaggiArmor(EntityEquipmentSlot.HEAD));
+		armor_jaggi_helm = registerItem("arm_great_jaggi_helmet", new GreatJaggiArmor(EntityEquipmentSlot.HEAD, 1));
 		armor_rathalos_helm = registerItem("arm_rathalos_helmet", new RathalosArmor(EntityEquipmentSlot.HEAD));
 		armor_nibelsnarf_helm = registerItem("arm_nibelsnarf_helmet", new NibelsnarfArmor(EntityEquipmentSlot.HEAD));
 		armor_barroth_helm = registerItem("arm_barroth_helmet", new BarrothArmor(EntityEquipmentSlot.HEAD));
@@ -261,7 +261,7 @@ public class MHFCItemRegistry {
 
 		armor_yukumo_chest = registerItem("arm_yukumo_chestplate", new YukumoArmor(EntityEquipmentSlot.CHEST));
 		armor_velociprey_chest = registerItem("arm_veloci_chestplate", new VelocipreyArmor(EntityEquipmentSlot.CHEST));
-		armor_jaggi_chest = registerItem("arm_great_jaggi_chestplate", new GreatJaggiArmor(EntityEquipmentSlot.CHEST));
+		armor_jaggi_chest = registerItem("arm_great_jaggi_chestplate", new GreatJaggiArmor(EntityEquipmentSlot.CHEST, 1));
 		armor_rathalos_chest = registerItem("arm_rathalos_chestplate", new RathalosArmor(EntityEquipmentSlot.CHEST));
 		armor_nibelsnarf_chest = registerItem(
 				"arm_nibelsnarf_chestplate",
@@ -277,7 +277,7 @@ public class MHFCItemRegistry {
 
 		armor_yukumo_legs = registerItem("arm_yukumo_leggings", new YukumoArmor(EntityEquipmentSlot.LEGS));
 		armor_velociprey_legs = registerItem("arm_veloci_leggings", new VelocipreyArmor(EntityEquipmentSlot.LEGS));
-		armor_jaggi_legs = registerItem("arm_great_jaggi_leggings", new GreatJaggiArmor(EntityEquipmentSlot.LEGS));
+		armor_jaggi_legs = registerItem("arm_great_jaggi_leggings", new GreatJaggiArmor(EntityEquipmentSlot.LEGS, 2));
 		armor_rathalos_legs = registerItem("arm_rathalos_leggings", new RathalosArmor(EntityEquipmentSlot.LEGS));
 		armor_nibelsnarf_legs = registerItem("arm_nibelsnarf_leggings", new NibelsnarfArmor(EntityEquipmentSlot.LEGS));
 		armor_barroth_legs = registerItem("arm_barroth_leggings", new BarrothArmor(EntityEquipmentSlot.LEGS));
@@ -291,7 +291,7 @@ public class MHFCItemRegistry {
 
 		armor_yukumo_boots = registerItem("arm_yukumo_boots", new YukumoArmor(EntityEquipmentSlot.FEET));
 		armor_velociprey_boots = registerItem("arm_veloci_boots", new VelocipreyArmor(EntityEquipmentSlot.FEET));
-		armor_jaggi_boots = registerItem("arm_great_jaggi_boots", new GreatJaggiArmor(EntityEquipmentSlot.FEET));
+		armor_jaggi_boots = registerItem("arm_great_jaggi_boots", new GreatJaggiArmor(EntityEquipmentSlot.FEET, 1));
 		armor_rathalos_boots = registerItem("arm_rathalos_boots", new RathalosArmor(EntityEquipmentSlot.FEET));
 		armor_nibelsnarf_boots = registerItem("arm_nibelsnarf_boots", new NibelsnarfArmor(EntityEquipmentSlot.FEET));
 		armor_barroth_boots = registerItem("arm_barroth_boots", new BarrothArmor(EntityEquipmentSlot.FEET));
