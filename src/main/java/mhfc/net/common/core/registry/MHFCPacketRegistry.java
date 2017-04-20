@@ -1,8 +1,8 @@
 package mhfc.net.common.core.registry;
 
-import mhfc.net.client.network.handler.QuestClientInitHandler;
-import mhfc.net.client.network.handler.QuestScreenVisualHandler;
-import mhfc.net.client.network.handler.QuestStatusHandler;
+import mhfc.net.client.quests.handler.QuestClientInitHandler;
+import mhfc.net.client.quests.handler.QuestScreenVisualHandler;
+import mhfc.net.client.quests.handler.QuestStatusHandler;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.BeginCraftingHandler;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.BenchRefreshHandler;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.CancelRecipeHandler;

@@ -1,4 +1,4 @@
-package mhfc.net.client.network.handler;
+package mhfc.net.client.quests.handler;
 
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.network.message.quest.MessageQuestInit;
