@@ -12,12 +12,12 @@ import mhfc.net.common.entity.monster.EntityBarroth;
 
 public class Wander extends WanderAction<EntityBarroth> implements IHasAnimationProvider {
 
-	private static final String ANIMATION_LOCATION = "mhfc:models/Barroth/BarrothWalk.mcanm";
-	private static final int LAST_FRAME = 140;
+	private static final String ANIMATION_LOCATION = "mhfc:models/Barroth/barrothwalk.mcanm";
+	private static final int LAST_FRAME = 96;
 
 	private static final float WEIGHT = 0.5F;
 
-	private static final IMoveParameterProvider MOVEMENT_PARAMETERS = new MoveParameterAdapter(5f, 0.7f);
+	private static final IMoveParameterProvider MOVEMENT_PARAMETERS = new MoveParameterAdapter(0.7f, 0.5f);
 
 	private IAnimationProvider ANIMATION;
 
