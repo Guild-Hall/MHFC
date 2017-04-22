@@ -20,8 +20,8 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 	private static final int runningEnds = 60;
 	private static final int attackEnd = 75;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/run.mcanm";
-	private static final float TURN_RATE_INITIAL = 10.5f;
-	private static final float TURN_RATE_DURING_RUN = 0.17f;
+	private static final float TURN_RATE_INITIAL = 12.5f;
+	private static final float TURN_RATE_DURING_RUN = 1f;
 	private static final float MAX_RUN_DISTANCE = 40f;
 	private static final int MAX_RUN_FRAMES = 200;
 
@@ -73,17 +73,27 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 
 			@Override
 			public void update(Charge attk) {
+				
+				// Variables
 				EntityTigrex tigrex = attk.getEntity();
 				Vec3d tigPos = tigrex.getPositionVector();
 				Vec3d trgtPos = attk.target.getPositionVector();
 				Vec3d vecToTarget = trgtPos.subtract(tigPos);
+				
+				// Processing
 				tigrex.getTurnHelper().updateTargetPoint(trgtPos);
+				
 				tigrex.moveForward(RUN_SPEED, true);
+				
 				Vec3d look = tigrex.getLookVec();
+				
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
+				
 				boolean ranLongEnough = attk.runStartPoint.subtract(tigPos).lengthVector() > MAX_RUN_DISTANCE
 						|| attk.framesRunning > MAX_RUN_FRAMES;
+						
 				if ((tarBeh || ranLongEnough) && attk.hasPassed == PastEntityEnum.NOT_PASSED) {
+					
 					attk.hasPassed = PastEntityEnum.PASSED;
 				}
 			}

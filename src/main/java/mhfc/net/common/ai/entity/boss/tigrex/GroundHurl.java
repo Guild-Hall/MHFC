@@ -46,8 +46,7 @@ public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnim
 	@Override
 	protected void beginExecution() {
 		super.beginExecution();
-		EntityTigrex entity = getEntity();
-		entity.playSound(MHFCSoundRegistry.getRegistry().tigrexRockThrow, 2.0F, 1.0F);
+		
 		thrown = false;
 	}
 
@@ -64,6 +63,10 @@ public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnim
 				tigrex.getTurnHelper().updateTargetPoint(tigrex.getAttackTarget());
 			}
 			return;
+			
+		}
+		if(getCurrentFrame() == THROW_FRAME){
+			tigrex.playSound(MHFCSoundRegistry.getRegistry().tigrexRockThrow, 2.0F, 1.0F);	
 		}
 		thrown = true;
 		if (tigrex.world.isRemote) {
@@ -84,7 +87,7 @@ public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnim
 				xCo -= rightSide.xCoord * SPLIT_MULTIPLIER;
 				zCo -= rightSide.zCoord * SPLIT_MULTIPLIER;
 			}
-			block.setThrowableHeading(xCo, yCo, zCo, 1f, 1.5f);
+			block.setThrowableHeading(xCo, yCo, zCo, 1f, 0.5F);
 			tigrex.world.spawnEntity(block);
 		}
 	}

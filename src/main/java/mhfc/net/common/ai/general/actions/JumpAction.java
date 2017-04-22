@@ -46,9 +46,9 @@ public abstract class JumpAction<T extends EntityMHFCBase<? super T>> extends Da
 		if (jumpTimingProvider.isJumpFrame(entity, frame)) {
 			float upVelocity = capVelocity(jumpParameterProvider.getInitialUpVelocity(entity), UPWARD_VEL_CAP);
 			float forwardVelocity = capVelocity(jumpParameterProvider.getForwardVelocity(entity), FORWARD_VEL_CAP);
-			entity.motionX = direction.xCoord * forwardVelocity;
-			entity.motionY = upVelocity;
-			entity.motionZ = direction.zCoord * forwardVelocity;
+			entity.motionX += direction.xCoord * forwardVelocity;
+			entity.motionY += upVelocity;
+			entity.motionZ += direction.zCoord * forwardVelocity;
 			entity.isAirBorne = true;
 		}
 		if (jumpTimingProvider.isDamageFrame(entity, frame)) {

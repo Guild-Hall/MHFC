@@ -103,9 +103,7 @@ public class ContainerHunterBench extends Container {
 
 	@Override
 	public void onCraftMatrixChanged(IInventory par1IInventory) {
-		this.craftResult.setInventorySlotContents(
-				0,
-				MHFCCraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj));
+		this.craftResult.setInventorySlotContents(0,MHFCCraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj));
 	}
 
 	@Override
