@@ -141,6 +141,6 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	@Override
 	protected void playStepSound(BlockPos pos, Block blockIn) {
-		this.playSound(MHFCSoundRegistry.getRegistry().tigrexStep, 2.0F, 1.0F);
+		this.playSound(MHFCSoundRegistry.getRegistry().tigrexStep, 0.7F, 1.0F);
 	}
 }

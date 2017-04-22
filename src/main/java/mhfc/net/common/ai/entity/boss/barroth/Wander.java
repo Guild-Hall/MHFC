@@ -21,14 +21,12 @@ public class Wander extends WanderAction<EntityBarroth> implements IHasAnimation
 
 	private IAnimationProvider ANIMATION;
 
-	public Wander() {}
-
-	@Override
-	protected void beginExecution() {
+	public Wander() {
+		
 		ANIMATION = AnimationAdapter.builder().setAnimation(ANIMATION_LOCATION).setAnimationLength(LAST_FRAME)
-				.setFrameAdvancer(new CountLoopAdvancer(0, 80, -1)).build(this);
-		super.beginExecution();
+				.setFrameAdvancer(new CountLoopAdvancer(0, 80, 3)).build(this);
 	}
+
 
 	@Override
 	protected float computeWanderWeight() {

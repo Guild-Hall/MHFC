@@ -6,6 +6,7 @@ import mhfc.net.common.ai.general.provider.adapters.CountLoopAdvancer;
 import mhfc.net.common.ai.general.provider.adapters.MoveParameterAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
+import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
 import mhfc.net.common.entity.monster.EntityLagiacrus;
 
@@ -16,13 +17,14 @@ public class Wander extends WanderAction<EntityLagiacrus> implements IHasAnimati
 
 	private static final float WEIGHT = 0.5F;
 
-	private static final IMoveParameterProvider MOVEMENT_PARAMS = new MoveParameterAdapter(3f, 0.52f);
-	private final IAnimationProvider ANIMATION;
+	private static final IMoveParameterProvider MOVEMENT_PARAMS = new MoveParameterAdapter(0.8f, 0.3f);
+	private IAnimationProvider ANIMATION;
 
 	public Wander() {
 		ANIMATION = AnimationAdapter.builder().setAnimation(ANIMATION_LOCATION).setAnimationLength(LAST_FRAME)
-				.setFrameAdvancer(new CountLoopAdvancer(10, 80, -1)).build(this);
-	}
+				.setFrameAdvancer(new CountLoopAdvancer(20, 80, 1)).build(this);
+		
+	}	
 
 	@Override
 	protected float computeWanderWeight() {
@@ -37,6 +39,11 @@ public class Wander extends WanderAction<EntityLagiacrus> implements IHasAnimati
 	@Override
 	public IMoveParameterProvider provideMoveParameters() {
 		return MOVEMENT_PARAMS;
+	}
+	
+	@Override
+	public IContinuationPredicate provideContinuationPredicate() {
+		return super.provideContinuationPredicate().and(IHasAnimationProvider.super.provideContinuationPredicate());
 	}
 
 }

@@ -19,7 +19,8 @@ public class CountLoopAdvancer implements IFrameAdvancer {
 	 * @param loopEnd
 	 *            The end of the loop, exclusive
 	 * @param loopAmount
-	 *            If smaller than 0, loops infinitely. If 0 then runs just as if there was no loop.
+	 * 			  Heltrato: This repeats the animFrame from loopStart to loopEnd.
+	 *            Katora:If smaller than 0, loops infinitely. If 0 then runs just as if there was no loop.
 	 */
 	public CountLoopAdvancer(int loopStart, int loopEnd, int loopAmount) {
 		this.loopStart = loopStart;

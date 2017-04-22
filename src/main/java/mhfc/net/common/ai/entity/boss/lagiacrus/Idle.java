@@ -9,7 +9,7 @@ import mhfc.net.common.entity.monster.EntityLagiacrus;
 
 public class Idle extends IdleAction<EntityLagiacrus> implements IHasAnimationProvider {
 
-	private static final int LAST_FRAME = 6;
+	private static final int LAST_FRAME = 50;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Lagiacrus/LagiacrusIdle.mcanm";
 	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 
@@ -17,7 +17,7 @@ public class Idle extends IdleAction<EntityLagiacrus> implements IHasAnimationPr
 
 	@Override
 	protected float computeIdleWeight() {
-		return WeightUtils.random(rng(), 1f);
+		return WeightUtils.random(rng(), 3f);
 	}
 
 	@Override

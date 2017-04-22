@@ -21,7 +21,7 @@ public class Wander extends WanderAction<EntityGreatJaggi> implements IHasAnimat
 
 	public Wander() {
 		ANIMATION = AnimationAdapter.builder().setAnimation(ANIMATION_LOCATION).setAnimationLength(LAST_FRAME)
-				.setFrameAdvancer(new CountLoopAdvancer(0, 55, -1)).build(this);
+				.setFrameAdvancer(new CountLoopAdvancer(0, 55, 3)).build(this);
 	}
 
 	@Override
