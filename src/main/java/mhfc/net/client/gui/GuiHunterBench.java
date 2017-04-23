@@ -519,8 +519,10 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			float modelRotY) {
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		GL11.glTranslatef(rectX + rectW / 2, rectY + rectH / 2, 40F);
-		GL11.glTranslatef(3f, -15f, 0F);
+		GL11.glScaled(3F, 3F, 3F);
+		GL11.glTranslatef(3f, 5f, 0F);
 		GL11.glRotatef(90F, 1.0f, 0.0f, 0.0f);
+		GL11.glRotatef(90F, 0.0f, 0.0f, 1.0f);
 		modelRotY = Math.min(Math.abs(modelRotY), 30f) * Math.signum(modelRotY);
 		GL11.glRotatef(modelRotX, 0.0f, 0.0f, -1.0f);
 		GL11.glRotatef(modelRotY, 0.0f, -1.0f, 0.0f);
@@ -546,18 +548,25 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			float modelRotY) {
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		GL11.glTranslatef(rectX + rectW / 2, rectY + rectH / 2, 40F);
+		float defaultScale = 2F;
 		switch (itemType) {
+		
+		
 		case ARMOR_HEAD:
-			GL11.glTranslatef(3f, 15f, 0F);
+			GL11.glScaled(defaultScale, defaultScale, defaultScale);
+			GL11.glTranslatef(3f, -22f, 0F);
 			break;
 		case ARMOR_BODY:
-			GL11.glTranslatef(3f, -15f, 0F);
+			GL11.glScaled(3F, 3F, 3F);
+			GL11.glTranslatef(1f, -38f, 0F);
 			break;
 		case ARMOR_PANTS:
-			GL11.glTranslatef(3f, -35f, 0F);
+			GL11.glScaled(defaultScale, defaultScale, defaultScale);
+			GL11.glTranslatef(1f, -45f, 0F);
 			break;
 		case ARMOR_BOOTS:
-			GL11.glTranslatef(3f, -55f, 0F);
+			GL11.glScaled(defaultScale, defaultScale, defaultScale);
+			GL11.glTranslatef(1f, -55f, 0F);
 			break;
 		default:
 			break;
