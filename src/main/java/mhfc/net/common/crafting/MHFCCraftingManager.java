@@ -33,8 +33,8 @@ public class MHFCCraftingManager {
 	// TODO rework this, pls, separation of concerns
 	public ItemStack findMatchingRecipe(InventoryCrafting par1InventoryCrafting, World par2World) {
 		int var3 = 0;
-		ItemStack var4 = null;
-		ItemStack var5 = null;
+		ItemStack var4 = ItemStack.EMPTY;
+		ItemStack var5 = ItemStack.EMPTY;
 		int var6;
 
 		for (var6 = 0; var6 < par1InventoryCrafting.getSizeInventory(); ++var6) {
@@ -74,7 +74,7 @@ public class MHFCCraftingManager {
 			}
 		}
 
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	public Set<IRecipe> getRecipeList() {
@@ -110,7 +110,7 @@ public class MHFCCraftingManager {
 
 		for (; var4 < par2ArrayOfObj.length; var4 += 2) {
 			Character var13 = (Character) par2ArrayOfObj[var4];
-			ItemStack var14 = null;
+			ItemStack var14 = ItemStack.EMPTY;
 
 			if (par2ArrayOfObj[var4 + 1] instanceof Item) {
 				var14 = new ItemStack((Item) par2ArrayOfObj[var4 + 1]);
@@ -131,7 +131,7 @@ public class MHFCCraftingManager {
 			if (var12.containsKey(Character.valueOf(var10))) {
 				var15[var16] = var12.get(Character.valueOf(var10)).copy();
 			} else {
-				var15[var16] = null;
+				var15[var16] = ItemStack.EMPTY;
 			}
 		}
 

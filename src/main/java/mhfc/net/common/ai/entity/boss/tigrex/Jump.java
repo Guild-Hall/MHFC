@@ -40,9 +40,9 @@ public class Jump extends JumpAction<EntityTigrex> implements IHasJumpProvider<E
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityTigrex tigrex = this.getEntity();
-		target = tigrex.getAttackTarget();
-		if(getEntity().getAttackTarget() == null){
+		EntityTigrex entity = this.getEntity();
+		target = entity.getAttackTarget();
+		if(target == null){
 			return DONT_SELECT;
 		}
 		return SELECTION_WEIGHT;

@@ -1,7 +1,6 @@
 package mhfc.net.common.ai.entity.boss.nargacuga;
 
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.JumpAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackTargetAdapter;
@@ -22,7 +21,6 @@ public class BackOff extends JumpAction<EntityNargacuga> implements IHasJumpProv
 	private static final int ANIMATION_LENGTH = 50;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Nargacuga/JumpBack.mcanm";
 
-	private static final float ANGLE = 40;
 	private static final int JUMP_FRAME = 23;
 	private static final float JUMP_TIME = 12;
 	private static final float TURN_RATE = 2.5f;
@@ -48,13 +46,14 @@ public class BackOff extends JumpAction<EntityNargacuga> implements IHasJumpProv
 
 	public BackOff() {}
 
-	private boolean shouldSelect() {
-		return SelectionUtils.isInViewAngle(-ANGLE, ANGLE, getEntity(), target);
-	}
-
 	@Override
 	protected float computeSelectionWeight() {
-		return shouldSelect() ? WEIGHT : DONT_SELECT;
+		EntityNargacuga entity = this.getEntity();
+		target = entity.getAttackTarget();
+		if(target == null){
+			return DONT_SELECT;
+		}
+		return WEIGHT;
 	}
 
 	@Override

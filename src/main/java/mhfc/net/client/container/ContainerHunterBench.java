@@ -23,13 +23,7 @@ public class ContainerHunterBench extends Container {
 	private int posY;
 	private int posZ;
 
-	public ContainerHunterBench(
-			InventoryPlayer par1InventoryPlayer,
-			World par2World,
-			TileHunterBench tileEntity,
-			int x,
-			int y,
-			int z) {
+	public ContainerHunterBench(InventoryPlayer par1InventoryPlayer, World par2World, TileHunterBench tileEntity, int x,int y,int z) {
 		this.worldObj = par2World;
 		this.posX = x;
 		this.posY = y;
@@ -97,7 +91,6 @@ public class ContainerHunterBench extends Container {
 				this.addSlotToContainer(new Slot(par1InventoryPlayer, var7 + var6 * 9, 7 + var6 * 18, var7 * 18 + 28));
 			}
 		}
-
 		this.onCraftMatrixChanged(this.craftMatrix);
 	}
 
