@@ -81,6 +81,11 @@ public class ContainerHunterBench extends Container {
 			public boolean isItemValid(ItemStack stack) {
 				return false;
 			}
+
+			@Override
+			public boolean canTakeStack(EntityPlayer playerIn) {
+				return false;
+			}
 		});
 
 		this.addSlotToContainer(new Slot(tileEntity, TileHunterBench.fuelSlot, 354, 168));
@@ -103,7 +108,7 @@ public class ContainerHunterBench extends Container {
 	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
 		return this.worldObj.getBlockState(new BlockPos(this.posX, this.posY, this.posZ))
 				.getBlock() != MHFCBlockRegistry.getRegistry().mhfcblockhunterbench
-						? false
+				? false
 						: par1EntityPlayer.getDistanceSq(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D) <= 64.0D;
 	}
 
@@ -115,7 +120,7 @@ public class ContainerHunterBench extends Container {
 			for (int i = 0; i < 15; ++i) {
 				ItemStack itemstack = this.craftMatrix.getStackInSlot(i);
 
-				if (itemstack != null) {
+				if (!itemstack.isEmpty()) {
 					par1EntityPlayer.dropItem(itemstack, false);
 				}
 			}
@@ -133,20 +138,20 @@ public class ContainerHunterBench extends Container {
 
 			if (par2 == 0) {
 				if (!this.mergeItemStack(var5, 10, 46, true)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 
 				var4.onSlotChange(var5, var3);
 			} else if (par2 >= 10 && par2 < 37) {
 				if (!this.mergeItemStack(var5, 37, 46, false)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			} else if (par2 >= 37 && par2 < 46) {
 				if (!this.mergeItemStack(var5, 10, 37, false)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			} else if (!this.mergeItemStack(var5, 10, 46, false)) {
-				return null;
+				return ItemStack.EMPTY;
 			}
 
 			if (var5.getCount() == 0) {
@@ -156,7 +161,7 @@ public class ContainerHunterBench extends Container {
 			}
 
 			if (var5.getCount() == var3.getCount()) {
-				return null;
+				return ItemStack.EMPTY;
 			}
 
 			var4.onTake(par1EntityPlayer, var5);

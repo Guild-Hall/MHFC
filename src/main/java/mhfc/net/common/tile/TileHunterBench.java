@@ -259,7 +259,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
 		ItemStack stack = getStackInSlot(index);
-		setInventorySlotContents(index, null);
+		setInventorySlotContents(index, ItemStack.EMPTY);
 		return stack;
 	}
 
