@@ -30,16 +30,16 @@ public class RathalosArmor extends ArmorBase {
 		case HEAD:
 			return Model.rathalos;
 		case LEGS:
-			break;
+			return null;
 		case FEET:
 			return Model.rathalos;
 		case CHEST:
 			return Model.rathalos;
 		default:
 			break;
-			
+
 		}
-			
+
 		return null;
 	}
 
@@ -49,8 +49,8 @@ public class RathalosArmor extends ArmorBase {
 			EntityPlayer par2EntityPlayer,
 			List<String> par3List,
 			boolean par4) {
-	//	par3List.add("Attack Up L");
-	//	par3List.add("Poison D[+4%]");
+		//	par3List.add("Attack Up L");
+		//	par3List.add("Poison D[+4%]");
 	}
 
 }

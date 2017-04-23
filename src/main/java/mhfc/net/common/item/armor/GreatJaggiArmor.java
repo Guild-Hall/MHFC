@@ -26,16 +26,16 @@ public class GreatJaggiArmor extends ArmorBase {
 		case HEAD:
 			return Model.jaggi;
 		case LEGS:
-			break;
+			return null;
 		case FEET:
 			return Model.jaggi;
 		case CHEST:
 			return Model.jaggi;
 		default:
 			break;
-			
+
 		}
-			
+
 		return null;
 	}
 }

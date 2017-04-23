@@ -1,4 +1,4 @@
-     package mhfc.net.common.item.armor;
+package mhfc.net.common.item.armor;
 
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.index.armor.Material;
@@ -26,16 +26,15 @@ public class NibelsnarfArmor extends ArmorBase {
 		case HEAD:
 			return Model.nibelsnarf;
 		case LEGS:
-			break;
+			return null;
 		case FEET:
 			return Model.nibelsnarf;
 		case CHEST:
 			return Model.nibelsnarf;
 		default:
 			break;
-			
 		}
-			
+
 		return null;
 	}
 

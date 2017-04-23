@@ -29,16 +29,16 @@ public class KirinArmor extends ArmorBase {
 		case HEAD:
 			return Model.kirin;
 		case LEGS:
-			break;
+			return null;
 		case FEET:
 			return Model.kirin;
 		case CHEST:
 			return Model.kirin;
 		default:
 			break;
-			
+
 		}
-			
+
 		return null;
 	}
 

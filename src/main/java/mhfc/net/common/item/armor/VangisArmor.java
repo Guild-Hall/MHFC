@@ -26,16 +26,16 @@ public class VangisArmor extends ArmorBase {
 		case HEAD:
 			return Model.deviljho;
 		case LEGS:
-			break;
+			return null;
 		case FEET:
 			return Model.deviljho;
 		case CHEST:
 			return Model.deviljho;
 		default:
 			break;
-			
+
 		}
-			
+
 		return null;
 	}
 }

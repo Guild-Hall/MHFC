@@ -35,16 +35,16 @@ public class DragoonArmor extends ArmorExclusive {
 		case HEAD:
 			return Model.dragoon;
 		case LEGS:
-			break;
+			return null;
 		case FEET:
 			return Model.dragoon;
 		case CHEST:
 			return Model.dragoon;
 		default:
 			break;
-			
+
 		}
-			
+
 		return null;
 	}
 

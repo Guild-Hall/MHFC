@@ -20,8 +20,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class KirinSArmor extends ArmorExclusive {
-	private static final String[] names = { ResourceInterface.armor_kirinS_helm_name, ResourceInterface.armor_kirinS_chest_name,
-			ResourceInterface.armor_kirinS_legs_name, ResourceInterface.armor_kirinS_boots_name };
+	private static final String[] names = { ResourceInterface.armor_kirinS_helm_name,
+			ResourceInterface.armor_kirinS_chest_name, ResourceInterface.armor_kirinS_legs_name,
+			ResourceInterface.armor_kirinS_boots_name };
 
 	public KirinSArmor(EntityEquipmentSlot type) {
 		super(DonatorSystem.kirinS, Material.kirinS, ItemRarity.R04, type);
@@ -35,16 +36,16 @@ public class KirinSArmor extends ArmorExclusive {
 		case HEAD:
 			return Model.kirinS;
 		case LEGS:
-			break;
+			return null;
 		case FEET:
 			return Model.kirinS;
 		case CHEST:
 			return Model.kirinS;
 		default:
 			break;
-			
+
 		}
-			
+
 		return null;
 	}
 

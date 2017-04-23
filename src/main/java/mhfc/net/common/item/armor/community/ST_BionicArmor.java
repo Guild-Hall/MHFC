@@ -22,8 +22,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  *
  */
 public class ST_BionicArmor extends ArmorExclusive {
-	private static final String[] names = { ResourceInterface.armor_bionic_helm_name, ResourceInterface.armor_bionic_chest_name,
-			ResourceInterface.armor_bionic_legs_name, ResourceInterface.armor_bionic_boots_name };
+	private static final String[] names = { ResourceInterface.armor_bionic_helm_name,
+			ResourceInterface.armor_bionic_chest_name, ResourceInterface.armor_bionic_legs_name,
+			ResourceInterface.armor_bionic_boots_name };
 
 	public ST_BionicArmor(EntityEquipmentSlot type) {
 		super(DonatorSystem.bionic, Material.bionic, ItemRarity.R04, type);
@@ -37,16 +38,16 @@ public class ST_BionicArmor extends ArmorExclusive {
 		case HEAD:
 			return Model.bionic;
 		case LEGS:
-			break;
+			return null;
 		case FEET:
 			return Model.bionic;
 		case CHEST:
 			return Model.bionic;
 		default:
 			break;
-			
+
 		}
-			
+
 		return null;
 	}
 

@@ -32,7 +32,7 @@ public abstract class ArmorBase extends ItemArmor {
 
 		return map;
 	}
-	
+
 	public int layerIndex;
 
 	protected final ItemRarity rarity;
@@ -82,17 +82,18 @@ public abstract class ArmorBase extends ItemArmor {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ModelBiped getArmorModel(EntityLivingBase entityLiving,ItemStack itemStack,EntityEquipmentSlot armorSlot,ModelBiped _default) {
+	public ModelBiped getArmorModel(
+			EntityLivingBase entityLiving,
+			ItemStack itemStack,
+			EntityEquipmentSlot armorSlot,
+			ModelBiped _default) {
 
 		if (itemStack == null || !(itemStack.getItem() instanceof ItemArmor)) {
 			return null;
 		}
 		EntityEquipmentSlot type = ((ItemArmor) itemStack.getItem()).armorType;
 		ModelBiped armorModel = getBipedModel(armorSlot);
-		if (armorModel == null) {
-			return null;
-		}
-		
+
 		switch (type) {
 		case HEAD:
 			armorModel = getBipedModel(armorSlot);
@@ -104,20 +105,14 @@ public abstract class ArmorBase extends ItemArmor {
 			armorModel = getBipedModel(armorSlot);
 			break;
 		case LEGS:
-			default:
-				break;
+			armorModel = getBipedModel(armorSlot);
+			break;
+		default:
+			break;
 		}
-
-		armorModel.bipedHead.showModel = armorSlot == EntityEquipmentSlot.HEAD;
-		armorModel.bipedHeadwear.showModel = armorSlot == EntityEquipmentSlot.HEAD;
-		armorModel.bipedBody.showModel = (armorSlot == EntityEquipmentSlot.CHEST)|| (armorSlot == EntityEquipmentSlot.CHEST);
-		armorModel.bipedRightArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
-		armorModel.bipedLeftArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
-		armorModel.bipedRightLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS)
-				|| (armorSlot == EntityEquipmentSlot.FEET);
-		armorModel.bipedLeftLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS)
-				|| (armorSlot == EntityEquipmentSlot.FEET);
-
+		if (armorModel == null) {
+			return null;
+		}
 		armorModel.isSneak = _default.isSneak;
 		armorModel.isRiding = _default.isRiding;
 		armorModel.isChild = _default.isChild;
@@ -127,30 +122,6 @@ public abstract class ArmorBase extends ItemArmor {
 
 		return armorModel;
 	}
-
-	/*private ModelBiped.ArmPose getPoseForItemStack(EnumHand activeHand, EntityLivingBase living) {
-		ItemStack stackInHand = activeHand == EnumHand.MAIN_HAND
-				? living.getHeldItemMainhand()
-				: living.getHeldItemOffhand();
-		int useTicks = living.getItemInUseCount();
-		if (useTicks <= 0) {
-			return ArmPose.EMPTY;
-		}
-
-		switch (stackInHand.getItemUseAction()) {
-		case BLOCK:
-			return ArmPose.BLOCK;
-		case BOW:
-			return ArmPose.BOW_AND_ARROW;
-		case DRINK:
-		case EAT:
-			return ArmPose.ITEM;
-		default:
-			break;
-		}
-
-		return ArmPose.EMPTY;
-	}*/
 
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack armor) {

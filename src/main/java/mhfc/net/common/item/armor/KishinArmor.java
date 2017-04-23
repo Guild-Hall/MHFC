@@ -31,16 +31,16 @@ public class KishinArmor extends ArmorBase {
 		case HEAD:
 			return Model.kishin;
 		case LEGS:
-			break;
+			return null;
 		case FEET:
 			return Model.kishin;
 		case CHEST:
 			return Model.kishin;
 		default:
 			break;
-			
+
 		}
-			
+
 		return null;
 	}
 

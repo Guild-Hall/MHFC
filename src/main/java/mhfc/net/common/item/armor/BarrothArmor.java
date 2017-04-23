@@ -26,16 +26,16 @@ public class BarrothArmor extends ArmorBase {
 		case HEAD:
 			return Model.barroth;
 		case LEGS:
-			break;
+			return null;
 		case FEET:
 			return Model.barroth;
 		case CHEST:
 			return Model.barroth;
 		default:
 			break;
-			
+
 		}
-			
+
 		return null;
 	}
 }

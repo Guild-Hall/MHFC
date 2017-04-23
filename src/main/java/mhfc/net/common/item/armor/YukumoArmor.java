@@ -21,9 +21,6 @@ public class YukumoArmor extends ArmorBase {
 		super(Material.yukomo, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
-	
-	
-	
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -32,16 +29,16 @@ public class YukumoArmor extends ArmorBase {
 		case HEAD:
 			return Model.yukumo;
 		case LEGS:
-			break;
+			return null;
 		case FEET:
 			return Model.yukumo;
 		case CHEST:
 			return Model.yukumo;
 		default:
 			break;
-			
+
 		}
-			
+
 		return null;
 	}
 

@@ -31,16 +31,16 @@ public class TigrexArmor extends ArmorBase {
 		case HEAD:
 			return Model.tigrex;
 		case LEGS:
-			break;
+			return null;
 		case FEET:
 			return Model.tigrex;
 		case CHEST:
 			return Model.tigrex;
 		default:
 			break;
-			
+
 		}
-			
+
 		return null;
 	}
 	@Override
@@ -49,7 +49,7 @@ public class TigrexArmor extends ArmorBase {
 			EntityPlayer par2EntityPlayer,
 			List<String> par3List,
 			boolean par4) {
-	//	par3List.add("Quick Eating L");
+		//	par3List.add("Quick Eating L");
 	}
 
 	@Override
