@@ -1,6 +1,7 @@
 package mhfc.net.common.core.registry;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -11,7 +12,6 @@ import java.util.List;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.data.WeaponData;
 import mhfc.net.common.item.armor.BarrothArmor;
-import mhfc.net.common.item.armor.VangisArmor;
 import mhfc.net.common.item.armor.DragoonArmor;
 import mhfc.net.common.item.armor.GreatJaggiArmor;
 import mhfc.net.common.item.armor.KirinArmor;
@@ -20,6 +20,7 @@ import mhfc.net.common.item.armor.KishinArmor;
 import mhfc.net.common.item.armor.NibelsnarfArmor;
 import mhfc.net.common.item.armor.RathalosArmor;
 import mhfc.net.common.item.armor.TigrexArmor;
+import mhfc.net.common.item.armor.VangisArmor;
 import mhfc.net.common.item.armor.VelocipreyArmor;
 import mhfc.net.common.item.armor.YukumoArmor;
 import mhfc.net.common.item.armor.community.ST_BionicArmor;
@@ -397,7 +398,9 @@ public class MHFCItemRegistry {
 	}
 
 	private WeaponData readLocalWeaponData() {
-		try (Reader reader = new InputStreamReader(MHFCItemRegistry.class.getResourceAsStream("weapons.json"))) {
+		try (
+				InputStream weaponDataStream = MHFCItemRegistry.class.getResourceAsStream("weapons.json");
+				Reader reader = new InputStreamReader(weaponDataStream)) {
 			return WeaponData.GSON.fromJson(reader, WeaponData.class);
 		} catch (IOException e) {
 			throw new RuntimeException("Unexpected io error", e);
