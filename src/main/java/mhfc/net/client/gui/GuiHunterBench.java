@@ -57,7 +57,23 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	public static final ResourceLocation FUEL_DURATION_MARKER = new ResourceLocation(
 			ResourceInterface.gui_hunterbench_fuel_tex);
 
-	private static LayerBipedArmor armorLayerProxy = new LayerBipedArmor(null);
+	private static class AdapterLayerBipedArmor extends LayerBipedArmor {
+		public AdapterLayerBipedArmor() {
+			super(null);
+		}
+
+		@Override
+		public void setModelSlotVisible(ModelBiped model, EntityEquipmentSlot slotIn) {
+			super.setModelSlotVisible(model, slotIn);
+		}
+
+		@Override
+		public void setModelVisible(ModelBiped model) {
+			super.setModelVisible(model);
+		}
+	}
+
+	private static AdapterLayerBipedArmor armorLayerProxy = new AdapterLayerBipedArmor();
 
 	static final int maxHeat = 500;
 	static final int modelRectRelX = 228;
@@ -556,6 +572,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		ModelBiped model = armorLayerProxy.getModelFromSlot(armorType);
 		model = ForgeHooksClient.getArmorModel(mc.player, itemToRender, armorType, model);
 		mc.getTextureManager().bindTexture(texture);
+		armorLayerProxy.setModelVisible(model);
+		armorLayerProxy.setModelSlotVisible(model, armorType);
 
 		if (model != null) {
 			model.render(mc.player, 0, 0, 0, 0, 0, 0.06125f);
