@@ -1,5 +1,7 @@
 package mhfc.net.common.tile;
 
+import java.util.Objects;
+
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
 import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe.RecipeType;
@@ -282,6 +284,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
+		Objects.requireNonNull(itemstack);
 		if (i < 0 || i >= getSizeInventory()) {
 			return;
 		}
