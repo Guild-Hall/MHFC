@@ -1,5 +1,7 @@
 package mhfc.net.common.block.container;
 
+import javax.annotation.Nonnull;
+
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCContainerRegistry;
 import mhfc.net.common.index.ResourceInterface;
@@ -35,6 +37,8 @@ public class BlockHunterBench extends BlockContainer {
 
 	@Override
 	public boolean onBlockActivated(World worldIn,BlockPos pos,IBlockState state,EntityPlayer player,EnumHand hand,EnumFacing side,	float hitX,float hitY,	float hitZ) {
+	
+		
 		if (!player.isSneaking()) {
 			player.openGui(
 					MHFCMain.instance(),
