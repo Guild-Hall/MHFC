@@ -1,7 +1,5 @@
 package mhfc.net.common.block.container;
 
-import javax.annotation.Nonnull;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCContainerRegistry;
 import mhfc.net.common.index.ResourceInterface;

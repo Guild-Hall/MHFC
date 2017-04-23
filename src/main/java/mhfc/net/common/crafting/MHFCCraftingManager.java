@@ -7,6 +7,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+
 import mhfc.net.common.crafting.recipes.MHFCShapedRecipes;
 import mhfc.net.common.crafting.recipes.MHFCShapelessRecipe;
 import net.minecraft.block.Block;
@@ -31,6 +33,8 @@ public class MHFCCraftingManager {
 
 	// TODO: beautify this, is an akward method to add recipes
 	// TODO rework this, pls, separation of concerns
+	
+	@Nonnull
 	public ItemStack findMatchingRecipe(InventoryCrafting par1InventoryCrafting, World par2World) {
 		int var3 = 0;
 		ItemStack var4 = ItemStack.EMPTY;
