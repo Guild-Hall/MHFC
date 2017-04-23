@@ -16,12 +16,12 @@ public class Wander extends WanderAction<EntityGargwa> implements IHasAnimationP
 
 	private static final float WEIGHT = 1F;
 
-	private static final IMoveParameterProvider MOVEMENT_PARAMETERS = new MoveParameterAdapter(1f, 0.4f);
+	private static final IMoveParameterProvider MOVEMENT_PARAMETERS = new MoveParameterAdapter(1f, 0.2f);
 	private final IAnimationProvider ANIMATION;
 
 	public Wander() {
 		ANIMATION = AnimationAdapter.builder().setAnimation(ANIMATION_LOCATION).setAnimationLength(LAST_FRAME)
-				.setFrameAdvancer(new CountLoopAdvancer(0, 45, -1)).build(this);
+				.setFrameAdvancer(new CountLoopAdvancer(0, 45, 10)).build(this);
 	}
 
 	@Override

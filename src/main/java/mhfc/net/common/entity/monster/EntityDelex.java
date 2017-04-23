@@ -50,7 +50,7 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 
 	@Override
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
-		GL11.glScaled(1.4, 1.4, 1.4);
+		GL11.glScaled(1.6, 1.6, 1.6);
 		return super.preRenderCallback(scale, sub);
 	}
 
