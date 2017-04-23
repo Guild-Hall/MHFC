@@ -44,7 +44,7 @@ public class SlotHunterBench extends Slot {
 		// FIXME: what is this here? I don't see the use at all
 		for (int i = 0; i < this.craftMatrix.getSizeInventory(); ++i) {
 			ItemStack matStack = this.craftMatrix.getStackInSlot(i);
-			if (matStack == ItemStack.EMPTY) {
+			if (matStack.isEmpty()) {
 				continue;
 			}
 
@@ -54,7 +54,7 @@ public class SlotHunterBench extends Slot {
 			}
 			ItemStack container = ForgeHooks.getContainerItem(matStack);
 
-			if (container != ItemStack.EMPTY && !this.thePlayer.inventory.addItemStackToInventory(container)) {
+			if (!container.isEmpty() && !this.thePlayer.inventory.addItemStackToInventory(container)) {
 				if (this.craftMatrix.getStackInSlot(i) == ItemStack.EMPTY) {
 					this.craftMatrix.setInventorySlotContents(i, container);
 				} else {

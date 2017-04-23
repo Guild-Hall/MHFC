@@ -16,12 +16,12 @@ public class EquipmentRecipe extends MHFCShapelessRecipe {
 
 		public static RecipeType getDefaultType(ItemType itemType) {
 			switch (itemType.getGeneralType()) {
-				case ARMOR :
-					return ARMOR;
-				case WEAPON :
-					return WEAPON;
-				default :
-					return MHFC;
+			case ARMOR :
+				return ARMOR;
+			case WEAPON :
+				return WEAPON;
+			default :
+				return MHFC;
 			}
 		}
 	}
@@ -34,13 +34,13 @@ public class EquipmentRecipe extends MHFCShapelessRecipe {
 	}
 
 	public EquipmentRecipe(ItemStack recipeProduct,
-		List<ItemStack> recipeIngredients, int requiredHeat, int duration) {
+			List<ItemStack> recipeIngredients, int requiredHeat, int duration) {
 		this(getDefaultRecipeType(recipeProduct), recipeProduct,
-			recipeIngredients, requiredHeat, duration);
+				recipeIngredients, requiredHeat, duration);
 	}
 
 	public EquipmentRecipe(RecipeType type, ItemStack recipeProduct,
-		List<ItemStack> recipeIngredients, int requiredHeat, int duration) {
+			List<ItemStack> recipeIngredients, int requiredHeat, int duration) {
 		super(recipeProduct, recipeIngredients);
 		this.recipeType = type;
 		this.heat = requiredHeat;
@@ -48,10 +48,11 @@ public class EquipmentRecipe extends MHFCShapelessRecipe {
 
 	}
 
-	public ItemStack[] getRequirements(int padTo) {
-		padTo = Math.max(0, padTo);
-		ItemStack[] stacks = new ItemStack[padTo];
-		return recipeItems.toArray(stacks);
+	public void fillRequirements(ItemStack[] ingredientSlots) {
+		int length = Math.min(ingredientSlots.length, recipeItems.size());
+		for (int i = 0; i < length; i++) {
+			ingredientSlots[i] = recipeItems.get(i);
+		}
 	}
 
 	public int getRequiredHeat() {

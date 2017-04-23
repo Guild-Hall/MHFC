@@ -23,6 +23,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import scala.actors.threadpool.Arrays;
 
 public class TileHunterBench extends TileEntity implements ITickable, IInventory, TileMHFCUpdateStream {
 
@@ -66,10 +67,24 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	volatile private boolean workingMHFCBench;
 
 	public TileHunterBench() {
+		fuelStack = ItemStack.EMPTY;
+		outputStack = ItemStack.EMPTY;
+		resultStack = ItemStack.EMPTY;
 		recipeStacks = new ItemStack[7];
+		resetRecipeStacks();
 		inputStacks = new ItemStack[recipeStacks.length];
+		resetInputStacks();
 		workingMHFCBench = false;
 		heatLengthInit = 1;
+
+	}
+
+	private void resetRecipeStacks() {
+		Arrays.fill(recipeStacks, ItemStack.EMPTY);
+	}
+
+	private void resetInputStacks() {
+		Arrays.fill(inputStacks, ItemStack.EMPTY);
 	}
 
 	@Override
@@ -86,7 +101,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 				++itemSmeltDuration;
 			}
 		} else {
-			if (fuelStack != null && TileHunterBench.this.workingMHFCBench) {
+			if (!fuelStack.isEmpty() && TileHunterBench.this.workingMHFCBench) {
 				heatLength = TileEntityFurnace.getItemBurnTime(fuelStack);
 				heatLengthInit = heatLength;
 				heatFromItem = getItemHeat(fuelStack);
@@ -107,7 +122,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		if (world.isRemote) {
 			return;
 		}
-		inputStacks = new ItemStack[inputStacks.length];
+		resetInputStacks();
 		outputStack = resultStack.copy();
 		workingMHFCBench = false;
 		itemSmeltDuration = 0;
@@ -122,7 +137,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	@SideOnly(Side.CLIENT)
 	public void forceEndCrafting(ItemStack stack) {
 		outputStack = stack;
-		inputStacks = new ItemStack[inputStacks.length];
+		resetInputStacks();
 		TileHunterBench.this.workingMHFCBench = false;
 		itemSmeltDuration = 0;
 	}
@@ -143,22 +158,23 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 
 	protected void setRecipe(EquipmentRecipe recipe) {
 		if (recipe == null) {
-			recipeStacks = new ItemStack[7];
+			resetRecipeStacks();
 			this.recipe = null;
-			resultStack = null;
+			resultStack = ItemStack.EMPTY;
 		} else {
-			resultStack = recipe.getRecipeOutput();
 			this.recipe = recipe;
+			resultStack = recipe.getRecipeOutput();
 			setIngredients(recipe);
 		}
 	}
 
 	public void setIngredients(EquipmentRecipe recipe) {
-		this.recipeStacks = recipe.getRequirements(7);
+		resetRecipeStacks();
+		recipe.fillRequirements(this.recipeStacks);
 	}
 
 	public static int getItemHeat(ItemStack itemStack) {
-		if (itemStack == null) {
+		if (itemStack.isEmpty()) {
 			return 0;
 		}
 		if (itemStack.getItem() == Item.getItemById(327)) {
@@ -178,20 +194,20 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	public ItemStack decrStackSize(int slot, int count) {
 		markDirty();
 		if (count <= 0) {
-			return null;
+			return ItemStack.EMPTY;
 		}
 		// FIXME: can do that better...
 		if (slot > recipeStacks.length + 2) {
 			ItemStack stack = inputStacks[slot - recipeStacks.length - 3];
-			if (stack == null) {
-				return null;
+			if (stack.isEmpty()) {
+				return stack;
 			}
 			cancelRecipe();
 			if (count > stack.getCount()) {
 				count = stack.getCount();
 			}
 			if (count == stack.getCount()) {
-				inputStacks[slot - recipeStacks.length - 3] = null;
+				inputStacks[slot - recipeStacks.length - 3] = ItemStack.EMPTY;
 				return stack;
 			}
 			return stack.splitStack(count);
@@ -199,30 +215,30 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		if (slot > 2) {
 			return null; // You cant get anything from the recipe slots
 		} else if (slot == outputSlot) {
-			if (outputStack == null) {
-				return null;
+			if (outputStack.isEmpty()) {
+				return ItemStack.EMPTY;
 			}
 			if (count > outputStack.getCount()) {
 				count = outputStack.getCount();
 			}
 			if (count == outputStack.getCount()) {
 				ItemStack fuel = outputStack;
-				outputStack = null;
+				outputStack = ItemStack.EMPTY;
 				return fuel;
 			}
 			return outputStack.splitStack(count);
 		} else if (slot == resultSlot) {
 			return null;
 		} else {
-			if (fuelStack == null) {
-				return null;
+			if (fuelStack.isEmpty()) {
+				return ItemStack.EMPTY;
 			}
 			if (count > fuelStack.getCount()) {
 				count = fuelStack.getCount();
 			}
 			if (count == fuelStack.getCount()) {
 				ItemStack fuel = fuelStack;
-				fuelStack = null;
+				fuelStack = ItemStack.EMPTY;
 				return fuel;
 			}
 			return fuelStack.splitStack(count);
@@ -250,7 +266,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	@Override
 	public ItemStack getStackInSlot(int i) {
 		if (i < 0 || i >= getSizeInventory()) {
-			return null;
+			return ItemStack.EMPTY;
 		} else if (i >= recipeStacks.length + 3) {
 			return inputStacks[i - 3 - recipeStacks.length];
 		} else if (i >= 3) {
