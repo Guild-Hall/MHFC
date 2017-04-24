@@ -28,9 +28,9 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 	}
 
 	protected static final String NBT_SPIRIT = "mhfc:affinity";
-	protected static final float MAX_SPIRIT = 250f;
+	protected static final float MAX_SPIRIT = 200f;
 	protected static final float TRIGGER_SPIRIT = 150f;
-	protected static final float SPIRIT_DECREASE = -0.2f;
+	protected static final float SPIRIT_DECREASE = -0.3f;
 
 	public ItemLongsword(LongswordWeaponStats stats) {
 		super(stats);
@@ -60,7 +60,7 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 		}
 		if (holder instanceof EntityPlayer) {
 			EntityPlayer entity = (EntityPlayer) holder;
-			entity.moveEntityWithHeading(entity.moveStrafing * -0.5f, entity.moveForward * -0.5f);
+			entity.moveEntityWithHeading(entity.moveStrafing * -0.25f, entity.moveForward * -0.25f);
 			//if(stack instanceof) TODO: Add some High class GS that will never required strafing delay.
 		}
 	}
@@ -88,7 +88,7 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 
 	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase holder, EntityLivingBase hit) {
-		changeSpirit(stack, 25);
+		changeSpirit(stack, 20);
 		return true;
 	}
 
@@ -102,7 +102,7 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 			AttributeModifier attackModifier = new AttributeModifier(
 					UUID.fromString(MHFCPotionRegistry.potion_longsworddamageup_uuid),
 					"Spirit Gauge",
-					1.2,
+					0.7,
 					1);
 			attributes.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), attackModifier);
 		}

@@ -20,7 +20,6 @@ public abstract class JumpAction<T extends EntityMHFCBase<? super T>> extends Da
 	public void beginExecution() {
 		jumpParameterProvider = provideJumpParameters();
 		jumpTimingProvider = provideTimingParameters();
-		System.out.println("AI Executed.");
 		super.beginExecution();
 		getEntity().getTurnHelper().updateTurnSpeed(jumpTimingProvider.getTurnRate(getEntity(), 0));
 	}

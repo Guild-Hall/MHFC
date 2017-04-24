@@ -67,7 +67,7 @@ public class ItemHuntingHorn extends ItemWeaponMelee<HuntingHornWeaponStats> {
 		}
 		if (holder instanceof EntityPlayer) {
 			EntityPlayer entity = (EntityPlayer) holder;
-			entity.moveEntityWithHeading(entity.moveStrafing * -0.5f, entity.moveForward * -0.5f);
+			entity.moveEntityWithHeading(entity.moveStrafing * -0.1f, entity.moveForward * -0.1f);
 		}
 	}
 

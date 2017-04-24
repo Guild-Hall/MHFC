@@ -39,7 +39,7 @@ public class ItemGreatsword extends ItemWeaponMelee<GreatswordWeaponStats> {
 		}
 		if (holder instanceof EntityPlayer) {
 			EntityPlayer entity = (EntityPlayer) holder;
-			entity.moveEntityWithHeading(entity.moveStrafing * -0.7f, entity.moveForward * -0.7f);
+			entity.moveEntityWithHeading(entity.moveStrafing * -0.5f, entity.moveForward * -0.5f);
 			//if(stack instanceof) TODO: Add some High class GS that will never required strafing delay.
 		}
 

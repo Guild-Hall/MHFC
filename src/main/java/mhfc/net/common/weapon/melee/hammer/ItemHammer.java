@@ -46,7 +46,7 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 		}
 		if (holder instanceof EntityPlayer) {
 			EntityPlayer entity = (EntityPlayer) holder;
-			entity.moveEntityWithHeading(entity.moveStrafing * -0.7F, entity.moveForward * -0.7F);
+			entity.moveEntityWithHeading(entity.moveStrafing * -0.4F, entity.moveForward * -0.4F);
 		}
 	}
 
