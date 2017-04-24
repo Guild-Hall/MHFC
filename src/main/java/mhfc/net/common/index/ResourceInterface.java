@@ -30,12 +30,12 @@ public class ResourceInterface {
 	public static final String area_test_name = "mhfc.area.test.name";
 	public static final String area_pokevillage_name = "mhfc.area.village_poke.name";
 
-	public static final String armor_null_tex = "mhfc:textures/armor/null.png";
+	public static final String armor_null_tex = "mhfc:textures/models/armor/null.png";
 	public static final String armor_kirinS_boots_name = "c.mhf_boots";
 	public static final String armor_kirinS_chest_name = "c.mhf_chest";
 	public static final String armor_kirinS_helm_name = "c.mhf_helm";
 	public static final String armor_kirinS_legs_name = "c.mhf_leg";
-	public static final String armor_kirinS_tex = "mhfc:kirinS";
+	public static final String armor_kirinS_tex = "mhfc:kirins";
 
 	public static final String armor_kirin_boots_name = "b.mhf_boots";
 	public static final String armor_kirin_buff_name = "kirinbuff";
