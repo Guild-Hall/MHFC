@@ -197,7 +197,7 @@ public class AIUtils {
 		Preconditions.checkArgument(maxAbsoluteChange >= 0, "max change must be greater than 0");
 
 		float yaw = entity.rotationYaw;
-		float tarYaw = lookVecToYaw(target);
+		float tarYaw = lookVecToYawUnsafe(target);
 		if (Float.isNaN(yaw)) {
 			return yaw;
 		} else if (Float.isNaN(tarYaw)) {

@@ -79,6 +79,7 @@ public class TargetTurnHelper {
 		}
 		Vec3d entityPos = entity.getPositionVector();
 		Vec3d vecToTarget = targetPoint.subtract(entityPos);
+		
 		entity.rotationYaw = AIUtils.modifyYaw(entity, vecToTarget.normalize(), maxTurnSpeed);
 		// FIXME Figure out a way to send the updates to the client cleanly
 		entity.addVelocity(10e-4, 0, 10e-4);
