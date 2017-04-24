@@ -1,4 +1,4 @@
-package mhfc.net.common.item.armor;
+package mhfc.net.common.item.armor.generic;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
+import mhfc.net.common.item.armor.ArmorBase;
 import mhfc.net.common.system.ColorSystem;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;

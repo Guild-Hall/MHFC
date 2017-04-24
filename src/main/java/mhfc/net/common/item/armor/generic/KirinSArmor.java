@@ -1,31 +1,30 @@
-package mhfc.net.common.item.armor;
+package mhfc.net.common.item.armor.generic;
 
 import java.util.List;
 
-import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
-import mhfc.net.common.system.DonatorSystem;
+import mhfc.net.common.item.armor.ArmorBase;
+import mhfc.net.common.system.ColorSystem;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class KirinSArmor extends ArmorExclusive {
+public class KirinSArmor extends ArmorBase {
 	private static final String[] names = { ResourceInterface.armor_kirinS_helm_name,
 			ResourceInterface.armor_kirinS_chest_name, ResourceInterface.armor_kirinS_legs_name,
 			ResourceInterface.armor_kirinS_boots_name };
 
 	public KirinSArmor(EntityEquipmentSlot type) {
-		super(DonatorSystem.kirinS, Material.kirinS, ItemRarity.R04, type);
+		super(Material.kirinS, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
@@ -55,9 +54,7 @@ public class KirinSArmor extends ArmorExclusive {
 			EntityPlayer par2EntityPlayer,
 			List<String> par3List,
 			boolean par4) {
-		par3List.add("All Resistance H");
-		par3List.add("Thunder + 40");
-		par3List.add("Aura");
+		par3List.add( ColorSystem.ENUMAQUA + "[ Donators Exclusive ");
 		switch (this.armorType) {
 		case HEAD:
 			par3List.add("\u00a79Kirin S Class Helmet");
@@ -75,10 +72,12 @@ public class KirinSArmor extends ArmorExclusive {
 			break;
 		}
 	}
-
+	
 	@Override
 	protected void applySetBonus(World world, EntityPlayer player) {
-		player.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().kirin_blessing, 15, 1));
+		if (player.getHealth() <= 3F) {
+			player.heal(2F);
+		}
 		world.spawnParticle(
 				EnumParticleTypes.CLOUD,
 				player.posX + Item.itemRand.nextFloat() * 2.0F - 1.0D,

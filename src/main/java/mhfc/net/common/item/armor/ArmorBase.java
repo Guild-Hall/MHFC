@@ -36,7 +36,7 @@ public abstract class ArmorBase extends ItemArmor {
 	public int layerIndex;
 
 	protected final ItemRarity rarity;
-	private final Map<EntityEquipmentSlot, String> slotToTex;
+	protected final Map<EntityEquipmentSlot, String> slotToTex;
 
 	public ArmorBase(ArmorMaterial armor, ItemRarity rarity, EntityEquipmentSlot armorType) {
 		this(armor, rarity, armorType, null);
@@ -71,10 +71,12 @@ public abstract class ArmorBase extends ItemArmor {
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
-		if (slotToTex == null) {
-			return super.getArmorTexture(stack, entity, slot, type);
+		if (slotToTex != null) {
+			return slotToTex.getOrDefault(slot, ResourceInterface.armor_null_tex);
 		}
-		return slotToTex.getOrDefault(slot, ResourceInterface.armor_null_tex);
+		
+		return super.getArmorTexture(stack, entity, slot, type);
+		
 	}
 
 	@SideOnly(Side.CLIENT)

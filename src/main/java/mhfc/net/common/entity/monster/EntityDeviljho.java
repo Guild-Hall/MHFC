@@ -69,7 +69,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(42253D));
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(46253D));
 	}
 
 	@Override

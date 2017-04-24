@@ -1,4 +1,4 @@
-package mhfc.net.common.item.armor.community;
+package mhfc.net.common.item.armor.donators;
 
 import java.util.List;
 
@@ -57,9 +57,7 @@ public class ST_BionicArmor extends ArmorExclusive {
 			EntityPlayer par2EntityPlayer,
 			List<String> par3List,
 			boolean par4) {
-		par3List.add(
-				ColorSystem.ENUMRED + "(DONATORS EXCLUSIVE) Designed from Sean Tang" + "[ " + ColorSystem.ENUMGOLD
-						+ " ST - 1 'Bionic'   " + ColorSystem.ENUMRED + "]");
+		par3List.add( ColorSystem.ENUMAQUA + "[ Donators Exclusive ");
 	}
 
 }

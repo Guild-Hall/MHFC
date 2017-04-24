@@ -31,15 +31,23 @@ public abstract class ArmorExclusive extends ArmorBase {
 		super(armor, rarity, armorType, slotToTexture);
 		this.requiredPrivilege = Objects.requireNonNull(requirement);
 	}
-
+	
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
-		if (! checkPrivilege((EntityPlayer) entity)){
+		if (!(entity instanceof EntityPlayer) || stack == null) {
 			return ResourceInterface.armor_null_tex;
 		}
-
-		return super.getArmorTexture(stack, entity, slot, type);
+		
+		EntityPlayer player = (EntityPlayer)entity;
+		if(this.checkPrivilege(player)){
+			return super.getArmorTexture(stack, entity, slot, type);
+		}
+		
+		
+		
+		return ResourceInterface.armor_null_tex;
 	}
+
 
 	protected boolean checkPrivilege(EntityPlayer player) {
 		return requiredPrivilege.hasPrivilege(player);

@@ -314,7 +314,7 @@ container.hunterbench=Hunter's Forging Bench
 
 attribute.name.mhfc.ignoreArmour=Sharpness
 attribute.name.mhfc.knockback=Fencing
-attribute.name.mhfc.attackSpeed=Combo Rate
+attribute.name.mhfc.attackSpeed=Consistency
 attribute.name.mhfc.reloadTime=Precision
 attribute.name.mhfc.reach=Perception
 

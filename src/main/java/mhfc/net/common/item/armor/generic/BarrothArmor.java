@@ -1,21 +1,22 @@
-package mhfc.net.common.item.armor;
+package mhfc.net.common.item.armor.generic;
 
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
+import mhfc.net.common.item.armor.ArmorBase;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class GreatJaggiArmor extends ArmorBase {
-	private static final String[] names = { ResourceInterface.armor_greatjaggi_helm_name,
-			ResourceInterface.armor_greatjaggi_chest_name, ResourceInterface.armor_greatjaggi_legs_name,
-			ResourceInterface.armor_greatjaggi_boots_name };
+public class BarrothArmor extends ArmorBase {
+	private static final String[] names = { ResourceInterface.armor_barroth_helm_name,
+			ResourceInterface.armor_barroth_chest_name, ResourceInterface.armor_barroth_legs_name,
+			ResourceInterface.armor_barroth_boots_name };
 
-	public GreatJaggiArmor(EntityEquipmentSlot type) {
-		super(Material.greatjaggi, ItemRarity.R04, type);
+	public BarrothArmor(EntityEquipmentSlot type) {
+		super(Material.barroth, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
@@ -24,13 +25,13 @@ public class GreatJaggiArmor extends ArmorBase {
 	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
 		switch (armorSlot) {
 		case HEAD:
-			return Model.jaggi;
+			return Model.barroth;
 		case LEGS:
 			return null;
 		case FEET:
-			return Model.jaggi;
+			return Model.barroth;
 		case CHEST:
-			return Model.jaggi;
+			return Model.barroth;
 		default:
 			break;
 

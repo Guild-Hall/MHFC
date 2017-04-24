@@ -17,15 +17,6 @@ public class DonatorSystem {
 			return player != null && playerInList(player.getDisplayName(), dragoondonor);
 		}
 	};
-	public static final Privilege kirinS = new Privilege() {
-		@Override
-		public void load() {}
-
-		@Override
-		public boolean hasPrivilege(EntityPlayer player) {
-			return player != null && playerInList(player.getDisplayName(), kirinSdonor);
-		}
-	};
 
 	public static final Privilege bionic = new Privilege() {
 		@Override
@@ -38,7 +29,6 @@ public class DonatorSystem {
 	};
 	// FIXME: replace with Player UUIDs
 	private static final String[] dragoondonor = { "Danmar", "Heltrato" };
-	private static String[] kirinSdonor = { "requillias", "PCAwesomeness", "Schmidmix", "Heltrato" };
 	private static String[] Stbionicdonor = { "TheDemoPikachu", "PCAwesomeness", "Heltrato" };
 
 	private static boolean playerInList(ITextComponent iTextComponent, String[] array) {
@@ -50,10 +40,11 @@ public class DonatorSystem {
 		return false;
 	}
 
-	public static boolean checkKirinS(EntityPlayer player) {
+	
+	public static boolean checkDragoon(EntityPlayer player) {
 		if (player == null) {
 			return false;
 		}
-		return kirinS.hasPrivilege(player);
+		return dragoon.hasPrivilege(player);
 	}
 }
