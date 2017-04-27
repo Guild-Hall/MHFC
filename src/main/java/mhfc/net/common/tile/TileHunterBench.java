@@ -176,7 +176,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	}
 
 	public static int getItemHeat(ItemStack itemStack) {
-		if (itemStack.isEmpty()) {
+		if (itemStack == ItemStack.EMPTY) {
 			return 0;
 		}
 		if (itemStack.getItem() == Item.getItemById(327)) {
@@ -201,7 +201,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		// FIXME: can do that better...
 		if (slot > recipeStacks.length + 2) {
 			ItemStack stack = inputStacks[slot - recipeStacks.length - 3];
-			if (stack.isEmpty()) {
+			if (stack == ItemStack.EMPTY) {
 				return stack;
 			}
 			cancelRecipe();
@@ -230,7 +230,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 			}
 			return outputStack.splitStack(count);
 		} else if (slot == resultSlot) {
-			return null;
+			return ItemStack.EMPTY;
 		} else {
 			if (fuelStack.isEmpty()) {
 				return ItemStack.EMPTY;
