@@ -10,6 +10,7 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.boss.barroth.Death;
+import mhfc.net.common.ai.entity.boss.barroth.HeadSlam;
 import mhfc.net.common.ai.entity.boss.barroth.Idle;
 import mhfc.net.common.ai.entity.boss.barroth.Ram;
 import mhfc.net.common.ai.entity.boss.barroth.RamRun;
@@ -50,6 +51,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 		followUpManager.registerAction(setDeathAction(new Death()));
 		followUpManager.registerAction(new Wander());
 		followUpManager.registerAction(new Stomp());
+		followUpManager.registerAction(new HeadSlam());
 		followUpManager.registerAllowingAllActions(new RamRun());
 		followUpManager.registerAllowingAllActions(new Ram());
 		followUpManager.registerAllowingAllActions(new Idle());

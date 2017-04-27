@@ -6,6 +6,7 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.boss.lagiacrus.Bite;
+import mhfc.net.common.ai.entity.boss.lagiacrus.BiteFront;
 import mhfc.net.common.ai.entity.boss.lagiacrus.Death;
 import mhfc.net.common.ai.entity.boss.lagiacrus.Idle;
 import mhfc.net.common.ai.entity.boss.lagiacrus.Roar;
@@ -41,6 +42,7 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 		actionManager.registerAction(new Sweep());
 		actionManager.registerAction(new Roar());
 		actionManager.registerAction(new Bite());
+		actionManager.registerAction(new BiteFront());
 		actionManager.registerAction(new Idle());
 		actionManager.registerAction(setDeathAction(new Death()));
 		return actionManager.build(this);

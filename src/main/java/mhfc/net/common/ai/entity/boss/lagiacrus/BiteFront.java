@@ -15,16 +15,16 @@ import mhfc.net.common.entity.monster.EntityLagiacrus;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class Bite extends DamagingAction<EntityLagiacrus> implements IHasAttackProvider {
+public class BiteFront extends DamagingAction<EntityLagiacrus> implements IHasAttackProvider {
 
-	private static final int ANIM_FRAME = 60;
+	private static final int ANIM_FRAME = 40;
 	private static final String ANIM_LOCATION = "mhfc:models/Lagiacrus/LagiacrusBite.mcanm";
 
-	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(105F, 125F, 99999999F);
+	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(130F, 125F, 99999999F);
 
-	private static double TARGET_DISTANCE = 35F;
+	private static double TARGET_DISTANCE = 45F;
 
-	private static float WEIGHT = 15;
+	private static float WEIGHT = 12;
 
 	private final IAttackProvider ATTACK;
 	{
@@ -33,7 +33,7 @@ public class Bite extends DamagingAction<EntityLagiacrus> implements IHasAttackP
 		ATTACK = new AttackAdapter(ANIMATION, DAMAGE);
 	}
 
-	public Bite() {}
+	public BiteFront() {}
 
 	@Override
 	protected float computeSelectionWeight() {
@@ -57,12 +57,12 @@ public class Bite extends DamagingAction<EntityLagiacrus> implements IHasAttackP
 
 	@Override
 	public void onUpdate() {
-		if (getEntity().getAttackTarget() != null && this.getCurrentFrame() == 38) {
+		if (getEntity().getAttackTarget() != null && this.getCurrentFrame() == 10) {
 			getEntity().playSound(MHFCSoundRegistry.getRegistry().lagiacrusBite, 2.0F, 1.0F);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			EntityLagiacrus entity = getEntity();
-			entity.moveForward(0.2, false);
+			entity.moveForward(0.1, false);
 		}
 		damageCollidingEntities();
 
