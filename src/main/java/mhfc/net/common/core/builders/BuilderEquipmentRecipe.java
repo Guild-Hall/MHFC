@@ -61,7 +61,7 @@ public class BuilderEquipmentRecipe {
 	public BuilderEquipmentRecipe reset() {
 		recipeIngredients.clear();
 		type = null;
-		recipeProduct = null;
+		recipeProduct = ItemStack.EMPTY;
 		requiredHeat = 0;
 		duration = 0;
 		return this;

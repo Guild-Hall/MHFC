@@ -37,7 +37,7 @@ public class MHFCShapelessRecipe implements IRecipe {
 		for (int i = 0; i < par1InventoryCrafting.getSizeInventory(); ++i) {
 			ItemStack itemstack = par1InventoryCrafting.getStackInSlot(i);
 
-			if (itemstack != null) {
+			if (itemstack != ItemStack.EMPTY) {
 				boolean flag = false;
 				Iterator<ItemStack> iterator = arraylist.iterator();
 
@@ -79,7 +79,6 @@ public class MHFCShapelessRecipe implements IRecipe {
 
 	@Override
 	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

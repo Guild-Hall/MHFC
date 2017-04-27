@@ -65,7 +65,7 @@ public class MHFCShapedRecipes implements IRecipe {
 			for (int l = 0; l < 5; ++l) {
 				int i1 = k - par2;
 				int j1 = l - par3;
-				ItemStack itemstack = null;
+				ItemStack itemstack = ItemStack.EMPTY;
 
 				if (i1 >= 0 && j1 >= 0 && i1 < this.recipeWidth && j1 < this.recipeHeight) {
 					if (par4) {
@@ -77,8 +77,8 @@ public class MHFCShapedRecipes implements IRecipe {
 
 				ItemStack itemstack1 = par1InventoryCrafting.getStackInRowAndColumn(k, l);
 
-				if (itemstack1 != null || itemstack != null) {
-					if (itemstack1 == null && itemstack != null || itemstack1 != null && itemstack == null) {
+				if (itemstack1 != ItemStack.EMPTY || itemstack != ItemStack.EMPTY) {
+					if (itemstack1 == ItemStack.EMPTY && itemstack != ItemStack.EMPTY || itemstack1 != ItemStack.EMPTY && itemstack == ItemStack.EMPTY) {
 						return false;
 					}
 
@@ -107,7 +107,7 @@ public class MHFCShapedRecipes implements IRecipe {
 			for (int i = 0; i < par1InventoryCrafting.getSizeInventory(); ++i) {
 				ItemStack itemstack1 = par1InventoryCrafting.getStackInSlot(i);
 
-				if (itemstack1 != null && itemstack1.hasTagCompound()) {
+				if (itemstack1 != ItemStack.EMPTY && itemstack1.hasTagCompound()) {
 					itemstack.setTagCompound(itemstack1.getTagCompound().copy());
 				}
 			}
