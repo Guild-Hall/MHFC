@@ -34,18 +34,12 @@ public abstract class ArmorExclusive extends ArmorBase {
 	
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
-		if (!(entity instanceof EntityPlayer) || stack == null) {
-			return ResourceInterface.armor_null_tex;
-		}
-		
 		EntityPlayer player = (EntityPlayer)entity;
-		if(this.checkPrivilege(player)){
-			return super.getArmorTexture(stack, entity, slot, type);
+		if (stack != null && !checkPrivilege(player)) {
+			return null;
 		}
 		
-		
-		
-		return ResourceInterface.armor_null_tex;
+		return super.getArmorTexture(stack, entity, slot, type);
 	}
 
 
