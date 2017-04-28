@@ -1,5 +1,6 @@
 package mhfc.net.common.ai.entity.boss.barroth;
 
+import mhfc.net.common.ai.entity.AIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
@@ -23,8 +24,8 @@ public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProv
 		ATTACK = new AttackAdapter(animation, DAMAGE_CALC);
 	}
 
-	private static final double MAX_DIST = 5.5f;
-	private static final float WEIGHT = 15;
+	private static final double MAX_DIST = 40f;
+	private static final float WEIGHT = 3.5F;
 
 	public Ram() {}
 
@@ -51,11 +52,7 @@ public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProv
 	@Override
 	public void onUpdate() {
 		EntityBarroth entity = getEntity();
-
-		if (entity.getAttackTarget() != null && this.getCurrentFrame() == 20) {
-			entity.getAttackTarget().addVelocity(-0.8, 1.8, 0);
-			//	getEntity().playSound("mhfc:entity.bite", 2.0F, 1.0F);
-		}
+		AIMethods.launch(entity, 1.0D, 5.5D, 1.0D);
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			entity.moveForward(1, false);
 		}

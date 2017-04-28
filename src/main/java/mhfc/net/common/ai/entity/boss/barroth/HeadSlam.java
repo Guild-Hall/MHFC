@@ -1,5 +1,6 @@
 package mhfc.net.common.ai.entity.boss.barroth;
 
+import mhfc.net.common.ai.entity.AIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
@@ -22,9 +23,9 @@ public class HeadSlam extends DamagingAction<EntityBarroth> implements IHasAttac
 
 	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(150F, 125F, 99999999F);
 
-	private static double TARGET_DISTANCE = 35F;
+	private static double TARGET_DISTANCE = 40F;
 
-	private static float WEIGHT = 15;
+	private static float WEIGHT = 5;
 
 	private final IAttackProvider ATTACK;
 	{
@@ -57,9 +58,11 @@ public class HeadSlam extends DamagingAction<EntityBarroth> implements IHasAttac
 
 	@Override
 	public void onUpdate() {
+		EntityBarroth entity = getEntity();
 		if (getEntity().getAttackTarget() != null && this.getCurrentFrame() == 25) {
+			
 			getEntity().playSound(MHFCSoundRegistry.getRegistry().barrothHeadsmash, 2.0F, 1.0F);
-			getEntity().getAttackTarget().addVelocity(0D, 0.4D, 0D);
+			AIMethods.launch(entity, 1.0D, 2.5D, 1.0D);
 		}
 		damageCollidingEntities();
 

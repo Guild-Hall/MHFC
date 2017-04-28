@@ -20,7 +20,7 @@ public class RamRun extends DamagingAction<EntityBarroth> implements IHasAttackP
 	private static final int LAST_FRAME = 130;
 
 	private static final double MAX_DIST = 40F;
-	private static final float WEIGHT = 4;
+	private static final float WEIGHT = 2;
 
 	private final IAttackProvider ATTACK;
 	{

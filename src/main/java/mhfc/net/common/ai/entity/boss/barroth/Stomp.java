@@ -23,8 +23,8 @@ public class Stomp extends DamagingAction<EntityBarroth> implements IHasAttackPr
 	private static final String ANIMATION_LOCATION = "mhfc:models/Barroth/BarrothStomp.mcanm";
 	private static final int LAST_FRAME = 85;
 
-	private static final double MAX_DIST = 9f;
-	private static final float WEIGHT = 5;
+	private static final double MAX_DIST = 40f;
+	private static final float WEIGHT = 6;
 
 	private final IAttackProvider ATTACK;
 	{
