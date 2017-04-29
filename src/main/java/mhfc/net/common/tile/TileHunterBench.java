@@ -103,7 +103,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 				++itemSmeltDuration;
 			}
 		} else {
-			if (fuelStack != ItemStack.EMPTY && TileHunterBench.this.workingMHFCBench) {
+			if (!fuelStack.isEmpty() && TileHunterBench.this.workingMHFCBench) {
 				heatLength = TileEntityFurnace.getItemBurnTime(fuelStack);
 				heatLengthInit = heatLength;
 				heatFromItem = getItemHeat(fuelStack);
@@ -124,7 +124,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		if (world.isRemote) {
 			return;
 		}
-		inputStacks = new ItemStack[inputStacks.length];
+		resetInputStacks();
 		outputStack = resultStack.copy();
 		workingMHFCBench = false;
 		itemSmeltDuration = 0;
@@ -138,6 +138,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	 */
 	@SideOnly(Side.CLIENT)
 	public void forceEndCrafting(ItemStack stack) {
+		Objects.requireNonNull(stack);
 		outputStack = stack;
 		resetInputStacks();
 		TileHunterBench.this.workingMHFCBench = false;
@@ -165,7 +166,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 			resultStack = ItemStack.EMPTY;
 		} else {
 			this.recipe = recipe;
-			resultStack = recipe.getRecipeOutput();
+			resultStack = Objects.requireNonNull(recipe.getRecipeOutput());
 			setIngredients(recipe);
 		}
 	}
@@ -176,7 +177,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	}
 
 	public static int getItemHeat(ItemStack itemStack) {
-		if (itemStack == ItemStack.EMPTY) {
+		if (itemStack.isEmpty()) {
 			return 0;
 		}
 		if (itemStack.getItem() == Item.getItemById(327)) {
@@ -201,7 +202,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		// FIXME: can do that better...
 		if (slot > recipeStacks.length + 2) {
 			ItemStack stack = inputStacks[slot - recipeStacks.length - 3];
-			if (stack == ItemStack.EMPTY) {
+			if (stack.isEmpty()) {
 				return stack;
 			}
 			cancelRecipe();
@@ -374,7 +375,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	}
 
 	public boolean canBeginCrafting() {
-		return (recipe != null) && matchesInputOutput() && (outputStack == ItemStack.EMPTY);
+		return (recipe != null) && matchesInputOutput() && (outputStack.isEmpty());
 	}
 
 	protected boolean matchesInputOutput() {
@@ -429,7 +430,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		NBTTagList itemsStored = new NBTTagList();
 		for (int a = 0; a < getSizeInventory(); a++) {
 			ItemStack s = getStackInSlot(a);
-			if (s != ItemStack.EMPTY) {
+			if (!s.isEmpty()) {
 				NBTTagCompound tag = new NBTTagCompound();
 				tag.setByte("Slot", (byte) a);
 				s.writeToNBT(tag);
