@@ -28,9 +28,9 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 	}
 
 	protected static final String NBT_SPIRIT = "mhfc:affinity";
-	protected static final float MAX_SPIRIT = 170f;
-	protected static final float TRIGGER_SPIRIT = 150f;
-	protected static final float SPIRIT_DECREASE = -0.3f;
+	protected static final float MAX_SPIRIT = 250F;
+	protected static final float TRIGGER_SPIRIT = 180f;
+	protected static final float SPIRIT_DECREASE = -0.4f;
 
 	public ItemLongsword(LongswordWeaponStats stats) {
 		super(stats);

@@ -124,7 +124,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		if (world.isRemote) {
 			return;
 		}
-		resetInputStacks();
+		inputStacks = new ItemStack[inputStacks.length];
 		outputStack = resultStack.copy();
 		workingMHFCBench = false;
 		itemSmeltDuration = 0;
