@@ -43,11 +43,14 @@ public class DirectorEquipmentRecipes {
 
 	public final EquipmentRecipe recipe_kirin_helm;
 	// Weapon
+	
+	public final EquipmentRecipe recipe_gs_bone;
+	public final EquipmentRecipe recipe_gs_deadlyserpentblade;
 	public final EquipmentRecipe recipe_gs_redwing;
 	public final EquipmentRecipe recipe_gs_thundersword;
-	public final EquipmentRecipe recipe_gs_berserker;
 	public final EquipmentRecipe recipe_gs_agito;
-	public final EquipmentRecipe recipe_gs_bone;
+	public final EquipmentRecipe recipe_gs_berserker;
+	
 
 	public final EquipmentRecipe recipe_hm_war;
 	public final EquipmentRecipe recipe_hm_warplus;
@@ -80,68 +83,74 @@ public class DirectorEquipmentRecipes {
 	public final EquipmentRecipe recipe_b_hunters;
 	public final EquipmentRecipe recipe_b_huntersstout;
 
-	public void construct(EquipmentRecipeRegistryData dataObject) {
+	public void construct(EquipmentRecipeRegistryData director) {
 
-		dataObject.register(recipe_yukumo_helm);
-		dataObject.register(recipe_rathalos_helm);
-		dataObject.register(recipe_tigrex_helm);
-		dataObject.register(recipe_kirin_helm);
-		dataObject.register(recipe_vangis_helm);
+		director.register(recipe_yukumo_helm);
+		director.register(recipe_rathalos_helm);
+		director.register(recipe_tigrex_helm);
+		director.register(recipe_kirin_helm);
+		director.register(recipe_vangis_helm);
 
-		dataObject.register(recipe_yukumo_chest);
-		dataObject.register(recipe_rathalos_chest);
-		dataObject.register(recipe_tigrex_chest);
-		dataObject.register(recipe_vangis_chest);
+		director.register(recipe_yukumo_chest);
+		director.register(recipe_rathalos_chest);
+		director.register(recipe_tigrex_chest);
+		director.register(recipe_vangis_chest);
 
-		dataObject.register(recipe_yukumo_legs);
-		dataObject.register(recipe_rathalos_legs);
-		dataObject.register(recipe_tigrex_legs);
-		dataObject.register(recipe_vangis_legs);
+		director.register(recipe_yukumo_legs);
+		director.register(recipe_rathalos_legs);
+		director.register(recipe_tigrex_legs);
+		director.register(recipe_vangis_legs);
 
-		dataObject.register(recipe_yukumo_boots);
-		dataObject.register(recipe_rathalos_boots);
-		dataObject.register(recipe_tigrex_boots);
-		dataObject.register(recipe_vangis_boots);
+		director.register(recipe_yukumo_boots);
+		director.register(recipe_rathalos_boots);
+		director.register(recipe_tigrex_boots);
+		director.register(recipe_vangis_boots);
 
 		// Weapon
-		dataObject.register(recipe_gs_redwing);
-		dataObject.register(recipe_gs_thundersword);
-		dataObject.register(recipe_gs_berserker);
-		dataObject.register(recipe_gs_agito);
-		dataObject.register(recipe_gs_bone);
-		dataObject.register(recipe_hm_war);
-		dataObject.register(recipe_hm_warplus);
-		dataObject.register(recipe_hm_warslammer);
-		dataObject.register(recipe_hm_tigrex);
-		dataObject.register(recipe_hm_kirin);
+		
+		director.register(recipe_gs_bone);
+		director.register(recipe_gs_deadlyserpentblade);
+		director.register(recipe_gs_redwing);
+		director.register(recipe_gs_thundersword);
+		director.register(recipe_gs_berserker);
+		director.register(recipe_gs_agito);
+		
+		
+		
+		
+		director.register(recipe_hm_war);
+		director.register(recipe_hm_warplus);
+		director.register(recipe_hm_warslammer);
+		director.register(recipe_hm_tigrex);
+		director.register(recipe_hm_kirin);
 	//	dataObject.register(recipe_hm_rathalos);
-		dataObject.register(recipe_hm_devilsdue);
+		director.register(recipe_hm_devilsdue);
 		
 		
-		dataObject.register(recipe_ls_ironkatana);
-		dataObject.register(recipe_ls_ikgrace);
-		dataObject.register(recipe_ls_ikgospel);
-		dataObject.register(recipe_ls_eagercleaver);
-		dataObject.register(recipe_ls_devilslicer);
-		dataObject.register(recipe_ls_truedevilslicer);
-		dataObject.register(recipe_ls_darkvipern);
-		dataObject.register(recipe_ls_saber);
-		dataObject.register(recipe_ls_saberliondance);
-		dataObject.register(recipe_ls_saberlionking);
-		dataObject.register(recipe_ls_saberlionkaiser);
-		dataObject.register(recipe_ls_saberlionroar);
-		dataObject.register(recipe_ls_miragefinsword);
-		dataObject.register(recipe_ls_miragefinswordplus);
-		dataObject.register(recipe_ls_miragephantom);
-		dataObject.register(recipe_ls_darkvipern);
+		director.register(recipe_ls_ironkatana);
+		director.register(recipe_ls_ikgrace);
+		director.register(recipe_ls_ikgospel);
+		director.register(recipe_ls_eagercleaver);
+		director.register(recipe_ls_devilslicer);
+		director.register(recipe_ls_truedevilslicer);
+		director.register(recipe_ls_darkvipern);
+		director.register(recipe_ls_saber);
+		director.register(recipe_ls_saberliondance);
+		director.register(recipe_ls_saberlionking);
+		director.register(recipe_ls_saberlionkaiser);
+		director.register(recipe_ls_saberlionroar);
+		director.register(recipe_ls_miragefinsword);
+		director.register(recipe_ls_miragefinswordplus);
+		director.register(recipe_ls_miragephantom);
+		director.register(recipe_ls_darkvipern);
 	
 		
-		dataObject.register(recipe_hh_ivoryhorn);
-		dataObject.register(recipe_hh_metalbagpipe);
-		dataObject.register(recipe_hh_tigrex);
+		director.register(recipe_hh_ivoryhorn);
+		director.register(recipe_hh_metalbagpipe);
+		director.register(recipe_hh_tigrex);
 
-		dataObject.register(recipe_b_hunters);
-		dataObject.register(recipe_b_huntersstout);
+		director.register(recipe_b_hunters);
+		director.register(recipe_b_huntersstout);
 	}
 
 	public DirectorEquipmentRecipes() {
@@ -287,8 +296,16 @@ public class DirectorEquipmentRecipes {
 		recipe.addIngredient(itemRegistry.moldedIron, 2, 0);
 		recipe.setRequiredHeat(100).setDuration(300);
 		recipe_gs_bone = recipe.build();
-
-		// dont mind//
+		
+		
+		recipe.setProduct(new ItemStack(itemRegistry.weapon_gs_deadlyserpentblade));
+		recipe.addIngredient(Item.getItemById(352), 6, 0); // TO BE REPLACED WITH REMOBRA SKIN
+		recipe.addIngredient(itemRegistry.lumberbar, 15, 0); // LIGHT CRYSTAL
+		recipe.addIngredient(itemRegistry.moldedIron, 25, 0); // IOPREY FANG
+		recipe.setRequiredHeat(100).setDuration(300);
+		recipe_gs_deadlyserpentblade = recipe.build();
+		
+		
 
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_gs_rathalosfire));
 		recipe.addIngredient(SubTypedItem.fromSubItem(RathalosSubType.WING, 2));
