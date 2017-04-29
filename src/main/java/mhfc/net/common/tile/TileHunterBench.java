@@ -103,7 +103,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 				++itemSmeltDuration;
 			}
 		} else {
-			if (!fuelStack.isEmpty() && TileHunterBench.this.workingMHFCBench) {
+			if (fuelStack != ItemStack.EMPTY && TileHunterBench.this.workingMHFCBench) {
 				heatLength = TileEntityFurnace.getItemBurnTime(fuelStack);
 				heatLengthInit = heatLength;
 				heatFromItem = getItemHeat(fuelStack);
@@ -374,7 +374,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	}
 
 	public boolean canBeginCrafting() {
-		return (recipe != null) && matchesInputOutput() && (outputStack == null);
+		return (recipe != null) && matchesInputOutput() && (outputStack == ItemStack.EMPTY);
 	}
 
 	protected boolean matchesInputOutput() {
@@ -429,7 +429,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		NBTTagList itemsStored = new NBTTagList();
 		for (int a = 0; a < getSizeInventory(); a++) {
 			ItemStack s = getStackInSlot(a);
-			if (s != null) {
+			if (s != ItemStack.EMPTY) {
 				NBTTagCompound tag = new NBTTagCompound();
 				tag.setByte("Slot", (byte) a);
 				s.writeToNBT(tag);

@@ -192,13 +192,13 @@ public class ResourceInterface {
 	public static final String entity_tigrexBlock_name = "TigrexBlock";
 	public static final String entity_bullet_name = "Bullet";
 	public static final String entity_flashbomb_name = "Flash bomb";
-	public static final String gui_board_tex = "mhfc:textures/gui/MHFCBackground.png";
-	public static final String gui_hunterbench_back_tex = "mhfc:textures/gui/MHFCCraftStation.png";
-	public static final String gui_hunterbench_burn_back_tex = "mhfc:textures/gui/OvenHeat.png";
-	public static final String gui_hunterbench_burn_front_tex = "mhfc:textures/gui/OvenBorder.png";
-	public static final String gui_hunterbench_burn_target_tex = "mhfc:textures/gui/HeatIndicator.png";
-	public static final String gui_hunterbench_complete_tex = "mhfc:textures/gui/ProgArrow.png";
-	public static final String gui_hunterbench_fuel_tex = "mhfc:textures/gui/ProgFlame.png";
+	public static final String gui_board_tex = "mhfc:textures/gui/mhfcbackground.png";
+	public static final String gui_hunterbench_back_tex = "mhfc:textures/gui/mhfccraftstation.png";
+	public static final String gui_hunterbench_burn_back_tex = "mhfc:textures/gui/ovenheat.png";
+	public static final String gui_hunterbench_burn_front_tex = "mhfc:textures/gui/ovenborder.png";
+	public static final String gui_hunterbench_burn_target_tex = "mhfc:textures/gui/heatindicator.png";
+	public static final String gui_hunterbench_complete_tex = "mhfc:textures/gui/progarrow.png";
+	public static final String gui_hunterbench_fuel_tex = "mhfc:textures/gui/progflame.png";
 	public static final String gui_hunterbench_name = "Hunter's Bench";
 	public static final String gui_hunterbench_tab_armor_name = "Armor Crafting";
 	public static final String gui_hunterbench_tab_weapon_name = "Weapon Crafting";
@@ -206,7 +206,7 @@ public class ResourceInterface {
 	public static final String gui_status_onscreen_tex = "textures/gui/demo_background.png";
 	public static final String gui_tab_texture = "mhfc:textures/gui/TabbedGui.png";
 	public static final String gui_tab_name = "MHFC Tab";
-	public static final String gui_list_tex = "mhfc:textures/gui/GuiList.png";
+	public static final String gui_list_tex = "mhfc:textures/gui/guilist.png";
 
 	public static final String item_arrow0_name = "arrow0";
 
