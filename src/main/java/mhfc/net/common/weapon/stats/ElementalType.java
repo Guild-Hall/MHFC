@@ -24,6 +24,14 @@ public enum ElementalType implements ICombatEffectType {
 		}
 	},
 	Water(new DamageSource("mhfc.waterelement").setDamageBypassesArmor()) {
+		
+		@Override
+		public void onEntitySwing(EntityLivingBase entity, ItemStack stack, Random rand) {
+			double velX = rand.nextGaussian(), velY = rand.nextGaussian(), velZ = rand.nextGaussian();
+			double posX = entity.posX, posY = entity.posY, posZ = entity.posZ;
+			entity.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX, posY, posZ, velX, velY, velZ);
+		}
+		
 		@Override
 		public String getUnlocalizedName() {
 			return "type.effect.water";
@@ -36,6 +44,16 @@ public enum ElementalType implements ICombatEffectType {
 		}
 	},
 	Dragon(new DamageSource("mhfc.dragonelement").setDamageBypassesArmor()) {
+		
+		
+
+		@Override
+		public void onEntitySwing(EntityLivingBase entity, ItemStack stack, Random rand) {
+			double velX = rand.nextGaussian(), velY = rand.nextGaussian(), velZ = rand.nextGaussian();
+			double posX = entity.posX, posY = entity.posY, posZ = entity.posZ;
+			entity.world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, posX, posY, posZ, velX, velY, velZ);
+		}
+		
 		@Override
 		public String getUnlocalizedName() {
 			return "type.effect.dragon";
