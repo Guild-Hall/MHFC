@@ -318,7 +318,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 	protected class CraftUpgradeTab extends FilteredRecipeTab {
 		public CraftUpgradeTab(TileHunterBench bench) {
-			super(bench, RecipeType.UPGRADE, ItemType.allTypes);
+			super(bench, RecipeType.UPGRADE, ItemType.weaponTypes);
 			typeList.setItemWidth(20);
 		}
 	}
