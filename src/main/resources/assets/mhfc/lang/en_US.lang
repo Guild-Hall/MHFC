@@ -151,12 +151,33 @@ item.remobra.skin.name=Remobra Skin
 item.remobra.stripe.name=Striped Skin
 item.remobra.skull.name=Remobra Skull
 item.remobra.wing.name=Remobra Wing
-item.sac.fire.name=Flame Sac
+
 item.traptool.name=Trap Tool
 item.bombmaterial.name=Bomb Material
 item.gaguaegg.name=Gagua Egg
 item.wyverncoin.name=Wyvern Coin
 item.flashbomb.name=Flash Bomb
+
+
+item.sac.screamer.name=Screamer Sac
+item.sac.poison.name=Poison Sac
+item.sac.toxin.name=Toxin Sac
+item.sac.deadlypoison.name=Deadly Poison Sac
+item.sac.paralysis.name=Paralysis Sac
+item.sac.sleep.name=Sleep Sac
+item.sac.coma.name=Coma Sac
+item.sac.flame.name=Flame Sac
+item.sac.inferno.name=Inferno Sac
+item.sac.blazingfire.name=Blazing Fire Sac
+item.sac.electro.name=Electro Sac
+item.sac.thunder.name=Thunder Sac
+item.sac.lightning.name=Lightning Sac
+
+
+
+
+
+
 
 item.paintball.black.name=Black Paintball
 item.paintball.red.name=Red Paintball

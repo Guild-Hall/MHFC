@@ -15,7 +15,20 @@ import net.minecraft.item.ItemStack;
 
 public class ItemSac extends AbstractSubTypedItem<SacSubType> {
 	public static enum SacSubType implements SubTypedItem.SubTypeEnum<Item> {
-		FIRE("fire", ResourceInterface.item_sac0_name, ItemColor.RED);
+		SCREAMER("screamer", ResourceInterface.item_sac0_name, ItemColor.GRAY),
+		POISON("poison", ResourceInterface.item_sac1_name, ItemColor.MAGNTA),
+		TOXIN("toxin", ResourceInterface.item_sac2_name, ItemColor.MAGNTA),
+		DEADLYPOISON("deadlypoison", ResourceInterface.item_sac3_name, ItemColor.MAGNTA),
+		PARALYSIS("paralysis", ResourceInterface.item_sac4_name, ItemColor.LIME),
+		SLEEP("sleep", ResourceInterface.item_sac5_name, ItemColor.CYAN),
+		COMA("coma", ResourceInterface.item_sac6_name, ItemColor.CYAN),
+		FLAME("flame", ResourceInterface.item_sac7_name, ItemColor.RED),
+		INFERNO("inferno", ResourceInterface.item_sac8_name, ItemColor.RED),
+		BLAZINGFIRE("blazingfire", ResourceInterface.item_sac9_name, ItemColor.RED),
+		THUNDER("electro", ResourceInterface.item_sac10_name, ItemColor.YELLOW),
+		ELECTRO("thunder", ResourceInterface.item_sac11_name, ItemColor.YELLOW),
+		LIGHTNING("lightning", ResourceInterface.item_sac12_name, ItemColor.YELLOW);
+		
 
 		public final String registryName;
 		public final String name;
@@ -39,7 +52,7 @@ public class ItemSac extends AbstractSubTypedItem<SacSubType> {
 
 		@Override
 		public Item getBaseItem() {
-			return MHFCItemRegistry.getRegistry().itemsac;
+			return MHFCItemRegistry.getRegistry().sac;
 		}
 
 		@Override
@@ -52,6 +65,7 @@ public class ItemSac extends AbstractSubTypedItem<SacSubType> {
 		super(SacSubType.class);
 		setUnlocalizedName(ResourceInterface.item_sac_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
+		this.setMaxStackSize(30);
 	}
 
 	@Override

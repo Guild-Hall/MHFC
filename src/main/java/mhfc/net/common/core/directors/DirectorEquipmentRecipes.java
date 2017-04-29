@@ -309,7 +309,7 @@ public class DirectorEquipmentRecipes {
 
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_gs_rathalosfire));
 		recipe.addIngredient(SubTypedItem.fromSubItem(RathalosSubType.WING, 2));
-		recipe.addIngredient(SubTypedItem.fromSubItem(SacSubType.FIRE, 2));
+		recipe.addIngredient(SubTypedItem.fromSubItem(SacSubType.FLAME, 2));
 		recipe.addIngredient(SubTypedItem.fromSubItem(RathalosSubType.MARROW, 5));
 		recipe.addIngredient(itemRegistry.firestone, 3, 0);
 		recipe.setRequiredHeat(300).setDuration(900);
@@ -447,7 +447,7 @@ public class DirectorEquipmentRecipes {
 		recipe_ls_ikgospel = recipe.build();
 		
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_ls_eagercleaver));
-		recipe.addIngredient(itemRegistry.moldedIron, 4, 0); // to be replaced with Electro Sac
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemSac.SacSubType.ELECTRO, 4)); // to be replaced with Electro Sac
 		recipe.addIngredient(itemRegistry.steelbar, 30	, 0); //to be replaced with earth crystal
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemIngot.IngotsSubType.MACHALITE, 15)); 
 		recipe.setRequiredHeat(150).setDuration(900);
@@ -456,7 +456,8 @@ public class DirectorEquipmentRecipes {
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_ls_devilslicer));
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemIngot.IngotsSubType.DRAGONITE, 5));
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemIngot.IngotsSubType.MACHALITE, 20)); 
-		recipe.addIngredient(itemRegistry.steelbar, 30,0); 
+		recipe.addIngredient(itemRegistry.steelbar, 30,0); // to be replaced with thunder bug juice
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemKirin.KirinSubType.THUNDERTAIL, 2));
 		recipe.addIngredient(itemRegistry.weapon_ls_eagercleaver, 1, 0);
 		recipe.setRequiredHeat(450).setDuration(1200);
 		recipe_ls_devilslicer = recipe.build();
@@ -464,7 +465,7 @@ public class DirectorEquipmentRecipes {
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_ls_truedevilslicer));
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemIngot.IngotsSubType.CARBALITE, 10));
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemIngot.IngotsSubType.DRAGONITE, 20)); 
-		recipe.addIngredient(itemRegistry.steelbar, 50,0); //to be replaced by thunder sac
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemSac.SacSubType.THUNDER, 4)); //to be replaced by thunder sac
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemKirin.KirinSubType.THUNDERTAIL, 1)); // to be replaced with pale khezu sac
 		recipe.addIngredient(itemRegistry.weapon_ls_devilslicer, 1, 0);
 		recipe.setRequiredHeat(450).setDuration(1200);
@@ -475,7 +476,7 @@ public class DirectorEquipmentRecipes {
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_ls_saber));
 		recipe.addIngredient(itemRegistry.moldedIron, 15, 0);
 		recipe.addIngredient(itemRegistry.steelbar, 30	, 0); 
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemSac.SacSubType.FIRE, 50)); 
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemSac.SacSubType.FLAME, 20)); 
 		recipe.addIngredient(itemRegistry.weapon_ls_ironkatanagospel, 1, 0);
 		recipe.setRequiredHeat(450).setDuration(1200);
 		recipe_ls_saber = recipe.build();
@@ -487,7 +488,7 @@ public class DirectorEquipmentRecipes {
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_ls_liondancesaber));
 		recipe.addIngredient(itemRegistry.moldedIron, 15, 0);  
 		recipe.addIngredient(itemRegistry.steelbar, 30	, 0); 
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemSac.SacSubType.FIRE, 50)); 
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemSac.SacSubType.FLAME, 20)); 
 		recipe.addIngredient(itemRegistry.weapon_ls_ironkatanagospel, 1, 0);
 		recipe.setRequiredHeat(450).setDuration(1200);
 		recipe_ls_saberliondance = recipe.build();
@@ -496,7 +497,7 @@ public class DirectorEquipmentRecipes {
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_ls_lionkingsaber));
 		recipe.addIngredient(itemRegistry.moldedIron, 15, 0);
 		recipe.addIngredient(itemRegistry.steelbar, 30	, 0); 
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemSac.SacSubType.FIRE, 50)); 
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemSac.SacSubType.FLAME, 20)); 
 		recipe.addIngredient(itemRegistry.weapon_ls_liondancesaber, 1, 0);
 		recipe.setRequiredHeat(450).setDuration(1200);
 		recipe_ls_saberlionking = recipe.build();
@@ -505,7 +506,7 @@ public class DirectorEquipmentRecipes {
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_ls_lionkaisersaber));
 		recipe.addIngredient(itemRegistry.moldedIron, 15, 0);
 		recipe.addIngredient(itemRegistry.steelbar, 30	, 0); 
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemSac.SacSubType.FIRE, 50)); 
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemSac.SacSubType.FLAME, 20)); 
 		recipe.addIngredient(itemRegistry.weapon_ls_lionkingsaber, 1, 0);
 		recipe.setRequiredHeat(450).setDuration(1200);
 		recipe_ls_saberlionkaiser = recipe.build();
@@ -514,7 +515,7 @@ public class DirectorEquipmentRecipes {
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_ls_lionsroarsaber));
 		recipe.addIngredient(itemRegistry.moldedIron, 15, 0);
 		recipe.addIngredient(itemRegistry.steelbar, 30	, 0); 
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemSac.SacSubType.FIRE, 50)); 
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemSac.SacSubType.FLAME, 20)); 
 		recipe.addIngredient(itemRegistry.weapon_ls_lionkaisersaber, 1, 0);
 		recipe.setRequiredHeat(450).setDuration(1200);
 		recipe_ls_saberlionroar = recipe.build();
@@ -535,7 +536,7 @@ public class DirectorEquipmentRecipes {
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_ls_miragefinswordplus));
 		recipe.addIngredient(itemRegistry.moldedIron, 30, 0);
 		recipe.addIngredient(itemRegistry.steelbar, 30	, 0); 
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemSac.SacSubType.FIRE, 50)); 
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemSac.SacSubType.SCREAMER, 20)); 
 		recipe.addIngredient(itemRegistry.weapon_ls_miragefinsword, 1, 0);
 		recipe.setRequiredHeat(450).setDuration(1200);
 		recipe_ls_miragefinswordplus = recipe.build();
@@ -544,7 +545,7 @@ public class DirectorEquipmentRecipes {
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_ls_phantommirage));
 		recipe.addIngredient(itemRegistry.moldedIron, 15, 0);
 		recipe.addIngredient(itemRegistry.steelbar, 30	, 0); 
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemSac.SacSubType.FIRE, 50)); 
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemSac.SacSubType.SCREAMER, 20)); 
 		recipe.addIngredient(itemRegistry.weapon_ls_miragefinswordplus, 1, 0);
 		recipe.setRequiredHeat(450).setDuration(1200);
 		recipe_ls_miragephantom = recipe.build();

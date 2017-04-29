@@ -289,7 +289,19 @@ public class ResourceInterface {
 	public static final String item_moldediron_name = "moldediron";
 
 	public static final String item_sac_basename = "sac";
-	public static final String item_sac0_name = "fire";
+	public static final String item_sac0_name = "screamer";
+	public static final String item_sac1_name = "poison";
+	public static final String item_sac2_name = "toxin";
+	public static final String item_sac3_name = "deadlypoison";
+	public static final String item_sac4_name = "paralysis";
+	public static final String item_sac5_name = "sleep";
+	public static final String item_sac6_name = "coma";
+	public static final String item_sac7_name = "flame";
+	public static final String item_sac8_name = "inferno";
+	public static final String item_sac9_name = "blazingfire";
+	public static final String item_sac10_name = "electro";
+	public static final String item_sac11_name = "thunder";
+	public static final String item_sac12_name = "lightning";
 
 	public static final String item_steelbar_name = "steelbar";
 

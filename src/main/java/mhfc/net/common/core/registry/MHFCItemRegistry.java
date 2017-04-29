@@ -218,7 +218,7 @@ public class MHFCItemRegistry {
 	public final Item ingot;
 	public final Item base;
 	public final Item armorsphere;
-	public final Item itemsac;
+	public final Item sac;
 
 	public final Item moldedIron;
 	public final ItemFirestone firestone;
@@ -378,7 +378,7 @@ public class MHFCItemRegistry {
 		remobradrops = registerItem("drop_remobra", new ItemRemobra());
 
 		bowgunBullet = registerItem("bullet", new ItemBullet());
-		itemsac = registerItem("sac", new ItemSac());
+		sac = registerItem("sac", new ItemSac());
 		firestone = registerItem("firestone", new ItemFirestone());
 		armorsphere = registerItem("armorsphere", new ItemArmorSphere());
 		wyverniaClay = registerItem("clay", new ItemWyverniaClay());

@@ -12,6 +12,25 @@ import mhfc.net.MHFCMain;
  *
  */
 public enum ItemColor {
+	
+	
+	
+	
+	/**
+	 * 
+	 * Big thanks for @Lanondreams for having the idea of this and big thanks for 
+	 * WorldSEnder for simplifying the methods....
+	 * 
+	 * 
+	 * To find more color and complicated color for materials use this referenced website
+	 * 
+	 * http://www.htmlcsscolor.com
+	 * 
+	 * 
+	 * */
+	
+	
+	
 	BLACK(0, 0x303030),
 	RED(1, 0xF85858),
 	GREEN(2, 0x54843B),
@@ -27,7 +46,13 @@ public enum ItemColor {
 	LIBLUE(12, 0x9BE1F5),
 	MAGNTA(13, 0xF931F7),
 	ORANGE(14, 0xF89858),
-	WHITE(15, 0xFFFFFF);
+	WHITE(15, 0xFFFFFF),
+	
+	// NEW 
+	
+	MARINER(16, 0x4267A0),
+	CANNONPINK(17, 0x8D4F6B),
+	LASERLEMON(18, 0XFFFF73);
 
 	private final int metadata;
 	private final int color;
