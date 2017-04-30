@@ -19,7 +19,6 @@ import mhfc.net.common.ai.general.TargetTurnHelper;
 import mhfc.net.common.ai.general.actions.DeathAction;
 import mhfc.net.common.ai.manager.AIActionManager;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
-import mhfc.net.common.util.math.NonAxisAlignedBB;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityMultiPart;
@@ -79,9 +78,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	// @see deathTime. DeathTime has the random by-effect of rotating corpses...
 	protected int deathTicks;
 
-	private NonAxisAlignedBB baseBoundingBox;
-	private NonAxisAlignedBB currentBoundingBox;
-
 	public int rageCounter;
 
 	public EntityMHFCBase(World world) {
@@ -111,7 +107,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		updateBoundingBox();
 		if (this.attackManager.continueExecuting()) {
 			this.attackManager.updateTask();
 		}
@@ -565,46 +560,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			return;
 		}
 		this.playSound(stunSound, 2.0F, 1.0F);
-	}
-
-	@Override
-	public AxisAlignedBB getEntityBoundingBox() {
-		return this.currentBoundingBox;
-	}
-
-	@Override
-	public void setEntityBoundingBox(AxisAlignedBB bb) {
-		this.currentBoundingBox = NonAxisAlignedBB.wrapping(bb);
-	}
-
-	private void updateBoundingBox() {
-		this.currentBoundingBox = transformNAABB(this.baseBoundingBox);
-	}
-
-	private void updateBaseBoundingBox() {
-		this.baseBoundingBox = untransformNAABB(this.currentBoundingBox);
-	}
-
-	@Override
-	protected void setSize(float width, float height) {
-		super.setSize(width, height);
-		double halfWidth = width / 2;
-		setEntityBoundingBox(new NonAxisAlignedBB(-halfWidth, 0, -halfWidth, halfWidth, height, halfWidth));
-		updateBaseBoundingBox();
-	}
-
-	private NonAxisAlignedBB untransformNAABB(NonAxisAlignedBB wrapped) {
-		double yaw = Math.toRadians(this.rotationYaw);
-		double pitch = Math.toRadians(this.rotationPitch);
-		Vec3d offset = this.getPositionVector();
-		return wrapped.offset(offset.scale(-1)).rotate(1, 0, 0, -pitch).rotate(0, 1, 0, -yaw);
-	}
-
-	private NonAxisAlignedBB transformNAABB(NonAxisAlignedBB baseBox) {
-		double yaw = Math.toRadians(this.rotationYaw);
-		double pitch = Math.toRadians(this.rotationPitch);
-		Vec3d offset = this.getPositionVector();
-		return baseBox.rotate(0, 1, 0, yaw).rotate(1, 0, 0, pitch).offset(offset);
 	}
 
 	@Override
