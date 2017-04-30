@@ -65,21 +65,36 @@ public class MHFCEntityRegistry {
 	public final int arrowID;
 
 	protected MHFCEntityRegistry() {
-		// popoID = getMobID(EntityPopo.class, MHFCReference.mob_popo_name,
-		// 0xf8248234, 0x193192);
-		tigrexID = getMobID(EntityTigrex.class, ResourceInterface.mob_tigrex_name, ItemColor.YELLOW, ItemColor.LIBLUE);
-		kirinID = getMobID(EntityKirin.class, ResourceInterface.mob_kirin_name, 0xfff85814, 0xff851f15);
-		//rathalosID = getMobID(EntityRathalos.class, ResourceInterface.mob_rathalos_name, 0xff749819, 0xf838818);
-		greatjaggiID = getMobID(EntityGreatJaggi.class,ResourceInterface.mob_greatjaggi_name,ItemColor.PURPLE,ItemColor.PINK);
-		deviljhoID = getMobID(EntityDeviljho.class, ResourceInterface.mob_deviljho_name, ItemColor.GREEN, ItemColor.SILVER);
-		nargacugaID = getMobID(EntityNargacuga.class, ResourceInterface.mob_nargacuga_name, 0xf351631, 0x516f13f);
+		
+		/***
+		 * 
+		 * 30/04/2017
+		 * 
+		 * Monsters ( boss and non-boss) will no longer have egg info for registry. Its 
+		 * because they are now serve as Quest Monsters and will be restricted to spawn
+		 * in Overworld. However for spotlights you can still summon them via comman
+		 * " /summon mhfc:monstername "
+		 * ex: /summon mhfc:tigrex
+		 * 
+		 * The egg registry or the additional argument for getMobID method will serve for the
+		 * NPCs i will add in the future so it is not deprecated. ~Heltrato
+		 * 
+		 */
+		
+		// popoID = getMobID(EntityPopo.class, MHFCReference.mob_popo_name);
+		tigrexID = getMobID(EntityTigrex.class, ResourceInterface.mob_tigrex_name);
+		kirinID = getMobID(EntityKirin.class, ResourceInterface.mob_kirin_name);
+		//rathalosID = getMobID(EntityRathalos.class, ResourceInterface.mob_rathalos_name);
+		greatjaggiID = getMobID(EntityGreatJaggi.class,ResourceInterface.mob_greatjaggi_name);
+		deviljhoID = getMobID(EntityDeviljho.class, ResourceInterface.mob_deviljho_name);
+		nargacugaID = getMobID(EntityNargacuga.class, ResourceInterface.mob_nargacuga_name);
 		questGiverID = getMobID(EntityQuestGiver.class, ResourceInterface.mob_questGiver_name);
-		barrothID = getMobID(EntityBarroth.class, ResourceInterface.mob_barroth_name, ItemColor.ORANGE, ItemColor.GRAY);
-		delexID = getMobID(EntityDelex.class, ResourceInterface.mob_delex_name, 0x6f33333, 0x654321);
+		barrothID = getMobID(EntityBarroth.class, ResourceInterface.mob_barroth_name);
+		delexID = getMobID(EntityDelex.class, ResourceInterface.mob_delex_name);
 		//giapreyID = getMobID(EntityGiaprey.class, MHFCReference.mob_giaprey_name, 0x6f41512, 0x654321);
 		//ukanlosID = getMobID(EntityUkanlos.class, MHFCReference.mob_ukanlos_name, 0x33333333, 0x654321);
-		lagiacrusID = getMobID(EntityLagiacrus.class, ResourceInterface.mob_lagiacrus_name, 0x6fff512, 0x6ff14f1);
-		gargwaID = getMobID(EntityGargwa.class, ResourceInterface.mob_gagua_name, 0x319292, 0x2187ff20);
+		lagiacrusID = getMobID(EntityLagiacrus.class, ResourceInterface.mob_lagiacrus_name);
+		gargwaID = getMobID(EntityGargwa.class, ResourceInterface.mob_gagua_name);
 
 		
 
@@ -134,6 +149,7 @@ public class MHFCEntityRegistry {
 		return monsterID;
 	}
 
+	@SuppressWarnings("unused")
 	private int getMobID(Class<? extends Entity> clazz, String name, ItemColor foreground, ItemColor background) {
 		return getMobID(clazz, name, foreground.getRGB(), background.getRGB());
 	}

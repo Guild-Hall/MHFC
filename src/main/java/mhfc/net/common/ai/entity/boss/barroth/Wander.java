@@ -12,8 +12,8 @@ import mhfc.net.common.entity.monster.EntityBarroth;
 
 public class Wander extends WanderAction<EntityBarroth> implements IHasAnimationProvider {
 
-	private static final String ANIMATION_LOCATION = "mhfc:models/Barroth/barrothwalk.mcanm";
-	private static final int LAST_FRAME = 96;
+	private static final String ANIMATION_LOCATION = "mhfc:models/Barroth/walknew.mcanm";
+	private static final int LAST_FRAME = 64;
 
 	private static final float WEIGHT = 0.5F;
 
@@ -24,7 +24,7 @@ public class Wander extends WanderAction<EntityBarroth> implements IHasAnimation
 	public Wander() {
 		
 		ANIMATION = AnimationAdapter.builder().setAnimation(ANIMATION_LOCATION).setAnimationLength(LAST_FRAME)
-				.setFrameAdvancer(new CountLoopAdvancer(0, 80, 3)).build(this);
+				.setFrameAdvancer(new CountLoopAdvancer(0, 64, 2)).build(this);
 	}
 
 
