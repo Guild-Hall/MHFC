@@ -3,13 +3,10 @@ package mhfc.net.common.item.armor;
 import java.util.Map;
 import java.util.Objects;
 
-import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.system.Privilege;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemStack;
 
 public abstract class ArmorExclusive extends ArmorBase {
 	private final Privilege requiredPrivilege;
@@ -31,17 +28,6 @@ public abstract class ArmorExclusive extends ArmorBase {
 		super(armor, rarity, armorType, slotToTexture);
 		this.requiredPrivilege = Objects.requireNonNull(requirement);
 	}
-	
-	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
-		EntityPlayer player = (EntityPlayer)entity;
-		if (stack != null && !checkPrivilege(player)) {
-			return null;
-		}
-		
-		return super.getArmorTexture(stack, entity, slot, type);
-	}
-
 
 	protected boolean checkPrivilege(EntityPlayer player) {
 		return requiredPrivilege.hasPrivilege(player);
