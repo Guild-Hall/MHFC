@@ -17,7 +17,7 @@ public class Idle extends IdleAction<EntityBarroth> implements IHasAnimationProv
 
 	@Override
 	protected float computeIdleWeight() {
-		return WeightUtils.random(rng(), 6f);
+		return WeightUtils.random(rng(), 3f);
 	}
 
 	@Override

@@ -6,11 +6,9 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.boss.greatjaggi.Bite;
+import mhfc.net.common.ai.entity.boss.greatjaggi.Charge;
 import mhfc.net.common.ai.entity.boss.greatjaggi.Death;
 import mhfc.net.common.ai.entity.boss.greatjaggi.Idle;
-import mhfc.net.common.ai.entity.boss.greatjaggi.Roar;
-import mhfc.net.common.ai.entity.boss.greatjaggi.Charge;
-import mhfc.net.common.ai.entity.boss.greatjaggi.Wander;
 import mhfc.net.common.ai.entity.boss.greatjaggi.Whip;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;

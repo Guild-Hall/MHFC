@@ -5,6 +5,7 @@
         "#bench": "mhfc:tile/huntertable"
     },
     transforms: {
-        GUI: { scale: 0.4, translation: [0.2, -0.3, 0.2] }
+        GUI: { scale: 0.4, translation: [0.2, -0.3, 0.2] },
+        THIRD_PERSON: {scale: 0.4, translation: [0.2, -0.3, 0.2] }
     }
 }
