@@ -1,16 +1,5 @@
 package mhfc.net.client.gui.hud;
 
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glColor3f;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
-
 import java.util.List;
 
 import mhfc.net.client.util.gui.MHFCGuiUtil;
@@ -21,6 +10,9 @@ import mhfc.net.common.weapon.melee.huntinghorn.Note;
 import mhfc.net.common.weapon.melee.longsword.ItemLongsword;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.GlStateManager.DestFactor;
+import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -58,10 +50,10 @@ public class WeaponOverlay {
 
 		float resizeX = 1f, resizeY = 1f, offsetX = 4, offsetY = 4;
 
-		glPushMatrix();
+		GlStateManager.pushMatrix();
 		MHFCGuiUtil.setColor(0xFFFFFF, 1F);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 		Minecraft.getMinecraft().renderEngine.bindTexture(staveLoc);
 
 		MHFCGuiUtil
@@ -76,9 +68,9 @@ public class WeaponOverlay {
 			MHFCGuiUtil.drawTexturedRectangle(posX * resizeX, posY * resizeY, 14 * resizeX, 14 * resizeY, 0, 0, .5f, 1);
 		}
 
-		glColor3f(1.f, 1.f, 1.f);
-		glDisable(GL_BLEND);
-		glPopMatrix();
+		GlStateManager.color(1.f, 1.f, 1.f);
+		GlStateManager.disableBlend();
+		GlStateManager.popMatrix();
 	}
 
 	private static void renderLongswordOverlay(EntityPlayerSP thePlayer, ItemStack stack) {
@@ -94,11 +86,15 @@ public class WeaponOverlay {
 		gaugeOffsetY *= resizeY;
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(spiritGaugeLoc);
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 		MHFCGuiUtil.drawTexturedRectangle(offsetX, offsetY, fullLength * resizeX, 6 * resizeY, 0, 0, 1, 6 / 20f);
-		glDisable(GL_TEXTURE_2D);
-		glColor3f(spirit - 1.f < -1e-9 ? 0.7f : 1f, 0.1f, 0.1f);
+		GlStateManager.disableBlend();
+
+		GlStateManager.disableTexture2D();
+		GlStateManager.color(spirit - 1.f < -1e-9 ? 0.7f : 1f, 0.1f, 0.1f);
 		MHFCGuiUtil.drawTexturedRectangle(gaugeOffsetX, gaugeOffsetY, gaugeLength * resizeX, 2 * resizeY, 0, 0, 1, 1);
-		glColor3f(1.f, 1.f, 1.f);
-		glEnable(GL_TEXTURE_2D);
+		GlStateManager.color(1.f, 1.f, 1.f);
+		GlStateManager.enableTexture2D();
 	}
 }

@@ -1,7 +1,6 @@
 package mhfc.net.client.util.gui;
 
 import static org.lwjgl.opengl.GL11.GL_QUADS;
-import static org.lwjgl.opengl.GL11.glColor4f;
 
 import java.util.List;
 import java.util.Objects;
@@ -13,6 +12,7 @@ import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -358,7 +358,7 @@ public class MHFCGuiUtil {
 		buff.pos(x + borderSize, y + borderSize, zLevel).tex(borderU, borderV).endVertex();
 		buff.pos(x + borderSize, y + height - borderSize, zLevel).tex(borderU, maxV - borderV).endVertex();
 		buff.pos(x + width - borderSize, y + height - borderSize, zLevel).tex(maxU - borderU, maxV - borderV)
-				.endVertex();
+		.endVertex();
 		buff.pos(x + width - borderSize, y + borderSize, zLevel).tex(maxU - borderU, borderV).endVertex();
 		tess.draw();
 		buff.setTranslation(0, 0, 0);
@@ -371,7 +371,7 @@ public class MHFCGuiUtil {
 	public static void setColor(int colorRGB, float alpha) {
 		float r = ((colorRGB >> 16) & 0xFF) / 255.f, g = ((colorRGB >> 8) & 0xFF) / 255.f,
 				b = (colorRGB & 0xFF) / 255.f;
-		glColor4f(r, g, b, alpha);
+		GlStateManager.color(r, g, b, alpha);
 	}
 
 }
