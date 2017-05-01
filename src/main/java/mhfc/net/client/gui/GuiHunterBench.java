@@ -26,6 +26,7 @@ import mhfc.net.common.tile.TileHunterBench;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
@@ -486,16 +487,16 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		modelRotX /= 2;
 		modelRotY /= 4;
 
-		GL11.glPushMatrix();
+		GlStateManager.pushMatrix();
 		drawRect(rectX, rectY, rectX + rectW + 1, rectY + rectH, 0xFF000000);
 
 		GL11.glScissor(rectX * guiScale, mc.displayHeight - rectY * guiScale, rectW * guiScale, rectH * guiScale);
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
-		GL11.glClearDepth(1.0f);
+		GlStateManager.clearDepth(1.0f);
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GlStateManager.enableTexture2D();
+		GlStateManager.enableDepth();
 		if (itemToRender != null) {
 			if (itemType.getGeneralType() == GeneralType.ARMOR) {
 				renderArmor(itemToRender, rectX, rectY, rectW, rectH, itemType, modelRotX, modelRotY);
@@ -506,7 +507,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			}
 		}
 
-		GL11.glPopMatrix();
+		GlStateManager.popMatrix();
 	}
 
 	private void renderWeapon(
@@ -517,17 +518,17 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			int rectH,
 			float modelRotX,
 			float modelRotY) {
-		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		GL11.glTranslatef(rectX + rectW / 2, rectY + rectH / 2, 40F);
-		GL11.glScaled(3F, 3F, 3F);
-		GL11.glTranslatef(3f, 5f, 0F);
-		GL11.glRotatef(90F, 1.0f, 0.0f, 0.0f);
-		GL11.glRotatef(90F, 0.0f, 0.0f, 1.0f);
+		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+		GlStateManager.translate(rectX + rectW / 2, rectY + rectH / 2, 40F);
+		GlStateManager.scale(3F, 3F, 3F);
+		GlStateManager.translate(3f, 5f, 0F);
+		GlStateManager.rotate(90F, 1.0f, 0.0f, 0.0f);
+		GlStateManager.rotate(90F, 0.0f, 0.0f, 1.0f);
 		modelRotY = Math.min(Math.abs(modelRotY), 30f) * Math.signum(modelRotY);
-		GL11.glRotatef(modelRotX, 0.0f, 0.0f, -1.0f);
-		GL11.glRotatef(modelRotY, 0.0f, -1.0f, 0.0f);
+		GlStateManager.rotate(modelRotX, 0.0f, 0.0f, -1.0f);
+		GlStateManager.rotate(modelRotY, 0.0f, -1.0f, 0.0f);
 		float sc = rectH / 8;
-		GL11.glScalef(sc, -sc, sc);
+		GlStateManager.scale(sc, -sc, sc);
 
 		Minecraft mc = FMLClientHandler.instance().getClient();
 		// false == isLeftHand
@@ -546,35 +547,35 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			ItemType itemType,
 			float modelRotX,
 			float modelRotY) {
-		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		GL11.glTranslatef(rectX + rectW / 2, rectY + rectH / 2, 40F);
+		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+		GlStateManager.translate(rectX + rectW / 2, rectY + rectH / 2, 40F);
 		float defaultScale = 2F;
 		switch (itemType) {
-		
-		
+
+
 		case ARMOR_HEAD:
-			GL11.glScaled(defaultScale, defaultScale, defaultScale);
-			GL11.glTranslatef(3f, -22f, 0F);
+			GlStateManager.scale(defaultScale, defaultScale, defaultScale);
+			GlStateManager.translate(3f, -22f, 0F);
 			break;
 		case ARMOR_BODY:
-			GL11.glScaled(3F, 3F, 3F);
-			GL11.glTranslatef(1f, -38f, 0F);
+			GlStateManager.scale(3F, 3F, 3F);
+			GlStateManager.translate(1f, -38f, 0F);
 			break;
 		case ARMOR_PANTS:
-			GL11.glScaled(defaultScale, defaultScale, defaultScale);
-			GL11.glTranslatef(1f, -45f, 0F);
+			GlStateManager.scale(defaultScale, defaultScale, defaultScale);
+			GlStateManager.translate(1f, -45f, 0F);
 			break;
 		case ARMOR_BOOTS:
-			GL11.glScaled(defaultScale, defaultScale, defaultScale);
-			GL11.glTranslatef(1f, -55f, 0F);
+			GlStateManager.scale(defaultScale, defaultScale, defaultScale);
+			GlStateManager.translate(1f, -55f, 0F);
 			break;
 		default:
 			break;
 		}
-		GL11.glRotatef(modelRotX, 0.0f, 1.0f, 0.0f);
-		GL11.glRotatef(-modelRotY, 1.0f, 0.0f, 0.0f);
+		GlStateManager.rotate(modelRotX, 0.0f, 1.0f, 0.0f);
+		GlStateManager.rotate(-modelRotY, 1.0f, 0.0f, 0.0f);
 		float sc = rectH / 2;
-		GL11.glScalef(sc, sc, -sc);
+		GlStateManager.scale(sc, sc, -sc);
 		EntityEquipmentSlot armorType = ((net.minecraft.item.ItemArmor) itemToRender.getItem()).armorType;
 
 		ResourceLocation texture = armorLayerProxy.getArmorResource(mc.player, itemToRender, armorType, null);
@@ -603,7 +604,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		int burnTexY;
 
 		// Draw the foreground current heat indicator
-		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 		mc.getTextureManager().bindTexture(BURN_BACKGROUND);
 		heat = Math.min(bench.getHeatStrength(), maxHeat);
 		burnTexVDiff = (float) (heat) / maxHeat;
@@ -621,22 +622,22 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				burnTexVDiff);
 
 		if (bench.getRecipe() != null) {
-			GL11.glLineWidth(1f);
+			GlStateManager.glLineWidth(1f);
 			heat = bench.getRecipe().getRequiredHeat();
 			heat = Math.min(heat, maxHeat);
 			burnTexVDiff = (float) (heat) / maxHeat;
 			burnTexHeight = (int) (burnTexVDiff * burnHeight);
 			burnTexY = rectY + burnHeight - burnTexHeight;
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			GL11.glLineWidth(2.0f);
-			GL11.glBegin(GL11.GL_LINES);
-			GL11.glColor4f(0.4f, 0.4f, 0.4f, 1.0f);
-			GL11.glVertex3f(rectX + rectW + 4, burnTexY + 0.7f, this.zLevel);
-			GL11.glVertex3f(rectX + rectW + 14, burnTexY + 0.7f, this.zLevel);
-			GL11.glEnd();
-			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GlStateManager.disableTexture2D();
+			GlStateManager.glLineWidth(2.0f);
+			GlStateManager.glBegin(GL11.GL_LINES);
+			GlStateManager.color(0.4f, 0.4f, 0.4f, 1.0f);
+			GlStateManager.glVertex3f(rectX + rectW + 4, burnTexY + 0.7f, this.zLevel);
+			GlStateManager.glVertex3f(rectX + rectW + 14, burnTexY + 0.7f, this.zLevel);
+			GlStateManager.glEnd();
+			GlStateManager.enableTexture2D();
 		}
-		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 
 		// Draw heat target
 		mc.getTextureManager().bindTexture(BURN_TARGET);
@@ -704,7 +705,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 	@Override
 	protected void drawTabBackgroundLayer() {
-		GL11.glColor4f(1f, 1f, 1f, 1f);
+		GlStateManager.color(1f, 1f, 1f, 1f);
 		this.mc.getTextureManager().bindTexture(MHFCRegQuestVisual.QUEST_BOARD_BACKGROUND);
 		int posX = guiLeft;
 		int posY = guiTop;
