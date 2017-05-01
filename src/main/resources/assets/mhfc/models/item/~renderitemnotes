@@ -1,0 +1,15 @@
+MCMDL notes on rendering Item -Heltrato
+
+GUI:
+Translation
+First Argument: moves the GUI render Item from left to right (the higher the value the more right it goes)
+
+
+
+
+
+THIRD_PERSON:
+Translation
+First Argument: Adjust the weapon by slash ( the higher the value the more it goes to the players elbow.
+Second Argument: Adjust the weapon byan inverted slash (the higher the value the up left it goes )
+Third Argument adjust the weapon to the left or to the right
