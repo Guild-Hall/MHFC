@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -30,6 +31,10 @@ public class EntityFlashBomb extends EntityThrowable {
 		ticksToExplode = EXPLOSIVE_TIMER;
 		exploded = false;
 	}
+	
+    public static void registerFixesThrowable(DataFixer fixer, String name) {
+    	EntityThrowable.registerFixesThrowable(fixer, "Flashbomb");
+    }
 
 	public EntityFlashBomb(World par1World) {
 		super(par1World);

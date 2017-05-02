@@ -1,4 +1,4 @@
-package mhfc.net.common.item.materials;
+package mhfc.net.common.item.tools;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.entity.projectile.EntityFlashBomb;
@@ -24,12 +24,12 @@ public class ItemFlashBomb extends Item implements IItemColored {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		if (world.isRemote) {
-			return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+		if (!world.isRemote) {
+			EntityFlashBomb bomb = new EntityFlashBomb(world, player);
+			bomb.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+			world.spawnEntity(bomb);
 		}
 
-		EntityFlashBomb bomb = new EntityFlashBomb(world, player);
-		world.spawnEntity(bomb);
 
 		if (!player.capabilities.isCreativeMode) {
 			stack.setCount(stack.getCount() - 1);
