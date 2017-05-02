@@ -5,6 +5,11 @@
         "#weapontex": "mhfc:weapons/(H)warslammer"
     },
     transforms: {
-        GUI: { rotation: [{z: -45}, {y: 70}], translation: [0.5, -0.5, 0] }
+        GUI: { rotation: [{z: -45}, {y: 70}], translation: [0.5, -0.5, 0] },
+        GROUND: { rotation: [{z: -45}, {y: 70}], translation: [0, 0, 0], scale: 1 },
+        THIRD_PERSON_LEFT_HAND: { rotation: [{z: 0}, {y: 0}], translation: [0, 0.1, 0.1], scale: 1.5 },
+        THIRD_PERSON_RIGHT_HAND: { rotation: [{z: 0}, {y: 0}], translation: [0, 0.1, 0.1], scale: 1.6 },
+        FIRST_PERSON_RIGHT_HAND: { rotation: [{z: 0}, {y: 0}], translation: [0.8, 0.4, -0.2], scale: 1.5 },
+        FIRST_PERSON_LEFT_HAND: { rotation: [{z: 0}, {y: 0}], translation: [0.8, 0.4, -0.2], scale: 1.5 }
     }
 }

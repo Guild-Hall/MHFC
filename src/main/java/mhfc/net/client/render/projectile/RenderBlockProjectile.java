@@ -1,7 +1,5 @@
 package mhfc.net.client.render.projectile;
 
-import org.lwjgl.opengl.GL11;
-
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
