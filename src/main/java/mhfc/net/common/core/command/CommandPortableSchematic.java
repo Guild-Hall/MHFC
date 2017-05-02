@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import org.apache.logging.log4j.Level;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import com.sk89q.jnbt.NBTOutputStream;
 import com.sk89q.worldedit.LocalConfiguration;
 import com.sk89q.worldedit.LocalSession;
@@ -114,7 +115,7 @@ public class CommandPortableSchematic extends CommandBase {
 			ClipboardWriter writer = closer.register(portableSchematicWriter);
 			writer.write(target, holder.getWorldData());
 			MHFCMain.logger().info(player.getName() + " saved " + f.getCanonicalPath());
-			player.print(filename + " saved.");
+			player.print(filename + ChatFormatting.DARK_GREEN +" saved as MHFC schematic compatible format.");
 		} catch (IOException e) {
 			player.printError("Schematic could not written: " + e.getMessage());
 			MHFCMain.logger().log(Level.WARN, "Failed to write a saved clipboard", e);
