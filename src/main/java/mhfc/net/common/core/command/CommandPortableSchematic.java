@@ -1,32 +1,46 @@
 package mhfc.net.common.core.command;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.apache.logging.log4j.Level;
+
+import com.sk89q.jnbt.NBTOutputStream;
 import com.sk89q.worldedit.LocalConfiguration;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.entity.Player;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
-import com.sk89q.worldedit.util.command.parametric.Optional;
+import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
+import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardWriter;
+import com.sk89q.worldedit.forge.ForgeWorldEdit;
+import com.sk89q.worldedit.function.operation.Operations;
+import com.sk89q.worldedit.math.transform.Transform;
+import com.sk89q.worldedit.session.ClipboardHolder;
+import com.sk89q.worldedit.util.io.Closer;
 
-import mhfc.net.common.worldedit.PortableSchematicReader;
+import mhfc.net.MHFCMain;
+import mhfc.net.common.worldedit.BlockIdMappingTable;
+import mhfc.net.common.worldedit.FlattenedClipboardTransform;
 import mhfc.net.common.worldedit.PortableSchematicWriter;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.World;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.io.File;
 
 public class CommandPortableSchematic extends CommandBase {
-	
-	private final WorldEdit worldEd;
-	
+
+	private final WorldEdit worldEdit;
+
 	public CommandPortableSchematic(WorldEdit world) {
 		checkNotNull(world);
-		this.worldEd = world;
+		this.worldEdit = world;
 	}
 
 	@Override
@@ -41,17 +55,70 @@ public class CommandPortableSchematic extends CommandBase {
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		
+		if (args.length != 1) {
+			throw new CommandException("Wrong arg count");
+		}
+		if (!(sender instanceof EntityPlayerMP)) {
+			throw new CommandException("Command user must be a player");
+		}
+		EntityPlayerMP player = (EntityPlayerMP) sender;
+		ForgeWorldEdit forgeWorldEdit = ForgeWorldEdit.inst;
+		try {
+			saveWorld(forgeWorldEdit.wrap(player), forgeWorldEdit.getSession(player), args[0]);
+		} catch (WorldEditException e) {
+			throw new CommandException("Error while executing store", e);
+		}
 	}
-	
-	
-	protected void saveWorld(Player player, LocalSession session,  @Optional("schematic") String formatName, String filename)throws CommandException, WorldEditException
-	{
-		LocalConfiguration config = worldEd.getConfiguration();
-		File dir = worldEd.getWorkingDirectoryFile(config.saveDir);
-		File f = worldEd.getSafeSaveFile(player, dir, filename, "schematic", "schematic");
-		ClipboardFormat format = ClipboardFormat.findByAlias(formatName);
+
+	protected void saveWorld(
+			Player player,
+			LocalSession session,
+			String filename) throws CommandException, WorldEditException {
+		LocalConfiguration config = worldEdit.getConfiguration();
+
+		File dir = worldEdit.getWorkingDirectoryFile(config.saveDir);
+		File f = worldEdit.getSafeSaveFile(player, dir, filename, "schematic", "schematic");
+
+
+		ClipboardHolder holder = session.getClipboard();
+		Clipboard clipboard = holder.getClipboard();
+		Transform transform = holder.getTransform();
+		Clipboard target;
+
+		// If we have a transform, bake it into the copy
+		if (!transform.isIdentity()) {
+			FlattenedClipboardTransform result = FlattenedClipboardTransform
+					.transform(clipboard, transform, holder.getWorldData());
+			target = new BlockArrayClipboard(result.getTransformedRegion());
+			target.setOrigin(clipboard.getOrigin());
+			Operations.completeLegacy(result.copyTo(target));
+		} else {
+			target = clipboard;
+		}
+
+		try (Closer closer = Closer.create()) {
+			// Create parent directories
+			File parent = f.getParentFile();
+			if (parent != null && !parent.exists()) {
+				if (!parent.mkdirs()) {
+					throw new CommandException("Could not create folder for schematics!");
+				}
+			}
+
+			FileOutputStream fos = closer.register(new FileOutputStream(f));
+			BufferedOutputStream bos = closer.register(new BufferedOutputStream(fos));
+			NBTOutputStream nbtos = closer.register(new NBTOutputStream(bos));
+			PortableSchematicWriter portableSchematicWriter = new PortableSchematicWriter(
+					nbtos,
+					BlockIdMappingTable.createForgeMappingTable());
+			ClipboardWriter writer = closer.register(portableSchematicWriter);
+			writer.write(target, holder.getWorldData());
+			MHFCMain.logger().info(player.getName() + " saved " + f.getCanonicalPath());
+			player.print(filename + " saved.");
+		} catch (IOException e) {
+			player.printError("Schematic could not written: " + e.getMessage());
+			MHFCMain.logger().log(Level.WARN, "Failed to write a saved clipboard", e);
+		}
 	}
-	
 
 }

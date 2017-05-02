@@ -5,11 +5,13 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.forge.ForgeWorldEdit;
 
 import mhfc.net.common.configuration.MHFCConfig;
 import mhfc.net.common.core.command.CommandExplore;
 import mhfc.net.common.core.command.CommandMHFC;
+import mhfc.net.common.core.command.CommandPortableSchematic;
 import mhfc.net.common.core.command.CommandTpHunterDimension;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.network.NetworkTracker;
@@ -190,6 +192,7 @@ public class MHFCMain {
 		event.registerServerCommand(new CommandMHFC());
 		event.registerServerCommand(new CommandTpHunterDimension());
 		event.registerServerCommand(new CommandExplore());
+		event.registerServerCommand(new CommandPortableSchematic(WorldEdit.getInstance()));
 		UpdateSystem.onServerStarting(event);
 		serverRunningPhaseAccess.enterPhase(event);
 	}
