@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 
@@ -19,10 +18,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
 public class Utilities {
-	private static Random rand;
 	
 	public Utilities(){
-		rand = new Random();
 	}
 
 	public void addWeaponElementFX(EntityLivingBase entityLiving, ItemStack stack) {
