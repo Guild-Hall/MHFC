@@ -6,7 +6,6 @@ import java.io.IOException;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.extent.world.FastModeExtent;
 import com.sk89q.worldedit.function.operation.DelegateOperation;
 import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
@@ -22,6 +21,7 @@ import mhfc.net.common.world.area.DisplacedView;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.area.IExtendedConfiguration;
+import mhfc.net.common.worldedit.IClipboardFormat;
 import mhfc.net.common.worldedit.RegionSplittingOperation;
 import mhfc.net.common.worldedit.WorldDisplacedView;
 import net.minecraft.util.ResourceLocation;
@@ -37,9 +37,9 @@ public abstract class AreaTypeSchematic implements IAreaType {
 	protected Vector absoluteMinimum;
 	protected CuboidRegion clipboardRegion;
 
-	public AreaTypeSchematic(ResourceLocation schematicLocation) {
+	public AreaTypeSchematic(ResourceLocation schematicLocation, IClipboardFormat fileformat) {
 		try (BufferedInputStream instream = Utilities.openEmbeddedResource(schematicLocation)) {
-			areaClipboard = ClipboardFormat.SCHEMATIC.getReader(instream).read(AreaTypeSchematic.forgeData);
+			areaClipboard = fileformat.getReader(instream).read(AreaTypeSchematic.forgeData);
 		} catch (IOException e) {
 			MHFCMain.logger().error(
 					"Unable to load schematic {}. The area type will be blank instead",

@@ -7,6 +7,7 @@ import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.EmptyArea;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IExtendedConfiguration;
+import mhfc.net.common.worldedit.ClipboardFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -37,7 +38,7 @@ public class ArenaType extends AreaTypeSchematic {
 	}
 
 	private ArenaType() {
-		super(ArenaType.schematicLocation);
+		super(ArenaType.schematicLocation, ClipboardFormats.NATIVE_SCHEMATIC);
 	}
 
 	@Override

@@ -8,11 +8,12 @@ import java.util.zip.GZIPOutputStream;
 
 import com.sk89q.jnbt.NBTInputStream;
 import com.sk89q.jnbt.NBTOutputStream;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardWriter;
 
-public enum ExtendedSchematic implements IClipboardFormat {
-	INSTANCE {
+public enum ClipboardFormats implements IClipboardFormat {
+	EXTENDED_FORGE_SCHEMATIC {
 		@Override
 		public ClipboardReader getReader(InputStream inputStream) throws IOException {
 			NBTInputStream nbtis = new NBTInputStream(new GZIPInputStream(inputStream));
@@ -24,5 +25,16 @@ public enum ExtendedSchematic implements IClipboardFormat {
 			NBTOutputStream nbtos = new NBTOutputStream(new GZIPOutputStream(outputStream));
 			return new PortableSchematicWriter(nbtos, BlockIdMappingTable.createForgeMappingTable());
 		}
-	}
+	},
+	NATIVE_SCHEMATIC {
+		@Override
+		public ClipboardReader getReader(InputStream inputStream) throws IOException {
+			return ClipboardFormat.SCHEMATIC.getReader(inputStream);
+		}
+
+		@Override
+		public ClipboardWriter getWriter(OutputStream outputStream) throws IOException {
+			return ClipboardFormat.SCHEMATIC.getWriter(outputStream);
+		}
+	};
 }

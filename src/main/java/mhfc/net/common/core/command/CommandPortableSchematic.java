@@ -25,7 +25,7 @@ import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.util.io.Closer;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.worldedit.ExtendedSchematic;
+import mhfc.net.common.worldedit.ClipboardFormats;
 import mhfc.net.common.worldedit.FlattenedClipboardTransform;
 import mhfc.net.common.worldedit.IClipboardFormat;
 import net.minecraft.command.CommandBase;
@@ -80,7 +80,7 @@ public class CommandPortableSchematic extends CommandBase {
 		File f = worldEdit.getSafeSaveFile(player, dir, filename, "schematic", "schematic");
 
 
-		IClipboardFormat format = ExtendedSchematic.INSTANCE;
+		IClipboardFormat format = ClipboardFormats.EXTENDED_FORGE_SCHEMATIC;
 		ClipboardHolder holder = session.getClipboard();
 		Clipboard clipboard = holder.getClipboard();
 		Transform transform = holder.getTransform();
