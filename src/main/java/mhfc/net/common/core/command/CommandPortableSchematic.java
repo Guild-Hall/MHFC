@@ -10,7 +10,6 @@ import java.io.IOException;
 import org.apache.logging.log4j.Level;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
-import com.sk89q.jnbt.NBTOutputStream;
 import com.sk89q.worldedit.LocalConfiguration;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -26,9 +25,9 @@ import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.util.io.Closer;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.worldedit.BlockIdMappingTable;
+import mhfc.net.common.worldedit.ExtendedSchematic;
 import mhfc.net.common.worldedit.FlattenedClipboardTransform;
-import mhfc.net.common.worldedit.PortableSchematicWriter;
+import mhfc.net.common.worldedit.IClipboardFormat;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -81,6 +80,7 @@ public class CommandPortableSchematic extends CommandBase {
 		File f = worldEdit.getSafeSaveFile(player, dir, filename, "schematic", "schematic");
 
 
+		IClipboardFormat format = ExtendedSchematic.INSTANCE;
 		ClipboardHolder holder = session.getClipboard();
 		Clipboard clipboard = holder.getClipboard();
 		Transform transform = holder.getTransform();
@@ -108,11 +108,7 @@ public class CommandPortableSchematic extends CommandBase {
 
 			FileOutputStream fos = closer.register(new FileOutputStream(f));
 			BufferedOutputStream bos = closer.register(new BufferedOutputStream(fos));
-			NBTOutputStream nbtos = closer.register(new NBTOutputStream(bos));
-			PortableSchematicWriter portableSchematicWriter = new PortableSchematicWriter(
-					nbtos,
-					BlockIdMappingTable.createForgeMappingTable());
-			ClipboardWriter writer = closer.register(portableSchematicWriter);
+			ClipboardWriter writer = closer.register(format.getWriter(bos));
 			writer.write(target, holder.getWorldData());
 			MHFCMain.logger().info(player.getName() + " saved " + f.getCanonicalPath());
 			player.print(filename + ChatFormatting.DARK_GREEN +" saved as MHFC schematic compatible format.");
