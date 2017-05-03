@@ -6,6 +6,7 @@ import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.weapon.range.bowgun.BowgunWeaponStats;
 import mhfc.net.common.weapon.range.bowgun.BowgunWeaponStats.BowgunWeaponStatsBuilder;
 import mhfc.net.common.weapon.range.bowgun.ItemBowgun;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -33,5 +34,15 @@ public class ItemHeavyBowgun extends ItemBowgun {
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 		return new ActionResult<>(EnumActionResult.PASS, stack);
+	}
+	
+	
+	@Override
+	public void onUpdate(ItemStack stack, World world, Entity holder, int slot, boolean isHoldItem) {
+		super.onUpdate(stack, world, holder, slot, isHoldItem);
+		if (holder instanceof EntityPlayer) {
+			EntityPlayer entity = (EntityPlayer) holder;
+			entity.moveEntityWithHeading(entity.moveStrafing * -0.35f, entity.moveForward * -0.35f);
+		}
 	}
 }
