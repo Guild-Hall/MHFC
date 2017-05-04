@@ -121,8 +121,9 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	@Override
 	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityLivingBase player, int timeLeft) {
 		super.onPlayerStoppedUsing(stack, world, player, timeLeft);
+		int i = this.getMaxItemUseDuration(stack) - timeLeft;
 		boolean isCreative = player instanceof EntityPlayer && ((EntityPlayer) player).capabilities.isCreativeMode;
-
+		i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, world, (EntityPlayer)player, i, true);
 		float bowStrength = getBowStrength(stack, timeLeft);
 		if (bowStrength < 0.5d) {
 			return;
@@ -132,11 +133,13 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		if (ammoStack == null && !isCreative) {
 			return;
 		}
-
+		float f = getArrowVelocity(i)*2f;
 		if (!world.isRemote) {
 			EntityArrow entityarrow = new EntityWyverniaArrow(world, player, bowStrength * 2.0F);
 			boolean crit = new Random().nextInt(10) == 0;
-
+			float time = (stack.getMaxItemUseDuration() - player.getItemInUseCount()) / 20.0F;
+			if(time < 2f)
+				spawnArrow((EntityPlayer)player, world, stack, f, 0);
 			entityarrow.setIsCritical(crit);
 
 			// TODO: get the damage from the player, instead of the bow stat?
