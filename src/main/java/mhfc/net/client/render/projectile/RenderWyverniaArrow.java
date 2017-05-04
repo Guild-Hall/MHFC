@@ -9,7 +9,7 @@ import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderArrow;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderWyverniaArrow extends Render<EntityWyverniaArrow> {
+public class RenderWyverniaArrow extends RenderArrow<EntityWyverniaArrow> {
 	private static final ResourceLocation TEXTURE = new ResourceLocation(ResourceInterface.projectile_wyverniaarrow_tex);
 
 	public RenderWyverniaArrow(RenderManager manager) {

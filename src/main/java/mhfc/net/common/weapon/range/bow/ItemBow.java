@@ -138,8 +138,9 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 			EntityArrow entityarrow = new EntityWyverniaArrow(world, player, bowStrength * 2.0F);
 			boolean crit = new Random().nextInt(10) == 0;
 			float time = (stack.getMaxItemUseDuration() - player.getItemInUseCount()) / 20.0F;
-			if(time < 2f)
+			if(time < 2f) {
 				spawnArrow((EntityPlayer)player, world, stack, f, 0);
+			}
 			entityarrow.setIsCritical(crit);
 
 			// TODO: get the damage from the player, instead of the bow stat?
