@@ -83,7 +83,7 @@ public class MHFCBlockRegistry {
 		mhfcblockdirt = registerBlock("dirt", new BlockWyverniaDirt());
 		mhfcblockgrass = registerBlock("grass", new BlockWyverniaGrass());
 		mhfcblockstone = registerBlock("stone", new BlockWyverniaStone());
-		mhfcblocksand = registerBlock("sand", new BlockWyverniaSand());
+		mhfcblocksand = registerBlock("sand", new BlockWyverniaSand()); //set 238
 		mhfcblockclay = registerBlock("clay_block", new BlockWyverniaClay());
 		mhfcblockwood = registerBlockWithItem("log", new BlockWyverniaWood(), b -> ItemSubtypedBlock.createFor(b));
 		mhfcblockplanks = registerBlockWithItem("plank", new BlockWyverniaPlank(), b -> ItemSubtypedBlock.createFor(b));
