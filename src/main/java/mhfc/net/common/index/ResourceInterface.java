@@ -248,6 +248,10 @@ public class ResourceInterface {
 	public static final String item_kirin3_name = "lightcrystal";
 	public static final String item_kirin4_name = "purecrystal";
 	public static final String item_kirin5_name = "mane";
+	
+	public static final String item_bug_basename = "bug";
+	public static final String item_bug0_name = "insecthusk";
+	
 
 	public static final String item_rathalos_basename = "rathalos";
 	public static final String item_rathalos0_name = "shell";
