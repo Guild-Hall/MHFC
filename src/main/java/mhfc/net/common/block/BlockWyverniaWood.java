@@ -12,8 +12,8 @@ import net.minecraft.block.state.BlockStateContainer;
 
 public class BlockWyverniaWood extends AbstractSubTypedBlock<WyverniaLogSubType> {
 	public static enum WyverniaLogSubType implements SubTypedItem.SubTypeEnum<Block> {
-		CALFER("calfer", ResourceInterface.block_log_calfer_name),
-		DIREWOOD("direwood", ResourceInterface.block_log_direwood_name),
+		CALFER("calfer", ResourceInterface.block_log_calfer_name), // 0
+		DIREWOOD("direwood", ResourceInterface.block_log_direwood_name), //1
 		GRAND_IFOLIA("ifolia", ResourceInterface.block_log_grandifolia_name),
 		MAVEN("maven", ResourceInterface.block_log_maven_name),
 		NEGUNDO("negundo", ResourceInterface.block_log_negundo_name),
