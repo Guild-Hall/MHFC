@@ -5,7 +5,6 @@ import java.util.function.Consumer;
 
 import com.google.common.collect.Multimap;
 
-import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.NBTUtils;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
@@ -28,6 +27,7 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 	}
 
 	protected static final String NBT_SPIRIT = "mhfc:affinity";
+	protected static final UUID LONGSWORD_EFFECT_UUID = UUID.fromString("e6f4502b-1242-4024-bc5e-e89f47fcda76");
 	protected static final float MAX_SPIRIT = 250F;
 	protected static final float TRIGGER_SPIRIT = 180f;
 	protected static final float SPIRIT_DECREASE = -0.4f;
@@ -100,7 +100,7 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 		}
 		if (isAffinityTriggered(stack)) {
 			AttributeModifier attackModifier = new AttributeModifier(
-					UUID.fromString(MHFCPotionRegistry.potion_longsworddamageup_uuid),
+					LONGSWORD_EFFECT_UUID,
 					"Spirit Gauge",
 					0.4,
 					1);

@@ -1,19 +1,25 @@
 package mhfc.net.common.weapon.range.bow;
 
 import java.util.Random;
+import java.util.UUID;
 import java.util.function.Consumer;
 
+import com.google.common.collect.Multimap;
+
 import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
+import mhfc.net.common.index.AttributeModifiers;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.weapon.ItemWeapon;
 import mhfc.net.common.weapon.range.bow.BowWeaponStats.BowWeaponStatsBuilder;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityArrow.PickupStatus;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemArrow;
@@ -28,6 +34,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBow extends ItemWeapon<BowWeaponStats> {
+	protected static final UUID BOW_EFFECT_UUID = UUID.fromString("924f7565-3a7c-49b6-a521-1a4af6763756");
+
 	public static ItemBow build(Consumer<BowWeaponStatsBuilder> config) {
 		BowWeaponStatsBuilder builder = new BowWeaponStatsBuilder();
 		config.accept(builder);
@@ -138,8 +146,9 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 			EntityArrow entityarrow = new EntityWyverniaArrow(world, player, bowStrength * 2.0F);
 			boolean crit = new Random().nextInt(10) == 0;
 			float time = (stack.getMaxItemUseDuration() - player.getItemInUseCount()) / 20.0F;
-			if(time < 2f)
+			if(time < 2f) {
 				spawnArrow((EntityPlayer)player, world, stack, f, 0);
+			}
 			entityarrow.setIsCritical(crit);
 
 			// TODO: get the damage from the player, instead of the bow stat?
@@ -197,16 +206,18 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World world, Entity holder, int slot, boolean isHoldItem) {
-		super.onUpdate(stack, world, holder, slot, isHoldItem);
-		if (!isHoldItem) {
-			return;
+	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
+		Multimap<String, AttributeModifier> attributeModifiers = super.getAttributeModifiers(slot, stack);
+		if (slot == EntityEquipmentSlot.MAINHAND) {
+			attributeModifiers.put(
+					SharedMonsterAttributes.MOVEMENT_SPEED.getName(),
+					new AttributeModifier(
+							BOW_EFFECT_UUID,
+							"Weapon modifier",
+							-0.1f,
+							AttributeModifiers.MULTIPLICATIVE));
 		}
-		if (holder instanceof EntityPlayer) {
-			EntityPlayer entity = (EntityPlayer) holder;
-			entity.moveEntityWithHeading(entity.moveStrafing * -0.7f, entity.moveForward * -0.7f);
-			//if(stack instanceof) TODO: Add some High class GS that will never required strafing delay.
-		}
+		return attributeModifiers;
 	}
 
 }

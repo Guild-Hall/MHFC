@@ -1,26 +1,17 @@
 package mhfc.net.common.entity.projectile;
 
-import mhfc.net.common.util.Utilities;
-import net.minecraft.block.Block;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
 
 public class EntityWyverniaArrow extends EntityArrow implements IProjectile {
 
 	public static final float mhfc_vanilla_size_x = 0.5F;
 	public static final float mhfc_vanilla_size_y = 0.5F;
-	protected int arrowHeadingX = -1;
-	protected int arrowHeadingY = -1;
-	protected int arrowHeadingZ = -1;
-	protected Block block;
-	protected Utilities util;
 
 	public int arrowData;
 
@@ -49,13 +40,12 @@ public class EntityWyverniaArrow extends EntityArrow implements IProjectile {
 
 	@Override
 	protected void arrowHit(EntityLivingBase living) {
-		// FIXME: do something here?
+		// do something here?
 	}
 
 	@Override
 	protected ItemStack getArrowStack() {
-		// FIXME: Auto-generated method stub
-		return null;
+		return new ItemStack(MHFCItemRegistry.getRegistry().arrow);
 	}
 
 	@Override
