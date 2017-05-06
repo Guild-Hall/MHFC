@@ -9,8 +9,11 @@ import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockWyverniaGrass extends Block {
 
@@ -41,6 +44,17 @@ public class BlockWyverniaGrass extends Block {
 			}
 		}
 	}
+	
+	@SideOnly(Side.CLIENT)
+	    public BlockRenderLayer getBlockLayer()
+	    {
+	        return BlockRenderLayer.CUTOUT_MIPPED;
+	    }
+	
+    public int getMetaFromState(IBlockState state)
+    {
+        return 0;
+    }
 
 	private boolean isUpgradeEligable(World world, BlockPos position) {
 		int upperLightValue = world.getLight(position.up());

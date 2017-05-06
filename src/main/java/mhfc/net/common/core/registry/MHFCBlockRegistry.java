@@ -85,24 +85,14 @@ public class MHFCBlockRegistry {
 		mhfcblockstone = registerBlock("stone", new BlockWyverniaStone());
 		mhfcblocksand = registerBlock("sand", new BlockWyverniaSand()); //set 238
 		mhfcblockclay = registerBlock("clay_block", new BlockWyverniaClay());
+		
+		// Itemblocks. eg Plank woods this are register wit registerBlockWithItem
 		mhfcblockwood = registerBlockWithItem("log", new BlockWyverniaWood(), b -> ItemSubtypedBlock.createFor(b)); //240
 		mhfcblockplanks = registerBlockWithItem("plank", new BlockWyverniaPlank(), b -> ItemSubtypedBlock.createFor(b));
-		mhfcblockflowers = registerBlockWithItem(
-				"flower",
-				new BlockWyverniaFlower(),
-				b -> ItemSubtypedBlock.createFor(b).setFull3D().setMaxStackSize(4));
-		mhfcblockrocks = registerBlockWithItem(
-				"rock",
-				new BlockWyverniaRock(),
-				b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(20));
-		mhfcblockore = registerBlockWithItem(
-				"ore",
-				new BlockWyverniaOres(),
-				b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(12));
-		mhfcblockoreblocks = registerBlockWithItem(
-				"block",
-				new BlockWyverniaOreBlock(),
-				b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(16));
+		mhfcblockflowers = registerBlockWithItem("flower",new BlockWyverniaFlower(),b -> ItemSubtypedBlock.createFor(b).setFull3D().setMaxStackSize(4));
+		mhfcblockrocks = registerBlockWithItem("rock",new BlockWyverniaRock(),b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(20));
+		mhfcblockore = registerBlockWithItem("ore",	new BlockWyverniaOres(),b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(12));
+		mhfcblockoreblocks = registerBlockWithItem(	"block",new BlockWyverniaOreBlock(),b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(16));
 
 		mhfcblockquicksand = registerBlock("quicksand", new BlockWyverniaQuickSand());
 		mhfcblockdiskstone = registerBlock("diskstone", new BlockDiscstone());
