@@ -251,6 +251,26 @@ public class ResourceInterface {
 	
 	public static final String item_bug_basename = "bug";
 	public static final String item_bug0_name = "insecthusk";
+	public static final String item_bug1_name = "yambug";
+	public static final String item_bug2_name = "bughopper";
+	public static final String item_bug3_name = "snakebeelarva";
+	public static final String item_bug4_name = "godbug";
+	public static final String item_bug5_name = "bitterbug";
+	public static final String item_bug6_name = "flashbug";
+	public static final String item_bug7_name = "thunderbug";
+	public static final String item_bug8_name = "carpenterbug";
+	public static final String item_bug9_name = "kingscarab";
+	public static final String item_bug10_name = "emperorcricket";
+	public static final String item_bug11_name = "killerbeetle";
+	public static final String item_bug12_name = "hercudrome";
+	public static final String item_bug13_name = "rarescarab";
+	public static final String item_bug14_name = "phantombutterfly";
+	public static final String item_bug15_name = "rainbowinsect";
+	public static final String item_bug16_name = "greathornfly";
+	public static final String item_bug17_name = "greatladybug";
+	public static final String item_bug18_name = "royalrhino";
+	public static final String item_bug19_name = "divinerhino";
+	public static final String item_bug20_name = "gluehopper";
 	
 
 	public static final String item_rathalos_basename = "rathalos";

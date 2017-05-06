@@ -30,7 +30,7 @@ import mhfc.net.common.item.food.ItemNutrients;
 import mhfc.net.common.item.materials.ItemArmorSphere;
 import mhfc.net.common.item.materials.ItemBase;
 import mhfc.net.common.item.materials.ItemBombMaterial;
-import mhfc.net.common.item.materials.ItemBugs;
+import mhfc.net.common.item.materials.ItemBug;
 import mhfc.net.common.item.materials.ItemBullet;
 import mhfc.net.common.item.materials.ItemDeviljho;
 import mhfc.net.common.item.materials.ItemFirestone;
@@ -199,7 +199,7 @@ public class MHFCItemRegistry {
 	public final ItemTigrex tigrexdrops;
 	public final ItemKirin kirindrops;
 	public final ItemRemobra remobradrops;
-	public final ItemBugs bugdrops;
+	
 	// public  final Item mhfcitemlightcrystal;
 	// public  final Item mhfcitempurecrystal;
 	public final ItemRathalos rathalosdrops;
@@ -221,6 +221,7 @@ public class MHFCItemRegistry {
 	public final Item base;
 	public final Item armorsphere;
 	public final Item sac;
+	public final Item bug;
 
 	public final Item moldedIron;
 	public final ItemFirestone firestone;
@@ -378,7 +379,7 @@ public class MHFCItemRegistry {
 		rathalosdrops = registerItem("drop_rathalos", new ItemRathalos());
 		deviljhodrops = registerItem("drop_deviljho", new ItemDeviljho());
 		remobradrops = registerItem("drop_remobra", new ItemRemobra());
-		bugdrops = registerItem("drop_bug", new ItemBugs());
+		bug = registerItem("bug", new ItemBug());
 
 		bowgunBullet = registerItem("bullet", new ItemBullet());
 		sac = registerItem("sac", new ItemSac());
