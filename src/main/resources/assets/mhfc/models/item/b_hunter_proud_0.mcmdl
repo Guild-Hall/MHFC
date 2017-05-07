@@ -1,0 +1,8 @@
+{
+   "parent": "mhfc:item/b_hunter_proud",
+ 	version: 1,
+    mesh: "mhfc:models/item/model_b_hunters_proud_pull_0.mcmd",
+    textures: {
+        "#weapontex": "mhfc:weapons/(B)huntersproud"
+    }
+}

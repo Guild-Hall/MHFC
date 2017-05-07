@@ -47,7 +47,7 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 
 	public ItemBow(BowWeaponStats stats) {
 		super(stats);
-		addPropertyOverride(new ResourceLocation("pull"), new IItemPropertyGetter() {
+		addPropertyOverride(new ResourceLocation("pull_bow"), new IItemPropertyGetter() {
 			@Override
 			@SideOnly(Side.CLIENT)
 			public float apply(ItemStack stack, World world, EntityLivingBase entity) {
@@ -61,7 +61,7 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 				return (stack.getMaxItemUseDuration() - entity.getItemInUseCount()) / 20.0F;
 			}
 		});
-		this.addPropertyOverride(new ResourceLocation("pulling"), new IItemPropertyGetter() {
+		this.addPropertyOverride(new ResourceLocation("pulling_bow"), new IItemPropertyGetter() {
 			@Override
 			@SideOnly(Side.CLIENT)
 			public float apply(ItemStack stack, World world, EntityLivingBase entity) {
