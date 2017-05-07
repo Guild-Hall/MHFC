@@ -33,6 +33,7 @@ public class ResourceInterface {
 	// new 1.11
 	
 	public static final String area_sandy_name = "mhfc.area.sandy.name";
+	public static final String area_greenvalley_name = "mhfc.area.greenvalley.name";
 
 	public static final String armor_null_tex = "mhfc:textures/models/armor/null.png";
 	public static final String armor_kirinS_boots_name = "c.mhf_boots";
