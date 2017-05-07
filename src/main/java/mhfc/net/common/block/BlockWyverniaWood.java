@@ -9,6 +9,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 
 public class BlockWyverniaWood extends AbstractSubTypedBlock<WyverniaLogSubType> {
 	public static enum WyverniaLogSubType implements SubTypedItem.SubTypeEnum<Block> {
@@ -34,7 +37,7 @@ public class BlockWyverniaWood extends AbstractSubTypedBlock<WyverniaLogSubType>
 		public String getName() {
 			return registryName;
 		}
-		
+
 
 		@Override
 		public String getUnlocalizedName() {
@@ -61,7 +64,7 @@ public class BlockWyverniaWood extends AbstractSubTypedBlock<WyverniaLogSubType>
 	}
 
 	@Override
-	public boolean canpreventleavesfromdecaying() {
+	public boolean canSustainLeaves(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return true;
 	}
 

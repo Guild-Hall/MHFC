@@ -59,10 +59,4 @@ public class BlockWyverniaPlank extends AbstractSubTypedBlock<WyverniaPlankSubTy
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, PROPERTY);
 	}
-
-	@Override
-	public boolean canpreventleavesfromdecaying() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

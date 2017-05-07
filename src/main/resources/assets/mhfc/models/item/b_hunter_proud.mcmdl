@@ -16,23 +16,23 @@
     overrides: [
         {
             "predicate": {
-                "pulling_bow": 1
+                "pulling": 1
             },
-            "model": "mhfc:models/item/b_hunters_proud_pull_0.mcmdl"
+            "model": "mhfc:models/item/b_hunter_proud_0.mcmdl"
         },
         {
             "predicate": {
-                "pulling_bow": 1,
-                "pull_bow": 0.65
+                "pulling": 1,
+                "pull": 0.65
             },
-            "model": "mhfc:models/item/b_hunters_proud_pull_1.mcmdl"
+            "model": "mhfc:models/item/b_hunter_proud_1.mcmdl"
         },
         {
             "predicate": {
-                "pulling_bow": 1,
-                "pull_bow": 0.9
+                "pulling": 1,
+                "pull": 0.9
             },
-            "model": "mhfc:models/item/b_hunters_proud_pull_2.mcmdl"
+            "model": "mhfc:models/item/b_hunter_proud_2.mcmdl"
         }
     ]
 }

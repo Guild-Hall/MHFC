@@ -14,8 +14,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 
 public abstract class AbstractSubTypedBlock<T extends Enum<T> & SubTypeEnum<Block>> extends Block
 		implements
@@ -29,8 +27,6 @@ public abstract class AbstractSubTypedBlock<T extends Enum<T> & SubTypeEnum<Bloc
 	protected final SubTypedItem<Block, T> blockTrait;
 	protected final PropertyEnum<T> subtypeProperty;
 	
-	public abstract boolean canpreventleavesfromdecaying();
-
 	public AbstractSubTypedBlock(PropertyEnum<T> subtypeProperty, Material blockMaterial) {
 		super(blockMaterial);
 		this.blockTrait = new SubTypedItem<>(subtypeProperty);
@@ -72,13 +68,6 @@ public abstract class AbstractSubTypedBlock<T extends Enum<T> & SubTypeEnum<Bloc
 	public int getMetaFromState(IBlockState state) {
 		return getBlockTrait().getMeta(state.getValue(subtypeProperty));
 	}
-	
-	@Override
-    public boolean canSustainLeaves(IBlockState state, IBlockAccess world, BlockPos pos)
-    {
-        return canpreventleavesfromdecaying();
-    }
-
 
 	@Override
 	public int damageDropped(IBlockState state) {
