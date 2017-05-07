@@ -11,5 +11,28 @@
         THIRD_PERSON_RIGHT_HAND: { rotation: [{z: 0}, {y: 0}], translation: [0, -0.1, 0.1], scale: 1.0 },
         FIRST_PERSON_RIGHT_HAND: { rotation: [{z: 0}, {y: 0}], translation: [0.8, 0.4, -0.2], scale: 1.0 },
         FIRST_PERSON_LEFT_HAND: { rotation: [{z: 0}, {y: 0}], translation: [0.8, 0.4, -0.2], scale: 1.0 }
-    }
+    },
+    
+    "overrides": [
+        {
+            "predicate": {
+                "pulling": 1
+            },
+            "model": "mhfc:models/item/model_b_hunters_proud_pull_0.mcmd"
+        },
+        {
+            "predicate": {
+                "pulling": 1,
+                "pull": 0.65
+            },
+            "model": "mhfc:models/item/model_b_hunters_proud_pull_1.mcmd"
+        },
+        {
+            "predicate": {
+                "pulling": 1,
+                "pull": 0.9
+            },
+            "model": "mhfc:models/item/model_b_hunters_proud_pull_2.mcmd"
+        }
+    ]
 }
