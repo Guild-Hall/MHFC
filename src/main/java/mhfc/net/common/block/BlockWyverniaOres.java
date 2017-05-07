@@ -57,4 +57,10 @@ public class BlockWyverniaOres extends AbstractSubTypedBlock<WyverniaOreSubType>
 		return new BlockStateContainer(this, PROPERTY);
 	}
 
+	@Override
+	public boolean canpreventleavesfromdecaying() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

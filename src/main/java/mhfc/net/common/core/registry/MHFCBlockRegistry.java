@@ -42,6 +42,29 @@ import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class MHFCBlockRegistry {
+	
+	/**
+	 * 
+	 *  WorldEdit important commands.
+	 *  
+	 *  /br sphere < block id > < radius
+	 *  /br smooth
+	 *  
+	 *  /butcher
+	 *  
+	 *  /repl <block id>
+	 *  
+	 *  /gmask 0 ( prevents overlapping blocks and only overlaps air blocks)
+	 *  
+	 *  //pos1 ( sets position 1 ) can affect air
+	 *  //pos2 ( sets position 2 ) can affect air
+	 *  
+	 *  //rotate 90 ( rotate copy block by 90 degrees)
+	 *  
+	 *  ~Heltrato
+	 *  
+	 * 
+	 * */
 	public static void staticInit() {}
 
 	private static final IServiceKey<MHFCBlockRegistry> serviceAccess = RegistryWrapper
@@ -80,11 +103,11 @@ public class MHFCBlockRegistry {
 	public final Collection<Item> allItems = Collections.unmodifiableList(everyItem);
 
 	private MHFCBlockRegistry() {
-		mhfcblockdirt = registerBlock("dirt", new BlockWyverniaDirt());
-		mhfcblockgrass = registerBlock("grass", new BlockWyverniaGrass());
-		mhfcblockstone = registerBlock("stone", new BlockWyverniaStone());
+		mhfcblockdirt = registerBlock("dirt", new BlockWyverniaDirt());//235
+		mhfcblockgrass = registerBlock("grass", new BlockWyverniaGrass()); //236
+		mhfcblockstone = registerBlock("stone", new BlockWyverniaStone());//237
 		mhfcblocksand = registerBlock("sand", new BlockWyverniaSand()); //set 238
-		mhfcblockclay = registerBlock("clay_block", new BlockWyverniaClay());
+		mhfcblockclay = registerBlock("clay_block", new BlockWyverniaClay()); //239
 		
 		// Itemblocks. eg Plank woods this are register wit registerBlockWithItem
 		mhfcblockwood = registerBlockWithItem("log", new BlockWyverniaWood(), b -> ItemSubtypedBlock.createFor(b)); //240

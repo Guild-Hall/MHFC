@@ -53,4 +53,10 @@ public class BlockWyverniaOreBlock extends AbstractSubTypedBlock<WyverniaOreBloc
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, PROPERTY);
 	}
+
+	@Override
+	public boolean canpreventleavesfromdecaying() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

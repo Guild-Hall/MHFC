@@ -53,4 +53,9 @@ public class BlockWyverniaRock extends AbstractSubTypedBlock<WyverniaRockSubType
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, PROPERTY);
 	}
+
+	@Override
+	public boolean canpreventleavesfromdecaying() {
+		return false;
+	}
 }

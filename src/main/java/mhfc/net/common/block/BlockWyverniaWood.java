@@ -14,11 +14,11 @@ public class BlockWyverniaWood extends AbstractSubTypedBlock<WyverniaLogSubType>
 	public static enum WyverniaLogSubType implements SubTypedItem.SubTypeEnum<Block> {
 		CALFER("calfer", ResourceInterface.block_log_calfer_name), // 0
 		DIREWOOD("direwood", ResourceInterface.block_log_direwood_name), //1
-		GRAND_IFOLIA("ifolia", ResourceInterface.block_log_grandifolia_name),
-		MAVEN("maven", ResourceInterface.block_log_maven_name),
-		NEGUNDO("negundo", ResourceInterface.block_log_negundo_name),
-		PALMER("palmer", ResourceInterface.block_log_palmer_name),
-		RADEL("radel", ResourceInterface.block_log_radel_name),
+		GRAND_IFOLIA("ifolia", ResourceInterface.block_log_grandifolia_name),//2
+		MAVEN("maven", ResourceInterface.block_log_maven_name),//3
+		NEGUNDO("negundo", ResourceInterface.block_log_negundo_name),//4
+		PALMER("palmer", ResourceInterface.block_log_palmer_name),//5
+		RADEL("radel", ResourceInterface.block_log_radel_name),//6
 		SANDY("sandy", ResourceInterface.block_log_sandy_name),
 		TILIA("tilia", ResourceInterface.block_log_tilia_name);
 
@@ -34,6 +34,7 @@ public class BlockWyverniaWood extends AbstractSubTypedBlock<WyverniaLogSubType>
 		public String getName() {
 			return registryName;
 		}
+		
 
 		@Override
 		public String getUnlocalizedName() {
@@ -57,6 +58,11 @@ public class BlockWyverniaWood extends AbstractSubTypedBlock<WyverniaLogSubType>
 	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, PROPERTY);
+	}
+
+	@Override
+	public boolean canpreventleavesfromdecaying() {
+		return true;
 	}
 
 }
