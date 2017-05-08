@@ -4,6 +4,9 @@ mhfc.area.desert.name=§6Desert
 mhfc.area.test.name=Devtest area
 mhfc.area.village_poke.name=Pok�village
 
+mhfc.area.sandy.name=§6The Sandy
+mhfc.area.greenvalley.name=§6Green Valley
+
 
 entity.tigrex.name=§2Tigrex
 entity.mhfc.tigrex.name=§2Tigrex
@@ -64,6 +67,17 @@ tile.wyverniaflower.flowerorctal.name=Orctal
 tile.wyverniaflower.flowerpeno.name=Peno
 tile.wyverniaflower.flowershrine.name=Shrine Flower
 tile.wyverniaflower.flowerspindel.name=Spindel
+tile.wyverniaflower.flowerberpis.name=Berpis
+tile.wyverniaflower.flowerconcave.name=Concave Flower
+tile.wyverniaflower.flowerdelphi.name=Flower of Delphi
+tile.wyverniaflower.flowerember.name=Ember
+tile.wyverniaflower.flowergresha.name=Gresha
+tile.wyverniaflower.flowermowal.name=Mowal
+tile.wyverniaflower.flowerneptia.name=Neptia
+tile.wyverniaflower.flowerroy.name=Roy Bloom
+tile.wyverniaflower.flowersampa.name=Sampa Flower
+tile.wyverniaflower.flowersilon.name=Silon
+
 tile.wyverniaplanks.plankcalfer.name=Calfer Wood Plank
 tile.wyverniaplanks.plankdirewood.name=Direwood Plank
 tile.wyverniaplanks.plankgrandifolia.name=Grandifolia Wood Plank

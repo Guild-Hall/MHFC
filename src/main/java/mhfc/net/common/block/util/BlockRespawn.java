@@ -1,4 +1,4 @@
-package mhfc.net.common.block.area;
+package mhfc.net.common.block.util;
 
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.index.ResourceInterface;

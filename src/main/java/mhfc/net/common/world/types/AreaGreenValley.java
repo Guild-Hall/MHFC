@@ -44,7 +44,7 @@ public class AreaGreenValley extends AreaTypeSchematic {
 
 	@Override
 	public String getUnlocalizedName() {
-		return ResourceInterface.area_sandy_name;
+		return ResourceInterface.area_greenvalley_name;
 	}
 
 	@Override

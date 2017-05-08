@@ -149,6 +149,17 @@ public class ResourceInterface {
 	public static final String block_peno_name = "flowerpeno";
 	public static final String block_shrine_name = "flowershrine";
 	public static final String block_spindel_name = "flowerspindel";
+	//1.11
+	public static final String block_berpis_name = "flowerberpis";
+	public static final String block_concave_name = "flowerconcave";
+	public static final String block_delphi_name = "flowerdelphi";
+	public static final String block_ember_name = "flowerember";
+	public static final String block_gresha_name = "flowergresha";
+	public static final String block_mowal_name = "flowermowal";
+	public static final String block_neptia_name = "flowerneptia";
+	public static final String block_roy_name = "flowerroy";
+	public static final String block_sampa_name = "flowersampa";
+	public static final String block_silon_name = "flowersilon";
 
 	public static final String block_wyverniaplank_basename = "wyverniaplanks";
 	public static final String block_calfer_name = "plankcalfer";

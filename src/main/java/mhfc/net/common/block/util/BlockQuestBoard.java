@@ -1,4 +1,4 @@
-package mhfc.net.common.block;
+package mhfc.net.common.block.util;
 
 import java.util.List;
 import java.util.Random;

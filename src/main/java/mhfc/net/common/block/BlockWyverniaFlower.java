@@ -30,7 +30,17 @@ public class BlockWyverniaFlower extends BlockWyverniaDecor
 		ORCTAL("orctal", ResourceInterface.block_orctal_name),
 		PENO("peno", ResourceInterface.block_peno_name),
 		SHRINE("shrine", ResourceInterface.block_shrine_name),
-		SPINDEL("spindel", ResourceInterface.block_spindel_name);
+		SPINDEL("spindel", ResourceInterface.block_spindel_name),
+		BERPIS("berpis", ResourceInterface.block_berpis_name),
+		CONCAVE("concave", ResourceInterface.block_concave_name),
+		DELPHI("delphi", ResourceInterface.block_delphi_name),
+		EMBER("ember", ResourceInterface.block_ember_name),
+		GRESHA("gresha", ResourceInterface.block_gresha_name),
+		MOWAL("mowal", ResourceInterface.block_mowal_name),
+		NEPTIA("neptia", ResourceInterface.block_neptia_name),
+		ROY("roy", ResourceInterface.block_roy_name),
+		SAMPA("sampa", ResourceInterface.block_sampa_name),
+		SILON("silon", ResourceInterface.block_silon_name);
 
 		public final String registryName;
 		public final String name;

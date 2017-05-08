@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import mhfc.net.client.model.block.ModelQuestBoard;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
-import mhfc.net.common.block.BlockQuestBoard;
+import mhfc.net.common.block.util.BlockQuestBoard;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.tile.TileQuestBoard;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

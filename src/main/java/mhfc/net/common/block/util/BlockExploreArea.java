@@ -1,4 +1,4 @@
-package mhfc.net.common.block.area;
+package mhfc.net.common.block.util;
 
 import java.util.HashSet;
 import java.util.Set;

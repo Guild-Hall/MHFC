@@ -10,7 +10,7 @@
 			} ,
 			reward : 5000,
 			fee : 200,
-			areaID : "desert",
+			areaID : "greenvalley",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
 				name : "Brute Wyvern"
