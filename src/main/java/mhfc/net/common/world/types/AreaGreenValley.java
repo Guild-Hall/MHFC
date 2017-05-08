@@ -33,7 +33,7 @@ public class AreaGreenValley extends AreaTypeSchematic {
 
 		@Override
 		public SpawnInformation constructDefaultSpawnInformation(Spawnable entity) {
-			return new SpawnInformation(entity, 54, 20.5, 40);
+			return new SpawnInformation(entity, 54, 21.5, 40);
 		}
 
 	}
