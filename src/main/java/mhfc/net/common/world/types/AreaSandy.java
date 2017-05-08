@@ -39,7 +39,7 @@ public class AreaSandy extends AreaTypeSchematic {
 	}
 
 	private AreaSandy() {
-		super(AreaSandy.schematicLocation, ClipboardFormats.NATIVE_SCHEMATIC);
+		super(AreaSandy.schematicLocation, ClipboardFormats.EXTENDED_FORGE_SCHEMATIC);
 	}
 
 	@Override

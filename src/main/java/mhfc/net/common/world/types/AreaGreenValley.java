@@ -39,7 +39,7 @@ public class AreaGreenValley extends AreaTypeSchematic {
 	}
 
 	private AreaGreenValley() {
-		super(AreaGreenValley.schematicLocation, ClipboardFormats.NATIVE_SCHEMATIC);
+		super(AreaGreenValley.schematicLocation, ClipboardFormats.EXTENDED_FORGE_SCHEMATIC);
 	}
 
 	@Override
