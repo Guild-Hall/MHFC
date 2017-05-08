@@ -20,7 +20,7 @@ public class ConstantAirTimeAdapter<T extends EntityLiving> implements IJumpPara
 		Vec3d getJumpTarget(T entity);
 	}
 
-	public static final float GRAVITATIONAL_C_LIVING = 0.08f; // blocks per
+	public static final float GRAVITATIONAL_C_LIVING = 0.06f; // blocks per
 																// tick^2
 	protected float airTime;
 	private float maxSpeed, minSpeed;
