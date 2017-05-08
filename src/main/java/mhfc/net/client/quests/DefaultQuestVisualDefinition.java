@@ -109,7 +109,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		}
 
 		private String getDefaultName() {
-			return "Quest";
+			return "Hunter's Quest";
 		}
 
 		private String getDefaultDescription() {
@@ -117,11 +117,11 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		}
 
 		private String getDefaultClient() {
-			return "Hunter Guild";
+			return "Village Elder";
 		}
 
 		private String getDefaultAims() {
-			return "Kill all big monsters!";
+			return "Hunt the said monster";
 		}
 
 		private String getDefaultFails() {

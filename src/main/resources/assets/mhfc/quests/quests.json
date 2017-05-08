@@ -1,11 +1,67 @@
 {
-	AbsolutePower : {
+	nogutsnoglory : {
 		type : "default",
 		data : {
 			goal : {
 				type : "fork",
 				data : {
-					requisites : ["StandardDeath", "StandardTimer", "BarrothHunt"]
+					requisites : ["StandardDeath", "StandardTimer", "Nogutsnoglory"]
+				}
+			} ,
+			reward : 5000,
+			longDescription:"test",
+     		aims :"Slay 5 Delex",
+			fee : 200,
+			areaID : "sandy",
+			questType : "mhfc.quests.type.hunting",
+			visual : {
+				name : "No Guts, No Glory"
+			}
+		}
+	},
+	leadingthecharge : {
+		type : "default",
+		data : {
+			goal : {
+				type : "fork",
+				data : {
+					requisites : ["StandardDeath", "StandardTimer", "LeadingtheCharge"]
+				}
+			} ,
+			reward : 5000,
+			fee : 200,
+			areaID : "sandy",
+			questType : "mhfc.quests.type.hunting",
+			visual : {
+				name : "Leading the Charge"
+			}
+		}
+	},
+	tigrexroar : {
+		type : "default",
+		data : {
+			goal : {
+				type : "fork",
+				data : {
+					requisites : ["StandardDeath", "StandardTimer", "Tigrexroars"]
+				}
+			} ,
+			reward : 5000,
+			fee : 200,
+			areaID : "sandy",
+			questType : "mhfc.quests.type.hunting",
+			visual : {
+				name : "The Tigrex's Roar"
+			}
+		}
+	},
+	jumpingatshadows : {
+		type : "default",
+		data : {
+			goal : {
+				type : "fork",
+				data : {
+					requisites : ["StandardDeath", "StandardTimer", "JumpingAtShadows"]
 				}
 			} ,
 			reward : 5000,
@@ -13,7 +69,25 @@
 			areaID : "greenvalley",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
-				name : "Brute Wyvern"
+				name : "Jumping At Shadows"
+			}
+		}
+	},
+	violentwyvern : {
+		type : "default",
+		data : {
+			goal : {
+				type : "fork",
+				data : {
+					requisites : ["StandardDeath", "StandardTimer", "Violentwyvern"]
+				}
+			} ,
+			reward : 5000,
+			fee : 200,
+			areaID : "greenvalley",
+			questType : "mhfc.quests.type.hunting",
+			visual : {
+				name : "Violent Wyvern"
 			}
 		}
 	}

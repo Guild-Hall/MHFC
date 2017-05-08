@@ -199,6 +199,12 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	}
 
 	protected abstract void enqueDefaultSpawns();
+	
+	
+	/**
+	 * TODO: Add multiple spawn instances.
+	 * 
+	 * */
 
 	protected abstract SpawnInformation constructDefaultSpawnInformation(Spawnable entity);
 

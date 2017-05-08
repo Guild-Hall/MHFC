@@ -1,10 +1,13 @@
 {
 	"groupDisplayOrder":[
-		"Low Rank Hunting Quest"
+		"Level 1 Star Quest","Level 2 Star Quest"
 	],
 	"groups":{
-		"Low Rank Hunting Quest":[
-			"AbsolutePower"
+		"Level 1 Star Quest":[
+			"nogutsnoglory","leadingthecharge"
+		],
+		"Level 2 Star Quest":[
+			"tigrexroar","jumpingatshadows","violentwyvern"
 		]
 		
 	}
