@@ -31,7 +31,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	public static final String KEY_TYPE_RUNNING = "running";
 
-	enum QuestState {
+	private static enum QuestState {
 		pending,
 		running,
 		finished,
@@ -75,7 +75,6 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	 */
 	protected IActiveArea questingArea;
 
-	protected int reward;
 	protected int fee;
 
 	private boolean closed;
@@ -85,7 +84,6 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 			QuestGoal goal,
 			GroupProperty goalProperties,
 			int maxPartySize,
-			int reward,
 			int fee,
 			CompletionStage<IActiveArea> activeArea,
 			QuestDefinition originalDescription) {
@@ -99,7 +97,6 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		activeArea.thenAccept(this::onAreaFinished);
 		goal.setSocket(this);
 
-		this.reward = reward;
 		this.fee = fee;
 		this.state = QuestState.pending;
 		this.originalDescription = originalDescription;
@@ -118,10 +115,6 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	public QuestGoal getQuestGoal() {
 		return questGoal;
-	}
-
-	public int getReward() {
-		return reward;
 	}
 
 	public int getFee() {
@@ -164,10 +157,10 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	}
 
 	protected void onSuccess() {
-		for (QuestingPlayerState attribute : playerAttributes.values()) {
-			attribute.reward = true;
-			attribute.player.addExperienceLevel(10);
-			attribute.player.sendMessage(new TextComponentString("You have successfully completed a quest"));
+		for (QuestingPlayerState playerState : playerAttributes.values()) {
+			playerState.reward = true;
+			playerState.player.addExperienceLevel(10);
+			playerState.player.sendMessage(new TextComponentString("You have successfully completed a quest"));
 		}
 		this.state = QuestState.finished;
 		// TODO reward the players for finishing the quest with dynamic rewards

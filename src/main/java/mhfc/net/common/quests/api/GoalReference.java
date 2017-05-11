@@ -14,13 +14,26 @@ import com.google.gson.JsonSerializer;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import net.minecraft.util.JsonUtils;
 
+/**
+ * This class represents a reference to a quest goal, either through the id corresponding to it or a direct object
+ * reference.
+ */
 public abstract class GoalReference {
 
 	public static class GoalRefSerializer implements JsonDeserializer<GoalReference>, JsonSerializer<GoalReference> {
 		@Override
-		public GoalReference deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+		public GoalReference deserialize(JsonElement element, Type typeOfT, JsonDeserializationContext context)
 				throws JsonParseException {
-			return constructFromJson(json, context);
+			if (element == null || element.isJsonNull()) {
+				return referTo((GoalDefinition) null);
+			}
+			if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
+				return referTo(JsonUtils.getString(element, "Goal Reference"));
+			} else if (element.isJsonObject()) {
+				GoalDefinition desc = context.deserialize(element, GoalDefinition.class);
+				return referTo(desc);
+			}
+			throw new JsonParseException("Required a reference on a goal but found something else");
 		}
 
 		@Override
@@ -67,30 +80,6 @@ public abstract class GoalReference {
 			return context.serialize(description, GoalDefinition.class);
 		}
 	}
-
-	/**
-	 * Constructs a GoalReference from the json stream and raises an exception if there is none. Also constructs any
-	 * nested goals.
-	 *
-	 * @return A GoalReference for the json, not null
-	 */
-	public static GoalReference constructFromJson(JsonElement element, JsonDeserializationContext context) {
-		if (element == null || element.isJsonNull()) {
-			return referTo((GoalDefinition) null);
-		}
-		if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
-			return referTo(JsonUtils.getString(element, "Goal Reference"));
-		} else if (element.isJsonObject()) {
-			GoalDefinition desc = context.deserialize(element, GoalDefinition.class);
-			return referTo(desc);
-		}
-		throw new JsonParseException("Required a reference on a goal but found something else");
-	}
-
-	/**
-	 * This class represents a reference to a quest goal, either through the id corresponding to it or a direct object
-	 * reference.
-	 */
 
 	/**
 	 * Gets the actual description that is referred to by this object.

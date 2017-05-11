@@ -70,8 +70,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			String areaName = quest.getAreaType().getUnlocalizedName();
 			String timeLimit = MHFCJsonUtils
 					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_TIME_LIMIT, getDefaultTimeLimit());
-			String reward = MHFCJsonUtils
-					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_REWARD, getDefaultReward());
 			String fee = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_FEE, getDefaultFee());
 			String maxPartySize = MHFCJsonUtils
 					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_MAX_PARTY_SIZE, getDefaultPartySize());
@@ -86,7 +84,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 					fails,
 					areaName,
 					timeLimit,
-					reward,
 					fee,
 					maxPartySize,
 					type);
@@ -132,10 +129,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			return "As fast as possible";
 		}
 
-		private String getDefaultReward() {
-			return quest == null ? "Gratitude from everybody" : quest.getReward() + "z";
-		}
-
 		private String getDefaultFee() {
 			return quest == null ? "For free!" : quest.getFee() + "z";
 		}
@@ -158,7 +151,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			"----",
 			"Town",
 			"No time limit",
-			"A quest",
 			"None",
 			"---",
 			QuestType.EpicHunting.getAsString());
@@ -171,7 +163,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			"Not contacting anyone",
 			"Network or server",
 			"Just do it asap",
-			"A better experience",
 			"A few seconds of your time",
 			"Hopefully one",
 			QuestType.Gathering.getAsString());
@@ -184,7 +175,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			"Dont't die",
 			"Somewhere in a galaxy far away",
 			"A long time ago",
-			"Server owners gratitude for reporting",
 			"What did you pay?",
 			"A few friends",
 			"Unknown quest");
@@ -214,7 +204,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			String fails,
 			String areaNameID,
 			String timeLimitInS,
-			String reward,
 			String fee,
 			String maxPartySize,
 			String type) {
@@ -226,7 +215,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		this.client = client;
 		this.aims = aims;
 		this.fails = fails;
-		this.reward = reward;
 		this.fee = fee;
 		this.maxPartySize = maxPartySize;
 		this.areaNameId = areaNameID;

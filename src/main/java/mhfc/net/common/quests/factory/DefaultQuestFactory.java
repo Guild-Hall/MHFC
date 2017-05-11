@@ -72,7 +72,6 @@ public class DefaultQuestFactory implements IQuestDefinitionFactory {
 					"[MHFC] Flair {} was not recognized, for allowed values see documentation of MHFCQuestBuildRegistry. Falling back to DAYTIME.",
 					typeString);
 		}
-		int reward = JsonUtils.getInt(jsonAsObject, KEY_REWARD);
 		int fee = JsonUtils.getInt(jsonAsObject, KEY_FEE);
 		int maxPartySize = MHFCJsonUtils.getJsonObjectIntegerFieldValueOrDefault(jsonAsObject, KEY_MAX_PARTY_SIZE, 4);
 
@@ -83,7 +82,6 @@ public class DefaultQuestFactory implements IQuestDefinitionFactory {
 				type,
 				areaType,
 				flair,
-				reward,
 				fee,
 				maxPartySize,
 				factory::forQuest);
@@ -102,7 +100,6 @@ public class DefaultQuestFactory implements IQuestDefinitionFactory {
 		String areaName = AreaRegistry.instance.getName(questDesc.getAreaType());
 		holder.addProperty(KEY_AREA_ID, areaName == null ? AreaRegistry.NAME_ARENA : areaName);
 		holder.addProperty(KEY_FEE, questDesc.getFee());
-		holder.addProperty(KEY_REWARD, questDesc.getReward());
 		JsonElement jsonGoalReference = context.serialize(questDesc.getGoalReference(), GoalReference.class);
 		holder.add(KEY_GOAL, jsonGoalReference);
 		QuestVisualInformationFactory visualFactory = new QuestVisualInformationFactory(questDesc);

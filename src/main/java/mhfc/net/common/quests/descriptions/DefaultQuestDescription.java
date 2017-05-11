@@ -30,7 +30,6 @@ public class DefaultQuestDescription extends QuestDefinition {
 			QuestFlair.DAYTIME,
 			0,
 			0,
-			0,
 			q -> DefaultQuestVisualDefinition.UNKNOWN);
 
 	public enum QuestType {
@@ -67,7 +66,6 @@ public class DefaultQuestDescription extends QuestDefinition {
 	protected IAreaType areaType;
 	protected QuestFlair questFlair;
 
-	protected int reward;
 	protected int fee;
 	protected int maxPartySize;
 
@@ -76,7 +74,6 @@ public class DefaultQuestDescription extends QuestDefinition {
 			QuestType type,
 			IAreaType areaId,
 			QuestFlair flair,
-			int reward,
 			int fee,
 			int maxPartySize,
 			Function<DefaultQuestDescription, DefaultQuestVisualDefinition> visual) {
@@ -85,7 +82,6 @@ public class DefaultQuestDescription extends QuestDefinition {
 		this.questType = type;
 		this.areaType = areaId;
 		this.questFlair = flair;
-		this.reward = reward;
 		this.fee = fee;
 		this.maxPartySize = maxPartySize;
 		this.visual = Objects.requireNonNull(visual.apply(this));
@@ -93,10 +89,6 @@ public class DefaultQuestDescription extends QuestDefinition {
 
 	public GoalReference getGoalReference() {
 		return goalReference;
-	}
-
-	public int getReward() {
-		return reward;
 	}
 
 	public int getFee() {
@@ -148,7 +140,7 @@ public class DefaultQuestDescription extends QuestDefinition {
 			return null;
 		}
 
-		return new Mission(missionID, goal, rootProperties, getMaxPartySize(), getReward(), getFee(), activeArea, this);
+		return new Mission(missionID, goal, rootProperties, getMaxPartySize(), getFee(), activeArea, this);
 	}
 
 }
