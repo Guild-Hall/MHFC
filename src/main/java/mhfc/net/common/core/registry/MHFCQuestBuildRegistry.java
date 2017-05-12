@@ -50,7 +50,6 @@ public class MHFCQuestBuildRegistry {
 	public static final String GOAL_TIME_TYPE = "time";
 
 	public static final String QUEST_DEFAULT = "default";
-	public static final String QUEST_RUNNING = "running";
 
 	public static final String VISUAL_DEFAULT = "default";
 
@@ -58,6 +57,11 @@ public class MHFCQuestBuildRegistry {
 	public static final String QUEST_TYPE_GATHERING = "mhfc.quests.type.gathering";
 	public static final String QUEST_TYPE_EPIC_HUNTING = "mhfc.quests.type.epichunting";
 	public static final String QUEST_TYPE_KILLING = "mhfc.quests.type.killing";
+
+	public static final String REWARD_MULTIPLE_TYPE = "multiple";
+	public static final String REWARD_DEBUG_TYPE = "debug";
+	public static final String REWARD_NULL_TYPE = "null";
+	public static final String REWARD_MONEY_TYPE = "money";
 
 	public static class PlayerConnectionHandler {
 

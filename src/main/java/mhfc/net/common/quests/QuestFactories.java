@@ -2,6 +2,12 @@ package mhfc.net.common.quests;
 
 import java.util.Objects;
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalDefinitionDelegate;
@@ -10,13 +16,20 @@ import mhfc.net.common.quests.api.IGoalDefinitionFactory;
 import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.quests.api.IQuestDefinitionFactory;
+import mhfc.net.common.quests.api.IQuestReward;
+import mhfc.net.common.quests.api.IQuestRewardFactory;
 import mhfc.net.common.quests.api.QuestDefinitionDelegate;
 import mhfc.net.common.quests.api.QuestGoal;
+import mhfc.net.common.quests.api.QuestRewardDelegate;
 import mhfc.net.common.quests.factory.ChainGoalFactory;
 import mhfc.net.common.quests.factory.DeathRestrictionGoalFactory;
+import mhfc.net.common.quests.factory.DebugRewardFactory;
 import mhfc.net.common.quests.factory.DefaultQuestFactory;
 import mhfc.net.common.quests.factory.ForkGoalFactory;
 import mhfc.net.common.quests.factory.HuntingGoalFactory;
+import mhfc.net.common.quests.factory.MoneyRewardFactory;
+import mhfc.net.common.quests.factory.MultipleRewardsFactory;
+import mhfc.net.common.quests.factory.NullRewardFactory;
 import mhfc.net.common.quests.factory.TimeGoalFactory;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.util.io.JsonDelegatingConverter;
@@ -64,6 +77,41 @@ public class QuestFactories {
 		}
 	};
 
+	private static JsonDelegatingConverter<IQuestReward, QuestRewardDelegate> REWARD_CONVERTER = new JsonDelegatingConverter<IQuestReward, QuestRewardDelegate>(
+			KEY_TYPE,
+			KEY_DATA) {
+		@Override
+		protected QuestRewardDelegate createB(ResourceLocation key, IQuestReward value) {
+			return new QuestRewardDelegate(key, value);
+		}
+
+		@Override
+		protected IQuestReward extractConvertibleFromB(QuestRewardDelegate value) {
+			return value.getValue();
+		}
+
+		@Override
+		protected ResourceLocation extractKeyFromB(QuestRewardDelegate value) {
+			return value.getDelegateKey();
+		}
+
+		@Override
+		public QuestRewardDelegate convertTo(JsonElement value, JsonDeserializationContext context) {
+			if (value.isJsonNull()) {
+				JsonObject replacement = new JsonObject();
+				replacement.add(KEY_TYPE, new JsonPrimitive(MHFCQuestBuildRegistry.REWARD_NULL_TYPE));
+				replacement.add(KEY_DATA, JsonNull.INSTANCE);
+				value = replacement;
+			} else if (value.isJsonPrimitive() && value.getAsJsonPrimitive().isNumber()) {
+				JsonObject replacement = new JsonObject();
+				replacement.add(KEY_TYPE, new JsonPrimitive(MHFCQuestBuildRegistry.REWARD_MONEY_TYPE));
+				replacement.add(KEY_DATA, value.getAsJsonPrimitive());
+				value = replacement;
+			}
+			return super.convertTo(value, context);
+		}
+	};
+
 	static {
 		insertQuestFactory(MHFCQuestBuildRegistry.QUEST_DEFAULT, new DefaultQuestFactory());
 
@@ -76,11 +124,17 @@ public class QuestFactories {
 		insertGoalFactory("timer", tFactory);
 		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_CHAIN_TYPE, new ChainGoalFactory());
 		insertGoalFactory(MHFCQuestBuildRegistry.GOAL_FORK_TYPE, new ForkGoalFactory());
+
+		insertRewardFactory(MHFCQuestBuildRegistry.REWARD_MULTIPLE_TYPE, new MultipleRewardsFactory());
+		insertRewardFactory(MHFCQuestBuildRegistry.REWARD_DEBUG_TYPE, new DebugRewardFactory());
+		insertRewardFactory(MHFCQuestBuildRegistry.REWARD_NULL_TYPE, new NullRewardFactory());
+		insertRewardFactory(MHFCQuestBuildRegistry.REWARD_MONEY_TYPE, new MoneyRewardFactory());
 	}
 
 	public static void insertQuestFactory(String type, IQuestDefinitionFactory factory) {
 		insertQuestFactory(new ResourceLocation(type), factory);
 	}
+
 	public static void insertQuestFactory(ResourceLocation type, IQuestDefinitionFactory factory) {
 		QUEST_CONVERTER.registerConverter(type, factory);
 	}
@@ -91,6 +145,14 @@ public class QuestFactories {
 
 	public static void insertGoalFactory(ResourceLocation type, IGoalDefinitionFactory factory) {
 		GOAL_CONVERTER.registerConverter(type, factory);
+	}
+
+	public static void insertRewardFactory(String type, IQuestRewardFactory factory) {
+		insertRewardFactory(new ResourceLocation(type), factory);
+	}
+
+	public static void insertRewardFactory(ResourceLocation type, IQuestRewardFactory factory) {
+		REWARD_CONVERTER.registerConverter(type, factory);
 	}
 
 	/**
@@ -134,5 +196,9 @@ public class QuestFactories {
 
 	public static JsonDelegatingConverter<IQuestDefinition, QuestDefinitionDelegate> getQuestConverter() {
 		return QUEST_CONVERTER;
+	}
+
+	public static JsonDelegatingConverter<IQuestReward, QuestRewardDelegate> getRewardConverter() {
+		return REWARD_CONVERTER;
 	}
 }

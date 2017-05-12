@@ -25,6 +25,7 @@ import mhfc.net.common.quests.api.GoalDefinitionDelegate;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.GoalReference.GoalRefSerializer;
 import mhfc.net.common.quests.api.QuestDefinitionDelegate;
+import mhfc.net.common.quests.api.QuestRewardDelegate;
 
 public class BuilderJsonToQuests {
 
@@ -120,6 +121,7 @@ public class BuilderJsonToQuests {
 	public final static Gson gsonInstance = new GsonBuilder()
 			.registerTypeAdapter(GoalDefinitionDelegate.class, QuestFactories.getGoalConverter())
 			.registerTypeAdapter(QuestDefinitionDelegate.class, QuestFactories.getQuestConverter())
+			.registerTypeAdapter(QuestRewardDelegate.class, QuestFactories.getRewardConverter())
 			.registerTypeAdapter(GoalReference.class, new GoalRefSerializer()).serializeNulls().create();
 
 	private QuestDescriptionRegistry dataObject;

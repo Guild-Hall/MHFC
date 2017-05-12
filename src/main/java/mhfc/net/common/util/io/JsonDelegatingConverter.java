@@ -18,7 +18,7 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class JsonDelegatingConverter<T, D>
 		extends
-		DelegatingConverter<JsonObject, JsonElement, JsonDeserializationContext, D, T, JsonSerializationContext, ResourceLocation>
+		DelegatingConverter<JsonElement, JsonElement, JsonDeserializationContext, D, T, JsonSerializationContext, ResourceLocation>
 		implements
 		JsonDeserializer<D>,
 		JsonSerializer<D> {
@@ -33,16 +33,16 @@ public abstract class JsonDelegatingConverter<T, D>
 	}
 
 	@Override
-	protected ResourceLocation extractKeyFromA(JsonObject value) {
-		return new ResourceLocation(value.get(keyName).getAsString());
+	protected ResourceLocation extractKeyFromA(JsonElement value) {
+		return new ResourceLocation(value.getAsJsonObject().get(keyName).getAsString());
 	}
 
 	@Override
-	protected JsonElement extractConvertibleFromA(JsonObject value) {
+	protected JsonElement extractConvertibleFromA(JsonElement value) {
 		if (dataName == null) {
 			return value;
 		}
-		return value.get(dataName);
+		return value.getAsJsonObject().get(dataName);
 	}
 
 	@Override
@@ -60,6 +60,7 @@ public abstract class JsonDelegatingConverter<T, D>
 		object.add(dataName, value);
 		return object;
 	}
+
 	@Override
 	public JsonElement serialize(D src, Type typeOfSrc, JsonSerializationContext context) {
 		return convertFrom(src, context);
