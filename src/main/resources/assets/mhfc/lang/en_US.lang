@@ -78,6 +78,17 @@ tile.wyverniaflower.flowerroy.name=Roy Bloom
 tile.wyverniaflower.flowersampa.name=Sampa Flower
 tile.wyverniaflower.flowersilon.name=Silon
 
+
+
+tile.wyverniaplant.plant_b1.name=Wyvernia Plant B1
+tile.wyverniaplant.plant_b2.name=Wyvernia Plant B2
+tile.wyverniaplant.plant_b3.name=Wyvernia Plant B3
+tile.wyverniaplant.plant_b4.name=Wyvernia Plant B4
+tile.wyverniaplant.plant_t1.name=Wyvernia Plant T1
+tile.wyverniaplant.plant_t2.name=Wyvernia Plant T2
+tile.wyverniaplant.plant_t3.name=Wyvernia Plant T3
+tile.wyverniaplant.plant_t4.name=Wyvernia Plant T4
+
 tile.wyverniaplanks.plankcalfer.name=Calfer Wood Plank
 tile.wyverniaplanks.plankdirewood.name=Direwood Plank
 tile.wyverniaplanks.plankgrandifolia.name=Grandifolia Wood Plank
@@ -347,7 +358,7 @@ potion.kirinbless=Spark of Kirin
 potion.paralyze=Paralyze
 potion.attackuplow=Attack Up Low
 potion.longswordattackup=Longsword Attack Up
-mfhc.quests.visual.tag.reward=Reward
+mhfc.quests.visual.tag.reward=Reward
 mhfc.quests.visual.tag.fee=Fee
 mhfc.quests.visual.tag.time=Time Limit
 mhfc.quests.visual.tag.area=Location

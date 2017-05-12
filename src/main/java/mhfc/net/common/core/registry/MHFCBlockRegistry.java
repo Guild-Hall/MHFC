@@ -18,6 +18,7 @@ import mhfc.net.common.block.BlockWyverniaGrass;
 import mhfc.net.common.block.BlockWyverniaOreBlock;
 import mhfc.net.common.block.BlockWyverniaOres;
 import mhfc.net.common.block.BlockWyverniaPlank;
+import mhfc.net.common.block.BlockWyverniaPlant;
 import mhfc.net.common.block.BlockWyverniaQuickSand;
 import mhfc.net.common.block.BlockWyverniaRock;
 import mhfc.net.common.block.BlockWyverniaSand;
@@ -85,6 +86,7 @@ public class MHFCBlockRegistry {
 	public final Block mhfcblockclay;
 	public final Block mhfcblocksand;
 	public final Block mhfcblockflowers;
+	public final Block mhfcblockplant;
 	public final Block mhfcblockbbqspit;
 	public final Block mhfcblockplanks;
 	public final Block mhfcblockrocks;
@@ -119,7 +121,7 @@ public class MHFCBlockRegistry {
 		mhfcblockquicksand = registerBlock("quicksand", new BlockWyverniaQuickSand());
 		mhfcblockdiskstone = registerBlock("diskstone", new BlockDiscstone());
 		mhfcblockflowers = registerBlockWithItem("flower",new BlockWyverniaFlower(),b -> ItemSubtypedBlock.createFor(b).setFull3D().setMaxStackSize(4));
-		
+		mhfcblockplant = registerBlockWithItem("plant",new BlockWyverniaPlant(),b -> ItemSubtypedBlock.createFor(b).setFull3D().setMaxStackSize(4));
 		// Util
 		mhfcblockicecrystal = registerBlockWithItem("icecrystal", new BlockIceCrystal(), ItemBlockIceCrystal::new);
 		mhfcblockhunterbench = registerBlockWithItem("hunterbench", new BlockHunterBench(), ItemBlockBenchHunter::new);

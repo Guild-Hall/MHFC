@@ -1,7 +1,7 @@
 package mhfc.net.common.block;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.block.BlockWyverniaFlower.WyverniaFlowerSubType;
+import mhfc.net.common.block.BlockWyverniaPlant.WyverniaPlantsSubType;
 import mhfc.net.common.block.environment.BlockWyverniaDecor;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.index.ResourceInterface;
@@ -20,32 +20,24 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockWyverniaFlower extends BlockWyverniaDecor
+public class BlockWyverniaPlant extends BlockWyverniaDecor
 		implements
-		ISubTypedBlock<WyverniaFlowerSubType>,
+		ISubTypedBlock<WyverniaPlantsSubType>,
 		IBlockVarianted {
-	public static enum WyverniaFlowerSubType implements SubTypedItem.SubTypeEnum<Block> {
-		CARNCASE("carncase", ResourceInterface.block_carncase_name),
-		FELRON("felron", ResourceInterface.block_felron_name),
-		ORCTAL("orctal", ResourceInterface.block_orctal_name),
-		PENO("peno", ResourceInterface.block_peno_name),
-		SHRINE("shrine", ResourceInterface.block_shrine_name),
-		SPINDEL("spindel", ResourceInterface.block_spindel_name),
-		BERPIS("berpis", ResourceInterface.block_berpis_name),
-		CONCAVE("concave", ResourceInterface.block_concave_name),
-		DELPHI("delphi", ResourceInterface.block_delphi_name),
-		EMBER("ember", ResourceInterface.block_ember_name),
-		GRESHA("gresha", ResourceInterface.block_gresha_name),
-		MOWAL("mowal", ResourceInterface.block_mowal_name),
-		NEPTIA("neptia", ResourceInterface.block_neptia_name),
-		ROY("roy", ResourceInterface.block_roy_name),
-		SAMPA("sampa", ResourceInterface.block_sampa_name),
-		SILON("silon", ResourceInterface.block_silon_name);
+	public static enum WyverniaPlantsSubType implements SubTypedItem.SubTypeEnum<Block> {
+		PLANT1("b1", ResourceInterface.block_plantb1_name),
+		PLANT2("b2", ResourceInterface.block_plantb2_name),
+		PLANT3("b3", ResourceInterface.block_plantb3_name),
+		PLANT4("b4", ResourceInterface.block_plantb4_name),
+		PLANT5("t1", ResourceInterface.block_plantt1_name),
+		PLANT6("t2", ResourceInterface.block_plantt2_name),
+		PLANT7("t3", ResourceInterface.block_plantt3_name),
+		PLANT8("t4", ResourceInterface.block_plantt4_name);
 
 		public final String registryName;
 		public final String name;
 
-		private WyverniaFlowerSubType(String registryName, String name) {
+		private WyverniaPlantsSubType(String registryName, String name) {
 			this.registryName = registryName;
 			this.name = name;
 		}
@@ -62,23 +54,23 @@ public class BlockWyverniaFlower extends BlockWyverniaDecor
 
 		@Override
 		public Block getBaseItem() {
-			return MHFCBlockRegistry.getRegistry().mhfcblockflowers;
+			return MHFCBlockRegistry.getRegistry().mhfcblockplant;
 		}
 	}
 
-	protected final static AxisAlignedBB FLOWER_BOUNDS;
+	protected final static AxisAlignedBB PLANT_BOUNDS;
 	static {
 		float f = 0.2F;
-		FLOWER_BOUNDS = new AxisAlignedBB(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 3.0F, 0.5F + f);
+		PLANT_BOUNDS = new AxisAlignedBB(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 3.0F, 0.5F + f);
 	}
 
-	protected static final PropertyEnum<WyverniaFlowerSubType> subtypeProperty = PropertyEnum
-			.create("variant", WyverniaFlowerSubType.class);
-	protected static final SubTypedItem<Block, WyverniaFlowerSubType> blockTrait = new SubTypedItem<>(subtypeProperty);
+	protected static final PropertyEnum<WyverniaPlantsSubType> subtypeProperty = PropertyEnum
+			.create("variant", WyverniaPlantsSubType.class);
+	protected static final SubTypedItem<Block, WyverniaPlantsSubType> blockTrait = new SubTypedItem<>(subtypeProperty);
 
-	public BlockWyverniaFlower() {
+	public BlockWyverniaPlant() {
 		super(Material.PLANTS);
-		setUnlocalizedName(ResourceInterface.block_wyverniaflower_basename);
+		setUnlocalizedName(ResourceInterface.block_wyverniaplant_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHardness(0.0f);
 		setTickRandomly(true);
@@ -90,7 +82,7 @@ public class BlockWyverniaFlower extends BlockWyverniaDecor
 	}
 
 	@Override
-	public SubTypedItem<Block, WyverniaFlowerSubType> getBlockTrait() {
+	public SubTypedItem<Block, WyverniaPlantsSubType> getBlockTrait() {
 		return blockTrait;
 	}
 
@@ -126,8 +118,9 @@ public class BlockWyverniaFlower extends BlockWyverniaDecor
 
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return FLOWER_BOUNDS;
+		return PLANT_BOUNDS;
 	}
+
 
 	//FIXME: implement canSustainPlant for the correct ground blocks
 

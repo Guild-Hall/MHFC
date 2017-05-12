@@ -28,7 +28,7 @@ public class BlockWyverniaGrass extends Block {
 	public int quantityDropped(Random random) {
 		return 1;
 	}
-
+	
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
 		if (world.isRemote) {

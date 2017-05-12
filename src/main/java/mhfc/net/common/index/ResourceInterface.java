@@ -160,6 +160,16 @@ public class ResourceInterface {
 	public static final String block_roy_name = "flowerroy";
 	public static final String block_sampa_name = "flowersampa";
 	public static final String block_silon_name = "flowersilon";
+	
+	public static final String block_wyverniaplant_basename = "wyverniaplant";
+	public static final String block_plantb1_name = "plant_b1";
+	public static final String block_plantb2_name = "plant_b2";
+	public static final String block_plantb3_name = "plant_b3";
+	public static final String block_plantb4_name = "plant_b4";
+	public static final String block_plantt1_name = "plant_t1";
+	public static final String block_plantt2_name = "plant_t2";
+	public static final String block_plantt3_name = "plant_t3";
+	public static final String block_plantt4_name = "plant_t4";
 
 	public static final String block_wyverniaplank_basename = "wyverniaplanks";
 	public static final String block_calfer_name = "plankcalfer";
@@ -499,7 +509,7 @@ public class ResourceInterface {
 
 	public static final String mob_questGiver_name = "questGiver";
 	public static final String unlocalized_tag_fee = "mhfc.quests.visual.tag.fee";
-	public static final String unlocalized_tag_reward = "mfhc.quests.visual.tag.reward";
+	public static final String unlocalized_tag_reward = "mhfc.quests.visual.tag.reward";
 	public static final String unlocalized_tag_time = "mhfc.quests.visual.tag.time";
 	public static final String unlocalized_tag_area = "mhfc.quests.visual.tag.area";
 	public static final String unlocalized_tag_aims = "mhfc.quests.visual.tag.aims";
@@ -519,5 +529,6 @@ public class ResourceInterface {
 	public static final String entity_paintball_name = "Paintball";
 	public static final int max_duration_particle_emitter_in_ticks = 1200;
 	public static final String mob_paint_emitter_name = "paintemitter";
+
 
 }
