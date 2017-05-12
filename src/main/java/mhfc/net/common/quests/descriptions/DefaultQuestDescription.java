@@ -13,6 +13,7 @@ import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.quests.api.QuestGoal;
+import mhfc.net.common.quests.api.QuestRewardDelegate;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.IActiveArea;
@@ -28,6 +29,7 @@ public class DefaultQuestDescription implements IQuestDefinition {
 			QuestType.Gathering,
 			ArenaType.INSTANCE,
 			QuestFlair.DAYTIME,
+			null,
 			0,
 			0,
 			q -> DefaultQuestVisualDefinition.UNKNOWN);
@@ -54,6 +56,7 @@ public class DefaultQuestDescription implements IQuestDefinition {
 	// public static final String KEY_TIME_LIMIT = "timeLimit";
 	public static final String KEY_AREA_ID = "areaID";
 	public static final String KEY_FLAIR = "flair";
+	public static final String KEY_REWARD = "reward";
 	public static final String KEY_FEE = "fee";
 	public static final String KEY_GOAL = "goal";
 	public static final String KEY_VISUAL = "visual";
@@ -65,6 +68,8 @@ public class DefaultQuestDescription implements IQuestDefinition {
 	protected IAreaType areaType;
 	protected QuestFlair questFlair;
 
+	protected QuestRewardDelegate reward;
+
 	protected int fee;
 	protected int maxPartySize;
 
@@ -73,6 +78,7 @@ public class DefaultQuestDescription implements IQuestDefinition {
 			QuestType type,
 			IAreaType areaId,
 			QuestFlair flair,
+			QuestRewardDelegate reward,
 			int fee,
 			int maxPartySize,
 			Function<DefaultQuestDescription, DefaultQuestVisualDefinition> visual) {
@@ -80,6 +86,7 @@ public class DefaultQuestDescription implements IQuestDefinition {
 		this.questType = type;
 		this.areaType = areaId;
 		this.questFlair = flair;
+		this.reward = reward;
 		this.fee = fee;
 		this.maxPartySize = maxPartySize;
 		this.visual = Objects.requireNonNull(visual.apply(this));
@@ -115,6 +122,10 @@ public class DefaultQuestDescription implements IQuestDefinition {
 		return questFlair;
 	}
 
+	public QuestRewardDelegate getReward() {
+		return reward;
+	}
+
 	public QuestGoal buildGoal(GroupProperty propertyRoot) {
 		return QuestFactories.constructGoal(getGoalReference().getReferredDescription(), propertyRoot);
 	}
@@ -138,7 +149,15 @@ public class DefaultQuestDescription implements IQuestDefinition {
 			return null;
 		}
 
-		return new Mission(missionID, goal, rootProperties, getMaxPartySize(), getFee(), activeArea, this);
+		return new Mission(
+				missionID,
+				goal,
+				rootProperties,
+				getMaxPartySize(),
+				reward.getValue(),
+				getFee(),
+				activeArea,
+				this);
 	}
 
 }

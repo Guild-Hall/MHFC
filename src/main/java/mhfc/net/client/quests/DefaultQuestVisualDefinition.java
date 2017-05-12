@@ -423,6 +423,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 				TAG_TIME = I18n.format(ResourceInterface.unlocalized_tag_time), //
 				TAG_AREA = I18n.format(ResourceInterface.unlocalized_tag_area);
 		fontRenderer.drawString(TAG_REWARD, positionX + BORDER, positionY, COLOUR_HEADER);
+		// TODO: reimplement reward as string
 		positionY += MHFCGuiUtil.drawTextLocalizedAndReturnHeight(
 				fontRenderer,
 				"WIP",

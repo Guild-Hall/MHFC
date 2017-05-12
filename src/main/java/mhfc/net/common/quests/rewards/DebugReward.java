@@ -8,7 +8,7 @@ public class DebugReward implements IQuestReward {
 
 	@Override
 	public void grantReward(EntityPlayerMP player) {
-		MHFCMain.logger().debug("Giving debug reward to " + player, new Exception());
+		MHFCMain.logger().debug("Giving debug reward to " + player);
 	}
 
 }

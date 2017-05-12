@@ -17,11 +17,11 @@ import com.google.gson.JsonSerializer;
 import net.minecraft.util.ResourceLocation;
 
 public abstract class JsonDelegatingConverter<T, D>
-		extends
-		DelegatingConverter<JsonElement, JsonElement, JsonDeserializationContext, D, T, JsonSerializationContext, ResourceLocation>
-		implements
-		JsonDeserializer<D>,
-		JsonSerializer<D> {
+extends
+DelegatingConverter<JsonElement, JsonElement, JsonDeserializationContext, D, T, JsonSerializationContext, ResourceLocation>
+implements
+JsonDeserializer<D>,
+JsonSerializer<D> {
 	private static Logger LOGGER = LogManager.getLogger();
 
 	private final String keyName;
@@ -69,7 +69,7 @@ public abstract class JsonDelegatingConverter<T, D>
 	@Override
 	public D deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
 			throws JsonParseException {
-		return convertTo(json.getAsJsonObject(), context);
+		return convertTo(json, context);
 	}
 
 }
