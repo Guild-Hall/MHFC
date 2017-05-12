@@ -25,12 +25,12 @@ public abstract class GoalReference {
 		public GoalReference deserialize(JsonElement element, Type typeOfT, JsonDeserializationContext context)
 				throws JsonParseException {
 			if (element == null || element.isJsonNull()) {
-				return referTo((GoalDefinition) null);
+				return referTo((GoalDefinitionDelegate) null);
 			}
 			if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
 				return referTo(JsonUtils.getString(element, "Goal Reference"));
 			} else if (element.isJsonObject()) {
-				GoalDefinition desc = context.deserialize(element, GoalDefinition.class);
+				GoalDefinitionDelegate desc = context.deserialize(element, GoalDefinitionDelegate.class);
 				return referTo(desc);
 			}
 			throw new JsonParseException("Required a reference on a goal but found something else");
@@ -50,7 +50,7 @@ public abstract class GoalReference {
 		}
 
 		@Override
-		public GoalDefinition getReferredDescription() {
+		public IGoalDefinition getReferredDescription() {
 			return MHFCQuestBuildRegistry.getGoalDescription(id);
 		}
 
@@ -61,15 +61,15 @@ public abstract class GoalReference {
 	}
 
 	private static class DirectReference extends GoalReference {
-		private GoalDefinition description;
+		private GoalDefinitionDelegate description;
 
-		public DirectReference(GoalDefinition description) {
+		public DirectReference(GoalDefinitionDelegate description) {
 			this.description = description;
 		}
 
 		@Override
-		public GoalDefinition getReferredDescription() {
-			return description;
+		public IGoalDefinition getReferredDescription() {
+			return description.getValue();
 		}
 
 		@Override
@@ -77,14 +77,14 @@ public abstract class GoalReference {
 			if (description == null) {
 				return JsonNull.INSTANCE;
 			}
-			return context.serialize(description, GoalDefinition.class);
+			return context.serialize(description, GoalDefinitionDelegate.class);
 		}
 	}
 
 	/**
 	 * Gets the actual description that is referred to by this object.
 	 */
-	public abstract GoalDefinition getReferredDescription();
+	public abstract IGoalDefinition getReferredDescription();
 
 	protected abstract JsonElement serialize(Type typeOfSrc, JsonSerializationContext context);
 
@@ -92,7 +92,7 @@ public abstract class GoalReference {
 		return new ReferenceByID(id);
 	}
 
-	public static GoalReference referTo(GoalDefinition definition) {
+	public static GoalReference referTo(GoalDefinitionDelegate definition) {
 		return new DirectReference(definition);
 	}
 

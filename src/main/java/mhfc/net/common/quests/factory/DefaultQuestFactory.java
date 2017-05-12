@@ -6,7 +6,6 @@ import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_FL
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_GOAL;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_MAX_PARTY_SIZE;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_QUEST_TYPE;
-import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_REWARD;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_VISUAL;
 
 import com.google.gson.JsonDeserializationContext;
@@ -19,8 +18,8 @@ import mhfc.net.client.quests.DefaultQuestVisualDefinition;
 import mhfc.net.client.quests.DefaultQuestVisualDefinition.QuestVisualInformationFactory;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalReference;
+import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.quests.api.IQuestDefinitionFactory;
-import mhfc.net.common.quests.api.QuestDefinition;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription.QuestType;
 import mhfc.net.common.quests.world.QuestFlair;
@@ -32,9 +31,9 @@ import net.minecraft.util.JsonUtils;
 public class DefaultQuestFactory implements IQuestDefinitionFactory {
 
 	@Override
-	public DefaultQuestDescription buildQuestDescription(JsonElement json, JsonDeserializationContext context) {
+	public DefaultQuestDescription convertTo(JsonElement json, JsonDeserializationContext context) {
 		JsonObject jsonAsObject = JsonUtils.getJsonObject(json, "quest");
-		MHFCJsonUtils.requireFields(jsonAsObject, KEY_GOAL, KEY_REWARD, KEY_FEE, KEY_AREA_ID, KEY_QUEST_TYPE);
+		MHFCJsonUtils.requireFields(jsonAsObject, KEY_GOAL, KEY_FEE, KEY_AREA_ID, KEY_QUEST_TYPE);
 
 		GoalReference goal = context.deserialize(jsonAsObject.get(KEY_GOAL), GoalReference.class);
 		String areaId = JsonUtils.getString(jsonAsObject, KEY_AREA_ID);
@@ -89,7 +88,7 @@ public class DefaultQuestFactory implements IQuestDefinitionFactory {
 	}
 
 	@Override
-	public JsonObject serialize(QuestDefinition description, JsonSerializationContext context) {
+	public JsonObject convertFrom(IQuestDefinition description, JsonSerializationContext context) {
 		DefaultQuestDescription questDesc = DefaultQuestDescription.class.cast(description);
 		DefaultQuestVisualDefinition visual = questDesc.getVisualInformation();
 

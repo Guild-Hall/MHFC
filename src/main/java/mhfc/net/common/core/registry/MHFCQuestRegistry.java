@@ -20,7 +20,7 @@ import mhfc.net.common.network.message.quest.MessageQuestRunningSubscription;
 import mhfc.net.common.network.message.quest.MessageRequestMissionUpdate;
 import mhfc.net.common.quests.Mission;
 import mhfc.net.common.quests.QuestFactories;
-import mhfc.net.common.quests.api.QuestDefinition;
+import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -45,8 +45,8 @@ public class MHFCQuestRegistry {
 			MHFCMain.serverRunningPhase);
 
 	public static class RegistryRequestVisualHandler
-			implements
-			IMessageHandler<MessageRequestMissionUpdate, MessageMissionUpdate> {
+	implements
+	IMessageHandler<MessageRequestMissionUpdate, MessageMissionUpdate> {
 
 		@Override
 		public MessageMissionUpdate onMessage(MessageRequestMissionUpdate message, MessageContext ctx) {
@@ -60,8 +60,8 @@ public class MHFCQuestRegistry {
 	}
 
 	public static class RunningSubscriptionHandler
-			implements
-			IMessageHandler<MessageQuestRunningSubscription, IMessage> {
+	implements
+	IMessageHandler<MessageQuestRunningSubscription, IMessage> {
 		private static Set<EntityPlayerMP> subscribers = new HashSet<>();
 
 		public RunningSubscriptionHandler() {}
@@ -205,7 +205,7 @@ public class MHFCQuestRegistry {
 			return;
 		}
 		String questID = message.getOptions()[0];
-		QuestDefinition questDescription = MHFCQuestBuildRegistry.getQuestDescription(questID);
+		IQuestDefinition questDescription = MHFCQuestBuildRegistry.getQuestDescription(questID);
 		if (questDescription == null) {
 			player.sendMessage(new TextComponentString("Quest with id[" + questID + "] not found"));
 			return;

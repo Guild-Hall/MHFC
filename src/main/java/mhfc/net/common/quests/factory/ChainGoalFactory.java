@@ -9,14 +9,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 
-import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.GoalReference;
+import mhfc.net.common.quests.api.IGoalDefinition;
 import mhfc.net.common.quests.api.IGoalDefinitionFactory;
 import mhfc.net.common.quests.descriptions.ChainGoalDescription;
 
 public class ChainGoalFactory implements IGoalDefinitionFactory {
 	@Override
-	public GoalDefinition buildGoalDescription(JsonElement jsonE,
+	public IGoalDefinition convertTo(
+			JsonElement jsonE,
 			JsonDeserializationContext context) {
 		JsonObject json = jsonE.getAsJsonObject();
 		if (!json.has(ID_GOAL)) {
@@ -29,7 +30,7 @@ public class ChainGoalFactory implements IGoalDefinitionFactory {
 	}
 
 	@Override
-	public JsonObject serialize(GoalDefinition description,
+	public JsonObject convertFrom(IGoalDefinition description,
 			JsonSerializationContext context) {
 		ChainGoalDescription chainGoal = (ChainGoalDescription) description;
 		JsonObject jsonObject = new JsonObject();

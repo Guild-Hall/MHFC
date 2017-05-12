@@ -5,9 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.GoalReference;
+import mhfc.net.common.quests.api.IGoalDefinition;
 import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.goals.ForkQuestGoal;
@@ -15,7 +14,7 @@ import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.util.stringview.JoinedView;
 import mhfc.net.common.util.stringview.Viewable;
 
-public class ForkGoalDescription extends GoalDefinition {
+public class ForkGoalDescription implements IGoalDefinition {
 
 	public static final String ID_REQUIRED = "requisites";
 	public static final String ID_OPTIONAL = "optional";
@@ -24,7 +23,6 @@ public class ForkGoalDescription extends GoalDefinition {
 	private GoalReference[] optional;
 
 	public ForkGoalDescription(GoalReference[] required, GoalReference[] optional) {
-		super(MHFCQuestBuildRegistry.GOAL_FORK_TYPE);
 		this.required = required;
 		this.optional = optional;
 	}

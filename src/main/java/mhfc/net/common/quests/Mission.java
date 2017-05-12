@@ -12,7 +12,7 @@ import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.message.quest.MessageMissionStatus;
 import mhfc.net.common.network.message.quest.MessageMissionUpdate;
-import mhfc.net.common.quests.api.QuestDefinition;
+import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
 import mhfc.net.common.quests.properties.GroupProperty;
@@ -61,7 +61,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	}
 
 	private final String missionID;
-	private QuestDefinition originalDescription;
+	private IQuestDefinition originalDescription;
 
 	private PlayerMap<QuestingPlayerState> playerAttributes;
 	private int maxPlayerCount;
@@ -86,7 +86,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 			int maxPartySize,
 			int fee,
 			CompletionStage<IActiveArea> activeArea,
-			QuestDefinition originalDescription) {
+			IQuestDefinition originalDescription) {
 		this.missionID = Objects.requireNonNull(missionID);
 
 		this.playerAttributes = new PlayerMap<>();
@@ -288,7 +288,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		return questingArea.getArea().getSpawnController();
 	}
 
-	public QuestDefinition getOriginalDescription() {
+	public IQuestDefinition getOriginalDescription() {
 		return originalDescription;
 	}
 

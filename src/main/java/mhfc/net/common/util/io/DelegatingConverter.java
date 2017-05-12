@@ -1,11 +1,12 @@
 package mhfc.net.common.util.io;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public abstract class DelegatingConverter<A, AT, AC, B, BT, BC, K> implements IConverter<A, AC, B, BC> {
 
-	private Map<K, IConverter<AT, AC, BT, BC>> registry;
+	private Map<K, IConverter<AT, AC, BT, BC>> registry = createStorageMap();
 
 	public void registerConverter(K key, IConverter<AT, AC, BT, BC> converter) {
 		Objects.requireNonNull(converter);
@@ -13,6 +14,10 @@ public abstract class DelegatingConverter<A, AT, AC, B, BT, BC, K> implements IC
 		if (prev != null) {
 			throw new IllegalArgumentException("There was a already a converter registered for " + key + ": " + prev);
 		}
+	}
+
+	protected Map<K, IConverter<AT, AC, BT, BC>> createStorageMap() {
+		return new HashMap<>();
 	}
 
 	protected abstract K extractKeyFromA(A value);

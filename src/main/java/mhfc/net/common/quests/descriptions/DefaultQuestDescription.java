@@ -11,7 +11,7 @@ import mhfc.net.common.quests.Mission;
 import mhfc.net.common.quests.QuestFactories;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.IGoalFactory;
-import mhfc.net.common.quests.api.QuestDefinition;
+import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.world.QuestFlair;
@@ -22,7 +22,7 @@ import mhfc.net.common.world.types.ArenaType;
 /**
  * Used by the QuestFactories as well as to display quests.
  */
-public class DefaultQuestDescription extends QuestDefinition {
+public class DefaultQuestDescription implements IQuestDefinition {
 	public static final DefaultQuestDescription UNKNOWN_DESCRIPTION = new DefaultQuestDescription(
 			null,
 			QuestType.Gathering,
@@ -55,7 +55,6 @@ public class DefaultQuestDescription extends QuestDefinition {
 	public static final String KEY_AREA_ID = "areaID";
 	public static final String KEY_FLAIR = "flair";
 	public static final String KEY_FEE = "fee";
-	public static final String KEY_REWARD = "reward";
 	public static final String KEY_GOAL = "goal";
 	public static final String KEY_VISUAL = "visual";
 
@@ -77,7 +76,6 @@ public class DefaultQuestDescription extends QuestDefinition {
 			int fee,
 			int maxPartySize,
 			Function<DefaultQuestDescription, DefaultQuestVisualDefinition> visual) {
-		super(MHFCQuestBuildRegistry.QUEST_DEFAULT);
 		this.goalReference = goalDescID;
 		this.questType = type;
 		this.areaType = areaId;

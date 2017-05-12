@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import mhfc.net.common.quests.api.GoalDefinition;
-import mhfc.net.common.quests.api.QuestDefinition;
+import mhfc.net.common.quests.api.GoalDefinitionDelegate;
+import mhfc.net.common.quests.api.IGoalDefinition;
+import mhfc.net.common.quests.api.IQuestDefinition;
+import mhfc.net.common.quests.api.QuestDefinitionDelegate;
 
 public class QuestDescriptionRegistry {
 
@@ -85,23 +87,23 @@ public class QuestDescriptionRegistry {
 		}
 	}
 
-	private final HashMap<String, QuestDefinition> questDescriptions = new HashMap<>();
-	private final HashMap<String, GoalDefinition> goalDescriptions = new HashMap<>();
+	private final HashMap<String, QuestDefinitionDelegate> questDescriptions = new HashMap<>();
+	private final HashMap<String, GoalDefinitionDelegate> goalDescriptions = new HashMap<>();
 	private final QuestGroupData groupData = new QuestGroupData();
 
-	public void fillQuestDescriptions(Map<String, QuestDefinition> mapData) {
+	public void fillQuestDescriptions(Map<String, QuestDefinitionDelegate> mapData) {
 		questDescriptions.putAll(mapData);
 	}
 
-	public void putQuestDescription(String identifier, QuestDefinition questDescription) {
+	public void putQuestDescription(String identifier, QuestDefinitionDelegate questDescription) {
 		questDescriptions.put(identifier, questDescription);
 	}
 
-	public void fillGoalDescriptions(Map<String, GoalDefinition> mapData) {
+	public void fillGoalDescriptions(Map<String, GoalDefinitionDelegate> mapData) {
 		goalDescriptions.putAll(mapData);
 	}
 
-	public void putGoalDescription(String identifier, GoalDefinition questDescription) {
+	public void putGoalDescription(String identifier, GoalDefinitionDelegate questDescription) {
 		goalDescriptions.put(identifier, questDescription);
 	}
 
@@ -113,21 +115,21 @@ public class QuestDescriptionRegistry {
 		groupData.addQuestsToGroup(groupID, quests);
 	}
 
-	public QuestDefinition getQuestDescription(String id) {
-		QuestDefinition qd = questDescriptions.get(id);
-		return qd;
+	public IQuestDefinition getQuestDescription(String id) {
+		QuestDefinitionDelegate qd = questDescriptions.get(id);
+		return qd.getValue();
 	}
 
-	public GoalDefinition getGoalDescription(String id) {
-		GoalDefinition qd = goalDescriptions.get(id);
-		return qd;
+	public IGoalDefinition getGoalDescription(String id) {
+		GoalDefinitionDelegate qd = goalDescriptions.get(id);
+		return qd.getValue();
 	}
 
-	public Map<String, QuestDefinition> getFullQuestDescriptionMap() {
+	public Map<String, QuestDefinitionDelegate> getFullQuestDescriptionMap() {
 		return Collections.unmodifiableMap(questDescriptions);
 	}
 
-	public Map<String, GoalDefinition> getFullGoalDescriptionMap() {
+	public Map<String, GoalDefinitionDelegate> getFullGoalDescriptionMap() {
 		return Collections.unmodifiableMap(goalDescriptions);
 	}
 

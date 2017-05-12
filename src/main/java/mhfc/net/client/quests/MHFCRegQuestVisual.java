@@ -18,7 +18,7 @@ import mhfc.net.common.core.registry.RegistryWrapper;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.network.NetworkTracker;
 import mhfc.net.common.network.message.quest.MessageQuestInit;
-import mhfc.net.common.quests.api.QuestDefinition;
+import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -59,7 +59,7 @@ public class MHFCRegQuestVisual {
 	 */
 	public static IVisualDefinition getQuestInformation(String questID) {
 		MHFCRegQuestVisual service = getService();
-		QuestDefinition staticDescription = service.clientDataObject.getQuestDescription(questID);
+		IQuestDefinition staticDescription = service.clientDataObject.getQuestDescription(questID);
 		if (staticDescription != null) {
 			return staticDescription.getVisualInformation();
 		}

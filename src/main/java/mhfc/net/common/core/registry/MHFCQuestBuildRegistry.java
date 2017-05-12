@@ -12,8 +12,8 @@ import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.handler.MHFCInteractionHandler.MHFCInteractionModReloadEvent;
 import mhfc.net.common.network.message.quest.MessageQuestInit;
 import mhfc.net.common.quests.QuestFactories;
-import mhfc.net.common.quests.api.GoalDefinition;
-import mhfc.net.common.quests.api.QuestDefinition;
+import mhfc.net.common.quests.api.IGoalDefinition;
+import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.world.QuestFlair;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -35,9 +35,6 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 public class MHFCQuestBuildRegistry {
 
 	private static QuestDescriptionRegistry dataObject;
-
-	public static final String KEY_TYPE = "type";
-	public static final String KEY_DATA = "data";
 
 	public static final String KEY_ORDERED_GROUPS = "groupDisplayOrder";
 	public static final String KEY_GROUP_MAPPING = "groups";
@@ -106,11 +103,11 @@ public class MHFCQuestBuildRegistry {
 		MHFCMain.logger().info("Quests reloaded");
 	}
 
-	public static GoalDefinition getGoalDescription(String id) {
+	public static IGoalDefinition getGoalDescription(String id) {
 		return dataObject.getGoalDescription(id);
 	}
 
-	public static QuestDefinition getQuestDescription(String id) {
+	public static IQuestDefinition getQuestDescription(String id) {
 		return dataObject.getQuestDescription(id);
 	}
 

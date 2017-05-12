@@ -6,7 +6,6 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.quests.QuestStatus;
-import mhfc.net.common.quests.api.GoalDefinition;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
 

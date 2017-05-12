@@ -36,7 +36,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		public static final String KEY_AIMS = "aims";
 		public static final String KEY_FAILS = "fails";
 		public static final String KEY_AREA_ID = "areaID";
-		public static final String KEY_REWARD = "reward";
 		public static final String KEY_FEE = "fee";
 		public static final String KEY_MAX_PARTY_SIZE = "maxPartySize";
 		public static final String KEY_TIME_LIMIT = "timeLimit";
@@ -98,7 +97,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			holder.addProperty(KEY_FAILS, information.fails);
 			holder.addProperty(KEY_AREA_ID, information.areaNameId);
 			holder.addProperty(KEY_TIME_LIMIT, information.timeLimitInS);
-			holder.addProperty(KEY_REWARD, information.reward);
 			holder.addProperty(KEY_FEE, information.fee);
 			holder.addProperty(KEY_MAX_PARTY_SIZE, information.maxPartySize);
 			holder.addProperty(KEY_TYPE, information.typeString);
@@ -191,7 +189,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	protected String timeLimitInS;
 	protected String typeString;
 
-	protected String reward;
 	protected String fee;
 	protected String maxPartySize;
 
@@ -428,7 +425,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		fontRenderer.drawString(TAG_REWARD, positionX + BORDER, positionY, COLOUR_HEADER);
 		positionY += MHFCGuiUtil.drawTextLocalizedAndReturnHeight(
 				fontRenderer,
-				reward,
+				"WIP",
 				positionX + width / 2,
 				positionY,
 				width / 2 - BORDER,
