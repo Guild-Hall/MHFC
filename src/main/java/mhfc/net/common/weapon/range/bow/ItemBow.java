@@ -6,9 +6,11 @@ import java.util.function.Consumer;
 
 import com.google.common.collect.Multimap;
 
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import mhfc.net.common.index.AttributeModifiers;
 import mhfc.net.common.index.ResourceInterface;
+import mhfc.net.common.item.materials.ItemWyverniaArrow;
 import mhfc.net.common.weapon.ItemWeapon;
 import mhfc.net.common.weapon.range.bow.BowWeaponStats.BowWeaponStatsBuilder;
 import net.minecraft.entity.EntityLivingBase;
@@ -38,6 +40,14 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		BowWeaponStatsBuilder builder = new BowWeaponStatsBuilder();
 		config.accept(builder);
 		return new ItemBow(builder.build());
+	}
+
+	/**
+	 * 
+	 * Checks if the ammo is arrow.
+	 */
+	public boolean isTheAmmoArrow(ItemStack stack) {
+		return stack.getItem() instanceof ItemWyverniaArrow;
 	}
 
 	public static final String[] ItemNameArray = new String[] { "bow", "bow1", "bow2", "bow3" };
@@ -98,21 +108,24 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-		boolean flag = findAmmo(player) != null;
-		ItemStack stack = player.getHeldItem(hand);
+		ItemStack itemstack = player.getHeldItem(hand);
+		boolean flag = !this.bowAmmo(player).isEmpty();
+
+		ActionResult<ItemStack> eventarrowNock = net.minecraftforge.event.ForgeEventFactory
+				.onArrowNock(itemstack, world, player, hand, flag);
+		if (eventarrowNock != null)
+			return eventarrowNock;
 
 		if (!player.capabilities.isCreativeMode && !flag) {
-			return new ActionResult<>(EnumActionResult.FAIL, stack);
+			return flag
+					? new ActionResult<ItemStack>(EnumActionResult.PASS, itemstack)
+					: new ActionResult<ItemStack>(EnumActionResult.FAIL, itemstack);
 		} else {
 			player.setActiveHand(hand);
-			return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
 		}
 	}
 
-	private ItemStack findAmmo(EntityLivingBase player) {
-		// FIXME: todo
-		return null;
-	}
 
 	private float getBowStrength(ItemStack stack, int timeLeft) {
 		int ticksUsed = getMaxItemUseDuration(stack) - timeLeft;
@@ -125,24 +138,36 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	}
 
 	@Override
-	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityLivingBase player, int timeLeft) {
-		super.onPlayerStoppedUsing(stack, world, player, timeLeft);
+	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityLivingBase entityln, int timeLeft) {
+		super.onPlayerStoppedUsing(stack, world, entityln, timeLeft);
+		
+		
+		EntityPlayer entityplayer = (EntityPlayer)entityln;
+		boolean isCreative = entityln instanceof EntityPlayer && ((EntityPlayer) entityln).capabilities.isCreativeMode;
+		ItemStack itemstack = this.bowAmmo(entityplayer);	
+		
 		int i = this.getMaxItemUseDuration(stack) - timeLeft;
-		boolean isCreative = player instanceof EntityPlayer && ((EntityPlayer) player).capabilities.isCreativeMode;
-		i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, world, (EntityPlayer)player, i, true);
+		i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, world, (EntityPlayer)entityln, i, true);
+		if (i < 0) return;
+		
+		
+		if (!itemstack.isEmpty() || isCreative)
+           {
+               if (itemstack.isEmpty())
+               {
+                   itemstack = new ItemStack(MHFCItemRegistry.getRegistry().arrow);
+               }
+		}
+
 		float bowStrength = getBowStrength(stack, timeLeft);
 		if (bowStrength < 0.5d) {
 			return;
 		}
 
-		ItemStack ammoStack = findAmmo(player);
-		if (ammoStack == null && !isCreative) {
-			return;
-		}
 		if (!world.isRemote) {
-			EntityArrow entityarrow = new EntityWyverniaArrow(world, player, bowStrength * 2.0F);
+			EntityArrow entityarrow = new EntityWyverniaArrow(world, entityln, bowStrength * 2.0F);
 			boolean crit = new Random().nextInt(10) == 0;
-			float time = (stack.getMaxItemUseDuration() - player.getItemInUseCount()) / 20.0F;
+			float time = (stack.getMaxItemUseDuration() - entityln.getItemInUseCount()) / 20.0F;
 			if(time < 2f) {
 				world.spawnEntity(entityarrow);
 			}
@@ -153,7 +178,7 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 			if (isCreative) {
 				entityarrow.pickupStatus = PickupStatus.CREATIVE_ONLY;
 			} else {
-				ammoStack.damageItem(1, player);
+				itemstack.damageItem(1, entityln);
 			}
 			world.spawnEntity(entityarrow);
 		}
@@ -161,13 +186,20 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		float pitch = 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + bowStrength * 0.5F;
 		world.playSound(
 				null,
-				player.posX,
-				player.posY,
-				player.posZ,
+				entityln.posX,
+				entityln.posY,
+				entityln.posZ,
 				SoundEvents.ENTITY_ARROW_SHOOT,
 				SoundCategory.NEUTRAL,
 				volume,
 				pitch);
+		if (!entityplayer.capabilities.isCreativeMode) {
+			itemstack.shrink(1);
+
+			if (itemstack.isEmpty()) {
+				entityplayer.inventory.deleteStack(itemstack);
+			}
+		}
 	}
 
 	public static float getArrowVelocity(int charge) {
@@ -195,6 +227,24 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 							AttributeModifiers.MULTIPLICATIVE));
 		}
 		return attributeModifiers;
+	}
+
+	private ItemStack bowAmmo(EntityPlayer theplayer) {
+		if (this.isTheAmmoArrow(theplayer.getHeldItem(EnumHand.OFF_HAND))) {
+			return theplayer.getHeldItem(EnumHand.OFF_HAND);
+		} else if (this.isTheAmmoArrow(theplayer.getHeldItem(EnumHand.MAIN_HAND))) {
+			return theplayer.getHeldItem(EnumHand.MAIN_HAND);
+		} else {
+			for (int a = 0; a < theplayer.inventory.getSizeInventory(); ++a) {
+				ItemStack itemstack = theplayer.inventory.getStackInSlot(a);
+
+				if (this.isTheAmmoArrow(itemstack)) {
+					return itemstack;
+				}
+			}
+
+			return ItemStack.EMPTY;
+		}
 	}
 
 }
