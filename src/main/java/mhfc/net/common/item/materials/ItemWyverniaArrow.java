@@ -17,13 +17,7 @@ public class ItemWyverniaArrow extends Item {
 	}
 
 	public EntityWyverniaArrow createArrow(World worldIn, ItemStack stack, EntityLivingBase shooter, float force) {
-		EntityWyverniaArrow entityArrow = new EntityWyverniaArrow(worldIn, shooter, force);
-		entityArrow.setAim(shooter, shooter.rotationPitch, shooter.rotationYaw, 0.0F, force * 3.0F, 0.3F);
-
-		if (force > 1.0F) {
-			entityArrow.setIsCritical(true);
-		}
-		return entityArrow;
+		return new EntityWyverniaArrow(worldIn, shooter, force);
 	}
 
 }

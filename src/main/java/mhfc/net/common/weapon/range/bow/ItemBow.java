@@ -138,13 +138,6 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		EntityWyverniaArrow entityarrow = itemarrow.createArrow(worldIn, new ItemStack(itemarrow), player, power);
 		EntityWyverniaArrow entityarrow2 = itemarrow.createArrow(worldIn, new ItemStack(itemarrow), player, power);
 		boolean isCreative = player.capabilities.isCreativeMode;
-		entityarrow2.setAim(
-				player,
-				player.rotationPitch + player.rotationYaw / 2f,
-				player.rotationYaw,
-				0.0F,
-				power * 3.0F,
-				0.3F);
 		entityarrow.setDamage(entityarrow.getDamage() + 2 * 0.5D + 0.5D);
 		entityarrow.setKnockbackStrength(1);
 
@@ -160,14 +153,16 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 				player.inventory.deleteStack(ammunition);
 			}
 		}
-		boolean shouldCrit = worldIn.rand.nextInt(10) == 0;
+		entityarrow.setAim(player, player.rotationPitch, player.rotationYaw, 0.0F, power * 3.0F, 0.3F);
+		entityarrow2.setAim(player, player.rotationPitch - 0.05f, player.rotationYaw, 0.0F, power * 3.0F, 0.3F);
+		boolean shouldCrit = power > 1.0F || worldIn.rand.nextInt(10) == 0;
 		if (shouldCrit) {
 			entityarrow.setIsCritical(shouldCrit);
 		}
 		// TODO: get the damage from the player, instead of the bow stat?
 		entityarrow.setDamage(entityarrow.getDamage() + this.stats.getAttack(1f));
 		worldIn.spawnEntity(entityarrow);
-		if (!ammunition.isEmpty() && ammunition.getItem() == MHFCItemRegistry.getRegistry().weapon_b_huntersproud) {
+		if (!ammunition.isEmpty() && this == MHFCItemRegistry.getRegistry().weapon_b_huntersproud) {
 
 			worldIn.spawnEntity(entityarrow2);
 		}
@@ -198,7 +193,7 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		if (bowStrength < 0.5d) {
 			return;
 		}
-		
+
 
 		if (!world.isRemote) {
 			spawnArrow(entityplayer, world, ammunition, bowStrength);
