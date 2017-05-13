@@ -14,13 +14,26 @@ import com.google.gson.JsonSerializer;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import net.minecraft.util.JsonUtils;
 
+/**
+ * This class represents a reference to a quest goal, either through the id corresponding to it or a direct object
+ * reference.
+ */
 public abstract class GoalReference {
 
 	public static class GoalRefSerializer implements JsonDeserializer<GoalReference>, JsonSerializer<GoalReference> {
 		@Override
-		public GoalReference deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+		public GoalReference deserialize(JsonElement element, Type typeOfT, JsonDeserializationContext context)
 				throws JsonParseException {
-			return constructFromJson(json, context);
+			if (element == null || element.isJsonNull()) {
+				return referTo((GoalDefinitionDelegate) null);
+			}
+			if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
+				return referTo(JsonUtils.getString(element, "Goal Reference"));
+			} else if (element.isJsonObject()) {
+				GoalDefinitionDelegate desc = context.deserialize(element, GoalDefinitionDelegate.class);
+				return referTo(desc);
+			}
+			throw new JsonParseException("Required a reference on a goal but found something else");
 		}
 
 		@Override
@@ -37,7 +50,7 @@ public abstract class GoalReference {
 		}
 
 		@Override
-		public GoalDefinition getReferredDescription() {
+		public IGoalDefinition getReferredDescription() {
 			return MHFCQuestBuildRegistry.getGoalDescription(id);
 		}
 
@@ -48,15 +61,15 @@ public abstract class GoalReference {
 	}
 
 	private static class DirectReference extends GoalReference {
-		private GoalDefinition description;
+		private GoalDefinitionDelegate description;
 
-		public DirectReference(GoalDefinition description) {
+		public DirectReference(GoalDefinitionDelegate description) {
 			this.description = description;
 		}
 
 		@Override
-		public GoalDefinition getReferredDescription() {
-			return description;
+		public IGoalDefinition getReferredDescription() {
+			return description.getValue();
 		}
 
 		@Override
@@ -64,38 +77,14 @@ public abstract class GoalReference {
 			if (description == null) {
 				return JsonNull.INSTANCE;
 			}
-			return context.serialize(description, GoalDefinition.class);
+			return context.serialize(description, GoalDefinitionDelegate.class);
 		}
 	}
-
-	/**
-	 * Constructs a GoalReference from the json stream and raises an exception if there is none. Also constructs any
-	 * nested goals.
-	 *
-	 * @return A GoalReference for the json, not null
-	 */
-	public static GoalReference constructFromJson(JsonElement element, JsonDeserializationContext context) {
-		if (element == null || element.isJsonNull()) {
-			return referTo((GoalDefinition) null);
-		}
-		if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
-			return referTo(JsonUtils.getString(element, "Goal Reference"));
-		} else if (element.isJsonObject()) {
-			GoalDefinition desc = context.deserialize(element, GoalDefinition.class);
-			return referTo(desc);
-		}
-		throw new JsonParseException("Required a reference on a goal but found something else");
-	}
-
-	/**
-	 * This class represents a reference to a quest goal, either through the id corresponding to it or a direct object
-	 * reference.
-	 */
 
 	/**
 	 * Gets the actual description that is referred to by this object.
 	 */
-	public abstract GoalDefinition getReferredDescription();
+	public abstract IGoalDefinition getReferredDescription();
 
 	protected abstract JsonElement serialize(Type typeOfSrc, JsonSerializationContext context);
 
@@ -103,7 +92,7 @@ public abstract class GoalReference {
 		return new ReferenceByID(id);
 	}
 
-	public static GoalReference referTo(GoalDefinition definition) {
+	public static GoalReference referTo(GoalDefinitionDelegate definition) {
 		return new DirectReference(definition);
 	}
 

@@ -20,19 +20,19 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.core.data.QuestDescriptionRegistry;
 import mhfc.net.common.core.data.QuestDescriptionRegistry.QuestGroupData;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.network.serialization.GoalSerializer;
-import mhfc.net.common.network.serialization.QuestSerializer;
-import mhfc.net.common.quests.api.GoalDefinition;
+import mhfc.net.common.quests.QuestFactories;
+import mhfc.net.common.quests.api.GoalDefinitionDelegate;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.GoalReference.GoalRefSerializer;
-import mhfc.net.common.quests.api.QuestDefinition;
+import mhfc.net.common.quests.api.QuestDefinitionDelegate;
+import mhfc.net.common.quests.api.QuestRewardDelegate;
 
 public class BuilderJsonToQuests {
 
 	public static final ParameterizedType typeOfMapGoal = new ParameterizedType() {
 		@Override
 		public Type[] getActualTypeArguments() {
-			return new Type[] { String.class, GoalDefinition.class };
+			return new Type[] { String.class, GoalDefinitionDelegate.class };
 		}
 
 		@Override
@@ -48,7 +48,7 @@ public class BuilderJsonToQuests {
 	public static final ParameterizedType typeOfMapQuest = new ParameterizedType() {
 		@Override
 		public Type[] getActualTypeArguments() {
-			return new Type[] { String.class, QuestDefinition.class };
+			return new Type[] { String.class, QuestDefinitionDelegate.class };
 		}
 
 		@Override
@@ -119,8 +119,9 @@ public class BuilderJsonToQuests {
 	}
 
 	public final static Gson gsonInstance = new GsonBuilder()
-			.registerTypeAdapter(GoalDefinition.class, new GoalSerializer())
-			.registerTypeAdapter(QuestDefinition.class, new QuestSerializer())
+			.registerTypeAdapter(GoalDefinitionDelegate.class, QuestFactories.getGoalConverter())
+			.registerTypeAdapter(QuestDefinitionDelegate.class, QuestFactories.getQuestConverter())
+			.registerTypeAdapter(QuestRewardDelegate.class, QuestFactories.getRewardConverter())
 			.registerTypeAdapter(GoalReference.class, new GoalRefSerializer()).serializeNulls().create();
 
 	private QuestDescriptionRegistry dataObject;
@@ -135,19 +136,19 @@ public class BuilderJsonToQuests {
 
 	public void acceptGoalsFrom(JsonReader jsonReader) {
 		@SuppressWarnings("unchecked")
-		Map<String, GoalDefinition> map = (Map<String, GoalDefinition>) gsonInstance
-				.fromJson(jsonReader, typeOfMapGoal);
+		Map<String, GoalDefinitionDelegate> map = (Map<String, GoalDefinitionDelegate>) gsonInstance
+		.fromJson(jsonReader, typeOfMapGoal);
 		acceptGoals(map);
 	}
 
 	public void acceptGoals(JsonObject jsonInstance) {
 		@SuppressWarnings("unchecked")
-		Map<String, GoalDefinition> map = (Map<String, GoalDefinition>) gsonInstance
-				.fromJson(jsonInstance, typeOfMapGoal);
+		Map<String, GoalDefinitionDelegate> map = (Map<String, GoalDefinitionDelegate>) gsonInstance
+		.fromJson(jsonInstance, typeOfMapGoal);
 		acceptGoals(map);
 	}
 
-	private void acceptGoals(Map<String, GoalDefinition> map) {
+	private void acceptGoals(Map<String, GoalDefinitionDelegate> map) {
 		if (map == null) {
 			return;
 		}
@@ -200,16 +201,16 @@ public class BuilderJsonToQuests {
 	}
 
 	public void acceptQuestsFrom(JsonReader reader) {
-		Map<String, QuestDefinition> map = gsonInstance.fromJson(reader, typeOfMapQuest);
+		Map<String, QuestDefinitionDelegate> map = gsonInstance.fromJson(reader, typeOfMapQuest);
 		acceptQuests(map);
 	}
 
 	public void acceptQuests(JsonObject jsonObject) {
-		Map<String, QuestDefinition> map = gsonInstance.fromJson(jsonObject, typeOfMapQuest);
+		Map<String, QuestDefinitionDelegate> map = gsonInstance.fromJson(jsonObject, typeOfMapQuest);
 		acceptQuests(map);
 	}
 
-	private void acceptQuests(Map<String, QuestDefinition> map) {
+	private void acceptQuests(Map<String, QuestDefinitionDelegate> map) {
 		if (map == null) {
 			return;
 		}

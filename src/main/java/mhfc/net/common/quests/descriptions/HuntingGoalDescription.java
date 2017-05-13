@@ -1,7 +1,6 @@
 package mhfc.net.common.quests.descriptions;
 
-import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.quests.api.GoalDefinition;
+import mhfc.net.common.quests.api.IGoalDefinition;
 import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.goals.HuntingQuestGoal;
@@ -13,7 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.util.ResourceLocation;
 
-public class HuntingGoalDescription extends GoalDefinition {
+public class HuntingGoalDescription implements IGoalDefinition {
 
 	public static final String ID_HUNTED_TYPE = "target";
 	public static final String ID_AMOUNT = "amount";
@@ -22,7 +21,6 @@ public class HuntingGoalDescription extends GoalDefinition {
 	private Class<? extends Entity> huntedClass;
 
 	public HuntingGoalDescription(Class<? extends Entity> huntedClass, int amount) {
-		super(MHFCQuestBuildRegistry.GOAL_HUNTING_TYPE);
 		this.huntedClass = huntedClass;
 		this.amount = amount;
 	}

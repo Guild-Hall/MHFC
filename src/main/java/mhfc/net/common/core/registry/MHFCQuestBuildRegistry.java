@@ -12,8 +12,8 @@ import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.handler.MHFCInteractionHandler.MHFCInteractionModReloadEvent;
 import mhfc.net.common.network.message.quest.MessageQuestInit;
 import mhfc.net.common.quests.QuestFactories;
-import mhfc.net.common.quests.api.GoalDefinition;
-import mhfc.net.common.quests.api.QuestDefinition;
+import mhfc.net.common.quests.api.IGoalDefinition;
+import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.world.QuestFlair;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -36,9 +36,6 @@ public class MHFCQuestBuildRegistry {
 
 	private static QuestDescriptionRegistry dataObject;
 
-	public static final String KEY_TYPE = "type";
-	public static final String KEY_DATA = "data";
-
 	public static final String KEY_ORDERED_GROUPS = "groupDisplayOrder";
 	public static final String KEY_GROUP_MAPPING = "groups";
 
@@ -53,7 +50,6 @@ public class MHFCQuestBuildRegistry {
 	public static final String GOAL_TIME_TYPE = "time";
 
 	public static final String QUEST_DEFAULT = "default";
-	public static final String QUEST_RUNNING = "running";
 
 	public static final String VISUAL_DEFAULT = "default";
 
@@ -61,6 +57,11 @@ public class MHFCQuestBuildRegistry {
 	public static final String QUEST_TYPE_GATHERING = "mhfc.quests.type.gathering";
 	public static final String QUEST_TYPE_EPIC_HUNTING = "mhfc.quests.type.epichunting";
 	public static final String QUEST_TYPE_KILLING = "mhfc.quests.type.killing";
+
+	public static final String REWARD_MULTIPLE_TYPE = "multiple";
+	public static final String REWARD_DEBUG_TYPE = "debug";
+	public static final String REWARD_NULL_TYPE = "null";
+	public static final String REWARD_MONEY_TYPE = "money";
 
 	public static class PlayerConnectionHandler {
 
@@ -106,11 +107,11 @@ public class MHFCQuestBuildRegistry {
 		MHFCMain.logger().info("Quests reloaded");
 	}
 
-	public static GoalDefinition getGoalDescription(String id) {
+	public static IGoalDefinition getGoalDescription(String id) {
 		return dataObject.getGoalDescription(id);
 	}
 
-	public static QuestDefinition getQuestDescription(String id) {
+	public static IQuestDefinition getQuestDescription(String id) {
 		return dataObject.getQuestDescription(id);
 	}
 

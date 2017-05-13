@@ -12,10 +12,12 @@ import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.message.quest.MessageMissionStatus;
 import mhfc.net.common.network.message.quest.MessageMissionUpdate;
-import mhfc.net.common.quests.api.QuestDefinition;
+import mhfc.net.common.quests.api.IQuestDefinition;
+import mhfc.net.common.quests.api.IQuestReward;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
 import mhfc.net.common.quests.properties.GroupProperty;
+import mhfc.net.common.quests.rewards.NullReward;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.util.PlayerMap;
@@ -31,7 +33,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	public static final String KEY_TYPE_RUNNING = "running";
 
-	enum QuestState {
+	private static enum QuestState {
 		pending,
 		running,
 		finished,
@@ -61,7 +63,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	}
 
 	private final String missionID;
-	private QuestDefinition originalDescription;
+	private IQuestDefinition originalDescription;
 
 	private PlayerMap<QuestingPlayerState> playerAttributes;
 	private int maxPlayerCount;
@@ -75,7 +77,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	 */
 	protected IActiveArea questingArea;
 
-	protected int reward;
+	protected IQuestReward reward;
 	protected int fee;
 
 	private boolean closed;
@@ -85,10 +87,10 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 			QuestGoal goal,
 			GroupProperty goalProperties,
 			int maxPartySize,
-			int reward,
+			IQuestReward reward,
 			int fee,
 			CompletionStage<IActiveArea> activeArea,
-			QuestDefinition originalDescription) {
+			IQuestDefinition originalDescription) {
 		this.missionID = Objects.requireNonNull(missionID);
 
 		this.playerAttributes = new PlayerMap<>();
@@ -99,7 +101,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		activeArea.thenAccept(this::onAreaFinished);
 		goal.setSocket(this);
 
-		this.reward = reward;
+		this.reward = reward == null ? new NullReward() : reward;
 		this.fee = fee;
 		this.state = QuestState.pending;
 		this.originalDescription = originalDescription;
@@ -118,10 +120,6 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	public QuestGoal getQuestGoal() {
 		return questGoal;
-	}
-
-	public int getReward() {
-		return reward;
 	}
 
 	public int getFee() {
@@ -164,13 +162,12 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	}
 
 	protected void onSuccess() {
-		for (QuestingPlayerState attribute : playerAttributes.values()) {
-			attribute.reward = true;
-			attribute.player.addExperienceLevel(10);
-			attribute.player.sendMessage(new TextComponentString("You have successfully completed a quest"));
+		for (QuestingPlayerState playerState : playerAttributes.values()) {
+			reward.grantReward(playerState.player);
+			playerState.reward = true;
+			playerState.player.sendMessage(new TextComponentString("You have successfully completed a quest"));
 		}
 		this.state = QuestState.finished;
-		// TODO reward the players for finishing the quest with dynamic rewards
 		onEnd();
 	}
 
@@ -295,7 +292,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		return questingArea.getArea().getSpawnController();
 	}
 
-	public QuestDefinition getOriginalDescription() {
+	public IQuestDefinition getOriginalDescription() {
 		return originalDescription;
 	}
 

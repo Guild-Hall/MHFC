@@ -8,9 +8,12 @@
 					requisites : ["StandardDeath", "StandardTimer", "Nogutsnoglory"]
 				}
 			} ,
-			reward : 5000,
-			longDescription:"test",
-     		aims :"Slay 5 Delex",
+			reward : {
+				type: "debug",
+				data: null
+			},
+			longDescription: "test",
+			aims :"Slay 5 Delex",
 			fee : 200,
 			areaID : "sandy",
 			questType : "mhfc.quests.type.hunting",

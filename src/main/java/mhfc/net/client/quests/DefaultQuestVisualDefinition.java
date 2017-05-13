@@ -36,7 +36,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		public static final String KEY_AIMS = "aims";
 		public static final String KEY_FAILS = "fails";
 		public static final String KEY_AREA_ID = "areaID";
-		public static final String KEY_REWARD = "reward";
 		public static final String KEY_FEE = "fee";
 		public static final String KEY_MAX_PARTY_SIZE = "maxPartySize";
 		public static final String KEY_TIME_LIMIT = "timeLimit";
@@ -70,8 +69,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			String areaName = quest.getAreaType().getUnlocalizedName();
 			String timeLimit = MHFCJsonUtils
 					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_TIME_LIMIT, getDefaultTimeLimit());
-			String reward = MHFCJsonUtils
-					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_REWARD, getDefaultReward());
 			String fee = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_FEE, getDefaultFee());
 			String maxPartySize = MHFCJsonUtils
 					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_MAX_PARTY_SIZE, getDefaultPartySize());
@@ -86,7 +83,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 					fails,
 					areaName,
 					timeLimit,
-					reward,
 					fee,
 					maxPartySize,
 					type);
@@ -101,7 +97,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			holder.addProperty(KEY_FAILS, information.fails);
 			holder.addProperty(KEY_AREA_ID, information.areaNameId);
 			holder.addProperty(KEY_TIME_LIMIT, information.timeLimitInS);
-			holder.addProperty(KEY_REWARD, information.reward);
 			holder.addProperty(KEY_FEE, information.fee);
 			holder.addProperty(KEY_MAX_PARTY_SIZE, information.maxPartySize);
 			holder.addProperty(KEY_TYPE, information.typeString);
@@ -132,10 +127,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			return "As fast as possible";
 		}
 
-		private String getDefaultReward() {
-			return quest == null ? "Gratitude from everybody" : quest.getReward() + "z";
-		}
-
 		private String getDefaultFee() {
 			return quest == null ? "For free!" : quest.getFee() + "z";
 		}
@@ -158,7 +149,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			"----",
 			"Town",
 			"No time limit",
-			"A quest",
 			"None",
 			"---",
 			QuestType.EpicHunting.getAsString());
@@ -171,7 +161,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			"Not contacting anyone",
 			"Network or server",
 			"Just do it asap",
-			"A better experience",
 			"A few seconds of your time",
 			"Hopefully one",
 			QuestType.Gathering.getAsString());
@@ -184,7 +173,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			"Dont't die",
 			"Somewhere in a galaxy far away",
 			"A long time ago",
-			"Server owners gratitude for reporting",
 			"What did you pay?",
 			"A few friends",
 			"Unknown quest");
@@ -201,7 +189,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	protected String timeLimitInS;
 	protected String typeString;
 
-	protected String reward;
 	protected String fee;
 	protected String maxPartySize;
 
@@ -214,7 +201,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			String fails,
 			String areaNameID,
 			String timeLimitInS,
-			String reward,
 			String fee,
 			String maxPartySize,
 			String type) {
@@ -226,7 +212,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		this.client = client;
 		this.aims = aims;
 		this.fails = fails;
-		this.reward = reward;
 		this.fee = fee;
 		this.maxPartySize = maxPartySize;
 		this.areaNameId = areaNameID;
@@ -438,9 +423,10 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 				TAG_TIME = I18n.format(ResourceInterface.unlocalized_tag_time), //
 				TAG_AREA = I18n.format(ResourceInterface.unlocalized_tag_area);
 		fontRenderer.drawString(TAG_REWARD, positionX + BORDER, positionY, COLOUR_HEADER);
+		// TODO: reimplement reward as string
 		positionY += MHFCGuiUtil.drawTextLocalizedAndReturnHeight(
 				fontRenderer,
-				reward,
+				"WIP",
 				positionX + width / 2,
 				positionY,
 				width / 2 - BORDER,

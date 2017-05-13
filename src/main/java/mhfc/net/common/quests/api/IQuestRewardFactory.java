@@ -6,7 +6,7 @@ import com.google.gson.JsonSerializationContext;
 
 import mhfc.net.common.util.io.IConverter;
 
-public interface IGoalDefinitionFactory
+public interface IQuestRewardFactory
 		extends
-		IConverter<JsonElement, JsonDeserializationContext, IGoalDefinition, JsonSerializationContext> {
+		IConverter<JsonElement, JsonDeserializationContext, IQuestReward, JsonSerializationContext> {
 }
