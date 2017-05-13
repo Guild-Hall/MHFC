@@ -17,12 +17,10 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityArrow.PickupStatus;
-import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.IItemPropertyGetter;
-import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -141,13 +139,12 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		if (ammoStack == null && !isCreative) {
 			return;
 		}
-		float f = getArrowVelocity(i)*2f;
 		if (!world.isRemote) {
 			EntityArrow entityarrow = new EntityWyverniaArrow(world, player, bowStrength * 2.0F);
 			boolean crit = new Random().nextInt(10) == 0;
 			float time = (stack.getMaxItemUseDuration() - player.getItemInUseCount()) / 20.0F;
 			if(time < 2f) {
-				spawnArrow((EntityPlayer)player, world, stack, f, 0);
+				world.spawnEntity(entityarrow);
 			}
 			entityarrow.setIsCritical(crit);
 
@@ -184,26 +181,6 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		return f;
 	}
 
-	private void spawnArrow(EntityPlayer entityplayer, World worldIn, ItemStack stack, float power, float yaw) {
-		ItemArrow itemarrow = (ItemArrow) Items.ARROW;
-		EntityArrow entityarrow = itemarrow.createArrow(worldIn, new ItemStack(Items.ARROW), entityplayer);
-		entityarrow.setAim(
-				entityplayer,
-				entityplayer.rotationPitch + yaw / 2f,
-				entityplayer.rotationYaw,
-				0.0F,
-				power * 3.0F,
-				0.3F);
-
-		if (power > 1.0F) {
-			entityarrow.setIsCritical(true);
-		}
-		entityarrow.setDamage(entityarrow.getDamage() + 2 * 0.5D + 0.5D);
-		entityarrow.setKnockbackStrength(1);
-		stack.damageItem(1, entityplayer);
-		entityarrow.pickupStatus = EntityArrow.PickupStatus.CREATIVE_ONLY;
-		worldIn.spawnEntity(entityarrow);
-	}
 
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
