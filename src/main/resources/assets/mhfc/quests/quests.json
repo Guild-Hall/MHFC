@@ -12,13 +12,13 @@
 				type: "debug",
 				data: null
 			},
-			longDescription: "test",
 			aims :"Slay 5 Delex",
 			fee : 200,
 			areaID : "sandy",
 			questType : "mhfc.quests.type.hunting",
 			visual : {
-				name : "No Guts, No Glory"
+				name : "No Guts, No Glory",
+				longDescription: "test",
 			}
 		}
 	},
