@@ -34,6 +34,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	protected static final UUID BOW_EFFECT_UUID = UUID.fromString("924f7565-3a7c-49b6-a521-1a4af6763756");
 
+	protected int arrowFireCount;
+
 	public static ItemBow build(Consumer<BowWeaponStatsBuilder> config) {
 		BowWeaponStatsBuilder builder = new BowWeaponStatsBuilder();
 		config.accept(builder);
@@ -136,7 +138,13 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		EntityWyverniaArrow entityarrow = itemarrow.createArrow(worldIn, new ItemStack(itemarrow), player, power);
 		EntityWyverniaArrow entityarrow2 = itemarrow.createArrow(worldIn, new ItemStack(itemarrow), player, power);
 		boolean isCreative = player.capabilities.isCreativeMode;
-
+		entityarrow2.setAim(
+				player,
+				player.rotationPitch + player.rotationYaw / 2f,
+				player.rotationYaw,
+				0.0F,
+				power * 3.0F,
+				0.3F);
 		entityarrow.setDamage(entityarrow.getDamage() + 2 * 0.5D + 0.5D);
 		entityarrow.setKnockbackStrength(1);
 
