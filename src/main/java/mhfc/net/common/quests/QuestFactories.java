@@ -27,6 +27,7 @@ import mhfc.net.common.quests.factory.DebugRewardFactory;
 import mhfc.net.common.quests.factory.DefaultQuestFactory;
 import mhfc.net.common.quests.factory.ForkGoalFactory;
 import mhfc.net.common.quests.factory.HuntingGoalFactory;
+import mhfc.net.common.quests.factory.LootTableRewardFactory;
 import mhfc.net.common.quests.factory.MoneyRewardFactory;
 import mhfc.net.common.quests.factory.MultipleRewardsFactory;
 import mhfc.net.common.quests.factory.NullRewardFactory;
@@ -129,6 +130,7 @@ public class QuestFactories {
 		insertRewardFactory(MHFCQuestBuildRegistry.REWARD_DEBUG_TYPE, new DebugRewardFactory());
 		insertRewardFactory(MHFCQuestBuildRegistry.REWARD_NULL_TYPE, new NullRewardFactory());
 		insertRewardFactory(MHFCQuestBuildRegistry.REWARD_MONEY_TYPE, new MoneyRewardFactory());
+		insertRewardFactory(MHFCQuestBuildRegistry.REWARD_LOOTTABLE_TYPE, new LootTableRewardFactory());
 	}
 
 	public static void insertQuestFactory(String type, IQuestDefinitionFactory factory) {
