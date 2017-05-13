@@ -29,22 +29,24 @@ public class DoubleBufferRunnableRegistry {
 		}
 	}
 
-	private List<RunEntry> current = new ArrayList<>();
-	private List<RunEntry> other = new ArrayList<>();
+	private List<RunEntry> frontBuffer = new ArrayList<>();
+	private List<RunEntry> backbuffer = new ArrayList<>();
 
 	public void register(Runnable r, Runnable cancel) {
 		Objects.requireNonNull(r);
+		// Re-entry to register during running
 		synchronized (runGuard) {
-			current.add(new RunEntry(r, cancel));
+			frontBuffer.add(new RunEntry(r, cancel));
 		}
 	}
 
 	public void runAll() {
 		synchronized (runGuard) {
-			List<RunEntry> toRun = current;
-			current = other;
-			current.clear();
-			other = toRun;
+			backbuffer.clear();
+			// Swap front and back, then run old front
+			List<RunEntry> toRun = frontBuffer;
+			frontBuffer = backbuffer;
+			backbuffer = toRun;
 			for (RunEntry r : toRun) {
 				r.run();
 			}
@@ -53,14 +55,14 @@ public class DoubleBufferRunnableRegistry {
 
 	public void cancel() {
 		synchronized (runGuard) {
-			for (RunEntry r : current) {
+			for (RunEntry r : frontBuffer) {
 				r.cancel();
 			}
-			current.clear();
-			for (RunEntry r : other) {
+			frontBuffer.clear();
+			for (RunEntry r : backbuffer) {
 				r.cancel();
 			}
-			other.clear();
+			backbuffer.clear();
 		}
 	}
 }

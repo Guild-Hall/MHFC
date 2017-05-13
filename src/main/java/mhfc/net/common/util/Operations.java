@@ -51,16 +51,28 @@ public class Operations {
 
 			@Override
 			public void addStatusMessages(List<String> messages) {
-				// TODO Auto-generated method stub
-
+				current.addStatusMessages(messages);
 			}
 		};
 	}
 
+	/**
+	 *
+	 * @param operation
+	 * @param delayedInvocations
+	 * @return an operation that the first delayedInvocations times it gets resumed, does nothing, then falls back to
+	 *         operation
+	 */
 	public static Operation delayed(final Operation operation, int delayedInvocations) {
 		return sequentially(limitedLoop(noopForever(), delayedInvocations), operation);
 	}
 
+	/**
+	 *
+	 * @param first
+	 * @param andThen
+	 * @return an operation that first resumes first until finished, afterwards andThen
+	 */
 	public static Operation sequentially(final Operation first, final Operation andThen) {
 		return new DelegateOperation(andThen, first);
 	}
@@ -69,26 +81,37 @@ public class Operations {
 		return wrapping(runnable, Runnables.doNothing());
 	}
 
+	/**
+	 * Returns an Operation that resumes the given operation op at most count times, then finishes
+	 *
+	 * @param op
+	 * @param count
+	 * @return
+	 */
 	public static Operation limitedLoop(final Operation op, int count) {
-		if (count <= 0) {
-			throw new IllegalArgumentException("count must be greater than 0");
+		if (count < 0) {
+			throw new IllegalArgumentException("count must be greater or equal than 0");
+		}
+		if (count == 0) {
+			return null;
 		}
 		return new Operation() {
+			private int countLeft = count;
 			private Operation current = op;
 
 			@Override
 			public Operation resume(RunContext run) throws WorldEditException {
-				for (int i = 0; i < count; i++) {
-					if ((current = current.resume(run)) == null) {
-						break;
-					}
+				Operation followup = current.resume(run);
+				if (followup == null || --countLeft <= 0) {
+					return null;
 				}
-				return current == null ? null : this;
+				current = followup;
+				return this;
 			}
 
 			@Override
 			public void addStatusMessages(List<String> messages) {
-				// TODO Auto-generated method stub
+				current.addStatusMessages(messages);
 			}
 
 			@Override
@@ -98,6 +121,10 @@ public class Operations {
 		};
 	}
 
+	/**
+	 *
+	 * @return an operation that does nothing, once, then finishes
+	 */
 	public static Operation noop() {
 		return new Operation() {
 
@@ -108,7 +135,7 @@ public class Operations {
 
 			@Override
 			public void addStatusMessages(List<String> messages) {
-				// TODO Auto-generated method stub
+				// no-op has no status messages, probably?
 			}
 
 			@Override
@@ -116,6 +143,10 @@ public class Operations {
 		};
 	}
 
+	/**
+	 *
+	 * @return an operation that does nothing, forever
+	 */
 	public static Operation noopForever() {
 		return new Operation() {
 
@@ -133,6 +164,12 @@ public class Operations {
 		};
 	}
 
+	/**
+	 *
+	 * @param op
+	 * @param maxTimeMillis
+	 * @return an operation that resumes op as many times as is needed to exceed a runtime of longTimeMillis
+	 */
 	public static Operation timingOperation(final Operation op, long maxTimeMillis) {
 		if (maxTimeMillis < 0) {
 			throw new IllegalArgumentException("maxTime must be greater than 0");
@@ -159,12 +196,16 @@ public class Operations {
 
 			@Override
 			public void addStatusMessages(List<String> messages) {
-				// TODO Auto-generated method stub
-
+				current.addStatusMessages(messages);
 			}
 		};
 	}
 
+	/**
+	 * @param runnable
+	 * @param cancel
+	 * @return an operation that when resumed, calls runnable, when canceled cancel
+	 */
 	public static Operation wrapping(Runnable runnable, Runnable cancel) {
 		return new Operation() {
 			@Override

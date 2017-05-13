@@ -205,8 +205,11 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		for (EntityPlayerMP player : getPlayers()) {
 			removePlayer(player);
 		}
-		MHFCQuestRegistry.getRegistry().endMission(this);
-		MHFCMain.logger().info("Mission {} ended", getMission());
+		int delayInSeconds = 25;
+		MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, delayInSeconds * 20, () -> {
+			MHFCQuestRegistry.getRegistry().endMission(this);
+			MHFCMain.logger().info("Mission {} ended", getMission());
+		});
 	}
 
 	protected void updatePlayers() {

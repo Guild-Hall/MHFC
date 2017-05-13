@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 
+import com.google.common.util.concurrent.Runnables;
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.RunContext;
@@ -28,32 +29,34 @@ public class MHFCTickHandler {
 	private static class OperationWrapper implements Runnable {
 		private Operation op;
 		private RunContext context;
-		private DoubleBufferRunnableRegistry registry;
+		private TickPhase phase;
 		private Runnable cancel;
 
-		public OperationWrapper(Operation op, DoubleBufferRunnableRegistry registry) {
+		public OperationWrapper(Operation op, RunContext context, TickPhase phase) {
 			this.op = Objects.requireNonNull(op);
-			this.context = new RunContext();
-			this.registry = Objects.requireNonNull(registry);
+			this.context = context;
+			this.phase = Objects.requireNonNull(phase);
 			this.cancel = this::cancelOp;
 		}
 
 		protected void cancelOp() {
-			if (op != null) {
-				this.op.cancel();
-			}
+			assert op != null;
+			this.op.cancel();
 		}
 
 		@Override
 		public void run() {
+			Operation followup;
 			try {
-				this.op = op.resume(context);
+				followup = op.resume(context);
 			} catch (WorldEditException e) {
 				MHFCMain.logger().error("Exception when handling an operation", e);
 				return;
 			}
-			if (this.op != null) {
-				registry.register(this, cancel);
+			if (followup != null) {
+				// same effect as if MHFCTickHandler.instance.registerOperation(phase, followup) without allocation
+				this.op = followup;
+				MHFCTickHandler.instance.registerRunnable(phase, this, cancel);
 			}
 		}
 	}
@@ -117,13 +120,11 @@ public class MHFCTickHandler {
 	 *            the context to feed to the operation
 	 */
 	public void registerOperation(TickPhase phase, final Operation op, final RunContext context) {
-		Objects.requireNonNull(phase);
 		if (op == null) {
 			return;
 		}
-		DoubleBufferRunnableRegistry queue = getQueueFor(phase);
-		OperationWrapper runnable = new OperationWrapper(op, queue);
-		queue.register(runnable, runnable.cancel);
+		OperationWrapper runnable = new OperationWrapper(op, context, phase);
+		registerRunnable(phase, runnable, runnable.cancel);
 	}
 
 	public Executor poolFor(final TickPhase phase) {
@@ -154,6 +155,10 @@ public class MHFCTickHandler {
 		TickPhase phase = TickPhase.forEvent(event);
 		IServiceKey<DoubleBufferRunnableRegistry> key = jobQueue.get(phase);
 		key.getServiceProvider().getServiceFor(key).ifPresent(DoubleBufferRunnableRegistry::runAll);
+	}
+
+	public void schedule(TickPhase phase, int ticksDelayed, Runnable run) {
+		schedule(phase, ticksDelayed, run, Runnables.doNothing());
 	}
 
 	public void schedule(TickPhase phase, int ticksDelayed, Runnable run, Runnable cancel) {
