@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import com.google.common.collect.Multimap;
 
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import mhfc.net.common.index.AttributeModifiers;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.materials.ItemWyverniaArrow;
@@ -15,7 +16,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityArrow.PickupStatus;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -133,13 +133,19 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 
 	private void spawnArrow(EntityPlayer player, World worldIn, ItemStack ammunition, float power) {
 		ItemWyverniaArrow itemarrow = (ItemWyverniaArrow) ammunition.getItem();
-		EntityArrow entityarrow = itemarrow.createArrow(worldIn, new ItemStack(itemarrow), player, power);
+		EntityWyverniaArrow entityarrow = itemarrow.createArrow(worldIn, new ItemStack(itemarrow), player, power);
+		EntityWyverniaArrow entityarrow2 = itemarrow.createArrow(worldIn, new ItemStack(itemarrow), player, power);
 		boolean isCreative = player.capabilities.isCreativeMode;
 
 		entityarrow.setDamage(entityarrow.getDamage() + 2 * 0.5D + 0.5D);
 		entityarrow.setKnockbackStrength(1);
+
+		entityarrow2.setDamage(entityarrow.getDamage() + 2 * 0.5D + 0.5D);
+		entityarrow2.setKnockbackStrength(1);
+
 		if (isCreative) {
 			entityarrow.pickupStatus = PickupStatus.CREATIVE_ONLY;
+			entityarrow2.pickupStatus = PickupStatus.CREATIVE_ONLY;
 		} else {
 			ammunition.shrink(1);
 			if (ammunition.isEmpty()) {
@@ -153,6 +159,10 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		// TODO: get the damage from the player, instead of the bow stat?
 		entityarrow.setDamage(entityarrow.getDamage() + this.stats.getAttack(1f));
 		worldIn.spawnEntity(entityarrow);
+		if (!ammunition.isEmpty() && ammunition.getItem() == MHFCItemRegistry.getRegistry().weapon_b_huntersproud) {
+
+			worldIn.spawnEntity(entityarrow2);
+		}
 	}
 
 	@Override
@@ -180,6 +190,7 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		if (bowStrength < 0.5d) {
 			return;
 		}
+		
 
 		if (!world.isRemote) {
 			spawnArrow(entityplayer, world, ammunition, bowStrength);
