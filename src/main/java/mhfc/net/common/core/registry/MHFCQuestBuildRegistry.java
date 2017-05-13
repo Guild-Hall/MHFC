@@ -62,6 +62,7 @@ public class MHFCQuestBuildRegistry {
 	public static final String REWARD_DEBUG_TYPE = "debug";
 	public static final String REWARD_NULL_TYPE = "null";
 	public static final String REWARD_MONEY_TYPE = "money";
+	public static final String REWARD_LOOTTABLE_TYPE = "lootTable";
 
 	public static class PlayerConnectionHandler {
 
