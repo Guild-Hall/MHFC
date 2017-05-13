@@ -1,6 +1,8 @@
 package mhfc.net.client.render.projectile;
 
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -21,15 +23,15 @@ public class RenderBlockProjectile extends Render<EntityProjectileBlock> {
 	@Override
 	public void doRender(EntityProjectileBlock entity, double d, double d1, double d2, float f, float f1) {
 		EntityFallingBlock fallingBlock = entity.getProxy();
-
+		BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
 		GlStateManager.pushMatrix();
-
+		GlStateManager.translate(-0.5F, 0.0F, 0.5F);
 		GlStateManager.translate((float) d, (float) d1, (float) d2);
 		GlStateManager.rotate(entity.rotationYaw, 0.0F, 1.0F, 0.0F);
 		GlStateManager.rotate(45.0F, 0.0F, 1.0F, 0.0F);
 		GlStateManager.rotate((entity.ticksExisted + f1) * 20.0F, 1.0F, 0.0F, 0.0F);
 		GlStateManager.rotate((entity.ticksExisted + f1) * 12.0F, 0.0F, 0.0F, -1.0F);
-
+		blockrendererdispatcher.renderBlockBrightness(fallingBlock.getBlock(), 1F);
 		renderManager.getEntityRenderObject(fallingBlock).doRender(fallingBlock, d, d1, d2, f, f1);
 
 		GlStateManager.popMatrix();
