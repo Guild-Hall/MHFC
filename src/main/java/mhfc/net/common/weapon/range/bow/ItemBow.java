@@ -154,7 +154,7 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 			}
 		}
 		entityarrow.setAim(player, player.rotationPitch, player.rotationYaw, 0.0F, power * 3.0F, 0.3F);
-		entityarrow2.setAim(player, player.rotationPitch - 0.05f, player.rotationYaw, 0.0F, power * 3.0F, 0.3F);
+		entityarrow2.setAim(player, player.rotationPitch, (float) (player.rotationYaw + 2D), 0.0F, power * 3.0F, 0.3F);
 		boolean shouldCrit = power > 1.0F || worldIn.rand.nextInt(10) == 0;
 		if (shouldCrit) {
 			entityarrow.setIsCritical(shouldCrit);
