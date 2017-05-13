@@ -11,6 +11,7 @@ import com.sk89q.worldedit.function.operation.RunContext;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.network.NetworkTracker;
+import mhfc.net.common.util.Operations;
 import mhfc.net.common.util.services.IServiceAccess;
 import mhfc.net.common.util.services.IServiceHandle;
 import mhfc.net.common.util.services.IServiceKey;
@@ -153,5 +154,9 @@ public class MHFCTickHandler {
 		TickPhase phase = TickPhase.forEvent(event);
 		IServiceKey<DoubleBufferRunnableRegistry> key = jobQueue.get(phase);
 		key.getServiceProvider().getServiceFor(key).ifPresent(DoubleBufferRunnableRegistry::runAll);
+	}
+
+	public void schedule(TickPhase phase, int ticksDelayed, Runnable run, Runnable cancel) {
+		registerOperation(phase, Operations.delayed(Operations.wrapping(run, cancel), ticksDelayed));
 	}
 }

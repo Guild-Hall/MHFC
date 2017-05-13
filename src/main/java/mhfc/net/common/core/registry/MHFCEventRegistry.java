@@ -2,7 +2,6 @@ package mhfc.net.common.core.registry;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.eventhandler.MHFCGuiHandler;
-import mhfc.net.common.eventhandler.MHFCJobHandler;
 import mhfc.net.common.eventhandler.MHFCTickHandler;
 import mhfc.net.common.eventhandler.entity.PitfallEvent;
 import mhfc.net.common.eventhandler.player.CombatEventHandler;
@@ -54,6 +53,5 @@ public class MHFCEventRegistry {
 
 	private static void registerTickHandler() {
 		FMLCommonHandler.instance().bus().register(MHFCTickHandler.instance);
-		FMLCommonHandler.instance().bus().register(MHFCJobHandler.instance);
 	}
 }

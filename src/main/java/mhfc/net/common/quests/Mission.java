@@ -6,9 +6,13 @@ import java.util.Set;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
+import com.google.common.util.concurrent.Runnables;
+
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
+import mhfc.net.common.eventhandler.MHFCTickHandler;
+import mhfc.net.common.eventhandler.TickPhase;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.message.quest.MessageMissionStatus;
 import mhfc.net.common.network.message.quest.MessageMissionUpdate;
@@ -257,8 +261,12 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		if (att != null) {
 			PacketPipeline.networkPipe.sendTo(MessageMissionStatus.departing(missionID), att.player);
 			MHFCQuestRegistry.getRegistry().setMissionForPlayer(att.player, null);
-			MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
-			MHFCExplorationRegistry.respawnPlayer(player);
+			int delayInSeconds = 20;
+			att.player.sendMessage(new TextComponentString("Teleporting you back in " + delayInSeconds + " seconds"));
+			MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, delayInSeconds * 20, () -> {
+				MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
+				MHFCExplorationRegistry.respawnPlayer(player);
+			}, Runnables.doNothing());
 			return true;
 		}
 		return false;

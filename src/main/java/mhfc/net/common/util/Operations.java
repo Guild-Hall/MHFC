@@ -3,7 +3,9 @@ package mhfc.net.common.util;
 import java.util.List;
 import java.util.function.Consumer;
 
+import com.google.common.util.concurrent.Runnables;
 import com.sk89q.worldedit.WorldEditException;
+import com.sk89q.worldedit.function.operation.DelegateOperation;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.RunContext;
 
@@ -50,30 +52,21 @@ public class Operations {
 			@Override
 			public void addStatusMessages(List<String> messages) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		};
 	}
 
+	public static Operation delayed(final Operation operation, int delayedInvocations) {
+		return sequentially(limitedLoop(noop(), delayedInvocations), operation);
+	}
+
+	public static Operation sequentially(final Operation first, final Operation andThen) {
+		return new DelegateOperation(andThen, first);
+	}
+
 	public static Operation wrapping(final Runnable runnable) {
-		return new Operation() {
-			@Override
-			public Operation resume(RunContext run) {
-				runnable.run();
-				return null;
-			}
-
-
-			@Override
-			public void cancel() {}
-
-
-			@Override
-			public void addStatusMessages(List<String> messages) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
+		return wrapping(runnable, Runnables.doNothing());
 	}
 
 	public static Operation limitedLoop(final Operation op, int count) {
@@ -93,6 +86,7 @@ public class Operations {
 				return current == null ? null : this;
 			}
 
+			@Override
 			public void addStatusMessages(List<String> messages) {
 				// TODO Auto-generated method stub
 			}
@@ -112,6 +106,7 @@ public class Operations {
 				return null;
 			}
 
+			@Override
 			public void addStatusMessages(List<String> messages) {
 				// TODO Auto-generated method stub
 			}
@@ -148,8 +143,26 @@ public class Operations {
 			@Override
 			public void addStatusMessages(List<String> messages) {
 				// TODO Auto-generated method stub
-				
+
 			}
+		};
+	}
+
+	public static Operation wrapping(Runnable runnable, Runnable cancel) {
+		return new Operation() {
+			@Override
+			public Operation resume(RunContext run) throws WorldEditException {
+				runnable.run();
+				return null;
+			}
+
+			@Override
+			public void cancel() {
+				cancel.run();
+			}
+
+			@Override
+			public void addStatusMessages(List<String> messages) {}
 		};
 	}
 }
