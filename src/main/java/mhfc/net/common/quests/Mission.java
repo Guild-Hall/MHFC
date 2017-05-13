@@ -259,11 +259,12 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	private boolean removePlayer(EntityPlayerMP player) {
 		QuestingPlayerState att = playerAttributes.removePlayer(player);
 		if (att != null) {
-			PacketPipeline.networkPipe.sendTo(MessageMissionStatus.departing(missionID), att.player);
-			MHFCQuestRegistry.getRegistry().setMissionForPlayer(att.player, null);
+			PacketPipeline.networkPipe.sendTo(MessageMissionStatus.departing(missionID), player);
+			MHFCQuestRegistry.getRegistry().setMissionForPlayer(player, null);
 			int delayInSeconds = 20;
-			att.player.sendMessage(new TextComponentString("Teleporting you back in " + delayInSeconds + " seconds"));
+			player.sendMessage(new TextComponentString("Teleporting you back in " + delayInSeconds + " seconds"));
 			MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, delayInSeconds * 20, () -> {
+				player.sendMessage(new TextComponentString("Teleporting you now!"));
 				MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
 				MHFCExplorationRegistry.respawnPlayer(player);
 			}, Runnables.doNothing());

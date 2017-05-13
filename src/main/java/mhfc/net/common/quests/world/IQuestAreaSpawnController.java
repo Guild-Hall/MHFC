@@ -2,9 +2,13 @@ package mhfc.net.common.quests.world;
 
 import java.util.Queue;
 import java.util.Set;
+import java.util.function.Predicate;
+
+import com.google.common.base.Predicates;
 
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.util.ResourceLocation;
 
 public interface IQuestAreaSpawnController {
@@ -74,14 +78,29 @@ public interface IQuestAreaSpawnController {
 	 *
 	 * @return How many monsters were removed
 	 */
-	public int clearArea();
+	default public int clearArea() {
+		return clearAreaOf(Predicates.alwaysFalse()::apply);
+	}
 
 	/**
 	 * Clear the area from all monsters whose classes are instances of the class belonging the the given id.
 	 *
 	 * @return How many monsters were removed
 	 */
-	public int clearAreaOf(ResourceLocation entityClassID);
+	default public int clearAreaOf(ResourceLocation entityClassID) {
+		Class<? extends Entity> clazz = EntityList.getClass(entityClassID);
+		if (clazz == null) {
+			return 0;
+		}
+		return clearAreaOf(clazz::isInstance);
+	}
+
+	/**
+	 * Clear the area from all monsters who match the given predicate.
+	 *
+	 * @return How many monsters were removed
+	 */
+	public int clearAreaOf(Predicate<Entity> predicate);
 
 	/**
 	 * Tells the area spawn controller to look through the current spawn queues and take appropriate action.

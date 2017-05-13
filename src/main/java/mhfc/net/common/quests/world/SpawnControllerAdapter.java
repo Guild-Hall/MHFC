@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 
 import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.IArea;
@@ -199,11 +199,11 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	}
 
 	protected abstract void enqueDefaultSpawns();
-	
-	
+
+
 	/**
 	 * TODO: Add multiple spawn instances.
-	 * 
+	 *
 	 * */
 
 	protected abstract SpawnInformation constructDefaultSpawnInformation(Spawnable entity);
@@ -258,26 +258,15 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	}
 
 	@Override
-	public int clearArea() {
-		List<Entity> allEntities = new ArrayList<>(managedEntities);
-		return allEntities.stream().filter((e) -> despawnEntity(e)).collect(Collectors.counting()).intValue();
-	}
-
-	@Override
 	public Set<Entity> getControlledEntities() {
 		return Collections.unmodifiableSet(this.managedEntities);
 	}
 
 	@Override
-	public int clearAreaOf(ResourceLocation entityClassID) {
-		Class<? extends Entity> clazz = EntityList.getClass(entityClassID);
-		if (clazz == null) {
-			return 0;
-		}
+	public int clearAreaOf(Predicate<Entity> predicate) {
 		List<Entity> allEntities = new ArrayList<>(managedEntities);
 
-		return allEntities.stream().filter((e) -> clazz.isInstance(e)).filter((e) -> despawnEntity(e))
-				.collect(Collectors.counting()).intValue();
+		return (int) allEntities.stream().filter(predicate).filter(e -> despawnEntity(e)).count();
 	}
 
 	protected boolean inArea(double posX, double posY, double posZ) {

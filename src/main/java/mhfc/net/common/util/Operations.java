@@ -58,7 +58,7 @@ public class Operations {
 	}
 
 	public static Operation delayed(final Operation operation, int delayedInvocations) {
-		return sequentially(limitedLoop(noop(), delayedInvocations), operation);
+		return sequentially(limitedLoop(noopForever(), delayedInvocations), operation);
 	}
 
 	public static Operation sequentially(final Operation first, final Operation andThen) {
@@ -113,6 +113,23 @@ public class Operations {
 
 			@Override
 			public void cancel() {}
+		};
+	}
+
+	public static Operation noopForever() {
+		return new Operation() {
+
+			@Override
+			public Operation resume(RunContext run) throws WorldEditException {
+				return this;
+			}
+
+			@Override
+			public void cancel() {}
+
+			@Override
+			public void addStatusMessages(List<String> messages) {
+			}
 		};
 	}
 
