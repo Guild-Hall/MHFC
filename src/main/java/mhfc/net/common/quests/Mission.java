@@ -170,7 +170,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		for (QuestingPlayerState playerState : playerAttributes.values()) {
 			reward.grantReward(playerState.player);
 			playerState.reward = true;
-			playerState.player.sendMessage(new TextComponentString("You have successfully completed a quest"));
+			playerState.player.sendMessage(new TextComponentString(ColorSystem.ENUMGOLD + "QUEST COMPLETE"));
 		}
 		this.state = QuestState.finished;
 		onEnd();
@@ -265,15 +265,11 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		if (att != null) {
 			PacketPipeline.networkPipe.sendTo(MessageMissionStatus.departing(missionID), player);
 			MHFCQuestRegistry.getRegistry().setMissionForPlayer(player, null);
-			int delayInSeconds = 600;
-			player.sendMessage(
-					new TextComponentString(
-							ColorSystem.ENUMGOLD
-									+ "              Q U E S T C O M P L E T E ! ! ! ! ! ! ! ! ! !        "));
+			int delayInSeconds = 20;
 			player.sendMessage(
 					new TextComponentString(
 							ColorSystem.ENUMDARK_AQUA + "Teleporting you back in " + delayInSeconds + " seconds"));
-			MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, delayInSeconds * 600, () -> {
+			MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, delayInSeconds * 20, () -> {
 				player.sendMessage(new TextComponentString("Teleporting you now!"));
 				MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
 				MHFCExplorationRegistry.respawnPlayer(player);
