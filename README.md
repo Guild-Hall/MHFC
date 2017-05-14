@@ -22,7 +22,7 @@ A big thanks goes to <--> for providing us with the full weapon trees and the Mi
 Copyright notice
 ----------------
 
-Copyright (C) 2015, Heltrato and the Guild Hall team
+Copyright (C) 2017, WorldSEnder & Heltrato
 All rights reserved
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
