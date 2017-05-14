@@ -11,6 +11,7 @@ import com.google.common.util.concurrent.Runnables;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.core.registry.MHFCQuestRegistry;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.eventhandler.MHFCTickHandler;
 import mhfc.net.common.eventhandler.TickPhase;
 import mhfc.net.common.network.PacketPipeline;
@@ -32,6 +33,7 @@ import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.exploration.IExplorationManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentString;
 
 public class Mission implements QuestGoalSocket, AutoCloseable {
@@ -160,6 +162,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	protected void onFail() {
 		for (EntityPlayerMP player : getPlayers()) {
+			player.playSound(MHFCSoundRegistry.getRegistry().questNotification, 2.0F, 2.0F);
 			player.sendMessage(new TextComponentString("You have failed a quest"));
 		}
 		// TODO do special stuff for fail
@@ -170,6 +173,14 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		for (QuestingPlayerState playerState : playerAttributes.values()) {
 			reward.grantReward(playerState.player);
 			playerState.reward = true;
+			playerState.player.world.playSound(
+					playerState.player,
+					playerState.player.getPosition(),
+					MHFCSoundRegistry.getRegistry().questClear,
+					SoundCategory.MUSIC,
+					2F,
+					2F);
+			playerState.player.playSound(MHFCSoundRegistry.getRegistry().questNotification, 1F, 1F);
 			playerState.player.sendMessage(new TextComponentString(ColorSystem.ENUMGOLD + "QUEST COMPLETE"));
 		}
 		this.state = QuestState.finished;

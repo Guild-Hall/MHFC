@@ -41,6 +41,8 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		public static final String KEY_TIME_LIMIT = "timeLimit";
 		public static final String KEY_TYPE = "questType";
 
+		public static final String KEY_MONSTER = "mainmonsters";
+
 		private DefaultQuestDescription quest;
 		private JsonObject jsonObject;
 
@@ -74,6 +76,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_MAX_PARTY_SIZE, getDefaultPartySize());
 			String type = MHFCJsonUtils
 					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_TYPE, getDefaultQuestType());
+			String monster = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_MONSTER, getDefeaultMonster());
 			return new DefaultQuestVisualDefinition(
 					quest,
 					name,
@@ -105,6 +108,10 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 
 		private String getDefaultName() {
 			return "Hunter's Quest";
+		}
+		
+		private String getDefeaultMonster() {
+			return "NYI";
 		}
 
 		private String getDefaultDescription() {

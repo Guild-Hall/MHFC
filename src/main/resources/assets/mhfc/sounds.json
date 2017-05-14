@@ -2,6 +2,9 @@
     "bowgun.shot": {"category": "player", "sounds": ["mhfc:weapons/bowgunshot"]},
     "huntinghorn.play": {"category": "master", "sounds": ["mhfc:weapons/huntinghorn2"]},
     
+    "quest.notification": {"category": "master", "sounds": ["mhfc:quest/notification"]},
+    "quest.clear": {"category": "music", "sounds": ["mhfc:quest/clear"]},
+    
     "barroth.idle": {"category": "hostile", "sounds": ["mhfc:mob/barroth/idle1", "mhfc:mob/barroth/idle2"]},
     "barroth.charge": {"category": "hostile", "sounds": ["mhfc:mob/barroth/charge"]},
     "barroth.headsmash": {"category": "hostile", "sounds": ["mhfc:mob/barroth/headsmash"]},

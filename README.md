@@ -16,6 +16,7 @@ What is this mod?
 	 - Quest System
 	 - Unique AI System
 	 - Party System ( WIP )
+	 - Gestures ( To be discuss )
 
 Acknowledgments
 ---------------

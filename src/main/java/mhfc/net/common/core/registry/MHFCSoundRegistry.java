@@ -80,6 +80,9 @@ public class MHFCSoundRegistry {
 
 	public final SoundEvent huntingHornPlayNote;
 
+	public final SoundEvent questNotification;
+	public final SoundEvent questClear;
+
 	public MHFCSoundRegistry() {
 		barrothIdle = registerSoundEvent("mhfc:barroth.idle");
 		barrothDeath = registerSoundEvent("mhfc:barroth.death");
@@ -147,6 +150,9 @@ public class MHFCSoundRegistry {
 		tigrexTailWhip = registerSoundEvent("mhfc:tigrex.tailwhip");
 
 		huntingHornPlayNote = registerSoundEvent("mhfc:huntinghorn.play");
+
+		questClear = registerSoundEvent("mhfc:quest.clear");
+		questNotification = registerSoundEvent("mhfc:quest.notification");
 	}
 
 	private SoundEvent registerSoundEvent(String nameAndLocation) {
