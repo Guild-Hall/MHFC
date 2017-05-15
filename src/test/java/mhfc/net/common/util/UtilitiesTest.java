@@ -18,7 +18,7 @@ public class UtilitiesTest {
 
 	@Test
 	public void test() throws IOException {
-		InputStream stream = Utilities.openEmbeddedResource(location);
+		InputStream stream = Deprecate.openEmbeddedResource(location);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 		String firstLine = reader.readLine();
 		assertTrue(firstLine.matches(".*?=.*"));
@@ -26,7 +26,7 @@ public class UtilitiesTest {
 
 	@Test(expected = IOException.class)
 	public void testWrongFile() throws IOException {
-		InputStream stream = Utilities.openEmbeddedResource(location_wrong);
+		InputStream stream = Deprecate.openEmbeddedResource(location_wrong);
 		assertTrue(stream == null);
 	}
 

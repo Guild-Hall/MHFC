@@ -17,10 +17,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
-public class Utilities {
+public class Deprecate {
 	
-	public Utilities(){
+	public Deprecate(){
 	}
+	
+	// This being renamed deprecate because most methods here will be moved.
 
 	public void addWeaponElementFX(EntityLivingBase entityLiving, ItemStack stack) {
 

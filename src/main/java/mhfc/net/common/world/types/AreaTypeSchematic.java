@@ -15,7 +15,7 @@ import com.sk89q.worldedit.world.registry.LegacyWorldData;
 import com.sk89q.worldedit.world.registry.WorldData;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.util.Utilities;
+import mhfc.net.common.util.Deprecate;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.DisplacedView;
 import mhfc.net.common.world.area.IArea;
@@ -38,7 +38,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 	protected CuboidRegion clipboardRegion;
 
 	public AreaTypeSchematic(ResourceLocation schematicLocation, IClipboardFormat fileformat) {
-		try (BufferedInputStream instream = Utilities.openEmbeddedResource(schematicLocation)) {
+		try (BufferedInputStream instream = Deprecate.openEmbeddedResource(schematicLocation)) {
 			areaClipboard = fileformat.getReader(instream).read(AreaTypeSchematic.forgeData);
 		} catch (IOException e) {
 			MHFCMain.logger().error(
