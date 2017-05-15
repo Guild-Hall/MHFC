@@ -39,8 +39,7 @@ import net.minecraft.util.text.TextComponentString;
 public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	public static final String KEY_TYPE_RUNNING = "running";
-	private static final int DELAY_BEFORE_TP_IN_SECONDS = 30;
-	private static final int DELAY_TP_ON_SUCCESS_SECONDS = 25;
+	private static final int DELAY_BEFORE_TP_IN_SECONDS = 25;
 
 	private static enum QuestState {
 		pending,
@@ -293,10 +292,10 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 			MHFCQuestRegistry.getRegistry().setMissionForPlayer(player, null);
 			player.sendMessage(
 					new TextComponentString(
-							ColorSystem.ENUMDARK_AQUA + "Teleporting you back in " + DELAY_TP_ON_SUCCESS_SECONDS
-									+ " seconds"));
-			MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, DELAY_TP_ON_SUCCESS_SECONDS * 20, () -> {
-				player.sendMessage(new TextComponentString(ColorSystem.ENUMGREEN + "Teleporting Success!"));
+							ColorSystem.ENUMDARK_AQUA + "Teleporting you back in " + DELAY_BEFORE_TP_IN_SECONDS
+							+ " seconds"));
+			MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
+				player.sendMessage(new TextComponentString(ColorSystem.ENUMGREEN + "Teleporting you back home!"));
 				MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
 				MHFCExplorationRegistry.respawnPlayer(player);
 			}, Runnables.doNothing());
