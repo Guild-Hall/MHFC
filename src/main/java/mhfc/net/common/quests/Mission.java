@@ -39,6 +39,7 @@ import net.minecraft.util.text.TextComponentString;
 public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	public static final String KEY_TYPE_RUNNING = "running";
+	private static final int DELAY_BEFORE_TP_IN_SECONDS = 30;
 
 	private static enum QuestState {
 		pending,
@@ -217,7 +218,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		for (EntityPlayerMP player : getPlayers()) {
 			removePlayer(player);
 		}
-		int delayInSeconds = 25;
+		int delayInSeconds = DELAY_BEFORE_TP_IN_SECONDS + 5;
 		MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, delayInSeconds * 20, () -> {
 			MHFCQuestRegistry.getRegistry().endMission(this);
 			MHFCMain.logger().info("Mission {} ended", getMission());
@@ -276,11 +277,11 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		if (att != null) {
 			PacketPipeline.networkPipe.sendTo(MessageMissionStatus.departing(missionID), player);
 			MHFCQuestRegistry.getRegistry().setMissionForPlayer(player, null);
-			int delayInSeconds = 60;
 			player.sendMessage(
 					new TextComponentString(
-							ColorSystem.ENUMDARK_AQUA + "Teleporting you back in " + delayInSeconds + " seconds"));
-			MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, delayInSeconds * 20, () -> {
+							ColorSystem.ENUMDARK_AQUA + "Teleporting you back in " + DELAY_BEFORE_TP_IN_SECONDS
+									+ " seconds"));
+			MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
 				player.sendMessage(new TextComponentString("Teleporting you now!"));
 				MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
 				MHFCExplorationRegistry.respawnPlayer(player);
