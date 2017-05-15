@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import com.google.common.collect.Multimap;
 
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import mhfc.net.common.index.AttributeModifiers;
 import mhfc.net.common.index.ResourceInterface;
@@ -17,7 +18,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow.PickupStatus;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.IItemPropertyGetter;
@@ -206,11 +206,12 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 				entityln.posX,
 				entityln.posY,
 				entityln.posZ,
-				SoundEvents.ENTITY_ARROW_SHOOT,
+				MHFCSoundRegistry.getRegistry().bowstrike,
 				SoundCategory.NEUTRAL,
 				volume,
 				pitch);
 	}
+
 
 	public static float getArrowVelocity(int charge) {
 		float f = charge / 30.0F;

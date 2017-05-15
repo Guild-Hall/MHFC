@@ -7,6 +7,22 @@ import net.minecraft.util.EntityDamageSourceIndirect;
 
 public class DamageSources {
 
+	/**
+	 * 
+	 * The plan here is to implement a new Damage source for the weapons which calculates random damages
+	 * 
+	 * And for monsters which enables to send message using AI instead of the typical "user has slain by <entity>
+	 * 
+	 * 
+	 * 
+	 * PLAN TO BE FULLY IMPLEMENTED. 1.4.3
+	 * 
+	 * @Heltrato
+	 * 
+	 * 
+	 * 
+	 */
+
 	public static DamageSource groundpound = new DamageSource("groundpound").setDamageBypassesArmor();
 	public static DamageSource aerial = new DamageSource("aerial").setProjectile();
 	//ANTI OTHER MODS.

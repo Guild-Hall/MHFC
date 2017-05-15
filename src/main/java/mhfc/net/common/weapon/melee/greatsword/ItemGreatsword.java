@@ -4,15 +4,18 @@ import java.util.function.Consumer;
 
 import com.google.common.collect.Multimap;
 
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.greatsword.GreatswordWeaponStats.GreatswordWeaponStatsBuilder;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
 public class ItemGreatsword extends ItemWeaponMelee<GreatswordWeaponStats> {
@@ -43,6 +46,26 @@ public class ItemGreatsword extends ItemWeaponMelee<GreatswordWeaponStats> {
 			//if(stack instanceof) TODO: Add some High class GS that will never required strafing delay.
 		}
 
+	}
+
+	@Override
+	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack) {
+
+		entityLiving.world.playSound(
+				null,
+				entityLiving.posX,
+				entityLiving.posY,
+				entityLiving.posZ,
+				MHFCSoundRegistry.getRegistry().greatswordstrike,
+				SoundCategory.NEUTRAL,
+				2F,
+				2F);
+		return super.onEntitySwing(entityLiving, stack);
+	}
+
+	@Override
+	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
+		return true;
 	}
 
 	@Override

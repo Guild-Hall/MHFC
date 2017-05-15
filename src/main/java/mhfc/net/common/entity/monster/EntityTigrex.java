@@ -9,9 +9,14 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.entity.boss.tigrex.Bite;
+import mhfc.net.common.ai.entity.boss.tigrex.Charge;
 import mhfc.net.common.ai.entity.boss.tigrex.Death;
 import mhfc.net.common.ai.entity.boss.tigrex.GroundHurl;
+import mhfc.net.common.ai.entity.boss.tigrex.Idle;
 import mhfc.net.common.ai.entity.boss.tigrex.Jump;
+import mhfc.net.common.ai.entity.boss.tigrex.Roar;
+import mhfc.net.common.ai.entity.boss.tigrex.TailWhip;
 import mhfc.net.common.ai.entity.boss.tigrex.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
@@ -52,17 +57,17 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		ActionManagerBuilder<EntityTigrex> manager = new ActionManagerBuilder<>();
 		manager.registerAction(setDeathAction(new Death()));
 		
-	//	Charge charge = new Charge();
-	//	manager.registerAction(charge);
+		Charge charge = new Charge();
+		manager.registerAction(charge);
 
-	//	manager.registerAction(new Bite());
-	//	Roar roar = new Roar();
-	//	manager.registerAction(roar);
-	//	manager.registerAction(new TailWhip());
+		manager.registerAction(new Bite());
+		Roar roar = new Roar();
+		manager.registerAction(roar);
+		manager.registerAction(new TailWhip());
 
 		// Living Actions 
 
-	//	manager.registerAction(new Idle());
+		manager.registerAction(new Idle());
 		manager.registerAction(new Wander());
 
 		//To be fix
@@ -87,7 +92,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();// def hp 18432D
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(20D));
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(18432D));
 	}
 
 	@Override

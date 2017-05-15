@@ -172,8 +172,8 @@ public class MHFCMain {
 		config = new MHFCConfig(event);
 		MHFCMain.config().init();
 		UpdateSystem.init();
-		MHFCMain.logger().info("Starting MHFC v" + ResourceInterface.getMetadata().version);
-		MHFCMain.logger().info("Copyright (c) Guild Hall 2015");
+		MHFCMain.logger().info("Starting MHFC ( " + ResourceInterface.getMetadata().version + " ) ");
+		MHFCMain.logger().info("Copyright (c) Heltrato | WorldSEnder 2017");
 		preInitPhaseAccess.enterPhase(event);
 	}
 

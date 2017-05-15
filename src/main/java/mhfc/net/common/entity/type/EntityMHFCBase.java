@@ -65,7 +65,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	private IExecutableAction<? super YC> inWaterAction;
 	private IExecutableAction<? super YC> stunAction;
 
-	private int armorValue = 35;
+	private int armorValue = 37;
 	// Only of importance on the server. On the server, ANIM_FRAME is not the actual animation frame,
 	// but the last frame we sent to the client. If the animation is set to a frame other than
 	// ANIM_FRAME + ticksSinceFrameShared, we update ANIM_FRAME, otherwise, we believe that the

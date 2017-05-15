@@ -2,6 +2,12 @@
     "bowgun.shot": {"category": "player", "sounds": ["mhfc:weapons/bowgunshot"]},
     "huntinghorn.play": {"category": "master", "sounds": ["mhfc:weapons/huntinghorn2"]},
     
+    "longsword.strike": {"category": "player", "sounds": ["mhfc:weapons/longswordstrike_1","mhfc:weapons/longswordstrike_2","mhfc:weapons/longswordstrike_3"]},
+    "longsword.swing": {"category": "player", "sounds": ["mhfc:weapons/longswordswing_1","mhfc:weapons/longswordswing_2"]},
+    "bow.strike": {"category": "player", "sounds": ["mhfc:weapons/bow_1","mhfc:weapons/bow_2","mhfc:weapons/bow_3"]},
+    "greatsword.strike": {"category": "player", "sounds": ["mhfc:weapons/greatsword_1","mhfc:weapons/greatsword_2","mhfc:weapons/greatsword_3"]},
+    "hammer.strike": {"category": "player", "sounds": ["mhfc:weapons/hammer_1","mhfc:weapons/hammer_2","mhfc:weapons/hammer_3"]},
+    
     "quest.notification": {"category": "master", "sounds": ["mhfc:quest/notification"]},
     "quest.clear": {"category": "music", "sounds": ["mhfc:quest/clear"]},
     

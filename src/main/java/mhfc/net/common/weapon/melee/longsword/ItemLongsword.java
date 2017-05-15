@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 
 import com.google.common.collect.Multimap;
 
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.NBTUtils;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
@@ -17,6 +18,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
 public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
@@ -62,7 +64,10 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 			EntityPlayer entity = (EntityPlayer) holder;
 			entity.moveEntityWithHeading(entity.moveStrafing * -0.25f, entity.moveForward * -0.25f);
 			//if(stack instanceof) TODO: Add some High class GS that will never required strafing delay.
+			
+
 		}
+		
 	}
 
 	@Override
@@ -87,11 +92,33 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 	}
 
 	@Override
-	public boolean hitEntity(ItemStack stack, EntityLivingBase holder, EntityLivingBase hit) {
+	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
+		attacker.world.playSound(
+				null,
+				attacker.posX,
+				attacker.posY,
+				attacker.posZ,
+				MHFCSoundRegistry.getRegistry().longswordstrike,
+				SoundCategory.NEUTRAL,
+				1F,
+				1F);
 		changeSpirit(stack, 10);
 		return true;
 	}
 
+	@Override
+	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack) {
+		entityLiving.world.playSound(
+				null,
+				entityLiving.posX,
+				entityLiving.posY,
+				entityLiving.posZ,
+				MHFCSoundRegistry.getRegistry().longswordswing,
+				SoundCategory.NEUTRAL,
+				1F,
+				1F);
+		return false;
+	}
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
 		Multimap<String, AttributeModifier> attributes = super.getAttributeModifiers(slot, stack);

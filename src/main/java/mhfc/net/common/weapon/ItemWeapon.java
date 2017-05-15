@@ -118,11 +118,15 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item implements 
 
 	@Override
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack) {
+
+
 		for (CombatEffect effect : stats.getCombatEffects()) {
 			effect.getType().onEntitySwing(entityLiving, stack, itemRand);
 		}
 		return false;
+
 	}
+
 
 	@SideOnly(Side.CLIENT)
 	@Override

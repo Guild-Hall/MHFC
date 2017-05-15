@@ -80,6 +80,13 @@ public class MHFCSoundRegistry {
 
 	public final SoundEvent huntingHornPlayNote;
 
+	public final SoundEvent longswordstrike;
+	public final SoundEvent longswordswing;
+
+	public final SoundEvent bowstrike;
+	public final SoundEvent hammerstrike;
+	public final SoundEvent greatswordstrike;
+
 	public final SoundEvent questNotification;
 	public final SoundEvent questClear;
 
@@ -150,6 +157,13 @@ public class MHFCSoundRegistry {
 		tigrexTailWhip = registerSoundEvent("mhfc:tigrex.tailwhip");
 
 		huntingHornPlayNote = registerSoundEvent("mhfc:huntinghorn.play");
+
+		longswordstrike = registerSoundEvent("mhfc:longsword.strike");
+		longswordswing = registerSoundEvent("mhfc:longsword.swing");
+
+		greatswordstrike = registerSoundEvent("mhfc:greatsword.strike");
+		bowstrike = registerSoundEvent("mhfc:bow.strike");
+		hammerstrike = registerSoundEvent("mhfc:hammer.strike");
 
 		questClear = registerSoundEvent("mhfc:quest.clear");
 		questNotification = registerSoundEvent("mhfc:quest.notification");
