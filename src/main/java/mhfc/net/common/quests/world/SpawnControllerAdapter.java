@@ -1,6 +1,5 @@
 package mhfc.net.common.quests.world;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -264,9 +263,9 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 	@Override
 	public int clearAreaOf(Predicate<Entity> predicate) {
-		List<Entity> allEntities = new ArrayList<>(managedEntities);
+		List<Entity> allEntities = worldView.getAllMatchingEntities(predicate);
 
-		return (int) allEntities.stream().filter(predicate).filter(e -> despawnEntity(e)).count();
+		return (int) allEntities.stream().filter(predicate).filter(this::despawnEntity).count();
 	}
 
 	protected boolean inArea(double posX, double posY, double posZ) {

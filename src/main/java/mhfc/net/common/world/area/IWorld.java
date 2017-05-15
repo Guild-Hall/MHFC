@@ -1,5 +1,8 @@
 package mhfc.net.common.world.area;
 
+import java.util.List;
+import java.util.function.Predicate;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -129,6 +132,8 @@ public interface IWorld {
 	 * Counts how many entities of an entity class exist in the world. Args: entityClass
 	 */
 	int countEntities(Class<? extends Entity> entityClass);
+
+	List<Entity> getAllMatchingEntities(Predicate<Entity> predicate);
 
 	/**
 	 * Returns the highest redstone signal strength powering the given block. Args: X, Y, Z.

@@ -1,6 +1,9 @@
 package mhfc.net.common.world.area;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import mhfc.net.common.world.AreaTeleportation;
@@ -66,6 +69,10 @@ public class DisplacedView implements IWorldView {
 	private boolean isInBoundary(double x, double y, double z) {
 		return x >= 0 && y >= 0 && z >= 0 && x < chunkDimensionX * 16 && z < chunkDimensionZ * 16
 				&& y < getWorldObject().getActualHeight();
+	}
+
+	private boolean isInBoundary(Entity entity) {
+		return isInBoundary(entity.posX - blockDeltaX, entity.posY, entity.posZ - blockDeltaZ);
 	}
 
 	private boolean isInBoundary(BlockPos localPos) {
@@ -252,7 +259,13 @@ public class DisplacedView implements IWorldView {
 	public int countEntities(Class<? extends Entity> entityClass) {
 		Stream<Entity> entStream = getWorldObject().loadedEntityList.stream();
 		return (int) entStream.filter(e -> entityClass.isAssignableFrom(e.getClass()))
-				.filter(e -> isInBoundary(e.posX - blockDeltaX, e.posY, e.posZ - blockDeltaZ)).count();
+				.filter(this::isInBoundary).count();
+	}
+
+	@Override
+	public List<Entity> getAllMatchingEntities(Predicate<Entity> predicate) {
+		return getWorldObject().loadedEntityList.stream().filter(predicate.and(this::isInBoundary))
+				.collect(Collectors.toList());
 	}
 
 	@Override
