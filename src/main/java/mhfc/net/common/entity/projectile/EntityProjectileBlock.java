@@ -5,14 +5,12 @@ import java.util.List;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAreaEffectCloud;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -70,18 +68,17 @@ public class EntityProjectileBlock extends EntityThrowable {
 				.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().expand(2.5D, 2.0D, 2.5D));
 		list.remove(getThrower());
 
-		EntityAreaEffectCloud entityareaeffectcloud = new EntityAreaEffectCloud(
-				this.world,
-				this.posX,
-				this.posY,
-				this.posZ);
-		entityareaeffectcloud.setOwner(this.getThrower());
-		entityareaeffectcloud.setParticle(EnumParticleTypes.DRAGON_BREATH);
-		entityareaeffectcloud.setRadius(3.0F);
-		entityareaeffectcloud.setDuration(600);
-		entityareaeffectcloud
-				.setRadiusPerTick((7.0F - entityareaeffectcloud.getRadius()) / entityareaeffectcloud.getDuration());
-		this.world.spawnEntity(entityareaeffectcloud);
+		//	EntityAreaEffectCloud entityareaeffectcloud = new EntityAreaEffectCloud(
+		//			this.world,
+		//			this.posX,
+		//			this.posY,
+		//			this.posZ);
+		//	entityareaeffectcloud.setOwner(this.getThrower());
+		//	entityareaeffectcloud.setRadius(1.0F);
+		//	entityareaeffectcloud.setDuration(100);
+		//	entityareaeffectcloud
+		//			.setRadiusPerTick((7.0F - entityareaeffectcloud.getRadius()) / entityareaeffectcloud.getDuration());
+		//	this.world.spawnEntity(entityareaeffectcloud);
 
 		for (Entity entity : list) {
 			if (getDistanceSqToEntity(entity) > 6.25D) {
