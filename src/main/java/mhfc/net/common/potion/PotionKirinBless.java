@@ -41,7 +41,7 @@ public class PotionKirinBless extends Potion {
 	@Override
 	public void performEffect(EntityLivingBase entity, int amplifier) {
 		entity.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE));
-		if (entity.getHealth() >= 3F) {
+		if (entity.getHealth() <= 3F) {
 			entity.heal(2F);
 		}
 	}
