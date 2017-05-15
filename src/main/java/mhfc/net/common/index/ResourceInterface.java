@@ -17,6 +17,7 @@ public class ResourceInterface {
 	public static final String main_config_mobCategory = "MHFC Mobs";
 	public static final String main_config_mobs_summonTigrex_key = "SummonTigrex";
 	public static final String main_modid = "mhfc";
+	public static final String main_resource_domain = "mhfc";
 	@Mod.Metadata(ResourceInterface.main_modid)
 	private static ModMetadata main_metadata = null;
 
@@ -29,9 +30,9 @@ public class ResourceInterface {
 	public static final String area_desert_name = "mhfc.area.desert.name";
 	public static final String area_test_name = "mhfc.area.test.name";
 	public static final String area_pokevillage_name = "mhfc.area.village_poke.name";
-	
+
 	// new 1.11
-	
+
 	public static final String area_sandy_name = "mhfc.area.sandy.name";
 	public static final String area_greenvalley_name = "mhfc.area.greenvalley.name";
 
@@ -160,7 +161,7 @@ public class ResourceInterface {
 	public static final String block_roy_name = "flowerroy";
 	public static final String block_sampa_name = "flowersampa";
 	public static final String block_silon_name = "flowersilon";
-	
+
 	public static final String block_wyverniaplant_basename = "wyverniaplant";
 	public static final String block_plantb1_name = "plant_b1";
 	public static final String block_plantb2_name = "plant_b2";
@@ -274,7 +275,7 @@ public class ResourceInterface {
 	public static final String item_kirin3_name = "lightcrystal";
 	public static final String item_kirin4_name = "purecrystal";
 	public static final String item_kirin5_name = "mane";
-	
+
 	public static final String item_bug_basename = "bug";
 	public static final String item_bug0_name = "insecthusk";
 	public static final String item_bug1_name = "yambug";
@@ -297,7 +298,7 @@ public class ResourceInterface {
 	public static final String item_bug18_name = "royalrhino";
 	public static final String item_bug19_name = "divinerhino";
 	public static final String item_bug20_name = "gluehopper";
-	
+
 
 	public static final String item_rathalos_basename = "rathalos";
 	public static final String item_rathalos0_name = "shell";
