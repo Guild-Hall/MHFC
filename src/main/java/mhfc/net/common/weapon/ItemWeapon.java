@@ -47,6 +47,8 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item implements 
 		setMaxStackSize(1);
 	}
 
+
+
 	@Override
 	public ModelResourceLocation getModel() {
 		if (resLocCache == null) {
@@ -141,6 +143,8 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item implements 
 	public int getMaxItemUseDuration(ItemStack itemstack) {
 		return 72000;
 	}
+
+
 
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
