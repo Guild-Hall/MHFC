@@ -20,7 +20,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<LivingDeathEvent> {
 
-	private LazyQueue<Spawnable> infSpawns;
+	private LazyQueue<Spawnable> spawnQueue;
 	private IntProperty goalNumber;
 	private IntProperty currentNumber;
 	private Class<? extends Entity> goalClass;
@@ -40,8 +40,8 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 		MinecraftForge.EVENT_BUS.register(goalHandler);
 		ResourceLocation goalMob = EntityList.getKey(goalClass);
 		Spawnable creation = (world) -> EntityList.createEntityByIDFromName(goalMob, world);
-		Stream<Spawnable> generator = Stream.generate(() -> creation);
-		infSpawns = new LazyQueue<>(generator.iterator());
+		Stream<Spawnable> generator = Stream.generate(() -> creation).limit(goalNumber.get());
+		spawnQueue = new LazyQueue<>(generator.iterator());
 	}
 
 	@Override
@@ -84,10 +84,11 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 	public void setActive(boolean newActive) {
 		goalHandler.setActive(newActive);
 		if (newActive) {
-			getMission().getSpawnController().enqueueSpawns(infSpawns);
-			getMission().getSpawnController().setGenerationMaximum(goalClass, goalNumber.get());
+			getMission().getSpawnController().enqueueSpawns(spawnQueue);
+			// TODO: generate per area if minion
+			getMission().getSpawnController().setGenerationMaximum(goalClass, 1);
 		} else {
-			getMission().getSpawnController().dequeueSpawns(infSpawns);
+			getMission().getSpawnController().dequeueSpawns(spawnQueue);
 		}
 	}
 }
