@@ -282,7 +282,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			currentY += LINE_SEPERATION;
 			currentY += MHFCGuiUtil.drawTextAndReturnHeight(
 					fontRenderer,
-					ColorSystem.ENUMGOLD + monster,
+					ColorSystem.ENUMDARK_RED + monster,
 					positionX + width / 8,
 					currentY,
 					7 * width / 8 - BORDER,
