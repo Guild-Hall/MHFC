@@ -14,6 +14,7 @@ import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription.QuestType;
 import mhfc.net.common.quests.properties.GroupProperty;
+import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.MHFCJsonUtils;
 import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.client.gui.FontRenderer;
@@ -41,7 +42,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		public static final String KEY_TIME_LIMIT = "timeLimit";
 		public static final String KEY_TYPE = "questType";
 
-		public static final String KEY_MONSTER = "mainmonsters";
+		public static final String KEY_MONSTER = "monster";
 
 		private DefaultQuestDescription quest;
 		private JsonObject jsonObject;
@@ -76,7 +77,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_MAX_PARTY_SIZE, getDefaultPartySize());
 			String type = MHFCJsonUtils
 					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_TYPE, getDefaultQuestType());
-			String monster = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_MONSTER, getDefeaultMonster());
+			String monster = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_MONSTER, getDefaultMonster());
 			return new DefaultQuestVisualDefinition(
 					quest,
 					name,
@@ -88,7 +89,8 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 					timeLimit,
 					fee,
 					maxPartySize,
-					type);
+					type,
+					monster);
 		}
 
 		public JsonElement serialize(DefaultQuestVisualDefinition information, JsonSerializationContext context) {
@@ -103,6 +105,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			holder.addProperty(KEY_FEE, information.fee);
 			holder.addProperty(KEY_MAX_PARTY_SIZE, information.maxPartySize);
 			holder.addProperty(KEY_TYPE, information.typeString);
+			holder.addProperty(KEY_MONSTER, information.monster);
 			return holder;
 		}
 
@@ -110,7 +113,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			return "Hunter's Quest";
 		}
 		
-		private String getDefeaultMonster() {
+		private String getDefaultMonster() {
 			return "NYI";
 		}
 
@@ -158,6 +161,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			"No time limit",
 			"None",
 			"---",
+			"Monster",
 			QuestType.EpicHunting.getAsString());
 	public static final DefaultQuestVisualDefinition IDENTIFIER_ERROR = new DefaultQuestVisualDefinition(
 			DefaultQuestDescription.UNKNOWN_DESCRIPTION,
@@ -170,6 +174,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			"Just do it asap",
 			"A few seconds of your time",
 			"Hopefully one",
+			"monster",
 			QuestType.Gathering.getAsString());
 	public static final DefaultQuestVisualDefinition UNKNOWN = new DefaultQuestVisualDefinition(
 			DefaultQuestDescription.UNKNOWN_DESCRIPTION,
@@ -182,7 +187,8 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			"A long time ago",
 			"What did you pay?",
 			"A few friends",
-			"Unknown quest");
+			"Unknown quest",
+			"monster");
 
 	protected DefaultQuestDescription quest;
 
@@ -191,6 +197,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	protected String client;
 	protected String aims;
 	protected String fails;
+	protected String monster;
 
 	protected String areaNameId;
 	protected String timeLimitInS;
@@ -198,6 +205,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 
 	protected String fee;
 	protected String maxPartySize;
+
 
 	public DefaultQuestVisualDefinition(
 			DefaultQuestDescription quest,
@@ -210,7 +218,8 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			String timeLimitInS,
 			String fee,
 			String maxPartySize,
-			String type) {
+			String type,
+			String monster) {
 		this.quest = quest;
 		this.name = name;
 		this.typeString = type;
@@ -222,6 +231,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		this.fee = fee;
 		this.maxPartySize = maxPartySize;
 		this.areaNameId = areaNameID;
+		this.monster = monster;
 	}
 
 	@Override
@@ -272,7 +282,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			currentY += LINE_SEPERATION;
 			currentY += MHFCGuiUtil.drawTextAndReturnHeight(
 					fontRenderer,
-					"NYI",
+					ColorSystem.ENUMGOLD + monster,
 					positionX + width / 8,
 					currentY,
 					7 * width / 8 - BORDER,

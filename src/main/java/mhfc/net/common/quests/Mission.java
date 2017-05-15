@@ -276,7 +276,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		if (att != null) {
 			PacketPipeline.networkPipe.sendTo(MessageMissionStatus.departing(missionID), player);
 			MHFCQuestRegistry.getRegistry().setMissionForPlayer(player, null);
-			int delayInSeconds = 20;
+			int delayInSeconds = 60;
 			player.sendMessage(
 					new TextComponentString(
 							ColorSystem.ENUMDARK_AQUA + "Teleporting you back in " + delayInSeconds + " seconds"));
