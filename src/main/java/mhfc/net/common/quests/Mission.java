@@ -27,7 +27,6 @@ import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.PlayerMap;
-import mhfc.net.common.util.StagedFuture;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.exploration.IExplorationManager;
