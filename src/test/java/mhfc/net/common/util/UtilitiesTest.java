@@ -18,16 +18,19 @@ public class UtilitiesTest {
 
 	@Test
 	public void test() throws IOException {
-		InputStream stream = Deprecate.openEmbeddedResource(location);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-		String firstLine = reader.readLine();
-		assertTrue(firstLine.matches(".*?=.*"));
+		try (
+				InputStream stream = ResourceLocations.openEmbeddedResource(location);
+				BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+			String firstLine = reader.readLine();
+			assertTrue(firstLine.matches(".*?=.*"));
+		}
 	}
 
 	@Test(expected = IOException.class)
 	public void testWrongFile() throws IOException {
-		InputStream stream = Deprecate.openEmbeddedResource(location_wrong);
-		assertTrue(stream == null);
+		try (InputStream stream = ResourceLocations.openEmbeddedResource(location_wrong)) {
+			assertTrue(stream == null);
+		}
 	}
 
 }

@@ -10,7 +10,7 @@ import mhfc.net.common.core.builders.BuilderJsonToQuests;
 import mhfc.net.common.core.data.QuestDescriptionRegistry;
 import mhfc.net.common.core.data.QuestDescriptionRegistry.IQuestDescriptionDirector;
 import mhfc.net.common.index.ResourceInterface;
-import mhfc.net.common.util.Deprecate;
+import mhfc.net.common.util.ResourceLocations;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -28,7 +28,7 @@ public class DirectorLoadQuestsFromLocal implements IQuestDescriptionDirector {
 	}
 
 	private BufferedReader openReader(ResourceLocation location) throws IOException {
-		return new BufferedReader(new InputStreamReader(Deprecate.openEmbeddedResource(location)));
+		return new BufferedReader(new InputStreamReader(ResourceLocations.openEmbeddedResource(location)));
 	}
 
 	private void generateGroupMapping(BuilderJsonToQuests builderFromJson) {
