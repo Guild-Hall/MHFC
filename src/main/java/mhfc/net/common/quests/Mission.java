@@ -40,6 +40,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	public static final String KEY_TYPE_RUNNING = "running";
 	private static final int DELAY_BEFORE_TP_IN_SECONDS = 30;
+	private static final int DELAY_TP_ON_SUCCESS_SECONDS = 25;
 
 	private static enum QuestState {
 		pending,
@@ -137,6 +138,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	@Override
 	public void questGoalStatusNotification(QuestGoal goal, EnumSet<QuestStatus> newStatus) {
 		if (newStatus.contains(QuestStatus.Fulfilled)) {
+
 			onSuccess();
 		}
 		if (newStatus.contains(QuestStatus.Failed)) {
@@ -163,7 +165,13 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	protected void onFail() {
 		for (EntityPlayerMP player : getPlayers()) {
-			player.playSound(MHFCSoundRegistry.getRegistry().questNotification, 2.0F, 2.0F);
+			player.world.playSound(
+					null,
+					player.getPosition(),
+					MHFCSoundRegistry.getRegistry().questNotification,
+					SoundCategory.MUSIC,
+					2F,
+					1F);
 			player.sendMessage(new TextComponentString("You have failed a quest"));
 		}
 		// TODO do special stuff for fail
@@ -175,13 +183,19 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 			reward.grantReward(playerState.player);
 			playerState.reward = true;
 			playerState.player.world.playSound(
-					playerState.player,
+					null,
 					playerState.player.getPosition(),
 					MHFCSoundRegistry.getRegistry().questClear,
 					SoundCategory.MUSIC,
 					2F,
+					1F);
+			playerState.player.world.playSound(
+					null,
+					playerState.player.getPosition(),
+					MHFCSoundRegistry.getRegistry().questNotification,
+					SoundCategory.NEUTRAL,
+					2F,
 					2F);
-			playerState.player.playSound(MHFCSoundRegistry.getRegistry().questNotification, 1F, 1F);
 			playerState.player.sendMessage(new TextComponentString(ColorSystem.ENUMGOLD + "QUEST COMPLETE"));
 		}
 		this.state = QuestState.finished;
@@ -279,10 +293,10 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 			MHFCQuestRegistry.getRegistry().setMissionForPlayer(player, null);
 			player.sendMessage(
 					new TextComponentString(
-							ColorSystem.ENUMDARK_AQUA + "Teleporting you back in " + DELAY_BEFORE_TP_IN_SECONDS
+							ColorSystem.ENUMDARK_AQUA + "Teleporting you back in " + DELAY_TP_ON_SUCCESS_SECONDS
 									+ " seconds"));
-			MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
-				player.sendMessage(new TextComponentString("Teleporting you now!"));
+			MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, DELAY_TP_ON_SUCCESS_SECONDS * 20, () -> {
+				player.sendMessage(new TextComponentString(ColorSystem.ENUMGREEN + "Teleporting Success!"));
 				MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
 				MHFCExplorationRegistry.respawnPlayer(player);
 			}, Runnables.doNothing());
