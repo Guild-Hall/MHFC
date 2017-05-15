@@ -47,8 +47,6 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item implements 
 		setMaxStackSize(1);
 	}
 
-
-
 	@Override
 	public ModelResourceLocation getModel() {
 		if (resLocCache == null) {
@@ -118,13 +116,10 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item implements 
 
 	@Override
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack) {
-
-
 		for (CombatEffect effect : stats.getCombatEffects()) {
 			effect.getType().onEntitySwing(entityLiving, stack, itemRand);
 		}
 		return false;
-
 	}
 
 
@@ -147,8 +142,6 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item implements 
 	public int getMaxItemUseDuration(ItemStack itemstack) {
 		return 72000;
 	}
-
-
 
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {

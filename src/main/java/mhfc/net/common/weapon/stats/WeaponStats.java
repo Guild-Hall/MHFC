@@ -99,11 +99,11 @@ public class WeaponStats {
 	}
 
 	public float getAttack() {
-		return attackBase;
+		return getAttack(1.0f);
 	}
 
 	public float getAttack(float scale) {
-		return scale * getAttack();
+		return scale * attackBase;
 	}
 
 	public int getCooldownTicks() {

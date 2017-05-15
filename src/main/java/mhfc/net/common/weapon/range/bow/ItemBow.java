@@ -159,8 +159,8 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		if (shouldCrit) {
 			entityarrow.setIsCritical(shouldCrit);
 		}
-		// TODO: get the damage from the player, instead of the bow stat?
-		entityarrow.setDamage(entityarrow.getDamage() + this.stats.getAttack(1f));
+		double playerDamage = player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+		entityarrow.setDamage(entityarrow.getDamage() + playerDamage);
 		worldIn.spawnEntity(entityarrow);
 		if (!ammunition.isEmpty() && this == MHFCItemRegistry.getRegistry().weapon_b_huntersproud) {
 
