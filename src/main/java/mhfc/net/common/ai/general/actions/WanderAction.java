@@ -17,7 +17,7 @@ public abstract class WanderAction<T extends EntityMHFCBase<? super T>> extends 
 	//TODO Make monster rest after walking.
 	public static class RandomWanderProvider<T extends EntityLiving> implements IPathProvider {
 
-		public static int DEFAULT_WANDER_DISTANCE = 5;
+		public static int DEFAULT_WANDER_DISTANCE = 15;
 
 		public RandomWanderProvider(T actor) {
 			this(actor, DEFAULT_WANDER_DISTANCE);
