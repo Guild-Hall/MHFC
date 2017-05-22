@@ -19,7 +19,7 @@ import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.entity.type.IConfusable;
-import mhfc.net.common.item.materials.ItemRathalos.RathalosSubType;
+import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -175,17 +175,17 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	protected void dropFewItems(boolean par1, int par2) {
 		int var4;
 		for (var4 = 0; var4 < 13; ++var4) {
-			dropItemRand(SubTypedItem.fromSubItem(RathalosSubType.SHELL, 1));
+			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.RATHALOSSHELL, 1));
 		}
 		for (var4 = 0; var4 < 8; ++var4) {
-			dropItemRand(SubTypedItem.fromSubItem(RathalosSubType.WEBBING, 1));
-			dropItemRand(SubTypedItem.fromSubItem(RathalosSubType.MARROW, 1));
+			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.RATHALOSWEBBING, 1));
+			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.RATHALOSMARROW, 1));
 
 		}
 		for (var4 = 0; var4 < 1; ++var4) {
-			dropItemRand(SubTypedItem.fromSubItem(RathalosSubType.WING, 1));
+			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.RATHALOSWING, 1));
 
 		}
-		dropItemRand(SubTypedItem.fromSubItem(RathalosSubType.PLATE, 1));
+		dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.RATHALOSPLATE, 1));
 	}
 }

@@ -6,6 +6,7 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.boss.deviljho.Bite;
+import mhfc.net.common.ai.entity.boss.deviljho.Charge;
 import mhfc.net.common.ai.entity.boss.deviljho.Death;
 import mhfc.net.common.ai.entity.boss.deviljho.FrontalBreathe;
 import mhfc.net.common.ai.entity.boss.deviljho.Idle;
@@ -13,12 +14,11 @@ import mhfc.net.common.ai.entity.boss.deviljho.Jump;
 import mhfc.net.common.ai.entity.boss.deviljho.Launch;
 import mhfc.net.common.ai.entity.boss.deviljho.Stomp;
 import mhfc.net.common.ai.entity.boss.deviljho.TailWhip;
-import mhfc.net.common.ai.entity.boss.deviljho.Charge;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
-import mhfc.net.common.item.materials.ItemDeviljho.DeviljhoSubType;
+import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -92,19 +92,19 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	protected void dropFewItems(boolean par1, int par2) {
 		int var4;
 		for (var4 = 0; var4 < 13; ++var4) {
-			dropItemRand(SubTypedItem.fromSubItem(DeviljhoSubType.SCALE, 2));
+			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.DEVILJHOSCALE, 2));
 		}
 		for (var4 = 0; var4 < 8; ++var4) {
-			dropItemRand(SubTypedItem.fromSubItem(DeviljhoSubType.FANG, 1));
+			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.DEVILJHOFANG, 1));
 
 		}
 		for (var4 = 0; var4 < 1; ++var4) {
-			dropItemRand(SubTypedItem.fromSubItem(DeviljhoSubType.HIDE, 1));
+			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.DEVILJHOHIDE, 1));
 
 		}
-		dropItemRand(SubTypedItem.fromSubItem(DeviljhoSubType.SCALP, 1));
-		dropItemRand(SubTypedItem.fromSubItem(DeviljhoSubType.TALON, 1));
-		dropItemRand(SubTypedItem.fromSubItem(DeviljhoSubType.TAIL, 1));
+		dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.DEVILJHOSCALP, 1));
+		dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.DEVILJHOTALON, 1));
+		dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.DEVILJHOTAIL, 1));
 	}
 
 }

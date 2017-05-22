@@ -1,8 +1,6 @@
 package mhfc.net.common.core.registry;
 
 import mhfc.net.common.crafting.MHFCCraftingManager;
-import mhfc.net.common.item.materials.ItemTigrex.TigrexSubType;
-import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
@@ -20,14 +18,6 @@ public class MHFCHunterCraftingRegistry {
 		MHFCCraftingManager man = MHFCCraftingManager.getInstance();
 		MHFCItemRegistry itemRegistry = MHFCItemRegistry.getRegistry();
 
-		man.addShapedRecipe(
-				new ItemStack(itemRegistry.weapon_hm_tigrex, 1),
-				new Object[] { "XXX", "XTX", "TXT", " S ", " S ", 'X', SubTypedItem.fromSubItem(TigrexSubType.SHELL, 1),
-						'T', SubTypedItem.fromSubItem(TigrexSubType.SCALE, 1), 'S', Items.STICK });
-		man.addShapedRecipe(
-				new ItemStack(itemRegistry.weapon_gs_bone, 1),
-				new Object[] { " X ", "TXT", "TXT", " S ", " S ", 'X', Items.IRON_INGOT, 'T', Items.BONE, 'S',
-						Items.STICK });
 		man.addShapedRecipe(
 				new ItemStack(itemRegistry.trapTool, 1),
 				new Object[] { "   ", "   ", "XXX", "XXA", "AXA", 'X', itemRegistry.bombMaterial, 'A',

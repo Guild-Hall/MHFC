@@ -135,91 +135,100 @@ item.wyverniadust.name=Wyvernia Dust
 item.wyverniaclay.name=Wyvernia Clay
 item.mhfcegg.name=Summon
 item.moldediron.name=Molded Iron
-item.armorsphere.normal.name=Armorsphere
-item.armorsphere.plus.name=Armorsphere+
-item.firestone.name=Firestone
-item.ingot.carbalite.name=Carbalite Ingot
-item.ingot.dragonite.name=Dragonite Ingot
-item.ingot.eltalite.name=Eltalite Ingot
-item.ingot.machalite.name=Machalite Ingot
 
-item.base.anumium.name=Anunium Base
-item.base.meganum.name=Meganium Base
-item.tigrex.scale.name=Tigrex Scale
-item.tigrex.shell.name=Tigrex Shell
-item.tigrex.fang.name=Tigrex Fang
-item.tigrex.claw.name=Tigrex Claw
-item.tigrex.tail.name=Tigrex Tail
-item.tigrex.skull.name=Tigrex Skullshell
-item.woodrig.name=Wood Rig
-item.lumberbar.name=Lumber Bar
-item.kirin.mane.name=Kirin Mane
-item.kirin.gem.name=Kirin Gem
-item.kirin.tail.name=Kirin Thundertail
-item.kirin.lightcrystal.name=Lightcrystal
-item.kirin.purecrystal.name=Purecrystal
-item.kirin.mane.name=Platinum Mane
-item.deviljho.scale.name=Deviljho Scale
-item.deviljho.fang.name=Deviljho Fang
-item.deviljho.hide.name=Deviljho Hide
-item.deviljho.talon.name=Deviljho Talon
-item.deviljho.scalp.name=Deviljho Scalp
-item.deviljho.tail.name=Deviljho Tail
-item.steelbar.name=Steel Bar
-item.kirinbuff.name=Kirin Buff
-item.rathalos.shell.name=Rathalos Shell
-item.rathalos.webbing.name=Rathalos Webbing
-item.rathalos.marrow.name=Wyvern Marrow
-item.rathalos.wing.name=Rathalos Wing
-item.rathalos.plate.name=Rathalos Plate
-item.remobra.skin.name=Remobra Skin
-item.remobra.stripe.name=Striped Skin
-item.remobra.skull.name=Remobra Skull
-item.remobra.wing.name=Remobra Wing
+item.firestone.name=Firestone
+
+
+item.material.anumium.name=Anunium Base
+item.material.meganum.name=Meganium Base
+
+item.material.normal.name=Armorsphere
+item.material.plus.name=Armorsphere+
+
+
+item.material.carbalite.name=Carbalite Ingot
+item.material.dragonite.name=Dragonite Ingot
+item.material.eltalite.name=Eltalite Ingot
+item.material.machalite.name=Machalite Ingot
+
+item.material.insecthusk.name=Insect Husk
+item.material.yambug.name=Yambug
+item.material.bughopper.name=Bughopper
+item.material.snakebeelarva.name=Snakebee Larva
+item.material.godbug.name=Godbug
+item.material.bitterbug.name=Bitterbug
+item.material.flashbug.name=Flashbug
+item.material.thunderbug.name=Thunderbug
+item.material.carpenterbug.name=Carpenterbug
+item.material.kingscarab.name=King Scarab
+item.material.emperorcricket.name=Emperor Cricket
+item.material.killerbeetle.name=Killer Beetle
+item.material.hercudrome.name=Hercudrome
+item.material.rarescarab.name=Rare Scarab
+item.material.phantombutterfly.name=Phantom Butterfly
+item.material.rainbowinsect.name=Rainbow Insect
+item.material.greathornfly.name=Great Hornfly
+item.material.greatladybug.name=Great Ladybug
+item.material.royalrhino.name=Royal Rhino
+item.material.divinerhino.name=Divine Rhino
+item.material.gluehopper.name=Gluehopper
+
+item.material.screamer.name=Screamer Sac
+item.material.poison.name=Poison Sac
+item.material.toxin.name=Toxin Sac
+item.material.deadlypoison.name=Deadly Poison Sac
+item.material.paralysis.name=Paralysis Sac
+item.material.sleep.name=Sleep Sac
+item.material.coma.name=Coma Sac
+item.material.flame.name=Flame Sac
+item.material.inferno.name=Inferno Sac
+item.material.blazingfire.name=Blazing Fire Sac
+item.material.electro.name=Electro Sac
+item.material.thunder.name=Thunder Sac
+item.material.lightning.name=Lightning Sac
+
+
+
+
+item.material.tigrexscale.name=Tigrex Scale
+item.material.tigrexshell.name=Tigrex Shell
+item.material.tigrexfang.name=Tigrex Fang
+item.material.tigrexclaw.name=Tigrex Claw
+item.material.tigrextail.name=Tigrex Tail
+item.material.tigrexskull.name=Tigrex Skullshell
+
+item.material.kirinmane.name=Kirin Mane
+item.material.kiringem.name=Kirin Gem
+item.material.kirintail.name=Kirin Thundertail
+item.material.kirinlightcrystal.name=Lightcrystal
+item.material.kirinpurecrystal.name=Purecrystal
+item.material.kirinmane.name=Platinum Mane
+item.material.deviljhoscale.name=Deviljho Scale
+item.material.deviljhofang.name=Deviljho Fang
+item.material.deviljhohide.name=Deviljho Hide
+item.material.deviljhotalon.name=Deviljho Talon
+item.material.deviljhoscalp.name=Deviljho Scalp
+item.material.deviljhotail.name=Deviljho Tail
+
+item.material.rathalosshell.name=Rathalos Shell
+item.material.rathaloswebbing.name=Rathalos Webbing
+item.material.rathalosmarrow.name=Wyvern Marrow
+item.material.rathaloswing.name=Rathalos Wing
+item.material.rathalosplate.name=Rathalos Plate
+item.material.remobraskin.name=Remobra Skin
+item.material.remobraskull.name=Remobra Skull
+item.material.remobrawing.name=Remobra Wing
 
 item.traptool.name=Trap Tool
 item.bombmaterial.name=Bomb Material
 item.gaguaegg.name=Gagua Egg
 item.wyverncoin.name=Wyvern Coin
 item.flashbomb.name=Flash Bomb
+item.steelbar.name=Steel Bar
+item.kirinbuff.name=Kirin Buff
 
-
-item.sac.screamer.name=Screamer Sac
-item.sac.poison.name=Poison Sac
-item.sac.toxin.name=Toxin Sac
-item.sac.deadlypoison.name=Deadly Poison Sac
-item.sac.paralysis.name=Paralysis Sac
-item.sac.sleep.name=Sleep Sac
-item.sac.coma.name=Coma Sac
-item.sac.flame.name=Flame Sac
-item.sac.inferno.name=Inferno Sac
-item.sac.blazingfire.name=Blazing Fire Sac
-item.sac.electro.name=Electro Sac
-item.sac.thunder.name=Thunder Sac
-item.sac.lightning.name=Lightning Sac
-
-item.bug.insecthusk.name=Insect Husk
-item.bug.yambug.name=Yambug
-item.bug.bughopper.name=Bughopper
-item.bug.snakebeelarva.name=Snakebee Larva
-item.bug.godbug.name=Godbug
-item.bug.bitterbug.name=Bitterbug
-item.bug.flashbug.name=Flashbug
-item.bug.thunderbug.name=Thunderbug
-item.bug.carpenterbug.name=Carpenterbug
-item.bug.kingscarab.name=King Scarab
-item.bug.emperorcricket.name=Emperor Cricket
-item.bug.killerbeetle.name=Killer Beetle
-item.bug.hercudrome.name=Hercudrome
-item.bug.rarescarab.name=Rare Scarab
-item.bug.phantombutterfly.name=Phantom Butterfly
-item.bug.rainbowinsect.name=Rainbow Insect
-item.bug.greathornfly.name=Great Hornfly
-item.bug.greatladybug.name=Great Ladybug
-item.bug.royalrhino.name=Royal Rhino
-item.bug.divinerhino.name=Divine Rhino
-item.bug.gluehopper.name=Gluehopper
-
+item.woodrig.name=Wood Rig
+item.lumberbar.name=Lumber Bar
 
 
 

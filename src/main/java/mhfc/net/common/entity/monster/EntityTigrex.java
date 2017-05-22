@@ -22,7 +22,7 @@ import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
-import mhfc.net.common.item.materials.ItemTigrex.TigrexSubType;
+import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -99,17 +99,17 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	protected void dropFewItems(boolean par1, int par2) {
 		int var4;
 		for (var4 = 0; var4 < 13; ++var4) {
-			dropItemRand(SubTypedItem.fromSubItem(TigrexSubType.SCALE, 2));
+			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXSCALE, 2));
 		}
 		for (var4 = 0; var4 < 8; ++var4) {
-			dropItemRand(SubTypedItem.fromSubItem(TigrexSubType.SHELL, 1));
-			dropItemRand(SubTypedItem.fromSubItem(TigrexSubType.FANG, 1));
-			dropItemRand(SubTypedItem.fromSubItem(TigrexSubType.CLAW, 1));
+			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXSHELL, 1));
+			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXFANG, 1));
+			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXCLAW, 1));
 		}
 		for (var4 = 0; var4 < 1; ++var4) {
-			dropItemRand(SubTypedItem.fromSubItem(TigrexSubType.TAIL, 2));
+			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXTAIL, 2));
 		}
-		dropItemRand(SubTypedItem.fromSubItem(TigrexSubType.SKULLSHELL, 1));
+		dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXSKULLSHELL, 1));
 	}
 
 	@Override

@@ -27,24 +27,15 @@ import mhfc.net.common.item.armor.generic.YukumoArmor;
 import mhfc.net.common.item.food.ItemKirinBuff;
 import mhfc.net.common.item.food.ItemMeats;
 import mhfc.net.common.item.food.ItemNutrients;
-import mhfc.net.common.item.materials.ItemArmorSphere;
-import mhfc.net.common.item.materials.ItemBase;
 import mhfc.net.common.item.materials.ItemBombMaterial;
-import mhfc.net.common.item.materials.ItemBug;
 import mhfc.net.common.item.materials.ItemBullet;
-import mhfc.net.common.item.materials.ItemDeviljho;
 import mhfc.net.common.item.materials.ItemFirestone;
 import mhfc.net.common.item.materials.ItemGaguaEgg;
-import mhfc.net.common.item.materials.ItemIngot;
-import mhfc.net.common.item.materials.ItemKirin;
 import mhfc.net.common.item.materials.ItemLumberBar;
+import mhfc.net.common.item.materials.ItemMaterial;
 import mhfc.net.common.item.materials.ItemMoldedIron;
-import mhfc.net.common.item.materials.ItemRathalos;
-import mhfc.net.common.item.materials.ItemRemobra;
-import mhfc.net.common.item.materials.ItemSac;
 import mhfc.net.common.item.materials.ItemSpawner;
 import mhfc.net.common.item.materials.ItemSteelBar;
-import mhfc.net.common.item.materials.ItemTigrex;
 import mhfc.net.common.item.materials.ItemTrapTool;
 import mhfc.net.common.item.materials.ItemWoodRig;
 import mhfc.net.common.item.materials.ItemWyvernCoin;
@@ -196,14 +187,7 @@ public class MHFCItemRegistry {
 
 	// Materials
 
-	public final ItemTigrex tigrexdrops;
-	public final ItemKirin kirindrops;
-	public final ItemRemobra remobradrops;
 	
-	// public  final Item mhfcitemlightcrystal;
-	// public  final Item mhfcitempurecrystal;
-	public final ItemRathalos rathalosdrops;
-	public final ItemDeviljho deviljhodrops;
 	public final ItemBullet bowgunBullet;
 
 	public final Item woodrig;
@@ -217,11 +201,7 @@ public class MHFCItemRegistry {
 	public final Item paintball;
 	public final Item arrow;
 
-	public final Item ingot;
-	public final Item base;
-	public final Item armorsphere;
-	public final Item sac;
-	public final Item bug;
+	public final Item material;
 
 	public final Item moldedIron;
 	public final ItemFirestone firestone;
@@ -359,8 +339,10 @@ public class MHFCItemRegistry {
 		weapon_bgh_rath = registerItem("bgh_spartacus", jsonWeaponData);
 
 		arrow = registerItem("arrow", new ItemWyverniaArrow());
+
 		// Items... drops
 
+		material = registerItem("material", new ItemMaterial());
 		moldedIron = registerItem("iron_molded", new ItemMoldedIron());
 		woodrig = registerItem("woodrig", new ItemWoodRig());
 		lumberbar = registerItem("lumberbar", new ItemLumberBar());
@@ -371,20 +353,10 @@ public class MHFCItemRegistry {
 		gaguaEgg = registerItem("egg_gagua", new ItemGaguaEgg());
 		wyvernCoin = registerItem("coin", new ItemWyvernCoin());
 
-		ingot = registerItem("ingot", new ItemIngot());
-		base = registerItem("base", new ItemBase());
 
-		kirindrops = registerItem("drop_kirin", new ItemKirin());
-		tigrexdrops = registerItem("drop_tigrex", new ItemTigrex());
-		rathalosdrops = registerItem("drop_rathalos", new ItemRathalos());
-		deviljhodrops = registerItem("drop_deviljho", new ItemDeviljho());
-		remobradrops = registerItem("drop_remobra", new ItemRemobra());
-		bug = registerItem("bug", new ItemBug());
 
 		bowgunBullet = registerItem("bullet", new ItemBullet());
-		sac = registerItem("sac", new ItemSac());
 		firestone = registerItem("firestone", new ItemFirestone());
-		armorsphere = registerItem("armorsphere", new ItemArmorSphere());
 		wyverniaClay = registerItem("clay", new ItemWyverniaClay());
 		// mhfcitembullet0 = new ItemBullet(0);
 		// mhfcitembullet1 = new ItemBullet(1);

@@ -234,6 +234,8 @@ public class ResourceInterface {
 	public static final String gui_tab_texture = "mhfc:textures/gui/TabbedGui.png";
 	public static final String gui_tab_name = "MHFC Tab";
 	public static final String gui_list_tex = "mhfc:textures/gui/guilist.png";
+	
+	public static final String item_material_basename = "material";
 
 	public static final String item_arrow0_name = "arrow0";
 
@@ -256,25 +258,25 @@ public class ResourceInterface {
 	public static final String item_ingot3_name = "machalite";
 
 	public static final String item_remobra_basename = "remobra";
-	public static final String item_remobra0_name = "skin";
-	public static final String item_remobra1_name = "skull";
-	public static final String item_remobra2_name = "wing";
+	public static final String item_remobra0_name = item_remobra_basename + "skin";
+	public static final String item_remobra1_name = item_remobra_basename + "skull";
+	public static final String item_remobra2_name = item_remobra_basename + "wing";
 
 	public static final String item_deviljho_basename = "deviljho";
-	public static final String item_deviljho0_name = "scale";
-	public static final String item_deviljho1_name = "fang";
-	public static final String item_deviljho2_name = "hide";
-	public static final String item_deviljho3_name = "talon";
-	public static final String item_deviljho4_name = "scalp";
-	public static final String item_deviljho5_name = "tail";
+	public static final String item_deviljho0_name = item_deviljho_basename + "scale";
+	public static final String item_deviljho1_name = item_deviljho_basename + "fang";
+	public static final String item_deviljho2_name = item_deviljho_basename + "hide";
+	public static final String item_deviljho3_name = item_deviljho_basename + "talon";
+	public static final String item_deviljho4_name = item_deviljho_basename + "scalp";
+	public static final String item_deviljho5_name = item_deviljho_basename + "tail";
 
 	public static final String item_kirin_basename = "kirin";
-	public static final String item_kirin0_name = "mane";
-	public static final String item_kirin1_name = "gem";
-	public static final String item_kirin2_name = "tail";
-	public static final String item_kirin3_name = "lightcrystal";
-	public static final String item_kirin4_name = "purecrystal";
-	public static final String item_kirin5_name = "mane";
+	public static final String item_kirin0_name = item_kirin_basename + "mane";
+	public static final String item_kirin1_name = item_kirin_basename + "gem";
+	public static final String item_kirin2_name = item_kirin_basename + "tail";
+	public static final String item_kirin3_name = item_kirin_basename + "lightcrystal";
+	public static final String item_kirin4_name = item_kirin_basename + "purecrystal";
+	public static final String item_kirin5_name = item_kirin_basename + "mane";
 
 	public static final String item_bug_basename = "bug";
 	public static final String item_bug0_name = "insecthusk";
@@ -299,21 +301,20 @@ public class ResourceInterface {
 	public static final String item_bug19_name = "divinerhino";
 	public static final String item_bug20_name = "gluehopper";
 
-
 	public static final String item_rathalos_basename = "rathalos";
-	public static final String item_rathalos0_name = "shell";
-	public static final String item_rathalos1_name = "webbing";
-	public static final String item_rathalos2_name = "marrow";
-	public static final String item_rathalos3_name = "wing";
-	public static final String item_rathalos4_name = "plate";
+	public static final String item_rathalos0_name = item_rathalos_basename + "shell";
+	public static final String item_rathalos1_name = item_rathalos_basename + "webbing";
+	public static final String item_rathalos2_name = item_rathalos_basename + "marrow";
+	public static final String item_rathalos3_name = item_rathalos_basename + "wing";
+	public static final String item_rathalos4_name = item_rathalos_basename + "plate";
 
 	public static final String item_tigrex_basename = "tigrex";
-	public static final String item_tigrex0_name = "scale";
-	public static final String item_tigrex1_name = "shell";
-	public static final String item_tigrex2_name = "fang";
-	public static final String item_tigrex3_name = "claw";
-	public static final String item_tigrex4_name = "tail";
-	public static final String item_tigrex5_name = "skull";
+	public static final String item_tigrex0_name = item_tigrex_basename + "scale";
+	public static final String item_tigrex1_name = item_tigrex_basename + "shell";
+	public static final String item_tigrex2_name = item_tigrex_basename + "fang";
+	public static final String item_tigrex3_name = item_tigrex_basename + "claw";
+	public static final String item_tigrex4_name = item_tigrex_basename + "tail";
+	public static final String item_tigrex5_name = item_tigrex_basename + "skull";
 
 	public static final String item_meat_basename = "meat";
 	public static final String item_rawmeat_name = "raw";
