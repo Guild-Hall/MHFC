@@ -3,6 +3,7 @@ package mhfc.net.common.eventhandler;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.Executor;
 
 import com.google.common.util.concurrent.Runnables;
@@ -93,14 +94,20 @@ public class MHFCTickHandler {
 		}
 	}
 
-	private DoubleBufferRunnableRegistry getQueueFor(TickPhase phase) {
+	private Optional<DoubleBufferRunnableRegistry> getQueueFor(TickPhase phase) {
 		assert phase != null;
-		return jobQueue.get(phase).getService();
+		return jobQueue.get(phase).get();
 	}
 
 	public void registerRunnable(TickPhase phase, Runnable run, Runnable cancel) {
 		Objects.requireNonNull(phase);
-		getQueueFor(phase).register(run, cancel);
+		Optional<DoubleBufferRunnableRegistry> serviceQueue = getQueueFor(phase);
+		if (serviceQueue.isPresent()) {
+			serviceQueue.get().register(run, cancel);
+		} else {
+			MHFCMain.logger().error("Tried registering for phase {} but service is not running", phase);
+			cancel.run();
+		}
 	}
 
 	public void registerOperation(TickPhase phase, final Operation op) {

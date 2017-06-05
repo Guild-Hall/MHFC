@@ -1,6 +1,7 @@
 package mhfc.net.common.util.services;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -40,6 +41,10 @@ public interface IServiceKey<T> {
 				return remap.apply(original.getService());
 			}
 		};
+	}
+
+	default Optional<T> get() {
+		return getServiceProvider().getServiceFor(this);
 	}
 
 	default T getService() {
