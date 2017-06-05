@@ -148,6 +148,7 @@ public class MHFCWorldData extends WorldSavedData {
 			data = new MHFCWorldData(world, "mhfcareas");
 			world.getPerWorldStorage().setData("mhfcareas", data);
 		}
+		WORLD_CONTEXT.set(null);
 		return data.areaManager;
 	}
 
