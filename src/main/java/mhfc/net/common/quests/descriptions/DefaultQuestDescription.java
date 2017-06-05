@@ -14,6 +14,7 @@ import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestRewardDelegate;
+import mhfc.net.common.quests.api.SpawnInformationDelegate;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.IActiveArea;
@@ -29,7 +30,8 @@ public class DefaultQuestDescription implements IQuestDefinition {
 			QuestType.Gathering,
 			ArenaType.INSTANCE,
 			QuestFlair.DAYTIME,
-			null,
+			QuestRewardDelegate.MISSING,
+			SpawnInformationDelegate.MISSING,
 			0,
 			0,
 			q -> DefaultQuestVisualDefinition.UNKNOWN);
@@ -60,6 +62,7 @@ public class DefaultQuestDescription implements IQuestDefinition {
 	public static final String KEY_FEE = "fee";
 	public static final String KEY_GOAL = "goal";
 	public static final String KEY_VISUAL = "visual";
+	public static final String KEY_SPAWNS = "spawns";
 
 	protected GoalReference goalReference;
 	protected DefaultQuestVisualDefinition visual;
@@ -69,6 +72,7 @@ public class DefaultQuestDescription implements IQuestDefinition {
 	protected QuestFlair questFlair;
 
 	protected QuestRewardDelegate reward;
+	protected SpawnInformationDelegate spawns;
 
 	protected int fee;
 	protected int maxPartySize;
@@ -79,6 +83,7 @@ public class DefaultQuestDescription implements IQuestDefinition {
 			IAreaType areaId,
 			QuestFlair flair,
 			QuestRewardDelegate reward,
+			SpawnInformationDelegate spawns,
 			int fee,
 			int maxPartySize,
 			Function<DefaultQuestDescription, DefaultQuestVisualDefinition> visual) {
@@ -86,7 +91,8 @@ public class DefaultQuestDescription implements IQuestDefinition {
 		this.questType = type;
 		this.areaType = areaId;
 		this.questFlair = flair;
-		this.reward = reward;
+		this.reward = Objects.requireNonNull(reward);
+		this.spawns = Objects.requireNonNull(spawns);
 		this.fee = fee;
 		this.maxPartySize = maxPartySize;
 		this.visual = Objects.requireNonNull(visual.apply(this));
@@ -155,6 +161,7 @@ public class DefaultQuestDescription implements IQuestDefinition {
 				rootProperties,
 				getMaxPartySize(),
 				reward.getValue(),
+				spawns.getValue(),
 				getFee(),
 				activeArea,
 				this);

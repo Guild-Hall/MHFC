@@ -64,6 +64,10 @@ public class MHFCQuestBuildRegistry {
 	public static final String REWARD_MONEY_TYPE = "money";
 	public static final String REWARD_LOOTTABLE_TYPE = "lootTable";
 
+	public static final String SPAWN_NONE_TYPE = "none";
+	public static final String SPAWN_MONSTER_TYPE = "monster";
+	public static final String SPAWN_MULTIPLE_TYPE = "multiple";
+
 	public static class PlayerConnectionHandler {
 
 		@SubscribeEvent

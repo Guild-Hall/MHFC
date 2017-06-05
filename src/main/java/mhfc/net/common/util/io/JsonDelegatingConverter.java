@@ -34,7 +34,15 @@ JsonSerializer<D> {
 
 	@Override
 	protected ResourceLocation extractKeyFromA(JsonElement value) {
-		return new ResourceLocation(value.getAsJsonObject().get(keyName).getAsString());
+		JsonElement keyElement = value.getAsJsonObject().get(keyName);
+		if (keyElement == null) {
+			return missingKeyElement();
+		}
+		return new ResourceLocation(keyElement.getAsString());
+	}
+
+	protected ResourceLocation missingKeyElement() {
+		throw new IllegalArgumentException("Key element required");
 	}
 
 	@Override

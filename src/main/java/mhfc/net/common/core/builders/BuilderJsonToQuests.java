@@ -26,6 +26,7 @@ import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.GoalReference.GoalRefSerializer;
 import mhfc.net.common.quests.api.QuestDefinitionDelegate;
 import mhfc.net.common.quests.api.QuestRewardDelegate;
+import mhfc.net.common.quests.api.SpawnInformationDelegate;
 
 public class BuilderJsonToQuests {
 
@@ -122,6 +123,7 @@ public class BuilderJsonToQuests {
 			.registerTypeAdapter(GoalDefinitionDelegate.class, QuestFactories.getGoalConverter())
 			.registerTypeAdapter(QuestDefinitionDelegate.class, QuestFactories.getQuestConverter())
 			.registerTypeAdapter(QuestRewardDelegate.class, QuestFactories.getRewardConverter())
+			.registerTypeAdapter(SpawnInformationDelegate.class, QuestFactories.getSpawnConverter())
 			.registerTypeAdapter(GoalReference.class, new GoalRefSerializer()).serializeNulls().create();
 
 	private QuestDescriptionRegistry dataObject;

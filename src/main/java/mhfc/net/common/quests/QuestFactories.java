@@ -18,9 +18,12 @@ import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.quests.api.IQuestDefinitionFactory;
 import mhfc.net.common.quests.api.IQuestReward;
 import mhfc.net.common.quests.api.IQuestRewardFactory;
+import mhfc.net.common.quests.api.ISpawnInformation;
+import mhfc.net.common.quests.api.ISpawnInformationFactory;
 import mhfc.net.common.quests.api.QuestDefinitionDelegate;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestRewardDelegate;
+import mhfc.net.common.quests.api.SpawnInformationDelegate;
 import mhfc.net.common.quests.factory.ChainGoalFactory;
 import mhfc.net.common.quests.factory.DeathRestrictionGoalFactory;
 import mhfc.net.common.quests.factory.DebugRewardFactory;
@@ -29,7 +32,10 @@ import mhfc.net.common.quests.factory.ForkGoalFactory;
 import mhfc.net.common.quests.factory.HuntingGoalFactory;
 import mhfc.net.common.quests.factory.LootTableRewardFactory;
 import mhfc.net.common.quests.factory.MoneyRewardFactory;
+import mhfc.net.common.quests.factory.MonsterSpawnFactory;
 import mhfc.net.common.quests.factory.MultipleRewardsFactory;
+import mhfc.net.common.quests.factory.MultipleSpawnsFactory;
+import mhfc.net.common.quests.factory.NoSpawnFactory;
 import mhfc.net.common.quests.factory.NullRewardFactory;
 import mhfc.net.common.quests.factory.TimeGoalFactory;
 import mhfc.net.common.quests.properties.GroupProperty;
@@ -113,6 +119,44 @@ public class QuestFactories {
 		}
 	};
 
+	private static JsonDelegatingConverter<ISpawnInformation, SpawnInformationDelegate> SPAWN_CONVERTER = new JsonDelegatingConverter<ISpawnInformation, SpawnInformationDelegate>(
+			KEY_TYPE,
+			null) {
+		@Override
+		protected ResourceLocation missingKeyElement() {
+			return new ResourceLocation(MHFCQuestBuildRegistry.SPAWN_MONSTER_TYPE);
+		}
+
+		@Override
+		protected SpawnInformationDelegate createB(ResourceLocation key, ISpawnInformation value) {
+			return new SpawnInformationDelegate(key, value);
+		}
+
+		@Override
+		protected ISpawnInformation extractConvertibleFromB(SpawnInformationDelegate value) {
+			return value.getValue();
+		}
+
+		@Override
+		protected ResourceLocation extractKeyFromB(SpawnInformationDelegate value) {
+			return value.getDelegateKey();
+		}
+
+		@Override
+		public SpawnInformationDelegate convertTo(JsonElement value, JsonDeserializationContext context) {
+			if (value.isJsonNull()) {
+				JsonObject replacement = new JsonObject();
+				replacement.add(KEY_TYPE, new JsonPrimitive(MHFCQuestBuildRegistry.SPAWN_NONE_TYPE));
+				value = replacement;
+			} else if (value.isJsonArray()) {
+				JsonObject replacement = MultipleSpawnsFactory.wrap(value.getAsJsonArray());
+				replacement.add(KEY_TYPE, new JsonPrimitive(MHFCQuestBuildRegistry.SPAWN_MULTIPLE_TYPE));
+			}
+			return super.convertTo(value, context);
+		}
+
+	};
+
 	static {
 		insertQuestFactory(MHFCQuestBuildRegistry.QUEST_DEFAULT, new DefaultQuestFactory());
 
@@ -131,6 +175,10 @@ public class QuestFactories {
 		insertRewardFactory(MHFCQuestBuildRegistry.REWARD_NULL_TYPE, new NullRewardFactory());
 		insertRewardFactory(MHFCQuestBuildRegistry.REWARD_MONEY_TYPE, new MoneyRewardFactory());
 		insertRewardFactory(MHFCQuestBuildRegistry.REWARD_LOOTTABLE_TYPE, new LootTableRewardFactory());
+
+		insertSpawnFactory(MHFCQuestBuildRegistry.SPAWN_NONE_TYPE, new NoSpawnFactory());
+		insertSpawnFactory(MHFCQuestBuildRegistry.SPAWN_MONSTER_TYPE, new MonsterSpawnFactory());
+		insertSpawnFactory(MHFCQuestBuildRegistry.SPAWN_MULTIPLE_TYPE, new MultipleSpawnsFactory());
 	}
 
 	public static void insertQuestFactory(String type, IQuestDefinitionFactory factory) {
@@ -155,6 +203,14 @@ public class QuestFactories {
 
 	public static void insertRewardFactory(ResourceLocation type, IQuestRewardFactory factory) {
 		REWARD_CONVERTER.registerConverter(type, factory);
+	}
+
+	public static void insertSpawnFactory(String type, ISpawnInformationFactory factory) {
+		insertSpawnFactory(new ResourceLocation(type), factory);
+	}
+
+	public static void insertSpawnFactory(ResourceLocation type, ISpawnInformationFactory factory) {
+		SPAWN_CONVERTER.registerConverter(type, factory);
 	}
 
 	/**
@@ -202,5 +258,9 @@ public class QuestFactories {
 
 	public static JsonDelegatingConverter<IQuestReward, QuestRewardDelegate> getRewardConverter() {
 		return REWARD_CONVERTER;
+	}
+
+	public static JsonDelegatingConverter<ISpawnInformation, SpawnInformationDelegate> getSpawnConverter() {
+		return SPAWN_CONVERTER;
 	}
 }

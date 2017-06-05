@@ -19,6 +19,7 @@ import mhfc.net.common.network.message.quest.MessageMissionStatus;
 import mhfc.net.common.network.message.quest.MessageMissionUpdate;
 import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.quests.api.IQuestReward;
+import mhfc.net.common.quests.api.ISpawnInformation;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
 import mhfc.net.common.quests.properties.GroupProperty;
@@ -85,6 +86,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	protected IActiveArea questingArea;
 
 	protected IQuestReward reward;
+	protected ISpawnInformation spawns;
 	protected int fee;
 
 	private boolean closed;
@@ -95,6 +97,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 			GroupProperty goalProperties,
 			int maxPartySize,
 			IQuestReward reward,
+			ISpawnInformation spawns,
 			int fee,
 			CompletionStage<IActiveArea> activeArea,
 			IQuestDefinition originalDescription) {
@@ -215,6 +218,9 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		}
 		updatePlayers();
 		resetVotes();
+		if (spawns != null) {
+			spawns.enqueueSpawns(getSpawnController());
+		}
 	}
 
 	private void resetVotes() {

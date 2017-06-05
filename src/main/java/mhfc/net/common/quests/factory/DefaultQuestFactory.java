@@ -7,6 +7,7 @@ import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_GO
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_MAX_PARTY_SIZE;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_QUEST_TYPE;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_REWARD;
+import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_SPAWNS;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_VISUAL;
 
 import com.google.gson.JsonDeserializationContext;
@@ -22,6 +23,7 @@ import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.quests.api.IQuestDefinitionFactory;
 import mhfc.net.common.quests.api.QuestRewardDelegate;
+import mhfc.net.common.quests.api.SpawnInformationDelegate;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription.QuestType;
 import mhfc.net.common.quests.world.QuestFlair;
@@ -78,9 +80,10 @@ public class DefaultQuestFactory implements IQuestDefinitionFactory {
 					typeString);
 		}
 
-		QuestRewardDelegate reward = context.deserialize(jsonAsObject.get(KEY_REWARD), QuestRewardDelegate.class);
+		QuestRewardDelegate reward = QuestRewardDelegate.deserialize(jsonAsObject.get(KEY_REWARD), context);
 		int fee = JsonUtils.getInt(jsonAsObject, KEY_FEE);
 		int maxPartySize = MHFCJsonUtils.getJsonObjectIntegerFieldValueOrDefault(jsonAsObject, KEY_MAX_PARTY_SIZE, 4);
+		SpawnInformationDelegate spawns = SpawnInformationDelegate.deserialize(jsonAsObject.get(KEY_SPAWNS), context);
 
 		QuestVisualInformationFactory factory = new QuestVisualInformationFactory()
 				.decodingFrom(jsonAsObject.get(KEY_VISUAL), context);
@@ -90,6 +93,7 @@ public class DefaultQuestFactory implements IQuestDefinitionFactory {
 				areaType,
 				flair,
 				reward,
+				spawns,
 				fee,
 				maxPartySize,
 				factory::forQuest);
