@@ -255,8 +255,20 @@ public class DisplacedView implements IWorldView {
 		getWorldObject().removeTileEntity(localToGlobal(position));
 	}
 
+	private void loadAllChunksInView() {
+		World world = getWorldObject();
+		for (int x = 0; x < chunkDimensionX; x++) {
+			for (int z = 0; z < chunkDimensionZ; z++) {
+				Chunk loadedChunk = world.getChunkFromChunkCoords(chunkDeltaX + x, chunkDeltaZ + z);
+				assert !loadedChunk.unloaded;
+			}
+		}
+	}
+
 	@Override
 	public int countEntities(Class<? extends Entity> entityClass) {
+		loadAllChunksInView();
+
 		Stream<Entity> entStream = getWorldObject().loadedEntityList.stream();
 		return (int) entStream.filter(e -> entityClass.isAssignableFrom(e.getClass()))
 				.filter(this::isInBoundary).count();
@@ -264,6 +276,8 @@ public class DisplacedView implements IWorldView {
 
 	@Override
 	public List<Entity> getAllMatchingEntities(Predicate<Entity> predicate) {
+		loadAllChunksInView();
+
 		return getWorldObject().loadedEntityList.stream().filter(predicate.and(this::isInBoundary))
 				.collect(Collectors.toList());
 	}

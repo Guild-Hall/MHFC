@@ -210,7 +210,7 @@ public class MHFCQuestRegistry {
 			player.sendMessage(new TextComponentString("Quest with id[" + questID + "] not found"));
 			return;
 		}
-		String missionID = questID + "@" + player.getDisplayName() + "@" + questIDCounter++;
+		String missionID = questID + "@" + player.getDisplayNameString() + "@" + questIDCounter++;
 		Mission newQuest = QuestFactories.constructQuest(questDescription, missionID);
 		if (newQuest == null) {
 			player.sendMessage(new TextComponentString("Quest with id[" + questID + "] could not be constructed"));

@@ -21,6 +21,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -264,10 +265,10 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 	@Override
 	public int clearAreaOf(Predicate<Entity> predicate) {
-		// FIXME: chunks may not be loaded at this point, which makes this kind of pointless
 		List<Entity> allEntities = worldView.getAllMatchingEntities(predicate);
 
-		return (int) allEntities.stream().filter(predicate).filter(this::despawnEntity).count();
+		return (int) allEntities.stream().filter(predicate).filter(EntitySelectors.NOT_SPECTATING::apply)
+				.filter(this::despawnEntity).count();
 	}
 
 	protected boolean inArea(double posX, double posY, double posZ) {
