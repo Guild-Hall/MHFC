@@ -4,11 +4,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
 public abstract class ActiveAreaAdapter implements IActiveArea {
+	private boolean engaged = false;
 	private boolean dismissed = false;
 
 	@Override
 	public abstract IArea getArea();
 
+	protected abstract void onEngage();
 	protected abstract void onDismiss();
 
 	protected boolean isNotPartOfRaid(Entity entity) {
@@ -16,9 +18,20 @@ public abstract class ActiveAreaAdapter implements IActiveArea {
 	}
 
 	@Override
+	public void engage() throws IllegalStateException {
+		if (!engaged) {
+			onEngage();
+			// FIXME: chunks may not be loaded at this point, which makes this kind of pointless
+			getArea().getSpawnController().clearAreaOf(this::isNotPartOfRaid);
+			engaged = true;
+		}
+	}
+
+	@Override
 	public final void dismiss() {
-		if (!dismissed) {
+		if (!dismissed && engaged) {
 			onDismiss();
+			// FIXME: chunks may not be loaded at this point, which makes this kind of pointless
 			getArea().getSpawnController().clearQueues();
 			getArea().getSpawnController().clearAreaOf(this::isNotPartOfRaid);
 			dismissed = true;

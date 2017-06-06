@@ -23,8 +23,6 @@ public interface IExplorationManager {
 	 */
 	public IActiveArea getActiveAreaOf();
 
-	public IAreaType getTargetAreaOf();
-
 	/**
 	 * Respawn the player managed by this exploration manager
 	 */

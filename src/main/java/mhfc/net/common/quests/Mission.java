@@ -206,15 +206,10 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	protected void onStart() {
 		questGoal.setActive(true);
 		this.state = QuestState.running;
+		QuestExplorationManager.bindPlayersToMission(getPlayers(), this);
 		for (EntityPlayerMP player : getPlayers()) {
-			QuestExplorationManager manager = new QuestExplorationManager(
-					player,
-					getQuestFlair(),
-					getQuestingArea(),
-					this);
-			IExplorationManager explorationManager = MHFCExplorationRegistry.bindPlayer(manager, player);
+			IExplorationManager explorationManager = MHFCExplorationRegistry.getExplorationManagerFor(player);
 			explorationManager.respawn();
-			// AreaTeleportation.movePlayerToArea(player, questingArea.getArea());
 		}
 		updatePlayers();
 		resetVotes();

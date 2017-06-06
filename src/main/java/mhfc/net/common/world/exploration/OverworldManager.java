@@ -33,11 +33,6 @@ public class OverworldManager implements IExplorationManager {
 	}
 
 	@Override
-	public IAreaType getTargetAreaOf() {
-		return null;
-	}
-
-	@Override
 	public void onPlayerJoined() throws IllegalArgumentException {}
 
 	@Override

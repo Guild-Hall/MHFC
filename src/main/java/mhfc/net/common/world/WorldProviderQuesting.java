@@ -15,6 +15,14 @@ public class WorldProviderQuesting extends WorldProvider {
 		super();
 	}
 
+	public QuestFlair getQuestFlair() {
+		if (flair == null) {
+			// Maybe fallback to this.getDimension();
+			throw new IllegalStateException("Called too early, flair not set yet");
+		}
+		return flair;
+	}
+
 	@Override
 	public void setDimension(int dim) {
 		super.setDimension(dim);

@@ -1,19 +1,19 @@
 package mhfc.net.common.world.exploration;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+import com.google.common.collect.Table;
+
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCDimensionRegistry;
-import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.quests.world.QuestFlair;
+import mhfc.net.common.util.BiMultiMap;
 import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
@@ -23,166 +23,32 @@ import net.minecraft.util.text.TextComponentString;
 public abstract class ExplorationAdapter implements IExplorationManager {
 
 	protected final EntityPlayerMP player;
-	private IAreaType targetArea;
-	private Optional<IActiveArea> area;
+
 	private CompletionStage<IActiveArea> futureArea;
 
 	public ExplorationAdapter(EntityPlayerMP managedPlayer) {
 		player = Objects.requireNonNull(managedPlayer);
-		targetArea = null;
-		area = null;
 		futureArea = null;
 	}
 
-	/**
-	 * Returns the instances managed by this adapter. instances may be shared with another manager. returned map must be
-	 * mutable.
-	 *
-	 * @return
-	 */
-	protected abstract Map<IAreaType, List<IActiveArea>> getManagedInstances();
+	@Override
+	public void onPlayerAdded() {}
 
-	/**
-	 * Returns the inhabitants managed by this adapter. inhabitants may be shared with another manager. returned map
-	 * must be mutable.
-	 *
-	 * @return
-	 */
-	protected abstract Map<IActiveArea, Set<EntityPlayerMP>> getInhabitants();
+	@Override
+	public void onPlayerJoined() {}
 
-	protected Set<EntityPlayerMP> getInhabitants(IActiveArea activeArea) {
-		return getInhabitants().computeIfAbsent(activeArea, p -> new HashSet<>());
-	}
-
-	protected List<IActiveArea> getAreasOfType(IAreaType type) {
-		return getManagedInstances().computeIfAbsent(type, p -> new ArrayList<>());
-	}
-
-	protected CompletionStage<IActiveArea> transferInto(IAreaType type, QuestFlair flair) {
-		Optional<IActiveArea> activeAreaOption = getAreasOfType(type).stream().filter(this::canTransferIntoArea)
-				.findFirst();
-		if (activeAreaOption.isPresent()) {
-			MHFCMain.logger().debug("Transfering player into existing quest area instance");
-			IActiveArea area = activeAreaOption.get();
-			transferIntoExistingInstance(area, flair);
-			return CompletableFuture.completedFuture(area);
-		} else {
-			MHFCMain.logger().debug("Transfering player into new quest area instance");
-			return transferIntoNewInstance(type, flair);
-		}
-	}
-
-	protected boolean canTransferIntoArea(IActiveArea area) {
-		return true;
+	@Override
+	public void onPlayerRemove() {
+		removeFromCurrentArea();
 	}
 
 	@Override
-	public CompletionStage<IActiveArea> transferPlayerInto(IAreaType type, QuestFlair flair) {
-		targetArea = type;
-		if (futureArea != null) {
-			Objects.requireNonNull(player);
-			CompletionStage<IActiveArea> waitingFor = futureArea;
-			waitingFor.toCompletableFuture().cancel(true);
-			futureArea = null;
-		}
-
-		return transferInto(type, flair);
+	public final IActiveArea getActiveAreaOf() {
+		return getInhabitants().reverse().get(player);
 	}
-
-	protected CompletionStage<IActiveArea> transferIntoNewInstance(IAreaType type, QuestFlair flair) {
-		player.sendMessage(new TextComponentString("Teleporting to instance when the area is ready"));
-		Objects.requireNonNull(player);
-		Objects.requireNonNull(type);
-		CompletionStage<IActiveArea> unusedInstance = MHFCDimensionRegistry.getUnusedInstance(type, flair);
-		futureArea = unusedInstance.whenComplete((area, ex) -> {
-			try {
-				if (area != null) {
-					addInstance(area);
-					transferIntoExistingInstance(area, flair);
-				} else {
-					MHFCMain.logger().debug("Canceled teleport to area due to cancellation of area");
-				}
-			} catch (Exception exception) {
-				MHFCMain.logger()
-						.error("Error during transfer into {}, releasing player from exploration manager", area);
-				MHFCExplorationRegistry.releasePlayer(player);
-				if (area != null) {
-					removeInstance(area);
-					area = null;
-				}
-			} finally {
-				futureArea = null;
-			}
-		});
-		return unusedInstance;
-	}
-
-	protected void removePlayerFromInstance() {
-		IActiveArea currentInstance = getActiveAreaOf();
-		Set<EntityPlayerMP> inhabitantSet = getInhabitants(currentInstance);
-		inhabitantSet.remove(player);
-		CompletionStage<IActiveArea> stagedFuture = futureArea;
-		if (stagedFuture != null) {
-			stagedFuture.toCompletableFuture().cancel(true);
-		}
-		if (currentInstance == null) {
-			return;
-		}
-		if (inhabitantSet.isEmpty()) {
-			removeInstance(currentInstance);
-		}
-	}
-
-	protected void transferIntoExistingInstance(IActiveArea area, QuestFlair flair) {
-		Objects.requireNonNull(area);
-		removePlayerFromInstance();
-		this.area = Optional.of(area);
-		Set<EntityPlayerMP> inhabitantSet = getInhabitants(area);
-		inhabitantSet.add(player);
-		AreaTeleportation.movePlayerToArea(player, area.getArea());
-	}
-
-	protected void addInstance(IActiveArea activeArea) {
-		Objects.requireNonNull(activeArea);
-		MHFCMain.logger().debug(
-				"Adding active area instance {} of type {} to exploration manager",
-				activeArea,
-				activeArea.getType().getUnlocalizedName());
-		getInhabitants().put(activeArea, new HashSet<>());
-		getAreasOfType(activeArea.getType()).add(activeArea);
-	}
-
-	protected void removeInstance(IActiveArea activeArea) {
-		Objects.requireNonNull(activeArea);
-		MHFCMain.logger().debug(
-				"Removing active area instance {} of type {} from exploration manager",
-				activeArea,
-				activeArea.getType());
-		getManagedInstances().remove(activeArea);
-		getAreasOfType(activeArea.getType()).remove(activeArea);
-		activeArea.close();
-	}
-
-	@Override
-	public IActiveArea getActiveAreaOf() {
-		return area == null ? null : area.orElse(null);
-	}
-
-	@Override
-	public IAreaType getTargetAreaOf() {
-		return targetArea;
-	}
-
-	protected abstract void respawnWithoutInstance();
-
-	protected abstract void respawnInInstance(IActiveArea instance);
 
 	@Override
 	public void respawn() throws IllegalArgumentException {
-		if (area != null) {
-			transferPlayerInto(initialAreaType(), initialFlair());
-			return;
-		}
 		IActiveArea activeAreaOf = getActiveAreaOf();
 		if (activeAreaOf == null) {
 			respawnWithoutInstance();
@@ -191,19 +57,151 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		}
 	}
 
-	protected abstract IAreaType initialAreaType();
-
-	protected abstract QuestFlair initialFlair();
-
 	@Override
-	public void onPlayerRemove() {
-		removePlayerFromInstance();
+	public CompletionStage<IActiveArea> transferPlayerInto(IAreaType type, QuestFlair flair) {
+		if (futureArea != null) {
+			CompletionStage<IActiveArea> waitingFor = futureArea;
+			waitingFor.toCompletableFuture().cancel(true);
+			futureArea = null;
+		}
+
+		return transferInto(type, flair);
 	}
 
-	@Override
-	public void onPlayerAdded() {}
+	// ==== abstract methods for sub classes to override
+	/**
+	 * Returns the instances managed by this adapter. instances may be shared with another manager. returned table must
+	 * be mutable.
+	 *
+	 * @return
+	 */
+	protected abstract Table<IAreaType, QuestFlair, Collection<IActiveArea>> getManagedInstances();
 
-	@Override
-	public void onPlayerJoined() {}
+	/**
+	 * Returns the inhabitants managed by this adapter. inhabitants may be shared with another manager. returned map
+	 * must be mutable.
+	 *
+	 * @return
+	 */
+	protected abstract BiMultiMap<IActiveArea, EntityPlayerMP> getInhabitants();
+
+	protected abstract void respawnWithoutInstance();
+
+	protected abstract void respawnInInstance(IActiveArea instance);
+
+	// ==== implementation
+
+	protected Set<EntityPlayerMP> getInhabitants(IActiveArea activeArea) {
+		return getInhabitants().get(activeArea);
+	}
+
+	protected Collection<IActiveArea> getAreasOfType(IAreaType type, QuestFlair flair) {
+		return getManagedInstances().row(type).computeIfAbsent(flair, p -> new HashSet<>());
+	}
+
+	protected boolean canTransferIntoArea(IActiveArea area) {
+		return true;
+	}
+
+	protected CompletionStage<IActiveArea> transferInto(IAreaType type, QuestFlair flair) {
+		Optional<IActiveArea> activeAreaOption = getAreasOfType(type, flair).stream().filter(this::canTransferIntoArea)
+				.findFirst();
+		if (activeAreaOption.isPresent()) {
+			MHFCMain.logger().debug("Transfering player into existing quest area instance");
+			IActiveArea area = activeAreaOption.get();
+			transferIntoExistingInstance(area);
+			return CompletableFuture.completedFuture(area);
+		} else {
+			MHFCMain.logger().debug("Transfering player into new quest area instance");
+			return transferIntoNewInstance(type, flair);
+		}
+	}
+
+	protected CompletionStage<IActiveArea> transferIntoNewInstance(IAreaType type, QuestFlair flair) {
+		player.sendMessage(new TextComponentString("Teleporting to instance when the area is ready"));
+		Objects.requireNonNull(type);
+		Objects.requireNonNull(flair);
+		CompletionStage<IActiveArea> unusedInstance = MHFCDimensionRegistry.getUnusedInstance(type, flair);
+		futureArea = unusedInstance.whenComplete((area, ex) -> {
+			try {
+				if (ex != null) {
+					return;
+				}
+				assert area != null;
+				transferIntoExistingInstance(area);
+			} finally {
+				futureArea = null;
+			}
+		});
+		return futureArea;
+	}
+
+	protected void transferIntoExistingInstance(IActiveArea area) {
+		Objects.requireNonNull(area);
+		IActiveArea oldArea = getActiveAreaOf();
+
+		if (!Objects.equals(area, oldArea)) {
+			removeFromCurrentArea();
+
+			Set<EntityPlayerMP> inhabitantSet = getInhabitants(area);
+			if (inhabitantSet.isEmpty()) {
+				addInstance(area);
+			}
+			inhabitantSet.add(player);
+
+			onPlayerMovedFrom(oldArea, area);
+		}
+		AreaTeleportation.movePlayerToArea(player, area.getArea());
+	}
+
+	protected void onPlayerMovedFrom(IActiveArea oldArea, IActiveArea currentArea) {
+		CompletionStage<IActiveArea> stagedFuture = futureArea;
+		if (stagedFuture != null) {
+			stagedFuture.toCompletableFuture().cancel(true);
+		}
+	}
+
+	protected void addInstance(IActiveArea activeArea) {
+		Objects.requireNonNull(activeArea);
+		MHFCMain.logger().debug(
+				"Adding active area instance {} of type {} to exploration manager",
+				activeArea,
+				activeArea.getType().getUnlocalizedName());
+		activeArea.engage();
+		getAreasOfType(activeArea.getType(), activeArea.getFlair()).add(activeArea);
+	}
+
+	protected void removeInstance(IActiveArea activeArea) {
+		Objects.requireNonNull(activeArea);
+		IAreaType areaType = activeArea.getType();
+		QuestFlair areaFlair = activeArea.getFlair();
+
+		MHFCMain.logger().debug(
+				"Removing active area instance {} of type {} from exploration manager",
+				activeArea,
+				areaType);
+		Collection<IActiveArea> areasForType = getAreasOfType(areaType, areaFlair);
+		boolean removed = areasForType.remove(activeArea);
+		assert removed : "Expected area to remove to be added";
+
+		activeArea.close();
+	}
+
+	/**
+	 * Removes the player from the current area. If instead you want to move the player to another area, use
+	 * {@link #transferIntoExistingInstance(IActiveArea)} instead.
+	 */
+	protected void removeFromCurrentArea() {
+		IActiveArea currentInstance = getActiveAreaOf();
+		if (currentInstance == null) {
+			return;
+		}
+		Set<EntityPlayerMP> inhabitants = getInhabitants().get(currentInstance);
+		boolean removed = inhabitants.remove(player);
+		assert removed;
+		if (inhabitants.isEmpty()) {
+			removeInstance(currentInstance);
+		}
+	}
 
 }

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Objects;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IAreaType;
@@ -19,6 +20,7 @@ import mhfc.net.common.world.types.AreaTypePlayfield;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldSavedData;
 import net.minecraftforge.common.util.Constants.NBT;
 
@@ -66,8 +68,17 @@ public class MHFCWorldData extends WorldSavedData {
 	public MHFCWorldData(World world, String nbtPropName) {
 		super(nbtPropName);
 		rectanglePlacer = new SimpleRectanglePlacer();
-		areaManager = new AreaManager(world, this);
+		areaManager = new AreaManager(world, this, getFlairFromWorld(world));
 		this.markDirty();
+	}
+
+	private QuestFlair getFlairFromWorld(World world) {
+		WorldProvider worldProvider = world.provider;
+		if (worldProvider instanceof WorldProviderQuesting) {
+			WorldProviderQuesting questingProvider = (WorldProviderQuesting) worldProvider;
+			return questingProvider.getQuestFlair();
+		}
+		return QuestFlair.DAYTIME;
 	}
 
 	@Override

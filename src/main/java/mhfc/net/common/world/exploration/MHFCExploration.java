@@ -1,22 +1,23 @@
 package mhfc.net.common.world.exploration;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.IdentityHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.quests.world.QuestFlair;
-import mhfc.net.common.world.AreaTeleportation;
+import mhfc.net.common.util.BiMultiMap;
+import mhfc.net.common.util.HashBiMultiMap;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
-import mhfc.net.common.world.types.VillagePokeType;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 public class MHFCExploration extends ExplorationAdapter {
-	private static final Map<IAreaType, List<IActiveArea>> AREA_INSTANCES = new HashMap<>();
-	private static final Map<IActiveArea, Set<EntityPlayerMP>> INHABITANTS = new IdentityHashMap<>();
+	private static final Table<IAreaType, QuestFlair, Collection<IActiveArea>> AREA_INSTANCES = HashBasedTable.create();
+	private static final BiMultiMap<IActiveArea, EntityPlayerMP> INHABITANTS = new HashBiMultiMap<>();
 
 	private static final Map<EntityPlayerMP, IAreaType> LAST_VISITED_AREA = new HashMap<>();
 	private static final Map<EntityPlayerMP, QuestFlair> LAST_FLAIR = new HashMap<>();
@@ -28,12 +29,12 @@ public class MHFCExploration extends ExplorationAdapter {
 	}
 
 	@Override
-	protected Map<IActiveArea, Set<EntityPlayerMP>> getInhabitants() {
+	protected BiMultiMap<IActiveArea, EntityPlayerMP> getInhabitants() {
 		return INHABITANTS;
 	}
 
 	@Override
-	protected Map<IAreaType, List<IActiveArea>> getManagedInstances() {
+	protected Table<IAreaType, QuestFlair, Collection<IActiveArea>> getManagedInstances() {
 		return AREA_INSTANCES;
 	}
 
@@ -51,10 +52,10 @@ public class MHFCExploration extends ExplorationAdapter {
 	}
 
 	@Override
-	protected void transferIntoExistingInstance(IActiveArea area, QuestFlair flair) {
-		super.transferIntoExistingInstance(area, flair);
+	protected void transferIntoExistingInstance(IActiveArea area) {
+		super.transferIntoExistingInstance(area);
 		LAST_VISITED_AREA.put(player, area.getType());
-		LAST_FLAIR.put(player, flair);
+		LAST_FLAIR.put(player, area.getFlair());
 	}
 
 	@Override
@@ -64,19 +65,7 @@ public class MHFCExploration extends ExplorationAdapter {
 
 	@Override
 	protected void respawnInInstance(IActiveArea instance) {
-		AreaTeleportation.movePlayerToArea(player, instance.getArea());
-	}
-
-	@Override
-	protected IAreaType initialAreaType() {
-		IAreaType previous = LAST_VISITED_AREA.get(player);
-		previous = previous != null ? previous : getTargetAreaOf();
-		return previous != null ? previous : VillagePokeType.INSTANCE;
-	}
-
-	@Override
-	protected QuestFlair initialFlair() {
-		return QuestFlair.DAYTIME;
+		transferIntoExistingInstance(instance);
 	}
 
 	@Override

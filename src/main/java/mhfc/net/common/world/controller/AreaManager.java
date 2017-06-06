@@ -16,6 +16,7 @@ import com.sk89q.worldedit.function.operation.Operation;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.eventhandler.MHFCTickHandler;
 import mhfc.net.common.eventhandler.TickPhase;
+import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.util.Operations;
 import mhfc.net.common.world.MHFCWorldData;
 import mhfc.net.common.world.MHFCWorldData.AreaInformation;
@@ -32,15 +33,15 @@ import net.minecraftforge.common.ForgeChunkManager.Type;
 
 public class AreaManager implements IAreaManager {
 
-	private static class Active extends ActiveAreaAdapter {
-		private IArea area;
-		private IAreaType type;
-		private AreaManager ref;
+	private class Active extends ActiveAreaAdapter {
+		private final IArea area;
+		private final IAreaType type;
+		private final QuestFlair flair;
 
-		public Active(IArea area, IAreaType type, AreaManager ref) {
+		public Active(IArea area, IAreaType type, QuestFlair flair) {
 			this.area = Objects.requireNonNull(area);
 			this.type = Objects.requireNonNull(type);
-			this.ref = Objects.requireNonNull(ref);
+			this.flair = Objects.requireNonNull(flair);
 			this.area.onAcquire();
 		}
 
@@ -55,25 +56,38 @@ public class AreaManager implements IAreaManager {
 		}
 
 		@Override
-		protected void onDismiss() {
-			this.area.onDismiss();
-			ref.dismiss(this);
+		public QuestFlair getFlair() {
+			return flair;
 		}
 
+		@Override
+		protected void onEngage() {}
+
+		@Override
+		protected void onDismiss() {
+			this.area.onDismiss();
+			AreaManager.this.dismiss(this);
+		}
 	}
 
 	protected Map<IAreaType, List<IArea>> nonactiveAreas = new HashMap<>();
 	private MHFCWorldData saveData;
 	protected final WeakReference<World> worldRef;
 	protected Ticket loadingTicket;
+	private final QuestFlair managedFlair;
 
-	public AreaManager(World world, MHFCWorldData saveData) {
+	public AreaManager(World world, MHFCWorldData saveData, QuestFlair managedFlair) {
 		this.worldRef = new WeakReference<>(Objects.requireNonNull(world));
 		this.saveData = Objects.requireNonNull(saveData);
+		this.managedFlair = Objects.requireNonNull(managedFlair);
 	}
 
 	private World getWorld() {
 		return worldRef.get();
+	}
+
+	private QuestFlair getOwnQuestFlair() {
+		return managedFlair;
 	}
 
 	private Ticket getLoadingTicket() {
@@ -101,7 +115,7 @@ public class AreaManager implements IAreaManager {
 		Optional<IArea> chosen = nonactiveAreas.computeIfAbsent(type, (k) -> new ArrayList<>()).stream()
 				.filter(a -> !a.isUnusable()).findFirst();
 		if (chosen.isPresent()) {
-			Active active = new Active(chosen.get(), type, this);
+			Active active = this.new Active(chosen.get(), type, getOwnQuestFlair());
 			nonactiveAreas.get(type).remove(active.getArea());
 			return CompletableFuture.completedFuture(active);
 		}
@@ -118,7 +132,7 @@ public class AreaManager implements IAreaManager {
 		ForgeChunkManager.forceChunk(getLoadingTicket(), chunkPos);
 		final CompletableFuture<IActiveArea> areaFuture = new CompletableFuture<>();
 		final Operation operation = Operations.withCallback(Operations.timingOperation(plan, 20), o -> {
-			areaFuture.complete(new Active(type.provideForLoading(getWorld(), config), type, this));
+			areaFuture.complete(this.new Active(type.provideForLoading(getWorld(), config), type, getOwnQuestFlair()));
 
 			onAreaCompleted(info);
 			ForgeChunkManager.unforceChunk(getLoadingTicket(), chunkPos);
