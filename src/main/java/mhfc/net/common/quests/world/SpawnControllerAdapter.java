@@ -1,16 +1,17 @@
 package mhfc.net.common.quests.world;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
+
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Multiset;
 
 import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.IArea;
@@ -167,8 +168,8 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	}
 
 	protected Set<Queue<Spawnable>> spawnQueues;
-	protected Map<Class<? extends Entity>, Integer> aliveCount;
-	protected Map<Class<? extends Entity>, Integer> spawnMaximum;
+	protected Multiset<Class<? extends Entity>> aliveCount;
+	protected Multiset<Class<? extends Entity>> spawnMaximum;
 	protected Set<Entity> managedEntities;
 	protected TileEntity tickerEntity;
 	protected IWorldView worldView;
@@ -182,8 +183,8 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		Objects.requireNonNull(worldView);
 		this.worldView = worldView;
 		this.spawnQueues = new HashSet<>();
-		this.aliveCount = new HashMap<>();
-		this.spawnMaximum = new HashMap<>();
+		this.aliveCount = HashMultiset.create();
+		this.spawnMaximum = HashMultiset.create();
 		this.managedEntities = new HashSet<>();
 		this.tickerEntity = new TickerEntity();
 		worldView.addWorldAccess(new WorldAccessor());
@@ -253,7 +254,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 	@Override
 	public <T extends Entity> void setGenerationMaximum(Class<T> entityclass, int maxAmount) {
-		spawnMaximum.put(entityclass, maxAmount);
+		spawnMaximum.setCount(entityclass, maxAmount);
 	}
 
 	@Override
@@ -303,8 +304,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		}
 
 		Class<? extends Entity> clazz = entity.getClass();
-		Integer count = aliveCount.getOrDefault(clazz, new Integer(0));
-		aliveCount.put(clazz, count.intValue() + 1);
+		aliveCount.add(clazz);
 		return true;
 	}
 
@@ -318,8 +318,8 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		}
 
 		Class<? extends Entity> clazz = entity.getClass();
-		Integer count = aliveCount.get(clazz);
-		aliveCount.put(clazz, count.intValue() - 1);
+		boolean removed = aliveCount.remove(clazz);
+		assert removed;
 		return true;
 	}
 
@@ -343,7 +343,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		if (entity == null) {
 			return false;
 		}
-		if (aliveCount.getOrDefault(entity.getClass(), 0) >= spawnMaximum.getOrDefault(entity.getClass(), 0)) {
+		if (aliveCount.count(entity.getClass()) >= spawnMaximum.count(entity.getClass())) {
 			return false;
 		}
 		spawnEntity((world) -> entity);
