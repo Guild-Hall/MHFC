@@ -4,8 +4,6 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import com.google.common.base.Predicates;
-
 import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -72,15 +70,6 @@ public interface IQuestAreaSpawnController {
 	public void setGenerationMaximum(ResourceLocation entityID, int maxAmount);
 
 	public <T extends Entity> void setGenerationMaximum(Class<T> entityclass, int maxAmount);
-
-	/**
-	 * Remove all MHFC or hostile monsters from the area and return the number removed.
-	 *
-	 * @return How many monsters were removed
-	 */
-	default public int clearArea() {
-		return clearAreaOf(Predicates.alwaysFalse()::apply);
-	}
 
 	/**
 	 * Clear the area from all monsters whose classes are instances of the class belonging the the given id.

@@ -21,7 +21,6 @@ public abstract class ActiveAreaAdapter implements IActiveArea {
 	public void engage() throws IllegalStateException {
 		if (!engaged) {
 			onEngage();
-			// FIXME: chunks may not be loaded at this point, which makes this kind of pointless
 			getArea().getSpawnController().clearAreaOf(this::isNotPartOfRaid);
 			engaged = true;
 		}
@@ -31,7 +30,6 @@ public abstract class ActiveAreaAdapter implements IActiveArea {
 	public final void dismiss() {
 		if (!dismissed && engaged) {
 			onDismiss();
-			// FIXME: chunks may not be loaded at this point, which makes this kind of pointless
 			getArea().getSpawnController().clearQueues();
 			getArea().getSpawnController().clearAreaOf(this::isNotPartOfRaid);
 			dismissed = true;

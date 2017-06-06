@@ -263,6 +263,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 	@Override
 	public int clearAreaOf(Predicate<Entity> predicate) {
+		// FIXME: chunks may not be loaded at this point, which makes this kind of pointless
 		List<Entity> allEntities = worldView.getAllMatchingEntities(predicate);
 
 		return (int) allEntities.stream().filter(predicate).filter(this::despawnEntity).count();
