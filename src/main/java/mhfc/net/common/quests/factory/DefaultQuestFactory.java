@@ -116,6 +116,8 @@ public class DefaultQuestFactory implements IQuestDefinitionFactory {
 		holder.add(KEY_REWARD, reward);
 		holder.addProperty(KEY_FEE, questDesc.getFee());
 		holder.addProperty(KEY_MAX_PARTY_SIZE, questDesc.getMaxPartySize());
+		JsonElement spawns = context.serialize(questDesc.getSpawnInformation());
+		holder.add(KEY_SPAWNS, spawns);
 		QuestVisualInformationFactory visualFactory = new QuestVisualInformationFactory(questDesc);
 		JsonElement jsonVisual = visualFactory.serialize(visual, context);
 		holder.add(KEY_VISUAL, jsonVisual);

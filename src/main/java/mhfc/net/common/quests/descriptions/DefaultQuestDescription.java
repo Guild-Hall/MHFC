@@ -167,4 +167,8 @@ public class DefaultQuestDescription implements IQuestDefinition {
 				this);
 	}
 
+	public SpawnInformationDelegate getSpawnInformation() {
+		return spawns;
+	}
+
 }
