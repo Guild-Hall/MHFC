@@ -42,7 +42,7 @@ public class MHFCRegQuestVisual {
 		return serviceAccess.getService();
 	}
 
-	public static Set<String> getAvailableQuestIDs(String groupId) {
+	public static Set<ResourceLocation> getAvailableQuestIDs(String groupId) {
 		return getService().getQuestIdentifiers(groupId);
 	}
 
@@ -57,7 +57,7 @@ public class MHFCRegQuestVisual {
 	 * @return Either the visual representation of the requested quest or a replacement <br>
 	 *         representing loading.
 	 */
-	public static IVisualDefinition getQuestInformation(String questID) {
+	public static IVisualDefinition getQuestInformation(ResourceLocation questID) {
 		MHFCRegQuestVisual service = getService();
 		IQuestDefinition staticDescription = service.clientDataObject.getQuestDescription(questID);
 		if (staticDescription != null) {
@@ -86,7 +86,7 @@ public class MHFCRegQuestVisual {
 		return getService().playerVisual;
 	}
 
-	public static void startNewMission(String questID, String missionID) {
+	public static void startNewMission(ResourceLocation questID, String missionID) {
 		getService().createMission(questID, missionID);
 	}
 
@@ -124,7 +124,7 @@ public class MHFCRegQuestVisual {
 		message.initialize(clientDataObject);
 	}
 
-	public Set<String> getQuestIdentifiers(String group) {
+	public Set<ResourceLocation> getQuestIdentifiers(String group) {
 		return Collections.unmodifiableSet(clientDataObject.getQuestIdentifiersFor(group));
 	}
 
@@ -132,7 +132,7 @@ public class MHFCRegQuestVisual {
 		return Collections.unmodifiableSet(missionIDs);
 	}
 
-	public void createMission(String questID, String missionID) {
+	public void createMission(ResourceLocation questID, String missionID) {
 		if (missionIDs.contains(missionID)) {
 			return;
 		}

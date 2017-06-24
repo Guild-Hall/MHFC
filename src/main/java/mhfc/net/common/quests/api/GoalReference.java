@@ -13,6 +13,7 @@ import com.google.gson.JsonSerializer;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import net.minecraft.util.JsonUtils;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * This class represents a reference to a quest goal, either through the id corresponding to it or a direct object
@@ -43,10 +44,10 @@ public abstract class GoalReference {
 	}
 
 	private static class ReferenceByID extends GoalReference {
-		private String id;
+		private ResourceLocation id;
 
 		public ReferenceByID(String id) {
-			this.id = id;
+			this.id = new ResourceLocation(id);
 		}
 
 		@Override
@@ -56,7 +57,7 @@ public abstract class GoalReference {
 
 		@Override
 		protected JsonElement serialize(Type typeOfSrc, JsonSerializationContext context) {
-			return new JsonPrimitive(id);
+			return new JsonPrimitive(id.toString());
 		}
 	}
 

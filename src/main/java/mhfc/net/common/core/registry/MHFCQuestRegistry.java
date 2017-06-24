@@ -24,6 +24,7 @@ import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -103,7 +104,7 @@ public class MHFCQuestRegistry {
 			RunningSubscriptionHandler.subscribers.add(player);
 			for (Entry<String, Mission> mission : getRegistry().runningQuestRegistry.getFrozenDataMap().entrySet()) {
 				String missionID = mission.getKey();
-				String questID = getRegistry().missionIDtoQuestID.get(missionID);
+				ResourceLocation questID = getRegistry().missionIDtoQuestID.get(missionID);
 				PacketPipeline.networkPipe.sendTo(MessageMissionStatus.creation(questID, missionID), player);
 			}
 		}
@@ -204,7 +205,7 @@ public class MHFCQuestRegistry {
 			PacketPipeline.networkPipe.sendTo(quest.createFullUpdateMessage(), player);
 			return;
 		}
-		String questID = message.getOptions()[0];
+		ResourceLocation questID = new ResourceLocation(message.getOptions()[0]);
 		IQuestDefinition questDescription = MHFCQuestBuildRegistry.getQuestDescription(questID);
 		if (questDescription == null) {
 			player.sendMessage(new TextComponentString("Quest with id[" + questID + "] not found"));
@@ -235,7 +236,7 @@ public class MHFCQuestRegistry {
 	protected Map<EntityPlayer, String> playerQuest = new HashMap<>();
 	protected List<Mission> questsRunning = new ArrayList<>();
 	protected KeyToInstanceRegistryData<String, Mission> runningQuestRegistry = new KeyToInstanceRegistryData<>();
-	protected Map<String, String> missionIDtoQuestID = new HashMap<>();
+	protected Map<String, ResourceLocation> missionIDtoQuestID = new HashMap<>();
 
 	private QuestEventHandler connectionHandler;
 
@@ -298,7 +299,7 @@ public class MHFCQuestRegistry {
 	/**
 	 * Should be called when a new quest was started
 	 */
-	private boolean startMission(String questID, Mission mission, String missionID) {
+	private boolean startMission(ResourceLocation questID, Mission mission, String missionID) {
 		if (!runningQuestRegistry.offerMapping(missionID, mission)) {
 			return false;
 		}

@@ -17,6 +17,7 @@ import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.world.QuestFlair;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -112,11 +113,11 @@ public class MHFCQuestBuildRegistry {
 		MHFCMain.logger().info("Quests reloaded");
 	}
 
-	public static IGoalDefinition getGoalDescription(String id) {
+	public static IGoalDefinition getGoalDescription(ResourceLocation id) {
 		return dataObject.getGoalDescription(id);
 	}
 
-	public static IQuestDefinition getQuestDescription(String id) {
+	public static IQuestDefinition getQuestDescription(ResourceLocation id) {
 		return dataObject.getQuestDescription(id);
 	}
 
@@ -124,7 +125,7 @@ public class MHFCQuestBuildRegistry {
 		return dataObject.getGroupsInOrder();
 	}
 
-	public static Set<String> getQuestIdentifiersFor(String group) {
+	public static Set<ResourceLocation> getQuestIdentifiersFor(String group) {
 		return dataObject.getQuestIdentifiersFor(group);
 	}
 }

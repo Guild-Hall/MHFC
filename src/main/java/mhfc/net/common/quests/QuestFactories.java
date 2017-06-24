@@ -147,10 +147,11 @@ public class QuestFactories {
 			if (value.isJsonNull()) {
 				JsonObject replacement = new JsonObject();
 				replacement.add(KEY_TYPE, new JsonPrimitive(MHFCQuestBuildRegistry.SPAWN_NONE_TYPE));
-				value = replacement;
+				return super.convertTo(replacement, context);
 			} else if (value.isJsonArray()) {
 				JsonObject replacement = MultipleSpawnsFactory.wrap(value.getAsJsonArray());
 				replacement.add(KEY_TYPE, new JsonPrimitive(MHFCQuestBuildRegistry.SPAWN_MULTIPLE_TYPE));
+				return super.convertTo(replacement, context);
 			}
 			return super.convertTo(value, context);
 		}
