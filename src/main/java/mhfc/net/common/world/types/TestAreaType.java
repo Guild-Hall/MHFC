@@ -1,15 +1,13 @@
 package mhfc.net.common.world.types;
 
 import mhfc.net.common.index.ResourceInterface;
-import mhfc.net.common.quests.world.SpawnControllerAdapter.SpawnInformation;
-import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.EmptyArea;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IExtendedConfiguration;
 import mhfc.net.common.worldedit.ClipboardFormats;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class TestAreaType extends AreaTypeSchematic {
@@ -24,16 +22,13 @@ public class TestAreaType extends AreaTypeSchematic {
 		}
 
 		@Override
-		public void teleportToSpawn(EntityPlayer player) {
-			double posX = 3;
-			double posY = 8;
-			double posZ = 3;
-			worldView.moveEntityTo(player, posX, posY, posZ);
+		protected BlockPos getPlayerSpawnPosition() {
+			return new BlockPos(3, 0, 3);
 		}
 
 		@Override
-		public SpawnInformation constructDefaultSpawnInformation(Spawnable entity) {
-			return new SpawnInformation(entity, 10, 9, 10);
+		protected BlockPos getMonsterSpawnPosition() {
+			return new BlockPos(10, 0, 10);
 		}
 	}
 

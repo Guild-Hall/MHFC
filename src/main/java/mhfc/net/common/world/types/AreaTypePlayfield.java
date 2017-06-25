@@ -14,8 +14,6 @@ import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.area.IExtendedConfiguration;
-import mhfc.net.common.world.controller.CornerPosition;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -30,18 +28,6 @@ public class AreaTypePlayfield implements IAreaType {
 			protected void enqueDefaultSpawns() {
 				return;
 			}
-
-			@Override
-			protected SpawnInformation constructDefaultSpawnInformation(Spawnable entity) {
-				int spawnX = config.getChunkSizeX() * 8;
-				int spawnZ = config.getChunkSizeZ() * 8;
-				int height = getWorld()
-						.getChunkFromChunkCoords(
-								getChunkPosition().posX + spawnX / 16,
-								getChunkPosition().posY + spawnZ / 16)
-						.getHeightValue(spawnX % 16, spawnZ % 16);
-				return new SpawnInformation(entity, 6, height, 6);
-			}
 		}
 
 		public AreaPlayfield(World world, AreaConfiguration config) {
@@ -49,12 +35,15 @@ public class AreaTypePlayfield implements IAreaType {
 		}
 
 		@Override
-		public void teleportToSpawn(EntityPlayer player) {
-			CornerPosition chunkPos = getChunkPosition();
-			double posX = 8;
-			double posZ = 8;
-			double posY = getWorld().getChunkFromChunkCoords(chunkPos.posX, chunkPos.posY).getHeightValue(8, 8);
-			worldView.moveEntityTo(player, posX, posY, posZ);
+		protected BlockPos getPlayerSpawnPosition() {
+			return new BlockPos(8, 0, 8);
+		}
+
+		@Override
+		protected BlockPos getMonsterSpawnPosition() {
+			int spawnX = config.getChunkSizeX() * 8;
+			int spawnZ = config.getChunkSizeZ() * 8;
+			return new BlockPos(spawnX, 0, spawnZ);
 		}
 
 		@Override

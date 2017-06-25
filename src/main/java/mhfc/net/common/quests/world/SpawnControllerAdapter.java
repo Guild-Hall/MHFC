@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 import com.google.common.collect.HashMultiset;
@@ -32,53 +31,6 @@ import net.minecraft.world.IWorldEventListener;
 import net.minecraft.world.World;
 
 public abstract class SpawnControllerAdapter implements IQuestAreaSpawnController {
-
-	public static interface Spawnable extends Function<World, Entity> {}
-
-	public static class SpawnInformation {
-		private Spawnable spawnable;
-		private double relX, relY, relZ;
-
-		public SpawnInformation(Spawnable entity, double relX, double relY, double relZ) {
-			this.spawnable = entity;
-			this.relX = relX;
-			this.relY = relY;
-			this.relZ = relZ;
-		}
-
-		public Spawnable getEntity() {
-			return spawnable;
-		}
-
-		public void setEntity(Spawnable entity) {
-			this.spawnable = entity;
-		}
-
-		public double getRelX() {
-			return relX;
-		}
-
-		public void setRelX(double relX) {
-			this.relX = relX;
-		}
-
-		public double getRelY() {
-			return relY;
-		}
-
-		public void setRelY(double relY) {
-			this.relY = relY;
-		}
-
-		public double getRelZ() {
-			return relZ;
-		}
-
-		public void setRelZ(double relZ) {
-			this.relZ = relZ;
-		}
-
-	}
 
 	protected class WorldAccessor implements IWorldEventListener {
 
@@ -168,7 +120,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		}
 	}
 
-	protected Set<Queue<Spawnable>> spawnQueues;
+	protected Set<Queue<EntityFactory>> spawnQueues;
 	protected Multiset<Class<? extends Entity>> aliveCount;
 	protected Multiset<Class<? extends Entity>> spawnMaximum;
 	protected Set<Entity> managedEntities;
@@ -193,7 +145,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	}
 
 	@Override
-	public void defaultSpawnsEnabled(boolean defaultSpawnsEnabled) {
+	public void setDefaultSpawnsEnabled(boolean defaultSpawnsEnabled) {
 		if (defaultSpawnsEnabled) {
 			enqueDefaultSpawns();
 		}
@@ -201,41 +153,34 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 	protected abstract void enqueDefaultSpawns();
 
-
-	/**
-	 * TODO: Add multiple spawn instances.
-	 *
-	 * */
-
-	protected abstract SpawnInformation constructDefaultSpawnInformation(Spawnable entity);
-
 	@Override
-	public void spawnEntity(ResourceLocation entityID) {
-		spawnEntity((world) -> EntityList.createEntityByIDFromName(entityID, world));
+	public void spawnEntity(EntityFactory factory) {
+		Objects.requireNonNull(factory);
+		BlockPos pos = areaInstance.resolvePosition(IQuestArea.MONSTER_SPAWN);
+		pos = worldView.getTopSolidOrLiquidBlock(pos).up();
+		spawnEntity(factory, pos.getX(), pos.getY(), pos.getZ());
 	}
 
 	@Override
-	public void spawnEntity(ResourceLocation entityID, double x, double y, double z) {
-		spawnEntity(new SpawnInformation((world) -> EntityList.createEntityByIDFromName(entityID, world), x, y, z));
+	public void spawnEntity(EntityFactory factory, double x, double y, double z) {
+		Objects.requireNonNull(factory);
+		EntityFactory factoryWithPos = factory.andThenConfigure(e -> {
+			if (e == null) {
+				return null;
+			}
+			e.setPosition(x, y, z);
+			return e;
+		});
+		doSpawnEntity(factoryWithPos);
 	}
 
 	@Override
-	public void spawnEntity(Spawnable entity) {
-		spawnEntity(constructDefaultSpawnInformation(entity));
-	}
-
-	@Override
-	public void spawnEntity(Spawnable entity, double x, double y, double z) {
-		spawnEntity(new SpawnInformation(entity, x, y, z));
-	}
-
-	@Override
-	public void enqueueSpawns(Queue<Spawnable> qu) {
+	public void enqueueSpawns(Queue<EntityFactory> qu) {
 		spawnQueues.add(qu);
 	}
 
 	@Override
-	public void dequeueSpawns(Queue<Spawnable> qu) {
+	public void dequeueSpawns(Queue<EntityFactory> qu) {
 		spawnQueues.remove(qu);
 	}
 
@@ -278,10 +223,13 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	/**
 	 * Directly spawns the given entity at the position. Forces the spawn
 	 */
-	protected boolean spawnEntity(SpawnInformation information) {
-		Entity entity = information.spawnable.apply(worldView.getWorldObject());
+	protected boolean doSpawnEntity(EntityFactory spawnable) {
+		Entity entity = spawnable.apply(worldView.getWorldObject(), areaInstance);
+		if (entity == null) {
+			return false;
+		}
 		AreaTeleportation.assignAreaForEntity(entity, areaInstance);
-		worldView.spawnEntityAt(entity, information.relX, information.relY, information.relZ);
+		worldView.spawnEntityAt(entity, entity.posX, entity.posY, entity.posZ);
 		return controlEntity(entity);
 	}
 
@@ -326,33 +274,31 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 
 	@Override
 	public void runSpawnCycle() {
-		Iterator<Queue<Spawnable>> it = spawnQueues.iterator();
+		Iterator<Queue<EntityFactory>> it = spawnQueues.iterator();
 		while (it.hasNext()) {
-			Queue<Spawnable> spawnQ = it.next();
-			Spawnable firstEnt = spawnQ.peek();
+			Queue<EntityFactory> spawnQ = it.next();
+			EntityFactory firstEnt = spawnQ.peek();
 			if (firstEnt == null) {
 				it.remove();
 				continue;
 			}
-			if (spawnIfFreeSlots(firstEnt)) {
+			if (doSpawnEntity(firstEnt.andThenConfigure(this::enforceSpawnLimit))) {
 				// consume the element
-				Spawnable polled = spawnQ.poll();
+				EntityFactory polled = spawnQ.poll();
 				assert polled == firstEnt;
 			}
 		}
 	}
 
-	private boolean spawnIfFreeSlots(Spawnable firstEnt) {
-		Entity entity = firstEnt.apply(worldView.getWorldObject());
+	private Entity enforceSpawnLimit(Entity entity) {
 		if (entity == null) {
-			return false;
+			return null;
 		}
 		Class<? extends Entity> entityClass = entity.getClass();
 		if (spawnMaximum.contains(entityClass) && aliveCount.count(entityClass) >= spawnMaximum.count(entityClass)) {
-			return false;
+			return null; // Skip spawn
 		}
-		spawnEntity((world) -> entity);
-		return true;
+		return entity;
 	}
 
 }

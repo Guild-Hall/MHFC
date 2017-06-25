@@ -5,8 +5,8 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import mhfc.net.common.quests.api.ISpawnInformation;
+import mhfc.net.common.quests.world.EntityFactory;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
-import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
 import mhfc.net.common.util.LazyQueue;
 import net.minecraft.entity.EntityList;
 import net.minecraft.util.ResourceLocation;
@@ -27,12 +27,12 @@ public class MonsterSpawn implements ISpawnInformation {
 
 	@Override
 	public void enqueueSpawns(IQuestAreaSpawnController spawnController) {
-		Spawnable creation = world -> EntityList.createEntityByIDFromName(goalMob, world);
-		Stream<Spawnable> generator = Stream.generate(() -> creation);
+		EntityFactory creation = (world, area) -> EntityList.createEntityByIDFromName(goalMob, world);
+		Stream<EntityFactory> generator = Stream.generate(() -> creation);
 		if (goalNumber > 0) {
 			generator = generator.limit(goalNumber);
 		}
-		LazyQueue<Spawnable> spawnQueue = new LazyQueue<>(generator.iterator());
+		LazyQueue<EntityFactory> spawnQueue = new LazyQueue<>(generator.iterator());
 
 		spawnController.enqueueSpawns(spawnQueue);
 	}

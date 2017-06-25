@@ -1,10 +1,15 @@
 package mhfc.net.common.world.area;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
+import mhfc.net.common.quests.world.IQuestArea;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.world.controller.CornerPosition;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent;
@@ -25,6 +30,7 @@ public abstract class AreaAdapter implements IArea {
 	protected IWorldView worldView;
 	protected State state;
 	protected IQuestAreaSpawnController spawnController;
+	protected Map<ResourceLocation, BlockPos> namedPositions;
 
 	/**
 	 * Constructs and initializes the area
@@ -35,6 +41,7 @@ public abstract class AreaAdapter implements IArea {
 		this.worldView = new DisplacedView(config.getPosition(), config, world);
 		this.spawnController = initializeSpawnController();
 		this.state = State.INITIALIZED;
+		this.namedPositions = new HashMap<>();
 	}
 
 	protected World getWorld() {
@@ -85,7 +92,7 @@ public abstract class AreaAdapter implements IArea {
 	private boolean isInArea(double xCoord, double zCoord) {
 		CornerPosition chunkPos = getChunkPosition();
 		return xCoord / 16 >= chunkPos.posX && xCoord / 16 < chunkPos.posX + config.getChunkSizeX()
-				&& zCoord / 16 >= chunkPos.posY && zCoord / 16 < chunkPos.posY + config.getChunkSizeZ();
+		&& zCoord / 16 >= chunkPos.posY && zCoord / 16 < chunkPos.posY + config.getChunkSizeZ();
 	}
 
 	private boolean isInArea(BlockEvent event) {
@@ -110,6 +117,21 @@ public abstract class AreaAdapter implements IArea {
 			return;
 		}
 		event.setCanceled(true);
+	}
+
+	protected abstract BlockPos getPlayerSpawnPosition();
+
+	protected abstract BlockPos getMonsterSpawnPosition();
+
+	@Override
+	public BlockPos resolvePosition(ResourceLocation location) {
+		if (IQuestArea.PLAYER_SPAWN.equals(location)) {
+			return getPlayerSpawnPosition();
+		}
+		if (IQuestArea.MONSTER_SPAWN.equals(location)) {
+			return getMonsterSpawnPosition();
+		}
+		return namedPositions.get(location);
 	}
 
 }

@@ -1,14 +1,11 @@
 package mhfc.net.common.world.types;
 
 import mhfc.net.common.index.ResourceInterface;
-import mhfc.net.common.quests.world.SpawnControllerAdapter.SpawnInformation;
-import mhfc.net.common.quests.world.SpawnControllerAdapter.Spawnable;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.EmptyArea;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IExtendedConfiguration;
 import mhfc.net.common.worldedit.ClipboardFormats;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,17 +22,14 @@ public class AreaGreenValley extends AreaTypeSchematic {
 		}
 
 		@Override
-		public void teleportToSpawn(EntityPlayer player) {
-			BlockPos position = new BlockPos(98, 0, 85);
-			position = worldView.getTopSolidOrLiquidBlock(position).up();
-			worldView.moveEntityTo(player, position);
+		protected BlockPos getPlayerSpawnPosition() {
+			return new BlockPos(98, 0, 85);
 		}
 
 		@Override
-		public SpawnInformation constructDefaultSpawnInformation(Spawnable entity) {
-			return new SpawnInformation(entity, 54, 21.5, 40);
+		protected BlockPos getMonsterSpawnPosition() {
+			return new BlockPos(54, 0, 40);
 		}
-
 	}
 
 	private AreaGreenValley() {

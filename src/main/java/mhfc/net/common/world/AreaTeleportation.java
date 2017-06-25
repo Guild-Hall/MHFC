@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.quests.world.IQuestArea;
 import mhfc.net.common.world.area.IArea;
+import mhfc.net.common.world.area.IWorldView;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
@@ -52,7 +54,11 @@ public class AreaTeleportation {
 		public void placeInPortal(Entity player, float rotationYaw) {
 			if (player instanceof EntityPlayerMP) {
 				MHFCMain.logger().debug("Teleporting {} to area {}", player, area);
-				area.teleportToSpawn((EntityPlayerMP) player);
+				IWorldView worldView = area.getWorldView();
+				BlockPos spawnPos = area.resolvePosition(IQuestArea.PLAYER_SPAWN);
+				spawnPos = worldView.getTopSolidOrLiquidBlock(spawnPos).up();
+
+				worldView.moveEntityTo(player, spawnPos);
 			}
 		}
 

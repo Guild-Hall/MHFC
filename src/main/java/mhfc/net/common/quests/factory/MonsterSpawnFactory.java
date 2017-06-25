@@ -18,11 +18,11 @@ public class MonsterSpawnFactory implements ISpawnInformationFactory {
 	@Override
 	public JsonElement convertFrom(ISpawnInformation value, JsonSerializationContext context) {
 		MonsterSpawn spawner = (MonsterSpawn) value;
-		String mobType = spawner.getSpawnType().toString();
+		ResourceLocation type = spawner.getSpawnType();
 		Optional<Integer> spawnedCount = spawner.getSpawnCount();
 
 		JsonObject json = new JsonObject();
-		json.add("mob", new JsonPrimitive(mobType));
+		json.add("mob", context.serialize(type));
 		spawnedCount.ifPresent(c -> json.add("count", new JsonPrimitive(c)));
 		return json;
 	}
@@ -30,7 +30,7 @@ public class MonsterSpawnFactory implements ISpawnInformationFactory {
 	@Override
 	public ISpawnInformation convertTo(JsonElement value, JsonDeserializationContext context) {
 		JsonObject object = value.getAsJsonObject();
-		ResourceLocation mobName = new ResourceLocation(object.get("mob").getAsString());
+		ResourceLocation mobName = context.deserialize(object.get("mob"), ResourceLocation.class);
 		JsonElement count = object.get("count");
 		if (count == null) {
 			return new MonsterSpawn(mobName);
