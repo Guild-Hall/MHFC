@@ -156,8 +156,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 	@Override
 	public void spawnEntity(EntityFactory factory) {
 		Objects.requireNonNull(factory);
-		BlockPos pos = areaInstance.resolvePosition(IQuestArea.MONSTER_SPAWN);
-		pos = worldView.getTopSolidOrLiquidBlock(pos).up();
+		BlockPos pos = areaInstance.resolveMonsterSpawn(IQuestArea.MONSTER_SPAWN);
 		spawnEntity(factory, pos.getX(), pos.getY(), pos.getZ());
 	}
 
@@ -230,7 +229,8 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		}
 		AreaTeleportation.assignAreaForEntity(entity, areaInstance);
 		worldView.spawnEntityAt(entity, entity.posX, entity.posY, entity.posZ);
-		return controlEntity(entity);
+		controlEntity(entity);
+		return true;
 	}
 
 	/**

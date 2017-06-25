@@ -1,5 +1,7 @@
 package mhfc.net.common.quests.world;
 
+import java.util.Optional;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 
@@ -15,7 +17,15 @@ public interface IQuestArea {
 	 *
 	 * @param location
 	 *            the name of the location to retrieve.
-	 * @return
+	 * @return an empty optional if no such location is known
 	 */
-	public BlockPos resolvePosition(ResourceLocation location);
+	public Optional<BlockPos> resolveLocation(ResourceLocation location);
+
+	public default BlockPos resolveMonsterSpawn(ResourceLocation locationHint) {
+		return resolveLocation(locationHint).orElseGet(() -> resolveLocation(MONSTER_SPAWN).get());
+	}
+
+	public default BlockPos resolvePlayerSpawn(ResourceLocation locationHint) {
+		return resolveLocation(locationHint).orElseGet(() -> resolveLocation(PLAYER_SPAWN).get());
+	}
 }

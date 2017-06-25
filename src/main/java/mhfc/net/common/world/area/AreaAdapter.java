@@ -4,6 +4,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 import mhfc.net.common.quests.world.IQuestArea;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
@@ -124,14 +125,21 @@ public abstract class AreaAdapter implements IArea {
 	protected abstract BlockPos getMonsterSpawnPosition();
 
 	@Override
-	public BlockPos resolvePosition(ResourceLocation location) {
+	public Optional<BlockPos> resolveLocation(ResourceLocation location) {
+		return getLocationXY(location).map(worldView::getTopSolidOrLiquidBlock).map(BlockPos::up);
+	}
+
+	private Optional<BlockPos> getLocationXY(ResourceLocation location) {
+		if (location == null) {
+			return Optional.empty();
+		}
 		if (IQuestArea.PLAYER_SPAWN.equals(location)) {
-			return getPlayerSpawnPosition();
+			return Optional.of(getPlayerSpawnPosition());
 		}
 		if (IQuestArea.MONSTER_SPAWN.equals(location)) {
-			return getMonsterSpawnPosition();
+			return Optional.of(getMonsterSpawnPosition());
 		}
-		return namedPositions.get(location);
+		return Optional.ofNullable(namedPositions.get(location));
 	}
 
 }

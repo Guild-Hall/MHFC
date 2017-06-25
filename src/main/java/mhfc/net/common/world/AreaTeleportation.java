@@ -55,8 +55,7 @@ public class AreaTeleportation {
 			if (player instanceof EntityPlayerMP) {
 				MHFCMain.logger().debug("Teleporting {} to area {}", player, area);
 				IWorldView worldView = area.getWorldView();
-				BlockPos spawnPos = area.resolvePosition(IQuestArea.PLAYER_SPAWN);
-				spawnPos = worldView.getTopSolidOrLiquidBlock(spawnPos).up();
+				BlockPos spawnPos = area.resolvePlayerSpawn(IQuestArea.PLAYER_SPAWN);
 
 				worldView.moveEntityTo(player, spawnPos);
 			}
