@@ -24,6 +24,7 @@ import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.rewards.NullReward;
+import mhfc.net.common.quests.spawns.NoSpawn;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.system.ColorSystem;
@@ -112,6 +113,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		goal.setSocket(this);
 
 		this.reward = reward == null ? new NullReward() : reward;
+		this.spawns = spawns == null ? NoSpawn.INSTANCE : spawns;
 		this.fee = fee;
 		this.state = QuestState.pending;
 		this.originalDescription = originalDescription;
@@ -213,9 +215,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		}
 		updatePlayers();
 		resetVotes();
-		if (spawns != null) {
-			spawns.enqueueSpawns(getSpawnController());
-		}
+		spawns.enqueueSpawns(getSpawnController());
 	}
 
 	private void resetVotes() {
@@ -347,7 +347,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	}
 
 	private boolean allVotes() {
-		return playerAttributes.values().stream().map((x) -> x.vote).reduce(Boolean::logicalAnd).orElse(true);
+		return !playerAttributes.isEmpty() && playerAttributes.values().stream().allMatch((x) -> x.vote);
 	}
 
 	public void voteEnd(EntityPlayerMP player) {

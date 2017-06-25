@@ -332,9 +332,12 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 			Spawnable firstEnt = spawnQ.peek();
 			if (firstEnt == null) {
 				it.remove();
+				continue;
 			}
 			if (spawnIfFreeSlots(firstEnt)) {
-				spawnQ.poll();
+				// consume the element
+				Spawnable polled = spawnQ.poll();
+				assert polled == firstEnt;
 			}
 		}
 	}
@@ -344,7 +347,8 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		if (entity == null) {
 			return false;
 		}
-		if (aliveCount.count(entity.getClass()) >= spawnMaximum.count(entity.getClass())) {
+		Class<? extends Entity> entityClass = entity.getClass();
+		if (spawnMaximum.contains(entityClass) && aliveCount.count(entityClass) >= spawnMaximum.count(entityClass)) {
 			return false;
 		}
 		spawnEntity((world) -> entity);
