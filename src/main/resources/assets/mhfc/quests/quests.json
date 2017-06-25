@@ -23,7 +23,12 @@
 				name : "No Guts, No Glory",
 				longDescription: "The Village Elder wanted to test your ability on being a certified hunter. Slaying 5 Delex is one of the measures to fulfill your will. ",
 				aims :"Slay 5 Delex"
-			}
+			},
+			spawns: [{
+				type: "monster",
+				mob: "mhfc:delex",
+				count: 5
+			}]
 		}
 	},
 	leadingthecharge : {
