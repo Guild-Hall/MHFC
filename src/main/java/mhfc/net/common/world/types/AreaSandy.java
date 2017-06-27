@@ -19,11 +19,16 @@ public class AreaSandy extends AreaTypeSchematic {
 	private static class Area extends EmptyArea {
 		public Area(World world, AreaConfiguration config) {
 			super(world, config);
+			this.namedPositions.put(new ResourceLocation("area_spawn1"), new BlockPos(74, 4, 75));
+			this.namedPositions.put(new ResourceLocation("area_spawn2"), new BlockPos(48, 4, 75));
+			this.namedPositions.put(new ResourceLocation("area_spawn3"), new BlockPos(23, 4, 55));
+			this.namedPositions.put(new ResourceLocation("area_spawn4"), new BlockPos(23, 4, 25));
+			this.namedPositions.put(new ResourceLocation("area_spawn5"), new BlockPos(71, 4, 25));
 		}
 
 		@Override
 		protected BlockPos getPlayerSpawnPosition() {
-			return new BlockPos(98, 0, 85);
+			return new BlockPos(88, 14, 16);
 		}
 
 		@Override
