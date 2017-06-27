@@ -23,12 +23,12 @@ public class AreaGreenValley extends AreaTypeSchematic {
 
 		@Override
 		protected BlockPos getPlayerSpawnPosition() {
-			return new BlockPos(98, 0, 85);
+			return new BlockPos(98, -1, 85);
 		}
 
 		@Override
 		protected BlockPos getMonsterSpawnPosition() {
-			return new BlockPos(54, 0, 40);
+			return new BlockPos(54, -1, 40);
 		}
 	}
 

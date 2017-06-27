@@ -23,12 +23,12 @@ public class ArenaType extends AreaTypeSchematic {
 
 		@Override
 		protected BlockPos getPlayerSpawnPosition() {
-			return new BlockPos(54, 0, 11);
+			return new BlockPos(54, -1, 11);
 		}
 
 		@Override
 		protected BlockPos getMonsterSpawnPosition() {
-			return new BlockPos(50, 0, 62);
+			return new BlockPos(50, -1, 62);
 		}
 	}
 

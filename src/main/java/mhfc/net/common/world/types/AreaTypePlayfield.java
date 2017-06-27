@@ -36,14 +36,14 @@ public class AreaTypePlayfield implements IAreaType {
 
 		@Override
 		protected BlockPos getPlayerSpawnPosition() {
-			return new BlockPos(8, 0, 8);
+			return new BlockPos(8, -1, 8);
 		}
 
 		@Override
 		protected BlockPos getMonsterSpawnPosition() {
 			int spawnX = config.getChunkSizeX() * 8;
 			int spawnZ = config.getChunkSizeZ() * 8;
-			return new BlockPos(spawnX, 0, spawnZ);
+			return new BlockPos(spawnX, -1, spawnZ);
 		}
 
 		@Override

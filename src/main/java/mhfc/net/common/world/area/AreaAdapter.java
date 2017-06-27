@@ -126,7 +126,12 @@ public abstract class AreaAdapter implements IArea {
 
 	@Override
 	public Optional<BlockPos> resolveLocation(ResourceLocation location) {
-		return getLocationXY(location).map(worldView::getTopSolidOrLiquidBlock).map(BlockPos::up);
+		return getLocationXY(location).map(pos -> {
+			if(pos.getY() < 0) {
+				return worldView.getTopSolidOrLiquidBlock(pos).up();
+			}
+			return pos;
+		});
 	}
 
 	private Optional<BlockPos> getLocationXY(ResourceLocation location) {
