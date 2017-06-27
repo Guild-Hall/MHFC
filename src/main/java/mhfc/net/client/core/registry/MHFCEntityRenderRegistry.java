@@ -78,7 +78,7 @@ public class MHFCEntityRenderRegistry {
 				ResourceInterface.mob_delex_textureDir,
 				ResourceInterface.mob_delex_model,
 				ResourceInterface.mob_delex_skeleton,
-				1.0F);
+				0.5F);
 		basicRenderer(
 				EntityGreatJaggi.class,
 				ResourceInterface.mob_greatjaggi_textureDir,

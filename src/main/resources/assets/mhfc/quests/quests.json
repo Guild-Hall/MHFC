@@ -50,7 +50,12 @@
 				name : "Leading the Charge",
 				longDescription: "There was a sighting of an unusual mud wyvern. Investigate and if danger is approach slay what you have to slay.",
 				aims :"Hunt Barroth"
-			}
+			},
+			spawns: [{
+				type: "monster",
+				mob: "mhfc:barroth",
+				count: 1
+			}]
 		}
 	},
 	tigrexroar : {
@@ -72,7 +77,12 @@
 				name : "The Tigrex's Roar",
 				longDescription: "A rampaging Tigrex is now sighted at the sandy plains, hunter you need to get in there and stop the madness.",
 				aims :"Hunt Tigrex"
-			}
+			},
+			spawns: [{
+				type: "monster",
+				mob: "mhfc:tigrex",
+				count: 1
+			}]
 		}
 	},
 	jumpingatshadows : {
@@ -94,7 +104,12 @@
 				name : "Jumping At Shadows",
 				longDescription: "This wyvern is unstoppable at night they said. My advice is go search on its nest at the morning and as much possible do not go back without killing or bringing its fur here.",
 				aims :"Hunt Nargacuga"
-			}
+			},
+			spawns: [{
+				type: "monster",
+				mob: "mhfc:nargacuga",
+				count: 1
+			}]
 		}
 	},
 	violentwyvern : {
@@ -116,7 +131,12 @@
 				name : "Violent Wyvern",
 				longDescription: "We are on our survey and search for mineral grain but we encountered this unknown wyvern that killed everyone in my group except me. I'm heartily begging you to go and find that unknown wyvern and slay it.",
 				aims :"Hunt Deviljho"
-			}
+			},
+			spawns: [{
+				type: "monster",
+				mob: "mhfc:deviljho",
+				count: 1
+			}]
 		}
 	}
 }
