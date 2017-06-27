@@ -1,56 +1,58 @@
 {
-	Nogutsnoglory : {
-		type : "hunting",
-		data : {
-			target: "mhfc:delex",
-			amount: 5
+	"Nogutsnoglory": {
+		"type": "hunting",
+		"data": {
+			"target": "mhfc:delex",
+			"amount": 5
 		}
 	},
-	LeadingtheCharge : {
-		type : "hunting",
-		data : {
-			target: "mhfc:barroth",
-			amount: 1
+	"LeadingtheCharge": {
+		"type": "hunting",
+		"data": {
+			"target": "mhfc:barroth",
+			"amount": 1
 		}
 	},
-	Tigrexroars : {
-		type : "hunting",
-		data : {
-			target: "mhfc:tigrex",
-			amount: 1
+	"Tigrexroars": {
+		"type": "hunting",
+		"data": {
+			"target": "mhfc:tigrex",
+			"amount": 1
 		}
 	},
-	JumpingAtShadows : {
-		type : "hunting",
-		data : {
-			target: "mhfc:nargacuga",
-			amount: 1
+	"JumpingAtShadows": {
+		"type": "hunting",
+		"data": {
+			"target": "mhfc:nargacuga",
+			"amount": 1
 		}
 	},
-
-	Violentwyvern : {
-		type : "hunting",
-		data : {
-			target: "mhfc:deviljho",
-			amount: 1
+	"Violentwyvern": {
+		"type": "hunting",
+		"data": {
+			"target": "mhfc:deviljho",
+			"amount": 1
 		}
 	},
-	StandardTimer : {
-		type : "time",
-		data : {
-			time : 60000
+	"StandardTimer": {
+		"type": "time",
+		"data": {
+			"time": 60000
 		}
 	},
-	StandardDeath : {
-		type : "death",
-		data : { 
-			lives : 3
+	"StandardDeath": {
+		"type": "death",
+		"data": {
+			"lives": 3
 		}
 	},
-	StandardFail : {
-		type : "fork",
-		data : {
-			requisites : ["StandardDeath", "StandardTimer"]
+	"StandardFail": {
+		"type": "fork",
+		"data": {
+			"requisites": [
+				"StandardDeath",
+				"StandardTimer"
+			]
 		}
 	}
 }

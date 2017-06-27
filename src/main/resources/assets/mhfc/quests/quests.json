@@ -1,190 +1,211 @@
 {
-	nogutsnoglory : {
-		type : "default",
-		data : {
-			goal : {
-				type : "fork",
-				data : {
-					requisites : ["StandardDeath", "StandardTimer", "Nogutsnoglory"]
+	"nogutsnoglory": {
+		"type": "default",
+		"data": {
+			"goal": {
+				"type": "fork",
+				"data": {
+					"requisites": [
+						"StandardDeath",
+						"StandardTimer",
+						"Nogutsnoglory"
+					]
 				}
-			} ,
-			reward : {
-				type: "debug",
-				data: null
 			},
-			
-			
-			fee : 200,
-			areaID : "sandy",
-			questType : "mhfc.quests.type.hunting",
-			visual : {
-				client : "Villager Shinya",
-				monster : "Delex",
-				name : "No Guts, No Glory",
-				longDescription: "The Village Elder wanted to test your ability on being a certified hunter. Slaying 5 Delex is one of the measures to fulfill your will. ",
-				aims :"Slay 5 Delex"
+			"reward": {
+				"type": "debug",
+				"data": null
 			},
-			spawns: [{
-				type: "monster",
-				mob: "mhfc:delex",
-				count: 1,
-				location: "area_spawn1"
-			},{
-                type: "monster",
-                mob: "mhfc:delex",
-                count: 1,
-                location: "area_spawn2"
-			
-			
-			},{
-                type: "monster",
-                mob: "mhfc:delex",
-                count: 1,
-                location: "area_spawn3"
-			
-			
-			},{
-                type: "monster",
-                mob: "mhfc:delex",
-                count: 1,
-                location: "area_spawn4"
-			
-			
-			},{
-                type: "monster",
-                mob: "mhfc:delex",
-                count: 1,
-                location: "area_spawn5"
-			
-			
-			}]
+			"fee": 200,
+			"areaID": "sandy",
+			"questType": "mhfc.quests.type.hunting",
+			"visual": {
+				"client": "Villager Shinya",
+				"monster": "Delex",
+				"name": "No Guts, No Glory",
+				"longDescription": "The Village Elder wanted to test your ability on being a certified hunter. Slaying 5 Delex is one of the measures to fulfill your will. ",
+				"aims": "Slay 5 Delex"
+			},
+			"spawns": [
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn1"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn2"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn3"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn4"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn5"
+				}
+			]
 		}
 	},
-	leadingthecharge : {
-		type : "default",
-		data : {
-			goal : {
-				type : "fork",
-				data : {
-					requisites : ["StandardDeath", "StandardTimer", "LeadingtheCharge"]
+	"leadingthecharge": {
+		"type": "default",
+		"data": {
+			"goal": {
+				"type": "fork",
+				"data": {
+					"requisites": [
+						"StandardDeath",
+						"StandardTimer",
+						"LeadingtheCharge"
+					]
 				}
-			} ,
-			reward : 5000,
-			fee : 200,
-			areaID : "sandy",
-			questType : "mhfc.quests.type.hunting",
-			visual : {
-				client : "Sand Enforcer",
-				monster : "Barroth",
-				name : "Leading the Charge",
-				longDescription: "There was a sighting of an unusual mud wyvern. Investigate and if danger is approach slay what you have to slay.",
-				aims :"Hunt Barroth"
 			},
-			spawns: [{
-				type: "monster",
-				mob: "mhfc:barroth",
-				count: 1,
-				location: "area_spawn5"
-			}]
+			"reward": 5000,
+			"fee": 200,
+			"areaID": "sandy",
+			"questType": "mhfc.quests.type.hunting",
+			"visual": {
+				"client": "Sand Enforcer",
+				"monster": "Barroth",
+				"name": "Leading the Charge",
+				"longDescription": "There was a sighting of an unusual mud wyvern. Investigate and if danger is approach slay what you have to slay.",
+				"aims": "Hunt Barroth"
+			},
+			"spawns": [
+				{
+					"type": "monster",
+					"mob": "mhfc:barroth",
+					"count": 1,
+					"location": "area_spawn5"
+				}
+			]
 		}
 	},
-	tigrexroar : {
-		type : "default",
-		data : {
-			goal : {
-				type : "fork",
-				data : {
-					requisites : ["StandardDeath", "StandardTimer", "Tigrexroars"]
+	"tigrexroar": {
+		"type": "default",
+		"data": {
+			"goal": {
+				"type": "fork",
+				"data": {
+					"requisites": [
+						"StandardDeath",
+						"StandardTimer",
+						"Tigrexroars"
+					]
 				}
-			} ,
-			reward : 5000,
-			fee : 200,
-			areaID : "sandy",
-			questType : "mhfc.quests.type.hunting",
-			visual : {
-				client : "Sand Survey Corp.",
-				monster : "Tigrex",
-				name : "The Tigrex's Roar",
-				longDescription: "A rampaging Tigrex is now sighted at the sandy plains, hunter you need to get in there and stop the madness.",
-				aims :"Hunt Tigrex"
 			},
-			spawns: [{
-				type: "monster",
-				mob: "mhfc:tigrex",
-				count: 1,
-				location: "area_spawn5"
-			}]
+			"reward": 5000,
+			"fee": 200,
+			"areaID": "sandy",
+			"questType": "mhfc.quests.type.hunting",
+			"visual": {
+				"client": "Sand Survey Corp.",
+				"monster": "Tigrex",
+				"name": "The Tigrex's Roar",
+				"longDescription": "A rampaging Tigrex is now sighted at the sandy plains, hunter you need to get in there and stop the madness.",
+				"aims": "Hunt Tigrex"
+			},
+			"spawns": [
+				{
+					"type": "monster",
+					"mob": "mhfc:tigrex",
+					"count": 1,
+					"location": "area_spawn5"
+				}
+			]
 		}
 	},
-	jumpingatshadows : {
-		type : "default",
-		data : {
-			goal : {
-				type : "fork",
-				data : {
-					requisites : ["StandardDeath", "StandardTimer", "JumpingAtShadows"]
+	"jumpingatshadows": {
+		"type": "default",
+		"data": {
+			"goal": {
+				"type": "fork",
+				"data": {
+					"requisites": [
+						"StandardDeath",
+						"StandardTimer",
+						"JumpingAtShadows"
+					]
 				}
-			} ,
-			reward : 5000,
-			fee : 200,
-			areaID : "greenvalley",
-			questType : "mhfc.quests.type.hunting",
-			visual : {
-				client : "Lieutenant Ganryu",
-				monster : "Nargacuga",
-				name : "Jumping At Shadows",
-				longDescription: "This wyvern is unstoppable at night they said. My advice is go search on its nest at the morning and as much possible do not go back without killing or bringing its fur here.",
-				aims :"Hunt Nargacuga"
 			},
-			spawns: [{
-				type: "monster",
-				mob: "mhfc:nargacuga",
-				count: 1,
-				location: "cave_spawn_boss"
-				
-			},{
-                type: "monster",
-                mob: "mhfc:gagua",
-                count: 1,
-                location: "area_spawn1"
-			
-			
-			},{
-                type: "monster",
-                mob: "mhfc:gagua",
-                count: 1,
-                location: "area_spawn2"
-			
-			
-			}]
+			"reward": 5000,
+			"fee": 200,
+			"areaID": "greenvalley",
+			"questType": "mhfc.quests.type.hunting",
+			"visual": {
+				"client": "Lieutenant Ganryu",
+				"monster": "Nargacuga",
+				"name": "Jumping At Shadows",
+				"longDescription": "This wyvern is unstoppable at night they said. My advice is go search on its nest at the morning and as much possible do not go back without killing or bringing its fur here.",
+				"aims": "Hunt Nargacuga"
+			},
+			"spawns": [
+				{
+					"type": "monster",
+					"mob": "mhfc:nargacuga",
+					"count": 1,
+					"location": "cave_spawn_boss"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:gagua",
+					"count": 1,
+					"location": "area_spawn1"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:gagua",
+					"count": 1,
+					"location": "area_spawn2"
+				}
+			]
 		}
 	},
-	violentwyvern : {
-		type : "default",
-		data : {
-			goal : {
-				type : "fork",
-				data : {
-					requisites : ["StandardDeath", "StandardTimer", "Violentwyvern"]
+	"violentwyvern": {
+		"type": "default",
+		"data": {
+			"goal": {
+				"type": "fork",
+				"data": {
+					"requisites": [
+						"StandardDeath",
+						"StandardTimer",
+						"Violentwyvern"
+					]
 				}
-			} ,
-			reward : 5000,
-			fee : 200,
-			areaID : "greenvalley",
-			questType : "mhfc.quests.type.hunting",
-			visual : {
-				client : "Lieutenant Ganryu",
-				monster : "Deviljho",
-				name : "Violent Wyvern",
-				longDescription: "We are on our survey and search for mineral grain but we encountered this unknown wyvern that killed everyone in my group except me. I'm heartily begging you to go and find that unknown wyvern and slay it.",
-				aims :"Hunt Deviljho"
 			},
-			spawns: [{
-				type: "monster",
-				mob: "mhfc:deviljho",
-				count: 1,
-				location: "boss_spawn2"
-			}]
+			"reward": 5000,
+			"fee": 200,
+			"areaID": "greenvalley",
+			"questType": "mhfc.quests.type.hunting",
+			"visual": {
+				"client": "Lieutenant Ganryu",
+				"monster": "Deviljho",
+				"name": "Violent Wyvern",
+				"longDescription": "We are on our survey and search for mineral grain but we encountered this unknown wyvern that killed everyone in my group except me. I'm heartily begging you to go and find that unknown wyvern and slay it.",
+				"aims": "Hunt Deviljho"
+			},
+			"spawns": [
+				{
+					"type": "monster",
+					"mob": "mhfc:deviljho",
+					"count": 1,
+					"location": "boss_spawn2"
+				}
+			]
 		}
 	}
 }
