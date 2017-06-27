@@ -27,7 +27,36 @@
 			spawns: [{
 				type: "monster",
 				mob: "mhfc:delex",
-				count: 5
+				count: 1,
+				location: "area_spawn1"
+			},{
+                type: "monster",
+                mob: "mhfc:delex",
+                count: 1,
+                location: "area_spawn2"
+			
+			
+			},{
+                type: "monster",
+                mob: "mhfc:delex",
+                count: 1,
+                location: "area_spawn3"
+			
+			
+			},{
+                type: "monster",
+                mob: "mhfc:delex",
+                count: 1,
+                location: "area_spawn4"
+			
+			
+			},{
+                type: "monster",
+                mob: "mhfc:delex",
+                count: 1,
+                location: "area_spawn5"
+			
+			
 			}]
 		}
 	},
@@ -54,7 +83,8 @@
 			spawns: [{
 				type: "monster",
 				mob: "mhfc:barroth",
-				count: 1
+				count: 1,
+				location: "area_spawn5"
 			}]
 		}
 	},
@@ -81,7 +111,8 @@
 			spawns: [{
 				type: "monster",
 				mob: "mhfc:tigrex",
-				count: 1
+				count: 1,
+				location: "area_spawn5"
 			}]
 		}
 	},

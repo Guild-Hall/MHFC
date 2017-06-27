@@ -19,6 +19,7 @@ public class AreaDesert extends AreaTypeSchematic {
 	private static class Area extends EmptyArea {
 		public Area(World world, AreaConfiguration config) {
 			super(world, config);
+			this.namedPositions.put(new ResourceLocation("area_spawn1"), new BlockPos(10, 0, 25));
 		}
 
 		@Override
