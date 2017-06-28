@@ -44,8 +44,13 @@ public class QuestStatusDisplay {
 				@Override
 				public boolean mousePressed(Minecraft mc, int p_146116_2_, int p_146116_3_) {
 					if (super.mousePressed(mc, p_146116_2_, p_146116_3_)) {
-						mc.player
-								.openGui(MHFCMain.instance(), MHFCContainerRegistry.gui_queststatus_id, mc.world, 0, 0, 0);
+						mc.player.openGui(
+								MHFCMain.instance(),
+								MHFCContainerRegistry.gui_queststatus_id,
+								mc.world,
+								0,
+								0,
+								0);
 						return true;
 					}
 					return false;
@@ -55,7 +60,7 @@ public class QuestStatusDisplay {
 	}
 
 	private static Viewable shortStatusHeader = Viewables
-			.parse("ง4งn[[" + ResourceInterface.unlocalized_tag_status_short + "]]งr\n\n", null);
+			.parse("ยง4ยงn[[" + ResourceInterface.unlocalized_tag_status_short + "]]ยงr\n\n", null);
 
 	@SubscribeEvent
 	public void onDraw(RenderGameOverlayEvent.Post overlayEvent) {
