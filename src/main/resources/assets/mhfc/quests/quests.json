@@ -13,8 +13,8 @@
 				}
 			},
 			"reward": {
-				"type": "debug",
-				"data": null
+				"type": "lootTable",
+				"data": "mhfc:quests/no_guts_no_glory"
 			},
 			"fee": 200,
 			"areaID": "sandy",
