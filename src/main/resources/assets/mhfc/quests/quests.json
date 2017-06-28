@@ -139,7 +139,23 @@
 			spawns: [{
 				type: "monster",
 				mob: "mhfc:nargacuga",
-				count: 1
+				count: 1,
+				location: "cave_spawn_boss"
+				
+			},{
+                type: "monster",
+                mob: "mhfc:gagua",
+                count: 1,
+                location: "area_spawn1"
+			
+			
+			},{
+                type: "monster",
+                mob: "mhfc:gagua",
+                count: 1,
+                location: "area_spawn2"
+			
+			
 			}]
 		}
 	},
@@ -166,7 +182,8 @@
 			spawns: [{
 				type: "monster",
 				mob: "mhfc:deviljho",
-				count: 1
+				count: 1,
+				location: "boss_spawn2"
 			}]
 		}
 	}

@@ -19,16 +19,34 @@ public class AreaGreenValley extends AreaTypeSchematic {
 	private static class Area extends EmptyArea {
 		public Area(World world, AreaConfiguration config) {
 			super(world, config);
+			namedPositions.put(new ResourceLocation("area_spawn1"), new BlockPos(19, 12, 79));
+			namedPositions.put(new ResourceLocation("area_spawn2"), new BlockPos(26, 12, 88));
+			namedPositions.put(new ResourceLocation("area_spawn3"), new BlockPos(49, 10, 86));
+			namedPositions.put(new ResourceLocation("cave_spawn_boss"), new BlockPos(60, 3, 55));
+			namedPositions.put(new ResourceLocation("boss_spawn1"), new BlockPos(44, 19, 39));
+			namedPositions.put(new ResourceLocation("boss_spawn2"), new BlockPos(86, 3, 22));
 		}
 
 		@Override
 		protected BlockPos getPlayerSpawnPosition() {
-			return new BlockPos(98, 9, 85);
+
+			//real Loc Default 114 3 101
+			//new Loc Default 35 9  31 player starting position in real xyz = (19,9,15)
+			/**
+			 * If you are having trouble. Calculate the current Block:xyz in f3 and get the xyz of the current spawn
+			 * that is given from your random input.
+			 * 
+			 * Get the difference (larger - smaller ) value
+			 * 
+			 * on that the difference will be use to add if your random input is smaller otherwise subtract.
+			 * 
+			 */
+			return new BlockPos(19, 9, 15);
 		}
 
 		@Override
 		protected BlockPos getMonsterSpawnPosition() {
-			return new BlockPos(54, 15, 40);
+			return new BlockPos(54, -1, 40);
 		}
 	}
 
