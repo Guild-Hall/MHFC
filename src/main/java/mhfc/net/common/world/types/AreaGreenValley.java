@@ -19,9 +19,9 @@ public class AreaGreenValley extends AreaTypeSchematic {
 	private static class Area extends EmptyArea {
 		public Area(World world, AreaConfiguration config) {
 			super(world, config);
-			namedPositions.put(new ResourceLocation("area_spawn1"), new BlockPos(19, 12, 79));
-			namedPositions.put(new ResourceLocation("area_spawn2"), new BlockPos(26, 12, 88));
-			namedPositions.put(new ResourceLocation("area_spawn3"), new BlockPos(49, 10, 86));
+			namedPositions.put(new ResourceLocation("area_spawn1"), new BlockPos(23, 12, 79));
+			namedPositions.put(new ResourceLocation("area_spawn2"), new BlockPos(29, 12, 83));
+			namedPositions.put(new ResourceLocation("area_spawn3"), new BlockPos(49, 10, 85));
 			namedPositions.put(new ResourceLocation("cave_spawn_boss"), new BlockPos(60, 3, 55));
 			namedPositions.put(new ResourceLocation("boss_spawn1"), new BlockPos(44, 19, 39));
 			namedPositions.put(new ResourceLocation("boss_spawn2"), new BlockPos(86, 3, 22));
