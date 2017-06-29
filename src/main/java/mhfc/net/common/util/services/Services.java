@@ -42,6 +42,7 @@ public class Services implements IServiceProvider {
 	 * @param <Z>
 	 *            the type of context when the phase stops
 	 */
+	@SuppressWarnings("unused")
 	private static interface IPhaseID<A, Z> {
 		@Override
 		int hashCode();
@@ -60,6 +61,7 @@ public class Services implements IServiceProvider {
 	 * @param <T>
 	 *            the type of service offered.
 	 */
+	@SuppressWarnings("unused")
 	private static interface IServiceID<T> {
 		@Override
 		int hashCode();

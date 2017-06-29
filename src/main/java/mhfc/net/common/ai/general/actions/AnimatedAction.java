@@ -137,7 +137,7 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 	}
 
 	// =========== Lifetime callbacks
-	protected void onEntityBind(T entity) {
+	protected void onEntityBind(@SuppressWarnings("unused") T entity) {
 
 	}
 

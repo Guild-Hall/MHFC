@@ -3,8 +3,8 @@ package mhfc.net.common.tile;
 import java.util.Objects;
 
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
-import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
-import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe.RecipeType;
+import mhfc.net.common.crafting.equipment.EquipmentRecipe;
+import mhfc.net.common.crafting.equipment.EquipmentRecipe.RecipeType;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.message.bench.MessageBeginCrafting;

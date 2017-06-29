@@ -9,7 +9,6 @@ import mhfc.net.common.core.registry.MHFCDimensionRegistry;
 import mhfc.net.common.core.registry.MHFCEntityRegistry;
 import mhfc.net.common.core.registry.MHFCEventRegistry;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
-import mhfc.net.common.core.registry.MHFCHunterCraftingRegistry;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.core.registry.MHFCLootTableRegistry;
 import mhfc.net.common.core.registry.MHFCPacketRegistry;
@@ -74,7 +73,6 @@ public class MHFCCommonRegistry {
 
 	private static void addRecipes() {
 		MHFCCraftingRegistry.init();
-		MHFCHunterCraftingRegistry.init();
 		MHFCCommonRegistry.logger.info("Recipes registered");
 	}
 

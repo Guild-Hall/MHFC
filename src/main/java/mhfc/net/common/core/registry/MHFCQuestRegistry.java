@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.google.common.base.Throwables;
+
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.data.KeyToInstanceRegistryData;
 import mhfc.net.common.network.PacketPipeline;
@@ -21,6 +23,7 @@ import mhfc.net.common.network.message.quest.MessageRequestMissionUpdate;
 import mhfc.net.common.quests.Mission;
 import mhfc.net.common.quests.QuestFactories;
 import mhfc.net.common.quests.api.IQuestDefinition;
+import mhfc.net.common.util.DetachableResource;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -155,6 +158,7 @@ public class MHFCQuestRegistry {
 				RunningSubscriptionHandler.sendToAll(genQ.createFullUpdateMessage());
 			}
 			break;
+		case INVALID:
 		default:
 			break;
 		}
@@ -212,17 +216,24 @@ public class MHFCQuestRegistry {
 			return;
 		}
 		String missionID = questID + "@" + player.getDisplayNameString() + "@" + questIDCounter++;
-		Mission newQuest = QuestFactories.constructQuest(questDescription, missionID);
-		if (newQuest == null) {
-			player.sendMessage(new TextComponentString("Quest with id[" + questID + "] could not be constructed"));
-			return;
+		try (
+				DetachableResource<Mission> mission = new DetachableResource<>(
+						QuestFactories.constructQuest(questDescription, missionID))) {
+			if (mission.get() == null) {
+				player.sendMessage(new TextComponentString("Quest with id[" + questID + "] could not be constructed"));
+				return;
+			}
+			if (!mission.get().canJoin(player)) {
+				return;
+			}
+			Mission newQuest = startMission(questID, mission, missionID);
+			if (newQuest != null) {
+				newQuest.joinPlayer(player);
+			}
+		} catch (Exception e) {
+			Throwables.propagateIfPossible(e);
+			throw new RuntimeException(e);
 		}
-		if (!newQuest.canJoin(player)) {
-			newQuest.close();
-			return;
-		}
-		startMission(questID, newQuest, missionID);
-		newQuest.joinPlayer(player);
 	}
 
 	private void sendResetPlayerVisual(EntityPlayerMP player) {
@@ -299,15 +310,16 @@ public class MHFCQuestRegistry {
 	/**
 	 * Should be called when a new quest was started
 	 */
-	private boolean startMission(ResourceLocation questID, Mission mission, String missionID) {
-		if (!runningQuestRegistry.offerMapping(missionID, mission)) {
-			return false;
+	private Mission startMission(ResourceLocation questID, DetachableResource<Mission> mission, String missionID) {
+		if (!runningQuestRegistry.offerMapping(missionID, mission.get())) {
+			return null;
 		}
-		questsRunning.add(mission);
+		questsRunning.add(mission.get());
+		Mission newQuest = mission.detach();
 		missionIDtoQuestID.put(missionID, questID);
 		MessageMissionStatus message = MessageMissionStatus.creation(questID, missionID);
 		RunningSubscriptionHandler.sendToAll(message);
-		return true;
+		return newQuest;
 	}
 
 	/**

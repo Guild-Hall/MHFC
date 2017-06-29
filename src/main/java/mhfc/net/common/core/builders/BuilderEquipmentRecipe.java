@@ -3,8 +3,8 @@ package mhfc.net.common.core.builders;
 import java.util.ArrayList;
 import java.util.List;
 
-import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
-import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe.RecipeType;
+import mhfc.net.common.crafting.equipment.EquipmentRecipe;
+import mhfc.net.common.crafting.equipment.EquipmentRecipe.RecipeType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 

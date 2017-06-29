@@ -4,7 +4,7 @@ import mhfc.net.common.core.builders.BuilderEquipmentRecipe;
 import mhfc.net.common.core.data.EquipmentRecipeRegistryData;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
-import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
+import mhfc.net.common.crafting.equipment.EquipmentRecipe;
 import mhfc.net.common.item.materials.ItemMaterial;
 import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;

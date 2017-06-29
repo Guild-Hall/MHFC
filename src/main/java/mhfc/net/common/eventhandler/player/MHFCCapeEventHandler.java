@@ -26,8 +26,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class MHFCCapeEventHandler {
 	private static final Graphics TEST_GRAPHICS = new BufferedImage(128, 128, BufferedImage.TYPE_INT_RGB).getGraphics();
 	private static final int timeout = 5000;
-	private static final String serverLocation = "https://gist.githubusercontent.com/Heltrato/"
+	private static final String serverPath = "https://gist.githubusercontent.com/Heltrato/"
 			+ "e3f86194c43424abb8c4/raw/donorcapes";
+	private static final URL capesLocation;
+	static {
+		try {
+			capesLocation = new URL(serverPath);
+		} catch (MalformedURLException e) {
+			throw new AssertionError("Unreachable: Malformed path to capes location", e);
+		}
+	}
 
 	public static final MHFCCapeEventHandler instance = new MHFCCapeEventHandler();
 
@@ -61,34 +69,30 @@ public class MHFCCapeEventHandler {
 	}
 
 	public void buildCloakURLDatabase() {
-		URL url;
 		try {
-			url = new URL(serverLocation);
-			URLConnection con = url.openConnection();
+			URLConnection con = capesLocation.openConnection();
 			con.setConnectTimeout(timeout);
 			con.setReadTimeout(timeout);
-			InputStream io = con.getInputStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(io));
+			try (
+					InputStream io = con.getInputStream();
+					BufferedReader br = new BufferedReader(new InputStreamReader(io))) {
 
-			String str;
-			int linetracker = 1;
-			while ((str = br.readLine()) != null) {
-				if (!str.startsWith("--") && !str.isEmpty()) {
-					if (str.contains(":")) {
-						String nick = str.substring(0, str.indexOf(":"));
-						String link = str.substring(str.indexOf(":") + 1);
-						new Thread(new CloakPreload(link)).start();
-						cloaks.put(nick, link);
-					} else {
-						System.err.println("[MHFC] [capes.txt] Syntax error on line " + linetracker + ": " + str);
+				String str;
+				int linetracker = 1;
+				while ((str = br.readLine()) != null) {
+					if (!str.startsWith("--") && !str.isEmpty()) {
+						if (str.contains(":")) {
+							String nick = str.substring(0, str.indexOf(":"));
+							String link = str.substring(str.indexOf(":") + 1);
+							new Thread(new CloakPreload(link)).start();
+							cloaks.put(nick, link);
+						} else {
+							System.err.println("[MHFC] [capes.txt] Syntax error on line " + linetracker + ": " + str);
+						}
 					}
+					linetracker++;
 				}
-				linetracker++;
 			}
-
-			br.close();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

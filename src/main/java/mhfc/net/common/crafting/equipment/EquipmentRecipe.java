@@ -1,8 +1,8 @@
-package mhfc.net.common.crafting.recipes.equipment;
+package mhfc.net.common.crafting.equipment;
 
 import java.util.List;
 
-import mhfc.net.common.crafting.recipes.MHFCShapelessRecipe;
+import mhfc.net.common.crafting.MHFCShapelessRecipe;
 import mhfc.net.common.item.ItemType;
 import net.minecraft.item.ItemStack;
 
