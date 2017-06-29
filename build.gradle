@@ -54,13 +54,75 @@ dependencies {
 }
 
 task deobfJar(type: Jar) {
+	group = 'build'
+	description = 'Assemble a jar archive containing the deobfuscated classes'
+	
     from sourceSets.main.output
     classifier = 'deobf'
+}
+
+task release(dependsOn: 'build') {
+	group = 'build'
+	description = 'Assemble this project for a release'
+	
+	doLast {
+		println "Ready to release ${project.version}"
+	}
+}
+
+project.ext.isRelease = false;
+
+gradle.taskGraph.whenReady {taskGraph ->
+    project.isRelease = taskGraph.hasTask(release)
+}
+
+task updateBuildMetadata {
+	group = 'build'
+	description = 'Updates the build metadata and update.json'
+	
+	doLast {
+		if(getArtifactID() != '') {
+			logger.lifecycle("Building with artifact-id ${getArtifactID()}, skipping update to update.json")
+		 	return; // Skip anything that is not on branch master
+		}
+		def buildData = file('update.json')
+		if(!buildData.exists()) {
+			buildData << '{}'
+		}
+		def parsedJson = new groovy.json.JsonSlurper().parse(buildData)
+		
+		if(!parsedJson.hasProperty("homepage")) {
+			parsedJson.homePage = "https://minecraft.curseforge.com/projects/monster-hunter-frontier-craft"
+		}
+		
+		def mcversion = project.minecraft.version.toString()
+		if(!parsedJson.hasProperty(mcversion)) {
+			parsedJson[mcversion] = [:]
+		}
+		
+		def modversion = project.shortVersion.toString()
+		def version = parsedJson[mcversion]
+		version[modversion] = "See our homepage for changelogs"
+		
+		if(!parsedJson.hasProperty("promos")) {
+			parsedJson.promos = [:]
+		}
+		def promos = parsedJson.promos
+		promos["${mcversion}-latest"] = modversion
+		if(project.isRelease) {
+			promos["${mcversion}-recommended"] = modversion
+		}
+		
+		buildData.newWriter().withWriter {
+			it << new groovy.json.JsonBuilder(parsedJson).toPrettyString()
+		}
+	}
 }
 
 tasks["sourceJar"].classifier = 'sources'
 
 tasks.build.dependsOn('deobfJar', 'sourceJar')
+tasks.processResources.dependsOn('updateBuildMetadata')
 tasks.install.dependsOn 'build'
 
 artifacts {

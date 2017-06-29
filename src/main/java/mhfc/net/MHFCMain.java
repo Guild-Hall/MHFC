@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.Message;
 
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.forge.ForgeWorldEdit;
@@ -30,7 +31,9 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -145,9 +148,14 @@ public class MHFCMain {
 
 	private MHFCConfig config;
 	private NetworkTracker connectionTracker = NetworkTracker.instance;
+	private ModContainer mhfcContainer;
 
 	public static MHFCConfig config() {
 		return instance.config;
+	}
+
+	public static ModContainer getModContainer() {
+		return instance.mhfcContainer;
 	}
 
 	private void staticInit() {
@@ -160,6 +168,12 @@ public class MHFCMain {
 	@Mod.EventHandler
 	protected void onCreation(FMLConstructionEvent event) {
 		staticInit();
+		this.mhfcContainer = Loader.instance().getIndexedModList().get(ResourceInterface.main_modid);
+		if (mhfcContainer.getMod() != this) {
+			Message errorMessage = logger().getMessageFactory()
+					.newMessage("Mod container found for 'mhfc' is {}, not {}", mhfcContainer.getMod(), this);
+			logger.fatal(errorMessage, new IllegalStateException(errorMessage.getFormattedMessage()));
+		}
 		constructedPhaseAccess.enterPhase(event);
 	}
 
