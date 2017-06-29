@@ -29,6 +29,10 @@ public class LootTableInjector {
 	public static void onLootTableLoaded(LootTableLoadEvent event) {
 		ResourceLocation lootTableName = event.getName();
 		if (lootTableName.getResourceDomain().equals(RESOURCE_DOMAIN)) {
+			if (event.getTable() != null) {
+				LOGGER.debug("Already have a loot table for {}", lootTableName);
+				return;
+			}
 			LootTable lootTable = loadLootTable(lootTableName);
 			if (lootTable != null) {
 				event.setTable(lootTable);
@@ -37,10 +41,18 @@ public class LootTableInjector {
 	}
 
 	private static LootTable loadLootTable(ResourceLocation lootTableName) {
-		try (InputStreamReader reader = new InputStreamReader(ResourceLocations.openEmbeddedResource(lootTableName))) {
+		String resourceDomain = lootTableName.getResourceDomain();
+		String resourceLocation = "/assets/loot_tables/" + lootTableName.getResourcePath();
+		if (!resourceLocation.endsWith(".json")) {
+			resourceLocation = resourceLocation + ".json";
+		}
+		ResourceLocation lootTableLocation = new ResourceLocation(resourceDomain, resourceLocation);
+		try (
+				InputStreamReader reader = new InputStreamReader(
+						ResourceLocations.openEmbeddedResource(lootTableLocation))) {
 			return GSON.fromJson(reader, LootTable.class);
 		} catch (IOException e) {
-			LOGGER.error("Could not load loot table from " + lootTableName, e);
+			LOGGER.debug("Could not load loot table from " + lootTableName, e);
 			return null;
 		}
 	}
