@@ -1,12 +1,14 @@
 package mhfc.net.common.quests;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
-import com.google.common.util.concurrent.Runnables;
 import com.google.gson.JsonElement;
 
 import mhfc.net.MHFCMain;
@@ -46,7 +48,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	private static enum QuestState {
 		pending,
 		running,
-		finished,
+		FINISHED_SUCCESS,
 		resigned;
 	}
 
@@ -186,8 +188,6 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	protected void onSuccess() {
 		for (QuestingPlayerState playerState : playerAttributes.values()) {
-			reward.grantReward(playerState.player);
-			playerState.reward = true;
 			playerState.player.world.playSound(
 					null,
 					playerState.player.getPosition(),
@@ -204,7 +204,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 					2F);
 			playerState.player.sendMessage(new TextComponentString(ColorSystem.ENUMGOLD + "QUEST COMPLETE"));
 		}
-		this.state = QuestState.finished;
+		this.state = QuestState.FINISHED_SUCCESS;
 		onEnd();
 	}
 
@@ -231,14 +231,28 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	 * This method should be called whenever the quest ends, no matter how.
 	 */
 	protected void onEnd() {
-		for (EntityPlayerMP player : getPlayers()) {
-			removePlayer(player);
+		List<CompletionStage<Void>> teleports = new ArrayList<>();
+		for (QuestingPlayerState playerState : playerAttributes.values()) {
+			CompletionStage<QuestingPlayerState> afterTeleport = teleportBack(playerState);
+			CompletionStage<Void> afterReward = afterTeleport.thenAccept(attributes -> {
+				if (state == QuestState.FINISHED_SUCCESS) {
+					playerState.player
+							.sendMessage(new TextComponentString(ColorSystem.ENUMDARK_AQUA + "Quest reward received!"));
+					reward.grantReward(playerState.player);
+					playerState.reward = true;
+				}
+				removePlayer(attributes.player);
+			});
+			teleports.add(afterReward);
 		}
-		int delayInSeconds = DELAY_BEFORE_TP_IN_SECONDS + 5;
-		MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, delayInSeconds * 20, () -> {
-			MHFCQuestRegistry.getRegistry().endMission(this);
-			MHFCMain.logger().info("Mission {} ended", getMission());
+		CompletionStage<Void> afterTeleports = CompletableFuture.allOf(teleports.toArray(new CompletableFuture[0]));
+		afterTeleports.whenComplete((r, e) -> {
+			MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, 5 * 20, () -> {
+				MHFCQuestRegistry.getRegistry().endMission(this);
+				MHFCMain.logger().info("Mission {} ended", getMission());
+			});
 		});
+
 	}
 
 	protected void updatePlayers() {
@@ -288,23 +302,32 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		updatePlayers();
 	}
 
-	private boolean removePlayer(EntityPlayerMP player) {
+	private QuestingPlayerState removePlayer(EntityPlayerMP player) {
 		QuestingPlayerState att = playerAttributes.removePlayer(player);
 		if (att != null) {
 			PacketPipeline.networkPipe.sendTo(MessageMissionStatus.departing(missionID), player);
 			MHFCQuestRegistry.getRegistry().setMissionForPlayer(player, null);
+		}
+		return att;
+	}
+
+	private CompletionStage<QuestingPlayerState> teleportBack(QuestingPlayerState att) {
+		Objects.requireNonNull(att);
+
+		CompletableFuture<QuestingPlayerState> teleporter = new CompletableFuture<>();
+		MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
+			EntityPlayerMP player = att.player;
 			player.sendMessage(
 					new TextComponentString(
 							ColorSystem.ENUMDARK_AQUA + "Teleporting you back in " + DELAY_BEFORE_TP_IN_SECONDS
 									+ " seconds"));
-			MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
-				player.sendMessage(new TextComponentString(ColorSystem.ENUMGREEN + "Teleporting you back home!"));
-				MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
-				MHFCExplorationRegistry.respawnPlayer(player, att.previousSaveData);
-			}, Runnables.doNothing());
-			return true;
-		}
-		return false;
+			player.sendMessage(new TextComponentString(ColorSystem.ENUMGREEN + "Teleporting you back home!"));
+			MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
+			MHFCExplorationRegistry.respawnPlayer(player, att.previousSaveData);
+
+			teleporter.complete(att);
+		});
+		return teleporter;
 	}
 
 	public boolean joinPlayer(EntityPlayerMP player) {
@@ -315,12 +338,14 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		return true;
 	}
 
-	public boolean quitPlayer(EntityPlayerMP player) {
-		boolean found = removePlayer(player);
+	public void quitPlayer(EntityPlayerMP player) {
+		QuestingPlayerState attributes = removePlayer(player);
+		if (attributes != null) {
+			teleportBack(attributes);
+		}
 		if (playerCount() == 0) {
 			onEnd();
 		}
-		return found;
 	}
 
 	public Set<EntityPlayerMP> getPlayers() {
