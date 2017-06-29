@@ -182,10 +182,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 
 		@Override
 		public boolean containsSlot(Slot slot) {
-			if (slot.inventory == tileEntity || (slot.inventory instanceof InventoryPlayer && slot.slotNumber > 51)) {
-				return true;
-			}
-			return false;
+			return slot.inventory == tileEntity
+					|| (slot.inventory instanceof InventoryPlayer && slot.getSlotIndex() < 36);
 		}
 
 		@Override
@@ -434,11 +432,12 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	 * Selects a tab based on the currently selected recipe
 	 */
 	protected void selectTab() {
-		int tab = 2;
+		int tab = 0;
 		EquipmentRecipe recipe = tileEntity.getRecipe();
 		if (recipe != null) {
 			switch (recipe.getRecipeType()) {
 			case ARMOR:
+			default:
 				tab = 0;
 				break;
 			case WEAPON:
@@ -446,7 +445,6 @@ public class GuiHunterBench extends MHFCTabbedGui {
 				break;
 			case UPGRADE:
 				tab = 2;
-			default:
 				tab = 0;
 			}
 		}
@@ -551,7 +549,6 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		GlStateManager.translate(rectX + rectW / 2, rectY + rectH / 2, 40F);
 		float defaultScale = 2F;
 		switch (itemType) {
-
 
 		case ARMOR_HEAD:
 			GlStateManager.scale(defaultScale, defaultScale, defaultScale);

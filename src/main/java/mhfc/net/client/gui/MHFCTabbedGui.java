@@ -163,21 +163,34 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 	}
 
 	protected void setTab(int index) {
-		if (tabIndex >= 0 && tabIndex < tabs.size()) {
-			tabs.get(tabIndex).tab.onClose();
-		}
-		if (index >= 0 && index < tabs.size()) {
-			tabIndex = index;
-			tabs.get(tabIndex).tab.onOpen();
-		}
 		List<Slot> slots = inventorySlots.inventorySlots;
-		for (Slot slot : slots) {
-			if (index >= 0 && index < tabs.size() && tabs.get(tabIndex).tab.containsSlot(slot)) {
-				slot.xPos = Math.abs(slot.xPos + 200) - 200;
-				slot.yPos = Math.abs(slot.yPos + 200) - 200;
-			} else {
-				slot.xPos = -Math.abs(slot.xPos + 200) - 200;
-				slot.yPos = -Math.abs(slot.yPos + 200) - 200;
+		boolean wasTabIndex = tabIndex >= 0 && tabIndex < tabs.size();
+		if (wasTabIndex) {
+			IMHFCTab tab = tabs.get(tabIndex).tab;
+			tab.onClose();
+			for (Slot slot : slots) {
+				boolean wasSlotOnTab = tab.containsSlot(slot);
+				if (!wasSlotOnTab) {
+					// Shift inactive slots onto screen
+					slot.xPos += 2000;
+					slot.yPos += 2000;
+				}
+			}
+		}
+
+		tabIndex = index;
+
+		boolean isTabIndex = tabIndex >= 0 && tabIndex < tabs.size();
+		if (isTabIndex) {
+			IMHFCTab tab = tabs.get(tabIndex).tab;
+			tab.onOpen();
+			for (Slot slot : slots) {
+				boolean isSlotOnTab = tab.containsSlot(slot);
+				if (!isSlotOnTab) {
+					// Shift inactive tabs off screen
+					slot.xPos -= 2000;
+					slot.yPos -= 2000;
+				}
 			}
 		}
 	}

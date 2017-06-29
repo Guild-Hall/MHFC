@@ -29,9 +29,13 @@ import scala.actors.threadpool.Arrays;
 
 public class TileHunterBench extends TileEntity implements ITickable, IInventory, TileMHFCUpdateStream {
 
-	public static final int outputSlot = 2;
 	public static final int fuelSlot = 0;
 	public static final int resultSlot = 1;
+	public static final int outputSlot = 2;
+	public static final int recipeOffset = 3;
+	public static final int recipeLength = 7;
+	public static final int inputOffset = recipeOffset + recipeLength;
+	public static final int inputLength = recipeLength;
 
 	private ItemStack fuelStack;
 	private ItemStack resultStack;
@@ -72,9 +76,9 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		fuelStack = ItemStack.EMPTY;
 		outputStack = ItemStack.EMPTY;
 		resultStack = ItemStack.EMPTY;
-		recipeStacks = new ItemStack[7];
+		recipeStacks = new ItemStack[recipeLength];
 		resetRecipeStacks();
-		inputStacks = new ItemStack[recipeStacks.length];
+		inputStacks = new ItemStack[inputLength];
 		resetInputStacks();
 		workingMHFCBench = false;
 		heatLengthInit = 1;
@@ -270,16 +274,26 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	public ItemStack getStackInSlot(int i) {
 		if (i < 0 || i >= getSizeInventory()) {
 			return ItemStack.EMPTY;
-		} else if (i >= recipeStacks.length + 3) {
-			return inputStacks[i - 3 - recipeStacks.length];
-		} else if (i >= 3) {
-			return recipeStacks[i - 3];
-		} else if (i == outputSlot) {
-			return outputStack;
-		} else if (i == resultSlot) {
-			return resultStack;
-		} else {
+		}
+		if (i == fuelSlot) {
 			return fuelStack;
+		}
+		if (i == outputSlot) {
+			return outputStack;
+		}
+		if (i == resultSlot) {
+			return resultStack;
+		}
+		{
+			int j = i - recipeOffset;
+			if (j < recipeLength) {
+				return recipeStacks[j];
+			}
+		}
+		{
+			int j = i - inputOffset;
+			/* j < inputStacks.length */
+			return inputStacks[j];
 		}
 	}
 
@@ -289,22 +303,29 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		if (i < 0 || i >= getSizeInventory()) {
 			return;
 		}
-		if (i >= recipeStacks.length + 3) {
-			inputStacks[i - recipeStacks.length - 3] = itemstack;
-		} else if (i >= 3) {
-			recipeStacks[i - 3] = itemstack;
+		markDirty();
+		if (i == fuelSlot) {
+			fuelStack = itemstack;
+			return;
 		} else if (i == outputSlot) {
 			outputStack = itemstack;
+			return;
 		} else if (i == resultSlot) {
 			resultStack = itemstack;
-		} else if (i == fuelSlot) {
-			fuelStack = itemstack;
+			return;
 		}
-		markDirty();
-	}
-
-	public boolean isInvNameLocalized() {
-		return false;
+		{
+			int j = i - recipeOffset;
+			if (j < recipeStacks.length) {
+				recipeStacks[j] = itemstack;
+				return;
+			}
+		}
+		{
+			int j = i - inputOffset;
+			/*if (j >= 0 && j < inputStacks.length) {*/
+			inputStacks[j] = itemstack;
+		}
 	}
 
 	@Override
@@ -319,7 +340,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 
 	@Override
 	public int getInventoryStackLimit() {
-		return 64;
+		return Integer.MAX_VALUE;
 	}
 
 	@Override

@@ -16,11 +16,12 @@ public class EquipmentRecipe extends MHFCShapelessRecipe {
 
 		public static RecipeType getDefaultType(ItemType itemType) {
 			switch (itemType.getGeneralType()) {
-			case ARMOR :
+			case ARMOR:
 				return ARMOR;
-			case WEAPON :
+			case WEAPON:
 				return WEAPON;
-			default :
+			case NONE:
+			default:
 				return MHFC;
 			}
 		}
@@ -33,14 +34,16 @@ public class EquipmentRecipe extends MHFCShapelessRecipe {
 		return RecipeType.getDefaultType(ItemType.getTypeOf(output));
 	}
 
-	public EquipmentRecipe(ItemStack recipeProduct,
-			List<ItemStack> recipeIngredients, int requiredHeat, int duration) {
-		this(getDefaultRecipeType(recipeProduct), recipeProduct,
-				recipeIngredients, requiredHeat, duration);
+	public EquipmentRecipe(ItemStack recipeProduct, List<ItemStack> recipeIngredients, int requiredHeat, int duration) {
+		this(getDefaultRecipeType(recipeProduct), recipeProduct, recipeIngredients, requiredHeat, duration);
 	}
 
-	public EquipmentRecipe(RecipeType type, ItemStack recipeProduct,
-			List<ItemStack> recipeIngredients, int requiredHeat, int duration) {
+	public EquipmentRecipe(
+			RecipeType type,
+			ItemStack recipeProduct,
+			List<ItemStack> recipeIngredients,
+			int requiredHeat,
+			int duration) {
 		super(recipeProduct, recipeIngredients);
 		this.recipeType = type;
 		this.heat = requiredHeat;

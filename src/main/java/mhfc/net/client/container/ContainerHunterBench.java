@@ -5,7 +5,6 @@ import mhfc.net.common.tile.TileHunterBench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -18,48 +17,21 @@ public class ContainerHunterBench extends Container {
 	private int posZ;
 
 	public ContainerHunterBench(
-			InventoryPlayer par1InventoryPlayer,
-			World par2World,
+			InventoryPlayer playerInventory,
+			World world,
 			TileHunterBench tileEntity,
 			int x,
 			int y,
 			int z) {
-		this.worldObj = par2World;
+		this.worldObj = world;
 		this.posX = x;
 		this.posY = y;
 		this.posZ = z;
-		int var6;
-		int var7;
 
-		for (var6 = 0; var6 < 3; ++var6) {
-			for (var7 = 0; var7 < 9; ++var7) {
-				this.addSlotToContainer(
-						new Slot(par1InventoryPlayer, var7 + var6 * 9 + 9, 158 + var7 * 18, var6 * 18 + 15));
+		for (int row = 0; row < 4; ++row) {
+			for (int col = 0; col < 9; ++col) {
+				this.addSlotToContainer(new Slot(playerInventory, col + row * 9, 7 + row * 18, 28 + col * 18));
 			}
-		}
-
-		for (var6 = 0; var6 < 9; ++var6) {
-			this.addSlotToContainer(new Slot(par1InventoryPlayer, var6, 158 + var6 * 18, 84));
-		}
-
-		for (var6 = 0; var6 < 7; ++var6) {
-			Slot s = new Slot(tileEntity, var6 + 3, var6 * 18 + 229, 28) {
-				@Override
-				public boolean isItemValid(ItemStack stack) {
-					return false;
-				}
-
-				@Override
-				public boolean canTakeStack(EntityPlayer p) {
-					return false;
-				}
-			};
-			this.addSlotToContainer(s);
-		}
-
-		for (var6 = 0; var6 < 7; ++var6) {
-			this.addSlotToContainer(new Slot(tileEntity, var6 + 10, var6 * 18 + 229, 191) {
-			});
 		}
 
 		this.addSlotToContainer(new Slot(tileEntity, TileHunterBench.resultSlot, 280, 146) {
@@ -77,15 +49,25 @@ public class ContainerHunterBench extends Container {
 		this.addSlotToContainer(new Slot(tileEntity, TileHunterBench.fuelSlot, 354, 168));
 		this.addSlotToContainer(new Slot(tileEntity, TileHunterBench.outputSlot, 335, 146));
 
-		for (var6 = 0; var6 < 4; ++var6) {
-			for (var7 = 0; var7 < 9; ++var7) {
-				this.addSlotToContainer(new Slot(par1InventoryPlayer, var7 + var6 * 9, 7 + var6 * 18, var7 * 18 + 28));
-			}
+		for (int i = 0; i < TileHunterBench.recipeLength; ++i) {
+			Slot s = new Slot(tileEntity, TileHunterBench.recipeOffset + i, 229 + i * 18, 28) {
+				@Override
+				public boolean isItemValid(ItemStack stack) {
+					return false;
+				}
+
+				@Override
+				public boolean canTakeStack(EntityPlayer p) {
+					return false;
+				}
+			};
+			this.addSlotToContainer(s);
+		}
+
+		for (int i = 0; i < TileHunterBench.inputLength; ++i) {
+			this.addSlotToContainer(new Slot(tileEntity, TileHunterBench.inputOffset + i, 229 + i * 18, 191));
 		}
 	}
-
-	@Override
-	public void onCraftMatrixChanged(IInventory par1IInventory) {}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
@@ -93,58 +75,5 @@ public class ContainerHunterBench extends Container {
 				.getBlock() != MHFCBlockRegistry.getRegistry().mhfcblockhunterbench
 						? false
 						: par1EntityPlayer.getDistanceSq(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D) <= 64.0D;
-	}
-
-	@Override
-	public void onContainerClosed(EntityPlayer par1EntityPlayer) {
-		super.onContainerClosed(par1EntityPlayer);
-	}
-
-	@Override
-	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
-		ItemStack var3 = null;
-		Slot var4 = this.inventorySlots.get(par2);
-
-		if (var4 != null && var4.getHasStack()) {
-			ItemStack var5 = var4.getStack();
-			var3 = var5.copy();
-
-			if (par2 == 0) {
-				if (!this.mergeItemStack(var5, 10, 46, true)) {
-					return ItemStack.EMPTY;
-				}
-
-				var4.onSlotChange(var5, var3);
-			} else if (par2 >= 10 && par2 < 37) {
-				if (!this.mergeItemStack(var5, 37, 46, false)) {
-					return ItemStack.EMPTY;
-				}
-			} else if (par2 >= 37 && par2 < 46) {
-				if (!this.mergeItemStack(var5, 10, 37, false)) {
-					return ItemStack.EMPTY;
-				}
-			} else if (!this.mergeItemStack(var5, 10, 46, false)) {
-				return ItemStack.EMPTY;
-			}
-
-			if (var5.getCount() == 0) {
-				var4.putStack(ItemStack.EMPTY);
-			} else {
-				var4.onSlotChanged();
-			}
-
-			if (var5.getCount() == var3.getCount()) {
-				return ItemStack.EMPTY;
-			}
-
-			var4.onTake(par1EntityPlayer, var5);
-		}
-
-		return var3;
-	}
-
-	@Override
-	public boolean canMergeSlot(ItemStack par1ItemStack, Slot par2Slot) {
-		return super.canMergeSlot(par1ItemStack, par2Slot);
 	}
 }
