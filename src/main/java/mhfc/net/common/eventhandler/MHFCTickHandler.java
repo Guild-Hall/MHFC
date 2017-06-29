@@ -4,10 +4,11 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Executor;
 
 import com.google.common.util.concurrent.Runnables;
-import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.RunContext;
 
@@ -29,19 +30,22 @@ public class MHFCTickHandler {
 
 	private static class OperationWrapper implements Runnable {
 		private Operation op;
-		private RunContext context;
-		private TickPhase phase;
-		private Runnable cancel;
+		private final RunContext context;
+		private final TickPhase phase;
+		private final Runnable cancel;
+		private final CompletableFuture<Void> future;
 
 		public OperationWrapper(Operation op, RunContext context, TickPhase phase) {
 			this.op = Objects.requireNonNull(op);
 			this.context = context;
 			this.phase = Objects.requireNonNull(phase);
 			this.cancel = this::cancelOp;
+			this.future = new CompletableFuture<>();
 		}
 
 		protected void cancelOp() {
 			assert op != null;
+			this.future.cancel(true);
 			this.op.cancel();
 		}
 
@@ -50,15 +54,30 @@ public class MHFCTickHandler {
 			Operation followup;
 			try {
 				followup = op.resume(context);
-			} catch (WorldEditException e) {
+			} catch (Throwable e) {
 				MHFCMain.logger().error("Exception when handling an operation", e);
+				this.future.completeExceptionally(e);
 				return;
 			}
 			if (followup != null) {
-				// same effect as if MHFCTickHandler.instance.registerOperation(phase, followup) without allocation
 				this.op = followup;
-				MHFCTickHandler.instance.registerRunnable(phase, this, cancel);
+				CompletionStage<Void> registeredFuture = MHFCTickHandler.instance.registerWrapper(phase, this);
+				assert this.future == registeredFuture;
+			} else {
+				this.future.complete(null);
 			}
+		}
+
+		public CompletionStage<Void> getCompletionStage() {
+			return future;
+		}
+
+		public Runnable getRun() {
+			return this;
+		}
+
+		public Runnable getCancel() {
+			return this.cancel;
 		}
 	}
 
@@ -99,19 +118,12 @@ public class MHFCTickHandler {
 		return jobQueue.get(phase).get();
 	}
 
-	public void registerRunnable(TickPhase phase, Runnable run, Runnable cancel) {
-		Objects.requireNonNull(phase);
-		Optional<DoubleBufferRunnableRegistry> serviceQueue = getQueueFor(phase);
-		if (serviceQueue.isPresent()) {
-			serviceQueue.get().register(run, cancel);
-		} else {
-			MHFCMain.logger().error("Tried registering for phase {} but service is not running", phase);
-			cancel.run();
-		}
+	public CompletionStage<Void> registerRunnable(TickPhase phase, Runnable run, Runnable cancel) {
+		return registerOperation(phase, Operations.wrapping(run, cancel));
 	}
 
-	public void registerOperation(TickPhase phase, final Operation op) {
-		registerOperation(phase, op, new RunContext());
+	public CompletionStage<Void> registerOperation(TickPhase phase, final Operation op) {
+		return registerOperation(phase, op, new RunContext());
 	}
 
 	/**
@@ -126,12 +138,24 @@ public class MHFCTickHandler {
 	 * @param context
 	 *            the context to feed to the operation
 	 */
-	public void registerOperation(TickPhase phase, final Operation op, final RunContext context) {
+	public CompletionStage<Void> registerOperation(TickPhase phase, final Operation op, final RunContext context) {
 		if (op == null) {
-			return;
+			return CompletableFuture.completedFuture(null);
 		}
-		OperationWrapper runnable = new OperationWrapper(op, context, phase);
-		registerRunnable(phase, runnable, runnable.cancel);
+		OperationWrapper wrapper = new OperationWrapper(op, context, phase);
+		return registerWrapper(phase, wrapper);
+	}
+
+	private CompletionStage<Void> registerWrapper(TickPhase phase, OperationWrapper wrapper) {
+		Objects.requireNonNull(phase);
+		Optional<DoubleBufferRunnableRegistry> serviceQueue = getQueueFor(phase);
+		if (serviceQueue.isPresent()) {
+			serviceQueue.get().register(wrapper.getRun(), wrapper.getCancel());
+		} else {
+			MHFCMain.logger().error("Tried registering for phase {} but service is not running", phase);
+			wrapper.cancelOp();
+		}
+		return wrapper.getCompletionStage();
 	}
 
 	public Executor poolFor(final TickPhase phase) {
@@ -164,11 +188,11 @@ public class MHFCTickHandler {
 		key.getServiceProvider().getServiceFor(key).ifPresent(DoubleBufferRunnableRegistry::runAll);
 	}
 
-	public void schedule(TickPhase phase, int ticksDelayed, Runnable run) {
-		schedule(phase, ticksDelayed, run, Runnables.doNothing());
+	public CompletionStage<Void> schedule(TickPhase phase, int ticksDelayed, Runnable run) {
+		return schedule(phase, ticksDelayed, run, Runnables.doNothing());
 	}
 
-	public void schedule(TickPhase phase, int ticksDelayed, Runnable run, Runnable cancel) {
-		registerOperation(phase, Operations.delayed(Operations.wrapping(run, cancel), ticksDelayed));
+	public CompletionStage<Void> schedule(TickPhase phase, int ticksDelayed, Runnable run, Runnable cancel) {
+		return registerOperation(phase, Operations.delayed(Operations.wrapping(run, cancel), ticksDelayed));
 	}
 }

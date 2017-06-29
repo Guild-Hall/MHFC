@@ -130,30 +130,20 @@ public class AreaManager implements IAreaManager {
 		final Operation plan = type.populate(getWorld(), config);
 		final ChunkPos chunkPos = new ChunkPos(position.posX, position.posY);
 		ForgeChunkManager.forceChunk(getLoadingTicket(), chunkPos);
-		final CompletableFuture<IActiveArea> areaFuture = new CompletableFuture<>();
-		final Operation operation = Operations.withCallback(Operations.timingOperation(plan, 20), o -> {
-			areaFuture.complete(this.new Active(type.provideForLoading(getWorld(), config), type, getOwnQuestFlair()));
+		final Operation operation = Operations.timingOperation(plan, 20);
 
-			onAreaCompleted(info);
+		return MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_PRE, operation).whenComplete((r, ex) -> {
 			ForgeChunkManager.unforceChunk(getLoadingTicket(), chunkPos);
-			MHFCMain.logger().debug("Area of type {} completed", type);
-		}, o -> {
-			areaFuture.cancel(true);
-
-			onAreaCanceled(info);
-			ForgeChunkManager.unforceChunk(getLoadingTicket(), chunkPos);
-			MHFCMain.logger().debug("Area of type {} cancelled", type);
-		});
-
-		areaFuture.whenComplete((a, ex) -> {
-			if (ex != null) {
-				operation.cancel();
+			if (ex == null) {
+				onAreaCanceled(info);
+				MHFCMain.logger().debug("Area of type {} cancelled", type);
+			} else {
+				onAreaCompleted(info);
+				MHFCMain.logger().debug("Area of type {} completed", type);
 			}
+		}).thenApply(v -> {
+			return this.new Active(type.provideForLoading(getWorld(), config), type, getOwnQuestFlair());
 		});
-
-		MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_PRE, operation);
-
-		return areaFuture;
 	}
 
 	private AreaInformation newArea(IAreaType type) {

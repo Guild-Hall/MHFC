@@ -246,8 +246,8 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 			teleports.add(afterReward);
 		}
 		CompletionStage<Void> afterTeleports = CompletableFuture.allOf(teleports.toArray(new CompletableFuture[0]));
-		afterTeleports.whenComplete((r, e) -> {
-			MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, 5 * 20, () -> {
+		afterTeleports.<Void>handle((r, e) -> null).thenCompose(v -> {
+			return MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, 5 * 20, () -> {
 				MHFCQuestRegistry.getRegistry().endMission(this);
 				MHFCMain.logger().info("Mission {} ended", getMission());
 			});
