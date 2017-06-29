@@ -11,6 +11,9 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.message.Message;
+
 import com.sk89q.worldedit.function.operation.Operation;
 
 import mhfc.net.MHFCMain;
@@ -135,11 +138,12 @@ public class AreaManager implements IAreaManager {
 		return MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_PRE, operation).whenComplete((r, ex) -> {
 			ForgeChunkManager.unforceChunk(getLoadingTicket(), chunkPos);
 			if (ex == null) {
-				onAreaCanceled(info);
-				MHFCMain.logger().debug("Area of type {} cancelled", type);
-			} else {
 				onAreaCompleted(info);
 				MHFCMain.logger().debug("Area of type {} completed", type);
+			} else {
+				onAreaCanceled(info);
+				Message message = MHFCMain.logger().getMessageFactory().newMessage("Area of type {} cancelled", type);
+				MHFCMain.logger().log(Level.DEBUG, message, ex);
 			}
 		}).thenApply(v -> {
 			return this.new Active(type.provideForLoading(getWorld(), config), type, getOwnQuestFlair());

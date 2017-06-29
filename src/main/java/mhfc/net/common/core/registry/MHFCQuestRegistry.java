@@ -46,8 +46,8 @@ public class MHFCQuestRegistry {
 			MHFCMain.serverRunningPhase);
 
 	public static class RegistryRequestVisualHandler
-	implements
-	IMessageHandler<MessageRequestMissionUpdate, MessageMissionUpdate> {
+			implements
+			IMessageHandler<MessageRequestMissionUpdate, MessageMissionUpdate> {
 
 		@Override
 		public MessageMissionUpdate onMessage(MessageRequestMissionUpdate message, MessageContext ctx) {
@@ -61,8 +61,8 @@ public class MHFCQuestRegistry {
 	}
 
 	public static class RunningSubscriptionHandler
-	implements
-	IMessageHandler<MessageQuestRunningSubscription, IMessage> {
+			implements
+			IMessageHandler<MessageQuestRunningSubscription, IMessage> {
 		private static Set<EntityPlayerMP> subscribers = new HashSet<>();
 
 		public RunningSubscriptionHandler() {}
@@ -321,8 +321,8 @@ public class MHFCQuestRegistry {
 			missionIDtoQuestID.remove(missionID);
 			MessageMissionStatus message = MessageMissionStatus.destruction(missionID);
 			RunningSubscriptionHandler.sendToAll(message);
+			mission.close();
 		}
-		mission.close();
 		return wasRunning;
 	}
 

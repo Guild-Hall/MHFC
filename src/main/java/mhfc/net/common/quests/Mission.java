@@ -46,10 +46,11 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	private static final int DELAY_BEFORE_TP_IN_SECONDS = 25;
 
 	private static enum QuestState {
-		pending,
-		running,
+		PENDING,
+		RUNNING,
 		FINISHED_SUCCESS,
-		resigned;
+		FINISHED_FAIL,
+		RESIGNED;
 	}
 
 	private static class QuestingPlayerState {
@@ -120,7 +121,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		this.reward = reward == null ? new NullReward() : reward;
 		this.spawns = spawns == null ? NoSpawn.INSTANCE : spawns;
 		this.fee = fee;
-		this.state = QuestState.pending;
+		this.state = QuestState.PENDING;
 		this.originalDescription = originalDescription;
 		this.maxPlayerCount = maxPartySize;
 
@@ -145,12 +146,13 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	@Override
 	public void questGoalStatusNotification(QuestGoal goal, EnumSet<QuestStatus> newStatus) {
-		if (newStatus.contains(QuestStatus.Fulfilled)) {
-
+		if (newStatus.contains(QuestStatus.Fulfilled) && state == QuestState.RUNNING) {
 			onSuccess();
+			this.state = QuestState.FINISHED_SUCCESS;
 		}
-		if (newStatus.contains(QuestStatus.Failed)) {
+		if (newStatus.contains(QuestStatus.Failed) && state == QuestState.RUNNING) {
 			onFail();
+			this.state = QuestState.FINISHED_FAIL;
 		}
 		updatePlayers();
 	}
@@ -165,7 +167,8 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	}
 
 	private void tryStart() {
-		if (canStart()) {
+		if (state == QuestState.PENDING && canStart()) {
+			this.state = QuestState.RUNNING;
 			onStart();
 			resetVotes();
 		}
@@ -204,13 +207,11 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 					2F);
 			playerState.player.sendMessage(new TextComponentString(ColorSystem.ENUMGOLD + "QUEST COMPLETE"));
 		}
-		this.state = QuestState.FINISHED_SUCCESS;
 		onEnd();
 	}
 
 	protected void onStart() {
 		questGoal.setActive(true);
-		this.state = QuestState.running;
 		QuestExplorationManager.bindPlayersToMission(getPlayers(), this);
 		for (EntityPlayerMP player : getPlayers()) {
 			IExplorationManager explorationManager = MHFCExplorationRegistry.getExplorationManagerFor(player);
@@ -240,7 +241,6 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 					reward.grantReward(playerState.player);
 					playerState.reward = true;
 				}
-				removePlayer(playerState.player);
 			});
 			teleports.add(afterReward);
 		}
@@ -274,7 +274,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	public boolean canJoin(EntityPlayer player) {
 		// TODO add more evaluation and/or move to another class?
-		boolean isPending = state == QuestState.pending;
+		boolean isPending = state == QuestState.PENDING;
 		boolean notFull = playerCount() < maxPlayerCount;
 		boolean playerHasNoQuest = MHFCQuestRegistry.getRegistry().getMissionForPlayer(player) == null;
 		return isPending && notFull && playerHasNoQuest;
@@ -320,6 +320,10 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		return MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
 			EntityPlayerMP player = att.player;
 			player.sendMessage(new TextComponentString(ColorSystem.ENUMGREEN + "Teleporting you back home!"));
+
+			// Remove the player, otherwise the rebind will trigger another remove
+			QuestingPlayerState attributes = removePlayer(player);
+
 			MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
 			MHFCExplorationRegistry.respawnPlayer(player, att.previousSaveData);
 		});
@@ -378,8 +382,9 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		attributes.vote = true;
 
 		boolean end = allVotes();
-		if (end && state == QuestState.running) {
+		if (end && state == QuestState.RUNNING) {
 			onEnd();
+			state = QuestState.RESIGNED;
 			resetVotes();
 		}
 	}
