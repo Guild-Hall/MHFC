@@ -20,7 +20,11 @@ public class UpdateSystem {
 	}
 
 	public static void sendUpdateAsync(final ICommandSender finalConsole) {
-		notifyOfUpdate(finalConsole, ForgeVersion.getResult(MHFCMain.getModContainer()));
+		try {
+			notifyOfUpdate(finalConsole, ForgeVersion.getResult(MHFCMain.getModContainer()));
+		} catch (Exception e) {
+			MHFCMain.logger().error("Failed to display update notification", e);
+		}
 	}
 
 	private static void notifyOfUpdate(ICommandSender console, CheckResult info) {
