@@ -117,7 +117,7 @@ public class AreaTeleportation {
 	}
 
 	public static void movePlayerToOverworld(MinecraftServer server, EntityPlayerMP player) {
-		BlockPos spawnPoint = server.worldServerForDimension(0).getSpawnPoint();
+		BlockPos spawnPoint = server.worldServerForDimension(0).provider.getRandomizedSpawnPoint();
 		movePlayerToOverworld(server, player, spawnPoint);
 	}
 

@@ -45,7 +45,7 @@ public class CommandExplore extends CommandBase {
 
 		EntityPlayerMP player = (EntityPlayerMP) sender;
 		if (arguments.length == 0) {
-			MHFCExplorationRegistry.releasePlayer(player).respawn();
+			MHFCExplorationRegistry.releasePlayer(player).respawn(null);
 			return;
 		}
 
@@ -67,7 +67,8 @@ public class CommandExplore extends CommandBase {
 
 	private void onTransferComplete(EntityPlayerMP player, IActiveArea area, Throwable exception) {
 		if (exception != null) {
-			TextComponentString failMessage = new TextComponentString("Failed to allocate an area for the player: " + exception.getMessage());
+			TextComponentString failMessage = new TextComponentString(
+					"Failed to allocate an area for the player: " + exception.getMessage());
 			player.sendMessage(failMessage);
 			MHFCMain.logger().catching(exception);
 		} else {

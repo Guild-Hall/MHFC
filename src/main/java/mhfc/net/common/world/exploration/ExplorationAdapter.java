@@ -9,6 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 import com.google.common.collect.Table;
+import com.google.gson.JsonElement;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCDimensionRegistry;
@@ -48,7 +49,9 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 	}
 
 	@Override
-	public void respawn() throws IllegalArgumentException {
+	public void respawn(JsonElement saveData) throws IllegalArgumentException {
+		// Ignores element
+		loadFromSaveData(saveData);
 		IActiveArea activeAreaOf = getActiveAreaOf();
 		if (activeAreaOf == null) {
 			respawnWithoutInstance();
@@ -69,6 +72,8 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 	}
 
 	// ==== abstract methods for sub classes to override
+	protected abstract void loadFromSaveData(JsonElement saveData);
+
 	/**
 	 * Returns the instances managed by this adapter. instances may be shared with another manager. returned table must
 	 * be mutable.
@@ -176,10 +181,8 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		IAreaType areaType = activeArea.getType();
 		QuestFlair areaFlair = activeArea.getFlair();
 
-		MHFCMain.logger().debug(
-				"Removing active area instance {} of type {} from exploration manager",
-				activeArea,
-				areaType);
+		MHFCMain.logger()
+				.debug("Removing active area instance {} of type {} from exploration manager", activeArea, areaType);
 		Collection<IActiveArea> areasForType = getAreasOfType(areaType, areaFlair);
 		boolean removed = areasForType.remove(activeArea);
 		assert removed : "Expected area to remove to be added";

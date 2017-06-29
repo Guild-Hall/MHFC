@@ -32,7 +32,7 @@ public class BlockRespawn extends BlockBarrier {
 			return;
 		}
 		EntityPlayerMP player = (EntityPlayerMP) entity;
-		MHFCExplorationRegistry.getExplorationManagerFor(player).respawn();
+		MHFCExplorationRegistry.getExplorationManagerFor(player).respawn(null);
 	}
 
 }

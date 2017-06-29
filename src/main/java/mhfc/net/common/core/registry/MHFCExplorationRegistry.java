@@ -8,6 +8,8 @@ import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 
+import com.google.gson.JsonElement;
+
 import mhfc.net.common.core.data.KeyToInstanceRegistryData;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.IActiveArea;
@@ -50,7 +52,7 @@ public class MHFCExplorationRegistry {
 				return;
 			}
 			EntityPlayerMP player = (EntityPlayerMP) spawn.player;
-			getExplorationManagerFor(player).respawn();
+			respawnPlayer(player, null);
 		}
 	}
 
@@ -115,7 +117,7 @@ public class MHFCExplorationRegistry {
 		return MHFCPlayerPropertiesRegistry.getPlayerProperties(player).getExploration();
 	}
 
-	public static void respawnPlayer(EntityPlayerMP player) {
-		getExplorationManagerFor(player).respawn();
+	public static void respawnPlayer(EntityPlayerMP player, JsonElement saveData) {
+		getExplorationManagerFor(player).respawn(saveData);
 	}
 }

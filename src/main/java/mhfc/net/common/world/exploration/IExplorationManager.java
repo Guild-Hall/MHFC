@@ -2,6 +2,8 @@ package mhfc.net.common.world.exploration;
 
 import java.util.concurrent.CompletionStage;
 
+import com.google.gson.JsonElement;
+
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
@@ -24,11 +26,6 @@ public interface IExplorationManager {
 	public IActiveArea getActiveAreaOf();
 
 	/**
-	 * Respawn the player managed by this exploration manager
-	 */
-	public void respawn();
-
-	/**
 	 * Handles the first spawn of a player into the map. Not the first spawn in this manager, just the very first spawn
 	 * of a player (after joining the server).
 	 *
@@ -38,5 +35,19 @@ public interface IExplorationManager {
 	public void onPlayerAdded();
 
 	public void onPlayerRemove();
+
+	/**
+	 * Save the state of this exploration manager. If the exploration manager is not meant to be saved, return null
+	 * 
+	 * @return
+	 */
+	public JsonElement saveState();
+
+	/**
+	 * Respawn the player from the saved data. Passed in data may be null if no data is available
+	 * 
+	 * @param saveData
+	 */
+	public void respawn(JsonElement saveData);
 
 }

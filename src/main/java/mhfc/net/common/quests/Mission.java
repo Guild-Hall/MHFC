@@ -7,6 +7,7 @@ import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
 import com.google.common.util.concurrent.Runnables;
+import com.google.gson.JsonElement;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
@@ -57,6 +58,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		@SuppressWarnings("unused")
 		public boolean reward;
 		public IExplorationManager previousManager;
+		public JsonElement previousSaveData;
 
 		public QuestingPlayerState(EntityPlayerMP p, boolean vote, boolean restoreInventory, boolean reward) {
 			this.player = p;
@@ -64,6 +66,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 			this.vote = vote;
 			this.reward = reward;
 			this.previousManager = MHFCExplorationRegistry.getExplorationManagerFor(p);
+			this.previousSaveData = this.previousManager.saveState();
 		}
 	}
 
@@ -211,7 +214,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		QuestExplorationManager.bindPlayersToMission(getPlayers(), this);
 		for (EntityPlayerMP player : getPlayers()) {
 			IExplorationManager explorationManager = MHFCExplorationRegistry.getExplorationManagerFor(player);
-			explorationManager.respawn();
+			explorationManager.respawn(null);
 		}
 		updatePlayers();
 		resetVotes();
@@ -293,11 +296,11 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 			player.sendMessage(
 					new TextComponentString(
 							ColorSystem.ENUMDARK_AQUA + "Teleporting you back in " + DELAY_BEFORE_TP_IN_SECONDS
-							+ " seconds"));
+									+ " seconds"));
 			MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
 				player.sendMessage(new TextComponentString(ColorSystem.ENUMGREEN + "Teleporting you back home!"));
 				MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
-				MHFCExplorationRegistry.respawnPlayer(player);
+				MHFCExplorationRegistry.respawnPlayer(player, att.previousSaveData);
 			}, Runnables.doNothing());
 			return true;
 		}

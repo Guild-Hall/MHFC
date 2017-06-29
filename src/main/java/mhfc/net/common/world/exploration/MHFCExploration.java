@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.google.gson.JsonElement;
 
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.quests.world.QuestFlair;
@@ -71,7 +72,15 @@ public class MHFCExploration extends ExplorationAdapter {
 	@Override
 	public void onPlayerJoined() throws IllegalArgumentException {
 		super.onPlayerJoined();
-		respawn();
+		respawn(null);
 	}
+
+	@Override
+	public JsonElement saveState() {
+		return null;
+	}
+
+	@Override
+	protected void loadFromSaveData(JsonElement saveData) {}
 
 }

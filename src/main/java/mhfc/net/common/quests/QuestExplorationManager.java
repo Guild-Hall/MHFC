@@ -9,6 +9,7 @@ import java.util.concurrent.CompletionStage;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.google.gson.JsonElement;
 
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.quests.world.QuestFlair;
@@ -83,11 +84,11 @@ public class QuestExplorationManager extends ExplorationAdapter {
 	}
 
 	@Override
-	public void respawn() {
+	public void respawn(JsonElement saveData) {
 		if (!quest.getPlayers().contains(player)) {
 			throw new IllegalArgumentException("Only players on the quest can be managed by this manager");
 		}
-		super.respawn();
+		super.respawn(saveData);
 		quest.updatePlayerEntity(player);
 	}
 
@@ -110,5 +111,13 @@ public class QuestExplorationManager extends ExplorationAdapter {
 				new UnsupportedOperationException("Quest manager can not transfer players into other areas"));
 		return result;
 	}
+
+	@Override
+	public JsonElement saveState() {
+		return null;
+	}
+
+	@Override
+	protected void loadFromSaveData(JsonElement saveData) {}
 
 }
