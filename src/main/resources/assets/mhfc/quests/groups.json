@@ -1,14 +1,17 @@
 {
-	"groupDisplayOrder":[
-		"Level 1 Star Quest","Level 2 Star Quest"
+	"groupDisplayOrder": [
+		"Level 1 Star Quest",
+		"Level 2 Star Quest"
 	],
-	"groups":{
-		"Level 1 Star Quest":[
-			"nogutsnoglory","leadingthecharge"
+	"groups": {
+		"Level 1 Star Quest": [
+			"nogutsnoglory",
+			"leadingthecharge"
 		],
-		"Level 2 Star Quest":[
-			"tigrexroar","jumpingatshadows","violentwyvern"
+		"Level 2 Star Quest": [
+			"tigrexroar",
+			"jumpingatshadows",
+			"violentwyvern"
 		]
-		
 	}
 }

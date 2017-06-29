@@ -11,6 +11,7 @@ import mhfc.net.common.core.registry.MHFCEventRegistry;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.core.registry.MHFCHunterCraftingRegistry;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.core.registry.MHFCLootTableRegistry;
 import mhfc.net.common.core.registry.MHFCPacketRegistry;
 import mhfc.net.common.core.registry.MHFCPlayerPropertiesRegistry;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
@@ -46,6 +47,7 @@ public class MHFCCommonRegistry {
 		// BLOCKS BEFORE ITEMS!!
 		MHFCBlockRegistry.staticInit();
 		MHFCItemRegistry.staticInit();
+		MHFCLootTableRegistry.staticInit();
 
 		MHFCMain.initPhase.registerEntryCallback(e -> init());
 	}

@@ -58,7 +58,7 @@ public class HuntingGoalDescription implements IGoalDefinition {
 				checkAttributesBound();
 				ResourceLocation huntedId = EntityList.getKey(huntedClass);
 				String goalMob = EntityList.getTranslationName(huntedId);
-				return Viewables.parse("[[" + goalMob + "]]s§r slain: {{current}}/{{goal}}", baseProps);
+				return Viewables.parse("[[" + goalMob + "]]sÂ§r slain: {{current}}/{{goal}}", baseProps);
 			}
 
 			@Override

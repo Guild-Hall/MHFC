@@ -55,7 +55,7 @@ public class ClassHelper {
 	}
 
 	/**
-	 * ง4.10, T <: S. Or in laymans terms: the class T is considered to be a subtype of class S, or if T is a primitive
+	 * ยง4.10, T <: S. Or in laymans terms: the class T is considered to be a subtype of class S, or if T is a primitive
 	 * class, widening convertible. Every class is its own subtype.
 	 *
 	 * @param clazzS
@@ -85,7 +85,7 @@ public class ClassHelper {
 	}
 
 	/**
-	 * ง5.1.1 T is the class to convert from, S the class to convert to
+	 * ยง5.1.1 T is the class to convert from, S the class to convert to
 	 *
 	 * @param clazzS
 	 * @param clazzT
@@ -96,7 +96,7 @@ public class ClassHelper {
 	}
 
 	/**
-	 * ง5.1.2 T is the class to convert from, S the class to convert to
+	 * ยง5.1.2 T is the class to convert from, S the class to convert to
 	 *
 	 * @param clazzS
 	 * @param clazzT
@@ -107,7 +107,7 @@ public class ClassHelper {
 	}
 
 	/**
-	 * ง5.1.5 T is the class to convert from, S the class to convert to
+	 * ยง5.1.5 T is the class to convert from, S the class to convert to
 	 *
 	 * @param clazzS
 	 * @param clazzT
@@ -126,7 +126,7 @@ public class ClassHelper {
 	}
 
 	/**
-	 * ง5.3 T is the class to convert from, S the class to convert to
+	 * ยง5.3 T is the class to convert from, S the class to convert to
 	 *
 	 * @param clazzS
 	 * @param clazzT

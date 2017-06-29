@@ -8,14 +8,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockWyverniaQuickSand extends Block {
-	private static final AxisAlignedBB BOUNDS = new AxisAlignedBB(0, 0, 0, 1, 0.3, 1);
+	private static final AxisAlignedBB BOUNDS = new AxisAlignedBB(0, 0, 0, 1, 0.5, 1);
 
 	public BlockWyverniaQuickSand() {
 		super(Material.SAND);
@@ -32,9 +31,7 @@ public class BlockWyverniaQuickSand extends Block {
 
 	@Override
 	public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
-		if(entity instanceof EntityPlayer){
-			entity.setInWeb();
-		}
+		entity.setInWeb();
 	}
 
 	@Override
