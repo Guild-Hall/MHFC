@@ -82,6 +82,7 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 		RATHALOSWING("rathaloswing", ResourceInterface.item_rathalos3_name, ItemColor.RED), //
 		RATHALOSPLATE("rathalosplate", ResourceInterface.item_rathalos4_name, ItemColor.RED),
 
+		// Meta data is 62 -67
 		TIGREXSCALE("tigrexscale", ResourceInterface.item_tigrex0_name, ItemColor.YELLOW),
 		TIGREXSHELL("tigrexshell", ResourceInterface.item_tigrex1_name, ItemColor.YELLOW),
 		TIGREXCLAW("tigrexclaw", ResourceInterface.item_tigrex2_name, ItemColor.YELLOW),
