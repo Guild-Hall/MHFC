@@ -233,15 +233,14 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	protected void onEnd() {
 		List<CompletionStage<Void>> teleports = new ArrayList<>();
 		for (QuestingPlayerState playerState : playerAttributes.values()) {
-			CompletionStage<QuestingPlayerState> afterTeleport = teleportBack(playerState);
-			CompletionStage<Void> afterReward = afterTeleport.thenAccept(attributes -> {
+			CompletionStage<Void> afterReward = teleportBack(playerState).thenAccept(v -> {
 				if (state == QuestState.FINISHED_SUCCESS) {
 					playerState.player
 							.sendMessage(new TextComponentString(ColorSystem.ENUMDARK_AQUA + "Quest reward received!"));
 					reward.grantReward(playerState.player);
 					playerState.reward = true;
 				}
-				removePlayer(attributes.player);
+				removePlayer(playerState.player);
 			});
 			teleports.add(afterReward);
 		}
@@ -311,23 +310,19 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		return att;
 	}
 
-	private CompletionStage<QuestingPlayerState> teleportBack(QuestingPlayerState att) {
+	private CompletionStage<Void> teleportBack(QuestingPlayerState att) {
 		Objects.requireNonNull(att);
 
-		CompletableFuture<QuestingPlayerState> teleporter = new CompletableFuture<>();
-		MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
+		att.player.sendMessage(
+				new TextComponentString(
+						ColorSystem.ENUMDARK_AQUA + "Teleporting you back in " + DELAY_BEFORE_TP_IN_SECONDS
+								+ " seconds"));
+		return MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
 			EntityPlayerMP player = att.player;
-			player.sendMessage(
-					new TextComponentString(
-							ColorSystem.ENUMDARK_AQUA + "Teleporting you back in " + DELAY_BEFORE_TP_IN_SECONDS
-									+ " seconds"));
 			player.sendMessage(new TextComponentString(ColorSystem.ENUMGREEN + "Teleporting you back home!"));
 			MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
 			MHFCExplorationRegistry.respawnPlayer(player, att.previousSaveData);
-
-			teleporter.complete(att);
 		});
-		return teleporter;
 	}
 
 	public boolean joinPlayer(EntityPlayerMP player) {
