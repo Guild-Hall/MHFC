@@ -16,42 +16,6 @@
 				"type": "lootTable",
 				"data": "mhfc:quests/no_guts_no_glory"
 			},
-<<<<<<< HEAD
-			spawns: [{
-				type: "monster",
-				mob: "mhfc:delex",
-				count: 1,
-				location: "area_spawn1"
-			},{
-                type: "monster",
-                mob: "mhfc:delex",
-                count: 1,
-                location: "area_spawn2"
-			
-			
-			},{
-                type: "monster",
-                mob: "mhfc:delex",
-                count: 1,
-                location: "area_spawn3"
-			
-			
-			},{
-                type: "monster",
-                mob: "mhfc:delex",
-                count: 1,
-                location: "area_spawn4"
-			
-			
-			},{
-                type: "monster",
-                mob: "mhfc:delex",
-                count: 1,
-                location: "area_spawn5"
-			
-			
-			}]
-=======
 			"fee": 200,
 			"areaID": "sandy",
 			"questType": "mhfc.quests.type.hunting",
@@ -94,7 +58,6 @@
 					"location": "area_spawn5"
 				}
 			]
->>>>>>> branch '1.11' of https://github.com/Guild-Hall/MHFC
 		}
 	},
 	"leadingthecharge": {
@@ -110,14 +73,6 @@
 					]
 				}
 			},
-<<<<<<< HEAD
-			spawns: [{
-				type: "monster",
-				mob: "mhfc:barroth",
-				count: 1,
-				location: "area_spawn5"
-			}]
-=======
 			"reward": 5000,
 			"fee": 200,
 			"areaID": "sandy",
@@ -137,7 +92,6 @@
 					"location": "area_spawn5"
 				}
 			]
->>>>>>> branch '1.11' of https://github.com/Guild-Hall/MHFC
 		}
 	},
 	"tigrexroar": {
@@ -153,14 +107,6 @@
 					]
 				}
 			},
-<<<<<<< HEAD
-			spawns: [{
-				type: "monster",
-				mob: "mhfc:tigrex",
-				count: 1,
-				location: "area_spawn5"
-			}]
-=======
 			"reward": 5000,
 			"fee": 200,
 			"areaID": "sandy",
@@ -180,7 +126,6 @@
 					"location": "area_spawn5"
 				}
 			]
->>>>>>> branch '1.11' of https://github.com/Guild-Hall/MHFC
 		}
 	},
 	"jumpingatshadows": {
