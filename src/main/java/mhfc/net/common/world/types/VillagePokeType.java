@@ -23,12 +23,12 @@ public class VillagePokeType extends AreaTypeSchematic {
 
 		@Override
 		protected BlockPos getPlayerSpawnPosition() {
-			return new BlockPos(10, 0, 22);
+			return new BlockPos(10, -1, 22);
 		}
 
 		@Override
 		protected BlockPos getMonsterSpawnPosition() {
-			return new BlockPos(10, 0, 10);
+			return new BlockPos(10, -1, 10);
 		}
 	}
 

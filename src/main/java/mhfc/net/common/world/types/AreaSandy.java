@@ -21,7 +21,7 @@ public class AreaSandy extends AreaTypeSchematic {
 			super(world, config);
 			this.namedPositions.put(new ResourceLocation("area_spawn1"), new BlockPos(74, 4, 75));
 			this.namedPositions.put(new ResourceLocation("area_spawn2"), new BlockPos(48, 4, 75));
-			this.namedPositions.put(new ResourceLocation("area_spawn3"), new BlockPos(23, 4, 55));
+			this.namedPositions.put(new ResourceLocation("area_spawn3"), new BlockPos(23, 5, 55));
 			this.namedPositions.put(new ResourceLocation("area_spawn4"), new BlockPos(23, 4, 25));
 			this.namedPositions.put(new ResourceLocation("area_spawn5"), new BlockPos(71, 4, 25));
 		}
@@ -33,7 +33,7 @@ public class AreaSandy extends AreaTypeSchematic {
 
 		@Override
 		protected BlockPos getMonsterSpawnPosition() {
-			return new BlockPos(54, 0, 40);
+			return new BlockPos(54, 4, 40);
 		}
 	}
 

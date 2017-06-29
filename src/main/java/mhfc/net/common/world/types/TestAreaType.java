@@ -23,12 +23,12 @@ public class TestAreaType extends AreaTypeSchematic {
 
 		@Override
 		protected BlockPos getPlayerSpawnPosition() {
-			return new BlockPos(3, 0, 3);
+			return new BlockPos(3, -1, 3);
 		}
 
 		@Override
 		protected BlockPos getMonsterSpawnPosition() {
-			return new BlockPos(10, 0, 10);
+			return new BlockPos(10, -1, 10);
 		}
 	}
 
