@@ -14,9 +14,13 @@ public class MHFCLootTableRegistry {
 			.registerService("loot table registry", MHFCLootTableRegistry::new, MHFCMain.preInitPhase);
 
 	public final ResourceLocation questsNoGutsNoGlory;
+	public final ResourceLocation tigrexRoar;
+	public final ResourceLocation violentWyvern;
 
 	private MHFCLootTableRegistry() {
 		questsNoGutsNoGlory = register("quests/no_guts_no_glory");
+		tigrexRoar = register("quests/tigrex_roar");
+		violentWyvern = register("quest/violent_wyvern");
 	}
 
 	private ResourceLocation register(String location) {

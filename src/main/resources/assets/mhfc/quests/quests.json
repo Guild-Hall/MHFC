@@ -107,7 +107,10 @@
 					]
 				}
 			},
-			"reward": 5000,
+			"reward": {
+				"type": "lootTable",
+				"data": "mhfc:quests/tigrex_roar"
+			},
 			"fee": 200,
 			"areaID": "sandy",
 			"questType": "mhfc.quests.type.hunting",
@@ -187,7 +190,10 @@
 					]
 				}
 			},
-			"reward": 5000,
+			"reward": {
+				"type": "lootTable",
+				"data": "mhfc:quests/violent_wyvern"
+			},
 			"fee": 200,
 			"areaID": "greenvalley",
 			"questType": "mhfc.quests.type.hunting",

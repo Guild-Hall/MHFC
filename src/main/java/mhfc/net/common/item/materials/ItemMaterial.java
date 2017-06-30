@@ -62,6 +62,7 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 		REMOBRASKULL("remobraskull", ResourceInterface.item_remobra1_name, ItemColor.GRAY), //
 		REMOBRAWING("remobrawing", ResourceInterface.item_remobra2_name, ItemColor.GRAY),
 
+		//45-50
 		DEVILJHOSCALE("deviljhoscale", ResourceInterface.item_deviljho0_name, ItemColor.GREEN),
 		DEVILJHOFANG("deviljhofang", ResourceInterface.item_deviljho1_name, ItemColor.GREEN),
 		DEVILJHOHIDE("deviljhohide", ResourceInterface.item_deviljho2_name, ItemColor.GREEN),
@@ -69,6 +70,7 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 		DEVILJHOSCALP("deviljhoscalp", ResourceInterface.item_deviljho4_name, ItemColor.GREEN),
 		DEVILJHOTAIL("deviljhotail", ResourceInterface.item_deviljho5_name, ItemColor.GREEN),
 
+		//51 - 56
 		KIRINMANE("kirinmane", ResourceInterface.item_kirin0_name, ItemColor.GRAY),
 		KIRINGEM("kiringem", ResourceInterface.item_kirin1_name, ItemColor.WHITE),
 		KIRINTHUNDERTAIL("kirinthundertail", ResourceInterface.item_kirin2_name, ItemColor.WHITE),
@@ -76,6 +78,7 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 		KIRINPURECRYSTAL("kirincrystal_pure", ResourceInterface.item_kirin4_name, ItemColor.WHITE),
 		KIRINPLATINUMMANE("kirinplatinummane", ResourceInterface.item_kirin5_name, ItemColor.WHITE),
 
+		//57 - 61
 		RATHALOSSHELL("rathalosshell", ResourceInterface.item_rathalos0_name, ItemColor.RED), //
 		RATHALOSWEBBING("rathaloswebbing", ResourceInterface.item_rathalos1_name, ItemColor.RED), //
 		RATHALOSMARROW("rathalosmarrow", ResourceInterface.item_rathalos2_name, ItemColor.RED), //
