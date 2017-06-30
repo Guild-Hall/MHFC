@@ -51,7 +51,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  *          -craft-extreme-mob-hunting-adventure-15000-downloads/) Visit www.mhfrontiercraft.blogspot.com for more info.
  */
 
-@Mod(modid = ResourceInterface.main_modid)
+@Mod(
+		modid = ResourceInterface.main_modid,
+		updateJSON = "https://raw.githubusercontent.com/Guild-Hall/MHFC/updates/update.json")
 public class MHFCMain {
 	private static IPhaseAccess<FMLConstructionEvent, Void> constructedPhaseAccess = Services.instance
 			.<FMLConstructionEvent, Void>registerPhase("mod constructed").setDefaultShutdownContext(null);

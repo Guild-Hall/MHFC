@@ -7,7 +7,7 @@
     "version": "${version}",
     "mcversion": "${minecraft.version}",
     "url": "http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2702398-monster-hunter-frontier-craft-1-1-0",
-    "updateJSON": "https://raw.githubusercontent.com/Guild-Hall/MHFC/master/update.json",
+    "updateJSON": "https://raw.githubusercontent.com/Guild-Hall/MHFC/updates/update.json",
     "authorList": ["Heltrato", "WorldSEnder", "HeroicKatora", "Daniel"],
     "credits": "CAPCOM ",
     "logoFile": "MHFCLogo.png",
