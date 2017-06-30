@@ -2,16 +2,22 @@ package mhfc.net.common.weapon.melee.hammer;
 
 import java.util.function.Consumer;
 
+import com.google.common.collect.Multimap;
+
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.hammer.HammerWeaponStats.HammerWeaponStatsBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
 public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
@@ -22,17 +28,16 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 	}
 
 	protected static final double motY = 0.2D;
-	protected static final int stunDur = 120;
+	protected static final int stunDur = 140;
 	protected static final int critDamageFlat = 20; // Hammer deals FLAT.
 
 	public ItemHammer(HammerWeaponStats stats) {
 		super(stats);
-		setTextureName(MHFCReference.weapon_hm_default_icon);
 	}
 
 	@Override
 	public String getWeaponClassUnlocalized() {
-		return MHFCReference.weapon_hammer_name;
+		return ResourceInterface.weapon_hammer_name;
 	}
 
 	@Override
@@ -43,17 +48,48 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 		}
 		if (holder instanceof EntityPlayer) {
 			EntityPlayer entity = (EntityPlayer) holder;
-			entity.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 100, 3));
+			entity.moveEntityWithHeading(entity.moveStrafing * -0.4F, entity.moveForward * -0.4F);
 		}
 	}
 
 	@Override
-	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase player) {
+	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack) {
+
+		entityLiving.world.playSound(
+				null,
+				entityLiving.posX,
+				entityLiving.posY,
+				entityLiving.posZ,
+				MHFCSoundRegistry.getRegistry().hammerstrike,
+				SoundCategory.NEUTRAL,
+				2F,
+				2F);
+		return super.onEntitySwing(entityLiving, stack);
+	}
+
+
+	@Override
+	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
 		if (!isOffCooldown(stack)) {
 			return false;
 		}
-		target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().stun.id, stunDur, 5));
+
+		target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().stun, stunDur, 5));
 		triggerCooldown(stack);
 		return true;
+	}
+
+	@Override
+	public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot) {
+		@SuppressWarnings("deprecation")
+		Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(equipmentSlot);
+		if (equipmentSlot == EntityEquipmentSlot.MAINHAND) {
+			multimap.put(
+					SharedMonsterAttributes.ATTACK_SPEED.getName(),
+					new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -1.3000000953674316D, 2));
+		}
+
+		return multimap;
+
 	}
 }

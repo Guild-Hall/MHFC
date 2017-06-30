@@ -1,9 +1,8 @@
 package mhfc.net.common.core.registry;
 
-import cpw.mods.fml.relauncher.Side;
-import mhfc.net.client.quests.QuestClientInitHandler;
-import mhfc.net.client.quests.QuestScreenVisualHandler;
-import mhfc.net.client.quests.QuestStatusHandler;
+import mhfc.net.client.quests.handler.QuestClientInitHandler;
+import mhfc.net.client.quests.handler.QuestScreenVisualHandler;
+import mhfc.net.client.quests.handler.QuestStatusHandler;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.BeginCraftingHandler;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.BenchRefreshHandler;
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.CancelRecipeHandler;
@@ -11,12 +10,13 @@ import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.CraftingUpdate
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry.SetRecipeHandler;
 import mhfc.net.common.core.registry.MHFCQuestRegistry.RegistryRequestVisualHandler;
 import mhfc.net.common.core.registry.MHFCQuestRegistry.RunningSubscriptionHandler;
-import mhfc.net.common.core.registry.MHFCTileRegistry.TileUpdateHandler;
-import mhfc.net.common.eventhandler.MHFCInteractionHandler;
 import mhfc.net.common.network.PacketPipeline;
+import mhfc.net.common.network.handler.MHFCInteractionHandler;
+import mhfc.net.common.network.handler.MessageAttackHandler;
+import mhfc.net.common.network.handler.TileUpdateHandler;
 import mhfc.net.common.network.message.MessageAIAction;
-import mhfc.net.common.network.message.MessageAttackHandler;
 import mhfc.net.common.network.message.MessageExploreTileUpdate;
+import mhfc.net.common.network.message.MessageTileUpdate;
 import mhfc.net.common.network.message.bench.MessageBeginCrafting;
 import mhfc.net.common.network.message.bench.MessageBenchRefreshRequest;
 import mhfc.net.common.network.message.bench.MessageCancelRecipe;
@@ -28,15 +28,15 @@ import mhfc.net.common.network.message.quest.MessageMissionUpdate;
 import mhfc.net.common.network.message.quest.MessageQuestInit;
 import mhfc.net.common.network.message.quest.MessageQuestRunningSubscription;
 import mhfc.net.common.network.message.quest.MessageRequestMissionUpdate;
-import mhfc.net.common.network.packet.MessageTileUpdate;
 import mhfc.net.common.tile.TileExploreArea.UpdateRequestHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class MHFCPacketRegistry {
 
 	public static void init() {
 		PacketPipeline.registerPacket(MessageAttackHandler.class, MessageAIAction.class, Side.CLIENT);
-
 		PacketPipeline.registerPacket(TileUpdateHandler.class, MessageTileUpdate.class, Side.CLIENT);
+
 		PacketPipeline.registerPacket(BeginCraftingHandler.class, MessageBeginCrafting.class, Side.SERVER);
 		PacketPipeline.registerPacket(SetRecipeHandler.class, MessageSetRecipe.class, Side.SERVER);
 		PacketPipeline.registerPacket(CancelRecipeHandler.class, MessageCancelRecipe.class, Side.SERVER);

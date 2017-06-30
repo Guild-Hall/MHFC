@@ -1,6 +1,7 @@
 package mhfc.net.common.util;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.ToIntFunction;
 
 /**
@@ -117,6 +118,17 @@ public final class Comparation<T> {
 	public static <O, U extends Comparable<? super O>> Comparation<O> comparing(U leftSide) {
 		Objects.requireNonNull(leftSide);
 		return comparing(leftSide, (Comparator<U, O>) (l, r) -> l.compareTo(r));
+	}
+
+	/**
+	 * Makes sure that both optionals point to the identical value internally. Does only work one level deep
+	 * 
+	 * @param optionalOne
+	 * @param optionalTwo
+	 * @return
+	 */
+	public static boolean isIdentical(Optional<?> optionalOne, Optional<?> optionalTwo) {
+		return optionalOne == optionalTwo || optionalOne.orElse(null) == optionalTwo.orElse(null);
 	}
 
 }

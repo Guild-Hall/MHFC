@@ -1,5 +1,7 @@
 package mhfc.net.common.eventhandler.quests;
 
-public interface NotifyableQuestGoal<EventType extends cpw.mods.fml.common.eventhandler.Event> {
+import net.minecraftforge.fml.common.eventhandler.Event;
+
+public interface NotifyableQuestGoal<EventType extends Event> {
 	public void notifyOfEvent(EventType event);
 }

@@ -3,8 +3,8 @@ package mhfc.net.common.core.builders;
 import java.util.ArrayList;
 import java.util.List;
 
-import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
-import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe.RecipeType;
+import mhfc.net.common.crafting.equipment.EquipmentRecipe;
+import mhfc.net.common.crafting.equipment.EquipmentRecipe.RecipeType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -17,7 +17,7 @@ public class BuilderEquipmentRecipe {
 	private int duration;
 
 	public BuilderEquipmentRecipe() {
-		recipeIngredients = new ArrayList<ItemStack>();
+		recipeIngredients = new ArrayList<>();
 		reset();
 	}
 
@@ -26,10 +26,8 @@ public class BuilderEquipmentRecipe {
 		return this;
 	}
 
-	public BuilderEquipmentRecipe setProduct(Item item, int amount,
-		int subtype) {
-		return setProduct(BuilderEquipmentRecipe.createItemStack(item, amount,
-			subtype));
+	public BuilderEquipmentRecipe setProduct(Item item, int amount, int subtype) {
+		return setProduct(BuilderEquipmentRecipe.createItemStack(item, amount, subtype));
 	}
 
 	public BuilderEquipmentRecipe setProduct(ItemStack stack) {
@@ -37,10 +35,8 @@ public class BuilderEquipmentRecipe {
 		return this;
 	}
 
-	public BuilderEquipmentRecipe addIngredient(Item item, int amount,
-		int subtype) {
-		return addIngredient(BuilderEquipmentRecipe.createItemStack(item,
-			amount, subtype));
+	public BuilderEquipmentRecipe addIngredient(Item item, int amount, int subtype) {
+		return addIngredient(BuilderEquipmentRecipe.createItemStack(item, amount, subtype));
 	}
 
 	public BuilderEquipmentRecipe addIngredient(ItemStack stack) {
@@ -61,7 +57,7 @@ public class BuilderEquipmentRecipe {
 	public BuilderEquipmentRecipe reset() {
 		recipeIngredients.clear();
 		type = null;
-		recipeProduct = null;
+		recipeProduct = ItemStack.EMPTY;
 		requiredHeat = 0;
 		duration = 0;
 		return this;
@@ -70,18 +66,24 @@ public class BuilderEquipmentRecipe {
 	public EquipmentRecipe build() {
 		EquipmentRecipe recipe;
 		if (type == null) {
-			recipe = new EquipmentRecipe(recipeProduct, recipeIngredients,
-				requiredHeat, duration);
+			recipe = new EquipmentRecipe(
+					recipeProduct.copy(),
+					new ArrayList<>(recipeIngredients),
+					requiredHeat,
+					duration);
 		} else {
-			recipe = new EquipmentRecipe(type, recipeProduct, recipeIngredients,
-				requiredHeat, duration);
+			recipe = new EquipmentRecipe(
+					type,
+					recipeProduct.copy(),
+					new ArrayList<>(recipeIngredients),
+					requiredHeat,
+					duration);
 		}
 		reset();
 		return recipe;
 	}
 
-	public static ItemStack createItemStack(Item item, int stackSize,
-		int subID) {
+	public static ItemStack createItemStack(Item item, int stackSize, int subID) {
 		ItemStack s = new ItemStack(item, stackSize);
 		s.setItemDamage(subID);
 		return s;

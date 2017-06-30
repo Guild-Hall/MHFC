@@ -6,185 +6,216 @@ import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class EntityBeam extends Entity {
-	
+	private static final DataParameter<Float> YAW = EntityDataManager
+			.createKey(EntityBeam.class, DataSerializers.FLOAT);
+	private static final DataParameter<Float> PITCH = EntityDataManager
+			.createKey(EntityBeam.class, DataSerializers.FLOAT);
+	private static final DataParameter<Integer> DURATION = EntityDataManager
+			.createKey(EntityBeam.class, DataSerializers.VARINT);
+
+	private static final DataParameter<Integer> CASTER_ID = EntityDataManager
+			.createKey(EntityBeam.class, DataSerializers.VARINT);
+
 	private final double beamRadius = 20;
-	public EntityLivingBase beamCaster;
 	public double endPosX, endPosY, endPosZ;
 	public double collidePosX, collidePosY, collidePosZ;
-	
+
 	public boolean on = true;
-	public int blockSide = -1;
-	public int appear = 60;
+	public EnumFacing blockSide = null;
 
 	public EntityBeam(World worldObj) {
 		super(worldObj);
-		setSize(0.1F,0.1F);
+		setSize(0.1F, 0.1F);
 		ignoreFrustumCheck = true;
-		
 	}
-	
-	@Override
-	public void onUpdate() {
-		super.onUpdate();
-		if(ticksExisted == 1 && worldObj.isRemote){
-			beamCaster = (EntityLivingBase) worldObj.getEntityByID(getCasterID());
-		}
-		if(!on && appear == 0){
-			this.setDead();
-		}
-	}
-	
-	public EntityBeam(World worldObj, EntityLivingBase caster, double x, double y, double z, float yaw, float pitch, int duration) {
+
+	public EntityBeam(
+			World worldObj,
+			EntityLivingBase caster,
+			double x,
+			double y,
+			double z,
+			float yaw,
+			float pitch,
+			int duration) {
 		this(worldObj);
-		this.beamCaster = caster;
-		
-		
-		
+		setCaster(caster);
+		updateFromCaster();
+	}
+
+	@Override
+	public boolean canBeCollidedWith() {
+		return false;
+	}
+
+	@Override
+	public boolean canBePushed() {
+		return false;
+	}
+
+	@Override
+	public boolean isInRangeToRenderDist(double distance) {
+		return distance < 1024;
 	}
 
 	@Override
 	protected void entityInit() {
-		dataWatcher.addObject(2, 0f);
-		dataWatcher.addObject(3, 0f);
-		dataWatcher.addObject(4, 0);
-		dataWatcher.addObject(5, (byte) 0);
-		dataWatcher.addObject(6, 0);
-		
+		this.dataManager.register(YAW, 0f);
+		this.dataManager.register(PITCH, 0f);
+		this.dataManager.register(DURATION, 0);
+		this.dataManager.register(CASTER_ID, -1);
 	}
 
-    public double getYaw() {
-        return dataWatcher.getWatchableObjectFloat(2);
-    }
+	public double getYaw() {
+		return this.dataManager.get(YAW);
+	}
 
-    public void setYaw(float yaw) {
-        dataWatcher.updateObject(2, yaw);
-    }
+	protected void setYaw(float yaw) {
+		this.dataManager.set(YAW, yaw);
+	}
 
-    public double getPitch() {
-        return dataWatcher.getWatchableObjectFloat(3);
-    }
+	public double getPitch() {
+		return this.dataManager.get(PITCH);
+	}
 
-    public void setPitch(float pitch) {
-        dataWatcher.updateObject(3, pitch);
-    }
+	protected void setPitch(float pitch) {
+		this.dataManager.set(PITCH, pitch);
+	}
 
-    public double getDuration() {
-        return dataWatcher.getWatchableObjectInt(4);
-    }
+	public int getDuration() {
+		return this.dataManager.get(DURATION);
+	}
 
-    public void setDuration(int duration) {
-        dataWatcher.updateObject(4, duration);
-    }
+	protected int decDuration() {
+		int duration = getDuration();
+		duration--;
+		this.dataManager.set(DURATION, duration);
+		return duration;
+	}
 
-    public boolean getHasPlayer() {
-        return dataWatcher.getWatchableObjectByte(5) == (byte) 1;
-    }
+	public EntityLivingBase getCaster() {
+		int casterId = dataManager.get(CASTER_ID);
+		if (casterId == -1) {
+			return null;
+		}
+		return EntityLivingBase.class.cast(world.getEntityByID(casterId));
+	}
 
-    public void setHasPlayer(boolean player) {
-        dataWatcher.updateObject(5, player ? (byte) 1 : (byte) 0);
-    }
+	protected void setCaster(EntityLivingBase entity) {
+		int casterId = entity == null ? -1 : entity.getEntityId();
+		dataManager.set(CASTER_ID, casterId);
+	}
 
-    public int getCasterID() {
-        return dataWatcher.getWatchableObjectInt(6);
-    }
+	@Override
+	protected void readEntityFromNBT(NBTTagCompound nbt) {
 
-    public void setCasterID(int id) {
-        dataWatcher.updateObject(6, id);
-    }
+	}
 
-    @Override
-    protected void readEntityFromNBT(NBTTagCompound nbt) {
-        setDead();
-    }
+	@Override
+	protected void writeEntityToNBT(NBTTagCompound nbt) {
 
-    @Override
-    protected void writeEntityToNBT(NBTTagCompound nbt) {
+	}
 
-    }
-    
-    private void calculateEndPos() {
-        endPosX = posX + beamRadius * Math.cos(getYaw()) * Math.cos(getPitch());
-        endPosZ = posZ + beamRadius * Math.sin(getYaw()) * Math.cos(getPitch());
-        endPosY = posY + beamRadius * Math.sin(getPitch());
-    }
-    
-    @Override
-    public boolean canBeCollidedWith() {
-        return false;
-    }
+	@Override
+	public void onUpdate() {
+		super.onUpdate();
 
-    @Override
-    public boolean canBePushed() {
-        return false;
-    }
+		updateFromCaster();
+		reCalculateEndPos();
 
-    @Override
-    public boolean isInRangeToRenderDist(double distance) {
-        return distance < 1024;
-    }
+		if (!on && decDuration() == 0) {
+			this.setDead();
+		}
+	}
 
-    private void updateWithPlayer() {
-        this.setYaw((float) ((beamCaster.rotationYawHead + 90) * Math.PI / 180));
-        this.setPitch((float) (-beamCaster.rotationPitch * Math.PI / 180));
-        this.setPosition(beamCaster.posX, beamCaster.posY + 1.2f, beamCaster.posZ);
-    }
-    
-    public TargetHit raytraceEntities(World world, Vec3 from, Vec3 to, boolean stopOnLiquid, boolean ignoreBlockWithoutBoundingBox, boolean returnLastUncollidableBlock) {
-        TargetHit result = new TargetHit();
-        result.setBlockHit(world.func_147447_a(Vec3.createVectorHelper(from.xCoord, from.yCoord, from.zCoord), to, stopOnLiquid, ignoreBlockWithoutBoundingBox, returnLastUncollidableBlock));
-        if (result.targetBlock != null) {
-            collidePosX = result.targetBlock.hitVec.xCoord;
-            collidePosY = result.targetBlock.hitVec.yCoord;
-            collidePosZ = result.targetBlock.hitVec.zCoord;
-            blockSide = result.targetBlock.sideHit;
-        } else {
-            collidePosX = endPosX;
-            collidePosY = endPosY;
-            collidePosZ = endPosZ;
-            blockSide = -1;
-        }
-        List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(Math.min(posX, collidePosX), Math.min(posY, collidePosY), Math.min(posZ, collidePosZ), Math.max(posX, collidePosX), Math.max(posY, collidePosY), Math.max(posZ, collidePosZ)).expand(1, 1, 1));
-        for (EntityLivingBase entity : entities) {
-            if (entity == beamCaster) {
-                continue;
-            }
-            float pad = entity.getCollisionBorderSize() + 0.5f;
-            AxisAlignedBB aabb = entity.boundingBox.expand(pad, pad, pad);
-            MovingObjectPosition hit = aabb.calculateIntercept(from, to);
-            if (aabb.isVecInside(from)) {
-                result.addEntityHit(entity);
-            } else if (hit != null) {
-                result.addEntityHit(entity);
-            }
-        }
-        return result;
-    }
+	private void reCalculateEndPos() {
+		endPosX = posX + beamRadius * Math.cos(getYaw()) * Math.cos(getPitch());
+		endPosZ = posZ + beamRadius * Math.sin(getYaw()) * Math.cos(getPitch());
+		endPosY = posY + beamRadius * Math.sin(getPitch());
+	}
 
-    public static class TargetHit {
-        private MovingObjectPosition targetBlock;
+	private void updateFromCaster() {
+		EntityLivingBase beamCaster = getCaster();
+		if (beamCaster == null) {
+			return;
+		}
+		this.setYaw((float) ((beamCaster.rotationYawHead + 90) * Math.PI / 180));
+		this.setPitch((float) (-beamCaster.rotationPitch * Math.PI / 180));
+		this.setPosition(beamCaster.posX, beamCaster.posY + 1.2f, beamCaster.posZ);
+	}
 
-        private List<EntityLivingBase> entities = new ArrayList<>();
+	public TargetHit raytraceEntities(
+			World world,
+			Vec3d from,
+			Vec3d to,
+			boolean stopOnLiquid,
+			boolean ignoreBlockWithoutBoundingBox,
+			boolean returnLastUncollidableBlock) {
+		TargetHit result = new TargetHit();
+		result.setBlockTrace(
+				world.rayTraceBlocks(
+						from,
+						to,
+						stopOnLiquid,
+						ignoreBlockWithoutBoundingBox,
+						returnLastUncollidableBlock));
+		if (result.rayTraceBlocks != null) {
+			collidePosX = result.rayTraceBlocks.hitVec.xCoord;
+			collidePosY = result.rayTraceBlocks.hitVec.yCoord;
+			collidePosZ = result.rayTraceBlocks.hitVec.zCoord;
+			blockSide = result.rayTraceBlocks.sideHit;
+		} else {
+			collidePosX = endPosX;
+			collidePosY = endPosY;
+			collidePosZ = endPosZ;
+			blockSide = null;
+		}
+		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(
+				EntityLivingBase.class,
+				new AxisAlignedBB(posX, posY, posZ, collidePosX, collidePosY, collidePosZ).expand(1, 1, 1));
+		for (EntityLivingBase entity : entities) {
+			if (entity == getCaster()) {
+				continue;
+			}
+			float pad = entity.getCollisionBorderSize() + 0.5f;
+			AxisAlignedBB aabb = entity.getEntityBoundingBox().expand(pad, pad, pad);
+			RayTraceResult hit = aabb.calculateIntercept(from, to);
+			if (aabb.isVecInside(from)) {
+				result.addEntityHit(entity);
+			} else if (hit != null) {
+				result.addEntityHit(entity);
+			}
+		}
+		return result;
+	}
 
-        public MovingObjectPosition getBlockHit() {
-            return targetBlock;
-        }
+	public static class TargetHit {
+		// assert rayTraceBlocks.type == BLOCK
+		private RayTraceResult rayTraceBlocks;
 
-        public void setBlockHit(MovingObjectPosition blockHit) {
-            this.targetBlock = blockHit;
-        }
+		private List<EntityLivingBase> entities = new ArrayList<>();
 
-        public void addEntityHit(EntityLivingBase entity) {
-            entities.add(entity);
-        }
-    }
-	
-	
-	
+		public RayTraceResult getBlockHit() {
+			return rayTraceBlocks;
+		}
+
+		public void setBlockTrace(RayTraceResult blockHit) {
+			this.rayTraceBlocks = blockHit;
+		}
+
+		public void addEntityHit(EntityLivingBase entity) {
+			entities.add(entity);
+		}
+	}
 
 }

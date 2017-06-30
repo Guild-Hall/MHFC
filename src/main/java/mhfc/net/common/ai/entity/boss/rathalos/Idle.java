@@ -1,33 +1,29 @@
 package mhfc.net.common.ai.entity.boss.rathalos;
 
-import mhfc.net.common.ai.general.actions.AIGeneralIdle;
-import mhfc.net.common.ai.general.provider.simple.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
+import mhfc.net.common.ai.general.actions.IdleAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.monster.EntityRathalos;
-import net.minecraft.entity.Entity;
 
-public class Idle extends AIGeneralIdle<EntityRathalos> {
+public class Idle extends IdleAction<EntityRathalos> implements IHasAnimationProvider {
 
 	private static final int LAST_FRAME = 65;
-	private static final IAnimationProvider ANIM_PROVIDER = new IAnimationProvider.AnimationAdapter(
-			"mhfc:models/Rathalos/RathalosIdle.mcanm",
-			LAST_FRAME);
-	private static final IWeightProvider<EntityRathalos> WEIGHT_PROVIDER = new IWeightProvider.RandomWeightAdapter<>(1);
+	private static final String ANIMATION_LOCATION = "mhfc:models/Rathalos/RathalosIdle.mcanm";
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
+
+	private static final float WEIGHT = 1f;
 
 	public Idle() {}
 
 	@Override
-	public String getAnimationLocation() {
-		return ANIM_PROVIDER.getAnimationLocation();
+	protected float computeIdleWeight() {
+		return WEIGHT;
 	}
 
 	@Override
-	public int getAnimationLength() {
-		return ANIM_PROVIDER.getAnimationLength();
+	public IAnimationProvider getAnimProvider() {
+		return ANIMATION;
 	}
 
-	@Override
-	public float getWeight(EntityRathalos entity, Entity target) {
-		return WEIGHT_PROVIDER.getWeight(entity, target);
-	}
 }

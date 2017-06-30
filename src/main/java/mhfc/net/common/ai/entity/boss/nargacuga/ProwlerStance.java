@@ -1,51 +1,44 @@
 package mhfc.net.common.ai.entity.boss.nargacuga;
 
-import mhfc.net.common.ai.IExecutableAction;
-import mhfc.net.common.ai.general.actions.AIAnimatedAction;
-import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.ai.general.actions.AnimatedAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.monster.EntityNargacuga;
-import net.minecraft.entity.Entity;
+import mhfc.net.common.util.world.WorldHelper;
+import net.minecraft.util.math.Vec3d;
 
-public class ProwlerStance extends AIAnimatedAction<EntityNargacuga> {
+public class ProwlerStance extends AnimatedAction<EntityNargacuga> implements IHasAnimationProvider {
 
 	private static final String ANIMATION_LOCATION = "mhfc:models/Nargacuga/Pounce.mcanm";
 	private static final int ANIMATION_LENGTH = 18;
+
 	private static final float MAX_ANGLE = 40;
 	private static final float MAX_DISTANCE = 40;
 	private static final float WEIGHT = 15;
 
-	private static final ISelectionPredicate<EntityNargacuga> select;
-
-	static {
-		select = new ISelectionPredicate.SelectionAdapter<>(-MAX_ANGLE, MAX_ANGLE, 0, MAX_DISTANCE);
-	}
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, ANIMATION_LENGTH);
 
 	public ProwlerStance() {}
 
-	@Override
-	protected void update() {}
 
 	@Override
-	public String getAnimationLocation() {
-		return ANIMATION_LOCATION;
-	}
-
-	@Override
-	public int getAnimationLength() {
-		return ANIMATION_LENGTH;
-	}
-
-	@Override
-	public boolean shouldSelectAttack(
-			IExecutableAction<? super EntityNargacuga> attack,
-			EntityNargacuga actor,
-			Entity target) {
-		return select.shouldSelectAttack(attack, actor, target);
-	}
-
-	@Override
-	public float getWeight(EntityNargacuga entity, Entity target) {
+	protected float computeSelectionWeight() {
+		EntityNargacuga e = this.getEntity();
+		target = e.getAttackTarget();
+		if (target == null) {
+			return DONT_SELECT;
+		}
+		Vec3d toTarget = WorldHelper.getVectorToTarget(e, target);
+		double dist = toTarget.lengthVector();
+		if (dist > MAX_DISTANCE) {
+			return DONT_SELECT;
+		}
 		return WEIGHT;
 	}
 
+	@Override
+	public IAnimationProvider getAnimProvider() {
+		return ANIMATION;
+	}
 }

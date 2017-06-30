@@ -1,5 +1,6 @@
 package mhfc.net.client.gui.quests;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,8 +21,8 @@ import mhfc.net.common.network.message.quest.MessageMHFCInteraction;
 import mhfc.net.common.network.message.quest.MessageMHFCInteraction.Interaction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
+import net.minecraft.util.ResourceLocation;
 
 public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 
@@ -31,13 +32,12 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 	// private List<String> groupIDsDisplayed;
 	private ClickableGuiList<GuiListStringItem> groupList;
 	private GuiButton newQuest, left, right;
-	private List<String> questIdentifiers;
+	private List<ResourceLocation> questIdentifiers;
 	private int selectedIdentifier;
 	private int xSize, ySize;
 	private int page = 0;
-	private StringBuilder viewBuffer = new StringBuilder();
 
-	public GuiQuestNew(Collection<String> groupIDs, EntityPlayer accessor) {
+	public GuiQuestNew(Collection<String> groupIDs) {
 		// groupIDsDisplayed = new ArrayList<String>(groupIDs);
 		questIdentifiers = new ArrayList<>();
 		groupList = new ClickableGuiList<>(width, height);
@@ -50,9 +50,9 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 			public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_, int p_146116_3_) {
 				if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_)) {
 					if (selectedIdentifier >= 0 && selectedIdentifier < questIdentifiers.size()) {
-						String questID = questIdentifiers.get(selectedIdentifier);
+						ResourceLocation questID = questIdentifiers.get(selectedIdentifier);
 						PacketPipeline.networkPipe
-								.sendToServer(new MessageMHFCInteraction(Interaction.NEW_QUEST, questID));
+								.sendToServer(new MessageMHFCInteraction(Interaction.NEW_QUEST, questID.toString()));
 					}
 					return true;
 				}
@@ -148,7 +148,7 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 		if (questIdentifiers == null || selectedIdentifier < 0 || selectedIdentifier >= questIdentifiers.size()) {
 			newQuest.enabled = false;
 		} else {
-			String selectedQuestID = questIdentifiers.get(selectedIdentifier);
+			ResourceLocation selectedQuestID = questIdentifiers.get(selectedIdentifier);
 			IVisualDefinition visualInfo = MHFCRegQuestVisual.getQuestInformation(selectedQuestID);
 			newQuest.enabled = true;
 			// TODO set start enabled based on can join
@@ -167,17 +167,19 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 	}
 
 	@Override
-	public boolean handleClick(float mouseX, float mouseY, int mouseButton) {
-		boolean clickHandled = false;
-		clickHandled |= super.handleClick(mouseX, mouseY, mouseButton);
-		boolean shouldDisplayInfo = questIdentifiers.size() > 0 && !MHFCRegQuestVisual.hasPlayerQuest();
-		if (shouldDisplayInfo && !clickHandled && mouseX > 80 && mouseX < 300 && mouseY > 0 && mouseY < ySize - 30) {
-			clickHandled = true;
-			int add = mouseButton == 0 ? 1 : mouseButton == 1 ? -1 : 0;
-			page += add;
-			page = (page + 3) % 3;
+	public boolean handleClick(float mouseX, float mouseY, int mouseButton) throws IOException {
+		if (super.handleClick(mouseX, mouseY, mouseButton)) {
+			return true;
 		}
-		return clickHandled;
+		boolean shouldDisplayInfo = questIdentifiers.size() > 0 && !MHFCRegQuestVisual.hasPlayerQuest();
+		boolean clickInArea = mouseX > 80 && mouseX < 300 && mouseY > 0 && mouseY < ySize - 30;
+		if (!shouldDisplayInfo || !clickInArea) {
+			return false;
+		}
+		int add = mouseButton == 0 ? 1 : mouseButton == 1 ? -1 : 0;
+		page += add;
+		page = (page + 3) % 3;
+		return true;
 	}
 
 	@Override
@@ -197,7 +199,7 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 			GuiListStringItem item = groupList.getSelectedItem();
 			String selectedList = item == null ? "" : item.getInitializationString();
 			questIdentifiers.clear();
-			Set<String> newQuestIDs = MHFCRegQuestVisual.getAvailableQuestIDs(selectedList);
+			Set<ResourceLocation> newQuestIDs = MHFCRegQuestVisual.getAvailableQuestIDs(selectedList);
 			questIdentifiers.addAll(newQuestIDs);
 		}
 	}

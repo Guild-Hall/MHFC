@@ -1,22 +1,25 @@
 package mhfc.net.common.util;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import mhfc.net.MHFCMain;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.SubTypedItem.SubTypeEnum;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * A util interface to describes blocks and items that store part of their actual "value" in the meta-information of
- * each Block/ItemStack.
+ * each Block/Item.
  *
  *
  * @author WorldSEnder
@@ -27,23 +30,21 @@ import net.minecraft.util.MathHelper;
  *            The enum-type used to enumerate all subtypes
  */
 public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
-	public static interface SubTypeEnum<I> {
+	public static interface SubTypeEnum<I> extends IStringSerializable {
 		/**
-		 * The name of this sub item.
+		 * The name of this sub item. SHOULD NEVER BE CHANGED OVER VERSIONS
 		 *
 		 * @return
 		 */
+		@Override
 		public String getName();
 
-		/**
-		 * The texture to be used for this subitem.
-		 *
-		 * @return
-		 */
-		public String getTexPath();
+		default String getUnlocalizedName() {
+			return getName();
+		}
 
 		/**
-		 * Gets the base item of this sub-item
+		 * Gets the base item of this sub-item. This <b>must</b> be the same for all values
 		 *
 		 * @return
 		 */
@@ -72,8 +73,6 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 		public String modify(String texPath);
 	}
 
-	private static TexturePathModificator PASSTHROUGH = texPath -> texPath;
-
 	public static ItemStack fromSubBlock(SubTypeEnum<Block> subBlock, int size) {
 		return new ItemStack(subBlock.getBaseItem(), size, subBlock.ordinal());
 	}
@@ -82,46 +81,62 @@ public class SubTypedItem<I, T extends Enum<T> & SubTypeEnum<I>> {
 		return new ItemStack(subItem.getBaseItem(), size, subItem.ordinal());
 	}
 
+	private static <T extends Enum<T> & IStringSerializable> T[] getValues(PropertyEnum<T> property) {
+		@SuppressWarnings("unchecked")
+		T[] array = (T[]) Array.newInstance(property.getValueClass(), 0);
+		array = property.getAllowedValues().toArray(array);
+		return array;
+	}
+
+	private boolean warningDisplay = false;
 	private final Class<T> clazzToken;
 	private final T[] values;
-	@SideOnly(Side.CLIENT)
-	private IIcon[] textures;
-	private TexturePathModificator modifier;
 
 	public SubTypedItem(Class<T> enumClazz) {
-		this(enumClazz, null);
+		this(enumClazz, enumClazz.getEnumConstants());
 	}
 
-	public SubTypedItem(Class<T> enumClazz, TexturePathModificator modifier) {
+	public SubTypedItem(PropertyEnum<T> property) {
+		this(property.getValueClass(), getValues(property));
+	}
+
+	private SubTypedItem(Class<T> enumClazz, T[] values) {
 		this.clazzToken = Objects.requireNonNull(enumClazz);
-		// Cache the value, getEnumConstants() doesn't and can not safely
-		this.values = clazzToken.getEnumConstants();
-		this.modifier = modifier == null ? SubTypedItem.PASSTHROUGH : modifier;
+		this.values = mhfc.net.common.util.Objects.requireNonNullDeep(values);
 	}
 
 	@SideOnly(Side.CLIENT)
-	public IIcon[] getIcons() {
-		return textures;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister regIcon) {
-		textures = new IIcon[values.length];
-		for (int i = 0; i < values.length; i++) {
-			textures[i] = regIcon.registerIcon(modifier.modify(values[i].getTexPath()));
-		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item block, List<ItemStack> list) {
+	public void getSubItems(Item item, List<ItemStack> list) {
 		for (int i = 0; i < values.length;) {
 			T value = values[i++];
-			list.add(new ItemStack(block, 1, value.ordinal()));
+			list.add(new ItemStack(item, 1, value.ordinal()));
 		}
+	}
+
+	public int getMeta(T subType) {
+		return subType.ordinal();
 	}
 
 	public T getSubType(ItemStack stack) {
-		int clumpedMeta = MathHelper.clamp_int(stack.getItemDamage(), 0, values.length);
+		return getSubType(stack.getItemDamage());
+	}
+
+	public T getSubType(int meta) {
+		if (values.length == 0) {
+			if (!warningDisplay) {
+				MHFCMain.logger().debug("SubTypedItem with zero entries: " + clazzToken);
+			}
+			return null;
+		}
+		int clumpedMeta = MathHelper.clamp(meta, 0, values.length - 1);
 		return values[clumpedMeta];
+	}
+
+	public List<String> getVariants() {
+		List<String> list = new ArrayList<>(values.length);
+		for (T subType : values) {
+			list.add(subType.getName());
+		}
+		return list;
 	}
 }

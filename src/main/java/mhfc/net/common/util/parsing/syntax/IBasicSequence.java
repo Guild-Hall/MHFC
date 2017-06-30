@@ -1,7 +1,7 @@
 package mhfc.net.common.util.parsing.syntax;
 
+import mhfc.net.common.util.parsing.exceptions.SyntaxErrorException;
 import mhfc.net.common.util.parsing.syntax.tree.AST;
-import net.minecraft.command.SyntaxErrorException;
 
 public interface IBasicSequence {
 	public static enum SiftResult {

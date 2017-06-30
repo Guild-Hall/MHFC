@@ -1,6 +1,6 @@
 package mhfc.net.client.util.gui;
 
-import static org.lwjgl.opengl.GL11.glColor4f;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,9 +12,15 @@ import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.StatCollector;
+import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.I18n;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class MHFCGuiUtil {
 
 	public static final int COLOUR_FOREGROUND = 0xd8953c;
@@ -58,11 +64,11 @@ public class MHFCGuiUtil {
 		if (mc == null) {
 			throw new IllegalArgumentException("Gui utils may only be accessed with valid minecraft");
 		}
-		s = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+		s = new ScaledResolution(mc);
 	}
 
 	/**
-	 * Draws the content of the view according to the following rules:<br>
+	 * double scaleH = mc.displayHeight; Draws the content of the view according to the following rules:<br>
 	 * A '\n' character represents a line break. A '\f' represents a page break.<br>
 	 * page decides which page to render. When page refers to an illegal page, nothing is rendered.<br>
 	 * scrolledHeight refers to the portion of text that is skipped by rendering. Every line break will add one
@@ -180,7 +186,7 @@ public class MHFCGuiUtil {
 			int posY,
 			int width,
 			int colour) {
-		String localized = StatCollector.translateToLocal(string);
+		String localized = I18n.format(string);
 		return drawTextAndReturnHeight(fRend, localized, posX, posY, width, colour);
 	}
 
@@ -233,13 +239,13 @@ public class MHFCGuiUtil {
 			float v,
 			float uWidth,
 			float vHeight) {
-		Tessellator t = Tessellator.instance;
-
-		t.startDrawingQuads();
-		t.addVertexWithUV(xMin, yMin, zLevel, u, v);
-		t.addVertexWithUV(xMin, yMin + height, zLevel, u, v + vHeight);
-		t.addVertexWithUV(xMin + width, yMin + height, zLevel, u + uWidth, v + vHeight);
-		t.addVertexWithUV(xMin + width, yMin, zLevel, u + uWidth, v);
+		Tessellator t = Tessellator.getInstance();
+		VertexBuffer buffer = t.getBuffer();
+		buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+		buffer.pos(xMin, yMin, zLevel).tex(u, v).endVertex();
+		buffer.pos(xMin, yMin + height, zLevel).tex(u, v + vHeight).endVertex();
+		buffer.pos(xMin + width, yMin + height, zLevel).tex(u + uWidth, v + vHeight).endVertex();
+		buffer.pos(xMin + width, yMin, zLevel).tex(u + uWidth, v).endVertex();
 		t.draw();
 	}
 
@@ -296,71 +302,66 @@ public class MHFCGuiUtil {
 			float borderV,
 			float maxU,
 			float maxV) {
-		Tessellator tess = Tessellator.instance;
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x, y, zLevel, 0, 0);
-		tess.addVertexWithUV(x, y + borderSize, zLevel, 0, borderV);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, borderU, borderV);
-		tess.addVertexWithUV(x + borderSize, y, zLevel, borderU, 0);
-		tess.draw();
-		tess.startDrawingQuads();
-		tess.addTranslation(width - borderSize, 0, 0);
-		tess.addVertexWithUV(x, y, zLevel, maxU - borderU, 0);
-		tess.addVertexWithUV(x, y + borderSize, zLevel, maxU - borderU, borderV);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, maxU, borderV);
-		tess.addVertexWithUV(x + borderSize, y, zLevel, maxU, 0);
-		tess.draw();
-		tess.startDrawingQuads();
-		tess.addTranslation(0, height - borderSize, 0);
-		tess.addVertexWithUV(x, y, zLevel, maxU - borderU, maxV - borderV);
-		tess.addVertexWithUV(x, y + borderSize, zLevel, maxU - borderU, maxV);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, maxU, maxV);
-		tess.addVertexWithUV(x + borderSize, y, zLevel, maxU, maxV - borderV);
-		tess.draw();
-		tess.startDrawingQuads();
-		tess.addTranslation(-width + borderSize, 0, 0);
-		tess.addVertexWithUV(x, y, zLevel, 0, maxV - borderV);
-		tess.addVertexWithUV(x, y + borderSize, zLevel, 0, maxV);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, borderU, maxV);
-		tess.addVertexWithUV(x + borderSize, y, zLevel, borderU, maxV - borderV);
-		tess.draw();
-		tess.addTranslation(0, -height + borderSize, 0);
+		Tessellator tess = Tessellator.getInstance();
+		VertexBuffer buff = tess.getBuffer();
 
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x, y + borderSize, zLevel, 0, borderV);
-		tess.addVertexWithUV(x, y + height - borderSize, zLevel, 0, maxV - borderV);
-		tess.addVertexWithUV(x + borderSize, y + height - borderSize, zLevel, borderU, maxV - borderV);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, borderU, borderV);
+		buff.begin(GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		// Left-upper corner
+		buff.pos(x, y, zLevel).tex(0, 0).endVertex();
+		buff.pos(x, y + borderSize, zLevel).tex(0, borderV).endVertex();
+		buff.pos(x + borderSize, y + borderSize, zLevel).tex(borderU, borderV).endVertex();
+		buff.pos(x + borderSize, y, zLevel).tex(borderU, 0).endVertex();
+		// Right-upper corner
+		buff.setTranslation(width - borderSize, 0, 0);
+		buff.pos(x, y, zLevel).tex(maxU - borderU, 0).endVertex();
+		buff.pos(x, y + borderSize, zLevel).tex(maxU - borderU, borderV).endVertex();
+		buff.pos(x + borderSize, y + borderSize, zLevel).tex(maxU, borderV).endVertex();
+		buff.pos(x + borderSize, y, zLevel).tex(maxU, 0).endVertex();
+		// Left-lower corner
+		buff.setTranslation(0, height - borderSize, 0);
+		buff.pos(x, y, zLevel).tex(0, maxV - borderV).endVertex();
+		buff.pos(x, y + borderSize, zLevel).tex(0, maxV).endVertex();
+		buff.pos(x + borderSize, y + borderSize, zLevel).tex(borderU, maxV).endVertex();
+		buff.pos(x + borderSize, y, zLevel).tex(borderU, maxV - borderV).endVertex();
+		// Right-lower corner
+		buff.setTranslation(width - borderSize, height - borderSize, 0);
+		buff.pos(x, y, zLevel).tex(maxU - borderU, maxV - borderV).endVertex();
+		buff.pos(x, y + borderSize, zLevel).tex(maxU - borderU, maxV).endVertex();
+		buff.pos(x + borderSize, y + borderSize, zLevel).tex(maxU, maxV).endVertex();
+		buff.pos(x + borderSize, y, zLevel).tex(maxU, maxV - borderV).endVertex();
+		// Left side
+		buff.setTranslation(0, 0, 0);
+		buff.pos(x, y + borderSize, zLevel).tex(0, borderV).endVertex();
+		buff.pos(x, y + height - borderSize, zLevel).tex(0, maxV - borderV).endVertex();
+		buff.pos(x + borderSize, y + height - borderSize, zLevel).tex(borderU, maxV - borderV).endVertex();
+		buff.pos(x + borderSize, y + borderSize, zLevel).tex(borderU, borderV).endVertex();
+		// Right side
+		buff.setTranslation(width, 0, 0);
+		buff.pos(x - borderSize, y + borderSize, zLevel).tex(maxU - borderU, borderV).endVertex();
+		buff.pos(x - borderSize, y + height - borderSize, zLevel).tex(maxU - borderU, maxV - borderV).endVertex();
+		buff.pos(x, y + height - borderSize, zLevel).tex(maxU, maxV - borderV).endVertex();
+		buff.pos(x, y + borderSize, zLevel).tex(maxU, borderV).endVertex();
+		// Upper side
+		buff.setTranslation(0, 0, 0);
+		buff.pos(x + borderSize, y, zLevel).tex(borderU, 0).endVertex();
+		buff.pos(x + borderSize, y + borderSize, zLevel).tex(borderU, borderV).endVertex();
+		buff.pos(x + width - borderSize, y + borderSize, zLevel).tex(maxU - borderU, borderV).endVertex();
+		buff.pos(x + width - borderSize, y, zLevel).tex(maxU - borderU, 0).endVertex();
+		// Lower side
+		buff.setTranslation(0, height, 0);
+		buff.pos(x + borderSize, y - borderSize, zLevel).tex(borderU, maxV - borderV).endVertex();
+		buff.pos(x + borderSize, y, zLevel).tex(borderU, maxV).endVertex();
+		buff.pos(x + width - borderSize, y, zLevel).tex(maxU - borderU, maxV).endVertex();
+		buff.pos(x + width - borderSize, y - borderSize, zLevel).tex(maxU - borderU, maxV - borderV).endVertex();
+		// Middle
+		buff.setTranslation(0, 0, 0);
+		buff.pos(x + borderSize, y + borderSize, zLevel).tex(borderU, borderV).endVertex();
+		buff.pos(x + borderSize, y + height - borderSize, zLevel).tex(borderU, maxV - borderV).endVertex();
+		buff.pos(x + width - borderSize, y + height - borderSize, zLevel).tex(maxU - borderU, maxV - borderV)
+		.endVertex();
+		buff.pos(x + width - borderSize, y + borderSize, zLevel).tex(maxU - borderU, borderV).endVertex();
 		tess.draw();
-
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x + width - borderSize, y + borderSize, zLevel, maxU - borderU, borderV);
-		tess.addVertexWithUV(x + width - borderSize, y + height - borderSize, zLevel, maxU - borderU, maxV - borderV);
-		tess.addVertexWithUV(x + width, y + height - borderSize, zLevel, maxU, maxV - borderV);
-		tess.addVertexWithUV(x + width, y + borderSize, zLevel, maxU, borderV);
-		tess.draw();
-
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x + borderSize, y, zLevel, borderU, 0);
-		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, borderU, borderV);
-		tess.addVertexWithUV(x + width - borderSize, y + borderSize, zLevel, maxU - borderU, borderV);
-		tess.addVertexWithUV(x + width - borderSize, y, zLevel, maxU - borderU, 0);
-		tess.draw();
-
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x + borderSize, y + height - borderSize, zLevel, borderU, maxV - borderV);
-		tess.addVertexWithUV(x + borderSize, y + height, zLevel, borderU, maxV);
-		tess.addVertexWithUV(x + width - borderSize, y + height, zLevel, maxU - borderU, maxV);
-		tess.addVertexWithUV(x + width - borderSize, y + height - borderSize, zLevel, maxU - borderU, maxV - borderV);
-		tess.draw();
-
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x + borderSize, y + borderSize, zLevel, borderU, borderV);
-		tess.addVertexWithUV(x + borderSize, y + height - borderSize, zLevel, borderU, maxV - borderV);
-		tess.addVertexWithUV(x + width - borderSize, y + height - borderSize, zLevel, maxU - borderU, maxV - borderV);
-		tess.addVertexWithUV(x + width - borderSize, y + borderSize, zLevel, maxU - borderU, borderV);
-		tess.draw();
-
+		buff.setTranslation(0, 0, 0);
 	}
 
 	public static void setColor(int colorRGB) {
@@ -370,7 +371,7 @@ public class MHFCGuiUtil {
 	public static void setColor(int colorRGB, float alpha) {
 		float r = ((colorRGB >> 16) & 0xFF) / 255.f, g = ((colorRGB >> 8) & 0xFF) / 255.f,
 				b = (colorRGB & 0xFF) / 255.f;
-		glColor4f(r, g, b, alpha);
+		GlStateManager.color(r, g, b, alpha);
 	}
 
 }

@@ -1,35 +1,30 @@
 package mhfc.net.common.ai.entity.nonboss.gargwa;
 
-import mhfc.net.common.ai.general.actions.AIGeneralIdle;
-import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
+import mhfc.net.common.ai.general.actions.IdleAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.monster.EntityGargwa;
-import net.minecraft.entity.Entity;
 
-public class Sleep extends AIGeneralIdle<EntityGargwa> {
+public class Sleep extends IdleAction<EntityGargwa> implements IHasAnimationProvider {
 
-	private static String ANIMATION = "mhfc:models/Gagua/GaguaSleep.mcanm";
-	private static int LAST_FRAME = 1250;
+	private static final int LAST_FRAME = 1250;
+	private static final String ANIMATION_LOCATION = "mhfc:models/Gagua/GaguaSleep.mcanm";
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 
-	private static final IWeightProvider<EntityGargwa> WEIGHT_PROVIDER = new IWeightProvider.RandomWeightAdapter<>(3);
-	public Sleep() {
-		
+	public Sleep() {}
+
+	private boolean shouldSelect() {
+		return !getEntity().world.isDaytime();
 	}
 
 	@Override
-	public String getAnimationLocation() {
+	protected float computeIdleWeight() {
+		return shouldSelect() ? 0.3f : DONT_SELECT;
+	}
+
+	@Override
+	public IAnimationProvider getAnimProvider() {
 		return ANIMATION;
-	}
-
-	@Override
-	public int getAnimationLength() {
-		return LAST_FRAME;
-	}
-
-	@Override
-	public float getWeight(EntityGargwa entity, Entity target) {
-		if(!entity.worldObj.isDaytime() && entity.getAttackTarget() == null){
-			return WEIGHT_PROVIDER.getWeight(entity, target);
-		}
-		return DONT_SELECT;
 	}
 }

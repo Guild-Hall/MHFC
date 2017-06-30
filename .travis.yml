@@ -16,3 +16,6 @@ jdk:
 env: GRADLE_OPTS="-Xms1g -Xmx3g"
 install: ./gradlew setupCIWorkspace
 script: ./gradlew build
+branches:
+  except:
+  - .*-experimental

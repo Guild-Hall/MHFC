@@ -1,29 +1,25 @@
 package mhfc.net.common.item.food;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.index.ResourceInterface;
+import mhfc.net.common.item.IItemColored;
 import mhfc.net.common.item.ItemColor;
-import mhfc.net.common.util.lib.MHFCReference;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 
-public class ItemKirinBuff extends ItemFood {
+public class ItemKirinBuff extends ItemFood implements IItemColored {
 	private static final int healAmount = 6;
 	private static final int saturation = 100;
 	private static final boolean isDogsFood = false;
 
 	public ItemKirinBuff() {
 		super(healAmount, saturation, isDogsFood);
-		setUnlocalizedName(MHFCReference.armor_kirin_buff_name);
+		setUnlocalizedName(ResourceInterface.armor_kirin_buff_name);
 		setCreativeTab(MHFCMain.mhfctabs);
-		setPotionEffect(Potion.resistance.id, 15, 4, 100);
-	}
-
-	@Override
-	public void registerIcons(IIconRegister itemReg) {
-		this.itemIcon = itemReg
-				.registerIcon(MHFCReference.base_tool_potion);
+		setPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 15, 4), 1f);
+		setAlwaysEdible();
 	}
 
 	@Override
@@ -35,7 +31,5 @@ public class ItemKirinBuff extends ItemFood {
 	public int getColorFromItemStack(ItemStack stack, int renderLayer) {
 		return ItemColor.LIBLUE.getRGB();
 	}
-	
-	
 
 }

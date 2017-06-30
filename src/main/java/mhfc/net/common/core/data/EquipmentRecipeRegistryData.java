@@ -2,13 +2,13 @@ package mhfc.net.common.core.data;
 
 import java.util.*;
 
-import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
-import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe.RecipeType;
+import mhfc.net.common.crafting.equipment.EquipmentRecipe;
+import mhfc.net.common.crafting.equipment.EquipmentRecipe.RecipeType;
 
 public class EquipmentRecipeRegistryData {
 
-	private Map<RecipeType, Set<EquipmentRecipe>> mapOfRecipeSets = new HashMap<RecipeType, Set<EquipmentRecipe>>();
-	private Map<RecipeType, List<EquipmentRecipe>> mapOfListOfRecipes = new HashMap<RecipeType, List<EquipmentRecipe>>();
+	private Map<RecipeType, Set<EquipmentRecipe>> mapOfRecipeSets = new HashMap<>();
+	private Map<RecipeType, List<EquipmentRecipe>> mapOfListOfRecipes = new HashMap<>();
 
 	public EquipmentRecipeRegistryData() {
 		RecipeType[] types = RecipeType.values();

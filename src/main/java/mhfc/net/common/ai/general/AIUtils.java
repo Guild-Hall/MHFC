@@ -1,23 +1,25 @@
 package mhfc.net.common.ai.general;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import com.google.common.base.Preconditions;
 
+import mhfc.net.common.ai.general.provider.adapters.DefaultDamageCalculator;
+import mhfc.net.common.ai.general.provider.adapters.MemoryDamageCalculator;
+import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.entity.type.EntityMHFCBase;
-import mhfc.net.common.helper.DamageHelper;
+import mhfc.net.common.index.DamageSources;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 
 public class AIUtils {
 	/**
@@ -30,95 +32,6 @@ public class AIUtils {
 	 * <code>rad*DEG2RAD == deg</code>
 	 */
 	public static final double DEG2RAD = Math.PI / 180d;
-
-	public static interface IDamageCalculator {
-		/**
-		 * Given an entity e calculates the damage done to it.
-		 *
-		 * @param e
-		 * @return
-		 */
-		public float accept(Entity e);
-	}
-
-	public static abstract class DecisiveDamageCalculator implements IDamageCalculator {
-
-		/**
-		 * Decides whether the given Entity should be damaged
-		 */
-		public abstract boolean shouldDamage(Entity e);
-
-		/**
-		 * Returns the damage that should be dealt to the entity e.
-		 */
-		public abstract float damage(Entity e);
-
-		@Override
-		public float accept(Entity e) {
-			if (shouldDamage(e)) {
-				return damage(e);
-			}
-			return 0f;
-		}
-	}
-
-	/**
-	 * This special damage calculator remembers which entities were damaged by it and only damages entities once until
-	 * it is reset.
-	 */
-	public static class MemoryDamageCalculator extends DecisiveDamageCalculator {
-
-		private final Set<Entity> damagedEntities = new HashSet<>();
-		private IDamageCalculator forward;
-
-		public MemoryDamageCalculator(IDamageCalculator otherCalculator) {
-			forward = Objects.requireNonNull(otherCalculator);
-		}
-
-		@Override
-		public boolean shouldDamage(Entity e) {
-			return !damagedEntities.contains(e);
-		}
-
-		@Override
-		public float damage(Entity e) {
-			damagedEntities.add(e);
-			return forward.accept(e);
-		}
-
-		public void reset() {
-			damagedEntities.clear();
-		}
-
-	}
-
-	/**
-	 * A default implementation for {@link IDamageCalculator}. It decides
-	 *
-	 * @author WorldSEnder
-	 *
-	 */
-	private static class DefDamageCalculator implements IDamageCalculator {
-		private float player;
-		private float wyvern;
-		private float rest;
-
-		public DefDamageCalculator(float player, float wyvern, float rest) {
-			this.player = player;
-			this.wyvern = wyvern;
-			this.rest = rest;
-		}
-
-		@Override
-		public float accept(Entity trgt) {
-			if (trgt instanceof EntityPlayer) {
-				return player;
-			} else if (trgt instanceof EntityMHFCBase) {
-				return wyvern;
-			}
-			return rest;
-		}
-	}
 
 	public static class DamageCalculatorHelper {
 		private enum Type {
@@ -209,22 +122,24 @@ public class AIUtils {
 	 */
 	public static void damageCollidingEntities(EntityLivingBase ai, IDamageCalculator damageCalc) {
 		List<Entity> collidingEntities = WorldHelper.collidingEntities(ai);
-		
+
 		for (Entity trgt : collidingEntities) {
-			float damage = damageCalc.accept(trgt);
-			if(trgt instanceof EntityPlayer || trgt instanceof EntityMHFCBase){
-			
-			trgt.attackEntityFrom(DamageSource.causeMobDamage(ai), damage);
+			damageEntitiesFromAI(ai, trgt, damageCalc);
 		}
-			else{
-				trgt.attackEntityFrom(DamageHelper.anti	, damage);
-			}
+
+	}
+
+	public static void damageEntitiesFromAI(EntityLivingBase ai, Entity target, IDamageCalculator damageCalc) {
+		float damage = damageCalc.accept(target);
+		if (target instanceof EntityPlayer || target instanceof EntityMHFCBase) {
+			target.attackEntityFrom(DamageSource.causeMobDamage(ai), damage);
+		} else {
+			target.attackEntityFrom(DamageSources.anti, damage);
 		}
-			
 	}
 
 	public static IDamageCalculator defaultDamageCalc(final float player, final float wyvern, final float rest) {
-		return new DefDamageCalculator(player, wyvern, rest);
+		return new DefaultDamageCalculator(player, wyvern, rest);
 	}
 
 	/**
@@ -234,7 +149,7 @@ public class AIUtils {
 	 * @return
 	 * @see #lookVecToYawUnsafe(Vec3)
 	 */
-	public static float lookVecToYaw(Vec3 vec) {
+	public static float lookVecToYaw(Vec3d vec) {
 		float unsafeResult = lookVecToYawUnsafe(vec);
 		if (Float.isNaN(unsafeResult)) {
 			throw new IllegalArgumentException("The vector may not have zero length");
@@ -247,7 +162,7 @@ public class AIUtils {
 	 *
 	 * @see #lookVecToYaw(Vec3)
 	 */
-	public static float lookVecToYawUnsafe(Vec3 vec) {
+	public static float lookVecToYawUnsafe(Vec3d vec) {
 		Objects.requireNonNull(vec);
 		if (vec.lengthVector() == 0) {
 			return Float.NaN;
@@ -269,8 +184,8 @@ public class AIUtils {
 	/**
 	 * Returns the yaw that gives the direction of the target but with a maximum absolute value of max
 	 *
-	 * @param look
-	 *            A normalized look vector
+	 * @param entity
+	 *            the entity to modify yaw of
 	 * @param target
 	 *            A normalized vector, the target for the look
 	 * @param maxAbsoluteChange
@@ -278,13 +193,13 @@ public class AIUtils {
 	 * @return Float.NaN if look doesn't represent a vector with yaw, the current yaw if target can't be turned to
 	 *         (maybe right above), else the new yaw.
 	 */
-	public static float modifyYaw(Vec3 look, Vec3 target, float maxAbsoluteChange) {
+	public static float modifyYaw(EntityLivingBase entity, Vec3d target, float maxAbsoluteChange) {
 		Preconditions.checkArgument(maxAbsoluteChange >= 0, "max change must be greater than 0");
 
-		float yaw = lookVecToYaw(look);
-		float tarYaw = lookVecToYaw(target);
+		float yaw = entity.rotationYaw;
+		float tarYaw = lookVecToYawUnsafe(target);
 		if (Float.isNaN(yaw)) {
-			return Float.NaN;
+			return yaw;
 		} else if (Float.isNaN(tarYaw)) {
 			return yaw;
 		}
@@ -313,7 +228,7 @@ public class AIUtils {
 	 * Determines if the length of the direction vector lies between the arguments. Both sides of the range are
 	 * inclusive.
 	 */
-	public static boolean isInDistance(Vec3 direction, double minDistance, double maxDistance) {
+	public static boolean isInDistance(Vec3d direction, double minDistance, double maxDistance) {
 		double distance = direction.lengthVector();
 		return distance >= minDistance && distance <= maxDistance;
 	}
@@ -323,13 +238,13 @@ public class AIUtils {
 	 * the actor, positive ones the right.
 	 */
 	public static float getViewingAngle(EntityLiving actor, Entity target) {
-		Vec3 targetVector = WorldHelper.getVectorToTarget(actor, target);
+		Vec3d targetVector = WorldHelper.getVectorToTarget(actor, target);
 		return getViewing(actor, targetVector);
 	}
 
-	public static float getViewingAngle(EntityLiving actor, Vec3 point) {
-		Vec3 pos = WorldHelper.getEntityPositionVector(actor);
-		Vec3 targetVector = pos.subtract(point);
+	public static float getViewingAngle(EntityLiving actor, Vec3d point) {
+		Vec3d pos = actor.getPositionVector();
+		Vec3d targetVector = pos.subtract(point);
 		return getViewing(actor, targetVector);
 	}
 
@@ -338,8 +253,8 @@ public class AIUtils {
 	 * @param toTarget
 	 * @return the yaw the target is viewed at, or NaN if no such yaw exists.
 	 */
-	private static float getViewing(EntityLiving actor, Vec3 toTarget) {
-		Vec3 lookVector = actor.getLookVec();
+	private static float getViewing(EntityLiving actor, Vec3d toTarget) {
+		Vec3d lookVector = actor.getLookVec();
 		float yaw = lookVecToYawUnsafe(lookVector);
 		if (Float.isNaN(yaw)) {
 			return yaw;
@@ -351,6 +266,7 @@ public class AIUtils {
 		return normalizeAngle(tarYaw - yaw);
 	}
 
+	@SuppressWarnings("deprecation")
 	public static List<AxisAlignedBB> gatherOverlappingBounds(AxisAlignedBB bounds, Entity entity) {
 
 		int minX = (int) Math.floor(bounds.minX), //
@@ -365,8 +281,14 @@ public class AIUtils {
 		for (int xC = minX; xC <= maxX; xC++) {
 			for (int yC = minY; yC <= maxY; yC++) {
 				for (int zC = minZ; zC <= maxZ; zC++) {
-					entity.worldObj.getBlock(xC, yC, zC)
-							.addCollisionBoxesToList(entity.worldObj, xC, yC, zC, bounds, list, entity);
+					BlockPos dizBlock = new BlockPos(xC, yC, zC);
+					entity.world.getBlockState(dizBlock).getBlock().addCollisionBoxToList(
+							entity.world.getBlockState(dizBlock),
+							entity.world,
+							dizBlock,
+							bounds,
+							list,
+							entity);
 				}
 			}
 		}

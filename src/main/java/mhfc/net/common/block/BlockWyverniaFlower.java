@@ -1,49 +1,62 @@
 package mhfc.net.common.block;
 
-import java.util.List;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
+import mhfc.net.common.block.BlockWyverniaFlower.WyverniaFlowerSubType;
 import mhfc.net.common.block.environment.BlockWyverniaDecor;
-import mhfc.net.common.core.registry.MHFCBlockRegistry;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.SubTypedItem;
-import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 
-public class BlockWyverniaFlower extends BlockWyverniaDecor {
+public class BlockWyverniaFlower extends BlockWyverniaDecor
+		implements
+		ISubTypedBlock<WyverniaFlowerSubType>,
+		IBlockVarianted {
 	public static enum WyverniaFlowerSubType implements SubTypedItem.SubTypeEnum<Block> {
-		CARNCASE(MHFCReference.block_carncase_name, MHFCReference.block_carncase_tex), //
-		FELRON(MHFCReference.block_felron_name, MHFCReference.block_felron_tex), //
-		ORCTAL(MHFCReference.block_orctal_name, MHFCReference.block_orctal_tex), //
-		PENO(MHFCReference.block_peno_name, MHFCReference.block_peno_tex), //
-		SHRINE(MHFCReference.block_shrine_name, MHFCReference.block_shrine_tex), //
-		SPINDEL(MHFCReference.block_spindel_name, MHFCReference.block_spindel_tex);
+		CARNCASE("carncase", ResourceInterface.block_carncase_name),
+		FELRON("felron", ResourceInterface.block_felron_name),
+		ORCTAL("orctal", ResourceInterface.block_orctal_name),
+		PENO("peno", ResourceInterface.block_peno_name),
+		SHRINE("shrine", ResourceInterface.block_shrine_name),
+		SPINDEL("spindel", ResourceInterface.block_spindel_name),
+		BERPIS("berpis", ResourceInterface.block_berpis_name),
+		CONCAVE("concave", ResourceInterface.block_concave_name),
+		DELPHI("delphi", ResourceInterface.block_delphi_name),
+		EMBER("ember", ResourceInterface.block_ember_name),
+		GRESHA("gresha", ResourceInterface.block_gresha_name),
+		MOWAL("mowal", ResourceInterface.block_mowal_name),
+		NEPTIA("neptia", ResourceInterface.block_neptia_name),
+		ROY("roy", ResourceInterface.block_roy_name),
+		SAMPA("sampa", ResourceInterface.block_sampa_name),
+		SILON("silon", ResourceInterface.block_silon_name);
 
+		public final String registryName;
 		public final String name;
-		public final String texture;
 
-		private WyverniaFlowerSubType(String name, String tex) {
+		private WyverniaFlowerSubType(String registryName, String name) {
+			this.registryName = registryName;
 			this.name = name;
-			this.texture = tex;
 		}
 
 		@Override
 		public String getName() {
-			return name;
+			return registryName;
 		}
 
 		@Override
-		public String getTexPath() {
-			return texture;
+		public String getUnlocalizedName() {
+			return name;
 		}
 
 		@Override
@@ -52,66 +65,69 @@ public class BlockWyverniaFlower extends BlockWyverniaDecor {
 		}
 	}
 
-	private final SubTypedItem<Block, WyverniaFlowerSubType> blockTrait;
+	protected final static AxisAlignedBB FLOWER_BOUNDS;
+	static {
+		float f = 0.2F;
+		FLOWER_BOUNDS = new AxisAlignedBB(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 3.0F, 0.5F + f);
+	}
+
+	protected static final PropertyEnum<WyverniaFlowerSubType> subtypeProperty = PropertyEnum
+			.create("variant", WyverniaFlowerSubType.class);
+	protected static final SubTypedItem<Block, WyverniaFlowerSubType> blockTrait = new SubTypedItem<>(subtypeProperty);
 
 	public BlockWyverniaFlower() {
-		super(Material.plants);
-		blockTrait = new SubTypedItem<>(WyverniaFlowerSubType.class);
-		setBlockName(MHFCReference.block_wyverniaflower_basename);
+		super(Material.PLANTS);
+		setUnlocalizedName(ResourceInterface.block_wyverniaflower_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHardness(0.0f);
-		setStepSound(Block.soundTypeGrass);
 		setTickRandomly(true);
-		float f = 0.2F;
-		this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 3.0F, 0.5F + f);
-	}
-
-	// TODO might have bugs.
-	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
-		return null;
 	}
 
 	@Override
-	public int getRenderType() {
-		return 1; // Magic number.
+	public String getVariantName(IBlockState state) {
+		return state.getValue(subtypeProperty).getName();
 	}
 
 	@Override
-	public boolean isOpaqueCube() {
-		return false;
+	public SubTypedItem<Block, WyverniaFlowerSubType> getBlockTrait() {
+		return blockTrait;
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister registry) {
-		blockTrait.registerIcons(registry);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void getSubBlocks(Item item, CreativeTabs tab, @SuppressWarnings("rawtypes") List list) {
-		blockTrait.getSubItems(item, list);
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, subtypeProperty);
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta) {
-		if (meta >= this.blockTrait.getIcons().length) {
-			meta = 0;
-		}
-		return this.blockTrait.getIcons()[meta];
+	public void getSubBlocks(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+		getBlockTrait().getSubItems(item, list);
 	}
 
 	@Override
-	public int damageDropped(int meta) {
-		return meta;
+	public IBlockState getStateFromMeta(int meta) {
+		return this.getDefaultState().withProperty(subtypeProperty, getBlockTrait().getSubType(meta));
 	}
 
 	@Override
-	public boolean isValidPosition(World world, int x, int y, int z, int metadata) {
-		// TODO: getBlock()
-		//Block block = world.getBlock(x, y - 1, z);
-		return null != null;//block == MHFCBlockRegistry.getRegistry().mhfcblockdirt || block == MHFCBlockRegistry.getRegistry().mhfcblockgrass || block == Blocks.glass;
+	public int getMetaFromState(IBlockState state) {
+		return getBlockTrait().getMeta(state.getValue(subtypeProperty));
 	}
+
+	@Override
+	public int damageDropped(IBlockState state) {
+		return getMetaFromState(state);
+	}
+
+	@Override
+	public SoundType getSoundType() {
+		return SoundType.PLANT;
+	}
+
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return FLOWER_BOUNDS;
+	}
+
+	//FIXME: implement canSustainPlant for the correct ground blocks
 
 }

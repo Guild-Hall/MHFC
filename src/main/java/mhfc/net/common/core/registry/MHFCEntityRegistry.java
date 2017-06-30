@@ -3,15 +3,16 @@ package mhfc.net.common.core.registry;
 import java.util.ArrayList;
 import java.util.List;
 
-import cpw.mods.fml.common.registry.EntityRegistry;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.MHFCMobList;
 import mhfc.net.common.entity.monster.EntityBarroth;
+import mhfc.net.common.entity.monster.EntityDelex;
 import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.entity.monster.EntityGargwa;
 import mhfc.net.common.entity.monster.EntityGreatJaggi;
+import mhfc.net.common.entity.monster.EntityKirin;
 import mhfc.net.common.entity.monster.EntityLagiacrus;
 import mhfc.net.common.entity.monster.EntityNargacuga;
-import mhfc.net.common.entity.monster.EntityRathalos;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.particle.EntityPaintParticleEmitter;
 import mhfc.net.common.entity.projectile.EntityBreathe;
@@ -22,10 +23,12 @@ import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
 import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
 import mhfc.net.common.entity.quests.EntityQuestGiver;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.ItemColor;
-import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 public class MHFCEntityRegistry {
 	public static void staticInit() {}
@@ -38,17 +41,17 @@ public class MHFCEntityRegistry {
 	private final List<Class<? extends Entity>> registeredProjectiles = new ArrayList<>();
 
 	public final int tigrexID;
-	//public final int kirinID;
-	public final int rathalosID;
+	public final int kirinID;
+	//public final int rathalosID;
 	public final int greatjaggiID;
 	public final int deviljhoID;
 	public final int nargacugaID;
 	public final int barrothID;
-	//public final int delexID;
+	public final int delexID;
 	//public final int giapreyID;
 	//public final int ukanlosID;
 	public final int lagiacrusID;
-	//public final int gargwaID;
+	public final int gargwaID;
 
 	public final int questGiverID;
 
@@ -62,36 +65,54 @@ public class MHFCEntityRegistry {
 	public final int arrowID;
 
 	protected MHFCEntityRegistry() {
-		// popoID = getMobID(EntityPopo.class, MHFCReference.mob_popo_name,
-		// 0xf8248234, 0x193192);
-		tigrexID = getMobID(EntityTigrex.class, MHFCReference.mob_tigrex_name, ItemColor.YELLOW, ItemColor.LIBLUE);
-		//kirinID = getMobID(EntityKirin.class, MHFCReference.mob_kirin_name, 0xfff85814, 0xff851f15);
-		rathalosID = getMobID(EntityRathalos.class,	MHFCReference.mob_rathalos_name, 0xff749819, 0xf838818);
-		greatjaggiID = getMobID(EntityGreatJaggi.class,	MHFCReference.mob_greatjaggi_name,ItemColor.PURPLE,ItemColor.PINK);
-		deviljhoID = getMobID(EntityDeviljho.class, MHFCReference.mob_deviljho_name, ItemColor.GREEN, ItemColor.SILVER);
-		nargacugaID = getMobID(EntityNargacuga.class, MHFCReference.mob_nargacuga_name, 0xf351631, 0x516f13f);
-		barrothID = getMobID(EntityBarroth.class, MHFCReference.mob_barroth_name, ItemColor.ORANGE, ItemColor.GRAY);
-		//delexID = getMobID(EntityDelex.class, MHFCReference.mob_delex_name, 0x6f33333, 0x654321);
+		
+		/***
+		 * 
+		 * 30/04/2017
+		 * 
+		 * Monsters ( boss and non-boss) will no longer have egg info for registry. Its 
+		 * because they are now serve as Quest Monsters and will be restricted to spawn
+		 * in Overworld. However for spotlights you can still summon them via comman
+		 * " /summon mhfc:monstername "
+		 * ex: /summon mhfc:tigrex
+		 * 
+		 * The egg registry or the additional argument for getMobID method will serve for the
+		 * NPCs i will add in the future so it is not deprecated. ~Heltrato
+		 * 
+		 */
+		
+		// popoID = getMobID(EntityPopo.class, MHFCReference.mob_popo_name);
+		tigrexID = getMobID(EntityTigrex.class, ResourceInterface.mob_tigrex_name);
+		kirinID = getMobID(EntityKirin.class, ResourceInterface.mob_kirin_name);
+		//rathalosID = getMobID(EntityRathalos.class, ResourceInterface.mob_rathalos_name);
+		greatjaggiID = getMobID(EntityGreatJaggi.class,ResourceInterface.mob_greatjaggi_name);
+		deviljhoID = getMobID(EntityDeviljho.class, ResourceInterface.mob_deviljho_name);
+		nargacugaID = getMobID(EntityNargacuga.class, ResourceInterface.mob_nargacuga_name);
+		questGiverID = getMobID(EntityQuestGiver.class, ResourceInterface.mob_questGiver_name);
+		barrothID = getMobID(EntityBarroth.class, ResourceInterface.mob_barroth_name);
+		delexID = getMobID(EntityDelex.class, ResourceInterface.mob_delex_name);
 		//giapreyID = getMobID(EntityGiaprey.class, MHFCReference.mob_giaprey_name, 0x6f41512, 0x654321);
 		//ukanlosID = getMobID(EntityUkanlos.class, MHFCReference.mob_ukanlos_name, 0x33333333, 0x654321);
-		lagiacrusID = getMobID(EntityLagiacrus.class, MHFCReference.mob_lagiacrus_name, 0x6fff512, 0x6ff14f1);
-		//gargwaID = getMobID(EntityGargwa.class, MHFCReference.mob_gagua_name, 0x319292, 0x2187ff20);
+		lagiacrusID = getMobID(EntityLagiacrus.class, ResourceInterface.mob_lagiacrus_name);
+		gargwaID = getMobID(EntityGargwa.class, ResourceInterface.mob_gagua_name);
 
-		questGiverID = getMobID(EntityQuestGiver.class, MHFCReference.mob_questGiver_name);
+		
 
-		projectileBlockID = getProjectileID(EntityProjectileBlock.class, MHFCReference.entity_tigrexBlock_name);
-		bulletID = getProjectileID(EntityBullet.class, MHFCReference.entity_bullet_name);
-		rathalosFireballID = getProjectileID(EntityRathalosFireball.class, MHFCReference.entity_rathalosFireball_name);
+		projectileBlockID = getProjectileID(EntityProjectileBlock.class, ResourceInterface.entity_tigrexBlock_name);
+		bulletID = getProjectileID(EntityBullet.class, ResourceInterface.entity_bullet_name);
+		rathalosFireballID = getProjectileID(
+				EntityRathalosFireball.class,
+				ResourceInterface.entity_rathalosFireball_name);
 		flashbombID = getProjectileID(
 				EntityFlashBomb.class,
-				MHFCReference.entity_flashbomb_name,
+				ResourceInterface.entity_flashbomb_name,
 				(int) EntityFlashBomb.REACH);
 
-		paintballID = getProjectileID(EntityPaintball.class, MHFCReference.entity_paintball_name);
+		paintballID = getProjectileID(EntityPaintball.class, ResourceInterface.entity_paintball_name);
 
-		paintemitterID = getMobID(EntityPaintParticleEmitter.class, MHFCReference.mob_paint_emitter_name);
-		arrowID = getProjectileID(EntityWyverniaArrow.class, MHFCReference.projectile_wyverniaarrow_name);
-		breatheID = getProjectileID(EntityBreathe.class, MHFCReference.projectile_wyverniaarrow_name);
+		paintemitterID = getMobID(EntityPaintParticleEmitter.class, ResourceInterface.mob_paint_emitter_name);
+		arrowID = getProjectileID(EntityWyverniaArrow.class, ResourceInterface.projectile_wyverniaarrow_name);
+		breatheID = getProjectileID(EntityBreathe.class, ResourceInterface.projectile_wyverniaarrow_name);
 
 		MHFCMain.logger().info("Monsters registered");
 	}
@@ -109,9 +130,10 @@ public class MHFCEntityRegistry {
 			return -1;
 		}
 		int monsterID = getMobID();
-		EntityRegistry.registerModEntity(clazz, name, monsterID, MHFCMain.instance(), 64, 1, true);
+		ResourceLocation entityId = new ResourceLocation(ResourceInterface.main_modid, name);
+		EntityRegistry.registerModEntity(entityId, clazz, name, monsterID, MHFCMain.instance(), 64, 1, true);
 		registeredMobs.add(clazz);
-		MHFCMobList.addMapping(clazz, name, monsterID);
+		MHFCMobList.addMapping(clazz, entityId, monsterID);
 		return monsterID;
 	}
 
@@ -120,12 +142,14 @@ public class MHFCEntityRegistry {
 			return -1;
 		}
 		int monsterID = getMobID();
-		EntityRegistry.registerModEntity(clazz, name, monsterID, MHFCMain.instance(), 64, 1, true);
+		ResourceLocation entityId = new ResourceLocation(ResourceInterface.main_modid, name);
+		EntityRegistry.registerModEntity(entityId, clazz, name, monsterID, MHFCMain.instance(), 64, 1, true);
 		registeredMobs.add(clazz);
-		MHFCMobList.addMapping(clazz, name, monsterID, foreground, background);
+		MHFCMobList.addMapping(clazz, entityId, monsterID, foreground, background);
 		return monsterID;
 	}
 
+	@SuppressWarnings("unused")
 	private int getMobID(Class<? extends Entity> clazz, String name, ItemColor foreground, ItemColor background) {
 		return getMobID(clazz, name, foreground.getRGB(), background.getRGB());
 	}
@@ -135,7 +159,8 @@ public class MHFCEntityRegistry {
 			return -1;
 		}
 		int projectileID = getProjID();
-		EntityRegistry.registerModEntity(clazz, name, projectileID, MHFCMain.instance(), 64, 10, true);
+		ResourceLocation entityId = new ResourceLocation(ResourceInterface.main_modid, name);
+		EntityRegistry.registerModEntity(entityId, clazz, name, projectileID, MHFCMain.instance(), 64, 10, true);
 		registeredProjectiles.add(clazz);
 		return projectileID;
 	}
@@ -145,7 +170,16 @@ public class MHFCEntityRegistry {
 			return -1;
 		}
 		int projectileID = getProjID();
-		EntityRegistry.registerModEntity(clazz, name, projectileID, MHFCMain.instance(), customTrackingRange, 10, true);
+		ResourceLocation entityId = new ResourceLocation(ResourceInterface.main_modid, name);
+		EntityRegistry.registerModEntity(
+				entityId,
+				clazz,
+				name,
+				projectileID,
+				MHFCMain.instance(),
+				customTrackingRange,
+				10,
+				true);
 		registeredProjectiles.add(clazz);
 		return projectileID;
 	}

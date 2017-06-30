@@ -16,15 +16,17 @@ public class ActionManagerBuilder<EntType extends EntityLiving & IManagedActions
 
 	List<IExecutableAction<? super EntType>> actions = new ArrayList<>();
 
+	@Override
 	public void registerAction(IExecutableAction<? super EntType> attack) {
 		Objects.requireNonNull(attack);
 		actions.add(attack);
 	}
 
+	@Override
 	public AIActionManager<EntType> build(EntType entity) {
 		DataObject<EntType> dataObject = new DataObject<>(actions);
 		actions = new ArrayList<>();
-		return new AIActionManager<EntType>(entity, dataObject);
+		return new AIActionManager<>(entity, dataObject);
 	}
 
 }

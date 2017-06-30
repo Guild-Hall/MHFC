@@ -1,13 +1,17 @@
 {
-	"groupDisplayOrder":[
-		"Low Rank Hunting Quest"
+	"groupDisplayOrder": [
+		"Level 1 Star Quest",
+		"Level 2 Star Quest"
 	],
-	"groups":{
-		"Low Rank Hunting Quest":[
-			"Nargacuga", "Deviljho", "DualGreatJaggi", "Barroth", "Lagiacrus", "Tigrex"
+	"groups": {
+		"Level 1 Star Quest": [
+			"nogutsnoglory",
+			"leadingthecharge"
 		],
-		"Beginner Tutorial":[
-			"TestQuest"
+		"Level 2 Star Quest": [
+			"tigrexroar",
+			"jumpingatshadows",
+			"violentwyvern"
 		]
 	}
 }

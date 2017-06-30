@@ -1,66 +1,58 @@
 package mhfc.net.common.ai.entity.boss.deviljho;
 
-import mhfc.net.common.ai.IExecutableAction;
-import mhfc.net.common.ai.general.actions.AIAnimatedAction;
-import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.ai.general.actions.AnimatedAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.projectile.EntityBreathe;
-import net.minecraft.entity.Entity;
+import mhfc.net.common.util.world.WorldHelper;
+import net.minecraft.util.math.Vec3d;
 
-public class FrontalBreathe extends AIAnimatedAction<EntityDeviljho> {
+public class FrontalBreathe extends AnimatedAction<EntityDeviljho> implements IHasAnimationProvider {
 
-	private static final String SET_Animation = "mhfc:models/Deviljho/DeviljhoFrontalBreathe.mcanm";
-	private static final int Set_Frame = 80;
-	private static final double Set_MaxDistance = 15f;
-	private static final float Set_Weight = 6F;
+	private static final int LAST_FRAME = 80;
+	private static final String ANIMATION_LOCATION = "mhfc:models/Deviljho/DeviljhoFrontalBreathe.mcanm";
+	private static final double MAX_DISTANCE = 15f;
+	private static final float WEIGHT = 6F;
 
-	private static ISelectionPredicate<EntityDeviljho> selectionProvider;
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 
 	public FrontalBreathe() {}
 
-	static {
-		selectionProvider = new ISelectionPredicate.DistanceAdapter<>(0, Set_MaxDistance);
+	@Override
+	protected float computeSelectionWeight() {
+		EntityDeviljho entity = this.getEntity();
+		target = entity.getAttackTarget();
+		if (target == null) {
+			return DONT_SELECT;
+		}
+		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
+		double dist = toTarget.lengthVector();
+		if (dist > MAX_DISTANCE) {
+			return DONT_SELECT;
+		}
+		return WEIGHT;
 	}
 
 	@Override
-	protected void update() {
-		EntityDeviljho set_ENTITY = this.getEntity();
-		if(this.getCurrentFrame() == 18)
-			set_ENTITY.playSound("mhfc:deviljho.dragonbreath", 2.0F, 1.0F);
-		if (this.getCurrentFrame() == 40) {
-			if (set_ENTITY.getAttackTarget() == null) {
-				return;
-			}
+	public IAnimationProvider getAnimProvider() {
+		return ANIMATION;
+	}
 
+	@Override
+	protected void onUpdate() {
+		EntityDeviljho entity = this.getEntity();
+		if (this.getCurrentFrame() == 18) {
+			entity.playSound(MHFCSoundRegistry.getRegistry().deviljhoDragonBreath, 2.0F, 1.0F);
+		}
+		if (this.getCurrentFrame() == 40 && entity.getAttackTarget() == null) {
 			for (int i = 0; i < 3; ++i) {
-				EntityBreathe set_Breathe = new EntityBreathe(set_ENTITY.worldObj, set_ENTITY, true);
-				set_ENTITY.worldObj.spawnEntityInWorld(set_Breathe);
+				EntityBreathe set_Breathe = new EntityBreathe(entity.world, entity, true);
+				entity.world.spawnEntity(set_Breathe);
 			}
 		}
-
-	}
-
-	@Override
-	public String getAnimationLocation() {
-		return SET_Animation;
-	}
-
-	@Override
-	public int getAnimationLength() {
-		return Set_Frame;
-	}
-
-	@Override
-	public boolean shouldSelectAttack(
-			IExecutableAction<? super EntityDeviljho> attack,
-			EntityDeviljho actor,
-			Entity target) {
-		return selectionProvider.shouldSelectAttack(attack, actor, target);
-	}
-
-	@Override
-	public float getWeight(EntityDeviljho entity, Entity target) {
-		return Set_Weight;
 	}
 
 }

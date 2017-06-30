@@ -19,7 +19,7 @@ public class RegionSpliterator implements Spliterator<CuboidRegion> {
 		this.maxSizePerDim = minSizePerDim;
 	}
 
-	private int ceiledDiv(int x, int n) {
+	private static int ceiledDiv(int x, int n) {
 		// Ceiled integer division:
 		int answer = x / n;
 		if (x % n != 0) {

@@ -3,20 +3,22 @@ package mhfc.net.common.block;
 import java.util.Random;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockWyverniaQuickSand extends Block {
+	private static final AxisAlignedBB BOUNDS = new AxisAlignedBB(0, 0, 0, 1, 0.5, 1);
 
 	public BlockWyverniaQuickSand() {
-		super(Material.sand);
-		setBlockName(MHFCReference.block_quicksand_name);
-		setBlockTextureName(MHFCReference.block_quicksand_tex);
+		super(Material.SAND);
+		setUnlocalizedName(ResourceInterface.block_quicksand_name);
 		setHardness(1.3F);
 		setResistance(2.0F);
 		setCreativeTab(MHFCMain.mhfctabs);
@@ -26,29 +28,15 @@ public class BlockWyverniaQuickSand extends Block {
 	public int quantityDropped(Random random) {
 		return 1;
 	}
-	
+
 	@Override
-	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity)
-	{
-		if (entity instanceof EntityPlayer)
+	public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
 		entity.setInWeb();
-		else{
-			entity.motionX *= 0.1D;
-			entity.motionZ *= 0.1D;
-		}
-			
-	}
-	
-	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-	{
-		if (world.getBlockMetadata(x, y, z) == 0)
-		{
-			float var5 = 1.7F;
-			return AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1 - var5, z + 1);
-		}
-		else return null;
 	}
 
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return BOUNDS;
+	}
 
 }

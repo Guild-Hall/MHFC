@@ -2,9 +2,10 @@ package mhfc.net.common.network.message.quest;
 
 import java.util.Objects;
 
-import cpw.mods.fml.common.network.ByteBufUtils;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
 public class MessageMissionStatus implements IMessage {
 	public static enum Status {
@@ -16,13 +17,13 @@ public class MessageMissionStatus implements IMessage {
 
 	private static Status[] statusValues = Status.values();
 
-	private String questID;
+	private ResourceLocation questID;
 	private String missionID;
 	private Status statusType;
 
 	public MessageMissionStatus() {}
 
-	private MessageMissionStatus(String questID, String missionID, Status type) {
+	private MessageMissionStatus(ResourceLocation questID, String missionID, Status type) {
 		this.questID = questID;
 		this.missionID = Objects.requireNonNull(missionID);
 		this.statusType = Objects.requireNonNull(type);
@@ -32,7 +33,7 @@ public class MessageMissionStatus implements IMessage {
 	public void toBytes(ByteBuf buf) {
 		buf.writeInt(statusType.ordinal());
 		if (statusType == Status.MISSION_CREATED) {
-			ByteBufUtils.writeUTF8String(buf, questID);
+			ByteBufUtils.writeUTF8String(buf, questID.toString());
 		}
 		ByteBufUtils.writeUTF8String(buf, missionID);
 	}
@@ -40,7 +41,7 @@ public class MessageMissionStatus implements IMessage {
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		statusType = statusValues[buf.readInt()];
-		questID = statusType == Status.MISSION_CREATED ? ByteBufUtils.readUTF8String(buf) : null;
+		questID = statusType == Status.MISSION_CREATED ? new ResourceLocation(ByteBufUtils.readUTF8String(buf)) : null;
 		missionID = ByteBufUtils.readUTF8String(buf);
 	}
 
@@ -48,7 +49,7 @@ public class MessageMissionStatus implements IMessage {
 		return this.statusType;
 	}
 
-	public String getQuestID() {
+	public ResourceLocation getQuestID() {
 		return this.questID;
 	}
 
@@ -64,7 +65,7 @@ public class MessageMissionStatus implements IMessage {
 	 * @param missionID
 	 * @return
 	 */
-	public static MessageMissionStatus creation(String questID, String missionID) {
+	public static MessageMissionStatus creation(ResourceLocation questID, String missionID) {
 		Objects.requireNonNull(questID);
 		return new MessageMissionStatus(questID, missionID, Status.MISSION_CREATED);
 	}

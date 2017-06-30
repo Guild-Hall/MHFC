@@ -3,13 +3,17 @@ package mhfc.net.common.weapon.melee.huntinghorn;
 import java.util.function.Consumer;
 
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.huntinghorn.HuntingHornWeaponStats.HuntingHornWeaponStatsBuilder;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 public class ItemHuntingHorn extends ItemWeaponMelee<HuntingHornWeaponStats> {
@@ -25,18 +29,19 @@ public class ItemHuntingHorn extends ItemWeaponMelee<HuntingHornWeaponStats> {
 
 	@Override
 	public String getWeaponClassUnlocalized() {
-		return MHFCReference.weapon_huntinghorn_name;
+		return ResourceInterface.weapon_huntinghorn_name;
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		ItemStack newstack = super.onItemRightClick(stack, world, player);
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ActionResult<ItemStack> newstack = super.onItemRightClick(world, player, hand);
+		ItemStack stack = player.getHeldItem(hand);
 		stats.toggleNote(stack);
-		return newstack;
+		return ActionResult.newResult(EnumActionResult.SUCCESS, newstack.getResult());
 	}
 
 	@Override
-	public void onUsingTick(ItemStack stack, EntityPlayer player, int useCounter) {
+	public void onUsingTick(ItemStack stack, EntityLivingBase player, int useCounter) {
 		super.onUsingTick(stack, player, useCounter);
 	}
 
@@ -55,12 +60,24 @@ public class ItemHuntingHorn extends ItemWeaponMelee<HuntingHornWeaponStats> {
 	}
 
 	@Override
+	public void onUpdate(ItemStack stack, World world, Entity holder, int slot, boolean isHoldItem) {
+		super.onUpdate(stack, world, holder, slot, isHoldItem);
+		if (!isHoldItem) {
+			return;
+		}
+		if (holder instanceof EntityPlayer) {
+			EntityPlayer entity = (EntityPlayer) holder;
+			entity.moveEntityWithHeading(entity.moveStrafing * -0.1f, entity.moveForward * -0.1f);
+		}
+	}
+
+	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase player) {
 		boolean superResult = super.hitEntity(stack, target, player);
 		if (!isOffCooldown(stack)) {
 			return superResult;
 		}
-		target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.stun.id, 10, 5));
+		target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().stun, 10, 5));
 		triggerCooldown(stack);
 		return true;
 	}

@@ -17,13 +17,17 @@ public class EntityGiaprey extends EntityMHFCBase<EntityGiaprey> {
 
 	public EntityGiaprey(World world) {
 		super(world);
-		this.height = 1f;
-		this.width = 2f;
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		setSize(2f, 1f);
 	}
 
 	@Override
-	public IActionManager<EntityGiaprey> constructActionManager() {
+	protected void initEntityAI() {
+		super.initEntityAI();
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
+	}
+
+	@Override
+	protected IActionManager<EntityGiaprey> constructActionManager() {
 		ActionManagerBuilder<EntityGiaprey> actionManager = new ActionManagerBuilder<>();
 		return actionManager.build(this);
 	}
@@ -34,23 +38,15 @@ public class EntityGiaprey extends EntityMHFCBase<EntityGiaprey> {
 	}
 
 	@Override
-	public void applyEntityAttributes() {
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(5500D));
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(5500D));
 	}
 
 	@Override
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
 		GL11.glScaled(0.8, 0.8, 0.8);
 		return super.preRenderCallback(scale, sub);
-	}
-
-	@Override
-	public void entityInit() {
-		super.entityInit();
-		// if(this.isInWater())
-		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
 	}
 
 }

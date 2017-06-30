@@ -2,8 +2,8 @@ package mhfc.net.common.eventhandler;
 
 import java.util.Objects;
 
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
 public enum TickPhase {
 	CLIENT_PRE,
@@ -33,6 +33,8 @@ public enum TickPhase {
 			return event.phase == Phase.START ? SERVER_PRE : SERVER_POST;
 		case WORLD:
 			return event.phase == Phase.START ? WORLD_PRE : WORLD_POST;
+		default:
+			break;
 		}
 		throw new IllegalStateException("Thought unreachable");
 	}

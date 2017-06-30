@@ -1,7 +1,6 @@
 package mhfc.net.common.util.services;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 public interface IServiceProvider {
 	/**
@@ -28,7 +27,7 @@ public interface IServiceProvider {
 	 * Registers a service. The service
 	 * <p>
 	 * Note that the service used here should <b>not be accessible</b> publicly. Instead provide a wrapper method to
-	 * retrive the {@link IServiceKey}:
+	 * retrieve the {@link IServiceKey}:
 	 *
 	 * <pre>
 	 * <code>
@@ -39,18 +38,18 @@ public interface IServiceProvider {
 	 *    }
 	 *
 	 *    public IServiceKey<ExampleService> getServiceKey() {
-	 *        return (IServiceKey<Void, Void>) access;
+	 *        return (IServiceKey<ExampleService>) access;
 	 *    }
 	 *}</code>
 	 * </pre>
 	 *
 	 * @param name
 	 *            a human readable name
-	 * @param serviceBootstrap
+	 * @param serviceBootstraper
 	 * @param service
 	 * @return a registry that can be used to startup the service and declare auto-startup phases
 	 */
-	<T> IServiceAccess<T> registerService(String name, IServiceHandle<T> serviceBootstrap, Supplier<T> serviceSupplier);
+	<T> IServiceAccess<T> registerService(String name, IServiceHandle<T> serviceBootstraper);
 
 	/**
 	 * Retrieves a {@link IPhaseKey} that can be used to register services for the service phase given.

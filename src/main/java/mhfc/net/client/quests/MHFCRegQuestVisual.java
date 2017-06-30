@@ -8,8 +8,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.client.gui.hud.QuestStatusDisplay;
 import mhfc.net.client.gui.quests.GuiQuestBoard;
@@ -17,20 +15,23 @@ import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.quests.api.IVisualDefinition;
 import mhfc.net.common.core.data.QuestDescriptionRegistry;
 import mhfc.net.common.core.registry.RegistryWrapper;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.network.NetworkTracker;
 import mhfc.net.common.network.message.quest.MessageQuestInit;
-import mhfc.net.common.quests.api.QuestDefinition;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.quests.api.IQuestDefinition;
+import mhfc.net.common.util.Comparation;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class MHFCRegQuestVisual {
 	public static void staticInit() {}
 
-	public static final ResourceLocation QUEST_BOARD_BACKGROUND = new ResourceLocation(MHFCReference.gui_board_tex);
-	public static final ResourceLocation CLICKABLE_LIST = new ResourceLocation(MHFCReference.gui_list_tex);
+	public static final ResourceLocation QUEST_BOARD_BACKGROUND = new ResourceLocation(ResourceInterface.gui_board_tex);
+	public static final ResourceLocation CLICKABLE_LIST = new ResourceLocation(ResourceInterface.gui_list_tex);
 
 	private static final IServiceKey<MHFCRegQuestVisual> serviceAccess = RegistryWrapper.registerService(
 			"quest visuals",
@@ -42,7 +43,7 @@ public class MHFCRegQuestVisual {
 		return serviceAccess.getService();
 	}
 
-	public static Set<String> getAvailableQuestIDs(String groupId) {
+	public static Set<ResourceLocation> getAvailableQuestIDs(String groupId) {
 		return getService().getQuestIdentifiers(groupId);
 	}
 
@@ -57,9 +58,9 @@ public class MHFCRegQuestVisual {
 	 * @return Either the visual representation of the requested quest or a replacement <br>
 	 *         representing loading.
 	 */
-	public static IVisualDefinition getQuestInformation(String questID) {
+	public static IVisualDefinition getQuestInformation(ResourceLocation questID) {
 		MHFCRegQuestVisual service = getService();
-		QuestDefinition staticDescription = service.clientDataObject.getQuestDescription(questID);
+		IQuestDefinition staticDescription = service.clientDataObject.getQuestDescription(questID);
 		if (staticDescription != null) {
 			return staticDescription.getVisualInformation();
 		}
@@ -86,7 +87,7 @@ public class MHFCRegQuestVisual {
 		return getService().playerVisual;
 	}
 
-	public static void startNewMission(String questID, String missionID) {
+	public static void startNewMission(ResourceLocation questID, String missionID) {
 		getService().createMission(questID, missionID);
 	}
 
@@ -111,6 +112,7 @@ public class MHFCRegQuestVisual {
 
 	public MHFCRegQuestVisual() {
 		initialize();
+		MHFCMain.logger().debug("Quest Client initialized");
 	}
 
 	/**
@@ -123,7 +125,7 @@ public class MHFCRegQuestVisual {
 		message.initialize(clientDataObject);
 	}
 
-	public Set<String> getQuestIdentifiers(String group) {
+	public Set<ResourceLocation> getQuestIdentifiers(String group) {
 		return Collections.unmodifiableSet(clientDataObject.getQuestIdentifiersFor(group));
 	}
 
@@ -131,7 +133,7 @@ public class MHFCRegQuestVisual {
 		return Collections.unmodifiableSet(missionIDs);
 	}
 
-	public void createMission(String questID, String missionID) {
+	public void createMission(ResourceLocation questID, String missionID) {
 		if (missionIDs.contains(missionID)) {
 			return;
 		}
@@ -155,12 +157,13 @@ public class MHFCRegQuestVisual {
 		setVisual(Optional.ofNullable(info));
 	}
 
-	public void unsetPlayerMission(String missionID) {
-		// TODO: maybe check that the active mission actually has the missionID?
-		setVisual(Optional.empty());
+	public void unsetPlayerMission(@SuppressWarnings("unused") String missionID) {
+		// TODO: maybe check that the active mission actually had the missionID?
+		Optional<IMissionInformation> oldValue = setVisual(Optional.empty());
+		assert oldValue != null && oldValue.isPresent();
 	}
 
-	protected void logStats() {
+	public void logStats() {
 		QuestDescriptionRegistry dataObject = clientDataObject;
 		int numberQuests = dataObject.getFullQuestDescriptionMap().size();
 		int numberGroups = dataObject.getGroupsInOrder().size();
@@ -168,10 +171,15 @@ public class MHFCRegQuestVisual {
 		MHFCMain.logger().debug(output);
 	}
 
-	private void setVisual(Optional<IMissionInformation> newVisual) {
+	private Optional<IMissionInformation> setVisual(Optional<IMissionInformation> newVisual) {
 		Objects.requireNonNull(newVisual);
+		if (Comparation.isIdentical(playerVisual, newVisual)) {
+			return null;
+		}
 		playerVisual.ifPresent(IMissionInformation::cleanUp);
+		Optional<IMissionInformation> oldVisual = playerVisual;
 		playerVisual = newVisual;
+		return oldVisual;
 	}
 
 	private void initialize() {

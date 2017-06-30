@@ -3,8 +3,8 @@ package mhfc.net.common.configuration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
  * @author Heltrato
@@ -30,8 +30,8 @@ public class MHFCConfig {
 	// FIXME: rework the registry, current state is not maintainable,
 	// externalize strings
 	public MHFCConfig(FMLPreInitializationEvent e) {
-		enableSettings = new LinkedHashMap<String, EnableSetting>();
-		reloadTimeSettings = new LinkedHashMap<String, ReloadTimeSetting>();
+		enableSettings = new LinkedHashMap<>();
+		reloadTimeSettings = new LinkedHashMap<>();
 		config = new Configuration(e.getSuggestedConfigurationFile());
 
 	}

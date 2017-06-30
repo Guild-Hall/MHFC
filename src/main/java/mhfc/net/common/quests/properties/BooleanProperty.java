@@ -39,7 +39,7 @@ public class BooleanProperty extends Property {
 
 	@Override
 	public void updateFrom(NBTBase nbtTag) {
-		value = NBTType.TAG_BYTE.assureTagType(nbtTag).func_150289_e() != 0;
+		value = NBTType.TAG_BYTE.assureTagType(nbtTag).getByte() != 0;
 	}
 
 	@Override

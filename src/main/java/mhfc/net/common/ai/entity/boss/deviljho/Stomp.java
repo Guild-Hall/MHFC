@@ -2,62 +2,92 @@ package mhfc.net.common.ai.entity.boss.deviljho;
 
 import java.util.List;
 
-import mhfc.net.common.ai.IExecutableAction;
-import mhfc.net.common.ai.entity.AIGameplayComposition;
+import mhfc.net.common.ai.entity.AIMethods;
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
-import mhfc.net.common.ai.general.actions.AIAnimatedAction;
-import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.ai.general.actions.DamagingAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
+import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
+import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
+import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
 
-public class Stomp extends AIAnimatedAction<EntityDeviljho> {
-	private static final String ANIMATION = "mhfc:models/Deviljho/DeviljhoStomp.mcanm";
+public class Stomp extends DamagingAction<EntityDeviljho> implements IHasAttackProvider {
 	private static final int LAST_FRAME = 55;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(60f, 50F, 9999999f);
+	private static final String ANIMATION_LOCATION = "mhfc:models/Deviljho/DeviljhoStomp.mcanm";
+
+	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(60f, 50F, 9999999f);
 	private static final double MAX_DIST = 9f;
 	private static final float WEIGHT = 7;
 
-	private static final ISelectionPredicate<EntityDeviljho> selectionProvider;
-
-	static {
-		selectionProvider = new ISelectionPredicate.DistanceAdapter<>(0, MAX_DIST);
+	private final IAttackProvider ATTACK;
+	{
+		IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
+		IDamageProvider DAMAGE = new DamageAdapter(DAMAGE_CALC);
+		ATTACK = new AttackAdapter(ANIMATION, DAMAGE);
 	}
-
 	private boolean thrown = false;
 
 	public Stomp() {}
 
-	private void updateStomp() {
-		boolean CamShake = false;
-		float CamShakeIntensity;
+	@Override
+	protected float computeSelectionWeight() {
 		EntityDeviljho entity = this.getEntity();
-		if (!entity.onGround || thrown || this.getCurrentFrame() < 26) {
+		target = entity.getAttackTarget();
+		if (target == null) {
+			return DONT_SELECT;
+		}
+		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
+		double dist = toTarget.lengthVector();
+		if (dist > MAX_DIST) {
+			return DONT_SELECT;
+		}
+		return WEIGHT;
+	}
+	@Override
+	public IAttackProvider getAttackProvider() {
+		return ATTACK;
+	}
+
+	@Override
+	public void beginExecution() {
+		super.beginExecution();
+		thrown = false;
+	}
+
+	private void updateStomp() {
+		EntityDeviljho actor = this.getEntity();
+		if (!actor.onGround || thrown || this.getCurrentFrame() < 26) {
 			return;
 		}
-		List<Entity> list = entity.worldObj.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(10.0D, 1.0D, 10.0D));
-		AIGameplayComposition.stompCracks(entity, 100);
-		for (Entity entity1 : list) {
-			if (!(entity1 instanceof EntityLivingBase)) {
+		damageCollidingEntities();
+
+		AxisAlignedBB stompRange = actor.getEntityBoundingBox().expand(10.0D, 1.0D, 10.0D);
+		List<Entity> list = actor.world.getEntitiesWithinAABBExcludingEntity(actor, stompRange);
+		for (Entity entity : list) {
+			if (!(entity instanceof EntityLivingBase)) {
 				continue;
 			}
-			float Intenstity = 40;
-			CamShake = (CamShake == false) ? true : false;
-			CamShakeIntensity = (CamShake) ? Intenstity : -Intenstity;
-			entity1.setAngles(0, 40);
-			EntityLivingBase living = entity;
-			damageCalc.accept(living);
-			entity1.attackEntityFrom(DamageSource.causeMobDamage(entity), 60f);
-			entity1.addVelocity(0.2, 0.3, 0);
+			// FIXME: camera shake for players?
+			entity.turn(0, 40);
+			entity.addVelocity(0.2, 0.3, 0);
 		}
-		entity.playSound("mhfc:deviljho.stomp", 1.0F, 1.0F);
+		AIMethods.stompCracks(actor, 100);
+		actor.playSound(MHFCSoundRegistry.getRegistry().deviljhoStomp, 1.0F, 1.0F);
 		thrown = true;
 	}
 
 	@Override
-	protected void update() {
+	protected void onUpdate() {
 		EntityDeviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
 		updateStomp();
@@ -69,37 +99,8 @@ public class Stomp extends AIAnimatedAction<EntityDeviljho> {
 
 	}
 
-	@Override
-	public void beginExecution() {
-		super.beginExecution();
-		thrown = false;
-	}
-
 	private boolean isMoveForwardFrame(int frame) {
 		return (frame > 20 && frame < 30);
-	}
-
-	@Override
-	public String getAnimationLocation() {
-		return ANIMATION;
-	}
-
-	@Override
-	public int getAnimationLength() {
-		return LAST_FRAME;
-	}
-
-	@Override
-	public boolean shouldSelectAttack(
-			IExecutableAction<? super EntityDeviljho> attack,
-			EntityDeviljho actor,
-			Entity target) {
-		return selectionProvider.shouldSelectAttack(attack, actor, target);
-	}
-
-	@Override
-	public float getWeight(EntityDeviljho entity, Entity target) {
-		return WEIGHT;
 	}
 
 }

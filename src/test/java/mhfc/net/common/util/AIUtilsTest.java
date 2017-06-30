@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import mhfc.net.common.ai.general.AIUtils;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public class AIUtilsTest {
 
@@ -17,13 +17,13 @@ public class AIUtilsTest {
 
 	@Test
 	public void testYawConversion() {
-		Vec3 yaw0 = Vec3.createVectorHelper(0, 0, 1);
-		Vec3 yaw0_1 = Vec3.createVectorHelper(-0.2158149778842926, -0.14341038465499878, 0.9658312797546387);
+		Vec3d yaw0 = new Vec3d(0, 0, 1);
+		Vec3d yaw0_1 = new Vec3d(-0.2158149778842926, -0.14341038465499878, 0.9658312797546387);
 		assertEquals(0, AIUtils.lookVecToYaw(yaw0), delta);
 		assertEquals(12.600037, AIUtils.lookVecToYaw(yaw0_1), delta);
 
-		Vec3 yaw90 = Vec3.createVectorHelper(-1, 0, 0);
-		Vec3 yaw90_1 = Vec3.createVectorHelper(-0.9924389123916626, -0.10707709938287735, -0.05982581153512001);
+		Vec3d yaw90 = new Vec3d(-1, 0, 0);
+		Vec3d yaw90_1 = new Vec3d(-0.9924389123916626, -0.10707709938287735, -0.05982581153512001);
 		assertEquals(90, AIUtils.lookVecToYaw(yaw90), delta);
 		assertEquals(93.45007, AIUtils.lookVecToYaw(yaw90_1.normalize()), delta);
 	}

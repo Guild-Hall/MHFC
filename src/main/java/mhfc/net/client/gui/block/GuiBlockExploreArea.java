@@ -1,5 +1,7 @@
 package mhfc.net.client.gui.block;
 
+import java.io.IOException;
+
 import javax.vecmath.Vector2f;
 
 import mhfc.net.client.gui.ClickableGuiList;
@@ -31,6 +33,8 @@ public class GuiBlockExploreArea extends MHFCGui {
 
 	}
 
+	private static int SAVE_BUTTON_ID = 0;
+
 	private TileExploreArea tileEntity;
 	private GuiTextField targetAreaText;
 	private ClickableGuiList<QuestFlairItem> targetFlairList;
@@ -40,18 +44,24 @@ public class GuiBlockExploreArea extends MHFCGui {
 		tileEntity = tE;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui() {
 		super.initGui();
-		targetAreaText = new GuiTextField(this.fontRendererObj, width / 6, height / 4, 2 * width / 3, 20);
+		// not sure with mouseClickButton
+		targetAreaText = new GuiTextField(
+				mouseClickButton,
+				this.fontRendererObj,
+				width / 6,
+				height / 4,
+				2 * width / 3,
+				20);
 		targetFlairList = new ClickableGuiList<>(2 * width / 3, 60, 15);
 		for (QuestFlair f : QuestFlair.values()) {
 			targetFlairList.add(new QuestFlairItem(f));
 		}
 		targetFlairList.setSelected(tileEntity.getFlair().ordinal());
 		addScreenComponent(targetFlairList, new Vector2f(width / 6, height / 2));
-		saveButton = new GuiButton(0, width / 2 - 75, 3 * height / 4, 150, 20, I18n.format("gui.save"));
+		saveButton = new GuiButton(SAVE_BUTTON_ID, width / 2 - 75, 3 * height / 4, 150, 20, I18n.format("gui.save"));
 		buttonList.add(saveButton);
 		targetAreaText.setText(tileEntity.getTargetAreaName());
 	}
@@ -74,22 +84,24 @@ public class GuiBlockExploreArea extends MHFCGui {
 
 	@Override
 	protected void actionPerformed(GuiButton button) {
-		if (button.id == 0 && button.enabled) {
+		if (button.id == SAVE_BUTTON_ID && button.enabled) {
 			PacketPipeline.networkPipe
 					.sendToServer(new MessageExploreTileUpdate(tileEntity, getTargetArea(), getQuestFlair()));
+			tileEntity.setTargetArea(getTargetArea());
+			tileEntity.setFlair(getQuestFlair().name());
 			mc.displayGuiScreen(null);
 		}
 	}
 
 	@Override
-	protected void keyTyped(char keyCode, int modifiers) {
+	protected void keyTyped(char keyCode, int modifiers) throws IOException {
 		super.keyTyped(keyCode, modifiers);
 		targetAreaText.textboxKeyTyped(keyCode, modifiers);
 		saveButton.enabled = getQuestFlair() != null;
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int button) {
+	protected void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
 		super.mouseClicked(mouseX, mouseY, button);
 		targetAreaText.mouseClicked(mouseX, mouseY, button);
 	}

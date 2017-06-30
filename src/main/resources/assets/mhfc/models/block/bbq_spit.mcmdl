@@ -1,0 +1,10 @@
+{
+    version: 1,
+    mesh: "mhfc:models/block/bbq_spit.mcmd",
+    textures: {
+        "#bbq": "mhfc:tile/bbqspit"
+    },
+    transforms: {
+        GUI: { translation: [0.5, -0, 0], rotation: [{y:45}], scale: 0.7 }
+    }
+}

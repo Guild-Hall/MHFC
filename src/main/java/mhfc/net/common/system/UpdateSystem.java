@@ -1,140 +1,57 @@
 package mhfc.net.common.system;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.Objects;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.RunnableFuture;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import cpw.mods.fml.common.event.FMLServerStartedEvent;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.MHFCMain;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.common.ForgeVersion;
+import net.minecraftforge.common.ForgeVersion.CheckResult;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.versioning.ComparableVersion;
 
 public class UpdateSystem {
-
-	public static enum UpdateStatus {
-		NEWUPDATE,
-		NOUPDATE,
-		OFFLINE,
-		FAILED;
-	}
-
-	public static class UpdateInfo {
-		public final UpdateStatus status;
-		public final String version;
-
-		public UpdateInfo(UpdateStatus status, String version) {
-			this.status = Objects.requireNonNull(status);
-			this.version = Objects.requireNonNull(version);
-		}
-	}
-
-	private static final String urlString = "https://raw.githubusercontent.com/Guild-Hall/MHFC/master/build.properties";
-	private static Future<UpdateInfo> updateInfo;
-
-	static {
-		RunnableFuture<UpdateInfo> infoGetter = new FutureTask<UpdateInfo>(new Callable<UpdateInfo>() {
-			@Override
-			public UpdateInfo call() {
-				return pollUpdate();
-			}
-		});
-		new Thread(infoGetter, "MHFC Updater").start();
-		updateInfo = infoGetter;
-	}
 
 	public static void init() {
 		/* Noop, used as static-init */}
 
-	private static UpdateInfo pollUpdate() {
-		String current = MHFCReference.getMetadata().version;
-		try (BufferedReader versionFile = new BufferedReader(new InputStreamReader(new URL(urlString).openStream()))) {
-			String newVersionStr = versionFile.readLine();
-			Matcher match = Pattern.compile("version\\s*=\\s*\\\"(.*?)\\\"").matcher(newVersionStr);
-			if (!match.matches())
-				return new UpdateInfo(UpdateStatus.FAILED, newVersionStr);
-			newVersionStr = match.group(1);
-			if (!current.equals(newVersionStr)) {
-				return new UpdateInfo(UpdateStatus.NEWUPDATE, newVersionStr);
-			}
-			return new UpdateInfo(UpdateStatus.NOUPDATE, current);
-		}
-		catch (IOException e) {
-			return new UpdateInfo(UpdateStatus.OFFLINE, current);
-		}
-	}
-
-	/**
-	 * Gets or waits for the UpdateInfo that is available.
-	 *
-	 * @return infos about possibly available updates.
-	 */
-	public static UpdateInfo getUpdateInfo() {
-		try {
-			return updateInfo.get();
-		}
-		catch (InterruptedException e) {
-			return new UpdateInfo(UpdateStatus.FAILED, "UNKNOWN"); // Not likely
-		}
-		catch (ExecutionException e) {
-			return new UpdateInfo(UpdateStatus.FAILED, "UNKNOWN"); // impossible
-		}
-	}
-
-	public static void onServerStart(FMLServerStartedEvent sse) {
+	public static void onServerStarting(FMLServerStartingEvent sse) {
 		if (sse.getSide().isServer()) {
-			sendUpdateAsync(MinecraftServer.getServer());
+			sendUpdateAsync(sse.getServer());
 		}
 	}
 
 	public static void sendUpdateAsync(final ICommandSender finalConsole) {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				UpdateInfo info = UpdateSystem.getUpdateInfo(); // Blocks
-				notifyOfUpdate(finalConsole, info);
-			}
-		}, "MHFC Update Notifier").start();
+		try {
+			notifyOfUpdate(finalConsole, ForgeVersion.getResult(MHFCMain.getModContainer()));
+		} catch (Exception e) {
+			MHFCMain.logger().error("Failed to display update notification", e);
+		}
 	}
 
-	private static void notifyOfUpdate(ICommandSender console, UpdateInfo info) {
+	private static void notifyOfUpdate(ICommandSender console, CheckResult info) {
+		console.sendMessage(new TextComponentString(makeUpdateNotification(console, info)));
+	}
+
+	private static String makeUpdateNotification(ICommandSender console, CheckResult info) {
+		ComparableVersion currentVersion = new ComparableVersion(MHFCMain.getModContainer().getVersion());
+
 		switch (info.status) {
-		case NEWUPDATE:
-			console.addChatMessage(
-					new ChatComponentText(
-							ColorSystem.ENUMGOLD + "Hunter " + console.getCommandSenderName() + ", a new version ("
-									+ info.version + ") of Monster Hunter Frontier Craft is out!"
-									+ " Check out the facebook page or the mod thread."));
-			break;
-		case NOUPDATE:
-			console.addChatMessage(
-					new ChatComponentText(
-							ColorSystem.ENUMGOLD + "Welcome Hunter " + console.getCommandSenderName()
-									+ ", you're up to date, have fun hunting !!"));
-			break;
-		case OFFLINE:
-			console.addChatMessage(
-					new ChatComponentText(
-							ColorSystem.ENUMGOLD + "Hunter " + console.getCommandSenderName()
-									+ ", unable to check for updates automatically"));
-			console.addChatMessage(
-					new ChatComponentText(
-							"Make sure you frequently stop by on our facebook site or Minecraft forum thread!!"));
-			break;
+		case OUTDATED:
+		case BETA_OUTDATED:
+			return ColorSystem.ENUMGOLD + "[MHFC] Hi there " + console.getName() + ", a new version (" + info.target
+					+ ") of Monster Hunter Frontier Craft is out!" + " Check out the facebook page or the mod thread.";
+		case UP_TO_DATE:
+		case BETA:
+		case AHEAD:
+			return ColorSystem.ENUMGOLD + "[MHFC] Hi there " + console.getName()
+					+ ", you're up to date, have fun hunting !!";
+		case PENDING:
+		case FAILED:
+			return ColorSystem.ENUMGOLD + "[MHFC] Failed to retrieve update info. Current version: " + currentVersion
+					+ ".";
 		default: // Should not happen?
-			console.addChatMessage(
-					new ChatComponentText(
-							ColorSystem.ENUMGOLD + "MHFC: There is no current Update System Atm please wait for the patch.."
-									+ " Version Info: " + info.version));
+			return ColorSystem.ENUMGOLD + "[MHFC] Internal problem while retrieving update info. " + "Current version: "
+					+ currentVersion + ". Reason for failure: " + info.status;
 		}
+
 	}
 }

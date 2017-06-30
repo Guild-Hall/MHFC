@@ -1,115 +1,88 @@
 package mhfc.net.common.ai.entity.boss.deviljho;
 
-import mhfc.net.common.ai.IExecutableAction;
-import mhfc.net.common.ai.entity.AIGameplayComposition;
+import mhfc.net.common.ai.entity.AIMethods;
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
-import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
-import mhfc.net.common.ai.general.actions.IJumpTimingProvider;
-import mhfc.net.common.ai.general.provider.simple.IJumpParamterProvider;
-import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.ai.general.actions.JumpAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.adapters.AttackTargetAdapter;
+import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
+import mhfc.net.common.ai.general.provider.adapters.JumpAdapter;
+import mhfc.net.common.ai.general.provider.adapters.JumpTimingAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.composite.IJumpProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasJumpProvider;
+import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
+import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
+import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
+import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
-import net.minecraft.entity.Entity;
+import mhfc.net.common.util.world.WorldHelper;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.Vec3d;
 
-public class Jump extends AIGeneralJumpAttack<EntityDeviljho> {
+public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider<EntityDeviljho> {
 
-	private static final String set_ANIMATION = "mhfc:models/Deviljho/DeviljhoJump.mcanm";
-	private static final int set_FRAME = 60;
-	private static final int set_JUMPFRAME = 20;
-	private static final float set_TURNRATE = 14;
-	private static final float set_JUMPDURATION = 12f;
+	private static final int FRAMES = 60;
+	private static final String ANIMATION_LOCATION = "mhfc:models/Deviljho/DeviljhoJump.mcanm";
+	private static final int JUMPFRAME = 20;
 
-	private static final IDamageCalculator set_DAMAGEBASE = AIUtils.defaultDamageCalc(105f, 2000f, 999999F);
-	private static final double set_DISTANCEMINIMUM = 6F;
-	private static final double set_DISTANCEMAX = 15F;
-	private static final float set_ANGLETHETA = 140f;
-	private static final float set_ARITHMETICWEIGHT = 1f;
+	private static final float TURNRATE = 14;
+	private static final float JUMPDURATION = 13.5f;
 
-	private static ISelectionPredicate<EntityDeviljho> set_PREDICATE;
-	private static IJumpParamterProvider<EntityDeviljho> set_ADAPTERVAR;
-	private static IJumpTimingProvider<EntityDeviljho> set_COUNTIME;
+	private static final IDamageCalculator DAMAGEBASE = AIUtils.defaultDamageCalc(105f, 2000f, 999999F);
+	private static final double DISTANCEMIN = 6F;
+	private static final double DISTANCEMAX = 15F;
+	private static final float ANGLE_DEGREES = 140f;
+	private static final float WEIGHT = 1f;
 
-	static {
-		set_PREDICATE = new ISelectionPredicate.SelectionAdapter<>(
-				-set_ANGLETHETA,
-				set_ANGLETHETA,
-				set_DISTANCEMINIMUM,
-				set_DISTANCEMAX);
-		set_ADAPTERVAR = new IJumpParamterProvider.AttackTargetAdapter<>(set_JUMPDURATION);
-		set_COUNTIME = new IJumpTimingProvider.JumpTimingAdapter<EntityDeviljho>(set_JUMPFRAME, set_TURNRATE, 0);
+	private final IJumpProvider<EntityDeviljho> JUMP_PROVIDER;
+	{
+		IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, FRAMES);
+		IDamageProvider DAMAGE = new DamageAdapter(DAMAGEBASE);
+		IJumpParameterProvider<EntityDeviljho> PARAMETERS = new AttackTargetAdapter<>(JUMPDURATION);
+		IJumpTimingProvider<EntityDeviljho> TIMING_PARAMS = new JumpTimingAdapter<>(JUMPFRAME, TURNRATE, 0);
+		JUMP_PROVIDER = new JumpAdapter<>(ANIMATION, DAMAGE, PARAMETERS, TIMING_PARAMS);
 	}
 
-	public Jump() {
-		upwardVelocityCap = 35f;
-		
-	}
-	
-	
 	private boolean thrown = false;
-	
+
+	public Jump() {}
+
 	@Override
-	public void update() { 
+	protected float computeSelectionWeight() {
 		EntityDeviljho entity = this.getEntity();
-		if(this.getCurrentFrame() == 5){
-		
-		entity.playSound("mhfc:deviljho.leap", 2.0F, 1.0F);
+		target = entity.getAttackTarget();
+		if (target == null) {
+			return DONT_SELECT;
 		}
-		if (!entity.onGround || thrown || this.getCurrentFrame() < 30)
+		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
+		double dist = toTarget.lengthVector();
+		if (dist > DISTANCEMAX) {
+			return DONT_SELECT;
+		}
+		return WEIGHT;
+	}
+
+	@Override
+	public IJumpProvider<EntityDeviljho> getJumpProvider() {
+		return JUMP_PROVIDER;
+	}
+
+	@Override
+	public void onUpdate() {
+		EntityDeviljho entity = this.getEntity();
+		target = entity.getAttackTarget();
+		if (this.getCurrentFrame() == 5) {
+			entity.playSound(MHFCSoundRegistry.getRegistry().deviljhoLeap, 2.0F, 1.0F);
+		}
+		if (!entity.onGround || thrown || this.getCurrentFrame() < 302) {
 			return;
-		AIGameplayComposition.stompCracks(entity, 200);
+		}
+		AIMethods.stompCracks(entity, 200);
+		if(target instanceof EntityPlayer){
+		AIMethods.camShake(entity, target, 10F, 40F);
+		}
 		thrown = true;
-	}
-
-	@Override
-	public String getAnimationLocation() {
-		return set_ANIMATION;
-	}
-
-	@Override
-	public int getAnimationLength() {
-		return set_FRAME;
-	}
-
-	@Override
-	public boolean shouldSelectAttack(
-			IExecutableAction<? super EntityDeviljho> attack,
-			EntityDeviljho actor,
-			Entity target) {
-		return set_PREDICATE.shouldSelectAttack(attack, actor, target);
-	}
-
-	@Override
-	public float getWeight(EntityDeviljho entity, Entity target) {
-		return set_ARITHMETICWEIGHT;
-	}
-
-	@Override
-	public IDamageCalculator getDamageCalculator() {
-		return set_DAMAGEBASE;
-	}
-
-	@Override
-	public float getInitialUpVelocity(EntityDeviljho entity) {
-		return set_ADAPTERVAR.getInitialUpVelocity(entity);
-	}
-
-	@Override
-	public float getForwardVelocity(EntityDeviljho entity) {
-		return set_ADAPTERVAR.getForwardVelocity(entity);
-	}
-
-	@Override
-	public boolean isJumpFrame(EntityDeviljho entity, int frame) {
-		return set_COUNTIME.isJumpFrame(entity, frame);
-	}
-
-	@Override
-	public boolean isDamageFrame(EntityDeviljho entity, int frame) {
-		return set_COUNTIME.isDamageFrame(entity, frame);
-	}
-
-	@Override
-	public float getTurnRate(EntityDeviljho entity, int frame) {
-		return set_COUNTIME.getTurnRate(entity, frame);
 	}
 }

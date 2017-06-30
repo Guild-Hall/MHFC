@@ -7,7 +7,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 
 public interface ICombatEffectType {
-	default void onEntitySwing(EntityLivingBase entity, ItemStack stack, Random rand) {}
+	default void onEntitySwing(
+			@SuppressWarnings("unused") EntityLivingBase entity,
+			@SuppressWarnings("unused") ItemStack stack,
+			@SuppressWarnings("unused") Random rand) {}
 
 	void applyTo(Entity target, float damageAmount);
 

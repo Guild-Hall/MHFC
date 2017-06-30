@@ -9,15 +9,18 @@ import com.google.gson.JsonSerializationContext;
 import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.quests.api.IVisualDefinition;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription.QuestType;
 import mhfc.net.common.quests.properties.GroupProperty;
+import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.MHFCJsonUtils;
-import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.util.StatCollector;
+import net.minecraft.client.resources.I18n;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	public static final int BORDER = 5;
@@ -34,13 +37,16 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		public static final String KEY_AIMS = "aims";
 		public static final String KEY_FAILS = "fails";
 		public static final String KEY_AREA_ID = "areaID";
-		public static final String KEY_REWARD = "reward";
 		public static final String KEY_FEE = "fee";
 		public static final String KEY_MAX_PARTY_SIZE = "maxPartySize";
 		public static final String KEY_TIME_LIMIT = "timeLimit";
 		public static final String KEY_TYPE = "questType";
 
+		public static final String KEY_MONSTER = "monster";
+
 		private DefaultQuestDescription quest;
+		@SuppressWarnings("unused")
+		private JsonDeserializationContext context;
 		private JsonObject jsonObject;
 
 		public QuestVisualInformationFactory() {}
@@ -51,6 +57,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 
 		public QuestVisualInformationFactory decodingFrom(JsonElement json, JsonDeserializationContext context) {
 			this.jsonObject = json.getAsJsonObject();
+			this.context = context;
 			return this;
 		}
 
@@ -68,13 +75,13 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			String areaName = quest.getAreaType().getUnlocalizedName();
 			String timeLimit = MHFCJsonUtils
 					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_TIME_LIMIT, getDefaultTimeLimit());
-			String reward = MHFCJsonUtils
-					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_REWARD, getDefaultReward());
 			String fee = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_FEE, getDefaultFee());
 			String maxPartySize = MHFCJsonUtils
 					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_MAX_PARTY_SIZE, getDefaultPartySize());
 			String type = MHFCJsonUtils
 					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_TYPE, getDefaultQuestType());
+			String monster = MHFCJsonUtils
+					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_MONSTER, getDefaultMonster());
 			return new DefaultQuestVisualDefinition(
 					quest,
 					name,
@@ -84,13 +91,15 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 					fails,
 					areaName,
 					timeLimit,
-					reward,
 					fee,
 					maxPartySize,
-					type);
+					type,
+					monster);
 		}
 
-		public JsonElement serialize(DefaultQuestVisualDefinition information, JsonSerializationContext context) {
+		public static JsonElement serialize(
+				DefaultQuestVisualDefinition information,
+				@SuppressWarnings("unused") JsonSerializationContext context) {
 			JsonObject holder = new JsonObject();
 			holder.addProperty(KEY_NAME, information.name);
 			holder.addProperty(KEY_DESCRIPTION, information.description);
@@ -99,39 +108,39 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			holder.addProperty(KEY_FAILS, information.fails);
 			holder.addProperty(KEY_AREA_ID, information.areaNameId);
 			holder.addProperty(KEY_TIME_LIMIT, information.timeLimitInS);
-			holder.addProperty(KEY_REWARD, information.reward);
 			holder.addProperty(KEY_FEE, information.fee);
 			holder.addProperty(KEY_MAX_PARTY_SIZE, information.maxPartySize);
 			holder.addProperty(KEY_TYPE, information.typeString);
+			holder.addProperty(KEY_MONSTER, information.monster);
 			return holder;
 		}
 
-		private String getDefaultName() {
-			return "Quest";
+		private static String getDefaultName() {
+			return "Hunter's Quest";
 		}
 
-		private String getDefaultDescription() {
+		private static String getDefaultMonster() {
+			return "NYI";
+		}
+
+		private static String getDefaultDescription() {
 			return "A new monster threatens the town so go out and kill it soon.";
 		}
 
-		private String getDefaultClient() {
-			return "Hunter Guild";
+		private static String getDefaultClient() {
+			return "Village Elder";
 		}
 
-		private String getDefaultAims() {
-			return "Kill all big monsters!";
+		private static String getDefaultAims() {
+			return "Hunt the said monster";
 		}
 
-		private String getDefaultFails() {
+		private static String getDefaultFails() {
 			return "Died three times or time has run out!";
 		}
 
-		private String getDefaultTimeLimit() {
+		private static String getDefaultTimeLimit() {
 			return "As fast as possible";
-		}
-
-		private String getDefaultReward() {
-			return quest == null ? "Gratitude from everybody" : quest.getReward() + "z";
 		}
 
 		private String getDefaultFee() {
@@ -156,9 +165,9 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			"----",
 			"Town",
 			"No time limit",
-			"A quest",
 			"None",
 			"---",
+			"Monster",
 			QuestType.EpicHunting.getAsString());
 	public static final DefaultQuestVisualDefinition IDENTIFIER_ERROR = new DefaultQuestVisualDefinition(
 			DefaultQuestDescription.UNKNOWN_DESCRIPTION,
@@ -169,9 +178,9 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			"Not contacting anyone",
 			"Network or server",
 			"Just do it asap",
-			"A better experience",
 			"A few seconds of your time",
 			"Hopefully one",
+			"monster",
 			QuestType.Gathering.getAsString());
 	public static final DefaultQuestVisualDefinition UNKNOWN = new DefaultQuestVisualDefinition(
 			DefaultQuestDescription.UNKNOWN_DESCRIPTION,
@@ -182,10 +191,10 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			"Dont't die",
 			"Somewhere in a galaxy far away",
 			"A long time ago",
-			"Server owners gratitude for reporting",
 			"What did you pay?",
 			"A few friends",
-			"Unknown quest");
+			"Unknown quest",
+			"monster");
 
 	protected DefaultQuestDescription quest;
 
@@ -194,12 +203,12 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	protected String client;
 	protected String aims;
 	protected String fails;
+	protected String monster;
 
 	protected String areaNameId;
 	protected String timeLimitInS;
 	protected String typeString;
 
-	protected String reward;
 	protected String fee;
 	protected String maxPartySize;
 
@@ -212,10 +221,10 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			String fails,
 			String areaNameID,
 			String timeLimitInS,
-			String reward,
 			String fee,
 			String maxPartySize,
-			String type) {
+			String type,
+			String monster) {
 		this.quest = quest;
 		this.name = name;
 		this.typeString = type;
@@ -224,10 +233,10 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		this.client = client;
 		this.aims = aims;
 		this.fails = fails;
-		this.reward = reward;
 		this.fee = fee;
 		this.maxPartySize = maxPartySize;
 		this.areaNameId = areaNameID;
+		this.monster = monster;
 	}
 
 	@Override
@@ -250,6 +259,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void drawInformation(
 			int positionX,
 			int positionY,
@@ -257,8 +267,8 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			int height,
 			int page,
 			FontRenderer fontRenderer) {
-		String TAG_MONSTERS = StatCollector.translateToLocal(MHFCReference.unlocalized_tag_monsters),
-				TAG_REQUISITES = StatCollector.translateToLocal(MHFCReference.unlocalized_tag_requisites);
+		String TAG_MONSTERS = I18n.format(ResourceInterface.unlocalized_tag_monsters),
+				TAG_REQUISITES = I18n.format(ResourceInterface.unlocalized_tag_requisites);
 		int lineHeight = fontRenderer.FONT_HEIGHT + 2;
 		String draw;
 		page = page % 3;
@@ -277,7 +287,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			currentY += LINE_SEPERATION;
 			currentY += MHFCGuiUtil.drawTextAndReturnHeight(
 					fontRenderer,
-					"NYI",
+					ColorSystem.ENUMDARK_RED + monster,
 					positionX + width / 8,
 					currentY,
 					7 * width / 8 - BORDER,
@@ -300,6 +310,8 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		case 2:
 			drawClientDescription(positionX, currentY, width, fontRenderer);
 			break;
+		default:
+			break;
 		}
 		draw = (page + 1) + "/3";
 		fontRenderer.drawString(
@@ -310,9 +322,10 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 
 	}
 
+	@SideOnly(Side.CLIENT)
 	protected void drawClientDescription(int positionX, int currentY, int width, FontRenderer fontRenderer) {
 		width = Math.max(width, 20);
-		String TAG_CLIENT = StatCollector.translateToLocal(MHFCReference.unlocalized_tag_client);
+		String TAG_CLIENT = I18n.format(ResourceInterface.unlocalized_tag_client);
 		fontRenderer.drawString(TAG_CLIENT, positionX + BORDER, currentY, COLOUR_HEADER);
 		int offsetX = (BORDER + fontRenderer.getStringWidth(TAG_CLIENT) + BORDER);
 		int drawWidth = width - offsetX - BORDER;
@@ -332,7 +345,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		currentY += LINE_SEPERATION;
 		currentY += MHFCGuiUtil.drawTextLocalizedAndReturnHeight(
 				fontRenderer,
-				MHFCReference.unlocalized_tag_description,
+				ResourceInterface.unlocalized_tag_description,
 				positionX + BORDER,
 				currentY,
 				0,
@@ -347,8 +360,9 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 				COLOUR_TEXT);
 	}
 
+	@SideOnly(Side.CLIENT)
 	private String getClientLocalized() {
-		return StatCollector.translateToLocal(client);
+		return I18n.format(client);
 	}
 
 	protected void drawAimsFails(
@@ -360,7 +374,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			FontRenderer fontRenderer) {
 		currentY += MHFCGuiUtil.drawTextLocalizedAndReturnHeight(
 				fontRenderer,
-				MHFCReference.unlocalized_tag_aims,
+				ResourceInterface.unlocalized_tag_aims,
 				positionX + BORDER,
 				currentY,
 				0,
@@ -377,7 +391,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		currentY = Math.max(currentY, positionY + height / 2);
 		currentY += MHFCGuiUtil.drawTextLocalizedAndReturnHeight(
 				fontRenderer,
-				MHFCReference.unlocalized_tag_fails,
+				ResourceInterface.unlocalized_tag_fails,
 				positionX + BORDER,
 				currentY,
 				0,
@@ -416,23 +430,27 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		return positionY;
 	}
 
+	@SideOnly(Side.CLIENT)
 	private String getTypeLocalized() {
-		return StatCollector.translateToLocal(this.typeString);
+		return I18n.format(this.typeString);
 	}
 
+	@SideOnly(Side.CLIENT)
 	private String getNameLocalized() {
-		return StatCollector.translateToLocal(name);
+		return I18n.format(name);
 	}
 
+	@SideOnly(Side.CLIENT)
 	protected int drawBaseInformation(int positionX, int positionY, int width, FontRenderer fontRenderer) {
-		String TAG_FEE = StatCollector.translateToLocal(MHFCReference.unlocalized_tag_fee), //
-				TAG_REWARD = StatCollector.translateToLocal(MHFCReference.unlocalized_tag_reward), //
-				TAG_TIME = StatCollector.translateToLocal(MHFCReference.unlocalized_tag_time), //
-				TAG_AREA = StatCollector.translateToLocal(MHFCReference.unlocalized_tag_area);
+		String TAG_FEE = I18n.format(ResourceInterface.unlocalized_tag_fee), //
+				TAG_REWARD = I18n.format(ResourceInterface.unlocalized_tag_reward), //
+				TAG_TIME = I18n.format(ResourceInterface.unlocalized_tag_time), //
+				TAG_AREA = I18n.format(ResourceInterface.unlocalized_tag_area);
 		fontRenderer.drawString(TAG_REWARD, positionX + BORDER, positionY, COLOUR_HEADER);
+		// TODO: reimplement reward as string
 		positionY += MHFCGuiUtil.drawTextLocalizedAndReturnHeight(
 				fontRenderer,
-				reward,
+				"WIP",
 				positionX + width / 2,
 				positionY,
 				width / 2 - BORDER,
@@ -459,7 +477,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		fontRenderer.drawString(TAG_AREA, positionX + BORDER, positionY, COLOUR_HEADER);
 		positionY += MHFCGuiUtil.drawTextLocalizedAndReturnHeight(
 				fontRenderer,
-				areaNameId,
+				I18n.format(areaNameId),
 				positionX + width / 2,
 				positionY,
 				width / 2 - BORDER,

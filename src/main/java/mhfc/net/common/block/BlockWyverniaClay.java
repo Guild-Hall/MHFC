@@ -4,23 +4,23 @@ import java.util.Random;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 
 public class BlockWyverniaClay extends Block {
 
 	public BlockWyverniaClay() {
-		super(Material.clay);
-		setBlockName(MHFCReference.block_wyverianclay_name);
-		setBlockTextureName(MHFCReference.block_wyverianclay_tex);
+		super(Material.CLAY);
+		setUnlocalizedName(ResourceInterface.block_wyverianclay_name);
 		setHardness(0.9f);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 
 	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return MHFCItemRegistry.getRegistry().wyverniaClay;
 	}
 

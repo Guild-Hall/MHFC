@@ -16,7 +16,7 @@ public class LazyQueueTest {
 
 	@BeforeClass
 	public static void setUp() {
-		original = new ArrayList<Integer>();
+		original = new ArrayList<>();
 		for (int i = 0; i < 10; i++)
 			original.add(new Integer(i));
 		queue = new LazyQueue<>(original);

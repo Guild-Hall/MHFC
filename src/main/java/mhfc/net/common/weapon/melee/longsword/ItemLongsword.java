@@ -5,8 +5,9 @@ import java.util.function.Consumer;
 
 import com.google.common.collect.Multimap;
 
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.NBTUtils;
-import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.longsword.LongswordWeaponStats.LongswordWeaponStatsBuilder;
 import net.minecraft.entity.Entity;
@@ -14,7 +15,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
 public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
@@ -25,13 +29,13 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 	}
 
 	protected static final String NBT_SPIRIT = "mhfc:affinity";
-	protected static final float MAX_SPIRIT = 250f;
-	protected static final float TRIGGER_SPIRIT = 100f;
-	protected static final float SPIRIT_DECREASE = -0.1f;
+	protected static final UUID LONGSWORD_EFFECT_UUID = UUID.fromString("e6f4502b-1242-4024-bc5e-e89f47fcda76");
+	protected static final float MAX_SPIRIT = 250F;
+	protected static final float TRIGGER_SPIRIT = 180f;
+	protected static final float SPIRIT_DECREASE = -0.4f;
 
 	public ItemLongsword(LongswordWeaponStats stats) {
 		super(stats);
-		setTextureName(MHFCReference.weapon_ls_default_icon);
 	}
 
 	protected float getAffinity(ItemStack stack) {
@@ -53,6 +57,17 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 	public void onUpdate(ItemStack stack, World world, Entity holder, int slot, boolean isHoldItem) {
 		super.onUpdate(stack, world, holder, slot, isHoldItem);
 		changeSpirit(stack, SPIRIT_DECREASE);
+		if (!isHoldItem) {
+			return;
+		}
+		if (holder instanceof EntityPlayer) {
+			EntityPlayer entity = (EntityPlayer) holder;
+			entity.moveEntityWithHeading(entity.moveStrafing * -0.25f, entity.moveForward * -0.25f);
+			//if(stack instanceof) TODO: Add some High class GS that will never required strafing delay.
+			
+
+		}
+		
 	}
 
 	@Override
@@ -73,25 +88,50 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 
 	@Override
 	public String getWeaponClassUnlocalized() {
-		return MHFCReference.weapon_longsword_name;
+		return ResourceInterface.weapon_longsword_name;
 	}
 
 	@Override
-	public boolean hitEntity(ItemStack stack, EntityLivingBase holder, EntityLivingBase hit) {
-		changeSpirit(stack, 30);
+	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
+		attacker.world.playSound(
+				null,
+				attacker.posX,
+				attacker.posY,
+				attacker.posZ,
+				MHFCSoundRegistry.getRegistry().longswordstrike,
+				SoundCategory.NEUTRAL,
+				1F,
+				1F);
+		changeSpirit(stack, 10);
 		return true;
 	}
 
 	@Override
-	public Multimap<String, AttributeModifier> getAttributeModifiers(ItemStack stack) {
-		Multimap<String, AttributeModifier> attributes = super.getAttributeModifiers(stack);
+	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack) {
+		entityLiving.world.playSound(
+				null,
+				entityLiving.posX,
+				entityLiving.posY,
+				entityLiving.posZ,
+				MHFCSoundRegistry.getRegistry().longswordswing,
+				SoundCategory.NEUTRAL,
+				1F,
+				1F);
+		return false;
+	}
+	@Override
+	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
+		Multimap<String, AttributeModifier> attributes = super.getAttributeModifiers(slot, stack);
+		if (slot != EntityEquipmentSlot.MAINHAND) {
+			return attributes;
+		}
 		if (isAffinityTriggered(stack)) {
 			AttributeModifier attackModifier = new AttributeModifier(
-					UUID.fromString(MHFCReference.potion_longsworddamageup_uuid),
+					LONGSWORD_EFFECT_UUID,
 					"Spirit Gauge",
-					1.2,
+					0.4,
 					1);
-			attributes.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), attackModifier);
+			attributes.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), attackModifier);
 		}
 		return attributes;
 	}

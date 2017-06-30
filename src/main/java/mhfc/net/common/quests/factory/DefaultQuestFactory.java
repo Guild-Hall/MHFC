@@ -7,6 +7,7 @@ import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_GO
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_MAX_PARTY_SIZE;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_QUEST_TYPE;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_REWARD;
+import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_SPAWNS;
 import static mhfc.net.common.quests.descriptions.DefaultQuestDescription.KEY_VISUAL;
 
 import com.google.gson.JsonDeserializationContext;
@@ -19,8 +20,10 @@ import mhfc.net.client.quests.DefaultQuestVisualDefinition;
 import mhfc.net.client.quests.DefaultQuestVisualDefinition.QuestVisualInformationFactory;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.api.GoalReference;
+import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.quests.api.IQuestDefinitionFactory;
-import mhfc.net.common.quests.api.QuestDefinition;
+import mhfc.net.common.quests.api.QuestRewardDelegate;
+import mhfc.net.common.quests.api.SpawnInformationDelegate;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription.QuestType;
 import mhfc.net.common.quests.world.QuestFlair;
@@ -32,18 +35,13 @@ import net.minecraft.util.JsonUtils;
 public class DefaultQuestFactory implements IQuestDefinitionFactory {
 
 	@Override
-	public DefaultQuestDescription buildQuestDescription(JsonElement json, JsonDeserializationContext context) {
-		JsonObject jsonAsObject = JsonUtils.getJsonElementAsJsonObject(json, "quest");
-		MHFCJsonUtils.requireFields(jsonAsObject, KEY_GOAL, KEY_REWARD, KEY_FEE, KEY_AREA_ID, KEY_QUEST_TYPE);
+	public DefaultQuestDescription convertTo(JsonElement json, JsonDeserializationContext context) {
+		JsonObject jsonAsObject = JsonUtils.getJsonObject(json, "quest");
+		MHFCJsonUtils.requireFields(jsonAsObject, KEY_GOAL, KEY_FEE, KEY_AREA_ID, KEY_QUEST_TYPE);
 
 		GoalReference goal = context.deserialize(jsonAsObject.get(KEY_GOAL), GoalReference.class);
-		String areaId = JsonUtils.getJsonObjectStringFieldValue(jsonAsObject, KEY_AREA_ID);
-		IAreaType areaType = AreaRegistry.instance.getType(areaId);
-		if (areaType == null) {
-			throw new NullPointerException("Key " + areaId + " is not a registered area type");
-		}
-		String typeString = JsonUtils.getJsonObjectStringFieldValue(jsonAsObject, KEY_QUEST_TYPE);
-		String flairString = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonAsObject, KEY_FLAIR, "DAYTIME");
+
+		String typeString = JsonUtils.getString(jsonAsObject, KEY_QUEST_TYPE);
 		QuestType type = QuestType.Hunting;
 		switch (typeString) {
 		case MHFCQuestBuildRegistry.QUEST_TYPE_HUNTING:
@@ -64,7 +62,16 @@ public class DefaultQuestFactory implements IQuestDefinitionFactory {
 					typeString);
 			type = QuestType.Hunting;
 		}
+
+		String areaId = JsonUtils.getString(jsonAsObject, KEY_AREA_ID);
+		IAreaType areaType = AreaRegistry.instance.getType(areaId);
+		if (areaType == null) {
+			throw new NullPointerException("Key " + areaId + " is not a registered area type");
+		}
+
 		QuestFlair flair = QuestFlair.DAYTIME;
+		String flairString = MHFCJsonUtils
+				.getJsonObjectStringFieldValueOrDefault(jsonAsObject, KEY_FLAIR, QuestFlair.DAYTIME.name());
 		try {
 			flair = QuestFlair.valueOf(flairString);
 		} catch (IllegalArgumentException iae) {
@@ -72,9 +79,11 @@ public class DefaultQuestFactory implements IQuestDefinitionFactory {
 					"[MHFC] Flair {} was not recognized, for allowed values see documentation of MHFCQuestBuildRegistry. Falling back to DAYTIME.",
 					typeString);
 		}
-		int reward = JsonUtils.getJsonObjectIntegerFieldValue(jsonAsObject, KEY_REWARD);
-		int fee = JsonUtils.getJsonObjectIntegerFieldValue(jsonAsObject, KEY_FEE);
+
+		QuestRewardDelegate reward = QuestRewardDelegate.deserialize(jsonAsObject.get(KEY_REWARD), context);
+		int fee = JsonUtils.getInt(jsonAsObject, KEY_FEE);
 		int maxPartySize = MHFCJsonUtils.getJsonObjectIntegerFieldValueOrDefault(jsonAsObject, KEY_MAX_PARTY_SIZE, 4);
+		SpawnInformationDelegate spawns = SpawnInformationDelegate.deserialize(jsonAsObject.get(KEY_SPAWNS), context);
 
 		QuestVisualInformationFactory factory = new QuestVisualInformationFactory()
 				.decodingFrom(jsonAsObject.get(KEY_VISUAL), context);
@@ -84,6 +93,7 @@ public class DefaultQuestFactory implements IQuestDefinitionFactory {
 				areaType,
 				flair,
 				reward,
+				spawns,
 				fee,
 				maxPartySize,
 				factory::forQuest);
@@ -91,22 +101,24 @@ public class DefaultQuestFactory implements IQuestDefinitionFactory {
 	}
 
 	@Override
-	public JsonObject serialize(QuestDefinition description, JsonSerializationContext context) {
+	public JsonObject convertFrom(IQuestDefinition description, JsonSerializationContext context) {
 		DefaultQuestDescription questDesc = DefaultQuestDescription.class.cast(description);
 		DefaultQuestVisualDefinition visual = questDesc.getVisualInformation();
 
 		JsonObject holder = new JsonObject();
-		holder.addProperty(KEY_MAX_PARTY_SIZE, questDesc.getMaxPartySize());
-		holder.addProperty(KEY_QUEST_TYPE, questDesc.getQuestType().getAsString());
-		// holder.addProperty(KEY_TIME_LIMIT, questDesc.get);
-		String areaName = AreaRegistry.instance.getName(questDesc.getAreaType());
-		holder.addProperty(KEY_AREA_ID, areaName == null ? AreaRegistry.NAME_ARENA : areaName);
-		holder.addProperty(KEY_FEE, questDesc.getFee());
-		holder.addProperty(KEY_REWARD, questDesc.getReward());
 		JsonElement jsonGoalReference = context.serialize(questDesc.getGoalReference(), GoalReference.class);
 		holder.add(KEY_GOAL, jsonGoalReference);
-		QuestVisualInformationFactory visualFactory = new QuestVisualInformationFactory(questDesc);
-		JsonElement jsonVisual = visualFactory.serialize(visual, context);
+		holder.addProperty(KEY_QUEST_TYPE, questDesc.getQuestType().getAsString());
+		String areaName = AreaRegistry.instance.getName(questDesc.getAreaType());
+		holder.addProperty(KEY_AREA_ID, areaName == null ? AreaRegistry.NAME_ARENA : areaName);
+		holder.addProperty(KEY_FLAIR, questDesc.getQuestFlair().name());
+		JsonElement reward = context.serialize(questDesc.getReward(), QuestRewardDelegate.class);
+		holder.add(KEY_REWARD, reward);
+		holder.addProperty(KEY_FEE, questDesc.getFee());
+		holder.addProperty(KEY_MAX_PARTY_SIZE, questDesc.getMaxPartySize());
+		JsonElement spawns = context.serialize(questDesc.getSpawnInformation());
+		holder.add(KEY_SPAWNS, spawns);
+		JsonElement jsonVisual = QuestVisualInformationFactory.serialize(visual, context);
 		holder.add(KEY_VISUAL, jsonVisual);
 
 		return holder;

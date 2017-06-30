@@ -1,14 +1,18 @@
 package mhfc.net.common.ai.entity.boss.tigrex;
 
-import mhfc.net.common.ai.ActionAdapter;
+import mhfc.net.common.ai.general.actions.AnimatedAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
-import mhfc.net.common.util.world.WorldHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
-public class GroundHurl extends ActionAdapter<EntityTigrex> {
-	private static final float MIN_DIST = 3f;
+public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnimationProvider {
 	private static final int LAST_FRAME = 60;
+	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/dirtthrow.mcanm";
+
 	private static final int THROW_FRAME = 21;
 	private static final int TURN_FRAMES = 14;
 
@@ -16,47 +20,40 @@ public class GroundHurl extends ActionAdapter<EntityTigrex> {
 	private static final double THROW_HEIGHT = 0.35;
 	private static final float TURN_RATE = 4;
 
-	private static final double MAX_ANGLE = 0.155;
 
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 	private boolean thrown;
-	private int weightFactor;
 
 	public GroundHurl() {
-		weightFactor = 1;
-		setAnimation("mhfc:models/Tigrex/dirtthrow.mcanm");
-		setLastFrame(LAST_FRAME);
 	}
 
+
 	@Override
-	public float getWeight() {
-		EntityTigrex tigrex = this.getEntity();
-		target = tigrex.getAttackTarget();
+	protected float computeSelectionWeight() {
+		EntityTigrex entity = this.getEntity();
+		target = entity.getAttackTarget();
 		if (target == null) {
 			return DONT_SELECT;
 		}
-		Vec3 toTarget = WorldHelper.getVectorToTarget(tigrex, target);
-		if (toTarget.normalize().dotProduct(tigrex.getLookVec()) < MAX_ANGLE) {
-			return DONT_SELECT;
-		}
-		double dist = toTarget.lengthVector();
-		int weight = weightFactor;
-		if (weightFactor > 1) {
-			weightFactor--;
-		}
-		return (float) (dist - MIN_DIST) / (weight);
+		return 7F;
 	}
 
 	@Override
-	public void beginExecution() {
-		EntityTigrex entity = getEntity();
-		entity.playSound("mhfc:tigrex.rockthrow", 2.0F, 1.0F);
+	public IAnimationProvider getAnimProvider() {
+		return ANIMATION;
+	}
+
+	@Override
+	protected void beginExecution() {
+		super.beginExecution();
+		
 		thrown = false;
-		weightFactor *= 3;
 	}
 
 	@Override
-	public void update() {
+	protected void onUpdate() {
 		if (thrown) {
+			super.onUpdate();
 			return;
 		}
 		EntityTigrex tigrex = getEntity();
@@ -66,29 +63,34 @@ public class GroundHurl extends ActionAdapter<EntityTigrex> {
 				tigrex.getTurnHelper().updateTargetPoint(tigrex.getAttackTarget());
 			}
 			return;
+			
+		}
+		if(getCurrentFrame() == THROW_FRAME){
+			Vec3d look = tigrex.getLookVec();
+			Vec3d lookVec = tigrex.getLookVec();
+			Vec3d rightSide = lookVec.crossProduct(new Vec3d(0, 1, 0));
+			for (int i = 0; i < 3; i++) {
+				EntityProjectileBlock block = new EntityProjectileBlock(tigrex.world, tigrex);
+				double xCo = look.xCoord;
+				double yCo = look.yCoord + THROW_HEIGHT;
+				double zCo = look.zCoord;
+				if (i == 0) {
+					xCo += rightSide.xCoord * SPLIT_MULTIPLIER;
+					zCo += rightSide.zCoord * SPLIT_MULTIPLIER;
+				} else if (i == 2) {
+					xCo -= rightSide.xCoord * SPLIT_MULTIPLIER;
+					zCo -= rightSide.zCoord * SPLIT_MULTIPLIER;
+				}
+				block.setThrowableHeading(xCo, yCo, zCo, 1f, 0.5F);
+				tigrex.world.spawnEntity(block);
+			}
+			tigrex.playSound(MHFCSoundRegistry.getRegistry().tigrexRockThrow, 2.0F, 1.0F);	
 		}
 		thrown = true;
-		if (tigrex.worldObj.isRemote) {
+		if (tigrex.world.isRemote) {
 			return;
 		}
-		Vec3 look = tigrex.getLookVec();
-		Vec3 lookVec = tigrex.getLookVec();
-		Vec3 rightSide = lookVec.crossProduct(Vec3.createVectorHelper(0, 1, 0));
-		for (int i = 0; i < 3; i++) {
-			EntityProjectileBlock block = new EntityProjectileBlock(tigrex.worldObj, tigrex);
-			double xCo = look.xCoord;
-			double yCo = look.yCoord + THROW_HEIGHT;
-			double zCo = look.zCoord;
-			if (i == 0) {
-				xCo += rightSide.xCoord * SPLIT_MULTIPLIER;
-				zCo += rightSide.zCoord * SPLIT_MULTIPLIER;
-			} else if (i == 2) {
-				xCo -= rightSide.xCoord * SPLIT_MULTIPLIER;
-				zCo -= rightSide.zCoord * SPLIT_MULTIPLIER;
-			}
-			block.setThrowableHeading(xCo, yCo, zCo, 1f, 0.5f);
-			tigrex.worldObj.spawnEntityInWorld(block);
-		}
+		
 	}
 
 }

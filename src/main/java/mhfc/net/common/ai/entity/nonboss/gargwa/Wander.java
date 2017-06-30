@@ -1,47 +1,41 @@
 package mhfc.net.common.ai.entity.nonboss.gargwa;
 
-import mhfc.net.common.ai.general.IFrameAdvancer;
-import mhfc.net.common.ai.general.actions.AIGeneralWander;
+import mhfc.net.common.ai.general.actions.WanderAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.adapters.CountLoopAdvancer;
+import mhfc.net.common.ai.general.provider.adapters.MoveParameterAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
 import mhfc.net.common.entity.monster.EntityGargwa;
-import net.minecraft.entity.Entity;
 
-public class Wander extends AIGeneralWander<EntityGargwa> {
+public class Wander extends WanderAction<EntityGargwa> implements IHasAnimationProvider {
 
-	private static final String ANIMATION = "mhfc:models/Gagua/GaguaWalk.mcanm";
 	private static final int LAST_FRAME = 45;
+	private static final String ANIMATION_LOCATION = "mhfc:models/Gagua/GaguaWalk.mcanm";
+
 	private static final float WEIGHT = 1F;
 
-	private static final IMoveParameterProvider parameterProvider = new IMoveParameterProvider.MoveParameterAdapter(
-			1f,
-			0.4f);
+	private static final IMoveParameterProvider MOVEMENT_PARAMETERS = new MoveParameterAdapter(1f, 0.2f);
+	private final IAnimationProvider ANIMATION;
 
 	public Wander() {
-		super(parameterProvider);
-		setFrameAdvancer(new IFrameAdvancer.CountLoopAdvancer(0, 45, -1));
+		ANIMATION = AnimationAdapter.builder().setAnimation(ANIMATION_LOCATION).setAnimationLength(LAST_FRAME)
+				.setFrameAdvancer(new CountLoopAdvancer(0, 45, 10)).build(this);
 	}
 
 	@Override
-	protected void beginExecution() {
-		super.beginExecution();
+	protected float computeWanderWeight() {
+		return WEIGHT;
 	}
 
 	@Override
-	public String getAnimationLocation() {
+	public IAnimationProvider getAnimProvider() {
 		return ANIMATION;
 	}
 
 	@Override
-	public int getAnimationLength() {
-		return LAST_FRAME;
+	public IMoveParameterProvider provideMoveParameters() {
+		return MOVEMENT_PARAMETERS;
 	}
-
-	@Override
-	public float getWeight(EntityGargwa entity, Entity target) {
-		if(entity.worldObj.isDaytime()){
-			return WEIGHT;
-		}
-		return DONT_SELECT;
-	}
-
 }

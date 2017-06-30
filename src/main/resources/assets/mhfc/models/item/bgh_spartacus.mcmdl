@@ -1,0 +1,10 @@
+{
+    version: 1,
+    mesh: "mhfc:models/item/model_rath_bowgun.mcmd",
+    textures: {
+        "#weapontex": "mhfc:weapons/(BGH)rath"
+    },
+    transforms: {
+        GUI: { rotation: [{z: -45}, {y: 70}], translation: [0.8, -0.2, 0], scale: 0.7 }
+    }
+}

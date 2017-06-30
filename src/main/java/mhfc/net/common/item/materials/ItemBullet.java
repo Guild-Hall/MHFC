@@ -4,40 +4,40 @@ import java.util.List;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.AbstractSubTypedItem;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.item.materials.ItemBullet.BulletSubType;
 import mhfc.net.common.util.SubTypedItem;
-import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ItemBullet extends AbstractSubTypedItem<BulletSubType> {
 	public static enum BulletSubType implements SubTypedItem.SubTypeEnum<Item> {
-		NORMALS(MHFCReference.item_bulletnormal_name, ItemColor.WHITE), //
-		PIERCES(MHFCReference.item_bulletpierce_name, ItemColor.WHITE), //
-		CRAGS(MHFCReference.item_bulletcrag_name, ItemColor.WHITE), //
-		FLAMES(MHFCReference.item_bulletflame_name, ItemColor.RED); //
+		NORMALS("normalS", ResourceInterface.item_bulletnormal_name, ItemColor.WHITE), //
+		PIERCES("piercingS", ResourceInterface.item_bulletpierce_name, ItemColor.WHITE), //
+		CRAGS("cragS", ResourceInterface.item_bulletcrag_name, ItemColor.WHITE), //
+		FLAMES("flamingS", ResourceInterface.item_bulletflame_name, ItemColor.RED); //
 
+		public final String registryName;
 		public final String name;
-		public final String texture;
 		public final ItemColor color;
 
-		private BulletSubType(String name, ItemColor color) {
+		private BulletSubType(String registryName, String name, ItemColor color) {
+			this.registryName = registryName;
 			this.name = name;
-			this.texture = MHFCReference.base_gear_bullet;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
-			return this.name;
+			return this.registryName;
 		}
 
 		@Override
-		public String getTexPath() {
-			return this.texture;
+		public String getUnlocalizedName() {
+			return name;
 		}
 
 		@Override
@@ -53,17 +53,24 @@ public class ItemBullet extends AbstractSubTypedItem<BulletSubType> {
 
 	public ItemBullet() {
 		super(BulletSubType.class);
-		setUnlocalizedName(MHFCReference.item_bullet_basename);
+		setUnlocalizedName(ResourceInterface.item_bullet_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 
 	@Override
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+	public void addInformation(
+			ItemStack par1ItemStack,
+			EntityPlayer par2EntityPlayer,
+			List<String> par3List,
+			boolean par4) {
 		switch (itemPerk.getSubType(par1ItemStack)) {
 		case FLAMES:
 			par3List.add("Bullet use for Bowguns");
 			par3List.add("Deals fire damage to monsters");
 			break;
+		case CRAGS:
+		case NORMALS:
+		case PIERCES:
 		default:
 			par3List.add("Bullet use for Bowguns");
 			break;

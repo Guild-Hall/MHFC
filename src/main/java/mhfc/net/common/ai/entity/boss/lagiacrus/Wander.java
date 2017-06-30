@@ -1,44 +1,49 @@
 package mhfc.net.common.ai.entity.boss.lagiacrus;
 
-import mhfc.net.common.ai.general.IFrameAdvancer;
-import mhfc.net.common.ai.general.actions.AIGeneralWander;
+import mhfc.net.common.ai.general.actions.WanderAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.adapters.CountLoopAdvancer;
+import mhfc.net.common.ai.general.provider.adapters.MoveParameterAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
+import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
 import mhfc.net.common.entity.monster.EntityLagiacrus;
-import net.minecraft.entity.Entity;
 
-public class Wander extends AIGeneralWander<EntityLagiacrus> {
+public class Wander extends WanderAction<EntityLagiacrus> implements IHasAnimationProvider {
 
-	private static final String ANIMATION = "mhfc:models/Lagiacrus/LagiacrusWalk.mcanm";
 	private static final int LAST_FRAME = 100;
+	private static final String ANIMATION_LOCATION = "mhfc:models/Lagiacrus/LagiacrusWalk.mcanm";
+
 	private static final float WEIGHT = 0.5F;
 
-	private static final IMoveParameterProvider parameterProvider = new IMoveParameterProvider.MoveParameterAdapter(
-			3f,
-			0.52f);
+	private static final IMoveParameterProvider MOVEMENT_PARAMS = new MoveParameterAdapter(0.8f, 0.3f);
+	private IAnimationProvider ANIMATION;
 
 	public Wander() {
-		super(parameterProvider);
-		setFrameAdvancer(new IFrameAdvancer.CountLoopAdvancer(10, 80, -1));
+		ANIMATION = AnimationAdapter.builder().setAnimation(ANIMATION_LOCATION).setAnimationLength(LAST_FRAME)
+				.setFrameAdvancer(new CountLoopAdvancer(20, 80, 1)).build(this);
+		
+	}	
+
+	@Override
+	protected float computeWanderWeight() {
+		return WEIGHT;
 	}
 
 	@Override
-	protected void beginExecution() {
-		super.beginExecution();
-	}
-
-	@Override
-	public String getAnimationLocation() {
+	public IAnimationProvider getAnimProvider() {
 		return ANIMATION;
 	}
 
 	@Override
-	public int getAnimationLength() {
-		return LAST_FRAME;
+	public IMoveParameterProvider provideMoveParameters() {
+		return MOVEMENT_PARAMS;
 	}
-
+	
 	@Override
-	public float getWeight(EntityLagiacrus entity, Entity target) {
-		return WEIGHT;
+	public IContinuationPredicate provideContinuationPredicate() {
+		return super.provideContinuationPredicate().and(IHasAnimationProvider.super.provideContinuationPredicate());
 	}
 
 }

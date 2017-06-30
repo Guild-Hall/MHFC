@@ -1,14 +1,28 @@
 package mhfc.net.common.ai.entity.nonboss.delex;
 
-import mhfc.net.common.ai.general.actions.AIGeneralDeath;
+import mhfc.net.common.ai.general.actions.DeathAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDelex;
+import net.minecraft.util.SoundEvent;
 
-public class Death extends AIGeneralDeath<EntityDelex> {
+public class Death extends DeathAction<EntityDelex> implements IHasAnimationProvider {
 
 	private static final String ANIMATION_LOCATION = "mhfc:models/Delex/DelexDeath.mcanm";
-//git
-	public Death() {
-		super(ANIMATION_LOCATION, "mhfc:delex.hurt");
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, 0);
+
+	public Death() {}
+
+	@Override
+	public IAnimationProvider getAnimProvider() {
+		return ANIMATION;
+	}
+
+	@Override
+	public SoundEvent provideDeathSound() {
+		return MHFCSoundRegistry.getRegistry().delexHurt;
 	}
 
 }

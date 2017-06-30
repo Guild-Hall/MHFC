@@ -1,23 +1,22 @@
 package mhfc.net.common.eventhandler.entity;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class PitfallEvent {
-	public final static PitfallEvent instance = new PitfallEvent();
-
 	// TODO
 	@SubscribeEvent
-	public void onEntityUpdate(LivingUpdateEvent event) {
+	public static void onEntityUpdate(LivingUpdateEvent event) {
 
-		if (event == null || event.entityLiving == null) {
+		if (event == null || event.getEntityLiving() == null) {
 			return;
 		}
-		PotionEffect activeEffect = event.entityLiving.getActivePotionEffect(MHFCPotionRegistry.getRegistry().stun);
+		PotionEffect activeEffect = event.getEntityLiving()
+				.getActivePotionEffect(MHFCPotionRegistry.getRegistry().stun);
 		if (activeEffect != null && activeEffect.getDuration() == 0) {
-			event.entityLiving.removePotionEffect(MHFCPotionRegistry.getRegistry().stun.id);
+			event.getEntityLiving().removePotionEffect(MHFCPotionRegistry.getRegistry().stun);
 		}
 	}
 

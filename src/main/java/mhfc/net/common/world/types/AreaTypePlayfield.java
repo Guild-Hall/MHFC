@@ -1,20 +1,20 @@
 package mhfc.net.common.world.types;
 
+import java.util.List;
+
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.RunContext;
 
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.SpawnControllerAdapter;
-import mhfc.net.common.util.lib.MHFCReference;
 import mhfc.net.common.world.area.AreaAdapter;
 import mhfc.net.common.world.area.AreaConfiguration;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.area.IExtendedConfiguration;
-import mhfc.net.common.world.controller.CornerPosition;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class AreaTypePlayfield implements IAreaType {
@@ -28,18 +28,6 @@ public class AreaTypePlayfield implements IAreaType {
 			protected void enqueDefaultSpawns() {
 				return;
 			}
-
-			@Override
-			protected SpawnInformation constructDefaultSpawnInformation(Spawnable entity) {
-				int spawnX = config.getChunkSizeX() * 8;
-				int spawnZ = config.getChunkSizeZ() * 8;
-				int height = world
-						.getChunkFromChunkCoords(
-								getChunkPosition().posX + spawnX / 16,
-								getChunkPosition().posY + spawnZ / 16)
-						.getHeightValue(spawnX % 16, spawnZ % 16);
-				return new SpawnInformation(entity, 6, height, 6);
-			}
 		}
 
 		public AreaPlayfield(World world, AreaConfiguration config) {
@@ -47,12 +35,15 @@ public class AreaTypePlayfield implements IAreaType {
 		}
 
 		@Override
-		public void teleportToSpawn(EntityPlayer player) {
-			CornerPosition chunkPos = getChunkPosition();
-			double posX = 8;
-			double posZ = 8;
-			double posY = world.getChunkFromChunkCoords(chunkPos.posX, chunkPos.posY).getHeightValue(8, 8);
-			worldView.moveEntityTo(player, posX, posY, posZ);
+		protected BlockPos getPlayerSpawnPosition() {
+			return new BlockPos(8, -1, 8);
+		}
+
+		@Override
+		protected BlockPos getMonsterSpawnPosition() {
+			int spawnX = config.getChunkSizeX() * 8;
+			int spawnZ = config.getChunkSizeZ() * 8;
+			return new BlockPos(spawnX, -1, spawnZ);
 		}
 
 		@Override
@@ -74,7 +65,7 @@ public class AreaTypePlayfield implements IAreaType {
 
 	@Override
 	public String getUnlocalizedName() {
-		return MHFCReference.area_playfield_name;
+		return ResourceInterface.area_playfield_name;
 	}
 
 	public AreaTypePlayfield(int chunkSizeX, int chunkSizeY) {
@@ -95,7 +86,9 @@ public class AreaTypePlayfield implements IAreaType {
 					for (int j = 0; j < 16 * chunksZ; j++) {
 						int x = configuration.getPosition().posX * 16 + i;
 						int z = configuration.getPosition().posY * 16 + j;
-						world.setBlock(x, 64, z, Blocks.dirt);
+						world.setBlockState(
+								new BlockPos(x, 64, z),
+								MHFCBlockRegistry.getRegistry().mhfcblockdirt.getDefaultState());
 					}
 				}
 				return null;
@@ -103,6 +96,12 @@ public class AreaTypePlayfield implements IAreaType {
 
 			@Override
 			public void cancel() {}
+
+			@Override
+			public void addStatusMessages(List<String> messages) {
+				// TODO Auto-generated method stub
+
+			}
 		};
 	}
 

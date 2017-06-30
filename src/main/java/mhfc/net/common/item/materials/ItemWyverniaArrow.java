@@ -1,21 +1,27 @@
 package mhfc.net.common.item.materials;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.util.lib.MHFCReference;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
+import mhfc.net.common.index.ResourceInterface;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class ItemWyverniaArrow extends Item {
 
-	
 	public ItemWyverniaArrow() {
 		super();
-		setUnlocalizedName(MHFCReference.item_arrow0_name);
+		setUnlocalizedName(ResourceInterface.item_arrow0_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 
-	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
-		this.itemIcon = par1IconRegister.registerIcon(MHFCReference.item_arrow0_icon);
+	public EntityWyverniaArrow createArrow(
+			World worldIn,
+			@SuppressWarnings("unused") ItemStack stack,
+			EntityLivingBase shooter,
+			float force) {
+		return new EntityWyverniaArrow(worldIn, shooter, force);
 	}
+
 }

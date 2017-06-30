@@ -4,22 +4,24 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.data.QuestDescriptionRegistry;
 import mhfc.net.common.core.directors.DirectorLoadQuestsFromLocal;
 import mhfc.net.common.core.registry.MHFCQuestRegistry.RunningSubscriptionHandler;
-import mhfc.net.common.eventhandler.MHFCInteractionHandler.MHFCInteractionModReloadEvent;
 import mhfc.net.common.network.PacketPipeline;
+import mhfc.net.common.network.handler.MHFCInteractionHandler.MHFCInteractionModReloadEvent;
 import mhfc.net.common.network.message.quest.MessageQuestInit;
 import mhfc.net.common.quests.QuestFactories;
-import mhfc.net.common.quests.api.GoalDefinition;
-import mhfc.net.common.quests.api.QuestDefinition;
+import mhfc.net.common.quests.api.IGoalDefinition;
+import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.quests.descriptions.DefaultQuestDescription;
 import mhfc.net.common.quests.world.QuestFlair;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 /**
  * The registry for quests and quest goals. It will read some source files on init, these war written in the json
@@ -35,9 +37,6 @@ public class MHFCQuestBuildRegistry {
 
 	private static QuestDescriptionRegistry dataObject;
 
-	public static final String KEY_TYPE = "type";
-	public static final String KEY_DATA = "data";
-
 	public static final String KEY_ORDERED_GROUPS = "groupDisplayOrder";
 	public static final String KEY_GROUP_MAPPING = "groups";
 
@@ -52,7 +51,6 @@ public class MHFCQuestBuildRegistry {
 	public static final String GOAL_TIME_TYPE = "time";
 
 	public static final String QUEST_DEFAULT = "default";
-	public static final String QUEST_RUNNING = "running";
 
 	public static final String VISUAL_DEFAULT = "default";
 
@@ -60,6 +58,16 @@ public class MHFCQuestBuildRegistry {
 	public static final String QUEST_TYPE_GATHERING = "mhfc.quests.type.gathering";
 	public static final String QUEST_TYPE_EPIC_HUNTING = "mhfc.quests.type.epichunting";
 	public static final String QUEST_TYPE_KILLING = "mhfc.quests.type.killing";
+
+	public static final String REWARD_MULTIPLE_TYPE = "multiple";
+	public static final String REWARD_DEBUG_TYPE = "debug";
+	public static final String REWARD_NULL_TYPE = "null";
+	public static final String REWARD_MONEY_TYPE = "money";
+	public static final String REWARD_LOOTTABLE_TYPE = "lootTable";
+
+	public static final String SPAWN_NONE_TYPE = "none";
+	public static final String SPAWN_MONSTER_TYPE = "monster";
+	public static final String SPAWN_MULTIPLE_TYPE = "multiple";
 
 	public static class PlayerConnectionHandler {
 
@@ -74,7 +82,7 @@ public class MHFCQuestBuildRegistry {
 	public static void init() {
 		dataObject = new QuestDescriptionRegistry();
 		MHFCQuestBuildRegistry.loadQuestsFromFiles();
-		FMLCommonHandler.instance().bus().register(new PlayerConnectionHandler());
+		MinecraftForge.EVENT_BUS.register(new PlayerConnectionHandler());
 		MHFCMain.logger().info("Quest loaded");
 	}
 
@@ -96,8 +104,8 @@ public class MHFCQuestBuildRegistry {
 		dataObject.clearData();
 		MHFCQuestBuildRegistry.loadQuestsFromFiles();
 
-		Iterator<EntityPlayerMP> it = FMLCommonHandler.instance().getMinecraftServerInstance()
-				.getConfigurationManager().playerEntityList.iterator();
+		Iterator<EntityPlayerMP> it = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
+				.getPlayers().iterator();
 		while (it.hasNext()) {
 			EntityPlayerMP player = it.next();
 			PacketPipeline.networkPipe.sendTo(new MessageQuestInit(dataObject), player);
@@ -105,11 +113,11 @@ public class MHFCQuestBuildRegistry {
 		MHFCMain.logger().info("Quests reloaded");
 	}
 
-	public static GoalDefinition getGoalDescription(String id) {
+	public static IGoalDefinition getGoalDescription(ResourceLocation id) {
 		return dataObject.getGoalDescription(id);
 	}
 
-	public static QuestDefinition getQuestDescription(String id) {
+	public static IQuestDefinition getQuestDescription(ResourceLocation id) {
 		return dataObject.getQuestDescription(id);
 	}
 
@@ -117,7 +125,7 @@ public class MHFCQuestBuildRegistry {
 		return dataObject.getGroupsInOrder();
 	}
 
-	public static Set<String> getQuestIdentifiersFor(String group) {
+	public static Set<ResourceLocation> getQuestIdentifiersFor(String group) {
 		return dataObject.getQuestIdentifiersFor(group);
 	}
 }

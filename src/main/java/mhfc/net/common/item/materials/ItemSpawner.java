@@ -1,53 +1,53 @@
 package mhfc.net.common.item.materials;
 
 import java.util.Iterator;
-import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.MHFCMobList;
 import mhfc.net.common.core.MHFCMobList.MHFCEggInfo;
-import mhfc.net.common.util.lib.MHFCReference;
-import net.minecraft.block.Block;
+import mhfc.net.common.index.ResourceInterface;
+import mhfc.net.common.item.IItemColored;
 import net.minecraft.block.BlockLiquid;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Facing;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemSpawner extends Item {
-	@SideOnly(Side.CLIENT)
-	private IIcon theIcon;
+public class ItemSpawner extends Item implements IItemColored {
 
 	public ItemSpawner() {
 		super();
-		setTextureName(MHFCReference.base_tool_horn);
-		setUnlocalizedName(MHFCReference.item_mhfcspawnegg_name);
+		setUnlocalizedName(ResourceInterface.item_mhfcspawnegg_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHasSubtypes(true);
 		setMaxStackSize(1);
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack par1ItemStack) {
-		String s = (StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
-		String s1 = MHFCMobList.getStringFromID(par1ItemStack.getItemDamage());
+		String s = (I18n.format(this.getUnlocalizedName() + ".name")).trim();
+		ResourceLocation s1 = MHFCMobList.getStringFromID(par1ItemStack.getItemDamage());
 
 		if (s1 != null) {
-			s = s + " " + StatCollector.translateToLocal("entity." + s1 + ".name");
+			s = s + " " + I18n.format("entity." + EntityList.getTranslationName(s1) + ".name");
 		}
 
 		return s;
@@ -62,143 +62,95 @@ public class ItemSpawner extends Item {
 				: 16777215;
 	}
 
-	@Override
-	public boolean onItemUse(
-			ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			World par3World,
-			int par4,
-			int par5,
-			int par6,
-			int par7,
-			float par8,
-			float par9,
-			float par10) {
-		if (par3World.isRemote) {
-			return true;
-		}
-		Block block = par3World.getBlock(par4, par5, par6);
-		par4 += Facing.offsetsXForSide[par7];
-		par5 += Facing.offsetsYForSide[par7];
-		par6 += Facing.offsetsZForSide[par7];
-		double d0 = 0.0D;
+	private static Entity spawnCreature(World world, ItemStack stack, BlockPos pos) {
+		int meta = stack.getItemDamage();
 
-		if (par7 == 1 && block.getRenderType() == 11) {
-			d0 = 0.5D;
-		}
-
-		Entity entity = spawnCreature(par3World, par1ItemStack.getItemDamage(), par4 + 0.5D, par5 + d0, par6 + 0.5D);
-
-		if (entity != null) {
-			if (entity instanceof EntityLivingBase && par1ItemStack.hasDisplayName()) {
-				((EntityLiving) entity).setCustomNameTag(par1ItemStack.getDisplayName());
-			}
-
-			if (!par2EntityPlayer.capabilities.isCreativeMode) {
-				--par1ItemStack.stackSize;
-			}
-		}
-
-		return true;
-	}
-
-	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
-		if (par2World.isRemote) {
-			return par1ItemStack;
-		}
-		MovingObjectPosition movingobjectposition = this
-				.getMovingObjectPositionFromPlayer(par2World, par3EntityPlayer, true);
-
-		if (movingobjectposition == null) {
-			return par1ItemStack;
-		}
-		if (movingobjectposition.typeOfHit == MovingObjectType.BLOCK) {
-			int i = movingobjectposition.blockX;
-			int j = movingobjectposition.blockY;
-			int k = movingobjectposition.blockZ;
-
-			if (!par2World.canMineBlock(par3EntityPlayer, i, j, k)) {
-				return par1ItemStack;
-			}
-
-			if (!par3EntityPlayer.canPlayerEdit(i, j, k, movingobjectposition.sideHit, par1ItemStack)) {
-				return par1ItemStack;
-			}
-
-			if (par2World.getBlock(i, j, k) instanceof BlockLiquid) {
-				Entity entity = spawnCreature(par2World, par1ItemStack.getItemDamage(), i, j, k);
-
-				if (entity != null) {
-					if (entity instanceof EntityLivingBase && par1ItemStack.hasDisplayName()) {
-						((EntityLiving) entity).setCustomNameTag(par1ItemStack.getDisplayName());
-					}
-
-					if (!par3EntityPlayer.capabilities.isCreativeMode) {
-						--par1ItemStack.stackSize;
-					}
-				}
-			}
-		}
-
-		return par1ItemStack;
-	}
-
-	public static Entity spawnCreature(World par0World, int par1, double par2, double par4, double par6) {
-		if (!MHFCMobList.registeredEggs().containsKey(Integer.valueOf(par1))) {
+		ResourceLocation entityID = MHFCMobList.getStringFromID(meta);
+		if (entityID == null) {
 			return null;
 		}
-		Entity entity = null;
-
-		for (int j = 0; j < 1; ++j) {
-			entity = MHFCMobList.createEntityByID(par1, par0World);
-
-			if (entity != null && entity instanceof EntityLivingBase) {
-				EntityLiving entityliving = (EntityLiving) entity;
-				entity.setLocationAndAngles(
-						par2,
-						par4,
-						par6,
-						MathHelper.wrapAngleTo180_float(par0World.rand.nextFloat() * 360.0F),
-						0.0F);
-				entityliving.rotationYawHead = entityliving.rotationYaw;
-				entityliving.renderYawOffset = entityliving.rotationYaw;
-				entityliving.onSpawnWithEgg((IEntityLivingData) null);
-				par0World.spawnEntityInWorld(entity);
-				entityliving.playLivingSound();
-			}
+		EntityLiving entity = EntityLiving.class.cast(EntityList.createEntityByIDFromName(entityID, world));
+		if (entity == null) {
+			return null;
 		}
+
+		double x = pos.getX() + 0.5D, y = pos.getY(), z = pos.getZ() + 0.5D;
+		entity.setLocationAndAngles(x, y, z, MathHelper.wrapDegrees(world.rand.nextFloat() * 360.0F), 0.0F);
+		entity.rotationYawHead = entity.rotationYaw;
+		entity.renderYawOffset = entity.rotationYaw;
+		entity.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(entity)), null);
+		if (stack.hasDisplayName()) {
+			entity.setCustomNameTag(stack.getDisplayName());
+		}
+
+		world.spawnEntity(entity);
+		entity.playLivingSound();
 
 		return entity;
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses() {
-		return true;
+	public EnumActionResult onItemUse(
+			EntityPlayer player,
+			World world,
+			BlockPos pos,
+			EnumHand hand,
+			EnumFacing facing,
+			float hitX,
+			float hitY,
+			float hitZ) {
+		ItemStack stack = player.getHeldItem(hand);
+		if (world.isRemote) {
+			return EnumActionResult.SUCCESS;
+		}
+		if (!player.canPlayerEdit(pos.offset(facing), facing, stack)) {
+			return EnumActionResult.FAIL;
+		}
+		Entity entity = spawnCreature(world, stack, pos.up());
+
+		if (entity != null && !player.capabilities.isCreativeMode) {
+			stack.setCount(stack.getCount() - 1);
+		}
+		return EnumActionResult.SUCCESS;
+	}
+
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
+		if (world.isRemote) {
+			return new ActionResult<>(EnumActionResult.PASS, stack);
+		}
+		RayTraceResult rayTraceResult = rayTrace(world, player, true);
+
+		if (rayTraceResult == null || rayTraceResult.typeOfHit == Type.BLOCK) {
+			return new ActionResult<>(EnumActionResult.PASS, stack);
+		}
+
+		BlockPos hitBlockPos = rayTraceResult.getBlockPos();
+		if (!(world.getBlockState(hitBlockPos).getBlock() instanceof BlockLiquid)) {
+			return new ActionResult<>(EnumActionResult.PASS, stack);
+		}
+		if (!world.isBlockModifiable(player, hitBlockPos)
+				|| !player.canPlayerEdit(hitBlockPos, rayTraceResult.sideHit, stack)) {
+			return new ActionResult<>(EnumActionResult.FAIL, stack);
+		}
+
+		Entity entity = spawnCreature(world, stack, hitBlockPos);
+
+		if (entity != null && player.capabilities.isCreativeMode) {
+			stack.setCount(stack.getCount() - 1);
+		}
+		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamageForRenderPass(int par1, int par2) {
-		return par2 > 0 ? this.theIcon : super.getIconFromDamageForRenderPass(par1, par2);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item base, CreativeTabs par2CreativeTabs, List list) {
+	public void getSubItems(Item base, CreativeTabs par2CreativeTabs, NonNullList<ItemStack> list) {
 		Iterator<MHFCEggInfo> iterator = MHFCMobList.registeredEggs().values().iterator();
 
 		while (iterator.hasNext()) {
 			MHFCEggInfo entityegginfo = iterator.next();
 			list.add(new ItemStack(base, 1, entityegginfo.spawnedID));
 		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister) {
-		super.registerIcons(par1IconRegister);
-		this.theIcon = par1IconRegister.registerIcon(MHFCReference.item_mhfcspawnegg_overlay_icon);
 	}
 }

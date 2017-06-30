@@ -1,44 +1,50 @@
 package mhfc.net.common.ai.entity.boss.barroth;
 
-import mhfc.net.common.ai.general.IFrameAdvancer;
-import mhfc.net.common.ai.general.actions.AIGeneralWander;
+import mhfc.net.common.ai.general.actions.WanderAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.adapters.MoveParameterAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
+import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
 import mhfc.net.common.entity.monster.EntityBarroth;
-import net.minecraft.entity.Entity;
 
-public class Wander extends AIGeneralWander<EntityBarroth> {
+public class Wander extends WanderAction<EntityBarroth> implements IHasAnimationProvider {
 
-	private static final String ANIMATION = "mhfc:models/Barroth/BarrothWalk.mcanm";
-	private static final int LAST_FRAME = 140;
-	private static final float WEIGHT = 0.5F;
+	private static final String ANIMATION_LOCATION = "mhfc:models/Barroth/walknew.mcanm";
+	private static final int LAST_FRAME = 64;
 
-	private static final IMoveParameterProvider parameterProvider = new IMoveParameterProvider.MoveParameterAdapter(
-			5f,
-			0.7f);
+	private static final float WEIGHT = 0.7F;
+
+	private static final IMoveParameterProvider MOVEMENT_PARAMETERS = new MoveParameterAdapter(0.7f, 0.5f);
+
+	private IAnimationProvider ANIMATION;
 
 	public Wander() {
-		super(parameterProvider);
-		setFrameAdvancer(new IFrameAdvancer.CountLoopAdvancer(0, 80, -1));
+		
+		ANIMATION = AnimationAdapter.builder().setAnimation(ANIMATION_LOCATION).setAnimationLength(LAST_FRAME)
+				.build(this);
+	}
+
+
+	@Override
+	protected float computeWanderWeight() {
+		return WEIGHT;
 	}
 
 	@Override
-	protected void beginExecution() {
-		super.beginExecution();
-	}
-
-	@Override
-	public String getAnimationLocation() {
+	public IAnimationProvider getAnimProvider() {
 		return ANIMATION;
 	}
 
 	@Override
-	public int getAnimationLength() {
-		return LAST_FRAME;
+	public IMoveParameterProvider provideMoveParameters() {
+		return MOVEMENT_PARAMETERS;
 	}
 
 	@Override
-	public float getWeight(EntityBarroth entity, Entity target) {
-		return WEIGHT;
+	public IContinuationPredicate provideContinuationPredicate() {
+		return super.provideContinuationPredicate().and(IHasAnimationProvider.super.provideContinuationPredicate());
 	}
 
 }

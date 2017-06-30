@@ -2,11 +2,11 @@ package mhfc.net.common.ai;
 
 import com.github.worldsender.mcanm.common.animation.IAnimation;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.common.ai.general.WeightedPick.WeightedItem;
 import mhfc.net.common.ai.manager.AIActionManager;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * A derived class can specify an Entity-class this method is applicable to. The typeparameter T should be as narrow as

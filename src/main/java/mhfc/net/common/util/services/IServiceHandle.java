@@ -1,5 +1,8 @@
 package mhfc.net.common.util.services;
 
+import java.util.Objects;
+import java.util.function.Supplier;
+
 /**
  * A service handle is a service's interface to the global outside world.
  *
@@ -9,8 +12,15 @@ package mhfc.net.common.util.services;
  *            the type of the service
  */
 public interface IServiceHandle<T> {
-	public static <T> IServiceHandle<T> noInit() {
+	public static <T> IServiceHandle<T> noInit(Supplier<T> factory) {
+		Objects.requireNonNull(factory);
+
 		return new IServiceHandle<T>() {
+			@Override
+			public T createInstance() {
+				return factory.get();
+			}
+
 			@Override
 			public void shutdown(T instance) {}
 
@@ -18,6 +28,14 @@ public interface IServiceHandle<T> {
 			public void startup(T instance) {}
 		};
 	}
+
+	/**
+	 * Called to create a new, fresh instance of the service. Most likely startup is called soon after with the returned
+	 * instance.
+	 * 
+	 * @return
+	 */
+	T createInstance();
 
 	/**
 	 * Called when the service is being started. Only to be called when the service is not currently running.

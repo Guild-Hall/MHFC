@@ -27,12 +27,16 @@ public abstract class ActionManagerAdapter<EntType extends EntityLiving & IManag
 	}
 
 	protected void switchAction(IExecutableAction<? super EntType> newAttack) {
+		if (newAttack == activeAttack) {
+			return;
+		}
 		swapAttacks(activeAttack, newAttack);
 	}
 
 	protected void swapAttacks(
 			IExecutableAction<? super EntType> oldAttack,
 			IExecutableAction<? super EntType> newAttack) {
+		MHFCMain.logger().debug("Switching to action " + newAttack);
 		this.entity.onAttackEnd(oldAttack);
 		if (oldAttack != null) {
 			oldAttack.finishAction();
@@ -44,7 +48,7 @@ public abstract class ActionManagerAdapter<EntType extends EntityLiving & IManag
 		}
 		MHFCMain.logger().debug("Manager for entity {} switched to attack {}", this.entity, this.activeAttack);
 
-		if (!this.entity.worldObj.isRemote) {
+		if (!this.entity.world.isRemote) {
 			PacketPipeline.networkPipe.sendToAll(sendUpdate());
 		}
 	}
@@ -103,8 +107,8 @@ public abstract class ActionManagerAdapter<EntType extends EntityLiving & IManag
 
 	@Override
 	public void switchToAction(IExecutableAction<? super EntType> attack) {
-		if (attackCollection.getIndexOf(attack) < 0) {
-			throw new IllegalArgumentException("Only registered actions may be switched to");
+		if (attack != null && attackCollection.getIndexOf(attack) < 0) {
+			throw new IllegalArgumentException(attack + " is not a registered attack");
 		}
 		switchAction(attack);
 	}

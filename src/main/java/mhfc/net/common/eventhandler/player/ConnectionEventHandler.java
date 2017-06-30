@@ -1,27 +1,43 @@
 package mhfc.net.common.eventhandler.player;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.system.UpdateSystem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.command.CommandResultStats.Type;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.network.play.server.S02PacketChat;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.entity.Entity;
+import net.minecraft.network.play.server.SPacketChat;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 
+@Mod.EventBusSubscriber(modid = ResourceInterface.main_modid)
 public class ConnectionEventHandler {
 
-	public static final ConnectionEventHandler instance = new ConnectionEventHandler();
-
 	@SubscribeEvent
-	public void onEvent(final ClientConnectedToServerEvent cctse) {
+	public static void onEvent(final ClientConnectedToServerEvent cctse) {
 		UpdateSystem.sendUpdateAsync(new ICommandSender() {
 
 			@Override
-			public ChunkCoordinates getPlayerCoordinates() {
-				throw new UnsupportedOperationException("No player at this point");
+			public MinecraftServer getServer() {
+				return FMLCommonHandler.instance().getMinecraftServerInstance();
+			}
+
+			@Override
+			public BlockPos getPosition() {
+				throw new UnsupportedOperationException("No position known");
+			}
+
+			@Override
+			public Vec3d getPositionVector() {
+				return new Vec3d(getPosition());
 			}
 
 			@Override
@@ -30,23 +46,38 @@ public class ConnectionEventHandler {
 			}
 
 			@Override
-			public String getCommandSenderName() {
+			public String getName() {
 				return Minecraft.getMinecraft().getSession().getUsername();
 			}
 
 			@Override
-			public IChatComponent func_145748_c_() {
-				return new ChatComponentText(getCommandSenderName());
+			public ITextComponent getDisplayName() {
+				return new TextComponentString(getName());
 			}
 
 			@Override
-			public boolean canCommandSenderUseCommand(int a, String b) {
+			public Entity getCommandSenderEntity() {
 				throw new UnsupportedOperationException("No player at this point");
 			}
 
 			@Override
-			public void addChatMessage(IChatComponent chat) {
-				cctse.handler.handleChat(new S02PacketChat(chat));
+			public boolean canUseCommand(int commandLevel, String command) {
+				throw new UnsupportedOperationException("No player at this point");
+			}
+
+			@Override
+			public boolean sendCommandFeedback() {
+				return false;
+			}
+
+			@Override
+			public void setCommandStat(Type type, int amount) {
+				// Ignore
+			}
+
+			@Override
+			public void sendMessage(ITextComponent chat) {
+				cctse.getHandler().handleChat(new SPacketChat(chat));
 			}
 		});
 	}

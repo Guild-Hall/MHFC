@@ -12,14 +12,12 @@ public class PotionPainted extends Potion {
 	private boolean isClearedInWater;
 
 	/**
-	 * Paintball effect. Amplifier encodes paint color, rather
-	 * than the strength of the effect.
-	 * @param potionID
-	 * @param isBadEffect
-	 * @param liquidColor
+	 * Paintball effect. Amplifier encodes paint color, rather than the strength of the effect.
+	 *
+	 * @param isClearedInWater
 	 */
-	public PotionPainted(int potionID, boolean isBadEffect, int liquidColor, boolean isClearedInWater) {
-		super(potionID, isBadEffect, liquidColor);
+	public PotionPainted(int liquidColor, boolean isClearedInWater) {
+		super(true, liquidColor);
 		this.isClearedInWater = isClearedInWater;
 	}
 
@@ -32,31 +30,34 @@ public class PotionPainted extends Potion {
 	}
 
 	/**
-	 * Spawns a random paint emitter.
-	 * Also clears the effect if the entity is in water.
+	 * Spawns a random paint emitter. Also clears the effect if the entity is in water.
 	 */
 	@Override
 	public void performEffect(EntityLivingBase entity, int amplifier) {
-		if(isClearedInWater && entity.isInWater()) {
-			entity.addPotionEffect(new PotionEffect(this.id, 1, 127, false));
+		if (isClearedInWater && entity.isInWater()) {
+			entity.addPotionEffect(new PotionEffect(this, 1, 127, false, true));
 		}
 
-		if(amplifier >= 0 && amplifier < 16) {
-			double rand = entity.worldObj.rand.nextDouble();
+		if (amplifier >= 0 && amplifier < 16) {
+			double rand = entity.world.rand.nextDouble();
 			DurationType duration;
-			if(rand < 0.01) 	 duration = DurationType.VERY_LONG;
-			else if (rand < 0.1) duration = DurationType.LONG;
-			else if (rand < 0.4) duration = DurationType.MEDIUM;
-			else 				 duration = DurationType.SHORT;
+			if (rand < 0.01) {
+				duration = DurationType.VERY_LONG;
+			} else if (rand < 0.1) {
+				duration = DurationType.LONG;
+			} else if (rand < 0.4) {
+				duration = DurationType.MEDIUM;
+			} else {
+				duration = DurationType.SHORT;
+			}
 
-			EntityPaintParticleEmitter emitter =
-					new EntityPaintParticleEmitter(
-							entity.worldObj,
-							duration,
-							ItemColor.byMetadata(amplifier),
-							entity);
+			EntityPaintParticleEmitter emitter = new EntityPaintParticleEmitter(
+					entity.world,
+					duration,
+					ItemColor.byMetadata(amplifier),
+					entity);
 
-			entity.worldObj.spawnEntityInWorld(emitter);
+			entity.world.spawnEntity(emitter);
 		}
 	}
 }

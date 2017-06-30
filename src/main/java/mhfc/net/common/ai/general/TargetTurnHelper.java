@@ -3,14 +3,13 @@ package mhfc.net.common.ai.general;
 import java.util.Objects;
 
 import mhfc.net.common.entity.type.EntityMHFCBase;
-import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public class TargetTurnHelper {
 
 	private EntityMHFCBase<?> entity;
-	private Vec3 targetPoint;
+	private Vec3d targetPoint;
 	private float maxTurnSpeed;
 	private boolean isUpdating;
 
@@ -21,12 +20,12 @@ public class TargetTurnHelper {
 	/**
 	 * Sets the target point for turns to the position given by the vector
 	 */
-	public void updateTargetPoint(Vec3 vector) {
+	public void updateTargetPoint(Vec3d vector) {
 		if (vector == null) {
 			return;
 		}
 		isUpdating = true;
-		this.targetPoint = vector.addVector(0, 0, 0);
+		this.targetPoint = vector;
 	}
 
 	/**
@@ -34,7 +33,7 @@ public class TargetTurnHelper {
 	 */
 	public void updateTargetPoint(double x, double y, double z) {
 		isUpdating = true;
-		this.targetPoint = Vec3.createVectorHelper(x, y, z);
+		this.targetPoint = new Vec3d(x, y, z);
 	}
 
 	/**
@@ -45,7 +44,7 @@ public class TargetTurnHelper {
 			return;
 		}
 		isUpdating = true;
-		this.targetPoint = Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
+		this.targetPoint = entity.getPositionVector();
 	}
 
 	/**
@@ -78,13 +77,11 @@ public class TargetTurnHelper {
 		if (targetPoint == null) {
 			return;
 		}
-		Vec3 entityPos = WorldHelper.getEntityPositionVector(entity);
-		Vec3 vecToTarget = entityPos.subtract(targetPoint);
-		float newYaw = AIUtils.modifyYaw(entity.getLookVec(), vecToTarget.normalize(), maxTurnSpeed);
-		if (!Float.isNaN(newYaw)) {
-			entity.rotationYaw = newYaw;
-		}
-		// CLEANUP Figure out a way to send the updates to the client cleanly
+		Vec3d entityPos = entity.getPositionVector();
+		Vec3d vecToTarget = targetPoint.subtract(entityPos);
+		
+		entity.rotationYaw = AIUtils.modifyYaw(entity, vecToTarget.normalize(), maxTurnSpeed);
+		// FIXME Figure out a way to send the updates to the client cleanly
 		entity.addVelocity(10e-4, 0, 10e-4);
 	}
 

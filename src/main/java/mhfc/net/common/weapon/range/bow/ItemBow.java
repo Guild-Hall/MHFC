@@ -1,23 +1,41 @@
 package mhfc.net.common.weapon.range.bow;
 
-import java.util.Random;
+import java.util.UUID;
 import java.util.function.Consumer;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import com.google.common.collect.Multimap;
+
 import mhfc.net.common.core.registry.MHFCItemRegistry;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
+import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
+import mhfc.net.common.index.AttributeModifiers;
+import mhfc.net.common.index.ResourceInterface;
+import mhfc.net.common.item.materials.ItemWyverniaArrow;
 import mhfc.net.common.weapon.ItemWeapon;
 import mhfc.net.common.weapon.range.bow.BowWeaponStats.BowWeaponStatsBuilder;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.EntityArrow.PickupStatus;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBow extends ItemWeapon<BowWeaponStats> {
+	protected static final UUID BOW_EFFECT_UUID = UUID.fromString("924f7565-3a7c-49b6-a521-1a4af6763756");
+
+	protected int arrowFireCount;
+
 	public static ItemBow build(Consumer<BowWeaponStatsBuilder> config) {
 		BowWeaponStatsBuilder builder = new BowWeaponStatsBuilder();
 		config.accept(builder);
@@ -27,38 +45,36 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	public static final String[] ItemNameArray = new String[] { "bow", "bow1", "bow2", "bow3" };
 	protected double defaultArrowDamage;
 
-	@SideOnly(Side.CLIENT)
-	public IIcon[] IconArray;
-
 	public ItemBow(BowWeaponStats stats) {
 		super(stats);
+		addPropertyOverride(new ResourceLocation("pull"), new IItemPropertyGetter() {
+			@Override
+			@SideOnly(Side.CLIENT)
+			public float apply(ItemStack stack, World world, EntityLivingBase entity) {
+				if (entity == null || stack == null) {
+					return 0.0F;
+				}
+				ItemStack itemstack = entity.getActiveItemStack();
+				if (itemstack != stack) {
+					return 0.0F;
+				}
+				return (stack.getMaxItemUseDuration() - entity.getItemInUseCount()) / 20.0F;
+			}
+		});
+		this.addPropertyOverride(new ResourceLocation("pulling"), new IItemPropertyGetter() {
+			@Override
+			@SideOnly(Side.CLIENT)
+			public float apply(ItemStack stack, World world, EntityLivingBase entity) {
+				return entity == null || !entity.isHandActive() || entity.getActiveItemStack() != stack ? 0.0F : 1.0F;
+			}
+		});
 		this.maxStackSize = 1;
 		this.setMaxDamage(1000);
 	}
 
 	@Override
 	public String getWeaponClassUnlocalized() {
-		return MHFCReference.weapon_bow_name;
-	}
-
-	@Override
-	public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining) {
-		if (stack != usingItem) {
-			return IconArray[0];
-		}
-		if (useRemaining > 21) {
-			return IconArray[3];
-		} else if (useRemaining > 14) {
-			return IconArray[2];
-		} else if (useRemaining > 7) {
-			return IconArray[1];
-		}
-		return IconArray[0];
-	}
-
-	@Override
-	public IIcon getIconFromDamage(int par1) {
-		return this.IconArray[0];
+		return ResourceInterface.weapon_bow_name;
 	}
 
 	/**
@@ -66,7 +82,7 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	 */
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
-		return EnumAction.bow;
+		return EnumAction.BOW;
 	}
 
 	/**
@@ -83,76 +99,158 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	}
 
 	@Override
-	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
-		return par1ItemStack;
-	}
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack itemstack = player.getHeldItem(hand);
+		boolean hasAmmunition = !this.findAmmunition(player).isEmpty();
 
-	/**
-	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-	 */
-	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer player) {
-		player.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
-
-		return par1ItemStack;
-	}
-
-	@Override
-	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int itemInUseCount) {
-		super.onPlayerStoppedUsing(stack, world, player, itemInUseCount);
-		int ticksUsed = getMaxItemUseDuration(stack) - itemInUseCount;
-		boolean isCreative = (player.capabilities.isCreativeMode);
-		if (!player.inventory.hasItem(MHFCItemRegistry.getRegistry().arrow) && !isCreative) {
-			return;
+		ActionResult<ItemStack> eventarrowNock = net.minecraftforge.event.ForgeEventFactory
+				.onArrowNock(itemstack, world, player, hand, hasAmmunition);
+		if (eventarrowNock != null) {
+			return eventarrowNock;
 		}
 
+		if (!player.capabilities.isCreativeMode && !hasAmmunition) {
+			return hasAmmunition
+					? new ActionResult<>(EnumActionResult.PASS, itemstack)
+					: new ActionResult<>(EnumActionResult.FAIL, itemstack);
+		}
+		player.setActiveHand(hand);
+		return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
+	}
+
+	protected boolean isConsideredAmmunition(ItemStack stack) {
+		return stack.getItem() instanceof ItemWyverniaArrow;
+	}
+
+	private float getBowStrength(ItemStack stack, int timeLeft) {
+		int ticksUsed = getMaxItemUseDuration(stack) - timeLeft;
 		float timeUsed = ticksUsed / 20.0F;
-		timeUsed = ((timeUsed * timeUsed) + (timeUsed * 2.0F)) / 3.0F;
-		if (timeUsed < 0.5d) {
-			return;
-		}
-
-		EntityArrow entityarrow = new EntityArrow(world, player, timeUsed * 2.0F);
-		boolean crit = new Random().nextInt(10) == 0 ? true : false;
-
-		entityarrow.setIsCritical(crit);
-
-		if (timeUsed >= 1.0F && timeUsed < 1.5F) {
-			entityarrow.setIsCritical(true);
-		}
-
+		timeUsed = timeUsed * (timeUsed + 2.0F) / 3.0F;
 		if (timeUsed > 1.0F) {
 			timeUsed = 1.0F;
 		}
+		return timeUsed;
+	}
 
-		entityarrow.setDamage(entityarrow.getDamage() + this.stats.getAttack(1f));
+	private void spawnArrow(EntityPlayer player, World worldIn, ItemStack ammunition, float power) {
+		ItemWyverniaArrow itemarrow = (ItemWyverniaArrow) ammunition.getItem();
+		EntityWyverniaArrow entityarrow = itemarrow.createArrow(worldIn, new ItemStack(itemarrow), player, power);
+		EntityWyverniaArrow entityarrow2 = itemarrow.createArrow(worldIn, new ItemStack(itemarrow), player, power);
+		boolean isCreative = player.capabilities.isCreativeMode;
+		entityarrow.setDamage(entityarrow.getDamage() + 2 * 0.5D + 0.5D);
+		entityarrow.setKnockbackStrength(1);
+
+		entityarrow2.setDamage(entityarrow.getDamage() + 2 * 0.5D + 0.5D);
+		entityarrow2.setKnockbackStrength(1);
 
 		if (isCreative) {
-			entityarrow.canBePickedUp = 2;
+			entityarrow.pickupStatus = PickupStatus.CREATIVE_ONLY;
+			entityarrow2.pickupStatus = PickupStatus.CREATIVE_ONLY;
 		} else {
-			player.inventory.consumeInventoryItem(MHFCItemRegistry.getRegistry().arrow);
+			ammunition.shrink(1);
+			if (ammunition.isEmpty()) {
+				player.inventory.deleteStack(ammunition);
+			}
 		}
+		entityarrow.setAim(player, player.rotationPitch, player.rotationYaw, 0.0F, power * 3.0F, 0.3F);
+		entityarrow2.setAim(player, player.rotationPitch, (float) (player.rotationYaw + 2D), 0.0F, power * 3.0F, 0.3F);
+		boolean shouldCrit = power > 1.0F || worldIn.rand.nextInt(10) == 0;
+		if (shouldCrit) {
+			entityarrow.setIsCritical(shouldCrit);
+		}
+		double playerDamage = player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+		entityarrow.setDamage(entityarrow.getDamage() + playerDamage);
+		worldIn.spawnEntity(entityarrow);
+		if (!ammunition.isEmpty() && this == MHFCItemRegistry.getRegistry().weapon_b_huntersproud) {
+
+			worldIn.spawnEntity(entityarrow2);
+		}
+	}
+
+	@Override
+	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityLivingBase entityln, int timeLeft) {
+		super.onPlayerStoppedUsing(stack, world, entityln, timeLeft);
+
+		EntityPlayer entityplayer = (EntityPlayer) entityln;
+		boolean isCreative = entityln instanceof EntityPlayer && ((EntityPlayer) entityln).capabilities.isCreativeMode;
+		ItemStack ammunition = this.findAmmunition(entityplayer);
+
+		int i = this.getMaxItemUseDuration(stack) - timeLeft;
+		i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, world, (EntityPlayer) entityln, i, true);
+		if (i < 0) {
+			return;
+		}
+
+		if (!ammunition.isEmpty() || isCreative) {
+			if (ammunition.isEmpty()) {
+				ammunition = new ItemStack(MHFCItemRegistry.getRegistry().arrow);
+			}
+		}
+
+		float bowStrength = getBowStrength(stack, timeLeft);
+		if (bowStrength < 0.5d) {
+			return;
+		}
+
 		if (!world.isRemote) {
-			world.spawnEntityInWorld(entityarrow);
+			spawnArrow(entityplayer, world, ammunition, bowStrength);
 		}
-		float pitch = 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + timeUsed * 0.5F;
-		world.playSoundAtEntity(player, "random.bow", 1.0F, pitch);
+
+		float volume = bowStrength;
+		float pitch = 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + bowStrength * 0.5F;
+		world.playSound(
+				null,
+				entityln.posX,
+				entityln.posY,
+				entityln.posZ,
+				MHFCSoundRegistry.getRegistry().bowstrike,
+				SoundCategory.NEUTRAL,
+				volume,
+				pitch);
+	}
+
+	public static float getArrowVelocity(int charge) {
+		float f = charge / 30.0F;
+		f = (f * f + f * 2.0F) / 3.0F;
+
+		if (f > 1.0F) {
+			f = 1.0F;
+		}
+
+		return f;
 	}
 
 	@Override
-	public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
-		player.setItemInUse(stack, count);
+	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
+		Multimap<String, AttributeModifier> attributeModifiers = super.getAttributeModifiers(slot, stack);
+		if (slot == EntityEquipmentSlot.MAINHAND) {
+			attributeModifiers.put(
+					SharedMonsterAttributes.MOVEMENT_SPEED.getName(),
+					new AttributeModifier(
+							BOW_EFFECT_UUID,
+							"Weapon modifier",
+							-0.1f,
+							AttributeModifiers.MULTIPLICATIVE));
+		}
+		return attributeModifiers;
 	}
 
-	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
-		this.IconArray = new IIcon[ItemNameArray.length];
+	private ItemStack findAmmunition(EntityPlayer theplayer) {
+		if (this.isConsideredAmmunition(theplayer.getHeldItem(EnumHand.OFF_HAND))) {
+			return theplayer.getHeldItem(EnumHand.OFF_HAND);
+		} else if (this.isConsideredAmmunition(theplayer.getHeldItem(EnumHand.MAIN_HAND))) {
+			return theplayer.getHeldItem(EnumHand.MAIN_HAND);
+		} else {
+			for (int a = 0; a < theplayer.inventory.getSizeInventory(); ++a) {
+				ItemStack itemstack = theplayer.inventory.getStackInSlot(a);
 
-		for (int i = 0; i < this.IconArray.length; ++i) {
-			String prefix = "mhfc:";
-			this.IconArray[i] = par1IconRegister.registerIcon(prefix + ItemNameArray[i]);
+				if (this.isConsideredAmmunition(itemstack)) {
+					return itemstack;
+				}
+			}
+
+			return ItemStack.EMPTY;
 		}
-		this.itemIcon = this.IconArray[0];
 	}
 
 }

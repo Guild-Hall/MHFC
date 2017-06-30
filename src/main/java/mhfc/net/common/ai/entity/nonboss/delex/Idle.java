@@ -1,31 +1,28 @@
 package mhfc.net.common.ai.entity.nonboss.delex;
 
-import mhfc.net.common.ai.general.actions.AIGeneralIdle;
-import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
+import mhfc.net.common.ai.general.actions.IdleAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.monster.EntityDelex;
-import net.minecraft.entity.Entity;
 
-public class Idle extends AIGeneralIdle<EntityDelex> {
+public class Idle extends IdleAction<EntityDelex> implements IHasAnimationProvider {
 
-	private static final String ANIMATION = "mhfc:models/Delex/delexidle.mcanm";
 	private static final int LAST_FRAME = 60;
+	private static final String ANIMATION_LOCATION = "mhfc:models/Delex/delexidle.mcanm";
 
-	private static final IWeightProvider<EntityDelex> WEIGHT_PROVIDER = new IWeightProvider.RandomWeightAdapter<>(3);
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 
 	public Idle() {}
 
 	@Override
-	public String getAnimationLocation() {
+	protected float computeIdleWeight() {
+		return 3f;
+	}
+
+	@Override
+	public IAnimationProvider getAnimProvider() {
 		return ANIMATION;
 	}
 
-	@Override
-	public int getAnimationLength() {
-		return LAST_FRAME;
-	}
-
-	@Override
-	public float getWeight(EntityDelex entity, Entity target) {
-		return WEIGHT_PROVIDER.getWeight(entity, target);
-	}
 }

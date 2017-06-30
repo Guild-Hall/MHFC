@@ -24,7 +24,7 @@ public class RenderEffects {
 	public static final int PHASE_IN_DURATION = 5;
 
 	public static void displayFlashBomb() {
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		EntityPlayer player = Minecraft.getMinecraft().player;
 		PotionEffect flashPotion = player.getActivePotionEffect(MHFCPotionRegistry.getRegistry().flashed);
 		if (flashPotion == null) {
 			return;

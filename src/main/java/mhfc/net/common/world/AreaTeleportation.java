@@ -4,54 +4,40 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.quests.world.IQuestArea;
 import mhfc.net.common.world.area.IArea;
+import mhfc.net.common.world.area.IWorldView;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.ServerConfigurationManager;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 
 public class AreaTeleportation {
 
 	private static class OverworldTeleporter extends Teleporter {
-		private double posX;
-		private double posY;
-		private double posZ;
+		private BlockPos pos;
 
-		public OverworldTeleporter(double posX, double posY, double posZ) {
-			super(MinecraftServer.getServer().worldServerForDimension(0));
-			this.posX = posX;
-			this.posY = posY;
-			this.posZ = posZ;
+		public OverworldTeleporter(MinecraftServer server, BlockPos pos) {
+			super(server.worldServerForDimension(0));
+			this.pos = pos;
 		}
 
 		@Override
-		public void placeInPortal(
-				Entity entity,
-				double p_77185_2_,
-				double p_77185_4_,
-				double p_77185_6_,
-				float p_77185_8_) {
-			MHFCMain.logger().debug("Teleporting {} to overworld to {} {} {}", entity, posX, posY, posZ);
-			moveEntityTo(entity, posX, posY, posZ);
+		public void placeInPortal(Entity entity, float rotationYaw) {
+			MHFCMain.logger().debug("Teleporting {} to overworld to {}", entity, pos);
+			moveEntityTo(entity, pos);
 		}
 
 		@Override
-		public boolean placeInExistingPortal(
-				Entity p_77184_1_,
-				double p_77184_2_,
-				double p_77184_4_,
-				double p_77184_6_,
-				float p_77184_8_) {
-			placeInPortal(p_77184_1_, p_77184_2_, p_77184_4_, p_77184_6_, p_77184_8_);
+		public boolean placeInExistingPortal(Entity entity, float rotationYaw) {
+			placeInPortal(entity, rotationYaw);
 			return true;
 		}
 
 		@Override
-		public boolean makePortal(Entity p_85188_1_) {
+		public boolean makePortal(Entity entity) {
 			return false;
 		}
 	}
@@ -65,58 +51,51 @@ public class AreaTeleportation {
 		}
 
 		@Override
-		public void placeInPortal(
-				Entity player,
-				double p_77185_2_,
-				double p_77185_4_,
-				double p_77185_6_,
-				float p_77185_8_) {
+		public void placeInPortal(Entity player, float rotationYaw) {
 			if (player instanceof EntityPlayerMP) {
 				MHFCMain.logger().debug("Teleporting {} to area {}", player, area);
-				area.teleportToSpawn((EntityPlayerMP) player);
+				IWorldView worldView = area.getWorldView();
+				BlockPos spawnPos = area.resolvePlayerSpawn(IQuestArea.PLAYER_SPAWN);
+
+				worldView.moveEntityTo(player, spawnPos);
 			}
 		}
 
 		@Override
-		public boolean makePortal(Entity p_85188_1_) {
+		public boolean placeInExistingPortal(Entity entityIn, float rotationYaw) {
+			placeInPortal(entityIn, rotationYaw);
+			return false;
+		}
+
+		@Override
+		public boolean makePortal(Entity entity) {
 			return false;
 		}
 
 		@Override
 		public void removeStalePortalLocations(long p_85189_1_) {}
-
-		@Override
-		public boolean placeInExistingPortal(
-				Entity p_77184_1_,
-				double p_77184_2_,
-				double p_77184_4_,
-				double p_77184_6_,
-				float p_77184_8_) {
-			placeInPortal(p_77184_1_, p_77184_2_, p_77184_4_, p_77184_6_, p_77184_8_);
-			return false;
-		}
 	}
 
 	private static Map<Entity, IArea> entityToArea = new HashMap<>();
+
+	private static void changePlayerDimension(EntityPlayerMP player, int dimension, Teleporter tp) {
+		if (player.dimension != dimension) {
+			player.mcServer.getPlayerList().transferPlayerToDimension(player, dimension, tp);
+		} else {
+			tp.placeInPortal(player, player.rotationYaw);
+		}
+	}
 
 	/**
 	 * Moves a player to an area and teleports him to the dimension if necessary. If area is null, returns the player to
 	 * the overwold instead.
 	 */
 	public static void movePlayerToArea(EntityPlayerMP player, IArea area) {
+		int areaDimensionId = area.getWorldView().getWorldObject().provider.getDimension();
 		assignAreaForEntity(player, area);
-		if (area == null) {
-			movePlayerToOverworld(player);
-			return;
-		}
-		int areaDimensionId = area.getWorldView().getWorldObject().provider.dimensionId;
 		AreaTeleporter areaTeleporter = new AreaTeleporter(area);
-		if (player.dimension == areaDimensionId) {
-			areaTeleporter.placeInPortal(player, 0, 0, 0, 0);
-		} else {
-			ServerConfigurationManager mg = MinecraftServer.getServer().getConfigurationManager();
-			mg.transferPlayerToDimension(player, areaDimensionId, areaTeleporter);
-		}
+
+		changePlayerDimension(player, areaDimensionId, areaTeleporter);
 	}
 
 	/**
@@ -137,35 +116,29 @@ public class AreaTeleportation {
 		return entityToArea.get(entity);
 	}
 
-	public static void movePlayerToOverworld(EntityPlayerMP player) {
-		ChunkCoordinates spawnPoint = MinecraftServer.getServer().worldServerForDimension(0).getSpawnPoint();
-		movePlayerToOverworld(player, spawnPoint.posX, spawnPoint.posY, spawnPoint.posZ);
+	public static void movePlayerToOverworld(MinecraftServer server, EntityPlayerMP player) {
+		BlockPos spawnPoint = server.worldServerForDimension(0).provider.getRandomizedSpawnPoint();
+		movePlayerToOverworld(server, player, spawnPoint);
 	}
 
-	public static void movePlayerToOverworld(EntityPlayerMP player, double posX, double posY, double posZ) {
+	public static void movePlayerToOverworld(MinecraftServer server, EntityPlayerMP player, BlockPos pos) {
 		assignAreaForEntity(player, null);
-		OverworldTeleporter tp = new OverworldTeleporter(posX, posY, posZ);
-		if (player.dimension == 0) {
-			tp.placeInPortal(player, 0, 0, 0, 0);
-		} else {
-			ServerConfigurationManager mg = MinecraftServer.getServer().getConfigurationManager();
-			mg.transferPlayerToDimension(player, 0, tp);
-		}
+		OverworldTeleporter tp = new OverworldTeleporter(server, pos);
+
+		changePlayerDimension(player, 0, tp);
 	}
 
 	private static WorldServer getWorldServer(IArea area) {
-		int dim = area.getWorldView().getWorldObject().provider.dimensionId;
-		return MinecraftServer.getServer().worldServerForDimension(dim);
+		MinecraftServer server = area.getWorldView().getWorldObject().getMinecraftServer();
+		int dim = area.getWorldView().getWorldObject().provider.getDimension();
+		return server.worldServerForDimension(dim);
 	}
 
-	public static void moveEntityTo(Entity entity, double posX, double posY, double posZ) {
-		if (entity instanceof EntityLivingBase) {
-			EntityLivingBase entityLiving = (EntityLivingBase) entity;
-			entityLiving.setPositionAndUpdate(posX, posY, posZ);
-			entityLiving.setPosition(posX, posY, posZ);
-		} else {
-			entity.setPosition(posX, posY, posZ);
-		}
+	public static void moveEntityTo(Entity entity, BlockPos pos) {
+		double x = pos.getX();
+		double y = pos.getY();
+		double z = pos.getZ();
+		entity.setPositionAndUpdate(x + 0.5d, y, z + 0.5d);
 	}
 
 }

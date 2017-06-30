@@ -1,0 +1,148 @@
+{
+	"pools": [
+		{
+			"name": "tigrexscale",
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "item",
+					"name": "mhfc:material",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 1,
+								"max": 3
+							}
+						},
+						{
+							"function": "set_data",
+							"data": 62
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "tigrexshell",
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "item",
+					"name": "mhfc:material",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 2,
+								"max": 4
+							}
+						},
+						{
+							"function": "set_data",
+							"data": 63
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "tigrexclaw",
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "item",
+					"name": "mhfc:material",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 2,
+								"max": 4
+							}
+						},
+						{
+							"function": "set_data",
+							"data": 64
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "tigrexfang",
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "item",
+					"name": "mhfc:material",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 0,
+								"max": 2
+							}
+						},
+						{
+							"function": "set_data",
+							"data": 65
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "tigrexskullshell",
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "item",
+					"name": "mhfc:material",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 0,
+								"max": 1
+							}
+						},
+						{
+							"function": "set_data",
+							"data": 66
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "tigrextail",
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "item",
+					"name": "mhfc:material",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 0,
+								"max": 1
+							}
+						},
+						{
+							"function": "set_data",
+							"data": 67
+						}
+					]
+				}
+			]
+		}
+	]
+}

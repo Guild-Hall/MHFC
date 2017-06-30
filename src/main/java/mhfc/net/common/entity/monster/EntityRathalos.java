@@ -7,22 +7,26 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IStancedEntity;
-import mhfc.net.common.ai.entity.boss.rathalos.Rush;
 import mhfc.net.common.ai.entity.boss.rathalos.BiteLeft;
 import mhfc.net.common.ai.entity.boss.rathalos.BiteRight;
 import mhfc.net.common.ai.entity.boss.rathalos.Death;
 import mhfc.net.common.ai.entity.boss.rathalos.Idle;
-import mhfc.net.common.ai.entity.boss.rathalos.Wander;
+import mhfc.net.common.ai.entity.boss.rathalos.Rush;
 import mhfc.net.common.ai.entity.boss.rathalos.TailWhip;
+import mhfc.net.common.ai.entity.boss.rathalos.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.entity.type.IConfusable;
-import mhfc.net.common.item.materials.ItemRathalos.RathalosSubType;
+import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
@@ -75,11 +79,16 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		super(world);
 		this.stance = Stances.GROUND;
 		this.setSize(5F, 5F);
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 	}
 
 	@Override
-	public IActionManager<EntityRathalos> constructActionManager() {
+	protected void initEntityAI() {
+		super.initEntityAI();
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
+	}
+
+	@Override
+	protected IActionManager<EntityRathalos> constructActionManager() {
 		ActionManagerBuilder<EntityRathalos> stancedAttackManager = new ActionManagerBuilder<>();
 		stancedAttackManager.registerAction(new Idle());
 		stancedAttackManager.registerAction(new Wander());
@@ -94,7 +103,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(14981D));
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(14981D));
 	}
 
 	@Override
@@ -123,14 +132,14 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	 * movement as well
 	 */
 	@Override
-	protected void updateFallState(double par1, boolean par3) {
+	protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos) {
 		if (getStance() == Stances.FLYING) {
 			this.motionY = 0;
 			this.fallDistance = 0;
-			par1 = 0;
+			y = 0;
 		}
 
-		super.updateFallState(par1, par3);
+		super.updateFallState(y, onGroundIn, state, pos);
 	}
 
 	@Override
@@ -158,25 +167,25 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	}
 
 	@Override
-	protected String getLivingSound() {
-		return "mhfc:rathalos.idle";
+	protected SoundEvent getAmbientSound() {
+		return MHFCSoundRegistry.getRegistry().rathalosIdle;
 	}
 
 	@Override
 	protected void dropFewItems(boolean par1, int par2) {
 		int var4;
 		for (var4 = 0; var4 < 13; ++var4) {
-			dropItemRand(SubTypedItem.fromSubItem(RathalosSubType.SHELL, 1));
+			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.RATHALOSSHELL, 1));
 		}
 		for (var4 = 0; var4 < 8; ++var4) {
-			dropItemRand(SubTypedItem.fromSubItem(RathalosSubType.WEBBING, 1));
-			dropItemRand(SubTypedItem.fromSubItem(RathalosSubType.MARROW, 1));
+			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.RATHALOSWEBBING, 1));
+			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.RATHALOSMARROW, 1));
 
 		}
 		for (var4 = 0; var4 < 1; ++var4) {
-			dropItemRand(SubTypedItem.fromSubItem(RathalosSubType.WING, 1));
+			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.RATHALOSWING, 1));
 
 		}
-		dropItemRand(SubTypedItem.fromSubItem(RathalosSubType.PLATE, 1));
+		dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.RATHALOSPLATE, 1));
 	}
 }

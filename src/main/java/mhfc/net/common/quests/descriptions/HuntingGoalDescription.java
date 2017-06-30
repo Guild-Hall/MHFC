@@ -1,7 +1,6 @@
 package mhfc.net.common.quests.descriptions;
 
-import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.quests.api.GoalDefinition;
+import mhfc.net.common.quests.api.IGoalDefinition;
 import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.goals.HuntingQuestGoal;
@@ -11,8 +10,9 @@ import mhfc.net.common.util.stringview.Viewable;
 import mhfc.net.common.util.stringview.Viewables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
+import net.minecraft.util.ResourceLocation;
 
-public class HuntingGoalDescription extends GoalDefinition {
+public class HuntingGoalDescription implements IGoalDefinition {
 
 	public static final String ID_HUNTED_TYPE = "target";
 	public static final String ID_AMOUNT = "amount";
@@ -21,7 +21,6 @@ public class HuntingGoalDescription extends GoalDefinition {
 	private Class<? extends Entity> huntedClass;
 
 	public HuntingGoalDescription(Class<? extends Entity> huntedClass, int amount) {
-		super(MHFCQuestBuildRegistry.GOAL_HUNTING_TYPE);
 		this.huntedClass = huntedClass;
 		this.amount = amount;
 	}
@@ -57,16 +56,16 @@ public class HuntingGoalDescription extends GoalDefinition {
 			@Override
 			public Viewable buildVisual() {
 				checkAttributesBound();
-				String goalMob = (String) EntityList.classToStringMapping.get(getHuntedClass());
-				goalMob = "entity." + goalMob + ".name";
-				return Viewables.parse("[[" + goalMob + "]]s§r slain: {{current}}/{{goal}}", baseProps);
+				ResourceLocation huntedId = EntityList.getKey(huntedClass);
+				String goalMob = EntityList.getTranslationName(huntedId);
+				return Viewables.parse("[[" + goalMob + "]]sÂ§r slain: {{current}}/{{goal}}", baseProps);
 			}
 
 			@Override
 			public Viewable buildShortStatus() {
 				checkAttributesBound();
-				String goalMob = (String) EntityList.classToStringMapping.get(getHuntedClass());
-				goalMob = "entity." + goalMob + ".name";
+				ResourceLocation huntedId = EntityList.getKey(huntedClass);
+				String goalMob = EntityList.getTranslationName(huntedId);
 				return Viewables.parse("{{current}}/{{goal}} [[" + goalMob + "]]s", baseProps);
 			}
 

@@ -1,6 +1,6 @@
 # [![MHFC](http://i.imgur.com/60AOtpy.png)](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1291781-monster-hunter-frontier-craft-0-2-501a-barroth)
 
-Monster Hunter Frontier Craft mod created by the Guild Hall team authored by : Heltrato, WorldsEnder, HeroicKatora, Danieru :)
+Monster Hunter Frontier Craft mod created by the Guild Hall team authored by : Heltrato, WorldsEnder:)
 
 [![Build Status](https://travis-ci.org/Guild-Hall/MHFC.svg)](https://travis-ci.org/Guild-Hall/MHFC)
 
@@ -10,9 +10,13 @@ Description
 What is this mod?
 - This mod aims to recreate the great experience from the popular Monster Hunter game series in Minecraft
 - At the moment it features:
-	 - Several bosses and minions from the game
-	 - A crafting and resource system resembling the one known from Monster Hunter
-	 - Unique armors and weapons from all games
+	 - Bosses and Minions
+	 - Crafting and resource system
+	 - Unique armor and weapon system
+	 - Quest System
+	 - Unique AI System
+	 - Party System ( WIP )
+	 - Gestures ( To be discuss )
 
 Acknowledgments
 ---------------
@@ -22,7 +26,7 @@ A big thanks goes to <--> for providing us with the full weapon trees and the Mi
 Copyright notice
 ----------------
 
-Copyright (C) 2017, WorldSEnder & Heltrato
+Copyright (C) 2017, WorldSEnder and Heltrato
 All rights reserved
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:

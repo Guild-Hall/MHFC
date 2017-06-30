@@ -19,13 +19,17 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 
 	public EntityDelex(World world) {
 		super(world);
-		this.height = 2f;
-		this.width = 2f;
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		setSize(2f, 2f);
 	}
 
 	@Override
-	public IActionManager<EntityDelex> constructActionManager() {
+	protected void initEntityAI() {
+		super.initEntityAI();
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
+	}
+
+	@Override
+	protected IActionManager<EntityDelex> constructActionManager() {
 		ActionManagerBuilder<EntityDelex> actionManager = new ActionManagerBuilder<>();
 		actionManager.registerAction(new Idle());
 		actionManager.registerAction(setDeathAction(new Death()));
@@ -38,24 +42,21 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 	}
 
 	@Override
-	public void applyEntityAttributes() {
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		//default hp 416D
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(180D));
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(180D));
 	}
 
 	@Override
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
-		GL11.glScaled(1.4, 1.4, 1.4);
+		GL11.glScaled(1.6, 1.6, 1.6);
 		return super.preRenderCallback(scale, sub);
 	}
 
 	@Override
-	public void entityInit() {
+	protected void entityInit() {
 		super.entityInit();
-		// if(this.isInWater())
-		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
 	}
 
 }

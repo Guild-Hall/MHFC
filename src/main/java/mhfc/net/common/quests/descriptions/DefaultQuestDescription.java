@@ -5,30 +5,33 @@ import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 
 import mhfc.net.client.quests.DefaultQuestVisualDefinition;
+import mhfc.net.common.core.registry.MHFCDimensionRegistry;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.Mission;
 import mhfc.net.common.quests.QuestFactories;
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.IGoalFactory;
-import mhfc.net.common.quests.api.QuestDefinition;
+import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.quests.api.QuestGoal;
+import mhfc.net.common.quests.api.QuestRewardDelegate;
+import mhfc.net.common.quests.api.SpawnInformationDelegate;
 import mhfc.net.common.quests.properties.GroupProperty;
-import mhfc.net.common.quests.world.GlobalAreaManager;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
-import mhfc.net.common.world.types.areas.ArenaType;
+import mhfc.net.common.world.types.ArenaType;
 
 /**
  * Used by the QuestFactories as well as to display quests.
  */
-public class DefaultQuestDescription extends QuestDefinition {
+public class DefaultQuestDescription implements IQuestDefinition {
 	public static final DefaultQuestDescription UNKNOWN_DESCRIPTION = new DefaultQuestDescription(
 			null,
 			QuestType.Gathering,
 			ArenaType.INSTANCE,
 			QuestFlair.DAYTIME,
-			0,
+			QuestRewardDelegate.MISSING,
+			SpawnInformationDelegate.MISSING,
 			0,
 			0,
 			q -> DefaultQuestVisualDefinition.UNKNOWN);
@@ -55,10 +58,11 @@ public class DefaultQuestDescription extends QuestDefinition {
 	// public static final String KEY_TIME_LIMIT = "timeLimit";
 	public static final String KEY_AREA_ID = "areaID";
 	public static final String KEY_FLAIR = "flair";
-	public static final String KEY_FEE = "fee";
 	public static final String KEY_REWARD = "reward";
+	public static final String KEY_FEE = "fee";
 	public static final String KEY_GOAL = "goal";
 	public static final String KEY_VISUAL = "visual";
+	public static final String KEY_SPAWNS = "spawns";
 
 	protected GoalReference goalReference;
 	protected DefaultQuestVisualDefinition visual;
@@ -67,7 +71,9 @@ public class DefaultQuestDescription extends QuestDefinition {
 	protected IAreaType areaType;
 	protected QuestFlair questFlair;
 
-	protected int reward;
+	protected QuestRewardDelegate reward;
+	protected SpawnInformationDelegate spawns;
+
 	protected int fee;
 	protected int maxPartySize;
 
@@ -76,16 +82,17 @@ public class DefaultQuestDescription extends QuestDefinition {
 			QuestType type,
 			IAreaType areaId,
 			QuestFlair flair,
-			int reward,
+			QuestRewardDelegate reward,
+			SpawnInformationDelegate spawns,
 			int fee,
 			int maxPartySize,
 			Function<DefaultQuestDescription, DefaultQuestVisualDefinition> visual) {
-		super(MHFCQuestBuildRegistry.QUEST_DEFAULT);
 		this.goalReference = goalDescID;
 		this.questType = type;
 		this.areaType = areaId;
 		this.questFlair = flair;
-		this.reward = reward;
+		this.reward = Objects.requireNonNull(reward);
+		this.spawns = Objects.requireNonNull(spawns);
 		this.fee = fee;
 		this.maxPartySize = maxPartySize;
 		this.visual = Objects.requireNonNull(visual.apply(this));
@@ -93,10 +100,6 @@ public class DefaultQuestDescription extends QuestDefinition {
 
 	public GoalReference getGoalReference() {
 		return goalReference;
-	}
-
-	public int getReward() {
-		return reward;
 	}
 
 	public int getFee() {
@@ -125,6 +128,10 @@ public class DefaultQuestDescription extends QuestDefinition {
 		return questFlair;
 	}
 
+	public QuestRewardDelegate getReward() {
+		return reward;
+	}
+
 	public QuestGoal buildGoal(GroupProperty propertyRoot) {
 		return QuestFactories.constructGoal(getGoalReference().getReferredDescription(), propertyRoot);
 	}
@@ -142,13 +149,25 @@ public class DefaultQuestDescription extends QuestDefinition {
 		}
 		IAreaType areaType = getAreaType();
 
-		CompletionStage<IActiveArea> activeArea = GlobalAreaManager.getInstance()
-				.getUnusedInstance(areaType, getQuestFlair());
+		CompletionStage<IActiveArea> activeArea = MHFCDimensionRegistry.getUnusedInstance(areaType, getQuestFlair());
 		if (activeArea == null) {
 			return null;
 		}
 
-		return new Mission(missionID, goal, rootProperties, getMaxPartySize(), getReward(), getFee(), activeArea, this);
+		return new Mission(
+				missionID,
+				goal,
+				rootProperties,
+				getMaxPartySize(),
+				reward.getValue(),
+				spawns.getValue(),
+				getFee(),
+				activeArea,
+				this);
+	}
+
+	public SpawnInformationDelegate getSpawnInformation() {
+		return spawns;
 	}
 
 }

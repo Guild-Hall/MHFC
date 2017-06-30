@@ -1,29 +1,37 @@
 package mhfc.net.common.ai.entity.boss.deviljho;
 
-import mhfc.net.common.ai.IExecutableAction;
-import mhfc.net.common.ai.entity.AIGameplayComposition;
+import mhfc.net.common.ai.entity.AIMethods;
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
-import mhfc.net.common.ai.general.actions.AIAnimatedAction;
-import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.ai.general.actions.DamagingAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
+import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
+import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
+import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.Vec3;
+import mhfc.net.common.util.world.WorldHelper;
+import net.minecraft.util.math.Vec3d;
 
-public class Launch extends AIAnimatedAction<EntityDeviljho> {
-	private static final String ANIMATION = "mhfc:models/Deviljho/DeviljhoLaunch.mcanm";
+public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttackProvider {
+	private static final String ANIMATION_LOCATION = "mhfc:models/Deviljho/DeviljhoLaunch.mcanm";
 	private static final int LAST_FRAME = 50;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(92f, 62f, 8888f);
-	private static final double MAX_DIST = 6f;
+	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(92f, 62f, 8888f);
+
 	private static final float WEIGHT = 7F;
 	private static final double HEIGHT_BLOCK = 0.50D;
+	private static final double MAX_DIST = 6f;
 	private static final double SPLIT_MULTIPLIER = 0.535;
 
-	private static ISelectionPredicate<EntityDeviljho> selectionProvider;
-
-	static {
-		selectionProvider = new ISelectionPredicate.DistanceAdapter<>(0, MAX_DIST);
+	private final IAttackProvider ATTACK;
+	{
+		IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
+		IDamageProvider DAMAGE = new DamageAdapter(DAMAGE_CALC);
+		ATTACK = new AttackAdapter(ANIMATION, DAMAGE);
 	}
 
 	private boolean thrown;
@@ -31,7 +39,33 @@ public class Launch extends AIAnimatedAction<EntityDeviljho> {
 	public Launch() {}
 
 	@Override
-	public void update() {
+	protected float computeSelectionWeight() {
+		EntityDeviljho entity = this.getEntity();
+		target = entity.getAttackTarget();
+		if (target == null) {
+			return DONT_SELECT;
+		}
+		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
+		double dist = toTarget.lengthVector();
+		if (dist > MAX_DIST) {
+			return DONT_SELECT;
+		}
+		return WEIGHT;
+	}
+
+	@Override
+	protected void beginExecution() {
+		super.beginExecution();
+		thrown = false;
+	}
+
+	@Override
+	public IAttackProvider getAttackProvider() {
+		return ATTACK;
+	}
+
+	@Override
+	public void onUpdate() {
 		if (thrown) {
 			return;
 		}
@@ -40,19 +74,18 @@ public class Launch extends AIAnimatedAction<EntityDeviljho> {
 			if (entity.getAttackTarget() == null) {
 				return;
 			}
-			getEntity().playSound("mhfc:deviljho.rockthrow", 2.0F, 1.0F);
-
-			AIUtils.damageCollidingEntities(getEntity(), damageCalc);
-			AIGameplayComposition.launch(entity, 0, 1.4, 0);
+			getEntity().playSound(MHFCSoundRegistry.getRegistry().deviljhoRockThrow, 2.0F, 1.0F);
+			damageCollidingEntities();
+			AIMethods.launch(entity, 0, 1.4, 0);
 		}
 		if (this.getCurrentFrame() >= 35) {
-			Vec3 look = entity.getLookVec();
-			Vec3 vec_look_var = entity.getLookVec();
+			Vec3d look = entity.getLookVec();
+			Vec3d vec_look_var = entity.getLookVec();
 			// to the right and upward.
-			Vec3 vec_positive_axis = vec_look_var.crossProduct(Vec3.createVectorHelper(0, 1, 0));
+			Vec3d vec_positive_axis = vec_look_var.crossProduct(new Vec3d(0, 1, 0));
 
 			for (int i = 0; i < 5; i++) {
-				EntityProjectileBlock block = new EntityProjectileBlock(entity.worldObj, entity);
+				EntityProjectileBlock block = new EntityProjectileBlock(entity.world, entity);
 				double xCo = look.xCoord;
 				double yCo = look.yCoord + HEIGHT_BLOCK;
 				double zCo = look.zCoord;
@@ -71,7 +104,7 @@ public class Launch extends AIAnimatedAction<EntityDeviljho> {
 				}
 
 				block.setThrowableHeading(xCo, yCo, zCo, 2f, 1.5f);
-				entity.worldObj.spawnEntityInWorld(block);
+				entity.world.spawnEntity(block);
 			}
 
 			thrown = true;
@@ -82,37 +115,7 @@ public class Launch extends AIAnimatedAction<EntityDeviljho> {
 		}
 	}
 
-	@Override
-	protected void beginExecution() {
-		super.beginExecution();
-		thrown = false;
-	}
-
 	private boolean isMoveForwardFrame(int frame) {
 		return (frame > 20 && frame < 30);
 	}
-
-	@Override
-	public String getAnimationLocation() {
-		return ANIMATION;
-	}
-
-	@Override
-	public int getAnimationLength() {
-		return LAST_FRAME;
-	}
-
-	@Override
-	public boolean shouldSelectAttack(
-			IExecutableAction<? super EntityDeviljho> attack,
-			EntityDeviljho actor,
-			Entity target) {
-		return selectionProvider.shouldSelectAttack(attack, actor, target);
-	}
-
-	@Override
-	public float getWeight(EntityDeviljho entity, Entity target) {
-		return WEIGHT;
-	}
-
 }

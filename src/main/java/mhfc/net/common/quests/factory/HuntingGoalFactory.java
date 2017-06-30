@@ -9,24 +9,24 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 
-import mhfc.net.common.quests.api.GoalDefinition;
+import mhfc.net.common.quests.api.IGoalDefinition;
 import mhfc.net.common.quests.api.IGoalDefinitionFactory;
 import mhfc.net.common.quests.descriptions.HuntingGoalDescription;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.util.JsonUtils;
+import net.minecraft.util.ResourceLocation;
 
 public class HuntingGoalFactory implements IGoalDefinitionFactory {
 	@Override
-	public GoalDefinition buildGoalDescription(JsonElement jsonE, JsonDeserializationContext context) {
+	public IGoalDefinition convertTo(JsonElement jsonE, JsonDeserializationContext context) {
 		JsonObject json = jsonE.getAsJsonObject();
 		if (!json.has(ID_HUNTED_TYPE) || !json.has(ID_AMOUNT)) {
 			throw new JsonParseException(
 					"A hunting goal needs a " + ID_HUNTED_TYPE + " and a " + ID_AMOUNT + " attribute");
 		}
-		String mobID = JsonUtils.getJsonElementStringValue(json.get(ID_HUNTED_TYPE), ID_HUNTED_TYPE);
-		@SuppressWarnings("unchecked")
-		Class<? extends Entity> goalClass = (Class<? extends Entity>) EntityList.stringToClassMapping.get(mobID);
+		ResourceLocation mobID = new ResourceLocation(JsonUtils.getString(json.get(ID_HUNTED_TYPE), ID_HUNTED_TYPE));
+		Class<? extends Entity> goalClass = EntityList.getClass(mobID);
 		if (goalClass == null) {
 			throw new JsonParseException("The mob identifier " + mobID + " could not be resolved");
 		}
@@ -38,11 +38,11 @@ public class HuntingGoalFactory implements IGoalDefinitionFactory {
 	}
 
 	@Override
-	public JsonObject serialize(GoalDefinition description, JsonSerializationContext context) {
+	public JsonObject convertFrom(IGoalDefinition description, JsonSerializationContext context) {
 		HuntingGoalDescription huntingGoal = (HuntingGoalDescription) description;
 		JsonObject holder = new JsonObject();
-		String huntedName = (String) EntityList.classToStringMapping.get(huntingGoal.getHuntedClass());
-		holder.addProperty(ID_HUNTED_TYPE, huntedName);
+		ResourceLocation huntedName = EntityList.getKey(huntingGoal.getHuntedClass());
+		holder.addProperty(ID_HUNTED_TYPE, huntedName.toString());
 		holder.addProperty(ID_AMOUNT, huntingGoal.getAmount());
 		return holder;
 	}

@@ -3,16 +3,15 @@ package mhfc.net.common.block;
 import java.util.Random;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
 public class BlockWyverniaDirt extends Block {
 
 	public BlockWyverniaDirt() {
-		super(Material.ground);
-		setBlockName(MHFCReference.block_wyveriandirt_name);
-		setBlockTextureName(MHFCReference.block_wyveriandirt_tex);
+		super(Material.GROUND);
+		setUnlocalizedName(ResourceInterface.block_wyveriandirt_name);
 		setHardness(0.8F);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}

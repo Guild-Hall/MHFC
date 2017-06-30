@@ -10,8 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import mhfc.net.common.quests.api.GoalDefinition;
-import mhfc.net.common.quests.api.QuestDefinition;
+import mhfc.net.common.quests.api.GoalDefinitionDelegate;
+import mhfc.net.common.quests.api.IGoalDefinition;
+import mhfc.net.common.quests.api.IQuestDefinition;
+import mhfc.net.common.quests.api.QuestDefinitionDelegate;
+import net.minecraft.util.ResourceLocation;
 
 public class QuestDescriptionRegistry {
 
@@ -20,10 +23,10 @@ public class QuestDescriptionRegistry {
 	}
 
 	public static class QuestGroupData {
-		private final Map<String, Set<String>> groupMapping = new HashMap<>();
+		private final Map<String, Set<ResourceLocation>> groupMapping = new HashMap<>();
 		private final LinkedHashSet<String> groupIDs = new LinkedHashSet<>();
 
-		public Map<String, Set<String>> getGroupMapping() {
+		public Map<String, Set<ResourceLocation>> getGroupMapping() {
 			return groupMapping;
 		}
 
@@ -36,19 +39,19 @@ public class QuestDescriptionRegistry {
 				return;
 			}
 			groupIDs.add(groupID);
-			groupMapping.put(groupID, new HashSet<String>());
+			groupMapping.put(groupID, new HashSet<>());
 		}
 
 		public void addGroupID(String id) {
 			ensureGroupID(id);
 		}
 
-		public void addQuestToGroup(String groupID, String questID) {
+		public void addQuestToGroup(String groupID, ResourceLocation questID) {
 			ensureGroupID(groupID);
 			groupMapping.get(groupID).add(questID);
 		}
 
-		public void addQuestsToGroup(String groupID, Collection<String> quests) {
+		public void addQuestsToGroup(String groupID, Collection<ResourceLocation> quests) {
 			ensureGroupID(groupID);
 			groupMapping.get(groupID).addAll(quests);
 		}
@@ -71,34 +74,37 @@ public class QuestDescriptionRegistry {
 		 * created empty.
 		 */
 		public void orderGroups(Iterable<String> groupIDsInOrder) {
-			LinkedHashSet<String> tempOrdering = new LinkedHashSet<>();
-			for (String groupID : groupIDsInOrder) {
-				ensureGroupID(groupID);
-				tempOrdering.add(groupID);
-			}
-			tempOrdering.addAll(groupIDs);
+			LinkedHashSet<String> oldOrder = new LinkedHashSet<>(groupIDs);
+			Map<String, Set<ResourceLocation>> oldMapping = new HashMap<>(groupMapping);
+			groupMapping.clear();
 			groupIDs.clear();
-			groupIDs.addAll(tempOrdering);
+			for (String groupID : groupIDsInOrder) {
+				if (!oldOrder.contains(groupID)) {
+					continue;
+				}
+				assert oldMapping.containsKey(groupID);
+				addQuestsToGroup(groupID, oldMapping.get(groupID));
+			}
 		}
 	}
 
-	private final HashMap<String, QuestDefinition> questDescriptions = new HashMap<>();
-	private final HashMap<String, GoalDefinition> goalDescriptions = new HashMap<>();
+	private final HashMap<ResourceLocation, QuestDefinitionDelegate> questDescriptions = new HashMap<>();
+	private final HashMap<ResourceLocation, GoalDefinitionDelegate> goalDescriptions = new HashMap<>();
 	private final QuestGroupData groupData = new QuestGroupData();
 
-	public void fillQuestDescriptions(Map<String, QuestDefinition> mapData) {
+	public void fillQuestDescriptions(Map<ResourceLocation, QuestDefinitionDelegate> mapData) {
 		questDescriptions.putAll(mapData);
 	}
 
-	public void putQuestDescription(String identifier, QuestDefinition questDescription) {
+	public void putQuestDescription(ResourceLocation identifier, QuestDefinitionDelegate questDescription) {
 		questDescriptions.put(identifier, questDescription);
 	}
 
-	public void fillGoalDescriptions(Map<String, GoalDefinition> mapData) {
+	public void fillGoalDescriptions(Map<ResourceLocation, GoalDefinitionDelegate> mapData) {
 		goalDescriptions.putAll(mapData);
 	}
 
-	public void putGoalDescription(String identifier, GoalDefinition questDescription) {
+	public void putGoalDescription(ResourceLocation identifier, GoalDefinitionDelegate questDescription) {
 		goalDescriptions.put(identifier, questDescription);
 	}
 
@@ -106,32 +112,32 @@ public class QuestDescriptionRegistry {
 		groupData.addInto(data);
 	}
 
-	public void addGroup(String groupID, Collection<String> quests) {
+	public void addGroup(String groupID, Collection<ResourceLocation> quests) {
 		groupData.addQuestsToGroup(groupID, quests);
 	}
 
-	public QuestDefinition getQuestDescription(String id) {
-		QuestDefinition qd = questDescriptions.get(id);
-		return qd;
+	public IQuestDefinition getQuestDescription(ResourceLocation id) {
+		QuestDefinitionDelegate qd = questDescriptions.get(id);
+		return qd.getValue();
 	}
 
-	public GoalDefinition getGoalDescription(String id) {
-		GoalDefinition qd = goalDescriptions.get(id);
-		return qd;
+	public IGoalDefinition getGoalDescription(ResourceLocation id) {
+		GoalDefinitionDelegate qd = goalDescriptions.get(id);
+		return qd.getValue();
 	}
 
-	public Map<String, QuestDefinition> getFullQuestDescriptionMap() {
+	public Map<ResourceLocation, QuestDefinitionDelegate> getFullQuestDescriptionMap() {
 		return Collections.unmodifiableMap(questDescriptions);
 	}
 
-	public Map<String, GoalDefinition> getFullGoalDescriptionMap() {
+	public Map<ResourceLocation, GoalDefinitionDelegate> getFullGoalDescriptionMap() {
 		return Collections.unmodifiableMap(goalDescriptions);
 	}
 
 	/**
 	 * <b>WARNING:</b> The objected returned here is backed by the real map
 	 */
-	public Map<String, Set<String>> getFullGroupMap() {
+	public Map<String, Set<ResourceLocation>> getFullGroupMap() {
 		return Collections.unmodifiableMap(groupData.groupMapping);
 	}
 
@@ -139,8 +145,8 @@ public class QuestDescriptionRegistry {
 		return new ArrayList<>(groupData.groupIDs);
 	}
 
-	public Set<String> getQuestIdentifiersFor(String group) {
-		Set<String> identifiers = groupData.groupMapping.get(group);
+	public Set<ResourceLocation> getQuestIdentifiersFor(String group) {
+		Set<ResourceLocation> identifiers = groupData.groupMapping.get(group);
 		if (identifiers == null) {
 			return Collections.emptySet();
 		}

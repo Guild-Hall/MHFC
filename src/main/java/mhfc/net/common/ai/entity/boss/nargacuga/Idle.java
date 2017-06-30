@@ -1,31 +1,27 @@
 package mhfc.net.common.ai.entity.boss.nargacuga;
 
-import mhfc.net.common.ai.general.actions.AIGeneralIdle;
-import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
+import mhfc.net.common.ai.general.actions.IdleAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.monster.EntityNargacuga;
-import net.minecraft.entity.Entity;
 
-public class Idle extends AIGeneralIdle<EntityNargacuga> {
+public class Idle extends IdleAction<EntityNargacuga> implements IHasAnimationProvider {
 
-	private static final String ANIMATION = "mhfc:models/Nargacuga/NargacugaIdle.mcanm";
 	private static final int LAST_FRAME = 140;
-
-	private static final IWeightProvider<EntityNargacuga> WEIGHT_PROVIDER = new IWeightProvider.RandomWeightAdapter<>(6);
+	private static final String ANIMATION_LOCATION = "mhfc:models/Nargacuga/NargacugaIdle.mcanm";
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 
 	public Idle() {}
 
 	@Override
-	public String getAnimationLocation() {
+	protected float computeIdleWeight() {
+		return 5F;
+	}
+
+	@Override
+	public IAnimationProvider getAnimProvider() {
 		return ANIMATION;
 	}
 
-	@Override
-	public int getAnimationLength() {
-		return LAST_FRAME;
-	}
-
-	@Override
-	public float getWeight(EntityNargacuga entity, Entity target) {
-		return WEIGHT_PROVIDER.getWeight(entity, target);
-	}
 }

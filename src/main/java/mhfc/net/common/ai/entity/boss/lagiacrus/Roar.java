@@ -1,29 +1,37 @@
 package mhfc.net.common.ai.entity.boss.lagiacrus;
 
-import mhfc.net.common.ai.IExecutableAction;
-import mhfc.net.common.ai.general.actions.AIGeneralRoar;
-import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
+import mhfc.net.common.ai.general.actions.RoarAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.adapters.RoarAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
+import mhfc.net.common.ai.general.provider.simple.IRoarProvider;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityLagiacrus;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 
-public class Roar extends AIGeneralRoar<EntityLagiacrus> {
+public class Roar extends RoarAction<EntityLagiacrus> implements IHasAnimationProvider {
 
-	private static final String ANIMATION = "mhfc:models/Lagiacrus/LagiacrusRoar.mcanm";
 	private static final int LAST_FRAME = 95;
-	private static final String ROAR_SOUND = "mhfc:lagiacrus.roar";
+	private static final String ANIMATION_LOCATION = "mhfc:models/Lagiacrus/LagiacrusRoar.mcanm";
 
-	private static final IWeightProvider<EntityLagiacrus> weight;
+	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 
 	public Roar() {}
 
-	static {
-		weight = new IWeightProvider.RandomWeightAdapter<>(1F);
+
+	@Override
+	public IAnimationProvider getAnimProvider() {
+		return ANIMATION;
 	}
 
 	@Override
-	public void update() {
-		super.update();
+	public IRoarProvider provideRoarBehaviour() {
+		return new RoarAdapter(MHFCSoundRegistry.getRegistry().lagiacrusRoar, true);
+	}
+
+	@Override
+	public void onUpdate() {
+		super.onUpdate();
 		EntityLagiacrus entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (this.getCurrentFrame() >= 18 && this.getCurrentFrame() <= 22) {
@@ -32,36 +40,4 @@ public class Roar extends AIGeneralRoar<EntityLagiacrus> {
 		}
 	}
 
-	@Override
-	public boolean shouldStun(EntityLivingBase actor) {
-		return true;
-	}
-
-	@Override
-	public String getAnimationLocation() {
-		return ANIMATION;
-	}
-
-	@Override
-	public int getAnimationLength() {
-		return LAST_FRAME;
-	}
-
-	@Override
-	public boolean shouldSelectAttack(
-			IExecutableAction<? super EntityLagiacrus> attack,
-			EntityLagiacrus actor,
-			Entity target) {
-		return true;
-	}
-
-	@Override
-	public float getWeight(EntityLagiacrus entity, Entity target) {
-		return weight.getWeight(entity, target);
-	}
-
-	@Override
-	public String getRoarSoundLocation() {
-		return ROAR_SOUND;
-	}
 }

@@ -1,7 +1,6 @@
 package mhfc.net.common.quests.descriptions;
 
-import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.quests.api.GoalDefinition;
+import mhfc.net.common.quests.api.IGoalDefinition;
 import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.goals.DeathRestrictionQuestGoal;
@@ -10,14 +9,13 @@ import mhfc.net.common.quests.properties.IntProperty;
 import mhfc.net.common.util.stringview.Viewable;
 import mhfc.net.common.util.stringview.Viewables;
 
-public class DeathRestrictionDescription extends GoalDefinition {
+public class DeathRestrictionDescription implements IGoalDefinition {
 
 	public static final String ID_LIVES = "lives";
 
 	private int allowedDeaths;
 
 	public DeathRestrictionDescription(int allowedDeaths) {
-		super(MHFCQuestBuildRegistry.GOAL_DEATH_RESTRICTION_TYPE);
 		this.allowedDeaths = allowedDeaths;
 	}
 

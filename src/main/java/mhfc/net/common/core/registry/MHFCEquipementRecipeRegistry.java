@@ -2,32 +2,33 @@ package mhfc.net.common.core.registry;
 
 import java.util.Set;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.data.EquipmentRecipeRegistryData;
 import mhfc.net.common.core.directors.DirectorEquipmentRecipes;
-import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe;
-import mhfc.net.common.crafting.recipes.equipment.EquipmentRecipe.RecipeType;
+import mhfc.net.common.crafting.equipment.EquipmentRecipe;
+import mhfc.net.common.crafting.equipment.EquipmentRecipe.RecipeType;
+import mhfc.net.common.network.message.MessageTileLocation;
 import mhfc.net.common.network.message.bench.MessageBeginCrafting;
 import mhfc.net.common.network.message.bench.MessageBenchRefreshRequest;
 import mhfc.net.common.network.message.bench.MessageCancelRecipe;
 import mhfc.net.common.network.message.bench.MessageCraftingUpdate;
 import mhfc.net.common.network.message.bench.MessageSetRecipe;
-import mhfc.net.common.network.packet.MessageTileLocation;
 import mhfc.net.common.tile.TileHunterBench;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MHFCEquipementRecipeRegistry {
 
+	// FIXME: make them threadsafe
 	public static class BenchRefreshHandler
 			implements
 			IMessageHandler<MessageBenchRefreshRequest, MessageCraftingUpdate> {
@@ -79,7 +80,6 @@ public class MHFCEquipementRecipeRegistry {
 			}
 			return null;
 		}
-
 	}
 
 	public static TileHunterBench getHunterBenchServer(MessageTileLocation message) {
@@ -93,7 +93,7 @@ public class MHFCEquipementRecipeRegistry {
 		if (world == null) {
 			return null;
 		}
-		TileEntity bench = world.getTileEntity(message.getX(), message.getY(), message.getZ());
+		TileEntity bench = world.getTileEntity(message.getPos());
 		if (!(bench instanceof TileHunterBench)) {
 			MHFCMain.logger().error("No tile entity for a block hunter bench found");
 			return null;
@@ -104,9 +104,10 @@ public class MHFCEquipementRecipeRegistry {
 	@SideOnly(Side.CLIENT)
 	public static TileHunterBench getHunterBenchClient(MessageTileLocation message) {
 		WorldClient clientW = FMLClientHandler.instance().getWorldClient();
-		if (clientW.provider.dimensionId != message.getDimensionID())
+		if (clientW.provider.getDimension() != message.getDimensionID()) {
 			return null;
-		TileEntity bench = clientW.getTileEntity(message.getX(), message.getY(), message.getZ());
+		}
+		TileEntity bench = clientW.getTileEntity(message.getPos());
 		if (!(bench instanceof TileHunterBench)) {
 			MHFCMain.logger().error("No tile entity for a block hunter bench found");
 			return null;

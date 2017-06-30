@@ -1,7 +1,13 @@
+mhfc.area.arena.name=Arena
 mhfc.area.desert.name=§6Desert
-mhfc.area.arena.name=§2Hunter's Arena
-mhfc.area.treepeak.name=§3Treepeak
+mhfc.area.playfield.name=Playfield
 mhfc.area.snowymountains.name=§5Snowy Mountains
+mhfc.area.test.name=Devtest area
+mhfc.area.treepeak.name=§3Treepeak
+mhfc.area.village_poke.name=Pokèvillage
+
+mhfc.area.sandy.name=§6The Sandy
+mhfc.area.greenvalley.name=§6Green Valley
 
 entity.tigrex.name=§2Tigrex
 entity.mhfc.tigrex.name=§2Tigrex
@@ -62,6 +68,28 @@ tile.wyverniaflower.flowerorctal.name=Orctal
 tile.wyverniaflower.flowerpeno.name=Peno
 tile.wyverniaflower.flowershrine.name=Shrine Flower
 tile.wyverniaflower.flowerspindel.name=Spindel
+tile.wyverniaflower.flowerberpis.name=Berpis
+tile.wyverniaflower.flowerconcave.name=Concave Flower
+tile.wyverniaflower.flowerdelphi.name=Flower of Delphi
+tile.wyverniaflower.flowerember.name=Ember
+tile.wyverniaflower.flowergresha.name=Gresha
+tile.wyverniaflower.flowermowal.name=Mowal
+tile.wyverniaflower.flowerneptia.name=Neptia
+tile.wyverniaflower.flowerroy.name=Roy Bloom
+tile.wyverniaflower.flowersampa.name=Sampa Flower
+tile.wyverniaflower.flowersilon.name=Silon
+
+
+
+tile.wyverniaplant.plant_b1.name=Wyvernia Plant B1
+tile.wyverniaplant.plant_b2.name=Wyvernia Plant B2
+tile.wyverniaplant.plant_b3.name=Wyvernia Plant B3
+tile.wyverniaplant.plant_b4.name=Wyvernia Plant B4
+tile.wyverniaplant.plant_t1.name=Wyvernia Plant T1
+tile.wyverniaplant.plant_t2.name=Wyvernia Plant T2
+tile.wyverniaplant.plant_t3.name=Wyvernia Plant T3
+tile.wyverniaplant.plant_t4.name=Wyvernia Plant T4
+
 tile.wyverniaplanks.plankcalfer.name=Calfer Wood Plank
 tile.wyverniaplanks.plankdirewood.name=Direwood Plank
 tile.wyverniaplanks.plankgrandifolia.name=Grandifolia Wood Plank
@@ -108,53 +136,105 @@ item.wyverniadust.name=Wyvernia Dust
 item.wyverniaclay.name=Wyvernia Clay
 item.mhfcegg.name=Summon
 item.moldediron.name=Molded Iron
-item.armorsphere.normal.name=Armorsphere
-item.armorsphere.plus.name=Armorsphere+
-item.firestone.name=Firestone
-item.ingot.carbalite.name=Carbalite Ingot
-item.ingot.dragonite.name=Dragonite Ingot
-item.ingot.eltalite.name=Eltalite Ingot
-item.ingot.machalite.name=Machalite Ingot
 
-item.base.anumium.name=Anunium Base
-item.base.meganum.name=Meganium Base
-item.tigrex.scale.name=Tigrex Scale
-item.tigrex.shell.name=Tigrex Shell
-item.tigrex.fang.name=Tigrex Fang
-item.tigrex.claw.name=Tigrex Claw
-item.tigrex.tail.name=Tigrex Tail
-item.tigrex.skull.name=Tigrex Skullshell
-item.woodrig.name=Wood Rig
-item.lumberbar.name=Lumber Bar
-item.kirin.mane.name=Kirin Mane
-item.kirin.gem.name=Kirin Gem
-item.kirin.tail.name=Kirin Thundertail
-item.kirin.lightcrystal.name=Lightcrystal
-item.kirin.purecrystal.name=Purecrystal
-item.kirin.mane.name=Platinum Mane
-item.deviljho.scale.name=Deviljho Scale
-item.deviljho.fang.name=Deviljho Fang
-item.deviljho.hide.name=Deviljho Hide
-item.deviljho.talon.name=Deviljho Talon
-item.deviljho.scalp.name=Deviljho Scalp
-item.deviljho.tail.name=Deviljho Tail
-item.steelbar.name=Steel Bar
-item.kirinbuff.name=Kirin Buff
-item.rathalos.shell.name=Rathalos Shell
-item.rathalos.webbing.name=Rathalos Webbing
-item.rathalos.marrow.name=Wyvern Marrow
-item.rathalos.wing.name=Rathalos Wing
-item.rathalos.plate.name=Rathalos Plate
-item.remobra.skin.name=Remobra Skin
-item.remobra.stripe.name=Striped Skin
-item.remobra.skull.name=Remobra Skull
-item.remobra.wing.name=Remobra Wing
-item.sac.fire.name=Flame Sac
+item.firestone.name=Firestone
+
+
+item.material.anumium.name=Anunium Base
+item.material.meganum.name=Meganium Base
+
+item.material.normal.name=Armorsphere
+item.material.plus.name=Armorsphere+
+
+
+item.material.carbalite.name=Carbalite Ingot
+item.material.dragonite.name=Dragonite Ingot
+item.material.eltalite.name=Eltalite Ingot
+item.material.machalite.name=Machalite Ingot
+
+item.material.insecthusk.name=Insect Husk
+item.material.yambug.name=Yambug
+item.material.bughopper.name=Bughopper
+item.material.snakebeelarva.name=Snakebee Larva
+item.material.godbug.name=Godbug
+item.material.bitterbug.name=Bitterbug
+item.material.flashbug.name=Flashbug
+item.material.thunderbug.name=Thunderbug
+item.material.carpenterbug.name=Carpenterbug
+item.material.kingscarab.name=King Scarab
+item.material.emperorcricket.name=Emperor Cricket
+item.material.killerbeetle.name=Killer Beetle
+item.material.hercudrome.name=Hercudrome
+item.material.rarescarab.name=Rare Scarab
+item.material.phantombutterfly.name=Phantom Butterfly
+item.material.rainbowinsect.name=Rainbow Insect
+item.material.greathornfly.name=Great Hornfly
+item.material.greatladybug.name=Great Ladybug
+item.material.royalrhino.name=Royal Rhino
+item.material.divinerhino.name=Divine Rhino
+item.material.gluehopper.name=Gluehopper
+
+item.material.screamer.name=Screamer Sac
+item.material.poison.name=Poison Sac
+item.material.toxin.name=Toxin Sac
+item.material.deadlypoison.name=Deadly Poison Sac
+item.material.paralysis.name=Paralysis Sac
+item.material.sleep.name=Sleep Sac
+item.material.coma.name=Coma Sac
+item.material.flame.name=Flame Sac
+item.material.inferno.name=Inferno Sac
+item.material.blazingfire.name=Blazing Fire Sac
+item.material.electro.name=Electro Sac
+item.material.thunder.name=Thunder Sac
+item.material.lightning.name=Lightning Sac
+
+
+
+
+item.material.tigrexscale.name=Tigrex Scale
+item.material.tigrexshell.name=Tigrex Shell
+item.material.tigrexfang.name=Tigrex Fang
+item.material.tigrexclaw.name=Tigrex Claw
+item.material.tigrextail.name=Tigrex Tail
+item.material.tigrexskull.name=Tigrex Skullshell
+
+item.material.kirinmane.name=Kirin Mane
+item.material.kiringem.name=Kirin Gem
+item.material.kirintail.name=Kirin Thundertail
+item.material.kirinlightcrystal.name=Lightcrystal
+item.material.kirinpurecrystal.name=Purecrystal
+item.material.kirinmane.name=Platinum Mane
+item.material.deviljhoscale.name=Deviljho Scale
+item.material.deviljhofang.name=Deviljho Fang
+item.material.deviljhohide.name=Deviljho Hide
+item.material.deviljhotalon.name=Deviljho Talon
+item.material.deviljhoscalp.name=Deviljho Scalp
+item.material.deviljhotail.name=Deviljho Tail
+
+item.material.rathalosshell.name=Rathalos Shell
+item.material.rathaloswebbing.name=Rathalos Webbing
+item.material.rathalosmarrow.name=Wyvern Marrow
+item.material.rathaloswing.name=Rathalos Wing
+item.material.rathalosplate.name=Rathalos Plate
+item.material.remobraskin.name=Remobra Skin
+item.material.remobraskull.name=Remobra Skull
+item.material.remobrawing.name=Remobra Wing
+
 item.traptool.name=Trap Tool
 item.bombmaterial.name=Bomb Material
 item.gaguaegg.name=Gagua Egg
 item.wyverncoin.name=Wyvern Coin
 item.flashbomb.name=Flash Bomb
+item.steelbar.name=Steel Bar
+item.kirinbuff.name=Kirin Buff
+
+item.woodrig.name=Wood Rig
+item.lumberbar.name=Lumber Bar
+
+
+
+
+
 
 item.paintball.black.name=Black Paintball
 item.paintball.red.name=Red Paintball
@@ -259,7 +339,7 @@ item.huntinghorn_1.name=Metalbagpipe
 item.huntinghorn_2.name=Ivory Horn
 item.huntinghorn_3.name=Striped Dragonga
 item.huntinghorn_4.name=Great Bagpipe
-item.huntinghorn_5.name=Heavy Bagpipe+
+item.huntinghorn_5.name=Heavy Bagpipe
 item.huntinghorn_6.name=Heavy Bagpipe+
 item.huntinghorn_7.name=Elite Bagpipe
 item.huntinghorn_8.name=Wardrums
@@ -288,7 +368,7 @@ potion.kirinbless=Spark of Kirin
 potion.paralyze=Paralyze
 potion.attackuplow=Attack Up Low
 potion.longswordattackup=Longsword Attack Up
-mfhc.quests.visual.tag.reward=Reward
+mhfc.quests.visual.tag.reward=Reward
 mhfc.quests.visual.tag.fee=Fee
 mhfc.quests.visual.tag.time=Time Limit
 mhfc.quests.visual.tag.area=Location
@@ -306,11 +386,13 @@ mhfc.quests.type.gathering=Gathering Quest
 mhfc.quests.type.epichunting=Epic Hunting Quest
 mhfc.quests.type.killing=Slaying Quest
 
+
+
 container.hunterbench=Hunter's Forging Bench
 
 attribute.name.mhfc.ignoreArmour=Sharpness
 attribute.name.mhfc.knockback=Fencing
-attribute.name.mhfc.attackSpeed=Combo Rate
+attribute.name.mhfc.attackSpeed=Consistency
 attribute.name.mhfc.reloadTime=Precision
 attribute.name.mhfc.reach=Perception
 

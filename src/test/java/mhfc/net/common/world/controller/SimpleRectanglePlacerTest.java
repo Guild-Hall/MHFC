@@ -457,11 +457,11 @@ public class SimpleRectanglePlacerTest extends TestCase {
 						Arrays.asList(new Corner(CornerType.RIGHT_UP, 4, 0), new Corner(CornerType.UP_RIGHT, -4, 0))));
 	}
 
-	private void checkNotBothInner(Corner one, Corner two) {
-		TestCase.assertTrue(one.type.isOuter() || two.type.isOuter());
+	private static void checkNotBothInner(Corner one, Corner two) {
+		junit.framework.Assert.assertTrue(one.type.isOuter() || two.type.isOuter());
 	}
 
-	private void checkCornerList(CornerList list) {
+	private static void checkCornerList(CornerList list) {
 		checkNotBothInner(list.get(0), list.get(list.size() - 1));
 		Corner previous = list.get(0);
 		Iterator<Corner> listIt = list.listIterator(1);

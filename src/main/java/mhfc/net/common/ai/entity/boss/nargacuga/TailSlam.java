@@ -1,50 +1,68 @@
 package mhfc.net.common.ai.entity.boss.nargacuga;
 
-import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
-import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
-import mhfc.net.common.ai.general.actions.IJumpTimingProvider;
-import mhfc.net.common.ai.general.provider.simple.IJumpParamterProvider;
-import mhfc.net.common.ai.general.provider.simple.IJumpParamterProvider.ConstantAirTimeAdapter.ITargetResolver;
-import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
+import mhfc.net.common.ai.general.actions.JumpAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.adapters.ConstantAirTimeAdapter;
+import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
+import mhfc.net.common.ai.general.provider.adapters.JumpAdapter;
+import mhfc.net.common.ai.general.provider.adapters.JumpTimingAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.composite.IJumpProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasJumpProvider;
+import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
+import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
+import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityNargacuga;
-import mhfc.net.common.entity.projectile.EntityProjectileBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.Vec3;
+import mhfc.net.common.util.world.WorldHelper;
+import net.minecraft.util.math.Vec3d;
 
-public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
+public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpProvider<EntityNargacuga> {
 
-	private static final String ANIMATION = "mhfc:models/Nargacuga/TailSlam.mcanm";
 	private static final int ANIM_LENGTH = 100;
-	private static final int MAX_ANGLE = 20;
-	private static final float MAX_DISTANCE = 8;
-	private static final float WEIGHT = 20;
+	private static final String ANIMATION = "mhfc:models/Nargacuga/TailSlam.mcanm";
+	private static final float MAX_DISTANCE = 15F;
 	private static final int JUMP_FRAME = 19;
 	private static final int JUMP_TIME = 12;
 	private static final int SPIKE_FRAME = 50;
 	private static final float SPEED = 1.4f;
 
-	private static final ISelectionPredicate<EntityNargacuga> select;
-	private static final IDamageCalculator damageCalculator;
-	private static final IJumpTimingProvider<EntityNargacuga> timing;
-	private static final IJumpParamterProvider<EntityNargacuga> jumpParams;
+	private static final float WEIGHT = 150F;
 
-	static {
-		select = new ISelectionPredicate.SelectionAdapter<>(-MAX_ANGLE, MAX_ANGLE, 0, MAX_DISTANCE);
-		damageCalculator = AIUtils.defaultDamageCalc(280, 500, 888880);
-		jumpParams = new IJumpParamterProvider.ConstantAirTimeAdapter<>(
+	private final IJumpProvider<EntityNargacuga> JUMP;
+	{
+		final IAnimationProvider animation = new AnimationAdapter(this, ANIMATION, ANIM_LENGTH);
+		final IDamageCalculator damageCalculator = AIUtils.defaultDamageCalc(280, 1000, 888880);
+		final IJumpParameterProvider<EntityNargacuga> jumpParams = new ConstantAirTimeAdapter<>(
 				JUMP_TIME,
-				new ITargetResolver<EntityNargacuga>() {
-					@Override
-					public Vec3 getJumpTarget(EntityNargacuga entity) {
-						return entity.getLookVec().addVector(entity.posX, entity.posY, entity.posZ);
-					}
-				});
-		timing = new IJumpTimingProvider.JumpTimingAdapter<EntityNargacuga>(JUMP_FRAME, 0, 0);
+				entity -> entity.getLookVec().addVector(entity.posX, entity.posY, entity.posZ));
+		final IJumpTimingProvider<EntityNargacuga> timing = new JumpTimingAdapter<>(JUMP_FRAME, 0, 0);
+		JUMP = new JumpAdapter<>(animation, new DamageAdapter(damageCalculator), jumpParams, timing);
 	}
 
 	public TailSlam() {}
+
+	@Override
+	protected float computeSelectionWeight() {
+		EntityNargacuga e = this.getEntity();
+		target = e.getAttackTarget();
+		if (target == null) {
+			return DONT_SELECT;
+		}
+		Vec3d toTarget = WorldHelper.getVectorToTarget(e, target);
+		double dist = toTarget.lengthVector();
+		if (dist > MAX_DISTANCE) {
+			return DONT_SELECT;
+		}
+
+		return WEIGHT;
+	}
+
+	@Override
+	public IJumpProvider<EntityNargacuga> getJumpProvider() {
+		return JUMP;
+	}
 
 	@Override
 	protected void finishExecution() {
@@ -55,29 +73,32 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 	}
 
 	@Override
-	public void update() {
+	public void onUpdate() {
+		damageCollidingEntities();
 		EntityNargacuga nargacuga = getEntity();
-		if(this.getCurrentFrame() == 10){
-			nargacuga.playSound("mhfc:narga.tailjump", 2.0F, 1.0F);
+		if (this.getCurrentFrame() == 10) {
+			nargacuga.playSound(MHFCSoundRegistry.getRegistry().nargacugaTailSlam, 2.0F, 1.0F);
 		}
-		
-		if (nargacuga.worldObj.isRemote)
+
+		if (nargacuga.world.isRemote) {
 			return;
-		if (getCurrentFrame() == SPIKE_FRAME) {
-		
-			Vec3 up = Vec3.createVectorHelper(0, 1, 0);
-			Vec3 look = nargacuga.getLookVec();
-			Vec3 left = look.crossProduct(up).normalize();
-			Vec3 relUp = left.crossProduct(look);
-			final int spikeClusters = 7;
-			final int spikesPerCluster = 9;
-			final float offsetScaleBack = 9;
+		}
+		//TODO
+		/*if (getCurrentFrame() == SPIKE_FRAME) {
+			damageCollidingEntities();
+			Vec3d up = new Vec3d(0, 1, 0);
+			Vec3d look = nargacuga.getLookVec();
+			Vec3d left = look.crossProduct(up).normalize();
+			Vec3d relUp = left.crossProduct(look);
+			final int spikeClusters = 4;
+			final int spikesPerCluster = 6;
+			final float offsetScaleBack = 6;
 			for (int i = 0; i < spikeClusters * spikesPerCluster; i++) {
 				int cluster = i / spikesPerCluster;
 				int spike = i % spikesPerCluster;
 				// FIXME replace with narga spikes once they are done
-				EntityProjectileBlock spikeEntity = new EntityProjectileBlock(nargacuga.worldObj, nargacuga);
-				spikeEntity.moveEntity(
+				EntityProjectileBlock spikeEntity = new EntityProjectileBlock(nargacuga.world, nargacuga);
+				spikeEntity.move(MoverType.SELF,
 						offsetScaleBack * look.xCoord,
 						offsetScaleBack * look.yCoord - 2.5,
 						offsetScaleBack * look.zCoord);
@@ -90,62 +111,8 @@ public class TailSlam extends AIGeneralJumpAttack<EntityNargacuga> {
 						weightLeft * left.zCoord + weightRelUp * relUp.zCoord + weightLook * look.zCoord,
 						SPEED,
 						0);
-				nargacuga.worldObj.spawnEntityInWorld(spikeEntity);
+				nargacuga.world.spawnEntity(spikeEntity);
 			}
-		}
-		AIUtils.damageCollidingEntities(getEntity(), damageCalculator);
-	}
-
-	@Override
-	public String getAnimationLocation() {
-		return ANIMATION;
-	}
-
-	@Override
-	public int getAnimationLength() {
-		return ANIM_LENGTH;
-	}
-
-	@Override
-	public boolean shouldSelectAttack(
-			IExecutableAction<? super EntityNargacuga> attack,
-			EntityNargacuga actor,
-			Entity target) {
-		return select.shouldSelectAttack(attack, actor, target);
-	}
-
-	@Override
-	public float getWeight(EntityNargacuga entity, Entity target) {
-		return WEIGHT;
-	}
-
-	@Override
-	public IDamageCalculator getDamageCalculator() {
-		return damageCalculator;
-	}
-
-	@Override
-	public float getInitialUpVelocity(EntityNargacuga entity) {
-		return jumpParams.getInitialUpVelocity(entity);
-	}
-
-	@Override
-	public float getForwardVelocity(EntityNargacuga entity) {
-		return jumpParams.getForwardVelocity(entity);
-	}
-
-	@Override
-	public boolean isJumpFrame(EntityNargacuga entity, int frame) {
-		return timing.isJumpFrame(entity, frame);
-	}
-
-	@Override
-	public boolean isDamageFrame(EntityNargacuga entity, int frame) {
-		return timing.isDamageFrame(entity, frame);
-	}
-
-	@Override
-	public float getTurnRate(EntityNargacuga entity, int frame) {
-		return timing.getTurnRate(entity, frame);
+		}*/
 	}
 }

@@ -3,14 +3,19 @@ package mhfc.net.common.item.tools;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.entity.projectile.EntityPaintball;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.AbstractSubTypedItem;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.item.tools.ItemPaintball.PaintballType;
 import mhfc.net.common.util.SubTypedItem;
-import mhfc.net.common.util.lib.MHFCReference;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
 public class ItemPaintball extends AbstractSubTypedItem<PaintballType> {
@@ -34,23 +39,16 @@ public class ItemPaintball extends AbstractSubTypedItem<PaintballType> {
 		WHITE("white", ItemColor.WHITE);
 
 		public final String name;
-		public final String texture;
 		public final ItemColor color;
 
 		private PaintballType(String name, ItemColor color) {
 			this.name = name;
-			this.texture = MHFCReference.base_monster_gem;
 			this.color = color;
 		}
 
 		@Override
 		public String getName() {
 			return name;
-		}
-
-		@Override
-		public String getTexPath() {
-			return texture;
 		}
 
 		@Override
@@ -66,23 +64,29 @@ public class ItemPaintball extends AbstractSubTypedItem<PaintballType> {
 
 	public ItemPaintball() {
 		super(PaintballType.class);
-		setUnlocalizedName(MHFCReference.item_paintball_basename);
+		setUnlocalizedName(ResourceInterface.item_paintball_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(64);
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World worldIn, EntityPlayer player) {
-		if (!player.capabilities.isCreativeMode) {
-			--stack.stackSize;
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		ItemStack stack = playerIn.getHeldItem(hand);
+		if (!playerIn.capabilities.isCreativeMode) {
+			stack.setCount(stack.getCount() - 1);
 		}
 
-		worldIn.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+		worldIn.playSound(
+				playerIn,
+				playerIn.getPosition(),
+				SoundEvents.ENTITY_ARROW_SHOOT,
+				SoundCategory.NEUTRAL,
+				0.5F,
+				0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
 		if (!worldIn.isRemote) {
-			worldIn.spawnEntityInWorld(
-					new EntityPaintball(worldIn, ItemColor.byMetadata(stack.getItemDamage()), player));
+			worldIn.spawnEntity(new EntityPaintball(worldIn, ItemColor.byMetadata(stack.getItemDamage()), playerIn));
 		}
-		return stack;
+		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 	}
 }

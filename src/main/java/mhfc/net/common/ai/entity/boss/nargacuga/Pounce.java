@@ -1,114 +1,73 @@
 package mhfc.net.common.ai.entity.boss.nargacuga;
 
+import java.util.function.Function;
+
 import mhfc.net.MHFCMain;
-import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.AIUtils.IDamageCalculator;
-import mhfc.net.common.ai.general.actions.AIGeneralJumpAttack;
-import mhfc.net.common.ai.general.actions.IJumpTimingProvider;
-import mhfc.net.common.ai.general.provider.simple.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.simple.IJumpParamterProvider;
-import mhfc.net.common.ai.general.provider.simple.ISelectionPredicate;
-import mhfc.net.common.ai.general.provider.simple.IWeightProvider;
+import mhfc.net.common.ai.general.SelectionUtils;
+import mhfc.net.common.ai.general.actions.JumpAction;
+import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
+import mhfc.net.common.ai.general.provider.adapters.JumpAdapter;
+import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
+import mhfc.net.common.ai.general.provider.composite.IJumpProvider;
+import mhfc.net.common.ai.general.provider.impl.IHasJumpProvider;
+import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
+import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
+import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityNargacuga;
-import net.minecraft.entity.Entity;
 
-public final class Pounce extends AIGeneralJumpAttack<EntityNargacuga> {
+public final class Pounce extends JumpAction<EntityNargacuga> implements IHasJumpProvider<EntityNargacuga> {
 
-	
 	public static enum JumpBehaviour {
-		TwoJumps(BehaviourJump.TWO_JUMPS),
-		ThreeJump(BehaviourJump.THREE_JUMPS);
-		private JumpBehaviour(BehaviourJump internal) {
+		TwoJumps(BehaviourJump::createTwoJumps),
+		ThreeJump(BehaviourJump::createThreeJumps);
+
+		public Function<Pounce, BehaviourJump> internal;
+
+		private JumpBehaviour(Function<Pounce, BehaviourJump> internal) {
 			this.internal = internal;
 		}
-
-		BehaviourJump internal;
 	}
 
+	private static final JumpBehaviour[] ALL_BEHAVIOURS = JumpBehaviour.values();
 	private static final IDamageCalculator dmgCalculator = AIUtils.defaultDamageCalc(112, 300, 5000);
-
-	public static Pounce createNargaPounce(JumpBehaviour jumpBehaviour) {
-		return new Pounce(jumpBehaviour.internal);
-	}
+	private static final float WEIGHT = 6f;
 
 	private BehaviourJump behaviour;
-	private IAnimationProvider animation = new IAnimationProvider.AnimationAdapter("mhfc:models/Nargacuga/Pounce.mcanm", 5);
-	private ISelectionPredicate<EntityNargacuga> select;
-	private IWeightProvider<EntityNargacuga> weight;
-	private IJumpTimingProvider<EntityNargacuga> timing;
-	private IJumpParamterProvider<EntityNargacuga> params;
 
-	private Pounce(BehaviourJump behaviour) {
-		this.behaviour = behaviour;
-		animation = behaviour.getAnimation();
-		select = behaviour.getSelectionPredicate();
-		weight = behaviour.getWeightProvider();
-		timing = behaviour.getJumpTiming();
-		params = behaviour.getJumpParameters();
+	private IJumpProvider<EntityNargacuga> jumpProvider;
+
+	public Pounce() {}
+
+	@Override
+	protected void initializeExecutionRandomness() {
+		super.initializeExecutionRandomness();
+		this.behaviour = ALL_BEHAVIOURS[rng().nextInt(ALL_BEHAVIOURS.length)].internal.apply(this);
+		IAnimationProvider animation = behaviour.getAnimation();
+		IJumpParameterProvider<EntityNargacuga> jumpParameters = behaviour.getJumpParameters();
+		IJumpTimingProvider<EntityNargacuga> jumpTiming = behaviour.getJumpTiming();
+
+		jumpProvider = new JumpAdapter<>(animation, new DamageAdapter(dmgCalculator), jumpParameters, jumpTiming);
 	}
 
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
 		EntityNargacuga entity = getEntity();
-		entity.playSound("narga.leapforward", 2.0F, 1.0F);
+		entity.playSound(MHFCSoundRegistry.getRegistry().nargacugaPounce, 2.0F, 1.0F);
 		MHFCMain.logger().debug("Narga jump {}", this.behaviour);
-		
-		setToNextFrame(18);
+
+		forceNextFrame(18);
 	}
 
 	@Override
-	public String getAnimationLocation() {
-		return "mhfc:models/Nargacuga/Pounce.mcanm";
+	protected float computeSelectionWeight() {
+		return SelectionUtils.isIdle(getEntity()) ? DONT_SELECT : WEIGHT;
 	}
 
 	@Override
-	public int getAnimationLength() {
-		return 68;
+	public IJumpProvider<EntityNargacuga> getJumpProvider() {
+		return jumpProvider;
 	}
-
-	@Override
-	public boolean shouldSelectAttack(
-			IExecutableAction<? super EntityNargacuga> attack,
-			EntityNargacuga actor,
-			Entity target) {
-		return select.shouldSelectAttack(attack, actor, target);
-	}
-
-	@Override
-	public float getWeight(EntityNargacuga entity, Entity target) {
-		return weight.getWeight(entity, target);
-	}
-
-	@Override
-	public IDamageCalculator getDamageCalculator() {
-		return dmgCalculator;
-	}
-
-	@Override
-	public float getInitialUpVelocity(EntityNargacuga entity) {
-		return params.getInitialUpVelocity(entity);
-	}
-
-	@Override
-	public float getForwardVelocity(EntityNargacuga entity) {
-		return params.getForwardVelocity(entity);
-	}
-
-	@Override
-	public boolean isJumpFrame(EntityNargacuga entity, int frame) {
-		return timing.isJumpFrame(entity, frame);
-	}
-
-	@Override
-	public boolean isDamageFrame(EntityNargacuga entity, int frame) {
-		return timing.isDamageFrame(entity, frame);
-	}
-
-	@Override
-	public float getTurnRate(EntityNargacuga entity, int frame) {
-		return timing.getTurnRate(entity, frame);
-	}
-
 }

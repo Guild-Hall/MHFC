@@ -2,6 +2,8 @@ package mhfc.net.common.world.area;
 
 import java.io.Closeable;
 
+import mhfc.net.common.quests.world.QuestFlair;
+
 /**
  * Represents an {@link IArea} in use. It can be dismissed via {@link #dismiss()}.
  *
@@ -22,6 +24,20 @@ public interface IActiveArea extends Closeable {
 	 * @return
 	 */
 	IAreaType getType();
+
+	/**
+	 * Gets the {@link QuestFlair} of the underlying area
+	 *
+	 * @return
+	 */
+	QuestFlair getFlair();
+
+	/**
+	 * Called before the first player enters the area, may perform additional clean up and set up stuff.
+	 *
+	 * @throws IllegalStateException
+	 */
+	void engage() throws IllegalStateException;
 
 	/**
 	 * Dismisses the area. All following calls to this area should fail - and may throw an

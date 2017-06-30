@@ -1,70 +1,58 @@
 {
-	TigrexHunt : {
-		type : "hunting",
-		data : {
-			target: "mhfc.tigrex",
-			amount: 1
+	"Nogutsnoglory": {
+		"type": "hunting",
+		"data": {
+			"target": "mhfc:delex",
+			"amount": 5
 		}
 	},
-	BarrothHunt : {
-		type : "hunting",
-		data : {
-			target: "mhfc.barroth",
-			amount: 1
+	"LeadingtheCharge": {
+		"type": "hunting",
+		"data": {
+			"target": "mhfc:barroth",
+			"amount": 1
 		}
 	},
-	LagiacrusHunt : {
-		type : "hunting",
-		data : {
-			target: "mhfc.lagiacrus",
-			amount: 1
+	"Tigrexroars": {
+		"type": "hunting",
+		"data": {
+			"target": "mhfc:tigrex",
+			"amount": 1
 		}
 	},
-	DualGreatJaggiHunt : {
-		type : "hunting",
-		data : {
-			target: "mhfc.greatjaggi",
-			amount: 2
+	"JumpingAtShadows": {
+		"type": "hunting",
+		"data": {
+			"target": "mhfc:nargacuga",
+			"amount": 1
 		}
 	},
-	NargacugaHunt : {
-		type : "hunting",
-		data : {
-			target: "mhfc.nargacuga",
-			amount: 1
+	"Violentwyvern": {
+		"type": "hunting",
+		"data": {
+			"target": "mhfc:deviljho",
+			"amount": 1
 		}
 	},
-	DeviljhoHunt : {
-		"type" : "hunting",
-		data : {
-			target: "mhfc.deviljho",
-			amount: 1
+	"StandardTimer": {
+		"type": "time",
+		"data": {
+			"time": 60000
 		}
 	},
-
-	Test : {
-		type : "hunting",
-		data : {
-			target: "Pig",
-			amount: 3
+	"StandardDeath": {
+		"type": "death",
+		"data": {
+			"lives": 3
 		}
 	},
-	StandardTimer : {
-		type : "time",
-		data : {
-			time : 6000
-		}
-	},
-	StandardDeath : {
-		type : "death",
-		data : { 
-			lives : 2
-		}
-	},
-	StandardFail : {
-		type : "fork",
-		data : {
-			requisites : ["StandardDeath", "StandardTimer"]
+	"StandardFail": {
+		"type": "fork",
+		"data": {
+			"requisites": [
+				"StandardDeath",
+				"StandardTimer"
+			]
 		}
 	}
 }

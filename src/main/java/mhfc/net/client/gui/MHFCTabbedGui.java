@@ -1,13 +1,13 @@
 package mhfc.net.client.gui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-
 import mhfc.net.client.util.gui.MHFCGuiUtil;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
@@ -47,7 +47,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 	}
 
 	protected void addTab(IMHFCTab tab, String name, int index) {
-		tabs.add(new TabAttribute(tab, name));
+		tabs.add(index, new TabAttribute(tab, name));
 	}
 
 	@Override
@@ -56,18 +56,18 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 		int posY = (this.height - this.ySize) / 2;
 		tabX = posX;
 		tabY = posY;
-		GL11.glPushMatrix();
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_BLEND);
+		GlStateManager.pushMatrix();
+		GlStateManager.disableDepth();
+		GlStateManager.disableLighting();
+		GlStateManager.enableBlend();
 		drawInactiveTabIcons(posX, posY, mousePosX, mousePosY);
 		drawTabBackgroundLayer();
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GlStateManager.enableDepth();
 		drawTab(tabIndex, posX, posY, mousePosX, mousePosY, partialTick);
 		drawActiveTabIcon(posX, posY, mousePosX, mousePosY);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glPopMatrix();
+		GlStateManager.disableBlend();
+		GlStateManager.enableLighting();
+		GlStateManager.popMatrix();
 	}
 
 	protected void drawActiveTabIcon(int posX, int posY, int mouseX, int mouseY) {
@@ -76,7 +76,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 		int diff = tabHeight + tabSplit;
 		int realWidth = 0;
 		TabAttribute activeAttribute = tabs.get(tabIndex);
-		GL11.glPushMatrix();
+		GlStateManager.pushMatrix();
 		realWidth = tabWidth + activeAttribute.tabDelta;
 		if (mouseX >= posX - realWidth && mouseX <= posX && mouseY >= posY + tabIndex * diff
 				&& mouseY <= posY + tabIndex * diff + tabHeight) {
@@ -85,8 +85,8 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 			activeAttribute.tabDelta = Math.max(activeAttribute.tabDelta - 2, 0);
 		}
 		int colorOfTabName = 0x404040;
-		GL11.glColor4f(1f, 1f, 1f, 1f);
-		mc.getTextureManager().bindTexture(new ResourceLocation(MHFCReference.gui_tab_texture));
+		GlStateManager.color(1f, 1f, 1f, 1f);
+		mc.getTextureManager().bindTexture(new ResourceLocation(ResourceInterface.gui_tab_texture));
 		MHFCGuiUtil.drawTexturedBoxFromBorder(
 				posX - realWidth,
 				posY + tabIndex * diff,
@@ -98,14 +98,14 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 				8f / 128,
 				1f,
 				1f);
-		int nameHeight = fontRendererObj.splitStringWidth(activeAttribute.name, tabWidth - 2);
+		int nameHeight = fontRendererObj.getWordWrappedHeight(activeAttribute.name, tabWidth - 2);
 		fontRendererObj.drawSplitString(
 				activeAttribute.name,
 				posX - realWidth + 3,
 				posY + tabIndex * diff + (tabHeight - nameHeight) / 2,
 				tabWidth - 2,
 				colorOfTabName);
-		GL11.glPopMatrix();
+		GlStateManager.popMatrix();
 	}
 
 	protected abstract void drawTabBackgroundLayer();
@@ -119,7 +119,7 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 			if (i == tabIndex) {
 				continue;
 			}
-			GL11.glPushMatrix();
+			GlStateManager.pushMatrix();
 			TabAttribute tabAtt = tabs.get(i);
 			realWidth = tabWidth + tabAtt.tabDelta;
 			if (mouseX >= posX - realWidth && mouseX <= posX && mouseY >= posY + i * diff
@@ -129,8 +129,8 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 				tabAtt.tabDelta = Math.max(tabAtt.tabDelta - 2, 0);
 			}
 			int colorOfTabName = 0x808080;
-			GL11.glColor4f(1f, 1f, 1f, 1f);
-			mc.getTextureManager().bindTexture(new ResourceLocation(MHFCReference.gui_tab_texture));
+			GlStateManager.color(1f, 1f, 1f, 1f);
+			mc.getTextureManager().bindTexture(new ResourceLocation(ResourceInterface.gui_tab_texture));
 			MHFCGuiUtil.drawTexturedBoxFromBorder(
 					posX - realWidth,
 					posY + i * diff,
@@ -142,49 +142,61 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 					8f / 128,
 					1f,
 					1f);
-			int nameHeight = fontRendererObj.splitStringWidth(tabAtt.name, tabWidth - 2);
+			int nameHeight = fontRendererObj.getWordWrappedHeight(tabAtt.name, tabWidth - 2);
 			fontRendererObj.drawSplitString(
 					tabAtt.name,
 					posX - realWidth + 3,
 					posY + i * diff + (tabHeight - nameHeight) / 2,
 					tabWidth - 2,
 					colorOfTabName);
-			GL11.glPopMatrix();
+			GlStateManager.popMatrix();
 		}
 	}
 
 	protected void drawTab(int tabIndex, int posX, int posY, int mousePosX, int mousePosY, float partialTick) {
 		if (tabIndex >= 0 && tabIndex < tabs.size()) {
-			GL11.glPushMatrix();
-			GL11.glTranslated(posX, posY, 0);
+			GlStateManager.pushMatrix();
+			GlStateManager.translate(posX, posY, 0);
 			tabs.get(tabIndex).tab.draw(mousePosX - tabX, mousePosY - tabY, partialTick);
-			GL11.glPopMatrix();
+			GlStateManager.popMatrix();
 		}
 	}
 
 	protected void setTab(int index) {
-		if (tabIndex >= 0 && tabIndex < tabs.size()) {
-			tabs.get(tabIndex).tab.onClose();
-		}
-		if (index >= 0 && index < tabs.size()) {
-			tabIndex = index;
-			tabs.get(tabIndex).tab.onOpen();
-		}
-		@SuppressWarnings("unchecked")
 		List<Slot> slots = inventorySlots.inventorySlots;
-		for (Slot slot : slots) {
-			if (index >= 0 && index < tabs.size() && tabs.get(tabIndex).tab.containsSlot(slot)) {
-				slot.xDisplayPosition = Math.abs(slot.xDisplayPosition + 200) - 200;
-				slot.yDisplayPosition = Math.abs(slot.yDisplayPosition + 200) - 200;
-			} else {
-				slot.xDisplayPosition = -Math.abs(slot.xDisplayPosition + 200) - 200;
-				slot.yDisplayPosition = -Math.abs(slot.yDisplayPosition + 200) - 200;
+		boolean wasTabIndex = tabIndex >= 0 && tabIndex < tabs.size();
+		if (wasTabIndex) {
+			IMHFCTab tab = tabs.get(tabIndex).tab;
+			tab.onClose();
+			for (Slot slot : slots) {
+				boolean wasSlotOnTab = tab.containsSlot(slot);
+				if (!wasSlotOnTab) {
+					// Shift inactive slots onto screen
+					slot.xPos += 2000;
+					slot.yPos += 2000;
+				}
+			}
+		}
+
+		tabIndex = index;
+
+		boolean isTabIndex = tabIndex >= 0 && tabIndex < tabs.size();
+		if (isTabIndex) {
+			IMHFCTab tab = tabs.get(tabIndex).tab;
+			tab.onOpen();
+			for (Slot slot : slots) {
+				boolean isSlotOnTab = tab.containsSlot(slot);
+				if (!isSlotOnTab) {
+					// Shift inactive tabs off screen
+					slot.xPos -= 2000;
+					slot.yPos -= 2000;
+				}
 			}
 		}
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		int diff = tabHeight + tabSplit;
 		int realWidth = 0;
 		for (int i = 0; i < tabs.size(); i++) {
@@ -202,8 +214,8 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 	}
 
 	@Override
-	protected void mouseMovedOrUp(int mouseX, int mouseY, int id) {
-		super.mouseMovedOrUp(mouseX, mouseY, id);
+	protected void mouseReleased(int mouseX, int mouseY, int id) {
+		super.mouseReleased(mouseX, mouseY, id);
 		if (tabIndex >= 0 && tabIndex < tabs.size()) {
 			IMHFCTab tab = tabs.get(tabIndex).tab;
 			if (id < 0) {

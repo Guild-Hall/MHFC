@@ -1,6 +1,5 @@
 package mhfc.net.common.entity.projectile;
 
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.item.ItemColor;
@@ -8,8 +7,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EntityPaintball extends EntityThrowable implements IEntityAdditionalSpawnData {
 
@@ -44,15 +44,16 @@ public class EntityPaintball extends EntityThrowable implements IEntityAdditiona
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition pos) {
+	protected void onImpact(RayTraceResult pos) {
 		if (pos.entityHit != null && pos.entityHit instanceof EntityLivingBase) {
 			EntityLivingBase entityLivingHit = (EntityLivingBase) pos.entityHit;
 
 			entityLivingHit.addPotionEffect(
 					new PotionEffect(
-							MHFCPotionRegistry.getRegistry().painted.id,
+							MHFCPotionRegistry.getRegistry().painted,
 							2400,
 							this.color.getMetadata(),
+							true,
 							true));
 			entityLivingHit.attackEntityFrom(DamageSource.causeMobDamage(this.getThrower()), 1);
 		}

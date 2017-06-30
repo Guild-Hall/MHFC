@@ -12,6 +12,7 @@ import mhfc.net.common.weapon.melee.longsword.ItemLongsword;
 import mhfc.net.common.weapon.range.bow.ItemBow;
 import mhfc.net.common.weapon.range.bowgun.heavy.ItemHeavyBowgun;
 import mhfc.net.common.weapon.range.bowgun.light.ItemLightBowgun;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -20,7 +21,7 @@ public enum ItemType {
 	ARMOR_HEAD(GeneralType.ARMOR) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			return (item instanceof ItemArmor) && ((ItemArmor) item).armorType == 0;
+			return (item instanceof ItemArmor) && ((ItemArmor) item).armorType == EntityEquipmentSlot.HEAD;
 		}
 
 		@Override
@@ -31,7 +32,7 @@ public enum ItemType {
 	ARMOR_BODY(GeneralType.ARMOR) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			return (item instanceof ItemArmor) && ((ItemArmor) item).armorType == 1;
+			return (item instanceof ItemArmor) && ((ItemArmor) item).armorType == EntityEquipmentSlot.CHEST;
 		}
 
 		@Override
@@ -42,7 +43,7 @@ public enum ItemType {
 	ARMOR_PANTS(GeneralType.ARMOR) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			return (item instanceof ItemArmor) && ((ItemArmor) item).armorType == 2;
+			return (item instanceof ItemArmor) && ((ItemArmor) item).armorType == EntityEquipmentSlot.LEGS;
 		}
 
 		@Override
@@ -53,7 +54,7 @@ public enum ItemType {
 	ARMOR_BOOTS(GeneralType.ARMOR) {
 		@Override
 		public boolean isTypeOf(Item item) {
-			return (item instanceof ItemArmor) && ((ItemArmor) item).armorType == 3;
+			return (item instanceof ItemArmor) && ((ItemArmor) item).armorType == EntityEquipmentSlot.FEET;
 		}
 
 		@Override
@@ -220,6 +221,7 @@ public enum ItemType {
 				break;
 			case WEAPON:
 				weapons.add(type);
+			case NONE:
 			default:
 				break;
 			}

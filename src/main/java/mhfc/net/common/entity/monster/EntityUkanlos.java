@@ -17,13 +17,17 @@ public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
 
 	public EntityUkanlos(World world) {
 		super(world);
-		this.height = 9f;
-		this.width = 9f;
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		setSize(9f, 9f);
 	}
 
 	@Override
-	public IActionManager<EntityUkanlos> constructActionManager() {
+	protected void initEntityAI() {
+		super.initEntityAI();
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
+	}
+
+	@Override
+	protected IActionManager<EntityUkanlos> constructActionManager() {
 		ActionManagerBuilder<EntityUkanlos> manager = new ActionManagerBuilder<>();
 		return manager.build(this);
 	}
@@ -34,23 +38,15 @@ public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
 	}
 
 	@Override
-	public void applyEntityAttributes() {
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(healthbaseHP(95391D));
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(95391D));
 	}
 
 	@Override
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
 		GL11.glScaled(5, 5, 5);
 		return super.preRenderCallback(scale, sub);
-	}
-
-	@Override
-	public void entityInit() {
-		super.entityInit();
-		// if(this.isInWater())
-		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
 	}
 
 }

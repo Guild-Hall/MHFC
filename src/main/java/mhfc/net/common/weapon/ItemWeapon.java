@@ -5,24 +5,27 @@ import java.util.Objects;
 
 import com.google.common.collect.Multimap;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.MHFCMain;
+import mhfc.net.common.item.IItemSimpleModel;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.NBTUtils;
 import mhfc.net.common.weapon.stats.CombatEffect;
 import mhfc.net.common.weapon.stats.WeaponStats;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.nbt.NBTUtil;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Our own version of {@link ItemSword} but without the destruction of strings for example.
@@ -30,10 +33,11 @@ import net.minecraft.world.World;
  * @author WorldSEnder
  *
  */
-public abstract class ItemWeapon<W extends WeaponStats> extends Item {
+public abstract class ItemWeapon<W extends WeaponStats> extends Item implements IItemSimpleModel {
 	protected static final String COOLDOWN_NBT = "mhfc:cooldown";
 
 	protected final W stats;
+	private ModelResourceLocation resLocCache;
 
 	public ItemWeapon(W stats) {
 		this.stats = Objects.requireNonNull(stats);
@@ -41,6 +45,17 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item {
 		setCreativeTab(MHFCMain.mhfctabs);
 		setUnlocalizedName(stats.getUnlocalizedName());
 		setMaxStackSize(1);
+	}
+
+	@Override
+	public ModelResourceLocation getModel() {
+		if (resLocCache == null) {
+			ResourceLocation resLoc = getRegistryName();
+			String name = resLoc.getResourcePath();
+			resLocCache = new ModelResourceLocation(
+					resLoc.getResourceDomain() + ":models/item/" + name + ".mcmdl#inventory");
+		}
+		return resLocCache;
 	}
 
 	protected boolean isOffCooldown(ItemStack stack) {
@@ -78,14 +93,15 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item {
 	public abstract String getWeaponClassUnlocalized();
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer holder, List infos, boolean advanced) {
-		infos.add(ColorSystem.gold + StatCollector.translateToLocal(getWeaponClassUnlocalized() + ".name"));
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer holder, List<String> infos, boolean advanced) {
+		infos.add(ColorSystem.gold + I18n.format(getWeaponClassUnlocalized() + ".name"));
 		infos.add(ColorSystem.yellow + "Rarity: " + stats.getRarity().toString());
 		for (CombatEffect effect : stats.getCombatEffects()) {
 			String formattedAmount = String.format("%+.0f", effect.getAmount());
 			infos.add(
 					ColorSystem.light_purple + formattedAmount + " "
-							+ StatCollector.translateToLocal(effect.getType().getUnlocalizedName() + ".name"));
+							+ I18n.format(effect.getType().getUnlocalizedName() + ".name"));
 		}
 		if (!advanced) {
 			return;
@@ -105,6 +121,7 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item {
 		}
 		return false;
 	}
+
 
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -127,11 +144,14 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item {
 	}
 
 	@Override
-	public Multimap<String, AttributeModifier> getAttributeModifiers(ItemStack stack) {
-		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(stack);
+	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
+		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot, stack);
+		if (slot != EntityEquipmentSlot.MAINHAND) {
+			return multimap;
+		}
 		multimap.put(
-				SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-				new AttributeModifier(field_111210_e, "Weapon Attack", stats.getAttack(), 0));
+				SharedMonsterAttributes.ATTACK_DAMAGE.getName(),
+				new AttributeModifier(Item.ATTACK_DAMAGE_MODIFIER, "Weapon Attack", stats.getAttack(), 0));
 		return multimap;
 	}
 }

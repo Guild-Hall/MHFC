@@ -1,0 +1,17 @@
+{
+    version: 1,
+    mesh: "mhfc:models/block/hunterbench.mcmd",
+    textures: {
+        "#bench": "mhfc:tile/huntertable"
+    },
+    transforms: {
+        GUI: { scale: 0.4, translation: [0.2, -0.3, 0.2] },
+        GROUND: {scale: 0.4, translation: [0.2, -0.3, 0.2] },
+        FIXED: {scale: 0.4, translation: [0.2, -0.3, 0.2] },
+        THIRD_PERSON_LEFT_HAND: {scale: 0.4, translation: [0.2, -0.3, 0.2] },
+        THIRD_PERSON_RIGHT_HAND: {scale: 0.4, translation: [0.2, -0.3, 0.2] },
+        FIRST_PERSON_LEFT_HAND: {scale: 0.4, translation: [0.2, -0.3, 0.2] },
+        FIRST_PERSON_RIGHT_HAND: {scale: 0.4, translation: [0.2, -0.3, 0.2] }
+        
+    }
+}

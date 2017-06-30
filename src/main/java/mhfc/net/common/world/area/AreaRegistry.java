@@ -3,14 +3,17 @@ package mhfc.net.common.world.area;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
+import mhfc.net.common.world.types.AreaDesert;
+import mhfc.net.common.world.types.AreaGreenValley;
+import mhfc.net.common.world.types.AreaSandy;
+import mhfc.net.common.world.types.AreaSnowyMountains;
+import mhfc.net.common.world.types.AreaTreepeak;
 import mhfc.net.common.world.types.AreaTypePlayfield;
-import mhfc.net.common.world.types.areas.AreaTreepeak;
-import mhfc.net.common.world.types.areas.ArenaType;
-import mhfc.net.common.world.types.areas.AreaDesert;
-import mhfc.net.common.world.types.areas.AreaSnowyMountains;
-import mhfc.net.common.world.types.areas.TestAreaType;
-import mhfc.net.common.world.types.areas.VillagePokeType;
+import mhfc.net.common.world.types.ArenaType;
+import mhfc.net.common.world.types.TestAreaType;
+import mhfc.net.common.world.types.VillagePokeType;
 
 public class AreaRegistry {
 
@@ -22,9 +25,13 @@ public class AreaRegistry {
 	public static final String NAME_ARENA = "arena";
 	public static final String NAME_DESERT = "desert";
 	public static final String NAME_TREEPEAK = "treepeak";
+
 	public static final String NAME_VILLAGE_POKE = "village_poke";
 	public static final String NAME_SNOWYMOUNTAINS = "snowymountains";
-	
+
+	// New 1.11
+	public static final String NAME_SANDY = "sandy";
+	public static final String NAME_GREENVALLEY = "greenvalley";
 
 	public static void init() {
 		AreaRegistry.register(NAME_PLAYFIELD, AreaTypePlayfield.PLAYFIELD_TYPE);
@@ -36,6 +43,10 @@ public class AreaRegistry {
 		AreaRegistry.register(NAME_DESERT, AreaDesert.INSTANCE);
 		AreaRegistry.register(NAME_TREEPEAK, AreaTreepeak.INSTANCE);
 		AreaRegistry.register(NAME_SNOWYMOUNTAINS, AreaSnowyMountains.INSTANCE);
+		//1.11
+
+		AreaRegistry.register(NAME_SANDY, AreaSandy.INSTANCE);
+		AreaRegistry.register(NAME_GREENVALLEY, AreaGreenValley.INSTANCE);
 	}
 
 	private Map<String, IAreaType> stringToType = new HashMap<>();
@@ -69,6 +80,14 @@ public class AreaRegistry {
 
 	public IAreaType getType(String name) {
 		return stringToType.get(name);
+	}
+
+	public Set<String> getAllRegisteredTypeNames() {
+		return stringToType.keySet();
+	}
+
+	public static Set<String> getTypeNames() {
+		return AreaRegistry.instance.getAllRegisteredTypeNames();
 	}
 
 }

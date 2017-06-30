@@ -1,52 +1,48 @@
 package mhfc.net.client.gui.hud;
 
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glColor3f;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
-
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
-import mhfc.net.common.util.lib.MHFCReference;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.weapon.melee.huntinghorn.HuntingHornWeaponStats;
 import mhfc.net.common.weapon.melee.huntinghorn.ItemHuntingHorn;
 import mhfc.net.common.weapon.melee.huntinghorn.Note;
 import mhfc.net.common.weapon.melee.longsword.ItemLongsword;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.GlStateManager.DestFactor;
+import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class WeaponOverlay {
 
-	private static final ResourceLocation staveLoc = new ResourceLocation(MHFCReference.gui_huntinghorn_stave);
-	private static final ResourceLocation noteLoc = new ResourceLocation(MHFCReference.gui_huntinghorn_note);
+	private static final ResourceLocation staveLoc = new ResourceLocation(ResourceInterface.gui_huntinghorn_stave);
+	private static final ResourceLocation noteLoc = new ResourceLocation(ResourceInterface.gui_huntinghorn_note);
 
-	private static final ResourceLocation spiritGaugeLoc = new ResourceLocation(MHFCReference.gui_longsword_gauge);
+	private static final ResourceLocation spiritGaugeLoc = new ResourceLocation(ResourceInterface.gui_longsword_gauge);
 
 	public static void render() {
-		EntityClientPlayerMP thePlayer = Minecraft.getMinecraft().thePlayer;
-		ItemStack stack = thePlayer.getHeldItem();
+		EntityPlayerSP thePlayer = Minecraft.getMinecraft().player;
+		ItemStack stack = thePlayer.getHeldItemMainhand();
 		if (stack == null) {
 			return;
 		}
 		Item item = stack.getItem();
 		if (item instanceof ItemHuntingHorn) {
-			renderHuntingHornOverlay(thePlayer, stack);
+			renderHuntingHornOverlay(stack);
 		}
 		if (item instanceof ItemLongsword) {
-			renderLongswordOverlay(thePlayer, stack);
+			renderLongswordOverlay(stack);
 		}
 	}
 
-	private static void renderHuntingHornOverlay(EntityClientPlayerMP thePlayer, ItemStack stack) {
+	private static void renderHuntingHornOverlay(ItemStack stack) {
 		ItemHuntingHorn huntingHorn = ItemHuntingHorn.class.cast(stack.getItem());
 		HuntingHornWeaponStats stats = huntingHorn.getWeaponStats();
 
@@ -54,7 +50,10 @@ public class WeaponOverlay {
 
 		float resizeX = 1f, resizeY = 1f, offsetX = 4, offsetY = 4;
 
-		glPushMatrix();
+		GlStateManager.pushMatrix();
+		MHFCGuiUtil.setColor(0xFFFFFF, 1F);
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 		Minecraft.getMinecraft().renderEngine.bindTexture(staveLoc);
 
 		MHFCGuiUtil
@@ -69,10 +68,12 @@ public class WeaponOverlay {
 			MHFCGuiUtil.drawTexturedRectangle(posX * resizeX, posY * resizeY, 14 * resizeX, 14 * resizeY, 0, 0, .5f, 1);
 		}
 
-		glPopMatrix();
+		GlStateManager.color(1.f, 1.f, 1.f);
+		GlStateManager.disableBlend();
+		GlStateManager.popMatrix();
 	}
 
-	private static void renderLongswordOverlay(EntityClientPlayerMP thePlayer, ItemStack stack) {
+	private static void renderLongswordOverlay(ItemStack stack) {
 		ItemLongsword item = ItemLongsword.class.cast(stack.getItem());
 		float spirit = item.getSpiritPercentage(stack);
 
@@ -85,11 +86,15 @@ public class WeaponOverlay {
 		gaugeOffsetY *= resizeY;
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(spiritGaugeLoc);
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 		MHFCGuiUtil.drawTexturedRectangle(offsetX, offsetY, fullLength * resizeX, 6 * resizeY, 0, 0, 1, 6 / 20f);
-		glDisable(GL_TEXTURE_2D);
-		glColor3f(spirit - 1.f < -1e-9 ? 0.7f : 1f, 0.1f, 0.1f);
+		GlStateManager.disableBlend();
+
+		GlStateManager.disableTexture2D();
+		GlStateManager.color(spirit - 1.f < -1e-9 ? 0.7f : 1f, 0.1f, 0.1f);
 		MHFCGuiUtil.drawTexturedRectangle(gaugeOffsetX, gaugeOffsetY, gaugeLength * resizeX, 2 * resizeY, 0, 0, 1, 1);
-		glColor3f(1.f, 1.f, 1.f);
-		glEnable(GL_TEXTURE_2D);
+		GlStateManager.color(1.f, 1.f, 1.f);
+		GlStateManager.enableTexture2D();
 	}
 }

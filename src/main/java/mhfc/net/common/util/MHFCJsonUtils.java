@@ -10,13 +10,13 @@ public class MHFCJsonUtils {
 			String fieldName,
 			String defaultValue) {
 		return object.has(fieldName) && !object.get(fieldName).isJsonNull()
-				? net.minecraft.util.JsonUtils.getJsonElementStringValue(object.get(fieldName), fieldName)
+				? net.minecraft.util.JsonUtils.getString(object.get(fieldName), fieldName)
 				: defaultValue;
 	}
 
 	public static int getJsonObjectIntegerFieldValueOrDefault(JsonObject object, String fieldName, int defaultValue) {
 		return object.has(fieldName) && !object.get(fieldName).isJsonNull() && object.get(fieldName).isJsonPrimitive()
-				? net.minecraft.util.JsonUtils.getJsonElementIntegerValue(object.get(fieldName), fieldName)
+				? net.minecraft.util.JsonUtils.getInt(object.get(fieldName), fieldName)
 				: defaultValue;
 	}
 
@@ -33,36 +33,43 @@ public class MHFCJsonUtils {
 	}
 
 	public static boolean objectFieldTypeIsInteger(JsonObject jsonAsObject, String string) {
-		if (!jsonAsObject.has(string))
+		if (!jsonAsObject.has(string)) {
 			return false;
+		}
 		JsonElement field = jsonAsObject.get(string);
-		if (!field.isJsonPrimitive())
+		if (!field.isJsonPrimitive()) {
 			return false;
+		}
 		return field.getAsJsonPrimitive().isNumber();
 	}
 
 	public static boolean objectFieldTypeIsBoolean(JsonObject jsonAsObject, String string) {
-		if (!jsonAsObject.has(string))
+		if (!jsonAsObject.has(string)) {
 			return false;
+		}
 		JsonElement field = jsonAsObject.get(string);
-		if (!field.isJsonPrimitive())
+		if (!field.isJsonPrimitive()) {
 			return false;
+		}
 		return field.getAsJsonPrimitive().isBoolean();
 	}
 
 	public static boolean objectFieldTypeIsString(JsonObject jsonAsObject, String string) {
-		if (!jsonAsObject.has(string))
+		if (!jsonAsObject.has(string)) {
 			return false;
+		}
 		JsonElement field = jsonAsObject.get(string);
-		if (!field.isJsonPrimitive())
+		if (!field.isJsonPrimitive()) {
 			return false;
+		}
 		return field.getAsJsonPrimitive().isString();
 	}
 
 	public static void requireFields(JsonObject object, String... fields) throws JsonParseException {
 		for (String fieldIdentifier : fields) {
-			if (!object.has(fieldIdentifier))
+			if (!object.has(fieldIdentifier)) {
 				throw new JsonParseException("Expecte json object to have a " + fieldIdentifier);
+			}
 		}
 	}
 

@@ -1,28 +1,22 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
+        maven { url = "http://files.minecraftforge.net/maven" }
+        maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2.0.777'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
     }
 }
 
 allprojects {
     repositories { 
         jcenter()
-        maven { url "https://jitpack.io" }
+        
     }
 }
 
-apply plugin: 'forge'
+apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven'
 apply from: 'build.properties'
 
@@ -30,32 +24,14 @@ minecraft {
     runDir = "run"
 }
 
-def getVersion() {
-    def stdout = new ByteArrayOutputStream()
-    exec {
-        executable "git"
-        args "rev-list", "--count", "HEAD"
-        standardOutput = stdout
-    }
-    project.ext.revision = stdout.toString().trim()
-    stdout.reset()
-    exec {
-        executable "git"
-        args "rev-parse", "--abbrev-ref", "HEAD"
-        standardOutput = stdout
-    }
-    project.ext.branch = stdout.toString().trim()
-    return "${major}.${minor}.${patch}.${revision}${branch == 'master' ? '' : '-' + branch}-${minecraft.version}"
-}
-
-version = getVersion()
+project.version = getVersion()
+project.ext.shortVersion = getShortVersion()
 
 minecraft {
-    replace "@VERSION@", project.version
+    replace "@VERSION@", project.shortVersion
     replace "@MODID@", project.modid
     replace "@MODNAME@", project.longname
     replaceIn "MHFCReference.java"
-    
 }
 
 processResources {
@@ -78,16 +54,75 @@ dependencies {
 }
 
 task deobfJar(type: Jar) {
+	group = 'build'
+	description = 'Assemble a jar archive containing the deobfuscated classes'
+	
     from sourceSets.main.output
     classifier = 'deobf'
 }
 
-task sourceJar(type: Jar, dependsOn: 'sourceMainJava') {
-    from "build/sources/java"
-    classifier = 'sources'
+task release(dependsOn: 'build') {
+	group = 'build'
+	description = 'Assemble this project for a release'
+	
+	doLast {
+		println "Ready to release ${project.version}"
+	}
 }
 
+project.ext.isRelease = false;
+
+gradle.taskGraph.whenReady {taskGraph ->
+    project.isRelease = taskGraph.hasTask(release)
+}
+
+task updateBuildMetadata {
+	group = 'build'
+	description = 'Updates the build metadata and update.json'
+	
+	doLast {
+		if(getArtifactID() != '') {
+			logger.lifecycle("Building with artifact-id ${getArtifactID()}, skipping update to update.json")
+		 	return; // Skip anything that is not on branch master
+		}
+		def buildData = file('update.json')
+		if(!buildData.exists()) {
+			buildData << '{}'
+		}
+		def parsedJson = new groovy.json.JsonSlurper().parse(buildData)
+		
+		if(!parsedJson.hasProperty("homepage")) {
+			parsedJson.homePage = "https://minecraft.curseforge.com/projects/monster-hunter-frontier-craft"
+		}
+		
+		def mcversion = project.minecraft.version.toString()
+		if(!parsedJson.hasProperty(mcversion)) {
+			parsedJson[mcversion] = [:]
+		}
+		
+		def modversion = project.shortVersion.toString()
+		def version = parsedJson[mcversion]
+		version[modversion] = "See our homepage for changelogs"
+		
+		if(!parsedJson.hasProperty("promos")) {
+			parsedJson.promos = [:]
+		}
+		def promos = parsedJson.promos
+		promos["${mcversion}-latest"] = modversion
+		if(project.isRelease) {
+			promos["${mcversion}-recommended"] = modversion
+		}
+		
+		buildData.newWriter().withWriter {
+			it << new groovy.json.JsonBuilder(parsedJson).toPrettyString()
+		}
+	}
+}
+
+tasks["sourceJar"].classifier = 'sources'
+
 tasks.build.dependsOn('deobfJar', 'sourceJar')
+tasks.processResources.dependsOn('updateBuildMetadata')
 tasks.install.dependsOn 'build'
 
 artifacts {
@@ -104,3 +139,39 @@ test {
         println "${desc.className} > ${desc.name} ${result.resultType}"
     }
 }
+
+def getShortVersion() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        executable "git"
+        args "rev-list", "--count", "HEAD"
+        standardOutput = stdout
+    }
+    def revision = stdout.toString().trim()
+    return "${major}.${minor}.${patch}.${revision}"
+}
+
+def getVersion() {
+	return getShortVersion() + getArtifactID() + "+${minecraft.version}"
+}
+
+def getArtifactID() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        executable "git"
+        args "rev-parse", "--abbrev-ref", "HEAD"
+        standardOutput = stdout
+    }
+    def branch = stdout.toString().trim()
+    if(branch == "HEAD") {
+        stdout.reset()
+        exec {
+            executable "git"
+            args "rev-parse", "--short", "HEAD"
+            standardOutput = stdout
+        }
+        branch = stdout.toString().trim()
+    }
+	return branch == 'master' ? '' : '-' + branch.replaceAll('[^0-9A-Za-z-\\.]', '-')
+}
+
