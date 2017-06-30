@@ -82,7 +82,7 @@ public class TimeQuestGoal extends QuestGoal implements DelayedJob {
 		super(null);
 		active = false;
 		this.timer = new Timer(timer, initialTime);
-		MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_POST, this.timer);
+		MHFCTickHandler.registerOperation(TickPhase.SERVER_POST, this.timer);
 	}
 
 	@Override

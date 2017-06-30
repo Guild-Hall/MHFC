@@ -66,7 +66,7 @@ public class MemberAccess implements IValueHolder {
 		}
 	}
 
-	private static class FieldProxy<T> implements IFieldAccess {
+	private static class FieldProxy implements IFieldAccess {
 		private final MethodHandle field;
 		private final Class<?> fieldType;
 
@@ -182,7 +182,7 @@ public class MemberAccess implements IValueHolder {
 		}
 		Optional<MethodHandle> f = FieldHelper.find(clazz, member);
 		if (f.isPresent()) {
-			return new FieldProxy<>(f.get());
+			return new FieldProxy(f.get());
 		}
 		Optional<OverloadedMethod> m = MethodHelper.find(clazz, member);
 		if (m.isPresent()) {

@@ -3,6 +3,7 @@ package mhfc.net.common.util.services;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Is the public interface of the key for a service.
@@ -13,7 +14,7 @@ import java.util.function.Function;
  * @param <T>
  *            the type of the service this key is used for.
  */
-public interface IServiceKey<T> {
+public interface IServiceKey<T> extends Supplier<Optional<T>> {
 	/**
 	 * @return the {@link IServiceProvider} that this key is from
 	 */
@@ -43,6 +44,7 @@ public interface IServiceKey<T> {
 		};
 	}
 
+	@Override
 	default Optional<T> get() {
 		return getServiceProvider().getServiceFor(this);
 	}

@@ -51,6 +51,10 @@ public class MessageMHFCInteraction implements IMessage {
 			case FORFEIT_QUEST:
 				toWrite = 4;
 				break;
+			case MOD_RELOAD:
+				toWrite = 5;
+				break;
+			case INVALID:
 			default:
 				toWrite = -1;
 				break;
@@ -84,6 +88,9 @@ public class MessageMHFCInteraction implements IMessage {
 				break;
 			case 4:
 				interaction = Interaction.FORFEIT_QUEST;
+				break;
+			case 5:
+				interaction = Interaction.MOD_RELOAD;
 				break;
 			default:
 				interaction = Interaction.INVALID;

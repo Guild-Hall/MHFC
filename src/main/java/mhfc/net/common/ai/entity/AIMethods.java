@@ -59,7 +59,7 @@ public class AIMethods {
 		}
 	}
 
-	public static void charge(EntityCreature attacker, EntityLivingBase target, double moveSpeed, boolean inWater) {
+	public static void charge(EntityCreature attacker, EntityLivingBase target, double moveSpeed) {
 		Path pathentity = attacker.getNavigator().getPathToEntityLiving(target);
 		if (pathentity == null) {
 			return;
@@ -90,7 +90,7 @@ public class AIMethods {
 			camShake = (camShake == false) ? true : false;
 			CamShakeIntensity = (camShake) ? intensity : -intensity;
 			for (EntityPlayer players : player) {
-			players.turn(0, CamShakeIntensity);
+				players.turn(0, CamShakeIntensity);
 			}
 		}
 	}

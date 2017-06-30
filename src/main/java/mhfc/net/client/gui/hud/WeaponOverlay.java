@@ -35,14 +35,14 @@ public class WeaponOverlay {
 		}
 		Item item = stack.getItem();
 		if (item instanceof ItemHuntingHorn) {
-			renderHuntingHornOverlay(thePlayer, stack);
+			renderHuntingHornOverlay(stack);
 		}
 		if (item instanceof ItemLongsword) {
-			renderLongswordOverlay(thePlayer, stack);
+			renderLongswordOverlay(stack);
 		}
 	}
 
-	private static void renderHuntingHornOverlay(EntityPlayerSP thePlayer, ItemStack stack) {
+	private static void renderHuntingHornOverlay(ItemStack stack) {
 		ItemHuntingHorn huntingHorn = ItemHuntingHorn.class.cast(stack.getItem());
 		HuntingHornWeaponStats stats = huntingHorn.getWeaponStats();
 
@@ -73,7 +73,7 @@ public class WeaponOverlay {
 		GlStateManager.popMatrix();
 	}
 
-	private static void renderLongswordOverlay(EntityPlayerSP thePlayer, ItemStack stack) {
+	private static void renderLongswordOverlay(ItemStack stack) {
 		ItemLongsword item = ItemLongsword.class.cast(stack.getItem());
 		float spirit = item.getSpiritPercentage(stack);
 

@@ -15,9 +15,7 @@ import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityNargacuga;
-import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import mhfc.net.common.util.world.WorldHelper;
-import net.minecraft.entity.MoverType;
 import net.minecraft.util.math.Vec3d;
 
 public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpProvider<EntityNargacuga> {

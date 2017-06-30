@@ -5,7 +5,7 @@ import java.util.List;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.Vec3d;
 
-public class PathCircleAdapter<T extends EntityLiving> extends PathListAdapter {
+public class PathCircleAdapter extends PathListAdapter {
 
 	public PathCircleAdapter(EntityLiving actor, List<Vec3d> path, double allowedDistance) {
 		super(actor, path, allowedDistance);

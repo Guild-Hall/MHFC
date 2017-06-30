@@ -15,7 +15,7 @@ import mhfc.net.common.util.Comparation.ComparationResult;
 import mhfc.net.common.util.parsing.exceptions.AmbiguousCallException;
 
 public class Disambiguator {
-	private static enum MethodApplicability implements Comparable<MethodApplicability> {
+	private static enum MethodApplicability {
 		/**
 		 * §15.12.2.2 without permitting boxing or unboxing conversion, or the use of variable arity method invocation
 		 */

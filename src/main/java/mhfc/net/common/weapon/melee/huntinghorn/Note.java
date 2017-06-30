@@ -1,5 +1,6 @@
 package mhfc.net.common.weapon.melee.huntinghorn;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
@@ -18,16 +19,16 @@ public enum Note {
 	Orange(0xFFFF55, 4 / 5f);
 
 	public final int colorRGB;
-	private final Supplier<SoundEvent> sound;
+	private final Supplier<Optional<SoundEvent>> sound;
 	private final float pitch;
 
 	private Note(int color, float pitch) {
 		this.colorRGB = color;
-		this.sound = () -> MHFCSoundRegistry.getRegistry().huntingHornPlayNote;
+		this.sound = MHFCSoundRegistry.serviceAccess.withIndirection(reg -> reg.huntingHornPlayNote);
 		this.pitch = pitch;
 	}
 
-	public void playSound(ItemStack stack, EntityPlayer player) {
-		player.playSound(sound.get(), 1, pitch);
+	public void playSound(@SuppressWarnings("unused") ItemStack stack, EntityPlayer player) {
+		player.playSound(sound.get().orElse(null), 1, pitch);
 	}
 }

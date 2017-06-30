@@ -806,7 +806,7 @@ public class ExpressionTranslator {
 		return IExpression.class.cast(parseTree.getOverallValue()).asValue(contextValue);
 	}
 
-	private IBasicSequence nextSequenceOrSyntaxError(Iterator<IBasicSequence> sequences, IntBuffer stream) {
+	private static IBasicSequence nextSequenceOrSyntaxError(Iterator<IBasicSequence> sequences, IntBuffer stream) {
 		if (sequences.hasNext()) {
 			IBasicSequence next = sequences.next();
 			next.reset();

@@ -62,7 +62,7 @@ public class MHFCInteractionHandler extends ThreadSafeMessageHandler<MessageMHFC
 	}
 
 	@Override
-	public void handle(MessageMHFCInteraction message, MessageContext ctx) {
+	public void handleLater(MessageMHFCInteraction message, MessageContext ctx) {
 		EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 		onInteraction(player, message);
 	}
@@ -87,6 +87,7 @@ public class MHFCInteractionHandler extends ThreadSafeMessageHandler<MessageMHFC
 		case MOD_RELOAD:
 			MinecraftForge.EVENT_BUS.post(new MHFCInteractionModReloadEvent(player, message));
 			break;
+		case INVALID:
 		default:
 			MinecraftForge.EVENT_BUS.post(new MHFCInteractionEvent(player, message, Interaction.INVALID));
 			break;

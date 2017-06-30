@@ -61,6 +61,7 @@ public abstract class GuiListItem {
 			positionX += 3;
 			break;
 		case MIDDLE:
+		default:
 			positionX += (width - stringLength) / 2;
 			break;
 		case RIGHT:

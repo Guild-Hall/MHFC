@@ -9,6 +9,7 @@ import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.item.armor.ArmorExclusive;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.system.DonatorSystem;
+import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -43,9 +44,10 @@ public class ST_BionicArmor extends ArmorExclusive {
 			return Model.bionic;
 		case CHEST:
 			return Model.bionic;
+		case MAINHAND:
+		case OFFHAND:
 		default:
-			break;
-
+			Assert.logUnreachable("Armor can only be equiped on armor slots, got {}", armorSlot);
 		}
 
 		return null;
@@ -57,7 +59,7 @@ public class ST_BionicArmor extends ArmorExclusive {
 			EntityPlayer par2EntityPlayer,
 			List<String> par3List,
 			boolean par4) {
-		par3List.add( ColorSystem.ENUMAQUA + "[ Donators Exclusive ");
+		par3List.add(ColorSystem.ENUMAQUA + "[ Donators Exclusive ");
 	}
 
 }

@@ -24,6 +24,10 @@ public enum ItemRarity {
 		this.defaultColor = defaultColor;
 	}
 
+	public ItemColor getItemColor() {
+		return defaultColor;
+	}
+
 	@Override
 	public String toString() {
 		return Integer.toString(value);

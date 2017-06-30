@@ -154,7 +154,7 @@ public class BlockQuestBoard extends BlockContainer {
 		return state;
 	}
 
-	private boolean isHorizontal(EnumFacing facing) {
+	private static boolean isHorizontal(EnumFacing facing) {
 		return facing.getHorizontalIndex() >= 0;
 	}
 
@@ -186,7 +186,7 @@ public class BlockQuestBoard extends BlockContainer {
 		return state;
 	}
 
-	private EnumFacing calculateHorizontalFacing(float hitX, float hitZ) {
+	private static EnumFacing calculateHorizontalFacing(float hitX, float hitZ) {
 		float cosAng = (float) (hitZ / (Math.sqrt(hitX * hitX + hitZ * hitZ)));
 		float angle = (float) (Math.acos(cosAng) / Math.PI * 180);
 		if (hitX > 0) {
@@ -198,7 +198,7 @@ public class BlockQuestBoard extends BlockContainer {
 		return EnumFacing.getHorizontal(idx);
 	}
 
-	private EnumFacing getPlacedSide(World world, BlockPos pos, EntityLivingBase placer) {
+	private static EnumFacing getPlacedSide(World world, BlockPos pos, EntityLivingBase placer) {
 		Vec3d vecPos = new Vec3d(placer.posX, placer.posY + placer.getEyeHeight(), placer.posZ);
 		float f1 = MathHelper.cos(-placer.rotationYaw * 0.017453292F - (float) Math.PI);
 		float f2 = MathHelper.sin(-placer.rotationYaw * 0.017453292F - (float) Math.PI);
@@ -217,7 +217,7 @@ public class BlockQuestBoard extends BlockContainer {
 	 * block, starting at the hit vector (which is relative to the block).
 	 *
 	 */
-	private EnumFacing getOppositeSide(Vec3d hitVector, Vec3d lookVector) {
+	private static EnumFacing getOppositeSide(Vec3d hitVector, Vec3d lookVector) {
 		double dX = Math.signum(lookVector.xCoord);
 		double dY = lookVector.yCoord / lookVector.xCoord * dX;
 		double dZ = lookVector.zCoord / lookVector.xCoord * dX;
@@ -243,7 +243,14 @@ public class BlockQuestBoard extends BlockContainer {
 		return side;
 	}
 
-	public void addBlockBoundsByState(IBlockState blockState, List<AxisAlignedBB> bounds) {
+	@Override
+	public void addCollisionBoxToList(
+			IBlockState blockState,
+			World worldIn,
+			BlockPos pos,
+			AxisAlignedBB entityBox,
+			List<AxisAlignedBB> bounds,
+			Entity entityIn) {
 		int meta = blockState.getBlock().getMetaFromState(blockState);
 
 		boolean isOffsetSet = (meta & offsetMask) == offsetMask;
@@ -284,16 +291,5 @@ public class BlockQuestBoard extends BlockContainer {
 			maxZ = 0.625f;
 		}
 		bounds.add(new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ));
-	}
-
-	@Override
-	public void addCollisionBoxToList(
-			IBlockState state,
-			World worldIn,
-			BlockPos pos,
-			AxisAlignedBB entityBox,
-			List<AxisAlignedBB> collidingBoxes,
-			Entity entityIn) {
-		this.addBlockBoundsByState(state, collidingBoxes);
 	}
 }

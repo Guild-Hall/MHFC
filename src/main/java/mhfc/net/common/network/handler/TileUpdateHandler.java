@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class TileUpdateHandler extends ThreadSafeMessageHandler<MessageTileUpdate, IMessage> {
 
 	@Override
-	public void handle(MessageTileUpdate message, MessageContext ctx) {
+	public void handleLater(MessageTileUpdate message, MessageContext ctx) {
 		TileEntity tile = message.getTileEntity();
 		if (tile == null) {
 			return;

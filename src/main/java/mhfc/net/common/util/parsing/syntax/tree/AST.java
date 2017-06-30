@@ -8,6 +8,19 @@ import mhfc.net.common.util.parsing.syntax.operators.IBinaryOperator;
 import mhfc.net.common.util.parsing.syntax.operators.IOperator;
 
 public class AST extends UnaryAST {
+
+	private static int toRemappedOP(boolean isPrefix, int realID) {
+		return (realID & 0x7FFFFFFF) | (isPrefix ? 0x80000000 : 0);
+	}
+
+	private static boolean isRemappedPrefixOP(int remapped) {
+		return (remapped & 0x80000000) != 0;
+	}
+
+	private static int fromRemappedOP(int remapped) {
+		return (remapped & 0x7FFFFFFF);
+	}
+
 	// map userOp_id -> opid, highest bit = isPrefix
 	private final int[] publicIDToRealOpID;
 	// map value_id -> Class of value, for type safety
@@ -63,18 +76,6 @@ public class AST extends UnaryAST {
 		boolean isPrefix = isRemappedPrefixOP(op);
 		int realID = fromRemappedOP(op);
 		pushOperator(isPrefix, realID, BinaryOPWrapper.wrap(operator));
-	}
-
-	private int toRemappedOP(boolean isPrefix, int realID) {
-		return (realID & 0x7FFFFFFF) | (isPrefix ? 0x80000000 : 0);
-	}
-
-	private boolean isRemappedPrefixOP(int remapped) {
-		return (remapped & 0x80000000) != 0;
-	}
-
-	private int fromRemappedOP(int remapped) {
-		return (remapped & 0x7FFFFFFF);
 	}
 
 	/**

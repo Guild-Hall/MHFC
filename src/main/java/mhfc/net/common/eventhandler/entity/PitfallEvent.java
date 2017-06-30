@@ -6,11 +6,9 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class PitfallEvent {
-	public final static PitfallEvent instance = new PitfallEvent();
-
 	// TODO
 	@SubscribeEvent
-	public void onEntityUpdate(LivingUpdateEvent event) {
+	public static void onEntityUpdate(LivingUpdateEvent event) {
 
 		if (event == null || event.getEntityLiving() == null) {
 			return;

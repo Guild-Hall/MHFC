@@ -4,7 +4,6 @@ import java.util.List;
 
 import mhfc.net.common.ai.entity.AIMethods;
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;

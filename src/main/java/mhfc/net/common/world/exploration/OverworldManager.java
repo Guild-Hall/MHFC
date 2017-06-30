@@ -25,11 +25,11 @@ public class OverworldManager implements IExplorationManager {
 		this.player = Objects.requireNonNull(player);
 	}
 
-	private void transferPlayerToOverworld(EntityPlayerMP player) {
-		transferPlayerToOverworld(player, null);
+	private void transferPlayerToOverworld() {
+		transferPlayerToOverworld();
 	}
 
-	private void transferPlayerToOverworld(EntityPlayerMP player, JsonElement saveData) {
+	private void transferPlayerToOverworld(JsonElement saveData) {
 		if (player.getEntityWorld().provider.getDimension() == OVERWORLD_DIMENSION) {
 			return;
 		}
@@ -56,7 +56,7 @@ public class OverworldManager implements IExplorationManager {
 
 	@Override
 	public void onPlayerAdded() {
-		transferPlayerToOverworld(player);
+		transferPlayerToOverworld();
 	}
 
 	@Override
@@ -64,18 +64,17 @@ public class OverworldManager implements IExplorationManager {
 
 	@Override
 	public void respawn(JsonElement saveData) {
-		transferPlayerToOverworld(player, saveData);
+		transferPlayerToOverworld(saveData);
 	}
 
 	@Override
 	public CompletionStage<IActiveArea> transferPlayerInto(IAreaType type, QuestFlair flair) {
 		if (type == null) {
-			transferPlayerToOverworld(player);
+			transferPlayerToOverworld();
 			return CompletableFuture.completedFuture(null);
-		} else {
-			MHFCExplorationRegistry.bindPlayer(new MHFCExploration(player), player);
-			return MHFCExplorationRegistry.transferPlayer(player, type, flair);
 		}
+		MHFCExplorationRegistry.bindPlayer(new MHFCExploration(player), player);
+		return MHFCExplorationRegistry.transferPlayer(player, type, flair);
 	}
 
 	@Override

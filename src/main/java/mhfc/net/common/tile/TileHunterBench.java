@@ -102,7 +102,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	public void update() {
 		if (heatLength > 0) {
 			--heatLength;
-			heatStrength = getNewHeat(heatStrength, heatFromItem);
+			heatStrength = getNewHeat(heatFromItem);
 			if (TileHunterBench.this.workingMHFCBench && recipe != null && heatStrength >= recipe.getRequiredHeat()) {
 				++itemSmeltDuration;
 			}
@@ -116,7 +116,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 					sendUpdateCraft();
 				}
 			} else {
-				heatStrength = getNewHeat(heatStrength, 0);
+				heatStrength = getNewHeat(0);
 			}
 		}
 		if (recipe != null && itemSmeltDuration >= recipe.getDuration()) {
@@ -190,7 +190,8 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		return 200;
 	}
 
-	private int getNewHeat(int heatOld, int heatAim) {
+	private int getNewHeat(int heatAim) {
+		int heatOld = heatStrength;
 		int diff = heatAim - heatOld;
 		// Some math to confuse the hell out of everyone reading this
 		double change = Math.ceil(Math.log(Math.abs(diff) + 1.0));

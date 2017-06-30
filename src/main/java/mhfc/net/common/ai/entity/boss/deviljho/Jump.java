@@ -2,7 +2,6 @@ package mhfc.net.common.ai.entity.boss.deviljho;
 
 import mhfc.net.common.ai.entity.AIMethods;
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.JumpAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackTargetAdapter;

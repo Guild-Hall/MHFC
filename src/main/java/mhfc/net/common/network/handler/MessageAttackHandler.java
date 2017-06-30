@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 // Cause java, we need this
 public class MessageAttackHandler extends ThreadSafeMessageHandler<MessageAIAction, IMessage> {
 	@Override
-	public void handle(MessageAIAction message, MessageContext ctx) {
+	public void handleLater(MessageAIAction message, MessageContext ctx) {
 		IManagedActions<?> entity = message.getEntity();
 		EntityLiving entityLiving = message.getEntityLiving();
 		if (entity == null) {

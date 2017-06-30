@@ -11,13 +11,21 @@ public abstract class ThreadSafeMessageHandler<REQ extends IMessage, REPLY exten
 
 	@Override
 	public REPLY onMessage(REQ message, MessageContext ctx) {
-		FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> handle(message, ctx));
+		FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> handleLater(message, ctx));
 		return instantReply(message, ctx);
 	}
 
-	protected abstract void handle(REQ message, MessageContext ctx);
+	/**
+	 * Handles the received method when the game thread executes scheduled tasks in the main loop
+	 * 
+	 * @param message
+	 * @param ctx
+	 */
+	protected abstract void handleLater(REQ message, MessageContext ctx);
 
-	protected REPLY instantReply(REQ message, MessageContext ctx) {
+	protected REPLY instantReply(
+			@SuppressWarnings("unused") REQ message,
+			@SuppressWarnings("unused") MessageContext ctx) {
 		return null;
 	}
 }

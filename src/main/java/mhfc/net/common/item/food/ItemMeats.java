@@ -103,7 +103,10 @@ public class ItemMeats extends ItemFood implements IItemColored, IItemVarianted 
 			return MHFCItemRegistry.getRegistry().meat;
 		}
 
-		public void onFoodEaten(ItemStack itemStack, World serverWorld, EntityPlayer player) {
+		public void onFoodEaten(
+				@SuppressWarnings("unused") ItemStack itemStack,
+				@SuppressWarnings("unused") World serverWorld,
+				@SuppressWarnings("unused") EntityPlayer player) {
 			return; // No potion effect
 		}
 

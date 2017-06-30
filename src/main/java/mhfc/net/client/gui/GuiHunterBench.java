@@ -23,6 +23,7 @@ import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.ItemType;
 import mhfc.net.common.item.ItemType.GeneralType;
 import mhfc.net.common.tile.TileHunterBench;
+import mhfc.net.common.util.Assert;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.model.ModelBiped;
@@ -176,7 +177,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			}
 		}
 
-		protected void listUpdated(ClickableGuiList<?> list) {}
+		protected void listUpdated(@SuppressWarnings("unused") ClickableGuiList<?> list) {}
 
 		protected void updateListPositions() {}
 
@@ -437,6 +438,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		if (recipe != null) {
 			switch (recipe.getRecipeType()) {
 			case ARMOR:
+			case MHFC:
 			default:
 				tab = 0;
 				break;
@@ -464,7 +466,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		}
 	}
 
-	private boolean isInModelWindow(double mouseClickX, double mouseClickY) {
+	private static boolean isInModelWindow(double mouseClickX, double mouseClickY) {
 		return mouseClickX >= modelRectRelX //
 				&& mouseClickX <= (modelRectRelX + modelRectW) //
 				&& mouseClickY >= modelRectRelY //
@@ -508,7 +510,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		GlStateManager.popMatrix();
 	}
 
-	private void renderWeapon(
+	private static void renderWeapon(
 			ItemStack itemToRender,
 			int rectX,
 			int rectY,
@@ -549,7 +551,6 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		GlStateManager.translate(rectX + rectW / 2, rectY + rectH / 2, 40F);
 		float defaultScale = 2F;
 		switch (itemType) {
-
 		case ARMOR_HEAD:
 			GlStateManager.scale(defaultScale, defaultScale, defaultScale);
 			GlStateManager.translate(3f, -22f, 0F);
@@ -566,8 +567,20 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			GlStateManager.scale(defaultScale, defaultScale, defaultScale);
 			GlStateManager.translate(1f, -55f, 0F);
 			break;
+		case WEAPON_BOW:
+		case WEAPON_BIG_BOWGUN:
+		case WEAPON_DOUBLE_SWORD:
+		case WEAPON_GREAT_SWORD:
+		case WEAPON_GUNLANCE:
+		case WEAPON_HAMMER:
+		case WEAPON_HUNTING_HORN:
+		case WEAPON_LANCE:
+		case WEAPON_LONG_SWORD:
+		case WEAPON_SMALL_BOWGUN:
+		case WEAPON_SWORD_AND_SHIELD:
+		case NO_OTHER:
 		default:
-			break;
+			Assert.unreachable("Expected an armor, got {}", itemType);
 		}
 		GlStateManager.rotate(modelRotX, 0.0f, 1.0f, 0.0f);
 		GlStateManager.rotate(-modelRotY, 1.0f, 0.0f, 0.0f);

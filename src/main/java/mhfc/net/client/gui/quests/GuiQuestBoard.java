@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 
 public class GuiQuestBoard extends MHFCTabbedGui {
-	public static final GuiQuestJoin questBoard = new GuiQuestJoin(Minecraft.getMinecraft().player);
+	public static final GuiQuestJoin questBoard = new GuiQuestJoin();
 
 	private GuiQuestJoin join;
 	private GuiQuestManagement questMg;

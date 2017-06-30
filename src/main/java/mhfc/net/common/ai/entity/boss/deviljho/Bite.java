@@ -68,9 +68,9 @@ public class Bite extends DamagingAction<EntityDeviljho> implements IHasAttackPr
 			return new AnimationAdapter(bite, animation, finalFrame);
 		}
 
-		public void onUpdate(Bite attack) {}
+		public void onUpdate(@SuppressWarnings("unused") Bite attack) {}
 
-		public boolean isMoveForwardFrame(int frame) {
+		public boolean isMoveForwardFrame(@SuppressWarnings("unused") int frame) {
 			return false;
 		}
 	}

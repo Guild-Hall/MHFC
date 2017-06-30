@@ -42,9 +42,8 @@ public class PathListAdapter implements IPathProvider {
 	public Vec3d getCurrentWaypoint() {
 		if (currentIndex < path.size()) {
 			return path.get(currentIndex);
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	@Override

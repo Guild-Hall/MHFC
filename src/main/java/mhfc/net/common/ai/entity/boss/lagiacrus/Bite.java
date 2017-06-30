@@ -68,7 +68,7 @@ public class Bite extends DamagingAction<EntityLagiacrus> implements IHasAttackP
 
 	}
 
-	private boolean isMoveForwardFrame(int frame) {
+	private static boolean isMoveForwardFrame(int frame) {
 		return (frame > 10 && frame < 25);
 	}
 

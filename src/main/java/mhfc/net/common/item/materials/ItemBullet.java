@@ -68,6 +68,9 @@ public class ItemBullet extends AbstractSubTypedItem<BulletSubType> {
 			par3List.add("Bullet use for Bowguns");
 			par3List.add("Deals fire damage to monsters");
 			break;
+		case CRAGS:
+		case NORMALS:
+		case PIERCES:
 		default:
 			par3List.add("Bullet use for Bowguns");
 			break;

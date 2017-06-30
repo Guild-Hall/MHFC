@@ -77,7 +77,7 @@ public class EntityBeam extends Entity {
 	}
 
 	public double getYaw() {
-		return (double) this.dataManager.get(YAW);
+		return this.dataManager.get(YAW);
 	}
 
 	protected void setYaw(float yaw) {
@@ -85,7 +85,7 @@ public class EntityBeam extends Entity {
 	}
 
 	public double getPitch() {
-		return (double) this.dataManager.get(PITCH);
+		return this.dataManager.get(PITCH);
 	}
 
 	protected void setPitch(float pitch) {

@@ -158,8 +158,8 @@ public class PortableSchematicWriter implements ClipboardWriter {
 
 				// Store our location data, overwriting any
 				values.put("id", new StringTag(state.getTypeId()));
-				values.put("Pos", writeVector(entity.getLocation().toVector(), "Pos"));
-				values.put("Rotation", writeRotation(entity.getLocation(), "Rotation"));
+				values.put("Pos", writeVector(entity.getLocation().toVector()));
+				values.put("Rotation", writeRotation(entity.getLocation()));
 
 				CompoundTag entityTag = new CompoundTag(values);
 				entities.add(entityTag);
@@ -176,7 +176,7 @@ public class PortableSchematicWriter implements ClipboardWriter {
 		outputStream.writeNamedTag("Portable-Schematic", schematic.build());
 	}
 
-	private Tag writeVector(Vector vector, String string) {
+	private static Tag writeVector(Vector vector) {
 		ListTagBuilder list = ListTagBuilder.create(DoubleTag.class);
 		list.add(new DoubleTag(vector.getX()));
 		list.add(new DoubleTag(vector.getY()));
@@ -184,7 +184,7 @@ public class PortableSchematicWriter implements ClipboardWriter {
 		return list.build();
 	}
 
-	private Tag writeRotation(Location location, String string) {
+	private static Tag writeRotation(Location location) {
 		ListTagBuilder list = ListTagBuilder.create(FloatTag.class);
 		list.add(new FloatTag(location.getYaw()));
 		list.add(new FloatTag(location.getPitch()));

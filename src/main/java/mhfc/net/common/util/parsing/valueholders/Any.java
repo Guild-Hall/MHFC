@@ -117,7 +117,7 @@ public final class Any implements IValueHolder {
 		this.setHolder(Holder.valueOf(o, clazz));
 	}
 
-	public void assign(Holder holder, FromHolderTag ignored) {
+	public void assign(Holder holder, @SuppressWarnings("unused") FromHolderTag ignored) {
 		this.setHolder(holder);
 	}
 

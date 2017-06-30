@@ -33,6 +33,8 @@ public enum TickPhase {
 			return event.phase == Phase.START ? SERVER_PRE : SERVER_POST;
 		case WORLD:
 			return event.phase == Phase.START ? WORLD_PRE : WORLD_POST;
+		default:
+			break;
 		}
 		throw new IllegalStateException("Thought unreachable");
 	}

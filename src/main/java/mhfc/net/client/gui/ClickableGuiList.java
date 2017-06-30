@@ -9,10 +9,7 @@ import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
 
-public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
-		implements
-		IMouseInteractable,
-		IMHFCGuiItem {
+public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> implements IMHFCGuiItem {
 
 	private static final float SLIDER_WIDTH = 8;
 	private static final float BORDER_WIDTH = 2;
@@ -206,7 +203,11 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 		return false;
 	}
 
-	protected void drawBackground(int posX, int posY, int mouseX, int mouseY) {
+	protected void drawBackground(
+			int posX,
+			int posY,
+			@SuppressWarnings("unused") int mouseX,
+			@SuppressWarnings("unused") int mouseY) {
 		GL11.glColor4f(1, 1, 1, 1);
 		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.CLICKABLE_LIST);
 		float texheight = height;
@@ -238,7 +239,11 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item>
 		}
 	}
 
-	protected void drawListItems(int posX, int posY, int mouseX, int mouseY) {
+	protected void drawListItems(
+			int posX,
+			int posY,
+			@SuppressWarnings("unused") int mouseX,
+			@SuppressWarnings("unused") int mouseY) {
 		int startIndex = (int) (scrollAmount / itemHeight + 0.5f);
 		for (int i = startIndex; i < this.size(); i++) {
 			GuiListItem item = this.get(i);

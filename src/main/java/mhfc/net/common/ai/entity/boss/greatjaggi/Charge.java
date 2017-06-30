@@ -135,15 +135,15 @@ public class Charge extends DamagingAction<EntityGreatJaggi> implements IHasAtta
 			this.isDamaging = isDamaging;
 		}
 
-		public void onPhaseStart(Charge attk) {}
+		public void onPhaseStart(@SuppressWarnings("unused") Charge attk) {}
 
-		public void update(Charge attk) {}
+		public void update(@SuppressWarnings("unused") Charge attk) {}
 
-		public AttackPhase next(Charge attk) {
+		public AttackPhase next(@SuppressWarnings("unused") Charge attk) {
 			return this;
 		}
 
-		public int nextFrame(Charge attk, int curr) {
+		public int nextFrame(@SuppressWarnings("unused") Charge attk, int curr) {
 			return ++curr;
 		}
 	}

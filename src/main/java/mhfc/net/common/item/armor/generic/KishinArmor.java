@@ -8,6 +8,7 @@ import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.item.armor.ArmorBase;
 import mhfc.net.common.system.ColorSystem;
+import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -37,9 +38,10 @@ public class KishinArmor extends ArmorBase {
 			return Model.kishin;
 		case CHEST:
 			return Model.kishin;
+		case MAINHAND:
+		case OFFHAND:
 		default:
-			break;
-
+			Assert.logUnreachable("Armor can only be equiped on armor slots, got {}", armorSlot);
 		}
 
 		return null;
@@ -65,8 +67,10 @@ public class KishinArmor extends ArmorBase {
 		case FEET:
 			par3List.add(ColorSystem.dark_blue + "Tigrex X Class Boots");
 			break;
+		case MAINHAND:
+		case OFFHAND:
 		default:
-			break;
+			Assert.logUnreachable("Armor can only be equiped on armor slots, got ", this.armorType);
 		}
 	}
 

@@ -116,10 +116,9 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 			IActiveArea area = activeAreaOption.get();
 			transferIntoExistingInstance(area);
 			return CompletableFuture.completedFuture(area);
-		} else {
-			MHFCMain.logger().debug("Transfering player into new quest area instance");
-			return transferIntoNewInstance(type, flair);
 		}
+		MHFCMain.logger().debug("Transfering player into new quest area instance");
+		return transferIntoNewInstance(type, flair);
 	}
 
 	protected CompletionStage<IActiveArea> transferIntoNewInstance(IAreaType type, QuestFlair flair) {

@@ -7,6 +7,7 @@ import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.item.armor.ArmorBase;
+import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -15,8 +16,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class YukumoArmor extends ArmorBase {
-	private static final String[] names = { ResourceInterface.armor_yukumo_helm_name, ResourceInterface.armor_yukumo_chest_name,
-			ResourceInterface.armor_yukumo_legs_name, ResourceInterface.armor_yukumo_boots_name };
+	private static final String[] names = { ResourceInterface.armor_yukumo_helm_name,
+			ResourceInterface.armor_yukumo_chest_name, ResourceInterface.armor_yukumo_legs_name,
+			ResourceInterface.armor_yukumo_boots_name };
 
 	public YukumoArmor(EntityEquipmentSlot type) {
 		super(Material.yukomo, ItemRarity.R04, type);
@@ -35,9 +37,10 @@ public class YukumoArmor extends ArmorBase {
 			return Model.yukumo;
 		case CHEST:
 			return Model.yukumo;
+		case MAINHAND:
+		case OFFHAND:
 		default:
-			break;
-
+			Assert.logUnreachable("Armor can only be equiped on armor slots, got {}", armorSlot);
 		}
 
 		return null;

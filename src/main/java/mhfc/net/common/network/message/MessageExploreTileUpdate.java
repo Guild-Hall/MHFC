@@ -75,9 +75,8 @@ public class MessageExploreTileUpdate extends MessageTileLocation {
 		TileEntity tileEntity = worldServerForDimension.getTileEntity(getPos());
 		if (tileEntity instanceof TileExploreArea) {
 			return (TileExploreArea) tileEntity;
-		} else {
-			MHFCMain.logger().error("Received invalid update for explore tile at {} in world {}", getPos(), worldID);
-			return null;
 		}
+		MHFCMain.logger().error("Received invalid update for explore tile at {} in world {}", getPos(), worldID);
+		return null;
 	}
 }

@@ -64,7 +64,7 @@ public class Sharpness {
 		}
 	}
 
-	private int getBaseSharpness(ItemStack itemstack) {
+	private static int getBaseSharpness(ItemStack itemstack) {
 		// TODO: decide based on attached nbt
 		return 0;
 	}

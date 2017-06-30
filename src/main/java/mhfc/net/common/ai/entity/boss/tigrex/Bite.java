@@ -38,7 +38,6 @@ public class Bite extends DamagingAction<EntityTigrex> implements IHasAttackProv
 
 	public Bite() {}
 
-
 	@Override
 	protected float computeSelectionWeight() {
 		EntityTigrex entity = this.getEntity();
@@ -73,10 +72,10 @@ public class Bite extends DamagingAction<EntityTigrex> implements IHasAttackProv
 			EntityTigrex tig = getEntity();
 			tig.moveForward(1, false);
 		}
-	
+
 	}
 
-	private boolean isMoveForwardFrame(int frame) {
+	private static boolean isMoveForwardFrame(int frame) {
 		return (frame > 20 && frame < 30);
 	}
 }

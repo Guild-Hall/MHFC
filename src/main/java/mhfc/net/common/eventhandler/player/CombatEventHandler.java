@@ -1,5 +1,6 @@
 package mhfc.net.common.eventhandler.player;
 
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.Attributes;
 import mhfc.net.common.weapon.melee.PerceptionHelper;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -7,15 +8,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+@Mod.EventBusSubscriber(modid = ResourceInterface.main_modid)
 public class CombatEventHandler {
 
-	public static final CombatEventHandler instance = new CombatEventHandler();
-
 	@SubscribeEvent
-	public void onPlayerCreation(EntityConstructing e) {
+	public static void onPlayerCreation(EntityConstructing e) {
 		if (e.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) e.getEntity();
 			player.getAttributeMap().registerAttribute(Attributes.ATTACK_COOLDOWN);
@@ -25,7 +26,7 @@ public class CombatEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onPlayerTick(TickEvent.PlayerTickEvent e) {
+	public static void onPlayerTick(TickEvent.PlayerTickEvent e) {
 		if (!e.player.world.isRemote) {
 			return;
 		}

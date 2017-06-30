@@ -28,7 +28,7 @@ public class BlockWyverniaGrass extends Block {
 	public int quantityDropped(Random random) {
 		return 1;
 	}
-	
+
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
 		if (world.isRemote) {
@@ -44,18 +44,19 @@ public class BlockWyverniaGrass extends Block {
 			}
 		}
 	}
-	
-	@SideOnly(Side.CLIENT)
-	    public BlockRenderLayer getBlockLayer()
-	    {
-	        return BlockRenderLayer.CUTOUT_MIPPED;
-	    }
-	
-    public int getMetaFromState(IBlockState state)
-    {
-        return 0;
-    }
 
+	@Override
+	@SideOnly(Side.CLIENT)
+	public BlockRenderLayer getBlockLayer() {
+		return BlockRenderLayer.CUTOUT_MIPPED;
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return 0;
+	}
+
+	@SuppressWarnings("static-method")
 	private boolean isUpgradeEligable(World world, BlockPos position) {
 		int upperLightValue = world.getLight(position.up());
 		int upperLightOpacity = world.getBlockLightOpacity(position.up());
@@ -63,7 +64,7 @@ public class BlockWyverniaGrass extends Block {
 	}
 
 	private void tryUpgradeRandomNearDirt(World world, BlockPos basePosition, Random rand) {
-		BlockPos position = WorldHelper.randomProximity(RANDOM, basePosition, 3, 1);
+		BlockPos position = WorldHelper.randomProximity(rand, basePosition, 3, 1);
 		IBlockState state = world.getBlockState(position);
 		if (state.getBlock() != MHFCBlockRegistry.getRegistry().mhfcblockdirt) {
 			return;

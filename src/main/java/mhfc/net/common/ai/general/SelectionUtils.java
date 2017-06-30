@@ -15,9 +15,8 @@ public class SelectionUtils {
 		float angle = AIUtils.getViewingAngle(actor, target);
 		if (minAngle <= maxAngle) {
 			return angle >= minAngle && angle <= maxAngle;
-		} else {
-			return angle <= maxAngle || angle >= minAngle;
 		}
+		return angle <= maxAngle || angle >= minAngle;
 	}
 
 	public static boolean isInDistance(double minDistance, double maxDistance, EntityLiving actor, Entity target) {

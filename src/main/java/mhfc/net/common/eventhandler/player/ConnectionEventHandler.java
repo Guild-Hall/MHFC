@@ -1,5 +1,6 @@
 package mhfc.net.common.eventhandler.player;
 
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.system.UpdateSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandResultStats.Type;
@@ -13,15 +14,15 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 
+@Mod.EventBusSubscriber(modid = ResourceInterface.main_modid)
 public class ConnectionEventHandler {
 
-	public static final ConnectionEventHandler instance = new ConnectionEventHandler();
-
 	@SubscribeEvent
-	public void onEvent(final ClientConnectedToServerEvent cctse) {
+	public static void onEvent(final ClientConnectedToServerEvent cctse) {
 		UpdateSystem.sendUpdateAsync(new ICommandSender() {
 
 			@Override

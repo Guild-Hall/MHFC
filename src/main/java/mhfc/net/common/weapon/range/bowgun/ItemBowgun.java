@@ -16,20 +16,18 @@ public abstract class ItemBowgun extends ItemWeapon<BowgunWeaponStats> {
 	public EnumAction getItemUseAction(ItemStack stack) {
 		return EnumAction.BOW;
 	}
-	
-	public static float getBulletVelocity(int charge)
-	{
-		float f = (float)charge / 30.0F;
+
+	public static float getBulletVelocity(int charge) {
+		float f = charge / 30.0F;
 		f = (f * f + f * 2.0F) / 3.0F;
 
-		if (f > 1.0F)
-		{
+		if (f > 1.0F) {
 			f = 1.0F;
 		}
 
 		return f;
 	}
-	
+
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity holder, int slot, boolean isHoldItem) {
 		super.onUpdate(stack, world, holder, slot, isHoldItem);

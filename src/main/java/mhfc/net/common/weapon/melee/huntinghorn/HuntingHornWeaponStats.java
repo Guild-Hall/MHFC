@@ -69,7 +69,7 @@ public class HuntingHornWeaponStats extends MeleeWeaponStats {
 		NBTUtils.getNBTChecked(stack).setInteger(NBT_CURRENTNOTE, current);
 	}
 
-	private void pushNote(ItemStack stack, Note note) {
+	private static void pushNote(ItemStack stack, Note note) {
 		Objects.requireNonNull(note);
 		int[] notes = NBTUtils.getNBTChecked(stack).getIntArray(NBT_NOTEHISTORY);
 		if (notes.length >= HHSongRegistry.SONG_LENGTH_CAP) {

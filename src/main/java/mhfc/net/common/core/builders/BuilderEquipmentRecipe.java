@@ -17,7 +17,7 @@ public class BuilderEquipmentRecipe {
 	private int duration;
 
 	public BuilderEquipmentRecipe() {
-		recipeIngredients = new ArrayList<ItemStack>();
+		recipeIngredients = new ArrayList<>();
 		reset();
 	}
 

@@ -13,6 +13,7 @@ import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.RunContext;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.network.NetworkTracker;
 import mhfc.net.common.util.Operations;
 import mhfc.net.common.util.services.IServiceAccess;
@@ -20,13 +21,12 @@ import mhfc.net.common.util.services.IServiceHandle;
 import mhfc.net.common.util.services.IServiceKey;
 import mhfc.net.common.util.services.IServicePhaseHandle;
 import mhfc.net.common.util.services.Services;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+@Mod.EventBusSubscriber(modid = ResourceInterface.main_modid)
 public class MHFCTickHandler {
-	public static final MHFCTickHandler instance = new MHFCTickHandler();
-
-	public static void staticInit() {}
 
 	private static class OperationWrapper implements Runnable {
 		private Operation op;
@@ -61,7 +61,7 @@ public class MHFCTickHandler {
 			}
 			if (followup != null) {
 				this.op = followup;
-				CompletionStage<Void> registeredFuture = MHFCTickHandler.instance.registerWrapper(phase, this);
+				CompletionStage<Void> registeredFuture = MHFCTickHandler.registerWrapper(phase, this);
 				assert this.future == registeredFuture;
 			} else {
 				this.future.complete(null);
@@ -113,16 +113,16 @@ public class MHFCTickHandler {
 		}
 	}
 
-	private Optional<DoubleBufferRunnableRegistry> getQueueFor(TickPhase phase) {
+	private static Optional<DoubleBufferRunnableRegistry> getQueueFor(TickPhase phase) {
 		assert phase != null;
 		return jobQueue.get(phase).get();
 	}
 
-	public CompletionStage<Void> registerRunnable(TickPhase phase, Runnable run, Runnable cancel) {
+	public static CompletionStage<Void> registerRunnable(TickPhase phase, Runnable run, Runnable cancel) {
 		return registerOperation(phase, Operations.wrapping(run, cancel));
 	}
 
-	public CompletionStage<Void> registerOperation(TickPhase phase, final Operation op) {
+	public static CompletionStage<Void> registerOperation(TickPhase phase, final Operation op) {
 		return registerOperation(phase, op, new RunContext());
 	}
 
@@ -138,7 +138,10 @@ public class MHFCTickHandler {
 	 * @param context
 	 *            the context to feed to the operation
 	 */
-	public CompletionStage<Void> registerOperation(TickPhase phase, final Operation op, final RunContext context) {
+	public static CompletionStage<Void> registerOperation(
+			TickPhase phase,
+			final Operation op,
+			final RunContext context) {
 		if (op == null) {
 			return CompletableFuture.completedFuture(null);
 		}
@@ -146,7 +149,7 @@ public class MHFCTickHandler {
 		return registerWrapper(phase, wrapper);
 	}
 
-	private CompletionStage<Void> registerWrapper(TickPhase phase, OperationWrapper wrapper) {
+	private static CompletionStage<Void> registerWrapper(TickPhase phase, OperationWrapper wrapper) {
 		Objects.requireNonNull(phase);
 		Optional<DoubleBufferRunnableRegistry> serviceQueue = getQueueFor(phase);
 		if (serviceQueue.isPresent()) {
@@ -158,41 +161,41 @@ public class MHFCTickHandler {
 		return wrapper.getCompletionStage();
 	}
 
-	public Executor poolFor(final TickPhase phase) {
+	public static Executor poolFor(final TickPhase phase) {
 		return command -> registerRunnable(phase, command, null);
 	}
 
 	@SubscribeEvent
-	public void onRenderTick(TickEvent.RenderTickEvent event) {
+	public static void onRenderTick(TickEvent.RenderTickEvent event) {
 		onTick(event);
 	}
 
 	@SubscribeEvent
-	public void onClientTick(TickEvent.ClientTickEvent event) {
+	public static void onClientTick(TickEvent.ClientTickEvent event) {
 		onTick(event);
 	}
 
 	@SubscribeEvent
-	public void onServerTick(TickEvent.ServerTickEvent event) {
+	public static void onServerTick(TickEvent.ServerTickEvent event) {
 		onTick(event);
 	}
 
 	@SubscribeEvent
-	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+	public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		onTick(event);
 	}
 
-	private void onTick(TickEvent event) {
+	private static void onTick(TickEvent event) {
 		TickPhase phase = TickPhase.forEvent(event);
 		IServiceKey<DoubleBufferRunnableRegistry> key = jobQueue.get(phase);
 		key.getServiceProvider().getServiceFor(key).ifPresent(DoubleBufferRunnableRegistry::runAll);
 	}
 
-	public CompletionStage<Void> schedule(TickPhase phase, int ticksDelayed, Runnable run) {
+	public static CompletionStage<Void> schedule(TickPhase phase, int ticksDelayed, Runnable run) {
 		return schedule(phase, ticksDelayed, run, Runnables.doNothing());
 	}
 
-	public CompletionStage<Void> schedule(TickPhase phase, int ticksDelayed, Runnable run, Runnable cancel) {
+	public static CompletionStage<Void> schedule(TickPhase phase, int ticksDelayed, Runnable run, Runnable cancel) {
 		return registerOperation(phase, Operations.delayed(Operations.wrapping(run, cancel), ticksDelayed));
 	}
 }

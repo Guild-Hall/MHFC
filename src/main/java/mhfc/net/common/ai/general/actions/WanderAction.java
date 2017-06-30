@@ -12,8 +12,6 @@ import net.minecraft.util.math.Vec3d;
 
 public abstract class WanderAction<T extends EntityMHFCBase<? super T>> extends MovementAction<T> {
 
-	
-	
 	//TODO Make monster rest after walking.
 	public static class RandomWanderProvider<T extends EntityLiving> implements IPathProvider {
 
@@ -55,10 +53,9 @@ public abstract class WanderAction<T extends EntityMHFCBase<? super T>> extends 
 			Vec3d position = actor.getPositionVector();
 			if (waypoint.subtract(position).lengthVector() < acceptedDistance) {
 				return true;
-			} else {
-				acceptedDistance += 0.01f * wanderDistance;
-				return false;
 			}
+			acceptedDistance += 0.01f * wanderDistance;
+			return false;
 		}
 
 		@Override
@@ -92,7 +89,7 @@ public abstract class WanderAction<T extends EntityMHFCBase<? super T>> extends 
 
 	@Override
 	protected float computeSelectionWeight() {
-		if(getEntity().getAttackTarget() != null){
+		if (getEntity().getAttackTarget() != null) {
 			return DONT_SELECT;
 		}
 		return computeWanderWeight();

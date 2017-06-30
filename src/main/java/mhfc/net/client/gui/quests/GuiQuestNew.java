@@ -21,7 +21,6 @@ import mhfc.net.common.network.message.quest.MessageMHFCInteraction;
 import mhfc.net.common.network.message.quest.MessageMHFCInteraction.Interaction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 
@@ -38,7 +37,7 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 	private int xSize, ySize;
 	private int page = 0;
 
-	public GuiQuestNew(Collection<String> groupIDs, EntityPlayer accessor) {
+	public GuiQuestNew(Collection<String> groupIDs) {
 		// groupIDsDisplayed = new ArrayList<String>(groupIDs);
 		questIdentifiers = new ArrayList<>();
 		groupList = new ClickableGuiList<>(width, height);

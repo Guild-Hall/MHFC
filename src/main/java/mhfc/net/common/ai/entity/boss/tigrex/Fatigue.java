@@ -2,9 +2,8 @@ package mhfc.net.common.ai.entity.boss.tigrex;
 
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 
-public class Fatigue extends Idle implements IHasAnimationProvider {
+public class Fatigue extends Idle {
 	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/idle_fatigue.mcanm";
 	private static final int LAST_FRAME = 65;
 

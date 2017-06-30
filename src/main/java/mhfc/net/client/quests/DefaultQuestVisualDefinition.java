@@ -45,6 +45,8 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		public static final String KEY_MONSTER = "monster";
 
 		private DefaultQuestDescription quest;
+		@SuppressWarnings("unused")
+		private JsonDeserializationContext context;
 		private JsonObject jsonObject;
 
 		public QuestVisualInformationFactory() {}
@@ -55,6 +57,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 
 		public QuestVisualInformationFactory decodingFrom(JsonElement json, JsonDeserializationContext context) {
 			this.jsonObject = json.getAsJsonObject();
+			this.context = context;
 			return this;
 		}
 
@@ -77,7 +80,8 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_MAX_PARTY_SIZE, getDefaultPartySize());
 			String type = MHFCJsonUtils
 					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_TYPE, getDefaultQuestType());
-			String monster = MHFCJsonUtils.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_MONSTER, getDefaultMonster());
+			String monster = MHFCJsonUtils
+					.getJsonObjectStringFieldValueOrDefault(jsonObject, KEY_MONSTER, getDefaultMonster());
 			return new DefaultQuestVisualDefinition(
 					quest,
 					name,
@@ -93,7 +97,9 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 					monster);
 		}
 
-		public JsonElement serialize(DefaultQuestVisualDefinition information, JsonSerializationContext context) {
+		public static JsonElement serialize(
+				DefaultQuestVisualDefinition information,
+				@SuppressWarnings("unused") JsonSerializationContext context) {
 			JsonObject holder = new JsonObject();
 			holder.addProperty(KEY_NAME, information.name);
 			holder.addProperty(KEY_DESCRIPTION, information.description);
@@ -109,31 +115,31 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			return holder;
 		}
 
-		private String getDefaultName() {
+		private static String getDefaultName() {
 			return "Hunter's Quest";
 		}
-		
-		private String getDefaultMonster() {
+
+		private static String getDefaultMonster() {
 			return "NYI";
 		}
 
-		private String getDefaultDescription() {
+		private static String getDefaultDescription() {
 			return "A new monster threatens the town so go out and kill it soon.";
 		}
 
-		private String getDefaultClient() {
+		private static String getDefaultClient() {
 			return "Village Elder";
 		}
 
-		private String getDefaultAims() {
+		private static String getDefaultAims() {
 			return "Hunt the said monster";
 		}
 
-		private String getDefaultFails() {
+		private static String getDefaultFails() {
 			return "Died three times or time has run out!";
 		}
 
-		private String getDefaultTimeLimit() {
+		private static String getDefaultTimeLimit() {
 			return "As fast as possible";
 		}
 
@@ -205,7 +211,6 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 
 	protected String fee;
 	protected String maxPartySize;
-
 
 	public DefaultQuestVisualDefinition(
 			DefaultQuestDescription quest,
@@ -304,6 +309,8 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			break;
 		case 2:
 			drawClientDescription(positionX, currentY, width, fontRenderer);
+			break;
+		default:
 			break;
 		}
 		draw = (page + 1) + "/3";

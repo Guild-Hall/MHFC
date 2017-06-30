@@ -20,7 +20,6 @@ import mhfc.net.common.network.message.quest.MessageMHFCInteraction;
 import mhfc.net.common.network.message.quest.MessageMHFCInteraction.Interaction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
 public class GuiQuestJoin extends MHFCGui implements IMHFCTab {
@@ -37,7 +36,7 @@ public class GuiQuestJoin extends MHFCGui implements IMHFCTab {
 	private int page;
 	private boolean clickHandled;
 
-	public GuiQuestJoin(EntityPlayer accessor) {
+	public GuiQuestJoin() {
 		this.xSize = 374;
 		this.ySize = 220;
 		runningQuestList = new ClickableGuiList<>(width, height);

@@ -53,8 +53,7 @@ public class TurnThenMoveAdapter<T extends EntityLiving> implements IMovementPro
 		float angle = AIUtils.getViewingAngle(actor, waypoint);
 		if (Math.abs(angle) <= maxAngle) {
 			return moveParameterProvider.getMoveSpeed();
-		} else {
-			return 0f;
 		}
+		return 0f;
 	}
 }

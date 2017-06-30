@@ -27,11 +27,11 @@ public class DirectorLoadQuestsFromLocal implements IQuestDescriptionDirector {
 
 	}
 
-	private BufferedReader openReader(ResourceLocation location) throws IOException {
+	private static BufferedReader openReader(ResourceLocation location) throws IOException {
 		return new BufferedReader(new InputStreamReader(ResourceLocations.openEmbeddedResource(location)));
 	}
 
-	private void generateGroupMapping(BuilderJsonToQuests builderFromJson) {
+	private static void generateGroupMapping(BuilderJsonToQuests builderFromJson) {
 		ResourceLocation location = new ResourceLocation(ResourceInterface.groupLocation);
 		try (BufferedReader reader = openReader(location)) {
 			builderFromJson.acceptGroupMappingFrom(reader);
@@ -41,7 +41,7 @@ public class DirectorLoadQuestsFromLocal implements IQuestDescriptionDirector {
 
 	}
 
-	private void generateGoals(BuilderJsonToQuests builderFromJson) {
+	private static void generateGoals(BuilderJsonToQuests builderFromJson) {
 		ResourceLocation location = new ResourceLocation(ResourceInterface.goalLocation);
 		try (BufferedReader reader = openReader(location)) {
 			builderFromJson.acceptGoalsFrom(reader);
@@ -50,7 +50,7 @@ public class DirectorLoadQuestsFromLocal implements IQuestDescriptionDirector {
 		}
 	}
 
-	private void generateQuests(BuilderJsonToQuests builderFromJson) {
+	private static void generateQuests(BuilderJsonToQuests builderFromJson) {
 		ResourceLocation location = new ResourceLocation(ResourceInterface.questLocation);
 		try (BufferedReader reader = openReader(location)) {
 			builderFromJson.acceptQuestsFrom(reader);

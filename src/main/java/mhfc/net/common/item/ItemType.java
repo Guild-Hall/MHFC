@@ -221,6 +221,7 @@ public enum ItemType {
 				break;
 			case WEAPON:
 				weapons.add(type);
+			case NONE:
 			default:
 				break;
 			}

@@ -16,13 +16,13 @@ public class UnaryAST {
 		 * @param stack
 		 * @return
 		 */
-		public boolean addDisputableNodes(Stack<IntermediateNode> stack) {
+		public boolean addDisputableNodes(@SuppressWarnings("unused") Stack<IntermediateNode> stack) {
 			return false;
 		}
 
-		public void addOpenPostfixOps(Stack<IntermediateNode> stack) {}
+		public void addOpenPostfixOps(@SuppressWarnings("unused") Stack<IntermediateNode> stack) {}
 
-		public void addOpenPrefixOps(Stack<IntermediateNode> stack) {}
+		public void addOpenPrefixOps(@SuppressWarnings("unused") Stack<IntermediateNode> stack) {}
 	}
 
 	private static interface IValueNode {
@@ -152,7 +152,7 @@ public class UnaryAST {
 		}
 
 		@SuppressWarnings("unchecked")
-		private <T> Object compute(IOperator<T, ?> op, Object object) {
+		private static <T> Object compute(IOperator<T, ?> op, Object object) {
 			return op.with((T) object);
 		}
 
@@ -493,6 +493,8 @@ public class UnaryAST {
 							.make(new OperatorIntermediate(op, false, operator.resultID));
 				}
 			};
+		default:
+			break;
 		}
 		throw new IllegalArgumentException("is resultType null?");
 	}

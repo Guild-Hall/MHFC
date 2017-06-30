@@ -73,27 +73,27 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 
 			@Override
 			public void update(Charge attk) {
-				
+
 				// Variables
 				EntityTigrex tigrex = attk.getEntity();
 				Vec3d tigPos = tigrex.getPositionVector();
 				Vec3d trgtPos = attk.target.getPositionVector();
 				Vec3d vecToTarget = trgtPos.subtract(tigPos);
-				
+
 				// Processing
 				tigrex.getTurnHelper().updateTargetPoint(trgtPos);
-				
+
 				tigrex.moveForward(RUN_SPEED, true);
-				
+
 				Vec3d look = tigrex.getLookVec();
-				
+
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
-				
+
 				boolean ranLongEnough = attk.runStartPoint.subtract(tigPos).lengthVector() > MAX_RUN_DISTANCE
 						|| attk.framesRunning > MAX_RUN_FRAMES;
-						
+
 				if ((tarBeh || ranLongEnough) && attk.hasPassed == PastEntityEnum.NOT_PASSED) {
-					
+
 					attk.hasPassed = PastEntityEnum.PASSED;
 				}
 			}
@@ -144,15 +144,15 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 			this.isDamaging = isDamaging;
 		}
 
-		public void onPhaseStart(Charge attk) {}
+		public void onPhaseStart(@SuppressWarnings("unused") Charge attk) {}
 
-		public void update(Charge attk) {}
+		public void update(@SuppressWarnings("unused") Charge attk) {}
 
-		public AttackPhase next(Charge attk) {
+		public AttackPhase next(@SuppressWarnings("unused") Charge attk) {
 			return this;
 		}
 
-		public int nextFrame(Charge attk, int curr) {
+		public int nextFrame(@SuppressWarnings("unused") Charge attk, int curr) {
 			return ++curr;
 		}
 	}

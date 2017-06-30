@@ -10,7 +10,7 @@ public class MHFCSoundRegistry {
 
 	public static void staticInit() {}
 
-	private static final IServiceKey<MHFCSoundRegistry> serviceAccess = RegistryWrapper
+	public static final IServiceKey<MHFCSoundRegistry> serviceAccess = RegistryWrapper
 			.registerService("sound registry", MHFCSoundRegistry::new, MHFCMain.initPhase);
 
 	public final SoundEvent barrothIdle;
@@ -67,7 +67,7 @@ public class MHFCSoundRegistry {
 	public final SoundEvent rathalosBite;
 	public final SoundEvent rathalosTailWhip;
 	public final SoundEvent rathalosAirFireball;
-	
+
 	public final SoundEvent tigrexIdle;
 	public final SoundEvent tigrexStep;
 	public final SoundEvent tigrexDeath;
@@ -169,7 +169,7 @@ public class MHFCSoundRegistry {
 		questNotification = registerSoundEvent("mhfc:quest.notification");
 	}
 
-	private SoundEvent registerSoundEvent(String nameAndLocation) {
+	private static SoundEvent registerSoundEvent(String nameAndLocation) {
 		return registerSoundEvent(nameAndLocation, nameAndLocation);
 	}
 
@@ -181,7 +181,7 @@ public class MHFCSoundRegistry {
 	 * @param soundLocation
 	 * @return
 	 */
-	private SoundEvent registerSoundEvent(String name, String soundLocation) {
+	private static SoundEvent registerSoundEvent(String name, String soundLocation) {
 		return GameRegistry.register(new SoundEvent(new ResourceLocation(soundLocation)).setRegistryName(name));
 	}
 

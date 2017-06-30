@@ -74,9 +74,9 @@ public abstract class ArmorBase extends ItemArmor {
 		if (slotToTex != null) {
 			return slotToTex.getOrDefault(slot, ResourceInterface.armor_null_tex);
 		}
-		
+
 		return super.getArmorTexture(stack, entity, slot, type);
-		
+
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -109,6 +109,8 @@ public abstract class ArmorBase extends ItemArmor {
 		case LEGS:
 			armorModel = getBipedModel(armorSlot);
 			break;
+		case MAINHAND:
+		case OFFHAND:
 		default:
 			break;
 		}
@@ -152,6 +154,8 @@ public abstract class ArmorBase extends ItemArmor {
 		return itemStack != null && itemStack.getItem().getClass().equals(getClass());
 	}
 
-	protected void applySetBonus(World world, EntityPlayer player) {}
+	protected void applySetBonus(
+			@SuppressWarnings("unused") World world,
+			@SuppressWarnings("unused") EntityPlayer player) {}
 
 }

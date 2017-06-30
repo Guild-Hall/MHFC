@@ -17,7 +17,7 @@ import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = ResourceInterface.main_modid)
 public class LootTableInjector {
 
 	private static final String RESOURCE_DOMAIN = ResourceInterface.main_resource_domain;

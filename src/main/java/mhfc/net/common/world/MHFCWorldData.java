@@ -72,7 +72,7 @@ public class MHFCWorldData extends WorldSavedData {
 		this.markDirty();
 	}
 
-	private QuestFlair getFlairFromWorld(World world) {
+	private static QuestFlair getFlairFromWorld(World world) {
 		WorldProvider worldProvider = world.provider;
 		if (worldProvider instanceof WorldProviderQuesting) {
 			WorldProviderQuesting questingProvider = (WorldProviderQuesting) worldProvider;

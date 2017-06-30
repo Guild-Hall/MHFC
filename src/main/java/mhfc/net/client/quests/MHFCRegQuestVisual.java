@@ -19,6 +19,7 @@ import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.network.NetworkTracker;
 import mhfc.net.common.network.message.quest.MessageQuestInit;
 import mhfc.net.common.quests.api.IQuestDefinition;
+import mhfc.net.common.util.Comparation;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -156,9 +157,10 @@ public class MHFCRegQuestVisual {
 		setVisual(Optional.ofNullable(info));
 	}
 
-	public void unsetPlayerMission(String missionID) {
-		// TODO: maybe check that the active mission actually has the missionID?
-		setVisual(Optional.empty());
+	public void unsetPlayerMission(@SuppressWarnings("unused") String missionID) {
+		// TODO: maybe check that the active mission actually had the missionID?
+		Optional<IMissionInformation> oldValue = setVisual(Optional.empty());
+		assert oldValue != null && oldValue.isPresent();
 	}
 
 	public void logStats() {
@@ -169,10 +171,15 @@ public class MHFCRegQuestVisual {
 		MHFCMain.logger().debug(output);
 	}
 
-	private void setVisual(Optional<IMissionInformation> newVisual) {
+	private Optional<IMissionInformation> setVisual(Optional<IMissionInformation> newVisual) {
 		Objects.requireNonNull(newVisual);
+		if (Comparation.isIdentical(playerVisual, newVisual)) {
+			return null;
+		}
 		playerVisual.ifPresent(IMissionInformation::cleanUp);
+		Optional<IMissionInformation> oldVisual = playerVisual;
 		playerVisual = newVisual;
+		return oldVisual;
 	}
 
 	private void initialize() {

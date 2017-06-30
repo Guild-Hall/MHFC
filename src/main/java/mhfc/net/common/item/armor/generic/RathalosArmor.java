@@ -7,6 +7,7 @@ import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.item.armor.ArmorBase;
+import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -36,9 +37,10 @@ public class RathalosArmor extends ArmorBase {
 			return Model.rathalos;
 		case CHEST:
 			return Model.rathalos;
+		case MAINHAND:
+		case OFFHAND:
 		default:
-			break;
-
+			Assert.logUnreachable("Armor can only be equiped on armor slots, got {}", armorSlot);
 		}
 
 		return null;

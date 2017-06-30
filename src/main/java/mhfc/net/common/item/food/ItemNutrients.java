@@ -8,6 +8,7 @@ import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.IItemColored;
 import mhfc.net.common.item.IItemVarianted;
 import mhfc.net.common.item.ItemColor;
+import mhfc.net.common.util.Assert;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -135,6 +136,8 @@ public class ItemNutrients extends ItemFood implements IItemColored, IItemVarian
 			par3List.add("Adds 8 health points for 10 minutes [Only Once]");
 			par3List.add("Duration:10 minutes");
 			par3List.add("\u00a79[Only Once]");
+		default:
+			Assert.logUnreachable("Unexpected subtype {}", subType);
 		}
 	}
 

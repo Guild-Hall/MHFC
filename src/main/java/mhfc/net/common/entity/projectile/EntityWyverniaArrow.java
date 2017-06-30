@@ -2,14 +2,13 @@ package mhfc.net.common.entity.projectile;
 
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class EntityWyverniaArrow extends EntityArrow implements IProjectile {
+public class EntityWyverniaArrow extends EntityArrow {
 
 	public static final float mhfc_vanilla_size_x = 0.5F;
 	public static final float mhfc_vanilla_size_y = 0.5F;
@@ -31,10 +30,9 @@ public class EntityWyverniaArrow extends EntityArrow implements IProjectile {
 	public EntityWyverniaArrow(World world, EntityLivingBase theShooter, float force) {
 		super(world, theShooter);
 		setBaseStats();
-		  if (theShooter instanceof EntityPlayer)
-	        {
-	            this.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
-	        }
+		if (theShooter instanceof EntityPlayer) {
+			this.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
+		}
 		setAim(theShooter, theShooter.rotationPitch, theShooter.rotationYaw, 0.0F, force * 3.0F, 1.0F);
 	}
 

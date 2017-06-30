@@ -16,7 +16,11 @@ public class ItemWyverniaArrow extends Item {
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 
-	public EntityWyverniaArrow createArrow(World worldIn, ItemStack stack, EntityLivingBase shooter, float force) {
+	public EntityWyverniaArrow createArrow(
+			World worldIn,
+			@SuppressWarnings("unused") ItemStack stack,
+			EntityLivingBase shooter,
+			float force) {
 		return new EntityWyverniaArrow(worldIn, shooter, force);
 	}
 

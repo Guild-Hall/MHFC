@@ -15,7 +15,6 @@ abstract class BehaviourJump {
 			private static final String ANIMATION = "mhfc:models/Nargacuga/Pounce.mcanm";
 			private static final int ANIMATION_LENGTH = 68;
 			private static final int JUMP_TIME = 10;
-			private static final float WEIGHT = 3f;
 			private AttackTargetAdapter<EntityNargacuga> jumpParam = new AttackTargetAdapter<>(JUMP_TIME);
 			private IAnimationProvider animationProvider = new AnimationAdapter(action, ANIMATION, ANIMATION_LENGTH);
 
@@ -70,7 +69,6 @@ abstract class BehaviourJump {
 			private static final String ANIMATION = "mhfc:models/Nargacuga/Pounce.mcanm";
 			private static final int ANIMATION_LENGTH = 74;
 			private static final int JUMP_TIME = 13;
-			private static final float WEIGHT = 1f;
 			private AttackTargetAdapter<EntityNargacuga> jumpParam = new AttackTargetAdapter<>(JUMP_TIME);
 			private IAnimationProvider animationProvider = new AnimationAdapter(action, ANIMATION, ANIMATION_LENGTH);
 

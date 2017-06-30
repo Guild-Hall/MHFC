@@ -246,7 +246,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		}
 		CompletionStage<Void> afterTeleports = CompletableFuture.allOf(teleports.toArray(new CompletableFuture[0]));
 		afterTeleports.<Void>handle((r, e) -> null).thenCompose(v -> {
-			return MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, 5 * 20, () -> {
+			return MHFCTickHandler.schedule(TickPhase.SERVER_POST, 5 * 20, () -> {
 				MHFCQuestRegistry.getRegistry().endMission(this);
 				MHFCMain.logger().info("Mission {} ended", getMission());
 			});
@@ -317,12 +317,12 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 				new TextComponentString(
 						ColorSystem.ENUMDARK_AQUA + "Teleporting you back in " + DELAY_BEFORE_TP_IN_SECONDS
 								+ " seconds"));
-		return MHFCTickHandler.instance.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
+		return MHFCTickHandler.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
 			EntityPlayerMP player = att.player;
 			player.sendMessage(new TextComponentString(ColorSystem.ENUMGREEN + "Teleporting you back home!"));
 
 			// Remove the player, otherwise the rebind will trigger another remove
-			QuestingPlayerState attributes = removePlayer(player);
+			removePlayer(player);
 
 			MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
 			MHFCExplorationRegistry.respawnPlayer(player, att.previousSaveData);

@@ -1,6 +1,5 @@
 package mhfc.net.common.world.exploration;
 
-import java.util.Objects;
 import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
@@ -55,7 +54,6 @@ public final class ExplorationProperties {
 	}
 
 	public IExplorationManager replaceManager(IExplorationManager manager) {
-		Objects.requireNonNull(manager);
 		IExplorationManager current = this.manager;
 		MHFCMain.logger().debug("Moving player from exploration manager {} to {}", current, manager);
 		if (current != manager) {

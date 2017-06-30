@@ -112,11 +112,10 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		if (!player.capabilities.isCreativeMode && !hasAmmunition) {
 			return hasAmmunition
 					? new ActionResult<>(EnumActionResult.PASS, itemstack)
-							: new ActionResult<>(EnumActionResult.FAIL, itemstack);
-		} else {
-			player.setActiveHand(hand);
-			return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
+					: new ActionResult<>(EnumActionResult.FAIL, itemstack);
 		}
+		player.setActiveHand(hand);
+		return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
 	}
 
 	protected boolean isConsideredAmmunition(ItemStack stack) {
@@ -172,13 +171,12 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityLivingBase entityln, int timeLeft) {
 		super.onPlayerStoppedUsing(stack, world, entityln, timeLeft);
 
-
-		EntityPlayer entityplayer = (EntityPlayer)entityln;
+		EntityPlayer entityplayer = (EntityPlayer) entityln;
 		boolean isCreative = entityln instanceof EntityPlayer && ((EntityPlayer) entityln).capabilities.isCreativeMode;
 		ItemStack ammunition = this.findAmmunition(entityplayer);
 
 		int i = this.getMaxItemUseDuration(stack) - timeLeft;
-		i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, world, (EntityPlayer)entityln, i, true);
+		i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, world, (EntityPlayer) entityln, i, true);
 		if (i < 0) {
 			return;
 		}
@@ -193,7 +191,6 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		if (bowStrength < 0.5d) {
 			return;
 		}
-
 
 		if (!world.isRemote) {
 			spawnArrow(entityplayer, world, ammunition, bowStrength);
@@ -211,7 +208,6 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 				volume,
 				pitch);
 	}
-
 
 	public static float getArrowVelocity(int charge) {
 		float f = charge / 30.0F;

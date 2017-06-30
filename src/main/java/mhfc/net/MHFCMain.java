@@ -13,7 +13,6 @@ import mhfc.net.common.configuration.MHFCConfig;
 import mhfc.net.common.core.command.CommandExplore;
 import mhfc.net.common.core.command.CommandMHFC;
 import mhfc.net.common.core.command.CommandPortableSchematic;
-import mhfc.net.common.core.command.CommandTpHunterDimension;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.network.NetworkTracker;
 import mhfc.net.common.system.UpdateSystem;
@@ -158,7 +157,7 @@ public class MHFCMain {
 		return instance.mhfcContainer;
 	}
 
-	private void staticInit() {
+	private static void staticInit() {
 		MHFCMain.getSidedProxy().staticInit();
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 			constructedPhaseAccess.exitPhase(null);
@@ -204,7 +203,6 @@ public class MHFCMain {
 	@Mod.EventHandler
 	protected void onServerStarting(FMLServerStartingEvent event) {
 		event.registerServerCommand(new CommandMHFC());
-		event.registerServerCommand(new CommandTpHunterDimension());
 		event.registerServerCommand(new CommandExplore());
 		event.registerServerCommand(new CommandPortableSchematic(WorldEdit.getInstance()));
 		UpdateSystem.onServerStarting(event);

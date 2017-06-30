@@ -37,13 +37,12 @@ public class MHFCGuiHandler implements IGuiHandler {
 			TileEntity tE = world.getTileEntity(new BlockPos(x, y, z));
 			if (tE instanceof TileHunterBench) {
 				return new GuiHunterBench(player.inventory, world, (TileHunterBench) tE, x, y, z);
-			} else {
-				MHFCMain.logger().debug(
-						"Tried to open hunter bench gui for block at {} {} {} which does not have a hunter bench tile entity",
-						x,
-						y,
-						z);
 			}
+			MHFCMain.logger().debug(
+					"Tried to open hunter bench gui for block at {} {} {} which does not have a hunter bench tile entity",
+					x,
+					y,
+					z);
 			break;
 		case MHFCContainerRegistry.gui_questgiver_id:
 			return GuiQuestGiver.getScreen(x, player);
@@ -53,11 +52,13 @@ public class MHFCGuiHandler implements IGuiHandler {
 			return new QuestStatusInventory(player);
 		case MHFCContainerRegistry.gui_changearea_id:
 			return getChangeAreaGui(world, x, y, z);
+		default:
+			break;
 		}
 		return null;
 	}
 
-	private GuiBlockExploreArea getChangeAreaGui(World world, int x, int y, int z) {
+	private static GuiBlockExploreArea getChangeAreaGui(World world, int x, int y, int z) {
 		TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
 		if (!(tileEntity instanceof TileExploreArea)) {
 			MHFCMain.logger().debug(

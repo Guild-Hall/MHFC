@@ -5,6 +5,7 @@ import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.item.armor.ArmorBase;
+import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraftforge.fml.relauncher.Side;
@@ -32,9 +33,10 @@ public class GreatJaggiArmor extends ArmorBase {
 			return Model.jaggi;
 		case CHEST:
 			return Model.jaggi;
+		case MAINHAND:
+		case OFFHAND:
 		default:
-			break;
-
+			Assert.logUnreachable("Armor can only be equiped on armor slots, got {}", armorSlot);
 		}
 
 		return null;

@@ -159,7 +159,7 @@ public class BuilderJsonToQuests {
 		this.dataObject = dataObject;
 	}
 
-	public void acceptGoalsFrom(BufferedReader reader) throws IOException {
+	public void acceptGoalsFrom(BufferedReader reader) {
 		acceptGoalsFrom(new JsonReader(reader));
 	}
 
@@ -221,7 +221,7 @@ public class BuilderJsonToQuests {
 		dataObject.addGroups(groupData);
 	}
 
-	public void acceptQuestsFrom(BufferedReader reader) throws IOException {
+	public void acceptQuestsFrom(BufferedReader reader) {
 		acceptQuestsFrom(new JsonReader(reader));
 	}
 

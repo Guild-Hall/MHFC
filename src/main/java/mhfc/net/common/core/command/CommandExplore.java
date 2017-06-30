@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.common.collect.ImmutableList;
+
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.quests.world.QuestFlair;
@@ -26,6 +28,11 @@ public class CommandExplore extends CommandBase {
 	@Override
 	public String getName() {
 		return "mhfcexplore";
+	}
+
+	@Override
+	public List<String> getAliases() {
+		return ImmutableList.of("mhfctp");
 	}
 
 	@Override
@@ -65,7 +72,10 @@ public class CommandExplore extends CommandBase {
 		sender.sendMessage(new TextComponentString("Too many arguments for command mhfcexplore"));
 	}
 
-	private void onTransferComplete(EntityPlayerMP player, IActiveArea area, Throwable exception) {
+	private static void onTransferComplete(
+			EntityPlayerMP player,
+			@SuppressWarnings("unused") IActiveArea area,
+			Throwable exception) {
 		if (exception != null) {
 			TextComponentString failMessage = new TextComponentString(
 					"Failed to allocate an area for the player: " + exception.getMessage());

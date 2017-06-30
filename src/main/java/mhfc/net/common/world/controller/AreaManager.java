@@ -120,6 +120,7 @@ public class AreaManager implements IAreaManager {
 		if (chosen.isPresent()) {
 			Active active = this.new Active(chosen.get(), type, getOwnQuestFlair());
 			nonactiveAreas.get(type).remove(active.getArea());
+			// FIXME: we can hope that whoever waits for the area also closes it, we just don't make sure for now
 			return CompletableFuture.completedFuture(active);
 		}
 		return createNewInstance(type);
@@ -135,7 +136,7 @@ public class AreaManager implements IAreaManager {
 		ForgeChunkManager.forceChunk(getLoadingTicket(), chunkPos);
 		final Operation operation = Operations.timingOperation(plan, 20);
 
-		return MHFCTickHandler.instance.registerOperation(TickPhase.SERVER_PRE, operation).whenComplete((r, ex) -> {
+		return MHFCTickHandler.registerOperation(TickPhase.SERVER_PRE, operation).whenComplete((r, ex) -> {
 			ForgeChunkManager.unforceChunk(getLoadingTicket(), chunkPos);
 			if (ex == null) {
 				onAreaCompleted(info);

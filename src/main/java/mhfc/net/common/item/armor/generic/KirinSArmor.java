@@ -8,6 +8,7 @@ import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.item.armor.ArmorBase;
 import mhfc.net.common.system.ColorSystem;
+import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -40,9 +41,10 @@ public class KirinSArmor extends ArmorBase {
 			return Model.kirinS;
 		case CHEST:
 			return Model.kirinS;
+		case MAINHAND:
+		case OFFHAND:
 		default:
-			break;
-
+			Assert.logUnreachable("Armor can only be equiped on armor slots, got {}", armorSlot);
 		}
 
 		return null;
@@ -54,7 +56,7 @@ public class KirinSArmor extends ArmorBase {
 			EntityPlayer par2EntityPlayer,
 			List<String> par3List,
 			boolean par4) {
-		par3List.add( ColorSystem.ENUMAQUA + "[ Donators Exclusive ");
+		par3List.add(ColorSystem.ENUMAQUA + "[ Donators Exclusive ");
 		switch (this.armorType) {
 		case HEAD:
 			par3List.add("\u00a79Kirin S Class Helmet");
@@ -68,11 +70,13 @@ public class KirinSArmor extends ArmorBase {
 		case FEET:
 			par3List.add("\u00a79Kirin S Class Boots");
 			break;
+		case MAINHAND:
+		case OFFHAND:
 		default:
 			break;
 		}
 	}
-	
+
 	@Override
 	protected void applySetBonus(World world, EntityPlayer player) {
 		if (player.getHealth() <= 3F) {
