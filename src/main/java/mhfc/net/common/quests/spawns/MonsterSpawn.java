@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.quests.api.ISpawnInformation;
 import mhfc.net.common.quests.world.EntityFactory;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
@@ -32,6 +33,10 @@ public class MonsterSpawn implements ISpawnInformation {
 	private EntityFactory getEntityFactory() {
 		return (world, area) -> {
 			Entity entity = EntityList.createEntityByIDFromName(goalMob, world);
+			if (entity == null) {
+				MHFCMain.logger().error("Couldn't create entity for id {}", goalMob);
+				return null;
+			}
 			BlockPos position = area.resolveMonsterSpawn(spawnLocation);
 			entity.setPosition(position.getX(), position.getY(), position.getZ());
 			return entity;
