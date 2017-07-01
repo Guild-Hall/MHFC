@@ -67,12 +67,17 @@ public class AnimationAdapter implements IAnimationProvider {
 		}
 
 		public Builder setAnimation(String animLocation) {
-			this.animation = () -> CommonLoader.loadAnimation(new ResourceLocation(animLocation));
-			return this;
+			return setAnimation(new ResourceLocation(animLocation));
+		}
+
+		private static IAnimation loadAnimationWithOurClassLoader(ResourceLocation resLocation) {
+			// this one is tricky: when we invoke loadAnimation directly in a lambda, the
+			// class loader that loads this is wrong, since lambdas have the system class loader
+			return CommonLoader.loadAnimation(resLocation);
 		}
 
 		public Builder setAnimation(ResourceLocation resLocation) {
-			this.animation = () -> CommonLoader.loadAnimation(resLocation);
+			this.animation = () -> loadAnimationWithOurClassLoader(resLocation);
 			return this;
 		}
 
