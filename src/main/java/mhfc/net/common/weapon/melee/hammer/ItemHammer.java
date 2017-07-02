@@ -6,19 +6,17 @@ import com.google.common.collect.Multimap;
 
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
+import mhfc.net.common.index.AttributeModifiers;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.hammer.HammerWeaponStats.HammerWeaponStatsBuilder;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.world.World;
 
 public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 	public static ItemHammer build(Consumer<HammerWeaponStatsBuilder> config) {
@@ -41,15 +39,8 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World world, Entity holder, int slot, boolean isHold) {
-		super.onUpdate(stack, world, holder, slot, isHold);
-		if (!isHold) {
-			return;
-		}
-		if (holder instanceof EntityPlayer) {
-			EntityPlayer entity = (EntityPlayer) holder;
-			entity.moveEntityWithHeading(entity.moveStrafing * -0.4F, entity.moveForward * -0.4F);
-		}
+	protected double getMovementSpeedMultiplier(ItemStack stack) {
+		return -0.25;
 	}
 
 	@Override
@@ -67,7 +58,6 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 		return super.onEntitySwing(entityLiving, stack);
 	}
 
-
 	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
 		if (!isOffCooldown(stack)) {
@@ -80,15 +70,18 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 	}
 
 	@Override
-	public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot) {
-		@SuppressWarnings("deprecation")
-		Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(equipmentSlot);
+	public Multimap<String, AttributeModifier> getAttributeModifiers(
+			EntityEquipmentSlot equipmentSlot,
+			ItemStack stack) {
+		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(equipmentSlot, stack);
 		if (equipmentSlot == EntityEquipmentSlot.MAINHAND) {
-			multimap.put(
-					SharedMonsterAttributes.ATTACK_SPEED.getName(),
-					new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -1.3000000953674316D, 2));
+			AttributeModifier attackSpeedModifier = new AttributeModifier(
+					ATTACK_SPEED_MODIFIER,
+					"Weapon modifier",
+					-0.4,
+					AttributeModifiers.MULTIPLICATIVE);
+			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), attackSpeedModifier);
 		}
-
 		return multimap;
 
 	}

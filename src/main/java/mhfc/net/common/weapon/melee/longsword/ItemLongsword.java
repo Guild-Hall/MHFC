@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import com.google.common.collect.Multimap;
 
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
+import mhfc.net.common.index.AttributeModifiers;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.NBTUtils;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
@@ -15,7 +16,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
@@ -29,7 +29,7 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 	}
 
 	protected static final String NBT_SPIRIT = "mhfc:affinity";
-	protected static final UUID LONGSWORD_EFFECT_UUID = UUID.fromString("e6f4502b-1242-4024-bc5e-e89f47fcda76");
+	protected static final UUID LONGSWORD_AFFINITY_UUID = UUID.fromString("e6f4502b-1242-4024-bc5e-e89f47fcda76");
 	protected static final float MAX_SPIRIT = 250F;
 	protected static final float TRIGGER_SPIRIT = 180f;
 	protected static final float SPIRIT_DECREASE = -0.4f;
@@ -40,6 +40,11 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 
 	protected float getAffinity(ItemStack stack) {
 		return NBTUtils.getNBTChecked(stack).getFloat(NBT_SPIRIT);
+	}
+
+	@Override
+	protected double getMovementSpeedMultiplier(ItemStack stack) {
+		return -0.25;
 	}
 
 	protected float changeSpirit(ItemStack stack, float change) {
@@ -60,14 +65,6 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 		if (!isHoldItem) {
 			return;
 		}
-		if (holder instanceof EntityPlayer) {
-			EntityPlayer entity = (EntityPlayer) holder;
-			entity.moveEntityWithHeading(entity.moveStrafing * -0.25f, entity.moveForward * -0.25f);
-			//if(stack instanceof) TODO: Add some High class GS that will never required strafing delay.
-			
-
-		}
-		
 	}
 
 	@Override
@@ -119,6 +116,7 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 				1F);
 		return false;
 	}
+
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
 		Multimap<String, AttributeModifier> attributes = super.getAttributeModifiers(slot, stack);
@@ -127,10 +125,10 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 		}
 		if (isAffinityTriggered(stack)) {
 			AttributeModifier attackModifier = new AttributeModifier(
-					LONGSWORD_EFFECT_UUID,
+					LONGSWORD_AFFINITY_UUID,
 					"Spirit Gauge",
 					0.4,
-					1);
+					AttributeModifiers.ADDITIVE_MULT);
 			attributes.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), attackModifier);
 		}
 		return attributes;

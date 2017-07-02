@@ -6,7 +6,6 @@ import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.huntinghorn.HuntingHornWeaponStats.HuntingHornWeaponStatsBuilder;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -30,6 +29,11 @@ public class ItemHuntingHorn extends ItemWeaponMelee<HuntingHornWeaponStats> {
 	@Override
 	public String getWeaponClassUnlocalized() {
 		return ResourceInterface.weapon_huntinghorn_name;
+	}
+
+	@Override
+	protected double getMovementSpeedMultiplier(ItemStack stack) {
+		return -0.1;
 	}
 
 	@Override
@@ -57,18 +61,6 @@ public class ItemHuntingHorn extends ItemWeaponMelee<HuntingHornWeaponStats> {
 			stats.onNotePlayed(stack, player, current);
 		}
 		return false;
-	}
-
-	@Override
-	public void onUpdate(ItemStack stack, World world, Entity holder, int slot, boolean isHoldItem) {
-		super.onUpdate(stack, world, holder, slot, isHoldItem);
-		if (!isHoldItem) {
-			return;
-		}
-		if (holder instanceof EntityPlayer) {
-			EntityPlayer entity = (EntityPlayer) holder;
-			entity.moveEntityWithHeading(entity.moveStrafing * -0.1f, entity.moveForward * -0.1f);
-		}
 	}
 
 	@Override

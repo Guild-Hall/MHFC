@@ -2,10 +2,12 @@ package mhfc.net.common.weapon;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import com.google.common.collect.Multimap;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.index.AttributeModifiers;
 import mhfc.net.common.item.IItemSimpleModel;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.NBTUtils;
@@ -35,6 +37,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public abstract class ItemWeapon<W extends WeaponStats> extends Item implements IItemSimpleModel {
 	protected static final String COOLDOWN_NBT = "mhfc:cooldown";
+
+	protected static final UUID MOVEMENT_SLOW_UUID = UUID.fromString("be039fef-dd36-4042-8cae-ca8afff6479c");
 
 	protected final W stats;
 	private ModelResourceLocation resLocCache;
@@ -68,6 +72,10 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item implements 
 
 	protected void decreaseCooldown(ItemStack stack) {
 		NBTUtils.decreaseIntUnsigned(NBTUtils.getNBTChecked(stack), COOLDOWN_NBT);
+	}
+
+	protected double getMovementSpeedMultiplier(@SuppressWarnings("unused") ItemStack stack) {
+		return 0D;
 	}
 
 	/**
@@ -122,7 +130,6 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item implements 
 		return false;
 	}
 
-
 	@SideOnly(Side.CLIENT)
 	@Override
 	public boolean shouldRotateAroundWhenRendering() {
@@ -149,9 +156,18 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item implements 
 		if (slot != EntityEquipmentSlot.MAINHAND) {
 			return multimap;
 		}
-		multimap.put(
-				SharedMonsterAttributes.ATTACK_DAMAGE.getName(),
-				new AttributeModifier(Item.ATTACK_DAMAGE_MODIFIER, "Weapon Attack", stats.getAttack(), 0));
+		AttributeModifier attackModifier = new AttributeModifier(
+				Item.ATTACK_DAMAGE_MODIFIER,
+				"Weapon Attack",
+				stats.getAttack(),
+				AttributeModifiers.ADDITIVE);
+		multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), attackModifier);
+		AttributeModifier moveSpeedModifier = new AttributeModifier(
+				MOVEMENT_SLOW_UUID,
+				"Weapon weight",
+				getMovementSpeedMultiplier(stack),
+				AttributeModifiers.MULTIPLICATIVE);
+		multimap.put(SharedMonsterAttributes.MOVEMENT_SPEED.getName(), moveSpeedModifier);
 		return multimap;
 	}
 }
