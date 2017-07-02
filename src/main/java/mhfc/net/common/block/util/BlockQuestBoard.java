@@ -1,7 +1,6 @@
 package mhfc.net.common.block.util;
 
 import java.util.List;
-import java.util.Random;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCContainerRegistry;
@@ -17,18 +16,15 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class BlockQuestBoard extends BlockContainer {
@@ -120,22 +116,8 @@ public class BlockQuestBoard extends BlockContainer {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
+	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileQuestBoard();
-	}
-
-	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		switch (rand.nextInt(3)) {
-		case 0:
-			return Items.APPLE;
-		case 1:
-			return Items.BED;
-		case 2:
-			return Items.BEEF;
-		default:
-			return null;
-		}
 	}
 
 	@Override
@@ -149,7 +131,7 @@ public class BlockQuestBoard extends BlockContainer {
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		IBlockState state = getDefaultState();
-		state.withProperty(PLACING, EnumPlacing.getPlacing((meta >> 2) % 0x3));
+		state.withProperty(PLACING, EnumPlacing.getPlacing((meta >> 2) & 0x3));
 		state.withProperty(FACING, EnumFacing.getHorizontal(meta & 0x3));
 		return state;
 	}
@@ -170,16 +152,15 @@ public class BlockQuestBoard extends BlockContainer {
 			EntityLivingBase placer,
 			EnumHand hand) {
 		if (world.isRemote) {
-			super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
+			return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
 		}
-		EnumFacing side = getPlacedSide(world, pos, placer);
 		IBlockState state = getDefaultState();
-		if (isHorizontal(side)) {
-			return state.withProperty(PLACING, EnumPlacing.FORWARD_OFFSET).withProperty(FACING, side);
+		if (isHorizontal(facing)) {
+			return state.withProperty(PLACING, EnumPlacing.FORWARD_OFFSET).withProperty(FACING, facing);
 		}
-
-		if (side == EnumFacing.UP) {
-			state = state.withProperty(PLACING, EnumPlacing.UPWARDS);
+		if (facing == EnumFacing.UP) {
+			return state.withProperty(PLACING, EnumPlacing.UPWARDS)
+					.withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 		}
 		EnumFacing rotatedFacing = calculateHorizontalFacing(hitX, hitZ);
 		state.withProperty(FACING, rotatedFacing);
@@ -198,51 +179,6 @@ public class BlockQuestBoard extends BlockContainer {
 		return EnumFacing.getHorizontal(idx);
 	}
 
-	private static EnumFacing getPlacedSide(World world, BlockPos pos, EntityLivingBase placer) {
-		Vec3d vecPos = new Vec3d(placer.posX, placer.posY + placer.getEyeHeight(), placer.posZ);
-		float f1 = MathHelper.cos(-placer.rotationYaw * 0.017453292F - (float) Math.PI);
-		float f2 = MathHelper.sin(-placer.rotationYaw * 0.017453292F - (float) Math.PI);
-		float f3 = -MathHelper.cos(-placer.rotationPitch * 0.017453292F);
-		float f4 = MathHelper.sin(-placer.rotationPitch * 0.017453292F);
-		Vec3d look = new Vec3d(f2 * f3 * 160, f4 * 160, f1 * f3 * 160);
-		Vec3d blockVec = new Vec3d(pos);
-		Vec3d lookAim = look.addVector(vecPos.xCoord, vecPos.yCoord, vecPos.zCoord);
-		RayTraceResult movPos = world.rayTraceBlocks(vecPos, lookAim, false, false, true);
-		EnumFacing side = getOppositeSide(blockVec.subtract(movPos.hitVec), look);
-		return side;
-	}
-
-	/**
-	 * This method returns the side of the next block which would be hit if the look vector was to be traced through the
-	 * block, starting at the hit vector (which is relative to the block).
-	 *
-	 */
-	private static EnumFacing getOppositeSide(Vec3d hitVector, Vec3d lookVector) {
-		double dX = Math.signum(lookVector.xCoord);
-		double dY = lookVector.yCoord / lookVector.xCoord * dX;
-		double dZ = lookVector.zCoord / lookVector.xCoord * dX;
-		double targetX = lookVector.xCoord > 0 ? 1.0 : 0.0;
-		double targetY = lookVector.yCoord > 0 ? 1.0 : 0.0;
-		double targetZ = lookVector.zCoord > 0 ? 1.0 : 0.0;
-		double tX = (targetX - hitVector.xCoord) / dX;
-		double tY = (targetY - hitVector.yCoord) / dY;
-		double tZ = (targetZ - hitVector.zCoord) / dZ;
-		double t = tX;
-		if (!(tX > 0 && tY >= 0 && tZ >= 0)) {
-			MHFCMain.logger().debug("Noooo");
-		}
-
-		EnumFacing side = lookVector.xCoord > 0 ? EnumFacing.WEST : EnumFacing.EAST;
-		if (!Double.isNaN(tY) && tY < t) {
-			side = lookVector.yCoord > 0 ? EnumFacing.DOWN : EnumFacing.UP;
-			t = tY;
-		}
-		if (!Double.isNaN(tZ) && tZ < t) {
-			side = lookVector.zCoord > 0 ? EnumFacing.NORTH : EnumFacing.SOUTH;
-		}
-		return side;
-	}
-
 	@Override
 	public void addCollisionBoxToList(
 			IBlockState blockState,
@@ -253,12 +189,12 @@ public class BlockQuestBoard extends BlockContainer {
 			Entity entityIn) {
 		int meta = blockState.getBlock().getMetaFromState(blockState);
 
-		boolean isOffsetSet = (meta & offsetMask) == offsetMask;
-		boolean isUpSet = (meta & upMask) == upMask;
+		boolean isOffsetSet = blockState.getValue(PLACING) == EnumPlacing.FORWARD_OFFSET;
+		boolean isUpSet = blockState.getValue(PLACING) == EnumPlacing.UPWARDS;
 		boolean boxUpFlag = isUpSet | isOffsetSet;
 
-		float maxY = boxUpFlag ? 1.0f : 0.7f;
 		float minY = boxUpFlag ? 0.3f : 0.0f;
+		float maxY = boxUpFlag ? 1.0f : 0.7f;
 		float minX, maxX, minZ, maxZ;
 		if ((meta & 0x1) == 0) {
 			minX = 0;
@@ -290,6 +226,18 @@ public class BlockQuestBoard extends BlockContainer {
 			minZ = 0.375f;
 			maxZ = 0.625f;
 		}
-		bounds.add(new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ));
+
+		AxisAlignedBB boundingBox = new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
+		addCollisionBoxToList(pos, entityBox, bounds, boundingBox);
+	}
+
+	@Override
+	public IBlockState withRotation(IBlockState state, Rotation rot) {
+		return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
+	}
+
+	@Override
+	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
+		return state.withProperty(FACING, mirrorIn.mirror(state.getValue(FACING)));
 	}
 }
