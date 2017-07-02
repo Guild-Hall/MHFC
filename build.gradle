@@ -196,6 +196,10 @@ tasks.install.dependsOn 'build'
 tasks.release.dependsOn('updateBuildMetadata')
 tasks.preRelease.dependsOn('updateBuildMetadata')
 
+// Always run these tasks
+tasks.runClient.outputs.upToDateWhen { false }
+tasks.runServer.outputs.upToDateWhen { false }
+
 artifacts {
     archives jar
     archives sourceJar
