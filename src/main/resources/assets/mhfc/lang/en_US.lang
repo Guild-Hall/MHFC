@@ -386,7 +386,19 @@ mhfc.quests.type.gathering=Gathering Quest
 mhfc.quests.type.epichunting=Epic Hunting Quest
 mhfc.quests.type.killing=Slaying Quest
 
-
+mhfc.quests.status.rewardGranted=§3Quest reward received!
+mhfc.quests.status.forfeit=You have forfeited a quest
+mhfc.quests.status.failed=§3You have failed the quest
+mhfc.quests.status.success=§6QUEST COMPLETE
+mhfc.quests.status.voteEnd=You have voted for ending the quest
+mhfc.quests.status.voteStart=You have voted for starting the quest
+mhfc.quests.status.accepted=You have accepted a quest
+mhfc.quests.status.acceptFailed=The quest you wanted to accept does not exist
+mhfc.quests.status.createFailed.hasQuest=You already are on quest %s
+mhfc.quests.status.createFailed.noSuchQuest=Quest with id[%s] not found
+mhfc.quests.status.createFailed.internal=Quest with id[%s] could not be constructed
+mhfc.quests.status.teleportSoon=§3Teleporting you back in %% seconds
+mhfc.quests.status.teleport=§aTeleportation Complete!
 
 container.hunterbench=Hunter's Forging Bench
 

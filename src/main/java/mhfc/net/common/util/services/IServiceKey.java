@@ -38,8 +38,8 @@ public interface IServiceKey<T> extends Supplier<Optional<T>> {
 			}
 
 			@Override
-			public O getService() {
-				return remap.apply(original.getService());
+			public Optional<O> get() {
+				return original.get().map(remap);
 			}
 		};
 	}
@@ -50,7 +50,6 @@ public interface IServiceKey<T> extends Supplier<Optional<T>> {
 	}
 
 	default T getService() {
-		return getServiceProvider().getServiceFor(this)
-				.orElseThrow(() -> new IllegalStateException("Service not active"));
+		return get().orElseThrow(() -> new IllegalStateException("Service not active"));
 	}
 }

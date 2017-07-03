@@ -28,7 +28,7 @@ import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -168,7 +168,7 @@ public class MHFCQuestRegistry {
 		Mission quest = getMissionForPlayer(player);
 		if (quest != null) {
 			quest.quitPlayer(player);
-			player.sendMessage(new TextComponentString("You have forfeited a quest"));
+			player.sendMessage(new TextComponentTranslation("mhfc.quests.status.forfeit"));
 		} else {
 			sendResetPlayerVisual(player);
 		}
@@ -178,7 +178,7 @@ public class MHFCQuestRegistry {
 		Mission quest = getMissionForPlayer(player);
 		if (quest != null) {
 			quest.voteEnd(player);
-			player.sendMessage(new TextComponentString("You have voted for ending the quest"));
+			player.sendMessage(new TextComponentTranslation("mhfc.quests.status.voteEnd"));
 		} else {
 			sendResetPlayerVisual(player);
 		}
@@ -188,7 +188,7 @@ public class MHFCQuestRegistry {
 		Mission quest = getMissionForPlayer(player);
 		if (quest != null) {
 			quest.voteStart(player);
-			player.sendMessage(new TextComponentString("You have voted for starting the quest"));
+			player.sendMessage(new TextComponentTranslation("mhfc.quests.status.voteStart"));
 		}
 	}
 
@@ -196,23 +196,24 @@ public class MHFCQuestRegistry {
 		Mission quest = getMission(message.getOptions()[0]);
 		if (quest != null) {
 			quest.joinPlayer(player);
-			player.sendMessage(new TextComponentString("You have accepted a quest"));
+			player.sendMessage(new TextComponentTranslation("mhfc.quests.status.accepted"));
 		} else {
-			player.sendMessage(new TextComponentString("The quest you wanted to accept does not exist"));
+			player.sendMessage(new TextComponentTranslation("mhfc.quests.status.acceptFailed"));
 		}
 	}
 
 	private void createNewQuest(EntityPlayerMP player, MessageMHFCInteraction message) {
 		Mission quest = getMissionForPlayer(player);
 		if (quest != null) {
-			player.sendMessage(new TextComponentString("You already are on quest " + getMissionID(quest)));
+			player.sendMessage(
+					new TextComponentTranslation("mhfc.quests.status.createFailed.hasQuest", getMissionID(quest)));
 			PacketPipeline.networkPipe.sendTo(quest.createFullUpdateMessage(), player);
 			return;
 		}
 		ResourceLocation questID = new ResourceLocation(message.getOptions()[0]);
 		IQuestDefinition questDescription = MHFCQuestBuildRegistry.getQuestDescription(questID);
 		if (questDescription == null) {
-			player.sendMessage(new TextComponentString("Quest with id[" + questID + "] not found"));
+			player.sendMessage(new TextComponentTranslation("mhfc.quests.status.createFailed.noSuchQuest", questID));
 			return;
 		}
 		String missionID = questID + "@" + player.getDisplayNameString() + "@" + questIDCounter++;
@@ -220,7 +221,7 @@ public class MHFCQuestRegistry {
 				DetachableResource<Mission> mission = new DetachableResource<>(
 						QuestFactories.constructQuest(questDescription, missionID))) {
 			if (mission.get() == null) {
-				player.sendMessage(new TextComponentString("Quest with id[" + questID + "] could not be constructed"));
+				player.sendMessage(new TextComponentTranslation("mhfc.quests.status.createFailed.internal", questID));
 				return;
 			}
 			if (!mission.get().canJoin(player)) {
