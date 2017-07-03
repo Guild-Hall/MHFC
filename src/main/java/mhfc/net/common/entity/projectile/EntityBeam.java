@@ -76,7 +76,7 @@ public class EntityBeam extends Entity {
 		this.dataManager.register(CASTER_ID, -1);
 	}
 
-	public double getYaw() {
+	public float getYaw() {
 		return this.dataManager.get(YAW);
 	}
 
@@ -84,7 +84,7 @@ public class EntityBeam extends Entity {
 		this.dataManager.set(YAW, yaw);
 	}
 
-	public double getPitch() {
+	public float getPitch() {
 		return this.dataManager.get(PITCH);
 	}
 
