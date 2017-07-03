@@ -62,7 +62,7 @@ public class QuestStatusInventory extends GuiContainer {
 	}
 
 	private static final Viewable statusHeader = Viewables
-			.parse("§4§n[[" + ResourceInterface.unlocalized_tag_status_long + "]]§r\n\n", null);
+			.parse("§4n[[" + ResourceInterface.unlocalized_tag_status_long + "]]§r\n\n", null);
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int mouseX, int mouseY) {

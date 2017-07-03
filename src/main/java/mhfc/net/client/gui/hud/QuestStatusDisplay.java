@@ -60,7 +60,7 @@ public class QuestStatusDisplay {
 	}
 
 	private static Viewable shortStatusHeader = Viewables
-			.parse("§4§n[[" + ResourceInterface.unlocalized_tag_status_short + "]]§r\n\n", null);
+			.parse("§4n[[" + ResourceInterface.unlocalized_tag_status_short + "]]§4r\n\n", null);
 
 	@SubscribeEvent
 	public void onDraw(RenderGameOverlayEvent.Post overlayEvent) {

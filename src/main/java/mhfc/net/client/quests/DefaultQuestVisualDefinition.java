@@ -287,7 +287,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 			currentY += LINE_SEPERATION;
 			currentY += MHFCGuiUtil.drawTextAndReturnHeight(
 					fontRenderer,
-					ColorSystem.ENUMDARK_RED + monster,
+					ColorSystem.ENUMDARK_BLUE + monster,
 					positionX + width / 8,
 					currentY,
 					7 * width / 8 - BORDER,
@@ -445,12 +445,13 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 		String TAG_FEE = I18n.format(ResourceInterface.unlocalized_tag_fee), //
 				TAG_REWARD = I18n.format(ResourceInterface.unlocalized_tag_reward), //
 				TAG_TIME = I18n.format(ResourceInterface.unlocalized_tag_time), //
+				TAG_MONSTER = I18n.format(ResourceInterface.unlocalized_tag_monsters),
 				TAG_AREA = I18n.format(ResourceInterface.unlocalized_tag_area);
 		fontRenderer.drawString(TAG_REWARD, positionX + BORDER, positionY, COLOUR_HEADER);
 		// TODO: reimplement reward as string
 		positionY += MHFCGuiUtil.drawTextLocalizedAndReturnHeight(
 				fontRenderer,
-				"WIP",
+				ColorSystem.ENUMDARK_BLUE + monster + "'s drop",
 				positionX + width / 2,
 				positionY,
 				width / 2 - BORDER,
