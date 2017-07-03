@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 public class AreaSandy extends AreaTypeSchematic {
 
 	public static final ResourceLocation schematicLocation = new ResourceLocation(
-			"mhfc:schematics/sandy.schematic");
+			"mhfc:schematics/sandy2.schematic");
 	public static final AreaSandy INSTANCE = new AreaSandy();
 
 	private static class Area extends EmptyArea {
