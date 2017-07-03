@@ -13,25 +13,25 @@ import net.minecraft.world.World;
 public class AreaGreenValley extends AreaTypeSchematic {
 
 	public static final ResourceLocation schematicLocation = new ResourceLocation(
-			"mhfc:schematics/greenvalley.schematic");
+			"mhfc:schematics/greenvalley2.schematic");
 	public static final AreaGreenValley INSTANCE = new AreaGreenValley();
 
 	private static class Area extends EmptyArea {
 		public Area(World world, AreaConfiguration config) {
 			super(world, config);
-			namedPositions.put(new ResourceLocation("area_spawn1"), new BlockPos(23, 12, 79));
-			namedPositions.put(new ResourceLocation("area_spawn2"), new BlockPos(29, 12, 83));
-			namedPositions.put(new ResourceLocation("area_spawn3"), new BlockPos(49, 10, 85));
-			namedPositions.put(new ResourceLocation("cave_spawn_boss"), new BlockPos(60, 3, 55));
-			namedPositions.put(new ResourceLocation("boss_spawn1"), new BlockPos(44, 19, 39));
-			namedPositions.put(new ResourceLocation("boss_spawn2"), new BlockPos(86, 3, 22));
+			namedPositions.put(new ResourceLocation("area_spawn1"), new BlockPos(23, 13, 79));
+			namedPositions.put(new ResourceLocation("area_spawn2"), new BlockPos(29, 13, 83));
+			namedPositions.put(new ResourceLocation("area_spawn3"), new BlockPos(49, 11, 85));
+			namedPositions.put(new ResourceLocation("cave_spawn_boss"), new BlockPos(63, 4, 66));
+			namedPositions.put(new ResourceLocation("boss_spawn1"), new BlockPos(51, 20, 42));
+			namedPositions.put(new ResourceLocation("boss_spawn2"), new BlockPos(87, 4, 26));
 		}
 
 		@Override
 		protected BlockPos getPlayerSpawnPosition() {
 
 			//real Loc Default 114 3 101
-			//new Loc Default 35 9  31 player starting position in real xyz = (19,9,15)
+			//new Loc Default 35 10  31 player starting position in real xyz = (19,9,15)
 			/**
 			 * If you are having trouble. Calculate the current Block:xyz in f3 and get the xyz of the current spawn
 			 * that is given from your random input.
@@ -41,7 +41,7 @@ public class AreaGreenValley extends AreaTypeSchematic {
 			 * on that the difference will be use to add if your random input is smaller otherwise subtract.
 			 * 
 			 */
-			return new BlockPos(19, 9, 15);
+			return new BlockPos(19, 10, 15);
 		}
 
 
