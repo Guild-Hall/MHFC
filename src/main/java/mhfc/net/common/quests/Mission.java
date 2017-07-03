@@ -30,7 +30,6 @@ import mhfc.net.common.quests.rewards.NullReward;
 import mhfc.net.common.quests.spawns.NoSpawn;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.quests.world.QuestFlair;
-import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.PlayerMap;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
@@ -38,7 +37,7 @@ import mhfc.net.common.world.exploration.IExplorationManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 
 public class Mission implements QuestGoalSocket, AutoCloseable {
 
@@ -183,7 +182,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 					SoundCategory.MUSIC,
 					2F,
 					1F);
-			player.sendMessage(new TextComponentString(ColorSystem.ENUMDARK_AQUA + "You have failed the quest"));
+			player.sendMessage(new TextComponentTranslation("mhfc.quests.status.failed"));
 		}
 		// TODO do special stuff for fail
 		onEnd();
@@ -205,7 +204,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 					SoundCategory.NEUTRAL,
 					2F,
 					2F);
-			playerState.player.sendMessage(new TextComponentString(ColorSystem.ENUMGOLD + "QUEST COMPLETE"));
+			playerState.player.sendMessage(new TextComponentTranslation("mhfc.quests.status.success"));
 		}
 		onEnd();
 	}
@@ -236,8 +235,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		for (QuestingPlayerState playerState : playerAttributes.values()) {
 			CompletionStage<Void> afterReward = teleportBack(playerState).thenAccept(v -> {
 				if (state == QuestState.FINISHED_SUCCESS) {
-					playerState.player
-							.sendMessage(new TextComponentString(ColorSystem.ENUMDARK_AQUA + "Quest reward received!"));
+					playerState.player.sendMessage(new TextComponentTranslation("mhfc.quests.status.rewardGranted"));
 					reward.grantReward(playerState.player);
 					playerState.reward = true;
 				}
@@ -314,12 +312,10 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		Objects.requireNonNull(att);
 
 		att.player.sendMessage(
-				new TextComponentString(
-						ColorSystem.ENUMDARK_AQUA + "Teleporting you back in " + DELAY_BEFORE_TP_IN_SECONDS
-								+ " seconds"));
+				new TextComponentTranslation("mhfc.quests.status.teleportSoon", DELAY_BEFORE_TP_IN_SECONDS));
 		return MHFCTickHandler.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
 			EntityPlayerMP player = att.player;
-			player.sendMessage(new TextComponentString(ColorSystem.ENUMGREEN + "Teleportation Complete!"));
+			player.sendMessage(new TextComponentTranslation("mhfc.quests.status.teleport"));
 
 			// Remove the player, otherwise the rebind will trigger another remove
 			removePlayer(player);
