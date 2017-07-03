@@ -183,7 +183,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 					SoundCategory.MUSIC,
 					2F,
 					1F);
-			player.sendMessage(new TextComponentString("You have failed a quest"));
+			player.sendMessage(new TextComponentString(ColorSystem.ENUMDARK_AQUA + "You have failed the quest"));
 		}
 		// TODO do special stuff for fail
 		onEnd();
@@ -319,7 +319,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 								+ " seconds"));
 		return MHFCTickHandler.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
 			EntityPlayerMP player = att.player;
-			player.sendMessage(new TextComponentString(ColorSystem.ENUMGREEN + "Teleporting you back home!"));
+			player.sendMessage(new TextComponentString(ColorSystem.ENUMGREEN + "Teleportation Complete!"));
 
 			// Remove the player, otherwise the rebind will trigger another remove
 			removePlayer(player);
