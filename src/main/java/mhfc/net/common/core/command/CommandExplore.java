@@ -74,7 +74,7 @@ public class CommandExplore extends CommandBase {
 
 	private static void onTransferComplete(
 			EntityPlayerMP player,
-			@SuppressWarnings("unused") IActiveArea area,
+			IActiveArea area,
 			Throwable exception) {
 		if (exception != null) {
 			TextComponentString failMessage = new TextComponentString(

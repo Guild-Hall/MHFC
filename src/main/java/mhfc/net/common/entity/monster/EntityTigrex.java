@@ -84,7 +84,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		//	 Register roar to be the only allowed initial move on sight of an enemy
 		List<IExecutableAction<? super EntityTigrex>> allowedFirstSight = new ArrayList<>();
 		//allowedFirstSight.add(charge);
-		//allowedFirstSight.add(roar);
+		allowedFirstSight.add(roar);
 
 		return manager.build(this);
 	}
