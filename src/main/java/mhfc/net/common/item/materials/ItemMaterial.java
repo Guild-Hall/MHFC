@@ -91,7 +91,13 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 		TIGREXCLAW("tigrexclaw", ResourceInterface.item_tigrex2_name, ItemColor.YELLOW),
 		TIGREXFANG("tigrexfang", ResourceInterface.item_tigrex3_name, ItemColor.YELLOW),
 		TIGREXSKULLSHELL("tigrexskullshell", ResourceInterface.item_tigrex4_name, ItemColor.YELLOW),
-		TIGREXTAIL("tigrextail", ResourceInterface.item_tigrex5_name, ItemColor.YELLOW);
+		TIGREXTAIL("tigrextail", ResourceInterface.item_tigrex5_name, ItemColor.YELLOW),
+
+		// 68 - 71
+		DELEXBFIN("delexbfin", ResourceInterface.item_delex0_name, ItemColor.GREEN),
+		DELEXQFIN("delexqfin", ResourceInterface.item_delex1_name, ItemColor.GREEN),
+		DELEXFANG("delexfang", ResourceInterface.item_delex2_name, ItemColor.GREEN),
+		DELEXGUTS("delexguts", ResourceInterface.item_delex3_name, ItemColor.GREEN);
 
 		public final String registryName;
 		public final String name;

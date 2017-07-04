@@ -37,19 +37,21 @@ public class UpdateSystem {
 		switch (info.status) {
 		case OUTDATED:
 		case BETA_OUTDATED:
-			return ColorSystem.ENUMGOLD + "[MHFC] Hi there " + console.getName() + ", a new version (" + info.target
-					+ ") of Monster Hunter Frontier Craft is out!" + " Check out the facebook page or the mod thread.";
+			return ColorSystem.ENUMAQUA + "[MHFC] Hi there " + console.getName() + ", a new version "
+					+ ColorSystem.ENUMGREEN + "(" + info.target
+					+ ")" + ColorSystem.ENUMAQUA + " of Monster Hunter Frontier Craft is out!"
+					+ " Check out the facebook page or the mod thread.";
 		case UP_TO_DATE:
 		case BETA:
 		case AHEAD:
-			return ColorSystem.ENUMGOLD + "[MHFC] Hi there " + console.getName()
+			return ColorSystem.ENUMAQUA + "[MHFC] Hi there " + console.getName()
 					+ ", you're up to date, have fun hunting !!";
 		case PENDING:
 		case FAILED:
-			return ColorSystem.ENUMGOLD + "[MHFC] Failed to retrieve update info. Current version: " + currentVersion
+			return ColorSystem.ENUMAQUA + "[MHFC] Failed to retrieve update info. Current version: " + currentVersion
 					+ ".";
 		default: // Should not happen?
-			return ColorSystem.ENUMGOLD + "[MHFC] Internal problem while retrieving update info. " + "Current version: "
+			return ColorSystem.ENUMAQUA + "[MHFC] Internal problem while retrieving update info. " + "Current version: "
 					+ currentVersion + ". Reason for failure: " + info.status;
 		}
 

@@ -198,6 +198,11 @@ item.material.tigrexclaw.name=Tigrex Claw
 item.material.tigrextail.name=Tigrex Tail
 item.material.tigrexskull.name=Tigrex Skullshell
 
+item.material.delexbigfin.name=Big Fin
+item.material.delexqualityfin.name=Quality Fin
+item.material.delexfang.name=Sharpened Fang
+item.material.delexguts.name=Monster Guts
+
 item.material.kirinmane.name=Kirin Mane
 item.material.kiringem.name=Kirin Gem
 item.material.kirintail.name=Kirin Thundertail
@@ -219,6 +224,8 @@ item.material.rathalosplate.name=Rathalos Plate
 item.material.remobraskin.name=Remobra Skin
 item.material.remobraskull.name=Remobra Skull
 item.material.remobrawing.name=Remobra Wing
+
+
 
 item.traptool.name=Trap Tool
 item.bombmaterial.name=Bomb Material
@@ -397,7 +404,7 @@ mhfc.quests.status.acceptFailed=The quest you wanted to accept does not exist
 mhfc.quests.status.createFailed.hasQuest=You already are on quest %s
 mhfc.quests.status.createFailed.noSuchQuest=Quest with id[%s] not found
 mhfc.quests.status.createFailed.internal=Quest with id[%s] could not be constructed
-mhfc.quests.status.teleportSoon=§3Teleporting you back in %% seconds
+mhfc.quests.status.teleportSoon=§3Teleporting you back in 25 seconds
 mhfc.quests.status.teleport=§aTeleportation Complete!
 
 container.hunterbench=Hunter's Forging Bench
