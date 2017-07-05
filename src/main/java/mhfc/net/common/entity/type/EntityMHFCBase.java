@@ -80,6 +80,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	public int rageCounter;
 
+	public float theTargetDistance;
+	public float theTargetAngle;
+
 	public EntityMHFCBase(World world) {
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
@@ -107,6 +110,10 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
+		if (this.getAttackTarget() != null) {
+			theTargetDistance = getDistanceToEntity(getAttackTarget());
+			theTargetAngle = (float) getAngleBetEntities(this, getAttackTarget());
+		}
 		if (this.attackManager.continueExecuting()) {
 			this.attackManager.updateTask();
 		}
@@ -127,6 +134,10 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		if (this.isInWater()) {
 			getActionManager().switchToAction(inWaterAction);
 		}
+	}
+
+	public double getAngleBetEntities(Entity first, Entity second) {
+		return Math.atan2(second.posZ - first.posZ, second.posX - first.posX) * (180 / Math.PI) + 90;
 	}
 
 	protected abstract IActionManager<YC> constructActionManager();

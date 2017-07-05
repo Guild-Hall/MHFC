@@ -10,13 +10,8 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.boss.tigrex.Bite;
-import mhfc.net.common.ai.entity.boss.tigrex.Charge;
 import mhfc.net.common.ai.entity.boss.tigrex.Death;
-import mhfc.net.common.ai.entity.boss.tigrex.GroundHurl;
 import mhfc.net.common.ai.entity.boss.tigrex.Idle;
-import mhfc.net.common.ai.entity.boss.tigrex.Jump;
-import mhfc.net.common.ai.entity.boss.tigrex.Roar;
-import mhfc.net.common.ai.entity.boss.tigrex.TailWhip;
 import mhfc.net.common.ai.entity.boss.tigrex.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
@@ -46,10 +41,8 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
-		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-		// TODO enable this when Popos are a thing again
-
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
+		targetTasks.addTask(8, new EntityAIHurtByTarget(this, true));
+		targetTasks.addTask(10, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
 	}
 
 	@Override
@@ -57,13 +50,13 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		ActionManagerBuilder<EntityTigrex> manager = new ActionManagerBuilder<>();
 		manager.registerAction(setDeathAction(new Death()));
 
-		Charge charge = new Charge();
-		manager.registerAction(charge);
+		//	Charge charge = new Charge();
+		//	manager.registerAction(charge);
 
 		manager.registerAction(new Bite());
-		Roar roar = new Roar();
-		manager.registerAction(roar);
-		manager.registerAction(new TailWhip());
+		//	Roar roar = new Roar();
+		//	manager.registerAction(roar);
+		//	manager.registerAction(new TailWhip());
 
 		// Living Actions 
 
@@ -72,8 +65,8 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 		//To be fix
 
-		manager.registerAction(new GroundHurl());
-		manager.registerAction(new Jump());
+		//	manager.registerAction(new GroundHurl());
+		//	manager.registerAction(new Jump());
 
 		/**
 		 * AI TO be added: 1. RunningRoar - ANIMATION DONE 2. FatigueRun - ANIMATION DONE 3. ClawAttack - ANIMATION DONE
@@ -84,7 +77,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		//	 Register roar to be the only allowed initial move on sight of an enemy
 		List<IExecutableAction<? super EntityTigrex>> allowedFirstSight = new ArrayList<>();
 		//allowedFirstSight.add(charge);
-		allowedFirstSight.add(roar);
+		//	allowedFirstSight.add(roar);
 
 		return manager.build(this);
 	}
