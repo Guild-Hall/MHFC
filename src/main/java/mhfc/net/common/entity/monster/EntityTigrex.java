@@ -11,8 +11,9 @@ import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.boss.tigrex.Bite;
 import mhfc.net.common.ai.entity.boss.tigrex.Death;
-import mhfc.net.common.ai.entity.boss.tigrex.Idle;
-import mhfc.net.common.ai.entity.boss.tigrex.Wander;
+import mhfc.net.common.ai.entity.boss.tigrex.living.Breathe;
+import mhfc.net.common.ai.entity.boss.tigrex.living.Idle;
+import mhfc.net.common.ai.entity.boss.tigrex.living.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -61,6 +62,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		// Living Actions 
 
 		manager.registerAction(new Idle());
+		manager.registerAction(new Breathe());
 		manager.registerAction(new Wander());
 
 		//To be fix

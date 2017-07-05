@@ -1,4 +1,4 @@
-package mhfc.net.common.ai.entity.boss.tigrex;
+package mhfc.net.common.ai.entity.boss.tigrex.living;
 
 import mhfc.net.common.ai.general.actions.WanderAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;

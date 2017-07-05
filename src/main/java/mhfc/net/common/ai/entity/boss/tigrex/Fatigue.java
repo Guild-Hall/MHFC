@@ -1,5 +1,6 @@
 package mhfc.net.common.ai.entity.boss.tigrex;
 
+import mhfc.net.common.ai.entity.boss.tigrex.living.Idle;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 

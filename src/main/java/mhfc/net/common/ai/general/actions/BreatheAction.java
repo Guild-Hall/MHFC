@@ -2,21 +2,21 @@ package mhfc.net.common.ai.general.actions;
 
 import mhfc.net.common.entity.type.EntityMHFCBase;
 
-public abstract class IdleAction<T extends EntityMHFCBase<?>> extends AnimatedAction<T> {
+public abstract class BreatheAction<T extends EntityMHFCBase<?>> extends AnimatedAction<T> {
 
-	public IdleAction() {}
+	public BreatheAction() {
+	}
 
 	@Override
 	protected void beginExecution() {
 		super.beginExecution();
+
+
 		getEntity().playLivingSound();
 	}
 
 	@Override
 	protected float computeSelectionWeight() {
-		if (getEntity().getAttackTarget() != null) {
-			return DONT_SELECT;
-		}
 		return computeIdleWeight();
 	}
 
@@ -24,6 +24,10 @@ public abstract class IdleAction<T extends EntityMHFCBase<?>> extends AnimatedAc
 
 	@Override
 	protected void onUpdate() {
+		if (target != null) {
+			getEntity().getTurnHelper().updateTargetPoint(target);
+			getEntity().getTurnHelper().updateTurnSpeed(20.0F);
+		}
 
 	} // do nothing, we idle, remember?
 
