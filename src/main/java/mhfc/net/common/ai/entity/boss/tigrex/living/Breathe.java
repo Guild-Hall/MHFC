@@ -26,8 +26,4 @@ public class Breathe extends BreatheAction<EntityTigrex> implements IHasAnimatio
 		return ANIMATION;
 	}
 
-	@Override
-	public void onUpdate() {
-		super.onUpdate();
-	}
 }

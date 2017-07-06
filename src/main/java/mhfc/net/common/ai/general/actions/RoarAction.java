@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import mhfc.net.common.ai.entity.AIMethods;
+import mhfc.net.common.ai.general.WeightUtils;
 import mhfc.net.common.ai.general.provider.requirements.INeedsRoarBehaviour;
 import mhfc.net.common.ai.general.provider.simple.IRoarProvider;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -29,7 +30,7 @@ public abstract class RoarAction<T extends EntityMHFCBase<? super T>> extends An
 		super.beginExecution();
 		affectedEntities.clear();
 		roarProvider = provideRoarBehaviour();
-		getEntity().playSound(roarProvider.getRoarSoundLocation(), 2.0F, 1.0F);
+		getEntity().playSound(roarProvider.getRoarSoundLocation(), 3.0F, 1.0F);
 	}
 	
 	@Override
@@ -37,7 +38,7 @@ public abstract class RoarAction<T extends EntityMHFCBase<? super T>> extends An
 		if(getEntity().getAttackTarget() == null){
 			return DONT_SELECT;
 		}
-		return 2F;
+		return WeightUtils.random(rng(), 5f);
 		
 	}
 	

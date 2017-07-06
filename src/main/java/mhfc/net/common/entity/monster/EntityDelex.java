@@ -5,12 +5,15 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
+import mhfc.net.common.ai.entity.nonboss.delex.Bite;
+import mhfc.net.common.ai.entity.nonboss.delex.Breathe;
 import mhfc.net.common.ai.entity.nonboss.delex.Death;
-import mhfc.net.common.ai.entity.nonboss.delex.Idle;
+import mhfc.net.common.ai.entity.nonboss.delex.Tackle;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -25,13 +28,16 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
+		targetTasks.addTask(6, new EntityAIHurtByTarget(this, true));
+		targetTasks.addTask(10, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 	}
 
 	@Override
 	protected IActionManager<EntityDelex> constructActionManager() {
 		ActionManagerBuilder<EntityDelex> actionManager = new ActionManagerBuilder<>();
-		actionManager.registerAction(new Idle());
+		actionManager.registerAction(new Bite());
+		actionManager.registerAction(new Tackle());
+		actionManager.registerAction(new Breathe());
 		actionManager.registerAction(setDeathAction(new Death()));
 		return actionManager.build(this);
 	}

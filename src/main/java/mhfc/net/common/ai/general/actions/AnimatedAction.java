@@ -22,9 +22,11 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 	private int framesPassed;
 	private int recentFrame;
 	private T entity;
-	private int lastFrame = -2;
 	private IFrameAdvancer frameAdvancer;
 	private IContinuationPredicate continuation;
+	@SuppressWarnings("unused")
+	private int lastFrame = -2; // TO BE ADDED WHERE LAST FRAME WILL BE SET.
+
 
 	/**
 	 * Almost every attack has a target entity. This is completely up to you if you want to use this
@@ -138,7 +140,7 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 	}
 
 	// =========== Lifetime callbacks
-	protected void onEntityBind(@SuppressWarnings("unused") T entity) {
+	protected void onEntityBind(T entity) {
 
 	}
 

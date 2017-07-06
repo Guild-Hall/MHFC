@@ -46,7 +46,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
-		targetTasks.addTask(8, new EntityAIHurtByTarget(this, true));
+		targetTasks.addTask(6, new EntityAIHurtByTarget(this, true));
 		targetTasks.addTask(10, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
 	}
 
@@ -59,16 +59,13 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		manager.registerAction(new Bite());
 		manager.registerAction(new TailWhip());
 		manager.registerAction(new Jump());
-		
-		
-		Roar roar = new Roar();
-		manager.registerAction(roar);
+		manager.registerAction(new Roar());
 
 
-		// Living Actions 
+		// Living Actions
 
-		manager.registerAction(new Idle());
 		manager.registerAction(new Breathe());
+		manager.registerAction(new Idle());
 		manager.registerAction(new Wander());
 
 		//To be fix
@@ -83,7 +80,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 		//	 Register roar to be the only allowed initial move on sight of an enemy
 		List<IExecutableAction<? super EntityTigrex>> allowedFirstSight = new ArrayList<>();
-		allowedFirstSight.add(roar);
+		allowedFirstSight.add(new Roar());
 
 		return manager.build(this);
 	}
