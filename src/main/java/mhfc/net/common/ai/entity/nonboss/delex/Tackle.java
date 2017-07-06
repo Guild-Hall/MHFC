@@ -39,7 +39,7 @@ public class Tackle extends DamagingAction<EntityDelex> implements IHasAttackPro
 		}
 		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
 		double dist = toTarget.lengthVector();
-		if (dist > entity.getDistanceToEntity(target) + 2) {
+		if (dist >= entity.getDistanceToEntity(target) + 5) {
 			return DONT_SELECT;
 		}
 		return 5F;
