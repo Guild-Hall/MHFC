@@ -15,6 +15,7 @@ public class Idle extends IdleAction<EntityTigrex> implements IHasAnimationProvi
 	
 
 	private enum Variant implements WeightedItem {
+		// Shorten the animation frame.
 		IDLE_1 ("mhfc:models/Tigrex/idle.mcanm"	,		 160, 1F),
 		IDLE_2 ("mhfc:models/Tigrex/idle2.mcanm" , 		 160,1F),
 		IDLE_3 ("mhfc:models/Tigrex/idle3.mcanm" ,		 260,1F),
@@ -51,7 +52,10 @@ public class Idle extends IdleAction<EntityTigrex> implements IHasAnimationProvi
 	private Variant variant;
 	private IAnimationProvider animation;
 	private static final List<Variant> DEFAULT_VARIANT = Arrays.asList(Variant.values());
-	public Idle() {}
+
+	public Idle() {
+
+	}
 
 	@Override
 	protected float computeIdleWeight() {

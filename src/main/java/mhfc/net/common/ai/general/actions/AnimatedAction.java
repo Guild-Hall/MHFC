@@ -22,7 +22,7 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 	private int framesPassed;
 	private int recentFrame;
 	private T entity;
-
+	private int lastFrame = -2;
 	private IFrameAdvancer frameAdvancer;
 	private IContinuationPredicate continuation;
 

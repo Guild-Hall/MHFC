@@ -4,7 +4,9 @@ import mhfc.net.common.entity.type.EntityMHFCBase;
 
 public abstract class IdleAction<T extends EntityMHFCBase<?>> extends AnimatedAction<T> {
 
-	public IdleAction() {}
+	public IdleAction() {
+
+	}
 
 	@Override
 	protected void beginExecution() {
@@ -24,6 +26,9 @@ public abstract class IdleAction<T extends EntityMHFCBase<?>> extends AnimatedAc
 
 	@Override
 	protected void onUpdate() {
+		if (getEntity().getAttackTarget() != null) {
+			this.finishAction();
+		}
 
 	} // do nothing, we idle, remember?
 
