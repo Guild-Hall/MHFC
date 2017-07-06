@@ -13,7 +13,6 @@ import mhfc.net.common.entity.monster.EntityTigrex;
 
 public class Idle extends IdleAction<EntityTigrex> implements IHasAnimationProvider {
 	
-	protected boolean canBeUseWhileEngage; //TODO: Make default breathing idle use in fight
 
 	private enum Variant implements WeightedItem {
 		IDLE_1 ("mhfc:models/Tigrex/idle.mcanm"	,		 160, 1F),
@@ -62,9 +61,7 @@ public class Idle extends IdleAction<EntityTigrex> implements IHasAnimationProvi
 	@Override
 	protected void initializeExecutionRandomness() {
 		super.initializeExecutionRandomness();
-		if (target == null) {
-			this.variant = WeightedPick.pickRandom(DEFAULT_VARIANT);
-		}
+		this.variant = WeightedPick.pickRandom(DEFAULT_VARIANT);
 		this.animation = variant.getAnimation(this);
 	}
 

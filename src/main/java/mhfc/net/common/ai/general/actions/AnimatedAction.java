@@ -38,7 +38,7 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 	public final void beginAction() {
 		framesPassed = 0;
 		recentFrame = -1;
-		target = entity.getAttackTarget();
+		target = getEntity().getAttackTarget();
 		MinecraftForge.EVENT_BUS.post(new ActionSelectionEvent(this, getEntity()));
 		initializeExecutionRandomness();
 		beginExecution();

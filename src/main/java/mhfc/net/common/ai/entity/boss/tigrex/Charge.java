@@ -173,7 +173,7 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 
 	@Override
 	public float computeSelectionWeight() {
-		if (target == null) {
+		if (getEntity().getAttackTarget() == null) {
 			return DONT_SELECT;
 		}
 		return 4F;
