@@ -95,4 +95,5 @@ public abstract class WanderAction<T extends EntityMHFCBase<? super T>> extends 
 		return computeWanderWeight();
 	}
 
+
 }

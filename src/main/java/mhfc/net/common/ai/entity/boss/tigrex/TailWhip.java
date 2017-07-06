@@ -18,9 +18,7 @@ public class TailWhip extends DamagingAction<EntityTigrex> implements IHasAttack
 
 	private static final int LAST_FRAME = 60;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/tailswipe.mcanm";
-
-	private static final double MAX_DISTANCE = 45F;
-
+	private static final double MAX_DISTANCE = 10F;
 	private static final float WEIGHT = 5.5F;
 
 	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(102, 156, 9999999f);
@@ -51,7 +49,7 @@ public class TailWhip extends DamagingAction<EntityTigrex> implements IHasAttack
 	@Override
 	protected void beginExecution() {
 		super.beginExecution();
-		damageCollidingEntities();
+		this.damageCollidingEntities();
 	}
 
 	@Override
@@ -61,20 +59,20 @@ public class TailWhip extends DamagingAction<EntityTigrex> implements IHasAttack
 
 	@Override
 	public void onUpdate() {
-		EntityTigrex entity = getEntity();
-		damageCollidingEntities();
 		if (this.getCurrentFrame() <= 10) {
 			getEntity().getTurnHelper().updateTargetPoint(targetPoint);
-			getEntity().getTurnHelper().updateTurnSpeed(6.0f);
+			getEntity().getTurnHelper().updateTurnSpeed(30.0f);
 		}
 		
 		if (this.getCurrentFrame() == 12) {
-			entity.playSound(MHFCSoundRegistry.getRegistry().tigrexTailWhip, 2.0F, 1.0F);
+			getEntity().playSound(MHFCSoundRegistry.getRegistry().tigrexTailWhip, 2.0F, 1.0F);
 		}
 		
 		if (this.getCurrentFrame() == 25) {
-			damageCollidingEntities();
+
 		}
+
+		super.onUpdate();
 	}
 
 }

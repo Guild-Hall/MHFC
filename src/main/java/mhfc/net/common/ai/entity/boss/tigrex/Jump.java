@@ -50,6 +50,7 @@ public class Jump extends JumpAction<EntityTigrex> implements IHasJumpProvider<E
 
 	@Override
 	public void onUpdate() {
+		super.onUpdate();
 		EntityTigrex entity = getEntity();
 		damageCollidingEntities();
 		if (this.getCurrentFrame() == 10) {

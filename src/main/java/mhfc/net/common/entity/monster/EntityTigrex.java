@@ -12,6 +12,12 @@ import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.boss.tigrex.Bite;
 import mhfc.net.common.ai.entity.boss.tigrex.Charge;
 import mhfc.net.common.ai.entity.boss.tigrex.Death;
+import mhfc.net.common.ai.entity.boss.tigrex.Jump;
+import mhfc.net.common.ai.entity.boss.tigrex.Roar;
+import mhfc.net.common.ai.entity.boss.tigrex.TailWhip;
+import mhfc.net.common.ai.entity.boss.tigrex.living.Breathe;
+import mhfc.net.common.ai.entity.boss.tigrex.living.Idle;
+import mhfc.net.common.ai.entity.boss.tigrex.living.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -49,24 +55,25 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		ActionManagerBuilder<EntityTigrex> manager = new ActionManagerBuilder<>();
 		manager.registerAction(setDeathAction(new Death()));
 
-		Charge charge = new Charge();
-		manager.registerAction(charge);
-
+		manager.registerAction(new Charge());
 		manager.registerAction(new Bite());
-		//	Roar roar = new Roar();
-		//	manager.registerAction(roar);
-		//	manager.registerAction(new TailWhip());
+		manager.registerAction(new TailWhip());
+		manager.registerAction(new Jump());
+		
+		
+		Roar roar = new Roar();
+		manager.registerAction(roar);
+
 
 		// Living Actions 
 
-		// manager.registerAction(new Idle());
-		// manager.registerAction(new Breathe());
-		// manager.registerAction(new Wander());
+		manager.registerAction(new Idle());
+		manager.registerAction(new Breathe());
+		manager.registerAction(new Wander());
 
 		//To be fix
-
-		//	manager.registerAction(new GroundHurl());
-		//	manager.registerAction(new Jump());
+		// manager.registerAction(new GroundHurl());
+		
 
 		/**
 		 * AI TO be added: 1. RunningRoar - ANIMATION DONE 2. FatigueRun - ANIMATION DONE 3. ClawAttack - ANIMATION DONE
@@ -76,8 +83,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 		//	 Register roar to be the only allowed initial move on sight of an enemy
 		List<IExecutableAction<? super EntityTigrex>> allowedFirstSight = new ArrayList<>();
-		//allowedFirstSight.add(charge);
-		//	allowedFirstSight.add(roar);
+		allowedFirstSight.add(roar);
 
 		return manager.build(this);
 	}
@@ -90,19 +96,21 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	@Override
 	protected void dropFewItems(boolean par1, int par2) {
-		int var4;
-		for (var4 = 0; var4 < 13; ++var4) {
-			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXSCALE, 2));
-		}
-		for (var4 = 0; var4 < 8; ++var4) {
-			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXSHELL, 1));
-			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXFANG, 1));
-			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXCLAW, 1));
-		}
-		for (var4 = 0; var4 < 1; ++var4) {
-			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXTAIL, 2));
-		}
+		/*
+		 * int var4; for (var4 = 0; var4 < 13; ++var4) {
+		 * dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXSCALE,
+		 * 2)); } for (var4 = 0; var4 < 8; ++var4) {
+		 * dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXSHELL,
+		 * 1));
+		 * dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXFANG,
+		 * 1));
+		 * dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXCLAW,
+		 * 1)); } for (var4 = 0; var4 < 1; ++var4) {
+		 * dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXTAIL,
+		 * 2)); }
+		 */
 		dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXSKULLSHELL, 1));
+		dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXTAIL, 1));
 	}
 
 	@Override

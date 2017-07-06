@@ -37,7 +37,7 @@ public class EntityProjectileBlock extends EntityThrowable {
 
 	public EntityProjectileBlock(World par, EntityTigrex e) {
 		this(par, (EntityLivingBase) e);
-		setSize(1.0F, 1.0F);
+		setSize(1.1F, 1.1F);
 	}
 
 	public EntityProjectileBlock(World par, EntityDeviljho e) {
@@ -88,14 +88,5 @@ public class EntityProjectileBlock extends EntityThrowable {
 		}
 	}
 
-	@Override
-	public void writeEntityToNBT(NBTTagCompound tagcompound) {
-		super.writeEntityToNBT(tagcompound);
-	}
-
-	@Override
-	public void readEntityFromNBT(NBTTagCompound tagcompound) {
-		super.readEntityFromNBT(tagcompound);
-	}
 
 }

@@ -31,7 +31,8 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 	 */
 	protected EntityLivingBase target;
 
-	public AnimatedAction() {}
+	public AnimatedAction() {
+	}
 
 	// =========== Final methods, shouldn't be overwritten
 	@Override
