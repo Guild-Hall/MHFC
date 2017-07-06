@@ -65,7 +65,7 @@ public class Bite extends DamagingAction<EntityTigrex> implements IHasAttackProv
 			getEntity().getTurnHelper().updateTargetPoint(targetPoint);
 
 		}
-		if (this.getCurrentFrame() == 23) {
+		if (this.getCurrentFrame() == 12) {
 			getEntity().playSound(MHFCSoundRegistry.getRegistry().tigrexBite, 2.0F, 1.0F);
 
 		}

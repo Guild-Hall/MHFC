@@ -9,7 +9,7 @@ import mhfc.net.common.entity.monster.EntityTigrex;
 
 public class Breathe extends BreatheAction<EntityTigrex> implements IHasAnimationProvider {
 
-	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/idle.mcanm";
+	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/breathe.mcanm";
 	private static final int LAST_FRAME = 60;
 	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 
@@ -28,6 +28,6 @@ public class Breathe extends BreatheAction<EntityTigrex> implements IHasAnimatio
 
 	@Override
 	public void onUpdate() {
-		EntityTigrex entity = this.getEntity();
+		super.onUpdate();
 	}
 }
