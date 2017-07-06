@@ -66,6 +66,7 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 
 	@Override
 	public void onUpdate() {
+
 		if (thrown) {
 			return;
 		}
@@ -75,7 +76,6 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 				return;
 			}
 			getEntity().playSound(MHFCSoundRegistry.getRegistry().deviljhoRockThrow, 2.0F, 1.0F);
-			damageCollidingEntities();
 			AIMethods.launch(entity, 0, 1.4, 0);
 		}
 		if (this.getCurrentFrame() >= 35) {
@@ -113,6 +113,7 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 			EntityDeviljho e = getEntity();
 			e.moveForward(1, false);
 		}
+		super.onUpdate();
 	}
 
 	private boolean isMoveForwardFrame(int frame) {

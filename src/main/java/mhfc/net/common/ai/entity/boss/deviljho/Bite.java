@@ -89,7 +89,6 @@ public class Bite extends DamagingAction<EntityDeviljho> implements IHasAttackPr
 	@Override
 	protected float computeSelectionWeight() {
 		EntityDeviljho entity = this.getEntity();
-		target = entity.getAttackTarget();
 		if (target == null) {
 			return DONT_SELECT;
 		}
@@ -121,6 +120,7 @@ public class Bite extends DamagingAction<EntityDeviljho> implements IHasAttackPr
 
 	@Override
 	public void onUpdate() {
+		super.onUpdate();
 		EntityDeviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
 		variant.onUpdate(this);
@@ -128,6 +128,5 @@ public class Bite extends DamagingAction<EntityDeviljho> implements IHasAttackPr
 			EntityDeviljho e = getEntity();
 			e.moveForward(1, false);
 		}
-		damageCollidingEntities();
 	}
 }

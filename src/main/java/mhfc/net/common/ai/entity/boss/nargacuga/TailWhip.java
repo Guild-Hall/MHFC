@@ -69,7 +69,7 @@ public class TailWhip extends DamagingAction<EntityNargacuga> implements IHasAtt
 		}
 
 		if (this.getCurrentFrame() >= 20 && this.getCurrentFrame() <= 45) {
-			damageCollidingEntities();
+			super.onUpdate();
 		}
 	}
 

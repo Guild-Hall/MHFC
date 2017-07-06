@@ -64,7 +64,7 @@ public class Bite extends DamagingAction<EntityGreatJaggi> implements IHasAttack
 			EntityGreatJaggi entity = getEntity();
 			entity.moveForward(0.2, false);
 		}
-		damageCollidingEntities();
+		super.onUpdate();
 	}
 
 	private static boolean isMoveForwardFrame(int frame) {

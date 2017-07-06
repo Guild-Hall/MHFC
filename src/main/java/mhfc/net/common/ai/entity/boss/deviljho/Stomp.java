@@ -69,7 +69,7 @@ public class Stomp extends DamagingAction<EntityDeviljho> implements IHasAttackP
 		if (!actor.onGround || thrown || this.getCurrentFrame() < 26) {
 			return;
 		}
-		damageCollidingEntities();
+		super.onUpdate();
 
 		AxisAlignedBB stompRange = actor.getEntityBoundingBox().expand(10.0D, 1.0D, 10.0D);
 		List<Entity> list = actor.world.getEntitiesWithinAABBExcludingEntity(actor, stompRange);

@@ -64,7 +64,7 @@ public class Sweep extends DamagingAction<EntityLagiacrus> implements IHasAttack
 
 	@Override
 	protected void onUpdate() {
-		damageCollidingEntities();
+		super.onUpdate();
 
 		EntityLagiacrus entity = getEntity();
 		entity.getTurnHelper().updateTargetPoint(target);

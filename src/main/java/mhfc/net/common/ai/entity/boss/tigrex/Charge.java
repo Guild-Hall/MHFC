@@ -173,8 +173,6 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 
 	@Override
 	public float computeSelectionWeight() {
-		EntityTigrex entity = this.getEntity();
-		target = entity.getAttackTarget();
 		if (target == null) {
 			return DONT_SELECT;
 		}
@@ -185,7 +183,6 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 	public void beginExecution() {
 		super.beginExecution();
 		EntityTigrex tig = getEntity();
-		target = tig.getAttackTarget();
 		tig.playSound(MHFCSoundRegistry.getRegistry().tigrexCharge, 2.0F, 1.0F);
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;
@@ -210,7 +207,7 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 	public void onUpdate() {
 		currentPhase.update(this);
 		if (currentPhase.isDamaging) {
-			damageCollidingEntities();
+			super.onUpdate();
 		}
 		AttackPhase nextPhase = currentPhase.next(this);
 		if (currentPhase != nextPhase) {

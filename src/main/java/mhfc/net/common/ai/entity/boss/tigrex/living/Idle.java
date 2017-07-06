@@ -1,5 +1,9 @@
 package mhfc.net.common.ai.entity.boss.tigrex.living;
 
+import java.util.Arrays;
+import java.util.List;
+
+import mhfc.net.common.ai.general.WeightedPick;
 import mhfc.net.common.ai.general.WeightedPick.WeightedItem;
 import mhfc.net.common.ai.general.actions.IdleAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
@@ -47,7 +51,7 @@ public class Idle extends IdleAction<EntityTigrex> implements IHasAnimationProvi
 
 	private Variant variant;
 	private IAnimationProvider animation;
-
+	private static final List<Variant> DEFAULT_VARIANT = Arrays.asList(Variant.values());
 	public Idle() {}
 
 	@Override
@@ -58,6 +62,9 @@ public class Idle extends IdleAction<EntityTigrex> implements IHasAnimationProvi
 	@Override
 	protected void initializeExecutionRandomness() {
 		super.initializeExecutionRandomness();
+		if (target == null) {
+			this.variant = WeightedPick.pickRandom(DEFAULT_VARIANT);
+		}
 		this.animation = variant.getAnimation(this);
 	}
 

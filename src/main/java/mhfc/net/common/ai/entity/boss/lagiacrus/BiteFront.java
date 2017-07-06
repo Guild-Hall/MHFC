@@ -64,7 +64,7 @@ public class BiteFront extends DamagingAction<EntityLagiacrus> implements IHasAt
 			EntityLagiacrus entity = getEntity();
 			entity.moveForward(0.1, false);
 		}
-		damageCollidingEntities();
+		super.onUpdate();
 
 	}
 

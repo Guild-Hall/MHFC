@@ -56,7 +56,7 @@ public class Whip extends DamagingAction<EntityGreatJaggi> implements IHasAttack
 
 	@Override
 	protected void onUpdate() {
-		damageCollidingEntities();
+		super.onUpdate();
 
 		EntityGreatJaggi entity = getEntity();
 		if (this.getCurrentFrame() == 10) {

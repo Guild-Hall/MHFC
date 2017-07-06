@@ -22,8 +22,9 @@ public abstract class DamagingAction<T extends EntityCreature> extends AnimatedA
 		super.beginExecution();
 		dmgHelper.reset();
 		dmgHelper.setDamageCalculator(provideDamageCalculator());
-		Entity target = getEntity().getAttackTarget();
 		targetPoint = target != null ? target.getPositionVector() : null;
+
+
 	}
 
 	protected void damage(Entity entity) {
@@ -36,7 +37,10 @@ public abstract class DamagingAction<T extends EntityCreature> extends AnimatedA
 
 	@Override
 	protected void onUpdate() {
-		damageCollidingEntities();
+		if (target != null) {
+			damageCollidingEntities();
+		}
+
 	}
 
 }

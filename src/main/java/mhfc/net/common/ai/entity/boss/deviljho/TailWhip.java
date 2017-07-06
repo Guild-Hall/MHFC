@@ -56,6 +56,7 @@ public class TailWhip extends DamagingAction<EntityDeviljho> implements IHasAtta
 
 	@Override
 	public void onUpdate() {
+		super.onUpdate();
 		EntityDeviljho entity = getEntity();
 		if (this.getCurrentFrame() == 5) {
 			entity.playSound(MHFCSoundRegistry.getRegistry().deviljhoTailWhip, 2.0F, 1.0F);

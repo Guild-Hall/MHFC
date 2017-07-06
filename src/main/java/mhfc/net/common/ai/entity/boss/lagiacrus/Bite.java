@@ -64,7 +64,7 @@ public class Bite extends DamagingAction<EntityLagiacrus> implements IHasAttackP
 			EntityLagiacrus entity = getEntity();
 			entity.moveForward(0.2, false);
 		}
-		damageCollidingEntities();
+		super.onUpdate();
 
 	}
 

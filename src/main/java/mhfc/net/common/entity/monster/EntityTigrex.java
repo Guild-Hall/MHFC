@@ -9,7 +9,7 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
-import mhfc.net.common.ai.entity.boss.tigrex.Bite;
+import mhfc.net.common.ai.entity.boss.tigrex.Charge;
 import mhfc.net.common.ai.entity.boss.tigrex.Death;
 import mhfc.net.common.ai.entity.boss.tigrex.living.Breathe;
 import mhfc.net.common.ai.entity.boss.tigrex.living.Idle;
@@ -51,10 +51,10 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		ActionManagerBuilder<EntityTigrex> manager = new ActionManagerBuilder<>();
 		manager.registerAction(setDeathAction(new Death()));
 
-		//	Charge charge = new Charge();
-		//	manager.registerAction(charge);
+		Charge charge = new Charge();
+		manager.registerAction(charge);
 
-		manager.registerAction(new Bite());
+		// manager.registerAction(new Bite());
 		//	Roar roar = new Roar();
 		//	manager.registerAction(roar);
 		//	manager.registerAction(new TailWhip());
