@@ -111,15 +111,8 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	public void onUpdate() {
 		super.onUpdate();
 		if (this.getAttackTarget() != null) {
-
 			theTargetDistance = getDistanceToEntity(getAttackTarget());
 			theTargetAngle = (float) getAngleBetEntities(this, getAttackTarget());
-			// TODO add animations
-			if (theTargetDistance > 7) {
-				getNavigator().tryMoveToXYZ(getAttackTarget().posX, getAttackTarget().posY, getAttackTarget().posZ,
-						0.8);
-
-			}
 		}
 		if (this.attackManager.continueExecuting()) {
 			this.attackManager.updateTask();
