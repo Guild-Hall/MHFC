@@ -21,6 +21,7 @@ import mhfc.net.common.ai.manager.AIActionManager;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -589,5 +590,32 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	protected void doWriteSpawnDate(ByteBuf buffer) {
 
+	}
+
+	public List<EntityLivingBase> getEntityLivingBaseNearby(
+			double distanceX,
+			double distanceY,
+			double distanceZ,
+			double radius) {
+		return getEntitiesNearby(EntityLivingBase.class, distanceX, distanceY, distanceZ, radius);
+	}
+
+	public <T extends Entity> List<T> getEntitiesNearby(Class<T> entityClass, double r) {
+		return world.getEntitiesWithinAABB(
+				entityClass,
+				getEntityBoundingBox().expand(r, r, r),
+				e -> e != this && getDistanceToEntity(e) <= r);
+	}
+
+	public <T extends Entity> List<T> getEntitiesNearby(
+			Class<T> entityClass,
+			double dX,
+			double dY,
+			double dZ,
+			double r) {
+		return world.getEntitiesWithinAABB(
+				entityClass,
+				getEntityBoundingBox().expand(dX, dY, dZ),
+				e -> e != this && getDistanceToEntity(e) <= r && e.posY <= posY + dY);
 	}
 }

@@ -52,7 +52,7 @@ public class Bite extends JumpAction<EntityDelex> implements IHasJumpProvider<En
 	}
 	
 	@Override
-	public void onUpdate() {
+	protected void onUpdate() {
 		super.onUpdate();
 	}
 

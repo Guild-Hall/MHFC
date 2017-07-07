@@ -12,6 +12,7 @@ public class CountLoopAdvancer implements IFrameAdvancer {
 	protected int loopStart, loopEnd, loopAmount;
 	protected int loopCounter;
 
+
 	/**
 	 *
 	 * @param loopStart

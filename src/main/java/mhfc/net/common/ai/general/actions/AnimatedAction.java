@@ -181,4 +181,8 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 
 	}
 
+	protected void resetTask(IAnimation currentAnim) {
+		currentAnim = null;
+	}
+
 }

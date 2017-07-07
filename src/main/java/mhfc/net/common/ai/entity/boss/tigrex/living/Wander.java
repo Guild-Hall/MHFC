@@ -6,46 +6,38 @@ import mhfc.net.common.ai.general.provider.adapters.CountLoopAdvancer;
 import mhfc.net.common.ai.general.provider.adapters.MoveParameterAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
-import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
+import mhfc.net.common.ai.general.provider.simple.IFrameAdvancer;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
 import mhfc.net.common.entity.monster.EntityTigrex;
 
 public class Wander extends WanderAction<EntityTigrex> implements IHasAnimationProvider {
 
-	private static final int ANIMATION_LENGTH = 90;
-	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/walk.mcanm";
+	protected float speed;
 
-	private static final float TURN_SPEED = 4f;
-	private static final float MOVE_SPEED = 0.4f;
-	private static final IMoveParameterProvider MOVEMENT_PARAMS = new MoveParameterAdapter(TURN_SPEED, MOVE_SPEED);
-
-	private static final float WEIGHT = 1F;
-
-	private final IAnimationProvider ANIMATION;
-
-	public Wander() {
-		ANIMATION = AnimationAdapter.builder().setAnimation(ANIMATION_LOCATION).setAnimationLength(ANIMATION_LENGTH).setFrameAdvancer(new CountLoopAdvancer(10, ANIMATION_LENGTH, 1)).build(this);
-		
+	public Wander(float speed) {
+		this.speed = speed;
 	}
 
 	@Override
 	protected float computeWanderWeight() {
-		return WEIGHT;
+		return 1F;
+	}
+
+	@Override
+	public IFrameAdvancer provideFrameAdvancer() {
+
+		return new CountLoopAdvancer(19, 85, -1);
 	}
 
 	@Override
 	public IAnimationProvider getAnimProvider() {
-		return ANIMATION;
+		return new AnimationAdapter(this, "mhfc:models/Tigrex/walk.mcanm", 122);
 	}
 
 	@Override
 	public IMoveParameterProvider provideMoveParameters() {
-		return MOVEMENT_PARAMS;
+		return new MoveParameterAdapter(1.2f, speed);
 	}
 	
-	@Override
-	public IContinuationPredicate provideContinuationPredicate() {
-		return super.provideContinuationPredicate().and(IHasAnimationProvider.super.provideContinuationPredicate());
-	}
 
 }

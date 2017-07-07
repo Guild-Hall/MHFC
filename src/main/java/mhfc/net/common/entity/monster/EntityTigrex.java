@@ -9,8 +9,10 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.entity.boss.tigrex.BackOff;
 import mhfc.net.common.ai.entity.boss.tigrex.Bite;
 import mhfc.net.common.ai.entity.boss.tigrex.Charge;
+import mhfc.net.common.ai.entity.boss.tigrex.ClawSwipe;
 import mhfc.net.common.ai.entity.boss.tigrex.Death;
 import mhfc.net.common.ai.entity.boss.tigrex.Jump;
 import mhfc.net.common.ai.entity.boss.tigrex.Roar;
@@ -28,6 +30,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -47,7 +50,9 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	protected void initEntityAI() {
 		super.initEntityAI();
 		targetTasks.addTask(6, new EntityAIHurtByTarget(this, true));
-		targetTasks.addTask(10, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityVillager.class, true));
+		targetTasks.addTask(3, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
+
 	}
 
 	@Override
@@ -55,18 +60,16 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		ActionManagerBuilder<EntityTigrex> manager = new ActionManagerBuilder<>();
 		manager.registerAction(setDeathAction(new Death()));
 
+		manager.registerAction(new ClawSwipe(20, 6, 2F, 120));
 		manager.registerAction(new Charge());
 		manager.registerAction(new Bite());
-		manager.registerAction(new TailWhip());
+		manager.registerAction(new TailWhip()); //TODO USE DAMAGE AREA AI FOR THIS -HELTRATO.
 		manager.registerAction(new Jump());
 		manager.registerAction(new Roar());
-
-
-		// Living Actions
-
+		manager.registerAction(new BackOff());
 		manager.registerAction(new Breathe());
 		manager.registerAction(new Idle());
-		manager.registerAction(new Wander());
+		manager.registerAction(new Wander(0.2F)); //FIXME LOOP ANIMATIONS.
 
 		//To be fix
 		// manager.registerAction(new GroundHurl());
