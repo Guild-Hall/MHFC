@@ -8,6 +8,7 @@
 !gradlew.bat
 !.travis.yml
 !README.md
+!guidelines.md
 !LICENSE
 !build.gradle
 !build.properties
