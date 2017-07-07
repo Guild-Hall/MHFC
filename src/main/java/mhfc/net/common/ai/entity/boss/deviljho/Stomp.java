@@ -2,7 +2,7 @@ package mhfc.net.common.ai.entity.boss.deviljho;
 
 import java.util.List;
 
-import mhfc.net.common.ai.entity.AIMethods;
+import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
@@ -81,7 +81,7 @@ public class Stomp extends DamagingAction<EntityDeviljho> implements IHasAttackP
 			entity.turn(0, 40);
 			entity.addVelocity(0.2, 0.3, 0);
 		}
-		AIMethods.stompCracks(actor, 100);
+		EntityAIMethods.stompCracks(actor, 100);
 		actor.playSound(MHFCSoundRegistry.getRegistry().deviljhoStomp, 1.0F, 1.0F);
 		thrown = true;
 	}

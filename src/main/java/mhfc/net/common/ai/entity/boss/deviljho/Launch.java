@@ -1,6 +1,6 @@
 package mhfc.net.common.ai.entity.boss.deviljho;
 
-import mhfc.net.common.ai.entity.AIMethods;
+import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
@@ -76,7 +76,7 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 				return;
 			}
 			getEntity().playSound(MHFCSoundRegistry.getRegistry().deviljhoRockThrow, 2.0F, 1.0F);
-			AIMethods.launch(entity, 0, 1.4, 0);
+			EntityAIMethods.launch(entity, 0, 1.4, 0);
 		}
 		if (this.getCurrentFrame() >= 35) {
 			Vec3d look = entity.getLookVec();

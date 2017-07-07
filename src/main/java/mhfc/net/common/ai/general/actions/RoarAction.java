@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import mhfc.net.common.ai.entity.AIMethods;
+import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.WeightUtils;
 import mhfc.net.common.ai.general.provider.requirements.INeedsRoarBehaviour;
 import mhfc.net.common.ai.general.provider.simple.IRoarProvider;
@@ -59,7 +59,7 @@ public abstract class RoarAction<T extends EntityMHFCBase<? super T>> extends An
 			if (!roarProvider.shouldAffect(entityLiving)) {
 				continue;
 			}
-			AIMethods.roarEffect(entityLiving);
+			EntityAIMethods.roarEffect(entityLiving);
 			//if (doesDealDamage());
 		}
 	}

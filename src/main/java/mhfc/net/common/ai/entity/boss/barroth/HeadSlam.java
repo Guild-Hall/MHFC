@@ -1,6 +1,6 @@
 package mhfc.net.common.ai.entity.boss.barroth;
 
-import mhfc.net.common.ai.entity.AIMethods;
+import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
@@ -62,7 +62,7 @@ public class HeadSlam extends DamagingAction<EntityBarroth> implements IHasAttac
 		if (getEntity().getAttackTarget() != null && this.getCurrentFrame() == 25) {
 			
 			getEntity().playSound(MHFCSoundRegistry.getRegistry().barrothHeadsmash, 2.0F, 1.0F);
-			AIMethods.launch(entity, 1.0D, 2.5D, 1.0D);
+			EntityAIMethods.launch(entity, 1.0D, 2.5D, 1.0D);
 		}
 		damageCollidingEntities();
 

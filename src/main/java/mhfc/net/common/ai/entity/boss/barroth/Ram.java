@@ -1,6 +1,6 @@
 package mhfc.net.common.ai.entity.boss.barroth;
 
-import mhfc.net.common.ai.entity.AIMethods;
+import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
@@ -52,7 +52,7 @@ public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProv
 	@Override
 	public void onUpdate() {
 		EntityBarroth entity = getEntity();
-		AIMethods.launch(entity, 1.0D, 5.5D, 1.0D);
+		EntityAIMethods.launch(entity, 1.0D, 5.5D, 1.0D);
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			entity.moveForward(1, false);
 		}

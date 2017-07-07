@@ -1,6 +1,6 @@
 package mhfc.net.common.ai.entity.boss.deviljho;
 
-import mhfc.net.common.ai.entity.AIMethods;
+import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.actions.JumpAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
@@ -79,9 +79,9 @@ public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider
 		if (!entity.onGround || thrown || this.getCurrentFrame() < 302) {
 			return;
 		}
-		AIMethods.stompCracks(entity, 200);
+		EntityAIMethods.stompCracks(entity, 200);
 		if(target instanceof EntityPlayer){
-		AIMethods.camShake(entity, target, 10F, 40F);
+		EntityAIMethods.camShake(entity, target, 10F, 40F);
 		}
 		thrown = true;
 	}

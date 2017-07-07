@@ -14,8 +14,13 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.world.World;
 
-public class AIMethods {
+public abstract class EntityAIMethods extends EntityCreature {
+
+	public EntityAIMethods(World worldIn) {
+		super(worldIn);
+	}
 
 	/**
 	 * So I have an idea that this will be the place where all AI methods well technically common graphics materials
@@ -37,6 +42,22 @@ public class AIMethods {
 	 *
 	 *
 	 **/
+
+	public void circleEntity(
+			Entity target,
+			float radius,
+			float speed,
+			boolean direction,
+			int circleFrame,
+			float offset,
+			float moveSpeedMultiplier) {
+		int directionInt = direction ? 1 : -1;
+		this.getNavigator().tryMoveToXYZ(
+				target.posX + radius * Math.cos(directionInt * circleFrame * 0.5 * speed / radius + offset),
+				target.posY,
+				target.posZ + radius * Math.sin(directionInt * circleFrame * 0.5 * speed / radius + offset),
+				speed * moveSpeedMultiplier);
+	}
 
 	public static void stompCracks(Entity entity, int incrementLength) {
 		Random random = entity.world.rand;
