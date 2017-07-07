@@ -93,19 +93,6 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	@Override
 	protected void dropFewItems(boolean par1, int par2) {
-		/*
-		 * int var4; for (var4 = 0; var4 < 13; ++var4) {
-		 * dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXSCALE,
-		 * 2)); } for (var4 = 0; var4 < 8; ++var4) {
-		 * dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXSHELL,
-		 * 1));
-		 * dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXFANG,
-		 * 1));
-		 * dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXCLAW,
-		 * 1)); } for (var4 = 0; var4 < 1; ++var4) {
-		 * dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXTAIL,
-		 * 2)); }
-		 */
 		dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXSKULLSHELL, 1));
 		dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.TIGREXTAIL, 1));
 	}

@@ -36,8 +36,10 @@ public class MoveToTarget extends AnimatedAction<EntityDelex> implements IHasAni
 	@Override
 	protected float computeSelectionWeight() {
 		EntityDelex entity = getEntity();
+		if (this.getCurrentAnimation() != null) {
 		if (entity.getAttackTarget() == null) {
 			return DONT_SELECT;
+			}
 		}
 		return WeightUtils.random(rng(), 7f);
 	}
@@ -50,8 +52,8 @@ public class MoveToTarget extends AnimatedAction<EntityDelex> implements IHasAni
 			entity.getTurnHelper().updateTurnSpeed(15F);
 			entity.getTurnHelper().updateTargetPoint(target);
 		float targetDistance = entity.getDistanceToEntity(target);
-			if (targetDistance >= 10) {
-			entity.getNavigator().tryMoveToXYZ(target.posX, target.posY, target.posZ, this.speedln);
+			if (targetDistance >= 7) {
+				entity.getNavigator().tryMoveToXYZ(target.posX, target.posY, target.posZ, this.speedln);
 		}
 		}
 	}

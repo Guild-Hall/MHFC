@@ -20,7 +20,7 @@ public class Bite extends JumpAction<EntityDelex> implements IHasJumpProvider<En
 
 	private final IJumpProvider<EntityDelex> ATTACK;
 	{
-		IJumpParameterProvider<EntityDelex> jumpParameter = new AttackTargetAdapter<>(2F);
+		IJumpParameterProvider<EntityDelex> jumpParameter = new AttackTargetAdapter<>(10F);
 		IJumpTimingProvider<EntityDelex> jumpTiming = new JumpTimingAdapter<>(1, 10, 14);
 		final IAnimationProvider animation = new AnimationAdapter(this, "mhfc:models/delex/delexbite.mcanm", 25);
 		ATTACK = new JumpAdapter<>(
@@ -36,13 +36,17 @@ public class Bite extends JumpAction<EntityDelex> implements IHasJumpProvider<En
 	protected float computeSelectionWeight() {
 		EntityDelex entity = this.getEntity();
 		target = entity.getAttackTarget();
+
+
+		if (this.getCurrentAnimation() != null) {
 		if (target == null) {
 			return DONT_SELECT;
 		}
-		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
-		double dist = toTarget.lengthVector();
+			Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
+			double dist = toTarget.lengthVector();
 		if (dist > 8F) {
 			return DONT_SELECT;
+		}
 		}
 		return 6F;
 	}

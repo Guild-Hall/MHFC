@@ -14,7 +14,11 @@ public abstract class IdleAction<T extends EntityMHFCBase<?>> extends AnimatedAc
 	@Override
 	protected void beginExecution() {
 		super.beginExecution();
+
 		getEntity().playLivingSound();
+		double pos = (Math.PI * 2D) * this.getEntity().getRNG().nextDouble();
+		lookX = Math.cos(pos);
+		lookZ = Math.sin(pos);
 	}
 
 	@Override
@@ -29,12 +33,7 @@ public abstract class IdleAction<T extends EntityMHFCBase<?>> extends AnimatedAc
 
 	@Override
 	protected void onUpdate() {
-		getEntity().getLookHelper().setLookPosition(
-				this.getEntity().posX + this.lookX,
-				this.getEntity().posY + this.getEntity().getEyeHeight(),
-				this.getEntity().posZ + this.lookZ,
-				this.getEntity().getHorizontalFaceSpeed(),
-				this.getEntity().getVerticalFaceSpeed());
+
 		if (getEntity().getAttackTarget() != null) {
 			this.finishAction();
 		}
