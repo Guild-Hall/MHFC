@@ -4,6 +4,9 @@ import mhfc.net.common.entity.type.EntityMHFCBase;
 
 public abstract class IdleAction<T extends EntityMHFCBase<?>> extends AnimatedAction<T> {
 
+	protected double lookX;
+	protected double lookZ;
+
 	public IdleAction() {
 
 	}
@@ -26,6 +29,12 @@ public abstract class IdleAction<T extends EntityMHFCBase<?>> extends AnimatedAc
 
 	@Override
 	protected void onUpdate() {
+		getEntity().getLookHelper().setLookPosition(
+				this.getEntity().posX + this.lookX,
+				this.getEntity().posY + this.getEntity().getEyeHeight(),
+				this.getEntity().posZ + this.lookZ,
+				this.getEntity().getHorizontalFaceSpeed(),
+				this.getEntity().getVerticalFaceSpeed());
 		if (getEntity().getAttackTarget() != null) {
 			this.finishAction();
 		}
