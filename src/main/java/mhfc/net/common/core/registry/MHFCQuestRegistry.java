@@ -15,6 +15,7 @@ import com.google.common.base.Throwables;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.data.KeyToInstanceRegistryData;
 import mhfc.net.common.network.PacketPipeline;
+import mhfc.net.common.network.handler.ThreadSafeMessageHandler;
 import mhfc.net.common.network.message.quest.MessageMHFCInteraction;
 import mhfc.net.common.network.message.quest.MessageMissionStatus;
 import mhfc.net.common.network.message.quest.MessageMissionUpdate;
@@ -49,8 +50,8 @@ public class MHFCQuestRegistry {
 			MHFCMain.serverRunningPhase);
 
 	public static class RegistryRequestVisualHandler
-			implements
-			IMessageHandler<MessageRequestMissionUpdate, MessageMissionUpdate> {
+	implements
+	IMessageHandler<MessageRequestMissionUpdate, MessageMissionUpdate> {
 
 		@Override
 		public MessageMissionUpdate onMessage(MessageRequestMissionUpdate message, MessageContext ctx) {
@@ -64,14 +65,14 @@ public class MHFCQuestRegistry {
 	}
 
 	public static class RunningSubscriptionHandler
-			implements
-			IMessageHandler<MessageQuestRunningSubscription, IMessage> {
+			extends
+			ThreadSafeMessageHandler<MessageQuestRunningSubscription, IMessage> {
 		private static Set<EntityPlayerMP> subscribers = new HashSet<>();
 
 		public RunningSubscriptionHandler() {}
 
 		@Override
-		public IMessage onMessage(MessageQuestRunningSubscription message, MessageContext ctx) {
+		public void handleLater(MessageQuestRunningSubscription message, MessageContext ctx) {
 			EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 			if (message.isSubscribed()) {
 				boolean newSubscription = subscribers.add(player);
@@ -81,7 +82,6 @@ public class MHFCQuestRegistry {
 			} else {
 				subscribers.remove(player);
 			}
-			return null;
 		}
 
 		public static void sendAllTo(EntityPlayerMP player) {

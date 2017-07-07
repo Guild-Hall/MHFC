@@ -2,14 +2,14 @@ package mhfc.net.client.quests.handler;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
+import mhfc.net.common.network.handler.ThreadSafeMessageHandler;
 import mhfc.net.common.network.message.quest.MessageMissionStatus;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class QuestStatusHandler implements IMessageHandler<MessageMissionStatus, IMessage> {
+public class QuestStatusHandler extends ThreadSafeMessageHandler<MessageMissionStatus, IMessage> {
 	@Override
-	public IMessage onMessage(MessageMissionStatus message, MessageContext ctx) {
+	protected void handleLater(MessageMissionStatus message, MessageContext ctx) {
 		switch (message.getStatusType()) {
 		case MISSION_CREATED:
 			MHFCRegQuestVisual.startNewMission(message.getQuestID(), message.getMissionID());
@@ -24,6 +24,5 @@ public class QuestStatusHandler implements IMessageHandler<MessageMissionStatus,
 		default:
 			MHFCMain.logger().warn("Ingoring invalid mission status update");
 		}
-		return null;
 	}
 }
