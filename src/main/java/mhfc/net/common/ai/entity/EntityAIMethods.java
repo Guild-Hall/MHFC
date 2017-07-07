@@ -14,12 +14,10 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.world.World;
 
-public abstract class EntityAIMethods extends EntityCreature {
+public abstract class EntityAIMethods {
 
-	public EntityAIMethods(World worldIn) {
-		super(worldIn);
+	private EntityAIMethods() {
 	}
 
 	/**
@@ -43,7 +41,8 @@ public abstract class EntityAIMethods extends EntityCreature {
 	 *
 	 **/
 
-	public void circleEntity(
+	public static void circleEntity(
+			EntityCreature entity,
 			Entity target,
 			float radius,
 			float speed,
@@ -52,7 +51,7 @@ public abstract class EntityAIMethods extends EntityCreature {
 			float offset,
 			float moveSpeedMultiplier) {
 		int directionInt = direction ? 1 : -1;
-		this.getNavigator().tryMoveToXYZ(
+		entity.getNavigator().tryMoveToXYZ(
 				target.posX + radius * Math.cos(directionInt * circleFrame * 0.5 * speed / radius + offset),
 				target.posY,
 				target.posZ + radius * Math.sin(directionInt * circleFrame * 0.5 * speed / radius + offset),
@@ -101,8 +100,8 @@ public abstract class EntityAIMethods extends EntityCreature {
 		entity.heal(amount);
 	}
 
-	static boolean camShake = false;
-	static float CamShakeIntensity;
+	private static boolean camShake = false;
+	private static float CamShakeIntensity;
 
 	public static void camShake(EntityLivingBase e, Entity target, float dist, float intensity) {
 		if (e.world.isRemote) {
