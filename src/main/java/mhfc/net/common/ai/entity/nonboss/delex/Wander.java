@@ -29,7 +29,7 @@ public class Wander extends WanderAction<EntityDelex> implements IHasAnimationPr
 
 	@Override
 	public IFrameAdvancer provideFrameAdvancer() {
-		return new CountLoopAdvancer(0, 94, -1);
+		return new CountLoopAdvancer(9, 55, -1);
 	}
 
 
