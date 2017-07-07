@@ -27,14 +27,12 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 	@SuppressWarnings("unused")
 	private int lastFrame = -2; // TO BE ADDED WHERE LAST FRAME WILL BE SET.
 
-
 	/**
 	 * Almost every attack has a target entity. This is completely up to you if you want to use this
 	 */
 	protected EntityLivingBase target;
 
-	public AnimatedAction() {
-	}
+	public AnimatedAction() {}
 
 	// =========== Final methods, shouldn't be overwritten
 	@Override
@@ -43,6 +41,7 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 		recentFrame = -1;
 		target = getEntity().getAttackTarget();
 		MinecraftForge.EVENT_BUS.post(new ActionSelectionEvent(this, getEntity()));
+		resetAction();
 		initializeExecutionRandomness();
 		beginExecution();
 	}
@@ -151,6 +150,10 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 	 * This is useful to decide on one randomness (aka rng-seed) for this pass.
 	 */
 	protected void initializeExecutionRandomness() {
+
+	}
+
+	protected void resetAction() {
 
 	}
 
