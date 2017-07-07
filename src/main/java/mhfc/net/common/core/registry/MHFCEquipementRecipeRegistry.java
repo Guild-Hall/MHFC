@@ -7,6 +7,7 @@ import mhfc.net.common.core.data.EquipmentRecipeRegistryData;
 import mhfc.net.common.core.directors.DirectorEquipmentRecipes;
 import mhfc.net.common.crafting.equipment.EquipmentRecipe;
 import mhfc.net.common.crafting.equipment.EquipmentRecipe.RecipeType;
+import mhfc.net.common.network.handler.ThreadSafeMessageHandler;
 import mhfc.net.common.network.message.MessageTileLocation;
 import mhfc.net.common.network.message.bench.MessageBeginCrafting;
 import mhfc.net.common.network.message.bench.MessageBenchRefreshRequest;
@@ -30,8 +31,8 @@ public class MHFCEquipementRecipeRegistry {
 
 	// FIXME: make them threadsafe
 	public static class BenchRefreshHandler
-			implements
-			IMessageHandler<MessageBenchRefreshRequest, MessageCraftingUpdate> {
+	implements
+	IMessageHandler<MessageBenchRefreshRequest, MessageCraftingUpdate> {
 
 		@Override
 		public MessageCraftingUpdate onMessage(MessageBenchRefreshRequest message, MessageContext ctx) {
@@ -71,14 +72,13 @@ public class MHFCEquipementRecipeRegistry {
 		}
 	}
 
-	public static class CraftingUpdateHandler implements IMessageHandler<MessageCraftingUpdate, IMessage> {
+	public static class CraftingUpdateHandler extends ThreadSafeMessageHandler<MessageCraftingUpdate, IMessage> {
 		@Override
-		public IMessage onMessage(MessageCraftingUpdate message, MessageContext ctx) {
+		protected void handleLater(MessageCraftingUpdate message, MessageContext ctx) {
 			TileHunterBench b = getHunterBenchClient(message);
 			if (b != null) {
 				b.readCustomUpdate(message.getNBTTag());
 			}
-			return null;
 		}
 	}
 
