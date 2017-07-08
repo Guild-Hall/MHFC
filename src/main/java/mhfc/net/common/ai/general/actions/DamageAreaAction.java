@@ -2,6 +2,7 @@ package mhfc.net.common.ai.general.actions;
 
 import java.util.List;
 
+import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.DamageCalculatorHelper;
 import mhfc.net.common.ai.general.provider.requirements.INeedsDamageCalculator;
@@ -49,8 +50,8 @@ public abstract class DamageAreaAction<T extends EntityMHFCBase<T>> extends Anim
 	}
 
 	public void hitAreaEntities() {
-		List<EntityLivingBase> affectedEntity = getEntity()
-				.getEntityLivingBaseNearby(getRange(), getRange(), getHeight(), getRange());
+		List<EntityLivingBase> affectedEntity = EntityAIMethods
+				.getEntityLivingBaseNearby(getEntity(), getRange(), getRange(), getHeight(), getRange());
 		@SuppressWarnings("unused")
 		boolean hit = false;
 		for (EntityLivingBase affectedentities : affectedEntity) {

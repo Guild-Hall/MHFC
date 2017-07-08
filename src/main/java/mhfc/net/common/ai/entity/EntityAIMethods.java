@@ -17,8 +17,7 @@ import net.minecraft.util.EnumParticleTypes;
 
 public abstract class EntityAIMethods {
 
-	private EntityAIMethods() {
-	}
+	private EntityAIMethods() {}
 
 	/**
 	 * So I have an idea that this will be the place where all AI methods well technically common graphics materials
@@ -121,6 +120,39 @@ public abstract class EntityAIMethods {
 		}
 		target.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 80, 10));
 		target.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 80, 10));
+	}
+
+	public static List<EntityLivingBase> getEntityLivingBaseNearby(
+			Entity entity,
+			double distanceX,
+			double distanceY,
+			double distanceZ,
+			double radius) {
+		return getEntitiesNearby(entity, EntityLivingBase.class, distanceX, distanceY, distanceZ, radius);
+	}
+
+	public static <T extends Entity> List<T> getEntitiesNearby(Entity entity, Class<T> entityClass, double r) {
+		return entity.world.getEntitiesWithinAABB(
+				entityClass,
+				entity.getEntityBoundingBox().expand(r, r, r),
+				e -> e != entity && entity.getDistanceToEntity(e) <= r);
+	}
+
+	public static <T extends Entity> List<T> getEntitiesNearby(
+			Entity entity,
+			Class<T> entityClass,
+			double dX,
+			double dY,
+			double dZ,
+			double r) {
+		return entity.world.getEntitiesWithinAABB(
+				entityClass,
+				entity.getEntityBoundingBox().expand(dX, dY, dZ),
+				e -> e != entity && entity.getDistanceToEntity(e) <= r && e.posY <= entity.posY + dY);
+	}
+
+	public static double getAngleBetEntities(Entity first, Entity second) {
+		return Math.atan2(second.posZ - first.posZ, second.posX - first.posX) * (180 / Math.PI) + 90;
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 
+import com.github.worldsender.mcanm.client.model.util.ModelStateInformation;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
 import com.github.worldsender.mcanm.common.animation.IAnimation;
@@ -21,13 +22,11 @@ import mhfc.net.common.ai.manager.AIActionManager;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -39,6 +38,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * This class should provide a good base to code off. As almost every entity in Monster Hunter is a multi- box Entity
@@ -66,30 +67,21 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	private IExecutableAction<? super YC> inWaterAction;
 	private IExecutableAction<? super YC> stunAction;
 
-	private int armorValue = 37;
 	// Only of importance on the server. On the server, ANIM_FRAME is not the actual animation frame,
 	// but the last frame we sent to the client. If the animation is set to a frame other than
 	// ANIM_FRAME + ticksSinceFrameShared, we update ANIM_FRAME, otherwise, we believe that the
 	// client is able to the frame up-to-date himself
 	private int ticksSinceFrameShared = 0;
 
-	public boolean FREEZE; // trying to implement this to disable all AI's for the monster temporality.
-
 	protected boolean hasDied;
 	// @see deathTime. DeathTime has the random by-effect of rotating corpses...
 	protected int deathTicks;
-
-	public int rageCounter;
-
-	public float theTargetDistance;
-	public float theTargetAngle;
 
 	public EntityMHFCBase(World world) {
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
 		attackManager = Objects.requireNonNull(constructActionManager());
 		ignoreFrustumCheck = true;
-		rageCounter = 0;
 		hasDied = false;
 	}
 
@@ -108,13 +100,13 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		return action;
 	}
 
+	protected IAnimation getRestPoseAnimation() {
+		return ModelStateInformation.BIND_POSE;
+	}
+
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		if (this.getAttackTarget() != null) {
-			theTargetDistance = getDistanceToEntity(getAttackTarget());
-			theTargetAngle = (float) getAngleBetEntities(this, getAttackTarget());
-		}
 		if (this.attackManager.continueExecuting()) {
 			this.attackManager.updateTask();
 		}
@@ -137,10 +129,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		}
 	}
 
-	public double getAngleBetEntities(Entity first, Entity second) {
-		return Math.atan2(second.posZ - first.posZ, second.posX - first.posX) * (180 / Math.PI) + 90;
-	}
-
 	protected abstract IActionManager<YC> constructActionManager();
 
 	/**
@@ -148,16 +136,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	 */
 	@Override
 	public abstract EntityMHFCPart[] getParts();
-
-	protected void specificArmorValue(int value) {
-		value = armorValue;
-	}
-
-	// Armor has been increase by 3% from 17
-	@Override
-	public int getTotalArmorValue() {
-		return armorValue;
-	}
 
 	@Override
 	protected void onDeathUpdate() {
@@ -216,6 +194,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.5D);
 		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(60D);
 		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(17D);
 	}
 
 	protected void onDeath() {
@@ -245,18 +224,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 				posZ + rand.nextInt(10) - 5,
 				stack);
 		world.spawnEntity(entityItem);
-	}
-
-	/**
-	 * Drops the given item near this entity in the world. Utility method
-	 *
-	 * @param item
-	 *            the item to drop
-	 * @param count
-	 *            the stack size
-	 */
-	protected void dropItemRand(Item item, int count) {
-		dropItemRand(new ItemStack(item, count, 0));
 	}
 
 	public double healthbaseHP(double defaultHP) {
@@ -454,11 +421,12 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		turnHelper.onUpdateTurn();
 	}
 
+	@SideOnly(Side.CLIENT)
 	protected int getFrame() {
 		return getLastSharedFrame() + ticksSinceFrameShared;
 	}
 
-	private int getLastSharedFrame() {
+	protected int getLastSharedFrame() {
 		return this.dataManager.get(ANIM_FRAME);
 	}
 
@@ -493,8 +461,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			MHFCMain.logger().error("Wrong subframe " + subFrame);
 		}
 		float frame = getFrame() + subFrame;
-		Optional<IAnimation> animation = Optional.ofNullable(attackManager.getCurrentAnimation());
-		return passInfo.setAnimation(animation).setFrame(frame);
+		IAnimation actionAnimation = attackManager.getCurrentAnimation();
+		IAnimation animation = actionAnimation == null ? getRestPoseAnimation() : actionAnimation;
+		return passInfo.setAnimation(Optional.ofNullable(animation)).setFrame(frame);
 	}
 
 	@Override
@@ -507,11 +476,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		if (newAttack != null) {
 			setFrame(0);
 		}
-	}
-
-	@Override
-	protected SoundEvent getDeathSound() {
-		return super.getDeathSound();
 	}
 
 	@Override
@@ -590,32 +554,5 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	protected void doWriteSpawnDate(ByteBuf buffer) {
 
-	}
-
-	public List<EntityLivingBase> getEntityLivingBaseNearby(
-			double distanceX,
-			double distanceY,
-			double distanceZ,
-			double radius) {
-		return getEntitiesNearby(EntityLivingBase.class, distanceX, distanceY, distanceZ, radius);
-	}
-
-	public <T extends Entity> List<T> getEntitiesNearby(Class<T> entityClass, double r) {
-		return world.getEntitiesWithinAABB(
-				entityClass,
-				getEntityBoundingBox().expand(r, r, r),
-				e -> e != this && getDistanceToEntity(e) <= r);
-	}
-
-	public <T extends Entity> List<T> getEntitiesNearby(
-			Class<T> entityClass,
-			double dX,
-			double dY,
-			double dZ,
-			double r) {
-		return world.getEntitiesWithinAABB(
-				entityClass,
-				getEntityBoundingBox().expand(dX, dY, dZ),
-				e -> e != this && getDistanceToEntity(e) <= r && e.posY <= posY + dY);
 	}
 }
