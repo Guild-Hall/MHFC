@@ -28,7 +28,6 @@ public abstract class DamageAreaAction<T extends EntityMHFCBase<T>> extends Anim
 		dmgHelper = new DamageCalculatorHelper();
 	}
 
-
 	@Override
 	protected void beginExecution() {
 		dmgHelper.reset();
@@ -42,14 +41,12 @@ public abstract class DamageAreaAction<T extends EntityMHFCBase<T>> extends Anim
 		super.onUpdate();
 
 		if (target != null) {
-			((EntityMHFCBase) getEntity()).getTurnHelper().updateTurnSpeed(14.0f);
-			((EntityMHFCBase) getEntity()).getTurnHelper().updateTargetPoint(targetPoint);
+			getEntity().getTurnHelper().updateTurnSpeed(14.0f);
+			getEntity().getTurnHelper().updateTargetPoint(targetPoint);
 			hitAreaEntities();
 		}
 
 	}
-
-
 
 	public void hitAreaEntities() {
 		List<EntityLivingBase> affectedEntity = getEntity()
@@ -58,8 +55,8 @@ public abstract class DamageAreaAction<T extends EntityMHFCBase<T>> extends Anim
 		boolean hit = false;
 		for (EntityLivingBase affectedentities : affectedEntity) {
 			float angleofHit = (float) ((Math
-					.atan2(affectedentities.posZ - getEntity().posZ, affectedentities.posX - getEntity().posX) * (180 / Math.PI) - 90)
-					% 360);
+					.atan2(affectedentities.posZ - getEntity().posZ, affectedentities.posX - getEntity().posX)
+					* (180 / Math.PI) - 90) % 360);
 			float attackerAngle = getEntity().renderYawOffset % 360;
 
 			// Angle adjustment or relocating exact angle for area to get hit.
@@ -74,8 +71,7 @@ public abstract class DamageAreaAction<T extends EntityMHFCBase<T>> extends Anim
 			float distanceOfHit = (float) Math.sqrt(
 					(affectedentities.posZ - getEntity().posZ) * (affectedentities.posZ - getEntity().posZ)
 							+ (affectedentities.posX - getEntity().posX) * (affectedentities.posX - getEntity().posX));
-			if (distanceOfHit <= getRange()
-					&& (relativityAngle <= getArc() / 2 && relativityAngle >= -getArc() / 2)
+			if (distanceOfHit <= getRange() && (relativityAngle <= getArc() / 2 && relativityAngle >= -getArc() / 2)
 					|| (relativityAngle >= 360 - getArc() / 2 || relativityAngle <= -360 + getArc() / 2)) {
 				AIUtils.damageEntitiesFromAI(getEntity(), affectedentities, dmgHelper.getCalculator());
 				affectedentities.motionX *= getKnockBack();
