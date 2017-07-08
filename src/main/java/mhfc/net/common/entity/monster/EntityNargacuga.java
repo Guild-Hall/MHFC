@@ -17,9 +17,9 @@ import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IActionRecorder;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.boss.nargacuga.BackOff;
+import mhfc.net.common.ai.entity.boss.nargacuga.Breathe;
 import mhfc.net.common.ai.entity.boss.nargacuga.Charge;
 import mhfc.net.common.ai.entity.boss.nargacuga.Death;
-import mhfc.net.common.ai.entity.boss.nargacuga.Idle;
 import mhfc.net.common.ai.entity.boss.nargacuga.Pounce;
 import mhfc.net.common.ai.entity.boss.nargacuga.ProwlerStance;
 import mhfc.net.common.ai.entity.boss.nargacuga.Roar;
@@ -70,14 +70,14 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
-		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
+		targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
 	}
 
 	@Override
 	protected IActionManager<EntityNargacuga> constructActionManager() {
 		FollowUpManagerBuilder<EntityNargacuga> attackManager = new FollowUpManagerBuilder<>();
-
+		attackManager.registerAction(setDeathAction(new Death()));
 		TailSlam tailSlam = new TailSlam();
 		TailWhip tailWhip = new TailWhip();
 		Roar roar = new Roar();
@@ -88,19 +88,19 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 
 		List<IExecutableAction<? super EntityNargacuga>> prowlerFollow = new ArrayList<>();
 
-		prowlerFollow.add(pounce);
-		prowlerFollow.add(tailWhip);
+		//	prowlerFollow.add(pounce);
+		//	prowlerFollow.add(tailWhip);
 
-		attackManager.registerAction(new Wander());
-		attackManager.registerAction(new Idle());
-		attackManager.registerAllowingAllActions(tailSlam);
-		attackManager.registerAllowingAllActions(tailWhip);
-		attackManager.registerActionWithFollowUps(prowler, prowlerFollow);
-		attackManager.allowAllStrongActions(pounce);
-		attackManager.registerAllowingAllActions(roar);
-		attackManager.registerAllowingAllActions(backOff);
-		attackManager.registerAction(setDeathAction(new Death()));
-		attackManager.registerAllowingAllActions(charge);
+		attackManager.registerAction(new Wander(1.2F, 0.3F));
+		attackManager.registerAction(new Breathe());
+		//	attackManager.registerAllowingAllActions(tailSlam);
+		//	attackManager.registerAllowingAllActions(tailWhip);
+		//	attackManager.registerActionWithFollowUps(prowler, prowlerFollow);
+		//	attackManager.allowAllStrongActions(pounce);
+		//	attackManager.registerAllowingAllActions(roar);
+		//	attackManager.registerAllowingAllActions(backOff);
+		//	attackManager.registerAllowingAllActions(charge);
+
 		return attackManager.build(this);
 	}
 

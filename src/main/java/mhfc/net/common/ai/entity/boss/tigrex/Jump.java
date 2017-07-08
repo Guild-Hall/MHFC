@@ -24,7 +24,7 @@ public class Jump extends JumpAction<EntityTigrex> implements IHasJumpProvider<E
 	private static final float TURN_RATE = 14;
 	private static final float JUMP_TIME = 16f;
 
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(45f, 62f, 999999F);
+	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(5, 62f, 999999F);
 	private static final float SELECTION_WEIGHT = 5f;
 
 	private final IJumpProvider<EntityTigrex> JUMP;

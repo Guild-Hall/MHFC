@@ -17,7 +17,7 @@ import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.world.World;
 
 public class EntityDelex extends EntityMHFCBase<EntityDelex> {
@@ -30,8 +30,8 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
-		targetTasks.addTask(6, new EntityAIHurtByTarget(this, true));
-		targetTasks.addTask(10, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
+		targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntitySheep.class, 0, true, false, null));
 	}
 
 	@Override

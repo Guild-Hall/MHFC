@@ -1,18 +1,15 @@
 package mhfc.net.common.ai.entity.boss.nargacuga;
 
-import mhfc.net.common.ai.general.actions.IdleAction;
+import mhfc.net.common.ai.general.actions.BreatheAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 
-public class Idle extends IdleAction<EntityNargacuga> implements IHasAnimationProvider {
+public class Breathe extends BreatheAction<EntityNargacuga> implements IHasAnimationProvider {
 
-	private static final int LAST_FRAME = 140;
-	private static final String ANIMATION_LOCATION = "mhfc:models/Nargacuga/NargacugaIdle.mcanm";
-	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 
-	public Idle() {}
+	public Breathe() {}
 
 	@Override
 	protected float computeIdleWeight() {
@@ -21,7 +18,7 @@ public class Idle extends IdleAction<EntityNargacuga> implements IHasAnimationPr
 
 	@Override
 	public IAnimationProvider getAnimProvider() {
-		return ANIMATION;
+		return new AnimationAdapter(this, "mhfc:models/nargacuga/nargacugaidle.mcanm", 60);
 	}
 
 }

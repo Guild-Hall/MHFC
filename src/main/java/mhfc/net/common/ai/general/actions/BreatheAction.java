@@ -37,7 +37,7 @@ public abstract class BreatheAction<T extends EntityMHFCBase<?>> extends Animate
 				this.getEntity().getVerticalFaceSpeed());
 		if (target != null) {
 			getEntity().getTurnHelper().updateTargetPoint(target);
-			getEntity().getTurnHelper().updateTurnSpeed(20.0F);
+			getEntity().getTurnHelper().updateTurnSpeed(2.0F);
 		}
 
 	} // do nothing, we idle, remember?

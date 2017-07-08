@@ -48,10 +48,11 @@ public class ClawSwipe extends DamageAreaAction<EntityTigrex> implements IHasAtt
 	protected float computeSelectionWeight() {
 		EntityTigrex entity = this.getEntity();
 		target = entity.getAttackTarget();
-		float targetPoint = entity.getDistanceToEntity(target);
+
 		if (target == null) {
 			return DONT_SELECT;
 		}
+		float targetPoint = entity.getDistanceToEntity(target);
 		if (targetPoint > 10F) {
 			return DONT_SELECT;
 		}
@@ -67,7 +68,7 @@ public class ClawSwipe extends DamageAreaAction<EntityTigrex> implements IHasAtt
 	public IAttackProvider getAttackProvider() {
 		return new AttackAdapter(
 				getAnimProvider(),
-				new DamageAdapter(AIUtils.defaultDamageCalc(10f, 5F, 9999999f)));
+				new DamageAdapter(AIUtils.defaultDamageCalc(5, 5F, 9999999f)));
 	}
 
 

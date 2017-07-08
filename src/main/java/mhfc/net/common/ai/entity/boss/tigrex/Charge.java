@@ -27,7 +27,7 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 
 	private static final double RUN_SPEED = 1.1;
 	private static final double STOP_SPEED = 0.7;
-	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(120f, 50F, 99999F);
+	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(5, 50F, 99999F);
 
 	private static enum PastEntityEnum {
 		NOT_PASSED,

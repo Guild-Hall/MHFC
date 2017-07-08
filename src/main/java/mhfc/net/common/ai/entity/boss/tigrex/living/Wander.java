@@ -6,6 +6,7 @@ import mhfc.net.common.ai.general.provider.adapters.CountLoopAdvancer;
 import mhfc.net.common.ai.general.provider.adapters.MoveParameterAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
+import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.ai.general.provider.simple.IFrameAdvancer;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
 import mhfc.net.common.entity.monster.EntityTigrex;
@@ -26,7 +27,7 @@ public class Wander extends WanderAction<EntityTigrex> implements IHasAnimationP
 	@Override
 	public IFrameAdvancer provideFrameAdvancer() {
 
-		return new CountLoopAdvancer(19, 85, -1);
+		return new CountLoopAdvancer(19, 85, 1);
 	}
 
 	@Override
@@ -39,5 +40,9 @@ public class Wander extends WanderAction<EntityTigrex> implements IHasAnimationP
 		return new MoveParameterAdapter(1.2f, speed);
 	}
 	
+	@Override
+	public IContinuationPredicate provideContinuationPredicate() {
+		return super.provideContinuationPredicate().and(IHasAnimationProvider.super.provideContinuationPredicate());
+	}
 
 }

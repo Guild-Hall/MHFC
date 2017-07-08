@@ -85,6 +85,7 @@ public abstract class WanderAction<T extends EntityMHFCBase<? super T>> extends 
 		return new HasNoTargetAdapter(getEntity());
 	}
 
+
 	protected abstract float computeWanderWeight();
 
 	@Override

@@ -21,7 +21,7 @@ public class TailWhip extends DamagingAction<EntityTigrex> implements IHasAttack
 	private static final double MAX_DISTANCE = 10F;
 	private static final float WEIGHT = 5.5F;
 
-	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(102, 156, 9999999f);
+	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(5, 156, 9999999f);
 
 	private final IAttackProvider ATTACK;
 	{
