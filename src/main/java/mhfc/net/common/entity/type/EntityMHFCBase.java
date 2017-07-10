@@ -35,6 +35,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
@@ -555,4 +556,29 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	protected void doWriteSpawnDate(ByteBuf buffer) {
 
 	}
+
+	/**
+	 * 
+	 * First stage of implementing Hitboxes USING EntityDragonPart the parameters are self explanatory thou so it easy
+	 * to implement.
+	 * 
+	 * @author Heltrato
+	 * 
+	 */
+
+	public void moveHitBoxes(EntityDragonPart hitPart, double frontToBack, double sideToSide, double topToBot) {
+		float rot = this.rotationYaw * (float) Math.PI / 180.0F;
+		float f1 = MathHelper.sin(rot);
+		float f2 = MathHelper.cos(rot);
+
+		hitPart.setLocationAndAngles(
+				this.posX + f1 * -frontToBack + f2 * sideToSide,
+				this.posY + topToBot,
+				this.posZ + f2 * frontToBack + f1 * sideToSide,
+				0.0F,
+				0.0F);
+		hitPart.onUpdate();
+
+	}
+
 }
