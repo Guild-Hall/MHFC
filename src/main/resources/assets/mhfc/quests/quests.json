@@ -144,7 +144,10 @@
 					]
 				}
 			},
-			"reward": 5000,
+			"reward": {
+				"type": "lootTable",
+				"data": "mhfc:quests/phantom_wyvern"
+			},
 			"fee": 200,
 			"areaID": "greenvalley",
 			"questType": "mhfc.quests.type.hunting",

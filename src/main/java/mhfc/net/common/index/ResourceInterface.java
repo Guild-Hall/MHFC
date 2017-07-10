@@ -325,6 +325,14 @@ public class ResourceInterface {
 	public static final String item_delex2_name = item_delex_basename + "fang";
 	public static final String item_delex3_name = item_delex_basename + "guts";
 
+	public static final String item_nargacuga_basename = "nargacuga";
+	public static final String item_nargacuga0_name = item_nargacuga_basename + "scale";
+	public static final String item_nargacuga1_name = item_nargacuga_basename + "pelt";
+	public static final String item_nargacuga2_name = item_nargacuga_basename + "fang";
+	public static final String item_nargacuga3_name = item_nargacuga_basename + "tail";
+	public static final String item_nargacuga4_name = item_nargacuga_basename + "wing";
+	public static final String item_nargacuga5_name = item_nargacuga_basename + "brainstem";
+
 	public static final String item_meat_basename = "meat";
 	public static final String item_rawmeat_name = "raw";
 	public static final String item_cookedmeat_name = "cooked";

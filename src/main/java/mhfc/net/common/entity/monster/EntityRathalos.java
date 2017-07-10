@@ -79,6 +79,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		super(world);
 		this.stance = Stances.GROUND;
 		this.setSize(5F, 5F);
+
 	}
 
 	@Override

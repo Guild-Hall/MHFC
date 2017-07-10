@@ -60,7 +60,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		ActionManagerBuilder<EntityTigrex> manager = new ActionManagerBuilder<>();
 		manager.registerAction(setDeathAction(new Death()));
 
-		manager.registerAction(new ClawSwipe(20, 6, 2F, 120));
+		manager.registerAction(new ClawSwipe(7, 6, 2F, 120));
 		manager.registerAction(new Charge());
 		manager.registerAction(new Bite());
 		manager.registerAction(new TailWhip()); //TODO USE DAMAGE AREA AI FOR THIS -HELTRATO.

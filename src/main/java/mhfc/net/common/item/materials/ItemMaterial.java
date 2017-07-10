@@ -97,7 +97,14 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 		DELEXBFIN("delexbfin", ResourceInterface.item_delex0_name, ItemColor.GREEN),
 		DELEXQFIN("delexqfin", ResourceInterface.item_delex1_name, ItemColor.GREEN),
 		DELEXFANG("delexfang", ResourceInterface.item_delex2_name, ItemColor.GREEN),
-		DELEXGUTS("delexguts", ResourceInterface.item_delex3_name, ItemColor.GREEN);
+		DELEXGUTS("delexguts", ResourceInterface.item_delex3_name, ItemColor.GREEN),
+
+		NARGASCALE("nargascale", ResourceInterface.item_nargacuga0_name, ItemColor.BLACK),
+		NARGAPELT("nargapelt", ResourceInterface.item_nargacuga1_name, ItemColor.BLACK),
+		NARGAFANG("nargafang", ResourceInterface.item_nargacuga2_name, ItemColor.BLACK),
+		NARGATAIL("nargatail", ResourceInterface.item_nargacuga3_name, ItemColor.BLACK),
+		NARGAWING("nargawing", ResourceInterface.item_nargacuga4_name, ItemColor.BLACK),
+		NARGASTEM("nargastem", ResourceInterface.item_nargacuga5_name, ItemColor.BLACK);
 
 		public final String registryName;
 		public final String name;

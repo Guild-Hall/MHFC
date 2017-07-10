@@ -19,6 +19,7 @@ public abstract class RoarAction<T extends EntityMHFCBase<? super T>> extends An
 	private Collection<EntityLivingBase> affectedEntities;
 	private IRoarProvider roarProvider;
 	
+	//TODO add damage soon as a parameter. @Heltrato
 	//protected abstract boolean doesDealDamage();
 
 	public RoarAction() {

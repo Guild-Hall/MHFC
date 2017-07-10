@@ -32,7 +32,6 @@ public final class Pounce extends JumpAction<EntityNargacuga> implements IHasJum
 
 	private static final JumpBehaviour[] ALL_BEHAVIOURS = JumpBehaviour.values();
 	private static final IDamageCalculator dmgCalculator = AIUtils.defaultDamageCalc(112, 300, 5000);
-	private static final float WEIGHT = 6f;
 
 	private BehaviourJump behaviour;
 
@@ -57,13 +56,20 @@ public final class Pounce extends JumpAction<EntityNargacuga> implements IHasJum
 		EntityNargacuga entity = getEntity();
 		entity.playSound(MHFCSoundRegistry.getRegistry().nargacugaPounce, 2.0F, 1.0F);
 		MHFCMain.logger().debug("Narga jump {}", this.behaviour);
-
 		forceNextFrame(18);
+		System.out.println("Pounce is working");
 	}
 
 	@Override
 	protected float computeSelectionWeight() {
-		return SelectionUtils.isIdle(getEntity()) ? DONT_SELECT : WEIGHT;
+		EntityNargacuga entity = getEntity();
+		target = entity.getAttackTarget();
+		if (SelectionUtils.isIdle(entity)) {
+			return DONT_SELECT;
+		}
+
+		//		if (!SelectionUtils.isInDistance(0, 25, entity, target)) {return DONT_SELECT;}
+		return 10F;
 	}
 
 	@Override

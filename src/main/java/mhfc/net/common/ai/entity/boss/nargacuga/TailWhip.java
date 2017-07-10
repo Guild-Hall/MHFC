@@ -1,7 +1,7 @@
 package mhfc.net.common.ai.entity.boss.nargacuga;
 
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.actions.DamagingAction;
+import mhfc.net.common.ai.general.actions.DamageAreaAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
 import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
@@ -9,32 +9,21 @@ import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
-import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class TailWhip extends DamagingAction<EntityNargacuga> implements IHasAttackProvider {
+public class TailWhip extends DamageAreaAction<EntityNargacuga> implements IHasAttackProvider {
 
-	private static final int ANIMATION_LENGTH = 60;
-	private static final String ANIMATION_LOCATION = "mhfc:models/Nargacuga/TailSwipeRight.mcanm";
+	protected float range, height, knockback, arc;
 
-	private static final float MIN_ANGLE = 0;
-	private static final float MAX_ANGLE = -150;
-	private static final float MAX_DISTANCE = 15;
-	private static final float WEIGHT = 6F;
-
-	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(100, 500, 3333333);
-
-	private final IAttackProvider ATTACK;
-	{
-		final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, ANIMATION_LENGTH);
-		final IDamageProvider DAMAGE = new DamageAdapter(DAMAGE_CALC);
-		ATTACK = new AttackAdapter(ANIMATION, new DamageAdapter(DAMAGE_CALC));
+	public TailWhip(float range, float height, float knockback, float arc) {
+		this.range = range;
+		this.height = height;
+		this.knockback = knockback;
+		this.arc = arc;
 	}
-
-	public TailWhip() {}
 
 	@Override
 	protected float computeSelectionWeight() {
@@ -45,32 +34,62 @@ public class TailWhip extends DamagingAction<EntityNargacuga> implements IHasAtt
 		}
 		Vec3d toTarget = WorldHelper.getVectorToTarget(e, target);
 		double dist = toTarget.lengthVector();
-		if (dist > MAX_DISTANCE) {
+		if (dist > 15) {
 			return DONT_SELECT;
 		}
-		return WEIGHT;
+		return 6F;
 	}
 
-	@Override
-	public IAttackProvider getAttackProvider() {
-		return ATTACK;
-	}
+
 
 	@Override
 	public void onUpdate() {
 		EntityNargacuga entity = getEntity();
-		if (this.getCurrentFrame() <= 10) {
-			getEntity().getTurnHelper().updateTargetPoint(targetPoint);
-			getEntity().getTurnHelper().updateTurnSpeed(6.0f);
-		}
 
 		if (this.getCurrentFrame() == 12) {
 			entity.playSound(MHFCSoundRegistry.getRegistry().nargacugaTailWhip, 2.0F, 1.0F);
 		}
-
-		if (this.getCurrentFrame() >= 20 && this.getCurrentFrame() <= 45) {
+		if (this.getCurrentFrame() == 23) {
 			super.onUpdate();
 		}
+	}
+
+	@Override
+	public IAnimationProvider getAnimProvider() {
+		return new AnimationAdapter(this, "mhfc:models/Nargacuga/TailSwipeRight.mcanm", 56);
+	}
+
+	@Override
+	public IDamageCalculator provideDamageCalculator() {
+		return AIUtils.defaultDamageCalc(100, 500, 3333333);
+	}
+
+	@Override
+	public IAttackProvider getAttackProvider() {
+		return new AttackAdapter(getAnimProvider(), new DamageAdapter(provideDamageCalculator()));
+	}
+
+	@Override
+	protected float getRange() {
+		return this.range;
+	}
+
+	@Override
+	protected float getKnockBack() {
+		// TODO Auto-generated method stub
+		return this.knockback;
+	}
+
+	@Override
+	protected float getArc() {
+		// TODO Auto-generated method stub
+		return this.arc;
+	}
+
+	@Override
+	protected float getHeight() {
+		// TODO Auto-generated method stub
+		return this.height;
 	}
 
 }

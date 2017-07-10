@@ -144,15 +144,15 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 			this.isDamaging = isDamaging;
 		}
 
-		public void onPhaseStart(@SuppressWarnings("unused") Charge attk) {}
+		public void onPhaseStart(Charge attk) {}
 
-		public void update(@SuppressWarnings("unused") Charge attk) {}
+		public void update(Charge attk) {}
 
-		public AttackPhase next(@SuppressWarnings("unused") Charge attk) {
+		public AttackPhase next(Charge attk) {
 			return this;
 		}
 
-		public int nextFrame(@SuppressWarnings("unused") Charge attk, int curr) {
+		public int nextFrame(Charge attk, int curr) {
 			return ++curr;
 		}
 	}
@@ -173,7 +173,9 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 
 	@Override
 	public float computeSelectionWeight() {
-		if (getEntity().getAttackTarget() == null) {
+		EntityTigrex entity = getEntity();
+		target = entity.getAttackingEntity();
+		if (target == null) {
 			return DONT_SELECT;
 		}
 		return 4F;

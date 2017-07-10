@@ -225,6 +225,14 @@ item.material.remobraskin.name=Remobra Skin
 item.material.remobraskull.name=Remobra Skull
 item.material.remobrawing.name=Remobra Wing
 
+item.material.nargacugascale.name=Narga Scale
+item.material.nargacugapelt.name=Black Narga Pelt
+item.material.nargacugafang.name=Nargacuga Fang
+item.material.nargacugatail.name=Nargacuga Tail	
+item.material.nargacugawing.name=Narga Cutting Wing
+item.material.nargacugabrainstem.name=Narga Brain Stem
+
+
 
 
 item.traptool.name=Trap Tool

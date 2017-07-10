@@ -20,9 +20,7 @@ public class TailWhip extends DamagingAction<EntityDeviljho> implements IHasAtta
 	private static final int LAST_FRAME = 55; // FIXME exact value here please
 	private static final String ANIMATION_LOCATION = "mhfc:models/Deviljho/tailswipe.mcanm";
 
-	private static final double MIN_DIST = 2f;
 	private static final double MAX_DISTANCE = 18F;
-	private static final float MIN_RIGHT_ANGLE = 10f;
 	private static final float WEIGHT = 5F;
 
 	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(145, 50, 9999999f);

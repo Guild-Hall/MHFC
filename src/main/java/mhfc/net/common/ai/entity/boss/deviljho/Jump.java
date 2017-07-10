@@ -31,9 +31,7 @@ public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider
 	private static final float JUMPDURATION = 13.5f;
 
 	private static final IDamageCalculator DAMAGEBASE = AIUtils.defaultDamageCalc(105f, 2000f, 999999F);
-	private static final double DISTANCEMIN = 6F;
 	private static final double DISTANCEMAX = 15F;
-	private static final float ANGLE_DEGREES = 140f;
 	private static final float WEIGHT = 1f;
 
 	private final IJumpProvider<EntityDeviljho> JUMP_PROVIDER;

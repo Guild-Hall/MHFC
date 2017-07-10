@@ -35,6 +35,7 @@ public class ConnectionEventHandler {
 				throw new UnsupportedOperationException("No position known");
 			}
 
+
 			@Override
 			public Vec3d getPositionVector() {
 				return new Vec3d(getPosition());
