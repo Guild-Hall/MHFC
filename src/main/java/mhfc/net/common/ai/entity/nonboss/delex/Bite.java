@@ -36,9 +36,6 @@ public class Bite extends JumpAction<EntityDelex> implements IHasJumpProvider<En
 	protected float computeSelectionWeight() {
 		EntityDelex entity = this.getEntity();
 		target = entity.getAttackTarget();
-
-
-		if (this.getCurrentAnimation() != null) {
 		if (target == null) {
 			return DONT_SELECT;
 		}
@@ -47,7 +44,7 @@ public class Bite extends JumpAction<EntityDelex> implements IHasJumpProvider<En
 		if (dist > 8F) {
 			return DONT_SELECT;
 		}
-		}
+
 		return 6F;
 	}
 	

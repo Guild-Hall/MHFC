@@ -29,7 +29,7 @@ public class Tackle extends DamagingAction<EntityDelex> implements IHasAttackPro
 		EntityDelex entity = this.getEntity();
 		target = entity.getAttackTarget();
 
-		if (this.getCurrentAnimation() != null) {
+
 		if (target == null) {
 			return DONT_SELECT;
 		}
@@ -37,7 +37,6 @@ public class Tackle extends DamagingAction<EntityDelex> implements IHasAttackPro
 		double dist = toTarget.lengthVector();
 		if (dist >= entity.getDistanceToEntity(target) + 5) {
 			return DONT_SELECT;
-		}
 		}
 		return 5F;
 	}
