@@ -6,6 +6,14 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.boss.deviljho.Bite;
+import mhfc.net.common.ai.entity.boss.deviljho.Charge;
+import mhfc.net.common.ai.entity.boss.deviljho.FrontalBreathe;
+import mhfc.net.common.ai.entity.boss.deviljho.Jump;
+import mhfc.net.common.ai.entity.boss.deviljho.Launch;
+import mhfc.net.common.ai.entity.boss.deviljho.Roar;
+import mhfc.net.common.ai.entity.boss.deviljho.Stomp;
+import mhfc.net.common.ai.entity.boss.deviljho.TailWhip;
+import mhfc.net.common.ai.entity.boss.deviljho.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -57,14 +65,15 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 						105,
 						12,
 						MHFCSoundRegistry.getRegistry().deviljhoBiteB));
-		//attackManager.registerAction(new Launch());
-		//attackManager.registerAction(new Charge());
-		//attackManager.registerAction(new Stomp());
-		//attackManager.registerAction(new TailWhip());
-		//attackManager.registerAction(new Jump());
-		//attackManager.registerAction(new FrontalBreathe());
-		//attackManager.registerAction(new Roar());
-//		attackManager.registerAction(new Wander());
+		// TODO LIST
+		attackManager.registerAction(new Launch());
+		attackManager.registerAction(new Charge());
+		attackManager.registerAction(new Stomp());
+		attackManager.registerAction(new TailWhip());
+		attackManager.registerAction(new Jump());
+		attackManager.registerAction(new FrontalBreathe());
+		attackManager.registerAction(new Roar());
+		attackManager.registerAction(new Wander());
 		return attackManager.build(this);
 	}
 
