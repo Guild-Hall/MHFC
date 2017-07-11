@@ -6,26 +6,14 @@ import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
 import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
-import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
-import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
 import mhfc.net.common.entity.monster.EntityBarroth;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
 public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProvider {
-	private static final int LAST_FRAME = 75;
-	private static final String ANIMATION_LOCATION = "mhfc:models/Barroth/BarrothRam.mcanm";
-	private final IAttackProvider ATTACK;
-	{
-		IAnimationProvider animation = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
-		IDamageProvider DAMAGE_CALC = new DamageAdapter(AIUtils.defaultDamageCalc(95f, 50F, 9999999f));
-		ATTACK = new AttackAdapter(animation, DAMAGE_CALC);
-	}
 
-	private static final double MAX_DIST = 40f;
-	private static final float WEIGHT = 3.5F;
 
 	public Ram() {}
 
@@ -38,15 +26,17 @@ public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProv
 		}
 		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
 		double dist = toTarget.lengthVector();
-		if (dist > MAX_DIST) {
+		if (dist > 30F) {
 			return DONT_SELECT;
 		}
-		return WEIGHT;
+		return 3.5F;
 	}
 
 	@Override
 	public IAttackProvider getAttackProvider() {
-		return ATTACK;
+		return new AttackAdapter(
+				new AnimationAdapter(this, "mhfc:models/Barroth/BarrothRam.mcanm", 75),
+				new DamageAdapter(AIUtils.defaultDamageCalc(95f, 50F, 9999999f)));
 	}
 
 	@Override
@@ -56,7 +46,7 @@ public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProv
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			entity.moveForward(1, false);
 		}
-		damageCollidingEntities();
+		super.onUpdate();
 	}
 
 	private boolean isMoveForwardFrame(int frame) {

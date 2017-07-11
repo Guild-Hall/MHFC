@@ -2,44 +2,44 @@ package mhfc.net.common.ai.entity.boss.barroth;
 
 import mhfc.net.common.ai.general.actions.WanderAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
+import mhfc.net.common.ai.general.provider.adapters.CountLoopAdvancer;
 import mhfc.net.common.ai.general.provider.adapters.MoveParameterAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
+import mhfc.net.common.ai.general.provider.simple.IFrameAdvancer;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
 import mhfc.net.common.entity.monster.EntityBarroth;
 
 public class Wander extends WanderAction<EntityBarroth> implements IHasAnimationProvider {
 
-	private static final String ANIMATION_LOCATION = "mhfc:models/Barroth/walknew.mcanm";
-	private static final int LAST_FRAME = 64;
 
-	private static final float WEIGHT = 0.7F;
+	protected float speed, turnrate;
 
-	private static final IMoveParameterProvider MOVEMENT_PARAMETERS = new MoveParameterAdapter(0.7f, 0.5f);
-
-	private IAnimationProvider ANIMATION;
-
-	public Wander() {
+	public Wander(float speed, float turnrate) {
+		this.speed = speed;
+		this.turnrate = turnrate;
 		
-		ANIMATION = AnimationAdapter.builder().setAnimation(ANIMATION_LOCATION).setAnimationLength(LAST_FRAME)
-				.build(this);
 	}
 
+	@Override
+	public IFrameAdvancer provideFrameAdvancer() {
+		return new CountLoopAdvancer(0, 31, 1);
+	}
 
 	@Override
 	protected float computeWanderWeight() {
-		return WEIGHT;
+		return 1F;
 	}
 
 	@Override
 	public IAnimationProvider getAnimProvider() {
-		return ANIMATION;
+		return new AnimationAdapter(this, "mhfc:models/Barroth/walknew.mcanm", 65);
 	}
 
 	@Override
 	public IMoveParameterProvider provideMoveParameters() {
-		return MOVEMENT_PARAMETERS;
+		return new MoveParameterAdapter(turnrate, speed);
 	}
 
 	@Override

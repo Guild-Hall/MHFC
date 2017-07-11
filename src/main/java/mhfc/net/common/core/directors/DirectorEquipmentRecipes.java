@@ -20,6 +20,11 @@ public class DirectorEquipmentRecipes {
 	public final EquipmentRecipe recipe_tigrex_legs;
 	public final EquipmentRecipe recipe_tigrex_boots;
 
+	public final EquipmentRecipe recipe_barroth_helm;
+	public final EquipmentRecipe recipe_barroth_chest;
+	public final EquipmentRecipe recipe_barroth_legs;
+	public final EquipmentRecipe recipe_barroth_boots;
+
 	public final EquipmentRecipe recipe_yukumo_helm;
 	public final EquipmentRecipe recipe_yukumo_chest;
 	public final EquipmentRecipe recipe_yukumo_legs;
@@ -80,22 +85,26 @@ public class DirectorEquipmentRecipes {
 	public void construct(EquipmentRecipeRegistryData director) {
 
 		director.register(recipe_yukumo_helm);
+		director.register(recipe_barroth_helm);
 		director.register(recipe_rathalos_helm);
 		director.register(recipe_tigrex_helm);
 		director.register(recipe_kirin_helm);
 		director.register(recipe_vangis_helm);
 
 		director.register(recipe_yukumo_chest);
+		director.register(recipe_barroth_chest);
 		director.register(recipe_rathalos_chest);
 		director.register(recipe_tigrex_chest);
 		director.register(recipe_vangis_chest);
 
 		director.register(recipe_yukumo_legs);
+		director.register(recipe_barroth_legs);
 		director.register(recipe_rathalos_legs);
 		director.register(recipe_tigrex_legs);
 		director.register(recipe_vangis_legs);
 
 		director.register(recipe_yukumo_boots);
+		director.register(recipe_barroth_boots);
 		director.register(recipe_rathalos_boots);
 		director.register(recipe_tigrex_boots);
 		director.register(recipe_vangis_boots);
@@ -182,6 +191,48 @@ public class DirectorEquipmentRecipes {
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.DRAGONITE, 2));
 		recipe.setRequiredHeat(200).setDuration(300);
 		recipe_tigrex_boots = recipe.build();
+
+		recipe.setProduct(new ItemStack(itemRegistry.armor_barroth_helm));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHSHELL, 12));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHRIDGE, 12));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHSCALP, 8));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.DRAGONITE, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHTAIL, 3));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHSTONE, 3));
+		recipe.setRequiredHeat(200).setDuration(300);
+		recipe_barroth_helm = recipe.build();
+
+		recipe.setProduct(new ItemStack(itemRegistry.armor_barroth_chest));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHSHELL, 20));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHSCALP, 20));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHTAIL, 15));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHCLAW, 25));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.DRAGONITE, 2));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHSTONE, 10));
+		recipe.setRequiredHeat(200).setDuration(300);
+		recipe_barroth_chest = recipe.build();
+
+		recipe.setProduct(new ItemStack(itemRegistry.armor_barroth_legs));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHSHELL, 20));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHSCALP, 20));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHTAIL, 20));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHCLAW, 25));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.DRAGONITE, 2));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHMUD, 10));
+		recipe.setRequiredHeat(200).setDuration(300);
+		recipe_barroth_legs = recipe.build();
+
+		recipe.setProduct(new ItemStack(itemRegistry.armor_barroth_boots));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHSHELL, 15));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHSCALP, 15));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHTAIL, 5));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHCLAW, 5));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHMUD, 10));
+		recipe.setRequiredHeat(200).setDuration(300);
+		recipe_barroth_boots = recipe.build();
 
 		recipe.setProduct(new ItemStack(itemRegistry.armor_yukumo_helm));
 		recipe.addIngredient(itemRegistry.lumberbar, 2, 0);

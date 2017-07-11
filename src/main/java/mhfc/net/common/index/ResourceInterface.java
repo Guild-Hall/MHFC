@@ -333,6 +333,16 @@ public class ResourceInterface {
 	public static final String item_nargacuga4_name = item_nargacuga_basename + "wing";
 	public static final String item_nargacuga5_name = item_nargacuga_basename + "brainstem";
 
+	public static final String item_barroth_basename = "barroth";
+	public static final String item_barroth0_name = item_barroth_basename + "shell";
+	public static final String item_barroth1_name = item_barroth_basename + "ridge";
+	public static final String item_barroth2_name = item_barroth_basename + "claw";
+	public static final String item_barroth3_name = item_barroth_basename + "tail";
+	public static final String item_barroth4_name = item_barroth_basename + "scalp";
+	public static final String item_barroth5_name = item_barroth_basename + "carapace";
+	public static final String item_barroth6_name = item_barroth_basename + "stone";
+	public static final String item_barroth7_name = item_barroth_basename + "mud";
+
 	public static final String item_meat_basename = "meat";
 	public static final String item_rawmeat_name = "raw";
 	public static final String item_cookedmeat_name = "cooked";

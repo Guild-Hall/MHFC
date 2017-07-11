@@ -2,39 +2,28 @@ package mhfc.net.common.ai.entity.boss.barroth;
 
 import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.AIUtils;
-import mhfc.net.common.ai.general.actions.DamagingAction;
+import mhfc.net.common.ai.general.actions.DamageAreaAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
 import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
-import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
-import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
-import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityBarroth;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class HeadSlam extends DamagingAction<EntityBarroth> implements IHasAttackProvider {
+public class HeadSlam extends DamageAreaAction<EntityBarroth> implements IHasAttackProvider {
 
-	private static final int ANIM_FRAME = 60;
-	private static final String ANIM_LOCATION = "mhfc:models/barroth/headslam.mcanm";
+	protected float range, height, knockback, arc;
 
-	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(150F, 125F, 99999999F);
+	public HeadSlam(float range, float height, float knockback, float arc) {
+		this.range = range;
+		this.height = height;
+		this.knockback = knockback;
+		this.arc = arc;
 
-	private static double TARGET_DISTANCE = 40F;
-
-	private static float WEIGHT = 5;
-
-	private final IAttackProvider ATTACK;
-	{
-		final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIM_LOCATION, ANIM_FRAME);
-		final IDamageProvider DAMAGE = new DamageAdapter(DAMAGE_CALC);
-		ATTACK = new AttackAdapter(ANIMATION, DAMAGE);
 	}
-
-	public HeadSlam() {}
 
 	@Override
 	protected float computeSelectionWeight() {
@@ -45,28 +34,49 @@ public class HeadSlam extends DamagingAction<EntityBarroth> implements IHasAttac
 		}
 		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
 		double dist = toTarget.lengthVector();
-		if (dist > TARGET_DISTANCE) {
+		if (dist > 8F) {
 			return DONT_SELECT;
 		}
-		return WEIGHT;
+		return 5F;
 	}
 
 	@Override
 	public IAttackProvider getAttackProvider() {
-		return ATTACK;
+		return new AttackAdapter(
+				new AnimationAdapter(this, "mhfc:models/barroth/headslam.mcanm", 60),
+				new DamageAdapter(AIUtils.defaultDamageCalc(150F, 125F, 99999999F)));
 	}
 
 	@Override
 	public void onUpdate() {
 		EntityBarroth entity = getEntity();
 		if (getEntity().getAttackTarget() != null && this.getCurrentFrame() == 25) {
-			
+			super.onUpdate();
 			getEntity().playSound(MHFCSoundRegistry.getRegistry().barrothHeadsmash, 2.0F, 1.0F);
 			EntityAIMethods.launch(entity, 1.0D, 2.5D, 1.0D);
 		}
-		damageCollidingEntities();
 
 	}
 
+
+	@Override
+	protected float getRange() {
+		return this.range;
+	}
+
+	@Override
+	protected float getKnockBack() {
+		return this.knockback;
+	}
+
+	@Override
+	protected float getArc() {
+		return this.arc;
+	}
+
+	@Override
+	protected float getHeight() {
+		return this.height;
+	}
 
 }

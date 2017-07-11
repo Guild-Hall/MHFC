@@ -73,7 +73,10 @@
 					]
 				}
 			},
-			"reward": 5000,
+				"reward": {
+				"type": "lootTable",
+				"data": "mhfc:quests/leading_the_charge"
+			},
 			"fee": 200,
 			"areaID": "sandy",
 			"questType": "mhfc.quests.type.hunting",

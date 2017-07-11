@@ -1,19 +1,16 @@
 package mhfc.net.common.ai.entity.boss.barroth;
 
 import mhfc.net.common.ai.general.WeightUtils;
-import mhfc.net.common.ai.general.actions.IdleAction;
+import mhfc.net.common.ai.general.actions.BreatheAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.monster.EntityBarroth;
 
-public class Idle extends IdleAction<EntityBarroth> implements IHasAnimationProvider {
+public class Breathe extends BreatheAction<EntityBarroth> implements IHasAnimationProvider {
 
-	private static final String ANIMATION_LOCATION = "mhfc:models/Barroth/BarrothIdle.mcanm";
-	private static final int LAST_FRAME = 60;
-	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 
-	public Idle() {}
+	public Breathe() {}
 
 	@Override
 	protected float computeIdleWeight() {
@@ -22,7 +19,7 @@ public class Idle extends IdleAction<EntityBarroth> implements IHasAnimationProv
 
 	@Override
 	public IAnimationProvider getAnimProvider() {
-		return ANIMATION;
+		return new AnimationAdapter(this, "mhfc:models/Barroth/barrothidle.mcanm", 60);
 	}
 
 	@Override

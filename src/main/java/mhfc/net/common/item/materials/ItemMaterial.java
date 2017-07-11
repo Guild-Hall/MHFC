@@ -99,12 +99,23 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 		DELEXFANG("delexfang", ResourceInterface.item_delex2_name, ItemColor.GREEN),
 		DELEXGUTS("delexguts", ResourceInterface.item_delex3_name, ItemColor.GREEN),
 
+		// 72 - 77
 		NARGASCALE("nargascale", ResourceInterface.item_nargacuga0_name, ItemColor.BLACK),
 		NARGAPELT("nargapelt", ResourceInterface.item_nargacuga1_name, ItemColor.BLACK),
 		NARGAFANG("nargafang", ResourceInterface.item_nargacuga2_name, ItemColor.BLACK),
 		NARGATAIL("nargatail", ResourceInterface.item_nargacuga3_name, ItemColor.BLACK),
 		NARGAWING("nargawing", ResourceInterface.item_nargacuga4_name, ItemColor.BLACK),
-		NARGASTEM("nargastem", ResourceInterface.item_nargacuga5_name, ItemColor.BLACK);
+		NARGASTEM("nargastem", ResourceInterface.item_nargacuga5_name, ItemColor.BLACK),
+
+		//78 - 85
+		BARROTHSHELL("barrothshell", ResourceInterface.item_barroth0_name, ItemColor.BROWN),
+		BARROTHRIDGE("barrothridge", ResourceInterface.item_barroth1_name, ItemColor.BROWN),
+		BARROTHCLAW("barrothclaw", ResourceInterface.item_barroth2_name, ItemColor.BROWN),
+		BARROTHTAIL("barrothtail", ResourceInterface.item_barroth3_name, ItemColor.BROWN),
+		BARROTHSCALP("barrothscalp", ResourceInterface.item_barroth4_name, ItemColor.BROWN),
+		BARROTHCARAPACE("barrothcarapace", ResourceInterface.item_barroth5_name, ItemColor.BROWN),
+		BARROTHSTONE("barrothstone", ResourceInterface.item_barroth6_name, ItemColor.BROWN),
+		BARROTHMUD("barrothmud", ResourceInterface.item_barroth7_name, ItemColor.BROWN);
 
 		public final String registryName;
 		public final String name;
