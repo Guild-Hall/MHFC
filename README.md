@@ -5,8 +5,10 @@ Monster Hunter Frontier Craft mod created by the Guild Hall team authored by : H
 # TODO #
 * [ ] Optimize Charge AI ~ WorldSEnder/Heltrato
 * [ ] Ground Hurl Projection Fix ~ WorldSEnder
+* [ ] Add Visual effects for AI ~ WorldSEnder/Heltrato
+* [ ] Use Selection Utils for AI Conditions ~ Heltrato
 * [ ] AI nodes ~ WorldSEnder
-* [ ] Rathalos, Barroth, Deviljho functional ~ Heltrato
+* [ ] Rathalos ~ Heltrato
 * [ ] Add Frontier AI ~ Heltrato
 * [ ] Akura, Kirin, Brachydios, Popo ~ Heltrato
 * [ ] Test a larger Quest world size ~ Heltrato
