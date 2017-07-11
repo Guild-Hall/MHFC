@@ -40,9 +40,17 @@ public class BlockHunterBench extends BlockContainer {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn,BlockPos pos,IBlockState state,EntityPlayer player,EnumHand hand,EnumFacing side,	float hitX,float hitY,	float hitZ) {
-	
-		
+	public boolean onBlockActivated(
+			World worldIn,
+			BlockPos pos,
+			IBlockState state,
+			EntityPlayer player,
+			EnumHand hand,
+			EnumFacing side,
+			float hitX,
+			float hitY,
+			float hitZ) {
+
 		if (!player.isSneaking()) {
 			player.openGui(
 					MHFCMain.instance(),

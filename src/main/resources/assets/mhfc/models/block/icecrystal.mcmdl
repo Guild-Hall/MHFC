@@ -1,6 +1,6 @@
 {
     version: 1,
-    mesh: "mhfc:models/block/ModelAkuraCrystal.mcmd",
+    mesh: "mhfc:models/block/modelakuracrystal.mcmd",
     textures: {
         "#crystal": "mhfc:tile/akuracrystal"
     },
