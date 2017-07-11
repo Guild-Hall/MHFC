@@ -8,7 +8,6 @@ import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
 import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
-import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.entity.monster.EntityDelex;
@@ -22,11 +21,6 @@ import net.minecraft.util.math.Vec3d;
 public class Tackle extends DamagingAction<EntityDelex> implements IHasAttackProvider {
 
 
-	private final IAttackProvider ATTACK;
-	{
-		final IAnimationProvider ANIMATION = new AnimationAdapter(this, "mhfc:models/delex/tackle.mcanm", 25);
-		ATTACK = new AttackAdapter(ANIMATION, new DamageAdapter(AIUtils.defaultDamageCalc(30f, 50F, 9999999f)));
-	}
 
 	public Tackle() {}
 
@@ -50,7 +44,9 @@ public class Tackle extends DamagingAction<EntityDelex> implements IHasAttackPro
 
 	@Override
 	public IAttackProvider getAttackProvider() {
-		return ATTACK;
+		return new AttackAdapter(
+				new AnimationAdapter(this, "mhfc:models/delex/tackle.mcanm", 25),
+				new DamageAdapter(AIUtils.defaultDamageCalc(30f, 50F, 9999999f)));
 	}
 
 	@Override
