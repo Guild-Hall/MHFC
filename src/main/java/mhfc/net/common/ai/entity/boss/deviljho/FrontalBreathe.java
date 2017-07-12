@@ -1,5 +1,6 @@
 package mhfc.net.common.ai.entity.boss.deviljho;
 
+import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.AnimatedAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
@@ -25,7 +26,7 @@ public class FrontalBreathe extends AnimatedAction<EntityDeviljho> implements IH
 	protected float computeSelectionWeight() {
 		EntityDeviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
-		if (target == null) {
+		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
 		}
 		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);

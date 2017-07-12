@@ -1,6 +1,7 @@
 package mhfc.net.common.ai.entity.boss.tigrex;
 
 import mhfc.net.common.ai.general.AIUtils;
+import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
@@ -33,12 +34,12 @@ public class TailWhip extends DamagingAction<EntityTigrex> implements IHasAttack
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityTigrex tigrex = this.getEntity();
-		target = tigrex.getAttackTarget();
-		if (target == null) {
+		EntityTigrex entity = this.getEntity();
+		target = entity.getAttackTarget();
+		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
 		}
-		Vec3d toTarget = WorldHelper.getVectorToTarget(tigrex, target);
+		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
 		double dist = toTarget.lengthVector();
 		if (dist > MAX_DISTANCE) {
 			return DONT_SELECT;

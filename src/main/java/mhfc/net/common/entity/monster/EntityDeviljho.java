@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
-import mhfc.net.common.ai.entity.boss.deviljho.Bite;
+import mhfc.net.common.ai.entity.AIBite;
 import mhfc.net.common.ai.entity.boss.deviljho.Charge;
 import mhfc.net.common.ai.entity.boss.deviljho.FrontalBreathe;
 import mhfc.net.common.ai.entity.boss.deviljho.Jump;
@@ -50,7 +50,8 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		//attackManager.registerAction(setDeathAction(new Death()));
 		//attackManager.registerAction(new Idle());
 		attackManager.registerAction(
-				new Bite(
+				new AIBite(
+						this,
 						"mhfc:models/Deviljho/bite.mcanm",
 						40,
 						25,
@@ -58,7 +59,8 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 						15,
 						MHFCSoundRegistry.getRegistry().deviljhoBiteA));
 		attackManager.registerAction(
-				new Bite(
+				new AIBite(
+						this,
 						"mhfc:models/Deviljho/bite2.mcanm",
 						35,
 						25,

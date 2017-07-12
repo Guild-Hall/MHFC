@@ -1,6 +1,7 @@
 package mhfc.net.common.ai.entity.boss.lagiacrus;
 
 import mhfc.net.common.ai.general.AIUtils;
+import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
@@ -38,7 +39,7 @@ public class Sweep extends DamagingAction<EntityLagiacrus> implements IHasAttack
 	protected float computeSelectionWeight() {
 		EntityLagiacrus entity = this.getEntity();
 		target = entity.getAttackTarget();
-		if (target == null) {
+		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
 		}
 		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);

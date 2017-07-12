@@ -1,5 +1,6 @@
 package mhfc.net.common.ai.entity.boss.tigrex;
 
+import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.AnimatedAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
@@ -32,7 +33,7 @@ public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnim
 	protected float computeSelectionWeight() {
 		EntityTigrex entity = this.getEntity();
 		target = entity.getAttackTarget();
-		if (target == null) {
+		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
 		}
 		return 7F;

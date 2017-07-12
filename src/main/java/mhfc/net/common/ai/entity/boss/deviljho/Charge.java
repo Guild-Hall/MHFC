@@ -1,6 +1,7 @@
 package mhfc.net.common.ai.entity.boss.deviljho;
 
 import mhfc.net.common.ai.general.AIUtils;
+import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.AnimatedAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
@@ -166,7 +167,7 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 	public float computeSelectionWeight() {
 		EntityDeviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
-		if (target == null) {
+		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
 		}
 		return 8F;

@@ -9,8 +9,8 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.entity.AIBite;
 import mhfc.net.common.ai.entity.boss.tigrex.BackOff;
-import mhfc.net.common.ai.entity.boss.tigrex.Bite;
 import mhfc.net.common.ai.entity.boss.tigrex.Charge;
 import mhfc.net.common.ai.entity.boss.tigrex.ClawSwipe;
 import mhfc.net.common.ai.entity.boss.tigrex.Death;
@@ -62,7 +62,15 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 		manager.registerAction(new ClawSwipe(7, 6, 2F, 120));
 		manager.registerAction(new Charge());
-		manager.registerAction(new Bite());
+		manager.registerAction(
+				new AIBite(
+						this,
+						"mhfc:models/Tigrex/bite.mcanm",
+						55,
+						12,
+						105,
+						10F,
+						MHFCSoundRegistry.getRegistry().tigrexBite));
 		manager.registerAction(new TailWhip()); //TODO USE DAMAGE AREA AI FOR THIS -HELTRATO.
 		manager.registerAction(new Jump());
 		manager.registerAction(new Roar());

@@ -1,6 +1,7 @@
 package mhfc.net.common.ai.entity.boss.nargacuga;
 
 import mhfc.net.common.ai.general.AIUtils;
+import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.JumpAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackTargetAdapter;
@@ -22,7 +23,7 @@ public class BackOff extends JumpAction<EntityNargacuga> implements IHasJumpProv
 	protected float computeSelectionWeight() {
 		EntityNargacuga entity = this.getEntity();
 		target = entity.getAttackTarget();
-		if(target == null){
+		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
 		}
 		return 1;

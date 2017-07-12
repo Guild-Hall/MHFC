@@ -2,6 +2,7 @@ package mhfc.net.common.ai.entity.boss.barroth;
 
 import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.AIUtils;
+import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.DamageAreaAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
@@ -29,7 +30,7 @@ public class HeadSlam extends DamageAreaAction<EntityBarroth> implements IHasAtt
 	protected float computeSelectionWeight() {
 		EntityBarroth entity = this.getEntity();
 		target = entity.getAttackTarget();
-		if (target == null) {
+		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
 		}
 		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);

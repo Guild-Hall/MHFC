@@ -1,6 +1,7 @@
 package mhfc.net.common.ai.entity.boss.tigrex;
 
 import mhfc.net.common.ai.general.AIUtils;
+import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.DamageAreaAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
@@ -49,7 +50,7 @@ public class ClawSwipe extends DamageAreaAction<EntityTigrex> implements IHasAtt
 		EntityTigrex entity = this.getEntity();
 		target = entity.getAttackTarget();
 
-		if (target == null) {
+		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
 		}
 		float targetPoint = entity.getDistanceToEntity(target);

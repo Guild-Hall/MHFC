@@ -1,6 +1,7 @@
 package mhfc.net.common.ai.entity.boss.nargacuga;
 
 import mhfc.net.common.ai.general.AIUtils;
+import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
@@ -175,7 +176,7 @@ public class Charge extends DamagingAction<EntityNargacuga> implements IHasAttac
 	public float computeSelectionWeight() {
 		EntityNargacuga entity = getEntity();
 		target = entity.getAttackingEntity();
-		if (target == null) {
+		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
 		}
 		return 4F;
