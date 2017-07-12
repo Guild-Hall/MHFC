@@ -4,9 +4,12 @@ import io.netty.buffer.ByteBuf;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.entity.type.EntityParticleEmitter;
 import mhfc.net.common.item.ItemColor;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityPaintParticleEmitter extends EntityParticleEmitter {
 
@@ -73,6 +76,12 @@ public class EntityPaintParticleEmitter extends EntityParticleEmitter {
 	@Override
 	protected void entityInit() {
 
+	}
+
+	@SideOnly(Side.CLIENT)
+	public Particle createPaintParticle() {
+		// Full class name, since we can't import the class on the server
+		return new mhfc.net.common.entity.particle.ParticlePaint(world, color, posX, posY, posZ);
 	}
 
 }

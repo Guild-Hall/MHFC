@@ -5,7 +5,6 @@ import mhfc.net.client.core.MHFCClientRegistry;
 import mhfc.net.common.core.MHFCCommonRegistry;
 import mhfc.net.common.entity.particle.EntityPaintParticleEmitter;
 import mhfc.net.common.entity.particle.EnumParticleType;
-import mhfc.net.common.entity.particle.ParticlePaint;
 import mhfc.net.common.entity.type.EntityParticleEmitter;
 import net.minecraft.client.Minecraft;
 
@@ -34,14 +33,10 @@ public class MHFCClient extends ProxyBase {
 		if (emitter == null || !(emitter instanceof EntityPaintParticleEmitter)) {
 			return;
 		}
+		// TODO 1.12: see if there's a forge way to register particles with the effect renderer
+		// Minecraft.getMinecraft().effectRenderer.registerParticle(id, particleFactory);
 		EntityPaintParticleEmitter paintEmitter = (EntityPaintParticleEmitter) emitter;
-		ParticlePaint particle = new ParticlePaint(
-				paintEmitter.world,
-				paintEmitter.color,
-				paintEmitter.posX,
-				paintEmitter.posY,
-				paintEmitter.posZ);
 
-		Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+		Minecraft.getMinecraft().effectRenderer.addEffect(paintEmitter.createPaintParticle());
 	}
 }
