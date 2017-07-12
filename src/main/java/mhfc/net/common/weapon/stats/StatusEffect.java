@@ -1,11 +1,11 @@
 package mhfc.net.common.weapon.stats;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 
 public enum StatusEffect implements ICombatEffectType {
 	Poison {
 		@Override
-		public void applyTo(Entity target, float damageAmount) {
+		public void applyTo(EntityLivingBase target, float damageAmount, EntityLivingBase attacker) {
 			// TODO: apply poison
 		}
 
@@ -16,7 +16,7 @@ public enum StatusEffect implements ICombatEffectType {
 	},
 	Sleep {
 		@Override
-		public void applyTo(Entity target, float damageAmount) {
+		public void applyTo(EntityLivingBase target, float damageAmount, EntityLivingBase attacker) {
 			// TODO: apply sleep
 		}
 
@@ -27,7 +27,7 @@ public enum StatusEffect implements ICombatEffectType {
 	},
 	Paralysis {
 		@Override
-		public void applyTo(Entity target, float damageAmount) {
+		public void applyTo(EntityLivingBase target, float damageAmount, EntityLivingBase attacker) {
 			// TODO: apply paralysis
 		}
 
@@ -38,7 +38,7 @@ public enum StatusEffect implements ICombatEffectType {
 	},
 	Knockout {
 		@Override
-		public void applyTo(Entity target, float damageAmount) {
+		public void applyTo(EntityLivingBase target, float damageAmount, EntityLivingBase attacker) {
 			// TODO: apply Knockout
 		}
 
@@ -49,7 +49,7 @@ public enum StatusEffect implements ICombatEffectType {
 	},
 	Blastblight {
 		@Override
-		public void applyTo(Entity target, float damageAmount) {
+		public void applyTo(EntityLivingBase target, float damageAmount, EntityLivingBase attacker) {
 			// TODO: apply blastblight
 		}
 

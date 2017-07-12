@@ -130,6 +130,14 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item implements 
 		return false;
 	}
 
+	@Override
+	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
+		for (CombatEffect effect : stats.getCombatEffects()) {
+			effect.applyTo(target, attacker);
+		}
+		return super.hitEntity(stack, target, attacker);
+	}
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public boolean shouldRotateAroundWhenRendering() {

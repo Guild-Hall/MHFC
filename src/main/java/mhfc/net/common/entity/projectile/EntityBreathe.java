@@ -47,8 +47,8 @@ public class EntityBreathe extends EntityThrowable {
 				continue;
 			}
 			entity.setFire(5);
-			if (flameable) {
-				ElementalType.Fire.applyTo(entity, 115);
+			if (flameable && entity instanceof EntityLivingBase) {
+				ElementalType.Fire.applyTo((EntityLivingBase) entity, 115, getThrower());
 			}
 		}
 	}

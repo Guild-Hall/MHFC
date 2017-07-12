@@ -1,80 +1,93 @@
 package mhfc.net.common.weapon.stats;
 
-import java.util.Objects;
 import java.util.Random;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumParticleTypes;
 
 public enum ElementalType implements ICombatEffectType {
-	Fire(new DamageSource("mhfc.fireelement").setDamageBypassesArmor()) {
-		@Override
-		public void onEntitySwing(EntityLivingBase entity, ItemStack stack, Random rand) {
-			double velX = rand.nextGaussian(), velY = rand.nextGaussian(), velZ = rand.nextGaussian();
-			double posX = entity.posX, posY = entity.posY, posZ = entity.posZ;
-			entity.world.spawnParticle(EnumParticleTypes.LAVA, posX, posY, posZ, velX, velY, velZ);
-		}
-
+	Fire(EnumParticleTypes.LAVA) {
 		@Override
 		public String getUnlocalizedName() {
 			return "type.effect.fire";
 		}
-	},
-	Water(new DamageSource("mhfc.waterelement").setDamageBypassesArmor()) {
-		
+
 		@Override
-		public void onEntitySwing(EntityLivingBase entity, ItemStack stack, Random rand) {
-			double velX = rand.nextGaussian(), velY = rand.nextGaussian(), velZ = rand.nextGaussian();
-			double posX = entity.posX, posY = entity.posY, posZ = entity.posZ;
-			entity.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX, posY, posZ, velX, velY, velZ);
+		protected DamageSource getDamageSource(EntityLivingBase attacker) {
+			return createSourceBase("mhfc.fireelement", attacker).setDamageBypassesArmor();
 		}
-		
+	},
+	Water(EnumParticleTypes.WATER_BUBBLE) {
 		@Override
 		public String getUnlocalizedName() {
 			return "type.effect.water";
 		}
+
+		@Override
+		protected DamageSource getDamageSource(EntityLivingBase attacker) {
+			return createSourceBase("mhfc.waterelement", attacker).setDamageBypassesArmor();
+		}
 	},
-	Thunder(new DamageSource("mhfc.thunderelement").setDamageBypassesArmor()) {
+	Thunder(null) {
 		@Override
 		public String getUnlocalizedName() {
 			return "type.effect.thunder";
 		}
-	},
-	Dragon(new DamageSource("mhfc.dragonelement").setDamageBypassesArmor()) {
-		
-		
 
 		@Override
-		public void onEntitySwing(EntityLivingBase entity, ItemStack stack, Random rand) {
-			double velX = rand.nextGaussian(), velY = rand.nextGaussian(), velZ = rand.nextGaussian();
-			double posX = entity.posX, posY = entity.posY, posZ = entity.posZ;
-			entity.world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, posX, posY, posZ, velX, velY, velZ);
+		protected DamageSource getDamageSource(EntityLivingBase attacker) {
+			return createSourceBase("mhfc.thunderelement", attacker).setDamageBypassesArmor();
 		}
-		
+	},
+	Dragon(EnumParticleTypes.DRAGON_BREATH) {
 		@Override
 		public String getUnlocalizedName() {
 			return "type.effect.dragon";
 		}
+
+		@Override
+		protected DamageSource getDamageSource(EntityLivingBase attacker) {
+			return createSourceBase("mhfc.dragonelement", attacker).setDamageBypassesArmor();
+		}
 	},
-	Ice(new DamageSource("mhfc.iceelement").setDamageBypassesArmor()) {
+	Ice(null) {
 		@Override
 		public String getUnlocalizedName() {
 			return "type.effect.ice";
 		}
+
+		@Override
+		protected DamageSource getDamageSource(EntityLivingBase attacker) {
+			return createSourceBase("mhfc.iceelement", attacker).setDamageBypassesArmor();
+		}
 	};
 
-	public final DamageSource damageSource;
+	private final EnumParticleTypes particleType;
 
-	private ElementalType(DamageSource damageSrc) {
-		this.damageSource = Objects.requireNonNull(damageSrc);
+	private ElementalType(EnumParticleTypes particle) {
+		this.particleType = particle;
 	}
 
 	@Override
-	public void applyTo(Entity target, float damageAmount) {
-		// TODO: add the attacker as damageSourceEntity
-		target.attackEntityFrom(damageSource, damageAmount);
+	public void onEntitySwing(EntityLivingBase entity, ItemStack stack, Random rand) {
+		if (particleType != null) {
+			double velX = rand.nextGaussian(), velY = rand.nextGaussian(), velZ = rand.nextGaussian();
+			double posX = entity.posX, posY = entity.posY, posZ = entity.posZ;
+			entity.world.spawnParticle(particleType, posX, posY, posZ, velX, velY, velZ);
+		}
+	}
+
+	@Override
+	public void applyTo(EntityLivingBase target, float damageAmount, EntityLivingBase attacker) {
+		target.attackEntityFrom(getDamageSource(attacker), damageAmount);
+	}
+
+	protected abstract DamageSource getDamageSource(EntityLivingBase attacker);
+
+	protected static DamageSource createSourceBase(String type, EntityLivingBase attacker) {
+		return attacker == null ? new DamageSource(type) : new EntityDamageSource(type, attacker);
 	}
 }
