@@ -52,6 +52,12 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		RESIGNED;
 	}
 
+	private static enum PlayerState {
+		IN_TOWN,
+		ON_QUEST,
+		WAITING_FOR_BACK_TP;
+	}
+
 	private static class QuestingPlayerState {
 		public EntityPlayerMP player;
 		public boolean vote;
@@ -61,6 +67,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		public boolean reward;
 		public IExplorationManager previousManager;
 		public JsonElement previousSaveData;
+		public PlayerState playerState;
 
 		public QuestingPlayerState(EntityPlayerMP p, boolean vote, boolean restoreInventory, boolean reward) {
 			this.player = p;
@@ -69,6 +76,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 			this.reward = reward;
 			this.previousManager = MHFCExplorationRegistry.getExplorationManagerFor(p);
 			this.previousSaveData = this.previousManager.saveState();
+			this.playerState = PlayerState.IN_TOWN;
 		}
 	}
 
@@ -212,7 +220,9 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	protected void onStart() {
 		questGoal.setActive(true);
 		QuestExplorationManager.bindPlayersToMission(getPlayers(), this);
-		for (EntityPlayerMP player : getPlayers()) {
+		for (QuestingPlayerState playerAttributes : playerAttributes.values()) {
+			EntityPlayerMP player = playerAttributes.player;
+			playerAttributes.playerState = PlayerState.ON_QUEST;
 			IExplorationManager explorationManager = MHFCExplorationRegistry.getExplorationManagerFor(player);
 			explorationManager.respawn(null);
 		}
@@ -310,9 +320,24 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	private CompletionStage<Void> teleportBack(QuestingPlayerState att) {
 		Objects.requireNonNull(att);
+		if (att.playerState == PlayerState.WAITING_FOR_BACK_TP) {
+			return CompletableFuture.completedFuture(null);
+		}
+		if (att.playerState == PlayerState.IN_TOWN) {
+			// Pretend we're gonna to tp him, but actually just rebind the player
+			att.playerState = PlayerState.WAITING_FOR_BACK_TP;
+			return MHFCTickHandler.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
+				EntityPlayerMP player = att.player;
+
+				MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
+				MHFCExplorationRegistry.respawnPlayer(player, att.previousSaveData);
+				att.playerState = PlayerState.IN_TOWN;
+			});
+		}
 
 		att.player.sendMessage(
 				new TextComponentTranslation("mhfc.quests.status.teleportSoon", DELAY_BEFORE_TP_IN_SECONDS));
+		att.playerState = PlayerState.WAITING_FOR_BACK_TP;
 		return MHFCTickHandler.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
 			EntityPlayerMP player = att.player;
 			player.sendMessage(new TextComponentTranslation("mhfc.quests.status.teleport"));
@@ -322,6 +347,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 			MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
 			MHFCExplorationRegistry.respawnPlayer(player, att.previousSaveData);
+			att.playerState = PlayerState.IN_TOWN;
 		});
 	}
 
