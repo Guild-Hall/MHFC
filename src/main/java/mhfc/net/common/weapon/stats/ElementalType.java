@@ -9,7 +9,7 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumParticleTypes;
 
 public enum ElementalType implements ICombatEffectType {
-	Fire(EnumParticleTypes.LAVA) {
+	Fire(EnumParticleTypes.FLAME) {
 		@Override
 		public String getUnlocalizedName() {
 			return "type.effect.fire";
