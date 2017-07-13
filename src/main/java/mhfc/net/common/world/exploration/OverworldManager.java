@@ -31,6 +31,14 @@ public class OverworldManager implements IExplorationManager {
 
 	private void transferPlayerToOverworld(JsonElement saveData) {
 		if (player.getEntityWorld().provider.getDimension() == OVERWORLD_DIMENSION) {
+			if (saveData != null) {
+				JsonObject save = saveData.getAsJsonObject();
+				BlockPos pos = new BlockPos(
+						save.get("x").getAsDouble(),
+						save.get("y").getAsDouble(),
+						save.get("z").getAsDouble());
+				AreaTeleportation.moveEntityTo(player, pos);
+			}
 			return;
 		}
 		MinecraftServer server = player.getEntityWorld().getMinecraftServer();
