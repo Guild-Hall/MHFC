@@ -81,7 +81,7 @@ public class QuestStatusDisplay {
 		MHFCGuiUtil.drawTexturedBoxFromBorder(posX, posY, 0, width, height, 40, 30f / 256, 248f / 256, 166f / 256);
 		GL11.glDisable(GL11.GL_BLEND);
 
-		int lineHeight = mc.fontRendererObj.FONT_HEIGHT + 2;
+		int lineHeight = mc.fontRenderer.FONT_HEIGHT + 2;
 
 		Viewable shortMissionStatus = activeInformation.getShortStatus();
 		Viewable shortStatus = shortStatusHeader.concat(shortMissionStatus);
@@ -96,7 +96,7 @@ public class QuestStatusDisplay {
 				posY + 5,
 				lineHeight,
 				COLOUR_TEXT,
-				mc.fontRendererObj);
+				mc.fontRenderer);
 	}
 
 }

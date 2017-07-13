@@ -260,7 +260,7 @@ public class DisplacedView implements IWorldView {
 		for (int x = 0; x < chunkDimensionX; x++) {
 			for (int z = 0; z < chunkDimensionZ; z++) {
 				Chunk loadedChunk = world.getChunkFromChunkCoords(chunkDeltaX + x, chunkDeltaZ + z);
-				assert !loadedChunk.unloaded;
+				assert !loadedChunk.unloadQueued;
 			}
 		}
 	}

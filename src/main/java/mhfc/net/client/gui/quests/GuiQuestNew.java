@@ -143,7 +143,7 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 		updateScreen();
 		drawBackground(0);
 		// TODO unlocalize
-		fontRendererObj.drawString("Take a quest: ", 8, yBorder, MHFCGuiUtil.COLOUR_TEXT);
+		fontRenderer.drawString("Take a quest: ", 8, yBorder, MHFCGuiUtil.COLOUR_TEXT);
 		super.draw(mousePosX, mousePosY, partialTick);
 		if (questIdentifiers == null || selectedIdentifier < 0 || selectedIdentifier >= questIdentifiers.size()) {
 			newQuest.enabled = false;
@@ -162,7 +162,7 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 					xSize - 2 * questsX - questsW,
 					ySize - 30,
 					page % pageCount,
-					fontRendererObj);
+					fontRenderer);
 		}
 	}
 

@@ -50,7 +50,7 @@ public class GuiBlockExploreArea extends MHFCGui {
 		// not sure with mouseClickButton
 		targetAreaText = new GuiTextField(
 				mouseClickButton,
-				this.fontRendererObj,
+				this.fontRenderer,
 				width / 6,
 				height / 4,
 				2 * width / 3,

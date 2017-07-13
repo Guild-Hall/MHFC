@@ -66,7 +66,7 @@ public class QuestStatusInventory extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int mouseX, int mouseY) {
-		FontRenderer fontRendererObj = mc.fontRendererObj;
+		FontRenderer fontRendererObj = mc.fontRenderer;
 
 		mc.getTextureManager().bindTexture(QuestStatusDisplay.QUEST_STATUS_INVENTORY_BACKGROUND);
 		MHFCGuiUtil.drawTexturedBoxFromBorder(

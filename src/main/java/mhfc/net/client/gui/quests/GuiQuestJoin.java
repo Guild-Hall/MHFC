@@ -142,7 +142,7 @@ public class GuiQuestJoin extends MHFCGui implements IMHFCTab {
 		updateTab();
 		drawBackground(0);
 		super.draw(mousePosX, mousePosY, partialTick);
-		fontRendererObj.drawString("Currently running:", 9, yBorder, MHFCGuiUtil.COLOUR_TEXT);
+		fontRenderer.drawString("Currently running:", 9, yBorder, MHFCGuiUtil.COLOUR_TEXT);
 		runningQuestList.setVisible(true);
 		GuiListStringItem item = runningQuestList.getSelectedItem();
 		if (item == null) {
@@ -164,7 +164,7 @@ public class GuiQuestJoin extends MHFCGui implements IMHFCTab {
 				xSize - runningW - 2 * runningX,
 				ySize - 2 * yBorder,
 				page % pageCount,
-				fontRendererObj);
+				fontRenderer);
 	}
 
 	@Override

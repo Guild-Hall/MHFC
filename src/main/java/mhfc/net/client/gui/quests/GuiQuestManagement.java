@@ -91,8 +91,8 @@ public class GuiQuestManagement extends MHFCGui implements IMHFCTab {
 		updateScreen();
 		drawBackground(0);
 		String warning = "You are already on a quest";
-		int warnX = (xSize - fontRendererObj.getStringWidth(warning)) / 2, warnY = 60;
-		fontRendererObj.drawString(warning, warnX, warnY, MHFCGuiUtil.COLOUR_TEXT);
+		int warnX = (xSize - fontRenderer.getStringWidth(warning)) / 2, warnY = 60;
+		fontRenderer.drawString(warning, warnX, warnY, MHFCGuiUtil.COLOUR_TEXT);
 		super.draw(mousePosX, mousePosY, partialTick);
 	}
 

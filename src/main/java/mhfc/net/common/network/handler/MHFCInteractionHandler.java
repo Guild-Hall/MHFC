@@ -63,7 +63,7 @@ public class MHFCInteractionHandler extends ThreadSafeMessageHandler<MessageMHFC
 
 	@Override
 	public void handleLater(MessageMHFCInteraction message, MessageContext ctx) {
-		EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+		EntityPlayerMP player = ctx.getServerHandler().player;
 		onInteraction(player, message);
 	}
 

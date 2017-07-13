@@ -149,7 +149,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			// updateListPositions();
 			super.draw(mousePosX, mousePosY, partialTick);
 
-			fontRendererObj.drawSplitString("Inventory", 6, 12, 500, 0x404040);
+			fontRenderer.drawSplitString("Inventory", 6, 12, 500, 0x404040);
 
 			GuiHunterBench.this.startCrafting.visible = !bench.isWorking();
 			GuiHunterBench.this.startCrafting.enabled = bench.canBeginCrafting();
@@ -334,7 +334,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			GL11.glPushMatrix();
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			drawRect(10, 10, xSize - 10, ySize - 10, 0xFF101010);
-			drawCenteredString(fontRendererObj, "Not yet implemented", xSize / 2 + baseX, ySize / 2 + baseY, 0xaaaaaa);
+			drawCenteredString(fontRenderer, "Not yet implemented", xSize / 2 + baseX, ySize / 2 + baseY, 0xaaaaaa);
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
 			GL11.glPopMatrix();
 		}

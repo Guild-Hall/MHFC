@@ -73,7 +73,7 @@ public class MHFCQuestRegistry {
 
 		@Override
 		public void handleLater(MessageQuestRunningSubscription message, MessageContext ctx) {
-			EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+			EntityPlayerMP player = ctx.getServerHandler().player;
 			if (message.isSubscribed()) {
 				boolean newSubscription = subscribers.add(player);
 				if (newSubscription) {

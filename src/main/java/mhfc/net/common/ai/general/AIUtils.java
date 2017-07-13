@@ -288,7 +288,8 @@ public class AIUtils {
 							dizBlock,
 							bounds,
 							list,
-							entity);
+							entity,
+							false);
 				}
 			}
 		}

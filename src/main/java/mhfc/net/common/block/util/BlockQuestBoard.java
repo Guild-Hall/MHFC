@@ -186,7 +186,8 @@ public class BlockQuestBoard extends BlockContainer {
 			BlockPos pos,
 			AxisAlignedBB entityBox,
 			List<AxisAlignedBB> bounds,
-			Entity entityIn) {
+			Entity entityIn,
+			boolean p31) {
 		int meta = blockState.getBlock().getMetaFromState(blockState);
 
 		boolean isOffsetSet = blockState.getValue(PLACING) == EnumPlacing.FORWARD_OFFSET;
