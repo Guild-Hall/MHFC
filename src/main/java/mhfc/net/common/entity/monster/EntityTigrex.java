@@ -9,16 +9,15 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.entity.AIAngleWhip;
 import mhfc.net.common.ai.entity.AIBite;
 import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIDeath;
+import mhfc.net.common.ai.entity.AIIdle;
 import mhfc.net.common.ai.entity.boss.tigrex.BackOff;
 import mhfc.net.common.ai.entity.boss.tigrex.Charge;
-import mhfc.net.common.ai.entity.boss.tigrex.ClawSwipe;
 import mhfc.net.common.ai.entity.boss.tigrex.Jump;
 import mhfc.net.common.ai.entity.boss.tigrex.Roar;
-import mhfc.net.common.ai.entity.boss.tigrex.TailWhip;
-import mhfc.net.common.ai.entity.boss.tigrex.living.Idle;
 import mhfc.net.common.ai.entity.boss.tigrex.living.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
@@ -65,7 +64,6 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 								"mhfc:models/Tigrex/dying.mcanm",
 								MHFCSoundRegistry.getRegistry().tigrexDeath)));
 
-		manager.registerAction(new ClawSwipe(7, 6, 2F, 120));
 		manager.registerAction(new Charge());
 		manager.registerAction(
 				new AIBite(
@@ -73,16 +71,44 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 						"mhfc:models/Tigrex/bite.mcanm",
 						55,
 						12,
-						105,
+						70,
 						10F,
 						MHFCSoundRegistry.getRegistry().tigrexBite));
 		manager.registerAction(new AIBreathe(this, "mhfc:models/Tigrex/breathe.mcanm", 60, 5F));
-		manager.registerAction(new TailWhip()); //TODO USE DAMAGE AREA AI FOR THIS -HELTRATO.
+		manager.registerAction(
+				new AIAngleWhip(
+						this,
+						"mhfc:models/Tigrex/clawswipe.mcanm",
+						41,
+						5,
+						71,
+						10,
+						MHFCSoundRegistry.getRegistry().tigrexTailWhip,
+						7,
+						6,
+						2F,
+						120,
+						10));
+		manager.registerAction(
+				new AIAngleWhip(
+						this,
+						"mhfc:models/Tigrex/tailswipe.mcanm",
+						60,
+						12,
+						85,
+						10F,
+						MHFCSoundRegistry.getRegistry().tigrexTailWhip,
+						9,
+						5,
+						1,
+						180,
+						10));
 		manager.registerAction(new Jump());
 		manager.registerAction(new Roar());
 		manager.registerAction(new BackOff());
 
-		manager.registerAction(new Idle());
+		manager.registerAction(new AIIdle(this, "mhfc:models/Tigrex/idle.mcanm", 160, 1F));
+		manager.registerAction(new AIIdle(this, "mhfc:models/Tigrex/idle3.mcanm", 260, 5F));
 		manager.registerAction(new Wander(0.2F)); //FIXME LOOP ANIMATIONS.
 
 		//To be fix

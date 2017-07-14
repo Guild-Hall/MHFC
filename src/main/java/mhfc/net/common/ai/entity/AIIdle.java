@@ -1,44 +1,38 @@
 package mhfc.net.common.ai.entity;
 
-import com.github.worldsender.mcanm.common.animation.IAnimation;
-
 import mhfc.net.common.ai.general.actions.IdleAction;
+import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
-import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
-import mhfc.net.common.ai.general.provider.simple.IFrameAdvancer;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 
 @SuppressWarnings("rawtypes")
 public class AIIdle extends IdleAction<EntityMHFCBase> implements IHasAnimationProvider {
 
-	private double lookX;
-	private double lookZ;
+	protected EntityMHFCBase entity;
+	protected String animationLocation;
+	protected int animationLength;
+	protected float weight;
 
-	@Override
-	public IFrameAdvancer provideFrameAdvancer() {
-		return null;
+	public AIIdle(EntityMHFCBase entity, String animationLocation, int animationLength, float weight) {
+		this.entity = entity;
+		this.animationLocation = animationLocation;
+		this.animationLength = animationLength;
+		this.weight = weight;
+
 	}
 
-	@Override
-	public IAnimation provideAnimation() {
-		return null;
-	}
 
 	@Override
-	public IContinuationPredicate provideContinuationPredicate() {
-		return null;
+	public IAnimationProvider getAnimProvider() {
+		return new AnimationAdapter(this, this.animationLocation, this.animationLength);
 	}
 
 	@Override
 	protected float computeIdleWeight() {
-		return 0;
+		return weight;
 	}
 
-	@Override
-	public IAnimationProvider getAnimProvider() {
-		return null;
-	} 
 	
 	
 

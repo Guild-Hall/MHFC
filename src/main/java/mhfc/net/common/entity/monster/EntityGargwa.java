@@ -6,7 +6,7 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.AIDeath;
-import mhfc.net.common.ai.entity.nonboss.gargwa.Idle;
+import mhfc.net.common.ai.entity.AIIdle;
 import mhfc.net.common.ai.entity.nonboss.gargwa.Sleep;
 import mhfc.net.common.ai.entity.nonboss.gargwa.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
@@ -27,8 +27,8 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 	@Override
 	protected IActionManager<EntityGargwa> constructActionManager() {
 		ActionManagerBuilder<EntityGargwa> actionManager = new ActionManagerBuilder<>();
-		//	actionManager.registerAction(new GaguaPeck());
-		actionManager.registerAction(new Idle());
+		actionManager.registerAction(new AIIdle(this, "mhfc:models/Gagua/GaguaIdleOne.mcanm", 80, 2F));
+		actionManager.registerAction(new AIIdle(this, "mhfc:models/Gagua/GaguaIdleTwo.mcanm", 200, 1F));
 		actionManager.registerAction(new Sleep());
 		actionManager.registerAction(
 				setDeathAction(

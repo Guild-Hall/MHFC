@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
+import mhfc.net.common.ai.entity.AIAngleWhip;
 import mhfc.net.common.ai.entity.AIBite;
 import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIDeath;
@@ -14,7 +15,6 @@ import mhfc.net.common.ai.entity.boss.deviljho.Jump;
 import mhfc.net.common.ai.entity.boss.deviljho.Launch;
 import mhfc.net.common.ai.entity.boss.deviljho.Roar;
 import mhfc.net.common.ai.entity.boss.deviljho.Stomp;
-import mhfc.net.common.ai.entity.boss.deviljho.TailWhip;
 import mhfc.net.common.ai.entity.boss.deviljho.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
@@ -74,11 +74,26 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 						105,
 						12,
 						MHFCSoundRegistry.getRegistry().deviljhoBiteB));
+
+		attackManager.registerAction(
+				new AIAngleWhip(
+						this,
+						"mhfc:models/Deviljho/tailswipe.mcanm",
+						55,
+						5,
+						165,
+						10,
+						MHFCSoundRegistry.getRegistry().deviljhoTailWhip,
+						12,
+						8,
+						1,
+						180,
+						11));
 		// TODO LIST
 		attackManager.registerAction(new Launch());
 		attackManager.registerAction(new Charge());
 		attackManager.registerAction(new Stomp());
-		attackManager.registerAction(new TailWhip());
+
 		attackManager.registerAction(new Jump());
 		attackManager.registerAction(new FrontalBreathe());
 		attackManager.registerAction(new Roar());
