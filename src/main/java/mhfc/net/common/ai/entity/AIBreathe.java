@@ -7,7 +7,7 @@ import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 
 @SuppressWarnings("rawtypes")
-public class AIBreathe extends BreatheAction<EntityMHFCBase> implements IHasAnimationProvider {
+public class AIBreathe extends BreatheAction<EntityMHFCBase<?>> implements IHasAnimationProvider {
 
 	protected EntityMHFCBase entity;
 	protected String animationLocation;

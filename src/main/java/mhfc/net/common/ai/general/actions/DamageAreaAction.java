@@ -10,8 +10,7 @@ import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.Vec3d;
 
-@SuppressWarnings("rawtypes")
-public abstract class DamageAreaAction<T extends EntityMHFCBase> extends AnimatedAction<T>
+public abstract class DamageAreaAction<T extends EntityMHFCBase<?>> extends AnimatedAction<T>
 		implements
 		INeedsDamageCalculator {
 

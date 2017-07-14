@@ -14,7 +14,7 @@ import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.util.SoundEvent;
 
 @SuppressWarnings("rawtypes")
-public class AIAngleWhip extends DamageAreaAction<EntityMHFCBase> implements IHasAttackProvider {
+public class AIAngleWhip extends DamageAreaAction<EntityMHFCBase<?>> implements IHasAttackProvider {
 
 
 	protected float damage;
