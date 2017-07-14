@@ -6,6 +6,8 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.AIBite;
+import mhfc.net.common.ai.entity.AIBreathe;
+import mhfc.net.common.ai.entity.AIDeath;
 import mhfc.net.common.ai.entity.boss.deviljho.Charge;
 import mhfc.net.common.ai.entity.boss.deviljho.FrontalBreathe;
 import mhfc.net.common.ai.entity.boss.deviljho.Jump;
@@ -47,8 +49,13 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	@Override
 	protected IActionManager<EntityDeviljho> constructActionManager() {
 		ActionManagerBuilder<EntityDeviljho> attackManager = new ActionManagerBuilder<>();
-		//attackManager.registerAction(setDeathAction(new Death()));
-		//attackManager.registerAction(new Idle());
+		attackManager.registerAction(
+				setDeathAction(
+						new AIDeath(
+								this,
+								"mhfc:models/Deviljho/DeviljhoDeath.mcanm",
+								MHFCSoundRegistry.getRegistry().deviljhoDeath)));
+		attackManager.registerAction(new AIBreathe(this, "mhfc:models/Deviljho/breathe.mcanm", 60, 5F));
 		attackManager.registerAction(
 				new AIBite(
 						this,

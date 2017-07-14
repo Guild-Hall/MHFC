@@ -7,9 +7,9 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IStancedEntity;
+import mhfc.net.common.ai.entity.AIDeath;
 import mhfc.net.common.ai.entity.boss.rathalos.BiteLeft;
 import mhfc.net.common.ai.entity.boss.rathalos.BiteRight;
-import mhfc.net.common.ai.entity.boss.rathalos.Death;
 import mhfc.net.common.ai.entity.boss.rathalos.Idle;
 import mhfc.net.common.ai.entity.boss.rathalos.Rush;
 import mhfc.net.common.ai.entity.boss.rathalos.TailWhip;
@@ -97,7 +97,12 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		stancedAttackManager.registerAction(new BiteRight());
 		stancedAttackManager.registerAction(new TailWhip());
 		stancedAttackManager.registerAction(new Rush());
-		stancedAttackManager.registerAction(setDeathAction(new Death()));
+		stancedAttackManager.registerAction(
+				setDeathAction(
+						new AIDeath(
+								this,
+								"mhfc:models/Rathalos/RathalosDeath.mcanm",
+								MHFCSoundRegistry.getRegistry().rathalosDeath)));
 		return stancedAttackManager.build(this);
 	}
 

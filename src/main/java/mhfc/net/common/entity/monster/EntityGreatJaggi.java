@@ -5,12 +5,13 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
+import mhfc.net.common.ai.entity.AIDeath;
 import mhfc.net.common.ai.entity.boss.greatjaggi.Bite;
 import mhfc.net.common.ai.entity.boss.greatjaggi.Charge;
-import mhfc.net.common.ai.entity.boss.greatjaggi.Death;
 import mhfc.net.common.ai.entity.boss.greatjaggi.Idle;
 import mhfc.net.common.ai.entity.boss.greatjaggi.Whip;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -43,7 +44,12 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 		actionManager.registerAction(new Whip());
 	//	actionManager.registerAction(new Wander());
 
-		actionManager.registerAction(setDeathAction(new Death()));
+		actionManager.registerAction(
+				setDeathAction(
+						new AIDeath(
+								this,
+								"mhfc:models/GreatJaggi/GreatJaggiDeath.mcanm",
+								MHFCSoundRegistry.getRegistry().greatJaggiDeath)));
 		return actionManager.build(this);
 	}
 

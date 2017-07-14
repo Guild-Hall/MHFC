@@ -5,9 +5,9 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
+import mhfc.net.common.ai.entity.AIDeath;
 import mhfc.net.common.ai.entity.boss.lagiacrus.Bite;
 import mhfc.net.common.ai.entity.boss.lagiacrus.BiteFront;
-import mhfc.net.common.ai.entity.boss.lagiacrus.Death;
 import mhfc.net.common.ai.entity.boss.lagiacrus.Idle;
 import mhfc.net.common.ai.entity.boss.lagiacrus.Roar;
 import mhfc.net.common.ai.entity.boss.lagiacrus.Sweep;
@@ -44,7 +44,12 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 		actionManager.registerAction(new Bite());
 		actionManager.registerAction(new BiteFront());
 		actionManager.registerAction(new Idle());
-		actionManager.registerAction(setDeathAction(new Death()));
+		actionManager.registerAction(
+				setDeathAction(
+						new AIDeath(
+								this,
+								"mhfc:models/Lagiacrus/LagiacrusHurt.mcanm",
+								MHFCSoundRegistry.getRegistry().lagiacrusDeath)));
 		return actionManager.build(this);
 	}
 

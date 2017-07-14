@@ -5,13 +5,14 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
+import mhfc.net.common.ai.entity.AIBreathe;
+import mhfc.net.common.ai.entity.AIDeath;
 import mhfc.net.common.ai.entity.nonboss.delex.Bite;
-import mhfc.net.common.ai.entity.nonboss.delex.Breathe;
-import mhfc.net.common.ai.entity.nonboss.delex.Death;
 import mhfc.net.common.ai.entity.nonboss.delex.MoveToTarget;
 import mhfc.net.common.ai.entity.nonboss.delex.Tackle;
 import mhfc.net.common.ai.entity.nonboss.delex.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -40,9 +41,14 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 		actionManager.registerAction(new Bite());
 		actionManager.registerAction(new Tackle());
 		actionManager.registerAction(new MoveToTarget(1.1F));
-		actionManager.registerAction(new Breathe());
+		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Delex/delexidle.mcanm", 60, 5f));
 		actionManager.registerAction(new Wander(0.7F));
-		actionManager.registerAction(setDeathAction(new Death()));
+		actionManager.registerAction(
+				setDeathAction(
+						new AIDeath(
+								this,
+								"mhfc:models/Delex/DelexDeath.mcanm",
+								MHFCSoundRegistry.getRegistry().delexHurt)));
 		return actionManager.build(this);
 	}
 

@@ -9,8 +9,8 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
-import mhfc.net.common.ai.entity.boss.barroth.Breathe;
-import mhfc.net.common.ai.entity.boss.barroth.Death;
+import mhfc.net.common.ai.entity.AIBreathe;
+import mhfc.net.common.ai.entity.AIDeath;
 import mhfc.net.common.ai.entity.boss.barroth.HeadSlam;
 import mhfc.net.common.ai.entity.boss.barroth.Ram;
 import mhfc.net.common.ai.entity.boss.barroth.RamRun;
@@ -48,12 +48,17 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 		
 		
 		FollowUpManagerBuilder<EntityBarroth>	followUpManager = new FollowUpManagerBuilder<>();
-		followUpManager.registerAction(setDeathAction(new Death()));
+		followUpManager.registerAction(new AIBreathe(this, "mhfc:models/Barroth/barrothidle.mcanm", 60, 3f));
+		followUpManager.registerAction(
+				setDeathAction(
+						new AIDeath(
+								this,
+								"mhfc:models/Barroth/BarrothDeath.mcanm",
+								MHFCSoundRegistry.getRegistry().barrothDeath)));
 		followUpManager.registerAction(new Wander(0.6F, 1F));
 		followUpManager.registerAction(new HeadSlam(7F, 5F, 1F, 270F));
 		followUpManager.registerAllowingAllActions(new RamRun(1F, 0.7F));
 		followUpManager.registerAllowingAllActions(new Ram());
-		followUpManager.registerAllowingAllActions(new Breathe());
 		followUpManager.registerAction(new Stomp());
 		
 		

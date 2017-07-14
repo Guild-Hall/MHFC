@@ -16,10 +16,10 @@ import com.google.common.collect.EvictingQueue;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IActionRecorder;
 import mhfc.net.common.ai.IExecutableAction;
+import mhfc.net.common.ai.entity.AIBreathe;
+import mhfc.net.common.ai.entity.AIDeath;
 import mhfc.net.common.ai.entity.boss.nargacuga.BackOff;
-import mhfc.net.common.ai.entity.boss.nargacuga.Breathe;
 import mhfc.net.common.ai.entity.boss.nargacuga.Charge;
-import mhfc.net.common.ai.entity.boss.nargacuga.Death;
 import mhfc.net.common.ai.entity.boss.nargacuga.Pounce;
 import mhfc.net.common.ai.entity.boss.nargacuga.ProwlerStance;
 import mhfc.net.common.ai.entity.boss.nargacuga.Roar;
@@ -77,7 +77,12 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	@Override
 	protected IActionManager<EntityNargacuga> constructActionManager() {
 		FollowUpManagerBuilder<EntityNargacuga> attackManager = new FollowUpManagerBuilder<>();
-		attackManager.registerAction(setDeathAction(new Death()));
+		attackManager.registerAction(
+				setDeathAction(
+						new AIDeath(
+								this,
+								"mhfc:models/Nargacuga/NargaDeath.001.mcanm",
+								MHFCSoundRegistry.getRegistry().nargacugaDeath)));
 		TailSlam tailSlam = new TailSlam();
 		TailWhip tailWhip = new TailWhip(8, 4, 1, 180F);
 		Roar roar = new Roar();
@@ -91,7 +96,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		prowlerFollow.add(pounce);
 		prowlerFollow.add(tailWhip);
 		attackManager.registerAction(new Wander(1.2F, 0.3F));
-		attackManager.registerAction(new Breathe());
+		attackManager.registerAction(new AIBreathe(this, "mhfc:models/nargacuga/nargacugaidle.mcanm", 60, 5F));
 		attackManager.registerAllowingAllActions(tailSlam);
 		attackManager.registerAllowingAllActions(tailWhip);
 		attackManager.registerActionWithFollowUps(prowler, prowlerFollow);

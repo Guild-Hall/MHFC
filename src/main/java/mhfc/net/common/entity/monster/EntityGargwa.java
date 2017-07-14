@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
-import mhfc.net.common.ai.entity.nonboss.gargwa.Death;
+import mhfc.net.common.ai.entity.AIDeath;
 import mhfc.net.common.ai.entity.nonboss.gargwa.Idle;
 import mhfc.net.common.ai.entity.nonboss.gargwa.Sleep;
 import mhfc.net.common.ai.entity.nonboss.gargwa.Wander;
@@ -30,7 +30,12 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 		//	actionManager.registerAction(new GaguaPeck());
 		actionManager.registerAction(new Idle());
 		actionManager.registerAction(new Sleep());
-		actionManager.registerAction(setDeathAction(new Death()));
+		actionManager.registerAction(
+				setDeathAction(
+						new AIDeath(
+								this,
+								"mhfc:models/Gagua/GaguaDeath.mcanm",
+								MHFCSoundRegistry.getRegistry().gargwaDeath)));
 		actionManager.registerAction(new Wander());
 		return actionManager.build(this);
 	}

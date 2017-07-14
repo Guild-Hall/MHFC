@@ -48,9 +48,6 @@ public class AIBite extends DamagingAction<EntityMHFCBase> implements IHasAttack
 
 	}
 
-	//BITE_2("mhfc:models/Deviljho/bite.mcanm", 40) {
-	//	BITE_1("mhfc:models/Deviljho/bite2.mcanm", 35) {
-
 	@Override
 	public IAnimationProvider getAnimProvider() {
 		return new AnimationAdapter(this, this.animationLocation, this.animationLength);
@@ -82,14 +79,12 @@ public class AIBite extends DamagingAction<EntityMHFCBase> implements IHasAttack
 	protected float computeSelectionWeight() {
 		target = this.entity.getAttackTarget();
 
-		if (this.getCurrentAnimation() != null) {
 			if (SelectionUtils.isIdle(this.entity)) {
 				return DONT_SELECT;
 			}
 			if (!SelectionUtils.isInDistance(0, 10F, this.entity, target)) {
 				return DONT_SELECT;
 			}
-		}
 		return this.weight;
 	}
 
