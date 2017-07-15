@@ -2,6 +2,7 @@ package mhfc.net.common.util.parsing.valueholders;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
@@ -21,7 +22,6 @@ import mhfc.net.common.util.parsing.proxies.MemberMethodProxy;
 import mhfc.net.common.util.reflection.FieldHelper;
 import mhfc.net.common.util.reflection.MethodHelper;
 import mhfc.net.common.util.reflection.OverloadedMethod;
-import scala.actors.threadpool.Arrays;
 
 /**
  * Represents a member of an {@link IValueHolder}. This is dynamically determined based on the currently present origin

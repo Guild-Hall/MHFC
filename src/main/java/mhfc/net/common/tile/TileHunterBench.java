@@ -1,5 +1,6 @@
 package mhfc.net.common.tile;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
@@ -25,7 +26,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import scala.actors.threadpool.Arrays;
 
 public class TileHunterBench extends TileEntity implements ITickable, IInventory, TileMHFCUpdateStream {
 
