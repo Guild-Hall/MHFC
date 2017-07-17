@@ -18,8 +18,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class MHFCConfig {
 
 	private boolean allCanPickup;
-	private boolean spawnTigrex;
-	private boolean spawnKirin;
 	private int dimensionHandlerID;
 	//	public final boolean setupComplexGraphics = false;   // I'll add this soon if dan is finish with the block HD's better biome performance for faster pc
 
@@ -47,8 +45,6 @@ public class MHFCConfig {
 			rs.reloadTime = config.get("reloadtime", rs.settingName, rs.reloadTime).getInt(rs.reloadTime);
 		}
 
-		spawnTigrex = config.get("MHFC Mobs", "Summon Tigrex", true).getBoolean(true);
-		spawnKirin = config.get("MHFC Mobs", "Summon Kirin", true).getBoolean(true);
 		allCanPickup = config.get("settings", "pickup-all", true, "Another work-in-progress soon.").getBoolean(true);
 		dimensionHandlerID = config.getInt(
 				"dimensionHandlerID",
@@ -87,35 +83,17 @@ public class MHFCConfig {
 
 	}
 
-	public void addEnableSetting(String weapon) {
-		enableSettings.put(weapon, new EnableSetting(weapon));
-	}
-
-	public void addReloadTimeSetting(String weapon, int defaulttime) {
-		reloadTimeSettings.put(weapon, new ReloadTimeSetting(weapon, defaulttime));
-	}
 
 	public boolean isEnabled(String weapon) {
 		EnableSetting es = enableSettings.get(weapon);
 		return es == null || es.enabled;
 	}
 
-	public int getReloadTime(String weapon) {
-		ReloadTimeSetting rs = reloadTimeSettings.get(weapon);
-		return rs == null ? 0 : rs.reloadTime;
-	}
 
 	public boolean isAllCanPickup() {
 		return allCanPickup;
 	}
 
-	public boolean isSpawnTigrex() {
-		return spawnTigrex;
-	}
-
-	public boolean isSpawnKirin() {
-		return spawnKirin;
-	}
 
 	public int getDimensionHandlerID() {
 		return dimensionHandlerID;

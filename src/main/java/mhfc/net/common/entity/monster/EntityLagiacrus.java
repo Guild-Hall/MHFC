@@ -6,12 +6,12 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.AIDeath;
-import mhfc.net.common.ai.entity.boss.lagiacrus.Bite;
-import mhfc.net.common.ai.entity.boss.lagiacrus.BiteFront;
-import mhfc.net.common.ai.entity.boss.lagiacrus.Idle;
-import mhfc.net.common.ai.entity.boss.lagiacrus.Roar;
-import mhfc.net.common.ai.entity.boss.lagiacrus.Sweep;
-import mhfc.net.common.ai.entity.boss.lagiacrus.Wander;
+import mhfc.net.common.ai.entity.monsters.lagiacrus.Bite;
+import mhfc.net.common.ai.entity.monsters.lagiacrus.BiteFront;
+import mhfc.net.common.ai.entity.monsters.lagiacrus.Idle;
+import mhfc.net.common.ai.entity.monsters.lagiacrus.Roar;
+import mhfc.net.common.ai.entity.monsters.lagiacrus.Sweep;
+import mhfc.net.common.ai.entity.monsters.lagiacrus.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;

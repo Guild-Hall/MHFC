@@ -13,7 +13,6 @@ import net.minecraftforge.fml.common.ModMetadata;
  *
  */
 public class ResourceInterface {
-	public static final String main_config_file = "config/MHFC.cfg";
 	public static final String main_config_mobCategory = "MHFC Mobs";
 	public static final String main_config_mobs_summonTigrex_key = "SummonTigrex";
 	public static final String main_modid = "mhfc";
