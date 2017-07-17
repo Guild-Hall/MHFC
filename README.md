@@ -11,7 +11,6 @@ Monster Hunter Frontier Craft mod created by the Guild Hall team authored by : H
 * [ ] Add Frontier AI ~ Heltrato
 * [ ] Akura, Kirin, Brachydios, Popo ~ Heltrato
 * [ ] Test a larger Quest world size ~ Heltrato
-* [ ] Rerelease Beta for Server..
 
 # TBD #
 * [ ] Party System

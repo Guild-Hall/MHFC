@@ -66,6 +66,7 @@ public class AIAngleWhip extends DamageAreaAction<EntityMHFCBase<?>> implements 
 		target = this.entity.getAttackTarget();
 		if (target != null) {
 			if (getCurrentFrame() == this.damageFrame) {
+				hitAreaEntities();
 				entity.playSound(sound, 2.0F, 1.0F);
 			}
 		}

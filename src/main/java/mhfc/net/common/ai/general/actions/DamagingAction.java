@@ -36,13 +36,11 @@ public abstract class DamagingAction<T extends EntityCreature> extends AnimatedA
 		AIUtils.damageCollidingEntities(this.getEntity(), dmgHelper.getCalculator());
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	protected void onUpdate() {
 		if (target != null) {
-			((EntityMHFCBase) getEntity()).getTurnHelper().updateTurnSpeed(12.0f);
-			((EntityMHFCBase) getEntity()).getTurnHelper().updateTargetPoint(targetPoint);
-			damageCollidingEntities();
+			((EntityMHFCBase<?>) getEntity()).getTurnHelper().updateTurnSpeed(30F);
+			((EntityMHFCBase<?>) getEntity()).getTurnHelper().updateTargetPoint(targetPoint);
 		}
 
 	}

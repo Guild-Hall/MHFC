@@ -19,8 +19,7 @@ import net.minecraft.util.SoundEvent;
 /**
  * @author WorldSEnder ** dang so complex men ~Heltrato
  */
-@SuppressWarnings("rawtypes")
-public class AIBite extends DamagingAction<EntityMHFCBase> implements IHasAttackProvider {
+public class AIBite extends DamagingAction<EntityMHFCBase<?>> implements IHasAttackProvider {
 
 	protected float damage;
 	protected float weight;
@@ -28,10 +27,10 @@ public class AIBite extends DamagingAction<EntityMHFCBase> implements IHasAttack
 	protected int animationLength;
 	protected int damageFrame;
 	protected SoundEvent sound;
-	protected EntityMHFCBase entity = this.getEntity();
+	protected EntityMHFCBase<?> entity = this.getEntity();
 
 	public AIBite(
-			EntityMHFCBase entity,
+			EntityMHFCBase<?> entity,
 			String animationLocation,
 			int animationLength,
 			int damageFrame,
@@ -59,6 +58,7 @@ public class AIBite extends DamagingAction<EntityMHFCBase> implements IHasAttack
 		target = this.entity.getAttackTarget();
 		if (target != null) {
 			if (getCurrentFrame() == this.damageFrame) {
+				damageCollidingEntities();
 				entity.playSound(sound, 2.0F, 1.0F);
 			}
 		}

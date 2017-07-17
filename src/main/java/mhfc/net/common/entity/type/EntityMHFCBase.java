@@ -130,6 +130,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		}
 	}
 
+
 	protected abstract IActionManager<YC> constructActionManager();
 
 	/**
@@ -194,7 +195,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.3D);
 		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30D);
-		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
 		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(17D);
 	}
 
@@ -419,7 +419,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	@Override
 	protected void updateAITasks() {
 		super.updateAITasks();
+		if (!this.isDead) {
 		turnHelper.onUpdateTurn();
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -485,6 +487,14 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public boolean canBeCollidedWith() {
+		if (this.isDead) {
+			return false;
+		}
+		return true;
 	}
 
 	public TargetTurnHelper getTurnHelper() {
