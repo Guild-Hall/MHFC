@@ -73,6 +73,12 @@ public final class Pounce extends JumpAction<EntityNargacuga> implements IHasJum
 	}
 
 	@Override
+	protected void onUpdate() {
+		super.onUpdate();
+		damageCollidingEntities();
+	}
+
+	@Override
 	public IJumpProvider<EntityNargacuga> getJumpProvider() {
 		return jumpProvider;
 	}

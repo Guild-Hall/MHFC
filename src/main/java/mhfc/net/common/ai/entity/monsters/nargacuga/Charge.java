@@ -210,6 +210,7 @@ public class Charge extends DamagingAction<EntityNargacuga> implements IHasAttac
 	public void onUpdate() {
 		currentPhase.update(this);
 		if (currentPhase.isDamaging) {
+			this.damageCollidingEntities();
 			super.onUpdate();
 		}
 		AttackPhase nextPhase = currentPhase.next(this);

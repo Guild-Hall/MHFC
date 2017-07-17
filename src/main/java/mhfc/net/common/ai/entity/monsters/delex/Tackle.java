@@ -51,6 +51,7 @@ public class Tackle extends DamagingAction<EntityDelex> implements IHasAttackPro
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
+		damageCollidingEntities();
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			EntityDelex ent = getEntity();
 			ent.moveForward(1, true);

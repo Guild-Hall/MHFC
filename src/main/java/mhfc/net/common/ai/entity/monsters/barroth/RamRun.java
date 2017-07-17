@@ -58,7 +58,9 @@ public class RamRun extends DamagingAction<EntityBarroth> implements IHasAttackP
 		EntityBarroth entity = getEntity();
 		entity.getTurnHelper().updateTargetPoint(target);
 		super.onUpdate();
+		damageCollidingEntities();
 		if (this.getCurrentFrame() == 20) {
+
 			getEntity().playSound(MHFCSoundRegistry.getRegistry().barrothCharge, 3.0F, 1.0F);
 			entity.getTurnHelper().updateTurnSpeed(this.turnrate);
 			//ON run

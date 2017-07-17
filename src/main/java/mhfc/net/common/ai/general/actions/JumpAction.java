@@ -35,6 +35,7 @@ public abstract class JumpAction<T extends EntityMHFCBase<? super T>> extends Da
 
 	@Override
 	protected void onUpdate() {
+		super.onUpdate();
 		T entity = getEntity();
 		Vec3d direction = jumpParameterProvider.getJumpVector(entity).normalize();
 		int frame = getCurrentFrame();
@@ -52,7 +53,7 @@ public abstract class JumpAction<T extends EntityMHFCBase<? super T>> extends Da
 			entity.isAirBorne = true;
 		}
 		if (jumpTimingProvider.isDamageFrame(entity, frame)) {
-			super.onUpdate();
+			this.damageCollidingEntities();
 		}
 	}
 

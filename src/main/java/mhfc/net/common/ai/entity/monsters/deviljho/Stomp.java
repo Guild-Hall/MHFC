@@ -66,6 +66,7 @@ public class Stomp extends DamagingAction<EntityDeviljho> implements IHasAttackP
 	}
 
 	private void updateStomp() {
+		damageCollidingEntities();
 		EntityDeviljho actor = this.getEntity();
 		if (!actor.onGround || thrown || this.getCurrentFrame() < 26) {
 			return;

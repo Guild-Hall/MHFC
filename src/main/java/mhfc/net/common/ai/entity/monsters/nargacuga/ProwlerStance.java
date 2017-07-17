@@ -40,6 +40,7 @@ public class ProwlerStance extends AnimatedAction<EntityNargacuga> implements IH
 	protected void onUpdate() {
 		EntityNargacuga entity = getEntity();
 		target = entity.getAttackTarget();
+
 		if (target != null) {
 			entity.getTurnHelper().updateTurnSpeed(8F);
 			entity.getTurnHelper().updateTargetPoint(target);

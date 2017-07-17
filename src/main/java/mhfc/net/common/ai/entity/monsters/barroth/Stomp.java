@@ -35,6 +35,7 @@ public class Stomp extends DamagingAction<EntityBarroth> implements IHasAttackPr
 	protected void onUpdate() {
 		EntityBarroth entity = this.getEntity();
 		target = entity.getAttackTarget();
+		damageCollidingEntities();
 		updateStomp();
 	}
 

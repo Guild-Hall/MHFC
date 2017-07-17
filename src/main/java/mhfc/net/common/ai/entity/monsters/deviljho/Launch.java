@@ -67,7 +67,7 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 
 	@Override
 	public void onUpdate() {
-
+		damageCollidingEntities();
 		if (thrown) {
 			return;
 		}

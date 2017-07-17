@@ -44,6 +44,7 @@ public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProv
 	public void onUpdate() {
 		EntityBarroth entity = getEntity();
 		EntityAIMethods.launch(entity, 1.0D, 5.5D, 1.0D);
+		damageCollidingEntities();
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			entity.moveForward(1, false);
 		}

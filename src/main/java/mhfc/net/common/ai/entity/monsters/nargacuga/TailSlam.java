@@ -64,7 +64,8 @@ public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpPro
 
 	@Override
 	public void onUpdate() {
-
+		super.onUpdate();
+		damageCollidingEntities();
 		EntityNargacuga nargacuga = getEntity();
 
 		if (this.getCurrentFrame() == 10) {
@@ -79,8 +80,6 @@ public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpPro
 			return;
 		}
 		if (getCurrentFrame() == 50) {
-			super.onUpdate();
-
 
 		}
 		//TODO

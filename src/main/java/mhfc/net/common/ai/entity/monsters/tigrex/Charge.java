@@ -211,6 +211,7 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 		currentPhase.update(this);
 		if (currentPhase.isDamaging) {
 			super.onUpdate();
+			damageCollidingEntities();
 		}
 		AttackPhase nextPhase = currentPhase.next(this);
 		if (currentPhase != nextPhase) {

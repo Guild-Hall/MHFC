@@ -49,6 +49,7 @@ public class BackOff extends JumpAction<EntityNargacuga> implements IHasJumpProv
 
 		EntityNargacuga entity = getEntity();
 		if (this.getCurrentFrame() == 5) {
+			damageCollidingEntities();
 			entity.playSound(MHFCSoundRegistry.getRegistry().nargacugaBackOff, 2.0F, 1.0F);
 		}
 	}
