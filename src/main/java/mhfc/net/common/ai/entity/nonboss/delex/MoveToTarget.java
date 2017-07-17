@@ -55,7 +55,6 @@ public class MoveToTarget extends AnimatedAction<EntityDelex> implements IHasAni
 		if (target != null) {
 			entity.getTurnHelper().updateTurnSpeed(15F);
 			entity.getTurnHelper().updateTargetPoint(target);
-			float targetDistance = entity.getDistanceToEntity(target);
 			entity.getNavigator().tryMoveToXYZ(target.posX + 4, target.posY, target.posZ + 4, this.speedln);
 		}
 	}

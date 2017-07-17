@@ -11,5 +11,11 @@ First Argument: moves the GUI render Item from left to right (the higher the val
 THIRD_PERSON:
 Translation
 First Argument: Adjust the weapon by slash ( the higher the value the more it goes to the players elbow.
+// For blocks it adjust left to right the lower the value the right it goes
 Second Argument: Adjust the weapon byan inverted slash (the higher the value the up left it goes )
 Third Argument adjust the weapon to the left or to the right
+// For blocks this adjust as the " \ " symbol. the lower the value the lower it goes 
+
+FIRST_PERSON_LEFT_HAND{
+First - adjust left to right,  the lower the left
+Third argument - adjust into a " \ " symbol the lower the value the away from the you it goes
