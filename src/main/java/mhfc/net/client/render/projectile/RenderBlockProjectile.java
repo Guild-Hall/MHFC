@@ -21,18 +21,20 @@ public class RenderBlockProjectile extends Render<EntityProjectileBlock> {
 	}
 
 	@Override
-	public void doRender(EntityProjectileBlock entity, double d, double d1, double d2, float f, float f1) {
+	public void doRender(EntityProjectileBlock entity, double x, double y, double z, float f, float partialTicks) {
 		EntityFallingBlock fallingBlock = entity.getProxy();
 		BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(-0.5F, 0.0F, 0.5F);
-		GlStateManager.translate((float) d, (float) d1, (float) d2);
+
+		GlStateManager.translate(x, y, z);
 		GlStateManager.rotate(entity.rotationYaw, 0.0F, 1.0F, 0.0F);
 		GlStateManager.rotate(45.0F, 0.0F, 1.0F, 0.0F);
-		GlStateManager.rotate((entity.ticksExisted + f1) * 20.0F, 1.0F, 0.0F, 0.0F);
-		GlStateManager.rotate((entity.ticksExisted + f1) * 12.0F, 0.0F, 0.0F, -1.0F);
+
+		// GlStateManager.rotate((entity.ticksExisted + f1) * 20.0F, 1.0F, 0.0F, 0.0F);
+		// GlStateManager.rotate((entity.ticksExisted + f1) * 12.0F, 0.0F, 0.0F, -1.0F);
+
 		blockrendererdispatcher.renderBlockBrightness(fallingBlock.getBlock(), 1F);
-		renderManager.getEntityRenderObject(fallingBlock).doRender(fallingBlock, d, d1, d2, f, f1);
+		renderManager.getEntityRenderObject(fallingBlock).doRender(fallingBlock, 0, 0, 0, f, partialTicks);
 
 		GlStateManager.popMatrix();
 

@@ -16,6 +16,7 @@ import mhfc.net.common.ai.entity.AIDeath;
 import mhfc.net.common.ai.entity.AIIdle;
 import mhfc.net.common.ai.entity.monsters.tigrex.BackOff;
 import mhfc.net.common.ai.entity.monsters.tigrex.Charge;
+import mhfc.net.common.ai.entity.monsters.tigrex.GroundHurl;
 import mhfc.net.common.ai.entity.monsters.tigrex.Jump;
 import mhfc.net.common.ai.entity.monsters.tigrex.Roar;
 import mhfc.net.common.ai.entity.monsters.tigrex.Wander;
@@ -112,8 +113,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		manager.registerAction(new Wander(0.2F)); //FIXME LOOP ANIMATIONS.
 
 		//To be fix
-		// manager.registerAction(new GroundHurl());
-		
+		manager.registerAction(new GroundHurl());
 
 		/**
 		 * AI TO be added: 1. RunningRoar - ANIMATION DONE 2. FatigueRun - ANIMATION DONE 3. ClawAttack - ANIMATION DONE
