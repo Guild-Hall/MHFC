@@ -9,10 +9,10 @@
     "promos": {
         "1.11-latest": "1.4.0.1300",
         "1.11-recommended": "1.4.0.1300",
-        "1.11.2-latest": "1.4.1.1302",
-        "1.11.2-recommended": "1.4.1.1302"
+        "1.11.2-latest": "1.4.3.1312",
+        "1.11.2-recommended": "1.4.3.1312"
     },
     "1.11.2": {
-        "1.4.1.1302": "See our homepage for changelogs"
+        "1.4.3.1312": "See our homepage for changelogs"
     }
 }
