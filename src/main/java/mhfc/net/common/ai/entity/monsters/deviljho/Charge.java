@@ -21,12 +21,12 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 	private static final int MOVEMENT_START = 5;
 	private static final int MOVEMENT_FINISH = 40;
 	private static final int AI_END = 40;
-	private static final float TURN_RATE_INITIAL = 20.5f;
-	private static final float TURN_RATE_DURING_RUN = 20.05f;
+	private static final float TURN_RATE_INITIAL = 7.5f;
+	private static final float TURN_RATE_DURING_RUN = 0f;
 	private static final float MAX_RUN_DISTANCE = 20f;
 	private static final int MAX_RUN_FRAMES = 200;
 
-	private static final double RUN_SPEED = 0.7;
+	private static final double RUN_SPEED = 0.6;
 	private static final double STOP_SPEED = 0.4;
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(125f, 50f, 9999999f);
 

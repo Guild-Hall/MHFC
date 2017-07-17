@@ -21,13 +21,13 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 	private static final int runningEnds = 60;
 	private static final int attackEnd = 75;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/run.mcanm";
-	private static final float TURN_RATE_INITIAL = 12.5f;
-	private static final float TURN_RATE_DURING_RUN = 1f;
-	private static final float MAX_RUN_DISTANCE = 40f;
+	private static final float TURN_RATE_INITIAL = 8.5f;
+	private static final float TURN_RATE_DURING_RUN = 0.12F;
+	private static final float MAX_RUN_DISTANCE = 50f;
 	private static final int MAX_RUN_FRAMES = 200;
 
-	private static final double RUN_SPEED = 1.1;
-	private static final double STOP_SPEED = 0.7;
+	private static final double RUN_SPEED = 0.8;
+	private static final double STOP_SPEED = 0.4;
 	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(15, 50F, 99999F);
 
 	private static enum PastEntityEnum {

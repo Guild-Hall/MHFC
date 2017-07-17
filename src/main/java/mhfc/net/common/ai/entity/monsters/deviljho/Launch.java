@@ -21,11 +21,11 @@ import net.minecraft.util.math.Vec3d;
 public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttackProvider {
 	private static final String ANIMATION_LOCATION = "mhfc:models/Deviljho/DeviljhoLaunch.mcanm";
 	private static final int LAST_FRAME = 50;
-	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(92f, 62f, 8888f);
+	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(92f, 500F, 8888f);
 
 	private static final float WEIGHT = 7F;
 	private static final double HEIGHT_BLOCK = 0.50D;
-	private static final double MAX_DIST = 6f;
+	private static final double MAX_DIST = 15F;
 	private static final double SPLIT_MULTIPLIER = 0.535;
 
 	private final IAttackProvider ATTACK;
@@ -104,20 +104,13 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 					zCo -= vec_positive_axis.zCoord * SPLIT_MULTIPLIER * 0.3D;
 				}
 
-				block.setThrowableHeading(xCo, yCo, zCo, 2f, 1.5f);
+				block.setThrowableHeading(xCo, yCo, zCo, 3.5f, 1.5f);
 				entity.world.spawnEntity(block);
 			}
 
 			thrown = true;
 		}
-		if (isMoveForwardFrame(getCurrentFrame())) {
-			EntityDeviljho e = getEntity();
-			e.moveForward(1, false);
-		}
 		super.onUpdate();
 	}
 
-	private boolean isMoveForwardFrame(int frame) {
-		return (frame > 20 && frame < 30);
-	}
 }

@@ -80,7 +80,7 @@ public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnim
 				xCo -= rightSide.xCoord * SPLIT_MULTIPLIER;
 				zCo -= rightSide.zCoord * SPLIT_MULTIPLIER;
 			}
-			block.setThrowableHeading(xCo, yCo, zCo, 1f, 0.5f);
+			block.setThrowableHeading(xCo, yCo, zCo, 1.5F, 0.5f);
 			tigrex.world.spawnEntity(block);
 		}
 	}

@@ -9,7 +9,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.RayTraceResult;
@@ -37,7 +36,7 @@ public class EntityProjectileBlock extends EntityThrowable {
 
 	public EntityProjectileBlock(World par, EntityTigrex e) {
 		this(par, (EntityLivingBase) e);
-		setSize(1.1F, 1.1F);
+		setSize(1.3F, 1.3F);
 	}
 
 	public EntityProjectileBlock(World par, EntityDeviljho e) {
@@ -65,7 +64,7 @@ public class EntityProjectileBlock extends EntityThrowable {
 	@Override
 	protected void onImpact(RayTraceResult mop) {
 		List<Entity> list = this.world
-				.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().expand(2.5D, 2.0D, 2.5D));
+				.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().expand(3.5D, 3.0D, 3.5D));
 		list.remove(getThrower());
 
 		//	EntityAreaEffectCloud entityareaeffectcloud = new EntityAreaEffectCloud(

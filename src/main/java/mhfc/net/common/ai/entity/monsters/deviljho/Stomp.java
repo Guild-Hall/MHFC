@@ -94,15 +94,7 @@ public class Stomp extends DamagingAction<EntityDeviljho> implements IHasAttackP
 		target = entity.getAttackTarget();
 		updateStomp();
 
-		if (isMoveForwardFrame(getCurrentFrame())) {
-			EntityDeviljho e = getEntity();
-			e.moveForward(1, false);
-		}
-
 	}
 
-	private boolean isMoveForwardFrame(int frame) {
-		return (frame > 20 && frame < 30);
-	}
 
 }
