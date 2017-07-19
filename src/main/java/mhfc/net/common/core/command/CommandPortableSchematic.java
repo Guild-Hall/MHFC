@@ -9,7 +9,6 @@ import java.io.IOException;
 
 import org.apache.logging.log4j.Level;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
 import com.sk89q.worldedit.LocalConfiguration;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -25,6 +24,7 @@ import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.util.io.Closer;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.worldedit.ClipboardFormats;
 import mhfc.net.common.worldedit.FlattenedClipboardTransform;
 import mhfc.net.common.worldedit.IClipboardFormat;
@@ -70,15 +70,13 @@ public class CommandPortableSchematic extends CommandBase {
 		}
 	}
 
-	protected void saveWorld(
-			Player player,
-			LocalSession session,
-			String filename) throws CommandException, WorldEditException {
+	protected void saveWorld(Player player, LocalSession session, String filename)
+			throws CommandException,
+			WorldEditException {
 		LocalConfiguration config = worldEdit.getConfiguration();
 
 		File dir = worldEdit.getWorkingDirectoryFile(config.saveDir);
 		File f = worldEdit.getSafeSaveFile(player, dir, filename, "schematic", "schematic");
-
 
 		IClipboardFormat format = ClipboardFormats.EXTENDED_FORGE_SCHEMATIC;
 		ClipboardHolder holder = session.getClipboard();
@@ -111,7 +109,7 @@ public class CommandPortableSchematic extends CommandBase {
 			ClipboardWriter writer = closer.register(format.getWriter(bos));
 			writer.write(target, holder.getWorldData());
 			MHFCMain.logger().info(player.getName() + " saved " + f.getCanonicalPath());
-			player.print(filename + ChatFormatting.DARK_GREEN +" saved as MHFC schematic compatible format.");
+			player.print(filename + ColorSystem.dark_green + " saved as MHFC schematic compatible format.");
 		} catch (IOException e) {
 			player.printError("Schematic could not written: " + e.getMessage());
 			MHFCMain.logger().log(Level.WARN, "Failed to write a saved clipboard", e);

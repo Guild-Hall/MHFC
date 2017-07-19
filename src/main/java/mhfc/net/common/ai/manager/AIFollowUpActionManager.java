@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.mojang.realmsclient.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IManagedActions;
@@ -92,7 +92,7 @@ public class AIFollowUpActionManager<EntType extends EntityLiving & IManagedActi
 	protected List<IExecutableAction<? super EntType>> getFollowUpList(IExecutableAction<? super EntType> action) {
 		Set<Pair<IExecutableAction<? super EntType>, FollowUpChooser<EntType>>> followUps = attackCollection
 				.getOutbound(action);
-		return followUps.stream().filter((pair) -> pair.second().shouldChoose(this.entity)).map(Pair::first)
+		return followUps.stream().filter((pair) -> pair.getRight().shouldChoose(this.entity)).map(Pair::getLeft)
 				.collect(Collectors.toList());
 	}
 

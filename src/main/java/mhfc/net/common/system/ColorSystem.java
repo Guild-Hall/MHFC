@@ -1,25 +1,25 @@
 package mhfc.net.common.system;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 
 public class ColorSystem {
 
-	public static final ChatFormatting ENUMBLACK = ChatFormatting.BLACK;
-	public static final ChatFormatting ENUMDARK_BLUE = ChatFormatting.DARK_BLUE;
-	public static final ChatFormatting ENUMDARK_GREEN = ChatFormatting.DARK_GREEN;
-	public static final ChatFormatting ENUMDARK_AQUA = ChatFormatting.DARK_AQUA;
-	public static final ChatFormatting ENUMDARK_RED = ChatFormatting.DARK_RED;
-	public static final ChatFormatting ENUMDARK_PURPLE = ChatFormatting.DARK_PURPLE;
-	public static final ChatFormatting ENUMGOLD = ChatFormatting.GOLD;
-	public static final ChatFormatting ENUMGRAY = ChatFormatting.GRAY;
-	public static final ChatFormatting ENUMDARK_GRAY = ChatFormatting.DARK_GRAY;
-	public static final ChatFormatting ENUMLAVENDER = ChatFormatting.BLUE;
-	public static final ChatFormatting ENUMGREEN = ChatFormatting.GREEN;
-	public static final ChatFormatting ENUMAQUA = ChatFormatting.AQUA;
-	public static final ChatFormatting ENUMRED = ChatFormatting.RED;
-	public static final ChatFormatting ENUMLIGHT_PURPLE = ChatFormatting.LIGHT_PURPLE;
-	public static final ChatFormatting ENUMYELLOW = ChatFormatting.YELLOW;
-	public static final ChatFormatting ENUMWHITE = ChatFormatting.WHITE;
+	public static final TextFormatting ENUMBLACK = TextFormatting.BLACK;
+	public static final TextFormatting ENUMDARK_BLUE = TextFormatting.DARK_BLUE;
+	public static final TextFormatting ENUMDARK_GREEN = TextFormatting.DARK_GREEN;
+	public static final TextFormatting ENUMDARK_AQUA = TextFormatting.DARK_AQUA;
+	public static final TextFormatting ENUMDARK_RED = TextFormatting.DARK_RED;
+	public static final TextFormatting ENUMDARK_PURPLE = TextFormatting.DARK_PURPLE;
+	public static final TextFormatting ENUMGOLD = TextFormatting.GOLD;
+	public static final TextFormatting ENUMGRAY = TextFormatting.GRAY;
+	public static final TextFormatting ENUMDARK_GRAY = TextFormatting.DARK_GRAY;
+	public static final TextFormatting ENUMLAVENDER = TextFormatting.BLUE;
+	public static final TextFormatting ENUMGREEN = TextFormatting.GREEN;
+	public static final TextFormatting ENUMAQUA = TextFormatting.AQUA;
+	public static final TextFormatting ENUMRED = TextFormatting.RED;
+	public static final TextFormatting ENUMLIGHT_PURPLE = TextFormatting.LIGHT_PURPLE;
+	public static final TextFormatting ENUMYELLOW = TextFormatting.YELLOW;
+	public static final TextFormatting ENUMWHITE = TextFormatting.WHITE;
 
 	public static final String black = ENUMBLACK.toString();
 	public static final String dark_blue = ENUMDARK_BLUE.toString();

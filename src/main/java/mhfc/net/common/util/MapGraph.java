@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.mojang.realmsclient.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class MapGraph<N, E> {
 	protected Set<N> nodes = new HashSet<>();
@@ -38,8 +38,8 @@ public class MapGraph<N, E> {
 	}
 
 	public Set<Pair<N, E>> getOutbound(N n) {
-		return graphMap.entrySet().stream().filter((entry) -> entry.getKey().first() == n)
-				.map((entry) -> Pair.of(entry.getKey().second(), entry.getValue())).collect(Collectors.toSet());
+		return graphMap.entrySet().stream().filter((entry) -> entry.getKey().getLeft() == n)
+				.map((entry) -> Pair.of(entry.getKey().getRight(), entry.getValue())).collect(Collectors.toSet());
 	}
 
 	public int indexOf(N n) {
