@@ -84,8 +84,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 								"mhfc:models/Nargacuga/NargaDeath.001.mcanm",
 								MHFCSoundRegistry.getRegistry().nargacugaDeath)));
 		TailSlam tailSlam = new TailSlam();
-		AIAngleWhip tailWhip = new AIAngleWhip(
-				this,
+		AIAngleWhip<EntityNargacuga> tailWhip = new AIAngleWhip<>(
 				"mhfc:models/Nargacuga/TailSwipeRight.mcanm",
 				56,
 				23,

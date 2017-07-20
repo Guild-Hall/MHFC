@@ -77,8 +77,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 						MHFCSoundRegistry.getRegistry().tigrexBite));
 		manager.registerAction(new AIBreathe(this, "mhfc:models/Tigrex/breathe.mcanm", 60, 5F));
 		manager.registerAction(
-				new AIAngleWhip(
-						this,
+				new AIAngleWhip<>(
 						"mhfc:models/Tigrex/clawswipe.mcanm",
 						41,
 						5,
@@ -91,8 +90,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 						120,
 						10));
 		manager.registerAction(
-				new AIAngleWhip(
-						this,
+				new AIAngleWhip<>(
 						"mhfc:models/Tigrex/tailswipe.mcanm",
 						60,
 						12,
