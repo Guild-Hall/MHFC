@@ -56,6 +56,48 @@
 					"mob": "mhfc:delex",
 					"count": 1,
 					"location": "area_spawn5"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn6"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn7"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn8"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn9"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn10"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn11"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn12"
 				}
 			]
 		}
@@ -92,8 +134,60 @@
 					"type": "monster",
 					"mob": "mhfc:barroth",
 					"count": 1,
+					"location": "area_boss1"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn1"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn2"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn3"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn4"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
 					"location": "area_spawn5"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn6"
 				}
+				,				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn8"
+				}
+				,				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn9"
+				}
+				
+				
 			]
 		}
 	},

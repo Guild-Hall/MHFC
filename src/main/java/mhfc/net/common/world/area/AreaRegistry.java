@@ -5,11 +5,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import mhfc.net.common.world.types.AreaDesert;
 import mhfc.net.common.world.types.AreaGreenValley;
 import mhfc.net.common.world.types.AreaSandy;
-import mhfc.net.common.world.types.AreaSnowyMountains;
-import mhfc.net.common.world.types.AreaTreepeak;
 import mhfc.net.common.world.types.AreaTypePlayfield;
 import mhfc.net.common.world.types.ArenaType;
 import mhfc.net.common.world.types.TestAreaType;
@@ -40,9 +37,6 @@ public class AreaRegistry {
 		AreaRegistry.register(NAME_TEST_SCHEMATIC, TestAreaType.INSTANCE);
 		AreaRegistry.register(NAME_ARENA, ArenaType.INSTANCE);
 		AreaRegistry.register(NAME_VILLAGE_POKE, VillagePokeType.INSTANCE);
-		AreaRegistry.register(NAME_DESERT, AreaDesert.INSTANCE);
-		AreaRegistry.register(NAME_TREEPEAK, AreaTreepeak.INSTANCE);
-		AreaRegistry.register(NAME_SNOWYMOUNTAINS, AreaSnowyMountains.INSTANCE);
 		//1.11
 
 		AreaRegistry.register(NAME_SANDY, AreaSandy.INSTANCE);
