@@ -76,8 +76,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 						MHFCSoundRegistry.getRegistry().deviljhoBiteB));
 
 		attackManager.registerAction(
-				new AIAngleWhip(
-						this,
+				new AIAngleWhip<>(
 						"mhfc:models/Deviljho/tailswipe.mcanm",
 						55,
 						5,

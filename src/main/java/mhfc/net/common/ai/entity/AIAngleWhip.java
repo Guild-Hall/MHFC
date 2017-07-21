@@ -13,9 +13,9 @@ import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.util.SoundEvent;
 
-@SuppressWarnings("rawtypes")
-public class AIAngleWhip extends DamageAreaAction<EntityMHFCBase<?>> implements IHasAttackProvider {
-
+public class AIAngleWhip<T extends EntityMHFCBase<? super T>> extends DamageAreaAction<T>
+		implements
+		IHasAttackProvider {
 
 	protected float damage;
 	protected float weight;
@@ -24,11 +24,9 @@ public class AIAngleWhip extends DamageAreaAction<EntityMHFCBase<?>> implements 
 	protected int damageFrame;
 	protected SoundEvent sound;
 	protected float range, height, knockback, arc;
-	protected EntityMHFCBase entity = this.getEntity();
 	protected double targetDistance;
 
 	public AIAngleWhip(
-			EntityMHFCBase entity,
 			String animationLocation,
 			int animationLength,
 			int damageFrame,
@@ -40,7 +38,6 @@ public class AIAngleWhip extends DamageAreaAction<EntityMHFCBase<?>> implements 
 			float knockback,
 			float arc,
 			double targetDistance) {
-		this.entity = entity;
 		this.animationLocation = animationLocation;
 		this.animationLength = animationLength;
 		this.damageFrame = damageFrame;
@@ -63,17 +60,16 @@ public class AIAngleWhip extends DamageAreaAction<EntityMHFCBase<?>> implements 
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		target = this.entity.getAttackTarget();
+		T entity = this.getEntity();
+		target = entity.getAttackTarget();
 		if (target != null) {
 			if (getCurrentFrame() == this.damageFrame) {
 				hitAreaEntities();
-				entity.playSound(sound, 2.0F, 1.0F);
+				getEntity().playSound(sound, 2.0F, 1.0F);
 			}
 		}
 
 	}
-
-
 
 	@Override
 	public IDamageCalculator provideDamageCalculator() {
@@ -107,12 +103,13 @@ public class AIAngleWhip extends DamageAreaAction<EntityMHFCBase<?>> implements 
 
 	@Override
 	protected float computeSelectionWeight() {
-		target = this.entity.getAttackTarget();
+		T entity = this.getEntity();
+		target = entity.getAttackTarget();
 
-		if (SelectionUtils.isIdle(this.entity)) {
+		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
 		}
-		if (!SelectionUtils.isInDistance(0, this.targetDistance, this.entity, target)) {
+		if (!SelectionUtils.isInDistance(0, this.targetDistance, entity, target)) {
 			return DONT_SELECT;
 		}
 		return this.weight;

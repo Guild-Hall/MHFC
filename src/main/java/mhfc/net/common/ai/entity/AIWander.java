@@ -7,9 +7,9 @@ import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IFrameAdvancer;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
+import mhfc.net.common.entity.type.EntityMHFCBase;
 
-@SuppressWarnings("rawtypes")
-public class AIWander extends WanderAction implements IHasAnimationProvider {
+public class AIWander<T extends EntityMHFCBase<? super T>> extends WanderAction<T> implements IHasAnimationProvider {
 
 	@Override
 	public IFrameAdvancer provideFrameAdvancer() {

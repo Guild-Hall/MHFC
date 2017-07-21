@@ -9,6 +9,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class BlockWyverniaOres extends AbstractSubTypedBlock<WyverniaOreSubType> {
 	public static enum WyverniaOreSubType implements SubTypedItem.SubTypeEnum<Block> {
@@ -50,6 +54,7 @@ public class BlockWyverniaOres extends AbstractSubTypedBlock<WyverniaOreSubType>
 		super(PROPERTY, Material.ROCK);
 		setUnlocalizedName(ResourceInterface.block_ores_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
+		setHardness(2.0f);
 	}
 
 	@Override
@@ -57,4 +62,18 @@ public class BlockWyverniaOres extends AbstractSubTypedBlock<WyverniaOreSubType>
 		return new BlockStateContainer(this, PROPERTY);
 	}
 
+	@Override
+	public boolean removedByPlayer(
+			IBlockState state,
+			World world,
+			BlockPos pos,
+			EntityPlayer player,
+			boolean willHarvest) {
+		if (!willHarvest) {
+			// The block is simply destroyed
+			return super.removedByPlayer(state, world, pos, player, willHarvest);
+		}
+		// The block is harvested. super.removedByPlayer would also set the block to air
+		return true;
+	}
 }
