@@ -14,12 +14,12 @@ import mhfc.net.common.ai.entity.AIBite;
 import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIDeath;
 import mhfc.net.common.ai.entity.AIIdle;
+import mhfc.net.common.ai.entity.AIWander;
 import mhfc.net.common.ai.entity.monsters.tigrex.BackOff;
 import mhfc.net.common.ai.entity.monsters.tigrex.Charge;
 import mhfc.net.common.ai.entity.monsters.tigrex.GroundHurl;
 import mhfc.net.common.ai.entity.monsters.tigrex.Jump;
 import mhfc.net.common.ai.entity.monsters.tigrex.Roar;
-import mhfc.net.common.ai.entity.monsters.tigrex.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -108,7 +108,8 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 		manager.registerAction(new AIIdle(this, "mhfc:models/Tigrex/idle.mcanm", 160, 1F));
 		manager.registerAction(new AIIdle(this, "mhfc:models/Tigrex/idle3.mcanm", 260, 5F));
-		manager.registerAction(new Wander(0.2F)); //FIXME LOOP ANIMATIONS.
+		manager.registerAction(
+				new AIWander<EntityTigrex>(this, "mhfc:models/Tigrex/walk.mcanm", 122, 3F, 0.08F, 0.4F, 19, 85, 1));
 
 		//To be fix
 		manager.registerAction(new GroundHurl());

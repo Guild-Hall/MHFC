@@ -11,12 +11,12 @@ import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIDeath;
+import mhfc.net.common.ai.entity.AIWander;
 import mhfc.net.common.ai.entity.monsters.barroth.HeadSlam;
 import mhfc.net.common.ai.entity.monsters.barroth.Ram;
 import mhfc.net.common.ai.entity.monsters.barroth.RamRun;
 import mhfc.net.common.ai.entity.monsters.barroth.Roar;
 import mhfc.net.common.ai.entity.monsters.barroth.Stomp;
-import mhfc.net.common.ai.entity.monsters.barroth.Wander;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -55,7 +55,10 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 								this,
 								"mhfc:models/Barroth/BarrothDeath.mcanm",
 								MHFCSoundRegistry.getRegistry().barrothDeath)));
-		followUpManager.registerAction(new Wander(0.6F, 1F));
+
+		followUpManager.registerAction(
+				new AIWander<EntityBarroth>(this, "mhfc:models/Barroth/walknew.mcanm", 65, 3F, 0.07F, 0.7F, 0, 31, 1));
+
 		followUpManager.registerAction(new HeadSlam(7F, 5F, 1F, 270F));
 		followUpManager.registerAllowingAllActions(new RamRun(1F, 0.7F));
 		followUpManager.registerAllowingAllActions(new Ram());
@@ -63,6 +66,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 		
 		
 		
+
 		Roar roar = new Roar();
 		followUpManager.registerAllowingAllActions(roar);
 		

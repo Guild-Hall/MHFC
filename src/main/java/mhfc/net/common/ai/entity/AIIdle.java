@@ -29,7 +29,7 @@ public class AIIdle extends IdleAction<EntityMHFCBase<?>> implements IHasAnimati
 
 	@Override
 	protected float computeIdleWeight() {
-		return weight;
+		return this.weight;
 	}
 
 	

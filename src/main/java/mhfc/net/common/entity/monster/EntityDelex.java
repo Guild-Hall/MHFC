@@ -7,10 +7,10 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIDeath;
+import mhfc.net.common.ai.entity.AIWander;
 import mhfc.net.common.ai.entity.monsters.delex.Bite;
 import mhfc.net.common.ai.entity.monsters.delex.MoveToTarget;
 import mhfc.net.common.ai.entity.monsters.delex.Tackle;
-import mhfc.net.common.ai.entity.monsters.delex.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -42,7 +42,18 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 		actionManager.registerAction(new Tackle());
 		actionManager.registerAction(new MoveToTarget(1.1F));
 		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Delex/delexidle.mcanm", 60, 5f));
-		actionManager.registerAction(new Wander(0.7F));
+
+		actionManager.registerAction(
+				new AIWander<EntityDelex>(
+						this,
+						"mhfc:models/delex/delexmovetotarget.mcanm",
+						100,
+						3F,
+						0.07F,
+						0.7F,
+						9,
+						55,
+						1));
 		actionManager.registerAction(
 				setDeathAction(
 						new AIDeath(

@@ -116,6 +116,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		attackManager.registerAllowingAllActions(backOff);
 		attackManager.registerAllowingAllActions(charge);
 
+
 		return attackManager.build(this);
 	}
 
