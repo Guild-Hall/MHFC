@@ -11,18 +11,13 @@ import mhfc.net.common.entity.monster.EntityDeviljho;
 
 public class Roar extends RoarAction<EntityDeviljho> implements IHasAnimationProvider {
 
-	private static final String ANIMATION_LOCATION = "mhfc:models/Deviljho/DeviljhoRoar.mcanm";
-	private static final int LAST_FRAME = 70;
-
-
-	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 
 	public Roar() {}
 
 
 	@Override
 	public IAnimationProvider getAnimProvider() {
-		return ANIMATION;
+		return new AnimationAdapter(this, "mhfc:models/Deviljho/DeviljhoRoar.mcanm", 70);
 	}
 
 	@Override

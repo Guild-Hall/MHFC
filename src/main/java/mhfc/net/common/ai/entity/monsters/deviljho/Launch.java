@@ -7,33 +7,14 @@ import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
 import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
-import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
-import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
-import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
-import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
 public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttackProvider {
-	private static final String ANIMATION_LOCATION = "mhfc:models/Deviljho/DeviljhoLaunch.mcanm";
-	private static final int LAST_FRAME = 50;
-	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(92f, 500F, 8888f);
-
-	private static final float WEIGHT = 7F;
-	private static final double HEIGHT_BLOCK = 0.50D;
-	private static final double MAX_DIST = 15F;
-	private static final double SPLIT_MULTIPLIER = 0.535;
-
-	private final IAttackProvider ATTACK;
-	{
-		IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
-		IDamageProvider DAMAGE = new DamageAdapter(DAMAGE_CALC);
-		ATTACK = new AttackAdapter(ANIMATION, DAMAGE);
-	}
 
 	private boolean thrown;
 
@@ -46,12 +27,10 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
 		}
-		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
-		double dist = toTarget.lengthVector();
-		if (dist > MAX_DIST) {
+		if (!SelectionUtils.isInDistance(0, 15, entity, target)) {
 			return DONT_SELECT;
 		}
-		return WEIGHT;
+		return 7F;
 	}
 
 	@Override
@@ -62,11 +41,17 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 
 	@Override
 	public IAttackProvider getAttackProvider() {
-		return ATTACK;
+		return new AttackAdapter(
+				new AnimationAdapter(this, "mhfc:models/Deviljho/DeviljhoLaunch.mcanm", 50),
+				new DamageAdapter(AIUtils.defaultDamageCalc(92f, 500F, 8888f)));
 	}
+
+	protected static double SPLIT_MULTIPLIER = 0.535;
 
 	@Override
 	public void onUpdate() {
+		double HEIGHT_BLOCK = 0.50D;
+
 		damageCollidingEntities();
 		if (thrown) {
 			return;

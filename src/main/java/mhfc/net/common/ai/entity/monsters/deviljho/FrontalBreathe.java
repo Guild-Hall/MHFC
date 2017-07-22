@@ -8,17 +8,9 @@ import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.projectile.EntityBreathe;
-import mhfc.net.common.util.world.WorldHelper;
-import net.minecraft.util.math.Vec3d;
 
 public class FrontalBreathe extends AnimatedAction<EntityDeviljho> implements IHasAnimationProvider {
 
-	private static final int LAST_FRAME = 80;
-	private static final String ANIMATION_LOCATION = "mhfc:models/Deviljho/DeviljhoFrontalBreathe.mcanm";
-	private static final double MAX_DISTANCE = 15f;
-	private static final float WEIGHT = 6F;
-
-	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 
 	public FrontalBreathe() {}
 
@@ -29,17 +21,15 @@ public class FrontalBreathe extends AnimatedAction<EntityDeviljho> implements IH
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
 		}
-		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
-		double dist = toTarget.lengthVector();
-		if (dist > MAX_DISTANCE) {
+		if (!SelectionUtils.isInDistance(0, 15, entity, target)) {
 			return DONT_SELECT;
 		}
-		return WEIGHT;
+		return 6F;
 	}
 
 	@Override
 	public IAnimationProvider getAnimProvider() {
-		return ANIMATION;
+		return new AnimationAdapter(this, "mhfc:models/Deviljho/DeviljhoFrontalBreathe.mcanm", 80);
 	}
 
 	@Override

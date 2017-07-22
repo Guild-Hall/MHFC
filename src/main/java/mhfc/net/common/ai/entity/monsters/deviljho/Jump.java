@@ -9,40 +9,14 @@ import mhfc.net.common.ai.general.provider.adapters.AttackTargetAdapter;
 import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
 import mhfc.net.common.ai.general.provider.adapters.JumpAdapter;
 import mhfc.net.common.ai.general.provider.adapters.JumpTimingAdapter;
-import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.composite.IJumpProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasJumpProvider;
-import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
-import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
-import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
-import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
-import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.Vec3d;
 
 public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider<EntityDeviljho> {
 
-	private static final int FRAMES = 60;
-	private static final String ANIMATION_LOCATION = "mhfc:models/Deviljho/DeviljhoJump.mcanm";
-	private static final int JUMPFRAME = 20;
-
-	private static final float TURNRATE = 14;
-	private static final float JUMPDURATION = 13.5f;
-
-	private static final IDamageCalculator DAMAGEBASE = AIUtils.defaultDamageCalc(105f, 2000f, 999999F);
-	private static final double DISTANCEMAX = 15F;
-	private static final float WEIGHT = 1f;
-
-	private final IJumpProvider<EntityDeviljho> JUMP_PROVIDER;
-	{
-		IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, FRAMES);
-		IDamageProvider DAMAGE = new DamageAdapter(DAMAGEBASE);
-		IJumpParameterProvider<EntityDeviljho> PARAMETERS = new AttackTargetAdapter<>(JUMPDURATION);
-		IJumpTimingProvider<EntityDeviljho> TIMING_PARAMS = new JumpTimingAdapter<>(JUMPFRAME, TURNRATE, 0);
-		JUMP_PROVIDER = new JumpAdapter<>(ANIMATION, DAMAGE, PARAMETERS, TIMING_PARAMS);
-	}
 
 	private boolean thrown = false;
 
@@ -55,17 +29,19 @@ public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
 		}
-		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
-		double dist = toTarget.lengthVector();
-		if (dist > DISTANCEMAX) {
+		if (!SelectionUtils.isInDistance(0, 15, entity, target)) {
 			return DONT_SELECT;
 		}
-		return WEIGHT;
+		return 5F;
 	}
 
 	@Override
 	public IJumpProvider<EntityDeviljho> getJumpProvider() {
-		return JUMP_PROVIDER;
+		return new JumpAdapter<EntityDeviljho>(
+				new AnimationAdapter(this, "mhfc:models/Deviljho/DeviljhoJump.mcanm", 60),
+				new DamageAdapter(AIUtils.defaultDamageCalc(105f, 2000f, 999999F)),
+				new AttackTargetAdapter<EntityDeviljho>(13.5f),
+				new JumpTimingAdapter<EntityDeviljho>(20, 14, 0));
 	}
 
 	@Override
