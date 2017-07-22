@@ -8,7 +8,7 @@ import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
-import mhfc.net.common.entity.monster.EntityRathalos;
+import mhfc.net.common.entity.monster.wip.EntityRathalos;
 
 public class Wander extends WanderAction<EntityRathalos> implements IHasAnimationProvider {
 

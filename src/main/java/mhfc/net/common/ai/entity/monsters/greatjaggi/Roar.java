@@ -7,7 +7,7 @@ import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IRoarProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityGreatJaggi;
+import mhfc.net.common.entity.monster.wip.EntityGreatJaggi;
 
 public class Roar extends RoarAction<EntityGreatJaggi> implements IHasAnimationProvider {
 

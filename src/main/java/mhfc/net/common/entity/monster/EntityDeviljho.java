@@ -9,6 +9,7 @@ import mhfc.net.common.ai.entity.AIAngleWhip;
 import mhfc.net.common.ai.entity.AIBite;
 import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIDeath;
+import mhfc.net.common.ai.entity.AIWander;
 import mhfc.net.common.ai.entity.monsters.deviljho.Charge;
 import mhfc.net.common.ai.entity.monsters.deviljho.FrontalBreathe;
 import mhfc.net.common.ai.entity.monsters.deviljho.Jump;
@@ -88,7 +89,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 						1,
 						180,
 						11));
-		// TODO LIST
+		// to be optimize
 		attackManager.registerAction(new Launch());
 		attackManager.registerAction(new Charge());
 		attackManager.registerAction(new Stomp());
@@ -97,6 +98,19 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		attackManager.registerAction(new FrontalBreathe());
 		attackManager.registerAction(new Roar());
 		attackManager.registerAction(new Wander());
+
+		attackManager.registerAction(
+				new AIWander<EntityDeviljho>(
+						this,
+						"mhfc:models/Deviljho/DeviljhoWalk.mcanm",
+						55,
+						3F,
+						0.07F,
+						0.6F,
+						0,
+						55,
+						1));
+
 		return attackManager.build(this);
 	}
 

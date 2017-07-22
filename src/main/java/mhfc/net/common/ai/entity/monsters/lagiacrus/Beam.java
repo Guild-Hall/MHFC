@@ -6,7 +6,7 @@ import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityLagiacrus;
+import mhfc.net.common.entity.monster.wip.EntityLagiacrus;
 
 public class Beam extends AnimatedAction<EntityLagiacrus> implements IHasAnimationProvider {
 

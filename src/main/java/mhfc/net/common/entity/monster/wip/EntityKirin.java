@@ -1,23 +1,26 @@
-package mhfc.net.common.entity.monster;
+package mhfc.net.common.entity.monster.wip;
 
 import org.lwjgl.opengl.GL11;
 
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
+import mhfc.net.common.ai.entity.monsters.kirin.Idle;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
+import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
-public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
+public class EntityKirin extends EntityMHFCBase<EntityKirin> {
 
-	public EntityUkanlos(World world) {
+	public EntityKirin(World world) {
 		super(world);
-		setSize(9f, 9f);
+		setSize(3f, 3f);
 	}
 
 	@Override
@@ -27,9 +30,10 @@ public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
 	}
 
 	@Override
-	protected IActionManager<EntityUkanlos> constructActionManager() {
-		ActionManagerBuilder<EntityUkanlos> manager = new ActionManagerBuilder<>();
-		return manager.build(this);
+	protected IActionManager<EntityKirin> constructActionManager() {
+		ActionManagerBuilder<EntityKirin> actionManager = new ActionManagerBuilder<>();
+		actionManager.registerAction(new Idle());
+		return actionManager.build(this);
 	}
 
 	@Override
@@ -40,13 +44,19 @@ public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(95391D));
+		//default 13738
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(20D));
 	}
 
 	@Override
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
-		GL11.glScaled(5, 5, 5);
+		GL11.glScaled(1.5, 1.5, 1.5);
 		return super.preRenderCallback(scale, sub);
+	}
+
+	@Override
+	protected SoundEvent getAmbientSound() {
+		return MHFCSoundRegistry.getRegistry().kirinIdle;
 	}
 
 }

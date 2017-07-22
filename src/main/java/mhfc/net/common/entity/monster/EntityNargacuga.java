@@ -19,13 +19,13 @@ import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.AIAngleWhip;
 import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIDeath;
+import mhfc.net.common.ai.entity.AIWander;
 import mhfc.net.common.ai.entity.monsters.nargacuga.BackOff;
 import mhfc.net.common.ai.entity.monsters.nargacuga.Charge;
 import mhfc.net.common.ai.entity.monsters.nargacuga.Pounce;
 import mhfc.net.common.ai.entity.monsters.nargacuga.ProwlerStance;
 import mhfc.net.common.ai.entity.monsters.nargacuga.Roar;
 import mhfc.net.common.ai.entity.monsters.nargacuga.TailSlam;
-import mhfc.net.common.ai.entity.monsters.nargacuga.Wander;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -106,7 +106,6 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 
 		prowlerFollow.add(pounce);
 		prowlerFollow.add(tailWhip);
-		attackManager.registerAction(new Wander(1.2F, 0.3F));
 		attackManager.registerAction(new AIBreathe(this, "mhfc:models/nargacuga/nargacugaidle.mcanm", 60, 5F));
 		attackManager.registerAllowingAllActions(tailSlam);
 		attackManager.registerAllowingAllActions(tailWhip);
@@ -115,6 +114,18 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		attackManager.registerAllowingAllActions(roar);
 		attackManager.registerAllowingAllActions(backOff);
 		attackManager.registerAllowingAllActions(charge);
+
+		attackManager.registerAction(
+				new AIWander<EntityNargacuga>(
+						this,
+						"mhfc:models/nargacuga/wander.mcanm",
+						120,
+						3F,
+						0.12F,
+						0.7F,
+						10,
+						94,
+						1));
 
 
 		return attackManager.build(this);

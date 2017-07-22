@@ -11,7 +11,7 @@ import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityRathalos;
+import mhfc.net.common.entity.monster.wip.EntityRathalos;
 
 public class Rush extends DamagingAction<EntityRathalos> implements IHasAttackProvider {
 	private static final int LAST_FRAME = 60;

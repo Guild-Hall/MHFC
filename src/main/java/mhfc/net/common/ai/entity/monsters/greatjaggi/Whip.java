@@ -11,7 +11,7 @@ import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityGreatJaggi;
+import mhfc.net.common.entity.monster.wip.EntityGreatJaggi;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 

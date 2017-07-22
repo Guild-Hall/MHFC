@@ -5,7 +5,7 @@ import mhfc.net.common.ai.general.actions.AnimatedAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
-import mhfc.net.common.entity.monster.EntityRathalos;
+import mhfc.net.common.entity.monster.wip.EntityRathalos;
 
 public class Fireball extends AnimatedAction<EntityRathalos> implements IHasAnimationProvider {
 

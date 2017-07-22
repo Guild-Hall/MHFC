@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.monster;
+package mhfc.net.common.entity.monster.wip;
 
 import org.lwjgl.opengl.GL11;
 

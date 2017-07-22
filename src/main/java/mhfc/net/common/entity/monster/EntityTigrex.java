@@ -106,19 +106,12 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		manager.registerAction(new Roar());
 		manager.registerAction(new BackOff());
 
-		manager.registerAction(new AIIdle(this, "mhfc:models/Tigrex/idle.mcanm", 160, 1F));
-		manager.registerAction(new AIIdle(this, "mhfc:models/Tigrex/idle3.mcanm", 260, 5F));
+		manager.registerAction(new AIIdle(this, "mhfc:models/Tigrex/idle.mcanm", 160, 2F));
+		manager.registerAction(new AIIdle(this, "mhfc:models/Tigrex/idle3.mcanm", 260, 1F));
 		manager.registerAction(
-				new AIWander<EntityTigrex>(this, "mhfc:models/Tigrex/walk.mcanm", 122, 3F, 0.08F, 0.4F, 19, 85, 1));
+				new AIWander<EntityTigrex>(this, "mhfc:models/Tigrex/walk.mcanm", 122, 3F, 0.08F, 0.4F, 21, 85, 1));
 
-		//To be fix
 		manager.registerAction(new GroundHurl());
-
-		/**
-		 * AI TO be added: 1. RunningRoar - ANIMATION DONE 2. FatigueRun - ANIMATION DONE 3. ClawAttack - ANIMATION DONE
-		 * 4. JumpAway - ANIMATION DONE 5. RunningGroundHurl 6. Double Spin 7. Run to Jump - 8. Sleeping.
-		 * 
-		 **/
 
 		//	 Register roar to be the only allowed initial move on sight of an enemy
 		List<IExecutableAction<? super EntityTigrex>> allowedFirstSight = new ArrayList<>();
