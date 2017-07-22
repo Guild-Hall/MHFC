@@ -29,7 +29,8 @@ public class AIWander<T extends EntityMHFCBase<? super T>> extends WanderAction<
 			float turnrate,
 			int loopStart,
 			int loopEnd,
-			int loopCount) {
+			int loopCount,
+			int provideWanderDistance) {
 		this.entity = entity;
 		this.animationLocation = animationLocation;
 		this.animationLength = animationLength;
@@ -39,6 +40,7 @@ public class AIWander<T extends EntityMHFCBase<? super T>> extends WanderAction<
 		this.loopStart = loopStart;
 		this.loopEnd = loopEnd;
 		this.loopCount = loopCount;
+		WanderAction.provideWanderDistance = provideWanderDistance;
 	}
 
 	@Override

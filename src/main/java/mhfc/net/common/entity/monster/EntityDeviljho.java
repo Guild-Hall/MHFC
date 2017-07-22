@@ -107,7 +107,8 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 						0.6F,
 						5,
 						44,
-						1));
+						1,
+						30));
 
 		return attackManager.build(this);
 	}

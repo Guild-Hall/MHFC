@@ -125,7 +125,8 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 						0.7F,
 						10,
 						94,
-						1));
+						1,
+						30));
 
 
 		return attackManager.build(this);

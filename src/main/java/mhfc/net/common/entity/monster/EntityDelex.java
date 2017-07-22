@@ -53,7 +53,8 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 						0.7F,
 						9,
 						55,
-						1));
+						1,
+						30));
 		actionManager.registerAction(
 				setDeathAction(
 						new AIDeath(

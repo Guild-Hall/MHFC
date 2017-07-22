@@ -28,8 +28,8 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 	@Override
 	protected IActionManager<EntityGargwa> constructActionManager() {
 		ActionManagerBuilder<EntityGargwa> actionManager = new ActionManagerBuilder<>();
-		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Gagua/gaguabreathe.mcanm", 40, 2F));
-		actionManager.registerAction(new AIIdle(this, "mhfc:models/Gagua/lookaround.mcanm", 100, 1F));
+		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Gagua/gaguabreathe.mcanm", 40, 5F));
+		actionManager.registerAction(new AIIdle(this, "mhfc:models/Gagua/lookaround.mcanm", 100, 0.5F));
 		actionManager.registerAction(new Sleep());
 		actionManager.registerAction(
 				setDeathAction(
@@ -38,7 +38,17 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 								"mhfc:models/Gagua/GaguaDeath.mcanm",
 								MHFCSoundRegistry.getRegistry().gargwaDeath)));
 		actionManager.registerAction(
-				new AIWander<EntityGargwa>(this, "mhfc:models/gagua/gaguawalk.mcanm", 60, 1.5F, 0.06F, 0.2F, 0, 31, 1));
+				new AIWander<EntityGargwa>(
+						this,
+						"mhfc:models/gagua/gaguawalk.mcanm",
+						60,
+						1.5F,
+						0.06F,
+						0.2F,
+						0,
+						31,
+						0,
+						10));
 		return actionManager.build(this);
 	}
 

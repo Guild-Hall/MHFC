@@ -109,7 +109,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		manager.registerAction(new AIIdle(this, "mhfc:models/Tigrex/idle.mcanm", 160, 2F));
 		manager.registerAction(new AIIdle(this, "mhfc:models/Tigrex/idle3.mcanm", 260, 1F));
 		manager.registerAction(
-				new AIWander<EntityTigrex>(this, "mhfc:models/Tigrex/walk.mcanm", 122, 3F, 0.08F, 0.4F, 21, 85, 1));
+				new AIWander<EntityTigrex>(this, "mhfc:models/Tigrex/walk.mcanm", 122, 3F, 0.08F, 0.4F, 21, 85, 1, 30));
 
 		manager.registerAction(new GroundHurl());
 
