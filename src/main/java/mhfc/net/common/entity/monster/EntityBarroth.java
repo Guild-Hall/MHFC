@@ -57,7 +57,16 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 								MHFCSoundRegistry.getRegistry().barrothDeath)));
 
 		followUpManager.registerAction(
-				new AIWander<EntityBarroth>(this, "mhfc:models/Barroth/walknew.mcanm", 65, 3F, 0.1F, 0.7F, 0, 31, 1));
+				new AIWander<EntityBarroth>(
+						this,
+						"mhfc:models/Barroth/walknew.mcanm",
+						67,
+						2,
+						0.1F,
+						0.7F,
+						0,
+						59,
+						1));
 
 		followUpManager.registerAction(new HeadSlam(7F, 5F, 1F, 270F));
 		followUpManager.registerAllowingAllActions(new RamRun(1F, 0.7F));

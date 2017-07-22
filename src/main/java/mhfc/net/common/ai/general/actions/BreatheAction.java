@@ -33,13 +33,8 @@ public abstract class BreatheAction<T extends EntityMHFCBase<?>> extends Animate
 				this.getEntity().posX + this.lookX,
 				this.getEntity().posY + this.getEntity().getEyeHeight(),
 				this.getEntity().posZ + this.lookZ,
-				this.getEntity().getHorizontalFaceSpeed() - 3,
+				this.getEntity().getHorizontalFaceSpeed() - 9.1f,
 				this.getEntity().getVerticalFaceSpeed());
-		if (target != null) {
-			getEntity().getTurnHelper().updateTargetPoint(target);
-			getEntity().getTurnHelper().updateTurnSpeed(2.0F);
-		}
 
-	} // do nothing, we idle, remember?
-
+	}
 }

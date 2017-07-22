@@ -16,7 +16,6 @@ import mhfc.net.common.ai.entity.monsters.deviljho.Jump;
 import mhfc.net.common.ai.entity.monsters.deviljho.Launch;
 import mhfc.net.common.ai.entity.monsters.deviljho.Roar;
 import mhfc.net.common.ai.entity.monsters.deviljho.Stomp;
-import mhfc.net.common.ai.entity.monsters.deviljho.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -97,18 +96,17 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 		attackManager.registerAction(new Jump());
 		attackManager.registerAction(new FrontalBreathe());
 		attackManager.registerAction(new Roar());
-		attackManager.registerAction(new Wander());
 
 		attackManager.registerAction(
 				new AIWander<EntityDeviljho>(
 						this,
-						"mhfc:models/Deviljho/DeviljhoWalk.mcanm",
-						55,
+						"mhfc:models/Deviljho/walk.mcanm",
+						60,
 						3F,
 						0.07F,
 						0.6F,
-						0,
-						55,
+						5,
+						44,
 						1));
 
 		return attackManager.build(this);

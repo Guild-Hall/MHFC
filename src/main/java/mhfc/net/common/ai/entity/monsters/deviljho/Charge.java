@@ -7,7 +7,6 @@ import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
 import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
-import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
@@ -17,18 +16,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
 public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimationProvider {
-	private static final String ANIMATION_LOCATION = "mhfc:models/Deviljho/DeviljhoWalk.mcanm";
-	private static final int MOVEMENT_START = 5;
-	private static final int MOVEMENT_FINISH = 40;
-	private static final int AI_END = 40;
-	private static final float TURN_RATE_INITIAL = 7.5f;
-	private static final float TURN_RATE_DURING_RUN = 0f;
-	private static final float MAX_RUN_DISTANCE = 20f;
-	private static final int MAX_RUN_FRAMES = 200;
-
-	private static final double RUN_SPEED = 0.6;
-	private static final double STOP_SPEED = 0.4;
-	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(125f, 50f, 9999999f);
 
 	private static enum PastEntityEnum {
 		NOT_PASSED,
@@ -44,7 +31,7 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 			public void onPhaseStart(Charge attk) {
 				EntityDeviljho monster = attk.getEntity();
 				monster.motionX = monster.motionY = monster.motionZ = 0f;
-				monster.getTurnHelper().updateTurnSpeed(TURN_RATE_INITIAL);
+				monster.getTurnHelper().updateTurnSpeed(7.5F);
 				attk.getEntity().getTurnHelper().updateTargetPoint(attk.target);
 			}
 
@@ -59,7 +46,7 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 				if (attk.target == null) {
 					return STOPPED;
 				}
-				if (attk.getCurrentFrame() < MOVEMENT_START) {
+				if (attk.getCurrentFrame() < 5) {
 					return START;
 				}
 				return RUNNING;
@@ -68,7 +55,7 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 		RUNNING(true) {
 			@Override
 			public void onPhaseStart(Charge attk) {
-				attk.getEntity().getTurnHelper().updateTurnSpeed(TURN_RATE_DURING_RUN);
+				attk.getEntity().getTurnHelper().updateTurnSpeed(0F);
 				attk.framesRunning = 0;
 			}
 
@@ -78,11 +65,11 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 				Vec3d mobPos = monster.getPositionVector();
 				Vec3d vecToTarget = mobPos.subtract(attk.target.getPositionVector());
 				monster.getTurnHelper().updateTargetPoint(attk.target);
-				monster.moveForward(RUN_SPEED, true);
+				monster.moveForward(0.6, true);
 				Vec3d look = monster.getLookVec();
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
-				boolean ranLongEnough = attk.runStartPoint.subtract(mobPos).lengthVector() > MAX_RUN_DISTANCE
-						|| attk.framesRunning > MAX_RUN_FRAMES;
+				boolean ranLongEnough = attk.runStartPoint.subtract(mobPos).lengthVector() > 20F
+						|| attk.framesRunning > 200;
 				if ((tarBeh || ranLongEnough) && attk.hasPassed == PastEntityEnum.NOT_PASSED) {
 					attk.hasPassed = PastEntityEnum.PASSED;
 				}
@@ -99,11 +86,11 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 			@Override
 			public int nextFrame(Charge attk, int curr) {
 				attk.framesRunning++;
-				int looping = MOVEMENT_FINISH - MOVEMENT_START;
-				if (attk.hasPassed == PastEntityEnum.PASSED && (curr + 1 >= MOVEMENT_FINISH)) {
+				int looping = 44 - 5;
+				if (attk.hasPassed == PastEntityEnum.PASSED && (curr + 1 >= 44)) {
 					attk.hasPassed = PastEntityEnum.LOOP_FINISHED;
 				}
-				return MOVEMENT_START + (curr + 1 - MOVEMENT_START) % looping;
+				return 5 + (curr + 1 - 5) % looping;
 			}
 		},
 
@@ -112,12 +99,12 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 			@Override
 			public void update(Charge attk) {
 				EntityDeviljho e = attk.getEntity();
-				e.moveForward(STOP_SPEED, false);
+				e.moveForward(0.4, false);
 			}
 
 			@Override
 			public AttackPhase next(Charge attk) {
-				if (AI_END < attk.getCurrentFrame()) {
+				if (40 < attk.getCurrentFrame()) {
 					return STOPPED;
 				}
 				return STOPPING;
@@ -155,11 +142,6 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 	private int framesRunning;
 	private int runCycles;
 
-	private final IAttackProvider ATTACK;
-	{
-		final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, 0);
-		ATTACK = new AttackAdapter(ANIMATION, new DamageAdapter(damageCalc));
-	}
 
 	public Charge() {}
 
@@ -188,9 +170,13 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 		runStartPoint = mob.getPositionVector();
 	}
 
+	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(125f, 500F, 8888f);
+
 	@Override
 	public IAnimationProvider getAnimProvider() {
-		return ATTACK;
+		return new AttackAdapter(
+				new AnimationAdapter(this, "mhfc:models/Deviljho/walk.mcanm", 0),
+				new DamageAdapter(DAMAGE_CALC));
 	}
 
 	@Override
@@ -202,7 +188,7 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 	public void onUpdate() {
 		currentPhase.update(this);
 		if (currentPhase.isDamaging) {
-			AIUtils.damageCollidingEntities(getEntity(), damageCalc);
+			AIUtils.damageCollidingEntities(getEntity(), DAMAGE_CALC);
 		}
 		AttackPhase nextPhase = currentPhase.next(this);
 		if (currentPhase != nextPhase) {

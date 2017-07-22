@@ -4,6 +4,7 @@ import mhfc.net.common.ai.general.actions.IdleAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
+import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 
 public class AIIdle extends IdleAction<EntityMHFCBase<?>> implements IHasAnimationProvider {
@@ -30,6 +31,11 @@ public class AIIdle extends IdleAction<EntityMHFCBase<?>> implements IHasAnimati
 	@Override
 	protected float computeIdleWeight() {
 		return this.weight;
+	}
+
+	@Override
+	public IContinuationPredicate provideContinuationPredicate() {
+		return super.provideContinuationPredicate().and(IHasAnimationProvider.super.provideContinuationPredicate());
 	}
 
 	
