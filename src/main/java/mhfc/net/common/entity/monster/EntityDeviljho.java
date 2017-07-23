@@ -11,8 +11,8 @@ import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIDeath;
 import mhfc.net.common.ai.entity.AIWander;
 import mhfc.net.common.ai.entity.monsters.deviljho.Charge;
-import mhfc.net.common.ai.entity.monsters.deviljho.LaserBeam;
 import mhfc.net.common.ai.entity.monsters.deviljho.Jump;
+import mhfc.net.common.ai.entity.monsters.deviljho.LaserBeam;
 import mhfc.net.common.ai.entity.monsters.deviljho.Launch;
 import mhfc.net.common.ai.entity.monsters.deviljho.Roar;
 import mhfc.net.common.ai.entity.monsters.deviljho.Stomp;
@@ -88,13 +88,12 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 						1,
 						180,
 						11));
-		// to be optimize
 		attackManager.registerAction(new Launch());
 		attackManager.registerAction(new Charge());
 		attackManager.registerAction(new Stomp());
 
 		attackManager.registerAction(new Jump());
-		attackManager.registerAction(new LaserBeam());
+
 		attackManager.registerAction(new Roar());
 
 		attackManager.registerAction(
@@ -110,6 +109,8 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 						1,
 						30));
 
+		attackManager
+				.registerAction(new LaserBeam("mhfc:models/Deviljho/DeviljhoFrontalBreathe.mcanm", 80, 15, 25F));
 		return attackManager.build(this);
 	}
 

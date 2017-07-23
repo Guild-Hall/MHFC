@@ -15,7 +15,7 @@ import mhfc.net.common.entity.monster.wip.EntityGreatJaggi;
 import mhfc.net.common.entity.monster.wip.EntityKirin;
 import mhfc.net.common.entity.monster.wip.EntityLagiacrus;
 import mhfc.net.common.entity.particle.EntityPaintParticleEmitter;
-import mhfc.net.common.entity.projectile.EntityBreathe;
+import mhfc.net.common.entity.projectile.EntityDeviljhoLaserBeam;
 import mhfc.net.common.entity.projectile.EntityBullet;
 import mhfc.net.common.entity.projectile.EntityFlashBomb;
 import mhfc.net.common.entity.projectile.EntityPaintball;
@@ -112,7 +112,7 @@ public class MHFCEntityRegistry {
 
 		paintemitterID = getMobID(EntityPaintParticleEmitter.class, ResourceInterface.mob_paint_emitter_name);
 		arrowID = getProjectileID(EntityWyverniaArrow.class, ResourceInterface.projectile_wyverniaarrow_name);
-		breatheID = getProjectileID(EntityBreathe.class, ResourceInterface.projectile_wyverniaarrow_name);
+		breatheID = getProjectileID(EntityDeviljhoLaserBeam.class, ResourceInterface.projectile_wyverniaarrow_name);
 
 		MHFCMain.logger().info("Monsters registered");
 	}
