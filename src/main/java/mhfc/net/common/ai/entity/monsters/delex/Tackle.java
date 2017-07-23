@@ -45,7 +45,7 @@ public class Tackle extends DamagingAction<EntityDelex> implements IHasAttackPro
 	public IAttackProvider getAttackProvider() {
 		return new AttackAdapter(
 				new AnimationAdapter(this, "mhfc:models/delex/tackle.mcanm", 25),
-				new DamageAdapter(AIUtils.defaultDamageCalc(30f, 50F, 9999999f)));
+				new DamageAdapter(AIUtils.defaultDamageCalc(19f, 50F, 9999999f)));
 	}
 
 	@Override

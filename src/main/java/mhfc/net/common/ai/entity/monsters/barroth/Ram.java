@@ -37,7 +37,7 @@ public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProv
 	public IAttackProvider getAttackProvider() {
 		return new AttackAdapter(
 				new AnimationAdapter(this, "mhfc:models/Barroth/BarrothRam.mcanm", 75),
-				new DamageAdapter(AIUtils.defaultDamageCalc(95f, 50F, 9999999f)));
+				new DamageAdapter(AIUtils.defaultDamageCalc(40F, 50F, 9999999f)));
 	}
 
 	@Override

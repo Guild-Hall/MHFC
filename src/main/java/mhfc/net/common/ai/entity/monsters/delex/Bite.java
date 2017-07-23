@@ -7,28 +7,13 @@ import mhfc.net.common.ai.general.provider.adapters.AttackTargetAdapter;
 import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
 import mhfc.net.common.ai.general.provider.adapters.JumpAdapter;
 import mhfc.net.common.ai.general.provider.adapters.JumpTimingAdapter;
-import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.composite.IJumpProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasJumpProvider;
-import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
-import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
 import mhfc.net.common.entity.monster.EntityDelex;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
 public class Bite extends JumpAction<EntityDelex> implements IHasJumpProvider<EntityDelex> {
-
-	private final IJumpProvider<EntityDelex> ATTACK;
-	{
-		IJumpParameterProvider<EntityDelex> jumpParameter = new AttackTargetAdapter<>(10F);
-		IJumpTimingProvider<EntityDelex> jumpTiming = new JumpTimingAdapter<>(1, 10, 14);
-		final IAnimationProvider animation = new AnimationAdapter(this, "mhfc:models/delex/delexbite.mcanm", 25);
-		ATTACK = new JumpAdapter<>(
-				animation,
-				new DamageAdapter(AIUtils.defaultDamageCalc(60, 45, 99999)),
-				jumpParameter,
-				jumpTiming);
-	}
 
 	public Bite() {}
 
@@ -56,7 +41,11 @@ public class Bite extends JumpAction<EntityDelex> implements IHasJumpProvider<En
 
 	@Override
 	public IJumpProvider<EntityDelex> getJumpProvider() {
-		return ATTACK;
+		return new JumpAdapter<EntityDelex>(
+				new AnimationAdapter(this, "mhfc:models/delex/delexbite.mcanm", 25),
+				new DamageAdapter(AIUtils.defaultDamageCalc(21, 45, 99999)),
+				new AttackTargetAdapter<EntityDelex>(10F),
+				new JumpTimingAdapter<EntityDelex>(1, 10, 14));
 	}
 
 }

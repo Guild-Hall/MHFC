@@ -28,7 +28,7 @@ public class Charge extends DamagingAction<EntityNargacuga> implements IHasAttac
 
 	private static final double RUN_SPEED = 0.7;
 	private static final double STOP_SPEED = 0.4;
-	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(5, 50F, 99999F);
+	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(75, 50F, 99999F);
 
 	private static enum PastEntityEnum {
 		NOT_PASSED,

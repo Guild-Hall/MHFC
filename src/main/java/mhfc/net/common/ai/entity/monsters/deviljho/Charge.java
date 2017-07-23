@@ -170,7 +170,7 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 		runStartPoint = mob.getPositionVector();
 	}
 
-	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(125f, 500F, 8888f);
+	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(80F, 500F, 8888f);
 
 	@Override
 	public IAnimationProvider getAnimProvider() {

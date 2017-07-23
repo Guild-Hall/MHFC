@@ -66,7 +66,7 @@ public class Stomp extends DamagingAction<EntityBarroth> implements IHasAttackPr
 	public IAttackProvider getAttackProvider() {
 		return new AttackAdapter(
 				new AnimationAdapter(this, "mhfc:models/Barroth/BarrothStomp.mcanm", 85),
-				new DamageAdapter(AIUtils.defaultDamageCalc(60f, 50F, 9999999f)));
+				new DamageAdapter(AIUtils.defaultDamageCalc(40f, 50F, 9999999f)));
 	}
 
 }

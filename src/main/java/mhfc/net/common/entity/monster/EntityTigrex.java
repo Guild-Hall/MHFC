@@ -94,7 +94,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 						"mhfc:models/Tigrex/tailswipe.mcanm",
 						60,
 						12,
-						85,
+						95F,
 						10F,
 						MHFCSoundRegistry.getRegistry().tigrexTailWhip,
 						9,

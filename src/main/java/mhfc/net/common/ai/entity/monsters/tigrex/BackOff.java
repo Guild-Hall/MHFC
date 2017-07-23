@@ -27,7 +27,7 @@ public class BackOff extends JumpAction<EntityTigrex> implements IHasJumpProvide
 				return -3.5F;
 			}
 		};
-		IJumpTimingProvider<EntityTigrex> jumpTiming = new JumpTimingAdapter<>(19, 2F, 2F);
+		IJumpTimingProvider<EntityTigrex> jumpTiming = new JumpTimingAdapter<>(5, 2F, 2F);
 		final IAnimationProvider animation = new AnimationAdapter(this, "mhfc:models/Tigrex/jump_away.mcanm", 25);
 		ATTACK = new JumpAdapter<>(
 				animation,

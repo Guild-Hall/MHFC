@@ -45,7 +45,7 @@ public class HeadSlam extends DamageAreaAction<EntityBarroth> implements IHasAtt
 	public IAttackProvider getAttackProvider() {
 		return new AttackAdapter(
 				new AnimationAdapter(this, "mhfc:models/barroth/headslam.mcanm", 60),
-				new DamageAdapter(AIUtils.defaultDamageCalc(150F, 125F, 99999999F)));
+				new DamageAdapter(AIUtils.defaultDamageCalc(41F, 125F, 99999999F)));
 	}
 
 	@Override

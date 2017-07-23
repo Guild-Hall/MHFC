@@ -33,7 +33,7 @@ public class BackOff extends JumpAction<EntityNargacuga> implements IHasJumpProv
 	public IJumpProvider<EntityNargacuga> getJumpProvider() {
 		return new JumpAdapter<EntityNargacuga>(
 				new AnimationAdapter(this, "mhfc:models/Nargacuga/JumpBack.mcanm", 50),
-				new DamageAdapter(AIUtils.defaultDamageCalc(50, 250, 70)),
+				new DamageAdapter(AIUtils.defaultDamageCalc(5, 250, 70)),
 				new AttackTargetAdapter<EntityNargacuga>(12) {
 					@Override
 					public float getForwardVelocity(EntityNargacuga entity) {
