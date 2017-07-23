@@ -41,7 +41,7 @@ public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpPro
 	public IJumpProvider<EntityNargacuga> getJumpProvider() {
 		return new JumpAdapter<EntityNargacuga>(
 				new AnimationAdapter(this, "mhfc:models/Nargacuga/TailSlam.mcanm", 100),
-				new DamageAdapter(AIUtils.defaultDamageCalc(120F, 300, 888880)),
+				new DamageAdapter(AIUtils.defaultDamageCalc(60F, 300, 888880)),
 				new ConstantAirTimeAdapter<EntityNargacuga>(
 						12,
 						entity -> entity.getLookVec().addVector(entity.posX, entity.posY, entity.posZ)),

@@ -88,7 +88,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 				"mhfc:models/Nargacuga/TailSwipeRight.mcanm",
 				56,
 				23,
-				90,
+				30,
 				6F,
 				MHFCSoundRegistry.getRegistry().nargacugaTailWhip,
 				7,

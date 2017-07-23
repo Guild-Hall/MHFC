@@ -43,7 +43,7 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 	public IAttackProvider getAttackProvider() {
 		return new AttackAdapter(
 				new AnimationAdapter(this, "mhfc:models/Deviljho/DeviljhoLaunch.mcanm", 50),
-				new DamageAdapter(AIUtils.defaultDamageCalc(100F, 500F, 8888f)));
+				new DamageAdapter(AIUtils.defaultDamageCalc(45F, 500F, 8888f)));
 	}
 
 	protected static double SPLIT_MULTIPLIER = 0.535;

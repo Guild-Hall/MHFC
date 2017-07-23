@@ -39,7 +39,7 @@ public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider
 	public IJumpProvider<EntityDeviljho> getJumpProvider() {
 		return new JumpAdapter<EntityDeviljho>(
 				new AnimationAdapter(this, "mhfc:models/Deviljho/DeviljhoJump.mcanm", 60),
-				new DamageAdapter(AIUtils.defaultDamageCalc(75f, 2000f, 999999F)),
+				new DamageAdapter(AIUtils.defaultDamageCalc(34F, 2000f, 999999F)),
 				new AttackTargetAdapter<EntityDeviljho>(13.5f),
 				new JumpTimingAdapter<EntityDeviljho>(20, 14, 0));
 	}

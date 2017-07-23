@@ -31,7 +31,7 @@ public final class Pounce extends JumpAction<EntityNargacuga> implements IHasJum
 	}
 
 	private static final JumpBehaviour[] ALL_BEHAVIOURS = JumpBehaviour.values();
-	private static final IDamageCalculator dmgCalculator = AIUtils.defaultDamageCalc(65, 300, 5000);
+	private static final IDamageCalculator dmgCalculator = AIUtils.defaultDamageCalc(18F, 300, 5000);
 
 	private BehaviourJump behaviour;
 
