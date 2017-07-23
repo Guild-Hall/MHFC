@@ -3,6 +3,7 @@ package mhfc.net.common.entity.projectile;
 import java.util.ArrayList;
 import java.util.List;
 
+import mhfc.net.common.util.math.TimerTick;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,7 +24,7 @@ public class EntityBeam extends Entity {
 	public EntityLivingBase caster;
 	public double endPosX, endPosY, endPosZ;
 	public double collidePosX, collidePosY, collidePosZ;
-
+	public TimerTick appear = new TimerTick(3);
 	public boolean on = true;
 
 	public EnumFacing blockSide = null;
@@ -76,9 +77,44 @@ public class EntityBeam extends Entity {
 		if (ticksExisted == 1 && world.isRemote) {
 			caster = (EntityLivingBase) world.getEntityByID(getCasterID());
 		}
+		if (!world.isRemote && getHasPlayer()) {
+			this.updateWithPlayer();
+		}
 
+		if (!on && appear.getTimer() == 0) {
+			this.setDead();
+		}
+		if (on && ticksExisted > 20) {
+			appear.increaseTickTimer();
+		} else {
+			appear.decreaseTimer();
+		}
 
+		if (world.isRemote && ticksExisted <= 10) {
+			int particleCount = 8;
+			while (--particleCount != 0) {
+				double radius = 2f;
+				double yaw = rand.nextFloat() * 2 * Math.PI;
+				double pitch = rand.nextFloat() * 2 * Math.PI;
+				double ox = radius * Math.sin(yaw) * Math.sin(pitch);
+				double oy = radius * Math.cos(pitch);
+				double oz = radius * Math.cos(yaw) * Math.sin(pitch);
+				double offsetX = -2 * Math.cos(getYaw());
+				double offsetZ = -2 * Math.sin(getYaw());
+				if (getHasPlayer()) {
+					offsetX = offsetZ = 0;
+				}
 
+				world.spawnParticle(
+						EnumParticleTypes.FLAME,
+						posX + ox + offsetX,
+						posY + oy + 0.3,
+						posZ + oz + offsetZ,
+						motionX,
+						motionY,
+						motionZ);
+			}
+		}
 		if (ticksExisted > 20) {
 			this.calculateEndPos();
 			List<EntityLivingBase> hit = raytraceEntities(
@@ -96,10 +132,55 @@ public class EntityBeam extends Entity {
 					target.attackEntityFrom(DamageSource.ON_FIRE, 2f);
 					target.attackEntityFrom(DamageSource.causeMobDamage(caster), 2f);
 				}
-			} 
+			} else {
+				if (ticksExisted - 15 < getDuration()) {
+					int particleCount = 4;
+					while (particleCount-- > 0) {
+						double radius = 1f;
+						double yaw = rand.nextFloat() * 2 * Math.PI;
+						double pitch = rand.nextFloat() * 2 * Math.PI;
+						double ox = radius * Math.sin(yaw) * Math.sin(pitch);
+						double oy = radius * Math.cos(pitch);
+						double oz = radius * Math.cos(yaw) * Math.sin(pitch);
+						double o2x = -1 * Math.cos(getYaw()) * Math.cos(getPitch());
+						double o2y = -1 * Math.sin(getPitch());
+						double o2z = -1 * Math.sin(getYaw()) * Math.cos(getPitch());
+						world.spawnParticle(
+								EnumParticleTypes.FLAME,
+								posX + o2x + ox,
+								posY + o2y + oy,
+								posZ + o2z + oz,
+								motionX,
+								motionY,
+								motionZ);
+					}
+					particleCount = 4;
+					while (particleCount-- > 0) {
+						double radius = 2f;
+						double yaw = rand.nextFloat() * 2 * Math.PI;
+						double pitch = rand.nextFloat() * 2 * Math.PI;
+						double ox = radius * Math.sin(yaw) * Math.sin(pitch);
+						double oy = radius * Math.cos(pitch);
+						double oz = radius * Math.cos(yaw) * Math.sin(pitch);
+						double o2x = -1 * Math.cos(getYaw()) * Math.cos(getPitch());
+						double o2y = -1 * Math.sin(getPitch());
+						double o2z = -1 * Math.sin(getYaw()) * Math.cos(getPitch());
+						world.spawnParticle(
+								EnumParticleTypes.FLAME,
+								collidePosX + o2x,
+								collidePosY + o2y,
+								collidePosZ + o2z,
+								motionX,
+								motionY,
+								motionZ);
+
+					}
+				}
 			}
-
-
+		}
+		if (ticksExisted - 20 > getDuration()) {
+			on = false;
+		}
 	}
 
 	private void spawnExplosionParticles(int amount) {
@@ -255,7 +336,6 @@ public class EntityBeam extends Entity {
 		return distance < 1024;
 	}
 
-	@SuppressWarnings("unused")
 	private void updateWithPlayer() {
 		this.setYaw((float) ((caster.rotationYawHead + 90) * Math.PI / 180));
 		this.setPitch((float) (-caster.rotationPitch * Math.PI / 180));

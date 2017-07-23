@@ -31,7 +31,7 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 			public void onPhaseStart(Charge attk) {
 				EntityDeviljho monster = attk.getEntity();
 				monster.motionX = monster.motionY = monster.motionZ = 0f;
-				monster.getTurnHelper().updateTurnSpeed(7.5F);
+				monster.getTurnHelper().updateTurnSpeed(18.5F);
 				attk.getEntity().getTurnHelper().updateTargetPoint(attk.target);
 			}
 
@@ -65,7 +65,7 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 				Vec3d mobPos = monster.getPositionVector();
 				Vec3d vecToTarget = mobPos.subtract(attk.target.getPositionVector());
 				monster.getTurnHelper().updateTargetPoint(attk.target);
-				monster.moveForward(0.6, true);
+				monster.moveForward(0.4, true);
 				Vec3d look = monster.getLookVec();
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
 				boolean ranLongEnough = attk.runStartPoint.subtract(mobPos).lengthVector() > 20F
@@ -99,7 +99,7 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 			@Override
 			public void update(Charge attk) {
 				EntityDeviljho e = attk.getEntity();
-				e.moveForward(0.4, false);
+				e.moveForward(0.2, false);
 			}
 
 			@Override

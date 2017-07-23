@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends Particle> {
 	/**
-	 * Immutable particle arguments
+	 * All credit goes to bobmowzie and pau101 ~ Heltrato Immutable particle arguments
 	 */
 	public static class ImmutableParticleArgs {
 		public final World world;
