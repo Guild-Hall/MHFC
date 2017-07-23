@@ -14,6 +14,7 @@ public final class ParticleTextureStitcher<T> {
 	 * @param textures
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public static <T extends Particle & IParticleSpriteReceiver> ParticleTextureStitcher create(
 			Class<T> cls,
 			ResourceLocation[] textures) {
@@ -27,6 +28,7 @@ public final class ParticleTextureStitcher<T> {
 	 * @param texture
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public static <T extends Particle & IParticleSpriteReceiver> ParticleTextureStitcher create(
 			Class<T> cls,
 			ResourceLocation texture) {
