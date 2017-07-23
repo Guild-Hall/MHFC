@@ -10,8 +10,6 @@ import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.entity.monster.EntityBarroth;
-import mhfc.net.common.util.world.WorldHelper;
-import net.minecraft.util.math.Vec3d;
 
 public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProvider {
 
@@ -25,19 +23,17 @@ public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProv
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
 		}
-		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
-		double dist = toTarget.lengthVector();
-		if (dist > 30F) {
+		if (!SelectionUtils.isInDistance(0, 15, entity, target)) {
 			return DONT_SELECT;
 		}
-		return 3.5F;
+		return 5F;
 	}
 
 	@Override
 	public IAttackProvider getAttackProvider() {
 		return new AttackAdapter(
 				new AnimationAdapter(this, "mhfc:models/Barroth/BarrothRam.mcanm", 75),
-				new DamageAdapter(AIUtils.defaultDamageCalc(40F, 50F, 9999999f)));
+				new DamageAdapter(AIUtils.defaultDamageCalc(18F, 50F, 9999999f)));
 	}
 
 	@Override
@@ -45,13 +41,6 @@ public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProv
 		EntityBarroth entity = getEntity();
 		EntityAIMethods.launch(entity, 1.0D, 5.5D, 1.0D);
 		damageCollidingEntities();
-		if (isMoveForwardFrame(getCurrentFrame())) {
-			entity.moveForward(1, false);
-		}
 		super.onUpdate();
-	}
-
-	private boolean isMoveForwardFrame(int frame) {
-		return (frame > 20 && frame < 30);
 	}
 }

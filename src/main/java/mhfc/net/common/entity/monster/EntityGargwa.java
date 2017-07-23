@@ -28,7 +28,7 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 	@Override
 	protected IActionManager<EntityGargwa> constructActionManager() {
 		ActionManagerBuilder<EntityGargwa> actionManager = new ActionManagerBuilder<>();
-		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Gagua/gaguabreathe.mcanm", 40, 5F));
+		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Gagua/gaguabreathe.mcanm", 40, 2F));
 		actionManager.registerAction(new AIIdle(this, "mhfc:models/Gagua/lookaround.mcanm", 100, 0.5F));
 		actionManager.registerAction(new Sleep());
 		actionManager.registerAction(

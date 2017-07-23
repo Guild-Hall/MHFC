@@ -27,8 +27,8 @@ public class AreaRegistry {
 	public static final String NAME_SNOWYMOUNTAINS = "snowymountains";
 
 	// New 1.11
-	public static final String NAME_SANDY = "sandy";
-	public static final String NAME_GREENVALLEY = "greenvalley";
+	public static final String NAME_SANDY = "areasandy";
+	public static final String NAME_GREENVALLEY = "thegreenvalley";
 
 	public static void init() {
 		AreaRegistry.register(NAME_PLAYFIELD, AreaTypePlayfield.PLAYFIELD_TYPE);

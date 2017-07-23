@@ -22,6 +22,7 @@ import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundEvent;
@@ -41,6 +42,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	protected void initEntityAI() {
 		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
+		targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
 	}
 
 	@Override
@@ -48,7 +50,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 		
 		
 		FollowUpManagerBuilder<EntityBarroth>	followUpManager = new FollowUpManagerBuilder<>();
-		followUpManager.registerAction(new AIBreathe(this, "mhfc:models/Barroth/barrothidle.mcanm", 60, 3f));
+		followUpManager.registerAction(new AIBreathe(this, "mhfc:models/Barroth/barrothidle.mcanm", 60, 2f));
 		followUpManager.registerAction(
 				setDeathAction(
 						new AIDeath(
@@ -61,7 +63,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 						this,
 						"mhfc:models/Barroth/walknew.mcanm",
 						67,
-						2,
+						1,
 						0.1F,
 						0.7F,
 						0,
@@ -70,7 +72,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 						30));
 
 		followUpManager.registerAction(new HeadSlam(7F, 5F, 1F, 270F));
-		followUpManager.registerAllowingAllActions(new RamRun(1F, 0.7F));
+		followUpManager.registerAllowingAllActions(new RamRun(0.5F, 30F));
 		followUpManager.registerAllowingAllActions(new Ram());
 		followUpManager.registerAction(new Stomp());
 		

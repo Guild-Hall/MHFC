@@ -41,14 +41,14 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 		actionManager.registerAction(new Bite());
 		actionManager.registerAction(new Tackle());
 		actionManager.registerAction(new MoveToTarget(1.1F));
-		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Delex/delexidle.mcanm", 60, 5f));
+		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Delex/delexidle.mcanm", 60, 2f));
 
 		actionManager.registerAction(
 				new AIWander<EntityDelex>(
 						this,
 						"mhfc:models/delex/delexmovetotarget.mcanm",
 						100,
-						3F,
+						1F,
 						0.07F,
 						0.7F,
 						9,

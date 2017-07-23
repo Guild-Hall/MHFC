@@ -11,8 +11,6 @@ import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityBarroth;
-import mhfc.net.common.util.world.WorldHelper;
-import net.minecraft.util.math.Vec3d;
 
 public class RamRun extends DamagingAction<EntityBarroth> implements IHasAttackProvider {
 
@@ -28,7 +26,8 @@ public class RamRun extends DamagingAction<EntityBarroth> implements IHasAttackP
 	protected void beginExecution() {
 		super.beginExecution();
 		EntityBarroth entity = this.getEntity();
-		entity.getTurnHelper().updateTurnSpeed(14.17f);
+		entity.getTurnHelper().updateTurnSpeed(this.turnrate);
+		entity.getTurnHelper().updateTargetPoint(targetPoint);
 	}
 
 	@Override
@@ -38,31 +37,25 @@ public class RamRun extends DamagingAction<EntityBarroth> implements IHasAttackP
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
 		}
-		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
-		double dist = toTarget.lengthVector();
-		if (dist > 30F) {
-			return DONT_SELECT;
-		}
-		return 10;
+		return 15;
 	}
 
 	@Override
 	public IAttackProvider getAttackProvider() {
 		return new AttackAdapter(
 				new AnimationAdapter(this, "mhfc:models/Barroth/BarrothRamRun.mcanm", 130),
-				new DamageAdapter(AIUtils.defaultDamageCalc(55f, 50F, 9999999f)));
+				new DamageAdapter(AIUtils.defaultDamageCalc(17F, 50F, 9999999f)));
 	}
 
 	@Override
 	public void onUpdate() {
 		EntityBarroth entity = getEntity();
-		entity.getTurnHelper().updateTargetPoint(target);
-		super.onUpdate();
 		damageCollidingEntities();
+		entity.getTurnHelper().updateTurnSpeed(0.1F);
+		entity.getTurnHelper().updateTargetPoint(target);
 		if (this.getCurrentFrame() == 20) {
 
 			getEntity().playSound(MHFCSoundRegistry.getRegistry().barrothCharge, 3.0F, 1.0F);
-			entity.getTurnHelper().updateTurnSpeed(this.turnrate);
 			//ON run
 
 		}

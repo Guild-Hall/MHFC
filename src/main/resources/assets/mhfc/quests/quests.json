@@ -17,7 +17,7 @@
 				"data": "mhfc:quests/no_guts_no_glory"
 			},
 			"fee": 200,
-			"areaID": "sandy",
+			"areaID": "areasandy",
 			"questType": "mhfc.quests.type.hunting",
 			"visual": {
 				"client": "Villager Shinya",
@@ -120,7 +120,7 @@
 				"data": "mhfc:quests/leading_the_charge"
 			},
 			"fee": 200,
-			"areaID": "sandy",
+			"areaID": "areasandy",
 			"questType": "mhfc.quests.type.hunting",
 			"visual": {
 				"client": "Sand Enforcer",
@@ -209,7 +209,7 @@
 				"data": "mhfc:quests/tigrex_roar"
 			},
 			"fee": 200,
-			"areaID": "sandy",
+			"areaID": "areasandy",
 			"questType": "mhfc.quests.type.hunting",
 			"visual": {
 				"client": "Sand Survey Corp.",
@@ -223,7 +223,7 @@
 					"type": "monster",
 					"mob": "mhfc:tigrex",
 					"count": 1,
-					"location": "area_spawn5"
+					"location": "area_boss1"
 				}
 			]
 		}
@@ -246,7 +246,7 @@
 				"data": "mhfc:quests/phantom_wyvern"
 			},
 			"fee": 200,
-			"areaID": "greenvalley",
+			"areaID": "thegreenvalley",
 			"questType": "mhfc.quests.type.hunting",
 			"visual": {
 				"client": "Lieutenant Ganryu",
@@ -273,6 +273,30 @@
 					"mob": "mhfc:gagua",
 					"count": 1,
 					"location": "area_spawn2"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:gagua",
+					"count": 1,
+					"location": "area_spawn3"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:gagua",
+					"count": 1,
+					"location": "area_spawn4"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:gagua",
+					"count": 1,
+					"location": "area_spawn5"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:gagua",
+					"count": 1,
+					"location": "area_spawn6"
 				}
 			]
 		}
@@ -295,7 +319,7 @@
 				"data": "mhfc:quests/violent_wyvern"
 			},
 			"fee": 200,
-			"areaID": "greenvalley",
+			"areaID": "thegreenvalley",
 			"questType": "mhfc.quests.type.hunting",
 			"visual": {
 				"client": "Lieutenant Ganryu",
@@ -305,6 +329,36 @@
 				"aims": "Hunt Deviljho"
 			},
 			"spawns": [
+				{
+					"type": "monster",
+					"mob": "mhfc:gagua",
+					"count": 1,
+					"location": "area_spawn1"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:gagua",
+					"count": 1,
+					"location": "area_spawn2"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:gagua",
+					"count": 1,
+					"location": "area_spawn3"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:gagua",
+					"count": 1,
+					"location": "area_spawn4"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:gagua",
+					"count": 1,
+					"location": "area_spawn5"
+				},
 				{
 					"type": "monster",
 					"mob": "mhfc:deviljho",

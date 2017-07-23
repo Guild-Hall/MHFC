@@ -6,8 +6,8 @@ mhfc.area.test.name=Devtest area
 mhfc.area.treepeak.name=§3Treepeak
 mhfc.area.village_poke.name=Pokèvillage
 
-mhfc.area.sandy.name=§6The Sandy
-mhfc.area.greenvalley.name=§6Green Valley
+mhfc.area.areasandy.name=§6The Sandy
+mhfc.area.thegreenvalley.name=§6Green Valley
 
 entity.tigrex.name=§2Tigrex
 entity.mhfc.tigrex.name=§2Tigrex
@@ -36,6 +36,7 @@ entity.mhfc.rathalos.name=§2Rathalos
 
 
 death.attack.mhfc.thunderelement=%1$s was killed by %2$s using a thunder element weapon.
+
 
 tile.losgable.name=Los Gable
 tile.armorstandbase.name=Pike Base

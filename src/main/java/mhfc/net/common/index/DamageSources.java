@@ -23,7 +23,7 @@ public class DamageSources {
 	 * 
 	 */
 
-	public static DamageSource groundpound = new DamageSource("groundpound").setDamageBypassesArmor();
+	public static DamageSource monstersource = new DamageSource("monstersource").setDamageBypassesArmor();
 	public static DamageSource aerial = new DamageSource("aerial").setProjectile();
 	//ANTI OTHER MODS.
 	public static DamageSource anti = new DamageSource("anti").setDamageBypassesArmor().setDamageIsAbsolute();

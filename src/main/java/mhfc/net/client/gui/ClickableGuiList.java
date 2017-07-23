@@ -206,8 +206,8 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> 
 	protected void drawBackground(
 			int posX,
 			int posY,
-			@SuppressWarnings("unused") int mouseX,
-			@SuppressWarnings("unused") int mouseY) {
+			int mouseX,
+			int mouseY) {
 		GL11.glColor4f(1, 1, 1, 1);
 		mc.getTextureManager().bindTexture(MHFCRegQuestVisual.CLICKABLE_LIST);
 		float texheight = height;
@@ -242,8 +242,8 @@ public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> 
 	protected void drawListItems(
 			int posX,
 			int posY,
-			@SuppressWarnings("unused") int mouseX,
-			@SuppressWarnings("unused") int mouseY) {
+			int mouseX,
+			int mouseY) {
 		int startIndex = (int) (scrollAmount / itemHeight + 0.5f);
 		for (int i = startIndex; i < this.size(); i++) {
 			GuiListItem item = this.get(i);

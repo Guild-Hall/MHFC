@@ -11,8 +11,6 @@ import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityBarroth;
-import mhfc.net.common.util.world.WorldHelper;
-import net.minecraft.util.math.Vec3d;
 
 public class HeadSlam extends DamageAreaAction<EntityBarroth> implements IHasAttackProvider {
 
@@ -33,19 +31,17 @@ public class HeadSlam extends DamageAreaAction<EntityBarroth> implements IHasAtt
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
 		}
-		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
-		double dist = toTarget.lengthVector();
-		if (dist > 8F) {
+		if (!SelectionUtils.isInDistance(0, 15, entity, target)) {
 			return DONT_SELECT;
 		}
-		return 5F;
+		return 8F;
 	}
 
 	@Override
 	public IAttackProvider getAttackProvider() {
 		return new AttackAdapter(
 				new AnimationAdapter(this, "mhfc:models/barroth/headslam.mcanm", 60),
-				new DamageAdapter(AIUtils.defaultDamageCalc(41F, 125F, 99999999F)));
+				new DamageAdapter(AIUtils.defaultDamageCalc(25F, 125F, 99999999F)));
 	}
 
 	@Override

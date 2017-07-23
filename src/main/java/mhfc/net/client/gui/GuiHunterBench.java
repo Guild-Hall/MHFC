@@ -177,7 +177,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			}
 		}
 
-		protected void listUpdated(@SuppressWarnings("unused") ClickableGuiList<?> list) {}
+		protected void listUpdated(ClickableGuiList<?> list) {}
 
 		protected void updateListPositions() {}
 

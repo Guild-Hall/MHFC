@@ -106,7 +106,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 
 		prowlerFollow.add(pounce);
 		prowlerFollow.add(tailWhip);
-		attackManager.registerAction(new AIBreathe(this, "mhfc:models/nargacuga/nargacugaidle.mcanm", 60, 5F));
+		attackManager.registerAction(new AIBreathe(this, "mhfc:models/nargacuga/nargacugaidle.mcanm", 60, 2F));
 		attackManager.registerAllowingAllActions(tailSlam);
 		attackManager.registerAllowingAllActions(tailWhip);
 		attackManager.registerActionWithFollowUps(prowler, prowlerFollow);
@@ -120,7 +120,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 						this,
 						"mhfc:models/nargacuga/wander.mcanm",
 						120,
-						3F,
+						1F,
 						0.12F,
 						0.7F,
 						10,

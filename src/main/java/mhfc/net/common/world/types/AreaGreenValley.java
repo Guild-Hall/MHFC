@@ -22,6 +22,11 @@ public class AreaGreenValley extends AreaTypeSchematic {
 			namedPositions.put(new ResourceLocation("area_spawn1"), new BlockPos(23, 13, 79));
 			namedPositions.put(new ResourceLocation("area_spawn2"), new BlockPos(29, 13, 83));
 			namedPositions.put(new ResourceLocation("area_spawn3"), new BlockPos(49, 11, 85));
+			namedPositions.put(new ResourceLocation("area_spawn4"), new BlockPos(51, 11, 86));
+			namedPositions.put(new ResourceLocation("area_spawn5"), new BlockPos(47, 11, 84));
+			namedPositions.put(new ResourceLocation("area_spawn6"), new BlockPos(88, 4, 26));
+			namedPositions.put(new ResourceLocation("area_spawn7"), new BlockPos(89, 4, 26));
+			namedPositions.put(new ResourceLocation("area_spawn8"), new BlockPos(87, 4, 24));
 			namedPositions.put(new ResourceLocation("cave_spawn_boss"), new BlockPos(63, 4, 66));
 			namedPositions.put(new ResourceLocation("boss_spawn1"), new BlockPos(51, 20, 42));
 			namedPositions.put(new ResourceLocation("boss_spawn2"), new BlockPos(87, 4, 26));

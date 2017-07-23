@@ -99,7 +99,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 
 		public static JsonElement serialize(
 				DefaultQuestVisualDefinition information,
-				@SuppressWarnings("unused") JsonSerializationContext context) {
+				JsonSerializationContext context) {
 			JsonObject holder = new JsonObject();
 			holder.addProperty(KEY_NAME, information.name);
 			holder.addProperty(KEY_DESCRIPTION, information.description);

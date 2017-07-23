@@ -42,7 +42,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	protected void initEntityAI() {
 		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
-		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
+		targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 								this,
 								"mhfc:models/Deviljho/DeviljhoDeath.mcanm",
 								MHFCSoundRegistry.getRegistry().deviljhoDeath)));
-		attackManager.registerAction(new AIBreathe(this, "mhfc:models/Deviljho/breathe.mcanm", 60, 5F));
+		attackManager.registerAction(new AIBreathe(this, "mhfc:models/Deviljho/breathe.mcanm", 60, 2F));
 		attackManager.registerAction(
 				new AIBite(
 						this,
@@ -101,7 +101,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 						this,
 						"mhfc:models/Deviljho/walk.mcanm",
 						60,
-						3F,
+						1F,
 						0.07F,
 						0.6F,
 						5,
