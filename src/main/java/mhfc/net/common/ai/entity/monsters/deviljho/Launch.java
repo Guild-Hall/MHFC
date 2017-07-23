@@ -30,7 +30,7 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 		if (!SelectionUtils.isInDistance(0, 15, entity, target)) {
 			return DONT_SELECT;
 		}
-		return 7F;
+		return 10F;
 	}
 
 	@Override

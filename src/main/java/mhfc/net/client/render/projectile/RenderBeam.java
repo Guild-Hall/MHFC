@@ -35,7 +35,7 @@ public class RenderBeam extends Render<EntityBeam> {
 	@Override
 	public void doRender(EntityBeam entity, double x, double y, double z, float yaw, float delta) {
 
-		EntityLivingBase beamCaster = entity.getCaster();
+		EntityLivingBase beamCaster = entity.caster;
 		boolean sightClear = Minecraft.getMinecraft().player == beamCaster
 				&& Minecraft.getMinecraft().gameSettings.thirdPersonView == 0;
 		double length = Math.sqrt(

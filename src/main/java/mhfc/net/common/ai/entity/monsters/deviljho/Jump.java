@@ -32,7 +32,7 @@ public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider
 		if (!SelectionUtils.isInDistance(0, 15, entity, target)) {
 			return DONT_SELECT;
 		}
-		return 5F;
+		return 12F;
 	}
 
 	@Override
@@ -48,6 +48,7 @@ public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider
 	public void onUpdate() {
 		EntityDeviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
+		super.onUpdate();
 		if (this.getCurrentFrame() == 5) {
 			entity.playSound(MHFCSoundRegistry.getRegistry().deviljhoLeap, 2.0F, 1.0F);
 		}
