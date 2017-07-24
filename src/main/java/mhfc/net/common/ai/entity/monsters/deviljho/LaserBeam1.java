@@ -27,7 +27,7 @@ public class LaserBeam1 extends AnimatedAction<EntityDeviljho> implements IHasAn
 
 	@Override
 	public IAnimationProvider getAnimProvider() {
-		return new AnimationAdapter(this, "mhfc:models/deviljho/deviljhofrontalbreathe.mcanm", 80);
+		return new AnimationAdapter(this, "mhfc:models/deviljho/laserfront.mcanm", 71);
 	}
 
 	@Override
@@ -52,17 +52,17 @@ public class LaserBeam1 extends AnimatedAction<EntityDeviljho> implements IHasAn
 			entity.getTurnHelper().updateTurnSpeed(30F);
 			entity.getTurnHelper().updateTargetPoint(target);
 		}
-		if (this.getCurrentFrame() == 40 && entity.getAttackTarget() != null && !entity.world.isRemote) {
+		if (this.getCurrentFrame() == 15 && entity.getAttackTarget() != null && !entity.world.isRemote) {
 
 			beam = new EntityDeviljhoBeam1(
 					entity.world,
 					entity,
 					entity.posX + radius1 * Math.sin(-entity.rotationYaw * Math.PI / 180),
-					entity.posY + 6F,
+					entity.posY + 1F,
 					entity.posZ + radius1 * Math.cos(-entity.rotationYaw * Math.PI / 180),
 					(float) ((entity.rotationYawHead + 90) * Math.PI / 180),
 					(float) (-entity.rotationPitch * Math.PI / 180),
-					55);
+					20);
 			entity.world.spawnEntity(beam);
 			}
 		}

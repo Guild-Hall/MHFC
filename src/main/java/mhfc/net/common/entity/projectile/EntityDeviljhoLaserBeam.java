@@ -29,8 +29,8 @@ public class EntityDeviljhoLaserBeam extends Entity implements IProjectile {
 		float spread = 0.25f;
 		float speed = 0.56f;
 		for (int i = 0; i < 55; i++) {
-		this.world.spawnParticle(
-				EnumParticleTypes.LAVA,
+			this.world.spawnParticle(
+					EnumParticleTypes.LAVA,
 					this.posX * spread,
 					this.posY * spread,
 					this.posZ * spread,
