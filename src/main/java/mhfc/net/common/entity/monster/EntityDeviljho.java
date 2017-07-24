@@ -5,17 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
-import mhfc.net.common.ai.entity.AIAngleWhip;
-import mhfc.net.common.ai.entity.AIBite;
-import mhfc.net.common.ai.entity.AIBreathe;
-import mhfc.net.common.ai.entity.AIDeath;
-import mhfc.net.common.ai.entity.AIWander;
-import mhfc.net.common.ai.entity.monsters.deviljho.Charge;
-import mhfc.net.common.ai.entity.monsters.deviljho.Jump;
 import mhfc.net.common.ai.entity.monsters.deviljho.LaserBeam;
-import mhfc.net.common.ai.entity.monsters.deviljho.Launch;
-import mhfc.net.common.ai.entity.monsters.deviljho.Roar;
-import mhfc.net.common.ai.entity.monsters.deviljho.Stomp;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -49,65 +39,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	@Override
 	protected IActionManager<EntityDeviljho> constructActionManager() {
 		ActionManagerBuilder<EntityDeviljho> attackManager = new ActionManagerBuilder<>();
-		attackManager.registerAction(
-				setDeathAction(
-						new AIDeath(
-								this,
-								"mhfc:models/Deviljho/DeviljhoDeath.mcanm",
-								MHFCSoundRegistry.getRegistry().deviljhoDeath)));
-		attackManager.registerAction(new AIBreathe(this, "mhfc:models/Deviljho/breathe.mcanm", 60, 2F));
-		attackManager.registerAction(
-				new AIBite(
-						this,
-						"mhfc:models/Deviljho/bite.mcanm",
-						40,
-						25,
-						50F,
-						15,
-						MHFCSoundRegistry.getRegistry().deviljhoBiteA));
-		attackManager.registerAction(
-				new AIBite(
-						this,
-						"mhfc:models/Deviljho/bite2.mcanm",
-						35,
-						25,
-						50F,
-						12,
-						MHFCSoundRegistry.getRegistry().deviljhoBiteB));
 
-		attackManager.registerAction(
-				new AIAngleWhip<>(
-						"mhfc:models/Deviljho/tailswipe.mcanm",
-						55,
-						5,
-						40F,
-						18,
-						MHFCSoundRegistry.getRegistry().deviljhoTailWhip,
-						12,
-						8,
-						1,
-						180,
-						11));
-		attackManager.registerAction(new Launch());
-		attackManager.registerAction(new Charge());
-		attackManager.registerAction(new Stomp());
-
-		attackManager.registerAction(new Jump());
-
-		attackManager.registerAction(new Roar());
-
-		attackManager.registerAction(
-				new AIWander<EntityDeviljho>(
-						this,
-						"mhfc:models/Deviljho/walk.mcanm",
-						60,
-						1F,
-						0.07F,
-						0.6F,
-						5,
-						44,
-						1,
-						30));
 
 		attackManager
 				.registerAction(new LaserBeam("mhfc:models/Deviljho/DeviljhoFrontalBreathe.mcanm", 80, 15, 25F));

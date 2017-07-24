@@ -49,6 +49,11 @@ public class RenderNargacuga extends RenderAnimatedModel<EntityNargacuga> {
 		super.doRender(entity, x, y, z, yaw, partialTicks);
 	}
 
+	@Override
+	protected float getDeathMaxRotation(EntityNargacuga entity) {
+		return 0;
+	}
+
 	@Deprecated
 	private boolean debugTrue() {
 		return true;

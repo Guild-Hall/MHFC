@@ -1,14 +1,16 @@
 package mhfc.net.common.entity.projectile;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.IProjectile;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityDeviljhoLaserBeam extends Entity {
+public class EntityDeviljhoLaserBeam extends Entity implements IProjectile {
 
 	private static final DataParameter<Integer> caster = EntityDataManager
 			.<Integer>createKey(EntityDeviljhoLaserBeam.class, DataSerializers.VARINT);
@@ -63,6 +65,22 @@ public class EntityDeviljhoLaserBeam extends Entity {
 
 	}
 
+	@Override
+	public void setThrowableHeading(double x, double y, double z, float velocity, float inaccuracy) {
+		float f2 = MathHelper.sqrt(x * x + y * y + z * z);
+		x /= f2;
+		y /= f2;
+		z /= f2;
+		x *= velocity;
+		y *= velocity;
+		z *= velocity;
+		this.motionX = x;
+		this.motionY = y;
+		this.motionY = z;
+		float f3 = MathHelper.sqrt(x * x + z * z);
+		this.prevRotationYaw = (this.rotationYaw = (float) (Math.atan2(x, z) * 180.0D / 3.141592653589793D));
+		this.prevRotationPitch = (this.rotationPitch = (float) (Math.atan2(y, f3) * 180.0D / 3.141592653589793D));
+	}
 
 
 }

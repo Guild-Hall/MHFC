@@ -14,6 +14,7 @@ import com.google.common.cache.LoadingCache;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.client.render.entity.RenderNargacuga;
+import mhfc.net.client.render.projectile.RenderBeam;
 import mhfc.net.client.render.projectile.RenderBlockProjectile;
 import mhfc.net.client.render.projectile.RenderBreathe;
 import mhfc.net.client.render.projectile.RenderBullet;
@@ -33,8 +34,9 @@ import mhfc.net.common.entity.monster.wip.EntityKirin;
 import mhfc.net.common.entity.monster.wip.EntityLagiacrus;
 import mhfc.net.common.entity.monster.wip.EntityRathalos;
 import mhfc.net.common.entity.monster.wip.EntityUkanlos;
-import mhfc.net.common.entity.projectile.EntityDeviljhoLaserBeam;
+import mhfc.net.common.entity.projectile.EntityBeam;
 import mhfc.net.common.entity.projectile.EntityBullet;
+import mhfc.net.common.entity.projectile.EntityDeviljhoLaserBeam;
 import mhfc.net.common.entity.projectile.EntityPaintball;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
@@ -128,6 +130,7 @@ public class MHFCEntityRenderRegistry {
 
 	private static void renderBlockEntities() {
 
+		RenderingRegistry.registerEntityRenderingHandler(EntityBeam.class, RenderBeam::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileBlock.class, RenderBlockProjectile::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityRathalosFireball.class, RenderRathalosFireball::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityPaintball.class, m -> {
