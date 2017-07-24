@@ -6,17 +6,17 @@ import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.monster.EntityDeviljho;
-import mhfc.net.common.entity.projectile.EntityBeam;
+import mhfc.net.common.entity.projectile.EntityDeviljhoBeam1;
 
-public class LaserBeam extends AnimatedAction<EntityDeviljho> implements IHasAnimationProvider {
+public class LaserBeam1 extends AnimatedAction<EntityDeviljho> implements IHasAnimationProvider {
 
 	protected String animLocation;
 	protected int animLength;
 	protected float maxDistance;
-	private EntityBeam solarBeam;
+	private EntityDeviljhoBeam1 beam;
 	protected float weight;
 
-	public LaserBeam(String animLocation, int animLength, float maxDistance, float weight) {
+	public LaserBeam1(String animLocation, int animLength, float maxDistance, float weight) {
 		this.animLocation = animLocation;
 		this.animLength = animLength;
 		this.maxDistance = maxDistance;
@@ -54,7 +54,7 @@ public class LaserBeam extends AnimatedAction<EntityDeviljho> implements IHasAni
 		}
 		if (this.getCurrentFrame() == 40 && entity.getAttackTarget() != null && !entity.world.isRemote) {
 
-			solarBeam = new EntityBeam(
+			beam = new EntityDeviljhoBeam1(
 					entity.world,
 					entity,
 					entity.posX + radius1 * Math.sin(-entity.rotationYaw * Math.PI / 180),
@@ -63,7 +63,7 @@ public class LaserBeam extends AnimatedAction<EntityDeviljho> implements IHasAni
 					(float) ((entity.rotationYawHead + 90) * Math.PI / 180),
 					(float) (-entity.rotationPitch * Math.PI / 180),
 					55);
-			entity.world.spawnEntity(solarBeam);
+			entity.world.spawnEntity(beam);
 			}
 		}
 	}

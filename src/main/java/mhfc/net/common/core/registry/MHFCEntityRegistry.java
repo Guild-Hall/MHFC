@@ -15,8 +15,8 @@ import mhfc.net.common.entity.monster.wip.EntityGreatJaggi;
 import mhfc.net.common.entity.monster.wip.EntityKirin;
 import mhfc.net.common.entity.monster.wip.EntityLagiacrus;
 import mhfc.net.common.entity.particle.EntityPaintParticleEmitter;
-import mhfc.net.common.entity.projectile.EntityBeam;
 import mhfc.net.common.entity.projectile.EntityBullet;
+import mhfc.net.common.entity.projectile.EntityDeviljhoBeam1;
 import mhfc.net.common.entity.projectile.EntityDeviljhoLaserBeam;
 import mhfc.net.common.entity.projectile.EntityFlashBomb;
 import mhfc.net.common.entity.projectile.EntityPaintball;
@@ -57,7 +57,8 @@ public class MHFCEntityRegistry {
 	public final int questGiverID;
 
 	public final int projectileBlockID;
-	public final int beamID;
+	public final int deviljhobeam1ID;
+	public final int deviljhobeam2ID;
 	public final int rathalosFireballID;
 	public final int breatheID;
 	public final int bulletID;
@@ -99,7 +100,8 @@ public class MHFCEntityRegistry {
 		gargwaID = getMobID(EntityGargwa.class, ResourceInterface.mob_gagua_name);
 
 		
-		beamID = getProjectileID(EntityBeam.class, ResourceInterface.entity_beam_name);
+		deviljhobeam1ID = getProjectileID(EntityDeviljhoBeam1.class, ResourceInterface.entity_deviljhobeam1_name);
+		deviljhobeam2ID = getProjectileID(EntityDeviljhoLaserBeam.class, ResourceInterface.entity_deviljhobeam2_name);
 		projectileBlockID = getProjectileID(EntityProjectileBlock.class, ResourceInterface.entity_tigrexBlock_name);
 		bulletID = getProjectileID(EntityBullet.class, ResourceInterface.entity_bullet_name);
 		rathalosFireballID = getProjectileID(

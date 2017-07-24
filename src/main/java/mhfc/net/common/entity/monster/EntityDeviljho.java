@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
-import mhfc.net.common.ai.entity.monsters.deviljho.LaserBeam;
+import mhfc.net.common.ai.entity.monsters.deviljho.LaserBeam1;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -42,7 +42,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 
 
 		attackManager
-				.registerAction(new LaserBeam("mhfc:models/Deviljho/DeviljhoFrontalBreathe.mcanm", 80, 15, 25F));
+				.registerAction(new LaserBeam1("mhfc:models/Deviljho/DeviljhoFrontalBreathe.mcanm", 80, 15, 25F));
 		return attackManager.build(this);
 	}
 

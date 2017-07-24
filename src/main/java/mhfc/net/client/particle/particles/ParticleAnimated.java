@@ -1,7 +1,10 @@
-package mhfc.net.client.particle;
+package mhfc.net.client.particle.particles;
 
 import org.lwjgl.opengl.GL11;
 
+import mhfc.net.client.particle.ParticleFactory;
+import mhfc.net.client.particle.ParticleTextureStitcher;
+import mhfc.net.client.particle.ParticleTextureStitcher.IParticleSpriteReceiver;
 import mhfc.net.client.render.RenderHelper;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.Minecraft;
@@ -16,14 +19,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ParticleAnimated extends Particle {
+public class ParticleAnimated extends Particle implements IParticleSpriteReceiver {
 
 	/**
 	 * An attempt to apply advance Particle FX into Minecraft each setup are well documented
 	 * @author Heltrato
 	 */
 
-	public ResourceLocation fxTexture;
+	public static String fxTexture;
 	public int cols, rows, numSprites;
 	public float scale;
 	public RenderHelper.RenderType renderType;
@@ -91,7 +94,7 @@ public class ParticleAnimated extends Particle {
 		super(world, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
 		this.canCollide = false;
 		this.particleGravity = 0.0F;
-		this.fxTexture = new ResourceLocation(ResourceInterface.main_modid, "textures/particles/" + fxTexture);
+		ParticleAnimated.fxTexture = "textures/particle/" + fxTexture;
 		this.cols = cols;
 		this.rows = rows;
 		this.numSprites = numSprites;
@@ -101,6 +104,11 @@ public class ParticleAnimated extends Particle {
 		this.particleGreen = 1.0F;
 		this.particleBlue = 1.0F;
 		this.particleMaxAge = (10 + this.rand.nextInt(5));
+		setMaxAge(20);
+		setScaleIncrease(2.5F, 5.0F, 1.0F, true);
+		setMotionDamping(0.9D);
+		setRandomness(0.33F);
+		setRandomRotation(true);
 
 	}
 	
@@ -220,7 +228,8 @@ public class ParticleAnimated extends Particle {
 			if (this.renderType != RenderHelper.RenderType.ALPHA_SHADED) {
 				RenderHelper.enableFXLighting();
 			}
-			Minecraft.getMinecraft().renderEngine.bindTexture(this.fxTexture);
+			Minecraft.getMinecraft().renderEngine
+					.bindTexture(new ResourceLocation(ResourceInterface.main_modid, fxTexture));
 			vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_NORMAL);
 			;
 			float fscale = 0.1F * this.particleScale;
@@ -388,6 +397,40 @@ public class ParticleAnimated extends Particle {
 
 	private float getRandom(float value) {
 		return value * (1.0F - this.randomness) + 2.0F * value * this.randomness * this.rand.nextFloat();
+	}
+
+	public static final class Factory extends ParticleFactory<Factory, ParticleAnimated> {
+		@SuppressWarnings("unchecked")
+		public Factory() {
+			super(
+					ParticleAnimated.class,
+					ParticleTextureStitcher
+							.create(
+									ParticleAnimated.class,
+									new ResourceLocation(
+											ResourceInterface.main_modid,
+											ParticleAnimated.fxTexture)));
+		}
+
+		@Override
+		public ParticleAnimated createParticle(ImmutableParticleArgs args) {
+			if (args.data.length == 2) {
+				return new ParticleAnimated(
+						args.world,
+						args.x,
+						args.y,
+						args.z);
+			} else {
+				return new ParticleAnimated(
+						args.world,
+						args.x,
+						args.y,
+						args.z,
+						(double) args.data[0],
+						(double) args.data[1],
+						(double) args.data[2]);
+			}
+		}
 	}
 
 	/**

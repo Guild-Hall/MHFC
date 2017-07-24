@@ -19,7 +19,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class EntityBeam extends Entity {
+public class EntityDeviljhoBeam1 extends Entity {
 	private final double RADIUS = 20;
 	public EntityLivingBase caster;
 	public double endPosX, endPosY, endPosZ;
@@ -30,27 +30,27 @@ public class EntityBeam extends Entity {
 	public EnumFacing blockSide = null;
 
 	private static final DataParameter<Float> YAW = EntityDataManager
-			.createKey(EntityBeam.class, DataSerializers.FLOAT);
+			.createKey(EntityDeviljhoBeam1.class, DataSerializers.FLOAT);
 
 	private static final DataParameter<Float> PITCH = EntityDataManager
-			.createKey(EntityBeam.class, DataSerializers.FLOAT);
+			.createKey(EntityDeviljhoBeam1.class, DataSerializers.FLOAT);
 
 	private static final DataParameter<Integer> DURATION = EntityDataManager
-			.createKey(EntityBeam.class, DataSerializers.VARINT);
+			.createKey(EntityDeviljhoBeam1.class, DataSerializers.VARINT);
 
 	private static final DataParameter<Boolean> HAS_PLAYER = EntityDataManager
-			.createKey(EntityBeam.class, DataSerializers.BOOLEAN);
+			.createKey(EntityDeviljhoBeam1.class, DataSerializers.BOOLEAN);
 
 	private static final DataParameter<Integer> CASTER = EntityDataManager
-			.createKey(EntityBeam.class, DataSerializers.VARINT);
+			.createKey(EntityDeviljhoBeam1.class, DataSerializers.VARINT);
 
-	public EntityBeam(World world) {
+	public EntityDeviljhoBeam1(World world) {
 		super(world);
 		setSize(0.1F, 0.1F);
 		ignoreFrustumCheck = true;
 	}
 
-	public EntityBeam(
+	public EntityDeviljhoBeam1(
 			World world,
 			EntityLivingBase caster,
 			double x,

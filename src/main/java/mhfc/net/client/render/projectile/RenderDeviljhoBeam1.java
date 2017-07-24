@@ -2,7 +2,7 @@ package mhfc.net.client.render.projectile;
 
 import org.lwjgl.opengl.GL11;
 
-import mhfc.net.common.entity.projectile.EntityBeam;
+import mhfc.net.common.entity.projectile.EntityDeviljhoBeam1;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -22,7 +22,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderBeam extends Render<EntityBeam> {
+public class RenderDeviljhoBeam1 extends Render<EntityDeviljhoBeam1> {
 	private static final ResourceLocation TEXTURE = new ResourceLocation(
 			ResourceInterface.main_modid,
 			"textures/particle/deviljho_laserbeam.png");
@@ -32,17 +32,17 @@ public class RenderBeam extends Render<EntityBeam> {
 	private static final double BEAM_RADIUS = 1;
 	private boolean clearerView = false;
 
-	public RenderBeam(RenderManager mgr) {
+	public RenderDeviljhoBeam1(RenderManager mgr) {
 		super(mgr);
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(EntityBeam entity) {
-		return RenderBeam.TEXTURE;
+	protected ResourceLocation getEntityTexture(EntityDeviljhoBeam1 entity) {
+		return RenderDeviljhoBeam1.TEXTURE;
 	}
 
 	@Override
-	public void doRender(EntityBeam solarBeam, double x, double y, double z, float yaw, float delta) {
+	public void doRender(EntityDeviljhoBeam1 solarBeam, double x, double y, double z, float yaw, float delta) {
 		clearerView = solarBeam.caster instanceof EntityPlayer && Minecraft.getMinecraft().player == solarBeam.caster
 				&& Minecraft.getMinecraft().gameSettings.thirdPersonView == 0;
 

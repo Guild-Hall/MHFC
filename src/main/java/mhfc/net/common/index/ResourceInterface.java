@@ -216,7 +216,8 @@ public class ResourceInterface {
 	public static final String block_respawn_name = "respawn";
 	public static final String block_exploreArea_name = "exploreArea";
 
-	public static final String entity_beam_name = "beam";
+	public static final String entity_deviljhobeam1_name = "beam";
+	public static final String entity_deviljhobeam2_name = "beam2";
 	public static final String entity_rathalosFireball_name = "Fireball";
 	public static final String entity_rathalosfireball_tex = "mhfc:textures/projectile/rathalosfireball.png";
 	public static final String entity_tigrexBlock_name = "TigrexBlock";
