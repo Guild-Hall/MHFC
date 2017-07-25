@@ -3,17 +3,20 @@ package mhfc.net.client.particle;
 import javax.annotation.Nullable;
 
 import mhfc.net.client.particle.ParticleFactory.ParticleArgs;
-import mhfc.net.client.particle.particles.ParticleAnimated;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.world.World;
 
 public enum EnumParticles {
-	DEVILJHOLASERTEST(new ParticleAnimated.Factory());
+	DEVILJHOLASERTEST();
 
 	private ParticleFactory<?, ?> factory;
 
 	private EnumParticles(ParticleFactory<?, ?> factory) {
 		this.factory = factory;
+	}
+
+	private EnumParticles() {
+
 	}
 
 	public ParticleFactory<?, ?> getFactory() {

@@ -14,5 +14,4 @@ public abstract class ProxyBase {
 	 */
 	public void spawnPaintBallParticle(EnumParticleType type, ParticleEmitter emitter) {}
 
-	public void spawnParticle(EnumParticleType types, double x, double y, double z, Object... info) {}
 }
