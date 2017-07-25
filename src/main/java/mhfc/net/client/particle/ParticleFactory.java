@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends Particle> {
 	/**
-	 * All credit goes to bobmowzie and pau101 ~ Heltrato Immutable particle arguments
+	 * Immutable particle arguments
 	 */
 	public static class ImmutableParticleArgs {
 		public final World world;
@@ -50,7 +50,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 			/**
 			 * Creates a new argument data builder.
-			 * 
 			 * @param args
 			 */
 			private ArgumentDataBuilder(T args) {
@@ -60,7 +59,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 			/**
 			 * Sets the data at the specified index
-			 * 
 			 * @param index
 			 * @param data
 			 * @return
@@ -75,7 +73,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 			/**
 			 * Sets the argument at the specified index to {@link ParticleFactory#EMPTY_ARG}
-			 * 
 			 * @param index
 			 * @return
 			 */
@@ -85,7 +82,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 			/**
 			 * Builds the additional arguments and adds them
-			 * 
 			 * @return
 			 */
 			public T buildData() {
@@ -139,7 +135,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 		/**
 		 * Runs a {@link Consumer} over this {@link ParticleArgs}
-		 * 
 		 * @param consumer
 		 * @return
 		 */
@@ -150,7 +145,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 		/**
 		 * Sets the motion values
-		 * 
 		 * @param motionX
 		 * @param motionY
 		 * @param motionZ
@@ -166,7 +160,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 		/**
 		 * Sets the scale
-		 * 
 		 * @param scale
 		 * @return
 		 */
@@ -178,7 +171,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 		/**
 		 * Sets the color
-		 * 
 		 * @param color
 		 * @return
 		 */
@@ -204,7 +196,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 		/**
 		 * Returns an arguments builder
-		 * 
 		 * @param size
 		 * @return
 		 */
@@ -214,7 +205,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 		/**
 		 * Returns the motion X
-		 * 
 		 * @return
 		 */
 		public final double getMotionX() {
@@ -223,7 +213,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 		/**
 		 * Returns the motion Y
-		 * 
 		 * @return
 		 */
 		public final double getMotionY() {
@@ -232,7 +221,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 		/**
 		 * Returns the motion Z
-		 * 
 		 * @return
 		 */
 		public final double getMotionZ() {
@@ -241,7 +229,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 		/**
 		 * Returns whether the motion was set
-		 * 
 		 * @return
 		 */
 		public final boolean isMotionSet() {
@@ -250,7 +237,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 		/**
 		 * Returns the scale
-		 * 
 		 * @return
 		 */
 		public final float getScale() {
@@ -259,7 +245,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 		/**
 		 * Returns whether the scale was set
-		 * 
 		 * @return
 		 */
 		public final boolean isScaleSet() {
@@ -268,7 +253,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 		/**
 		 * Returns the color
-		 * 
 		 * @return
 		 */
 		public final int getColor() {
@@ -277,7 +261,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 		/**
 		 * Returns whether the color was set
-		 * 
 		 * @return
 		 */
 		public final boolean isColorSet() {
@@ -286,7 +269,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 		/**
 		 * Returns the additional data
-		 * 
 		 * @return
 		 */
 		public final Object[] getData() {
@@ -295,7 +277,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 		/**
 		 * Returns whether the additional data was set
-		 * 
 		 * @return
 		 */
 		public final boolean isDataSet() {
@@ -304,7 +285,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 		/**
 		 * Returns a singleton instance of ParticleArgs
-		 * 
 		 * @return
 		 */
 		public static ParticleArgs get() {
@@ -371,7 +351,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 	/**
 	 * Creates a new particle factory for the specified particle type
-	 * 
 	 * @param type
 	 */
 	public ParticleFactory(Class<T> type) {
@@ -380,7 +359,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 	/**
 	 * Creates a new particle factory for the specified particle and adds a particle texture stitcher
-	 * 
 	 * @param type
 	 * @param stitcher
 	 */
@@ -394,7 +372,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 	/**
 	 * Returns the particle texture stitcher
-	 * 
 	 * @return
 	 */
 	public final ParticleTextureStitcher<? extends Particle> getStitcher() {
@@ -403,7 +380,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 	/**
 	 * Returns the particle type
-	 * 
 	 * @return
 	 */
 	public final Class<T> getType() {
@@ -412,7 +388,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 	/**
 	 * Sets the color of the specified particle
-	 * 
 	 * @param particle
 	 * @param color
 	 */
@@ -423,7 +398,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 	/**
 	 * Creates a new particle from the immutable particle args and sets the sprites
-	 * 
 	 * @param args
 	 * @return
 	 */
@@ -438,7 +412,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 	/**
 	 * Creates a new particle from the immutable particle args
-	 * 
 	 * @param args
 	 * @return
 	 */
@@ -482,7 +455,6 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 
 		/**
 		 * Builds the arguments and sets the base arguments of the factory if overwritten
-		 * 
 		 * @return
 		 */
 		public final F buildBaseArgs() {

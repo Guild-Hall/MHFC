@@ -58,7 +58,7 @@ public class MHFCEntityRegistry {
 
 	public final int projectileBlockID;
 	public final int deviljhobeam1ID;
-	public final int deviljhobeam2ID;
+	public final int deviljholaserbreathID;
 	public final int rathalosFireballID;
 	public final int breatheID;
 	public final int bulletID;
@@ -101,7 +101,7 @@ public class MHFCEntityRegistry {
 
 		
 		deviljhobeam1ID = getProjectileID(EntityDeviljhoBeam1.class, ResourceInterface.entity_deviljhobeam1_name);
-		deviljhobeam2ID = getProjectileID(EntityDeviljhoLaserBreath.class, ResourceInterface.entity_deviljhobeam2_name);
+		deviljholaserbreathID = getProjectileID(EntityDeviljhoLaserBreath.class, ResourceInterface.entity_deviljhobeam2_name);
 		projectileBlockID = getProjectileID(EntityProjectileBlock.class, ResourceInterface.entity_tigrexBlock_name);
 		bulletID = getProjectileID(EntityBullet.class, ResourceInterface.entity_bullet_name);
 		rathalosFireballID = getProjectileID(

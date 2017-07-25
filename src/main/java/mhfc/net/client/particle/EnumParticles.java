@@ -3,20 +3,21 @@ package mhfc.net.client.particle;
 import javax.annotation.Nullable;
 
 import mhfc.net.client.particle.ParticleFactory.ParticleArgs;
+import mhfc.net.client.particle.particles.Cloud;
+import mhfc.net.client.particle.particles.Flake;
+import mhfc.net.client.particle.particles.Ring;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.world.World;
 
 public enum EnumParticles {
-	DEVILJHOLASERTEST();
+	SNOWFLAKE(new Flake.SFFactory()),
+	RING(new Ring.RFactory()),
+	CLOUD(new Cloud.CFactory());
 
 	private ParticleFactory<?, ?> factory;
 
 	private EnumParticles(ParticleFactory<?, ?> factory) {
 		this.factory = factory;
-	}
-
-	private EnumParticles() {
-
 	}
 
 	public ParticleFactory<?, ?> getFactory() {

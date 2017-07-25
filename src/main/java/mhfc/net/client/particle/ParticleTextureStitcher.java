@@ -2,11 +2,13 @@ package mhfc.net.client.particle;
 
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public final class ParticleTextureStitcher<T> {
 	/**
-	 * 
 	 * Creates a new particle texture stitcher for the specified type and textures. The particle class must implement
 	 * {@link IParticleSpriteReceiver}
 	 * 
@@ -14,7 +16,6 @@ public final class ParticleTextureStitcher<T> {
 	 * @param textures
 	 * @return
 	 */
-	@SuppressWarnings("rawtypes")
 	public static <T extends Particle & IParticleSpriteReceiver> ParticleTextureStitcher create(
 			Class<T> cls,
 			ResourceLocation[] textures) {
@@ -24,11 +25,11 @@ public final class ParticleTextureStitcher<T> {
 	/**
 	 * Creates a new particle texture stitcher for the specified type and texture. The particle class must implement
 	 * {@link IParticleSpriteReceiver}
+	 * 
 	 * @param cls
 	 * @param texture
 	 * @return
 	 */
-	@SuppressWarnings("rawtypes")
 	public static <T extends Particle & IParticleSpriteReceiver> ParticleTextureStitcher create(
 			Class<T> cls,
 			ResourceLocation texture) {
@@ -87,5 +88,21 @@ public final class ParticleTextureStitcher<T> {
 	public enum Stitcher {
 		INSTANCE;
 
+		@SubscribeEvent
+		public void onTextureStitch(TextureStitchEvent.Pre event) {
+			TextureMap map = event.getMap();
+			EnumParticles[] particles = EnumParticles.values();
+			for (EnumParticles particle : particles) {
+				ParticleTextureStitcher stitcher = particle.getFactory().getStitcher();
+				if (stitcher != null) {
+					ResourceLocation[] textures = stitcher.getTextures();
+					TextureAtlasSprite[] sprites = new TextureAtlasSprite[textures.length];
+					for (int i = 0; i < textures.length; i++) {
+						sprites[i] = map.registerSprite(textures[i]);
+					}
+					stitcher.setSprites(sprites);
+				}
+			}
+		}
 	}
 }

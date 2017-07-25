@@ -27,7 +27,6 @@ public final class VanillaParticleFactory<T extends Particle> extends ParticleFa
 		return new VanillaParticleFactory<T>(type, factory);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected T createParticle(ImmutableParticleArgs args) {
 		Object[] data = args.data;
@@ -58,7 +57,7 @@ public final class VanillaParticleFactory<T extends Particle> extends ParticleFa
 	}
 
 	@Override
-	protected void setBaseArguments(@SuppressWarnings("rawtypes") ParticleArgs args) {
+	protected void setBaseArguments(ParticleArgs args) {
 		args.withData(0);
 	}
 }
