@@ -52,6 +52,9 @@ public class ParticleAnimated extends Particle implements IParticleSpriteReceive
     public float A2;
 	public float dynamicColorStart;
 	public DynamicColorType dynamicColorType = DynamicColorType.NONE;
+	public double positionX = this.posX;
+	public double positiony = this.posY;
+	public double positionz = this.posZ;
 
 	/** First Constructor is protected thus similar as set default */
 
@@ -104,11 +107,7 @@ public class ParticleAnimated extends Particle implements IParticleSpriteReceive
 		this.particleGreen = 1.0F;
 		this.particleBlue = 1.0F;
 		this.particleMaxAge = (10 + this.rand.nextInt(5));
-		setMaxAge(20);
-		setScaleIncrease(2.5F, 5.0F, 1.0F, true);
-		setMotionDamping(0.9D);
-		setRandomness(0.33F);
-		setRandomRotation(true);
+
 
 	}
 	

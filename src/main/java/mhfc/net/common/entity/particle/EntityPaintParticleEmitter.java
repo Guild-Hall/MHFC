@@ -44,7 +44,7 @@ public class EntityPaintParticleEmitter extends EntityParticleEmitter {
 	@Override
 	public void onUpdate() {
 		if (this.world.isRemote && this.ticksExisted > 0 && this.ticksExisted % 10 == 0) {
-			MHFCMain.getSidedProxy().spawnParticle(EnumParticleType.PAINT, this);
+			MHFCMain.getSidedProxy().spawnPaintBallParticle(EnumParticleType.PAINT, this);
 		}
 
 		if (this.ticksExisted > maxLife || this.ticksExisted > ABSOLUTE_MAX) {

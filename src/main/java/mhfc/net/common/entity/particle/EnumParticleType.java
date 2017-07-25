@@ -7,6 +7,7 @@ package mhfc.net.common.entity.particle;
  *
  */
 public enum EnumParticleType {
-	PAINT;
+	PAINT,
+	LASERBEAM;
 
 }

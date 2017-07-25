@@ -12,5 +12,7 @@ public abstract class ProxyBase {
 	 * @param type
 	 * @param emitter
 	 */
-	public void spawnParticle(EnumParticleType type, EntityParticleEmitter emitter) {}
+	public void spawnPaintBallParticle(EnumParticleType type, EntityParticleEmitter emitter) {}
+
+	public void spawnParticle(EnumParticleType types, double x, double y, double z, Object... info) {}
 }

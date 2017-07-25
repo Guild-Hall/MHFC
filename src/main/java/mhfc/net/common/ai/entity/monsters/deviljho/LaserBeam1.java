@@ -1,11 +1,13 @@
 package mhfc.net.common.ai.entity.monsters.deviljho;
 
+import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.AnimatedAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.entity.particle.EnumParticleType;
 import mhfc.net.common.entity.projectile.EntityDeviljhoBeam1;
 
 public class LaserBeam1 extends AnimatedAction<EntityDeviljho> implements IHasAnimationProvider {
@@ -48,6 +50,10 @@ public class LaserBeam1 extends AnimatedAction<EntityDeviljho> implements IHasAn
 		EntityDeviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
 		float radius1 = 1.7f;
+
+		MHFCMain.getSidedProxy().spawnParticle(EnumParticleType.LASERBEAM, entity.posX + radius1 * Math.sin(-entity.rotationYaw*Math.PI/180), entity.posY + 1F,
+				entity.posZ + radius1 * Math.cos(-entity.rotationYaw * Math.PI / 180));
+
 		if (target != null) {
 			entity.getTurnHelper().updateTurnSpeed(30F);
 			entity.getTurnHelper().updateTargetPoint(target);
