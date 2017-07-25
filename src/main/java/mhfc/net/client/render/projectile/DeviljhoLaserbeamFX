@@ -1,0 +1,12 @@
+public class DeviljhoLaserbeamFX extends EntitySmokeFX
+{
+    public final DeviljhoLaserbeamFX(World parWorld,
+            double parX, double parY, double parZ,
+            double parMotionX, double parMotionY, double parMotionZ) 
+    {
+        super(parWorld, parX, parY, parZ, parMotionX, parMotionY, parMotionZ);
+        setParticleTextureIndex(0);
+        particleScale = 2.0F;
+        setRBGColorF(0x55, 0x44, 0x00);
+    }
+}
