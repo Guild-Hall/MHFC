@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.particle;
+package mhfc.net.client.particle;
 
 /**
  * Enum used for Proxy#spawnParticle.

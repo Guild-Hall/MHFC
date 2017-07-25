@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.type;
+package mhfc.net.client.particle.paint;
 
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.entity.Entity;
@@ -7,7 +7,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
-public abstract class EntityParticleEmitter extends Entity implements IEntityAdditionalSpawnData {
+public abstract class ParticleEmitter extends Entity implements IEntityAdditionalSpawnData {
 
 	protected static final AxisAlignedBB boundingBox = new AxisAlignedBB(0, 0, 0, 0, 0, 0);
 
@@ -26,7 +26,7 @@ public abstract class EntityParticleEmitter extends Entity implements IEntityAdd
 	public int maxLife;
 	public static final int ABSOLUTE_MAX = ResourceInterface.max_duration_particle_emitter_in_ticks;
 
-	public EntityParticleEmitter(World worldIn) {
+	public ParticleEmitter(World worldIn) {
 		super(worldIn);
 		this.setSize(0, 0);
 	}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.client.particle.paint.ParticlePaintEmitter;
 import mhfc.net.common.core.MHFCMobList;
 import mhfc.net.common.entity.monster.EntityBarroth;
 import mhfc.net.common.entity.monster.EntityDelex;
@@ -14,7 +15,6 @@ import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.monster.wip.EntityGreatJaggi;
 import mhfc.net.common.entity.monster.wip.EntityKirin;
 import mhfc.net.common.entity.monster.wip.EntityLagiacrus;
-import mhfc.net.common.entity.particle.EntityPaintParticleEmitter;
 import mhfc.net.common.entity.projectile.EntityBullet;
 import mhfc.net.common.entity.projectile.EntityDeviljhoBeam1;
 import mhfc.net.common.entity.projectile.EntityDeviljhoLaserBeam;
@@ -114,7 +114,7 @@ public class MHFCEntityRegistry {
 
 		paintballID = getProjectileID(EntityPaintball.class, ResourceInterface.entity_paintball_name);
 
-		paintemitterID = getMobID(EntityPaintParticleEmitter.class, ResourceInterface.mob_paint_emitter_name);
+		paintemitterID = getMobID(ParticlePaintEmitter.class, ResourceInterface.mob_paint_emitter_name);
 		arrowID = getProjectileID(EntityWyverniaArrow.class, ResourceInterface.projectile_wyverniaarrow_name);
 		breatheID = getProjectileID(EntityDeviljhoLaserBeam.class, ResourceInterface.projectile_wyverniaarrow_name);
 

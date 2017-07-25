@@ -2,12 +2,12 @@ package mhfc.net.client;
 
 import mhfc.net.ProxyBase;
 import mhfc.net.client.core.MHFCClientRegistry;
+import mhfc.net.client.particle.EnumParticleType;
+import mhfc.net.client.particle.paint.ParticleEmitter;
+import mhfc.net.client.particle.paint.ParticlePaintEmitter;
 import mhfc.net.client.particle.particles.ParticleAnimated;
 import mhfc.net.client.render.RenderHelper.RenderType;
 import mhfc.net.common.core.MHFCCommonRegistry;
-import mhfc.net.common.entity.particle.EntityPaintParticleEmitter;
-import mhfc.net.common.entity.particle.EnumParticleType;
-import mhfc.net.common.entity.type.EntityParticleEmitter;
 import net.minecraft.client.Minecraft;
 
 public class MHFCClient extends ProxyBase {
@@ -54,7 +54,7 @@ public class MHFCClient extends ProxyBase {
 	 * Spawns a particle from its respective emitter.
 	 */
 	@Override
-	public void spawnPaintBallParticle(EnumParticleType type, EntityParticleEmitter emitter) {
+	public void spawnPaintBallParticle(EnumParticleType type, ParticleEmitter emitter) {
 		switch (type) {
 		case PAINT:
 			spawnPaintParticle(emitter);
@@ -64,13 +64,13 @@ public class MHFCClient extends ProxyBase {
 		}
 	}
 
-	private static void spawnPaintParticle(EntityParticleEmitter emitter) {
-		if (emitter == null || !(emitter instanceof EntityPaintParticleEmitter)) {
+	private static void spawnPaintParticle(ParticleEmitter emitter) {
+		if (emitter == null || !(emitter instanceof ParticlePaintEmitter)) {
 			return;
 		}
 		// TODO 1.12: see if there's a forge way to register particles with the effect renderer
 		// Minecraft.getMinecraft().effectRenderer.registerParticle(id, particleFactory);
-		EntityPaintParticleEmitter paintEmitter = (EntityPaintParticleEmitter) emitter;
+		ParticlePaintEmitter paintEmitter = (ParticlePaintEmitter) emitter;
 
 		Minecraft.getMinecraft().effectRenderer.addEffect(paintEmitter.createPaintParticle());
 	}

@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.particle;
+package mhfc.net.client.particle.paint;
 
 import org.lwjgl.util.Color;
 

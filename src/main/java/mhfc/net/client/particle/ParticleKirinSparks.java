@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.particle;
+package mhfc.net.client.particle;
 
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.Minecraft;

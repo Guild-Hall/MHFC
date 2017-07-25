@@ -1,7 +1,7 @@
 package mhfc.net.common.potion;
 
-import mhfc.net.common.entity.particle.EntityPaintParticleEmitter;
-import mhfc.net.common.entity.type.EntityParticleEmitter.DurationType;
+import mhfc.net.client.particle.paint.ParticlePaintEmitter;
+import mhfc.net.client.particle.paint.ParticleEmitter.DurationType;
 import mhfc.net.common.item.ItemColor;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
@@ -51,7 +51,7 @@ public class PotionPainted extends Potion {
 				duration = DurationType.SHORT;
 			}
 
-			EntityPaintParticleEmitter emitter = new EntityPaintParticleEmitter(
+			ParticlePaintEmitter emitter = new ParticlePaintEmitter(
 					entity.world,
 					duration,
 					ItemColor.byMetadata(amplifier),
