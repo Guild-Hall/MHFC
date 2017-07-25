@@ -1,13 +1,11 @@
 package mhfc.net.common.ai.entity.monsters.deviljho;
 
-import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.AnimatedAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.monster.EntityDeviljho;
-import mhfc.net.common.entity.particle.EnumParticleType;
 import mhfc.net.common.entity.projectile.EntityDeviljhoBeam1;
 
 public class LaserBeam1 extends AnimatedAction<EntityDeviljho> implements IHasAnimationProvider {
@@ -51,17 +49,12 @@ public class LaserBeam1 extends AnimatedAction<EntityDeviljho> implements IHasAn
 		target = entity.getAttackTarget();
 		float radius1 = 1.7f;
 
-	if (ticksExisted % 5 == 0)
-{
-    MagicBeans.proxy.generateDeviljhoLBParticle(this);
-}
 
 		if (target != null) {
 			entity.getTurnHelper().updateTurnSpeed(30F);
 			entity.getTurnHelper().updateTargetPoint(target);
 		}
 		if (this.getCurrentFrame() == 15 && entity.getAttackTarget() != null && !entity.world.isRemote) {
-
 			beam = new EntityDeviljhoBeam1(
 					entity.world,
 					entity,
