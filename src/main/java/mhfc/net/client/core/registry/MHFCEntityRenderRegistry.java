@@ -36,7 +36,7 @@ import mhfc.net.common.entity.monster.wip.EntityRathalos;
 import mhfc.net.common.entity.monster.wip.EntityUkanlos;
 import mhfc.net.common.entity.projectile.EntityDeviljhoBeam1;
 import mhfc.net.common.entity.projectile.EntityBullet;
-import mhfc.net.common.entity.projectile.EntityDeviljhoLaserBeam;
+import mhfc.net.common.entity.projectile.EntityDeviljhoLaserBreath;
 import mhfc.net.common.entity.projectile.EntityPaintball;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
 import mhfc.net.common.entity.projectile.EntityRathalosFireball;
@@ -141,7 +141,7 @@ public class MHFCEntityRenderRegistry {
 		});
 		RenderingRegistry.registerEntityRenderingHandler(EntityWyverniaArrow.class, RenderWyverniaArrow::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, RenderBullet::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityDeviljhoLaserBeam.class, RenderBreathe::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityDeviljhoLaserBreath.class, RenderBreathe::new);
 		RenderingRegistry.registerEntityRenderingHandler(NargacugaSpike.class, RenderNargacugaSpike::new);
 	}
 

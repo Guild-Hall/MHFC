@@ -17,7 +17,7 @@ import mhfc.net.common.entity.monster.wip.EntityKirin;
 import mhfc.net.common.entity.monster.wip.EntityLagiacrus;
 import mhfc.net.common.entity.projectile.EntityBullet;
 import mhfc.net.common.entity.projectile.EntityDeviljhoBeam1;
-import mhfc.net.common.entity.projectile.EntityDeviljhoLaserBeam;
+import mhfc.net.common.entity.projectile.EntityDeviljhoLaserBreath;
 import mhfc.net.common.entity.projectile.EntityFlashBomb;
 import mhfc.net.common.entity.projectile.EntityPaintball;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
@@ -101,7 +101,7 @@ public class MHFCEntityRegistry {
 
 		
 		deviljhobeam1ID = getProjectileID(EntityDeviljhoBeam1.class, ResourceInterface.entity_deviljhobeam1_name);
-		deviljhobeam2ID = getProjectileID(EntityDeviljhoLaserBeam.class, ResourceInterface.entity_deviljhobeam2_name);
+		deviljhobeam2ID = getProjectileID(EntityDeviljhoLaserBreath.class, ResourceInterface.entity_deviljhobeam2_name);
 		projectileBlockID = getProjectileID(EntityProjectileBlock.class, ResourceInterface.entity_tigrexBlock_name);
 		bulletID = getProjectileID(EntityBullet.class, ResourceInterface.entity_bullet_name);
 		rathalosFireballID = getProjectileID(
@@ -116,7 +116,7 @@ public class MHFCEntityRegistry {
 
 		paintemitterID = getMobID(ParticlePaintEmitter.class, ResourceInterface.mob_paint_emitter_name);
 		arrowID = getProjectileID(EntityWyverniaArrow.class, ResourceInterface.projectile_wyverniaarrow_name);
-		breatheID = getProjectileID(EntityDeviljhoLaserBeam.class, ResourceInterface.projectile_wyverniaarrow_name);
+		breatheID = getProjectileID(EntityDeviljhoLaserBreath.class, ResourceInterface.projectile_wyverniaarrow_name);
 
 		MHFCMain.logger().info("Monsters registered");
 	}

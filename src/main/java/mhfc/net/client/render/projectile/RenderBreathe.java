@@ -2,7 +2,7 @@ package mhfc.net.client.render.projectile;
 
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 
-import mhfc.net.common.entity.projectile.EntityDeviljhoLaserBeam;
+import mhfc.net.common.entity.projectile.EntityDeviljhoLaserBreath;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderBreathe extends Render<EntityDeviljhoLaserBeam> {
+public class RenderBreathe extends Render<EntityDeviljhoLaserBreath> {
 	private static final ResourceLocation TEXTURES = new ResourceLocation(ResourceInterface.projectile_breathe_tex);
 
 	public RenderBreathe(RenderManager manager) {
@@ -23,7 +23,7 @@ public class RenderBreathe extends Render<EntityDeviljhoLaserBeam> {
 	}
 
 	@Override
-	public void doRender(EntityDeviljhoLaserBeam projectile, double x, double y, double z, float par8, float par9) {
+	public void doRender(EntityDeviljhoLaserBreath projectile, double x, double y, double z, float par8, float par9) {
 		GlStateManager.enableRescaleNormal();
 
 		float minU = 0;
@@ -60,7 +60,7 @@ public class RenderBreathe extends Render<EntityDeviljhoLaserBeam> {
 	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
 	 */
 	@Override
-	protected ResourceLocation getEntityTexture(EntityDeviljhoLaserBeam p_110775_1_) {
+	protected ResourceLocation getEntityTexture(EntityDeviljhoLaserBreath p_110775_1_) {
 		return TEXTURES;
 	}
 }
