@@ -51,8 +51,10 @@ public class LaserBeam1 extends AnimatedAction<EntityDeviljho> implements IHasAn
 		target = entity.getAttackTarget();
 		float radius1 = 1.7f;
 
-		MHFCMain.getSidedProxy().spawnParticle(EnumParticleType.LASERBEAM, entity.posX + radius1 * Math.sin(-entity.rotationYaw*Math.PI/180), entity.posY + 1F,
-				entity.posZ + radius1 * Math.cos(-entity.rotationYaw * Math.PI / 180));
+	if (ticksExisted % 5 == 0)
+{
+    MagicBeans.proxy.generateDeviljhoLBParticle(this);
+}
 
 		if (target != null) {
 			entity.getTurnHelper().updateTurnSpeed(30F);
