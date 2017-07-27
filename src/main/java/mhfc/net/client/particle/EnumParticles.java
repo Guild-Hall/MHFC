@@ -10,7 +10,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.world.World;
 
 public enum EnumParticles {
-	SNOWFLAKE(new Flake.SFFactory()),
+	FLAKE(new Flake.SFFactory()),
 	RING(new Ring.RFactory()),
 	CLOUD(new Cloud.CFactory());
 
