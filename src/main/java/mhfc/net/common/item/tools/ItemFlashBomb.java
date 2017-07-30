@@ -1,7 +1,7 @@
 package mhfc.net.common.item.tools;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.entity.projectile.EntityFlashBomb;
+import mhfc.net.common.entity.fx.EntityFlashBomb;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.IItemColored;
 import mhfc.net.common.item.ItemColor;

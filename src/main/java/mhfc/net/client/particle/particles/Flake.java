@@ -31,7 +31,7 @@ public class Flake extends Particle implements ParticleTextureStitcher.IParticle
 			double duration,
 			double swirls) {
 		super(world, x, y, z);
-		particleScale = 1;
+		particleScale = 3;
 		whichTex = rand.nextInt(8);
 		motionX = vX;
 		motionY = vY;

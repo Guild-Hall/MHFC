@@ -12,7 +12,7 @@ import static org.lwjgl.opengl.GL11.glEnable;
 
 import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
-import mhfc.net.common.entity.projectile.EntityFlashBomb;
+import mhfc.net.common.entity.fx.EntityFlashBomb;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;

@@ -1,13 +1,12 @@
 package mhfc.net.common.ai.entity.monsters.deviljho;
 
-import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.AnimatedAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
+import mhfc.net.common.entity.fx.EntityDeviljhoLaserBreath;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.projectile.EntityDeviljhoBeam1;
-import mhfc.net.common.entity.projectile.EntityDeviljhoLaserBreath;
 
 public class DragonBreath extends AnimatedAction<EntityDeviljho> implements IHasAnimationProvider {
 
@@ -35,12 +34,12 @@ public class DragonBreath extends AnimatedAction<EntityDeviljho> implements IHas
 	protected float computeSelectionWeight() {
 		EntityDeviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
-		if (SelectionUtils.isIdle(entity)) {
-			return DONT_SELECT;
-		}
-		if (!SelectionUtils.isInDistance(0, 15, entity, target)) {
-			return DONT_SELECT;
-		}
+		/*	if (SelectionUtils.isIdle(entity)) {
+				return DONT_SELECT;
+			}
+			if (!SelectionUtils.isInDistance(0, 15, entity, target)) {
+				return DONT_SELECT;
+			} */
 		return 25;
 	}
 
@@ -54,7 +53,7 @@ public class DragonBreath extends AnimatedAction<EntityDeviljho> implements IHas
 			entity.getTurnHelper().updateTurnSpeed(30F);
 			entity.getTurnHelper().updateTargetPoint(target);
 		}
-		if (this.getCurrentFrame() == 30 && entity.getAttackTarget() != null) {
+		if (this.getCurrentFrame() == 30 /*&& entity.getAttackTarget() != null*/) {
 			EntityDeviljhoLaserBreath breath = new EntityDeviljhoLaserBreath(entity.world, entity);
 				breath.setPositionAndRotation(
 						entity.posX + 4F,

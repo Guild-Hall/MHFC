@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.projectile;
+package mhfc.net.common.entity.fx;
 
 import java.util.List;
 
@@ -61,7 +61,13 @@ public class EntityDeviljhoLaserBreath extends Entity {
 		if (world.isRemote) {
 			if (ticksExisted % 8 == 0) {
 				if (world.isRemote)
-					EnumParticles.RING.spawn(world, posX, posY, posZ, ParticleFactory.ParticleArgs.get().withData(
+					EnumParticles.RING
+							.spawn(
+									world,
+									posX - 5,
+									posY,
+									posZ + 5,
+									ParticleFactory.ParticleArgs.get().withData(
 							yaw,
 							-pitch,
 							40,
@@ -69,39 +75,39 @@ public class EntityDeviljhoLaserBreath extends Entity {
 							1f,
 							1f,
 							1f,
-							110f * spread,
+											250f * spread,
 							false,
 							0.5f * xComp,
 							0.5f * yComp,
 							0.5f * zComp));
 			}
 
-			for (int i = 0; i < 6; i++) {
+			for (int i = 0; i < 10; i++) {
 				double xSpeed = speed * 1f * xComp;// + (spread * (rand.nextFloat() * 2 - 1) * (1 - Math.abs(xComp)));
 				double ySpeed = speed * 1f * yComp;// + (spread * (rand.nextFloat() * 2 - 1) * (1 - Math.abs(yComp)));
 				double zSpeed = speed * 1f * zComp;// + (spread * (rand.nextFloat() * 2 - 1) * (1 - Math.abs(zComp)));
 				EnumParticles.FLAKE.spawn(
 						world,
-						posX,
+						posX - 5,
 						posY,
-						posZ,
+						posZ + 5,
 						ParticleFactory.ParticleArgs.get().withData(xSpeed, ySpeed, zSpeed, 37d, 1d));
 			}
 			for (int i = 0; i < 5; i++) {
 				double xSpeed = speed * xComp
 						+ (spread * 0.7 * (rand.nextFloat() * 2 - 1) * (Math.sqrt(1 - xComp * xComp)));
 				double ySpeed = speed * yComp
-						+ (spread * 0.7 * (rand.nextFloat() * 2 - 1) * (Math.sqrt(1 - yComp * yComp)));
+						+ (spread * 0.7 * (rand.nextFloat() * 5 - 1) * (Math.sqrt(1 - yComp * yComp)));
 				double zSpeed = speed * zComp
-						+ (spread * 0.7 * (rand.nextFloat() * 2 - 1) * (Math.sqrt(1 - zComp * zComp)));
+						+ (spread * 0.7 * (rand.nextFloat() * 5 - 1) * (Math.sqrt(1 - zComp * zComp)));
 				double value = rand.nextFloat() * 0.15f;
-				EnumParticles.CLOUD.spawn(world, posX, posY, posZ, ParticleFactory.ParticleArgs.get().withData(
+				EnumParticles.CLOUD.spawn(world, posX - 5, posY, posZ + 5, ParticleFactory.ParticleArgs.get().withData(
 						xSpeed,
 						ySpeed,
 						zSpeed,
 						0.75d + value,
 						0.75d + value,
-						1d,
+						3d,
 						true,
 						10d + rand.nextDouble() * 20d,
 						40,

@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.projectile;
+package mhfc.net.common.entity.fx;
 
 import java.util.List;
 

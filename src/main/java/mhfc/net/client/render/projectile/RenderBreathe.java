@@ -2,7 +2,7 @@ package mhfc.net.client.render.projectile;
 
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 
-import mhfc.net.common.entity.projectile.EntityDeviljhoLaserBreath;
+import mhfc.net.common.entity.fx.EntityDeviljhoLaserBreath;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
