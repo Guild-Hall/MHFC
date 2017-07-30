@@ -55,6 +55,7 @@ public class DragonBreath extends AnimatedAction<EntityDeviljho> implements IHas
 
 			if (this.getCurrentFrame() == 30) {
 			EntityDeviljhoLaserBreath breath = new EntityDeviljhoLaserBreath(entity.world, entity);
+				breath.setCasterID(entity.getEntityId());
 				breath.setPositionAndRotation(
 						entity.posX + 4F,
 					entity.posY + 3F,
