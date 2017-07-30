@@ -16,9 +16,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class EntityDeviljhoLaserBreath extends Entity {
-	private static final int point_range = 10;
-	private static final int ARC = 45;
-	private static final int damageAtTick = 1;
+	private static final int point_range = 20;
+	private static final int ARC = 90;
+	private static final int damageAtTick = 5;
 	public EntityLivingBase caster;
 	private static final DataParameter<Integer> CASTER = EntityDataManager
 			.createKey(EntityDeviljhoLaserBreath.class, DataSerializers.VARINT);

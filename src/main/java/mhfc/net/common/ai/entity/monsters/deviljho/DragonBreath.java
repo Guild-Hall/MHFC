@@ -1,19 +1,18 @@
 package mhfc.net.common.ai.entity.monsters.deviljho;
 
+import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.AnimatedAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.entity.fx.EntityDeviljhoLaserBreath;
 import mhfc.net.common.entity.monster.EntityDeviljho;
-import mhfc.net.common.entity.projectile.EntityDeviljhoBeam1;
 
 public class DragonBreath extends AnimatedAction<EntityDeviljho> implements IHasAnimationProvider {
 
 	protected String animLocation;
 	protected int animLength;
 	protected float maxDistance;
-	private EntityDeviljhoBeam1 beam;
 	protected float weight;
 
 	public DragonBreath(String animLocation, int animLength, float maxDistance, float weight) {
@@ -34,12 +33,12 @@ public class DragonBreath extends AnimatedAction<EntityDeviljho> implements IHas
 	protected float computeSelectionWeight() {
 		EntityDeviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
-		/*	if (SelectionUtils.isIdle(entity)) {
+			if (SelectionUtils.isIdle(entity)) {
 				return DONT_SELECT;
 			}
 			if (!SelectionUtils.isInDistance(0, 15, entity, target)) {
 				return DONT_SELECT;
-			} */
+		}
 		return 25;
 	}
 
@@ -52,8 +51,9 @@ public class DragonBreath extends AnimatedAction<EntityDeviljho> implements IHas
 		if (target != null) {
 			entity.getTurnHelper().updateTurnSpeed(30F);
 			entity.getTurnHelper().updateTargetPoint(target);
-		}
-		if (this.getCurrentFrame() == 30 /*&& entity.getAttackTarget() != null*/) {
+			entity.getLookHelper().setLookPositionWithEntity(target, 15, 15);
+
+			if (this.getCurrentFrame() == 30) {
 			EntityDeviljhoLaserBreath breath = new EntityDeviljhoLaserBreath(entity.world, entity);
 				breath.setPositionAndRotation(
 						entity.posX + 4F,
@@ -61,9 +61,18 @@ public class DragonBreath extends AnimatedAction<EntityDeviljho> implements IHas
 						entity.posZ,
 						entity.rotationYawHead,
 						entity.rotationPitch);
+				if (breath != null) {
+					breath.setPositionAndRotation(
+							entity.posX + 4F,
+							entity.posY + 3F,
+							entity.posZ,
+							entity.rotationYawHead,
+							entity.rotationPitch);
+				}
 			if (!entity.world.isRemote)
 				entity.world.spawnEntity(breath);
 			}
+		}
 	}
 
 }
