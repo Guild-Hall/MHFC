@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import mhfc.net.common.ai.entity.EntityAIMethods;
+import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.WeightUtils;
 import mhfc.net.common.ai.general.provider.requirements.INeedsRoarBehaviour;
 import mhfc.net.common.ai.general.provider.simple.IRoarProvider;
@@ -36,7 +37,7 @@ public abstract class RoarAction<T extends EntityMHFCBase<? super T>> extends An
 	
 	@Override
 	public float computeSelectionWeight(){
-		if(getEntity().getAttackTarget() == null){
+		if (SelectionUtils.isIdle(getEntity())) {
 			return DONT_SELECT;
 		}
 		return WeightUtils.random(rng(), 5f);

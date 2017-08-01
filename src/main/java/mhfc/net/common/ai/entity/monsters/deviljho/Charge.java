@@ -31,8 +31,11 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 			public void onPhaseStart(Charge attk) {
 				EntityDeviljho monster = attk.getEntity();
 				monster.motionX = monster.motionY = monster.motionZ = 0f;
+				if (attk.target != null) {
 				monster.getTurnHelper().updateTurnSpeed(30.5F);
-				attk.getEntity().getTurnHelper().updateTargetPoint(attk.target);
+				monster.getTurnHelper().updateTargetPoint(attk.target);
+				monster.getLookHelper().setLookPositionWithEntity(attk.target, 15, 15);
+				}
 			}
 
 			@Override

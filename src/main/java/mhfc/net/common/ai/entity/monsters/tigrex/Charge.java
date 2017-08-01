@@ -44,8 +44,11 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 			public void onPhaseStart(Charge attk) {
 				EntityTigrex tigrex = attk.getEntity();
 				tigrex.motionX = tigrex.motionY = tigrex.motionZ = 0f;
-				tigrex.getTurnHelper().updateTurnSpeed(TURN_RATE_INITIAL);
-				tigrex.getTurnHelper().updateTargetPoint(attk.target);
+				if (attk.target != null) {
+					tigrex.getTurnHelper().updateTurnSpeed(30.5F);
+					tigrex.getTurnHelper().updateTargetPoint(attk.target);
+					tigrex.getLookHelper().setLookPositionWithEntity(attk.target, 15, 15);
+				}
 			}
 
 			@Override
