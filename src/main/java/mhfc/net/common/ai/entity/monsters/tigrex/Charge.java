@@ -6,29 +6,15 @@ import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
 import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
-import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
-import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
 public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackProvider {
-	private static final int runningStarts = 21;
-	private static final int runningEnds = 60;
-	private static final int attackEnd = 75;
-	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/run.mcanm";
-	private static final float TURN_RATE_INITIAL = 8.5f;
-	private static final float TURN_RATE_DURING_RUN = 0.12F;
-	private static final float MAX_RUN_DISTANCE = 50f;
-	private static final int MAX_RUN_FRAMES = 200;
-
-	private static final double RUN_SPEED = 0.8;
-	private static final double STOP_SPEED = 0.4;
-	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(30F, 50F, 99999F);
 
 	private static enum PastEntityEnum {
 		NOT_PASSED,
@@ -62,7 +48,7 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 				if (attk.target == null) {
 					return STOPPED;
 				}
-				if (attk.getCurrentFrame() < runningStarts) {
+				if (attk.getCurrentFrame() < 21) {
 					return START;
 				}
 				return RUNNING;
@@ -71,7 +57,7 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 		RUNNING(true) {
 			@Override
 			public void onPhaseStart(Charge attk) {
-				attk.getEntity().getTurnHelper().updateTurnSpeed(TURN_RATE_DURING_RUN);
+				attk.getEntity().getTurnHelper().updateTurnSpeed(0.12F);
 				attk.framesRunning = 0;
 			}
 
@@ -87,14 +73,14 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 				// Processing
 				tigrex.getTurnHelper().updateTargetPoint(trgtPos);
 
-				tigrex.moveForward(RUN_SPEED, true);
+				tigrex.moveForward(0.8, true);
 
 				Vec3d look = tigrex.getLookVec();
 
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
 
-				boolean ranLongEnough = attk.runStartPoint.subtract(tigPos).lengthVector() > MAX_RUN_DISTANCE
-						|| attk.framesRunning > MAX_RUN_FRAMES;
+				boolean ranLongEnough = attk.runStartPoint.subtract(tigPos).lengthVector() > 50f
+						|| attk.framesRunning > 200;
 
 				if ((tarBeh || ranLongEnough) && attk.hasPassed == PastEntityEnum.NOT_PASSED) {
 
@@ -113,23 +99,23 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 			@Override
 			public int nextFrame(Charge attk, int curr) {
 				attk.framesRunning++;
-				int looping = runningEnds - runningStarts;
-				if (attk.hasPassed == PastEntityEnum.PASSED && (curr + 1 >= runningEnds)) {
+				int looping = 60 - 21;
+				if (attk.hasPassed == PastEntityEnum.PASSED && (curr + 1 >= 60)) {
 					attk.hasPassed = PastEntityEnum.LOOP_FINISHED;
 				}
-				return runningStarts + (curr + 1 - runningStarts) % looping;
+				return 21 + (curr + 1 - 21) % looping;
 			}
 		},
 		STOPPING(true) {
 			@Override
 			public void update(Charge attk) {
 				EntityTigrex e = attk.getEntity();
-				e.moveForward(STOP_SPEED, false);
+				e.moveForward(0.4, false);
 			}
 
 			@Override
 			public AttackPhase next(Charge attk) {
-				if (attackEnd < attk.getCurrentFrame()) {
+				if (75 < attk.getCurrentFrame()) {
 					return STOPPED;
 				}
 				return STOPPING;
@@ -167,11 +153,6 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 	private int framesRunning;
 	@SuppressWarnings("unused")
 	private int runCycles;
-	private final IAttackProvider ATTACK;
-	{
-		final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, 0);
-		ATTACK = new AttackAdapter(ANIMATION, new DamageAdapter(DAMAGE_CALC));
-	}
 
 	public Charge() {}
 
@@ -201,7 +182,9 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 
 	@Override
 	public IAttackProvider getAttackProvider() {
-		return ATTACK;
+		return new AttackAdapter(
+				new AnimationAdapter(this, "mhfc:models/Tigrex/run.mcanm", 0),
+				new DamageAdapter(AIUtils.defaultDamageCalc(30F, 50F, 99999F)));
 	}
 
 	@Override
