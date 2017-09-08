@@ -3,51 +3,49 @@ package mhfc.net.common.ai.nodes;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
- * Variant of (T result) x (continuation) x (push newNode appl).<br>
+ * Variant of (T result) x (yield) x (await NodeResult appl).<br>
  * If result, this means that the node that returned this popped.<br>
- * If continuation, then this node will be called again, by continuation.apply(node)<br>
- * If push, then newNode will be first evaluated. If newNode is popped with a result u, appl.apply(node, u) is called
+ * If yield, then this node will be called again next frame<br>
+ * If await, then newNode will be first evaluated. When newNode returns a result with a result u, appl.apply(node, u) is
+ * called
  *
  * @author WorldSEnder
  *
  * @param <T>
  *            the result type
- * @param <N>
- *            the node type
  */
-public class NodeResult<T, N extends IAINode<T, N>> {
+public final class NodeResult<T> {
 	public static enum ResultType {
 		VALUE,
-		CONTINUATION,
-		PUSH;
+		YIELD,
+		AWAIT;
 	}
 
-	public static class PushNode<T, N extends IAINode<T, N>, U, M extends IAINode<U, M>> {
-		private final M newNode;
-		private final BiFunction<? super N, ? super U, NodeResult<T, N>> applyResult;
+	public static class PushNode<T, U> {
+		private final NodeResult<U> waitingFor;
+		private final Function<? super U, NodeResult<T>> andThen;
 
-		public PushNode(
-				M pushedNode,
-				BiFunction<? super N, ? super U, NodeResult<T, N>> applyResult) {
-			this.newNode = Objects.requireNonNull(pushedNode);
-			this.applyResult = Objects.requireNonNull(applyResult);
+		public PushNode(NodeResult<U> waitingFor, Function<? super U, NodeResult<T>> andThen) {
+			this.waitingFor = Objects.requireNonNull(waitingFor);
+			this.andThen = Objects.requireNonNull(andThen);
 		}
 
-		public M getNewNode() {
-			return newNode;
+		public NodeResult<U> getAwaitedResult() {
+			return waitingFor;
 		}
 
-		public BiFunction<? super N, ? super U, NodeResult<T, N>> getApplyResult() {
-			return applyResult;
+		public Function<? super U, NodeResult<T>> getAndThen() {
+			return andThen;
 		}
 	}
 
 	private final ResultType type;
 	private final T result;
-	private final Function<? super N, NodeResult<T, N>> continuation;
-	private final PushNode<T, N, ?, ?> push;
+	private final Supplier<NodeResult<T>> continuation;
+	private final PushNode<T, ?> push;
 
 	private NodeResult(T result) {
 		this.type = ResultType.VALUE;
@@ -56,15 +54,15 @@ public class NodeResult<T, N extends IAINode<T, N>> {
 		this.push = null;
 	}
 
-	private NodeResult(Function<? super N, NodeResult<T, N>> continuation) {
-		this.type = ResultType.CONTINUATION;
+	private NodeResult(Supplier<NodeResult<T>> continuation) {
+		this.type = ResultType.YIELD;
 		this.result = null;
 		this.continuation = Objects.requireNonNull(continuation);
 		this.push = null;
 	}
 
-	private NodeResult(PushNode<T, N, ?, ?> push) {
-		this.type = ResultType.PUSH;
+	private NodeResult(PushNode<T, ?> push) {
+		this.type = ResultType.AWAIT;
 		this.result = null;
 		this.continuation = null;
 		this.push = push;
@@ -85,13 +83,13 @@ public class NodeResult<T, N extends IAINode<T, N>> {
 		return result;
 	}
 
-	public Function<? super N, NodeResult<T, N>> getContinuation() {
-		checkType(ResultType.CONTINUATION);
+	public Supplier<NodeResult<T>> getContinuation() {
+		checkType(ResultType.YIELD);
 		return continuation;
 	}
 
-	public PushNode<T, N, ?, ?> getPush() {
-		checkType(ResultType.PUSH);
+	public PushNode<T, ?> getPush() {
+		checkType(ResultType.AWAIT);
 		return push;
 	}
 
@@ -102,7 +100,7 @@ public class NodeResult<T, N extends IAINode<T, N>> {
 	 *            the compute value
 	 * @return
 	 */
-	public static <T, N extends IAINode<T, N>> NodeResult<T, N> withResult(T result) {
+	public static <T> NodeResult<T> withResult(T result) {
 		return new NodeResult<>(result);
 	}
 
@@ -113,8 +111,7 @@ public class NodeResult<T, N extends IAINode<T, N>> {
 	 *            the function to at the start of the next frame
 	 * @return
 	 */
-	public static <T, N extends IAINode<T, N>> NodeResult<T, N> andThen(
-			Function<? super N, NodeResult<T, N>> continuation) {
+	public static <T> NodeResult<T> yield(Supplier<NodeResult<T>> continuation) {
 		return new NodeResult<>(continuation);
 	}
 
@@ -125,31 +122,29 @@ public class NodeResult<T, N extends IAINode<T, N>> {
 	 * arguments.<br>
 	 * Note: it is possible that no frames pass between returning with waitFor and the call to applyResult
 	 *
-	 * @param pushedNode
-	 *            the node to execute before the calling node
+	 * @param awaitedResult
+	 *            the result to execute before the calling node
 	 * @param applyResult
 	 *            the function to call when a result is available
 	 * @return
 	 */
-	public static <T, N extends IAINode<T, N>, U, M extends IAINode<U, M>> NodeResult<T, N> waitFor(
-			M pushedNode,
-			BiFunction<? super N, ? super U, NodeResult<T, N>> applyResult) {
-		PushNode<T, N, U, M> pushNode = new PushNode<>(pushedNode, applyResult);
+	public static <T, U> NodeResult<T> await(
+			NodeResult<U> awaitedResult,
+			Function<? super U, NodeResult<T>> applyResult) {
+		PushNode<T, U> pushNode = new PushNode<>(awaitedResult, applyResult);
 		return new NodeResult<>(pushNode);
 	}
 
 	/**
-	 * Convenience function. Like {@link #waitFor(IAINode, BiFunction)} but the result is ignored.
+	 * Convenience function. Like {@link #await(IAINode, BiFunction)} but the result is ignored.
 	 *
 	 * @param pushedNode
 	 * @param continuation
 	 * @return
-	 * @see #waitFor(IAINode, BiFunction)
+	 * @see #await(IAINode, BiFunction)
 	 */
-	public static <T, N extends IAINode<T, N>, U, M extends IAINode<U, M>> NodeResult<T, N> waitUntil(
-			M pushedNode,
-			Function<? super N, NodeResult<T, N>> continuation) {
-		return waitFor(pushedNode, (n, u) -> continuation.apply(n));
+	public static <T, U> NodeResult<T> await(NodeResult<U> awaitedResult, Supplier<NodeResult<T>> continuation) {
+		return await(awaitedResult, u -> continuation.get());
 	}
 
 }
