@@ -4,8 +4,8 @@ import javax.vecmath.Matrix4d;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
-import mhfc.net.client.particle.ParticleFactory;
-import mhfc.net.client.particle.ParticleTextureStitcher;
+import mhfc.net.client.particle.api.PWorkshop;
+import mhfc.net.client.particle.api.TextureSewer;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -15,7 +15,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class Ring extends Particle implements ParticleTextureStitcher.IParticleSpriteReceiver {
+public class Ring extends Particle implements TextureSewer.IParticleSpriteReceiver {
 	public float r, g, b;
 	public float opacity;
 	public boolean facesCamera;
@@ -178,12 +178,12 @@ public class Ring extends Particle implements ParticleTextureStitcher.IParticleS
 				.endVertex();
 	}
 
-	public static final class RFactory extends ParticleFactory<Ring.RFactory, Ring> {
+	public static final class RFactory extends PWorkshop<Ring.RFactory, Ring> {
 		@SuppressWarnings("unchecked")
 		public RFactory() {
 			super(
 					Ring.class,
-					ParticleTextureStitcher
+					TextureSewer
 							.create(
 									Ring.class,
 									new ResourceLocation(ResourceInterface.main_modid, "particle/ring")));

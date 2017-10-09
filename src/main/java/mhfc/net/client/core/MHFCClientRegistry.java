@@ -5,6 +5,7 @@ import mhfc.net.client.core.registry.MHFCEntityRenderRegistry;
 import mhfc.net.client.core.registry.MHFCItemRenderRegistry;
 import mhfc.net.client.core.registry.MHFCTileRenderRegistry;
 import mhfc.net.client.gui.hud.RenderEventListener;
+import mhfc.net.client.particle.api.TextureSewer;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -22,6 +23,7 @@ public class MHFCClientRegistry {
 
 	private static void preInit() {
 		MinecraftForge.EVENT_BUS.register(new RenderEventListener());
+		MinecraftForge.EVENT_BUS.register(TextureSewer.Stitcher.INSTANCE);
 	}
 
 }

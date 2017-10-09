@@ -2,7 +2,8 @@ package mhfc.net.client.particle;
 
 import javax.annotation.Nullable;
 
-import mhfc.net.client.particle.ParticleFactory.ParticleArgs;
+import mhfc.net.client.particle.api.PWorkshop;
+import mhfc.net.client.particle.api.PWorkshop.ParticleArgs;
 import mhfc.net.client.particle.particles.Cloud;
 import mhfc.net.client.particle.particles.Flake;
 import mhfc.net.client.particle.particles.Ring;
@@ -14,66 +15,34 @@ public enum EnumParticles {
 	RING(new Ring.RFactory()),
 	CLOUD(new Cloud.CFactory());
 
-	private ParticleFactory<?, ?> factory;
+	private PWorkshop<?, ?> factory;
 
-	private EnumParticles(ParticleFactory<?, ?> factory) {
+	private EnumParticles(PWorkshop<?, ?> factory) {
 		this.factory = factory;
 	}
 
-	public ParticleFactory<?, ?> getFactory() {
+	public PWorkshop<?, ?> getFactory() {
 		return factory;
 	}
 
-	/**
-	 * Creates a new instance of this particle
-	 *
-	 * @param world
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return
-	 */
 	public Particle create(World world, double x, double y, double z) {
 		return create(world, x, y, z, null);
 	}
 
-	/**
-	 * Creates a new instance of this particle
-	 *
-	 * @param world
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param args
-	 * @return
-	 */
+	public Particle createWithLabel(World world, double x, double y, double z, String label) {
+		return create(world, x, y, z, null);
+	}
+
 	public Particle create(World world, double x, double y, double z, @Nullable ParticleArgs<?> args) {
 		return factory.create(world, x, y, z, args);
 	}
 
-	/**
-	 * Spawns this particle
-	 *
-	 * @param world
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return
-	 */
 	public Particle spawn(World world, double x, double y, double z) {
 		return spawn(world, x, y, z, null);
 	}
 
-	/**
-	 * Spawns this particle
-	 *
-	 * @param world
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param args
-	 * @return
-	 */
+	;
+
 	public Particle spawn(World world, double x, double y, double z, @Nullable ParticleArgs<?> args) {
 		return factory.spawn(world, x, y, z, args);
 	}

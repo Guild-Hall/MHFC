@@ -1,4 +1,4 @@
-package mhfc.net.client.particle;
+package mhfc.net.client.particle.api;
 
 import java.util.Arrays;
 
@@ -7,24 +7,16 @@ import org.apache.commons.lang3.ArrayUtils;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
 
-public final class VanillaParticleFactory<T extends Particle> extends ParticleFactory<VanillaParticleFactory<T>, T> {
+public final class DefaultPWorkshop<T extends Particle> extends PWorkshop<DefaultPWorkshop<T>, T> {
 	private final IParticleFactory factory;
 
-	private VanillaParticleFactory(Class<T> type, IParticleFactory factory) {
+	private DefaultPWorkshop(Class<T> type, IParticleFactory factory) {
 		super(type);
 		this.factory = factory;
 	}
 
-	/**
-	 * Creates a vanilla particle factory that builds particles from an {@link IParticleFactory}.
-	 * <p>
-	 * <b>Do note that the first value in the additional arguments must be the particle ID (default is 0)!</b>
-	 * 
-	 * @param type
-	 * @param factory
-	 */
-	public static <T extends Particle> VanillaParticleFactory<T> create(Class<T> type, IParticleFactory factory) {
-		return new VanillaParticleFactory<T>(type, factory);
+	public static <T extends Particle> DefaultPWorkshop<T> create(Class<T> type, IParticleFactory factory) {
+		return new DefaultPWorkshop<T>(type, factory);
 	}
 
 	@Override

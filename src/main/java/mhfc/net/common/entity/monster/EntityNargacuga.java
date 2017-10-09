@@ -66,7 +66,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		ticksSinceEyesSaved = 0;
 		enraged = false;
 	}
-
+	
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
