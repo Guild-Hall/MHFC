@@ -21,6 +21,13 @@ public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
 	}
 
 	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(145391D));
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(25D);
+	}
+
+	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
@@ -37,11 +44,7 @@ public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
 		return null;
 	}
 
-	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(95391D));
-	}
+
 
 	@Override
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {

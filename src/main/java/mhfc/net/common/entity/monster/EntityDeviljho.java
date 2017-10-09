@@ -30,6 +30,13 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	}
 
 	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(46253D));
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(20D);
+	}
+
+	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
@@ -49,12 +56,6 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	@Override
 	public EntityMHFCPart[] getParts() {
 		return null;
-	}
-
-	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(46253D));
 	}
 
 	@Override

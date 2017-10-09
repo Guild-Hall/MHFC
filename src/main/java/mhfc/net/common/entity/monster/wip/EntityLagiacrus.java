@@ -30,6 +30,13 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 	}
 
 	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(25100D));
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(23D);
+	}
+
+	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
@@ -58,12 +65,7 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 		return null;
 	}
 
-	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		//default 13738
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(25100D));
-	}
+
 
 	@Override
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {

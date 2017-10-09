@@ -24,6 +24,13 @@ public class EntityKirin extends EntityMHFCBase<EntityKirin> {
 	}
 
 	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(23111D));
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(21D);
+	}
+
+	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
@@ -41,12 +48,7 @@ public class EntityKirin extends EntityMHFCBase<EntityKirin> {
 		return null;
 	}
 
-	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		//default 13738
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(20D));
-	}
+
 
 	@Override
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {

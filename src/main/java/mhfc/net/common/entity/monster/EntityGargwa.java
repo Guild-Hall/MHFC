@@ -26,6 +26,13 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 	}
 
 	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(300D));
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(5D);
+	}
+
+	@Override
 	protected IActionManager<EntityGargwa> constructActionManager() {
 		ActionManagerBuilder<EntityGargwa> actionManager = new ActionManagerBuilder<>();
 		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Gagua/gaguabreathe.mcanm", 40, 2F));
@@ -55,12 +62,6 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 	@Override
 	public EntityMHFCPart[] getParts() {
 		return null;
-	}
-
-	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(300D));
 	}
 
 	@Override

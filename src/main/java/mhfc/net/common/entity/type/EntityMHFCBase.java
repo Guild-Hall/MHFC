@@ -195,7 +195,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.3D);
 		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30D);
-		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(17D);
+
 	}
 
 	protected void onDeath() {

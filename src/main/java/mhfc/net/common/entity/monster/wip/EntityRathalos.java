@@ -67,19 +67,10 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	}
 
 	@Override
-	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
-		GL11.glScaled(2, 2, 2);
-		return super.preRenderCallback(scale, sub);
-	}
-
-	private int confusedAttacks;
-	private Stances stance;
-
-	public EntityRathalos(World world) {
-		super(world);
-		this.stance = Stances.GROUND;
-		this.setSize(5F, 5F);
-
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(15341D));
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(13D);
 	}
 
 	@Override
@@ -107,9 +98,19 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	}
 
 	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(14981D));
+	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
+		GL11.glScaled(2, 2, 2);
+		return super.preRenderCallback(scale, sub);
+	}
+
+	private int confusedAttacks;
+	private Stances stance;
+
+	public EntityRathalos(World world) {
+		super(world);
+		this.stance = Stances.GROUND;
+		this.setSize(5F, 5F);
+
 	}
 
 	@Override

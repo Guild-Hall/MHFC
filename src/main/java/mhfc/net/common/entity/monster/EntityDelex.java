@@ -29,6 +29,13 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 	}
 
 	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(300D));
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(7D);
+	}
+
+	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
 		targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
@@ -67,12 +74,6 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 	@Override
 	public EntityMHFCPart[] getParts() {
 		return null;
-	}
-
-	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(50D));
 	}
 
 	@Override

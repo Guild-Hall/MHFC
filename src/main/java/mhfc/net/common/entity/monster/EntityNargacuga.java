@@ -68,6 +68,13 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	}
 
 	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(17122D));
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(18D);
+	}
+
+	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
 		targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
@@ -130,13 +137,6 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 
 
 		return attackManager.build(this);
-	}
-
-	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		//default is 17122D
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(17122D));
 	}
 
 	@Override

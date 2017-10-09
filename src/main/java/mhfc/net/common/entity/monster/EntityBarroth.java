@@ -39,6 +39,13 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	}
 
 	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(14655D));
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(15D);
+	}
+
+	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
@@ -87,13 +94,6 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 		
 		
 		return followUpManager.build(this);
-	}
-
-	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		//default 8112
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(14655D));
 	}
 
 	@Override

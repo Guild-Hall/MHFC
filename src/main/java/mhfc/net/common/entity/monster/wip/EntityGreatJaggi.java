@@ -29,6 +29,13 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 	}
 
 	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(8753D));
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(10D);
+	}
+
+	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
@@ -58,12 +65,6 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 		return null;
 	}
 
-	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		// default 2653
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(8553D));
-	}
 
 	@Override
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {

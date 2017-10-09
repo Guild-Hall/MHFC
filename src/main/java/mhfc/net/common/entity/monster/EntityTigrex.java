@@ -47,6 +47,13 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	}
 
 	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();// def hp 18432D
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(18432D));
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(15D);
+	}
+
+	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
 		targetTasks.addTask(6, new EntityAIHurtByTarget(this, true));
@@ -117,11 +124,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		return manager.build(this);
 	}
 
-	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();// def hp 18432D
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(18432D));
-	}
+
 
 	@Override
 	protected void dropFewItems(boolean par1, int par2) {

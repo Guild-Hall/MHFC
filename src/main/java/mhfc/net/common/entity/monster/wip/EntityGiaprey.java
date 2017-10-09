@@ -21,6 +21,13 @@ public class EntityGiaprey extends EntityMHFCBase<EntityGiaprey> {
 	}
 
 	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(4310D));
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(7D);
+	}
+
+	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
@@ -37,11 +44,6 @@ public class EntityGiaprey extends EntityMHFCBase<EntityGiaprey> {
 		return null;
 	}
 
-	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(5500D));
-	}
 
 	@Override
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
