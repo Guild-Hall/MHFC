@@ -74,6 +74,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 			this.restoreInventory = restoreInventory;
 			this.vote = vote;
 			this.reward = reward;
+			// this bind should also consider player if it dies once ! ,
 			this.previousManager = MHFCExplorationRegistry.getExplorationManagerFor(p);
 			this.previousSaveData = this.previousManager.saveState();
 			this.playerState = PlayerState.IN_TOWN;
