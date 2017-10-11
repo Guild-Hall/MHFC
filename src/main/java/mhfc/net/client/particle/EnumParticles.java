@@ -2,8 +2,8 @@ package mhfc.net.client.particle;
 
 import javax.annotation.Nullable;
 
-import mhfc.net.client.particle.api.PWorkshop;
-import mhfc.net.client.particle.api.PWorkshop.ParticleArgs;
+import mhfc.net.client.particle.api.ParticleFactory;
+import mhfc.net.client.particle.api.ParticleFactory.ParticleArgs;
 import mhfc.net.client.particle.particles.Cloud;
 import mhfc.net.client.particle.particles.Flake;
 import mhfc.net.client.particle.particles.Ring;
@@ -15,13 +15,13 @@ public enum EnumParticles {
 	RING(new Ring.RFactory()),
 	CLOUD(new Cloud.CFactory());
 
-	private PWorkshop<?, ?> factory;
+	private ParticleFactory<?, ?> factory;
 
-	private EnumParticles(PWorkshop<?, ?> factory) {
+	private EnumParticles(ParticleFactory<?, ?> factory) {
 		this.factory = factory;
 	}
 
-	public PWorkshop<?, ?> getFactory() {
+	public ParticleFactory<?, ?> getFactory() {
 		return factory;
 	}
 

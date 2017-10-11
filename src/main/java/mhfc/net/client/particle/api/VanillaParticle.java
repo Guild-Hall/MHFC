@@ -7,16 +7,16 @@ import org.apache.commons.lang3.ArrayUtils;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
 
-public final class DefaultPWorkshop<T extends Particle> extends PWorkshop<DefaultPWorkshop<T>, T> {
+public final class VanillaParticle<T extends Particle> extends ParticleFactory<VanillaParticle<T>, T> {
 	private final IParticleFactory factory;
 
-	private DefaultPWorkshop(Class<T> type, IParticleFactory factory) {
+	private VanillaParticle(Class<T> type, IParticleFactory factory) {
 		super(type);
 		this.factory = factory;
 	}
 
-	public static <T extends Particle> DefaultPWorkshop<T> create(Class<T> type, IParticleFactory factory) {
-		return new DefaultPWorkshop<T>(type, factory);
+	public static <T extends Particle> VanillaParticle<T> create(Class<T> type, IParticleFactory factory) {
+		return new VanillaParticle<T>(type, factory);
 	}
 
 	@Override

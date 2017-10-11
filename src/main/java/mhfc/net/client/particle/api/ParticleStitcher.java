@@ -8,14 +8,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public final class TextureSewer<T> {
-	public static <T extends Particle & IParticleSpriteReceiver> TextureSewer create(
+public final class ParticleStitcher<T> {
+	public static <T extends Particle & IParticleSpriteReceiver> ParticleStitcher create(
 			Class<T> cls,
 			ResourceLocation[] textures) {
-		return new TextureSewer<T>(textures);
+		return new ParticleStitcher<T>(textures);
 	}
 
-	public static <T extends Particle & IParticleSpriteReceiver> TextureSewer create(
+	public static <T extends Particle & IParticleSpriteReceiver> ParticleStitcher create(
 			Class<T> cls,
 			ResourceLocation texture) {
 		return create(cls, new ResourceLocation[] { texture });
@@ -24,7 +24,7 @@ public final class TextureSewer<T> {
 	private final ResourceLocation[] textures;
 	private TextureAtlasSprite[] loadedSprites;
 
-	private TextureSewer(ResourceLocation[] textures) {
+	private ParticleStitcher(ResourceLocation[] textures) {
 		this.textures = textures;
 	}
 
@@ -54,7 +54,7 @@ public final class TextureSewer<T> {
 			TextureMap map = event.getMap();
 			EnumParticles[] particles = EnumParticles.values();
 			for (EnumParticles particle : particles) {
-				TextureSewer stitcher = particle.getFactory().getStitcher();
+				ParticleStitcher stitcher = particle.getFactory().getStitcher();
 				if (stitcher != null) {
 					ResourceLocation[] textures = stitcher.getTextures();
 					TextureAtlasSprite[] sprites = new TextureAtlasSprite[textures.length];

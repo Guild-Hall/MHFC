@@ -1,7 +1,7 @@
 package mhfc.net.client.particle.particles;
 
-import mhfc.net.client.particle.api.PWorkshop;
-import mhfc.net.client.particle.api.TextureSewer;
+import mhfc.net.client.particle.api.ParticleFactory;
+import mhfc.net.client.particle.api.ParticleStitcher;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -11,7 +11,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class Cloud extends Particle implements TextureSewer.IParticleSpriteReceiver {
+public class Cloud extends Particle implements ParticleStitcher.IParticleSpriteReceiver {
 	private int whichTex;
 	private float red, green, blue;
 	private float scale;
@@ -39,7 +39,7 @@ public class Cloud extends Particle implements TextureSewer.IParticleSpriteRecei
 			int duration,
 			EnumCloudBehavior behavior) {
 		super(world, x, y, z);
-		this.scale = (float) scale * 0.5f;
+		this.scale = (float) scale * 0.75f;
 		particleMaxAge = duration;
 		whichTex = noisy ? 1 : 0;
 		motionX = vx;
@@ -159,12 +159,12 @@ public class Cloud extends Particle implements TextureSewer.IParticleSpriteRecei
 		}
 	}
 
-	public static final class CFactory extends PWorkshop<Cloud.CFactory, Cloud> {
+	public static final class CFactory extends ParticleFactory<Cloud.CFactory, Cloud> {
 		@SuppressWarnings("unchecked")
 		public CFactory() {
 			super(
 					Cloud.class,
-					TextureSewer
+					ParticleStitcher
 							.create(
 									Cloud.class,
 									new ResourceLocation(ResourceInterface.main_modid, "particle/cloud")));

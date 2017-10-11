@@ -3,8 +3,8 @@ package mhfc.net.client.particle.particles;
 import javax.vecmath.Matrix4d;
 import javax.vecmath.Point3d;
 
-import mhfc.net.client.particle.api.PWorkshop;
-import mhfc.net.client.particle.api.TextureSewer;
+import mhfc.net.client.particle.api.ParticleFactory;
+import mhfc.net.client.particle.api.ParticleStitcher;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -14,7 +14,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class Flake extends Particle implements TextureSewer.IParticleSpriteReceiver {
+public class Flake extends Particle implements ParticleStitcher.IParticleSpriteReceiver {
 	private int whichTex;
 	private int swirlTick;
 	private float spread;
@@ -160,12 +160,12 @@ public class Flake extends Particle implements TextureSewer.IParticleSpriteRecei
 
 	public static final class SFFactory
 			extends
-			PWorkshop<Flake.SFFactory, Flake> {
+			ParticleFactory<Flake.SFFactory, Flake> {
 		@SuppressWarnings("unchecked")
 		public SFFactory() {
 			super(
 					Flake.class,
-					TextureSewer.create(
+					ParticleStitcher.create(
 							Flake.class,
 							new ResourceLocation(ResourceInterface.main_modid, "particle/snowflake")));
 		}

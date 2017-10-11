@@ -3,7 +3,7 @@ package mhfc.net.common.entity.fx;
 import java.util.List;
 
 import mhfc.net.client.particle.EnumParticles;
-import mhfc.net.client.particle.api.PWorkshop;
+import mhfc.net.client.particle.api.ParticleFactory;
 import mhfc.net.client.particle.particles.Cloud;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -67,7 +67,7 @@ public class EntityDeviljhoLaserBreath extends Entity {
 									posX - 5,
 									posY,
 									posZ + 5,
-									PWorkshop.ParticleArgs.get().withData(
+									ParticleFactory.ParticleArgs.get().withData(
 							yaw,
 							-pitch,
 							40,
@@ -91,7 +91,7 @@ public class EntityDeviljhoLaserBreath extends Entity {
 						posX - 5,
 						posY,
 						posZ + 5,
-						PWorkshop.ParticleArgs.get().withData(xSpeed, ySpeed, zSpeed, 37d, 1d));
+						ParticleFactory.ParticleArgs.get().withData(xSpeed, ySpeed, zSpeed, 37d, 1d));
 			}
 			for (int i = 0; i < 5; i++) {
 				double xSpeed = speed * xComp
@@ -101,7 +101,7 @@ public class EntityDeviljhoLaserBreath extends Entity {
 				double zSpeed = speed * zComp
 						+ (spread * 0.7 * (rand.nextFloat() * 5 - 1) * (Math.sqrt(1 - zComp * zComp)));
 				double value = rand.nextFloat() * 0.15f;
-				EnumParticles.CLOUD.spawn(world, posX - 5, posY, posZ + 5, PWorkshop.ParticleArgs.get().withData(
+				EnumParticles.CLOUD.spawn(world, posX - 5, posY, posZ + 5, ParticleFactory.ParticleArgs.get().withData(
 						xSpeed,
 						ySpeed,
 						zSpeed,

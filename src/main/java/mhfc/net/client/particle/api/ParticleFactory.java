@@ -8,12 +8,12 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
-import mhfc.net.client.particle.api.TextureSewer.IParticleSpriteReceiver;
+import mhfc.net.client.particle.api.ParticleStitcher.IParticleSpriteReceiver;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.world.World;
 
-public abstract class PWorkshop<F extends PWorkshop<?, T>, T extends Particle> {
+public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends Particle> {
 
 	public static class ImmutableParticleArgs {
 		public final World world;
@@ -228,16 +228,16 @@ public abstract class PWorkshop<F extends PWorkshop<?, T>, T extends Particle> {
 		}
 	}
 
-	private final TextureSewer<T> stitcher;
+	private final ParticleStitcher<T> stitcher;
 	private final Class<T> type;
 	private final ParticleArgs baseArgs;
 	private final ParticleArgs defaultArgs;
 
-	public PWorkshop(Class<T> type) {
+	public ParticleFactory(Class<T> type) {
 		this(type, null);
 	}
 
-	public PWorkshop(Class<T> type, @Nullable TextureSewer<T> stitcher) {
+	public ParticleFactory(Class<T> type, @Nullable ParticleStitcher<T> stitcher) {
 		this.stitcher = stitcher;
 		this.type = type;
 		this.baseArgs = new ParticleArgs();
@@ -245,7 +245,7 @@ public abstract class PWorkshop<F extends PWorkshop<?, T>, T extends Particle> {
 		this.defaultArgs = new ParticleArgs();
 	}
 
-	public final TextureSewer<? extends Particle> getStitcher() {
+	public final ParticleStitcher<? extends Particle> getStitcher() {
 		return this.stitcher;
 	}
 
@@ -275,12 +275,12 @@ public abstract class PWorkshop<F extends PWorkshop<?, T>, T extends Particle> {
 
 	protected void setDefaultArguments(World world, ParticleArgs args) {}
 
-	public static final class BaseArgsBuilder<F extends PWorkshop, B extends BaseArgsBuilder, C extends Particle>
+	public static final class BaseArgsBuilder<F extends ParticleFactory, B extends BaseArgsBuilder, C extends Particle>
 			extends
 			ParticleArgs<B> {
-		private final PWorkshop factory;
+		private final ParticleFactory factory;
 
-		private BaseArgsBuilder(PWorkshop factory) {
+		private BaseArgsBuilder(ParticleFactory factory) {
 			super();
 			this.factory = factory;
 		}
