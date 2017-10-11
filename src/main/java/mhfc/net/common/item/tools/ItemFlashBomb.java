@@ -8,6 +8,7 @@ import mhfc.net.common.item.ItemColor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
@@ -34,7 +35,8 @@ public class ItemFlashBomb extends Item implements IItemColored {
 		if (!player.capabilities.isCreativeMode) {
 			stack.setCount(stack.getCount() - 1);
 		}
-		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+		player.addStat(StatList.getObjectUseStats(this));
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 	}
 
 	@Override

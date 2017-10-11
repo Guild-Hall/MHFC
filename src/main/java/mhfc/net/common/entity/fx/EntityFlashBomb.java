@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public class EntityFlashBomb extends EntityThrowable {
 
-	public static final int EXPLOSIVE_TIMER = 40;
+	public static final int EXPLOSIVE_TIMER = 20;
 	public static final float REACH = 20f;
 	public static final int EXPLOSION_TICKS = 40;
 
