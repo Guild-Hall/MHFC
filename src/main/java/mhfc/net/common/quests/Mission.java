@@ -42,7 +42,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	public static final String KEY_TYPE_RUNNING = "running";
-	private static final int DELAY_BEFORE_TP_IN_SECONDS = 25;
+	private static final int DELAY_BEFORE_TP_IN_SECONDS = 5;
 
 	private static enum QuestState {
 		PENDING,
@@ -227,6 +227,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 			IExplorationManager explorationManager = MHFCExplorationRegistry.getExplorationManagerFor(player);
 			explorationManager.respawn(null);
 		}
+
 		updatePlayers();
 		resetVotes();
 		spawns.enqueueSpawns(getSpawnController());
@@ -345,7 +346,6 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 			// Remove the player, otherwise the rebind will trigger another remove
 			removePlayer(player);
-
 			MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
 			MHFCExplorationRegistry.respawnPlayer(player, att.previousSaveData);
 			att.playerState = PlayerState.IN_TOWN;
