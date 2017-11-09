@@ -14,8 +14,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class HuntingGoalDescription implements IGoalDefinition {
 
-	public static final String ID_HUNTED_TYPE = "target";
-	public static final String ID_AMOUNT = "amount";
+	public static final String ID_HUNTED_TYPE = "Target";
+	public static final String ID_AMOUNT = "Amount";
 
 	private int amount;
 	private Class<? extends Entity> huntedClass;

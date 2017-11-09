@@ -1,4 +1,11 @@
 {
+	"testquest1": {
+		"type": "hunting",
+		"data": {
+			"target": "pig",
+			"amount": 1
+		}
+	},
 	"Nogutsnoglory": {
 		"type": "hunting",
 		"data": {
@@ -43,7 +50,7 @@
 	"StandardDeath": {
 		"type": "death",
 		"data": {
-			"lives": 0
+			"lives": 1
 		}
 	},
 	"StandardFail": {

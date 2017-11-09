@@ -1,4 +1,44 @@
 {
+	"testquest1": {
+		"type": "default",
+		"data": {
+			"goal": {
+				"type": "fork",
+				"data": {
+					"requisites": [
+						"StandardDeath",
+						"StandardTimer",
+						"testquest1"
+					]
+				}
+			},
+			"reward": {
+				"type": "lootTable",
+				"data": "mhfc:quests/no_guts_no_glory"
+			},
+			"fee": 200,
+			"areaID": "areasandy",
+			"questType": "mhfc.quests.type.hunting",
+			"visual": {
+				"client": "",
+				"monster": "Delex",
+				"name": "Test Quest 1",
+				"longDescription": "Test Quest Data",
+				"aims": "Slay 1 PIG"
+			},
+			"spawns": [
+				{
+					"type": "monster",
+					"mob": "pig",
+					"count": 1,
+					"location": "area_spawn1"
+				}
+			]
+		}
+	},
+
+
+
 	"nogutsnoglory": {
 		"type": "default",
 		"data": {
@@ -20,7 +60,7 @@
 			"areaID": "areasandy",
 			"questType": "mhfc.quests.type.hunting",
 			"visual": {
-				"client": "Villager Shinya",
+				"client": "Lieutenant Ganryu",
 				"monster": "Delex",
 				"name": "No Guts, No Glory",
 				"longDescription": "The Village Elder wanted to test your ability on being a certified hunter. Slaying 5 Delex is one of the measures to fulfill your will. ",
@@ -102,6 +142,9 @@
 			]
 		}
 	},
+	
+	
+	
 	"leadingthecharge": {
 		"type": "default",
 		"data": {
@@ -123,7 +166,7 @@
 			"areaID": "areasandy",
 			"questType": "mhfc.quests.type.hunting",
 			"visual": {
-				"client": "Sand Enforcer",
+				"client": "Lieutenant Ganryu",
 				"monster": "Barroth",
 				"name": "Leading the Charge",
 				"longDescription": "There was a sighting of an unusual mud wyvern. Investigate and if danger is approach slay what you have to slay.",
@@ -191,6 +234,9 @@
 			]
 		}
 	},
+	
+	
+	
 	"tigrexroar": {
 		"type": "default",
 		"data": {
@@ -228,6 +274,9 @@
 			]
 		}
 	},
+	
+	
+	
 	"jumpingatshadows": {
 		"type": "default",
 		"data": {
@@ -249,7 +298,7 @@
 			"areaID": "thegreenvalley",
 			"questType": "mhfc.quests.type.hunting",
 			"visual": {
-				"client": "Lieutenant Ganryu",
+				"client": "Villager Shinya",
 				"monster": "Nargacuga",
 				"name": "Jumping At Shadows",
 				"longDescription": "This wyvern is unstoppable at night they said. My advice is go search on its nest at the morning and as much possible do not go back without killing or bringing its fur here.",
@@ -301,6 +350,9 @@
 			]
 		}
 	},
+	
+	
+	
 	"violentwyvern": {
 		"type": "default",
 		"data": {
@@ -322,7 +374,7 @@
 			"areaID": "thegreenvalley",
 			"questType": "mhfc.quests.type.hunting",
 			"visual": {
-				"client": "Lieutenant Ganryu",
+				"client": "Villager Shinya",
 				"monster": "Deviljho",
 				"name": "Violent Wyvern",
 				"longDescription": "We are on our survey and search for mineral grain but we encountered this unknown wyvern that killed everyone in my group except me. I'm heartily begging you to go and find that unknown wyvern and slay it.",

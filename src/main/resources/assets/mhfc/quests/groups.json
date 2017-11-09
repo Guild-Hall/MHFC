@@ -1,14 +1,17 @@
 {
 	"groupDisplayOrder": [
-		"Hunter's Introduction"
+		"Hunter's Introduction", "Test"
 	],
 	"groups": {
 		"Hunter's Introduction": [
 			"leadingthecharge",
-			"nogutsnoglory",
 			"tigrexroar",
 			"jumpingatshadows",
-			"violentwyvern"
+			"violentwyvern",
+			"nogutsnoglory"
+		],
+		"Test": [
+			"testquest1"
 		]
 	}
 }

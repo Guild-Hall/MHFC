@@ -316,6 +316,10 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		if (att != null) {
 			PacketPipeline.networkPipe.sendTo(MessageMissionStatus.departing(missionID), player);
 			MHFCQuestRegistry.getRegistry().setMissionForPlayer(player, null);
+			// Nov 11, 2017
+			MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
+			MHFCExplorationRegistry.respawnPlayer(player, null);
+			//
 		}
 		return att;
 	}
@@ -343,7 +347,6 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		return MHFCTickHandler.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
 			EntityPlayerMP player = att.player;
 			player.sendMessage(new TextComponentTranslation("mhfc.quests.status.teleport"));
-
 			// Remove the player, otherwise the rebind will trigger another remove
 			removePlayer(player);
 			MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
