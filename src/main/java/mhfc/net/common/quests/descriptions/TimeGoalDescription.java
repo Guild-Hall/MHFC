@@ -14,7 +14,7 @@ import mhfc.net.common.util.stringview.Viewables;
 
 public class TimeGoalDescription implements IGoalDefinition {
 
-	public static final String ID_TIME = "T";
+	public static final String ID_TIME = "time";
 
 	private int time;
 

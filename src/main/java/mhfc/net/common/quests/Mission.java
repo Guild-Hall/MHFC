@@ -347,8 +347,10 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		return MHFCTickHandler.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
 			EntityPlayerMP player = att.player;
 			player.sendMessage(new TextComponentTranslation("mhfc.quests.status.teleport"));
+
 			// Remove the player, otherwise the rebind will trigger another remove
 			removePlayer(player);
+
 			MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
 			MHFCExplorationRegistry.respawnPlayer(player, att.previousSaveData);
 			att.playerState = PlayerState.IN_TOWN;
