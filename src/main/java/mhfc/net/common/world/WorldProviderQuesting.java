@@ -77,7 +77,7 @@ public class WorldProviderQuesting extends WorldProvider {
 		this.world.getWorldInfo().setWorldTime(flair.worldTime);
 		this.world.getWorldInfo().setRaining(false);
 
-		this.world.getGameRules().setOrCreateGameRule("doDaylightCycle", "false");
+		//this.world.getGameRules().setOrCreateGameRule("doDaylightCycle", "false");
 		this.world.getGameRules().setOrCreateGameRule("doMobSpawning", "false");
 		this.world.getGameRules().setOrCreateGameRule("keepInventory", "true");
 		this.world.getGameRules().setOrCreateGameRule("doFireTick", "false");

@@ -53,7 +53,7 @@ public class TimeGoalDescription implements IGoalDefinition {
 			@Override
 			public Viewable buildVisual() {
 				checkAttributesBound();
-				return Viewables.parse("Time remaining: {{ticks | ticksToTime}}", baseProperties);
+				return Viewables.parse("Time Remaining: {{ticks | ticksToTime}}", baseProperties);
 			}
 
 			@Override
