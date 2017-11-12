@@ -318,9 +318,6 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 		if (att != null) {
 			PacketPipeline.networkPipe.sendTo(MessageMissionStatus.departing(missionID), player);
 			MHFCQuestRegistry.getRegistry().setMissionForPlayer(player, null);
-			// Nov 11, 2017
-			MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
-			MHFCExplorationRegistry.respawnPlayer(player, null);
 			//
 		}
 		return att;
@@ -328,42 +325,20 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 	private CompletionStage<Void> teleportBack(QuestingPlayerState att) {
 		Objects.requireNonNull(att);
-		if(ifPlayerDies){
-			EntityPlayerMP player = att.player;
-			MHFCExplorationRegistry.respawnPlayer(player, att.previousSaveData);
-			MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
-		}
-		if (att.playerState == PlayerState.WAITING_FOR_BACK_TP) {
-			return CompletableFuture.completedFuture(null);
-		}
+
 		if (att.playerState == PlayerState.IN_TOWN) {
-			// Pretend we're gonna to tp him, but actually just rebind the player
-			att.playerState = PlayerState.WAITING_FOR_BACK_TP;
-			return MHFCTickHandler.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
-				EntityPlayerMP player = att.player;
 
-				MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
-				MHFCExplorationRegistry.respawnPlayer(player, att.previousSaveData);
-				att.playerState = PlayerState.IN_TOWN;
-			});
+			EntityPlayerMP player = att.player;
+			MHFCExplorationRegistry.releasePlayer(player);
 		}
-
-		att.player.sendMessage(
-				new TextComponentTranslation("mhfc.quests.status.teleportSoon", DELAY_BEFORE_TP_IN_SECONDS));
-		EntityPlayerMP player = att.player;
-		MHFCExplorationRegistry.respawnPlayer(player, att.previousSaveData);
-		MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
 		return MHFCTickHandler.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
-			/*	EntityPlayerMP player = att.player;
-				player.sendMessage(new TextComponentTranslation("mhfc.quests.status.teleport"));
-			
-				// Remove the player, otherwise the rebind will trigger another remove
-				removePlayer(player);
-			
-				
-				
-				att.playerState = PlayerState.IN_TOWN;*/
+			att.player.sendMessage(
+					new TextComponentTranslation("mhfc.quests.status.teleportSoon", DELAY_BEFORE_TP_IN_SECONDS));
+			att.playerState = PlayerState.IN_TOWN;
+			EntityPlayerMP player = att.player;
+			MHFCExplorationRegistry.releasePlayer(player);
 		});
+
 	}
 
 	public boolean joinPlayer(EntityPlayerMP player) {
