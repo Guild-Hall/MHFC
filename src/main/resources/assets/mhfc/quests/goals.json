@@ -50,7 +50,7 @@
 	"StandardDeath": {
 		"type": "death",
 		"data": {
-			"lives": 1
+			"lives": 0
 		}
 	},
 	"StandardFail": {

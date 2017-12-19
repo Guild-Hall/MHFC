@@ -29,21 +29,22 @@ public class BlockWyverniaGrass extends Block {
 		return 1;
 	}
 
-	@Override
-	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
-		if (world.isRemote) {
-			return;
-		}
-		int upperLightValue = world.getLight(pos.up());
-		if (!isUpgradeEligable(world, pos)) {
-			// Degrade
-			world.setBlockState(pos, MHFCBlockRegistry.getRegistry().mhfcblockdirt.getDefaultState());
-		} else if (upperLightValue >= 9) {
-			for (int l = 0; l < 4; ++l) {
-				tryUpgradeRandomNearDirt(world, pos, rand);
+	// This method is disabled atm for quest area purposes..
+	/*	@Override
+		public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+			if (world.isRemote) {
+				return;
 			}
-		}
-	}
+			int upperLightValue = world.getLight(pos.up());
+			if (!isUpgradeEligable(world, pos)) {
+				// Degrade
+				world.setBlockState(pos, MHFCBlockRegistry.getRegistry().mhfcblockdirt.getDefaultState());
+			} else if (upperLightValue >= 9) {
+				for (int l = 0; l < 4; ++l) {
+					tryUpgradeRandomNearDirt(world, pos, rand);
+				}
+			}
+		}*/
 
 	@Override
 	@SideOnly(Side.CLIENT)

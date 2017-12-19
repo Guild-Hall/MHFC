@@ -116,7 +116,7 @@ public class MHFCBlockRegistry {
 		mhfcblockrocks = registerBlockWithItem(
 				"rock",
 				new BlockWyverniaRock(),
-				b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(20));
+				b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(20)); //242
 		mhfcblockore = registerBlockWithItem(
 				"ore",
 				new BlockWyverniaOres(),

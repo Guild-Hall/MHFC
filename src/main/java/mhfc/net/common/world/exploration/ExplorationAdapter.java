@@ -10,6 +10,7 @@ import java.util.concurrent.CompletionStage;
 
 import com.google.common.collect.Table;
 import com.google.gson.JsonElement;
+import com.mojang.authlib.GameProfile;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCDimensionRegistry;
@@ -20,16 +21,22 @@ import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public abstract class ExplorationAdapter implements IExplorationManager {
 
-	protected final EntityPlayerMP player;
+	protected EntityPlayerMP player;
+	protected GameProfile playerprofile;
 
 	private CompletionStage<IActiveArea> futureArea;
 
-	public ExplorationAdapter(EntityPlayerMP managedPlayer) {
-		player = Objects.requireNonNull(managedPlayer);
+	public ExplorationAdapter(GameProfile managedPlayer) {
+		playerprofile = Objects.requireNonNull(managedPlayer);
 		futureArea = null;
+	}
+
+	protected EntityPlayerMP getPlayer() {
+	    return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(playerprofile.getId());
 	}
 
 	@Override
@@ -88,7 +95,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 	 *
 	 * @return
 	 */
-	protected abstract BiMultiMap<IActiveArea, EntityPlayerMP> getInhabitants();
+	protected abstract BiMultiMap<IActiveArea, GameProfile> getInhabitants();
 
 	protected abstract void respawnWithoutInstance();
 
@@ -96,7 +103,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 
 	// ==== implementation
 
-	protected Set<EntityPlayerMP> getInhabitants(IActiveArea activeArea) {
+	protected Set<GameProfile> getInhabitants(IActiveArea activeArea) {
 		return getInhabitants().get(activeArea);
 	}
 
@@ -147,11 +154,11 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		if (!Objects.equals(area, oldArea)) {
 			removeFromCurrentArea();
 
-			Set<EntityPlayerMP> inhabitantSet = getInhabitants(area);
+			Set<this.playerprofile> inhabitantSet = getInhabitants(area);
 			if (inhabitantSet.isEmpty()) {
 				addInstance(area);
 			}
-			inhabitantSet.add(player);
+			inhabitantSet.add(this.getPlayer());
 
 			onPlayerMovedFrom(oldArea, area);
 		}

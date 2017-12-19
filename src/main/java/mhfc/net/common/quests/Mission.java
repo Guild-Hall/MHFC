@@ -41,7 +41,6 @@ import net.minecraft.util.text.TextComponentTranslation;
 
 public class Mission implements QuestGoalSocket, AutoCloseable {
 
-	public static boolean ifPlayerDies;
 
 	public static final String KEY_TYPE_RUNNING = "running";
 	private static final int DELAY_BEFORE_TP_IN_SECONDS = 5;
@@ -326,58 +325,36 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 	private CompletionStage<Void> teleportBack(QuestingPlayerState att) {
 		Objects.requireNonNull(att);
 
-		if (att.playerState == PlayerState.IN_TOWN) {
-
-			EntityPlayerMP player = att.player;
-			MHFCExplorationRegistry.releasePlayer(player);
-		}
-		return MHFCTickHandler.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
-			att.player.sendMessage(
-					new TextComponentTranslation("mhfc.quests.status.teleportSoon", DELAY_BEFORE_TP_IN_SECONDS));
-			att.playerState = PlayerState.IN_TOWN;
-			EntityPlayerMP player = att.player;
-			MHFCExplorationRegistry.releasePlayer(player);
-		});
-
-		/*
-		 * 
-		 * Disabled atm since im trying to fix and learning my own -Heltrato
-		 * 
-		 *     private CompletionStage<Void> teleportBack(QuestingPlayerState att) {
-		Objects.requireNonNull(att);
 		if (att.playerState == PlayerState.WAITING_FOR_BACK_TP) {
-		    return CompletableFuture.completedFuture(null);
+			return CompletableFuture.completedFuture(null);
 		}
 		if (att.playerState == PlayerState.IN_TOWN) {
-		    // Pretend we're gonna to tp him, but actually just rebind the player
-		    att.playerState = PlayerState.WAITING_FOR_BACK_TP;
-		    return MHFCTickHandler.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
-		        EntityPlayerMP player = att.player;
-		
-		        MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
-		        MHFCExplorationRegistry.respawnPlayer(player, att.previousSaveData);
-		        att.playerState = PlayerState.IN_TOWN;
-		    });
+			// Pretend we're gonna to tp him, but actually just rebind the player
+			att.playerState = PlayerState.WAITING_FOR_BACK_TP;
+			return MHFCTickHandler.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
+				EntityPlayerMP player = att.player;
+				MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
+				MHFCExplorationRegistry.respawnPlayer(player, att.previousSaveData);
+				att.playerState = PlayerState.IN_TOWN;
+			});
 		}
-		
+
 		att.player.sendMessage(
-		        new TextComponentTranslation("mhfc.quests.status.teleportSoon", DELAY_BEFORE_TP_IN_SECONDS));
+				new TextComponentTranslation("mhfc.quests.status.teleportSoon", DELAY_BEFORE_TP_IN_SECONDS));
 		att.playerState = PlayerState.WAITING_FOR_BACK_TP;
 		return MHFCTickHandler.schedule(TickPhase.SERVER_POST, DELAY_BEFORE_TP_IN_SECONDS * 20, () -> {
-		    EntityPlayerMP player = att.player;
-		    player.sendMessage(new TextComponentTranslation("mhfc.quests.status.teleport"));
-		
-		    // Remove the player, otherwise the rebind will trigger another remove
-		    removePlayer(player);
-		
-		    MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
-		    MHFCExplorationRegistry.respawnPlayer(player, att.previousSaveData);
-		    att.playerState = PlayerState.IN_TOWN;
-		
-		 * 
-		 * */
+			EntityPlayerMP player = att.player;
+			player.sendMessage(new TextComponentTranslation("mhfc.quests.status.teleport"));
 
+			// Remove the player, otherwise the rebind will trigger another remove
+			removePlayer(player);
+
+			MHFCExplorationRegistry.bindPlayer(att.previousManager, player);
+			MHFCExplorationRegistry.respawnPlayer(player, att.previousSaveData);
+			att.playerState = PlayerState.IN_TOWN;
+		});
 	}
+
 
 	public boolean joinPlayer(EntityPlayerMP player) {
 		if (!canJoin(player)) {
@@ -438,6 +415,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 			resetVotes();
 		}
 	}
+
 
 	public int getMaxPartySize() {
 		return maxPlayerCount;
