@@ -25,8 +25,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public abstract class ExplorationAdapter implements IExplorationManager {
 
-	protected EntityPlayerMP player;
-	protected GameProfile playerprofile;
+	public final GameProfile playerprofile;
 
 	private CompletionStage<IActiveArea> futureArea;
 
@@ -34,6 +33,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		playerprofile = Objects.requireNonNull(managedPlayer);
 		futureArea = null;
 	}
+
 
 	protected EntityPlayerMP getPlayer() {
 	    return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(playerprofile.getId());
@@ -52,7 +52,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 
 	@Override
 	public final IActiveArea getActiveAreaOf() {
-		return getInhabitants().reverse().get(player);
+		return getInhabitants().reverse().get(getPlayer());
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 	 *
 	 * @return
 	 */
-	protected abstract BiMultiMap<IActiveArea, GameProfile> getInhabitants();
+	protected abstract BiMultiMap<IActiveArea, EntityPlayerMP> getInhabitants();
 
 	protected abstract void respawnWithoutInstance();
 
@@ -103,7 +103,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 
 	// ==== implementation
 
-	protected Set<GameProfile> getInhabitants(IActiveArea activeArea) {
+	protected Set<EntityPlayerMP> getInhabitants(IActiveArea activeArea) {
 		return getInhabitants().get(activeArea);
 	}
 
@@ -129,7 +129,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 	}
 
 	protected CompletionStage<IActiveArea> transferIntoNewInstance(IAreaType type, QuestFlair flair) {
-		player.sendMessage(new TextComponentString("Teleporting to instance when the area is ready"));
+		getPlayer().sendMessage(new TextComponentString("Teleporting to instance when the area is ready"));
 		Objects.requireNonNull(type);
 		Objects.requireNonNull(flair);
 		CompletionStage<IActiveArea> unusedInstance = MHFCDimensionRegistry.getUnusedInstance(type, flair);
@@ -154,7 +154,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		if (!Objects.equals(area, oldArea)) {
 			removeFromCurrentArea();
 
-			Set<this.playerprofile> inhabitantSet = getInhabitants(area);
+			Set<EntityPlayerMP> inhabitantSet = getInhabitants(area);
 			if (inhabitantSet.isEmpty()) {
 				addInstance(area);
 			}
@@ -162,7 +162,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 
 			onPlayerMovedFrom(oldArea, area);
 		}
-		AreaTeleportation.movePlayerToArea(player, area.getArea());
+		AreaTeleportation.movePlayerToArea(getPlayer(), area.getArea());
 	}
 
 	protected void onPlayerMovedFrom(IActiveArea oldArea, IActiveArea currentArea) {
@@ -206,7 +206,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 			return;
 		}
 		Set<EntityPlayerMP> inhabitants = getInhabitants().get(currentInstance);
-		boolean removed = inhabitants.remove(player);
+		boolean removed = inhabitants.remove(getPlayer());
 		assert removed;
 		if (inhabitants.isEmpty()) {
 			removeInstance(currentInstance);
