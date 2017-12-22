@@ -10,6 +10,7 @@ import java.util.concurrent.CompletionStage;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.google.gson.JsonElement;
+import com.mojang.authlib.GameProfile;
 
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.quests.world.QuestFlair;
@@ -34,7 +35,7 @@ public class QuestExplorationManager extends ExplorationAdapter {
 		BiMultiMap<IActiveArea, EntityPlayerMP> sharedInhabitants = new HashBiMultiMap<>();
 		sharedInhabitants.putAll(questArea, players);
 
-		for (EntityPlayerMP player : players) {
+		for (GameProfile player : players) {
 			QuestExplorationManager manager = new QuestExplorationManager(
 					player,
 					questArea,
@@ -50,7 +51,7 @@ public class QuestExplorationManager extends ExplorationAdapter {
 	private final BiMultiMap<IActiveArea, EntityPlayerMP> inhabitants;
 
 	private QuestExplorationManager(
-			EntityPlayerMP player,
+			GameProfile player,
 			IActiveArea initialInstance,
 			Mission quest,
 			Table<IAreaType, QuestFlair, Collection<IActiveArea>> areaInstances,
