@@ -25,13 +25,13 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public abstract class ExplorationAdapter implements IExplorationManager {
 
-	public final EntityPlayerMP player;
-	public static GameProfile playerprofile;
+	public EntityPlayerMP player;
+	public GameProfile playerprofile;
 
 	private CompletionStage<IActiveArea> futureArea;
 
-	public ExplorationAdapter(EntityPlayerMP managedPlayer) {
-		player = Objects.requireNonNull(managedPlayer);
+	public ExplorationAdapter(GameProfile managedPlayer) {
+		playerprofile = Objects.requireNonNull(managedPlayer);
 		futureArea = null;
 	}
 
@@ -97,7 +97,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 	 *
 	 * @return
 	 */
-	protected abstract BiMultiMap<IActiveArea, EntityPlayerMP> getInhabitants();
+	protected abstract BiMultiMap<IActiveArea, GameProfile> getInhabitants();
 
 	protected abstract void respawnWithoutInstance();
 
@@ -105,7 +105,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 
 	// ==== implementation
 
-	protected Set<EntityPlayerMP> getInhabitants(IActiveArea activeArea) {
+	protected Set<GameProfile> getInhabitants(IActiveArea activeArea) {
 		return getInhabitants().get(activeArea);
 	}
 
@@ -156,11 +156,11 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		if (!Objects.equals(area, oldArea)) {
 			removeFromCurrentArea();
 
-			Set<EntityPlayerMP> inhabitantSet = getInhabitants(area);
+			Set<GameProfile> inhabitantSet = getInhabitants(area);
 			if (inhabitantSet.isEmpty()) {
 				addInstance(area);
 			}
-			inhabitantSet.add(this.getPlayer());
+			inhabitantSet.add(this.playerprofile);
 
 			onPlayerMovedFrom(oldArea, area);
 		}
@@ -207,7 +207,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		if (currentInstance == null) {
 			return;
 		}
-		Set<EntityPlayerMP> inhabitants = getInhabitants().get(currentInstance);
+		Set<GameProfile> inhabitants = getInhabitants().get(currentInstance);
 		boolean removed = inhabitants.remove(getPlayer());
 		assert removed;
 		if (inhabitants.isEmpty()) {

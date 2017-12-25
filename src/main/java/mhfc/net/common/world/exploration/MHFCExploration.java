@@ -7,6 +7,7 @@ import java.util.Map;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.google.gson.JsonElement;
+import com.mojang.authlib.GameProfile;
 
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.quests.world.QuestFlair;
@@ -18,7 +19,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 
 public class MHFCExploration extends ExplorationAdapter {
 	private static final Table<IAreaType, QuestFlair, Collection<IActiveArea>> AREA_INSTANCES = HashBasedTable.create();
-	private static final BiMultiMap<IActiveArea, EntityPlayerMP> INHABITANTS = new HashBiMultiMap<>();
+	private static final BiMultiMap<IActiveArea, GameProfile> INHABITANTS = new HashBiMultiMap<>();
 
 	private static final Map<EntityPlayerMP, IAreaType> LAST_VISITED_AREA = new HashMap<>();
 	private static final Map<EntityPlayerMP, QuestFlair> LAST_FLAIR = new HashMap<>();
@@ -30,7 +31,7 @@ public class MHFCExploration extends ExplorationAdapter {
 	}
 
 	@Override
-	protected BiMultiMap<IActiveArea, EntityPlayerMP> getInhabitants() {
+	protected BiMultiMap<IActiveArea, GameProfile> getInhabitants() {
 		return INHABITANTS;
 	}
 

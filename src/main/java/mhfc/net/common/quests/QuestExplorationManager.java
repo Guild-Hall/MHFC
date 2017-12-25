@@ -10,6 +10,7 @@ import java.util.concurrent.CompletionStage;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.google.gson.JsonElement;
+import com.mojang.authlib.GameProfile;
 
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.quests.world.QuestFlair;
@@ -18,11 +19,10 @@ import mhfc.net.common.util.HashBiMultiMap;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
 import mhfc.net.common.world.exploration.ExplorationAdapter;
-import net.minecraft.entity.player.EntityPlayerMP;
 
 public class QuestExplorationManager extends ExplorationAdapter {
 
-	public static void bindPlayersToMission(Collection<EntityPlayerMP> players, Mission mission) {
+	public static void bindPlayersToMission(Collection<GameProfile> players, Mission mission) {
 		IActiveArea questArea = mission.getQuestingArea();
 		IAreaType questType = questArea.getType();
 		QuestFlair questFlair = questArea.getFlair();
@@ -31,10 +31,10 @@ public class QuestExplorationManager extends ExplorationAdapter {
 		sharedAreaInstances.put(questType, questFlair, new ArrayList<>(Collections.singleton(questArea)));
 		questArea.engage(); // Engage "by hand" as it is pre-injected
 
-		BiMultiMap<IActiveArea, EntityPlayerMP> sharedInhabitants = new HashBiMultiMap<>();
+		BiMultiMap<IActiveArea, GameProfile> sharedInhabitants = new HashBiMultiMap<>();
 		sharedInhabitants.putAll(questArea, players);
 
-		for (EntityPlayerMP player : players) {
+		for (GameProfile player : players) {
 			QuestExplorationManager manager = new QuestExplorationManager(
 					player,
 					questArea,
@@ -47,23 +47,23 @@ public class QuestExplorationManager extends ExplorationAdapter {
 
 	private Mission quest;
 	private final Table<IAreaType, QuestFlair, Collection<IActiveArea>> areaInstances;
-	private final BiMultiMap<IActiveArea, EntityPlayerMP> inhabitants;
+	private final BiMultiMap<IActiveArea, GameProfile> inhabitants;
 
 	private QuestExplorationManager(
-			EntityPlayerMP player,
+			GameProfile player,
 			IActiveArea initialInstance,
 			Mission quest,
 			Table<IAreaType, QuestFlair, Collection<IActiveArea>> areaInstances,
-			BiMultiMap<IActiveArea, EntityPlayerMP> inhabitants) {
+			BiMultiMap<IActiveArea, GameProfile> sharedInhabitants) {
 		super(player);
 		Objects.requireNonNull(initialInstance);
 		this.quest = Objects.requireNonNull(quest);
 		this.areaInstances = areaInstances;
-		this.inhabitants = inhabitants;
+		this.inhabitants = sharedInhabitants;
 	}
 
 	@Override
-	protected BiMultiMap<IActiveArea, EntityPlayerMP> getInhabitants() {
+	protected BiMultiMap<IActiveArea, GameProfile> getInhabitants() {
 		return inhabitants;
 	}
 
