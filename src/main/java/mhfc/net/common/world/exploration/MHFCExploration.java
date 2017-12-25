@@ -7,7 +7,6 @@ import java.util.Map;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.google.gson.JsonElement;
-import com.mojang.authlib.GameProfile;
 
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.quests.world.QuestFlair;
@@ -26,7 +25,7 @@ public class MHFCExploration extends ExplorationAdapter {
 
 	private static final Map<IAreaType, Integer> maximumAllowedPlayer = new HashMap<>();
 
-	public MHFCExploration(GameProfile player) {
+	public MHFCExploration(EntityPlayerMP player) {
 		super(player);
 	}
 

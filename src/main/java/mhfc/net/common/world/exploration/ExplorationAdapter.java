@@ -25,18 +25,20 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public abstract class ExplorationAdapter implements IExplorationManager {
 
-	public final GameProfile playerprofile;
+	public final EntityPlayerMP player;
+	public static GameProfile playerprofile;
 
 	private CompletionStage<IActiveArea> futureArea;
 
-	public ExplorationAdapter(GameProfile managedPlayer) {
-		playerprofile = Objects.requireNonNull(managedPlayer);
+	public ExplorationAdapter(EntityPlayerMP managedPlayer) {
+		player = Objects.requireNonNull(managedPlayer);
 		futureArea = null;
 	}
 
 
 	protected EntityPlayerMP getPlayer() {
-	    return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(playerprofile.getId());
+		return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
+				.getPlayerByUUID(playerprofile.getId());
 	}
 
 	@Override
