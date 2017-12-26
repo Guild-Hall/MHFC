@@ -6,6 +6,7 @@ import java.util.concurrent.CompletionStage;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.authlib.GameProfile;
 
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.quests.world.QuestFlair;
@@ -15,14 +16,20 @@ import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class OverworldManager implements IExplorationManager {
 	private static final int OVERWORLD_DIMENSION = 0;
 
-	private EntityPlayerMP player;
+	protected final GameProfile playerProfile;
 
-	public OverworldManager(EntityPlayerMP player) {
-		this.player = Objects.requireNonNull(player);
+	public OverworldManager(GameProfile player) {
+		this.playerProfile = Objects.requireNonNull(player);
+	}
+
+	protected EntityPlayerMP getPlayer() {
+		return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
+				.getPlayerByUUID(playerProfile.getId());
 	}
 
 	private void transferPlayerToOverworld() {
@@ -30,6 +37,7 @@ public class OverworldManager implements IExplorationManager {
 	}
 
 	private void transferPlayerToOverworld(JsonElement saveData) {
+		EntityPlayerMP player = getPlayer();
 		if (player.getEntityWorld().provider.getDimension() == OVERWORLD_DIMENSION) {
 			if (saveData != null) {
 				JsonObject save = saveData.getAsJsonObject();
@@ -81,12 +89,13 @@ public class OverworldManager implements IExplorationManager {
 			transferPlayerToOverworld();
 			return CompletableFuture.completedFuture(null);
 		}
-		MHFCExplorationRegistry.bindPlayer(new MHFCExploration(player), player);
-		return MHFCExplorationRegistry.transferPlayer(player, type, flair);
+		MHFCExplorationRegistry.bindPlayer(new MHFCExploration(playerProfile), playerProfile);
+		return MHFCExplorationRegistry.transferPlayer(playerProfile, type, flair);
 	}
 
 	@Override
 	public JsonElement saveState() {
+		EntityPlayerMP player = getPlayer();
 		JsonObject saveObject = new JsonObject();
 		saveObject.addProperty("x", player.posX);
 		saveObject.addProperty("y", player.posY);

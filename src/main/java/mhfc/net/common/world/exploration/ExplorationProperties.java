@@ -4,6 +4,8 @@ import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.mojang.authlib.GameProfile;
+
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.quests.properties.NBTType;
@@ -34,13 +36,13 @@ public final class ExplorationProperties {
 		NBTTagCompound compound = NBTType.TAG_COMPOUND.assureTagType(tag);
 		ResourceLocation managerName = new ResourceLocation(compound.getString(KEY_MANAGER));
 		if (player instanceof EntityPlayerMP) {
-			Function<EntityPlayerMP, ? extends IExplorationManager> factory = MHFCExplorationRegistry
+			Function<GameProfile, ? extends IExplorationManager> factory = MHFCExplorationRegistry
 					.getExplorationManagerByName(managerName);
 			if (factory == null) {
 				MHFCMain.logger().debug("Defaulted exploration manager for key {}", managerName);
 				factory = OverworldManager::new;
 			}
-			IExplorationManager manager = factory.apply((EntityPlayerMP) player);
+			IExplorationManager manager = factory.apply(player.getGameProfile());
 			setManager(manager);
 		}
 	}

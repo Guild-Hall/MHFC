@@ -25,8 +25,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public abstract class ExplorationAdapter implements IExplorationManager {
 
-	public EntityPlayerMP player;
-	public GameProfile playerprofile;
+	protected final GameProfile playerprofile;
 
 	private CompletionStage<IActiveArea> futureArea;
 
@@ -35,6 +34,9 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		futureArea = null;
 	}
 
+	public GameProfile getPlayerProfile() {
+		return playerprofile;
+	}
 
 	protected EntityPlayerMP getPlayer() {
 		return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
@@ -190,7 +192,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 		QuestFlair areaFlair = activeArea.getFlair();
 
 		MHFCMain.logger()
-				.debug("Removing active area instance {} of type {} from exploration manager", activeArea, areaType);
+		.debug("Removing active area instance {} of type {} from exploration manager", activeArea, areaType);
 		Collection<IActiveArea> areasForType = getAreasOfType(areaType, areaFlair);
 		boolean removed = areasForType.remove(activeArea);
 		assert removed : "Expected area to remove to be added";

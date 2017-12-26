@@ -89,7 +89,6 @@ public class QuestExplorationManager extends ExplorationAdapter {
 			throw new IllegalArgumentException("Only players on the quest can be managed by this manager");
 		}
 		super.respawn(saveData);
-		quest.updatePlayerEntity(getPlayer());
 	}
 
 	@Override
