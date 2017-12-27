@@ -156,12 +156,15 @@ public class EntityDeviljhoBeam1 extends Entity {
 					}
 					particleCount = 4;
 					while (particleCount-- > 0) {
+						@SuppressWarnings("unused")
 						double radius = 2f;
 						double yaw = rand.nextFloat() * 2 * Math.PI;
 						double pitch = rand.nextFloat() * 2 * Math.PI;
-						double ox = radius * Math.sin(yaw) * Math.sin(pitch);
-						double oy = radius * Math.cos(pitch);
-						double oz = radius * Math.cos(yaw) * Math.sin(pitch);
+						Math.sin(yaw);
+						Math.sin(pitch);
+						Math.cos(pitch);
+						Math.cos(yaw);
+						Math.sin(pitch);
 						double o2x = -1 * Math.cos(getYaw()) * Math.cos(getPitch());
 						double o2y = -1 * Math.sin(getPitch());
 						double o2z = -1 * Math.sin(getYaw()) * Math.cos(getPitch());

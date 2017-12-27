@@ -45,7 +45,7 @@ public class Mission implements QuestGoalSocket, AutoCloseable {
 
 
 	public static final String KEY_TYPE_RUNNING = "running";
-	private static final int DELAY_BEFORE_TP_IN_SECONDS = 5;
+	private static final int DELAY_BEFORE_TP_IN_SECONDS = 25;
 
 	private static enum QuestState {
 		PENDING,

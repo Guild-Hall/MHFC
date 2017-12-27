@@ -228,7 +228,6 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	}
 
 	public double healthbaseHP(double defaultHP) {
-		// This will be a quest data base.
 		return defaultHP;
 	}
 

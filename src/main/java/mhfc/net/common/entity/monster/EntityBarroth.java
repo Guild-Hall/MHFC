@@ -41,8 +41,8 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(14655D));
-		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(15D);
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(12500D));
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(10D);
 	}
 
 	@Override
