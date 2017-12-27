@@ -18,6 +18,7 @@ import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
@@ -65,11 +66,11 @@ public class CommandExplore extends CommandBase {
 			}
 
 			MHFCExplorationRegistry.transferPlayer(player, areaType, QuestFlair.DAYTIME)
-					.whenComplete((a, e) -> onTransferComplete(player, a, e));
+			.whenComplete((a, e) -> onTransferComplete(player, a, e));
 			return;
 		}
 
-		sender.sendMessage(new TextComponentString("Too many arguments for command mhfcexplore"));
+		throw new WrongUsageException("Too many arguments for command mhfcexplore");
 	}
 
 	private static void onTransferComplete(
