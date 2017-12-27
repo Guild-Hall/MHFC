@@ -1,7 +1,8 @@
-package mhfc.net.common.block;
+package mhfc.net.common.block.decoration;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.block.BlockWyverniaOres.WyverniaOreSubType;
+import mhfc.net.common.block.AbstractSubTypedBlock;
+import mhfc.net.common.block.decoration.BlockOres.WyverniaOreSubType;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.SubTypedItem;
@@ -14,7 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockWyverniaOres extends AbstractSubTypedBlock<WyverniaOreSubType> {
+public class BlockOres extends AbstractSubTypedBlock<WyverniaOreSubType> {
 	public static enum WyverniaOreSubType implements SubTypedItem.SubTypeEnum<Block> {
 		ARMOR_SPHERE_ORE("armor_sphere", ResourceInterface.block_orearmorsphere_name),
 		ARMOR_SPHERE_PLUS_ORE("armor_sphere_plus", ResourceInterface.block_orearmorsphereplus_name),
@@ -50,7 +51,7 @@ public class BlockWyverniaOres extends AbstractSubTypedBlock<WyverniaOreSubType>
 
 	public static final PropertyEnum<WyverniaOreSubType> PROPERTY = create(WyverniaOreSubType.class);
 
-	public BlockWyverniaOres() {
+	public BlockOres() {
 		super(PROPERTY, Material.ROCK);
 		setUnlocalizedName(ResourceInterface.block_ores_basename);
 		setCreativeTab(MHFCMain.mhfctabs);

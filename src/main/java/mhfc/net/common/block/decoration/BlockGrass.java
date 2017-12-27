@@ -1,4 +1,4 @@
-package mhfc.net.common.block;
+package mhfc.net.common.block.decoration;
 
 import java.util.Random;
 
@@ -15,9 +15,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockWyverniaGrass extends Block {
+public class BlockGrass extends Block {
 
-	public BlockWyverniaGrass() {
+	public BlockGrass() {
 		super(Material.GRASS);
 		setUnlocalizedName(ResourceInterface.block_wyveriangrass_name);
 		setHardness(0.8F);

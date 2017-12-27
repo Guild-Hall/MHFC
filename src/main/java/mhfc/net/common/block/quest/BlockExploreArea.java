@@ -1,4 +1,4 @@
-package mhfc.net.common.block.util;
+package mhfc.net.common.block.quest;
 
 import java.util.HashSet;
 import java.util.Set;

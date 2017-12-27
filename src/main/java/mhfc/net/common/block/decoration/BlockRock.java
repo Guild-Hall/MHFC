@@ -1,7 +1,8 @@
-package mhfc.net.common.block;
+package mhfc.net.common.block.decoration;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.block.BlockWyverniaOreBlock.WyverniaOreBlockSubType;
+import mhfc.net.common.block.AbstractSubTypedBlock;
+import mhfc.net.common.block.decoration.BlockRock.WyverniaRockSubType;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.SubTypedItem;
@@ -10,17 +11,16 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 
-public class BlockWyverniaOreBlock extends AbstractSubTypedBlock<WyverniaOreBlockSubType> {
-	public static enum WyverniaOreBlockSubType implements SubTypedItem.SubTypeEnum<Block> {
-		MACHALITE("machalite", ResourceInterface.block_machalite_name),
-		CARBALITE("carbalite", ResourceInterface.block_carbalite_name),
-		ELTALITE("eltalite", ResourceInterface.block_eltalite_name),
-		DRAGONITE("dragonite", ResourceInterface.block_dragonite_name);
+public class BlockRock extends AbstractSubTypedBlock<WyverniaRockSubType> {
+	public static enum WyverniaRockSubType implements SubTypedItem.SubTypeEnum<Block> {
+		AUVEL("auvel", ResourceInterface.block_auvel_name),
+		CRADLE("cradle", ResourceInterface.block_cradle_name),
+		TACREN("tacren", ResourceInterface.block_tacren_name);
 
 		public final String registryName;
 		public final String unlocalizedName;
 
-		private WyverniaOreBlockSubType(String name, String unlocalized) {
+		private WyverniaRockSubType(String name, String unlocalized) {
 			this.registryName = name;
 			this.unlocalizedName = unlocalized;
 		}
@@ -37,16 +37,17 @@ public class BlockWyverniaOreBlock extends AbstractSubTypedBlock<WyverniaOreBloc
 
 		@Override
 		public Block getBaseItem() {
-			return MHFCBlockRegistry.getRegistry().mhfcblockoreblocks;
+			return MHFCBlockRegistry.getRegistry().mhfcblockrocks;
 		}
 	}
 
-	public static final PropertyEnum<WyverniaOreBlockSubType> PROPERTY = create(WyverniaOreBlockSubType.class);
+	public static final PropertyEnum<WyverniaRockSubType> PROPERTY = create(WyverniaRockSubType.class);
 
-	public BlockWyverniaOreBlock() {
+	public BlockRock() {
 		super(PROPERTY, Material.ROCK);
-		setUnlocalizedName(ResourceInterface.block_oreblock_basename);
+		setUnlocalizedName(ResourceInterface.block_wyverniarock_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
+		setHardness(1.1f);
 	}
 
 	@Override

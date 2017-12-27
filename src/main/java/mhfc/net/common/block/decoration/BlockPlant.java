@@ -1,8 +1,10 @@
-package mhfc.net.common.block;
+package mhfc.net.common.block.decoration;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.block.BlockWyverniaPlant.WyverniaPlantsSubType;
-import mhfc.net.common.block.environment.BlockWyverniaDecor;
+import mhfc.net.common.block.Decoration;
+import mhfc.net.common.block.IBlockVarianted;
+import mhfc.net.common.block.ISubTypedBlock;
+import mhfc.net.common.block.decoration.BlockPlant.WyverniaPlantsSubType;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.SubTypedItem;
@@ -20,7 +22,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockWyverniaPlant extends BlockWyverniaDecor
+public class BlockPlant extends Decoration
 		implements
 		ISubTypedBlock<WyverniaPlantsSubType>,
 		IBlockVarianted {
@@ -68,7 +70,7 @@ public class BlockWyverniaPlant extends BlockWyverniaDecor
 			.create("variant", WyverniaPlantsSubType.class);
 	protected static final SubTypedItem<Block, WyverniaPlantsSubType> blockTrait = new SubTypedItem<>(subtypeProperty);
 
-	public BlockWyverniaPlant() {
+	public BlockPlant() {
 		super(Material.PLANTS);
 		setUnlocalizedName(ResourceInterface.block_wyverniaplant_basename);
 		setCreativeTab(MHFCMain.mhfctabs);

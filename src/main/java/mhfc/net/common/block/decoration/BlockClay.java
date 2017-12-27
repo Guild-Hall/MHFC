@@ -1,4 +1,4 @@
-package mhfc.net.common.block;
+package mhfc.net.common.block.decoration;
 
 import java.util.Random;
 
@@ -10,9 +10,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 
-public class BlockWyverniaClay extends Block {
+public class BlockClay extends Block {
 
-	public BlockWyverniaClay() {
+	public BlockClay() {
 		super(Material.CLAY);
 		setUnlocalizedName(ResourceInterface.block_wyverianclay_name);
 		setHardness(0.9f);

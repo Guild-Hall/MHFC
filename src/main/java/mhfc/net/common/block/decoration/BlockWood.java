@@ -1,7 +1,8 @@
-package mhfc.net.common.block;
+package mhfc.net.common.block.decoration;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.block.BlockWyverniaWood.WyverniaLogSubType;
+import mhfc.net.common.block.AbstractSubTypedBlock;
+import mhfc.net.common.block.decoration.BlockWood.WyverniaLogSubType;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.SubTypedItem;
@@ -12,7 +13,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 
-public class BlockWyverniaWood extends AbstractSubTypedBlock<WyverniaLogSubType> {
+public class BlockWood extends AbstractSubTypedBlock<WyverniaLogSubType> {
 	public static enum WyverniaLogSubType implements SubTypedItem.SubTypeEnum<Block> {
 		CALFER("calfer", ResourceInterface.block_log_calfer_name), // 0
 		DIREWOOD("direwood", ResourceInterface.block_log_direwood_name), //1
@@ -51,7 +52,7 @@ public class BlockWyverniaWood extends AbstractSubTypedBlock<WyverniaLogSubType>
 
 	public static final PropertyEnum<WyverniaLogSubType> PROPERTY = create(WyverniaLogSubType.class);
 
-	public BlockWyverniaWood() {
+	public BlockWood() {
 		super(PROPERTY, Material.WOOD);
 		setUnlocalizedName(ResourceInterface.block_wyvernialog_basename);
 		setCreativeTab(MHFCMain.mhfctabs);

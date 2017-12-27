@@ -1,4 +1,4 @@
-package mhfc.net.common.block.util;
+package mhfc.net.common.block.quest;
 
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.index.ResourceInterface;

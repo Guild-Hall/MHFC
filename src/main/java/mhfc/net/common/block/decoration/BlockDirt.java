@@ -1,4 +1,4 @@
-package mhfc.net.common.block;
+package mhfc.net.common.block.decoration;
 
 import java.util.Random;
 
@@ -7,13 +7,12 @@ import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
-public class BlockWyverniaSand extends Block {
+public class BlockDirt extends Block {
 
-	public BlockWyverniaSand() {
-		super(Material.SAND);
-		setUnlocalizedName(ResourceInterface.block_wyveriansand_name);
-		setHardness(1.3F);
-		setResistance(2.0F);
+	public BlockDirt() {
+		super(Material.GROUND);
+		setUnlocalizedName(ResourceInterface.block_wyveriandirt_name);
+		setHardness(0.8F);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

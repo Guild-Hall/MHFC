@@ -1,7 +1,8 @@
-package mhfc.net.common.block;
+package mhfc.net.common.block.decoration;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.block.BlockWyverniaPlank.WyverniaPlankSubType;
+import mhfc.net.common.block.AbstractSubTypedBlock;
+import mhfc.net.common.block.decoration.BlockPlank.WyverniaPlankSubType;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.SubTypedItem;
@@ -10,7 +11,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 
-public class BlockWyverniaPlank extends AbstractSubTypedBlock<WyverniaPlankSubType> {
+public class BlockPlank extends AbstractSubTypedBlock<WyverniaPlankSubType> {
 	public static enum WyverniaPlankSubType implements SubTypedItem.SubTypeEnum<Block> {
 		CALFER("calfer", ResourceInterface.block_calfer_name),
 		DIREWOOD("direwood", ResourceInterface.block_direwood_name),
@@ -48,7 +49,7 @@ public class BlockWyverniaPlank extends AbstractSubTypedBlock<WyverniaPlankSubTy
 
 	public static final PropertyEnum<WyverniaPlankSubType> PROPERTY = create(WyverniaPlankSubType.class);
 
-	public BlockWyverniaPlank() {
+	public BlockPlank() {
 		super(PROPERTY, Material.WOOD);
 		setUnlocalizedName(ResourceInterface.block_wyverniaplank_basename);
 		setHardness(0.6f);
