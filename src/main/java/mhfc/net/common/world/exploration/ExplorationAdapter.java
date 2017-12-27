@@ -56,7 +56,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 
 	@Override
 	public final IActiveArea getActiveAreaOf() {
-		return getInhabitants().reverse().get(getPlayer());
+		return getInhabitants().reverse().get(getPlayerProfile());
 	}
 
 	@Override
@@ -210,7 +210,7 @@ public abstract class ExplorationAdapter implements IExplorationManager {
 			return;
 		}
 		Set<GameProfile> inhabitants = getInhabitants().get(currentInstance);
-		boolean removed = inhabitants.remove(getPlayer());
+		boolean removed = inhabitants.remove(getPlayerProfile());
 		assert removed;
 		if (inhabitants.isEmpty()) {
 			removeInstance(currentInstance);

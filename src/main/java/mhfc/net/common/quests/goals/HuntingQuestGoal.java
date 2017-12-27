@@ -60,7 +60,7 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 			Entity damageSource = event.getSource().getEntity();
 			if ((damageSource instanceof EntityPlayer) && getMission() != null) {
 				boolean shouldcount = true;
-				shouldcount &= getMission().getPlayers().contains(damageSource);
+				shouldcount &= getMission().getPlayerEntities().contains(damageSource);
 				shouldcount &= getMission().getSpawnController().getControlledEntities().contains(event.getEntity());
 				if (shouldcount) {
 					currentNumber.inc();

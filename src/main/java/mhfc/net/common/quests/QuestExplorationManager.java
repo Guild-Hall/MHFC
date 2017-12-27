@@ -85,7 +85,7 @@ public class QuestExplorationManager extends ExplorationAdapter {
 
 	@Override
 	public void respawn(JsonElement saveData) {
-		if (!quest.getPlayers().contains(getPlayer())) {
+		if (!quest.getPlayers().contains(playerprofile)) {
 			throw new IllegalArgumentException("Only players on the quest can be managed by this manager");
 		}
 		super.respawn(saveData);
