@@ -25,4 +25,10 @@ public class BlockIceCrystal extends Block {
 	public boolean isFullBlock(IBlockState state) {
 		return false;
 	}
+
+	@Override
+	public boolean isOpaqueCube(IBlockState state) {
+		return false;
+	}
+
 }

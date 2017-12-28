@@ -12,11 +12,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockLeaves extends AbstractSubTypedBlock<BlockLeavesSubType> {
+
+	protected Minecraft setting;
+
 	public static enum BlockLeavesSubType implements SubTypedItem.SubTypeEnum<Block> {
 		LEAVES1("l1", ResourceInterface.block_leaves1_name),
 		LEAVES2("l2", ResourceInterface.block_leaves2_name),
@@ -54,9 +58,7 @@ public class BlockLeaves extends AbstractSubTypedBlock<BlockLeavesSubType> {
 	}
 
 	public static final PropertyEnum<BlockLeavesSubType> PROPERTY = create(BlockLeavesSubType.class);
-	protected boolean leavesFancy;
 	public BlockLeaves() {
-
 		super(PROPERTY, Material.LEAVES);
 		setUnlocalizedName(ResourceInterface.block_wyvernialeaves_basename);
 		setHardness(0.2f);
@@ -73,6 +75,9 @@ public class BlockLeaves extends AbstractSubTypedBlock<BlockLeavesSubType> {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getBlockLayer() {
+		/*	if (!setting.gameSettings.fancyGraphics) {
+				return BlockRenderLayer.SOLID;
+			}*/
 		return BlockRenderLayer.CUTOUT_MIPPED;
 	}
 
@@ -80,6 +85,8 @@ public class BlockLeaves extends AbstractSubTypedBlock<BlockLeavesSubType> {
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
+
+
 
 
 }

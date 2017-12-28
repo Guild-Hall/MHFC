@@ -55,7 +55,8 @@ public class MHFCBlockRegistry {
 	 * 
 	 * /repl <block id>
 	 * 
-	 * /gmask 0 ( prevents overlapping blocks and only overlaps air blocks)
+	 * /gmask 0 ( prevents overlapping blocks and only overlaps air blocks) / gmask (block) (brush tool only blends with
+	 * the block inputted) ex. /gmask 235, all 235 will only be replaced.
 	 * 
 	 * //pos1 ( sets position 1 ) can affect air //pos2 ( sets position 2 ) can affect air
 	 * 
@@ -113,7 +114,7 @@ public class MHFCBlockRegistry {
 
 		// Itemblocks. eg Plank woods this are register wit registerBlockWithItem
 		mhfcblockwood = registerBlockWithItem("log", new BlockWood(), b -> ItemSubtypedBlock.createFor(b)); //240
-		mhfcblockplanks = registerBlockWithItem("plank", new BlockPlank(), b -> ItemSubtypedBlock.createFor(b));
+		mhfcblockplanks = registerBlockWithItem("plank", new BlockPlank(), b -> ItemSubtypedBlock.createFor(b));//241
 
 		mhfcblockrocks = registerBlockWithItem(
 				"rock",
@@ -122,22 +123,22 @@ public class MHFCBlockRegistry {
 		mhfcblockore = registerBlockWithItem(
 				"ore",
 				new BlockOres(),
-				b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(12));
+				b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(12)); //243
 		mhfcblockoreblocks = registerBlockWithItem(
 				"block",
 				new BlockOreBlock(),
-				b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(16));
-		mhfcblockquicksand = registerBlock("quicksand", new BlockQuickSand());
-		mhfcblockdiskstone = registerBlock("diskstone", new BlockDiscstone());
+				b -> ItemSubtypedBlock.createFor(b).setMaxStackSize(16)); //244
+		mhfcblockquicksand = registerBlock("quicksand", new BlockQuickSand()); //245
+		mhfcblockdiskstone = registerBlock("diskstone", new BlockDiscstone());//246
 		mhfcblockflowers = registerBlockWithItem(
 				"flower",
 				new BlockFlower(),
-				b -> ItemSubtypedBlock.createFor(b).setFull3D().setMaxStackSize(4));
+				b -> ItemSubtypedBlock.createFor(b).setFull3D().setMaxStackSize(4)); //247
 		mhfcblockplant = registerBlockWithItem(
 				"plant",
 				new BlockPlant(),
-				b -> ItemSubtypedBlock.createFor(b).setFull3D().setMaxStackSize(4));
-		mhfcblockleaves = registerBlockWithItem("leaves", new BlockLeaves(), b -> ItemSubtypedBlock.createFor(b));
+				b -> ItemSubtypedBlock.createFor(b).setFull3D().setMaxStackSize(4)); //248
+		mhfcblockleaves = registerBlockWithItem("leaves", new BlockLeaves(), b -> ItemSubtypedBlock.createFor(b)); //249
 		// Util
 		mhfcblockicecrystal = registerBlockWithItem("icecrystal", new BlockIceCrystal(), ItemBlockIceCrystal::new);
 		mhfcblockhunterbench = registerBlockWithItem("hunterbench", new BlockHunterBench(), ItemBlockBenchHunter::new);
