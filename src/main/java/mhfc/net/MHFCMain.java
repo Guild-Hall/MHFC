@@ -9,7 +9,7 @@ import org.apache.logging.log4j.message.Message;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.forge.ForgeWorldEdit;
 
-import mhfc.net.common.configuration.MHFCConfig;
+import mhfc.net.common.core.Config;
 import mhfc.net.common.core.command.CommandExplore;
 import mhfc.net.common.core.command.CommandMHFC;
 import mhfc.net.common.core.command.CommandPortableSchematic;
@@ -147,11 +147,11 @@ public class MHFCMain {
 		return logger;
 	}
 
-	private MHFCConfig config;
+	private Config config;
 	private NetworkTracker connectionTracker = NetworkTracker.instance;
 	private ModContainer mhfcContainer;
 
-	public static MHFCConfig config() {
+	public static Config config() {
 		return instance.config;
 	}
 
@@ -184,7 +184,7 @@ public class MHFCMain {
 		MinecraftForge.EVENT_BUS.register(this);
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, this::chunkLoadingCallback);
 		// MHFCConfig.init(pre);
-		config = new MHFCConfig(event);
+		config = new Config(event);
 		MHFCMain.config().init();
 		UpdateSystem.init();
 		MHFCMain.logger().info("Starting MHFC ( " + ResourceInterface.getMetadata().version + " ) ");

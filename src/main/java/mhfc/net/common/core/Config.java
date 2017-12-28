@@ -1,4 +1,4 @@
-package mhfc.net.common.configuration;
+package mhfc.net.common.core;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -9,13 +9,17 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 /**
  * @author Heltrato
  *
+ *
+ *         NOTE: THERE WILL BE A REWORK FOR THIS CONFIGURATION SYSTEM IN WHICH WILL OCCUR ON UPDATING TO 1.12 AND LATEST
+ *         VERSION
+ *
  *         MHF Configuration Files Created for the fix of ID Conflicts in 1.6.4 however this wouldnt be last as 1.7 will
  *         going be release for Forge and MCP .
  *
  *         DN: public<? for easy access; DN: int<? no dec. variables;
  *
  */
-public class MHFCConfig {
+public class Config {
 
 	private boolean allCanPickup;
 	private int dimensionHandlerID;
@@ -27,7 +31,7 @@ public class MHFCConfig {
 
 	// FIXME: rework the registry, current state is not maintainable,
 	// externalize strings
-	public MHFCConfig(FMLPreInitializationEvent e) {
+	public Config(FMLPreInitializationEvent e) {
 		enableSettings = new LinkedHashMap<>();
 		reloadTimeSettings = new LinkedHashMap<>();
 		config = new Configuration(e.getSuggestedConfigurationFile());

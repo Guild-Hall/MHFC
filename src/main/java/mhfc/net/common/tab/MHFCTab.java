@@ -1,6 +1,6 @@
 package mhfc.net.common.tab;
 
-import mhfc.net.common.core.registry.MHFCItemRegistry;
+import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -17,7 +17,7 @@ public class MHFCTab extends CreativeTabs {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public ItemStack getTabIconItem() {
-		return new ItemStack(MHFCItemRegistry.getRegistry().weapon_hm_kirinspark);
+		return new ItemStack(MHFCBlockRegistry.getRegistry().mhfcblockgrass);
 	}
 
 	@Override
