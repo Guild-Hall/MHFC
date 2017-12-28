@@ -174,6 +174,18 @@ public class ResourceInterface {
 	public static final String block_plantt3_name = "plant_t3";
 	public static final String block_plantt4_name = "plant_t4";
 
+	public static final String block_wyvernialeaves_basename = "blockleaves";
+	public static final String block_leaves1_name = "leavesA";
+	public static final String block_leaves2_name = "leavesB";
+	public static final String block_leaves3_name = "leavesC";
+	public static final String block_leaves4_name = "leavesD";
+	public static final String block_leaves5_name = "leavesE";
+	public static final String block_leaves6_name = "leavesF";
+	public static final String block_leaves7_name = "leavesG";
+	public static final String block_leaves8_name = "leavesH";
+	public static final String block_leaves9_name = "leavesI";
+	public static final String block_leaves10_name = "leavesJ";
+
 	public static final String block_wyverniaplank_basename = "wyverniaplanks";
 	public static final String block_calfer_name = "plankcalfer";
 	public static final String block_direwood_name = "plankdirewood";

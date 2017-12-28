@@ -18,6 +18,7 @@ import mhfc.net.common.block.decoration.BlockDiscstone;
 import mhfc.net.common.block.decoration.BlockFlower;
 import mhfc.net.common.block.decoration.BlockGrass;
 import mhfc.net.common.block.decoration.BlockIceCrystal;
+import mhfc.net.common.block.decoration.BlockLeaves;
 import mhfc.net.common.block.decoration.BlockOreBlock;
 import mhfc.net.common.block.decoration.BlockOres;
 import mhfc.net.common.block.decoration.BlockPlank;
@@ -90,6 +91,7 @@ public class MHFCBlockRegistry {
 	public final Block mhfcblockrocks;
 	public final Block mhfcblockquicksand;
 	public final Block mhfcblockwood;
+	public final Block mhfcblockleaves;
 	public final Block mhfcblockquestboard;
 	public final Block mhfcblockrespawn;
 	public final Block mhfcblockexplorearea;
@@ -135,6 +137,7 @@ public class MHFCBlockRegistry {
 				"plant",
 				new BlockPlant(),
 				b -> ItemSubtypedBlock.createFor(b).setFull3D().setMaxStackSize(4));
+		mhfcblockleaves = registerBlockWithItem("leaves", new BlockLeaves(), b -> ItemSubtypedBlock.createFor(b));
 		// Util
 		mhfcblockicecrystal = registerBlockWithItem("icecrystal", new BlockIceCrystal(), ItemBlockIceCrystal::new);
 		mhfcblockhunterbench = registerBlockWithItem("hunterbench", new BlockHunterBench(), ItemBlockBenchHunter::new);

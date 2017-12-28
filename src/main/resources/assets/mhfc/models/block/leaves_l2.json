@@ -1,0 +1,6 @@
+{
+    "parent": "block/leaves",
+    "textures": {
+        "all": "mhfc:blocks/leaves_l2"
+    }
+}

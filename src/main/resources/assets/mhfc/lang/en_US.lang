@@ -91,6 +91,17 @@ tile.wyverniaplant.plant_t2.name=Wyvernia Plant T2
 tile.wyverniaplant.plant_t3.name=Wyvernia Plant T3
 tile.wyverniaplant.plant_t4.name=Wyvernia Plant T4
 
+tile.blockleaves.leavesA.name=Calfer Leaves
+tile.blockleaves.leavesB.name=Grandifolia Leaves
+tile.blockleaves.leavesC.name=Maven Leaves
+tile.blockleaves.leavesD.name=Negundo Leaves
+tile.blockleaves.leavesE.name=Palmer Leaves
+tile.blockleaves.leavesF.name=Radel Leaves
+tile.blockleaves.leavesG.name=Sandy Leaves
+tile.blockleaves.leavesH.name=Tilia Leaves
+tile.blockleaves.leavesI.name=Direwood Leaves
+tile.blockleaves.leavesJ.name=Decoron Leaves
+
 tile.wyverniaplanks.plankcalfer.name=Calfer Wood Plank
 tile.wyverniaplanks.plankdirewood.name=Direwood Plank
 tile.wyverniaplanks.plankgrandifolia.name=Grandifolia Wood Plank
