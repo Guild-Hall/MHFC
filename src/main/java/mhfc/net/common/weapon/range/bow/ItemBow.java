@@ -161,10 +161,18 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 		double playerDamage = player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
 		entityarrow.setDamage(entityarrow.getDamage() + playerDamage);
 		worldIn.spawnEntity(entityarrow);
-		if (!ammunition.isEmpty() && this == MHFCItemRegistry.getRegistry().weapon_b_huntersproud) {
 
+		/**
+		 * I will add more multiple arrowed bows soon, i just need to fit in the animations and bows first
+		 * 
+		 * @author Heltrato
+		 * 
+		 */
+
+		/*	if (!ammunition.isEmpty() && this == MHFCItemRegistry.getRegistry().weapon_b_huntersproud) {
+		
 			worldIn.spawnEntity(entityarrow2);
-		}
+		}*/
 	}
 
 	@Override
