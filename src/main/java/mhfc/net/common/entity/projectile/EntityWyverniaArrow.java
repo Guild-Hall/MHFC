@@ -31,14 +31,27 @@ public class EntityWyverniaArrow extends EntityArrow {
 		super(world, theShooter);
 		setBaseStats();
 		if (theShooter instanceof EntityPlayer) {
-			this.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
+			// this.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
 		}
 		setAim(theShooter, theShooter.rotationPitch, theShooter.rotationYaw, 0.0F, force * 3.0F, 1.0F);
 	}
 
 	private void setBaseStats() {
 		setSize(mhfc_vanilla_size_x, mhfc_vanilla_size_y);
-		setDamage(15.0D);
+		setDamage(8.0D);
+	}
+
+	/**
+	 * We dont want to allow to spawn wyvernia arrows inside to avoid quest world leak or issues. So we need to remove
+	 * the arrow whether it hits or not. @author Heltrato
+	 */
+
+	@Override
+	public void onUpdate() {
+		if (this.inGround) {
+			this.setDead();
+		}
+		super.onUpdate();
 	}
 
 	@Override

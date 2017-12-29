@@ -18,7 +18,7 @@ public class ItemWyverniaArrow extends Item {
 
 	public EntityWyverniaArrow createArrow(
 			World worldIn,
-			@SuppressWarnings("unused") ItemStack stack,
+			ItemStack stack,
 			EntityLivingBase shooter,
 			float force) {
 		return new EntityWyverniaArrow(worldIn, shooter, force);
