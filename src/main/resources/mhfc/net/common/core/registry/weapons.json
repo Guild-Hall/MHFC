@@ -277,20 +277,20 @@
 	"type": "b",
 	"name": "a.bow",
 	"rarity": 1,
-	"attack": 7
+	"attack": 4
 },
 "b_hunter_stout": {
 	"type": "b",
 	"name": "b.bow",
 	"rarity": 2,
-	"attack": 11
+	"attack": 7
 },
 "b_hunter_proud": {
 	"type": "b",
 	"name": "c.bow",
 	"rarity": 3,
-	"attack": 14,
-	"modifiers": [["ice", 3]]
+	"attack": 6,
+	"modifiers": [["ice", 4]]
 },
 
 
