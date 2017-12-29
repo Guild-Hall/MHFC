@@ -39,8 +39,6 @@ import mhfc.net.common.weapon.melee.hammer.ItemHammer;
 import mhfc.net.common.weapon.melee.huntinghorn.ItemHuntingHorn;
 import mhfc.net.common.weapon.melee.longsword.ItemLongsword;
 import mhfc.net.common.weapon.range.bow.ItemBow;
-import mhfc.net.common.weapon.range.bowgun.heavy.ItemHeavyBowgun;
-import mhfc.net.common.weapon.range.bowgun.light.ItemLightBowgun;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -103,9 +101,13 @@ public class MHFCItemRegistry {
 	public final ItemHuntingHorn weapon_hh_blackcasket;
 	public final ItemHuntingHorn weapon_hh_darkthorntrumpet;
 
-	public final ItemLightBowgun weapon_bgl_barrel;
+	/*
+	 * I will readd bowgun once their feature is finished ~ @Heltrato 
+	 * 
+	 * */
 
-	public final ItemHeavyBowgun weapon_bgh_rath;
+	// public final ItemLightBowgun weapon_bgl_barrel;
+	// public final ItemHeavyBowgun weapon_bgh_rath;
 
 	public final ItemBow weapon_b_hunters;
 	public final ItemBow weapon_b_huntersstout;
@@ -327,9 +329,8 @@ public class MHFCItemRegistry {
 		weapon_b_huntersstout = registerItem("b_hunter_stout", jsonWeaponData);
 		weapon_b_huntersproud = registerItem("b_hunter_proud", jsonWeaponData);
 
-		weapon_bgl_barrel = registerItem("bgl_barrel", jsonWeaponData);
-
-		weapon_bgh_rath = registerItem("bgh_spartacus", jsonWeaponData);
+		// weapon_bgl_barrel = registerItem("bgl_barrel", jsonWeaponData);
+		// weapon_bgh_rath = registerItem("bgh_spartacus", jsonWeaponData);
 
 		arrow = registerItem("arrow", new ItemWyverniaArrow());
 
