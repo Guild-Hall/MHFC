@@ -342,9 +342,12 @@ item.m.mhf_chest.name=Barroth Chest
 item.m.mhf_leg.name=Barroth Legs
 item.m.mhf_boots.name=Barroth Boots
 
-item.a.bow.name=Hunter's Bow
-item.b.bow.name=Hunter's Stout
-item.c.bow.name=Hunter's Proud
+item.a.bow.name=Hunter's Bow I
+item.a.bow1.name=Hunter's Bow II
+item.a.bow2.name=Hunter's Bow III
+item.b.bow.name=Hunter's Stoutbow I
+item.b.bow1.name=Hunter's Stoutbow II
+item.c.bow.name=Hunter's Proudbow I
 item.d.bow.name=
 item.e.bow.name=
 item.f.bow.name=

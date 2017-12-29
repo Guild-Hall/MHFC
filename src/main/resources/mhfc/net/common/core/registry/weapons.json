@@ -279,30 +279,38 @@
 	"rarity": 1,
 	"attack": 2
 },
-"b_hunter_1": {
+"b_hunter1": {
 	"type": "b",
 	"name": "a.bow1",
 	"rarity": 1,
 	"attack": 3.5
 },
-"b_hunter_2": {
+"b_hunter2": {
 	"type": "b",
 	"name": "a.bow2",
-	"rarity": 1,
+	"rarity": 2,
 	"attack": 4.5
 },
 "b_hunter_stout": {
 	"type": "b",
 	"name": "b.bow",
-	"rarity": 2,
-	"attack": 7
+	"rarity": 4,
+	"attack": 5.5,
+	"modifiers": [["ice", 4]]
+},
+"b_hunter_stout1": {
+	"type": "b",
+	"name": "b.bow1",
+	"rarity": 5,
+	"attack": 8,
+	"modifiers": [["ice", 10]]
 },
 "b_hunter_proud": {
 	"type": "b",
 	"name": "c.bow",
-	"rarity": 3,
-	"attack": 6,
-	"modifiers": [["ice", 4]]
+	"rarity": 8,
+	"attack": 18,
+	"modifiers": [["ice", 14]]
 },
 
 

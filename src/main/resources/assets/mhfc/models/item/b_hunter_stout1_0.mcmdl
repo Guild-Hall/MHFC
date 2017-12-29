@@ -1,0 +1,15 @@
+{
+    version: 1,
+    mesh: "mhfc:models/item/model_b_hunters_stout_pull_0.mcmd",
+    textures: {
+        "#weapontex": "mhfc:weapons/(B)huntersstout"
+    },
+    transforms: {
+        GUI: { rotation: [{z: -45}, {y: 70}], translation: [0.3, 0, 0], scale: 0.5 },
+        GROUND: { rotation: [{z: -45}, {y: 70}], translation: [0, 0, 0], scale: 0.6 },
+        THIRD_PERSON_LEFT_HAND: { rotation: [{z: 0}, {y: 0}], translation: [0, -0.1, 0.1], scale: 0.7 },
+        THIRD_PERSON_RIGHT_HAND: { rotation: [{z: 0}, {y: 0}], translation: [0, -0.1, 0.1], scale: 0.7 },
+        FIRST_PERSON_RIGHT_HAND: { rotation: [{z: 0}, {y: 0}], translation: [0.5, 0.5, -0.2], scale: 1.0 },
+        FIRST_PERSON_LEFT_HAND: { rotation: [{z: 0}, {y: 0}], translation: [0.8, 0.6, -0.2], scale: 1.0 }
+    }
+}

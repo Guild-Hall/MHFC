@@ -109,8 +109,11 @@ public class MHFCItemRegistry {
 	// public final ItemLightBowgun weapon_bgl_barrel;
 	// public final ItemHeavyBowgun weapon_bgh_rath;
 
-	public final ItemBow weapon_b_hunters;
-	public final ItemBow weapon_b_huntersstout;
+	public final ItemBow weapon_b_huntersI;
+	public final ItemBow weapon_b_huntersII;
+	public final ItemBow weapon_b_huntersIII;
+	public final ItemBow weapon_b_huntersstoutI;
+	public final ItemBow weapon_b_huntersstoutII;
 	public final ItemBow weapon_b_huntersproud;
 
 	// Armors
@@ -325,8 +328,11 @@ public class MHFCItemRegistry {
 
 		// Range weapons
 
-		weapon_b_hunters = registerItem("b_hunter", jsonWeaponData);
-		weapon_b_huntersstout = registerItem("b_hunter_stout", jsonWeaponData);
+		weapon_b_huntersI = registerItem("b_hunter", jsonWeaponData);
+		weapon_b_huntersII = registerItem("b_hunter1", jsonWeaponData);
+		weapon_b_huntersIII = registerItem("b_hunter2", jsonWeaponData);
+		weapon_b_huntersstoutI = registerItem("b_hunter_stout", jsonWeaponData);
+		weapon_b_huntersstoutII = registerItem("b_hunter_stout1", jsonWeaponData);
 		weapon_b_huntersproud = registerItem("b_hunter_proud", jsonWeaponData);
 
 		// weapon_bgl_barrel = registerItem("bgl_barrel", jsonWeaponData);

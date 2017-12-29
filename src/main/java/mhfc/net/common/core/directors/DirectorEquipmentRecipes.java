@@ -79,8 +79,12 @@ public class DirectorEquipmentRecipes {
 	public final EquipmentRecipe recipe_hh_metalbagpipe;
 	public final EquipmentRecipe recipe_hh_tigrex;
 
-	public final EquipmentRecipe recipe_b_hunters;
-	public final EquipmentRecipe recipe_b_huntersstout;
+	public final EquipmentRecipe recipe_b_huntersI;
+	public final EquipmentRecipe recipe_b_huntersII;
+	public final EquipmentRecipe recipe_b_huntersIII;
+	public final EquipmentRecipe recipe_b_huntersstoutI;
+	public final EquipmentRecipe recipe_b_huntersstoutII;
+	public final EquipmentRecipe recipe_b_huntersproud;
 
 	public void construct(EquipmentRecipeRegistryData director) {
 
@@ -152,8 +156,13 @@ public class DirectorEquipmentRecipes {
 		director.register(recipe_hh_metalbagpipe);
 		director.register(recipe_hh_tigrex);
 
-		director.register(recipe_b_hunters);
-		director.register(recipe_b_huntersstout);
+		director.register(recipe_b_huntersI);
+		director.register(recipe_b_huntersII);
+		director.register(recipe_b_huntersIII);
+		director.register(recipe_b_huntersstoutI);
+		director.register(recipe_b_huntersstoutII);
+		director.register(recipe_b_huntersproud);
+
 	}
 
 	public DirectorEquipmentRecipes() {
@@ -468,19 +477,46 @@ public class DirectorEquipmentRecipes {
 
 		//Bow Class
 
-		recipe.setProduct(new ItemStack(itemRegistry.weapon_b_hunters));
+		recipe.setProduct(new ItemStack(itemRegistry.weapon_b_huntersI));
 		recipe.addIngredient(Item.getItemById(261), 1, 0);
 		recipe.addIngredient(Item.getItemById(265), 50, 0);
 		recipe.addIngredient(Item.getItemById(352), 35, 0);
 		recipe.setRequiredHeat(50).setDuration(200);
-		recipe_b_hunters = recipe.build();
+		recipe_b_huntersI = recipe.build();
 
-		recipe.setProduct(new ItemStack(itemRegistry.weapon_b_huntersstout));
-		recipe.addIngredient(itemRegistry.lumberbar, 25, 0);
-		recipe.addIngredient(Item.getItemById(265), 50, 0);
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 25));
+		recipe.setProduct(new ItemStack(itemRegistry.weapon_b_huntersII));
+		recipe.addIngredient(itemRegistry.weapon_b_huntersI, 1, 0);
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 4));
+		recipe.addIngredient(Item.getItemById(352), 50, 0);
 		recipe.setRequiredHeat(50).setDuration(200);
-		recipe_b_huntersstout = recipe.build();
+		recipe_b_huntersII = recipe.build();
+
+		recipe.setProduct(new ItemStack(itemRegistry.weapon_b_huntersIII));
+		recipe.addIngredient(itemRegistry.weapon_b_huntersII, 1, 0);
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 10));
+		recipe.setRequiredHeat(50).setDuration(200);
+		recipe_b_huntersIII = recipe.build();
+
+		recipe.setProduct(new ItemStack(itemRegistry.weapon_b_huntersstoutI));
+		recipe.addIngredient(itemRegistry.weapon_b_huntersIII, 1, 0);
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.CARBALITE, 3));
+		recipe.addIngredient(Item.getItemById(265), 30, 0);
+		recipe.setRequiredHeat(50).setDuration(200);
+		recipe_b_huntersstoutI = recipe.build();
+
+		recipe.setProduct(new ItemStack(itemRegistry.weapon_b_huntersstoutII));
+		recipe.addIngredient(itemRegistry.weapon_b_huntersstoutI, 1, 0);
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 25));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.CARBALITE, 5));
+		recipe.setRequiredHeat(50).setDuration(200);
+		recipe_b_huntersstoutII = recipe.build();
+
+		recipe.setProduct(new ItemStack(itemRegistry.weapon_b_huntersproud));
+		recipe.addIngredient(itemRegistry.weapon_b_huntersstoutII, 1, 0);
+		recipe.addIngredient(Item.getItemById(265), 50, 0);
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.ELTALITE, 5));
+		recipe.setRequiredHeat(50).setDuration(200);
+		recipe_b_huntersproud = recipe.build();
 
 	}
 
