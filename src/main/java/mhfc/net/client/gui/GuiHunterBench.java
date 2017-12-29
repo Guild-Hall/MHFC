@@ -568,16 +568,16 @@ public class GuiHunterBench extends MHFCTabbedGui {
 			GlStateManager.translate(1f, -55f, 0F);
 			break;
 		case WEAPON_BOW:
-		case WEAPON_BIG_BOWGUN:
-		case WEAPON_DOUBLE_SWORD:
+			//case WEAPON_BIG_BOWGUN:
+			//case WEAPON_DOUBLE_SWORD:
 		case WEAPON_GREAT_SWORD:
-		case WEAPON_GUNLANCE:
+			//case WEAPON_GUNLANCE:
 		case WEAPON_HAMMER:
 		case WEAPON_HUNTING_HORN:
-		case WEAPON_LANCE:
+			//case WEAPON_LANCE:
 		case WEAPON_LONG_SWORD:
-		case WEAPON_SMALL_BOWGUN:
-		case WEAPON_SWORD_AND_SHIELD:
+			//case WEAPON_SMALL_BOWGUN:
+			//case WEAPON_SWORD_AND_SHIELD:
 		case NO_OTHER:
 		default:
 			Assert.unreachable("Expected an armor, got {}", itemType);
