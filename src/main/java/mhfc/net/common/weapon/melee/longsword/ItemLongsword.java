@@ -127,7 +127,7 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 			AttributeModifier attackModifier = new AttributeModifier(
 					LONGSWORD_AFFINITY_UUID,
 					"Spirit Gauge",
-					0.4,
+					0.3,
 					AttributeModifiers.ADDITIVE_MULT);
 			attributes.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), attackModifier);
 		}
