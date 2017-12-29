@@ -6,7 +6,9 @@ First Argument: moves the GUI render Item from left to right (the higher the val
 
 
 
-
+Let X be the direction of the players moving front and back
+Let Y be the direction of players moving up and the down
+Let Z be the direction of the player moving left and right
 
 THIRD_PERSON:
 Translation

@@ -469,17 +469,17 @@ public class DirectorEquipmentRecipes {
 		//Bow Class
 
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_b_hunters));
-		recipe.addIngredient(itemRegistry.lumberbar, 15, 0);
-		recipe.addIngredient(Item.getItemById(265), 12, 0);
-		recipe.addIngredient(Item.getItemById(352), 12, 0);
-		recipe.setRequiredHeat(350).setDuration(600);
+		recipe.addIngredient(Item.getItemById(261), 1, 0);
+		recipe.addIngredient(Item.getItemById(265), 50, 0);
+		recipe.addIngredient(Item.getItemById(352), 35, 0);
+		recipe.setRequiredHeat(50).setDuration(200);
 		recipe_b_hunters = recipe.build();
 
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_b_huntersstout));
-		recipe.addIngredient(itemRegistry.lumberbar, 5, 0);
-		recipe.addIngredient(Item.getItemById(265), 15, 0);
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 15));
-		recipe.setRequiredHeat(350).setDuration(600);
+		recipe.addIngredient(itemRegistry.lumberbar, 25, 0);
+		recipe.addIngredient(Item.getItemById(265), 50, 0);
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 25));
+		recipe.setRequiredHeat(50).setDuration(200);
 		recipe_b_huntersstout = recipe.build();
 
 	}
