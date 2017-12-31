@@ -159,10 +159,20 @@ item.material.normal.name=Armorsphere
 item.material.plus.name=Armorsphere+
 
 
-item.material.carbalite.name=Carbalite Ingot
-item.material.dragonite.name=Dragonite Ingot
-item.material.eltalite.name=Eltalite Ingot
-item.material.machalite.name=Machalite Ingot
+item.material.carbalite.name=Carbalite Ore
+item.material.dragonite.name=Dragonite Ore
+item.material.eltalite.name=Eltalite Ore
+item.material.machalite.name=Machalite Ore
+item.material.diskstone.name=Disk Stone
+item.material.earthcrystal.name=Earth Crystal
+item.material.firecellstone.name=Firecell Ore
+item.material.novacrystal.name=Novacrystal
+item.material.rainbowore.name=Rainbow Ore
+item.material.unionore.name=Union Ore
+item.material.furukuraito.name=Furukuraito Ore
+item.material.antiseptic.name=Antiseptic Stone
+item.material.mellanje.name=Mellanje  Ore
+
 
 item.material.insecthusk.name=Insect Husk
 item.material.yambug.name=Yambug

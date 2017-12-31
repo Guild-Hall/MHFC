@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "mhfc:items/ingot2"
+        "layer0": "mhfc:items/misc/ore"
     }
 }

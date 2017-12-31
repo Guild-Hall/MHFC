@@ -268,10 +268,19 @@ public class ResourceInterface {
 	public static final String item_gaguaegg_name = "gaguaegg";
 
 	public static final String item_ingot_basename = "ingot";
-	public static final String item_ingot0_name = "carbalite";
 	public static final String item_ingot1_name = "dragonite";
 	public static final String item_ingot2_name = "eltalite";
 	public static final String item_ingot3_name = "machalite";
+	public static final String item_ingot4_name = "carbalite";
+	public static final String item_ingot5_name = "diskstone";
+	public static final String item_ingot6_name = "earthcrystal";
+	public static final String item_ingot7_name = "firecellstone";
+	public static final String item_ingot8_name = "novacrystal";
+	public static final String item_ingot9_name = "rainbowore";
+	public static final String item_ingot10_name = "unionore";
+	public static final String item_ingot11_name = "furukuraito";
+	public static final String item_ingot12_name = "antiseptic";
+	public static final String item_ingot13_name = "mellanje";
 
 	public static final String item_remobra_basename = "remobra";
 	public static final String item_remobra0_name = item_remobra_basename + "skin";
