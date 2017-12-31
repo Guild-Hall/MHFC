@@ -326,6 +326,34 @@ public class ResourceInterface {
 	public static final String item_bug19_name = "divinerhino";
 	public static final String item_bug20_name = "gluehopper";
 
+	public static final String item_shroom1_name = "bluemushroom";
+	public static final String item_shroom2_name = "nitroshroom";
+	public static final String item_shroom3_name = "parashroom";
+	public static final String item_shroom4_name = "toadstool";
+	public static final String item_shroom5_name = "exciteshroom";
+	public static final String item_shroom6_name = "dragontoadstool";
+	public static final String item_shroom7_name = "spicymushroom";
+	public static final String item_shroom8_name = "chaosmushroom";
+
+	public static final String item_bone1_name = "smallmonsterbone";
+	public static final String item_bone2_name = "medmonsterbone";
+	public static final String item_bone3_name = "largemonsterbone";
+	public static final String item_bone4_name = "monsterboneplus";
+	public static final String item_bone5_name = "hardmonsterbone";
+	public static final String item_bone6_name = "heavymonsterbone";
+	public static final String item_bone7_name = "elderdragonbone";
+	public static final String item_bone8_name = "bigelderdragonbone";
+	public static final String item_bone9_name = "mysterybone";
+	public static final String item_bone10_name = "unknownskull";
+	public static final String item_bone11_name = "masterskull";
+	public static final String item_bone12_name = "bone";
+	public static final String item_bone13_name = "robustwyvernbone";
+	public static final String item_bone14_name = "brutebone";
+	public static final String item_bone15_name = "giantbone";
+	public static final String item_bone16_name = "stoutbone";
+	public static final String item_bone17_name = "massivebone";
+	public static final String item_bone18_name = "jumbobone";
+
 	public static final String item_rathalos_basename = "rathalos";
 	public static final String item_rathalos0_name = item_rathalos_basename + "shell";
 	public static final String item_rathalos1_name = item_rathalos_basename + "webbing";

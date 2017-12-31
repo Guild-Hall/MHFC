@@ -210,7 +210,33 @@ item.material.electro.name=Electro Sac
 item.material.thunder.name=Thunder Sac
 item.material.lightning.name=Lightning Sac
 
+item.material.bluemushroom.name=Blue Mushroom
+item.material.nitroshroom.name=Nitroshroom
+item.material.parashroom.name=Parashroom
+item.material.toadstool.name=Toadstool
+item.material.exciteshroom.name=Exciteshroom
+item.material.dragontoadstool.name=Dragon Toadstool
+item.material.spicymushroom.name=Spicy Mushroom
+item.material.chaosmushroom.name=Chaos Mushroom
 
+item.material.smallmonsterbone.name=Sm Monster Bone
+item.material.medmonsterbone.name=Med Monster Bone	
+item.material.largemonsterbone.name=Lg Monster Bone
+item.material.monsterboneplus.name=Monster Bone+
+item.material.hardmonsterbone.name=Hrd Monster Bone
+item.material.heavymonsterbone.name=Hvy Monster Bone
+item.material.elderdragonbone.name=Eldr Dragon Bone
+item.material.bigelderdragonbone.name=BigEDragonBone
+item.material.mysterybone.name=Mystery Bone
+item.material.unknownskull.name=Unknown Skull
+item.material.masterskull.name=Master's Skull
+item.material.bone.name=Bone
+item.material.robustwyvernbone.name=RobustWyvernBone
+item.material.brutebone.name=Brute Bone
+item.material.giantbone.name=Giant Bone
+item.material.stoutbone.name=Stout Bone
+item.material.massivebone.name=Massive Bone
+item.material.jumbobone.name=Jumbo Bone
 
 
 item.material.tigrexscale.name=Tigrex Scale
