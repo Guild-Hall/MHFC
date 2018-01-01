@@ -192,7 +192,7 @@
 	"name": "huntinghorn_2",
 	"rarity": 1,
 	"attack": 21,
-	"notes": ["white", "blue", "red"]
+	"notes": ["white", "purple", "red"]
 },
 "hh_bagpipe": {
 	"type": "hh",
@@ -269,7 +269,7 @@
 	"name": "huntinghorn_12",
 	"rarity": 10,
 	"attack": 91,
-	"notes": ["white", "blue", "red"]
+	"notes": ["white", "black", "orange"]
 },
 
 

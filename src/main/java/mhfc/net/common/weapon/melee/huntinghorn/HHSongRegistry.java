@@ -15,17 +15,134 @@ import net.minecraft.potion.PotionEffect;
 public class HHSongRegistry {
 	public static final int SONG_LENGTH_CAP = 4;
 
-	private static final ISong attackUpSmall = new ISong() {
+
+	private static final ISong attackupSMALL = new ISong() {
 		@Override
 		public void onPlayed(EntityPlayer player, ItemStack stack, HuntingHornWeaponStats itemStats) {
-			player.addPotionEffect(new PotionEffect(MobEffects.INSTANT_DAMAGE, 10));
+			player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 40));
 		}
 
 		@Override
 		public String getUnlocalizedName() {
-			return "songs.attackUpSmall";
+			return "songs.attackupSMALL";
 		}
 	};
+
+	private static final ISong attackupMED = new ISong() {
+		@Override
+		public void onPlayed(EntityPlayer player, ItemStack stack, HuntingHornWeaponStats itemStats) {
+			player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 60, 2));
+		}
+
+		@Override
+		public String getUnlocalizedName() {
+			return "songs.attackupMED";
+		}
+	};
+
+	private static final ISong attackupBIG = new ISong() {
+		@Override
+		public void onPlayed(EntityPlayer player, ItemStack stack, HuntingHornWeaponStats itemStats) {
+			player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 60, 3));
+		}
+
+		@Override
+		public String getUnlocalizedName() {
+			return "songs.attackupBIG";
+		}
+	};
+
+	private static final ISong healSMALL = new ISong() {
+		@Override
+		public void onPlayed(EntityPlayer player, ItemStack stack, HuntingHornWeaponStats itemStats) {
+			player.heal(6);
+
+		}
+
+		@Override
+		public String getUnlocalizedName() {
+			return "songs.healSMALL";
+		}
+	};
+	private static final ISong healMED = new ISong() {
+		@Override
+		public void onPlayed(EntityPlayer player, ItemStack stack, HuntingHornWeaponStats itemStats) {
+			player.heal(12);
+
+		}
+
+		@Override
+		public String getUnlocalizedName() {
+			return "songs.healMED";
+		}
+	};
+	private static final ISong healBIG = new ISong() {
+		@Override
+		public void onPlayed(EntityPlayer player, ItemStack stack, HuntingHornWeaponStats itemStats) {
+			player.heal(18);
+
+		}
+
+		@Override
+		public String getUnlocalizedName() {
+			return "songs.healBIG";
+		}
+	};
+	private static final ISong fullhealREGEN = new ISong() {
+		@Override
+		public void onPlayed(EntityPlayer player, ItemStack stack, HuntingHornWeaponStats itemStats) {
+			player.heal(20);
+			player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 100, 1));
+
+		}
+
+		@Override
+		public String getUnlocalizedName() {
+			return "songs.fullhealREGEN";
+		}
+	};
+
+	private static final ISong movespeedSMALL = new ISong() {
+		@Override
+		public void onPlayed(EntityPlayer player, ItemStack stack, HuntingHornWeaponStats itemStats) {
+			player.heal(20);
+			player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60, 2));
+
+		}
+
+		@Override
+		public String getUnlocalizedName() {
+			return "songs.movespeedSMALL";
+		}
+	};
+
+	private static final ISong movespeedBIG = new ISong() {
+		@Override
+		public void onPlayed(EntityPlayer player, ItemStack stack, HuntingHornWeaponStats itemStats) {
+			player.heal(20);
+			player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 150, 2));
+
+		}
+
+		@Override
+		public String getUnlocalizedName() {
+			return "songs.movespeedBIG";
+		}
+	};
+
+	private static final ISong targetDAMAGE = new ISong() {
+		@Override
+		public void onPlayed(EntityPlayer player, ItemStack stack, HuntingHornWeaponStats itemStats) {
+
+		}
+
+		@Override
+		public String getUnlocalizedName() {
+			return "songs.movespeedBIG";
+		}
+	};
+
+
 
 	private static List<Note> compose(Note... notes) {
 		return Arrays.asList(notes);
@@ -34,7 +151,17 @@ public class HHSongRegistry {
 	private static Trie<Note, ISong> songMap = new Trie<>(Note.class);
 
 	static {
-		registerSong(compose(Note.Purple, Note.Purple), attackUpSmall);
+		registerSong(compose(Note.Purple, Note.Purple), attackupBIG);
+		registerSong(compose(Note.Purple, Note.Purple), attackupMED);
+		registerSong(compose(Note.Purple, Note.Purple), attackupSMALL);
+		registerSong(compose(Note.Purple, Note.Purple), fullhealREGEN);
+		registerSong(compose(Note.Purple, Note.Purple), healBIG);
+		registerSong(compose(Note.Purple, Note.Purple), healMED);
+		registerSong(compose(Note.White, Note.Purple, Note.Red), healSMALL);
+		registerSong(compose(Note.Purple, Note.Purple), movespeedBIG);
+		registerSong(compose(Note.Purple, Note.Purple), movespeedSMALL);
+		registerSong(compose(Note.Purple, Note.Purple), targetDAMAGE);
+
 	}
 
 	public static void registerSong(List<Note> notes, ISong song) {

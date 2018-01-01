@@ -13,10 +13,12 @@ public enum Note {
 	Red(0xFF0000, 2 / 3f),
 	Green(0x00FF00, 5 / 4f),
 	Yellow(0xFFFF00, 3 / 2f),
-	Cyan(0xAAAAFF, 2.f),
 	Blue(0x5555FF, 1 / 2f * 4 / 5f),
 	Purple(0xFF00FF, 1 / 2f),
-	Orange(0xFFFF55, 4 / 5f);
+
+	Cyan(0xAAAAFF, 2.f),
+	Orange(0xFFFF55, 4 / 5f),
+	Black(0x303030, 2 / 9F);
 
 	public final int colorRGB;
 	private final Supplier<Optional<SoundEvent>> sound;
@@ -28,7 +30,7 @@ public enum Note {
 		this.pitch = pitch;
 	}
 
-	public void playSound(@SuppressWarnings("unused") ItemStack stack, EntityPlayer player) {
+	public void playSound(ItemStack stack, EntityPlayer player) {
 		player.playSound(sound.get().orElse(null), 1, pitch);
 	}
 }
