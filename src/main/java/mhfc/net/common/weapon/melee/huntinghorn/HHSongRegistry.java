@@ -43,7 +43,7 @@ public class HHSongRegistry {
 	private static final ISong attackupBIG = new ISong() {
 		@Override
 		public void onPlayed(EntityPlayer player, ItemStack stack, HuntingHornWeaponStats itemStats) {
-			player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 60, 3));
+			player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 120, 3));
 		}
 
 		@Override
@@ -92,7 +92,7 @@ public class HHSongRegistry {
 		@Override
 		public void onPlayed(EntityPlayer player, ItemStack stack, HuntingHornWeaponStats itemStats) {
 			player.heal(20);
-			player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 100, 1));
+			player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 120, 1));
 
 		}
 
@@ -151,16 +151,16 @@ public class HHSongRegistry {
 	private static Trie<Note, ISong> songMap = new Trie<>(Note.class);
 
 	static {
-		registerSong(compose(Note.Purple, Note.Purple), attackupBIG);
-		registerSong(compose(Note.Purple, Note.Purple), attackupMED);
-		registerSong(compose(Note.Purple, Note.Purple), attackupSMALL);
-		registerSong(compose(Note.Purple, Note.Purple), fullhealREGEN);
-		registerSong(compose(Note.Purple, Note.Purple), healBIG);
-		registerSong(compose(Note.Purple, Note.Purple), healMED);
+		registerSong(compose(Note.Black, Note.Orange), attackupBIG);
+		registerSong(compose(Note.Red, Note.Red, Note.Blue, Note.Purple), attackupMED);
+		registerSong(compose(Note.Green, Note.Red, Note.White), attackupSMALL);
+		registerSong(compose(Note.Black, Note.Black, Note.Orange, Note.Cyan), fullhealREGEN);
+		registerSong(compose(Note.Blue, Note.Blue, Note.Red), healBIG);
+		registerSong(compose(Note.Red, Note.Blue, Note.White), healMED);
 		registerSong(compose(Note.White, Note.Purple, Note.Red), healSMALL);
-		registerSong(compose(Note.Purple, Note.Purple), movespeedBIG);
-		registerSong(compose(Note.Purple, Note.Purple), movespeedSMALL);
-		registerSong(compose(Note.Purple, Note.Purple), targetDAMAGE);
+		registerSong(compose(Note.Blue, Note.Blue, Note.Yellow), movespeedBIG);
+		registerSong(compose(Note.Purple, Note.Red, Note.White), movespeedSMALL);
+		registerSong(compose(Note.Cyan, Note.Cyan), targetDAMAGE);
 
 	}
 

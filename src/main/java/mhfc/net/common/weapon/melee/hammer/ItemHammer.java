@@ -28,6 +28,9 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 	protected static final double motY = 0.2D;
 	protected static final int stunDur = 140;
 	protected static final int critDamageFlat = 20; // Hammer deals FLAT.
+	
+	
+	// TODO: Implement a convenient random method for hammer.
 
 	public ItemHammer(HammerWeaponStats stats) {
 		super(stats);

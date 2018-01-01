@@ -199,7 +199,7 @@
 	"name": "huntinghorn_1",
 	"rarity": 2,
 	"attack": 26,
-	"notes": ["white", "green", "red"]
+	"notes": ["white", "purple", "red"]
 },
 "hh_bagpipe_great": {
 	"type": "hh",
@@ -213,14 +213,14 @@
 	"name": "huntinghorn_8",
 	"rarity": 2,
 	"attack": 25,
-	"notes": ["white", "yellow", "red"]
+	"notes": ["white", "purple", "red"]
 },
 "hh_wardrums_plus": {
 	"type": "hh",
 	"name": "huntinghorn_9",
 	"rarity": 2,
 	"attack": 31,
-	"notes": ["white", "yellow", "red"]
+	"notes": ["white", "purple", "red"]
 },
 "hh_bagpipe_heavy": {
 	"type": "hh",
@@ -248,7 +248,7 @@
 	"name": "huntinghorn_10",
 	"rarity": 5,
 	"attack": 72,
-	"notes": ["white", "blue", "red"]
+	"notes": ["yellow", "blue", "red"]
 },
 "hh_bigpipe_elite": {
 	"type": "hh",
@@ -262,14 +262,14 @@
 	"name": "huntinghorn_11",
 	"rarity": 9,
 	"attack": 84,
-	"notes": ["white", "blue", "red"]
+	"notes": ["black", "blue", "red"]
 },
 "hh_black_casket": {
 	"type": "hh",
 	"name": "huntinghorn_12",
 	"rarity": 10,
 	"attack": 91,
-	"notes": ["white", "black", "orange"]
+	"notes": ["cyan", "black", "orange"]
 },
 
 
