@@ -204,7 +204,13 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		}
 	}
 
-	// This will be removed and will be replaced by Quest Rewards ~Heltrato
+	/**
+	 * 
+	 * There will be some
+	 * 
+	 * 
+	 */
+
 	@Override
 	protected boolean canDropLoot() {
 		return false;

@@ -84,6 +84,7 @@ public class WeaponStats {
 
 	private final float attackBase;
 	private final List<CombatEffect> combatEffects;
+	@SuppressWarnings("unused")
 	private final int slotCount;
 	private final int cooldownTicks;
 	private final ItemRarity rarity;

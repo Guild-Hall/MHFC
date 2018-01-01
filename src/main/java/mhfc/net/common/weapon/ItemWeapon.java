@@ -74,7 +74,7 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item implements 
 		NBTUtils.decreaseIntUnsigned(NBTUtils.getNBTChecked(stack), COOLDOWN_NBT);
 	}
 
-	protected double getMovementSpeedMultiplier(@SuppressWarnings("unused") ItemStack stack) {
+	protected double getMovementSpeedMultiplier(ItemStack stack) {
 		return 0D;
 	}
 

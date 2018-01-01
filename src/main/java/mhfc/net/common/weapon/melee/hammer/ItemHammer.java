@@ -19,16 +19,17 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.SoundCategory;
 
 public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
+
+
 	public static ItemHammer build(Consumer<HammerWeaponStatsBuilder> config) {
 		HammerWeaponStatsBuilder builder = new HammerWeaponStatsBuilder();
 		config.accept(builder);
 		return new ItemHammer(builder.build());
+
 	}
 
 	protected static final double motY = 0.2D;
 	protected static final int stunDur = 140;
-	protected static final int critDamageFlat = 20; // Hammer deals FLAT.
-	
 	
 	// TODO: Implement a convenient random method for hammer.
 
@@ -66,7 +67,6 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 		if (!isOffCooldown(stack)) {
 			return false;
 		}
-
 		target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().stun, stunDur, 5));
 		triggerCooldown(stack);
 		return true;
