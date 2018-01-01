@@ -17,8 +17,8 @@ public class MHFCCraftingRegistry {
 				new Object[] { "XXX", "XAX", "XXX", Character.valueOf('X'), Items.LEATHER, Character.valueOf('A'),
 						Items.GUNPOWDER });
 		GameRegistry.addRecipe(
-				new ItemStack(MHFCItemRegistry.getRegistry().lumberbar, 10),
-				new Object[] { "XXX", "AAA", "   ", Character.valueOf('X'), Items.LEATHER, Character.valueOf('A'),
+				new ItemStack(MHFCItemRegistry.getRegistry().lumberbar, 1),
+				new Object[] { "XXX", "AAA", "XXX", Character.valueOf('A'), Items.LEATHER, Character.valueOf('X'),
 						Blocks.PLANKS });
 		GameRegistry.addRecipe(
 				new ItemStack(MHFCItemRegistry.getRegistry().moldedIron, 15),

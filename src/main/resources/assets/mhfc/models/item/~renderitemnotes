@@ -2,7 +2,7 @@ MCMDL notes on rendering Item -Heltrato
 
 GUI:
 Translation
-First Argument: moves the GUI render Item from left to right (the higher the value the more right it goes)
+First Argument: moves the GUI render Item from y -axis up to down (the higher the value the more upper it goes)
 
 
 

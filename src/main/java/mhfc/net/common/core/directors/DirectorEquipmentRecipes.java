@@ -456,10 +456,10 @@ public class DirectorEquipmentRecipes {
 		// Hunting Horn Class
 
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_hh_ivoryhorn));
-		recipe.setRequiredHeat(100).setDuration(250);
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 3));
-		recipe.addIngredient(itemRegistry.lumberbar, 1, 0);
-		recipe.addIngredient(Item.getItemById(352), 6, 0);
+		recipe.setRequiredHeat(50).setDuration(200);
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BRUTEBONE, 2));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BLUEMUSHROOM, 1));
+		recipe.addIngredient(itemRegistry.lumberbar, 5, 0);
 		recipe_hh_ivoryhorn = recipe.build();
 
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_hh_metalbagpipe));

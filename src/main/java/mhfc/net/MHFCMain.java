@@ -188,7 +188,7 @@ public class MHFCMain {
 		MHFCMain.config().init();
 		UpdateSystem.init();
 		MHFCMain.logger().info("Starting MHFC ( " + ResourceInterface.getMetadata().version + " ) ");
-		MHFCMain.logger().info("Copyright (c) Heltrato | WorldSEnder 2017");
+		MHFCMain.logger().info("Copyright (c) Heltrato | WorldSEnder 2018");
 		preInitPhaseAccess.enterPhase(event);
 	}
 
