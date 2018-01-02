@@ -13,6 +13,13 @@ public class Material {
 
 	//@formatter:off
 	// Basic Armors
+	
+	/**
+	 * 
+	 *  Will no more longer use for ISpecialArmor will take over soon @Heltrato
+	 * */
+	public static final ArmorMaterial initialMaterial = EnumHelper
+			.addArmorMaterial("initialMaterial", ResourceInterface.armor_yukumo_tex, 1500, new int[] { 0, 0, 0, 0 }, enchant, null, durA);
 	public static final ArmorMaterial yukomo = EnumHelper
 			.addArmorMaterial("yukumo", ResourceInterface.armor_yukumo_tex, durA, new int[] { 4, 6, 5, 3 }, enchant, null, durA);
 	public static final ArmorMaterial velociprey = EnumHelper
