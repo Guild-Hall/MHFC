@@ -55,6 +55,18 @@ public class MeleeWeaponStats extends WeaponStats {
 		this.extendedReach = builder.extendedReach;
 	}
 
+	public Sharpness getWeaponSharpness() {
+		return weaponSharpness;
+	}
+
+	public float getAffinity() {
+		return affinity;
+	}
+
+	public float getExtendedReach() {
+		return extendedReach;
+	}
+
 	private final Sharpness weaponSharpness;
 	private final float affinity;
 	private final float extendedReach;

@@ -104,9 +104,9 @@ public class ItemMeats extends ItemFood implements IItemColored, IItemVarianted 
 		}
 
 		public void onFoodEaten(
-				@SuppressWarnings("unused") ItemStack itemStack,
-				@SuppressWarnings("unused") World serverWorld,
-				@SuppressWarnings("unused") EntityPlayer player) {
+				ItemStack itemStack,
+				World serverWorld,
+				EntityPlayer player) {
 			return; // No potion effect
 		}
 

@@ -47,7 +47,7 @@ public class GuiQuestGiver extends MHFCTabbedGui {
 		setTab(MHFCRegQuestVisual.hasPlayerQuest() ? 1 : 0);
 	}
 
-	public static GuiQuestGiver getScreen(@SuppressWarnings("unused") int i, EntityPlayer playerEntity) {
+	public static GuiQuestGiver getScreen(int i, EntityPlayer playerEntity) {
 		// ignore i for now
 
 		List<String> list = MHFCQuestBuildRegistry.getGroupList();

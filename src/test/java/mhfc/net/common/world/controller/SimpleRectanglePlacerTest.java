@@ -457,6 +457,7 @@ public class SimpleRectanglePlacerTest extends TestCase {
 						Arrays.asList(new Corner(CornerType.RIGHT_UP, 4, 0), new Corner(CornerType.UP_RIGHT, -4, 0))));
 	}
 
+	@SuppressWarnings("deprecation")
 	private static void checkNotBothInner(Corner one, Corner two) {
 		junit.framework.Assert.assertTrue(one.type.isOuter() || two.type.isOuter());
 	}

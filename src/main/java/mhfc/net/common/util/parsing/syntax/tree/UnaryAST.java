@@ -16,13 +16,13 @@ public class UnaryAST {
 		 * @param stack
 		 * @return
 		 */
-		public boolean addDisputableNodes(@SuppressWarnings("unused") Stack<IntermediateNode> stack) {
+		public boolean addDisputableNodes(Stack<IntermediateNode> stack) {
 			return false;
 		}
 
-		public void addOpenPostfixOps(@SuppressWarnings("unused") Stack<IntermediateNode> stack) {}
+		public void addOpenPostfixOps(Stack<IntermediateNode> stack) {}
 
-		public void addOpenPrefixOps(@SuppressWarnings("unused") Stack<IntermediateNode> stack) {}
+		public void addOpenPrefixOps(Stack<IntermediateNode> stack) {}
 	}
 
 	private static interface IValueNode {

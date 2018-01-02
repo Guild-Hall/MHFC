@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 @SuppressWarnings("rawtypes")
 // Cause java, we need this
 public class MessageAttackHandler extends ThreadSafeMessageHandler<MessageAIAction, IMessage> {
+	@SuppressWarnings("unchecked")
 	@Override
 	public void handleLater(MessageAIAction message, MessageContext ctx) {
 		IManagedActions<?> entity = message.getEntity();

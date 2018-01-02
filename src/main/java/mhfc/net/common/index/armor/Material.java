@@ -24,7 +24,7 @@ public class Material {
 	public static final ArmorMaterial rathalos = EnumHelper
 			.addArmorMaterial("rathalos", ResourceInterface.armor_rathalos_tex, durA, new int[] { 4, 8, 6, 4 }, enchant, null, durA);
 	public static final ArmorMaterial barroth = EnumHelper
-			.addArmorMaterial("barroth", ResourceInterface.armor_barroth_tex, durA, new int[] { 4, 8, 6, 5 }, enchant, null, durA);
+			.addArmorMaterial("barroth", ResourceInterface.armor_barroth_tex, durA, new int[] { 0, 0, 0, 0 }, enchant, null, durA);
 	public static final ArmorMaterial tigrex = EnumHelper
 			.addArmorMaterial("tigrex", ResourceInterface.armor_tigrex_tex, durA, new int[] { 4, 8, 8, 3 }, enchant, null, durA);
 	public static final ArmorMaterial kirin = EnumHelper

@@ -41,4 +41,5 @@ public class BarrothArmor extends ArmorBase {
 
 		return null;
 	}
+
 }

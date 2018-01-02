@@ -157,7 +157,7 @@ public class MHFCRegQuestVisual {
 		setVisual(Optional.ofNullable(info));
 	}
 
-	public void unsetPlayerMission(@SuppressWarnings("unused") String missionID) {
+	public void unsetPlayerMission(String missionID) {
 		// TODO: maybe check that the active mission actually had the missionID?
 		Optional<IMissionInformation> oldValue = setVisual(Optional.empty());
 		assert oldValue != null && oldValue.isPresent();

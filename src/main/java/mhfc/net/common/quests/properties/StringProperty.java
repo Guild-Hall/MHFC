@@ -10,7 +10,7 @@ public class StringProperty extends ImmutableProperty<String> {
 		return new NBTTagString(value);
 	}
 
-	private static String load(@SuppressWarnings("unused") String oldValue, NBTBase nbt) {
+	private static String load(String oldValue, NBTBase nbt) {
 		return NBTType.TAG_STRING.assureTagType(nbt).getString();
 	}
 

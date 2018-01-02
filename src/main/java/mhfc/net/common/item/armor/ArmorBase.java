@@ -155,7 +155,7 @@ public abstract class ArmorBase extends ItemArmor {
 	}
 
 	protected void applySetBonus(
-			@SuppressWarnings("unused") World world,
-			@SuppressWarnings("unused") EntityPlayer player) {}
+			World world,
+			EntityPlayer player) {}
 
 }

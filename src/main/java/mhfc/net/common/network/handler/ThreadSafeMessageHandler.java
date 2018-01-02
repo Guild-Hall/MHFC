@@ -24,8 +24,8 @@ public abstract class ThreadSafeMessageHandler<REQ extends IMessage, REPLY exten
 	protected abstract void handleLater(REQ message, MessageContext ctx);
 
 	protected REPLY instantReply(
-			@SuppressWarnings("unused") REQ message,
-			@SuppressWarnings("unused") MessageContext ctx) {
+			REQ message,
+			MessageContext ctx) {
 		return null;
 	}
 }

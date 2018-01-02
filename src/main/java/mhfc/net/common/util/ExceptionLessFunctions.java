@@ -29,7 +29,6 @@ public class ExceptionLessFunctions {
 		R apply(T t) throws E;
 	}
 
-	@SuppressWarnings("unused") // Unused declared exception. That is the whole point of the method though
 	public static <E extends Throwable> Runnable uncheckedRunnable(ThrowingRunnable<E> t) throws E {
 		return () -> {
 			try {
@@ -40,7 +39,6 @@ public class ExceptionLessFunctions {
 		};
 	}
 
-	@SuppressWarnings("unused") // Unused declared exception. That is the whole point of the method though
 	public static <T, E extends Throwable> Consumer<T> uncheckedConsumer(ThrowingConsumer<T, E> consumer) throws E {
 		return t -> {
 			try {
@@ -51,7 +49,6 @@ public class ExceptionLessFunctions {
 		};
 	}
 
-	@SuppressWarnings("unused") // Unused declared exception. That is the whole point of the method though
 	public static <T, E extends Throwable> Supplier<T> uncheckedSupplier(ThrowingSupplier<T, E> supplier) throws E {
 		return () -> {
 			try {
@@ -62,7 +59,6 @@ public class ExceptionLessFunctions {
 		};
 	}
 
-	@SuppressWarnings("unused") // Unused declared exception. That is the whole point of the method though
 	public static <T, R, E extends Throwable> Function<T, R> uncheckedFunction(ThrowingFunction<T, R, E> function)
 			throws E {
 		return t -> {

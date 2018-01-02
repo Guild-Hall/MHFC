@@ -442,6 +442,7 @@ public class DefaultQuestVisualDefinition implements IVisualDefinition {
 
 	@SideOnly(Side.CLIENT)
 	protected int drawBaseInformation(int positionX, int positionY, int width, FontRenderer fontRenderer) {
+		@SuppressWarnings("unused")
 		String TAG_FEE = I18n.format(ResourceInterface.unlocalized_tag_fee), //
 				TAG_REWARD = I18n.format(ResourceInterface.unlocalized_tag_reward), //
 				TAG_TIME = I18n.format(ResourceInterface.unlocalized_tag_time), //

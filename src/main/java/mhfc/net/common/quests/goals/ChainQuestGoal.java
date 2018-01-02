@@ -123,7 +123,7 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 		notifyOfStatus(e);
 	}
 
-	protected void onNextNotified(@SuppressWarnings("unused") EnumSet<QuestStatus> newStatus) {
+	protected void onNextNotified(EnumSet<QuestStatus> newStatus) {
 
 	}
 
@@ -131,8 +131,8 @@ public class ChainQuestGoal extends QuestGoal implements QuestGoalSocket {
 	 * This gets called whenever some {@link QuestGoal} has notified us that is not the next goal.
 	 */
 	protected void onUnknownStatusNotification(
-			@SuppressWarnings("unused") QuestGoal caller,
-			@SuppressWarnings("unused") EnumSet<QuestStatus> newStatus) {
+			QuestGoal caller,
+			EnumSet<QuestStatus> newStatus) {
 		throw new IllegalArgumentException(
 				"ChainQuestGoal: A QuestGoal that is not our next goal should not notify us");
 	}

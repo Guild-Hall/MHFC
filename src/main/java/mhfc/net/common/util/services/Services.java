@@ -42,7 +42,6 @@ public class Services implements IServiceProvider {
 	 * @param <Z>
 	 *            the type of context when the phase stops
 	 */
-	@SuppressWarnings("unused")
 	private static interface IPhaseID<A, Z> {
 		@Override
 		int hashCode();
@@ -61,7 +60,6 @@ public class Services implements IServiceProvider {
 	 * @param <T>
 	 *            the type of service offered.
 	 */
-	@SuppressWarnings("unused")
 	private static interface IServiceID<T> {
 		@Override
 		int hashCode();
@@ -496,6 +494,7 @@ public class Services implements IServiceProvider {
 
 	private <T> IServiceRetrieval<T> tryUpcastService(IServiceKey<T> key) {
 		Preconditions.checkArgument(key instanceof IServiceRetrieval, "not a service key from this service provider");
+		@SuppressWarnings("unchecked")
 		IServiceRetrieval<T> entry = IServiceRetrieval.class.cast(key);
 		Preconditions.checkArgument(entry.getServiceProvider() == this, "not a service key from this service provider");
 		return entry;
@@ -503,6 +502,7 @@ public class Services implements IServiceProvider {
 
 	private <A, Z> IPhaseID<A, Z> tryUpcastPhase(IPhaseKey<A, Z> key) {
 		Preconditions.checkArgument(key instanceof PhaseEntry, "not a phase key from this service provider");
+		@SuppressWarnings("unchecked")
 		PhaseEntry<A, Z> entry = PhaseEntry.class.cast(key);
 		Preconditions.checkArgument(entry.getServiceProvider() == this, "not a phase key from this service provider");
 		IPhaseID<A, Z> id = entry.getID();
