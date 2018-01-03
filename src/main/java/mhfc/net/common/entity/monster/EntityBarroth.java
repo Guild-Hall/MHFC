@@ -1,6 +1,7 @@
 package mhfc.net.common.entity.monster;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
@@ -21,7 +22,6 @@ import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,9 +40,11 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 
 	@Override
 	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(12500D));
-		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(10D);
+		HashMap<String, Double> baseAttributes = new HashMap<String, Double>();
+		baseAttributes.put("maxHealth", 12500D);
+		this.applyEntityAttributes(baseAttributes);
+
+		//		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(10D);
 	}
 
 	@Override

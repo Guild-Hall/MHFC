@@ -17,6 +17,7 @@ import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.network.NetworkTracker;
 import mhfc.net.common.system.UpdateSystem;
 import mhfc.net.common.tab.MHFCTab;
+import mhfc.net.common.util.reflection.ValueHelper;
 import mhfc.net.common.util.services.IPhaseAccess;
 import mhfc.net.common.util.services.IPhaseKey;
 import mhfc.net.common.util.services.IServiceAccess;
@@ -24,6 +25,8 @@ import mhfc.net.common.util.services.IServiceHandle;
 import mhfc.net.common.util.services.IServicePhaseHandle;
 import mhfc.net.common.util.services.Services;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -190,6 +193,14 @@ public class MHFCMain {
 		MHFCMain.logger().info("Starting MHFC ( " + ResourceInterface.getMetadata().version + " ) ");
 		MHFCMain.logger().info("Copyright (c) Heltrato | WorldSEnder 2018");
 		preInitPhaseAccess.enterPhase(event);
+
+		/** Setting up the maximum health cap through ValueHelper.class ***/
+		ValueHelper.setPrivateFinalValue(
+				RangedAttribute.class,
+				(RangedAttribute) SharedMonsterAttributes.MAX_HEALTH,
+				500000,
+				"maximumValue");
+
 	}
 
 	@Mod.EventHandler

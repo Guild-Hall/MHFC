@@ -14,11 +14,11 @@ public class FieldHelper {
 	 * @return An empty Optional if no such Field was found, otherwise the Field
 	 */
 	public static Optional<MethodHandle> find(Class<?> clazz, String name) {
-		return findMatching(clazz, name, f -> !ReflectionHelper.isStatic(f));
+		return findMatching(clazz, name, f -> !ReflectionModifier.isStatic(f));
 	}
 
 	public static Optional<MethodHandle> findStatic(Class<?> clazz, String name) {
-		return findMatching(clazz, name, ReflectionHelper::isStatic);
+		return findMatching(clazz, name, ReflectionModifier::isStatic);
 	}
 
 	public static Optional<MethodHandle> findMatching(Class<?> clazz, String name, Predicate<Field> predicate) {
@@ -27,7 +27,7 @@ public class FieldHelper {
 			if (!predicate.test(f)) {
 				return Optional.empty();
 			}
-			return Optional.of(ReflectionHelper.LOOKUP.unreflectGetter(f));
+			return Optional.of(ReflectionModifier.LOOKUP.unreflectGetter(f));
 		} catch (NoSuchFieldException | IllegalAccessException nsef) {
 			return Optional.empty();
 		}

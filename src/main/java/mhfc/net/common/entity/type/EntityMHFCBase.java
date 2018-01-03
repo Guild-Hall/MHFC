@@ -1,6 +1,8 @@
 package mhfc.net.common.entity.type;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
@@ -20,7 +22,6 @@ import mhfc.net.common.ai.general.TargetTurnHelper;
 import mhfc.net.common.ai.general.actions.DeathAction;
 import mhfc.net.common.ai.manager.AIActionManager;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
-import mhfc.net.common.index.AttributeModifiers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityMultiPart;
@@ -79,6 +80,13 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	// @see deathTime. DeathTime has the random by-effect of rotating corpses...
 	protected int deathTicks;
 
+	/** A snapshot of the base health for each mob. This is used when calculating subspecies. **/
+	@SuppressWarnings("rawtypes")
+	public static Map<Class, Double> baseHealthMap = new HashMap<Class, Double>();
+
+	/** A system checker that prints health for every instance ticks ***/
+	private int healthTick = 0;
+
 	public EntityMHFCBase(World world) {
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
@@ -106,9 +114,13 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		return ModelStateInformation.BIND_POSE;
 	}
 
+
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
+		for (healthTick = 0; healthTick < 200; healthTick++) {
+			System.out.println("Current Monster Health " + this.getHealth());
+		}
 		if (this.attackManager.continueExecuting()) {
 			this.attackManager.updateTask();
 		}
@@ -130,6 +142,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			getActionManager().switchToAction(inWaterAction);
 		}
 	}
+
 
 
 	protected abstract IActionManager<YC> constructActionManager();
@@ -193,11 +206,17 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getAttributeMap().registerAttribute(AttributeModifiers.MAX_HEALTH_CAP);
-
 		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.3D);
 		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30D);
 
+	}
+
+	protected void applyEntityAttributes(HashMap<String, Double> baseAttributes) {
+		super.applyEntityAttributes();
+		if (baseAttributes.containsKey("maxHealth")) {
+			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(baseAttributes.get("maxHealth"));
+			baseHealthMap.put(this.getClass(), baseAttributes.get("maxHealth"));
+		}
 	}
 
 	protected void onDeath() {

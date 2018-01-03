@@ -4,7 +4,6 @@ import java.util.function.Consumer;
 
 import com.google.common.collect.Multimap;
 
-import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.index.AttributeModifiers;
 import mhfc.net.common.index.ResourceInterface;
@@ -15,7 +14,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.SoundCategory;
 
 public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
@@ -67,7 +65,7 @@ public class ItemHammer extends ItemWeaponMelee<HammerWeaponStats> {
 		if (!isOffCooldown(stack)) {
 			return false;
 		}
-		target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().stun, stunDur, 5));
+		//	target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().stun, stunDur, 5));
 		triggerCooldown(stack);
 		return true;
 	}
