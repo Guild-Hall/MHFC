@@ -24,6 +24,7 @@ import mhfc.net.common.ai.manager.AIActionManager;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -80,19 +81,63 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	// @see deathTime. DeathTime has the random by-effect of rotating corpses...
 	protected int deathTicks;
 
-	/** A snapshot of the base health for each mob. This is used when calculating subspecies. **/
+	/** This should be a setup, for every monster hoping they can feature to Quest and JSON. thus they
+	 *  can have the multiplier and health boost feature soon for Quest difficulty Regards **/
 	@SuppressWarnings("rawtypes")
-	public static Map<Class, Double> baseHealthMap = new HashMap<Class, Double>();
+	public static Map<Class, Double> baseHealthInstance = new HashMap<Class, Double>();
 
-	/** A system checker that prints health for every instance ticks ***/
-	private int healthTick = 0;
-
+	// ***************************************************************************************
+	
 	public EntityMHFCBase(World world) {
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
 		attackManager = Objects.requireNonNull(constructActionManager());
 		ignoreFrustumCheck = true;
 		hasDied = false;
+	}
+
+	@Override
+	protected void applyEntityAttributes() {
+		 HashMap<String, Double> attb = new HashMap<String, Double>();
+		/** To Do set the values into json oritented **/
+		attb.put("a1", 150D);
+		attb.put("a2", 15D);
+		attb.put("a5", 60D);
+		this.monsterAttributes(attb);
+
+	}
+
+	/** Shorten method to input monster attributes with hashmapping **/
+	protected void monsterAttributes(HashMap<String, Double> attributes) {
+		super.applyEntityAttributes();
+
+		/** Health **/
+		if (attributes.containsKey("a1")) {
+			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(attributes.get("a1"));
+		}
+
+		/** Armor **/
+		if (attributes.containsKey("a2"))
+			this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(attributes.get("a2"));
+
+		/** Movement Speed **/
+		if (attributes.containsKey("a3"))
+			this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED)
+					.setBaseValue(attributes.get("a3"));
+
+		/** Knock Back Resistance **/
+		if (attributes.containsKey("a4"))
+			this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE)
+					.setBaseValue(attributes.get("a4"));
+
+		/** Follow Range **/
+		if (attributes.containsKey("a5"))
+			this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(attributes.get("a5"));
+	}
+
+	/** Get the entity name **/
+	protected String getEntityName() {
+		return EntityList.getEntityString(this);
 	}
 
 	protected <A extends IExecutableAction<? super YC>> A setDeathAction(A action) {
@@ -118,12 +163,13 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		for (healthTick = 0; healthTick < 200; healthTick++) {
-			System.out.println("Current Monster Health " + this.getHealth());
-		}
+		
+		/** When the attackManager is still on the Executes, then it will still continuous to update the task    **/
 		if (this.attackManager.continueExecuting()) {
 			this.attackManager.updateTask();
 		}
+		
+		/** A complex statement in which the frames of the AI ticks when the world is on Remoted sided **/
 		if (this.world.isRemote) {
 			int frame = getFrame();
 			if (frame >= 0) {
@@ -135,14 +181,17 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			setFrame(nextFrame);
 		}
 
+		/** IMMEDIATE AI AND ANIMATION SWITCH CASES   **/
+		
+		/** When this statements are fired the getActionManager will immediate executes the animation and AI variable **/
 		if (this.isPotionActive(MHFCPotionRegistry.getRegistry().stun)) {
 			getActionManager().switchToAction(stunAction);
 		}
 		if (this.isInWater()) {
 			getActionManager().switchToAction(inWaterAction);
 		}
+		
 	}
-
 
 
 	protected abstract IActionManager<YC> constructActionManager();
@@ -153,6 +202,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	@Override
 	public abstract EntityMHFCPart[] getParts();
 
+	/** Monsters Death Update **/
 	@Override
 	protected void onDeathUpdate() {
 		if (!hasDied) {
@@ -167,6 +217,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		}
 	}
 
+	/** A primitive method on how the monsters last and while dead they are decomposing. **/
 	protected void spawnDeadParticles() {
 		float timed = (float) deathTicks / DeathAction.deathLingeringTicks;
 		timed = Math.max(0, timed - 0.1f) / 0.9f;
@@ -185,6 +236,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		}
 	}
 
+	/** Follow up method from this.spawnDeadParticles() **/
 	protected void onDespawn() {
 		boolean killedByPlayer = true;
 		int specialLuck = 100;
@@ -203,21 +255,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		}
 	}
 
-	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.3D);
-		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30D);
 
-	}
-
-	protected void applyEntityAttributes(HashMap<String, Double> baseAttributes) {
-		super.applyEntityAttributes();
-		if (baseAttributes.containsKey("maxHealth")) {
-			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(baseAttributes.get("maxHealth"));
-			baseHealthMap.put(this.getClass(), baseAttributes.get("maxHealth"));
-		}
-	}
 
 	protected void onDeath() {
 		if (deathAction != null) {

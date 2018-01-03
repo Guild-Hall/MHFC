@@ -40,11 +40,11 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 
 	@Override
 	protected void applyEntityAttributes() {
-		HashMap<String, Double> baseAttributes = new HashMap<String, Double>();
-		baseAttributes.put("maxHealth", 12500D);
-		this.applyEntityAttributes(baseAttributes);
+		HashMap<String, Double> attb = new HashMap<String, Double>();
+		attb.put("a1", 3572D);
+		attb.put("a2", 45D);
+		this.monsterAttributes(attb);
 
-		//		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(10D);
 	}
 
 	@Override

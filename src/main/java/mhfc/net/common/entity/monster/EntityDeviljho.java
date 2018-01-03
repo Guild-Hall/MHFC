@@ -1,5 +1,7 @@
 package mhfc.net.common.entity.monster;
 
+import java.util.HashMap;
+
 import org.lwjgl.opengl.GL11;
 
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
@@ -13,7 +15,6 @@ import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,9 +32,10 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 
 	@Override
 	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(33122D));
-		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(15D);
+		HashMap<String, Double> attb = new HashMap<String, Double>();
+		attb.put("a1", 6600D);
+		attb.put("a2", 50D);
+		this.monsterAttributes(attb);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package mhfc.net.common.entity.monster;
 
+import java.util.HashMap;
+
 import org.lwjgl.opengl.GL11;
 
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
@@ -15,7 +17,6 @@ import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.passive.EntitySheep;
@@ -30,9 +31,10 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 
 	@Override
 	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(120D));
-		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(7D);
+		HashMap<String, Double> attb = new HashMap<String, Double>();
+		attb.put("maxHealth", 60D);
+		attb.put("armor", 45D);
+		this.monsterAttributes(attb);
 	}
 
 	@Override
