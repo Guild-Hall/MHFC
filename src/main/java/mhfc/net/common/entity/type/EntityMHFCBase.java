@@ -20,6 +20,7 @@ import mhfc.net.common.ai.general.TargetTurnHelper;
 import mhfc.net.common.ai.general.actions.DeathAction;
 import mhfc.net.common.ai.manager.AIActionManager;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
+import mhfc.net.common.index.AttributeModifiers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityMultiPart;
@@ -192,6 +193,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
+		this.getAttributeMap().registerAttribute(AttributeModifiers.MAX_HEALTH_CAP);
 
 		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.3D);
 		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30D);
