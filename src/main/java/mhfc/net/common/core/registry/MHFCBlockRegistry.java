@@ -29,12 +29,11 @@ import mhfc.net.common.block.decoration.BlockSand;
 import mhfc.net.common.block.decoration.BlockStone;
 import mhfc.net.common.block.decoration.BlockWood;
 import mhfc.net.common.block.quest.BlockExploreArea;
-import mhfc.net.common.block.quest.BlockQuestBoard;
+import mhfc.net.common.block.quest.BlockQuestBoardNew;
 import mhfc.net.common.block.quest.BlockRespawn;
 import mhfc.net.common.item.block.ItemBlockBBQSpit;
 import mhfc.net.common.item.block.ItemBlockBenchHunter;
 import mhfc.net.common.item.block.ItemBlockIceCrystal;
-import mhfc.net.common.item.block.ItemBlockQuestBoard;
 import mhfc.net.common.item.block.ItemBlockStunTrap;
 import mhfc.net.common.item.block.ItemSubtypedBlock;
 import mhfc.net.common.util.services.IServiceKey;
@@ -93,7 +92,8 @@ public class MHFCBlockRegistry {
 	public final Block mhfcblockquicksand;
 	public final Block mhfcblockwood;
 	public final Block mhfcblockleaves;
-	public final Block mhfcblockquestboard;
+	//public final Block mhfcblockquestboard;
+	public final Block mhfcblockquestboardnew;
 	public final Block mhfcblockrespawn;
 	public final Block mhfcblockexplorearea;
 
@@ -144,7 +144,8 @@ public class MHFCBlockRegistry {
 		mhfcblockhunterbench = registerBlockWithItem("hunterbench", new BlockHunterBench(), ItemBlockBenchHunter::new);
 		mhfcblockstuntrap = registerBlockWithItem("trap_stun", new BlockStunTrap(), ItemBlockStunTrap::new);
 		mhfcblockbbqspit = registerBlockWithItem("bbq_spit", new BlockBBQSpit(), ItemBlockBBQSpit::new);
-		mhfcblockquestboard = registerBlockWithItem("questboard", new BlockQuestBoard(), ItemBlockQuestBoard::new);
+		//mhfcblockquestboard = registerBlockWithItem("questboard", new BlockQuestBoard(), ItemBlockQuestBoard::new);
+		mhfcblockquestboardnew = registerBlock("questboardnew", new BlockQuestBoardNew());
 		mhfcblockrespawn = registerBlock("respawn_marker", new BlockRespawn());
 		mhfcblockexplorearea = registerBlock("exploration_teleporter", new BlockExploreArea());
 

@@ -125,6 +125,8 @@ public class ResourceInterface {
 	public static final String block_blockingot2_tex = "mhfc:blockingot2";
 	public static final String block_discstone_name = "discstone";
 	public static final String block_discstone_tex = "mhfc:discstone";
+	public static final String block_questboardnew_name = "questboardnew";
+	public static final String block_questboardnew_tex = "mhfc:questboardnew";
 
 	public static final String block_oreblock_basename = "wyverniaoreblocks";
 	public static final String block_carbalite_name = "carbalite";

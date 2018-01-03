@@ -21,4 +21,6 @@ public class BlockDiscstone extends Block {
 	public int quantityDropped(Random random) {
 		return 1;
 	}
+	
+
 }
