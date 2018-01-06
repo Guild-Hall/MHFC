@@ -30,6 +30,7 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 
 	@Override
 	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60D);
 	}
 

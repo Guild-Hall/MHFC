@@ -54,10 +54,6 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 
 	@Override
 	protected void applyEntityAttributes() {
-		//HashMap<String, Double> attb = new HashMap<String, Double>();
-		//attb.put("a1", 65D);
-		//attb.put("a2", 45D);
-		//this.monsterAttributes(attb);
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(60D));
 		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(45D);

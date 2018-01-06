@@ -17,7 +17,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow.PickupStatus;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.IItemPropertyGetter;
@@ -101,18 +100,11 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack itemstack = player.getHeldItem(hand);
-		boolean hasAmmunition = !this.findAmmunition(player).isEmpty();
 
 		ActionResult<ItemStack> eventarrowNock = net.minecraftforge.event.ForgeEventFactory
-				.onArrowNock(itemstack, world, player, hand, hasAmmunition);
+				.onArrowNock(itemstack, world, player, hand, true);
 		if (eventarrowNock != null) {
 			return eventarrowNock;
-		}
-
-		if (!player.capabilities.isCreativeMode && !hasAmmunition) {
-			return hasAmmunition
-					? new ActionResult<>(EnumActionResult.PASS, itemstack)
-					: new ActionResult<>(EnumActionResult.FAIL, itemstack);
 		}
 		player.setActiveHand(hand);
 		return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
@@ -133,25 +125,14 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	}
 
 	private void spawnArrow(EntityPlayer player, World worldIn, ItemStack ammunition, float power) {
-		ItemWyverniaArrow itemarrow = (ItemWyverniaArrow) ammunition.getItem();
-		EntityWyverniaArrow entityarrow = itemarrow.createArrow(worldIn, new ItemStack(itemarrow), player, power);
-		EntityWyverniaArrow entityarrow2 = itemarrow.createArrow(worldIn, new ItemStack(itemarrow), player, power);
-		boolean isCreative = player.capabilities.isCreativeMode;
+		EntityWyverniaArrow entityarrow = new EntityWyverniaArrow(worldIn, player, power);
+		EntityWyverniaArrow entityarrow2 = new EntityWyverniaArrow(worldIn, player, power);
 		entityarrow.setDamage(entityarrow.getDamage() + 2 * 0.5D + 0.5D);
 		entityarrow.setKnockbackStrength(1);
 
 		entityarrow2.setDamage(entityarrow.getDamage() + 2 * 0.5D + 0.5D);
 		entityarrow2.setKnockbackStrength(1);
 
-		if (isCreative) {
-			entityarrow.pickupStatus = PickupStatus.CREATIVE_ONLY;
-			entityarrow2.pickupStatus = PickupStatus.CREATIVE_ONLY;
-		} else {
-			ammunition.shrink(1);
-			if (ammunition.isEmpty()) {
-				player.inventory.deleteStack(ammunition);
-			}
-		}
 		entityarrow.setAim(player, player.rotationPitch, player.rotationYaw, 0.0F, power * 3.0F, 0.3F);
 		entityarrow2.setAim(player, player.rotationPitch, (float) (player.rotationYaw + 2D), 0.0F, power * 3.0F, 0.3F);
 		boolean shouldCrit = power > 1.0F || worldIn.rand.nextInt(10) == 0;

@@ -44,7 +44,7 @@
 	"StandardTimer": {
 		"type": "time",
 		"data": {
-			"time": 60000
+			"time": 50000
 		}
 	},
 	"StandardDeath": {
