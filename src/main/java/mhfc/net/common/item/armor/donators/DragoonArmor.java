@@ -11,11 +11,13 @@ import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.system.DonatorSystem;
 import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -66,5 +68,28 @@ public class DragoonArmor extends ArmorExclusive {
 		float h = player.getHealth();
 		player.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 200, 1, true, true));
 		player.setHealth(h);
+	}
+
+	@Override
+	public ArmorProperties getProperties(
+			EntityLivingBase player,
+			ItemStack armor,
+			DamageSource source,
+			double damage,
+			int slot) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
+		// TODO Auto-generated method stub
+
 	}
 }

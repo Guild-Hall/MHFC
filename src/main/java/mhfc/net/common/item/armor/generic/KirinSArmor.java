@@ -10,10 +10,12 @@ import mhfc.net.common.item.armor.ArmorBase;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -90,5 +92,28 @@ public class KirinSArmor extends ArmorBase {
 				0.0D,
 				0.0D,
 				0.0D);
+	}
+
+	@Override
+	public ArmorProperties getProperties(
+			EntityLivingBase player,
+			ItemStack armor,
+			DamageSource source,
+			double damage,
+			int slot) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
+		// TODO Auto-generated method stub
+
 	}
 }
