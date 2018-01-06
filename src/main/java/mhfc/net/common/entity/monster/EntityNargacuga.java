@@ -1,7 +1,6 @@
 package mhfc.net.common.entity.monster;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Queue;
 
@@ -33,6 +32,7 @@ import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.entity.type.IEnragable;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
@@ -66,13 +66,13 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		ticksSinceEyesSaved = 0;
 		enraged = false;
 	}
-	
+
 	@Override
 	protected void applyEntityAttributes() {
-		HashMap<String, Double> attb = new HashMap<String, Double>();
-		attb.put("a1", 4359D);
-		attb.put("a2", 45D);
-		this.monsterAttributes(attb);
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(4500D);
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(45D);
+		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(60D);
 	}
 
 	@Override

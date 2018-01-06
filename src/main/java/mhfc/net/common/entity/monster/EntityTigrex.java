@@ -1,7 +1,6 @@
 package mhfc.net.common.entity.monster;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
@@ -28,6 +27,7 @@ import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.passive.EntityVillager;
@@ -48,10 +48,11 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	@Override
 	protected void applyEntityAttributes() {
-		HashMap<String, Double> attb = new HashMap<String, Double>();
-		attb.put("a1", 3950D);
-		attb.put("a2", 45D);
-		this.monsterAttributes(attb);
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(3950D);
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(45D);
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(30D);
+		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(60D);
 	}
 
 	@Override

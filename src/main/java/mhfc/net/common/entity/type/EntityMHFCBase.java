@@ -98,42 +98,15 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	@Override
 	protected void applyEntityAttributes() {
-		 HashMap<String, Double> attb = new HashMap<String, Double>();
-		/** To Do set the values into json oritented **/
-		attb.put("a1", 150D);
-		attb.put("a2", 15D);
-		attb.put("a5", 60D);
-		this.monsterAttributes(attb);
-
-	}
-
-	/** Shorten method to input monster attributes with hashmapping **/
-	protected void monsterAttributes(HashMap<String, Double> attributes) {
 		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(150D);
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(45D);
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(30D);
+		this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(5.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20D);
 
-		/** Health **/
-		if (attributes.containsKey("a1")) {
-			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(attributes.get("a1"));
-		}
-
-		/** Armor **/
-		if (attributes.containsKey("a2"))
-			this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(attributes.get("a2"));
-
-		/** Movement Speed **/
-		if (attributes.containsKey("a3"))
-			this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED)
-					.setBaseValue(attributes.get("a3"));
-
-		/** Knock Back Resistance **/
-		if (attributes.containsKey("a4"))
-			this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE)
-					.setBaseValue(attributes.get("a4"));
-
-		/** Follow Range **/
-		if (attributes.containsKey("a5"))
-			this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(attributes.get("a5"));
 	}
+
 
 	/** Get the entity name **/
 	protected String getEntityName() {
