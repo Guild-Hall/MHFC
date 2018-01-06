@@ -2,14 +2,12 @@ package mhfc.net.common.weapon.melee.huntinghorn;
 
 import java.util.function.Consumer;
 
-import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.huntinghorn.HuntingHornWeaponStats.HuntingHornWeaponStatsBuilder;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
@@ -69,7 +67,7 @@ public class ItemHuntingHorn extends ItemWeaponMelee<HuntingHornWeaponStats> {
 		if (!isOffCooldown(stack)) {
 			return superResult;
 		}
-		target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().stun, 10, 5));
+		//	target.addPotionEffect(new PotionEffect(MHFCPotionRegistry.getRegistry().stun, 10, 5));
 		triggerCooldown(stack);
 		return true;
 	}
