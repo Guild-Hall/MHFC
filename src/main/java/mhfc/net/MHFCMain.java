@@ -199,7 +199,8 @@ public class MHFCMain {
 				RangedAttribute.class,
 				(RangedAttribute) SharedMonsterAttributes.MAX_HEALTH,
 				500000,
-				"maximumValue");
+				"maximumValue",
+				"field_111118_b");
 
 	}
 
