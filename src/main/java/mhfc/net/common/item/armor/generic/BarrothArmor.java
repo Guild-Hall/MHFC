@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -21,7 +22,7 @@ public class BarrothArmor extends ArmorBase {
 			ResourceInterface.armor_barroth_boots_name };
 
 	public BarrothArmor(EntityEquipmentSlot type) {
-		super(Material.barroth, ItemRarity.R04, type);
+		super(Material.initialMaterial, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
@@ -53,20 +54,21 @@ public class BarrothArmor extends ArmorBase {
 			DamageSource source,
 			double damage,
 			int slot) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ISpecialArmor.ArmorProperties(1, 1, 1);
 	}
 
 	@Override
 	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
-		// TODO Auto-generated method stub
-		return 0;
+		if (slot == 0) {
+			return 0;
+		} else if (slot == 1) {
+			return 0;
+		} else if (slot == 2) {
+			return 1;
+		}
+		return 1;
 	}
 
-	@Override
-	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
-		// TODO Auto-generated method stub
 
-	}
 
 }

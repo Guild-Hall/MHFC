@@ -87,9 +87,4 @@ public class DragoonArmor extends ArmorExclusive {
 		return 0;
 	}
 
-	@Override
-	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
-		// TODO Auto-generated method stub
-
-	}
 }

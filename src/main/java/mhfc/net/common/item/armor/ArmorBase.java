@@ -17,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.fml.relauncher.Side;
@@ -158,5 +159,12 @@ public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 	protected void applySetBonus(
 			World world,
 			EntityPlayer player) {}
+
+	@Override
+	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
+		if (source != null) {
+		stack.damageItem(damage * 0, entity);
+		}
+	}
 
 }
