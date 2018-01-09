@@ -103,14 +103,15 @@ public class YukumoArmor extends ArmorBase {
 		 **/
 		if (source.getSourceOfDamage() instanceof EntityMHFCBase) {
 			/** Ratio base is 10 ( which is initial defense, 270 is maximum defense. **/
-			return new ArmorProperties(1, 10, 270);
+			return new ArmorProperties(1, (10 / 50), 270);
 		} else if (source.getSourceOfDamage() instanceof EntityKirin
 				&& source.getSourceOfDamage() instanceof EntityLagiacrus) {
-			return new ArmorProperties(1, 10 + 1, 270);
+			// +1 BECAUSE THIS IS PER PIECE!
+			return new ArmorProperties(1, (10 + 4 / 50), 270);
 		} else if (source.getSourceOfDamage() instanceof EntityRathalos) {
-			return new ArmorProperties(1, 10 - 1, 270);
+			return new ArmorProperties(1, (10 - 4 / 50), 270);
 		}
-		return new ArmorProperties(1, 10, 270);
+		return new ArmorProperties(1, 100, 270);
 
 	}
 
@@ -125,5 +126,6 @@ public class YukumoArmor extends ArmorBase {
 		}
 		return 0;
 	}
+
 
 }

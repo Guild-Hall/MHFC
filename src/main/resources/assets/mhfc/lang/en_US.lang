@@ -327,9 +327,9 @@ item.paintball.orange.name=Orange Paintball
 item.paintball.white.name=White Paintball
 
 item.a.mhf_helm.name= Tigrex Helm
-item.a.mhf_chest.name= Tigrex Chest
-item.a.mhf_leg.name= Tigrex Legs
-item.a.mhf_boots.name= Tigrex Boots
+item.a.mhf_chest.name= Tigrex Mail
+item.a.mhf_leg.name= Tigrex Tasset
+item.a.mhf_boots.name= Tigrex Greaves
 item.b.mhf_helm.name= Kirin Helm
 item.b.mhf_chest.name= Kirin Chest
 item.b.mhf_legs.name= Kirin Legs
@@ -375,9 +375,9 @@ item.l.mhf_chest.name=Jaggi Chest
 item.l.mhf_leg.name=Jaggi Legs
 item.l.mhf_boots.name=Jaggi Boots
 item.m.mhf_helm.name=Barroth Helm
-item.m.mhf_chest.name=Barroth Chest
-item.m.mhf_leg.name=Barroth Legs
-item.m.mhf_boots.name=Barroth Boots
+item.m.mhf_chest.name=Barroth Mail
+item.m.mhf_leg.name=Barroth Faulds
+item.m.mhf_boots.name=Barroth Greaves
 
 item.a.bow.name=Hunter's Bow I
 item.a.bow1.name=Hunter's Bow II

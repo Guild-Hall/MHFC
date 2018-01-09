@@ -56,6 +56,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	@Override
 	protected IActionManager<EntityBarroth> constructActionManager() {
 		
+		/** Barroth's AI Damage for low rank varies from 35 - 45 **/
 		
 		FollowUpManagerBuilder<EntityBarroth>	followUpManager = new FollowUpManagerBuilder<>();
 		followUpManager.registerAction(new AIBreathe(this, "mhfc:models/Barroth/barrothidle.mcanm", 60, 2f));
@@ -78,18 +79,12 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 						59,
 						1,
 						30));
-
-		followUpManager.registerAction(new HeadSlam(7F, 5F, 1F, 270F, 75F));
-		followUpManager.registerAllowingAllActions(new RamRun(0.5F, 30F, 70F));
-		followUpManager.registerAllowingAllActions(new Ram(80F));
-		followUpManager.registerAction(new Stomp(65F));
-		
-		
-		
-
+		followUpManager.registerAction(new HeadSlam(7F, 5F, 1F, 270F, 35F));
+		followUpManager.registerAllowingAllActions(new RamRun(0.5F, 30F, 40F));
+		followUpManager.registerAllowingAllActions(new Ram(36F));
+		followUpManager.registerAction(new Stomp(35F));
 		Roar roar = new Roar();
 		followUpManager.registerAllowingAllActions(roar);
-		
 		List<IExecutableAction<? super EntityBarroth>> allowedFirstSight = new ArrayList<>();
 		allowedFirstSight.add(roar);
 		

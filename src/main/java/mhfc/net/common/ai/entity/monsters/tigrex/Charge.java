@@ -184,7 +184,7 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 	public IAttackProvider getAttackProvider() {
 		return new AttackAdapter(
 				new AnimationAdapter(this, "mhfc:models/Tigrex/run.mcanm", 0),
-				new DamageAdapter(AIUtils.defaultDamageCalc(30F, 50F, 99999F)));
+				new DamageAdapter(AIUtils.defaultDamageCalc(35F, 50F, 99999F)));
 	}
 
 	@Override

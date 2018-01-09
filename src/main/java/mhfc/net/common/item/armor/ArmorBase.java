@@ -23,6 +23,10 @@ import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * TODO: Add a getter for ratioDamage and maxAbsorption - Heltrato reserved for dev test #3. or possibly 1.5 released.
+ **/
+
 public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 	public static EnumMap<EntityEquipmentSlot, String> makeDefaultSlotToTex(String upperTex, String lowerTex) {
 		EnumMap<EntityEquipmentSlot, String> map = new EnumMap<>(EntityEquipmentSlot.class);
