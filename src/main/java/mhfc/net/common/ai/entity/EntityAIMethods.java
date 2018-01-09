@@ -99,19 +99,22 @@ public abstract class EntityAIMethods {
 		entity.heal(amount);
 	}
 
-	private static boolean camShake = false;
-	private static float CamShakeIntensity;
 
-	public static void camShake(EntityLivingBase e, Entity target, float dist, float intensity) {
+	public static void camShake(Entity e, float dist, float intensity) {
+
 		if (e.world.isRemote) {
-			List<EntityPlayer> player = target.world
-					.getEntitiesWithinAABB(EntityPlayer.class, target.getEntityBoundingBox().expand(dist, 4, dist));
-			camShake = (camShake == false) ? true : false;
-			CamShakeIntensity = (camShake) ? intensity : -intensity;
-			for (EntityPlayer players : player) {
-				players.turn(0, CamShakeIntensity);
+			boolean camshaker = false;
+			float camshakerintensity;
+			List<EntityPlayer> players = e.world
+					.getEntitiesWithinAABB(EntityPlayer.class, e.getEntityBoundingBox().expand(dist, 4, dist));
+			camshaker = (camshaker == false) ? true : false;
+			camshakerintensity = (camshaker) ? intensity : -intensity;
+			for (EntityPlayer player : players) {
+				player.rotationPitch = camshakerintensity;
 			}
+
 		}
+
 	}
 
 	public static void roarEffect(EntityLivingBase target) {

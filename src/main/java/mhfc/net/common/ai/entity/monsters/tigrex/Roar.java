@@ -1,5 +1,6 @@
 package mhfc.net.common.ai.entity.monsters.tigrex;
 
+import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.actions.RoarAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.RoarAdapter;
@@ -9,6 +10,7 @@ import mhfc.net.common.ai.general.provider.simple.IRoarProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityTigrex;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 
 public class Roar extends RoarAction<EntityTigrex> implements IHasAnimationProvider {
@@ -45,6 +47,11 @@ public class Roar extends RoarAction<EntityTigrex> implements IHasAnimationProvi
 		if (this.getCurrentFrame() <= 10) {
 			entity.getTurnHelper().updateTargetPoint(targetPoint);
 			entity.getTurnHelper().updateTurnSpeed(6.0f);
+		}
+		if (this.getCurrentFrame() == 30) {
+			if (entity.getAttackTarget() instanceof EntityPlayer) {
+			EntityAIMethods.camShake(entity, 10, 40);
+			}
 		}
 	}
 }
