@@ -30,7 +30,7 @@ public class TigrexArmor extends ArmorBase {
 			ResourceInterface.armor_tigrex_boots_name };
 
 	public TigrexArmor(EntityEquipmentSlot type) {
-		super(Material.tigrex, ItemRarity.R04, type);
+		super(Material.initialMaterial, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
@@ -133,12 +133,12 @@ public class TigrexArmor extends ArmorBase {
 	@Override
 	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
 		if (slot == 0) {
-			return 0;
+			return 1;
 		} else if (slot == 1) {
-			return 0;
+			return 1;
 		} else if (slot == 2) {
 			return 1;
 		}
-		return 0;
+		return 1;
 	}
 }

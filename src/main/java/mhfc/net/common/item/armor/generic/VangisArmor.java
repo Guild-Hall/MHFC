@@ -27,7 +27,7 @@ public class VangisArmor extends ArmorBase {
 			ResourceInterface.armor_deviljho_boots_name };
 
 	public VangisArmor(EntityEquipmentSlot type) {
-		super(Material.deviljho, ItemRarity.R04, type);
+		super(Material.initialMaterial, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
@@ -116,13 +116,13 @@ public class VangisArmor extends ArmorBase {
 	@Override
 	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
 		if (slot == 0) {
-			return 0;
+			return 2;
 		} else if (slot == 1) {
-			return 0;
+			return 2;
 		} else if (slot == 2) {
-			return 1;
+			return 2;
 		}
-		return 0;
+		return 1;
 	}
 
 }
