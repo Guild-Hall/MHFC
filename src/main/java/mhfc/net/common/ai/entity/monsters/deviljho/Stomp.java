@@ -38,7 +38,7 @@ public class Stomp extends DamagingAction<EntityDeviljho> implements IHasAttackP
 	public IAttackProvider getAttackProvider() {
 		return new AttackAdapter(
 				new AnimationAdapter(this, "mhfc:models/Deviljho/DeviljhoStomp.mcanm", 55),
-				new DamageAdapter(AIUtils.defaultDamageCalc(40F, 50F, 9999999f)));
+				new DamageAdapter(AIUtils.defaultDamageCalc(90F, 50F, 9999999f)));
 	}
 
 	@Override

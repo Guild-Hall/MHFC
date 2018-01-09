@@ -43,7 +43,7 @@ public class Bite extends JumpAction<EntityDelex> implements IHasJumpProvider<En
 	public IJumpProvider<EntityDelex> getJumpProvider() {
 		return new JumpAdapter<EntityDelex>(
 				new AnimationAdapter(this, "mhfc:models/delex/delexbite.mcanm", 25),
-				new DamageAdapter(AIUtils.defaultDamageCalc(16, 45, 99999)),
+				new DamageAdapter(AIUtils.defaultDamageCalc(50f, 45, 99999)),
 				new AttackTargetAdapter<EntityDelex>(10F),
 				new JumpTimingAdapter<EntityDelex>(1, 10, 14));
 	}

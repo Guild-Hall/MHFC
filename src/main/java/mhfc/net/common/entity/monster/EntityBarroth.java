@@ -79,10 +79,10 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 						1,
 						30));
 
-		followUpManager.registerAction(new HeadSlam(7F, 5F, 1F, 270F));
-		followUpManager.registerAllowingAllActions(new RamRun(0.5F, 30F));
-		followUpManager.registerAllowingAllActions(new Ram());
-		followUpManager.registerAction(new Stomp());
+		followUpManager.registerAction(new HeadSlam(7F, 5F, 1F, 270F, 75F));
+		followUpManager.registerAllowingAllActions(new RamRun(0.5F, 30F, 70F));
+		followUpManager.registerAllowingAllActions(new Ram(80F));
+		followUpManager.registerAction(new Stomp(65F));
 		
 		
 		

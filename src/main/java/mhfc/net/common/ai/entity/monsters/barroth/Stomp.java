@@ -14,8 +14,11 @@ import mhfc.net.common.entity.monster.EntityBarroth;
 
 public class Stomp extends DamagingAction<EntityBarroth> implements IHasAttackProvider {
 	private boolean thrown = false;
+	public float damage;
 
-	public Stomp() {}
+	public Stomp(float damage) {
+		this.damage = damage;
+	}
 
 	private void updateStomp() {
 		EntityBarroth entity = this.getEntity();
@@ -62,7 +65,7 @@ public class Stomp extends DamagingAction<EntityBarroth> implements IHasAttackPr
 	public IAttackProvider getAttackProvider() {
 		return new AttackAdapter(
 				new AnimationAdapter(this, "mhfc:models/Barroth/BarrothStomp.mcanm", 85),
-				new DamageAdapter(AIUtils.defaultDamageCalc(18F, 50F, 9999999f)));
+				new DamageAdapter(AIUtils.defaultDamageCalc(this.damage, this.damage * 5F, 9999999f)));
 	}
 
 }

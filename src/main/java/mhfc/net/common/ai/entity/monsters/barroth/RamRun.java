@@ -14,11 +14,12 @@ import mhfc.net.common.entity.monster.EntityBarroth;
 
 public class RamRun extends DamagingAction<EntityBarroth> implements IHasAttackProvider {
 
-	protected float speed, turnrate;
+	protected float speed, turnrate, damage;
 
-	public RamRun(float speed, float turnrate) {
+	public RamRun(float speed, float turnrate, float damage) {
 		this.speed = speed;
 		this.turnrate = turnrate;
+		this.damage = damage;
 
 	}
 
@@ -44,7 +45,7 @@ public class RamRun extends DamagingAction<EntityBarroth> implements IHasAttackP
 	public IAttackProvider getAttackProvider() {
 		return new AttackAdapter(
 				new AnimationAdapter(this, "mhfc:models/Barroth/BarrothRamRun.mcanm", 130),
-				new DamageAdapter(AIUtils.defaultDamageCalc(45F, 50F, 9999999f)));
+				new DamageAdapter(AIUtils.defaultDamageCalc(this.damage, this.damage * 5F, 9999999f)));
 	}
 
 	@Override

@@ -70,7 +70,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 						"mhfc:models/Deviljho/bite.mcanm",
 						40,
 						25,
-						105,
+						115,
 						15,
 						MHFCSoundRegistry.getRegistry().deviljhoBiteA));
 		attackManager.registerAction(
@@ -88,7 +88,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 						"mhfc:models/Deviljho/tailswipe.mcanm",
 						55,
 						5,
-						165,
+						145,
 						18,
 						MHFCSoundRegistry.getRegistry().deviljhoTailWhip,
 						12,

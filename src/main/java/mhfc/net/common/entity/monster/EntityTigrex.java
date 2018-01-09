@@ -81,7 +81,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 						"mhfc:models/Tigrex/bite.mcanm",
 						55,
 						12,
-						40,
+						70,
 						10F,
 						MHFCSoundRegistry.getRegistry().tigrexBite));
 		manager.registerAction(new AIBreathe(this, "mhfc:models/Tigrex/breathe.mcanm", 60, 2F));
@@ -90,7 +90,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 						"mhfc:models/Tigrex/clawswipe.mcanm",
 						41,
 						5,
-						28,
+						68,
 						10,
 						MHFCSoundRegistry.getRegistry().tigrexTailWhip,
 						7,
@@ -103,7 +103,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 						"mhfc:models/Tigrex/tailswipe.mcanm",
 						60,
 						12,
-						28,
+						68,
 						10F,
 						MHFCSoundRegistry.getRegistry().tigrexTailWhip,
 						9,

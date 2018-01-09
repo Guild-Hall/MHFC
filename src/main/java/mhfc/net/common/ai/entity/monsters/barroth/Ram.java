@@ -13,8 +13,11 @@ import mhfc.net.common.entity.monster.EntityBarroth;
 
 public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProvider {
 
+	public float damage;
 
-	public Ram() {}
+	public Ram(float damage) {
+		this.damage = damage;
+	}
 
 	@Override
 	protected float computeSelectionWeight() {
@@ -33,7 +36,7 @@ public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProv
 	public IAttackProvider getAttackProvider() {
 		return new AttackAdapter(
 				new AnimationAdapter(this, "mhfc:models/Barroth/BarrothRam.mcanm", 75),
-				new DamageAdapter(AIUtils.defaultDamageCalc(18F, 50F, 9999999f)));
+				new DamageAdapter(AIUtils.defaultDamageCalc(this.damage, this.damage * 5F, 9999999f)));
 	}
 
 	@Override

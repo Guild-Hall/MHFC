@@ -83,7 +83,7 @@ public class EntityProjectileBlock extends EntityThrowable {
 			if (getDistanceSqToEntity(entity) > 6.25D) {
 				continue;
 			}
-			entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 20F + this.rand.nextInt(17));
+			entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 50F + this.rand.nextInt(17));
 		}
 	}
 
