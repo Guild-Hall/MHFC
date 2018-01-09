@@ -18,6 +18,7 @@ public abstract class DeathAction<T extends EntityCreature> extends AnimatedActi
 	@Override
 	protected void beginExecution() {
 		super.beginExecution();
+		getEntity().setAttackTarget(null);
 		getEntity().playSound(provideDeathSound(), 4.0F, 1.0F);
 	}
 

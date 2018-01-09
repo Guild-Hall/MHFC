@@ -184,6 +184,14 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		}
 		spawnDeadParticles();
 		deathTicks++;
+		/** Half the time of the mob spawns death items. **/
+		if (deathTicks == (DeathAction.deathLingeringTicks / 2)) {
+			if (!world.isRemote) {
+				boolean killedByPlayer = true;
+				int specialLuck = 100;
+				dropFewItems(killedByPlayer, specialLuck);
+			}
+		}
 		if (deathTicks >= DeathAction.deathLingeringTicks || deathAction == null) {
 			onDespawn();
 			setDead();
@@ -211,11 +219,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	/** Follow up method from this.spawnDeadParticles() **/
 	protected void onDespawn() {
-		boolean killedByPlayer = true;
-		int specialLuck = 100;
-		if (!world.isRemote) {
-			dropFewItems(killedByPlayer, specialLuck);
-		}
+
 		for (int i = 0; i < 20; i++) {
 			double randX = rand.nextDouble(), randZ = rand.nextDouble(), randY = rand.nextGaussian();
 			randX = randX * (getEntityBoundingBox().maxX - getEntityBoundingBox().minX) + getEntityBoundingBox().minX;
