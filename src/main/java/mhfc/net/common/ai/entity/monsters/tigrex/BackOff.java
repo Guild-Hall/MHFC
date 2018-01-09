@@ -31,7 +31,7 @@ public class BackOff extends JumpAction<EntityTigrex> implements IHasJumpProvide
 		final IAnimationProvider animation = new AnimationAdapter(this, "mhfc:models/Tigrex/jump_away.mcanm", 25);
 		ATTACK = new JumpAdapter<>(
 				animation,
-				new DamageAdapter(AIUtils.defaultDamageCalc(2, 45, 99999)),
+				new DamageAdapter(AIUtils.defaultDamageCalc(80, 45, 99999)),
 				jumpParameter,
 				jumpTiming);
 	}
