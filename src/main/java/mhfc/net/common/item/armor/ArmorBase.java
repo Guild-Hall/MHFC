@@ -172,4 +172,5 @@ public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 	}
 
 
+
 }
