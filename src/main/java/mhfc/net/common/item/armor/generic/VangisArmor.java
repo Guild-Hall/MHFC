@@ -27,7 +27,7 @@ public class VangisArmor extends ArmorBase {
 			ResourceInterface.armor_deviljho_boots_name };
 
 	public VangisArmor(EntityEquipmentSlot type) {
-		super(Material.initialMaterial, ItemRarity.R04, type);
+		super(Material.deviljho, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 

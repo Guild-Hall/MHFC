@@ -171,17 +171,5 @@ public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 		}
 	}
 
-	@Override
-	public ArmorProperties getProperties(
-			EntityLivingBase player,
-			ItemStack armor,
-			DamageSource source,
-			double damage,
-			int slot) {
-		ArmorProperties props = new ArmorProperties(0, 0, 0);
-		double rawDamage = damage - props.AbsorbRatio;
-
-		return props;
-	}
 
 }

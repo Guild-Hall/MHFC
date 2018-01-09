@@ -27,7 +27,7 @@ public class BarrothArmor extends ArmorBase {
 			ResourceInterface.armor_barroth_boots_name };
 
 	public BarrothArmor(EntityEquipmentSlot type) {
-		super(Material.initialMaterial, ItemRarity.R04, type);
+		super(Material.barroth, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 

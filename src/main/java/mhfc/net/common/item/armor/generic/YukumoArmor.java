@@ -28,7 +28,7 @@ public class YukumoArmor extends ArmorBase {
 			ResourceInterface.armor_yukumo_boots_name };
 
 	public YukumoArmor(EntityEquipmentSlot type) {
-		super(Material.initialMaterial, ItemRarity.R04, type);
+		super(Material.yukomo, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 

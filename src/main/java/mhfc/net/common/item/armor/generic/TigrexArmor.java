@@ -30,7 +30,7 @@ public class TigrexArmor extends ArmorBase {
 			ResourceInterface.armor_tigrex_boots_name };
 
 	public TigrexArmor(EntityEquipmentSlot type) {
-		super(Material.initialMaterial, ItemRarity.R04, type);
+		super(Material.tigrex, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
