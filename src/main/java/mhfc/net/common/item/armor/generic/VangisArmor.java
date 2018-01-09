@@ -103,11 +103,11 @@ public class VangisArmor extends ArmorBase {
 		 **/
 		if (source.getSourceOfDamage() instanceof EntityMHFCBase) {
 			/** Ratio base is 10 ( which is initial defense, 270 is maximum defense. **/
-			return new ArmorProperties(1, (310 / 350), 565);
+			return new ArmorProperties(1, 0.75, 565);
 		} else if (source.getSourceOfDamage() instanceof EntityKirin
 				&& source.getSourceOfDamage() instanceof EntityLagiacrus) {
 			// +1 BECAUSE THIS IS PER PIECE!
-			return new ArmorProperties(1, (310 - 20 / 350), 565);
+			return new ArmorProperties(1, 0.75 - 0.20, 565);
 		}
 		return new ArmorProperties(1, 100, 270);
 

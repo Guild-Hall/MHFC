@@ -101,10 +101,10 @@ public class BarrothArmor extends ArmorBase {
 		 **/
 		if (source.getSourceOfDamage() instanceof EntityMHFCBase) {
 			/** Ratio base is 10 ( which is initial defense, 270 is maximum defense. **/
-			return new ArmorProperties(1, (75 / 100), 150);
+			return new ArmorProperties(1, 0.35, 150);
 		} else if (source.getSourceOfDamage() instanceof EntityKirin
 				&& source.getSourceOfDamage() instanceof EntityLagiacrus) {
-			return new ArmorProperties(1, ((75 + 15) / 100), 150);
+			return new ArmorProperties(1, 0.35 + 0.10, 150);
 		}
 		// TO BE ADDED WEAKNESS IN ICE ELEMENTS  LEL
 

@@ -118,13 +118,13 @@ public class TigrexArmor extends ArmorBase {
 		 * The initial absorption for monsters that are not included in the armors element excemption.
 		 **/
 		if (source.getSourceOfDamage() instanceof EntityMHFCBase) {
-			return new ArmorProperties(1, (200 / 250), 320);
+			return new ArmorProperties(1, 0.55, 320);
 		} else if (source.getSourceOfDamage() instanceof EntityKirin
 				&& source.getSourceOfDamage() instanceof EntityLagiacrus) {
 			// +1 BECAUSE THIS IS PER PIECE!
-			return new ArmorProperties(1, (200 - 10 / 250), 320);
+			return new ArmorProperties(1, 0.55 - 0.10, 320);
 		} else if (source.getSourceOfDamage() instanceof EntityRathalos) {
-			return new ArmorProperties(1, (200 + 15 / 250), 320);
+			return new ArmorProperties(1, 0.55 + 0.15, 320);
 		}
 		return new ArmorProperties(1, 100, 270);
 
