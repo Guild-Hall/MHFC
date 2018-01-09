@@ -44,7 +44,7 @@ public class RamRun extends DamagingAction<EntityBarroth> implements IHasAttackP
 	public IAttackProvider getAttackProvider() {
 		return new AttackAdapter(
 				new AnimationAdapter(this, "mhfc:models/Barroth/BarrothRamRun.mcanm", 130),
-				new DamageAdapter(AIUtils.defaultDamageCalc(17F, 50F, 9999999f)));
+				new DamageAdapter(AIUtils.defaultDamageCalc(45F, 50F, 9999999f)));
 	}
 
 	@Override
