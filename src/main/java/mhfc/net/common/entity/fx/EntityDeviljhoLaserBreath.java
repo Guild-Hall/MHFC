@@ -173,6 +173,7 @@ public class EntityDeviljhoLaserBreath extends Entity {
 	            }
 
 			if (isOnSight && onSightYaw && onSightPitch) {
+				if (entityHit != null)
 				entityHit.attackEntityFrom(DamageSource.causeMobDamage(caster), damage);
 			}
 

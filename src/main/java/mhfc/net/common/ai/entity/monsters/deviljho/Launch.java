@@ -12,6 +12,7 @@ import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 
 public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttackProvider {
@@ -55,6 +56,11 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 		damageCollidingEntities();
 		if (thrown) {
 			return;
+		}
+		if (this.getCurrentFrame() > 20) {
+			if (getEntity().getAttackTarget() instanceof EntityPlayer) {
+				EntityAIMethods.camShake(getEntity(), 10, 40);
+			}
 		}
 		EntityDeviljho entity = this.getEntity();
 		if (this.getCurrentFrame() == 28) {

@@ -56,8 +56,11 @@ public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider
 			return;
 		}
 		EntityAIMethods.stompCracks(entity, 200);
+		if (this.getCurrentFrame() > 10) {
+
 		if(target instanceof EntityPlayer){
 			EntityAIMethods.camShake(entity, 10F, 40F);
+		}
 		}
 		thrown = true;
 	}

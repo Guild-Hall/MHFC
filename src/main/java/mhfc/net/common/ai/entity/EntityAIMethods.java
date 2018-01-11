@@ -20,15 +20,7 @@ public abstract class EntityAIMethods {
 	private EntityAIMethods() {}
 
 	/**
-	 * So I have an idea that this will be the place where all AI methods well technically common graphics materials
-	 * like for example : The Stomp Particles from Deviljho AI will be placed.
-	 *
-	 * This will be the class that where all common gameplay of the AI will be placed. Example
-	 *
-	 * The Stomp Effect from Deviljho stomp. of course other monsters would use that too. so aside from adding some
-	 * updates in the General AI's which may not be final and can cause conflicts soon this will be a place for this
-	 * methods to avoid bad casualties...
-	 *
+	 * TODO REMOVE ENTITYAIMETHODS AND MOVE ALL METHODS HERE TO ENTITYMHFCBASE !
 	 *
 	 * If you have Suggestions just post issue
 	 *
