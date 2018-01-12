@@ -22,18 +22,23 @@ import mhfc.net.common.ai.general.TargetTurnHelper;
 import mhfc.net.common.ai.general.actions.DeathAction;
 import mhfc.net.common.ai.manager.AIActionManager;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
+import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundEvent;
@@ -630,6 +635,39 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 				0.0F);
 		hitPart.onUpdate();
 
+	}
+
+	/** THE NEW ENTITY AI METHODS. **/
+
+	/** Roar Effect Method **/
+	public void roarEffect(boolean doesEarAffect, double strength) {
+		List<Entity> roarAffection = this.world
+				.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(8, 5, 8));
+		if (roarAffection != null) {
+			if (!this.world.isRemote) {
+			for (Entity roarAffected : roarAffection) {
+				if (roarAffected instanceof EntityPlayer && ((EntityPlayer) roarAffected).capabilities.isCreativeMode) {
+					return;
+				}
+					roarAffected.addVelocity(strength, 0.2D, strength);
+				if (doesEarAffect) {
+					((EntityLivingBase) roarAffected).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 80, 10));
+					((EntityLivingBase) roarAffected)
+							.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 80, 10));
+					}
+					}
+				}
+			}
+		}
+
+	/** Mount Velocity Method (former Launch) **/
+	public void mountVelocity(double x, double y, double z) {
+		List<Entity> collidingEnts = WorldHelper.collidingEntities(this);
+		if (!this.world.isRemote) {
+			for (Entity collider : collidingEnts) {
+				collider.addVelocity(x, y, z);
+			}
+		}
 	}
 
 }

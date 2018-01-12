@@ -45,6 +45,7 @@ public class Roar extends RoarAction<EntityTigrex> implements IHasAnimationProvi
 		if (this.getCurrentFrame() <= 10) {
 			entity.getTurnHelper().updateTargetPoint(targetPoint);
 			entity.getTurnHelper().updateTurnSpeed(6.0f);
+			entity.roarEffect(true, 0D);
 		}
 	}
 }
