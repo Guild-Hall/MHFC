@@ -1,6 +1,5 @@
 package mhfc.net.common.ai.entity.monsters.barroth;
 
-import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.DamageAreaAction;
@@ -11,6 +10,7 @@ import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityBarroth;
+import mhfc.net.common.entity.type.EntityMHFCBase;
 
 public class HeadSlam extends DamageAreaAction<EntityBarroth> implements IHasAttackProvider {
 
@@ -51,7 +51,7 @@ public class HeadSlam extends DamageAreaAction<EntityBarroth> implements IHasAtt
 		if (getEntity().getAttackTarget() != null && this.getCurrentFrame() == 25) {
 			super.onUpdate();
 			getEntity().playSound(MHFCSoundRegistry.getRegistry().barrothHeadsmash, 2.0F, 1.0F);
-			EntityAIMethods.launch(entity, 1.0D, 2.5D, 1.0D);
+			EntityMHFCBase.mountVelocity(entity, 1.0D, 2.5D, 1.0D);
 		}
 
 	}

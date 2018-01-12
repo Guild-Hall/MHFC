@@ -2,7 +2,6 @@ package mhfc.net.common.ai.entity.monsters.deviljho;
 
 import java.util.List;
 
-import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
@@ -13,6 +12,7 @@ import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -65,7 +65,7 @@ public class Stomp extends DamagingAction<EntityDeviljho> implements IHasAttackP
 			entity.turn(0, 40);
 			entity.addVelocity(0.2, 0.3, 0);
 		}
-		EntityAIMethods.stompCracks(actor, 100);
+		EntityMHFCBase.spawnCracks(actor, 150);
 		actor.playSound(MHFCSoundRegistry.getRegistry().deviljhoStomp, 1.0F, 1.0F);
 		thrown = true;
 	}

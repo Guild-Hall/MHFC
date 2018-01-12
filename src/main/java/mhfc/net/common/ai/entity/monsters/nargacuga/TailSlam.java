@@ -1,6 +1,5 @@
 package mhfc.net.common.ai.entity.monsters.nargacuga;
 
-import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.actions.JumpAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
@@ -13,6 +12,7 @@ import mhfc.net.common.ai.general.provider.impl.IHasJumpProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityNargacuga;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
+import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.MoverType;
 import net.minecraft.util.math.Vec3d;
@@ -76,7 +76,7 @@ public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpPro
 		if (!nargacuga.onGround || thrown || this.getCurrentFrame() < 30) {
 			return;
 		}
-		EntityAIMethods.stompCracks(nargacuga, 250);
+		EntityMHFCBase.spawnCracks(nargacuga, 250);
 		thrown = true;
 		if (nargacuga.world.isRemote) {
 			return;

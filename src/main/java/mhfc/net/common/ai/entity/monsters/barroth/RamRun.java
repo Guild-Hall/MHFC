@@ -1,6 +1,5 @@
 package mhfc.net.common.ai.entity.monsters.barroth;
 
-import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
@@ -11,6 +10,7 @@ import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityBarroth;
+import mhfc.net.common.entity.type.EntityMHFCBase;
 
 public class RamRun extends DamagingAction<EntityBarroth> implements IHasAttackProvider {
 
@@ -61,7 +61,7 @@ public class RamRun extends DamagingAction<EntityBarroth> implements IHasAttackP
 
 		}
 		if (this.getCurrentFrame() > 85) {
-			EntityAIMethods.launch(entity, 1.0D, 1.5D, 1.0D);
+			EntityMHFCBase.mountVelocity(entity, 1.0D, 1.5D, 1.0D);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			entity.moveForward(this.speed, true);

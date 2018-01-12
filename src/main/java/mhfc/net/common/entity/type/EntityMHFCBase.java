@@ -23,6 +23,7 @@ import mhfc.net.common.ai.general.actions.DeathAction;
 import mhfc.net.common.ai.manager.AIActionManager;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.util.world.WorldHelper;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityList;
@@ -33,6 +34,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
@@ -661,13 +663,36 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		}
 
 	/** Mount Velocity Method (former Launch) **/
-	public void mountVelocity(double x, double y, double z) {
-		List<Entity> collidingEnts = WorldHelper.collidingEntities(this);
-		if (!this.world.isRemote) {
+	public static void mountVelocity(Entity e, double x, double y, double z) {
+		List<Entity> collidingEnts = WorldHelper.collidingEntities(e);
+		if (!e.world.isRemote) {
 			for (Entity collider : collidingEnts) {
 				collider.addVelocity(x, y, z);
 			}
 		}
+	}
+
+	/** Spawn Cracks (usually use for AI like stomp etc. minor particle is used.) **/
+	public static void spawnCracks(Entity e, int incrementLength) {
+		Random rand = e.world.rand;
+		Block block = e.world.getBlockState(e.getPosition().down()).getBlock();
+		if (block != Blocks.AIR) {
+			block = Blocks.DIRT;
+		}
+		for (int x = 0; x < incrementLength; x++) {
+			for (int z = 0; z < incrementLength; z++) {
+				e.world.spawnParticle(
+						EnumParticleTypes.BLOCK_CRACK,
+						e.posX - 5.0D + x,
+						e.posY + 0.5D,
+						e.posZ - 5.0D + z,
+						rand.nextGaussian(),
+						rand.nextGaussian(),
+						rand.nextGaussian(),
+						Block.getIdFromBlock(block));
+			}
+		}
+
 	}
 
 }

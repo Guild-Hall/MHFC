@@ -12,6 +12,7 @@ import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.projectile.EntityProjectileBlock;
+import mhfc.net.common.entity.type.EntityMHFCBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 
@@ -68,7 +69,7 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 				return;
 			}
 			getEntity().playSound(MHFCSoundRegistry.getRegistry().deviljhoRockThrow, 2.0F, 1.0F);
-			EntityAIMethods.launch(entity, 0, 1.4, 0);
+			EntityMHFCBase.mountVelocity(entity, 0, 1.4, 0);
 		}
 		if (this.getCurrentFrame() >= 35) {
 			Vec3d look = entity.getLookVec();

@@ -1,6 +1,5 @@
 package mhfc.net.common.ai.entity.monsters.barroth;
 
-import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
@@ -11,6 +10,7 @@ import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityBarroth;
+import mhfc.net.common.entity.type.EntityMHFCBase;
 
 public class Stomp extends DamagingAction<EntityBarroth> implements IHasAttackProvider {
 	private boolean thrown = false;
@@ -27,7 +27,7 @@ public class Stomp extends DamagingAction<EntityBarroth> implements IHasAttackPr
 		if (!entity.onGround || thrown || this.getCurrentFrame() < 19) {
 			return;
 		}
-		EntityAIMethods.stompCracks(entity, 150);
+		EntityMHFCBase.spawnCracks(entity, 150);
 		entity.playSound(MHFCSoundRegistry.getRegistry().barrothRam, 1.0F, 1.0F);
 		thrown = true;
 	}
