@@ -99,7 +99,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
 		attackManager = Objects.requireNonNull(constructActionManager());
-		ignoreFrustumCheck = true;
+		this.ignoreFrustumCheck = true;
 		hasDied = false;
 	}
 
@@ -691,6 +691,26 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 						rand.nextGaussian(),
 						Block.getIdFromBlock(block));
 			}
+		}
+
+	}
+
+	/** Moves the players rotation Pitch., per AI with what should have a intensity. **/
+
+
+	public static void screenIntensity(Entity e, float dist, float setStrength) {
+
+		if (e.world.isRemote) {
+			boolean isShaking = false;
+			float setIntensityReps;
+			List<EntityPlayer> players = e.world
+					.getEntitiesWithinAABB(EntityPlayer.class, e.getEntityBoundingBox().expand(dist, 5, dist));
+			isShaking = (isShaking == false) ? true : false;
+			setIntensityReps = (isShaking) ? setStrength : -setStrength;
+			for (EntityPlayer player : players) {
+				player.rotationPitch *= setIntensityReps;
+			}
+
 		}
 
 	}

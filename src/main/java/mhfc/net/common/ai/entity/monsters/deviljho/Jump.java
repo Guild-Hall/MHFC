@@ -1,6 +1,5 @@
 package mhfc.net.common.ai.entity.monsters.deviljho;
 
-import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.JumpAction;
@@ -14,7 +13,6 @@ import mhfc.net.common.ai.general.provider.impl.IHasJumpProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.EntityDeviljho;
 import mhfc.net.common.entity.type.EntityMHFCBase;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider<EntityDeviljho> {
 
@@ -59,10 +57,10 @@ public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider
 		EntityMHFCBase.spawnCracks(entity, 200);
 		if (this.getCurrentFrame() > 10) {
 
-		if(target instanceof EntityPlayer){
-			EntityAIMethods.camShake(entity, 10F, 40F);
+			if (this.getCurrentFrame() >= 15 && this.getCurrentFrame() <= 20) {
+				EntityMHFCBase.screenIntensity(entity, 10F, 40F);
+			}
+			thrown = true;
 		}
-		}
-		thrown = true;
 	}
 }

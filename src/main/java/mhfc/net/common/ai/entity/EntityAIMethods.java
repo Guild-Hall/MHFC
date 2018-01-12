@@ -57,22 +57,6 @@ public abstract class EntityAIMethods {
 	}
 
 
-	public static void camShake(Entity e, float dist, float intensity) {
-
-		if (e.world.isRemote) {
-			boolean camshaker = false;
-			float camshakerintensity;
-			List<EntityPlayer> players = e.world
-					.getEntitiesWithinAABB(EntityPlayer.class, e.getEntityBoundingBox().expand(dist, 4, dist));
-			camshaker = (camshaker == false) ? true : false;
-			camshakerintensity = (camshaker) ? intensity : -intensity;
-			for (EntityPlayer player : players) {
-				player.rotationPitch = camshakerintensity;
-			}
-
-		}
-
-	}
 
 	public static void roarEffect(EntityLivingBase target) {
 		if (target instanceof EntityPlayer && ((EntityPlayer) target).capabilities.isCreativeMode) {

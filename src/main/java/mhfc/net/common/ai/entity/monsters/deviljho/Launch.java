@@ -1,6 +1,5 @@
 package mhfc.net.common.ai.entity.monsters.deviljho;
 
-import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
@@ -58,9 +57,9 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 		if (thrown) {
 			return;
 		}
-		if (this.getCurrentFrame() > 20) {
+		if (this.getCurrentFrame() >= 20) {
 			if (getEntity().getAttackTarget() instanceof EntityPlayer) {
-				EntityAIMethods.camShake(getEntity(), 10, 40);
+				EntityMHFCBase.screenIntensity(getEntity(), 10, 40);
 			}
 		}
 		EntityDeviljho entity = this.getEntity();
