@@ -31,6 +31,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  **/
 
 public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
+	public static ArmorBase instance;
+
 	public static EnumMap<EntityEquipmentSlot, String> makeDefaultSlotToTex(String upperTex, String lowerTex) {
 		EnumMap<EntityEquipmentSlot, String> map = new EnumMap<>(EntityEquipmentSlot.class);
 
@@ -41,6 +43,7 @@ public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 
 		return map;
 	}
+
 
 	public int layerIndex;
 
@@ -56,6 +59,7 @@ public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 		this(armor, rarity, armorType, null);
 		this.layerIndex = this.renderIndex;
 	}
+
 
 	/**
 	 *

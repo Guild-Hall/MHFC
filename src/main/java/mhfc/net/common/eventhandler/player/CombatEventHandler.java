@@ -55,7 +55,7 @@ public class CombatEventHandler {
 	public static void onToolTipPoint(ItemTooltipEvent event) {
 		if ((event.getItemStack().getItem() instanceof ArmorBase)) {
 			for (int i = 0; i < event.getToolTip().size(); i++) {
-				if (event.getToolTip().get(i).contains("Armor") && event.getToolTip().get(i).contains("+")) {
+				if (event.getToolTip().get(i).contains("Armor modifier") && event.getToolTip().get(i).contains("+")) {
 					event.getToolTip().remove(i);
 					event.getToolTip().remove(i - 1);
 				} else if (event.getToolTip().get(i).contains("Armor Toughness")
