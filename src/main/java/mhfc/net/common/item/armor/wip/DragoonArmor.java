@@ -1,4 +1,4 @@
-package mhfc.net.common.item.armor.donators;
+package mhfc.net.common.item.armor.wip;
 
 import java.util.List;
 
@@ -83,6 +83,43 @@ public class DragoonArmor extends ArmorExclusive {
 
 	@Override
 	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	protected String addHeadInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addChestInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addLegsInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addBootsInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected int setInitialDefenseValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	protected int setFinalDefenseValue() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

@@ -1,7 +1,5 @@
 package mhfc.net.common.item.armor.generic;
 
-import java.util.List;
-
 import mhfc.net.common.entity.monster.wip.EntityKirin;
 import mhfc.net.common.entity.monster.wip.EntityLagiacrus;
 import mhfc.net.common.entity.monster.wip.EntityRathalos;
@@ -11,7 +9,6 @@ import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.item.armor.ArmorBase;
-import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
@@ -30,6 +27,10 @@ public class YukumoArmor extends ArmorBase {
 	public YukumoArmor(EntityEquipmentSlot type) {
 		super(Material.yukomo, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
+		if (this.addBasicInfo != null) {
+		this.addBasicInfo.add("+4 Thunder Resistance");
+		this.addBasicInfo.add("-4 Fire Resistance");
+		}
 	}
 
 	@Override
@@ -53,43 +54,6 @@ public class YukumoArmor extends ArmorBase {
 		return null;
 	}
 
-	@Override
-	public void addInformation(
-			ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			List<String> par3List,
-			boolean par4) {
-		par3List.add(ColorSystem.ENUMLAVENDER + "Initial Defense: " + ColorSystem.ENUMWHITE + "10");
-		par3List.add(ColorSystem.ENUMLAVENDER + "Maximum Defense: " + ColorSystem.ENUMWHITE + "270");
-		par3List.add("+4 Thunder Resistance");
-		par3List.add("-4 Fire Resistance");
-		switch (this.armorType) {
-		case HEAD:
-			par3List.add(
-					ColorSystem.ENUMAQUA
-							+ "Headgear from the Yukumo region. It identifies the wearer as a traveling hunter.");
-			break;
-		case CHEST:
-			par3List.add(
-					ColorSystem.ENUMAQUA
-							+ "Chest armor common among the people of the Yukumo region, it stresses mobility over defense.");
-			break;
-		case LEGS:
-			par3List.add(
-					ColorSystem.ENUMAQUA
-							+ "Functional waist armor designed for convenience. Often wrapped around the shoulders for warmth.");
-			break;
-		case FEET:
-			par3List.add(
-					ColorSystem.ENUMAQUA
-							+ "Leg armor worn all over the Yukumo region. One can alter the hem width using the sash.");
-			break;
-		case MAINHAND:
-		case OFFHAND:
-		default:
-			Assert.logUnreachable("Armor can only be equiped on armor slots, got ", this.armorType);
-		}
-	}
 
 	@Override
 	public ArmorProperties getProperties(
@@ -127,5 +91,35 @@ public class YukumoArmor extends ArmorBase {
 		return 0;
 	}
 
+	@Override
+	protected String addHeadInfo() {
+		return "Headgear from the Yukumo region. It identifies the wearer as a traveling hunter.";
+	}
+
+	@Override
+	protected String addChestInfo() {
+		return "Chest armor common among the people of the Yukumo region, it stresses mobility over defense.";
+	}
+
+	@Override
+	protected String addLegsInfo() {
+		return "Functional waist armor designed for convenience. Often wrapped around the shoulders for warmth.";
+	}
+
+	@Override
+	protected String addBootsInfo() {
+		return "Leg armor worn all over the Yukumo region. One can alter the hem width using the sash.";
+	}
+
+	@Override
+	protected int setInitialDefenseValue() {
+		return 10;
+	}
+
+	@Override
+	protected int setFinalDefenseValue() {
+		// TODO Auto-generated method stub
+		return 270;
+	}
 
 }

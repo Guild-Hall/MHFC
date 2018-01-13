@@ -1,6 +1,4 @@
-package mhfc.net.common.item.armor.generic;
-
-import java.util.List;
+package mhfc.net.common.item.armor.wip;
 
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.index.armor.Material;
@@ -17,13 +15,13 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class RathalosArmor extends ArmorBase {
-	private static final String[] names = { ResourceInterface.armor_rathalos_helm_name,
-			ResourceInterface.armor_rathalos_chest_name, ResourceInterface.armor_rathalos_legs_name,
-			ResourceInterface.armor_rathalos_boots_name };
+public class VelocipreyArmor extends ArmorBase {
+	private static final String[] names = { ResourceInterface.armor_velociprey_helm_name,
+			ResourceInterface.armor_velociprey_chest_name, ResourceInterface.armor_velociprey_legs_name,
+			ResourceInterface.armor_velociprey_boots_name };
 
-	public RathalosArmor(EntityEquipmentSlot type) {
-		super(Material.rathalos, ItemRarity.R04, type);
+	public VelocipreyArmor(EntityEquipmentSlot type) {
+		super(Material.velociprey, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
@@ -32,13 +30,13 @@ public class RathalosArmor extends ArmorBase {
 	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
 		switch (armorSlot) {
 		case HEAD:
-			return Model.rathalos;
+			return Model.velociprey;
 		case LEGS:
 			return null;
 		case FEET:
-			return Model.rathalos;
+			return Model.velociprey;
 		case CHEST:
-			return Model.rathalos;
+			return Model.velociprey;
 		case MAINHAND:
 		case OFFHAND:
 		default:
@@ -46,16 +44,6 @@ public class RathalosArmor extends ArmorBase {
 		}
 
 		return null;
-	}
-
-	@Override
-	public void addInformation(
-			ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			List<String> par3List,
-			boolean par4) {
-		//	par3List.add("Attack Up L");
-		//	par3List.add("Poison D[+4%]");
 	}
 
 	@Override
@@ -75,5 +63,41 @@ public class RathalosArmor extends ArmorBase {
 		return 0;
 	}
 
+
+	@Override
+	protected String addHeadInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addChestInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addLegsInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addBootsInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected int setInitialDefenseValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	protected int setFinalDefenseValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

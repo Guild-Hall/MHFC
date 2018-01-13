@@ -10,6 +10,8 @@ import javax.annotation.Nullable;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.ItemRarity;
+import mhfc.net.common.system.ColorSystem;
+import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -44,6 +46,12 @@ public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 	protected final ItemRarity rarity;
 	protected final Map<EntityEquipmentSlot, String> slotToTex;
 
+	protected List<String> addBasicInfo;
+	protected abstract String addHeadInfo();
+	protected abstract String addChestInfo();
+	protected abstract String addLegsInfo();
+	protected abstract String addBootsInfo();
+
 	public ArmorBase(ArmorMaterial armor, ItemRarity rarity, EntityEquipmentSlot armorType) {
 		this(armor, rarity, armorType, null);
 		this.layerIndex = this.renderIndex;
@@ -70,10 +78,47 @@ public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-		super.addInformation(stack, playerIn, tooltip, advanced);
-		// TODO add default armor information?!
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> par3List, boolean advanced) {
+		super.addInformation(stack, playerIn, par3List, advanced);
+
+		/** Gives info with the basic defense of the armors **/
+		par3List.add(
+				ColorSystem.ENUMLAVENDER + "Initial Defense: " + ColorSystem.ENUMWHITE + this.getInitialDefenseValue());
+		par3List.add(
+				ColorSystem.ENUMLAVENDER + "Maximum Defense: " + ColorSystem.ENUMWHITE + this.getFinalDefenseValue());
+		/** Adds addition basic info through it like adding element resistance etc. **/
+		if (this.addBasicInfo != null) {
+			par3List.addAll(this.addBasicInfo);
+		}
+		/** Adds description to every equipment **/
+		switch (this.armorType) {
+		case HEAD:
+			par3List.add(
+					ColorSystem.ENUMAQUA
+							+ this.addHeadInfo());
+			break;
+		case CHEST:
+			par3List.add(
+					ColorSystem.ENUMAQUA
+							+ this.addChestInfo());
+			break;
+		case LEGS:
+			par3List.add(
+					ColorSystem.ENUMAQUA
+							+ this.addLegsInfo());
+			break;
+		case FEET:
+			par3List.add(
+					ColorSystem.ENUMAQUA
+							+ this.addBootsInfo());
+			break;
+		case MAINHAND:
+		case OFFHAND:
+		default:
+			Assert.logUnreachable("Armor can only be equiped on armor slots, got ", this.armorType);
+		}
 	}
+
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
@@ -87,6 +132,18 @@ public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 
 	@SideOnly(Side.CLIENT)
 	protected abstract ModelBiped getBipedModel(EntityEquipmentSlot armorSlot);
+
+	protected abstract int setInitialDefenseValue();
+
+	protected abstract int setFinalDefenseValue();
+
+	public int getInitialDefenseValue() {
+		return setInitialDefenseValue();
+	}
+
+	public int getFinalDefenseValue() {
+		return setFinalDefenseValue();
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)

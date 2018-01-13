@@ -29,6 +29,11 @@ public class VangisArmor extends ArmorBase {
 	public VangisArmor(EntityEquipmentSlot type) {
 		super(Material.deviljho, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
+		if (this.addBasicInfo != null) {
+		this.addBasicInfo.add("+5 Ice Resistance");
+		this.addBasicInfo.add("-20 Thunder Resistance");
+		this.addBasicInfo.add("-20 Dragon Resistance");
+		}
 	}
 
 	@Override
@@ -60,9 +65,7 @@ public class VangisArmor extends ArmorBase {
 			boolean par4) {
 		par3List.add(ColorSystem.ENUMLAVENDER + "Initial Defense: " + ColorSystem.ENUMWHITE + "310");
 		par3List.add(ColorSystem.ENUMLAVENDER + "Maximum Defense: " + ColorSystem.ENUMWHITE + "565");
-		par3List.add("+5 Ice Resistance");
-		par3List.add("-20 Thunder Resistance");
-		par3List.add("-20 Dragon Resistance");
+
 		switch (this.armorType) {
 		case HEAD:
 			par3List.add(
@@ -123,6 +126,42 @@ public class VangisArmor extends ArmorBase {
 			return 2;
 		}
 		return 1;
+	}
+
+	@Override
+	protected String addHeadInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addChestInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addLegsInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addBootsInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected int setInitialDefenseValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	protected int setFinalDefenseValue() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

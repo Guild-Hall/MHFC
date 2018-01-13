@@ -1,7 +1,5 @@
 package mhfc.net.common.item.armor.generic;
 
-import java.util.List;
-
 import mhfc.net.common.entity.monster.wip.EntityKirin;
 import mhfc.net.common.entity.monster.wip.EntityLagiacrus;
 import mhfc.net.common.entity.monster.wip.EntityRathalos;
@@ -11,7 +9,6 @@ import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.item.armor.ArmorBase;
-import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
@@ -32,6 +29,14 @@ public class TigrexArmor extends ArmorBase {
 	public TigrexArmor(EntityEquipmentSlot type) {
 		super(Material.tigrex, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
+		if (this.addBasicInfo != null) {
+		this.addBasicInfo.add("+15 Fire Resistance");
+		this.addBasicInfo.add("+15 Ice Resistance");
+		this.addBasicInfo.add("+10 Water Resistance");
+		this.addBasicInfo.add("-10 Thunder Resistance");
+		this.addBasicInfo.add(" -5 Dragon Resistance");
+		}
+
 	}
 
 	@Override
@@ -63,47 +68,6 @@ public class TigrexArmor extends ArmorBase {
 			// int maxUseDuration = equipement.getItem().getMaxItemUseDuration(equipement);
 			// int currentDuration = player.getItemInUseCount();
 			// TODO: whatever was planned for tigrex armor
-		}
-	}
-
-	@Override
-	public void addInformation(
-			ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			List<String> par3List,
-			boolean par4) {
-		par3List.add(ColorSystem.ENUMLAVENDER + "Initial Defense: " + ColorSystem.ENUMWHITE + "200");
-		par3List.add(ColorSystem.ENUMLAVENDER + "Maximum Defense: " + ColorSystem.ENUMWHITE + "320");
-		par3List.add("+15 Fire Resistance");
-		par3List.add("+15 Ice Resistance");
-		par3List.add("+10 Water Resistance");
-		par3List.add("-10 Thunder Resistance");
-		par3List.add("-5  Dragon Resistance");
-		switch (this.armorType) {
-		case HEAD:
-			par3List.add(
-					ColorSystem.ENUMAQUA
-							+ "Made of Tigrex materials. Proof of conquering a despot who terrorized the land.");
-			break;
-		case CHEST:
-			par3List.add(
-					ColorSystem.ENUMAQUA
-							+ "	Made of Tigrex materials. Armor worn by those who've exorcised its evil curse.");
-			break;
-		case LEGS:
-			par3List.add(
-					ColorSystem.ENUMAQUA
-							+ "Made of Tigrex materials. The fiendish, impervious armor of a brutal tyrant.");
-			break;
-		case FEET:
-			par3List.add(
-					ColorSystem.ENUMAQUA
-							+ "Made of Tigrex material. Cut with the memory of a tyrant, the earth cries underfoot.");
-			break;
-		case MAINHAND:
-		case OFFHAND:
-		default:
-			Assert.logUnreachable("Armor can only be equiped on armor slots, got ", this.armorType);
 		}
 	}
 
@@ -140,5 +104,35 @@ public class TigrexArmor extends ArmorBase {
 			return 1;
 		}
 		return 1;
+	}
+
+	@Override
+	protected String addHeadInfo() {
+		return "Made of Tigrex materials. Proof of conquering a despot who terrorized the land.";
+	}
+
+	@Override
+	protected String addChestInfo() {
+		return "Made of Tigrex materials. Armor worn by those who've exorcised its evil curse.";
+	}
+
+	@Override
+	protected String addLegsInfo() {
+		return "Made of Tigrex materials. The fiendish, impervious armor of a brutal tyrant.";
+	}
+
+	@Override
+	protected String addBootsInfo() {
+		return "Made of Tigrex material. Cut with the memory of a tyrant, the earth cries underfoot.";
+	}
+
+	@Override
+	protected int setInitialDefenseValue() {
+		return 200;
+	}
+
+	@Override
+	protected int setFinalDefenseValue() {
+		return 320;
 	}
 }

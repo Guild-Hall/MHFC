@@ -1,14 +1,10 @@
-package mhfc.net.common.item.armor.donators;
-
-import java.util.List;
+package mhfc.net.common.item.armor.wip;
 
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
-import mhfc.net.common.item.armor.ArmorExclusive;
-import mhfc.net.common.system.ColorSystem;
-import mhfc.net.common.system.DonatorSystem;
+import mhfc.net.common.item.armor.ArmorBase;
 import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,18 +15,13 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- *
- * @author WorldSEnder, design by Sean Tang
- *
- */
-public class ST_BionicArmor extends ArmorExclusive {
-	private static final String[] names = { ResourceInterface.armor_bionic_helm_name,
-			ResourceInterface.armor_bionic_chest_name, ResourceInterface.armor_bionic_legs_name,
-			ResourceInterface.armor_bionic_boots_name };
+public class NibelsnarfArmor extends ArmorBase {
+	private static final String[] names = { ResourceInterface.armor_nibelsnarf_helm_name,
+			ResourceInterface.armor_nibelsnarf_chest_name, ResourceInterface.armor_nibelsnarf_legs_name,
+			ResourceInterface.armor_nibelsnarf_boots_name };
 
-	public ST_BionicArmor(EntityEquipmentSlot type) {
-		super(DonatorSystem.bionic, Material.bionic, ItemRarity.R04, type);
+	public NibelsnarfArmor(EntityEquipmentSlot type) {
+		super(Material.nibelsnarf, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
@@ -39,13 +30,13 @@ public class ST_BionicArmor extends ArmorExclusive {
 	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
 		switch (armorSlot) {
 		case HEAD:
-			return Model.bionic;
+			return Model.nibelsnarf;
 		case LEGS:
 			return null;
 		case FEET:
-			return Model.bionic;
+			return Model.nibelsnarf;
 		case CHEST:
-			return Model.bionic;
+			return Model.nibelsnarf;
 		case MAINHAND:
 		case OFFHAND:
 		default:
@@ -53,15 +44,6 @@ public class ST_BionicArmor extends ArmorExclusive {
 		}
 
 		return null;
-	}
-
-	@Override
-	public void addInformation(
-			ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			List<String> par3List,
-			boolean par4) {
-		par3List.add(ColorSystem.ENUMAQUA + "[ Donators Exclusive ");
 	}
 
 	@Override
@@ -81,5 +63,41 @@ public class ST_BionicArmor extends ArmorExclusive {
 		return 0;
 	}
 
+
+	@Override
+	protected String addHeadInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addChestInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addLegsInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addBootsInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected int setInitialDefenseValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	protected int setFinalDefenseValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

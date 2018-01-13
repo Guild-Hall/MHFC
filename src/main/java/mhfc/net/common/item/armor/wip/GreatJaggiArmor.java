@@ -1,4 +1,4 @@
-package mhfc.net.common.item.armor.generic;
+package mhfc.net.common.item.armor.wip;
 
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.index.armor.Material;
@@ -59,6 +59,43 @@ public class GreatJaggiArmor extends ArmorBase {
 
 	@Override
 	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	protected String addHeadInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addChestInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addLegsInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addBootsInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected int setInitialDefenseValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	protected int setFinalDefenseValue() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

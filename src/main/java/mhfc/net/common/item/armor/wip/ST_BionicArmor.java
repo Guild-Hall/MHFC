@@ -1,4 +1,4 @@
-package mhfc.net.common.item.armor.generic;
+package mhfc.net.common.item.armor.wip;
 
 import java.util.List;
 
@@ -6,7 +6,9 @@ import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
-import mhfc.net.common.item.armor.ArmorBase;
+import mhfc.net.common.item.armor.ArmorExclusive;
+import mhfc.net.common.system.ColorSystem;
+import mhfc.net.common.system.DonatorSystem;
 import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,13 +19,18 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class KirinArmor extends ArmorBase {
-	private static final String[] names = { ResourceInterface.armor_kirin_helm_name,
-			ResourceInterface.armor_kirin_chest_name, ResourceInterface.armor_kirin_legs_name,
-			ResourceInterface.armor_kirin_boots_name };
+/**
+ *
+ * @author WorldSEnder, design by Sean Tang
+ *
+ */
+public class ST_BionicArmor extends ArmorExclusive {
+	private static final String[] names = { ResourceInterface.armor_bionic_helm_name,
+			ResourceInterface.armor_bionic_chest_name, ResourceInterface.armor_bionic_legs_name,
+			ResourceInterface.armor_bionic_boots_name };
 
-	public KirinArmor(EntityEquipmentSlot type) {
-		super(Material.kirin, ItemRarity.R04, type);
+	public ST_BionicArmor(EntityEquipmentSlot type) {
+		super(DonatorSystem.bionic, Material.bionic, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
@@ -32,13 +39,13 @@ public class KirinArmor extends ArmorBase {
 	protected ModelBiped getBipedModel(EntityEquipmentSlot armorSlot) {
 		switch (armorSlot) {
 		case HEAD:
-			return Model.kirin;
+			return Model.bionic;
 		case LEGS:
 			return null;
 		case FEET:
-			return Model.kirin;
+			return Model.bionic;
 		case CHEST:
-			return Model.kirin;
+			return Model.bionic;
 		case MAINHAND:
 		case OFFHAND:
 		default:
@@ -54,8 +61,7 @@ public class KirinArmor extends ArmorBase {
 			EntityPlayer par2EntityPlayer,
 			List<String> par3List,
 			boolean par4) {
-		par3List.add("Elemental Resistance L");
-		par3List.add("Thunder + 15");
+		par3List.add(ColorSystem.ENUMAQUA + "[ Donators Exclusive ");
 	}
 
 	@Override
@@ -75,5 +81,41 @@ public class KirinArmor extends ArmorBase {
 		return 0;
 	}
 
+
+	@Override
+	protected String addHeadInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addChestInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addLegsInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String addBootsInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected int setInitialDefenseValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	protected int setFinalDefenseValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

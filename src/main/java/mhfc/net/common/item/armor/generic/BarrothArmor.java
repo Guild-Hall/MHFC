@@ -1,7 +1,5 @@
 package mhfc.net.common.item.armor.generic;
 
-import java.util.List;
-
 import mhfc.net.common.entity.monster.wip.EntityKirin;
 import mhfc.net.common.entity.monster.wip.EntityLagiacrus;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -10,7 +8,6 @@ import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.item.armor.ArmorBase;
-import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
@@ -29,6 +26,10 @@ public class BarrothArmor extends ArmorBase {
 	public BarrothArmor(EntityEquipmentSlot type) {
 		super(Material.barroth, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
+		if (this.addBasicInfo != null) {
+		this.addBasicInfo.add("+15 Thunder Resistance");
+		this.addBasicInfo.add("-15 Ice Resistance");
+		}
 	}
 
 	@Override
@@ -52,42 +53,6 @@ public class BarrothArmor extends ArmorBase {
 		return null;
 	}
 
-	@Override
-	public void addInformation(
-			ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			List<String> par3List,
-			boolean par4) {
-		par3List.add(ColorSystem.ENUMLAVENDER + "Initial Defense: " + ColorSystem.ENUMWHITE + "75");
-		par3List.add(ColorSystem.ENUMLAVENDER + "Maximum Defense: " + ColorSystem.ENUMWHITE + "150");
-		par3List.add("+15 Thunder Resistance");
-		par3List.add("-15 Ice Resistance");
-		switch (this.armorType) {
-		case HEAD:
-			par3List.add(
-					ColorSystem.ENUMAQUA
-							+ "Headgear made from Barroth armor. Won't crack, even if trampled on by a wyvern.");
-			break;
-		case CHEST:
-			par3List.add(
-					ColorSystem.ENUMAQUA
-							+ "Chest armor made for pure rigidity. Forged to be harder than anything else.");
-			break;
-		case LEGS:
-			par3List.add(
-					ColorSystem.ENUMAQUA + "Waist armor made from extraordinarily hard, fortress-like Barroth armor.");
-			break;
-		case FEET:
-			par3List.add(
-					ColorSystem.ENUMAQUA
-							+ "Leg armor made from Barroth feet. They act as a tough outer skeleton for the legs.");
-			break;
-		case MAINHAND:
-		case OFFHAND:
-		default:
-			Assert.logUnreachable("Armor can only be equiped on armor slots, got ", this.armorType);
-		}
-	}
 
 	@Override
 	public ArmorProperties getProperties(
@@ -129,5 +94,34 @@ public class BarrothArmor extends ArmorBase {
 	}
 
 
+	@Override
+	protected String addHeadInfo() {
+		return "Headgear made from Barroth armor. Won't crack, even if trampled on by a wyvern.";
+	}
+
+	@Override
+	protected String addChestInfo() {
+		return "Chest armor made for pure rigidity. Forged to be harder than anything else.";
+	}
+
+	@Override
+	protected String addLegsInfo() {
+		return "Waist armor made from extraordinarily hard, fortress-like Barroth armor.";
+	}
+
+	@Override
+	protected String addBootsInfo() {
+		return "Leg armor made from Barroth feet. They act as a tough outer skeleton for the legs.";
+	}
+
+	@Override
+	protected int setInitialDefenseValue() {
+		return 75;
+	}
+
+	@Override
+	protected int setFinalDefenseValue() {
+		return 150;
+	}
 
 }
