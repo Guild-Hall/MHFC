@@ -79,10 +79,10 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 						59,
 						1,
 						30));
-		followUpManager.registerAction(new HeadSlam(7F, 5F, 1F, 270F, 35F));
-		followUpManager.registerAllowingAllActions(new RamRun(0.5F, 30F, 40F));
-		followUpManager.registerAllowingAllActions(new Ram(36F));
-		followUpManager.registerAction(new Stomp(35F));
+		followUpManager.registerAction(new HeadSlam(7F, 5F, 1F, 270F, 65F));
+		followUpManager.registerAllowingAllActions(new RamRun(0.5F, 30F, 60F));
+		followUpManager.registerAllowingAllActions(new Ram(66F));
+		followUpManager.registerAction(new Stomp(65F));
 		Roar roar = new Roar();
 		followUpManager.registerAllowingAllActions(roar);
 		List<IExecutableAction<? super EntityBarroth>> allowedFirstSight = new ArrayList<>();

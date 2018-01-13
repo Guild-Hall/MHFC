@@ -2,6 +2,7 @@ package mhfc.net.common.core.registry;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.eventhandler.MHFCGuiHandler;
+import mhfc.net.common.eventhandler.player.CombatEventHandler;
 import mhfc.net.common.eventhandler.player.MHFCCapeEventHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -21,6 +22,7 @@ public class MHFCEventRegistry {
 
 	private static void registerMiscEventHandlers() {
 		MinecraftForge.EVENT_BUS.register(MHFCCapeEventHandler.instance);
+		MinecraftForge.EVENT_BUS.register(CombatEventHandler.instance);
 
 	}
 }
