@@ -8,6 +8,7 @@ import java.util.Objects;
 import javax.annotation.Nullable;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.system.ColorSystem;
@@ -226,6 +227,21 @@ public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 		if (source != null) {
 		stack.damageItem(damage * 0, entity);
 		}
+	}
+
+	@Override
+	public ArmorProperties getProperties(
+			EntityLivingBase player,
+			ItemStack armor,
+			DamageSource source,
+			double damage,
+			int slot) {
+		/** TODO Implement this to each class with respecting Elements **/
+		if (source.getSourceOfDamage() instanceof EntityMHFCBase) {
+			return new ArmorProperties(1, 0.20, this.getFinalDefenseValue());
+		}
+		return new ArmorProperties(1, 100, this.getFinalDefenseValue());
+
 	}
 
 

@@ -48,7 +48,7 @@ public class ModLivingEvent {
 		if (event == null || event.getEntityLiving() == null)
 			return;
 		DamageSource damage = DamageSource.causeMobDamage((EntityLivingBase) event.getEntity());
-		if (event.getSource() != null) {
+		if (damage != null) {
 
 		}
 	}
