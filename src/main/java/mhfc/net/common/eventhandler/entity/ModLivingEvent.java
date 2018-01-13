@@ -1,6 +1,7 @@
 package mhfc.net.common.eventhandler.entity;
 
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
+import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.PotionEffect;
@@ -48,8 +49,8 @@ public class ModLivingEvent {
 		if (event == null || event.getEntityLiving() == null)
 			return;
 		DamageSource damage = DamageSource.causeMobDamage((EntityLivingBase) event.getEntity());
-		if (damage != null) {
-
+		if (damage != null && damage.getSourceOfDamage() instanceof EntityMHFCBase) {
+			System.out.println(damage);
 		}
 	}
 
