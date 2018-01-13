@@ -1,5 +1,7 @@
 package mhfc.net.common.item.armor.generic;
 
+import java.util.List;
+
 import mhfc.net.common.entity.monster.wip.EntityKirin;
 import mhfc.net.common.entity.monster.wip.EntityLagiacrus;
 import mhfc.net.common.entity.monster.wip.EntityRathalos;
@@ -27,10 +29,6 @@ public class YukumoArmor extends ArmorBase {
 	public YukumoArmor(EntityEquipmentSlot type) {
 		super(Material.yukomo, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
-		if (this.addBasicInfo != null) {
-		this.addBasicInfo.add("+4 Thunder Resistance");
-		this.addBasicInfo.add("-4 Fire Resistance");
-		}
 	}
 
 	@Override
@@ -120,6 +118,12 @@ public class YukumoArmor extends ArmorBase {
 	protected int setFinalDefenseValue() {
 		// TODO Auto-generated method stub
 		return 270;
+	}
+
+	@Override
+	protected void setAdditionalInformation(List<String> par) {
+		par.add("+4 Thunder Resistance");
+		par.add("-4 Fire Resistance");
 	}
 
 }

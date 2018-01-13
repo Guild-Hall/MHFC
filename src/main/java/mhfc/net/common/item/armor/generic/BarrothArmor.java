@@ -1,5 +1,7 @@
 package mhfc.net.common.item.armor.generic;
 
+import java.util.List;
+
 import mhfc.net.common.entity.monster.wip.EntityKirin;
 import mhfc.net.common.entity.monster.wip.EntityLagiacrus;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -26,10 +28,6 @@ public class BarrothArmor extends ArmorBase {
 	public BarrothArmor(EntityEquipmentSlot type) {
 		super(Material.barroth, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
-		if (this.addBasicInfo != null) {
-		this.addBasicInfo.add("+15 Thunder Resistance");
-		this.addBasicInfo.add("-15 Ice Resistance");
-		}
 	}
 
 	@Override
@@ -122,6 +120,12 @@ public class BarrothArmor extends ArmorBase {
 	@Override
 	protected int setFinalDefenseValue() {
 		return 150;
+	}
+
+	@Override
+	protected void setAdditionalInformation(List<String> par) {
+		par.add("+15 Thunder Resistance");
+		par.add("-15 Ice Resistance");
 	}
 
 }

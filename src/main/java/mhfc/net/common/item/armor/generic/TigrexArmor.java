@@ -1,5 +1,7 @@
 package mhfc.net.common.item.armor.generic;
 
+import java.util.List;
+
 import mhfc.net.common.entity.monster.wip.EntityKirin;
 import mhfc.net.common.entity.monster.wip.EntityLagiacrus;
 import mhfc.net.common.entity.monster.wip.EntityRathalos;
@@ -29,13 +31,6 @@ public class TigrexArmor extends ArmorBase {
 	public TigrexArmor(EntityEquipmentSlot type) {
 		super(Material.tigrex, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
-		if (this.addBasicInfo != null) {
-		this.addBasicInfo.add("+15 Fire Resistance");
-		this.addBasicInfo.add("+15 Ice Resistance");
-		this.addBasicInfo.add("+10 Water Resistance");
-		this.addBasicInfo.add("-10 Thunder Resistance");
-		this.addBasicInfo.add(" -5 Dragon Resistance");
-		}
 
 	}
 
@@ -134,5 +129,15 @@ public class TigrexArmor extends ArmorBase {
 	@Override
 	protected int setFinalDefenseValue() {
 		return 320;
+	}
+
+	@Override
+	protected void setAdditionalInformation(List<String> par) {
+		par.add("+15 Fire Resistance");
+		par.add("+15 Ice Resistance");
+		par.add("+10 Water Resistance");
+		par.add("-10 Thunder Resistance");
+		par.add(" -5 Dragon Resistance");
+
 	}
 }

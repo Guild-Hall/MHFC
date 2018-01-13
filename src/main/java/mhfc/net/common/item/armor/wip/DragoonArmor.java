@@ -124,4 +124,10 @@ public class DragoonArmor extends ArmorExclusive {
 		return 0;
 	}
 
+	@Override
+	protected void setAdditionalInformation(List<String> par) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

@@ -1,5 +1,7 @@
 package mhfc.net.common.item.armor.wip;
 
+import java.util.List;
+
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
@@ -98,6 +100,12 @@ public class NibelsnarfArmor extends ArmorBase {
 	protected int setFinalDefenseValue() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	protected void setAdditionalInformation(List<String> par) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

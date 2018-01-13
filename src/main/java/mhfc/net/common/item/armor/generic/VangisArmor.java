@@ -29,11 +29,6 @@ public class VangisArmor extends ArmorBase {
 	public VangisArmor(EntityEquipmentSlot type) {
 		super(Material.deviljho, ItemRarity.R04, type);
 		setUnlocalizedName(names[3 - type.getIndex()]);
-		if (this.addBasicInfo != null) {
-		this.addBasicInfo.add("+5 Ice Resistance");
-		this.addBasicInfo.add("-20 Thunder Resistance");
-		this.addBasicInfo.add("-20 Dragon Resistance");
-		}
 	}
 
 	@Override
@@ -162,6 +157,14 @@ public class VangisArmor extends ArmorBase {
 	protected int setFinalDefenseValue() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	protected void setAdditionalInformation(List<String> par) {
+		par.add("+5 Ice Resistance");
+		par.add("-20 Thunder Resistance");
+		par.add("-20 Dragon Resistance");
+
 	}
 
 }

@@ -46,7 +46,6 @@ public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 	protected final ItemRarity rarity;
 	protected final Map<EntityEquipmentSlot, String> slotToTex;
 
-	protected List<String> addBasicInfo;
 	protected abstract String addHeadInfo();
 	protected abstract String addChestInfo();
 	protected abstract String addLegsInfo();
@@ -87,9 +86,7 @@ public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 		par3List.add(
 				ColorSystem.ENUMLAVENDER + "Maximum Defense: " + ColorSystem.ENUMWHITE + this.getFinalDefenseValue());
 		/** Adds addition basic info through it like adding element resistance etc. **/
-		if (this.addBasicInfo != null) {
-			par3List.addAll(this.addBasicInfo);
-		}
+		this.setAdditionalInformation(par3List);
 		/** Adds description to every equipment **/
 		switch (this.armorType) {
 		case HEAD:
@@ -118,6 +115,9 @@ public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 			Assert.logUnreachable("Armor can only be equiped on armor slots, got ", this.armorType);
 		}
 	}
+
+	
+	protected abstract void setAdditionalInformation(List<String> par);
 
 
 	@Override

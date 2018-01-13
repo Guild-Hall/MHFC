@@ -46,7 +46,6 @@ public class ModLivingEvent {
 		//TODO
 		if (event == null || event.getEntityLiving() == null)
 			return;
-		float damage;
 
 	}
 
