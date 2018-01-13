@@ -4,6 +4,7 @@ import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -46,7 +47,10 @@ public class ModLivingEvent {
 		//TODO
 		if (event == null || event.getEntityLiving() == null)
 			return;
+		DamageSource damage = DamageSource.causeMobDamage((EntityLivingBase) event.getEntity());
+		if (event.getSource() != null) {
 
+		}
 	}
 
 }
