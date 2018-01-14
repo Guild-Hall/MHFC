@@ -13,6 +13,7 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 @Mod.EventBusSubscriber(modid = ResourceInterface.main_modid)
 public class CombatEventHandler {
@@ -68,4 +69,13 @@ public class CombatEventHandler {
 			}
 		}
 	}
+
+	/**
+	 * WIP, if the player is inside the quest world, a partial ticks should occur, example temperature hotness etc etc.
+	 **/
+	@SubscribeEvent
+	public static void onPlayerInsideQuestAreaEvent(PlayerTickEvent event) {
+
+	}
+
 }

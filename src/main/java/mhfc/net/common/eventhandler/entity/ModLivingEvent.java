@@ -10,6 +10,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -35,6 +36,12 @@ public class ModLivingEvent {
 		}
 	}
 
+	/**
+	 * This event fires when our EntityMHFCBase attacks the player wearing the ArmorBase Damage is calculated based on
+	 * the arithmetic used in the Series itself Please note this is not 100% precise calculation due to this is made by
+	 * the community itself, while being upvote it should be pricewise to use until the official damage calculation is
+	 * shown. -Heltrato
+	 **/
 	@SubscribeEvent
 	public static void onDamageDealtToArmor(LivingHurtEvent event) {
 		ArmorBase armor = ArmorBase.instance;
@@ -53,6 +60,15 @@ public class ModLivingEvent {
 					}
 				}
 			}	
+
+	/**
+	 * This event makes the monsters picks a random target and makes it their revenge target. This is a key role for
+	 * monsters especially on a party system which to be implemented soon.
+	 **/
+	@SubscribeEvent
+	public static void pickRandomNearTarget(LivingSetAttackTargetEvent event) {
+
+	}
 
 		
 

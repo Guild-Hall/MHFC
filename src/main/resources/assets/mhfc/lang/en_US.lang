@@ -473,7 +473,7 @@ mhfc.quests.status.acceptFailed=The quest you wanted to accept does not exist
 mhfc.quests.status.createFailed.hasQuest=You already are on quest %s
 mhfc.quests.status.createFailed.noSuchQuest=Quest with id[%s] not found
 mhfc.quests.status.createFailed.internal=Quest with id[%s] could not be constructed
-mhfc.quests.status.teleportSoon=§3Teleporting you back in 25 seconds
+mhfc.quests.status.teleportSoon=§3Teleporting you back in 1 minute.
 mhfc.quests.status.teleport=§aTeleportation Complete!
 
 container.hunterbench=Hunter's Forging Bench
