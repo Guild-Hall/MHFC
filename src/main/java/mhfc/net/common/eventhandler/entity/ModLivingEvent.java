@@ -46,9 +46,10 @@ public class ModLivingEvent {
 			if (ent.getArmorInventoryList() != null && ent.getArmorInventoryList() instanceof ArmorBase) {
 				/** Refines the damage analyzer based from Monster Hunter Series but in a special case which
 				 *  the default health is set to 20 for players. **/
-				double newDamage = Math.abs(((damage*80)/(armor.getInitialDefenseValue()+80)) * 0.20);
-				event.setAmount((float) newDamage);
-				System.out.println("Current AI Damage = " + damage + " Current New Damage = " + newDamage);
+					float newDamage = (float) Math.abs(((damage * 80) / (armor.getInitialDefenseValue() + 80)) * 0.20);
+					event.setAmount(newDamage);
+					//event.getEntity().attackEntityFrom(damageSrc, newDamage);
+					System.out.println("Current AI Damage = " + damage + " Current New Damage = " + newDamage);
 					}
 				}
 			}	
