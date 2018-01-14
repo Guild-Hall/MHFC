@@ -5,7 +5,6 @@ import mhfc.net.common.core.data.EquipmentRecipeRegistryData;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.crafting.equipment.EquipmentRecipe;
 import mhfc.net.common.item.materials.ItemMaterial;
-import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -45,7 +44,7 @@ public class DirectorEquipmentRecipes {
 	
 	public final EquipmentRecipe recipe_gs_bone;
 	//	public final EquipmentRecipe recipe_gs_deadlyserpentblade;
-	public final EquipmentRecipe recipe_gs_redwing;
+	//public final EquipmentRecipe recipe_gs_redwing;
 	//	public final EquipmentRecipe recipe_gs_thundersword;
 	public final EquipmentRecipe recipe_gs_agito;
 	public final EquipmentRecipe recipe_gs_berserker;
@@ -117,7 +116,7 @@ public class DirectorEquipmentRecipes {
 		
 		director.register(recipe_gs_bone);
 		//director.register(recipe_gs_deadlyserpentblade);
-		director.register(recipe_gs_redwing);
+		//director.register(recipe_gs_redwing);
 		//director.register(recipe_gs_thundersword);
 		director.register(recipe_gs_berserker);
 		director.register(recipe_gs_agito);
@@ -172,44 +171,40 @@ public class DirectorEquipmentRecipes {
 
 		recipe.setProduct(new ItemStack(itemRegistry.armor_tigrex_helm));
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXSKULLSHELL, 3));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXSCALE, 20));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXSHELL, 15));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXCLAW, 10));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 5));
-		recipe.setRequiredHeat(200).setDuration(400);
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXSCALE, 15));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXSHELL, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 15));
+		recipe.setRequiredHeat(200).setDuration(100);
 		recipe_tigrex_helm = recipe.build();
 
 		recipe.setProduct(new ItemStack(itemRegistry.armor_tigrex_chest));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXFANG, 15));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXFANG, 10));
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXCLAW, 15));
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXSHELL, 15));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXSCALE, 25));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXTAIL, 3));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 10));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXSKULLSHELL, 2));
-		recipe.setRequiredHeat(200).setDuration(600);
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MONSTERBONE, 3));
+		recipe.setRequiredHeat(200).setDuration(100);
 		recipe_tigrex_chest = recipe.build();
 
 		recipe.setProduct(new ItemStack(itemRegistry.armor_tigrex_legs));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXCLAW, 10));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXSCALE, 15));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXTAIL, 1));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 10));
-		recipe.setRequiredHeat(200).setDuration(400);
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXFANG, 15));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXSCALE, 20));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXSHELL, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KILLERBEETLE, 10));
+		recipe.setRequiredHeat(200).setDuration(100);
 		recipe_tigrex_legs = recipe.build();
 
 		recipe.setProduct(new ItemStack(itemRegistry.armor_tigrex_boots));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXFANG, 5));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXSCALE, 10));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXSHELL, 5));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 5));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXSCALE, 15));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXFANG, 15));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXSHELL, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.DRAGONITE, 10));
 		recipe.setRequiredHeat(200).setDuration(300);
 		recipe_tigrex_boots = recipe.build();
 
 		recipe.setProduct(new ItemStack(itemRegistry.armor_barroth_helm));
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHSHELL, 15));
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHRIDGE, 15));
-		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHSCALP, 8));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHSCALP, 1));
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.DRAGONITE, 10));
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHTAIL, 3));
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHSTONE, 3));
@@ -308,7 +303,7 @@ public class DirectorEquipmentRecipes {
 
 
 
-		// GreatSword
+		/** GREATSWORD CLASS **/
 
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_gs_bone));
 		recipe.addIngredient(Item.getItemById(265), 50, 0);
@@ -320,13 +315,13 @@ public class DirectorEquipmentRecipes {
 		
 		
 
-		recipe.setProduct(new ItemStack(itemRegistry.weapon_gs_rathalosfire));
+		/*recipe.setProduct(new ItemStack(itemRegistry.weapon_gs_rathalosfire));
 		recipe.addIngredient(SubTypedItem.fromSubItem(MaterialSubType.RATHALOSWING, 15));
 		recipe.addIngredient(SubTypedItem.fromSubItem(MaterialSubType.FLAME, 5));
 		recipe.addIngredient(SubTypedItem.fromSubItem(MaterialSubType.RATHALOSMARROW, 15));
 		recipe.addIngredient(itemRegistry.firestone, 3, 0);
 		recipe.setRequiredHeat(300).setDuration(900);
-		recipe_gs_redwing = recipe.build();
+		recipe_gs_redwing = recipe.build();*/
 
 
 
@@ -352,18 +347,15 @@ public class DirectorEquipmentRecipes {
 		recipe.setRequiredHeat(600).setDuration(1500);
 		recipe_gs_berserker = recipe.build();
 
-		//
 
-		// Hammer Class
+		/** Hammer Class **/
 
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_hm_warhammer));
 		recipe.addIngredient(Items.IRON_INGOT, 50, 0);
 		recipe.addIngredient(itemRegistry.steelbar, 4, 0);
 		recipe.setRequiredHeat(100).setDuration(200);
-
 		recipe_hm_war = recipe.build();
 
-		//
 
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_hm_warhammerplus));
 		recipe.addIngredient(itemRegistry.weapon_hm_warhammer, 1, 0);
@@ -411,8 +403,7 @@ public class DirectorEquipmentRecipes {
 		recipe.setRequiredHeat(750).setDuration(1800);
 		recipe_hm_devilsdue = recipe.build();
 
-		//
-		// Longsword class
+		/** Longsword class **/
 
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_ls_ironkatana));
 		recipe.addIngredient(itemRegistry.steelbar, 7, 0);
@@ -475,7 +466,7 @@ public class DirectorEquipmentRecipes {
 		recipe.setRequiredHeat(350).setDuration(600);
 		recipe_hh_tigrex = recipe.build();
 
-		//Bow Class
+		/** Bow Class **/
 
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_b_huntersI));
 		recipe.addIngredient(Item.getItemById(261), 1, 0);
