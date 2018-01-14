@@ -6,7 +6,7 @@ import net.minecraft.entity.EntityCreature;
 
 public abstract class DeathAction<T extends EntityCreature> extends AnimatedAction<T> implements INeedsDeathSound {
 
-	public static final int deathLingeringTicks = 60 * 20;
+	public static final int deathLingeringTicks = 40 * 20;
 
 	public DeathAction() {}
 

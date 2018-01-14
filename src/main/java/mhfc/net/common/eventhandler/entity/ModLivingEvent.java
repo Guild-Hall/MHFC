@@ -10,7 +10,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -66,8 +65,8 @@ public class ModLivingEvent {
 	 * monsters especially on a party system which to be implemented soon.
 	 **/
 	@SubscribeEvent
-	public static void pickRandomNearTarget(LivingSetAttackTargetEvent event) {
-
+	public static void pickRandomNearTarget(LivingUpdateEvent event) {
+		if (event.getEntityLiving() instanceof EntityMHFCBase) {}
 	}
 
 		

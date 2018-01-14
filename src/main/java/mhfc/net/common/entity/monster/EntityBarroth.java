@@ -21,6 +21,8 @@ import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
+import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
+import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -106,6 +108,13 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	@Override
 	protected SoundEvent getAmbientSound() {
 		return MHFCSoundRegistry.getRegistry().barrothIdle;
+	}
+
+	@Override
+	protected void dropFewItems(boolean par1, int par2) {
+		dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.BARROTHTAIL, 1));
+		dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.BARROTHCARAPACE, 1));
+		dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.BARROTHMUD, 1));
 	}
 
 }

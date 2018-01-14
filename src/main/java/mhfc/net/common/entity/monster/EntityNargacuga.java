@@ -31,6 +31,8 @@ import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import mhfc.net.common.entity.type.IEnragable;
+import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
+import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -188,6 +190,12 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 			eyesPositionsLeft.add(getPositionLeftEye());
 			eyesPositionsRight.add(getPositionRightEye());
 		}
+	}
+
+	@Override
+	protected void dropFewItems(boolean par1, int par2) {
+		dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.NARGASTEM, 1));
+		dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.NARGAWING, 1));
 	}
 
 	@Override

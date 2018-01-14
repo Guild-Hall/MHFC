@@ -132,10 +132,10 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	@Override
 	protected void dropFewItems(boolean par1, int par2) {
 		int var4;
-		for (var4 = 0; var4 < 13; ++var4) {
+		for (var4 = 0; var4 < 2; ++var4) {
 			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.DEVILJHOSCALE, 2));
 		}
-		for (var4 = 0; var4 < 8; ++var4) {
+		for (var4 = 0; var4 < 1; ++var4) {
 			dropItemRand(SubTypedItem.fromSubItem(MaterialSubType.DEVILJHOFANG, 1));
 
 		}
