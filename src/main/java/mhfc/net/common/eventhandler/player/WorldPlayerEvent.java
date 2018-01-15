@@ -8,6 +8,7 @@ import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -16,9 +17,13 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 @Mod.EventBusSubscriber(modid = ResourceInterface.main_modid)
-public class CombatEventHandler {
+public class WorldPlayerEvent {
 
-	public static final CombatEventHandler instance = new CombatEventHandler();
+	/**
+	 * The reason why i replaced this as WorldPlayerEvent is i want to add every event that a player includes occurs.
+	 **/
+
+	public static final WorldPlayerEvent instance = new WorldPlayerEvent();
 
 	@SubscribeEvent
 	public static void onPlayerCreation(EntityConstructing e) {
@@ -71,11 +76,19 @@ public class CombatEventHandler {
 	}
 
 	/**
-	 * WIP, if the player is inside the quest world, a partial ticks should occur, example temperature hotness etc etc.
+	 * TODO 1.5 WIP, if the player is inside the quest world, a partial ticks should occur, example temperature hotness
+	 * etc etc.
 	 **/
 	@SubscribeEvent
 	public static void onPlayerInsideQuestAreaEvent(PlayerTickEvent event) {
 
 	}
+
+	//TODO 1.5
+	/** This should disable the game rules properly and will work only if the player is in the dimension. **/
+	@SubscribeEvent
+	public static void onPlayerEnterTheWorld(EntityJoinWorldEvent event) {
+	}
+
 
 }
