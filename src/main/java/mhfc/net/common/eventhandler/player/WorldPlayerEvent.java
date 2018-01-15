@@ -1,5 +1,6 @@
 package mhfc.net.common.eventhandler.player;
 
+import mhfc.net.common.core.Config;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.armor.ArmorBase;
 import mhfc.net.common.util.Attributes;
@@ -88,6 +89,18 @@ public class WorldPlayerEvent {
 	/** This should disable the game rules properly and will work only if the player is in the dimension. **/
 	@SubscribeEvent
 	public static void onPlayerEnterTheWorld(EntityJoinWorldEvent event) {
+		if (!event.getWorld().isRemote && event.getEntity() instanceof EntityPlayer) {
+			EntityPlayer ent = (EntityPlayer) event.getEntity();
+			if (ent.dimension == Config.dimensionHandlerID) {
+
+
+				//event.getWorld().getGameRules().setOrCreateGameRule("doDaylightCycle", "false");
+				//	event.getWorld().getGameRules().setOrCreateGameRule("doMobSpawning", "false");
+				//	event.getWorld().getGameRules().setOrCreateGameRule("keepInventory", "true");
+				//	event.getWorld().getGameRules().setOrCreateGameRule("doFireTick", "false");
+				//	event.getWorld().getWorldInfo().setRaining(false);
+			}
+		}
 	}
 
 

@@ -40,6 +40,9 @@ public class ModLivingEvent {
 	 * the arithmetic used in the Series itself Please note this is not 100% precise calculation due to this is made by
 	 * the community itself, while being upvote it should be pricewise to use until the official damage calculation is
 	 * shown. -Heltrato
+	 * 
+	 * Quick Question #1: Why is this held here not in WorldPlayerEvent? Answer: It's because in the future patch i will
+	 * introduce an NPC Hunter, that wields the same armor as the EntityPlayer. thus they resemble entity
 	 **/
 	@SubscribeEvent
 	public static void onDamageDealtToArmor(LivingHurtEvent event) {
@@ -58,6 +61,15 @@ public class ModLivingEvent {
 					System.out.println("Current AI Damage = " + damage + " Current New Damage = " + newDamage);
 					}
 				}
+
+		/* //check if all armor is from the same class
+		String a = ((ModeledArmor) player.inventory.getStackInSlot(HELM).getItem()).armorClassName();
+		String b = ((ModeledArmor) player.inventory.getStackInSlot(CHEST).getItem()).armorClassName();
+		String c = ((ModeledArmor) player.inventory.getStackInSlot(LEGS).getItem()).armorClassName();
+		String d = ((ModeledArmor) player.inventory.getStackInSlot(BOOTS).getItem()).armorClassName();
+		
+		if(a.equals(b) && a.equals(c) && a.equals(d))
+		    classname = a;*/
 			}	
 
 	/**

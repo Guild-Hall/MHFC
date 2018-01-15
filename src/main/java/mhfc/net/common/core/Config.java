@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class Config {
 
 	private boolean allCanPickup;
-	private int dimensionHandlerID;
+	public static int dimensionHandlerID;
 	//	public final boolean setupComplexGraphics = false;   // I'll add this soon if dan is finish with the block HD's better biome performance for faster pc
 
 	private Map<String, EnableSetting> enableSettings;
