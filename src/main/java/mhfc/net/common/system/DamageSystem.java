@@ -1,8 +1,13 @@
 package mhfc.net.common.system;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.translation.I18n;
 
 public class DamageSystem extends EntityDamageSource {
 
@@ -24,6 +29,32 @@ public class DamageSystem extends EntityDamageSource {
 	@Override
 	public Entity getEntity() {
 		return this.attacker;
+	}
+
+	/** Gets the death message that is displayed when the player dies **/
+	@SuppressWarnings("deprecation")
+	@Override
+	public ITextComponent getDeathMessage(EntityLivingBase entityLivingBaseIn) {
+		ITextComponent itextcomponent;
+		ItemStack itemstack = ItemStack.EMPTY;
+		if (this.attacker == null && this.damageSourceEntity == null) {
+			itextcomponent = entityLivingBaseIn.getDisplayName();
+		} else {
+			itextcomponent = this.attacker == null
+					? this.damageSourceEntity.getDisplayName()
+					: this.attacker.getDisplayName();
+			itemstack = this.attacker instanceof EntityLivingBase
+					? ((EntityLivingBase) this.attacker).getHeldItemMainhand()
+					: ItemStack.EMPTY;
+		}
+		String s = "death.attack." + this.getDamageType();
+		String s1 = s + ".item";
+		return !itemstack.isEmpty() && itemstack.hasDisplayName() && I18n.canTranslate(s1)
+				? new TextComponentTranslation(
+						s1,
+						new Object[] { entityLivingBaseIn.getDisplayName(), itextcomponent,
+								itemstack.getTextComponent() })
+				: new TextComponentTranslation(s, new Object[] { entityLivingBaseIn.getDisplayName(), itextcomponent });
 	}
 
 }
