@@ -9,6 +9,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.translation.I18n;
 
+@SuppressWarnings("deprecation")
 public class DamageSystem extends EntityDamageSource {
 
 	/**
@@ -32,7 +33,6 @@ public class DamageSystem extends EntityDamageSource {
 	}
 
 	/** Gets the death message that is displayed when the player dies **/
-	@SuppressWarnings("deprecation")
 	@Override
 	public ITextComponent getDeathMessage(EntityLivingBase entityLivingBaseIn) {
 		ITextComponent itextcomponent;
