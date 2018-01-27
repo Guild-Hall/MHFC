@@ -7,6 +7,7 @@ import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -54,6 +55,7 @@ public class BlockPlank extends AbstractSubTypedBlock<WyverniaPlankSubType> {
 		setUnlocalizedName(ResourceInterface.block_wyverniaplank_basename);
 		setHardness(0.6f);
 		setCreativeTab(MHFCMain.mhfctabs);
+		setSoundType(SoundType.WOOD);
 	}
 
 	@Override

@@ -76,6 +76,7 @@ public class BlockPlant extends Decoration
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHardness(0.0f);
 		setTickRandomly(true);
+		setSoundType(SoundType.PLANT);
 	}
 
 	@Override

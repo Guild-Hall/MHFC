@@ -7,6 +7,7 @@ import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -56,6 +57,7 @@ public class BlockWood extends AbstractSubTypedBlock<WyverniaLogSubType> {
 		super(PROPERTY, Material.WOOD);
 		setUnlocalizedName(ResourceInterface.block_wyvernialog_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
+		setSoundType(SoundType.WOOD);
 	}
 
 	@Override
