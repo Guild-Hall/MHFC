@@ -11,6 +11,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -92,14 +94,25 @@ public class WorldPlayerEvent {
 		if (!event.getWorld().isRemote && event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer ent = (EntityPlayer) event.getEntity();
 			if (ent.dimension == Config.dimensionHandlerID) {
+				
 
-
-				//event.getWorld().getGameRules().setOrCreateGameRule("doDaylightCycle", "false");
-				//	event.getWorld().getGameRules().setOrCreateGameRule("doMobSpawning", "false");
-				//	event.getWorld().getGameRules().setOrCreateGameRule("keepInventory", "true");
-				//	event.getWorld().getGameRules().setOrCreateGameRule("doFireTick", "false");
-				//	event.getWorld().getWorldInfo().setRaining(false);
+				
 			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void noBlockBreakEvent(BreakEvent event) {
+		if (event.getWorld().provider.getDimension() == Config.dimensionHandlerID) {
+			event.setCanceled(true);
+			event.getWorld().scheduleUpdate(event.getPos(), event.getState().getBlock(), 1);
+		}
+	}
+
+	@SubscribeEvent
+	public void noExplosionAffect(ExplosionEvent.Detonate event) {
+		if (event.getWorld().provider.getDimension() == Config.dimensionHandlerID) {
+			event.getAffectedBlocks().clear();
 		}
 	}
 
