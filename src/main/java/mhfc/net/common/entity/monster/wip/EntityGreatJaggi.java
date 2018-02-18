@@ -5,8 +5,8 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
+import mhfc.net.common.ai.entity.AIBite;
 import mhfc.net.common.ai.entity.AIDeath;
-import mhfc.net.common.ai.entity.monsters.greatjaggi.Bite;
 import mhfc.net.common.ai.entity.monsters.greatjaggi.Charge;
 import mhfc.net.common.ai.entity.monsters.greatjaggi.Idle;
 import mhfc.net.common.ai.entity.monsters.greatjaggi.Whip;
@@ -44,7 +44,8 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 	@Override
 	protected IActionManager<EntityGreatJaggi> constructActionManager() {
 		ActionManagerBuilder<EntityGreatJaggi> actionManager = new ActionManagerBuilder<>();
-		actionManager.registerAction(new Bite());
+		actionManager
+				.registerAction(new AIBite(this, "mhfc:models/GreatJaggi/GreatJaggiBite.mcanm", 33, 23, 35, 5, null));
 		actionManager.registerAction(new Idle());
 	//	actionManager.registerAction(new Roar());
 		actionManager.registerAction(new Charge());
