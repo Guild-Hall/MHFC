@@ -37,7 +37,13 @@ public class WorldHelper {
 	 * @param filter
 	 *            the filter to apply, <code>null</code> means no filtering
 	 * @return all colliding entities that are not filtered
+	 * 
+	 *         February 20,2018 @TODO: remove this feature "This is a very glitch method, in which the collision box do
+	 *         not offer the damage process smoothly, i would prefer the calculation per monster dist Sq. since all of
+	 *         it adjustt through the remote side" - Heltrato
+	 * 
 	 */
+	@Deprecated
 	public static List<Entity> collidingEntities(Entity entity, Predicate<? super Entity> filter) {
 		World world = entity.world;
 		List<Entity> collidingEntities = world
