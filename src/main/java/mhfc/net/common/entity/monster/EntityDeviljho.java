@@ -41,7 +41,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6600D);
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8600D);
 		this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(50D);
 		this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(30D);
 		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(80D);
@@ -72,7 +72,8 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 						25,
 						115,
 						15,
-						MHFCSoundRegistry.getRegistry().deviljhoBiteA));
+						MHFCSoundRegistry.getRegistry().deviljhoBiteA,
+						9.0F));
 		attackManager.registerAction(
 				new AIBite(
 						this,
@@ -81,7 +82,8 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 						25,
 						105,
 						12,
-						MHFCSoundRegistry.getRegistry().deviljhoBiteB));
+						MHFCSoundRegistry.getRegistry().deviljhoBiteB,
+						9.0F));
 
 		attackManager.registerAction(
 				new AIAngleWhip<>(

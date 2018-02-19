@@ -88,6 +88,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	// @see deathTime. DeathTime has the random by-effect of rotating corpses...
 	protected int deathTicks;
 
+	// Public Variables.
+	public float targetDistance;
+
 	/** This should be a setup, for every monster hoping they can feature to Quest and JSON. thus they
 	 *  can have the multiplier and health boost feature soon for Quest difficulty Regards **/
 	@SuppressWarnings("rawtypes")
@@ -144,6 +147,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	public void onUpdate() {
 		super.onUpdate();
 		
+		/** Updates when this monster target is not null **/
+		if (this.getAttackTarget() != null) {
+			this.targetDistance = this.getDistanceToEntity(this.getAttackTarget());
+		}
+
 		/** When the attackManager is still on the Executes, then it will still continuous to update the task    **/
 		if (this.attackManager.continueExecuting()) {
 			this.attackManager.updateTask();

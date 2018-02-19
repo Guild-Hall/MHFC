@@ -7,9 +7,7 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.AIBite;
 import mhfc.net.common.ai.entity.AIDeath;
-import mhfc.net.common.ai.entity.monsters.greatjaggi.Charge;
 import mhfc.net.common.ai.entity.monsters.greatjaggi.Idle;
-import mhfc.net.common.ai.entity.monsters.greatjaggi.Whip;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -25,14 +23,16 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 
 	public EntityGreatJaggi(World world) {
 		super(world);
-		setSize(2F, 2F);
+		setSize(4F, 4F);
 	}
 
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(8753D));
-		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(10D);
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(2600D);
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(45D);
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(30D);
+		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(60D);
 	}
 
 	@Override
@@ -45,11 +45,12 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 	protected IActionManager<EntityGreatJaggi> constructActionManager() {
 		ActionManagerBuilder<EntityGreatJaggi> actionManager = new ActionManagerBuilder<>();
 		actionManager
-				.registerAction(new AIBite(this, "mhfc:models/GreatJaggi/GreatJaggiBite.mcanm", 33, 23, 35, 5, null));
+				.registerAction(
+						new AIBite(this, "mhfc:models/GreatJaggi/GreatJaggiBite.mcanm", 30, 17, 35, 5, null, 5.5F));
 		actionManager.registerAction(new Idle());
 	//	actionManager.registerAction(new Roar());
-		actionManager.registerAction(new Charge());
-		actionManager.registerAction(new Whip());
+		//	actionManager.registerAction(new Charge());
+		//	actionManager.registerAction(new Whip());
 	//	actionManager.registerAction(new Wander());
 
 		actionManager.registerAction(

@@ -49,7 +49,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(3950D);
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(5000D);
 		this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(45D);
 		this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(30D);
 		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(60D);
@@ -91,7 +91,8 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 						12,
 						70,
 						10F,
-						MHFCSoundRegistry.getRegistry().tigrexBite));
+						MHFCSoundRegistry.getRegistry().tigrexBite,
+						6F));
 
 		manager.registerAction(
 				new AIAngleWhip<>(
