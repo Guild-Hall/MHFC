@@ -57,9 +57,10 @@ public class AIBite extends DamagingAction<EntityMHFCBase<?>> implements IHasAtt
 
 	@Override
 	public void onUpdate() {
-		super.onUpdate();
+
 		target = this.entity.getAttackTarget();
 		if (target != null) {
+			super.onUpdate();
 			if (getCurrentFrame() == this.damageFrame) {
 				if (entity.targetDistance <= biteRange) {
 					AIUtils.damageEntitiesFromAI(entity, target, provideDamageCalculator());

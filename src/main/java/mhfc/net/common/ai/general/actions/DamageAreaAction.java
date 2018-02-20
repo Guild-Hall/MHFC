@@ -42,7 +42,7 @@ public abstract class DamageAreaAction<T extends EntityMHFCBase<?>> extends Anim
 		super.onUpdate();
 
 		if (target != null) {
-			getEntity().getTurnHelper().updateTurnSpeed(30F);
+			getEntity().getTurnHelper().updateTurnSpeed(50F);
 			getEntity().getTurnHelper().updateTargetPoint(targetPoint);
 		}
 
