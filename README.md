@@ -4,6 +4,7 @@ Monster Hunter Frontier Craft mod created by the Guild Hall team authored by : H
 
 # Contributing #
 Feel free to speed up our development and pull request in here. If you want to setup your workspace:
+
 1.) First, make a fork of this repository. When you've done that, you can clone that reposity. Depending on your installation settings, you either have to run the command in the git Bash, or the CMD/Terminal.
 ```
 git clone https://github.com/<Your Username>/MHFC
