@@ -47,4 +47,13 @@ public abstract class DamagingAction<T extends EntityCreature> extends AnimatedA
 
 	}
 
+	protected void updateTurnHelper(Entity entity, float turnRate) {
+		if (target != null) {
+			((EntityMHFCBase<?>) getEntity()).getTurnHelper().updateTurnSpeed(turnRate);
+			((EntityMHFCBase<?>) getEntity()).getTurnHelper().updateTargetPoint(targetPoint);
+			((EntityMHFCBase<?>) getEntity()).getLookHelper().setLookPositionWithEntity(target, 15, 15);
+		}
+
+	}
+
 }

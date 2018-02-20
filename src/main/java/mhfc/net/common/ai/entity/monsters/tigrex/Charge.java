@@ -64,17 +64,15 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 			@Override
 			public void update(Charge attk) {
 
-				// Variables
+				/** Variables **/
 				EntityTigrex tigrex = attk.getEntity();
 				Vec3d tigPos = tigrex.getPositionVector();
 				Vec3d trgtPos = attk.target.getPositionVector();
 				Vec3d vecToTarget = trgtPos.subtract(tigPos);
 
-				// Processing
+				/** Processing **/
 				tigrex.getTurnHelper().updateTargetPoint(trgtPos);
-
 				tigrex.moveForward(0.8, true);
-
 				Vec3d look = tigrex.getLookVec();
 
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
@@ -195,8 +193,9 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 	@Override
 	public void onUpdate() {
 		currentPhase.update(this);
+		EntityTigrex tig = getEntity();
 		if (currentPhase.isDamaging) {
-			super.onUpdate();
+			this.updateTurnHelper(tig, 8F);
 			damageCollidingEntities();
 		}
 		AttackPhase nextPhase = currentPhase.next(this);
