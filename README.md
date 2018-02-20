@@ -2,14 +2,24 @@
 
 Monster Hunter Frontier Craft mod created by the Guild Hall team authored by : Heltrato, WorldsEnder:)
 
-# TODO #
-* [ ] Optimize Charge AI ~ WorldSEnder/Heltrato
-* [ ] Add Visual effects for AI ~ WorldSEnder/Heltrato
-* [ ] AI nodes ~ WorldSEnder
-* [ ] Rathalos ~ Heltrato
-* [ ] Add Frontier AI ~ Heltrato
-* [ ] Akura, Kirin, Brachydios, Popo ~ Heltrato
-* [ ] Test a larger Quest world size ~ Heltrato
+# Contributing #
+Feel free to speed up our development and pull request in here. If you want to setup your workspace:
+1.) First, make a fork of this repository. When you've done that, you can clone that reposity. Depending on your installation settings, you either have to run the command in the git Bash, or the CMD/Terminal.
+```
+git clone https://github.com/<Your Username>/MHFC
+```
+2.)Afterwards go into your directory and you will find the `MHFC` folder open it and ctrl + shift + right click and open command prompt
+then enter the command
+```
+gradlew setupDecompWorkspace --refresh-dependencies
+```
+3.) Finally for eclipse
+```
+gradlew eclipse --refresh-dependencies
+```
+4.) Open eclipse import it with gradle then go start # Contributing #
+
+
 
 # TBD #
 * [ ] Party System
