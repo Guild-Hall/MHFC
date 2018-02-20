@@ -31,26 +31,16 @@ gradlew eclipse --refresh-dependencies
 Description
 -----------
 
-What is this mod?
+# What is this mod? #
 - This mod aims to recreate the great experience from the popular Monster Hunter game series in Minecraft
-- At the moment it features:
-	 - Bosses and Minions
-	 - Crafting and resource system
-	 - Unique armor and weapon system
-	 - Quest System
-	 - Unique AI System
-	 - Party System ( WIP )
-	 - Gestures ( To be discuss )
 
-Acknowledgments
----------------
-
-A big thanks goes to <--> for providing us with the full weapon trees and the Minegarde team for their amazing collection of Monster Hunter related information.
+# Discord Server #
+https://discord.gg/d9PaQMf
 
 Copyright notice
 ----------------
 
-Copyright (C) 2017, WorldSEnder and Heltrato
+Copyright (C) 2018, WorldSEnder and Heltrato
 All rights reserved
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
