@@ -31,7 +31,7 @@ public class Charge extends DamagingAction<EntityGreatJaggi> implements IHasAtta
 				EntityGreatJaggi monster = attk.getEntity();
 				monster.motionX = monster.motionY = monster.motionZ = 0f;
 				if (attk.target != null) {
-					monster.getTurnHelper().updateTurnSpeed(20F);
+					monster.getTurnHelper().updateTurnSpeed(50F);
 					monster.getTurnHelper().updateTargetPoint(attk.target);
 					monster.getLookHelper().setLookPositionWithEntity(attk.target, 15, 15);
 				}
@@ -66,7 +66,7 @@ public class Charge extends DamagingAction<EntityGreatJaggi> implements IHasAtta
 				/** Variables **/
 				EntityGreatJaggi monster = attk.getEntity();
 				Vec3d entityPos = monster.getPositionVector();
-				Vec3d trgtPos = monster.getPositionVector();
+				Vec3d trgtPos = attk.target.getPositionVector();
 				Vec3d vecToTarget = trgtPos.subtract(entityPos);
 
 				/** Processing **/
@@ -180,7 +180,7 @@ public class Charge extends DamagingAction<EntityGreatJaggi> implements IHasAtta
 		currentPhase.update(this);
 		EntityGreatJaggi entity = getEntity();
 		if (currentPhase.isDamaging) {
-			this.updateTurnHelper(entity, 5F);
+			this.updateTurnHelper(entity, 0.03F);
 			damageCollidingEntities();
 		}
 		AttackPhase nextPhase = currentPhase.next(this);
