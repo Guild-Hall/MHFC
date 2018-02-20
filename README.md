@@ -22,7 +22,7 @@ gradlew eclipse --refresh-dependencies
 
 
 
-# TBD #
+# Feature to be added soon #
 * [ ] Party System
 * [ ] Gesture
 
