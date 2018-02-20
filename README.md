@@ -1,4 +1,4 @@
-# [![MHFC](https://imgur.com/BJbwc1e)](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2702398-monster-hunter-frontier-craft-1-0-2)
+# [![MHFC](https://i.imgur.com/BJbwc1e.png)](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2702398-monster-hunter-frontier-craft-1-0-2)
 
 Monster Hunter Frontier Craft mod created by the Guild Hall team authored by : Heltrato, WorldsEnder:)
 
