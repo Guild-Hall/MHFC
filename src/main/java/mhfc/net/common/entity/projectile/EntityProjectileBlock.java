@@ -58,13 +58,13 @@ public class EntityProjectileBlock extends EntityThrowable {
 
 	@Override
 	protected float getGravityVelocity() {
-		return 0.2f;
+		return 0.15f;
 	}
 
 	@Override
 	protected void onImpact(RayTraceResult mop) {
 		List<Entity> list = this.world
-				.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().expand(3.5D, 3.0D, 3.5D));
+				.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().expand(8.5D, 6.0D, 8.5D));
 		list.remove(getThrower());
 
 		//	EntityAreaEffectCloud entityareaeffectcloud = new EntityAreaEffectCloud(
@@ -83,7 +83,7 @@ public class EntityProjectileBlock extends EntityThrowable {
 			if (getDistanceSqToEntity(entity) > 6.25D) {
 				continue;
 			}
-			entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 50F + this.rand.nextInt(17));
+			entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 80F + this.rand.nextInt(17));
 		}
 	}
 

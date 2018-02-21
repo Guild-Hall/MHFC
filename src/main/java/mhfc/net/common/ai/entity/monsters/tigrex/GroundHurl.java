@@ -18,7 +18,7 @@ public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnim
 
 	private static final double SPLIT_MULTIPLIER = 0.125;
 	private static final double THROW_HEIGHT = 0.50;
-	private static final float TURN_RATE = 4;
+	private static final float TURN_RATE = 50;
 
 	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
 	private boolean thrown;
@@ -66,7 +66,7 @@ public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnim
 			return;
 		}
 
-		//TODO CHANGE TO TARGET POSITION AIMING.
+
 		Vec3d look = tigrex.getLookVec();
 		Vec3d lookVec = tigrex.getLookVec();
 		Vec3d rightSide = lookVec.crossProduct(new Vec3d(0, 1, 0));
@@ -82,7 +82,7 @@ public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnim
 				xCo -= rightSide.xCoord * SPLIT_MULTIPLIER;
 				zCo -= rightSide.zCoord * SPLIT_MULTIPLIER;
 			}
-			block.setThrowableHeading(xCo, yCo, zCo, 2.5F, 0f);
+			block.setThrowableHeading(xCo, yCo, zCo, 2.3F, 0f);
 			tigrex.world.spawnEntity(block);
 		}
 	}

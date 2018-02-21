@@ -10,6 +10,7 @@ import mhfc.net.common.ai.entity.AIBite;
 import mhfc.net.common.ai.entity.AIDeath;
 import mhfc.net.common.ai.entity.monsters.greatjaggi.Charge;
 import mhfc.net.common.ai.entity.monsters.greatjaggi.Idle;
+import mhfc.net.common.ai.entity.monsters.greatjaggi.Roar;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -73,7 +74,7 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 		actionManager.registerAction(new Charge());
 
 		actionManager.registerAction(new Idle());
-	//	actionManager.registerAction(new Roar());
+		actionManager.registerAction(new Roar());
 
 		//	actionManager.registerAction(new Whip());
 	//	actionManager.registerAction(new Wander());

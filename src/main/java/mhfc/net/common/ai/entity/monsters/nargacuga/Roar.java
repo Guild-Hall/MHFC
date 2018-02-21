@@ -34,7 +34,7 @@ public class Roar extends RoarAction<EntityNargacuga> implements IHasAnimationPr
 		EntityNargacuga entity = getEntity();
 		if (this.getCurrentFrame() <= 10) {
 			entity.getTurnHelper().updateTargetPoint(target);
-			entity.getTurnHelper().updateTurnSpeed(7.0f);
+			entity.getTurnHelper().updateTurnSpeed(30.0f);
 		}
 	}
 }
