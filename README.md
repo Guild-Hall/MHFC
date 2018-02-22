@@ -25,6 +25,8 @@ gradlew eclipse --refresh-dependencies
 # Feature to be added soon #
 * [ ] Party System
 * [ ] Gesture
+* [ ] Element System.
+* [ ] Open World
 
 [![Build Status](https://travis-ci.org/Guild-Hall/MHFC.svg)](https://travis-ci.org/Guild-Hall/MHFC)
 
