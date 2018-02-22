@@ -1,6 +1,6 @@
 {
 	"groupDisplayOrder": [
-		"Hunter's Introduction", "Test"
+		"Beginner's Starter", "Hunter's Introduction"
 	],
 	"groups": {
 		"Hunter's Introduction": [
@@ -10,7 +10,7 @@
 			"violentwyvern",
 			"nogutsnoglory"
 		],
-		"Test": [
+		"Beginner's Starter": [
 			"testquest1"
 		]
 	}

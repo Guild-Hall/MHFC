@@ -14,7 +14,7 @@
 			},
 			"reward": {
 				"type": "lootTable",
-				"data": "mhfc:quests/violent_wyvern"
+				"data": "mhfc:quests/wyvernia_coin"
 			},
 			"fee": 200,
 			"areaID": "areasandy",
