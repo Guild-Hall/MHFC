@@ -2,7 +2,7 @@
 	"testquest1": {
 		"type": "hunting",
 		"data": {
-			"target": "pig",
+			"target": "mhfc:greatjaggi",
 			"amount": 1
 		}
 	},

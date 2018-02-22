@@ -11,6 +11,13 @@ import net.minecraft.item.Item;
 
 public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 	public static enum MaterialSubType implements SubTypedItem.SubTypeEnum<Item> {
+
+		/**
+		 * In registering the Item Materials, i highly recommend that you register them to the buttom, unless you know
+		 * the commulative logic for the Item ids. This is because they are runned with the loot_table.json rewards
+		 * which is based on their submeta or sub ids. - Heltrato
+		 **/
+
 		ANUMIUM("anumium", ResourceInterface.item_base0_name, ItemColor.BLUE),
 		MEGANUM("meganum", ResourceInterface.item_base1_name, ItemColor.GREEN),
 
@@ -99,7 +106,7 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 		REMOBRASKULL("remobraskull", ResourceInterface.item_remobra1_name, ItemColor.GRAY), //
 		REMOBRAWING("remobrawing", ResourceInterface.item_remobra2_name, ItemColor.GRAY),
 
-		//45-50
+		//80-85
 		DEVILJHOSCALE("deviljhoscale", ResourceInterface.item_deviljho0_name, ItemColor.GREEN),
 		DEVILJHOFANG("deviljhofang", ResourceInterface.item_deviljho1_name, ItemColor.GREEN),
 		DEVILJHOHIDE("deviljhohide", ResourceInterface.item_deviljho2_name, ItemColor.GREEN),
@@ -107,7 +114,7 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 		DEVILJHOSCALP("deviljhoscalp", ResourceInterface.item_deviljho4_name, ItemColor.GREEN),
 		DEVILJHOTAIL("deviljhotail", ResourceInterface.item_deviljho5_name, ItemColor.GREEN),
 
-		//51 - 56
+		//86 - 91
 		KIRINMANE("kirinmane", ResourceInterface.item_kirin0_name, ItemColor.GRAY),
 		KIRINGEM("kiringem", ResourceInterface.item_kirin1_name, ItemColor.WHITE),
 		KIRINTHUNDERTAIL("kirinthundertail", ResourceInterface.item_kirin2_name, ItemColor.WHITE),
@@ -115,14 +122,14 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 		KIRINPURECRYSTAL("kirincrystal_pure", ResourceInterface.item_kirin4_name, ItemColor.WHITE),
 		KIRINPLATINUMMANE("kirinplatinummane", ResourceInterface.item_kirin5_name, ItemColor.WHITE),
 
-		//57 - 61
+		//92 - 96
 		RATHALOSSHELL("rathalosshell", ResourceInterface.item_rathalos0_name, ItemColor.RED), //
 		RATHALOSWEBBING("rathaloswebbing", ResourceInterface.item_rathalos1_name, ItemColor.RED), //
 		RATHALOSMARROW("rathalosmarrow", ResourceInterface.item_rathalos2_name, ItemColor.RED), //
 		RATHALOSWING("rathaloswing", ResourceInterface.item_rathalos3_name, ItemColor.RED), //
 		RATHALOSPLATE("rathalosplate", ResourceInterface.item_rathalos4_name, ItemColor.RED),
 
-		// Meta data is 62 -67
+		// Meta data is 97 - 102
 		TIGREXSCALE("tigrexscale", ResourceInterface.item_tigrex0_name, ItemColor.YELLOW),
 		TIGREXSHELL("tigrexshell", ResourceInterface.item_tigrex1_name, ItemColor.YELLOW),
 		TIGREXCLAW("tigrexclaw", ResourceInterface.item_tigrex2_name, ItemColor.YELLOW),
@@ -130,13 +137,13 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 		TIGREXSKULLSHELL("tigrexskullshell", ResourceInterface.item_tigrex4_name, ItemColor.YELLOW),
 		TIGREXTAIL("tigrextail", ResourceInterface.item_tigrex5_name, ItemColor.YELLOW),
 
-		// 68 - 71
+		// 103 - 106
 		DELEXBFIN("delexbfin", ResourceInterface.item_delex0_name, ItemColor.GREEN),
 		DELEXQFIN("delexqfin", ResourceInterface.item_delex1_name, ItemColor.GREEN),
 		DELEXFANG("delexfang", ResourceInterface.item_delex2_name, ItemColor.GREEN),
 		DELEXGUTS("delexguts", ResourceInterface.item_delex3_name, ItemColor.GREEN),
 
-		// 72 - 77
+		// 107 - 112
 		NARGASCALE("nargascale", ResourceInterface.item_nargacuga0_name, ItemColor.BLACK),
 		NARGAPELT("nargapelt", ResourceInterface.item_nargacuga1_name, ItemColor.BLACK),
 		NARGAFANG("nargafang", ResourceInterface.item_nargacuga2_name, ItemColor.BLACK),
@@ -144,7 +151,7 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 		NARGAWING("nargawing", ResourceInterface.item_nargacuga4_name, ItemColor.BLACK),
 		NARGASTEM("nargastem", ResourceInterface.item_nargacuga5_name, ItemColor.BLACK),
 
-		//78 - 85
+		//113 - 120
 		BARROTHSHELL("barrothshell", ResourceInterface.item_barroth0_name, ItemColor.BROWN),
 		BARROTHRIDGE("barrothridge", ResourceInterface.item_barroth1_name, ItemColor.BROWN),
 		BARROTHCLAW("barrothclaw", ResourceInterface.item_barroth2_name, ItemColor.BROWN),

@@ -14,22 +14,22 @@
 			},
 			"reward": {
 				"type": "lootTable",
-				"data": "mhfc:quests/no_guts_no_glory"
+				"data": "mhfc:quests/violent_wyvern"
 			},
 			"fee": 200,
 			"areaID": "areasandy",
 			"questType": "mhfc.quests.type.hunting",
 			"visual": {
-				"client": "",
-				"monster": "Delex",
-				"name": "Test Quest 1",
-				"longDescription": "Test Quest Data",
-				"aims": "Slay 1 PIG"
+				"client": "Hunter Barkolt",
+				"monster": "Great Jaggi",
+				"name": "Starter Quest",
+				"longDescription": "To begin your hunter's journey, you can test your skills in fighting the Great Jaggi.",
+				"aims": "Slay 1 Great Jaggi"
 			},
 			"spawns": [
 				{
 					"type": "monster",
-					"mob": "pig",
+					"mob": "mhfc:greatjaggi",
 					"count": 1,
 					"location": "area_spawn1"
 				}
