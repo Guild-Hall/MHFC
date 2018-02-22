@@ -73,7 +73,10 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 						115,
 						15,
 						MHFCSoundRegistry.getRegistry().deviljhoBiteA,
-						9.0F));
+						9.0F,
+						false,
+						0,
+						0));
 		attackManager.registerAction(
 				new AIBite(
 						this,
@@ -83,7 +86,10 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 						105,
 						12,
 						MHFCSoundRegistry.getRegistry().deviljhoBiteB,
-						9.0F));
+						9.0F,
+						false,
+						0,
+						0));
 
 		attackManager.registerAction(
 				new AIAngleWhip<>(

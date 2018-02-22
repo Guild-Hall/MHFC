@@ -92,7 +92,10 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 						70,
 						10F,
 						MHFCSoundRegistry.getRegistry().tigrexBite,
-						6F));
+						6F,
+						false,
+						0,
+						0));
 
 		manager.registerAction(
 				new AIAngleWhip<>(

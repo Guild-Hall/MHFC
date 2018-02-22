@@ -29,6 +29,9 @@ public class AIBite extends DamagingAction<EntityMHFCBase<?>> implements IHasAtt
 	protected SoundEvent sound;
 	protected EntityMHFCBase<?> entity = this.getEntity();
 	protected float biteRange;
+	protected boolean isMovingFrame;
+	protected int movingStartFrame;
+	protected int endStartFrame;
 
 	public AIBite(
 			EntityMHFCBase<?> entity,
@@ -38,7 +41,10 @@ public class AIBite extends DamagingAction<EntityMHFCBase<?>> implements IHasAtt
 			float damage,
 			float weight,
 			SoundEvent sound,
-			float biteRange) {
+			float biteRange,
+			boolean isMovingFrame,
+			int movingStartFrame,
+			int endStartFrame) {
 		this.entity = entity;
 		this.animationLocation = animationLocation;
 		this.animationLength = animationLength;
@@ -47,6 +53,9 @@ public class AIBite extends DamagingAction<EntityMHFCBase<?>> implements IHasAtt
 		this.weight = weight;
 		this.sound = sound;
 		this.biteRange = biteRange;
+		this.isMovingFrame = isMovingFrame;
+		this.movingStartFrame = movingStartFrame;
+		this.endStartFrame = endStartFrame;
 
 	}
 
@@ -66,6 +75,12 @@ public class AIBite extends DamagingAction<EntityMHFCBase<?>> implements IHasAtt
 					AIUtils.damageEntitiesFromAI(entity, target, provideDamageCalculator());
 				}
 				entity.playSound(sound, 2.0F, 1.0F);
+			}
+		}
+		if (this.isMovingFrame) {
+			this.isMoveForwardFrame(getCurrentFrame());
+			if (this.isMoveForwardFrame(getCurrentFrame())) {
+				entity.moveForward(0.1, false);
 			}
 		}
 
@@ -92,6 +107,10 @@ public class AIBite extends DamagingAction<EntityMHFCBase<?>> implements IHasAtt
 				return DONT_SELECT;
 			}
 		return this.weight;
+	}
+
+	public boolean isMoveForwardFrame(int frame) {
+		return (frame > this.movingStartFrame && frame < this.endStartFrame);
 	}
 
 }

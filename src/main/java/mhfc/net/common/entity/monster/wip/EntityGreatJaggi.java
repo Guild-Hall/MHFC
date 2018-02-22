@@ -57,7 +57,10 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 								35,
 								5,
 								MHFCSoundRegistry.getRegistry().greatJaggiBite,
-								5.5F));
+								5.5F,
+								true,
+								10,
+								25));
 		actionManager.registerAction(
 				new AIAngleWhip<>(
 						"mhfc:models/GreatJaggi/GreatJaggiTailWhip.mcanm",
@@ -96,7 +99,7 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 
 	@Override
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
-		GL11.glScaled(1.6, 1.6, 1.6);
+		GL11.glScaled(2.1, 2.1, 2.1);
 		return super.preRenderCallback(scale, sub);
 	}
 

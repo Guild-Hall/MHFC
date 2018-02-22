@@ -194,7 +194,7 @@ public class Charge extends DamagingAction<EntityGreatJaggi> implements IHasAtta
 	public IAttackProvider getAttackProvider() {
 		return new AttackAdapter(
 				new AnimationAdapter(this, "mhfc:models/GreatJaggi/GreatJaggiRun.mcanm", 0),
-				new DamageAdapter(AIUtils.defaultDamageCalc(35f, 50f, 9999999f)));
+				new DamageAdapter(AIUtils.defaultDamageCalc(25f, 50f, 9999999f)));
 
 	}
 
