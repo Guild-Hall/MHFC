@@ -25,7 +25,9 @@ import mhfc.net.common.ai.entity.monsters.nargacuga.Charge;
 import mhfc.net.common.ai.entity.monsters.nargacuga.Pounce;
 import mhfc.net.common.ai.entity.monsters.nargacuga.ProwlerStance;
 import mhfc.net.common.ai.entity.monsters.nargacuga.Roar;
+import mhfc.net.common.ai.entity.monsters.nargacuga.SoarToSpin;
 import mhfc.net.common.ai.entity.monsters.nargacuga.TailSlam;
+import mhfc.net.common.ai.entity.monsters.nargacuga.TailSlamDouble;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -60,7 +62,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 
 	public EntityNargacuga(World world) {
 		super(world);
-		setSize(8.6F, 4.4F);
+		setSize(4.5F, 4.0F);
 		stepHeight = 2.0F;
 		recorder = new RecorderAdapter<>(100);
 		eyesPositionsRight = EvictingQueue.create(EYES_RECORD_LENGTH);
@@ -111,12 +113,17 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		Pounce pounce = new Pounce();
 		BackOff backOff = new BackOff();
 		Charge charge = new Charge();
+		TailSlamDouble tailslamdouble = new TailSlamDouble();
+		SoarToSpin soartospin = new SoarToSpin();
 
 		List<IExecutableAction<? super EntityNargacuga>> prowlerFollow = new ArrayList<>();
 
 		prowlerFollow.add(pounce);
 		prowlerFollow.add(tailWhip);
+		//TODO add tailSlam in prowerlerFollow
+		
 		attackManager.registerAction(new AIBreathe(this, "mhfc:models/nargacuga/nargacugaidle.mcanm", 60, 2F));
+		
 		attackManager.registerAllowingAllActions(tailSlam);
 		attackManager.registerAllowingAllActions(tailWhip);
 		attackManager.registerActionWithFollowUps(prowler, prowlerFollow);
@@ -124,6 +131,8 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		attackManager.registerAllowingAllActions(roar);
 		attackManager.registerAllowingAllActions(backOff);
 		attackManager.registerAllowingAllActions(charge);
+		attackManager.registerAllowingAllActions(tailslamdouble);
+		attackManager.registerAllowingAllActions(soartospin);
 
 		attackManager.registerAction(
 				new AIWander<EntityNargacuga>(

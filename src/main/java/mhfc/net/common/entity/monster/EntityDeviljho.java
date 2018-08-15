@@ -34,7 +34,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 
 	public EntityDeviljho(World world) {
 		super(world);
-		setSize(7.6F, 6F);
+		setSize(7.8F, 7F);
 		stepHeight = 2.0F;
 	}
 

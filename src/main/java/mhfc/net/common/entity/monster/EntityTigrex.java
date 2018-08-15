@@ -42,7 +42,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 
 	public EntityTigrex(World par1World) {
 		super(par1World);
-		setSize(4.3f, 3.4f);
+		setSize(4.6f, 3.6f);
 		stepHeight = 1.5f;
 	}
 

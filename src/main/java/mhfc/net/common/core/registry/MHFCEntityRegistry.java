@@ -17,6 +17,7 @@ import mhfc.net.common.entity.monster.EntityTigrex;
 import mhfc.net.common.entity.monster.wip.EntityGreatJaggi;
 import mhfc.net.common.entity.monster.wip.EntityKirin;
 import mhfc.net.common.entity.monster.wip.EntityLagiacrus;
+import mhfc.net.common.entity.monster.wip.EntityRathalos;
 import mhfc.net.common.entity.projectile.EntityBullet;
 import mhfc.net.common.entity.projectile.EntityDeviljhoBeam1;
 import mhfc.net.common.entity.projectile.EntityPaintball;
@@ -43,7 +44,7 @@ public class MHFCEntityRegistry {
 
 	public final int tigrexID;
 	public final int kirinID;
-	//public final int rathalosID;
+	public final int rathalosID;
 	public final int greatjaggiID;
 	public final int deviljhoID;
 	public final int nargacugaID;
@@ -85,17 +86,21 @@ public class MHFCEntityRegistry {
 		 */
 		
 		// popoID = getMobID(EntityPopo.class, MHFCReference.mob_popo_name);
+		
 		tigrexID = getMobID(EntityTigrex.class, ResourceInterface.mob_tigrex_name);
 		kirinID = getMobID(EntityKirin.class, ResourceInterface.mob_kirin_name);
-		//rathalosID = getMobID(EntityRathalos.class, ResourceInterface.mob_rathalos_name);
+		
+		rathalosID = getMobID(EntityRathalos.class, ResourceInterface.mob_rathalos_name);
 		greatjaggiID = getMobID(EntityGreatJaggi.class,ResourceInterface.mob_greatjaggi_name);
 		deviljhoID = getMobID(EntityDeviljho.class, ResourceInterface.mob_deviljho_name);
 		nargacugaID = getMobID(EntityNargacuga.class, ResourceInterface.mob_nargacuga_name);
 		questGiverID = getMobID(EntityQuestGiver.class, ResourceInterface.mob_questGiver_name);
 		barrothID = getMobID(EntityBarroth.class, ResourceInterface.mob_barroth_name);
 		delexID = getMobID(EntityDelex.class, ResourceInterface.mob_delex_name);
+		
 		//giapreyID = getMobID(EntityGiaprey.class, MHFCReference.mob_giaprey_name, 0x6f41512, 0x654321);
 		//ukanlosID = getMobID(EntityUkanlos.class, MHFCReference.mob_ukanlos_name, 0x33333333, 0x654321);
+		
 		lagiacrusID = getMobID(EntityLagiacrus.class, ResourceInterface.mob_lagiacrus_name);
 		gargwaID = getMobID(EntityGargwa.class, ResourceInterface.mob_gagua_name);
 

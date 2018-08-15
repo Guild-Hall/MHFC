@@ -26,7 +26,7 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 
 	public EntityLagiacrus(World world) {
 		super(world);
-		setSize(12f, 12f);
+		setSize(9F, 7F);
 	}
 
 	@Override
