@@ -32,6 +32,7 @@ public class RenderKirin extends RenderAnimatedModel<EntityKirin> {
 	@Override
 	public void doRender(EntityKirin entity, double x, double y, double z, float yaw, float partialTicks) {
 		super.doRender(entity, x, y, z, yaw, partialTicks);
+		
 		renderElectricField((float)x, (float)y, (float)z, entity);
 	}
 	
