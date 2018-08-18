@@ -13,6 +13,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
 import mhfc.net.MHFCMain;
+import mhfc.net.client.render.entity.RenderKirin;
 import mhfc.net.client.render.entity.RenderNargacuga;
 import mhfc.net.client.render.projectile.RenderBlockProjectile;
 import mhfc.net.client.render.projectile.RenderBreathe;
@@ -65,6 +66,7 @@ public class MHFCEntityRenderRegistry {
 	private static void renderMonster() {
 		//AdvanceRender
 		advanceRenderer(EntityNargacuga.class, manager -> new RenderNargacuga(manager));
+		advanceRenderer(EntityKirin.class, manager -> new RenderKirin(manager));
 
 		//BasicRender
 		basicRenderer(
@@ -97,12 +99,6 @@ public class MHFCEntityRenderRegistry {
 				ResourceInterface.mob_deviljho_textureDir,
 				ResourceInterface.mob_deviljho_model,
 				ResourceInterface.mob_deviljho_skeleton,
-				1.0F);
-		basicRenderer(
-				EntityKirin.class,
-				ResourceInterface.mob_kirin_textureDir,
-				ResourceInterface.mob_kirin_model,
-				ResourceInterface.mob_kirin_skeleton,
 				1.0F);
 		basicRenderer(
 				EntityGargwa.class,
