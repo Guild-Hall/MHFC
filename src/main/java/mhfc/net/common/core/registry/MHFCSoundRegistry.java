@@ -44,6 +44,7 @@ public class MHFCSoundRegistry {
 	public final SoundEvent gargwaPanic;
 
 	public final SoundEvent kirinIdle;
+	public final SoundEvent kirinLightningStrike;
 
 	public final SoundEvent lagiacrusIdle;
 	public final SoundEvent lagiacrusDeath;
@@ -122,6 +123,7 @@ public class MHFCSoundRegistry {
 		gargwaPanic = registerSoundEvent("mhfc:gagua.panic");
 
 		kirinIdle = registerSoundEvent("mhfc:kirin.idle");
+		kirinLightningStrike = registerSoundEvent("kirin.lightningstrike");
 
 		lagiacrusIdle = registerSoundEvent("mhfc:lagiacrus.idle");
 		lagiacrusDeath = registerSoundEvent("mhfc:lagiacrus.death");

@@ -5,9 +5,10 @@ import org.lwjgl.opengl.GL11;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
-import mhfc.net.common.ai.entity.AIBite;
 import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIWander;
+import mhfc.net.common.ai.entity.monsters.kirin.HeadButt;
+import mhfc.net.common.ai.entity.monsters.kirin.LightningStrike;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -41,7 +42,8 @@ public class EntityKirin extends EntityMHFCBase<EntityKirin> {
 	@Override
 	protected IActionManager<EntityKirin> constructActionManager() {
 		ActionManagerBuilder<EntityKirin> actionManager = new ActionManagerBuilder<>();
-		actionManager.registerAction(new AIBite(this, "mhfc:models/Kirin/kirinheadbutt.mcanm", 35, 21, 5F, 10, MHFCSoundRegistry.getRegistry().kirinIdle, 10F, true, 19, 26));
+		actionManager.registerAction(new HeadButt());
+		actionManager.registerAction(new LightningStrike());
 		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Kirin/kirinbreathe.mcanm", 160, 5F));
 		actionManager.registerAction(new AIWander<EntityKirin>(this, "mhfc:models/Kirin/kirinwalk.mcanm", 90, 10F, 0.07F, 0.5F, 0, 72, 1, 25));
 		return actionManager.build(this);
