@@ -7,13 +7,10 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IStancedEntity;
+import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIDeath;
-import mhfc.net.common.ai.entity.monsters.rathalos.BiteLeft;
-import mhfc.net.common.ai.entity.monsters.rathalos.BiteRight;
-import mhfc.net.common.ai.entity.monsters.rathalos.Idle;
+import mhfc.net.common.ai.entity.AIWander;
 import mhfc.net.common.ai.entity.monsters.rathalos.Rush;
-import mhfc.net.common.ai.entity.monsters.rathalos.TailWhip;
-import mhfc.net.common.ai.entity.monsters.rathalos.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -81,20 +78,21 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 
 	@Override
 	protected IActionManager<EntityRathalos> constructActionManager() {
-		ActionManagerBuilder<EntityRathalos> stancedAttackManager = new ActionManagerBuilder<>();
-		stancedAttackManager.registerAction(new Idle());
-		stancedAttackManager.registerAction(new Wander());
-		stancedAttackManager.registerAction(new BiteLeft());
-		stancedAttackManager.registerAction(new BiteRight());
-		stancedAttackManager.registerAction(new TailWhip());
-		stancedAttackManager.registerAction(new Rush());
-		stancedAttackManager.registerAction(
+		ActionManagerBuilder<EntityRathalos> attackManager = new ActionManagerBuilder<>();
+		//stancedAttackManager.registerAction(new Idle());
+		attackManager.registerAction(new AIBreathe(this, "mhfc:models/Rathalos/rathalosidle.mcanm", 65, 5));
+		attackManager.registerAction(new AIWander<EntityRathalos>(this, "mhfc:models/Rathalos/RathalosWalk.mcanm", 125, 1F, 0.07F, 3F, 0, 120, 1, 15));
+		//stancedAttackManager.registerAction(new BiteLeft());
+		//stancedAttackManager.registerAction(new BiteRight());
+		//stancedAttackManager.registerAction(new TailWhip());
+		attackManager.registerAction(new Rush());
+		attackManager.registerAction(
 				setDeathAction(
 						new AIDeath(
 								this,
 								"mhfc:models/Rathalos/RathalosDeath.mcanm",
 								MHFCSoundRegistry.getRegistry().rathalosDeath)));
-		return stancedAttackManager.build(this);
+		return attackManager.build(this);
 	}
 
 	@Override

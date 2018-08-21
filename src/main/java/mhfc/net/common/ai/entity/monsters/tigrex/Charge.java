@@ -28,19 +28,19 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 
 			@Override
 			public void onPhaseStart(Charge attk) {
-				EntityTigrex tigrex = attk.getEntity();
-				tigrex.motionX = tigrex.motionY = tigrex.motionZ = 0f;
+				EntityTigrex entity = attk.getEntity();
+				entity.motionX = entity.motionY = entity.motionZ = 0f;
 				if (attk.target != null) {
-					tigrex.getTurnHelper().updateTurnSpeed(30.5F);
-					tigrex.getTurnHelper().updateTargetPoint(attk.target);
-					tigrex.getLookHelper().setLookPositionWithEntity(attk.target, 15, 15);
+					entity.getTurnHelper().updateTurnSpeed(30.5F);
+					entity.getTurnHelper().updateTargetPoint(attk.target);
+					entity.getLookHelper().setLookPositionWithEntity(attk.target, 15, 15);
 				}
 			}
 
 			@Override
 			public void update(Charge attk) {
-				EntityTigrex tigrex = attk.getEntity();
-				tigrex.getTurnHelper().forceUpdate();
+				EntityTigrex entity = attk.getEntity();
+				entity.getTurnHelper().forceUpdate();
 			}
 
 			@Override
@@ -65,19 +65,19 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 			public void update(Charge attk) {
 
 				/** Variables **/
-				EntityTigrex tigrex = attk.getEntity();
-				Vec3d tigPos = tigrex.getPositionVector();
+				EntityTigrex entity = attk.getEntity();
+				Vec3d entPos = entity.getPositionVector();
 				Vec3d trgtPos = attk.target.getPositionVector();
-				Vec3d vecToTarget = trgtPos.subtract(tigPos);
+				Vec3d vecToTarget = trgtPos.subtract(entPos);
 
 				/** Processing **/
-				tigrex.getTurnHelper().updateTargetPoint(trgtPos);
-				tigrex.moveForward(0.8, true);
-				Vec3d look = tigrex.getLookVec();
+				entity.getTurnHelper().updateTargetPoint(trgtPos);
+				entity.moveForward(0.8, true);
+				Vec3d look = entity.getLookVec();
 
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
 
-				boolean ranLongEnough = attk.runStartPoint.subtract(tigPos).lengthVector() > 50f
+				boolean ranLongEnough = attk.runStartPoint.subtract(entPos).lengthVector() > 50f
 						|| attk.framesRunning > 200;
 
 				if ((tarBeh || ranLongEnough) && attk.hasPassed == PastEntityEnum.NOT_PASSED) {
@@ -167,15 +167,15 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
-		EntityTigrex tig = getEntity();
-		tig.playSound(MHFCSoundRegistry.getRegistry().tigrexCharge, 2.0F, 1.0F);
+		EntityTigrex e = getEntity();
+		e.playSound(MHFCSoundRegistry.getRegistry().tigrexCharge, 2.0F, 1.0F);
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;
 		runCycles = 0;
 		framesRunning = 0;
 
 		currentPhase.onPhaseStart(this);
-		runStartPoint = tig.getPositionVector();
+		runStartPoint = e.getPositionVector();
 	}
 
 	@Override
@@ -193,9 +193,9 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 	@Override
 	public void onUpdate() {
 		currentPhase.update(this);
-		EntityTigrex tig = getEntity();
+		EntityTigrex e = getEntity();
 		if (currentPhase.isDamaging) {
-			this.updateTurnHelper(tig, 8F);
+			this.updateTurnHelper(e, 8F);
 			damageCollidingEntities();
 		}
 		AttackPhase nextPhase = currentPhase.next(this);

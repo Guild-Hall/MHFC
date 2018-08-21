@@ -6,67 +6,216 @@ import mhfc.net.common.ai.general.actions.DamagingAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
 import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
-import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
-import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
+import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.monster.wip.EntityRathalos;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.Vec3d;
 
 public class Rush extends DamagingAction<EntityRathalos> implements IHasAttackProvider {
-	private static final int LAST_FRAME = 60;
-	private static final String ANIMATION_LOCATION = "mhfc:models/Rathalos/RathalosRush.mcanm";
 
-	private static final IDamageCalculator DAMAGE_CALC = AIUtils.defaultDamageCalc(100f, 50F, 9999999f);
-	private static final double MAX_DIST = 20F;
-	private static final float WEIGHT = 4;
-
-	private final IAttackProvider ATTACK;
-	{
-		final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);
-		ATTACK = new AttackAdapter(ANIMATION, new DamageAdapter(DAMAGE_CALC));
+	private static enum PastEntityEnum {
+		NOT_PASSED,
+		PASSED,
+		LOOP_FINISHED,
+		TURNING;
 	}
+
+	private static enum AttackPhase {
+		START(false) {
+
+			@Override
+			public void onPhaseStart(Rush attk) {
+				EntityRathalos entity = attk.getEntity();
+				entity.motionX = entity.motionY = entity.motionZ = 0f;
+				if (attk.target != null) {
+					entity.getTurnHelper().updateTurnSpeed(30.5F);
+					entity.getTurnHelper().updateTargetPoint(attk.target);
+					entity.getLookHelper().setLookPositionWithEntity(attk.target, 15, 15);
+				}
+			}
+
+			@Override
+			public void update(Rush attk) {
+				EntityRathalos entity = attk.getEntity();
+				entity.getTurnHelper().forceUpdate();
+			}
+
+			@Override
+			public AttackPhase next(Rush attk) {
+				if (attk.target == null) {
+					return STOPPED;
+				}
+				if (attk.getCurrentFrame() < 21) {
+					return START;
+				}
+				return RUNNING;
+			}
+		},
+		RUNNING(true) {
+			@Override
+			public void onPhaseStart(Rush attk) {
+				attk.getEntity().getTurnHelper().updateTurnSpeed(0.12F);
+				attk.framesRunning = 0;
+			}
+
+			@Override
+			public void update(Rush attk) {
+
+				/** Variables **/
+				EntityRathalos entity = attk.getEntity();
+				Vec3d entPos = entity.getPositionVector();
+				Vec3d trgtPos = attk.target.getPositionVector();
+				Vec3d vecToTarget = trgtPos.subtract(entPos);
+
+				/** Processing **/
+				entity.getTurnHelper().updateTargetPoint(trgtPos);
+				entity.moveForward(0.8, true);
+				Vec3d look = entity.getLookVec();
+
+				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
+
+				boolean ranLongEnough = attk.runStartPoint.subtract(entPos).lengthVector() > 50f
+						|| attk.framesRunning > 200;
+
+				if ((tarBeh || ranLongEnough) && attk.hasPassed == PastEntityEnum.NOT_PASSED) {
+
+					attk.hasPassed = PastEntityEnum.PASSED;
+				}
+			}
+
+			@Override
+			public AttackPhase next(Rush attk) {
+				if (attk.hasPassed == PastEntityEnum.LOOP_FINISHED) {
+					return STOPPING;
+				}
+				return RUNNING;
+			}
+
+			@Override
+			public int nextFrame(Rush attk, int curr) {
+				attk.framesRunning++;
+				int looping = 60 - 21;
+				if (attk.hasPassed == PastEntityEnum.PASSED && (curr + 1 >= 60)) {
+					attk.hasPassed = PastEntityEnum.LOOP_FINISHED;
+				}
+				return 21 + (curr + 1 - 21) % looping;
+			}
+		},
+		STOPPING(true) {
+			@Override
+			public void update(Rush attk) {
+				EntityRathalos e = attk.getEntity();
+				e.moveForward(0.4, false);
+			}
+
+			@Override
+			public AttackPhase next(Rush attk) {
+				if (75 < attk.getCurrentFrame()) {
+					return STOPPED;
+				}
+				return STOPPING;
+			}
+		},
+		STOPPED(false) {
+			@Override
+			public void onPhaseStart(Rush attk) {
+				Entity entity = attk.getEntity();
+				entity.motionX = entity.motionY = entity.motionZ = 0f;
+			}
+		};
+		public final boolean isDamaging;
+
+		private AttackPhase(boolean isDamaging) {
+			this.isDamaging = isDamaging;
+		}
+
+		public void onPhaseStart(Rush attk) {}
+
+		public void update(Rush attk) {}
+
+		public AttackPhase next(Rush attk) {
+			return this;
+		}
+
+		public int nextFrame(Rush attk, int curr) {
+			return ++curr;
+		}
+	}
+
+	private AttackPhase currentPhase;
+	private PastEntityEnum hasPassed;
+	private Vec3d runStartPoint;
+	private int framesRunning;
+	@SuppressWarnings("unused")
+	private int runCycles;
 
 	public Rush() {}
 
-	private boolean shouldSelect() {
-		return SelectionUtils.isInDistance(0, MAX_DIST, getEntity(), target);
+	@Override
+	public float computeSelectionWeight() {
+		EntityRathalos entity = getEntity();
+		target = entity.getAttackingEntity();
+		if (SelectionUtils.isIdle(entity)) {
+			return DONT_SELECT;
+		}
+		return 4F;
 	}
 
 	@Override
-	protected float computeSelectionWeight() {
-		return shouldSelect() ? WEIGHT : DONT_SELECT;
+	public void beginExecution() {
+		super.beginExecution();
+		EntityRathalos e = getEntity();
+		e.playSound(MHFCSoundRegistry.getRegistry().tigrexCharge, 2.0F, 1.0F);
+		currentPhase = AttackPhase.START;
+		hasPassed = PastEntityEnum.NOT_PASSED;
+		runCycles = 0;
+		framesRunning = 0;
+
+		currentPhase.onPhaseStart(this);
+		runStartPoint = e.getPositionVector();
 	}
 
 	@Override
 	public IAttackProvider getAttackProvider() {
-		return ATTACK;
+		return new AttackAdapter(
+				new AnimationAdapter(this, "mhfc:models/Rathalos/rathalosrush.mcanm", 65),
+				new DamageAdapter(AIUtils.defaultDamageCalc(85F, 50F, 99999F)));
 	}
 
 	@Override
-	protected void beginExecution() {
-		EntityRathalos entity = getEntity();
-		entity.getTurnHelper().updateTurnSpeed(14.17f);
+	public IContinuationPredicate provideContinuationPredicate() {
+		return () -> this.currentPhase != AttackPhase.STOPPED;
 	}
 
 	@Override
 	public void onUpdate() {
-		EntityRathalos entity = getEntity();
-		damageCollidingEntities();
-		entity.getTurnHelper().updateTargetPoint(target);
-
-		if (this.getCurrentFrame() == 20) {
-			getEntity().playSound(MHFCSoundRegistry.getRegistry().rathalosCharge, 3.0F, 1.0F);
-			entity.getTurnHelper().updateTurnSpeed(0.24f);
-			//ON run
-
+		currentPhase.update(this);
+		EntityRathalos e = getEntity();
+		if (currentPhase.isDamaging) {
+			this.updateTurnHelper(e, 8F);
+			damageCollidingEntities();
 		}
-		if (isMoveForwardFrame(getCurrentFrame())) {
-			entity.moveForward(0.73, true);
+		AttackPhase nextPhase = currentPhase.next(this);
+		if (currentPhase != nextPhase) {
+			nextPhase.onPhaseStart(this);
+			currentPhase = nextPhase;
 		}
 	}
 
-	private boolean isMoveForwardFrame(int frame) {
-		return (frame > 20 && frame < 60);
+	@Override
+	public void finishExecution() { // When finished
+	}
+
+	@Override
+	public byte mutexBits() { // Well known mutex bits
+		return 1;
+	}
+
+	@Override
+	public int forceNextFrame(int frame) { // For the animation
+		return super.forceNextFrame(currentPhase.nextFrame(this, frame));
 	}
 }
