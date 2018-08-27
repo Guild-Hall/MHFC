@@ -61,7 +61,7 @@ public class EntityDeviljhoLaserBreath extends Entity {
 		if (world.isRemote) {
 			if (ticksExisted % 8 == 0) {
 				if (world.isRemote)
-					EnumParticles.RING
+					EnumParticles.FLAKE
 							.spawn(
 									world,
 									posX - 5,
