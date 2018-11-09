@@ -4,7 +4,7 @@ import mhfc.net.common.ai.general.actions.IdleAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
-import mhfc.net.common.entity.monster.wip.EntityRathalos;
+import mhfc.net.common.entity.monster.EntityRathalos;
 
 public class Idle extends IdleAction<EntityRathalos> implements IHasAnimationProvider {
 

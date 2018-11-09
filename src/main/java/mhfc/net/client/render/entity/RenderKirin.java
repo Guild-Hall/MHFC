@@ -8,7 +8,7 @@ import com.github.worldsender.mcanm.client.renderer.entity.RenderAnimatedModel;
 import com.github.worldsender.mcanm.common.CommonLoader;
 
 import mhfc.net.client.core.registry.MHFCEntityRenderRegistry;
-import mhfc.net.common.entity.monster.wip.EntityKirin;
+import mhfc.net.common.entity.monster.EntityKirin;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;

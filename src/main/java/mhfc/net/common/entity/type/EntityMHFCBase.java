@@ -104,6 +104,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		attackManager = Objects.requireNonNull(constructActionManager());
 		this.ignoreFrustumCheck = true;
 		hasDied = false;
+		this.isImmuneToFire = true;
 	}
 
 	@Override

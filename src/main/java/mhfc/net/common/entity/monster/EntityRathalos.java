@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.monster.wip;
+package mhfc.net.common.entity.monster;
 
 import org.lwjgl.opengl.GL11;
 
@@ -8,6 +8,7 @@ import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IStancedEntity;
 import mhfc.net.common.ai.entity.AIAngleWhip;
+import mhfc.net.common.ai.entity.AIBite;
 import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIDeath;
 import mhfc.net.common.ai.entity.AIWander;
@@ -86,7 +87,8 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		attackManager.registerAction(new AIBreathe(this, "mhfc:models/Rathalos/rathalosidle.mcanm", 65, 5));
 		attackManager.registerAction(new AIWander<EntityRathalos>(this, "mhfc:models/Rathalos/RathalosWalk.mcanm", 125, 1F, 0.07F, 3F, 0, 120, 1, 15));
 		attackManager.registerAction(new AIAngleWhip<EntityRathalos>("mhfc:models/Rathalos/rathalostailswiperight.mcanm", 35, 12, 50.5F, 5, MHFCSoundRegistry.getRegistry().rathalosTailWhip, 9, 6, 3, 180, 10));
-		
+		attackManager.registerAction(new AIBite(this, "mhfc:models/Rathalos/RathalosBiteLeft.mcanm", 50, 35, 95F, 5F, MHFCSoundRegistry.getRegistry().rathalosBite, 10, true, 30, 40));
+		attackManager.registerAction(new AIBite(this, "mhfc:models/Rathalos/RathalosBiteRight.mcanm", 50, 35, 95F, 6F, MHFCSoundRegistry.getRegistry().rathalosBite, 10, true, 30, 40));
 		//stancedAttackManager.registerAction(new BiteLeft());
 		//stancedAttackManager.registerAction(new BiteRight());
 		//stancedAttackManager.registerAction(new TailWhip());

@@ -1,0 +1,148 @@
+{
+	"pools": [
+		{
+			"name": "flame",
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "item",
+					"name": "mhfc:material",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 2,
+								"max": 6
+							}
+						},
+						{
+							"function": "set_data",
+							"data": 71
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "firecellstone",
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "item",
+					"name": "mhfc:material",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 2,
+								"max": 5
+							}
+						},
+						{
+							"function": "set_data",
+							"data": 10
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "rathalosshell",
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "item",
+					"name": "mhfc:material",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 3,
+								"max": 7
+							}
+						},
+						{
+							"function": "set_data",
+							"data": 92
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "rathaloswebbing",
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "item",
+					"name": "mhfc:material",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 2,
+								"max": 5
+							}
+						},
+						{
+							"function": "set_data",
+							"data": 93
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "rathalosmarrow",
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "item",
+					"name": "mhfc:material",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 1,
+								"max": 2
+							}
+						},
+						{
+							"function": "set_data",
+							"data": 94
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "rathaloswing",
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "item",
+					"name": "mhfc:material",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 0,
+								"max": 1
+							}
+						},
+						{
+							"function": "set_data",
+							"data": 95
+						}
+					]
+				}
+			]
+		}
+	]
+}

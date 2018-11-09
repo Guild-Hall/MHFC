@@ -33,19 +33,22 @@ public class DirectorEquipmentRecipes {
 	public final EquipmentRecipe recipe_vangis_legs;
 	public final EquipmentRecipe recipe_vangis_boots;
 
-	//	public final EquipmentRecipe recipe_rathalos_helm;
-	//	public final EquipmentRecipe recipe_rathalos_chest;
-	//	public final EquipmentRecipe recipe_rathalos_legs;
-	//	public final EquipmentRecipe recipe_rathalos_boots;
+	public final EquipmentRecipe recipe_rathalos_helm;
+	public final EquipmentRecipe recipe_rathalos_chest;
+	public final EquipmentRecipe recipe_rathalos_legs;
+	public final EquipmentRecipe recipe_rathalos_boots;
 
-	//	public final EquipmentRecipe recipe_kirin_helm;
+	public final EquipmentRecipe recipe_kirin_helm;
+	public final EquipmentRecipe recipe_kirin_chest;
+	public final EquipmentRecipe recipe_kirin_legs;
+	public final EquipmentRecipe recipe_kirin_boots;
 
 	// Weapon
 	
 	public final EquipmentRecipe recipe_gs_bone;
 	//	public final EquipmentRecipe recipe_gs_deadlyserpentblade;
-	//public final EquipmentRecipe recipe_gs_redwing;
-	//	public final EquipmentRecipe recipe_gs_thundersword;
+	public final EquipmentRecipe recipe_gs_redwing;
+	public final EquipmentRecipe recipe_gs_thundersword;
 	public final EquipmentRecipe recipe_gs_agito;
 	public final EquipmentRecipe recipe_gs_berserker;
 	
@@ -54,7 +57,7 @@ public class DirectorEquipmentRecipes {
 	public final EquipmentRecipe recipe_hm_warplus;
 	public final EquipmentRecipe recipe_hm_warslammer;
 	public final EquipmentRecipe recipe_hm_tigrex;
-	//	public final EquipmentRecipe recipe_hm_kirin;
+	public final EquipmentRecipe recipe_hm_kirin;
 //	public final EquipmentRecipe recipe_hm_rathalos;
 	public final EquipmentRecipe recipe_hm_devilsdue;
 
@@ -89,35 +92,38 @@ public class DirectorEquipmentRecipes {
 
 		director.register(recipe_yukumo_helm);
 		director.register(recipe_barroth_helm);
-		//director.register(recipe_rathalos_helm);
+		director.register(recipe_rathalos_helm);
 		director.register(recipe_tigrex_helm);
-		//director.register(recipe_kirin_helm);
+		director.register(recipe_kirin_helm);
 		director.register(recipe_vangis_helm);
 
 		director.register(recipe_yukumo_chest);
 		director.register(recipe_barroth_chest);
-		//director.register(recipe_rathalos_chest);
+		director.register(recipe_rathalos_chest);
 		director.register(recipe_tigrex_chest);
+		director.register(recipe_kirin_chest);
 		director.register(recipe_vangis_chest);
 
 		director.register(recipe_yukumo_legs);
 		director.register(recipe_barroth_legs);
-		//director.register(recipe_rathalos_legs);
+		director.register(recipe_rathalos_legs);
 		director.register(recipe_tigrex_legs);
+		director.register(recipe_kirin_legs);
 		director.register(recipe_vangis_legs);
 
 		director.register(recipe_yukumo_boots);
 		director.register(recipe_barroth_boots);
-		//director.register(recipe_rathalos_boots);
+		director.register(recipe_rathalos_boots);
 		director.register(recipe_tigrex_boots);
+		director.register(recipe_kirin_boots);
 		director.register(recipe_vangis_boots);
 
 		// Weapon
 		
 		director.register(recipe_gs_bone);
 		//director.register(recipe_gs_deadlyserpentblade);
-		//director.register(recipe_gs_redwing);
-		//director.register(recipe_gs_thundersword);
+		director.register(recipe_gs_redwing);
+		director.register(recipe_gs_thundersword);
 		director.register(recipe_gs_berserker);
 		director.register(recipe_gs_agito);
 		
@@ -128,7 +134,7 @@ public class DirectorEquipmentRecipes {
 		director.register(recipe_hm_warplus);
 		director.register(recipe_hm_warslammer);
 		director.register(recipe_hm_tigrex);
-		//director.register(recipe_hm_kirin);
+		director.register(recipe_hm_kirin);
 	//	dataObject.register(recipe_hm_rathalos);
 		director.register(recipe_hm_devilsdue);
 		
@@ -200,6 +206,71 @@ public class DirectorEquipmentRecipes {
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.DRAGONITE, 10));
 		recipe.setRequiredHeat(200).setDuration(300);
 		recipe_tigrex_boots = recipe.build();
+		
+		recipe.setProduct(new ItemStack(itemRegistry.armor_kirin_helm));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KIRINMANE, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.THUNDERBUG, 5));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KIRINGEM, 3));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.ELTALITE, 5));
+		recipe.setRequiredHeat(200).setDuration(100);
+		recipe_kirin_helm = recipe.build();
+		
+		recipe.setProduct(new ItemStack(itemRegistry.armor_kirin_chest));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KIRINMANE, 20));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KIRINGEM, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 15));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.ELTALITE, 15));
+		recipe.setRequiredHeat(200).setDuration(100);
+		recipe_kirin_chest = recipe.build();
+		
+		recipe.setProduct(new ItemStack(itemRegistry.armor_kirin_legs));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KIRINMANE, 15));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KIRINGEM, 5));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KIRINTHUNDERTAIL, 1));
+		recipe.setRequiredHeat(200).setDuration(100);
+		recipe_kirin_legs = recipe.build();
+		
+		recipe.setProduct(new ItemStack(itemRegistry.armor_kirin_boots));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KIRINMANE, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.THUNDERBUG, 5));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KIRINGEM, 5));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.ELTALITE, 5));
+		recipe.setRequiredHeat(200).setDuration(100);
+		recipe_kirin_boots = recipe.build();
+		
+		recipe.setProduct(new ItemStack(itemRegistry.armor_rathalos_helm));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.FLAME, 5));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.RATHALOSSHELL, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.RATHALOSWEBBING, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 15));
+		recipe.setRequiredHeat(200).setDuration(100);
+		recipe_rathalos_helm = recipe.build();
+		
+		recipe.setProduct(new ItemStack(itemRegistry.armor_rathalos_chest));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.RATHALOSSHELL, 25));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.RATHALOSWEBBING, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.RATHALOSWING, 5));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.RATHALOSPLATE, 3));
+		recipe.setRequiredHeat(200).setDuration(100);
+		recipe_rathalos_chest = recipe.build();
+		
+		recipe.setProduct(new ItemStack(itemRegistry.armor_rathalos_legs));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.RATHALOSSHELL, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.RATHALOSWEBBING, 15));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.RATHALOSMARROW, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 15));
+		recipe.setRequiredHeat(200).setDuration(100);
+		recipe_rathalos_legs = recipe.build();
+		
+		recipe.setProduct(new ItemStack(itemRegistry.armor_rathalos_boots));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.FLAME, 5));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.RATHALOSWEBBING, 5));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.RATHALOSMARROW, 5));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 5));
+		recipe.setRequiredHeat(200).setDuration(100);
+		recipe_rathalos_boots = recipe.build();
 
 		recipe.setProduct(new ItemStack(itemRegistry.armor_barroth_helm));
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.BARROTHSHELL, 15));
@@ -315,13 +386,23 @@ public class DirectorEquipmentRecipes {
 		
 		
 
-		/*recipe.setProduct(new ItemStack(itemRegistry.weapon_gs_rathalosfire));
-		recipe.addIngredient(SubTypedItem.fromSubItem(MaterialSubType.RATHALOSWING, 15));
-		recipe.addIngredient(SubTypedItem.fromSubItem(MaterialSubType.FLAME, 5));
-		recipe.addIngredient(SubTypedItem.fromSubItem(MaterialSubType.RATHALOSMARROW, 15));
-		recipe.addIngredient(itemRegistry.firestone, 3, 0);
+		recipe.setProduct(new ItemStack(itemRegistry.weapon_gs_rathalosfire));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.RATHALOSWING, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.FLAME, 5));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.RATHALOSMARROW, 25));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.FIRECELLSTONE, 3));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MDMONSTERBONE, 20));
 		recipe.setRequiredHeat(300).setDuration(900);
-		recipe_gs_redwing = recipe.build();*/
+		recipe_gs_redwing = recipe.build();
+		
+		recipe.setProduct(new ItemStack(itemRegistry.weapon_gs_kirinthunders));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.THUNDER, 15));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KIRINLIGHTCRYSTAL, 5));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KIRINMANE, 20));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MACHALITE, 20));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KIRINTHUNDERTAIL, 3));
+		recipe.setRequiredHeat(300).setDuration(900);
+		recipe_gs_thundersword = recipe.build();
 
 
 
@@ -376,14 +457,18 @@ public class DirectorEquipmentRecipes {
 
 		//
 
-		/*builder.setProduct(new ItemStack(itemRegistry.weapon_hm_rathalos));
-		builder.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.SHELL, 8));
-		builder.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.MARROW, 2));
-		builder.addIngredient(itemRegistry.firestone, 1, 0);
-		builder.setRequiredHeat(300).setDuration(500);
-		recipe_hm_rathalos = builder.build();*/
+		recipe.setProduct(new ItemStack(itemRegistry.weapon_hm_kirinspark));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.ELECTRO, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KIRINLIGHTCRYSTAL, 5));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KIRINMANE, 30));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KIRINPLATINUMMANE, 10));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.CARBALITE, 20));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KIRINPURECRYSTAL, 20));
+		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.KIRINTHUNDERTAIL, 10));
+		recipe.setRequiredHeat(300).setDuration(2500);
+		recipe_hm_kirin = recipe.build();
 
-		//
+		
 
 		recipe.setProduct(new ItemStack(itemRegistry.weapon_hm_tigrex));
 		recipe.addIngredient(SubTypedItem.fromSubItem(ItemMaterial.MaterialSubType.TIGREXCLAW, 5));

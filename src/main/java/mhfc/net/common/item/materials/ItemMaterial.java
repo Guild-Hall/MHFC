@@ -23,7 +23,7 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 
 		NORMAL("normal", ResourceInterface.item_armorsphere0_name, ItemColor.BLUE),
 		PLUS("plus", ResourceInterface.item_armorsphere1_name, ItemColor.LIME),
-
+		//4-16
 		DRAGONITE("dragonite", ResourceInterface.item_ingot1_name, ItemColor.GREEN),
 		ELTALITE("eltalite", ResourceInterface.item_ingot2_name, ItemColor.RED),
 		MACHALITE("machalite", ResourceInterface.item_ingot3_name, ItemColor.CYAN),
@@ -37,7 +37,7 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 		FURUKURAITO("furukuraito", ResourceInterface.item_ingot11_name, ItemColor.LIME),
 		ANTISEPTIC("antiseptic", ResourceInterface.item_ingot12_name, ItemColor.GREEN),
 		MELLANJE("mellanje", ResourceInterface.item_ingot13_name, ItemColor.WHITE),
-
+		//17-24
 		BLUEMUSHROOM("bluemushroom", ResourceInterface.item_shroom1_name, ItemColor.BLUE),
 		NITROSHROOM("nitroshroom", ResourceInterface.item_shroom2_name, ItemColor.RED),
 		PARASHROOM("parashroom", ResourceInterface.item_shroom3_name, ItemColor.YELLOW),
@@ -46,7 +46,7 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 		DRAGONTOADSTOOL("dragontoadstool", ResourceInterface.item_shroom6_name, ItemColor.RED),
 		SPICYMUSHROOM("spicymushroom", ResourceInterface.item_shroom7_name, ItemColor.BROWN),
 		CHAOSMUSHROOM("chaosmushroom", ResourceInterface.item_shroom8_name, ItemColor.CANNONPINK),
-
+		//25-42
 		SMMONSTERBONE("smallmonsterbone", ResourceInterface.item_bone1_name, ItemColor.GREEN),
 		MDMONSTERBONE("medmonsterbone", ResourceInterface.item_bone2_name, ItemColor.GREEN),
 		LGMONSTERBONE("largemonsterbone", ResourceInterface.item_bone3_name, ItemColor.GREEN),
@@ -65,7 +65,7 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 		STOUTBONE("stoutbone", ResourceInterface.item_bone16_name, ItemColor.WHITE),
 		MASSIVEBONE("massivebone", ResourceInterface.item_bone17_name, ItemColor.WHITE),
 		JUMBOBONE("jumbobone", ResourceInterface.item_bone18_name, ItemColor.WHITE),
-
+		//43 - 63
 		INSECTHUSK("insecthusk", ResourceInterface.item_bug0_name, ItemColor.GRAY),
 		YAMBUG("yambug", ResourceInterface.item_bug1_name, ItemColor.BLUE),
 		BUGHOPPER("bughopper", ResourceInterface.item_bug2_name, ItemColor.WHITE),
@@ -87,7 +87,7 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 		ROYALRHINO("royalrhino", ResourceInterface.item_bug18_name, ItemColor.GREEN),
 		DIVINERHINO("divinerhino", ResourceInterface.item_bug19_name, ItemColor.GREEN),
 		GLUEHOPPER("gluehopper", ResourceInterface.item_bug20_name, ItemColor.CYAN),
-
+		//64-76
 		SCREAMER("screamer", ResourceInterface.item_sac0_name, ItemColor.GRAY),
 		POISON("poison", ResourceInterface.item_sac1_name, ItemColor.MAGNTA),
 		TOXIN("toxin", ResourceInterface.item_sac2_name, ItemColor.MAGNTA),
@@ -102,6 +102,7 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 		ELECTRO("thunder", ResourceInterface.item_sac11_name, ItemColor.YELLOW),
 		LIGHTNING("lightning", ResourceInterface.item_sac12_name, ItemColor.YELLOW),
 
+		//77-79
 		REMOBRASKIN("remobraskin", ResourceInterface.item_remobra0_name, ItemColor.GRAY), //
 		REMOBRASKULL("remobraskull", ResourceInterface.item_remobra1_name, ItemColor.GRAY), //
 		REMOBRAWING("remobrawing", ResourceInterface.item_remobra2_name, ItemColor.GRAY),

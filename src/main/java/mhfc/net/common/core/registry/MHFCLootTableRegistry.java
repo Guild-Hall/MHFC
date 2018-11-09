@@ -13,14 +13,27 @@ public class MHFCLootTableRegistry {
 	private static final IServiceKey<MHFCLootTableRegistry> serviceAccess = RegistryWrapper
 			.registerService("loot table registry", MHFCLootTableRegistry::new, MHFCMain.preInitPhase);
 
-	public final ResourceLocation questsNoGutsNoGlory;
-	public final ResourceLocation tigrexRoar;
-	public final ResourceLocation violentWyvern;
+	public final ResourceLocation questA;
+	public final ResourceLocation questB;
+	public final ResourceLocation questC;
+	public final ResourceLocation questD;
+	public final ResourceLocation questE;
+	public final ResourceLocation questF;
+	public final ResourceLocation questG;
+	public final ResourceLocation questH;
+	public final ResourceLocation questI;
 
 	private MHFCLootTableRegistry() {
-		questsNoGutsNoGlory = register("quests/no_guts_no_glory");
-		tigrexRoar = register("quests/tigrex_roar");
-		violentWyvern = register("quest/violent_wyvern");
+		questA = register("quests/no_guts_no_glory");
+		questB = register("quests/tigrex_roar");
+		questC = register("quest/violent_wyvern");
+		questD = register("quest/desert_rathalos");
+		questE = register("quest/dangerous_abyss");
+		questF = register("quest/leading_the_charge");
+		questG = register("quest/phantom_of_the_mist");
+		questH = register("quest/phantom_wyvern");
+		questI = register("quest/wyvernia_coin");
+		
 	}
 
 	private ResourceLocation register(String location) {

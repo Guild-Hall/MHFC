@@ -12,7 +12,7 @@ import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.wip.EntityLagiacrus;
+import mhfc.net.common.entity.monster.EntityLagiacrus;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
@@ -65,8 +65,7 @@ public class Sweep extends DamagingAction<EntityLagiacrus> implements IHasAttack
 
 	@Override
 	protected void onUpdate() {
-		super.onUpdate();
-
+		this.damageCollidingEntities();
 		EntityLagiacrus entity = getEntity();
 		entity.getTurnHelper().updateTargetPoint(target);
 		if (this.getCurrentFrame() == 20) {

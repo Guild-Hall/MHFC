@@ -41,6 +41,27 @@
 			"amount": 1
 		}
 	},
+	"kirinA": {
+		"type": "hunting",
+		"data": {
+			"target": "mhfc:kirin",
+			"amount": 1
+		}
+	},
+	"lagiacrusA": {
+		"type": "hunting",
+		"data": {
+			"target": "mhfc:lagiacrus",
+			"amount": 1
+		}
+	},
+	"rathalosA": {
+		"type": "hunting",
+		"data": {
+			"target": "mhfc:rathalos",
+			"amount": 1
+		}
+	},
 	"StandardTimer": {
 		"type": "time",
 		"data": {

@@ -8,7 +8,7 @@ import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
-import mhfc.net.common.entity.monster.wip.EntityLagiacrus;
+import mhfc.net.common.entity.monster.EntityLagiacrus;
 
 public class Wander extends WanderAction<EntityLagiacrus> implements IHasAnimationProvider {
 

@@ -11,7 +11,7 @@ import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.wip.EntityRathalos;
+import mhfc.net.common.entity.monster.EntityRathalos;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 

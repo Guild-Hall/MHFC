@@ -6,7 +6,7 @@ import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.wip.EntityKirin;
+import mhfc.net.common.entity.monster.EntityKirin;
 import net.minecraft.entity.effect.EntityLightningBolt;
 
 public class LightningStrike extends AnimatedAction<EntityKirin> implements IHasAnimationProvider{

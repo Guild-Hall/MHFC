@@ -1,17 +1,21 @@
 {
 	"groupDisplayOrder": [
-		"Beginner's Starter", "Hunter's Introduction"
+		"Low Tier Hunter Quest", "Hunter's Introduction"
 	],
 	"groups": {
 		"Hunter's Introduction": [
 			"leadingthecharge",
+			"testquest1",
+			"nogutsnoglory"
+		],
+		"Low Tier Hunter Quest": [
 			"tigrexroar",
 			"jumpingatshadows",
 			"violentwyvern",
-			"nogutsnoglory"
-		],
-		"Beginner's Starter": [
-			"testquest1"
+			"desertrathalos",
+			"phantomofthemist",
+			"dangerousabyss"
+			
 		]
 	}
 }

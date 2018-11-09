@@ -5,7 +5,7 @@ import mhfc.net.common.ai.general.actions.AnimatedAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
-import mhfc.net.common.entity.monster.wip.EntityRathalos;
+import mhfc.net.common.entity.monster.EntityRathalos;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.util.math.BlockPos;

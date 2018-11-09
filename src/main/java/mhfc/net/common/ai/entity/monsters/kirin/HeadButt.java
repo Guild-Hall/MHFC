@@ -15,7 +15,7 @@ import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.wip.EntityKirin;
+import mhfc.net.common.entity.monster.EntityKirin;
 
 public class HeadButt extends JumpAction<EntityKirin> implements IHasJumpProvider<EntityKirin> {
 

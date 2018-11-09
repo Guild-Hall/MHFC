@@ -1,17 +1,16 @@
-package mhfc.net.common.entity.monster.wip;
+package mhfc.net.common.entity.monster;
 
 import org.lwjgl.opengl.GL11;
 
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
+import mhfc.net.common.ai.entity.AIBite;
+import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIDeath;
-import mhfc.net.common.ai.entity.monsters.lagiacrus.Bite;
-import mhfc.net.common.ai.entity.monsters.lagiacrus.BiteFront;
-import mhfc.net.common.ai.entity.monsters.lagiacrus.Idle;
+import mhfc.net.common.ai.entity.AIWander;
 import mhfc.net.common.ai.entity.monsters.lagiacrus.Roar;
 import mhfc.net.common.ai.entity.monsters.lagiacrus.Sweep;
-import mhfc.net.common.ai.entity.monsters.lagiacrus.Wander;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
@@ -45,12 +44,13 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 	@Override
 	protected IActionManager<EntityLagiacrus> constructActionManager() {
 		ActionManagerBuilder<EntityLagiacrus> actionManager = new ActionManagerBuilder<>();
-		actionManager.registerAction(new Wander());
+		actionManager.registerAction(new AIBite(this, "mhfc:models/Lagiacrus/LagiacrusBite.mcanm", 40, 8, 125, 8, MHFCSoundRegistry.getRegistry().lagiacrusBite, 15, true, 15, 20));
+		actionManager.registerAction(new AIBite(this, "mhfc:models/Lagiacrus/LagiacrusBite.mcanm", 60, 28, 105, 5, MHFCSoundRegistry.getRegistry().lagiacrusBite, 15, true, 25, 30));
+		actionManager.registerAction(new AIWander<EntityLagiacrus>(this, "mhfc:models/Lagiacrus/LagiacrusWalk.mcanm", 100, 10F, 0.2F, 0.7F, 20	, 80, 1, 10));
+		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Lagiacrus/LagiacrusIdle.mcanm", 50, 15F));
+		
 		actionManager.registerAction(new Sweep());
 		actionManager.registerAction(new Roar());
-		actionManager.registerAction(new Bite());
-		actionManager.registerAction(new BiteFront());
-		actionManager.registerAction(new Idle());
 		actionManager.registerAction(
 				setDeathAction(
 						new AIDeath(

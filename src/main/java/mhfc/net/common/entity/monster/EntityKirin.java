@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.monster.wip;
+package mhfc.net.common.entity.monster;
 
 import org.lwjgl.opengl.GL11;
 
@@ -14,6 +14,7 @@ import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.type.EntityMHFCBase;
 import mhfc.net.common.entity.type.EntityMHFCPart;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundEvent;
@@ -36,6 +37,7 @@ public class EntityKirin extends EntityMHFCBase<EntityKirin> {
 	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
+		targetTasks.addTask(6, new EntityAIHurtByTarget(this, true));
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
 	}
 

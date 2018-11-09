@@ -13,7 +13,7 @@ import mhfc.net.common.ai.general.provider.composite.IJumpProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasJumpProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
-import mhfc.net.common.entity.monster.wip.EntityRathalos;
+import mhfc.net.common.entity.monster.EntityRathalos;
 
 public class FlyBack extends JumpAction<EntityRathalos> implements IHasJumpProvider<EntityRathalos> {
 

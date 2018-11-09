@@ -236,6 +236,135 @@
 	},
 	
 	
+	"desertrathalos": {
+		"type": "default",
+		"data": {
+			"goal": {
+				"type": "fork",
+				"data": {
+					"requisites": [
+						"StandardDeath",
+						"StandardTimer",
+						"rathalosA"
+					]
+				}
+			},
+				"reward": {
+				"type": "lootTable",
+				"data": "mhfc:quests/desert_rathalos"
+			},
+			"fee": 200,
+			"areaID": "areasandy",
+			"questType": "mhfc.quests.type.hunting",
+			"visual": {
+				"client": "Sand Survey Corp",
+				"monster": "Rathalos",
+				"name": "Desert Rathalos",
+				"longDescription": "The Prince of the Sky Wyvern have landed in the Desert. Hurry Up and stop its wreaking havoc.",
+				"aims": "Hunt Rathalos"
+			},
+			"spawns": [
+				{
+					"type": "monster",
+					"mob": "mhfc:rathalos",
+					"count": 1,
+					"location": "area_boss1"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn1"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn2"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn3"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn4"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn5"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn6"
+				}
+				,				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn8"
+				}
+				,				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn9"
+				}
+				
+				
+			]
+		}
+	},
+	
+	"phantomofthemist": {
+		"type": "default",
+		"data": {
+			"goal": {
+				"type": "fork",
+				"data": {
+					"requisites": [
+						"StandardDeath",
+						"StandardTimer",
+						"kirinA"
+					]
+				}
+			},
+				"reward": {
+				"type": "lootTable",
+				"data": "mhfc:quests/phantom_of_the_mist"
+			},
+			"fee": 200,
+			"areaID": "areasandy",
+			"questType": "mhfc.quests.type.hunting",
+			"visual": {
+				"client": "Sand Survey Corp",
+				"monster": "Kirin",
+				"name": "Phantom of the Mist",
+				"longDescription": "An unseen Elder Dragon was roaming in the desert try to investigate and capture it before sunset.",
+				"aims": "Hunt Kirin"
+			},
+			"spawns": [
+				{
+					"type": "monster",
+					"mob": "mhfc:kirin",
+					"count": 1,
+					"location": "area_boss1"
+				}
+				
+				
+			]
+		}
+	},
 	
 	"tigrexroar": {
 		"type": "default",
@@ -270,6 +399,56 @@
 					"mob": "mhfc:tigrex",
 					"count": 1,
 					"location": "area_boss1"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn1"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn2"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn3"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn4"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn5"
+				},				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn6"
+				}
+				,				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn8"
+				}
+				,				
+				{
+					"type": "monster",
+					"mob": "mhfc:delex",
+					"count": 1,
+					"location": "area_spawn9"
 				}
 			]
 		}
@@ -346,6 +525,74 @@
 					"mob": "mhfc:gagua",
 					"count": 1,
 					"location": "area_spawn6"
+				}
+			]
+		}
+	},
+	
+		"dangerousabyss": {
+		"type": "default",
+		"data": {
+			"goal": {
+				"type": "fork",
+				"data": {
+					"requisites": [
+						"StandardDeath",
+						"StandardTimer",
+						"Violentwyvern"
+					]
+				}
+			},
+			"reward": {
+				"type": "lootTable",
+				"data": "mhfc:quests/dangerous_abyss"
+			},
+			"fee": 200,
+			"areaID": "thegreenvalley",
+			"questType": "mhfc.quests.type.hunting",
+			"visual": {
+				"client": "Villager Shinya",
+				"monster": "Lagiacrus",
+				"name": "Dangerous Abyss",
+				"longDescription": "A very large Lagiacrus just shown up eating preys in the valley. Hurry up and stop this disaster.",
+				"aims": "Hunt Lagiacrus"
+			},
+			"spawns": [
+				{
+					"type": "monster",
+					"mob": "mhfc:gagua",
+					"count": 1,
+					"location": "area_spawn1"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:gagua",
+					"count": 1,
+					"location": "area_spawn2"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:gagua",
+					"count": 1,
+					"location": "area_spawn3"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:gagua",
+					"count": 1,
+					"location": "area_spawn4"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:gagua",
+					"count": 1,
+					"location": "area_spawn5"
+				},
+				{
+					"type": "monster",
+					"mob": "mhfc:lagiacrus",
+					"count": 1,
+					"location": "boss_spawn2"
 				}
 			]
 		}
