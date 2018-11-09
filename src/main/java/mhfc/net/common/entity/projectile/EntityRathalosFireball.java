@@ -3,11 +3,14 @@ package mhfc.net.common.entity.projectile;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -41,6 +44,8 @@ public class EntityRathalosFireball extends EntityThrowable {
 
 	@Override
 	protected void onImpact(RayTraceResult result) {
+		
+		if(!this.world.isRemote) {
 		List<Entity> list = this.world
 				.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(4.5D, 3.0D, 4.5D));
 		list.remove(getThrower());
@@ -53,15 +58,20 @@ public class EntityRathalosFireball extends EntityThrowable {
 			if (world.isRemote || result.entityHit == null) {
 				continue;
 			}
-			this.world.newExplosion(
-					(Entity) null,
-					this.posX,
-					this.posY,
-					this.posZ,
-					this.radius,
-					true,
-					this.world.getGameRules().getBoolean("mobGriefing"));
+			boolean flag1 = true;
+			if(this.shootingEntity != null && this.shootingEntity instanceof EntityLiving) {
+				flag1 = this.world.getGameRules().getBoolean("mobGriefing");
+			}
+			if(flag1) {
+				BlockPos blockpos = result.getBlockPos().offset(result.sideHit);
 
+                if (this.world.isAirBlock(blockpos))
+                {
+                    this.world.setBlockState(blockpos, Blocks.FIRE.getDefaultState());
+                }
+			}
+
+			}
 		}
 
 	}
