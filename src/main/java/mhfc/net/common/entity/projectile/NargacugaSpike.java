@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 
 public class NargacugaSpike extends EntityThrowable {
 
-	IDamageCalculator damageHelper = AIUtils.defaultDamageCalc(15, 500, 9999999f);
+	IDamageCalculator damageHelper = AIUtils.defaultDamageCalc(65, 500, 9999999f);
 
 	public NargacugaSpike(World world) {
 		super(world);
