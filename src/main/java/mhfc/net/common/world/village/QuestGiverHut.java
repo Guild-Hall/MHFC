@@ -3,7 +3,7 @@ package mhfc.net.common.world.village;
 import java.util.List;
 import java.util.Random;
 
-import mhfc.net.common.entity.quests.EntityQuestGiver;
+import mhfc.net.common.entity.creature.npc.NPCQuestGiver;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -50,7 +50,7 @@ public class QuestGiverHut extends StructureVillagePieces.Village {
 			this.boundingBox.offset(0, this.averageGroundLvl - this.boundingBox.maxY + 9 - 1, 0);
 		}
 
-		EntityQuestGiver questGiver = new EntityQuestGiver(worldIn);
+		NPCQuestGiver questGiver = new NPCQuestGiver(worldIn);
 		double posX = getXWithOffset(0, 0) + 0.5D;
 		int posY = getYWithOffset(0);
 		double posZ = getZWithOffset(0, 0) + 0.5D;

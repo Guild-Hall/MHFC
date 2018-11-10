@@ -12,11 +12,11 @@ import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityLagiacrus;
+import mhfc.net.common.entity.creature.Lagiacrus;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class Sweep extends DamagingAction<EntityLagiacrus> implements IHasAttackProvider {
+public class Sweep extends DamagingAction<Lagiacrus> implements IHasAttackProvider {
 
 	private static final int FRAMES = 90;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Lagiacrus/LagiacrusSweep.mcanm";
@@ -37,7 +37,7 @@ public class Sweep extends DamagingAction<EntityLagiacrus> implements IHasAttack
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityLagiacrus entity = this.getEntity();
+		Lagiacrus entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
@@ -58,7 +58,7 @@ public class Sweep extends DamagingAction<EntityLagiacrus> implements IHasAttack
 	@Override
 	protected void beginExecution() {
 		super.beginExecution();
-		EntityLagiacrus entity = this.getEntity();
+		Lagiacrus entity = this.getEntity();
 		entity.getTurnHelper().updateTurnSpeed(14.17f);
 		getEntity().playSound(MHFCSoundRegistry.getRegistry().lagiacrusSweep, 3.0F, 1.0F);
 	}
@@ -66,7 +66,7 @@ public class Sweep extends DamagingAction<EntityLagiacrus> implements IHasAttack
 	@Override
 	protected void onUpdate() {
 		this.damageCollidingEntities();
-		EntityLagiacrus entity = getEntity();
+		Lagiacrus entity = getEntity();
 		entity.getTurnHelper().updateTargetPoint(target);
 		if (this.getCurrentFrame() == 20) {
 			entity.getTurnHelper().updateTurnSpeed(0.37f);

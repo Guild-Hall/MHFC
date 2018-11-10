@@ -1,9 +1,9 @@
 package mhfc.net.common.ai.general.provider.adapters;
 
 import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 
-public class JumpTimingAdapter<T extends EntityMHFCBase<? super T>> implements IJumpTimingProvider<T> {
+public class JumpTimingAdapter<T extends CreatureAttributes<? super T>> implements IJumpTimingProvider<T> {
 	protected int jumpFrame;
 	protected float turnRate, turnRateAir;
 

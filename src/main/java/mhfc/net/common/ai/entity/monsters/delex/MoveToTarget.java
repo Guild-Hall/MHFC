@@ -7,9 +7,9 @@ import mhfc.net.common.ai.general.provider.adapters.CountLoopAdvancer;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IFrameAdvancer;
-import mhfc.net.common.entity.monster.EntityDelex;
+import mhfc.net.common.entity.creature.Delex;
 
-public class MoveToTarget extends AnimatedAction<EntityDelex> implements IHasAnimationProvider {
+public class MoveToTarget extends AnimatedAction<Delex> implements IHasAnimationProvider {
 
 	protected float speedln;
 
@@ -35,7 +35,7 @@ public class MoveToTarget extends AnimatedAction<EntityDelex> implements IHasAni
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityDelex entity = getEntity();
+		Delex entity = getEntity();
 		target = entity.getAttackTarget();
 
 		if (entity.getAttackTarget() == null) {
@@ -50,7 +50,7 @@ public class MoveToTarget extends AnimatedAction<EntityDelex> implements IHasAni
 
 	@Override
 	protected void onUpdate() {
-		EntityDelex entity = getEntity();
+		Delex entity = getEntity();
 		target = entity.getAttackTarget();
 		if (target != null) {
 			entity.getTurnHelper().updateTurnSpeed(15F);

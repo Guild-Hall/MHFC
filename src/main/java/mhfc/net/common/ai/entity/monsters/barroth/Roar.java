@@ -7,9 +7,9 @@ import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IRoarProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityBarroth;
+import mhfc.net.common.entity.creature.Barroth;
 
-public class Roar extends RoarAction<EntityBarroth> implements IHasAnimationProvider {
+public class Roar extends RoarAction<Barroth> implements IHasAnimationProvider {
 
 	private static final String ANIMATION_LOCATION = "mhfc:models/Barroth/BarrothRoar.mcanm";
 	private static final int LAST_FRAME = 105;
@@ -21,7 +21,7 @@ public class Roar extends RoarAction<EntityBarroth> implements IHasAnimationProv
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		EntityBarroth entity = this.getEntity();
+		Barroth entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (this.getCurrentFrame() >= 18 && this.getCurrentFrame() <= 22) {
 			entity.getTurnHelper().updateTargetPoint(target);

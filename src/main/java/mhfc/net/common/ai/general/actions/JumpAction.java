@@ -3,10 +3,10 @@ package mhfc.net.common.ai.general.actions;
 import mhfc.net.common.ai.general.provider.requirements.INeedsJumpParameters;
 import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.util.math.Vec3d;
 
-public abstract class JumpAction<T extends EntityMHFCBase<? super T>> extends DamagingAction<T>
+public abstract class JumpAction<T extends CreatureAttributes<? super T>> extends DamagingAction<T>
 		implements
 		INeedsJumpParameters<T> {
 

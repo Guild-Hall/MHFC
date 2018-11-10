@@ -7,9 +7,9 @@ import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IRoarProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityLagiacrus;
+import mhfc.net.common.entity.creature.Lagiacrus;
 
-public class Roar extends RoarAction<EntityLagiacrus> implements IHasAnimationProvider {
+public class Roar extends RoarAction<Lagiacrus> implements IHasAnimationProvider {
 
 	private static final int LAST_FRAME = 95;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Lagiacrus/LagiacrusRoar.mcanm";
@@ -32,7 +32,7 @@ public class Roar extends RoarAction<EntityLagiacrus> implements IHasAnimationPr
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		EntityLagiacrus entity = this.getEntity();
+		Lagiacrus entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (this.getCurrentFrame() >= 18 && this.getCurrentFrame() <= 22) {
 			entity.getTurnHelper().updateTargetPoint(target);

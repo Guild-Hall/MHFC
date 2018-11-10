@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.type;
+package mhfc.net.common.entity;
 
 import mhfc.net.common.util.math.NonAxisAlignedBB;
 import net.minecraft.entity.Entity;
@@ -7,14 +7,14 @@ import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 
-public class EntityMHFCPart extends EntityDragonPart {
+public class CollisionParts extends EntityDragonPart {
 
 	private Vec3d offset;
 	private Entity entityParent;
 	private NonAxisAlignedBB baseBoundingBox;
 	private NonAxisAlignedBB currentBoundingBox;
 
-	public <T extends Entity & IEntityMultiPart> EntityMHFCPart(T parent, String partName, Vec3d offset) {
+	public <T extends Entity & IEntityMultiPart> CollisionParts(T parent, String partName, Vec3d offset) {
 		super(parent, partName, 0, 0);
 		this.entityParent = parent;
 		this.offset = offset;

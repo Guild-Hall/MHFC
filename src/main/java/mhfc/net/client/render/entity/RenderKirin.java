@@ -8,7 +8,7 @@ import com.github.worldsender.mcanm.client.renderer.entity.RenderAnimatedModel;
 import com.github.worldsender.mcanm.common.CommonLoader;
 
 import mhfc.net.client.core.registry.MHFCEntityRenderRegistry;
-import mhfc.net.common.entity.monster.EntityKirin;
+import mhfc.net.common.entity.creature.Kirin;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -18,7 +18,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderKirin extends RenderAnimatedModel<EntityKirin> {
+public class RenderKirin extends RenderAnimatedModel<Kirin> {
 
 	public RenderKirin(RenderManager manager) {
 		super(manager,new ModelAnimated(ClientLoader.loadModel(new ResourceLocation(ResourceInterface.mob_kirin_model), CommonLoader.loadSkeleton(new ResourceLocation(ResourceInterface.mob_kirin_skeleton)))),
@@ -27,14 +27,14 @@ public class RenderKirin extends RenderAnimatedModel<EntityKirin> {
 	}
 	
 	@Override
-	public void doRender(EntityKirin entity, double x, double y, double z, float yaw, float partialTicks) {
+	public void doRender(Kirin entity, double x, double y, double z, float yaw, float partialTicks) {
 		super.doRender(entity, x, y, z, yaw, partialTicks);
 		
 		renderElectricField((float)x, (float)y, (float)z, entity);
 	}
 	
 	@Override
-	protected void renderModel(EntityKirin entity, float _1, float _2, float _3, float _4, float _5, float _6) {
+	protected void renderModel(Kirin entity, float _1, float _2, float _3, float _4, float _5, float _6) {
 		super.renderModel(entity, _1, _2, _3, _4, _5, _6);
 		
 	}

@@ -1,7 +1,7 @@
 package mhfc.net.common.item.tools;
 
 import mhfc.net.MHFCMain;
-import mhfc.net.common.entity.fx.EntityFlashBomb;
+import mhfc.net.common.entity.fx.FXFlashbomb;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.IItemColored;
 import mhfc.net.common.item.ItemColor;
@@ -26,7 +26,7 @@ public class ItemFlashBomb extends Item implements IItemColored {
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 		if (!world.isRemote) {
-			EntityFlashBomb bomb = new EntityFlashBomb(world, player);
+			FXFlashbomb bomb = new FXFlashbomb(world, player);
 			bomb.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
 			world.spawnEntity(bomb);
 		}

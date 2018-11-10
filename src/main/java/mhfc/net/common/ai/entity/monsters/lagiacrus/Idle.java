@@ -5,9 +5,9 @@ import mhfc.net.common.ai.general.actions.IdleAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
-import mhfc.net.common.entity.monster.EntityLagiacrus;
+import mhfc.net.common.entity.creature.Lagiacrus;
 
-public class Idle extends IdleAction<EntityLagiacrus> implements IHasAnimationProvider {
+public class Idle extends IdleAction<Lagiacrus> implements IHasAnimationProvider {
 
 	private static final int LAST_FRAME = 50;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Lagiacrus/LagiacrusIdle.mcanm";

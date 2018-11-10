@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.monster.wip;
+package mhfc.net.common.entity.creature.incomplete;
 
 import org.lwjgl.opengl.GL11;
 
@@ -6,25 +6,25 @@ import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
-import mhfc.net.common.entity.type.EntityMHFCBase;
-import mhfc.net.common.entity.type.EntityMHFCPart;
+import mhfc.net.common.entity.CollisionParts;
+import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
+public class Giaprey extends CreatureAttributes<Giaprey> {
 
-	public EntityUkanlos(World world) {
+	public Giaprey(World world) {
 		super(world);
-		setSize(9f, 9f);
+		setSize(2f, 1f);
 	}
 
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(145391D));
-		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(25D);
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(4310D));
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(7D);
 	}
 
 	@Override
@@ -34,21 +34,20 @@ public class EntityUkanlos extends EntityMHFCBase<EntityUkanlos> {
 	}
 
 	@Override
-	protected IActionManager<EntityUkanlos> constructActionManager() {
-		ActionManagerBuilder<EntityUkanlos> manager = new ActionManagerBuilder<>();
-		return manager.build(this);
+	protected IActionManager<Giaprey> constructActionManager() {
+		ActionManagerBuilder<Giaprey> actionManager = new ActionManagerBuilder<>();
+		return actionManager.build(this);
 	}
 
 	@Override
-	public EntityMHFCPart[] getParts() {
+	public CollisionParts[] getParts() {
 		return null;
 	}
 
 
-
 	@Override
 	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
-		GL11.glScaled(5, 5, 5);
+		GL11.glScaled(0.8, 0.8, 0.8);
 		return super.preRenderCallback(scale, sub);
 	}
 

@@ -6,10 +6,10 @@ import mhfc.net.common.ai.general.provider.requirements.INeedsMovementParameters
 import mhfc.net.common.ai.general.provider.requirements.INeedsPath;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IPathProvider;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.util.math.Vec3d;
 
-public abstract class MovementAction<T extends EntityMHFCBase<? super T>> extends AnimatedAction<T>
+public abstract class MovementAction<T extends CreatureAttributes<? super T>> extends AnimatedAction<T>
 		implements
 		INeedsMovementParameters,
 		INeedsPath {

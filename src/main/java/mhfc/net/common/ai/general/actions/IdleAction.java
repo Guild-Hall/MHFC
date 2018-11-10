@@ -3,9 +3,9 @@ package mhfc.net.common.ai.general.actions;
 import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.provider.adapters.HasNoTargetAdapter;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 
-public abstract class IdleAction<T extends EntityMHFCBase<?>> extends AnimatedAction<T> {
+public abstract class IdleAction<T extends CreatureAttributes<?>> extends AnimatedAction<T> {
 
 	protected double lookX;
 	protected double lookZ;

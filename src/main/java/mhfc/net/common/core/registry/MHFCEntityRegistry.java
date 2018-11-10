@@ -6,25 +6,23 @@ import java.util.List;
 import mhfc.net.MHFCMain;
 import mhfc.net.client.particle.paint.ParticlePaintEmitter;
 import mhfc.net.common.core.MHFCMobList;
-import mhfc.net.common.entity.fx.EntityDeviljhoLaserBreath;
-import mhfc.net.common.entity.fx.EntityFlashBomb;
-import mhfc.net.common.entity.monster.EntityBarroth;
-import mhfc.net.common.entity.monster.EntityDelex;
-import mhfc.net.common.entity.monster.EntityDeviljho;
-import mhfc.net.common.entity.monster.EntityGargwa;
-import mhfc.net.common.entity.monster.EntityKirin;
-import mhfc.net.common.entity.monster.EntityLagiacrus;
-import mhfc.net.common.entity.monster.EntityNargacuga;
-import mhfc.net.common.entity.monster.EntityRathalos;
-import mhfc.net.common.entity.monster.EntityTigrex;
-import mhfc.net.common.entity.monster.wip.EntityGreatJaggi;
-import mhfc.net.common.entity.projectile.EntityBullet;
-import mhfc.net.common.entity.projectile.EntityDeviljhoBeam1;
-import mhfc.net.common.entity.projectile.EntityPaintball;
-import mhfc.net.common.entity.projectile.EntityProjectileBlock;
-import mhfc.net.common.entity.projectile.EntityRathalosFireball;
-import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
-import mhfc.net.common.entity.quests.EntityQuestGiver;
+import mhfc.net.common.entity.creature.Barroth;
+import mhfc.net.common.entity.creature.Delex;
+import mhfc.net.common.entity.creature.Deviljho;
+import mhfc.net.common.entity.creature.Gargwa;
+import mhfc.net.common.entity.creature.Kirin;
+import mhfc.net.common.entity.creature.Lagiacrus;
+import mhfc.net.common.entity.creature.Nargacuga;
+import mhfc.net.common.entity.creature.Rathalos;
+import mhfc.net.common.entity.creature.Tigrex;
+import mhfc.net.common.entity.creature.incomplete.GreatJaggi;
+import mhfc.net.common.entity.creature.npc.NPCQuestGiver;
+import mhfc.net.common.entity.fx.FXDeviljhoLaser;
+import mhfc.net.common.entity.fx.FXFlashbomb;
+import mhfc.net.common.entity.projectile.ProjectileBullet;
+import mhfc.net.common.entity.projectile.ProjectilePaintball;
+import mhfc.net.common.entity.projectile.ProjectileBlock;
+import mhfc.net.common.entity.projectile.ProjectileArrow;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.services.IServiceKey;
@@ -58,9 +56,7 @@ public class MHFCEntityRegistry {
 	public final int questGiverID;
 
 	public final int projectileBlockID;
-	public final int deviljhobeam1ID;
 	public final int deviljholaserbreathID;
-	public final int rathalosFireballID;
 	public final int breatheID;
 	public final int bulletID;
 	public final int flashbombID;
@@ -87,41 +83,37 @@ public class MHFCEntityRegistry {
 		
 		// popoID = getMobID(EntityPopo.class, MHFCReference.mob_popo_name);
 		
-		tigrexID = getMobID(EntityTigrex.class, ResourceInterface.mob_tigrex_name);
-		kirinID = getMobID(EntityKirin.class, ResourceInterface.mob_kirin_name);
+		tigrexID = getMobID(Tigrex.class, ResourceInterface.mob_tigrex_name);
+		kirinID = getMobID(Kirin.class, ResourceInterface.mob_kirin_name);
 		
-		rathalosID = getMobID(EntityRathalos.class, ResourceInterface.mob_rathalos_name);
-		greatjaggiID = getMobID(EntityGreatJaggi.class,ResourceInterface.mob_greatjaggi_name);
-		deviljhoID = getMobID(EntityDeviljho.class, ResourceInterface.mob_deviljho_name);
-		nargacugaID = getMobID(EntityNargacuga.class, ResourceInterface.mob_nargacuga_name);
-		questGiverID = getMobID(EntityQuestGiver.class, ResourceInterface.mob_questGiver_name);
-		barrothID = getMobID(EntityBarroth.class, ResourceInterface.mob_barroth_name);
-		delexID = getMobID(EntityDelex.class, ResourceInterface.mob_delex_name);
+		rathalosID = getMobID(Rathalos.class, ResourceInterface.mob_rathalos_name);
+		greatjaggiID = getMobID(GreatJaggi.class,ResourceInterface.mob_greatjaggi_name);
+		deviljhoID = getMobID(Deviljho.class, ResourceInterface.mob_deviljho_name);
+		nargacugaID = getMobID(Nargacuga.class, ResourceInterface.mob_nargacuga_name);
+		questGiverID = getMobID(NPCQuestGiver.class, ResourceInterface.mob_questGiver_name);
+		barrothID = getMobID(Barroth.class, ResourceInterface.mob_barroth_name);
+		delexID = getMobID(Delex.class, ResourceInterface.mob_delex_name);
 		
 		//giapreyID = getMobID(EntityGiaprey.class, MHFCReference.mob_giaprey_name, 0x6f41512, 0x654321);
 		//ukanlosID = getMobID(EntityUkanlos.class, MHFCReference.mob_ukanlos_name, 0x33333333, 0x654321);
 		
-		lagiacrusID = getMobID(EntityLagiacrus.class, ResourceInterface.mob_lagiacrus_name);
-		gargwaID = getMobID(EntityGargwa.class, ResourceInterface.mob_gagua_name);
+		lagiacrusID = getMobID(Lagiacrus.class, ResourceInterface.mob_lagiacrus_name);
+		gargwaID = getMobID(Gargwa.class, ResourceInterface.mob_gagua_name);
 
 		
-		deviljhobeam1ID = getProjectileID(EntityDeviljhoBeam1.class, ResourceInterface.entity_deviljhobeam1_name);
-		deviljholaserbreathID = getProjectileID(EntityDeviljhoLaserBreath.class, ResourceInterface.entity_deviljhobeam2_name);
-		projectileBlockID = getProjectileID(EntityProjectileBlock.class, ResourceInterface.entity_tigrexBlock_name);
-		bulletID = getProjectileID(EntityBullet.class, ResourceInterface.entity_bullet_name);
-		rathalosFireballID = getProjectileID(
-				EntityRathalosFireball.class,
-				ResourceInterface.entity_rathalosFireball_name);
+		deviljholaserbreathID = getProjectileID(FXDeviljhoLaser.class, ResourceInterface.entity_deviljhobeam2_name);
+		projectileBlockID = getProjectileID(ProjectileBlock.class, ResourceInterface.entity_tigrexBlock_name);
+		bulletID = getProjectileID(ProjectileBullet.class, ResourceInterface.entity_bullet_name);
 		flashbombID = getProjectileID(
-				EntityFlashBomb.class,
+				FXFlashbomb.class,
 				ResourceInterface.entity_flashbomb_name,
-				(int) EntityFlashBomb.REACH);
+				(int) FXFlashbomb.REACH);
 
-		paintballID = getProjectileID(EntityPaintball.class, ResourceInterface.entity_paintball_name);
+		paintballID = getProjectileID(ProjectilePaintball.class, ResourceInterface.entity_paintball_name);
 
 		paintemitterID = getMobID(ParticlePaintEmitter.class, ResourceInterface.mob_paint_emitter_name);
-		arrowID = getProjectileID(EntityWyverniaArrow.class, ResourceInterface.projectile_wyverniaarrow_name);
-		breatheID = getProjectileID(EntityDeviljhoLaserBreath.class, ResourceInterface.projectile_wyverniaarrow_name);
+		arrowID = getProjectileID(ProjectileArrow.class, ResourceInterface.projectile_wyverniaarrow_name);
+		breatheID = getProjectileID(FXDeviljhoLaser.class, ResourceInterface.projectile_wyverniaarrow_name);
 
 		MHFCMain.logger().info("Monsters registered");
 	}

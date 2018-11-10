@@ -11,20 +11,20 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class EntityPaintball extends EntityThrowable implements IEntityAdditionalSpawnData {
+public class ProjectilePaintball extends EntityThrowable implements IEntityAdditionalSpawnData {
 
 	private ItemColor color;
 
-	public EntityPaintball(World world) {
+	public ProjectilePaintball(World world) {
 		super(world);
 	}
 
-	public EntityPaintball(World world, ItemColor color) {
+	public ProjectilePaintball(World world, ItemColor color) {
 		this(world);
 		this.color = color;
 	}
 
-	public EntityPaintball(World world, ItemColor color, EntityLivingBase thrower) {
+	public ProjectilePaintball(World world, ItemColor color, EntityLivingBase thrower) {
 		super(world, thrower);
 		this.color = color;
 	}

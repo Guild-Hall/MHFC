@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.monster;
+package mhfc.net.common.entity.creature;
 
 import org.lwjgl.opengl.GL11;
 
@@ -17,8 +17,8 @@ import mhfc.net.common.ai.entity.monsters.deviljho.Roar;
 import mhfc.net.common.ai.entity.monsters.deviljho.Stomp;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.type.EntityMHFCBase;
-import mhfc.net.common.entity.type.EntityMHFCPart;
+import mhfc.net.common.entity.CollisionParts;
+import mhfc.net.common.entity.CreatureAttributes;
 import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
@@ -30,9 +30,9 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
+public class Deviljho extends CreatureAttributes<Deviljho> {
 
-	public EntityDeviljho(World world) {
+	public Deviljho(World world) {
 		super(world);
 		setSize(7.8F, 7F);
 		stepHeight = 2.0F;
@@ -55,8 +55,8 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	}
 
 	@Override
-	protected IActionManager<EntityDeviljho> constructActionManager() {
-		ActionManagerBuilder<EntityDeviljho> attackManager = new ActionManagerBuilder<>();
+	protected IActionManager<Deviljho> constructActionManager() {
+		ActionManagerBuilder<Deviljho> attackManager = new ActionManagerBuilder<>();
 		attackManager.registerAction(
 				setDeathAction(
 						new AIDeath(
@@ -117,7 +117,7 @@ public class EntityDeviljho extends EntityMHFCBase<EntityDeviljho> {
 	}
 
 	@Override
-	public EntityMHFCPart[] getParts() {
+	public CollisionParts[] getParts() {
 		return null;
 	}
 

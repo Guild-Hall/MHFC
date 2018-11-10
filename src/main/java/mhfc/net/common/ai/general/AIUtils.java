@@ -9,7 +9,7 @@ import com.google.common.base.Preconditions;
 import mhfc.net.common.ai.general.provider.adapters.DefaultDamageCalculator;
 import mhfc.net.common.ai.general.provider.adapters.MemoryDamageCalculator;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 import mhfc.net.common.system.DamageSystem;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
@@ -131,7 +131,7 @@ public class AIUtils {
 
 	public static void damageEntitiesFromAI(EntityLivingBase ai, Entity target, IDamageCalculator damageCalc) {
 		float damage = damageCalc.accept(target);
-		if (target instanceof EntityPlayer || target instanceof EntityMHFCBase) {
+		if (target instanceof EntityPlayer || target instanceof CreatureAttributes) {
 			target.attackEntityFrom(DamageSource.causeMobDamage(ai), damage);
 		} else {
 			target.attackEntityFrom(DamageSystem.antimod, damage);

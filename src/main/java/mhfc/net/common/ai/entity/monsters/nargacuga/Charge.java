@@ -12,11 +12,11 @@ import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityNargacuga;
+import mhfc.net.common.entity.creature.Nargacuga;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
-public class Charge extends DamagingAction<EntityNargacuga> implements IHasAttackProvider {
+public class Charge extends DamagingAction<Nargacuga> implements IHasAttackProvider {
 	private static final int runningStarts = 40;
 	private static final int runningEnds = 59;
 	private static final int attackEnd = 75;
@@ -42,7 +42,7 @@ public class Charge extends DamagingAction<EntityNargacuga> implements IHasAttac
 
 			@Override
 			public void onPhaseStart(Charge attk) {
-				EntityNargacuga tigrex = attk.getEntity();
+				Nargacuga tigrex = attk.getEntity();
 				tigrex.motionX = tigrex.motionY = tigrex.motionZ = 0f;
 				tigrex.getTurnHelper().updateTurnSpeed(TURN_RATE_INITIAL);
 				tigrex.getTurnHelper().updateTargetPoint(attk.target);
@@ -50,7 +50,7 @@ public class Charge extends DamagingAction<EntityNargacuga> implements IHasAttac
 
 			@Override
 			public void update(Charge attk) {
-				EntityNargacuga tigrex = attk.getEntity();
+				Nargacuga tigrex = attk.getEntity();
 				tigrex.getTurnHelper().forceUpdate();
 			}
 
@@ -76,7 +76,7 @@ public class Charge extends DamagingAction<EntityNargacuga> implements IHasAttac
 			public void update(Charge attk) {
 
 				// Variables
-				EntityNargacuga tigrex = attk.getEntity();
+				Nargacuga tigrex = attk.getEntity();
 				Vec3d tigPos = tigrex.getPositionVector();
 				Vec3d trgtPos = attk.target.getPositionVector();
 				Vec3d vecToTarget = trgtPos.subtract(tigPos);
@@ -120,7 +120,7 @@ public class Charge extends DamagingAction<EntityNargacuga> implements IHasAttac
 		STOPPING(true) {
 			@Override
 			public void update(Charge attk) {
-				EntityNargacuga e = attk.getEntity();
+				Nargacuga e = attk.getEntity();
 				e.moveForward(STOP_SPEED, false);
 			}
 
@@ -174,7 +174,7 @@ public class Charge extends DamagingAction<EntityNargacuga> implements IHasAttac
 
 	@Override
 	public float computeSelectionWeight() {
-		EntityNargacuga entity = getEntity();
+		Nargacuga entity = getEntity();
 		target = entity.getAttackingEntity();
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
@@ -185,7 +185,7 @@ public class Charge extends DamagingAction<EntityNargacuga> implements IHasAttac
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
-		EntityNargacuga tig = getEntity();
+		Nargacuga tig = getEntity();
 		tig.playSound(MHFCSoundRegistry.getRegistry().nargacugaCharge, 2.0F, 1.0F);
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;

@@ -6,11 +6,11 @@ import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.DamageCalculatorHelper;
 import mhfc.net.common.ai.general.provider.requirements.INeedsDamageCalculator;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.Vec3d;
 
-public abstract class DamageAreaAction<T extends EntityMHFCBase<?>> extends AnimatedAction<T>
+public abstract class DamageAreaAction<T extends CreatureAttributes<?>> extends AnimatedAction<T>
 		implements
 		INeedsDamageCalculator {
 

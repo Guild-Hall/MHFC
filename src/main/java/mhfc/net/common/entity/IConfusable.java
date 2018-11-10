@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.type;
+package mhfc.net.common.entity;
 
 public interface IConfusable {
 	public void confuse();

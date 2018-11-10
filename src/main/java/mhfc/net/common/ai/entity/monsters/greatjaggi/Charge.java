@@ -10,11 +10,11 @@ import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.wip.EntityGreatJaggi;
+import mhfc.net.common.entity.creature.incomplete.GreatJaggi;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
-public class Charge extends DamagingAction<EntityGreatJaggi> implements IHasAttackProvider {
+public class Charge extends DamagingAction<GreatJaggi> implements IHasAttackProvider {
 
 	private static enum PastEntityEnum {
 		NOT_PASSED,
@@ -28,7 +28,7 @@ public class Charge extends DamagingAction<EntityGreatJaggi> implements IHasAtta
 
 			@Override
 			public void onPhaseStart(Charge attk) {
-				EntityGreatJaggi monster = attk.getEntity();
+				GreatJaggi monster = attk.getEntity();
 				monster.motionX = monster.motionY = monster.motionZ = 0f;
 				if (attk.target != null) {
 					monster.getTurnHelper().updateTurnSpeed(50F);
@@ -39,7 +39,7 @@ public class Charge extends DamagingAction<EntityGreatJaggi> implements IHasAtta
 
 			@Override
 			public void update(Charge attk) {
-				EntityGreatJaggi monster = attk.getEntity();
+				GreatJaggi monster = attk.getEntity();
 				monster.getTurnHelper().forceUpdate();
 			}
 
@@ -64,7 +64,7 @@ public class Charge extends DamagingAction<EntityGreatJaggi> implements IHasAtta
 			@Override
 			public void update(Charge attk) {
 				/** Variables **/
-				EntityGreatJaggi monster = attk.getEntity();
+				GreatJaggi monster = attk.getEntity();
 				Vec3d entityPos = monster.getPositionVector();
 				Vec3d trgtPos = attk.target.getPositionVector();
 				Vec3d vecToTarget = trgtPos.subtract(entityPos);
@@ -105,7 +105,7 @@ public class Charge extends DamagingAction<EntityGreatJaggi> implements IHasAtta
 
 			@Override
 			public void update(Charge attk) {
-				EntityGreatJaggi e = attk.getEntity();
+				GreatJaggi e = attk.getEntity();
 				e.moveForward(0.3, false);
 			}
 
@@ -154,7 +154,7 @@ public class Charge extends DamagingAction<EntityGreatJaggi> implements IHasAtta
 
 	@Override
 	public float computeSelectionWeight() {
-		EntityGreatJaggi monster = this.getEntity();
+		GreatJaggi monster = this.getEntity();
 		target = monster.getAttackTarget();
 		if (SelectionUtils.isIdle(monster)) {
 			return DONT_SELECT;
@@ -165,7 +165,7 @@ public class Charge extends DamagingAction<EntityGreatJaggi> implements IHasAtta
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
-		EntityGreatJaggi entity = getEntity();
+		GreatJaggi entity = getEntity();
 		entity.playSound(MHFCSoundRegistry.getRegistry().greatJaggiBite, 2F, 1F);
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;
@@ -178,7 +178,7 @@ public class Charge extends DamagingAction<EntityGreatJaggi> implements IHasAtta
 	@Override
 	public void onUpdate() {
 		currentPhase.update(this);
-		EntityGreatJaggi entity = getEntity();
+		GreatJaggi entity = getEntity();
 		if (currentPhase.isDamaging) {
 			this.updateTurnHelper(entity, 0.03F);
 			damageCollidingEntities();

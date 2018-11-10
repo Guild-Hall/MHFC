@@ -1,8 +1,8 @@
 package mhfc.net.common.ai.general.actions;
 
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 
-public abstract class SleepAction<T extends EntityMHFCBase<?>> extends AnimatedAction<T> {
+public abstract class SleepAction<T extends CreatureAttributes<?>> extends AnimatedAction<T> {
 	
 	private float sleepFrequency = 50F;
 

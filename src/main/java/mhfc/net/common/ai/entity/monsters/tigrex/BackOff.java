@@ -13,21 +13,21 @@ import mhfc.net.common.ai.general.provider.composite.IJumpProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasJumpProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
-import mhfc.net.common.entity.monster.EntityTigrex;
+import mhfc.net.common.entity.creature.Tigrex;
 
-public class BackOff extends JumpAction<EntityTigrex> implements IHasJumpProvider<EntityTigrex> {
+public class BackOff extends JumpAction<Tigrex> implements IHasJumpProvider<Tigrex> {
 
 	public BackOff() {}
 
-	private final IJumpProvider<EntityTigrex> ATTACK;
+	private final IJumpProvider<Tigrex> ATTACK;
 	{
-		IJumpParameterProvider<EntityTigrex> jumpParameter = new AttackTargetAdapter<EntityTigrex>(40F) {
+		IJumpParameterProvider<Tigrex> jumpParameter = new AttackTargetAdapter<Tigrex>(40F) {
 			@Override
-			public float getForwardVelocity(EntityTigrex entity) {
+			public float getForwardVelocity(Tigrex entity) {
 				return -3.5F;
 			}
 		};
-		IJumpTimingProvider<EntityTigrex> jumpTiming = new JumpTimingAdapter<>(5, 2F, 2F);
+		IJumpTimingProvider<Tigrex> jumpTiming = new JumpTimingAdapter<>(5, 2F, 2F);
 		final IAnimationProvider animation = new AnimationAdapter(this, "mhfc:models/Tigrex/jump_away.mcanm", 25);
 		ATTACK = new JumpAdapter<>(
 				animation,
@@ -38,13 +38,13 @@ public class BackOff extends JumpAction<EntityTigrex> implements IHasJumpProvide
 
 
 	@Override
-	public IJumpProvider<EntityTigrex> getJumpProvider() {
+	public IJumpProvider<Tigrex> getJumpProvider() {
 		return ATTACK;
 	}
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityTigrex entity = getEntity();
+		Tigrex entity = getEntity();
 		target = entity.getAttackTarget();
 
 		if (SelectionUtils.isIdle(entity)) {

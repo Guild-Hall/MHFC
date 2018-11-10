@@ -4,9 +4,9 @@ import mhfc.net.common.ai.general.actions.IdleAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
-import mhfc.net.common.entity.monster.EntityGargwa;
+import mhfc.net.common.entity.creature.Gargwa;
 
-public class Sleep extends IdleAction<EntityGargwa> implements IHasAnimationProvider {
+public class Sleep extends IdleAction<Gargwa> implements IHasAnimationProvider {
 
 	private static final int LAST_FRAME = 1250;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Gagua/GaguaSleep.mcanm";

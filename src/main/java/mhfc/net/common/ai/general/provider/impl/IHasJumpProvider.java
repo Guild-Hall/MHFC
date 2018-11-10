@@ -5,9 +5,9 @@ import mhfc.net.common.ai.general.provider.composite.IJumpProvider;
 import mhfc.net.common.ai.general.provider.requirements.INeedsJumpParameters;
 import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 
-public interface IHasJumpProvider<T extends EntityMHFCBase<? super T>>
+public interface IHasJumpProvider<T extends CreatureAttributes<? super T>>
 		extends
 		IHasAttackProvider,
 		INeedsJumpParameters<T> {

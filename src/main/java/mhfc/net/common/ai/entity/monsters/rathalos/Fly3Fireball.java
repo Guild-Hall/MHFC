@@ -4,9 +4,9 @@ import mhfc.net.common.ai.general.actions.AnimatedAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
-import mhfc.net.common.entity.monster.EntityRathalos;
+import mhfc.net.common.entity.creature.Rathalos;
 
-public class Fly3Fireball extends AnimatedAction<EntityRathalos> implements IHasAnimationProvider {
+public class Fly3Fireball extends AnimatedAction<Rathalos> implements IHasAnimationProvider {
 
 	@Override
 	public IAnimationProvider getAnimProvider() {

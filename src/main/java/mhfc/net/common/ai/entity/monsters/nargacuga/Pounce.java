@@ -15,9 +15,9 @@ import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityNargacuga;
+import mhfc.net.common.entity.creature.Nargacuga;
 
-public final class Pounce extends JumpAction<EntityNargacuga> implements IHasJumpProvider<EntityNargacuga> {
+public final class Pounce extends JumpAction<Nargacuga> implements IHasJumpProvider<Nargacuga> {
 
 	public static enum JumpBehaviour {
 		TwoJumps(BehaviourJump::createTwoJumps),
@@ -35,7 +35,7 @@ public final class Pounce extends JumpAction<EntityNargacuga> implements IHasJum
 
 	private BehaviourJump behaviour;
 
-	private IJumpProvider<EntityNargacuga> jumpProvider;
+	private IJumpProvider<Nargacuga> jumpProvider;
 
 	public Pounce() {}
 
@@ -44,8 +44,8 @@ public final class Pounce extends JumpAction<EntityNargacuga> implements IHasJum
 		super.initializeExecutionRandomness();
 		this.behaviour = ALL_BEHAVIOURS[rng().nextInt(ALL_BEHAVIOURS.length)].internal.apply(this);
 		IAnimationProvider animation = behaviour.getAnimation();
-		IJumpParameterProvider<EntityNargacuga> jumpParameters = behaviour.getJumpParameters();
-		IJumpTimingProvider<EntityNargacuga> jumpTiming = behaviour.getJumpTiming();
+		IJumpParameterProvider<Nargacuga> jumpParameters = behaviour.getJumpParameters();
+		IJumpTimingProvider<Nargacuga> jumpTiming = behaviour.getJumpTiming();
 
 		jumpProvider = new JumpAdapter<>(animation, new DamageAdapter(dmgCalculator), jumpParameters, jumpTiming);
 	}
@@ -53,7 +53,7 @@ public final class Pounce extends JumpAction<EntityNargacuga> implements IHasJum
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
-		EntityNargacuga entity = getEntity();
+		Nargacuga entity = getEntity();
 		entity.playSound(MHFCSoundRegistry.getRegistry().nargacugaPounce, 2.0F, 1.0F);
 		MHFCMain.logger().debug("Narga jump {}", this.behaviour);
 		forceNextFrame(18);
@@ -62,7 +62,7 @@ public final class Pounce extends JumpAction<EntityNargacuga> implements IHasJum
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityNargacuga entity = getEntity();
+		Nargacuga entity = getEntity();
 		target = entity.getAttackTarget();
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
@@ -79,7 +79,7 @@ public final class Pounce extends JumpAction<EntityNargacuga> implements IHasJum
 	}
 
 	@Override
-	public IJumpProvider<EntityNargacuga> getJumpProvider() {
+	public IJumpProvider<Nargacuga> getJumpProvider() {
 		return jumpProvider;
 	}
 }

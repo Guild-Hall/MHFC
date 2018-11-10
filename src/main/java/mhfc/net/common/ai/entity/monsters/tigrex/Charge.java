@@ -10,11 +10,11 @@ import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityTigrex;
+import mhfc.net.common.entity.creature.Tigrex;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
-public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackProvider {
+public class Charge extends DamagingAction<Tigrex> implements IHasAttackProvider {
 
 	private static enum PastEntityEnum {
 		NOT_PASSED,
@@ -28,7 +28,7 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 
 			@Override
 			public void onPhaseStart(Charge attk) {
-				EntityTigrex entity = attk.getEntity();
+				Tigrex entity = attk.getEntity();
 				entity.motionX = entity.motionY = entity.motionZ = 0f;
 				if (attk.target != null) {
 					entity.getTurnHelper().updateTurnSpeed(30.5F);
@@ -39,7 +39,7 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 
 			@Override
 			public void update(Charge attk) {
-				EntityTigrex entity = attk.getEntity();
+				Tigrex entity = attk.getEntity();
 				entity.getTurnHelper().forceUpdate();
 			}
 
@@ -65,7 +65,7 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 			public void update(Charge attk) {
 
 				/** Variables **/
-				EntityTigrex entity = attk.getEntity();
+				Tigrex entity = attk.getEntity();
 				Vec3d entPos = entity.getPositionVector();
 				Vec3d trgtPos = attk.target.getPositionVector();
 				Vec3d vecToTarget = trgtPos.subtract(entPos);
@@ -107,7 +107,7 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 		STOPPING(true) {
 			@Override
 			public void update(Charge attk) {
-				EntityTigrex e = attk.getEntity();
+				Tigrex e = attk.getEntity();
 				e.moveForward(0.4, false);
 			}
 
@@ -156,7 +156,7 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 
 	@Override
 	public float computeSelectionWeight() {
-		EntityTigrex entity = getEntity();
+		Tigrex entity = getEntity();
 		target = entity.getAttackingEntity();
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
@@ -167,7 +167,7 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
-		EntityTigrex e = getEntity();
+		Tigrex e = getEntity();
 		e.playSound(MHFCSoundRegistry.getRegistry().tigrexCharge, 2.0F, 1.0F);
 		currentPhase = AttackPhase.START;
 		hasPassed = PastEntityEnum.NOT_PASSED;
@@ -193,7 +193,7 @@ public class Charge extends DamagingAction<EntityTigrex> implements IHasAttackPr
 	@Override
 	public void onUpdate() {
 		currentPhase.update(this);
-		EntityTigrex e = getEntity();
+		Tigrex e = getEntity();
 		if (currentPhase.isDamaging) {
 			this.updateTurnHelper(e, 8F);
 			damageCollidingEntities();

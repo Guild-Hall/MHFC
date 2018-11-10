@@ -7,16 +7,16 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class NargacugaSpike extends EntityThrowable {
+public class ProjectileNargaSpike extends EntityThrowable {
 
 	IDamageCalculator damageHelper = AIUtils.defaultDamageCalc(65, 500, 9999999f);
 
-	public NargacugaSpike(World world) {
+	public ProjectileNargaSpike(World world) {
 		super(world);
 		setSize(1.2f, 1.2f);
 	}
 
-	public NargacugaSpike(World world, EntityLivingBase entityLiving) {
+	public ProjectileNargaSpike(World world, EntityLivingBase entityLiving) {
 		super(world, entityLiving);
 		setSize(1.2f, 1.2f);
 	}

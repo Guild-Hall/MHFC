@@ -10,10 +10,10 @@ import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.util.SoundEvent;
 
-public class AIAngleWhip<T extends EntityMHFCBase<? super T>> extends DamageAreaAction<T>
+public class AIAngleWhip<T extends CreatureAttributes<? super T>> extends DamageAreaAction<T>
 		implements
 		IHasAttackProvider {
 

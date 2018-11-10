@@ -11,10 +11,10 @@ import mhfc.net.common.ai.general.provider.adapters.JumpTimingAdapter;
 import mhfc.net.common.ai.general.provider.composite.IJumpProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasJumpProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityDeviljho;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
+import mhfc.net.common.entity.creature.Deviljho;
 
-public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider<EntityDeviljho> {
+public class Jump extends JumpAction<Deviljho> implements IHasJumpProvider<Deviljho> {
 
 
 	private boolean thrown = false;
@@ -23,7 +23,7 @@ public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityDeviljho entity = this.getEntity();
+		Deviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
@@ -35,17 +35,17 @@ public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider
 	}
 
 	@Override
-	public IJumpProvider<EntityDeviljho> getJumpProvider() {
-		return new JumpAdapter<EntityDeviljho>(
+	public IJumpProvider<Deviljho> getJumpProvider() {
+		return new JumpAdapter<Deviljho>(
 				new AnimationAdapter(this, "mhfc:models/Deviljho/DeviljhoJump.mcanm", 60),
 				new DamageAdapter(AIUtils.defaultDamageCalc(34F, 2000f, 999999F)),
-				new AttackTargetAdapter<EntityDeviljho>(13.5f),
-				new JumpTimingAdapter<EntityDeviljho>(20, 14, 0));
+				new AttackTargetAdapter<Deviljho>(13.5f),
+				new JumpTimingAdapter<Deviljho>(20, 14, 0));
 	}
 
 	@Override
 	public void onUpdate() {
-		EntityDeviljho entity = this.getEntity();
+		Deviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
 		super.onUpdate();
 		if (this.getCurrentFrame() == 5) {
@@ -54,11 +54,11 @@ public class Jump extends JumpAction<EntityDeviljho> implements IHasJumpProvider
 		if (!entity.onGround || thrown || this.getCurrentFrame() < 302) {
 			return;
 		}
-		EntityMHFCBase.spawnCracks(entity, 200);
+		CreatureAttributes.spawnCracks(entity, 200);
 		if (this.getCurrentFrame() > 10) {
 
 			if (this.getCurrentFrame() >= 15 && this.getCurrentFrame() <= 20) {
-				EntityMHFCBase.screenIntensity(entity, 10F, 40F);
+				CreatureAttributes.screenIntensity(entity, 10F, 40F);
 			}
 			thrown = true;
 		}

@@ -4,9 +4,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class FlamethrowerProjectile extends Entity {
+public class ProjectileFlamethrower extends Entity {
 
-	public FlamethrowerProjectile(World worldIn) {
+	public ProjectileFlamethrower(World worldIn) {
 		super(worldIn);
 		this.isImmuneToFire = true;
 		this.setNoGravity(true);

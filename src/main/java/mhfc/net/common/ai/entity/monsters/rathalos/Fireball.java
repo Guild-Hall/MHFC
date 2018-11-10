@@ -5,13 +5,13 @@ import mhfc.net.common.ai.general.actions.AnimatedAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
-import mhfc.net.common.entity.monster.EntityRathalos;
+import mhfc.net.common.entity.creature.Rathalos;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-public class Fireball extends AnimatedAction<EntityRathalos> implements IHasAnimationProvider {
+public class Fireball extends AnimatedAction<Rathalos> implements IHasAnimationProvider {
 
 	private static final int LAST_FRAME = 60;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Rathalos/RathalosFireBlast.mcanm";
@@ -23,7 +23,7 @@ public class Fireball extends AnimatedAction<EntityRathalos> implements IHasAnim
 	
 	@Override
 	protected float computeSelectionWeight() {
-		EntityRathalos entity = this.getEntity();
+		Rathalos entity = this.getEntity();
 		target = entity.getAttackTarget();
 			if (SelectionUtils.isIdle(entity)) {
 				return DONT_SELECT;
@@ -43,7 +43,7 @@ public class Fireball extends AnimatedAction<EntityRathalos> implements IHasAnim
 	
 	@Override
 	protected void onUpdate() {
-		EntityRathalos entity = this.getEntity();
+		Rathalos entity = this.getEntity();
 		target = entity.getAttackTarget();
 
 		if (target != null) {

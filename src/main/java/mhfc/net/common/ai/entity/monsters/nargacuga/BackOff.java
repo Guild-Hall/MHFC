@@ -11,9 +11,9 @@ import mhfc.net.common.ai.general.provider.adapters.JumpTimingAdapter;
 import mhfc.net.common.ai.general.provider.composite.IJumpProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasJumpProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityNargacuga;
+import mhfc.net.common.entity.creature.Nargacuga;
 
-public class BackOff extends JumpAction<EntityNargacuga> implements IHasJumpProvider<EntityNargacuga> {
+public class BackOff extends JumpAction<Nargacuga> implements IHasJumpProvider<Nargacuga> {
 
 
 
@@ -21,7 +21,7 @@ public class BackOff extends JumpAction<EntityNargacuga> implements IHasJumpProv
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityNargacuga entity = this.getEntity();
+		Nargacuga entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
@@ -30,13 +30,13 @@ public class BackOff extends JumpAction<EntityNargacuga> implements IHasJumpProv
 	}
 
 	@Override
-	public IJumpProvider<EntityNargacuga> getJumpProvider() {
-		return new JumpAdapter<EntityNargacuga>(
+	public IJumpProvider<Nargacuga> getJumpProvider() {
+		return new JumpAdapter<Nargacuga>(
 				new AnimationAdapter(this, "mhfc:models/Nargacuga/JumpBack.mcanm", 50),
 				new DamageAdapter(AIUtils.defaultDamageCalc(5, 250, 70)),
-				new AttackTargetAdapter<EntityNargacuga>(12) {
+				new AttackTargetAdapter<Nargacuga>(12) {
 					@Override
-					public float getForwardVelocity(EntityNargacuga entity) {
+					public float getForwardVelocity(Nargacuga entity) {
 						return -4.5f;
 					}
 				},
@@ -47,7 +47,7 @@ public class BackOff extends JumpAction<EntityNargacuga> implements IHasJumpProv
 	public void onUpdate() {
 		super.onUpdate();
 
-		EntityNargacuga entity = getEntity();
+		Nargacuga entity = getEntity();
 		if (this.getCurrentFrame() == 5) {
 			damageCollidingEntities();
 			entity.playSound(MHFCSoundRegistry.getRegistry().nargacugaBackOff, 2.0F, 1.0F);

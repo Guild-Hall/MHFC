@@ -7,9 +7,9 @@ import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IRoarProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.wip.EntityGreatJaggi;
+import mhfc.net.common.entity.creature.incomplete.GreatJaggi;
 
-public class Roar extends RoarAction<EntityGreatJaggi> implements IHasAnimationProvider {
+public class Roar extends RoarAction<GreatJaggi> implements IHasAnimationProvider {
 
 	private static final String ANIMATION_LOCATION = "mhfc:models/GreatJaggi/roar.mcanm";
 	private static final int LAST_FRAME = 64;
@@ -32,7 +32,7 @@ public class Roar extends RoarAction<EntityGreatJaggi> implements IHasAnimationP
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		EntityGreatJaggi entity = this.getEntity();
+		GreatJaggi entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (this.getCurrentFrame() >= 18 && this.getCurrentFrame() <= 22) {
 			entity.getTurnHelper().updateTargetPoint(target);

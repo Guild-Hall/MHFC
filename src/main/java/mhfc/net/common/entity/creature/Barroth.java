@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.monster;
+package mhfc.net.common.entity.creature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +19,8 @@ import mhfc.net.common.ai.entity.monsters.barroth.Roar;
 import mhfc.net.common.ai.entity.monsters.barroth.Stomp;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.type.EntityMHFCBase;
-import mhfc.net.common.entity.type.EntityMHFCPart;
+import mhfc.net.common.entity.CollisionParts;
+import mhfc.net.common.entity.CreatureAttributes;
 import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -30,12 +30,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
-public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
+public class Barroth extends CreatureAttributes<Barroth> {
 
 	public int deathTick;
 	public int rageLevel;
 
-	public EntityBarroth(World world) {
+	public Barroth(World world) {
 		super(world);
 		setSize(5.3f, 4.3f);
 	}
@@ -56,11 +56,11 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	}
 
 	@Override
-	protected IActionManager<EntityBarroth> constructActionManager() {
+	protected IActionManager<Barroth> constructActionManager() {
 		
 		/** Barroth's AI Damage for low rank varies from 35 - 45 **/
 		
-		FollowUpManagerBuilder<EntityBarroth>	followUpManager = new FollowUpManagerBuilder<>();
+		FollowUpManagerBuilder<Barroth>	followUpManager = new FollowUpManagerBuilder<>();
 		followUpManager.registerAction(new AIBreathe(this, "mhfc:models/Barroth/barrothidle.mcanm", 60, 2f));
 		followUpManager.registerAction(
 				setDeathAction(
@@ -70,7 +70,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 								MHFCSoundRegistry.getRegistry().barrothDeath)));
 
 		followUpManager.registerAction(
-				new AIWander<EntityBarroth>(
+				new AIWander<Barroth>(
 						this,
 						"mhfc:models/Barroth/walknew.mcanm",
 						67,
@@ -87,7 +87,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 		followUpManager.registerAction(new Stomp(65F));
 		Roar roar = new Roar();
 		followUpManager.registerAllowingAllActions(roar);
-		List<IExecutableAction<? super EntityBarroth>> allowedFirstSight = new ArrayList<>();
+		List<IExecutableAction<? super Barroth>> allowedFirstSight = new ArrayList<>();
 		allowedFirstSight.add(roar);
 		
 		
@@ -95,7 +95,7 @@ public class EntityBarroth extends EntityMHFCBase<EntityBarroth> {
 	}
 
 	@Override
-	public EntityMHFCPart[] getParts() {
+	public CollisionParts[] getParts() {
 		return null;
 	}
 

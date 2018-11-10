@@ -2,7 +2,7 @@ package mhfc.net.client.render.projectile;
 
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 
-import mhfc.net.common.entity.projectile.EntityBullet;
+import mhfc.net.common.entity.projectile.ProjectileBullet;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderBullet extends Render<EntityBullet> {
+public class RenderBullet extends Render<ProjectileBullet> {
 	private static final ResourceLocation TEXTURE = new ResourceLocation(ResourceInterface.projectile_wyverniabullet_tex);
 
 	public RenderBullet(RenderManager manager) {
@@ -23,7 +23,7 @@ public class RenderBullet extends Render<EntityBullet> {
 	}
 
 	@Override
-	public void doRender(EntityBullet projectile, double x, double y, double z, float par8, float par9) {
+	public void doRender(ProjectileBullet projectile, double x, double y, double z, float par8, float par9) {
 		GlStateManager.enableRescaleNormal();
 
 		float minU = 0;
@@ -60,7 +60,7 @@ public class RenderBullet extends Render<EntityBullet> {
 	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
 	 */
 	@Override
-	protected ResourceLocation getEntityTexture(EntityBullet p_110775_1_) {
+	protected ResourceLocation getEntityTexture(ProjectileBullet p_110775_1_) {
 		return TEXTURE;
 	}
 }

@@ -6,10 +6,10 @@ import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityKirin;
+import mhfc.net.common.entity.creature.Kirin;
 import net.minecraft.entity.effect.EntityLightningBolt;
 
-public class LightningStrike extends AnimatedAction<EntityKirin> implements IHasAnimationProvider{
+public class LightningStrike extends AnimatedAction<Kirin> implements IHasAnimationProvider{
 	
 	private boolean thrown;
 	
@@ -22,7 +22,7 @@ public class LightningStrike extends AnimatedAction<EntityKirin> implements IHas
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityKirin entity = this.getEntity();
+		Kirin entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if( SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
@@ -38,7 +38,7 @@ public class LightningStrike extends AnimatedAction<EntityKirin> implements IHas
 	
 	@Override
 	protected void onUpdate() {
-		EntityKirin entity = this.getEntity();
+		Kirin entity = this.getEntity();
 		if(thrown) {
 			return;
 		}

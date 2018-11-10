@@ -5,11 +5,11 @@ import mhfc.net.common.ai.general.actions.AnimatedAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
-import mhfc.net.common.entity.monster.EntityTigrex;
-import mhfc.net.common.entity.projectile.EntityProjectileBlock;
+import mhfc.net.common.entity.creature.Tigrex;
+import mhfc.net.common.entity.projectile.ProjectileBlock;
 import net.minecraft.util.math.Vec3d;
 
-public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnimationProvider {
+public class GroundHurl extends AnimatedAction<Tigrex> implements IHasAnimationProvider {
 	private static final int LAST_FRAME = 60;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/dirtthrow.mcanm";
 
@@ -27,7 +27,7 @@ public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnim
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityTigrex entity = this.getEntity();
+		Tigrex entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
@@ -52,7 +52,7 @@ public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnim
 		if (thrown) {
 			return;
 		}
-		EntityTigrex tigrex = getEntity();
+		Tigrex tigrex = getEntity();
 		if (getCurrentFrame() < THROW_FRAME) {
 			if (getCurrentFrame() < TURN_FRAMES) {
 				tigrex.getTurnHelper().updateTurnSpeed(TURN_RATE);
@@ -71,7 +71,7 @@ public class GroundHurl extends AnimatedAction<EntityTigrex> implements IHasAnim
 		Vec3d lookVec = tigrex.getLookVec();
 		Vec3d rightSide = lookVec.crossProduct(new Vec3d(0, 1, 0));
 		for (int i = 0; i < 3; i++) {
-			EntityProjectileBlock block = new EntityProjectileBlock(tigrex.world, tigrex);
+			ProjectileBlock block = new ProjectileBlock(tigrex.world, tigrex);
 			double xCo = look.xCoord;
 			double yCo = look.yCoord + THROW_HEIGHT;
 			double zCo = look.zCoord;

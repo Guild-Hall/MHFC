@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.quests;
+package mhfc.net.common.entity.creature.npc;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCContainerRegistry;
@@ -12,11 +12,11 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class EntityQuestGiver extends EntityVillager {
+public class NPCQuestGiver extends EntityVillager {
 
 	private int subID = 0;
 
-	public EntityQuestGiver(World world) {
+	public NPCQuestGiver(World world) {
 		super(world, 0);
 		this.tasks.taskEntries.clear();
 		this.setEntityBoundingBox(new AxisAlignedBB(0, 0, 0, 1.0f, 1.0f, 1.0f));

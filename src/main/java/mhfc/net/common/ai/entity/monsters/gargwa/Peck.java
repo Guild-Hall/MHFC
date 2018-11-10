@@ -11,9 +11,9 @@ import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityGargwa;
+import mhfc.net.common.entity.creature.Gargwa;
 
-public class Peck extends DamagingAction<EntityGargwa> implements IHasAttackProvider {
+public class Peck extends DamagingAction<Gargwa> implements IHasAttackProvider {
 
 	private static int ANIM_FRAME = 30;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Gagua/GaguaPeck.mcanm";
@@ -54,7 +54,7 @@ public class Peck extends DamagingAction<EntityGargwa> implements IHasAttackProv
 			getEntity().playSound(MHFCSoundRegistry.getRegistry().gargwaPanic, 2.0F, 1.0F);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
-			EntityGargwa entity = getEntity();
+			Gargwa entity = getEntity();
 			entity.moveForward(0.4, false);
 		}
 		damageCollidingEntities();

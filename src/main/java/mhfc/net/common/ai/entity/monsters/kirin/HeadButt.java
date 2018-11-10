@@ -15,17 +15,17 @@ import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityKirin;
+import mhfc.net.common.entity.creature.Kirin;
 
-public class HeadButt extends JumpAction<EntityKirin> implements IHasJumpProvider<EntityKirin> {
+public class HeadButt extends JumpAction<Kirin> implements IHasJumpProvider<Kirin> {
 
 	private static final IDamageCalculator damageCalc = AIUtils.defaultDamageCalc(90F, 62f, 999999F);
 
 	
-	private final IJumpProvider<EntityKirin> HEADBUTT;
+	private final IJumpProvider<Kirin> HEADBUTT;
 	{
-		IJumpParameterProvider<EntityKirin> params = new AttackTargetAdapter<>(15F);
-		IJumpTimingProvider<EntityKirin> timing = new JumpTimingAdapter<>(16, 12f, 0);
+		IJumpParameterProvider<Kirin> params = new AttackTargetAdapter<>(15F);
+		IJumpTimingProvider<Kirin> timing = new JumpTimingAdapter<>(16, 12f, 0);
 		IAnimationProvider animation = new AnimationAdapter(this, "mhfc:models/Kirin/kirinheadbutt.mcanm", 35);
 		HEADBUTT = new JumpAdapter<>(animation, new DamageAdapter(damageCalc), params, timing);
 	}
@@ -34,7 +34,7 @@ public class HeadButt extends JumpAction<EntityKirin> implements IHasJumpProvide
 	
 	@Override
 	protected float computeSelectionWeight() {
-		EntityKirin entity = this.getEntity();
+		Kirin entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
@@ -45,7 +45,7 @@ public class HeadButt extends JumpAction<EntityKirin> implements IHasJumpProvide
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		EntityKirin entity = getEntity();
+		Kirin entity = getEntity();
 		damageCollidingEntities();
 		if (this.getCurrentFrame() == 18) {
 			damageCollidingEntities();
@@ -55,7 +55,7 @@ public class HeadButt extends JumpAction<EntityKirin> implements IHasJumpProvide
 
 
 	@Override
-	public IJumpProvider<EntityKirin> getJumpProvider() {
+	public IJumpProvider<Kirin> getJumpProvider() {
 		return HEADBUTT;
 	}
 

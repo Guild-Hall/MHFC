@@ -9,11 +9,11 @@ import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.ai.general.provider.simple.IFrameAdvancer;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 
-public class AIWander<T extends EntityMHFCBase<? super T>> extends WanderAction<T> implements IHasAnimationProvider {
+public class AIWander<T extends CreatureAttributes<? super T>> extends WanderAction<T> implements IHasAnimationProvider {
 
-	protected EntityMHFCBase<?> entity;
+	protected CreatureAttributes<?> entity;
 	protected String animationLocation;
 	protected int animationLength;
 	protected float weight;
@@ -21,7 +21,7 @@ public class AIWander<T extends EntityMHFCBase<? super T>> extends WanderAction<
 	protected int loopStart, loopEnd, loopCount;
 
 	public AIWander(
-			EntityMHFCBase<?> entity,
+			CreatureAttributes<?> entity,
 			String animationLocation,
 			int animationLength,
 			float weight,

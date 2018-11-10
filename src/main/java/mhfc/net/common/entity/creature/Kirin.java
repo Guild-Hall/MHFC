@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.monster;
+package mhfc.net.common.entity.creature;
 
 import org.lwjgl.opengl.GL11;
 
@@ -11,8 +11,8 @@ import mhfc.net.common.ai.entity.monsters.kirin.HeadButt;
 import mhfc.net.common.ai.entity.monsters.kirin.LightningStrike;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.type.EntityMHFCBase;
-import mhfc.net.common.entity.type.EntityMHFCPart;
+import mhfc.net.common.entity.CollisionParts;
+import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -20,9 +20,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
-public class EntityKirin extends EntityMHFCBase<EntityKirin> {
+public class Kirin extends CreatureAttributes<Kirin> {
 
-	public EntityKirin(World world) {
+	public Kirin(World world) {
 		super(world);
 		setSize(3f, 3f);
 	}
@@ -42,17 +42,17 @@ public class EntityKirin extends EntityMHFCBase<EntityKirin> {
 	}
 
 	@Override
-	protected IActionManager<EntityKirin> constructActionManager() {
-		ActionManagerBuilder<EntityKirin> actionManager = new ActionManagerBuilder<>();
+	protected IActionManager<Kirin> constructActionManager() {
+		ActionManagerBuilder<Kirin> actionManager = new ActionManagerBuilder<>();
 		actionManager.registerAction(new HeadButt());
 		actionManager.registerAction(new LightningStrike());
 		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Kirin/kirinbreathe.mcanm", 160, 5F));
-		actionManager.registerAction(new AIWander<EntityKirin>(this, "mhfc:models/Kirin/kirinwalk.mcanm", 90, 10F, 0.07F, 0.5F, 0, 72, 1, 25));
+		actionManager.registerAction(new AIWander<Kirin>(this, "mhfc:models/Kirin/kirinwalk.mcanm", 90, 10F, 0.07F, 0.5F, 0, 72, 1, 25));
 		return actionManager.build(this);
 	}
 
 	@Override
-	public EntityMHFCPart[] getParts() {
+	public CollisionParts[] getParts() {
 		return null;
 	}
 

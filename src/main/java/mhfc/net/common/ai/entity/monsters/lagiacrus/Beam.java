@@ -6,9 +6,9 @@ import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityLagiacrus;
+import mhfc.net.common.entity.creature.Lagiacrus;
 
-public class Beam extends AnimatedAction<EntityLagiacrus> implements IHasAnimationProvider {
+public class Beam extends AnimatedAction<Lagiacrus> implements IHasAnimationProvider {
 
 	private static final int FRAMES = 100;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Lagiacrus/LagiacrusBeam.mcanm";
@@ -36,7 +36,7 @@ public class Beam extends AnimatedAction<EntityLagiacrus> implements IHasAnimati
 
 	@Override
 	protected void beginExecution() {
-		EntityLagiacrus actor = this.getEntity();
+		Lagiacrus actor = this.getEntity();
 		actor.playSound(MHFCSoundRegistry.getRegistry().lagiacrusBeam, 2.0F, 1.0F);
 	}
 

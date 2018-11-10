@@ -6,7 +6,7 @@ import mhfc.net.common.ai.general.provider.adapters.AttackTargetAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
-import mhfc.net.common.entity.monster.EntityNargacuga;
+import mhfc.net.common.entity.creature.Nargacuga;
 
 abstract class BehaviourJump {
 
@@ -15,29 +15,29 @@ abstract class BehaviourJump {
 			private static final String ANIMATION = "mhfc:models/Nargacuga/Pounce.mcanm";
 			private static final int ANIMATION_LENGTH = 68;
 			private static final int JUMP_TIME = 10;
-			private AttackTargetAdapter<EntityNargacuga> jumpParam = new AttackTargetAdapter<>(JUMP_TIME);
+			private AttackTargetAdapter<Nargacuga> jumpParam = new AttackTargetAdapter<>(JUMP_TIME);
 			private IAnimationProvider animationProvider = new AnimationAdapter(action, ANIMATION, ANIMATION_LENGTH);
 
 			@Override
-			IJumpTimingProvider<EntityNargacuga> getJumpTiming() {
-				return new IJumpTimingProvider<EntityNargacuga>() {
+			IJumpTimingProvider<Nargacuga> getJumpTiming() {
+				return new IJumpTimingProvider<Nargacuga>() {
 					private final int JUMP1_FRAME = 28;
 					private final int LAND1_FRAME = 38;
 					private final int JUMP2_FRAME = 47;
 					// private final int LAND2_FRAME = 57;
 
 					@Override
-					public boolean isJumpFrame(EntityNargacuga entity, int frame) {
+					public boolean isJumpFrame(Nargacuga entity, int frame) {
 						return frame == JUMP1_FRAME || frame == JUMP2_FRAME;
 					}
 
 					@Override
-					public boolean isDamageFrame(EntityNargacuga entity, int frame) {
+					public boolean isDamageFrame(Nargacuga entity, int frame) {
 						return frame > JUMP1_FRAME;
 					}
 
 					@Override
-					public float getTurnRate(EntityNargacuga entity, int frame) {
+					public float getTurnRate(Nargacuga entity, int frame) {
 						if (frame < JUMP1_FRAME) {
 							return TURN_FAST;
 						} else if (frame < LAND1_FRAME) {
@@ -51,7 +51,7 @@ abstract class BehaviourJump {
 			}
 
 			@Override
-			IJumpParameterProvider<EntityNargacuga> getJumpParameters() {
+			IJumpParameterProvider<Nargacuga> getJumpParameters() {
 				jumpParam.setSpeedInterval(0, 3.5f);
 				return jumpParam;
 			}
@@ -69,12 +69,12 @@ abstract class BehaviourJump {
 			private static final String ANIMATION = "mhfc:models/Nargacuga/Pounce.mcanm";
 			private static final int ANIMATION_LENGTH = 74;
 			private static final int JUMP_TIME = 13;
-			private AttackTargetAdapter<EntityNargacuga> jumpParam = new AttackTargetAdapter<>(JUMP_TIME);
+			private AttackTargetAdapter<Nargacuga> jumpParam = new AttackTargetAdapter<>(JUMP_TIME);
 			private IAnimationProvider animationProvider = new AnimationAdapter(action, ANIMATION, ANIMATION_LENGTH);
 
 			@Override
-			IJumpTimingProvider<EntityNargacuga> getJumpTiming() {
-				return new IJumpTimingProvider<EntityNargacuga>() {
+			IJumpTimingProvider<Nargacuga> getJumpTiming() {
+				return new IJumpTimingProvider<Nargacuga>() {
 					private final int JUMP1_FRAME = 28;
 					private final int LAND1_FRAME = 41;
 					private final int JUMP2_FRAME = 47;
@@ -82,17 +82,17 @@ abstract class BehaviourJump {
 					private final int JUMP3_FRAME = 68;
 
 					@Override
-					public boolean isJumpFrame(EntityNargacuga entity, int frame) {
+					public boolean isJumpFrame(Nargacuga entity, int frame) {
 						return frame == JUMP1_FRAME || frame == JUMP2_FRAME || frame == JUMP3_FRAME;
 					}
 
 					@Override
-					public boolean isDamageFrame(EntityNargacuga entity, int frame) {
+					public boolean isDamageFrame(Nargacuga entity, int frame) {
 						return frame > JUMP1_FRAME && frame < LAND1_FRAME;
 					}
 
 					@Override
-					public float getTurnRate(EntityNargacuga entity, int frame) {
+					public float getTurnRate(Nargacuga entity, int frame) {
 						if (frame < JUMP1_FRAME) {
 							return TURN_FAST;
 						} else if (frame < LAND1_FRAME) {
@@ -110,7 +110,7 @@ abstract class BehaviourJump {
 			}
 
 			@Override
-			IJumpParameterProvider<EntityNargacuga> getJumpParameters() {
+			IJumpParameterProvider<Nargacuga> getJumpParameters() {
 				jumpParam.setSpeedInterval(0, 2.8f);
 				return jumpParam;
 			}
@@ -127,9 +127,9 @@ abstract class BehaviourJump {
 	private static final int TURN_SLOW = 2;
 	private static final int TURN_FAST = 5;
 
-	abstract IJumpTimingProvider<EntityNargacuga> getJumpTiming();
+	abstract IJumpTimingProvider<Nargacuga> getJumpTiming();
 
-	abstract IJumpParameterProvider<EntityNargacuga> getJumpParameters();
+	abstract IJumpParameterProvider<Nargacuga> getJumpParameters();
 
 	abstract IAnimationProvider getAnimation();
 }

@@ -9,10 +9,10 @@ import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityBarroth;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
+import mhfc.net.common.entity.creature.Barroth;
 
-public class Stomp extends DamagingAction<EntityBarroth> implements IHasAttackProvider {
+public class Stomp extends DamagingAction<Barroth> implements IHasAttackProvider {
 	private boolean thrown = false;
 	public float damage;
 
@@ -21,20 +21,20 @@ public class Stomp extends DamagingAction<EntityBarroth> implements IHasAttackPr
 	}
 
 	private void updateStomp() {
-		EntityBarroth entity = this.getEntity();
+		Barroth entity = this.getEntity();
 		entity.getTurnHelper().updateTargetPoint(target);
 		entity.getTurnHelper().updateTurnSpeed(30.0f);
 		if (!entity.onGround || thrown || this.getCurrentFrame() < 19) {
 			return;
 		}
-		EntityMHFCBase.spawnCracks(entity, 150);
+		CreatureAttributes.spawnCracks(entity, 150);
 		entity.playSound(MHFCSoundRegistry.getRegistry().barrothRam, 1.0F, 1.0F);
 		thrown = true;
 	}
 
 	@Override
 	protected void onUpdate() {
-		EntityBarroth entity = this.getEntity();
+		Barroth entity = this.getEntity();
 		target = entity.getAttackTarget();
 		damageCollidingEntities();
 		updateStomp();
@@ -42,7 +42,7 @@ public class Stomp extends DamagingAction<EntityBarroth> implements IHasAttackPr
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityBarroth entity = this.getEntity();
+		Barroth entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
@@ -56,7 +56,7 @@ public class Stomp extends DamagingAction<EntityBarroth> implements IHasAttackPr
 	@Override
 	protected void beginExecution() {
 		super.beginExecution();
-		EntityBarroth entity = getEntity();
+		Barroth entity = getEntity();
 		entity.playSound(MHFCSoundRegistry.getRegistry().barrothHeadsmash, 2.0F, 1.0F);
 		thrown = false;
 	}

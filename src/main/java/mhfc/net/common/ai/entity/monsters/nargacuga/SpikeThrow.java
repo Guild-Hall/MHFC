@@ -4,9 +4,9 @@ import mhfc.net.common.ai.general.actions.AnimatedAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
-import mhfc.net.common.entity.monster.EntityNargacuga;
+import mhfc.net.common.entity.creature.Nargacuga;
 
-public class SpikeThrow extends AnimatedAction<EntityNargacuga> implements IHasAnimationProvider{
+public class SpikeThrow extends AnimatedAction<Nargacuga> implements IHasAnimationProvider{
 
 	@Override
 	public IAnimationProvider getAnimProvider() {

@@ -11,11 +11,11 @@ import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.wip.EntityGreatJaggi;
+import mhfc.net.common.entity.creature.incomplete.GreatJaggi;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class Whip extends DamagingAction<EntityGreatJaggi> implements IHasAttackProvider {
+public class Whip extends DamagingAction<GreatJaggi> implements IHasAttackProvider {
 
 	private static final int LAST_FRAME = 35;
 	private static final String ANIMATION_LOCATION = "mhfc:models/GreatJaggi/GreatJaggiTailWhip.mcanm";
@@ -36,7 +36,7 @@ public class Whip extends DamagingAction<EntityGreatJaggi> implements IHasAttack
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityGreatJaggi entity = this.getEntity();
+		GreatJaggi entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (target == null) {
 			return DONT_SELECT;
@@ -58,7 +58,7 @@ public class Whip extends DamagingAction<EntityGreatJaggi> implements IHasAttack
 	protected void onUpdate() {
 		super.onUpdate();
 
-		EntityGreatJaggi entity = getEntity();
+		GreatJaggi entity = getEntity();
 		if (this.getCurrentFrame() == 10) {
 			entity.playSound(MHFCSoundRegistry.getRegistry().greatJaggiTailWhip, 2.0f, 1.0f);
 		}

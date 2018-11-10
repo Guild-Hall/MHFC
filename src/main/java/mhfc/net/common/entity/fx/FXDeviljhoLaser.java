@@ -15,20 +15,20 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class EntityDeviljhoLaserBreath extends Entity {
+public class FXDeviljhoLaser extends Entity {
 	private static final int point_range = 20;
 	private static final int ARC = 90;
 	private static final int damageAtTick = 35;
 	public EntityLivingBase caster;
 	private static final DataParameter<Integer> CASTER = EntityDataManager
-			.createKey(EntityDeviljhoLaserBreath.class, DataSerializers.VARINT);
+			.createKey(FXDeviljhoLaser.class, DataSerializers.VARINT);
 
-	public EntityDeviljhoLaserBreath(World w) {
+	public FXDeviljhoLaser(World w) {
 		super(w);
 		this.setSize(0, 0);
 	}
 
-	public EntityDeviljhoLaserBreath(World w, EntityLivingBase l) {
+	public FXDeviljhoLaser(World w, EntityLivingBase l) {
 		super(w);
 		this.setSize(0, 0);
 		if (!world.isRemote) {

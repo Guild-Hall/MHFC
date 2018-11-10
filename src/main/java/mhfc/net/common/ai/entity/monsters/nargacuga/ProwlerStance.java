@@ -4,11 +4,11 @@ import mhfc.net.common.ai.general.actions.AnimatedAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
-import mhfc.net.common.entity.monster.EntityNargacuga;
+import mhfc.net.common.entity.creature.Nargacuga;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class ProwlerStance extends AnimatedAction<EntityNargacuga> implements IHasAnimationProvider {
+public class ProwlerStance extends AnimatedAction<Nargacuga> implements IHasAnimationProvider {
 
 
 
@@ -18,7 +18,7 @@ public class ProwlerStance extends AnimatedAction<EntityNargacuga> implements IH
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityNargacuga e = this.getEntity();
+		Nargacuga e = this.getEntity();
 		target = e.getAttackTarget();
 		if (target == null) {
 			return DONT_SELECT;
@@ -38,7 +38,7 @@ public class ProwlerStance extends AnimatedAction<EntityNargacuga> implements IH
 
 	@Override
 	protected void onUpdate() {
-		EntityNargacuga entity = getEntity();
+		Nargacuga entity = getEntity();
 		target = entity.getAttackTarget();
 
 		if (target != null) {

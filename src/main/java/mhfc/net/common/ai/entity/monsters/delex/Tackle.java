@@ -10,7 +10,7 @@ import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
 import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
-import mhfc.net.common.entity.monster.EntityDelex;
+import mhfc.net.common.entity.creature.Delex;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
@@ -18,7 +18,7 @@ import net.minecraft.util.math.Vec3d;
  * @author WorldSEnder
  *
  */
-public class Tackle extends DamagingAction<EntityDelex> implements IHasAttackProvider {
+public class Tackle extends DamagingAction<Delex> implements IHasAttackProvider {
 
 
 
@@ -26,7 +26,7 @@ public class Tackle extends DamagingAction<EntityDelex> implements IHasAttackPro
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityDelex entity = this.getEntity();
+		Delex entity = this.getEntity();
 		target = entity.getAttackTarget();
 
 
@@ -53,7 +53,7 @@ public class Tackle extends DamagingAction<EntityDelex> implements IHasAttackPro
 		super.onUpdate();
 		damageCollidingEntities();
 		if (isMoveForwardFrame(getCurrentFrame())) {
-			EntityDelex ent = getEntity();
+			Delex ent = getEntity();
 			ent.moveForward(1, true);
 		}
 

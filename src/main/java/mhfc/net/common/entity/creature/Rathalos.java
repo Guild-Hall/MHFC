@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.monster;
+package mhfc.net.common.entity.creature;
 
 import org.lwjgl.opengl.GL11;
 
@@ -17,9 +17,9 @@ import mhfc.net.common.ai.entity.monsters.rathalos.FlyBack;
 import mhfc.net.common.ai.entity.monsters.rathalos.Rush;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.type.EntityMHFCBase;
-import mhfc.net.common.entity.type.EntityMHFCPart;
-import mhfc.net.common.entity.type.IConfusable;
+import mhfc.net.common.entity.CollisionParts;
+import mhfc.net.common.entity.CreatureAttributes;
+import mhfc.net.common.entity.IConfusable;
 import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.state.IBlockState;
@@ -30,23 +30,23 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
+public class Rathalos extends CreatureAttributes<Rathalos>
 		implements
-		IStancedEntity<EntityRathalos, EntityRathalos.Stances>,
+		IStancedEntity<Rathalos, Rathalos.Stances>,
 		IConfusable {
 
-	public static enum Stances implements IStancedEntity.IStance<EntityRathalos> {
+	public static enum Stances implements IStancedEntity.IStance<Rathalos> {
 		GROUND,
 		FLYING,
 		FALLING,
 		BLINDED {
 			@Override
-			public void onAttackStart(IExecutableAction<? super EntityRathalos> attack, EntityRathalos entity) {
+			public void onAttackStart(IExecutableAction<? super Rathalos> attack, Rathalos entity) {
 				entity.confusedAttacks++;
 			}
 
 			@Override
-			public void onAttackEnd(IExecutableAction<? super EntityRathalos> attack, EntityRathalos entity) {
+			public void onAttackEnd(IExecutableAction<? super Rathalos> attack, Rathalos entity) {
 				if (entity.getNumberOfConfusedAttacks() == 3) {
 					entity.setStance(GROUND);
 				}
@@ -54,10 +54,10 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 		};
 
 		@Override
-		public void onAttackEnd(IExecutableAction<? super EntityRathalos> attack, EntityRathalos entity) {}
+		public void onAttackEnd(IExecutableAction<? super Rathalos> attack, Rathalos entity) {}
 
 		@Override
-		public void onAttackStart(IExecutableAction<? super EntityRathalos> attack, EntityRathalos entity) {}
+		public void onAttackStart(IExecutableAction<? super Rathalos> attack, Rathalos entity) {}
 
 		@Override
 		public void onStanceStart() {}
@@ -81,12 +81,12 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	}
 
 	@Override
-	protected IActionManager<EntityRathalos> constructActionManager() {
-		ActionManagerBuilder<EntityRathalos> attackManager = new ActionManagerBuilder<>();
+	protected IActionManager<Rathalos> constructActionManager() {
+		ActionManagerBuilder<Rathalos> attackManager = new ActionManagerBuilder<>();
 		//stancedAttackManager.registerAction(new Idle());
 		attackManager.registerAction(new AIBreathe(this, "mhfc:models/Rathalos/rathalosidle.mcanm", 65, 5));
-		attackManager.registerAction(new AIWander<EntityRathalos>(this, "mhfc:models/Rathalos/RathalosWalk.mcanm", 125, 1F, 0.07F, 3F, 0, 120, 1, 15));
-		attackManager.registerAction(new AIAngleWhip<EntityRathalos>("mhfc:models/Rathalos/rathalostailswiperight.mcanm", 35, 12, 50.5F, 5, MHFCSoundRegistry.getRegistry().rathalosTailWhip, 9, 6, 3, 180, 10));
+		attackManager.registerAction(new AIWander<Rathalos>(this, "mhfc:models/Rathalos/RathalosWalk.mcanm", 125, 1F, 0.07F, 3F, 0, 120, 1, 15));
+		attackManager.registerAction(new AIAngleWhip<Rathalos>("mhfc:models/Rathalos/rathalostailswiperight.mcanm", 35, 12, 50.5F, 5, MHFCSoundRegistry.getRegistry().rathalosTailWhip, 9, 6, 3, 180, 10));
 		attackManager.registerAction(new AIBite(this, "mhfc:models/Rathalos/RathalosBiteLeft.mcanm", 50, 35, 95F, 5F, MHFCSoundRegistry.getRegistry().rathalosBite, 10, true, 30, 40));
 		attackManager.registerAction(new AIBite(this, "mhfc:models/Rathalos/RathalosBiteRight.mcanm", 50, 35, 95F, 6F, MHFCSoundRegistry.getRegistry().rathalosBite, 10, true, 30, 40));
 		//stancedAttackManager.registerAction(new BiteLeft());
@@ -113,7 +113,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	private int confusedAttacks;
 	private Stances stance;
 
-	public EntityRathalos(World world) {
+	public Rathalos(World world) {
 		super(world);
 		this.stance = Stances.GROUND;
 		this.setSize(5F, 5F);
@@ -121,7 +121,7 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	}
 
 	@Override
-	public EntityMHFCPart[] getParts() {
+	public CollisionParts[] getParts() {
 		return null;
 	}
 
@@ -164,13 +164,13 @@ public class EntityRathalos extends EntityMHFCBase<EntityRathalos>
 	}
 
 	@Override
-	public void onAttackStart(IExecutableAction<? super EntityRathalos> newAttack) {
+	public void onAttackStart(IExecutableAction<? super Rathalos> newAttack) {
 		super.onAttackStart(newAttack);
 		this.stance.onAttackStart(newAttack, this);
 	}
 
 	@Override
-	public void onAttackEnd(IExecutableAction<? super EntityRathalos> oldAttack) {
+	public void onAttackEnd(IExecutableAction<? super Rathalos> oldAttack) {
 		super.onAttackEnd(oldAttack);
 		this.stance.onAttackEnd(oldAttack, this);
 	}

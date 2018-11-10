@@ -7,9 +7,9 @@ import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IRoarProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.entity.creature.Deviljho;
 
-public class Roar extends RoarAction<EntityDeviljho> implements IHasAnimationProvider {
+public class Roar extends RoarAction<Deviljho> implements IHasAnimationProvider {
 
 
 	public Roar() {}
@@ -28,7 +28,7 @@ public class Roar extends RoarAction<EntityDeviljho> implements IHasAnimationPro
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		EntityDeviljho entity = this.getEntity();
+		Deviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (this.getCurrentFrame() >= 18 && this.getCurrentFrame() <= 22) {
 			entity.getTurnHelper().updateTargetPoint(target);

@@ -11,11 +11,11 @@ import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityRathalos;
+import mhfc.net.common.entity.creature.Rathalos;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 
-public class TailWhip extends DamagingAction<EntityRathalos> implements IHasAttackProvider {
+public class TailWhip extends DamagingAction<Rathalos> implements IHasAttackProvider {
 
 	private static final int LAST_FRAME = 40;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Rathalos/RathalosTailSwipeRight.mcanm";
@@ -53,7 +53,7 @@ public class TailWhip extends DamagingAction<EntityRathalos> implements IHasAtta
 
 	@Override
 	public void onUpdate() {
-		EntityRathalos entity = getEntity();
+		Rathalos entity = getEntity();
 		if (this.getCurrentFrame() == 12) {
 			entity.playSound(MHFCSoundRegistry.getRegistry().rathalosTailWhip, 2.0F, 1.0F);
 		}

@@ -8,11 +8,11 @@ import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.WeightUtils;
 import mhfc.net.common.ai.general.provider.requirements.INeedsRoarBehaviour;
 import mhfc.net.common.ai.general.provider.simple.IRoarProvider;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 
-public abstract class RoarAction<T extends EntityMHFCBase<? super T>> extends AnimatedAction<T>
+public abstract class RoarAction<T extends CreatureAttributes<? super T>> extends AnimatedAction<T>
 		implements
 		INeedsRoarBehaviour {
 

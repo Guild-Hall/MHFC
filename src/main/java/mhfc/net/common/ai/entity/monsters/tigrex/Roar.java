@@ -7,11 +7,11 @@ import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IRoarProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityTigrex;
+import mhfc.net.common.entity.creature.Tigrex;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
-public class Roar extends RoarAction<EntityTigrex> implements IHasAnimationProvider {
+public class Roar extends RoarAction<Tigrex> implements IHasAnimationProvider {
 
 	private static final int LAST_FRAME = 70;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Tigrex/rawr.mcanm";
@@ -41,7 +41,7 @@ public class Roar extends RoarAction<EntityTigrex> implements IHasAnimationProvi
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		EntityTigrex entity = this.getEntity();
+		Tigrex entity = this.getEntity();
 		if (this.getCurrentFrame() <= 10) {
 			entity.getTurnHelper().updateTargetPoint(targetPoint);
 			entity.getTurnHelper().updateTurnSpeed(6.0f);

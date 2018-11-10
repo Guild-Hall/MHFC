@@ -4,9 +4,9 @@ import mhfc.net.common.ai.general.actions.IdleAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
-import mhfc.net.common.entity.monster.wip.EntityGreatJaggi;
+import mhfc.net.common.entity.creature.incomplete.GreatJaggi;
 
-public class Idle extends IdleAction<EntityGreatJaggi> implements IHasAnimationProvider {
+public class Idle extends IdleAction<GreatJaggi> implements IHasAnimationProvider {
 
 	private static final String ANIM_LOC = "mhfc:models/GreatJaggi/GreatJaggiIdle.mcanm";
 	private static final int ANIM_FRAME = 64;
@@ -27,7 +27,7 @@ public class Idle extends IdleAction<EntityGreatJaggi> implements IHasAnimationP
 
 	@Override
 	public void onUpdate() {
-		EntityGreatJaggi entity = this.getEntity();
+		GreatJaggi entity = this.getEntity();
 		if (getCurrentFrame() == 30) {
 			entity.playLivingSound();
 		}

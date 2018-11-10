@@ -1,8 +1,8 @@
 package mhfc.net.common.ai.general.actions;
 
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 
-public abstract class BreatheAction<T extends EntityMHFCBase<?>> extends AnimatedAction<T> {
+public abstract class BreatheAction<T extends CreatureAttributes<?>> extends AnimatedAction<T> {
 
 	protected double lookX;
 	protected double lookZ;

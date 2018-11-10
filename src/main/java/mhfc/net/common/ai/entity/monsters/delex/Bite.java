@@ -9,17 +9,17 @@ import mhfc.net.common.ai.general.provider.adapters.JumpAdapter;
 import mhfc.net.common.ai.general.provider.adapters.JumpTimingAdapter;
 import mhfc.net.common.ai.general.provider.composite.IJumpProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasJumpProvider;
-import mhfc.net.common.entity.monster.EntityDelex;
+import mhfc.net.common.entity.creature.Delex;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class Bite extends JumpAction<EntityDelex> implements IHasJumpProvider<EntityDelex> {
+public class Bite extends JumpAction<Delex> implements IHasJumpProvider<Delex> {
 
 	public Bite() {}
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityDelex entity = this.getEntity();
+		Delex entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (target == null) {
 			return DONT_SELECT;
@@ -40,12 +40,12 @@ public class Bite extends JumpAction<EntityDelex> implements IHasJumpProvider<En
 
 
 	@Override
-	public IJumpProvider<EntityDelex> getJumpProvider() {
-		return new JumpAdapter<EntityDelex>(
+	public IJumpProvider<Delex> getJumpProvider() {
+		return new JumpAdapter<Delex>(
 				new AnimationAdapter(this, "mhfc:models/delex/delexbite.mcanm", 25),
 				new DamageAdapter(AIUtils.defaultDamageCalc(25f, 45, 99999)),
-				new AttackTargetAdapter<EntityDelex>(10F),
-				new JumpTimingAdapter<EntityDelex>(1, 10, 14));
+				new AttackTargetAdapter<Delex>(10F),
+				new JumpTimingAdapter<Delex>(1, 10, 14));
 	}
 
 }

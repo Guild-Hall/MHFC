@@ -5,10 +5,10 @@ import mhfc.net.common.ai.general.actions.AnimatedAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
-import mhfc.net.common.entity.fx.EntityDeviljhoLaserBreath;
-import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.entity.creature.Deviljho;
+import mhfc.net.common.entity.fx.FXDeviljhoLaser;
 
-public class DragonBreath extends AnimatedAction<EntityDeviljho> implements IHasAnimationProvider {
+public class DragonBreath extends AnimatedAction<Deviljho> implements IHasAnimationProvider {
 
 	protected String animLocation;
 	protected int animLength;
@@ -31,7 +31,7 @@ public class DragonBreath extends AnimatedAction<EntityDeviljho> implements IHas
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityDeviljho entity = this.getEntity();
+		Deviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
 			if (SelectionUtils.isIdle(entity)) {
 				return DONT_SELECT;
@@ -44,7 +44,7 @@ public class DragonBreath extends AnimatedAction<EntityDeviljho> implements IHas
 
 	@Override
 	protected void onUpdate() {
-		EntityDeviljho entity = this.getEntity();
+		Deviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
 
 
@@ -54,7 +54,7 @@ public class DragonBreath extends AnimatedAction<EntityDeviljho> implements IHas
 			entity.getLookHelper().setLookPositionWithEntity(target, 15, 15);
 
 			if (this.getCurrentFrame() == 30) {
-			EntityDeviljhoLaserBreath breath = new EntityDeviljhoLaserBreath(entity.world, entity);
+			FXDeviljhoLaser breath = new FXDeviljhoLaser(entity.world, entity);
 				breath.setCasterID(entity.getEntityId());
 				breath.setPositionAndRotation(
 						entity.posX + 4F,

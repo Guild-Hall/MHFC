@@ -8,9 +8,9 @@ import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
-import mhfc.net.common.entity.monster.EntityGargwa;
+import mhfc.net.common.entity.creature.Gargwa;
 
-public class Wander extends WanderAction<EntityGargwa> implements IHasAnimationProvider {
+public class Wander extends WanderAction<Gargwa> implements IHasAnimationProvider {
 
 	private static final int LAST_FRAME = 45;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Gagua/GaguaWalk.mcanm";

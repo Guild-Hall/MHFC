@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.type;
+package mhfc.net.common.entity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -63,14 +63,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  *            your class, the class of the attacks
  *
  */
-public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends EntityCreature
+public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> extends EntityCreature
 		implements
 		IEntityMultiPart,
 		IAnimatedObject,
 		IManagedActions<YC>,
 		IEntityAdditionalSpawnData {
 	private static final DataParameter<Integer> ANIM_FRAME = EntityDataManager
-			.<Integer>createKey(EntityMHFCBase.class, DataSerializers.VARINT);
+			.<Integer>createKey(CreatureAttributes.class, DataSerializers.VARINT);
 	private final TargetTurnHelper turnHelper;
 	private IActionManager<? extends YC> attackManager;
 
@@ -98,7 +98,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	// ***************************************************************************************
 	
-	public EntityMHFCBase(World world) {
+	public CreatureAttributes(World world) {
 		super(world);
 		turnHelper = new TargetTurnHelper(this);
 		attackManager = Objects.requireNonNull(constructActionManager());
@@ -186,10 +186,10 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 	protected abstract IActionManager<YC> constructActionManager();
 
 	/**
-	 * Specialize the return type to a {@link EntityMHFCPart}
+	 * Specialize the return type to a {@link CollisionParts}
 	 */
 	@Override
-	public abstract EntityMHFCPart[] getParts();
+	public abstract CollisionParts[] getParts();
 
 	/** Monsters Death Update **/
 	@Override
@@ -328,9 +328,9 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			double correctedOffX = currOffX;
 			double correctedOffY = currOffY;
 			double correctedOffZ = currOffZ;
-			EntityMHFCPart[] parts = this.getParts();
+			CollisionParts[] parts = this.getParts();
 			if (parts == null) {
-				parts = new EntityMHFCPart[0];
+				parts = new CollisionParts[0];
 			}
 
 			AxisAlignedBB ourBoundingBox = this.getEntityBoundingBox();
@@ -346,7 +346,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 			for (AxisAlignedBB bb : bbsInWay) {
 				currOffZ = bb.calculateZOffset(ourBoundingBox, currOffZ);
 			}
-			for (EntityMHFCPart part : parts) {
+			for (CollisionParts part : parts) {
 				AxisAlignedBB partBoundingBox = part.getEntityBoundingBox();
 				List<AxisAlignedBB> bbsInWayPart = this.world
 						.getCollisionBoxes(this, partBoundingBox.addCoord(currOffX, currOffY, currOffZ));
@@ -386,7 +386,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 				for (AxisAlignedBB bb : bbsInStepup) {
 					currOffZ = bb.calculateZOffset(ourBoundingBox, currOffZ);
 				}
-				for (EntityMHFCPart part : parts) {
+				for (CollisionParts part : parts) {
 					AxisAlignedBB partBoundingBox = part.getEntityBoundingBox();
 					List<AxisAlignedBB> bbsInStepupPart = this.world
 							.getCollisionBoxes(this, partBoundingBox.addCoord(currOffX, currOffY, currOffZ));
@@ -405,7 +405,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 				for (AxisAlignedBB bb : bbsInStepup) {
 					groundOffY = bb.calculateYOffset(ourBoundingBox.offset(currOffX, currOffY, currOffZ), groundOffY);
 				}
-				for (EntityMHFCPart part : parts) {
+				for (CollisionParts part : parts) {
 					AxisAlignedBB partBoundingBox = part.getEntityBoundingBox();
 					List<AxisAlignedBB> bbsInStepDown = this.world
 							.getCollisionBoxes(this, partBoundingBox.addCoord(currOffX, currOffY, currOffZ));
@@ -449,11 +449,11 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 		this.posX += offX;
 		this.posY += offY;
 		this.posZ += offZ;
-		EntityMHFCPart[] parts = this.getParts();
+		CollisionParts[] parts = this.getParts();
 		if (parts == null) {
 			return;
 		}
-		for (EntityMHFCPart part : parts) {
+		for (CollisionParts part : parts) {
 			part.offsetEntity(offX, offY, offZ);
 		}
 	}
@@ -540,7 +540,7 @@ public abstract class EntityMHFCBase<YC extends EntityMHFCBase<YC>> extends Enti
 
 	@Override
 	public boolean canBePushed() {
-		if (this.getAttackTarget() instanceof EntityMHFCBase) {
+		if (this.getAttackTarget() instanceof CreatureAttributes) {
 			return true;
 		}
 		return false;

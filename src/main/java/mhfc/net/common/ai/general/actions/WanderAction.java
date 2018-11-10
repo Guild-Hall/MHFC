@@ -7,11 +7,11 @@ import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.provider.adapters.HasNoTargetAdapter;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.ai.general.provider.simple.IPathProvider;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.Vec3d;
 
-public abstract class WanderAction<T extends EntityMHFCBase<? super T>> extends MovementAction<T> {
+public abstract class WanderAction<T extends CreatureAttributes<? super T>> extends MovementAction<T> {
 
 	//TODO Make monster rest after walking.
 	public static class RandomWanderProvider<T extends EntityLiving> implements IPathProvider {

@@ -9,12 +9,10 @@ import java.util.function.Function;
 import java.util.function.IntFunction;
 
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
-import mhfc.net.common.entity.projectile.EntityLightning;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
 public class Deprecate {
@@ -49,13 +47,6 @@ public class Deprecate {
 		return worldObj.playerEntities.size();
 	}
 
-	public static void spawnLightnings(double Lx, double Ly, double Lz, int many, World world) {
-		for (int i = 0; i < many; i++) {
-			EntityLightning l = new EntityLightning(world);
-			l.setPosition(Lx, Ly, Lz);
-			world.spawnEntity(l);
-		}
-	}
 
 	public static <T, R> T[] mapAll(Function<? super R, T> func, R[] holders, IntFunction<T[]> arrNew) {
 		return Arrays.stream(holders).sequential().map(func).toArray(arrNew);

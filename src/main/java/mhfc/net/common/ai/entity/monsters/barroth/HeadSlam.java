@@ -9,10 +9,10 @@ import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityBarroth;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
+import mhfc.net.common.entity.creature.Barroth;
 
-public class HeadSlam extends DamageAreaAction<EntityBarroth> implements IHasAttackProvider {
+public class HeadSlam extends DamageAreaAction<Barroth> implements IHasAttackProvider {
 
 	protected float range, height, knockback, arc, damage;
 
@@ -27,7 +27,7 @@ public class HeadSlam extends DamageAreaAction<EntityBarroth> implements IHasAtt
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityBarroth entity = this.getEntity();
+		Barroth entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
@@ -47,11 +47,11 @@ public class HeadSlam extends DamageAreaAction<EntityBarroth> implements IHasAtt
 
 	@Override
 	public void onUpdate() {
-		EntityBarroth entity = getEntity();
+		Barroth entity = getEntity();
 		if (getEntity().getAttackTarget() != null && this.getCurrentFrame() == 25) {
 			super.onUpdate();
 			getEntity().playSound(MHFCSoundRegistry.getRegistry().barrothHeadsmash, 2.0F, 1.0F);
-			EntityMHFCBase.mountVelocity(entity, 1.0D, 2.5D, 1.0D);
+			CreatureAttributes.mountVelocity(entity, 1.0D, 2.5D, 1.0D);
 		}
 
 	}

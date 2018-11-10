@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.monster;
+package mhfc.net.common.entity.creature;
 
 import org.lwjgl.opengl.GL11;
 
@@ -13,17 +13,17 @@ import mhfc.net.common.ai.entity.monsters.lagiacrus.Roar;
 import mhfc.net.common.ai.entity.monsters.lagiacrus.Sweep;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.type.EntityMHFCBase;
-import mhfc.net.common.entity.type.EntityMHFCPart;
+import mhfc.net.common.entity.CollisionParts;
+import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
-public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
+public class Lagiacrus extends CreatureAttributes<Lagiacrus> {
 
-	public EntityLagiacrus(World world) {
+	public Lagiacrus(World world) {
 		super(world);
 		setSize(9F, 7F);
 	}
@@ -42,11 +42,11 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 	}
 
 	@Override
-	protected IActionManager<EntityLagiacrus> constructActionManager() {
-		ActionManagerBuilder<EntityLagiacrus> actionManager = new ActionManagerBuilder<>();
+	protected IActionManager<Lagiacrus> constructActionManager() {
+		ActionManagerBuilder<Lagiacrus> actionManager = new ActionManagerBuilder<>();
 		actionManager.registerAction(new AIBite(this, "mhfc:models/Lagiacrus/LagiacrusBite.mcanm", 40, 8, 125, 8, MHFCSoundRegistry.getRegistry().lagiacrusBite, 15, true, 15, 20));
 		actionManager.registerAction(new AIBite(this, "mhfc:models/Lagiacrus/LagiacrusBite.mcanm", 60, 28, 105, 5, MHFCSoundRegistry.getRegistry().lagiacrusBite, 15, true, 25, 30));
-		actionManager.registerAction(new AIWander<EntityLagiacrus>(this, "mhfc:models/Lagiacrus/LagiacrusWalk.mcanm", 100, 10F, 0.2F, 0.7F, 20	, 80, 1, 10));
+		actionManager.registerAction(new AIWander<Lagiacrus>(this, "mhfc:models/Lagiacrus/LagiacrusWalk.mcanm", 100, 10F, 0.2F, 0.7F, 20	, 80, 1, 10));
 		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Lagiacrus/LagiacrusIdle.mcanm", 50, 15F));
 		
 		actionManager.registerAction(new Sweep());
@@ -61,7 +61,7 @@ public class EntityLagiacrus extends EntityMHFCBase<EntityLagiacrus> {
 	}
 
 	@Override
-	public EntityMHFCPart[] getParts() {
+	public CollisionParts[] getParts() {
 		return null;
 	}
 

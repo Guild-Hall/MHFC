@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.monster;
+package mhfc.net.common.entity.creature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,8 @@ import mhfc.net.common.ai.entity.monsters.tigrex.Jump;
 import mhfc.net.common.ai.entity.monsters.tigrex.Roar;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.type.EntityMHFCBase;
-import mhfc.net.common.entity.type.EntityMHFCPart;
+import mhfc.net.common.entity.CollisionParts;
+import mhfc.net.common.entity.CreatureAttributes;
 import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
@@ -36,11 +36,11 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
+public class Tigrex extends CreatureAttributes<Tigrex> {
 
 	public int rageLevel;
 
-	public EntityTigrex(World par1World) {
+	public Tigrex(World par1World) {
 		super(par1World);
 		setSize(4.6f, 3.6f);
 		stepHeight = 1.5f;
@@ -65,8 +65,8 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	}
 
 	@Override
-	protected IActionManager<EntityTigrex> constructActionManager() {
-		ActionManagerBuilder<EntityTigrex> manager = new ActionManagerBuilder<>();
+	protected IActionManager<Tigrex> constructActionManager() {
+		ActionManagerBuilder<Tigrex> manager = new ActionManagerBuilder<>();
 
 		/** Living AIs **/
 		manager.registerAction(
@@ -79,7 +79,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		manager.registerAction(new AIIdle(this, "mhfc:models/Tigrex/idle.mcanm", 160, 2F));
 		manager.registerAction(new AIIdle(this, "mhfc:models/Tigrex/idle3.mcanm", 260, 1F));
 		manager.registerAction(
-				new AIWander<EntityTigrex>(this, "mhfc:models/Tigrex/walk.mcanm", 122, 1F, 0.08F, 0.4F, 21, 85, 1, 30));
+				new AIWander<Tigrex>(this, "mhfc:models/Tigrex/walk.mcanm", 122, 1F, 0.08F, 0.4F, 21, 85, 1, 30));
 
 		/** Attack AIs **/
 
@@ -129,7 +129,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 		manager.registerAction(new Charge());
 
 		manager.registerAction(new GroundHurl());
-		List<IExecutableAction<? super EntityTigrex>> allowedFirstSight = new ArrayList<>();
+		List<IExecutableAction<? super Tigrex>> allowedFirstSight = new ArrayList<>();
 		allowedFirstSight.add(new Roar());
 
 		return manager.build(this);
@@ -165,7 +165,7 @@ public class EntityTigrex extends EntityMHFCBase<EntityTigrex> {
 	}
 
 	@Override
-	public EntityMHFCPart[] getParts() {
+	public CollisionParts[] getParts() {
 		// TODO Auto-generated method stub
 		return null;
 	}

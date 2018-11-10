@@ -9,13 +9,13 @@ import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityDeviljho;
-import mhfc.net.common.entity.projectile.EntityProjectileBlock;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
+import mhfc.net.common.entity.creature.Deviljho;
+import mhfc.net.common.entity.projectile.ProjectileBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 
-public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttackProvider {
+public class Launch extends DamagingAction<Deviljho> implements IHasAttackProvider {
 
 	private boolean thrown;
 
@@ -23,7 +23,7 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityDeviljho entity = this.getEntity();
+		Deviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
@@ -59,16 +59,16 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 		}
 		if (this.getCurrentFrame() >= 20) {
 			if (getEntity().getAttackTarget() instanceof EntityPlayer) {
-				EntityMHFCBase.screenIntensity(getEntity(), 10, 40);
+				CreatureAttributes.screenIntensity(getEntity(), 10, 40);
 			}
 		}
-		EntityDeviljho entity = this.getEntity();
+		Deviljho entity = this.getEntity();
 		if (this.getCurrentFrame() == 28) {
 			if (entity.getAttackTarget() == null) {
 				return;
 			}
 			getEntity().playSound(MHFCSoundRegistry.getRegistry().deviljhoRockThrow, 2.0F, 1.0F);
-			EntityMHFCBase.mountVelocity(entity, 0, 1.4, 0);
+			CreatureAttributes.mountVelocity(entity, 0, 1.4, 0);
 		}
 		if (this.getCurrentFrame() >= 35) {
 			Vec3d look = entity.getLookVec();
@@ -77,7 +77,7 @@ public class Launch extends DamagingAction<EntityDeviljho> implements IHasAttack
 			Vec3d vec_positive_axis = vec_look_var.crossProduct(new Vec3d(0, 1, 0));
 
 			for (int i = 0; i < 5; i++) {
-				EntityProjectileBlock block = new EntityProjectileBlock(entity.world, entity);
+				ProjectileBlock block = new ProjectileBlock(entity.world, entity);
 				double xCo = look.xCoord;
 				double yCo = look.yCoord + HEIGHT_BLOCK;
 				double zCo = look.zCoord;

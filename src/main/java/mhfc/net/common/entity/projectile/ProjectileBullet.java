@@ -6,20 +6,20 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class EntityBullet extends EntityThrowable {
+public class ProjectileBullet extends EntityThrowable {
 	protected float damage;
 
-	public EntityBullet(World par1World) {
+	public ProjectileBullet(World par1World) {
 		super(par1World);
 	}
 
-	public EntityBullet(World par1World, EntityLivingBase par2EntityLivingBase, float Damage) {
+	public ProjectileBullet(World par1World, EntityLivingBase par2EntityLivingBase, float Damage) {
 		super(par1World, par2EntityLivingBase);
 		damage = Damage;
 
 	}
 
-	public EntityBullet(World par1World, double par2, double par4, double par6, float Damage) {
+	public ProjectileBullet(World par1World, double par2, double par4, double par6, float Damage) {
 		super(par1World, par2, par4, par6);
 		damage = Damage;
 	}

@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.monster;
+package mhfc.net.common.entity.creature;
 
 import org.lwjgl.opengl.GL11;
 
@@ -12,24 +12,24 @@ import mhfc.net.common.ai.entity.AIWander;
 import mhfc.net.common.ai.entity.monsters.gargwa.Sleep;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.type.EntityMHFCBase;
-import mhfc.net.common.entity.type.EntityMHFCPart;
+import mhfc.net.common.entity.CollisionParts;
+import mhfc.net.common.entity.CreatureAttributes;
 import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
-public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
+public class Gargwa extends CreatureAttributes<Gargwa> {
 
-	public EntityGargwa(World world) {
+	public Gargwa(World world) {
 		super(world);
 		setSize(2f, 2f);
 	}
 
 	@Override
-	protected IActionManager<EntityGargwa> constructActionManager() {
-		ActionManagerBuilder<EntityGargwa> actionManager = new ActionManagerBuilder<>();
+	protected IActionManager<Gargwa> constructActionManager() {
+		ActionManagerBuilder<Gargwa> actionManager = new ActionManagerBuilder<>();
 		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Gagua/gaguabreathe.mcanm", 40, 2F));
 		actionManager.registerAction(new AIIdle(this, "mhfc:models/Gagua/lookaround.mcanm", 100, 0.5F));
 		actionManager.registerAction(new Sleep());
@@ -40,7 +40,7 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 								"mhfc:models/Gagua/GaguaDeath.mcanm",
 								MHFCSoundRegistry.getRegistry().gargwaDeath)));
 		actionManager.registerAction(
-				new AIWander<EntityGargwa>(
+				new AIWander<Gargwa>(
 						this,
 						"mhfc:models/gagua/gaguawalk.mcanm",
 						60,
@@ -62,7 +62,7 @@ public class EntityGargwa extends EntityMHFCBase<EntityGargwa> {
 	}
 
 	@Override
-	public EntityMHFCPart[] getParts() {
+	public CollisionParts[] getParts() {
 		return null;
 	}
 

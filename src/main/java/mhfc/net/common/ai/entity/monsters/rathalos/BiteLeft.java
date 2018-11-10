@@ -11,9 +11,9 @@ import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityRathalos;
+import mhfc.net.common.entity.creature.Rathalos;
 
-public class BiteLeft extends DamagingAction<EntityRathalos> implements IHasAttackProvider {
+public class BiteLeft extends DamagingAction<Rathalos> implements IHasAttackProvider {
 
 	private static final int ANIM_FRAME = 50;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Rathalos/RathalosBiteLeft.mcanm";

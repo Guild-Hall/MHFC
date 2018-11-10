@@ -11,11 +11,11 @@ import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityDeviljho;
+import mhfc.net.common.entity.creature.Deviljho;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
-public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimationProvider {
+public class Charge extends AnimatedAction<Deviljho> implements IHasAnimationProvider {
 
 	private static enum PastEntityEnum {
 		NOT_PASSED,
@@ -29,7 +29,7 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 
 			@Override
 			public void onPhaseStart(Charge attk) {
-				EntityDeviljho monster = attk.getEntity();
+				Deviljho monster = attk.getEntity();
 				monster.motionX = monster.motionY = monster.motionZ = 0f;
 				if (attk.target != null) {
 				monster.getTurnHelper().updateTurnSpeed(30.5F);
@@ -40,7 +40,7 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 
 			@Override
 			public void update(Charge attk) {
-				EntityDeviljho entity = attk.getEntity();
+				Deviljho entity = attk.getEntity();
 				entity.getTurnHelper().forceUpdate();
 			}
 
@@ -64,7 +64,7 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 
 			@Override
 			public void update(Charge attk) {
-				EntityDeviljho monster = attk.getEntity();
+				Deviljho monster = attk.getEntity();
 				Vec3d mobPos = monster.getPositionVector();
 				Vec3d vecToTarget = mobPos.subtract(attk.target.getPositionVector());
 				monster.getTurnHelper().updateTargetPoint(attk.target);
@@ -101,7 +101,7 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 
 			@Override
 			public void update(Charge attk) {
-				EntityDeviljho e = attk.getEntity();
+				Deviljho e = attk.getEntity();
 				e.moveForward(0.2, false);
 			}
 
@@ -150,7 +150,7 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 
 	@Override
 	public float computeSelectionWeight() {
-		EntityDeviljho entity = this.getEntity();
+		Deviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
@@ -161,7 +161,7 @@ public class Charge extends AnimatedAction<EntityDeviljho> implements IHasAnimat
 	@Override
 	public void beginExecution() {
 		super.beginExecution();
-		EntityDeviljho mob = getEntity();
+		Deviljho mob = getEntity();
 		target = mob.getAttackTarget();
 		mob.playSound(MHFCSoundRegistry.getRegistry().deviljhoRoar, 1.0F, 1.0F);
 		currentPhase = AttackPhase.START;

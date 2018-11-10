@@ -8,9 +8,9 @@ import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
-import mhfc.net.common.entity.monster.EntityRathalos;
+import mhfc.net.common.entity.creature.Rathalos;
 
-public class Wander extends WanderAction<EntityRathalos> implements IHasAnimationProvider {
+public class Wander extends WanderAction<Rathalos> implements IHasAnimationProvider {
 
 	private static final int LAST_FRAME = 120;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Rathalos/RathalosWalk.mcanm";

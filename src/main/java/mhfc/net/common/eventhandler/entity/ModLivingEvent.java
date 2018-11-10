@@ -1,7 +1,7 @@
 package mhfc.net.common.eventhandler.entity;
 
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.armor.ArmorBase;
 import net.minecraft.entity.Entity;
@@ -51,7 +51,7 @@ public class ModLivingEvent {
 		double damage = event.getAmount();
 		Entity ent = event.getEntity();
 		if (ent != null && ent instanceof EntityPlayer) {
-			if(damageSrc.getSourceOfDamage() instanceof EntityMHFCBase)
+			if(damageSrc.getSourceOfDamage() instanceof CreatureAttributes)
 			if (ent.getArmorInventoryList() != null && ent.getArmorInventoryList() instanceof ArmorBase) {
 				/** Refines the damage analyzer based from Monster Hunter Series but in a special case which
 				 *  the default health is set to 20 for players. **/
@@ -78,7 +78,7 @@ public class ModLivingEvent {
 	 **/
 	@SubscribeEvent
 	public static void pickRandomNearTarget(LivingUpdateEvent event) {
-		if (event.getEntityLiving() instanceof EntityMHFCBase) {}
+		if (event.getEntityLiving() instanceof CreatureAttributes) {}
 	}
 
 		

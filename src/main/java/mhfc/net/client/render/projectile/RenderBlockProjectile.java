@@ -1,6 +1,6 @@
 package mhfc.net.client.render.projectile;
 
-import mhfc.net.common.entity.projectile.EntityProjectileBlock;
+import mhfc.net.common.entity.projectile.ProjectileBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderBlockProjectile extends Render<EntityProjectileBlock> {
+public class RenderBlockProjectile extends Render<ProjectileBlock> {
 
 	public RenderBlockProjectile(RenderManager manager) {
 		super(manager);
@@ -21,7 +21,7 @@ public class RenderBlockProjectile extends Render<EntityProjectileBlock> {
 	}
 
 	@Override
-	public void doRender(EntityProjectileBlock entity, double x, double y, double z, float f, float partialTicks) {
+	public void doRender(ProjectileBlock entity, double x, double y, double z, float f, float partialTicks) {
 		EntityFallingBlock fallingBlock = entity.getProxy();
 		BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
 		GlStateManager.pushMatrix();
@@ -41,7 +41,7 @@ public class RenderBlockProjectile extends Render<EntityProjectileBlock> {
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(EntityProjectileBlock entity) {
+	protected ResourceLocation getEntityTexture(ProjectileBlock entity) {
 		return TextureMap.LOCATION_BLOCKS_TEXTURE;
 	}
 

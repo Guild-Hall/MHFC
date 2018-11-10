@@ -4,9 +4,9 @@ import mhfc.net.common.ai.general.actions.IdleAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
-import mhfc.net.common.entity.monster.EntityRathalos;
+import mhfc.net.common.entity.creature.Rathalos;
 
-public class Idle extends IdleAction<EntityRathalos> implements IHasAnimationProvider {
+public class Idle extends IdleAction<Rathalos> implements IHasAnimationProvider {
 
 	private static final int LAST_FRAME = 65;
 	private static final String ANIMATION_LOCATION = "mhfc:models/Rathalos/RathalosIdle.mcanm";

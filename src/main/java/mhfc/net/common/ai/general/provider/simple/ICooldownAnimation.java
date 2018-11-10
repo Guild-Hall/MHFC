@@ -1,8 +1,8 @@
 package mhfc.net.common.ai.general.provider.simple;
 
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 
-public interface ICooldownAnimation<T extends EntityMHFCBase<? super T>> {
+public interface ICooldownAnimation<T extends CreatureAttributes<? super T>> {
 	
 	/**
 	 * Still getting my code hanging

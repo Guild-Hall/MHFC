@@ -5,16 +5,16 @@ import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 
-public class AIIdle extends IdleAction<EntityMHFCBase<?>> implements IHasAnimationProvider {
+public class AIIdle extends IdleAction<CreatureAttributes<?>> implements IHasAnimationProvider {
 
-	protected EntityMHFCBase<?> entity;
+	protected CreatureAttributes<?> entity;
 	protected String animationLocation;
 	protected int animationLength;
 	protected float weight;
 
-	public AIIdle(EntityMHFCBase<?> entity, String animationLocation, int animationLength, float weight) {
+	public AIIdle(CreatureAttributes<?> entity, String animationLocation, int animationLength, float weight) {
 		this.entity = entity;
 		this.animationLocation = animationLocation;
 		this.animationLength = animationLength;

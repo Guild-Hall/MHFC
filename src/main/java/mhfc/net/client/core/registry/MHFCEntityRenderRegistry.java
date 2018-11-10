@@ -18,31 +18,27 @@ import mhfc.net.client.render.entity.RenderNargacuga;
 import mhfc.net.client.render.projectile.RenderBlockProjectile;
 import mhfc.net.client.render.projectile.RenderBreathe;
 import mhfc.net.client.render.projectile.RenderBullet;
-import mhfc.net.client.render.projectile.RenderDeviljhoBeam1;
 import mhfc.net.client.render.projectile.RenderNargacugaSpike;
 import mhfc.net.client.render.projectile.RenderPaintball;
-import mhfc.net.client.render.projectile.RenderRathalosFireball;
 import mhfc.net.client.render.projectile.RenderWyverniaArrow;
-import mhfc.net.common.entity.fx.EntityDeviljhoLaserBreath;
-import mhfc.net.common.entity.monster.EntityBarroth;
-import mhfc.net.common.entity.monster.EntityDelex;
-import mhfc.net.common.entity.monster.EntityDeviljho;
-import mhfc.net.common.entity.monster.EntityGargwa;
-import mhfc.net.common.entity.monster.EntityKirin;
-import mhfc.net.common.entity.monster.EntityLagiacrus;
-import mhfc.net.common.entity.monster.EntityNargacuga;
-import mhfc.net.common.entity.monster.EntityRathalos;
-import mhfc.net.common.entity.monster.EntityTigrex;
-import mhfc.net.common.entity.monster.wip.EntityGiaprey;
-import mhfc.net.common.entity.monster.wip.EntityGreatJaggi;
-import mhfc.net.common.entity.monster.wip.EntityUkanlos;
-import mhfc.net.common.entity.projectile.EntityBullet;
-import mhfc.net.common.entity.projectile.EntityDeviljhoBeam1;
-import mhfc.net.common.entity.projectile.EntityPaintball;
-import mhfc.net.common.entity.projectile.EntityProjectileBlock;
-import mhfc.net.common.entity.projectile.EntityRathalosFireball;
-import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
-import mhfc.net.common.entity.projectile.NargacugaSpike;
+import mhfc.net.common.entity.creature.Barroth;
+import mhfc.net.common.entity.creature.Delex;
+import mhfc.net.common.entity.creature.Deviljho;
+import mhfc.net.common.entity.creature.Gargwa;
+import mhfc.net.common.entity.creature.Kirin;
+import mhfc.net.common.entity.creature.Lagiacrus;
+import mhfc.net.common.entity.creature.Nargacuga;
+import mhfc.net.common.entity.creature.Rathalos;
+import mhfc.net.common.entity.creature.Tigrex;
+import mhfc.net.common.entity.creature.incomplete.Giaprey;
+import mhfc.net.common.entity.creature.incomplete.GreatJaggi;
+import mhfc.net.common.entity.creature.incomplete.Ukanlos;
+import mhfc.net.common.entity.fx.FXDeviljhoLaser;
+import mhfc.net.common.entity.projectile.ProjectileBullet;
+import mhfc.net.common.entity.projectile.ProjectilePaintball;
+import mhfc.net.common.entity.projectile.ProjectileBlock;
+import mhfc.net.common.entity.projectile.ProjectileArrow;
+import mhfc.net.common.entity.projectile.ProjectileNargaSpike;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
@@ -65,80 +61,78 @@ public class MHFCEntityRenderRegistry {
 
 	private static void renderMonster() {
 		//AdvanceRender
-		advanceRenderer(EntityNargacuga.class, manager -> new RenderNargacuga(manager));
-		advanceRenderer(EntityKirin.class, manager -> new RenderKirin(manager));
+		advanceRenderer(Nargacuga.class, manager -> new RenderNargacuga(manager));
+		advanceRenderer(Kirin.class, manager -> new RenderKirin(manager));
 
 		//BasicRender
 		basicRenderer(
-				EntityTigrex.class,
+				Tigrex.class,
 				ResourceInterface.mob_tigrex_textureDir,
 				ResourceInterface.mob_tigrex_model,
 				ResourceInterface.mob_tigrex_skeleton,
 				1.0F);
 		basicRenderer(
-				EntityDelex.class,
+				Delex.class,
 				ResourceInterface.mob_delex_textureDir,
 				ResourceInterface.mob_delex_model,
 				ResourceInterface.mob_delex_skeleton,
 				0F);
 		basicRenderer(
-				EntityGreatJaggi.class,
+				GreatJaggi.class,
 				ResourceInterface.mob_greatjaggi_textureDir,
 				ResourceInterface.mob_greatjaggi_model,
 				ResourceInterface.mob_greatjaggi_skeleton,
 				1.0F);
 		basicRenderer(
-				EntityLagiacrus.class,
+				Lagiacrus.class,
 				ResourceInterface.mob_lagiacrus_textureDir,
 				ResourceInterface.mob_lagiacrus_model,
 				ResourceInterface.mob_lagiacrus_skeleton,
 				1.0F);
 
 		basicRenderer(
-				EntityDeviljho.class,
+				Deviljho.class,
 				ResourceInterface.mob_deviljho_textureDir,
 				ResourceInterface.mob_deviljho_model,
 				ResourceInterface.mob_deviljho_skeleton,
 				1.0F);
 		basicRenderer(
-				EntityGargwa.class,
+				Gargwa.class,
 				ResourceInterface.mob_gagua_textureDir,
 				ResourceInterface.mob_gagua_model,
 				ResourceInterface.mob_gagua_skeleton,
 				1.0F);
 		basicRenderer(
-				EntityRathalos.class,
+				Rathalos.class,
 				ResourceInterface.mob_rathalos_textureDir,
 				ResourceInterface.mob_rathalos_model,
 				ResourceInterface.mob_rathalos_skeleton,
 				1.0F);
 		basicRenderer(
-				EntityBarroth.class,
+				Barroth.class,
 				ResourceInterface.mob_barroth_textureDir,
 				ResourceInterface.mob_barroth_model,
 				ResourceInterface.mob_barroth_skeleton,
 				1.0F);
 
-		registerAnimatedRenderer(EntityGiaprey.class, ResourceInterface.mob_giaprey_model, 1.0F);
-		registerAnimatedRenderer(EntityUkanlos.class, ResourceInterface.mob_ukanlos_model, 1.0F);
+		registerAnimatedRenderer(Giaprey.class, ResourceInterface.mob_giaprey_model, 1.0F);
+		registerAnimatedRenderer(Ukanlos.class, ResourceInterface.mob_ukanlos_model, 1.0F);
 
 	}
 
 	private static void renderBlockEntities() {
 
-		RenderingRegistry.registerEntityRenderingHandler(EntityDeviljhoBeam1.class, RenderDeviljhoBeam1::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileBlock.class, RenderBlockProjectile::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityRathalosFireball.class, RenderRathalosFireball::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityPaintball.class, m -> {
+		RenderingRegistry.registerEntityRenderingHandler(ProjectileBlock.class, RenderBlockProjectile::new);
+		RenderingRegistry.registerEntityRenderingHandler(ProjectilePaintball.class, m -> {
 			RenderItem itemRender = Minecraft.getMinecraft().getRenderItem();
 			// late insertion
 			Preconditions.checkState(itemRender != null, "where is my item render...");
 			return new RenderPaintball(m, itemRender);
 		});
-		RenderingRegistry.registerEntityRenderingHandler(EntityWyverniaArrow.class, RenderWyverniaArrow::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, RenderBullet::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityDeviljhoLaserBreath.class, RenderBreathe::new);
-		RenderingRegistry.registerEntityRenderingHandler(NargacugaSpike.class, RenderNargacugaSpike::new);
+		RenderingRegistry.registerEntityRenderingHandler(ProjectileArrow.class, RenderWyverniaArrow::new);
+		RenderingRegistry.registerEntityRenderingHandler(ProjectileBullet.class, RenderBullet::new);
+		RenderingRegistry.registerEntityRenderingHandler(FXDeviljhoLaser.class, RenderBreathe::new);
+		RenderingRegistry.registerEntityRenderingHandler(ProjectileNargaSpike.class, RenderNargacugaSpike::new);
 		//RenderingRegistry.registerEntityRenderingHandler(EntityFlashBomb.class, RenderSnowball::new);
 	}
 

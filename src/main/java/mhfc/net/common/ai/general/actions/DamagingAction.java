@@ -3,7 +3,7 @@ package mhfc.net.common.ai.general.actions;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.DamageCalculatorHelper;
 import mhfc.net.common.ai.general.provider.requirements.INeedsDamageCalculator;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.util.math.Vec3d;
@@ -39,9 +39,9 @@ public abstract class DamagingAction<T extends EntityCreature> extends AnimatedA
 	@Override
 	protected void onUpdate() {
 		if (target != null) {
-			((EntityMHFCBase<?>) getEntity()).getTurnHelper().updateTurnSpeed(50F);
-			((EntityMHFCBase<?>) getEntity()).getTurnHelper().updateTargetPoint(targetPoint);
-			((EntityMHFCBase<?>) getEntity()).getLookHelper().setLookPositionWithEntity(target, 15, 15);
+			((CreatureAttributes<?>) getEntity()).getTurnHelper().updateTurnSpeed(50F);
+			((CreatureAttributes<?>) getEntity()).getTurnHelper().updateTargetPoint(targetPoint);
+			((CreatureAttributes<?>) getEntity()).getLookHelper().setLookPositionWithEntity(target, 15, 15);
 			;
 		}
 
@@ -49,9 +49,9 @@ public abstract class DamagingAction<T extends EntityCreature> extends AnimatedA
 
 	protected void updateTurnHelper(Entity entity, float turnRate) {
 		if (target != null) {
-			((EntityMHFCBase<?>) getEntity()).getTurnHelper().updateTurnSpeed(turnRate);
-			((EntityMHFCBase<?>) getEntity()).getTurnHelper().updateTargetPoint(targetPoint);
-			((EntityMHFCBase<?>) getEntity()).getLookHelper().setLookPositionWithEntity(target, 15, 15);
+			((CreatureAttributes<?>) getEntity()).getTurnHelper().updateTurnSpeed(turnRate);
+			((CreatureAttributes<?>) getEntity()).getTurnHelper().updateTargetPoint(targetPoint);
+			((CreatureAttributes<?>) getEntity()).getLookHelper().setLookPositionWithEntity(target, 15, 15);
 		}
 
 	}

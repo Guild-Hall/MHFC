@@ -8,10 +8,10 @@ import mhfc.net.common.ai.general.provider.adapters.AttackAdapter;
 import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
-import mhfc.net.common.entity.monster.EntityBarroth;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
+import mhfc.net.common.entity.creature.Barroth;
 
-public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProvider {
+public class Ram extends DamagingAction<Barroth> implements IHasAttackProvider {
 
 	public float damage;
 
@@ -21,7 +21,7 @@ public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProv
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityBarroth entity = this.getEntity();
+		Barroth entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
@@ -41,8 +41,8 @@ public class Ram extends DamagingAction<EntityBarroth> implements IHasAttackProv
 
 	@Override
 	public void onUpdate() {
-		EntityBarroth entity = getEntity();
-		EntityMHFCBase.mountVelocity(entity, 1.0D, 5.5D, 1.0D);
+		Barroth entity = getEntity();
+		CreatureAttributes.mountVelocity(entity, 1.0D, 5.5D, 1.0D);
 		damageCollidingEntities();
 		super.onUpdate();
 	}

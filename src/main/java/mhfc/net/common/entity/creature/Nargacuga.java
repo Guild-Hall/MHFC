@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.monster;
+package mhfc.net.common.entity.creature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +30,9 @@ import mhfc.net.common.ai.entity.monsters.nargacuga.TailSlam;
 import mhfc.net.common.ai.entity.monsters.nargacuga.TailSlamDouble;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.type.EntityMHFCBase;
-import mhfc.net.common.entity.type.EntityMHFCPart;
-import mhfc.net.common.entity.type.IEnragable;
+import mhfc.net.common.entity.CollisionParts;
+import mhfc.net.common.entity.CreatureAttributes;
+import mhfc.net.common.entity.IEnragable;
 import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.state.IBlockState;
@@ -45,22 +45,22 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
+public class Nargacuga extends CreatureAttributes<Nargacuga>
 		implements
-		IActionRecorder<EntityNargacuga>,
+		IActionRecorder<Nargacuga>,
 		IEnragable {
 
 	public static final int EYES_RECORD_LENGTH = 30;
 	// How many ticks are between each recording of the eyes positions
 	public static final int EYES_RECORD_FREQUENCY = 10;
 
-	private IActionRecorder.RecorderAdapter<EntityNargacuga> recorder;
+	private IActionRecorder.RecorderAdapter<Nargacuga> recorder;
 	private Queue<Vec3d> eyesPositionsRight;
 	private Queue<Vec3d> eyesPositionsLeft;
 	private int ticksSinceEyesSaved;
 	private boolean enraged;
 
-	public EntityNargacuga(World world) {
+	public Nargacuga(World world) {
 		super(world);
 		setSize(4.5F, 4.0F);
 		stepHeight = 2.0F;
@@ -87,8 +87,8 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	}
 
 	@Override
-	protected IActionManager<EntityNargacuga> constructActionManager() {
-		FollowUpManagerBuilder<EntityNargacuga> attackManager = new FollowUpManagerBuilder<>();
+	protected IActionManager<Nargacuga> constructActionManager() {
+		FollowUpManagerBuilder<Nargacuga> attackManager = new FollowUpManagerBuilder<>();
 		attackManager.registerAction(
 				setDeathAction(
 						new AIDeath(
@@ -96,7 +96,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 								"mhfc:models/Nargacuga/NargaDeath.001.mcanm",
 								MHFCSoundRegistry.getRegistry().nargacugaDeath)));
 		TailSlam tailSlam = new TailSlam();
-		AIAngleWhip<EntityNargacuga> tailWhip = new AIAngleWhip<>(
+		AIAngleWhip<Nargacuga> tailWhip = new AIAngleWhip<>(
 				"mhfc:models/Nargacuga/TailSwipeRight.mcanm",
 				56,
 				23,
@@ -116,7 +116,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		TailSlamDouble tailslamdouble = new TailSlamDouble();
 		SoarToSpin soartospin = new SoarToSpin();
 
-		List<IExecutableAction<? super EntityNargacuga>> prowlerFollow = new ArrayList<>();
+		List<IExecutableAction<? super Nargacuga>> prowlerFollow = new ArrayList<>();
 
 		prowlerFollow.add(pounce);
 		prowlerFollow.add(tailWhip);
@@ -135,7 +135,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 		attackManager.registerAllowingAllActions(soartospin);
 
 		attackManager.registerAction(
-				new AIWander<EntityNargacuga>(
+				new AIWander<Nargacuga>(
 						this,
 						"mhfc:models/nargacuga/wander.mcanm",
 						120,
@@ -152,7 +152,7 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	}
 
 	@Override
-	public EntityMHFCPart[] getParts() {
+	public CollisionParts[] getParts() {
 		return null;
 	}
 
@@ -208,17 +208,17 @@ public class EntityNargacuga extends EntityMHFCBase<EntityNargacuga>
 	}
 
 	@Override
-	public void onAttackEnd(IExecutableAction<? super EntityNargacuga> oldAttack) {
+	public void onAttackEnd(IExecutableAction<? super Nargacuga> oldAttack) {
 		recorder.addAction(oldAttack);
 	}
 
 	@Override
-	public List<IExecutableAction<? super EntityNargacuga>> getActionHistory() {
+	public List<IExecutableAction<? super Nargacuga>> getActionHistory() {
 		return recorder.getActionHistory();
 	}
 
 	@Override
-	public IExecutableAction<? super EntityNargacuga> getLastAction() {
+	public IExecutableAction<? super Nargacuga> getLastAction() {
 		return recorder.getLastAction();
 	}
 

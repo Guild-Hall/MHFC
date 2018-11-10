@@ -2,8 +2,8 @@ package mhfc.net.common.entity.projectile;
 
 import java.util.List;
 
-import mhfc.net.common.entity.monster.EntityDeviljho;
-import mhfc.net.common.entity.monster.EntityTigrex;
+import mhfc.net.common.entity.creature.Deviljho;
+import mhfc.net.common.entity.creature.Tigrex;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityFallingBlock;
@@ -15,16 +15,16 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class EntityProjectileBlock extends EntityThrowable {
+public class ProjectileBlock extends EntityThrowable {
 	private final EntityFallingBlock proxy;
 
-	public EntityProjectileBlock(World par) {
+	public ProjectileBlock(World par) {
 		super(par);
 		setSize(1.0F, 1.0F);
 		proxy = createProxy();
 	}
 
-	public EntityProjectileBlock(World world, EntityLivingBase living) {
+	public ProjectileBlock(World world, EntityLivingBase living) {
 		super(world, living);
 		proxy = createProxy();
 		this.posY -= living.getEyeHeight();
@@ -34,12 +34,12 @@ public class EntityProjectileBlock extends EntityThrowable {
 		rotationYaw = living.rotationYaw;
 	}
 
-	public EntityProjectileBlock(World par, EntityTigrex e) {
+	public ProjectileBlock(World par, Tigrex e) {
 		this(par, (EntityLivingBase) e);
 		setSize(1.3F, 1.3F);
 	}
 
-	public EntityProjectileBlock(World par, EntityDeviljho e) {
+	public ProjectileBlock(World par, Deviljho e) {
 		this(par, (EntityLivingBase) e);
 		setSize(1.4F, 1.4F);
 	}

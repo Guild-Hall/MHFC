@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.monster.wip;
+package mhfc.net.common.entity.creature.incomplete;
 
 import org.lwjgl.opengl.GL11;
 
@@ -13,18 +13,18 @@ import mhfc.net.common.ai.entity.monsters.greatjaggi.Idle;
 import mhfc.net.common.ai.entity.monsters.greatjaggi.Roar;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.type.EntityMHFCBase;
-import mhfc.net.common.entity.type.EntityMHFCPart;
+import mhfc.net.common.entity.CollisionParts;
+import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
+public class GreatJaggi extends CreatureAttributes<GreatJaggi> {
 	// TODO: implement rage
 	public int rageLevel;
 
-	public EntityGreatJaggi(World world) {
+	public GreatJaggi(World world) {
 		super(world);
 		setSize(4F, 4F);
 	}
@@ -45,8 +45,8 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 	}
 
 	@Override
-	protected IActionManager<EntityGreatJaggi> constructActionManager() {
-		ActionManagerBuilder<EntityGreatJaggi> actionManager = new ActionManagerBuilder<>();
+	protected IActionManager<GreatJaggi> constructActionManager() {
+		ActionManagerBuilder<GreatJaggi> actionManager = new ActionManagerBuilder<>();
 		actionManager
 				.registerAction(
 						new AIBite(
@@ -92,7 +92,7 @@ public class EntityGreatJaggi extends EntityMHFCBase<EntityGreatJaggi> {
 	}
 
 	@Override
-	public EntityMHFCPart[] getParts() {
+	public CollisionParts[] getParts() {
 		return null;
 	}
 

@@ -9,11 +9,11 @@ import mhfc.net.common.ai.general.provider.adapters.JumpAdapter;
 import mhfc.net.common.ai.general.provider.adapters.JumpTimingAdapter;
 import mhfc.net.common.ai.general.provider.composite.IJumpProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasJumpProvider;
-import mhfc.net.common.entity.monster.EntityNargacuga;
+import mhfc.net.common.entity.creature.Nargacuga;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class SoarToSpin extends JumpAction<EntityNargacuga> implements IHasJumpProvider<EntityNargacuga> {
+public class SoarToSpin extends JumpAction<Nargacuga> implements IHasJumpProvider<Nargacuga> {
 	
 	public SoarToSpin() {}
 	
@@ -26,7 +26,7 @@ public class SoarToSpin extends JumpAction<EntityNargacuga> implements IHasJumpP
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityNargacuga e = this.getEntity();
+		Nargacuga e = this.getEntity();
 		target = e.getAttackTarget();
 		if (target == null) {
 			return DONT_SELECT;
@@ -40,14 +40,14 @@ public class SoarToSpin extends JumpAction<EntityNargacuga> implements IHasJumpP
 	}
 
 	@Override
-	public IJumpProvider<EntityNargacuga> getJumpProvider() {
-		return new JumpAdapter<EntityNargacuga>(
+	public IJumpProvider<Nargacuga> getJumpProvider() {
+		return new JumpAdapter<Nargacuga>(
 				new AnimationAdapter(this, "mhfc:models/Nargacuga/soartospin.mcanm", 75),
 				new DamageAdapter(AIUtils.defaultDamageCalc(120F, 300, 888880)),
-				new ConstantAirTimeAdapter<EntityNargacuga>(
+				new ConstantAirTimeAdapter<Nargacuga>(
 						12,
 						entity -> entity.getLookVec().addVector(entity.posX, entity.posY, entity.posZ)),
-				new JumpTimingAdapter<EntityNargacuga>(19, 0, 0));
+				new JumpTimingAdapter<Nargacuga>(19, 0, 0));
 	}
 
 }

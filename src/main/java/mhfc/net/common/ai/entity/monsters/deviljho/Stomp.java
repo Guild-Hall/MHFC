@@ -11,20 +11,20 @@ import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityDeviljho;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
+import mhfc.net.common.entity.creature.Deviljho;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.AxisAlignedBB;
 
-public class Stomp extends DamagingAction<EntityDeviljho> implements IHasAttackProvider {
+public class Stomp extends DamagingAction<Deviljho> implements IHasAttackProvider {
 	private boolean thrown = false;
 
 	public Stomp() {}
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityDeviljho entity = this.getEntity();
+		Deviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
@@ -49,7 +49,7 @@ public class Stomp extends DamagingAction<EntityDeviljho> implements IHasAttackP
 
 	private void updateStomp() {
 		damageCollidingEntities();
-		EntityDeviljho actor = this.getEntity();
+		Deviljho actor = this.getEntity();
 		if (!actor.onGround || thrown || this.getCurrentFrame() < 26) {
 			return;
 		}
@@ -65,14 +65,14 @@ public class Stomp extends DamagingAction<EntityDeviljho> implements IHasAttackP
 			entity.turn(0, 40);
 			entity.addVelocity(0.2, 0.3, 0);
 		}
-		EntityMHFCBase.spawnCracks(actor, 150);
+		CreatureAttributes.spawnCracks(actor, 150);
 		actor.playSound(MHFCSoundRegistry.getRegistry().deviljhoStomp, 1.0F, 1.0F);
 		thrown = true;
 	}
 
 	@Override
 	protected void onUpdate() {
-		EntityDeviljho entity = this.getEntity();
+		Deviljho entity = this.getEntity();
 		target = entity.getAttackTarget();
 		updateStomp();
 

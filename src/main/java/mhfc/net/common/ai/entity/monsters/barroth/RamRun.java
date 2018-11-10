@@ -9,10 +9,10 @@ import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityBarroth;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
+import mhfc.net.common.entity.creature.Barroth;
 
-public class RamRun extends DamagingAction<EntityBarroth> implements IHasAttackProvider {
+public class RamRun extends DamagingAction<Barroth> implements IHasAttackProvider {
 
 	protected float speed, turnrate, damage;
 
@@ -26,14 +26,14 @@ public class RamRun extends DamagingAction<EntityBarroth> implements IHasAttackP
 	@Override
 	protected void beginExecution() {
 		super.beginExecution();
-		EntityBarroth entity = this.getEntity();
+		Barroth entity = this.getEntity();
 		entity.getTurnHelper().updateTurnSpeed(this.turnrate);
 		entity.getTurnHelper().updateTargetPoint(targetPoint);
 	}
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityBarroth entity = this.getEntity();
+		Barroth entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
@@ -50,7 +50,7 @@ public class RamRun extends DamagingAction<EntityBarroth> implements IHasAttackP
 
 	@Override
 	public void onUpdate() {
-		EntityBarroth entity = getEntity();
+		Barroth entity = getEntity();
 		damageCollidingEntities();
 		entity.getTurnHelper().updateTurnSpeed(0.1F);
 		entity.getTurnHelper().updateTargetPoint(target);
@@ -61,7 +61,7 @@ public class RamRun extends DamagingAction<EntityBarroth> implements IHasAttackP
 
 		}
 		if (this.getCurrentFrame() > 85) {
-			EntityMHFCBase.mountVelocity(entity, 1.0D, 1.5D, 1.0D);
+			CreatureAttributes.mountVelocity(entity, 1.0D, 1.5D, 1.0D);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
 			entity.moveForward(this.speed, true);

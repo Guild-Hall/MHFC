@@ -2,18 +2,18 @@ package mhfc.net.common.ai.general;
 
 import java.util.Objects;
 
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
 public class TargetTurnHelper {
 
-	private EntityMHFCBase<?> entity;
+	private CreatureAttributes<?> entity;
 	private Vec3d targetPoint;
 	private float maxTurnSpeed;
 	private boolean isUpdating;
 
-	public TargetTurnHelper(EntityMHFCBase<?> controlledEntity) {
+	public TargetTurnHelper(CreatureAttributes<?> controlledEntity) {
 		this.entity = Objects.requireNonNull(controlledEntity);
 	}
 
@@ -67,7 +67,7 @@ public class TargetTurnHelper {
 	 * <b> Do not call this yourself. </b><br>
 	 * Performs the update and resets the update status to false. This means you have to set something (target point,
 	 * speed) or call {@link TargetTurnHelper#forceUpdate()} each entity update. This then gets called last from
-	 * EntityMHFCBase in {@link EntityMHFCBase#updateAITick()}, so before the Minecraft default helpers are called.
+	 * EntityMHFCBase in {@link CreatureAttributes#updateAITick()}, so before the Minecraft default helpers are called.
 	 */
 	public void onUpdateTurn() {
 		if (!isUpdating) {

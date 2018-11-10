@@ -10,20 +10,20 @@ import mhfc.net.common.ai.general.provider.adapters.JumpTimingAdapter;
 import mhfc.net.common.ai.general.provider.composite.IJumpProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasJumpProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.EntityNargacuga;
-import mhfc.net.common.entity.projectile.EntityProjectileBlock;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
+import mhfc.net.common.entity.creature.Nargacuga;
+import mhfc.net.common.entity.projectile.ProjectileBlock;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.MoverType;
 import net.minecraft.util.math.Vec3d;
 
-public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpProvider<EntityNargacuga> {
+public class TailSlam extends JumpAction<Nargacuga> implements IHasJumpProvider<Nargacuga> {
 
 	public TailSlam() {}
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityNargacuga e = this.getEntity();
+		Nargacuga e = this.getEntity();
 		target = e.getAttackTarget();
 		if (target == null) {
 			return DONT_SELECT;
@@ -38,20 +38,20 @@ public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpPro
 	}
 
 	@Override
-	public IJumpProvider<EntityNargacuga> getJumpProvider() {
-		return new JumpAdapter<EntityNargacuga>(
+	public IJumpProvider<Nargacuga> getJumpProvider() {
+		return new JumpAdapter<Nargacuga>(
 				new AnimationAdapter(this, "mhfc:models/Nargacuga/TailSlam.mcanm", 105),
 				new DamageAdapter(AIUtils.defaultDamageCalc(120F, 300, 888880)),
-				new ConstantAirTimeAdapter<EntityNargacuga>(
+				new ConstantAirTimeAdapter<Nargacuga>(
 						12,
 						entity -> entity.getLookVec().addVector(entity.posX, entity.posY, entity.posZ)),
-				new JumpTimingAdapter<EntityNargacuga>(19, 0, 0));
+				new JumpTimingAdapter<Nargacuga>(19, 0, 0));
 	}
 
 	@Override
 	protected void finishExecution() {
 		super.finishExecution();
-		EntityNargacuga nargacuga = getEntity();
+		Nargacuga nargacuga = getEntity();
 		nargacuga.rotationYaw = AIUtils.normalizeAngle(nargacuga.rotationYaw + 180);
 		nargacuga.addVelocity(10e-4, 0, 10e-4);
 	}
@@ -68,7 +68,7 @@ public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpPro
 	public void onUpdate() {
 		super.onUpdate();
 		damageCollidingEntities();
-		EntityNargacuga nargacuga = getEntity();
+		Nargacuga nargacuga = getEntity();
 
 		if (this.getCurrentFrame() == 10) {
 			nargacuga.playSound(MHFCSoundRegistry.getRegistry().nargacugaTailSlam, 2.0F, 1.0F);
@@ -76,7 +76,7 @@ public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpPro
 		if (!nargacuga.onGround || thrown || this.getCurrentFrame() < 30) {
 			return;
 		}
-		EntityMHFCBase.spawnCracks(nargacuga, 250);
+		CreatureAttributes.spawnCracks(nargacuga, 250);
 		thrown = true;
 		if (nargacuga.world.isRemote) {
 			return;
@@ -94,7 +94,7 @@ public class TailSlam extends JumpAction<EntityNargacuga> implements IHasJumpPro
 				int cluster = i / spikesPerCluster;
 				int spike = i % spikesPerCluster;
 				// FIXME replace with narga spikes once they are done
-				EntityProjectileBlock spikeEntity = new EntityProjectileBlock(nargacuga.world, nargacuga);
+				ProjectileBlock spikeEntity = new ProjectileBlock(nargacuga.world, nargacuga);
 				spikeEntity.move(MoverType.SELF,
 						offsetScaleBack * look.xCoord,
 						offsetScaleBack * look.yCoord - 2.5,

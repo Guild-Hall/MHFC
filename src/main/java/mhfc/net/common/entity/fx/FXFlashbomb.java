@@ -14,7 +14,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class EntityFlashBomb extends EntityThrowable {
+public class FXFlashbomb extends EntityThrowable {
 
 	public static final int EXPLOSIVE_TIMER = 20;
 	public static final float REACH = 20f;
@@ -26,7 +26,7 @@ public class EntityFlashBomb extends EntityThrowable {
 	private int ticksToExplode;
 	private boolean exploded;
 
-	public EntityFlashBomb(World par1World, double x, double y, double z) {
+	public FXFlashbomb(World par1World, double x, double y, double z) {
 		super(par1World, x, y, z);
 		ticksToExplode = EXPLOSIVE_TIMER;
 		exploded = false;
@@ -36,13 +36,13 @@ public class EntityFlashBomb extends EntityThrowable {
     	EntityThrowable.registerFixesThrowable(fixer, "Flashbomb");
     }
 
-	public EntityFlashBomb(World par1World) {
+	public FXFlashbomb(World par1World) {
 		super(par1World);
 		ticksToExplode = EXPLOSIVE_TIMER;
 		exploded = false;
 	}
 
-	public EntityFlashBomb(World par1World, EntityLivingBase thrower) {
+	public FXFlashbomb(World par1World, EntityLivingBase thrower) {
 		super(par1World, thrower);
 		ticksToExplode = EXPLOSIVE_TIMER;
 		exploded = false;

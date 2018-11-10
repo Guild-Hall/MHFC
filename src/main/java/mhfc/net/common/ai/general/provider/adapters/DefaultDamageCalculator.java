@@ -1,7 +1,7 @@
 package mhfc.net.common.ai.general.provider.adapters;
 
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -26,7 +26,7 @@ public class DefaultDamageCalculator implements IDamageCalculator {
 	public float accept(Entity trgt) {
 		if (trgt instanceof EntityPlayer) {
 			return player;
-		} else if (trgt instanceof EntityMHFCBase) {
+		} else if (trgt instanceof CreatureAttributes) {
 			return wyvern;
 		}
 		return rest;

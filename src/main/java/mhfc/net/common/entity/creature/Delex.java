@@ -1,4 +1,4 @@
-package mhfc.net.common.entity.monster;
+package mhfc.net.common.entity.creature;
 
 import org.lwjgl.opengl.GL11;
 
@@ -13,8 +13,8 @@ import mhfc.net.common.ai.entity.monsters.delex.MoveToTarget;
 import mhfc.net.common.ai.entity.monsters.delex.Tackle;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.type.EntityMHFCBase;
-import mhfc.net.common.entity.type.EntityMHFCPart;
+import mhfc.net.common.entity.CollisionParts;
+import mhfc.net.common.entity.CreatureAttributes;
 import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -23,9 +23,9 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.world.World;
 
-public class EntityDelex extends EntityMHFCBase<EntityDelex> {
+public class Delex extends CreatureAttributes<Delex> {
 
-	public EntityDelex(World world) {
+	public Delex(World world) {
 		super(world);
 		setSize(2f, 2f);
 	}
@@ -44,15 +44,15 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 	}
 
 	@Override
-	protected IActionManager<EntityDelex> constructActionManager() {
-		ActionManagerBuilder<EntityDelex> actionManager = new ActionManagerBuilder<>();
+	protected IActionManager<Delex> constructActionManager() {
+		ActionManagerBuilder<Delex> actionManager = new ActionManagerBuilder<>();
 		actionManager.registerAction(new Bite());
 		actionManager.registerAction(new Tackle());
 		actionManager.registerAction(new MoveToTarget(1.1F));
 		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Delex/delexidle.mcanm", 60, 2f));
 
 		actionManager.registerAction(
-				new AIWander<EntityDelex>(
+				new AIWander<Delex>(
 						this,
 						"mhfc:models/delex/delexmovetotarget.mcanm",
 						100,
@@ -73,7 +73,7 @@ public class EntityDelex extends EntityMHFCBase<EntityDelex> {
 	}
 
 	@Override
-	public EntityMHFCPart[] getParts() {
+	public CollisionParts[] getParts() {
 		return null;
 	}
 

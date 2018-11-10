@@ -2,7 +2,7 @@ package mhfc.net.common.item.tools;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
-import mhfc.net.common.entity.projectile.EntityPaintball;
+import mhfc.net.common.entity.projectile.ProjectilePaintball;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.AbstractSubTypedItem;
 import mhfc.net.common.item.ItemColor;
@@ -85,7 +85,7 @@ public class ItemPaintball extends AbstractSubTypedItem<PaintballType> {
 				0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
 		if (!worldIn.isRemote) {
-			worldIn.spawnEntity(new EntityPaintball(worldIn, ItemColor.byMetadata(stack.getItemDamage()), playerIn));
+			worldIn.spawnEntity(new ProjectilePaintball(worldIn, ItemColor.byMetadata(stack.getItemDamage()), playerIn));
 		}
 		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 	}

@@ -7,7 +7,7 @@ import com.google.common.collect.Multimap;
 
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.projectile.EntityWyverniaArrow;
+import mhfc.net.common.entity.projectile.ProjectileArrow;
 import mhfc.net.common.index.AttributeModifiers;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.materials.ItemWyverniaArrow;
@@ -125,8 +125,8 @@ public class ItemBow extends ItemWeapon<BowWeaponStats> {
 	}
 
 	private void spawnArrow(EntityPlayer player, World worldIn, ItemStack ammunition, float power) {
-		EntityWyverniaArrow entityarrow = new EntityWyverniaArrow(worldIn, player, power);
-		EntityWyverniaArrow entityarrow2 = new EntityWyverniaArrow(worldIn, player, power);
+		ProjectileArrow entityarrow = new ProjectileArrow(worldIn, player, power);
+		ProjectileArrow entityarrow2 = new ProjectileArrow(worldIn, player, power);
 		entityarrow.setDamage(entityarrow.getDamage() + 2 * 0.5D + 0.5D);
 		entityarrow.setKnockbackStrength(1);
 

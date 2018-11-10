@@ -8,10 +8,10 @@ import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.util.math.Vec3d;
 
-public class JumpAdapter<T extends EntityMHFCBase<? super T>> extends AttackAdapter implements IJumpProvider<T> {
+public class JumpAdapter<T extends CreatureAttributes<? super T>> extends AttackAdapter implements IJumpProvider<T> {
 	protected IJumpParameterProvider<T> jumpProvider;
 	protected IJumpTimingProvider<T> jumpTiming;
 

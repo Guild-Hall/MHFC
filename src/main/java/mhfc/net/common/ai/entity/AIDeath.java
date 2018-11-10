@@ -4,16 +4,16 @@ import mhfc.net.common.ai.general.actions.DeathAction;
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAnimationProvider;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.util.SoundEvent;
 
-public class AIDeath extends DeathAction<EntityMHFCBase<?>> implements IHasAnimationProvider {
+public class AIDeath extends DeathAction<CreatureAttributes<?>> implements IHasAnimationProvider {
 
-	protected EntityMHFCBase<?> entity;
+	protected CreatureAttributes<?> entity;
 	protected String animationLocation;
 	protected SoundEvent sound;
 
-	public AIDeath(EntityMHFCBase<?> entity, String animationLocation, SoundEvent sound) {
+	public AIDeath(CreatureAttributes<?> entity, String animationLocation, SoundEvent sound) {
 		this.entity = entity;
 		this.animationLocation = animationLocation;
 		this.sound = sound;

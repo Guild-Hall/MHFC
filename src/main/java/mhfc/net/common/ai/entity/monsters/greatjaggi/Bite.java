@@ -11,11 +11,11 @@ import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.monster.wip.EntityGreatJaggi;
+import mhfc.net.common.entity.creature.incomplete.GreatJaggi;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class Bite extends DamagingAction<EntityGreatJaggi> implements IHasAttackProvider {
+public class Bite extends DamagingAction<GreatJaggi> implements IHasAttackProvider {
 
 	private static final String ANIMATION_LOCATION = "mhfc:models/GreatJaggi/GreatJaggiBite.mcanm";
 	private static final int ANIM_FRAME = 33;
@@ -37,7 +37,7 @@ public class Bite extends DamagingAction<EntityGreatJaggi> implements IHasAttack
 
 	@Override
 	protected float computeSelectionWeight() {
-		EntityGreatJaggi entity = this.getEntity();
+		GreatJaggi entity = this.getEntity();
 		target = entity.getAttackTarget();
 		if (target == null) {
 			return DONT_SELECT;
@@ -61,7 +61,7 @@ public class Bite extends DamagingAction<EntityGreatJaggi> implements IHasAttack
 			getEntity().playSound(MHFCSoundRegistry.getRegistry().greatJaggiBite, 1.0F, 1.0F);
 		}
 		if (isMoveForwardFrame(getCurrentFrame())) {
-			EntityGreatJaggi entity = getEntity();
+			GreatJaggi entity = getEntity();
 			entity.moveForward(0.2, false);
 		}
 		super.onUpdate();

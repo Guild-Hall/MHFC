@@ -13,13 +13,13 @@ import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
-import mhfc.net.common.entity.type.EntityMHFCBase;
+import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.util.SoundEvent;
 
 /**
  * @author WorldSEnder ** dang so complex men ~Heltrato
  */
-public class AIBite extends DamagingAction<EntityMHFCBase<?>> implements IHasAttackProvider {
+public class AIBite extends DamagingAction<CreatureAttributes<?>> implements IHasAttackProvider {
 
 	protected float damage;
 	protected float weight;
@@ -27,14 +27,14 @@ public class AIBite extends DamagingAction<EntityMHFCBase<?>> implements IHasAtt
 	protected int animationLength;
 	protected int damageFrame;
 	protected SoundEvent sound;
-	protected EntityMHFCBase<?> entity = this.getEntity();
+	protected CreatureAttributes<?> entity = this.getEntity();
 	protected float biteRange;
 	protected boolean isMovingFrame;
 	protected int movingStartFrame;
 	protected int endStartFrame;
 
 	public AIBite(
-			EntityMHFCBase<?> entity,
+			CreatureAttributes<?> entity,
 			String animationLocation,
 			int animationLength,
 			int damageFrame,
