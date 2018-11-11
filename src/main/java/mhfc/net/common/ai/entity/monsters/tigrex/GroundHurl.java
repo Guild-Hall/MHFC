@@ -17,7 +17,7 @@ public class GroundHurl extends AnimatedAction<Tigrex> implements IHasAnimationP
 	private static final int TURN_FRAMES = 14;
 
 	private static final double SPLIT_MULTIPLIER = 0.125;
-	private static final double THROW_HEIGHT = 0.50;
+	private static final double THROW_HEIGHT = 0.45;
 	private static final float TURN_RATE = 50;
 
 	private final IAnimationProvider ANIMATION = new AnimationAdapter(this, ANIMATION_LOCATION, LAST_FRAME);

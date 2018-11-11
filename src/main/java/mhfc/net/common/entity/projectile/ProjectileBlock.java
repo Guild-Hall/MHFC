@@ -58,7 +58,7 @@ public class ProjectileBlock extends EntityThrowable {
 
 	@Override
 	protected float getGravityVelocity() {
-		return 0.15f;
+		return 0.14f;
 	}
 
 	@Override
@@ -73,6 +73,11 @@ public class ProjectileBlock extends EntityThrowable {
 			entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 80F + this.rand.nextInt(17));
 		}
 	}
+	
+	public float setProjectileGravityRange(float gravityVelocity) {
+		return gravityVelocity;
+	}
+	
 
 
 }
