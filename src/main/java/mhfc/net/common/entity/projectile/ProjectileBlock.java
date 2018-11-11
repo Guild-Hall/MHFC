@@ -66,19 +66,6 @@ public class ProjectileBlock extends EntityThrowable {
 		List<Entity> list = this.world
 				.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().expand(8.5D, 6.0D, 8.5D));
 		list.remove(getThrower());
-
-		//	EntityAreaEffectCloud entityareaeffectcloud = new EntityAreaEffectCloud(
-		//			this.world,
-		//			this.posX,
-		//			this.posY,
-		//			this.posZ);
-		//	entityareaeffectcloud.setOwner(this.getThrower());
-		//	entityareaeffectcloud.setRadius(1.0F);
-		//	entityareaeffectcloud.setDuration(100);
-		//	entityareaeffectcloud
-		//			.setRadiusPerTick((7.0F - entityareaeffectcloud.getRadius()) / entityareaeffectcloud.getDuration());
-		//	this.world.spawnEntity(entityareaeffectcloud);
-
 		for (Entity entity : list) {
 			if (getDistanceSqToEntity(entity) > 6.25D) {
 				continue;
