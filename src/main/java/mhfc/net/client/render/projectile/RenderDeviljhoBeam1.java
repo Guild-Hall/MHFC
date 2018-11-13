@@ -5,11 +5,11 @@ import org.lwjgl.opengl.GL11;
 import mhfc.net.common.entity.projectile.EntityDeviljhoBeam1;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.GlStateManager.DestFactor;
 import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -46,7 +46,7 @@ public class RenderDeviljhoBeam1 extends Render<EntityDeviljhoBeam1> {
 		clearerView = solarBeam.caster instanceof EntityPlayer && Minecraft.getMinecraft().player == solarBeam.caster
 				&& Minecraft.getMinecraft().gameSettings.thirdPersonView == 0;
 
-		double length = Math.sqrt(
+		final double length = Math.sqrt(
 				Math.pow(solarBeam.collidePosX - solarBeam.posX, 2)
 						+ Math.pow(solarBeam.collidePosY - solarBeam.posY, 2)
 						+ Math.pow(solarBeam.collidePosZ - solarBeam.posZ, 2));
@@ -95,12 +95,12 @@ public class RenderDeviljhoBeam1 extends Render<EntityDeviljhoBeam1> {
 		}
 		GlStateManager.rotate(-renderManager.playerViewY, 0, 1, 0);
 		GlStateManager.rotate(renderManager.playerViewX, 1, 0, 0);
-		double minU = 0 + 16D / TEXTURE_WIDTH * frame;
-		double minV = 0;
-		double maxU = minU + 16D / TEXTURE_WIDTH;
-		double maxV = minV + 16D / TEXTURE_HEIGHT;
-		Tessellator t = Tessellator.getInstance();
-		VertexBuffer buf = t.getBuffer();
+		final double minU = 0 + 16D / TEXTURE_WIDTH * frame;
+		final double minV = 0;
+		final double maxU = minU + 16D / TEXTURE_WIDTH;
+		final double maxV = minV + 16D / TEXTURE_HEIGHT;
+		final Tessellator t = Tessellator.getInstance();
+		final BufferBuilder buf = t.getBuffer();
 		buf.begin(GL11.GL_QUADS, POSITION_TEX_LMAP);
 		buf.pos(-START_RADIUS, -START_RADIUS, 0).tex(minU, minV).lightmap(0, 240).endVertex();
 		buf.pos(-START_RADIUS, START_RADIUS, 0).tex(minU, maxV).lightmap(0, 240).endVertex();
@@ -117,12 +117,12 @@ public class RenderDeviljhoBeam1 extends Render<EntityDeviljhoBeam1> {
 	private void renderEnd(int frame, EnumFacing side) {
 		GlStateManager.rotate(-renderManager.playerViewY, 0, 1, 0);
 		GlStateManager.rotate(renderManager.playerViewX, 1, 0, 0);
-		double minU = 0 + 16D / TEXTURE_WIDTH * frame;
-		double minV = 0;
-		double maxU = minU + 16D / TEXTURE_WIDTH;
-		double maxV = minV + 16D / TEXTURE_HEIGHT;
-		Tessellator t = Tessellator.getInstance();
-		VertexBuffer buf = t.getBuffer();
+		final double minU = 0 + 16D / TEXTURE_WIDTH * frame;
+		final double minV = 0;
+		final double maxU = minU + 16D / TEXTURE_WIDTH;
+		final double maxV = minV + 16D / TEXTURE_HEIGHT;
+		final Tessellator t = Tessellator.getInstance();
+		final BufferBuilder buf = t.getBuffer();
 		buf.begin(GL11.GL_QUADS, POSITION_TEX_LMAP);
 		buf.pos(-START_RADIUS, -START_RADIUS, 0).tex(minU, minV).lightmap(0, 240).endVertex();
 		buf.pos(-START_RADIUS, START_RADIUS, 0).tex(minU, maxV).lightmap(0, 240).endVertex();
@@ -169,12 +169,12 @@ public class RenderDeviljhoBeam1 extends Render<EntityDeviljhoBeam1> {
 	}
 
 	private void renderBeam(double length, double yaw, double pitch, int frame) {
-		double minU = 0;
-		double minV = 16 / TEXTURE_HEIGHT + 1 / TEXTURE_HEIGHT * frame;
-		double maxU = minU + 20 / TEXTURE_WIDTH;
-		double maxV = minV + 1 / TEXTURE_HEIGHT;
-		Tessellator t = Tessellator.getInstance();
-		VertexBuffer buf = t.getBuffer();
+		final double minU = 0;
+		final double minV = 16 / TEXTURE_HEIGHT + 1 / TEXTURE_HEIGHT * frame;
+		final double maxU = minU + 20 / TEXTURE_WIDTH;
+		final double maxV = minV + 1 / TEXTURE_HEIGHT;
+		final Tessellator t = Tessellator.getInstance();
+		final BufferBuilder buf = t.getBuffer();
 		buf.begin(GL11.GL_QUADS, POSITION_TEX_LMAP);
 		buf.pos(-BEAM_RADIUS, 0, 0).tex(minU, minV).lightmap(0, 240).endVertex();
 		buf.pos(-BEAM_RADIUS, length, 0).tex(minU, maxV).lightmap(0, 240).endVertex();

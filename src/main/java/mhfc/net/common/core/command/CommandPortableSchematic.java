@@ -40,7 +40,7 @@ public class CommandPortableSchematic extends CommandBase {
 
 	public CommandPortableSchematic(WorldEdit world) {
 		checkNotNull(world);
-		this.worldEdit = world;
+		worldEdit = world;
 	}
 
 	@Override
@@ -61,11 +61,11 @@ public class CommandPortableSchematic extends CommandBase {
 		if (!(sender instanceof EntityPlayerMP)) {
 			throw new CommandException("Command user must be a player");
 		}
-		EntityPlayerMP player = (EntityPlayerMP) sender;
-		ForgeWorldEdit forgeWorldEdit = ForgeWorldEdit.inst;
+		final EntityPlayerMP player = (EntityPlayerMP) sender;
+		final ForgeWorldEdit forgeWorldEdit = ForgeWorldEdit.inst;
 		try {
 			saveWorld(forgeWorldEdit.wrap(player), forgeWorldEdit.getSession(player), args[0]);
-		} catch (WorldEditException e) {
+		} catch (final WorldEditException e) {
 			throw new CommandException("Error while executing store", e);
 		}
 	}
@@ -73,21 +73,20 @@ public class CommandPortableSchematic extends CommandBase {
 	protected void saveWorld(Player player, LocalSession session, String filename)
 			throws CommandException,
 			WorldEditException {
-		LocalConfiguration config = worldEdit.getConfiguration();
+		final LocalConfiguration config = worldEdit.getConfiguration();
 
-		File dir = worldEdit.getWorkingDirectoryFile(config.saveDir);
-		File f = worldEdit.getSafeSaveFile(player, dir, filename, "schematic", "schematic");
+		final File dir = worldEdit.getWorkingDirectoryFile(config.saveDir);
+		final File f = worldEdit.getSafeSaveFile(player, dir, filename, "schematic", "schematic");
 
-		IClipboardFormat format = ClipboardFormats.EXTENDED_FORGE_SCHEMATIC;
-		ClipboardHolder holder = session.getClipboard();
-		Clipboard clipboard = holder.getClipboard();
-		Transform transform = holder.getTransform();
+		final IClipboardFormat format = ClipboardFormats.EXTENDED_FORGE_SCHEMATIC;
+		final ClipboardHolder holder = session.getClipboard();
+		final Clipboard clipboard = holder.getClipboard();
+		final Transform transform = holder.getTransform();
 		Clipboard target;
 
 		// If we have a transform, bake it into the copy
 		if (!transform.isIdentity()) {
-			FlattenedClipboardTransform result = FlattenedClipboardTransform
-					.transform(clipboard, transform, holder.getWorldData());
+			final FlattenedClipboardTransform result = FlattenedClipboardTransform.transform(clipboard, transform);
 			target = new BlockArrayClipboard(result.getTransformedRegion());
 			target.setOrigin(clipboard.getOrigin());
 			Operations.completeLegacy(result.copyTo(target));
@@ -97,20 +96,23 @@ public class CommandPortableSchematic extends CommandBase {
 
 		try (Closer closer = Closer.create()) {
 			// Create parent directories
-			File parent = f.getParentFile();
+			final File parent = f.getParentFile();
 			if (parent != null && !parent.exists()) {
 				if (!parent.mkdirs()) {
 					throw new CommandException("Could not create folder for schematics!");
 				}
 			}
 
-			FileOutputStream fos = closer.register(new FileOutputStream(f));
-			BufferedOutputStream bos = closer.register(new BufferedOutputStream(fos));
-			ClipboardWriter writer = closer.register(format.getWriter(bos));
-			writer.write(target, holder.getWorldData());
+			@SuppressWarnings("resource")
+			final FileOutputStream fos = closer.register(new FileOutputStream(f));
+			@SuppressWarnings("resource")
+			final BufferedOutputStream bos = closer.register(new BufferedOutputStream(fos));
+			@SuppressWarnings("resource")
+			final ClipboardWriter writer = closer.register(format.getWriter(bos));
+			writer.write(target);
 			MHFCMain.logger().info(player.getName() + " saved " + f.getCanonicalPath());
 			player.print(filename + ColorSystem.dark_green + " saved as MHFC schematic compatible format.");
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			player.printError("Schematic could not written: " + e.getMessage());
 			MHFCMain.logger().log(Level.WARN, "Failed to write a saved clipboard", e);
 		}

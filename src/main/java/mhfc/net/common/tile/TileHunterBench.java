@@ -17,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -39,7 +40,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 
 	private ItemStack fuelStack;
 	private ItemStack resultStack;
-	private ItemStack[] recipeStacks;
+	private Ingredient[] recipeStacks;
 	private ItemStack[] inputStacks;
 	private ItemStack outputStack;
 
@@ -76,7 +77,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		fuelStack = ItemStack.EMPTY;
 		outputStack = ItemStack.EMPTY;
 		resultStack = ItemStack.EMPTY;
-		recipeStacks = new ItemStack[recipeLength];
+		recipeStacks = new Ingredient[recipeLength];
 		resetRecipeStacks();
 		inputStacks = new ItemStack[inputLength];
 		resetInputStacks();
@@ -177,7 +178,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 
 	public void setIngredients(EquipmentRecipe recipe) {
 		resetRecipeStacks();
-		recipe.fillRequirements(this.recipeStacks);
+		recipe.fillRequirements(recipeStacks);
 	}
 
 	public static int getItemHeat(ItemStack itemStack) {
@@ -191,10 +192,10 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	}
 
 	private int getNewHeat(int heatAim) {
-		int heatOld = heatStrength;
-		int diff = heatAim - heatOld;
+		final int heatOld = heatStrength;
+		final int diff = heatAim - heatOld;
 		// Some math to confuse the hell out of everyone reading this
-		double change = Math.ceil(Math.log(Math.abs(diff) + 1.0));
+		final double change = Math.ceil(Math.log(Math.abs(diff) + 1.0));
 		return heatOld + (int) (Math.ceil(change / 3.0) * Math.signum(diff));
 	}
 
@@ -206,7 +207,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		}
 		// FIXME: can do that better...
 		if (slot > recipeStacks.length + 2) {
-			ItemStack stack = inputStacks[slot - recipeStacks.length - 3];
+			final ItemStack stack = inputStacks[slot - recipeStacks.length - 3];
 			if (stack.isEmpty()) {
 				return stack;
 			}
@@ -230,7 +231,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 				count = outputStack.getCount();
 			}
 			if (count == outputStack.getCount()) {
-				ItemStack fuel = outputStack;
+				final ItemStack fuel = outputStack;
 				outputStack = ItemStack.EMPTY;
 				return fuel;
 			}
@@ -245,7 +246,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 				count = fuelStack.getCount();
 			}
 			if (count == fuelStack.getCount()) {
-				ItemStack fuel = fuelStack;
+				final ItemStack fuel = fuelStack;
 				fuelStack = ItemStack.EMPTY;
 				return fuel;
 			}
@@ -266,7 +267,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
-		ItemStack stack = getStackInSlot(index);
+		final ItemStack stack = getStackInSlot(index);
 		setInventorySlotContents(index, ItemStack.EMPTY);
 		return stack;
 	}
@@ -286,13 +287,13 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 			return resultStack;
 		}
 		{
-			int j = i - recipeOffset;
+			final int j = i - recipeOffset;
 			if (j < recipeLength) {
-				return recipeStacks[j];
+				return recipeStacks[j].getMatchingStacks()[0];
 			}
 		}
 		{
-			int j = i - inputOffset;
+			final int j = i - inputOffset;
 			/* j < inputStacks.length */
 			return inputStacks[j];
 		}
@@ -316,14 +317,14 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 			return;
 		}
 		{
-			int j = i - recipeOffset;
+			final int j = i - recipeOffset;
 			if (j < recipeStacks.length) {
-				recipeStacks[j] = itemstack;
+				// throw new IllegalArgumentException("can't set input stack");
 				return;
 			}
 		}
 		{
-			int j = i - inputOffset;
+			final int j = i - inputOffset;
 			/*if (j >= 0 && j < inputStacks.length) {*/
 			inputStacks[j] = itemstack;
 		}
@@ -331,7 +332,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 
 	@Override
 	public boolean isEmpty() {
-		for (ItemStack stack : inputStacks) {
+		for (final ItemStack stack : inputStacks) {
 			if (!stack.isEmpty()) {
 				return false;
 			}
@@ -402,7 +403,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 
 	protected boolean matchesInputOutput() {
 		for (int i = 0; i < inputStacks.length; i++) {
-			if (!ItemStack.areItemStacksEqual(inputStacks[i], recipeStacks[i])) {
+			if (!recipeStacks[i].test(inputStacks[i])) {
 				return false;
 			}
 		}
@@ -434,10 +435,10 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		super.readFromNBT(nbtTag);
 		readCustomUpdate(nbtTag);
 
-		NBTTagList items = nbtTag.getTagList("Items", 10);
+		final NBTTagList items = nbtTag.getTagList("Items", 10);
 		for (int a = 0; a < items.tagCount(); a++) {
-			NBTTagCompound stack = items.getCompoundTagAt(a);
-			byte id = stack.getByte("Slot");
+			final NBTTagCompound stack = items.getCompoundTagAt(a);
+			final byte id = stack.getByte("Slot");
 			if (id >= 0 && id < getSizeInventory()) {
 				setInventorySlotContents(id, new ItemStack(stack));
 			}
@@ -449,11 +450,11 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		nbtTag = super.writeToNBT(nbtTag);
 		storeCustomUpdate(nbtTag);
 
-		NBTTagList itemsStored = new NBTTagList();
+		final NBTTagList itemsStored = new NBTTagList();
 		for (int a = 0; a < getSizeInventory(); a++) {
-			ItemStack s = getStackInSlot(a);
+			final ItemStack s = getStackInSlot(a);
 			if (!s.isEmpty()) {
-				NBTTagCompound tag = new NBTTagCompound();
+				final NBTTagCompound tag = new NBTTagCompound();
 				tag.setByte("Slot", (byte) a);
 				s.writeToNBT(tag);
 				itemsStored.appendTag(tag);
@@ -484,8 +485,8 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		nbtTag.setInteger(heatLengthInitID, heatLengthInit);
 		nbtTag.setInteger(itemSmeltDurationID, itemSmeltDuration);
 		nbtTag.setBoolean(workingID, TileHunterBench.this.workingMHFCBench);
-		RecipeType type = recipe != null ? recipe.getRecipeType() : RecipeType.MHFC;
-		int recipeID = MHFCEquipementRecipeRegistry.getIDFor(recipe);
+		final RecipeType type = recipe != null ? recipe.getRecipeType() : RecipeType.MHFC;
+		final int recipeID = MHFCEquipementRecipeRegistry.getIDFor(recipe);
 		nbtTag.setInteger(recipeTypeID, type.ordinal());
 		nbtTag.setInteger(recipeIDID, recipeID);
 	}
@@ -498,9 +499,9 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		heatLengthInit = nbtTag.getInteger(heatLengthInitID);
 		itemSmeltDuration = nbtTag.getInteger(itemSmeltDurationID);
 		TileHunterBench.this.workingMHFCBench = nbtTag.getBoolean(workingID);
-		int irecType = nbtTag.getInteger(recipeTypeID);
-		int recId = nbtTag.getInteger(recipeIDID);
-		RecipeType recType = RecipeType.values()[irecType];
+		final int irecType = nbtTag.getInteger(recipeTypeID);
+		final int recId = nbtTag.getInteger(recipeIDID);
+		final RecipeType recType = RecipeType.values()[irecType];
 		setRecipe(MHFCEquipementRecipeRegistry.getRecipeFor(recId, recType));
 	}
 

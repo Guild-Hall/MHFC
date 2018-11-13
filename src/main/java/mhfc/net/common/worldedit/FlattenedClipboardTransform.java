@@ -13,11 +13,10 @@ import com.sk89q.worldedit.math.transform.CombinedTransform;
 import com.sk89q.worldedit.math.transform.Transform;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
-import com.sk89q.worldedit.world.registry.WorldData;
 
 /**
  * See also the world edit class, that is not public
- * 
+ *
  * @author WorldSEnder
  *
  */
@@ -25,22 +24,22 @@ public class FlattenedClipboardTransform {
 
 	private final Clipboard original;
 	private final Transform transform;
-	private final WorldData worldData;
 
 	/**
 	 * Create a new instance.
 	 *
-	 * @param original the original clipboard
-	 * @param transform the transform
-	 * @param worldData the world data instance
+	 * @param original
+	 *            the original clipboard
+	 * @param transform
+	 *            the transform
+	 * @param worldData
+	 *            the world data instance
 	 */
-	private FlattenedClipboardTransform(Clipboard original, Transform transform, WorldData worldData) {
+	private FlattenedClipboardTransform(Clipboard original, Transform transform) {
 		checkNotNull(original);
 		checkNotNull(transform);
-		checkNotNull(worldData);
 		this.original = original;
 		this.transform = transform;
-		this.worldData = worldData;
 	}
 
 	/**
@@ -49,25 +48,18 @@ public class FlattenedClipboardTransform {
 	 * @return the transformed region
 	 */
 	public Region getTransformedRegion() {
-		Region region = original.getRegion();
-		Vector minimum = region.getMinimumPoint();
-		Vector maximum = region.getMaximumPoint();
+		final Region region = original.getRegion();
+		final Vector minimum = region.getMinimumPoint();
+		final Vector maximum = region.getMaximumPoint();
 
-		Transform transformAround =
-				new CombinedTransform(
-						new AffineTransform().translate(original.getOrigin().multiply(-1)),
-						transform,
-						new AffineTransform().translate(original.getOrigin()));
+		final Transform transformAround = new CombinedTransform(
+				new AffineTransform().translate(original.getOrigin().multiply(-1)),
+				transform,
+				new AffineTransform().translate(original.getOrigin()));
 
-		Vector[] corners = new Vector[] {
-				minimum,
-				maximum,
-				minimum.setX(maximum.getX()),
-				minimum.setY(maximum.getY()),
-				minimum.setZ(maximum.getZ()),
-				maximum.setX(minimum.getX()),
-				maximum.setY(minimum.getY()),
-				maximum.setZ(minimum.getZ()) };
+		final Vector[] corners = new Vector[] { minimum, maximum, minimum.setX(maximum.getX()),
+				minimum.setY(maximum.getY()), minimum.setZ(maximum.getZ()), maximum.setX(minimum.getX()),
+				maximum.setY(minimum.getY()), maximum.setZ(minimum.getZ()) };
 
 		for (int i = 0; i < corners.length; i++) {
 			corners[i] = transformAround.apply(corners[i]);
@@ -97,12 +89,18 @@ public class FlattenedClipboardTransform {
 	/**
 	 * Create an operation to copy from the original clipboard to the given extent.
 	 *
-	 * @param target the target
+	 * @param target
+	 *            the target
 	 * @return the operation
 	 */
 	public Operation copyTo(Extent target) {
-		BlockTransformExtent extent = new BlockTransformExtent(original, transform, worldData.getBlockRegistry());
-		ForwardExtentCopy copy = new ForwardExtentCopy(extent, original.getRegion(), original.getOrigin(), target, original.getOrigin());
+		final BlockTransformExtent extent = new BlockTransformExtent(original, transform);
+		final ForwardExtentCopy copy = new ForwardExtentCopy(
+				extent,
+				original.getRegion(),
+				original.getOrigin(),
+				target,
+				original.getOrigin());
 		copy.setTransform(transform);
 		return copy;
 	}
@@ -110,13 +108,16 @@ public class FlattenedClipboardTransform {
 	/**
 	 * Create a new instance to bake the transform with.
 	 *
-	 * @param original the original clipboard
-	 * @param transform the transform
-	 * @param worldData the world data instance
+	 * @param original
+	 *            the original clipboard
+	 * @param transform
+	 *            the transform
+	 * @param worldData
+	 *            the world data instance
 	 * @return a builder
 	 */
-	public static FlattenedClipboardTransform transform(Clipboard original, Transform transform, WorldData worldData) {
-		return new FlattenedClipboardTransform(original, transform, worldData);
+	public static FlattenedClipboardTransform transform(Clipboard original, Transform transform) {
+		return new FlattenedClipboardTransform(original, transform);
 	}
 
 }

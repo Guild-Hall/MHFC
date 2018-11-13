@@ -1,23 +1,22 @@
 package mhfc.net.common.core.builders;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import mhfc.net.common.crafting.equipment.EquipmentRecipe;
 import mhfc.net.common.crafting.equipment.EquipmentRecipe.RecipeType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.NonNullList;
 
 public class BuilderEquipmentRecipe {
 
 	private RecipeType type;
 	private ItemStack recipeProduct;
-	List<ItemStack> recipeIngredients;
+	NonNullList<Ingredient> recipeIngredients;
 	private int requiredHeat;
 	private int duration;
 
 	public BuilderEquipmentRecipe() {
-		recipeIngredients = new ArrayList<>();
+		recipeIngredients = NonNullList.create();
 		reset();
 	}
 
@@ -40,12 +39,12 @@ public class BuilderEquipmentRecipe {
 	}
 
 	public BuilderEquipmentRecipe addIngredient(ItemStack stack) {
-		recipeIngredients.add(stack);
+		recipeIngredients.add(Ingredient.fromStacks(stack));
 		return this;
 	}
 
 	public BuilderEquipmentRecipe setRequiredHeat(int heat) {
-		this.requiredHeat = heat;
+		requiredHeat = heat;
 		return this;
 	}
 
@@ -55,7 +54,7 @@ public class BuilderEquipmentRecipe {
 	}
 
 	public BuilderEquipmentRecipe reset() {
-		recipeIngredients.clear();
+		recipeIngredients = NonNullList.create();
 		type = null;
 		recipeProduct = ItemStack.EMPTY;
 		requiredHeat = 0;
@@ -66,25 +65,16 @@ public class BuilderEquipmentRecipe {
 	public EquipmentRecipe build() {
 		EquipmentRecipe recipe;
 		if (type == null) {
-			recipe = new EquipmentRecipe(
-					recipeProduct.copy(),
-					new ArrayList<>(recipeIngredients),
-					requiredHeat,
-					duration);
+			recipe = new EquipmentRecipe(recipeProduct.copy(), recipeIngredients, requiredHeat, duration);
 		} else {
-			recipe = new EquipmentRecipe(
-					type,
-					recipeProduct.copy(),
-					new ArrayList<>(recipeIngredients),
-					requiredHeat,
-					duration);
+			recipe = new EquipmentRecipe(type, recipeProduct.copy(), recipeIngredients, requiredHeat, duration);
 		}
 		reset();
 		return recipe;
 	}
 
 	public static ItemStack createItemStack(Item item, int stackSize, int subID) {
-		ItemStack s = new ItemStack(item, stackSize);
+		final ItemStack s = new ItemStack(item, stackSize);
 		s.setItemDamage(subID);
 		return s;
 	}

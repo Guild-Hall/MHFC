@@ -61,13 +61,13 @@ public class EntityDeviljhoBeam1 extends Entity {
 			int duration) {
 		this(world);
 		this.caster = caster;
-		this.setYaw(yaw);
-		this.setPitch(pitch);
-		this.setDuration(duration);
-		this.setPosition(x, y, z);
-		this.calculateEndPos();
+		setYaw(yaw);
+		setPitch(pitch);
+		setDuration(duration);
+		setPosition(x, y, z);
+		calculateEndPos();
 		if (!world.isRemote) {
-			this.setCasterID(caster.getEntityId());
+			setCasterID(caster.getEntityId());
 		}
 	}
 
@@ -78,11 +78,11 @@ public class EntityDeviljhoBeam1 extends Entity {
 			caster = (EntityLivingBase) world.getEntityByID(getCasterID());
 		}
 		if (!world.isRemote && getHasPlayer()) {
-			this.updateWithPlayer();
+			updateWithPlayer();
 		}
 
 		if (!on && appear.getTimer() == 0) {
-			this.setDead();
+			setDead();
 		}
 		if (on && ticksExisted > 20) {
 			appear.increaseTickTimer();
@@ -93,12 +93,12 @@ public class EntityDeviljhoBeam1 extends Entity {
 		if (world.isRemote && ticksExisted <= 10) {
 			int particleCount = 8;
 			while (--particleCount != 0) {
-				double radius = 2f;
-				double yaw = rand.nextFloat() * 2 * Math.PI;
-				double pitch = rand.nextFloat() * 2 * Math.PI;
-				double ox = radius * Math.sin(yaw) * Math.sin(pitch);
-				double oy = radius * Math.cos(pitch);
-				double oz = radius * Math.cos(yaw) * Math.sin(pitch);
+				final double radius = 2f;
+				final double yaw = rand.nextFloat() * 2 * Math.PI;
+				final double pitch = rand.nextFloat() * 2 * Math.PI;
+				final double ox = radius * Math.sin(yaw) * Math.sin(pitch);
+				final double oy = radius * Math.cos(pitch);
+				final double oz = radius * Math.cos(yaw) * Math.sin(pitch);
 				double offsetX = -2 * Math.cos(getYaw());
 				double offsetZ = -2 * Math.sin(getYaw());
 				if (getHasPlayer()) {
@@ -116,8 +116,8 @@ public class EntityDeviljhoBeam1 extends Entity {
 			}
 		}
 		if (ticksExisted > 20) {
-			this.calculateEndPos();
-			List<EntityLivingBase> hit = raytraceEntities(
+			calculateEndPos();
+			final List<EntityLivingBase> hit = raytraceEntities(
 					world,
 					new Vec3d(posX, posY, posZ),
 					new Vec3d(endPosX, endPosY, endPosZ),
@@ -128,7 +128,7 @@ public class EntityDeviljhoBeam1 extends Entity {
 				spawnExplosionParticles(2);
 			}
 			if (!world.isRemote) {
-				for (EntityLivingBase target : hit) {
+				for (final EntityLivingBase target : hit) {
 					target.attackEntityFrom(DamageSource.ON_FIRE, 2f);
 					target.attackEntityFrom(DamageSource.causeMobDamage(caster), 2f);
 				}
@@ -136,15 +136,15 @@ public class EntityDeviljhoBeam1 extends Entity {
 				if (ticksExisted - 15 < getDuration()) {
 					int particleCount = 4;
 					while (particleCount-- > 0) {
-						double radius = 1f;
-						double yaw = rand.nextFloat() * 2 * Math.PI;
-						double pitch = rand.nextFloat() * 2 * Math.PI;
-						double ox = radius * Math.sin(yaw) * Math.sin(pitch);
-						double oy = radius * Math.cos(pitch);
-						double oz = radius * Math.cos(yaw) * Math.sin(pitch);
-						double o2x = -1 * Math.cos(getYaw()) * Math.cos(getPitch());
-						double o2y = -1 * Math.sin(getPitch());
-						double o2z = -1 * Math.sin(getYaw()) * Math.cos(getPitch());
+						final double radius = 1f;
+						final double yaw = rand.nextFloat() * 2 * Math.PI;
+						final double pitch = rand.nextFloat() * 2 * Math.PI;
+						final double ox = radius * Math.sin(yaw) * Math.sin(pitch);
+						final double oy = radius * Math.cos(pitch);
+						final double oz = radius * Math.cos(yaw) * Math.sin(pitch);
+						final double o2x = -1 * Math.cos(getYaw()) * Math.cos(getPitch());
+						final double o2y = -1 * Math.sin(getPitch());
+						final double o2z = -1 * Math.sin(getYaw()) * Math.cos(getPitch());
 						world.spawnParticle(
 								EnumParticleTypes.FLAME,
 								posX + o2x + ox,
@@ -157,17 +157,17 @@ public class EntityDeviljhoBeam1 extends Entity {
 					particleCount = 4;
 					while (particleCount-- > 0) {
 						@SuppressWarnings("unused")
-						double radius = 2f;
-						double yaw = rand.nextFloat() * 2 * Math.PI;
-						double pitch = rand.nextFloat() * 2 * Math.PI;
+						final double radius = 2f;
+						final double yaw = rand.nextFloat() * 2 * Math.PI;
+						final double pitch = rand.nextFloat() * 2 * Math.PI;
 						Math.sin(yaw);
 						Math.sin(pitch);
 						Math.cos(pitch);
 						Math.cos(yaw);
 						Math.sin(pitch);
-						double o2x = -1 * Math.cos(getYaw()) * Math.cos(getPitch());
-						double o2y = -1 * Math.sin(getPitch());
-						double o2z = -1 * Math.sin(getYaw()) * Math.cos(getPitch());
+						final double o2x = -1 * Math.cos(getYaw()) * Math.cos(getPitch());
+						final double o2y = -1 * Math.sin(getPitch());
+						final double o2z = -1 * Math.sin(getYaw()) * Math.cos(getPitch());
 						world.spawnParticle(
 								EnumParticleTypes.FLAME,
 								collidePosX + o2x,
@@ -189,10 +189,10 @@ public class EntityDeviljhoBeam1 extends Entity {
 	private void spawnExplosionParticles(int amount) {
 		for (int i = 0; i < amount; i++) {
 			final float velocity = 0.1F;
-			float yaw = (float) (rand.nextFloat() * 2 * Math.PI);
-			float motionY = rand.nextFloat() * 0.08F;
-			float motionX = velocity * MathHelper.cos(yaw);
-			float motionZ = velocity * MathHelper.sin(yaw);
+			final float yaw = (float) (rand.nextFloat() * 2 * Math.PI);
+			final float motionY = rand.nextFloat() * 0.08F;
+			final float motionX = velocity * MathHelper.cos(yaw);
+			final float motionZ = velocity * MathHelper.sin(yaw);
 			world.spawnParticle(
 					EnumParticleTypes.FLAME,
 					collidePosX,
@@ -280,18 +280,18 @@ public class EntityDeviljhoBeam1 extends Entity {
 			boolean stopOnLiquid,
 			boolean ignoreBlockWithoutBoundingBox,
 			boolean returnLastUncollidableBlock) {
-		HitResult result = new HitResult();
+		final HitResult result = new HitResult();
 		result.setBlockHit(
 				world.rayTraceBlocks(
-						new Vec3d(from.xCoord, from.yCoord, from.zCoord),
+						new Vec3d(from.x, from.y, from.z),
 						to,
 						stopOnLiquid,
 						ignoreBlockWithoutBoundingBox,
 						returnLastUncollidableBlock));
 		if (result.blockHit != null) {
-			collidePosX = result.blockHit.hitVec.xCoord;
-			collidePosY = result.blockHit.hitVec.yCoord;
-			collidePosZ = result.blockHit.hitVec.zCoord;
+			collidePosX = result.blockHit.hitVec.x;
+			collidePosY = result.blockHit.hitVec.y;
+			collidePosZ = result.blockHit.hitVec.z;
 			blockSide = result.getBlockHit().sideHit;
 		} else {
 			collidePosX = endPosX;
@@ -299,7 +299,7 @@ public class EntityDeviljhoBeam1 extends Entity {
 			collidePosZ = endPosZ;
 			blockSide = null;
 		}
-		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(
+		final List<EntityLivingBase> entities = world.getEntitiesWithinAABB(
 				EntityLivingBase.class,
 				new AxisAlignedBB(
 						Math.min(posX, collidePosX),
@@ -308,14 +308,14 @@ public class EntityDeviljhoBeam1 extends Entity {
 						Math.max(posX, collidePosX),
 						Math.max(posY, collidePosY),
 						Math.max(posZ, collidePosZ)).expand(1, 1, 1));
-		for (EntityLivingBase entity : entities) {
+		for (final EntityLivingBase entity : entities) {
 			if (entity == caster) {
 				continue;
 			}
-			float pad = entity.getCollisionBorderSize() + 0.5f;
-			AxisAlignedBB aabb = entity.getEntityBoundingBox().expand(pad, pad, pad);
-			RayTraceResult hit = aabb.calculateIntercept(from, to);
-			if (aabb.isVecInside(from)) {
+			final float pad = entity.getCollisionBorderSize() + 0.5f;
+			final AxisAlignedBB aabb = entity.getEntityBoundingBox().expand(pad, pad, pad);
+			final RayTraceResult hit = aabb.calculateIntercept(from, to);
+			if (aabb.contains(from)) {
 				result.addEntityHit(entity);
 			} else if (hit != null) {
 				result.addEntityHit(entity);
@@ -340,9 +340,9 @@ public class EntityDeviljhoBeam1 extends Entity {
 	}
 
 	private void updateWithPlayer() {
-		this.setYaw((float) ((caster.rotationYawHead + 90) * Math.PI / 180));
-		this.setPitch((float) (-caster.rotationPitch * Math.PI / 180));
-		this.setPosition(caster.posX, caster.posY + 1.2f, caster.posZ);
+		setYaw((float) ((caster.rotationYawHead + 90) * Math.PI / 180));
+		setPitch((float) (-caster.rotationPitch * Math.PI / 180));
+		setPosition(caster.posX, caster.posY + 1.2f, caster.posZ);
 	}
 
 	public static class HitResult {
