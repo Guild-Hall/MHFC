@@ -11,7 +11,7 @@ public class BlockDiscstone extends Block {
 
 	public BlockDiscstone() {
 		super(Material.ROCK);
-		setUnlocalizedName(ResourceInterface.block_discstone_name);
+		setTranslationKey(ResourceInterface.block_discstone_name);
 		setHardness(1.3F);
 		setResistance(2.0F);
 		setCreativeTab(MHFCMain.mhfctabs);

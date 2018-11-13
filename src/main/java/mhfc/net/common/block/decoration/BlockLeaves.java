@@ -60,7 +60,7 @@ public class BlockLeaves extends AbstractSubTypedBlock<BlockLeavesSubType> {
 	public static final PropertyEnum<BlockLeavesSubType> PROPERTY = create(BlockLeavesSubType.class);
 	public BlockLeaves() {
 		super(PROPERTY, Material.LEAVES);
-		setUnlocalizedName(ResourceInterface.block_wyvernialeaves_basename);
+		setTranslationKey(ResourceInterface.block_wyvernialeaves_basename);
 		setHardness(0.2f);
 		setSoundType(SoundType.PLANT);
 		setLightOpacity(1);
@@ -74,7 +74,7 @@ public class BlockLeaves extends AbstractSubTypedBlock<BlockLeavesSubType> {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public BlockRenderLayer getBlockLayer() {
+	public BlockRenderLayer getRenderLayer() {
 		/*	if (!setting.gameSettings.fancyGraphics) {
 				return BlockRenderLayer.SOLID;
 			}*/

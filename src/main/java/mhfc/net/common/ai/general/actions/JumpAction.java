@@ -25,7 +25,7 @@ public abstract class JumpAction<T extends CreatureAttributes<? super T>> extend
 	}
 
 	protected Vec3d getJumpVector(Vec3d lookVector) {
-		return new Vec3d(lookVector.xCoord, 0, lookVector.zCoord);
+		return new Vec3d(lookVector.x, 0, lookVector.z);
 	}
 
 	private float capVelocity(float velocity, float cap) {
@@ -47,9 +47,9 @@ public abstract class JumpAction<T extends CreatureAttributes<? super T>> extend
 		if (jumpTimingProvider.isJumpFrame(entity, frame)) {
 			float upVelocity = capVelocity(jumpParameterProvider.getInitialUpVelocity(entity), UPWARD_VEL_CAP);
 			float forwardVelocity = capVelocity(jumpParameterProvider.getForwardVelocity(entity), FORWARD_VEL_CAP);
-			entity.motionX += direction.xCoord * forwardVelocity;
+			entity.motionX += direction.x * forwardVelocity;
 			entity.motionY += upVelocity;
-			entity.motionZ += direction.zCoord * forwardVelocity;
+			entity.motionZ += direction.z * forwardVelocity;
 			entity.isAirBorne = true;
 		}
 		if (jumpTimingProvider.isDamageFrame(entity, frame)) {

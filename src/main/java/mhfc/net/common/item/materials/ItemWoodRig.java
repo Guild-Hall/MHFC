@@ -8,7 +8,7 @@ public class ItemWoodRig extends Item {
 
 	public ItemWoodRig() {
 		super();
-		setUnlocalizedName(ResourceInterface.item_woodrig_name);
+		setTranslationKey(ResourceInterface.item_woodrig_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

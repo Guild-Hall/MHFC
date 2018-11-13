@@ -4,9 +4,9 @@ import static org.lwjgl.opengl.GL11.GL_QUADS;
 
 import mhfc.net.common.entity.fx.FXDeviljhoLaser;
 import mhfc.net.common.index.ResourceInterface;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -42,7 +42,7 @@ public class RenderBreathe extends Render<FXDeviljhoLaser> {
 		GlStateManager.rotate(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
 
 		this.bindEntityTexture(projectile);
-		VertexBuffer buffer = tessellator.getBuffer();
+		BufferBuilder buffer = tessellator.getBuffer();
 		buffer.begin(GL_QUADS, DefaultVertexFormats.POSITION_TEX_NORMAL);
 		buffer.pos(0.0F - f8, 0.0F - f9, 0.0D).tex(minU, maxV).endVertex();
 		buffer.pos(f7 - f8, 0.0F - f9, 0.0D).tex(maxU, maxV).endVertex();

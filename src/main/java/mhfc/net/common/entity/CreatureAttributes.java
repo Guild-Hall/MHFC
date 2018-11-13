@@ -30,8 +30,8 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.MoverType;
+import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -150,7 +150,7 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 		
 		/** Updates when this monster target is not null **/
 		if (this.getAttackTarget() != null) {
-			this.targetDistance = this.getDistanceToEntity(this.getAttackTarget());
+			this.targetDistance = this.getDistance(this.getAttackTarget());
 		}
 
 		/** When the attackManager is still on the Executes, then it will still continuous to update the task    **/
@@ -294,7 +294,6 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 		return false;
 	}
 
-	@Override
 	protected void kill() {
 		this.attackEntityFrom(DamageSource.OUT_OF_WORLD, getMaxHealth());
 	}
@@ -335,7 +334,7 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 
 			AxisAlignedBB ourBoundingBox = this.getEntityBoundingBox();
 			List<AxisAlignedBB> bbsInWay = this.world
-					.getCollisionBoxes(this, ourBoundingBox.addCoord(currOffX, currOffY, currOffZ));
+					.getCollisionBoxes(this, ourBoundingBox.expand(currOffX, currOffY, currOffZ));
 			// Calculates the smallest possible offset in Y direction
 			for (AxisAlignedBB bb : bbsInWay) {
 				currOffY = bb.calculateYOffset(ourBoundingBox, currOffY);
@@ -349,7 +348,7 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 			for (CollisionParts part : parts) {
 				AxisAlignedBB partBoundingBox = part.getEntityBoundingBox();
 				List<AxisAlignedBB> bbsInWayPart = this.world
-						.getCollisionBoxes(this, partBoundingBox.addCoord(currOffX, currOffY, currOffZ));
+						.getCollisionBoxes(this, partBoundingBox.expand(currOffX, currOffY, currOffZ));
 				// Calculates the smallest possible offset in Y direction
 				for (AxisAlignedBB bb : bbsInWayPart) {
 					currOffY = bb.calculateYOffset(partBoundingBox, currOffY);
@@ -375,7 +374,7 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 				currOffZ = correctedOffZ;
 
 				List<AxisAlignedBB> bbsInStepup = this.world
-						.getCollisionBoxes(this, ourBoundingBox.addCoord(correctedOffX, currOffY, correctedOffZ));
+						.getCollisionBoxes(this, ourBoundingBox.expand(correctedOffX, currOffY, correctedOffZ));
 
 				for (AxisAlignedBB bb : bbsInStepup) {
 					currOffY = bb.calculateYOffset(ourBoundingBox, currOffY);
@@ -389,7 +388,7 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 				for (CollisionParts part : parts) {
 					AxisAlignedBB partBoundingBox = part.getEntityBoundingBox();
 					List<AxisAlignedBB> bbsInStepupPart = this.world
-							.getCollisionBoxes(this, partBoundingBox.addCoord(currOffX, currOffY, currOffZ));
+							.getCollisionBoxes(this, partBoundingBox.expand(currOffX, currOffY, currOffZ));
 					for (AxisAlignedBB bb : bbsInStepupPart) {
 						currOffY = bb.calculateYOffset(partBoundingBox, currOffY);
 					}
@@ -408,7 +407,7 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 				for (CollisionParts part : parts) {
 					AxisAlignedBB partBoundingBox = part.getEntityBoundingBox();
 					List<AxisAlignedBB> bbsInStepDown = this.world
-							.getCollisionBoxes(this, partBoundingBox.addCoord(currOffX, currOffY, currOffZ));
+							.getCollisionBoxes(this, partBoundingBox.expand(currOffX, currOffY, currOffZ));
 					// Calculates the smallest possible offset in Y direction
 					for (AxisAlignedBB bb : bbsInStepDown) {
 						currOffY = bb.calculateYOffset(partBoundingBox, currOffY);
@@ -505,7 +504,7 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 	}
 
 	@Override
-	public boolean attackEntityFromPart(EntityDragonPart part, DamageSource damageSource, float damageValue) {
+	public boolean attackEntityFromPart(MultiPartEntityPart part, DamageSource source, float damage) {
 		// TODO handle attacked from
 		return false;
 	}
@@ -569,13 +568,13 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 
 		float effectiveSpeed = (float) (movementSpeed
 				* getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
-		Vec3d forwardVector = new Vec3d(view.xCoord * effectiveSpeed, motionY, view.zCoord * effectiveSpeed);
+		Vec3d forwardVector = new Vec3d(view.x * effectiveSpeed, motionY, view.z * effectiveSpeed);
 		boolean jump = false;
 		if (makeStep) {
 			// copy the bounding box
 			AxisAlignedBB bounds = getEntityBoundingBox();
 
-			bounds = bounds.offset(forwardVector.xCoord, 0, forwardVector.zCoord);
+			bounds = bounds.offset(forwardVector.x, 0, forwardVector.z);
 			List<?> normalPathCollision = AIUtils.gatherOverlappingBounds(bounds, this);
 
 			bounds = bounds.offset(0, stepHeight, 0);
@@ -590,7 +589,7 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 			this.motionY = 0;
 			this.isAirBorne = true;
 		}
-		addVelocity(forwardVector.xCoord, forwardVector.yCoord, forwardVector.zCoord);
+		addVelocity(forwardVector.x, forwardVector.y, forwardVector.z);
 		setPositionAndUpdate(posX, posY, posZ);
 	}
 
@@ -607,8 +606,8 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 	}
 
 	@Override
-	public final void readSpawnData(ByteBuf additionalData) {
-		doReadSpawnData(additionalData);
+	public final void readSpawnData(ByteBuf expanditionalData) {
+		doReadSpawnData(expanditionalData);
 	}
 
 	@Override
@@ -633,7 +632,7 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 	 * 
 	 */
 
-	public void moveHitBoxes(EntityDragonPart hitPart, double frontToBack, double sideToSide, double topToBot) {
+	public void moveHitBoxes(CollisionParts hitPart, double frontToBack, double sideToSide, double topToBot) {
 		float rot = this.rotationYaw * (float) Math.PI / 180.0F;
 		float f1 = MathHelper.sin(rot);
 		float f2 = MathHelper.cos(rot);

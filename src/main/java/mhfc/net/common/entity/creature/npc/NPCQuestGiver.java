@@ -42,10 +42,10 @@ public class NPCQuestGiver extends EntityVillager {
 	@Override
 	protected void damageEntity(DamageSource source, float p_70665_2_) {
 		// This should avoid taking any damage if the player is not in creative mode
-		if (!(source.getEntity() instanceof EntityPlayer)) {
+		if (!(source.getTrueSource() instanceof EntityPlayer)) {
 			return;
 		}
-		EntityPlayer player = (EntityPlayer) source.getEntity();
+		EntityPlayer player = (EntityPlayer) source.getTrueSource();
 		if (!player.capabilities.isCreativeMode) {
 			return;
 		}

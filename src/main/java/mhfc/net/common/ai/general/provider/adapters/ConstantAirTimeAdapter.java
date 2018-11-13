@@ -39,7 +39,7 @@ public class ConstantAirTimeAdapter<T extends EntityLiving> implements IJumpPara
 	@Override
 	public float getInitialUpVelocity(T entity) {
 		Vec3d target = Objects.requireNonNull(targetResolver.getJumpTarget(entity));
-		float velocity = (float) (target.yCoord - entity.posY) / airTime + GRAVITATIONAL_C_LIVING * airTime / 2;
+		float velocity = (float) (target.y - entity.posY) / airTime + GRAVITATIONAL_C_LIVING * airTime / 2;
 		return velocity;
 	}
 

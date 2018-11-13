@@ -53,7 +53,7 @@ public class BlockOres extends AbstractSubTypedBlock<WyverniaOreSubType> {
 
 	public BlockOres() {
 		super(PROPERTY, Material.ROCK);
-		setUnlocalizedName(ResourceInterface.block_ores_basename);
+		setTranslationKey(ResourceInterface.block_ores_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHardness(2.0f);
 	}

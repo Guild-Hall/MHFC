@@ -2,12 +2,16 @@ package mhfc.net.common.item.block;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import mhfc.net.common.item.IItemSimpleModel;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class ItemBlockBenchHunter extends ItemBlock implements IItemSimpleModel {
 	private static final ModelResourceLocation MODEL_LOCATION = new ModelResourceLocation(
@@ -24,12 +28,8 @@ public class ItemBlockBenchHunter extends ItemBlock implements IItemSimpleModel 
 	}
 
 	@Override
-	public void addInformation(
-			ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			List<String> par3List,
-			boolean par4) {
-		par3List.add("Intended for crafting uses for Monster Hunter");
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		tooltip.add("Intended for crafting uses for Monster Hunter");
 	}
 
 }

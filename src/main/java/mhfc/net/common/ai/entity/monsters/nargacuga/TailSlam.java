@@ -29,7 +29,7 @@ public class TailSlam extends JumpAction<Nargacuga> implements IHasJumpProvider<
 			return DONT_SELECT;
 		}
 		Vec3d toTarget = WorldHelper.getVectorToTarget(e, target);
-		double dist = toTarget.lengthVector();
+		double dist = toTarget.length();
 		if (dist > 15F) {
 			return DONT_SELECT;
 		}
@@ -44,7 +44,7 @@ public class TailSlam extends JumpAction<Nargacuga> implements IHasJumpProvider<
 				new DamageAdapter(AIUtils.defaultDamageCalc(120F, 300, 888880)),
 				new ConstantAirTimeAdapter<Nargacuga>(
 						12,
-						entity -> entity.getLookVec().addVector(entity.posX, entity.posY, entity.posZ)),
+						entity -> entity.getLookVec().add(entity.posX, entity.posY, entity.posZ)),
 				new JumpTimingAdapter<Nargacuga>(19, 0, 0));
 	}
 
@@ -96,16 +96,16 @@ public class TailSlam extends JumpAction<Nargacuga> implements IHasJumpProvider<
 				// FIXME replace with narga spikes once they are done
 				ProjectileBlock spikeEntity = new ProjectileBlock(nargacuga.world, nargacuga);
 				spikeEntity.move(MoverType.SELF,
-						offsetScaleBack * look.xCoord,
-						offsetScaleBack * look.yCoord - 2.5,
-						offsetScaleBack * look.zCoord);
+						offsetScaleBack * look.x,
+						offsetScaleBack * look.y - 2.5,
+						offsetScaleBack * look.z);
 				float weightRelUp = (float) Math.sin(Math.PI / (spikesPerCluster - 1) * spike);
 				float weightLeft = (float) Math.cos(Math.PI / (spikesPerCluster - 1) * spike);
 				float weightLook = (float) Math.cos(Math.PI / spikeClusters * cluster) * 0.6f;
-				spikeEntity.setThrowableHeading(
-						weightLeft * left.xCoord + weightRelUp * relUp.xCoord + weightLook * look.xCoord,
-						weightLeft * left.yCoord + weightRelUp * relUp.yCoord + weightLook * look.yCoord,
-						weightLeft * left.zCoord + weightRelUp * relUp.zCoord + weightLook * look.zCoord,
+				spikeEntity.shoot(
+						weightLeft * left.x + weightRelUp * relUp.x + weightLook * look.x,
+						weightLeft * left.y + weightRelUp * relUp.y + weightLook * look.y,
+						weightLeft * left.z + weightRelUp * relUp.z + weightLook * look.z,
 					2F,
 						0);
 				nargacuga.world.spawnEntity(spikeEntity);

@@ -2,6 +2,8 @@ package mhfc.net.common.item.materials;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.index.ResourceInterface;
@@ -9,9 +11,10 @@ import mhfc.net.common.item.AbstractSubTypedItem;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.item.materials.ItemBullet.BulletSubType;
 import mhfc.net.common.util.SubTypedItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class ItemBullet extends AbstractSubTypedItem<BulletSubType> {
 	public static enum BulletSubType implements SubTypedItem.SubTypeEnum<Item> {
@@ -53,26 +56,22 @@ public class ItemBullet extends AbstractSubTypedItem<BulletSubType> {
 
 	public ItemBullet() {
 		super(BulletSubType.class);
-		setUnlocalizedName(ResourceInterface.item_bullet_basename);
+		setTranslationKey(ResourceInterface.item_bullet_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 
 	@Override
-	public void addInformation(
-			ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			List<String> par3List,
-			boolean par4) {
-		switch (itemPerk.getSubType(par1ItemStack)) {
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		switch (itemPerk.getSubType(stack)) {
 		case FLAMES:
-			par3List.add("Bullet use for Bowguns");
-			par3List.add("Deals fire damage to monsters");
+			tooltip.add("Bullet use for Bowguns");
+			tooltip.add("Deals fire damage to monsters");
 			break;
 		case CRAGS:
 		case NORMALS:
 		case PIERCES:
 		default:
-			par3List.add("Bullet use for Bowguns");
+			tooltip.add("Bullet use for Bowguns");
 			break;
 		}
 	}

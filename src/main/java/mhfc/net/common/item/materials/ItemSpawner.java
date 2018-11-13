@@ -34,7 +34,7 @@ public class ItemSpawner extends Item implements IItemColored {
 
 	public ItemSpawner() {
 		super();
-		setUnlocalizedName(ResourceInterface.item_mhfcspawnegg_name);
+		setTranslationKey(ResourceInterface.item_mhfcspawnegg_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHasSubtypes(true);
 		setMaxStackSize(1);
@@ -43,7 +43,7 @@ public class ItemSpawner extends Item implements IItemColored {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack par1ItemStack) {
-		String s = (I18n.format(this.getUnlocalizedName() + ".name")).trim();
+		String s = (I18n.format(this.getTranslationKey() + ".name")).trim();
 		ResourceLocation s1 = MHFCMobList.getStringFromID(par1ItemStack.getItemDamage());
 
 		if (s1 != null) {
@@ -145,12 +145,12 @@ public class ItemSpawner extends Item implements IItemColored {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item base, CreativeTabs par2CreativeTabs, NonNullList<ItemStack> list) {
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		Iterator<MHFCEggInfo> iterator = MHFCMobList.registeredEggs().values().iterator();
 
 		while (iterator.hasNext()) {
 			MHFCEggInfo entityegginfo = iterator.next();
-			list.add(new ItemStack(base, 1, entityegginfo.spawnedID));
+			items.add(new ItemStack(this, 1, entityegginfo.spawnedID));
 		}
 	}
 }

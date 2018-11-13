@@ -5,14 +5,13 @@ buildscript {
         maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
-
 allprojects {
     repositories { 
         jcenter()
-        
+        mavenCentral()
     }
 }
 
@@ -250,4 +249,3 @@ def getArtifactID() {
     def branchID = branch == 'master' ? '' : '-' + branch.replaceAll('[^0-9A-Za-z-\\.]', '-')
 	return [branchID].join('-')
 }
-

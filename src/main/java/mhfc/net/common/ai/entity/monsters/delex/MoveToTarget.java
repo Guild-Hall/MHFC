@@ -41,7 +41,7 @@ public class MoveToTarget extends AnimatedAction<Delex> implements IHasAnimation
 		if (entity.getAttackTarget() == null) {
 			return DONT_SELECT;
 			}
-			float targetpoint = entity.getDistanceToEntity(target);
+			float targetpoint = entity.getDistance(target);
 		if (targetpoint > 35F) {
 				return DONT_SELECT;
 			}

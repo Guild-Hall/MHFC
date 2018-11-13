@@ -23,8 +23,7 @@ public class LootTableReward implements IQuestReward {
 	@Override
 	public void grantReward(EntityPlayerMP player) {
 		int overworldDimension = 0;
-		WorldServer world = FMLCommonHandler.instance().getMinecraftServerInstance()
-				.worldServerForDimension(overworldDimension);
+		WorldServer world = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(overworldDimension);
 		LootTable lootTable = world.getLootTableManager().getLootTableFromLocation(loottableLoc);
 		LootContext lootContext = new LootContext.Builder(world).withPlayer(player).withLuck(player.getLuck()).build();
 		List<ItemStack> rewards = lootTable.generateLootForPools(player.getRNG(), lootContext);

@@ -2,6 +2,8 @@ package mhfc.net.common.item.food;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.index.ResourceInterface;
@@ -10,6 +12,7 @@ import mhfc.net.common.item.IItemVarianted;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.Assert;
 import mhfc.net.common.util.SubTypedItem;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -85,7 +88,7 @@ public class ItemNutrients extends ItemFood implements IItemColored, IItemVarian
 	public ItemNutrients() {
 		super(0, 0, true);
 		itemPerk = new SubTypedItem<>(NutrientsSubType.class);
-		setUnlocalizedName(ResourceInterface.item_nutrients_basename);
+		setTranslationKey(ResourceInterface.item_nutrients_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(1);
 		setHasSubtypes(true);
@@ -93,13 +96,16 @@ public class ItemNutrients extends ItemFood implements IItemColored, IItemVarian
 	}
 
 	@Override
-	public String getUnlocalizedName(ItemStack itemStack) {
-		return super.getUnlocalizedName(itemStack) + "." + itemPerk.getSubType(itemStack).name;
+	public String getTranslationKey(ItemStack itemStack) {
+		return super.getTranslationKey(itemStack) + "." + itemPerk.getSubType(itemStack).name;
 	}
 
 	@Override
-	public void getSubItems(Item base, CreativeTabs tab, NonNullList<ItemStack> list) {
-		itemPerk.getSubItems(base, list);
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+		 if (this.isInCreativeTab(tab))
+	        {
+	            items.add(new ItemStack(this));
+	        }
 	}
 
 	@Override
@@ -124,18 +130,18 @@ public class ItemNutrients extends ItemFood implements IItemColored, IItemVarian
 	}
 
 	@Override
-	public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> par3List, boolean par4) {
-		NutrientsSubType subType = itemPerk.getSubType(itemStack);
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		NutrientsSubType subType = itemPerk.getSubType(stack);
 		switch (subType) {
 		case NORMAL:
-			par3List.add("Adds 4 health points");
-			par3List.add("Duration:10 minutes");
-			par3List.add("\u00a79[Only Once]");
+			tooltip.add("Adds 4 health points");
+			tooltip.add("Duration:10 minutes");
+			tooltip.add("\u00a79[Only Once]");
 			break;
 		case MEGA:
-			par3List.add("Adds 8 health points for 10 minutes [Only Once]");
-			par3List.add("Duration:10 minutes");
-			par3List.add("\u00a79[Only Once]");
+			tooltip.add("Adds 8 health points for 10 minutes [Only Once]");
+			tooltip.add("Duration:10 minutes");
+			tooltip.add("\u00a79[Only Once]");
 			break;
 		default:
 			Assert.logUnreachable("Unexpected subtype {}", subType);

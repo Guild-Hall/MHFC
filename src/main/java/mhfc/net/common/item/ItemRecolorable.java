@@ -48,5 +48,5 @@ public abstract class ItemRecolorable extends Item {
 	public abstract int getColorFromItemStack(ItemStack stack, int renderLayer);*/
 
 	@Override
-	public abstract void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> list);
+	public abstract void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items);
 }

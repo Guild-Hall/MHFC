@@ -1,14 +1,15 @@
 package mhfc.net.common.crafting;
 
-import java.util.List;
-
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.util.NonNullList;
 
 public class MHFCShapelessRecipe extends ShapelessRecipes {
 
-	public MHFCShapelessRecipe(ItemStack output, List<ItemStack> inputList) {
-		super(output, inputList);
+	public MHFCShapelessRecipe(String group, ItemStack output, NonNullList<Ingredient> ingredients) {
+		super(group, output, ingredients);
 	}
+
 
 }

@@ -64,7 +64,7 @@ public class ItemPaintball extends AbstractSubTypedItem<PaintballType> {
 
 	public ItemPaintball() {
 		super(PaintballType.class);
-		setUnlocalizedName(ResourceInterface.item_paintball_basename);
+		setTranslationKey(ResourceInterface.item_paintball_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(64);
 	}

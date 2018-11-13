@@ -9,6 +9,7 @@ import mhfc.net.common.potion.PotionParalyze;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.potion.Potion;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.GameData;
 
 public class MHFCPotionRegistry {
 	public static void staticInit() {}
@@ -37,7 +38,7 @@ public class MHFCPotionRegistry {
 	}
 
 	private Potion registerPotion(String name, Potion potion) {
-		return GameRegistry.register(potion.setRegistryName(name));
+		return GameData.register_impl(potion.setRegistryName(name));
 	}
 
 	public static MHFCPotionRegistry getRegistry() {

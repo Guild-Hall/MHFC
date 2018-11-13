@@ -19,7 +19,7 @@ public class BlockHunterBench extends BlockContainer {
 
 	public BlockHunterBench() {
 		super(Material.ROCK);
-		setUnlocalizedName(ResourceInterface.block_hunterbench_name);
+		setTranslationKey(ResourceInterface.block_hunterbench_name);
 		setHardness(1.2F);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}

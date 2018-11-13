@@ -25,7 +25,7 @@ public class Bite extends JumpAction<Delex> implements IHasJumpProvider<Delex> {
 			return DONT_SELECT;
 		}
 			Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
-			double dist = toTarget.lengthVector();
+			double dist = toTarget.length();
 		if (dist > 8F) {
 			return DONT_SELECT;
 		}

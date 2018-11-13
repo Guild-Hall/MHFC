@@ -78,8 +78,8 @@ public class GuiQuestJoin extends MHFCGui implements IMHFCTab {
 		position.set(runningX, yBorder + 10);
 		runningQuestList.setWidthAndHeight(runningW, ySize - 2 * yBorder - 10);
 
-		joinQuest.xPosition = (xSize - runningX - runningW - joinQuest.getButtonWidth()) / 2 + runningX + runningW;
-		joinQuest.yPosition = ySize - yBorder - buttonHeight;
+		joinQuest.x = (xSize - runningX - runningW - joinQuest.getButtonWidth()) / 2 + runningX + runningW;
+		joinQuest.y = ySize - yBorder - buttonHeight;
 		joinQuest.visible = true;
 		joinQuest.enabled = MHFCRegQuestVisual.hasPlayerQuest();
 	}

@@ -41,6 +41,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.GameData;
 
 public class MHFCBlockRegistry {
 
@@ -163,6 +164,7 @@ public class MHFCBlockRegistry {
 		return registerBlockWithItem(blockRegistry, block, item.apply(block));
 	}
 
+	@SuppressWarnings("unchecked")
 	private <T extends Block> T registerBlockWithItem(String blockRegistry, T block, Item item) {
 		block.setRegistryName(blockRegistry);
 		item.setRegistryName(blockRegistry);
@@ -171,8 +173,8 @@ public class MHFCBlockRegistry {
 		everyBlock.add(block);
 		everyItem.add(item);
 		everyBlockWithItem.add(Pair.of(block, item));
-		GameRegistry.register(item);
-		return GameRegistry.register(block);
+		GameData.register_impl(item);
+		return (T) GameData.register_impl(block);
 	}
 
 	public static MHFCBlockRegistry getRegistry() {

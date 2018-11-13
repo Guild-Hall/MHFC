@@ -79,7 +79,7 @@ public abstract class EntityAIMethods {
 		return entity.world.getEntitiesWithinAABB(
 				entityClass,
 				entity.getEntityBoundingBox().expand(r, r, r),
-				e -> e != entity && entity.getDistanceToEntity(e) <= r);
+				e -> e != entity && entity.getDistance(e) <= r);
 	}
 
 	public static <T extends Entity> List<T> getEntitiesNearby(
@@ -92,7 +92,7 @@ public abstract class EntityAIMethods {
 		return entity.world.getEntitiesWithinAABB(
 				entityClass,
 				entity.getEntityBoundingBox().expand(dX, dY, dZ),
-				e -> e != entity && entity.getDistanceToEntity(e) <= r && e.posY <= entity.posY + dY);
+				e -> e != entity && entity.getDistance(e) <= r && e.posY <= entity.posY + dY);
 	}
 
 	public static double getAngleBetEntities(Entity first, Entity second) {

@@ -3,11 +3,11 @@ package mhfc.net.common.entity;
 import mhfc.net.common.util.math.NonAxisAlignedBB;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityMultiPart;
-import net.minecraft.entity.boss.EntityDragonPart;
+import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 
-public class CollisionParts extends EntityDragonPart {
+public class CollisionParts extends MultiPartEntityPart {
 
 	private Vec3d offset;
 	private Entity entityParent;
@@ -26,7 +26,7 @@ public class CollisionParts extends EntityDragonPart {
 	 * @return
 	 */
 	protected final void offsetEntity(double offX, double offY, double offZ) {
-		this.offset = offset.addVector(offX, offY, offZ);
+		this.offset = offset.add(offX, offY, offZ);
 	}
 
 	/**
@@ -42,11 +42,11 @@ public class CollisionParts extends EntityDragonPart {
 	 */
 	@Override
 	public boolean isEntityEqual(Entity entityIn) {
-		return super.isEntityEqual(entityIn) || this.entityDragonObj == entityIn;
+		return super.isEntityEqual(entityIn) || this.entityParent == entityIn;
 	}
 
 	public IEntityMultiPart getOwningEntity() {
-		return entityDragonObj;
+		return (IEntityMultiPart) entityParent;
 	}
 
 	@Override

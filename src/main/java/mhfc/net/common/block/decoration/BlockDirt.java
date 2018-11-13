@@ -12,7 +12,7 @@ public class BlockDirt extends Block {
 
 	public BlockDirt() {
 		super(Material.GROUND);
-		setUnlocalizedName(ResourceInterface.block_wyveriandirt_name);
+		setTranslationKey(ResourceInterface.block_wyveriandirt_name);
 		setHardness(0.8F);
 		setCreativeTab(MHFCMain.mhfctabs);
 		this.setSoundType(SoundType.GROUND);

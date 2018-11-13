@@ -11,7 +11,7 @@ public class ItemWyvernCoin extends Item implements IItemColored {
 
 	public ItemWyvernCoin() {
 		super();
-		setUnlocalizedName(ResourceInterface.item_wyverncoin_name);
+		setTranslationKey(ResourceInterface.item_wyverncoin_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 		maxStackSize = 5;
 	}

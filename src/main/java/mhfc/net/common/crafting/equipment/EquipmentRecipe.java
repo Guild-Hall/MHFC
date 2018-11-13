@@ -1,10 +1,10 @@
 package mhfc.net.common.crafting.equipment;
 
-import java.util.List;
-
 import mhfc.net.common.crafting.MHFCShapelessRecipe;
 import mhfc.net.common.item.ItemType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.NonNullList;
 
 public class EquipmentRecipe extends MHFCShapelessRecipe {
 
@@ -34,24 +34,25 @@ public class EquipmentRecipe extends MHFCShapelessRecipe {
 		return RecipeType.getDefaultType(ItemType.getTypeOf(output));
 	}
 
-	public EquipmentRecipe(ItemStack recipeProduct, List<ItemStack> recipeIngredients, int requiredHeat, int duration) {
+	public EquipmentRecipe(ItemStack recipeProduct, NonNullList<Ingredient> recipeIngredients, int requiredHeat, int duration) {
 		this(getDefaultRecipeType(recipeProduct), recipeProduct, recipeIngredients, requiredHeat, duration);
 	}
 
 	public EquipmentRecipe(
 			RecipeType type,
 			ItemStack recipeProduct,
-			List<ItemStack> recipeIngredients,
+			NonNullList<Ingredient> recipeIngredients,
 			int requiredHeat,
 			int duration) {
-		super(recipeProduct, recipeIngredients);
+		super("group", recipeProduct, recipeIngredients);
 		this.recipeType = type;
 		this.heat = requiredHeat;
 		this.duration = duration;
 
 	}
 
-	public void fillRequirements(ItemStack[] ingredientSlots) {
+
+	public void fillRequirements(Ingredient[] ingredientSlots) {
 		int length = Math.min(ingredientSlots.length, recipeItems.size());
 		for (int i = 0; i < length; i++) {
 			ingredientSlots[i] = recipeItems.get(i);

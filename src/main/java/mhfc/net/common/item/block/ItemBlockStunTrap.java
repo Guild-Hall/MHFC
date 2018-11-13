@@ -2,12 +2,15 @@ package mhfc.net.common.item.block;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import mhfc.net.common.item.IItemColored;
 import mhfc.net.common.item.ItemColor;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class ItemBlockStunTrap extends ItemBlock implements IItemColored {
 
@@ -17,13 +20,9 @@ public class ItemBlockStunTrap extends ItemBlock implements IItemColored {
 	}
 
 	@Override
-	public void addInformation(
-			ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			List<String> par3List,
-			boolean par4) {
-		par3List.add("A tool that temporarily renders a");
-		par3List.add("monster immobile and unable to attack.");
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		tooltip.add("A tool that temporarily renders a");
+		tooltip.add("monster immobile and unable to attack.");
 	}
 
 	@Override

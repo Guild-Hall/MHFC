@@ -55,7 +55,7 @@ public abstract class RenderTileEntity<T extends TileEntity> extends TileEntityS
 	}
 
 	@Override
-	public void renderTileEntityAt(T te, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void render(T te, double x, double y, double z, float partialTicks, int destroyStage,float alpha) {
 		cachedPassInformation.reset();
 		renderPass
 				.setPassInformation(preRenderCallback(cachedPassInformation, te, x, y, z, partialTicks, destroyStage));

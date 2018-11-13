@@ -12,7 +12,8 @@ import com.sk89q.jnbt.CompoundTagBuilder;
 import com.sk89q.jnbt.ListTag;
 import com.sk89q.jnbt.StringTag;
 import com.sk89q.jnbt.Tag;
-import com.sk89q.worldedit.blocks.BaseBlock;
+import com.sk89q.worldedit.blocks.Blocks;
+import com.sk89q.worldedit.world.block.BaseBlock;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
@@ -117,6 +118,12 @@ public abstract class BlockIdMappingTable<ID, T extends Tag> implements IBlockMa
 			@Override
 			public ResourceLocation loadRegistryName(StringTag tag) {
 				return new ResourceLocation(tag.getValue());
+			}
+
+			@Override
+			public int getCompressedIdFor(BaseBlock block) {
+				// TODO Auto-generated method stub
+				return 0;
 			}
 		};
 	}

@@ -57,7 +57,7 @@ public class HuntingQuestGoal extends QuestGoal implements NotifyableQuestGoal<L
 	@Override
 	public void notifyOfEvent(LivingDeathEvent event) {
 		if (goalClass.isAssignableFrom(event.getEntityLiving().getClass())) {
-			Entity damageSource = event.getSource().getEntity();
+			Entity damageSource = event.getSource().getTrueSource();
 			if ((damageSource instanceof EntityPlayer) && getMission() != null) {
 				boolean shouldcount = true;
 				shouldcount &= getMission().getPlayerEntities().contains(damageSource);

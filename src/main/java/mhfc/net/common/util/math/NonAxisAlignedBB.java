@@ -104,7 +104,7 @@ public class NonAxisAlignedBB extends AxisAlignedBB {
 	}
 
 	public NonAxisAlignedBB offset(Vec3d offset) {
-		return offset(offset.xCoord, offset.yCoord, offset.zCoord);
+		return offset(offset.x, offset.y, offset.z);
 	}
 
 	@Override
@@ -132,12 +132,12 @@ public class NonAxisAlignedBB extends AxisAlignedBB {
 	}
 
 	@Override
-	public boolean isVecInside(Vec3d vec) {
+	public boolean contains(Vec3d vec) {
 		return localSubspace.isPointInside(vec);
 	}
 
 	@Override
-	public AxisAlignedBB addCoord(double x, double y, double z) {
+	public AxisAlignedBB contract(double x, double y, double z) {
 		// Not what the doc says. If x > 0 add to maxX, x < 0: subtract from minX
 		// And so on for y, z
 		// Used to add (interpolated) motion to the bounding box

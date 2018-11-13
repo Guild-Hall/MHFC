@@ -75,7 +75,7 @@ public class Charge extends DamagingAction<GreatJaggi> implements IHasAttackProv
 				Vec3d look = monster.getLookVec();
 
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
-				boolean ranLongEnough = attk.runStartPoint.subtract(entityPos).lengthVector() > 20F
+				boolean ranLongEnough = attk.runStartPoint.subtract(entityPos).length() > 20F
 						|| attk.framesRunning > 85;
 				if ((tarBeh || ranLongEnough) && attk.hasPassed == PastEntityEnum.NOT_PASSED) {
 					attk.hasPassed = PastEntityEnum.PASSED;

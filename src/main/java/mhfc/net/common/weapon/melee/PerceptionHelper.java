@@ -39,13 +39,13 @@ public abstract class PerceptionHelper {
 		}
 
 		Vec3d lookvec = renderViewEntity.getLook(frame);
-		Vec3d var8 = pos.addVector(lookvec.xCoord * var2, lookvec.yCoord * var2, lookvec.zCoord * var2);
+		Vec3d var8 = pos.add(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2);
 		Entity pointedEntity = null;
 		float var9 = 1.0F;
 		List<Entity> list = mc.world.getEntitiesWithinAABBExcludingEntity(
 				renderViewEntity,
 				renderViewEntity.getEntityBoundingBox()
-						.addCoord(lookvec.xCoord * var2, lookvec.yCoord * var2, lookvec.zCoord * var2)
+						.expand(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2)
 						.expand(var9, var9, var9));
 		double d = calcdist;
 
@@ -55,7 +55,7 @@ public abstract class PerceptionHelper {
 				AxisAlignedBB aabb = entity.getEntityBoundingBox().expand(bordersize, bordersize, bordersize);
 				RayTraceResult mop0 = aabb.calculateIntercept(pos, var8);
 
-				if (aabb.isVecInside(pos)) {
+				if (aabb.contains(pos)) {
 					if (0.0D < d || d == 0.0D) {
 						pointedEntity = entity;
 						d = 0.0D;

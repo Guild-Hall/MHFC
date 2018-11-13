@@ -69,8 +69,8 @@ public class MHFCItemRenderRegistry {
 	private static void registerVariantBlock(Block block) {
 		IBlockVarianted varianted = (IBlockVarianted) block;
 		ResourceLocation registration = block.getRegistryName();
-		String domain = registration.getResourceDomain();
-		String path = registration.getResourcePath();
+		String domain = registration.getNamespace();
+		String path = registration.getPath();
 		ModelLoader.setCustomStateMapper(block, new StateMapperBase() {
 			@Override
 			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
@@ -137,8 +137,8 @@ public class MHFCItemRenderRegistry {
 		}
 		MHFCMain.logger().debug("Registering {} for variants {} ", item.getRegistryName(), variantNames);
 		ResourceLocation itemRegistryName = item.getRegistryName();
-		String domain = itemRegistryName.getResourceDomain();
-		String path = itemRegistryName.getResourcePath();
+		String domain = itemRegistryName.getNamespace();
+		String path = itemRegistryName.getPath();
 		int i = 0;
 		for (String variantName : variantNames) {
 			int variantMeta = i++;
@@ -168,9 +168,10 @@ public class MHFCItemRenderRegistry {
 		private static final int NO_LAMBDA = 0; // Can't use lambdas with obfuscated classes...
 
 		@Override
-		public int getColorFromItemstack(ItemStack stack, int texIndex) {
+		public int colorMultiplier(ItemStack stack, int texIndex) {
 			return IItemColored.class.cast(stack.getItem()).getColorFromItemStack(stack, texIndex);
 		}
+
 	};
 
 	private static void registerColoredItem(Item item) {

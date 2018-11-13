@@ -121,7 +121,7 @@ public class ItemMeats extends ItemFood implements IItemColored, IItemVarianted 
 	public ItemMeats() {
 		super(0, 0, true);
 		itemPerk = new SubTypedItem<>(MeatSubType.class);
-		setUnlocalizedName(ResourceInterface.item_meat_basename);
+		setTranslationKey(ResourceInterface.item_meat_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(1);
 		setHasSubtypes(true);
@@ -129,13 +129,16 @@ public class ItemMeats extends ItemFood implements IItemColored, IItemVarianted 
 	}
 
 	@Override
-	public String getUnlocalizedName(ItemStack itemStack) {
-		return super.getUnlocalizedName(itemStack) + "." + itemPerk.getSubType(itemStack).name;
+	public String getTranslationKey(ItemStack itemStack) {
+		return super.getTranslationKey(itemStack) + "." + itemPerk.getSubType(itemStack).name;
 	}
 
 	@Override
-	public void getSubItems(Item base, CreativeTabs tab, NonNullList<ItemStack> list) {
-		itemPerk.getSubItems(base, list);
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+		 if (this.isInCreativeTab(tab))
+	        {
+	            items.add(new ItemStack(this));
+	        }
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.GameData;
 
 public class MHFCSoundRegistry {
 
@@ -184,7 +185,7 @@ public class MHFCSoundRegistry {
 	 * @return
 	 */
 	private static SoundEvent registerSoundEvent(String name, String soundLocation) {
-		return GameRegistry.register(new SoundEvent(new ResourceLocation(soundLocation)).setRegistryName(name));
+		return GameData.register_impl(new SoundEvent(new ResourceLocation(soundLocation)).setRegistryName(name));
 	}
 
 	public static MHFCSoundRegistry getRegistry() {

@@ -4,7 +4,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.WorldType;
-import net.minecraft.world.chunk.IChunkGenerator;
+import net.minecraft.world.gen.IChunkGenerator;
 
 public class WorldTypeQuesting extends WorldType {
 
@@ -18,7 +18,7 @@ public class WorldTypeQuesting extends WorldType {
 	}
 
 	@Override
-	public int getGeneratorVersion() {
+	public int getVersion() {
 		return 1;
 	}
 

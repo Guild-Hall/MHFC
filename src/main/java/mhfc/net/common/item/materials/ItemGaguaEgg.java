@@ -8,7 +8,7 @@ public class ItemGaguaEgg extends Item {
 
 	public ItemGaguaEgg() {
 		super();
-		setUnlocalizedName(ResourceInterface.item_gaguaegg_name);
+		setTranslationKey(ResourceInterface.item_gaguaegg_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 }

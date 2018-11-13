@@ -29,8 +29,8 @@ public class ProjectileBlock extends EntityThrowable {
 		proxy = createProxy();
 		this.posY -= living.getEyeHeight();
 		Vec3d look = living.getLookVec();
-		this.posX += look.xCoord * 2;
-		this.posZ += look.zCoord * 2;
+		this.posX += look.x * 2;
+		this.posZ += look.z * 2;
 		rotationYaw = living.rotationYaw;
 	}
 
@@ -67,7 +67,7 @@ public class ProjectileBlock extends EntityThrowable {
 				.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().expand(8.5D, 6.0D, 8.5D));
 		list.remove(getThrower());
 		for (Entity entity : list) {
-			if (getDistanceSqToEntity(entity) > 6.25D) {
+			if (getDistanceSq(entity) > 6.25D) {
 				continue;
 			}
 			entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 80F + this.rand.nextInt(17));

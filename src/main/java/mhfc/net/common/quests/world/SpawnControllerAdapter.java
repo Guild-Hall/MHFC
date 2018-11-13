@@ -95,7 +95,7 @@ public abstract class SpawnControllerAdapter implements IQuestAreaSpawnControlle
 		public void onEntityAdded(Entity entity) {
 			Vec3d pos = entity.getPositionVector();
 			pos = SpawnControllerAdapter.this.worldView.convertToLocal(pos);
-			if (!inArea(pos.xCoord, pos.yCoord, pos.zCoord)) {
+			if (!inArea(pos.x, pos.y, pos.z)) {
 				return;
 			}
 			SpawnControllerAdapter.this.controlEntity(entity);

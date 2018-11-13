@@ -72,17 +72,17 @@ public class GroundHurl extends AnimatedAction<Tigrex> implements IHasAnimationP
 		Vec3d rightSide = lookVec.crossProduct(new Vec3d(0, 1, 0));
 		for (int i = 0; i < 3; i++) {
 			ProjectileBlock block = new ProjectileBlock(tigrex.world, tigrex);
-			double xCo = look.xCoord;
-			double yCo = look.yCoord + THROW_HEIGHT;
-			double zCo = look.zCoord;
+			double xCo = look.x;
+			double yCo = look.y + THROW_HEIGHT;
+			double zCo = look.z;
 			if (i == 0) {
-				xCo += rightSide.xCoord * SPLIT_MULTIPLIER;
-				zCo += rightSide.zCoord * SPLIT_MULTIPLIER;
+				xCo += rightSide.x * SPLIT_MULTIPLIER;
+				zCo += rightSide.z * SPLIT_MULTIPLIER;
 			} else if (i == 2) {
-				xCo -= rightSide.xCoord * SPLIT_MULTIPLIER;
-				zCo -= rightSide.zCoord * SPLIT_MULTIPLIER;
+				xCo -= rightSide.x * SPLIT_MULTIPLIER;
+				zCo -= rightSide.z * SPLIT_MULTIPLIER;
 			}
-			block.setThrowableHeading(xCo, yCo, zCo, 2.3F, 0f);
+			block.shoot(xCo, yCo, zCo, 2.3F, 0f);
 			tigrex.world.spawnEntity(block);
 		}
 	}

@@ -34,8 +34,8 @@ public class Tackle extends DamagingAction<Delex> implements IHasAttackProvider 
 			return DONT_SELECT;
 		}
 		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
-		double dist = toTarget.lengthVector();
-		if (dist >= entity.getDistanceToEntity(target) + 5) {
+		double dist = toTarget.length();
+		if (dist >= entity.getDistance(target) + 5) {
 			return DONT_SELECT;
 		}
 		return 5F;

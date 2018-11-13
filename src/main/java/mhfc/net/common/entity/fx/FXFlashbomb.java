@@ -84,7 +84,7 @@ public class FXFlashbomb extends EntityThrowable {
 			Vec3d lookVec = living.getLookVec();
 			Vec3d toTargetVec = WorldHelper.getVectorToTarget(this, living);
 			double dot = lookVec == null ? -1 : lookVec.normalize().dotProduct(toTargetVec.normalize());
-			int effectStrength = (int) (toTargetVec.lengthVector() * -dot);
+			int effectStrength = (int) (toTargetVec.length() * -dot);
 			if (effectStrength > 0) {
 				living.addPotionEffect(
 						new PotionEffect(MHFCPotionRegistry.getRegistry().flashed, EXPLOSION_TICKS, effectStrength));

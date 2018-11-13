@@ -33,7 +33,7 @@ public class ProjectileArrow extends EntityArrow {
 		if (theShooter instanceof EntityPlayer) {
 			// this.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
 		}
-		setAim(theShooter, theShooter.rotationPitch, theShooter.rotationYaw, 0.0F, force * 3.0F, 1.0F);
+		shoot(theShooter, theShooter.rotationPitch, theShooter.rotationYaw, 0.0F, force * 3.0F, 1.0F);
 	}
 
 	private void setBaseStats() {

@@ -44,6 +44,7 @@ import mhfc.net.common.weapon.range.bow.ItemBow;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.GameData;
 
 public class MHFCItemRegistry {
 	public static void staticInit() {}
@@ -398,9 +399,10 @@ public class MHFCItemRegistry {
 	 * @param item
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private <T extends Item> T registerItem(String registryName, T item) {
 		item.setRegistryName(registryName);
-		item = GameRegistry.register(item);
+		item = (T) GameData.register_impl(item);
 		MHFCMain.logger().debug("Registered " + item + " with id " + item.getRegistryName());
 		everyItems.add(item);
 		return item;

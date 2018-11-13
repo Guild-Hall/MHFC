@@ -66,9 +66,9 @@ public class GuiQuestManagement extends MHFCGui implements IMHFCTab {
 			}
 
 			@Override
-			public void drawButton(Minecraft p_146112_1_, int p_146112_2_, int p_146112_3_) {
+			public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 				this.displayString = voted ? "Unset ready status" : "Set ready status";
-				super.drawButton(p_146112_1_, p_146112_2_, p_146112_3_);
+				super.drawButton(mc, mouseX, mouseY, partialTicks);
 			}
 		};
 	}
@@ -106,10 +106,10 @@ public class GuiQuestManagement extends MHFCGui implements IMHFCTab {
 
 	@Override
 	public void updateTab() {
-		cancelQuest.xPosition = xSize / 2 - cancelQuest.getButtonWidth() / 2;
-		cancelQuest.yPosition = ySize / 2 + 5;
-		startQuest.xPosition = xSize / 2 - startQuest.getButtonWidth() / 2;
-		startQuest.yPosition = ySize / 2 - startQuestHeight - 10;
+		cancelQuest.x = xSize / 2 - cancelQuest.getButtonWidth() / 2;
+		cancelQuest.y = ySize / 2 + 5;
+		startQuest.x = xSize / 2 - startQuest.getButtonWidth() / 2;
+		startQuest.y = ySize / 2 - startQuestHeight - 10;
 	}
 
 	@Override

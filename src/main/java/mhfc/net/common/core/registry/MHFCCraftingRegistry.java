@@ -1,13 +1,10 @@
 package mhfc.net.common.core.registry;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
 public class MHFCCraftingRegistry {
 
 	public static void init() {
+		//TODO
+		/*
 		GameRegistry.addRecipe(
 				new ItemStack(MHFCBlockRegistry.getRegistry().mhfcblockhunterbench, 1),
 				new Object[] { "XAX", "SXS", "ASA", Character.valueOf('X'), Blocks.LOG, Character.valueOf('A'),
@@ -29,5 +26,6 @@ public class MHFCCraftingRegistry {
 				new Object[] { "AXA", "XXX", "   ", Character.valueOf('X'), MHFCItemRegistry.getRegistry().lumberbar,
 						Character.valueOf('A'),
 						MHFCItemRegistry.getRegistry().moldedIron });
+						*/
 	}
 }

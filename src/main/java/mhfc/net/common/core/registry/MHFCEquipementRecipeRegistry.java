@@ -89,7 +89,7 @@ public class MHFCEquipementRecipeRegistry {
 		if (mcserver == null) {
 			return null;
 		}
-		world = mcserver.worldServerForDimension(id);
+		world = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(id);
 		if (world == null) {
 			return null;
 		}

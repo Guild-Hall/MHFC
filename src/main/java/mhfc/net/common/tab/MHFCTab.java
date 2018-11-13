@@ -16,14 +16,15 @@ public class MHFCTab extends CreativeTabs {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon() {
 		return new ItemStack(MHFCBlockRegistry.getRegistry().mhfcblockgrass);
 	}
 
 	@Override
-	public String getTranslatedTabLabel() {
+	public String getBackgroundImageName() {
 		return ResourceInterface.gui_tab_name;
 		// The main_name of the tab ingame
 	}
+
 
 }

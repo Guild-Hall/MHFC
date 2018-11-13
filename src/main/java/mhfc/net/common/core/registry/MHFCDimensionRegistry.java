@@ -63,7 +63,7 @@ public class MHFCDimensionRegistry {
 
 	public static WorldServer getServerFor(QuestFlair flair) {
 		int id = getQuestingDimensionID(flair);
-		return FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(id);
+		return FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(id);
 	}
 
 	public static IAreaManager getAreaManager(QuestFlair flair) {

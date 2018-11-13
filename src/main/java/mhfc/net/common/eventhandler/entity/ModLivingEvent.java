@@ -51,7 +51,7 @@ public class ModLivingEvent {
 		double damage = event.getAmount();
 		Entity ent = event.getEntity();
 		if (ent != null && ent instanceof EntityPlayer) {
-			if(damageSrc.getSourceOfDamage() instanceof CreatureAttributes)
+			if(damageSrc.getImmediateSource() instanceof CreatureAttributes)
 			if (ent.getArmorInventoryList() != null && ent.getArmorInventoryList() instanceof ArmorBase) {
 				/** Refines the damage analyzer based from Monster Hunter Series but in a special case which
 				 *  the default health is set to 20 for players. **/

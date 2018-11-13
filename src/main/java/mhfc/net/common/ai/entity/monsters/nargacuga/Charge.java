@@ -90,7 +90,7 @@ public class Charge extends DamagingAction<Nargacuga> implements IHasAttackProvi
 
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
 
-				boolean ranLongEnough = attk.runStartPoint.subtract(tigPos).lengthVector() > MAX_RUN_DISTANCE
+				boolean ranLongEnough = attk.runStartPoint.subtract(tigPos).length() > MAX_RUN_DISTANCE
 						|| attk.framesRunning > MAX_RUN_FRAMES;
 
 				if ((tarBeh || ranLongEnough) && attk.hasPassed == PastEntityEnum.NOT_PASSED) {

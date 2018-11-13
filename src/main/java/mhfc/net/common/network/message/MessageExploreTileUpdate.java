@@ -70,8 +70,7 @@ public class MessageExploreTileUpdate extends MessageTileLocation {
 	@Override
 	public TileExploreArea getTileEntity() {
 		assert FMLCommonHandler.instance().getSide() == Side.SERVER;
-		WorldServer worldServerForDimension = FMLCommonHandler.instance().getMinecraftServerInstance()
-				.worldServerForDimension(worldID);
+		WorldServer worldServerForDimension = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(this.worldID);
 		TileEntity tileEntity = worldServerForDimension.getTileEntity(getPos());
 		if (tileEntity instanceof TileExploreArea) {
 			return (TileExploreArea) tileEntity;

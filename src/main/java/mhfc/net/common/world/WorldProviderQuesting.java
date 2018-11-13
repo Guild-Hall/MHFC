@@ -6,7 +6,6 @@ import mhfc.net.common.world.gen.ChunkProviderVoid;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
-import net.minecraft.world.chunk.IChunkGenerator;
 
 public class WorldProviderQuesting extends WorldProvider {
 	private QuestFlair flair;
@@ -53,7 +52,7 @@ public class WorldProviderQuesting extends WorldProvider {
 	}
 
 	@Override
-	public IChunkGenerator createChunkGenerator() {
+	public net.minecraft.world.gen.IChunkGenerator createChunkGenerator() {
 		return new ChunkProviderVoid(world);
 	}
 

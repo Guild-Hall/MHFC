@@ -2,6 +2,8 @@ package mhfc.net.common.item.armor.wip;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
@@ -9,11 +11,13 @@ import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.item.armor.ArmorBase;
 import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -24,7 +28,7 @@ public class KirinArmor extends ArmorBase {
 
 	public KirinArmor(EntityEquipmentSlot type) {
 		super(Material.kirin, ItemRarity.R04, type);
-		setUnlocalizedName(names[3 - type.getIndex()]);
+		setTranslationKey(names[3 - type.getIndex()]);
 	}
 
 	@Override
@@ -49,13 +53,9 @@ public class KirinArmor extends ArmorBase {
 	}
 
 	@Override
-	public void addInformation(
-			ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			List<String> par3List,
-			boolean par4) {
-		par3List.add("Elemental Resistance L");
-		par3List.add("Thunder + 15");
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		tooltip.add("Elemental Resistance L");
+		tooltip.add("Thunder + 15");
 	}
 
 	@Override

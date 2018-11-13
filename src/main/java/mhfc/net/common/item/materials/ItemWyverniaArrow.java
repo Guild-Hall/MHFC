@@ -12,7 +12,7 @@ public class ItemWyverniaArrow extends Item {
 
 	public ItemWyverniaArrow() {
 		super();
-		setUnlocalizedName(ResourceInterface.item_arrow0_name);
+		setTranslationKey(ResourceInterface.item_arrow0_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

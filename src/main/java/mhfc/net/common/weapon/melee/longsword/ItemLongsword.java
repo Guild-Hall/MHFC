@@ -69,7 +69,7 @@ public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 
 	@Override
 	public boolean onEntityItemUpdate(EntityItem entityItem) {
-		changeSpirit(entityItem.getEntityItem(), SPIRIT_DECREASE);
+		changeSpirit(entityItem.getItem(), SPIRIT_DECREASE);
 		return super.onEntityItemUpdate(entityItem);
 	}
 

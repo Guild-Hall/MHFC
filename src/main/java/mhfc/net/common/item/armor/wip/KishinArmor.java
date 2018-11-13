@@ -2,6 +2,8 @@ package mhfc.net.common.item.armor.wip;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
@@ -10,11 +12,13 @@ import mhfc.net.common.item.armor.ArmorBase;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -25,7 +29,7 @@ public class KishinArmor extends ArmorBase {
 
 	public KishinArmor(EntityEquipmentSlot type) {
 		super(Material.kishin, ItemRarity.R04, type);
-		setUnlocalizedName(names[3 - type.getIndex()]);
+		setTranslationKey(names[3 - type.getIndex()]);
 	}
 
 	@Override
@@ -50,24 +54,20 @@ public class KishinArmor extends ArmorBase {
 	}
 
 	@Override
-	public void addInformation(
-			ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			List<String> par3List,
-			boolean par4) {
-		par3List.add("Attack Up (S)");
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		tooltip.add("Attack Up (S)");
 		switch (this.armorType) {
 		case HEAD:
-			par3List.add(ColorSystem.dark_blue + "Tigrex X Class Helmet");
+			tooltip.add(ColorSystem.dark_blue + "Tigrex X Class Helmet");
 			break;
 		case CHEST:
-			par3List.add(ColorSystem.dark_blue + "Tigrex X Class Chest");
+			tooltip.add(ColorSystem.dark_blue + "Tigrex X Class Chest");
 			break;
 		case LEGS:
-			par3List.add(ColorSystem.dark_blue + "Tigrex X Class Leggings");
+			tooltip.add(ColorSystem.dark_blue + "Tigrex X Class Leggings");
 			break;
 		case FEET:
-			par3List.add(ColorSystem.dark_blue + "Tigrex X Class Boots");
+			tooltip.add(ColorSystem.dark_blue + "Tigrex X Class Boots");
 			break;
 		case MAINHAND:
 		case OFFHAND:

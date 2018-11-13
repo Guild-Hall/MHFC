@@ -7,7 +7,7 @@ public interface IJumpParameterProvider<T extends EntityLivingBase> {
 
 	public default Vec3d getJumpVector(T entity) {
 		Vec3d lookVector = entity.getLookVec();
-		return new Vec3d(lookVector.xCoord, 0, lookVector.zCoord);
+		return new Vec3d(lookVector.x, 0, lookVector.z);
 	}
 
 	/**

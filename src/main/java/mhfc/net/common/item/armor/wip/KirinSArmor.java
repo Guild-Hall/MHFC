@@ -2,6 +2,8 @@ package mhfc.net.common.item.armor.wip;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
@@ -10,6 +12,7 @@ import mhfc.net.common.item.armor.ArmorBase;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -28,7 +31,7 @@ public class KirinSArmor extends ArmorBase {
 
 	public KirinSArmor(EntityEquipmentSlot type) {
 		super(Material.kirinS, ItemRarity.R04, type);
-		setUnlocalizedName(names[3 - type.getIndex()]);
+		setTranslationKey(names[3 - type.getIndex()]);
 	}
 
 	@Override
@@ -53,24 +56,20 @@ public class KirinSArmor extends ArmorBase {
 	}
 
 	@Override
-	public void addInformation(
-			ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer,
-			List<String> par3List,
-			boolean par4) {
-		par3List.add(ColorSystem.ENUMAQUA + "[ Donators Exclusive ");
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		tooltip.add(ColorSystem.ENUMAQUA + "[ Donators Exclusive ");
 		switch (this.armorType) {
 		case HEAD:
-			par3List.add("\u00a79Kirin S Class Helmet");
+			tooltip.add("\u00a79Kirin S Class Helmet");
 			break;
 		case CHEST:
-			par3List.add("\u00a79Kirin S Class Chest");
+			tooltip.add("\u00a79Kirin S Class Chest");
 			break;
 		case LEGS:
-			par3List.add("\u00a79Kirin S Class Leggings");
+			tooltip.add("\u00a79Kirin S Class Leggings");
 			break;
 		case FEET:
-			par3List.add("\u00a79Kirin S Class Boots");
+			tooltip.add("\u00a79Kirin S Class Boots");
 			break;
 		case MAINHAND:
 		case OFFHAND:

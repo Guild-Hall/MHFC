@@ -12,9 +12,9 @@ import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
@@ -240,7 +240,7 @@ public class MHFCGuiUtil {
 			float uWidth,
 			float vHeight) {
 		Tessellator t = Tessellator.getInstance();
-		VertexBuffer buffer = t.getBuffer();
+		BufferBuilder buffer = t.getBuffer();
 		buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 		buffer.pos(xMin, yMin, zLevel).tex(u, v).endVertex();
 		buffer.pos(xMin, yMin + height, zLevel).tex(u, v + vHeight).endVertex();
@@ -303,7 +303,7 @@ public class MHFCGuiUtil {
 			float maxU,
 			float maxV) {
 		Tessellator tess = Tessellator.getInstance();
-		VertexBuffer buff = tess.getBuffer();
+		BufferBuilder buff = tess.getBuffer();
 
 		buff.begin(GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 		// Left-upper corner

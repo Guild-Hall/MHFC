@@ -14,7 +14,6 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -79,7 +78,7 @@ public class BlockFlower extends Decoration
 
 	public BlockFlower() {
 		super(Material.PLANTS);
-		setUnlocalizedName(ResourceInterface.block_wyverniaflower_basename);
+		setTranslationKey(ResourceInterface.block_wyverniaflower_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHardness(0.0f);
 		setTickRandomly(true);
@@ -102,8 +101,8 @@ public class BlockFlower extends Decoration
 	}
 
 	@Override
-	public void getSubBlocks(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
-		getBlockTrait().getSubItems(item, list);
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
+		 items.add(new ItemStack(this));
 	}
 
 	@Override

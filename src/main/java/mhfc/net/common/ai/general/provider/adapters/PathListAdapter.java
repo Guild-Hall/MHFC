@@ -49,7 +49,7 @@ public class PathListAdapter implements IPathProvider {
 	@Override
 	public boolean hasWaypointReached() {
 		Vec3d position = actor.getPositionVector();
-		return position.subtract(getCurrentWaypoint()).lengthVector() < maxDistance;
+		return position.subtract(getCurrentWaypoint()).length() < maxDistance;
 	}
 
 	@Override

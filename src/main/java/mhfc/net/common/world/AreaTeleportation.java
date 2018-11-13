@@ -13,6 +13,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class AreaTeleportation {
 
@@ -20,7 +21,7 @@ public class AreaTeleportation {
 		private BlockPos pos;
 
 		public OverworldTeleporter(MinecraftServer server, BlockPos pos) {
-			super(server.worldServerForDimension(0));
+			super(FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0));
 			this.pos = pos;
 		}
 
@@ -80,7 +81,7 @@ public class AreaTeleportation {
 
 	private static void changePlayerDimension(EntityPlayerMP player, int dimension, Teleporter tp) {
 		if (player.dimension != dimension) {
-			player.mcServer.getPlayerList().transferPlayerToDimension(player, dimension, tp);
+			player.server.getPlayerList().transferPlayerToDimension(player, dimension, tp);
 		} else {
 			tp.placeInPortal(player, player.rotationYaw);
 		}
@@ -117,7 +118,7 @@ public class AreaTeleportation {
 	}
 
 	public static void movePlayerToOverworld(MinecraftServer server, EntityPlayerMP player) {
-		BlockPos spawnPoint = server.worldServerForDimension(0).provider.getRandomizedSpawnPoint();
+		BlockPos spawnPoint = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0).provider.getRandomizedSpawnPoint();
 		movePlayerToOverworld(server, player, spawnPoint);
 	}
 
@@ -131,7 +132,7 @@ public class AreaTeleportation {
 	private static WorldServer getWorldServer(IArea area) {
 		MinecraftServer server = area.getWorldView().getWorldObject().getMinecraftServer();
 		int dim = area.getWorldView().getWorldObject().provider.getDimension();
-		return server.worldServerForDimension(dim);
+		return FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(dim);
 	}
 
 	public static void moveEntityTo(Entity entity, BlockPos pos) {

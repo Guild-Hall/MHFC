@@ -45,7 +45,7 @@ public class BlockRock extends AbstractSubTypedBlock<WyverniaRockSubType> {
 
 	public BlockRock() {
 		super(PROPERTY, Material.ROCK);
-		setUnlocalizedName(ResourceInterface.block_wyverniarock_basename);
+		setTranslationKey(ResourceInterface.block_wyverniarock_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHardness(1.1f);
 	}

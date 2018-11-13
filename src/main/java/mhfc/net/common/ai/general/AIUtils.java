@@ -164,20 +164,20 @@ public class AIUtils {
 	 */
 	public static float lookVecToYawUnsafe(Vec3d vec) {
 		Objects.requireNonNull(vec);
-		if (vec.lengthVector() == 0) {
+		if (vec.length() == 0) {
 			return Float.NaN;
 		}
 		vec = vec.normalize();
-		if (vec.xCoord == 0 && vec.zCoord == 0) {
+		if (vec.x == 0 && vec.z == 0) {
 			return Float.NaN;
 		}
-		double pitch_rad = Math.asin(vec.yCoord);
+		double pitch_rad = Math.asin(vec.y);
 		double cos_pitch = Math.cos(pitch_rad);
-		double adjusted_z = vec.zCoord / cos_pitch;
+		double adjusted_z = vec.z / cos_pitch;
 		// Corrects rounding issues
 		adjusted_z = Math.max(-1.0, Math.min(1.0, adjusted_z));
 		double yaw_rad = Math.acos(adjusted_z);
-		yaw_rad *= Math.signum(-vec.xCoord);
+		yaw_rad *= Math.signum(-vec.x);
 		return normalizeAngle((float) Math.toDegrees(yaw_rad));
 	}
 
@@ -229,7 +229,7 @@ public class AIUtils {
 	 * inclusive.
 	 */
 	public static boolean isInDistance(Vec3d direction, double minDistance, double maxDistance) {
-		double distance = direction.lengthVector();
+		double distance = direction.length();
 		return distance >= minDistance && distance <= maxDistance;
 	}
 

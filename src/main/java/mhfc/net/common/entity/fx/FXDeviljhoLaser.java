@@ -197,7 +197,7 @@ public class FXDeviljhoLaser extends Entity {
 		return world.getEntitiesWithinAABB(
 				entityClass,
 				getEntityBoundingBox().expand(dX, dY, dZ),
-				e -> e != this && getDistanceToEntity(e) <= r && e.posY <= posY + dY);
+				e -> e != this && getDistance(e) <= r && e.posY <= posY + dY);
 	}
 
 	public int getCasterID() {

@@ -53,15 +53,15 @@ public class Fireball extends AnimatedAction<Rathalos> implements IHasAnimationP
 
 			if (this.getCurrentFrame() == 22) {
                 Vec3d vec3d = this.getEntity().getLook(1.0F);
-                double d2 = target.posX - (this.getEntity().posX + vec3d.xCoord * 4.0D);
+                double d2 = target.posX - (this.getEntity().posX + vec3d.x * 4.0D);
                 double d3 = target.getEntityBoundingBox().minY + (double)(target.height / 2.0F) - (0.5D + this.getEntity().posY + (double)(this.getEntity().height / 2.0F));
-                double d4 = target.posZ - (this.getEntity().posZ + vec3d.zCoord * 4.0D);
+                double d4 = target.posZ - (this.getEntity().posZ + vec3d.z * 4.0D);
                 this.getEntity().world.playEvent((EntityPlayer)null, 1016, new BlockPos(this.getEntity()), 0);
                 EntityLargeFireball breath = new EntityLargeFireball(this.getEntity().world, this.getEntity(), d2, d3, d4);
                 breath.explosionPower = 2;
-                breath.posX =this.getEntity().posX + vec3d.xCoord * 4.0D;
+                breath.posX =this.getEntity().posX + vec3d.x * 4.0D;
                 breath.posY = this.getEntity().posY + (double)(this.getEntity().height / 2.0F) + 0.5D;
-                breath.posZ = this.getEntity().posZ + vec3d.zCoord * 4.0D;
+                breath.posZ = this.getEntity().posZ + vec3d.z * 4.0D;
 			
 			if (!entity.world.isRemote)
 				entity.world.spawnEntity(breath);

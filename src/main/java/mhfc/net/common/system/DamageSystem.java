@@ -28,7 +28,7 @@ public class DamageSystem extends EntityDamageSource {
 	public static DamageSource antimod = new DamageSource("anti").setDamageBypassesArmor().setDamageIsAbsolute();
 
 	@Override
-	public Entity getEntity() {
+	public Entity getTrueSource() {
 		return this.attacker;
 	}
 

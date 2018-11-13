@@ -14,6 +14,7 @@ import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -82,35 +83,34 @@ public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> par3List, boolean advanced) {
-		super.addInformation(stack, playerIn, par3List, advanced);
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 
 		/** Gives info with the basic defense of the armors **/
-		par3List.add(
+		tooltip.add(
 				ColorSystem.ENUMLAVENDER + "Initial Defense: " + ColorSystem.ENUMWHITE + this.getInitialDefenseValue());
-		par3List.add(
+		tooltip.add(
 				ColorSystem.ENUMLAVENDER + "Maximum Defense: " + ColorSystem.ENUMWHITE + this.getFinalDefenseValue());
 		/** Adds addition basic info through it like adding element resistance etc. **/
-		this.setAdditionalInformation(par3List);
+		this.setAdditionalInformation(tooltip);
 		/** Adds description to every equipment **/
 		switch (this.armorType) {
 		case HEAD:
-			par3List.add(
+			tooltip.add(
 					ColorSystem.ENUMAQUA
 							+ this.addHeadInfo());
 			break;
 		case CHEST:
-			par3List.add(
+			tooltip.add(
 					ColorSystem.ENUMAQUA
 							+ this.addChestInfo());
 			break;
 		case LEGS:
-			par3List.add(
+			tooltip.add(
 					ColorSystem.ENUMAQUA
 							+ this.addLegsInfo());
 			break;
 		case FEET:
-			par3List.add(
+			tooltip.add(
 					ColorSystem.ENUMAQUA
 							+ this.addBootsInfo());
 			break;
@@ -241,7 +241,7 @@ public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 			double damage,
 			int slot) {
 		/** TODO Implement this to each class with respecting Elements **/
-		if (source.getSourceOfDamage() instanceof CreatureAttributes) {
+		if (source.getTrueSource() instanceof CreatureAttributes) {
 			return new ArmorProperties(1, 0.20, this.getFinalDefenseValue());
 		}
 		return new ArmorProperties(1, 100, this.getFinalDefenseValue());

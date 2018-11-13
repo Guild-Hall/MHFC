@@ -38,7 +38,7 @@ public class RenderNargacuga extends RenderAnimatedModel<Nargacuga> {
 		GL11.glColor3f(1.0f, 0, 0);
 		GL11.glBegin(GL_LINE_STRIP);
 		for (Vec3d v : queue) {
-			GL11.glVertex3d(-(v.xCoord - nargacuga.posX), v.yCoord - nargacuga.posY, v.zCoord - nargacuga.posZ);
+			GL11.glVertex3d(-(v.x - nargacuga.posX), v.y - nargacuga.posY, v.z - nargacuga.posZ);
 		}
 		GL11.glEnd();
 		GL11.glEnable(GL_TEXTURE_2D);

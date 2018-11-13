@@ -42,7 +42,7 @@ public class Whip extends DamagingAction<GreatJaggi> implements IHasAttackProvid
 			return DONT_SELECT;
 		}
 		Vec3d LOOK_TARGET = WorldHelper.getVectorToTarget(entity, target);
-		double distance = LOOK_TARGET.lengthVector();
+		double distance = LOOK_TARGET.length();
 		if (distance > MAX_DISTANCE) {
 			return DONT_SELECT;
 		}

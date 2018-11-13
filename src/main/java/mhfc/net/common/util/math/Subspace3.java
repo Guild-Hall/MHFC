@@ -104,9 +104,9 @@ public class Subspace3 {
 		// Find smallest such p
 		// First transform start and end into the subspace
 		Vector4d buffStart = vectorBuffer.get();
-		buffStart.set(start.xCoord, start.yCoord, start.zCoord, 1);
+		buffStart.set(start.x, start.y, start.z, 1);
 		Vector4d buffVec = vectorBuffer2.get();
-		buffVec.set(end.xCoord, end.yCoord, end.zCoord, 1);
+		buffVec.set(end.x, end.y, end.z, 1);
 		invLocalMatrix.transform(buffStart);
 		invLocalMatrix.transform(buffVec);
 		buffVec.sub(buffStart);
@@ -157,7 +157,7 @@ public class Subspace3 {
 		// NB: a \el [0, size[0]], b \el [0, size[1]], c \el [0, size[2]]
 		// \exists a, b, c: space = vec?
 		Vector4d buffer = vectorBuffer.get();
-		buffer.set(vec.xCoord, vec.yCoord, vec.zCoord, 1);
+		buffer.set(vec.x, vec.y, vec.z, 1);
 		invLocalMatrix.transform(buffer);
 		return isInInterval(buffer.x, 0, sizes.x) && isInInterval(buffer.y, 0, sizes.y)
 				&& isInInterval(buffer.z, 0, sizes.z);

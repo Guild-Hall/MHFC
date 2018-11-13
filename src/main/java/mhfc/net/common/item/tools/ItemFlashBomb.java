@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 public class ItemFlashBomb extends Item implements IItemColored {
 
 	public ItemFlashBomb() {
-		setUnlocalizedName(ResourceInterface.item_flashbomb_name);
+		setTranslationKey(ResourceInterface.item_flashbomb_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(2);
 	}
@@ -27,7 +27,7 @@ public class ItemFlashBomb extends Item implements IItemColored {
 		ItemStack stack = player.getHeldItem(hand);
 		if (!world.isRemote) {
 			FXFlashbomb bomb = new FXFlashbomb(world, player);
-			bomb.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+			bomb.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
 			world.spawnEntity(bomb);
 		}
 

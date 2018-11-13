@@ -14,7 +14,8 @@ public class BlockClay extends Block {
 
 	public BlockClay() {
 		super(Material.CLAY);
-		setUnlocalizedName(ResourceInterface.block_wyverianclay_name);
+		setTranslationKey(ResourceInterface.block_wyverianclay_name);
+		
 		setHardness(0.9f);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}

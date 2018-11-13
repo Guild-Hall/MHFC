@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Multimap;
 
 import mhfc.net.MHFCMain;
@@ -15,11 +17,11 @@ import mhfc.net.common.weapon.stats.CombatEffect;
 import mhfc.net.common.weapon.stats.WeaponStats;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -47,7 +49,7 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item implements 
 		this.stats = Objects.requireNonNull(stats);
 		setFull3D();
 		setCreativeTab(MHFCMain.mhfctabs);
-		setUnlocalizedName(stats.getUnlocalizedName());
+		setTranslationKey(stats.getUnlocalizedName());
 		setMaxStackSize(1);
 	}
 
@@ -55,9 +57,9 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item implements 
 	public ModelResourceLocation getModel() {
 		if (resLocCache == null) {
 			ResourceLocation resLoc = getRegistryName();
-			String name = resLoc.getResourcePath();
+			String name = resLoc.getPath();
 			resLocCache = new ModelResourceLocation(
-					resLoc.getResourceDomain() + ":models/item/" + name + ".mcmdl#inventory");
+					resLoc.getNamespace() + ":models/item/" + name + ".mcmdl#inventory");
 		}
 		return resLocCache;
 	}
@@ -102,19 +104,19 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item implements 
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer holder, List<String> infos, boolean advanced) {
-		infos.add(ColorSystem.gold + I18n.format(getWeaponClassUnlocalized() + ".name"));
-		infos.add(ColorSystem.yellow + "Rarity: " + stats.getRarity().toString());
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		tooltip.add(ColorSystem.gold + I18n.format(getWeaponClassUnlocalized() + ".name"));
+		tooltip.add(ColorSystem.yellow + "Rarity: " + stats.getRarity().toString());
 		for (CombatEffect effect : stats.getCombatEffects()) {
 			String formattedAmount = String.format("%+.0f", effect.getAmount());
-			infos.add(
+			tooltip.add(
 					ColorSystem.light_purple + formattedAmount + " "
 							+ I18n.format(effect.getType().getUnlocalizedName() + ".name"));
 		}
-		if (!advanced) {
+		if (!flagIn.isAdvanced()) {
 			return;
 		}
-		addCooldownToInformation(stack, infos);
+		addCooldownToInformation(stack, tooltip);
 	}
 
 	@Override

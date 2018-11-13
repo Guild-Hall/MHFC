@@ -27,9 +27,9 @@ import mhfc.net.common.util.Assert;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -673,7 +673,7 @@ public class GuiHunterBench extends MHFCTabbedGui {
 		remaining = remain / 17f;
 
 		Tessellator t = Tessellator.getInstance();
-		VertexBuffer buffer = t.getBuffer();
+		BufferBuilder buffer = t.getBuffer();
 		buffer.begin(GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 		buffer.pos(353, 159 - remain, this.zLevel).tex(0f, 14f / 17 - remaining).endVertex();
 		buffer.pos(353, 159, this.zLevel).tex(0f, 14f / 17).endVertex();
@@ -725,8 +725,8 @@ public class GuiHunterBench extends MHFCTabbedGui {
 	@Override
 	public void updateScreen() {
 		super.updateScreen();
-		startCrafting.xPosition = guiLeft + 228 + (xSize - 228 - 60) / 2;
-		startCrafting.yPosition = guiTop + 166;
+		startCrafting.x = guiLeft + 228 + (xSize - 228 - 60) / 2;
+		startCrafting.y = guiTop + 166;
 	}
 
 }

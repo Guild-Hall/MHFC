@@ -12,7 +12,7 @@ public class BlockIceCrystal extends Block {
 
 	public BlockIceCrystal() {
 		super(Material.ROCK);
-		setUnlocalizedName(ResourceInterface.block_icecrystal_name);
+		setTranslationKey(ResourceInterface.block_icecrystal_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

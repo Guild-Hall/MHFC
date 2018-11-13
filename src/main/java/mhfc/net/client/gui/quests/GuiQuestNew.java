@@ -108,12 +108,12 @@ public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 	public void updateTab() {
 		getPosition(groupList).set(questsX, yBorder + 10);
 		groupList.setWidthAndHeight(questsW, ySize - 2 * yBorder - 10);
-		right.xPosition = xSize - questsX - right.getButtonWidth();
-		right.yPosition = yBorder;
-		left.xPosition = questsX + questsW + 5;
-		left.yPosition = yBorder;
-		newQuest.xPosition = (xSize - questsX - questsW - newQuest.getButtonWidth()) / 2 + questsX + questsW;
-		newQuest.yPosition = ySize - yBorder - buttonHeight;
+		right.x = xSize - questsX - right.getButtonWidth();
+		right.y = yBorder;
+		left.x = questsX + questsW + 5;
+		left.y = yBorder;
+		newQuest.x = (xSize - questsX - questsW - newQuest.getButtonWidth()) / 2 + questsX + questsW;
+		newQuest.y = ySize - yBorder - buttonHeight;
 		left.visible = true;
 		right.visible = true;
 		newQuest.visible = true;

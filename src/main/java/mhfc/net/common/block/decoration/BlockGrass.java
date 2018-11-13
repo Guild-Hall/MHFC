@@ -16,7 +16,7 @@ public class BlockGrass extends Block {
 
 	public BlockGrass() {
 		super(Material.GRASS);
-		setUnlocalizedName(ResourceInterface.block_wyveriangrass_name);
+		setTranslationKey(ResourceInterface.block_wyveriangrass_name);
 		setHardness(0.8F);
 		setCreativeTab(MHFCMain.mhfctabs);
 		this.setSoundType(SoundType.PLANT);
@@ -30,7 +30,7 @@ public class BlockGrass extends Block {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public BlockRenderLayer getBlockLayer() {
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT_MIPPED;
 	}
 

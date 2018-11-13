@@ -78,24 +78,24 @@ public class Launch extends DamagingAction<Deviljho> implements IHasAttackProvid
 
 			for (int i = 0; i < 5; i++) {
 				ProjectileBlock block = new ProjectileBlock(entity.world, entity);
-				double xCo = look.xCoord;
-				double yCo = look.yCoord + HEIGHT_BLOCK;
-				double zCo = look.zCoord;
+				double xCo = look.x;
+				double yCo = look.y + HEIGHT_BLOCK;
+				double zCo = look.z;
 				if (i == 0) {
-					xCo += vec_positive_axis.xCoord * SPLIT_MULTIPLIER;
-					zCo += vec_positive_axis.zCoord * SPLIT_MULTIPLIER;
+					xCo += vec_positive_axis.x * SPLIT_MULTIPLIER;
+					zCo += vec_positive_axis.z * SPLIT_MULTIPLIER;
 				} else if (i == 2) {
-					xCo -= vec_positive_axis.xCoord * SPLIT_MULTIPLIER;
-					zCo -= vec_positive_axis.zCoord * SPLIT_MULTIPLIER;
+					xCo -= vec_positive_axis.x * SPLIT_MULTIPLIER;
+					zCo -= vec_positive_axis.z * SPLIT_MULTIPLIER;
 				} else if (i == 3) {
-					xCo += vec_positive_axis.xCoord * SPLIT_MULTIPLIER * 0.3D;
-					zCo += vec_positive_axis.zCoord * SPLIT_MULTIPLIER * 0.3D;
+					xCo += vec_positive_axis.x * SPLIT_MULTIPLIER * 0.3D;
+					zCo += vec_positive_axis.z * SPLIT_MULTIPLIER * 0.3D;
 				} else if (i == 4) {
-					xCo -= vec_positive_axis.xCoord * SPLIT_MULTIPLIER * 0.3D;
-					zCo -= vec_positive_axis.zCoord * SPLIT_MULTIPLIER * 0.3D;
+					xCo -= vec_positive_axis.x * SPLIT_MULTIPLIER * 0.3D;
+					zCo -= vec_positive_axis.z * SPLIT_MULTIPLIER * 0.3D;
 				}
 
-				block.setThrowableHeading(xCo, yCo, zCo, 3.5f, 1.5f);
+				block.shoot(xCo, yCo, zCo, 3.5f, 1.5f);
 				entity.world.spawnEntity(block);
 			}
 

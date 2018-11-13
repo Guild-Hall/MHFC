@@ -50,7 +50,7 @@ public class BackOff extends JumpAction<Tigrex> implements IHasJumpProvider<Tigr
 		if (SelectionUtils.isIdle(entity)) {
 			return DONT_SELECT;
 		}
-		float targetPoint = entity.getDistanceToEntity(target);
+		float targetPoint = entity.getDistance(target);
 		if (targetPoint > 11F) {
 			return DONT_SELECT;
 		}

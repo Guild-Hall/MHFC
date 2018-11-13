@@ -30,8 +30,8 @@ public class ItemSubtypedBlock<T extends Enum<T> & SubTypeEnum<Block>> extends I
 	}
 
 	@Override
-	public String getUnlocalizedName(ItemStack stack) {
-		return super.getUnlocalizedName() + "." + blockPerk.getSubType(stack).getUnlocalizedName();
+	public String getTranslationKey(ItemStack stack) {
+		return super.getTranslationKey() + "." + blockPerk.getSubType(stack).getUnlocalizedName();
 	}
 
 	@Override

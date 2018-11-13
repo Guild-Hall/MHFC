@@ -38,7 +38,7 @@ public class BlockStunTrap extends BlockContainer {
 
 	public BlockStunTrap() {
 		super(Material.ROCK);
-		setUnlocalizedName(ResourceInterface.block_stuntrap_name);
+		setTranslationKey(ResourceInterface.block_stuntrap_name);
 		setHardness(0.8F);
 		disableStats();
 		setCreativeTab(MHFCMain.mhfctabs);
@@ -103,7 +103,7 @@ public class BlockStunTrap extends BlockContainer {
 	}
 
 	@Override
-	public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
+	public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
 		if (!(entity instanceof EntityLivingBase) || (entity instanceof EntityPlayer)) {
 			return;
 		}

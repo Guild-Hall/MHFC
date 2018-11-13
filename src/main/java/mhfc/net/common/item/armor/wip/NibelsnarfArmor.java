@@ -24,7 +24,7 @@ public class NibelsnarfArmor extends ArmorBase {
 
 	public NibelsnarfArmor(EntityEquipmentSlot type) {
 		super(Material.nibelsnarf, ItemRarity.R04, type);
-		setUnlocalizedName(names[3 - type.getIndex()]);
+		setTranslationKey(names[3 - type.getIndex()]);
 	}
 
 	@Override

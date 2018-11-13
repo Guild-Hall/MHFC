@@ -46,7 +46,7 @@ public class BlockOreBlock extends AbstractSubTypedBlock<WyverniaOreBlockSubType
 
 	public BlockOreBlock() {
 		super(PROPERTY, Material.ROCK);
-		setUnlocalizedName(ResourceInterface.block_oreblock_basename);
+		setTranslationKey(ResourceInterface.block_oreblock_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

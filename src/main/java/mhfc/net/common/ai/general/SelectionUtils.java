@@ -23,7 +23,7 @@ public class SelectionUtils {
 		if (target == null) {
 			return false;
 		}
-		double distance = actor.getDistanceToEntity(target);
+		double distance = actor.getDistance(target);
 		return distance >= minDistance && distance <= maxDistance;
 	}
 

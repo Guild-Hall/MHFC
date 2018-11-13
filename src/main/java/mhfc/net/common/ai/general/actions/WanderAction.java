@@ -51,7 +51,7 @@ public abstract class WanderAction<T extends CreatureAttributes<? super T>> exte
 		@Override
 		public boolean hasWaypointReached() {
 			Vec3d position = actor.getPositionVector();
-			if (waypoint.subtract(position).lengthVector() < acceptedDistance) {
+			if (waypoint.subtract(position).length() < acceptedDistance) {
 				return true;
 			}
 			acceptedDistance += 0.01f * wanderDistance;
@@ -67,9 +67,9 @@ public abstract class WanderAction<T extends CreatureAttributes<? super T>> exte
 		private Vec3d generateNewRandomPoint() {
 			int randomAddX = random.nextInt(wanderDistance) - wanderDistance / 2;
 			int randomAddZ = random.nextInt(wanderDistance) - wanderDistance / 2;
-			int randomX = (int) (startingPosition.xCoord + randomAddX);
-			int randomZ = (int) (startingPosition.zCoord + randomAddZ);
-			return new Vec3d(randomX, startingPosition.yCoord, randomZ);
+			int randomX = (int) (startingPosition.x + randomAddX);
+			int randomZ = (int) (startingPosition.z + randomAddZ);
+			return new Vec3d(randomX, startingPosition.y, randomZ);
 		}
 	}
 
