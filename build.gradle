@@ -48,10 +48,6 @@ processResources {
     }
 }
 
-dependencies {
-    testCompile 'junit:junit:4.12'
-}
-
 task deobfJar(type: Jar) {
 	group = 'build'
 	description = 'Assemble a jar archive containing the deobfuscated classes'
