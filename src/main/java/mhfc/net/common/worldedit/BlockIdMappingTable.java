@@ -12,7 +12,7 @@ import com.sk89q.jnbt.CompoundTagBuilder;
 import com.sk89q.jnbt.ListTag;
 import com.sk89q.jnbt.StringTag;
 import com.sk89q.jnbt.Tag;
-import com.sk89q.worldedit.world.block.BaseBlock;
+import com.sk89q.worldedit.blocks.BaseBlock;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
@@ -31,7 +31,7 @@ public abstract class BlockIdMappingTable<ID, T extends Tag> implements IBlockMa
 	}
 
 	private int register(ID registryName) {
-		final int nextId = compressedIdToRegistryName.size();
+		int nextId = compressedIdToRegistryName.size();
 		compressedIdToRegistryName.add(nextId, registryName);
 		registryNameToCompressedId.put(registryName, nextId);
 		return nextId;
@@ -46,9 +46,8 @@ public abstract class BlockIdMappingTable<ID, T extends Tag> implements IBlockMa
 	protected abstract ID loadRegistryName(T tag);
 
 	@Override
-	@Deprecated
 	public int getCompressedIdFor(BaseBlock block) {
-		final ID registryName = getIdFromBlock(block.getBlockType().getLegacyId());
+		ID registryName = getIdFromBlock(block.getId());
 		int id;
 		if (registryNameToCompressedId.containsKey(registryName)) {
 			id = registryNameToCompressedId.get(registryName).intValue();
@@ -60,34 +59,34 @@ public abstract class BlockIdMappingTable<ID, T extends Tag> implements IBlockMa
 
 	@Override
 	public int getBaseBlockIdFor(int compressedId) {
-		final ID registryName = compressedIdToRegistryName.get(compressedId);
+		ID registryName = compressedIdToRegistryName.get(compressedId);
 		return getBaseBlockId(registryName);
 	}
 
 	@Override
 	public Tag saveToNbt() {
-		final List<T> savedTags = compressedIdToRegistryName.stream().map(this::saveRegistryName)
+		List<T> savedTags = compressedIdToRegistryName.stream().map(this::saveRegistryName)
 				.collect(Collectors.toList());
-		final ListTag list = new ListTag(tagType, savedTags);
+		ListTag list = new ListTag(tagType, savedTags);
 		return CompoundTagBuilder.create().putString("Format", formatName).put("Entries", list).build();
 	}
 
 	@Override
 	public void loadFromNbt(Tag nbtTag) {
-		final CompoundTag data = (CompoundTag) nbtTag;
-		final String dataFormat = data.getString("Format");
+		CompoundTag data = (CompoundTag) nbtTag;
+		String dataFormat = data.getString("Format");
 		if (!dataFormat.equals(formatName)) {
 			return;
 		}
 
-		final ListTag list = data.getListTag("Entries");
-		final List<Tag> tags = list.getValue();
-		final int size = tags.size();
-		final Map<ID, Integer> loadedNameToId = new HashMap<>(size);
-		final List<ID> loadedIdToName = new ArrayList<>(size);
+		ListTag list = data.getListTag("Entries");
+		List<Tag> tags = list.getValue();
+		int size = tags.size();
+		Map<ID, Integer> loadedNameToId = new HashMap<>(size);
+		List<ID> loadedIdToName = new ArrayList<>(size);
 		for (int i = 0; i < size; i++) {
-			final T tag = tagType.cast(tags.get(i));
-			final ID id = loadRegistryName(tag);
+			T tag = tagType.cast(tags.get(i));
+			ID id = loadRegistryName(tag);
 			loadedIdToName.add(i, id);
 			loadedNameToId.put(id, Integer.valueOf(i));
 		}
@@ -100,13 +99,13 @@ public abstract class BlockIdMappingTable<ID, T extends Tag> implements IBlockMa
 		return new BlockIdMappingTable<ResourceLocation, StringTag>(StringTag.class, "Forge") {
 			@Override
 			protected int getBaseBlockId(ResourceLocation registryName) {
-				final Block block = Block.REGISTRY.getObject(registryName);
+				Block block = Block.REGISTRY.getObject(registryName);
 				return Block.REGISTRY.getIDForObject(block);
 			}
 
 			@Override
 			protected ResourceLocation getIdFromBlock(int baseBlockId) {
-				final Block block = Block.REGISTRY.getObjectById(baseBlockId);
+				Block block = Block.REGISTRY.getObjectById(baseBlockId);
 				return Block.REGISTRY.getNameForObject(block);
 			}
 
@@ -118,12 +117,6 @@ public abstract class BlockIdMappingTable<ID, T extends Tag> implements IBlockMa
 			@Override
 			public ResourceLocation loadRegistryName(StringTag tag) {
 				return new ResourceLocation(tag.getValue());
-			}
-
-			@Override
-			public int getCompressedIdFor(BaseBlock block) {
-				// TODO Auto-generated method stub
-				return 0;
 			}
 		};
 	}

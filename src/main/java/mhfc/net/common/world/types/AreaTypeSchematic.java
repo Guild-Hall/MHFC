@@ -11,7 +11,8 @@ import com.sk89q.worldedit.function.operation.DelegateOperation;
 import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.regions.CuboidRegion;
-import com.sk89q.worldedit.world.registry.LegacyMapper;
+import com.sk89q.worldedit.world.registry.LegacyWorldData;
+import com.sk89q.worldedit.world.registry.WorldData;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.util.ResourceLocations;
@@ -28,7 +29,7 @@ import net.minecraft.world.World;
 
 public abstract class AreaTypeSchematic implements IAreaType {
 
-	private static com.sk89q.worldedit.world.World forgeData = (com.sk89q.worldedit.world.World) LegacyMapper.getInstance();
+	private static WorldData forgeData = LegacyWorldData.getInstance();
 	// use the portable schematics here
 	private static int DIM_SIZE = 8;
 
@@ -38,7 +39,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 
 	public AreaTypeSchematic(ResourceLocation schematicLocation, IClipboardFormat fileformat) {
 		try (BufferedInputStream instream = ResourceLocations.openEmbeddedResource(schematicLocation)) {
-			areaClipboard = fileformat.getReader(instream).read();
+			areaClipboard = fileformat.getReader(instream).read(AreaTypeSchematic.forgeData);
 		} catch (IOException e) {
 			MHFCMain.logger().error(
 					"Unable to load schematic {}. The area type will be blank instead",

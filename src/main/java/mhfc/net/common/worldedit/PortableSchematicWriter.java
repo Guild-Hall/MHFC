@@ -20,14 +20,14 @@ import com.sk89q.jnbt.ShortTag;
 import com.sk89q.jnbt.StringTag;
 import com.sk89q.jnbt.Tag;
 import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.blocks.BaseBlock;
 import com.sk89q.worldedit.entity.BaseEntity;
 import com.sk89q.worldedit.entity.Entity;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardWriter;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.util.Location;
-import com.sk89q.worldedit.world.block.BaseBlock;
-import com.sk89q.worldedit.world.registry.LegacyMapper;
+import com.sk89q.worldedit.world.registry.WorldData;
 
 public class PortableSchematicWriter implements ClipboardWriter {
 
@@ -36,23 +36,23 @@ public class PortableSchematicWriter implements ClipboardWriter {
 	private final IBlockMappingTable blockMappingTable;
 
 	public PortableSchematicWriter(NBTOutputStream output, IBlockMappingTable mappingTable) {
-		outputStream = output;
-		blockMappingTable = mappingTable;
+		this.outputStream = output;
+		this.blockMappingTable = mappingTable;
 	}
 
 	@Override
-	public void write(Clipboard clipboard) throws IOException {
+	public void write(Clipboard clipboard, WorldData data) throws IOException {
 		// Same implementation as in SchematicWriter, except
 		// - block-id are determined via the blockMappingTable
 		// - the name is "Portable-Schematic" to disambiguate
 		// - the mappingTable is saved in a tag "Mappings"
-		final Region region = clipboard.getRegion();
-		final Vector origin = clipboard.getOrigin();
-		final Vector min = region.getMinimumPoint();
-		final Vector offset = min.subtract(origin);
-		final int width = region.getWidth();
-		final int height = region.getHeight();
-		final int length = region.getLength();
+		Region region = clipboard.getRegion();
+		Vector origin = clipboard.getOrigin();
+		Vector min = region.getMinimumPoint();
+		Vector offset = min.subtract(origin);
+		int width = region.getWidth();
+		int height = region.getHeight();
+		int length = region.getLength();
 
 		if (width > MAX_SIZE) {
 			throw new IllegalArgumentException("Width of region too large for a .schematic");
@@ -68,7 +68,7 @@ public class PortableSchematicWriter implements ClipboardWriter {
 		// Metadata
 		// ====================================================================
 
-		final CompoundTagBuilder schematic = CompoundTagBuilder.create();
+		CompoundTagBuilder schematic = CompoundTagBuilder.create();
 		schematic.put("Width", new ShortTag((short) width));
 		schematic.put("Length", new ShortTag((short) length));
 		schematic.put("Height", new ShortTag((short) height));
@@ -84,23 +84,21 @@ public class PortableSchematicWriter implements ClipboardWriter {
 		// Block handling
 		// ====================================================================
 
-		final byte[] blocks = new byte[width * height * length];
+		byte[] blocks = new byte[width * height * length];
 		byte[] addBlocks = null;
-		final byte[] blockData = new byte[width * height * length];
-		final List<Tag> tileEntities = new ArrayList<>();
+		byte[] blockData = new byte[width * height * length];
+		List<Tag> tileEntities = new ArrayList<>();
 
-		for (final Vector point : region) {
-			final Vector relative = point.subtract(min);
-			final int x = relative.getBlockX();
-			final int y = relative.getBlockY();
-			final int z = relative.getBlockZ();
+		for (Vector point : region) {
+			Vector relative = point.subtract(min);
+			int x = relative.getBlockX();
+			int y = relative.getBlockY();
+			int z = relative.getBlockZ();
 
-			final int index = y * width * length + z * width + x;
-			final BaseBlock block = clipboard.getFullBlock(point);
+			int index = y * width * length + z * width + x;
+			BaseBlock block = clipboard.getBlock(point);
 
-			final int[] legacy = LegacyMapper.getInstance().getLegacyFromBlock(block.toImmutableState());
-			// assert legacy.length;
-			final int blockType = blockMappingTable.getCompressedIdFor(block);
+			int blockType = blockMappingTable.getCompressedIdFor(block);
 			// Save 4096 IDs in an AddBlocks section
 			if (blockType > 255) {
 				if (addBlocks == null) { // Lazily create section
@@ -113,13 +111,13 @@ public class PortableSchematicWriter implements ClipboardWriter {
 			}
 
 			blocks[index] = (byte) blockType;
-			blockData[index] = (byte) legacy[1];
+			blockData[index] = (byte) block.getData();
 
 			// Store TileEntity data
-			final CompoundTag rawTag = block.getNbtData();
+			CompoundTag rawTag = block.getNbtData();
 			if (rawTag != null) {
-				final Map<String, Tag> values = new HashMap<>();
-				for (final Entry<String, Tag> entry : rawTag.getValue().entrySet()) {
+				Map<String, Tag> values = new HashMap<>();
+				for (Entry<String, Tag> entry : rawTag.getValue().entrySet()) {
 					values.put(entry.getKey(), entry.getValue());
 				}
 
@@ -128,47 +126,48 @@ public class PortableSchematicWriter implements ClipboardWriter {
 				values.put("y", new IntTag(y));
 				values.put("z", new IntTag(z));
 
-				final CompoundTag tileEntityTag = new CompoundTag(values);
+				CompoundTag tileEntityTag = new CompoundTag(values);
 				tileEntities.add(tileEntityTag);
 			}
 		}
 
 		schematic.put("Blocks", new ByteArrayTag(blocks));
 		schematic.put("Data", new ByteArrayTag(blockData));
+		schematic.put("TileEntities", new ListTag(CompoundTag.class, tileEntities));
+
 		if (addBlocks != null) {
 			schematic.put("AddBlocks", new ByteArrayTag(addBlocks));
 		}
-		schematic.put("TileEntities", new ListTag(CompoundTag.class, tileEntities));
-		schematic.put("Mappings", blockMappingTable.saveToNbt());
 
 		// ====================================================================
 		// Entities
 		// ====================================================================
 
-		final List<Tag> entities = new ArrayList<>();
-		for (final Entity entity : clipboard.getEntities()) {
-			final BaseEntity state = entity.getState();
+		List<Tag> entities = new ArrayList<>();
+		for (Entity entity : clipboard.getEntities()) {
+			BaseEntity state = entity.getState();
 
 			if (state != null) {
-				final Map<String, Tag> values = new HashMap<>();
+				Map<String, Tag> values = new HashMap<>();
 
 				// Put NBT provided data
-				final CompoundTag rawTag = state.getNbtData();
+				CompoundTag rawTag = state.getNbtData();
 				if (rawTag != null) {
 					values.putAll(rawTag.getValue());
 				}
 
 				// Store our location data, overwriting any
-				values.put("id", new StringTag(state.getType().getId()));
-				values.put("Pos", writePosition(entity.getLocation()));
+				values.put("id", new StringTag(state.getTypeId()));
+				values.put("Pos", writeVector(entity.getLocation().toVector()));
 				values.put("Rotation", writeRotation(entity.getLocation()));
 
-				final CompoundTag entityTag = new CompoundTag(values);
+				CompoundTag entityTag = new CompoundTag(values);
 				entities.add(entityTag);
 			}
 		}
 
 		schematic.put("Entities", new ListTag(CompoundTag.class, entities));
+		schematic.put("Mappings", blockMappingTable.saveToNbt());
 
 		// ====================================================================
 		// Output
@@ -177,9 +176,8 @@ public class PortableSchematicWriter implements ClipboardWriter {
 		outputStream.writeNamedTag("Portable-Schematic", schematic.build());
 	}
 
-	private static Tag writePosition(Location location) {
-		final Vector vector = location.toVector();
-		final ListTagBuilder list = ListTagBuilder.create(DoubleTag.class);
+	private static Tag writeVector(Vector vector) {
+		ListTagBuilder list = ListTagBuilder.create(DoubleTag.class);
 		list.add(new DoubleTag(vector.getX()));
 		list.add(new DoubleTag(vector.getY()));
 		list.add(new DoubleTag(vector.getZ()));
@@ -187,7 +185,7 @@ public class PortableSchematicWriter implements ClipboardWriter {
 	}
 
 	private static Tag writeRotation(Location location) {
-		final ListTagBuilder list = ListTagBuilder.create(FloatTag.class);
+		ListTagBuilder list = ListTagBuilder.create(FloatTag.class);
 		list.add(new FloatTag(location.getYaw()));
 		list.add(new FloatTag(location.getPitch()));
 		return list.build();

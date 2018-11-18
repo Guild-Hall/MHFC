@@ -8,6 +8,7 @@ import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.Vector2D;
 import com.sk89q.worldedit.WorldEditException;
+import com.sk89q.worldedit.blocks.BaseBlock;
 import com.sk89q.worldedit.blocks.BaseItemStack;
 import com.sk89q.worldedit.entity.BaseEntity;
 import com.sk89q.worldedit.entity.Entity;
@@ -18,10 +19,7 @@ import com.sk89q.worldedit.util.TreeGenerator.TreeType;
 import com.sk89q.worldedit.world.AbstractWorld;
 import com.sk89q.worldedit.world.World;
 import com.sk89q.worldedit.world.biome.BaseBiome;
-import com.sk89q.worldedit.world.block.BaseBlock;
-import com.sk89q.worldedit.world.block.BlockState;
-import com.sk89q.worldedit.world.block.BlockStateHolder;
-import com.sk89q.worldedit.world.weather.WeatherType;
+import com.sk89q.worldedit.world.registry.WorldData;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.world.area.DisplacedView;
@@ -35,9 +33,9 @@ public class WorldDisplacedView extends AbstractWorld {
 
 	public WorldDisplacedView(DisplacedView worldView) {
 		this.worldView = worldView;
-		forgeWorld = MHFCMain.getWorldedit().getWorld(worldView.getWorldObject());
-		add = new Vector(worldView.getAddX(), 0, worldView.getAddZ());
-		chunkAdd = new Vector2D(worldView.getChunkDeltaX(), worldView.getChunkDeltaZ());
+		this.forgeWorld = MHFCMain.getWorldedit().getWorld(worldView.getWorldObject());
+		this.add = new Vector(worldView.getAddX(), 0, worldView.getAddZ());
+		this.chunkAdd = new Vector2D(worldView.getChunkDeltaX(), worldView.getChunkDeltaZ());
 	}
 
 	@Override
@@ -46,9 +44,8 @@ public class WorldDisplacedView extends AbstractWorld {
 	}
 
 	@Override
-	public boolean setBlock(Vector position, BlockStateHolder holder, boolean notifyAndLight)
-			throws WorldEditException {
-		return forgeWorld.setBlock(position.add(add), holder, notifyAndLight);
+	public boolean setBlock(Vector position, BaseBlock block, boolean notifyAndLight) throws WorldEditException {
+		return forgeWorld.setBlock(position.add(add), block, notifyAndLight);
 	}
 
 	@Override
@@ -70,7 +67,7 @@ public class WorldDisplacedView extends AbstractWorld {
 	public boolean regenerate(Region region, EditSession editSession) {
 		try {
 			region.shift(add);
-		} catch (final RegionOperationException e) {
+		} catch (RegionOperationException e) {
 			return false;
 		}
 		return forgeWorld.regenerate(region, editSession);
@@ -83,10 +80,15 @@ public class WorldDisplacedView extends AbstractWorld {
 	}
 
 	@Override
+	public WorldData getWorldData() {
+		return forgeWorld.getWorldData();
+	}
+
+	@Override
 	public List<? extends Entity> getEntities(Region region) {
 		try {
 			region.shift(add);
-		} catch (final RegionOperationException e) {
+		} catch (RegionOperationException e) {
 			return new ArrayList<>();
 		}
 		return forgeWorld.getEntities(region);
@@ -99,19 +101,19 @@ public class WorldDisplacedView extends AbstractWorld {
 
 	@Override
 	public Entity createEntity(Location location, BaseEntity entity) {
-		final Vector locationV = new Vector(location.getX(), location.getY(), location.getZ());
+		Vector locationV = new Vector(location.getX(), location.getY(), location.getZ());
 		location = new Location(location.getExtent(), locationV.add(add), location.getDirection());
 		return forgeWorld.createEntity(location, entity);
 	}
 
 	@Override
-	public BlockState getBlock(Vector position) {
+	public BaseBlock getBlock(Vector position) {
 		return forgeWorld.getBlock(position.add(add));
 	}
 
 	@Override
-	public BaseBlock getFullBlock(Vector position) {
-		return forgeWorld.getFullBlock(position.add(add));
+	public BaseBlock getLazyBlock(Vector position) {
+		return forgeWorld.getLazyBlock(position.add(add));
 	}
 
 	@Override
@@ -122,31 +124,6 @@ public class WorldDisplacedView extends AbstractWorld {
 	@Override
 	public boolean setBiome(Vector2D position, BaseBiome biome) {
 		return forgeWorld.setBiome(position.add(chunkAdd), biome);
-	}
-
-	@Override
-	public void simulateBlockMine(Vector position) {
-		forgeWorld.simulateBlockMine(position.add(add));
-	}
-
-	@Override
-	public WeatherType getWeather() {
-		return forgeWorld.getWeather();
-	}
-
-	@Override
-	public long getRemainingWeatherDuration() {
-		return forgeWorld.getRemainingWeatherDuration();
-	}
-
-	@Override
-	public void setWeather(WeatherType weatherType) {
-		forgeWorld.setWeather(weatherType);
-	}
-
-	@Override
-	public void setWeather(WeatherType weatherType, long duration) {
-		forgeWorld.setWeather(weatherType, duration);
 	}
 
 }

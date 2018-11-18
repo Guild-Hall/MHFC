@@ -86,7 +86,7 @@ public class CommandPortableSchematic extends CommandBase {
 
 		// If we have a transform, bake it into the copy
 		if (!transform.isIdentity()) {
-			final FlattenedClipboardTransform result = FlattenedClipboardTransform.transform(clipboard, transform);
+			final FlattenedClipboardTransform result = FlattenedClipboardTransform.transform(clipboard, transform, holder.getWorldData());
 			target = new BlockArrayClipboard(result.getTransformedRegion());
 			target.setOrigin(clipboard.getOrigin());
 			Operations.completeLegacy(result.copyTo(target));
@@ -109,7 +109,7 @@ public class CommandPortableSchematic extends CommandBase {
 			final BufferedOutputStream bos = closer.register(new BufferedOutputStream(fos));
 			@SuppressWarnings("resource")
 			final ClipboardWriter writer = closer.register(format.getWriter(bos));
-			writer.write(target);
+			writer.write(target, holder.getWorldData());
 			MHFCMain.logger().info(player.getName() + " saved " + f.getCanonicalPath());
 			player.print(filename + ColorSystem.dark_green + " saved as MHFC schematic compatible format.");
 		} catch (final IOException e) {
