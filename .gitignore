@@ -10,7 +10,8 @@
 !README.md
 !guidelines.md
 !LICENSE
-!build.gradle
+!*.gradle
+*.gradle/
 !build.properties
 !.gitignore
 
