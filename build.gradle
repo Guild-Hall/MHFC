@@ -13,6 +13,7 @@ buildscript {
 apply plugin: 'maven'
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply from: 'build.properties'
+apply from: 'release.gradle'
 
 allprojects {
     repositories { 
@@ -23,7 +24,7 @@ allprojects {
 
 minecraft {
     runDir = "run"
-    makeObfSourceJar = false
+    makeObfSourceJar = true
 }
 
 project.version = getVersion()
@@ -51,148 +52,7 @@ processResources {
     }
 }
 
-task deobfJar(type: Jar) {
-	group = 'build'
-	description = 'Assemble a jar archive containing the deobfuscated classes'
-	
-    from sourceSets.main.output
-    classifier = 'deobf'
-}
-
-task release(dependsOn: 'build') {
-	group = 'build'
-	description = 'Assemble this project for a release'
-	
-	doLast {
-		println "Ready to release ${project.version}"
-	}
-}
-
-task preRelease(dependsOn: 'build') {
-	group = 'build'
-	description = 'Assemble this project for a pre-release'
-	
-	doLast {
-		println "Ready to pre-release ${project.version}"
-	}
-}
-
-enum ReleaseType {
-	NONE, RELEASE_CANDIDATE, RELEASE
-}
-
-project.ext.releaseType = ReleaseType.NONE;
-
-gradle.taskGraph.whenReady {taskGraph ->
-	if(taskGraph.hasTask(preRelease)) {
-    	project.releaseType = ReleaseType.RELEASE_CANDIDATE
-	}
-	if(taskGraph.hasTask(release)) {
-    	project.releaseType = ReleaseType.RELEASE
-	}
-}
-
-task updateBuildMetadata {
-	group = 'build'
-	description = 'Updates the build metadata and update.json'
-	
-	doLast {
-		// Skip anything that is not on branch master or not a release
-		def isRelease = project.releaseType == ReleaseType.RELEASE_CANDIDATE ||
-				project.releaseType == ReleaseType.RELEASE;
-
-		if(!isRelease || getArtifactID() != '') {
-			logger.lifecycle("Building with artifact-id ${getArtifactID()}, skipping update to update.json")
-		 	return;
-		}
-		
-		def metadataFolder = new File(project.buildDir, 'mhfc-update-metadata')
-		def deleteResult = metadataFolder.deleteDir()
-		if(!deleteResult) {
-			throw new TaskExecutionException("Couldn't delete local clone of metadata folder");
-		}
-		
-		def stdout = new ByteArrayOutputStream()
-		// Clone the updates branch
-		exec {
-            executable "git"
-            args "clone", "-b", "updates", "--single-branch", "git@github.com:Guild-Hall/MHFC.git", metadataFolder
-            standardOutput = stdout
-		}
-		logger.lifecycle("${stdout}");
-		
-		def buildData = new File(metadataFolder, 'update.json')
-		if(!buildData.exists()) {
-			buildData << '{}'
-		}
-		def parsedJson = new groovy.json.JsonSlurper().parse(buildData)
-		
-		if(!parsedJson.hasProperty("homepage")) {
-			parsedJson.homePage = "https://minecraft.curseforge.com/projects/monster-hunter-frontier-craft"
-		}
-		
-		def mcversion = project.minecraft.version.toString()
-		if(!parsedJson[mcversion]) {
-			logger.lifecycle("${parsedJson} doesn't have ${mcversion}");
-			parsedJson[mcversion] = [:]
-		}
-		
-		def modversion = project.shortVersion.toString()
-		def version = parsedJson[mcversion]
-		if(version[modversion]) {
-			logger.lifecycle("Version ${modversion} seems to already be published, skipping update")
-			return;
-		}
-		version[modversion] = "See our homepage for changelogs"
-		
-		if(!parsedJson.promos) {
-			parsedJson.promos = [:]
-		}
-		def promos = parsedJson.promos
-		promos["${mcversion}-latest"] = modversion
-		if(project.releaseType == ReleaseType.RELEASE) {
-			promos["${mcversion}-recommended"] = modversion
-		}
-		
-		buildData.newWriter().withWriter {
-			it << new groovy.json.JsonBuilder(parsedJson).toPrettyString()
-		}
-		
-		// Push the updates branch
-		stdout.reset();
-		exec {
-			workingDir metadataFolder
-            executable "git"
-            args "add", "update.json"
-            standardOutput = stdout
-		}
-		logger.lifecycle("${stdout}");
-		stdout.reset();
-		exec {
-			workingDir metadataFolder
-            executable "git"
-            args "commit", "-m", "Automated update for build " + modversion
-            standardOutput = stdout
-		}
-		logger.lifecycle("${stdout}");
-		stdout.reset();
-		exec {
-			workingDir metadataFolder
-            executable "git"
-            args "push", "origin", "updates"
-            standardOutput = stdout
-		}
-		logger.lifecycle("${stdout}");
-	}
-}
-
-tasks["sourceJar"].classifier = 'sources'
-
-tasks.build.dependsOn('deobfJar', 'sourceJar')
 tasks.install.dependsOn 'build'
-
-tasks.release.dependsOn('updateBuildMetadata')
-tasks.preRelease.dependsOn('updateBuildMetadata')
 
 // Always run these tasks
 tasks.runClient.outputs.upToDateWhen { false }
@@ -201,11 +61,13 @@ tasks.runServer.outputs.upToDateWhen { false }
 tasks.runClient {
     jvmArgs += ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5006"]
 }
+tasks.runServer {
+    jvmArgs += ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5007"]
+}
 
 artifacts {
     archives jar
     archives sourceJar
-    archives deobfJar
 }
 
 test {
