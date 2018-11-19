@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 public class LazyQueueTest {
@@ -14,8 +14,8 @@ public class LazyQueueTest {
 	static List<Integer> original;
 	static LazyQueue<Integer> queue;
 
-	@BeforeClass
-	public static void setUp() {
+	@Before
+	public void setUp() {
 		original = new ArrayList<>();
 		for (int i = 0; i < 10; i++)
 			original.add(new Integer(i));
@@ -24,7 +24,7 @@ public class LazyQueueTest {
 
 	@Test
 	public void testConstruct() {
-		List<Integer> trans = new ArrayList<>(queue);
+		final List<Integer> trans = new ArrayList<>(queue);
 		assertEquals(original, trans);
 	}
 
@@ -35,7 +35,7 @@ public class LazyQueueTest {
 
 	@Test
 	public void testInfinite() {
-		Iterator<Integer> infiniteIterator = new Iterator<Integer>() {
+		final Iterator<Integer> infiniteIterator = new Iterator<Integer>() {
 			@Override
 			public boolean hasNext() {
 				return true;
@@ -46,8 +46,8 @@ public class LazyQueueTest {
 				return new Integer(0);
 			}
 		};
-		Integer zero = new Integer(0);
-		LazyQueue<Integer> infiniteQueue = new LazyQueue<>(infiniteIterator);
+		final Integer zero = new Integer(0);
+		final LazyQueue<Integer> infiniteQueue = new LazyQueue<>(infiniteIterator);
 		for (int i = 0; i < 1000; i++) {
 			assertEquals(zero, infiniteQueue.remove());
 		}

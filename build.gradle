@@ -6,8 +6,14 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'de.undercouch:gradle-download-task:3.4.3'
     }
 }
+
+apply plugin: 'maven'
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply from: 'build.properties'
+
 allprojects {
     repositories { 
         jcenter()
@@ -15,55 +21,9 @@ allprojects {
     }
 }
 
-apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'maven'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-minecraft.version = "1.12.2-14.23.4.2705"
-minecraft.mappings = "stable_39"
-
-archivesBaseName = "mhfc"
-group = "com.github.guild-hall.mhfc"
-
-ext {
-    major = 1
-    minor = 4
-    patch = 8
-    longname = "Monster Hunter Frontier Craft"
-    modid = "mhfc"
-}
-
-repositories {
-    maven { url "https://jitpack.io" }
-    maven {
-        name 'sk89q-repo'
-        url 'http://maven.sk89q.com/repo/'
-    }
-}
-
-configurations {
-    contained {
-        transitive = false
-    }
-	deobfCompile.extendsFrom contained
-}
-
-dependencies {
-	testCompile 'junit:junit:4.12'
-    contained 'com.github.Guild-Hall:MCAnm:v2.7.46'
-    contained 'com.sk89q.worldedit:worldedit-forge-mc1.11:6.1.6'
-    contained ('com.sk89q.worldedit:worldedit-core:6.1.4-SNAPSHOT') {
-        exclude group: 'com.google.guava'
-        exclude group: 'com.google.code.findbugs'
-        exclude group: 'com.google.code.gson'
-        exclude group: 'junit'
-    }
-}
-
 minecraft {
     runDir = "run"
+    makeObfSourceJar = false
 }
 
 project.version = getVersion()
@@ -237,6 +197,10 @@ tasks.preRelease.dependsOn('updateBuildMetadata')
 // Always run these tasks
 tasks.runClient.outputs.upToDateWhen { false }
 tasks.runServer.outputs.upToDateWhen { false }
+// Debug connection for development
+tasks.runClient {
+    jvmArgs += ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5006"]
+}
 
 artifacts {
     archives jar

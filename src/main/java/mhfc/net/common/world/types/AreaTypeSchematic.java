@@ -47,8 +47,8 @@ public abstract class AreaTypeSchematic implements IAreaType {
 			areaClipboard = new BlockArrayClipboard(new CuboidRegion(Vector.ZERO, Vector.ZERO));
 		}
 
-		Vector origin = areaClipboard.getOrigin();
-		Vector clipLowerLeft = areaClipboard.getMinimumPoint();
+		final Vector origin = areaClipboard.getOrigin();
+		final Vector clipLowerLeft = areaClipboard.getMinimumPoint();
 		absoluteMinimum = Vector.getMinimum(origin, clipLowerLeft);
 		clipboardRegion = new CuboidRegion(areaClipboard.getMinimumPoint(), areaClipboard.getMaximumPoint());
 
@@ -65,22 +65,22 @@ public abstract class AreaTypeSchematic implements IAreaType {
 				"Starting to copy {} blocks in chunks of {}",
 				clipboardRegion.getArea(),
 				DIM_SIZE * DIM_SIZE * DIM_SIZE);
-		Operation copyOp = new RegionSplittingOperation(clipboardRegion, region -> {
+		final Operation copyOp = new RegionSplittingOperation(clipboardRegion, region -> {
 			return new ForwardExtentCopy(
 					areaClipboard,
 					region,
 					destination,
 					region.getMinimumPoint().subtract(absoluteMinimum));
 		}, DIM_SIZE);
-		Operation commit = displacedWorld.commit();
-		Operation chain = commit == null ? copyOp : new DelegateOperation(commit, copyOp);
+		final Operation commit = displacedWorld.commit();
+		final Operation chain = commit == null ? copyOp : new DelegateOperation(commit, copyOp);
 
 		return chain;
 	}
 
 	@Override
 	public AreaConfiguration configForNewArea() {
-		Vector absoluteSize = areaClipboard.getMaximumPoint().subtract(absoluteMinimum);
+		final Vector absoluteSize = areaClipboard.getMaximumPoint().subtract(absoluteMinimum);
 		return new AreaConfiguration(
 				(absoluteSize.getBlockX() + 15) / 16,
 				(absoluteSize.getBlockZ() + 15) / 16,
