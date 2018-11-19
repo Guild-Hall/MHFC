@@ -19,6 +19,7 @@ import mhfc.net.common.core.registry.MHFCQuestRegistry;
 import mhfc.net.common.core.registry.MHFCSmeltingRegistry;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.core.registry.MHFCTileRegistry;
+import mhfc.net.common.eventhandler.MHFCTickHandler;
 import mhfc.net.common.world.area.AreaRegistry;
 
 public class MHFCCommonRegistry {
@@ -47,6 +48,7 @@ public class MHFCCommonRegistry {
 		MHFCBlockRegistry.staticInit();
 		MHFCItemRegistry.staticInit();
 		MHFCLootTableRegistry.staticInit();
+		MHFCTickHandler.staticInit();
 
 		MHFCMain.initPhase.registerEntryCallback(e -> init());
 	}

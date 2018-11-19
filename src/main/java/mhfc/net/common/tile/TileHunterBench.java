@@ -87,7 +87,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	}
 
 	private void resetRecipeStacks() {
-		Arrays.fill(recipeStacks, ItemStack.EMPTY);
+		Arrays.fill(recipeStacks, Ingredient.EMPTY);
 	}
 
 	private void resetInputStacks() {
@@ -289,7 +289,8 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		{
 			final int j = i - recipeOffset;
 			if (j < recipeLength) {
-				return recipeStacks[j].getMatchingStacks()[0];
+				final ItemStack[] matchingStacks = recipeStacks[j].getMatchingStacks();
+				return matchingStacks.length == 0 ? ItemStack.EMPTY : matchingStacks[0];
 			}
 		}
 		{

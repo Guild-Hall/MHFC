@@ -39,14 +39,14 @@ public class MHFCTickHandler {
 			this.op = Objects.requireNonNull(op);
 			this.context = context;
 			this.phase = Objects.requireNonNull(phase);
-			this.cancel = this::cancelOp;
-			this.future = new CompletableFuture<>();
+			cancel = this::cancelOp;
+			future = new CompletableFuture<>();
 		}
 
 		protected void cancelOp() {
 			assert op != null;
-			this.future.cancel(true);
-			this.op.cancel();
+			future.cancel(true);
+			op.cancel();
 		}
 
 		@Override
@@ -54,17 +54,17 @@ public class MHFCTickHandler {
 			Operation followup;
 			try {
 				followup = op.resume(context);
-			} catch (Throwable e) {
+			} catch (final Throwable e) {
 				MHFCMain.logger().error("Exception when handling an operation", e);
-				this.future.completeExceptionally(e);
+				future.completeExceptionally(e);
 				return;
 			}
 			if (followup != null) {
-				this.op = followup;
-				CompletionStage<Void> registeredFuture = MHFCTickHandler.registerWrapper(phase, this);
-				assert this.future == registeredFuture;
+				op = followup;
+				final CompletionStage<Void> registeredFuture = MHFCTickHandler.registerWrapper(phase, this);
+				assert future == registeredFuture;
 			} else {
-				this.future.complete(null);
+				future.complete(null);
 			}
 		}
 
@@ -77,17 +77,17 @@ public class MHFCTickHandler {
 		}
 
 		public Runnable getCancel() {
-			return this.cancel;
+			return cancel;
 		}
 	}
 
 	private static Map<TickPhase, IServiceKey<DoubleBufferRunnableRegistry>> jobQueue = new EnumMap<>(TickPhase.class);
 
 	static {
-		for (TickPhase phase : TickPhase.values()) {
-			boolean isServerTick = phase == TickPhase.SERVER_POST || phase == TickPhase.SERVER_PRE;
-			boolean isClientTick = phase == TickPhase.CLIENT_POST || phase == TickPhase.CLIENT_PRE;
-			IServiceAccess<DoubleBufferRunnableRegistry> phaseHandler = Services.instance
+		for (final TickPhase phase : TickPhase.values()) {
+			final boolean isServerTick = phase == TickPhase.SERVER_POST || phase == TickPhase.SERVER_PRE;
+			final boolean isClientTick = phase == TickPhase.CLIENT_POST || phase == TickPhase.CLIENT_PRE;
+			final IServiceAccess<DoubleBufferRunnableRegistry> phaseHandler = Services.instance
 					.registerService("tick " + phase, new IServiceHandle<DoubleBufferRunnableRegistry>() {
 						@Override
 						public DoubleBufferRunnableRegistry createInstance() {
@@ -112,6 +112,9 @@ public class MHFCTickHandler {
 			jobQueue.put(phase, phaseHandler);
 		}
 	}
+
+	// Force static initialization
+	public static void staticInit() {}
 
 	private static Optional<DoubleBufferRunnableRegistry> getQueueFor(TickPhase phase) {
 		assert phase != null;
@@ -145,13 +148,13 @@ public class MHFCTickHandler {
 		if (op == null) {
 			return CompletableFuture.completedFuture(null);
 		}
-		OperationWrapper wrapper = new OperationWrapper(op, context, phase);
+		final OperationWrapper wrapper = new OperationWrapper(op, context, phase);
 		return registerWrapper(phase, wrapper);
 	}
 
 	private static CompletionStage<Void> registerWrapper(TickPhase phase, OperationWrapper wrapper) {
 		Objects.requireNonNull(phase);
-		Optional<DoubleBufferRunnableRegistry> serviceQueue = getQueueFor(phase);
+		final Optional<DoubleBufferRunnableRegistry> serviceQueue = getQueueFor(phase);
 		if (serviceQueue.isPresent()) {
 			serviceQueue.get().register(wrapper.getRun(), wrapper.getCancel());
 		} else {
@@ -186,8 +189,8 @@ public class MHFCTickHandler {
 	}
 
 	private static void onTick(TickEvent event) {
-		TickPhase phase = TickPhase.forEvent(event);
-		IServiceKey<DoubleBufferRunnableRegistry> key = jobQueue.get(phase);
+		final TickPhase phase = TickPhase.forEvent(event);
+		final IServiceKey<DoubleBufferRunnableRegistry> key = jobQueue.get(phase);
 		key.getServiceProvider().getServiceFor(key).ifPresent(DoubleBufferRunnableRegistry::runAll);
 	}
 
