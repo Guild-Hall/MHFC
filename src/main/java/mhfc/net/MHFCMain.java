@@ -143,7 +143,7 @@ public class MHFCMain {
 		return worldedit;
 	}
 
-	public final static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID());
+	public final static CreativeTabs mhfctabs = new MHFCTab(CreativeTabs.getNextID(),"mhfc");
 	private final static Logger logger = LogManager.getLogger(ResourceInterface.main_modid);
 
 	public static Logger logger() {

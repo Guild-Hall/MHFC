@@ -49,6 +49,13 @@ public abstract class MHFCTabbedGui extends GuiContainer {
 	protected void addTab(IMHFCTab tab, String name, int index) {
 		tabs.add(index, new TabAttribute(tab, name));
 	}
+	
+	@Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        this.drawDefaultBackground();
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        this.renderHoveredToolTip(mouseX, mouseY);
+    }
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTick, int mousePosX, int mousePosY) {

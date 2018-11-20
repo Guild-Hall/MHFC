@@ -1,30 +1,22 @@
 package mhfc.net.common.tab;
 
-import mhfc.net.common.core.registry.MHFCBlockRegistry;
-import mhfc.net.common.index.ResourceInterface;
+import mhfc.net.common.core.registry.MHFCItemRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MHFCTab extends CreativeTabs {
 
-	public MHFCTab(int par) {
-		super(par, ResourceInterface.gui_tab_name);
+	public MHFCTab(int par1,String label) {
+		super(par1,label);
 		this.setBackgroundImageName("mhfc.png");
 	}
+	
 
 	@Override
-	@SideOnly(Side.CLIENT)
 	public ItemStack createIcon() {
-		return new ItemStack(MHFCBlockRegistry.getRegistry().mhfcblockgrass);
+		return new ItemStack(MHFCItemRegistry.getRegistry().weapon_hm_kirinspark);
 	}
 
-	@Override
-	public String getBackgroundImageName() {
-		return ResourceInterface.gui_tab_name;
-		// The main_name of the tab ingame
-	}
 
 
 }

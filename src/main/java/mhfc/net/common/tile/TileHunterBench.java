@@ -404,7 +404,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 
 	protected boolean matchesInputOutput() {
 		for (int i = 0; i < inputStacks.length; i++) {
-			if (!recipeStacks[i].apply(inputStacks[i])) {
+			if (!this.recipeStacks[i].test(inputStacks[i])) {
 				return false;
 			}
 		}

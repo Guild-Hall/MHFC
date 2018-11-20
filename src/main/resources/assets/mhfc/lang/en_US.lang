@@ -9,6 +9,8 @@ mhfc.area.village_poke.name=Pokèvillage
 mhfc.area.areasandy.name=§6The Sandy
 mhfc.area.thegreenvalley.name=§6Green Valley
 
+itemGroup.mhfc=§2MHFC Tabs
+
 entity.tigrex.name=§2Tigrex
 entity.mhfc.tigrex.name=§2Tigrex
 entity.greatjaggi.name=§2Great Jaggi
