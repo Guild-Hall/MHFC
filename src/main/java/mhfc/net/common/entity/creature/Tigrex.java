@@ -40,12 +40,16 @@ import net.minecraft.world.World;
 public class Tigrex extends CreatureAttributes<Tigrex> {
 
 	public int rageLevel;
-
+	public CollisionParts[] tigrexPartArray; 
+	public CollisionParts	tigrexPartHead;
+	
 	public Tigrex(World par1World) {
 		super(par1World);
 		setSize(4.6f, 3.6f);
 		stepHeight = 1.5f;
-	}
+		
+		}
+		
 
 	@Override
 	protected void applyEntityAttributes() {
@@ -136,6 +140,11 @@ public class Tigrex extends CreatureAttributes<Tigrex> {
 		return manager.build(this);
 	}
 
+	public void onLivingUpdate() {
+		super.onLivingUpdate();
+		this.tigrexPartHead.setLocationAndAngles(this.posX + (double) 0.5, this.posY, this.posZ + (double) 0.5, 0, 0);
+		
+	}
 
 
 	@Override

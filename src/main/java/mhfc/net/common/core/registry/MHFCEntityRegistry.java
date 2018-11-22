@@ -15,6 +15,7 @@ import mhfc.net.common.entity.creature.Lagiacrus;
 import mhfc.net.common.entity.creature.Nargacuga;
 import mhfc.net.common.entity.creature.Rathalos;
 import mhfc.net.common.entity.creature.Tigrex;
+import mhfc.net.common.entity.creature.incomplete.AkuraVashimu;
 import mhfc.net.common.entity.creature.incomplete.GreatJaggi;
 import mhfc.net.common.entity.creature.npc.NPCQuestGiver;
 import mhfc.net.common.entity.fx.FXDeviljhoLaser;
@@ -52,6 +53,9 @@ public class MHFCEntityRegistry {
 	//public final int ukanlosID;
 	public final int lagiacrusID;
 	public final int gargwaID;
+	
+	// NEW MONSTER 1.12
+	public final int akuraVashimuID;
 
 	public final int questGiverID;
 
@@ -99,6 +103,7 @@ public class MHFCEntityRegistry {
 		
 		lagiacrusID = getMobID(Lagiacrus.class, ResourceInterface.mob_lagiacrus_name);
 		gargwaID = getMobID(Gargwa.class, ResourceInterface.mob_gagua_name);
+		akuraVashimuID = getMobID(AkuraVashimu.class, ResourceInterface.akuravashimu_name);
 
 		
 		deviljholaserbreathID = getProjectileID(FXDeviljhoLaser.class, ResourceInterface.entity_deviljhobeam2_name);

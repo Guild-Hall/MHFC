@@ -35,7 +35,8 @@ entity.kirin.name=§3Kirin
 entity.mhfc.kirin.name=§3Kirin
 entity.rathalos.name=§2Rathalos
 entity.mhfc.rathalos.name=§2Rathalos
-
+entity.akuravashimu.name=§2Akura Vashimu
+entity.mhfc.akuravashimu.name=§2Akura Vashimu
 
 death.attack.mhfc.thunderelement=%1$s was killed by %2$s using a thunder element weapon.
 

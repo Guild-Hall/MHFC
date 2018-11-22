@@ -47,15 +47,15 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	/**
 	 * How hot the furnace currently is
 	 */
-	volatile private int heatStrength;
+	 private int heatStrength;
 	/**
 	 * How hot the fire produced by the currently burning item is
 	 */
-	volatile private int heatFromItem;
+	 private int heatFromItem;
 	/**
 	 * How long the furnace stays hot
 	 */
-	volatile private int heatLength;
+	 private int heatLength;
 	/**
 	 * How long the furnace stayed hot initially with the burning item
 	 */
@@ -63,7 +63,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	/**
 	 * How long the current item has been smelting
 	 */
-	volatile private int itemSmeltDuration;
+	 private int itemSmeltDuration;
 	/**
 	 * The selected recipe
 	 */
@@ -71,7 +71,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	/**
 	 * If the recipe is currently worked on
 	 */
-	volatile private boolean workingMHFCBench;
+	 private boolean workingMHFCBench;
 
 	public TileHunterBench() {
 		fuelStack = ItemStack.EMPTY;
@@ -410,6 +410,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		}
 		return true;
 	}
+	
 
 	public int getHeatStrength() {
 		return heatStrength;

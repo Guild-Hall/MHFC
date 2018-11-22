@@ -19,6 +19,11 @@ public class CollisionParts extends MultiPartEntityPart {
 		this.entityParent = parent;
 		this.offset = offset;
 	}
+	
+	public <T extends Entity & IEntityMultiPart> CollisionParts(T parent, String partName, float width, float height) {
+		super(parent, partName, width, height);
+		this.entityParent = parent;
+	}
 
 	/**
 	 * Convenience function, no checks, just offset

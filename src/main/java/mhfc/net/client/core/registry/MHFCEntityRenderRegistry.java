@@ -30,6 +30,7 @@ import mhfc.net.common.entity.creature.Lagiacrus;
 import mhfc.net.common.entity.creature.Nargacuga;
 import mhfc.net.common.entity.creature.Rathalos;
 import mhfc.net.common.entity.creature.Tigrex;
+import mhfc.net.common.entity.creature.incomplete.AkuraVashimu;
 import mhfc.net.common.entity.creature.incomplete.Giaprey;
 import mhfc.net.common.entity.creature.incomplete.GreatJaggi;
 import mhfc.net.common.entity.creature.incomplete.Ukanlos;
@@ -114,6 +115,8 @@ public class MHFCEntityRenderRegistry {
 				ResourceInterface.mob_barroth_model,
 				ResourceInterface.mob_barroth_skeleton,
 				1.0F);
+		basicRenderer(AkuraVashimu.class, ResourceInterface.akuravashimu_textureDir, ResourceInterface.akuravashimu_model, ResourceInterface.akuravashimu_skeleton, 2.0F);
+	
 
 		registerAnimatedRenderer(Giaprey.class, ResourceInterface.mob_giaprey_model, 1.0F);
 		registerAnimatedRenderer(Ukanlos.class, ResourceInterface.mob_ukanlos_model, 1.0F);

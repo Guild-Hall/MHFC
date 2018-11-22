@@ -519,6 +519,13 @@ public class ResourceInterface {
 	public static final String mob_barroth_model = mob_barroth_dir + "Barroth.mcmd";
 	public static final String mob_barroth_skeleton = mob_barroth_dir + "Armature.mcskl";
 
+	// Akura
+	public static final String akuravashimu_name = "akuravashimu";
+	public static final String akuravashimu_dir = modelLoc + "akuravashimu/";
+	public static final String akuravashimu_textureDir = textureLoc + "akura_vashimu/";
+	public static final String akuravashimu_model = akuravashimu_dir + "model.mcmd";
+	public static final String akuravashimu_skeleton = akuravashimu_dir + "armature.001.mcskl";
+	
 	// Giaprey
 	public static final String mob_giaprey_name = "giaprey";
 	public static final String mob_giaprey_model = modelLoc + "Giaprey/Giaprey.mcmd";

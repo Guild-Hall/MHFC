@@ -71,6 +71,7 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 		IEntityAdditionalSpawnData {
 	private static final DataParameter<Integer> ANIM_FRAME = EntityDataManager
 			.<Integer>createKey(CreatureAttributes.class, DataSerializers.VARINT);
+	
 	private final TargetTurnHelper turnHelper;
 	private IActionManager<? extends YC> attackManager;
 
