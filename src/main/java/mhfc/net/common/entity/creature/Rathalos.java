@@ -17,12 +17,12 @@ import mhfc.net.common.ai.entity.monsters.rathalos.FlyBack;
 import mhfc.net.common.ai.entity.monsters.rathalos.Rush;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.CollisionParts;
 import mhfc.net.common.entity.CreatureAttributes;
 import mhfc.net.common.entity.IConfusable;
 import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
@@ -121,7 +121,7 @@ public class Rathalos extends CreatureAttributes<Rathalos>
 	}
 
 	@Override
-	public CollisionParts[] getParts() {
+	public MultiPartEntityPart[] getParts() {
 		return null;
 	}
 

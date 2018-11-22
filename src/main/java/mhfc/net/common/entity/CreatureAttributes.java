@@ -91,6 +91,8 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 
 	// Public Variables.
 	public float targetDistance;
+	
+	//Future Hitbox setup
 
 	/** This should be a setup, for every monster hoping they can feature to Quest and JSON. thus they
 	 *  can have the multiplier and health boost feature soon for Quest difficulty Regards **/
@@ -190,7 +192,7 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 	 * Specialize the return type to a {@link CollisionParts}
 	 */
 	@Override
-	public abstract CollisionParts[] getParts();
+	public abstract MultiPartEntityPart[] getParts();
 
 	/** Monsters Death Update **/
 	@Override
@@ -299,165 +301,7 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 		this.attackEntityFrom(DamageSource.OUT_OF_WORLD, getMaxHealth());
 	}
 
-	/**
-	 * Tries to moves the entity by the passed in displacement. Args: x, y, z
-	 *
-	 * Have to reimplement this function because it fiddles with the bounding box in an unwanted way (also doesn't
-	 * respect entityParts)
-	 */
-	@Override
-	public void move(MoverType mover, double currOffX, double currOffY, double currOffZ) {
-		// FIXME: most likely incorrect
-		if (this.noClip) {
-			this.offsetEntity(currOffX, currOffY, currOffZ);
-		} else {
-			double originalOffX = currOffX;
-			double originalOffY = currOffY;
-			double originalOffZ = currOffZ;
-
-			if (this.isInWeb) {
-				this.isInWeb = false;
-				currOffX *= 0.25D;
-				currOffY *= 0.05000000074505806D;
-				currOffZ *= 0.25D;
-				this.motionX = 0.0D;
-				this.motionY = 0.0D;
-				this.motionZ = 0.0D;
-			}
-
-			double correctedOffX = currOffX;
-			double correctedOffY = currOffY;
-			double correctedOffZ = currOffZ;
-			CollisionParts[] parts = this.getParts();
-			if (parts == null) {
-				parts = new CollisionParts[0];
-			}
-
-			AxisAlignedBB ourBoundingBox = this.getEntityBoundingBox();
-			List<AxisAlignedBB> bbsInWay = this.world
-					.getCollisionBoxes(this, ourBoundingBox.expand(currOffX, currOffY, currOffZ));
-			// Calculates the smallest possible offset in Y direction
-			for (AxisAlignedBB bb : bbsInWay) {
-				currOffY = bb.calculateYOffset(ourBoundingBox, currOffY);
-			}
-			for (AxisAlignedBB bb : bbsInWay) {
-				currOffX = bb.calculateXOffset(ourBoundingBox, currOffX);
-			}
-			for (AxisAlignedBB bb : bbsInWay) {
-				currOffZ = bb.calculateZOffset(ourBoundingBox, currOffZ);
-			}
-			for (CollisionParts part : parts) {
-				AxisAlignedBB partBoundingBox = part.getEntityBoundingBox();
-				List<AxisAlignedBB> bbsInWayPart = this.world
-						.getCollisionBoxes(this, partBoundingBox.expand(currOffX, currOffY, currOffZ));
-				// Calculates the smallest possible offset in Y direction
-				for (AxisAlignedBB bb : bbsInWayPart) {
-					currOffY = bb.calculateYOffset(partBoundingBox, currOffY);
-				}
-				for (AxisAlignedBB bb : bbsInWayPart) {
-					currOffX = bb.calculateXOffset(partBoundingBox, currOffX);
-				}
-				for (AxisAlignedBB bb : bbsInWayPart) {
-					currOffZ = bb.calculateZOffset(partBoundingBox, currOffZ);
-				}
-			}
-			/** If we will are or will land on something */
-			boolean landed = this.onGround || (correctedOffY != currOffY && correctedOffY < 0.0D);
-
-			if (this.stepHeight > 0.0F && landed && (this.height < 0.125F)
-					&& (correctedOffX != currOffX || correctedOffZ != currOffZ)) {
-				double nostepOffX = currOffX;
-				double nostepOffY = currOffY;
-				double nostepOffZ = currOffZ;
-
-				currOffX = correctedOffX;
-				currOffY = this.stepHeight;
-				currOffZ = correctedOffZ;
-
-				List<AxisAlignedBB> bbsInStepup = this.world
-						.getCollisionBoxes(this, ourBoundingBox.expand(correctedOffX, currOffY, correctedOffZ));
-
-				for (AxisAlignedBB bb : bbsInStepup) {
-					currOffY = bb.calculateYOffset(ourBoundingBox, currOffY);
-				}
-				for (AxisAlignedBB bb : bbsInStepup) {
-					currOffX = bb.calculateXOffset(ourBoundingBox, currOffX);
-				}
-				for (AxisAlignedBB bb : bbsInStepup) {
-					currOffZ = bb.calculateZOffset(ourBoundingBox, currOffZ);
-				}
-				for (CollisionParts part : parts) {
-					AxisAlignedBB partBoundingBox = part.getEntityBoundingBox();
-					List<AxisAlignedBB> bbsInStepupPart = this.world
-							.getCollisionBoxes(this, partBoundingBox.expand(currOffX, currOffY, currOffZ));
-					for (AxisAlignedBB bb : bbsInStepupPart) {
-						currOffY = bb.calculateYOffset(partBoundingBox, currOffY);
-					}
-					for (AxisAlignedBB bb : bbsInStepupPart) {
-						currOffX = bb.calculateXOffset(partBoundingBox, currOffX);
-					}
-					for (AxisAlignedBB bb : bbsInStepupPart) {
-						currOffZ = bb.calculateZOffset(partBoundingBox, currOffZ);
-					}
-				}
-
-				double groundOffY = -this.stepHeight;
-				for (AxisAlignedBB bb : bbsInStepup) {
-					groundOffY = bb.calculateYOffset(ourBoundingBox.offset(currOffX, currOffY, currOffZ), groundOffY);
-				}
-				for (CollisionParts part : parts) {
-					AxisAlignedBB partBoundingBox = part.getEntityBoundingBox();
-					List<AxisAlignedBB> bbsInStepDown = this.world
-							.getCollisionBoxes(this, partBoundingBox.expand(currOffX, currOffY, currOffZ));
-					// Calculates the smallest possible offset in Y direction
-					for (AxisAlignedBB bb : bbsInStepDown) {
-						currOffY = bb.calculateYOffset(partBoundingBox, currOffY);
-					}
-				}
-				currOffY += groundOffY;
-
-				if (nostepOffX * nostepOffX + nostepOffY * nostepOffY >= currOffX * currOffX + currOffZ * currOffZ) {
-					currOffX = nostepOffX;
-					currOffY = nostepOffY;
-					currOffZ = nostepOffZ;
-				}
-			}
-			// Until this point, unlike the original implementation, nothing
-			// happened to the
-			// entity itself, push the state
-			double originalX = this.posX;
-			double originalY = this.posY;
-			double originalZ = this.posZ;
-			// Handle things like fire, movesounds, etc
-			super.move(mover, originalOffX, originalOffY, originalOffZ);
-			// Pop the state
-			this.posX = originalX;
-			this.posY = originalY;
-			this.posZ = originalZ;
-			setEntityBoundingBox(ourBoundingBox);
-			// Apply our offset
-			this.offsetEntity(currOffX, currOffY, currOffZ);
-		}
-	}
-
-	/**
-	 * Convenience function, no checks, just offset
-	 */
-	private void offsetEntity(double offX, double offY, double offZ) {
-		setEntityBoundingBox(this.getEntityBoundingBox().offset(offX, offY, offZ));
-
-		this.posX += offX;
-		this.posY += offY;
-		this.posZ += offZ;
-		CollisionParts[] parts = this.getParts();
-		if (parts == null) {
-			return;
-		}
-		for (CollisionParts part : parts) {
-			part.offsetEntity(offX, offY, offZ);
-		}
-	}
-
+	
 	@Override
 	public World getWorld() {
 		return this.world;
@@ -558,41 +402,6 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 		return turnHelper;
 	}
 
-	/**
-	 * Uses the minecraft movement helper to move the mob forward this tick. Forward is the direction the mob is facing
-	 *
-	 * @param movementSpeed
-	 *            The speed multiplier to be used
-	 */
-	public void moveForward(double movementSpeed, boolean makeStep) {
-		Vec3d view = getLookVec();
-
-		float effectiveSpeed = (float) (movementSpeed
-				* getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
-		Vec3d forwardVector = new Vec3d(view.x * effectiveSpeed, motionY, view.z * effectiveSpeed);
-		boolean jump = false;
-		if (makeStep) {
-			// copy the bounding box
-			AxisAlignedBB bounds = getEntityBoundingBox();
-
-			bounds = bounds.offset(forwardVector.x, 0, forwardVector.z);
-			List<?> normalPathCollision = AIUtils.gatherOverlappingBounds(bounds, this);
-
-			bounds = bounds.offset(0, stepHeight, 0);
-			List<?> jumpPathCollision = AIUtils.gatherOverlappingBounds(bounds, this);
-
-			if (!normalPathCollision.isEmpty() && jumpPathCollision.isEmpty()) {
-				jump = true;
-			}
-		}
-		if (jump) {
-			this.move(MoverType.SELF, 0, stepHeight + 0.5, 0);
-			this.motionY = 0;
-			this.isAirBorne = true;
-		}
-		addVelocity(forwardVector.x, forwardVector.y, forwardVector.z);
-		setPositionAndUpdate(posX, posY, posZ);
-	}
 
 	protected SoundEvent getStunnedSound() {
 		return null;
@@ -624,30 +433,15 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 
 	}
 
-	/**
+
+	
+	/*
 	 * 
-	 * First stage of implementing Hitboxes USING EntityDragonPart the parameters are self explanatory thou so it easy
-	 * to implement.
+	 * AI SPAWN METHODS!
 	 * 
-	 * @author Heltrato
 	 * 
 	 */
-
-	public void moveHitBoxes(CollisionParts hitPart, double frontToBack, double sideToSide, double topToBot) {
-		float rot = this.rotationYaw * (float) Math.PI / 180.0F;
-		float f1 = MathHelper.sin(rot);
-		float f2 = MathHelper.cos(rot);
-
-		hitPart.setLocationAndAngles(
-				this.posX + f1 * -frontToBack + f2 * sideToSide,
-				this.posY + topToBot,
-				this.posZ + f2 * frontToBack + f1 * sideToSide,
-				0.0F,
-				0.0F);
-		hitPart.onUpdate();
-
-	}
-
+	
 	/** THE NEW ENTITY AI METHODS. **/
 
 	/** Roar Effect Method **/
@@ -708,7 +502,6 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 
 
 	public static void screenIntensity(Entity e, float dist, float setStrength) {
-
 		if (e.world.isRemote) {
 			boolean isShaking = false;
 			float setIntensityReps;
@@ -723,5 +516,70 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 		}
 
 	}
+	
+	
+	/*
+	 *    CREATURE HITBOX METHODS
+	 * 	v - 1.4.8 ++	//REMOVED COLLISION PART will now revolve to MultiPartEntityPart
+	 **/
+	
+	/**
+	 * moveHitBoxes ( Moves the current MultiPartEntity Part using the `setLocationAngles` method
+	 * the parameter is explanatory: hitPart = MultiPart of the entity
+	 * 				 frontToBack = the x - axis | sideToside = the z - axis| topToboT = the y - axis
+	 * @author Heltrato
+	 */
+
+	public void moveHitBoxes(MultiPartEntityPart hitPart, double frontToBack, double sideToSide, double topToBot) {
+		float rot = this.rotationYaw * (float) Math.PI / 180.0F;
+		float f1 = MathHelper.sin(rot);
+		float f2 = MathHelper.cos(rot);
+
+		hitPart.setLocationAndAngles(
+				this.posX + f1 * -frontToBack + f2 * sideToSide,
+				this.posY + topToBot,
+				this.posZ + f2 * frontToBack + f1 * sideToSide,
+				0.0F,
+				0.0F);
+		hitPart.onUpdate();
+
+	}
+	
+	/**
+	 * Uses the minecraft movement helper to move the mob forward this tick. Forward is the direction the mob is facing
+	 * @param movementSpeed
+	 *            The speed multiplier to be used
+	 */
+	public void moveForward(double movementSpeed, boolean makeStep) {
+		Vec3d view = getLookVec();
+
+		float effectiveSpeed = (float) (movementSpeed
+				* getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
+		Vec3d forwardVector = new Vec3d(view.x * effectiveSpeed, motionY, view.z * effectiveSpeed);
+		boolean jump = false;
+		if (makeStep) {
+			// copy the bounding box
+			AxisAlignedBB bounds = getEntityBoundingBox();
+
+			bounds = bounds.offset(forwardVector.x, 0, forwardVector.z);
+			List<?> normalPathCollision = AIUtils.gatherOverlappingBounds(bounds, this);
+
+			bounds = bounds.offset(0, stepHeight, 0);
+			List<?> jumpPathCollision = AIUtils.gatherOverlappingBounds(bounds, this);
+
+			if (!normalPathCollision.isEmpty() && jumpPathCollision.isEmpty()) {
+				jump = true;
+			}
+		}
+		if (jump) {
+			this.move(MoverType.SELF, 0, stepHeight + 0.5, 0);
+			this.motionY = 0;
+			this.isAirBorne = true;
+		}
+		addVelocity(forwardVector.x, forwardVector.y, forwardVector.z);
+		setPositionAndUpdate(posX, posY, posZ);
+	}
+	
+	 
 
 }

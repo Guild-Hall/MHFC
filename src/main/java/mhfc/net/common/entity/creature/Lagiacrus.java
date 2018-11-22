@@ -13,8 +13,8 @@ import mhfc.net.common.ai.entity.monsters.lagiacrus.Roar;
 import mhfc.net.common.ai.entity.monsters.lagiacrus.Sweep;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.CollisionParts;
 import mhfc.net.common.entity.CreatureAttributes;
+import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
@@ -61,7 +61,7 @@ public class Lagiacrus extends CreatureAttributes<Lagiacrus> {
 	}
 
 	@Override
-	public CollisionParts[] getParts() {
+	public MultiPartEntityPart[] getParts() {
 		return null;
 	}
 

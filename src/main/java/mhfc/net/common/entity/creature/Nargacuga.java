@@ -30,12 +30,12 @@ import mhfc.net.common.ai.entity.monsters.nargacuga.TailSlam;
 import mhfc.net.common.ai.entity.monsters.nargacuga.TailSlamDouble;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.CollisionParts;
 import mhfc.net.common.entity.CreatureAttributes;
 import mhfc.net.common.entity.IEnragable;
 import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -152,7 +152,7 @@ public class Nargacuga extends CreatureAttributes<Nargacuga>
 	}
 
 	@Override
-	public CollisionParts[] getParts() {
+	public MultiPartEntityPart[] getParts() {
 		return null;
 	}
 

@@ -12,10 +12,10 @@ import mhfc.net.common.ai.entity.AIWander;
 import mhfc.net.common.ai.entity.monsters.gargwa.Sleep;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.CollisionParts;
 import mhfc.net.common.entity.CreatureAttributes;
 import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
+import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
@@ -62,7 +62,7 @@ public class Gargwa extends CreatureAttributes<Gargwa> {
 	}
 
 	@Override
-	public CollisionParts[] getParts() {
+	public MultiPartEntityPart[] getParts() {
 		return null;
 	}
 

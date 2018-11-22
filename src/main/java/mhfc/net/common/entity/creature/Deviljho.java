@@ -17,11 +17,11 @@ import mhfc.net.common.ai.entity.monsters.deviljho.Roar;
 import mhfc.net.common.ai.entity.monsters.deviljho.Stomp;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.CollisionParts;
 import mhfc.net.common.entity.CreatureAttributes;
 import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
+import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -117,7 +117,7 @@ public class Deviljho extends CreatureAttributes<Deviljho> {
 	}
 
 	@Override
-	public CollisionParts[] getParts() {
+	public MultiPartEntityPart[] getParts() {
 		return null;
 	}
 

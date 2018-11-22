@@ -22,11 +22,11 @@ import mhfc.net.common.ai.entity.monsters.tigrex.Jump;
 import mhfc.net.common.ai.entity.monsters.tigrex.Roar;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
-import mhfc.net.common.entity.CollisionParts;
 import mhfc.net.common.entity.CreatureAttributes;
 import mhfc.net.common.item.materials.ItemMaterial.MaterialSubType;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
+import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -40,8 +40,8 @@ import net.minecraft.world.World;
 public class Tigrex extends CreatureAttributes<Tigrex> {
 
 	public int rageLevel;
-	public CollisionParts[] tigrexPartArray; 
-	public CollisionParts	tigrexPartHead;
+	public MultiPartEntityPart[] tigrexPartArray; 
+	public MultiPartEntityPart	tigrexPartHead;
 	
 	public Tigrex(World par1World) {
 		super(par1World);
@@ -142,7 +142,8 @@ public class Tigrex extends CreatureAttributes<Tigrex> {
 
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
-		this.tigrexPartHead.setLocationAndAngles(this.posX + (double) 0.5, this.posY, this.posZ + (double) 0.5, 0, 0);
+		
+		//this.tigrexPartHead.setLocationAndAngles(this.posX + (double) 0.5, this.posY, this.posZ + (double) 0.5, 0, 0);
 		
 	}
 
@@ -175,9 +176,9 @@ public class Tigrex extends CreatureAttributes<Tigrex> {
 	}
 
 	@Override
-	public CollisionParts[] getParts() {
+	public MultiPartEntityPart[] getParts() {
 		// TODO Auto-generated method stub
-		return null;
+		return tigrexPartArray;
 	}
 
 	@Override
