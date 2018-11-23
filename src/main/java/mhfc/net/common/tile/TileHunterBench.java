@@ -1,6 +1,9 @@
 package mhfc.net.common.tile;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
@@ -402,14 +405,39 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		return (recipe != null) && matchesInputOutput() && (outputStack.isEmpty());
 	}
 
+	
+	@Deprecated // this will be optimize better.
 	protected boolean matchesInputOutput() {
 		for (int i = 0; i < inputStacks.length; i++) {
-			if (!this.recipeStacks[i].test(inputStacks[i])) {
+			ItemStack[] se = recipeStacks[i].getMatchingStacks();
+			if (!ItemStack.areItemStacksEqual(inputStacks[i], se[i])) {
 				return false;
 			}
 		}
 		return true;
 	}
+	
+	//TODO : At the moment, it still doesnt check the stackSize per recipe, 
+	public boolean shapelessMatchedInputOutput() {
+	        // These two are here to fake data
+		ItemStack[] input = {inputStacks[0], inputStacks[1],inputStacks[2],inputStacks[3],inputStacks[4],inputStacks[5],inputStacks[6]};
+		Ingredient[] recipe = {Ingredient.fromStacks(input[1]), Ingredient.fromStacks(input[2]),Ingredient.fromStacks(input[3]),Ingredient.fromStacks(input[4]),Ingredient.fromStacks(input[5]),Ingredient.fromStacks(input[6])};
+	        // End of fake data
+		
+		List<ItemStack> l = new LinkedList<>(Arrays.asList(input));
+	        _for: for (Ingredient i: recipe) {
+	            Iterator<ItemStack> iter = l.iterator();
+	            while (iter.hasNext()) {
+	                if (i.apply(iter.next())) {
+	                    iter.remove();
+	                    continue _for;
+	                }
+	            }
+	            return false;
+	        }
+
+	        return true;
+	    }
 	
 
 	public int getHeatStrength() {

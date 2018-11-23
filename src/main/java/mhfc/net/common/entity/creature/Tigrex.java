@@ -48,6 +48,13 @@ public class Tigrex extends CreatureAttributes<Tigrex> {
 		setSize(4.6f, 3.6f);
 		stepHeight = 1.5f;
 		
+		// Tigrex is the test method for now for multiple Parts lol. He is the perfect monster ever done.
+		
+		tigrexPartArray = new MultiPartEntityPart[] {
+			tigrexPartHead = new MultiPartEntityPart(this, "head", 0.5F, 0.5F)	
+		};
+		
+		
 		}
 		
 
@@ -88,46 +95,9 @@ public class Tigrex extends CreatureAttributes<Tigrex> {
 
 		/** Attack AIs **/
 
-		manager.registerAction(
-				new AIBite(
-						this,
-						"mhfc:models/Tigrex/bite.mcanm",
-						85,
-						12,
-						70,
-						10F,
-						MHFCSoundRegistry.getRegistry().tigrexBite,
-						6F,
-						false,
-						0,
-						0));
-
-		manager.registerAction(
-				new AIAngleWhip<>(
-						"mhfc:models/Tigrex/clawswipe.mcanm",
-						41,
-						5,
-						80,
-						10,
-						MHFCSoundRegistry.getRegistry().tigrexTailWhip,
-						7,
-						6,
-						2F,
-						120,
-						10));
-		manager.registerAction(
-				new AIAngleWhip<>(
-						"mhfc:models/Tigrex/tailswipe.mcanm",
-						60,
-						12,
-						82,
-						10F,
-						MHFCSoundRegistry.getRegistry().tigrexTailWhip,
-						9,
-						5,
-						1,
-						180,
-						10));
+		manager.registerAction(	new AIBite(this,"mhfc:models/Tigrex/bite.mcanm",85,	12,70,10F,MHFCSoundRegistry.getRegistry().tigrexBite,6F,false,0,0));
+		manager.registerAction(new AIAngleWhip<>("mhfc:models/Tigrex/clawswipe.mcanm",41,5,80,10,MHFCSoundRegistry.getRegistry().tigrexTailWhip,7,6,2F,120,10));
+		manager.registerAction(new AIAngleWhip<>("mhfc:models/Tigrex/tailswipe.mcanm",60,12,82,10F,	MHFCSoundRegistry.getRegistry().tigrexTailWhip,9,5,1,180,10));
 		manager.registerAction(new Jump());
 		manager.registerAction(new Roar());
 		manager.registerAction(new BackOff());
@@ -142,8 +112,8 @@ public class Tigrex extends CreatureAttributes<Tigrex> {
 
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
-		
-		//this.tigrexPartHead.setLocationAndAngles(this.posX + (double) 0.5, this.posY, this.posZ + (double) 0.5, 0, 0);
+		tigrexPartHead.width = tigrexPartHead.height = 0.5F;
+		this.tigrexPartHead.setLocationAndAngles(this.posX + (double) 2, this.posY + 1.5F, this.posZ + (double) 2.5, 0, 0);
 		
 	}
 
