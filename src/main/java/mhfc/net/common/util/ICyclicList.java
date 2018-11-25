@@ -1,8 +1,8 @@
 package mhfc.net.common.util;
 
-import java.util.List;
-
 import mhfc.net.common.world.controller.Corner;
+
+import java.util.List;
 
 public interface ICyclicList<E> extends List<E> {
 	CyclicIterator<Corner> cyclicIterator();

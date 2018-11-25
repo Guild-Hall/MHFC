@@ -1,25 +1,6 @@
 package mhfc.net.common.core.data;
 
-import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-
+import com.google.gson.*;
 import mhfc.net.common.weapon.melee.MeleeWeaponStats.MeleeWeaponStatsBuilder;
 import mhfc.net.common.weapon.melee.greatsword.GreatswordWeaponStats.GreatswordWeaponStatsBuilder;
 import mhfc.net.common.weapon.melee.greatsword.ItemGreatsword;
@@ -42,6 +23,17 @@ import mhfc.net.common.weapon.stats.SharpnessLevel;
 import mhfc.net.common.weapon.stats.StatusEffect;
 import mhfc.net.common.weapon.stats.WeaponStats.WeaponStatsBuilder;
 import net.minecraft.item.Item;
+
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class WeaponData {
 	public static final Gson GSON = new GsonBuilder()

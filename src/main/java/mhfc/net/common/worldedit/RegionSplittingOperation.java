@@ -1,17 +1,16 @@
 package mhfc.net.common.worldedit;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.function.Function;
-
-import javax.xml.ws.Holder;
-
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.function.operation.DelegateOperation;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.RunContext;
 import com.sk89q.worldedit.regions.CuboidRegion;
+
+import javax.xml.ws.Holder;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.function.Function;
 
 public class RegionSplittingOperation implements Operation {
 

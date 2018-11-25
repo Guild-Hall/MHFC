@@ -1,15 +1,15 @@
 package mhfc.net.common.util.parsing.proxies;
 
-import java.lang.invoke.MethodHandle;
-import java.util.Objects;
-import java.util.Optional;
-
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.exceptions.MethodNotFoundException;
 import mhfc.net.common.util.parsing.syntax.special.ISpecialMember;
 import mhfc.net.common.util.reflection.FieldHelper;
 import mhfc.net.common.util.reflection.MethodHelper;
 import mhfc.net.common.util.reflection.OverloadedMethod;
+
+import java.lang.invoke.MethodHandle;
+import java.util.Objects;
+import java.util.Optional;
 
 public class StaticAccess implements ISpecialMember {
 	private Class<?> clazz;

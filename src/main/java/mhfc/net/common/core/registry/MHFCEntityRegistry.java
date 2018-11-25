@@ -1,35 +1,27 @@
 package mhfc.net.common.core.registry;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.client.particle.paint.ParticlePaintEmitter;
 import mhfc.net.common.core.MHFCMobList;
-import mhfc.net.common.entity.creature.Barroth;
-import mhfc.net.common.entity.creature.Delex;
-import mhfc.net.common.entity.creature.Deviljho;
-import mhfc.net.common.entity.creature.Gargwa;
-import mhfc.net.common.entity.creature.Kirin;
-import mhfc.net.common.entity.creature.Lagiacrus;
-import mhfc.net.common.entity.creature.Nargacuga;
-import mhfc.net.common.entity.creature.Rathalos;
-import mhfc.net.common.entity.creature.Tigrex;
+import mhfc.net.common.entity.creature.*;
 import mhfc.net.common.entity.creature.incomplete.AkuraVashimu;
 import mhfc.net.common.entity.creature.incomplete.GreatJaggi;
 import mhfc.net.common.entity.creature.npc.NPCQuestGiver;
 import mhfc.net.common.entity.fx.FXDeviljhoLaser;
 import mhfc.net.common.entity.fx.FXFlashbomb;
+import mhfc.net.common.entity.projectile.ProjectileArrow;
+import mhfc.net.common.entity.projectile.ProjectileBlock;
 import mhfc.net.common.entity.projectile.ProjectileBullet;
 import mhfc.net.common.entity.projectile.ProjectilePaintball;
-import mhfc.net.common.entity.projectile.ProjectileBlock;
-import mhfc.net.common.entity.projectile.ProjectileArrow;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.ItemColor;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MHFCEntityRegistry {
 	public static void staticInit() {}
@@ -41,6 +33,9 @@ public class MHFCEntityRegistry {
 	private final List<Class<? extends Entity>> registeredMobs = new ArrayList<>();
 	private final List<Class<? extends Entity>> registeredProjectiles = new ArrayList<>();
 
+	
+	public final int gargwaID;
+	public final int delexID;
 	public final int tigrexID;
 	public final int kirinID;
 	public final int rathalosID;
@@ -48,11 +43,9 @@ public class MHFCEntityRegistry {
 	public final int deviljhoID;
 	public final int nargacugaID;
 	public final int barrothID;
-	public final int delexID;
-	//public final int giapreyID;
-	//public final int ukanlosID;
+	
 	public final int lagiacrusID;
-	public final int gargwaID;
+	
 	
 	// NEW MONSTER 1.12
 	public final int akuraVashimuID;
@@ -83,27 +76,25 @@ public class MHFCEntityRegistry {
 		 * The egg registry or the additional argument for getMobID method will serve for the
 		 * NPCs i will add in the future so it is not deprecated. ~Heltrato
 		 * 
+		 * 
+		 * 1.12.2 - READDED
+		 * In order to compensate in the rework for quest worlds.
+		 * 
 		 */
 		
-		// popoID = getMobID(EntityPopo.class, MHFCReference.mob_popo_name);
+		gargwaID = getMobID(Gargwa.class, ResourceInterface.mob_gagua_name, ItemColor.YELLOW,ItemColor.MAGNTA);
+		delexID = getMobID(Delex.class, ResourceInterface.mob_delex_name, ItemColor.GREEN, ItemColor.YELLOW);
+		tigrexID = getMobID(Tigrex.class, ResourceInterface.mob_tigrex_name, ItemColor.BLUE, ItemColor.YELLOW);
+		greatjaggiID = getMobID(GreatJaggi.class,ResourceInterface.mob_greatjaggi_name,ItemColor.BLUE, ItemColor.CYAN);
+		barrothID = getMobID(Barroth.class, ResourceInterface.mob_barroth_name, ItemColor.BROWN,ItemColor.GREEN);
+		rathalosID = getMobID(Rathalos.class, ResourceInterface.mob_rathalos_name, ItemColor.RED, ItemColor.YELLOW);
+		akuraVashimuID = getMobID(AkuraVashimu.class, ResourceInterface.akuravashimu_name, ItemColor.BLACK, ItemColor.CYAN);
+		nargacugaID = getMobID(Nargacuga.class, ResourceInterface.mob_nargacuga_name, ItemColor.BLACK, ItemColor.RED);
+		lagiacrusID = getMobID(Lagiacrus.class, ResourceInterface.mob_lagiacrus_name, ItemColor.CYAN, ItemColor.BLUE);
+		deviljhoID = getMobID(Deviljho.class, ResourceInterface.mob_deviljho_name, ItemColor.GREEN, ItemColor.BROWN);
+		kirinID = getMobID(Kirin.class, ResourceInterface.mob_kirin_name, ItemColor.WHITE, ItemColor.CYAN);
 		
-		tigrexID = getMobID(Tigrex.class, ResourceInterface.mob_tigrex_name);
-		kirinID = getMobID(Kirin.class, ResourceInterface.mob_kirin_name);
-		
-		rathalosID = getMobID(Rathalos.class, ResourceInterface.mob_rathalos_name);
-		greatjaggiID = getMobID(GreatJaggi.class,ResourceInterface.mob_greatjaggi_name);
-		deviljhoID = getMobID(Deviljho.class, ResourceInterface.mob_deviljho_name);
-		nargacugaID = getMobID(Nargacuga.class, ResourceInterface.mob_nargacuga_name);
-		questGiverID = getMobID(NPCQuestGiver.class, ResourceInterface.mob_questGiver_name);
-		barrothID = getMobID(Barroth.class, ResourceInterface.mob_barroth_name);
-		delexID = getMobID(Delex.class, ResourceInterface.mob_delex_name);
-		
-		//giapreyID = getMobID(EntityGiaprey.class, MHFCReference.mob_giaprey_name, 0x6f41512, 0x654321);
-		//ukanlosID = getMobID(EntityUkanlos.class, MHFCReference.mob_ukanlos_name, 0x33333333, 0x654321);
-		
-		lagiacrusID = getMobID(Lagiacrus.class, ResourceInterface.mob_lagiacrus_name);
-		gargwaID = getMobID(Gargwa.class, ResourceInterface.mob_gagua_name);
-		akuraVashimuID = getMobID(AkuraVashimu.class, ResourceInterface.akuravashimu_name);
+		questGiverID = getMobID(NPCQuestGiver.class, ResourceInterface.mob_questGiver_name,ItemColor.BLUE, ItemColor.BROWN);
 
 		
 		deviljholaserbreathID = getProjectileID(FXDeviljhoLaser.class, ResourceInterface.entity_deviljhobeam2_name);

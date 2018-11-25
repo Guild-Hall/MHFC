@@ -1,13 +1,13 @@
 package mhfc.net.common.ai.general.provider.adapters;
 
-import java.util.Objects;
-
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.provider.composite.IMovementProvider;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IPathProvider;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.Objects;
 
 public class TurnThenMoveAdapter<T extends EntityLiving> implements IMovementProvider {
 	private IPathProvider underlyingPathProvider;

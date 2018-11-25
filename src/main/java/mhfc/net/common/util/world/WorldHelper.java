@@ -1,15 +1,14 @@
 package mhfc.net.common.util.world;
 
-import java.util.List;
-import java.util.Random;
-
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 /**
  * This class should help with some general problems related with the World and Entities like path-finding,

@@ -1,6 +1,7 @@
 package mhfc.net.common.ai.general.actions;
 
 import mhfc.net.common.entity.CreatureAttributes;
+import net.minecraft.entity.EntityLivingBase;
 
 public abstract class BreatheAction<T extends CreatureAttributes<?>> extends AnimatedAction<T> {
 
@@ -29,12 +30,11 @@ public abstract class BreatheAction<T extends CreatureAttributes<?>> extends Ani
 
 	@Override
 	protected void onUpdate() {
-		getEntity().getLookHelper().setLookPosition(
-				this.getEntity().posX + this.lookX,
-				this.getEntity().posY + this.getEntity().getEyeHeight(),
-				this.getEntity().posZ + this.lookZ,
-				this.getEntity().getHorizontalFaceSpeed() - 9.1f,
-				this.getEntity().getVerticalFaceSpeed());
-
+		EntityLivingBase entity = getEntity().getAttackTarget();
+		
+		// While Breathing now looks on targetjust like in game.
+		if(entity != null) {
+		getEntity().getLookHelper().setLookPositionWithEntity(entity, 15, 15);
+		}
 	}
 }

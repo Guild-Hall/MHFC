@@ -1,11 +1,11 @@
 package mhfc.net.common.network.message.quest;
 
-import java.util.Objects;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+
+import java.util.Objects;
 
 public class MessageMissionStatus implements IMessage {
 	public static enum Status {

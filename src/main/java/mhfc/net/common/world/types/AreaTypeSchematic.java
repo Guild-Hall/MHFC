@@ -1,8 +1,5 @@
 package mhfc.net.common.world.types;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
@@ -13,19 +10,17 @@ import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.registry.LegacyWorldData;
 import com.sk89q.worldedit.world.registry.WorldData;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.util.ResourceLocations;
-import mhfc.net.common.world.area.AreaConfiguration;
-import mhfc.net.common.world.area.DisplacedView;
-import mhfc.net.common.world.area.IArea;
-import mhfc.net.common.world.area.IAreaType;
-import mhfc.net.common.world.area.IExtendedConfiguration;
+import mhfc.net.common.world.area.*;
 import mhfc.net.common.worldedit.IClipboardFormat;
 import mhfc.net.common.worldedit.RegionSplittingOperation;
 import mhfc.net.common.worldedit.WorldDisplacedView;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
 
 public abstract class AreaTypeSchematic implements IAreaType {
 

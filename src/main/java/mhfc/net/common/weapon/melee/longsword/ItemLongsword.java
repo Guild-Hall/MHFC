@@ -1,10 +1,6 @@
 package mhfc.net.common.weapon.melee.longsword;
 
-import java.util.UUID;
-import java.util.function.Consumer;
-
 import com.google.common.collect.Multimap;
-
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.index.AttributeModifiers;
 import mhfc.net.common.index.ResourceInterface;
@@ -20,6 +16,9 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
+
+import java.util.UUID;
+import java.util.function.Consumer;
 
 public class ItemLongsword extends ItemWeaponMelee<LongswordWeaponStats> {
 	public static ItemLongsword build(Consumer<LongswordWeaponStatsBuilder> config) {

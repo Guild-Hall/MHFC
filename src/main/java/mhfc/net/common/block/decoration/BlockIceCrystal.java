@@ -1,12 +1,12 @@
 package mhfc.net.common.block.decoration;
 
-import java.util.Random;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+
+import java.util.Random;
 
 public class BlockIceCrystal extends Block {
 

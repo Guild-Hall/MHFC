@@ -1,13 +1,6 @@
 package mhfc.net.common.quests.properties;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.function.Function;
-
 import com.google.common.base.Preconditions;
-
 import mhfc.net.common.util.Lazy;
 import mhfc.net.common.util.parsing.Context;
 import mhfc.net.common.util.parsing.Holder;
@@ -17,6 +10,12 @@ import mhfc.net.common.util.parsing.proxies.MemberMethodProxy;
 import mhfc.net.common.util.reflection.MethodHelper;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.function.Function;
 
 public class GroupProperty extends Property {
 

@@ -1,9 +1,5 @@
 package mhfc.net.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -11,6 +7,10 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class MHFCTabbedGui extends GuiContainer {
 

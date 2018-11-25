@@ -1,12 +1,5 @@
 package mhfc.net.common.util.parsing;
 
-import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Supplier;
-
 import mhfc.net.common.util.CompositeException;
 import mhfc.net.common.util.parsing.exceptions.SyntaxErrorException;
 import mhfc.net.common.util.parsing.syntax.IBasicSequence;
@@ -14,16 +7,18 @@ import mhfc.net.common.util.parsing.syntax.literals.FunctionCallLiteral;
 import mhfc.net.common.util.parsing.syntax.literals.HolderLiteral;
 import mhfc.net.common.util.parsing.syntax.literals.IExpression;
 import mhfc.net.common.util.parsing.syntax.literals.IdentifierLiteral;
-import mhfc.net.common.util.parsing.syntax.operators.ArgumentContinuationOperator;
-import mhfc.net.common.util.parsing.syntax.operators.FunctionOperator;
-import mhfc.net.common.util.parsing.syntax.operators.IBinaryOperator;
-import mhfc.net.common.util.parsing.syntax.operators.IOperator;
-import mhfc.net.common.util.parsing.syntax.operators.MemberOperator;
-import mhfc.net.common.util.parsing.syntax.operators.Operators;
+import mhfc.net.common.util.parsing.syntax.operators.*;
 import mhfc.net.common.util.parsing.syntax.tree.AST;
 import mhfc.net.common.util.parsing.syntax.tree.SyntaxBuilder;
 import mhfc.net.common.util.parsing.syntax.tree.UnarySyntaxBuilder.ElementType;
 import mhfc.net.common.util.parsing.valueholders.ValueHolders;
+
+import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Supplier;
 
 public class ExpressionTranslator {
 	private static class BracketOp implements IOperator<Void, IExpression> {

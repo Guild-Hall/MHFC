@@ -1,9 +1,6 @@
 package mhfc.net.common.weapon.melee.greatsword;
 
-import java.util.function.Consumer;
-
 import com.google.common.collect.Multimap;
-
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.index.AttributeModifiers;
 import mhfc.net.common.index.ResourceInterface;
@@ -15,6 +12,8 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
+
+import java.util.function.Consumer;
 
 public class ItemGreatsword extends ItemWeaponMelee<GreatswordWeaponStats> {
 	public static ItemGreatsword build(Consumer<GreatswordWeaponStatsBuilder> config) {

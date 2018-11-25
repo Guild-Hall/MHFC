@@ -3,19 +3,18 @@
  */
 package mhfc.net.common.quests.goals;
 
-import java.util.List;
-import java.util.Objects;
-
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.RunContext;
-
 import mhfc.net.common.eventhandler.DelayedJob;
 import mhfc.net.common.eventhandler.MHFCTickHandler;
 import mhfc.net.common.eventhandler.TickPhase;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.properties.IntProperty;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  *

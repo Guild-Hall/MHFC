@@ -1,7 +1,5 @@
 package mhfc.net.client.gui.hud;
 
-import java.util.List;
-
 import mhfc.net.client.util.gui.MHFCGuiUtil;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.weapon.melee.huntinghorn.HuntingHornWeaponStats;
@@ -18,6 +16,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class WeaponOverlay {

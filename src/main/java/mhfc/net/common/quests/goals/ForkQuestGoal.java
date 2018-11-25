@@ -1,13 +1,13 @@
 package mhfc.net.common.quests.goals;
 
-import java.util.EnumSet;
-import java.util.LinkedList;
-import java.util.List;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.quests.QuestStatus;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
+
+import java.util.EnumSet;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This is the super type for quest goals that do depend on multiple others but in no specific order. The order should

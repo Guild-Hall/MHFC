@@ -1,7 +1,5 @@
 package mhfc.net.common.item.food;
 
-import java.util.List;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.index.ResourceInterface;
@@ -18,6 +16,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class ItemMeats extends ItemFood implements IItemColored, IItemVarianted {
 	public static enum MeatSubType implements SubTypedItem.SubTypeEnum<Item> {

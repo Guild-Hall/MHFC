@@ -539,7 +539,7 @@
 					"requisites": [
 						"StandardDeath",
 						"StandardTimer",
-						"Violentwyvern"
+						"lagiacrusA"
 					]
 				}
 			},

@@ -1,17 +1,16 @@
 package mhfc.net.common.ai.manager;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IManagedActions;
 import mhfc.net.common.ai.general.WeightedPick;
 import mhfc.net.common.ai.manager.AIFollowUpActionManager.DataObject;
 import mhfc.net.common.util.MapGraph;
 import net.minecraft.entity.EntityLiving;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * An action manager who selects the new attack only from a set of follow up actions specific to the last action.

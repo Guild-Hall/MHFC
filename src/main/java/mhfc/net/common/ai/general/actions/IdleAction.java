@@ -44,6 +44,7 @@ public abstract class IdleAction<T extends CreatureAttributes<?>> extends Animat
 		if (getEntity().getAttackTarget() != null) {
 			this.finishAction();
 		}
+		this.getEntity().getLookHelper().setLookPosition(getEntity().posX + lookX, getEntity().posY + getEntity().getEyeHeight(), getEntity().posZ + lookZ, getEntity().getHorizontalFaceSpeed(), getEntity().getVerticalFaceSpeed());
 
 	} // do nothing, we idle, remember?
 

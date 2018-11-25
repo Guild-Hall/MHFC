@@ -1,9 +1,9 @@
 package mhfc.net.common.util.parsing.valueholders;
 
-import java.util.Objects;
-
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
+
+import java.util.Objects;
 
 /**
  * A Holder that holds an object of a specific {@link Class}. The object can be changed later, but the class can not.

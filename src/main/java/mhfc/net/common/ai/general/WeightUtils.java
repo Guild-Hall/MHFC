@@ -1,9 +1,9 @@
 package mhfc.net.common.ai.general;
 
-import java.util.Random;
-
 import mhfc.net.common.ai.general.WeightedPick.WeightedItem;
 import mhfc.net.common.util.function.FloatSupplier;
+
+import java.util.Random;
 
 public class WeightUtils {
 

@@ -1,13 +1,13 @@
 package mhfc.net.common.util;
 
-import java.util.List;
-import java.util.function.Consumer;
-
 import com.google.common.util.concurrent.Runnables;
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.function.operation.DelegateOperation;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.RunContext;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 public class Operations {
 	/**

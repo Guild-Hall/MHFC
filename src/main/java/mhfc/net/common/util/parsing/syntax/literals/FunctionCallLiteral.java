@@ -1,13 +1,9 @@
 package mhfc.net.common.util.parsing.syntax.literals;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Formatter;
-import java.util.Iterator;
-import java.util.List;
-
 import mhfc.net.common.util.parsing.IValueHolder;
 import mhfc.net.common.util.parsing.valueholders.FunctionCall;
+
+import java.util.*;
 
 public class FunctionCallLiteral implements IExpression {
 	private List<IExpression> arguments;

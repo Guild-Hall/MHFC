@@ -1,17 +1,8 @@
 package mhfc.net.common.world.exploration;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-
 import com.google.common.collect.Table;
 import com.google.gson.JsonElement;
 import com.mojang.authlib.GameProfile;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCDimensionRegistry;
 import mhfc.net.common.quests.world.QuestFlair;
@@ -22,6 +13,10 @@ import mhfc.net.common.world.area.IAreaType;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 public abstract class ExplorationAdapter implements IExplorationManager {
 

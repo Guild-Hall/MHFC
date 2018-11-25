@@ -1,10 +1,10 @@
 package mhfc.net.common.core;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Heltrato

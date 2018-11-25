@@ -1,11 +1,11 @@
 package mhfc.net.common.ai.general.provider.adapters;
 
+import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
+import net.minecraft.entity.Entity;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
-import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
-import net.minecraft.entity.Entity;
 
 /**
  * This special damage calculator remembers which entities were damaged by it and only damages entities once until

@@ -1,15 +1,14 @@
 package mhfc.net.common.util;
 
-import static org.junit.Assert.assertTrue;
+import net.minecraft.util.ResourceLocation;
+import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.junit.Test;
-
-import net.minecraft.util.ResourceLocation;
+import static org.junit.Assert.assertTrue;
 
 public class UtilitiesTest {
 

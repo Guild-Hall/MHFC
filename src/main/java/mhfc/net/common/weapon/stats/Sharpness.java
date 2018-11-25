@@ -1,16 +1,11 @@
 package mhfc.net.common.weapon.stats;
 
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.NavigableMap;
-import java.util.Objects;
-import java.util.TreeMap;
-
 import com.google.common.base.Preconditions;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 public class Sharpness {
 	public static class SharpnessBuilder {

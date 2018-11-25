@@ -1,11 +1,5 @@
 package mhfc.net.common.core.registry;
 
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.CompletionStage;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.MHFCWorldData;
@@ -21,6 +15,12 @@ import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
+
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.CompletionStage;
 
 public class MHFCDimensionRegistry {
 	private static Map<Integer, QuestFlair> worldIDToFlair;

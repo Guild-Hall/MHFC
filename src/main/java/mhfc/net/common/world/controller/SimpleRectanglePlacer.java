@@ -1,17 +1,13 @@
 package mhfc.net.common.world.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.ListIterator;
-
 import mhfc.net.common.util.CyclicIterator;
 import mhfc.net.common.util.ICyclicList;
 import mhfc.net.common.util.RewindableListIterator;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants.NBT;
+
+import java.util.*;
 
 /**
  * This rectangler packer organizes the rectangles as follows:

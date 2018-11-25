@@ -1,8 +1,7 @@
 package mhfc.net.common.item;
 
-import org.lwjgl.util.Color;
-
 import mhfc.net.MHFCMain;
+import org.lwjgl.util.Color;
 
 /**
  * Enum defining all item colors, as well as their custom color in the Monster Hunter palette. May move the palette

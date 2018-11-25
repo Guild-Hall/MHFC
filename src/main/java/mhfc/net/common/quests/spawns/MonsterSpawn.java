@@ -1,9 +1,5 @@
 package mhfc.net.common.quests.spawns;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Stream;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.quests.api.ISpawnInformation;
 import mhfc.net.common.quests.world.EntityFactory;
@@ -13,6 +9,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class MonsterSpawn implements ISpawnInformation {
 

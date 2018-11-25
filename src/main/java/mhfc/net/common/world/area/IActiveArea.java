@@ -1,8 +1,8 @@
 package mhfc.net.common.world.area;
 
-import java.io.Closeable;
-
 import mhfc.net.common.quests.world.QuestFlair;
+
+import java.io.Closeable;
 
 /**
  * Represents an {@link IArea} in use. It can be dismissed via {@link #dismiss()}.

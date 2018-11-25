@@ -1,20 +1,12 @@
 package mhfc.net.common.entity.creature;
 
-import org.lwjgl.opengl.GL11;
-
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
-
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.AIAngleWhip;
 import mhfc.net.common.ai.entity.AIBite;
 import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIDeath;
-import mhfc.net.common.ai.entity.monsters.deviljho.Charge;
-import mhfc.net.common.ai.entity.monsters.deviljho.DragonBreath;
-import mhfc.net.common.ai.entity.monsters.deviljho.Jump;
-import mhfc.net.common.ai.entity.monsters.deviljho.Launch;
-import mhfc.net.common.ai.entity.monsters.deviljho.Roar;
-import mhfc.net.common.ai.entity.monsters.deviljho.Stomp;
+import mhfc.net.common.ai.entity.monsters.deviljho.*;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.CreatureAttributes;
@@ -29,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.lwjgl.opengl.GL11;
 
 public class Deviljho extends CreatureAttributes<Deviljho> {
 

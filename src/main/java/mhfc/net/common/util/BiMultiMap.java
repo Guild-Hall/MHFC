@@ -1,8 +1,8 @@
 package mhfc.net.common.util;
 
-import java.util.Map;
-
 import com.google.common.collect.SetMultimap;
+
+import java.util.Map;
 
 /**
  * A bidirectional multi map. This means that every value is associated with at max one key.

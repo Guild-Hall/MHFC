@@ -1,12 +1,5 @@
 package mhfc.net.common.item.armor;
 
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import javax.annotation.Nullable;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.entity.CreatureAttributes;
 import mhfc.net.common.index.ResourceInterface;
@@ -26,6 +19,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * TODO: Add a getter for ratioDamage and maxAbsorption - Heltrato reserved for dev test #3. or possibly 1.5 released.

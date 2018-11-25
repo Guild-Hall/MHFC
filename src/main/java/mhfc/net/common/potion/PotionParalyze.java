@@ -1,7 +1,5 @@
 package mhfc.net.common.potion;
 
-import java.util.Random;
-
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.Minecraft;
@@ -11,6 +9,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Random;
 
 public class PotionParalyze extends Potion {
 

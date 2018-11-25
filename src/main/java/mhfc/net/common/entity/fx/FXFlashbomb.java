@@ -1,7 +1,5 @@
 package mhfc.net.common.entity.fx;
 
-import java.util.List;
-
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.entity.Entity;
@@ -13,6 +11,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class FXFlashbomb extends EntityThrowable {
 

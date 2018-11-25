@@ -1,7 +1,5 @@
 package mhfc.net.common.quests.rewards;
 
-import java.util.List;
-
 import mhfc.net.common.quests.api.IQuestReward;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -11,6 +9,8 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import java.util.List;
 
 public class LootTableReward implements IQuestReward {
 

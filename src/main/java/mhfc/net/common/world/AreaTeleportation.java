@@ -1,8 +1,5 @@
 package mhfc.net.common.world;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.quests.world.IQuestArea;
 import mhfc.net.common.world.area.IArea;
@@ -14,6 +11,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AreaTeleportation {
 

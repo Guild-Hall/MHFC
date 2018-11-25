@@ -1,7 +1,5 @@
 package mhfc.net.common.block.decoration;
 
-import java.util.Random;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.index.ResourceInterface;
@@ -9,6 +7,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
+
+import java.util.Random;
 
 public class BlockClay extends Block {
 

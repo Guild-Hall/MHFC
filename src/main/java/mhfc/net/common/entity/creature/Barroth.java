@@ -1,22 +1,12 @@
 package mhfc.net.common.entity.creature;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
-
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIDeath;
 import mhfc.net.common.ai.entity.AIWander;
-import mhfc.net.common.ai.entity.monsters.barroth.HeadSlam;
-import mhfc.net.common.ai.entity.monsters.barroth.Ram;
-import mhfc.net.common.ai.entity.monsters.barroth.RamRun;
-import mhfc.net.common.ai.entity.monsters.barroth.Roar;
-import mhfc.net.common.ai.entity.monsters.barroth.Stomp;
+import mhfc.net.common.ai.entity.monsters.barroth.*;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.CreatureAttributes;
@@ -29,6 +19,10 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
+import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Barroth extends CreatureAttributes<Barroth> {
 

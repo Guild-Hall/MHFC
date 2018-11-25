@@ -1,12 +1,12 @@
 package mhfc.net.common.network;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import mhfc.net.MHFCMain;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Packet pipeline class. Directs all registered packet data to be handled by the packets themselves.

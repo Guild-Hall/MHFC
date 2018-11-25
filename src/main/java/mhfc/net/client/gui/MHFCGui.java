@@ -1,18 +1,16 @@
 package mhfc.net.client.gui;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import org.lwjgl.opengl.GL11;
+
+import javax.vecmath.Vector2f;
 import java.io.IOException;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
-
-import javax.vecmath.Vector2f;
-
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 
 public abstract class MHFCGui extends GuiScreen implements IMHFCGuiItem {
 

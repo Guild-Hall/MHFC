@@ -1,11 +1,11 @@
 package mhfc.net.common.util.reflection;
 
-import java.lang.invoke.MethodHandle;
-import java.util.Optional;
-
 import org.hamcrest.core.IsEqual;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.lang.invoke.MethodHandle;
+import java.util.Optional;
 
 public class ReflectionTest {
 	public class TestClass {

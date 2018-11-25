@@ -1,20 +1,9 @@
 	package mhfc.net.common.index.armor;
 
-import mhfc.net.client.model.armor.ModelBarrothArmor;
-import mhfc.net.client.model.armor.ModelDeviljhoArmor;
-import mhfc.net.client.model.armor.ModelDragoonArmor;
-import mhfc.net.client.model.armor.ModelGreatJaggiArmor;
-import mhfc.net.client.model.armor.ModelKirinArmor;
-import mhfc.net.client.model.armor.ModelKirinSArmor;
-import mhfc.net.client.model.armor.ModelKishinArmor;
-import mhfc.net.client.model.armor.ModelNibelsnarfArmor;
-import mhfc.net.client.model.armor.ModelRathalosArmor;
-import mhfc.net.client.model.armor.ModelTigrexArmor;
-import mhfc.net.client.model.armor.ModelVelocipreyArmor;
-import mhfc.net.client.model.armor.ModelYukumoArmor;
-import mhfc.net.client.model.armor.community.Model_ST_1_Bionic;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+    import mhfc.net.client.model.armor.*;
+    import mhfc.net.client.model.armor.community.Model_ST_1_Bionic;
+    import net.minecraftforge.fml.relauncher.Side;
+    import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class Model {

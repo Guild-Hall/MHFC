@@ -1,15 +1,14 @@
 package mhfc.net.common.util.parsing.valueholders;
 
+import com.google.common.collect.Iterators;
+import mhfc.net.common.util.parsing.Holder;
+import mhfc.net.common.util.parsing.IValueHolder;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-
-import com.google.common.collect.Iterators;
-
-import mhfc.net.common.util.parsing.Holder;
-import mhfc.net.common.util.parsing.IValueHolder;
 
 public class Arguments implements Iterable<IValueHolder> {
 	public static class PermissiveIterator<E> implements Iterator<E> {

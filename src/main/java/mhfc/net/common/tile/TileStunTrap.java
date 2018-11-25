@@ -1,11 +1,11 @@
 package mhfc.net.common.tile;
 
-import java.util.Random;
-
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.Random;
 
 public class TileStunTrap extends TileEntity implements ITickable {
 

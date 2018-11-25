@@ -1,16 +1,15 @@
 package mhfc.net.common.network.message.quest;
 
-import java.io.IOException;
-import java.util.Objects;
-
 import com.google.common.base.Throwables;
-
 import io.netty.buffer.ByteBuf;
 import mhfc.net.common.core.data.QuestDescriptionRegistry;
 import mhfc.net.common.core.directors.DirectorDownloadQuests;
 import mhfc.net.common.core.directors.DirectorUploadQuests;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+
+import java.io.IOException;
+import java.util.Objects;
 
 public class MessageQuestInit implements IMessage {
 

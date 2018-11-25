@@ -1,7 +1,6 @@
 package mhfc.net.common.ai;
 
 import com.github.worldsender.mcanm.common.animation.IAnimation;
-
 import mhfc.net.common.ai.general.WeightedPick.WeightedItem;
 import mhfc.net.common.ai.manager.AIActionManager;
 import net.minecraft.entity.EntityLivingBase;

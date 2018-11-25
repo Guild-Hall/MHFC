@@ -1,12 +1,12 @@
 package mhfc.net.common.quests.spawns;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import mhfc.net.common.quests.api.ISpawnInformation;
 import mhfc.net.common.quests.api.SpawnInformationDelegate;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class MultipleSpawns implements ISpawnInformation {
 

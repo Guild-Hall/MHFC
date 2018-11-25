@@ -1,16 +1,7 @@
 package mhfc.net.common.core.registry;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.CompletionStage;
-import java.util.function.Function;
-
-import javax.annotation.Nonnull;
-
 import com.google.gson.JsonElement;
 import com.mojang.authlib.GameProfile;
-
 import mhfc.net.common.core.data.KeyToInstanceRegistryData;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.IActiveArea;
@@ -26,6 +17,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
+
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.CompletionStage;
+import java.util.function.Function;
 
 public class MHFCExplorationRegistry {
 

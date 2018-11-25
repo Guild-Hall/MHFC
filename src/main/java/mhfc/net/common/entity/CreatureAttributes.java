@@ -1,17 +1,9 @@
 package mhfc.net.common.entity;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Random;
-
 import com.github.worldsender.mcanm.client.model.util.ModelStateInformation;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import com.github.worldsender.mcanm.client.renderer.IAnimatedObject;
 import com.github.worldsender.mcanm.common.animation.IAnimation;
-
 import io.netty.buffer.ByteBuf;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.IActionManager;
@@ -24,14 +16,7 @@ import mhfc.net.common.ai.manager.AIActionManager;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.util.world.WorldHelper;
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityMultiPart;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.MultiPartEntityPart;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -51,6 +36,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.*;
 
 /**
  * This class should provide a good base to code off. As almost every entity in Monster Hunter is a multi- box Entity
@@ -578,6 +565,11 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 		}
 		addVelocity(forwardVector.x, forwardVector.y, forwardVector.z);
 		setPositionAndUpdate(posX, posY, posZ);
+	}
+	
+	// 1.12 new Methods
+	public List<Entity> getCollidingEntities(EntityLivingBase e) {
+		return WorldHelper.collidingEntities(e);
 	}
 	
 	 

@@ -38,6 +38,8 @@ entity.mhfc.rathalos.name=§2Rathalos
 entity.akuravashimu.name=§2Akura Vashimu
 entity.mhfc.akuravashimu.name=§2Akura Vashimu
 
+entity.questGiver.name=Quest Giver
+
 death.attack.mhfc.thunderelement=%1$s was killed by %2$s using a thunder element weapon.
 
 
@@ -150,7 +152,7 @@ item.arrow0.name=Wyvernia Arrow
 
 item.wyverniadust.name=Wyvernia Dust
 item.wyverniaclay.name=Wyvernia Clay
-item.mhfcegg.name=Summon
+item.mhfegg.name=Summon
 item.moldediron.name=Molded Iron
 
 item.firestone.name=Firestone

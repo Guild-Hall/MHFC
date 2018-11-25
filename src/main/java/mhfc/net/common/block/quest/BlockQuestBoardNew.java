@@ -1,7 +1,5 @@
 package mhfc.net.common.block.quest;
 
-import java.util.Random;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCContainerRegistry;
 import mhfc.net.common.index.ResourceInterface;
@@ -13,6 +11,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockQuestBoardNew extends Block {
 

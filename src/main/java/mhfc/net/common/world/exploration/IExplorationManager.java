@@ -1,12 +1,11 @@
 package mhfc.net.common.world.exploration;
 
-import java.util.concurrent.CompletionStage;
-
 import com.google.gson.JsonElement;
-
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
+
+import java.util.concurrent.CompletionStage;
 
 /**
  * An exploration manager uses a set of active areas that it manages in order to give player access to instances of

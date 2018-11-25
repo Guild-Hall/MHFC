@@ -1,11 +1,10 @@
 package mhfc.net.client.particle.api;
 
-import java.util.Arrays;
-
-import org.apache.commons.lang3.ArrayUtils;
-
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.Arrays;
 
 public final class VanillaParticle<T extends Particle> extends ParticleFactory<VanillaParticle<T>, T> {
 	private final IParticleFactory factory;

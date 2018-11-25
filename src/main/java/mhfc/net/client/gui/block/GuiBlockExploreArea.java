@@ -1,9 +1,5 @@
 package mhfc.net.client.gui.block;
 
-import java.io.IOException;
-
-import javax.vecmath.Vector2f;
-
 import mhfc.net.client.gui.ClickableGuiList;
 import mhfc.net.client.gui.GuiListItem;
 import mhfc.net.client.gui.IMHFCGuiItem;
@@ -15,6 +11,9 @@ import mhfc.net.common.tile.TileExploreArea;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
+
+import javax.vecmath.Vector2f;
+import java.io.IOException;
 
 public class GuiBlockExploreArea extends MHFCGui {
 

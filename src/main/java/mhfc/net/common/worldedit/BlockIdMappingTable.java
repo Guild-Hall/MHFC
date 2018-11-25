@@ -1,21 +1,12 @@
 package mhfc.net.common.worldedit;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import com.sk89q.jnbt.CompoundTag;
-import com.sk89q.jnbt.CompoundTagBuilder;
-import com.sk89q.jnbt.ListTag;
-import com.sk89q.jnbt.StringTag;
-import com.sk89q.jnbt.Tag;
+import com.sk89q.jnbt.*;
 import com.sk89q.worldedit.blocks.BaseBlock;
-
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class BlockIdMappingTable<ID, T extends Tag> implements IBlockMappingTable {
 	private Map<ID, Integer> registryNameToCompressedId;

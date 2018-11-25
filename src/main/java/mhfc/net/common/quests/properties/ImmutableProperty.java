@@ -1,11 +1,11 @@
 package mhfc.net.common.quests.properties;
 
+import mhfc.net.common.util.parsing.Holder;
+import net.minecraft.nbt.NBTBase;
+
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-
-import mhfc.net.common.util.parsing.Holder;
-import net.minecraft.nbt.NBTBase;
 
 /**
  * Provides a way to store arbitrary properties.

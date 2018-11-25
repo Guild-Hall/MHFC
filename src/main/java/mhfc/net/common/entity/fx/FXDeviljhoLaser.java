@@ -1,7 +1,5 @@
 package mhfc.net.common.entity.fx;
 
-import java.util.List;
-
 import mhfc.net.client.particle.EnumParticles;
 import mhfc.net.client.particle.api.ParticleFactory;
 import mhfc.net.client.particle.particles.Cloud;
@@ -14,6 +12,8 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class FXDeviljhoLaser extends Entity {
 	private static final int point_range = 20;

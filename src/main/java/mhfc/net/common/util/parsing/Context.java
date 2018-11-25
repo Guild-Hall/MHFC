@@ -1,12 +1,12 @@
 package mhfc.net.common.util.parsing;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 import mhfc.net.common.util.parsing.proxies.ContextWrapper;
 import mhfc.net.common.util.parsing.proxies.StaticAccess;
 import mhfc.net.common.util.parsing.valueholders.ValueHolders;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class Context {
 	public static String checkKeySyntax(String key) {

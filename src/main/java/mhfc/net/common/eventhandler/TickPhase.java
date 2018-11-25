@@ -1,9 +1,9 @@
 package mhfc.net.common.eventhandler;
 
-import java.util.Objects;
-
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+
+import java.util.Objects;
 
 public enum TickPhase {
 	CLIENT_PRE,

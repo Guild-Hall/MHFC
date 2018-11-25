@@ -1,9 +1,6 @@
 package mhfc.net.common.entity.creature.incomplete;
 
-import org.lwjgl.opengl.GL11;
-
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
-
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.AIAngleWhip;
 import mhfc.net.common.ai.entity.AIBite;
@@ -19,6 +16,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import org.lwjgl.opengl.GL11;
 
 public class GreatJaggi extends CreatureAttributes<GreatJaggi> {
 	// TODO: implement rage

@@ -1,12 +1,11 @@
 package mhfc.net.common.util;
 
-import static org.junit.Assert.assertEquals;
-
+import mhfc.net.common.ai.general.AIUtils;
+import net.minecraft.util.math.Vec3d;
 import org.junit.Before;
 import org.junit.Test;
 
-import mhfc.net.common.ai.general.AIUtils;
-import net.minecraft.util.math.Vec3d;
+import static org.junit.Assert.assertEquals;
 
 public class AIUtilsTest {
 

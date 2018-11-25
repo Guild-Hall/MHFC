@@ -1,9 +1,9 @@
 package mhfc.net.common.ai.general.provider.adapters;
 
-import java.util.Objects;
-
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
+
+import java.util.Objects;
 
 public class DamageAdapter implements IDamageProvider {
 

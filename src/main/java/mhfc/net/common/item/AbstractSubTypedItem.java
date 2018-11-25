@@ -1,13 +1,13 @@
 package mhfc.net.common.item;
 
-import java.util.List;
-
 import mhfc.net.common.util.SubTypedItem;
 import mhfc.net.common.util.SubTypedItem.SubTypeEnum;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+
+import java.util.List;
 
 public class AbstractSubTypedItem<T extends Enum<T> & SubTypeEnum<Item>> extends Item
 		implements

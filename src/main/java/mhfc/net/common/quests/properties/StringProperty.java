@@ -1,9 +1,9 @@
 package mhfc.net.common.quests.properties;
 
-import java.util.function.Function;
-
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagString;
+
+import java.util.function.Function;
 
 public class StringProperty extends ImmutableProperty<String> {
 	private static NBTBase dump(String value) {

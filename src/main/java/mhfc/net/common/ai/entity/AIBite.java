@@ -44,7 +44,7 @@ public class AIBite extends DamagingAction<CreatureAttributes<?>> implements IHa
 			float biteRange,
 			boolean isMovingFrame,
 			int movingStartFrame,
-			int endStartFrame) {
+			int movingEndFrame) {
 		this.entity = entity;
 		this.animationLocation = animationLocation;
 		this.animationLength = animationLength;
@@ -55,7 +55,7 @@ public class AIBite extends DamagingAction<CreatureAttributes<?>> implements IHa
 		this.biteRange = biteRange;
 		this.isMovingFrame = isMovingFrame;
 		this.movingStartFrame = movingStartFrame;
-		this.endStartFrame = endStartFrame;
+		this.endStartFrame = movingEndFrame;
 
 	}
 

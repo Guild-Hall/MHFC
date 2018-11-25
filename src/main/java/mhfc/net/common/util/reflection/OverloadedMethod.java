@@ -1,15 +1,15 @@
 package mhfc.net.common.util.reflection;
 
+import mhfc.net.common.util.parsing.Holder;
+import mhfc.net.common.util.parsing.exceptions.MethodNotFoundException;
+import mhfc.net.common.util.parsing.valueholders.Arguments;
+
 import java.lang.invoke.MethodHandle;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import mhfc.net.common.util.parsing.Holder;
-import mhfc.net.common.util.parsing.exceptions.MethodNotFoundException;
-import mhfc.net.common.util.parsing.valueholders.Arguments;
 
 /**
  * Represents a set of methods that are found by {@link MethodHelper}.

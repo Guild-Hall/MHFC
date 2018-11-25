@@ -1,23 +1,21 @@
 package mhfc.net.client.render.entity;
 
-import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-
-import java.util.Queue;
-
-import org.lwjgl.opengl.GL11;
-
 import com.github.worldsender.mcanm.client.ClientLoader;
 import com.github.worldsender.mcanm.client.model.ModelAnimated;
 import com.github.worldsender.mcanm.client.renderer.entity.RenderAnimatedModel;
 import com.github.worldsender.mcanm.common.CommonLoader;
-
 import mhfc.net.client.core.registry.MHFCEntityRenderRegistry;
 import mhfc.net.common.entity.creature.Nargacuga;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
+import org.lwjgl.opengl.GL11;
+
+import java.util.Queue;
+
+import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 
 public class RenderNargacuga extends RenderAnimatedModel<Nargacuga> {
 	private static final String TEXTURE_DIR = ResourceInterface.mob_nargacuga_textureDir;

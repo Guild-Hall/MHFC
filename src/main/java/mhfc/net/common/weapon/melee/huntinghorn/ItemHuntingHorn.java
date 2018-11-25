@@ -1,7 +1,5 @@
 package mhfc.net.common.weapon.melee.huntinghorn;
 
-import java.util.function.Consumer;
-
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.weapon.melee.ItemWeaponMelee;
 import mhfc.net.common.weapon.melee.huntinghorn.HuntingHornWeaponStats.HuntingHornWeaponStatsBuilder;
@@ -12,6 +10,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+
+import java.util.function.Consumer;
 
 public class ItemHuntingHorn extends ItemWeaponMelee<HuntingHornWeaponStats> {
 	public static ItemHuntingHorn build(Consumer<HuntingHornWeaponStatsBuilder> config) {

@@ -1,7 +1,5 @@
 package mhfc.net.client.render.projectile;
 
-import org.lwjgl.opengl.GL11;
-
 import mhfc.net.common.entity.projectile.EntityDeviljhoBeam1;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.Minecraft;
@@ -20,6 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderDeviljhoBeam1 extends Render<EntityDeviljhoBeam1> {

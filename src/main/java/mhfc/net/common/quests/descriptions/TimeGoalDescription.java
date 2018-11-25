@@ -1,8 +1,5 @@
 package mhfc.net.common.quests.descriptions;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
 import mhfc.net.common.quests.api.IGoalDefinition;
 import mhfc.net.common.quests.api.IGoalFactory;
 import mhfc.net.common.quests.api.QuestGoal;
@@ -11,6 +8,9 @@ import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.quests.properties.IntProperty;
 import mhfc.net.common.util.stringview.Viewable;
 import mhfc.net.common.util.stringview.Viewables;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class TimeGoalDescription implements IGoalDefinition {
 

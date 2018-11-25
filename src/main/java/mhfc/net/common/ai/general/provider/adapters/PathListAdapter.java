@@ -1,13 +1,13 @@
 package mhfc.net.common.ai.general.provider.adapters;
 
+import mhfc.net.common.ai.general.provider.simple.IPathProvider;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.util.math.Vec3d;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-
-import mhfc.net.common.ai.general.provider.simple.IPathProvider;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.util.math.Vec3d;
 
 public class PathListAdapter implements IPathProvider {
 

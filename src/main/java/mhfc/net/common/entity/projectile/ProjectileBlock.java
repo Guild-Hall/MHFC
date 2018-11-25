@@ -1,7 +1,5 @@
 package mhfc.net.common.entity.projectile;
 
-import java.util.List;
-
 import mhfc.net.common.entity.creature.Deviljho;
 import mhfc.net.common.entity.creature.Tigrex;
 import net.minecraft.entity.Entity;
@@ -14,6 +12,8 @@ import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class ProjectileBlock extends EntityThrowable {
 	private final EntityFallingBlock proxy;

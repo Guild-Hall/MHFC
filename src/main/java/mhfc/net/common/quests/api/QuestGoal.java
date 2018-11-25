@@ -1,11 +1,11 @@
 package mhfc.net.common.quests.api;
 
-import java.util.EnumSet;
-
 import mhfc.net.common.quests.Mission;
 import mhfc.net.common.quests.QuestStatus;
 import mhfc.net.common.quests.goals.ChainQuestGoal;
 import mhfc.net.common.quests.goals.ForkQuestGoal;
+
+import java.util.EnumSet;
 
 /**
  * QuestGoal helps making the programming for quests easier since it offers several methods that make it possible to

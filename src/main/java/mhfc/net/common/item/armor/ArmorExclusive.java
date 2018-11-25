@@ -1,12 +1,12 @@
 package mhfc.net.common.item.armor;
 
-import java.util.Map;
-import java.util.Objects;
-
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.system.Privilege;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+
+import java.util.Map;
+import java.util.Objects;
 
 public abstract class ArmorExclusive extends ArmorBase {
 	private final Privilege requiredPrivilege;

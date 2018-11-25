@@ -1,9 +1,5 @@
 package mhfc.net.common.core.registry;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.data.QuestDescriptionRegistry;
 import mhfc.net.common.core.directors.DirectorLoadQuestsFromLocal;
@@ -22,6 +18,10 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The registry for quests and quest goals. It will read some source files on init, these war written in the json

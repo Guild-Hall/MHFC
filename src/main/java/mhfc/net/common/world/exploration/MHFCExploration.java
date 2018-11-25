@@ -1,20 +1,19 @@
 package mhfc.net.common.world.exploration;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.google.gson.JsonElement;
 import com.mojang.authlib.GameProfile;
-
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.util.BiMultiMap;
 import mhfc.net.common.util.HashBiMultiMap;
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IAreaType;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MHFCExploration extends ExplorationAdapter {
 	private static final Table<IAreaType, QuestFlair, Collection<IActiveArea>> AREA_INSTANCES = HashBasedTable.create();

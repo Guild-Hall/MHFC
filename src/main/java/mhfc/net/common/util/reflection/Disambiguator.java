@@ -1,18 +1,14 @@
 package mhfc.net.common.util.reflection;
 
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.IntStream;
-
 import mhfc.net.common.util.Comparation;
 import mhfc.net.common.util.Comparation.ComparationResult;
 import mhfc.net.common.util.parsing.exceptions.AmbiguousCallException;
+
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.util.*;
+import java.util.stream.IntStream;
 
 public class Disambiguator {
 	private static enum MethodApplicability {

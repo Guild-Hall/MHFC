@@ -1,17 +1,7 @@
 package mhfc.net.common.quests.world;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Queue;
-import java.util.Set;
-import java.util.function.Predicate;
-
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
-
 import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IWorldView;
@@ -20,15 +10,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IWorldEventListener;
 import net.minecraft.world.World;
+
+import java.util.*;
+import java.util.function.Predicate;
 
 public abstract class SpawnControllerAdapter implements IQuestAreaSpawnController {
 

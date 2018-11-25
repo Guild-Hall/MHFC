@@ -1,21 +1,11 @@
 package mhfc.net.common.tile;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-
 import mhfc.net.common.core.registry.MHFCEquipementRecipeRegistry;
 import mhfc.net.common.crafting.equipment.EquipmentRecipe;
 import mhfc.net.common.crafting.equipment.EquipmentRecipe.RecipeType;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.network.PacketPipeline;
-import mhfc.net.common.network.message.bench.MessageBeginCrafting;
-import mhfc.net.common.network.message.bench.MessageBenchRefreshRequest;
-import mhfc.net.common.network.message.bench.MessageCancelRecipe;
-import mhfc.net.common.network.message.bench.MessageCraftingUpdate;
-import mhfc.net.common.network.message.bench.MessageSetRecipe;
+import mhfc.net.common.network.message.bench.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -30,6 +20,8 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.*;
 
 public class TileHunterBench extends TileEntity implements ITickable, IInventory, TileMHFCUpdateStream {
 
@@ -425,7 +417,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	        // End of fake data
 		
 		List<ItemStack> l = new LinkedList<>(Arrays.asList(input));
-	        _for: for (Ingredient i: recipe) {
+	        _for: for (Ingredient i: recipe)	 {
 	            Iterator<ItemStack> iter = l.iterator();
 	            while (iter.hasNext()) {
 	                if (i.apply(iter.next())) {

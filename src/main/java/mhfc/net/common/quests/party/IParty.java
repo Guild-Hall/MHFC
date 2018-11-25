@@ -1,8 +1,8 @@
 package mhfc.net.common.quests.party;
 
-import java.util.Collection;
-
 import net.minecraft.entity.player.EntityPlayer;
+
+import java.util.Collection;
 
 /**
  * An descriptive implementation for parties. This interface is used to

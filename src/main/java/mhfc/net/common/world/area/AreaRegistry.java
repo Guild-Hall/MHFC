@@ -1,16 +1,11 @@
 package mhfc.net.common.world.area;
 
+import mhfc.net.common.world.types.*;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-
-import mhfc.net.common.world.types.AreaGreenValley;
-import mhfc.net.common.world.types.AreaSandy;
-import mhfc.net.common.world.types.AreaTypePlayfield;
-import mhfc.net.common.world.types.ArenaType;
-import mhfc.net.common.world.types.TestAreaType;
-import mhfc.net.common.world.types.VillagePokeType;
 
 public class AreaRegistry {
 

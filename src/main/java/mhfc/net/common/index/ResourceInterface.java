@@ -415,7 +415,7 @@ public class ResourceInterface {
 	public static final String item_bulletflame_name = "flameS";
 
 	public static final String item_lumberbar_name = "lumberbar";
-	public static final String item_mhfcspawnegg_name = "mhfcegg";
+	public static final String item_mhfcspawnegg_name = "mhfegg";
 	public static final String item_moldediron_name = "moldediron";
 
 	public static final String item_sac_basename = "sac";
@@ -524,7 +524,7 @@ public class ResourceInterface {
 	public static final String akuravashimu_dir = modelLoc + "akuravashimu/";
 	public static final String akuravashimu_textureDir = textureLoc + "akura_vashimu/";
 	public static final String akuravashimu_model = akuravashimu_dir + "model.mcmd";
-	public static final String akuravashimu_skeleton = akuravashimu_dir + "armature.001.mcskl";
+	public static final String akuravashimu_skeleton = akuravashimu_dir + "armature.mcskl";
 	
 	// Giaprey
 	public static final String mob_giaprey_name = "giaprey";

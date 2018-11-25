@@ -1,20 +1,12 @@
 package mhfc.net.common.util.services;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Consumer;
-
+import com.google.common.base.Preconditions;
+import mhfc.net.MHFCMain;
 import org.apache.logging.log4j.Level;
 
-import com.google.common.base.Preconditions;
-
-import mhfc.net.MHFCMain;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 /**
  * This singleton class offers a way to retrieve Services during different phases of the game. This is kind of a sanity

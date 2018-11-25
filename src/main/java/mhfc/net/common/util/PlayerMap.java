@@ -1,12 +1,11 @@
 package mhfc.net.common.util;
 
+import com.mojang.authlib.GameProfile;
+import net.minecraft.entity.player.EntityPlayer;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import com.mojang.authlib.GameProfile;
-
-import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * A map specialized to hold {@link EntityPlayer}s by identifying the actual player, not the entity.

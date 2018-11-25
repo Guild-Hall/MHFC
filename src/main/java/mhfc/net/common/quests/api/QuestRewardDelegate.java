@@ -3,7 +3,6 @@ package mhfc.net.common.quests.api;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
-
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import mhfc.net.common.quests.rewards.NullReward;
 import mhfc.net.common.util.io.DelegatedConvertible;

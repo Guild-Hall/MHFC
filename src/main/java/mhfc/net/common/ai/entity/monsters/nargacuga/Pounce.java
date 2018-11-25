@@ -1,7 +1,5 @@
 package mhfc.net.common.ai.entity.monsters.nargacuga;
 
-import java.util.function.Function;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.SelectionUtils;
@@ -16,6 +14,8 @@ import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.creature.Nargacuga;
+
+import java.util.function.Function;
 
 public final class Pounce extends JumpAction<Nargacuga> implements IHasJumpProvider<Nargacuga> {
 

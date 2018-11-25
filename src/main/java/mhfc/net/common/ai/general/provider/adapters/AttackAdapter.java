@@ -1,13 +1,12 @@
 package mhfc.net.common.ai.general.provider.adapters;
 
-import java.util.Objects;
-
 import com.github.worldsender.mcanm.common.animation.IAnimation;
-
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.composite.IAttackProvider;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
 import mhfc.net.common.ai.general.provider.simple.IDamageProvider;
+
+import java.util.Objects;
 
 public class AttackAdapter implements IAttackProvider {
 	protected IAnimationProvider animationProvider;

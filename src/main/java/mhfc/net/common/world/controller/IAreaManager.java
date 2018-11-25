@@ -1,10 +1,10 @@
 package mhfc.net.common.world.controller;
 
-import java.util.concurrent.CompletionStage;
-
 import mhfc.net.common.world.area.IActiveArea;
 import mhfc.net.common.world.area.IArea;
 import mhfc.net.common.world.area.IAreaType;
+
+import java.util.concurrent.CompletionStage;
 
 public interface IAreaManager {
 	/**

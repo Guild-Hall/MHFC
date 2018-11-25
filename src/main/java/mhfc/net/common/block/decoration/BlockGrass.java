@@ -1,7 +1,5 @@
 package mhfc.net.common.block.decoration;
 
-import java.util.Random;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.block.Block;
@@ -11,6 +9,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Random;
 
 public class BlockGrass extends Block {
 

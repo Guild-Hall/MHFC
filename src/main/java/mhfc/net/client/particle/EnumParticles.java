@@ -1,7 +1,5 @@
 package mhfc.net.client.particle;
 
-import javax.annotation.Nullable;
-
 import mhfc.net.client.particle.api.ParticleFactory;
 import mhfc.net.client.particle.api.ParticleFactory.ParticleArgs;
 import mhfc.net.client.particle.particles.Cloud;
@@ -9,6 +7,8 @@ import mhfc.net.client.particle.particles.Flake;
 import mhfc.net.client.particle.particles.Ring;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 public enum EnumParticles {
 	FLAKE(new Flake.SFFactory()),

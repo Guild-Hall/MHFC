@@ -1,10 +1,6 @@
 package mhfc.net.common.weapon.range.bowgun.light;
 
-import java.util.UUID;
-import java.util.function.Consumer;
-
 import com.google.common.collect.Multimap;
-
 import mhfc.net.common.index.AttributeModifiers;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.weapon.range.bowgun.BowgunWeaponStats;
@@ -19,6 +15,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+
+import java.util.UUID;
+import java.util.function.Consumer;
 
 public class ItemLightBowgun extends ItemBowgun {
 	protected static final UUID LIGHT_BOWGUN_EFFECT_UUID = UUID.fromString("ebf5742a-43f8-4d3c-873f-5fa7439654ff");

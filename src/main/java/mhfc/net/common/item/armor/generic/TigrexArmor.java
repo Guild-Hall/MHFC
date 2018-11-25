@@ -1,7 +1,5 @@
 package mhfc.net.common.item.armor.generic;
 
-import java.util.List;
-
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
@@ -16,6 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public class TigrexArmor extends ArmorBase {
 	private static final String[] names = { ResourceInterface.armor_tigrex_helm_name,

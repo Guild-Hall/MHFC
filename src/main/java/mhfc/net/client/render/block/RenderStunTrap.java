@@ -1,12 +1,11 @@
 package mhfc.net.client.render.block;
 
-import org.lwjgl.opengl.GL11;
-
 import mhfc.net.client.model.block.ModelStunTrap;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.tile.TileStunTrap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class RenderStunTrap extends TileEntitySpecialRenderer<TileStunTrap> {
 

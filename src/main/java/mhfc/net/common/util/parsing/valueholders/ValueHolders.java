@@ -1,9 +1,9 @@
 package mhfc.net.common.util.parsing.valueholders;
 
-import java.util.function.Supplier;
-
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
+
+import java.util.function.Supplier;
 
 public class ValueHolders {
 	public static IValueHolder throwing(Supplier<RuntimeException> exception) {

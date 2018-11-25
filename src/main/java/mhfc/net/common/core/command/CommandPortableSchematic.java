@@ -1,14 +1,5 @@
 package mhfc.net.common.core.command;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import org.apache.logging.log4j.Level;
-
 import com.sk89q.worldedit.LocalConfiguration;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -22,7 +13,6 @@ import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.transform.Transform;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.util.io.Closer;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.system.ColorSystem;
 import mhfc.net.common.worldedit.ClipboardFormats;
@@ -33,6 +23,14 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import org.apache.logging.log4j.Level;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class CommandPortableSchematic extends CommandBase {
 

@@ -1,17 +1,15 @@
 package mhfc.net.common.weapon.melee.huntinghorn;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-
-import org.apache.commons.lang3.ArrayUtils;
-
 import com.google.common.base.Preconditions;
-
 import mhfc.net.common.util.NBTUtils;
 import mhfc.net.common.weapon.melee.MeleeWeaponStats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class HuntingHornWeaponStats extends MeleeWeaponStats {
 	protected static final String NBT_NOTEHISTORY = "mhfc:lastNotes";

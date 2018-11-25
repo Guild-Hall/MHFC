@@ -1,12 +1,12 @@
 package mhfc.net.common.weapon.stats;
 
-import java.util.Random;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumParticleTypes;
+
+import java.util.Random;
 
 public enum ElementalType implements ICombatEffectType {
 	Fire(EnumParticleTypes.FLAME) {

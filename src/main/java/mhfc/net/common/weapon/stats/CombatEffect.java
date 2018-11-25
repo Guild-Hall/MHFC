@@ -1,10 +1,9 @@
 package mhfc.net.common.weapon.stats;
 
-import java.util.Objects;
-
 import com.google.common.base.Preconditions;
-
 import net.minecraft.entity.EntityLivingBase;
+
+import java.util.Objects;
 
 public class CombatEffect {
 	private ICombatEffectType effect;

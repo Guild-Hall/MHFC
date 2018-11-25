@@ -1,16 +1,15 @@
 package mhfc.net.client.render.block;
 
-import java.util.Objects;
-
 import com.github.worldsender.mcanm.client.IRenderPass;
 import com.github.worldsender.mcanm.client.mcanmmodel.IModel;
 import com.github.worldsender.mcanm.client.model.IRenderPassInformation;
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import com.github.worldsender.mcanm.common.animation.IAnimation;
-
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.Objects;
 
 public abstract class RenderTileEntity<T extends TileEntity> extends TileEntitySpecialRenderer<T> {
 	private class RenderPass implements IRenderPass {

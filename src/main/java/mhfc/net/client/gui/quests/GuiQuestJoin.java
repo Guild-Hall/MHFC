@@ -1,11 +1,5 @@
 package mhfc.net.client.gui.quests;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.vecmath.Vector2f;
-
 import mhfc.net.client.gui.ClickableGuiList;
 import mhfc.net.client.gui.ClickableGuiList.GuiListStringItem;
 import mhfc.net.client.gui.IMHFCGuiItem;
@@ -21,6 +15,11 @@ import mhfc.net.common.network.message.quest.MessageMHFCInteraction.Interaction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.inventory.Slot;
+
+import javax.vecmath.Vector2f;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GuiQuestJoin extends MHFCGui implements IMHFCTab {
 

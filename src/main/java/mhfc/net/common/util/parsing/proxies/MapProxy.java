@@ -1,11 +1,11 @@
 package mhfc.net.common.util.parsing.proxies;
 
-import java.util.Map;
-
 import mhfc.net.common.util.Objects;
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
 import mhfc.net.common.util.parsing.syntax.special.ISpecialMember;
+
+import java.util.Map;
 
 public class MapProxy implements ISpecialMember {
 	private Map<String, ? extends IValueHolder>[] maps;

@@ -1,9 +1,9 @@
 package mhfc.net.common.quests.world;
 
-import java.util.Optional;
-
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.Optional;
 
 public interface IQuestArea {
 	public static final ResourceLocation PLAYER_SPAWN = new ResourceLocation("player_spawn");

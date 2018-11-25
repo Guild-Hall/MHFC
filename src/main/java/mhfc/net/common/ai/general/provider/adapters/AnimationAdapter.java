@@ -1,17 +1,16 @@
 package mhfc.net.common.ai.general.provider.adapters;
 
-import java.util.function.IntSupplier;
-import java.util.function.Supplier;
-
 import com.github.worldsender.mcanm.common.CommonLoader;
 import com.github.worldsender.mcanm.common.animation.IAnimation;
 import com.google.common.base.Preconditions;
-
 import mhfc.net.common.ai.general.actions.AnimatedAction;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import mhfc.net.common.ai.general.provider.simple.IFrameAdvancer;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 
 public class AnimationAdapter implements IAnimationProvider {
 	private IAnimation animation;

@@ -1,14 +1,7 @@
 package mhfc.net.common.eventhandler;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.ResourceLocations;
 import net.minecraft.util.ResourceLocation;
@@ -16,6 +9,11 @@ import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 @Mod.EventBusSubscriber(modid = ResourceInterface.main_modid)
 public class LootTableInjector {

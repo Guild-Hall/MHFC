@@ -1,9 +1,9 @@
 package mhfc.net.common.util.parsing.syntax.operators;
 
-import java.util.List;
-
 import mhfc.net.common.util.parsing.syntax.literals.FunctionCallLiteral;
 import mhfc.net.common.util.parsing.syntax.literals.IExpression;
+
+import java.util.List;
 
 /**
  * "call : ex"

@@ -1,8 +1,5 @@
 package mhfc.net.common.world.village;
 
-import java.util.List;
-import java.util.Random;
-
 import mhfc.net.common.entity.creature.npc.NPCQuestGiver;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
@@ -14,6 +11,9 @@ import net.minecraft.world.gen.structure.StructureVillagePieces;
 import net.minecraft.world.gen.structure.StructureVillagePieces.PieceWeight;
 import net.minecraft.world.gen.structure.StructureVillagePieces.Start;
 import net.minecraft.world.gen.structure.StructureVillagePieces.Village;
+
+import java.util.List;
+import java.util.Random;
 
 public class QuestGiverHut extends StructureVillagePieces.Village {
 

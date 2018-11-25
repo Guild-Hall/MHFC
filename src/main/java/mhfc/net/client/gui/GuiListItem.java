@@ -1,10 +1,5 @@
 package mhfc.net.client.gui;
 
-import java.util.Iterator;
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
@@ -12,6 +7,10 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
+
+import java.util.Iterator;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiListItem {

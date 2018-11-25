@@ -1,8 +1,5 @@
 package mhfc.net.common.world.gen;
 
-import java.util.Collections;
-import java.util.List;
-
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -10,6 +7,9 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.IChunkGenerator;
+
+import java.util.Collections;
+import java.util.List;
 
 public class ChunkProviderVoid implements IChunkGenerator {
 	private World worldObj;

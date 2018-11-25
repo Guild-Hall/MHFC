@@ -1,7 +1,6 @@
 package mhfc.net.common.ai;
 
 import com.github.worldsender.mcanm.common.animation.IAnimation;
-
 import mhfc.net.common.network.message.MessageAIAction;
 import net.minecraft.entity.EntityLiving;
 

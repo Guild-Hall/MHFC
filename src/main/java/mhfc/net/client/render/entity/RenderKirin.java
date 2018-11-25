@@ -1,12 +1,9 @@
 package mhfc.net.client.render.entity;
 
-import java.util.Random;
-
 import com.github.worldsender.mcanm.client.ClientLoader;
 import com.github.worldsender.mcanm.client.model.ModelAnimated;
 import com.github.worldsender.mcanm.client.renderer.entity.RenderAnimatedModel;
 import com.github.worldsender.mcanm.common.CommonLoader;
-
 import mhfc.net.client.core.registry.MHFCEntityRenderRegistry;
 import mhfc.net.common.entity.creature.Kirin;
 import mhfc.net.common.index.ResourceInterface;
@@ -17,6 +14,8 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.Random;
 
 public class RenderKirin extends RenderAnimatedModel<Kirin> {
 

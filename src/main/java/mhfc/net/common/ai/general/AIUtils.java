@@ -1,11 +1,6 @@
 package mhfc.net.common.ai.general;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import com.google.common.base.Preconditions;
-
 import mhfc.net.common.ai.general.provider.adapters.DefaultDamageCalculator;
 import mhfc.net.common.ai.general.provider.adapters.MemoryDamageCalculator;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
@@ -20,6 +15,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class AIUtils {
 	/**
@@ -141,6 +140,8 @@ public class AIUtils {
 	public static IDamageCalculator defaultDamageCalc(final float player, final float wyvern, final float rest) {
 		return new DefaultDamageCalculator(player, wyvern, rest);
 	}
+	
+	
 
 	/**
 	 * Gives the yaw of a vector, or throws an exception of no yaw exists

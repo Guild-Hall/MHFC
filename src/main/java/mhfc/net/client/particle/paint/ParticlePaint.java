@@ -1,7 +1,5 @@
 package mhfc.net.client.particle.paint;
 
-import org.lwjgl.util.Color;
-
 import io.netty.buffer.ByteBuf;
 import mhfc.net.common.item.ItemColor;
 import net.minecraft.client.particle.Particle;
@@ -9,6 +7,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.util.Color;
 
 @SideOnly(Side.CLIENT)
 public class ParticlePaint extends Particle implements IEntityAdditionalSpawnData {

@@ -1,11 +1,11 @@
 package mhfc.net.common.worldedit;
 
+import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.regions.CuboidRegion;
+
 import java.util.Objects;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-
-import com.sk89q.worldedit.Vector;
-import com.sk89q.worldedit.regions.CuboidRegion;
 
 public class RegionSpliterator implements Spliterator<CuboidRegion> {
 	private CuboidRegion region;

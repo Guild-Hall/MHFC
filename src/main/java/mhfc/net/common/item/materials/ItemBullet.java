@@ -1,9 +1,5 @@
 package mhfc.net.common.item.materials;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.index.ResourceInterface;
@@ -15,6 +11,9 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemBullet extends AbstractSubTypedItem<BulletSubType> {
 	public static enum BulletSubType implements SubTypedItem.SubTypeEnum<Item> {

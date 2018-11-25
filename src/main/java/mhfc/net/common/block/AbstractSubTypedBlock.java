@@ -1,7 +1,5 @@
 package mhfc.net.common.block;
 
-import java.util.Objects;
-
 import mhfc.net.common.util.SubTypedItem;
 import mhfc.net.common.util.SubTypedItem.SubTypeEnum;
 import net.minecraft.block.Block;
@@ -13,6 +11,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
+
+import java.util.Objects;
 
 public abstract class AbstractSubTypedBlock<T extends Enum<T> & SubTypeEnum<Block>> extends Block
 		implements

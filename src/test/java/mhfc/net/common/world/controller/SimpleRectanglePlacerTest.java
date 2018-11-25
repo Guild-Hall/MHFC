@@ -1,11 +1,9 @@
 package mhfc.net.common.world.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-
+import junit.framework.TestCase;
+import mhfc.net.common.util.CyclicIterator;
+import mhfc.net.common.world.controller.SimpleRectanglePlacer.CornerList;
+import mhfc.net.common.world.controller.SimpleRectanglePlacer.IRectanglePlacingFunction;
 import org.hamcrest.core.IsEqual;
 import org.junit.After;
 import org.junit.Assert;
@@ -14,10 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
 
-import junit.framework.TestCase;
-import mhfc.net.common.util.CyclicIterator;
-import mhfc.net.common.world.controller.SimpleRectanglePlacer.CornerList;
-import mhfc.net.common.world.controller.SimpleRectanglePlacer.IRectanglePlacingFunction;
+import java.util.*;
 
 @RunWith(value = BlockJUnit4ClassRunner.class)
 public class SimpleRectanglePlacerTest extends TestCase {

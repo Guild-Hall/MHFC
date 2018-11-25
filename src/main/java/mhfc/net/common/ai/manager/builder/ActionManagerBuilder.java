@@ -1,14 +1,14 @@
 package mhfc.net.common.ai.manager.builder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IManagedActions;
 import mhfc.net.common.ai.manager.AIActionManager;
 import mhfc.net.common.ai.manager.AIActionManager.DataObject;
 import net.minecraft.entity.EntityLiving;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class ActionManagerBuilder<EntType extends EntityLiving & IManagedActions<EntType>>
 		implements

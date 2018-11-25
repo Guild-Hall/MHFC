@@ -1,12 +1,12 @@
 package mhfc.net.common.quests.world;
 
-import java.util.Queue;
-import java.util.Set;
-import java.util.function.Predicate;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.Queue;
+import java.util.Set;
+import java.util.function.Predicate;
 
 public interface IQuestAreaSpawnController {
 

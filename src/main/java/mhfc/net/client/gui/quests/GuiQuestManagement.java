@@ -1,7 +1,5 @@
 package mhfc.net.client.gui.quests;
 
-import java.util.List;
-
 import mhfc.net.client.gui.IMHFCGuiItem;
 import mhfc.net.client.gui.IMHFCTab;
 import mhfc.net.client.gui.MHFCGui;
@@ -15,6 +13,8 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
+
+import java.util.List;
 
 public class GuiQuestManagement extends MHFCGui implements IMHFCTab {
 

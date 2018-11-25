@@ -1,21 +1,6 @@
 package mhfc.net.common.world.controller;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.message.Message;
-
 import com.sk89q.worldedit.function.operation.Operation;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.eventhandler.MHFCTickHandler;
 import mhfc.net.common.eventhandler.TickPhase;
@@ -23,16 +8,19 @@ import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.util.Operations;
 import mhfc.net.common.world.MHFCWorldData;
 import mhfc.net.common.world.MHFCWorldData.AreaInformation;
-import mhfc.net.common.world.area.ActiveAreaAdapter;
-import mhfc.net.common.world.area.AreaConfiguration;
-import mhfc.net.common.world.area.IActiveArea;
-import mhfc.net.common.world.area.IArea;
-import mhfc.net.common.world.area.IAreaType;
+import mhfc.net.common.world.area.*;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.message.Message;
+
+import java.lang.ref.WeakReference;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 public class AreaManager implements IAreaManager {
 

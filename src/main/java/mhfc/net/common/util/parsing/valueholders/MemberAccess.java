@@ -1,19 +1,10 @@
 package mhfc.net.common.util.parsing.valueholders;
 
-import java.lang.invoke.MethodHandle;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-
 import mhfc.net.common.util.ExceptionLessFunctions;
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
@@ -22,6 +13,14 @@ import mhfc.net.common.util.parsing.proxies.MemberMethodProxy;
 import mhfc.net.common.util.reflection.FieldHelper;
 import mhfc.net.common.util.reflection.MethodHelper;
 import mhfc.net.common.util.reflection.OverloadedMethod;
+
+import java.lang.invoke.MethodHandle;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Represents a member of an {@link IValueHolder}. This is dynamically determined based on the currently present origin

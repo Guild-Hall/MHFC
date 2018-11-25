@@ -1,13 +1,12 @@
 package mhfc.net.client.gui;
 
-import java.util.ArrayList;
-
-import org.lwjgl.opengl.GL11;
-
 import mhfc.net.client.gui.GuiListItem.Alignment;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.client.util.gui.MHFCGuiUtil;
 import net.minecraft.client.Minecraft;
+import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
 
 public class ClickableGuiList<Item extends GuiListItem> extends ArrayList<Item> implements IMHFCGuiItem {
 

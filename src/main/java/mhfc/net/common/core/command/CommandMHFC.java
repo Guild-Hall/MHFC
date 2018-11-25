@@ -1,9 +1,5 @@
 package mhfc.net.common.core.command;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.network.handler.MHFCInteractionHandler;
 import mhfc.net.common.network.message.quest.MessageMHFCInteraction;
@@ -13,6 +9,10 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CommandMHFC extends CommandBase {
 

@@ -3,8 +3,8 @@ package mhfc.net.common.core.registry;
 import mhfc.net.MHFCMain;
 import mhfc.net.common.eventhandler.MHFCGuiHandler;
 import mhfc.net.common.eventhandler.entity.ModLivingEvent;
-import mhfc.net.common.eventhandler.player.WorldPlayerEvent;
 import mhfc.net.common.eventhandler.player.MHFCCapeEventHandler;
+import mhfc.net.common.eventhandler.player.WorldPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 

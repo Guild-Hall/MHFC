@@ -1,12 +1,5 @@
 package mhfc.net.client.gui.hud;
 
-import static mhfc.net.client.util.gui.MHFCGuiUtil.COLOUR_TEXT;
-
-import java.util.Optional;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL14;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.client.quests.api.IMissionInformation;
@@ -25,6 +18,12 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL14;
+
+import java.util.Optional;
+
+import static mhfc.net.client.util.gui.MHFCGuiUtil.COLOUR_TEXT;
 
 @SideOnly(Side.CLIENT)
 public class QuestStatusDisplay {

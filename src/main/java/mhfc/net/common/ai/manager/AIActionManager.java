@@ -1,12 +1,12 @@
 package mhfc.net.common.ai.manager;
 
-import java.util.List;
-
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IManagedActions;
 import mhfc.net.common.ai.general.WeightedPick;
 import mhfc.net.common.ai.manager.AIActionManager.DataObject;
 import net.minecraft.entity.EntityLiving;
+
+import java.util.List;
 
 public class AIActionManager<EntType extends EntityLiving & IManagedActions<EntType>>
 		extends

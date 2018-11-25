@@ -1,7 +1,6 @@
 package mhfc.net.common.ai.entity.monsters.rathalos;
 
 import com.github.worldsender.mcanm.common.animation.IAnimation;
-
 import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;

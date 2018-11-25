@@ -1,8 +1,8 @@
 package mhfc.net.common.util.parsing.syntax.literals;
 
-import java.util.Formatter;
-
 import mhfc.net.common.util.parsing.IValueHolder;
+
+import java.util.Formatter;
 
 public interface IExpression {
 	void prettyPrint(Formatter formatter);

@@ -1,8 +1,5 @@
 package mhfc.net.common.block.quest;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCContainerRegistry;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
@@ -23,6 +20,9 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class BlockExploreArea extends BlockBarrier implements ITileEntityProvider {
 

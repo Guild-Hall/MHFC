@@ -1,8 +1,5 @@
 package mhfc.net.common.ai.general.actions;
 
-import java.util.Objects;
-import java.util.Random;
-
 import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.provider.adapters.HasNoTargetAdapter;
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
@@ -10,6 +7,9 @@ import mhfc.net.common.ai.general.provider.simple.IPathProvider;
 import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.Objects;
+import java.util.Random;
 
 public abstract class WanderAction<T extends CreatureAttributes<? super T>> extends MovementAction<T> {
 

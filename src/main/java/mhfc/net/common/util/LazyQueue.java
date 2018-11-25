@@ -1,12 +1,8 @@
 package mhfc.net.common.util;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Queue;
-
 import com.google.common.collect.Lists;
+
+import java.util.*;
 
 /**
  * <b>No thread safety guarantees.</b><br>

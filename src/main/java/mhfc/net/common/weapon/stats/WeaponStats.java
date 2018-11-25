@@ -1,13 +1,12 @@
 package mhfc.net.common.weapon.stats;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import mhfc.net.common.item.ItemRarity;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-
-import mhfc.net.common.item.ItemRarity;
 
 /**
  * An immutable class describing the stats of a weapon. Melee and certain range classes extend this. The attributes here

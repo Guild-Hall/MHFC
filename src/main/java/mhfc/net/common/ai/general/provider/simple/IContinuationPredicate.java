@@ -1,8 +1,8 @@
 package mhfc.net.common.ai.general.provider.simple;
 
-import java.util.Objects;
-
 import mhfc.net.common.ai.general.actions.AnimatedAction;
+
+import java.util.Objects;
 
 public interface IContinuationPredicate {
 	/**

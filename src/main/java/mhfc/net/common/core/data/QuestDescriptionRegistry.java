@@ -1,20 +1,12 @@
 package mhfc.net.common.core.data;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import mhfc.net.common.quests.api.GoalDefinitionDelegate;
 import mhfc.net.common.quests.api.IGoalDefinition;
 import mhfc.net.common.quests.api.IQuestDefinition;
 import mhfc.net.common.quests.api.QuestDefinitionDelegate;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.*;
 
 public class QuestDescriptionRegistry {
 

@@ -1,16 +1,15 @@
 package mhfc.net.common.weapon.melee.huntinghorn;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
 import com.google.common.base.Preconditions;
-
 import mhfc.net.common.util.Trie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 public class HHSongRegistry {
 	public static final int SONG_LENGTH_CAP = 4;

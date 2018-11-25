@@ -1,9 +1,9 @@
 package mhfc.net.common.quests.api;
 
-import java.util.EnumSet;
-
 import mhfc.net.common.quests.Mission;
 import mhfc.net.common.quests.QuestStatus;
+
+import java.util.EnumSet;
 
 /**
  * An interface for classes that do have a quest goal. This is necessary as they should be notified whenever the

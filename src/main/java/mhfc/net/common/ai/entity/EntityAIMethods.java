@@ -1,7 +1,5 @@
 package mhfc.net.common.ai.entity;
 
-import java.util.List;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
@@ -9,6 +7,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.potion.PotionEffect;
+
+import java.util.List;
 
 public abstract class EntityAIMethods {
 

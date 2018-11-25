@@ -1,13 +1,6 @@
 package mhfc.net.common.weapon;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Multimap;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.index.AttributeModifiers;
 import mhfc.net.common.item.IItemSimpleModel;
@@ -30,6 +23,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Our own version of {@link ItemSword} but without the destruction of strings for example.

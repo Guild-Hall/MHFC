@@ -1,25 +1,10 @@
 package mhfc.net.common.entity.creature;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
-
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
-import mhfc.net.common.ai.entity.AIAngleWhip;
-import mhfc.net.common.ai.entity.AIBite;
-import mhfc.net.common.ai.entity.AIBreathe;
-import mhfc.net.common.ai.entity.AIDeath;
-import mhfc.net.common.ai.entity.AIIdle;
-import mhfc.net.common.ai.entity.AIWander;
-import mhfc.net.common.ai.entity.monsters.tigrex.BackOff;
-import mhfc.net.common.ai.entity.monsters.tigrex.Charge;
-import mhfc.net.common.ai.entity.monsters.tigrex.GroundHurl;
-import mhfc.net.common.ai.entity.monsters.tigrex.Jump;
-import mhfc.net.common.ai.entity.monsters.tigrex.Roar;
+import mhfc.net.common.ai.entity.*;
+import mhfc.net.common.ai.entity.monsters.tigrex.*;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.CreatureAttributes;
@@ -36,6 +21,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tigrex extends CreatureAttributes<Tigrex> {
 

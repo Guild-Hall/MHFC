@@ -1,13 +1,13 @@
 package mhfc.net.common.ai.general.actions;
 
-import java.util.Objects;
-
 import mhfc.net.common.ai.general.provider.requirements.INeedsMovementParameters;
 import mhfc.net.common.ai.general.provider.requirements.INeedsPath;
 import mhfc.net.common.ai.general.provider.simple.IMoveParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IPathProvider;
 import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.Objects;
 
 public abstract class MovementAction<T extends CreatureAttributes<? super T>> extends AnimatedAction<T>
 		implements

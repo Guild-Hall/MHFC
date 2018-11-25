@@ -1,11 +1,11 @@
 package mhfc.net.common.quests.goals;
 
-import java.util.EnumSet;
-import java.util.Objects;
-
 import mhfc.net.common.quests.QuestStatus;
 import mhfc.net.common.quests.api.QuestGoal;
 import mhfc.net.common.quests.api.QuestGoalSocket;
+
+import java.util.EnumSet;
+import java.util.Objects;
 
 /**
  *

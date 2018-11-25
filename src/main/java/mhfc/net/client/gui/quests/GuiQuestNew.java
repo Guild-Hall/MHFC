@@ -1,13 +1,5 @@
 package mhfc.net.client.gui.quests;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
-import javax.vecmath.Vector2f;
-
 import mhfc.net.client.gui.ClickableGuiList;
 import mhfc.net.client.gui.ClickableGuiList.GuiListStringItem;
 import mhfc.net.client.gui.IMHFCGuiItem;
@@ -23,6 +15,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
+
+import javax.vecmath.Vector2f;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 public class GuiQuestNew extends MHFCGui implements IMHFCTab {
 

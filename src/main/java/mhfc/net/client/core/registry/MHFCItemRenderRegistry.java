@@ -1,9 +1,5 @@
 package mhfc.net.client.core.registry;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.block.IBlockVarianted;
 import mhfc.net.common.core.registry.MHFCBlockRegistry;
@@ -23,6 +19,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.FMLClientHandler;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 public class MHFCItemRenderRegistry {
 	public static void staticInit() {}

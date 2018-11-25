@@ -1,9 +1,9 @@
 package mhfc.net.common.util;
 
+import net.minecraft.entity.player.EntityPlayer;
+
 import java.util.HashSet;
 import java.util.UUID;
-
-import net.minecraft.entity.player.EntityPlayer;
 
 public class PlayerSet extends HashSet<UUID> {
 	/**

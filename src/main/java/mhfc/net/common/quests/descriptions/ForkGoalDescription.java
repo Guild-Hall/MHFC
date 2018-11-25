@@ -1,10 +1,5 @@
 package mhfc.net.common.quests.descriptions;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import mhfc.net.common.quests.api.GoalReference;
 import mhfc.net.common.quests.api.IGoalDefinition;
 import mhfc.net.common.quests.api.IGoalFactory;
@@ -13,6 +8,11 @@ import mhfc.net.common.quests.goals.ForkQuestGoal;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.util.stringview.JoinedView;
 import mhfc.net.common.util.stringview.Viewable;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class ForkGoalDescription implements IGoalDefinition {
 

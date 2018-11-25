@@ -1,14 +1,5 @@
 package mhfc.net.common.core.registry;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.data.WeaponData;
 import mhfc.net.common.item.armor.generic.BarrothArmor;
@@ -20,20 +11,7 @@ import mhfc.net.common.item.armor.wip.RathalosArmor;
 import mhfc.net.common.item.food.ItemKirinBuff;
 import mhfc.net.common.item.food.ItemMeats;
 import mhfc.net.common.item.food.ItemNutrients;
-import mhfc.net.common.item.materials.ItemBombMaterial;
-import mhfc.net.common.item.materials.ItemBullet;
-import mhfc.net.common.item.materials.ItemFirestone;
-import mhfc.net.common.item.materials.ItemGaguaEgg;
-import mhfc.net.common.item.materials.ItemLumberBar;
-import mhfc.net.common.item.materials.ItemMaterial;
-import mhfc.net.common.item.materials.ItemMoldedIron;
-import mhfc.net.common.item.materials.ItemSpawner;
-import mhfc.net.common.item.materials.ItemSteelBar;
-import mhfc.net.common.item.materials.ItemTrapTool;
-import mhfc.net.common.item.materials.ItemWoodRig;
-import mhfc.net.common.item.materials.ItemWyvernCoin;
-import mhfc.net.common.item.materials.ItemWyverniaArrow;
-import mhfc.net.common.item.materials.ItemWyverniaClay;
+import mhfc.net.common.item.materials.*;
 import mhfc.net.common.item.tools.ItemPaintball;
 import mhfc.net.common.util.services.IServiceKey;
 import mhfc.net.common.weapon.melee.greatsword.ItemGreatsword;
@@ -43,8 +21,16 @@ import mhfc.net.common.weapon.melee.longsword.ItemLongsword;
 import mhfc.net.common.weapon.range.bow.ItemBow;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.GameData;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class MHFCItemRegistry {
 	public static void staticInit() {}
@@ -213,9 +199,10 @@ public class MHFCItemRegistry {
 	public final ItemKirinBuff kirinbuff;
 	public final ItemMeats meat;
 	public final ItemNutrients nutrients;
+	
 
 	// Spawners.(They must be Last)
-	public final ItemSpawner MHFCItemFrontierSpawner;
+	public final ItemSpawner mhfcspawner;
 
 	private final List<Item> everyItems = new ArrayList<>();
 	public final Collection<Item> allItems = Collections.unmodifiableList(everyItems);
@@ -372,8 +359,8 @@ public class MHFCItemRegistry {
 		nutrients = registerItem("nutrients", new ItemNutrients());
 
 		paintball = registerItem("paintball", new ItemPaintball());
+		mhfcspawner = registerItem("spawner", new ItemSpawner());
 
-		MHFCItemFrontierSpawner = registerItem("spawner", new ItemSpawner());
 		MHFCMain.logger().info("Items registered");
 	}
 

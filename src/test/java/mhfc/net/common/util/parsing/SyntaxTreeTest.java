@@ -1,14 +1,13 @@
 package mhfc.net.common.util.parsing;
 
-import static org.junit.Assert.assertThat;
-
+import mhfc.net.common.util.parsing.syntax.operators.IOperator;
+import mhfc.net.common.util.parsing.syntax.tree.AST;
+import mhfc.net.common.util.parsing.syntax.tree.SyntaxBuilder;
 import org.hamcrest.core.IsEqual;
 import org.junit.Before;
 import org.junit.Test;
 
-import mhfc.net.common.util.parsing.syntax.operators.IOperator;
-import mhfc.net.common.util.parsing.syntax.tree.AST;
-import mhfc.net.common.util.parsing.syntax.tree.SyntaxBuilder;
+import static org.junit.Assert.assertThat;
 
 public class SyntaxTreeTest {
 	private class BarOperator implements IOperator<Integer, Integer> {

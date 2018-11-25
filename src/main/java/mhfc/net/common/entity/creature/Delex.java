@@ -1,9 +1,6 @@
 package mhfc.net.common.entity.creature;
 
-import org.lwjgl.opengl.GL11;
-
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
-
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIDeath;
@@ -22,6 +19,7 @@ import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.world.World;
+import org.lwjgl.opengl.GL11;
 
 public class Delex extends CreatureAttributes<Delex> {
 

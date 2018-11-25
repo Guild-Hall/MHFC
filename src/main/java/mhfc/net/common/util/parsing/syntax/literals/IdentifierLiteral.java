@@ -1,9 +1,9 @@
 package mhfc.net.common.util.parsing.syntax.literals;
 
-import java.util.Formatter;
-
 import mhfc.net.common.util.parsing.IValueHolder;
 import mhfc.net.common.util.parsing.valueholders.MemberAccess;
+
+import java.util.Formatter;
 
 public class IdentifierLiteral implements IExpression {
 	private String name;

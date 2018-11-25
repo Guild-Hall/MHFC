@@ -1,9 +1,5 @@
 package mhfc.net.common.util.parsing.syntax.operators;
 
-import java.util.Formatter;
-import java.util.Objects;
-import java.util.function.BooleanSupplier;
-
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
 import mhfc.net.common.util.parsing.proxies.MemberMethodProxy;
@@ -12,6 +8,10 @@ import mhfc.net.common.util.parsing.syntax.literals.HolderLiteral;
 import mhfc.net.common.util.parsing.syntax.literals.IExpression;
 import mhfc.net.common.util.reflection.MethodHelper;
 import mhfc.net.common.util.reflection.OverloadedMethod;
+
+import java.util.Formatter;
+import java.util.Objects;
+import java.util.function.BooleanSupplier;
 
 public class Operators {
 	// ====== Unary operators

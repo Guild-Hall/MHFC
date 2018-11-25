@@ -1,9 +1,5 @@
 package mhfc.net.common.item.armor.wip;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
@@ -24,6 +20,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class DragoonArmor extends ArmorExclusive {
 	private static final String[] names = { ResourceInterface.armor_dragoon_helm_name,

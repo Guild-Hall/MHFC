@@ -1,7 +1,5 @@
 package mhfc.net.client.render.projectile;
 
-import static org.lwjgl.opengl.GL11.GL_QUADS;
-
 import mhfc.net.common.entity.fx.FXDeviljhoLaser;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -13,6 +11,8 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import static org.lwjgl.opengl.GL11.GL_QUADS;
 
 @SideOnly(Side.CLIENT)
 public class RenderBreathe extends Render<FXDeviljhoLaser> {

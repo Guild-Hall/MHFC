@@ -1,7 +1,5 @@
 package mhfc.net.common.ai.general.actions;
 
-import java.util.List;
-
 import mhfc.net.common.ai.entity.EntityAIMethods;
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.AIUtils.DamageCalculatorHelper;
@@ -9,6 +7,8 @@ import mhfc.net.common.ai.general.provider.requirements.INeedsDamageCalculator;
 import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.List;
 
 public abstract class DamageAreaAction<T extends CreatureAttributes<?>> extends AnimatedAction<T>
 		implements

@@ -1,7 +1,5 @@
 package mhfc.net.common.block.decoration;
 
-import java.util.Random;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.index.ResourceInterface;
 import net.minecraft.block.Block;
@@ -13,6 +11,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockQuickSand extends Block {
 	private static final AxisAlignedBB BOUNDS = new AxisAlignedBB(0, 0, 0, 1, 0.5, 1);

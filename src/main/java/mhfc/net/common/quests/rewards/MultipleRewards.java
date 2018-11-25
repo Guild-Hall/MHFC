@@ -1,13 +1,13 @@
 package mhfc.net.common.quests.rewards;
 
+import mhfc.net.common.quests.api.IQuestReward;
+import mhfc.net.common.quests.api.QuestRewardDelegate;
+import net.minecraft.entity.player.EntityPlayerMP;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
-import mhfc.net.common.quests.api.IQuestReward;
-import mhfc.net.common.quests.api.QuestRewardDelegate;
-import net.minecraft.entity.player.EntityPlayerMP;
 
 public class MultipleRewards implements IQuestReward {
 

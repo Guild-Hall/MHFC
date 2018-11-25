@@ -1,12 +1,12 @@
 package mhfc.net.common.weapon.melee.huntinghorn;
 
-import java.util.Optional;
-import java.util.function.Supplier;
-
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
+
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public enum Note {
 	White(0xFFFFFF, 1.f),

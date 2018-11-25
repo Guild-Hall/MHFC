@@ -1,7 +1,5 @@
 package mhfc.net.common.ai.entity.monsters.deviljho;
 
-import java.util.List;
-
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.actions.DamagingAction;
@@ -16,6 +14,8 @@ import mhfc.net.common.entity.creature.Deviljho;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.AxisAlignedBB;
+
+import java.util.List;
 
 public class Stomp extends DamagingAction<Deviljho> implements IHasAttackProvider {
 	private boolean thrown = false;

@@ -1,9 +1,9 @@
 package mhfc.net.common.ai;
 
+import net.minecraft.entity.EntityLivingBase;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import net.minecraft.entity.EntityLivingBase;
 
 public interface IActionRecorder<EntityT extends EntityLivingBase> {
 

@@ -1,11 +1,6 @@
 package mhfc.net.common.world.exploration;
 
-import java.util.function.Function;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.mojang.authlib.GameProfile;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCExplorationRegistry;
 import mhfc.net.common.quests.properties.NBTType;
@@ -14,6 +9,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.function.Function;
 
 public final class ExplorationProperties {
 

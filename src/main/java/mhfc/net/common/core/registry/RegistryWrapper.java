@@ -1,15 +1,10 @@
 package mhfc.net.common.core.registry;
 
+import mhfc.net.common.util.services.*;
+
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-
-import mhfc.net.common.util.services.IPhaseKey;
-import mhfc.net.common.util.services.IServiceAccess;
-import mhfc.net.common.util.services.IServiceHandle;
-import mhfc.net.common.util.services.IServiceKey;
-import mhfc.net.common.util.services.IServicePhaseHandle;
-import mhfc.net.common.util.services.Services;
 
 public class RegistryWrapper<T> {
 	private T registry;

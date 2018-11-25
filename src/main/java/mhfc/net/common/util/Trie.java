@@ -1,14 +1,9 @@
 package mhfc.net.common.util;
 
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Supplier;
-
 import com.google.common.base.Preconditions;
+
+import java.util.*;
+import java.util.function.Supplier;
 
 public class Trie<H, T> {
 	private static abstract class BasicNode<H, T> {

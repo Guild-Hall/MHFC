@@ -1,10 +1,6 @@
 package mhfc.net.common.ai.general.actions;
 
-import java.util.Objects;
-import java.util.Random;
-
 import com.github.worldsender.mcanm.common.animation.IAnimation;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.general.provider.requirements.INeedsAnimations;
@@ -14,6 +10,9 @@ import mhfc.net.common.eventhandler.ai.ActionSelectionEvent;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.common.MinecraftForge;
+
+import java.util.Objects;
+import java.util.Random;
 
 public abstract class AnimatedAction<T extends EntityCreature> implements IExecutableAction<T>, INeedsAnimations {
 	private static final Random rand = new Random();
@@ -80,7 +79,7 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 	}
 
 	@Override
-	public final boolean shouldContinue() {
+	public boolean shouldContinue() {
 		return continuation.shouldContinueAction();
 	}
 
@@ -132,7 +131,9 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 	public boolean forceSelection() {
 		return false;
 	}
-
+	
+	//If you want to make a new AI that is incompatible with everything vanilla, then you should set the mutexBits to 7.
+	//	If you want to make a new AI that is compatible with everything vanilla, then you can choose to set mutexBits to 8 (or any larger power of 2).
 	@Override
 	public byte mutexBits() {
 		return 7;

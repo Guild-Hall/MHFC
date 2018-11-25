@@ -1,12 +1,11 @@
 package mhfc.net.common.entity.projectile;
 
-import java.util.ArrayList;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IProjectile;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 public class ProjectileUnit extends Entity {
 	

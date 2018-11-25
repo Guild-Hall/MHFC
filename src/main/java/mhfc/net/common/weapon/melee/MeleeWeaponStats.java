@@ -1,12 +1,11 @@
 package mhfc.net.common.weapon.melee;
 
-import java.util.function.Consumer;
-
 import com.google.common.base.Preconditions;
-
 import mhfc.net.common.weapon.stats.Sharpness;
 import mhfc.net.common.weapon.stats.Sharpness.SharpnessBuilder;
 import mhfc.net.common.weapon.stats.WeaponStats;
+
+import java.util.function.Consumer;
 
 public class MeleeWeaponStats extends WeaponStats {
 	public abstract static class MeleeWeaponStatsBuilder<T extends MeleeWeaponStatsBuilder<T>>

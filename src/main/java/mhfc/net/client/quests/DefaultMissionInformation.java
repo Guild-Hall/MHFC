@@ -1,12 +1,12 @@
 package mhfc.net.client.quests;
 
-import java.util.Objects;
-
 import mhfc.net.client.quests.api.IMissionInformation;
 import mhfc.net.client.quests.api.IVisualDefinition;
 import mhfc.net.common.quests.properties.GroupProperty;
 import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.nbt.NBTBase;
+
+import java.util.Objects;
 
 public class DefaultMissionInformation implements IMissionInformation {
 

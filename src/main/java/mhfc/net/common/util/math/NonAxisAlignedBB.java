@@ -1,5 +1,10 @@
 package mhfc.net.common.util.math;
 
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
+
 import java.util.Objects;
 
 /**
@@ -7,12 +12,7 @@ import java.util.Objects;
  * fully-enclosing-axis-aligned box is returned instead. All other calculations are made with the actual box in
  * mind.<br>
  * //TODO: Careful, this means that some symmetries might break, such as {@link AxisAlignedBB#union()}
- *
  */
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 
 public class NonAxisAlignedBB extends AxisAlignedBB {
 	private Subspace3 localSubspace;

@@ -1,11 +1,11 @@
 package mhfc.net.common.item;
 
-import java.util.Set;
-
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Set;
 
 /**
  * Designates an item with a custom model location. This is if {@link IItemVarianted} is not enough.

@@ -1,7 +1,6 @@
 package mhfc.net.common.weapon.melee;
 
 import com.google.common.collect.Multimap;
-
 import mhfc.net.common.weapon.ItemWeapon;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.ai.attributes.AttributeModifier;

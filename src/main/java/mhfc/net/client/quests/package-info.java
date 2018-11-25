@@ -4,4 +4,5 @@
 package mhfc.net.client.quests;
 
 import mcp.MethodsReturnNonnullByDefault;
+
 import javax.annotation.ParametersAreNonnullByDefault;

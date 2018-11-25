@@ -1,9 +1,9 @@
 package mhfc.net.common.core.data;
 
-import java.util.*;
-
 import mhfc.net.common.crafting.equipment.EquipmentRecipe;
 import mhfc.net.common.crafting.equipment.EquipmentRecipe.RecipeType;
+
+import java.util.*;
 
 public class EquipmentRecipeRegistryData {
 

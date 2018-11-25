@@ -1,11 +1,11 @@
 package mhfc.net.common.util.parsing.syntax.tree;
 
-import java.util.List;
-import java.util.Objects;
-
 import mhfc.net.common.util.parsing.syntax.operators.BinaryOPWrapper;
 import mhfc.net.common.util.parsing.syntax.operators.IBinaryOperator;
 import mhfc.net.common.util.parsing.syntax.operators.IOperator;
+
+import java.util.List;
+import java.util.Objects;
 
 public class AST extends UnaryAST {
 

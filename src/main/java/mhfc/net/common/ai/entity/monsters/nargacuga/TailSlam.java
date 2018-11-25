@@ -2,11 +2,7 @@ package mhfc.net.common.ai.entity.monsters.nargacuga;
 
 import mhfc.net.common.ai.general.AIUtils;
 import mhfc.net.common.ai.general.actions.JumpAction;
-import mhfc.net.common.ai.general.provider.adapters.AnimationAdapter;
-import mhfc.net.common.ai.general.provider.adapters.ConstantAirTimeAdapter;
-import mhfc.net.common.ai.general.provider.adapters.DamageAdapter;
-import mhfc.net.common.ai.general.provider.adapters.JumpAdapter;
-import mhfc.net.common.ai.general.provider.adapters.JumpTimingAdapter;
+import mhfc.net.common.ai.general.provider.adapters.*;
 import mhfc.net.common.ai.general.provider.composite.IJumpProvider;
 import mhfc.net.common.ai.general.provider.impl.IHasJumpProvider;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;

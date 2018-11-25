@@ -1,8 +1,5 @@
 package mhfc.net.common.quests.goals;
 
-import java.util.Collection;
-import java.util.Objects;
-
 import mhfc.net.common.eventhandler.quests.LivingDeathEventHandler;
 import mhfc.net.common.eventhandler.quests.NotifyableQuestGoal;
 import mhfc.net.common.eventhandler.quests.QuestGoalEventHandler;
@@ -12,6 +9,9 @@ import mhfc.net.common.quests.properties.IntProperty;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+
+import java.util.Collection;
+import java.util.Objects;
 
 public class DeathRestrictionQuestGoal extends QuestGoal implements NotifyableQuestGoal<LivingDeathEvent> {
 

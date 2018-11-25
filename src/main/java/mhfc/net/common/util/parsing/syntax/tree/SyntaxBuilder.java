@@ -1,13 +1,13 @@
 package mhfc.net.common.util.parsing.syntax.tree;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import mhfc.net.common.util.parsing.syntax.operators.BinaryOPWrapper;
 import mhfc.net.common.util.parsing.syntax.operators.BinaryOPWrapper.BinaryWrapperResult;
 import mhfc.net.common.util.parsing.syntax.operators.IBinaryOperator;
 import mhfc.net.common.util.parsing.syntax.operators.IOperator;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class SyntaxBuilder extends UnarySyntaxBuilder {
 	private enum PublicOpType {

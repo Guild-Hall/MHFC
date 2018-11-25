@@ -1,9 +1,9 @@
 package mhfc.net.common.weapon.stats;
 
-import java.util.Random;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+
+import java.util.Random;
 
 public interface ICombatEffectType {
 	default void onEntitySwing(

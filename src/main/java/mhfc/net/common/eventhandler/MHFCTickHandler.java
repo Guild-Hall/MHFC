@@ -1,5 +1,17 @@
 package mhfc.net.common.eventhandler;
 
+import com.google.common.util.concurrent.Runnables;
+import com.sk89q.worldedit.function.operation.Operation;
+import com.sk89q.worldedit.function.operation.RunContext;
+import mhfc.net.MHFCMain;
+import mhfc.net.common.index.ResourceInterface;
+import mhfc.net.common.network.NetworkTracker;
+import mhfc.net.common.util.Operations;
+import mhfc.net.common.util.services.*;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
@@ -7,23 +19,6 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Executor;
-
-import com.google.common.util.concurrent.Runnables;
-import com.sk89q.worldedit.function.operation.Operation;
-import com.sk89q.worldedit.function.operation.RunContext;
-
-import mhfc.net.MHFCMain;
-import mhfc.net.common.index.ResourceInterface;
-import mhfc.net.common.network.NetworkTracker;
-import mhfc.net.common.util.Operations;
-import mhfc.net.common.util.services.IServiceAccess;
-import mhfc.net.common.util.services.IServiceHandle;
-import mhfc.net.common.util.services.IServiceKey;
-import mhfc.net.common.util.services.IServicePhaseHandle;
-import mhfc.net.common.util.services.Services;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 @Mod.EventBusSubscriber(modid = ResourceInterface.main_modid)
 public class MHFCTickHandler {

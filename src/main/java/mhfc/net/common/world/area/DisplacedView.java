@@ -1,11 +1,5 @@
 package mhfc.net.common.world.area;
 
-import java.lang.ref.WeakReference;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import mhfc.net.common.world.AreaTeleportation;
 import mhfc.net.common.world.controller.CornerPosition;
 import net.minecraft.block.state.IBlockState;
@@ -23,6 +17,12 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IWorldEventListener;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+
+import java.lang.ref.WeakReference;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DisplacedView implements IWorldView {
 
@@ -326,10 +326,7 @@ public class DisplacedView implements IWorldView {
 		} else {
 			entity.setLocationAndAngles(x + blockDeltaX, y, z + blockDeltaZ, 0, 0);
 		}
-		if (!getWorldObject().spawnEntity(entity)) {
-			return false;
-		}
-		return true;
+		return getWorldObject().spawnEntity(entity);
 	}
 
 	@Override

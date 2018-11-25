@@ -8,7 +8,6 @@ import mhfc.net.common.potion.PotionPainted;
 import mhfc.net.common.potion.PotionParalyze;
 import mhfc.net.common.util.services.IServiceKey;
 import net.minecraft.potion.Potion;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.GameData;
 
 public class MHFCPotionRegistry {

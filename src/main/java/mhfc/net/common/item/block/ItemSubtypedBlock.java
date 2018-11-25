@@ -1,8 +1,5 @@
 package mhfc.net.common.item.block;
 
-import java.util.List;
-import java.util.Objects;
-
 import mhfc.net.common.block.ISubTypedBlock;
 import mhfc.net.common.item.IItemVarianted;
 import mhfc.net.common.util.SubTypedItem;
@@ -10,6 +7,9 @@ import mhfc.net.common.util.SubTypedItem.SubTypeEnum;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+
+import java.util.List;
+import java.util.Objects;
 
 public class ItemSubtypedBlock<T extends Enum<T> & SubTypeEnum<Block>> extends ItemBlock implements IItemVarianted {
 

@@ -1,9 +1,5 @@
 package mhfc.net.common.ai.general.actions;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-
 import mhfc.net.common.ai.general.SelectionUtils;
 import mhfc.net.common.ai.general.WeightUtils;
 import mhfc.net.common.ai.general.provider.requirements.INeedsRoarBehaviour;
@@ -11,6 +7,10 @@ import mhfc.net.common.ai.general.provider.simple.IRoarProvider;
 import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
 public abstract class RoarAction<T extends CreatureAttributes<? super T>> extends AnimatedAction<T>
 		implements

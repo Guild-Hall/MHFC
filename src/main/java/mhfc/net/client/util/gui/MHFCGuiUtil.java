@@ -1,12 +1,6 @@
 package mhfc.net.client.util.gui;
 
-import static org.lwjgl.opengl.GL11.GL_QUADS;
-
-import java.util.List;
-import java.util.Objects;
-
 import com.google.common.base.Preconditions;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.util.stringview.Viewable;
 import net.minecraft.client.Minecraft;
@@ -19,6 +13,11 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
+import java.util.Objects;
+
+import static org.lwjgl.opengl.GL11.GL_QUADS;
 
 @SideOnly(Side.CLIENT)
 public class MHFCGuiUtil {

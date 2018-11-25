@@ -1,9 +1,9 @@
 package mhfc.net.common.ai.general.provider.adapters;
 
-import java.util.Objects;
-
 import mhfc.net.common.ai.general.provider.simple.IContinuationPredicate;
 import net.minecraft.entity.EntityLiving;
+
+import java.util.Objects;
 
 public class HasNoTargetAdapter implements IContinuationPredicate {
 

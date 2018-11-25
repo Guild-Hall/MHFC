@@ -1,11 +1,5 @@
 package mhfc.net.common.ai.manager.builder;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import mhfc.net.common.ai.IExecutableAction;
 import mhfc.net.common.ai.IManagedActions;
 import mhfc.net.common.ai.manager.AIFollowUpActionManager;
@@ -14,6 +8,12 @@ import mhfc.net.common.ai.manager.AIFollowUpActionManager.DataObject;
 import mhfc.net.common.ai.manager.AIFollowUpActionManager.FollowUpChooser;
 import mhfc.net.common.util.MapGraph;
 import net.minecraft.entity.EntityLiving;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * A builder for a graph type attack manager. The builder has two distinct types of attacks, strong and weak ones. Weak

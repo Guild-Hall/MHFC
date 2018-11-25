@@ -1,13 +1,9 @@
 package mhfc.net.common.util.parsing.syntax.tree;
 
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-
 import mhfc.net.common.util.BitSetIterator;
 import mhfc.net.common.util.parsing.syntax.ITerminalElement;
+
+import java.util.*;
 
 public class UnarySyntaxBuilder {
 	/* package */ class ValueRegistration {

@@ -1,17 +1,16 @@
 package mhfc.net.common.quests.factory;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;
-
 import mhfc.net.common.quests.api.IQuestReward;
 import mhfc.net.common.quests.api.IQuestRewardFactory;
 import mhfc.net.common.quests.api.QuestRewardDelegate;
 import mhfc.net.common.quests.rewards.MultipleRewards;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MultipleRewardsFactory implements IQuestRewardFactory {
 

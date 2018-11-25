@@ -1,7 +1,7 @@
 package mhfc.net.common.potion;
 
-import mhfc.net.client.particle.paint.ParticlePaintEmitter;
 import mhfc.net.client.particle.paint.ParticleEmitter.DurationType;
+import mhfc.net.client.particle.paint.ParticlePaintEmitter;
 import mhfc.net.common.item.ItemColor;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;

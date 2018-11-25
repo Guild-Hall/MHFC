@@ -1,13 +1,12 @@
 package mhfc.net.common.item;
 
-import java.util.Set;
-
 import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Set;
 
 /**
  * A default implementation of IItemCustomModel if only one model (but a custom one) is needed after all.

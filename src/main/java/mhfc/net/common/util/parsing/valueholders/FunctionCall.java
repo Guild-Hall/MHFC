@@ -1,18 +1,17 @@
 package mhfc.net.common.util.parsing.valueholders;
 
-import java.lang.invoke.MethodHandle;
-import java.util.Optional;
-import java.util.function.Supplier;
-
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
 import mhfc.net.common.util.parsing.exceptions.MethodNotFoundException;
 import mhfc.net.common.util.reflection.MethodHelper;
 import mhfc.net.common.util.reflection.OverloadedMethod;
+
+import java.lang.invoke.MethodHandle;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public class FunctionCall implements IValueHolder {
 	private static interface ICall {

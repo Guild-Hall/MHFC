@@ -1,10 +1,6 @@
 package mhfc.net.common.item;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.collect.ImmutableList;
-
 import mhfc.net.common.weapon.melee.greatsword.ItemGreatsword;
 import mhfc.net.common.weapon.melee.hammer.ItemHammer;
 import mhfc.net.common.weapon.melee.huntinghorn.ItemHuntingHorn;
@@ -14,6 +10,9 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public enum ItemType {
 	ARMOR_HEAD(GeneralType.ARMOR) {

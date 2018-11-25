@@ -1,7 +1,6 @@
 package mhfc.net.common.world.area;
 
 import com.sk89q.worldedit.function.operation.Operation;
-
 import net.minecraft.world.World;
 
 public interface IAreaType {

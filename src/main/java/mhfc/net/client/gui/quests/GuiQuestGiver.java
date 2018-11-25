@@ -1,13 +1,13 @@
 package mhfc.net.client.gui.quests;
 
-import java.util.List;
-
 import mhfc.net.client.gui.MHFCTabbedGui;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+
+import java.util.List;
 
 public class GuiQuestGiver extends MHFCTabbedGui {
 	private GuiQuestNew questGet;

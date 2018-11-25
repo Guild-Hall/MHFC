@@ -1,7 +1,5 @@
 package mhfc.net.common.ai.general.provider.adapters;
 
-import java.util.Objects;
-
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;
 import mhfc.net.common.ai.general.provider.composite.IJumpProvider;
 import mhfc.net.common.ai.general.provider.simple.IDamageCalculator;
@@ -10,6 +8,8 @@ import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
 import mhfc.net.common.ai.general.provider.simple.IJumpTimingProvider;
 import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.Objects;
 
 public class JumpAdapter<T extends CreatureAttributes<? super T>> extends AttackAdapter implements IJumpProvider<T> {
 	protected IJumpParameterProvider<T> jumpProvider;

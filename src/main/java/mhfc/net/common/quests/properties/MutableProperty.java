@@ -1,9 +1,9 @@
 package mhfc.net.common.quests.properties;
 
+import net.minecraft.nbt.NBTBase;
+
 import java.util.function.BiFunction;
 import java.util.function.Function;
-
-import net.minecraft.nbt.NBTBase;
 
 public class MutableProperty<E> extends ImmutableProperty<E> {
 

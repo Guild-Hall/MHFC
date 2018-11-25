@@ -1,9 +1,6 @@
 package mhfc.net.common.ai.manager;
 
-import java.util.Objects;
-
 import com.github.worldsender.mcanm.common.animation.IAnimation;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
@@ -12,6 +9,8 @@ import mhfc.net.common.network.PacketPipeline;
 import mhfc.net.common.network.message.MessageAIAction;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAITasks;
+
+import java.util.Objects;
 
 public abstract class ActionManagerAdapter<EntType extends EntityLiving & IManagedActions<EntType>, C extends IAIAttackCollection<EntType>>
 		implements

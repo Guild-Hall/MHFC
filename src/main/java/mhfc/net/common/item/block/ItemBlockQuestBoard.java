@@ -1,17 +1,15 @@
 package mhfc.net.common.item.block;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import mhfc.net.common.item.IItemSimpleModel;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemBlockQuestBoard extends ItemBlock implements IItemSimpleModel {
 	private static final ModelResourceLocation MODEL_LOCATION = new ModelResourceLocation(

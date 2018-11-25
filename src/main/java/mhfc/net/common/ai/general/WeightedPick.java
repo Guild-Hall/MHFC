@@ -1,9 +1,9 @@
 package mhfc.net.common.ai.general;
 
+import mhfc.net.MHFCMain;
+
 import java.util.Collection;
 import java.util.Random;
-
-import mhfc.net.MHFCMain;
 
 /**
  * This selects a Random Item from a list of items.<br>

@@ -1,10 +1,10 @@
 package mhfc.net.common.util.parsing.syntax.literals;
 
+import mhfc.net.common.util.parsing.IValueHolder;
+
 import java.util.Formatter;
 import java.util.Objects;
 import java.util.function.Function;
-
-import mhfc.net.common.util.parsing.IValueHolder;
 
 public class HolderLiteral implements IExpression {
 	private String descriptor;

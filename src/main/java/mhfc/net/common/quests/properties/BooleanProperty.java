@@ -1,10 +1,10 @@
 package mhfc.net.common.quests.properties;
 
-import java.util.function.Function;
-
 import mhfc.net.common.util.parsing.Holder;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagByte;
+
+import java.util.function.Function;
 
 public class BooleanProperty extends Property {
 

@@ -1,8 +1,8 @@
 package mhfc.net.common.ai.nodes;
 
-import java.util.function.IntUnaryOperator;
-
 import com.github.worldsender.mcanm.common.animation.IAnimation;
+
+import java.util.function.IntUnaryOperator;
 
 public class BasicExecutionContext<T> {
 	private final T entity;

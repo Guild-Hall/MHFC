@@ -1,9 +1,5 @@
 package mhfc.net.common.item.food;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCItemRegistry;
 import mhfc.net.common.index.ResourceInterface;
@@ -22,6 +18,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemNutrients extends ItemFood implements IItemColored, IItemVarianted {
 	public static enum NutrientsSubType implements SubTypedItem.SubTypeEnum<Item> {

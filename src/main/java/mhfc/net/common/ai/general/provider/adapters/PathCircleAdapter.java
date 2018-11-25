@@ -1,9 +1,9 @@
 package mhfc.net.common.ai.general.provider.adapters;
 
-import java.util.List;
-
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.List;
 
 public class PathCircleAdapter extends PathListAdapter {
 

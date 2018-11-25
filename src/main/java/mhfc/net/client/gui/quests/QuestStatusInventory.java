@@ -1,8 +1,5 @@
 package mhfc.net.client.gui.quests;
 
-import java.io.IOException;
-import java.util.Optional;
-
 import mhfc.net.client.container.ContainerQuestStatus;
 import mhfc.net.client.gui.hud.QuestStatusDisplay;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
@@ -17,6 +14,9 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.player.EntityPlayer;
+
+import java.io.IOException;
+import java.util.Optional;
 
 public class QuestStatusInventory extends GuiContainer {
 

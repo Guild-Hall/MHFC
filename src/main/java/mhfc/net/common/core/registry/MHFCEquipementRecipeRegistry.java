@@ -1,7 +1,5 @@
 package mhfc.net.common.core.registry;
 
-import java.util.Set;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.data.EquipmentRecipeRegistryData;
 import mhfc.net.common.core.directors.DirectorEquipmentRecipes;
@@ -9,11 +7,7 @@ import mhfc.net.common.crafting.equipment.EquipmentRecipe;
 import mhfc.net.common.crafting.equipment.EquipmentRecipe.RecipeType;
 import mhfc.net.common.network.handler.ThreadSafeMessageHandler;
 import mhfc.net.common.network.message.MessageTileLocation;
-import mhfc.net.common.network.message.bench.MessageBeginCrafting;
-import mhfc.net.common.network.message.bench.MessageBenchRefreshRequest;
-import mhfc.net.common.network.message.bench.MessageCancelRecipe;
-import mhfc.net.common.network.message.bench.MessageCraftingUpdate;
-import mhfc.net.common.network.message.bench.MessageSetRecipe;
+import mhfc.net.common.network.message.bench.*;
 import mhfc.net.common.tile.TileHunterBench;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.server.MinecraftServer;
@@ -26,6 +20,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Set;
 
 public class MHFCEquipementRecipeRegistry {
 

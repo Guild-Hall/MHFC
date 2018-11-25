@@ -1,7 +1,5 @@
 package mhfc.net.common.block.container;
 
-import java.util.Random;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.core.registry.MHFCPotionRegistry;
 import mhfc.net.common.index.ResourceInterface;
@@ -23,6 +21,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 // FIXME: fix the stun trap, currently logic is in the block that should be in the tile and other way around
 public class BlockStunTrap extends BlockContainer {

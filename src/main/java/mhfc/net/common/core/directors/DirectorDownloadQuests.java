@@ -1,16 +1,15 @@
 package mhfc.net.common.core.directors;
 
-import java.io.StringReader;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import mhfc.net.common.core.builders.BuilderJsonToQuests;
 import mhfc.net.common.core.data.QuestDescriptionRegistry;
 import mhfc.net.common.core.data.QuestDescriptionRegistry.IQuestDescriptionDirector;
 import mhfc.net.common.core.registry.MHFCQuestBuildRegistry;
 import net.minecraft.util.JsonUtils;
+
+import java.io.StringReader;
 
 /**
  * Director for loading quests from a byte buffer

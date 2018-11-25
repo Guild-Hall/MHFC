@@ -1,11 +1,10 @@
 package mhfc.net.common.ai.nodes;
 
-import java.util.function.Supplier;
-
 import com.github.worldsender.mcanm.common.animation.IAnimation;
-
 import mhfc.net.common.ai.IExecutableAction;
 import net.minecraft.entity.EntityLivingBase;
+
+import java.util.function.Supplier;
 
 public abstract class NodeBasedAction<T extends EntityLivingBase, C extends BasicExecutionContext<T>>
 		implements

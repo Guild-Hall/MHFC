@@ -1,12 +1,12 @@
 package mhfc.net.common.quests.world;
 
-import java.util.Objects;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-
 import mhfc.net.common.world.area.IArea;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
+
+import java.util.Objects;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 @FunctionalInterface
 public interface EntityFactory extends BiFunction<World, IArea, Entity> {

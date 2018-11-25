@@ -1,10 +1,10 @@
 package mhfc.net.common.util.stringview;
 
-import java.util.Objects;
-
 import mhfc.net.common.util.parsing.ExpressionTranslator;
 import mhfc.net.common.util.parsing.Holder;
 import mhfc.net.common.util.parsing.IValueHolder;
+
+import java.util.Objects;
 
 public class DynamicString implements Viewable {
 	private final IValueHolder value;

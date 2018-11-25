@@ -1,11 +1,11 @@
 package mhfc.net.common.ai.general.provider.adapters;
 
-import java.security.InvalidParameterException;
-import java.util.Objects;
-
 import mhfc.net.common.ai.general.provider.simple.IJumpParameterProvider;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.Vec3d;
+
+import java.security.InvalidParameterException;
+import java.util.Objects;
 
 /**
  * Tries to jump as exactly as possible onto the target coordinate

@@ -1,13 +1,5 @@
 package mhfc.net.common.util.parsing;
 
-import java.util.Objects;
-import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
-import java.util.function.Function;
-import java.util.function.IntSupplier;
-import java.util.function.LongSupplier;
-import java.util.function.Supplier;
-
 import mhfc.net.MHFCMain;
 import mhfc.net.common.util.ExceptionLessFunctions;
 import mhfc.net.common.util.ExceptionLessFunctions.ThrowingSupplier;
@@ -15,6 +7,9 @@ import mhfc.net.common.util.function.ByteSupplier;
 import mhfc.net.common.util.function.CharSupplier;
 import mhfc.net.common.util.function.FloatSupplier;
 import mhfc.net.common.util.function.ShortSupplier;
+
+import java.util.Objects;
+import java.util.function.*;
 
 /**
  * A Holder is the <b>immutable</b> version of an Any and the general basecase.

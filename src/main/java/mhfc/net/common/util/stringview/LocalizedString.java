@@ -1,10 +1,10 @@
 package mhfc.net.common.util.stringview;
 
-import java.util.Objects;
-
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Objects;
 
 @SideOnly(Side.CLIENT)
 public class LocalizedString implements Viewable {

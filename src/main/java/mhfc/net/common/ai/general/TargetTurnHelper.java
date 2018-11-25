@@ -1,10 +1,10 @@
 package mhfc.net.common.ai.general;
 
-import java.util.Objects;
-
 import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.Objects;
 
 public class TargetTurnHelper {
 

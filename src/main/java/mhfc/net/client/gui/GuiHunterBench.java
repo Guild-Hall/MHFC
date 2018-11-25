@@ -1,17 +1,5 @@
 package mhfc.net.client.gui;
 
-import static org.lwjgl.opengl.GL11.GL_QUADS;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.vecmath.Vector2f;
-
-import org.lwjgl.opengl.GL11;
-
 import mhfc.net.client.container.ContainerHunterBench;
 import mhfc.net.client.gui.GuiListItem.Alignment;
 import mhfc.net.client.quests.MHFCRegQuestVisual;
@@ -44,6 +32,16 @@ import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
+
+import javax.vecmath.Vector2f;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static org.lwjgl.opengl.GL11.GL_QUADS;
 
 @SideOnly(Side.CLIENT)
 public class GuiHunterBench extends MHFCTabbedGui {
