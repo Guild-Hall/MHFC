@@ -21,7 +21,7 @@ public class MHFCClientRegistry {
 		MHFCMain.preInitPhase.registerEntryCallback(e -> preInit());
 	}
 
-	private static void preInit() {
+	public static void preInit() {
 		MinecraftForge.EVENT_BUS.register(new RenderEventListener());
 		MinecraftForge.EVENT_BUS.register(ParticleStitcher.Stitcher.INSTANCE);
 	}

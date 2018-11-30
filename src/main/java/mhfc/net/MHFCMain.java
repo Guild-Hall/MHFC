@@ -44,28 +44,16 @@ import java.util.List;
 		modid = ResourceInterface.main_modid,
 		updateJSON = "https://raw.githubusercontent.com/Guild-Hall/MHFC/updates/update.json")
 public class MHFCMain {
-	private static IPhaseAccess<FMLConstructionEvent, Void> constructedPhaseAccess = Services.instance
-			.<FMLConstructionEvent, Void>registerPhase("mod constructed").setDefaultShutdownContext(null);
-	public static final IPhaseKey<FMLConstructionEvent, Void> constructedPhase = constructedPhaseAccess;
-
-	private static IPhaseAccess<FMLPreInitializationEvent, Void> preInitPhaseAccess = Services.instance
-			.<FMLPreInitializationEvent, Void>registerPhase("mod pre initialized").setDefaultShutdownContext(null)
-			.declareRequirement(constructedPhase);
-	public static final IPhaseKey<FMLPreInitializationEvent, Void> preInitPhase = preInitPhaseAccess;
-
-	private static IPhaseAccess<FMLInitializationEvent, Void> initPhaseAccess = Services.instance
-			.<FMLInitializationEvent, Void>registerPhase("mod initialized").setDefaultShutdownContext(null)
-			.declareRequirement(preInitPhase);
-	public static final IPhaseKey<FMLInitializationEvent, Void> initPhase = initPhaseAccess;
-
-	private static IPhaseAccess<FMLPostInitializationEvent, Void> postInitPhaseAccess = Services.instance
-			.<FMLPostInitializationEvent, Void>registerPhase("mod post initialized").setDefaultShutdownContext(null)
-			.declareRequirement(initPhase);
-	public static final IPhaseKey<FMLPostInitializationEvent, Void> postInitPhase = postInitPhaseAccess;
-
-	private static IPhaseAccess<FMLServerStartingEvent, FMLServerStoppedEvent> serverRunningPhaseAccess = Services.instance
-			.<FMLServerStartingEvent, FMLServerStoppedEvent>registerPhase("server running")
-			.declareRequirement(postInitPhase);
+	private static IPhaseAccess<FMLConstructionEvent, Void> constructedPhaseAccess = Services.instance.<FMLConstructionEvent, Void>registerPhase("mod constructed").setDefaultShutdownContext(null);
+	public  static final IPhaseKey<FMLConstructionEvent, Void> constructedPhase = constructedPhaseAccess;
+	private static IPhaseAccess<FMLPreInitializationEvent, Void> preInitPhaseAccess = Services.instance	.<FMLPreInitializationEvent, Void>registerPhase("mod pre initialized").setDefaultShutdownContext(null).declareRequirement(constructedPhase);
+	public  static final IPhaseKey<FMLPreInitializationEvent, Void> preInitPhase = preInitPhaseAccess;
+	private static IPhaseAccess<FMLInitializationEvent, Void> initPhaseAccess = Services.instance.<FMLInitializationEvent, Void>registerPhase("mod initialized").setDefaultShutdownContext(null).declareRequirement(preInitPhase);
+	public  static final IPhaseKey<FMLInitializationEvent, Void> initPhase = initPhaseAccess;
+	private static IPhaseAccess<FMLPostInitializationEvent, Void> postInitPhaseAccess = Services.instance.<FMLPostInitializationEvent, Void>registerPhase("mod post initialized").setDefaultShutdownContext(null).declareRequirement(initPhase);
+	public  static final IPhaseKey<FMLPostInitializationEvent, Void> postInitPhase = postInitPhaseAccess;
+	private static IPhaseAccess<FMLServerStartingEvent, FMLServerStoppedEvent> serverRunningPhaseAccess = Services.instance.<FMLServerStartingEvent, FMLServerStoppedEvent>registerPhase("server running").declareRequirement(postInitPhase);
+	
 	/**
 	 * Active while the a logical server is running
 	 */
@@ -73,9 +61,11 @@ public class MHFCMain {
 	private static IPhaseAccess<FMLServerStartedEvent, FMLServerStoppingEvent> serverActivePhaseAccess = Services.instance
 			.<FMLServerStartedEvent, FMLServerStoppingEvent>registerPhase("server active")
 			.declareRequirement(serverRunningPhase);
+	
 	/**
 	 * Active while the a logical server is running and loaded
 	 */
+	
 	public static final IPhaseKey<FMLServerStartedEvent, FMLServerStoppingEvent> serverActivePhase = serverActivePhaseAccess;
 
 	private static <A, Z> IServicePhaseHandle<Object, A, Z> getSPHandleFor(String phase) {

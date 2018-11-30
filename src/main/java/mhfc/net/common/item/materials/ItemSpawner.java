@@ -14,6 +14,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -142,10 +143,19 @@ public class ItemSpawner extends Item implements IItemColored {
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		Iterator<MHFCEggInfo> iterator = MHFCMobList.registeredEggs().values().iterator();
-
 		while (iterator.hasNext()) {
 			MHFCEggInfo entityegginfo = iterator.next();
-			items.add(new ItemStack(this, 1, entityegginfo.spawnedID));
-		}
+			if(isInCreativeTab(tab)) {
+				items.add(new ItemStack(this, 1, entityegginfo.spawnedID));
+			}
+			}
 	}
+	
+	  public static void applyEntityIdToItemStack(ItemStack stack, int id) {
+	        NBTTagCompound compound = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
+	        NBTTagCompound entityCompound = new NBTTagCompound();
+	        entityCompound.setInteger("spawnedID", id);
+	        compound.setTag("EntityTag", entityCompound);
+	        stack.setTagCompound(compound);
+	    }
 }

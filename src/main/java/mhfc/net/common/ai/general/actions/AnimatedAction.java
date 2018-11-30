@@ -40,7 +40,6 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 		recentFrame = -1;
 		target = getEntity().getAttackTarget();
 		MinecraftForge.EVENT_BUS.post(new ActionSelectionEvent(this, getEntity()));
-		resetAction();
 		initializeExecutionRandomness();
 		beginExecution();
 	}
@@ -155,7 +154,16 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 	}
 
 	protected void resetAction() {
-
+		this.setCurrentAnimation(null);
+		this.setCurrentFrame(0);
+	}
+	
+	protected void setCurrentAnimation(IAnimation animation) {
+		this.animation = animation;
+	}
+	
+	protected int setCurrentFrame(int frame) {
+		return this.recentFrame = frame;
 	}
 
 	/**
@@ -175,7 +183,7 @@ public abstract class AnimatedAction<T extends EntityCreature> implements IExecu
 	 * This should be overridden by a subclass if it wants to take actions on end of the action
 	 */
 	protected void finishExecution() {
-
+		resetAction();
 	}
 
 	/**

@@ -66,12 +66,14 @@ public class Jump1 extends JumpAction<AkuraVashimu> implements IHasJumpProvider<
 		}
 		if(this.getCurrentFrame() >= 60 && this.getCurrentFrame() < 62) {
 			if(entity.onGround) {
+				if(!entity.world.isRemote) {
 			entity.world.createExplosion(entity, entity.posX, entity.posY, entity.posZ, 8.0F, false);
 			CreatureAttributes.screenIntensity(entity, 10F, 40F);
 			List<EntityLivingBase> entities = EntityAIMethods.getEntitiesNearby(entity, EntityLivingBase.class, 10);
 			for(Entity affected: entities) {
 				affected.motionY += 0.06D;
 			}
+				}
 			}
 		}
 		

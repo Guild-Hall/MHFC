@@ -52,6 +52,7 @@ public class KishinArmor extends ArmorBase {
 		return null;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		tooltip.add("Attack Up (S)");

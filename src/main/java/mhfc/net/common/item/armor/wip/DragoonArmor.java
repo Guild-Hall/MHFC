@@ -55,6 +55,7 @@ public class DragoonArmor extends ArmorExclusive {
 		return null;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		tooltip.add(ColorSystem.ENUMAQUA + "[ Donators Exclusive ");

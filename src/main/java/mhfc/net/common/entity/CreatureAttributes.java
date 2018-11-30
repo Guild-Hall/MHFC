@@ -489,7 +489,7 @@ public abstract class CreatureAttributes<YC extends CreatureAttributes<YC>> exte
 
 
 	public static void screenIntensity(Entity e, float dist, float setStrength) {
-		if (e.world.isRemote) {
+		if (!e.world.isRemote) {
 			boolean isShaking = false;
 			float setIntensityReps;
 			List<EntityPlayer> players = e.world

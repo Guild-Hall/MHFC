@@ -81,6 +81,7 @@ public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 
@@ -124,6 +125,7 @@ public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 	protected abstract void setAdditionalInformation(List<String> par);
 
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
 		if (slotToTex != null) {

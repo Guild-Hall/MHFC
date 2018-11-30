@@ -51,6 +51,7 @@ public class RathalosArmor extends ArmorBase {
 		return null;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		//	par3List.add("Attack Up L");
