@@ -35,7 +35,7 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 
 	private ItemStack fuelStack;
 	private ItemStack resultStack;
-	private Ingredient[] recipeStacks;
+	private Ingredient[] recipeStacks = new Ingredient[recipeLength];;
 	private ItemStack[] inputStacks;
 	private ItemStack outputStack;
 
@@ -72,8 +72,6 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		fuelStack = ItemStack.EMPTY;
 		outputStack = ItemStack.EMPTY;
 		resultStack = ItemStack.EMPTY;
-		recipeStacks = new Ingredient[recipeLength];
-		resetRecipeStacks();
 		inputStacks = new ItemStack[inputLength];
 		resetInputStacks();
 		workingMHFCBench = false;
@@ -284,15 +282,20 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 		{
 			final int j = i - recipeOffset;
 			if (j < recipeLength) {
+				if(recipeStacks[j] != null) {
 				final ItemStack[] matchingStacks = recipeStacks[j].getMatchingStacks();
 				return matchingStacks.length == 0 ? ItemStack.EMPTY : matchingStacks[0];
+				}
+				}
+				
 			}
-		}
 		{
 			final int j = i - inputOffset;
+			if(inputStacks.length >= j && inputStacks.length > 0)
 			/* j < inputStacks.length */
 			return inputStacks[j];
 		}
+		return getStackInSlot(i);
 	}
 
 	@Override
@@ -398,15 +401,16 @@ public class TileHunterBench extends TileEntity implements ITickable, IInventory
 	}
 
 	
-	@Deprecated // this will be optimize better.
 	protected boolean matchesInputOutput() {
-		for (int i = 0; i < inputStacks.length; i++) {
-			ItemStack[] se = recipeStacks[i].getMatchingStacks();
-			if (!ItemStack.areItemStacksEqual(inputStacks[i], se[i])) {
-				return false;
-			}
-		}
-		return true;
+	    if(recipeStacks.length >= inputStacks.length) {
+	        for (int i = 0; i < inputStacks.length; i++) {
+	            ItemStack[] se = recipeStacks[i].getMatchingStacks();
+	            if (!ItemStack.areItemStacksEqual(inputStacks[i], se[i])) {
+	                return false;
+	            }
+	        }
+	    }
+	    return false;
 	}
 	
 	//TODO : At the moment, it still doesnt check the stackSize per recipe, 
