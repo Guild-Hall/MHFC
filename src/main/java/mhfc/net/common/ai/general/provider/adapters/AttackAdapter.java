@@ -1,4 +1,4 @@
-package mhfc.net.common.ai.general.provider.adapters;
+	package mhfc.net.common.ai.general.provider.adapters;
 
 import com.github.worldsender.mcanm.common.animation.IAnimation;
 import mhfc.net.common.ai.general.provider.composite.IAnimationProvider;

@@ -18,6 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import java.util.Random;
 
 public class RenderKirin extends RenderAnimatedModel<Kirin> {
+	
 
 	public RenderKirin(RenderManager manager) {
 		super(manager,new ModelAnimated(ClientLoader.loadModel(new ResourceLocation(ResourceInterface.mob_kirin_model), CommonLoader.loadSkeleton(new ResourceLocation(ResourceInterface.mob_kirin_skeleton)))),
@@ -38,10 +39,7 @@ public class RenderKirin extends RenderAnimatedModel<Kirin> {
 		
 	}
 	
-	
-	
-		
-protected void renderElectricField(float x, float y, float z, EntityLiving entityliving){
+	protected void renderElectricField(float x, float y, float z, EntityLiving entityliving){
 	GlStateManager.pushMatrix();
 	GlStateManager.disableTexture2D();
 	GlStateManager.disableLighting();;
@@ -59,9 +57,7 @@ protected void renderElectricField(float x, float y, float z, EntityLiving entit
 	GlStateManager.glLineWidth(2.2F);
 		for (int a = 0; a < 3; a++)	{
 			steps = rnd.nextInt(26) + 5;
-			
 			buffer.begin(3, DefaultVertexFormats.POSITION);
-			
 			buffer.color(0.5F, 0.64F, 1.0F, 0.6F);
 			int startX = rnd.nextInt();
 			int startY = rnd2.nextInt();

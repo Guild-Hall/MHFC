@@ -31,7 +31,7 @@ public class ProjectileUnit extends Entity {
 		ignoreFrustumCheck = true;
 		noClip = true;
 		shooter = null;
-		pointedEntities = new ArrayList();
+		pointedEntities = new ArrayList<Entity>();
 	}
 	
 	public ProjectileUnit(World worldIn, EntityLivingBase shooter, EntityLivingBase target) {

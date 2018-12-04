@@ -28,7 +28,7 @@ public class Kirin extends CreatureAttributes<Kirin> {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(23111D));
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(10D));
 		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(21D);
 	}
 
