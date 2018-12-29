@@ -12,26 +12,31 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 
 public class BlockWood extends AbstractSubTypedBlock<WyverniaLogSubType> {
 	public static enum WyverniaLogSubType implements SubTypedItem.SubTypeEnum<Block> {
-		CALFER("calfer", ResourceInterface.block_log_calfer_name), // 0
-		DIREWOOD("direwood", ResourceInterface.block_log_direwood_name), //1
-		GRAND_IFOLIA("ifolia", ResourceInterface.block_log_grandifolia_name),//2
-		MAVEN("maven", ResourceInterface.block_log_maven_name),//3
-		NEGUNDO("negundo", ResourceInterface.block_log_negundo_name),//4
-		PALMER("palmer", ResourceInterface.block_log_palmer_name),//5
-		RADEL("radel", ResourceInterface.block_log_radel_name),//6
-		SANDY("sandy", ResourceInterface.block_log_sandy_name),
-		TILIA("tilia", ResourceInterface.block_log_tilia_name);
+		CALFER("calfer", ResourceInterface.block_log_calfer_name, 0), // 0
+		DIREWOOD("direwood", ResourceInterface.block_log_direwood_name, 1), //1
+		GRAND_IFOLIA("ifolia", ResourceInterface.block_log_grandifolia_name, 2),//2
+		MAVEN("maven", ResourceInterface.block_log_maven_name, 3),//3
+		NEGUNDO("negundo", ResourceInterface.block_log_negundo_name, 4),//4
+		PALMER("palmer", ResourceInterface.block_log_palmer_name, 5),//5
+		RADEL("radel", ResourceInterface.block_log_radel_name, 6),//6
+		SANDY("sandy", ResourceInterface.block_log_sandy_name, 7),
+		TILIA("tilia", ResourceInterface.block_log_tilia_name, 8);
 
 		public final String registryName;
 		public final String unlocalizedName;
+		public int metadata;
 
-		private WyverniaLogSubType(String name, String unlocalized) {
+		private WyverniaLogSubType(String name, String unlocalized, int metadata) {
 			this.registryName = name;
 			this.unlocalizedName = unlocalized;
+			this.metadata = metadata;
 		}
 
 		@Override
@@ -48,6 +53,10 @@ public class BlockWood extends AbstractSubTypedBlock<WyverniaLogSubType> {
 		@Override
 		public Block getBaseItem() {
 			return MHFCBlockRegistry.getRegistry().mhfcblockwood;
+		}
+		
+		public int getMetadata() {
+			return this.metadata;
 		}
 	}
 
@@ -74,5 +83,13 @@ public class BlockWood extends AbstractSubTypedBlock<WyverniaLogSubType> {
 	public boolean isWood(net.minecraft.world.IBlockAccess world, BlockPos pos) {
 		return true;
 	}
+	
+	@Override
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
+		for (BlockWood.WyverniaLogSubType subtype : BlockWood.WyverniaLogSubType.values())
+		{
+	            items.add(new ItemStack(this, 1, subtype.getMetadata()));
+		}
+    }
 
 }

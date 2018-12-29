@@ -1,10 +1,13 @@
 package mhfc.net.common.block.decoration;
 
+import java.util.List;
+
 import mhfc.net.MHFCMain;
 import mhfc.net.common.block.Decoration;
 import mhfc.net.common.block.IBlockVarianted;
 import mhfc.net.common.block.ISubTypedBlock;
 import mhfc.net.common.block.decoration.BlockFlower.WyverniaFlowerSubType;
+import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.util.SubTypedItem;
 import net.minecraft.block.Block;
@@ -14,40 +17,45 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockFlower extends Decoration
 		implements
 		ISubTypedBlock<WyverniaFlowerSubType>,
 		IBlockVarianted {
 	public static enum WyverniaFlowerSubType implements SubTypedItem.SubTypeEnum<Block> {
-		CARNCASE("carncase", ResourceInterface.block_carncase_name),
-		FELRON("felron", ResourceInterface.block_felron_name),
-		ORCTAL("orctal", ResourceInterface.block_orctal_name),
-		PENO("peno", ResourceInterface.block_peno_name),
-		SHRINE("shrine", ResourceInterface.block_shrine_name),
-		SPINDEL("spindel", ResourceInterface.block_spindel_name),
-		BERPIS("berpis", ResourceInterface.block_berpis_name),
-		CONCAVE("concave", ResourceInterface.block_concave_name),
-		DELPHI("delphi", ResourceInterface.block_delphi_name),
-		EMBER("ember", ResourceInterface.block_ember_name),
-		GRESHA("gresha", ResourceInterface.block_gresha_name),
-		MOWAL("mowal", ResourceInterface.block_mowal_name),
-		NEPTIA("neptia", ResourceInterface.block_neptia_name),
-		ROY("roy", ResourceInterface.block_roy_name),
-		SAMPA("sampa", ResourceInterface.block_sampa_name),
-		SILON("silon", ResourceInterface.block_silon_name);
+		CARNCASE("carncase", ResourceInterface.block_carncase_name, 0),
+		FELRON("felron", ResourceInterface.block_felron_name, 1),
+		ORCTAL("orctal", ResourceInterface.block_orctal_name, 2),
+		PENO("peno", ResourceInterface.block_peno_name, 3),
+		SHRINE("shrine", ResourceInterface.block_shrine_name, 4),
+		SPINDEL("spindel", ResourceInterface.block_spindel_name, 5),
+		BERPIS("berpis", ResourceInterface.block_berpis_name, 6),
+		CONCAVE("concave", ResourceInterface.block_concave_name, 7),
+		DELPHI("delphi", ResourceInterface.block_delphi_name, 8),
+		EMBER("ember", ResourceInterface.block_ember_name, 9),
+		GRESHA("gresha", ResourceInterface.block_gresha_name, 10),
+		MOWAL("mowal", ResourceInterface.block_mowal_name, 11),
+		NEPTIA("neptia", ResourceInterface.block_neptia_name, 12),
+		ROY("roy", ResourceInterface.block_roy_name, 13),
+		SAMPA("sampa", ResourceInterface.block_sampa_name, 14),
+		SILON("silon", ResourceInterface.block_silon_name, 15);
 
 		public final String registryName;
 		public final String name;
+		public int metadata;
 
-		private WyverniaFlowerSubType(String registryName, String name) {
+		private WyverniaFlowerSubType(String registryName, String name, int metadata) {
 			this.registryName = registryName;
 			this.name = name;
+			this.metadata = metadata;
 		}
 
 		@Override
@@ -62,7 +70,16 @@ public class BlockFlower extends Decoration
 
 		@Override
 		public Block getBaseItem() {
-			return null;//MHFCBlockRegistry.getRegistry().mhfcblockflowers;
+			return MHFCBlockRegistry.getRegistry().mhfcblockflowers;
+		}
+		
+		@SideOnly(Side.CLIENT)
+		public void getSubItems(Item item, List<ItemStack> list) {
+			blockTrait.getSubItems(item, list);
+		}
+
+		public int getMetadata() {
+			return this.metadata;
 		}
 	}
 
@@ -102,7 +119,10 @@ public class BlockFlower extends Decoration
 
 	@Override
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
-		 items.add(new ItemStack(this));
+		
+		for(BlockFlower.WyverniaFlowerSubType subtype : BlockFlower.WyverniaFlowerSubType.values()) {
+			 items.add(new ItemStack(this, 1, subtype.getMetadata()));
+		}
 	}
 
 	@Override

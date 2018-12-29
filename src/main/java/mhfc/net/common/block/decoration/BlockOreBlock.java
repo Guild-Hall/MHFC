@@ -10,20 +10,25 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 
 public class BlockOreBlock extends AbstractSubTypedBlock<WyverniaOreBlockSubType> {
 	public static enum WyverniaOreBlockSubType implements SubTypedItem.SubTypeEnum<Block> {
-		MACHALITE("machalite", ResourceInterface.block_machalite_name),
-		CARBALITE("carbalite", ResourceInterface.block_carbalite_name),
-		ELTALITE("eltalite", ResourceInterface.block_eltalite_name),
-		DRAGONITE("dragonite", ResourceInterface.block_dragonite_name);
+		MACHALITE("machalite", ResourceInterface.block_machalite_name, 0),
+		CARBALITE("carbalite", ResourceInterface.block_carbalite_name, 1),
+		ELTALITE("eltalite", ResourceInterface.block_eltalite_name, 2),
+		DRAGONITE("dragonite", ResourceInterface.block_dragonite_name,3);
 
 		public final String registryName;
 		public final String unlocalizedName;
+		public int metadata;
 
-		private WyverniaOreBlockSubType(String name, String unlocalized) {
+		private WyverniaOreBlockSubType(String name, String unlocalized, int metadata) {
 			this.registryName = name;
 			this.unlocalizedName = unlocalized;
+			this.metadata = metadata;
 		}
 
 		@Override
@@ -40,6 +45,10 @@ public class BlockOreBlock extends AbstractSubTypedBlock<WyverniaOreBlockSubType
 		public Block getBaseItem() {
 			return MHFCBlockRegistry.getRegistry().mhfcblockoreblocks;
 		}
+		
+		public int getMetadata() {
+			return this.metadata;
+		}
 	}
 
 	public static final PropertyEnum<WyverniaOreBlockSubType> PROPERTY = create(WyverniaOreBlockSubType.class);
@@ -54,4 +63,13 @@ public class BlockOreBlock extends AbstractSubTypedBlock<WyverniaOreBlockSubType
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, PROPERTY);
 	}
+
+	@Override
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
+		for (BlockOreBlock.WyverniaOreBlockSubType subtype : BlockOreBlock.WyverniaOreBlockSubType.values())
+		{
+	            items.add(new ItemStack(this, 1, subtype.getMetadata()));
+		}
+    }
+
 }

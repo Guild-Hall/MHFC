@@ -10,19 +10,24 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 
 public class BlockRock extends AbstractSubTypedBlock<WyverniaRockSubType> {
 	public static enum WyverniaRockSubType implements SubTypedItem.SubTypeEnum<Block> {
-		AUVEL("auvel", ResourceInterface.block_auvel_name),
-		CRADLE("cradle", ResourceInterface.block_cradle_name),
-		TACREN("tacren", ResourceInterface.block_tacren_name);
+		AUVEL("auvel", ResourceInterface.block_auvel_name, 0),
+		CRADLE("cradle", ResourceInterface.block_cradle_name, 1),
+		TACREN("tacren", ResourceInterface.block_tacren_name,2 );
 
 		public final String registryName;
 		public final String unlocalizedName;
-
-		private WyverniaRockSubType(String name, String unlocalized) {
+		public final int metadata;
+		
+		private WyverniaRockSubType(String name, String unlocalized, int metadata) {
 			this.registryName = name;
 			this.unlocalizedName = unlocalized;
+			this.metadata = metadata;
 		}
 
 		@Override
@@ -39,6 +44,10 @@ public class BlockRock extends AbstractSubTypedBlock<WyverniaRockSubType> {
 		public Block getBaseItem() {
 			return MHFCBlockRegistry.getRegistry().mhfcblockrocks;
 		}
+		
+		public int getMetadata() {
+			return this.metadata;
+		}
 	}
 
 	public static final PropertyEnum<WyverniaRockSubType> PROPERTY = create(WyverniaRockSubType.class);
@@ -54,4 +63,12 @@ public class BlockRock extends AbstractSubTypedBlock<WyverniaRockSubType> {
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, PROPERTY);
 	}
+	
+	@Override
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
+		for (BlockRock.WyverniaRockSubType subtype : BlockRock.WyverniaRockSubType.values())
+		{
+	            items.add(new ItemStack(this, 1, subtype.getMetadata()));
+		}
+    }
 }

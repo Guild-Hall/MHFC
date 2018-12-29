@@ -8,10 +8,14 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.List;
 import java.util.Objects;
 
 public abstract class AbstractSubTypedBlock<T extends Enum<T> & SubTypeEnum<Block>> extends Block
@@ -44,6 +48,11 @@ public abstract class AbstractSubTypedBlock<T extends Enum<T> & SubTypeEnum<Bloc
 	@Override
 	public SubTypedItem<Block, T> getBlockTrait() {
 		return blockTrait;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(Item item, List<ItemStack> list) {
+		blockTrait.getSubItems(item, list);
 	}
 
 	/**

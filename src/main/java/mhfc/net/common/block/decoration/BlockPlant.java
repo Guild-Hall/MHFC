@@ -26,21 +26,24 @@ public class BlockPlant extends Decoration
 		ISubTypedBlock<WyverniaPlantsSubType>,
 		IBlockVarianted {
 	public static enum WyverniaPlantsSubType implements SubTypedItem.SubTypeEnum<Block> {
-		PLANT1("b1", ResourceInterface.block_plantb1_name),
-		PLANT2("b2", ResourceInterface.block_plantb2_name),
-		PLANT3("b3", ResourceInterface.block_plantb3_name),
-		PLANT4("b4", ResourceInterface.block_plantb4_name),
-		PLANT5("t1", ResourceInterface.block_plantt1_name),
-		PLANT6("t2", ResourceInterface.block_plantt2_name),
-		PLANT7("t3", ResourceInterface.block_plantt3_name),
-		PLANT8("t4", ResourceInterface.block_plantt4_name);
+		PLANT1("b1", ResourceInterface.block_plantb1_name, 0),
+		PLANT2("b2", ResourceInterface.block_plantb2_name, 1),
+		PLANT3("b3", ResourceInterface.block_plantb3_name, 2),
+		PLANT4("b4", ResourceInterface.block_plantb4_name, 3),
+		PLANT5("t1", ResourceInterface.block_plantt1_name, 4),
+		PLANT6("t2", ResourceInterface.block_plantt2_name, 5),
+		PLANT7("t3", ResourceInterface.block_plantt3_name, 6),
+		PLANT8("t4", ResourceInterface.block_plantt4_name, 7);
 
 		public final String registryName;
 		public final String name;
+		public int metadata;
 
-		private WyverniaPlantsSubType(String registryName, String name) {
+		private WyverniaPlantsSubType(String registryName, String name, int metadata) {
 			this.registryName = registryName;
 			this.name = name;
+			this.metadata = metadata;
+			
 		}
 
 		@Override
@@ -56,6 +59,10 @@ public class BlockPlant extends Decoration
 		@Override
 		public Block getBaseItem() {
 			return MHFCBlockRegistry.getRegistry().mhfcblockplant;
+		}
+		
+		public int getMetadata() {
+			return this.metadata;
 		}
 	}
 
@@ -95,9 +102,11 @@ public class BlockPlant extends Decoration
 
 	@Override
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
-		 items.add(new ItemStack(this));
-	}
-
+		for (BlockPlant.WyverniaPlantsSubType subtype : BlockPlant.WyverniaPlantsSubType.values())
+		{
+	            items.add(new ItemStack(this, 1, subtype.getMetadata()));
+		}
+    }
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(subtypeProperty, getBlockTrait().getSubType(meta));

@@ -13,7 +13,10 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -22,23 +25,25 @@ public class BlockLeaves extends AbstractSubTypedBlock<BlockLeavesSubType> {
 	protected Minecraft setting;
 
 	public static enum BlockLeavesSubType implements SubTypedItem.SubTypeEnum<Block> {
-		LEAVES1("l1", ResourceInterface.block_leaves1_name),
-		LEAVES2("l2", ResourceInterface.block_leaves2_name),
-		LEAVES3("l3", ResourceInterface.block_leaves3_name),
-		LEAVES4("l4", ResourceInterface.block_leaves4_name),
-		LEAVES5("l5", ResourceInterface.block_leaves5_name),
-		LEAVES6("l6", ResourceInterface.block_leaves6_name),
-		LEAVES7("l7", ResourceInterface.block_leaves7_name),
-		LEAVES8("l8", ResourceInterface.block_leaves8_name),
-		LEAVES9("l9", ResourceInterface.block_leaves9_name),
-		LEAVES10("l10", ResourceInterface.block_leaves10_name);
+		LEAVES1("l1", ResourceInterface.block_leaves1_name, 0),
+		LEAVES2("l2", ResourceInterface.block_leaves2_name, 1),
+		LEAVES3("l3", ResourceInterface.block_leaves3_name, 2),
+		LEAVES4("l4", ResourceInterface.block_leaves4_name, 3),
+		LEAVES5("l5", ResourceInterface.block_leaves5_name, 4),
+		LEAVES6("l6", ResourceInterface.block_leaves6_name, 5),
+		LEAVES7("l7", ResourceInterface.block_leaves7_name, 6),
+		LEAVES8("l8", ResourceInterface.block_leaves8_name, 7),
+		LEAVES9("l9", ResourceInterface.block_leaves9_name, 8),
+		LEAVES10("l10", ResourceInterface.block_leaves10_name, 9);
 
 		public final String registryName;
 		public final String unlocalizedName;
+		public int metadata;
 
-		private BlockLeavesSubType(String name, String unlocalized) {
+		private BlockLeavesSubType(String name, String unlocalized, int metadata) {
 			this.registryName = name;
 			this.unlocalizedName = unlocalized;
+			this.metadata = metadata;
 		}
 
 		@Override
@@ -54,6 +59,10 @@ public class BlockLeaves extends AbstractSubTypedBlock<BlockLeavesSubType> {
 		@Override
 		public Block getBaseItem() {
 			return MHFCBlockRegistry.getRegistry().mhfcblockleaves;
+		}
+		
+		public int getMetadata() {
+			return this.metadata;
 		}
 	}
 
@@ -86,7 +95,13 @@ public class BlockLeaves extends AbstractSubTypedBlock<BlockLeavesSubType> {
 		return false;
 	}
 
-
+	@Override
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
+		for (BlockLeaves.BlockLeavesSubType subtype : BlockLeaves.BlockLeavesSubType.values())
+		{
+	            items.add(new ItemStack(this, 1, subtype.getMetadata()));
+		}
+    }
 
 
 }
