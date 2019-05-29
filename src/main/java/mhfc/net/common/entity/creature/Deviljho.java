@@ -50,20 +50,9 @@ public class Deviljho extends CreatureAttributes<Deviljho> {
 	@Override
 	protected IActionManager<Deviljho> constructActionManager() {
 		ActionManagerBuilder<Deviljho> attackManager = new ActionManagerBuilder<>();
-		attackManager.registerAction(
-				setDeathAction(
-						new AIDeath(
-								this,
-								"mhfc:models/Deviljho/DeviljhoDeath.mcanm",
-								MHFCSoundRegistry.getRegistry().deviljhoDeath)));
+		attackManager.registerAction(setDeathAction(new AIDeath(this,"mhfc:models/Deviljho/DeviljhoDeath.mcanm",MHFCSoundRegistry.getRegistry().deviljhoDeath)));
 		attackManager.registerAction(new AIBreathe(this, "mhfc:models/Deviljho/breathe.mcanm", 60, 2F));
-		attackManager.registerAction(
-				new AIBite(
-						this,
-						"mhfc:models/Deviljho/bite.mcanm",
-						40,
-						25,
-						115,
+		attackManager.registerAction(new AIBite(this,"mhfc:models/Deviljho/bite.mcanm",40,25,115,
 						15,
 						MHFCSoundRegistry.getRegistry().deviljhoBiteA,
 						9.0F,
@@ -104,8 +93,7 @@ public class Deviljho extends CreatureAttributes<Deviljho> {
 		attackManager.registerAction(new Roar());
 		attackManager.registerAction(new Jump());
 
-		attackManager
-				.registerAction(new DragonBreath("mhfc:models/Deviljho/DeviljhoFrontalBreathe.mcanm", 80, 15, 25F));
+		//attackManager.registerAction(new DragonBreath("mhfc:models/Deviljho/DeviljhoFrontalBreathe.mcanm", 80, 15, 25F));
 		return attackManager.build(this);
 	}
 

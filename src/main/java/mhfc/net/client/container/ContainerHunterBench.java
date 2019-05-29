@@ -105,9 +105,7 @@ public class ContainerHunterBench extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
-		return this.worldObj.getBlockState(new BlockPos(this.posX, this.posY, this.posZ))
-				.getBlock() != MHFCBlockRegistry.getRegistry().mhfcblockhunterbench
-						? false
-						: par1EntityPlayer.getDistanceSq(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D) <= 64.0D;
+	//	return this.worldObj.getBlockState(new BlockPos(this.posX, this.posY, this.posZ)).getBlock() != MHFCBlockRegistry.getRegistry().mhfcblockhunterbench? false	: par1EntityPlayer.getDistanceSq(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D) <= 64.0D;
+		return false;
 	}
 }

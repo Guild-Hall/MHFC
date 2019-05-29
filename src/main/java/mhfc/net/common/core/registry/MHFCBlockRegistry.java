@@ -55,7 +55,7 @@ public class MHFCBlockRegistry {
 	public final Block mhfcblockoreblocks;
 	public final Block mhfcblockore;
 
-	public final Block mhfcblockhunterbench;
+//	public final Block mhfcblockhunterbench;
 	public final Block mhfcblockstuntrap;
 	public final Block mhfcblockdirt;
 	public final Block mhfcblockgrass;
@@ -121,7 +121,7 @@ public class MHFCBlockRegistry {
 		mhfcblockleaves = registerBlockWithItem("leaves", new BlockLeaves(), b -> ItemSubtypedBlock.createFor(b)); //249
 		// Util
 		mhfcblockicecrystal = registerBlockWithItem("icecrystal", new BlockIceCrystal(), ItemBlockIceCrystal::new);
-		mhfcblockhunterbench = registerBlockWithItem("hunterbench", new BlockHunterBench(), ItemBlockBenchHunter::new);
+	//	mhfcblockhunterbench = registerBlockWithItem("hunterbench", new BlockHunterBench(), ItemBlockBenchHunter::new);
 		mhfcblockstuntrap = registerBlockWithItem("trap_stun", new BlockStunTrap(), ItemBlockStunTrap::new);
 		mhfcblockbbqspit = registerBlockWithItem("bbq_spit", new BlockBBQSpit(), ItemBlockBBQSpit::new);
 		//mhfcblockquestboard = registerBlockWithItem("questboard", new BlockQuestBoard(), ItemBlockQuestBoard::new);
