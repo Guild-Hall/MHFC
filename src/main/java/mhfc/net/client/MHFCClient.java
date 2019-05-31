@@ -12,6 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class MHFCClient extends ProxyBase {
+
 	@Override
 	public void staticInit() {
 		MHFCCommonRegistry.staticInit();
