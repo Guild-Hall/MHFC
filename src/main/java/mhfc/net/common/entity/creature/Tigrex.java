@@ -1,10 +1,25 @@
 package mhfc.net.common.entity.creature;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.lwjgl.opengl.GL11;
+
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
+
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IExecutableAction;
-import mhfc.net.common.ai.entity.*;
-import mhfc.net.common.ai.entity.monsters.tigrex.*;
+import mhfc.net.common.ai.entity.AIAngleWhip;
+import mhfc.net.common.ai.entity.AIBite;
+import mhfc.net.common.ai.entity.AIBreathe;
+import mhfc.net.common.ai.entity.AIDeath;
+import mhfc.net.common.ai.entity.AIIdle;
+import mhfc.net.common.ai.entity.AIWander;
+import mhfc.net.common.ai.entity.monsters.tigrex.BackOff;
+import mhfc.net.common.ai.entity.monsters.tigrex.Charge;
+import mhfc.net.common.ai.entity.monsters.tigrex.GroundHurl;
+import mhfc.net.common.ai.entity.monsters.tigrex.Jump;
+import mhfc.net.common.ai.entity.monsters.tigrex.Roar;
 import mhfc.net.common.ai.manager.builder.ActionManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.CreatureAttributes;
@@ -21,31 +36,25 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.lwjgl.opengl.GL11;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Tigrex extends CreatureAttributes<Tigrex> {
 
 	public int rageLevel;
-	public MultiPartEntityPart[] tigrexPartArray; 
-	public MultiPartEntityPart	tigrexPartHead;
-	
+	public MultiPartEntityPart[] tigrexPartArray;
+	public MultiPartEntityPart tigrexPartHead;
+
 	public Tigrex(World par1World) {
 		super(par1World);
 		setSize(4.6f, 3.6f);
 		stepHeight = 1.5f;
-		
-		// Tigrex is the test method for now for multiple Parts lol. He is the perfect monster ever done.
-		
+
+		// Tigrex is the test method for now for multiple Parts lol. He is the
+		// perfect monster ever done.
+
 		tigrexPartArray = new MultiPartEntityPart[] {
-			tigrexPartHead = new MultiPartEntityPart(this, "head", 0.5F, 0.5F)	
-		};
-		
-		
-		}
-		
+				tigrexPartHead = new MultiPartEntityPart(this, "head", 0.5F, 0.5F) };
+
+	}
 
 	@Override
 	protected void applyEntityAttributes() {
@@ -70,12 +79,8 @@ public class Tigrex extends CreatureAttributes<Tigrex> {
 		ActionManagerBuilder<Tigrex> manager = new ActionManagerBuilder<>();
 
 		/** Living AIs **/
-		manager.registerAction(
-				setDeathAction(
-						new AIDeath(
-								this,
-								"mhfc:models/Tigrex/dying.mcanm",
-								MHFCSoundRegistry.getRegistry().tigrexDeath)));
+		manager.registerAction(setDeathAction(
+				new AIDeath(this, "mhfc:models/Tigrex/dying.mcanm", MHFCSoundRegistry.getRegistry().tigrexDeath)));
 		manager.registerAction(new AIBreathe(this, "mhfc:models/Tigrex/breathe.mcanm", 60, 2F));
 		manager.registerAction(new AIIdle(this, "mhfc:models/Tigrex/idle.mcanm", 160, 2F));
 		manager.registerAction(new AIIdle(this, "mhfc:models/Tigrex/idle3.mcanm", 260, 1F));
@@ -84,9 +89,12 @@ public class Tigrex extends CreatureAttributes<Tigrex> {
 
 		/** Attack AIs **/
 
-		manager.registerAction(	new AIBite(this,"mhfc:models/Tigrex/bite.mcanm",85,	12,70,10F,MHFCSoundRegistry.getRegistry().tigrexBite,6F,false,0,0));
-		manager.registerAction(new AIAngleWhip<>("mhfc:models/Tigrex/clawswipe.mcanm",41,5,80,10,MHFCSoundRegistry.getRegistry().tigrexTailWhip,7,6,2F,120,10));
-		manager.registerAction(new AIAngleWhip<>("mhfc:models/Tigrex/tailswipe.mcanm",60,12,82,10F,	MHFCSoundRegistry.getRegistry().tigrexTailWhip,9,5,1,180,10));
+		manager.registerAction(new AIBite(this, "mhfc:models/Tigrex/bite.mcanm", 85, 12, 70, 10F,
+				MHFCSoundRegistry.getRegistry().tigrexBite, 6F, false, 0, 0));
+		manager.registerAction(new AIAngleWhip<>("mhfc:models/Tigrex/clawswipe.mcanm", 41, 5, 80, 10,
+				MHFCSoundRegistry.getRegistry().tigrexTailWhip, 7, 6, 2F, 120, 10));
+		manager.registerAction(new AIAngleWhip<>("mhfc:models/Tigrex/tailswipe.mcanm", 60, 12, 82, 10F,
+				MHFCSoundRegistry.getRegistry().tigrexTailWhip, 9, 5, 1, 180, 10));
 		manager.registerAction(new Jump());
 		manager.registerAction(new Roar());
 		manager.registerAction(new BackOff());
@@ -102,10 +110,10 @@ public class Tigrex extends CreatureAttributes<Tigrex> {
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
 		tigrexPartHead.width = tigrexPartHead.height = 0.5F;
-		this.tigrexPartHead.setLocationAndAngles(this.posX + (double) 2, this.posY + 1.5F, this.posZ + (double) 2.5, 0, 0);
-		
-	}
+		this.tigrexPartHead.setLocationAndAngles(this.posX + (double) 2, this.posY + 1.5F, this.posZ + (double) 2.5, 0,
+				0);
 
+	}
 
 	@Override
 	protected void dropFewItems(boolean par1, int par2) {

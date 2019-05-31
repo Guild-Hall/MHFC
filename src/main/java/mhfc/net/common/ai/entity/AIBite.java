@@ -33,17 +33,8 @@ public class AIBite extends DamagingAction<CreatureAttributes<?>> implements IHa
 	protected int movingStartFrame;
 	protected int endStartFrame;
 
-	public AIBite(
-			CreatureAttributes<?> entity,
-			String animationLocation,
-			int animationLength,
-			int damageFrame,
-			float damage,
-			float weight,
-			SoundEvent sound,
-			float biteRange,
-			boolean isMovingFrame,
-			int movingStartFrame,
+	public AIBite(CreatureAttributes<?> entity, String animationLocation, int animationLength, int damageFrame,
+			float damage, float weight, SoundEvent sound, float biteRange, boolean isMovingFrame, int movingStartFrame,
 			int movingEndFrame) {
 		this.entity = entity;
 		this.animationLocation = animationLocation;
@@ -100,12 +91,12 @@ public class AIBite extends DamagingAction<CreatureAttributes<?>> implements IHa
 	protected float computeSelectionWeight() {
 		target = this.entity.getAttackTarget();
 
-			if (SelectionUtils.isIdle(this.entity)) {
-				return DONT_SELECT;
-			}
-			if (!SelectionUtils.isInDistance(0, 10F, this.entity, target)) {
-				return DONT_SELECT;
-			}
+		if (SelectionUtils.isIdle(this.entity)) {
+			return DONT_SELECT;
+		}
+		if (!SelectionUtils.isInDistance(0, 10F, this.entity, target)) {
+			return DONT_SELECT;
+		}
 		return this.weight;
 	}
 

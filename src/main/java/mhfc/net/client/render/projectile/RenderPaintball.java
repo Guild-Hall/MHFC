@@ -9,7 +9,8 @@ import net.minecraft.client.renderer.entity.RenderSnowball;
 public class RenderPaintball extends RenderSnowball<ProjectilePaintball> {
 
 	public RenderPaintball(RenderManager manager, RenderItem itemRender) {
-		super(manager, MHFCItemRegistry.getRegistry().paintball, itemRender);
+		super(manager, MHFCItemRegistry.getRegistry().armor_barroth_boots,
+				itemRender);
 	}
 
 }

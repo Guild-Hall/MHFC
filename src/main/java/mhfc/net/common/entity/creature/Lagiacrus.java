@@ -29,32 +29,40 @@ public class Lagiacrus extends CreatureAttributes<Lagiacrus> {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(25100D));
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
+				.setBaseValue(healthbaseHP(25100D));
 		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(23D);
 	}
 
 	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, true, null));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this,
+				EntityPlayer.class, 0, true, true, null));
 	}
 
 	@Override
 	protected IActionManager<Lagiacrus> constructActionManager() {
 		ActionManagerBuilder<Lagiacrus> actionManager = new ActionManagerBuilder<>();
-		actionManager.registerAction(new AIBite(this, "mhfc:models/Lagiacrus/LagiacrusBite.mcanm", 40, 8, 125, 8, MHFCSoundRegistry.getRegistry().lagiacrusBite, 15, true, 15, 20));
-		actionManager.registerAction(new AIBite(this, "mhfc:models/Lagiacrus/LagiacrusBite.mcanm", 60, 28, 105, 5, MHFCSoundRegistry.getRegistry().lagiacrusBite, 15, true, 25, 30));
-		actionManager.registerAction(new AIWander<Lagiacrus>(this, "mhfc:models/Lagiacrus/LagiacrusWalk.mcanm", 100, 10F, 0.2F, 0.7F, 20	, 80, 1, 10));
-		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Lagiacrus/LagiacrusIdle.mcanm", 50, 15F));
-		
+		actionManager.registerAction(new AIBite(this,
+				"mhfc:models/Lagiacrus/LagiacrusBite.mcanm", 40, 8, 125, 8,
+				MHFCSoundRegistry.getRegistry().lagiacrusBite, 15, true, 15,
+				20));
+		actionManager.registerAction(new AIBite(this,
+				"mhfc:models/Lagiacrus/LagiacrusBite.mcanm", 60, 28, 105, 5,
+				MHFCSoundRegistry.getRegistry().lagiacrusBite, 15, true, 25,
+				30));
+		actionManager.registerAction(new AIWander<Lagiacrus>(this,
+				"mhfc:models/Lagiacrus/LagiacrusWalk.mcanm", 100, 10F, 0.2F,
+				0.7F, 20, 80, 1, 10));
+		actionManager.registerAction(new AIBreathe(this,
+				"mhfc:models/Lagiacrus/LagiacrusIdle.mcanm", 50, 15F));
+
 		actionManager.registerAction(new Sweep());
 		actionManager.registerAction(new Roar());
-		actionManager.registerAction(
-				setDeathAction(
-						new AIDeath(
-								this,
-								"mhfc:models/Lagiacrus/LagiacrusHurt.mcanm",
-								MHFCSoundRegistry.getRegistry().lagiacrusDeath)));
+		actionManager.registerAction(setDeathAction(
+				new AIDeath(this, "mhfc:models/Lagiacrus/LagiacrusHurt.mcanm",
+						MHFCSoundRegistry.getRegistry().lagiacrusDeath)));
 		return actionManager.build(this);
 	}
 
@@ -63,10 +71,9 @@ public class Lagiacrus extends CreatureAttributes<Lagiacrus> {
 		return null;
 	}
 
-
-
 	@Override
-	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
+	public RenderPassInformation preRenderCallback(float scale,
+			RenderPassInformation sub) {
 		GL11.glScaled(5.1, 5.1, 5.1);
 		return super.preRenderCallback(scale, sub);
 	}

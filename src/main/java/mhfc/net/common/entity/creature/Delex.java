@@ -1,6 +1,9 @@
 package mhfc.net.common.entity.creature;
 
+import org.lwjgl.opengl.GL11;
+
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
+
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIDeath;
@@ -19,7 +22,6 @@ import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.world.World;
-import org.lwjgl.opengl.GL11;
 
 public class Delex extends CreatureAttributes<Delex> {
 
@@ -31,14 +33,16 @@ public class Delex extends CreatureAttributes<Delex> {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60D);
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
+				.setBaseValue(60D);
 	}
 
 	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
 		targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntitySheep.class, 0, true, false, null));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this,
+				EntitySheep.class, 0, true, false, null));
 	}
 
 	@Override
@@ -47,26 +51,15 @@ public class Delex extends CreatureAttributes<Delex> {
 		actionManager.registerAction(new Bite());
 		actionManager.registerAction(new Tackle());
 		actionManager.registerAction(new MoveToTarget(1.1F));
-		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Delex/delexidle.mcanm", 60, 2f));
+		actionManager.registerAction(new AIBreathe(this,
+				"mhfc:models/Delex/delexidle.mcanm", 60, 2f));
 
-		actionManager.registerAction(
-				new AIWander<Delex>(
-						this,
-						"mhfc:models/delex/delexmovetotarget.mcanm",
-						100,
-						1F,
-						0.07F,
-						0.7F,
-						9,
-						55,
-						1,
-						30));
-		actionManager.registerAction(
-				setDeathAction(
-						new AIDeath(
-								this,
-								"mhfc:models/Delex/DelexDeath.mcanm",
-								MHFCSoundRegistry.getRegistry().delexHurt)));
+		actionManager.registerAction(new AIWander<Delex>(this,
+				"mhfc:models/delex/delexmovetotarget.mcanm", 100, 1F, 0.07F,
+				0.7F, 9, 55, 1, 30));
+		actionManager.registerAction(setDeathAction(
+				new AIDeath(this, "mhfc:models/Delex/DelexDeath.mcanm",
+						MHFCSoundRegistry.getRegistry().delexHurt)));
 		return actionManager.build(this);
 	}
 
@@ -76,7 +69,8 @@ public class Delex extends CreatureAttributes<Delex> {
 	}
 
 	@Override
-	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
+	public RenderPassInformation preRenderCallback(float scale,
+			RenderPassInformation sub) {
 		GL11.glScaled(1.6, 1.6, 1.6);
 		return super.preRenderCallback(scale, sub);
 	}

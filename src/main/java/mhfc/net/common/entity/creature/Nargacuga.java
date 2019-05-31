@@ -37,8 +37,8 @@ import java.util.Queue;
 
 public class Nargacuga extends CreatureAttributes<Nargacuga>
 		implements
-		IActionRecorder<Nargacuga>,
-		IEnragable {
+			IActionRecorder<Nargacuga>,
+			IEnragable {
 
 	public static final int EYES_RECORD_LENGTH = 30;
 	// How many ticks are between each recording of the eyes positions
@@ -64,39 +64,32 @@ public class Nargacuga extends CreatureAttributes<Nargacuga>
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10D);
-		this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(45D);
-		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(60D);
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
+				.setBaseValue(10D);
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR)
+				.setBaseValue(45D);
+		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE)
+				.setBaseValue(60D);
 	}
 
 	@Override
 	protected void initEntityAI() {
 		super.initEntityAI();
 		targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this,
+				EntityPlayer.class, true));
 	}
 
 	@Override
 	protected IActionManager<Nargacuga> constructActionManager() {
 		FollowUpManagerBuilder<Nargacuga> attackManager = new FollowUpManagerBuilder<>();
-		attackManager.registerAction(
-				setDeathAction(
-						new AIDeath(
-								this,
-								"mhfc:models/Nargacuga/NargaDeath.001.mcanm",
-								MHFCSoundRegistry.getRegistry().nargacugaDeath)));
+		attackManager.registerAction(setDeathAction(
+				new AIDeath(this, "mhfc:models/Nargacuga/NargaDeath.001.mcanm",
+						MHFCSoundRegistry.getRegistry().nargacugaDeath)));
 		TailSlam tailSlam = new TailSlam();
 		AIAngleWhip<Nargacuga> tailWhip = new AIAngleWhip<>(
-				"mhfc:models/Nargacuga/TailSwipeRight.mcanm",
-				56,
-				23,
-				80,
-				6F,
-				MHFCSoundRegistry.getRegistry().nargacugaTailWhip,
-				7,
-				5,
-				1,
-				180,
+				"mhfc:models/Nargacuga/TailSwipeRight.mcanm", 56, 23, 80, 6F,
+				MHFCSoundRegistry.getRegistry().nargacugaTailWhip, 7, 5, 1, 180,
 				10);
 		Roar roar = new Roar();
 		ProwlerStance prowler = new ProwlerStance();
@@ -110,10 +103,11 @@ public class Nargacuga extends CreatureAttributes<Nargacuga>
 
 		prowlerFollow.add(pounce);
 		prowlerFollow.add(tailWhip);
-		//TODO add tailSlam in prowerlerFollow
-		
-		attackManager.registerAction(new AIBreathe(this, "mhfc:models/nargacuga/nargacugaidle.mcanm", 60, 2F));
-		
+		// TODO add tailSlam in prowerlerFollow
+
+		attackManager.registerAction(new AIBreathe(this,
+				"mhfc:models/nargacuga/nargacugaidle.mcanm", 60, 2F));
+
 		attackManager.registerAllowingAllActions(tailSlam);
 		attackManager.registerAllowingAllActions(tailWhip);
 		attackManager.registerActionWithFollowUps(prowler, prowlerFollow);
@@ -124,19 +118,9 @@ public class Nargacuga extends CreatureAttributes<Nargacuga>
 		attackManager.registerAllowingAllActions(tailslamdouble);
 		attackManager.registerAllowingAllActions(soartospin);
 
-		attackManager.registerAction(
-				new AIWander<Nargacuga>(
-						this,
-						"mhfc:models/nargacuga/wander.mcanm",
-						120,
-						1F,
-						0.12F,
-						0.7F,
-						10,
-						94,
-						1,
-						30));
-
+		attackManager.registerAction(new AIWander<Nargacuga>(this,
+				"mhfc:models/nargacuga/wander.mcanm", 120, 1F, 0.12F, 0.7F, 10,
+				94, 1, 30));
 
 		return attackManager.build(this);
 	}
@@ -147,7 +131,8 @@ public class Nargacuga extends CreatureAttributes<Nargacuga>
 	}
 
 	@Override
-	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
+	public RenderPassInformation preRenderCallback(float scale,
+			RenderPassInformation sub) {
 		GL11.glScaled(2.6, 2.6, 2.6);
 		return super.preRenderCallback(scale, sub);
 	}
@@ -161,7 +146,8 @@ public class Nargacuga extends CreatureAttributes<Nargacuga>
 		BoneTransformation boneTransform = new BoneTransformation();
 		animation.storeCurrentTransformation(name, frame, boneTransform);
 		Matrix4f transform = boneTransform.getMatrix();
-		Vec3d relativePosition = new Vec3d(transform.m03, transform.m13, transform.m23);
+		Vec3d relativePosition = new Vec3d(transform.m03, transform.m13,
+				transform.m23);
 		return relativePosition;
 	}
 
@@ -184,7 +170,8 @@ public class Nargacuga extends CreatureAttributes<Nargacuga>
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		if (++ticksSinceEyesSaved >= EYES_RECORD_FREQUENCY && this.world.isRemote) {
+		if (++ticksSinceEyesSaved >= EYES_RECORD_FREQUENCY
+				&& this.world.isRemote) {
 			ticksSinceEyesSaved = 0;
 			eyesPositionsLeft.add(getPositionLeftEye());
 			eyesPositionsRight.add(getPositionRightEye());
@@ -223,7 +210,8 @@ public class Nargacuga extends CreatureAttributes<Nargacuga>
 	}
 
 	@Override
-	protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos) {
+	protected void updateFallState(double y, boolean onGroundIn,
+			IBlockState state, BlockPos pos) {
 		y = 0;
 		this.fallDistance = 0;
 		super.updateFallState(y, onGroundIn, state, pos);

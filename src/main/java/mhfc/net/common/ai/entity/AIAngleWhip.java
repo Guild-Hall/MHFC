@@ -14,8 +14,7 @@ import mhfc.net.common.entity.CreatureAttributes;
 import net.minecraft.util.SoundEvent;
 
 public class AIAngleWhip<T extends CreatureAttributes<? super T>> extends DamageAreaAction<T>
-		implements
-		IHasAttackProvider {
+		implements IHasAttackProvider {
 
 	protected float damage;
 	protected float weight;
@@ -26,18 +25,8 @@ public class AIAngleWhip<T extends CreatureAttributes<? super T>> extends Damage
 	protected float range, height, knockback, arc;
 	protected double targetDistance;
 
-	public AIAngleWhip(
-			String animationLocation,
-			int animationLength,
-			int damageFrame,
-			float damage,
-			float weight,
-			SoundEvent sound,
-			float range,
-			float height,
-			float knockback,
-			float arc,
-			double targetDistance) {
+	public AIAngleWhip(String animationLocation, int animationLength, int damageFrame, float damage, float weight,
+			SoundEvent sound, float range, float height, float knockback, float arc, double targetDistance) {
 		this.animationLocation = animationLocation;
 		this.animationLength = animationLength;
 		this.damageFrame = damageFrame;

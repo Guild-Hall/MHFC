@@ -1,6 +1,9 @@
 package mhfc.net.common.entity.creature;
 
+import org.lwjgl.opengl.GL11;
+
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
+
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIDeath;
@@ -16,7 +19,6 @@ import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
-import org.lwjgl.opengl.GL11;
 
 public class Gargwa extends CreatureAttributes<Gargwa> {
 
@@ -28,34 +30,25 @@ public class Gargwa extends CreatureAttributes<Gargwa> {
 	@Override
 	protected IActionManager<Gargwa> constructActionManager() {
 		ActionManagerBuilder<Gargwa> actionManager = new ActionManagerBuilder<>();
-		actionManager.registerAction(new AIBreathe(this, "mhfc:models/Gagua/gaguabreathe.mcanm", 40, 2F));
-		actionManager.registerAction(new AIIdle(this, "mhfc:models/Gagua/lookaround.mcanm", 100, 0.5F));
+		actionManager.registerAction(new AIBreathe(this,
+				"mhfc:models/Gagua/gaguabreathe.mcanm", 40, 2F));
+		actionManager.registerAction(new AIIdle(this,
+				"mhfc:models/Gagua/lookaround.mcanm", 100, 0.5F));
 		actionManager.registerAction(new Sleep());
+		actionManager.registerAction(setDeathAction(
+				new AIDeath(this, "mhfc:models/Gagua/GaguaDeath.mcanm",
+						MHFCSoundRegistry.getRegistry().gargwaDeath)));
 		actionManager.registerAction(
-				setDeathAction(
-						new AIDeath(
-								this,
-								"mhfc:models/Gagua/GaguaDeath.mcanm",
-								MHFCSoundRegistry.getRegistry().gargwaDeath)));
-		actionManager.registerAction(
-				new AIWander<Gargwa>(
-						this,
-						"mhfc:models/gagua/gaguawalk.mcanm",
-						60,
-						1.5F,
-						0.06F,
-						0.2F,
-						0,
-						31,
-						0,
-						10));
+				new AIWander<Gargwa>(this, "mhfc:models/gagua/gaguawalk.mcanm",
+						60, 1.5F, 0.06F, 0.2F, 0, 31, 0, 10));
 		return actionManager.build(this);
 	}
 
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(healthbaseHP(60D));
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
+				.setBaseValue(healthbaseHP(60D));
 		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(45D);
 	}
 
@@ -65,7 +58,8 @@ public class Gargwa extends CreatureAttributes<Gargwa> {
 	}
 
 	@Override
-	public RenderPassInformation preRenderCallback(float scale, RenderPassInformation sub) {
+	public RenderPassInformation preRenderCallback(float scale,
+			RenderPassInformation sub) {
 		GL11.glScaled(1.6, 1.6, 1.6);
 		return super.preRenderCallback(scale, sub);
 	}

@@ -30,18 +30,23 @@ public class NPCQuestGiver extends EntityVillager {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0f);
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
+				.setBaseValue(10.0f);
 	}
 
 	@Override
-	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand) {
-		player.openGui(MHFCMain.instance(), MHFCContainerRegistry.gui_questgiver_id, this.world, subID, 0, 0);
+	public EnumActionResult applyPlayerInteraction(EntityPlayer player,
+			Vec3d vec, EnumHand hand) {
+		player.openGui(MHFCMain.instance(),
+				MHFCContainerRegistry.gui_questgiver_id, this.world, subID, 0,
+				0);
 		return EnumActionResult.SUCCESS;
 	}
 
 	@Override
 	protected void damageEntity(DamageSource source, float p_70665_2_) {
-		// This should avoid taking any damage if the player is not in creative mode
+		// This should avoid taking any damage if the player is not in creative
+		// mode
 		if (!(source.getTrueSource() instanceof EntityPlayer)) {
 			return;
 		}

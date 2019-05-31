@@ -7,7 +7,10 @@ import mhfc.net.client.particle.paint.ParticleEmitter;
 import mhfc.net.client.particle.paint.ParticlePaintEmitter;
 import mhfc.net.common.core.MHFCCommonRegistry;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class MHFCClient extends ProxyBase {
 	@Override
 	public void staticInit() {
@@ -15,19 +18,18 @@ public class MHFCClient extends ProxyBase {
 		MHFCClientRegistry.staticInit();
 	}
 
-
-
 	/**
 	 * Spawns a particle from its respective emitter.
 	 */
 	@Override
-	public void spawnPaintBallParticle(EnumParticleType type, ParticleEmitter emitter) {
+	public void spawnPaintBallParticle(EnumParticleType type,
+			ParticleEmitter emitter) {
 		switch (type) {
-		case PAINT:
-			spawnPaintParticle(emitter);
-			break;
-		default:
-			return;
+			case PAINT :
+				spawnPaintParticle(emitter);
+				break;
+			default :
+				return;
 		}
 	}
 
@@ -35,10 +37,13 @@ public class MHFCClient extends ProxyBase {
 		if (emitter == null || !(emitter instanceof ParticlePaintEmitter)) {
 			return;
 		}
-		// TODO 1.12: see if there's a forge way to register particles with the effect renderer
-		// Minecraft.getMinecraft().effectRenderer.registerParticle(id, particleFactory);
+		// TODO 1.12: see if there's a forge way to register particles with the
+		// effect renderer
+		// Minecraft.getMinecraft().effectRenderer.registerParticle(id,
+		// particleFactory);
 		ParticlePaintEmitter paintEmitter = (ParticlePaintEmitter) emitter;
 
-		Minecraft.getMinecraft().effectRenderer.addEffect(paintEmitter.createPaintParticle());
+		Minecraft.getMinecraft().effectRenderer
+				.addEffect(paintEmitter.createPaintParticle());
 	}
 }

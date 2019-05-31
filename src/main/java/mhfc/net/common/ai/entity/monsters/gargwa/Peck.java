@@ -31,7 +31,8 @@ public class Peck extends DamagingAction<Gargwa> implements IHasAttackProvider {
 		ATTACK = new AttackAdapter(ANIMATION, new DamageAdapter(DAMAGE_CALC));
 	}
 
-	public Peck() {}
+	public Peck() {
+	}
 
 	private boolean shouldSelect() {
 		return SelectionUtils.isInDistance(0, TARGET_DISTANCE, getEntity(), target)
