@@ -1,9 +1,17 @@
 package mhfc.net.common.entity.creature;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+
+import org.lwjgl.opengl.GL11;
+
 import com.github.worldsender.mcanm.client.model.util.RenderPassInformation;
 import com.github.worldsender.mcanm.common.animation.IAnimation;
 import com.github.worldsender.mcanm.common.animation.IAnimation.BoneTransformation;
+import com.github.worldsender.mcanm.common.util.math.Matrix4f;
 import com.google.common.collect.EvictingQueue;
+
 import mhfc.net.common.ai.IActionManager;
 import mhfc.net.common.ai.IActionRecorder;
 import mhfc.net.common.ai.IExecutableAction;
@@ -11,7 +19,14 @@ import mhfc.net.common.ai.entity.AIAngleWhip;
 import mhfc.net.common.ai.entity.AIBreathe;
 import mhfc.net.common.ai.entity.AIDeath;
 import mhfc.net.common.ai.entity.AIWander;
-import mhfc.net.common.ai.entity.monsters.nargacuga.*;
+import mhfc.net.common.ai.entity.monsters.nargacuga.BackOff;
+import mhfc.net.common.ai.entity.monsters.nargacuga.Charge;
+import mhfc.net.common.ai.entity.monsters.nargacuga.Pounce;
+import mhfc.net.common.ai.entity.monsters.nargacuga.ProwlerStance;
+import mhfc.net.common.ai.entity.monsters.nargacuga.Roar;
+import mhfc.net.common.ai.entity.monsters.nargacuga.SoarToSpin;
+import mhfc.net.common.ai.entity.monsters.nargacuga.TailSlam;
+import mhfc.net.common.ai.entity.monsters.nargacuga.TailSlamDouble;
 import mhfc.net.common.ai.manager.builder.FollowUpManagerBuilder;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.entity.CreatureAttributes;
@@ -28,12 +43,6 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.lwjgl.opengl.GL11;
-
-import javax.vecmath.Matrix4f;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
 
 public class Nargacuga extends CreatureAttributes<Nargacuga>
 		implements
