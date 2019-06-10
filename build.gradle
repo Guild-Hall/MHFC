@@ -59,7 +59,6 @@ tasks.runClient.outputs.upToDateWhen { false }
 tasks.runServer.outputs.upToDateWhen { false }
 // Debug connection for development
 tasks.runClient {
-	args '--username=jayrol_rante2006@yahoo.com', '--password=poring745'
     jvmArgs += ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5006"]
 }
 tasks.runServer {

@@ -41,7 +41,6 @@ public class AreaRegistry {
 	private Map<String, IAreaType> stringToType = new HashMap<>();
 	private Map<IAreaType, String> typeToString = new HashMap<>();
 
-	private AreaRegistry() {}
 
 	public static void register(String name, IAreaType type) {
 		AreaRegistry.instance.registerArea(name, type);

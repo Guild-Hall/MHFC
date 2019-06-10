@@ -146,7 +146,6 @@ public class MHFCEntityRegistry {
 		return monsterID;
 	}
 
-	@SuppressWarnings("unused")
 	private int getMobID(Class<? extends Entity> clazz, String name, ItemColor foreground, ItemColor background) {
 		return getMobID(clazz, name, foreground.getRGB(), background.getRGB());
 	}

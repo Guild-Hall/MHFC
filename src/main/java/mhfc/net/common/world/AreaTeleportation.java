@@ -128,6 +128,7 @@ public class AreaTeleportation {
 
 		changePlayerDimension(player, 0, tp);
 	}
+	
 
 	private static WorldServer getWorldServer(IArea area) {
 		MinecraftServer server = area.getWorldView().getWorldObject().getMinecraftServer();

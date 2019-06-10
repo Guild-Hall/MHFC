@@ -2,7 +2,6 @@ package mhfc.net.common.world.area;
 
 import mhfc.net.common.util.ISavableToNBT;
 import mhfc.net.common.world.controller.CornerPosition;
-import mhfc.net.common.world.controller.IAreaManager;
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.Objects;

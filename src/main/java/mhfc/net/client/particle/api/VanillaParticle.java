@@ -18,6 +18,7 @@ public final class VanillaParticle<T extends Particle> extends ParticleFactory<V
 		return new VanillaParticle<T>(type, factory);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected T createParticle(ImmutableParticleArgs args) {
 		Object[] data = args.data;

@@ -226,7 +226,6 @@ public class BuilderJsonToQuests {
 		acceptQuests(map);
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	private void acceptQuests(Map<ResourceLocation, QuestDefinitionDelegate> map) {
 		if (map == null) {
 			return;

@@ -1,6 +1,5 @@
 package mhfc.net.client.container;
 
-import mhfc.net.common.core.registry.MHFCBlockRegistry;
 import mhfc.net.common.tile.TileHunterBench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -8,14 +7,9 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ContainerHunterBench extends Container {
-	private World worldObj;
-	private int posX;
-	private int posY;
-	private int posZ;
 	private final IInventory hunterInventory;
 
 	public ContainerHunterBench(
@@ -25,10 +19,6 @@ public class ContainerHunterBench extends Container {
 			int x,
 			int y,
 			int z) {
-		this.worldObj = world;
-		this.posX = x;
-		this.posY = y;
-		this.posZ = z;
 		this.hunterInventory = playerInventory;
 
 		for (int row = 0; row < 4; ++row) {

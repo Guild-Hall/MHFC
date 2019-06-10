@@ -9,7 +9,6 @@ import java.util.Optional;
 import mhfc.net.common.quests.world.IQuestArea;
 import mhfc.net.common.quests.world.IQuestAreaSpawnController;
 import mhfc.net.common.world.controller.CornerPosition;
-import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

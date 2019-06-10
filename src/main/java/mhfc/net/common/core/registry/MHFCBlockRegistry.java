@@ -2,7 +2,6 @@ package mhfc.net.common.core.registry;
 
 import mhfc.net.MHFCMain;
 import mhfc.net.common.block.container.BlockBBQSpit;
-import mhfc.net.common.block.container.BlockHunterBench;
 import mhfc.net.common.block.container.BlockStunTrap;
 import mhfc.net.common.block.decoration.*;
 import mhfc.net.common.block.quest.BlockExploreArea;

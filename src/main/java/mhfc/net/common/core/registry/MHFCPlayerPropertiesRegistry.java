@@ -1,6 +1,8 @@
 package mhfc.net.common.core.registry;
 
+
 import com.mojang.authlib.GameProfile;
+
 import mhfc.net.common.core.capability.CapabilityPlayerHunterProvider;
 import mhfc.net.common.core.data.PlayerProperties;
 import net.minecraft.entity.Entity;
