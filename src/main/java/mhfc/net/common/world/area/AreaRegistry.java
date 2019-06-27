@@ -1,11 +1,16 @@
 package mhfc.net.common.world.area;
 
-import mhfc.net.common.world.types.*;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+
+import mhfc.net.common.world.types.AreaGreenValley;
+import mhfc.net.common.world.types.AreaSandy;
+import mhfc.net.common.world.types.AreaTypePlayfield;
+import mhfc.net.common.world.types.ArenaType;
+import mhfc.net.common.world.types.TestAreaType;
+import mhfc.net.common.world.types.VillagePokeType;
 
 public class AreaRegistry {
 
@@ -20,19 +25,21 @@ public class AreaRegistry {
 
 	public static final String NAME_VILLAGE_POKE = "village_poke";
 	public static final String NAME_SNOWYMOUNTAINS = "snowymountains";
-
+	public static final String NAME_TESTWORLD = "testworld2";
 	// New 1.11
 	public static final String NAME_SANDY = "areasandy";
 	public static final String NAME_GREENVALLEY = "thegreenvalley";
 
 	public static void init() {
 		AreaRegistry.register(NAME_PLAYFIELD, AreaTypePlayfield.PLAYFIELD_TYPE);
-		AreaRegistry.register(NAME_PLAYFIELD_MEDIUM, AreaTypePlayfield.PLAYFIELD_MEDIUM);
-		AreaRegistry.register(NAME_PLAYFIELD_BIG, AreaTypePlayfield.PLAYFIELD_BIG);
+		AreaRegistry.register(NAME_PLAYFIELD_MEDIUM,
+				AreaTypePlayfield.PLAYFIELD_MEDIUM);
+		AreaRegistry.register(NAME_PLAYFIELD_BIG,
+				AreaTypePlayfield.PLAYFIELD_BIG);
 		AreaRegistry.register(NAME_TEST_SCHEMATIC, TestAreaType.INSTANCE);
 		AreaRegistry.register(NAME_ARENA, ArenaType.INSTANCE);
 		AreaRegistry.register(NAME_VILLAGE_POKE, VillagePokeType.INSTANCE);
-		//1.11
+		// 1.11
 
 		AreaRegistry.register(NAME_SANDY, AreaSandy.INSTANCE);
 		AreaRegistry.register(NAME_GREENVALLEY, AreaGreenValley.INSTANCE);
@@ -40,7 +47,6 @@ public class AreaRegistry {
 
 	private Map<String, IAreaType> stringToType = new HashMap<>();
 	private Map<IAreaType, String> typeToString = new HashMap<>();
-
 
 	public static void register(String name, IAreaType type) {
 		AreaRegistry.instance.registerArea(name, type);
@@ -53,10 +59,12 @@ public class AreaRegistry {
 			throw new IllegalArgumentException("Name can't be an empty String");
 		}
 		if (stringToType.containsKey(name)) {
-			throw new IllegalArgumentException("An areatype for the name " + name + " is already registered");
+			throw new IllegalArgumentException("An areatype for the name "
+					+ name + " is already registered");
 		}
 		if (typeToString.containsKey(type)) {
-			throw new IllegalArgumentException("This area type has already been registered for a different name");
+			throw new IllegalArgumentException(
+					"This area type has already been registered for a different name");
 		}
 		stringToType.put(name, type);
 		typeToString.put(type, name);

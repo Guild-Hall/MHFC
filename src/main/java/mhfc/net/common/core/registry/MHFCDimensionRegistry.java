@@ -37,7 +37,7 @@ public class MHFCDimensionRegistry {
 	public static void init() {
 		int dimHandlerId = MHFCMain.config().getDimensionHandlerID();
 		questingType = DimensionType
-				.register("MHFC questing", "_mhfc", dimHandlerId, WorldProviderQuesting.class, false);
+				.register("MHC questing", "_mhc", dimHandlerId, WorldProviderQuesting.class, false);
 
 		for (QuestFlair flair : QuestFlair.values()) {
 			Integer worldID = DimensionManager.getNextFreeDimId();

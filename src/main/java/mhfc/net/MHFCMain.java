@@ -20,9 +20,6 @@ import mhfc.net.common.tab.MHFCTab;
 import mhfc.net.common.util.reflection.ValueHelper;
 import mhfc.net.common.util.services.IPhaseAccess;
 import mhfc.net.common.util.services.IPhaseKey;
-import mhfc.net.common.util.services.IServiceAccess;
-import mhfc.net.common.util.services.IServiceHandle;
-import mhfc.net.common.util.services.IServicePhaseHandle;
 import mhfc.net.common.util.services.Services;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -97,39 +94,6 @@ public class MHFCMain {
 	 */
 
 	public static final IPhaseKey<FMLServerStartedEvent, FMLServerStoppingEvent> serverActivePhase = serverActivePhaseAccess;
-
-	private static <A, Z> IServicePhaseHandle<Object, A, Z> getSPHandleFor(
-			String phase) {
-		return new IServicePhaseHandle<Object, A, Z>() {
-			@Override
-			public void onPhaseStart(Object service, A startupContext) {
-				logger().debug("Entering phase " + phase);
-			}
-
-			@Override
-			public void onPhaseEnd(Object service, Z shutdownContext) {
-				logger().debug("Exiting phase " + phase);
-			}
-
-			@Override
-			public void onPhaseEndExceptionally(Object service,
-					Throwable cause) {
-				logger().debug("Exiting phase " + phase + " exceptionally");
-			}
-		};
-	}
-
-	static {
-		IServiceAccess<Object> sentinel = Services.instance.registerService(
-				"sentinel", IServiceHandle.noInit(Object::new));
-		sentinel.addTo(constructedPhase, getSPHandleFor("\"constructed\""));
-		sentinel.addTo(preInitPhase, getSPHandleFor("\"pre-initialized\""));
-		sentinel.addTo(initPhase, getSPHandleFor("\"initialized\""));
-		sentinel.addTo(postInitPhase, getSPHandleFor("\"post-initialized\""));
-		sentinel.addTo(serverRunningPhase,
-				getSPHandleFor("\"server running\""));
-		sentinel.addTo(serverActivePhase, getSPHandleFor("\"server active\""));
-	}
 
 	@SidedProxy(clientSide = "mhfc.net.client.MHFCClient", serverSide = "mhfc.net.server.MHFCServer")
 	protected static ProxyBase proxy = null;
