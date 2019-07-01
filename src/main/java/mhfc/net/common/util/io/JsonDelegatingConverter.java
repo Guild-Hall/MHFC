@@ -8,12 +8,9 @@ import org.apache.logging.log4j.Logger;
 import java.lang.reflect.Type;
 import java.util.Objects;
 
-public abstract class JsonDelegatingConverter<T, D>
-extends
-DelegatingConverter<JsonElement, JsonElement, JsonDeserializationContext, D, T, JsonSerializationContext, ResourceLocation>
-implements
-JsonDeserializer<D>,
-JsonSerializer<D> {
+public abstract class JsonDelegatingConverter<T, D> extends
+		DelegatingConverter<JsonElement, JsonElement, JsonDeserializationContext, D, T, JsonSerializationContext, ResourceLocation>
+		implements JsonDeserializer<D>, JsonSerializer<D> {
 	private static Logger LOGGER = LogManager.getLogger();
 
 	private final String keyName;
@@ -67,8 +64,7 @@ JsonSerializer<D> {
 	}
 
 	@Override
-	public D deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-			throws JsonParseException {
+	public D deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 		return convertTo(json, context);
 	}
 
