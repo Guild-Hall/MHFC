@@ -35,7 +35,7 @@ public class WorldProviderQuesting extends WorldProvider {
 
 	@Override
 	public BlockPos getRandomizedSpawnPoint() {
-		BlockPos.MutableBlockPos spawn = new BlockPos.MutableBlockPos(world.getSpawnPoint());
+		final BlockPos.MutableBlockPos spawn = new BlockPos.MutableBlockPos(world.getSpawnPoint());
 		spawn.setY(world.getTopSolidOrLiquidBlock(spawn).getY());
 		return spawn;
 	}
@@ -73,13 +73,13 @@ public class WorldProviderQuesting extends WorldProvider {
 		// As much as I'd like to move this to registerWorldChunkManager, I can't
 		// ^ called too early in the constructor, where the perWorldStorage hasn't been loaded yet
 		// FIXME: read the MHFCSaveData
-		this.world.getWorldInfo().setWorldTime(flair.worldTime);
-		this.world.getWorldInfo().setRaining(false);
+		world.getWorldInfo().setWorldTime(flair.worldTime);
+		world.getWorldInfo().setRaining(false);
 
 		//this.world.getGameRules().setOrCreateGameRule("doDaylightCycle", "false");
-		this.world.getGameRules().setOrCreateGameRule("doMobSpawning", "false");
-		this.world.getGameRules().setOrCreateGameRule("keepInventory", "true");
-		this.world.getGameRules().setOrCreateGameRule("doFireTick", "false");
+		//this.world.getGameRules().setOrCreateGameRule("doMobSpawning", "false");
+		world.getGameRules().setOrCreateGameRule("keepInventory", "true");
+		world.getGameRules().setOrCreateGameRule("doFireTick", "false");
 		super.calculateInitialWeather();
 	}
 }
