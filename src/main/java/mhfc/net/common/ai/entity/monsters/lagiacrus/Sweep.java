@@ -43,7 +43,7 @@ public class Sweep extends DamagingAction<Lagiacrus> implements IHasAttackProvid
 			return DONT_SELECT;
 		}
 		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
-		double dist = toTarget.length();
+		double dist = toTarget.lengthVector();
 		if (dist > MAXDISTANCE) {
 			return DONT_SELECT;
 		}

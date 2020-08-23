@@ -34,7 +34,7 @@ public class ST_BionicArmor extends ArmorExclusive {
 
 	public ST_BionicArmor(EntityEquipmentSlot type) {
 		super(DonatorSystem.bionic, Material.bionic, ItemRarity.R04, type);
-		setTranslationKey(names[3 - type.getIndex()]);
+		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override

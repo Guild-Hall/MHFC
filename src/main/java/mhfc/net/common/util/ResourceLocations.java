@@ -10,7 +10,7 @@ import java.io.InputStream;
 public class ResourceLocations {
 
 	public static BufferedInputStream openEmbeddedResource(ResourceLocation location) throws IOException {
-		String pathToRes = "/assets/" + location.getNamespace() + "/" + location.getPath();
+		String pathToRes = "/assets/" + location.getResourceDomain() + "/" + location.getResourcePath();
 		InputStream instream = MHFCQuestBuildRegistry.class.getResourceAsStream(pathToRes);
 		if (instream == null) {
 			throw new IOException("File doesn't exist");

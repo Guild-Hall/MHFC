@@ -10,7 +10,7 @@ public class ItemBombMaterial extends Item {
 
 	public ItemBombMaterial() {
 		super();
-		setTranslationKey(ResourceInterface.item_bombmaterial_name);
+		setUnlocalizedName(ResourceInterface.item_bombmaterial_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

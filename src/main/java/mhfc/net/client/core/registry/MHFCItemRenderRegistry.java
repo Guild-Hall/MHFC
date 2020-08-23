@@ -69,8 +69,8 @@ public class MHFCItemRenderRegistry {
 	private static void registerVariantBlock(Block block) {
 		IBlockVarianted varianted = (IBlockVarianted) block;
 		ResourceLocation registration = block.getRegistryName();
-		String domain = registration.getNamespace();
-		String path = registration.getPath();
+		String domain = registration.getResourceDomain();
+		String path = registration.getResourcePath();
 		ModelLoader.setCustomStateMapper(block, new StateMapperBase() {
 			@Override
 			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
@@ -137,8 +137,8 @@ public class MHFCItemRenderRegistry {
 		}
 		MHFCMain.logger().debug("Registering {} for variants {} ", item.getRegistryName(), variantNames);
 		ResourceLocation itemRegistryName = item.getRegistryName();
-		String domain = itemRegistryName.getNamespace();
-		String path = itemRegistryName.getPath();
+		String domain = itemRegistryName.getResourceDomain();
+		String path = itemRegistryName.getResourcePath();
 		int i = 0;
 		for (String variantName : variantNames) {
 			int variantMeta = i++;

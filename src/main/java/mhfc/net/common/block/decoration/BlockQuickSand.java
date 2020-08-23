@@ -19,7 +19,7 @@ public class BlockQuickSand extends Block {
 
 	public BlockQuickSand() {
 		super(Material.SAND);
-		setTranslationKey(ResourceInterface.block_quicksand_name);
+		setUnlocalizedName(ResourceInterface.block_quicksand_name);
 		setHardness(1.3F);
 		setResistance(2.0F);
 		setCreativeTab(MHFCMain.mhfctabs);
@@ -32,7 +32,7 @@ public class BlockQuickSand extends Block {
 	}
 
 	@Override
-	public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
+	public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
 		entity.setInWeb();
 	}
 

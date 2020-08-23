@@ -14,7 +14,7 @@ public class BlockBBQSpit extends BlockContainer {
 
 	public BlockBBQSpit() {
 		super(Material.IRON);
-		setTranslationKey(ResourceInterface.block_bbqspit_name);
+		setUnlocalizedName(ResourceInterface.block_bbqspit_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

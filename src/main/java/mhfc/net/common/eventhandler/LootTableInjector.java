@@ -26,7 +26,7 @@ public class LootTableInjector {
 	@SubscribeEvent
 	public static void onLootTableLoaded(LootTableLoadEvent event) {
 		ResourceLocation lootTableName = event.getName();
-		if (lootTableName.getNamespace().equals(RESOURCE_DOMAIN)) {
+		if (lootTableName.getResourceDomain().equals(RESOURCE_DOMAIN)) {
 			if (event.getTable() != null) {
 				LOGGER.debug("Already have a loot table for {}", lootTableName);
 				return;
@@ -39,8 +39,8 @@ public class LootTableInjector {
 	}
 
 	private static LootTable loadLootTable(ResourceLocation lootTableName) {
-		String resourceDomain = lootTableName.getNamespace();
-		String resourceLocation = "/assets/loot_tables/" + lootTableName.getPath();
+		String resourceDomain = lootTableName.getResourceDomain();
+		String resourceLocation = "/assets/loot_tables/" + lootTableName.getResourcePath();
 		if (!resourceLocation.endsWith(".json")) {
 			resourceLocation = resourceLocation + ".json";
 		}

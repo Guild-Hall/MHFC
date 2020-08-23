@@ -61,7 +61,7 @@ public class BlockPlank extends AbstractSubTypedBlock<WyverniaPlankSubType> {
 
 	public BlockPlank() {
 		super(PROPERTY, Material.WOOD);
-		setTranslationKey(ResourceInterface.block_wyverniaplank_basename);
+		setUnlocalizedName(ResourceInterface.block_wyverniaplank_basename);
 		setHardness(0.6f);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setSoundType(SoundType.WOOD);

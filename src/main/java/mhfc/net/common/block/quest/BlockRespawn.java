@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class BlockRespawn extends BlockBarrier {
 
 	public BlockRespawn() {
-		setTranslationKey(ResourceInterface.block_respawn_name);
+		setUnlocalizedName(ResourceInterface.block_respawn_name);
 		setBlockUnbreakable();
 	}
 
@@ -24,7 +24,7 @@ public class BlockRespawn extends BlockBarrier {
 	}
 
 	@Override
-	public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
+	public void onEntityCollidedWithBlock(World world, BlockPos pos,IBlockState state, Entity entity)  {
 		if (world.isRemote) {
 			return;
 		}

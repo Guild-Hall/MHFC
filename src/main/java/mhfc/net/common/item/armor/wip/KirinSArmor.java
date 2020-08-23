@@ -30,7 +30,7 @@ public class KirinSArmor extends ArmorBase {
 
 	public KirinSArmor(EntityEquipmentSlot type) {
 		super(Material.kirinS, ItemRarity.R04, type);
-		setTranslationKey(names[3 - type.getIndex()]);
+		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override

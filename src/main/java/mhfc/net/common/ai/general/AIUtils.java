@@ -165,7 +165,7 @@ public class AIUtils {
 	 */
 	public static float lookVecToYawUnsafe(Vec3d vec) {
 		Objects.requireNonNull(vec);
-		if (vec.length() == 0) {
+		if (vec.lengthVector() == 0) {
 			return Float.NaN;
 		}
 		vec = vec.normalize();
@@ -230,7 +230,7 @@ public class AIUtils {
 	 * inclusive.
 	 */
 	public static boolean isInDistance(Vec3d direction, double minDistance, double maxDistance) {
-		double distance = direction.length();
+		double distance = direction.lengthVector();
 		return distance >= minDistance && distance <= maxDistance;
 	}
 

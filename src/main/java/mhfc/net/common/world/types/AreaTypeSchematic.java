@@ -38,7 +38,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 		} catch (IOException e) {
 			MHFCMain.logger().error(
 					"Unable to load schematic {}. The area type will be blank instead",
-					schematicLocation.getPath());
+					schematicLocation.getResourcePath());
 			areaClipboard = new BlockArrayClipboard(new CuboidRegion(Vector.ZERO, Vector.ZERO));
 		}
 

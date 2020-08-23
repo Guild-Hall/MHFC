@@ -78,7 +78,7 @@ public class BlockPlant extends Decoration
 
 	public BlockPlant() {
 		super(Material.PLANTS);
-		setTranslationKey(ResourceInterface.block_wyverniaplant_basename);
+		setUnlocalizedName(ResourceInterface.block_wyverniaplant_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHardness(0.0f);
 		setTickRandomly(true);

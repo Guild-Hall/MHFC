@@ -27,7 +27,7 @@ public class RathalosArmor extends ArmorBase {
 
 	public RathalosArmor(EntityEquipmentSlot type) {
 		super(Material.rathalos, ItemRarity.R04, type);
-		setTranslationKey(names[3 - type.getIndex()]);
+		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override

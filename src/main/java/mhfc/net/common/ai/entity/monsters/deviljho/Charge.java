@@ -71,7 +71,7 @@ public class Charge extends AnimatedAction<Deviljho> implements IHasAnimationPro
 				monster.moveForward(0.3, true);
 				Vec3d look = monster.getLookVec();
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
-				boolean ranLongEnough = attk.runStartPoint.subtract(mobPos).length() > 20F
+				boolean ranLongEnough = attk.runStartPoint.subtract(mobPos).lengthVector() > 20F
 						|| attk.framesRunning > 200;
 				if ((tarBeh || ranLongEnough) && attk.hasPassed == PastEntityEnum.NOT_PASSED) {
 					attk.hasPassed = PastEntityEnum.PASSED;

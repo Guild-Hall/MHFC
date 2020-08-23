@@ -31,7 +31,7 @@ public class BlockQuestBoard extends BlockContainer {
 	public BlockQuestBoard() {
 		super(Material.WOOD);
 		setHardness(3.0f);
-		setTranslationKey(ResourceInterface.block_questBoard_name);
+		setUnlocalizedName(ResourceInterface.block_questBoard_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

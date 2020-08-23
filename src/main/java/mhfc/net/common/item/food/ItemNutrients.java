@@ -89,7 +89,7 @@ public class ItemNutrients extends ItemFood implements IItemColored, IItemVarian
 	public ItemNutrients() {
 		super(0, 0, true);
 		itemPerk = new SubTypedItem<>(NutrientsSubType.class);
-		setTranslationKey(ResourceInterface.item_nutrients_basename);
+		this.setUnlocalizedName(ResourceInterface.item_nutrients_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(1);
 		setHasSubtypes(true);
@@ -97,8 +97,8 @@ public class ItemNutrients extends ItemFood implements IItemColored, IItemVarian
 	}
 
 	@Override
-	public String getTranslationKey(ItemStack itemStack) {
-		return super.getTranslationKey(itemStack) + "." + itemPerk.getSubType(itemStack).name;
+	public String getUnlocalizedName(ItemStack itemStack) {
+		return super.getUnlocalizedName(itemStack) + "." + itemPerk.getSubType(itemStack).name;
 	}
 
 	@Override

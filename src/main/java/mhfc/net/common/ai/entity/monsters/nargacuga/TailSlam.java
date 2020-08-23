@@ -25,7 +25,7 @@ public class TailSlam extends JumpAction<Nargacuga> implements IHasJumpProvider<
 			return DONT_SELECT;
 		}
 		Vec3d toTarget = WorldHelper.getVectorToTarget(e, target);
-		double dist = toTarget.length();
+		double dist = toTarget.lengthVector();
 		if (dist > 15F) {
 			return DONT_SELECT;
 		}
@@ -40,7 +40,7 @@ public class TailSlam extends JumpAction<Nargacuga> implements IHasJumpProvider<
 				new DamageAdapter(AIUtils.defaultDamageCalc(120F, 300, 888880)),
 				new ConstantAirTimeAdapter<Nargacuga>(
 						12,
-						entity -> entity.getLookVec().add(entity.posX, entity.posY, entity.posZ)),
+						entity -> entity.getLookVec().addVector(entity.posX, entity.posY, entity.posZ)),
 				new JumpTimingAdapter<Nargacuga>(19, 0, 0));
 	}
 

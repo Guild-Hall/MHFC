@@ -22,7 +22,7 @@ public class YukumoArmor extends ArmorBase {
 
 	public YukumoArmor(EntityEquipmentSlot type) {
 		super(Material.yukomo, ItemRarity.R04, type);
-		setTranslationKey(names[3 - type.getIndex()]);
+		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override

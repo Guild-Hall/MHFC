@@ -57,7 +57,7 @@ public class ItemBullet extends AbstractSubTypedItem<BulletSubType> {
 
 	public ItemBullet() {
 		super(BulletSubType.class);
-		setTranslationKey(ResourceInterface.item_bullet_basename);
+		setUnlocalizedName(ResourceInterface.item_bullet_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

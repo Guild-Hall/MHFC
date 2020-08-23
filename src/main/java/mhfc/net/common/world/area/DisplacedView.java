@@ -123,7 +123,7 @@ public class DisplacedView implements IWorldView {
 		if (!isInBoundary(position)) {
 			return null;
 		}
-		return getWorldObject().getChunk(localToGlobal(position));
+		return getWorldObject().getChunkFromBlockCoords(localToGlobal(position));
 	}
 
 	@Override
@@ -259,7 +259,7 @@ public class DisplacedView implements IWorldView {
 		World world = getWorldObject();
 		for (int x = 0; x < chunkDimensionX; x++) {
 			for (int z = 0; z < chunkDimensionZ; z++) {
-				Chunk loadedChunk = world.getChunk(chunkDeltaX + x, chunkDeltaZ + z);
+				Chunk loadedChunk = world.getChunkFromChunkCoords(chunkDeltaX + x, chunkDeltaZ + z);
 				assert !loadedChunk.unloadQueued;
 			}
 		}
@@ -342,11 +342,11 @@ public class DisplacedView implements IWorldView {
 
 	@Override
 	public Vec3d convertToLocal(Vec3d global) {
-		return global.add(-blockDeltaX, 0, -blockDeltaZ);
+		return global.addVector(-blockDeltaX, 0, -blockDeltaZ);
 	}
 
 	@Override
 	public Vec3d convertToGlobal(Vec3d local) {
-		return local.add(blockDeltaX, 0, blockDeltaZ);
+		return local.addVector(blockDeltaX, 0, blockDeltaZ);
 	}
 }

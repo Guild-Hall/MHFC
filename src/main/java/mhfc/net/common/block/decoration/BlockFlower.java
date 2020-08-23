@@ -95,7 +95,7 @@ public class BlockFlower extends Decoration
 
 	public BlockFlower() {
 		super(Material.PLANTS);
-		setTranslationKey(ResourceInterface.block_wyverniaflower_basename);
+		setUnlocalizedName(ResourceInterface.block_wyverniaflower_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setHardness(0.0f);
 		setTickRandomly(true);

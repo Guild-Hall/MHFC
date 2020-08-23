@@ -64,7 +64,7 @@ public class BlockWood extends AbstractSubTypedBlock<WyverniaLogSubType> {
 
 	public BlockWood() {
 		super(PROPERTY, Material.WOOD);
-		setTranslationKey(ResourceInterface.block_wyvernialog_basename);
+		setUnlocalizedName(ResourceInterface.block_wyvernialog_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setSoundType(SoundType.WOOD);
 	}

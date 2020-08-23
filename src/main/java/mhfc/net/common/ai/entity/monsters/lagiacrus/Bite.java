@@ -44,7 +44,7 @@ public class Bite extends DamagingAction<Lagiacrus> implements IHasAttackProvide
 			return DONT_SELECT;
 		}
 		Vec3d toTarget = WorldHelper.getVectorToTarget(entity, target);
-		double dist = toTarget.length();
+		double dist = toTarget.lengthVector();
 		if (dist > TARGET_DISTANCE) {
 			return DONT_SELECT;
 		}

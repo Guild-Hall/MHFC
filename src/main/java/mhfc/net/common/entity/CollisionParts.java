@@ -31,7 +31,7 @@ public class CollisionParts extends MultiPartEntityPart {
 	 * @return
 	 */
 	protected final void offsetEntity(double offX, double offY, double offZ) {
-		this.offset = offset.add(offX, offY, offZ);
+		this.offset = offset.addVector(offX, offY, offZ);
 	}
 
 	/**

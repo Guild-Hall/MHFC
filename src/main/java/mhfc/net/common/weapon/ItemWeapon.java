@@ -47,7 +47,7 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item implements 
 		this.stats = Objects.requireNonNull(stats);
 		setFull3D();
 		setCreativeTab(MHFCMain.mhfctabs);
-		setTranslationKey(stats.getUnlocalizedName());
+		setUnlocalizedName(stats.getUnlocalizedName());
 		setMaxStackSize(1);
 	}
 
@@ -55,9 +55,9 @@ public abstract class ItemWeapon<W extends WeaponStats> extends Item implements 
 	public ModelResourceLocation getModel() {
 		if (resLocCache == null) {
 			ResourceLocation resLoc = getRegistryName();
-			String name = resLoc.getPath();
+			String name = resLoc.getResourcePath();
 			resLocCache = new ModelResourceLocation(
-					resLoc.getNamespace() + ":models/item/" + name + ".mcmdl#inventory");
+					resLoc.getResourceDomain() + ":models/item/" + name + ".mcmdl#inventory");
 		}
 		return resLocCache;
 	}

@@ -51,7 +51,7 @@ public abstract class WanderAction<T extends CreatureAttributes<? super T>> exte
 		@Override
 		public boolean hasWaypointReached() {
 			Vec3d position = actor.getPositionVector();
-			if (waypoint.subtract(position).length() < acceptedDistance) {
+			if (waypoint.subtract(position).lengthVector() < acceptedDistance) {
 				return true;
 			}
 			acceptedDistance += 0.01f * wanderDistance;

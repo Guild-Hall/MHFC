@@ -22,7 +22,7 @@ public class VangisArmor extends ArmorBase {
 
 	public VangisArmor(EntityEquipmentSlot type) {
 		super(Material.deviljho, ItemRarity.R04, type);
-		setTranslationKey(names[3 - type.getIndex()]);
+		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override

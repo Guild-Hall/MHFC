@@ -31,6 +31,7 @@ public class DonatorSystem {
 	private static final String[] dragoondonor = { "Danmar", "Heltrato" };
 	private static String[] Stbionicdonor = { "TheDemoPikachu", "PCAwesomeness", "Heltrato" };
 
+	@SuppressWarnings("unlikely-arg-type")
 	private static boolean playerInList(ITextComponent iTextComponent, String[] array) {
 		for (String element : array) {
 			if (element.equals(iTextComponent)) {

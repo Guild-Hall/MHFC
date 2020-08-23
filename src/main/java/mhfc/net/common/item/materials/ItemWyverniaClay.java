@@ -8,7 +8,7 @@ public class ItemWyverniaClay extends Item {
 
 	public ItemWyverniaClay() {
 		super();
-		setTranslationKey(ResourceInterface.item_wyverniaclay_name);
+		setUnlocalizedName(ResourceInterface.item_wyverniaclay_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

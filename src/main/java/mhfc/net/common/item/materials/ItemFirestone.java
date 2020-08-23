@@ -20,7 +20,7 @@ public class ItemFirestone extends Item implements IItemColored {
 
 	public ItemFirestone() {
 		maxStackSize = 12;
-		setTranslationKey(ResourceInterface.item_firestone_name);
+		setUnlocalizedName(ResourceInterface.item_firestone_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

@@ -16,7 +16,7 @@ public class ItemKirinBuff extends ItemFood implements IItemColored {
 
 	public ItemKirinBuff() {
 		super(healAmount, saturation, isDogsFood);
-		setTranslationKey(ResourceInterface.armor_kirin_buff_name);
+		setUnlocalizedName(ResourceInterface.armor_kirin_buff_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 15, 4), 1f);
 		setAlwaysEdible();

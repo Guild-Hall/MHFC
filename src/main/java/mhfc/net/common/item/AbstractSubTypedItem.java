@@ -36,8 +36,8 @@ public class AbstractSubTypedItem<T extends Enum<T> & SubTypeEnum<Item>> extends
 	}
 
 	@Override
-	public String getTranslationKey(ItemStack itemStack) {
-		return super.getTranslationKey(itemStack) + "." + itemPerk.getSubType(itemStack).getUnlocalizedName();
+	public String getUnlocalizedName(ItemStack itemStack) {
+		return super.getUnlocalizedName(itemStack) + "." + itemPerk.getSubType(itemStack).getUnlocalizedName();
 	}
 
 	@Override

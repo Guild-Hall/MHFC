@@ -24,7 +24,7 @@ public class VelocipreyArmor extends ArmorBase {
 
 	public VelocipreyArmor(EntityEquipmentSlot type) {
 		super(Material.velociprey, ItemRarity.R04, type);
-		setTranslationKey(names[3 - type.getIndex()]);
+		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override

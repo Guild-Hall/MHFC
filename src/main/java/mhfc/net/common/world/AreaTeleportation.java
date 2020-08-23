@@ -1,5 +1,8 @@
 package mhfc.net.common.world;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import mhfc.net.MHFCMain;
 import mhfc.net.common.quests.world.IQuestArea;
 import mhfc.net.common.world.area.IArea;
@@ -11,9 +14,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class AreaTeleportation {
 
@@ -81,7 +81,7 @@ public class AreaTeleportation {
 
 	private static void changePlayerDimension(EntityPlayerMP player, int dimension, Teleporter tp) {
 		if (player.dimension != dimension) {
-			player.server.getPlayerList().transferPlayerToDimension(player, dimension, tp);
+			player.getServer().getPlayerList().transferPlayerToDimension(player, dimension, tp);
 		} else {
 			tp.placeInPortal(player, player.rotationYaw);
 		}

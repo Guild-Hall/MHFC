@@ -161,11 +161,11 @@ public class Nargacuga extends CreatureAttributes<Nargacuga>
 	}
 
 	private Vec3d getPositionLeftEye() {
-		return getRelativePositionOfBone("Eye.L").add(posX, posY, posZ);
+		return getRelativePositionOfBone("Eye.L").addVector(posX, posY, posZ);
 	}
 
 	private Vec3d getPositionRightEye() {
-		return getRelativePositionOfBone("Eye.R").add(posX, posY, posZ);
+		return getRelativePositionOfBone("Eye.R").addVector(posX, posY, posZ);
 	}
 
 	public Queue<Vec3d> getEyesPositionsRight() {

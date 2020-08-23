@@ -195,7 +195,7 @@ public class ItemMaterial extends AbstractSubTypedItem<MaterialSubType> {
 
 	public ItemMaterial() {
 		super(MaterialSubType.class);
-		setTranslationKey(ResourceInterface.item_material_basename);
+		setUnlocalizedName(ResourceInterface.item_material_basename);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(40);
 		setHasSubtypes(true);

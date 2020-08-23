@@ -29,7 +29,7 @@ public class BlockExploreArea extends BlockBarrier implements ITileEntityProvide
 	private static Set<EntityPlayerMP> teleportingPlayers = new HashSet<>();
 
 	public BlockExploreArea() {
-		setTranslationKey(ResourceInterface.block_exploreArea_name);
+		setUnlocalizedName(ResourceInterface.block_exploreArea_name);
 		setBlockUnbreakable();
 	}
 
@@ -68,7 +68,7 @@ public class BlockExploreArea extends BlockBarrier implements ITileEntityProvide
 	}
 
 	@Override
-	public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
+	public void onEntityWalk(World world, BlockPos pos, Entity entity) {
 		if (world.isRemote) {
 			return;
 		}

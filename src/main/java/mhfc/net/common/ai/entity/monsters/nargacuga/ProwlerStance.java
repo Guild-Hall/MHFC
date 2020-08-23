@@ -24,7 +24,7 @@ public class ProwlerStance extends AnimatedAction<Nargacuga> implements IHasAnim
 			return DONT_SELECT;
 		}
 		Vec3d toTarget = WorldHelper.getVectorToTarget(e, target);
-		double dist = toTarget.length();
+		double dist = toTarget.lengthVector();
 		if (dist > 25) {
 			return DONT_SELECT;
 		}

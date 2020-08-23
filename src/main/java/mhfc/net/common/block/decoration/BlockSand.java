@@ -12,7 +12,7 @@ public class BlockSand extends Block {
 
 	public BlockSand() {
 		super(Material.SAND);
-		setTranslationKey(ResourceInterface.block_wyveriansand_name);
+		setUnlocalizedName(ResourceInterface.block_wyveriansand_name);
 		setHardness(1.3F);
 		setResistance(2.0F);
 		setCreativeTab(MHFCMain.mhfctabs);

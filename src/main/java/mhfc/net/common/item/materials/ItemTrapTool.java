@@ -8,7 +8,7 @@ public class ItemTrapTool extends Item {
 
 	public ItemTrapTool() {
 		super();
-		setTranslationKey(ResourceInterface.item_traptool_name);
+		setUnlocalizedName(ResourceInterface.item_traptool_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

@@ -8,7 +8,7 @@ public class ItemSteelBar extends Item {
 
 	public ItemSteelBar() {
 		super();
-		setTranslationKey(ResourceInterface.item_steelbar_name);
+		setUnlocalizedName(ResourceInterface.item_steelbar_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

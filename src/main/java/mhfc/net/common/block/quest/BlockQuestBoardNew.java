@@ -18,7 +18,7 @@ public class BlockQuestBoardNew extends Block {
 
 	public BlockQuestBoardNew() {
 		super(Material.ROCK);
-		setTranslationKey(ResourceInterface.block_questboardnew_name);
+		setUnlocalizedName(ResourceInterface.block_questboardnew_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

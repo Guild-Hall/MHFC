@@ -31,7 +31,7 @@ public class DragoonArmor extends ArmorExclusive {
 
 	public DragoonArmor(EntityEquipmentSlot type) {
 		super(DonatorSystem.dragoon, Material.dragoon, ItemRarity.R04, type);
-		setTranslationKey(names[3 - type.getIndex()]);
+		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override

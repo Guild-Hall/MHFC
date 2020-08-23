@@ -43,7 +43,7 @@ public class Bite extends DamagingAction<GreatJaggi> implements IHasAttackProvid
 			return DONT_SELECT;
 		}
 		Vec3d LOOK_TARGET = WorldHelper.getVectorToTarget(entity, target);
-		double distance = LOOK_TARGET.length();
+		double distance = LOOK_TARGET.lengthVector();
 		if (distance > TARGET_DISTANCE) {
 			return DONT_SELECT;
 		}

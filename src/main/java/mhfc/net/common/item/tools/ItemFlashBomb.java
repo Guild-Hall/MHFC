@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 public class ItemFlashBomb extends Item implements IItemColored {
 
 	public ItemFlashBomb() {
-		setTranslationKey(ResourceInterface.item_flashbomb_name);
+		setUnlocalizedName(ResourceInterface.item_flashbomb_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 		setMaxStackSize(2);
 	}

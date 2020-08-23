@@ -8,7 +8,7 @@ public class ItemLumberBar extends Item {
 
 	public ItemLumberBar() {
 		super();
-		setTranslationKey(ResourceInterface.item_lumberbar_name);
+		setUnlocalizedName(ResourceInterface.item_lumberbar_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

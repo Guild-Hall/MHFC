@@ -58,7 +58,7 @@ public class Flake extends Particle implements ParticleStitcher.IParticleSpriteR
 		if (swirls) {
 			Vec3d motionVec = new Vec3d(motionX, motionY, motionZ).normalize();
 			float yaw = (float) Math.atan2(motionVec.x, motionVec.z);
-			float xzDistance = (float) motionVec.length();
+			float xzDistance = (float) motionVec.lengthVector();
 			float pitch = (float) Math.atan2(motionVec.y, xzDistance);
 			float swirlRadius = 4f * (particleAge / (float) particleMaxAge) * spread;
 			Point3d point = new Point3d(

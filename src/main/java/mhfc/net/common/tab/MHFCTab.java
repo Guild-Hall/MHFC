@@ -8,12 +8,11 @@ public class MHFCTab extends CreativeTabs {
 
 	public MHFCTab(int par1,String label) {
 		super(par1,label);
-		this.setBackgroundImageName("mhfc.png");
 	}
 	
 
 	@Override
-	public ItemStack createIcon() {
+	public ItemStack getTabIconItem() {
 		return new ItemStack(MHFCItemRegistry.getRegistry().weapon_hm_kirinspark);
 	}
 

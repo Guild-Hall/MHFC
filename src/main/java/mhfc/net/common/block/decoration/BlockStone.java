@@ -11,7 +11,7 @@ public class BlockStone extends Block {
 
 	public BlockStone() {
 		super(Material.ROCK);
-		setTranslationKey(ResourceInterface.block_wyverianstone_name);
+		setUnlocalizedName(ResourceInterface.block_wyverianstone_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

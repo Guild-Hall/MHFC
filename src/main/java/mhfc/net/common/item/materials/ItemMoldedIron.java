@@ -8,7 +8,7 @@ public class ItemMoldedIron extends Item {
 
 	public ItemMoldedIron() {
 		super();
-		setTranslationKey(ResourceInterface.item_moldediron_name);
+		setUnlocalizedName(ResourceInterface.item_moldediron_name);
 		setCreativeTab(MHFCMain.mhfctabs);
 	}
 

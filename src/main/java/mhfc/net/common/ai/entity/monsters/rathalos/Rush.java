@@ -77,7 +77,7 @@ public class Rush extends DamagingAction<Rathalos> implements IHasAttackProvider
 
 				boolean tarBeh = vecToTarget.normalize().dotProduct(look) < 0;
 
-				boolean ranLongEnough = attk.runStartPoint.subtract(entPos).length() > 50f
+				boolean ranLongEnough = attk.runStartPoint.subtract(entPos).lengthVector() > 50f
 						|| attk.framesRunning > 200;
 
 				if ((tarBeh || ranLongEnough) && attk.hasPassed == PastEntityEnum.NOT_PASSED) {

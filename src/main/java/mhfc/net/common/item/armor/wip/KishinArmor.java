@@ -28,7 +28,7 @@ public class KishinArmor extends ArmorBase {
 
 	public KishinArmor(EntityEquipmentSlot type) {
 		super(Material.kishin, ItemRarity.R04, type);
-		setTranslationKey(names[3 - type.getIndex()]);
+		setUnlocalizedName(names[3 - type.getIndex()]);
 	}
 
 	@Override
