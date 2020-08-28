@@ -1,46 +1,97 @@
 buildscript {
     repositories {
-        mavenCentral()
-        maven { url = "http://files.minecraftforge.net/maven" }
-        maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath 'de.undercouch:gradle-download-task:3.4.3'
-    }
-}
-
-apply plugin: 'maven'
-apply plugin: 'net.minecraftforge.gradle.forge'
-apply from: 'build.properties'
-apply from: 'release.gradle'
-
-allprojects {
-    repositories { 
+        maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
         mavenCentral()
     }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+    }
 }
 
-minecraft {
-    runDir = "run"
-    makeObfSourceJar = true
-}
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'maven-publish'
+apply plugin: 'eclipse'
+
+apply from: 'build.properties'
+apply from: 'release.gradle'
 
 project.version = getVersion()
 project.ext.shortVersion = getShortVersion()
 
+eclipse {
+    classpath {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+// We will combine the outputs into one directory, so that it shows up as one entry on the classpath
+// This is necessary to load resources with runClient
+task combinedSource(type: Sync) {
+    from sourceSets.main.output
+    into "$buildDir/combined-classpath"
+}
+
+sourceSets {
+    main {
+        runtimeClasspath = files(combinedSource.outputs) + project.configurations.runtimeClasspath
+    }
+}
+
 minecraft {
-    replace "@VERSION@", project.shortVersion
-    replace "@MODID@", project.modid
-    replace "@MODNAME@", project.longname
-    replaceIn "MHFCReference.java"
+    runs {
+        client {
+            workingDirectory project.file('run')
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+            // Debug connection for development
+            // jvmArgs += ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5006"]
+
+            mods {
+                mhfc {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+            // Debug connection for development
+            // jvmArgs += ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5006"]
+
+            mods {
+                mhfc {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+jar {
+    manifest {
+        attributes([
+            "Specification-Title": project.archivesBaseName,
+            "Specification-Vendor": "WorldSEnder, Heltrato",
+            "Specification-Version": project.shortVersion,
+            "Implementation-Title": project.name,
+            "Implementation-Version": project.shortVersion,
+            "Implementation-Vendor" :"WorldSEnder, Heltrato",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
 }
 
 processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+    inputs.property "mcversion", project.mcversion
 
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
@@ -52,22 +103,46 @@ processResources {
     }
 }
 
-tasks.install.dependsOn 'build'
-
-// Always run these tasks
-tasks.runClient.outputs.upToDateWhen { false }
-tasks.runServer.outputs.upToDateWhen { false }
-// Debug connection for development
-tasks.runClient {
-    jvmArgs += ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5006"]
-}
-tasks.runServer {
-    jvmArgs += ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5007"]
+task processSource(type: Sync) {
+    from(sourceSets.main.java) {
+        include 'mhfc/net/common/index/ResourceInterface.java'
+        // expand project.properties
+    }
+    from(sourceSets.main.java) {
+        exclude 'mhfc/net/common/index/ResourceInterface.java'
+    }
+    into "$buildDir/processed-src"
 }
 
-artifacts {
-    archives jar
-    archives sourceJar
+compileJava {
+    source = processSource.outputs
+}
+
+jar.finalizedBy('reobfJar')
+
+task sourceJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from jar.source
+}
+
+build.dependsOn sourceJar
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+            artifact sourceJar
+        }
+    }
+    repositories {
+        maven {
+            url "file:///${project.projectDir}/mcmodsrepo"
+        }
+    }
 }
 
 test {
@@ -91,7 +166,7 @@ def getShortVersion() {
 }
 
 def getVersion() {
-	return getShortVersion() + getArtifactID() + "+${minecraft.version}"
+	return getShortVersion() + getArtifactID() + "+${project.mcversion}"
 }
 
 def getArtifactID() {

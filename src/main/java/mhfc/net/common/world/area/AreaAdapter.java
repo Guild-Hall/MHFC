@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
-import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
+import net.minecraftforge.event.world.BlockEvent.EntityPlaceEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public abstract class AreaAdapter implements IArea {
@@ -112,7 +112,7 @@ public abstract class AreaAdapter implements IArea {
 	}
 
 	@SubscribeEvent
-	public void onBlockPlaceEvent(PlaceEvent event) {
+	public void onBlockPlaceEvent(EntityPlaceEvent event) {
 		// FIXME allow the placement of the bbq item or stasis traps for example but revert them on leaving the area
 		if (!isInArea(event)) {
 			return;

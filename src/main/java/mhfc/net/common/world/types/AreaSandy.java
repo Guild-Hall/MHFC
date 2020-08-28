@@ -16,6 +16,10 @@ public class AreaSandy extends AreaTypeSchematic {
 			"mhfc:schematics/sandy.schematic");
 	public static final AreaSandy INSTANCE = new AreaSandy();
 
+	static {
+		INSTANCE.setRegistryName("areasandy");
+	}
+
 	private static class Area extends EmptyArea {
 		public Area(World world, AreaConfiguration config) {
 			super(world, config);

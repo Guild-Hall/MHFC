@@ -11,6 +11,7 @@ import mhfc.net.common.tile.TileExploreArea;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
 
 import javax.vecmath.Vector2f;
 import java.io.IOException;
@@ -62,7 +63,7 @@ public class GuiBlockExploreArea extends MHFCGui {
 		addScreenComponent(targetFlairList, new Vector2f(width / 6, height / 2));
 		saveButton = new GuiButton(SAVE_BUTTON_ID, width / 2 - 75, 3 * height / 4, 150, 20, I18n.format("gui.save"));
 		buttonList.add(saveButton);
-		targetAreaText.setText(tileEntity.getTargetAreaName());
+		targetAreaText.setText(tileEntity.getTargetArea().getUnlocalizedName());
 	}
 
 	@Override
@@ -72,8 +73,8 @@ public class GuiBlockExploreArea extends MHFCGui {
 		super.drawScreen(mouseX, mouseY, partial);
 	}
 
-	private String getTargetArea() {
-		return targetAreaText.getText();
+	private ResourceLocation getTargetArea() {
+		return tileEntity.getTargetAreaName();
 	}
 
 	private QuestFlair getQuestFlair() {

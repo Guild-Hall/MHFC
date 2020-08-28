@@ -36,7 +36,7 @@ public class MessageQuestInit implements IMessage {
 			String json = DirectorUploadQuests.construct(data);
 			ByteBufUtils.writeUTF8String(buf, json);
 		} catch (IOException e) {
-			Throwables.propagate(e);
+			Throwables.throwIfUnchecked(e);
 		}
 	}
 

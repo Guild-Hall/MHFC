@@ -12,9 +12,13 @@ import net.minecraft.world.World;
 
 public class TestAreaType extends AreaTypeSchematic {
 
-	public static final ResourceLocation schematicLocation = new ResourceLocation("mhfc:schematics/test.schematic");
+	private static final ResourceLocation schematicLocation = new ResourceLocation("mhfc:schematics/test.schematic");
 
 	public static final TestAreaType INSTANCE = new TestAreaType();
+
+	static {
+		INSTANCE.setRegistryName("test_schematic");
+	}
 
 	private static class Area extends EmptyArea {
 		public Area(World world, AreaConfiguration config) {

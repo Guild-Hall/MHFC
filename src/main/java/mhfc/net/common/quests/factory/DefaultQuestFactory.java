@@ -30,7 +30,10 @@ import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.util.MHFCJsonUtils;
 import mhfc.net.common.world.area.AreaRegistry;
 import mhfc.net.common.world.area.IAreaType;
+import mhfc.net.common.world.types.ArenaType;
 import net.minecraft.util.JsonUtils;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.GameData;
 
 public class DefaultQuestFactory implements IQuestDefinitionFactory {
 
@@ -63,8 +66,8 @@ public class DefaultQuestFactory implements IQuestDefinitionFactory {
 			type = QuestType.Hunting;
 		}
 
-		final String areaId = JsonUtils.getString(jsonAsObject, KEY_AREA_ID);
-		final IAreaType areaType = AreaRegistry.instance.getType(areaId);
+		final ResourceLocation areaId = GameData.checkPrefix(JsonUtils.getString(jsonAsObject, KEY_AREA_ID), false);
+		final IAreaType areaType = AreaRegistry.getType(areaId);
 		if (areaType == null) {
 			throw new NullPointerException("Key " + areaId + " is not a registered area type");
 		}
@@ -111,8 +114,8 @@ public class DefaultQuestFactory implements IQuestDefinitionFactory {
 		final JsonElement jsonGoalReference = context.serialize(questDesc.getGoalReference(), GoalReference.class);
 		holder.add(KEY_GOAL, jsonGoalReference);
 		holder.addProperty(KEY_QUEST_TYPE, questDesc.getQuestType().getAsString());
-		final String areaName = AreaRegistry.instance.getName(questDesc.getAreaType());
-		holder.addProperty(KEY_AREA_ID, areaName == null ? AreaRegistry.NAME_ARENA : areaName);
+		final String areaName = AreaRegistry.getName(questDesc.getAreaType());
+		holder.addProperty(KEY_AREA_ID, areaName == null ? ArenaType.INSTANCE.getRegistryName().toString() : areaName);
 		holder.addProperty(KEY_FLAIR, questDesc.getQuestFlair().name());
 		final JsonElement reward = context.serialize(questDesc.getReward(), QuestRewardDelegate.class);
 		holder.add(KEY_REWARD, reward);

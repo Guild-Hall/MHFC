@@ -20,12 +20,11 @@ import mhfc.net.common.core.registry.MHFCSmeltingRegistry;
 import mhfc.net.common.core.registry.MHFCSoundRegistry;
 import mhfc.net.common.core.registry.MHFCTileRegistry;
 import mhfc.net.common.eventhandler.MHFCTickHandler;
-import mhfc.net.common.world.area.AreaRegistry;
 
 public class MHFCCommonRegistry {
 	private final static Logger logger = MHFCMain.logger();
 
-	public static void init() {
+	private static void init() {
 		addEvent();
 		addPlayerProperties();
 		addRecipes();
@@ -95,9 +94,6 @@ public class MHFCCommonRegistry {
 
 	private static void addAreas() {
 		MHFCExplorationRegistry.init();
-		AreaRegistry.init();
-		MHFCExplorationRegistry.init();
 		MHFCCommonRegistry.logger.info("Areas and exploration registered");
 	}
-
 }

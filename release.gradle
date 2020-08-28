@@ -4,33 +4,6 @@ enum ReleaseType {
 
 project.ext.releaseType = ReleaseType.NONE;
 
-task release(dependsOn: 'build') {
-	group = 'build'
-	description = 'Assemble this project for a release'
-	
-	doLast {
-		println "Ready to release ${project.version}"
-	}
-}
-
-task preRelease(dependsOn: 'build') {
-	group = 'build'
-	description = 'Assemble this project for a pre-release'
-	
-	doLast {
-		println "Ready to pre-release ${project.version}"
-	}
-}
-
-gradle.taskGraph.whenReady {taskGraph ->
-	if(taskGraph.hasTask(preRelease)) {
-    	project.releaseType = ReleaseType.RELEASE_CANDIDATE
-	}
-	if(taskGraph.hasTask(release)) {
-    	project.releaseType = ReleaseType.RELEASE
-	}
-}
-
 task updateBuildMetadata {
 	group = 'build'
 	description = 'Updates the build metadata and update.json'
@@ -125,5 +98,29 @@ task updateBuildMetadata {
 	}
 }
 
-tasks.release.dependsOn('updateBuildMetadata')
-tasks.preRelease.dependsOn('updateBuildMetadata')
+task release(dependsOn: [publish, updateBuildMetadata]) {
+	group = 'build'
+	description = 'Assemble this project for a release'
+	
+	doLast {
+		println "Ready to release ${project.version}"
+	}
+}
+
+task preRelease(dependsOn: [publish, updateBuildMetadata]) {
+	group = 'build'
+	description = 'Assemble this project for a pre-release'
+	
+	doLast {
+		println "Ready to pre-release ${project.version}"
+	}
+}
+
+gradle.taskGraph.whenReady {taskGraph ->
+	if(taskGraph.hasTask(preRelease)) {
+    	project.releaseType = ReleaseType.RELEASE_CANDIDATE
+	}
+	if(taskGraph.hasTask(release)) {
+    	project.releaseType = ReleaseType.RELEASE
+	}
+}

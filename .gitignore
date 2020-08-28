@@ -13,6 +13,7 @@
 !*.gradle
 *.gradle/
 !build.properties
+!gradle.properties
 !.gitignore
 
 *.class

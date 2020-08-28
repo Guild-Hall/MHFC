@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -35,23 +36,23 @@ public class TileExploreArea extends TileEntity implements TileMHFCUpdateStream 
 
 	}
 
-	private String targetArea;
+	private ResourceLocation targetArea;
 	private QuestFlair flair;
 
 	public TileExploreArea() {
-		targetArea = "";
+		targetArea = new ResourceLocation("mhfc:invalid");
 		flair = QuestFlair.DAYTIME;
 	}
 
-	public String getTargetAreaName() {
+	public ResourceLocation getTargetAreaName() {
 		return targetArea;
 	}
 
 	public IAreaType getTargetArea() {
-		return AreaRegistry.instance.getType(getTargetAreaName());
+		return AreaRegistry.getType(getTargetAreaName());
 	}
 
-	public void setTargetArea(String targetArea) {
+	public void setTargetArea(ResourceLocation targetArea) {
 		this.targetArea = targetArea;
 	}
 
@@ -100,7 +101,7 @@ public class TileExploreArea extends TileEntity implements TileMHFCUpdateStream 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		nbt = super.writeToNBT(nbt);
-		nbt.setString(KEY_TARGET, targetArea);
+		nbt.setString(KEY_TARGET, targetArea.toString());
 		nbt.setString(KEY_FLAIR, flair.name());
 		return nbt;
 	}
@@ -108,7 +109,7 @@ public class TileExploreArea extends TileEntity implements TileMHFCUpdateStream 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		setTargetArea(nbt.getString(KEY_TARGET));
+		setTargetArea(new ResourceLocation(nbt.getString(KEY_TARGET)));
 		setFlair(nbt.getString(KEY_FLAIR));
 	}
 

@@ -13,8 +13,11 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.registries.GameData;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collections;
@@ -56,8 +59,8 @@ public class CommandExplore extends CommandBase {
 		}
 
 		if (arguments.length == 1) {
-			String targetAreaName = arguments[0];
-			IAreaType areaType = AreaRegistry.instance.getType(targetAreaName);
+			ResourceLocation targetAreaName = GameData.checkPrefix(arguments[0], false);
+			IAreaType areaType = AreaRegistry.getType(targetAreaName);
 			if (areaType == null) {
 				sender.sendMessage(new TextComponentString("The area type " + targetAreaName + " does not exist"));
 				return;
@@ -94,8 +97,8 @@ public class CommandExplore extends CommandBase {
 		if (args.length > 1) {
 			return Collections.emptyList();
 		}
-		Set<String> areas = AreaRegistry.getTypeNames();
+		Set<ResourceLocation> areas = AreaRegistry.getTypeNames();
 		String filter = args.length > 0 ? args[0] : StringUtils.EMPTY;
-		return areas.stream().filter(s -> s.startsWith(filter)).collect(Collectors.toList());
+		return areas.stream().map(ResourceLocation::toString).filter(s -> s.startsWith(filter)).collect(Collectors.toList());
 	}
 }

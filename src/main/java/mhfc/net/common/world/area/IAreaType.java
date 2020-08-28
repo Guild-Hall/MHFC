@@ -2,8 +2,12 @@ package mhfc.net.common.world.area;
 
 import com.sk89q.worldedit.function.operation.Operation;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public interface IAreaType {
+public interface IAreaType extends IForgeRegistryEntry<IAreaType> {
+
+	public static abstract class Impl extends IForgeRegistryEntry.Impl<IAreaType> implements IAreaType {
+	}
 
 	/**
 	 * Called to populate the world<br>

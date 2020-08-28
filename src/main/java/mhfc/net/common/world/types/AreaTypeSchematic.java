@@ -21,18 +21,32 @@ import net.minecraft.world.World;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.util.Objects;
 
-public abstract class AreaTypeSchematic implements IAreaType {
+public abstract class AreaTypeSchematic extends IAreaType.Impl {
 
 	private static WorldData forgeData = LegacyWorldData.getInstance();
 	// use the portable schematics here
 	private static int DIM_SIZE = 8;
+
+	private boolean isInitialized = false;
+	private final ResourceLocation schematicLocation;
+	private final IClipboardFormat fileformat;
 
 	protected Clipboard areaClipboard;
 	protected Vector absoluteMinimum;
 	protected CuboidRegion clipboardRegion;
 
 	public AreaTypeSchematic(ResourceLocation schematicLocation, IClipboardFormat fileformat) {
+		this.schematicLocation = Objects.requireNonNull(schematicLocation);
+		this.fileformat = Objects.requireNonNull(fileformat);
+	}
+
+	private void ensureInit() {
+		if(isInitialized) {
+			return;
+		}
+		
 		try (BufferedInputStream instream = ResourceLocations.openEmbeddedResource(schematicLocation)) {
 			areaClipboard = fileformat.getReader(instream).read(AreaTypeSchematic.forgeData);
 		} catch (IOException e) {
@@ -46,11 +60,12 @@ public abstract class AreaTypeSchematic implements IAreaType {
 		final Vector clipLowerLeft = areaClipboard.getMinimumPoint();
 		absoluteMinimum = Vector.getMinimum(origin, clipLowerLeft);
 		clipboardRegion = new CuboidRegion(areaClipboard.getMinimumPoint(), areaClipboard.getMaximumPoint());
-
+		isInitialized = true;
 	}
 
 	@Override
 	public final Operation populate(World world, AreaConfiguration configuration) {
+		ensureInit();
 		final DisplacedView view = new DisplacedView(configuration.getPosition(), configuration, world);
 		final WorldDisplacedView displacedWorld = new WorldDisplacedView(view);
 		final FastModeExtent destination = new FastModeExtent(displacedWorld);
@@ -75,6 +90,7 @@ public abstract class AreaTypeSchematic implements IAreaType {
 
 	@Override
 	public AreaConfiguration configForNewArea() {
+		ensureInit();
 		final Vector absoluteSize = areaClipboard.getMaximumPoint().subtract(absoluteMinimum);
 		return new AreaConfiguration(
 				(absoluteSize.getBlockX() + 15) / 16,

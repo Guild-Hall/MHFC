@@ -230,9 +230,6 @@ public class BuilderJsonToQuests {
 		if (map == null) {
 			return;
 		}
-		if (map.containsKey("")) {
-			throw new java.util.InputMismatchException("[MHFC] Quest identifier can not be an empty string");
-		}
 		dataObject.fillQuestDescriptions(map);
 	}
 

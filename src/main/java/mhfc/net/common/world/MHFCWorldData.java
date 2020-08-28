@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.util.Constants.NBT;
+import net.minecraftforge.registries.GameData;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -88,7 +89,7 @@ public class MHFCWorldData extends WorldSavedData {
 			NBTTagCompound confTag = list.getCompoundTagAt(i);
 			String typeS = confTag.getString("type");
 			NBTTagCompound dataTag = confTag.getCompoundTag("data");
-			IAreaType type = AreaRegistry.instance.getType(typeS);
+			IAreaType type = AreaRegistry.getType(GameData.checkPrefix(typeS, false));
 			if (type == null) {// and warn about invalid area
 				MHFCMain.logger().error("Invalid area was found in save data of the hunting world!");
 				IExtendedConfiguration config = AreaTypePlayfield.PLAYFIELD_TYPE.configForLoading();
@@ -112,7 +113,7 @@ public class MHFCWorldData extends WorldSavedData {
 			if (!conf.shouldSafe()) {
 				continue;
 			}
-			String typeS = AreaRegistry.instance.getName(conf.type);
+			String typeS = AreaRegistry.getName(conf.type);
 			if (typeS == null) {
 				continue;
 			}

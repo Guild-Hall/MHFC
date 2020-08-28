@@ -16,6 +16,10 @@ public class AreaGreenValley extends AreaTypeSchematic {
 			"mhfc:schematics/greenvalley2.schematic");
 	public static final AreaGreenValley INSTANCE = new AreaGreenValley();
 
+	static {
+		INSTANCE.setRegistryName("thegreenvalley");
+	}
+
 	private static class Area extends EmptyArea {
 		public Area(World world, AreaConfiguration config) {
 			super(world, config);

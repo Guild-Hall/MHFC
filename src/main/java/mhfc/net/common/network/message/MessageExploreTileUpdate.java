@@ -7,6 +7,7 @@ import mhfc.net.MHFCMain;
 import mhfc.net.common.quests.world.QuestFlair;
 import mhfc.net.common.tile.TileExploreArea;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -15,18 +16,18 @@ import java.io.IOException;
 
 public class MessageExploreTileUpdate extends MessageTileLocation {
 
-	private String targetArea;
+	private ResourceLocation targetArea;
 	private QuestFlair flair;
 
 	public MessageExploreTileUpdate() {}
 
-	public MessageExploreTileUpdate(TileExploreArea tileEntity, String targetArea, QuestFlair flair) {
+	public MessageExploreTileUpdate(TileExploreArea tileEntity, ResourceLocation targetArea, QuestFlair flair) {
 		super(tileEntity);
 		this.targetArea = targetArea;
 		this.flair = flair;
 	}
 
-	public String getTargetArea() {
+	public ResourceLocation getTargetArea() {
 		return targetArea;
 	}
 
@@ -39,7 +40,7 @@ public class MessageExploreTileUpdate extends MessageTileLocation {
 	public void toBytes(ByteBuf buf) {
 		super.toBytes(buf);
 		try (ByteBufOutputStream oStream = new ByteBufOutputStream(buf)) {
-			oStream.writeUTF(targetArea);
+			oStream.writeUTF(targetArea.toString());
 			oStream.writeUTF(flair.name());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -50,7 +51,7 @@ public class MessageExploreTileUpdate extends MessageTileLocation {
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
 		try (ByteBufInputStream iStream = new ByteBufInputStream(buf)) {
-			targetArea = iStream.readUTF();
+			targetArea = new ResourceLocation(iStream.readUTF());
 			String flairStr = iStream.readUTF();
 			flair = QuestFlair.DAYTIME;
 			try {

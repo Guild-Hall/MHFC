@@ -8,6 +8,8 @@ import net.minecraft.stats.StatBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.GameData;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 
@@ -63,7 +65,7 @@ public class MHFCMobList {
 	}
 
 	public static Entity createEntityFromNBT(NBTTagCompound nbtTag, World world) {
-		Class<? extends Entity> oclass = stringToClassMapping.get(nbtTag.getString("id"));
+		Class<? extends Entity> oclass = stringToClassMapping.get(GameData.checkPrefix(nbtTag.getString("id"), false));
 
 		Entity entity = createEntityByClass(oclass, world);
 		if (entity == null) {

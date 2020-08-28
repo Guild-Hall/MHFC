@@ -1,8 +1,5 @@
 package mhfc.net.common.world.area;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import mhfc.net.common.world.types.AreaGreenValley;
@@ -11,79 +8,62 @@ import mhfc.net.common.world.types.AreaTypePlayfield;
 import mhfc.net.common.world.types.ArenaType;
 import mhfc.net.common.world.types.TestAreaType;
 import mhfc.net.common.world.types.VillagePokeType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegistryBuilder;
 
+@Mod.EventBusSubscriber
 public class AreaRegistry {
 
-	public static AreaRegistry instance = new AreaRegistry();
-	public static final String NAME_PLAYFIELD = "playfield";
-	public static final String NAME_PLAYFIELD_MEDIUM = "playfield_medium";
-	public static final String NAME_PLAYFIELD_BIG = "playfield_big";
-	public static final String NAME_TEST_SCHEMATIC = "test_schematic";
-	public static final String NAME_ARENA = "arena";
-	public static final String NAME_DESERT = "desert";
-	public static final String NAME_TREEPEAK = "treepeak";
+	private static IForgeRegistry<IAreaType> REGISTRY;
 
-	public static final String NAME_VILLAGE_POKE = "village_poke";
-	public static final String NAME_SNOWYMOUNTAINS = "snowymountains";
-	public static final String NAME_TESTWORLD = "testworld2";
-	// New 1.11
-	public static final String NAME_SANDY = "areasandy";
-	public static final String NAME_GREENVALLEY = "thegreenvalley";
-
-	public static void init() {
-		AreaRegistry.register(NAME_PLAYFIELD, AreaTypePlayfield.PLAYFIELD_TYPE);
-		AreaRegistry.register(NAME_PLAYFIELD_MEDIUM,
-				AreaTypePlayfield.PLAYFIELD_MEDIUM);
-		AreaRegistry.register(NAME_PLAYFIELD_BIG,
-				AreaTypePlayfield.PLAYFIELD_BIG);
-		AreaRegistry.register(NAME_TEST_SCHEMATIC, TestAreaType.INSTANCE);
-		AreaRegistry.register(NAME_ARENA, ArenaType.INSTANCE);
-		AreaRegistry.register(NAME_VILLAGE_POKE, VillagePokeType.INSTANCE);
-		// 1.11
-
-		AreaRegistry.register(NAME_SANDY, AreaSandy.INSTANCE);
-		AreaRegistry.register(NAME_GREENVALLEY, AreaGreenValley.INSTANCE);
+	@SubscribeEvent
+	public static void onRegistryCreation(RegistryEvent.NewRegistry event) {
+		REGISTRY = new RegistryBuilder<IAreaType>()
+			.setType(IAreaType.class)
+			.setName(new ResourceLocation("mhfc:areatypes"))
+			.allowModification()
+			.create();
 	}
 
-	private Map<String, IAreaType> stringToType = new HashMap<>();
-	private Map<IAreaType, String> typeToString = new HashMap<>();
-
-	public static void register(String name, IAreaType type) {
-		AreaRegistry.instance.registerArea(name, type);
+	@SubscribeEvent
+	public static void registerDefaultAreas(RegistryEvent.Register<IAreaType> event) {
+		event.getRegistry().registerAll(
+			AreaTypePlayfield.PLAYFIELD_TYPE,
+			AreaTypePlayfield.PLAYFIELD_MEDIUM,
+			AreaTypePlayfield.PLAYFIELD_BIG,
+			TestAreaType.INSTANCE,
+			ArenaType.INSTANCE,
+			VillagePokeType.INSTANCE,
+			// 1.11
+			AreaSandy.INSTANCE,
+			AreaGreenValley.INSTANCE
+		);
 	}
 
-	public void registerArea(String name, IAreaType type) {
-		type = Objects.requireNonNull(type);
-		name = Objects.requireNonNull(name);
-		if (name.isEmpty()) {
-			throw new IllegalArgumentException("Name can't be an empty String");
+	// public static final String NAME_DESERT = "desert";
+	// public static final String NAME_TREEPEAK = "treepeak";
+	// public static final String NAME_SNOWYMOUNTAINS = "snowymountains";
+
+	public static String getName(IAreaType type) {
+		if(!REGISTRY.containsValue(type)) {
+			throw new IllegalArgumentException("area is not registered");
 		}
-		if (stringToType.containsKey(name)) {
-			throw new IllegalArgumentException("An areatype for the name "
-					+ name + " is already registered");
-		}
-		if (typeToString.containsKey(type)) {
-			throw new IllegalArgumentException(
-					"This area type has already been registered for a different name");
-		}
-		stringToType.put(name, type);
-		typeToString.put(type, name);
+		return type.getRegistryName().toString();
 	}
 
-	public String getName(IAreaType type) {
-		return typeToString.get(type);
+	public static IAreaType getType(ResourceLocation name) {
+		return REGISTRY.getValue(name);
 	}
 
-	public IAreaType getType(String name) {
-		return stringToType.get(name);
+	public static Set<ResourceLocation> getTypeNames() {
+		return REGISTRY.getKeys();
 	}
 
-	public Set<String> getAllRegisteredTypeNames() {
-		return stringToType.keySet();
+	public static IForgeRegistry<IAreaType> getRegistry() {
+		return REGISTRY;
 	}
-
-	public static Set<String> getTypeNames() {
-		return AreaRegistry.instance.getAllRegisteredTypeNames();
-	}
-
 }

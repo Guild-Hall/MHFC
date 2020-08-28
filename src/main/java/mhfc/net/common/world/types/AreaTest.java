@@ -15,6 +15,10 @@ public class AreaTest extends AreaTypeSchematic {
 			"mhfc:schematics/testworld2.schematic");
 	public static final AreaTest INSTANCE = new AreaTest();
 
+	static {
+		INSTANCE.setRegistryName("testworld2");
+	}
+
 	private static class Area extends EmptyArea {
 		public Area(World world, AreaConfiguration config) {
 			super(world, config);

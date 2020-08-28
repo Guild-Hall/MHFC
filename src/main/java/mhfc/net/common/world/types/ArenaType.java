@@ -12,9 +12,13 @@ import net.minecraft.world.World;
 
 public class ArenaType extends AreaTypeSchematic {
 
-	public static final ResourceLocation schematicLocation = new ResourceLocation("mhfc:schematics/arena.schematic");
+	private static final ResourceLocation schematicLocation = new ResourceLocation("mhfc:schematics/arena.schematic");
 
 	public static final ArenaType INSTANCE = new ArenaType();
+
+	static {
+		INSTANCE.setRegistryName("arena");
+	}
 
 	private static class Area extends EmptyArea {
 		public Area(World world, AreaConfiguration config) {

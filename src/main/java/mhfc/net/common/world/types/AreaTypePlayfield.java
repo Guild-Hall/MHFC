@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class AreaTypePlayfield implements IAreaType {
+public class AreaTypePlayfield extends IAreaType.Impl {
 	private static class AreaPlayfield extends AreaAdapter {
 		private class PlayfieldSpawnController extends SpawnControllerAdapter {
 			public PlayfieldSpawnController() {
@@ -53,6 +53,12 @@ public class AreaTypePlayfield implements IAreaType {
 	public static final AreaTypePlayfield PLAYFIELD_TYPE = new AreaTypePlayfield();
 	public static final AreaTypePlayfield PLAYFIELD_MEDIUM = new AreaTypePlayfield(4, 4);
 	public static final AreaTypePlayfield PLAYFIELD_BIG = new AreaTypePlayfield(8, 8);
+
+	static {
+		PLAYFIELD_TYPE.setRegistryName("playfield");
+		PLAYFIELD_MEDIUM.setRegistryName("playfield_medium");
+		PLAYFIELD_BIG.setRegistryName("playfield_big");
+	}
 
 	private AreaTypePlayfield() {
 		this(1, 1);
