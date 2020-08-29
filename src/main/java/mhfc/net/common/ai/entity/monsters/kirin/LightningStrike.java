@@ -54,8 +54,9 @@ public class LightningStrike extends AnimatedAction<Kirin> implements IHasAnimat
 		}
 		thrown = true;
 		entity.playSound(MHFCSoundRegistry.getRegistry().kirinLightningStrike, 2.0F, 1.0F);
-		entity.world.addWeatherEffect(new EntityLightningBolt(entity.world, entity.getAttackTarget().posX, entity.getAttackTarget().posY, entity.getAttackTarget().posZ, false));
-		
+		if(entity.getAttackTarget() != null) {
+			entity.world.addWeatherEffect(new EntityLightningBolt(entity.world, entity.getAttackTarget().posX, entity.getAttackTarget().posY, entity.getAttackTarget().posZ, false));
+		}
 	}
 
 }

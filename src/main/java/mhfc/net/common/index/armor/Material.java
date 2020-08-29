@@ -26,13 +26,13 @@ public class Material {
 	public static final ArmorMaterial nibelsnarf = EnumHelper
 			.addArmorMaterial("nibelsnarf", ResourceInterface.armor_nibelsnarf_tex, 1500, new int[] { 0, 0, 0, 0 }, enchant, null, 1500);
 	public static final ArmorMaterial rathalos = EnumHelper
-			.addArmorMaterial("rathalos", ResourceInterface.armor_rathalos_tex, 1500, new int[] {0, 0, 0, 0 }, enchant, null, 1500);
+			.addArmorMaterial("rathalos", ResourceInterface.armor_rathalos_tex, 1500, new int[] {5, 5, 5, 5 }, enchant, null, 1500);
 	public static final ArmorMaterial barroth = EnumHelper
 			.addArmorMaterial("barroth", ResourceInterface.armor_barroth_tex, 1500, new int[] { 3, 3, 3, 3 }, enchant, null, 1500);
 	public static final ArmorMaterial tigrex = EnumHelper
 			.addArmorMaterial("tigrex", ResourceInterface.armor_tigrex_tex, 1500, new int[] { 5, 5, 5, 5 }, enchant, null, 1500);
 	public static final ArmorMaterial kirin = EnumHelper
-			.addArmorMaterial("kirin", ResourceInterface.armor_kirin_tex, 1500, new int[] { 0, 0, 0, 0  }, enchant, null, 1500);
+			.addArmorMaterial("kirin", ResourceInterface.armor_kirin_tex, 1500, new int[] { 4, 4, 4, 4  }, enchant, null, 1500);
 	//public static final ArmorMaterial ArmorLagiacrus = EnumHelper
 	//		.addArmorMaterial("lagia", "mhfc:lagiacrus", durA, new int[] { 4, 9, 5, 4 }, enchant, null, durA);
 	//public static final ArmorMaterial ArmorNargacuga = EnumHelper

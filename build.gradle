@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'maven-publish'
 apply plugin: 'eclipse'
 
-version = '2.7.5'
+version = '1.4.9-1.12.2'
 group = 'mhfc.net'
 archivesBaseName = 'mhfc'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'

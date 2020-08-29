@@ -85,13 +85,13 @@ public class RathalosArmor extends ArmorBase {
 	@Override
 	protected int setInitialDefenseValue() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 40;
 	}
 
 	@Override
 	protected int setFinalDefenseValue() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 150;
 	}
 
 	@Override

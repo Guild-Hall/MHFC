@@ -1,11 +1,12 @@
 package mhfc.net.common.util.reflection;
 
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+
+@SuppressWarnings("deprecation")
 public class ValueHelper {
 
 	public static <T, E> void setPrivateFinalValue(
@@ -13,7 +14,6 @@ public class ValueHelper {
 			T instance,
 			E value,
 			String... fieldNames) {
-		@SuppressWarnings("deprecation")
 		Field field = ReflectionHelper.findField(
 				classToAccess,
 				ObfuscationReflectionHelper.remapFieldNames(classToAccess.getName(), fieldNames));
