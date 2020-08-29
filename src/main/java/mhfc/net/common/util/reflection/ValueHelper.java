@@ -13,6 +13,7 @@ public class ValueHelper {
 			T instance,
 			E value,
 			String... fieldNames) {
+		@SuppressWarnings("deprecation")
 		Field field = ReflectionHelper.findField(
 				classToAccess,
 				ObfuscationReflectionHelper.remapFieldNames(classToAccess.getName(), fieldNames));

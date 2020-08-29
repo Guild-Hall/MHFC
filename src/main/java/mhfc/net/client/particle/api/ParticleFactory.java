@@ -22,6 +22,7 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 		public final int color;
 		public final Object[] data;
 
+		@SuppressWarnings("rawtypes")
 		public ImmutableParticleArgs(World world, double x, double y, double z, ParticleArgs builder) {
 			this.world = world;
 			this.x = x;
@@ -285,6 +286,7 @@ public abstract class ParticleFactory<F extends ParticleFactory<?, T>, T extends
 			this.factory = factory;
 		}
 
+		@SuppressWarnings("unchecked")
 		public final F buildBaseArgs() {
 			ParticleArgs container = new ParticleArgs();
 			this.populateEmptyArgs(container);

@@ -24,8 +24,10 @@ public class Ukanlos extends CreatureAttributes<Ukanlos> {
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
-				.setBaseValue(healthbaseHP(145391D));
+				.setBaseValue(healthbaseHP(35391D));
 		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(25D);
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(30D);
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(20D);
 	}
 
 	@Override

@@ -1,7 +1,13 @@
 package mhfc.net.common.item.armor;
 
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import javax.annotation.Nullable;
+
 import mhfc.net.MHFCMain;
-import mhfc.net.common.entity.CreatureAttributes;
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.system.ColorSystem;
@@ -14,23 +20,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nullable;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * TODO: Add a getter for ratioDamage and maxAbsorption - Heltrato reserved for dev test #3. or possibly 1.5 released.
  **/
 
-public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
+public abstract class ArmorBase extends ItemArmor {
 	public static ArmorBase instance;
 
 	public static EnumMap<EntityEquipmentSlot, String> makeDefaultSlotToTex(String upperTex, String lowerTex) {
@@ -227,27 +225,6 @@ public abstract class ArmorBase extends ItemArmor implements ISpecialArmor {
 			World world,
 			EntityPlayer player) {}
 
-	@Override
-	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
-		if (source != null) {
-		stack.damageItem(damage * 0, entity);
-		}
-	}
-
-	@Override
-	public ArmorProperties getProperties(
-			EntityLivingBase player,
-			ItemStack armor,
-			DamageSource source,
-			double damage,
-			int slot) {
-		/** TODO Implement this to each class with respecting Elements **/
-		if (source.getTrueSource() instanceof CreatureAttributes) {
-			return new ArmorProperties(1, 0.20, this.getFinalDefenseValue());
-		}
-		return new ArmorProperties(1, 100, this.getFinalDefenseValue());
-
-	}
 
 
 

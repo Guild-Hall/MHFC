@@ -30,8 +30,10 @@ public class Lagiacrus extends CreatureAttributes<Lagiacrus> {
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
-				.setBaseValue(healthbaseHP(25100D));
+				.setBaseValue(healthbaseHP(14252D));
 		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(23D);
+		getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(30D);
+		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(60D);
 	}
 
 	@Override

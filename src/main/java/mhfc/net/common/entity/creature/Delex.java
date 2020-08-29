@@ -35,6 +35,12 @@ public class Delex extends CreatureAttributes<Delex> {
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
 				.setBaseValue(60D);
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR)
+		.setBaseValue(2D);
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS)
+		.setBaseValue(2D);
+		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE)
+		.setBaseValue(60D);
 	}
 
 	@Override

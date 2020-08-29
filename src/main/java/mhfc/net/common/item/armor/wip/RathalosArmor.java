@@ -1,5 +1,9 @@
 package mhfc.net.common.item.armor.wip;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
@@ -8,17 +12,11 @@ import mhfc.net.common.item.armor.ArmorBase;
 import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class RathalosArmor extends ArmorBase {
 	private static final String[] names = { ResourceInterface.armor_rathalos_helm_name,
@@ -58,22 +56,6 @@ public class RathalosArmor extends ArmorBase {
 		//	par3List.add("Poison D[+4%]");
 	}
 
-	@Override
-	public ArmorProperties getProperties(
-			EntityLivingBase player,
-			ItemStack armor,
-			DamageSource source,
-			double damage,
-			int slot) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 
 	@Override

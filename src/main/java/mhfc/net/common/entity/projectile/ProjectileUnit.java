@@ -1,11 +1,11 @@
 package mhfc.net.common.entity.projectile;
 
+import java.util.ArrayList;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-
-import java.util.ArrayList;
 
 public class ProjectileUnit extends Entity {
 	
@@ -18,26 +18,20 @@ public class ProjectileUnit extends Entity {
 	 */
 	
 	private int shotDamage;
-	private EntityLivingBase shooter;
-	private EntityLivingBase target;
-	private ArrayList<Entity> pointedEntities;
 	private double targetPosX;
 	private double targetPosY;
 	private double targetPosZ;
 
 	public ProjectileUnit(World worldIn) {
 		super(worldIn);
-		shotDamage = (10 + this.rand.nextInt(3));
+		setShotDamage((10 + this.rand.nextInt(3)));
 		ignoreFrustumCheck = true;
 		noClip = true;
-		shooter = null;
-		pointedEntities = new ArrayList<Entity>();
+		new ArrayList<Entity>();
 	}
 	
 	public ProjectileUnit(World worldIn, EntityLivingBase shooter, EntityLivingBase target) {
 		super(worldIn);
-		this.shooter = shooter;
-		this.target = target;
 		if(target != null) {
 		targetPosX = target.posX;
 		targetPosY = target.posY;
@@ -82,6 +76,14 @@ public class ProjectileUnit extends Entity {
 	
 	public double getTargetZ() {
 		return targetPosZ;
+	}
+
+	public int getShotDamage() {
+		return shotDamage;
+	}
+
+	public void setShotDamage(int shotDamage) {
+		this.shotDamage = shotDamage;
 	}
 	
 	

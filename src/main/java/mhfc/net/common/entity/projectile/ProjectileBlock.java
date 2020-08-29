@@ -37,11 +37,13 @@ public class ProjectileBlock extends EntityThrowable {
 	public ProjectileBlock(World par, Tigrex e) {
 		this(par, (EntityLivingBase) e);
 		setSize(1.3F, 1.3F);
+		this.thrower = e;
 	}
 
 	public ProjectileBlock(World par, Deviljho e) {
 		this(par, (EntityLivingBase) e);
 		setSize(1.4F, 1.4F);
+		this.thrower = e;
 	}
 
 	public static void registerFixesThrowable(DataFixer fixer, String name) {
@@ -70,7 +72,7 @@ public class ProjectileBlock extends EntityThrowable {
 			if (getDistanceSq(entity) > 6.25D) {
 				continue;
 			}
-			entity.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), 80F + this.rand.nextInt(17));
+			entity.attackEntityFrom(DamageSource.causeMobDamage(this.thrower), 80F + this.rand.nextInt(17));
 		}
 	}
 	

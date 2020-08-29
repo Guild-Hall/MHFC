@@ -1,5 +1,7 @@
 package mhfc.net.common.item.armor.generic;
 
+import java.util.List;
+
 import mhfc.net.common.index.ResourceInterface;
 import mhfc.net.common.index.armor.Material;
 import mhfc.net.common.index.armor.Model;
@@ -7,13 +9,9 @@ import mhfc.net.common.item.ItemRarity;
 import mhfc.net.common.item.armor.ArmorBase;
 import mhfc.net.common.util.Assert;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.List;
 
 public class YukumoArmor extends ArmorBase {
 	private static final String[] names = { ResourceInterface.armor_yukumo_helm_name,
@@ -47,17 +45,6 @@ public class YukumoArmor extends ArmorBase {
 	}
 
 
-	@Override
-	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
-		if (slot == 0) {
-			return 0;
-		} else if (slot == 1) {
-			return 0;
-		} else if (slot == 2) {
-			return 1;
-		}
-		return 0;
-	}
 
 	@Override
 	protected String addHeadInfo() {

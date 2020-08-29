@@ -49,7 +49,7 @@ public class Gargwa extends CreatureAttributes<Gargwa> {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
 				.setBaseValue(healthbaseHP(60D));
-		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(45D);
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(5d);
 	}
 
 	@Override

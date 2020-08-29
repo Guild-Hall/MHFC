@@ -13,43 +13,19 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'maven-publish'
 apply plugin: 'eclipse'
 
-apply from: 'build.properties'
-apply from: 'release.gradle'
-
-project.version = getVersion()
-project.ext.shortVersion = getShortVersion()
-
-eclipse {
-    classpath {
-        downloadJavadoc = true
-        downloadSources = true
-    }
-}
-
-// We will combine the outputs into one directory, so that it shows up as one entry on the classpath
-// This is necessary to load resources with runClient
-task combinedSource(type: Sync) {
-    from sourceSets.main.output
-    into "$buildDir/combined-classpath"
-}
-
-sourceSets {
-    main {
-        runtimeClasspath = files(combinedSource.outputs) + project.configurations.runtimeClasspath
-    }
-}
+version = '2.7.5'
+group = 'mhfc.net'
+archivesBaseName = 'mhfc'
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
+
+	mappings channel: 'snapshot', version: '20171003-1.12'
     runs {
         client {
             workingDirectory project.file('run')
-            // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
-            // Debug connection for development
-            // jvmArgs += ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5006"]
-
             mods {
                 mhfc {
                     source sourceSets.main
@@ -58,12 +34,8 @@ minecraft {
         }
 
         server {
-            // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
-            // Debug connection for development
-            // jvmArgs += ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5006"]
 
             mods {
                 mhfc {
@@ -77,65 +49,41 @@ minecraft {
 jar {
     manifest {
         attributes([
-            "Specification-Title": project.archivesBaseName,
+            "Specification-Title": "mhfc",
             "Specification-Vendor": "WorldSEnder, Heltrato",
-            "Specification-Version": project.shortVersion,
+            "Specification-Version": "1.4.8",
             "Implementation-Title": project.name,
-            "Implementation-Version": project.shortVersion,
+            "Implementation-Version": "1.4.8",
             "Implementation-Vendor" :"WorldSEnder, Heltrato",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }
-
-processResources {
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.mcversion
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand project.properties
+repositories {
+    maven { url "https://jitpack.io" }
+    maven {
+        name 'engine-hub'
+        url 'https://maven.enginehub.org/repo/'
     }
-    
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
+    jcenter()
+    mavenCentral()
+
 }
-
-task processSource(type: Sync) {
-    from(sourceSets.main.java) {
-        include 'mhfc/net/common/index/ResourceInterface.java'
-        // expand project.properties
-    }
-    from(sourceSets.main.java) {
-        exclude 'mhfc/net/common/index/ResourceInterface.java'
-    }
-    into "$buildDir/processed-src"
-}
-
-compileJava {
-    source = processSource.outputs
-}
-
-jar.finalizedBy('reobfJar')
-
-task sourceJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from jar.source
-}
-
-build.dependsOn sourceJar
 
 dependencies {
-    testCompile 'junit:junit:4.12'
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2854'
+    implementation fg.deobf ("com.github.Guild-Hall:MCAnm:v2.7.8")
+    implementation "com.github.EngineHub.WorldEdit:worldedit-core:30c9f8c77c014129426b15deb6e328ad59e75d96"
+    implementation fg.deobf ("com.github.EngineHub.WorldEdit:worldedit-forge-mc1.12.2:30c9f8c77c014129426b15deb6e328ad59e75d96")
+    testImplementation "junit:junit:4.8.1"
 }
 
+
+jar.finalizedBy('reobfJar') 
 publishing {
     publications {
         mavenJava(MavenPublication) {
             artifact jar
-            artifact sourceJar
         }
     }
     repositories {
@@ -143,49 +91,7 @@ publishing {
             url "file:///${project.projectDir}/mcmodsrepo"
         }
     }
-}
 
-test {
-    testLogging {
-        exceptionFormat "full"
-    }
-    afterTest { desc, result -> 
-        println "${desc.className} > ${desc.name} ${result.resultType}"
-    }
-}
 
-def getShortVersion() {
-    def stdout = new ByteArrayOutputStream()
-    exec {
-        executable "git"
-        args "rev-list", "--count", "HEAD"
-        standardOutput = stdout
-    }
-    def revision = stdout.toString().trim()
-    return "${major}.${minor}.${patch}.${revision}"
-}
 
-def getVersion() {
-	return getShortVersion() + getArtifactID() + "+${project.mcversion}"
-}
-
-def getArtifactID() {
-    def stdout = new ByteArrayOutputStream()
-    exec {
-        executable "git"
-        args "rev-parse", "--abbrev-ref", "HEAD"
-        standardOutput = stdout
-    }
-    def branch = stdout.toString().trim()
-    if(branch == "HEAD") {
-        stdout.reset()
-        exec {
-            executable "git"
-            args "rev-parse", "--short", "HEAD"
-            standardOutput = stdout
-        }
-        branch = stdout.toString().trim()
-    }
-    def branchID = branch == 'master' ? '' : '-' + branch.replaceAll('[^0-9A-Za-z-\\.]', '-')
-	return [branchID].join('-')
 }

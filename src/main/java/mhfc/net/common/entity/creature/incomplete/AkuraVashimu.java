@@ -66,7 +66,9 @@ public class AkuraVashimu extends CreatureAttributes<AkuraVashimu> {
 		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
 				.setBaseValue(8113D);
 		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE)
-				.setBaseValue(20D);
+				.setBaseValue(60D);
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(30D);
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(20D);
 
 	}
 

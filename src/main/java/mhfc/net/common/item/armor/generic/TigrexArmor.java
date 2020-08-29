@@ -61,17 +61,6 @@ public class TigrexArmor extends ArmorBase {
 	}
 
 
-	@Override
-	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
-		if (slot == 0) {
-			return 1;
-		} else if (slot == 1) {
-			return 1;
-		} else if (slot == 2) {
-			return 1;
-		}
-		return 1;
-	}
 
 	@Override
 	protected String addHeadInfo() {

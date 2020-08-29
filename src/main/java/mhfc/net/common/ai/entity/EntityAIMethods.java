@@ -14,19 +14,6 @@ public abstract class EntityAIMethods {
 
 	private EntityAIMethods() {}
 
-	/**
-	 * TODO REMOVE ENTITYAIMETHODS AND MOVE ALL METHODS HERE TO ENTITYMHFCBASE !
-	 *
-	 * If you have Suggestions just post issue
-	 *
-	 * @author Heltrato
-	 *
-	 *         TODO: Add all the basic variations
-	 *
-	 *
-	 *
-	 **/
-
 	public static void circleEntity(
 			EntityCreature entity,
 			Entity target,

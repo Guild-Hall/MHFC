@@ -17,8 +17,6 @@ public class GenericDamageSystem extends ArmorProperties {
 			NonNullList<ItemStack> inventory,
 			DamageSource source,
 			double damage) {
-		double baseDefense;
-
 		return 0;
 
 	}

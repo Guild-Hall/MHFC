@@ -41,7 +41,7 @@ public class Deviljho extends CreatureAttributes<Deviljho> {
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
-				.setBaseValue(8600D);
+				.setBaseValue(16111D);
 		this.getEntityAttribute(SharedMonsterAttributes.ARMOR)
 				.setBaseValue(50D);
 		this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS)

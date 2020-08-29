@@ -77,7 +77,7 @@ public class Rathalos extends CreatureAttributes<Rathalos>
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
-				.setBaseValue(healthbaseHP(15341D));
+				.setBaseValue(healthbaseHP(11288D));
 		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(13D);
 	}
 

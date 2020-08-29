@@ -74,7 +74,7 @@ public class Nargacuga extends CreatureAttributes<Nargacuga>
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
-				.setBaseValue(10D);
+				.setBaseValue(11881D);
 		this.getEntityAttribute(SharedMonsterAttributes.ARMOR)
 				.setBaseValue(45D);
 		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE)
